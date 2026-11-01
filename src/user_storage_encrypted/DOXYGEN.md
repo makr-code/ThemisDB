@@ -1,14 +1,14 @@
 # USER_STORAGE_ENCRYPTED DOXYGEN
 
 Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
+Created: 2026-11-01
+Last Updated: 2026-11-01
 Status: active
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\user_storage_encrypted\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\user_storage_encrypted\doxygen-warnings.log`
+- XML index (relative to the artifact output root): `user_storage_encrypted/xml/index.xml`
+- Warnings log (relative to the artifact output root): `user_storage_encrypted/doxygen-warnings.log`
 
 ## Structure Metrics
 - C/C++ Files (scanned): 30
@@ -25,9 +25,9 @@ Status: active
 - themis::bench::use
 - themis::plugins
 - themis::plugins::user_storage
-- themis::plugins::user_storage::@005166074022122332075232003111242113056050020150
-- themis::plugins::user_storage::@157145267066264247054361266231343235216251102132
-- themis::plugins::user_storage::@251005120243005021261315251066020231010226102177
+- themis::plugins::user_storage::@13
+- themis::plugins::user_storage::@14
+- themis::plugins::user_storage::@16
 - themis::plugins::user_storage::CommandArgumentValidator
 - themis::plugins::user_storage::test
 - themis::user_storage_encrypted
@@ -78,7 +78,7 @@ Status: active
 - Regenerate via scripts/generate_module_doxygen_xml.py --write-module-markdown.
 
 ## Detailed Function Documentation (Soll-Ist)
-- Functions extracted: 330
+- Functions extracted: 329
 
 ### GocryptfsBenchFixture
 
@@ -468,13 +468,13 @@ Status: active
 ### themis::plugins::user_storage::Argon2idKeyDerivationService
 
 #### `Argon2idKeyDerivationService(const Argon2idParams &params=Argon2idParams{})`
-- Source: `include/user_storage_encrypted/key_derivation_service.hpp`:117
+- Source: `include/user_storage_encrypted/key_derivation_service.hpp`:124
 - Brief: n/a
 - Parameters:
   - `params` (const Argon2idParams &): n/a
 
 #### `std::vector< uint8_t > derive(const std::vector< uint8_t > &master_key, const std::string &user_id, const std::string &container_id, const std::vector< uint8_t > &salt) override`
-- Source: `include/user_storage_encrypted/key_derivation_service.hpp`:143
+- Source: `include/user_storage_encrypted/key_derivation_service.hpp`:150
 - Brief: Derive.
 - Parameters:
   - `master_key` (const std::vector< uint8_t > &): Input parameter.
@@ -488,7 +488,7 @@ Status: active
 - Details: master_key Input parameter. user_id Identifier of the user. container_id Identifier of the container. salt Input parameter. Return value. std::invalid_argument if an error occurs. std::runtime_error if an error occurs. Calls: empty(), size(), reserve(), insert(), end(), begin(), data(), derived_key().
 
 #### `Result< std::vector< uint8_t > > deriveKey(const std::vector< uint8_t > &master_key, const std::vector< uint8_t > &salt) const override`
-- Source: `include/user_storage_encrypted/key_derivation_service.hpp`:131
+- Source: `include/user_storage_encrypted/key_derivation_service.hpp`:138
 - Brief: Derive a 256-bit (32-byte) key from master_key and salt.
 - Parameters:
   - `master_key` (const std::vector< uint8_t > &): Raw key material (must not be empty).
@@ -497,14 +497,14 @@ Status: active
 - Details: master_key Raw key material (must not be empty). salt Per-container or per-user salt (must not be empty). 32-byte derived key on success, or error.
 
 #### `Result< std::vector< uint8_t > > generateSalt() const override`
-- Source: `include/user_storage_encrypted/key_derivation_service.hpp`:136
+- Source: `include/user_storage_encrypted/key_derivation_service.hpp`:143
 - Brief: Generate a cryptographically random salt suitable for this KDF.
 - Parameters: none
 - Return: 32-byte random salt.
 - Details: 32-byte random salt.
 
 #### `std::vector< uint8_t > generateSalt(size_t length) override`
-- Source: `include/user_storage_encrypted/key_derivation_service.hpp`:150
+- Source: `include/user_storage_encrypted/key_derivation_service.hpp`:157
 - Brief: Generate Salt.
 - Parameters:
   - `length` (size_t): Input parameter.
@@ -515,7 +515,7 @@ Status: active
 - Details: length Input parameter. Return value. std::invalid_argument if an error occurs. std::runtime_error if an error occurs. Calls: salt(), rd(), open(), read(), data(), close().
 
 #### `Result< std::vector< uint8_t > > loadOrCreateSalt(const std::string &salt_file_path) const override`
-- Source: `include/user_storage_encrypted/key_derivation_service.hpp`:138
+- Source: `include/user_storage_encrypted/key_derivation_service.hpp`:145
 - Brief: Load salt from a file, creating it with generateSalt() if absent.
 - Parameters:
   - `salt_file_path` (const std::string &): Path to the salt file (e.g., ".themis_kdf_salt").
@@ -523,14 +523,14 @@ Status: active
 - Details: salt_file_path Path to the salt file (e.g., ".themis_kdf_salt"). Salt bytes.
 
 #### `void setDeriveKeyFn(DeriveKeyFn fn)`
-- Source: `include/user_storage_encrypted/key_derivation_service.hpp`:128
+- Source: `include/user_storage_encrypted/key_derivation_service.hpp`:135
 - Brief: Inject a custom KDF (e.g., real Argon2id). Pass empty fn to restore default.
 - Parameters:
   - `fn` (DeriveKeyFn): Input parameter.
 - Details: Set Derive Key Fn. fn Input parameter. Calls: lk(), std::move().
 
 #### `~Argon2idKeyDerivationService() override=default`
-- Source: `include/user_storage_encrypted/key_derivation_service.hpp`:118
+- Source: `include/user_storage_encrypted/key_derivation_service.hpp`:125
 - Brief: n/a
 - Parameters: none
 
@@ -576,7 +576,7 @@ Status: active
 
 #### `std::string toJsonString() const`
 - Source: `include/user_storage_encrypted/error_codes.hpp`:166
-- Brief: Convert event to JSON string (simple format).
+- Brief: Convert event to JSON string (simple format)
 - Parameters: none
 - Return: JSON-formatted diagnostic event
 - Details: JSON-formatted diagnostic event
@@ -602,7 +602,7 @@ Status: active
 
 #### `std::string getBackendName() const =0`
 - Source: `include/user_storage_encrypted/encryption_backend_interface.hpp`:165
-- Brief: Get backend name (e.g., "gocryptfs", "fscrypt").
+- Brief: Get backend name (e.g., "gocryptfs", "fscrypt")
 - Parameters: none
 
 #### `std::string getBackendVersion() const =0`
@@ -683,26 +683,26 @@ Status: active
 ### themis::plugins::user_storage::GocryptfsBackend
 
 #### `GocryptfsBackend()`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:54
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:60
 - Brief: Construct backend without KDF (key_material used directly).
 - Parameters: none
 
 #### `GocryptfsBackend(KeyDerivationService *kdf_service)`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:62
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:68
 - Brief: Construct backend with optional Argon2id KDF.
 - Parameters:
   - `kdf_service` (KeyDerivationService *): Pointer to KDF service (not owned; must outlive this object). Pass nullptr to use key_material directly.
 - Details: kdf_service Pointer to KDF service (not owned; must outlive this object). Pass nullptr to use key_material directly.
 
 #### `Result< void > checkAvailability() override`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:93
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:99
 - Brief: Check Availability.
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Calls: executeCommandSafe(), isError(), emitDiagnosticEvent(), error(), stat(), modules(), is_open(), std::getline().
 
 #### `Result< void > createContainer(const std::string &encrypted_dir, const std::string &mount_point, const std::vector< uint8_t > &key_material) override`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:69
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:75
 - Brief: Create Container.
 - Parameters:
   - `encrypted_dir` (const std::string &): Input parameter.
@@ -712,7 +712,7 @@ Status: active
 - Details: encrypted_dir Input parameter. mount_point Input parameter. key_material Input parameter. Return value. Calls: CommandArgumentValidator::validatePath(), isError(), error(), directoryExists(), value(), createDirectory(), resolveKey(), executeCommandWithStdin().
 
 #### `bool createDirectory(const std::string &path)`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:197
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:203
 - Brief: Create Directory.
 - Parameters:
   - `path` (const std::string &): Input parameter.
@@ -720,13 +720,13 @@ Status: active
 - Details: path Input parameter. True when the operation succeeds. Calls: std::filesystem::exists(), std::filesystem::create_directories().
 
 #### `Result< std::string > createPasswordFile(const std::vector< uint8_t > &key_material)`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:136
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:142
 - Brief: Create a secure temporary password file; returns the path.
 - Parameters:
   - `key_material` (const std::vector< uint8_t > &): n/a
 
 #### `Result< std::string > deliverKeyViaStdin(const std::vector< std::string > &args, const std::string &key_hex)`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:124
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:130
 - Brief: Deliver key_hex to a command via stdin, then clear the buffer.
 - Parameters:
   - `args` (const std::vector< std::string > &): Input parameter.
@@ -735,7 +735,7 @@ Status: active
 - Details: Deliver Key Via Stdin. Equivalent to executeCommandWithStdin(args, key_hex) but explicitly zeroes key_hex after the write to limit key material exposure. args argv for execvp key_hex Hex-encoded key to write (cleared on return) Child output on success, or error description args Input parameter. key_hex Input parameter. Return value. Calls: executeCommandWithStdin().
 
 #### `Result< void > deliverKeyViaStdin(int write_fd, const std::vector< uint8_t > &key_material)`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:165
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:171
 - Brief: Write hex-encoded key to write_fd, then clear the buffer.
 - Parameters:
   - `write_fd` (int): Input parameter.
@@ -744,7 +744,7 @@ Status: active
 - Details: ------------------------------------------------------------------------ Stdin key delivery (Feature 1) ------------------------------------------------------------------------ write_fd Write end of the stdin pipe (closed on return) key_material Key bytes write_fd Input parameter. key_material Input parameter. Return value. Calls: defined(), error(), reserve(), size(), std::setfill(), std::setw(), str(), data().
 
 #### `bool directoryExists(const std::string &path)`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:196
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:202
 - Brief: Directory Exists.
 - Parameters:
   - `path` (const std::string &): Input parameter.
@@ -752,7 +752,7 @@ Status: active
 - Details: path Input parameter. True when the operation succeeds. Calls: std::filesystem::is_directory().
 
 #### `Result< std::string > executeCommandSafe(const std::vector< std::string > &args)`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:173
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:179
 - Brief: Execute command safely via fork/execvp (no shell).
 - Parameters:
   - `args` (const std::vector< std::string > &): Input parameter.
@@ -760,7 +760,7 @@ Status: active
 - Details: Execute Command Safe. args Input parameter. Return value. Calls: defined(), error(), empty(), PipeGuard::create(), isValid(), fork(), closeRead(), dup2().
 
 #### `Result< std::string > executeCommandWithStdin(const std::vector< std::string > &args, const std::string &stdin_data)`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:109
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:115
 - Brief: Execute a command with stdin_data written to its stdin.
 - Parameters:
   - `args` (const std::vector< std::string > &): Input parameter.
@@ -769,7 +769,7 @@ Status: active
 - Details: ------------------------------------------------------------------------ Public string-based stdin helpers (test/integration interface) ------------------------------------------------------------------------ Forks the process, executes args[0] via execvp, writes stdin_data to its standard input, and returns the collected stdout/stderr. args argv for execvp (args[0] is the executable) stdin_data Data to write to the child's stdin Child output on success, or error description args Input parameter. stdin_data Input parameter. Return value. Calls: defined(), error(), empty(), PipeGuard::create(), isValid(), fork(), closeWrite(), closeRead().
 
 #### `Result< std::string > executeCommandWithStdin(const std::vector< std::string > &args, const std::vector< uint8_t > &key_material)`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:154
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:160
 - Brief: Fork, exec gocryptfs and deliver the key via stdin pipe.
 - Parameters:
   - `args` (const std::vector< std::string > &): Input parameter.
@@ -778,17 +778,17 @@ Status: active
 - Details: Execute Command With Stdin. The child receives the key as a hex string on STDIN. gocryptfs is invoked with "-passfile /dev/stdin" so that no key material touches the filesystem. The pipe write buffer is cleared with explicit_bzero after the write completes. args Full argv for execvp (args[0] = executable path) key_material Key bytes to hex-encode and pipe to stdin Child stdout/stderr output on success, error otherwise args Input parameter. key_material Input parameter. Return value. Calls: defined(), error(), empty(), PipeGuard::create(), isValid(), fork(), closeWrite(), closeRead().
 
 #### `std::string getBackendName() const override`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:87
-- Brief: Get backend name (e.g., "gocryptfs", "fscrypt").
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:93
+- Brief: Get backend name (e.g., "gocryptfs", "fscrypt")
 - Parameters: none
 
 #### `std::string getBackendVersion() const override`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:91
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:97
 - Brief: Get backend version.
 - Parameters: none
 
 #### `Result< void > initialize(const std::string &config_json) override`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:67
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:73
 - Brief: Initialize.
 - Parameters:
   - `config_json` (const std::string &): Input parameter.
@@ -796,7 +796,7 @@ Status: active
 - Details: config_json Input parameter. Return value. Implements initialize without additional internal calls.
 
 #### `bool isMounted(const std::string &mount_point) override`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:85
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:91
 - Brief: Is Mounted.
 - Parameters:
   - `mount_point` (const std::string &): Input parameter.
@@ -804,7 +804,7 @@ Status: active
 - Details: mount_point Input parameter. True when the operation succeeds. Calls: mounts(), std::getline(), find(), executeCommandSafe(), isSuccess(), value().
 
 #### `Result< void > mountContainer(const std::string &encrypted_dir, const std::string &mount_point, const std::vector< uint8_t > &key_material) override`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:75
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:81
 - Brief: Mount Container.
 - Parameters:
   - `encrypted_dir` (const std::string &): Input parameter.
@@ -814,7 +814,7 @@ Status: active
 - Details: encrypted_dir Input parameter. mount_point Input parameter. key_material Input parameter. Return value. Calls: CommandArgumentValidator::validatePath(), isError(), error(), isMounted(), value(), resolveKey(), executeCommandWithStdin().
 
 #### `Result< std::vector< uint8_t > > resolveKey(const std::string &encrypted_dir, const std::vector< uint8_t > &key_material, bool create_salt)`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:190
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:196
 - Brief: Derive or return key for a container.
 - Parameters:
   - `encrypted_dir` (const std::string &): Input parameter.
@@ -824,7 +824,7 @@ Status: active
 - Details: Resolve Key. If a KDF service is configured: reads/writes the per-container salt file ("{encrypted_dir}/.themis_kdf_salt"), then derives the key via Argon2id. Otherwise returns key_material unchanged. encrypted_dir Ciphertext directory (salt file lives here) key_material Master key (or direct key when no KDF) create_salt When true, generate and persist a new salt encrypted_dir Input parameter. key_material Input parameter. create_salt Input parameter. Return value. Calls: generateSalt(), error(), std::string(), what(), out(), write(), data(), size().
 
 #### `Result< void > unmountContainer(const std::string &mount_point) override`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:81
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:87
 - Brief: Unmount Container.
 - Parameters:
   - `mount_point` (const std::string &): Input parameter.
@@ -832,7 +832,7 @@ Status: active
 - Details: mount_point Input parameter. Return value. Calls: isMounted(), CommandArgumentValidator::validatePath(), isError(), error(), value(), executeCommandSafe().
 
 #### `~GocryptfsBackend() override`
-- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:64
+- Source: `include/user_storage_encrypted/gocryptfs_backend.hpp`:70
 - Brief: n/a
 - Parameters: none
 
@@ -951,24 +951,24 @@ Status: active
 ### themis::plugins::user_storage::KeyRotationScheduler
 
 #### `KeyRotationScheduler()`
-- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:52
+- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:48
 - Brief: n/a
 - Parameters: none
 
 #### `void cancelRotation(SecurityLevel level)`
-- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:107
+- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:103
 - Brief: Cancel scheduled rotation for a level.
 - Parameters:
   - `level` (SecurityLevel): Input parameter.
 - Details: Cancel Rotation. level Input parameter. Calls: lock(), erase().
 
 #### `int64_t getCurrentTimeMs() const`
-- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:135
+- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:131
 - Brief: n/a
 - Parameters: none
 
 #### `int64_t getNextRotationTime(SecurityLevel level)`
-- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:123
+- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:119
 - Brief: Get next rotation time for a level.
 - Parameters:
   - `level` (SecurityLevel): Input parameter.
@@ -976,7 +976,7 @@ Status: active
 - Details: Get Next Rotation Time. Timestamp in milliseconds, 0 if not scheduled level Input parameter. Return value. Calls: lock(), find(), end().
 
 #### `Result< void > initialize(int check_interval_seconds=3600, std::shared_ptr< IRotationStore > store=nullptr)`
-- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:79
+- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:75
 - Brief: Initialize scheduler, optionally loading persisted rotation state.
 - Parameters:
   - `check_interval_seconds` (int): Input parameter.
@@ -985,7 +985,7 @@ Status: active
 - Details: Initialize. When a non-null store is supplied the scheduler loads any previously persisted last_check_ms values for each SecurityLevel so that rotation intervals survive process restarts. After each successful callback invocation the updated state is written back to the store. RocksDB integration: autostore=makeRocksDBRotationStore(&rocksdb_wrapper); scheduler.initialize(3600,std::move(store)); check_interval_seconds How often to check for rotation needs. store Optional persistence backend (may be nullptr). check_interval_seconds Input parameter. store Input parameter. Return value. Calls: error(), std::move(), std::thread(), schedulerLoop().
 
 #### `bool isRotationDue(SecurityLevel level, int64_t last_rotation_ms)`
-- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:116
+- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:112
 - Brief: Check if rotation is due for a level.
 - Parameters:
   - `level` (SecurityLevel): Input parameter.
@@ -994,21 +994,21 @@ Status: active
 - Details: Is Rotation Due. level Security level last_rotation_ms Last rotation timestamp true if rotation is due level Input parameter. last_rotation_ms Input parameter. True when the operation succeeds. Calls: lock(), find(), end(), getCurrentTimeMs().
 
 #### `void loadRotationState(SecurityLevel level)`
-- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:138
+- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:134
 - Brief: Load Rotation State.
 - Parameters:
   - `level` (SecurityLevel): Input parameter.
 - Details: level Input parameter. Calls: find(), end(), securityLevelToString(), get(), nlohmann::json::parse(), contains().
 
 #### `void persistRotationState(SecurityLevel level)`
-- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:137
+- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:133
 - Brief: ------------------------------------------------------------------------ Persistence helpers (called with mutex held) ------------------------------------------------------------------------
 - Parameters:
   - `level` (SecurityLevel): Input parameter.
 - Details: level Input parameter. Calls: find(), end(), securityLevelToString(), put(), dump().
 
 #### `Result< void > scheduleRotation(SecurityLevel level, int interval_days, bool auto_rotate, RotationCallback callback)`
-- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:97
+- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:93
 - Brief: Schedule rotation for a security level.
 - Parameters:
   - `level` (SecurityLevel): Input parameter.
@@ -1019,33 +1019,33 @@ Status: active
 - Details: Schedule Rotation. level Security level to rotate interval_days Rotation interval in days auto_rotate Enable automatic rotation callback Callback function for rotation events level Input parameter. interval_days Input parameter. auto_rotate Input parameter. callback Input parameter. Return value. Calls: lock(), getCurrentTimeMs(), securityLevelToString(), get(), nlohmann::json::parse(), contains().
 
 #### `void schedulerLoop()`
-- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:134
+- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:130
 - Brief: Scheduler Loop.
 - Parameters: none
 - Details: Calls: lock(), getCurrentTimeMs(), callback(), persistRotationState(), cv_lock(), wait_for(), std::chrono::seconds(), load().
 
 #### `void setRotationStore(std::shared_ptr< IRotationStore > store)`
-- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:60
+- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:56
 - Brief: Attach a persistence store for last_check_ms.
 - Parameters:
   - `store` (std::shared_ptr< IRotationStore >): Input parameter.
 - Details: Set Rotation Store. Must be called before initialize(). Defaults to NullRotationStore. store Input parameter. Calls: lock(), std::move().
 
 #### `void shutdown()`
-- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:87
+- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:83
 - Brief: Shutdown scheduler.
 - Parameters: none
 - Details: Shutdown. Calls: notify_all(), joinable(), join().
 
 #### `void triggerRotation(SecurityLevel level)`
-- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:128
+- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:124
 - Brief: Manually trigger rotation check for a level (for testing).
 - Parameters:
   - `level` (SecurityLevel): Input parameter.
 - Details: Trigger Rotation. level Input parameter. Calls: lock(), find(), end(), getCurrentTimeMs(), callback(), persistRotationState().
 
 #### `~KeyRotationScheduler()`
-- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:53
+- Source: `include/user_storage_encrypted/key_rotation_scheduler.hpp`:49
 - Brief: n/a
 - Parameters: none
 
@@ -1610,11 +1610,6 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
-#### `const void & value() const`
-- Source: `include/user_storage_encrypted/encryption_backend_interface.hpp`:48
-- Brief: n/a
-- Parameters: none
-
 ### themis::plugins::user_storage::RotationSchedule
 
 #### `RotationSchedule()`
@@ -2082,7 +2077,7 @@ Status: active
 
 ### themis::user_storage_encrypted
 
-#### `bool isUserStorageEncryptedFailClosed(UserStorageEncryptedError e) noexcept`
+#### `constexpr bool isUserStorageEncryptedFailClosed(UserStorageEncryptedError e) noexcept`
 - Source: `include/user_storage_encrypted/user_storage_encrypted_api_contract.h`:143
 - Brief: Returns true when the given error mandates fail-closed denial of storage access.
 - Parameters:
@@ -2416,4 +2411,3 @@ Status: active
 - Source: `tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp`:68
 - Brief: n/a
 - Parameters: none
-
