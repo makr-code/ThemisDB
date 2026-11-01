@@ -165,7 +165,7 @@ jobs:
           script: |
             const issueBody = context.payload.issue.body;
             // Match "## Release Version: X.Y.Z"
-            const versionMatch = issueBody.match(/##\s+Release Version:\s+v?(\d+\.\d+\.\d+)/);
+            const versionMatch = issueBody.match(/##\s+Release Version:\s+v?(\d+\.\d+\.\d+(?:-[0-9A-Za-z][0-9A-Za-z.-]*)?)(?:\s|$)/);
             if (versionMatch) {
               const version = versionMatch[1];
               core.setOutput('version', version);
@@ -200,6 +200,26 @@ jobs:
            
           echo "release_json=$RELEASE_JSON" >> "$GITHUB_OUTPUT"
           echo "✓ Retrieved release: $TAG"
+
+      - name: Verify release assets and publish approved draft
+        id: publish_release
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve' && steps.extract_version.outputs.version != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.extract_version.outputs.version }}
+        run: |
+          set -euo pipefail
+          TAG="v${VERSION}"
+          ASSET_DIR="${RUNNER_TEMP}/approved-release"
+          mkdir -p "$ASSET_DIR"
+          gh release download "$TAG" --repo "${{ github.repository }}" --dir "$ASSET_DIR"
+          test -s "$ASSET_DIR/SHA256SUMS.txt"
+          test -s "$ASSET_DIR/RELEASE_MANIFEST.txt"
+          if ! find "$ASSET_DIR" -maxdepth 1 -type f \( -name '*.zip' -o -name '*.tar.gz' -o -name '*.tgz' \) | grep -q .; then
+            echo "::error::Approved release has no distributable archive."; exit 1
+          fi
+          (cd "$ASSET_DIR" && sha256sum --check SHA256SUMS.txt)
+          gh release edit "$TAG" --repo "${{ github.repository }}" --draft=false
 
       - name: Create tracking issues for downstream registries
         id: create_tracking
@@ -304,26 +324,8 @@ jobs:
             
             core.setOutput('tracking_issues', JSON.stringify(createdIssues));
 
-      - name: Publish release (set draft=false)
-        id: publish_release
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve' && steps.extract_version.outputs.version != ''
-        env:
-          GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.extract_version.outputs.version }}
-        run: |
-          set -euo pipefail
-          TAG="v${VERSION}"
-          
-          # Update release to set draft=false
-          gh release edit "$TAG" \
-            --repo "${{ github.repository }}" \
-            --draft=false
-          
-          echo "✓ Release $TAG published"
-          echo "::notice::GitHub Release ${TAG} is now publicly visible"
-
       - name: Comment approval status and tracking issues
-        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve' && steps.publish_release.outcome == 'success'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |

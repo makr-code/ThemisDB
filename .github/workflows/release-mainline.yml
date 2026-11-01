@@ -5,7 +5,7 @@ name: "Release: Packaging"
 #   - build the canonical package artifacts via CPack
 #   - validate release metadata
 #   - publish the GitHub release bundle
-#   - trigger downstream delivery consumers such as Docker (via gh workflow run), WinGet (via release event),
+#   - stage releases for maintainer approval before downstream registry approvals,
 #     and Linux distro bundle/repo-metadata preparation (via release-linux-distribution.yml)
 #
 # Non-goal:
@@ -121,7 +121,6 @@ jobs:
     name: "Release: Mark Pending State"
     runs-on: ubuntu-24.04
     timeout-minutes: 5
-    if: github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'release' || github.event_name == 'workflow_dispatch'
     permissions:
       contents: read
       issues: write
@@ -155,10 +154,53 @@ jobs:
     name: "Validate: Preflight Release Policy"
     runs-on: ubuntu-24.04
     permissions:
+      contents: read
       issues: write
+    outputs:
+      tag: ${{ steps.identity.outputs.tag }}
+      source_sha: ${{ steps.identity.outputs.source_sha }}
+      edition: ${{ steps.identity.outputs.edition }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Resolve release source
+        id: identity
+        shell: bash
+        env:
+          TAG_INPUT: ${{ inputs.tag_name || github.event.release.tag_name || '' }}
+          EDITION_INPUT: ${{ inputs.edition || '' }}
+          EVENT_NAME: ${{ github.event_name }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          set -euo pipefail
+          tag="${TAG_INPUT}"
+          if [[ "$tag" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]; then
+            tag="v${tag}"
+          fi
+          edition="${EDITION_INPUT:-community}"
+          if [[ -n "$tag" ]]; then
+            case "$tag" in
+              enterprise-v*) edition=enterprise ;;
+              hyperscaler-v*) edition=hyperscaler ;;
+              military-v*) edition=military ;;
+              minimal-v*) edition=minimal ;;
+              v*) edition=community ;;
+              *) echo "::error::Invalid release tag: $tag"; exit 1 ;;
+            esac
+            if [[ -n "$EDITION_INPUT" && "$EDITION_INPUT" != "$edition" ]]; then
+              echo "::error::Release tag does not match selected edition"; exit 1
+            fi
+            sha="$(git rev-parse --verify "refs/tags/${tag}^{commit}")"
+            git checkout --detach "$sha"
+          else
+            if [[ "$EVENT_NAME" == "workflow_dispatch" && "$DRY_RUN" != "true" ]]; then
+              echo "::error::tag_name is required for a non-dry-run release"; exit 1
+            fi
+            sha="$(git rev-parse HEAD)"
+          fi
+          printf 'tag=%s\nsource_sha=%s\nedition=%s\n' "$tag" "$sha" "$edition" >> "$GITHUB_OUTPUT"
       - name: Bootstrap build tracker issue (schedule gate)
         id: bootstrap_build_tracker
         if: github.event_name == 'schedule'
@@ -190,7 +232,7 @@ jobs:
           EVENT="${{ github.event_name }}"
           REF_NAME="${{ github.ref_name }}"
           EDITION_INPUT="${{ inputs.edition || '' }}"
-          TAG_INPUT="${{ inputs.tag_name || '' }}"
+          TAG_INPUT="${{ steps.identity.outputs.tag }}"
 
           GITHUB_REF_VALUE="${{ github.ref }}"
           if [ "${EVENT}" = "schedule" ]; then
@@ -203,7 +245,7 @@ jobs:
             # Tag push: validate the pushed tag
             TARGET="${REF_NAME}"
           elif [ "${EVENT}" = "workflow_dispatch" ]; then
-            TARGET="${REF_NAME}"
+            TARGET=""
           else
             # Branch push or release event: no tag to validate
             TARGET=""
@@ -240,10 +282,10 @@ jobs:
                 -H "Accept: application/vnd.github+json" \
                 "${API_URL}")"
 
-              if [ "${HTTP_CODE}" = "200" ]; then
+              if [ "${HTTP_CODE}" = "200" ] && [ "$(jq -r '.draft' /tmp/release-by-tag.json)" != "true" ]; then
                 echo "::error::Stable release tag already exists and must not be overwritten: ${TARGET}"
                 exit 1
-              elif [ "${HTTP_CODE}" != "404" ]; then
+              elif [ "${HTTP_CODE}" != "404" ] && [ "${HTTP_CODE}" != "200" ]; then
                 echo "::error::Could not validate stable tag overwrite guard (HTTP ${HTTP_CODE})"
                 cat /tmp/release-by-tag.json || true
                 exit 1
@@ -282,7 +324,8 @@ jobs:
       build_matrix: ${{ inputs.build_matrix || 'os' }}
       os: ${{ inputs.os || 'all' }}
       architecture: ${{ inputs.architecture || 'all' }}
-      edition: ${{ inputs.edition || 'community' }}
+      edition: ${{ needs.preflight-release-policy.outputs.edition }}
+      source_sha: ${{ needs.preflight-release-policy.outputs.source_sha }}
       build_type: ${{ inputs.build_type || 'Release' }}
       packaging: ${{ inputs.packaging || 'auto' }}
       distribution: ${{ inputs.distribution || 'all' }}
@@ -295,13 +338,7 @@ jobs:
     name: "Build: Package Release Artifacts"
     runs-on: ubuntu-24.04
     needs: build-matrix
-    if: >
-      !cancelled() && (
-        github.event_name == 'push' ||
-        github.event_name == 'release' ||
-        github.event_name == 'schedule' ||
-        github.event_name == 'workflow_dispatch'
-      ) && needs.build-matrix.result == 'success'
+    if: ${{ !cancelled() && needs.build-matrix.result == 'success' }}
 
     steps:
       - uses: actions/checkout@v5
@@ -431,49 +468,6 @@ jobs:
 
           echo "Model distribution policy check passed."
 
-  docker-image:
-    name: "Automation: Trigger Docker Image Workflow (non-blocking)"
-    runs-on: ubuntu-24.04
-    needs: validate-release-manifest
-    if: >
-      !cancelled() &&
-      (
-        (github.event_name != 'workflow_dispatch' && github.event_name != 'workflow_call') ||
-        inputs.dry_run != true
-      ) &&
-      needs.validate-release-manifest.result == 'success' && (
-        github.event_name == 'push' ||
-        github.event_name == 'release' ||
-        (github.event_name == 'workflow_dispatch' &&
-         contains(fromJSON('["all","docker"]'), inputs.distribution))
-      )
-    permissions:
-      contents: read
-      actions: write
-    steps:
-      - name: Trigger docker-image workflow (best effort)
-        env:
-          GH_TOKEN: ${{ github.token }}
-          TARGET_REF: ${{ github.ref_name }}
-          RAW_TARGET_TAG: ${{ inputs.tag_name || github.ref_name }}
-        shell: bash
-        run: |
-          set +e
-          TARGET_TAG="${RAW_TARGET_TAG}"
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && echo "${TARGET_TAG}" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$'; then
-            TARGET_TAG="v${TARGET_TAG}"
-          fi
-          gh workflow run .github/workflows/release-docker-image.yml \
-            --ref "${TARGET_REF}" \
-            -f push_to_registry=true \
-            -f registry=both \
-            -f tag_name="${TARGET_TAG}"
-          RC=$?
-          if [ "${RC}" -ne 0 ]; then
-            echo "::warning::Docker workflow trigger failed (non-blocking), rc=${RC}."
-          fi
-          exit 0
-
   ci-widget:
     name: "Automation: Trigger CI Widget Workflow (dry-run, non-blocking)"
     runs-on: ubuntu-24.04
@@ -524,7 +518,7 @@ jobs:
   publish-community:
     name: "Publish: Community Release"
     runs-on: ubuntu-24.04
-    needs: validate-release-manifest
+    needs: [validate-release-manifest, preflight-release-policy]
     # Only publish community on vX.Y.Z tags or explicit community dispatch.
     # Fail fast if the release did not produce a valid artifact set.
     if: >
@@ -540,11 +534,13 @@ jobs:
          !startsWith(github.ref_name, 'military-') &&
          !startsWith(github.ref_name, 'minimal-')) ||
         (github.event_name == 'workflow_dispatch' && inputs.edition == 'community')
+        || (github.event_name == 'release' && startsWith(github.event.release.tag_name, 'v'))
       )
     permissions:
       contents: write   # required: create/update GitHub Releases and upload assets
       packages: write
       actions: read
+      issues: write
 
     steps:
       - uses: actions/checkout@v5
@@ -557,73 +553,15 @@ jobs:
           path: release/
 
       - name: Publish to GitHub Releases (community)
+        id: stage
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v9.0.0
+        env:
+          RELEASE_TAG: ${{ needs.preflight-release-policy.outputs.tag }}
+          RELEASE_SHA: ${{ needs.preflight-release-policy.outputs.source_sha }}
         with:
           script: |
-            const fs = require('fs');
-            const path = require('path');
-            let tag = context.ref.startsWith('refs/tags/')
-              ? context.ref.replace('refs/tags/', '')
-              : ('${{ inputs.tag_name }}' || '');
-            if (/^\d+\.\d+\.\d+(?:-[0-9A-Za-z][0-9A-Za-z.-]*)?$/.test(tag)) {
-              tag = `v${tag}`;
-              console.log(`Normalized dispatch tag to canonical format: ${tag}`);
-            }
-            if (!tag) {
-              console.log('No tag — skipping GitHub Release upload.');
-              return;
-            }
-
-            // Resolve or create the GitHub Release for this tag
-            let releaseId = context.payload.release?.id;
-            if (!releaseId) {
-              try {
-                const existing = await github.rest.repos.getReleaseByTag({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  tag,
-                });
-                releaseId = existing.data.id;
-                console.log(`Found existing release ${releaseId} for tag ${tag}`);
-              } catch (e) {
-                if (e.status === 404) {
-                  const created = await github.rest.repos.createRelease({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    tag_name: tag,
-                    name: `ThemisDB ${tag}`,
-                    draft: false,
-                    prerelease: tag.includes('-rc') || tag.includes('-beta') || tag.includes('-alpha'),
-                    generate_release_notes: true,
-                  });
-                  releaseId = created.data.id;
-                  console.log(`Created new release ${releaseId} for tag ${tag}`);
-                } else {
-                  throw e;
-                }
-              }
-            }
-
-            const releaseDir = 'release';
-            const files = fs.readdirSync(releaseDir).filter(f =>
-              ['.tar.gz', '.tgz', '.zip', '.deb', '.rpm', '.msi', '.txt'].some(ext => f.endsWith(ext))
-            );
-            if (files.length === 0) {
-              console.log('No release files found — nothing uploaded.');
-              return;
-            }
-            for (const file of files) {
-              const filePath = path.join(releaseDir, file);
-              const data = fs.readFileSync(filePath);
-              console.log(`Uploading ${file} (${data.length} bytes)...`);
-              await github.rest.repos.uploadReleaseAsset({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                release_id: releaseId,
-                name: file,
-                data,
-              }).catch(e => console.warn(`Upload failed for ${file}: ${e.message}`));
-            }
+            const stage = require('./.github/scripts/stage-github-release.js');
+            await stage({ github, context, core, tag: process.env.RELEASE_TAG });
 
   # ─────────────────────────────────────────────────────────────────────────────
   # Publish Private (enterprise / hyperscaler / military / minimal)
@@ -648,6 +586,7 @@ jobs:
         )) ||
         (github.event_name == 'workflow_dispatch' &&
          contains(fromJSON('["enterprise","hyperscaler","military","minimal"]'), inputs.edition))
+        || (github.event_name == 'release' && !startsWith(github.event.release.tag_name, 'v'))
       )
     environment:
       name: ${{ startsWith(github.ref_name, 'enterprise-v') && 'enterprise-release' || startsWith(github.ref_name, 'hyperscaler-v') && 'hyperscaler-release' || startsWith(github.ref_name, 'military-v') && 'military-release' || startsWith(github.ref_name, 'minimal-v') && 'minimal-release' || inputs.edition == 'enterprise' && 'enterprise-release' || inputs.edition == 'hyperscaler' && 'hyperscaler-release' || inputs.edition == 'military' && 'military-release' || inputs.edition == 'minimal' && 'minimal-release' || 'private-release' }}
@@ -707,7 +646,8 @@ jobs:
               --release-dir release/ \
               --token "${PRIVATE_REGISTRY_TOKEN}"
           else
-            echo "::warning::scripts/publish_private_release.sh not found — skipping private publish step."
+            echo "::error::scripts/publish_private_release.sh is required for private publication."
+            exit 1
           fi
 
   # ─────────────────────────────────────────────────────────────────────────────
@@ -715,7 +655,7 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   finalize-release-status:
     name: "Release: Finalize Status"
-    needs: [build-matrix, package, validate-release-manifest, docker-image, ci-widget, publish-community, publish-private, changelog, llm-inference-gate]
+    needs: [build-matrix, package, validate-release-manifest, ci-widget, publish-community, publish-private, changelog, llm-inference-gate]
     if: always()
     runs-on: ubuntu-24.04
     permissions:
@@ -732,7 +672,6 @@ jobs:
           BUILD_RESULT: ${{ needs.build-matrix.result }}
           PACKAGE_RESULT: ${{ needs.package.result }}
           VALIDATE_RESULT: ${{ needs.validate-release-manifest.result }}
-          DOCKER_RESULT: ${{ needs.docker-image.result }}
           WIDGET_RESULT: ${{ needs.ci-widget.result }}
           COMMUNITY_RESULT: ${{ needs.publish-community.result }}
           PRIVATE_RESULT: ${{ needs.publish-private.result }}
@@ -742,7 +681,7 @@ jobs:
           set -euo pipefail
           if [ "${BUILD_RESULT}" = "success" ] && [ "${PACKAGE_RESULT}" = "success" ] && [ "${VALIDATE_RESULT}" = "success" ]; then
             publication_ok=true
-            for result in "${COMMUNITY_RESULT}" "${PRIVATE_RESULT}" "${CHANGELOG_RESULT}" "${DOCKER_RESULT}" "${WIDGET_RESULT}" "${LLM_RESULT}"; do
+            for result in "${COMMUNITY_RESULT}" "${PRIVATE_RESULT}" "${CHANGELOG_RESULT}" "${WIDGET_RESULT}" "${LLM_RESULT}"; do
               if [ "${result}" != "success" ] && [ "${result}" != "skipped" ]; then
                 publication_ok=false
                 break
@@ -752,18 +691,22 @@ jobs:
             if [ "${publication_ok}" = "true" ]; then
               {
                 echo "status_label=ci/build-ok"
-                echo "status_text=passing"
+                if [ "${COMMUNITY_RESULT}" = "success" ]; then
+                  echo "status_text=staged; awaiting maintainer publication approval"
+                else
+                  echo "status_text=packaging checks passed"
+                fi
                 echo "status_icon=✅"
-                echo "status_reason=release packaging and publication checks completed"
+                echo "status_reason=release packaging and staging checks completed; this is not proof of public publication"
                 echo "status_markers="
               } >> "${GITHUB_OUTPUT}"
             else
               {
-                echo "status_label=ci/build-ok"
-                echo "status_text=release checks completed without published artifacts"
-                echo "status_icon=✅"
-                echo "status_reason=release workflow completed with no blocking failures"
-                echo "status_markers="
+                echo "status_label=ci/build-failed"
+                echo "status_text=failing"
+                echo "status_icon=❌"
+                echo "status_reason=release staging or downstream checks failed"
+                echo "status_markers=ci/build-failed"
               } >> "${GITHUB_OUTPUT}"
             fi
           else

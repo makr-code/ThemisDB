@@ -81,8 +81,8 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ env.SCCACHE_DIR }}
-          key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
-          restore-keys: sccache-${{ runner.os }}-
+          key: sccache-transaction-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}
+          restore-keys: sccache-transaction-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
 
       - name: "Install sccache"
         run: sudo apt-get install -y --no-install-recommends sccache
@@ -149,8 +149,8 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ env.SCCACHE_DIR }}
-          key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
-          restore-keys: sccache-${{ runner.os }}-
+          key: sccache-transaction-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}
+          restore-keys: sccache-transaction-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
 
       - name: "Install sccache"
         run: sudo apt-get install -y --no-install-recommends sccache
@@ -217,8 +217,8 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ env.SCCACHE_DIR }}
-          key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
-          restore-keys: sccache-${{ runner.os }}-
+          key: sccache-transaction-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}
+          restore-keys: sccache-transaction-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
 
       - name: "Install sccache"
         run: sudo apt-get install -y --no-install-recommends sccache
@@ -296,8 +296,8 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ env.SCCACHE_DIR }}
-          key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
-          restore-keys: sccache-${{ runner.os }}-
+          key: sccache-transaction-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}
+          restore-keys: sccache-transaction-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
 
       - name: "Install sccache"
         run: sudo apt-get install -y --no-install-recommends sccache
@@ -397,8 +397,8 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ env.SCCACHE_DIR }}
-          key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
-          restore-keys: sccache-${{ runner.os }}-
+          key: sccache-transaction-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}
+          restore-keys: sccache-transaction-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
 
       - name: "Install sccache"
         run: sudo apt-get install -y --no-install-recommends sccache
@@ -472,8 +472,8 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ env.SCCACHE_DIR }}
-          key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
-          restore-keys: sccache-${{ runner.os }}-
+          key: sccache-transaction-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}
+          restore-keys: sccache-transaction-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
 
       - name: "Install sccache"
         run: sudo apt-get install -y --no-install-recommends sccache

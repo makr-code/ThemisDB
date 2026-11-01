@@ -359,13 +359,25 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
     bleiben am jeweiligen gemeinsamen Binary.
   - [x] 2026-11-01: Nach der Neu-Konfiguration enthält das Windows-Debug-Profil in Sharding und Performance
     keine mehrfach fokussiert kompilierten Testquellen mehr; der Gesamtbestand sank von 122 auf 110.
+  - [x] 2026-11-01: 39 RAG-Quellen verwenden nur noch ihr kanonisches fokussiertes Testtarget; für alle
+    verglichenen Paare waren die kompilierten Quelldateien identisch. `AutoFocusedTests`-Namen und
+    `rag`-/`autogen`-Labels bleiben erhalten; beide Adaptive-Retrieval-CTest-Einträge bestehen.
+  - [x] 2026-11-01: 66 LLM-Quellen verwenden für den zusätzlichen `AutoFocusedTests`-Namen ihr kanonisches
+    fokussiertes Target; die Namen und `llm`-/`autogen`-Labels bleiben erhalten. Im modularen Profil nutzt
+    der Alias das fokussierte Binary mit den LlamaCpp-Providerquellen. Drei LLM-Paare mit abweichenden
+    implementierungsspezifischen Quellmengen bleiben bis zur Einzelprüfung getrennt. Das fokussierte
+    API-Contract-Hardening-Target und beide zugehörigen CTest-Namen bestehen.
+  - [x] 2026-11-01: Nach der Neu-Konfiguration sank die Zahl mehrfach fokussiert kompilierter `test_*.cpp`-
+    Quellen im Windows-Debug-Profil von 71 auf 5. Der aktuelle Bestand umfasst 4.235 Testquellen, davon
+    2.823 kompiliert, 1.412 außerhalb des Profils und 0 Quellen ohne auflösbares Target.
   - Offen: Baseline bereinigen und begründete Ausschlussliste erstellen. Das lokale Windows-Debug-Profil findet
-    4.235 Quellen, davon 2.823 kompiliert und 1.412 außerhalb des Profils; von den kompilierten Quellen haben
-    nach der Neu-Konfiguration noch 110 mehrere fokussierte Targets (zuvor 122 vor Sharding/Performance, 141 vor
-    Security/Metadata, 151 vor Query, 163 vor Transaction und 175 vor Index).
+    weiterhin 1.412 Quellen außerhalb dieses Profils; Mehrfachregistrierungen müssen einzeln geprüft werden,
+    bevor ein globales Inventar-Gate fail-closed geschaltet wird. Die fünf verbleibenden Quellen sind drei
+    LLM-Tests mit abweichenden Providerquellen, `test_tensor_shard_summary.cpp` mit zwei unterschiedlichen
+    Implementierungssätzen sowie `test_gtest_main.cpp`, das als gemeinsamer Test-Runner in mehreren Targets
+    kompiliert wird.
     Diese Profil-abhängigen Bestandslücken
-    und Mehrfachregistrierungen müssen einzeln geprüft werden, bevor ein globales Inventar-Gate fail-closed
-    geschaltet wird. Historische Guards (teils mit fehlenden Quellen) sind ebenfalls noch einzeln zu bewerten.
+    und historische Guards (teils mit fehlenden Quellen) sind ebenfalls noch einzeln zu bewerten.
 - [ ] **P0 · OPS-07 – Fuzz-Smoke auf PRs** (Target: M1 · 2027-01-31) – 5 min je Parser-Fuzzer (AQL, HTTP, Wire-Protokoll, Importer)
   bei Änderungen in den jeweiligen Pfaden; Korpus-Pflege in `security-fuzzing.yml`.
 - [ ] **P1 · TST-01 – Skip-/Assert-Budget** (Target: M1 · 2027-03-31) – Skip-Budget je Modul (Ziel: −50 % der 2.965

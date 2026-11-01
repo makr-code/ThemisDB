@@ -21,6 +21,7 @@ param(
     [string]$License = "MIT",
     [string]$ShortDescription = "Multi-model database system with ACID transactions",
     [string]$PortableRelativeFilePath = "bin\themis_server.exe",
+    [string]$InstallerArchivePath = "",
     [string]$PortableCommandAlias = "themis_server",
     [string[]]$PackageDependencies = @(),
     [string]$ReleaseNotes = "",
@@ -146,9 +147,29 @@ if ($InstallerType -eq "zip") {
     }
 
     $portableRelativePath = $PortableRelativeFilePath
-    $zipRootFolder = Get-ZipRootFolderName -Url $InstallerUrl
-    if (-not $portableRelativePath.StartsWith($zipRootFolder, [System.StringComparison]::OrdinalIgnoreCase)) {
-        $portableRelativePath = Join-Path $zipRootFolder $portableRelativePath
+    if ($InstallerArchivePath) {
+        $actualHash = (Get-FileHash -Algorithm SHA256 -Path $InstallerArchivePath).Hash
+        if ($actualHash -ne $InstallerSha256) {
+            throw "Installer ZIP checksum does not match InstallerSha256."
+        }
+        $archive = [System.IO.Compression.ZipFile]::OpenRead((Resolve-Path $InstallerArchivePath).Path)
+        try {
+            $entries = @($archive.Entries | Where-Object { $_.FullName -match '(^|/)bin/themis_server\.exe$' })
+            if ($entries.Count -ne 1) {
+                throw "Expected exactly one bin/themis_server.exe in the installer ZIP, found $($entries.Count)."
+            }
+            $portableRelativePath = $entries[0].FullName.Replace('/', '\')
+            if ($portableRelativePath -match '(^|\\)\.\.(\\|$)|^\\|^[A-Za-z]:') {
+                throw "Unsafe portable executable path in installer ZIP."
+            }
+        } finally {
+            $archive.Dispose()
+        }
+    } else {
+        $zipRootFolder = Get-ZipRootFolderName -Url $InstallerUrl
+        if (-not $portableRelativePath.StartsWith($zipRootFolder, [System.StringComparison]::OrdinalIgnoreCase)) {
+            $portableRelativePath = Join-Path $zipRootFolder $portableRelativePath
+        }
     }
 
     $installerLines += @(

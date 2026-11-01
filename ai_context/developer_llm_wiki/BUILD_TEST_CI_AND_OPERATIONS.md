@@ -1,7 +1,158 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-11-01"
+Last Updated: "2026-11-01"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
 # Developer LLM Wiki — Build/Test/CI/Operations
 
 Datum: 2026-11-01
 Status: Active
+
+> Exact model backend not verifiable from final document text alone.
+
+## PR merge-readiness cancellation
+
+The canonical aggregator in
+[gate-pr-merge-readiness.yml](../../.github/workflows/gate-pr-merge-readiness.yml)
+uses `!cancelled()` so a cancelled workflow does not publish blocked/ready labels
+or a merge-readiness comment. Active workflows still aggregate failed
+prerequisites; a prerequisite reporting `cancelled` is not accepted as a pass.
+Successful and intentionally skipped gates retain their existing behavior.
+Focused regression checks: `python tests/test_merge_readiness_workflow.py -v`.
+
+## Curated release delivery contracts
+
+Canonical behavior sources are
+[release-mainline.yml](../../.github/workflows/release-mainline.yml),
+[release-mainline-approval.yml](../../.github/workflows/release-mainline-approval.yml),
+[release-winget.yml](../../.github/workflows/release-winget.yml), and
+[release-docker-image.yml](../../.github/workflows/release-docker-image.yml).
+The approval policy remains defined by [RELEASE_STRATEGY.md](../../RELEASE_STRATEGY.md).
+
+- Packaging resolves the requested release tag to a commit and passes that commit
+  and its edition through the CMake build matrix. Non-dry-run manual releases
+  require an existing tag matching the selected edition.
+- Community staging requires nonempty packages, checksums, and a release manifest.
+  Upload or post-upload verification failure fails the job. New releases remain
+  drafts; an approval issue is created only after all assets are verified.
+  Published releases are immutable and are not overwritten by staging runs.
+- The GitHub approval gate preserves prerelease suffixes and verifies downloaded
+  checksums before making the draft public. Downstream review issues are created
+  after publication. Packaging does not automatically trigger Docker publication;
+  each registry retains its independent maintainer approval.
+- WinGet consumes an already published stable Community release. Release files
+  and manifests are transferred as Actions artifacts, not runner-local paths.
+  The existing PowerShell generator supplies the WinGet version, installer and
+  locale schema fields. Its optional `InstallerArchivePath` validates the ZIP
+  checksum and derives the actual nested executable path, including rootless ZIPs.
+  Submission requires `winget_pr_token` with access to the fork selected by
+  `fork_owner` or `WINGET_FORK_OWNER`, and the `winget-production` environment.
+- Docker honors explicit `tag_name` for manual and reusable calls, including
+  inherited caller events. Registry publication requires an existing published
+  GitHub release and builds the tag commit. The public consumer supports
+  COMMUNITY and MINIMAL; private editions fail explicitly and require their
+  provisioned private pipeline. MINIMAL aliases are isolated from Community
+  aliases, and prerelease tags never update stable `latest`.
+- Docker requires both distinct `linux/amd64` and `linux/arm64` digest artifacts
+  before manifest creation. Pushing platform images uses `docker-production`;
+  no-push validation uses `docker-validation`. Configure required reviewers on
+  production environments; a workflow declaration alone does not configure them.
+
+### Mandatory runtime payload in distributable packages
+
+All canonical release-matrix lanes configure `THEMIS_DOCS_DB_MODE=BUILD`,
+`THEMIS_MODELS_MODE=PACKAGE`, and TinyLlama inclusion. Each lane downloads the
+baseline model before configure, explicitly builds `docs_database`, installs
+the documentation and model components, and validates them before CPack.
+After CPack, every generated ZIP, TGZ, DEB, RPM, MSI or DMG is inspected
+individually by
+[validate_runtime_payload.py](../../scripts/release/validate_runtime_payload.py).
+A complete archive in another lane cannot compensate for an incomplete package.
+Payload validation is blocking even on the experimental macOS lane.
+Local development defaults in CMake remain unchanged.
+
+The validator requires `data/docs.db/CURRENT`, its nonempty RocksDB manifest,
+nonempty SST or WAL data, and a TinyLlama-named GGUF larger than 100 MB with
+the GGUF magic header. It rejects missing, empty and truncated payloads.
+Archive extraction uses Python for ZIP/TGZ, `dpkg-deb` for DEB, `bsdtar` for RPM,
+`msiexec` on Windows (or `msiextract` on Linux) for MSI, and read-only `hdiutil`
+mounts on macOS for DMG. These are structural/integrity guards, not a substitute
+for inference or database semantic tests.
+
+The unified Dockerfile builds and installs the compiled database and validates
+the same runtime payload. It snapshots downloaded models out of the BuildKit
+cache mount into `/opt/bundled-models`; both runtime and debug images receive
+`/app/data/docs.db` and `/models/tinyllama.gguf`. `/models/default.gguf` points to
+TinyLlama. Alternative model selection does not remove the TinyLlama baseline.
+Disabling model inclusion fails the distributable image build.
+WinGet validates its selected Windows ZIP against this contract before generating
+its manifests; other distribution consumers inherit the validated package assets.
+
+Focused payload verification: `python tests/test_release_runtime_payload.py -v`
+(PyYAML; the compiled importer test additionally needs a C++ compiler, RocksDB
+headers/libraries and nlohmann-json). Tests cover real ZIP/TGZ/DEB extraction,
+missing/truncated payloads, an actual generated RocksDB database, all four
+release-matrix lanes, and both Docker image stages. MSI/DMG extraction executes
+on the corresponding release runners; no local cross-platform execution claim
+is made.
+
+Focused offline checks: `python -m unittest discover -s tests -p
+'test_deployment_workflow_regressions.py' -v` (requires PyYAML and PowerShell),
+`node --test tests/test_stage_github_release.js`, and `tools/bin/actionlint`.
+These checks do not publish releases or contact external package registries.
+Actual WinGet schema validation remains in the Windows job via `winget validate`.
+
+## C++ build cache contracts
+
+The reusable CMake workflow stores vcpkg download files and binary package
+archives under the runner/architecture/compiler/triplet-scoped cache. The
+binary archive cache is the portable dependency cache; do not point cache steps
+at a root-level `vcpkg_installed` directory that manifest-mode builds do not
+use. Windows release lanes must preserve `SCCACHE_GHA_ENABLED` from the reusable
+workflow input instead of disabling it in their configure/build commands.
+The standalone MSVC analysis lane initializes its vcpkg submodule before
+restoring `vcpkg/installed`; its cache key includes the submodule commit and the
+manifest/configuration hash. Cache-hit status, restored archive counts, and
+sccache statistics are emitted as run diagnostics.
+
+Dependency caches use explicit restore/save actions with run/attempt snapshot
+keys. A relative-filename/size inventory fingerprint suppresses unchanged uploads;
+it is not content integrity validation. The reusable checkpoints archive/download
+and compiler caches before validation, even after configure/build failure, but
+not cancellation. MSVC checkpoints its installed tree only after successful
+dependency preparation, before analysis. Reusable restore prefixes stay within
+the same OS/architecture/compiler/triplet lane. Snapshot growth and eviction
+remain operational risks; online speedups still require measurement.
+Dependency keys include overlay ports/triplets; the reusable also records the
+checked-out source's vcpkg gitlink revision. MSVC setup precedes cache identity
+and uses its toolset version instead of Git Bash GCC. The inventory helper uses
+Python filesystem APIs to avoid GNU-only `find -printf` on macOS.
+Pinned source builds sparse-checkout the inventory helper from the workflow
+revision separately, so older release sources need not contain the new script.
+The specialized GPU, transaction and benchmark workflows place OS/architecture/
+job (and matrix flow where applicable) before the source hash in sccache keys.
+Their restore prefixes now match that exact leading portion, enabling restore
+after source changes and isolating concurrent job saves. Their existing automatic
+success-only save policy remains unchanged; the new key layout starts cold.
+
+Focused regression checks: `python -m pytest tools/tests/test_check_workflow_boundaries.py -q`.
+The apt-based `gate-pr-core.yml` release-critical quality lane explicitly clears
+the toolchain and uses local sccache. This avoids the observed GHA backend outage
+followed by a missing-vcpkg-toolchain reconfigure failure. Build recovery unsets
+both launcher environment variables as configure recovery already does, without
+resetting other lanes' real toolchains. Full post-fix CI execution remains pending.
+
+Wiki health note: the generated Index source count/hash currently differs from
+`WIKI_STATUS.json`; use the canonical workflow sources above for this contract.
+Generated source inventories below are snapshots, not evidence that changed
+workflows have executed successfully.
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci

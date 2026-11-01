@@ -5,6 +5,11 @@ name: "Release: Build Matrix"
 on:
   workflow_call:
     inputs:
+      source_sha:
+        description: Resolved release source commit
+        required: false
+        default: ''
+        type: string
       build_matrix:
         description: Build matrix presets
         required: false
@@ -146,7 +151,11 @@ jobs:
               raise ValueError(f"Unsupported build type selector: {build_type}")
           if distribution not in allowed_distributions:
               raise ValueError(f"Unsupported distribution selector: {distribution}")
-          cmake_flags = f"-DTHEMIS_EDITION={edition.upper()} -DCMAKE_BUILD_TYPE={build_type}"
+          cmake_flags = (
+              f"-DTHEMIS_EDITION={edition.upper()} -DCMAKE_BUILD_TYPE={build_type} "
+              "-DTHEMIS_DOCS_DB_MODE=BUILD -DTHEMIS_MODELS_MODE=PACKAGE "
+              "-DTHEMIS_PACKAGE_INCLUDE_TINYLLAMA=ON -DTHEMIS_PACKAGE_INCLUDE_GEMMA=OFF"
+          )
 
           def lane_enabled(lane_id: str) -> bool:
               # Platform-specific -only patterns
@@ -252,8 +261,8 @@ jobs:
                   "compiler": "msvc",
                   "triplet": "x64-windows",
                   "setup_command": "set -euo pipefail\nchoco install -y sccache || echo \"::warning::sccache install via choco failed; continuing without sccache cache.\"\ngit submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true\ngit submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF\ntest -f vcpkg/scripts/buildsystems/vcpkg.cmake || {\n  echo \"::error::vcpkg submodule/toolchain missing before bootstrap\"\n  exit 1\n}\n./vcpkg/bootstrap-vcpkg.bat -disableMetrics",
-                  "configure_command": "set -euo pipefail\nexport VCPKG_MAX_CONCURRENCY=2\nexport CMAKE_BUILD_PARALLEL_LEVEL=2\nexport SCCACHE_GHA_ENABLED=false\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --preset windows-release ${CMAKE_FLAGS} 2>&1 | tee configure-windows-release.log",
-                  "build_command": "set -euo pipefail\nexport VCPKG_MAX_CONCURRENCY=2\nexport CMAKE_BUILD_PARALLEL_LEVEL=2\nexport SCCACHE_GHA_ENABLED=false\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --build --preset windows-release --parallel 2 2>&1 | tee build-windows-release.log",
+                  "configure_command": "set -euo pipefail\nexport VCPKG_MAX_CONCURRENCY=2\nexport CMAKE_BUILD_PARALLEL_LEVEL=2\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --preset windows-release ${CMAKE_FLAGS} 2>&1 | tee configure-windows-release.log",
+                  "build_command": "set -euo pipefail\nexport VCPKG_MAX_CONCURRENCY=2\nexport CMAKE_BUILD_PARALLEL_LEVEL=2\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --build --preset windows-release --parallel 2 2>&1 | tee build-windows-release.log",
                   "validation_command": "set -euo pipefail\nctest --preset windows-release --output-on-failure -j 1 --timeout 60 2>&1 | tee test-windows-release.log\n\ncmake --install build-msvc-windows-release --prefix build-msvc-windows-release/install 2>&1 | tee install-windows-release.log\n\nBUILD_DIR=\"${GITHUB_WORKSPACE}/build-msvc-windows-release\"\nPACKAGES_DIR=\"${GITHUB_WORKSPACE}/packages\"\nrm -rf \"${PACKAGES_DIR}\"\nmkdir -p \"${PACKAGES_DIR}\"\n\nfor GEN in ${PACKAGE_GENERATORS}; do\n  if ! command -v candle &>/dev/null 2>&1 && [ \"${GEN}\" = \"WIX\" ]; then\n    echo \"::notice::WiX (candle) not found - MSI generator skipped.\"\n    continue\n  fi\n  echo \"--- Running CPack generator: ${GEN} ---\"\n  cpack --config \"${BUILD_DIR}/CPackConfig.cmake\" \\\n    -B \"${PACKAGES_DIR}\" \\\n    -G \"${GEN}\" 2>&1 | tee \"${GITHUB_WORKSPACE}/cpack-${GEN}-windows-release.log\" || \\\n    echo \"::warning::CPack generator ${GEN} failed - continuing.\"\ndone\n\nif ! find \"${PACKAGES_DIR}\" -maxdepth 1 \( -name '*.zip' -o -name '*.msi' -o -name '*.exe' \) -print -quit | grep -q .; then\n  echo \"::error::No Windows package artifacts were produced in ${PACKAGES_DIR}\"\n  exit 1\nelse\n  echo \"Packages produced:\"\nls -lh \"${PACKAGES_DIR}\" || true\nfi",
                   "build_directory": "build-msvc-windows-release",
                   "artifact_name": f"build-windows-amd64-release-{run_number}",
@@ -294,8 +303,25 @@ jobs:
               if not entry.get("enabled"):
                   continue
               lane_os = "linux" if entry["id"].startswith("linux") else ("windows" if entry["id"].startswith("windows") else "macos")
+              entry["setup_command"] += (
+                  '\nMODEL_DIR="${GITHUB_WORKSPACE}/models" OUTPUT_NAME=tinyllama.gguf '
+                  'bash scripts/download-tinyllama-hf.sh'
+              )
+              if lane_os == "linux":
+                  entry["setup_command"] += "\nsudo apt-get install -y --no-install-recommends libarchive-tools"
               entry["configure_command"] = entry["configure_command"].replace("${CMAKE_FLAGS}", cmake_flags)
+              payload_gate = (
+                  f'cmake --build "{entry["build_directory"]}" --target docs_database --config {build_type}\n'
+                  f'cmake --install "{entry["build_directory"]}" --config {build_type} '
+                  f'--prefix "{entry["build_directory"]}/runtime-payload" --component documentation\n'
+                  f'cmake --install "{entry["build_directory"]}" --config {build_type} '
+                  f'--prefix "{entry["build_directory"]}/runtime-payload" --component models\n'
+                  f'python3 scripts/release/validate_runtime_payload.py "{entry["build_directory"]}/runtime-payload"\n'
+              )
+              entry["validation_command"] = "set -euo pipefail\n" + payload_gate + entry["validation_command"]
               entry["validation_command"] = entry["validation_command"].replace("${PACKAGE_GENERATORS}", generators_for(lane_os))
+              entry["validation_command"] += '\npython3 scripts/release/validate_runtime_payload.py "${PACKAGES_DIR}" --packages'
+              entry["validation_continue_on_error"] = False
 
           selected = [entry for entry in entries if entry["enabled"]]
           print(f"matrix={json.dumps({'include': selected})}")
@@ -320,6 +346,7 @@ jobs:
       vcpkg_triplet: ${{ matrix.triplet }}
       shell: bash
       fetch_depth: '0'
+      source_sha: ${{ inputs.source_sha }}
       setup_command: ${{ matrix.setup_command }}
       configure_command: ${{ matrix.configure_command }}
       build_directory: ${{ matrix.build_directory }}

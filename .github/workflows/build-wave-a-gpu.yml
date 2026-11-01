@@ -101,8 +101,8 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ env.SCCACHE_DIR }}
-          key: sccache-gpu-${{ hashFiles('src/gpu/**') }}-${{ runner.os }}
-          restore-keys: sccache-gpu-${{ runner.os }}-
+          key: sccache-gpu-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('src/gpu/**') }}
+          restore-keys: sccache-gpu-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
 
       - name: "Install sccache"
         run: sudo apt-get install -y sccache
@@ -182,8 +182,8 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ env.SCCACHE_DIR }}
-          key: sccache-gpu-${{ hashFiles('src/gpu/**') }}-${{ runner.os }}
-          restore-keys: sccache-gpu-${{ runner.os }}-
+          key: sccache-gpu-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('src/gpu/**') }}
+          restore-keys: sccache-gpu-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
 
       - name: "Configure CMake"
         run: |
@@ -268,8 +268,8 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ env.SCCACHE_DIR }}
-          key: sccache-gpu-${{ hashFiles('src/gpu/**') }}-${{ runner.os }}
-          restore-keys: sccache-gpu-${{ runner.os }}-
+          key: sccache-gpu-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('src/gpu/**') }}
+          restore-keys: sccache-gpu-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
 
       - name: "Configure CMake"
         run: |
@@ -422,8 +422,8 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ env.SCCACHE_DIR }}
-          key: sccache-gpu-bench-${{ hashFiles('src/gpu/**', 'benchmarks/gpu/**') }}-${{ runner.os }}
-          restore-keys: sccache-gpu-bench-${{ runner.os }}-
+          key: sccache-gpu-bench-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('src/gpu/**', 'benchmarks/gpu/**') }}
+          restore-keys: sccache-gpu-bench-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
 
       - name: "Configure representative GPU benchmark build"
         run: |

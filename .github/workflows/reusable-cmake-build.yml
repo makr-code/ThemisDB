@@ -13,6 +13,11 @@ name: "Reusable: CMake Build Pipeline"
 on:
   workflow_call:
     inputs:
+      source_sha:
+        description: Optional pinned source commit
+        required: false
+        default: ''
+        type: string
       enable_sccache_gha:
         required: false
         default: false
@@ -172,6 +177,7 @@ jobs:
     timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
     env:
       SCCACHE_GHA_ENABLED: ${{ inputs.enable_sccache_gha }}
+      THEMIS_CACHE_TOOLS_PREFIX: ${{ inputs.source_sha != '' && '.ci-cache-tools/' || '' }}
     outputs:
       configure-outcome: ${{ steps.configure.outcome }}
       build-outcome: ${{ steps.build.outcome }}
@@ -182,7 +188,25 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: ${{ inputs.fetch_depth }}
+          ref: ${{ inputs.source_sha || github.sha }}
           submodules: ${{ inputs.submodules }}
+
+      - name: Checkout cache tooling for pinned release sources
+        if: inputs.source_sha != ''
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.workflow_sha }}
+          path: .ci-cache-tools
+          fetch-depth: 1
+          persist-credentials: false
+          sparse-checkout: .github/scripts/cache-directory-fingerprint.sh
+          sparse-checkout-cone-mode: false
+
+      - name: Setup MSVC environment (Windows only)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756
+        with:
+          arch: x64
 
       - name: Initialize compiler and dependency cache environment
         # Cache scope is intentionally segmented by runner OS + arch + compiler + vcpkg triplet
@@ -201,7 +225,9 @@ jobs:
           fi
           toolchain_name="${{ inputs.cache_compiler }}"
           if [ -z "${toolchain_name}" ]; then
-            if command -v gcc >/dev/null 2>&1; then
+            if [ "${{ runner.os }}" = "Windows" ]; then
+              toolchain_name="msvc"
+            elif command -v gcc >/dev/null 2>&1; then
               toolchain_name="gcc"
             elif command -v clang >/dev/null 2>&1; then
               toolchain_name="clang"
@@ -222,13 +248,26 @@ jobs:
           vcpkg_downloads_dir="${GITHUB_WORKSPACE}/.cache/vcpkg-downloads/${cache_tag}"
 
           compiler_version=""
-          if command -v gcc >/dev/null 2>&1; then
-            compiler_version="$(gcc --version | head -n 1)"
-          elif command -v clang >/dev/null 2>&1; then
-            compiler_version="$(clang --version | head -n 1)"
-          elif command -v cl >/dev/null 2>&1; then
-            compiler_version="$(cl 2>&1 | head -n 1 | tr -d '\r')"
-          fi
+          case "$toolchain_name" in
+            msvc)
+              if [ -z "${VCToolsVersion:-}" ]; then
+                echo "::error::MSVC toolset version unavailable after environment setup"
+                exit 1
+              fi
+              compiler_version="msvc-${VCToolsVersion}"
+              ;;
+            gcc)
+              compiler_version="gcc-$(gcc -dumpfullversion -dumpversion)"
+              ;;
+            clang)
+              compiler_version="$(clang --version)"
+              compiler_version="${compiler_version%%$'\n'*}"
+              ;;
+            *)
+              compiler_version="$toolchain_name"
+              ;;
+          esac
+          vcpkg_revision="$(git ls-tree HEAD -- vcpkg | awk '$1 == "160000" {print $3}')"
 
           cache_signature="${{ inputs.build_mode }}-${{ inputs.preset }}-${{ inputs.vcpkg_triplet }}-${{ inputs.cache_compiler }}-${{ inputs.configure_flags }}"
           cache_signature="$(printf '%s' "${cache_signature}" | tr ':/ ' '__' | tr -cd 'A-Za-z0-9_.-')"
@@ -254,31 +293,37 @@ jobs:
             echo "VCPKG_DOWNLOADS_ROOT=${vcpkg_downloads_dir}"
             echo "VCPKG_FORCE_SYSTEM_BINARIES=true"
             echo "THEMIS_COMPILER_VERSION=$(printf '%s' "${compiler_version:-toolchain}" | tr ' ' '_' | tr -cd 'A-Za-z0-9_.-')"
+            echo "THEMIS_VCPKG_REVISION=${vcpkg_revision}"
             echo "THEMIS_CACHE_SCOPE=${cache_scope}"
             echo "THEMIS_CACHE_SIGNATURE=${cache_signature}"
           } >> "$GITHUB_ENV"
 
       - name: Restore CMake build caches
         id: restore_cmake_cache
-        uses: actions/cache@v5
+        uses: actions/cache/restore@v5
         with:
           path: |
             ${{ env.THEMIS_SCCACHE_DIR }}
             ${{ env.THEMIS_VCPKG_DOWNLOADS_DIR }}
             ${{ env.THEMIS_VCPKG_CACHE_DIR }}
-            ${{ github.workspace }}/vcpkg_installed
-          key: cmake-cache-${{ runner.os }}-${{ env.THEMIS_CACHE_TAG }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}-${{ env.THEMIS_COMPILER_VERSION }}
+          key: cmake-cache-${{ runner.os }}-${{ env.THEMIS_CACHE_TAG }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'ports/**', 'triplets/**') }}-${{ env.THEMIS_VCPKG_REVISION }}-${{ env.THEMIS_COMPILER_VERSION }}-snapshot-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: |
             cmake-cache-${{ runner.os }}-${{ env.THEMIS_CACHE_TAG }}-
-            cmake-cache-${{ runner.os }}-${{ env.THEMIS_CACHE_SCOPE }}-
-            cmake-cache-${{ runner.os }}-
           enableCrossOsArchive: false
+
+      - name: Record restored cache inventory
+        id: cache_before
+        shell: bash
+        run: |
+          fingerprint="$(bash "${THEMIS_CACHE_TOOLS_PREFIX}.github/scripts/cache-directory-fingerprint.sh" "$THEMIS_SCCACHE_DIR" "$THEMIS_VCPKG_DOWNLOADS_DIR" "$THEMIS_VCPKG_CACHE_DIR")"
+          echo "fingerprint=$fingerprint" >> "$GITHUB_OUTPUT"
 
       - name: Print initial cache hit state
         shell: bash
         run: |
           set -euo pipefail
           echo "dependency cache hit: ${{ steps.restore_cmake_cache.outputs.cache-hit || 'unknown' }}"
+          echo "dependency cache matched key: ${{ steps.restore_cmake_cache.outputs.cache-matched-key }}"
 
       - name: Print vcpkg cache resolution
         shell: bash
@@ -287,19 +332,9 @@ jobs:
           echo "vcpkg binary cache: ${VCPKG_DEFAULT_BINARY_CACHE:-<unset>}"
           echo "vcpkg binary sources: ${VCPKG_BINARY_SOURCES:-<unset>}"
           echo "vcpkg downloads: ${VCPKG_DOWNLOADS:-<unset>}"
-          ls -ld "${GITHUB_WORKSPACE}/.cache" "${GITHUB_WORKSPACE}/.cache/vcpkg-binary" "${GITHUB_WORKSPACE}/.cache/vcpkg-downloads" || true
-          if [ -d "${GITHUB_WORKSPACE}/vcpkg_installed" ]; then
-            echo "vcpkg_installed restored: yes"
-            find "${GITHUB_WORKSPACE}/vcpkg_installed" -maxdepth 2 -mindepth 1 -type d | head -n 20 || true
-          else
-            echo "vcpkg_installed restored: no"
-          fi
-
-      - name: Setup MSVC environment (Windows only)
-        if: runner.os == 'Windows'
-        uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756
-        with:
-          arch: x64
+          archive_count="$(find "${VCPKG_DEFAULT_BINARY_CACHE}" -type f 2>/dev/null | wc -l)"
+          echo "vcpkg binary archives restored: ${archive_count}"
+          du -sh "${VCPKG_DEFAULT_BINARY_CACHE}" "${VCPKG_DOWNLOADS}" 2>/dev/null || true
 
       - name: Configure sccache environment
         if: inputs.enable_sccache_gha
@@ -527,13 +562,12 @@ jobs:
             cmake-build-tree-${{ runner.os }}-${{ runner.arch }}-${{ inputs.cache_compiler || 'default' }}-${{ inputs.vcpkg_triplet || 'default' }}-
           enableCrossOsArchive: false
 
-      - name: Prune stale local vcpkg state only when both caches miss
+      - name: Ensure vcpkg archive cache is available when build caches miss
         if: ${{ steps.restore_build_dir_cache.outputs.cache-hit != 'true' && steps.restore_cmake_cache.outputs.cache-hit != 'true' }}
         shell: bash
         run: |
           set -euo pipefail
-          echo "No matching build-tree/dependency cache hit; clearing stale local vcpkg install state before reconfigure."
-          rm -rf "${GITHUB_WORKSPACE}/vcpkg_installed"
+          echo "No matching build-tree/dependency cache hit; retaining the vcpkg binary archive cache for dependency restore."
           mkdir -p "${GITHUB_WORKSPACE}/.cache/vcpkg-binary" "${GITHUB_WORKSPACE}/.cache/vcpkg-downloads"
 
       - name: Configure
@@ -635,6 +669,7 @@ jobs:
             fi
             export SCCACHE_GHA_ENABLED=false
             echo "SCCACHE_GHA_ENABLED=false" >> "$GITHUB_ENV"
+            unset CMAKE_C_COMPILER_LAUNCHER CMAKE_CXX_COMPILER_LAUNCHER
             if [ -n "${BUILD_DIR:-}" ] && [ -d "$BUILD_DIR" ]; then
               cmake "$BUILD_DIR" -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER= 2>&1 | tee -a "$build_output_log"
             fi
@@ -646,6 +681,25 @@ jobs:
             set -e
           fi
           exit "$status"
+
+      - name: Record updated cache inventory
+        id: cache_after
+        if: ${{ !cancelled() && steps.cache_before.outcome == 'success' && (steps.configure.outcome == 'success' || steps.configure.outcome == 'failure') }}
+        shell: bash
+        run: |
+          fingerprint="$(bash "${THEMIS_CACHE_TOOLS_PREFIX}.github/scripts/cache-directory-fingerprint.sh" "$THEMIS_SCCACHE_DIR" "$THEMIS_VCPKG_DOWNLOADS_DIR" "$THEMIS_VCPKG_CACHE_DIR")"
+          echo "fingerprint=$fingerprint" >> "$GITHUB_OUTPUT"
+
+      - name: Save updated compiler and dependency cache
+        if: ${{ !cancelled() && steps.cache_after.outcome == 'success' && steps.cache_after.outputs.fingerprint != steps.cache_before.outputs.fingerprint }}
+        uses: actions/cache/save@v5
+        with:
+          path: |
+            ${{ env.THEMIS_SCCACHE_DIR }}
+            ${{ env.THEMIS_VCPKG_DOWNLOADS_DIR }}
+            ${{ env.THEMIS_VCPKG_CACHE_DIR }}
+          key: ${{ steps.restore_cmake_cache.outputs.cache-primary-key }}
+          enableCrossOsArchive: false
 
       - name: Validation
         id: validation
