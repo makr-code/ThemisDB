@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-11-01"
+Last Updated: "2026-11-01"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # STORAGE DOXYGEN
 
 Author: ThemisDB Contributors
@@ -7,8 +21,11 @@ Status: active
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
+- Generated 2026-11-01 with Doxygen 1.9.8 using `Doxyfile.audit` and `scripts/generate_module_doxygen_xml.py`.
+- Reproduce with: `python3 scripts/generate_module_doxygen_xml.py --repo-root . --modules storage --output-root /tmp/themis-storage-doxygen --manifest /tmp/themis-storage-doxygen/manifest.json --summary-md /tmp/themis-storage-doxygen/summary.md --doxyfile Doxyfile.audit --module-timeout-seconds 300 --write-module-markdown`.
 - XML index (relative to the artifact output root): `storage/xml/index.xml`
 - Warnings log (relative to the artifact output root): `storage/doxygen-warnings.log`
+- Doxygen completed successfully; the warning log contains 656 warnings that have not been triaged.
 
 ## Structure Metrics
 - C/C++ Files (scanned): 164
