@@ -411,11 +411,6 @@ QueryCache::QueryCache(size_t max_entries)
 std::optional<std::vector<VersionedDocument>> QueryCache::get(
     const std::string& table_name, Timestamp as_of) const {
 
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = store_.find(CacheKey{table_name, as_of});
     if (it == store_.end()) {
@@ -490,11 +485,6 @@ void QueryCache::clear() {
 }
 
 size_t QueryCache::size() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     return store_.size();
 }
