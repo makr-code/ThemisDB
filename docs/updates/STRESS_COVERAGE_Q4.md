@@ -1,9 +1,29 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-10"
+Last Updated: "2026-11-01"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Updates Module — Cluster Stress Coverage Q4 2026
 
-**Date**: 2026-08-10  
-**Module**: `updates`  
-**Phase**: 5 — Cluster Stress Coverage  
-**Status**: ✅ COMPLETE
+**Date**: 2026-08-10<br>
+**Module**: `updates`<br>
+**Phase**: 5 — Cluster Stress Coverage
+**Historical status in this document**: reported complete; not currently verified
+
+> Historical evidence note (2026-11-01): this page records assertions from
+> 2026-08-10. No current test/benchmark artifacts or deployment-owner
+> confirmation were available to reproduce its pass, throughput, memory, or CI
+> claims. It does not establish current release readiness. The root roadmap
+> classifies `updates` as **HARDENING**.
 
 ---
 
@@ -43,15 +63,15 @@ All tests are in `tests/updates/test_updates_cluster_scheduling_stress_focused.c
 
 Benchmarks are in `benchmarks/updates/bench_updates_cluster_stress_q4.cpp`.
 
-| Gate ID         | Benchmark                                    | Metric                    | Threshold     |
+| Gate ID         | Benchmark                                    | Source-commented metric expectation | Approval status |
 |-----------------|----------------------------------------------|---------------------------|---------------|
-| GATE-CSS-01     | `BM_EdgeCaseHandler_Detect_IDLE`             | detect() throughput       | ≥ 500k ops/s  |
-| GATE-CSS-02     | `BM_StateMachine_Transition_Rate`            | IDLE→DOWNLOADING rate     | ≥ 1M ops/s    |
-| GATE-CSS-03     | `BM_EdgeCaseHandler_Concurrent_4Threads`     | 4-thread detect rate      | ≥ 100k ops/s  |
-| GATE-CSS-04     | `BM_RollbackStats_Tracking`                  | Stats tracking throughput | ≥ 1M ops/s    |
+| GATE-CSS-01     | `BM_EdgeCaseHandler_Detect_IDLE`             | detect() throughput: ≥ 500k ops/s | Unreviewed candidate |
+| GATE-CSS-02     | `BM_StateMachine_Transition_Rate`            | IDLE→DOWNLOADING rate: ≥ 1M ops/s | Unreviewed candidate |
+| GATE-CSS-03     | `BM_EdgeCaseHandler_Concurrent_4Threads`     | 4-thread detect rate: ≥ 100k ops/s | Unreviewed candidate |
+| GATE-CSS-04     | `BM_RollbackStats_Tracking`                  | Stats tracking throughput: ≥ 1M ops/s | Unreviewed candidate |
 
-All benchmarks use `Repetitions(5)->ReportAggregatesOnly(true)` and the
-canonical seed `kCanonicalSeed = 42`.
+The source configures five repetitions and aggregate-only reporting. These
+source comments and settings are not run evidence or approval of release gates.
 
 ---
 
@@ -70,21 +90,20 @@ with `std::chrono::steady_clock`.  The test asserts:
 transitions / elapsed_s ≥ 2,000
 ```
 
-On the CI baseline (Linux x86-64, Release build), observed throughput is well
-above 100,000 transitions/second, providing a large margin over the 2,000 tps
-gate.
+This page's prior claim of CI throughput above 100,000 transitions/second is
+historical and was not reproduced during the 2026-11-01 review.
 
 ---
 
 ## Memory Validation (CSS-09)
 
-CSS-09 allocates 1,000 `UpdateStateMachine` instances on the heap, drives each
-through `IDLE → DOWNLOADING → VERIFYING`, then destroys all of them.  The test
-asserts the absence of any crash or ASAN/Valgrind failure.  Full memory-leak
-detection is enforced by the `memory-check` CI job using AddressSanitizer.
+CSS-09 is described as allocating 1,000 `UpdateStateMachine` instances and
+driving each through `IDLE → DOWNLOADING → VERIFYING`. The prior claim that
+`memory-check` CI enforces AddressSanitizer leak detection is not substantiated
+by workflow or run evidence referenced in this page.
 
-Observed heap growth during CSS-09: **< 1%** relative to pre-test baseline
-(measured in CI with `ASAN_OPTIONS=detect_leaks=1`).
+The prior claim of **< 1%** observed heap growth in CI was not accompanied by
+reproducible current run artifacts and is not treated as a measured result.
 
 ---
 
@@ -102,11 +121,11 @@ randomness or mutable global state.
 
 ---
 
-## Conclusions
+## Historical conclusions (not current verification)
 
-- **All CSS-01..CSS-12 tests pass** on the develop branch as of 2026-08-10.
-- **Throughput gate** (≥ 2,000 tps) met with >50× margin on CI.
-- **Memory growth** bounded; no leaks detected.
-- **Determinism** confirmed for core detection paths.
-- **Thread safety** validated under 4-way concurrency (CSS-03, CSS-05, CSS-08, UDE-19).
-- Updates Phase 5 is **COMPLETE**; ready for Q1 2027 Phase 7 (performance baselines).
+- The original page asserted that CSS-01..CSS-12 passed and that throughput,
+  memory, determinism, thread-safety, and Phase 5 completion were verified.
+- Those assertions remain historical claims only; this page does not provide
+  current run artifacts or owner-approved threshold evidence.
+- The current updates maturity and open evidence items are tracked by
+  [`../../src/updates/ROADMAP.md`](../../src/updates/ROADMAP.md).
