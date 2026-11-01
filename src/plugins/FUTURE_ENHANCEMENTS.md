@@ -1,54 +1,83 @@
-# Plugins Module - Future Enhancements
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-08-05 -->
-<!-- Evidence Summary: All scope/constraints/interfaces validated; implementation notes aligned to Phase 2/3 hardening -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+> Exact model backend not verifiable from final document text alone.
+
+# Plugins Module — Future Enhancements
+
+The items below are candidate areas for owner and policy review, not approved
+commitments or scheduled work. Current implementation evidence and unresolved
+verification are tracked in [`ROADMAP.md`](./ROADMAP.md); project-wide release
+status remains in [`../../ROADMAP.md`](../../ROADMAP.md).
 
 ## Scope
 
-- hardening and refinement of plugin lifecycle/security runtime behavior
-- deterministic reliability improvements for hot-plug and integration workflows
-- stronger benchmark-backed guardrails for plugin hot paths
+- Define provenance expectations across manifest-backed, explicit-path, OCI,
+  signed-catalog, and WASM plugin loading.
+- Decide whether native plugins require isolation beyond host-process loading.
+- Establish retention expectations for plugin health, metrics, and audit data.
+- Identify appropriate end-to-end plugin lifecycle benchmark coverage.
 
 ## Design Constraints
 
-- plugin contracts remain backward compatible within major release line.
-- lifecycle and security behavior remains explicit and deterministic.
-- hot-plug/health/metrics behavior remains bounded and observable.
-- degraded runtime integration paths remain explicit and non-silent.
+- Keep load paths distinct: path and OCI loading do not apply manifest
+  edition/license restrictions.
+- Do not treat a content digest or manifest hash comparison as publisher
+  authentication.
+- Do not claim native isolation or a general WASM sandbox without an enforced
+  boundary and runtime-specific evidence.
+- Do not represent candidate work as an approved commitment until owners and
+  acceptance criteria are recorded.
 
 ## Required Interfaces
 
-| Interface | Requirement |
-|---|---|
-| lifecycle interfaces | deterministic load/unload/reload semantics |
-| security interfaces | explicit manifest/signature/capability validation semantics |
-| monitoring interfaces | bounded health and metrics reporting behavior |
-| integration interfaces | stable OCI/RPC/WASM integration contracts |
+- No new public interface is approved by this document.
+- Existing contracts to review include `PluginManager` in
+  `include/plugins/plugin_manager.h`, OCI operations in
+  `include/plugins/oci_registry_client.h`, and the catalog API in
+  `include/plugins/signed_plugin_repository.h`.
+- Any new isolation, provenance, or retention interface requires an explicit
+  owner, compatibility review, and defined failure semantics.
 
 ## Implementation Notes
 
-- tighten parity between signature validation and runtime activation boundaries (Phase 2 task).
-- standardize diagnostics for lifecycle, capability, and integration incidents (Phase 3 task).
-- expand resilience tests for prolonged plugin churn and hot-plug operation (Phase 4 complete; expanding for Q4 2026).
-- broaden benchmark depth for repository and runtime integration workloads (Phase 5 complete; baseline runs pending).
+- Confirm the artifact and publisher trust policy for each existing load path
+  before changing validation behavior.
+- Determine the system boundary responsible for durable audit retention.
+- Check the active benchmark registration and baseline before adding
+  performance claims; the current release-gate target measures contract/error
+  path micro-operations.
 
 ## Test Strategy
 
-- unit and integration suites for lifecycle, security, and monitoring behaviors.
-- regressions for malformed manifests, invalid signatures, and capability mismatch.
-- deterministic stress runs for plugin churn and hot-plug operations.
-- release-profile benchmark runs for mapped plugin targets.
+- Add focused tests only after policy decisions define expected behavior for
+  load-path provenance, isolation, and retention.
+- Verify failure and denial cases as well as successful loading.
+- Record test execution results separately from source and target-registration
+  evidence.
 
 ## Performance Targets
 
-- plugin hot paths remain inside regression budgets.
-- lifecycle/query operations remain stable at p95/p99 envelopes.
-- mapped benchmark manifests reach no-missing-case status for release gating.
+- No new numeric target is approved.
+- Define reproducible end-to-end lifecycle baselines before setting load,
+  unload, reload, or hot-plug thresholds.
 
 ## Security / Reliability
 
-- maintain strict validation before plugin activation paths.
-- preserve explicit failure signaling for signature/capability/reload faults.
-- enforce bounded behavior under malformed or partial plugin state.
-- keep diagnostics actionable for production plugin incidents.
+- Preserve fail-closed behavior where the owning policy requires it.
+- Test unauthorized, malformed, missing, and mismatched artifact cases.
+- Treat host-process native loading, optional runtime callbacks, and in-process
+  metrics as explicit trust/reliability limits until stronger guarantees are
+  implemented and verified.
+
+**TODO:** Assign owners, milestones, measurable acceptance criteria, and
+approval for any candidate before treating it as planned work.

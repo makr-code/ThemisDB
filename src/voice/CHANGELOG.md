@@ -1,14 +1,36 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-08"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> **Historical snapshot, not release or production evidence.** The status,
+> version compatibility, test counts/pass rates, benchmark/SLA figures,
+> dependency minima, feature claims, and compliance language below were not
+> verified against current source or release artifacts in this review. Do not
+> use them as current guarantees. Check current headers/implementation and the
+> root release documents for authoritative status.
+
 # Voice Module Changelog
 
-**Document Version:** v1.0-production  
+**Document Version:** historical v1.0-production claim (unverified)  
 **Last Updated:** 2026-08-08  
-**Status:** Production Ready  
+**Status:** Historical snapshot; not a current release status  
 
 ---
 
 ## v1.0-production (2026-08-08) — RELEASE FREEZE
 
-**Status:** 🟢 PRODUCTION READY | Immutable contract freeze
+**Historical status claim:** production-ready / immutable contract freeze (not
+verified against current release evidence)
 
 ### Phase 1: Contract Design & Freeze ✅
 - Session Lifecycle Contract (state machine: ACTIVE → IDLE → EXPIRED → TERMINATED)
@@ -146,7 +168,7 @@ All public API signatures are identical. Only improvements in:
 
 ---
 
-**Document Version:** v1.0-production (frozen 2026-08-08)  
+**Document Version:** historical v1.0-production claim (unverified)  
 **Level:** 1 (Module-Level Developer Documentation)  
 **Source:** `src/voice/CHANGELOG.md`  
-**Status:** ✅ PRODUCTION READY
+**Status:** Archived historical record

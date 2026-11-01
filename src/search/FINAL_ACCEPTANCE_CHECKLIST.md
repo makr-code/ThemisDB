@@ -1,8 +1,38 @@
-# Search Module - Final Acceptance Checklist (Phase 1-6 Complete)
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "tests/search/CMakeLists.txt"
+  - "tests/search/"
+  - "benchmarks/search/CMakeLists.txt"
+  - "include/search/*.h"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
 
-**Status:** ✅ PRODUCTION READY (v2.0.0)  
-**Completion Date:** 2026-08-06  
-**GA Status:** Frozen (v2.0.0)
+Exact model backend not verifiable from final document text alone.
+
+# Search Module - Historical Acceptance Checklist (Phase 1-6)
+
+> **Evidence status (2026-10-31):** This is a historical checklist, not a
+> current release sign-off. Its completion claims, benchmark values, Doxygen
+> percentages, and acceptance statements were not re-verified here. The CTest
+> checkboxes below were left unchecked in the original document; therefore this
+> file does not establish that tests or benchmarks ran or passed. Treat the
+> content as historical planning evidence until supported by current artifacts.
+
+**Historical status claim:** PRODUCTION READY (v2.0.0; not re-verified)
+**Recorded completion date:** 2026-08-06
+**Recorded GA status:** Frozen (v2.0.0; current release status is governed by root `ROADMAP.md`)
 
 ---
 
@@ -65,7 +95,7 @@
 
 ---
 
-## Phase 4: Test Expansion ✅ COMPLETE
+## Phase 4: Test Expansion — historical claims, not runtime evidence
 
 ### Test Files Created (128+ test cases)
 
@@ -81,16 +111,22 @@
 | **TOTAL** | **112 tests** | **All Phase 4 scenarios covered** |
 
 ### Test Registration
-- [x] All test files follow `module_search_<test_stem>_focused` naming convention
-- [x] CTest labels: `search`, `phase4`, `stress` (SDS), `edge_case` (others)
-- [x] TIMEOUT 120 per themis_register_module_focused_test()
-- [x] Deterministic RNG seed = 42 for all fixtures (per benchmark hygiene rules)
-- [x] Updated tests/search/CMakeLists.txt with file(GLOB) to auto-register
+- Historical snapshot: `tests/search/CMakeLists.txt` currently declares
+  `module_search_<test_stem>_focused` targets via `file(GLOB)` and a
+  `themis_register_module_focused_test()` call with `TIMEOUT 120`.
+- The default label is `search`; only selected test stems add other labels.
+  The local file does not establish the old blanket label claims.
+- Test source RNG and test contents vary; seed=42 is not asserted for every
+  fixture. See the actual source before relying on a given scenario.
 
 ### Test Evidence
-- All 112 tests compile without warnings
-- All tests link successfully (themis_core + GTest + dependencies)
-- 100% test execution rate expected on standard hardware
+- Historical statements about compile/link status and expected execution are not
+  reproducible evidence in this document.
+- Current `tests/search/` inventory has 16 `test_*.cpp` files. The local
+  `tests/search/CMakeLists.txt` declares globbed targets; `tests/CMakeLists.txt`
+  auto-discovers this file and adds the `search` subdirectory when tests are configured.
+- **TODO:** attach the configured target list and test-run output before making
+  compile, pass-rate, or runtime claims.
 
 ---
 
@@ -250,7 +286,7 @@
 - [x] Operational runbooks linked (docs/operations/search_runbook.md)
 - [x] Monitoring/alerting thresholds defined
 
-**Status:** ✅ PRODUCTION READY (v2.0.0)
+**Historical status claim:** ✅ PRODUCTION READY (v2.0.0; not current release evidence)
 
 ---
 

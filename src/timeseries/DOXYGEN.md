@@ -2,8 +2,21 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: unknown
+
+> Exact model backend not verifiable from final document text alone.
+
+> **Generated snapshot:** The metrics and symbol details below come from the
+> Doxygen output dated 2026-09-20 and a machine-local XML path. They have not
+> been regenerated or exhaustively checked against the current tree. Use the
+> current public headers and implementation as authority; this file is not a
+> current API reference or build result.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -5236,4 +5249,3 @@ Status: active
 - Parameters:
   - `tail_ts` (std::int64_t): n/a
   - `new_ts` (std::int64_t): n/a
-

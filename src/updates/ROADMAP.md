@@ -1,140 +1,106 @@
-# Updates Module Roadmap
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-11-01"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+> Exact model backend not verifiable from final document text alone.
+
+# Updates Module Roadmap
 
 ## Current Status
 
-Production-usable updates runtime exists for state-machine orchestration, release manifest handling, delta update behavior, migration control, and rollout scheduling/telemetry paths. **Phase 2-3 hardening and GA readiness complete (v1.1.0).**
+This roadmap tracks source-visible work and evidence gaps. It is not a
+production-readiness approval. The root maturity aggregate currently classifies
+`updates` as **HARDENING** in [`../../ROADMAP.md`](../../ROADMAP.md); that
+aggregate takes precedence over older module-local GA/readiness statements.
 
-## In Progress
+### Current source state (2026-11-01)
 
-- [x] hardening rollback and coordinated rollout behavior under complex update scenarios (Target: Q3 2026) ✅ COMPLETE
-- [x] improving diagnostics consistency across state, patch, and rollout stages (Target: Q3 2026) ✅ COMPLETE
-- [x] stabilizing benchmark-backed release guardrails for update pipeline hot paths (Target: Q3 2026) ✅ COMPLETE
-
-## Completed Features (v1.1.0 GA)
-
-- [x] Phase 2-3 hardening: state machine, delta engine, migration, rollout edge cases
-- [x] Unified error taxonomy: 4 error classes (StateTransition, PatchApply, Migration, Rollout)
-- [x] 20 focused edge-case tests (UPH-01..20)
-- [x] 4 comprehensive benchmark suites (coordinated, canary, schema, long-run)
-- [x] Performance gates UPDP-4..7 all passing
-- [x] Documentation synchronized (AUDIT, MODULE_EVIDENCE, CHANGELOG, PRODUCTION_REQUIREMENTS)
+- Public interfaces, implementation sources, focused tests, and benchmark
+  sources are present under `include/updates/`, `src/updates/`,
+  `tests/updates/`, and `benchmarks/updates/`.
+- `tests/updates/CMakeLists.txt` registers `test_updates_*.cpp` focused targets
+  (with the diagnostics source excluded from the prefix glob; see test
+  registration and module test sources for the actual target inventory).
+- `benchmarks/updates/CMakeLists.txt` registers five benchmark sources when
+  `THEMIS_BUILD_BENCHMARKS` is enabled. The cluster-stress benchmark is
+  separately registered by `benchmarks/CMakeLists.txt`, with a conditional
+  CTest smoke entry.
+- Diagnostic CMake configuration succeeded and exposed the focused updates
+  test targets. The focused build did not complete, so no passing test or
+  benchmark run is claimed. Source/test/benchmark presence does not establish
+  passing CI, representative hardware results, or an approved release gate.
 
 ## Planned Features
 
-### Q4 2026 Execution Block (Phases 4-6)
-- [~] **Phase 4:** Deterministic edge-case handling (Target: Sept 1-21, 2026)
-  - [ ] Edge-case handler module (`updates_edge_case_handler.h/cpp`)
-  - [ ] Focused test suite (`test_updates_determinism_edge_cases_focused.cpp`)
-  - [ ] 15-20 edge scenarios covered with error codes [7400-7499]
-  - [ ] Agent: `themisdb-implementer` (updates-q4-edges)
+All items below are evidence or documentation tasks; no runtime implementation or
+release readiness is implied. Target timing requires maintainer approval.
 
-- [~] **Phase 5:** Cluster stress coverage (Target: Sept 1-21, 2026)
-  - [ ] Cluster scheduling stress test (`test_updates_cluster_scheduling_stress_focused.cpp`)
-  - [ ] Cluster stress benchmarks (`bench_updates_cluster_stress_q4.cpp`)
-  - [ ] Stress coverage documentation (`STRESS_COVERAGE_Q4.md`)
-  - [ ] Throughput ≥2,000 ops/sec validated; Memory <5% growth
-  - [ ] Agent: `general-purpose` (updates-q4-stress)
-
-- [x] **Phase 6:** Operator diagnostics ✅ COMPLETE (Oct 2026)
-  - [x] Operator diagnostics module (`updates_operator_diagnostics.h/cpp`) ✅ COMPLETE
-  - [x] Operator runbook (`RUNBOOK_UPDATES_Q4.md`) ✅ COMPLETE
-  - [x] Diagnostic test suite (`test_updates_operator_diagnostics_focused.cpp`) ✅ COMPLETE
-  - [x] 8+ failure scenarios covered with recovery procedures ✅ COMPLETE
-  - [x] Agent: `general-purpose` (updates-q4-diagnostics) ✅ COMPLETE
-
-### Q1 2027 Execution Block (Phases 7-8)
-- [~] **Phase 7:** Performance baselines re-establishment (Target: Nov 1-21, 2026)
-  - [ ] Hotspot profiling (5-8 critical paths)
-  - [ ] Performance envelopes report (`PERFORMANCE_ENVELOPES_Q1_2027.md`)
-  - [ ] Baseline benchmarks (`bench_updates_performance_baselines_q1_2027.cpp`)
-  - [ ] 20+ SLA gates recommended; P95/P99 stable (<2% variance)
-  - [ ] Agent: `research` (updates-q1-baselines)
-
-- [~] **Phase 8:** Long-run reliability hardening (Target: Nov 22 - Jan 31, 2027)
-  - [ ] Long-run reliability test (`test_updates_long_run_reliability_q1_2027.cpp`)
-  - [ ] 48h+ stability benchmark (`bench_updates_48h_stability_q1_2027.cpp`)
-  - [ ] Long-run reliability report (`LONG_RUN_RELIABILITY_Q1_2027.md`)
-  - [ ] 48h+ runs without memory leaks; Memory growth <1% per 24h
-  - [ ] Agent: `general-purpose` (updates-q1-long-run)
+- [x] Record the configured focused test targets and CTest names from `tests/updates/CMakeLists.txt` (Target: 2026-11-01).
+- [ ] Complete the focused updates test build and record the CTest results (Target: next release-evidence cycle).
+- [ ] Define reviewed benchmark baselines and acceptance thresholds in `PERFORMANCE_EXPECTATIONS.md` (Target: next release-evidence cycle).
+- [x] Confirm `bench_updates_cluster_stress_q4` and its CTest smoke entry are registered by the repository-level benchmark CMake file (Target: 2026-11-01).
+- [ ] Reconcile historical Phase/GA sign-offs with the root maturity aggregate (Target: next roadmap review).
 
 ## Implementation Phases
 
-### Phase 1: Design / API Contract
-- [x] freeze update state/manifest/migration contracts for current major line (Target: Q3 2026)
-- [x] define explicit error taxonomy for rollback, patch, and rollout incident classes (Target: Q3 2026)
+### Phase 1 — Design / API contract
+- [ ] Confirm the reviewed public lifecycle, patch, migration, rollout, and diagnostics contracts against `include/updates/` and focused test sources (Target: next release-evidence cycle).
 
-### Phase 2: Core Implementation
-- [x] complete hardening for state machine, delta engine, and migration internals (Target: Q4 2026) ✅ COMPLETE
-- [x] align rollout and scheduler behavior to bounded runtime contracts (Target: Q4 2026) ✅ COMPLETE
+### Phase 2 — Core implementation
+- [x] Confirm the cluster-stress benchmark target and CTest smoke entry are registered at repository level; avoid duplicate registration in the module CMake file (Target: 2026-11-01).
 
-### Phase 3: Error Handling and Edge Cases
-- [x] standardize fail-safe behavior for rollback faults, patch apply errors, and preflight failures (Target: Q4 2026) ✅ COMPLETE
-- [x] unify diagnostics across update state, migration, and rollout incident classes (Target: Q4 2026) ✅ COMPLETE
+### Phase 3 — Error handling and edge cases
+- [ ] Map failure and rollback cases to focused tests and record any uncovered public contract path (Target: next release-evidence cycle).
 
-### Phase 4: Tests
-- [x] expand focused regressions for update state, delta patch, and rollout edge scenarios (Target: Q4 2026) ✅ COMPLETE
-- [x] extend deterministic stress fixtures for coordinated update workloads (Target: Q4 2026) ✅ COMPLETE
+### Phase 4 — Tests
+- [x] Capture the configured updates test target and CTest inventory (Target: 2026-11-01).
+- [ ] Build and execute the focused updates tests; record exact results (Target: next release-evidence cycle).
 
-### Phase 5: Performance and Hardening
-- [x] lock benchmark-backed release gates for update pipeline hot paths (Target: Q4 2026) ✅ COMPLETE
-- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) ✅ COMPLETE
+### Phase 5 — Performance and hardening
+- [ ] Establish reviewed benchmark baselines, thresholds, and a reproducible run manifest (Target: next benchmark review).
 
-### Phase 6: Documentation and Acceptance
-- [x] core updates module docs aligned to source-verifiable behavior ✅ COMPLETE
-- [x] roadmap/future planning separated from historical changelog entries ✅ COMPLETE
-- [x] production readiness checklist complete and signed off ✅ COMPLETE
-- [x] ready for v2.4.0 GA promotion ✅ READY
+### Phase 6 — Documentation and acceptance
+- [ ] Reconcile historical module evidence and readiness assertions with current root governance and verified run artifacts (Target: next roadmap review).
 
 ## Production Readiness Checklist
 
-- [x] core updates surfaces documented and source-verified
-- [x] module-level security and failure behavior documented
-- [x] benchmark mapping documented in performance expectations
-- [x] remaining hardening tasks closed for rollback/patch/rollout edge paths ✅ COMPLETE (Block 2-3)
-- [x] release benchmark stabilization complete ✅ COMPLETE (UPDP-4..7)
-- [x] all performance gates passing (7/7) ✅ 100% PASS
-- [x] zero CRITICAL issues remaining ✅ VERIFIED
-- [x] documentation complete and synchronized ✅ VERIFIED
-- [x] security review passed ✅ VERIFIED
-- [x] code review approved ✅ VERIFIED
-- [x] ready for v2.4.0 GA promotion ✅ APPROVED
+- [ ] Current focused test results recorded for a named build configuration.
+- [ ] Representative benchmark results and approved thresholds recorded.
+- [ ] Operational and deployment-specific controls verified by their owners.
+- [ ] Root maturity aggregate and module-local readiness statements reconciled.
 
-## Known Issues and Limitations
+## Known Issues & Limitations
 
-- ~~runtime behavior depends on rollout configuration, migration complexity, and deployment topology.~~
-- ~~selected rollback, patch, and coordinated update edge scenarios need continued hardening.~~
-- ~~benchmark depth should continue expanding for wider update orchestration workloads.~~
+- Test and benchmark source presence does not establish passing runs.
+- The cluster-stress target is registered at repository level, but no successful benchmark run is established here.
+- Throughput values in the benchmark source are candidate expectations only; approved thresholds and representative-hardware results remain open.
+- Deployment-wide authentication, authorization, topology, and recovery policy are outside the module's standalone C++ contract.
 
-**Status**: All previously identified limitations addressed through Block 2-3 hardening and benchmark expansion.
+## Compatibility and change control
 
-No CRITICAL issues remaining. Ready for production deployment.
+Public API compatibility follows the repository versioning policy. A public
+contract change should update the applicable header comments, `API.md`, focused
+tests, and the relevant operational documentation. Do not infer a future
+breaking-change plan from this roadmap.
 
 ## Breaking Changes
 
-No breaking update contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.
+No public API change was made or proposed in this documentation update. A future
+breaking change must follow the repository versioning policy and be documented
+in the affected header and API contract.
 
-## Program Execution Model — Wave Context
+## Historical status notes
 
-This module is a **contributing module** in the program-level Wave A → B → C → D execution model.
-It does not own a primary wave deliverable but must remain `release_critical`-green throughout all waves
-and must deliver Wave D operability improvements in Q1 2027.
-See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
-
-### Wave D Contribution for `updates`
-- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — `tests/updates/test_updates_highcardinality_stress.cpp` delivered (HC-UP-01..03); `RUNBOOK_UPDATES_ENGINE.md` covers `[UPDATES:ExporterLag]` pattern
-- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — `tests/integration/test_updates_engine_soak.cpp` delivered (UP-SOAK-01..03); registered in Wave D foreach with TIMEOUT 120
-- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — `docs/operability/RUNBOOK_UPDATES_ENGINE.md` delivered (5 scenarios, 4 log patterns)
-
-### Cross-Wave Requirements
-- `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
-- p95/p99 benchmarks must be refreshed on representative hardware before Wave D sign-off (Target: Q1 2027)
-- No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
-
-### Program-Level Success Criteria (contribution)
-- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — write batch failure and rollback paths tested in soak and stress suites
-- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027) — Phase 7 baselines pending representative hardware sign-off
-- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — RUNBOOK_UPDATES_ENGINE.md delivered
+Older sections in prior copies of this file described v1.1.0/v2.4.0 readiness,
+UPDP gate passes, and future phase assignments. Their run evidence and approval
+state could not be verified against the current CMake registration and current
+release evidence during this documentation audit; those claims are not active
+status.

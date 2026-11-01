@@ -1,32 +1,61 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
-# Training in ThemisDB
+Exact model backend not verifiable from final document text alone.
 
-## Ueberblick
-Das Modul training stellt dataset labeling, LoRA and AdaLoRA training support, training-pipeline orchestration, provenance tracking, and graph-enriched training context behavior for ThemisDB. Phase 1-6 complete with all release gates validated. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+# Training module capabilities
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **automatic training-label generation behavior**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+The training module provides C++ components for preparing training samples,
+selecting data, training and managing LoRA/AdaLoRA adapters, and coordinating
+checkpoint, provenance, and serving-handoff operations. This is a
+source-grounded capability summary, not a release-readiness statement.
 
-Die zweite Kernfaehigkeit ist **database-domain labeling behavior**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+## Current capabilities
 
-Die dritte Kernfaehigkeit ist **incremental LoRA training behavior**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+- **Sample preparation:** `LegalAutoLabeler` and
+  `DatabaseDomainAutoLabeler` produce labeled samples from their configured
+  inputs. `ModalityDetector` extracts text clauses, tables, and citations and
+  can emit OCR-tagged samples.
+- **Selection and enrichment:** `DataSelectionPipeline` filters, de-duplicates,
+  clusters, scores, and records selection results. `KnowledgeGraphEnricher`
+  adds graph context and can query a caller-provided vector index.
+- **Adapter training and lifecycle:** `IncrementalLoRATrainer` and
+  `MultiTaskLoRATrainer` expose training operations; adapter implementations
+  support LoRA/AdaLoRA representation, merge, checkpoint, and resume paths.
+- **Orchestration and governance:** `TrainingPipeline` coordinates enabled
+  stages, while `ProvenanceTracker` records sample lineage and
+  `adapter_serving.h` exposes router handoff results.
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Training Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
+## Limits relevant to integration
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
+- `IncrementalLoRATrainer` can read up to `max_training_samples` from its
+  configured collection through an injected `QueryEngine`; invalid collections,
+  failed queries, and empty valid datasets fail closed. The pipeline can persist
+  labeled samples and train from that collection. Focused RocksDB tests cover
+  these paths, but do not establish all production deployment behavior.
+- `TrainingDataIterator` is owned by `llm`, not this module. The pipeline's
+  selection stage records its output but does not pass the selected subset
+  directly to the trainer, which reads its configured collection separately.
+  Broader route benchmarks and acceptance remain open in `ROADMAP.md`.
+- Selection clustering currently uses character statistics, not embeddings
+  produced by the configured model name.
+- The optional OCR path does not currently return recognized image text.
+- A trained adapter is not automatically serving: deployment requires a
+  configured router and callers must inspect its result.
 
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/training/README.md](./../../docs/training/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+## Source references
+
+- [`API.md`](./API.md) — public interfaces and integration requirements.
+- [`ARCHITECTURE.md`](./ARCHITECTURE.md) — data flow and component boundaries.
+- [`MODELING.md`](./MODELING.md) and [`EMBEDDING.md`](./EMBEDDING.md) — method
+  details and current limitations.
+- [`ROADMAP.md`](./ROADMAP.md) — current implementation work and open gates.

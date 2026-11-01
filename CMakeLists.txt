@@ -287,7 +287,7 @@ include(cmake/platforms/ArchitectureOptimizations.cmake)
 # 5. Preload targets for system packages
 include(cmake/PreloadTargets.cmake)
 
-# 6. Edition selection (MINIMAL, COMMUNITY, ENTERPRISE, HYPERSCALER)
+# 6. Edition selection (MINIMAL, COMMUNITY, ENTERPRISE, MILITARY, HYPERSCALER)
 include(cmake/editions/EditionDefaults.cmake)
 
 # 7. Feature configuration (LLM, GPU, Network, Security, Tools, Optimizations)

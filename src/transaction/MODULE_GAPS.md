@@ -1,4 +1,22 @@
-# transaction — MODULE_GAPS.md (Phase 5 Verified)
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-27"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+Source level: 1; SOT domain: module-behavior. Canonical references: `src/transaction/ROADMAP.md`, current transaction sources and headers, and `tests/transaction/CMakeLists.txt`. Related issue: #7390.
+
+# transaction — MODULE_GAPS.md (historical Phase 5 snapshot)
+
+> **Historical snapshot:** The scanner totals/classifications and closure status below are dated 2026-08-27; they are not a current scan or current gap count. This documentation task did not rerun the scanner, build tests, or revalidate each historical finding.
 
 This file documents all documentation and code quality gaps in the **transaction** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 

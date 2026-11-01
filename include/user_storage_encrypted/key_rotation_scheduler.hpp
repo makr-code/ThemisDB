@@ -25,20 +25,16 @@ namespace user_storage {
 /**
  * @brief Key rotation scheduler for automatic key rotation
  * 
- * Features:
- * - Schedule-based rotation (e.g., every 90 days)
- * - Zero-downtime rotation process
- * - Notification on rotation completion
- * - Thread-safe operation
- * - Optional persistent state via IRotationStore (last_check_ms survives restart)
- * - Optional persistence via IRotationStore (Feature 3)
- * 
- * Rotation Process:
- * 1. Create new container with new key
- * 2. Copy data from old to new container
- * 3. Atomically switch containers (rename)
- * 4. Keep old container as backup
- * 5. Notify administrators
+ * This class schedules and invokes caller-provided callbacks; it does not
+ * create, copy, or swap storage containers, and it does not provide key
+ * rotation, atomicity, notification, or zero-downtime guarantees. The
+ * MultiLevelEncryptedStorage::rotateKey() operation is separate and its
+ * implementation does not guarantee transactional or zero-downtime rotation.
+ *
+ * Schedule state is protected by an internal mutex. Callbacks execute while
+ * that mutex is held and must not re-enter scheduler methods.
+ *
+ * See multi_level_storage.hpp for the separate orchestrator operation.
  */
 class KeyRotationScheduler {
 public:

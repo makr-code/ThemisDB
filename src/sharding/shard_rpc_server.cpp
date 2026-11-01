@@ -13,6 +13,7 @@
 // Licensed under MIT License
 
 #include "sharding/shard_rpc_server.h"
+#include "core/production_mode.h"
 #include "utils/logger.h"
 #include "utils/file_utils.h"
 #include <stdexcept>
@@ -279,6 +280,13 @@ void ShardRPCServer::setRequestHandler(RequestHandler* handler) {
 bool ShardRPCServer::start() {
 #if THEMIS_HAS_SHARD_GRPC
     try {
+        const bool production_mode = themis::core::ProductionMode::isEnabled();
+        if (production_mode &&
+            (!impl_->config.enable_mtls || !impl_->config.tls_require_client_cert)) {
+            throw std::runtime_error(
+                "ShardRPCServer: production mode requires mTLS and client certificate verification");
+        }
+
         impl_->service = std::make_unique<ShardServiceImpl>(impl_->handler);
         impl_->service->setImplRef(impl_->listen_address);
         
@@ -288,58 +296,50 @@ bool ShardRPCServer::start() {
         std::shared_ptr<grpc::ServerCredentials> credentials;
         
         if (impl_->config.enable_mtls) {
-            // mTLS enabled - create SSL server credentials
-            try {
-                grpc::SslServerCredentialsOptions ssl_opts;
-                
-                // Load CA certificate for client verification
-                if (!impl_->config.tls_ca_cert_path.empty()) {
-                    ssl_opts.pem_root_certs = themis::utils::readFileContents(impl_->config.tls_ca_cert_path);
-                    THEMIS_INFO("Loaded CA certificate from: {}", impl_->config.tls_ca_cert_path);
-                }
-                
-                // Load server certificate and private key
-                if (!impl_->config.tls_cert_path.empty() && !impl_->config.tls_key_path.empty()) {
-                    grpc::SslServerCredentialsOptions::PemKeyCertPair key_cert_pair;
-                    key_cert_pair.private_key = themis::utils::readFileContents(impl_->config.tls_key_path);
-                    key_cert_pair.cert_chain = themis::utils::readFileContents(impl_->config.tls_cert_path);
-                    ssl_opts.pem_key_cert_pairs.push_back(key_cert_pair);
-                    THEMIS_INFO("Loaded server certificate from: {}", impl_->config.tls_cert_path);
-                }
-                
-                // Configure client certificate requirement
-                if (impl_->config.tls_require_client_cert) {
-                    ssl_opts.client_certificate_request = GRPC_SSL_REQUEST_AND_REQUIRE_CLIENT_CERTIFICATE_AND_VERIFY;
-                    THEMIS_INFO("Client certificate verification enabled (mutual TLS)");
-                } else {
-                    ssl_opts.client_certificate_request = GRPC_SSL_DONT_REQUEST_CLIENT_CERTIFICATE;
-                }
-                
-                credentials = grpc::SslServerCredentials(ssl_opts);
-                THEMIS_INFO("mTLS enabled for shard RPC server");
-                
-            } catch (const std::exception& e) {
-                // GAP-016: mTLS cert load failure silently fell back to insecure.
-                // Log at ERROR so operators see the degradation (CWE-295).
-                THEMIS_ERROR("[SECURITY] ShardRPCServer: Failed to load mTLS certificates: {}. "
-                             "Falling back to INSECURE connection (GAP-016/CWE-295).", e.what());
-                credentials = grpc::InsecureServerCredentials();
+            if (impl_->config.tls_cert_path.empty() || impl_->config.tls_key_path.empty()) {
+                throw std::runtime_error(
+                    "ShardRPCServer: mTLS requires both a server certificate and private key path");
             }
-        } else {
-            // mTLS not enabled - check production mode enforcement
-            if (const char* prod = getenv("THEMIS_PRODUCTION_MODE"); prod && std::string(prod) == "1") {
-                if (const char* override_flag = getenv("THEMIS_SHARD_MTLS_DISABLED");
-                    override_flag && std::string(override_flag) == "1") {
-                    THEMIS_WARN("ShardRPCServer: mTLS disabled in production mode via "
-                                "THEMIS_SHARD_MTLS_DISABLED=1 — this is INSECURE and for dev/test only.");
-                } else {
+
+            grpc::SslServerCredentialsOptions ssl_opts;
+            grpc::SslServerCredentialsOptions::PemKeyCertPair key_cert_pair;
+            key_cert_pair.private_key =
+                themis::utils::readFileContents(impl_->config.tls_key_path);
+            key_cert_pair.cert_chain =
+                themis::utils::readFileContents(impl_->config.tls_cert_path);
+            if (key_cert_pair.private_key.empty() || key_cert_pair.cert_chain.empty()) {
+                throw std::runtime_error(
+                    "ShardRPCServer: mTLS certificate and private key files must not be empty");
+            }
+            ssl_opts.pem_key_cert_pairs.push_back(key_cert_pair);
+            THEMIS_INFO("Loaded server certificate from: {}", impl_->config.tls_cert_path);
+
+            if (impl_->config.tls_require_client_cert) {
+                if (impl_->config.tls_ca_cert_path.empty()) {
                     throw std::runtime_error(
-                        "ShardRPCServer: mTLS must be enabled in production mode "
-                        "(THEMIS_PRODUCTION_MODE=1). Set enable_mtls=true or set "
-                        "THEMIS_SHARD_MTLS_DISABLED=1 to explicitly override (insecure, dev only).");
+                        "ShardRPCServer: client certificate verification requires a CA certificate path");
                 }
+                ssl_opts.pem_root_certs =
+                    themis::utils::readFileContents(impl_->config.tls_ca_cert_path);
+                if (ssl_opts.pem_root_certs.empty()) {
+                    throw std::runtime_error(
+                        "ShardRPCServer: CA certificate file must not be empty");
+                }
+                ssl_opts.client_certificate_request =
+                    GRPC_SSL_REQUEST_AND_REQUIRE_CLIENT_CERTIFICATE_AND_VERIFY;
+                THEMIS_INFO("Client certificate verification enabled (mutual TLS)");
+            } else {
+                ssl_opts.client_certificate_request = GRPC_SSL_DONT_REQUEST_CLIENT_CERTIFICATE;
             }
-            // mTLS not enabled - use insecure credentials (development only)
+
+            credentials = grpc::SslServerCredentials(ssl_opts);
+            if (!credentials) {
+                throw std::runtime_error(
+                    "ShardRPCServer: gRPC rejected the configured TLS credentials");
+            }
+            THEMIS_INFO("mTLS enabled for shard RPC server");
+        } else {
+            // Insecure credentials are permitted only outside canonical production mode.
             credentials = grpc::InsecureServerCredentials();
             THEMIS_WARN("mTLS is disabled for shard RPC server. This is insecure and should only be used in development.");
         }

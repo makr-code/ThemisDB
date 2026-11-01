@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/projects/ROADMAP.md -->
 
 # Projects Module — Public Header Roadmap
@@ -20,7 +34,10 @@ Tracks public `projects` API contract stability, header-level coverage work, and
 
 ## Current Status
 
-All headers in `include/projects/` are present and expose the project lifecycle, versioning, bundling, collaboration, diff tracking, templates, and audit logging surface.
+Headers declare project lifecycle, versioning, diff/merge, collaboration,
+templates, metrics, and audit-log APIs. `project_bundle.h` declares only an
+abstract interface; this module has no concrete bundle implementation.
+`projects_api_contract.h` currently defines error-code values only.
 
 ---
 
@@ -35,13 +52,13 @@ All headers in `include/projects/` are present and expose the project lifecycle,
 
 ## In Progress
 
-- [ ] Per-header deprecation and breaking-change notices aligned with `VERSIONING.md` (Target: 2026-Q3)
+- [!] Review per-header deprecation and breaking-change notices against `VERSIONING.md` (Target: TBD; prior 2026-Q3 target has passed)
 
 ---
 
 ## Planned
 
-- [ ] API contract index for high-frequency entry points with usage examples (Target: 2026-Q3)
+- [!] API contract index for high-frequency entry points with usage examples (Target: TBD; prior 2026-Q3 target has passed)
 - [ ] Compatibility matrix (C++17/20 and platform coverage) per header group (Target: 2026-Q4)
 - [ ] CI-enforced compile checks for all public headers (Target: 2026-Q4)
 

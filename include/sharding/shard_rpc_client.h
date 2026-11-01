@@ -90,9 +90,9 @@ public:
         int max_retries = 3;            // Maximum retry attempts
         int retry_delay_ms = 100;       // Initial delay between retries (exponential backoff)
         
-        // mTLS Configuration (optional, required for production)
-        bool enable_mtls = true;        // Enable mutual TLS authentication (default: on)
-        bool allow_insecure = false;    // Explicit local/test-only override; rejected by default
+        // mTLS is mandatory in production. The insecure override is honored only outside production.
+        bool enable_mtls = true;
+        bool allow_insecure = false;
         std::string tls_cert_path;      // Path to client certificate (PEM format)
         std::string tls_key_path;       // Path to client private key (PEM format)
         std::string tls_ca_cert_path;   // Path to CA certificate for server verification (PEM format)
@@ -112,7 +112,12 @@ public:
         PrometheusMetrics*  prometheus_metrics  = nullptr;
     };
     
-    /** @brief Construct RPC client using provided transport/runtime configuration. */
+    /**
+     * @brief Constructs an RPC client using the provided transport/runtime configuration.
+     * @param config Endpoint, retry, and TLS settings; production requires mTLS and server verification.
+     * @throws std::runtime_error if production transport requirements are not met or secure
+     *         credential loading fails without a non-production insecure override.
+     */
     explicit ShardRPCClient(const Config& config);
     /** @brief Destroy client and release internal connection/circuit-breaker state. */
     ~ShardRPCClient();

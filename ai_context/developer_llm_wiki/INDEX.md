@@ -45,8 +45,8 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - [MODULES_AND_APIS.md](MODULES_AND_APIS.md)
 - [BUILD_TEST_CI_AND_OPERATIONS.md](BUILD_TEST_CI_AND_OPERATIONS.md)
 - [GOVERNANCE_AND_ROADMAP.md](GOVERNANCE_AND_ROADMAP.md)
-- [AQL module context](AQL.md) — AQL assistance API boundaries, validation behavior, and test/benchmark registration
-- [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary
+- [AQL module context](AQL.md) — assistance API boundaries, validation behavior, and test/benchmark registration.
+- [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary.
 - [IMPORTERS.md](IMPORTERS.md) — curated importer module context
 - [UPDATES.md](UPDATES.md) — curated updates module context
 - [DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md) — curated distributed tensor module context
@@ -57,9 +57,9 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 ## Source Distribution
 
-- modules_and_api: 3744
+- modules_and_api: 3820
 - build_test_ci: 203
-- governance_and_docs: 5472
+- governance_and_docs: 5484
 - misc: 0
 
 ## Source-Priority / Konfliktregel

@@ -1,37 +1,35 @@
-> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Creation_Date_Note: Creation date of this rewritten page; the original file creation date is unknown.
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: themisdb-doc-orchestrator
+Human_Review: false
+Human_Author: unknown
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - tests/security/CMakeLists.txt
+  - tests/CMakeLists.txt
+  - tests/security/README.md
+  - src/security/FUTURE_ENHANCEMENTS.md
+Related_Issue: "#7379"
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
 
-# FUTURE_ENHANCEMENTS
+Exact model backend not verifiable from final document text alone.
 
-## tests/security
+# Security test-suite future work
 
-### Scope
-- Ausbau der Modulfähigkeiten in `tests/security` für Stabilität, Wartbarkeit und Betriebsreife.
-- Schließen dokumentierter Funktions- und Qualitätslücken.
+This page records no committed feature or delivery date. The current source
+inventory and target-generation rules are summarized in
+[`README.md`](README.md) and defined by the two referenced CMake files.
 
-### Design Constraints
-- Rückwärtskompatibilität zu bestehenden Modulverträgen sicherstellen.
-- Kein Sicherheits- oder Compliance-Regression durch Erweiterungen.
-- Deterministisches, nachvollziehbares Fehlerverhalten beibehalten.
-
-### Required Interfaces
-- Öffentliche APIs/CLI/Config-Verträge bleiben klar versioniert.
-- Interne Schnittstellen werden explizit dokumentiert und getestet.
-
-### Implementation Notes
-- Erweiterungen inkrementell in kleinen, überprüfbaren Schritten liefern.
-- Abhängigkeiten minimieren und vorhandene Infrastruktur wiederverwenden.
-- Observability (Logs/Metriken/Tracing) für neue kritische Pfade ergänzen.
-
-### Test Strategy
-- Unit-Tests für neue Kernlogik und Fehlerpfade.
-- Integrations-/End-to-End-Tests für modulübergreifende Flows.
-- Regressionstests für bereits ausgelieferte Funktionalität.
-
-### Performance Targets
-- Keine signifikante Regression in Latenz/Throughput gegenüber Baseline.
-- Kritische Pfade mit reproduzierbaren Benchmarks absichern.
-
-### Security / Reliability
-- Security-Reviews für neue Eingabe- und Integrationsflächen.
-- Robuste Fehlerbehandlung, Timeouts und Recovery-Verhalten sicherstellen.
-- Relevante Änderungen durch Audit-Artefakte nachvollziehbar machen.
+Potential test-suite work should be proposed against a named source or target,
+state whether it closes a verified coverage gap, and include acceptance
+evidence. Production security feature plans belong to
+[`src/security/FUTURE_ENHANCEMENTS.md`](../../src/security/FUTURE_ENHANCEMENTS.md),
+not this test-directory backlog.

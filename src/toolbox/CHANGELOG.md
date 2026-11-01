@@ -1,6 +1,21 @@
-> WARNING: Historical changelog entries describe implementation state at the time they were recorded.
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
+> WARNING: Historical changelog entries describe implementation state at the time they were recorded.
+> **Historical/unverified record:** The dated entries below are preserved, not re-certified. Their counts, test outcomes, benchmark baselines, gate results, security coverage, and release statements are not current evidence. In particular, the `2.0.0` heading is dated 2026-12-31, which is later than this review date (2026-10-31); do not read it as an issued release without authoritative release records. Current code/registration facts are summarized in `README.md`, `ROADMAP.md`, and the test/benchmark inventories.
+>
+> Exact model backend not verifiable from final document text alone.
+
+<!-- Status: historical/unverified | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog - Toolbox Module

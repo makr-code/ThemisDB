@@ -886,20 +886,20 @@ if(THEMIS_EXTERNALIZE_TIMESERIES_PLUGIN)
 endif()
 
 # Multi-Edition Support (v1.3.5+)
-# THEMIS_EDITION: One of MINIMAL, COMMUNITY, ENTERPRISE, or HYPERSCALER (compile-time selection)
+# THEMIS_EDITION: One of MINIMAL, COMMUNITY, ENTERPRISE, MILITARY, or HYPERSCALER (compile-time selection)
 # This setting determines feature availability, licensing limits, and hardware constraints
-# MINIMAL: Core database only (embedded/IoT), COMMUNITY: Full features (default), ENTERPRISE: Scaling+HA, HYPERSCALER: Unlimited
-set(THEMIS_EDITION "COMMUNITY" CACHE STRING "Edition: MINIMAL, COMMUNITY, ENTERPRISE, or HYPERSCALER")
-set_property(CACHE THEMIS_EDITION PROPERTY STRINGS MINIMAL COMMUNITY ENTERPRISE HYPERSCALER)
+# MINIMAL: Core database only (embedded/IoT), COMMUNITY: Full features (default),
+# ENTERPRISE: Scaling+HA, MILITARY: Hardened/air-gapped, HYPERSCALER: Unlimited
+set(THEMIS_EDITION "COMMUNITY" CACHE STRING "Edition: MINIMAL, COMMUNITY, ENTERPRISE, MILITARY, or HYPERSCALER")
+set_property(CACHE THEMIS_EDITION PROPERTY STRINGS MINIMAL COMMUNITY ENTERPRISE MILITARY HYPERSCALER)
 
 # Validate edition selection
-if(NOT THEMIS_EDITION MATCHES "^(MINIMAL|COMMUNITY|ENTERPRISE|HYPERSCALER)$")
-    message(FATAL_ERROR "THEMIS_EDITION must be MINIMAL, COMMUNITY, ENTERPRISE, or HYPERSCALER (got: ${THEMIS_EDITION})")
+if(NOT THEMIS_EDITION MATCHES "^(MINIMAL|COMMUNITY|ENTERPRISE|MILITARY|HYPERSCALER)$")
+    message(FATAL_ERROR "THEMIS_EDITION must be MINIMAL, COMMUNITY, ENTERPRISE, MILITARY, or HYPERSCALER (got: ${THEMIS_EDITION})")
 endif()
 
 # Edition feature configuration (compile-time feature flags)
 # These determine which functionality is available at build time
-
 # GPU Memory Limits: Edition-specific VRAM constraints
 # All limits reflect cumulative VRAM across all GPUs in a single system node.
 # MINIMAL:     0 GB    — no GPU; CPU fallback enforced (IoT/embedded)
@@ -1005,6 +1005,13 @@ elseif(THEMIS_EDITION STREQUAL "ENTERPRISE")
     message(STATUS "  GPU Backend: Vulkan=${THEMIS_ENABLE_VULKAN} (cross-platform), CUDA=${THEMIS_ENABLE_CUDA} (NVIDIA-only)")
     message(STATUS "  LLM Support: ${THEMIS_ENABLE_LLM}")
 
+elseif(THEMIS_EDITION STREQUAL "MILITARY")
+    # Root builds load this module through EditionDefaults.cmake; apply it
+    # here only when configuring this directory as a standalone source.
+    if(NOT THEMIS_EDITION_SELECTED)
+        include("${THEMIS_ROOT_DIR}/cmake/editions/MILITARY.cmake")
+    endif()
+
 elseif(THEMIS_EDITION STREQUAL "HYPERSCALER")
     set(THEMIS_GPU_MAX_VRAM_GB 999999 CACHE INTERNAL "Max GPU VRAM for Hyperscaler Edition (unlimited)")
     set(THEMIS_SHARDING_MAX_NODES 999999 CACHE INTERNAL "Max sharding nodes for Hyperscaler Edition (unlimited)")
@@ -1044,7 +1051,8 @@ endif()
 # ============================================================================
 # LICENSE ENFORCEMENT (v1.4.0+)
 # ============================================================================
-# Enforce license requirements for ENTERPRISE and HYPERSCALER editions
+# ENTERPRISE and HYPERSCALER enforcement is handled here. MILITARY's required
+# license file is validated by cmake/editions/MILITARY.cmake.
 
 # ENTERPRISE Edition: License REQUIRED for Release builds only
 if(THEMIS_EDITION STREQUAL "ENTERPRISE")
@@ -3064,6 +3072,7 @@ set(THEMIS_CORE_SOURCES
     ../src/network/socket_timeout_manager.cpp
     ../src/network/adaptive_circuit_breaker.cpp
     ../src/network/qos_manager.cpp
+    ../src/network/network_audit_log.cpp
     ../src/network/udp_fast_path.cpp
     ../src/network/wire_retry_policy.cpp
     ../src/network/multipath_tcp.cpp

@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> **Planning note:** The target quarters below are historical proposals, not current commitments. No feature or schedule is promised by this list; reconcile it against current governance before planning work.
+>
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: proposal list | reviewed for stale target dates: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/toolbox/FUTURE_ENHANCEMENTS.md -->
 
 # Toolbox Module — Public Header Future Enhancements
@@ -59,5 +73,7 @@ Planned extensions follow the same namespace (`themis::toolbox`) and include-gua
 
 ## Alignment with Strategic Plan
 
-Enhancements align with `FUTURE_PLAN.md` layer **ANN/Tensor**. For cross-layer integration planning see:
+These proposals do not establish current strategic-plan alignment. For cross-layer planning, consult the current governance sources before scheduling work:
 → [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
+
+> Exact model backend not verifiable from final document text alone.

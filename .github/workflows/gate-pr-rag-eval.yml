@@ -1,10 +1,9 @@
 name: "Gate: PR RAG Evaluation Contract"
 
 # Rechenaufwand-Score: R=2 (K=2, L=2, N=2) | last-calibrated: 2026-09-24
-# Trigger policy: Enforces Phase 2 RAG Evaluation Contract v1 compliance on all RAG changes.
-# Validates that release_critical RAG runs include all 6 core metrics (Recall@10, nDCG@10, MRR@10, 
-# Faithfulness, Relevance, latency, cost) with regression thresholds ≤ 2pp.
-# Blocks merge on missing metrics, exceeding regression thresholds, or missing acceptance report.
+# Trigger policy: Validates RAG evaluation contract artifacts and smoke fixtures.
+# If an eval_results.json artifact is supplied, checks Recall@10 against the
+# declared regression threshold. Full metric collection remains a separate task.
 # Reference: src/rag/EVALUATION_CONTRACT_V1.md
 
 on:
@@ -56,7 +55,7 @@ jobs:
             exit 1
           fi
           
-          # Verify all 6 core metrics are documented
+          # Verify all seven listed core metrics are documented
           REQUIRED_METRICS=("Recall@10" "nDCG@10" "MRR@10" "Faithfulness" "Relevance" "latency" "cost")
           for metric in "${REQUIRED_METRICS[@]}"; do
             if ! grep -q "$metric" src/rag/EVALUATION_CONTRACT_V1.md; then
@@ -65,7 +64,7 @@ jobs:
             fi
           done
           
-          echo "✓ All 6 core metrics documented"
+          echo "✓ All seven listed core metrics documented"
       
       - name: Validate Baseline Registry
         id: check-baseline-registry
@@ -83,7 +82,10 @@ jobs:
           }
           
           echo "✓ Baseline registry valid"
-      
+
+      - name: Validate Evaluation Smoke Fixtures
+        run: python3 benchmarks/rag/validate_eval_datasets.py
+
       - name: Validate Acceptance Report Template
         id: check-acceptance-template
         run: |
@@ -118,12 +120,12 @@ jobs:
           with open('benchmarks/rag/data/eval_results.json') as f:
               results = json.load(f)
 
-          # Check Recall@10 regression threshold (<=2pp)
-          recall_threshold = baselines['global_targets']['recall_regression_threshold_pp']
+          # Check Recall@10 regression threshold (ratio, e.g. 0.02 = 2 percentage points)
+          recall_threshold = baselines['global_targets']['recall_at_10']['regression_threshold']
           for dataset in results.get('datasets', []):
               recall_delta = abs(dataset['recall_at_10_baseline'] - dataset['recall_at_10_current'])
               if recall_delta > recall_threshold:
-                  print(f"FAIL: Recall@10 regression {recall_delta}pp exceeds threshold {recall_threshold}pp on {dataset['dataset_id']}")
+                  print(f"FAIL: Recall@10 regression {recall_delta:.4f} exceeds threshold {recall_threshold:.4f} (ratio) on {dataset['dataset_id']}")
                   sys.exit(1)
 
           print("All regression thresholds within limits")
@@ -144,13 +146,14 @@ jobs:
           
           ### Checklist
           - [x] EVALUATION_CONTRACT_V1.md present
-          - [x] All 6 core metrics documented
+          - [x] All seven listed core metrics documented
+          - [x] Evaluation smoke fixture files validated
           - [x] Baseline registry valid (baselines_v1.json)
           - [x] Acceptance report template valid
-          - [x] Regression thresholds compliant
+          - [x] Conditional Recall@10 regression check completed (only when results are supplied)
           
           ### Gate Status
-          ✓ **PASS** — RAG Evaluation Contract v1 validation complete
+          ✓ **PASS** — RAG evaluation artifacts validated; this is not a measured evaluation result.
           
           ### Next Steps
           - Metrics collection required before release merge

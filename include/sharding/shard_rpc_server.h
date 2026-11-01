@@ -46,12 +46,13 @@ public:
     struct Config {
         std::string listen_address;     // Address to listen on (e.g., "0.0.0.0:50051")
         
-        // mTLS Configuration (optional, required for production)
-        bool enable_mtls = true;        // Enable mutual TLS authentication (default: on)
+        // mTLS is mandatory in production. Server certificate and key are always
+        // required when enabled; a CA file is additionally required for client verification.
+        bool enable_mtls = true;
         std::string tls_cert_path;      // Path to server certificate (PEM format)
         std::string tls_key_path;       // Path to server private key (PEM format)
         std::string tls_ca_cert_path;   // Path to CA certificate for client verification (PEM format)
-        bool tls_require_client_cert = true;  // Require client certificates (mutual TLS)
+        bool tls_require_client_cert = true;
     };
     
     /**
@@ -141,8 +142,11 @@ public:
     void setRequestHandler(RequestHandler* handler);
     
     /**
-     * @brief Start the gRPC server
-     * @return true if started successfully
+     * @brief Starts the gRPC server after validating its transport credentials.
+     * @return True when the listener starts; false when gRPC is unavailable, the
+     *         configuration is unsafe, credential loading fails, or the listener fails.
+     * @note Production mode requires mTLS and client-certificate verification. Invalid or
+     *       missing credentials never fall back to an insecure listener.
      */
     bool start();
     

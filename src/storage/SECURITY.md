@@ -35,7 +35,7 @@ Security in the storage module focuses on deterministic durability and recovery 
 
 - storage and replay operations expose explicit result states.
 - encrypted blob storage uses AES-256-GCM and verifies the authentication tag; it protects only data routed through that backend.
-- the default no-op field-encryption and key-provider implementations are rejected only when production mode is detected (`THEMIS_PRODUCTION_MODE` or `THEMIS_ENVIRONMENT=production`).
+- the default no-op field-encryption and key-provider implementations are rejected when the canonical production-mode parser detects production; unsupported mode values fail instead of silently selecting development mode.
 - backup/PITR and maintenance faults remain observable.
 - blob/redundancy/tiering failures surface deterministic outcomes.
 

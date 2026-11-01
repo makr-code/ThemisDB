@@ -1,6 +1,24 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "api-contract"
+Canonical_References: "include/importers/*.h; include/importers/*.hpp; VERSIONING.md; src/importers/FUTURE_ENHANCEMENTS.md"
+Related_Reference: "makr-code/ThemisDB#7353"
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
+> Creation-date note: Original creation date is not recorded in the available checkout; the front-matter `Created` date is a metadata placeholder, not independently verified.
+
+> Exact model backend not verifiable from final document text alone.
+
+<!-- Planning notes only; not a committed delivery schedule. -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/importers/FUTURE_ENHANCEMENTS.md -->
 
 # Importers Module — Public Header Future Enhancements
@@ -23,13 +41,15 @@ Planned enhancements to the **public header contract** in `include/importers/`. 
 - `[x]` Public headers must not expose internal implementation types or arena/memory layout details to callers.
 - `[x]` Breaking changes to types in `include/importers/` require a MAJOR version bump per `VERSIONING.md`.
 - `[x]` New entry points should be additive; existing stable APIs remain source-compatible.
-- `[x]` Layer association (**ANN/Tensor**) must be preserved in all header expansions.
 
 ---
 
 ## Required Interfaces (Header Contract)
 
-Current public surfaces cover: multi-source data import (PostgreSQL, MySQL, Oracle, MongoDB, Kafka, S3, flat files, CRDT, MDM), schema inference, entity matching, federated learning, and e-government standards.
+Current declarations span source connectors, shared import options, schema and
+conflict helpers, plugins, and specialized import paths. Consult the current
+headers for the actual surface; header presence does not establish runtime
+availability.
 
 Planned extensions follow the same namespace (`themis::importers`) and include-guard conventions.
 
@@ -59,5 +79,6 @@ Planned extensions follow the same namespace (`themis::importers`) and include-g
 
 ## Alignment with Strategic Plan
 
-Enhancements align with `FUTURE_PLAN.md` layer **ANN/Tensor**. For cross-layer integration planning see:
-→ [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
+TODO: review proposed additions against current headers, module roadmap, and
+root release policy before treating them as planned commitments. For related
+AI work see [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md).

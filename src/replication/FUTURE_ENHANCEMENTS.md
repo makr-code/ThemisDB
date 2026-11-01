@@ -1,6 +1,33 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-05-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - ../../include/replication/
+  - ../../src/replication/
+  - ROADMAP.md
+  - PERFORMANCE_EXPECTATIONS.md
+Related_Issue: "#7373"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+> **Evidence note (2026-10-31):** The dated baseline and test-count claims below are
+> historical records, not revalidated current results. Check present source, test
+> registration, and execution evidence before treating them as current status.
+
 # Replication Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Planning and implementation baseline content below is historical unless explicitly revalidated. -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
@@ -80,3 +107,7 @@
 - preserve explicit failure signaling for promotion, slot, and conflict faults.
 - enforce bounded behavior under lag spikes and bursty replication traffic.
 - keep diagnostics actionable for production replication incidents.
+
+> **Status note (2026-10-31):** This page contains planning requirements, not verified
+> implementation status. Reconcile planned interfaces and evidence with current
+> headers/sources before scheduling or making readiness claims.

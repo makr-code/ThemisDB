@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -41,10 +41,12 @@ tests or benchmarks passed. See [`AUDIT.md`](AUDIT.md) for audit limitations.
   are skipped until that future completes.
 - `target_promote_id` is queued but ignored when selecting a promotion candidate.
 - Quorum-log recovery is logged, not applied as restored manager state.
-- Spare activation, metadata writes, DR restore, and DR traffic shift do not
-  perform their implied external operations.
-- DR catch-up is a quorum check, not replication-position synchronization;
-  verification checks cluster health/quorum, not recovered contents/site identity.
+- Spare activation failure now blocks failover completion; metadata persistence
+  remains unavailable and the built-in path returns failure.
+- Non-dry-run DR snapshot validation, restore, catch-up, requested traffic shift,
+  and recovered-state verification fail closed until their production hooks are
+  configured. Hooks must verify real effects; their correctness is not certified
+  by the manager.
 - Current failover runtime does not export named Prometheus metrics or trace spans.
 - Existing benchmark source includes mock/simulated workloads and declares
   thresholds; source presence does not establish measured latency.
@@ -53,9 +55,9 @@ tests or benchmarks passed. See [`AUDIT.md`](AUDIT.md) for audit limitations.
 
 - Decide whether `stop()` requires a genuinely bounded shutdown contract; if so,
   implement and test it before documenting a maximum wait.
-- Integrate and verify external adapters for restore, traffic, metadata, spare
-  activation, and recovered-state validation before treating results as evidence
-  of those effects.
+- Implement durable metadata persistence and real adapters for restore, traffic,
+  replication-position catch-up, spare activation, snapshot validation, and
+  recovered-state verification before treating results as completed operations.
 - Establish whether quorum-log replay should restore any manager state and define
   the persistence/consistency contract before making durability claims.
 - Validate performance targets on representative hardware and distinguish

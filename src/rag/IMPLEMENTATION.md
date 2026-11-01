@@ -101,7 +101,7 @@ targets include:
 cmake --build <build-dir> --target \
   module_rag_test_rag_hybrid_retriever_focused \
   module_rag_test_rag_context_assembler_focused \
-  module_rag_test_rag_ingestion_bridge_hardening_focused_focused
+  module_rag_test_rag_ingestion_bridge_hardening_focused
 
 ctest --test-dir <build-dir> \
   -R '^(test_rag_hybrid_retriever|test_rag_context_assembler|test_rag_ingestion_bridge_hardening_focused)_RagFocusedTests$' \

@@ -37,6 +37,11 @@ protected:
         insertDocument("doc_1", "Der Verwalter muss den Antrag innerhalb der gesetzlichen Frist bearbeiten.");
         insertDocument("doc_2", "Die Behörde darf die Unterlagen nach Prüfung anfordern.");
         insertDocument("doc_3", "Der Vertrag soll eine nachvollziehbare Begründung enthalten.");
+        insertDocument("doc_4", "Die zuständige Stelle muss die Unterlagen vollständig prüfen.");
+        insertDocument("doc_5", "Der Bescheid soll eine klare Begründung enthalten.");
+        insertDocument("doc_6", "Die Behörde kann zusätzliche Nachweise anfordern.");
+        insertDocument("doc_7", "Der Antragsteller muss die Frist beachten.");
+        insertDocument("doc_8", "Die Entscheidung soll schriftlich dokumentiert werden.");
     }
 
     void TearDown() override {
@@ -104,6 +109,25 @@ TEST_F(TrainingPipelineDbTest, LabelsPersistsAndTrainsOnTheSameDatabaseSamples) 
     EXPECT_TRUE(stats.training_success);
     EXPECT_EQ(stats.training_samples_consumed, stats.samples_persisted);
     EXPECT_GE(stats.data_load_time_seconds, 0.0);
+}
+
+TEST_F(TrainingPipelineDbTest, DataSelectionRestrictsTrainingToSelectedSampleIds) {
+    auto config = makeConfig();
+    config.enable_data_selection = true;
+    config.labeler_config.batch_size = 16;
+    config.data_selection_config.min_length_tokens = 1;
+    config.data_selection_config.enable_pii_check = false;
+    config.data_selection_config.target_samples = 2;
+    config.data_selection_config.audit = false;
+    themis::training::TrainingPipeline pipeline(
+        config, "", query_engine_.get(), indexes_.get());
+
+    const auto stats = pipeline.run();
+
+    EXPECT_TRUE(stats.error_message.empty()) << stats.error_message;
+    EXPECT_EQ(stats.selection_output_count, 2u);
+    EXPECT_EQ(stats.training_samples_consumed, stats.selection_output_count);
+    EXPECT_LT(stats.training_samples_consumed, stats.samples_persisted);
 }
 
 TEST_F(TrainingPipelineDbTest, MissingSampleWriterFailsBeforeTraining) {

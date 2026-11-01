@@ -1,13 +1,27 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
+> **Build/tests:** `cmake --preset linux-release -DTHEMIS_BUILD_TESTS=ON`, then build in `build-gcc-linux-release`.
 
 # ThemisDB Network Module Headers
 
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: review | validated: 2026-10-31 -->
 <!-- Links: README.md · ../../src/network/README.md · ../../src/network/ARCHITECTURE.md · ../../src/network/ROADMAP.md · ../../src/network/FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose
 
-The Network headers define the public interfaces for ThemisDB's high-performance networking layer. These headers expose wire protocol server capabilities, connection pooling abstractions, socket timeout management, QoS, UDP fast-path, QUIC, gRPC, geo-topology routing, and service mesh integration without requiring clients to depend on implementation details or external networking libraries beyond standard interfaces.
+The Network headers define public interfaces for ThemisDB's networking layer, including the wire protocol server, connection pooling, socket timeouts, QoS, UDP, QUIC, gRPC, topology routing, and service-mesh integration. Several interfaces expose Boost.Asio or OpenSSL types, so consumers enabling those transports must use the corresponding build dependencies.
 
 ## Scope
 
@@ -15,10 +29,10 @@ The Network headers define the public interfaces for ThemisDB's high-performance
 - Wire Protocol Server interface for binary TCP communication (port 8766)
 - Wire Protocol V2 interface for multiplexed binary communication
 - WebSocket upgrade on port 8766 (`wire_protocol_websocket.h`, guarded by `THEMIS_ENABLE_WEBSOCKET`)
-- Connection pool interfaces for client-side and server-side pooling
+- Client-side connection pool
 - Socket timeout manager with circuit breaker pattern
 - QoS manager — per-tenant bandwidth quotas, token bucket, priority queuing
-- Protocol buffer wire format parsing utilities
+- The distinct `0xDB 0x01` packet parser/builder and protobuf wire-format helper utilities
 - Network security interfaces (TLS/mTLS configuration)
 - Health checking and keepalive abstractions
 - Network statistics and monitoring interfaces
@@ -28,11 +42,11 @@ The Network headers define the public interfaces for ThemisDB's high-performance
 - gRPC native transport (port 8771, guarded by `THEMIS_ENABLE_GRPC`)
 - Geo topology router for geo-distributed cluster routing
 - Service mesh integration (Istio/Envoy sidecar, guarded by `THEMIS_ENABLE_SERVICE_MESH`)
-- Connection-level compression helpers (LZ4, Zstd — `connection_compression.h`); dictionary-trained Zstd (`ZstdDictionaryCompressor`)
+- Dictionary-trained Zstd compression helper (`connection_compression.h`)
 - Batch write processor (`wire_protocol_batch.h`): `WireProtocolBatcher` + `NagleController`
 - Zero-copy serialization (`wire_protocol_zero_copy.h`): `ZeroCopyFrameBuilder` + `MemoryMappedPayload`
 - UDP ingestion server (`udp_server.h`, port 8768): fire-and-forget metrics/logs/events
-- Raft-coordinated load balancer (`raft_load_balancer.h`, port 8774): multi-strategy routing with leader election
+- Raft-aware load balancing and health probing (`raft_load_balancer.h`)
 
 **Out of Scope:**
 - HTTP/REST API server (handled by api module headers)
@@ -97,6 +111,13 @@ public:
         // Authentication
         bool require_auth = true;
         std::string auth_mechanism = "SCRAM-SHA-256";
+        std::string auth_token;
+
+        // Optional listeners/configuration
+        bool enable_websocket_upgrade = false;
+        bool enable_ipv6 = false;
+        bool ipv6_dual_stack = true;
+        int tcp_backlog = 128;
     };
 
     WireProtocolServer(
@@ -108,7 +129,8 @@ public:
         std::shared_ptr<TransactionManager> tx_manager,
         std::shared_ptr<ProcessGraphManager> process_graph,
         std::shared_ptr<TSStore> ts_store,
-        std::shared_ptr<ContinuousAggregateManager> agg_manager
+        std::shared_ptr<ContinuousAggregateManager> agg_manager,
+        std::shared_ptr<QueryEngine> query_engine
     );
 
     ~WireProtocolServer();
@@ -143,6 +165,12 @@ private:
 } // namespace themis::network
 ```
 
+When `require_auth` is enabled, `auth_token` must be non-empty at startup. The
+current AUTH handler compares the configured shared token in a JSON payload;
+the `SCRAM-SHA-256` configuration label does not mean this handler performs a
+SCRAM challenge-response exchange. `start()` also fails closed unless a query
+engine and geospatial backend/bridge are wired by the owning service.
+
 **Design Patterns:**
 - **Builder Pattern**: Configuration via Config struct
 - **RAII**: Automatic cleanup on destruction
@@ -172,7 +200,8 @@ server.start();
 server.wait();  // Block until server stops
 ```
 
-**Thread Safety:** Thread-safe for concurrent access to statistics and lifecycle methods
+Shared statistics are synchronized in the implementation. Do not call lifecycle
+methods concurrently unless the specific method contract permits it.
 
 **Performance Characteristics:**
 - Non-blocking I/O via Boost.Asio
@@ -302,7 +331,7 @@ pool.warmup("server1.example.com:8766");
 // RAII connection handle
 {
     auto conn = pool.acquireConnection("server1.example.com:8766");
-    // Use conn.socket() for I/O operations
+    // socket() is available for plain TCP; use socketWrapper() for SSL.
 
     // Connection automatically returned to pool on scope exit
 }
@@ -318,7 +347,8 @@ std::cout << "Reuse rate: " << (stats.getReuseRate() * 100) << "%\n";
 - **Factory Pattern**: Per-target pool creation
 - **Background Thread Pattern**: Maintenance thread for cleanup
 
-**Thread Safety:** Fully thread-safe with per-target mutexes
+The pool synchronizes shared per-target state. A checked-out connection handle
+is owned by its caller and should not be used concurrently by multiple threads.
 
 ---
 
@@ -419,7 +449,7 @@ private:
 
 class SocketTimeoutGuard {
 public:
-    SocketTimeoutGuard(SocketTimeoutManager& manager, socket_t socket);
+    SocketTimeoutGuard(std::shared_ptr<SocketTimeoutManager> manager, socket_t socket);
     ~SocketTimeoutGuard();
 
     // Non-copyable, movable
@@ -443,17 +473,17 @@ config.read_timeout = std::chrono::milliseconds(30000);
 config.enable_tcp_keepalive = true;
 config.timeout_threshold = 10;
 
-SocketTimeoutManager manager(config);
+auto manager = std::make_shared<SocketTimeoutManager>(config);
 
 // Configure alert callback
-manager.setAlertCallback([](SocketHealthState state, const std::string& msg) {
+manager->setAlertCallback([](SocketHealthState state, const std::string& msg) {
     if (state == SocketHealthState::CIRCUIT_OPEN) {
         std::cerr << "CRITICAL: Circuit opened - " << msg << std::endl;
     }
 });
 
 // Accept with timeout
-auto client_socket = manager.acceptWithTimeout(server_socket);
+auto client_socket = manager->acceptWithTimeout(server_socket);
 if (client_socket == INVALID_SOCKET_VALUE) {
     // Timeout or error
     return;
@@ -464,7 +494,7 @@ SocketTimeoutGuard guard(manager, client_socket);
 
 // Read with timeout
 std::vector<char> buffer(4096);
-ssize_t bytes = manager.readWithTimeout(guard.get(), buffer.data(), buffer.size());
+ssize_t bytes = manager->readWithTimeout(guard.get(), buffer.data(), buffer.size());
 
 if (bytes > 0) {
     guard.release();  // Keep socket open
@@ -481,7 +511,8 @@ if (bytes > 0) {
 **Platform Abstraction:**
 Works seamlessly on both Windows (SOCKET) and Unix (int file descriptor)
 
-**Thread Safety:** Thread-safe for concurrent socket operations
+Do not overlap operations on the same socket. The public interface does not
+promise blanket synchronization for a shared manager or socket.
 
 ---
 
@@ -607,15 +638,15 @@ auto data = serializer.take();
 
 **Design Patterns:**
 - **Builder Pattern**: Incremental serialization
-- **Parser Combinator**: Composable parsing primitives
-- **Value Object**: Immutable data structures
+- **Stateful parser:** Each `ProtobufParser` holds a reference to input bytes and a cursor.
+- **Mutable serializer:** Each `ProtobufSerializer` owns its output buffer.
 
-**Performance:**
-- 5-10x faster than libprotobuf for simple messages
-- Zero heap allocations in fast path
-- Minimal stack usage (stateless parsing)
+**Performance:** No current benchmark in `benchmarks/network/` compares these
+helpers with libprotobuf. Do not infer a speedup or allocation guarantee from
+the API description.
 
-**Thread Safety:** Stateless, thread-safe
+Create separate parser/serializer instances for concurrent operations; neither
+class provides internal synchronization.
 
 ---
 
@@ -675,16 +706,14 @@ void collectMetrics() {
 
 ---
 
-## Performance Characteristics
+## Performance evidence
 
-| Component | Operation | Latency | Throughput | Notes |
-|-----------|-----------|---------|------------|-------|
-| Wire Protocol Server | Accept | 1-5 ms | 10K/s | Platform dependent |
-| Wire Protocol Server | Frame I/O | 100-500 μs | 100K ops/s | Zero-copy |
-| Connection Pool | Acquire (cached) | 10-100 μs | 1M ops/s | Lock-free fast path |
-| Connection Pool | Acquire (new) | 10-50 ms | 1K/s | TCP+TLS handshake |
-| Socket Timeout | Health check | 1 μs | N/A | Atomic counter |
-| Protocol Helpers | Parse/serialize | 1-10 μs | 1M ops/s | Zero-copy parsing |
+The network benchmark targets are gates, not measured deployment performance.
+Several release-gate cases execute in-process without live sockets; protocol
+path cases are explicitly stubs. See
+[`src/network/RESEARCH.md`](../../src/network/RESEARCH.md) and
+[`benchmarks/network/README.md`](../../benchmarks/network/README.md) before
+interpreting any threshold or result.
 
 ---
 
@@ -740,34 +769,41 @@ timeout_manager.setAlertCallback([](SocketHealthState state, const std::string& 
 
 ---
 
-## All Headers
+## All Public Headers
 
 | Header | Purpose |
 |--------|---------|
-| `adaptive_circuit_breaker.h` | Adaptive circuit breaker with dynamic thresholds |
-| `adaptive_io_scaler.h` | Adaptive I/O thread scaling under load |
-| `connection_compression.h` | LZ4/Zstd connection-level compression; `ZstdDictionaryCompressor` |
-| `envoy_xds.h` | Envoy xDS control-plane integration |
-| `geo_topology_router.h` | Geo-distributed cluster routing |
-| `grpc_transport.h` | gRPC native transport (port 8771, `THEMIS_ENABLE_GRPC`) |
-| `io_uring_batcher.h` | Linux io_uring async I/O batching |
-| `kernel_bypass.h` | Kernel bypass networking (DPDK + io_uring paths; compile-time gated) |
-| `network_audit_log.h` | Audit log for network events |
-| `qos_manager.h` | Per-tenant bandwidth quotas, token bucket, priority queuing |
-| `quic_server.h` | QUIC/HTTP3 server (port 8770, `THEMIS_ENABLE_HTTP3`) |
-| `quic_transport.h` | QUIC transport layer |
-| `raft_load_balancer.h` | Raft-coordinated load balancer (port 8774) |
-| `service_mesh.h` | Istio/Envoy sidecar integration (`THEMIS_ENABLE_SERVICE_MESH`) |
-| `socket_timeout_manager.h` | Cross-platform socket timeout with circuit breaker |
-| `udp_fast_path.h` | UDP fast-path for read-only queries (port 8769) |
-| `udp_server.h` | UDP ingestion server (port 8768): fire-and-forget metrics/logs/events |
-| `wire_protocol_batch.h` | Batch write processor: `WireProtocolBatcher` + `NagleController` |
-| `wire_protocol_connection_pool.h` | Client-side connection pooling |
-| `wire_protocol_helpers.h` | Protobuf wire format parsing without libprotobuf |
-| `wire_protocol_performance.h` | Performance benchmarking helpers for wire protocol |
-| `wire_protocol_server.h` | High-performance binary TCP server (port 8766) |
-| `wire_protocol_websocket.h` | WebSocket upgrade on port 8766 (`THEMIS_ENABLE_WEBSOCKET`) |
-| `wire_protocol_zero_copy.h` | Zero-copy serialization: `ZeroCopyFrameBuilder` + `MemoryMappedPayload` |
+| `adaptive_circuit_breaker.h` | Circuit state and per-error-class failure thresholds |
+| `adaptive_io_scaler.h` | Adaptive I/O concurrency scaling |
+| `bbr_congestion_control.h` | BBR congestion-control configuration and helper |
+| `connection_compression.h` | Dictionary-trained Zstd compression |
+| `envoy_xds.h` | Optional xDS REST polling client |
+| `geo_topology_router.h` | Topology-aware shard endpoint selection |
+| `grpc_transport.h` | Optional gRPC wire-protocol transport (`THEMIS_ENABLE_GRPC`) |
+| `io_uring_batcher.h` | Batched writes using io_uring with synchronous fallback |
+| `kernel_bypass.h` | Optional DPDK/io_uring server paths |
+| `multipath_tcp.h` | MPTCP subflow management |
+| `network_api_contract.h` | Network error categories and contract constants |
+| `network_audit_log.h` | Bounded network audit event buffer and callback API; `WireProtocolServer` records connection, authentication, and rate-limit events |
+| `network_observability.h` | Optional network event sink and counters |
+| `qos_manager.h` | Per-connection and tenant QoS controls |
+| `quic_server.h` | Optional QUIC server and client (`THEMIS_ENABLE_HTTP3`) |
+| `quic_transport.h` | Optional QUIC wire-protocol transport (`THEMIS_ENABLE_HTTP3`) |
+| `raft_load_balancer.h` | Health- and leader-aware backend selection |
+| `service_mesh.h` | Optional service-mesh health-probe server |
+| `socket_timeout_manager.h` | Socket timeout operations and RAII guard |
+| `udp_fast_path.h` | UDP fast path |
+| `udp_server.h` | Best-effort UDP ingestion |
+| `wire_bootstrap_validation.h` | Startup dependency validation helpers |
+| `wire_protocol.h` | Standalone `0xDB 0x01` packet parser and builder |
+| `wire_protocol_batch.h` | `WireProtocolBatcher` and `NagleController` |
+| `wire_protocol_connection_pool.h` | Client-side connection pool and handles |
+| `wire_protocol_helpers.h` | Protobuf wire-format and time-series helpers |
+| `wire_protocol_performance.h` | Metrics, payload pool, and compression advisor |
+| `wire_protocol_server.h` | Native TCP wire-protocol server |
+| `wire_protocol_websocket.h` | WebSocket session for the wire server |
+| `wire_protocol_zero_copy.h` | `ZeroCopyFrameBuilder` and `MemoryMappedPayload` |
+| `wire_retry_policy.h` | Wire retry policy and retry context |
 
 ---
 
@@ -800,17 +836,12 @@ timeout_manager.setAlertCallback([](SocketHealthState state, const std::string& 
 
 ---
 
-## Thread Safety Guarantees
+## Thread safety and lifetime
 
-| Component | Thread Safety | Notes |
-|-----------|---------------|-------|
-| WireProtocolServer | Thread-safe | Internal locking for shared state |
-| WireProtocolConnectionPool | Thread-safe | Per-target mutexes |
-| SocketTimeoutManager | Thread-safe | Atomic statistics |
-| ProtobufParser | Not thread-safe | Stateful parser (not shared) |
-| ProtobufSerializer | Not thread-safe | Stateful serializer (not shared) |
-| ConnectionHandle | Thread-safe | RAII, move-only |
-| SocketTimeoutGuard | Thread-safe | RAII, move-only |
+Thread-safety guarantees are component-specific; consult the public header
+before sharing an object across threads. Keep `SocketTimeoutManager` alive
+through its `SocketTimeoutGuard`, and do not share mutable parser/serializer
+instances concurrently.
 
 ---
 

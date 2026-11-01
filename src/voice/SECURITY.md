@@ -1,43 +1,54 @@
-# Security - Voice Module
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+> Exact model backend not verifiable from final document text alone.
 
-Report vulnerabilities via SECURITY.md.
+# Security Boundaries — Voice
 
-## Threat Model
+This page describes in-tree security-related surfaces, not a security
+certification, compliance assertion, or deployment policy. The integrating
+service remains responsible for authorization, consent, transport protection,
+durable audit, retention, and key management.
 
-| Threat | Mitigation surface |
-|---|---|
-| unauthorized voice session initiation | session and authentication guard paths |
-| replay or spoof attempts on biometric flows | authenticator and voice security controls |
-| oversized or malformed streaming input | bounded streaming/session handling |
-| sensitive transcript leakage | storage and processing safeguards with controlled handling |
-| telephony/browser injection or misuse | telephony and streaming validation paths |
+## Source-backed surfaces
 
-## Security Controls
+- `VoiceAssistant::Config::enable_voice_auth` defaults to `false`; biometric
+  checks do not automatically gate all session or command paths.
+- `VoiceBiometricAuthenticator` compares handcrafted acoustic features and
+  includes a separate heuristic liveness path. Neither is proof of identity or
+  authorization, and no calibrated accuracy is established here.
+- `VoiceSecurityManager` exposes helper operations for redaction, consent,
+  audit, rate limiting, data export/deletion and statistics. Its in-memory
+  state is not a durable compliance ledger.
+- `VoiceAudioStorage` stores records in process-owned state; metadata fields
+  such as `encrypted`/key references do not provide cryptographic encryption.
+- Browser streaming validates its own frame/session inputs. An empty origin
+  allowlist is permissive; a configured allowlist uses exact matching.
+- Telephony/streaming interfaces and their tests do not alone prove deployed
+  SIP/WebRTC connectivity or protocol conformance.
 
-- voice authentication and security checks are integrated in dedicated module paths
-- session and streaming behavior enforce bounded lifecycle controls
-- storage and processing paths expose explicit error/failure signaling
-- operational diagnostics support audit and incident triage
+## Integration requirements
 
-## Known Limitations
+Treat audio, transcripts, origin values, IDs and backend output as untrusted.
+Bind sessions to an authenticated application identity, apply authorization
+again before privileged actions, enforce consent and retention externally, and
+avoid logging raw audio, transcripts, biometric features, credentials or
+tokens. Route audit records to an approved durable sink if durable evidence is
+required.
 
-- anti-spoofing effectiveness depends on deployment configuration and model profile
-- telephony/browser threat handling requires continuous regression coverage
-- environment-dependent integrations can alter security control envelopes
-
-## Sourcecode Verification (Module: voice/security)
-
-- Verified files:
-  - src/voice/voice_authenticator.cpp
-  - src/voice/voice_security.cpp
-  - src/voice/voice_session_manager.cpp
-  - src/voice/voice_browser_streaming.cpp
-  - src/voice/voice_telephony.cpp
-  - src/voice/voice_error_handler.cpp
-- Verified controls:
-  - auth and session guard behavior
-  - streaming/telephony validation surfaces
-  - failure handling and security-related diagnostics
+For code-level controls and limits see
+[`../../include/voice/voice_auth.h`](../../include/voice/voice_auth.h),
+[`../../include/voice/voice_security.h`](../../include/voice/voice_security.h),
+[`../../include/voice/voice_audio_storage.h`](../../include/voice/voice_audio_storage.h),
+[`../../include/voice/voice_browser_streaming.h`](../../include/voice/voice_browser_streaming.h),
+and [`TRUST.md`](TRUST.md). Report vulnerabilities through the repository's
+root [`../../SECURITY.md`](../../SECURITY.md).

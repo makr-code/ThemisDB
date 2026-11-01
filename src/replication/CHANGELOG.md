@@ -10,6 +10,9 @@ The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
+### Documentation
+- #7373: Replication API, architecture, configuration, build/test, benchmark, and operations notes synchronized to current source; dated roadmap and gap snapshots retained as historical evidence.
+
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit verified benchmark symbols from replication throughput and changefeed throughput suites.

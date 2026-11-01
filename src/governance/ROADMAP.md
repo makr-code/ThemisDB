@@ -1,9 +1,25 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-30"
+Last Updated: "2026-10-31"
+Status: "review"
+Source Level: "level1"
+SOT Domain: "module-behavior"
+Canonical References: "src/governance sources and include/governance headers; tests/governance/CMakeLists.txt; benchmarks/governance/CMakeLists.txt; root ROADMAP.md"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Related: "Issue #7349"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Governance Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-10-30 -->
-<!-- Validation Cycle: 2026-10-30 Wave C status and OPA WASM planning synchronized; maintainer confirmation pending -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Last Updated: 2026-10-31 | Issue #7349 source reconciliation -->
 <!--
 AI_Used: true
 AI_Models: unknown
@@ -13,109 +29,73 @@ Human_Author: ThemisDB Contributors
 Exact model backend not verifiable from final document text alone.
 -->
 
-## Current Status
+## Current status
 
-Production governance runtime exists across policy enforcement/lifecycle, compliance controls/reporting, masking/lineage/model governance, and OPA integration surfaces.
+Governance implementation surfaces exist for policy evaluation/lifecycle,
+compliance rules/reporting, masking/lineage/model governance, audit-related
+utilities, and OPA integration. This is a source inventory, not a production
+readiness or release gate.
 
-The built-in OPA WASM path is still a permissive stub when no evaluator is injected; it is not suitable for production authorization. Replacing it is planned, but the release target remains unverified pending maintainer confirmation.
+There is no built-in OPA WASM runtime. Without an injected evaluator, explicit
+WASM mode now returns an enforced strict deny and does not fall through to REST
+or native evaluation. A real evaluator and its release target remain
+unverified pending maintainer confirmation. See
+[`TRUST.md`](TRUST.md).
 
-## In Progress
+Root [`../../ROADMAP.md`](../../ROADMAP.md) remains authoritative for aggregate
+release readiness and Wave C. No module-local status can close those project
+gates.
 
-- [~] hardening policy conflict/fallback parity across governance execution paths (Target: Q3 2026)
-- [~] benchmark stabilization for policy evaluation and query-permission hot paths (Target: Q3 2026)
-- [~] diagnostics consistency improvements for denial, conflict, and fallback incidents (Target: Q3 2026)
+## In progress / open verification
 
-## Planned Features
+- [~] Clarify conflict/fallback diagnostics and behavior across individual
+  policy surfaces; do not assume the conflict detector defines `PolicyEngine`
+  precedence.
+- [~] Expand policy-latency measurement and record reproducible baselines. The
+  current benchmark source contains cases, but no current benchmark result is
+  asserted here.
+- [ ] Revisit masking/lineage/model-governance integration boundaries and
+  continue focused regression coverage.
+- [ ] Verify persistent storage, audit/key lifecycle, and deployment integration
+  where required; module declarations alone do not establish them.
+- [~] Implement and approve a real local OPA WASM runtime. Until an evaluator is
+  injected, selected WASM mode returns an enforced strict deny and never
+  substitutes REST or native policy evaluation.
 
-### OPA WASM Evaluation
-- [?] Replace the permissive bundle-existence stub with real OPA WASM policy evaluation; define and verify fail-closed behavior before enabling production use (Target: unverified; maintainer confirmation required).
+## Implementation and evidence notes
 
-### Short-term (3-6 months)
-- [ ] tighten deterministic behavior under high-volume mixed-policy/per-tenant scenarios (Target: Q4 2026)
-- [ ] expand regressions for version rollback, inheritance, and review workflow edge cases (Target: Q4 2026)
-- [ ] improve operator-facing compliance and governance incident diagnostics (Target: Q4 2026)
+- The module CMake loop excludes operational audit/evidence and policy
+  versioning/approval until implementation/header and link dependencies are
+  resolved; their source files are not runnable-test evidence.
+- The policy-latency benchmark target is registered conditionally when
+  `THEMIS_BUILD_BENCHMARKS` is enabled. Its YAML load is best-effort; see
+  [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md).
+- `AuditBatchWriter::recordMetrics()` contains rolling percentile bookkeeping,
+  and `PolicyChangeManager::executeRollback()` delegates to
+  `PolicyManager::rollbackToVersion()`. These implementation facts do not
+  establish production-load accuracy or an end-to-end integration test pass.
 
-### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for policy and masking execution paths (Target: Q1 2027)
-- [ ] broaden benchmark depth for compliance reporting and conflict-resolution workflows (Target: Q1 2027)
-- [ ] harden long-running reliability under sustained governance evaluation load (Target: Q1 2027)
+## Known issues and limits
 
-## Implementation Phases
+- A failed OPA REST evaluation can lead to native evaluation; native fallback
+  is not the same as evaluating the external policy.
+- Explicit WASM mode requires an injected evaluator. Missing/failed evaluation
+  returns an enforced strict deny without REST or native substitution.
+- Lineage and operational audit surfaces have bounded in-process data; durable
+  audit/evidence storage is not implied.
+- Compliance report output is not independent certification.
+- Current test/benchmark registration does not establish that builds, tests, or
+  benchmarks have passed.
 
-### Phase 1: Design / API Contract
-- [x] freeze policy/compliance/masking/lineage/versioning contracts for active major line (Target: Q3 2026)
-- [x] define explicit error taxonomy for denial, conflict, and fallback classes (Target: Q3 2026)
+## Wave context
 
-### Phase 2: Core Implementation
-- [~] complete hardening for policy lifecycle and compliance execution internals (Target: Q4 2026)
-  - [x] PolicyState enum and lifecycle state machine (DRAFT→ACTIVE→DEPRECATED→RETIRED)
-  - [x] Lifecycle validation and state transition enforcement
-  - [x] Lifecycle audit logging and user tracking
-  - [~] Compliance execution hardening (in progress)
-  - [ ] Masking/lineage/model governance contract bounds enforcement
-- [ ] align masking/lineage/model governance behavior to bounded runtime contracts (Target: Q4 2026)
+Governance contributes to Wave C security-production validation in the root
+program roadmap. Governance-specific security integration evidence and
+sustained-load validation remain open; no claim is made here that the module
+alone closes Wave C.
 
-### Phase 3: Error Handling and Edge Cases
-- [~] standardize fail-closed behavior for invalid policy and unsafe access scenarios (Target: Q4 2026)
-  - [x] OPA adapter error classification (timeout/malformed/network/unknown)
-  - [x] Fail-closed defaults on OPA errors (deny-by-default)
-  - [ ] Policy engine path hardening (exhaustive deny paths)
-  - [ ] Unsafe access scenario testing
-- [~] unify diagnostics across conflict, fallback, and compliance/reporting failures (Target: Q4 2026)
-  - [x] GovernanceDiagnostic struct and DiagnosticAggregator (7300-7399 error codes)
-  - [~] Diagnostic recording for OPA errors (global aggregator integration in progress)
-  - [ ] Conflict diagnostic helpers
-  - [ ] Fallback diagnostic helpers
-  - [ ] Compliance/reporting diagnostic aggregation
+## Change policy
 
-### Phase 4: Tests
-- [x] expand focused regressions for policy versioning/inheritance/review edge scenarios (Target: Q4 2026)
-- [x] extend deterministic fixture coverage for compliance and masking permutations (Target: Q4 2026)
-
-### Phase 5: Performance and Hardening
-- [x] lock benchmark-backed release gates for governance hot paths (Target: Q4 2026)
-- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
-
-### Phase 6: Documentation and Acceptance
-- [x] core governance module docs aligned to source-verifiable behavior
-- [x] roadmap/future planning separated from historical changelog entries
-
-## Production Readiness Checklist
-
-- [x] core governance surfaces documented and source-verified
-- [x] module-level security and failure behavior documented
-- [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for conflict/fallback/versioning edge paths
-- [x] release benchmark stabilization complete
-
-## Known Issues and Limitations
-
-- runtime outcomes depend on policy set quality and operational governance configuration.
-- selected fallback/conflict edge scenarios require continued hardening.
-- benchmark breadth should keep expanding for advanced governance workflows.
-
-## Breaking Changes
-
-No breaking governance contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.
-
-## Program Execution Model — Wave Context
-
-This module is scoped to **Wave C — Security Production Validation** in the program-level wave model.
-Wave C begins only after Wave B exit criteria are met.
-See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D gate model and exit criteria.
-
-### Wave C Scope for `governance`
-- [ ] Governance: harden policy-gate completeness and integrity under concurrent and high-volume policy loads, and validate governance enforcement across all active editions (Target: Q4 2026)
-- [~] **AuditBatchWriter p95/p99 latency tracking**: Implemented rolling-window (1 000 sample) percentile computation in `audit_batch_writer.cpp::recordMetrics()` (wave4 gap-closure 2026-08-31). Monitor accuracy under production load volumes.
-- [~] **PolicyChangeManager::executeRollback()**: Wired to `PolicyManager::rollbackToVersion()` — was previously a no-op stub (wave4 gap-closure 2026-08-31). Integration test coverage needed.
-
-### Wave C Entry Gate (prerequisite from Wave B)
-- [ ] Wave B gate is closed: retrieval chain baselines stable, ACM observability gates closed, hardware baselines confirmed (Target: Q4 2026)
-
-### Wave C Exit Criteria (this module's contribution)
-- [ ] Production-style security integration evidence complete (Target: Q4 2026)
-- [ ] Integrity and reliability verified under sustained load (Target: Q4 2026)
-- [ ] Policy gates consistently block boundary/license/hash/SBOM regressions (Target: Q4 2026)
-
-### Dependencies on Later Waves
-- Wave D operability hardening depends on stable Wave C security controls.
+Record a breaking API change in the module changelog and follow the repository
+versioning policy. This roadmap does not promise that no breaking changes are
+planned.

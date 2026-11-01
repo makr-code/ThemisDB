@@ -45,6 +45,11 @@ Exact model backend not verifiable from final document text alone.
 
 - Build a runtime-backed benchmark harness for insert and query measurements;
   report actual samples and percentiles rather than fixed threshold counters.
+- Implement and test field-specific routing for `searchMultiField()` (or narrow
+  its contract), and define behavior for currently unused `index_name` and
+  `ef_search` fields before advertising them as functional configuration.
+- Close the direct-commit `addEntity()` dimension-validation gap and verify
+  finite-value handling with focused tests.
 - Validate the current distributed-index behavior, including the hash-based
   `RANGE` alias, shard balancing, and behavior after a shard failure.
 - Define a migration and recovery plan before changing persisted index formats
@@ -57,6 +62,8 @@ Exact model backend not verifiable from final document text alone.
 - Keep the flat-index stress/soak fixtures labeled as fixture-level evidence.
 - Add or identify integration coverage that exercises `VectorIndexManager`
   against RocksDB for lifecycle, search, persistence, and recovery.
+- Add tests that distinguish direct-commit, `WriteBatchWrapper`, and MVCC
+  dimension validation, and exercise field-specific routing if implemented.
 - Validate distributed work with partition, empty-shard, removal, and failure
   cases before asserting deployment readiness.
 

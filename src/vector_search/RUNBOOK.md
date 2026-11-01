@@ -1,14 +1,16 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
-Human_Author: "ThemisDB Team"
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
 ---
+
+Exact model backend not verifiable from final document text alone.
 
 # Vector Search Runbook
 
@@ -38,7 +40,10 @@ Check:
 - advanced backend settings,
 - `efSearch` and other ANN tuning values.
 
-A mismatch between query and index dimension or metric is the first condition to confirm. The code treats this as a hard failure path.
+Confirm that the query dimension matches the index. The metric is configured
+when the index is initialized; search requests do not pass an independent metric.
+For entity writes, note that the direct-commit `addEntity()` overload currently
+does not check vector length, unlike its batch and MVCC overloads.
 
 ### 2. Check the status object and logs
 
@@ -71,7 +76,12 @@ If the index is unexpectedly empty after restart or fails to load, confirm:
 
 ### 5. Check advanced backend support
 
-The implementation warns and fails when advanced index support is requested without required runtime support. If a backend was configured but the machine lacks the required dependency or compile-time support, validate the build configuration before investigating deeper index corruption.
+Advanced backend failure behavior depends on the selected backend. FAISS-based
+advanced configurations return an error when `THEMIS_GPU_ENABLED` support is
+missing. ScaNN does not require that flag. If DiskANN support is not compiled in,
+initialization warns, disables that advanced configuration, and continues on
+the standard indexing path. Check the selected backend and build configuration
+before investigating deeper index corruption.
 
 ## Recovery actions
 
@@ -97,7 +107,7 @@ If the index was saved and later fails to load:
 Escalate when:
 
 - repeated rebuilds are required on a healthy workload,
-- queries fail with dimension or metric mismatches under normal runtime conditions,
+- queries fail with dimension mismatches under normal runtime conditions,
 - the same vector ID fails repeatedly across multiple operations,
 - benchmark or stress-test regressions exceed the documented operational thresholds,
 - an unsupported advanced backend or storage drift pattern recurs across restarts.

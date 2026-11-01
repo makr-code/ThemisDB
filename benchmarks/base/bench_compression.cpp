@@ -8,10 +8,29 @@
 #include <random>
 #include <filesystem>
 #include <iostream>
+#include <system_error>
+#include <thread>
+#include <chrono>
 
 using namespace themis;
 
 namespace {
+
+bool removeCompressionBenchmarkDb(const std::filesystem::path& path,
+                                  std::error_code& error) {
+    constexpr size_t cleanup_attempts = 6;
+    for (size_t attempt = 0; attempt < cleanup_attempts; ++attempt) {
+        error.clear();
+        std::filesystem::remove_all(path, error);
+        if (!error) {
+            return true;
+        }
+        if (attempt + 1 < cleanup_attempts) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10 * (1 << attempt)));
+        }
+    }
+    return false;
+}
 
 // Generate random JSON blob of given size
 std::string generateRandomBlob(size_t size_bytes) {
@@ -46,7 +65,11 @@ public:
         
         // Setup temp DB path
         db_path_ = "./bench_compression_" + comp_type + "_" + std::to_string(static_cast<int>(state.thread_index()));
-        std::filesystem::remove_all(db_path_);
+        std::error_code cleanup_error;
+        if (!removeCompressionBenchmarkDb(db_path_, cleanup_error)) {
+            throw std::runtime_error("Failed to clear compression benchmark DB: " +
+                                     cleanup_error.message());
+        }
         
         RocksDBWrapper::Config config;
         config.db_path = db_path_;
@@ -58,7 +81,6 @@ public:
         config.enable_wal = false; // Disable WAL for cleaner measurement
         
         db_ = std::make_unique<RocksDBWrapper>(config);
-       if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         if (!db_->open()) {
             throw std::runtime_error("Failed to open RocksDB for benchmark");
         }
@@ -75,7 +97,11 @@ public:
         
         db_->close();
         db_.reset();
-        std::filesystem::remove_all(db_path_);
+        std::error_code cleanup_error;
+        if (!removeCompressionBenchmarkDb(db_path_, cleanup_error)) {
+            std::cerr << "Compression benchmark DB cleanup failed: "
+                      << cleanup_error.message() << '\n';
+        }
     }
     
 protected:

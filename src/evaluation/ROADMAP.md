@@ -1,144 +1,200 @@
 # Evaluation Module Roadmap
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-29 -->
-<!-- Issue: #5643 (Development Status 2026-07-18) -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · MODULE_EVIDENCE.md · PRODUCTION_REQUIREMENTS.md -->
+> **Update provenance (2026-10-31):** AI_Used: true; AI_Models: unknown;
+> AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB
+> Contributors. Exact model backend not verifiable from final document text alone.
+
+<!-- Source level: level1 · SOT domain: module-behavior -->
+<!-- Last Updated: 2026-10-31 · Issue: #7344 · Milestone: DOC-WEEKLY-2026-44 -->
 
 ## Current Status
 
-Issue #5643 remains open. The evaluation module is no longer a pure scaffold: the
-repository already contains runtime-owned EPIC 2 contracts and sources for
-hardware-profile evaluation, benchmark matrices, retrieval metrics, ablation,
-approximation governance, query planning, and artifact lifecycle handling.
+This is a source/CMake status review for issue #7344, not a release acceptance
+record. The module source tree contains implementations for benchmark-matrix
+handling, hardware profiles, retrieval metrics, ablation, approximation rules,
+query-path selection and artifact lifecycle metadata. CMake declares
+`themis_evaluation` for five sources, plus conditional query-planner,
+approximation and lifecycle targets. There is no `storage_strategy` header,
+source or module-library target in the `src/evaluation` inventory checked for
+this update. EPIC 2 item 2.7 is traceable to sub-issue #5443 under parent EPIC
+#5436, which defines the quantization/mmap/zero-copy assessment. The resulting
+`StorageStrategyAssessor` implementation is in
+`src/distributed_tensor/src/tensor_storage_strategy.cc`, built by
+`themis_distributed_tensor`; its focused test source is included by the
+distributed-tensor test registration. It is not an evaluation-module target.
 
-Implementation coverage is still **partial** for closure purposes because the current
-documentation and evidence do not yet prove Phase 3 through Phase 6 readiness for the
-full module surface. The strongest source-verified maturity is still centered on the
-hybrid planner path, while broader policy/error behavior, measured benchmark gates, and
-current-cycle executable evidence remain open.
+The public-path `include/evaluation/evaluation.h` currently contains no
+component declarations. Detailed paths and target ownership are in
+[ARCHITECTURE.md](./ARCHITECTURE.md) and [IMPLEMENTATION.md](./IMPLEMENTATION.md).
 
-Current evidence state for this issue:
-- focused evaluation tests are registered in `tests/epic2_evaluation/CMakeLists.txt`
-- benchmark entry points exist in `benchmarks/epic2_evaluation/`
-- the latest local validation attempt on 2026-07-29 failed at `cmake --preset community-release`
-  because RocksDB is not installed in the current environment
+### Source and execution evidence
+
+- `tests/evaluation/CMakeLists.txt` globs five local test sources into focused
+  targets when included in a configured build.
+- `tests/epic2_evaluation/CMakeLists.txt` contains additional EPIC 2 test
+  registrations guarded by library and dependency checks.
+- `benchmarks/evaluation/CMakeLists.txt` discovers a local stub-based benchmark
+  source when benchmarks are enabled. Separate EPIC 2 registrations are in
+  `benchmarks/epic2_evaluation/CMakeLists.txt`: planner decision and error-path
+  executables require `epic2_evaluation_lib`; the matrix executable requires
+  Google Benchmark and `themis_evaluation`; the storage-strategy source is
+  passed to the standard benchmark helper. `artifact_staleness_bench.cc` is not
+  registered there. Planner cases measure in-process `selectPath()` calls and
+  report latency percentiles; matrix cases include synthetic workload
+  simulations; artifact staleness exercises `ArtifactLifecycleManager` through
+  Google Benchmark without a registered target; the storage benchmark calls
+  `DefaultShardPlacementStrategy` with synthetic node inputs, not
+  `StorageStrategyAssessor`.
+- Source registrations and benchmark output capabilities do not establish that
+  targets were built, tests passed, or benchmark results were captured. No
+  build, test or benchmark was run for this documentation-only update.
+
+### Root aggregate status and evidence
+
+Root `ROADMAP.md` now links item 2.7 to sub-issue #5443 and its merged
+implementation PR #5606. The storage assessor and focused-test registration are
+owned by `distributed_tensor`; the EPIC 2 benchmark is a separate synthetic
+placement harness. The CI run attached to PR #5606 failed during configure, so
+build and test steps were skipped. No captured benchmark run/result was found.
+Consequently, neither 220+ passing tests nor completed benchmark runs are
+verified acceptance evidence. This documentation update does not close or
+reclassify issue #5643.
 
 ## In Progress
 
-- [~] EPIC 2 documentation-governance alignment across roadmap/future/audit/evidence files (Target: Q3 2026)
-- [~] phase-gate acceptance criteria definition for planner and benchmark readiness (Target: Q3 2026)
+- [ ] Record build/test/benchmark execution results only after running the
+  applicable targets in a configured environment. Keep registration separate
+  from execution evidence.
+- [x] Identify the storage-strategy implementation and focused-test registration
+  as `distributed_tensor`-owned; do not describe them as evaluation-module
+  targets.
+- [ ] Verify downstream workflow integration only against actual consumers and
+  accepted module gates.
 
 ## Planned Features
 
-### Short-term (3-6 months)
-- [x] implement phase-3 runtime error/policy behavior across retrieval metrics, approximation, artifact lifecycle, and planner downgrade surfaces (Delivered: Q4 2026)
-- [x] deliver phase-4 verification and regression suites for all shipped EPIC 2 contracts (Delivered: Wave D — `tests/evaluation/test_evaluation_highcardinality_stress.cpp`)
-- [x] establish phase-5 benchmark/hardening baselines with measurable release gates (Delivered: Wave D — `benchmarks/evaluation/bench_evaluation_dedicated_gates.cpp` EV-BM-01..04)
+No new runtime feature or delivery commitment is established by this
+documentation-only update. The following remain candidates pending ownership,
+scope and acceptance decisions:
 
-### Mid-term (6-12 months)
-- [~] complete phase-6 acceptance documentation from measured build/test/benchmark evidence (Target: Q1 2027)
-- [~] complete phase-7 default workflow integration after gates pass (Target: Q1 2027)
-- [~] wire planner decisions into downstream TensorRAG / ANN explain and routing diagnostics after module gates pass (Target: Q1 2027)
+- Confirm whether the EPIC 2 benchmark is intended to measure
+  `StorageStrategyAssessor` or the separate `DefaultShardPlacementStrategy`;
+  align its name and evidence with the intended contract.
+- Assess downstream workflow integration after verifying consumers and their
+  required contracts.
 
 ## Implementation Phases
 
-### Phase 1: Design / API Contract
-- [x] EPIC 2 contract ownership, file mapping, and scope boundaries are documented across `README.md`, `ARCHITECTURE.md`, and the `docs/EPIC2_*.md` design set
-- [~] phase-gate acceptance criteria still need one canonical checklist covering runtime error behavior, focused regressions, benchmark guardrails, and closure evidence
+The checked boxes below record documentation/source inventory work only; they
+do not mean a release gate passed.
 
-### Phase 2: Core Implementation
-- [x] runtime-owned contracts and source files exist for `hardware_profile`, `benchmark_matrix`, `retrieval_metrics`, `ablation_framework`, `approximation_rules`, `query_planner`, and `artifact_lifecycle`
-- [x] local CMake surfaces register evaluation libraries, focused tests, and benchmark entry points behind target-availability gates
-- [ ] downstream default-workflow consumers still need planner-envelope and routing-diagnostics integration
-  - **Production consumer route blocked on Phase 4–6 completion**: `query` module `QueryPlanner`/`PlannerObserver` integration is the target consumer. Implementation is pending; integration gate tracked in `src/evaluation/ARCHITECTURE.md § Direct Downstream Consumers`.
+### Phase 1
 
-### Phase 3: Error Handling & Edge Cases
-- [x] make failure semantics explicit and fail-closed across retrieval metrics, approximation, artifact lifecycle, and planner observer surfaces
-  - query_planner.cc: fail-closed Category C enforcement, FallbackReason taxonomy (30+ error handling lines)
-  - retrieval_metrics.cc: MetricErrorKind enum with 29 throw/error statements, input validation
-  - approximation_rules.cc: ApproximationZone + GovernanceDecision contract, policy version tracking
-  - artifact_lifecycle.cc: State machine with FAILED state, explicit InvalidationReason enum
-- [x] enforce hardware/profile mismatch, stale artifacts, and distributed-manifest absence as machine-readable downgrade or error outcomes across the full module contract
-  - FallbackReason enum covers all gate failures with specific codes (TensorArtifactStale, etc.)
-  - MetricError prevents silent numeric failures
-- [~] document runtime policy ownership, escalation paths, and operator-visible failure conditions in the acceptance evidence set
-  - Code audit complete; executable evidence refresh blocked by build environment (see MODULE_EVIDENCE.md justified gap)
+**Design and API contract**
 
-### Phase 4: Tests
-- [~] focused source-level tests already exist for planner, hardware profile, benchmark matrix, retrieval metrics, ablation, approximation rules, artifact lifecycle, and query-cache behavior
-- [x] refresh executable run evidence for focused targets in the current cycle (Delivered: Wave D stress coverage)
-- [~] expand regression coverage for the additional Phase 3 policy/error cases and downstream consumer integrations
+- [x] Identify component declarations under `src/evaluation/include/`.
+- [ ] Define the intended public umbrella contract for the currently empty
+  `include/evaluation/evaluation.h` and align its consumers/documentation.
 
-### Phase 5: Performance / Hardening
-- [~] benchmark sources already exist for planner decision, benchmark matrix, artifact staleness, and storage-strategy follow-up measurement ✅
-- [~] define explicit guardrails and capture measured baselines for latency, fallback rate, and degradation behavior ✅ (guardrails DEFINED in PERFORMANCE_EXPECTATIONS.md; measured baselines blocked by vcpkg)
-- [~] record reproducibility assumptions (hardware profile class, shard/manifests, fallback amplification) before promoting the module into default workflows ✅ (documented in benchmarks/epic2_evaluation/README.md)
+### Phase 2
 
-### Phase 6: Documentation & Acceptance
-- [x] publish acceptance evidence strategy with explicit justified blocker record (2026-08-18)
-- [x] create PHASE_6_ACCEPTANCE_CHECKLIST.md documenting all acceptance criteria (2026-08-18)
-- [x] create PHASE_6_ACCEPTANCE_SIGN_OFF.md with maintainer/reviewer/release-manager sign-off workflow (2026-08-18)
-- [~] keep `AUDIT.md`, `MODULE_EVIDENCE.md`, and `PRODUCTION_REQUIREMENTS.md` synchronized with measured results and unresolved gaps
-  - ✅ AUDIT.md findings documented with evidence location (EVAL-AUD-01/02/03 with JUSTIFIED_GAP.md references)
-  - ✅ PRODUCTION_REQUIREMENTS.md synchronized with Phase 3 implementation
-  - ✅ MODULE_EVIDENCE.md contains Phase 3 code audit results and blocker justification
-  - ⏸️ Awaiting Phase 4-6 executable evidence once build environment available
-- [ ] close issue #5643 only after:
-  - [x] Parent EPIC 2 traceability verified
-  - [x] Phase 3 code audit complete and documented
-  - ⏸️ Phase 4 test evidence captured (blocked by vcpkg; closure path documented)
-  - ⏸️ Phase 5 benchmark evidence captured (blocked by vcpkg; closure path documented)
-- [ ] All acceptance criteria met and sign-off completed (PHASE_6_ACCEPTANCE_SIGN_OFF.md)
+**Core implementation**
 
-### Phase 7: Default Workflow Integration
-- [ ] enable downstream retrieval workflow integration only after Phases 3-6 are green and benchmark-backed
+- [x] Inventory the seven implementation files and their CMake target ownership.
+- [x] Identify the separate storage-assessor interface, implementation, library
+  target and focused-test registration under `distributed_tensor`.
+
+### Phase 3
+
+**Errors and edge cases**
+
+- [x] Confirm source representations for typed metric errors, planner fallback
+  reasons, approximation decisions and lifecycle states.
+- [ ] Complete any required correctness/security review; this documentation
+  inventory is not an exhaustive audit.
+
+### Phase 4
+
+**Tests**
+
+- [x] Distinguish local focused-test registrations from conditional EPIC 2
+  registrations.
+- [ ] Establish current build and test execution results in a configured
+  environment.
+
+### Phase 5
+
+**Performance**
+
+- [x] Distinguish registered planner/matrix/storage targets, the unregistered
+  artifact-staleness source, synthetic simulation cases and source-level output
+  capability.
+- [ ] Capture measured results from applicable implementation benchmarks and
+  retain the run environment; do not treat stub or synthetic simulation output
+  as production-path evidence.
+
+### Phase 6
+
+**Documentation and acceptance**
+
+- [x] Synchronize the scoped module documentation for issue #7344 while
+  preserving dated acceptance and sign-off records as historical.
+- [x] Align the root maturity summary with the cross-module source and CMake
+  ownership.
+- [ ] Obtain current human-reviewed build, test and benchmark acceptance
+  evidence before asserting module readiness.
 
 ## Production Readiness Checklist
 
-- [x] contract ownership and scope boundaries are documented
-- [x] focused test and benchmark registration surfaces are present in source
-- [x] phase-gate acceptance criteria are documented in PRODUCTION_REQUIREMENTS.md and ROADMAP.md
-- [x] runtime policy/error behavior CODE AUDIT VERIFIED complete (Phase 3 implementation verified 2026-08-08)
-  - See AUDIT.md for detailed code-level verification of fail-closed behavior, error handling, and downgrade paths
-- [~] executable build/test evidence is refreshed for the current validation cycle
-  - Benchmark sources complete with p50/p95/p99 measurements (Phase 5 harness updated 2026-08-18)
-  - Blocked by build environment (vcpkg checkout missing/uninitialized — `vcpkg/scripts/buildsystems/vcpkg.cmake` not present); see justified gap in MODULE_EVIDENCE.md
-- [~] benchmark guardrails are captured from measured runs
-  - **[Phase 5 ✅]** Guardrail definitions complete and documented in PERFORMANCE_EXPECTATIONS.md (6 categories: planner latency, fallback rate, matrix throughput, staleness overhead, storage strategy, error paths)
-  - **[Phase 5 ✅]** Measurement methodology documented in benchmarks/epic2_evaluation/README.md with reproducibility requirements and baseline capture procedure
-  - Measured baseline evidence blocked by vcpkg/RocksDB environment; see justified gap in MODULE_EVIDENCE.md
-- [x] default workflow integration remains disabled until Phases 3-6 pass
+- [x] Resolve the root roadmap versus module-source ownership discrepancy.
+- [ ] Establish current aggregate test and benchmark execution evidence.
+- [ ] Establish current build and focused-test results in an available,
+  configured environment.
+- [ ] Capture and review benchmark results with hardware/build context; do not
+  use stub or synthetic simulation results as module baselines.
+- [x] Confirm item 2.7 traceability and cross-module implementation ownership
+  through EPIC #5436, sub-issue #5443 and merged PR #5606.
+- [ ] Verify downstream integration and acceptance gates before describing
+  production readiness.
 
 ## Known Issues & Limitations
 
-- Current local validation is blocked in this environment because `cmake --preset community-release` fails without RocksDB (`librocksdb-dev` or vcpkg `rocksdb`).
-- Focused test and benchmark source files exist, but current-cycle executable evidence is still missing for issue #5643.
-- Learned or cost-model-based planning remains out of scope; current routing is policy-driven and must stay explainable.
-- Downstream TensorRAG / ANN decision-envelope integration is intentionally deferred until module hardening gates pass.
+- Root `ROADMAP.md` now distinguishes cross-module implementation presence from
+  aggregate EPIC 2 acceptance; current execution evidence is still missing.
+- `include/evaluation/evaluation.h` is an empty umbrella, while component
+  declarations are under `src/evaluation/include/`.
+- `StorageStrategyAssessor` is owned by `distributed_tensor`, not this module.
+  The separately registered EPIC 2 benchmark calls
+  `DefaultShardPlacementStrategy` with synthetic nodes and does not establish
+  measured `StorageStrategyAssessor` performance.
+- Conditional CMake registrations do not prove execution. The local evaluation
+  benchmark uses stubs; the EPIC 2 matrix simulations are synthetic, and
+  artifact-staleness benchmark source is not registered.
 
 ## Breaking Changes
 
-- none
+This documentation-only update changes no API or runtime behavior and
+introduces no breaking change. Any future contract or source change must be
+assessed separately and recorded in the module changelog.
 
-## Program Execution Model — Wave Context
+## Historical status records
 
-This module is a **contributing module** in the program-level Wave A → B → C → D execution model.
-It does not own a primary wave deliverable but must remain `release_critical`-green throughout all waves
-and must deliver Wave D operability improvements in Q1 2027.
-See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
+`MODULE_EVIDENCE.md`, `JUSTIFIED_GAP.md`, the Phase 4-6 checklists and the
+Phase 6 sign-off template contain dated records associated with issue #5643.
+Their recorded dates, blockers, phase marks and sign-off text are preserved as
+historical material. They are not updated by this source audit and must not be
+read as current build results or current issue state.
 
-### Wave D Contribution for `evaluation`
-- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Delivered: 2026-09-16 — `tests/evaluation/test_evaluation_highcardinality_stress.cpp`, EV-BM-01..04 benchmark gates)
-- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Delivered: 2026-09-16 — `tests/integration/test_evaluation_framework_soak.cpp`)
-- [x] Ensure runbook coverage for operator-critical scenarios in this module (Delivered: 2026-09-16 — `docs/operability/RUNBOOK_EVALUATION_FRAMEWORK.md`)
+## References
 
-### Cross-Wave Requirements
-- `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
-- p95/p99 benchmarks must be refreshed on representative hardware before Wave D sign-off (Target: Q1 2027)
-- No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
-
-### Program-Level Success Criteria (contribution)
-- [x] This module's distributed/acceleration paths fail closed (Delivered: Wave D 2026-09-16)
-- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Delivered: EV-BM-01..04 in `benchmarks/evaluation/bench_evaluation_dedicated_gates.cpp`)
-- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Delivered: `docs/operability/RUNBOOK_EVALUATION_FRAMEWORK.md`)
+- [Module overview](./README.md)
+- [Architecture and source map](./ARCHITECTURE.md)
+- [Implementation and CMake mapping](./IMPLEMENTATION.md)
+- [Build/test/benchmark evidence](./MODULE_EVIDENCE.md)
+- [Performance expectations](./PERFORMANCE_EXPECTATIONS.md)
+- `ROADMAP.md` (root maturity aggregate; reconciliation required)
+- `src/evaluation/CMakeLists.txt`
+- `tests/evaluation/CMakeLists.txt`
+- `tests/epic2_evaluation/CMakeLists.txt`
+- `benchmarks/evaluation/CMakeLists.txt`
+- `benchmarks/epic2_evaluation/CMakeLists.txt`

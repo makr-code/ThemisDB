@@ -1,4 +1,21 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+---
+Author: "ThemisDB Team"
+Created: "2026-05-13"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+>
+> This preset disables tests and benchmarks. Configure with `THEMIS_BUILD_TESTS=ON`
+> to build and run the test targets described below.
 
 # Projects Module - Public Header Documentation
 
@@ -20,7 +37,8 @@ collaboration change feeds, metrics, and audit/bundle interfaces.
 | `project_metrics.h` | `ProjectMetrics` | Thread-safe Prometheus counters for change + diff activity |
 | `project_audit_log.h` | `IProjectAuditLog`, `ProjectAuditEntry`, `AuditQueryOptions` | Append-only audit interface for project actions |
 | `in_memory_project_audit_log.h` | `InMemoryProjectAuditLog` | Bounded in-memory `IProjectAuditLog` implementation |
-| `project_bundle.h` | `IProjectBundleManager`, `BundleExportOptions` | Import/export interface contract |
+| `project_bundle.h` | `IProjectBundleManager`, `BundleExportOptions` | Interface declaration only; no concrete bundle implementation is included in this module |
+| `projects_api_contract.h` | `ProjError` | Error enum values 7700–7703; comments mention membership and audit methods not declared by the current public API |
 
 Related dependency contract:
 
@@ -37,10 +55,11 @@ Related dependency contract:
 
 ### Bundle export/import (`project_bundle.h`)
 
-- `BundleExportOptions::include_data` / `include_schema` / `include_indexes`
-- `BundleExportOptions::include_permissions` (default: `false`)
-- `BundleExportOptions::compression_level` (default: `"fast"`)
-- `BundleExportOptions::encryption_key` (caller-managed)
+- `BundleExportOptions` declares `include_data`, `include_schema`, and
+  `include_indexes` (default: `true`), `include_permissions` (default:
+  `false`), `compression_level` (default: `"fast"`), and `encryption_key`.
+- These fields are interface declarations; this module does not implement
+  ZIP import/export, encryption, or compression.
 
 ### Audit queries (`project_audit_log.h`)
 
@@ -54,19 +73,17 @@ Related dependency contract:
 
 - Allowed transitions: `CREATED -> ACTIVE`, `ACTIVE -> ARCHIVED`, `ACTIVE -> DELETED`, `ARCHIVED -> ACTIVE`, `ARCHIVED -> DELETED`
 - `DELETED` is terminal
-- Typical failures:
-  - `project_id must not be empty`
-  - `Project lifecycle not found`
-  - `Invalid transition from <state> to <state>`
+- Typical failures include prefixed status messages for an empty project ID,
+  an unknown lifecycle, and a disallowed state transition (for example
+  `applyTransition: invalid transition from ...`).
 
 ### Versioning (`ProjectVersioning`)
 
 - Snapshot IDs are prefixed as `snap:<uuid>`
-- `restoreSnapshot()` verifies SHA-256 before writing
-- Typical failures:
-  - `Snapshot not found`
-  - `Snapshot content missing`
-  - `Snapshot checksum mismatch — data may be corrupt`
+- snapshots contain document metadata, not document blobs; `restoreSnapshot()`
+  verifies SHA-256 before writing
+- Typical failures include `restoreSnapshot: snapshot not found: <id>`,
+  missing snapshot content, and checksum mismatch errors.
 
 ### Diff/Merge (`ProjectDiff`, `ProjectMerge`)
 
@@ -76,10 +93,14 @@ Related dependency contract:
 
 ### Collaboration (`CollaborationManager`)
 
-- `shareProject()` rejects empty `project_id`/`user.id`
+- `shareProject()` rejects invalid project/user identifiers
 - `lockObject()` rejects empty locker IDs and concurrent lock collisions
 - `unlockObject()` requires lock ownership
-- In-memory change feed is bounded to the latest **10,000** events per instance
+- callbacks registered by `subscribe()` run synchronously during
+  `notifyChange()`; slow callbacks delay later notifications
+- in-memory change feed is bounded to the latest **10,000** events per instance
+- sharing/locking do not provide general authentication or enforce application
+  authorization outside these operations
 
 ### Audit log implementation (`InMemoryProjectAuditLog`)
 
@@ -130,18 +151,22 @@ cm.subscribe([](const Change& c) {
 
 ## Installation
 
-This module is part of ThemisDB and is built with the default project build:
+This module is built as part of ThemisDB. The `linux-release` preset disables
+tests and benchmarks. With a build directory configured using
+`THEMIS_BUILD_TESTS=ON`, run the module tests with:
 
 ```bash
-cmake --preset release
-cmake --build build/release
+ctest --test-dir <build-dir> -L projects --output-on-failure
 ```
+
+The root CMake configuration registers `ProjectsModuleTests` and focused tests
+from `tests/projects/`; see those CMake files for target details.
 
 ## Troubleshooting
 
 | Symptom | Likely cause | Action |
 |---|---|---|
-| `permission_denied: user id must not be empty` | One or more `User` entries have empty `id` | Validate request payload before `shareProject()` |
+| `shareProject: user id must not be empty` | One or more `User` entries have empty `id` | Validate request payload before `shareProject()` |
 | `Invalid transition ...` | Illegal lifecycle edge (for example `CREATED -> ARCHIVED`) | Call `activate()` before `archive()` |
 | `Snapshot checksum mismatch` | Snapshot content changed/corrupt | Recreate snapshot and verify storage integrity |
 | Missing older collaboration events | In-memory feed exceeded 10,000 entries | Consume feed continuously or persist externally |
@@ -157,7 +182,3 @@ cmake --build build/release
 - Primary source maps: [`../../docs/en/projects/PRIMARY_SOURCES.md`](../../docs/en/projects/PRIMARY_SOURCES.md), [`../../docs/de/projects/PRIMARY_SOURCES.md`](../../docs/de/projects/PRIMARY_SOURCES.md)
 
 ---
-
-**Last Updated:** 2026-05-13
-**Status:** Maintained
-**Maintainer:** ThemisDB Team

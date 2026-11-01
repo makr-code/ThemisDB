@@ -1,14 +1,16 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot; OpenAI ChatGPT/themisdb-doc-orchestrator"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
+
+> Exact model backend not verifiable from final document text alone.
 
 # Evaluation Trust Model
 
@@ -21,6 +23,11 @@ metrics or decisions. They do not authenticate callers, enforce database
 authorization, fetch secrets, establish ground truth, or prove that a retrieved
 answer is factually correct. The host service remains responsible for access
 control, sensitive-data handling, and safe exposure of results.
+
+These are component-level contracts, not proof that a downstream consumer uses
+or enforces them. The public-path `include/evaluation/evaluation.h` currently
+includes no component headers; the declarations are under
+`src/evaluation/include/`.
 
 Treat ranked IDs, relevance labels, benchmark values, artifact metadata,
 hardware signals, shard-manifest availability, and configuration as
@@ -37,10 +44,10 @@ prove that supplied labels or metadata are honest or representative.
   retrieval succeeded.
 - Tensor summaries are advisory. A truth-bearing answer must retain exact graph
   validation or the specified exact-on-demand path.
-- Category C work (policy/ACL, provenance, and transactions) is exact and CPU
-  only under the documented planner and approximation contracts. Unsafe
-  approximation requests are denied or escalated rather than silently
-  permitted.
+- The approximation contract describes exactness requirements for Category C
+  work and the planner's GPU eligibility rules disallow Category C GPU
+  execution. This does not establish that an external consumer applies the
+  checks; callers must preserve and enforce the decision.
 - The benchmark matrix stores supplied result values; it does not authenticate
   measurement provenance or establish that a run was reproducible.
 
@@ -67,6 +74,7 @@ the test and benchmark evidence before restoring the route.
 ## References
 
 - [Security posture](./SECURITY.md)
+- [Current roadmap/evidence gap](./ROADMAP.md)
 - [API contracts](./API.md)
 - [Runbook](./RUNBOOK.md)
 - [Production requirements](./PRODUCTION_REQUIREMENTS.md)

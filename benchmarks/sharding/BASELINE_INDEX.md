@@ -1,4 +1,30 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-08-17
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - benchmarks/sharding/bench_sharding_release_gates.cpp
+  - benchmarks/sharding/CMakeLists.txt
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Wave A Sharding Benchmarks — Baseline Index
+
+> **Historical snapshot:** The figures and completion statements below refer to a run dated
+> 2026-08-17, not a current run. The report's hardware/build details and gate results have not been
+> revalidated here. Current benchmark sources and build registration are documented in
+> [`README.md`](README.md). **TODO:** recapture measurements from the current benchmark targets
+> before using these figures for release decisions.
 
 ## 📌 Quick Links
 
@@ -96,14 +122,24 @@
 
 ### For PR Reviews
 1. Link to `README_BASELINE.md` in the PR description
-2. Reference specific gate results: "SRG-01 passes with 312x margin"
-3. Point to `WAVE_A_BASELINE_METRICS.json` for programmatic checks
+2. Refer to the dated report as a historical result, e.g. “the 2026-08-17 snapshot recorded SRG-01 at 0.067 µs mean”; do not present it as a current gate result
+3. Use `WAVE_A_BASELINE_METRICS.json` only with a consumer that understands its schema
 
-### For CI/CD Integration
-1. Load `WAVE_A_BASELINE_METRICS.json` in your regression detection pipeline
-2. Extract baseline thresholds from `benchmarks[].threshold_us`
-3. Flag as gate failure if: `(current - baseline) / baseline > 0.20`
-4. Log historical results in time-series database
+### Historical CI/CD proposal — not a current sharding regression gate
+
+The `threshold_us` values in `WAVE_A_BASELINE_METRICS.json` are per-case absolute limits; they are
+not the baseline values in a relative-regression calculation. The `>20%` rule below is retained as
+a 2026-08 proposal, not as an enforced sharding policy.
+
+The generic `benchmarks/performance_regression_detector.py` has configurable 5%/10%/20% severity
+defaults, but this audit found no sharding integration invoking it. Its input expects `benchmarks`
+to be keyed by benchmark name with `real_time`/`cpu_time` (or throughput) fields; the historical
+sharding metrics file stores a list of records with fields such as `mean_us`. An adapter and an
+explicit CI invocation would be needed before applying that detector to this file.
+
+`benchmarks/CMakeLists.txt` conditionally registers the sharding release-gate executable as a
+CTest benchmark (including a `release_critical` registration). That is execution registration, not
+evidence of baseline comparison or enforcement of the historical 20% rule.
 
 ### For Documentation
 1. Link from `PERFORMANCE_EXPECTATIONS.md` to `README_BASELINE.md`
@@ -117,15 +153,11 @@
 
 ---
 
-## 🔧 Integration Checklist
+## 🔧 Historical Integration Checklist (2026-08-17; revalidation required)
 
-- [ ] **CI/CD Registration:** Create workflow to run benchmarks on PRs
-- [ ] **Regression Detection:** Implement >20% change detection
-- [ ] **Documentation Links:** Update PERFORMANCE_EXPECTATIONS.md
-- [ ] **ROADMAP Update:** Mark line 175 as COMPLETE
-- [ ] **Historical Tracking:** Set up quarterly baseline runs
-- [ ] **Alert Thresholds:** Configure gate alerts in CI system
-- [ ] **Access Control:** Ensure team has read access to baseline files
+- [ ] Confirm a current CI workflow executes the conditionally registered sharding benchmark target and retains its output.
+- [ ] Decide whether to implement a sharding-specific baseline comparator; do not treat the historical `>20%` proposal as an active gate.
+- [ ] Reconcile baseline/roadmap links and refresh measurements before using this snapshot for release decisions.
 
 ---
 
@@ -155,10 +187,10 @@
 
 ## 🚀 Next Phase Roadmap
 
-### Phase 1: CI/CD Integration (Immediate)
-- [ ] Register benchmarks in `release_critical` gate
-- [ ] Implement regression detection (>20% threshold)
-- [ ] Capture historical baseline data
+### Phase 1: Baseline comparison follow-up (proposal recorded 2026-08-17)
+- [ ] Confirm a current CI workflow executes the conditionally registered sharding release-gate benchmark.
+- [ ] If relative regression detection is required, define a sharding-specific adapter and policy; the historical 20% proposal is not enforced by the current sharding CMake registration.
+- [ ] Capture a new baseline from the current source/build configuration; retain the 2026-08-17 results unchanged as historical evidence.
 
 ### Phase 2: Extended Coverage (Q4 2026)
 - [ ] Network-aware 2PC benchmarks (with RPC latency)

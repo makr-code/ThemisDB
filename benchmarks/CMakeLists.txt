@@ -1056,7 +1056,7 @@ endif()
 # RAG Ethics Benchmarks
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_ethics.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/bench_rag_ethics.cpp")
     message(STATUS "Adding RAG Ethics benchmarks")
     
     add_executable(bench_rag_ethics
@@ -1082,7 +1082,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_ethics.cpp")
         COMPONENT benchmarks
     )
 else()
-    message(STATUS "RAG Ethics benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_ethics.cpp")
+    message(STATUS "RAG Ethics benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/rag/bench_rag_ethics.cpp")
 endif()
 
 # ============================================================================
@@ -1169,7 +1169,7 @@ endif()
 # RAG Hybrid Retriever Benchmarks (Phase 3: BM25 + vector, configurable RRF)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_hybrid_retriever.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/bench_rag_hybrid_retriever.cpp")
     message(STATUS "Adding RAG Hybrid Retriever benchmarks")
 
     add_executable(bench_rag_hybrid_retriever
@@ -1210,7 +1210,7 @@ endif()
 # RAG Evaluation Benchmarks (recall@K, latency per mode, distributed, security)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_evaluation.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/bench_rag_evaluation.cpp")
     message(STATUS "Adding RAG Evaluation benchmarks")
 
     add_executable(bench_rag_evaluation
@@ -1245,7 +1245,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_evaluation.cpp")
 
     message(STATUS "  RAG Evaluation: recall@K, FAST/BALANCED/THOROUGH latency, distributed, injection scan")
 else()
-    message(STATUS "RAG Evaluation benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_evaluation.cpp")
+    message(STATUS "RAG Evaluation benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/rag/bench_rag_evaluation.cpp")
 endif()
 
 # ============================================================================
@@ -5940,7 +5940,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_changefeed_throughput
       TARGET bench_changefeed_throughput
       MODULE "base"
-      TIMEOUT 120
+      TIMEOUT 240
     )
   endif()
   if(TARGET bench_chaos_microbenchmarks)
@@ -7357,6 +7357,14 @@ if(THEMIS_BUILD_BENCHMARKS)
       TIMEOUT 120
     )
   endif()
+  if(TARGET bench_lora_data_paths)
+    themis_register_benchmark_ctest(
+      NAME   bench_lora_data_paths
+      TARGET bench_lora_data_paths
+      MODULE "lora_data_paths"
+      TIMEOUT 120
+    )
+  endif()
   # Module: lossy_vs (1)
   if(TARGET bench_lossy_vs_lossless)
     themis_register_benchmark_ctest(
@@ -7828,7 +7836,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_query
       TARGET bench_query
       MODULE "query"
-      TIMEOUT 120
+      TIMEOUT 240
     EXTRA_LABELS release_critical
     )
   endif()

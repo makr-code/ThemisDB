@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "dataset_id": "multihop_qa_500_v1",
+  "domain": "multi_hop_qa",
+  "data_kind": "synthetic_smoke_fixture",
+  "provenance": "Project-authored synthetic examples; no external corpus or licensed dataset is included.",
+  "limitations": "Four records only. The relevant-document sets exercise multi-document lookup but are not representative evidence for multi-hop reasoning quality or the named 500-query target.",
+  "query_language": "en",
+  "corpus_language": "en",
+  "records": [
+    {
+      "id": "multi-smoke-001",
+      "query": "Which organization created the standard that classifies Pluto, and in what year was the definition adopted?",
+      "documents": [
+        {"id": "multi-doc-iau", "text": "The International Astronomical Union (IAU) is the organization that defines the categories of planets and dwarf planets."},
+        {"id": "multi-doc-year", "text": "The IAU adopted its formal definition of a planet in 2006."},
+        {"id": "multi-doc-mars", "text": "Mars is a terrestrial planet."}
+      ],
+      "relevant_document_ids": ["multi-doc-iau", "multi-doc-year"]
+    },
+    {
+      "id": "multi-smoke-002",
+      "query": "A source says a liquid freezes at zero degrees Celsius; what is the liquid and at what pressure is the statement conditioned?",
+      "documents": [
+        {"id": "multi-doc-water", "text": "Pure water freezes at 0 degrees Celsius under standard atmospheric pressure."},
+        {"id": "multi-doc-pressure", "text": "The stated freezing point of pure water assumes standard atmospheric pressure."},
+        {"id": "multi-doc-ice", "text": "Ice is the solid state of water."}
+      ],
+      "relevant_document_ids": ["multi-doc-water", "multi-doc-pressure"]
+    },
+    {
+      "id": "multi-smoke-003",
+      "query": "Which language introduced the term algorithm, and which scholar's name is its source?",
+      "documents": [
+        {"id": "multi-doc-term", "text": "The word algorithm entered European languages through Medieval Latin and Old French forms."},
+        {"id": "multi-doc-scholar", "text": "The term algorithm derives from the Latinized name of the Persian mathematician al-Khwarizmi."},
+        {"id": "multi-doc-math", "text": "An algorithm is a finite sequence of well-defined steps."}
+      ],
+      "relevant_document_ids": ["multi-doc-term", "multi-doc-scholar"]
+    },
+    {
+      "id": "multi-smoke-004",
+      "query": "Which instrument measures air pressure, and what unit is commonly used for weather reports?",
+      "documents": [
+        {"id": "multi-doc-barometer", "text": "A barometer is an instrument used to measure atmospheric pressure."},
+        {"id": "multi-doc-hectopascal", "text": "Weather reports commonly express atmospheric pressure in hectopascals (hPa)."},
+        {"id": "multi-doc-thermometer", "text": "A thermometer measures temperature."}
+      ],
+      "relevant_document_ids": ["multi-doc-barometer", "multi-doc-hectopascal"]
+    }
+  ]
+}

@@ -1,16 +1,16 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "unknown"
-Human_Review: true
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
-Exact model backend not verifiable from final document text alone.
+> Exact model backend not verifiable from final document text alone.
 
 # Tensor Module API Contract
 
@@ -35,6 +35,8 @@ Contract notes:
 - route decisions are `TENSOR_TRAIN`, `HYBRID`, or `HNSW`
 - null returns are valid when no index is found or the route is unsupported
 - configuration and cleanup semantics are explicit; no silent fallback is expected for malformed state
+- **Implementation caveat:** `routeFor()` computes a route separately; current `createIndex()` constructs a `FlatTensorIndex` without consulting that route. This differs from the header comment describing `nullptr` for an HNSW route and remains an unresolved source/API contract discrepancy.
+- `ggmlCorePtrs()` is deprecated; use the owning `mapCores()` API. The legacy function caches a bridge internally so its returned pointers remain valid across index mutations.
 
 ### `TensorFingerprintGraph`
 
@@ -84,14 +86,15 @@ Contract notes:
 
 - bridge lifetime must be kept alive as long as mapped slices are used
 - memory resets and munmap behavior are part of the object contract
+- the manager's `mapCores()` path currently builds from an in-memory TT train; the bridge uses anonymous mapping plus a copy unless an SST mapper is injected. `buildFromFd()` separately supports a file-backed `MAP_SHARED` path where available.
 
 ## Error and edge-case contract
 
 The module strongly prefers explicit failure to silent recovery. In API terms that means:
 
-- empty or malformed TT cores fail fast
-- invalid similarity math does not produce implicit results
-- missing index or adapter is signaled as an empty or false response
+- `addAdapter()` returns `false` for empty or malformed TT cores.
+- invalid exact-similarity math is rejected/skipped with diagnostics on the relevant `findSimilar()` paths; empty fingerprint input and `k == 0` return empty results directly.
+- missing index or adapter is represented by `nullptr`, `false`, or an empty result according to the called API.
 - data persistence and cleanup must remain paired
 
 This is the public behavior contract for the tensor module, and it is the contract that callers should rely on when integrating with higher-level retrieval flows.

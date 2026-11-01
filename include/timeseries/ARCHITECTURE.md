@@ -1,97 +1,64 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/timeseries/ARCHITECTURE.md -->
-
-# Timeseries Module — Public Header Architecture
-
-**Module Path:** `include/timeseries/`
-**Implementation:** `../../src/timeseries/`
-**Canonical architecture doc:** [`../../src/timeseries/ARCHITECTURE.md`](../../src/timeseries/ARCHITECTURE.md)
-
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "api-contract"
+Canonical_References: "include/timeseries/; src/timeseries/; tests/timeseries/CMakeLists.txt"
 ---
 
-## 1. Overview
+> Exact model backend not verifiable from final document text alone.
 
-`include/timeseries/` defines the **public time-series ingestion, storage, query, and management API contract** for ThemisDB. The 22 headers cover hypertable management, Gorilla/SIMD compression, downsampling, gap-fill, continuous aggregation, anomaly detection, adaptive flushing, encrypted chunk storage, Prometheus remote-write, streaming cursors, and query optimisation.
+# Timeseries public-header architecture
 
-For runtime composition — chunk lifecycle, compaction, WAL integration, and scheduler internals — see:
-→ [`../../src/timeseries/ARCHITECTURE.md`](../../src/timeseries/ARCHITECTURE.md)
+`include/timeseries/` declares the module's public C++ interfaces. The
+implementation is under [`../../src/timeseries/`](../../src/timeseries/);
+module-focused tests are under [`../../tests/timeseries/`](../../tests/timeseries/).
+Use the declarations and implementation for actual behavior rather than
+inferring it from a header's filename or from this inventory.
 
----
+## Header groups
 
-## 2. Header Groups
+| Group | Headers |
+|---|---|
+| Store and partitioning | `timeseries.h`, `tsstore.h`, `hypertable.h` |
+| Buffer and flush | `ts_auto_buffer.h`, `ts_auto_buffer_adaptive.h`, `adaptive_flush_controller.h` |
+| Compression | `gorilla.h`, `gorilla_simd.h`, `compression_selector.h` |
+| Query and derived data | `aggregates.h`, `aggregate_scheduler.h`, `continuous_agg.h`, `downsampling.h`, `gap_fill.h`, `query_optimizer.h`, `ts_stream_cursor.h` |
+| Retention and encryption | `retention.h`, `encrypted_chunk_store.h`, `ts_encrypted_key_rotation.h` |
+| Integration and diagnostics | `prometheus_remote_write.h`, `timeseries_metrics.h`, `timeseries_api_contract.h`, `timeseries_incident_taxonomy.h`, `ts_edge_case_handler.h`, `ts_operator_diagnostics.h` |
+| Anomaly detection | `anomaly_detection.h` |
 
-### 2.1 Core Hypertable and Storage
+The inventory contains 26 headers at the time of this review. A header's
+presence does not establish that its API is used by every runtime path.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `hypertable.h` | `Hypertable` | Time-partitioned hypertable definition and chunk management |
-| `timeseries.h` | `TimeseriesStore` | Top-level time-series store entry point |
-| `tsstore.h` | `TSStore` | Low-level time-series chunk storage backend |
-| `ts_auto_buffer.h` / `ts_auto_buffer_adaptive.h` | `TSAutoBuffer`, `TSAutoBufferAdaptive` | Write-buffer with fixed and adaptive sizing |
+## Contract boundaries
 
-### 2.2 Compression
+- `TSStore` owns the timeseries point and query contracts. It accepts a
+  non-owned RocksDB `TransactionDB`; see `tsstore.h` for storage formats,
+  timestamp rules, and error results.
+- `putDataPoint()` is an individual write unless an auto-buffer is attached and
+  accepts the point. Gorilla batch encoding is used by batch methods when
+  configured.
+- The auto-buffer holds a non-owning pointer to `TSStore`; callers must order
+  object lifetimes and stop background work before destroying dependencies.
+- `timeseries.h` declares a separate, simpler `TimeSeriesStore` interface.
+  Do not treat it as an alias for `TSStore`.
+- The remote-write header parses request payloads; it does not define an HTTP
+  endpoint or network security policy.
+- Thread-safety and ownership are component-specific and are documented in
+  the individual headers. This directory does not promise module-wide
+  thread-safety or API stability.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `gorilla.h` | `GorillaEncoder` / `GorillaDecoder` | Facebook Gorilla XOR floating-point compression |
-| `gorilla_simd.h` | `GorillaSIMDEncoder` | SIMD-accelerated Gorilla encoding |
-| `compression_selector.h` | `CompressionSelector` | Adaptive compression codec selection |
+## Related documentation
 
-### 2.3 Query and Aggregation
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `aggregates.h` | `TimeseriesAggregates` | Built-in time-bucket aggregation functions |
-| `continuous_agg.h` | `ContinuousAggregate` | Background-refreshed continuous aggregation |
-| `aggregate_scheduler.h` | `AggregateScheduler` | Continuous-aggregate refresh scheduling |
-| `query_optimizer.h` | `TSQueryOptimizer` | Time-series query plan optimisation |
-| `gap_fill.h` | `GapFill` | Missing-value interpolation and gap-fill |
-
-### 2.4 Downsampling and Retention
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `downsampling.h` | `DownsamplingPolicy` | Resolution-reduction rules for aged data |
-| `retention.h` | `RetentionPolicy` | Age-based chunk deletion policy |
-
-### 2.5 Anomaly Detection and Metrics
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `anomaly_detection.h` | `TSAnomalyDetector` | Real-time anomaly detection on ingested series |
-| `timeseries_metrics.h` | `TimeseriesMetrics` | Prometheus-compatible metrics emission |
-
-### 2.6 Streaming and Encryption
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `ts_stream_cursor.h` | `TSStreamCursor` | Low-latency streaming cursor over live and historical data |
-| `encrypted_chunk_store.h` | `EncryptedChunkStore` | AES-GCM encrypted chunk storage backend |
-| `ts_encrypted_key_rotation.h` | `TSEncryptedKeyRotation` | Live key rotation for encrypted chunk stores |
-
-### 2.7 External Integration
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `prometheus_remote_write.h` | `PrometheusRemoteWrite` | Prometheus Remote Write ingest endpoint |
-| `adaptive_flush_controller.h` | `AdaptiveFlushController` | Back-pressure-aware flush rate controller |
-
----
-
-## 3. Namespace Layout
-
-| Namespace | Scope |
-|-----------|-------|
-| `themis::timeseries` | All hypertable, storage, query, and compression types |
-
----
-
-## 4. Public Contract Notes
-
-- `hypertable.h` and `timeseries.h` form the primary ingestion and query entry points; callers must not assume internal chunk layout.
-- Compression headers expose codec selection and encode/decode contracts; codec internals are opaque.
-- Continuous-aggregate and scheduler headers define refresh-semantics contracts; lag and staleness bounds are configurable.
-- Encrypted-chunk and key-rotation headers define stable contracts for at-rest encryption; key management integrates with `include/security/`.
-- Prometheus remote-write header provides a stable ingestion contract compatible with the standard remote-write specification.
+- [Public API overview](README.md)
+- [Canonical implementation architecture](../../src/timeseries/ARCHITECTURE.md)
+- [Public-header planning notes](ROADMAP.md) and
+  [future enhancements](FUTURE_ENHANCEMENTS.md)

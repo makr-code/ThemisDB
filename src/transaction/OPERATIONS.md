@@ -1,16 +1,18 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-19"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
 Exact model backend not verifiable from final document text alone.
+
+Source level: 1; SOT domain: module-behavior. Canonical references: `include/transaction/transaction_manager.h`, `include/transaction/lock_manager.h`, `include/transaction/saga.h`, and `include/transaction/distributed_transaction_manager.h`. Related issue: #7390.
 
 # Transaction Operations Guide
 
@@ -20,15 +22,15 @@ This guide covers the operator-visible behavior of the transaction module as imp
 
 ## Core signals
 
-Operators should watch the following categories:
+The headers expose statistics for transaction totals/durations and lock totals/waiters/timeouts; saga exposes compensation metrics. These APIs do not establish that an exporter, dashboard, or every distributed recovery metric is wired in a deployment. Verify exported metrics and recovery status at the deployment boundary.
 
-- transaction queue depth and lock wait time,
+- lock waiters/timeouts via `LockManager::getStats()` and `getWaiters()`,
 - deadlock detection frequency and victim churn,
 - transaction timeout counts,
 - compensation retry and failure counters,
-- distributed in-doubt transaction recovery state.
+- distributed recovery state via the selected coordinator's recovery/report API; TODO: identify the concrete deployment endpoint/exporter.
 
-These are not secondary metrics; they are the clearest operational signals that the correctness boundary is under stress.
+These are component-level diagnostic surfaces, not a guarantee of application-level metrics publication.
 
 ## Daily operations
 

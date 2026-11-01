@@ -1,12 +1,37 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "include/timeseries/; src/timeseries/; tests/timeseries/CMakeLists.txt; benchmarks/timeseries/CMakeLists.txt"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Timeseries Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Planning record checked for source paths: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+
+> **Status note:** Checkbox states and completion dates below are the recorded
+> planning history, not evidence that a build, test, benchmark, or production
+> acceptance run passed in this review. A source file's presence alone does not
+> verify its behavior.
 
 ## Current Status
 
-Production-capable timeseries runtime exists for ingest, Gorilla compression, adaptive flush, query/downsampling, retention, remote-write, and encrypted chunk handling.
+Implementation sources and public headers are present for ingest, compression,
+adaptive flush, query/downsampling, retention, remote-write parsing, and
+encrypted chunk handling. This source inventory does not establish production
+readiness or end-to-end integration.
 
 ## In Progress
 
