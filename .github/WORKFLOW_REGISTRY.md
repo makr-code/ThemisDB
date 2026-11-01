@@ -67,10 +67,25 @@ diese Änderungen nicht geändert. Der Reusable und die MSVC-Analyse verwenden
 weiterhin getrennte Cache-Namensräume. Die Reparatur führt weder einen gemeinsamen
 Windows-Paketfeed noch einen zusätzlichen Cache-Warming-Workflow ein.
 
+Zusätzlich verwenden Reusable und MSVC getrennte Restore-/Save-Schritte mit
+Run-/Attempt-Snapshot-Schlüsseln. Nur geänderte Dateiinventare werden gespeichert:
+im Reusable nach Configure/Build (auch bei Fehlern), in MSVC nach erfolgreicher
+Dependency-Vorbereitung und jeweils vor nachgelagerten Validierungs-/Analyseschritten.
+Abgebrochene Läufe speichern nicht. Reusable-Restore-Präfixe bleiben innerhalb
+derselben OS-/Architektur-/Compiler-/Triplet-Lane statt auf OS allein zurückzufallen.
+Dependency-Schlüssel berücksichtigen auch Overlay-Ports und Triplets; der Reusable
+liest zusätzlich die vcpkg-Gitlink-Revision des ausgecheckten Commits. MSVC wird vor
+der Cache-Initialisierung eingerichtet, sodass seine Toolset-Version statt des
+Git-Bash-GCC-Banners verwendet wird. Die Inventarprüfung nutzt Python statt
+GNU-spezifischem `find -printf` und funktioniert damit auch auf macOS.
+Gepinnte Release-Sources erhalten das Cache-Hilfsskript über einen separaten
+Sparse-Checkout der Workflow-Revision, ohne den Build-Source-Commit zu ändern.
+
 Die [Guidelines zur Cache-Diagnose](WORKFLOW_GUIDELINES.md#build-cache-betrieb-und-diagnose)
 beschreiben die drei getrennten Messgrößen Actions-Restore, vcpkg-Paket-Restore
-und Compiler-Treffer. Unveränderliche Cache-Einträge und ausbleibende automatische
-Saves bei Jobfehlern bleiben Einschränkungen. Die vorhandenen Regressionstests
+und Compiler-Treffer. Snapshot-Wachstum/Cache-Eviction und gleich große Änderungen
+unter gleichen Dateinamen bleiben Grenzen der Inventar-basierten Save-Erkennung.
+Die vorhandenen Regressionstests
 prüfen den Workflow-Vertrag; verbesserte Online-Trefferraten und Windows-Laufzeiten
 sind erst durch erfolgreiche Wiederholungsläufe nachzuweisen.
 

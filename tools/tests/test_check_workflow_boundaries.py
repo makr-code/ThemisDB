@@ -448,6 +448,144 @@ def test_release_matrix_honors_sccache_backend_selection():
     )
 
 
+def test_cache_snapshot_inventory_detects_growth_without_timestamp_churn(tmp_path: Path):
+    script = Path(__file__).resolve().parents[2] / ".github/scripts/cache-directory-fingerprint.sh"
+    archive_dir = tmp_path / "archives with spaces"
+    downloads = tmp_path / "downloads"
+
+    def fingerprint():
+        return subprocess.run(
+            ["bash", str(script), str(archive_dir), str(downloads)],
+            check=True, capture_output=True, text=True,
+        ).stdout.strip()
+
+    empty = fingerprint()
+    archive_dir.mkdir()
+    assert fingerprint() == empty
+    archive = archive_dir / "abi.zip"
+    archive.write_bytes(b"completed package")
+    populated = fingerprint()
+    assert populated != empty
+    os.utime(archive, (1, 1))
+    assert fingerprint() == populated
+    archive.write_bytes(b"larger completed package")
+    assert fingerprint() != populated
+    archive.unlink()
+    assert fingerprint() == empty
+    downloads.mkdir()
+    (downloads / "source.tar.gz").write_bytes(b"download")
+    assert fingerprint() != empty
+
+
+def test_pinned_release_sources_use_workflow_revision_cache_tooling():
+    root = Path(__file__).resolve().parents[2]
+    job = yaml.safe_load((root / ".github/workflows/reusable-cmake-build.yml").read_text())["jobs"]["build"]
+    checkout = next(step for step in job["steps"]
+                    if step.get("name") == "Checkout cache tooling for pinned release sources")
+    assert checkout["if"] == "inputs.source_sha != ''"
+    assert checkout["with"]["ref"] == "${{ github.workflow_sha }}"
+    assert checkout["with"]["path"] == ".ci-cache-tools"
+    assert checkout["with"]["persist-credentials"] is False
+    assert checkout["with"]["sparse-checkout"] == ".github/scripts/cache-directory-fingerprint.sh"
+    assert "inputs.source_sha != ''" in job["env"]["THEMIS_CACHE_TOOLS_PREFIX"]
+    for name in ("cache_before", "cache_after"):
+        inventory = next(step for step in job["steps"] if step.get("id") == name)
+        assert "${THEMIS_CACHE_TOOLS_PREFIX}.github/scripts/" in inventory["run"]
+        assert job["steps"].index(checkout) < job["steps"].index(inventory)
+
+
+@pytest.mark.parametrize(
+    ("runner_os", "compiler", "expected"),
+    [("Windows", "msvc", "msvc-14.44.35207"),
+     ("Windows", "", "msvc-14.44.35207"),
+     ("Linux", "gcc", "gcc-13.3.0"),
+     ("macOS", "clang", "Apple_clang_version_17.0.0")],
+)
+def test_cache_identity_uses_selected_compiler(tmp_path, runner_os, compiler, expected):
+    root = Path(__file__).resolve().parents[2]
+    steps = yaml.safe_load((root / ".github/workflows/reusable-cmake-build.yml").read_text())["jobs"]["build"]["steps"]
+    initialize = next(step for step in steps if step.get("name") == "Initialize compiler and dependency cache environment")
+    msvc = next(step for step in steps if step.get("name") == "Setup MSVC environment (Windows only)")
+    assert steps.index(msvc) < steps.index(initialize)
+    values = {
+        "inputs.cache_arch": "x64", "runner.arch": "X64",
+        "inputs.cache_compiler": compiler, "inputs.vcpkg_triplet": "test-triplet",
+        "runner.os": runner_os, "inputs.build_mode": "default",
+        "inputs.preset": "", "inputs.configure_flags": "",
+    }
+    script = initialize["run"]
+    for key, value in values.items():
+        script = script.replace("${{ " + key + " }}", value)
+    assert "${{" not in script
+    bin_dir = tmp_path / "bin"
+    bin_dir.mkdir()
+    for name, body in {
+        "gcc": 'test "$1" = -dumpfullversion || exit 1\necho 13.3.0',
+        "clang": 'echo "Apple clang version 17.0.0"\necho "Target: arm64-apple-darwin"',
+    }.items():
+        command = bin_dir / name
+        command.write_text("#!/bin/bash\n" + body + "\n")
+        command.chmod(0o755)
+    output = tmp_path / "env"
+    subprocess.run(
+        ["bash", "-c", script], cwd=root,
+        env={**os.environ, "PATH": f"{bin_dir}{os.pathsep}{os.environ['PATH']}",
+             "VCToolsVersion": "14.44.35207", "GITHUB_WORKSPACE": str(tmp_path),
+             "GITHUB_ENV": str(output)}, check=True, capture_output=True,
+    )
+    assert f"THEMIS_COMPILER_VERSION={expected}\n" in output.read_text()
+    assert "THEMIS_VCPKG_REVISION=" in output.read_text()
+    restore = next(step for step in steps if step.get("id") == "restore_cmake_cache")
+    assert "env.THEMIS_VCPKG_REVISION" in restore["with"]["key"]
+    for name in ("reusable-cmake-build.yml", "msvc.yml"):
+        job = "build" if name.startswith("reusable") else "analyze"
+        workflow = yaml.safe_load((root / ".github/workflows" / name).read_text())
+        restore = next(step for step in workflow["jobs"][job]["steps"]
+                       if step.get("uses") == "actions/cache/restore@v5")
+        assert "'ports/**'" in restore["with"]["key"]
+        assert "'triplets/**'" in restore["with"]["key"]
+
+
+@pytest.mark.parametrize(
+    ("workflow_name", "job_name", "restore_id", "save_name", "next_step"),
+    [
+        ("reusable-cmake-build.yml", "build", "restore_cmake_cache",
+         "Save updated compiler and dependency cache", "Validation"),
+        ("msvc.yml", "analyze", "restore_vcpkg_cache",
+         "Save updated vcpkg cache before analysis", "Ensure sccache is available"),
+    ],
+)
+def test_cache_snapshots_save_only_growth_before_downstream_failures(
+    workflow_name, job_name, restore_id, save_name, next_step
+):
+    workflows = Path(__file__).resolve().parents[2] / ".github/workflows"
+    steps = yaml.safe_load((workflows / workflow_name).read_text())["jobs"][job_name]["steps"]
+    restore = next(step for step in steps if step.get("id") == restore_id)
+    save = next(step for step in steps if step.get("name") == save_name)
+    assert restore["uses"] == "actions/cache/restore@v5"
+    assert "${{ github.run_id }}-${{ github.run_attempt }}" in restore["with"]["key"]
+    assert save["uses"] == "actions/cache/save@v5"
+    assert save["with"]["path"] == restore["with"]["path"]
+    assert save["with"]["key"] == "${{ steps." + restore_id + ".outputs.cache-primary-key }}"
+    assert "!cancelled()" in save["if"]
+    assert "steps.cache_after.outputs.fingerprint != steps.cache_before.outputs.fingerprint" in save["if"]
+    assert steps.index(save) < next(i for i, step in enumerate(steps) if step.get("name") == next_step)
+    if workflow_name == "reusable-cmake-build.yml":
+        after = next(step for step in steps if step.get("id") == "cache_after")
+        assert "steps.configure.outcome == 'failure'" in after["if"]
+        assert len(restore["with"]["restore-keys"].strip().splitlines()) == 1
+    else:
+        after = next(step for step in steps if step.get("id") == "cache_after")
+        assert "steps.prepare_vcpkg.outcome == 'success'" in after["if"]
+        prepare = next(step for step in steps if step.get("id") == "prepare_vcpkg")
+        assert "$PSNativeCommandUseErrorActionPreference = $true" in prepare["run"]
+        for variable in ("VCPKG_DOWNLOADS", "VCPKG_DEFAULT_BINARY_CACHE", "VCPKG_BINARY_SOURCES"):
+            assert "$env:" + variable + " =" in prepare["run"]
+            assert prepare["run"].index("$env:" + variable + " =") < prepare["run"].index(
+                'Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/bootstrap-vcpkg.bat"'
+            )
+
+
 def test_windows_release_keeps_github_sccache_backend_enabled(tmp_path: Path):
     workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
     workflow = yaml.safe_load((workflows / "release-build-matrix.yml").read_text(encoding="utf-8"))

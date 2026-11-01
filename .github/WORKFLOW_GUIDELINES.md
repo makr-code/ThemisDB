@@ -333,9 +333,20 @@ Kanonische Implementierungen: [reusable-cmake-build.yml](workflows/reusable-cmak
 
 | Cache-Ebene | Persistierter Inhalt | Schlüssel und Backend |
 |---|---|---|
-| Reusable-Abhängigkeiten | `.cache/vcpkg-downloads/<tag>`, `.cache/vcpkg-binary/<tag>` und lokaler sccache-Speicher | `cmake-cache-<OS>-<tag>-<Manifest-/Configuration-Hash>-<Compilerkennung>`; `<tag>` enthält OS, Architektur, Compiler und Triplet |
+| Reusable-Abhängigkeiten | `.cache/vcpkg-downloads/<tag>`, `.cache/vcpkg-binary/<tag>` und lokaler sccache-Speicher | `cmake-cache-<OS>-<tag>-<Dependency-Hash>-<vcpkg-Revision>-<Compilerkennung>-snapshot-<run_id>-<run_attempt>`; Restore nur innerhalb desselben `<tag>` (OS, Architektur, Compiler und Triplet) |
 | CMake-Konfiguration | CMakeCache, CMakeFiles und Ninja-Metadaten im deklarierten `build_directory` | Separater `cmake-build-tree`-Key mit Lane, Build-Modus, Binärverzeichnis und CMake-/Manifest-Hash; kein vollständiger Objektdatei-Cache |
-| MSVC-Analyse | `.vcpkg-downloads`, `.vcpkg-binary-cache`, `vcpkg/installed` | `msvc-vcpkg-<OS>-<vcpkg-Commit>-<Manifest-/Configuration-Hash>`; Restore-Präfix bleibt beim gleichen vcpkg-Commit |
+| MSVC-Analyse | `.vcpkg-downloads`, `.vcpkg-binary-cache`, `vcpkg/installed` | `msvc-vcpkg-<OS>-<vcpkg-Commit>-<Dependency-Hash>-snapshot-<run_id>-<run_attempt>`; Restore-Präfix bleibt beim gleichen vcpkg-Commit |
+
+Der Dependency-Hash umfasst Manifest, Configuration, `ports/**` und `triplets/**`.
+Die Reusable-vcpkg-Revision stammt aus dem Gitlink des ausgecheckten Source-Commits,
+auch wenn das Submodul vor Restore noch nicht initialisiert ist. MSVC-Setup erfolgt
+vor der Compilerkennung: Windows verwendet `VCToolsVersion`, GCC seine ausgewählte
+Versionskennung und Clang seinen eigenen Versionsbanner. GCC aus Git Bash darf
+nicht als MSVC-Kennung verwendet werden.
+Bei `source_sha`-Builds wird nur das Cache-Hilfsskript separat aus
+`github.workflow_sha` ausgecheckt. Damit hängt Cache-Diagnose nicht davon ab,
+ob ein älterer Release-Source-Commit das neue Skript bereits enthält; der
+eigentliche Build-Source bleibt unverändert auf den angeforderten Commit gepinnt.
 
 `VCPKG_BINARY_SOURCES=clear;files,<Binary-Cache>,readwrite` aktiviert den
 dateibasierten vcpkg-Cache explizit, ohne NuGet-Feed. vcpkg entscheidet anhand
@@ -359,11 +370,27 @@ Für die Auswertung diese Signale getrennt erfassen:
   Aufrufe aus der Build-Summary prüfen. Configure- und Build-Laufzeiten getrennt
   von Runner-Wartezeit messen.
 
-Actions-Cache-Einträge sind unveränderlich: Ein exakter Treffer wird am
-Jobende nicht unter demselben Schlüssel aktualisiert. Außerdem ist das
-automatische Speichern an erfolgreiche Jobs gebunden; nachfolgende Test- oder
-Packaging-Fehler können daher verhindern, dass neu erzeugte vcpkg-Archive
-persistiert werden. Diese Grenzen bleiben im aktuellen Workflow bestehen.
+Die Abhängigkeiten verwenden getrennte `actions/cache/restore`- und
+`actions/cache/save`-Schritte. Snapshots erhalten Run-ID und Versuch im Schlüssel,
+damit neue Pakete nicht hinter einem unveränderlichen exakten Cache-Treffer
+verloren gehen. Restore erfolgt normalerweise über das Lane-Präfix;
+`cache-matched-key` zeigt im Reusable den tatsächlich verwendeten Snapshot.
+Ein plattformunabhängiger Python-Fingerprint aus relativen Dateinamen und Größen erkennt Inventaränderungen
+ohne das erneute Lesen mehrerer GiB. Unveränderte Inventare werden nicht hochgeladen;
+der Fingerprint ist keine Integritätsprüfung und erkennt gleich große Änderungen
+unter gleichem Dateinamen nicht.
+
+Der Reusable speichert nach Configure/Build und vor Validation, auch nach einem
+Configure-/Build-Fehler, aber nicht nach Abbruch. Er persistiert Archive/Downloads
+und Compiler-Cache, keinen unvollständigen Installationsbaum. MSVC speichert seinen
+Installationsbaum nur nach erfolgreicher Dependency-Vorbereitung, noch vor der
+Analyse. Test-, Analyse- und Packaging-Fehler verhindern diese Saves somit nicht.
+MSVC setzt die vcpkg-Cache-Variablen bereits im Dependency-Schritt selbst;
+Einträge in `GITHUB_ENV` allein gelten erst für folgende Schritte. Native
+vcpkg-Fehler werden als PowerShell-Fehler behandelt, damit der Retry greift und
+ein fehlgeschlagener Installationsschritt keinen erfolgreichen Snapshot auslöst.
+Die CMake-Konfigurationscache-Automatik bleibt unverändert. Neue Snapshots können
+weiterhin Speicherdruck und Eviction verursachen; Cachegrößen und Retention beobachten.
 Ein eigener wöchentlicher C++-Cache-Warming-Workflow ist aktuell nicht definiert.
 Die frühere Angabe von 60–80% Treffern ist keine gemessene Zusicherung.
 Eine Laufzeitverbesserung erst nach vergleichbaren erfolgreichen Wiederholungsläufen

@@ -68,15 +68,22 @@ jobs:
 
       - name: Restore vcpkg cache
         id: restore_vcpkg_cache
-        uses: actions/cache@v5
+        uses: actions/cache/restore@v5
         with:
           path: |
             ${{ github.workspace }}/.vcpkg-downloads
             ${{ github.workspace }}/.vcpkg-binary-cache
             ${{ github.workspace }}/vcpkg/installed
-          key: msvc-vcpkg-${{ runner.os }}-${{ steps.vcpkg.outputs.commit }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          key: msvc-vcpkg-${{ runner.os }}-${{ steps.vcpkg.outputs.commit }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'ports/**', 'triplets/**') }}-snapshot-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: |
             msvc-vcpkg-${{ runner.os }}-${{ steps.vcpkg.outputs.commit }}-
+
+      - name: Record restored vcpkg inventory
+        id: cache_before
+        shell: bash
+        run: |
+          fingerprint="$(bash .github/scripts/cache-directory-fingerprint.sh "$GITHUB_WORKSPACE/.vcpkg-downloads" "$GITHUB_WORKSPACE/.vcpkg-binary-cache" "$GITHUB_WORKSPACE/vcpkg/installed")"
+          echo "fingerprint=$fingerprint" >> "$GITHUB_OUTPUT"
 
       - name: Print vcpkg cache status
         shell: pwsh
@@ -94,9 +101,11 @@ jobs:
           Write-Host "vcpkg installed tree restored: $installedTreeRestored"
 
       - name: Prepare vcpkg dependencies
+        id: prepare_vcpkg
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
+          $PSNativeCommandUseErrorActionPreference = $true
 
           function Invoke-WithRetry {
             param(
@@ -122,6 +131,10 @@ jobs:
           }
 
           "$env:GITHUB_WORKSPACE/vcpkg" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          $env:VCPKG_ROOT = "$env:GITHUB_WORKSPACE/vcpkg"
+          $env:VCPKG_DOWNLOADS = "$env:GITHUB_WORKSPACE/.vcpkg-downloads"
+          $env:VCPKG_DEFAULT_BINARY_CACHE = "$env:GITHUB_WORKSPACE/.vcpkg-binary-cache"
+          $env:VCPKG_BINARY_SOURCES = "clear;files,$env:VCPKG_DEFAULT_BINARY_CACHE,readwrite"
           "VCPKG_ROOT=$env:GITHUB_WORKSPACE/vcpkg" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           "VCPKG_DOWNLOADS=$env:GITHUB_WORKSPACE/.vcpkg-downloads" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           "VCPKG_DEFAULT_BINARY_CACHE=$env:GITHUB_WORKSPACE/.vcpkg-binary-cache" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
@@ -132,6 +145,24 @@ jobs:
 
           Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/bootstrap-vcpkg.bat" -disableMetrics }
           Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog curl cpp-httplib boost-filesystem boost-system boost-asio boost-beast boost-uuid pugixml yaml-cpp nlohmann-json lz4 snappy 'rocksdb[snappy,zlib,zstd]' --classic --triplet x64-windows --disable-metrics }
+
+      - name: Record updated vcpkg inventory
+        id: cache_after
+        if: ${{ !cancelled() && steps.prepare_vcpkg.outcome == 'success' }}
+        shell: bash
+        run: |
+          fingerprint="$(bash .github/scripts/cache-directory-fingerprint.sh "$GITHUB_WORKSPACE/.vcpkg-downloads" "$GITHUB_WORKSPACE/.vcpkg-binary-cache" "$GITHUB_WORKSPACE/vcpkg/installed")"
+          echo "fingerprint=$fingerprint" >> "$GITHUB_OUTPUT"
+
+      - name: Save updated vcpkg cache before analysis
+        if: ${{ !cancelled() && steps.cache_after.outcome == 'success' && steps.cache_after.outputs.fingerprint != steps.cache_before.outputs.fingerprint }}
+        uses: actions/cache/save@v5
+        with:
+          path: |
+            ${{ github.workspace }}/.vcpkg-downloads
+            ${{ github.workspace }}/.vcpkg-binary-cache
+            ${{ github.workspace }}/vcpkg/installed
+          key: ${{ steps.restore_vcpkg_cache.outputs.cache-primary-key }}
 
       - name: Ensure sccache is available
         shell: pwsh

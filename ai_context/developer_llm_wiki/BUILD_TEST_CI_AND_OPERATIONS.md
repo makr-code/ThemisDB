@@ -122,6 +122,21 @@ restoring `vcpkg/installed`; its cache key includes the submodule commit and the
 manifest/configuration hash. Cache-hit status, restored archive counts, and
 sccache statistics are emitted as run diagnostics.
 
+Dependency caches use explicit restore/save actions with run/attempt snapshot
+keys. A relative-filename/size inventory fingerprint suppresses unchanged uploads;
+it is not content integrity validation. The reusable checkpoints archive/download
+and compiler caches before validation, even after configure/build failure, but
+not cancellation. MSVC checkpoints its installed tree only after successful
+dependency preparation, before analysis. Reusable restore prefixes stay within
+the same OS/architecture/compiler/triplet lane. Snapshot growth and eviction
+remain operational risks; online speedups still require measurement.
+Dependency keys include overlay ports/triplets; the reusable also records the
+checked-out source's vcpkg gitlink revision. MSVC setup precedes cache identity
+and uses its toolset version instead of Git Bash GCC. The inventory helper uses
+Python filesystem APIs to avoid GNU-only `find -printf` on macOS.
+Pinned source builds sparse-checkout the inventory helper from the workflow
+revision separately, so older release sources need not contain the new script.
+
 Focused regression checks: `python -m pytest tools/tests/test_check_workflow_boundaries.py -q`.
 
 Wiki health note: the generated Index source count/hash currently differs from
