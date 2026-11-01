@@ -1,70 +1,72 @@
 # LLM DOXYGEN
 
 Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
+Created: 2026-10-31
+Last Updated: 2026-10-31
 Status: active
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\llm\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\llm\doxygen-warnings.log`
+- XML index (relative to the artifact output root): `llm/xml/index.xml`
+- Warnings log (relative to the artifact output root): `llm/doxygen-warnings.log`
 
 ## Structure Metrics
-- C/C++ Files (scanned): 554
-- Compounds: 1842
-- Classes/Structs: 1093
-- Namespaces: 168
-- File Compounds: 554
+- C/C++ Files (scanned): 555
+- Compounds: 1829
+- Classes/Structs: 1072
+- Namespaces: 175
+- File Compounds: 555
 
 ## Namespaces
-- @006022367163006261306020042123066216007152030267
-- @010216367242020367316120222027247006256374325071
-- @032356312144021036366357312232347030345006342131
-- @053220125364247171057055234041202345371203120025
-- @062015125063270047103155054266017064337250010041
-- @070052166114331152314310300350117330373334114234
-- @071104261356242075337155340240275275204134136147
-- @074057123034363270012121224025047156203270022274
-- @076317377151340264246156147205053136135033260163
-- @100246314157106347020274264130343110046221323322
-- @106176211062056202372344066275172040211252274201
-- @107132020024031111063345371032140366167217054062
-- @113127374311355164267137041105103235113322372127
-- @121275270032307100101047204344304174355322051022
-- @122344034300143235355314071273060310303210124127
-- @130367327127156254024377030332113042002357226036
-- @132045370102237077241315144370155277135127300026
-- @137350374301026230001103003130005143307123026117
-- @141060277351106042163243217037101067274221222062
-- @143025233273134000317031314126330344067024265242
-- @146032040174046252316337004231121326120111116322
-- @152322017040264342370232205226003262046166334355
-- @153102164042030047116373256211341076266166221146
-- @156235325375107121025104122152353003276176121226
-- @170206100003117250223200262241322357106366246304
-- @171046200322167171047341073126051240137063372072
-- @172237130155102260133217017104022361231201235040
-- @175364362110104110144354106365301213210245332305
-- @202377342125242021253061306052020344265150065052
-- @206355111235240041046240310360101242034014061010
-- @221201002331115026116131017174114340213370141345
-- @221315067367137374346021161375315271056001372110
-- @224271002136224303204230065365377343160031004140
-- @225224061231245021002137006255172001055100154007
-- @255065237325230114312035231320265331001046021001
-- @266051105004350176005125237351246223033261376015
-- @267325074066031256240334162325032332174333302247
-- @274125275112067006324256221200115137250025125005
-- @274227151224334201257102271015050071274345207353
-- @307211330361353054140307165301206145321057006135
-- @311160145310356275257314321362122322151255200345
-- @311326165154317173357114257240024071206213274350
-- @316112300145047122016261130212167051032373024141
-- @320041233022022126331020072264022255115057173252
-- @331106255157224347214052246332043022357163166377
-- @346137212312242240316152335142235144201167032173
-- @373163117112205115161255052032337132111027201311
+- @276
+- @278
+- @319
+- @37
+- @405
+- @413
+- @418
+- @419
+- @435
+- @436
+- @441
+- @446
+- @457
+- @459
+- @463
+- @464
+- @466
+- @467
+- @469
+- @470
+- @471
+- @472
+- @476
+- @486
+- @487
+- @489
+- @490
+- @492
+- @500
+- @501
+- @502
+- @506
+- @508
+- @512
+- @516
+- @517
+- @518
+- @519
+- @522
+- @529
+- @531
+- @535
+- @537
+- @538
+- @541
+- @544
+- @550
+- @553
+- @554
 - Eigen
 - benchmark
 - gates
@@ -88,42 +90,47 @@ Status: active
 - themis::llamacpp
 - themis::llamacpp::test
 - themis::llm
-- themis::llm::@014017260364316066361320242205014014062253003222
-- themis::llm::@014101101271351124057044105340124003246313014172
-- themis::llm::@025373217313117133115102245032306125072205034125
-- themis::llm::@026362113013110202010156206174067264132315342144
-- themis::llm::@030345050037011020261170333265140370075252342244
-- themis::llm::@041332204000301025205006167150201317044156310122
-- themis::llm::@050316163161142017036330363360014234167177215174
-- themis::llm::@100204153005107111047242362222035042166205015130
-- themis::llm::@103020034166040161133150363155263260326037137322
-- themis::llm::@104235337252372044001037003130024102116341123365
-- themis::llm::@127333375267343007301036205360133277376205250012
-- themis::llm::@131103277027266047167231274210217302250341214213
-- themis::llm::@136201175316076053350013172073362100047203045275
-- themis::llm::@153023051324043372315200302367164163313144251076
-- themis::llm::@166324076066030112257230150302326034115162226053
-- themis::llm::@171116134240033274246343042146025162300151171132
-- themis::llm::@173310147163074105100216225133332235364106275003
-- themis::llm::@175255127201037070065064171044261056263203033332
-- themis::llm::@211142165054063343271126127243254157235277037336
-- themis::llm::@220141174130231247350171112260143303113274046073
-- themis::llm::@222050134114103000104360030036210207217174257135
-- themis::llm::@232263006222237315144144353002242241321262101106
-- themis::llm::@276143063033214215363235223307241140221224075166
-- themis::llm::@301201103340322061116353231132050311346274077127
-- themis::llm::@302316112336110161332165260100066141074175255361
-- themis::llm::@312314027173170254316270165337212240361154131370
-- themis::llm::@315120177212336326163321233156335346112200264335
-- themis::llm::@325220261161301042016121374125033354305243373367
-- themis::llm::@331323135046156004002263141153261116236312063303
-- themis::llm::@333371014016274215123145251151375052155137035226
-- themis::llm::@367247345127364057205367253040216153170174044356
-- themis::llm::@375302016164332277345342363157343337140251047307
+- themis::llm::@215
+- themis::llm::@217
+- themis::llm::@219
+- themis::llm::@221
+- themis::llm::@224
+- themis::llm::@237
+- themis::llm::@238
+- themis::llm::@240
+- themis::llm::@243
+- themis::llm::@246
+- themis::llm::@249
+- themis::llm::@256
+- themis::llm::@258
+- themis::llm::@260
+- themis::llm::@265
+- themis::llm::@268
+- themis::llm::@269
+- themis::llm::@275
+- themis::llm::@284
+- themis::llm::@286
+- themis::llm::@287
+- themis::llm::@288
+- themis::llm::@294
+- themis::llm::@296
+- themis::llm::@298
+- themis::llm::@300
+- themis::llm::@309
+- themis::llm::@314
+- themis::llm::@315
+- themis::llm::@316
+- themis::llm::@325
+- themis::llm::@429
+- themis::llm::@440
+- themis::llm::@453
+- themis::llm::@461
+- themis::llm::@494
+- themis::llm::@528
 - themis::llm::applications
-- themis::llm::applications::@030171117116052014001276123302105310267131302245
+- themis::llm::applications::@395
 - themis::llm::attention
-- themis::llm::attention::@065370110222076073321252277057107374024133012217
+- themis::llm::attention::@393
 - themis::llm::attention::cuda
 - themis::llm::attention::hip
 - themis::llm::attention::test
@@ -132,12 +139,12 @@ Status: active
 - themis::llm::kernels
 - themis::llm::kernels::cuda
 - themis::llm::lora
-- themis::llm::lora::@045142102374250045327150211071375024303112204005
-- themis::llm::lora::@137155230331054325342170344251114064333070341025
-- themis::llm::lora::@234040365312146053232010355130263124271013125231
-- themis::llm::lora::@266234074041237042157050221356233007223341354101
-- themis::llm::lora::@304177140256170024355053203230140261374217234034
-- themis::llm::lora::@377342126266025336041202333076274057131030147363
+- themis::llm::lora::@342
+- themis::llm::lora::@350
+- themis::llm::lora::@360
+- themis::llm::lora::@362
+- themis::llm::lora::@365
+- themis::llm::lora::@369
 - themis::llm::lora::cpu
 - themis::llm::lora::cpu::fused
 - themis::llm::lora::data_utils
@@ -147,20 +154,20 @@ Status: active
 - themis::llm::lora::metrics
 - themis::llm::lora::nf4_constants
 - themis::llm::lora::quantization
-- themis::llm::lora::quantization::@177262076012345124170120344052377077233061163314
+- themis::llm::lora::quantization::@349
 - themis::llm::lora::quantized_model_utils
 - themis::llm::lora::tensor_utils
 - themis::llm::metrics
 - themis::llm::monitoring
 - themis::llm::prompt_safety
 - themis::llm::safety
-- themis::llm::safety::@052250361110066130224225336145225373106375316166
-- themis::llm::safety::@063020040335016207162126117171016047313056355020
-- themis::llm::safety::@077133240104216341164057017314104222233307121344
+- themis::llm::safety::@389
+- themis::llm::safety::@390
+- themis::llm::safety::@391
 - themis::llm::security
 - themis::llm::test
 - themis::llm::testing
-- themis::llm::testing::@335037204312234331032362352356054223337204250021
+- themis::llm::testing::@317
 - themis::llm::tests
 - themis::llm_wiki
 - themis::lora
@@ -178,7 +185,7 @@ Status: active
 - themis::security
 - themis::server
 - themis::server::test
-- themis::server::test::@014066117326233215061143025047051054210334072164
+- themis::server::test::@427
 - themis::sharding
 - themis::storage
 - themis::test
@@ -249,7 +256,6 @@ Status: active
 - LLMMetricsTest
 - LLMMultiTenantTests
 - LLMPhase2CriticalGapsTest
-- LLMPluginManager
 - LLMPluginManagerTest
 - LLMPluginTest
 - LLMPrefixCacheTest
@@ -263,7 +269,6 @@ Status: active
 - LinearTopKRagCostModelService
 - LlamaCppRealInferenceTest
 - LlamaCppTokenizerTest
-- LlamaWrapper
 - LlamaWrapperStateTest
 - LlmModelPathTraversalTest
 - LoRAAdapterTest
@@ -280,10 +285,8 @@ Status: active
 - ModelLoadingFromThemisDBTest
 - ModelLoadingTest
 - MultiLoRAFusionFixture
-- MultiLoRAManager
 - MultiModelIntegrationTest
 - MultiModelMockPlugin
-- OpenAICompatAdapter
 - P5MockPlugin
 - PCLHardeningTest
 - ParseRequestTest
@@ -302,7 +305,6 @@ Status: active
 - SpeculativeDecodeBridgeTest
 - StorageState
 - StreamChunkTest
-- StreamingHandler
 - StreamingHandlerTest
 - StressAdapterRegistry
 - StressModelRouter
@@ -319,6 +321,7 @@ Status: active
 - ThrowingEmbeddingProvider
 - TinyLlamaInferenceTest
 - W10DMockDraftPlugin
+- WikiCrossDepStoreTest
 - WikiEvalMetricsTest
 - WikiIndexStorePhase3
 - WikiIndexStorePhaseB
@@ -696,28 +699,10 @@ Status: active
 - themisdb::llm::LlamaCppTrainingBackend
 
 ### Structs
-- AIDecisionAudit
-- ChatMessage
 - Eigen::MatrixXd::RowRef
 - Eigen::MatrixXf::RowRef
-- InferenceRequest
-- InferenceResponse
-- LLMCorrelationContext
-- LLMPluginManager::CacheStatistics
-- LLMPluginManager::HealthStatus
-- LLMPluginManager::PluginEntry
-- LLMPluginManager::PluginStatistics
-- LLMPluginManager::SSMStateStoreConfig
-- LlamaWrapper::Config
-- LlamaWrapper::Config::GrammarConfig
-- LlamaWrapper::Config::RopeScalingConfig
-- LlamaWrapper::SpeculativeDecodingStats
-- LlamaWrapper::Stats
 - LocalDraftBridgeGuard
 - MockPlugin
-- MultiLoRAManager::AuditEvent
-- MultiLoRAManager::Config
-- MultiLoRAManager::Stats
 - ResourceTracker
 - ScopedEnv
 - StubInferenceEngine::Result
@@ -948,6 +933,7 @@ Status: active
 - themis::llm::ModeSpec
 - themis::llm::ModeSpec::JudgeSpec
 - themis::llm::ModeSpec::SafetySpec
+- themis::llm::ModeSpecValidationResult
 - themis::llm::ModelArchitecture
 - themis::llm::ModelDownloadConfig
 - themis::llm::ModelDownloadResult
@@ -1290,36 +1276,12 @@ Status: active
 - Regenerate via scripts/generate_module_doxygen_xml.py --write-module-markdown.
 
 ## Detailed Function Documentation (Soll-Ist)
-- Functions extracted: 8130
-
-### AIDecisionAudit
-
-#### `AIDecisionAudit fromJson(const json &j)`
-- Source: `include/llm/ai_decision_auditor.h`:98
-- Brief: From Json.
-- Parameters:
-  - `j` (const json &): Input parameter.
-- Return: Return value.
-- Details: j Input parameter. Return value. j Input parameter. Return value. Calls: value(), contains(), std::chrono::system_clock::from_time_t(), is_array(), int64_t().
-
-#### `json toJson() const`
-- Source: `include/llm/ai_decision_auditor.h`:92
-- Brief: To Json.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `~AIDecisionAudit()=default`
-- Source: `include/llm/ai_decision_auditor.h`:38
-- Brief: AIDecision Audit.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
+- Functions extracted: 7905
 
 ### AdaLoraDokuTrainingTest
 
 #### `void SetUp() override`
-- Source: `tests/llm/test_llm_adalora_doku_training.cpp`:121
+- Source: `tests/llm/test_llm_adalora_doku_training.cpp`:125
 - Brief: n/a
 - Parameters: none
 
@@ -1357,12 +1319,12 @@ Status: active
 ### AutoBindingLLMPlugin
 
 #### `bool isModelLoaded() const override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:150
+- Source: `tests/llm/test_ai_orchestrator.cpp`:152
 - Brief: n/a
 - Parameters: none
 
 #### `bool loadLoRA(const std::string &lora_id, const std::string &lora_path, float) override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:152
+- Source: `tests/llm/test_ai_orchestrator.cpp`:154
 - Brief: n/a
 - Parameters:
   - `lora_id` (const std::string &): n/a
@@ -1370,7 +1332,7 @@ Status: active
   - `<unnamed>` (float): n/a
 
 #### `bool unloadLoRA(const std::string &lora_id) override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:166
+- Source: `tests/llm/test_ai_orchestrator.cpp`:168
 - Brief: n/a
 - Parameters:
   - `lora_id` (const std::string &): n/a
@@ -1649,7 +1611,7 @@ Status: active
 ### CaptureEthicsPromptPlugin
 
 #### `InferenceResponse generateRAG(const RAGContext &, const InferenceRequest &request) override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1924
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1986
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const RAGContext &): n/a
@@ -1658,7 +1620,7 @@ Status: active
 ### CaptureRagRequestLLMPlugin
 
 #### `InferenceResponse generateRAG(const RAGContext &, const InferenceRequest &request) override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:70
+- Source: `tests/llm/test_ai_orchestrator.cpp`:72
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const RAGContext &): n/a
@@ -1771,48 +1733,27 @@ Status: active
 ### CapturingTopKAdapterCandidateProvider
 
 #### `AdapterSelectionResult selectCandidates(const AdapterSelectionInput &input) const override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:114
+- Source: `tests/llm/test_ai_orchestrator.cpp`:116
 - Brief: n/a
 - Parameters:
   - `input` (const AdapterSelectionInput &): n/a
 
-### ChatMessage
-
-#### `ChatMessage()=default`
-- Source: `include/llm/llama_wrapper.h`:87
-- Brief: n/a
-- Parameters: none
-
-#### `ChatMessage(ChatRole r, const std::string &c)`
-- Source: `include/llm/llama_wrapper.h`:74
-- Brief: n/a
-- Parameters:
-  - `r` (ChatRole): n/a
-  - `c` (const std::string &): n/a
-
-#### `ChatMessage(const std::string &r, const std::string &c)`
-- Source: `include/llm/llama_wrapper.h`:84
-- Brief: n/a
-- Parameters:
-  - `r` (const std::string &): n/a
-  - `c` (const std::string &): n/a
-
 ### DokuRagTest
 
 #### `void SetUp() override`
-- Source: `tests/llm/test_llm_doku_rag.cpp`:276
+- Source: `tests/llm/test_llm_doku_rag.cpp`:281
 - Brief: n/a
 - Parameters: none
 
 #### `std::vector< WikiChunk > query5(const std::string &q)`
-- Source: `tests/llm/test_llm_doku_rag.cpp`:301
+- Source: `tests/llm/test_llm_doku_rag.cpp`:307
 - Brief: Query and return top-5 chunks, asserting the query is non-empty.
 - Parameters:
   - `q` (const std::string &): n/a
 
-#### `void skipIfNoDb()`
-- Source: `tests/llm/test_llm_doku_rag.cpp`:293
-- Brief: Skip test when doku.db is not available.
+#### `bool skipIfNoDb()`
+- Source: `tests/llm/test_llm_doku_rag.cpp`:298
+- Brief: Exit cleanly when doku.db is not available.
 - Parameters: none
 
 ### EXSHardeningTest
@@ -1830,69 +1771,69 @@ Status: active
 ### EchoLLMPlugin
 
 #### `std::vector< float > embed(const std::string &text) override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:53
+- Source: `tests/llm/test_ai_orchestrator.cpp`:55
 - Brief: n/a
 - Parameters:
   - `text` (const std::string &): n/a
 
 #### `std::vector< uint8_t > exportLoRA(const std::string &) override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:64
+- Source: `tests/llm/test_ai_orchestrator.cpp`:66
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const std::string &): n/a
 
 #### `InferenceResponse generate(const InferenceRequest &request) override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:37
+- Source: `tests/llm/test_ai_orchestrator.cpp`:39
 - Brief: n/a
 - Parameters:
   - `request` (const InferenceRequest &): n/a
 
 #### `InferenceResponse generateRAG(const RAGContext &, const InferenceRequest &request) override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:49
+- Source: `tests/llm/test_ai_orchestrator.cpp`:51
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const RAGContext &): n/a
   - `request` (const InferenceRequest &): n/a
 
 #### `LLMCapabilities getCapabilities() const override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:57
-- Brief: n/a
-- Parameters: none
-
-#### `json getMemoryStats() const override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:58
-- Brief: n/a
-- Parameters: none
-
-#### `std::optional< ModelInfo > getModelInfo() const override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:29
-- Brief: n/a
-- Parameters: none
-
-#### `json getPerformanceStats() const override`
 - Source: `tests/llm/test_ai_orchestrator.cpp`:59
 - Brief: n/a
 - Parameters: none
 
+#### `json getMemoryStats() const override`
+- Source: `tests/llm/test_ai_orchestrator.cpp`:60
+- Brief: n/a
+- Parameters: none
+
+#### `std::optional< ModelInfo > getModelInfo() const override`
+- Source: `tests/llm/test_ai_orchestrator.cpp`:31
+- Brief: n/a
+- Parameters: none
+
+#### `json getPerformanceStats() const override`
+- Source: `tests/llm/test_ai_orchestrator.cpp`:61
+- Brief: n/a
+- Parameters: none
+
 #### `bool importLoRA(const std::string &, const std::vector< uint8_t > &) override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:65
+- Source: `tests/llm/test_ai_orchestrator.cpp`:67
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const std::string &): n/a
   - `<unnamed>` (const std::vector< uint8_t > &): n/a
 
 #### `bool isModelLoaded() const override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:35
+- Source: `tests/llm/test_ai_orchestrator.cpp`:37
 - Brief: n/a
 - Parameters: none
 
 #### `std::vector< LoRAInfo > listLoRAs() const override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:63
+- Source: `tests/llm/test_ai_orchestrator.cpp`:65
 - Brief: n/a
 - Parameters: none
 
 #### `bool loadLoRA(const std::string &, const std::string &, float) override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:61
+- Source: `tests/llm/test_ai_orchestrator.cpp`:63
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const std::string &): n/a
@@ -1900,20 +1841,20 @@ Status: active
   - `<unnamed>` (float): n/a
 
 #### `bool loadModel(const std::string &, const json &) override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:27
+- Source: `tests/llm/test_ai_orchestrator.cpp`:29
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const std::string &): n/a
   - `<unnamed>` (const json &): n/a
 
 #### `bool unloadLoRA(const std::string &) override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:62
+- Source: `tests/llm/test_ai_orchestrator.cpp`:64
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const std::string &): n/a
 
 #### `void unloadModel() override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:28
+- Source: `tests/llm/test_ai_orchestrator.cpp`:30
 - Brief: Unload Model.
 - Parameters: none
 
@@ -2364,13 +2305,13 @@ Status: active
 ### FixedAdapterCandidateProvider
 
 #### `FixedAdapterCandidateProvider(std::string selected)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:81
+- Source: `tests/llm/test_ai_orchestrator.cpp`:83
 - Brief: n/a
 - Parameters:
   - `selected` (std::string): n/a
 
 #### `AdapterSelectionResult selectCandidates(const AdapterSelectionInput &input) const override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:85
+- Source: `tests/llm/test_ai_orchestrator.cpp`:87
 - Brief: n/a
 - Parameters:
   - `input` (const AdapterSelectionInput &): n/a
@@ -2378,13 +2319,13 @@ Status: active
 ### FixedRagCostModelService
 
 #### `FixedRagCostModelService(double total=12.5)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:184
+- Source: `tests/llm/test_ai_orchestrator.cpp`:186
 - Brief: n/a
 - Parameters:
   - `total` (double): n/a
 
 #### `std::optional< RagCostEstimate > estimate(const RagCostModelInput &input) const override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:188
+- Source: `tests/llm/test_ai_orchestrator.cpp`:190
 - Brief: n/a
 - Parameters:
   - `input` (const RagCostModelInput &): n/a
@@ -2416,12 +2357,12 @@ Status: active
 ### GoldenDatasetRagTest
 
 #### `void SetUp() override`
-- Source: `tests/llm/test_llm_doku_rag.cpp`:489
+- Source: `tests/llm/test_llm_doku_rag.cpp`:495
 - Brief: n/a
 - Parameters: none
 
-#### `void skipIfNoDb()`
-- Source: `tests/llm/test_llm_doku_rag.cpp`:512
+#### `bool skipIfNoDb()`
+- Source: `tests/llm/test_llm_doku_rag.cpp`:518
 - Brief: n/a
 - Parameters: none
 
@@ -2580,44 +2521,6 @@ Status: active
   - `text` (const std::string &): n/a
 - Details: Naïve safety-keyword checker used by structural unit tests.
 
-### InferenceResponse
-
-#### `InferenceResponse()=default`
-- Source: `include/llm/llm_plugin_interface.h`:225
-- Brief: n/a
-- Parameters: none
-
-#### `InferenceResponse(InferenceResponse &&) noexcept=default`
-- Source: `include/llm/llm_plugin_interface.h`:219
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (InferenceResponse &&): n/a
-
-#### `InferenceResponse(const InferenceResponse &)=default`
-- Source: `include/llm/llm_plugin_interface.h`:223
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const InferenceResponse &): n/a
-
-#### `InferenceResponse & operator=(InferenceResponse &&) noexcept=default`
-- Source: `include/llm/llm_plugin_interface.h`:221
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (InferenceResponse &&): n/a
-
-#### `InferenceResponse & operator=(const InferenceResponse &)=default`
-- Source: `include/llm/llm_plugin_interface.h`:224
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const InferenceResponse &): n/a
-
-#### `~InferenceResponse()=default`
-- Source: `include/llm/llm_plugin_interface.h`:217
-- Brief: Inference Response.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
 ### InfiniAttentionCPUTest
 
 #### `void SetUp() override`
@@ -2666,44 +2569,9 @@ Status: active
 ### LLMApiHandlerPolicyTest
 
 #### `void SetUp() override`
-- Source: `tests/llm/test_openai_compat_adapter.cpp`:588
+- Source: `tests/llm/test_openai_compat_adapter.cpp`:590
 - Brief: n/a
 - Parameters: none
-
-### LLMCorrelationContext
-
-#### `LLMCorrelationContext ensure() const noexcept`
-- Source: `include/llm/llm_correlation_context.h`:215
-- Brief: Return a valid context: the current one if valid, otherwise a freshly generated one.
-- Parameters: none
-
-#### `LLMCorrelationContext fromTraceparent(const std::string &traceparent) noexcept`
-- Source: `include/llm/llm_correlation_context.h`:136
-- Brief: Create a context from an incoming W3C traceparent header value.
-- Parameters:
-  - `traceparent` (const std::string &): Raw header value, e.g. "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01".
-- Return: Populated context if parsing succeeded; empty context otherwise.
-- Details: Parses the traceparent header format: {version}-{trace-id}-{parent-id}-{flags} traceparent Raw header value, e.g. "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01". Populated context if parsing succeeded; empty context otherwise.
-
-#### `LLMCorrelationContext generate() noexcept`
-- Source: `include/llm/llm_correlation_context.h`:172
-- Brief: Generate a new root context with random trace_id and span_id.
-- Parameters: none
-- Details: Used when no incoming traceparent header is present. Uses std::mt19937_64 with std::random_device seeding. This is not cryptographically strong; use only for observability identifiers.
-
-#### `bool isValid() const noexcept`
-- Source: `include/llm/llm_correlation_context.h`:92
-- Brief: n/a
-- Parameters: none
-- Return: true when: trace_id is exactly 32 lower-case hex characters and is not all-zero, AND span_id is exactly 16 lower-case hex characters and is not all-zero.
-- Details: true when: trace_id is exactly 32 lower-case hex characters and is not all-zero, AND span_id is exactly 16 lower-case hex characters and is not all-zero. Enforces the W3C Trace Context spec: IDs must be valid lower-case hex and the all-zero value is explicitly forbidden as an invalid sentinel.
-
-#### `std::string toTraceparent() const noexcept`
-- Source: `include/llm/llm_correlation_context.h`:229
-- Brief: Produce a W3C traceparent header value for the version-0 format.
-- Parameters: none
-- Return: "00-{trace_id}-{span_id}-00" when the context is valid; an empty string otherwise.
-- Details: "00-{trace_id}-{span_id}-00" when the context is valid; an empty string otherwise.
 
 ### LLMDeploymentPluginRocksDBTest
 
@@ -2762,12 +2630,12 @@ Status: active
 ### LLMGrafanaMetricsTest
 
 #### `void SetUp() override`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:16
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:43
 - Brief: n/a
 - Parameters: none
 
 #### `void TearDown() override`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:49
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:77
 - Brief: n/a
 - Parameters: none
 
@@ -2781,17 +2649,17 @@ Status: active
 ### LLMMemoryLeakTest
 
 #### `void SetUp() override`
-- Source: `tests/llm/test_llm_plugin.cpp`:1387
+- Source: `tests/llm/test_llm_plugin.cpp`:1423
 - Brief: n/a
 - Parameters: none
 
 #### `void TearDown() override`
-- Source: `tests/llm/test_llm_plugin.cpp`:1395
+- Source: `tests/llm/test_llm_plugin.cpp`:1431
 - Brief: n/a
 - Parameters: none
 
 #### `long getProcRssKb()`
-- Source: `tests/llm/test_llm_plugin.cpp`:1368
+- Source: `tests/llm/test_llm_plugin.cpp`:1404
 - Brief: n/a
 - Parameters: none
 
@@ -2819,385 +2687,6 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
-### LLMPluginManager
-
-#### `std::unique_ptr< ILLMPlugin > CreatePluginSafe(const std::string &plugin_name, const std::string &config_json="")`
-- Source: `include/llm/llm_plugin_manager.h`:341
-- Brief: ═══════════════════════════════════════════════════════════════════════════ PHASE2 CRITICAL GAPS: Exception-safe plugin creation and validation ═══════════════════════════════════════════════════════════════════════════
-- Parameters:
-  - `plugin_name` (const std::string &): Name of the plugin.
-  - `config_json` (const std::string &): Input parameter.
-- Return: Return value.
-- Throws:
-  - std::invalid_argument: if an error occurs.
-  - std::runtime_error: if an error occurs.
-- Details: plugin_name Name of the plugin. config_json Input parameter. Return value. std::invalid_argument if an error occurs. std::runtime_error if an error occurs. Calls: empty(), spdlog::error(), spdlog::debug(), size(), spdlog::info(), what().
-
-#### `bool InitializePluginSafe(const std::string &name, std::unique_ptr< ILLMPlugin > &plugin)`
-- Source: `include/llm/llm_plugin_manager.h`:352
-- Brief: Initialize Plugin Safe.
-- Parameters:
-  - `name` (const std::string &): Input parameter.
-  - `plugin` (std::unique_ptr< ILLMPlugin > &): Input/output parameter.
-- Return: True when the operation succeeds.
-- Throws:
-  - std::logic_error: if an error occurs.
-- Details: name Input parameter. plugin Input/output parameter. True when the operation succeeds. name Input parameter. plugin Input/output parameter. True when the operation succeeds. std::logic_error if an error occurs. Calls: spdlog::error(), spdlog::info(), what(), reset().
-
-#### `LLMPluginManager()`
-- Source: `include/llm/llm_plugin_manager.h`:38
-- Brief: n/a
-- Parameters: none
-
-#### `LLMPluginManager(const LLMPluginManager &)=delete`
-- Source: `include/llm/llm_plugin_manager.h`:42
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const LLMPluginManager &): n/a
-
-#### `std::vector< int32_t > ProcessTokensSafe(const std::vector< std::string > &tokens, size_t max_tokens=8192)`
-- Source: `include/llm/llm_plugin_manager.h`:364
-- Brief: Process Tokens Safe.
-- Parameters:
-  - `tokens` (const std::vector< std::string > &): Input parameter.
-  - `max_tokens` (size_t): Input parameter.
-- Return: Return value.
-- Throws:
-  - std::invalid_argument: if an error occurs.
-- Details: tokens Input parameter. max_tokens Input parameter. Return value. std::invalid_argument if an error occurs. Calls: empty(), spdlog::error(), reserve(), size(), spdlog::warn(), push_back(), spdlog::debug(), what().
-
-#### `bool ValidateModelState(const std::string &model_id)`
-- Source: `include/llm/llm_plugin_manager.h`:362
-- Brief: Validate Model State.
-- Parameters:
-  - `model_id` (const std::string &): Identifier of the model.
-- Return: True when the operation succeeds.
-- Details: model_id Identifier of the model. True when the operation succeeds. model_id Identifier of the model. True when the operation succeeds. Calls: lock(), getDefaultPluginLocked(), spdlog::error(), getModelInfo(), spdlog::warn(), spdlog::debug(), what().
-
-#### `bool checkpointState(const std::string &session_id, const SSMStateSnapshot &snapshot)`
-- Source: `include/llm/llm_plugin_manager.h`:313
-- Brief: Checkpoint State.
-- Parameters:
-  - `session_id` (const std::string &): Identifier of the session.
-  - `snapshot` (const SSMStateSnapshot &): Input parameter.
-- Return: True when the operation succeeds.
-- Throws:
-  - std::invalid_argument: if an error occurs.
-- Details: session_id Identifier of the session. snapshot Input parameter. True when the operation succeeds. session_id Identifier of the session. snapshot Input parameter. True when the operation succeeds. std::invalid_argument if an error occurs. Calls: lock(), empty(), checkpoint(), spdlog::debug(), spdlog::warn(), spdlog::error(), what().
-
-#### `void clearAllCaches()`
-- Source: `include/llm/llm_plugin_manager.h`:272
-- Brief: Clear All Caches.
-- Parameters: none
-- Details: Calls: EmbeddedLLMManager::instance(), isInitialized(), get(), clearCache(), spdlog::info(), spdlog::debug().
-
-#### `uint64_t compactStateStore()`
-- Source: `include/llm/llm_plugin_manager.h`:333
-- Brief: Compact State Store.
-- Parameters: none
-- Return: Return value.
-- Details: Return value. Return value. Calls: lock(), compact(), spdlog::info(), spdlog::error(), what().
-
-#### `std::vector< float > embed(const std::string &text)`
-- Source: `include/llm/llm_plugin_manager.h`:135
-- Brief: Embed.
-- Parameters:
-  - `text` (const std::string &): Input parameter.
-- Return: Return value.
-- Throws:
-  - std::runtime_error: if an error occurs.
-- Details: text Input parameter. Return value. text Input parameter. Return value. std::runtime_error if an error occurs. Calls: getDefaultPlugin().
-
-#### `InferenceResponse generate(const InferenceRequest &request)`
-- Source: `include/llm/llm_plugin_manager.h`:117
-- Brief: ═══════════════════════════════════════════════════════════ Convenience methods (delegate to default plugin) ═══════════════════════════════════════════════════════════
-- Parameters:
-  - `request` (const InferenceRequest &): Input parameter.
-- Return: Return value.
-- Throws:
-  - std::runtime_error: if an error occurs.
-- Details: ═══════════════════════════════════════════════════════════ Convenience methods ═══════════════════════════════════════════════════════════ request Input parameter. Return value. request Input parameter. Return value. std::runtime_error if an error occurs. Calls: getDefaultPlugin().
-
-#### `InferenceResponse generateRAG(const RAGContext &rag_context, const InferenceRequest &request)`
-- Source: `include/llm/llm_plugin_manager.h`:125
-- Brief: Generate RAG.
-- Parameters:
-  - `rag_context` (const RAGContext &): Input parameter.
-  - `request` (const InferenceRequest &): Input parameter.
-- Return: Return value.
-- Throws:
-  - std::runtime_error: if an error occurs.
-- Details: rag_context Input parameter. request Input parameter. Return value. rag_context Input parameter. request Input parameter. Return value. std::runtime_error if an error occurs. Calls: spdlog::info(), empty(), size(), getDefaultPlugin(), spdlog::warn().
-
-#### `std::vector< std::string > generateStream(const InferenceRequest &request)`
-- Source: `include/llm/llm_plugin_manager.h`:180
-- Brief: Streaming and ingestion helpers.
-- Parameters:
-  - `request` (const InferenceRequest &): Input parameter.
-- Return: Return value.
-- Throws:
-  - std::runtime_error: if an error occurs.
-- Details: Generate Stream. request Input parameter. Return value. request Input parameter. Return value. std::runtime_error if an error occurs. Calls: getDefaultPlugin(), generate(), iss(), push_back().
-
-#### `json getAggregatedCapabilities() const`
-- Source: `include/llm/llm_plugin_manager.h`:97
-- Brief: Get Aggregated Capabilities.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `json getAggregatedStats() const`
-- Source: `include/llm/llm_plugin_manager.h`:103
-- Brief: Get Aggregated Stats.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `CacheStatistics getCacheStatistics() const`
-- Source: `include/llm/llm_plugin_manager.h`:263
-- Brief: Get Cache Statistics.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `ILLMPlugin * getDefaultPlugin() const`
-- Source: `include/llm/llm_plugin_manager.h`:72
-- Brief: Get Default Plugin.
-- Parameters: none
-- Return: Pointer to the result.
-- Details: Pointer to the result.
-
-#### `ILLMPlugin * getDefaultPluginLocked() const`
-- Source: `include/llm/llm_plugin_manager.h`:411
-- Brief: Get Default Plugin Locked.
-- Parameters: none
-- Return: Pointer to the result.
-- Details: Pointer to the result.
-
-#### `HealthStatus getHealthStatus() const`
-- Source: `include/llm/llm_plugin_manager.h`:268
-- Brief: Get Health Status.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `std::optional< ModelInfo > getModelInfo(const std::string &model_id) const`
-- Source: `include/llm/llm_plugin_manager.h`:193
-- Brief: Get Model Info.
-- Parameters:
-  - `model_id` (const std::string &): Identifier of the model.
-- Return: Return value.
-- Details: model_id Identifier of the model. Return value.
-
-#### `ILLMPlugin * getPlugin(const std::string &name) const`
-- Source: `include/llm/llm_plugin_manager.h`:66
-- Brief: Get Plugin.
-- Parameters:
-  - `name` (const std::string &): Input parameter.
-- Return: Pointer to the result.
-- Details: name Input parameter. Pointer to the result.
-
-#### `uint64_t getPluginOperationCount() const`
-- Source: `include/llm/llm_plugin_manager.h`:195
-- Brief: n/a
-- Parameters: none
-
-#### `std::string getStateStoreStatistics() const`
-- Source: `include/llm/llm_plugin_manager.h`:339
-- Brief: Get State Store Statistics.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `PluginStatistics getStatistics() const`
-- Source: `include/llm/llm_plugin_manager.h`:258
-- Brief: Return access control statistics.
-- Parameters: none
-- Return: Access control statistics.
-- Details: Access control statistics.
-
-#### `ActiveVRAMAllocator::Stats getVRAMStats() const`
-- Source: `include/llm/llm_plugin_manager.h`:278
-- Brief: Get VRAMStats.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `bool hasPlugin(const std::string &name) const`
-- Source: `include/llm/llm_plugin_manager.h`:91
-- Brief: Has Plugin.
-- Parameters:
-  - `name` (const std::string &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: name Input parameter. True when the operation succeeds.
-
-#### `bool ingestModel(const std::string &model_id, const std::string &data)`
-- Source: `include/llm/llm_plugin_manager.h`:187
-- Brief: Ingest Model.
-- Parameters:
-  - `model_id` (const std::string &): Identifier of the model.
-  - `data` (const std::string &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: model_id Identifier of the model. data Input parameter. True when the operation succeeds. model_id Identifier of the model. data Input parameter. True when the operation succeeds. Calls: loadModel().
-
-#### `bool initializeStateStore(const SSMStateStoreConfig &config)`
-- Source: `include/llm/llm_plugin_manager.h`:305
-- Brief: ═══════════════════════════════════════════════════════════ SSM State Store Management (P2-D04 / P2-D05 Runtime Integration) ═══════════════════════════════════════════════════════════
-- Parameters:
-  - `config` (const SSMStateStoreConfig &): Input parameter.
-- Return: True when the operation succeeds.
-- Throws:
-  - std::invalid_argument: if an error occurs.
-  - std::runtime_error: if an error occurs.
-- Details: ═══════════════════════════════════════════════════════════════════════════ SSM State Store Management (P2-D04 / P2-D05 Runtime Integration) ═══════════════════════════════════════════════════════════════════════════ config Input parameter. True when the operation succeeds. config Input parameter. True when the operation succeeds. std::invalid_argument if an error occurs. std::runtime_error if an error occurs. Calls: lock(), spdlog::info(), empty(), std::filesystem::create_directories(), rocksdb::TransactionDB::Open(), ok(), ToString(), reset().
-
-#### `LLMPluginManager & instance()`
-- Source: `include/llm/llm_plugin_manager.h`:109
-- Brief: Instance.
-- Parameters: none
-- Return: Return value.
-- Details: Return value. Return value. Calls: std::call_once(), setOOMCallback(), spdlog::warn().
-
-#### `bool invalidateState(const std::string &session_id)`
-- Source: `include/llm/llm_plugin_manager.h`:327
-- Brief: Invalidate State.
-- Parameters:
-  - `session_id` (const std::string &): Identifier of the session.
-- Return: True when the operation succeeds.
-- Throws:
-  - std::invalid_argument: if an error occurs.
-- Details: session_id Identifier of the session. True when the operation succeeds. session_id Identifier of the session. True when the operation succeeds. std::invalid_argument if an error occurs. Calls: lock(), empty(), invalidate(), spdlog::debug(), spdlog::error(), what().
-
-#### `std::vector< LoRAInfo > listLoRAs() const`
-- Source: `include/llm/llm_plugin_manager.h`:173
-- Brief: List Lo RAs.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `std::vector< std::string > listModels() const`
-- Source: `include/llm/llm_plugin_manager.h`:153
-- Brief: List Models.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `std::vector< std::string > listPlugins() const`
-- Source: `include/llm/llm_plugin_manager.h`:84
-- Brief: List Plugins.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `bool loadLoRA(const std::string &lora_id, const std::string &path, const std::string &base_model)`
-- Source: `include/llm/llm_plugin_manager.h`:162
-- Brief: Convenience wrappers for LoRA management.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-  - `path` (const std::string &): Input parameter.
-  - `base_model` (const std::string &): Input parameter.
-- Return: True when the operation succeeds.
-- Throws:
-  - std::runtime_error: if an error occurs.
-- Details: Load Lo RA. lora_id Identifier of the lora. path Input parameter. base_model Input parameter. True when the operation succeeds. lora_id Identifier of the lora. path Input parameter. base_model Input parameter. True when the operation succeeds. std::runtime_error if an error occurs. Calls: empty(), spdlog::error(), getDefaultPlugin(), lock(), std::move(), announce(), spdlog::info().
-
-#### `bool loadModel(const std::string &model_id, const std::string &path)`
-- Source: `include/llm/llm_plugin_manager.h`:143
-- Brief: Convenience wrappers for model management.
-- Parameters:
-  - `model_id` (const std::string &): Identifier of the model.
-  - `path` (const std::string &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: Load Model. model_id Identifier of the model. path Input parameter. True when the operation succeeds. model_id Identifier of the model. path Input parameter. True when the operation succeeds. Calls: empty(), spdlog::error(), std::getenv(), model_root_str(), fs::canonical(), fs::path(), clear(), fs::weakly_canonical().
-
-#### `LLMPluginManager & operator=(const LLMPluginManager &)=delete`
-- Source: `include/llm/llm_plugin_manager.h`:43
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const LLMPluginManager &): n/a
-
-#### `std::optional< SSMStateSnapshot > recoverState(const std::string &session_id)`
-- Source: `include/llm/llm_plugin_manager.h`:320
-- Brief: Recover State.
-- Parameters:
-  - `session_id` (const std::string &): Identifier of the session.
-- Return: Return value.
-- Throws:
-  - std::invalid_argument: if an error occurs.
-- Details: session_id Identifier of the session. Return value. session_id Identifier of the session. Return value. std::invalid_argument if an error occurs. Calls: lock(), empty(), resume(), spdlog::debug(), spdlog::error(), what().
-
-#### `void registerPlugin(const std::string &name, std::unique_ptr< ILLMPlugin > plugin)`
-- Source: `include/llm/llm_plugin_manager.h`:50
-- Brief: Register Plugin.
-- Parameters:
-  - `name` (const std::string &): Input parameter.
-  - `plugin` (std::unique_ptr< ILLMPlugin >): Input parameter.
-- Throws:
-  - std::invalid_argument: if an error occurs.
-- Details: name Input parameter. plugin Input parameter. name Input parameter. plugin Input parameter. std::invalid_argument if an error occurs. Calls: lock(), find(), end(), spdlog::warn(), std::move(), fetch_add(), empty(), spdlog::info().
-
-#### `void setAdapterPublisher(distributed_knowledge::GossipAdapterPublisher *publisher, std::string local_shard_id="")`
-- Source: `include/llm/llm_plugin_manager.h`:295
-- Brief: Set Adapter Publisher.
-- Parameters:
-  - `publisher` (distributed_knowledge::GossipAdapterPublisher *): Input/output parameter.
-  - `local_shard_id` (std::string): Identifier of the local shard.
-- Details: publisher Input/output parameter. local_shard_id Identifier of the local shard.
-
-#### `void setCancelSessionCallback(CancelSessionCallback cb)`
-- Source: `include/llm/llm_plugin_manager.h`:288
-- Brief: Set Cancel Session Callback.
-- Parameters:
-  - `cb` (CancelSessionCallback): Input parameter.
-- Details: ═══════════════════════════════════════════════════════════ MSW: MetricsServer Admin Callback Wiring ═══════════════════════════════════════════════════════════ cb Input parameter.
-
-#### `void setDefaultPlugin(const std::string &name)`
-- Source: `include/llm/llm_plugin_manager.h`:78
-- Brief: Set Default Plugin.
-- Parameters:
-  - `name` (const std::string &): Input parameter.
-- Throws:
-  - std::invalid_argument: if an error occurs.
-- Details: name Input parameter. name Input parameter. std::invalid_argument if an error occurs. Calls: lock(), find(), end(), spdlog::info().
-
-#### `bool unloadLoRA(const std::string &lora_id)`
-- Source: `include/llm/llm_plugin_manager.h`:168
-- Brief: Unload Lo RA.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-- Return: True when the operation succeeds.
-- Throws:
-  - std::runtime_error: if an error occurs.
-- Details: lora_id Identifier of the lora. True when the operation succeeds. lora_id Identifier of the lora. True when the operation succeeds. std::runtime_error if an error occurs. Calls: getDefaultPlugin(), lock(), std::move(), announce(), spdlog::info().
-
-#### `void unloadModel(const std::string &model_id)`
-- Source: `include/llm/llm_plugin_manager.h`:148
-- Brief: Unload Model.
-- Parameters:
-  - `model_id` (const std::string &): Identifier of the model.
-- Throws:
-  - std::runtime_error: if an error occurs.
-- Details: model_id Identifier of the model. model_id Identifier of the model. std::runtime_error if an error occurs. Calls: empty(), lock(), find(), end(), free(), erase(), getDefaultPluginLocked().
-
-#### `void unregisterPlugin(const std::string &name)`
-- Source: `include/llm/llm_plugin_manager.h`:59
-- Brief: Unregister Plugin.
-- Parameters:
-  - `name` (const std::string &): Input parameter.
-- Details: name Input parameter. name Input parameter. Calls: lock(), find(), end(), spdlog::warn(), clear(), empty(), spdlog::info(), erase().
-
-#### `void wireMetricsServerCallbacks(monitoring::MetricsServer &server)`
-- Source: `include/llm/llm_plugin_manager.h`:294
-- Brief: Wire Metrics Server Callbacks.
-- Parameters:
-  - `server` (monitoring::MetricsServer &): Input/output parameter.
-- Details: server Input/output parameter.
-
-#### `~LLMPluginManager() noexcept`
-- Source: `include/llm/llm_plugin_manager.h`:39
-- Brief: n/a
-- Parameters: none
-
 ### LLMPluginTest
 
 #### `void SetUp() override`
@@ -3211,21 +2700,21 @@ Status: active
 - Parameters: none
 
 #### `void createDummyLoRA(const std::string &filename, size_t size_mb=10)`
-- Source: `tests/llm/test_llm_plugin.cpp`:320
+- Source: `tests/llm/test_llm_plugin.cpp`:315
 - Brief: n/a
 - Parameters:
   - `filename` (const std::string &): n/a
   - `size_mb` (size_t): n/a
 
 #### `void createDummyModel(const std::string &filename, size_t size_mb=100)`
-- Source: `tests/llm/test_llm_plugin.cpp`:314
+- Source: `tests/llm/test_llm_plugin.cpp`:309
 - Brief: n/a
 - Parameters:
   - `filename` (const std::string &): n/a
   - `size_mb` (size_t): n/a
 
 #### `std::string resolveModelPathForInference(const std::string &fallback_name, size_t fallback_size_mb=50)`
-- Source: `tests/llm/test_llm_plugin.cpp`:301
+- Source: `tests/llm/test_llm_plugin.cpp`:302
 - Brief: n/a
 - Parameters:
   - `fallback_name` (const std::string &): n/a
@@ -3418,14 +2907,14 @@ Status: active
 ### LinearTopKRagCostModelService
 
 #### `LinearTopKRagCostModelService(double base_cost, double per_doc_cost)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:209
+- Source: `tests/llm/test_ai_orchestrator.cpp`:211
 - Brief: n/a
 - Parameters:
   - `base_cost` (double): n/a
   - `per_doc_cost` (double): n/a
 
 #### `std::optional< RagCostEstimate > estimate(const RagCostModelInput &input) const override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:213
+- Source: `tests/llm/test_ai_orchestrator.cpp`:215
 - Brief: n/a
 - Parameters:
   - `input` (const RagCostModelInput &): n/a
@@ -3454,549 +2943,6 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
-### LlamaWrapper
-
-#### `LlamaWrapper(const Config &config)`
-- Source: `include/llm/llama_wrapper.h`:230
-- Brief: Llama Wrapper.
-- Parameters:
-  - `config` (const Config &): Input parameter.
-- Return: Return value.
-- Details: config Input parameter. Return value.
-
-#### `LlamaWrapper(const LlamaWrapper &)=delete`
-- Source: `include/llm/llama_wrapper.h`:234
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const LlamaWrapper &): n/a
-
-#### `std::string calculateModelChecksum(const std::string &file_path)`
-- Source: `include/llm/llama_wrapper.h`:283
-- Brief: Calculate Model Checksum.
-- Parameters:
-  - `file_path` (const std::string &): Path to the file.
-- Return: Return value.
-- Details: file_path Path to the file. Return value. file_path Path to the file. Return value. Calls: themis::utils::calculateSHA256().
-
-#### `size_t cleanupTempModels(int days_old=7)`
-- Source: `include/llm/llama_wrapper.h`:268
-- Brief: Cleanup Temp Models.
-- Parameters:
-  - `days_old` (int): Input parameter.
-- Return: Return value.
-- Details: days_old Input parameter. Return value. Calls: std::filesystem::temp_directory_path(), std::filesystem::exists(), spdlog::debug(), string(), std::filesystem::file_time_type::clock::now(), std::chrono::hours(), std::filesystem::directory_iterator(), is_regular_file().
-
-#### `void clearPrefixCache()`
-- Source: `include/llm/llama_wrapper.h`:399
-- Brief: Clear Prefix Cache.
-- Parameters: none
-- Details: Calls: lock(), get(), clear(), spdlog::info().
-
-#### `void clearStateHistory()`
-- Source: `include/llm/llama_wrapper.h`:373
-- Brief: Clear State History.
-- Parameters: none
-- Details: Calls: lock(), clear().
-
-#### `std::vector< std::vector< float > > computeTargetLogitsForTokens(const InferenceRequest &request, const std::vector< int > &draft_token_ids)`
-- Source: `include/llm/llama_wrapper.h`:320
-- Brief: Compute Target Logits For Tokens.
-- Parameters:
-  - `request` (const InferenceRequest &): Input parameter.
-  - `draft_token_ids` (const std::vector< int > &): Input parameter.
-- Return: Return value.
-- Throws:
-  - std::runtime_error: if an error occurs.
-  - std::invalid_argument: if an error occurs.
-- Details: request Input parameter. draft_token_ids Input parameter. Return value. std::runtime_error if an error occurs. std::invalid_argument if an error occurs. Calls: lock(), empty(), get(), getOrLoadModelShared(), tokenizeInternal(), llama_get_memory(), llama_memory_seq_rm(), llama_batch_get_one().
-
-#### `std::string detokenizeInternal(llama_context *ctx, const std::vector< llama_token > &tokens)`
-- Source: `include/llm/llama_wrapper.h`:652
-- Brief: Detokenize Internal.
-- Parameters:
-  - `ctx` (llama_context *): Input/output parameter.
-  - `tokens` (const std::vector< llama_token > &): Input parameter.
-- Return: Return value.
-- Throws:
-  - std::runtime_error: if an error occurs.
-- Details: ctx Input/output parameter. tokens Input parameter. Return value. ctx Input/output parameter. tokens Input parameter. Return value. std::runtime_error if an error occurs. Calls: llama_get_model(), llama_model_get_vocab(), reserve(), size(), llama_token_to_piece(), append().
-
-#### `std::vector< float > embed(const std::string &text) override`
-- Source: `include/llm/llama_wrapper.h`:339
-- Brief: Embed.
-- Parameters:
-  - `text` (const std::string &): Input parameter.
-- Return: Return value.
-- Throws:
-  - std::runtime_error: if an error occurs.
-- Details: text Input parameter. Return value. std::runtime_error if an error occurs. Calls: lock(), empty(), spdlog::debug(), length(), get(), getOrLoadModelShared(), tokenizeInternal(), llama_batch_get_one().
-
-#### `std::vector< uint8_t > exportLoRA(const std::string &lora_id) override`
-- Source: `include/llm/llama_wrapper.h`:379
-- Brief: ═══════════════════════════════════════════════════════════ Distributed Features ═══════════════════════════════════════════════════════════
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-- Return: Return value.
-- Details: lora_id Identifier of the lora. Return value. Calls: lock(), spdlog::info(), get(), spdlog::warn().
-
-#### `std::string extractModelId(const std::string &model_path)`
-- Source: `include/llm/llama_wrapper.h`:543
-- Brief: Extract Model Id.
-- Parameters:
-  - `model_path` (const std::string &): Path to the model.
-- Return: Return value.
-- Details: model_path Path to the model. Return value. model_path Path to the model. Return value. Calls: p(), stem(), string().
-
-#### `std::string formatAlpaca(const std::vector< ChatMessage > &messages)`
-- Source: `include/llm/llama_wrapper.h`:690
-- Brief: Format Alpaca.
-- Parameters:
-  - `messages` (const std::vector< ChatMessage > &): Input parameter.
-- Return: Return value.
-- Details: messages Input parameter. Return value. messages Input parameter. Return value. Calls: str().
-
-#### `json formatAsJsonMarkdown(const InferenceResponse &response)`
-- Source: `include/llm/llama_wrapper.h`:713
-- Brief: Format As Json Markdown.
-- Parameters:
-  - `response` (const InferenceResponse &): Input parameter.
-- Return: Return value.
-- Details: response Input parameter. Return value. response Input parameter. Return value. Calls: empty().
-
-#### `json formatAsMCPResponse(const InferenceResponse &response)`
-- Source: `include/llm/llama_wrapper.h`:699
-- Brief: ═══════════════════════════════════════════════════════════ Output Formatting Helpers (MCP, SSE, AQL) ═══════════════════════════════════════════════════════════
-- Parameters:
-  - `response` (const InferenceResponse &): Input parameter.
-- Return: Return value.
-- Details: response Input parameter. Return value. response Input parameter. Return value. Calls: empty(), has_value(), value().
-
-#### `std::string formatAsSSE(const InferenceResponse &response)`
-- Source: `include/llm/llama_wrapper.h`:706
-- Brief: Format As SSE.
-- Parameters:
-  - `response` (const InferenceResponse &): Input parameter.
-- Return: Return value.
-- Details: response Input parameter. Return value. response Input parameter. Return value. Calls: formatAsMCPResponse(), dump().
-
-#### `std::string formatChatML(const std::vector< ChatMessage > &messages)`
-- Source: `include/llm/llama_wrapper.h`:672
-- Brief: Chat formatting helpers (implementation details).
-- Parameters:
-  - `messages` (const std::vector< ChatMessage > &): Input parameter.
-- Return: Return value.
-- Details: Format Chat ML. messages Input parameter. Return value. messages Input parameter. Return value. Calls: str().
-
-#### `std::string formatChatMessages(const std::vector< ChatMessage > &messages, ChatFormat format=ChatFormat::ChatML)`
-- Source: `include/llm/llama_wrapper.h`:443
-- Brief: ═══════════════════════════════════════════════════════════ Chat Formatting Methods ═══════════════════════════════════════════════════════════
-- Parameters:
-  - `messages` (const std::vector< ChatMessage > &): Input parameter.
-  - `format` (ChatFormat): Input parameter.
-- Return: Return value.
-- Details: messages Input parameter. format Input parameter. Return value. Calls: formatChatML(), formatLlama2(), formatVicuna(), formatAlpaca().
-
-#### `std::string formatLlama2(const std::vector< ChatMessage > &messages)`
-- Source: `include/llm/llama_wrapper.h`:678
-- Brief: Format Llama2.
-- Parameters:
-  - `messages` (const std::vector< ChatMessage > &): Input parameter.
-- Return: Return value.
-- Details: messages Input parameter. Return value. messages Input parameter. Return value. Calls: empty(), str().
-
-#### `std::string formatPromptForRAG(const RAGContext &rag_context, const InferenceRequest &request)`
-- Source: `include/llm/llama_wrapper.h`:527
-- Brief: Format Prompt For RAG.
-- Parameters:
-  - `rag_context` (const RAGContext &): Input parameter.
-  - `request` (const InferenceRequest &): Input parameter.
-- Return: Return value.
-- Throws:
-  - std::invalid_argument: if an error occurs.
-- Details: ═══════════════════════════════════════════════════════════ Helper Methods ═══════════════════════════════════════════════════════════ rag_context Input parameter. request Input parameter. Return value. rag_context Input parameter. request Input parameter. Return value. std::invalid_argument if an error occurs. Calls: sanitizePromptText(), size(), str().
-
-#### `std::string formatStreamTokenAsSSE(const std::string &token, const std::string &request_id="")`
-- Source: `include/llm/llama_wrapper.h`:715
-- Brief: Format Stream Token As SSE.
-- Parameters:
-  - `token` (const std::string &): Input parameter.
-  - `request_id` (const std::string &): Identifier of the request.
-- Return: Return value.
-- Details: token Input parameter. request_id Identifier of the request. Return value. Calls: empty(), dump().
-
-#### `std::string formatVicuna(const std::vector< ChatMessage > &messages)`
-- Source: `include/llm/llama_wrapper.h`:684
-- Brief: Format Vicuna.
-- Parameters:
-  - `messages` (const std::vector< ChatMessage > &): Input parameter.
-- Return: Return value.
-- Details: messages Input parameter. Return value. messages Input parameter. Return value. Calls: str().
-
-#### `InferenceResponse generate(const InferenceRequest &request) override`
-- Source: `include/llm/llama_wrapper.h`:307
-- Brief: ═══════════════════════════════════════════════════════════ Inference ═══════════════════════════════════════════════════════════
-- Parameters:
-  - `request` (const InferenceRequest &): Input parameter.
-- Return: Return value.
-- Throws:
-  - std::invalid_argument: if an error occurs.
-  - std::runtime_error: if an error occurs.
-- Details: request Input parameter. Return value. std::invalid_argument if an error occurs. std::runtime_error if an error occurs. Calls: lock(), sanitizePromptText(), recordInferenceFailure(), empty(), std::move(), spdlog::info(), stateToString(), unlock().
-
-#### `DraftTokensResult generateDraftTokens(const InferenceRequest &request, size_t k, size_t vocab_size_hint) override`
-- Source: `include/llm/llama_wrapper.h`:309
-- Brief: Generate Draft Tokens.
-- Parameters:
-  - `request` (const InferenceRequest &): Input parameter.
-  - `k` (size_t): Input parameter.
-  - `vocab_size_hint` (size_t): Input parameter.
-- Return: Return value.
-- Throws:
-  - std::invalid_argument: if an error occurs.
-  - std::runtime_error: if an error occurs.
-- Details: request Input parameter. k Input parameter. vocab_size_hint Input parameter. Return value. std::invalid_argument if an error occurs. std::runtime_error if an error occurs. Calls: lock(), empty(), get(), getOrLoadModelShared(), tokenizeInternal(), llama_get_memory(), llama_memory_seq_rm(), llama_batch_get_one().
-
-#### `InferenceResponse generateRAG(const RAGContext &rag_context, const InferenceRequest &request) override`
-- Source: `include/llm/llama_wrapper.h`:325
-- Brief: Generate RAG.
-- Parameters:
-  - `rag_context` (const RAGContext &): Input parameter.
-  - `request` (const InferenceRequest &): Input parameter.
-- Return: Return value.
-- Details: rag_context Input parameter. request Input parameter. Return value. Calls: spdlog::debug(), size(), formatPromptForRAG(), generate().
-
-#### `InferenceResponse generateRegular(const InferenceRequest &request)`
-- Source: `include/llm/llama_wrapper.h`:598
-- Brief: Generate Regular.
-- Parameters:
-  - `request` (const InferenceRequest &): Input parameter.
-- Return: Return value.
-- Throws:
-  - std::runtime_error: if an error occurs.
-- Details: request Input parameter. Return value. request Input parameter. Return value. std::runtime_error if an error occurs. Calls: std::chrono::high_resolution_clock::now(), get(), getOrLoadModelShared(), empty(), spdlog::info(), spdlog::warn(), isLoRALoaded(), applyLoRA().
-
-#### `InferenceResponse generateSpeculative(const InferenceRequest &request)`
-- Source: `include/llm/llama_wrapper.h`:592
-- Brief: Generate Speculative.
-- Parameters:
-  - `request` (const InferenceRequest &): Input parameter.
-- Return: Return value.
-- Throws:
-  - std::runtime_error: if an error occurs.
-- Details: request Input parameter. Return value. request Input parameter. Return value. std::runtime_error if an error occurs. Calls: std::chrono::high_resolution_clock::now(), get(), getOrLoadModelShared(), spdlog::warn(), generateRegular(), empty(), spdlog::info(), isLoRALoaded().
-
-#### `std::optional< ContinuousBatchScheduler::Stats > getBatchSchedulerStats() const`
-- Source: `include/llm/llama_wrapper.h`:441
-- Brief: Get Batch Scheduler Stats.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `LLMCapabilities getCapabilities() const override`
-- Source: `include/llm/llama_wrapper.h`:345
-- Brief: n/a
-- Parameters: none
-
-#### `json getMemoryStats() const override`
-- Source: `include/llm/llama_wrapper.h`:347
-- Brief: n/a
-- Parameters: none
-
-#### `std::optional< ModelInfo > getModelInfo() const override`
-- Source: `include/llm/llama_wrapper.h`:285
-- Brief: n/a
-- Parameters: none
-
-#### `std::string getName() const`
-- Source: `include/llm/llama_wrapper.h`:387
-- Brief: n/a
-- Parameters: none
-
-#### `std::shared_ptr< Grammar > getOrCreateGrammar(const InferenceRequest &request)`
-- Source: `include/llm/llama_wrapper.h`:568
-- Brief: Get Or Create Grammar.
-- Parameters:
-  - `request` (const InferenceRequest &): Input parameter.
-- Return: Return value.
-- Details: request Input parameter. Return value. request Input parameter. Return value. Calls: has_value(), empty(), spdlog::warn(), value(), length(), std::to_string(), find(), end().
-
-#### `json getPerformanceStats() const override`
-- Source: `include/llm/llama_wrapper.h`:349
-- Brief: n/a
-- Parameters: none
-
-#### `std::optional< PrefixCacheStatistics > getPrefixCacheStats() const`
-- Source: `include/llm/llama_wrapper.h`:394
-- Brief: ═══════════════════════════════════════════════════════════ Cache Management (Optional Features) ═══════════════════════════════════════════════════════════
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `float getProbability(float *logits, llama_token token, int32_t n_vocab)`
-- Source: `include/llm/llama_wrapper.h`:606
-- Brief: Get Probability.
-- Parameters:
-  - `logits` (float *): Input/output parameter.
-  - `token` (llama_token): Input parameter.
-  - `n_vocab` (int32_t): Input parameter.
-- Return: Return value.
-- Details: logits Input/output parameter. token Input parameter. n_vocab Input parameter. Return value. logits Input/output parameter. token Input parameter. n_vocab Input parameter. Return value. Calls: std::max(), std::exp(), std::isfinite().
-
-#### `std::optional< SpeculativeDecodingStats > getSpeculativeStats() const`
-- Source: `include/llm/llama_wrapper.h`:413
-- Brief: Get Speculative Stats.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `bool importLoRA(const std::string &lora_id, const std::vector< uint8_t > &data) override`
-- Source: `include/llm/llama_wrapper.h`:381
-- Brief: Import Lo RA.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-  - `data` (const std::vector< uint8_t > &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: lora_id Identifier of the lora. data Input parameter. True when the operation succeeds. Calls: lock(), empty(), errors::logError(), get(), spdlog::warn(), spdlog::info(), size().
-
-#### `void initializeBuiltinGrammars()`
-- Source: `include/llm/llama_wrapper.h`:562
-- Brief: Grammar-related helpers (Phase 3.
-- Parameters: none
-- Details: ═══════════════════════════════════════════════════════════ Grammar-Constrained Generation (Phase 3. 2) 2) ═══════════════════════════════════════════════════════════ Calls: empty(), loadGrammarFile(), spdlog::debug(), size().
-
-#### `bool isBatchModeActive() const`
-- Source: `include/llm/llama_wrapper.h`:429
-- Brief: Is Batch Mode Active.
-- Parameters: none
-- Return: True when the operation succeeds.
-- Details: True when the operation succeeds.
-
-#### `bool isModelLoaded() const override`
-- Source: `include/llm/llama_wrapper.h`:287
-- Brief: n/a
-- Parameters: none
-
-#### `std::vector< LoRAInfo > listLoRAs() const override`
-- Source: `include/llm/llama_wrapper.h`:301
-- Brief: n/a
-- Parameters: none
-
-#### `bool loadDraftModel(const std::string &draft_path)`
-- Source: `include/llm/llama_wrapper.h`:582
-- Brief: Load Draft Model.
-- Parameters:
-  - `draft_path` (const std::string &): Path to the draft.
-- Return: True when the operation succeeds.
-- Details: ═══════════════════════════════════════════════════════════ Speculative Decoding Implementation (Phase 2) ═══════════════════════════════════════════════════════════ draft_path Path to the draft. True when the operation succeeds. draft_path Path to the draft. True when the operation succeeds. Calls: empty(), fs::weakly_canonical(), fs::path(), parent_path(), std::mismatch(), begin(), end(), spdlog::error().
-
-#### `std::string loadGrammarFile(const std::string &grammar_name)`
-- Source: `include/llm/llama_wrapper.h`:574
-- Brief: Load Grammar File.
-- Parameters:
-  - `grammar_name` (const std::string &): Name of the grammar.
-- Return: Return value.
-- Details: grammar_name Name of the grammar. Return value. grammar_path Path to the grammar. Return value. Calls: file(), is_open(), spdlog::warn(), rdbuf(), str(), spdlog::error(), what().
-
-#### `bool loadLoRA(const std::string &lora_id, const std::string &lora_path, float scale=1.0f) override`
-- Source: `include/llm/llama_wrapper.h`:293
-- Brief: ═══════════════════════════════════════════════════════════ LoRA Management ═══════════════════════════════════════════════════════════
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-  - `lora_path` (const std::string &): Path to the lora.
-  - `scale` (float): Input parameter.
-- Return: True when the operation succeeds.
-- Details: lora_id Identifier of the lora. lora_path Path to the lora. scale Input parameter. True when the operation succeeds. Calls: lock(), empty(), errors::logError(), spdlog::info(), get(), spdlog::warn().
-
-#### `bool loadModel(const std::string &model_path, const json &config={}) override`
-- Source: `include/llm/llama_wrapper.h`:255
-- Brief: Load Model.
-- Parameters:
-  - `model_path` (const std::string &): Path to the model.
-  - `config` (const json &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: model_path Path to the model. config Input parameter. True when the operation succeeds. Calls: lock(), transitionToState(), spdlog::info(), std::chrono::high_resolution_clock::now(), extractModelId(), is_object(), json::object(), value().
-
-#### `bool loadModelFromThemisDB(const std::string &model_id, std::shared_ptr< LLMModelStorage > storage, std::shared_ptr< storage::BlobStorageManager > blob_manager, std::shared_ptr<::themis::security::FieldEncryption > encryption=nullptr, const json &config={})`
-- Source: `include/llm/llama_wrapper.h`:260
-- Brief: Load Model From Themis DB.
-- Parameters:
-  - `model_id` (const std::string &): Identifier of the model.
-  - `storage` (std::shared_ptr< LLMModelStorage >): Input parameter.
-  - `blob_manager` (std::shared_ptr< storage::BlobStorageManager >): Input parameter.
-  - `encryption` (std::shared_ptr<::themis::security::FieldEncryption >): n/a
-  - `config` (const json &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: model_id Identifier of the model. storage Input parameter. blob_manager Input parameter. param Input parameter. config Input parameter. True when the operation succeeds. Calls: is_object(), json::object(), spdlog::info(), spdlog::error(), loadModel(), errors::logError(), loadModelBlob(), size().
-
-#### `LlamaWrapper & operator=(const LlamaWrapper &)=delete`
-- Source: `include/llm/llama_wrapper.h`:235
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const LlamaWrapper &): n/a
-
-#### `llama_token sampleTokenInternal(llama_context *ctx, llama_model *model, float *logits, int32_t n_vocab, float temperature, float top_p, llama_grammar *grammar=nullptr)`
-- Source: `include/llm/llama_wrapper.h`:657
-- Brief: Sample Token Internal.
-- Parameters:
-  - `ctx` (llama_context *): Input/output parameter.
-  - `model` (llama_model *): Input/output parameter.
-  - `logits` (float *): Input/output parameter.
-  - `n_vocab` (int32_t): Input parameter.
-  - `temperature` (float): Input parameter.
-  - `top_p` (float): Input parameter.
-  - `grammar` (llama_grammar *): Input/output parameter.
-- Return: Return value.
-- Throws:
-  - std::runtime_error: if an error occurs.
-- Details: ctx Input/output parameter. model Input/output parameter. logits Input/output parameter. n_vocab Input parameter. temperature Input parameter. top_p Input parameter. grammar Input/output parameter. Return value. std::runtime_error if an error occurs. Calls: reserve(), push_back(), data(), size(), themis_llama_grammar_available(), llama_grammar_sample(), spdlog::debug(), spdlog::warn().
-
-#### `void setMetricsCollector(monitoring::LLMMetricsCollector *collector)`
-- Source: `include/llm/llama_wrapper.h`:242
-- Brief: Set metrics collector (optional).
-- Parameters:
-  - `collector` (monitoring::LLMMetricsCollector *): Input/output parameter.
-- Details: collector Input/output parameter. Implements setMetricsCollector without additional internal calls.
-
-#### `void startBatchMode()`
-- Source: `include/llm/llama_wrapper.h`:418
-- Brief: Start Batch Mode.
-- Parameters: none
-- Throws:
-  - std::runtime_error: if an error occurs.
-- Details: std::runtime_error if an error occurs. Calls: lock(), spdlog::warn(), std::min(), max(), spdlog::info(), get(), start().
-
-#### `WrapperState state() const`
-- Source: `include/llm/llama_wrapper.h`:356
-- Brief: ═══════════════════════════════════════════════════════════ State Management (Production Readiness) ═══════════════════════════════════════════════════════════
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `std::vector< StateTransition > stateHistory() const`
-- Source: `include/llm/llama_wrapper.h`:368
-- Brief: State History.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `std::string stateString() const`
-- Source: `include/llm/llama_wrapper.h`:362
-- Brief: State String.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `std::string stateToString(WrapperState state)`
-- Source: `include/llm/llama_wrapper.h`:556
-- Brief: State To String.
-- Parameters:
-  - `state` (WrapperState): Input parameter.
-- Return: Return value.
-- Details: state Input parameter. Return value. state Input parameter. Return value. Implements stateToString without additional internal calls.
-
-#### `void stopBatchMode()`
-- Source: `include/llm/llama_wrapper.h`:423
-- Brief: Stop Batch Mode.
-- Parameters: none
-- Details: Calls: lock(), spdlog::warn(), get(), stop(), spdlog::info().
-
-#### `std::string submitBatchRequest(const InferenceRequest &request, ContinuousBatchScheduler::RequestPriority priority=ContinuousBatchScheduler::RequestPriority::NORMAL, std::function< void(const InferenceResponse &)> callback=nullptr)`
-- Source: `include/llm/llama_wrapper.h`:431
-- Brief: n/a
-- Parameters:
-  - `request` (const InferenceRequest &): n/a
-  - `priority` (ContinuousBatchScheduler::RequestPriority): n/a
-  - `callback` (std::function< void(const InferenceResponse &)>): n/a
-
-#### `void synchronizeDraftToTarget(const std::vector< llama_token > &accepted_tokens)`
-- Source: `include/llm/llama_wrapper.h`:611
-- Brief: Synchronize Draft To Target.
-- Parameters:
-  - `accepted_tokens` (const std::vector< llama_token > &): Input parameter.
-- Details: accepted_tokens Input parameter. accepted_tokens Input parameter. Calls: empty(), llama_get_memory(), spdlog::warn(), llama_memory_clear(), llama_batch_get_one(), data(), size(), llama_decode().
-
-#### `std::vector< int > tokenizeForBridge(const std::string &text, bool add_bos=true)`
-- Source: `include/llm/llama_wrapper.h`:315
-- Brief: Tokenize For Bridge.
-- Parameters:
-  - `text` (const std::string &): Input parameter.
-  - `add_bos` (bool): Input parameter.
-- Return: Return value.
-- Throws:
-  - std::runtime_error: if an error occurs.
-- Details: text Input parameter. add_bos Input parameter. Return value. std::runtime_error if an error occurs. Calls: lock(), empty(), get(), getOrLoadModelShared(), tokenizeInternal(), reserve(), size(), push_back().
-
-#### `std::vector< llama_token > tokenizeInternal(llama_model *model, const std::string &text, bool add_bos)`
-- Source: `include/llm/llama_wrapper.h`:640
-- Brief: Internal llama.
-- Parameters:
-  - `model` (llama_model *): Input/output parameter.
-  - `text` (const std::string &): Input parameter.
-  - `add_bos` (bool): Input parameter.
-- Return: Return value.
-- Throws:
-  - std::runtime_error: if an error occurs.
-- Details: ═══════════════════════════════════════════════════════════ Internal Helper Methods for llama. model Input/output parameter. text Input parameter. add_bos Input parameter. Return value. cpp helper functions model Input/output parameter. text Input parameter. add_bos Input parameter. Return value. std::runtime_error if an error occurs. cpp Integration ═══════════════════════════════════════════════════════════ Calls: llama_model_get_vocab(), size(), max(), tokens(), llama_tokenize(), c_str(), data(), resize().
-
-#### `void transitionToState(WrapperState new_state, const std::string &reason)`
-- Source: `include/llm/llama_wrapper.h`:550
-- Brief: State machine helpers (Production Readiness).
-- Parameters:
-  - `new_state` (WrapperState): Input parameter.
-  - `reason` (const std::string &): Input parameter.
-- Details: Transition To State. new_state Input parameter. reason Input parameter. new_state Input parameter. reason Input parameter. Calls: transition(), push_back(), size(), erase(), begin(), spdlog::info(), stateToString().
-
-#### `void unloadDraftModel()`
-- Source: `include/llm/llama_wrapper.h`:586
-- Brief: Unload Draft Model.
-- Parameters: none
-- Details: Calls: llama_free(), llama_free_model(), clear().
-
-#### `bool unloadLoRA(const std::string &lora_id) override`
-- Source: `include/llm/llama_wrapper.h`:299
-- Brief: Unload Lo RA.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-- Return: True when the operation succeeds.
-- Details: lora_id Identifier of the lora. True when the operation succeeds. Calls: lock(), get().
-
-#### `void unloadModel() override`
-- Source: `include/llm/llama_wrapper.h`:270
-- Brief: Unload Model.
-- Parameters: none
-- Details: Calls: lock(), empty(), spdlog::info(), transitionToState(), unloadDraftModel(), recordModelUnloaded(), get(), spdlog::warn().
-
-#### `void updateStatistics(const InferenceResponse &response)`
-- Source: `include/llm/llama_wrapper.h`:536
-- Brief: Update Statistics.
-- Parameters:
-  - `response` (const InferenceResponse &): Input parameter.
-- Details: response Input parameter. response Input parameter. Implements updateStatistics without additional internal calls.
-
-#### `void validateConfig(const Config &config)`
-- Source: `include/llm/llama_wrapper.h`:519
-- Brief: Validate Config.
-- Parameters:
-  - `config` (const Config &): Input parameter.
-- Throws:
-  - std::invalid_argument: if an error occurs.
-- Details: ═══════════════════════════════════════════════════════════ Configuration Validation ═══════════════════════════════════════════════════════════ config Input parameter. config Input parameter. std::invalid_argument if an error occurs. Calls: spdlog::warn(), spdlog::info().
-
-#### `bool verifyModelIntegrity(const std::string &file_path, const std::string &expected_checksum, const std::string &checksum_type="sha256")`
-- Source: `include/llm/llama_wrapper.h`:272
-- Brief: ═══════════════════════════════════════════════════════════ Model Management ═══════════════════════════════════════════════════════════
-- Parameters:
-  - `file_path` (const std::string &): Path to the file.
-  - `expected_checksum` (const std::string &): Input parameter.
-  - `checksum_type` (const std::string &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: file_path Path to the file. expected_checksum Input parameter. checksum_type Input parameter. True when the operation succeeds. Calls: empty(), spdlog::warn(), themis::utils::calculateSHA256(), spdlog::error(), spdlog::info().
-
-#### `~LlamaWrapper() override`
-- Source: `include/llm/llama_wrapper.h`:231
-- Brief: n/a
-- Parameters: none
-
 ### LlamaWrapperStateTest
 
 #### `void SetUp() override`
@@ -4007,12 +2953,12 @@ Status: active
 ### LlmModelPathTraversalTest
 
 #### `void SetUp() override`
-- Source: `tests/llm/test_llm_model_path_traversal.cpp`:62
+- Source: `tests/llm/test_llm_model_path_traversal.cpp`:63
 - Brief: n/a
 - Parameters: none
 
 #### `void TearDown() override`
-- Source: `tests/llm/test_llm_model_path_traversal.cpp`:72
+- Source: `tests/llm/test_llm_model_path_traversal.cpp`:73
 - Brief: n/a
 - Parameters: none
 
@@ -4201,12 +3147,12 @@ Status: active
 ### MEMHardeningTest
 
 #### `void SetUp() override`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1109
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1123
 - Brief: n/a
 - Parameters: none
 
 #### `void TearDown() override`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1113
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1127
 - Brief: n/a
 - Parameters: none
 
@@ -4226,24 +3172,24 @@ Status: active
 ### MetricsServerHTTPTest
 
 #### `void SetUp() override`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:364
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:448
 - Brief: n/a
 - Parameters: none
 
 #### `void TearDown() override`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:374
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:458
 - Brief: n/a
 - Parameters: none
 
 ### MetricsServerHandlerTest
 
 #### `void SetUp() override`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:256
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:340
 - Brief: n/a
 - Parameters: none
 
 #### `void TearDown() override`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:264
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:348
 - Brief: n/a
 - Parameters: none
 
@@ -4293,40 +3239,40 @@ Status: active
 ### ModelLoadingFromThemisDBTest
 
 #### `void SetUp() override`
-- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:39
+- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:40
 - Brief: n/a
 - Parameters: none
 
 #### `void TearDown() override`
-- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:80
+- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:81
 - Brief: n/a
 - Parameters: none
 
 #### `LLMModelMetadata createTestMetadata(const std::string &model_id)`
-- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:117
+- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:118
 - Brief: n/a
 - Parameters:
   - `model_id` (const std::string &): n/a
 
 #### `void createTestModelFile()`
-- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:97
+- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:98
 - Brief: n/a
 - Parameters: none
 
 ### ModelLoadingTest
 
 #### `void SetUp() override`
-- Source: `tests/llm/test_model_loading_best_practices.cpp`:46
+- Source: `tests/llm/test_model_loading_best_practices.cpp`:49
 - Brief: n/a
 - Parameters: none
 
 #### `void TearDown() override`
-- Source: `tests/llm/test_model_loading_best_practices.cpp`:51
+- Source: `tests/llm/test_model_loading_best_practices.cpp`:54
 - Brief: n/a
 - Parameters: none
 
 #### `std::string createMockModelFile(const std::string &name, size_t size_bytes)`
-- Source: `tests/llm/test_model_loading_best_practices.cpp`:58
+- Source: `tests/llm/test_model_loading_best_practices.cpp`:61
 - Brief: n/a
 - Parameters:
   - `name` (const std::string &): n/a
@@ -4351,669 +3297,6 @@ Status: active
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
-
-### MultiLoRAManager
-
-#### `MultiLoRAManager(MultiLoRAManager &&other) noexcept`
-- Source: `include/llm/multi_lora_manager.h`:309
-- Brief: n/a
-- Parameters:
-  - `other` (MultiLoRAManager &&): n/a
-
-#### `MultiLoRAManager(const Config &config)`
-- Source: `include/llm/multi_lora_manager.h`:306
-- Brief: Multi Lo RAManager.
-- Parameters:
-  - `config` (const Config &): Input parameter.
-- Return: Return value.
-- Details: config Input parameter. Return value.
-
-#### `MultiLoRAManager(const MultiLoRAManager &)=delete`
-- Source: `include/llm/multi_lora_manager.h`:315
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const MultiLoRAManager &): n/a
-
-#### `bool applyLoRA(const std::string &lora_id, llama_context *context)`
-- Source: `include/llm/multi_lora_manager.h`:391
-- Brief: Apply Lo RA.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-  - `context` (llama_context *): Input/output parameter.
-- Return: True when the operation succeeds.
-- Details: lora_id Identifier of the lora. context Input/output parameter. True when the operation succeeds. lora_id Identifier of the lora. context Input/output parameter. True when the operation succeeds. Calls: ApplyAdapterFn(), lock(), find(), end(), errors::logError(), get(), spdlog::error(), std::chrono::system_clock::now().
-
-#### `size_t balanceGPULoad()`
-- Source: `include/llm/multi_lora_manager.h`:539
-- Brief: Balance GPULoad.
-- Parameters: none
-- Return: Return value.
-- Details: Return value. Return value. Calls: lock(), size(), push_back(), empty(), spdlog::debug(), spdlog::info().
-
-#### `std::vector< InferenceResponse > batchInferenceMultiLoRA(const std::vector< std::pair< InferenceRequest, std::string > > &requests, llama_context *model_context)`
-- Source: `include/llm/multi_lora_manager.h`:401
-- Brief: n/a
-- Parameters:
-  - `requests` (const std::vector< std::pair< InferenceRequest, std::string > > &): n/a
-  - `model_context` (llama_context *): n/a
-
-#### `double calculateAccessFrequency(const LoRASlot *lora, const std::chrono::system_clock::time_point &now) const`
-- Source: `include/llm/multi_lora_manager.h`:715
-- Brief: Helper for access frequency calculation.
-- Parameters:
-  - `lora` (const LoRASlot *): Input parameter.
-  - `now` (const std::chrono::system_clock::time_point &): Input parameter.
-- Return: Return value.
-- Details: lora Input parameter. now Input parameter. Return value.
-
-#### `void calibrateScales(const std::vector< float > &weights, std::vector< float > &scales)`
-- Source: `include/llm/multi_lora_manager.h`:829
-- Brief: Calibrate Scales.
-- Parameters:
-  - `weights` (const std::vector< float > &): Input parameter.
-  - `scales` (std::vector< float > &): Input/output parameter.
-- Details: weights Input parameter. scales Input/output parameter. weights Input parameter. scales Input/output parameter. Calls: empty(), spdlog::error(), size(), std::max(), std::abs(), std::isfinite(), spdlog::warn().
-
-#### `bool checkFusionCompatibility(const std::vector< std::string > &lora_ids, const FusionConfig &config) const`
-- Source: `include/llm/multi_lora_manager.h`:483
-- Brief: Check Fusion Compatibility.
-- Parameters:
-  - `lora_ids` (const std::vector< std::string > &): Input parameter.
-  - `config` (const FusionConfig &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: lora_ids Input parameter. config Input parameter. True when the operation succeeds.
-
-#### `size_t checkGPUHealthAndMigrate()`
-- Source: `include/llm/multi_lora_manager.h`:563
-- Brief: Check GPUHealth And Migrate.
-- Parameters: none
-- Return: Return value.
-- Details: Return value. Return value. Calls: lock(), spdlog::debug(), std::chrono::system_clock::now(), count(), isGPUHealthy(), spdlog::warn(), push_back(), empty().
-
-#### `size_t clearFusionCache()`
-- Source: `include/llm/multi_lora_manager.h`:463
-- Brief: Clear Fusion Cache.
-- Parameters: none
-- Return: Return value.
-- Details: Return value. Return value. Calls: lock(), size(), clear(), spdlog::info().
-
-#### `std::vector< float > computeExponentialSchedule(const AlphaSchedule &schedule, double time_offset) const`
-- Source: `include/llm/multi_lora_manager.h`:864
-- Brief: Compute Exponential Schedule.
-- Parameters:
-  - `schedule` (const AlphaSchedule &): Input parameter.
-  - `time_offset` (double): Input parameter.
-- Return: Return value.
-- Details: schedule Input parameter. time_offset Input parameter. Return value.
-
-#### `std::vector< float > computeLinearSchedule(const AlphaSchedule &schedule, double time_offset) const`
-- Source: `include/llm/multi_lora_manager.h`:857
-- Brief: Compute Linear Schedule.
-- Parameters:
-  - `schedule` (const AlphaSchedule &): Input parameter.
-  - `time_offset` (double): Input parameter.
-- Return: Return value.
-- Details: schedule Input parameter. time_offset Input parameter. Return value.
-
-#### `std::vector< float > computeScheduledWeights(const std::string &fusion_id) const`
-- Source: `include/llm/multi_lora_manager.h`:850
-- Brief: Compute Scheduled Weights.
-- Parameters:
-  - `fusion_id` (const std::string &): Identifier of the fusion.
-- Return: Return value.
-- Details: fusion_id Identifier of the fusion. Return value.
-
-#### `std::vector< float > computeStepWiseSchedule(const AlphaSchedule &schedule, double time_offset) const`
-- Source: `include/llm/multi_lora_manager.h`:871
-- Brief: Compute Step Wise Schedule.
-- Parameters:
-  - `schedule` (const AlphaSchedule &): Input parameter.
-  - `time_offset` (double): Input parameter.
-- Return: Return value.
-- Details: schedule Input parameter. time_offset Input parameter. Return value.
-
-#### `size_t evictExpired()`
-- Source: `include/llm/multi_lora_manager.h`:600
-- Brief: Evict Expired.
-- Parameters: none
-- Return: Return value.
-- Details: Return value. Return value. Calls: lock(), std::chrono::system_clock::now(), push_back(), spdlog::info(), unloadLoRA().
-
-#### `size_t evictLRU(size_t target_vram_mb=0)`
-- Source: `include/llm/multi_lora_manager.h`:594
-- Brief: n/a
-- Parameters:
-  - `target_vram_mb` (size_t): n/a
-
-#### `size_t evictResourceAware(int gpu_id=-1, size_t target_vram_mb=0)`
-- Source: `include/llm/multi_lora_manager.h`:547
-- Brief: Evict Resource Aware.
-- Parameters:
-  - `gpu_id` (int): Identifier of the gpu.
-  - `target_vram_mb` (size_t): Input parameter.
-- Return: Return value.
-- Details: gpu_id Identifier of the gpu. target_vram_mb Input parameter. Return value. Calls: lock(), empty(), spdlog::info(), std::to_string(), std::chrono::system_clock::now(), count(), calculateAccessFrequency(), get().
-
-#### `void evictionWorker()`
-- Source: `include/llm/multi_lora_manager.h`:759
-- Brief: Eviction Worker.
-- Parameters: none
-- Details: Calls: spdlog::info(), count(), std::min(), std::chrono::seconds(), load(), lock(), wait_for(), evictExpired().
-
-#### `std::vector< uint8_t > exportLoRA(const std::string &lora_id)`
-- Source: `include/llm/multi_lora_manager.h`:637
-- Brief: Export Lo RA.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-- Return: Return value.
-- Details: lora_id Identifier of the lora. Return value. lora_id Identifier of the lora. Return value. Calls: getLoRA(), errors::logError(), spdlog::info(), size(), resize(), spdlog::error(), std::memcpy(), data().
-
-#### `bool fuseLoRAs(const std::vector< std::string > &lora_ids, const std::string &fused_id, const std::vector< float > &weights={})`
-- Source: `include/llm/multi_lora_manager.h`:406
-- Brief: Fuse Lo RAs.
-- Parameters:
-  - `lora_ids` (const std::vector< std::string > &): Input parameter.
-  - `fused_id` (const std::string &): Identifier of the fused.
-  - `weights` (const std::vector< float > &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: lora_ids Input parameter. fused_id Identifier of the fused. weights Input parameter. True when the operation succeeds. Calls: spdlog::info(), size(), spdlog::error(), empty(), errors::logError(), lock(), find(), end().
-
-#### `bool fuseLoRAsAdvanced(const std::string &fused_id, const FusionConfig &config)`
-- Source: `include/llm/multi_lora_manager.h`:418
-- Brief: Fuse Lo RAs Advanced.
-- Parameters:
-  - `fused_id` (const std::string &): Identifier of the fused.
-  - `config` (const FusionConfig &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: Advanced Fusion API Implementation (v1. fused_id Identifier of the fused. config Input parameter. True when the operation succeeds. fused_id Identifier of the fused. config Input parameter. True when the operation succeeds. 5.0) ═══════════════════════════════════════════════════════════ Calls: std::chrono::high_resolution_clock::now(), spdlog::info(), spdlog::error(), lock(), find(), end(), std::chrono::system_clock::now(), spdlog::debug().
-
-#### `bool fuseLoRAsInternal(const std::string &fused_id, const FusionConfig &config)`
-- Source: `include/llm/multi_lora_manager.h`:844
-- Brief: Fusion helpers (v1.
-- Parameters:
-  - `fused_id` (const std::string &): Identifier of the fused.
-  - `config` (const FusionConfig &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: Fuse Lo RAs Internal. fused_id Identifier of the fused. config Input parameter. True when the operation succeeds. 5.0) fused_id Identifier of the fused. config Input parameter. True when the operation succeeds. Calls: lock(), empty(), errors::logError(), size(), find(), end(), get(), spdlog::warn().
-
-#### `std::vector< int > getAvailableGPUs() const`
-- Source: `include/llm/multi_lora_manager.h`:803
-- Brief: Get Available GPUs.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `json getCacheStats() const`
-- Source: `include/llm/multi_lora_manager.h`:612
-- Brief: Get Cache Stats.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `std::vector< float > getCurrentFusionWeights(const std::string &fusion_id) const`
-- Source: `include/llm/multi_lora_manager.h`:450
-- Brief: Get Current Fusion Weights.
-- Parameters:
-  - `fusion_id` (const std::string &): Identifier of the fusion.
-- Return: Return value.
-- Details: fusion_id Identifier of the fusion. Return value.
-
-#### `FusionMetrics getFusionMetrics() const`
-- Source: `include/llm/multi_lora_manager.h`:469
-- Brief: Get Fusion Metrics.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `json getGPUTransferAuditLog(size_t limit=100) const`
-- Source: `include/llm/multi_lora_manager.h`:578
-- Brief: n/a
-- Parameters:
-  - `limit` (size_t): n/a
-
-#### `LoRASlot * getLoRA(const std::string &lora_id)`
-- Source: `include/llm/multi_lora_manager.h`:369
-- Brief: Get Lo RA.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-- Return: Pointer to the result.
-- Details: lora_id Identifier of the lora. Pointer to the result. lora_id Identifier of the lora. Pointer to the result. Calls: lock(), find(), end(), get(), std::chrono::system_clock::now().
-
-#### `std::vector< int > getLoRAGPUPlacement(const std::string &lora_id) const`
-- Source: `include/llm/multi_lora_manager.h`:531
-- Brief: Get Lo RAGPUPlacement.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-- Return: Return value.
-- Details: lora_id Identifier of the lora. Return value.
-
-#### `std::optional< LoRAInfo > getLoRAInfo(const std::string &lora_id) const`
-- Source: `include/llm/multi_lora_manager.h`:592
-- Brief: Get Lo RAInfo.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-- Return: Return value.
-- Details: lora_id Identifier of the lora. Return value.
-
-#### `json getMemoryStats() const`
-- Source: `include/llm/multi_lora_manager.h`:606
-- Brief: Get Memory Stats.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `MultiGPUConfig getMultiGPUConfig() const`
-- Source: `include/llm/multi_lora_manager.h`:518
-- Brief: Get Multi GPUConfig.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `std::unordered_map< int, size_t > getPerGPUMemoryUsage() const`
-- Source: `include/llm/multi_lora_manager.h`:533
-- Brief: n/a
-- Parameters: none
-
-#### `LoRAQuantizationConfig getQuantizationConfig() const`
-- Source: `include/llm/multi_lora_manager.h`:328
-- Brief: Get Quantization Config.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `std::optional< QuantizationStats > getQuantizationStats(const std::string &lora_id) const`
-- Source: `include/llm/multi_lora_manager.h`:512
-- Brief: Get Quantization Stats.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-- Return: Return value.
-- Details: lora_id Identifier of the lora. Return value.
-
-#### `json getSchedulingRecommendation(size_t lora_vram_bytes, int priority=5) const`
-- Source: `include/llm/multi_lora_manager.h`:549
-- Brief: n/a
-- Parameters:
-  - `lora_vram_bytes` (size_t): n/a
-  - `priority` (int): n/a
-
-#### `Stats getStatistics() const`
-- Source: `include/llm/multi_lora_manager.h`:627
-- Brief: Return access control statistics.
-- Parameters: none
-- Return: Access control statistics.
-- Details: Access control statistics.
-
-#### `Stats getStats() const`
-- Source: `include/llm/multi_lora_manager.h`:630
-- Brief: n/a
-- Parameters: none
-
-#### `json getUsageHeatmap() const`
-- Source: `include/llm/multi_lora_manager.h`:545
-- Brief: Get Usage Heatmap.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `bool hasCapacity(size_t vram_bytes) const`
-- Source: `include/llm/multi_lora_manager.h`:900
-- Brief: Has Capacity.
-- Parameters:
-  - `vram_bytes` (size_t): Input parameter.
-- Return: True when the operation succeeds.
-- Details: vram_bytes Input parameter. True when the operation succeeds.
-
-#### `bool importLoRA(const std::string &lora_id, const std::vector< uint8_t > &data, const std::string &base_model_id)`
-- Source: `include/llm/multi_lora_manager.h`:646
-- Brief: Import Lo RA.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-  - `data` (const std::vector< uint8_t > &): Input parameter.
-  - `base_model_id` (const std::string &): Identifier of the base model.
-- Return: True when the operation succeeds.
-- Details: lora_id Identifier of the lora. data Input parameter. base_model_id Identifier of the base model. True when the operation succeeds. lora_id Identifier of the lora. data Input parameter. base_model_id Identifier of the base model. True when the operation succeeds. Calls: lock(), spdlog::info(), size(), spdlog::warn(), spdlog::error(), errors::logError(), empty(), std::memcpy().
-
-#### `bool initializeLoRAWithModel(const std::string &lora_id, void *model)`
-- Source: `include/llm/multi_lora_manager.h`:360
-- Brief: Initialize Lo RAWith Model.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-  - `model` (void *): Input/output parameter.
-- Return: True when the operation succeeds.
-- Details: lora_id Identifier of the lora. model Input/output parameter. True when the operation succeeds. lora_id Identifier of the lora. model Input/output parameter. True when the operation succeeds. Calls: spdlog::error(), lock(), find(), end(), spdlog::debug(), spdlog::info(), themis_llama_lora_available(), spdlog::warn().
-
-#### `bool invalidateFusionCache(const std::string &fusion_id)`
-- Source: `include/llm/multi_lora_manager.h`:457
-- Brief: Invalidate Fusion Cache.
-- Parameters:
-  - `fusion_id` (const std::string &): Identifier of the fusion.
-- Return: True when the operation succeeds.
-- Details: fusion_id Identifier of the fusion. True when the operation succeeds. fusion_id Identifier of the fusion. True when the operation succeeds. Calls: lock(), find(), end(), erase(), spdlog::info().
-
-#### `bool isGPUHealthy(int gpu_id) const`
-- Source: `include/llm/multi_lora_manager.h`:798
-- Brief: Is GPUHealthy.
-- Parameters:
-  - `gpu_id` (int): Identifier of the gpu.
-- Return: True when the operation succeeds.
-- Details: gpu_id Identifier of the gpu. True when the operation succeeds.
-
-#### `bool isLoRALoaded(const std::string &lora_id) const`
-- Source: `include/llm/multi_lora_manager.h`:505
-- Brief: Is Lo RALoaded.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-- Return: True when the operation succeeds.
-- Details: lora_id Identifier of the lora. True when the operation succeeds.
-
-#### `bool isLoRAPathTrusted(const std::string &lora_path) const`
-- Source: `include/llm/multi_lora_manager.h`:753
-- Brief: Is Lo RAPath Trusted.
-- Parameters:
-  - `lora_path` (const std::string &): Path to the lora.
-- Return: True when the operation succeeds.
-- Details: lora_path Path to the lora. True when the operation succeeds.
-
-#### `std::vector< FusionCacheEntry > listFusionCache() const`
-- Source: `include/llm/multi_lora_manager.h`:475
-- Brief: List Fusion Cache.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `std::vector< LoRAInfo > listLoRAs() const`
-- Source: `include/llm/multi_lora_manager.h`:569
-- Brief: List Lo RAs.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `std::vector< LoRAInfo > listLoRAs(const std::string &base_model_id) const`
-- Source: `include/llm/multi_lora_manager.h`:585
-- Brief: List Lo RAs.
-- Parameters:
-  - `base_model_id` (const std::string &): Identifier of the base model.
-- Return: Return value.
-- Details: base_model_id Identifier of the base model. Return value.
-
-#### `bool loadLoRA(const std::string &lora_id, const std::string &lora_path, const std::string &base_model_id, bool quantize, GPUPlacement placement, float scale=1.0f)`
-- Source: `include/llm/multi_lora_manager.h`:345
-- Brief: Multi-GPU support methods (v1.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-  - `lora_path` (const std::string &): Path to the lora.
-  - `base_model_id` (const std::string &): Identifier of the base model.
-  - `quantize` (bool): Input parameter.
-  - `placement` (GPUPlacement): Input parameter.
-  - `scale` (float): Input parameter.
-- Return: True when the operation succeeds.
-- Details: lora_id Identifier of the lora. lora_path Path to the lora. base_model_id Identifier of the base model. quantize Input parameter. placement Input parameter. scale Input parameter. True when the operation succeeds. 4.0) Calls: lock(), find(), end(), spdlog::debug(), get(), spdlog::warn(), erase(), size().
-
-#### `bool loadLoRA(const std::string &lora_id, const std::string &lora_path, const std::string &base_model_id, bool quantize, float scale=1.0f)`
-- Source: `include/llm/multi_lora_manager.h`:337
-- Brief: Load Lo RA.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-  - `lora_path` (const std::string &): Path to the lora.
-  - `base_model_id` (const std::string &): Identifier of the base model.
-  - `quantize` (bool): Input parameter.
-  - `scale` (float): Input parameter.
-- Return: True when the operation succeeds.
-- Details: lora_id Identifier of the lora. lora_path Path to the lora. base_model_id Identifier of the base model. quantize Input parameter. scale Input parameter. True when the operation succeeds. Calls: lock(), find(), end(), spdlog::debug(), get(), spdlog::warn(), erase(), size().
-
-#### `bool loadLoRA(const std::string &lora_id, const std::string &lora_path, const std::string &base_model_id, float scale=1.0f)`
-- Source: `include/llm/multi_lora_manager.h`:330
-- Brief: Load Lo RA.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-  - `lora_path` (const std::string &): Path to the lora.
-  - `base_model_id` (const std::string &): Identifier of the base model.
-  - `scale` (float): Input parameter.
-- Return: True when the operation succeeds.
-- Details: lora_id Identifier of the lora. lora_path Path to the lora. base_model_id Identifier of the base model. scale Input parameter. True when the operation succeeds. Implements loadLoRA without additional internal calls.
-
-#### `LoRASlot * loadLoRAInternal(const std::string &lora_id, const std::string &lora_path, const std::string &base_model_id, float scale, bool quantize=false, GPUPlacement placement=GPUPlacement::SINGLE_GPU)`
-- Source: `include/llm/multi_lora_manager.h`:739
-- Brief: Update loadLoRAInternal to support multi-GPU placement.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-  - `lora_path` (const std::string &): Path to the lora.
-  - `base_model_id` (const std::string &): Identifier of the base model.
-  - `scale` (float): Input parameter.
-  - `quantize` (bool): Input parameter.
-  - `placement` (GPUPlacement): Input parameter.
-- Return: Pointer to the result.
-- Details: lora_id Identifier of the lora. lora_path Path to the lora. base_model_id Identifier of the base model. scale Input parameter. quantize Input parameter. placement Input parameter. Pointer to the result. Calls: isLoRAPathTrusted(), spdlog::error(), validateMetadata(), spdlog::warn(), spdlog::debug(), file_check(), good(), close().
-
-#### `bool loadLoRAMultiGPU(LoRASlot *lora)`
-- Source: `include/llm/multi_lora_manager.h`:788
-- Brief: Load Lo RAMulti GPU.
-- Parameters:
-  - `lora` (LoRASlot *): Input/output parameter.
-- Return: True when the operation succeeds.
-- Details: lora Input/output parameter. True when the operation succeeds. lora Input/output parameter. True when the operation succeeds. Calls: empty(), spdlog::error(), spdlog::info(), size(), spdlog::debug().
-
-#### `bool loadLoRAOnGPU(LoRASlot *lora, int gpu_id)`
-- Source: `include/llm/multi_lora_manager.h`:782
-- Brief: Load Lo RAOn GPU.
-- Parameters:
-  - `lora` (LoRASlot *): Input/output parameter.
-  - `gpu_id` (int): Identifier of the gpu.
-- Return: True when the operation succeeds.
-- Details: lora Input/output parameter. gpu_id Identifier of the gpu. True when the operation succeeds. lora Input/output parameter. gpu_id Identifier of the gpu. True when the operation succeeds. Calls: spdlog::debug(), spdlog::info().
-
-#### `void logGPUTransferEvent(const std::string &event_type, const std::string &lora_id, int source_gpu, int target_gpu, size_t vram_bytes, const std::string &details="")`
-- Source: `include/llm/multi_lora_manager.h`:705
-- Brief: Log GPUTransfer Event.
-- Parameters:
-  - `event_type` (const std::string &): Input parameter.
-  - `lora_id` (const std::string &): Identifier of the lora.
-  - `source_gpu` (int): Input parameter.
-  - `target_gpu` (int): Input parameter.
-  - `vram_bytes` (size_t): Input parameter.
-  - `details` (const std::string &): Input parameter.
-- Details: event_type Input parameter. lora_id Identifier of the lora. source_gpu Input parameter. target_gpu Input parameter. vram_bytes Input parameter. details Input parameter. Calls: AuditEvent(), std::chrono::system_clock::now(), count(), push_back(), size(), erase(), begin(), spdlog::info().
-
-#### `bool migrateLoRAToGPU(const std::string &lora_id, int target_gpu)`
-- Source: `include/llm/multi_lora_manager.h`:557
-- Brief: Migrate Lo RATo GPU.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-  - `target_gpu` (int): Input parameter.
-- Return: True when the operation succeeds.
-- Details: lora_id Identifier of the lora. target_gpu Input parameter. True when the operation succeeds. lora_id Identifier of the lora. target_gpu Input parameter. True when the operation succeeds. Calls: lock(), find(), end(), spdlog::error(), get(), spdlog::warn(), erase(), spdlog::debug().
-
-#### `MultiLoRAManager & operator=(MultiLoRAManager &&other) noexcept`
-- Source: `include/llm/multi_lora_manager.h`:311
-- Brief: n/a
-- Parameters:
-  - `other` (MultiLoRAManager &&): n/a
-
-#### `MultiLoRAManager & operator=(const MultiLoRAManager &)=delete`
-- Source: `include/llm/multi_lora_manager.h`:316
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const MultiLoRAManager &): n/a
-
-#### `void pinLoRA(const std::string &lora_id)`
-- Source: `include/llm/multi_lora_manager.h`:492
-- Brief: Pin Lo RA.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-- Details: lora_id Identifier of the lora. lora_id Identifier of the lora. Calls: lock(), find(), end(), get(), spdlog::info().
-
-#### `void quantizeINT4(LoRASlot *lora, const std::vector< float > &weights)`
-- Source: `include/llm/multi_lora_manager.h`:823
-- Brief: Quantize INT4.
-- Parameters:
-  - `lora` (LoRASlot *): Input/output parameter.
-  - `weights` (const std::vector< float > &): Input parameter.
-- Details: lora Input/output parameter. weights Input parameter. lora Input/output parameter. weights Input parameter. Calls: spdlog::error(), size(), resize(), std::min(), std::max(), std::abs(), std::round(), spdlog::debug().
-
-#### `void quantizeINT8(LoRASlot *lora, const std::vector< float > &weights)`
-- Source: `include/llm/multi_lora_manager.h`:817
-- Brief: Quantize INT8.
-- Parameters:
-  - `lora` (LoRASlot *): Input/output parameter.
-  - `weights` (const std::vector< float > &): Input parameter.
-- Details: lora Input/output parameter. weights Input parameter. lora Input/output parameter. weights Input parameter. Calls: spdlog::error(), size(), resize(), calibrateScales(), std::max(), std::min(), std::round(), spdlog::debug().
-
-#### `bool quantizeLoRA(LoRASlot *lora)`
-- Source: `include/llm/multi_lora_manager.h`:811
-- Brief: Quantize Lo RA.
-- Parameters:
-  - `lora` (LoRASlot *): Input/output parameter.
-- Return: True when the operation succeeds.
-- Details: lora Input/output parameter. True when the operation succeeds. lora Input/output parameter. True when the operation succeeds. Calls: std::chrono::high_resolution_clock::now(), empty(), isLoRAPathTrusted(), spdlog::error(), parseFile(), getMetadata(), getTensorData(), front().
-
-#### `bool removeLoRA(const std::string &lora_id, llama_context *context)`
-- Source: `include/llm/multi_lora_manager.h`:399
-- Brief: Remove Lo RA.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-  - `context` (llama_context *): Input/output parameter.
-- Return: True when the operation succeeds.
-- Details: lora_id Identifier of the lora. context Input/output parameter. True when the operation succeeds. lora_id Identifier of the lora. context Input/output parameter. True when the operation succeeds. Calls: RemoveAdapterFn(), lock(), find(), end(), get(), spdlog::warn(), std::chrono::system_clock::now(), spdlog::error().
-
-#### `int selectGPUForLoRA(size_t vram_bytes)`
-- Source: `include/llm/multi_lora_manager.h`:775
-- Brief: Multi-GPU helpers (v1.
-- Parameters:
-  - `vram_bytes` (size_t): Input parameter.
-- Return: Return value.
-- Details: vram_bytes Input parameter. Return value. 4.0)
-
-#### `bool setAlphaSchedule(const std::string &fusion_id, const AlphaSchedule &schedule)`
-- Source: `include/llm/multi_lora_manager.h`:440
-- Brief: Set Alpha Schedule.
-- Parameters:
-  - `fusion_id` (const std::string &): Identifier of the fusion.
-  - `schedule` (const AlphaSchedule &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: fusion_id Identifier of the fusion. schedule Input parameter. True when the operation succeeds. fusion_id Identifier of the fusion. schedule Input parameter. True when the operation succeeds. Calls: lock(), find(), end(), spdlog::error(), spdlog::info().
-
-#### `void setApplyAdapterFn(ApplyAdapterFn fn)`
-- Source: `include/llm/multi_lora_manager.h`:378
-- Brief: Set Apply Adapter Fn.
-- Parameters:
-  - `fn` (ApplyAdapterFn): Input parameter.
-- Details: fn Input parameter. fn Input parameter. Calls: lock(), std::move().
-
-#### `void setLoRATenant(const std::string &lora_id, const std::string &tenant_id)`
-- Source: `include/llm/multi_lora_manager.h`:576
-- Brief: Set Lo RATenant.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-  - `tenant_id` (const std::string &): Identifier of the tenant.
-- Details: lora_id Identifier of the lora. tenant_id Identifier of the tenant. lora_id Identifier of the lora. tenant_id Identifier of the tenant. Calls: lock(), find(), end(), get(), spdlog::debug().
-
-#### `void setMultiGPUConfig(const MultiGPUConfig &config)`
-- Source: `include/llm/multi_lora_manager.h`:524
-- Brief: Set Multi GPUConfig.
-- Parameters:
-  - `config` (const MultiGPUConfig &): Input parameter.
-- Details: config Input parameter. config Input parameter. Calls: lock(), clear(), spdlog::info(), size().
-
-#### `void setQuantizationConfig(const LoRAQuantizationConfig &config)`
-- Source: `include/llm/multi_lora_manager.h`:322
-- Brief: Set Quantization Config.
-- Parameters:
-  - `config` (const LoRAQuantizationConfig &): Input parameter.
-- Details: config Input parameter. config Input parameter. Calls: lock(), spdlog::info(), quantizationModeToString().
-
-#### `void setRemoveAdapterFn(RemoveAdapterFn fn)`
-- Source: `include/llm/multi_lora_manager.h`:383
-- Brief: Set Remove Adapter Fn.
-- Parameters:
-  - `fn` (RemoveAdapterFn): Input parameter.
-- Details: fn Input parameter. fn Input parameter. Calls: lock(), std::move().
-
-#### `std::vector< float > simulateWeights(size_t count)`
-- Source: `include/llm/multi_lora_manager.h`:835
-- Brief: Simulate Weights.
-- Parameters:
-  - `count` (size_t): Input parameter.
-- Return: Return value.
-- Details: count Input parameter. Return value.
-
-#### `void startEvictionThread()`
-- Source: `include/llm/multi_lora_manager.h`:763
-- Brief: Start Eviction Thread.
-- Parameters: none
-- Details: ═══════════════════════════════════════════════════════════ Background Eviction Thread Implementation ═══════════════════════════════════════════════════════════ Calls: load(), spdlog::warn(), store(), spdlog::debug().
-
-#### `void stopEvictionThread()`
-- Source: `include/llm/multi_lora_manager.h`:767
-- Brief: Stop Eviction Thread.
-- Parameters: none
-- Details: Calls: load(), spdlog::debug(), store(), notify_all(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn(), reset().
-
-#### `bool unloadLoRA(const std::string &lora_id, bool force=false)`
-- Source: `include/llm/multi_lora_manager.h`:362
-- Brief: Unload Lo RA.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-  - `force` (bool): Input parameter.
-- Return: True when the operation succeeds.
-- Details: lora_id Identifier of the lora. force Input parameter. True when the operation succeeds. Calls: lock(), find(), end(), get(), erase(), spdlog::warn(), spdlog::info(), logGPUTransferEvent().
-
-#### `void unpinLoRA(const std::string &lora_id)`
-- Source: `include/llm/multi_lora_manager.h`:498
-- Brief: Unpin Lo RA.
-- Parameters:
-  - `lora_id` (const std::string &): Identifier of the lora.
-- Details: lora_id Identifier of the lora. lora_id Identifier of the lora. Calls: lock(), find(), end(), get(), spdlog::info().
-
-#### `void updateFusionMetrics(const std::string &fusion_id, double fusion_time_ms)`
-- Source: `include/llm/multi_lora_manager.h`:887
-- Brief: Update Fusion Metrics.
-- Parameters:
-  - `fusion_id` (const std::string &): Identifier of the fusion.
-  - `fusion_time_ms` (double): Input parameter.
-- Details: fusion_id Identifier of the fusion. fusion_time_ms Input parameter. fusion_id Identifier of the fusion. fusion_time_ms Input parameter. Calls: find(), end().
-
-#### `bool updateFusionWeights(const std::string &fusion_id, const std::vector< float > &new_weights)`
-- Source: `include/llm/multi_lora_manager.h`:429
-- Brief: Update Fusion Weights.
-- Parameters:
-  - `fusion_id` (const std::string &): Identifier of the fusion.
-  - `new_weights` (const std::vector< float > &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: fusion_id Identifier of the fusion. new_weights Input parameter. True when the operation succeeds. fusion_id Identifier of the fusion. new_weights Input parameter. True when the operation succeeds. Calls: lock(), find(), end(), spdlog::error(), size(), invalidateFusionCache(), spdlog::info().
-
-#### `void updateGPUMemoryTracking()`
-- Source: `include/llm/multi_lora_manager.h`:792
-- Brief: Update GPUMemory Tracking.
-- Parameters: none
-- Details: Calls: size().
-
-#### `void updateInferenceMetrics(const std::string &fusion_id, double inference_time_ms)`
-- Source: `include/llm/multi_lora_manager.h`:893
-- Brief: Update Inference Metrics.
-- Parameters:
-  - `fusion_id` (const std::string &): Identifier of the fusion.
-  - `inference_time_ms` (double): Input parameter.
-- Details: fusion_id Identifier of the fusion. inference_time_ms Input parameter. fusion_id Identifier of the fusion. inference_time_ms Input parameter. Calls: find(), end().
-
-#### `void updateMemoryUsage()`
-- Source: `include/llm/multi_lora_manager.h`:904
-- Brief: Update Memory Usage.
-- Parameters: none
-- Details: Calls: lock().
-
-#### `bool validateFusionCompatibility(const std::vector< LoRASlot * > &source_loras, const FusionConfig &config) const`
-- Source: `include/llm/multi_lora_manager.h`:878
-- Brief: Validate Fusion Compatibility.
-- Parameters:
-  - `source_loras` (const std::vector< LoRASlot * > &): Input parameter.
-  - `config` (const FusionConfig &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: source_loras Input parameter. config Input parameter. True when the operation succeeds.
-
-#### `~MultiLoRAManager()`
-- Source: `include/llm/multi_lora_manager.h`:307
-- Brief: n/a
-- Parameters: none
 
 ### MultiModelIntegrationTest
 
@@ -5131,79 +3414,6 @@ Status: active
 - Source: `tests/llm/test_llm_multi_model_integration.cpp`:48
 - Brief: Unload Model.
 - Parameters: none
-
-### OpenAICompatAdapter
-
-#### `json buildError(const std::string &message, const std::string &type="invalid_request_error", const std::string &code="")`
-- Source: `include/llm/openai_compat_adapter.h`:54
-- Brief: Build Error.
-- Parameters:
-  - `message` (const std::string &): Input parameter.
-  - `type` (const std::string &): Input parameter.
-  - `code` (const std::string &): Input parameter.
-- Return: Return value.
-- Details: message Input parameter. type Input parameter. code Input parameter. Return value. Calls: empty(), std::move().
-
-#### `json buildResponse(const InferenceResponse &response, const std::string &model_id, const std::string &completion_id="")`
-- Source: `include/llm/openai_compat_adapter.h`:32
-- Brief: Build Response.
-- Parameters:
-  - `response` (const InferenceResponse &): Input parameter.
-  - `model_id` (const std::string &): Identifier of the model.
-  - `completion_id` (const std::string &): Identifier of the completion.
-- Return: Return value.
-- Details: response Input parameter. model_id Identifier of the model. completion_id Identifier of the completion. Return value. Calls: empty(), generateCompletionId(), nowUnix(), json::array(), size(), push_back(), randomHex(), dump().
-
-#### `std::string buildStreamChunk(const std::string &token, const std::string &completion_id, const std::string &model_id, int64_t created=0)`
-- Source: `include/llm/openai_compat_adapter.h`:37
-- Brief: Build Stream Chunk.
-- Parameters:
-  - `token` (const std::string &): Input parameter.
-  - `completion_id` (const std::string &): Identifier of the completion.
-  - `model_id` (const std::string &): Identifier of the model.
-  - `created` (int64_t): Input parameter.
-- Return: Return value.
-- Details: token Input parameter. completion_id Identifier of the completion. model_id Identifier of the model. created Input parameter. Return value. Calls: nowUnix(), json::array(), dump().
-
-#### `std::string buildStreamDone()`
-- Source: `include/llm/openai_compat_adapter.h`:52
-- Brief: Build Stream Done.
-- Parameters: none
-- Return: Return value.
-- Details: Return value. Return value. Implements buildStreamDone without additional internal calls.
-
-#### `std::string buildStreamFinalChunk(const std::string &completion_id, const std::string &model_id, int64_t created=0)`
-- Source: `include/llm/openai_compat_adapter.h`:43
-- Brief: Build Stream Final Chunk.
-- Parameters:
-  - `completion_id` (const std::string &): Identifier of the completion.
-  - `model_id` (const std::string &): Identifier of the model.
-  - `created` (int64_t): Input parameter.
-- Return: Return value.
-- Details: completion_id Identifier of the completion. model_id Identifier of the model. created Input parameter. Return value. Calls: nowUnix(), json::array(), json::object(), dump().
-
-#### `std::string extractPrompts(const json &messages, std::optional< std::string > &system_prompt, std::string &prompt)`
-- Source: `include/llm/openai_compat_adapter.h`:73
-- Brief: Extract Prompts.
-- Parameters:
-  - `messages` (const json &): Input parameter.
-  - `system_prompt` (std::optional< std::string > &): Input/output parameter.
-  - `prompt` (std::string &): Input/output parameter.
-- Return: Return value.
-- Details: messages Input parameter. system_prompt Input/output parameter. prompt Input/output parameter. Return value. messages Input parameter. system_prompt Input/output parameter. prompt Input/output parameter. Return value. Calls: is_object(), contains(), is_string(), is_array(), is_null(), has_value(), str(), empty().
-
-#### `std::string generateCompletionId()`
-- Source: `include/llm/openai_compat_adapter.h`:63
-- Brief: Generate Completion Id.
-- Parameters: none
-- Return: Return value.
-- Details: Return value. Return value. Calls: randomHex().
-
-#### `std::variant< InferenceRequest, std::string > parseRequest(const json &body)`
-- Source: `include/llm/openai_compat_adapter.h`:29
-- Brief: n/a
-- Parameters:
-  - `body` (const json &): n/a
 
 ### P5MockPlugin
 
@@ -5336,7 +3546,7 @@ Status: active
 ### RecordingAdapterApplyService
 
 #### `bool applyAdapter(const std::string &adapter_id, const std::string &, float) override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:126
+- Source: `tests/llm/test_ai_orchestrator.cpp`:128
 - Brief: n/a
 - Parameters:
   - `adapter_id` (const std::string &): n/a
@@ -5344,12 +3554,12 @@ Status: active
   - `<unnamed>` (float): n/a
 
 #### `bool canSwitch() const override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:138
+- Source: `tests/llm/test_ai_orchestrator.cpp`:140
 - Brief: n/a
 - Parameters: none
 
 #### `std::string currentAdapter() const override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:134
+- Source: `tests/llm/test_ai_orchestrator.cpp`:136
 - Brief: n/a
 - Parameters: none
 
@@ -5404,14 +3614,14 @@ Status: active
 ### ScopedEnv
 
 #### `ScopedEnv(const char *name, const char *value)`
-- Source: `tests/llm/test_llm_model_path_traversal.cpp`:35
+- Source: `tests/llm/test_llm_model_path_traversal.cpp`:36
 - Brief: n/a
 - Parameters:
   - `name` (const char *): n/a
   - `value` (const char *): n/a
 
 #### `~ScopedEnv()`
-- Source: `tests/llm/test_llm_model_path_traversal.cpp`:42
+- Source: `tests/llm/test_llm_model_path_traversal.cpp`:43
 - Brief: n/a
 - Parameters: none
 
@@ -5551,13 +3761,13 @@ Status: active
   - `other` (SimAllocGuard &&): n/a
 
 #### `SimAllocGuard(const SimAllocGuard &)=delete`
-- Source: `tests/llm/test_llm_phase1_hardening.cpp`:75
+- Source: `tests/llm/test_llm_phase2_critical_gaps.cpp`:74
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const SimAllocGuard &): n/a
 
 #### `SimAllocGuard(const SimAllocGuard &)=delete`
-- Source: `tests/llm/test_llm_phase2_critical_gaps.cpp`:74
+- Source: `tests/llm/test_llm_phase1_hardening.cpp`:75
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const SimAllocGuard &): n/a
@@ -5569,13 +3779,13 @@ Status: active
   - `<unnamed>` (const SimAllocGuard &): n/a
 
 #### `SimAllocGuard(std::ptrdiff_t units=1)`
-- Source: `tests/llm/test_llm_phase1_hardening.cpp`:48
+- Source: `tests/llm/test_llm_phase2_critical_gaps.cpp`:52
 - Brief: n/a
 - Parameters:
   - `units` (std::ptrdiff_t): n/a
 
 #### `SimAllocGuard(std::ptrdiff_t units=1)`
-- Source: `tests/llm/test_llm_phase2_critical_gaps.cpp`:52
+- Source: `tests/llm/test_llm_phase1_hardening.cpp`:48
 - Brief: n/a
 - Parameters:
   - `units` (std::ptrdiff_t): n/a
@@ -5605,13 +3815,13 @@ Status: active
   - `other` (SimAllocGuard &&): n/a
 
 #### `SimAllocGuard & operator=(const SimAllocGuard &)=delete`
-- Source: `tests/llm/test_llm_phase1_hardening.cpp`:76
+- Source: `tests/llm/test_llm_phase2_critical_gaps.cpp`:75
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const SimAllocGuard &): n/a
 
 #### `SimAllocGuard & operator=(const SimAllocGuard &)=delete`
-- Source: `tests/llm/test_llm_phase2_critical_gaps.cpp`:75
+- Source: `tests/llm/test_llm_phase1_hardening.cpp`:76
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const SimAllocGuard &): n/a
@@ -5633,12 +3843,12 @@ Status: active
 - Parameters: none
 
 #### `~SimAllocGuard()`
-- Source: `tests/llm/test_llm_phase1_hardening.cpp`:52
+- Source: `tests/llm/test_llm_phase2_critical_gaps.cpp`:55
 - Brief: n/a
 - Parameters: none
 
 #### `~SimAllocGuard()`
-- Source: `tests/llm/test_llm_phase2_critical_gaps.cpp`:55
+- Source: `tests/llm/test_llm_phase1_hardening.cpp`:52
 - Brief: n/a
 - Parameters: none
 
@@ -5871,42 +4081,6 @@ Status: active
 - Source: `tests/llm/bench_model_loading_from_themisdb.cpp`:119
 - Brief: n/a
 - Parameters: none
-
-### StreamingHandler
-
-#### `std::string formatChunkedData(const std::string &data)`
-- Source: `include/llm/streaming_handler.h`:41
-- Brief: Format Chunked Data.
-- Parameters:
-  - `data` (const std::string &): Input parameter.
-- Return: Return value.
-- Details: data Input parameter. Return value. data Input parameter. Return value. Calls: size(), str().
-
-#### `std::string formatDoneEvent(const std::string &request_id)`
-- Source: `include/llm/streaming_handler.h`:34
-- Brief: Format Done Event.
-- Parameters:
-  - `request_id` (const std::string &): Identifier of the request.
-- Return: Return value.
-- Details: request_id Identifier of the request. Return value.
-
-#### `std::string formatSseEvent(const std::string &token, const std::string &request_id, size_t index, bool done=false)`
-- Source: `include/llm/streaming_handler.h`:23
-- Brief: ═══════════════════════════════════════════════════════════ StreamingHandler — public static methods ═══════════════════════════════════════════════════════════
-- Parameters:
-  - `token` (const std::string &): Input parameter.
-  - `request_id` (const std::string &): Identifier of the request.
-  - `index` (size_t): Input parameter.
-  - `done` (bool): Input parameter.
-- Return: Return value.
-- Details: token Input parameter. request_id Identifier of the request. index Input parameter. done Input parameter. Return value.
-
-#### `std::function< void(const std::string &)> makeStreamCallback(std::function< void(const std::string &)> sink, const std::string &request_id)`
-- Source: `include/llm/streaming_handler.h`:43
-- Brief: n/a
-- Parameters:
-  - `sink` (std::function< void(const std::string &)>): n/a
-  - `request_id` (const std::string &): n/a
 
 ### StressAdapterRegistry
 
@@ -6228,7 +4402,7 @@ Status: active
 ### ThrowingAdapterCandidateProvider
 
 #### `AdapterSelectionResult selectCandidates(const AdapterSelectionInput &) const override`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:106
+- Source: `tests/llm/test_ai_orchestrator.cpp`:108
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const AdapterSelectionInput &): n/a
@@ -6362,6 +4536,37 @@ Status: active
 #### `void unloadModel() override`
 - Source: `tests/llm/test_w10d_local_draft_bridge.cpp`:72
 - Brief: Unload Model.
+- Parameters: none
+
+### WikiCrossDepStoreTest
+
+#### `void SetUp() override`
+- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:98
+- Brief: n/a
+- Parameters: none
+
+#### `void TearDown() override`
+- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:116
+- Brief: n/a
+- Parameters: none
+
+#### `WikiChunk makeChunk(const std::string &chunk_id, const std::string &text, const std::string &doc_id="doc_a")`
+- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:143
+- Brief: n/a
+- Parameters:
+  - `chunk_id` (const std::string &): n/a
+  - `text` (const std::string &): n/a
+  - `doc_id` (const std::string &): n/a
+
+#### `std::unique_ptr< WikiIndexStore > makeStore(WikiIndexConfig cfg)`
+- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:134
+- Brief: n/a
+- Parameters:
+  - `cfg` (WikiIndexConfig): n/a
+
+#### `void setDefaultEmbedFn()`
+- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:123
+- Brief: n/a
 - Parameters: none
 
 ### WikiEvalMetricsTest
@@ -6910,7 +5115,7 @@ Status: active
 ### bench_llm_hotpaths.cpp
 
 #### `BENCHMARK_MAIN()`
-- Source: `benchmarks/llm/bench_llm_hotpaths.cpp`:427
+- Source: `benchmarks/llm/bench_llm_hotpaths.cpp`:428
 - Brief: n/a
 - Parameters: none
 
@@ -7099,198 +5304,198 @@ Status: active
 ### bench_llm_judge_integration.cpp
 
 #### `BENCHMARK(BM_BatchEvaluation_100Inputs) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:415
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:421
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_BatchEvaluation_100Inputs): n/a
 
 #### `BENCHMARK(BM_BatchEvaluation_10Inputs) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:388
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:394
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_BatchEvaluation_10Inputs): n/a
 
 #### `BENCHMARK(BM_ConfigurationRetrieval) -> Unit(benchmark::kNanosecond)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:215
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:221
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_ConfigurationRetrieval): n/a
 
 #### `BENCHMARK(BM_ConfigurationUpdate) -> Unit(benchmark::kNanosecond)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:203
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:209
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_ConfigurationUpdate): n/a
 
 #### `BENCHMARK(BM_CustomInferenceFast) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:137
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:143
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_CustomInferenceFast): n/a
 
 #### `BENCHMARK(BM_CustomInferenceSlow) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:157
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:163
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_CustomInferenceSlow): n/a
 
 #### `BENCHMARK(BM_EvaluateCoherence) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:357
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:363
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_EvaluateCoherence): n/a
 
 #### `BENCHMARK(BM_EvaluateCompleteness) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:340
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:346
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_EvaluateCompleteness): n/a
 
 #### `BENCHMARK(BM_EvaluateFaithfulness) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:306
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:312
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_EvaluateFaithfulness): n/a
 
 #### `BENCHMARK(BM_EvaluateRelevance) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:323
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:329
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_EvaluateRelevance): n/a
 
 #### `BENCHMARK(BM_InferenceFunctionOverhead) -> Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:181
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:187
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_InferenceFunctionOverhead): n/a
 
 #### `BENCHMARK(BM_MockModeCheck) -> Unit(benchmark::kNanosecond)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:227
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:233
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_MockModeCheck): n/a
 
 #### `BENCHMARK(BM_MockModeEvaluation) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:89
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:95
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_MockModeEvaluation): n/a
 
 #### `BENCHMARK(BM_MockModeMultipleDimensions) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:113
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:119
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_MockModeMultipleDimensions): n/a
 
 #### `BENCHMARK(BM_RetryMechanism_SingleRetry) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:285
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:291
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_RetryMechanism_SingleRetry): n/a
 
 #### `BENCHMARK(BM_RetryMechanism_Success) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:254
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:260
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_RetryMechanism_Success): n/a
 
 #### `BENCHMARK_MAIN()`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:417
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:423
 - Brief: n/a
 - Parameters: none
 
 #### `void BM_BatchEvaluation_100Inputs(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:390
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:396
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_BatchEvaluation_10Inputs(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:363
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:369
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_ConfigurationRetrieval(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:205
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:211
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_ConfigurationUpdate(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:187
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:193
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_CustomInferenceFast(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:119
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:125
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_CustomInferenceSlow(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:139
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:145
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_EvaluateCoherence(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:342
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:348
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_EvaluateCompleteness(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:325
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:331
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_EvaluateFaithfulness(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:291
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:297
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_EvaluateRelevance(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:308
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:314
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_InferenceFunctionOverhead(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:159
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:165
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_MockModeCheck(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:217
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:223
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_MockModeEvaluation(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:72
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:78
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_MockModeMultipleDimensions(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:91
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:97
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_RetryMechanism_SingleRetry(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:256
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:262
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_RetryMechanism_Success(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:233
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:239
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
@@ -7301,7 +5506,7 @@ Status: active
 - Parameters: none
 
 #### `std::string fastInferenceFunction(const std::string &prompt)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:57
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:63
 - Brief: n/a
 - Parameters:
   - `prompt` (const std::string &): n/a
@@ -7313,7 +5518,7 @@ Status: active
   - `prompt` (const std::string &): n/a
 
 #### `std::string slowInferenceFunction(const std::string &prompt)`
-- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:62
+- Source: `benchmarks/llm/bench_llm_judge_integration.cpp`:68
 - Brief: n/a
 - Parameters:
   - `prompt` (const std::string &): n/a
@@ -7585,237 +5790,237 @@ Status: active
 ### bench_lora_training.cpp
 
 #### `BENCHMARK(BM_AttentionLoRA_Backward) -> Range(256, 4096) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:269
+- Source: `benchmarks/llm/bench_lora_training.cpp`:270
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_AttentionLoRA_Backward): n/a
 
 #### `BENCHMARK(BM_AttentionLoRA_Construction) -> Range(256, 4096) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:113
+- Source: `benchmarks/llm/bench_lora_training.cpp`:114
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_AttentionLoRA_Construction): n/a
 
 #### `BENCHMARK(BM_AttentionLoRA_Forward) -> Range(256, 4096) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:189
+- Source: `benchmarks/llm/bench_lora_training.cpp`:190
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_AttentionLoRA_Forward): n/a
 
 #### `BENCHMARK(BM_Compare_LoRAvsFullFinetuning) -> Range(256, 4096)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:384
+- Source: `benchmarks/llm/bench_lora_training.cpp`:385
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Compare_LoRAvsFullFinetuning): n/a
 
 #### `BENCHMARK(BM_CompositePattern_Overhead) -> Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:423
+- Source: `benchmarks/llm/bench_lora_training.cpp`:424
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_CompositePattern_Overhead): n/a
 
 #### `BENCHMARK(BM_Concurrent_AdapterTraining) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:538
+- Source: `benchmarks/llm/bench_lora_training.cpp`:549
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Concurrent_AdapterTraining): n/a
 
 #### `BENCHMARK(BM_Extended_TrainingSession_1000Steps) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:487
+- Source: `benchmarks/llm/bench_lora_training.cpp`:493
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Extended_TrainingSession_1000Steps): n/a
 
 #### `BENCHMARK(BM_LargeBatchTraining_MemoryPressure) -> Args({64}) ->Args({128}) ->Args({256}) ->Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:577
+- Source: `benchmarks/llm/bench_lora_training.cpp`:593
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_LargeBatchTraining_MemoryPressure): n/a
 
 #### `BENCHMARK(BM_LoRALayer_Backward) -> Range(256, 4096) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:244
+- Source: `benchmarks/llm/bench_lora_training.cpp`:245
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_LoRALayer_Backward): n/a
 
 #### `BENCHMARK(BM_LoRALayer_Construction) -> Range(256, 4096) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:89
+- Source: `benchmarks/llm/bench_lora_training.cpp`:90
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_LoRALayer_Construction): n/a
 
 #### `BENCHMARK(BM_LoRALayer_Forward) -> Range(256, 4096) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:164
+- Source: `benchmarks/llm/bench_lora_training.cpp`:165
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_LoRALayer_Forward): n/a
 
 #### `BENCHMARK(BM_LoRALayer_MemoryUsage) -> Range(256, 4096) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:363
+- Source: `benchmarks/llm/bench_lora_training.cpp`:364
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_LoRALayer_MemoryUsage): n/a
 
 #### `BENCHMARK(BM_LoRALayer_ParameterAccess) -> Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:325
+- Source: `benchmarks/llm/bench_lora_training.cpp`:326
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_LoRALayer_ParameterAccess): n/a
 
 #### `BENCHMARK(BM_LoRALayer_ParameterCount) -> Range(256, 4096) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:312
+- Source: `benchmarks/llm/bench_lora_training.cpp`:313
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_LoRALayer_ParameterCount): n/a
 
 #### `BENCHMARK(BM_LoRALayer_RankImpact) -> Range(4, 64)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:401
+- Source: `benchmarks/llm/bench_lora_training.cpp`:402
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_LoRALayer_RankImpact): n/a
 
 #### `BENCHMARK(BM_Sequential_Backward) -> Range(1, 16) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:297
+- Source: `benchmarks/llm/bench_lora_training.cpp`:298
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Sequential_Backward): n/a
 
 #### `BENCHMARK(BM_Sequential_Construction) -> Range(1, 16) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:137
+- Source: `benchmarks/llm/bench_lora_training.cpp`:138
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Sequential_Construction): n/a
 
 #### `BENCHMARK(BM_Sequential_Forward) -> Range(1, 16) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:217
+- Source: `benchmarks/llm/bench_lora_training.cpp`:218
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Sequential_Forward): n/a
 
 #### `BENCHMARK(BM_Sequential_ParameterCollection) -> Range(1, 16) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:340
+- Source: `benchmarks/llm/bench_lora_training.cpp`:341
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Sequential_ParameterCollection): n/a
 
 #### `BENCHMARK_MAIN()`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:580
+- Source: `benchmarks/llm/bench_lora_training.cpp`:596
 - Brief: n/a
 - Parameters: none
 
 #### `void BM_AttentionLoRA_Backward(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:246
+- Source: `benchmarks/llm/bench_lora_training.cpp`:247
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_AttentionLoRA_Construction(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:91
+- Source: `benchmarks/llm/bench_lora_training.cpp`:92
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_AttentionLoRA_Forward(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:166
+- Source: `benchmarks/llm/bench_lora_training.cpp`:167
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Compare_LoRAvsFullFinetuning(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:365
+- Source: `benchmarks/llm/bench_lora_training.cpp`:366
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_CompositePattern_Overhead(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:405
+- Source: `benchmarks/llm/bench_lora_training.cpp`:406
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Concurrent_AdapterTraining(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:493
+- Source: `benchmarks/llm/bench_lora_training.cpp`:499
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 - Details: Phase 5 hardening: Measure concurrent adapter training Simulates training multiple adapters simultaneously (4 adapters)
 
 #### `void BM_Extended_TrainingSession_1000Steps(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:431
+- Source: `benchmarks/llm/bench_lora_training.cpp`:432
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 - Details: Phase 5 hardening: Measure memory behavior during extended training without accumulation or leaks over 1000+ training steps
 
 #### `void BM_LargeBatchTraining_MemoryPressure(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:544
+- Source: `benchmarks/llm/bench_lora_training.cpp`:555
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 - Details: Phase 5 hardening: Memory pressure during large batch training Validates behavior with large batch sizes approaching GPU memory limits
 
 #### `void BM_LoRALayer_Backward(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:221
+- Source: `benchmarks/llm/bench_lora_training.cpp`:222
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_LoRALayer_Construction(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:66
+- Source: `benchmarks/llm/bench_lora_training.cpp`:67
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_LoRALayer_Forward(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:141
+- Source: `benchmarks/llm/bench_lora_training.cpp`:142
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_LoRALayer_MemoryUsage(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:344
+- Source: `benchmarks/llm/bench_lora_training.cpp`:345
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_LoRALayer_ParameterAccess(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:314
+- Source: `benchmarks/llm/bench_lora_training.cpp`:315
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_LoRALayer_ParameterCount(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:301
+- Source: `benchmarks/llm/bench_lora_training.cpp`:302
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_LoRALayer_RankImpact(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:388
+- Source: `benchmarks/llm/bench_lora_training.cpp`:389
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Sequential_Backward(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:271
+- Source: `benchmarks/llm/bench_lora_training.cpp`:272
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Sequential_Construction(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:115
+- Source: `benchmarks/llm/bench_lora_training.cpp`:116
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Sequential_Forward(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:191
+- Source: `benchmarks/llm/bench_lora_training.cpp`:192
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Sequential_ParameterCollection(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:327
+- Source: `benchmarks/llm/bench_lora_training.cpp`:328
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
@@ -8012,7 +6217,7 @@ Status: active
   - `<unnamed>` (FusionStrategy::STATIC): n/a
 
 #### `BENCHMARK_F(MultiLoRAFusionFixture, CacheClearPerformance)(benchmark`
-- Source: `benchmarks/llm/bench_multi_lora_fusion.cpp`:456
+- Source: `benchmarks/llm/bench_multi_lora_fusion.cpp`:459
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MultiLoRAFusionFixture): n/a
@@ -8089,7 +6294,7 @@ Status: active
   - `<unnamed>` (ScheduledWeightsComputation): n/a
 
 #### `BENCHMARK_MAIN()`
-- Source: `benchmarks/llm/bench_multi_lora_fusion.cpp`:482
+- Source: `benchmarks/llm/bench_multi_lora_fusion.cpp`:488
 - Brief: n/a
 - Parameters: none
 
@@ -8106,8 +6311,8 @@ Status: active
   - `state` (benchmark::State &): n/a
   - `strategy` (FusionStrategy): n/a
 
-#### `RangeMultiplier(2) -> Range(2, 16) ->Complexity()`
-- Source: `benchmarks/llm/bench_multi_lora_fusion.cpp`:448
+#### `RangeMultiplier(2) -> Range(2, 16)`
+- Source: `benchmarks/llm/bench_multi_lora_fusion.cpp`:452
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (2): n/a
@@ -8504,7 +6709,7 @@ Status: active
 ### gates
 
 #### `void report_gate_violation(const std::string &gate_name, double measured_us, double gate_us)`
-- Source: `benchmarks/llm/bench_lora_training.cpp`:54
+- Source: `benchmarks/llm/bench_lora_training.cpp`:55
 - Brief: n/a
 - Parameters:
   - `gate_name` (const std::string &): n/a
@@ -8546,14 +6751,14 @@ Status: active
   - `grammar` (struct llama_grammar *): Input/output parameter.
   - `ctx` (const struct llama_context *): Input parameter.
   - `token` (int): Input parameter.
-- Details: grammar Input/output parameter. ctx Input parameter. token Input parameter. Calls: ensureGrammarAPIInitialized(), fn(). grammar Input/output parameter. ctx Input parameter. token Input parameter.
+- Details: grammar Input/output parameter. ctx Input parameter. token Input parameter. Calls: ensureGrammarAPIInitialized(), fn().
 
 #### `void llama_grammar_free(struct llama_grammar *grammar)`
 - Source: `src/llm/llama_grammar_adapter.cpp`:226
 - Brief: Llama grammar free.
 - Parameters:
   - `grammar` (struct llama_grammar *): Input/output parameter.
-- Details: grammar Input/output parameter. Calls: ensureGrammarAPIInitialized(), fn(). grammar Input/output parameter.
+- Details: grammar Input/output parameter. Calls: ensureGrammarAPIInitialized(), fn().
 
 #### `struct llama_grammar * llama_grammar_init(const struct llama_vocab *vocab, const char *grammar_str, const char *start_rule)`
 - Source: `src/llm/llama_grammar_adapter.cpp`:202
@@ -8563,7 +6768,7 @@ Status: active
   - `grammar_str` (const char *): Input parameter.
   - `start_rule` (const char *): Input parameter.
 - Return: Pointer to the result.
-- Details: vocab Input parameter. grammar_str Input parameter. start_rule Input parameter. Pointer to the result. Calls: ensureGrammarAPIInitialized(), spdlog::warn(), fn(). vocab Input parameter. grammar_str Input parameter. start_rule Input parameter. Pointer to the result.
+- Details: vocab Input parameter. grammar_str Input parameter. start_rule Input parameter. Pointer to the result. Calls: ensureGrammarAPIInitialized(), spdlog::warn(), fn().
 
 #### `void llama_grammar_sample(const struct llama_grammar *grammar, const struct llama_context *ctx, struct llama_token_data_array *candidates)`
 - Source: `src/llm/llama_grammar_adapter.cpp`:247
@@ -8572,7 +6777,7 @@ Status: active
   - `grammar` (const struct llama_grammar *): Input parameter.
   - `ctx` (const struct llama_context *): Input parameter.
   - `candidates` (struct llama_token_data_array *): Input/output parameter.
-- Details: grammar Input parameter. ctx Input parameter. candidates Input/output parameter. Calls: ensureGrammarAPIInitialized(), fn(). grammar Input parameter. ctx Input parameter. candidates Input/output parameter.
+- Details: grammar Input parameter. ctx Input parameter. candidates Input/output parameter. Calls: ensureGrammarAPIInitialized(), fn().
 
 #### `void themis_grammar_inject_api_functions(void *init_fn, void *free_fn, void *sample_fn, void *accept_fn)`
 - Source: `src/llm/llama_grammar_adapter.cpp`:297
@@ -8589,7 +6794,7 @@ Status: active
 - Brief: Themis llama grammar available.
 - Parameters: none
 - Return: True when the operation succeeds.
-- Details: True when the operation succeeds. Calls: ensureGrammarAPIInitialized(). True when the operation succeeds.
+- Details: True when the operation succeeds. Calls: ensureGrammarAPIInitialized().
 
 ### llama_lora_adapter.cpp
 
@@ -8660,7 +6865,7 @@ Status: active
 - Brief: Themis llama lora available.
 - Parameters: none
 - Return: True when the operation succeeds.
-- Details: True when the operation succeeds. Calls: ensureAPIInitialized(). True when the operation succeeds.
+- Details: True when the operation succeeds. Calls: ensureAPIInitialized().
 
 #### `void themis_lora_inject_api_functions(void *init_fn, void *set_fn, void *remove_fn, void *clear_fn, void *free_fn)`
 - Source: `src/llm/llama_lora_adapter.cpp`:560
@@ -8724,7 +6929,7 @@ Status: active
 - Brief: Themis llama grammar available.
 - Parameters: none
 - Return: True when the operation succeeds.
-- Details: True when the operation succeeds. True when the operation succeeds. Calls: ensureGrammarAPIInitialized(). True when the operation succeeds.
+- Details: True when the operation succeeds. True when the operation succeeds. Calls: ensureGrammarAPIInitialized().
 
 #### `bool themis_llama_lora_available()`
 - Source: `src/llm/llama_wrapper.cpp`:64
@@ -9221,15 +7426,6 @@ Status: active
 - Parameters:
   - `<unnamed>` (1): n/a
 
-### llm_client_default.cpp
-
-#### `std::shared_ptr< themis::llm::LLMClient > createDefaultLLMClient()`
-- Source: `src/llm/llm_client_default.cpp`:149
-- Brief: Factory function for creating default LLM client.
-- Parameters: none
-- Return: Return value.
-- Details: Return value. Implements createDefaultLLMClient without additional internal calls.
-
 ### multi_lora_manager.cpp
 
 #### `void llama_lora_adapter_free(void *adapter)`
@@ -9237,7 +7433,7 @@ Status: active
 - Brief: Llama lora adapter free.
 - Parameters:
   - `adapter` (void *): Input/output parameter.
-- Details: adapter Input/output parameter. adapter Input/output parameter. adapter Input/output parameter. Calls: ensureAPIInitialized(), spdlog::warn(), spdlog::debug(), fn().
+- Details: adapter Input/output parameter. adapter Input/output parameter. Calls: ensureAPIInitialized(), spdlog::warn(), spdlog::debug(), fn(). adapter Input/output parameter. adapter Input/output parameter. Calls: ensureAPIInitialized(), spdlog::warn(), spdlog::debug(), fn().
 
 #### `void * llama_lora_adapter_init(struct llama_model *model, const char *path_lora)`
 - Source: `src/llm/multi_lora_manager.cpp`:56
@@ -9246,7 +7442,7 @@ Status: active
   - `model` (struct llama_model *): Input/output parameter.
   - `path_lora` (const char *): Input parameter.
 - Return: Pointer to the result.
-- Details: model Input/output parameter. path_lora Input parameter. Pointer to the result. model Input/output parameter. path_lora Input parameter. Pointer to the result. model Input/output parameter. path_lora Input parameter. Pointer to the result. Calls: ensureAPIInitialized(), spdlog::error(), spdlog::info(), fn().
+- Details: model Input/output parameter. path_lora Input parameter. Pointer to the result. model Input/output parameter. path_lora Input parameter. Pointer to the result. Calls: ensureAPIInitialized(), spdlog::error(), spdlog::info(), fn(). model Input/output parameter. path_lora Input parameter. Pointer to the result. model Input/output parameter. path_lora Input parameter. Pointer to the result. Calls: ensureAPIInitialized(), spdlog::error(), spdlog::info(), fn().
 
 #### `int llama_lora_adapter_set(struct llama_context *ctx, void *adapter, float scale)`
 - Source: `src/llm/multi_lora_manager.cpp`:39
@@ -9263,7 +7459,7 @@ Status: active
 - Brief: Themis llama lora available.
 - Parameters: none
 - Return: True when the operation succeeds.
-- Details: True when the operation succeeds. True when the operation succeeds. Calls: ensureAPIInitialized(). True when the operation succeeds.
+- Details: True when the operation succeeds. True when the operation succeeds. Calls: ensureAPIInitialized().
 
 ### sampling_strategy.cpp
 
@@ -9606,497 +7802,497 @@ Status: active
 ### test_ai_orchestrator.cpp
 
 #### `TEST(AIOrchestrator_NoPluginTest, DefaultMode_MatchesPackDefault)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:608
+- Source: `tests/llm/test_ai_orchestrator.cpp`:656
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_NoPluginTest): n/a
   - `<unnamed>` (DefaultMode_MatchesPackDefault): n/a
 
 #### `TEST(AIOrchestrator_NoPluginTest, FindMode_ExistingMode)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:598
+- Source: `tests/llm/test_ai_orchestrator.cpp`:646
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_NoPluginTest): n/a
   - `<unnamed>` (FindMode_ExistingMode): n/a
 
 #### `TEST(AIOrchestrator_NoPluginTest, Run_AskMode_NoPlugin_ReturnsPlaceholder)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:634
+- Source: `tests/llm/test_ai_orchestrator.cpp`:682
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_NoPluginTest): n/a
   - `<unnamed>` (Run_AskMode_NoPlugin_ReturnsPlaceholder): n/a
 
 #### `TEST(AIOrchestrator_NoPluginTest, Run_DefaultMode_UsedWhenEmpty)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:650
+- Source: `tests/llm/test_ai_orchestrator.cpp`:698
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_NoPluginTest): n/a
   - `<unnamed>` (Run_DefaultMode_UsedWhenEmpty): n/a
 
 #### `TEST(AIOrchestrator_NoPluginTest, Run_MetadataContainsModeAndModel)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1525
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1573
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_NoPluginTest): n/a
   - `<unnamed>` (Run_MetadataContainsModeAndModel): n/a
 
 #### `TEST(AIOrchestrator_NoPluginTest, Run_RagMode_NoPlugin_ReturnsPlaceholder)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:665
+- Source: `tests/llm/test_ai_orchestrator.cpp`:713
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_NoPluginTest): n/a
   - `<unnamed>` (Run_RagMode_NoPlugin_ReturnsPlaceholder): n/a
 
 #### `TEST(AIOrchestrator_NoPluginTest, Run_RagMode_PrePopulatedDocs_Filtered)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:681
+- Source: `tests/llm/test_ai_orchestrator.cpp`:729
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_NoPluginTest): n/a
   - `<unnamed>` (Run_RagMode_PrePopulatedDocs_Filtered): n/a
 
 #### `TEST(AIOrchestrator_NoPluginTest, Run_UnknownMode_ReturnsError)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:619
+- Source: `tests/llm/test_ai_orchestrator.cpp`:667
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_NoPluginTest): n/a
   - `<unnamed>` (Run_UnknownMode_ReturnsError): n/a
 
 #### `TEST(AIOrchestrator_NoPluginTest, Stats_IncreaseAfterRun)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1507
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1555
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_NoPluginTest): n/a
   - `<unnamed>` (Stats_IncreaseAfterRun): n/a
 
 #### `TEST(AIOrchestrator_RagAdapterApplyTest, AutoBindingUsesConfiguredPathResolver)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1297
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1345
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagAdapterApplyTest): n/a
   - `<unnamed>` (AutoBindingUsesConfiguredPathResolver): n/a
 
 #### `TEST(AIOrchestrator_RagAdapterApplyTest, AutoBindsPluginApplyServiceWhenUnset)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1264
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1312
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagAdapterApplyTest): n/a
   - `<unnamed>` (AutoBindsPluginApplyServiceWhenUnset): n/a
 
 #### `TEST(AIOrchestrator_RagAdapterApplyTest, CooldownBlocksSecondSwitch)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1152
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1200
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagAdapterApplyTest): n/a
   - `<unnamed>` (CooldownBlocksSecondSwitch): n/a
 
 #### `TEST(AIOrchestrator_RagAdapterApplyTest, DebounceSkipsSameAdapter)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1113
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1161
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagAdapterApplyTest): n/a
   - `<unnamed>` (DebounceSkipsSameAdapter): n/a
 
 #### `TEST(AIOrchestrator_RagAdapterApplyTest, EmptyResolvedPathFailsApplyGracefully)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1336
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1384
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagAdapterApplyTest): n/a
   - `<unnamed>` (EmptyResolvedPathFailsApplyGracefully): n/a
 
 #### `TEST(AIOrchestrator_RagAdapterApplyTest, ForceRollbackReappliesPreviousAdapter)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1196
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1244
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagAdapterApplyTest): n/a
   - `<unnamed>` (ForceRollbackReappliesPreviousAdapter): n/a
 
 #### `TEST(AIOrchestrator_RagAdapterApplyTest, RetryableLoadFailureCanExhaustRetries)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1464
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1512
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagAdapterApplyTest): n/a
   - `<unnamed>` (RetryableLoadFailureCanExhaustRetries): n/a
 
 #### `TEST(AIOrchestrator_RagAdapterApplyTest, RetryableLoadFailureRetriesAndSucceeds)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1421
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1469
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagAdapterApplyTest): n/a
   - `<unnamed>` (RetryableLoadFailureRetriesAndSucceeds): n/a
 
 #### `TEST(AIOrchestrator_RagAdapterApplyTest, SelectedAdapterIsAppliedWhenAllowed)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1072
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1120
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagAdapterApplyTest): n/a
   - `<unnamed>` (SelectedAdapterIsAppliedWhenAllowed): n/a
 
 #### `TEST(AIOrchestrator_RagAdapterApplyTest, UnloadFailureIsReportedAsErrorCode)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1373
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1421
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagAdapterApplyTest): n/a
   - `<unnamed>` (UnloadFailureIsReportedAsErrorCode): n/a
 
 #### `TEST(AIOrchestrator_RagAdapterObservabilityTest, StatsExposeAdapterRagCounters)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1229
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1277
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagAdapterObservabilityTest): n/a
   - `<unnamed>` (StatsExposeAdapterRagCounters): n/a
 
 #### `TEST(AIOrchestrator_RagAdapterSelectionTest, ProviderFailureDoesNotBreakRag)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:737
+- Source: `tests/llm/test_ai_orchestrator.cpp`:785
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagAdapterSelectionTest): n/a
   - `<unnamed>` (ProviderFailureDoesNotBreakRag): n/a
 
 #### `TEST(AIOrchestrator_RagAdapterSelectionTest, SelectedAdapterIsPropagatedToRequest)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:711
+- Source: `tests/llm/test_ai_orchestrator.cpp`:759
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagAdapterSelectionTest): n/a
   - `<unnamed>` (SelectedAdapterIsPropagatedToRequest): n/a
 
 #### `TEST(AIOrchestrator_RagCostModelTest, CostBudgetCanAdaptEffectiveTopK)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:847
+- Source: `tests/llm/test_ai_orchestrator.cpp`:895
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagCostModelTest): n/a
   - `<unnamed>` (CostBudgetCanAdaptEffectiveTopK): n/a
 
 #### `TEST(AIOrchestrator_RagCostModelTest, CostBudgetGateBlocksAdapterApplyWhenExceeded)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:787
+- Source: `tests/llm/test_ai_orchestrator.cpp`:835
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagCostModelTest): n/a
   - `<unnamed>` (CostBudgetGateBlocksAdapterApplyWhenExceeded): n/a
 
 #### `TEST(AIOrchestrator_RagCostModelTest, CostGatePhaseCanBeMultiWithTwoTriggers)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:890
+- Source: `tests/llm/test_ai_orchestrator.cpp`:938
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagCostModelTest): n/a
   - `<unnamed>` (CostGatePhaseCanBeMultiWithTwoTriggers): n/a
 
 #### `TEST(AIOrchestrator_RagCostModelTest, CustomServicePopulatesRagCostEstimate)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:756
+- Source: `tests/llm/test_ai_orchestrator.cpp`:804
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagCostModelTest): n/a
   - `<unnamed>` (CustomServicePopulatesRagCostEstimate): n/a
 
 #### `TEST(AIOrchestrator_RagCostModelTest, DirectTenantBudgetOverrideHasPriorityOverTenantMap)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:978
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1026
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagCostModelTest): n/a
   - `<unnamed>` (DirectTenantBudgetOverrideHasPriorityOverTenantMap): n/a
 
 #### `TEST(AIOrchestrator_RagCostModelTest, InvalidTenantBudgetOverrideIsIgnoredAndReported)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1019
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1067
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagCostModelTest): n/a
   - `<unnamed>` (InvalidTenantBudgetOverrideIsIgnoredAndReported): n/a
 
 #### `TEST(AIOrchestrator_RagCostModelTest, TenantBudgetOverrideCanRelaxCostGate)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:938
+- Source: `tests/llm/test_ai_orchestrator.cpp`:986
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_RagCostModelTest): n/a
   - `<unnamed>` (TenantBudgetOverrideCanRelaxCostGate): n/a
 
 #### `TEST(AIOrchestrator_ToolTest, RegisterAndInvoke_ViaOrchestrator)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1544
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1592
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AIOrchestrator_ToolTest): n/a
   - `<unnamed>` (RegisterAndInvoke_ViaOrchestrator): n/a
 
 #### `TEST(AgenticToolCallTest, InvalidToolArgumentsTypeRejected)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1885
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1947
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AgenticToolCallTest): n/a
   - `<unnamed>` (InvalidToolArgumentsTypeRejected): n/a
 
 #### `TEST(AgenticToolCallTest, MalformedJson_GracefulFallback)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1806
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1868
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AgenticToolCallTest): n/a
   - `<unnamed>` (MalformedJson_GracefulFallback): n/a
 
 #### `TEST(AgenticToolCallTest, PlainTextResponse_NoToolDispatched)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1776
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1838
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AgenticToolCallTest): n/a
   - `<unnamed>` (PlainTextResponse_NoToolDispatched): n/a
 
 #### `TEST(AgenticToolCallTest, ToolExecutionFailureReturnsDeterministicError)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1859
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1921
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AgenticToolCallTest): n/a
   - `<unnamed>` (ToolExecutionFailureReturnsDeterministicError): n/a
 
 #### `TEST(AgenticToolCallTest, ValidJsonButNotToolCall_NoDispatch)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1830
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1892
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AgenticToolCallTest): n/a
   - `<unnamed>` (ValidJsonButNotToolCall_NoDispatch): n/a
 
 #### `TEST(AgenticToolCallTest, ValidToolCallJson_Dispatched)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1735
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1797
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AgenticToolCallTest): n/a
   - `<unnamed>` (ValidToolCallJson_Dispatched): n/a
 
 #### `TEST(AuditRegressionTest, ToolRegistry_ConcurrentReads_NoDataRace)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1623
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1678
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AuditRegressionTest): n/a
   - `<unnamed>` (ToolRegistry_ConcurrentReads_NoDataRace): n/a
 
 #### `TEST(AuditRegressionTest, ToolRegistry_ConcurrentRegisterAndRead_NoDataRace)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1664
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1726
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AuditRegressionTest): n/a
   - `<unnamed>` (ToolRegistry_ConcurrentRegisterAndRead_NoDataRace): n/a
 
 #### `TEST(AuditRegressionTest, TypesInCorrectNamespace)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1699
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1761
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AuditRegressionTest): n/a
   - `<unnamed>` (TypesInCorrectNamespace): n/a
 
 #### `TEST(AuditRegressionTest, WildcardAllowlist_DenyOverridesWildcard)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1611
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1666
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AuditRegressionTest): n/a
   - `<unnamed>` (WildcardAllowlist_DenyOverridesWildcard): n/a
 
 #### `TEST(AuditRegressionTest, WildcardAllowlist_IsAllowed_AnyTool)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1600
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1655
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AuditRegressionTest): n/a
   - `<unnamed>` (WildcardAllowlist_IsAllowed_AnyTool): n/a
 
 #### `TEST(AuditRegressionTest, WildcardAllowlist_NoFalsePositiveWarning)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1582
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1630
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AuditRegressionTest): n/a
   - `<unnamed>` (WildcardAllowlist_NoFalsePositiveWarning): n/a
 
 #### `TEST(EthicsPipelineTest, GuardrailIsEnforcedAndPromptIsComposed)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1969
+- Source: `tests/llm/test_ai_orchestrator.cpp`:2031
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EthicsPipelineTest): n/a
   - `<unnamed>` (GuardrailIsEnforcedAndPromptIsComposed): n/a
 
 #### `TEST(ModeIdTest, CaseInsensitive)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:292
+- Source: `tests/llm/test_ai_orchestrator.cpp`:294
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModeIdTest): n/a
   - `<unnamed>` (CaseInsensitive): n/a
 
 #### `TEST(ModeIdTest, RoundTrip_KnownModes)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:282
+- Source: `tests/llm/test_ai_orchestrator.cpp`:284
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModeIdTest): n/a
   - `<unnamed>` (RoundTrip_KnownModes): n/a
 
 #### `TEST(ModeIdTest, ToString_KnownModes)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:298
+- Source: `tests/llm/test_ai_orchestrator.cpp`:300
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModeIdTest): n/a
   - `<unnamed>` (ToString_KnownModes): n/a
 
 #### `TEST(ModeSpecLoaderTest, Defaults_InjectedForMissingFields)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:346
+- Source: `tests/llm/test_ai_orchestrator.cpp`:348
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModeSpecLoaderTest): n/a
   - `<unnamed>` (Defaults_InjectedForMissingFields): n/a
 
 #### `TEST(ModeSpecLoaderTest, DuplicateModeId_ReturnsError)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:408
+- Source: `tests/llm/test_ai_orchestrator.cpp`:426
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModeSpecLoaderTest): n/a
   - `<unnamed>` (DuplicateModeId_ReturnsError): n/a
 
 #### `TEST(ModeSpecLoaderTest, EmptyModes_ReturnsError)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:394
+- Source: `tests/llm/test_ai_orchestrator.cpp`:408
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModeSpecLoaderTest): n/a
   - `<unnamed>` (EmptyModes_ReturnsError): n/a
 
 #### `TEST(ModeSpecLoaderTest, InvalidApiVersion_ReturnsError)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:366
+- Source: `tests/llm/test_ai_orchestrator.cpp`:368
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModeSpecLoaderTest): n/a
   - `<unnamed>` (InvalidApiVersion_ReturnsError): n/a
 
 #### `TEST(ModeSpecLoaderTest, InvalidBudgets_MaxTokensZero_ReturnsError)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:444
+- Source: `tests/llm/test_ai_orchestrator.cpp`:477
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModeSpecLoaderTest): n/a
   - `<unnamed>` (InvalidBudgets_MaxTokensZero_ReturnsError): n/a
 
 #### `TEST(ModeSpecLoaderTest, InvalidDefaultMode_ReturnsError)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:422
+- Source: `tests/llm/test_ai_orchestrator.cpp`:448
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModeSpecLoaderTest): n/a
   - `<unnamed>` (InvalidDefaultMode_ReturnsError): n/a
 
 #### `TEST(ModeSpecLoaderTest, LoadFromFile_NonExistentFile_ReturnsError)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:462
+- Source: `tests/llm/test_ai_orchestrator.cpp`:510
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModeSpecLoaderTest): n/a
   - `<unnamed>` (LoadFromFile_NonExistentFile_ReturnsError): n/a
 
 #### `TEST(ModeSpecLoaderTest, LoadFromString_MinimalValid)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:312
+- Source: `tests/llm/test_ai_orchestrator.cpp`:314
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModeSpecLoaderTest): n/a
   - `<unnamed>` (LoadFromString_MinimalValid): n/a
 
 #### `TEST(ModeSpecLoaderTest, LoadFromString_RagPack)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:326
+- Source: `tests/llm/test_ai_orchestrator.cpp`:328
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModeSpecLoaderTest): n/a
   - `<unnamed>` (LoadFromString_RagPack): n/a
 
 #### `TEST(ModeSpecLoaderTest, MalformedYaml_ReturnsError)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:436
+- Source: `tests/llm/test_ai_orchestrator.cpp`:469
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModeSpecLoaderTest): n/a
   - `<unnamed>` (MalformedYaml_ReturnsError): n/a
 
 #### `TEST(ModeSpecLoaderTest, NegativeRetrievalTopK_ReturnsError)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:451
+- Source: `tests/llm/test_ai_orchestrator.cpp`:490
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModeSpecLoaderTest): n/a
   - `<unnamed>` (NegativeRetrievalTopK_ReturnsError): n/a
 
 #### `TEST(ModeSpecLoaderTest, UnknownKind_ReturnsError)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:380
+- Source: `tests/llm/test_ai_orchestrator.cpp`:388
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModeSpecLoaderTest): n/a
   - `<unnamed>` (UnknownKind_ReturnsError): n/a
 
 #### `TEST(MultiAgentPipelineTest, AgentQueriesAreAggregatedWithDiagnostics)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1933
+- Source: `tests/llm/test_ai_orchestrator.cpp`:1995
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MultiAgentPipelineTest): n/a
   - `<unnamed>` (AgentQueriesAreAggregatedWithDiagnostics): n/a
 
 #### `TEST(MultiAgentPipelineTest, MissingQueriesFailsDeterministically)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:1953
+- Source: `tests/llm/test_ai_orchestrator.cpp`:2015
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MultiAgentPipelineTest): n/a
   - `<unnamed>` (MissingQueriesFailsDeterministically): n/a
 
 #### `TEST(ToolRegistryTest, DenyOverridesAllow)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:532
+- Source: `tests/llm/test_ai_orchestrator.cpp`:580
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ToolRegistryTest): n/a
   - `<unnamed>` (DenyOverridesAllow): n/a
 
 #### `TEST(ToolRegistryTest, GetSpec_KnownTool)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:485
+- Source: `tests/llm/test_ai_orchestrator.cpp`:533
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ToolRegistryTest): n/a
   - `<unnamed>` (GetSpec_KnownTool): n/a
 
 #### `TEST(ToolRegistryTest, GetSpec_UnknownTool_ReturnsNullopt)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:498
+- Source: `tests/llm/test_ai_orchestrator.cpp`:546
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ToolRegistryTest): n/a
   - `<unnamed>` (GetSpec_UnknownTool_ReturnsNullopt): n/a
 
 #### `TEST(ToolRegistryTest, InvokeTool_NotPermitted_ReturnsError)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:542
+- Source: `tests/llm/test_ai_orchestrator.cpp`:590
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ToolRegistryTest): n/a
   - `<unnamed>` (InvokeTool_NotPermitted_ReturnsError): n/a
 
 #### `TEST(ToolRegistryTest, InvokeTool_NotRegistered_ReturnsError)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:574
+- Source: `tests/llm/test_ai_orchestrator.cpp`:622
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ToolRegistryTest): n/a
   - `<unnamed>` (InvokeTool_NotRegistered_ReturnsError): n/a
 
 #### `TEST(ToolRegistryTest, InvokeTool_Permitted_CallsHandler)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:556
+- Source: `tests/llm/test_ai_orchestrator.cpp`:604
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ToolRegistryTest): n/a
   - `<unnamed>` (InvokeTool_Permitted_CallsHandler): n/a
 
 #### `TEST(ToolRegistryTest, IsAllowed_EmptyAllowlist_ReturnsFalse)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:503
+- Source: `tests/llm/test_ai_orchestrator.cpp`:551
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ToolRegistryTest): n/a
   - `<unnamed>` (IsAllowed_EmptyAllowlist_ReturnsFalse): n/a
 
 #### `TEST(ToolRegistryTest, IsAllowed_ExplicitAllow)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:512
+- Source: `tests/llm/test_ai_orchestrator.cpp`:560
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ToolRegistryTest): n/a
   - `<unnamed>` (IsAllowed_ExplicitAllow): n/a
 
 #### `TEST(ToolRegistryTest, IsAllowed_WildcardAllowAll)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:522
+- Source: `tests/llm/test_ai_orchestrator.cpp`:570
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ToolRegistryTest): n/a
   - `<unnamed>` (IsAllowed_WildcardAllowAll): n/a
 
 #### `TEST(ToolRegistryTest, RegisterAndList)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:473
+- Source: `tests/llm/test_ai_orchestrator.cpp`:521
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ToolRegistryTest): n/a
   - `<unnamed>` (RegisterAndList): n/a
 
 #### `TEST(ToolRegistryTest, RegisterTool_EmptyName_Throws)`
-- Source: `tests/llm/test_ai_orchestrator.cpp`:584
+- Source: `tests/llm/test_ai_orchestrator.cpp`:632
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ToolRegistryTest): n/a
@@ -10564,7 +8760,7 @@ Status: active
 - Brief: Themis llama grammar available.
 - Parameters: none
 - Return: True when the operation succeeds.
-- Details: True when the operation succeeds. Calls: ensureGrammarAPIInitialized(). True when the operation succeeds.
+- Details: True when the operation succeeds. Calls: ensureGrammarAPIInitialized().
 
 ### test_inference_performance.cpp
 
@@ -10849,7 +9045,7 @@ Status: active
   - `<unnamed>` (BooleanSchema_ProducesRootRefToBoolean): n/a
 
 #### `TEST(JsonSchemaConverterTest, EmptyToolsList_ReturnsEmpty)`
-- Source: `tests/llm/test_json_schema_binding.cpp`:228
+- Source: `tests/llm/test_json_schema_binding.cpp`:232
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonSchemaConverterTest): n/a
@@ -10863,21 +9059,21 @@ Status: active
   - `<unnamed>` (GeneratedGrammarContainsBaseRules): n/a
 
 #### `TEST(JsonSchemaConverterTest, InferenceRequest_AcceptsJsonSchema)`
-- Source: `tests/llm/test_json_schema_binding.cpp`:316
+- Source: `tests/llm/test_json_schema_binding.cpp`:320
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonSchemaConverterTest): n/a
   - `<unnamed>` (InferenceRequest_AcceptsJsonSchema): n/a
 
 #### `TEST(JsonSchemaConverterTest, InferenceRequest_AcceptsTools)`
-- Source: `tests/llm/test_json_schema_binding.cpp`:324
+- Source: `tests/llm/test_json_schema_binding.cpp`:328
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonSchemaConverterTest): n/a
   - `<unnamed>` (InferenceRequest_AcceptsTools): n/a
 
 #### `TEST(JsonSchemaConverterTest, InferenceResponse_AcceptsToolCalls)`
-- Source: `tests/llm/test_json_schema_binding.cpp`:337
+- Source: `tests/llm/test_json_schema_binding.cpp`:341
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonSchemaConverterTest): n/a
@@ -10891,7 +9087,7 @@ Status: active
   - `<unnamed>` (IntegerSchema_ProducesRootRefToInteger): n/a
 
 #### `TEST(JsonSchemaConverterTest, MultipleTools_RootContainsPipeAlternative)`
-- Source: `tests/llm/test_json_schema_binding.cpp`:208
+- Source: `tests/llm/test_json_schema_binding.cpp`:212
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonSchemaConverterTest): n/a
@@ -10947,63 +9143,63 @@ Status: active
   - `<unnamed>` (ObjectWithRequiredProperties_ContainsPropertyNames): n/a
 
 #### `TEST(JsonSchemaConverterTest, ParseToolCall_EmptyArguments_ReturnsEmptyObject)`
-- Source: `tests/llm/test_json_schema_binding.cpp`:267
+- Source: `tests/llm/test_json_schema_binding.cpp`:271
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonSchemaConverterTest): n/a
   - `<unnamed>` (ParseToolCall_EmptyArguments_ReturnsEmptyObject): n/a
 
 #### `TEST(JsonSchemaConverterTest, ParseToolCall_EmptyString_ReturnsNullopt)`
-- Source: `tests/llm/test_json_schema_binding.cpp`:284
+- Source: `tests/llm/test_json_schema_binding.cpp`:288
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonSchemaConverterTest): n/a
   - `<unnamed>` (ParseToolCall_EmptyString_ReturnsNullopt): n/a
 
 #### `TEST(JsonSchemaConverterTest, ParseToolCall_MalformedJson_ReturnsNullopt)`
-- Source: `tests/llm/test_json_schema_binding.cpp`:300
+- Source: `tests/llm/test_json_schema_binding.cpp`:304
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonSchemaConverterTest): n/a
   - `<unnamed>` (ParseToolCall_MalformedJson_ReturnsNullopt): n/a
 
 #### `TEST(JsonSchemaConverterTest, ParseToolCall_MissingArgumentsKey_FallsBackToEmptyObject)`
-- Source: `tests/llm/test_json_schema_binding.cpp`:275
+- Source: `tests/llm/test_json_schema_binding.cpp`:279
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonSchemaConverterTest): n/a
   - `<unnamed>` (ParseToolCall_MissingArgumentsKey_FallsBackToEmptyObject): n/a
 
 #### `TEST(JsonSchemaConverterTest, ParseToolCall_MissingNameKey_ReturnsNullopt)`
-- Source: `tests/llm/test_json_schema_binding.cpp`:294
+- Source: `tests/llm/test_json_schema_binding.cpp`:298
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonSchemaConverterTest): n/a
   - `<unnamed>` (ParseToolCall_MissingNameKey_ReturnsNullopt): n/a
 
 #### `TEST(JsonSchemaConverterTest, ParseToolCall_NameNotString_ReturnsNullopt)`
-- Source: `tests/llm/test_json_schema_binding.cpp`:306
+- Source: `tests/llm/test_json_schema_binding.cpp`:310
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonSchemaConverterTest): n/a
   - `<unnamed>` (ParseToolCall_NameNotString_ReturnsNullopt): n/a
 
 #### `TEST(JsonSchemaConverterTest, ParseToolCall_NoJson_ReturnsNullopt)`
-- Source: `tests/llm/test_json_schema_binding.cpp`:289
+- Source: `tests/llm/test_json_schema_binding.cpp`:293
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonSchemaConverterTest): n/a
   - `<unnamed>` (ParseToolCall_NoJson_ReturnsNullopt): n/a
 
 #### `TEST(JsonSchemaConverterTest, ParseToolCall_ValidJson_ReturnsToolCall)`
-- Source: `tests/llm/test_json_schema_binding.cpp`:251
+- Source: `tests/llm/test_json_schema_binding.cpp`:255
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonSchemaConverterTest): n/a
   - `<unnamed>` (ParseToolCall_ValidJson_ReturnsToolCall): n/a
 
 #### `TEST(JsonSchemaConverterTest, ParseToolCall_WithLeadingWhitespace_ReturnsToolCall)`
-- Source: `tests/llm/test_json_schema_binding.cpp`:260
+- Source: `tests/llm/test_json_schema_binding.cpp`:264
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonSchemaConverterTest): n/a
@@ -11017,7 +9213,7 @@ Status: active
   - `<unnamed>` (SingleTool_ContainsToolName): n/a
 
 #### `TEST(JsonSchemaConverterTest, SingleTool_RootAlternativeIsCallRule)`
-- Source: `tests/llm/test_json_schema_binding.cpp`:194
+- Source: `tests/llm/test_json_schema_binding.cpp`:198
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonSchemaConverterTest): n/a
@@ -11038,7 +9234,7 @@ Status: active
   - `<unnamed>` (StringSchema_ProducesRootRefToString): n/a
 
 #### `TEST(JsonSchemaConverterTest, ToolWithEmptyName_Skipped)`
-- Source: `tests/llm/test_json_schema_binding.cpp`:233
+- Source: `tests/llm/test_json_schema_binding.cpp`:237
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonSchemaConverterTest): n/a
@@ -11659,56 +9855,56 @@ Status: active
 ### test_llm_adalora_doku_training.cpp
 
 #### `TEST_F(AdaLoraDokuTrainingTest, Lora01_ConstructionAndLayerAdd)`
-- Source: `tests/llm/test_llm_adalora_doku_training.cpp`:136
+- Source: `tests/llm/test_llm_adalora_doku_training.cpp`:140
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AdaLoraDokuTrainingTest): n/a
   - `<unnamed>` (Lora01_ConstructionAndLayerAdd): n/a
 
 #### `TEST_F(AdaLoraDokuTrainingTest, Lora02_RankPruningConstraint)`
-- Source: `tests/llm/test_llm_adalora_doku_training.cpp`:157
+- Source: `tests/llm/test_llm_adalora_doku_training.cpp`:161
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AdaLoraDokuTrainingTest): n/a
   - `<unnamed>` (Lora02_RankPruningConstraint): n/a
 
 #### `TEST_F(AdaLoraDokuTrainingTest, Lora03_TtBridgeExport)`
-- Source: `tests/llm/test_llm_adalora_doku_training.cpp`:183
+- Source: `tests/llm/test_llm_adalora_doku_training.cpp`:187
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AdaLoraDokuTrainingTest): n/a
   - `<unnamed>` (Lora03_TtBridgeExport): n/a
 
 #### `TEST_F(AdaLoraDokuTrainingTest, Lora04_CheckpointRoundTrip)`
-- Source: `tests/llm/test_llm_adalora_doku_training.cpp`:217
+- Source: `tests/llm/test_llm_adalora_doku_training.cpp`:221
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AdaLoraDokuTrainingTest): n/a
   - `<unnamed>` (Lora04_CheckpointRoundTrip): n/a
 
 #### `TEST_F(AdaLoraDokuTrainingTest, Lora05_DokuDbTrainingInput)`
-- Source: `tests/llm/test_llm_adalora_doku_training.cpp`:292
+- Source: `tests/llm/test_llm_adalora_doku_training.cpp`:296
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AdaLoraDokuTrainingTest): n/a
   - `<unnamed>` (Lora05_DokuDbTrainingInput): n/a
 
 #### `TEST_F(AdaLoraDokuTrainingTest, Lora06_ConvergenceProxy)`
-- Source: `tests/llm/test_llm_adalora_doku_training.cpp`:331
+- Source: `tests/llm/test_llm_adalora_doku_training.cpp`:337
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AdaLoraDokuTrainingTest): n/a
   - `<unnamed>` (Lora06_ConvergenceProxy): n/a
 
 #### `TEST_F(AdaLoraDokuTrainingTest, Lora07_ThreadSafeConcurrentRealloc)`
-- Source: `tests/llm/test_llm_adalora_doku_training.cpp`:374
+- Source: `tests/llm/test_llm_adalora_doku_training.cpp`:380
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AdaLoraDokuTrainingTest): n/a
   - `<unnamed>` (Lora07_ThreadSafeConcurrentRealloc): n/a
 
 #### `TEST_F(AdaLoraDokuTrainingTest, Lora08_CacheGate)`
-- Source: `tests/llm/test_llm_adalora_doku_training.cpp`:423
+- Source: `tests/llm/test_llm_adalora_doku_training.cpp`:429
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AdaLoraDokuTrainingTest): n/a
@@ -11920,77 +10116,77 @@ Status: active
 ### test_llm_aql_handler.cpp
 
 #### `TEST(LLMAQLHandlerHooksTest, ExecuteChatC1GateRejectsLowScore)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:728
+- Source: `tests/llm/test_llm_aql_handler.cpp`:732
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerHooksTest): n/a
   - `<unnamed>` (ExecuteChatC1GateRejectsLowScore): n/a
 
 #### `TEST(LLMAQLHandlerHooksTest, ExecuteChatC2TelemetryReceivesRuntimeMetrics)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:756
+- Source: `tests/llm/test_llm_aql_handler.cpp`:760
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerHooksTest): n/a
   - `<unnamed>` (ExecuteChatC2TelemetryReceivesRuntimeMetrics): n/a
 
 #### `TEST(LLMAQLHandlerHooksTest, ExecuteInferC1GateRejectsLowScore)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:655
+- Source: `tests/llm/test_llm_aql_handler.cpp`:659
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerHooksTest): n/a
   - `<unnamed>` (ExecuteInferC1GateRejectsLowScore): n/a
 
 #### `TEST(LLMAQLHandlerHooksTest, ExecuteInferC1GateRejectsNonFiniteScore)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:675
+- Source: `tests/llm/test_llm_aql_handler.cpp`:679
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerHooksTest): n/a
   - `<unnamed>` (ExecuteInferC1GateRejectsNonFiniteScore): n/a
 
 #### `TEST(LLMAQLHandlerHooksTest, ExecuteInferC2TelemetryReceivesRuntimeMetrics)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:694
+- Source: `tests/llm/test_llm_aql_handler.cpp`:698
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerHooksTest): n/a
   - `<unnamed>` (ExecuteInferC2TelemetryReceivesRuntimeMetrics): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, AQLQueryValidator_AcceptsMinimalValidQuery)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1424
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1432
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (AQLQueryValidator_AcceptsMinimalValidQuery): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, AQLQueryValidator_DetectsIncompleteForQuery)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1406
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1414
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (AQLQueryValidator_DetectsIncompleteForQuery): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, AQLQueryValidator_DetectsMissingReturnClause)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1416
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1424
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (AQLQueryValidator_DetectsMissingReturnClause): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, CacheStatsExecution)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:828
+- Source: `tests/llm/test_llm_aql_handler.cpp`:832
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (CacheStatsExecution): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, ExecuteBatchInferBasic)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:422
+- Source: `tests/llm/test_llm_aql_handler.cpp`:426
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (ExecuteBatchInferBasic): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, ExecuteBatchInferDomainFanOutPreservesOrder)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:574
+- Source: `tests/llm/test_llm_aql_handler.cpp`:578
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
@@ -12025,14 +10221,14 @@ Status: active
   - `<unnamed>` (ExecuteEmbedWithModel): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, ExecuteInferFallsBackLocalWhenDomainAccuracyLow)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:471
+- Source: `tests/llm/test_llm_aql_handler.cpp`:475
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (ExecuteInferFallsBackLocalWhenDomainAccuracyLow): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, ExecuteInferLegalMedicalAliasesRouteViaAdaptiveShardRouter)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:601
+- Source: `tests/llm/test_llm_aql_handler.cpp`:605
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
@@ -12046,21 +10242,21 @@ Status: active
   - `<unnamed>` (ExecuteInferOptions): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, ExecuteInferPrefersResolverOverAdaptiveShardRouter)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:533
+- Source: `tests/llm/test_llm_aql_handler.cpp`:537
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (ExecuteInferPrefersResolverOverAdaptiveShardRouter): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, ExecuteInferUsesAdaptiveShardRouterWhenResolverNotSet)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:499
+- Source: `tests/llm/test_llm_aql_handler.cpp`:503
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (ExecuteInferUsesAdaptiveShardRouterWhenResolverNotSet): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, ExecuteInferUsesDomainHintRoutingWhenAccuracyHigh)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:444
+- Source: `tests/llm/test_llm_aql_handler.cpp`:448
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
@@ -12102,280 +10298,280 @@ Status: active
   - `<unnamed>` (ExecuteRAGWithSimilarityThreshold): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, FormatLLMResponseAnnotatesSyntaxErrors)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:864
+- Source: `tests/llm/test_llm_aql_handler.cpp`:868
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (FormatLLMResponseAnnotatesSyntaxErrors): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, FormatLLMResponseAnsiModeEmitsEscapes)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:880
+- Source: `tests/llm/test_llm_aql_handler.cpp`:884
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (FormatLLMResponseAnsiModeEmitsEscapes): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, FormatLLMResponseHighlightsAQLBlock)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:848
+- Source: `tests/llm/test_llm_aql_handler.cpp`:852
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (FormatLLMResponseHighlightsAQLBlock): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, FormatLLMResponseNonAQLBlockUnchanged)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:891
+- Source: `tests/llm/test_llm_aql_handler.cpp`:895
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (FormatLLMResponseNonAQLBlockUnchanged): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, FormatLLMResponsePassesThroughPlainText)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:841
+- Source: `tests/llm/test_llm_aql_handler.cpp`:845
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (FormatLLMResponsePassesThroughPlainText): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, LLMErrorCode_InvalidResponseHasString)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1435
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1443
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (LLMErrorCode_InvalidResponseHasString): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, LLMException_InvalidResponseThrowAndCatch)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1441
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1449
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (LLMException_InvalidResponseThrowAndCatch): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, LoRAManagement)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:810
+- Source: `tests/llm/test_llm_aql_handler.cpp`:814
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (LoRAManagement): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, MockLLM_CollectionChecker_DeniesTranslate_ThrowsAccessDenied)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1602
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1610
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (MockLLM_CollectionChecker_DeniesTranslate_ThrowsAccessDenied): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, MockLLM_CollectionChecker_DeniesWithExamples_ThrowsAccessDenied)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1616
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1624
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (MockLLM_CollectionChecker_DeniesWithExamples_ThrowsAccessDenied): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, MockLLM_RejectOnError_BrokenAQL_Streaming_Throws)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1551
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1559
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (MockLLM_RejectOnError_BrokenAQL_Streaming_Throws): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, MockLLM_RejectOnError_BrokenAQL_TranslateNLToAQL_Throws)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1534
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1542
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (MockLLM_RejectOnError_BrokenAQL_TranslateNLToAQL_Throws): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, MockLLM_RejectOnError_BrokenAQL_WithExamples_Throws)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1564
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1572
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (MockLLM_RejectOnError_BrokenAQL_WithExamples_Throws): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, MockLLM_RejectOnError_ValidAQL_DoesNotThrow)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1590
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1598
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (MockLLM_RejectOnError_ValidAQL_DoesNotThrow): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_BrokenAQL_ExhaustsRetries_Throws)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1643
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1651
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (MockLLM_RetryOnError_BrokenAQL_ExhaustsRetries_Throws): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_FeedbackInjectedInPrompt)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1714
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1722
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (MockLLM_RetryOnError_FeedbackInjectedInPrompt): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_SucceedsOnSecondAttempt)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1696
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1704
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (MockLLM_RetryOnError_SucceedsOnSecondAttempt): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_UsesValidationConfigRetryCount)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1663
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1671
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (MockLLM_RetryOnError_UsesValidationConfigRetryCount): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_UsesValidationConfigRetryCountWithExamples)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1679
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1687
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (MockLLM_RetryOnError_UsesValidationConfigRetryCountWithExamples): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, MockLLM_WarnOnly_BrokenAQL_DoesNotThrow)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1578
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1586
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (MockLLM_WarnOnly_BrokenAQL_DoesNotThrow): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, MockLLM_WithExamples_SchemaScopeCheckRejectsOutOfScopeCollection)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1631
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1639
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (MockLLM_WithExamples_SchemaScopeCheckRejectsOutOfScopeCollection): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, ModelManagement)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:801
+- Source: `tests/llm/test_llm_aql_handler.cpp`:805
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (ModelManagement): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, RejectOnError_ModePreservedAcrossTranslationAttempt)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1459
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1467
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (RejectOnError_ModePreservedAcrossTranslationAttempt): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, RejectOnError_ModePreservedForStreaming)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1480
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1488
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (RejectOnError_ModePreservedForStreaming): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, RejectOnError_ModePreservedForWithExamples)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1492
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1500
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (RejectOnError_ModePreservedForWithExamples): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, RetryOnError_ModePreservedAcrossTranslationAttempt)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1505
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1513
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (RetryOnError_ModePreservedAcrossTranslationAttempt): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, StatsExecution)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:819
+- Source: `tests/llm/test_llm_aql_handler.cpp`:823
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (StatsExecution): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, StreamExplainAQLAcceptsLegitimateQuery)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:984
+- Source: `tests/llm/test_llm_aql_handler.cpp`:988
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (StreamExplainAQLAcceptsLegitimateQuery): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, StreamExplainAQLAsSSEInjectionExceptionIsLLMException)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1007
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1011
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (StreamExplainAQLAsSSEInjectionExceptionIsLLMException): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, StreamExplainAQLAsSSERejectsInjection)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:998
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1002
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (StreamExplainAQLAsSSERejectsInjection): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, StreamExplainAQLInjectionExceptionIsLLMException)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:971
+- Source: `tests/llm/test_llm_aql_handler.cpp`:975
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (StreamExplainAQLInjectionExceptionIsLLMException): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, StreamExplainAQLRejectsDanJailbreak)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:933
+- Source: `tests/llm/test_llm_aql_handler.cpp`:937
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (StreamExplainAQLRejectsDanJailbreak): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, StreamExplainAQLRejectsIgnorePreviousInstructions)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:906
+- Source: `tests/llm/test_llm_aql_handler.cpp`:910
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (StreamExplainAQLRejectsIgnorePreviousInstructions): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, StreamExplainAQLRejectsInjectionInSchemaContext)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:960
+- Source: `tests/llm/test_llm_aql_handler.cpp`:964
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (StreamExplainAQLRejectsInjectionInSchemaContext): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, StreamExplainAQLRejectsNullByte)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:942
+- Source: `tests/llm/test_llm_aql_handler.cpp`:946
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (StreamExplainAQLRejectsNullByte): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, StreamExplainAQLRejectsOversizedQuery)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:952
+- Source: `tests/llm/test_llm_aql_handler.cpp`:956
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (StreamExplainAQLRejectsOversizedQuery): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, StreamExplainAQLRejectsPersonaHijack)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:915
+- Source: `tests/llm/test_llm_aql_handler.cpp`:919
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (StreamExplainAQLRejectsPersonaHijack): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, StreamExplainAQLRejectsSystemBlockMarker)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:924
+- Source: `tests/llm/test_llm_aql_handler.cpp`:928
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (StreamExplainAQLRejectsSystemBlockMarker): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLAcceptsLegitimateQuery)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:389
+- Source: `tests/llm/test_llm_aql_handler.cpp`:393
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLAcceptsLegitimateQuery): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLAcceptsLegitimateSchemaContext)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:403
+- Source: `tests/llm/test_llm_aql_handler.cpp`:407
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
@@ -12389,252 +10585,252 @@ Status: active
   - `<unnamed>` (TranslateNLToAQLBasic): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLInjectionExceptionIsLLMException)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:377
+- Source: `tests/llm/test_llm_aql_handler.cpp`:381
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLInjectionExceptionIsLLMException): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLMarkdownCleanup)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:268
+- Source: `tests/llm/test_llm_aql_handler.cpp`:272
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLMarkdownCleanup): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLRejectsDanJailbreak)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:338
+- Source: `tests/llm/test_llm_aql_handler.cpp`:342
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLRejectsDanJailbreak): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLRejectsDisregardInstructions)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:317
+- Source: `tests/llm/test_llm_aql_handler.cpp`:321
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLRejectsDisregardInstructions): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLRejectsIgnoreAllInstructions)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:310
+- Source: `tests/llm/test_llm_aql_handler.cpp`:314
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLRejectsIgnoreAllInstructions): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLRejectsIgnorePreviousInstructions)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:303
+- Source: `tests/llm/test_llm_aql_handler.cpp`:307
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLRejectsIgnorePreviousInstructions): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLRejectsInjectionInSchemaContext)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:357
+- Source: `tests/llm/test_llm_aql_handler.cpp`:361
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLRejectsInjectionInSchemaContext): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLRejectsNullByte)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:345
+- Source: `tests/llm/test_llm_aql_handler.cpp`:349
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLRejectsNullByte): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLRejectsOversizedQuery)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:352
+- Source: `tests/llm/test_llm_aql_handler.cpp`:356
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLRejectsOversizedQuery): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLRejectsPersonaHijack)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:324
+- Source: `tests/llm/test_llm_aql_handler.cpp`:328
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLRejectsPersonaHijack): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLRejectsSchemaDelimiterEscapeInSchemaContext)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:367
+- Source: `tests/llm/test_llm_aql_handler.cpp`:371
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLRejectsSchemaDelimiterEscapeInSchemaContext): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLRejectsSystemBlockMarker)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:331
+- Source: `tests/llm/test_llm_aql_handler.cpp`:335
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLRejectsSystemBlockMarker): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLValidationRunsWithoutCrash)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:281
+- Source: `tests/llm/test_llm_aql_handler.cpp`:285
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLValidationRunsWithoutCrash): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithConfidenceReturnsResult)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1024
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1028
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithConfidenceReturnsResult): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithConfidenceUsesSchemaContext)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1039
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1043
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithConfidenceUsesSchemaContext): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_AcceptsLegitimateQuery)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1308
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1316
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_AcceptsLegitimateQuery): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_AcceptsLegitimateSchemaContext)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1323
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1331
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_AcceptsLegitimateSchemaContext): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_BasicTranslation)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1059
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1067
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_BasicTranslation): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_GraphDomainExamples)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1116
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1124
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_GraphDomainExamples): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_InjectionExceptionIsLLMException)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1293
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1301
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_InjectionExceptionIsLLMException): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_LibraryHasBuiltins)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1134
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1142
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_LibraryHasBuiltins): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_RejectsDanJailbreak)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1229
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1237
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_RejectsDanJailbreak): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_RejectsDisregardInstructions)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1196
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1204
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_RejectsDisregardInstructions): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_RejectsIgnoreAllInstructions)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1185
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1193
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_RejectsIgnoreAllInstructions): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_RejectsIgnorePreviousInstructions)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1174
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1182
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_RejectsIgnorePreviousInstructions): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_RejectsInjectionInSchemaContext)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1260
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1268
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_RejectsInjectionInSchemaContext): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_RejectsNullByte)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1240
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1248
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_RejectsNullByte): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_RejectsOversizedQuery)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1251
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1259
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_RejectsOversizedQuery): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_RejectsOversizedSchemaContext)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1284
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1292
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_RejectsOversizedSchemaContext): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_RejectsPersonaHijack)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1207
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1215
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_RejectsPersonaHijack): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_RejectsSchemaDelimiterEscapeInSchemaContext)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1272
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1280
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_RejectsSchemaDelimiterEscapeInSchemaContext): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_RejectsSystemBlockMarker)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1218
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1226
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_RejectsSystemBlockMarker): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_ValidationRunsWithoutCrash)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1347
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1355
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_ValidationRunsWithoutCrash): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_VectorSearchQuery)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1152
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1160
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_VectorSearchQuery): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_WithSchemaContext)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1075
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1083
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (TranslateNLToAQLWithExamples_WithSchemaContext): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_ZeroExamples)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1097
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1105
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
@@ -12648,35 +10844,35 @@ Status: active
   - `<unnamed>` (TranslateNLToAQLWithSchema): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, ValidationMode_DefaultIsWarnOnly)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1379
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1387
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (ValidationMode_DefaultIsWarnOnly): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, ValidationMode_SetAndGet_RejectOnError)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1383
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1391
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (ValidationMode_SetAndGet_RejectOnError): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, ValidationMode_SetAndGet_RetryOnError)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1388
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1396
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (ValidationMode_SetAndGet_RetryOnError): n/a
 
 #### `TEST_F(LLMAQLHandlerTest, ValidationMode_SetAndGet_WarnOnly)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1393
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1401
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLHandlerTest): n/a
   - `<unnamed>` (ValidationMode_SetAndGet_WarnOnly): n/a
 
 #### `std::function< std::string(const std::vector< ChatMessage > &)> makeMockExecutor(const std::string &fixed_response)`
-- Source: `tests/llm/test_llm_aql_handler.cpp`:1528
+- Source: `tests/llm/test_llm_aql_handler.cpp`:1536
 - Brief: n/a
 - Parameters:
   - `fixed_response` (const std::string &): n/a
@@ -13236,84 +11432,84 @@ Status: active
 ### test_llm_doku_rag.cpp
 
 #### `TEST_F(DokuRagTest, Rag01_WikiIndexStorePurpose)`
-- Source: `tests/llm/test_llm_doku_rag.cpp`:311
+- Source: `tests/llm/test_llm_doku_rag.cpp`:317
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DokuRagTest): n/a
   - `<unnamed>` (Rag01_WikiIndexStorePurpose): n/a
 
 #### `TEST_F(DokuRagTest, Rag02_ImplementationPhases)`
-- Source: `tests/llm/test_llm_doku_rag.cpp`:332
+- Source: `tests/llm/test_llm_doku_rag.cpp`:338
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DokuRagTest): n/a
   - `<unnamed>` (Rag02_ImplementationPhases): n/a
 
 #### `TEST_F(DokuRagTest, Rag03_AdaLoraContent)`
-- Source: `tests/llm/test_llm_doku_rag.cpp`:362
+- Source: `tests/llm/test_llm_doku_rag.cpp`:368
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DokuRagTest): n/a
   - `<unnamed>` (Rag03_AdaLoraContent): n/a
 
 #### `TEST_F(DokuRagTest, Rag04_CommunityBranch)`
-- Source: `tests/llm/test_llm_doku_rag.cpp`:382
+- Source: `tests/llm/test_llm_doku_rag.cpp`:388
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DokuRagTest): n/a
   - `<unnamed>` (Rag04_CommunityBranch): n/a
 
 #### `TEST_F(DokuRagTest, Rag05_ModelDownload)`
-- Source: `tests/llm/test_llm_doku_rag.cpp`:399
+- Source: `tests/llm/test_llm_doku_rag.cpp`:405
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DokuRagTest): n/a
   - `<unnamed>` (Rag05_ModelDownload): n/a
 
 #### `TEST_F(DokuRagTest, Rag06_RecallAt5_70Percent)`
-- Source: `tests/llm/test_llm_doku_rag.cpp`:425
+- Source: `tests/llm/test_llm_doku_rag.cpp`:431
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DokuRagTest): n/a
   - `<unnamed>` (Rag06_RecallAt5_70Percent): n/a
 
 #### `TEST_F(DokuRagTest, Rag07_QueryLatencyBelow3s)`
-- Source: `tests/llm/test_llm_doku_rag.cpp`:462
+- Source: `tests/llm/test_llm_doku_rag.cpp`:468
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (DokuRagTest): n/a
   - `<unnamed>` (Rag07_QueryLatencyBelow3s): n/a
 
 #### `TEST_F(GoldenDatasetRagTest, Rag08_GoldenKeywordGate)`
-- Source: `tests/llm/test_llm_doku_rag.cpp`:601
+- Source: `tests/llm/test_llm_doku_rag.cpp`:608
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GoldenDatasetRagTest): n/a
   - `<unnamed>` (Rag08_GoldenKeywordGate): n/a
 
 #### `TEST_F(GoldenDatasetRagTest, Rag09_GoldenRecallAt5_80Percent)`
-- Source: `tests/llm/test_llm_doku_rag.cpp`:638
+- Source: `tests/llm/test_llm_doku_rag.cpp`:646
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GoldenDatasetRagTest): n/a
   - `<unnamed>` (Rag09_GoldenRecallAt5_80Percent): n/a
 
 #### `TEST_F(GoldenDatasetRagTest, Rag10_GoldenSourceHintGate)`
-- Source: `tests/llm/test_llm_doku_rag.cpp`:668
+- Source: `tests/llm/test_llm_doku_rag.cpp`:677
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GoldenDatasetRagTest): n/a
   - `<unnamed>` (Rag10_GoldenSourceHintGate): n/a
 
 #### `TEST_F(GoldenDatasetRagTest, Rag11_GoldenLatencyMedianBelow500ms)`
-- Source: `tests/llm/test_llm_doku_rag.cpp`:719
+- Source: `tests/llm/test_llm_doku_rag.cpp`:729
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GoldenDatasetRagTest): n/a
   - `<unnamed>` (Rag11_GoldenLatencyMedianBelow500ms): n/a
 
 #### `TEST_F(GoldenDatasetRagTest, Rag12_GoldenDatasetPresent)`
-- Source: `tests/llm/test_llm_doku_rag.cpp`:527
+- Source: `tests/llm/test_llm_doku_rag.cpp`:534
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GoldenDatasetRagTest): n/a
@@ -13450,259 +11646,259 @@ Status: active
 ### test_llm_grafana_metrics.cpp
 
 #### `TEST_F(LLMGrafanaMetricsTest, EngineTypedMetrics_AsyncEngine)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:512
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:596
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMGrafanaMetricsTest): n/a
   - `<unnamed>` (EngineTypedMetrics_AsyncEngine): n/a
 
 #### `TEST_F(LLMGrafanaMetricsTest, EngineTypedMetrics_BothEngines_SeparateLabels)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:539
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:623
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMGrafanaMetricsTest): n/a
   - `<unnamed>` (EngineTypedMetrics_BothEngines_SeparateLabels): n/a
 
 #### `TEST_F(LLMGrafanaMetricsTest, EngineTypedMetrics_EnhancedEngine)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:526
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:610
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMGrafanaMetricsTest): n/a
   - `<unnamed>` (EngineTypedMetrics_EnhancedEngine): n/a
 
 #### `TEST_F(LLMGrafanaMetricsTest, GrafanaDashboardGeneration)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:210
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:294
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMGrafanaMetricsTest): n/a
   - `<unnamed>` (GrafanaDashboardGeneration): n/a
 
 #### `TEST_F(LLMGrafanaMetricsTest, MetricsExportFormat)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:153
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:226
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMGrafanaMetricsTest): n/a
   - `<unnamed>` (MetricsExportFormat): n/a
 
 #### `TEST_F(LLMGrafanaMetricsTest, MetricsRecordErrors)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:139
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:212
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMGrafanaMetricsTest): n/a
   - `<unnamed>` (MetricsRecordErrors): n/a
 
 #### `TEST_F(LLMGrafanaMetricsTest, MetricsRecordInferenceRequest)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:60
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:88
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMGrafanaMetricsTest): n/a
   - `<unnamed>` (MetricsRecordInferenceRequest): n/a
 
 #### `TEST_F(LLMGrafanaMetricsTest, MetricsRecordModelLoading)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:92
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:137
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMGrafanaMetricsTest): n/a
   - `<unnamed>` (MetricsRecordModelLoading): n/a
 
 #### `TEST_F(LLMGrafanaMetricsTest, MetricsRecordMultipleInferences)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:114
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:170
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMGrafanaMetricsTest): n/a
   - `<unnamed>` (MetricsRecordMultipleInferences): n/a
 
 #### `TEST_F(LLMGrafanaMetricsTest, MetricsReset)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:229
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:313
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMGrafanaMetricsTest): n/a
   - `<unnamed>` (MetricsReset): n/a
 
 #### `TEST_F(LLMGrafanaMetricsTest, MetricsThreadSafety)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:173
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:246
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMGrafanaMetricsTest): n/a
   - `<unnamed>` (MetricsThreadSafety): n/a
 
 #### `TEST_F(LLMGrafanaMetricsTest, UnifiedDashboardGeneration_ContainsEnginePanels)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:549
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:633
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMGrafanaMetricsTest): n/a
   - `<unnamed>` (UnifiedDashboardGeneration_ContainsEnginePanels): n/a
 
 #### `TEST_F(MetricsServerHTTPTest, AdminDeleteSession_NoCallback_ReturnsNotImplemented)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:485
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:569
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHTTPTest): n/a
   - `<unnamed>` (AdminDeleteSession_NoCallback_ReturnsNotImplemented): n/a
 
 #### `TEST_F(MetricsServerHTTPTest, AdminDeleteSession_WithCallback_InvokesCallbackWithId)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:493
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:577
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHTTPTest): n/a
   - `<unnamed>` (AdminDeleteSession_WithCallback_InvokesCallbackWithId): n/a
 
 #### `TEST_F(MetricsServerHTTPTest, AdminReload_NoCallback_Returns501NotImplemented)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:429
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:513
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHTTPTest): n/a
   - `<unnamed>` (AdminReload_NoCallback_Returns501NotImplemented): n/a
 
 #### `TEST_F(MetricsServerHTTPTest, AdminSessionsURL_ContainsAdminSessionsPath)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:481
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:565
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHTTPTest): n/a
   - `<unnamed>` (AdminSessionsURL_ContainsAdminSessionsPath): n/a
 
 #### `TEST_F(MetricsServerHTTPTest, AdminSessions_NoCallback_ReturnsEmptyArray)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:461
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:545
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHTTPTest): n/a
   - `<unnamed>` (AdminSessions_NoCallback_ReturnsEmptyArray): n/a
 
 #### `TEST_F(MetricsServerHTTPTest, AdminSessions_WithCallback_ReturnsCallbackJSON)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:469
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:553
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHTTPTest): n/a
   - `<unnamed>` (AdminSessions_WithCallback_ReturnsCallbackJSON): n/a
 
 #### `TEST_F(MetricsServerHTTPTest, AdminSimulate_WithCallback_InvokesCallback)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:437
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:521
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHTTPTest): n/a
   - `<unnamed>` (AdminSimulate_WithCallback_InvokesCallback): n/a
 
 #### `TEST_F(MetricsServerHTTPTest, DashboardEndpoint_DefaultCallback_ReturnsGrafanaJSON)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:596
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:680
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHTTPTest): n/a
   - `<unnamed>` (DashboardEndpoint_DefaultCallback_ReturnsGrafanaJSON): n/a
 
 #### `TEST_F(MetricsServerHTTPTest, DashboardEndpoint_WithCallback_ReturnsCallbackJSON)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:609
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:693
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHTTPTest): n/a
   - `<unnamed>` (DashboardEndpoint_WithCallback_ReturnsCallbackJSON): n/a
 
 #### `TEST_F(MetricsServerHTTPTest, HealthEndpoint_Returns200AndOkStatus)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:382
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:466
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHTTPTest): n/a
   - `<unnamed>` (HealthEndpoint_Returns200AndOkStatus): n/a
 
 #### `TEST_F(MetricsServerHTTPTest, MetricsEndpoint_ReturnsPrometheusFormat)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:398
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:482
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHTTPTest): n/a
   - `<unnamed>` (MetricsEndpoint_ReturnsPrometheusFormat): n/a
 
 #### `TEST_F(MetricsServerHTTPTest, ModelsEndpoint_NoCallback_ReturnsEmptyArray)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:410
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:494
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHTTPTest): n/a
   - `<unnamed>` (ModelsEndpoint_NoCallback_ReturnsEmptyArray): n/a
 
 #### `TEST_F(MetricsServerHTTPTest, ModelsEndpoint_WithCallback_ReturnsCallbackJSON)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:418
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:502
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHTTPTest): n/a
   - `<unnamed>` (ModelsEndpoint_WithCallback_ReturnsCallbackJSON): n/a
 
 #### `TEST_F(MetricsServerHTTPTest, ReadyEndpoint_Returns200WhenReady)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:390
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:474
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHTTPTest): n/a
   - `<unnamed>` (ReadyEndpoint_Returns200WhenReady): n/a
 
 #### `TEST_F(MetricsServerHTTPTest, UnknownPath_Returns404)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:452
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:536
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHTTPTest): n/a
   - `<unnamed>` (UnknownPath_Returns404): n/a
 
 #### `TEST_F(MetricsServerHandlerTest, BackpressureDropMetricRegistered)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:293
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:377
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHandlerTest): n/a
   - `<unnamed>` (BackpressureDropMetricRegistered): n/a
 
 #### `TEST_F(MetricsServerHandlerTest, DashboardEndpoint_DefaultCallback_ReturnsUnifiedJSON)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:572
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:656
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHandlerTest): n/a
   - `<unnamed>` (DashboardEndpoint_DefaultCallback_ReturnsUnifiedJSON): n/a
 
 #### `TEST_F(MetricsServerHandlerTest, DashboardEndpoint_WithCallback_InvokesCallback)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:582
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:666
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHandlerTest): n/a
   - `<unnamed>` (DashboardEndpoint_WithCallback_InvokesCallback): n/a
 
 #### `TEST_F(MetricsServerHandlerTest, HealthEndpointReturnsOkWhenRunning)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:272
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:356
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHandlerTest): n/a
   - `<unnamed>` (HealthEndpointReturnsOkWhenRunning): n/a
 
 #### `TEST_F(MetricsServerHandlerTest, HealthURLAndReadyURLDifferent)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:289
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:373
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHandlerTest): n/a
   - `<unnamed>` (HealthURLAndReadyURLDifferent): n/a
 
 #### `TEST_F(MetricsServerHandlerTest, ModelsEndpointURL_ContainsModelsPath)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:309
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:393
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHandlerTest): n/a
   - `<unnamed>` (ModelsEndpointURL_ContainsModelsPath): n/a
 
 #### `TEST_F(MetricsServerHandlerTest, ModelsEndpoint_NoCallback_ReturnsEmptyArray)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:313
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:397
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHandlerTest): n/a
   - `<unnamed>` (ModelsEndpoint_NoCallback_ReturnsEmptyArray): n/a
 
 #### `TEST_F(MetricsServerHandlerTest, ModelsEndpoint_WithCallback_ReturnsCallbackOutput)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:323
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:407
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHandlerTest): n/a
   - `<unnamed>` (ModelsEndpoint_WithCallback_ReturnsCallbackOutput): n/a
 
 #### `TEST_F(MetricsServerHandlerTest, ModelsURL_DifferentFromOtherEndpoints)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:347
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:431
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHandlerTest): n/a
   - `<unnamed>` (ModelsURL_DifferentFromOtherEndpoints): n/a
 
 #### `TEST_F(MetricsServerHandlerTest, ReadyEndpointURLContainsReadyPath)`
-- Source: `tests/llm/test_llm_grafana_metrics.cpp`:284
+- Source: `tests/llm/test_llm_grafana_metrics.cpp`:368
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MetricsServerHandlerTest): n/a
@@ -14612,22 +12808,29 @@ Status: active
 
 ### test_llm_model_path_traversal.cpp
 
+#### `TEST_F(LlmModelPathTraversalTest, GAP009_DownloadDirTraversal_Rejected)`
+- Source: `tests/llm/test_llm_model_path_traversal.cpp`:131
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (LlmModelPathTraversalTest): n/a
+  - `<unnamed>` (GAP009_DownloadDirTraversal_Rejected): n/a
+
 #### `TEST_F(LlmModelPathTraversalTest, GAP009_NoModelRoot_CheckSkipped)`
-- Source: `tests/llm/test_llm_model_path_traversal.cpp`:112
+- Source: `tests/llm/test_llm_model_path_traversal.cpp`:113
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmModelPathTraversalTest): n/a
   - `<unnamed>` (GAP009_NoModelRoot_CheckSkipped): n/a
 
 #### `TEST_F(LlmModelPathTraversalTest, GAP009_PathInsideRoot_NotRejectedByPolicy)`
-- Source: `tests/llm/test_llm_model_path_traversal.cpp`:81
+- Source: `tests/llm/test_llm_model_path_traversal.cpp`:82
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmModelPathTraversalTest): n/a
   - `<unnamed>` (GAP009_PathInsideRoot_NotRejectedByPolicy): n/a
 
 #### `TEST_F(LlmModelPathTraversalTest, GAP009_PathTraversal_Rejected)`
-- Source: `tests/llm/test_llm_model_path_traversal.cpp`:98
+- Source: `tests/llm/test_llm_model_path_traversal.cpp`:99
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmModelPathTraversalTest): n/a
@@ -15599,14 +13802,14 @@ Status: active
 - Details: TestEXS-08: Concurrent exception in one thread does not affect other threads' inference state. Starts N threads. One designated thread submits a generate-throwing request; the rest submit normal requests. All normal requests must succeed.
 
 #### `TEST(EXSHardeningTest_Standalone, EXS09_RAIIHandle_MoveOnly)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:487
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:501
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
   - `<unnamed>` (EXS09_RAIIHandle_MoveOnly): n/a
 
 #### `TEST(EXSHardeningTest_Standalone, EXS10_MoveHandle_SourceInvalidated)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:506
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:520
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
@@ -15614,7 +13817,7 @@ Status: active
 - Details: TestEXS-10: Move of model handle transfers ownership; source is invalidated.
 
 #### `TEST(EXSHardeningTest_Standalone, EXS11_ExceptionDuringRegistration_PluginNotAdded)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:530
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:544
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
@@ -15622,7 +13825,7 @@ Status: active
 - Details: TestEXS-11: Exception during plugin registration is caught; plugin not registered. Simulates a plugin whose constructor throws before registration completes.
 
 #### `TEST(EXSHardeningTest_Standalone, EXS12_BatchScheduleException_DoesNotLoseQueue)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:560
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:574
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
@@ -15630,14 +13833,14 @@ Status: active
 - Details: TestEXS-12: Exception during batch scheduling does not lose already-queued requests. Submits two requests, then triggers an exception-simulating callback, then verifies the first two requests were tracked in total_requests.
 
 #### `TEST(EXSHardeningTest_Standalone, EXS13_NoexceptFunction_NeverThrows)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:603
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:617
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
   - `<unnamed>` (EXS13_NoexceptFunction_NeverThrows): n/a
 
 #### `TEST(EXSHardeningTest_Standalone, EXS14_PromptPolicy_ConcurrentEval_Safe)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:618
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:632
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
@@ -15645,7 +13848,7 @@ Status: active
 - Details: TestEXS-14: PromptPolicy::evaluate is exception-safe under concurrent modification (no crash or data race).
 
 #### `TEST(EXSHardeningTest_Standalone, EXS15_EngineRestartAfterException_CorrectState)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:659
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:673
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
@@ -15653,7 +13856,7 @@ Status: active
 - Details: TestEXS-15: Inference engine restart after exception produces correct state. Shuts down an engine that saw a failing request, then creates a fresh engine backed by the same (fixed) plugin and verifies it operates correctly.
 
 #### `TEST(EXSHardeningTest_Standalone, EXS16_LoadUnloadCycles_NoAllocationGrowth)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:700
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:714
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
@@ -15661,7 +13864,7 @@ Status: active
 - Details: TestEXS-16: Memory usage does not grow after 10 load/unload cycles (simulated RAII guard). Each cycle allocates a SimAllocGuard and releases it. The net counter must be zero at cycle completion.
 
 #### `TEST(EXSHardeningTest_Standalone, EXS17_PluginManager_UnknownModel_ReturnsNullopt)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:720
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:734
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
@@ -15669,7 +13872,7 @@ Status: active
 - Details: TestEXS-17: Plugin manager returns std::nullopt on unknown model, no exception thrown.
 
 #### `TEST(EXSHardeningTest_Standalone, EXS18_ErrorEnvelope_PropagatesCode)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:738
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:752
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
@@ -15677,7 +13880,7 @@ Status: active
 - Details: TestEXS-18: Error envelope propagates error code through exception-safe path. A failed InferenceResponse (success=false) carries diagnostic text that survives a move through an exception-safe code path.
 
 #### `TEST(EXSHardeningTest_Standalone, EXS19_StrongExceptionGuarantee_StateUnchanged)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:771
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:785
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
@@ -15685,7 +13888,7 @@ Status: active
 - Details: TestEXS-19: Strong exception guarantee — state unchanged if operation throws (simulated). Verifies that a quota entry's consumed value is not modified when the enforceQuota wrapper throws.
 
 #### `TEST(EXSHardeningTest_Standalone, EXS20_BasicExceptionGuarantee_NoResourceLeak)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:796
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:810
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
@@ -15693,14 +13896,14 @@ Status: active
 - Details: TestEXS-20: Basic exception guarantee — no resource leak on partial completion (simulated). Allocates multiple SimAllocGuards in a loop. An exception mid-loop must leave the net counter at zero (RAII cleanup via stack unwinding).
 
 #### `TEST(EXSHardeningTest_Standalone, EXS21_TokenizerRAII_ReleasesOnEarlyReturn)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:833
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:847
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
   - `<unnamed>` (EXS21_TokenizerRAII_ReleasesOnEarlyReturn): n/a
 
 #### `TEST(EXSHardeningTest_Standalone, EXS22_StreamAbort_ReleasesPartialBuffer)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:850
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:864
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
@@ -15708,7 +13911,7 @@ Status: active
 - Details: TestEXS-22: Stream abort releases partial response buffer (no leak). Simulates a streaming partial buffer that is aborted mid-stream. The RAII guard tracking the buffer memory must decrement on abort.
 
 #### `TEST(EXSHardeningTest_Standalone, EXS23_RetryOnTransient_SucceedsOnThirdAttempt)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:877
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:891
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
@@ -15716,7 +13919,7 @@ Status: active
 - Details: TestEXS-23: Retry-on-transient wraps inference in exception-safe retry loop — succeeds on 3rd attempt.
 
 #### `TEST(EXSHardeningTest_Standalone, EXS24_ShutdownUnderException_CompletesWithinTimeout)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:912
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:926
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
@@ -15724,7 +13927,7 @@ Status: active
 - Details: TestEXS-24: Shutdown-under-exception completes without hang (timeout ≤ 50ms). Engine backed by a throwing plugin is shut down; the shutdown call must return within 50 ms.
 
 #### `TEST(EXSHardeningTest_Standalone, EXS25_StreamingHandlerException_ReaderContinues)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:943
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:957
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
@@ -15732,7 +13935,7 @@ Status: active
 - Details: TestEXS-25: Exception in streaming handler does not terminate reader thread. A streaming callback that throws must not propagate to the engine's worker pool. The engine must remain functional for further requests.
 
 #### `TEST(EXSHardeningTest_Standalone, EXS26_MultiPlugin_LoadUnload_NoExceptionLeakage)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:980
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:994
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
@@ -15740,7 +13943,7 @@ Status: active
 - Details: TestEXS-26: Multiple plugins can be loaded/unloaded without exception leakage (3 distinct plugins registered and unregistered).
 
 #### `TEST(EXSHardeningTest_Standalone, EXS27_QuotaRefillException_CounterAtPreviousValue)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1008
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1022
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
@@ -15748,7 +13951,7 @@ Status: active
 - Details: TestEXS-27: Exception during quota refill leaves counter at previous valid value. Simulates a refill operation that throws part-way. The consumed value must remain at its pre-refill level.
 
 #### `TEST(EXSHardeningTest_Standalone, EXS28_ExceptionSafetyGate_ScoreIs1_0)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1041
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1055
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (EXSHardeningTest_Standalone): n/a
@@ -15756,7 +13959,7 @@ Status: active
 - Details: TestEXS-28: Exception safety gate — yields 1.0 when all EXS invariants hold. Aggregates a pass/fail verdict across representative invariants: RAII balance, move-only type traits, noexcept propagation.
 
 #### `TEST_F(MEMHardeningTest, MEM01_ModelLoadCycle_NoNetGrowth)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1130
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1144
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15764,7 +13967,7 @@ Status: active
 - Details: TestMEM-01: Model loading cycle (10 iterations) shows no net allocation growth (simulated RAII guard).
 
 #### `TEST_F(MEMHardeningTest, MEM02_InferenceRequest_100Cycles_NoGrowth)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1146
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1160
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15772,7 +13975,7 @@ Status: active
 - Details: TestMEM-02: Inference request (100 cycles) shows no net allocation growth.
 
 #### `TEST_F(MEMHardeningTest, MEM03_ResponseCacheEviction_FreesAllEntries)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1164
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1178
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15780,7 +13983,7 @@ Status: active
 - Details: TestMEM-03: Response cache eviction correctly frees all entries. Simulates a fixed-capacity response cache with RAII-tracked entries.
 
 #### `TEST_F(MEMHardeningTest, MEM04_TokenizerResource_FreedOnScopeExit)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1190
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1204
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15788,7 +13991,7 @@ Status: active
 - Details: TestMEM-04: Tokenizer resource freed on scope exit (RAII pattern).
 
 #### `TEST_F(MEMHardeningTest, MEM05_GrammarCacheCapacityLimit_OldEntriesFreed)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1208
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1222
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15796,7 +13999,7 @@ Status: active
 - Details: TestMEM-05: Grammar cache capacity limit enforced; old entries freed. Simulates a grammar cache that evicts when it exceeds kCapacity.
 
 #### `TEST_F(MEMHardeningTest, MEM06_LoRAAdapterUnload_FreesWeights)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1239
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1253
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15804,7 +14007,7 @@ Status: active
 - Details: TestMEM-06: LoRA adapter unload frees adapter weights (simulated size check).
 
 #### `TEST_F(MEMHardeningTest, MEM07_KVCacheRelease_OnSessionEnd)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1254
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1268
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15812,7 +14015,7 @@ Status: active
 - Details: TestMEM-07: KV-cache release triggered on session end.
 
 #### `TEST_F(MEMHardeningTest, MEM08_BatchSchedulerQueue_ClearedOnShutdown)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1270
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1284
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15820,7 +14023,7 @@ Status: active
 - Details: TestMEM-08: Batch scheduler queue cleared on shutdown (no dangling pointers — simulated via RAII entries).
 
 #### `TEST_F(MEMHardeningTest, MEM09_CancelledRequest_BufferReleasedImmediately)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1290
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1304
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15828,7 +14031,7 @@ Status: active
 - Details: TestMEM-09: Cancelled request buffer released immediately.
 
 #### `TEST_F(MEMHardeningTest, MEM10_PluginManager_CleanupReleasesAllPlugins)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1310
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1324
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15836,7 +14039,7 @@ Status: active
 - Details: TestMEM-10: Plugin manager cleanup releases all registered plugins on destroy. Uses the RAII destructor of a local LLMPluginManager to verify all plugin unique_ptrs are freed when the manager is destroyed.
 
 #### `TEST_F(MEMHardeningTest, MEM11_VRAMAccounting_DecrementsOnUnload)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1339
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1353
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15844,7 +14047,7 @@ Status: active
 - Details: TestMEM-11: VRAM accounting decrements on model unload (simulated counter).
 
 #### `TEST_F(MEMHardeningTest, MEM12_StreamReader_ReleasesBufferAfterAbort)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1362
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1376
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15852,7 +14055,7 @@ Status: active
 - Details: TestMEM-12: Stream reader releases buffer after abort signal.
 
 #### `TEST_F(MEMHardeningTest, MEM13_ConcurrentModelLoads_NoAllocationGrowth)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1382
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1396
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15860,7 +14063,7 @@ Status: active
 - Details: TestMEM-13: Concurrent model loads produce no cumulative allocation growth (simulated counters, 4 threads × 5 cycles).
 
 #### `TEST_F(MEMHardeningTest, MEM14_QuotaManagerReset_FreesSlidingWindowState)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1412
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1426
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15868,7 +14071,7 @@ Status: active
 - Details: TestMEM-14: Quota manager reset frees sliding-window state. After removeQuota(), getLimit() returns nullopt and currentUsage() returns 0.
 
 #### `TEST_F(MEMHardeningTest, MEM15_1000CycleStress_WithinBudget)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1434
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1448
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15876,7 +14079,7 @@ Status: active
 - Details: TestMEM-15: 1 000-cycle inference stress — memory stays ≤ initial + 50 KB simulated budget. Each cycle allocates up to 50 bytes and frees before the next iteration. Cumulative net growth must remain within 50 000-byte budget.
 
 #### `TEST_F(MEMHardeningTest, MEM16_TransformationPipeline_ReleasesIntermediates)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1464
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1478
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15884,7 +14087,7 @@ Status: active
 - Details: TestMEM-16: Response transformation pipeline releases intermediate buffers. Simulates a 3-stage transformation pipeline where each stage allocates and releases an intermediate buffer.
 
 #### `TEST_F(MEMHardeningTest, MEM17_FailedDownload_NoPartialBufferLeak)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1486
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1500
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15892,7 +14095,7 @@ Status: active
 - Details: TestMEM-17: Failed model download does not leak partial download buffer.
 
 #### `TEST_F(MEMHardeningTest, MEM18_PolicyCacheClear_SizeBecomesZero)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1506
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1520
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15900,7 +14103,7 @@ Status: active
 - Details: TestMEM-18: Policy cache clear releases all entries (size → 0). Simulates a policy cache via a vector of RAII-tracked entries, then clears it.
 
 #### `TEST_F(MEMHardeningTest, MEM19_LoraCertStore_PrunesExpiredCerts)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1528
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1542
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15908,7 +14111,7 @@ Status: active
 - Details: TestMEM-19: LoRA certificate store prunes expired certs and releases memory. Simulates expiry pruning: entries older than a TTL are removed and freed.
 
 #### `TEST_F(MEMHardeningTest, MEM20_ModelMetadataCache_RespectsMaxEntries)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1574
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1588
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15916,7 +14119,7 @@ Status: active
 - Details: TestMEM-20: Model metadata cache respects max_entries and frees oldest. Simulates an LRU model metadata cache that evicts on overflow.
 
 #### `TEST_F(MEMHardeningTest, MEM21_SharedModelRefCount_ReachesZeroOnLastRelease)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1603
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1617
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15924,7 +14127,7 @@ Status: active
 - Details: TestMEM-21: Atomic reference count for shared model state reaches 0 on last release.
 
 #### `TEST_F(MEMHardeningTest, MEM22_ClientPool_FreesConnectionsOnDestroy)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1628
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1642
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15932,7 +14135,7 @@ Status: active
 - Details: TestMEM-22: LLM client pooled connections freed on pool destruction. Simulates a connection pool that frees all connections when destroyed.
 
 #### `TEST_F(MEMHardeningTest, MEM23_EmbeddingCacheEviction_TriggersValueDeleter)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1650
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1664
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15940,7 +14143,7 @@ Status: active
 - Details: TestMEM-23: Embedding cache eviction triggers value_deleter. Simulates a cache with a custom deleter (value_deleter) invoked on eviction.
 
 #### `TEST_F(MEMHardeningTest, MEM24_MemoryGate_ScoreIs1_0)`
-- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1693
+- Source: `tests/llm/test_llm_phase5_hardening.cpp`:1707
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MEMHardeningTest): n/a
@@ -15950,63 +14153,63 @@ Status: active
 ### test_llm_plugin.cpp
 
 #### `TEST_F(LLMMemoryLeakTest, P5L02_LazyLoader_CacheDoesNotAccumulateAfter1KCycles)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1400
+- Source: `tests/llm/test_llm_plugin.cpp`:1436
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMMemoryLeakTest): n/a
   - `<unnamed>` (P5L02_LazyLoader_CacheDoesNotAccumulateAfter1KCycles): n/a
 
 #### `TEST_F(LLMMemoryLeakTest, P5L02_LazyLoader_CacheHitDoesNotGrowModelsMap)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1426
+- Source: `tests/llm/test_llm_plugin.cpp`:1462
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMMemoryLeakTest): n/a
   - `<unnamed>` (P5L02_LazyLoader_CacheHitDoesNotGrowModelsMap): n/a
 
 #### `TEST_F(LLMMemoryLeakTest, P5L02_LazyLoader_EvictionCountMatchesExcessLoads)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1446
+- Source: `tests/llm/test_llm_plugin.cpp`:1482
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMMemoryLeakTest): n/a
   - `<unnamed>` (P5L02_LazyLoader_EvictionCountMatchesExcessLoads): n/a
 
 #### `TEST_F(LLMMemoryLeakTest, P5L02_MemoryGrowthBelow50MB_Over1KCycles)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1462
+- Source: `tests/llm/test_llm_plugin.cpp`:1498
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMMemoryLeakTest): n/a
   - `<unnamed>` (P5L02_MemoryGrowthBelow50MB_Over1KCycles): n/a
 
 #### `TEST_F(LLMMemoryLeakTest, P5L02_StatsMonotonicAfterCycles)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1486
+- Source: `tests/llm/test_llm_plugin.cpp`:1522
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMMemoryLeakTest): n/a
   - `<unnamed>` (P5L02_StatsMonotonicAfterCycles): n/a
 
 #### `TEST_F(LLMPluginManagerTest, LoadLoRAFailsClosedForEmptyLoRAId)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1304
+- Source: `tests/llm/test_llm_plugin.cpp`:1340
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginManagerTest): n/a
   - `<unnamed>` (LoadLoRAFailsClosedForEmptyLoRAId): n/a
 
 #### `TEST_F(LLMPluginManagerTest, LoadLoRAFailsClosedForEmptyPath)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1310
+- Source: `tests/llm/test_llm_plugin.cpp`:1346
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginManagerTest): n/a
   - `<unnamed>` (LoadLoRAFailsClosedForEmptyPath): n/a
 
 #### `TEST_F(LLMPluginManagerTest, LoadModelFailsClosedForEmptyModelId)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1292
+- Source: `tests/llm/test_llm_plugin.cpp`:1328
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginManagerTest): n/a
   - `<unnamed>` (LoadModelFailsClosedForEmptyModelId): n/a
 
 #### `TEST_F(LLMPluginManagerTest, LoadModelFailsClosedForEmptyPath)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1298
+- Source: `tests/llm/test_llm_plugin.cpp`:1334
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginManagerTest): n/a
@@ -16020,231 +14223,231 @@ Status: active
   - `<unnamed>` (AsyncInference_Callback): n/a
 
 #### `TEST_F(LLMPluginTest, AsyncInference_NonBlocking)`
-- Source: `tests/llm/test_llm_plugin.cpp`:602
+- Source: `tests/llm/test_llm_plugin.cpp`:599
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (AsyncInference_NonBlocking): n/a
 
 #### `TEST_F(LLMPluginTest, AsyncInference_PriorityScheduling)`
-- Source: `tests/llm/test_llm_plugin.cpp`:673
+- Source: `tests/llm/test_llm_plugin.cpp`:676
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (AsyncInference_PriorityScheduling): n/a
 
 #### `TEST_F(LLMPluginTest, InferenceLoRAInclusion_CacheVerification)`
-- Source: `tests/llm/test_llm_plugin.cpp`:992
+- Source: `tests/llm/test_llm_plugin.cpp`:1019
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (InferenceLoRAInclusion_CacheVerification): n/a
 
 #### `TEST_F(LLMPluginTest, InferenceLoRAInclusion_InvalidLoRAFails)`
-- Source: `tests/llm/test_llm_plugin.cpp`:846
+- Source: `tests/llm/test_llm_plugin.cpp`:861
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (InferenceLoRAInclusion_InvalidLoRAFails): n/a
 
 #### `TEST_F(LLMPluginTest, InferenceLoRAInclusion_LoRAFieldSet)`
-- Source: `tests/llm/test_llm_plugin.cpp`:809
+- Source: `tests/llm/test_llm_plugin.cpp`:821
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (InferenceLoRAInclusion_LoRAFieldSet): n/a
 
 #### `TEST_F(LLMPluginTest, InferenceLoRAInclusion_ModelNotLoaded)`
-- Source: `tests/llm/test_llm_plugin.cpp`:895
+- Source: `tests/llm/test_llm_plugin.cpp`:916
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (InferenceLoRAInclusion_ModelNotLoaded): n/a
 
 #### `TEST_F(LLMPluginTest, InferenceLoRAInclusion_MultipleSequentialRequests)`
-- Source: `tests/llm/test_llm_plugin.cpp`:939
+- Source: `tests/llm/test_llm_plugin.cpp`:963
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (InferenceLoRAInclusion_MultipleSequentialRequests): n/a
 
 #### `TEST_F(LLMPluginTest, InferenceLoRAInclusion_UnloadAndReload)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1018
+- Source: `tests/llm/test_llm_plugin.cpp`:1048
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (InferenceLoRAInclusion_UnloadAndReload): n/a
 
 #### `TEST_F(LLMPluginTest, InferenceLoRAInclusion_VerifyScaleFactor)`
-- Source: `tests/llm/test_llm_plugin.cpp`:908
+- Source: `tests/llm/test_llm_plugin.cpp`:929
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (InferenceLoRAInclusion_VerifyScaleFactor): n/a
 
 #### `TEST_F(LLMPluginTest, InferenceLoRAInclusion_WithoutLoRA)`
-- Source: `tests/llm/test_llm_plugin.cpp`:871
+- Source: `tests/llm/test_llm_plugin.cpp`:889
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (InferenceLoRAInclusion_WithoutLoRA): n/a
 
 #### `TEST_F(LLMPluginTest, Integration_MultiLoRASwitch)`
-- Source: `tests/llm/test_llm_plugin.cpp`:762
+- Source: `tests/llm/test_llm_plugin.cpp`:771
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (Integration_MultiLoRASwitch): n/a
 
 #### `TEST_F(LLMPluginTest, Integration_RAGWorkflow)`
-- Source: `tests/llm/test_llm_plugin.cpp`:731
+- Source: `tests/llm/test_llm_plugin.cpp`:737
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (Integration_RAGWorkflow): n/a
 
 #### `TEST_F(LLMPluginTest, LazyModelLoader_BasicLoading)`
-- Source: `tests/llm/test_llm_plugin.cpp`:330
+- Source: `tests/llm/test_llm_plugin.cpp`:325
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (LazyModelLoader_BasicLoading): n/a
 
 #### `TEST_F(LLMPluginTest, LazyModelLoader_LRUEviction)`
-- Source: `tests/llm/test_llm_plugin.cpp`:362
+- Source: `tests/llm/test_llm_plugin.cpp`:357
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (LazyModelLoader_LRUEviction): n/a
 
 #### `TEST_F(LLMPluginTest, LazyModelLoader_ModelPinning)`
-- Source: `tests/llm/test_llm_plugin.cpp`:394
+- Source: `tests/llm/test_llm_plugin.cpp`:389
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (LazyModelLoader_ModelPinning): n/a
 
 #### `TEST_F(LLMPluginTest, LlamaWrapper_BasicInference)`
-- Source: `tests/llm/test_llm_plugin.cpp`:572
+- Source: `tests/llm/test_llm_plugin.cpp`:567
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (LlamaWrapper_BasicInference): n/a
 
 #### `TEST_F(LLMPluginTest, LlamaWrapper_Initialization)`
-- Source: `tests/llm/test_llm_plugin.cpp`:509
+- Source: `tests/llm/test_llm_plugin.cpp`:504
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (LlamaWrapper_Initialization): n/a
 
 #### `TEST_F(LLMPluginTest, LlamaWrapper_LoRAManagement)`
-- Source: `tests/llm/test_llm_plugin.cpp`:548
+- Source: `tests/llm/test_llm_plugin.cpp`:543
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (LlamaWrapper_LoRAManagement): n/a
 
 #### `TEST_F(LLMPluginTest, LlamaWrapper_ModelLoading)`
-- Source: `tests/llm/test_llm_plugin.cpp`:521
+- Source: `tests/llm/test_llm_plugin.cpp`:516
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (LlamaWrapper_ModelLoading): n/a
 
 #### `TEST_F(LLMPluginTest, LlamaWrapper_RecoveryAfterFailedLoRALoad)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1180
+- Source: `tests/llm/test_llm_plugin.cpp`:1213
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (LlamaWrapper_RecoveryAfterFailedLoRALoad): n/a
 
 #### `TEST_F(LLMPluginTest, LoRASecurityValidator_RejectsInvalidMetadataAndUntrustedPaths)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1146
+- Source: `tests/llm/test_llm_plugin.cpp`:1179
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (LoRASecurityValidator_RejectsInvalidMetadataAndUntrustedPaths): n/a
 
 #### `TEST_F(LLMPluginTest, MultiLoRAManager_BasicLoading)`
-- Source: `tests/llm/test_llm_plugin.cpp`:429
+- Source: `tests/llm/test_llm_plugin.cpp`:424
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (MultiLoRAManager_BasicLoading): n/a
 
 #### `TEST_F(LLMPluginTest, MultiLoRAManager_ConcurrentAccessSharedState)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1054
+- Source: `tests/llm/test_llm_plugin.cpp`:1087
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (MultiLoRAManager_ConcurrentAccessSharedState): n/a
 
 #### `TEST_F(LLMPluginTest, MultiLoRAManager_EvictsExpiredAdaptersAndRespectsVRAMPressure)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1124
+- Source: `tests/llm/test_llm_plugin.cpp`:1157
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (MultiLoRAManager_EvictsExpiredAdaptersAndRespectsVRAMPressure): n/a
 
 #### `TEST_F(LLMPluginTest, MultiLoRAManager_MultiGPUPlacementBalance)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1097
+- Source: `tests/llm/test_llm_plugin.cpp`:1130
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (MultiLoRAManager_MultiGPUPlacementBalance): n/a
 
 #### `TEST_F(LLMPluginTest, MultiLoRAManager_MultipleLoRAs)`
-- Source: `tests/llm/test_llm_plugin.cpp`:454
+- Source: `tests/llm/test_llm_plugin.cpp`:449
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (MultiLoRAManager_MultipleLoRAs): n/a
 
 #### `TEST_F(LLMPluginTest, MultiLoRAManager_OperationLatencyIsStableUnderLoad)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1208
+- Source: `tests/llm/test_llm_plugin.cpp`:1244
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (MultiLoRAManager_OperationLatencyIsStableUnderLoad): n/a
 
 #### `TEST_F(LLMPluginTest, MultiLoRAManager_SlotLimit)`
-- Source: `tests/llm/test_llm_plugin.cpp`:480
+- Source: `tests/llm/test_llm_plugin.cpp`:475
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (MultiLoRAManager_SlotLimit): n/a
 
 #### `TEST_F(LLMPluginTest, RopeScaling_AllMethods)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1316
+- Source: `tests/llm/test_llm_plugin.cpp`:1352
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (RopeScaling_AllMethods): n/a
 
 #### `TEST_F(LLMPluginTest, RopeScaling_ConfigValidation)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1238
+- Source: `tests/llm/test_llm_plugin.cpp`:1274
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (RopeScaling_ConfigValidation): n/a
 
 #### `TEST_F(LLMPluginTest, RopeScaling_InvalidConfig)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1252
+- Source: `tests/llm/test_llm_plugin.cpp`:1288
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (RopeScaling_InvalidConfig): n/a
 
 #### `TEST_F(LLMPluginTest, RopeScaling_InvalidYarnParameters)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1337
+- Source: `tests/llm/test_llm_plugin.cpp`:1373
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
   - `<unnamed>` (RopeScaling_InvalidYarnParameters): n/a
 
 #### `TEST_F(LLMPluginTest, RopeScaling_YarnParameters)`
-- Source: `tests/llm/test_llm_plugin.cpp`:1265
+- Source: `tests/llm/test_llm_plugin.cpp`:1301
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMPluginTest): n/a
@@ -17561,7 +15764,7 @@ Status: active
   - `<unnamed>` (CallbackSubmission): n/a
 
 #### `TEST_F(SingleModelIntegrationTest, ConcurrentSubmissions)`
-- Source: `tests/llm/test_llm_single_model_integration.cpp`:482
+- Source: `tests/llm/test_llm_single_model_integration.cpp`:486
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (SingleModelIntegrationTest): n/a
@@ -17582,7 +15785,7 @@ Status: active
   - `<unnamed>` (PerRequestTimeout): n/a
 
 #### `TEST_F(SingleModelIntegrationTest, PluginHotSwap)`
-- Source: `tests/llm/test_llm_single_model_integration.cpp`:411
+- Source: `tests/llm/test_llm_single_model_integration.cpp`:415
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (SingleModelIntegrationTest): n/a
@@ -17596,21 +15799,21 @@ Status: active
   - `<unnamed>` (PriorityOrdering): n/a
 
 #### `TEST_F(SingleModelIntegrationTest, RequestCancellation)`
-- Source: `tests/llm/test_llm_single_model_integration.cpp`:345
+- Source: `tests/llm/test_llm_single_model_integration.cpp`:349
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (SingleModelIntegrationTest): n/a
   - `<unnamed>` (RequestCancellation): n/a
 
 #### `TEST_F(SingleModelIntegrationTest, SharedWorkerPoolIntegration)`
-- Source: `tests/llm/test_llm_single_model_integration.cpp`:375
+- Source: `tests/llm/test_llm_single_model_integration.cpp`:379
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (SingleModelIntegrationTest): n/a
   - `<unnamed>` (SharedWorkerPoolIntegration): n/a
 
 #### `TEST_F(SingleModelIntegrationTest, WorkerStatisticsPopulated)`
-- Source: `tests/llm/test_llm_single_model_integration.cpp`:443
+- Source: `tests/llm/test_llm_single_model_integration.cpp`:447
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (SingleModelIntegrationTest): n/a
@@ -18045,7 +16248,7 @@ Status: active
   - `<unnamed>` (HighCoherence): n/a
 
 #### `TEST_F(LLMValidatorTest, InvalidResponseWithMultipleIssues)`
-- Source: `tests/llm/test_llm_validator.cpp`:307
+- Source: `tests/llm/test_llm_validator.cpp`:314
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMValidatorTest): n/a
@@ -18479,175 +16682,175 @@ Status: active
   - `<unnamed>` (WO_02_JsonMultiStep): n/a
 
 #### `TEST(WorkflowOrchestration, WO_03_StepByIdFound)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:121
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:128
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_03_StepByIdFound): n/a
 
 #### `TEST(WorkflowOrchestration, WO_04_StepByIdNotFound)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:132
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:139
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_04_StepByIdNotFound): n/a
 
 #### `TEST(WorkflowOrchestration, WO_05_YamlBasicLoad)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:142
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:149
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_05_YamlBasicLoad): n/a
 
 #### `TEST(WorkflowOrchestration, WO_06_YamlDefaultModeAsk)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:157
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:164
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_06_YamlDefaultModeAsk): n/a
 
 #### `TEST(WorkflowOrchestration, WO_07_YamlDependsOnInline)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:169
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:176
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_07_YamlDependsOnInline): n/a
 
 #### `TEST(WorkflowOrchestration, WO_08_YamlRoundTripViaJson)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:184
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:191
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_08_YamlRoundTripViaJson): n/a
 
 #### `TEST(WorkflowOrchestration, WO_09_BpmnBasicLoad)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:205
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:212
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_09_BpmnBasicLoad): n/a
 
 #### `TEST(WorkflowOrchestration, WO_10_BpmnFallbackPrompt)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:224
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:231
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_10_BpmnFallbackPrompt): n/a
 
 #### `TEST(WorkflowOrchestration, WO_11_TopologicalOrderLinear)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:238
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:245
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_11_TopologicalOrderLinear): n/a
 
 #### `TEST(WorkflowOrchestration, WO_12_TopologicalOrderCycleReturnsEmpty)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:261
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:268
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_12_TopologicalOrderCycleReturnsEmpty): n/a
 
 #### `TEST(WorkflowOrchestration, WO_13_TopologicalOrderParallel)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:275
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:282
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_13_TopologicalOrderParallel): n/a
 
 #### `TEST(WorkflowOrchestration, WO_14_PromptContainsTask)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:297
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:304
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_14_PromptContainsTask): n/a
 
 #### `TEST(WorkflowOrchestration, WO_15_ChainOfThoughtPromptContainsStepByStep)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:308
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:315
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_15_ChainOfThoughtPromptContainsStepByStep): n/a
 
 #### `TEST(WorkflowOrchestration, WO_16_DirectJsonPromptContainsJsonArray)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:317
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:324
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_16_DirectJsonPromptContainsJsonArray): n/a
 
 #### `TEST(WorkflowOrchestration, WO_17_FewShotPromptContainsExamples)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:327
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:334
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_17_FewShotPromptContainsExamples): n/a
 
 #### `TEST(WorkflowOrchestration, WO_18_DecomposeSuccess)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:347
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:354
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_18_DecomposeSuccess): n/a
 
 #### `TEST(WorkflowOrchestration, WO_19_DecomposeNoPlugin)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:365
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:375
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_19_DecomposeNoPlugin): n/a
 
 #### `TEST(WorkflowOrchestration, WO_20_DecomposeWithChainOfThoughtResponse)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:372
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:382
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_20_DecomposeWithChainOfThoughtResponse): n/a
 
 #### `TEST(WorkflowOrchestration, WO_21_ToWorkflowBasic)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:397
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:407
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_21_ToWorkflowBasic): n/a
 
 #### `TEST(WorkflowOrchestration, WO_22_ToWorkflowFromFailedResultThrows)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:414
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:427
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_22_ToWorkflowFromFailedResultThrows): n/a
 
 #### `TEST(WorkflowOrchestration, WO_22b_ToWorkflowRejectsUnknownDependencies)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:421
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:434
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_22b_ToWorkflowRejectsUnknownDependencies): n/a
 
 #### `TEST(WorkflowOrchestration, WO_23_ValidateEmptyId)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:444
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:457
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_23_ValidateEmptyId): n/a
 
 #### `TEST(WorkflowOrchestration, WO_24_ValidateUnknownDepRef)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:457
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:470
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_24_ValidateUnknownDepRef): n/a
 
 #### `TEST(WorkflowOrchestration, WO_25_ValidateValidDefinition)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:476
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:489
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
   - `<unnamed>` (WO_25_ValidateValidDefinition): n/a
 
 #### `TEST(WorkflowOrchestration, WO_26_ValidateInvalidOutputSchema)`
-- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:490
+- Source: `tests/llm/test_llm_workflow_orchestration_focused.cpp`:503
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WorkflowOrchestration): n/a
@@ -19135,7 +17338,7 @@ Status: active
 ### test_mcp_orchestrator_bridge.cpp
 
 #### `TEST(McpBridgeBaseTest, PackLoads_TwoModes)`
-- Source: `tests/llm/test_mcp_orchestrator_bridge.cpp`:56
+- Source: `tests/llm/test_mcp_orchestrator_bridge.cpp`:58
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (McpBridgeBaseTest): n/a
@@ -19237,7 +17440,7 @@ Status: active
 ### test_model_loading_best_practices.cpp
 
 #### `TEST_F(ModelLoadingTest, Concurrent_MultipleLoads)`
-- Source: `tests/llm/test_model_loading_best_practices.cpp`:214
+- Source: `tests/llm/test_model_loading_best_practices.cpp`:220
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingTest): n/a
@@ -19245,7 +17448,7 @@ Status: active
 - Details: Test concurrent model loading Acceptance Criteria: Multiple models can load concurrently No race conditions All loads complete successfully or fail gracefully
 
 #### `TEST_F(ModelLoadingTest, Concurrent_ThreadSafety)`
-- Source: `tests/llm/test_model_loading_best_practices.cpp`:271
+- Source: `tests/llm/test_model_loading_best_practices.cpp`:273
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingTest): n/a
@@ -19253,7 +17456,7 @@ Status: active
 - Details: Test thread-safety of model loading system Acceptance Criteria: No data races Consistent state maintained Safe concurrent access
 
 #### `TEST_F(ModelLoadingTest, ErrorHandling_CorruptedFile)`
-- Source: `tests/llm/test_model_loading_best_practices.cpp`:347
+- Source: `tests/llm/test_model_loading_best_practices.cpp`:367
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingTest): n/a
@@ -19261,7 +17464,7 @@ Status: active
 - Details: Test graceful handling of corrupted model files Acceptance Criteria: Corruption is detected Appropriate error returned No crashes or undefined behavior
 
 #### `TEST_F(ModelLoadingTest, ErrorHandling_PermissionDenied)`
-- Source: `tests/llm/test_model_loading_best_practices.cpp`:376
+- Source: `tests/llm/test_model_loading_best_practices.cpp`:400
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingTest): n/a
@@ -19269,7 +17472,7 @@ Status: active
 - Details: Test handling of insufficient permissions Acceptance Criteria: Permission errors detected Informative error message No security issues
 
 #### `TEST_F(ModelLoadingTest, FileIntegrity_FileSizeValidation)`
-- Source: `tests/llm/test_model_loading_best_practices.cpp`:106
+- Source: `tests/llm/test_model_loading_best_practices.cpp`:111
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingTest): n/a
@@ -19277,7 +17480,7 @@ Status: active
 - Details: Test model file size validation Acceptance Criteria: Very small files are rejected File size is validated before loading Memory allocation is appropriate
 
 #### `TEST_F(ModelLoadingTest, FileIntegrity_FormatValidation)`
-- Source: `tests/llm/test_model_loading_best_practices.cpp`:130
+- Source: `tests/llm/test_model_loading_best_practices.cpp`:139
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingTest): n/a
@@ -19285,7 +17488,7 @@ Status: active
 - Details: Test model file format validation Acceptance Criteria: Invalid format is detected Appropriate error returned No corruption or crashes
 
 #### `TEST_F(ModelLoadingTest, FileIntegrity_NonExistentFile)`
-- Source: `tests/llm/test_model_loading_best_practices.cpp`:85
+- Source: `tests/llm/test_model_loading_best_practices.cpp`:88
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingTest): n/a
@@ -19293,7 +17496,7 @@ Status: active
 - Details: Test model file existence validation Acceptance Criteria: Loading non-existent file fails gracefully Error message is informative No crashes or undefined behavior
 
 #### `TEST_F(ModelLoadingTest, Memory_BoundsChecking)`
-- Source: `tests/llm/test_model_loading_best_practices.cpp`:158
+- Source: `tests/llm/test_model_loading_best_practices.cpp`:171
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingTest): n/a
@@ -19301,7 +17504,7 @@ Status: active
 - Details: Test memory bounds checking during model load Acceptance Criteria: Memory allocation is tracked Out-of-memory conditions handled gracefully No memory leaks
 
 #### `TEST_F(ModelLoadingTest, Memory_ProperCleanup)`
-- Source: `tests/llm/test_model_loading_best_practices.cpp`:189
+- Source: `tests/llm/test_model_loading_best_practices.cpp`:198
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingTest): n/a
@@ -19309,7 +17512,7 @@ Status: active
 - Details: Test memory cleanup after model unload Acceptance Criteria: Memory is freed when model unloaded No memory leaks detected Can load/unload multiple times
 
 #### `TEST_F(ModelLoadingTest, Metadata_ExtractionValidation)`
-- Source: `tests/llm/test_model_loading_best_practices.cpp`:311
+- Source: `tests/llm/test_model_loading_best_practices.cpp`:309
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingTest): n/a
@@ -19317,7 +17520,7 @@ Status: active
 - Details: Test model metadata extraction and validation Acceptance Criteria: Metadata is correctly extracted All expected fields present Values are reasonable
 
 #### `TEST_F(ModelLoadingTest, Metadata_InfoAccuracy)`
-- Source: `tests/llm/test_model_loading_best_practices.cpp`:327
+- Source: `tests/llm/test_model_loading_best_practices.cpp`:338
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingTest): n/a
@@ -19325,7 +17528,7 @@ Status: active
 - Details: Test model info accuracy Acceptance Criteria: Model info matches actual file Version information correct Parameter counts accurate
 
 #### `TEST_F(ModelLoadingTest, Performance_LoadingLatency)`
-- Source: `tests/llm/test_model_loading_best_practices.cpp`:396
+- Source: `tests/llm/test_model_loading_best_practices.cpp`:445
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingTest): n/a
@@ -19333,7 +17536,7 @@ Status: active
 - Details: Test model loading latency Acceptance Criteria: Loading completes in reasonable time Latency is measured and reported Performance is acceptable
 
 #### `TEST_F(ModelLoadingTest, Performance_MemoryEfficiency)`
-- Source: `tests/llm/test_model_loading_best_practices.cpp`:428
+- Source: `tests/llm/test_model_loading_best_practices.cpp`:473
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingTest): n/a
@@ -19343,91 +17546,91 @@ Status: active
 ### test_model_loading_from_themisdb.cpp
 
 #### `TEST_F(ModelLoadingFromThemisDBTest, CleanupTempModels_CustomThreshold)`
-- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:233
+- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:259
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingFromThemisDBTest): n/a
   - `<unnamed>` (CleanupTempModels_CustomThreshold): n/a
 
 #### `TEST_F(ModelLoadingFromThemisDBTest, CleanupTempModels_EmptyDirectory)`
-- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:196
+- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:222
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingFromThemisDBTest): n/a
   - `<unnamed>` (CleanupTempModels_EmptyDirectory): n/a
 
 #### `TEST_F(ModelLoadingFromThemisDBTest, CleanupTempModels_OldFiles)`
-- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:203
+- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:229
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingFromThemisDBTest): n/a
   - `<unnamed>` (CleanupTempModels_OldFiles): n/a
 
 #### `TEST_F(ModelLoadingFromThemisDBTest, EndToEnd_StoreAndLoadBlob)`
-- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:272
+- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:298
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingFromThemisDBTest): n/a
   - `<unnamed>` (EndToEnd_StoreAndLoadBlob): n/a
 
 #### `TEST_F(ModelLoadingFromThemisDBTest, EndToEnd_StoreAndLoadMetadata)`
-- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:254
+- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:280
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingFromThemisDBTest): n/a
   - `<unnamed>` (EndToEnd_StoreAndLoadMetadata): n/a
 
 #### `TEST_F(ModelLoadingFromThemisDBTest, ErrorHandling_CorruptedMetadata)`
-- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:318
+- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:344
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingFromThemisDBTest): n/a
   - `<unnamed>` (ErrorHandling_CorruptedMetadata): n/a
 
 #### `TEST_F(ModelLoadingFromThemisDBTest, ErrorHandling_MissingBlob)`
-- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:322
+- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:355
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingFromThemisDBTest): n/a
   - `<unnamed>` (ErrorHandling_MissingBlob): n/a
 
 #### `TEST_F(ModelLoadingFromThemisDBTest, LoadModelBlob_LargeModelExternal)`
-- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:173
+- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:174
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingFromThemisDBTest): n/a
   - `<unnamed>` (LoadModelBlob_LargeModelExternal): n/a
 
 #### `TEST_F(ModelLoadingFromThemisDBTest, LoadModelBlob_NotFound)`
-- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:148
+- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:149
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingFromThemisDBTest): n/a
   - `<unnamed>` (LoadModelBlob_NotFound): n/a
 
 #### `TEST_F(ModelLoadingFromThemisDBTest, LoadModelBlob_SmallModelInline)`
-- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:155
+- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:156
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingFromThemisDBTest): n/a
   - `<unnamed>` (LoadModelBlob_SmallModelInline): n/a
 
 #### `TEST_F(ModelLoadingFromThemisDBTest, LoadModelBlob_WithEncryption)`
-- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:188
+- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:189
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingFromThemisDBTest): n/a
   - `<unnamed>` (LoadModelBlob_WithEncryption): n/a
 
 #### `TEST_F(ModelLoadingFromThemisDBTest, MultipleModels_DifferentSizes)`
-- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:286
+- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:312
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingFromThemisDBTest): n/a
   - `<unnamed>` (MultipleModels_DifferentSizes): n/a
 
 #### `TEST_F(ModelLoadingFromThemisDBTest, Performance_LoadMultipleTimes)`
-- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:340
+- Source: `tests/llm/test_model_loading_from_themisdb.cpp`:373
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoadingFromThemisDBTest): n/a
@@ -19506,7 +17709,7 @@ Status: active
   - `<unnamed>` (BearerPrefixWithEmptyKey_Returns401): n/a
 
 #### `TEST_F(InferencePermissionTest, DenialReasonIsHumanReadable)`
-- Source: `tests/llm/test_openai_compat_adapter.cpp`:500
+- Source: `tests/llm/test_openai_compat_adapter.cpp`:502
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (InferencePermissionTest): n/a
@@ -19534,7 +17737,7 @@ Status: active
   - `<unnamed>` (MissingAuthorizationHeader_Returns401): n/a
 
 #### `TEST_F(InferencePermissionTest, StrictClassificationHeader_Returns403)`
-- Source: `tests/llm/test_openai_compat_adapter.cpp`:483
+- Source: `tests/llm/test_openai_compat_adapter.cpp`:485
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (InferencePermissionTest): n/a
@@ -19548,77 +17751,77 @@ Status: active
   - `<unnamed>` (ValidBearerKey_AllowedByDefault): n/a
 
 #### `TEST_F(InferencePermissionTest, ValidKeyDecisionContainsClassification)`
-- Source: `tests/llm/test_openai_compat_adapter.cpp`:474
+- Source: `tests/llm/test_openai_compat_adapter.cpp`:476
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (InferencePermissionTest): n/a
   - `<unnamed>` (ValidKeyDecisionContainsClassification): n/a
 
 #### `TEST_F(LLMApiHandlerPolicyTest, NoPolicyEngine_RequestPassesThroughWithoutAuthCheck)`
-- Source: `tests/llm/test_openai_compat_adapter.cpp`:597
+- Source: `tests/llm/test_openai_compat_adapter.cpp`:599
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMApiHandlerPolicyTest): n/a
   - `<unnamed>` (NoPolicyEngine_RequestPassesThroughWithoutAuthCheck): n/a
 
 #### `TEST_F(LLMApiHandlerPolicyTest, OpenAIChatNonStreaming_EmitsLifecycleLogs)`
-- Source: `tests/llm/test_openai_compat_adapter.cpp`:700
+- Source: `tests/llm/test_openai_compat_adapter.cpp`:703
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMApiHandlerPolicyTest): n/a
   - `<unnamed>` (OpenAIChatNonStreaming_EmitsLifecycleLogs): n/a
 
 #### `TEST_F(LLMApiHandlerPolicyTest, OpenAIChatStreaming_EmitsLifecycleLogs)`
-- Source: `tests/llm/test_openai_compat_adapter.cpp`:730
+- Source: `tests/llm/test_openai_compat_adapter.cpp`:734
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMApiHandlerPolicyTest): n/a
   - `<unnamed>` (OpenAIChatStreaming_EmitsLifecycleLogs): n/a
 
 #### `TEST_F(LLMApiHandlerPolicyTest, OpenAIModelsEndpoint_DoesNotRequirePolicyAuthHeader)`
-- Source: `tests/llm/test_openai_compat_adapter.cpp`:690
+- Source: `tests/llm/test_openai_compat_adapter.cpp`:693
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMApiHandlerPolicyTest): n/a
   - `<unnamed>` (OpenAIModelsEndpoint_DoesNotRequirePolicyAuthHeader): n/a
 
 #### `TEST_F(LLMApiHandlerPolicyTest, OpenAIModelsEndpoint_ReturnsListShapeWithoutPolicy)`
-- Source: `tests/llm/test_openai_compat_adapter.cpp`:676
+- Source: `tests/llm/test_openai_compat_adapter.cpp`:679
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMApiHandlerPolicyTest): n/a
   - `<unnamed>` (OpenAIModelsEndpoint_ReturnsListShapeWithoutPolicy): n/a
 
 #### `TEST_F(LLMApiHandlerPolicyTest, SetPolicyEngine_NullDetaches)`
-- Source: `tests/llm/test_openai_compat_adapter.cpp`:664
+- Source: `tests/llm/test_openai_compat_adapter.cpp`:667
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMApiHandlerPolicyTest): n/a
   - `<unnamed>` (SetPolicyEngine_NullDetaches): n/a
 
 #### `TEST_F(LLMApiHandlerPolicyTest, WithPolicyEngine_ErrorBodyIsOpenAICompatible)`
-- Source: `tests/llm/test_openai_compat_adapter.cpp`:647
+- Source: `tests/llm/test_openai_compat_adapter.cpp`:650
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMApiHandlerPolicyTest): n/a
   - `<unnamed>` (WithPolicyEngine_ErrorBodyIsOpenAICompatible): n/a
 
 #### `TEST_F(LLMApiHandlerPolicyTest, WithPolicyEngine_MalformedAuthReturns401)`
-- Source: `tests/llm/test_openai_compat_adapter.cpp`:622
+- Source: `tests/llm/test_openai_compat_adapter.cpp`:624
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMApiHandlerPolicyTest): n/a
   - `<unnamed>` (WithPolicyEngine_MalformedAuthReturns401): n/a
 
 #### `TEST_F(LLMApiHandlerPolicyTest, WithPolicyEngine_MissingAuthReturns401)`
-- Source: `tests/llm/test_openai_compat_adapter.cpp`:612
+- Source: `tests/llm/test_openai_compat_adapter.cpp`:614
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMApiHandlerPolicyTest): n/a
   - `<unnamed>` (WithPolicyEngine_MissingAuthReturns401): n/a
 
 #### `TEST_F(LLMApiHandlerPolicyTest, WithPolicyEngine_ValidBearerKeyPassesPolicyGate)`
-- Source: `tests/llm/test_openai_compat_adapter.cpp`:632
+- Source: `tests/llm/test_openai_compat_adapter.cpp`:634
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMApiHandlerPolicyTest): n/a
@@ -20237,127 +18440,60 @@ Status: active
 ### test_wiki_crossdep_focused.cpp
 
 #### `TEST(WikiCrossDepConfig, WCD_01_PersistentCacheDefaultFalse)`
-- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:90
+- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:162
 - Brief: WCD-01: WikiIndexConfig default has enable_persistent_cache=false [standalone].
 - Parameters:
   - `<unnamed>` (WikiCrossDepConfig): n/a
   - `<unnamed>` (WCD_01_PersistentCacheDefaultFalse): n/a
 
-#### `TEST(WikiCrossDepIntegration, WCD_02_PersistentCacheHitAvoidsReembed)`
-- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:98
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (WikiCrossDepIntegration): n/a
-  - `<unnamed>` (WCD_02_PersistentCacheHitAvoidsReembed): n/a
-- Details: WCD-02: Re-ingest same chunk avoids embed call when persistent cache is on. [integration] Requires full library; skipped in standalone build.
-
-#### `TEST(WikiCrossDepIntegration, WCD_03_DistinctChunksEachEmbedOnce)`
-- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:106
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (WikiCrossDepIntegration): n/a
-  - `<unnamed>` (WCD_03_DistinctChunksEachEmbedOnce): n/a
-- Details: WCD-03: Two different chunk_ids each produce exactly one embed call. [integration] Requires full library; skipped in standalone build.
-
-#### `TEST(WikiCrossDepIntegration, WCD_04_PrePopulatedEmbeddingBypassesLLM)`
-- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:112
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (WikiCrossDepIntegration): n/a
-  - `<unnamed>` (WCD_04_PrePopulatedEmbeddingBypassesLLM): n/a
-- Details: WCD-04: Pre-populated embedding bypasses LLM regardless of cache flag. [integration] Requires full library; skipped in standalone build.
-
-#### `TEST(WikiCrossDepIntegration, WCD_05_WriteBatchEmptyNoThrow)`
-- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:122
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (WikiCrossDepIntegration): n/a
-  - `<unnamed>` (WCD_05_WriteBatchEmptyNoThrow): n/a
-- Details: WCD-05: writeBatch with empty input completes without throwing. [integration] Requires full library; skipped in standalone build.
-
-#### `TEST(WikiCrossDepIntegration, WCD_06_WriteBatchSingleChunkQueryable)`
-- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:128
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (WikiCrossDepIntegration): n/a
-  - `<unnamed>` (WCD_06_WriteBatchSingleChunkQueryable): n/a
-- Details: WCD-06: writeBatch single chunk is queryable. [integration] Requires full library; skipped in standalone build.
-
-#### `TEST(WikiCrossDepIntegration, WCD_07_WriteBatchMultiDocQueryable)`
-- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:134
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (WikiCrossDepIntegration): n/a
-  - `<unnamed>` (WCD_07_WriteBatchMultiDocQueryable): n/a
-- Details: WCD-07: writeBatch multiple chunks across two doc_ids — all found. [integration] Requires full library; skipped in standalone build.
-
-#### `TEST(WikiCrossDepIntegration, WCD_08_WriteBatchPreEmbeddedNoLLM)`
-- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:140
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (WikiCrossDepIntegration): n/a
-  - `<unnamed>` (WCD_08_WriteBatchPreEmbeddedNoLLM): n/a
-- Details: WCD-08: writeBatch with all pre-populated embeddings — LLM not called. [integration] Requires full library; skipped in standalone build.
-
-#### `TEST(WikiCrossDepIntegration, WCD_09_NoAuditLoggerNocrash)`
-- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:150
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (WikiCrossDepIntegration): n/a
-  - `<unnamed>` (WCD_09_NoAuditLoggerNocrash): n/a
-- Details: WCD-09: No audit logger set → writeChunk completes without crash. [integration] Requires full library; skipped in standalone build.
-
-#### `TEST(WikiCrossDepIntegration, WCD_10_AuditLoggerWriteChunkEmitsPut)`
-- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:156
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (WikiCrossDepIntegration): n/a
-  - `<unnamed>` (WCD_10_AuditLoggerWriteChunkEmitsPut): n/a
-- Details: WCD-10: setAuditLogger → writeChunk emits exactly one PUT entry. [integration] Requires full library; skipped in standalone build.
-
-#### `TEST(WikiCrossDepIntegration, WCD_11_AuditLoggerWriteBatchTwoDocIds)`
-- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:162
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (WikiCrossDepIntegration): n/a
-  - `<unnamed>` (WCD_11_AuditLoggerWriteBatchTwoDocIds): n/a
-- Details: WCD-11: writeBatch with 3 chunks in 2 doc_ids → 2 audit entries. [integration] Requires full library; skipped in standalone build.
-
-#### `TEST(WikiCrossDepIntegration, WCD_12_AuditLoggerWriteBatchEmptyNoEntries)`
-- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:168
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (WikiCrossDepIntegration): n/a
-  - `<unnamed>` (WCD_12_AuditLoggerWriteBatchEmptyNoEntries): n/a
-- Details: WCD-12: writeBatch with empty input → zero audit entries. [integration] Requires full library; skipped in standalone build.
-
 #### `TEST(WikiCrossDepWorkspace, WCD_13_SavePersistsWorkspaceState)`
-- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:177
+- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:225
 - Brief: WCD-13: save() persists a workspace state using the current contract.
 - Parameters:
   - `<unnamed>` (WikiCrossDepWorkspace): n/a
   - `<unnamed>` (WCD_13_SavePersistsWorkspaceState): n/a
 
 #### `TEST(WikiCrossDepWorkspace, WCD_14_ValidateChecksumAfterSave)`
-- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:187
+- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:235
 - Brief: WCD-14: validateChecksum() succeeds for a file written by save().
 - Parameters:
   - `<unnamed>` (WikiCrossDepWorkspace): n/a
   - `<unnamed>` (WCD_14_ValidateChecksumAfterSave): n/a
 
 #### `TEST(WikiCrossDepWorkspace, WCD_15_SaveLoadRoundtrip)`
-- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:201
+- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:249
 - Brief: WCD-15: save() + load() roundtrip preserves workspace state.
 - Parameters:
   - `<unnamed>` (WikiCrossDepWorkspace): n/a
   - `<unnamed>` (WCD_15_SaveLoadRoundtrip): n/a
 
 #### `TEST(WikiCrossDepWorkspace, WCD_16_LoadMissingStateReturnsError)`
-- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:223
+- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:271
 - Brief: WCD-16: load() returns an error when the workspace state is absent.
 - Parameters:
   - `<unnamed>` (WikiCrossDepWorkspace): n/a
   - `<unnamed>` (WCD_16_LoadMissingStateReturnsError): n/a
+
+#### `TEST_F(WikiCrossDepStoreTest, WCD_02_PersistentCacheHitAvoidsReembed)`
+- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:169
+- Brief: WCD-02: Re-ingest same chunk avoids embed call when persistent cache is on.
+- Parameters:
+  - `<unnamed>` (WikiCrossDepStoreTest): n/a
+  - `<unnamed>` (WCD_02_PersistentCacheHitAvoidsReembed): n/a
+
+#### `TEST_F(WikiCrossDepStoreTest, WCD_05_WriteBatchEmptyNoThrow)`
+- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:189
+- Brief: WCD-05: writeBatch with empty input completes without throwing.
+- Parameters:
+  - `<unnamed>` (WikiCrossDepStoreTest): n/a
+  - `<unnamed>` (WCD_05_WriteBatchEmptyNoThrow): n/a
+
+#### `TEST_F(WikiCrossDepStoreTest, WCD_06_WriteBatchSingleChunkQueryable)`
+- Source: `tests/llm/test_wiki_crossdep_focused.cpp`:203
+- Brief: WCD-06: writeBatch single chunk is queryable via the live RocksDB index.
+- Parameters:
+  - `<unnamed>` (WikiCrossDepStoreTest): n/a
+  - `<unnamed>` (WCD_06_WriteBatchSingleChunkQueryable): n/a
 
 ### test_wiki_eval_metrics.cpp
 
@@ -20448,42 +18584,42 @@ Status: active
   - `<unnamed>` (WIS06_ScoreOrdering): n/a
 
 #### `TEST(JsonWikiIndexReader, WIS07_TopKLimit)`
-- Source: `tests/llm/test_wiki_index_store.cpp`:240
+- Source: `tests/llm/test_wiki_index_store.cpp`:241
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonWikiIndexReader): n/a
   - `<unnamed>` (WIS07_TopKLimit): n/a
 
 #### `TEST(JsonWikiIndexReader, WIS08_EmptyResultNoOverlap)`
-- Source: `tests/llm/test_wiki_index_store.cpp`:251
+- Source: `tests/llm/test_wiki_index_store.cpp`:252
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonWikiIndexReader): n/a
   - `<unnamed>` (WIS08_EmptyResultNoOverlap): n/a
 
 #### `TEST(JsonWikiIndexReader, WIS09_NotReadyBeforeLoad)`
-- Source: `tests/llm/test_wiki_index_store.cpp`:264
+- Source: `tests/llm/test_wiki_index_store.cpp`:265
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonWikiIndexReader): n/a
   - `<unnamed>` (WIS09_NotReadyBeforeLoad): n/a
 
 #### `TEST(JsonWikiIndexReader, WIS10_BM25PositiveScore)`
-- Source: `tests/llm/test_wiki_index_store.cpp`:272
+- Source: `tests/llm/test_wiki_index_store.cpp`:273
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonWikiIndexReader): n/a
   - `<unnamed>` (WIS10_BM25PositiveScore): n/a
 
 #### `TEST(JsonWikiIndexReader, WIS11_NoVectorDependency)`
-- Source: `tests/llm/test_wiki_index_store.cpp`:288
+- Source: `tests/llm/test_wiki_index_store.cpp`:289
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonWikiIndexReader): n/a
   - `<unnamed>` (WIS11_NoVectorDependency): n/a
 
 #### `TEST(JsonWikiIndexReader, WIS12_ReloadRefreshesChunks)`
-- Source: `tests/llm/test_wiki_index_store.cpp`:302
+- Source: `tests/llm/test_wiki_index_store.cpp`:303
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (JsonWikiIndexReader): n/a
@@ -20518,35 +18654,35 @@ Status: active
   - `<unnamed>` (WIS04_EmptyInput): n/a
 
 #### `TEST(WikiRagSource, WIS13_StageIntegration)`
-- Source: `tests/llm/test_wiki_index_store.cpp`:316
+- Source: `tests/llm/test_wiki_index_store.cpp`:317
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WikiRagSource): n/a
   - `<unnamed>` (WIS13_StageIntegration): n/a
 
 #### `TEST(WikiRagSource, WIS14_ProvenanceTags)`
-- Source: `tests/llm/test_wiki_index_store.cpp`:337
+- Source: `tests/llm/test_wiki_index_store.cpp`:338
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WikiRagSource): n/a
   - `<unnamed>` (WIS14_ProvenanceTags): n/a
 
 #### `TEST(WikiRagSource, WIS15_DefaultFailClosedNotReady)`
-- Source: `tests/llm/test_wiki_index_store.cpp`:368
+- Source: `tests/llm/test_wiki_index_store.cpp`:369
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WikiRagSource): n/a
   - `<unnamed>` (WIS15_DefaultFailClosedNotReady): n/a
 
 #### `TEST(WikiRagSource, WIS16_FailOpenNotReadyCompatibility)`
-- Source: `tests/llm/test_wiki_index_store.cpp`:383
+- Source: `tests/llm/test_wiki_index_store.cpp`:384
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WikiRagSource): n/a
   - `<unnamed>` (WIS16_FailOpenNotReadyCompatibility): n/a
 
 #### `TEST(WikiRagSource, WIS17_EmptyWikiSuccess)`
-- Source: `tests/llm/test_wiki_index_store.cpp`:401
+- Source: `tests/llm/test_wiki_index_store.cpp`:402
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WikiRagSource): n/a
@@ -20720,21 +18856,21 @@ Status: active
   - `<unnamed>` (WISQ02_LatencyUnder200ms): n/a
 
 #### `TEST(WikiRagQuality, WISQ03_ScoreMonotonicity)`
-- Source: `tests/llm/test_wiki_rag_quality.cpp`:200
+- Source: `tests/llm/test_wiki_rag_quality.cpp`:202
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WikiRagQuality): n/a
   - `<unnamed>` (WISQ03_ScoreMonotonicity): n/a
 
 #### `TEST(WikiRagQuality, WISQ04_MinScoreFiltering)`
-- Source: `tests/llm/test_wiki_rag_quality.cpp`:218
+- Source: `tests/llm/test_wiki_rag_quality.cpp`:220
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WikiRagQuality): n/a
   - `<unnamed>` (WISQ04_MinScoreFiltering): n/a
 
 #### `TEST(WikiRagQuality, WISQ05_PipelineIntegration)`
-- Source: `tests/llm/test_wiki_rag_quality.cpp`:234
+- Source: `tests/llm/test_wiki_rag_quality.cpp`:236
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (WikiRagQuality): n/a
@@ -21035,7 +19171,7 @@ Status: active
 - Details: GATE-LLM-07: p99 ≤ 10 µs.
 
 #### `void BM_LLM08_PluginRegistryLookup(benchmark::State &state)`
-- Source: `benchmarks/llm/bench_llm_hotpaths.cpp`:406
+- Source: `benchmarks/llm/bench_llm_hotpaths.cpp`:407
 - Brief: LLM-08: Plugin registry name → adapter lookup.
 - Parameters:
   - `state` (benchmark::State &): n/a
@@ -21699,112 +19835,119 @@ Status: active
 - Details: TestRepeatedEmbedCachePopulateAndClear
 
 #### `TEST(LlmWave3, W3_01_NonLocalHttpRejectedByDefault)`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:110
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:112
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmWave3): n/a
   - `<unnamed>` (W3_01_NonLocalHttpRejectedByDefault): n/a
 
 #### `TEST(LlmWave3, W3_02_LocalHttpStillAccepted)`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:127
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:129
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmWave3): n/a
   - `<unnamed>` (W3_02_LocalHttpStillAccepted): n/a
 
 #### `TEST(LlmWave3, W3_03_NonLocalHttpAllowedWithExplicitFlag)`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:145
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:147
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmWave3): n/a
   - `<unnamed>` (W3_03_NonLocalHttpAllowedWithExplicitFlag): n/a
 
 #### `TEST(LlmWave3, W3_04_ModelNameTraversalRejected)`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:181
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:183
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmWave3): n/a
   - `<unnamed>` (W3_04_ModelNameTraversalRejected): n/a
 
 #### `TEST(LlmWave3, W3_05_ModelNameForwardSlashRejected)`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:188
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:190
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmWave3): n/a
   - `<unnamed>` (W3_05_ModelNameForwardSlashRejected): n/a
 
 #### `TEST(LlmWave3, W3_06_ModelNameBackslashRejected)`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:195
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:197
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmWave3): n/a
   - `<unnamed>` (W3_06_ModelNameBackslashRejected): n/a
 
+#### `TEST(LlmWave3, W3_06b_DownloadDirTraversalRejected)`
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:204
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (LlmWave3): n/a
+  - `<unnamed>` (W3_06b_DownloadDirTraversalRejected): n/a
+
 #### `TEST(LlmWave3, W3_07_LegitimateModelNameAccepted)`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:202
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:224
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmWave3): n/a
   - `<unnamed>` (W3_07_LegitimateModelNameAccepted): n/a
 
 #### `TEST(LlmWave3, W3_08_AdapterApplyCompletesWithPathResolver)`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:221
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:243
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmWave3): n/a
   - `<unnamed>` (W3_08_AdapterApplyCompletesWithPathResolver): n/a
 
 #### `TEST(LlmWave3, W3_09_AdapterApplyEmptyAdapterIdHandledSafely)`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:255
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:277
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmWave3): n/a
   - `<unnamed>` (W3_09_AdapterApplyEmptyAdapterIdHandledSafely): n/a
 
 #### `TEST(LlmWave3, W3_10_PromptSafetyBlocksIgnoreInstructions)`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:284
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:306
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmWave3): n/a
   - `<unnamed>` (W3_10_PromptSafetyBlocksIgnoreInstructions): n/a
 
 #### `TEST(LlmWave3, W3_11_PromptSafetyPassesLegitimateQuery)`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:296
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:318
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmWave3): n/a
   - `<unnamed>` (W3_11_PromptSafetyPassesLegitimateQuery): n/a
 
 #### `TEST(LlmWave3, W3_12_LengthTruncationBenignContentPasses)`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:308
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:330
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmWave3): n/a
   - `<unnamed>` (W3_12_LengthTruncationBenignContentPasses): n/a
 
 #### `TEST(LlmWave3, W3_13_PrefixCacheConfigHasCacheDirField)`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:324
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:346
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmWave3): n/a
   - `<unnamed>` (W3_13_PrefixCacheConfigHasCacheDirField): n/a
 
 #### `TEST(LlmWave3, W3_14_PrefixCacheConfigCacheDirAssignable)`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:331
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:353
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmWave3): n/a
   - `<unnamed>` (W3_14_PrefixCacheConfigCacheDirAssignable): n/a
 
 #### `TEST(LlmWave3, W3_15_PrefixCacheInstantiatesWithCustomCacheDir)`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:337
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:359
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmWave3): n/a
   - `<unnamed>` (W3_15_PrefixCacheInstantiatesWithCustomCacheDir): n/a
 
 #### `TEST(LlmWave3, W3_TSAN_AdapterLockStress)`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:362
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:384
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LlmWave3): n/a
@@ -22003,7 +20146,7 @@ Status: active
 
 #### `TEST_F(MoveSemanticsSafetyTest, RuleOfFive_CopyDeleted)`
 - Source: `tests/llm/test_move_semantics_llm.cpp`:341
-- Brief: Verify copying is properly handled (deleted or implemented).
+- Brief: Verify copying is properly handled (deleted or implemented)
 - Parameters:
   - `<unnamed>` (MoveSemanticsSafetyTest): n/a
   - `<unnamed>` (RuleOfFive_CopyDeleted): n/a
@@ -22087,6 +20230,13 @@ Status: active
 - Return: Return value.
 - Details: file_path Path to the file. Return value.
 
+#### `std::shared_ptr< LLMClient > createDefaultLLMClient()`
+- Source: `src/llm/llm_client_default.cpp`:202
+- Brief: Create the default LLM client implementation.
+- Parameters: none
+- Return: Shared ownership of the default client.
+- Details: Shared ownership of the default client. The returned client prefers a model-backed plugin when available and falls back to the deterministic keyword-based implementation when no runtime backend is registered.
+
 #### `std::shared_ptr< IDocsAssistant > createDocsAssistant()`
 - Source: `src/llm/llm_factory_stub.cpp`:64
 - Brief: Create Docs Assistant.
@@ -22123,14 +20273,14 @@ Status: active
 - Details: Return value. Calls: g_llama_factory().
 
 #### `bool createLlamaWrapper(const std::string &name, const std::string &model_path, const json &config)`
-- Source: `src/llm/llm_plugin_manager.cpp`:813
+- Source: `src/llm/llm_plugin_manager.cpp`:814
 - Brief: ═══════════════════════════════════════════════════════════ Helper functions ═══════════════════════════════════════════════════════════
 - Parameters:
   - `name` (const std::string &): Input parameter.
   - `model_path` (const std::string &): Path to the model.
   - `config` (const json &): Input parameter.
 - Return: True when the operation succeeds.
-- Details: name Input parameter. model_path Path to the model. config Input parameter. True when the operation succeeds. In the production build path, an empty model_path is rejected and no plugin is registered; the helper fails closed until a real model path is supplied. Calls: THEMIS_LLAMA_CPP_STUB_MODE(), contains(), std::chrono::seconds(), empty(), loadModel(), errors::logError(), LLMPluginManager::instance(), registerPlugin().
+- Details: name Input parameter. model_path Path to the model. config Input parameter. True when the operation succeeds. Calls: THEMIS_LLAMA_CPP_STUB_MODE(), contains(), std::chrono::seconds(), empty(), loadModel(), errors::logError(), LLMPluginManager::instance(), registerPlugin().
 
 #### `std::shared_ptr< themis::llm::lora::ILoRAOrchestrator > createLoRAOrchestrator()`
 - Source: `src/llm/llm_factory_stub.cpp`:136
@@ -22145,6 +20295,13 @@ Status: active
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Calls: g_help_lora_factory().
+
+#### `std::shared_ptr< LLMClient > create_default_llm_client()`
+- Source: `src/llm/llm_client_default.cpp`:208
+- Brief: Compatibility alias for older callers that still use the snake_case factory name.
+- Parameters: none
+- Return: Shared ownership of the default client.
+- Details: Shared ownership of the default client.
 
 #### `std::string decompositionStrategyToString(DecompositionStrategy s)`
 - Source: `src/llm/task_decomposer.cpp`:727
@@ -22241,7 +20398,7 @@ Status: active
   - `url` (const std::string &): n/a
 
 #### `std::optional< ModelDownloadConfig > loadModelConfigFromYAML(const std::string &config_path, const std::string &model_name)`
-- Source: `src/llm/model_downloader.cpp`:719
+- Source: `src/llm/model_downloader.cpp`:799
 - Brief: Load Model Config From YAML.
 - Parameters:
   - `config_path` (const std::string &): Path to the retention policy configuration file.
@@ -22281,7 +20438,7 @@ Status: active
 - Details: Parse a mode name string back to enum. Returns Custom if unrecognised.
 
 #### `ModelDownloadResult pullWithModelName(const std::string &model_name)`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:169
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:171
 - Brief: n/a
 - Parameters:
   - `model_name` (const std::string &): n/a
@@ -22368,7 +20525,7 @@ Status: active
 - Details: tokens Input parameter. Return value.
 
 #### `void validateTensorBuffer(const void *buffer, size_t buffer_size, const std::string &tensor_name)`
-- Source: `src/llm/gguf_loader.cpp`:199
+- Source: `src/llm/gguf_loader.cpp`:205
 - Brief: Validate Tensor Buffer.
 - Parameters:
   - `buffer` (const void *): Input parameter.
@@ -22379,7 +20536,7 @@ Status: active
 - Details: buffer Input parameter. buffer_size Input parameter. tensor_name Name of the tensor. std::runtime_error if an error occurs. Calls: spdlog::error().
 
 #### `void validateTensorOffset(size_t offset, size_t tensor_size, size_t file_size, const std::string &tensor_name)`
-- Source: `src/llm/gguf_loader.cpp`:222
+- Source: `src/llm/gguf_loader.cpp`:228
 - Brief: Validate Tensor Offset.
 - Parameters:
   - `offset` (size_t): Input parameter.
@@ -22391,7 +20548,7 @@ Status: active
 - Details: offset Input parameter. tensor_size Input parameter. file_size Input parameter. tensor_name Name of the tensor. std::runtime_error if an error occurs. Calls: std::to_string(), spdlog::error().
 
 #### `void validateTensorShape(const TensorMetadata &tensor, const std::string &tensor_name)`
-- Source: `src/llm/gguf_loader.cpp`:175
+- Source: `src/llm/gguf_loader.cpp`:181
 - Brief: ═══════════════════════════════════════════════════════════ BATCH 1.
 - Parameters:
   - `tensor` (const TensorMetadata &): Input parameter.
@@ -22594,31 +20751,31 @@ Status: active
 ### themis::llm::AIOrchestrator
 
 #### `AIOrchestrator(const AIOrchestrator &)=delete`
-- Source: `include/llm/ai_orchestrator.h`:498
+- Source: `include/llm/ai_orchestrator.h`:510
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const AIOrchestrator &): n/a
 
 #### `AIOrchestrator(const ModePack &pack)`
-- Source: `include/llm/ai_orchestrator.h`:494
+- Source: `include/llm/ai_orchestrator.h`:506
 - Brief: AIOrchestrator.
 - Parameters:
   - `pack` (const ModePack &): Input parameter.
 - Return: Return value.
 - Details: pack Input parameter. Return value.
 
-#### `std::string assemblePrompt(const std::string &query, const std::vector< RAGContext::Document > &docs, const ModeSpec &) const`
-- Source: `include/llm/ai_orchestrator.h`:644
+#### `std::string assemblePrompt(const std::string &query, const std::vector< RAGContext::Document > &docs, const ModeSpec &mode) const`
+- Source: `include/llm/ai_orchestrator.h`:656
 - Brief: Assemble Prompt.
 - Parameters:
   - `query` (const std::string &): Input parameter.
   - `docs` (const std::vector< RAGContext::Document > &): Input parameter.
-  - `<unnamed>` (const ModeSpec &): n/a
+  - `mode` (const ModeSpec &): Input parameter.
 - Return: Return value.
-- Details: query Input parameter. docs Input parameter. param Input parameter. Return value.
+- Details: query Input parameter. docs Input parameter. mode Input parameter. Return value.
 
 #### `InferenceRequest buildRequest(const OrchestratorContext &ctx, const ModeSpec &mode) const`
-- Source: `include/llm/ai_orchestrator.h`:634
+- Source: `include/llm/ai_orchestrator.h`:646
 - Brief: Build Request.
 - Parameters:
   - `ctx` (const OrchestratorContext &): Input parameter.
@@ -22627,14 +20784,14 @@ Status: active
 - Details: ctx Input parameter. mode Input parameter. Return value.
 
 #### `const ModeSpec * defaultMode() const`
-- Source: `include/llm/ai_orchestrator.h`:570
+- Source: `include/llm/ai_orchestrator.h`:582
 - Brief: Default Mode.
 - Parameters: none
 - Return: Pointer to the result.
 - Details: Pointer to the result.
 
 #### `void emitObservability(const RunMetadata &meta, const ModeSpec &mode) const`
-- Source: `include/llm/ai_orchestrator.h`:653
+- Source: `include/llm/ai_orchestrator.h`:665
 - Brief: Emit Observability.
 - Parameters:
   - `meta` (const RunMetadata &): Input parameter.
@@ -22642,7 +20799,7 @@ Status: active
 - Details: meta Input parameter. mode Input parameter.
 
 #### `const ModeSpec * findMode(const std::string &id) const`
-- Source: `include/llm/ai_orchestrator.h`:564
+- Source: `include/llm/ai_orchestrator.h`:576
 - Brief: Find Mode.
 - Parameters:
   - `id` (const std::string &): Input parameter.
@@ -22650,20 +20807,20 @@ Status: active
 - Details: id Input parameter. Pointer to the result.
 
 #### `const ModePack & modePack() const`
-- Source: `include/llm/ai_orchestrator.h`:557
+- Source: `include/llm/ai_orchestrator.h`:569
 - Brief: ── Introspection ─────────────────────────────────────────────────────────
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `AIOrchestrator & operator=(const AIOrchestrator &)=delete`
-- Source: `include/llm/ai_orchestrator.h`:499
+- Source: `include/llm/ai_orchestrator.h`:511
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const AIOrchestrator &): n/a
 
 #### `OrchestratorResult run(const OrchestratorContext &ctx) const`
-- Source: `include/llm/ai_orchestrator.h`:550
+- Source: `include/llm/ai_orchestrator.h`:562
 - Brief: ── Execution ────────────────────────────────────────────────────────────
 - Parameters:
   - `ctx` (const OrchestratorContext &): Input parameter.
@@ -22671,7 +20828,7 @@ Status: active
 - Details: ctx Input parameter. Return value.
 
 #### `OrchestratorResult runAgentic(const OrchestratorContext &ctx, const ModeSpec &mode) const`
-- Source: `include/llm/ai_orchestrator.h`:607
+- Source: `include/llm/ai_orchestrator.h`:619
 - Brief: Run Agentic.
 - Parameters:
   - `ctx` (const OrchestratorContext &): Input parameter.
@@ -22680,7 +20837,7 @@ Status: active
 - Details: ctx Input parameter. mode Input parameter. Return value.
 
 #### `OrchestratorResult runAsk(const OrchestratorContext &ctx, const ModeSpec &mode) const`
-- Source: `include/llm/ai_orchestrator.h`:589
+- Source: `include/llm/ai_orchestrator.h`:601
 - Brief: ── Internal pipeline steps ───────────────────────────────────────────────
 - Parameters:
   - `ctx` (const OrchestratorContext &): Input parameter.
@@ -22689,7 +20846,7 @@ Status: active
 - Details: ctx Input parameter. mode Input parameter. Return value.
 
 #### `OrchestratorResult runEthics(const OrchestratorContext &ctx, const ModeSpec &mode) const`
-- Source: `include/llm/ai_orchestrator.h`:616
+- Source: `include/llm/ai_orchestrator.h`:628
 - Brief: Run Ethics.
 - Parameters:
   - `ctx` (const OrchestratorContext &): Input parameter.
@@ -22698,7 +20855,7 @@ Status: active
 - Details: ctx Input parameter. mode Input parameter. Return value.
 
 #### `OrchestratorResult runMultiAgent(const OrchestratorContext &ctx, const ModeSpec &mode) const`
-- Source: `include/llm/ai_orchestrator.h`:625
+- Source: `include/llm/ai_orchestrator.h`:637
 - Brief: Run Multi Agent.
 - Parameters:
   - `ctx` (const OrchestratorContext &): Input parameter.
@@ -22707,7 +20864,7 @@ Status: active
 - Details: ctx Input parameter. mode Input parameter. Return value.
 
 #### `OrchestratorResult runRag(const OrchestratorContext &ctx, const ModeSpec &mode) const`
-- Source: `include/llm/ai_orchestrator.h`:598
+- Source: `include/llm/ai_orchestrator.h`:610
 - Brief: Run Rag.
 - Parameters:
   - `ctx` (const OrchestratorContext &): Input parameter.
@@ -22716,63 +20873,63 @@ Status: active
 - Details: ctx Input parameter. mode Input parameter. Return value.
 
 #### `void setAdapterApplyService(std::shared_ptr< IAdapterApplyService > service)`
-- Source: `include/llm/ai_orchestrator.h`:518
+- Source: `include/llm/ai_orchestrator.h`:530
 - Brief: Set Adapter Apply Service.
 - Parameters:
   - `service` (std::shared_ptr< IAdapterApplyService >): Input parameter.
 - Details: service Input parameter. service Input parameter. Calls: lock(), std::move().
 
 #### `void setAdapterCandidateProvider(std::shared_ptr< IAdapterCandidateProvider > provider)`
-- Source: `include/llm/ai_orchestrator.h`:512
+- Source: `include/llm/ai_orchestrator.h`:524
 - Brief: Set Adapter Candidate Provider.
 - Parameters:
   - `provider` (std::shared_ptr< IAdapterCandidateProvider >): Input parameter.
 - Details: provider Input parameter. provider Input parameter. Calls: lock(), std::move().
 
 #### `void setAdapterPathResolver(AdapterPathResolverFn resolver)`
-- Source: `include/llm/ai_orchestrator.h`:530
+- Source: `include/llm/ai_orchestrator.h`:542
 - Brief: Set Adapter Path Resolver.
 - Parameters:
   - `resolver` (AdapterPathResolverFn): Input parameter.
 - Details: resolver Input parameter. resolver Input parameter. Calls: lock(), std::move(), get(), setPathResolver().
 
 #### `void setAdapterSwitchPolicy(const AdapterSwitchPolicy &policy)`
-- Source: `include/llm/ai_orchestrator.h`:524
+- Source: `include/llm/ai_orchestrator.h`:536
 - Brief: Set Adapter Switch Policy.
 - Parameters:
   - `policy` (const AdapterSwitchPolicy &): Input parameter.
 - Details: policy Input parameter. policy Input parameter. Calls: lock().
 
 #### `void setLLMPlugin(std::shared_ptr< ILLMPlugin > plugin)`
-- Source: `include/llm/ai_orchestrator.h`:506
+- Source: `include/llm/ai_orchestrator.h`:518
 - Brief: ── Configuration ────────────────────────────────────────────────────────
 - Parameters:
   - `plugin` (std::shared_ptr< ILLMPlugin >): Input parameter.
 - Details: Set LLMPlugin. plugin Input parameter. plugin Input parameter. Calls: std::move(), lock(), setPathResolver().
 
 #### `void setRagCostModelService(std::shared_ptr< IRagCostModelService > service)`
-- Source: `include/llm/ai_orchestrator.h`:536
+- Source: `include/llm/ai_orchestrator.h`:548
 - Brief: Set Rag Cost Model Service.
 - Parameters:
   - `service` (std::shared_ptr< IRagCostModelService >): Input parameter.
 - Details: service Input parameter. service Input parameter. Calls: lock(), std::move().
 
 #### `json stats() const`
-- Source: `include/llm/ai_orchestrator.h`:576
+- Source: `include/llm/ai_orchestrator.h`:588
 - Brief: Stats.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `ToolRegistry & toolRegistry()`
-- Source: `include/llm/ai_orchestrator.h`:542
+- Source: `include/llm/ai_orchestrator.h`:554
 - Brief: Tool Registry.
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Return value. Implements toolRegistry without additional internal calls.
 
 #### `~AIOrchestrator()`
-- Source: `include/llm/ai_orchestrator.h`:495
+- Source: `include/llm/ai_orchestrator.h`:507
 - Brief: n/a
 - Parameters: none
 
@@ -23449,7 +21606,7 @@ Status: active
 
 #### `std::string normalizeModelName(const std::string &model_name) const`
 - Source: `include/llm/adapter_compatibility.h`:250
-- Brief: Helper: Normalize model name (handle variations).
+- Brief: Helper: Normalize model name (handle variations)
 - Parameters:
   - `model_name` (const std::string &): Name of the model.
 - Return: Return value.
@@ -23744,7 +21901,7 @@ Status: active
 
 #### `void recordAccess(const std::string &adapter_id)`
 - Source: `include/llm/adapter_load_balancer.h`:166
-- Brief: Access tracking (for LRU).
+- Brief: Access tracking (for LRU)
 - Parameters:
   - `adapter_id` (const std::string &): Identifier of the adapter.
 - Details: Record Access. adapter_id Identifier of the adapter. adapter_id Identifier of the adapter. Calls: lock(), find(), end(), getCurrentTimeMs().
@@ -24401,7 +22558,7 @@ Status: active
 
 #### `bool handleBackpressure(std::unique_lock< std::mutex > &lock)`
 - Source: `include/llm/async_inference_engine.h`:311
-- Brief: Handle backpressure (expects queue_mutex_ locked).
+- Brief: Handle backpressure (expects queue_mutex_ locked)
 - Parameters:
   - `lock` (std::unique_lock< std::mutex > &): Input/output parameter.
 - Return: True when the operation succeeds.
@@ -24638,7 +22795,7 @@ Status: active
 
 #### `bool transferToGPU(int target_gpu_id)`
 - Source: `include/llm/llama_resource_manager.h`:226
-- Brief: Memory Transfer (for Multi-GPU).
+- Brief: Memory Transfer (for Multi-GPU)
 - Parameters:
   - `target_gpu_id` (int): Identifier of the target gpu.
 - Return: True when the operation succeeds.
@@ -24967,7 +23124,7 @@ Status: active
 
 #### `void sharePrefix(uint64_t parent_sequence_id, size_t prefix_length)`
 - Source: `include/llm/block_table.h`:53
-- Brief: Share prefix blocks from parent sequence (Copy-on-Write).
+- Brief: Share prefix blocks from parent sequence (Copy-on-Write)
 - Parameters:
   - `parent_sequence_id` (uint64_t): Identifier of the parent sequence.
   - `prefix_length` (size_t): Input parameter.
@@ -25130,22 +23287,22 @@ Status: active
 ### themis::llm::ConcurrentInferenceTracker
 
 #### `bool AcquireSlot() noexcept`
-- Source: `src/llm/llm_plugin_manager.cpp`:1469
+- Source: `src/llm/llm_plugin_manager.cpp`:1496
 - Brief: n/a
 - Parameters: none
 
 #### `ConcurrentInferenceTracker() noexcept=default`
-- Source: `src/llm/llm_plugin_manager.cpp`:1467
+- Source: `src/llm/llm_plugin_manager.cpp`:1494
 - Brief: n/a
 - Parameters: none
 
 #### `size_t GetActiveCount() const noexcept`
-- Source: `src/llm/llm_plugin_manager.cpp`:1495
+- Source: `src/llm/llm_plugin_manager.cpp`:1522
 - Brief: n/a
 - Parameters: none
 
 #### `void ReleaseSlot() noexcept`
-- Source: `src/llm/llm_plugin_manager.cpp`:1483
+- Source: `src/llm/llm_plugin_manager.cpp`:1510
 - Brief: n/a
 - Parameters: none
 
@@ -25451,8 +23608,8 @@ Status: active
 - Source: `include/llm/context_quality_metrics.h`:64
 - Brief: n/a
 - Parameters: none
-- Return: true if drift > threshold or retention < 0.5
-- Details: Check if quality metrics justify RAG refresh true if drift > threshold or retention < 0.5
+- Return: true if the state is degraded enough to need a refresh
+- Details: Check if quality metrics justify RAG refresh true if the state is degraded enough to need a refresh
 
 ### themis::llm::ContextWindowBudget
 
@@ -25585,7 +23742,7 @@ Status: active
 
 #### `std::vector< ScheduledRequest * > scheduleNextBatch()`
 - Source: `include/llm/continuous_batch_scheduler.h`:195
-- Brief: Batch scheduling (main loop).
+- Brief: Batch scheduling (main loop)
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
@@ -25806,12 +23963,12 @@ Status: active
 ### themis::llm::DefaultLLMClient
 
 #### `DefaultLLMClient()`
-- Source: `src/llm/llm_client_default.cpp`:28
+- Source: `src/llm/llm_client_default.cpp`:78
 - Brief: n/a
 - Parameters: none
 
 #### `size_t estimateTokens(const std::string &text) const override`
-- Source: `src/llm/llm_client_default.cpp`:122
+- Source: `src/llm/llm_client_default.cpp`:174
 - Brief: Estimate Tokens.
 - Parameters:
   - `text` (const std::string &): Input parameter.
@@ -25819,14 +23976,14 @@ Status: active
 - Details: text Input parameter. Return value.
 
 #### `GenerationResult generate(const std::string &prompt, const GenerationOptions &options) override`
-- Source: `src/llm/llm_client_default.cpp`:34
+- Source: `src/llm/llm_client_default.cpp`:84
 - Brief: n/a
 - Parameters:
   - `prompt` (const std::string &): n/a
   - `options` (const GenerationOptions &): n/a
 
 #### `GenerationResult generateAQL(const std::string &nl_query, const std::string &schema_context, const GenerationOptions &options) override`
-- Source: `src/llm/llm_client_default.cpp`:105
+- Source: `src/llm/llm_client_default.cpp`:157
 - Brief: n/a
 - Parameters:
   - `nl_query` (const std::string &): n/a
@@ -25834,21 +23991,21 @@ Status: active
   - `options` (const GenerationOptions &): n/a
 
 #### `std::string getProviderName() const override`
-- Source: `src/llm/llm_client_default.cpp`:127
+- Source: `src/llm/llm_client_default.cpp`:179
 - Brief: Get Provider Name.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `bool isReady() const override`
-- Source: `src/llm/llm_client_default.cpp`:134
+- Source: `src/llm/llm_client_default.cpp`:186
 - Brief: Is Ready.
 - Parameters: none
 - Return: True when the operation succeeds.
 - Details: True when the operation succeeds.
 
 #### `~DefaultLLMClient() override=default`
-- Source: `src/llm/llm_client_default.cpp`:32
+- Source: `src/llm/llm_client_default.cpp`:82
 - Brief: n/a
 - Parameters: none
 
@@ -26023,7 +24180,7 @@ Status: active
 
 #### `bool handleShardFailure(const std::string &failed_shard)`
 - Source: `include/llm/distributed_training_coordinator.h`:492
-- Brief: Handle shard failure (remove from training, redistribute work).
+- Brief: Handle shard failure (remove from training, redistribute work)
 - Parameters:
   - `failed_shard` (const std::string &): Input parameter.
 - Return: True when the operation succeeds.
@@ -26075,7 +24232,7 @@ Status: active
 
 #### `void stop()`
 - Source: `include/llm/distributed_training_coordinator.h`:448
-- Brief: Stop training (graceful shutdown).
+- Brief: Stop training (graceful shutdown)
 - Parameters: none
 - Details: Stop. Calls: spdlog::info().
 
@@ -26367,16 +24524,16 @@ Status: active
   - `prompt` (const std::string &): Input parameter.
   - `context_text` (const std::string &): Input parameter.
 - Return: Return value.
-- Details: prompt Input parameter. context_text Input parameter. Return value. Calls: isEnabled(), empty(), detectEthicalContext(), augmentPrompt(). prompt Input parameter. context_text Input parameter. Return value. Implements applyEthicalGuidelines without additional internal calls.
+- Details: prompt Input parameter. context_text Input parameter. Return value. Implements applyEthicalGuidelines without additional internal calls. prompt Input parameter. context_text Input parameter. Return value. Calls: isEnabled(), empty(), detectEthicalContext(), augmentPrompt().
 
 #### `std::string chat(const std::vector< ChatMessage > &messages, ChatFormat format=ChatFormat::ChatML)`
 - Source: `include/llm/embedded_llm.h`:76
-- Brief: ═══════════════════════════════════════════════════════════ Chat interface ═══════════════════════════════════════════════════════════
+- Brief: Chat.
 - Parameters:
   - `messages` (const std::vector< ChatMessage > &): Input parameter.
   - `format` (ChatFormat): Input parameter.
 - Return: Return value.
-- Details: Chat. messages Input parameter. format Input parameter. Return value. Calls: formatChatMessages(), generate(). messages Input parameter. format Input parameter. Return value. Calls: empty(), push_back(), append(), generate(). messages Input parameter. format Input parameter. Return value. Calls: createEmbeddedLLM(), std::string().
+- Details: ═══════════════════════════════════════════════════════════ Chat interface ═══════════════════════════════════════════════════════════ messages Input parameter. format Input parameter. Return value. Calls: empty(), push_back(), append(), generate(). messages Input parameter. format Input parameter. Return value. Calls: formatChatMessages(), generate(). messages Input parameter. format Input parameter. Return value. Calls: createEmbeddedLLM(), std::string().
 
 #### `std::string chatSimple(const std::string &system_prompt, const std::string &user_message)`
 - Source: `include/llm/embedded_llm.h`:87
@@ -26391,18 +24548,18 @@ Status: active
 - Source: `include/llm/embedded_llm.h`:173
 - Brief: Clear Cache.
 - Parameters: none
-- Details: Calls: lk(), size(), clear(), spdlog::info(). Calls: lock(), clear(). Calls: createEmbeddedLLM().
+- Details: Calls: lock(), clear(). Calls: lk(), size(), clear(), spdlog::info(). Calls: createEmbeddedLLM().
 
 #### `InferenceRequest createRequest(const std::string &prompt, int max_tokens, float temperature=0.7f, float top_p=0.9f)`
 - Source: `include/llm/embedded_llm.h`:202
-- Brief: ═══════════════════════════════════════════════════════════ Internal helpers ═══════════════════════════════════════════════════════════
+- Brief: Create Request.
 - Parameters:
   - `prompt` (const std::string &): Input parameter.
   - `max_tokens` (int): Input parameter.
   - `temperature` (float): Input parameter.
   - `top_p` (float): Input parameter.
 - Return: Return value.
-- Details: Create Request. prompt Input parameter. max_tokens Input parameter. temperature Input parameter. top_p Input parameter. Return value. Implements createRequest without additional internal calls.
+- Details: ═══════════════════════════════════════════════════════════ Internal helpers ═══════════════════════════════════════════════════════════ prompt Input parameter. max_tokens Input parameter. temperature Input parameter. top_p Input parameter. Return value. Implements createRequest without additional internal calls.
 
 #### `std::vector< float > embed(const std::string &text)`
 - Source: `include/llm/embedded_llm.h`:98
@@ -26410,7 +24567,7 @@ Status: active
 - Parameters:
   - `text` (const std::string &): Input parameter.
 - Return: Return value.
-- Details: Embed. ═══════════════════════════════════════════════════════════ Embeddings ═══════════════════════════════════════════════════════════ text Input parameter. Return value. text Input parameter. Return value. Calls: lock(), embed_fn(), empty(), isModelLoaded(), lk(), find(), end(), buildFallbackEmbedding(). text Input parameter. Return value. Calls: lock(), embed_fn_(), empty(), spdlog::warn(), what(), cache_lock(), find(), end(). text Input parameter. Return value. Calls: createEmbeddedLLM().
+- Details: ═══════════════════════════════════════════════════════════ Embeddings ═══════════════════════════════════════════════════════════ Embed. text Input parameter. Return value. text Input parameter. Return value. Calls: lock(), embed_fn_(), empty(), spdlog::warn(), what(), cache_lock(), find(), end(). text Input parameter. Return value. Calls: lock(), embed_fn(), empty(), isModelLoaded(), lk(), find(), end(), buildFallbackEmbedding(). text Input parameter. Return value. Calls: createEmbeddedLLM().
 
 #### `std::vector< std::vector< float > > embedBatch(const std::vector< std::string > &texts)`
 - Source: `include/llm/embedded_llm.h`:105
@@ -26422,12 +24579,12 @@ Status: active
 
 #### `std::string generate(const std::string &prompt, int max_tokens=512)`
 - Source: `include/llm/embedded_llm.h`:63
-- Brief: ═══════════════════════════════════════════════════════════ Simple text generation ═══════════════════════════════════════════════════════════
+- Brief: Generate.
 - Parameters:
   - `prompt` (const std::string &): Input parameter.
   - `max_tokens` (int): Input parameter.
 - Return: Return value.
-- Details: Generate. prompt Input parameter. max_tokens Input parameter. Return value. Calls: applyEthicalGuidelines(), createRequest(), generateFull(), hasEthicalGuidelines(), detectEthicalContext(), augmentResponse(). prompt Input parameter. max_tokens Input parameter. Return value. Calls: createRequest(), generateFull(). prompt Input parameter. max_tokens Input parameter. Return value. Calls: createEmbeddedLLM(), std::string(), generateWithParams().
+- Details: ═══════════════════════════════════════════════════════════ Simple text generation ═══════════════════════════════════════════════════════════ prompt Input parameter. max_tokens Input parameter. Return value. Calls: createRequest(), generateFull(). prompt Input parameter. max_tokens Input parameter. Return value. Calls: applyEthicalGuidelines(), createRequest(), generateFull(), hasEthicalGuidelines(), detectEthicalContext(), augmentResponse(). prompt Input parameter. max_tokens Input parameter. Return value. Calls: createEmbeddedLLM(), std::string(), generateWithParams().
 
 #### `json generateAsJsonMarkdown(const std::string &prompt, int max_tokens=512)`
 - Source: `include/llm/embedded_llm.h`:130
@@ -26436,16 +24593,16 @@ Status: active
   - `prompt` (const std::string &): Input parameter.
   - `max_tokens` (int): Input parameter.
 - Return: Return value.
-- Details: prompt Input parameter. max_tokens Input parameter. Return value. Calls: createRequest(), generateFull(), LlamaWrapper::formatAsJsonMarkdown(). prompt Input parameter. max_tokens Input parameter. Return value. Calls: generate(). prompt Input parameter. max_tokens Input parameter. Return value. Calls: createEmbeddedLLM(), json::object().
+- Details: prompt Input parameter. max_tokens Input parameter. Return value. Calls: generate(). prompt Input parameter. max_tokens Input parameter. Return value. Calls: createRequest(), generateFull(), LlamaWrapper::formatAsJsonMarkdown(). prompt Input parameter. max_tokens Input parameter. Return value. Calls: createEmbeddedLLM(), json::object().
 
 #### `json generateAsMCP(const std::string &prompt, int max_tokens=512)`
 - Source: `include/llm/embedded_llm.h`:128
-- Brief: ═══════════════════════════════════════════════════════════ Output formatting ═══════════════════════════════════════════════════════════
+- Brief: Generate As MCP.
 - Parameters:
   - `prompt` (const std::string &): Input parameter.
   - `max_tokens` (int): Input parameter.
 - Return: Return value.
-- Details: Generate As MCP. prompt Input parameter. max_tokens Input parameter. Return value. Calls: createRequest(), generateFull(), LlamaWrapper::formatAsMCPResponse(). prompt Input parameter. max_tokens Input parameter. Return value. Calls: generate(). prompt Input parameter. max_tokens Input parameter. Return value. Calls: createEmbeddedLLM(), json::object().
+- Details: ═══════════════════════════════════════════════════════════ Output formatting ═══════════════════════════════════════════════════════════ prompt Input parameter. max_tokens Input parameter. Return value. Calls: generate(). prompt Input parameter. max_tokens Input parameter. Return value. Calls: createRequest(), generateFull(), LlamaWrapper::formatAsMCPResponse(). prompt Input parameter. max_tokens Input parameter. Return value. Calls: createEmbeddedLLM(), json::object().
 
 #### `InferenceResponse generateFull(const InferenceRequest &request)`
 - Source: `include/llm/embedded_llm.h`:137
@@ -26481,14 +24638,14 @@ Status: active
   - `top_p` (float): Input parameter.
   - `max_tokens` (int): Input parameter.
 - Return: Return value.
-- Details: prompt Input parameter. temperature Input parameter. top_p Input parameter. max_tokens Input parameter. Return value. Calls: applyEthicalGuidelines(), createRequest(), generateFull(), hasEthicalGuidelines(), detectEthicalContext(), augmentResponse(). prompt Input parameter. temperature Input parameter. top_p Input parameter. max_tokens Input parameter. Return value. Calls: createRequest(), generateFull(). prompt Input parameter. temperature Input parameter. top_p Input parameter. max_tokens Input parameter. Return value. Calls: createEmbeddedLLM(), std::string().
+- Details: prompt Input parameter. temperature Input parameter. top_p Input parameter. max_tokens Input parameter. Return value. Calls: createRequest(), generateFull(). prompt Input parameter. temperature Input parameter. top_p Input parameter. max_tokens Input parameter. Return value. Calls: applyEthicalGuidelines(), createRequest(), generateFull(), hasEthicalGuidelines(), detectEthicalContext(), augmentResponse(). prompt Input parameter. temperature Input parameter. top_p Input parameter. max_tokens Input parameter. Return value. Calls: createEmbeddedLLM(), std::string().
 
 #### `EthicalGuidelinesManager * getEthicalGuidelines()`
 - Source: `include/llm/embedded_llm.h`:180
 - Brief: ═══════════════════════════════════════════════════════════ Ethical Guidelines Support ═══════════════════════════════════════════════════════════
 - Parameters: none
 - Return: Pointer to the result.
-- Details: Get Ethical Guidelines. Pointer to the result. Pointer to the result. Calls: get(). Pointer to the result. Implements getEthicalGuidelines without additional internal calls. Pointer to the result. Calls: createEmbeddedLLM().
+- Details: Get Ethical Guidelines. Pointer to the result. Pointer to the result. Implements getEthicalGuidelines without additional internal calls. Pointer to the result. Calls: get(). Pointer to the result. Calls: createEmbeddedLLM().
 
 #### `std::string getModelInfo() const`
 - Source: `include/llm/embedded_llm.h`:150
@@ -26551,14 +24708,14 @@ Status: active
 - Return: Return value.
 - Throws:
   - std::runtime_error: if an error occurs.
-- Details: Return value. Return value. std::runtime_error if an error occurs. Calls: lock(). Return value. Calls: lock().
+- Details: Return value. Return value. Calls: lock(). Return value. std::runtime_error if an error occurs. Calls: lock().
 
 #### `void initialize(const EmbeddedLLM::Config &config)`
 - Source: `include/llm/embedded_llm.h`:228
 - Brief: Initialize.
 - Parameters:
   - `config` (const EmbeddedLLM::Config &): Input parameter.
-- Details: config Input parameter. config Input parameter. Calls: lock(), spdlog::warn(), spdlog::info(). config Input parameter. Calls: lock().
+- Details: config Input parameter. config Input parameter. Calls: lock(). config Input parameter. Calls: lock(), spdlog::warn(), spdlog::info().
 
 #### `EmbeddedLLMManager & instance()`
 - Source: `include/llm/embedded_llm.h`:222
@@ -27160,7 +25317,7 @@ Status: active
 
 #### `float calculateSimilarity(const std::string &text1, const std::string &text2)`
 - Source: `include/llm/explanation_generator.h`:155
-- Brief: Helper to calculate text similarity (simple word overlap).
+- Brief: Helper to calculate text similarity (simple word overlap)
 - Parameters:
   - `text1` (const std::string &): Input parameter.
   - `text2` (const std::string &): Input parameter.
@@ -27480,7 +25637,7 @@ Status: active
 
 #### `bool isLikelySpam(const std::string &text)`
 - Source: `include/llm/feedback_store.h`:297
-- Brief: Spam detection configuration (deprecated, use plugin instead).
+- Brief: Spam detection configuration (deprecated, use plugin instead)
 - Parameters:
   - `text` (const std::string &): Input parameter.
 - Return: True when the operation succeeds.
@@ -27957,7 +26114,7 @@ Status: active
 
 #### `std::string loadToThemisDB(const std::string &model_name)`
 - Source: `include/llm/gguf_loader.h`:135
-- Brief: Load tensor data into ThemisDB Blob Store Returns URN of stored model: urn:themis:model:{model_name}:v1 Requires RocksDBWrapper to be set (via constructor or setDatabase).
+- Brief: Load tensor data into ThemisDB Blob Store Returns URN of stored model: urn:themis:model:{model_name}:v1 Requires RocksDBWrapper to be set (via constructor or setDatabase)
 - Parameters:
   - `model_name` (const std::string &): Name of the model.
 - Return: Return value.
@@ -28030,7 +26187,7 @@ Status: active
 
 #### `void setDatabase(RocksDBWrapper *db)`
 - Source: `include/llm/gguf_loader.h`:142
-- Brief: Set the database instance (if not provided in constructor).
+- Brief: Set the database instance (if not provided in constructor)
 - Parameters:
   - `db` (RocksDBWrapper *): Input/output parameter.
 - Details: db Input/output parameter. Implements setDatabase without additional internal calls.
@@ -28848,7 +27005,7 @@ Status: active
 
 #### `void cancel()`
 - Source: `include/llm/gpu_safe_fail.h`:224
-- Brief: Cancel the timeout (call when operation completes successfully).
+- Brief: Cancel the timeout (call when operation completes successfully)
 - Parameters: none
 - Details: Cancel. Calls: store().
 
@@ -29240,7 +27397,7 @@ Status: active
 ### themis::llm::IAdapterApplyService
 
 #### `bool applyAdapter(const std::string &adapter_id, const std::string &tenant, float scale)=0`
-- Source: `include/llm/ai_orchestrator.h`:438
+- Source: `include/llm/ai_orchestrator.h`:450
 - Brief: n/a
 - Parameters:
   - `adapter_id` (const std::string &): n/a
@@ -29248,17 +27405,17 @@ Status: active
   - `scale` (float): n/a
 
 #### `bool canSwitch() const =0`
-- Source: `include/llm/ai_orchestrator.h`:444
+- Source: `include/llm/ai_orchestrator.h`:456
 - Brief: n/a
 - Parameters: none
 
 #### `std::string currentAdapter() const =0`
-- Source: `include/llm/ai_orchestrator.h`:442
+- Source: `include/llm/ai_orchestrator.h`:454
 - Brief: n/a
 - Parameters: none
 
 #### `~IAdapterApplyService()=default`
-- Source: `include/llm/ai_orchestrator.h`:436
+- Source: `include/llm/ai_orchestrator.h`:448
 - Brief: IAdapter Apply Service.
 - Parameters: none
 - Return: Return value.
@@ -29267,13 +27424,13 @@ Status: active
 ### themis::llm::IAdapterCandidateProvider
 
 #### `AdapterSelectionResult selectCandidates(const AdapterSelectionInput &input) const =0`
-- Source: `include/llm/ai_orchestrator.h`:427
+- Source: `include/llm/ai_orchestrator.h`:439
 - Brief: n/a
 - Parameters:
   - `input` (const AdapterSelectionInput &): n/a
 
 #### `~IAdapterCandidateProvider()=default`
-- Source: `include/llm/ai_orchestrator.h`:424
+- Source: `include/llm/ai_orchestrator.h`:436
 - Brief: IAdapter Candidate Provider.
 - Parameters: none
 - Return: Return value.
@@ -29520,13 +27677,13 @@ Status: active
 ### themis::llm::IRagCostModelService
 
 #### `std::optional< RagCostEstimate > estimate(const RagCostModelInput &input) const =0`
-- Source: `include/llm/ai_orchestrator.h`:480
+- Source: `include/llm/ai_orchestrator.h`:492
 - Brief: n/a
 - Parameters:
   - `input` (const RagCostModelInput &): n/a
 
 #### `~IRagCostModelService()=default`
-- Source: `include/llm/ai_orchestrator.h`:477
+- Source: `include/llm/ai_orchestrator.h`:489
 - Brief: IRag Cost Model Service.
 - Parameters: none
 - Return: Return value.
@@ -30342,7 +28499,7 @@ Status: active
 
 #### `InferenceResponse get()`
 - Source: `include/llm/inference_handle.h`:38
-- Brief: Wait for result (blocking).
+- Brief: Wait for result (blocking)
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Implements get without additional internal calls.
@@ -30608,19 +28765,19 @@ Status: active
 ### themis::llm::JsonWikiIndexReader
 
 #### `JsonWikiIndexReader(std::string index_path, bool auto_load=false)`
-- Source: `include/llm/wiki_index_store.h`:375
+- Source: `include/llm/wiki_index_store.h`:380
 - Brief: n/a
 - Parameters:
   - `index_path` (std::string): n/a
   - `auto_load` (bool): n/a
 
 #### `bool isReady() const noexcept override`
-- Source: `include/llm/wiki_index_store.h`:387
+- Source: `include/llm/wiki_index_store.h`:392
 - Brief: n/a
 - Parameters: none
 
 #### `void load()`
-- Source: `include/llm/wiki_index_store.h`:380
+- Source: `include/llm/wiki_index_store.h`:385
 - Brief: Load.
 - Parameters: none
 - Throws:
@@ -30628,7 +28785,7 @@ Status: active
 - Details: std::runtime_error if an error occurs. Calls: f(), is_open(), std::string(), what(), is_array(), clear(), reserve(), size().
 
 #### `std::vector< WikiChunk > query(const std::string &query_text, int top_k, float min_score) const override`
-- Source: `include/llm/wiki_index_store.h`:382
+- Source: `include/llm/wiki_index_store.h`:387
 - Brief: n/a
 - Parameters:
   - `query_text` (const std::string &): n/a
@@ -30636,7 +28793,7 @@ Status: active
   - `min_score` (float): n/a
 
 #### `std::size_t size() const noexcept`
-- Source: `include/llm/wiki_index_store.h`:389
+- Source: `include/llm/wiki_index_store.h`:394
 - Brief: n/a
 - Parameters: none
 
@@ -30737,7 +28894,7 @@ Status: active
 
 #### `std::shared_ptr< KVCacheBuffer > acquireBuffer()`
 - Source: `include/llm/kv_cache_buffer.h`:161
-- Brief: Acquire buffer for thread (thread-safe).
+- Brief: Acquire buffer for thread (thread-safe)
 - Parameters: none
 - Return: Return value.
 - Details: Acquire Buffer. Return value. Return value. Calls: lock(), size().
@@ -31647,7 +29804,7 @@ Status: active
   - `config` (const Config &): n/a
 
 #### `bool addEdge(const std::string &from_id, const std::string &to_id, LLMEdgeType edge_type, float weight)`
-- Source: `src/llm/llm_model_storage.cpp`:784
+- Source: `src/llm/llm_model_storage.cpp`:791
 - Brief: Add Edge.
 - Parameters:
   - `from_id` (const std::string &): Identifier of the from.
@@ -31658,7 +29815,7 @@ Status: active
 - Details: from_id Identifier of the from. to_id Identifier of the to. edge_type Input parameter. weight Input parameter. True when the operation succeeds. Calls: lock(), spdlog::error(), std::to_string(), std::chrono::system_clock::now(), time_since_epoch(), count(), dump(), edge_bytes().
 
 #### `bool deleteModel(const std::string &model_id)`
-- Source: `src/llm/llm_model_storage.cpp`:508
+- Source: `src/llm/llm_model_storage.cpp`:515
 - Brief: Delete Model.
 - Parameters:
   - `model_id` (const std::string &): Identifier of the model.
@@ -31666,13 +29823,13 @@ Status: active
 - Details: model_id Identifier of the model. True when the operation succeeds. Calls: lock(), spdlog::error(), get(), data_str(), begin(), end(), EncryptedBlob::fromBase64(), decryptToBytes().
 
 #### `bool exists(const std::string &model_id) const`
-- Source: `src/llm/llm_model_storage.cpp`:571
+- Source: `src/llm/llm_model_storage.cpp`:578
 - Brief: n/a
 - Parameters:
   - `model_id` (const std::string &): n/a
 
 #### `std::vector< std::pair< std::string, float > > findSimilarModels(const std::string &model_id, int k, float threshold) const`
-- Source: `src/llm/llm_model_storage.cpp`:944
+- Source: `src/llm/llm_model_storage.cpp`:951
 - Brief: n/a
 - Parameters:
   - `model_id` (const std::string &): n/a
@@ -31680,7 +29837,7 @@ Status: active
   - `threshold` (float): n/a
 
 #### `std::optional< storage::BlobRef > getBlobReference(const std::string &model_id)`
-- Source: `src/llm/llm_model_storage.cpp`:722
+- Source: `src/llm/llm_model_storage.cpp`:729
 - Brief: Helper: Get blob reference from metadata.
 - Parameters:
   - `model_id` (const std::string &): Identifier of the model.
@@ -31688,19 +29845,19 @@ Status: active
 - Details: model_id Identifier of the model. Return value. Calls: lock(), get(), data_str(), begin(), end(), EncryptedBlob::fromBase64(), decryptToBytes(), BaseEntity::deserialize().
 
 #### `std::vector< json > getEdges(const std::string &model_id, const std::string &direction) const`
-- Source: `src/llm/llm_model_storage.cpp`:823
+- Source: `src/llm/llm_model_storage.cpp`:830
 - Brief: n/a
 - Parameters:
   - `model_id` (const std::string &): n/a
   - `direction` (const std::string &): n/a
 
 #### `json getStats() const`
-- Source: `src/llm/llm_model_storage.cpp`:697
+- Source: `src/llm/llm_model_storage.cpp`:704
 - Brief: n/a
 - Parameters: none
 
 #### `std::vector< std::string > listModels(const std::optional< std::string > &filter) const`
-- Source: `src/llm/llm_model_storage.cpp`:587
+- Source: `src/llm/llm_model_storage.cpp`:594
 - Brief: n/a
 - Parameters:
   - `filter` (const std::optional< std::string > &): n/a
@@ -31714,7 +29871,7 @@ Status: active
 - Details: model_id Identifier of the model. Return value. Calls: lock(), spdlog::error(), get(), spdlog::warn(), data_str(), begin(), end(), EncryptedBlob::fromBase64().
 
 #### `std::optional< std::vector< uint8_t > > loadModelBlob(const std::string &model_id)`
-- Source: `src/llm/llm_model_storage.cpp`:370
+- Source: `src/llm/llm_model_storage.cpp`:377
 - Brief: Load Model Blob.
 - Parameters:
   - `model_id` (const std::string &): Identifier of the model.
@@ -31722,7 +29879,7 @@ Status: active
 - Details: model_id Identifier of the model. Return value. Calls: lock(), spdlog::error(), get(), spdlog::warn(), data_str(), begin(), end(), EncryptedBlob::fromBase64().
 
 #### `bool storeEmbedding(const std::string &model_id, const std::vector< float > &embedding)`
-- Source: `src/llm/llm_model_storage.cpp`:904
+- Source: `src/llm/llm_model_storage.cpp`:911
 - Brief: Store Embedding.
 - Parameters:
   - `model_id` (const std::string &): Identifier of the model.
@@ -31740,7 +29897,7 @@ Status: active
 - Details: metadata Input parameter. model_data Input parameter. True when the operation succeeds. Calls: lock(), spdlog::error(), setPrimaryKey(), setField(), Value(), empty(), dump(), size().
 
 #### `bool updateModel(const std::string &, const LLMModelMetadata &metadata)`
-- Source: `src/llm/llm_model_storage.cpp`:496
+- Source: `src/llm/llm_model_storage.cpp`:503
 - Brief: Update Model.
 - Parameters:
   - `<unnamed>` (const std::string &): n/a
@@ -31749,7 +29906,7 @@ Status: active
 - Details: param Input parameter. metadata Input parameter. True when the operation succeeds. Calls: lock(), storeModel().
 
 #### `bool updateUsageStats(const std::string &model_id, int64_t tokens_generated)`
-- Source: `src/llm/llm_model_storage.cpp`:629
+- Source: `src/llm/llm_model_storage.cpp`:636
 - Brief: Update Usage Stats.
 - Parameters:
   - `model_id` (const std::string &): Identifier of the model.
@@ -33132,7 +31289,7 @@ Status: active
 
 #### `std::string formatChatML(const std::vector< ChatMessage > &messages)`
 - Source: `include/llm/llama_wrapper.h`:672
-- Brief: Chat formatting helpers (implementation details).
+- Brief: Chat formatting helpers (implementation details)
 - Parameters:
   - `messages` (const std::vector< ChatMessage > &): Input parameter.
 - Return: Return value.
@@ -33403,7 +31560,7 @@ Status: active
 
 #### `void setMetricsCollector(monitoring::LLMMetricsCollector *collector)`
 - Source: `include/llm/llama_wrapper.h`:242
-- Brief: Set metrics collector (optional).
+- Brief: Set metrics collector (optional)
 - Parameters:
   - `collector` (monitoring::LLMMetricsCollector *): Input/output parameter.
 - Details: collector Input/output parameter. Implements setMetricsCollector without additional internal calls.
@@ -33491,7 +31648,7 @@ Status: active
 
 #### `void transitionToState(WrapperState new_state, const std::string &reason)`
 - Source: `include/llm/llama_wrapper.h`:550
-- Brief: State machine helpers (Production Readiness).
+- Brief: State machine helpers (Production Readiness)
 - Parameters:
   - `new_state` (WrapperState): Input parameter.
   - `reason` (const std::string &): Input parameter.
@@ -35285,31 +33442,40 @@ Status: active
 
 ### themis::llm::ModeSpecLoader
 
-#### `ModePack loadFromFile(const std::string &path, ValidationResult *result_out=nullptr)`
-- Source: `include/llm/ai_orchestrator.h`:176
+#### `ModePack loadFromFile(const std::string &path, ModeSpecValidationResult *result_out=nullptr)`
+- Source: `include/llm/ai_orchestrator.h`:187
 - Brief: Load From File.
 - Parameters:
   - `path` (const std::string &): Input parameter.
-  - `result_out` (ValidationResult *): Input/output parameter.
+  - `result_out` (ModeSpecValidationResult *): Input/output parameter.
 - Return: Return value.
 - Details: path Input parameter. result_out Input/output parameter. Return value. Calls: YAML::LoadFile(), parseModePack(), push_back(), what(), spdlog::error(), back(), validate(), spdlog::info().
 
-#### `ModePack loadFromString(const std::string &yaml_text, ValidationResult *result_out=nullptr)`
-- Source: `include/llm/ai_orchestrator.h`:179
+#### `ModePack loadFromString(const std::string &yaml_text, ModeSpecValidationResult *result_out=nullptr)`
+- Source: `include/llm/ai_orchestrator.h`:190
 - Brief: Load From String.
 - Parameters:
   - `yaml_text` (const std::string &): Input parameter.
-  - `result_out` (ValidationResult *): Input/output parameter.
+  - `result_out` (ModeSpecValidationResult *): Input/output parameter.
 - Return: Return value.
 - Details: yaml_text Input parameter. result_out Input/output parameter. Return value. Calls: YAML::Load(), parseModePack(), push_back(), std::string(), what(), spdlog::error(), back(), validate().
 
-#### `ValidationResult validate(const ModePack &pack)`
-- Source: `include/llm/ai_orchestrator.h`:187
-- Brief: Validate.
+#### `ModeSpecValidationResult validate(const ModePack &pack)`
+- Source: `include/llm/ai_orchestrator.h`:199
+- Brief: Validate a loaded mode pack for schema and cross-reference consistency.
 - Parameters:
   - `pack` (const ModePack &): Input parameter.
-- Return: Return value.
-- Details: pack Input parameter. Return value. pack Input parameter. Return value. Calls: push_back(), spdlog::error(), spdlog::warn(), empty(), warn(), err(), std::to_string(), std::find().
+- Return: Validation result containing ok status plus aggregated errors and warnings. ok is false when blocking validation errors are present.
+- Details: Validate. pack Parsed mode-pack content to validate. Validation result containing ok status plus aggregated errors and warnings. ok is false when blocking validation errors are present. pack Input parameter. Return value. Calls: push_back(), spdlog::error(), spdlog::warn(), empty(), warn(), err(), std::to_string(), std::find().
+
+### themis::llm::ModeSpecValidationResult
+
+#### `operator bool() const`
+- Source: `include/llm/ai_orchestrator.h`:182
+- Brief: Evaluate validation success in boolean contexts.
+- Parameters: none
+- Return: true when validation succeeded and no blocking errors were found.
+- Details: true when validation succeeded and no blocking errors were found.
 
 ### themis::llm::ModelArchitecture
 
@@ -35405,7 +33571,7 @@ Status: active
 ### themis::llm::ModelEntry
 
 #### `~ModelEntry()=default`
-- Source: `include/llm/ai_orchestrator.h`:142
+- Source: `include/llm/ai_orchestrator.h`:146
 - Brief: Model Entry.
 - Parameters: none
 - Return: Return value.
@@ -37999,7 +36165,7 @@ Status: active
 
 #### `void sharePrefix(uint64_t new_sequence_id, uint64_t parent_sequence_id, size_t prefix_length)`
 - Source: `include/llm/paged_kv_cache.h`:74
-- Brief: Share prefix between sequences (Copy-on-Write).
+- Brief: Share prefix between sequences (Copy-on-Write)
 - Parameters:
   - `new_sequence_id` (uint64_t): Identifier of the new sequence.
   - `parent_sequence_id` (uint64_t): Identifier of the parent sequence.
@@ -39167,7 +37333,7 @@ Status: active
 ### themis::llm::RunLatency
 
 #### `~RunLatency()=default`
-- Source: `include/llm/ai_orchestrator.h`:303
+- Source: `include/llm/ai_orchestrator.h`:315
 - Brief: Run Latency.
 - Parameters: none
 - Return: Return value.
@@ -39176,7 +37342,7 @@ Status: active
 ### themis::llm::RunMetadata
 
 #### `~RunMetadata()=default`
-- Source: `include/llm/ai_orchestrator.h`:315
+- Source: `include/llm/ai_orchestrator.h`:327
 - Brief: Run Metadata.
 - Parameters: none
 - Return: Return value.
@@ -39224,7 +37390,7 @@ Status: active
 - Parameters:
   - `data` (const std::string &): Input parameter.
 - Return: Return value.
-- Details: data Input parameter. Return value. data Input parameter. Return value. Calls: empty(), nlohmann::json::parse(), substr(), HLCTimestamp::from(), value(), std::string(), clear(), reserve().
+- Details: data Input parameter. Return value. data Input parameter. Return value. Supports both version 1 (JSON, legacy) and version 2 (binary, current).
 
 #### `std::optional< std::pair< HLCTimestamp, std::string > > findMostRecentSnapshot(const std::string &session_id)`
 - Source: `include/llm/ssm_state_rocksdb_store.h`:127
@@ -39284,7 +37450,7 @@ Status: active
 - Parameters:
   - `snapshot` (const SSMStateSnapshot &): Input parameter.
 - Return: Return value.
-- Details: snapshot Input parameter. Return value. snapshot Input parameter. Return value. Calls: push_back(), physical(), logical(), std::setw(), std::setfill(), str(), dump(), append().
+- Details: snapshot Input parameter. Return value. snapshot Input parameter. Return value. Binary serialization format: version(1) \| physical(8) \| logical(8) \| fingerprint_size(4) \| fingerprint \| seq_counter(8) \| data_size(4) \| data
 
 #### `~SSMStateRocksDBStore()`
 - Source: `include/llm/ssm_state_rocksdb_store.h`:66
@@ -39325,7 +37491,7 @@ Status: active
 
 #### `ScopedBIO(BIO *bio=nullptr) noexcept`
 - Source: `include/llm/raii_wrappers.h`:145
-- Brief: Construct from BIO* (takes ownership).
+- Brief: Construct from BIO* (takes ownership)
 - Parameters:
   - `bio` (BIO *): n/a
 
@@ -39485,7 +37651,7 @@ Status: active
 
 #### `ScopedEVPContext(EVP_MD_CTX *ctx=nullptr) noexcept`
 - Source: `include/llm/raii_wrappers.h`:286
-- Brief: Construct from EVP_MD_CTX* (takes ownership).
+- Brief: Construct from EVP_MD_CTX* (takes ownership)
 - Parameters:
   - `ctx` (EVP_MD_CTX *): n/a
 
@@ -39543,7 +37709,7 @@ Status: active
 
 #### `ScopedEVPKey(EVP_PKEY *pkey=nullptr) noexcept`
 - Source: `include/llm/raii_wrappers.h`:215
-- Brief: Construct from EVP_PKEY* (takes ownership).
+- Brief: Construct from EVP_PKEY* (takes ownership)
 - Parameters:
   - `pkey` (EVP_PKEY *): n/a
 
@@ -39601,7 +37767,7 @@ Status: active
 
 #### `ScopedFile(FILE *fp=nullptr) noexcept`
 - Source: `include/llm/raii_wrappers.h`:70
-- Brief: Construct from FILE* (takes ownership).
+- Brief: Construct from FILE* (takes ownership)
 - Parameters:
   - `fp` (FILE *): n/a
 
@@ -39624,7 +37790,7 @@ Status: active
 
 #### `operator bool() const noexcept`
 - Source: `include/llm/raii_wrappers.h`:99
-- Brief: Explicit conversion to bool (valid if file is open).
+- Brief: Explicit conversion to bool (valid if file is open)
 - Parameters: none
 
 #### `ScopedFile & operator=(ScopedFile &&other) noexcept`
@@ -40315,7 +38481,7 @@ Status: active
 ### themis::llm::SubagentCoordinatorImpl
 
 #### `SubagentCoordinatorImpl(std::shared_ptr< SubagentFactory > factory)`
-- Source: `src/llm/subagent_coordinator_impl.cpp`:30
+- Source: `src/llm/subagent_coordinator_impl.cpp`:67
 - Brief: Subagent Coordinator Impl.
 - Parameters:
   - `factory` (std::shared_ptr< SubagentFactory >): Input parameter.
@@ -40323,21 +38489,21 @@ Status: active
 - Details: factory Input parameter. Return value.
 
 #### `CoordinationDiagnostics getLastDiagnostics() override`
-- Source: `src/llm/subagent_coordinator_impl.cpp`:313
+- Source: `src/llm/subagent_coordinator_impl.cpp`:355
 - Brief: Get Last Diagnostics.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `CoordinatorStats getStats() override`
-- Source: `src/llm/subagent_coordinator_impl.cpp`:323
+- Source: `src/llm/subagent_coordinator_impl.cpp`:365
 - Brief: Get Stats.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `SubagentCoordinatorAggregateResult inferMultiple(const std::vector< std::string > &subagent_ids, const InferenceRequest &request, const SubagentCoordinatorConfig &config) override`
-- Source: `src/llm/subagent_coordinator_impl.cpp`:35
+- Source: `src/llm/subagent_coordinator_impl.cpp`:72
 - Brief: Infer Multiple.
 - Parameters:
   - `subagent_ids` (const std::vector< std::string > &): Input parameter.
@@ -40347,7 +38513,7 @@ Status: active
 - Details: subagent_ids Input parameter. request Input parameter. config Input parameter. Return value.
 
 #### `std::vector< SubagentCoordinatorAggregateResult > inferMultipleBatch(const std::vector< std::string > &subagent_ids, const std::vector< InferenceRequest > &requests, const SubagentCoordinatorConfig &config) override`
-- Source: `src/llm/subagent_coordinator_impl.cpp`:300
+- Source: `src/llm/subagent_coordinator_impl.cpp`:342
 - Brief: Infer Multiple Batch.
 - Parameters:
   - `subagent_ids` (const std::vector< std::string > &): Input parameter.
@@ -40357,7 +38523,7 @@ Status: active
 - Details: subagent_ids Input parameter. requests Input parameter. config Input parameter. Return value.
 
 #### `void resetStats() override`
-- Source: `src/llm/subagent_coordinator_impl.cpp`:333
+- Source: `src/llm/subagent_coordinator_impl.cpp`:375
 - Brief: Reset Stats.
 - Parameters: none
 
@@ -40505,7 +38671,7 @@ Status: active
 ### themis::llm::SubagentFactoryImpl
 
 #### `SubagentFactoryImpl(ILLMPlugin *plugin, std::shared_ptr< SharedWorkerPool > worker_pool, std::shared_ptr< ModelLoader > model_loader, std::shared_ptr< MultiLoRAManager > lora_manager, std::shared_ptr< TokenQuotaManager > quota_manager, const Config &config)`
-- Source: `src/llm/subagent_factory_impl.cpp`:539
+- Source: `src/llm/subagent_factory_impl.cpp`:553
 - Brief: n/a
 - Parameters:
   - `plugin` (ILLMPlugin *): n/a
@@ -40516,7 +38682,7 @@ Status: active
   - `config` (const Config &): n/a
 
 #### `SubagentResult< std::shared_ptr< Subagent > > createSubagent(const SubagentConfig &config) override`
-- Source: `src/llm/subagent_factory_impl.cpp`:586
+- Source: `src/llm/subagent_factory_impl.cpp`:600
 - Brief: Create Subagent.
 - Parameters:
   - `config` (const SubagentConfig &): Input parameter.
@@ -40524,21 +38690,21 @@ Status: active
 - Details: config Input parameter. Return value.
 
 #### `SubagentResult< void > destroySubagent(const std::string &subagent_id, int timeout_ms) override`
-- Source: `src/llm/subagent_factory_impl.cpp`:674
+- Source: `src/llm/subagent_factory_impl.cpp`:688
 - Brief: n/a
 - Parameters:
   - `subagent_id` (const std::string &): n/a
   - `timeout_ms` (int): n/a
 
 #### `FactoryStats getFactoryStats() override`
-- Source: `src/llm/subagent_factory_impl.cpp`:784
+- Source: `src/llm/subagent_factory_impl.cpp`:798
 - Brief: Get Factory Stats.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `std::shared_ptr< Subagent > getSubagent(const std::string &subagent_id) override`
-- Source: `src/llm/subagent_factory_impl.cpp`:707
+- Source: `src/llm/subagent_factory_impl.cpp`:721
 - Brief: Get Subagent.
 - Parameters:
   - `subagent_id` (const std::string &): Identifier of the subagent.
@@ -40546,7 +38712,7 @@ Status: active
 - Details: subagent_id Identifier of the subagent. Return value.
 
 #### `SubagentResult< SubagentMetrics > getSubagentMetrics(const std::string &subagent_id) override`
-- Source: `src/llm/subagent_factory_impl.cpp`:734
+- Source: `src/llm/subagent_factory_impl.cpp`:748
 - Brief: Get Subagent Metrics.
 - Parameters:
   - `subagent_id` (const std::string &): Identifier of the subagent.
@@ -40554,7 +38720,7 @@ Status: active
 - Details: subagent_id Identifier of the subagent. Return value.
 
 #### `SubagentResult< SubagentState > getSubagentState(const std::string &subagent_id) override`
-- Source: `src/llm/subagent_factory_impl.cpp`:743
+- Source: `src/llm/subagent_factory_impl.cpp`:757
 - Brief: Get Subagent State.
 - Parameters:
   - `subagent_id` (const std::string &): Identifier of the subagent.
@@ -40562,14 +38728,14 @@ Status: active
 - Details: subagent_id Identifier of the subagent. Return value.
 
 #### `std::vector< std::string > listSubagents() override`
-- Source: `src/llm/subagent_factory_impl.cpp`:718
+- Source: `src/llm/subagent_factory_impl.cpp`:732
 - Brief: List Subagents.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `SubagentResult< void > registerPromptPolicy(const std::string &policy_id, std::shared_ptr< PromptPolicy > policy) override`
-- Source: `src/llm/subagent_factory_impl.cpp`:752
+- Source: `src/llm/subagent_factory_impl.cpp`:766
 - Brief: Register Prompt Policy.
 - Parameters:
   - `policy_id` (const std::string &): Identifier of the policy.
@@ -40578,7 +38744,7 @@ Status: active
 - Details: policy_id Identifier of the policy. policy Input parameter. Return value.
 
 #### `SubagentResult< void > unregisterPromptPolicy(const std::string &policy_id) override`
-- Source: `src/llm/subagent_factory_impl.cpp`:767
+- Source: `src/llm/subagent_factory_impl.cpp`:781
 - Brief: Unregister Prompt Policy.
 - Parameters:
   - `policy_id` (const std::string &): Identifier of the policy.
@@ -40586,7 +38752,7 @@ Status: active
 - Details: policy_id Identifier of the policy. Return value.
 
 #### `std::vector< SubagentValidationError > validateConfig(const SubagentConfig &config) override`
-- Source: `src/llm/subagent_factory_impl.cpp`:558
+- Source: `src/llm/subagent_factory_impl.cpp`:572
 - Brief: Validate Config.
 - Parameters:
   - `config` (const SubagentConfig &): Input parameter.
@@ -40606,7 +38772,7 @@ Status: active
   - `prompt_policy` (std::shared_ptr< PromptPolicy >): n/a
 
 #### `bool beginInference(std::string *error)`
-- Source: `src/llm/subagent_factory_impl.cpp`:354
+- Source: `src/llm/subagent_factory_impl.cpp`:368
 - Brief: Begin Inference.
 - Parameters:
   - `error` (std::string *): Input/output parameter.
@@ -40614,7 +38780,7 @@ Status: active
 - Details: error Input/output parameter. True when the operation succeeds. Calls: lock(), endInference().
 
 #### `QuotaCheckResult checkQuota(size_t estimated_tokens) const override`
-- Source: `src/llm/subagent_factory_impl.cpp`:498
+- Source: `src/llm/subagent_factory_impl.cpp`:512
 - Brief: Check Quota.
 - Parameters:
   - `estimated_tokens` (size_t): Input parameter.
@@ -40629,7 +38795,7 @@ Status: active
 - Details: Return value.
 
 #### `QuotaCheckResult consumeQuota(size_t tokens) override`
-- Source: `src/llm/subagent_factory_impl.cpp`:505
+- Source: `src/llm/subagent_factory_impl.cpp`:519
 - Brief: Consume Quota.
 - Parameters:
   - `tokens` (size_t): Input parameter.
@@ -40637,20 +38803,20 @@ Status: active
 - Details: tokens Input parameter. Return value.
 
 #### `void endInference()`
-- Source: `src/llm/subagent_factory_impl.cpp`:385
+- Source: `src/llm/subagent_factory_impl.cpp`:399
 - Brief: End Inference.
 - Parameters: none
 - Details: Calls: lock(), notify_all().
 
 #### `std::string getLastError() const override`
-- Source: `src/llm/subagent_factory_impl.cpp`:446
+- Source: `src/llm/subagent_factory_impl.cpp`:460
 - Brief: Get Last Error.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `SubagentMetrics getMetrics() const override`
-- Source: `src/llm/subagent_factory_impl.cpp`:424
+- Source: `src/llm/subagent_factory_impl.cpp`:438
 - Brief: Get Metrics.
 - Parameters: none
 - Return: Return value.
@@ -40671,28 +38837,28 @@ Status: active
 - Details: Return value.
 
 #### `SubagentInferenceResult infer(const InferenceRequest &request, const std::optional< LLMCorrelationContext > &ctx) override`
-- Source: `src/llm/subagent_factory_impl.cpp`:179
+- Source: `src/llm/subagent_factory_impl.cpp`:193
 - Brief: n/a
 - Parameters:
   - `request` (const InferenceRequest &): n/a
   - `ctx` (const std::optional< LLMCorrelationContext > &): n/a
 
 #### `std::future< SubagentInferenceResult > inferAsync(const InferenceRequest &request, const std::optional< LLMCorrelationContext > &ctx) override`
-- Source: `src/llm/subagent_factory_impl.cpp`:323
+- Source: `src/llm/subagent_factory_impl.cpp`:337
 - Brief: n/a
 - Parameters:
   - `request` (const InferenceRequest &): n/a
   - `ctx` (const std::optional< LLMCorrelationContext > &): n/a
 
 #### `std::vector< SubagentInferenceResult > inferBatch(const std::vector< InferenceRequest > &requests, const std::optional< LLMCorrelationContext > &ctx) override`
-- Source: `src/llm/subagent_factory_impl.cpp`:409
+- Source: `src/llm/subagent_factory_impl.cpp`:423
 - Brief: n/a
 - Parameters:
   - `requests` (const std::vector< InferenceRequest > &): n/a
   - `ctx` (const std::optional< LLMCorrelationContext > &): n/a
 
 #### `SubagentInferenceResult inferStream(const InferenceRequest &request, std::function< void(const std::string &)> on_token, const std::optional< LLMCorrelationContext > &ctx) override`
-- Source: `src/llm/subagent_factory_impl.cpp`:397
+- Source: `src/llm/subagent_factory_impl.cpp`:411
 - Brief: n/a
 - Parameters:
   - `request` (const InferenceRequest &): n/a
@@ -40700,7 +38866,7 @@ Status: active
   - `ctx` (const std::optional< LLMCorrelationContext > &): n/a
 
 #### `bool isReady() const override`
-- Source: `src/llm/subagent_factory_impl.cpp`:460
+- Source: `src/llm/subagent_factory_impl.cpp`:474
 - Brief: Is Ready.
 - Parameters: none
 - Return: True when the operation succeeds.
@@ -40713,37 +38879,37 @@ Status: active
   - `timeout_ms` (int): n/a
 
 #### `SubagentResult< void > pause() override`
-- Source: `src/llm/subagent_factory_impl.cpp`:470
+- Source: `src/llm/subagent_factory_impl.cpp`:484
 - Brief: Pause.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `void resetMetrics() override`
-- Source: `src/llm/subagent_factory_impl.cpp`:434
+- Source: `src/llm/subagent_factory_impl.cpp`:448
 - Brief: Reset Metrics.
 - Parameters: none
 
 #### `void resetQuota() override`
-- Source: `src/llm/subagent_factory_impl.cpp`:513
+- Source: `src/llm/subagent_factory_impl.cpp`:527
 - Brief: Reset Quota.
 - Parameters: none
 
 #### `SubagentResult< void > resume() override`
-- Source: `src/llm/subagent_factory_impl.cpp`:484
+- Source: `src/llm/subagent_factory_impl.cpp`:498
 - Brief: Resume.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `SubagentResult< void > unload(int timeout_ms) override`
-- Source: `src/llm/subagent_factory_impl.cpp`:131
+- Source: `src/llm/subagent_factory_impl.cpp`:145
 - Brief: n/a
 - Parameters:
   - `timeout_ms` (int): n/a
 
 #### `SubagentResult< void > warm(int timeout_ms) override`
-- Source: `src/llm/subagent_factory_impl.cpp`:111
+- Source: `src/llm/subagent_factory_impl.cpp`:125
 - Brief: n/a
 - Parameters:
   - `timeout_ms` (int): n/a
@@ -41202,24 +39368,24 @@ Status: active
 ### themis::llm::TokenQuotaManager
 
 #### `TokenQuotaManager()=default`
-- Source: `include/llm/token_quota_manager.h`:34
+- Source: `include/llm/token_quota_manager.h`:35
 - Brief: n/a
 - Parameters: none
 
 #### `TokenQuotaManager(TokenQuotaManager &&)=delete`
-- Source: `include/llm/token_quota_manager.h`:43
+- Source: `include/llm/token_quota_manager.h`:44
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (TokenQuotaManager &&): n/a
 
 #### `TokenQuotaManager(const TokenQuotaManager &)=delete`
-- Source: `include/llm/token_quota_manager.h`:41
+- Source: `include/llm/token_quota_manager.h`:42
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const TokenQuotaManager &): n/a
 
 #### `QuotaCheckResult check(const std::string &user_id, const std::string &model_id, size_t estimated_tokens) const`
-- Source: `include/llm/token_quota_manager.h`:73
+- Source: `include/llm/token_quota_manager.h`:74
 - Brief: Check.
 - Parameters:
   - `user_id` (const std::string &): Identifier of the user.
@@ -41229,7 +39395,7 @@ Status: active
 - Details: user_id Identifier of the user. model_id Identifier of the model. estimated_tokens Input parameter. Return value.
 
 #### `void consume(const std::string &user_id, const std::string &model_id, size_t tokens)`
-- Source: `include/llm/token_quota_manager.h`:83
+- Source: `include/llm/token_quota_manager.h`:84
 - Brief: Consume.
 - Parameters:
   - `user_id` (const std::string &): Identifier of the user.
@@ -41238,7 +39404,7 @@ Status: active
 - Details: user_id Identifier of the user. model_id Identifier of the model. tokens Input parameter. user_id Identifier of the user. model_id Identifier of the model. tokens Input parameter. Calls: makeKey(), lock(), find(), end(), push_back(), std::chrono::steady_clock::now(), spdlog::debug().
 
 #### `size_t currentUsage(const std::string &user_id, const std::string &model_id) const`
-- Source: `include/llm/token_quota_manager.h`:93
+- Source: `include/llm/token_quota_manager.h`:94
 - Brief: Current Usage.
 - Parameters:
   - `user_id` (const std::string &): Identifier of the user.
@@ -41247,7 +39413,7 @@ Status: active
 - Details: user_id Identifier of the user. model_id Identifier of the model. Return value.
 
 #### `std::optional< size_t > getLimit(const std::string &user_id, const std::string &model_id) const`
-- Source: `include/llm/token_quota_manager.h`:108
+- Source: `include/llm/token_quota_manager.h`:109
 - Brief: Get Limit.
 - Parameters:
   - `user_id` (const std::string &): Identifier of the user.
@@ -41256,7 +39422,7 @@ Status: active
 - Details: user_id Identifier of the user. model_id Identifier of the model. Return value.
 
 #### `std::string makeKey(const std::string &user_id, const std::string &model_id)`
-- Source: `include/llm/token_quota_manager.h`:140
+- Source: `include/llm/token_quota_manager.h`:141
 - Brief: Make Key.
 - Parameters:
   - `user_id` (const std::string &): Identifier of the user.
@@ -41265,26 +39431,26 @@ Status: active
 - Details: user_id Identifier of the user. model_id Identifier of the model. Return value. Implements makeKey without additional internal calls.
 
 #### `TokenQuotaManager & operator=(TokenQuotaManager &&)=delete`
-- Source: `include/llm/token_quota_manager.h`:44
+- Source: `include/llm/token_quota_manager.h`:45
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (TokenQuotaManager &&): n/a
 
 #### `TokenQuotaManager & operator=(const TokenQuotaManager &)=delete`
-- Source: `include/llm/token_quota_manager.h`:42
+- Source: `include/llm/token_quota_manager.h`:43
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const TokenQuotaManager &): n/a
 
 #### `void prune(QuotaEntry &entry)`
-- Source: `include/llm/token_quota_manager.h`:150
+- Source: `include/llm/token_quota_manager.h`:151
 - Brief: Discard events older than WINDOW.
 - Parameters:
   - `entry` (QuotaEntry &): Input/output parameter.
 - Details: static entry Input/output parameter. Caller must hold mutex_. entry Input/output parameter. Calls: std::chrono::steady_clock::now(), std::remove_if(), begin(), end(), erase().
 
 #### `bool removeQuota(const std::string &user_id, const std::string &model_id)`
-- Source: `include/llm/token_quota_manager.h`:64
+- Source: `include/llm/token_quota_manager.h`:65
 - Brief: Remove Quota.
 - Parameters:
   - `user_id` (const std::string &): Identifier of the user.
@@ -41293,7 +39459,7 @@ Status: active
 - Details: user_id Identifier of the user. model_id Identifier of the model. True when the operation succeeds. user_id Identifier of the user. model_id Identifier of the model. True when the operation succeeds. Calls: makeKey(), lock(), erase().
 
 #### `void setQuota(const std::string &user_id, const std::string &model_id, size_t limit)`
-- Source: `include/llm/token_quota_manager.h`:54
+- Source: `include/llm/token_quota_manager.h`:55
 - Brief: Set Quota.
 - Parameters:
   - `user_id` (const std::string &): Identifier of the user.
@@ -41302,33 +39468,33 @@ Status: active
 - Details: user_id Identifier of the user. model_id Identifier of the model. limit Input parameter. user_id Identifier of the user. model_id Identifier of the model. limit Input parameter. Calls: makeKey(), lock(), spdlog::debug().
 
 #### `std::string tenantKey(const std::string &tenant_id, const std::string &model_id)`
-- Source: `include/llm/token_quota_manager.h`:115
+- Source: `include/llm/token_quota_manager.h`:116
 - Brief: n/a
 - Parameters:
   - `tenant_id` (const std::string &): n/a
   - `model_id` (const std::string &): n/a
 
 #### `size_t tokensConsumed(const std::string &user_id, const std::string &model_id) const`
-- Source: `include/llm/token_quota_manager.h`:96
+- Source: `include/llm/token_quota_manager.h`:97
 - Brief: n/a
 - Parameters:
   - `user_id` (const std::string &): n/a
   - `model_id` (const std::string &): n/a
 
 #### `~TokenQuotaManager()=default`
-- Source: `include/llm/token_quota_manager.h`:35
+- Source: `include/llm/token_quota_manager.h`:36
 - Brief: n/a
 - Parameters: none
 
 ### themis::llm::ToolRegistry
 
 #### `ToolRegistry()`
-- Source: `include/llm/ai_orchestrator.h`:198
+- Source: `include/llm/ai_orchestrator.h`:210
 - Brief: n/a
 - Parameters: none
 
 #### `std::optional< ToolSpec > getSpec(const std::string &tool_name) const`
-- Source: `include/llm/ai_orchestrator.h`:267
+- Source: `include/llm/ai_orchestrator.h`:279
 - Brief: Get Spec.
 - Parameters:
   - `tool_name` (const std::string &): Name of the tool.
@@ -41336,7 +39502,7 @@ Status: active
 - Details: tool_name Name of the tool. Return value.
 
 #### `json invokeTool(const std::string &tool_name, const json &args, const ModeSpec &mode) const`
-- Source: `include/llm/ai_orchestrator.h`:243
+- Source: `include/llm/ai_orchestrator.h`:255
 - Brief: ── Dispatch ──────────────────────────────────────────────────────────────
 - Parameters:
   - `tool_name` (const std::string &): Name of the tool.
@@ -41346,7 +39512,7 @@ Status: active
 - Details: tool_name Name of the tool. args Input parameter. mode Input parameter. Return value.
 
 #### `bool isAllowed(const std::string &tool_name, const ModeSpec &mode) const`
-- Source: `include/llm/ai_orchestrator.h`:253
+- Source: `include/llm/ai_orchestrator.h`:265
 - Brief: Is Allowed.
 - Parameters:
   - `tool_name` (const std::string &): Name of the tool.
@@ -41355,7 +39521,7 @@ Status: active
 - Details: tool_name Name of the tool. mode Input parameter. True when the operation succeeds.
 
 #### `bool isPluginTool(const std::string &name) const`
-- Source: `include/llm/ai_orchestrator.h`:274
+- Source: `include/llm/ai_orchestrator.h`:286
 - Brief: Is Plugin Tool.
 - Parameters:
   - `name` (const std::string &): Input parameter.
@@ -41363,14 +39529,14 @@ Status: active
 - Details: name Input parameter. True when the operation succeeds.
 
 #### `std::vector< std::string > listTools() const`
-- Source: `include/llm/ai_orchestrator.h`:260
+- Source: `include/llm/ai_orchestrator.h`:272
 - Brief: List Tools.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `Result< void > loadToolPlugin(const std::string &path, const std::string &config="{}")`
-- Source: `include/llm/ai_orchestrator.h`:211
+- Source: `include/llm/ai_orchestrator.h`:223
 - Brief: ── Dynamic loading ────────────────────────────────────────────────────────────
 - Parameters:
   - `path` (const std::string &): Input parameter.
@@ -41379,7 +39545,7 @@ Status: active
 - Details: path Input parameter. config Input parameter. Return value. Calls: loadPluginFromPath(), tl::unexpected(), error(), value(), unloadPlugin(), getName(), ErrVoid(), registerPluginTool().
 
 #### `Result< size_t > loadToolsFromDirectory(const std::string &directory)`
-- Source: `include/llm/ai_orchestrator.h`:219
+- Source: `include/llm/ai_orchestrator.h`:231
 - Brief: Load Tools From Directory.
 - Parameters:
   - `directory` (const std::string &): Input parameter.
@@ -41387,14 +39553,14 @@ Status: active
 - Details: directory Input parameter. Return value. directory Input parameter. Return value. Calls: scanPluginDirectory(), tl::unexpected(), error(), listPlugins(), isPluginLoaded(), loadPlugin(), spdlog::warn(), message().
 
 #### `void registerPluginTool(IThemisTool *tool)`
-- Source: `include/llm/ai_orchestrator.h`:287
+- Source: `include/llm/ai_orchestrator.h`:299
 - Brief: Register Plugin Tool.
 - Parameters:
   - `tool` (IThemisTool *): Input/output parameter.
 - Details: ── Private helper ──────────────────────────────────────────────────────────── tool Input/output parameter. tool Input/output parameter. Calls: getName(), getVersion(), inputSchema(), execute(), lock(), std::move(), spdlog::info().
 
 #### `void registerTool(const ToolSpec &spec, ToolHandler handler)`
-- Source: `include/llm/ai_orchestrator.h`:207
+- Source: `include/llm/ai_orchestrator.h`:219
 - Brief: ── Static / built-in tool registration ──────────────────────────────────
 - Parameters:
   - `spec` (const ToolSpec &): Input parameter.
@@ -41404,7 +39570,7 @@ Status: active
 - Details: Register Tool. spec Input parameter. handler Input parameter. spec Input parameter. handler Input parameter. std::invalid_argument if an error occurs. Calls: empty(), lock(), std::move(), spdlog::debug().
 
 #### `Result< void > reloadTool(const std::string &name)`
-- Source: `include/llm/ai_orchestrator.h`:226
+- Source: `include/llm/ai_orchestrator.h`:238
 - Brief: Reload Tool.
 - Parameters:
   - `name` (const std::string &): Input parameter.
@@ -41412,7 +39578,7 @@ Status: active
 - Details: name Input parameter. Return value. name Input parameter. Return value. Calls: lock(), find(), end(), ErrVoid(), reloadPlugin(), tl::unexpected(), error(), getPlugin().
 
 #### `Result< void > unloadTool(const std::string &name)`
-- Source: `include/llm/ai_orchestrator.h`:233
+- Source: `include/llm/ai_orchestrator.h`:245
 - Brief: Unload Tool.
 - Parameters:
   - `name` (const std::string &): Input parameter.
@@ -41420,7 +39586,7 @@ Status: active
 - Details: name Input parameter. Return value. name Input parameter. Return value. Calls: lock(), find(), end(), erase(), isPluginLoaded(), unloadPlugin(), OkVoid().
 
 #### `~ToolRegistry()`
-- Source: `include/llm/ai_orchestrator.h`:199
+- Source: `include/llm/ai_orchestrator.h`:211
 - Brief: n/a
 - Parameters: none
 
@@ -41510,7 +39676,7 @@ Status: active
 ### themis::llm::TrainingDataIterator
 
 #### `TrainingDataIterator(std::shared_ptr< RocksDBWrapper > db, std::shared_ptr< exporters::JSONLLLMExporter > exporter)`
-- Source: `include/llm/training_data_iterator.h`:103
+- Source: `include/llm/training_data_iterator.h`:111
 - Brief: Training Data Iterator.
 - Parameters:
   - `db` (std::shared_ptr< RocksDBWrapper >): Input parameter.
@@ -41519,7 +39685,7 @@ Status: active
 - Details: db Input parameter. exporter Input parameter. Return value.
 
 #### `TrainingDataIterator(std::shared_ptr< RocksDBWrapper > db, std::shared_ptr< exporters::JSONLLLMExporter > exporter, Config config)`
-- Source: `include/llm/training_data_iterator.h`:115
+- Source: `include/llm/training_data_iterator.h`:135
 - Brief: Training Data Iterator.
 - Parameters:
   - `db` (std::shared_ptr< RocksDBWrapper >): Input parameter.
@@ -41528,93 +39694,117 @@ Status: active
 - Return: Return value.
 - Details: db Input parameter. exporter Input parameter. config Input parameter. Return value.
 
-#### `TrainingSample convertToTrainingSample(const BaseEntity &entity)`
-- Source: `include/llm/training_data_iterator.h`:216
+#### `TrainingDataIterator(std::shared_ptr< RocksDBWrapper > db, std::shared_ptr< exporters::JSONLLLMExporter > exporter, Config config, query::QueryEngine *query_engine)`
+- Source: `include/llm/training_data_iterator.h`:148
+- Brief: Construct an iterator with custom batching and a borrowed query engine.
+- Parameters:
+  - `db` (std::shared_ptr< RocksDBWrapper >): Open RocksDB wrapper used by the query engine.
+  - `exporter` (std::shared_ptr< exporters::JSONLLLMExporter >): Exporter configuration used for field mappings and quality policy.
+  - `config` (Config): Batch and filtering limits; batch_size must be greater than zero.
+  - `query_engine` (query::QueryEngine *): Non-owning query engine; it must outlive this iterator.
+- Details: db Open RocksDB wrapper used by the query engine. exporter Exporter configuration used for field mappings and quality policy. config Batch and filtering limits; batch_size must be greater than zero. query_engine Non-owning query engine; it must outlive this iterator.
+
+#### `TrainingDataIterator(std::shared_ptr< RocksDBWrapper > db, std::shared_ptr< exporters::JSONLLLMExporter > exporter, query::QueryEngine *query_engine)`
+- Source: `include/llm/training_data_iterator.h`:122
+- Brief: Construct an iterator with a borrowed AQL query engine.
+- Parameters:
+  - `db` (std::shared_ptr< RocksDBWrapper >): Open RocksDB wrapper used by the query engine.
+  - `exporter` (std::shared_ptr< exporters::JSONLLLMExporter >): Exporter configuration used for field mappings and quality policy.
+  - `query_engine` (query::QueryEngine *): Non-owning query engine; it must outlive this iterator.
+- Details: db Open RocksDB wrapper used by the query engine. exporter Exporter configuration used for field mappings and quality policy. query_engine Non-owning query engine; it must outlive this iterator.
+
+#### `TrainingSample convertToTrainingSample(const BaseEntity &row) const`
+- Source: `include/llm/training_data_iterator.h`:263
 - Brief: Convert To Training Sample.
 - Parameters:
-  - `entity` (const BaseEntity &): Input parameter.
+  - `row` (const BaseEntity &): n/a
 - Return: Return value.
 - Details: entity Input parameter. Return value.
 
 #### `void enrichSampleWithGraphContext(TrainingSample &sample)`
-- Source: `include/llm/training_data_iterator.h`:225
-- Brief: Enrich Sample With Graph Context.
+- Source: `include/llm/training_data_iterator.h`:272
+- Brief: Attach precomputed graph context from row metadata when enabled.
 - Parameters:
   - `sample` (TrainingSample &): Input/output parameter.
 - Details: sample Input/output parameter.
 
 #### `void enrichSampleWithRelationalContext(TrainingSample &sample)`
-- Source: `include/llm/training_data_iterator.h`:235
-- Brief: Enrich Sample With Relational Context.
+- Source: `include/llm/training_data_iterator.h`:282
+- Brief: Attach precomputed relational context from row metadata when enabled.
 - Parameters:
   - `sample` (TrainingSample &): Input/output parameter.
 - Details: sample Input/output parameter.
 
 #### `void enrichSampleWithVectorContext(TrainingSample &sample)`
-- Source: `include/llm/training_data_iterator.h`:230
-- Brief: Enrich Sample With Vector Context.
+- Source: `include/llm/training_data_iterator.h`:277
+- Brief: Attach precomputed vector context from row metadata when enabled.
 - Parameters:
   - `sample` (TrainingSample &): Input/output parameter.
 - Details: sample Input/output parameter.
 
 #### `const Config & getConfig() const`
-- Source: `include/llm/training_data_iterator.h`:176
+- Source: `include/llm/training_data_iterator.h`:218
 - Brief: n/a
 - Parameters: none
 
 #### `size_t getCurrentPosition() const`
-- Source: `include/llm/training_data_iterator.h`:152
+- Source: `include/llm/training_data_iterator.h`:194
 - Brief: n/a
 - Parameters: none
 
 #### `std::optional< TrainingBatch > getNextBatch()`
-- Source: `include/llm/training_data_iterator.h`:141
+- Source: `include/llm/training_data_iterator.h`:183
 - Brief: Get Next Batch.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `IteratorStats getStats() const`
-- Source: `include/llm/training_data_iterator.h`:174
+- Source: `include/llm/training_data_iterator.h`:216
 - Brief: n/a
 - Parameters: none
 
 #### `size_t getTotalBatches() const`
-- Source: `include/llm/training_data_iterator.h`:150
+- Source: `include/llm/training_data_iterator.h`:192
 - Brief: n/a
 - Parameters: none
 
 #### `size_t getTotalSamples() const`
-- Source: `include/llm/training_data_iterator.h`:148
+- Source: `include/llm/training_data_iterator.h`:190
 - Brief: n/a
 - Parameters: none
 
 #### `bool hasNext() const`
-- Source: `include/llm/training_data_iterator.h`:135
+- Source: `include/llm/training_data_iterator.h`:177
 - Brief: Has Next.
 - Parameters: none
 - Return: True when the operation succeeds.
 - Details: True when the operation succeeds.
 
 #### `bool initialize(const std::string &aql_query, const AdapterMetadata &metadata)`
-- Source: `include/llm/training_data_iterator.h`:129
-- Brief: Initialize.
+- Source: `include/llm/training_data_iterator.h`:171
+- Brief: Execute a read-only AQL query and prepare stable training batches.
 - Parameters:
-  - `aql_query` (const std::string &): Input parameter.
-  - `metadata` (const AdapterMetadata &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: aql_query Input parameter. metadata Input parameter. True when the operation succeeds.
+  - `aql_query` (const std::string &): Read-only AQL returning sample objects; mutation queries are rejected.
+  - `metadata` (const AdapterMetadata &): Adapter metadata associated with this dataset.
+- Return: True when the query succeeds, including a valid empty result; false on missing dependencies, malformed query/results, or unsupported enrichment requirements.
+- Details: aql_query Read-only AQL returning sample objects; mutation queries are rejected. metadata Adapter metadata associated with this dataset. True when the query succeeds, including a valid empty result; false on missing dependencies, malformed query/results, or unsupported enrichment requirements.
+
+#### `const std::string & lastError() const noexcept`
+- Source: `include/llm/training_data_iterator.h`:221
+- Brief: Return the diagnostic for the most recent failed initialization.
+- Parameters: none
 
 #### `bool loadSamples(const std::string &aql_query)`
-- Source: `include/llm/training_data_iterator.h`:210
+- Source: `include/llm/training_data_iterator.h`:257
 - Brief: Load Samples.
 - Parameters:
   - `aql_query` (const std::string &): Input parameter.
 - Return: True when the operation succeeds.
 - Details: aql_query Input parameter. True when the operation succeeds.
 
-#### `bool passesQualityFilter(const TrainingSample &sample) const`
-- Source: `include/llm/training_data_iterator.h`:241
+#### `bool passesQualityFilter(const TrainingSample &sample)`
+- Source: `include/llm/training_data_iterator.h`:288
 - Brief: Passes Quality Filter.
 - Parameters:
   - `sample` (const TrainingSample &): Input parameter.
@@ -41622,24 +39812,31 @@ Status: active
 - Details: sample Input parameter. True when the operation succeeds.
 
 #### `void reset()`
-- Source: `include/llm/training_data_iterator.h`:146
+- Source: `include/llm/training_data_iterator.h`:188
 - Brief: Reset the modification detection flag.
 - Parameters: none
 
 #### `void setConfig(const Config &config)`
-- Source: `include/llm/training_data_iterator.h`:182
+- Source: `include/llm/training_data_iterator.h`:227
 - Brief: Set Config.
 - Parameters:
   - `config` (const Config &): Input parameter.
 - Details: config Input parameter.
 
+#### `void setQueryEngine(query::QueryEngine *query_engine) noexcept`
+- Source: `include/llm/training_data_iterator.h`:160
+- Brief: Replace the borrowed AQL query engine.
+- Parameters:
+  - `query_engine` (query::QueryEngine *): Non-owning pointer, or nullptr to detach the DB source.
+- Details: query_engine Non-owning pointer, or nullptr to detach the DB source. The iterator must not be used concurrently with this call.
+
 #### `void shuffleSamples()`
-- Source: `include/llm/training_data_iterator.h`:220
+- Source: `include/llm/training_data_iterator.h`:267
 - Brief: Shuffle Samples.
 - Parameters: none
 
 #### `~TrainingDataIterator()=default`
-- Source: `include/llm/training_data_iterator.h`:31
+- Source: `include/llm/training_data_iterator.h`:38
 - Brief: Training Data Iterator.
 - Parameters: none
 - Return: Return value.
@@ -41648,7 +39845,7 @@ Status: active
 ### themis::llm::TrainingDataIterator::IteratorStats
 
 #### `nlohmann::json toJson() const`
-- Source: `include/llm/training_data_iterator.h`:171
+- Source: `include/llm/training_data_iterator.h`:213
 - Brief: To Json.
 - Parameters: none
 - Return: Return value.
@@ -41657,14 +39854,14 @@ Status: active
 ### themis::llm::TrainingDataIterator::TrainingBatch
 
 #### `size_t getTotalTokens() const`
-- Source: `include/llm/training_data_iterator.h`:89
+- Source: `include/llm/training_data_iterator.h`:97
 - Brief: Get Total Tokens.
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
 
 #### `nlohmann::json toJson() const`
-- Source: `include/llm/training_data_iterator.h`:94
+- Source: `include/llm/training_data_iterator.h`:102
 - Brief: To Json.
 - Parameters: none
 - Return: Return value.
@@ -41673,7 +39870,7 @@ Status: active
 ### themis::llm::TrainingDataIterator::TrainingSample
 
 #### `TrainingSample fromJson(const nlohmann::json &j)`
-- Source: `include/llm/training_data_iterator.h`:77
+- Source: `include/llm/training_data_iterator.h`:85
 - Brief: From Json.
 - Parameters:
   - `j` (const nlohmann::json &): Input parameter.
@@ -41681,7 +39878,7 @@ Status: active
 - Details: j Input parameter. Return value.
 
 #### `nlohmann::json toJson() const`
-- Source: `include/llm/training_data_iterator.h`:71
+- Source: `include/llm/training_data_iterator.h`:79
 - Brief: To Json.
 - Parameters: none
 - Return: Return value.
@@ -41732,7 +39929,7 @@ Status: active
 - Parameters: none
 
 #### `TrainingQueryBuilder()=default`
-- Source: `include/llm/training_data_iterator.h`:246
+- Source: `include/llm/training_data_iterator.h`:293
 - Brief: n/a
 - Parameters: none
 
@@ -41768,7 +39965,7 @@ Status: active
 - Details: Build. Return value. Return value. Implements build without additional internal calls.
 
 #### `std::string build() const`
-- Source: `include/llm/training_data_iterator.h`:284
+- Source: `include/llm/training_data_iterator.h`:331
 - Brief: Build.
 - Parameters: none
 - Return: Return value.
@@ -41799,7 +39996,7 @@ Status: active
 - Details: collection Input parameter. Return value. collection Input parameter. Return value. Implements from without additional internal calls.
 
 #### `TrainingQueryBuilder & from(const std::string &collection)`
-- Source: `include/llm/training_data_iterator.h`:253
+- Source: `include/llm/training_data_iterator.h`:300
 - Brief: From.
 - Parameters:
   - `collection` (const std::string &): Input parameter.
@@ -41815,7 +40012,7 @@ Status: active
 - Details: lr Input parameter. Return value. lr Input parameter. Return value. Implements learningRate without additional internal calls.
 
 #### `TrainingQueryBuilder & limit(size_t max_samples)`
-- Source: `include/llm/training_data_iterator.h`:278
+- Source: `include/llm/training_data_iterator.h`:325
 - Brief: Limit.
 - Parameters:
   - `max_samples` (size_t): Input parameter.
@@ -41878,7 +40075,7 @@ Status: active
 - Details: condition Input parameter. Return value. condition Input parameter. Return value. Implements where without additional internal calls.
 
 #### `TrainingQueryBuilder & where(const std::string &condition)`
-- Source: `include/llm/training_data_iterator.h`:260
+- Source: `include/llm/training_data_iterator.h`:307
 - Brief: Where.
 - Parameters:
   - `condition` (const std::string &): Input parameter.
@@ -41894,7 +40091,7 @@ Status: active
 - Details: config Input parameter. Return value. cfg Input parameter. Return value. Implements withGraphContext without additional internal calls.
 
 #### `TrainingQueryBuilder & withGraphContext(const std::vector< std::string > &relationships, int max_depth=2)`
-- Source: `include/llm/training_data_iterator.h`:262
+- Source: `include/llm/training_data_iterator.h`:309
 - Brief: n/a
 - Parameters:
   - `relationships` (const std::vector< std::string > &): n/a
@@ -41917,7 +40114,7 @@ Status: active
 - Details: config Input parameter. Return value. cfg Input parameter. Return value. Implements withVectorSimilarity without additional internal calls.
 
 #### `TrainingQueryBuilder & withVectorSimilarity(const std::string &embedding_field, double threshold=0.8, size_t top_k=5)`
-- Source: `include/llm/training_data_iterator.h`:267
+- Source: `include/llm/training_data_iterator.h`:314
 - Brief: n/a
 - Parameters:
   - `embedding_field` (const std::string &): n/a
@@ -41961,11 +40158,6 @@ Status: active
 
 #### `ValidationResult()`
 - Source: `include/llm/llamacpp_inference_engine.h`:41
-- Brief: n/a
-- Parameters: none
-
-#### `operator bool() const`
-- Source: `include/llm/ai_orchestrator.h`:171
 - Brief: n/a
 - Parameters: none
 
@@ -42828,69 +41020,69 @@ Status: active
 ### themis::llm::W3EchoPlugin
 
 #### `std::vector< float > embed(const std::string &) override`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:53
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:55
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const std::string &): n/a
 
 #### `std::vector< uint8_t > exportLoRA(const std::string &) override`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:62
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:64
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const std::string &): n/a
 
 #### `InferenceResponse generate(const InferenceRequest &req) override`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:45
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:47
 - Brief: n/a
 - Parameters:
   - `req` (const InferenceRequest &): n/a
 
 #### `InferenceResponse generateRAG(const RAGContext &, const InferenceRequest &req) override`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:49
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:51
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const RAGContext &): n/a
   - `req` (const InferenceRequest &): n/a
 
 #### `LLMCapabilities getCapabilities() const override`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:54
-- Brief: n/a
-- Parameters: none
-
-#### `json getMemoryStats() const override`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:55
-- Brief: n/a
-- Parameters: none
-
-#### `std::optional< ModelInfo > getModelInfo() const override`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:42
-- Brief: n/a
-- Parameters: none
-
-#### `json getPerformanceStats() const override`
 - Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:56
 - Brief: n/a
 - Parameters: none
 
+#### `json getMemoryStats() const override`
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:57
+- Brief: n/a
+- Parameters: none
+
+#### `std::optional< ModelInfo > getModelInfo() const override`
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:44
+- Brief: n/a
+- Parameters: none
+
+#### `json getPerformanceStats() const override`
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:58
+- Brief: n/a
+- Parameters: none
+
 #### `bool importLoRA(const std::string &, const std::vector< uint8_t > &) override`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:63
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:65
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const std::string &): n/a
   - `<unnamed>` (const std::vector< uint8_t > &): n/a
 
 #### `bool isModelLoaded() const override`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:41
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:43
 - Brief: n/a
 - Parameters: none
 
 #### `std::vector< LoRAInfo > listLoRAs() const override`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:61
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:63
 - Brief: n/a
 - Parameters: none
 
 #### `bool loadLoRA(const std::string &, const std::string &, float) override`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:57
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:59
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const std::string &): n/a
@@ -42898,33 +41090,33 @@ Status: active
   - `<unnamed>` (float): n/a
 
 #### `bool loadModel(const std::string &, const json &) override`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:39
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:41
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const std::string &): n/a
   - `<unnamed>` (const json &): n/a
 
 #### `bool unloadLoRA(const std::string &) override`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:60
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:62
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const std::string &): n/a
 
 #### `void unloadModel() override`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:40
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:42
 - Brief: Unload Model.
 - Parameters: none
 
 ### themis::llm::W3SingleAdapterProvider
 
 #### `W3SingleAdapterProvider(std::string id)`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:70
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:72
 - Brief: n/a
 - Parameters:
   - `id` (std::string): n/a
 
 #### `AdapterSelectionResult selectCandidates(const AdapterSelectionInput &) const override`
-- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:71
+- Source: `tests/llm/test_llm_wave3_gap_fixes.cpp`:73
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const AdapterSelectionInput &): n/a
@@ -42998,7 +41190,7 @@ Status: active
   - `config` (WikiIndexConfig): n/a
 
 #### `void enforceEmbeddingCacheLimit() const`
-- Source: `include/llm/wiki_index_store.h`:318
+- Source: `include/llm/wiki_index_store.h`:323
 - Brief: Enforce Embedding Cache Limit.
 - Parameters: none
 
@@ -43021,7 +41213,7 @@ Status: active
   - `relevant_doc_ids` (const std::vector< std::string > &): n/a
 
 #### `std::optional< std::vector< float > > fetchLegacyPersistedEmbeddingByChunkId(const std::string &chunk_id) const`
-- Source: `include/llm/wiki_index_store.h`:300
+- Source: `include/llm/wiki_index_store.h`:305
 - Brief: Fetch Legacy Persisted Embedding By Chunk Id.
 - Parameters:
   - `chunk_id` (const std::string &): Identifier of the chunk.
@@ -43029,7 +41221,7 @@ Status: active
 - Details: chunk_id Identifier of the chunk. Return value.
 
 #### `std::optional< std::vector< float > > fetchPersistedEmbedding(const std::string &cache_key) const`
-- Source: `include/llm/wiki_index_store.h`:293
+- Source: `include/llm/wiki_index_store.h`:298
 - Brief: Fetch Persisted Embedding.
 - Parameters:
   - `cache_key` (const std::string &): Input parameter.
@@ -43053,7 +41245,7 @@ Status: active
 - Parameters: none
 
 #### `void loadPersistentEmbedCache()`
-- Source: `include/llm/wiki_index_store.h`:276
+- Source: `include/llm/wiki_index_store.h`:281
 - Brief: Load Persistent Embed Cache.
 - Parameters: none
 - Details: Calls: spdlog::debug().
@@ -43067,7 +41259,7 @@ Status: active
 - Details: chunk Input parameter. Return value. Calls: makeCacheMaterial(), core::concerns::SignedAdapterValidator::sha256Hex(), empty(), str().
 
 #### `void migrateLegacyEntryIfNeeded(const WikiChunk &chunk, const std::vector< float > &embedding)`
-- Source: `include/llm/wiki_index_store.h`:332
+- Source: `include/llm/wiki_index_store.h`:337
 - Brief: Migrate Legacy Entry If Needed.
 - Parameters:
   - `chunk` (const WikiChunk &): Input parameter.
@@ -43075,7 +41267,7 @@ Status: active
 - Details: chunk Input parameter. embedding Input parameter. chunk Input parameter. embedding Input parameter. Calls: makeEmbeddingCacheKey(), spdlog::info(), persistEmbedding().
 
 #### `void persistEmbedding(const std::string &cache_key, const std::string &chunk_id, const std::vector< float > &embedding)`
-- Source: `include/llm/wiki_index_store.h`:284
+- Source: `include/llm/wiki_index_store.h`:289
 - Brief: Persist Embedding.
 - Parameters:
   - `cache_key` (const std::string &): Input parameter.
@@ -43084,7 +41276,7 @@ Status: active
 - Details: ───────────────────────────────────────────────────────────────────────────── WikiIndexStore — Phase 3 helpers: persistent cache, auto-probe dim ───────────────────────────────────────────────────────────────────────────── cache_key Input parameter. chunk_id Identifier of the chunk. embedding Input parameter. cache_key Input parameter. chunk_id Identifier of the chunk. embedding Input parameter. Calls: setPrimaryKey(), setField(), put(), spdlog::warn().
 
 #### `void probeEmbeddingDim()`
-- Source: `include/llm/wiki_index_store.h`:338
+- Source: `include/llm/wiki_index_store.h`:343
 - Brief: Probe Embedding Dim.
 - Parameters: none
 - Details: Calls: load(), embed(), empty(), spdlog::warn(), store(), size(), max(), spdlog::info().
@@ -43098,7 +41290,7 @@ Status: active
   - `min_score` (float): n/a
 
 #### `void recordLatencyLocked(double latency_ms) const noexcept`
-- Source: `include/llm/wiki_index_store.h`:366
+- Source: `include/llm/wiki_index_store.h`:371
 - Brief: Record Latency Locked.
 - Parameters:
   - `latency_ms` (double): Input parameter.
@@ -43119,14 +41311,14 @@ Status: active
 - Details: chunk Input parameter. Return value. Calls: chunkToEntity().
 
 #### `void touchEmbeddingCacheEntry(const std::string &cache_key) const`
-- Source: `include/llm/wiki_index_store.h`:307
+- Source: `include/llm/wiki_index_store.h`:312
 - Brief: Touch Embedding Cache Entry.
 - Parameters:
   - `cache_key` (const std::string &): Input parameter.
 - Details: cache_key Input parameter.
 
 #### `bool tryResolveEmbeddingFromCaches(const WikiChunk &chunk, std::vector< float > *out_embedding)`
-- Source: `include/llm/wiki_index_store.h`:325
+- Source: `include/llm/wiki_index_store.h`:330
 - Brief: Try Resolve Embedding From Caches.
 - Parameters:
   - `chunk` (const WikiChunk &): Input parameter.
@@ -43135,7 +41327,7 @@ Status: active
 - Details: chunk Input parameter. out_embedding Input/output parameter. True when the operation succeeds. chunk Input parameter. out_embedding Input/output parameter. True when the operation succeeds. Calls: makeEmbeddingCacheKey(), find(), end(), touchEmbeddingCacheEntry(), fetchPersistedEmbedding(), has_value(), upsertEmbeddingCacheEntry(), fetchLegacyPersistedEmbeddingByChunkId().
 
 #### `void upsertEmbeddingCacheEntry(const std::string &cache_key, const std::vector< float > &embedding) const`
-- Source: `include/llm/wiki_index_store.h`:313
+- Source: `include/llm/wiki_index_store.h`:318
 - Brief: Upsert Embedding Cache Entry.
 - Parameters:
   - `cache_key` (const std::string &): Input parameter.
@@ -45616,7 +43808,7 @@ Status: active
 
 #### `void step()`
 - Source: `include/llm/lora_framework/lora_layers.h`:313
-- Brief: Perform optimization step (update parameters using gradients).
+- Brief: Perform optimization step (update parameters using gradients)
 - Parameters: none
 - Details: Step. Calls: std::pow(), themis::utils::conversion::clamp_double_to_float(), themis::utils::conversion::safe_size_to_int32(), find(), end(), Tensor(), shape(), data().
 
@@ -45671,7 +43863,7 @@ Status: active
 
 #### `void step()`
 - Source: `include/llm/lora_framework/lora_layers.h`:370
-- Brief: Perform optimization step (update parameters using gradients).
+- Brief: Perform optimization step (update parameters using gradients)
 - Parameters: none
 - Details: Step. Calls: std::pow(), find(), end(), Tensor(), shape(), data(), size(), std::sqrt().
 
@@ -47404,7 +45596,7 @@ Status: active
   - `data` (std::vector< float > &): Input/output parameter.
 - Throws:
   - std::runtime_error: if an error occurs.
-- Details: CPU-based Broadcast (simplified). data Input/output parameter. data Input/output parameter. std::runtime_error if an error occurs. Calls: spdlog::error().
+- Details: CPU-based Broadcast (simplified) data Input/output parameter. data Input/output parameter. std::runtime_error if an error occurs. Calls: spdlog::error().
 
 #### `bool broadcast_parameters(std::vector< Tensor * > &parameters)`
 - Source: `include/llm/lora_framework/distributed_trainer.h`:169
@@ -48719,7 +46911,7 @@ Status: active
 
 #### `float compute_mse_loss(const GPUTensor &output, const GPUTensor &target)`
 - Source: `include/llm/lora_framework/gpu_lora_layers.h`:260
-- Brief: MSE loss computation (GPU-accelerated).
+- Brief: MSE loss computation (GPU-accelerated)
 - Parameters:
   - `output` (const GPUTensor &): Input parameter.
   - `target` (const GPUTensor &): Input parameter.
@@ -49074,7 +47266,7 @@ Status: active
 
 #### `GPUMemoryManager & get_memory_manager()`
 - Source: `include/llm/lora_framework/gpu_tensor.h`:251
-- Brief: GPU memory manager (shared across all tensors).
+- Brief: GPU memory manager (shared across all tensors)
 - Parameters: none
 - Return: Return value.
 - Details: Static memory manager instance. Return value. Return value. Implements get_memory_manager without additional internal calls.
@@ -51797,19 +49989,19 @@ Status: active
 ### themis::llm::lora::LoRAStorageService::Impl
 
 #### `Impl(const Config &config)`
-- Source: `src/llm/lora_framework/lora_storage_service.cpp`:27
-- Brief: n/a
-- Parameters:
-  - `config` (const Config &): n/a
-
-#### `Impl(const Config &config)`
 - Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:35
 - Brief: n/a
 - Parameters:
   - `config` (const Config &): n/a
 
+#### `Impl(const Config &config)`
+- Source: `src/llm/lora_framework/lora_storage_service.cpp`:27
+- Brief: n/a
+- Parameters:
+  - `config` (const Config &): n/a
+
 #### `std::string backendToString(Backend backend)`
-- Source: `src/llm/lora_framework/lora_storage_service.cpp`:313
+- Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:678
 - Brief: Backend To String.
 - Parameters:
   - `backend` (Backend): Input parameter.
@@ -51817,7 +50009,7 @@ Status: active
 - Details: backend Input parameter. Return value. Implements backendToString without additional internal calls.
 
 #### `std::string backendToString(Backend backend)`
-- Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:678
+- Source: `src/llm/lora_framework/lora_storage_service.cpp`:313
 - Brief: Backend To String.
 - Parameters:
   - `backend` (Backend): Input parameter.
@@ -51866,14 +50058,6 @@ Status: active
 - Details: Return value. Calls: spdlog::info().
 
 #### `std::string createVersion(const std::string &adapter_id)`
-- Source: `src/llm/lora_framework/lora_storage_service.cpp`:177
-- Brief: Create Version.
-- Parameters:
-  - `adapter_id` (const std::string &): Identifier of the adapter.
-- Return: Return value.
-- Details: adapter_id Identifier of the adapter. Return value. Calls: listVersions(), size(), std::stoi(), substr(), std::max(), std::to_string(), fs::path(), fs::exists().
-
-#### `std::string createVersion(const std::string &adapter_id)`
 - Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:278
 - Brief: Create Version.
 - Parameters:
@@ -51881,13 +50065,13 @@ Status: active
 - Return: Return value.
 - Details: adapter_id Identifier of the adapter. Return value. Calls: listVersions(), size(), std::stoi(), substr(), std::max(), std::to_string(), spdlog::info().
 
-#### `bool deleteAdapter(const std::string &adapter_id)`
-- Source: `src/llm/lora_framework/lora_storage_service.cpp`:123
-- Brief: Delete Adapter.
+#### `std::string createVersion(const std::string &adapter_id)`
+- Source: `src/llm/lora_framework/lora_storage_service.cpp`:177
+- Brief: Create Version.
 - Parameters:
   - `adapter_id` (const std::string &): Identifier of the adapter.
-- Return: True when the operation succeeds.
-- Details: adapter_id Identifier of the adapter. True when the operation succeeds. Calls: fs::path(), fs::exists(), fs::remove_all(), spdlog::info(), spdlog::error(), backendToString(), what().
+- Return: Return value.
+- Details: adapter_id Identifier of the adapter. Return value. Calls: listVersions(), size(), std::stoi(), substr(), std::max(), std::to_string(), fs::path(), fs::exists().
 
 #### `bool deleteAdapter(const std::string &adapter_id)`
 - Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:145
@@ -51897,11 +50081,13 @@ Status: active
 - Return: True when the operation succeeds.
 - Details: adapter_id Identifier of the adapter. True when the operation succeeds. Calls: makeCollectionKey(), get(), BaseEntity::deserialize(), hasField(), getFieldAsInt(), value_or(), spdlog::warn(), getFieldAsString().
 
-#### `bool exists(const std::string &adapter_id) const`
-- Source: `src/llm/lora_framework/lora_storage_service.cpp`:145
-- Brief: n/a
+#### `bool deleteAdapter(const std::string &adapter_id)`
+- Source: `src/llm/lora_framework/lora_storage_service.cpp`:123
+- Brief: Delete Adapter.
 - Parameters:
-  - `adapter_id` (const std::string &): n/a
+  - `adapter_id` (const std::string &): Identifier of the adapter.
+- Return: True when the operation succeeds.
+- Details: adapter_id Identifier of the adapter. True when the operation succeeds. Calls: fs::path(), fs::exists(), fs::remove_all(), spdlog::info(), spdlog::error(), backendToString(), what().
 
 #### `bool exists(const std::string &adapter_id) const`
 - Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:216
@@ -51909,13 +50095,19 @@ Status: active
 - Parameters:
   - `adapter_id` (const std::string &): n/a
 
+#### `bool exists(const std::string &adapter_id) const`
+- Source: `src/llm/lora_framework/lora_storage_service.cpp`:145
+- Brief: n/a
+- Parameters:
+  - `adapter_id` (const std::string &): n/a
+
 #### `json getStats() const`
-- Source: `src/llm/lora_framework/lora_storage_service.cpp`:294
+- Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:481
 - Brief: n/a
 - Parameters: none
 
 #### `json getStats() const`
-- Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:481
+- Source: `src/llm/lora_framework/lora_storage_service.cpp`:294
 - Brief: n/a
 - Parameters: none
 
@@ -51927,20 +50119,14 @@ Status: active
 - Details: True when the operation succeeds. Calls: std::getenv(), std::strcmp().
 
 #### `std::vector< std::string > listAdapters() const`
-- Source: `src/llm/lora_framework/lora_storage_service.cpp`:153
-- Brief: n/a
-- Parameters: none
-
-#### `std::vector< std::string > listAdapters() const`
 - Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:226
 - Brief: n/a
 - Parameters: none
 
-#### `std::vector< std::string > listVersions(const std::string &adapter_id) const`
-- Source: `src/llm/lora_framework/lora_storage_service.cpp`:237
+#### `std::vector< std::string > listAdapters() const`
+- Source: `src/llm/lora_framework/lora_storage_service.cpp`:153
 - Brief: n/a
-- Parameters:
-  - `adapter_id` (const std::string &): n/a
+- Parameters: none
 
 #### `std::vector< std::string > listVersions(const std::string &adapter_id) const`
 - Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:374
@@ -51948,13 +50134,11 @@ Status: active
 - Parameters:
   - `adapter_id` (const std::string &): n/a
 
-#### `std::optional< AdapterWeights > loadAdapter(const std::string &adapter_id)`
-- Source: `src/llm/lora_framework/lora_storage_service.cpp`:79
-- Brief: Load Adapter.
+#### `std::vector< std::string > listVersions(const std::string &adapter_id) const`
+- Source: `src/llm/lora_framework/lora_storage_service.cpp`:237
+- Brief: n/a
 - Parameters:
-  - `adapter_id` (const std::string &): Identifier of the adapter.
-- Return: Return value.
-- Details: adapter_id Identifier of the adapter. Return value. Calls: loadFromFilesystem(), spdlog::error(), backendToString(), what().
+  - `adapter_id` (const std::string &): n/a
 
 #### `std::optional< AdapterWeights > loadAdapter(const std::string &adapter_id)`
 - Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:107
@@ -51964,13 +50148,13 @@ Status: active
 - Return: Return value.
 - Details: adapter_id Identifier of the adapter. Return value. Calls: loadFromThemisDB(), loadFromFilesystem(), spdlog::error(), what().
 
-#### `std::optional< AdapterWeights > loadFromFilesystem(const std::string &adapter_id)`
-- Source: `src/llm/lora_framework/lora_storage_service.cpp`:376
-- Brief: Load From Filesystem.
+#### `std::optional< AdapterWeights > loadAdapter(const std::string &adapter_id)`
+- Source: `src/llm/lora_framework/lora_storage_service.cpp`:79
+- Brief: Load Adapter.
 - Parameters:
   - `adapter_id` (const std::string &): Identifier of the adapter.
 - Return: Return value.
-- Details: adapter_id Identifier of the adapter. Return value. Calls: fs::path(), fs::exists(), spdlog::warn(), string(), weights_file(), spdlog::error(), tellg(), seekg().
+- Details: adapter_id Identifier of the adapter. Return value. Calls: loadFromFilesystem(), spdlog::error(), backendToString(), what().
 
 #### `std::optional< AdapterWeights > loadFromFilesystem(const std::string &adapter_id)`
 - Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:926
@@ -51979,6 +50163,14 @@ Status: active
   - `adapter_id` (const std::string &): Identifier of the adapter.
 - Return: Return value.
 - Details: adapter_id Identifier of the adapter. Return value. Calls: fs::path(), fs::exists(), weights_file(), tellg(), seekg(), resize(), read(), data().
+
+#### `std::optional< AdapterWeights > loadFromFilesystem(const std::string &adapter_id)`
+- Source: `src/llm/lora_framework/lora_storage_service.cpp`:376
+- Brief: Load From Filesystem.
+- Parameters:
+  - `adapter_id` (const std::string &): Identifier of the adapter.
+- Return: Return value.
+- Details: adapter_id Identifier of the adapter. Return value. Calls: fs::path(), fs::exists(), spdlog::warn(), string(), weights_file(), spdlog::error(), tellg(), seekg().
 
 #### `std::optional< AdapterWeights > loadFromThemisDB(const std::string &adapter_id)`
 - Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:779
@@ -51989,14 +50181,6 @@ Status: active
 - Details: adapter_id Identifier of the adapter. Return value. Calls: makeCollectionKey(), get(), spdlog::warn(), encrypted_b64(), begin(), end(), EncryptedBlob::fromBase64(), decryptToBytes().
 
 #### `std::optional< AdapterMetadata > loadMetadata(const std::string &adapter_id)`
-- Source: `src/llm/lora_framework/lora_storage_service.cpp`:101
-- Brief: Load Metadata.
-- Parameters:
-  - `adapter_id` (const std::string &): Identifier of the adapter.
-- Return: Return value.
-- Details: adapter_id Identifier of the adapter. Return value. Calls: loadMetadataFromFilesystem(), spdlog::error(), backendToString(), what().
-
-#### `std::optional< AdapterMetadata > loadMetadata(const std::string &adapter_id)`
 - Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:126
 - Brief: Load Metadata.
 - Parameters:
@@ -52004,13 +50188,13 @@ Status: active
 - Return: Return value.
 - Details: adapter_id Identifier of the adapter. Return value. Calls: loadMetadataFromThemisDB(), loadMetadataFromFilesystem(), spdlog::error(), what().
 
-#### `std::optional< AdapterMetadata > loadMetadataFromFilesystem(const std::string &adapter_id)`
-- Source: `src/llm/lora_framework/lora_storage_service.cpp`:414
-- Brief: Load Metadata From Filesystem.
+#### `std::optional< AdapterMetadata > loadMetadata(const std::string &adapter_id)`
+- Source: `src/llm/lora_framework/lora_storage_service.cpp`:101
+- Brief: Load Metadata.
 - Parameters:
   - `adapter_id` (const std::string &): Identifier of the adapter.
 - Return: Return value.
-- Details: adapter_id Identifier of the adapter. Return value. Calls: fs::path(), fs::exists(), spdlog::warn(), string(), metadata_file(), spdlog::error(), AdapterMetadata::fromJSON().
+- Details: adapter_id Identifier of the adapter. Return value. Calls: loadMetadataFromFilesystem(), spdlog::error(), backendToString(), what().
 
 #### `std::optional< AdapterMetadata > loadMetadataFromFilesystem(const std::string &adapter_id)`
 - Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:958
@@ -52019,6 +50203,14 @@ Status: active
   - `adapter_id` (const std::string &): Identifier of the adapter.
 - Return: Return value.
 - Details: adapter_id Identifier of the adapter. Return value. Calls: fs::path(), fs::exists(), metadata_file(), AdapterMetadata::fromJSON().
+
+#### `std::optional< AdapterMetadata > loadMetadataFromFilesystem(const std::string &adapter_id)`
+- Source: `src/llm/lora_framework/lora_storage_service.cpp`:414
+- Brief: Load Metadata From Filesystem.
+- Parameters:
+  - `adapter_id` (const std::string &): Identifier of the adapter.
+- Return: Return value.
+- Details: adapter_id Identifier of the adapter. Return value. Calls: fs::path(), fs::exists(), spdlog::warn(), string(), metadata_file(), spdlog::error(), AdapterMetadata::fromJSON().
 
 #### `std::optional< AdapterMetadata > loadMetadataFromThemisDB(const std::string &adapter_id)`
 - Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:856
@@ -52035,15 +50227,6 @@ Status: active
   - `adapter_id` (const std::string &): n/a
 
 #### `bool rollbackToVersion(const std::string &adapter_id, const std::string &version)`
-- Source: `src/llm/lora_framework/lora_storage_service.cpp`:218
-- Brief: Rollback To Version.
-- Parameters:
-  - `adapter_id` (const std::string &): Identifier of the adapter.
-  - `version` (const std::string &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: adapter_id Identifier of the adapter. version Input parameter. True when the operation succeeds. Calls: fs::path(), fs::exists(), fs::copy_file(), spdlog::info(), spdlog::error().
-
-#### `bool rollbackToVersion(const std::string &adapter_id, const std::string &version)`
 - Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:309
 - Brief: Rollback To Version.
 - Parameters:
@@ -52052,15 +50235,14 @@ Status: active
 - Return: True when the operation succeeds.
 - Details: adapter_id Identifier of the adapter. version Input parameter. True when the operation succeeds. Calls: spdlog::info(), makeCollectionKey(), get(), spdlog::error(), put(), fs::path(), fs::exists(), string().
 
-#### `bool saveAdapter(const std::string &adapter_id, const AdapterWeights &weights, const AdapterMetadata &metadata)`
-- Source: `src/llm/lora_framework/lora_storage_service.cpp`:51
-- Brief: Save Adapter.
+#### `bool rollbackToVersion(const std::string &adapter_id, const std::string &version)`
+- Source: `src/llm/lora_framework/lora_storage_service.cpp`:218
+- Brief: Rollback To Version.
 - Parameters:
   - `adapter_id` (const std::string &): Identifier of the adapter.
-  - `weights` (const AdapterWeights &): Input parameter.
-  - `metadata` (const AdapterMetadata &): Input parameter.
+  - `version` (const std::string &): Input parameter.
 - Return: True when the operation succeeds.
-- Details: adapter_id Identifier of the adapter. weights Input parameter. metadata Input parameter. True when the operation succeeds. Calls: saveToFilesystem(), spdlog::error(), backendToString(), what().
+- Details: adapter_id Identifier of the adapter. version Input parameter. True when the operation succeeds. Calls: fs::path(), fs::exists(), fs::copy_file(), spdlog::info(), spdlog::error().
 
 #### `bool saveAdapter(const std::string &adapter_id, const AdapterWeights &weights, const AdapterMetadata &metadata)`
 - Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:84
@@ -52072,9 +50254,19 @@ Status: active
 - Return: True when the operation succeeds.
 - Details: adapter_id Identifier of the adapter. weights Input parameter. metadata Input parameter. True when the operation succeeds. Calls: saveToThemisDB(), saveToFilesystem(), spdlog::error(), what().
 
+#### `bool saveAdapter(const std::string &adapter_id, const AdapterWeights &weights, const AdapterMetadata &metadata)`
+- Source: `src/llm/lora_framework/lora_storage_service.cpp`:51
+- Brief: Save Adapter.
+- Parameters:
+  - `adapter_id` (const std::string &): Identifier of the adapter.
+  - `weights` (const AdapterWeights &): Input parameter.
+  - `metadata` (const AdapterMetadata &): Input parameter.
+- Return: True when the operation succeeds.
+- Details: adapter_id Identifier of the adapter. weights Input parameter. metadata Input parameter. True when the operation succeeds. Calls: saveToFilesystem(), spdlog::error(), backendToString(), what().
+
 #### `bool saveToFilesystem(const std::string &adapter_id, const AdapterWeights &weights, const AdapterMetadata &metadata)`
-- Source: `src/llm/lora_framework/lora_storage_service.cpp`:330
-- Brief: Save To Filesystem.
+- Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:885
+- Brief: Filesystem fallback implementations (original code)
 - Parameters:
   - `adapter_id` (const std::string &): Identifier of the adapter.
   - `weights` (const AdapterWeights &): Input parameter.
@@ -52083,8 +50275,8 @@ Status: active
 - Details: adapter_id Identifier of the adapter. weights Input parameter. metadata Input parameter. True when the operation succeeds. Calls: fs::path(), fs::create_directories(), weights_file(), spdlog::error(), string(), write(), data(), size().
 
 #### `bool saveToFilesystem(const std::string &adapter_id, const AdapterWeights &weights, const AdapterMetadata &metadata)`
-- Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:885
-- Brief: Filesystem fallback implementations (original code).
+- Source: `src/llm/lora_framework/lora_storage_service.cpp`:330
+- Brief: Save To Filesystem.
 - Parameters:
   - `adapter_id` (const std::string &): Identifier of the adapter.
   - `weights` (const AdapterWeights &): Input parameter.
@@ -52103,15 +50295,6 @@ Status: active
 - Details: adapter_id Identifier of the adapter. weights Input parameter. metadata Input parameter. True when the operation succeeds. Calls: makeCollectionKey(), Value(), BaseEntity::fromFields(), size(), spdlog::info(), put(), serialize(), encrypt().
 
 #### `bool updateMetadata(const std::string &adapter_id, const AdapterMetadata &metadata)`
-- Source: `src/llm/lora_framework/lora_storage_service.cpp`:274
-- Brief: Update Metadata.
-- Parameters:
-  - `adapter_id` (const std::string &): Identifier of the adapter.
-  - `metadata` (const AdapterMetadata &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: adapter_id Identifier of the adapter. metadata Input parameter. True when the operation succeeds. Calls: fs::path(), toJSON(), file(), dump(), spdlog::info(), spdlog::error(), what().
-
-#### `bool updateMetadata(const std::string &adapter_id, const AdapterMetadata &metadata)`
 - Source: `src/llm/lora_framework/lora_storage_service_themisdb.cpp`:433
 - Brief: Update Metadata.
 - Parameters:
@@ -52119,6 +50302,15 @@ Status: active
   - `metadata` (const AdapterMetadata &): Input parameter.
 - Return: True when the operation succeeds.
 - Details: adapter_id Identifier of the adapter. metadata Input parameter. True when the operation succeeds. Calls: makeCollectionKey(), get(), spdlog::error(), BaseEntity::deserialize(), setField(), Value(), serialize(), put().
+
+#### `bool updateMetadata(const std::string &adapter_id, const AdapterMetadata &metadata)`
+- Source: `src/llm/lora_framework/lora_storage_service.cpp`:274
+- Brief: Update Metadata.
+- Parameters:
+  - `adapter_id` (const std::string &): Identifier of the adapter.
+  - `metadata` (const AdapterMetadata &): Input parameter.
+- Return: True when the operation succeeds.
+- Details: adapter_id Identifier of the adapter. metadata Input parameter. True when the operation succeeds. Calls: fs::path(), toJSON(), file(), dump(), spdlog::info(), spdlog::error(), what().
 
 ### themis::llm::lora::LoRATrainingConfig
 
@@ -52644,7 +50836,7 @@ Status: active
 
 #### `float fp32_to_fp16(float value)`
 - Source: `include/llm/lora_framework/mixed_precision.h`:133
-- Brief: Helper for FP16/BF16 conversion (simplified for CPU).
+- Brief: Helper for FP16/BF16 conversion (simplified for CPU)
 - Parameters:
   - `value` (float): Input parameter.
 - Return: Return value.
@@ -54620,7 +52812,7 @@ Status: active
 
 #### `void step()`
 - Source: `include/llm/lora_framework/lora_layers.h`:263
-- Brief: Perform optimization step (update parameters using gradients).
+- Brief: Perform optimization step (update parameters using gradients)
 - Parameters: none
 - Details: Step. Calls: find(), end(), Tensor(), shape(), data(), size(), spdlog::debug().
 
@@ -54887,7 +53079,7 @@ Status: active
 
 #### `Tensor(const std::vector< size_t > &shape)`
 - Source: `include/llm/lora_framework/lora_layers.h`:155
-- Brief: Constructor with shape (allocates memory).
+- Brief: Constructor with shape (allocates memory)
 - Parameters:
   - `shape` (const std::vector< size_t > &): Input parameter.
 - Return: Return value.
@@ -54978,7 +53170,7 @@ Status: active
 
 #### `Tensor transpose() const`
 - Source: `include/llm/lora_framework/lora_layers.h`:196
-- Brief: Transpose (for 2D tensors).
+- Brief: Transpose (for 2D tensors)
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
@@ -57043,7 +55235,7 @@ Status: active
 
 #### `void handleRequest(const std::string &path, std::string &response)`
 - Source: `include/llm/grafana_metrics.h`:707
-- Brief: HTTP GET request handling (called from httplib route handlers inside Impl).
+- Brief: HTTP GET request handling (called from httplib route handlers inside Impl)
 - Parameters:
   - `path` (const std::string &): Input parameter.
   - `response` (std::string &): Input/output parameter.
@@ -57131,7 +55323,7 @@ Status: active
 
 #### `std::string handleMetricsRequest() const`
 - Source: `include/llm/grafana_metrics.h`:83
-- Brief: HTTP endpoint handler (for Prometheus scraping).
+- Brief: HTTP endpoint handler (for Prometheus scraping)
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
@@ -57664,175 +55856,175 @@ Status: active
 ### themis::llm::test
 
 #### `TEST(MemorySafetyHardening, EXS_01_ModelLoadSuccessfulCleanup)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:720
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:723
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_01_ModelLoadSuccessfulCleanup): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_02_ModelLoadFailure)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:734
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:737
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_02_ModelLoadFailure): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_03_ModelUnloadIdempotency)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:747
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:750
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_03_ModelUnloadIdempotency): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_04_DoubleUnloadPrevention)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:765
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:768
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_04_DoubleUnloadPrevention): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_05_ExceptionDuringDestruction)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:783
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:786
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_05_ExceptionDuringDestruction): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_06_StrongExceptionGuarantee)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:800
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:803
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_06_StrongExceptionGuarantee): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_07_BasicExceptionGuarantee)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:823
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:826
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_07_BasicExceptionGuarantee): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_08_AdapterSequence)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:846
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:849
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_08_AdapterSequence): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_09_ModelLoadResourceAcquisition)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:873
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:876
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_09_ModelLoadResourceAcquisition): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_10_ConstructorCleanupOnException)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:893
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:896
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_10_ConstructorCleanupOnException): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_11_PartialLoadConsistency)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:911
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:914
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_11_PartialLoadConsistency): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_12_PluginRAII)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:931
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:934
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_12_PluginRAII): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_13_ModelCacheException)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:946
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:949
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_13_ModelCacheException): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_14_ShutdownUnderException)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:958
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:961
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_14_ShutdownUnderException): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_15_ConcurrentLoadExceptionSafety)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:976
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:979
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_15_ConcurrentLoadExceptionSafety): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_16_ParameterUpdateRollback)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:994
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:997
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_16_ParameterUpdateRollback): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_17_ModelReloadSafety)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:1022
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:1025
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_17_ModelReloadSafety): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_18_AdapterMethodException)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:1038
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:1041
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_18_AdapterMethodException): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_19_MultipleCleanupSteps)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:1050
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:1053
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_19_MultipleCleanupSteps): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_20_SharedResourceException)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:1069
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:1072
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_20_SharedResourceException): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_21_LoadWithValidation)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:1082
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:1085
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_21_LoadWithValidation): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_22_PluginUnloadDependencies)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:1100
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:1103
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_22_PluginUnloadDependencies): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_23_StateAfterFailedInit)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:1115
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:1118
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_23_StateAfterFailedInit): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_24_ConcurrentAccessException)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:1138
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:1141
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (EXS_24_ConcurrentAccessException): n/a
 
 #### `TEST(MemorySafetyHardening, EXS_25_CompleteLifecycleExceptionSafety)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:1160
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:1163
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
@@ -57979,63 +56171,63 @@ Status: active
   - `<unnamed>` (MEM_20_ConcurrentQuotaAcquisition): n/a
 
 #### `TEST(MemorySafetyHardening, MEM_21_ThreadSafeCounterIncrement)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:569
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:570
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (MEM_21_ThreadSafeCounterIncrement): n/a
 
 #### `TEST(MemorySafetyHardening, MEM_22_BatchGuardMoveSemantics)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:587
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:588
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (MEM_22_BatchGuardMoveSemantics): n/a
 
 #### `TEST(MemorySafetyHardening, MEM_23_QuotaGuardZeroAmount)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:603
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:604
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (MEM_23_QuotaGuardZeroAmount): n/a
 
 #### `TEST(MemorySafetyHardening, MEM_24_ThreadCounterMixedOps)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:616
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:617
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (MEM_24_ThreadCounterMixedOps): n/a
 
 #### `TEST(MemorySafetyHardening, MEM_25_BatchGuardMultipleAcquisitions)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:640
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:641
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (MEM_25_BatchGuardMultipleAcquisitions): n/a
 
 #### `TEST(MemorySafetyHardening, MEM_26_QuotaPartialConsumption)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:660
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:661
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (MEM_26_QuotaPartialConsumption): n/a
 
 #### `TEST(MemorySafetyHardening, MEM_27_CounterMemoryOrdering)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:677
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:680
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (MEM_27_CounterMemoryOrdering): n/a
 
 #### `TEST(MemorySafetyHardening, MEM_28_BatchQuotaCombinedExceptionSafety)`
-- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:695
+- Source: `tests/llm/test_llm_memory_safety_hardening.cpp`:698
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MemorySafetyHardening): n/a
   - `<unnamed>` (MEM_28_BatchQuotaCombinedExceptionSafety): n/a
 
 #### `TEST_F(NVFP4QuantizationTest, BatchQuantizationPerformance)`
-- Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:302
+- Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:307
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (NVFP4QuantizationTest): n/a
@@ -58043,7 +56235,7 @@ Status: active
 - Details: TestBatch quantization with multiple sequences Tests quantization performance on batched KV data (multiple sequences in parallel).
 
 #### `TEST_F(NVFP4QuantizationTest, CompressionFactorVerification)`
-- Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:220
+- Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:224
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (NVFP4QuantizationTest): n/a
@@ -58051,7 +56243,7 @@ Status: active
 - Details: TestCompression factor verification Verifies that compression factors match theoretical expectations.
 
 #### `TEST_F(NVFP4QuantizationTest, EmptyDataHandling)`
-- Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:361
+- Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:367
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (NVFP4QuantizationTest): n/a
@@ -58059,7 +56251,7 @@ Status: active
 - Details: TestEmpty data handling Verifies quantization gracefully handles empty inputs.
 
 #### `TEST_F(NVFP4QuantizationTest, ExpectedAccuracyTargets)`
-- Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:240
+- Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:245
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (NVFP4QuantizationTest): n/a
@@ -58067,7 +56259,7 @@ Status: active
 - Details: TestExpected accuracy values match phase gates Verifies that expected accuracy targets align with Phase 2 requirements.
 
 #### `TEST_F(NVFP4QuantizationTest, INT8QuantizationAccuracy)`
-- Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:192
+- Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:196
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (NVFP4QuantizationTest): n/a
@@ -58075,7 +56267,7 @@ Status: active
 - Details: TestINT8 quantization: Per-channel quantization accuracy Verifies INT8 quantization with scale/zero-point parameters.
 
 #### `TEST_F(NVFP4QuantizationTest, MemoryFootprintGateP2GATE04)`
-- Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:384
+- Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:390
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (NVFP4QuantizationTest): n/a
@@ -58083,7 +56275,7 @@ Status: active
 - Details: TestMemory footprint validation for P2-GATE-04 Validates VRAM footprint reduction: NVFP4 ≤ 55% of FP16 footprint. This is the gate requirement from the Phase 2 specification.
 
 #### `TEST_F(NVFP4QuantizationTest, NVFP4EdgeCases)`
-- Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:259
+- Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:264
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (NVFP4QuantizationTest): n/a
@@ -58091,7 +56283,7 @@ Status: active
 - Details: TestNVFP4 quantization with zero and extreme values Edge case testing: verifies quantization handles zero, negative, and extreme values.
 
 #### `TEST_F(NVFP4QuantizationTest, NVFP4VsFP16AccuracyDelta)`
-- Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:162
+- Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:166
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (NVFP4QuantizationTest): n/a
@@ -58099,7 +56291,7 @@ Status: active
 - Details: TestNVFP4 vs FP16 accuracy comparison Compares accuracy of NVFP4 quantization against FP16 baseline. Gate P2-GATE-01: NVFP4 accuracy delta ≤ 1% vs FP16
 
 #### `TEST_F(NVFP4QuantizationTest, NumericStabilityMultipleCycles)`
-- Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:338
+- Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:343
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (NVFP4QuantizationTest): n/a
@@ -58283,14 +56475,14 @@ Status: active
 
 #### `float calculateMAPE(const std::vector< float > &original, const std::vector< float > &reconstructed)`
 - Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:82
-- Brief: Calculate MAPE (Mean Absolute Percentage Error).
+- Brief: Calculate MAPE (Mean Absolute Percentage Error)
 - Parameters:
   - `original` (const std::vector< float > &): n/a
   - `reconstructed` (const std::vector< float > &): n/a
 
 #### `float calculateMSE(const std::vector< float > &original, const std::vector< float > &reconstructed)`
 - Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:106
-- Brief: Calculate MSE (Mean Squared Error).
+- Brief: Calculate MSE (Mean Squared Error)
 - Parameters:
   - `original` (const std::vector< float > &): n/a
   - `reconstructed` (const std::vector< float > &): n/a
@@ -58304,7 +56496,7 @@ Status: active
 
 #### `std::vector< float > generateRealisticKVData(size_t size)`
 - Source: `tests/llm/test_nvfp4_kv_quantization.cpp`:61
-- Brief: Generate typical KV cache patterns (sparsity, correlations).
+- Brief: Generate typical KV cache patterns (sparsity, correlations)
 - Parameters:
   - `size` (size_t): n/a
 
@@ -58967,7 +57159,7 @@ Status: active
   - `<unnamed>` (ResumeNonexistentSession): n/a
 
 #### `TEST_F(SSMRocksDBStoreTest, SnapshotSerialization)`
-- Source: `tests/llm/test_ssm_rocksdb_store.cpp`:321
+- Source: `tests/llm/test_ssm_rocksdb_store.cpp`:319
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (SSMRocksDBStoreTest): n/a
@@ -60152,33 +58344,12 @@ Status: active
 
 ### themis::plugins::llm_wiki::tests
 
-#### `TEST(LLMWikiRocksDbIntegrationTest, LW06_DoubleInitializeReturnsError)`
-- Source: `tests/llm/test_wave_next_llm_wiki_rocksdb.cpp`:379
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (LLMWikiRocksDbIntegrationTest): n/a
-  - `<unnamed>` (LW06_DoubleInitializeReturnsError): n/a
-
 #### `TEST(LLMWikiRocksDbIntegrationTest, LW06_InitializeWithDbPathSucceeds)`
 - Source: `tests/llm/test_wave_next_llm_wiki_rocksdb.cpp`:351
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMWikiRocksDbIntegrationTest): n/a
   - `<unnamed>` (LW06_InitializeWithDbPathSucceeds): n/a
-
-#### `TEST(LLMWikiRocksDbIntegrationTest, LW07_InitializeWithEmptyDbPathField)`
-- Source: `tests/llm/test_wave_next_llm_wiki_rocksdb.cpp`:413
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (LLMWikiRocksDbIntegrationTest): n/a
-  - `<unnamed>` (LW07_InitializeWithEmptyDbPathField): n/a
-
-#### `TEST(LLMWikiRocksDbIntegrationTest, LW07_InitializeWithEmptyPathFallsBackToInMemory)`
-- Source: `tests/llm/test_wave_next_llm_wiki_rocksdb.cpp`:395
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (LLMWikiRocksDbIntegrationTest): n/a
-  - `<unnamed>` (LW07_InitializeWithEmptyPathFallsBackToInMemory): n/a
 
 ### themis::plugins::llm_wiki::tests::MockLLMWikiPlugin
 
@@ -60286,168 +58457,168 @@ Status: active
 ### themis::test
 
 #### `TEST_F(LLMModelEnumerationTest, FilterModelsBySubstring)`
-- Source: `tests/llm/test_llm_model_enumeration.cpp`:105
+- Source: `tests/llm/test_llm_model_enumeration.cpp`:107
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMModelEnumerationTest): n/a
   - `<unnamed>` (FilterModelsBySubstring): n/a
 
 #### `TEST_F(LLMModelEnumerationTest, FilterReturnsOnlyMatching)`
-- Source: `tests/llm/test_llm_model_enumeration.cpp`:132
+- Source: `tests/llm/test_llm_model_enumeration.cpp`:134
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMModelEnumerationTest): n/a
   - `<unnamed>` (FilterReturnsOnlyMatching): n/a
 
 #### `TEST_F(LLMModelEnumerationTest, ListModelsAfterDelete)`
-- Source: `tests/llm/test_llm_model_enumeration.cpp`:151
+- Source: `tests/llm/test_llm_model_enumeration.cpp`:153
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMModelEnumerationTest): n/a
   - `<unnamed>` (ListModelsAfterDelete): n/a
 
 #### `TEST_F(LLMModelEnumerationTest, ListModelsEmptyInitially)`
-- Source: `tests/llm/test_llm_model_enumeration.cpp`:56
+- Source: `tests/llm/test_llm_model_enumeration.cpp`:58
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMModelEnumerationTest): n/a
   - `<unnamed>` (ListModelsEmptyInitially): n/a
 
 #### `TEST_F(LLMModelEnumerationTest, ListMultipleModels)`
-- Source: `tests/llm/test_llm_model_enumeration.cpp`:77
+- Source: `tests/llm/test_llm_model_enumeration.cpp`:79
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMModelEnumerationTest): n/a
   - `<unnamed>` (ListMultipleModels): n/a
 
 #### `TEST_F(LLMModelEnumerationTest, ListSingleModel)`
-- Source: `tests/llm/test_llm_model_enumeration.cpp`:62
+- Source: `tests/llm/test_llm_model_enumeration.cpp`:64
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMModelEnumerationTest): n/a
   - `<unnamed>` (ListSingleModel): n/a
 
 #### `TEST_F(LLMModelEnumerationTest, PrefixIteratorIfAvailable)`
-- Source: `tests/llm/test_llm_model_enumeration.cpp`:177
+- Source: `tests/llm/test_llm_model_enumeration.cpp`:182
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMModelEnumerationTest): n/a
   - `<unnamed>` (PrefixIteratorIfAvailable): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, AdapterConflictHasResolution)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:425
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:438
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
   - `<unnamed>` (AdapterConflictHasResolution): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, AsyncLoadingPropagatesError)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:176
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:189
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
   - `<unnamed>` (AsyncLoadingPropagatesError): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, CanSearchForLLMErrors)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:241
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:254
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
   - `<unnamed>` (CanSearchForLLMErrors): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, CanSearchForLoRAErrors)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:258
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:271
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
   - `<unnamed>` (CanSearchForLoRAErrors): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, ContextCreationErrorRegistered)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:160
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:173
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
   - `<unnamed>` (ContextCreationErrorRegistered): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, ErrHelperFunctionWorks)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:358
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:371
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
   - `<unnamed>` (ErrHelperFunctionWorks): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, ErrorMessagesAreActionable)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:224
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:237
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
   - `<unnamed>` (ErrorMessagesAreActionable): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, ErrorMessagesIncludeContext)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:210
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:223
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
   - `<unnamed>` (ErrorMessagesIncludeContext): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, ErrorMetadataComplete)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:92
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:100
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
   - `<unnamed>` (ErrorMetadataComplete): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, ErrorsHaveDocumentation)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:376
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:389
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
   - `<unnamed>` (ErrorsHaveDocumentation): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, ErrorsHaveSearchableKeywords)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:388
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:401
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
   - `<unnamed>` (ErrorsHaveSearchableKeywords): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, FileNotFoundErrorContext)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:122
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:130
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
   - `<unnamed>` (FileNotFoundErrorContext): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, FileNotFoundReturnsError)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:109
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:117
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
   - `<unnamed>` (FileNotFoundReturnsError): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, InvalidModelFileReturnsError)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:140
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:148
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
   - `<unnamed>` (InvalidModelFileReturnsError): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, LLMErrorsByCategory)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:285
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:298
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
   - `<unnamed>` (LLMErrorsByCategory): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, LoRAErrorsByCategory)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:317
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:330
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
   - `<unnamed>` (LoRAErrorsByCategory): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, LoadFailureErrorMetadata)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:144
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:157
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
@@ -60461,21 +58632,21 @@ Status: active
   - `<unnamed>` (NewErrorCodesRegistered): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, PreloadHandlesErrors)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:192
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:205
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
   - `<unnamed>` (PreloadHandlesErrors): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, ResultTypeUsedInternally)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:343
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:356
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
   - `<unnamed>` (ResultTypeUsedInternally): n/a
 
 #### `TEST_F(ModelLoaderErrorHandlingTest, TrainingDivergedHasRecoverySteps)`
-- Source: `tests/llm/test_model_loader_error_handling.cpp`:409
+- Source: `tests/llm/test_model_loader_error_handling.cpp`:422
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ModelLoaderErrorHandlingTest): n/a
@@ -60489,7 +58660,7 @@ Status: active
 - Parameters: none
 
 #### `void TearDown() override`
-- Source: `tests/llm/test_llm_model_enumeration.cpp`:42
+- Source: `tests/llm/test_llm_model_enumeration.cpp`:44
 - Brief: n/a
 - Parameters: none
 
@@ -60622,7 +58793,7 @@ Status: active
 
 #### `EvaluationResult evaluate(const std::vector< int > &input_ids, const std::vector< int > &labels)`
 - Source: `include/llm/llamacpp_training_backend.h`:274
-- Brief: Evaluation step (no gradient computation).
+- Brief: Evaluation step (no gradient computation)
 - Parameters:
   - `input_ids` (const std::vector< int > &): Input parameter.
   - `labels` (const std::vector< int > &): Input parameter.
@@ -60655,7 +58826,7 @@ Status: active
 
 #### `std::string getModelHash() const`
 - Source: `include/llm/llamacpp_training_backend.h`:314
-- Brief: Get base model hash (for checkpoint verification).
+- Brief: Get base model hash (for checkpoint verification)
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
@@ -60687,7 +58858,7 @@ Status: active
 
 #### `bool loadLoRAWeights(const std::string &checkpoint_path)`
 - Source: `include/llm/llamacpp_training_backend.h`:292
-- Brief: Load LoRA weights from checkpoint (for resuming training).
+- Brief: Load LoRA weights from checkpoint (for resuming training)
 - Parameters:
   - `checkpoint_path` (const std::string &): Path to the checkpoint.
 - Return: True when the operation succeeds.
@@ -60703,7 +58874,7 @@ Status: active
 
 #### `bool saveCheckpoint(const std::string &checkpoint_path, const CheckpointData &data)`
 - Source: `include/llm/llamacpp_training_backend.h`:300
-- Brief: Save complete checkpoint (weights + optimizer state + metadata).
+- Brief: Save complete checkpoint (weights + optimizer state + metadata)
 - Parameters:
   - `checkpoint_path` (const std::string &): Path to the checkpoint.
   - `data` (const CheckpointData &): Input parameter.
@@ -60804,4 +58975,3 @@ Status: active
 - Parameters: none
 - Return: Return value.
 - Details: Return value.
-
