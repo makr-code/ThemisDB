@@ -1065,7 +1065,7 @@ Calls: <ref refid="classthemisdb_1_1temporal_1_1TemporalQueryEngine_1adc025569c1
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_query_engine.h" line="377" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="534" bodyend="578"/>
+        <location file="include/temporal/temporal_query_engine.h" line="377" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="524" bodyend="568"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1TemporalQueryEngine_1a91cec84cc921daa277690f104eebbbcf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1VersionedDocument" kindref="compound">VersionedDocument</ref> &gt;</type>
@@ -1147,7 +1147,7 @@ Calls: <ref refid="classthemisdb_1_1temporal_1_1TemporalQueryEngine_1a14d46470b9
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_query_engine.h" line="397" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="588" bodyend="638"/>
+        <location file="include/temporal/temporal_query_engine.h" line="397" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="578" bodyend="628"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1TemporalQueryEngine_1acdb14ce3159b4962aacb3c40638d96e3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1VersionedDocument" kindref="compound">VersionedDocument</ref> &gt;</type>
@@ -1227,7 +1227,7 @@ Calls: getAllKeys(), coalesceVersions(), getHistory(), push_back(), std::move(),
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_query_engine.h" line="439" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="724" bodyend="748"/>
+        <location file="include/temporal/temporal_query_engine.h" line="439" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="714" bodyend="738"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1TemporalQueryEngine_1a722e9546a006715095e30c09303c4e62" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1VersionedDocument" kindref="compound">VersionedDocument</ref> &gt;</type>
@@ -1312,7 +1312,7 @@ Calls: coalesceVersions(), getHistory(). </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_query_engine.h" line="455" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="758" bodyend="764"/>
+        <location file="include/temporal/temporal_query_engine.h" line="455" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="748" bodyend="754"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

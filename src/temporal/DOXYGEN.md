@@ -3,7 +3,14 @@
 Author: ThemisDB Contributors
 Created: 2026-11-01
 Last Updated: 2026-11-01
-Status: active
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+
+Exact model backend not verifiable from final document text alone.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -157,9 +164,14 @@ Status: active
 - Regenerate via scripts/generate_module_doxygen_xml.py --write-module-markdown.
 
 ## Detailed Function Documentation (Soll-Ist)
-- Functions extracted: 1082
+- Functions extracted: 1531
 
 ### ApplicationTimeTest
+
+#### `void SetUp() override`
+- Source: `tests/temporal/test_temporal_query_engine.cpp`:371
+- Brief: n/a
+- Parameters: none
 
 #### `void SetUp() override`
 - Source: `tests/temporal/test_temporal_query_engine.cpp`:371
@@ -170,6 +182,16 @@ Status: active
 
 #### `void SetUp() override`
 - Source: `tests/temporal/test_temporal_cdc.cpp`:264
+- Brief: n/a
+- Parameters: none
+
+#### `void SetUp() override`
+- Source: `tests/temporal/test_temporal_cdc.cpp`:264
+- Brief: n/a
+- Parameters: none
+
+#### `void TearDown() override`
+- Source: `tests/temporal/test_temporal_cdc.cpp`:267
 - Brief: n/a
 - Parameters: none
 
@@ -185,10 +207,27 @@ Status: active
   - `table` (const std::string &): n/a
   - `key` (const std::string &): n/a
 
+#### `ChangeEvent makeEvent(const std::string &table, const std::string &key)`
+- Source: `tests/temporal/test_temporal_cdc.cpp`:271
+- Brief: n/a
+- Parameters:
+  - `table` (const std::string &): n/a
+  - `key` (const std::string &): n/a
+
 ### ColdStoreFileSystemTest
 
 #### `void SetUp() override`
 - Source: `tests/temporal/test_temporal_cold_store.cpp`:155
+- Brief: n/a
+- Parameters: none
+
+#### `void SetUp() override`
+- Source: `tests/temporal/test_temporal_cold_store.cpp`:155
+- Brief: n/a
+- Parameters: none
+
+#### `void TearDown() override`
+- Source: `tests/temporal/test_temporal_cold_store.cpp`:162
 - Brief: n/a
 - Parameters: none
 
@@ -204,6 +243,11 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `void SetUp() override`
+- Source: `tests/temporal/test_temporal_query_engine.cpp`:643
+- Brief: n/a
+- Parameters: none
+
 ### ExecuteTemporalQueryTest
 
 #### `void SetUp() override`
@@ -211,7 +255,21 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `void SetUp() override`
+- Source: `tests/temporal/test_temporal_query_engine.cpp`:554
+- Brief: n/a
+- Parameters: none
+
 ### IntervalTreeIndexTest
+
+#### `IntervalEntry makeEntry(const std::string &key, Timestamp start, Timestamp end, nlohmann::json payload={})`
+- Source: `tests/temporal/test_interval_tree_index.cpp`:19
+- Brief: n/a
+- Parameters:
+  - `key` (const std::string &): n/a
+  - `start` (Timestamp): n/a
+  - `end` (Timestamp): n/a
+  - `payload` (nlohmann::json): n/a
 
 #### `IntervalEntry makeEntry(const std::string &key, Timestamp start, Timestamp end, nlohmann::json payload={})`
 - Source: `tests/temporal/test_interval_tree_index.cpp`:19
@@ -231,6 +289,13 @@ Status: active
   - `t` (SystemVersionedTable &): n/a
   - `n_updates` (size_t): n/a
 
+#### `void populateHistory(SystemVersionedTable &t, size_t n_updates)`
+- Source: `tests/temporal/test_retention_manager.cpp`:18
+- Brief: n/a
+- Parameters:
+  - `t` (SystemVersionedTable &): n/a
+  - `n_updates` (size_t): n/a
+
 ### SnapshotDiffTest
 
 #### `SystemVersionedTable buildTable(const std::string &name, std::vector< std::pair< std::string, int > > kv)`
@@ -240,7 +305,19 @@ Status: active
   - `name` (const std::string &): n/a
   - `kv` (std::vector< std::pair< std::string, int > >): n/a
 
+#### `SystemVersionedTable buildTable(const std::string &name, std::vector< std::pair< std::string, int > > kv)`
+- Source: `tests/temporal/test_snapshot_manager.cpp`:404
+- Brief: n/a
+- Parameters:
+  - `name` (const std::string &): n/a
+  - `kv` (std::vector< std::pair< std::string, int > >): n/a
+
 ### SnapshotDiffV18V19Test
+
+#### `void SetUp() override`
+- Source: `tests/temporal/test_temporal_v18_v19.cpp`:190
+- Brief: n/a
+- Parameters: none
 
 #### `void SetUp() override`
 - Source: `tests/temporal/test_temporal_v18_v19.cpp`:190
@@ -257,6 +334,19 @@ Status: active
   - `ts_ms` (uint64_t): n/a
   - `change_type` (const std::string &): n/a
 
+#### `bool emit(uint64_t entity_id, uint64_t ts_ms, const std::string &change_type) noexcept`
+- Source: `tests/temporal/test_temporal_highcardinality_stress.cpp`:79
+- Brief: n/a
+- Parameters:
+  - `entity_id` (uint64_t): n/a
+  - `ts_ms` (uint64_t): n/a
+  - `change_type` (const std::string &): n/a
+
+#### `uint64_t totalEvents() const noexcept`
+- Source: `tests/temporal/test_temporal_highcardinality_stress.cpp`:84
+- Brief: n/a
+- Parameters: none
+
 #### `uint64_t totalEvents() const noexcept`
 - Source: `tests/temporal/test_temporal_highcardinality_stress.cpp`:84
 - Brief: n/a
@@ -271,6 +361,18 @@ Status: active
   - `ver_a` (uint64_t): n/a
   - `ver_b` (uint64_t): n/a
 
+#### `ConflictResolutionResult resolve(uint64_t ver_a, uint64_t ver_b) noexcept`
+- Source: `tests/temporal/test_temporal_highcardinality_stress.cpp`:67
+- Brief: n/a
+- Parameters:
+  - `ver_a` (uint64_t): n/a
+  - `ver_b` (uint64_t): n/a
+
+#### `uint64_t totalOps() const noexcept`
+- Source: `tests/temporal/test_temporal_highcardinality_stress.cpp`:72
+- Brief: n/a
+- Parameters: none
+
 #### `uint64_t totalOps() const noexcept`
 - Source: `tests/temporal/test_temporal_highcardinality_stress.cpp`:72
 - Brief: n/a
@@ -282,6 +384,19 @@ Status: active
 - Source: `tests/temporal/test_temporal_highcardinality_stress.cpp`:54
 - Brief: n/a
 - Parameters: none
+
+#### `uint64_t totalWrites() const noexcept`
+- Source: `tests/temporal/test_temporal_highcardinality_stress.cpp`:54
+- Brief: n/a
+- Parameters: none
+
+#### `WriteResult write(uint64_t entity_id, uint64_t ts_ms, const std::string &) noexcept`
+- Source: `tests/temporal/test_temporal_highcardinality_stress.cpp`:48
+- Brief: n/a
+- Parameters:
+  - `entity_id` (uint64_t): n/a
+  - `ts_ms` (uint64_t): n/a
+  - `<unnamed>` (const std::string &): n/a
 
 #### `WriteResult write(uint64_t entity_id, uint64_t ts_ms, const std::string &) noexcept`
 - Source: `tests/temporal/test_temporal_highcardinality_stress.cpp`:48
@@ -298,8 +413,23 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `void SetUp() override`
+- Source: `tests/temporal/test_temporal_aggregation_property.cpp`:11
+- Brief: n/a
+- Parameters: none
+
 #### `void TearDown() override`
 - Source: `tests/temporal/test_temporal_aggregation_property.cpp`:28
+- Brief: n/a
+- Parameters: none
+
+#### `void TearDown() override`
+- Source: `tests/temporal/test_temporal_aggregation_property.cpp`:28
+- Brief: n/a
+- Parameters: none
+
+#### `void createTemporalTestGraph()`
+- Source: `tests/temporal/test_temporal_aggregation_property.cpp`:35
 - Brief: n/a
 - Parameters: none
 
@@ -315,6 +445,16 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `void SetUp() override`
+- Source: `tests/temporal/test_temporal_aggregation.cpp`:12
+- Brief: n/a
+- Parameters: none
+
+#### `void TearDown() override`
+- Source: `tests/temporal/test_temporal_aggregation.cpp`:33
+- Brief: n/a
+- Parameters: none
+
 #### `void TearDown() override`
 - Source: `tests/temporal/test_temporal_aggregation.cpp`:33
 - Brief: n/a
@@ -325,7 +465,21 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `void createTemporalTestGraph()`
+- Source: `tests/temporal/test_temporal_aggregation.cpp`:40
+- Brief: n/a
+- Parameters: none
+
 ### TemporalCDCTest
+
+#### `ChangeEvent makeEvent(const std::string &table, ChangeType type, const std::string &entity_id, Timestamp ts=1000)`
+- Source: `tests/temporal/test_temporal_cdc.cpp`:18
+- Brief: n/a
+- Parameters:
+  - `table` (const std::string &): n/a
+  - `type` (ChangeType): n/a
+  - `entity_id` (const std::string &): n/a
+  - `ts` (Timestamp): n/a
 
 #### `ChangeEvent makeEvent(const std::string &table, ChangeType type, const std::string &entity_id, Timestamp ts=1000)`
 - Source: `tests/temporal/test_temporal_cdc.cpp`:18
@@ -348,12 +502,37 @@ Status: active
   - `node_id` (const std::string &): n/a
   - `data` (nlohmann::json): n/a
 
+#### `TemporalSnapshot makeSnap(const std::string &id, uint64_t physical, uint32_t logical, const std::string &node_id, nlohmann::json data)`
+- Source: `tests/temporal/test_temporal_conflict_resolver.cpp`:471
+- Brief: n/a
+- Parameters:
+  - `id` (const std::string &): n/a
+  - `physical` (uint64_t): n/a
+  - `logical` (uint32_t): n/a
+  - `node_id` (const std::string &): n/a
+  - `data` (nlohmann::json): n/a
+
 ### TemporalConflictResolverTest
 
 #### `void SetUp() override`
 - Source: `tests/temporal/test_temporal_conflict_resolver.cpp`:16
 - Brief: n/a
 - Parameters: none
+
+#### `void SetUp() override`
+- Source: `tests/temporal/test_temporal_conflict_resolver.cpp`:16
+- Brief: n/a
+- Parameters: none
+
+#### `TemporalSnapshot createSnapshot(const std::string &id, uint64_t physical, uint32_t logical, const std::string &node_id, const std::string &value)`
+- Source: `tests/temporal/test_temporal_conflict_resolver.cpp`:20
+- Brief: n/a
+- Parameters:
+  - `id` (const std::string &): n/a
+  - `physical` (uint64_t): n/a
+  - `logical` (uint32_t): n/a
+  - `node_id` (const std::string &): n/a
+  - `value` (const std::string &): n/a
 
 #### `TemporalSnapshot createSnapshot(const std::string &id, uint64_t physical, uint32_t logical, const std::string &node_id, const std::string &value)`
 - Source: `tests/temporal/test_temporal_conflict_resolver.cpp`:20
@@ -372,10 +551,31 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `void SetUp() override`
+- Source: `tests/temporal/test_temporal_graph.cpp`:13
+- Brief: n/a
+- Parameters: none
+
 #### `void TearDown() override`
 - Source: `tests/temporal/test_temporal_graph.cpp`:38
 - Brief: n/a
 - Parameters: none
+
+#### `void TearDown() override`
+- Source: `tests/temporal/test_temporal_graph.cpp`:38
+- Brief: n/a
+- Parameters: none
+
+#### `themis::BaseEntity createTemporalEdge(const std::string &id, const std::string &from, const std::string &to, std::optional< int64_t > valid_from=std::nullopt, std::optional< int64_t > valid_to=std::nullopt, double weight=1.0)`
+- Source: `tests/temporal/test_temporal_graph.cpp`:55
+- Brief: n/a
+- Parameters:
+  - `id` (const std::string &): n/a
+  - `from` (const std::string &): n/a
+  - `to` (const std::string &): n/a
+  - `valid_from` (std::optional< int64_t >): n/a
+  - `valid_to` (std::optional< int64_t >): n/a
+  - `weight` (double): n/a
 
 #### `themis::BaseEntity createTemporalEdge(const std::string &id, const std::string &from, const std::string &to, std::optional< int64_t > valid_from=std::nullopt, std::optional< int64_t > valid_to=std::nullopt, double weight=1.0)`
 - Source: `tests/temporal/test_temporal_graph.cpp`:55
@@ -396,7 +596,24 @@ Status: active
   - `month` (int): n/a
   - `day` (int): n/a
 
+#### `int64_t toTimestamp(int year, int month, int day)`
+- Source: `tests/temporal/test_temporal_graph.cpp`:45
+- Brief: n/a
+- Parameters:
+  - `year` (int): n/a
+  - `month` (int): n/a
+  - `day` (int): n/a
+
 ### TemporalIndexTest
+
+#### `TemporalIndexEntry makeEntry(const std::string &key, Timestamp start, Timestamp end, nlohmann::json payload={})`
+- Source: `tests/temporal/test_temporal_index.cpp`:17
+- Brief: n/a
+- Parameters:
+  - `key` (const std::string &): n/a
+  - `start` (Timestamp): n/a
+  - `end` (Timestamp): n/a
+  - `payload` (nlohmann::json): n/a
 
 #### `TemporalIndexEntry makeEntry(const std::string &key, Timestamp start, Timestamp end, nlohmann::json payload={})`
 - Source: `tests/temporal/test_temporal_index.cpp`:17
@@ -416,6 +633,20 @@ Status: active
   - `key` (const std::string &): n/a
   - `versions` (int): n/a
 
+#### `std::vector< VersionedDocument > makeHistory(const std::string &key, int versions)`
+- Source: `tests/temporal/test_temporal_migrator.cpp`:48
+- Brief: n/a
+- Parameters:
+  - `key` (const std::string &): n/a
+  - `versions` (int): n/a
+
+#### `std::unordered_map< std::string, Document > makeSourceDocs(int n=5, const std::string &prefix="emp")`
+- Source: `tests/temporal/test_temporal_migrator.cpp`:32
+- Brief: n/a
+- Parameters:
+  - `n` (int): n/a
+  - `prefix` (const std::string &): n/a
+
 #### `std::unordered_map< std::string, Document > makeSourceDocs(int n=5, const std::string &prefix="emp")`
 - Source: `tests/temporal/test_temporal_migrator.cpp`:32
 - Brief: n/a
@@ -430,6 +661,11 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `void SetUp() override`
+- Source: `tests/temporal/test_temporal_query_engine.cpp`:16
+- Brief: n/a
+- Parameters: none
+
 ### TemporalSnapshotManagerTest
 
 #### `void advanceTime(Timestamp ms)`
@@ -437,6 +673,18 @@ Status: active
 - Brief: n/a
 - Parameters:
   - `ms` (Timestamp): n/a
+
+#### `void advanceTime(Timestamp ms)`
+- Source: `tests/temporal/test_snapshot_manager.cpp`:24
+- Brief: n/a
+- Parameters:
+  - `ms` (Timestamp): n/a
+
+#### `void populateTable(SystemVersionedTable &t)`
+- Source: `tests/temporal/test_snapshot_manager.cpp`:26
+- Brief: n/a
+- Parameters:
+  - `t` (SystemVersionedTable &): n/a
 
 #### `void populateTable(SystemVersionedTable &t)`
 - Source: `tests/temporal/test_snapshot_manager.cpp`:26
@@ -451,12 +699,27 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `void SetUp() override`
+- Source: `tests/temporal/test_temporal_tier_manager.cpp`:348
+- Brief: n/a
+- Parameters: none
+
+#### `void TearDown() override`
+- Source: `tests/temporal/test_temporal_tier_manager.cpp`:364
+- Brief: n/a
+- Parameters: none
+
 #### `void TearDown() override`
 - Source: `tests/temporal/test_temporal_tier_manager.cpp`:364
 - Brief: n/a
 - Parameters: none
 
 ### TierManagerTest
+
+#### `void SetUp() override`
+- Source: `tests/temporal/test_temporal_tier_manager.cpp`:164
+- Brief: n/a
+- Parameters: none
 
 #### `void SetUp() override`
 - Source: `tests/temporal/test_temporal_tier_manager.cpp`:164
@@ -4892,7 +5155,7 @@ Status: active
 - Details: c Input parameter. Return value. Implements base64CharValue without additional internal calls.
 
 #### `size_t batchLimit(const RetentionPolicy &policy)`
-- Source: `src/temporal/retention_manager.cpp`:341
+- Source: `src/temporal/retention_manager.cpp`:321
 - Brief: Batch Limit.
 - Parameters:
   - `policy` (const RetentionPolicy &): Input parameter.
@@ -4900,7 +5163,7 @@ Status: active
 - Details: policy Input parameter. Return value. Calls: max().
 
 #### `uint64_t estimateVersionSize(const VersionedDocument &v)`
-- Source: `src/temporal/retention_manager.cpp`:311
+- Source: `src/temporal/retention_manager.cpp`:291
 - Brief: Estimate Version Size.
 - Parameters:
   - `v` (const VersionedDocument &): Input parameter.
@@ -4913,7 +5176,7 @@ Status: active
 - Parameters: none
 
 #### `std::vector< ChangeEvent > replayFile(const std::string &path)`
-- Source: `src/temporal/temporal_cdc.cpp`:561
+- Source: `src/temporal/temporal_cdc.cpp`:541
 - Brief: Replay File.
 - Parameters:
   - `path` (const std::string &): Input parameter.
@@ -4921,7 +5184,7 @@ Status: active
 - Details: path Input parameter. Return value. Calls: std::fopen(), c_str(), validateSegmentHeaderFile(), std::fclose(), std::fread(), payload(), data(), computeCRC32().
 
 #### `std::string resolveArchiveTag(const RetentionPolicy &policy, const std::string &table_name)`
-- Source: `src/temporal/retention_manager.cpp`:324
+- Source: `src/temporal/retention_manager.cpp`:304
 - Brief: Resolve Archive Tag.
 - Parameters:
   - `policy` (const RetentionPolicy &): Input parameter.
@@ -4936,7 +5199,20 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/temporal_aggregator.h`:86
+- Brief: n/a
+- Parameters: none
+
 ### themisdb::temporal::BiTemporalJoin
+
+#### `BiTemporalJoin(std::vector< BiTemporalRow > left, std::vector< BiTemporalRow > right)`
+- Source: `include/temporal/bitemporal_join.h`:112
+- Brief: Construct the join operator with input row sets.
+- Parameters:
+  - `left` (std::vector< BiTemporalRow >): Left-hand versioned rows.
+  - `right` (std::vector< BiTemporalRow >): Right-hand versioned rows.
+- Details: left Left-hand versioned rows. right Right-hand versioned rows.
 
 #### `BiTemporalJoin(std::vector< BiTemporalRow > left, std::vector< BiTemporalRow > right)`
 - Source: `include/temporal/bitemporal_join.h`:112
@@ -4955,10 +5231,31 @@ Status: active
   - `config` (Config): Join configuration (mode, point-in-time, etc.).
 - Details: left Left-hand versioned rows. right Right-hand versioned rows. config Join configuration (mode, point-in-time, etc.).
 
+#### `BiTemporalJoin(std::vector< BiTemporalRow > left, std::vector< BiTemporalRow > right, Config config)`
+- Source: `include/temporal/bitemporal_join.h`:122
+- Brief: Construct the join operator with input row sets.
+- Parameters:
+  - `left` (std::vector< BiTemporalRow >): Left-hand versioned rows.
+  - `right` (std::vector< BiTemporalRow >): Right-hand versioned rows.
+  - `config` (Config): Join configuration (mode, point-in-time, etc.).
+- Details: left Left-hand versioned rows. right Right-hand versioned rows. config Join configuration (mode, point-in-time, etc.).
+
 #### `const Config & config() const noexcept`
 - Source: `include/temporal/bitemporal_join.h`:141
 - Brief: n/a
 - Parameters: none
+
+#### `const Config & config() const noexcept`
+- Source: `include/temporal/bitemporal_join.h`:141
+- Brief: n/a
+- Parameters: none
+
+#### `bool containedIn(const TimeRange &inner, const TimeRange &outer) noexcept`
+- Source: `include/temporal/bitemporal_join.h`:153
+- Brief: True iff inner is fully contained within outer.
+- Parameters:
+  - `inner` (const TimeRange &): n/a
+  - `outer` (const TimeRange &): n/a
 
 #### `bool containedIn(const TimeRange &inner, const TimeRange &outer) noexcept`
 - Source: `include/temporal/bitemporal_join.h`:153
@@ -4973,6 +5270,20 @@ Status: active
 - Parameters: none
 - Return: Vector of bi-temporal join results, sorted by key then by valid_time_overlap.start.
 - Details: Vector of bi-temporal join results, sorted by key then by valid_time_overlap.start.
+
+#### `std::vector< BiTemporalJoinResult > execute() const`
+- Source: `include/temporal/bitemporal_join.h`:132
+- Brief: Execute the join and return all matching result rows.
+- Parameters: none
+- Return: Vector of bi-temporal join results, sorted by key then by valid_time_overlap.start.
+- Details: Vector of bi-temporal join results, sorted by key then by valid_time_overlap.start.
+
+#### `void forEach(std::function< bool(BiTemporalJoinResult)> cb) const`
+- Source: `include/temporal/bitemporal_join.h`:139
+- Brief: Stream results row by row via a callback (avoids materialisation).
+- Parameters:
+  - `cb` (std::function< bool(BiTemporalJoinResult)>): Called once for each result row. Return false to stop early.
+- Details: cb Called once for each result row. Return false to stop early.
 
 #### `void forEach(std::function< bool(BiTemporalJoinResult)> cb) const`
 - Source: `include/temporal/bitemporal_join.h`:139
@@ -4990,6 +5301,22 @@ Status: active
 - Return: Intersection, or an empty/invalid range when they do not overlap.
 - Details: Intersection, or an empty/invalid range when they do not overlap.
 
+#### `TimeRange intersection(const TimeRange &a, const TimeRange &b) noexcept`
+- Source: `include/temporal/bitemporal_join.h`:161
+- Brief: Compute the intersection of two TimeRanges.
+- Parameters:
+  - `a` (const TimeRange &): n/a
+  - `b` (const TimeRange &): n/a
+- Return: Intersection, or an empty/invalid range when they do not overlap.
+- Details: Intersection, or an empty/invalid range when they do not overlap.
+
+#### `BiTemporalJoinResult makeResult(const BiTemporalRow &l, const BiTemporalRow &r) const noexcept`
+- Source: `include/temporal/bitemporal_join.h`:169
+- Brief: n/a
+- Parameters:
+  - `l` (const BiTemporalRow &): n/a
+  - `r` (const BiTemporalRow &): n/a
+
 #### `BiTemporalJoinResult makeResult(const BiTemporalRow &l, const BiTemporalRow &r) const noexcept`
 - Source: `include/temporal/bitemporal_join.h`:169
 - Brief: n/a
@@ -5003,6 +5330,20 @@ Status: active
 - Parameters:
   - `a` (const TimeRange &): n/a
   - `b` (const TimeRange &): n/a
+
+#### `bool overlaps(const TimeRange &a, const TimeRange &b) noexcept`
+- Source: `include/temporal/bitemporal_join.h`:148
+- Brief: True iff two TimeRanges overlap (non-empty intersection).
+- Parameters:
+  - `a` (const TimeRange &): n/a
+  - `b` (const TimeRange &): n/a
+
+#### `bool rowMatches(const BiTemporalRow &l, const BiTemporalRow &r) const noexcept`
+- Source: `include/temporal/bitemporal_join.h`:168
+- Brief: n/a
+- Parameters:
+  - `l` (const BiTemporalRow &): n/a
+  - `r` (const BiTemporalRow &): n/a
 
 #### `bool rowMatches(const BiTemporalRow &l, const BiTemporalRow &r) const noexcept`
 - Source: `include/temporal/bitemporal_join.h`:168
@@ -5019,13 +5360,32 @@ Status: active
 - Parameters:
   - `o` (const BiTemporalJoinResult &): n/a
 
+#### `bool operator==(const BiTemporalJoinResult &o) const noexcept`
+- Source: `include/temporal/bitemporal_join.h`:53
+- Brief: n/a
+- Parameters:
+  - `o` (const BiTemporalJoinResult &): n/a
+
 ### themisdb::temporal::BiTemporalTable
+
+#### `BiTemporalTable(BiTemporalTable &&)=delete`
+- Source: `include/temporal/bi_temporal.h`:114
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (BiTemporalTable &&): n/a
 
 #### `BiTemporalTable(BiTemporalTable &&)=delete`
 - Source: `include/temporal/bi_temporal.h`:109
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BiTemporalTable &&): n/a
+
+#### `BiTemporalTable(const BiTemporalTable &)=delete`
+- Source: `include/temporal/bi_temporal.h`:112
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (const BiTemporalTable &): n/a
+- Details: Move semantics: BiTemporalTable is intentionally non-movable. The internal std::mutex cannot be moved, and moving a live table under concurrent access would create data-race hazards (CWE-362). Wrap in std::shared_ptr<BiTemporalTable> when shared/transferred ownership is required.
 
 #### `BiTemporalTable(const BiTemporalTable &)=delete`
 - Source: `include/temporal/bi_temporal.h`:107
@@ -5035,11 +5395,27 @@ Status: active
 - Details: Move semantics: BiTemporalTable is intentionally non-movable. The internal std::mutex cannot be moved, and moving a live table under concurrent access would create data-race hazards (CWE-362). Wrap in std::shared_ptr<BiTemporalTable> when shared/transferred ownership is required.
 
 #### `BiTemporalTable(std::string table_name, std::string source_node="local")`
+- Source: `include/temporal/bi_temporal.h`:101
+- Brief: Construct a bi-temporal table.
+- Parameters:
+  - `table_name` (std::string): Logical table name.
+  - `source_node` (std::string): Source label recorded on newly written versions.
+- Details: table_name Logical table name. source_node Source label recorded on newly written versions.
+
+#### `BiTemporalTable(std::string table_name, std::string source_node="local")`
 - Source: `include/temporal/bi_temporal.h`:96
 - Brief: n/a
 - Parameters:
   - `table_name` (std::string): n/a
   - `source_node` (std::string): n/a
+
+#### `size_t closeCurrentRows(VersionList &versions, Timestamp close_time, const std::function< bool(const VersionedDocument &)> &pred)`
+- Source: `include/temporal/bi_temporal.h`:315
+- Brief: n/a
+- Parameters:
+  - `versions` (VersionList &): n/a
+  - `close_time` (Timestamp): n/a
+  - `pred` (const std::function< bool(const VersionedDocument &)> &): n/a
 
 #### `size_t closeCurrentRows(VersionList &versions, Timestamp close_time, const std::function< bool(const VersionedDocument &)> &pred)`
 - Source: `include/temporal/bi_temporal.h`:265
@@ -5048,6 +5424,15 @@ Status: active
   - `versions` (VersionList &): n/a
   - `close_time` (Timestamp): n/a
   - `pred` (const std::function< bool(const VersionedDocument &)> &): n/a
+
+#### `size_t deleteForValidTime(const std::string &key, Timestamp valid_at)`
+- Source: `include/temporal/bi_temporal.h`:144
+- Brief: Delete For Valid Time.
+- Parameters:
+  - `key` (const std::string &): Input parameter.
+  - `valid_at` (Timestamp): Input parameter.
+- Return: Return value.
+- Details: Logically delete all current rows for a key whose valid-time period contains the given timestamp. Returns the number of rows closed. key Input parameter. valid_at Input parameter. Return value. Calls: lock(), find(), end(), now(), closeCurrentRows(), contains().
 
 #### `size_t deleteForValidTime(const std::string &key, Timestamp valid_at)`
 - Source: `include/temporal/bi_temporal.h`:139
@@ -5059,6 +5444,16 @@ Status: active
 - Details: Logically delete all current rows for a key whose valid-time period contains the given timestamp. Returns the number of rows closed. key Input parameter. valid_at Input parameter. Return value. Calls: lock(), find(), end(), now(), closeCurrentRows(), contains().
 
 #### `std::vector< TimeRange > findGaps(const std::string &key, Timestamp from, Timestamp to) const`
+- Source: `include/temporal/bi_temporal.h`:197
+- Brief: Find uncovered valid-time intervals for a key. Detect gaps in the valid-time coverage of current rows for a key within the half-open interval [from, to).
+- Parameters:
+  - `key` (const std::string &): Logical row key to inspect.
+  - `from` (Timestamp): Inclusive start of the query interval.
+  - `to` (Timestamp): Exclusive end of the query interval.
+- Return: Uncovered sub-intervals, or an empty vector when none exist or the query interval is invalid.
+- Details: A gap is a sub-interval within [from, to) not covered by any current row's valid-time period. Returns an empty vector when the period [from, to) is fully covered. Returns {{from, to}} when the key has no current rows or none of them overlap the query range (the entire interval is a gap). Returns an empty vector when from >= to. key Logical row key to inspect. from Inclusive start of the query interval. to Exclusive end of the query interval. Uncovered sub-intervals, or an empty vector when none exist or the query interval is invalid.
+
+#### `std::vector< TimeRange > findGaps(const std::string &key, Timestamp from, Timestamp to) const`
 - Source: `include/temporal/bi_temporal.h`:178
 - Brief: n/a
 - Parameters:
@@ -5068,6 +5463,14 @@ Status: active
 - Details: Detect gaps in the valid-time coverage of current rows for a key within the half-open interval [from, to). A gap is a sub-interval within [from, to) not covered by any current row's valid-time period. Returns an empty vector when the period [from, to) is fully covered. Returns {{from, to}} when the key has no current rows or none of them overlap the query range (the entire interval is a gap). Returns an empty vector when from >= to.
 
 #### `std::vector< std::pair< VersionedDocument, VersionedDocument > > findOverlaps(const std::string &key) const`
+- Source: `include/temporal/bi_temporal.h`:176
+- Brief: Detect overlaps among current rows for a key.
+- Parameters:
+  - `key` (const std::string &): Logical row key to inspect.
+- Return: Pairs of overlapping versions; empty when no overlaps exist.
+- Details: key Logical row key to inspect. Pairs of overlapping versions; empty when no overlaps exist.
+
+#### `std::vector< std::pair< VersionedDocument, VersionedDocument > > findOverlaps(const std::string &key) const`
 - Source: `include/temporal/bi_temporal.h`:163
 - Brief: n/a
 - Parameters:
@@ -5075,10 +5478,25 @@ Status: active
 - Details: Detect overlaps among current rows for a key. Returns pairs of overlapping VersionedDocuments.
 
 #### `std::vector< std::string > getAllKeys() const`
+- Source: `include/temporal/bi_temporal.h`:243
+- Brief: Return every key ever written to the table. Includes keys whose rows have all been logically deleted. Useful for bi-temporal joins that must enumerate every key ever written.
+- Parameters: none
+- Return: All known keys.
+- Details: All known keys.
+
+#### `std::vector< std::string > getAllKeys() const`
 - Source: `include/temporal/bi_temporal.h`:213
 - Brief: n/a
 - Parameters: none
 - Details: Return all known keys (including keys whose rows have all been logically deleted). Useful for bi-temporal joins that must enumerate every key ever written to the table.
+
+#### `std::vector< VersionedDocument > getHistory(const std::string &key) const`
+- Source: `include/temporal/bi_temporal.h`:223
+- Brief: Return all versions (history) for a key.
+- Parameters:
+  - `key` (const std::string &): Logical row key to query.
+- Return: Versions for the key in stored order, or an empty vector if the key has no history.
+- Details: key Logical row key to query. Versions for the key in stored order, or an empty vector if the key has no history.
 
 #### `std::vector< VersionedDocument > getHistory(const std::string &key) const`
 - Source: `include/temporal/bi_temporal.h`:197
@@ -5088,9 +5506,25 @@ Status: active
 - Details: Return all versions (history) for a key.
 
 #### `nlohmann::json getStatistics() const`
+- Source: `include/temporal/bi_temporal.h`:302
+- Brief: Return a snapshot of table statistics.
+- Parameters: none
+- Return: JSON with table_name, key_count, current_rows, historical_rows, and total_versions.
+- Details: JSON with table_name, key_count, current_rows, historical_rows, and total_versions.
+
+#### `nlohmann::json getStatistics() const`
 - Source: `include/temporal/bi_temporal.h`:252
 - Brief: n/a
 - Parameters: none
+
+#### `bool hasUniquenessConflict(const std::string &key, const TimeRange &period) const`
+- Source: `include/temporal/bi_temporal.h`:214
+- Brief: Check whether a valid-time period conflicts with current rows. Check whether inserting a row with the given valid-time period for key would violate the temporal uniqueness constraint (i.e., overlap with an existing current row).
+- Parameters:
+  - `key` (const std::string &): Logical row key to check.
+  - `period` (const TimeRange &): Candidate half-open valid-time interval.
+- Return: true if the period overlaps a current row; false otherwise.
+- Details: Returns false immediately when period is empty or invalid (i.e., period.start >= period.end). Returns true when a conflict exists; false when the insert would succeed. key Logical row key to check. period Candidate half-open valid-time interval. true if the period overlaps a current row; false otherwise.
 
 #### `bool hasUniquenessConflict(const std::string &key, const TimeRange &period) const`
 - Source: `include/temporal/bi_temporal.h`:191
@@ -5099,6 +5533,16 @@ Status: active
   - `key` (const std::string &): n/a
   - `period` (const TimeRange &): n/a
 - Details: Check whether inserting a row with the given valid-time period for key would violate the temporal uniqueness constraint (i.e., overlap with an existing current row). Returns false immediately when period is empty or invalid (i.e., period.start >= period.end). Returns true when a conflict exists; false when the insert would succeed.
+
+#### `bool insertWithValidTime(const std::string &key, const Document &doc, const TimeRange &valid_time)`
+- Source: `include/temporal/bi_temporal.h`:124
+- Brief: Insert With Valid Time.
+- Parameters:
+  - `key` (const std::string &): Input parameter.
+  - `doc` (const Document &): Input parameter.
+  - `valid_time` (const TimeRange &): Input parameter.
+- Return: True when the operation succeeds.
+- Details: Insert a row with an explicit valid-time period. Returns false and leaves the table unchanged when the valid-time period would overlap with an existing current row for the same key. key Input parameter. doc Input parameter. valid_time Input parameter. True when the operation succeeds. Calls: lock(), isCurrent(), overlaps(), now(), push_back(), std::move().
 
 #### `bool insertWithValidTime(const std::string &key, const Document &doc, const TimeRange &valid_time)`
 - Source: `include/temporal/bi_temporal.h`:119
@@ -5111,9 +5555,24 @@ Status: active
 - Details: Insert a row with an explicit valid-time period. Returns false and leaves the table unchanged when the valid-time period would overlap with an existing current row for the same key. key Input parameter. doc Input parameter. valid_time Input parameter. True when the operation succeeds. Calls: lock(), isCurrent(), overlaps(), now(), push_back(), std::move().
 
 #### `size_t keyCount() const`
+- Source: `include/temporal/bi_temporal.h`:289
+- Brief: Count distinct keys retained in the table.
+- Parameters: none
+- Return: Number of keys, including keys whose rows were logically deleted.
+- Details: Number of keys, including keys whose rows were logically deleted.
+
+#### `size_t keyCount() const`
 - Source: `include/temporal/bi_temporal.h`:250
 - Brief: n/a
 - Parameters: none
+
+#### `MergeResult merge(const BiTemporalTable &other)`
+- Source: `include/temporal/bi_temporal.h`:275
+- Brief: ============================================================================ BiTemporalTable::merge — cross-node LWW reconciliation (v1.
+- Parameters:
+  - `other` (const BiTemporalTable &): Input parameter.
+- Return: MergeResult with counters for inserted, skipped, and conflict-resolved rows.
+- Details: Merge all rows from another BiTemporalTable into this table. The merge follows Last-Writer-Wins (LWW) semantics based on sys_time.start: for each key, a remote row is considered conflicting with the local table when it overlaps a current local row in valid-time. The row with the later sys_time.start wins. Rows whose key has no overlapping current local valid-time are inserted. If table names differ (tableName() != other.tableName()), the merge is treated as a no-op and returns zero counters. The operation is atomic on each key (keys are locked one at a time) and does not modify other. other Source table. Must not be the same object as this. MergeResult with counters for inserted, skipped, and conflict-resolved rows. other Input parameter. Return value. 9.0) ============================================================================ Calls: lk_other(), lk_self(), max(), size(), isCurrent(), overlaps(), push_back().
 
 #### `MergeResult merge(const BiTemporalTable &other)`
 - Source: `include/temporal/bi_temporal.h`:245
@@ -5124,16 +5583,38 @@ Status: active
 - Details: Merge all rows from another BiTemporalTable into this table. The merge follows Last-Writer-Wins (LWW) semantics based on sys_time.start: for each key, a remote row is considered conflicting with the local table when it overlaps a current local row in valid-time. The row with the later sys_time.start wins. Rows whose key has no overlapping current local valid-time are inserted. If table names differ (tableName() != other.tableName()), the merge is treated as a no-op and returns zero counters. The operation is atomic on each key (keys are locked one at a time) and does not modify other. other Source table. Must not be the same object as this. MergeResult with counters for inserted, skipped, and conflict-resolved rows. other Input parameter. Return value. 9.0) ============================================================================ Calls: lk_other(), lk_self(), max(), size(), isCurrent(), overlaps(), push_back().
 
 #### `BiTemporalTable & operator=(BiTemporalTable &&)=delete`
+- Source: `include/temporal/bi_temporal.h`:115
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (BiTemporalTable &&): n/a
+
+#### `BiTemporalTable & operator=(BiTemporalTable &&)=delete`
 - Source: `include/temporal/bi_temporal.h`:110
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BiTemporalTable &&): n/a
 
 #### `BiTemporalTable & operator=(const BiTemporalTable &)=delete`
+- Source: `include/temporal/bi_temporal.h`:113
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (const BiTemporalTable &): n/a
+
+#### `BiTemporalTable & operator=(const BiTemporalTable &)=delete`
 - Source: `include/temporal/bi_temporal.h`:108
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const BiTemporalTable &): n/a
+
+#### `std::vector< VersionedDocument > queryBiTemporal(const std::string &key, Timestamp sys_as_of, Timestamp valid_at) const`
+- Source: `include/temporal/bi_temporal.h`:157
+- Brief: Run a bi-temporal AS-OF query. Returns rows that were current at sys_as_of and whose valid-time period contains valid_at.
+- Parameters:
+  - `key` (const std::string &): Logical row key to query.
+  - `sys_as_of` (Timestamp): System-time instant at which the row must have been current.
+  - `valid_at` (Timestamp): Valid-time instant that the row's valid-time period must contain.
+- Return: Matching versions, or an empty vector when no version matches.
+- Details: key Logical row key to query. sys_as_of System-time instant at which the row must have been current. valid_at Valid-time instant that the row's valid-time period must contain. Matching versions, or an empty vector when no version matches.
 
 #### `std::vector< VersionedDocument > queryBiTemporal(const std::string &key, Timestamp sys_as_of, Timestamp valid_at) const`
 - Source: `include/temporal/bi_temporal.h`:148
@@ -5145,12 +5626,30 @@ Status: active
 - Details: Bi-temporal AS-OF query. Returns rows that were current at sys_as_of and whose valid-time period contains valid_at.
 
 #### `std::vector< VersionedDocument > queryCurrentByValidTime(const std::string &key, Timestamp valid_at) const`
+- Source: `include/temporal/bi_temporal.h`:168
+- Brief: Return current rows for a key whose valid-time period contains valid_at.
+- Parameters:
+  - `key` (const std::string &): Logical row key to query.
+  - `valid_at` (Timestamp): Valid-time instant to test.
+- Return: Matching current versions, or an empty vector when none match.
+- Details: key Logical row key to query. valid_at Valid-time instant to test. Matching current versions, or an empty vector when none match.
+
+#### `std::vector< VersionedDocument > queryCurrentByValidTime(const std::string &key, Timestamp valid_at) const`
 - Source: `include/temporal/bi_temporal.h`:156
 - Brief: n/a
 - Parameters:
   - `key` (const std::string &): n/a
   - `valid_at` (Timestamp): n/a
 - Details: Return all current rows for a key whose valid-time period contains valid_at.
+
+#### `std::vector< VersionedDocument > scanBiTemporal(Timestamp sys_as_of, Timestamp valid_at) const`
+- Source: `include/temporal/bi_temporal.h`:234
+- Brief: Scan rows matching both system and valid time. Returns all rows where sys_time contains sys_as_of AND valid_time contains valid_at. Equivalent to a full-table AS-OF bi-temporal query.
+- Parameters:
+  - `sys_as_of` (Timestamp): System-time instant to query.
+  - `valid_at` (Timestamp): Valid-time instant to query.
+- Return: Matching versions, or an empty vector when none match.
+- Details: sys_as_of System-time instant to query. valid_at Valid-time instant to query. Matching versions, or an empty vector when none match.
 
 #### `std::vector< VersionedDocument > scanBiTemporal(Timestamp sys_as_of, Timestamp valid_at) const`
 - Source: `include/temporal/bi_temporal.h`:205
@@ -5161,9 +5660,26 @@ Status: active
 - Details: Bi-temporal table scan. Returns all rows where sys_time contains sys_as_of AND valid_time contains valid_at. Equivalent to a full-table AS-OF bi-temporal query.
 
 #### `const std::string & tableName() const noexcept`
+- Source: `include/temporal/bi_temporal.h`:283
+- Brief: Return this table's logical name.
+- Parameters: none
+- Return: Reference to the name owned by this table, valid for its lifetime.
+- Details: Reference to the name owned by this table, valid for its lifetime.
+
+#### `const std::string & tableName() const noexcept`
 - Source: `include/temporal/bi_temporal.h`:249
 - Brief: n/a
 - Parameters: none
+
+#### `bool updateForValidTime(const std::string &key, const Document &updates, Timestamp valid_at)`
+- Source: `include/temporal/bi_temporal.h`:135
+- Brief: Update For Valid Time.
+- Parameters:
+  - `key` (const std::string &): Input parameter.
+  - `updates` (const Document &): Input parameter.
+  - `valid_at` (Timestamp): Input parameter.
+- Return: True when the operation succeeds.
+- Details: Update the payload of the current row whose valid-time period contains the given timestamp. The old row's sys_time is closed; a new row is created with the merged data and the same valid-time period. Returns false if no matching current row is found. key Input parameter. updates Input parameter. valid_at Input parameter. True when the operation succeeds. Calls: lock(), find(), end(), isCurrent(), contains(), now(), items(), std::move().
 
 #### `bool updateForValidTime(const std::string &key, const Document &updates, Timestamp valid_at)`
 - Source: `include/temporal/bi_temporal.h`:130
@@ -5174,6 +5690,13 @@ Status: active
   - `valid_at` (Timestamp): Input parameter.
 - Return: True when the operation succeeds.
 - Details: Update the payload of the current row whose valid-time period contains the given timestamp. The old row's sys_time is closed; a new row is created with the merged data and the same valid-time period. Returns false if no matching current row is found. key Input parameter. updates Input parameter. valid_at Input parameter. True when the operation succeeds. Calls: lock(), find(), end(), isCurrent(), contains(), now(), items(), std::move().
+
+#### `size_t versionCount() const`
+- Source: `include/temporal/bi_temporal.h`:295
+- Brief: Count all current and historical row versions.
+- Parameters: none
+- Return: Total number of stored versions.
+- Details: Total number of stored versions.
 
 #### `size_t versionCount() const`
 - Source: `include/temporal/bi_temporal.h`:251
@@ -5187,6 +5710,18 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `BloomFilter()`
+- Source: `include/temporal/temporal_tier_manager.h`:107
+- Brief: n/a
+- Parameters: none
+
+#### `BloomFilter(size_t expected_elements, size_t bits_per_elem=8)`
+- Source: `include/temporal/temporal_tier_manager.h`:105
+- Brief: Construct for expected_elements items with bits_per_elem bits.
+- Parameters:
+  - `expected_elements` (size_t): n/a
+  - `bits_per_elem` (size_t): n/a
+
 #### `BloomFilter(size_t expected_elements, size_t bits_per_elem=8)`
 - Source: `include/temporal/temporal_tier_manager.h`:105
 - Brief: Construct for expected_elements items with bits_per_elem bits.
@@ -5195,10 +5730,22 @@ Status: active
   - `bits_per_elem` (size_t): n/a
 
 #### `void add(int64_t value) noexcept`
+- Source: `include/temporal/temporal_tier_manager.h`:114
+- Brief: Add a value to the filter.
+- Parameters:
+  - `value` (int64_t): Timestamp value to record.
+- Details: value Timestamp value to record. The filter may report false positives; it does not remove values.
+
+#### `void add(int64_t value) noexcept`
 - Source: `include/temporal/temporal_tier_manager.h`:109
 - Brief: n/a
 - Parameters:
   - `value` (int64_t): n/a
+
+#### `size_t bitCount() const noexcept`
+- Source: `include/temporal/temporal_tier_manager.h`:124
+- Brief: n/a
+- Parameters: none
 
 #### `size_t bitCount() const noexcept`
 - Source: `include/temporal/temporal_tier_manager.h`:112
@@ -5206,7 +5753,19 @@ Status: active
 - Parameters: none
 
 #### `uint64_t h1(uint64_t x) noexcept`
+- Source: `include/temporal/temporal_tier_manager.h`:130
+- Brief: n/a
+- Parameters:
+  - `x` (uint64_t): n/a
+
+#### `uint64_t h1(uint64_t x) noexcept`
 - Source: `include/temporal/temporal_tier_manager.h`:118
+- Brief: n/a
+- Parameters:
+  - `x` (uint64_t): n/a
+
+#### `uint64_t h2(uint64_t x) noexcept`
+- Source: `include/temporal/temporal_tier_manager.h`:131
 - Brief: n/a
 - Parameters:
   - `x` (uint64_t): n/a
@@ -5218,10 +5777,24 @@ Status: active
   - `x` (uint64_t): n/a
 
 #### `uint64_t h3(uint64_t x) noexcept`
+- Source: `include/temporal/temporal_tier_manager.h`:132
+- Brief: n/a
+- Parameters:
+  - `x` (uint64_t): n/a
+
+#### `uint64_t h3(uint64_t x) noexcept`
 - Source: `include/temporal/temporal_tier_manager.h`:120
 - Brief: n/a
 - Parameters:
   - `x` (uint64_t): n/a
+
+#### `bool mightContain(int64_t value) const noexcept`
+- Source: `include/temporal/temporal_tier_manager.h`:122
+- Brief: Test whether a value may have been added to the filter.
+- Parameters:
+  - `value` (int64_t): Timestamp value to test.
+- Return: false if the value was not added; true if it may have been added. A true result can be a false positive.
+- Details: value Timestamp value to test. false if the value was not added; true if it may have been added. A true result can be a false positive.
 
 #### `bool mightContain(int64_t value) const noexcept`
 - Source: `include/temporal/temporal_tier_manager.h`:110
@@ -5230,7 +5803,19 @@ Status: active
   - `value` (int64_t): n/a
 
 #### `void setBit(size_t idx) noexcept`
+- Source: `include/temporal/temporal_tier_manager.h`:134
+- Brief: n/a
+- Parameters:
+  - `idx` (size_t): n/a
+
+#### `void setBit(size_t idx) noexcept`
 - Source: `include/temporal/temporal_tier_manager.h`:122
+- Brief: n/a
+- Parameters:
+  - `idx` (size_t): n/a
+
+#### `bool testBit(size_t idx) const noexcept`
+- Source: `include/temporal/temporal_tier_manager.h`:135
 - Brief: n/a
 - Parameters:
   - `idx` (size_t): n/a
@@ -5244,10 +5829,25 @@ Status: active
 ### themisdb::temporal::CDCPersistentLog
 
 #### `CDCPersistentLog(const CDCPersistentLog &)=delete`
+- Source: `include/temporal/temporal_cdc.h`:403
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (const CDCPersistentLog &): n/a
+
+#### `CDCPersistentLog(const CDCPersistentLog &)=delete`
 - Source: `include/temporal/temporal_cdc.h`:400
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const CDCPersistentLog &): n/a
+
+#### `CDCPersistentLog(std::string segment_dir, std::string log_prefix="cdc", uint64_t max_segment_bytes=kDefaultMaxSegmentBytes)`
+- Source: `include/temporal/temporal_cdc.h`:396
+- Brief: n/a
+- Parameters:
+  - `segment_dir` (std::string): Directory in which WAL segments are stored. Created automatically if it does not exist.
+  - `log_prefix` (std::string): Prefix for segment file names (e.g. "cdc" or a table name). Must not be empty.
+  - `max_segment_bytes` (uint64_t): Rotate to a new segment after this many bytes.
+- Details: Construct a CDCPersistentLog. segment_dir Directory in which WAL segments are stored. Created automatically if it does not exist. log_prefix Prefix for segment file names (e.g. "cdc" or a table name). Must not be empty. max_segment_bytes Rotate to a new segment after this many bytes.
 
 #### `CDCPersistentLog(std::string segment_dir, std::string log_prefix="cdc", uint64_t max_segment_bytes=kDefaultMaxSegmentBytes)`
 - Source: `include/temporal/temporal_cdc.h`:393
@@ -5257,6 +5857,16 @@ Status: active
   - `log_prefix` (std::string): Prefix for segment file names (e.g. "cdc" or a table name). Must not be empty.
   - `max_segment_bytes` (uint64_t): Rotate to a new segment after this many bytes.
 - Details: Construct a CDCPersistentLog. segment_dir Directory in which WAL segments are stored. Created automatically if it does not exist. log_prefix Prefix for segment file names (e.g. "cdc" or a table name). Must not be empty. max_segment_bytes Rotate to a new segment after this many bytes.
+
+#### `void append(const ChangeEvent &event)`
+- Source: `include/temporal/temporal_cdc.h`:435
+- Brief: Append.
+- Parameters:
+  - `event` (const ChangeEvent &): Input parameter.
+- Throws:
+  - std::runtime_error: when called before open(), or on I/O errors.
+  - std::runtime_error: if an error occurs.
+- Details: Append a ChangeEvent to the persistent log. The event is JSON-serialised, CRC-32 checked, and written atomically (length-prefixed) to the current segment. If the segment exceeds max_segment_bytes after the write, a new segment is rotated. std::runtime_error when called before open(), or on I/O errors. event Input parameter. std::runtime_error if an error occurs. Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmentHeader(), size().
 
 #### `void append(const ChangeEvent &event)`
 - Source: `include/temporal/temporal_cdc.h`:432
@@ -5269,10 +5879,23 @@ Status: active
 - Details: Append a ChangeEvent to the persistent log. The event is JSON-serialised, CRC-32 checked, and written atomically (length-prefixed) to the current segment. If the segment exceeds max_segment_bytes after the write, a new segment is rotated. std::runtime_error when called before open(), or on I/O errors. event Input parameter. std::runtime_error if an error occurs. Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmentHeader(), size().
 
 #### `void close()`
+- Source: `include/temporal/temporal_cdc.h`:423
+- Brief: Close.
+- Parameters: none
+- Details: Flush and close the current segment file handle. Safe to call multiple times. Calls: lk(), std::fflush(), std::fclose().
+
+#### `void close()`
 - Source: `include/temporal/temporal_cdc.h`:420
 - Brief: Close.
 - Parameters: none
 - Details: Flush and close the current segment file handle. Safe to call multiple times. Calls: lk(), std::fflush(), std::fclose().
+
+#### `uint32_t crc32(const std::string &data) noexcept`
+- Source: `include/temporal/temporal_cdc.h`:505
+- Brief: n/a
+- Parameters:
+  - `data` (const std::string &): n/a
+- Details: Compute CRC-32/ISO-HDLC of data.
 
 #### `uint32_t crc32(const std::string &data) noexcept`
 - Source: `include/temporal/temporal_cdc.h`:501
@@ -5282,16 +5905,37 @@ Status: active
 - Details: Compute CRC-32/ISO-HDLC of data.
 
 #### `bool isOpen() const noexcept`
+- Source: `include/temporal/temporal_cdc.h`:467
+- Brief: n/a
+- Parameters: none
+- Details: true when the log is currently open for writing.
+
+#### `bool isOpen() const noexcept`
 - Source: `include/temporal/temporal_cdc.h`:463
 - Brief: n/a
 - Parameters: none
 - Details: true when the log is currently open for writing.
 
 #### `std::vector< uint64_t > listSegmentSeqs() const`
+- Source: `include/temporal/temporal_cdc.h`:496
+- Brief: n/a
+- Parameters: none
+- Details: Scan segment_dir_ for existing .wal files and return sorted seqs.
+
+#### `std::vector< uint64_t > listSegmentSeqs() const`
 - Source: `include/temporal/temporal_cdc.h`:492
 - Brief: n/a
 - Parameters: none
 - Details: Scan segment_dir_ for existing .wal files and return sorted seqs.
+
+#### `void open()`
+- Source: `include/temporal/temporal_cdc.h`:417
+- Brief: Open.
+- Parameters: none
+- Throws:
+  - std::runtime_error: on I/O errors during directory creation or segment scanning.
+  - std::runtime_error: if an error occurs.
+- Details: Open the log: scan existing segments in segment_dir, recover any truncated tail record, and position the write head at the first valid segment for appending. Must be called exactly once before append(). Idempotent: calling open() again after close() re-opens the log. std::runtime_error on I/O errors during directory creation or segment scanning. std::runtime_error if an error occurs. Calls: lk(), std::filesystem::create_directories(), message(), listSegmentSeqs(), empty(), back(), segmentPath(), std::fopen().
 
 #### `void open()`
 - Source: `include/temporal/temporal_cdc.h`:414
@@ -5303,10 +5947,24 @@ Status: active
 - Details: Open the log: scan existing segments in segment_dir, recover any truncated tail record, and position the write head at the first valid segment for appending. Must be called exactly once before append(). Idempotent: calling open() again after close() re-opens the log. std::runtime_error on I/O errors during directory creation or segment scanning. std::runtime_error if an error occurs. Calls: lk(), std::filesystem::create_directories(), message(), listSegmentSeqs(), empty(), back(), segmentPath(), std::fopen().
 
 #### `CDCPersistentLog & operator=(const CDCPersistentLog &)=delete`
+- Source: `include/temporal/temporal_cdc.h`:404
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (const CDCPersistentLog &): n/a
+
+#### `CDCPersistentLog & operator=(const CDCPersistentLog &)=delete`
 - Source: `include/temporal/temporal_cdc.h`:401
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const CDCPersistentLog &): n/a
+
+#### `std::vector< ChangeEvent > replayAll() const`
+- Source: `include/temporal/temporal_cdc.h`:445
+- Brief: n/a
+- Parameters: none
+- Throws:
+  - std::runtime_error: on segment directory I/O errors.
+- Details: Replay all persisted events from all segments in chronological order. Records with invalid CRC are silently skipped (truncation recovery). This is a read-only scan and can be called concurrently with append(). std::runtime_error on segment directory I/O errors.
 
 #### `std::vector< ChangeEvent > replayAll() const`
 - Source: `include/temporal/temporal_cdc.h`:442
@@ -5315,6 +5973,17 @@ Status: active
 - Throws:
   - std::runtime_error: on segment directory I/O errors.
 - Details: Replay all persisted events from all segments in chronological order. Records with invalid CRC are silently skipped (truncation recovery). This is a read-only scan and can be called concurrently with append(). std::runtime_error on segment directory I/O errors.
+
+#### `std::vector< ChangeEvent > replaySegment(uint64_t segment_seq) const`
+- Source: `include/temporal/temporal_cdc.h`:455
+- Brief: n/a
+- Parameters:
+  - `segment_seq` (uint64_t): Segment sequence number.
+- Return: Events read from that segment.
+- Throws:
+  - std::out_of_range: when segment_seq >= segmentCount().
+  - std::runtime_error: on I/O errors.
+- Details: Replay events from a specific segment (by 0-based sequence number). segment_seq Segment sequence number. Events read from that segment. std::out_of_range when segment_seq >= segmentCount(). std::runtime_error on I/O errors.
 
 #### `std::vector< ChangeEvent > replaySegment(uint64_t segment_seq) const`
 - Source: `include/temporal/temporal_cdc.h`:451
@@ -5327,16 +5996,35 @@ Status: active
 - Details: Replay events from a specific segment (by 0-based sequence number). segment_seq Segment sequence number. std::out_of_range when segment_seq >= segmentCount(). std::runtime_error on I/O errors.
 
 #### `void rotate()`
+- Source: `include/temporal/temporal_cdc.h`:508
+- Brief: Rotate.
+- Parameters: none
+- Details: Rotate: close active segment, increment seq, open new segment. Calls: std::fflush(), std::fclose(), segmentPath(), std::fopen(), c_str(), writeSegmentHeader().
+
+#### `void rotate()`
 - Source: `include/temporal/temporal_cdc.h`:504
 - Brief: Rotate.
 - Parameters: none
 - Details: Rotate: close active segment, increment seq, open new segment. Calls: std::fflush(), std::fclose(), segmentPath(), std::fopen(), c_str(), writeSegmentHeader().
 
 #### `uint64_t segmentCount() const noexcept`
+- Source: `include/temporal/temporal_cdc.h`:458
+- Brief: n/a
+- Parameters: none
+- Details: Number of WAL segments that have been created (including active).
+
+#### `uint64_t segmentCount() const noexcept`
 - Source: `include/temporal/temporal_cdc.h`:454
 - Brief: n/a
 - Parameters: none
 - Details: Number of WAL segments that have been created (including active).
+
+#### `std::string segmentPath(uint64_t seq) const`
+- Source: `include/temporal/temporal_cdc.h`:493
+- Brief: n/a
+- Parameters:
+  - `seq` (uint64_t): n/a
+- Details: Build the full path for a segment with the given sequence number.
 
 #### `std::string segmentPath(uint64_t seq) const`
 - Source: `include/temporal/temporal_cdc.h`:489
@@ -5346,16 +6034,35 @@ Status: active
 - Details: Build the full path for a segment with the given sequence number.
 
 #### `uint64_t totalBytesWritten() const noexcept`
+- Source: `include/temporal/temporal_cdc.h`:461
+- Brief: n/a
+- Parameters: none
+- Details: Total bytes written to all segments (approximation, not fsynced).
+
+#### `uint64_t totalBytesWritten() const noexcept`
 - Source: `include/temporal/temporal_cdc.h`:457
 - Brief: n/a
 - Parameters: none
 - Details: Total bytes written to all segments (approximation, not fsynced).
 
 #### `uint64_t totalEventsAppended() const noexcept`
+- Source: `include/temporal/temporal_cdc.h`:464
+- Brief: n/a
+- Parameters: none
+- Details: Total events successfully appended since open().
+
+#### `uint64_t totalEventsAppended() const noexcept`
 - Source: `include/temporal/temporal_cdc.h`:460
 - Brief: n/a
 - Parameters: none
 - Details: Total events successfully appended since open().
+
+#### `bool validateSegmentHeader(std::FILE *fd)`
+- Source: `include/temporal/temporal_cdc.h`:502
+- Brief: n/a
+- Parameters:
+  - `fd` (std::FILE *): n/a
+- Details: Validate the header of a segment file; return true on success.
 
 #### `bool validateSegmentHeader(std::FILE *fd)`
 - Source: `include/temporal/temporal_cdc.h`:498
@@ -5365,12 +6072,25 @@ Status: active
 - Details: Validate the header of a segment file; return true on success.
 
 #### `void writeSegmentHeader(std::FILE *fd, uint64_t seq)`
+- Source: `include/temporal/temporal_cdc.h`:499
+- Brief: n/a
+- Parameters:
+  - `fd` (std::FILE *): n/a
+  - `seq` (uint64_t): n/a
+- Details: Write the 22-byte segment header to fd.
+
+#### `void writeSegmentHeader(std::FILE *fd, uint64_t seq)`
 - Source: `include/temporal/temporal_cdc.h`:495
 - Brief: n/a
 - Parameters:
   - `fd` (std::FILE *): n/a
   - `seq` (uint64_t): n/a
 - Details: Write the 22-byte segment header to fd.
+
+#### `~CDCPersistentLog()`
+- Source: `include/temporal/temporal_cdc.h`:400
+- Brief: n/a
+- Parameters: none
 
 #### `~CDCPersistentLog()`
 - Source: `include/temporal/temporal_cdc.h`:397
@@ -5387,6 +6107,20 @@ Status: active
 - Return: Return value.
 - Details: Deserialise from JSON. j Input parameter. Return value. Calls: TemporalCDC::changeTypeFromString(), at(), value().
 
+#### `ChangeEvent fromJson(const nlohmann::json &j)`
+- Source: `include/temporal/temporal_cdc.h`:136
+- Brief: From Json.
+- Parameters:
+  - `j` (const nlohmann::json &): Input parameter.
+- Return: Return value.
+- Details: Deserialise from JSON. j Input parameter. Return value. Calls: TemporalCDC::changeTypeFromString(), at(), value().
+
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/temporal_cdc.h`:133
+- Brief: n/a
+- Parameters: none
+- Details: Serialise to JSON for transport or storage.
+
 #### `nlohmann::json toJson() const`
 - Source: `include/temporal/temporal_cdc.h`:133
 - Brief: n/a
@@ -5394,6 +6128,11 @@ Status: active
 - Details: Serialise to JSON for transport or storage.
 
 ### themisdb::temporal::ColdStoreStats
+
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/temporal_cold_store.h`:96
+- Brief: n/a
+- Parameters: none
 
 #### `nlohmann::json toJson() const`
 - Source: `include/temporal/temporal_cold_store.h`:95
@@ -5407,6 +6146,11 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/temporal_migrator.h`:94
+- Brief: n/a
+- Parameters: none
+
 ### themisdb::temporal::CompressionStats
 
 #### `nlohmann::json toJson() const`
@@ -5414,7 +6158,19 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/temporal_compressor.h`:115
+- Brief: n/a
+- Parameters: none
+
 ### themisdb::temporal::CustomMergeResolver
+
+#### `CustomMergeResolver(MergeFn fn)`
+- Source: `include/temporal/temporal_conflict_resolver.h`:198
+- Brief: n/a
+- Parameters:
+  - `fn` (MergeFn): Merge function. Must not be null.
+- Details: fn Merge function. Must not be null.
 
 #### `CustomMergeResolver(MergeFn fn)`
 - Source: `include/temporal/temporal_conflict_resolver.h`:198
@@ -5432,7 +6188,23 @@ Status: active
 - Return: A new TemporalSnapshot whose data represents the merged state. The metadata fields (snapshot_id, hlc, source_node_id, checksum) are set by the implementation — typically to those of the "dominant" input.
 - Details: local The locally-held snapshot version. remote The remotely-received snapshot version. A new TemporalSnapshot whose data represents the merged state. The metadata fields (snapshot_id, hlc, source_node_id, checksum) are set by the implementation — typically to those of the "dominant" input.
 
+#### `TemporalSnapshot merge(const TemporalSnapshot &local, const TemporalSnapshot &remote) const override`
+- Source: `include/temporal/temporal_conflict_resolver.h`:200
+- Brief: Merge two conflicting snapshots into a single resolved snapshot.
+- Parameters:
+  - `local` (const TemporalSnapshot &): The locally-held snapshot version.
+  - `remote` (const TemporalSnapshot &): The remotely-received snapshot version.
+- Return: A new TemporalSnapshot whose data represents the merged state. The metadata fields (snapshot_id, hlc, source_node_id, checksum) are set by the implementation — typically to those of the "dominant" input.
+- Details: local The locally-held snapshot version. remote The remotely-received snapshot version. A new TemporalSnapshot whose data represents the merged state. The metadata fields (snapshot_id, hlc, source_node_id, checksum) are set by the implementation — typically to those of the "dominant" input.
+
 ### themisdb::temporal::FileSystemBackend
+
+#### `FileSystemBackend(std::filesystem::path base_dir)`
+- Source: `include/temporal/temporal_cold_store.h`:240
+- Brief: n/a
+- Parameters:
+  - `base_dir` (std::filesystem::path): Root directory for cold-tier data files. Created automatically if it does not exist.
+- Details: base_dir Root directory for cold-tier data files. Created automatically if it does not exist.
 
 #### `FileSystemBackend(std::filesystem::path base_dir)`
 - Source: `include/temporal/temporal_cold_store.h`:220
@@ -5442,15 +6214,34 @@ Status: active
 - Details: base_dir Root directory for cold-tier data files. Created automatically if it does not exist.
 
 #### `const std::filesystem::path & basePath() const noexcept`
+- Source: `include/temporal/temporal_cold_store.h`:250
+- Brief: n/a
+- Parameters: none
+
+#### `const std::filesystem::path & basePath() const noexcept`
 - Source: `include/temporal/temporal_cold_store.h`:230
 - Brief: n/a
 - Parameters: none
+
+#### `void clearAll() override`
+- Source: `include/temporal/temporal_cold_store.h`:248
+- Brief: Clear All.
+- Parameters: none
+- Details: Calls: lk(), fs::directory_iterator(), fs::remove_all(), path().
 
 #### `void clearAll() override`
 - Source: `include/temporal/temporal_cold_store.h`:228
 - Brief: Clear All.
 - Parameters: none
 - Details: Calls: lk(), fs::directory_iterator(), fs::remove_all(), path().
+
+#### `bool del(const std::string &key) override`
+- Source: `include/temporal/temporal_cold_store.h`:244
+- Brief: Del.
+- Parameters:
+  - `key` (const std::string &): Input parameter.
+- Return: True when the operation succeeds.
+- Details: key Input parameter. True when the operation succeeds. Calls: lk(), keyToPath(), fs::remove().
 
 #### `bool del(const std::string &key) override`
 - Source: `include/temporal/temporal_cold_store.h`:224
@@ -5461,12 +6252,28 @@ Status: active
 - Details: key Input parameter. True when the operation succeeds. Calls: lk(), keyToPath(), fs::remove().
 
 #### `size_t deletePrefix(const std::string &prefix) override`
+- Source: `include/temporal/temporal_cold_store.h`:247
+- Brief: Delete Prefix.
+- Parameters:
+  - `prefix` (const std::string &): Input parameter.
+- Return: Return value.
+- Details: prefix Input parameter. Return value. Calls: lk(), fs::recursive_directory_iterator(), is_regular_file(), path(), extension(), pathToKey(), substr(), size().
+
+#### `size_t deletePrefix(const std::string &prefix) override`
 - Source: `include/temporal/temporal_cold_store.h`:227
 - Brief: Delete Prefix.
 - Parameters:
   - `prefix` (const std::string &): Input parameter.
 - Return: Return value.
 - Details: prefix Input parameter. Return value. Calls: lk(), fs::recursive_directory_iterator(), is_regular_file(), path(), extension(), pathToKey(), substr(), size().
+
+#### `std::string get(const std::string &key) const override`
+- Source: `include/temporal/temporal_cold_store.h`:243
+- Brief: Retrieve a value by composite key.
+- Parameters:
+  - `composite_key` (const std::string &): Backend key.
+- Return: Serialized value, or an empty string when the key is absent.
+- Details: composite_key Backend key. Serialized value, or an empty string when the key is absent.
 
 #### `std::string get(const std::string &key) const override`
 - Source: `include/temporal/temporal_cold_store.h`:223
@@ -5476,10 +6283,24 @@ Status: active
 - Details: Retrieve value for key. Returns empty string if not found.
 
 #### `std::filesystem::path keyToPath(const std::string &composite_key) const`
+- Source: `include/temporal/temporal_cold_store.h`:257
+- Brief: Convert a composite key to a filesystem path under base_dir_.
+- Parameters:
+  - `composite_key` (const std::string &): n/a
+
+#### `std::filesystem::path keyToPath(const std::string &composite_key) const`
 - Source: `include/temporal/temporal_cold_store.h`:237
 - Brief: Convert a composite key to a filesystem path under base_dir_.
 - Parameters:
   - `composite_key` (const std::string &): n/a
+
+#### `std::vector< std::string > listKeysWithPrefix(const std::string &prefix) const override`
+- Source: `include/temporal/temporal_cold_store.h`:246
+- Brief: n/a
+- Parameters:
+  - `prefix` (const std::string &): Key prefix to match.
+- Return: Matching keys.
+- Details: Enumerate all composite keys that start with prefix. Used to rebuild the RAM index on startup. prefix Key prefix to match. Matching keys.
 
 #### `std::vector< std::string > listKeysWithPrefix(const std::string &prefix) const override`
 - Source: `include/temporal/temporal_cold_store.h`:226
@@ -5489,10 +6310,24 @@ Status: active
 - Details: Enumerate all composite keys that start with prefix. Used to rebuild the RAM index on startup.
 
 #### `std::string pathToKey(const std::filesystem::path &rel_path) const`
+- Source: `include/temporal/temporal_cold_store.h`:266
+- Brief: Reconstruct the composite key from a file path relative to base_dir_.
+- Parameters:
+  - `rel_path` (const std::filesystem::path &): n/a
+
+#### `std::string pathToKey(const std::filesystem::path &rel_path) const`
 - Source: `include/temporal/temporal_cold_store.h`:246
 - Brief: Reconstruct the composite key from a file path relative to base_dir_.
 - Parameters:
   - `rel_path` (const std::filesystem::path &): n/a
+
+#### `std::string percentDecode(const std::string &s)`
+- Source: `include/temporal/temporal_cold_store.h`:263
+- Brief: Reverse of percentEncode.
+- Parameters:
+  - `s` (const std::string &): Input parameter.
+- Return: Return value.
+- Details: Percent Decode. s Input parameter. Return value. Calls: reserve(), size(), hexVal().
 
 #### `std::string percentDecode(const std::string &s)`
 - Source: `include/temporal/temporal_cold_store.h`:243
@@ -5503,12 +6338,29 @@ Status: active
 - Details: Percent Decode. s Input parameter. Return value. Calls: reserve(), size(), hexVal().
 
 #### `std::string percentEncode(const std::string &s)`
+- Source: `include/temporal/temporal_cold_store.h`:260
+- Brief: Percent-encode a string component so it is safe as a directory name.
+- Parameters:
+  - `s` (const std::string &): Input parameter.
+- Return: Return value.
+- Details: Percent-encode a string so every byte is safe as a filesystem path component. s Input parameter. Return value. Encodes everything except unreserved URI characters (A-Z a-z 0-9 - _ . ~). Calls: reserve(), size().
+
+#### `std::string percentEncode(const std::string &s)`
 - Source: `include/temporal/temporal_cold_store.h`:240
 - Brief: Percent-encode a string component so it is safe as a directory name.
 - Parameters:
   - `s` (const std::string &): Input parameter.
 - Return: Return value.
 - Details: Percent-encode a string so every byte is safe as a filesystem path component. s Input parameter. Return value. Encodes everything except unreserved URI characters (A-Z a-z 0-9 - _ . ~). Calls: reserve(), size().
+
+#### `bool put(const std::string &key, const std::string &value) override`
+- Source: `include/temporal/temporal_cold_store.h`:242
+- Brief: Put.
+- Parameters:
+  - `key` (const std::string &): Input parameter.
+  - `value` (const std::string &): Input parameter.
+- Return: True when the operation succeeds.
+- Details: key Input parameter. value Input parameter. True when the operation succeeds. Calls: lk(), keyToPath(), fs::create_directories(), parent_path(), fs::path(), string(), ofs(), fs::remove().
 
 #### `bool put(const std::string &key, const std::string &value) override`
 - Source: `include/temporal/temporal_cold_store.h`:222
@@ -5522,10 +6374,23 @@ Status: active
 ### themisdb::temporal::IColdStoreBackend
 
 #### `void clearAll()=0`
+- Source: `include/temporal/temporal_cold_store.h`:165
+- Brief: Remove all stored entries.
+- Parameters: none
+
+#### `void clearAll()=0`
 - Source: `include/temporal/temporal_cold_store.h`:145
 - Brief: n/a
 - Parameters: none
 - Details: Remove all entries.
+
+#### `bool del(const std::string &composite_key)=0`
+- Source: `include/temporal/temporal_cold_store.h`:146
+- Brief: Delete a composite key.
+- Parameters:
+  - `composite_key` (const std::string &): Backend key.
+- Return: true if the key existed and was deleted.
+- Details: composite_key Backend key. true if the key existed and was deleted.
 
 #### `bool del(const std::string &composite_key)=0`
 - Source: `include/temporal/temporal_cold_store.h`:132
@@ -5535,11 +6400,27 @@ Status: active
 - Details: Delete key. Returns true if the key existed.
 
 #### `size_t deletePrefix(const std::string &prefix)=0`
+- Source: `include/temporal/temporal_cold_store.h`:162
+- Brief: Remove all keys that start with a prefix.
+- Parameters:
+  - `prefix` (const std::string &): Key prefix to remove.
+- Return: Number of keys removed.
+- Details: prefix Key prefix to remove. Number of keys removed.
+
+#### `size_t deletePrefix(const std::string &prefix)=0`
 - Source: `include/temporal/temporal_cold_store.h`:142
 - Brief: n/a
 - Parameters:
   - `prefix` (const std::string &): n/a
 - Details: Remove all keys that start with prefix.
+
+#### `std::string get(const std::string &composite_key) const =0`
+- Source: `include/temporal/temporal_cold_store.h`:139
+- Brief: Retrieve a value by composite key.
+- Parameters:
+  - `composite_key` (const std::string &): Backend key.
+- Return: Serialized value, or an empty string when the key is absent.
+- Details: composite_key Backend key. Serialized value, or an empty string when the key is absent.
 
 #### `std::string get(const std::string &composite_key) const =0`
 - Source: `include/temporal/temporal_cold_store.h`:129
@@ -5549,11 +6430,28 @@ Status: active
 - Details: Retrieve value for key. Returns empty string if not found.
 
 #### `std::vector< std::string > listKeysWithPrefix(const std::string &prefix) const =0`
+- Source: `include/temporal/temporal_cold_store.h`:155
+- Brief: n/a
+- Parameters:
+  - `prefix` (const std::string &): Key prefix to match.
+- Return: Matching keys.
+- Details: Enumerate all composite keys that start with prefix. Used to rebuild the RAM index on startup. prefix Key prefix to match. Matching keys.
+
+#### `std::vector< std::string > listKeysWithPrefix(const std::string &prefix) const =0`
 - Source: `include/temporal/temporal_cold_store.h`:139
 - Brief: n/a
 - Parameters:
   - `prefix` (const std::string &): n/a
 - Details: Enumerate all composite keys that start with prefix. Used to rebuild the RAM index on startup.
+
+#### `bool put(const std::string &composite_key, const std::string &json_value)=0`
+- Source: `include/temporal/temporal_cold_store.h`:131
+- Brief: Persist a serialized value under a composite key.
+- Parameters:
+  - `composite_key` (const std::string &): Backend key.
+  - `json_value` (const std::string &): Serialized VersionedDocument.
+- Return: true on success; false on backend failure.
+- Details: composite_key Backend key. json_value Serialized VersionedDocument. true on success; false on backend failure.
 
 #### `bool put(const std::string &composite_key, const std::string &json_value)=0`
 - Source: `include/temporal/temporal_cold_store.h`:125
@@ -5564,6 +6462,11 @@ Status: active
 - Details: Persist key→value. Returns false on I/O failure.
 
 #### `~IColdStoreBackend()=default`
+- Source: `include/temporal/temporal_cold_store.h`:123
+- Brief: n/a
+- Parameters: none
+
+#### `~IColdStoreBackend()=default`
 - Source: `include/temporal/temporal_cold_store.h`:122
 - Brief: n/a
 - Parameters: none
@@ -5571,10 +6474,24 @@ Status: active
 ### themisdb::temporal::InMemoryBackend
 
 #### `void clearAll() override`
+- Source: `include/temporal/temporal_cold_store.h`:189
+- Brief: Clear All.
+- Parameters: none
+- Details: Calls: lk(), clear().
+
+#### `void clearAll() override`
 - Source: `include/temporal/temporal_cold_store.h`:169
 - Brief: Clear All.
 - Parameters: none
 - Details: Calls: lk(), clear().
+
+#### `bool del(const std::string &key) override`
+- Source: `include/temporal/temporal_cold_store.h`:185
+- Brief: Del.
+- Parameters:
+  - `key` (const std::string &): Input parameter.
+- Return: True when the operation succeeds.
+- Details: key Input parameter. True when the operation succeeds. Calls: lk(), erase().
 
 #### `bool del(const std::string &key) override`
 - Source: `include/temporal/temporal_cold_store.h`:165
@@ -5585,12 +6502,28 @@ Status: active
 - Details: key Input parameter. True when the operation succeeds. Calls: lk(), erase().
 
 #### `size_t deletePrefix(const std::string &prefix) override`
+- Source: `include/temporal/temporal_cold_store.h`:188
+- Brief: Delete Prefix.
+- Parameters:
+  - `prefix` (const std::string &): Input parameter.
+- Return: Return value.
+- Details: prefix Input parameter. Return value. Calls: lk(), lower_bound(), end(), substr(), size(), erase().
+
+#### `size_t deletePrefix(const std::string &prefix) override`
 - Source: `include/temporal/temporal_cold_store.h`:168
 - Brief: Delete Prefix.
 - Parameters:
   - `prefix` (const std::string &): Input parameter.
 - Return: Return value.
 - Details: prefix Input parameter. Return value. Calls: lk(), lower_bound(), end(), substr(), size(), erase().
+
+#### `std::string get(const std::string &key) const override`
+- Source: `include/temporal/temporal_cold_store.h`:184
+- Brief: Retrieve a value by composite key.
+- Parameters:
+  - `composite_key` (const std::string &): Backend key.
+- Return: Serialized value, or an empty string when the key is absent.
+- Details: composite_key Backend key. Serialized value, or an empty string when the key is absent.
 
 #### `std::string get(const std::string &key) const override`
 - Source: `include/temporal/temporal_cold_store.h`:164
@@ -5600,11 +6533,28 @@ Status: active
 - Details: Retrieve value for key. Returns empty string if not found.
 
 #### `std::vector< std::string > listKeysWithPrefix(const std::string &prefix) const override`
+- Source: `include/temporal/temporal_cold_store.h`:187
+- Brief: n/a
+- Parameters:
+  - `prefix` (const std::string &): Key prefix to match.
+- Return: Matching keys.
+- Details: Enumerate all composite keys that start with prefix. Used to rebuild the RAM index on startup. prefix Key prefix to match. Matching keys.
+
+#### `std::vector< std::string > listKeysWithPrefix(const std::string &prefix) const override`
 - Source: `include/temporal/temporal_cold_store.h`:167
 - Brief: n/a
 - Parameters:
   - `prefix` (const std::string &): n/a
 - Details: Enumerate all composite keys that start with prefix. Used to rebuild the RAM index on startup.
+
+#### `bool put(const std::string &key, const std::string &value) override`
+- Source: `include/temporal/temporal_cold_store.h`:183
+- Brief: Put.
+- Parameters:
+  - `key` (const std::string &): Input parameter.
+  - `value` (const std::string &): Input parameter.
+- Return: True when the operation succeeds.
+- Details: key Input parameter. value Input parameter. True when the operation succeeds. Calls: lk().
 
 #### `bool put(const std::string &key, const std::string &value) override`
 - Source: `include/temporal/temporal_cold_store.h`:163
@@ -5618,10 +6568,22 @@ Status: active
 ### themisdb::temporal::IntervalTreeIndex
 
 #### `IntervalTreeIndex(IntervalTreeIndex &&) noexcept=default`
+- Source: `include/temporal/interval_tree_index.h`:115
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (IntervalTreeIndex &&): n/a
+
+#### `IntervalTreeIndex(IntervalTreeIndex &&) noexcept=default`
 - Source: `include/temporal/interval_tree_index.h`:111
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (IntervalTreeIndex &&): n/a
+
+#### `IntervalTreeIndex(const IntervalTreeIndex &)=delete`
+- Source: `include/temporal/interval_tree_index.h`:113
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (const IntervalTreeIndex &): n/a
 
 #### `IntervalTreeIndex(const IntervalTreeIndex &)=delete`
 - Source: `include/temporal/interval_tree_index.h`:109
@@ -5630,10 +6592,23 @@ Status: active
   - `<unnamed>` (const IntervalTreeIndex &): n/a
 
 #### `IntervalTreeIndex(std::string name)`
+- Source: `include/temporal/interval_tree_index.h`:110
+- Brief: Construct an interval index with a diagnostic name.
+- Parameters:
+  - `name` (std::string): Name returned by name(); it does not affect index behavior.
+- Details: name Name returned by name(); it does not affect index behavior.
+
+#### `IntervalTreeIndex(std::string name)`
 - Source: `include/temporal/interval_tree_index.h`:106
 - Brief: n/a
 - Parameters:
   - `name` (std::string): n/a
+
+#### `std::unique_ptr< Node > balance(std::unique_ptr< Node > n)`
+- Source: `include/temporal/interval_tree_index.h`:259
+- Brief: n/a
+- Parameters:
+  - `n` (std::unique_ptr< Node >): n/a
 
 #### `std::unique_ptr< Node > balance(std::unique_ptr< Node > n)`
 - Source: `include/temporal/interval_tree_index.h`:237
@@ -5642,10 +6617,22 @@ Status: active
   - `n` (std::unique_ptr< Node >): n/a
 
 #### `int balanceFactor(const Node *n) noexcept`
+- Source: `include/temporal/interval_tree_index.h`:255
+- Brief: n/a
+- Parameters:
+  - `n` (const Node *): n/a
+
+#### `int balanceFactor(const Node *n) noexcept`
 - Source: `include/temporal/interval_tree_index.h`:233
 - Brief: n/a
 - Parameters:
   - `n` (const Node *): n/a
+
+#### `void clear()`
+- Source: `include/temporal/interval_tree_index.h`:169
+- Brief: Clear.
+- Parameters: none
+- Details: Remove all entries. O(n). Calls: lk(), reset().
 
 #### `void clear()`
 - Source: `include/temporal/interval_tree_index.h`:165
@@ -5654,12 +6641,30 @@ Status: active
 - Details: Remove all entries. O(n). Calls: lk(), reset().
 
 #### `void collectKey(const Node *n, const std::string &key, std::optional< TimeRange > range, std::vector< IntervalEntry > &out) const`
+- Source: `include/temporal/interval_tree_index.h`:283
+- Brief: n/a
+- Parameters:
+  - `n` (const Node *): n/a
+  - `key` (const std::string &): n/a
+  - `range` (std::optional< TimeRange >): n/a
+  - `out` (std::vector< IntervalEntry > &): n/a
+
+#### `void collectKey(const Node *n, const std::string &key, std::optional< TimeRange > range, std::vector< IntervalEntry > &out) const`
 - Source: `include/temporal/interval_tree_index.h`:261
 - Brief: n/a
 - Parameters:
   - `n` (const Node *): n/a
   - `key` (const std::string &): n/a
   - `range` (std::optional< TimeRange >): n/a
+  - `out` (std::vector< IntervalEntry > &): n/a
+
+#### `void collectOverlap(const Node *n, Timestamp from, Timestamp to, std::vector< IntervalEntry > &out) const`
+- Source: `include/temporal/interval_tree_index.h`:280
+- Brief: n/a
+- Parameters:
+  - `n` (const Node *): n/a
+  - `from` (Timestamp): n/a
+  - `to` (Timestamp): n/a
   - `out` (std::vector< IntervalEntry > &): n/a
 
 #### `void collectOverlap(const Node *n, Timestamp from, Timestamp to, std::vector< IntervalEntry > &out) const`
@@ -5672,11 +6677,26 @@ Status: active
   - `out` (std::vector< IntervalEntry > &): n/a
 
 #### `std::unique_ptr< Node > detachMin(std::unique_ptr< Node > root, std::unique_ptr< Node > &out_node)`
+- Source: `include/temporal/interval_tree_index.h`:277
+- Brief: Detach and return the leftmost node, repairing the subtree.
+- Parameters:
+  - `root` (std::unique_ptr< Node >): n/a
+  - `out_node` (std::unique_ptr< Node > &): n/a
+
+#### `std::unique_ptr< Node > detachMin(std::unique_ptr< Node > root, std::unique_ptr< Node > &out_node)`
 - Source: `include/temporal/interval_tree_index.h`:255
 - Brief: Detach and return the leftmost node, repairing the subtree.
 - Parameters:
   - `root` (std::unique_ptr< Node >): n/a
   - `out_node` (std::unique_ptr< Node > &): n/a
+
+#### `size_t erase(const std::string &key)`
+- Source: `include/temporal/interval_tree_index.h`:166
+- Brief: STL-style erase: remove all entries for the given key.
+- Parameters:
+  - `key` (const std::string &): Input parameter.
+- Return: Number of entries actually removed (0 if the key was absent).
+- Details: Erase. This is an alias for removeKey() that follows STL container naming conventions (erase vs. remove). It removes every interval entry associated with key from the tree while maintaining the AVL-balance invariant through tree rotations. Complexity: O(k·log n) where k is the number of intervals stored for key and n is the total number of entries in the tree. For the common case of a unique-key index (k = 1) this degenerates to O(log n). Thread-safetyerase() acquires an exclusive (std::unique_lock) on the internal std::shared_mutex. All concurrent readers — including those holding a std::shared_lock via queryPoint(), queryRange(), or queryKey() — are blocked until the erase completes. Callers that received results from a previous query call must not retain raw pointers or references into those result vectors after erase() returns; the returned std::vector<IntervalEntry> copies are safe to use independently. key Logical key whose entries should be removed. Number of entries actually removed (0 if the key was absent). key Input parameter. Return value. Calls: removeKey().
 
 #### `size_t erase(const std::string &key)`
 - Source: `include/temporal/interval_tree_index.h`:162
@@ -5687,10 +6707,23 @@ Status: active
 - Details: Erase. This is an alias for removeKey() that follows STL container naming conventions (erase vs. remove). It removes every interval entry associated with key from the tree while maintaining the AVL-balance invariant through tree rotations. Complexity: O(k·log n) where k is the number of intervals stored for key and n is the total number of entries in the tree. For the common case of a unique-key index (k = 1) this degenerates to O(log n). Thread-safetyerase() acquires an exclusive (std::unique_lock) on the internal std::shared_mutex. All concurrent readers — including those holding a std::shared_lock via queryPoint(), queryRange(), or queryKey() — are blocked until the erase completes. Callers that received results from a previous query call must not retain raw pointers or references into those result vectors after erase() returns; the returned std::vector<IntervalEntry> copies are safe to use independently. key Logical key whose entries should be removed. Number of entries actually removed (0 if the key was absent). key Input parameter. Return value. Calls: removeKey().
 
 #### `Node * findMin(Node *n) noexcept`
+- Source: `include/temporal/interval_tree_index.h`:274
+- Brief: Extract the in-order successor (leftmost node of a subtree).
+- Parameters:
+  - `n` (Node *): n/a
+
+#### `Node * findMin(Node *n) noexcept`
 - Source: `include/temporal/interval_tree_index.h`:252
 - Brief: Extract the in-order successor (leftmost node of a subtree).
 - Parameters:
   - `n` (Node *): n/a
+
+#### `void insert(const IntervalEntry &entry)`
+- Source: `include/temporal/interval_tree_index.h`:126
+- Brief: Insert.
+- Parameters:
+  - `entry` (const IntervalEntry &): Input parameter.
+- Details: Insert an entry into the tree. Amortised O(log n). entry Input parameter. Calls: lk(), insertNode(), std::move(), push_back().
 
 #### `void insert(const IntervalEntry &entry)`
 - Source: `include/temporal/interval_tree_index.h`:122
@@ -5700,6 +6733,13 @@ Status: active
 - Details: Insert an entry into the tree. Amortised O(log n). entry Input parameter. Calls: lk(), insertNode(), std::move(), push_back().
 
 #### `std::unique_ptr< Node > insertNode(std::unique_ptr< Node > root, const IntervalEntry &entry)`
+- Source: `include/temporal/interval_tree_index.h`:261
+- Brief: n/a
+- Parameters:
+  - `root` (std::unique_ptr< Node >): n/a
+  - `entry` (const IntervalEntry &): n/a
+
+#### `std::unique_ptr< Node > insertNode(std::unique_ptr< Node > root, const IntervalEntry &entry)`
 - Source: `include/temporal/interval_tree_index.h`:239
 - Brief: n/a
 - Parameters:
@@ -5707,12 +6747,31 @@ Status: active
   - `entry` (const IntervalEntry &): n/a
 
 #### `const std::string & name() const noexcept`
+- Source: `include/temporal/interval_tree_index.h`:217
+- Brief: Return the diagnostic name supplied at construction.
+- Parameters: none
+- Return: Reference to the name owned by this index, valid for its lifetime.
+- Details: Reference to the name owned by this index, valid for its lifetime.
+
+#### `const std::string & name() const noexcept`
 - Source: `include/temporal/interval_tree_index.h`:199
 - Brief: n/a
 - Parameters: none
 
 #### `int nodeHeight(const Node *n) noexcept`
+- Source: `include/temporal/interval_tree_index.h`:254
+- Brief: n/a
+- Parameters:
+  - `n` (const Node *): n/a
+
+#### `int nodeHeight(const Node *n) noexcept`
 - Source: `include/temporal/interval_tree_index.h`:232
+- Brief: n/a
+- Parameters:
+  - `n` (const Node *): n/a
+
+#### `Timestamp nodeMaxEnd(const Node *n) noexcept`
+- Source: `include/temporal/interval_tree_index.h`:250
 - Brief: n/a
 - Parameters:
   - `n` (const Node *): n/a
@@ -5724,16 +6783,37 @@ Status: active
   - `n` (const Node *): n/a
 
 #### `IntervalTreeIndex & operator=(IntervalTreeIndex &&) noexcept=default`
+- Source: `include/temporal/interval_tree_index.h`:116
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (IntervalTreeIndex &&): n/a
+
+#### `IntervalTreeIndex & operator=(IntervalTreeIndex &&) noexcept=default`
 - Source: `include/temporal/interval_tree_index.h`:112
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (IntervalTreeIndex &&): n/a
 
 #### `IntervalTreeIndex & operator=(const IntervalTreeIndex &)=delete`
+- Source: `include/temporal/interval_tree_index.h`:114
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (const IntervalTreeIndex &): n/a
+
+#### `IntervalTreeIndex & operator=(const IntervalTreeIndex &)=delete`
 - Source: `include/temporal/interval_tree_index.h`:110
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const IntervalTreeIndex &): n/a
+
+#### `std::vector< IntervalEntry > queryKey(const std::string &key, std::optional< TimeRange > range=std::nullopt) const`
+- Source: `include/temporal/interval_tree_index.h`:207
+- Brief: Return entries for a key, optionally filtered to those whose interval overlaps the given range. O(n) worst-case.
+- Parameters:
+  - `key` (const std::string &): Logical key to query.
+  - `range` (std::optional< TimeRange >): Optional half-open interval filter.
+- Return: Matching entries, or an empty vector when none match.
+- Details: key Logical key to query. range Optional half-open interval filter. Matching entries, or an empty vector when none match.
 
 #### `std::vector< IntervalEntry > queryKey(const std::string &key, std::optional< TimeRange > range=std::nullopt) const`
 - Source: `include/temporal/interval_tree_index.h`:193
@@ -5744,12 +6824,29 @@ Status: active
 - Details: Return all entries for a specific key, optionally filtered to those whose interval overlaps the given range. O(n) worst-case.
 
 #### `std::vector< IntervalEntry > queryOverlap(Timestamp from, Timestamp to) const`
+- Source: `include/temporal/interval_tree_index.h`:190
+- Brief: Return entries whose interval overlaps [from, to). An interval [a, b) overlaps [from, to) iff a < to && from < b. O(log n + k).
+- Parameters:
+  - `from` (Timestamp): Inclusive start of the query interval.
+  - `to` (Timestamp): Exclusive end of the query interval.
+- Return: Matching entries, or an empty vector when none match.
+- Details: from Inclusive start of the query interval. to Exclusive end of the query interval. Matching entries, or an empty vector when none match.
+
+#### `std::vector< IntervalEntry > queryOverlap(Timestamp from, Timestamp to) const`
 - Source: `include/temporal/interval_tree_index.h`:181
 - Brief: n/a
 - Parameters:
   - `from` (Timestamp): n/a
   - `to` (Timestamp): n/a
 - Details: Return all entries whose interval overlaps [from, to). An interval [a, b) overlaps [from, to) iff a < to && from < b. O(log n + k).
+
+#### `std::vector< IntervalEntry > queryOverlap(const TimeRange &range) const`
+- Source: `include/temporal/interval_tree_index.h`:198
+- Brief: Return entries whose interval overlaps the given range. Convenience overload for queryOverlap(range.start, range.end).
+- Parameters:
+  - `range` (const TimeRange &): Half-open interval to query.
+- Return: Matching entries, or an empty vector when none match.
+- Details: range Half-open interval to query. Matching entries, or an empty vector when none match.
 
 #### `std::vector< IntervalEntry > queryOverlap(const TimeRange &range) const`
 - Source: `include/temporal/interval_tree_index.h`:187
@@ -5759,11 +6856,28 @@ Status: active
 - Details: Return all entries whose interval overlaps the given range. Convenience overload for queryOverlap(range.start, range.end).
 
 #### `std::vector< IntervalEntry > queryPoint(Timestamp t) const`
+- Source: `include/temporal/interval_tree_index.h`:180
+- Brief: Return entries whose interval contains timestamp t, i.e. entry.range.start <= t < entry.range.end. O(log n + k).
+- Parameters:
+  - `t` (Timestamp): Timestamp tested against each entry's half-open interval.
+- Return: Matching entries, or an empty vector when none match.
+- Details: t Timestamp tested against each entry's half-open interval. Matching entries, or an empty vector when none match.
+
+#### `std::vector< IntervalEntry > queryPoint(Timestamp t) const`
 - Source: `include/temporal/interval_tree_index.h`:174
 - Brief: n/a
 - Parameters:
   - `t` (Timestamp): n/a
 - Details: Return all entries whose interval contains timestamp t, i.e. entry.range.start <= t < entry.range.end. O(log n + k).
+
+#### `size_t remove(const std::string &key, const TimeRange &range)`
+- Source: `include/temporal/interval_tree_index.h`:132
+- Brief: Remove.
+- Parameters:
+  - `key` (const std::string &): Input parameter.
+  - `range` (const TimeRange &): Input parameter.
+- Return: Return value.
+- Details: Remove all entries matching both key and range exactly. Returns the number of entries removed. O(log n) expected. key Input parameter. range Input parameter. Return value. Calls: lk(), removeNode(), std::move(), find(), end(), erase(), std::remove_if(), begin().
 
 #### `size_t remove(const std::string &key, const TimeRange &range)`
 - Source: `include/temporal/interval_tree_index.h`:128
@@ -5775,6 +6889,14 @@ Status: active
 - Details: Remove all entries matching both key and range exactly. Returns the number of entries removed. O(log n) expected. key Input parameter. range Input parameter. Return value. Calls: lk(), removeNode(), std::move(), find(), end(), erase(), std::remove_if(), begin().
 
 #### `size_t removeKey(const std::string &key)`
+- Source: `include/temporal/interval_tree_index.h`:138
+- Brief: Remove Key.
+- Parameters:
+  - `key` (const std::string &): Input parameter.
+- Return: Return value.
+- Details: Remove all entries for the given key regardless of range. O(n) worst-case due to multiple hits with the same key. key Input parameter. Return value. Calls: lk(), removeKeyNode(), std::move(), erase().
+
+#### `size_t removeKey(const std::string &key)`
 - Source: `include/temporal/interval_tree_index.h`:134
 - Brief: Remove Key.
 - Parameters:
@@ -5783,11 +6905,28 @@ Status: active
 - Details: Remove all entries for the given key regardless of range. O(n) worst-case due to multiple hits with the same key. key Input parameter. Return value. Calls: lk(), removeKeyNode(), std::move(), erase().
 
 #### `std::unique_ptr< Node > removeKeyNode(std::unique_ptr< Node > root, const std::string &key, size_t &removed_count)`
+- Source: `include/temporal/interval_tree_index.h`:269
+- Brief: n/a
+- Parameters:
+  - `root` (std::unique_ptr< Node >): n/a
+  - `key` (const std::string &): n/a
+  - `removed_count` (size_t &): n/a
+
+#### `std::unique_ptr< Node > removeKeyNode(std::unique_ptr< Node > root, const std::string &key, size_t &removed_count)`
 - Source: `include/temporal/interval_tree_index.h`:247
 - Brief: n/a
 - Parameters:
   - `root` (std::unique_ptr< Node >): n/a
   - `key` (const std::string &): n/a
+  - `removed_count` (size_t &): n/a
+
+#### `std::unique_ptr< Node > removeNode(std::unique_ptr< Node > root, const std::string &key, const TimeRange &range, size_t &removed_count)`
+- Source: `include/temporal/interval_tree_index.h`:264
+- Brief: n/a
+- Parameters:
+  - `root` (std::unique_ptr< Node >): n/a
+  - `key` (const std::string &): n/a
+  - `range` (const TimeRange &): n/a
   - `removed_count` (size_t &): n/a
 
 #### `std::unique_ptr< Node > removeNode(std::unique_ptr< Node > root, const std::string &key, const TimeRange &range, size_t &removed_count)`
@@ -5800,10 +6939,22 @@ Status: active
   - `removed_count` (size_t &): n/a
 
 #### `std::unique_ptr< Node > rotateLeft(std::unique_ptr< Node > x)`
+- Source: `include/temporal/interval_tree_index.h`:258
+- Brief: n/a
+- Parameters:
+  - `x` (std::unique_ptr< Node >): n/a
+
+#### `std::unique_ptr< Node > rotateLeft(std::unique_ptr< Node > x)`
 - Source: `include/temporal/interval_tree_index.h`:236
 - Brief: n/a
 - Parameters:
   - `x` (std::unique_ptr< Node >): n/a
+
+#### `std::unique_ptr< Node > rotateRight(std::unique_ptr< Node > y)`
+- Source: `include/temporal/interval_tree_index.h`:257
+- Brief: n/a
+- Parameters:
+  - `y` (std::unique_ptr< Node >): n/a
 
 #### `std::unique_ptr< Node > rotateRight(std::unique_ptr< Node > y)`
 - Source: `include/temporal/interval_tree_index.h`:235
@@ -5812,15 +6963,34 @@ Status: active
   - `y` (std::unique_ptr< Node >): n/a
 
 #### `size_t size() const noexcept`
+- Source: `include/temporal/interval_tree_index.h`:220
+- Brief: n/a
+- Parameters: none
+- Details: O(1) — maintained as an atomic counter.
+
+#### `size_t size() const noexcept`
 - Source: `include/temporal/interval_tree_index.h`:202
 - Brief: n/a
 - Parameters: none
 - Details: O(1) — maintained as an atomic counter.
 
 #### `IntervalTreeStats stats() const`
+- Source: `include/temporal/interval_tree_index.h`:226
+- Brief: Return the current tree statistics.
+- Parameters: none
+- Return: Snapshot containing entry bounds, query counters, and tree height.
+- Details: Snapshot containing entry bounds, query counters, and tree height.
+
+#### `IntervalTreeStats stats() const`
 - Source: `include/temporal/interval_tree_index.h`:204
 - Brief: n/a
 - Parameters: none
+
+#### `size_t treeHeight(const Node *n) noexcept`
+- Source: `include/temporal/interval_tree_index.h`:287
+- Brief: n/a
+- Parameters:
+  - `n` (const Node *): n/a
 
 #### `size_t treeHeight(const Node *n) noexcept`
 - Source: `include/temporal/interval_tree_index.h`:265
@@ -5829,7 +6999,19 @@ Status: active
   - `n` (const Node *): n/a
 
 #### `void updateHeight(Node *n) noexcept`
+- Source: `include/temporal/interval_tree_index.h`:256
+- Brief: n/a
+- Parameters:
+  - `n` (Node *): n/a
+
+#### `void updateHeight(Node *n) noexcept`
 - Source: `include/temporal/interval_tree_index.h`:234
+- Brief: n/a
+- Parameters:
+  - `n` (Node *): n/a
+
+#### `void updateSubtreeMax(Node *n) noexcept`
+- Source: `include/temporal/interval_tree_index.h`:251
 - Brief: n/a
 - Parameters:
   - `n` (Node *): n/a
@@ -5841,11 +7023,22 @@ Status: active
   - `n` (Node *): n/a
 
 #### `~IntervalTreeIndex()=default`
+- Source: `include/temporal/interval_tree_index.h`:118
+- Brief: n/a
+- Parameters: none
+
+#### `~IntervalTreeIndex()=default`
 - Source: `include/temporal/interval_tree_index.h`:114
 - Brief: n/a
 - Parameters: none
 
 ### themisdb::temporal::IntervalTreeIndex::Node
+
+#### `Node(IntervalEntry e)`
+- Source: `include/temporal/interval_tree_index.h`:243
+- Brief: n/a
+- Parameters:
+  - `e` (IntervalEntry): n/a
 
 #### `Node(IntervalEntry e)`
 - Source: `include/temporal/interval_tree_index.h`:221
@@ -5860,7 +7053,21 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/interval_tree_index.h`:64
+- Brief: n/a
+- Parameters: none
+
 ### themisdb::temporal::LWWFieldMergeResolver
+
+#### `TemporalSnapshot merge(const TemporalSnapshot &local, const TemporalSnapshot &remote) const override`
+- Source: `include/temporal/temporal_conflict_resolver.h`:151
+- Brief: Merge two conflicting snapshots into a single resolved snapshot.
+- Parameters:
+  - `local` (const TemporalSnapshot &): The locally-held snapshot version.
+  - `remote` (const TemporalSnapshot &): The remotely-received snapshot version.
+- Return: A new TemporalSnapshot whose data represents the merged state. The metadata fields (snapshot_id, hlc, source_node_id, checksum) are set by the implementation — typically to those of the "dominant" input.
+- Details: local The locally-held snapshot version. remote The remotely-received snapshot version. A new TemporalSnapshot whose data represents the merged state. The metadata fields (snapshot_id, hlc, source_node_id, checksum) are set by the implementation — typically to those of the "dominant" input.
 
 #### `TemporalSnapshot merge(const TemporalSnapshot &local, const TemporalSnapshot &remote) const override`
 - Source: `include/temporal/temporal_conflict_resolver.h`:151
@@ -5882,12 +7089,31 @@ Status: active
 - Return: A new TemporalSnapshot whose data represents the merged state. The metadata fields (snapshot_id, hlc, source_node_id, checksum) are set by the implementation — typically to those of the "dominant" input.
 - Details: local The locally-held snapshot version. remote The remotely-received snapshot version. A new TemporalSnapshot whose data represents the merged state. The metadata fields (snapshot_id, hlc, source_node_id, checksum) are set by the implementation — typically to those of the "dominant" input.
 
+#### `TemporalSnapshot merge(const TemporalSnapshot &local, const TemporalSnapshot &remote) const =0`
+- Source: `include/temporal/temporal_conflict_resolver.h`:131
+- Brief: Merge two conflicting snapshots into a single resolved snapshot.
+- Parameters:
+  - `local` (const TemporalSnapshot &): The locally-held snapshot version.
+  - `remote` (const TemporalSnapshot &): The remotely-received snapshot version.
+- Return: A new TemporalSnapshot whose data represents the merged state. The metadata fields (snapshot_id, hlc, source_node_id, checksum) are set by the implementation — typically to those of the "dominant" input.
+- Details: local The locally-held snapshot version. remote The remotely-received snapshot version. A new TemporalSnapshot whose data represents the merged state. The metadata fields (snapshot_id, hlc, source_node_id, checksum) are set by the implementation — typically to those of the "dominant" input.
+
+#### `~MergeResolver()=default`
+- Source: `include/temporal/temporal_conflict_resolver.h`:119
+- Brief: n/a
+- Parameters: none
+
 #### `~MergeResolver()=default`
 - Source: `include/temporal/temporal_conflict_resolver.h`:119
 - Brief: n/a
 - Parameters: none
 
 ### themisdb::temporal::MigrationPlan
+
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/temporal_migrator.h`:151
+- Brief: n/a
+- Parameters: none
 
 #### `nlohmann::json toJson() const`
 - Source: `include/temporal/temporal_migrator.h`:151
@@ -5902,12 +7128,28 @@ Status: active
 - Parameters: none
 - Details: Aggregate: number of checks that failed.
 
+#### `size_t failedCheckCount() const`
+- Source: `include/temporal/temporal_migrator.h`:203
+- Brief: n/a
+- Parameters: none
+- Details: Aggregate: number of checks that failed.
+
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/temporal_migrator.h`:205
+- Brief: n/a
+- Parameters: none
+
 #### `nlohmann::json toJson() const`
 - Source: `include/temporal/temporal_migrator.h`:205
 - Brief: n/a
 - Parameters: none
 
 ### themisdb::temporal::MigrationStats
+
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/temporal_migrator.h`:169
+- Brief: n/a
+- Parameters: none
 
 #### `nlohmann::json toJson() const`
 - Source: `include/temporal/temporal_migrator.h`:169
@@ -5923,11 +7165,33 @@ Status: active
   - `max_entries` (size_t): Maximum number of (table, time) entries to retain. Must be > 0.
 - Details: Construct a cache with the given maximum number of entries. When the cache is full the least-recently-used entry is evicted. max_entries Maximum number of (table, time) entries to retain. Must be > 0.
 
+#### `QueryCache(size_t max_entries=256)`
+- Source: `include/temporal/temporal_query_engine.h`:489
+- Brief: n/a
+- Parameters:
+  - `max_entries` (size_t): Maximum number of (table, time) entries to retain. Must be > 0.
+- Details: Construct a cache with the given maximum number of entries. When the cache is full the least-recently-used entry is evicted. max_entries Maximum number of (table, time) entries to retain. Must be > 0.
+
+#### `void clear()`
+- Source: `include/temporal/temporal_query_engine.h`:512
+- Brief: Clear.
+- Parameters: none
+- Details: Discard all cached entries. Calls: lock().
+
 #### `void clear()`
 - Source: `include/temporal/temporal_query_engine.h`:509
 - Brief: Clear.
 - Parameters: none
 - Details: Discard all cached entries. Calls: lock().
+
+#### `std::optional< std::vector< VersionedDocument > > get(const std::string &table_name, Timestamp as_of) const`
+- Source: `include/temporal/temporal_query_engine.h`:500
+- Brief: Look up a cached result. Returns a copy of the cached vector, or std::nullopt on cache miss. Returning by value avoids returning a pointer into internal storage that can be invalidated by a concurrent put/invalidate/clear call.
+- Parameters:
+  - `table_name` (const std::string &): Logical table name used as part of the cache key.
+  - `as_of` (Timestamp): System-time instant used as part of the cache key.
+- Return: Cached rows, or std::nullopt when the key is not cached.
+- Details: table_name Logical table name used as part of the cache key. as_of System-time instant used as part of the cache key. Cached rows, or std::nullopt when the key is not cached.
 
 #### `std::optional< std::vector< VersionedDocument > > get(const std::string &table_name, Timestamp as_of) const`
 - Source: `include/temporal/temporal_query_engine.h`:497
@@ -5938,11 +7202,27 @@ Status: active
 - Details: Look up a cached result. Returns a copy of the cached vector, or std::nullopt on cache miss. Returning by value avoids returning a pointer into internal storage that can be invalidated by a concurrent put/invalidate/clear call.
 
 #### `void invalidate(const std::string &table_name)`
+- Source: `include/temporal/temporal_query_engine.h`:509
+- Brief: Invalidate.
+- Parameters:
+  - `table_name` (const std::string &): Name of the table.
+- Details: Invalidate all entries for the given table (e.g. after a write). table_name Name of the table. Calls: lock(), begin(), end(), erase().
+
+#### `void invalidate(const std::string &table_name)`
 - Source: `include/temporal/temporal_query_engine.h`:506
 - Brief: Invalidate.
 - Parameters:
   - `table_name` (const std::string &): Name of the table.
 - Details: Invalidate all entries for the given table (e.g. after a write). table_name Name of the table. Calls: lock(), begin(), end(), erase().
+
+#### `void put(const std::string &table_name, Timestamp as_of, std::vector< VersionedDocument > result)`
+- Source: `include/temporal/temporal_query_engine.h`:504
+- Brief: Put.
+- Parameters:
+  - `table_name` (const std::string &): Name of the table.
+  - `as_of` (Timestamp): Input parameter.
+  - `result` (std::vector< VersionedDocument >): Input parameter.
+- Details: Store a result in the cache, evicting LRU entry if necessary. table_name Name of the table. as_of Input parameter. result Input parameter. Calls: lock(), find(), end(), std::move(), size(), begin(), erase(), emplace().
 
 #### `void put(const std::string &table_name, Timestamp as_of, std::vector< VersionedDocument > result)`
 - Source: `include/temporal/temporal_query_engine.h`:501
@@ -5954,11 +7234,22 @@ Status: active
 - Details: Store a result in the cache, evicting LRU entry if necessary. table_name Name of the table. as_of Input parameter. result Input parameter. Calls: lock(), find(), end(), std::move(), size(), begin(), erase(), emplace().
 
 #### `size_t size() const`
+- Source: `include/temporal/temporal_query_engine.h`:515
+- Brief: Return the number of cached entries.
+- Parameters: none
+
+#### `size_t size() const`
 - Source: `include/temporal/temporal_query_engine.h`:511
 - Brief: n/a
 - Parameters: none
 
 ### themisdb::temporal::QueryCache::CacheKey
+
+#### `bool operator==(const CacheKey &o) const noexcept`
+- Source: `include/temporal/temporal_query_engine.h`:521
+- Brief: n/a
+- Parameters:
+  - `o` (const CacheKey &): n/a
 
 #### `bool operator==(const CacheKey &o) const noexcept`
 - Source: `include/temporal/temporal_query_engine.h`:517
@@ -5967,6 +7258,12 @@ Status: active
   - `o` (const CacheKey &): n/a
 
 ### themisdb::temporal::QueryCache::CacheKeyHash
+
+#### `std::size_t operator()(const CacheKey &k) const noexcept`
+- Source: `include/temporal/temporal_query_engine.h`:527
+- Brief: n/a
+- Parameters:
+  - `k` (const CacheKey &): n/a
 
 #### `std::size_t operator()(const CacheKey &k) const noexcept`
 - Source: `include/temporal/temporal_query_engine.h`:523
@@ -5981,6 +7278,20 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `RetentionManager()=default`
+- Source: `include/temporal/retention_manager.h`:202
+- Brief: n/a
+- Parameters: none
+
+#### `RetentionStats applyPolicy(SystemVersionedTable &table, const RetentionPolicy &policy)`
+- Source: `include/temporal/retention_manager.h`:325
+- Brief: Apply Policy.
+- Parameters:
+  - `table` (SystemVersionedTable &): Input/output parameter.
+  - `policy` (const RetentionPolicy &): Input parameter.
+- Return: Return value.
+- Details: table Input/output parameter. policy Input parameter. Return value. Calls: std::chrono::steady_clock::now(), now(), count(), getAllKeys(), getHistory(), size(), isCurrent(), estimateVersionSize().
+
 #### `RetentionStats applyPolicy(SystemVersionedTable &table, const RetentionPolicy &policy)`
 - Source: `include/temporal/retention_manager.h`:301
 - Brief: Apply Policy.
@@ -5991,10 +7302,24 @@ Status: active
 - Details: table Input/output parameter. policy Input parameter. Return value. Calls: std::chrono::steady_clock::now(), now(), count(), getAllKeys(), getHistory(), size(), isCurrent(), estimateVersionSize().
 
 #### `void clearArchive()`
+- Source: `include/temporal/retention_manager.h`:290
+- Brief: Remove all records from the in-memory archive.
+- Parameters: none
+- Details: Clear Archive. Calls: lock(), clear().
+
+#### `void clearArchive()`
 - Source: `include/temporal/retention_manager.h`:270
 - Brief: Clear Archive.
 - Parameters: none
 - Details: Clear the in-memory archive. Calls: lock(), clear().
+
+#### `RetentionStats enforceRetention(SystemVersionedTable &table)`
+- Source: `include/temporal/retention_manager.h`:230
+- Brief: Apply the registered policy to a table. Non-current versions that violate the policy are physically deleted (and optionally archived before deletion).
+- Parameters:
+  - `table` (SystemVersionedTable &): Input/output parameter.
+- Return: Counts and status for the enforcement pass.
+- Details: Enforce Retention. table Table whose history is evaluated. Counts and status for the enforcement pass. table Input/output parameter. Return value. Calls: lock(), find(), tableName(), end(), push_back(), std::max(), applyPolicy(), std::string().
 
 #### `RetentionStats enforceRetention(SystemVersionedTable &table)`
 - Source: `include/temporal/retention_manager.h`:220
@@ -6003,6 +7328,15 @@ Status: active
   - `table` (SystemVersionedTable &): Input/output parameter.
 - Return: Return value.
 - Details: Apply the registered policy to the given table. Non-current versions that violate the policy are physically deleted (and optionally archived before deletion). table Input/output parameter. Return value. Calls: lock(), find(), tableName(), end(), push_back(), std::max(), applyPolicy(), std::string().
+
+#### `RetentionStats enforceRetention(SystemVersionedTable &table, const RetentionPolicy &policy)`
+- Source: `include/temporal/retention_manager.h`:238
+- Brief: Apply a policy without registering it.
+- Parameters:
+  - `table` (SystemVersionedTable &): Input/output parameter.
+  - `policy` (const RetentionPolicy &): Input parameter.
+- Return: Counts and status for the enforcement pass.
+- Details: Enforce Retention. table Table whose history is evaluated. policy Policy to apply for this pass only. Counts and status for the enforcement pass. table Input/output parameter. policy Input parameter. Return value. Calls: std::max(), applyPolicy(), push_back(), std::string(), what(), empty(), lock().
 
 #### `RetentionStats enforceRetention(SystemVersionedTable &table, const RetentionPolicy &policy)`
 - Source: `include/temporal/retention_manager.h`:225
@@ -6014,10 +7348,25 @@ Status: active
 - Details: Apply the given policy directly without registering it. table Input/output parameter. policy Input parameter. Return value. Calls: std::max(), applyPolicy(), push_back(), std::string(), what(), empty(), lock().
 
 #### `std::vector< ArchivedRecord > getArchivedRecords() const`
+- Source: `include/temporal/retention_manager.h`:279
+- Brief: Return all archived records across tables.
+- Parameters: none
+- Return: Copy of the in-memory archive.
+- Details: Copy of the in-memory archive.
+
+#### `std::vector< ArchivedRecord > getArchivedRecords() const`
 - Source: `include/temporal/retention_manager.h`:263
 - Brief: n/a
 - Parameters: none
 - Details: Return all archived records (across all tables).
+
+#### `std::vector< ArchivedRecord > getArchivedRecords(const std::string &table_name) const`
+- Source: `include/temporal/retention_manager.h`:286
+- Brief: Return archived records for one table.
+- Parameters:
+  - `table_name` (const std::string &): Logical table name.
+- Return: Matching archived records.
+- Details: table_name Logical table name. Matching archived records.
 
 #### `std::vector< ArchivedRecord > getArchivedRecords(const std::string &table_name) const`
 - Source: `include/temporal/retention_manager.h`:266
@@ -6027,9 +7376,24 @@ Status: active
 - Details: Return archived records for a specific table.
 
 #### `nlohmann::json getCumulativeStats() const`
+- Source: `include/temporal/retention_manager.h`:298
+- Brief: Return cumulative retention statistics.
+- Parameters: none
+- Return: JSON snapshot of the manager's cumulative counters.
+- Details: JSON snapshot of the manager's cumulative counters.
+
+#### `nlohmann::json getCumulativeStats() const`
 - Source: `include/temporal/retention_manager.h`:274
 - Brief: n/a
 - Parameters: none
+
+#### `std::optional< RetentionPolicy > getPolicy(const std::string &table_name) const`
+- Source: `include/temporal/retention_manager.h`:219
+- Brief: Retrieve a table's registered retention policy.
+- Parameters:
+  - `table_name` (const std::string &): Logical table name.
+- Return: The policy, or an empty optional when none is registered.
+- Details: table_name Logical table name. The policy, or an empty optional when none is registered.
 
 #### `std::optional< RetentionPolicy > getPolicy(const std::string &table_name) const`
 - Source: `include/temporal/retention_manager.h`:211
@@ -6037,6 +7401,14 @@ Status: active
 - Parameters:
   - `table_name` (const std::string &): n/a
 - Details: Retrieve the retention policy for a table, if set.
+
+#### `void scheduleTable(SystemVersionedTable &table, std::chrono::milliseconds interval)`
+- Source: `include/temporal/retention_manager.h`:256
+- Brief: Schedule Table.
+- Parameters:
+  - `table` (SystemVersionedTable &): Input/output parameter.
+  - `interval` (std::chrono::milliseconds): Input parameter.
+- Details: Register a table for periodic background retention enforcement. The scheduler runs in a dedicated thread. Each registered table is checked every interval and the previously-registered policy (setPolicy) is applied. The table pointer must remain valid until stopScheduler() or the RetentionManager is destroyed. table Reference to the table to maintain. interval How often to enforce the policy (minimum 1 millisecond). Call startScheduler() once to activate background processing. table Input/output parameter. interval Input parameter. Calls: lock(), std::chrono::milliseconds(), std::chrono::steady_clock::now(), push_back(), std::move().
 
 #### `void scheduleTable(SystemVersionedTable &table, std::chrono::milliseconds interval)`
 - Source: `include/temporal/retention_manager.h`:243
@@ -6047,16 +7419,36 @@ Status: active
 - Details: Register a table for periodic background retention enforcement. The scheduler runs in a dedicated thread. Each registered table is checked every interval and the previously-registered policy (setPolicy) is applied. The table pointer must remain valid until stopScheduler() or the RetentionManager is destroyed. table Reference to the table to maintain. interval How often to enforce the policy (minimum 1 millisecond). Call startScheduler() once to activate background processing. table Input/output parameter. interval Input parameter. Calls: lock(), std::chrono::milliseconds(), std::chrono::steady_clock::now(), push_back(), std::move().
 
 #### `void schedulerLoop()`
+- Source: `include/temporal/retention_manager.h`:323
+- Brief: Scheduler Loop.
+- Parameters: none
+- Details: Calls: load(), std::chrono::steady_clock::now(), lock(), push_back(), enforceRetention(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+
+#### `void schedulerLoop()`
 - Source: `include/temporal/retention_manager.h`:299
 - Brief: Scheduler Loop.
 - Parameters: none
 - Details: Calls: load(), std::chrono::steady_clock::now(), lock(), push_back(), enforceRetention(), std::this_thread::sleep_for(), std::chrono::milliseconds().
 
 #### `bool schedulerRunning() const noexcept`
+- Source: `include/temporal/retention_manager.h`:271
+- Brief: n/a
+- Parameters: none
+- Details: Return true if the background scheduler is currently running.
+
+#### `bool schedulerRunning() const noexcept`
 - Source: `include/temporal/retention_manager.h`:258
 - Brief: n/a
 - Parameters: none
 - Details: Return true if the background scheduler is currently running.
+
+#### `void setPolicy(const std::string &table_name, const RetentionPolicy &policy)`
+- Source: `include/temporal/retention_manager.h`:212
+- Brief: Set the retention policy for a named table.
+- Parameters:
+  - `table_name` (const std::string &): Name of the retention policy.
+  - `policy` (const RetentionPolicy &): Input parameter.
+- Details: Set Policy. table_name Logical table name. policy Policy copied and applied to that table by enforcement. table_name Name of the retention policy. policy Input parameter. Calls: lock().
 
 #### `void setPolicy(const std::string &table_name, const RetentionPolicy &policy)`
 - Source: `include/temporal/retention_manager.h`:208
@@ -6067,10 +7459,22 @@ Status: active
 - Details: Set the retention policy for a named table. table_name Name of the retention policy. policy Input parameter. Calls: lock().
 
 #### `void startScheduler()`
+- Source: `include/temporal/retention_manager.h`:263
+- Brief: Start Scheduler.
+- Parameters: none
+- Details: Start the background retention thread. Calling this more than once is a no-op. Calls: compare_exchange_strong(), store(), std::thread().
+
+#### `void startScheduler()`
 - Source: `include/temporal/retention_manager.h`:250
 - Brief: Start Scheduler.
 - Parameters: none
 - Details: Start the background retention thread. Calling this more than once is a no-op. Calls: compare_exchange_strong(), store(), std::thread().
+
+#### `void stopScheduler()`
+- Source: `include/temporal/retention_manager.h`:268
+- Brief: Stop Scheduler.
+- Parameters: none
+- Details: Stop the background retention thread and wait for it to exit. Calls: load(), store(), joinable(), join().
 
 #### `void stopScheduler()`
 - Source: `include/temporal/retention_manager.h`:255
@@ -6083,10 +7487,27 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `~RetentionManager()`
+- Source: `include/temporal/retention_manager.h`:203
+- Brief: n/a
+- Parameters: none
+
 ### themisdb::temporal::RetentionRule
 
 #### `bool operator<(const RetentionRule &rhs) const noexcept`
 - Source: `include/temporal/retention_manager.h`:99
+- Brief: n/a
+- Parameters:
+  - `rhs` (const RetentionRule &): n/a
+
+#### `bool operator<(const RetentionRule &rhs) const noexcept`
+- Source: `include/temporal/retention_manager.h`:99
+- Brief: n/a
+- Parameters:
+  - `rhs` (const RetentionRule &): n/a
+
+#### `bool operator==(const RetentionRule &rhs) const noexcept`
+- Source: `include/temporal/retention_manager.h`:98
 - Brief: n/a
 - Parameters:
   - `rhs` (const RetentionRule &): n/a
@@ -6104,11 +7525,32 @@ Status: active
   - `max_b` (uint64_t): n/a
   - `compliance_tag` (std::string): n/a
 
+#### `RetentionRule storageBased(uint64_t max_b, std::string compliance_tag={}) noexcept`
+- Source: `include/temporal/retention_manager.h`:92
+- Brief: Convenience factory: create a STORAGE_BASED rule.
+- Parameters:
+  - `max_b` (uint64_t): n/a
+  - `compliance_tag` (std::string): n/a
+
 #### `RetentionRule timeBased(std::chrono::milliseconds p, std::string compliance_tag={}) noexcept`
 - Source: `include/temporal/retention_manager.h`:75
 - Brief: Convenience factory: create a TIME_BASED rule.
 - Parameters:
   - `p` (std::chrono::milliseconds): n/a
+  - `compliance_tag` (std::string): n/a
+
+#### `RetentionRule timeBased(std::chrono::milliseconds p, std::string compliance_tag={}) noexcept`
+- Source: `include/temporal/retention_manager.h`:75
+- Brief: Convenience factory: create a TIME_BASED rule.
+- Parameters:
+  - `p` (std::chrono::milliseconds): n/a
+  - `compliance_tag` (std::string): n/a
+
+#### `RetentionRule versionCount(size_t n, std::string compliance_tag={}) noexcept`
+- Source: `include/temporal/retention_manager.h`:83
+- Brief: Convenience factory: create a VERSION_COUNT_BASED rule.
+- Parameters:
+  - `n` (size_t): n/a
   - `compliance_tag` (std::string): n/a
 
 #### `RetentionRule versionCount(size_t n, std::string compliance_tag={}) noexcept`
@@ -6125,7 +7567,18 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/retention_manager.h`:163
+- Brief: n/a
+- Parameters: none
+
 ### themisdb::temporal::RowFilter
+
+#### `bool matches(const Document &doc) const`
+- Source: `include/temporal/temporal_query_engine.h`:73
+- Brief: n/a
+- Parameters:
+  - `doc` (const Document &): n/a
 
 #### `bool matches(const Document &doc) const`
 - Source: `include/temporal/temporal_query_engine.h`:73
@@ -6140,8 +7593,23 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `bool empty() const noexcept`
+- Source: `include/temporal/snapshot_manager.h`:94
+- Brief: n/a
+- Parameters: none
+
 #### `nlohmann::json toJson() const`
 - Source: `include/temporal/snapshot_manager.h`:102
+- Brief: n/a
+- Parameters: none
+
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/snapshot_manager.h`:102
+- Brief: n/a
+- Parameters: none
+
+#### `size_t totalChanges() const noexcept`
+- Source: `include/temporal/snapshot_manager.h`:98
 - Brief: n/a
 - Parameters: none
 
@@ -6157,6 +7625,17 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `bool isValid() const noexcept`
+- Source: `include/temporal/snapshot_manager.h`:54
+- Brief: n/a
+- Parameters: none
+
+#### `bool operator<(const SnapshotHandle &other) const noexcept`
+- Source: `include/temporal/snapshot_manager.h`:50
+- Brief: n/a
+- Parameters:
+  - `other` (const SnapshotHandle &): n/a
+
 #### `bool operator<(const SnapshotHandle &other) const noexcept`
 - Source: `include/temporal/snapshot_manager.h`:50
 - Brief: n/a
@@ -6168,7 +7647,17 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/snapshot_manager.h`:56
+- Brief: n/a
+- Parameters: none
+
 ### themisdb::temporal::SnapshotMetadata
+
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/snapshot_manager.h`:73
+- Brief: n/a
+- Parameters: none
 
 #### `nlohmann::json toJson() const`
 - Source: `include/temporal/snapshot_manager.h`:73
@@ -6183,6 +7672,22 @@ Status: active
 - Parameters:
   - `other` (SystemVersionedTable &&): n/a
 - Details: Move constructor. Required because std::mutex is not movable; we default-construct the destination mutex (which is always correct for a newly-constructed object that nobody else holds a lock to).
+
+#### `SystemVersionedTable(SystemVersionedTable &&other) noexcept`
+- Source: `include/temporal/system_versioned_table.h`:98
+- Brief: n/a
+- Parameters:
+  - `other` (SystemVersionedTable &&): n/a
+- Details: Move constructor. Required because std::mutex is not movable; we default-construct the destination mutex (which is always correct for a newly-constructed object that nobody else holds a lock to).
+
+#### `SystemVersionedTable(std::string table_name, Config config, std::string source_node="local")`
+- Source: `include/temporal/system_versioned_table.h`:89
+- Brief: n/a
+- Parameters:
+  - `table_name` (std::string): Name of this table.
+  - `config` (Config): Runtime configuration (retention, compression, …).
+  - `source_node` (std::string): Node/user label written to VersionedDocument::modified_by.
+- Details: Construct with full Config. table_name Name of this table. config Runtime configuration (retention, compression, …). source_node Node/user label written to VersionedDocument::modified_by.
 
 #### `SystemVersionedTable(std::string table_name, Config config, std::string source_node="local")`
 - Source: `include/temporal/system_versioned_table.h`:89
@@ -6201,6 +7706,22 @@ Status: active
   - `source_node` (std::string): n/a
 - Details: Construct with explicit table name and optional source-node label. Uses default Config values.
 
+#### `SystemVersionedTable(std::string table_name, std::string source_node="local")`
+- Source: `include/temporal/system_versioned_table.h`:79
+- Brief: n/a
+- Parameters:
+  - `table_name` (std::string): n/a
+  - `source_node` (std::string): n/a
+- Details: Construct with explicit table name and optional source-node label. Uses default Config values.
+
+#### `void closeCurrentVersion(VersionList &versions, Timestamp close_time)`
+- Source: `include/temporal/system_versioned_table.h`:316
+- Brief: Close Current Version.
+- Parameters:
+  - `versions` (VersionList &): Input/output parameter.
+  - `close_time` (Timestamp): Input parameter.
+- Details: versions Input/output parameter. close_time Input parameter. Implements closeCurrentVersion without additional internal calls.
+
 #### `void closeCurrentVersion(VersionList &versions, Timestamp close_time)`
 - Source: `include/temporal/system_versioned_table.h`:281
 - Brief: Close Current Version.
@@ -6208,6 +7729,15 @@ Status: active
   - `versions` (VersionList &): Input/output parameter.
   - `close_time` (Timestamp): Input parameter.
 - Details: versions Input/output parameter. close_time Input parameter. Implements closeCurrentVersion without additional internal calls.
+
+#### `SystemVersionedTable createVersionedTable(const std::string &table_name, const Document &schema)`
+- Source: `include/temporal/system_versioned_table.h`:122
+- Brief: static
+- Parameters:
+  - `table_name` (const std::string &): Name of the table.
+  - `schema` (const Document &): Input parameter.
+- Return: Return value.
+- Details: Overload with default Config. table_name Name of the table. schema Input parameter. Return value. Implements createVersionedTable without additional internal calls.
 
 #### `SystemVersionedTable createVersionedTable(const std::string &table_name, const Document &schema)`
 - Source: `include/temporal/system_versioned_table.h`:122
@@ -6229,6 +7759,25 @@ Status: active
 - Return: Fully configured SystemVersionedTable instance.
 - Details: Static factory that creates a system-versioned table from a schema descriptor (arbitrary JSON) and a Config. The schema is stored in the table's statistics under "schema" and can be retrieved via getStatistics(). It does not affect storage behaviour but enables DDL-aware tools to inspect column definitions. table_name Logical table name (used for the history_table_name default if config.history_table_name is empty). schema JSON object describing the table columns/types. config Runtime configuration. source_node Source-node label for DML attribution. Fully configured SystemVersionedTable instance. table_name Name of the table. schema Input parameter. config Input parameter. source_node Input parameter. Return value. Calls: empty(), tbl(), std::move().
 
+#### `SystemVersionedTable createVersionedTable(const std::string &table_name, const Document &schema, Config config, const std::string &source_node="local")`
+- Source: `include/temporal/system_versioned_table.h`:115
+- Brief: static
+- Parameters:
+  - `table_name` (const std::string &): Name of the table.
+  - `schema` (const Document &): Input parameter.
+  - `config` (Config): Input parameter.
+  - `source_node` (const std::string &): Input parameter.
+- Return: Fully configured SystemVersionedTable instance.
+- Details: Static factory that creates a system-versioned table from a schema descriptor (arbitrary JSON) and a Config. The schema is stored in the table's statistics under "schema" and can be retrieved via getStatistics(). It does not affect storage behaviour but enables DDL-aware tools to inspect column definitions. table_name Logical table name (used for the history_table_name default if config.history_table_name is empty). schema JSON object describing the table columns/types. config Runtime configuration. source_node Source-node label for DML attribution. Fully configured SystemVersionedTable instance. table_name Name of the table. schema Input parameter. config Input parameter. source_node Input parameter. Return value. Calls: empty(), tbl(), std::move().
+
+#### `bool deleteRow(const std::string &key)`
+- Source: `include/temporal/system_versioned_table.h`:151
+- Brief: Delete Row.
+- Parameters:
+  - `key` (const std::string &): Input parameter.
+- Return: True when the operation succeeds.
+- Details: Logically delete the current row (closes its sys_time period). Returns false if no current row exists for the key. key Input parameter. True when the operation succeeds. Calls: lock(), find(), end(), closeCurrentVersion(), now().
+
 #### `bool deleteRow(const std::string &key)`
 - Source: `include/temporal/system_versioned_table.h`:151
 - Brief: Delete Row.
@@ -6238,6 +7787,13 @@ Status: active
 - Details: Logically delete the current row (closes its sys_time period). Returns false if no current row exists for the key. key Input parameter. True when the operation succeeds. Calls: lock(), find(), end(), closeCurrentVersion(), now().
 
 #### `size_t enforceRetentionPolicy()`
+- Source: `include/temporal/system_versioned_table.h`:269
+- Brief: Enforce Retention Policy.
+- Parameters: none
+- Return: Number of historical versions physically removed.
+- Details: Apply the configured retention policy to all keys. Historical versions older than Config::retention_period are physically removed. If Config::retention_period is zero the call is a no-op. The current (open-ended) version is never removed. Number of historical versions physically removed. Return value. Calls: count(), now(), purgeHistoricalVersions().
+
+#### `size_t enforceRetentionPolicy()`
 - Source: `include/temporal/system_versioned_table.h`:250
 - Brief: Enforce Retention Policy.
 - Parameters: none
@@ -6245,10 +7801,26 @@ Status: active
 - Details: Apply the configured retention policy to all keys. Historical versions older than Config::retention_period are physically removed. If Config::retention_period is zero the call is a no-op. The current (open-ended) version is never removed. Number of historical versions physically removed. Return value. Calls: count(), now(), purgeHistoricalVersions().
 
 #### `std::vector< std::string > getAllKeys() const`
+- Source: `include/temporal/system_versioned_table.h`:201
+- Brief: Return all known keys, including keys whose rows were deleted. This allows callers (e.g. RetentionManager) to enumerate every key that ever had data, not just keys with a currently-alive row.
+- Parameters: none
+- Return: All retained keys.
+- Details: All retained keys.
+
+#### `std::vector< std::string > getAllKeys() const`
 - Source: `include/temporal/system_versioned_table.h`:182
 - Brief: n/a
 - Parameters: none
 - Details: Return all known keys (including keys whose rows have all been deleted). This allows callers (e.g. RetentionManager) to enumerate every key that ever had data, not just keys with a currently-alive row.
+
+#### `std::optional< VersionedDocument > getAsOf(const std::string &key, Timestamp as_of) const`
+- Source: `include/temporal/system_versioned_table.h`:168
+- Brief: Return the version current at a system-time instant.
+- Parameters:
+  - `key` (const std::string &): Logical row key.
+  - `as_of` (Timestamp): System-time instant in the module's timestamp units.
+- Return: Matching version, or an empty optional when none was current.
+- Details: key Logical row key. as_of System-time instant in the module's timestamp units. Matching version, or an empty optional when none was current.
 
 #### `std::optional< VersionedDocument > getAsOf(const std::string &key, Timestamp as_of) const`
 - Source: `include/temporal/system_versioned_table.h`:159
@@ -6259,10 +7831,25 @@ Status: active
 - Details: Return the version that was current at the given timestamp.
 
 #### `const Config & getConfig() const noexcept`
+- Source: `include/temporal/system_versioned_table.h`:283
+- Brief: Return the active configuration.
+- Parameters: none
+- Return: Reference to the configuration owned by this table.
+- Details: Reference to the configuration owned by this table.
+
+#### `const Config & getConfig() const noexcept`
 - Source: `include/temporal/system_versioned_table.h`:257
 - Brief: n/a
 - Parameters: none
 - Details: Returns the active Config for this table.
+
+#### `std::optional< VersionedDocument > getCurrent(const std::string &key) const`
+- Source: `include/temporal/system_versioned_table.h`:160
+- Brief: Return the current version of a row.
+- Parameters:
+  - `key` (const std::string &): Logical row key.
+- Return: The current version, or an empty optional if the key has none.
+- Details: key Logical row key. The current version, or an empty optional if the key has none.
 
 #### `std::optional< VersionedDocument > getCurrent(const std::string &key) const`
 - Source: `include/temporal/system_versioned_table.h`:156
@@ -6272,11 +7859,28 @@ Status: active
 - Details: Return the current version of a row, if it exists.
 
 #### `std::vector< VersionedDocument > getHistory(const std::string &key) const`
+- Source: `include/temporal/system_versioned_table.h`:176
+- Brief: Return the full version history of a row.
+- Parameters:
+  - `key` (const std::string &): Logical row key.
+- Return: All stored versions for the key, or an empty vector if unknown.
+- Details: key Logical row key. All stored versions for the key, or an empty vector if unknown.
+
+#### `std::vector< VersionedDocument > getHistory(const std::string &key) const`
 - Source: `include/temporal/system_versioned_table.h`:163
 - Brief: n/a
 - Parameters:
   - `key` (const std::string &): n/a
 - Details: Return all historical versions of a row.
+
+#### `std::vector< VersionedDocument > getHistoryInRange(const std::string &key, const TimeRange &range) const`
+- Source: `include/temporal/system_versioned_table.h`:184
+- Brief: Return versions whose system-time overlaps a range.
+- Parameters:
+  - `key` (const std::string &): Logical row key.
+  - `range` (const TimeRange &): Half-open system-time interval to match.
+- Return: Matching versions, or an empty vector when none match.
+- Details: key Logical row key. range Half-open system-time interval to match. Matching versions, or an empty vector when none match.
 
 #### `std::vector< VersionedDocument > getHistoryInRange(const std::string &key, const TimeRange &range) const`
 - Source: `include/temporal/system_versioned_table.h`:168
@@ -6285,6 +7889,13 @@ Status: active
   - `key` (const std::string &): n/a
   - `range` (const TimeRange &): n/a
 - Details: Return all versions of a row whose sys_time overlaps the given range.
+
+#### `nlohmann::json getStatistics() const`
+- Source: `include/temporal/system_versioned_table.h`:301
+- Brief: Return JSON statistics for monitoring.
+- Parameters: none
+- Return: Statistics snapshot for this table.
+- Details: Statistics snapshot for this table.
 
 #### `nlohmann::json getStatistics() const`
 - Source: `include/temporal/system_versioned_table.h`:266
@@ -6301,11 +7912,35 @@ Status: active
 - Return: True when the operation succeeds.
 - Details: Insert a new row. Fails (returns false) if the key already exists. key Input parameter. doc Input parameter. True when the operation succeeds. Calls: lock(), now(), push_back(), makeVersion().
 
+#### `bool insert(const std::string &key, const Document &doc)`
+- Source: `include/temporal/system_versioned_table.h`:129
+- Brief: Insert.
+- Parameters:
+  - `key` (const std::string &): Input parameter.
+  - `doc` (const Document &): Input parameter.
+- Return: True when the operation succeeds.
+- Details: Insert a new row. Fails (returns false) if the key already exists. key Input parameter. doc Input parameter. True when the operation succeeds. Calls: lock(), now(), push_back(), makeVersion().
+
+#### `size_t keyCount() const`
+- Source: `include/temporal/system_versioned_table.h`:289
+- Brief: Count distinct keys, including keys whose rows were deleted.
+- Parameters: none
+- Return: Number of keys retained by the table.
+- Details: Number of keys retained by the table.
+
 #### `size_t keyCount() const`
 - Source: `include/temporal/system_versioned_table.h`:260
 - Brief: n/a
 - Parameters: none
 - Details: Number of distinct keys (including deleted ones).
+
+#### `VersionedDocument makeVersion(const std::string &key, Document data, Timestamp ts) const`
+- Source: `include/temporal/system_versioned_table.h`:319
+- Brief: n/a
+- Parameters:
+  - `key` (const std::string &): n/a
+  - `data` (Document): n/a
+  - `ts` (Timestamp): n/a
 
 #### `VersionedDocument makeVersion(const std::string &key, Document data, Timestamp ts) const`
 - Source: `include/temporal/system_versioned_table.h`:284
@@ -6316,12 +7951,29 @@ Status: active
   - `ts` (Timestamp): n/a
 
 #### `size_t purgeHistoricalVersions(const std::function< bool(const VersionedDocument &)> &predicate)`
+- Source: `include/temporal/system_versioned_table.h`:236
+- Brief: n/a
+- Parameters:
+  - `predicate` (const std::function< bool(const VersionedDocument &)> &): n/a
+- Return: Total number of versions removed.
+- Details: Convenience overload: purge all historical versions across every known key that satisfy the predicate. Total number of versions removed.
+
+#### `size_t purgeHistoricalVersions(const std::function< bool(const VersionedDocument &)> &predicate)`
 - Source: `include/temporal/system_versioned_table.h`:217
 - Brief: n/a
 - Parameters:
   - `predicate` (const std::function< bool(const VersionedDocument &)> &): n/a
 - Return: Total number of versions removed.
 - Details: Convenience overload: purge all historical versions across every known key that satisfy the predicate. Total number of versions removed.
+
+#### `size_t purgeHistoricalVersions(const std::string &key, const std::function< bool(const VersionedDocument &)> &predicate)`
+- Source: `include/temporal/system_versioned_table.h`:213
+- Brief: n/a
+- Parameters:
+  - `key` (const std::string &): The row key to purge.
+  - `predicate` (const std::function< bool(const VersionedDocument &)> &): Return true for versions that should be deleted.
+- Return: The number of versions actually removed.
+- Details: Physically remove all closed (historical) versions for the given key that match the supplied predicate. The current (open-ended) version is NEVER removed. key The row key to purge. predicate Return true for versions that should be deleted. The number of versions actually removed.
 
 #### `size_t purgeHistoricalVersions(const std::string &key, const std::function< bool(const VersionedDocument &)> &predicate)`
 - Source: `include/temporal/system_versioned_table.h`:194
@@ -6333,6 +7985,15 @@ Status: active
 - Details: Physically remove all closed (historical) versions for the given key that match the supplied predicate. The current (open-ended) version is NEVER removed. key The row key to purge. predicate Return true for versions that should be deleted. The number of versions actually removed.
 
 #### `size_t purgeHistoricalVersionsKeepLatestN(const std::string &key, size_t keep_latest_n)`
+- Source: `include/temporal/system_versioned_table.h`:227
+- Brief: Purge Historical Versions Keep Latest N.
+- Parameters:
+  - `key` (const std::string &): Input parameter.
+  - `keep_latest_n` (size_t): Input parameter.
+- Return: Number of versions physically removed.
+- Details: Physically keep only the keep_latest_n most-recent historical (closed) versions for a key, deleting the rest. The current (open-ended) version is always kept regardless of n. key Row key. keep_latest_n Number of historical versions to retain. Number of versions physically removed. key Input parameter. keep_latest_n Input parameter. Return value. Calls: lock(), find(), end(), isCurrent(), push_back(), size(), std::sort(), begin().
+
+#### `size_t purgeHistoricalVersionsKeepLatestN(const std::string &key, size_t keep_latest_n)`
 - Source: `include/temporal/system_versioned_table.h`:208
 - Brief: Purge Historical Versions Keep Latest N.
 - Parameters:
@@ -6340,6 +8001,16 @@ Status: active
   - `keep_latest_n` (size_t): Input parameter.
 - Return: Number of versions physically removed.
 - Details: Physically keep only the keep_latest_n most-recent historical (closed) versions for a key, deleting the rest. The current (open-ended) version is always kept regardless of n. key Row key. keep_latest_n Number of historical versions to retain. Number of versions physically removed. key Input parameter. keep_latest_n Input parameter. Return value. Calls: lock(), find(), end(), isCurrent(), push_back(), size(), std::sort(), begin().
+
+#### `bool replaceHistoricalPayload(const std::string &key, Timestamp sys_start, const Document &new_data)`
+- Source: `include/temporal/system_versioned_table.h`:254
+- Brief: ============================================================================ Payload replacement (used by TemporalCompressor) ============================================================================
+- Parameters:
+  - `key` (const std::string &): Input parameter.
+  - `sys_start` (Timestamp): Input parameter.
+  - `new_data` (const Document &): Input parameter.
+- Return: true if the version was found and replaced.
+- Details: Replace the data payload of an existing historical version in-place. Identifies the version by key and the exact sys_start timestamp. Only closed (non-current) versions may be replaced; attempting to replace a current version returns false. This method is intended for use by TemporalCompressor to substitute a compressed payload without altering the version's time metadata. key Row key. sys_start sys_time.start of the target version. new_data Replacement payload (may be compressed). true if the version was found and replaced. key Input parameter. sys_start Input parameter. new_data Input parameter. True when the operation succeeds. Calls: lock(), find(), end(), isCurrent().
 
 #### `bool replaceHistoricalPayload(const std::string &key, Timestamp sys_start, const Document &new_data)`
 - Source: `include/temporal/system_versioned_table.h`:235
@@ -6352,6 +8023,14 @@ Status: active
 - Details: Replace the data payload of an existing historical version in-place. Identifies the version by key and the exact sys_start timestamp. Only closed (non-current) versions may be replaced; attempting to replace a current version returns false. This method is intended for use by TemporalCompressor to substitute a compressed payload without altering the version's time metadata. key Row key. sys_start sys_time.start of the target version. new_data Replacement payload (may be compressed). true if the version was found and replaced. key Input parameter. sys_start Input parameter. new_data Input parameter. True when the operation succeeds. Calls: lock(), find(), end(), isCurrent().
 
 #### `std::vector< VersionedDocument > scan(Timestamp as_of=kMaxTimestamp) const`
+- Source: `include/temporal/system_versioned_table.h`:193
+- Brief: Return all rows current at a system-time instant. When as_of == kMaxTimestamp the latest current rows are returned.
+- Parameters:
+  - `as_of` (Timestamp): System-time instant; kMaxTimestamp selects the latest state.
+- Return: Matching rows, or an empty vector when no rows are current.
+- Details: as_of System-time instant; kMaxTimestamp selects the latest state. Matching rows, or an empty vector when no rows are current.
+
+#### `std::vector< VersionedDocument > scan(Timestamp as_of=kMaxTimestamp) const`
 - Source: `include/temporal/system_versioned_table.h`:175
 - Brief: n/a
 - Parameters:
@@ -6359,9 +8038,25 @@ Status: active
 - Details: Return all current rows as a snapshot at the given timestamp. When as_of == kMaxTimestamp the latest current rows are returned.
 
 #### `const std::string & tableName() const noexcept`
+- Source: `include/temporal/system_versioned_table.h`:277
+- Brief: Return this table's logical name.
+- Parameters: none
+- Return: Reference to the name owned by this table, valid for its lifetime.
+- Details: Reference to the name owned by this table, valid for its lifetime.
+
+#### `const std::string & tableName() const noexcept`
 - Source: `include/temporal/system_versioned_table.h`:254
 - Brief: n/a
 - Parameters: none
+
+#### `bool update(const std::string &key, const Document &updates)`
+- Source: `include/temporal/system_versioned_table.h`:136
+- Brief: Update.
+- Parameters:
+  - `key` (const std::string &): Input parameter.
+  - `updates` (const Document &): Input parameter.
+- Return: True when the operation succeeds.
+- Details: Update an existing current row. The previous version is closed (sys_end set to now) and a new version is opened. Returns false if no current row exists for the key. key Input parameter. updates Input parameter. True when the operation succeeds. Calls: lock(), find(), end(), now(), items(), push_back(), makeVersion(), std::move().
 
 #### `bool update(const std::string &key, const Document &updates)`
 - Source: `include/temporal/system_versioned_table.h`:136
@@ -6381,6 +8076,22 @@ Status: active
 - Return: true if an insert was performed, false if an update was performed.
 - Details: Insert a new row or update an existing one atomically. If a current version exists the row is updated (patch-merge semantics); otherwise a fresh row is inserted. true if an insert was performed, false if an update was performed. key Input parameter. doc Input parameter. True when the operation succeeds. Calls: lock(), now(), push_back(), makeVersion(), closeCurrentVersion(), items(), std::move().
 
+#### `bool upsert(const std::string &key, const Document &doc)`
+- Source: `include/temporal/system_versioned_table.h`:145
+- Brief: Upsert.
+- Parameters:
+  - `key` (const std::string &): Input parameter.
+  - `doc` (const Document &): Input parameter.
+- Return: true if an insert was performed, false if an update was performed.
+- Details: Insert a new row or update an existing one atomically. If a current version exists the row is updated (patch-merge semantics); otherwise a fresh row is inserted. true if an insert was performed, false if an update was performed. key Input parameter. doc Input parameter. True when the operation succeeds. Calls: lock(), now(), push_back(), makeVersion(), closeCurrentVersion(), items(), std::move().
+
+#### `size_t versionCount() const`
+- Source: `include/temporal/system_versioned_table.h`:295
+- Brief: Count all current and historical row versions.
+- Parameters: none
+- Return: Total number of versions stored.
+- Details: Total number of versions stored.
+
 #### `size_t versionCount() const`
 - Source: `include/temporal/system_versioned_table.h`:263
 - Brief: n/a
@@ -6393,6 +8104,19 @@ Status: active
 - Source: `include/temporal/temporal_aggregator.h`:131
 - Brief: n/a
 - Parameters: none
+
+#### `TemporalAggregator()=default`
+- Source: `include/temporal/temporal_aggregator.h`:131
+- Brief: n/a
+- Parameters: none
+
+#### `std::vector< AggregateResult > aggregate(const SystemVersionedTable &table, const AggregationSpec &spec) const`
+- Source: `include/temporal/temporal_aggregator.h`:150
+- Brief: n/a
+- Parameters:
+  - `table` (const SystemVersionedTable &): n/a
+  - `spec` (const AggregationSpec &): n/a
+- Details: Convenience overload that uses the full available time range.
 
 #### `std::vector< AggregateResult > aggregate(const SystemVersionedTable &table, const AggregationSpec &spec) const`
 - Source: `include/temporal/temporal_aggregator.h`:150
@@ -6413,6 +8137,25 @@ Status: active
 - Return: One AggregateResult per window, ordered by window_start.
 - Details: Run a windowed aggregation. table Source table (all current + historical rows are scanned). spec Window and aggregation specification. from Query range start (inclusive, ms epoch). to Query range end (exclusive, ms epoch). One AggregateResult per window, ordered by window_start.
 
+#### `std::vector< AggregateResult > aggregate(const SystemVersionedTable &table, const AggregationSpec &spec, Timestamp from, Timestamp to) const`
+- Source: `include/temporal/temporal_aggregator.h`:142
+- Brief: n/a
+- Parameters:
+  - `table` (const SystemVersionedTable &): Source table (all current + historical rows are scanned).
+  - `spec` (const AggregationSpec &): Window and aggregation specification.
+  - `from` (Timestamp): Query range start (inclusive, ms epoch).
+  - `to` (Timestamp): Query range end (exclusive, ms epoch).
+- Return: One AggregateResult per window, ordered by window_start.
+- Details: Run a windowed aggregation. table Source table (all current + historical rows are scanned). spec Window and aggregation specification. from Query range start (inclusive, ms epoch). to Query range end (exclusive, ms epoch). One AggregateResult per window, ordered by window_start.
+
+#### `std::map< std::string, std::vector< AggregateResult > > aggregateByGroup(const SystemVersionedTable &table, const AggregationSpec &spec) const`
+- Source: `include/temporal/temporal_aggregator.h`:179
+- Brief: n/a
+- Parameters:
+  - `table` (const SystemVersionedTable &): n/a
+  - `spec` (const AggregationSpec &): n/a
+- Details: Convenience overload using the full available time range.
+
 #### `std::map< std::string, std::vector< AggregateResult > > aggregateByGroup(const SystemVersionedTable &table, const AggregationSpec &spec) const`
 - Source: `include/temporal/temporal_aggregator.h`:179
 - Brief: n/a
@@ -6431,6 +8174,28 @@ Status: active
   - `to` (Timestamp): Query range end (exclusive, ms epoch).
 - Return: Map from group key → ordered window results.
 - Details: Grouped windowed aggregation (temporal GROUP BY). Partitions all in-range rows by the combination of values specified in spec.group_by_fields, then runs the requested window aggregation independently for each group. The returned map is keyed by a canonical group-key string (field1=value1\|field2=value2). Each AggregateResult in the vectors has its group_values map populated. When spec.group_by_fields is empty the call falls back to the standard aggregate() behaviour and returns a single entry keyed by the empty string (""), with group_values left empty. table Source table. spec Window and aggregation specification, including group_by_fields. from Query range start (inclusive, ms epoch). to Query range end (exclusive, ms epoch). Map from group key → ordered window results.
+
+#### `std::map< std::string, std::vector< AggregateResult > > aggregateByGroup(const SystemVersionedTable &table, const AggregationSpec &spec, Timestamp from, Timestamp to) const`
+- Source: `include/temporal/temporal_aggregator.h`:172
+- Brief: n/a
+- Parameters:
+  - `table` (const SystemVersionedTable &): Source table.
+  - `spec` (const AggregationSpec &): Window and aggregation specification, including group_by_fields.
+  - `from` (Timestamp): Query range start (inclusive, ms epoch).
+  - `to` (Timestamp): Query range end (exclusive, ms epoch).
+- Return: Map from group key → ordered window results.
+- Details: Grouped windowed aggregation (temporal GROUP BY). Partitions all in-range rows by the combination of values specified in spec.group_by_fields, then runs the requested window aggregation independently for each group. The returned map is keyed by a canonical group-key string (field1=value1\|field2=value2). Each AggregateResult in the vectors has its group_values map populated. When spec.group_by_fields is empty the call falls back to the standard aggregate() behaviour and returns a single entry keyed by the empty string (""), with group_values left empty. table Source table. spec Window and aggregation specification, including group_by_fields. from Query range start (inclusive, ms epoch). to Query range end (exclusive, ms epoch). Map from group key → ordered window results.
+
+#### `std::vector< AggregateResult > aggregateSnapshots(const SystemVersionedTable &table, const AggregationSpec &spec, Timestamp from, Timestamp to) const`
+- Source: `include/temporal/temporal_aggregator.h`:202
+- Brief: n/a
+- Parameters:
+  - `table` (const SystemVersionedTable &): Source table.
+  - `spec` (const AggregationSpec &): Specification (window_size_ms used as snapshot interval; func and measure_field used for the aggregation).
+  - `from` (Timestamp): Range start (inclusive, ms epoch).
+  - `to` (Timestamp): Range end (exclusive, ms epoch).
+- Return: One AggregateResult per snapshot tick, ordered by window_start.
+- Details: Snapshot aggregation at regular intervals. At each tick t in [from, to) advancing by spec.window_size_ms, this method computes the aggregate of all rows that were CURRENT at that exact instant (sys_start ≤ t < sys_end). Each result window spans [t, t + window_size_ms) and represents the state of the table at the snapshot tick. This is distinct from the standard aggregate() call, which buckets rows by when they were WRITTEN (sys_start), not by when they were VISIBLE. table Source table. spec Specification (window_size_ms used as snapshot interval; func and measure_field used for the aggregation). from Range start (inclusive, ms epoch). to Range end (exclusive, ms epoch). One AggregateResult per snapshot tick, ordered by window_start.
 
 #### `std::vector< AggregateResult > aggregateSnapshots(const SystemVersionedTable &table, const AggregationSpec &spec, Timestamp from, Timestamp to) const`
 - Source: `include/temporal/temporal_aggregator.h`:202
@@ -6455,6 +8220,28 @@ Status: active
 - Return: TrendResult with slope, intercept, and r².
 - Details: Linear trend analysis over time-windowed aggregates. The method first partitions [from, to) into tumbling windows of window_size_ms (auto-derived as range/10 when window_size_ms is 0), computes the requested aggregate per window, and then performs an ordinary-least-squares regression of value vs. window centre time. table Source table. measure_field JSON field to aggregate (uses SUM by default). from Range start (inclusive, ms epoch). to Range end (exclusive, ms epoch). window_size_ms Tumbling window size for bucketing; 0 = auto. TrendResult with slope, intercept, and r².
 
+#### `TrendResult analyzeTrend(const SystemVersionedTable &table, const std::string &measure_field, Timestamp from, Timestamp to, int64_t window_size_ms=0) const`
+- Source: `include/temporal/temporal_aggregator.h`:223
+- Brief: n/a
+- Parameters:
+  - `table` (const SystemVersionedTable &): Source table.
+  - `measure_field` (const std::string &): JSON field to aggregate (uses SUM by default).
+  - `from` (Timestamp): Range start (inclusive, ms epoch).
+  - `to` (Timestamp): Range end (exclusive, ms epoch).
+  - `window_size_ms` (int64_t): Tumbling window size for bucketing; 0 = auto.
+- Return: TrendResult with slope, intercept, and r².
+- Details: Linear trend analysis over time-windowed aggregates. The method first partitions [from, to) into tumbling windows of window_size_ms (auto-derived as range/10 when window_size_ms is 0), computes the requested aggregate per window, and then performs an ordinary-least-squares regression of value vs. window centre time. table Source table. measure_field JSON field to aggregate (uses SUM by default). from Range start (inclusive, ms epoch). to Range end (exclusive, ms epoch). window_size_ms Tumbling window size for bucketing; 0 = auto. TrendResult with slope, intercept, and r².
+
+#### `double applyFunc(AggregateFunc func, const std::vector< double > &values, size_t count)`
+- Source: `include/temporal/temporal_aggregator.h`:258
+- Brief: Apply Func.
+- Parameters:
+  - `func` (AggregateFunc): Input parameter.
+  - `values` (const std::vector< double > &): Input parameter.
+  - `count` (size_t): Input parameter.
+- Return: Return value.
+- Details: func Input parameter. values Input parameter. count Input parameter. Return value. Calls: std::accumulate(), begin(), end(), empty(), size(), std::min_element(), std::max_element(), front().
+
 #### `double applyFunc(AggregateFunc func, const std::vector< double > &values, size_t count)`
 - Source: `include/temporal/temporal_aggregator.h`:258
 - Brief: Apply Func.
@@ -6471,6 +8258,20 @@ Status: active
 - Parameters:
   - `doc` (const Document &): n/a
   - `fields` (const std::vector< std::string > &): n/a
+
+#### `std::pair< std::string, std::map< std::string, std::string > > buildGroupKey(const Document &doc, const std::vector< std::string > &fields)`
+- Source: `include/temporal/temporal_aggregator.h`:238
+- Brief: n/a
+- Parameters:
+  - `doc` (const Document &): n/a
+  - `fields` (const std::vector< std::string > &): n/a
+
+#### `std::tuple< double, double, double > computeLinearRegression(const std::vector< double > &x, const std::vector< double > &y)`
+- Source: `include/temporal/temporal_aggregator.h`:265
+- Brief: n/a
+- Parameters:
+  - `x` (const std::vector< double > &): n/a
+  - `y` (const std::vector< double > &): n/a
 
 #### `std::tuple< double, double, double > computeLinearRegression(const std::vector< double > &x, const std::vector< double > &y)`
 - Source: `include/temporal/temporal_aggregator.h`:265
@@ -6490,9 +8291,42 @@ Status: active
 - Return: Return value.
 - Details: rows Input parameter. spec Input parameter. from Input parameter. to Input parameter. Return value. Calls: empty(), isSet(), std::sort(), begin(), end(), clear(), push_back(), applyFunc().
 
+#### `std::vector< AggregateResult > computeSession(const std::vector< VersionedDocument > &rows, const AggregationSpec &spec, Timestamp from, Timestamp to)`
+- Source: `include/temporal/temporal_aggregator.h`:252
+- Brief: ── SESSION ───────────────────────────────────────────────────────────────────
+- Parameters:
+  - `rows` (const std::vector< VersionedDocument > &): Input parameter.
+  - `spec` (const AggregationSpec &): Input parameter.
+  - `from` (Timestamp): Input parameter.
+  - `to` (Timestamp): Input parameter.
+- Return: Return value.
+- Details: rows Input parameter. spec Input parameter. from Input parameter. to Input parameter. Return value. Calls: empty(), isSet(), std::sort(), begin(), end(), clear(), push_back(), applyFunc().
+
 #### `std::vector< AggregateResult > computeSliding(const std::vector< VersionedDocument > &rows, const AggregationSpec &spec, Timestamp from, Timestamp to)`
 - Source: `include/temporal/temporal_aggregator.h`:247
 - Brief: ── SLIDING ───────────────────────────────────────────────────────────────────
+- Parameters:
+  - `rows` (const std::vector< VersionedDocument > &): Input parameter.
+  - `spec` (const AggregationSpec &): Input parameter.
+  - `from` (Timestamp): Input parameter.
+  - `to` (Timestamp): Input parameter.
+- Return: Return value.
+- Details: rows Input parameter. spec Input parameter. from Input parameter. to Input parameter. Return value. Calls: extractMeasure(), has_value(), emplace_back(), push_back(), empty(), std::sort(), begin(), end().
+
+#### `std::vector< AggregateResult > computeSliding(const std::vector< VersionedDocument > &rows, const AggregationSpec &spec, Timestamp from, Timestamp to)`
+- Source: `include/temporal/temporal_aggregator.h`:247
+- Brief: ── SLIDING ───────────────────────────────────────────────────────────────────
+- Parameters:
+  - `rows` (const std::vector< VersionedDocument > &): Input parameter.
+  - `spec` (const AggregationSpec &): Input parameter.
+  - `from` (Timestamp): Input parameter.
+  - `to` (Timestamp): Input parameter.
+- Return: Return value.
+- Details: rows Input parameter. spec Input parameter. from Input parameter. to Input parameter. Return value. Calls: extractMeasure(), has_value(), emplace_back(), push_back(), empty(), std::sort(), begin(), end().
+
+#### `std::vector< AggregateResult > computeTumbling(const std::vector< VersionedDocument > &rows, const AggregationSpec &spec, Timestamp from, Timestamp to)`
+- Source: `include/temporal/temporal_aggregator.h`:242
+- Brief: ── TUMBLING ─────────────────────────────────────────────────────────────────
 - Parameters:
   - `rows` (const std::vector< VersionedDocument > &): Input parameter.
   - `spec` (const AggregationSpec &): Input parameter.
@@ -6521,6 +8355,15 @@ Status: active
 - Return: Return value.
 - Details: doc Input parameter. field Input parameter. Return value. Calls: empty(), find(), end(), is_number().
 
+#### `std::optional< double > extractMeasure(const Document &doc, const std::string &field)`
+- Source: `include/temporal/temporal_aggregator.h`:232
+- Brief: Extract Measure.
+- Parameters:
+  - `doc` (const Document &): Input parameter.
+  - `field` (const std::string &): Input parameter.
+- Return: Return value.
+- Details: doc Input parameter. field Input parameter. Return value. Calls: empty(), find(), end(), is_number().
+
 ### themisdb::temporal::TemporalCDC
 
 #### `TemporalCDC(TemporalCDC &&) noexcept=default`
@@ -6528,6 +8371,18 @@ Status: active
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (TemporalCDC &&): n/a
+
+#### `TemporalCDC(TemporalCDC &&) noexcept=default`
+- Source: `include/temporal/temporal_cdc.h`:206
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (TemporalCDC &&): n/a
+
+#### `TemporalCDC(const TemporalCDC &)=delete`
+- Source: `include/temporal/temporal_cdc.h`:204
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (const TemporalCDC &): n/a
 
 #### `TemporalCDC(const TemporalCDC &)=delete`
 - Source: `include/temporal/temporal_cdc.h`:204
@@ -6543,6 +8398,24 @@ Status: active
   - `policy` (OverflowPolicy): What to do when the buffer is full. Defaults to OVERWRITE (circular eviction).
 - Details: Construct a CDC instance. max_log_size Ring-buffer capacity (number of events). policy What to do when the buffer is full. Defaults to OVERWRITE (circular eviction).
 
+#### `TemporalCDC(size_t max_log_size=kDefaultMaxLogSize, OverflowPolicy policy=OverflowPolicy::OVERWRITE)`
+- Source: `include/temporal/temporal_cdc.h`:200
+- Brief: n/a
+- Parameters:
+  - `max_log_size` (size_t): Ring-buffer capacity (number of events).
+  - `policy` (OverflowPolicy): What to do when the buffer is full. Defaults to OVERWRITE (circular eviction).
+- Details: Construct a CDC instance. max_log_size Ring-buffer capacity (number of events). policy What to do when the buffer is full. Defaults to OVERWRITE (circular eviction).
+
+#### `ChangeType changeTypeFromString(const std::string &s)`
+- Source: `include/temporal/temporal_cdc.h`:301
+- Brief: Change Type From String.
+- Parameters:
+  - `s` (const std::string &): Input parameter.
+- Return: Return value.
+- Throws:
+  - std::invalid_argument: if an error occurs.
+- Details: Convert string to ChangeType enum. s Input parameter. Return value. std::invalid_argument if an error occurs. Implements changeTypeFromString without additional internal calls.
+
 #### `ChangeType changeTypeFromString(const std::string &s)`
 - Source: `include/temporal/temporal_cdc.h`:298
 - Brief: Change Type From String.
@@ -6554,6 +8427,14 @@ Status: active
 - Details: Convert string to ChangeType enum. s Input parameter. Return value. std::invalid_argument if an error occurs. Implements changeTypeFromString without additional internal calls.
 
 #### `std::string changeTypeName(ChangeType ct)`
+- Source: `include/temporal/temporal_cdc.h`:298
+- Brief: Change Type Name.
+- Parameters:
+  - `ct` (ChangeType): Input parameter.
+- Return: Return value.
+- Details: Convert ChangeType enum to string representation. ct Input parameter. Return value. Implements changeTypeName without additional internal calls.
+
+#### `std::string changeTypeName(ChangeType ct)`
 - Source: `include/temporal/temporal_cdc.h`:295
 - Brief: Change Type Name.
 - Parameters:
@@ -6562,10 +8443,22 @@ Status: active
 - Details: Convert ChangeType enum to string representation. ct Input parameter. Return value. Implements changeTypeName without additional internal calls.
 
 #### `void clearLog()`
+- Source: `include/temporal/temporal_cdc.h`:293
+- Brief: Clear Log.
+- Parameters: none
+- Details: Clear the in-process event log. Active subscriptions are unaffected. Calls: lk(), clear().
+
+#### `void clearLog()`
 - Source: `include/temporal/temporal_cdc.h`:290
 - Brief: Clear Log.
 - Parameters: none
 - Details: Clear the in-process event log. Active subscriptions are unaffected. Calls: lk(), clear().
+
+#### `size_t logSize() const`
+- Source: `include/temporal/temporal_cdc.h`:270
+- Brief: n/a
+- Parameters: none
+- Details: Return the total number of events in the log (≤ max_log_size).
 
 #### `size_t logSize() const`
 - Source: `include/temporal/temporal_cdc.h`:267
@@ -6579,11 +8472,29 @@ Status: active
 - Parameters:
   - `<unnamed>` (TemporalCDC &&): n/a
 
+#### `TemporalCDC & operator=(TemporalCDC &&) noexcept=default`
+- Source: `include/temporal/temporal_cdc.h`:207
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (TemporalCDC &&): n/a
+
 #### `TemporalCDC & operator=(const TemporalCDC &)=delete`
 - Source: `include/temporal/temporal_cdc.h`:205
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const TemporalCDC &): n/a
+
+#### `TemporalCDC & operator=(const TemporalCDC &)=delete`
+- Source: `include/temporal/temporal_cdc.h`:205
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (const TemporalCDC &): n/a
+
+#### `uint64_t overflowCount() const noexcept`
+- Source: `include/temporal/temporal_cdc.h`:290
+- Brief: n/a
+- Parameters: none
+- Details: Return the total number of events that have been silently discarded due to ring-buffer overflow since construction. An overflow occurs when publishEvent() is called while the in-process log already holds max_log_size events. The oldest event is evicted (OVERWRITE policy) and this counter is incremented. A non-zero value indicates that replayChanges() may no longer return the complete history. Consumers that require guaranteed delivery should use the subscription API instead.
 
 #### `uint64_t overflowCount() const noexcept`
 - Source: `include/temporal/temporal_cdc.h`:287
@@ -6597,6 +8508,22 @@ Status: active
 - Parameters:
   - `event` (const ChangeEvent &): Input parameter.
 - Details: Publish a change event. Appends the event to the in-process log (evicting the oldest event if the ring-buffer is full). Invokes all matching subscribers synchronously. This method is intended to be called from write paths (insert/update/ delete) inside the temporal module. event Input parameter. Calls: void(), lk(), size(), fetch_add(), erase(), begin(), push_back(), empty().
+
+#### `void publishEvent(const ChangeEvent &event)`
+- Source: `include/temporal/temporal_cdc.h`:246
+- Brief: Publish Event.
+- Parameters:
+  - `event` (const ChangeEvent &): Input parameter.
+- Details: Publish a change event. Appends the event to the in-process log (evicting the oldest event if the ring-buffer is full). Invokes all matching subscribers synchronously. This method is intended to be called from write paths (insert/update/ delete) inside the temporal module. event Input parameter. Calls: void(), lk(), size(), fetch_add(), erase(), begin(), push_back(), empty().
+
+#### `std::vector< ChangeEvent > replayChanges(const std::string &table_name, const TimeRange &range) const`
+- Source: `include/temporal/temporal_cdc.h`:263
+- Brief: n/a
+- Parameters:
+  - `table_name` (const std::string &): Table name to filter; empty selects all tables.
+  - `range` (const TimeRange &): Half-open transaction-time interval to scan.
+- Return: Matching events still retained in the ring buffer.
+- Details: Replay historical change events from the in-process log. Returns events whose transaction_time falls in the half-open interval [range.start, range.end) and whose table_name matches. Pass an empty table_name to replay events for all tables. table_name Table name to filter; empty selects all tables. range Half-open transaction-time interval to scan. Matching events still retained in the ring buffer. Only events retained in the ring-buffer are available. Events evicted due to log overflow are permanently lost.
 
 #### `std::vector< ChangeEvent > replayChanges(const std::string &table_name, const TimeRange &range) const`
 - Source: `include/temporal/temporal_cdc.h`:260
@@ -6615,11 +8542,32 @@ Status: active
 - Return: Subscription ID for use with unsubscribe().
 - Details: Subscribe to change events for a specific table. table_name Table to monitor. Pass an empty string to receive events for ALL tables. callback Invoked synchronously for each matching event. Subscription ID for use with unsubscribe().
 
+#### `std::string subscribeToChanges(const std::string &table_name, std::function< void(const ChangeEvent &)> callback)`
+- Source: `include/temporal/temporal_cdc.h`:221
+- Brief: n/a
+- Parameters:
+  - `table_name` (const std::string &): Table to monitor. Pass an empty string to receive events for ALL tables.
+  - `callback` (std::function< void(const ChangeEvent &)>): Invoked synchronously for each matching event.
+- Return: Subscription ID for use with unsubscribe().
+- Details: Subscribe to change events for a specific table. table_name Table to monitor. Pass an empty string to receive events for ALL tables. callback Invoked synchronously for each matching event. Subscription ID for use with unsubscribe().
+
 #### `size_t subscriptionCount() const`
 - Source: `include/temporal/temporal_cdc.h`:232
 - Brief: n/a
 - Parameters: none
 - Details: Return the number of active subscriptions.
+
+#### `size_t subscriptionCount() const`
+- Source: `include/temporal/temporal_cdc.h`:232
+- Brief: n/a
+- Parameters: none
+- Details: Return the number of active subscriptions.
+
+#### `uint64_t totalPublished() const noexcept`
+- Source: `include/temporal/temporal_cdc.h`:276
+- Brief: n/a
+- Parameters: none
+- Details: Return the total number of events ever published (monotonically increasing, wraps on overflow).
 
 #### `uint64_t totalPublished() const noexcept`
 - Source: `include/temporal/temporal_cdc.h`:273
@@ -6635,6 +8583,19 @@ Status: active
 - Return: true if the subscription was found and removed.
 - Details: Cancel a subscription. true if the subscription was found and removed. sub_id Identifier of the sub. True when the operation succeeds. Calls: lk(), erase().
 
+#### `bool unsubscribe(const std::string &sub_id)`
+- Source: `include/temporal/temporal_cdc.h`:229
+- Brief: Unsubscribe.
+- Parameters:
+  - `sub_id` (const std::string &): Identifier of the sub.
+- Return: true if the subscription was found and removed.
+- Details: Cancel a subscription. true if the subscription was found and removed. sub_id Identifier of the sub. True when the operation succeeds. Calls: lk(), erase().
+
+#### `~TemporalCDC()=default`
+- Source: `include/temporal/temporal_cdc.h`:209
+- Brief: n/a
+- Parameters: none
+
 #### `~TemporalCDC()=default`
 - Source: `include/temporal/temporal_cdc.h`:209
 - Brief: n/a
@@ -6643,10 +8604,23 @@ Status: active
 ### themisdb::temporal::TemporalColdStore
 
 #### `TemporalColdStore(const TemporalColdStore &)=delete`
+- Source: `include/temporal/temporal_cold_store.h`:308
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (const TemporalColdStore &): n/a
+
+#### `TemporalColdStore(const TemporalColdStore &)=delete`
 - Source: `include/temporal/temporal_cold_store.h`:288
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const TemporalColdStore &): n/a
+
+#### `TemporalColdStore(std::unique_ptr< IColdStoreBackend > backend=nullptr)`
+- Source: `include/temporal/temporal_cold_store.h`:304
+- Brief: Construct with a custom backend.
+- Parameters:
+  - `backend` (std::unique_ptr< IColdStoreBackend >): n/a
+- Details: If backend is nullptr an InMemoryBackend is created automatically. When using FileSystemBackend the constructor calls rebuildIndexFromBackend() to populate the RAM index from disk.
 
 #### `TemporalColdStore(std::unique_ptr< IColdStoreBackend > backend=nullptr)`
 - Source: `include/temporal/temporal_cold_store.h`:284
@@ -6656,9 +8630,20 @@ Status: active
 - Details: If backend is nullptr an InMemoryBackend is created automatically. When using FileSystemBackend the constructor calls rebuildIndexFromBackend() to populate the RAM index from disk.
 
 #### `const IColdStoreBackend & backend() const noexcept`
+- Source: `include/temporal/temporal_cold_store.h`:404
+- Brief: n/a
+- Parameters: none
+
+#### `const IColdStoreBackend & backend() const noexcept`
 - Source: `include/temporal/temporal_cold_store.h`:366
 - Brief: n/a
 - Parameters: none
+
+#### `IColdStoreBackend & backend() noexcept`
+- Source: `include/temporal/temporal_cold_store.h`:403
+- Brief: n/a
+- Parameters: none
+- Details: Access the underlying backend (for testing / inspection).
 
 #### `IColdStoreBackend & backend() noexcept`
 - Source: `include/temporal/temporal_cold_store.h`:365
@@ -6667,16 +8652,38 @@ Status: active
 - Details: Access the underlying backend (for testing / inspection).
 
 #### `uint64_t biasedTimestamp(Timestamp t) noexcept`
+- Source: `include/temporal/temporal_cold_store.h`:444
+- Brief: n/a
+- Parameters:
+  - `t` (Timestamp): n/a
+
+#### `uint64_t biasedTimestamp(Timestamp t) noexcept`
 - Source: `include/temporal/temporal_cold_store.h`:405
 - Brief: n/a
 - Parameters:
   - `t` (Timestamp): n/a
 
 #### `void clear()`
+- Source: `include/temporal/temporal_cold_store.h`:340
+- Brief: Clear.
+- Parameters: none
+- Details: Remove everything (index + backend). Calls: lk(), clearAll().
+
+#### `void clear()`
 - Source: `include/temporal/temporal_cold_store.h`:320
 - Brief: Clear.
 - Parameters: none
 - Details: Remove everything (index + backend). Calls: lk(), clearAll().
+
+#### `std::string encodeKey(const std::string &table_name, const std::string &doc_key, Timestamp sys_start)`
+- Source: `include/temporal/temporal_cold_store.h`:429
+- Brief: Encode a (table, doc_key, sys_start) triple into a sortable composite key.
+- Parameters:
+  - `table_name` (const std::string &): Name of the table.
+  - `doc_key` (const std::string &): Input parameter.
+  - `sys_start` (Timestamp): Input parameter.
+- Return: Return value.
+- Details: static Format: table name, byte 0x01, document key, byte 0x01, then a fixed-width hexadecimal biased timestamp. table_name Name of the table. doc_key Input parameter. sys_start Input parameter. Return value. Calls: std::snprintf(), biasedTimestamp(), reserve(), size().
 
 #### `std::string encodeKey(const std::string &table_name, const std::string &doc_key, Timestamp sys_start)`
 - Source: `include/temporal/temporal_cold_store.h`:390
@@ -6689,11 +8696,30 @@ Status: active
 - Details: static Format: <table>\x01<doc_key>\x01<016llx biased timestamp> table_name Name of the table. doc_key Input parameter. sys_start Input parameter. Return value. Calls: std::snprintf(), biasedTimestamp(), reserve(), size().
 
 #### `std::vector< VersionedDocument > getAll(const std::string &table_name, const std::string &doc_key) const`
+- Source: `include/temporal/temporal_cold_store.h`:367
+- Brief: Return all cold-tier versions for (table_name, doc_key), sorted ascending by sys_start.
+- Parameters:
+  - `table_name` (const std::string &): Logical table containing the document.
+  - `doc_key` (const std::string &): Document key to query.
+- Return: All stored versions for the key.
+- Details: table_name Logical table containing the document. doc_key Document key to query. All stored versions for the key.
+
+#### `std::vector< VersionedDocument > getAll(const std::string &table_name, const std::string &doc_key) const`
 - Source: `include/temporal/temporal_cold_store.h`:341
 - Brief: Return all cold-tier versions for (table_name, doc_key), sorted ascending by sys_start.
 - Parameters:
   - `table_name` (const std::string &): n/a
   - `doc_key` (const std::string &): n/a
+
+#### `std::optional< VersionedDocument > getAsOf(const std::string &table_name, const std::string &doc_key, Timestamp as_of) const`
+- Source: `include/temporal/temporal_cold_store.h`:356
+- Brief: Return the version of (table_name, doc_key) valid at timestamp as_of, i.e. v.sys_time.contains(as_of).
+- Parameters:
+  - `table_name` (const std::string &): Logical table containing the document.
+  - `doc_key` (const std::string &): Document key to query.
+  - `as_of` (Timestamp): System-time instant to match.
+- Return: Matching version, or nullopt when no cold-tier version exists.
+- Details: Uses upper_bound(prefix + encode(as_of)) on the RAM index — O(log N) — then issues at most O(1) backend reads in the common case. table_name Logical table containing the document. doc_key Document key to query. as_of System-time instant to match. Matching version, or nullopt when no cold-tier version exists.
 
 #### `std::optional< VersionedDocument > getAsOf(const std::string &table_name, const std::string &doc_key, Timestamp as_of) const`
 - Source: `include/temporal/temporal_cold_store.h`:333
@@ -6706,12 +8732,31 @@ Status: active
 - Details: Uses upper_bound(prefix + encode(as_of)) on the RAM index — O(log N) — then issues at most O(1) backend reads in the common case. nullopt if no matching cold-tier version exists.
 
 #### `std::vector< VersionedDocument > getRange(const std::string &table_name, const std::string &doc_key, const TimeRange &range) const`
+- Source: `include/temporal/temporal_cold_store.h`:378
+- Brief: Return cold-tier versions whose sys_time overlaps range, sorted ascending by sys_start.
+- Parameters:
+  - `table_name` (const std::string &): Logical table containing the document.
+  - `doc_key` (const std::string &): Document key to query.
+  - `range` (const TimeRange &): Half-open system-time interval to match.
+- Return: Matching versions.
+- Details: table_name Logical table containing the document. doc_key Document key to query. range Half-open system-time interval to match. Matching versions.
+
+#### `std::vector< VersionedDocument > getRange(const std::string &table_name, const std::string &doc_key, const TimeRange &range) const`
 - Source: `include/temporal/temporal_cold_store.h`:348
 - Brief: Return cold-tier versions whose sys_time overlaps range, sorted ascending by sys_start.
 - Parameters:
   - `table_name` (const std::string &): n/a
   - `doc_key` (const std::string &): n/a
   - `range` (const TimeRange &): n/a
+
+#### `std::string keyPrefix(const std::string &table_name, const std::string &doc_key)`
+- Source: `include/temporal/temporal_cold_store.h`:434
+- Brief: static
+- Parameters:
+  - `table_name` (const std::string &): Name of the table.
+  - `doc_key` (const std::string &): Input parameter.
+- Return: Return value.
+- Details: Prefix for all versions of a table key; byte 0x01 is the separator. table_name Name of the table. doc_key Input parameter. Return value. Calls: reserve(), size().
 
 #### `std::string keyPrefix(const std::string &table_name, const std::string &doc_key)`
 - Source: `include/temporal/temporal_cold_store.h`:395
@@ -6723,10 +8768,22 @@ Status: active
 - Details: Prefix for all versions of (table_name, doc_key): <table>\x01<key>\x01 table_name Name of the table. doc_key Input parameter. Return value. Calls: reserve(), size().
 
 #### `TemporalColdStore & operator=(const TemporalColdStore &)=delete`
+- Source: `include/temporal/temporal_cold_store.h`:309
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (const TemporalColdStore &): n/a
+
+#### `TemporalColdStore & operator=(const TemporalColdStore &)=delete`
 - Source: `include/temporal/temporal_cold_store.h`:289
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const TemporalColdStore &): n/a
+
+#### `std::optional< VersionedDocument > parseDocument(const std::string &json_str)`
+- Source: `include/temporal/temporal_cold_store.h`:448
+- Brief: Deserialise a JSON string into a VersionedDocument.
+- Parameters:
+  - `json_str` (const std::string &): n/a
 
 #### `std::optional< VersionedDocument > parseDocument(const std::string &json_str)`
 - Source: `include/temporal/temporal_cold_store.h`:409
@@ -6735,10 +8792,25 @@ Status: active
   - `json_str` (const std::string &): n/a
 
 #### `void rebuildIndexFromBackend()`
+- Source: `include/temporal/temporal_cold_store.h`:418
+- Brief: Rebuild the RAM index from the backend.
+- Parameters: none
+- Details: Rebuild Index From Backend. Called automatically by the constructor when a non-null backend is provided. May also be called manually after crash recovery. For InMemoryBackend this is a no-op (the RAM map already holds all keys). For FileSystemBackend it scans base_dir and reconstructs key_index_ in O(N) time. Calls: listKeysWithPrefix(), lk(), clear(), insert(), std::move(), size(), load().
+
+#### `void rebuildIndexFromBackend()`
 - Source: `include/temporal/temporal_cold_store.h`:380
 - Brief: Rebuild the RAM index from the backend.
 - Parameters: none
 - Details: Rebuild Index From Backend. Called automatically by the constructor when a non-null backend is provided. May also be called manually after crash recovery. For InMemoryBackend this is a no-op (the RAM map already holds all keys). For FileSystemBackend it scans base_dir and reconstructs key_index_ in O(N) time. Calls: listKeysWithPrefix(), lk(), clear(), insert(), std::move(), size(), load().
+
+#### `size_t remove(const std::string &table_name, const std::string &doc_key)`
+- Source: `include/temporal/temporal_cold_store.h`:331
+- Brief: Remove all cold-tier versions for (table_name, doc_key).
+- Parameters:
+  - `table_name` (const std::string &): Name of the table.
+  - `doc_key` (const std::string &): Input parameter.
+- Return: Number of versions removed.
+- Details: Remove. Number of versions removed. table_name Name of the table. doc_key Input parameter. Return value. Calls: keyPrefix(), lk(), lower_bound(), end(), substr(), size(), push_back(), del().
 
 #### `size_t remove(const std::string &table_name, const std::string &doc_key)`
 - Source: `include/temporal/temporal_cold_store.h`:311
@@ -6750,6 +8822,14 @@ Status: active
 - Details: Remove. Number of versions removed. table_name Name of the table. doc_key Input parameter. Return value. Calls: keyPrefix(), lk(), lower_bound(), end(), substr(), size(), push_back(), del().
 
 #### `size_t removeTable(const std::string &table_name)`
+- Source: `include/temporal/temporal_cold_store.h`:337
+- Brief: Remove all cold-tier versions for table_name.
+- Parameters:
+  - `table_name` (const std::string &): Name of the table.
+- Return: Number of versions removed.
+- Details: Remove Table. Number of versions removed. table_name Name of the table. Return value. Calls: tablePrefix(), lk(), lower_bound(), end(), substr(), size(), push_back(), del().
+
+#### `size_t removeTable(const std::string &table_name)`
 - Source: `include/temporal/temporal_cold_store.h`:317
 - Brief: Remove all cold-tier versions for table_name.
 - Parameters:
@@ -6758,10 +8838,26 @@ Status: active
 - Details: Remove Table. Number of versions removed. table_name Name of the table. Return value. Calls: tablePrefix(), lk(), lower_bound(), end(), substr(), size(), push_back(), del().
 
 #### `ColdStoreStats stats() const`
+- Source: `include/temporal/temporal_cold_store.h`:400
+- Brief: Return a snapshot of cold-store statistics.
+- Parameters: none
+- Return: Cumulative counters and the indexed version count.
+- Details: Cumulative counters and the indexed version count.
+
+#### `ColdStoreStats stats() const`
 - Source: `include/temporal/temporal_cold_store.h`:362
 - Brief: n/a
 - Parameters: none
 - Details: Snapshot of cumulative statistics.
+
+#### `bool store(const std::string &table_name, const VersionedDocument &doc)`
+- Source: `include/temporal/temporal_cold_store.h`:325
+- Brief: Persist a historical version to the cold store.
+- Parameters:
+  - `table_name` (const std::string &): Name of the table.
+  - `doc` (const VersionedDocument &): Input parameter.
+- Return: true on success; false if doc.isCurrent() is true or on backend write failure.
+- Details: Store. Storing a version that is still current (isCurrent() == true) is explicitly rejected — only closed (non-current) versions belong in the cold tier. table_name Logical table the version belongs to. doc The historical VersionedDocument to store. true on success; false if doc.isCurrent() is true or on backend write failure. table_name Name of the table. doc Input parameter. True when the operation succeeds. Calls: isCurrent(), encodeKey(), toJson(), dump(), put(), lk(), insert().
 
 #### `bool store(const std::string &table_name, const VersionedDocument &doc)`
 - Source: `include/temporal/temporal_cold_store.h`:305
@@ -6773,6 +8869,14 @@ Status: active
 - Details: Store. Storing a version that is still current (isCurrent() == true) is explicitly rejected — only closed (non-current) versions belong in the cold tier. table_name Logical table the version belongs to. doc The historical VersionedDocument to store. true on success; false if doc.isCurrent() is true or on backend write failure. table_name Name of the table. doc Input parameter. True when the operation succeeds. Calls: isCurrent(), encodeKey(), toJson(), dump(), put(), lk(), insert().
 
 #### `std::string tablePrefix(const std::string &table_name)`
+- Source: `include/temporal/temporal_cold_store.h`:438
+- Brief: static
+- Parameters:
+  - `table_name` (const std::string &): Name of the table.
+- Return: Return value.
+- Details: Prefix for all versions in a table; byte 0x01 is the separator. table_name Name of the table. Return value. Implements tablePrefix without additional internal calls.
+
+#### `std::string tablePrefix(const std::string &table_name)`
 - Source: `include/temporal/temporal_cold_store.h`:399
 - Brief: static
 - Parameters:
@@ -6781,10 +8885,25 @@ Status: active
 - Details: Prefix for all versions of table_name: <table>\x01 table_name Name of the table. Return value. Implements tablePrefix without additional internal calls.
 
 #### `size_t totalVersionCount() const noexcept`
+- Source: `include/temporal/temporal_cold_store.h`:394
+- Brief: n/a
+- Parameters: none
+- Details: Total versions in the RAM index. O(1).
+
+#### `size_t totalVersionCount() const noexcept`
 - Source: `include/temporal/temporal_cold_store.h`:359
 - Brief: n/a
 - Parameters: none
 - Details: Total versions in the RAM index. O(1).
+
+#### `size_t versionCount(const std::string &table_name, const std::string &doc_key) const`
+- Source: `include/temporal/temporal_cold_store.h`:390
+- Brief: Count cold-tier versions for one table key.
+- Parameters:
+  - `table_name` (const std::string &): Logical table containing the document.
+  - `doc_key` (const std::string &): Document key to count.
+- Return: Number of versions; O(log N + k).
+- Details: table_name Logical table containing the document. doc_key Document key to count. Number of versions; O(log N + k).
 
 #### `size_t versionCount(const std::string &table_name, const std::string &doc_key) const`
 - Source: `include/temporal/temporal_cold_store.h`:355
@@ -6801,11 +8920,28 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `TemporalCompressor()=default`
+- Source: `include/temporal/temporal_compressor.h`:175
+- Brief: n/a
+- Parameters: none
+
 #### `TemporalCompressor(TemporalCompressor &&) noexcept=default`
 - Source: `include/temporal/temporal_compressor.h`:180
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (TemporalCompressor &&): n/a
+
+#### `TemporalCompressor(TemporalCompressor &&) noexcept=default`
+- Source: `include/temporal/temporal_compressor.h`:180
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (TemporalCompressor &&): n/a
+
+#### `TemporalCompressor(const TemporalCompressor &)=delete`
+- Source: `include/temporal/temporal_compressor.h`:178
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (const TemporalCompressor &): n/a
 
 #### `TemporalCompressor(const TemporalCompressor &)=delete`
 - Source: `include/temporal/temporal_compressor.h`:178
@@ -6820,6 +8956,24 @@ Status: active
   - `algo` (CompressionAlgorithm): Input parameter.
 - Return: Return value.
 - Details: Return the algorithm name as a string. algo Input parameter. Return value. Implements algorithmName without additional internal calls.
+
+#### `std::string algorithmName(CompressionAlgorithm algo)`
+- Source: `include/temporal/temporal_compressor.h`:212
+- Brief: Algorithm Name.
+- Parameters:
+  - `algo` (CompressionAlgorithm): Input parameter.
+- Return: Return value.
+- Details: Return the algorithm name as a string. algo Input parameter. Return value. Implements algorithmName without additional internal calls.
+
+#### `nlohmann::json applyDelta(const nlohmann::json &base, const nlohmann::json &current, const std::string &base_ref)`
+- Source: `include/temporal/temporal_compressor.h`:217
+- Brief: Build a JSON field-level delta between two documents.
+- Parameters:
+  - `base` (const nlohmann::json &): Document whose values form the baseline.
+  - `current` (const nlohmann::json &): Document containing the updated values.
+  - `base_ref` (const std::string &): Reference used to locate the baseline during reconstruction.
+- Return: Delta payload with changed values and removed-field names.
+- Details: base Document whose values form the baseline. current Document containing the updated values. base_ref Reference used to locate the baseline during reconstruction. Delta payload with changed values and removed-field names. Fields absent from both the patch and removed-field list are unchanged from the baseline.
 
 #### `nlohmann::json applyDelta(const nlohmann::json &base, const nlohmann::json &current, const std::string &base_ref)`
 - Source: `include/temporal/temporal_compressor.h`:217
@@ -6838,6 +8992,20 @@ Status: active
   - `doc` (const nlohmann::json &): n/a
   - `dicts` (std::unordered_map< std::string, std::unordered_map< std::string, int > > &): n/a
 
+#### `nlohmann::json applyDictionary(const nlohmann::json &doc, std::unordered_map< std::string, std::unordered_map< std::string, int > > &dicts)`
+- Source: `include/temporal/temporal_compressor.h`:237
+- Brief: n/a
+- Parameters:
+  - `doc` (const nlohmann::json &): n/a
+  - `dicts` (std::unordered_map< std::string, std::unordered_map< std::string, int > > &): n/a
+
+#### `nlohmann::json applyGorilla(const std::string &field_name, const std::vector< std::pair< Timestamp, double > > &series)`
+- Source: `include/temporal/temporal_compressor.h`:233
+- Brief: Build a Gorilla-encoded payload from a vector of (timestamp, value) pairs.
+- Parameters:
+  - `field_name` (const std::string &): n/a
+  - `series` (const std::vector< std::pair< Timestamp, double > > &): n/a
+
 #### `nlohmann::json applyGorilla(const std::string &field_name, const std::vector< std::pair< Timestamp, double > > &series)`
 - Source: `include/temporal/temporal_compressor.h`:233
 - Brief: Build a Gorilla-encoded payload from a vector of (timestamp, value) pairs.
@@ -6849,9 +9017,26 @@ Status: active
 - Source: `include/temporal/temporal_compressor.h`:227
 - Brief: Compress a JSON document with LZ4 block format.
 - Parameters:
+  - `doc` (const nlohmann::json &): Document serialized before block compression.
+- Return: Marked JSON payload containing the original byte count and encoded compressed block.
+- Details: Compress a JSON document into the LZ4 payload format. doc Document serialized before block compression. Marked JSON payload containing the original byte count and encoded compressed block.
+
+#### `nlohmann::json applyLz4(const nlohmann::json &doc)`
+- Source: `include/temporal/temporal_compressor.h`:227
+- Brief: Compress a JSON document with LZ4 block format.
+- Parameters:
   - `doc` (const nlohmann::json &): Input parameter.
 - Return: Return value.
 - Details: ============================================================================ ============================================================================ Algorithm: LZ4 — high-throughput block compression ============================================================================ Payload format stored in the history table: { "__compressed": "lz4", "__original_size": <int>, // original JSON string byte count "__data": "<base64-encoded LZ4 compressed block>" } doc Input parameter. Return value. Calls: dump(), size(), LZ4_compressBound(), dst(), LZ4_compress_default(), data(), resize(), base64Encode().
+
+#### `nlohmann::json applyZstd(const nlohmann::json &doc, int level)`
+- Source: `include/temporal/temporal_compressor.h`:221
+- Brief: Encode a payload using the current ZSTD-labelled implementation.
+- Parameters:
+  - `doc` (const nlohmann::json &): JSON document to encode.
+  - `level` (int): Compression level accepted by the API; currently unused.
+- Return: JSON object containing the encoded payload and its marker.
+- Details: doc JSON document to encode. level Compression level accepted by the API; currently unused. JSON object containing the encoded payload and its marker. This implementation uses run-length encoding and base64, not Zstandard.
 
 #### `nlohmann::json applyZstd(const nlohmann::json &doc, int level)`
 - Source: `include/temporal/temporal_compressor.h`:221
@@ -6869,6 +9054,22 @@ Status: active
   - `input` (const std::string &): Input parameter.
 - Return: Return value.
 - Details: input Input parameter. Return value. Calls: empty(), size(), reserve(), base64CharValue(), uint32_t(), char().
+
+#### `std::string base64Decode(const std::string &input)`
+- Source: `include/temporal/temporal_compressor.h`:244
+- Brief: Base64 Decode.
+- Parameters:
+  - `input` (const std::string &): Input parameter.
+- Return: Return value.
+- Details: input Input parameter. Return value. Calls: empty(), size(), reserve(), base64CharValue(), uint32_t(), char().
+
+#### `std::string base64Encode(const std::string &input)`
+- Source: `include/temporal/temporal_compressor.h`:243
+- Brief: Base64 Encode.
+- Parameters:
+  - `input` (const std::string &): Input parameter.
+- Return: Return value.
+- Details: input Input parameter. Return value. Calls: reserve(), size(), data(), uint32_t().
 
 #### `std::string base64Encode(const std::string &input)`
 - Source: `include/temporal/temporal_compressor.h`:243
@@ -6888,6 +9089,16 @@ Status: active
 - Return: Aggregated statistics for the compression pass.
 - Details: Compress historical versions of all keys in the given time range. Versions whose sys_start timestamp is within the delay_before_compression grace window are silently skipped unless config.compress_immediately == true. table The system-versioned table whose history is compressed. range Only versions with sys_start in [range.start, range.end) are considered. config Algorithm and tuning parameters. Aggregated statistics for the compression pass. table Input/output parameter. range Input parameter. config Input parameter. Return value. Calls: lk(), std::chrono::steady_clock::now(), count(), now(), getAllKeys(), getHistoryInRange(), isCurrent(), push_back().
 
+#### `CompressionStats compressHistory(SystemVersionedTable &table, const TimeRange &range, const CompressionConfig &config)`
+- Source: `include/temporal/temporal_compressor.h`:198
+- Brief: Compress History.
+- Parameters:
+  - `table` (SystemVersionedTable &): Input/output parameter.
+  - `range` (const TimeRange &): Input parameter.
+  - `config` (const CompressionConfig &): Input parameter.
+- Return: Aggregated statistics for the compression pass.
+- Details: Compress historical versions of all keys in the given time range. Versions whose sys_start timestamp is within the delay_before_compression grace window are silently skipped unless config.compress_immediately == true. table The system-versioned table whose history is compressed. range Only versions with sys_start in [range.start, range.end) are considered. config Algorithm and tuning parameters. Aggregated statistics for the compression pass. table Input/output parameter. range Input parameter. config Input parameter. Return value. Calls: lk(), std::chrono::steady_clock::now(), count(), now(), getAllKeys(), getHistoryInRange(), isCurrent(), push_back().
+
 #### `nlohmann::json decompress(const nlohmann::json &compressed)`
 - Source: `include/temporal/temporal_compressor.h`:207
 - Brief: Decompress.
@@ -6895,6 +9106,22 @@ Status: active
   - `compressed` (const nlohmann::json &): n/a
 - Return: Return value.
 - Details: Decompress a payload that was previously compressed by this class. Returns the original JSON document on success, or the input unchanged if it is not a compressed payload. doc Input parameter. Return value. Calls: is_object(), contains(), decompressZstd(), decompressLz4().
+
+#### `nlohmann::json decompress(const nlohmann::json &compressed)`
+- Source: `include/temporal/temporal_compressor.h`:207
+- Brief: Decompress.
+- Parameters:
+  - `compressed` (const nlohmann::json &): n/a
+- Return: Return value.
+- Details: Decompress a payload that was previously compressed by this class. Returns the original JSON document on success, or the input unchanged if it is not a compressed payload. doc Input parameter. Return value. Calls: is_object(), contains(), decompressZstd(), decompressLz4().
+
+#### `nlohmann::json decompressLz4(const nlohmann::json &doc)`
+- Source: `include/temporal/temporal_compressor.h`:230
+- Brief: Decompress a payload that was compressed with applyLz4().
+- Parameters:
+  - `doc` (const nlohmann::json &): Input parameter.
+- Return: Return value.
+- Details: Decompress Lz4. doc Input parameter. Return value. Calls: contains(), base64Decode(), decompressed(), LZ4_decompress_safe(), data(), size(), nlohmann::json::parse().
 
 #### `nlohmann::json decompressLz4(const nlohmann::json &doc)`
 - Source: `include/temporal/temporal_compressor.h`:230
@@ -6912,6 +9139,20 @@ Status: active
 - Return: Return value.
 - Details: doc Input parameter. Return value. Calls: at(), rlDecode(), base64Decode(), nlohmann::json::parse().
 
+#### `nlohmann::json decompressZstd(const nlohmann::json &doc)`
+- Source: `include/temporal/temporal_compressor.h`:224
+- Brief: Decompress Zstd.
+- Parameters:
+  - `doc` (const nlohmann::json &): Input parameter.
+- Return: Return value.
+- Details: doc Input parameter. Return value. Calls: at(), rlDecode(), base64Decode(), nlohmann::json::parse().
+
+#### `TemporalCompressor & operator=(TemporalCompressor &&) noexcept=default`
+- Source: `include/temporal/temporal_compressor.h`:181
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (TemporalCompressor &&): n/a
+
 #### `TemporalCompressor & operator=(TemporalCompressor &&) noexcept=default`
 - Source: `include/temporal/temporal_compressor.h`:181
 - Brief: n/a
@@ -6923,6 +9164,20 @@ Status: active
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const TemporalCompressor &): n/a
+
+#### `TemporalCompressor & operator=(const TemporalCompressor &)=delete`
+- Source: `include/temporal/temporal_compressor.h`:179
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (const TemporalCompressor &): n/a
+
+#### `std::string rlDecode(const std::string &input)`
+- Source: `include/temporal/temporal_compressor.h`:247
+- Brief: Rl Decode.
+- Parameters:
+  - `input` (const std::string &): Input parameter.
+- Return: Return value.
+- Details: input Input parameter. Return value. Calls: reserve(), size().
 
 #### `std::string rlDecode(const std::string &input)`
 - Source: `include/temporal/temporal_compressor.h`:247
@@ -6940,7 +9195,20 @@ Status: active
 - Return: Return value.
 - Details: input Input parameter. Return value. Calls: empty(), reserve(), size().
 
+#### `std::string rlEncode(const std::string &input)`
+- Source: `include/temporal/temporal_compressor.h`:246
+- Brief: Rl Encode.
+- Parameters:
+  - `input` (const std::string &): Input parameter.
+- Return: Return value.
+- Details: input Input parameter. Return value. Calls: empty(), reserve(), size().
+
 ### themisdb::temporal::TemporalConflictDetector
+
+#### `TemporalConflictDetector()=default`
+- Source: `include/temporal/temporal_conflict_resolver.h`:358
+- Brief: n/a
+- Parameters: none
 
 #### `TemporalConflictDetector()=default`
 - Source: `include/temporal/temporal_conflict_resolver.h`:358
@@ -6956,11 +9224,35 @@ Status: active
 - Return: The winning snapshot, or std::nullopt when policy is MANUAL (call queueForManualResolution instead).
 - Details: Automatically resolve conflict using policy. The winning snapshot, or std::nullopt when policy is MANUAL (call queueForManualResolution instead). conflict Input parameter. policy Input parameter. Return value. Calls: resolver(), resolve().
 
+#### `std::optional< TemporalSnapshot > autoResolveConflict(const Conflict &conflict, ConflictPolicy policy)`
+- Source: `include/temporal/temporal_conflict_resolver.h`:381
+- Brief: Auto Resolve Conflict.
+- Parameters:
+  - `conflict` (const Conflict &): Input parameter.
+  - `policy` (ConflictPolicy): Input parameter.
+- Return: The winning snapshot, or std::nullopt when policy is MANUAL (call queueForManualResolution instead).
+- Details: Automatically resolve conflict using policy. The winning snapshot, or std::nullopt when policy is MANUAL (call queueForManualResolution instead). conflict Input parameter. policy Input parameter. Return value. Calls: resolver(), resolve().
+
 #### `void clearQueue()`
 - Source: `include/temporal/temporal_conflict_resolver.h`:408
 - Brief: Clear Queue.
 - Parameters: none
 - Details: Remove all entries from the manual-resolution queue. Calls: lock(), clear().
+
+#### `void clearQueue()`
+- Source: `include/temporal/temporal_conflict_resolver.h`:408
+- Brief: Clear Queue.
+- Parameters: none
+- Details: Remove all entries from the manual-resolution queue. Calls: lock(), clear().
+
+#### `std::optional< Conflict > detectConcurrentUpdate(const TemporalSnapshot &local, const TemporalSnapshot &remote)`
+- Source: `include/temporal/temporal_conflict_resolver.h`:420
+- Brief: Sub-detectors — each returns an optional Conflict if detected.
+- Parameters:
+  - `local` (const TemporalSnapshot &): Input parameter.
+  - `remote` (const TemporalSnapshot &): Input parameter.
+- Return: Return value.
+- Details: Detect Concurrent Update. local Input parameter. remote Input parameter. Return value. Calls: is_object(), items(), contains(), push_back(), std::move().
 
 #### `std::optional< Conflict > detectConcurrentUpdate(const TemporalSnapshot &local, const TemporalSnapshot &remote)`
 - Source: `include/temporal/temporal_conflict_resolver.h`:420
@@ -6981,6 +9273,16 @@ Status: active
 - Return: A (possibly empty) list of detected Conflict objects. An empty list means the two snapshots are compatible.
 - Details: Detect all conflicts between local and remote for table_name. Each returned Conflict has its table_name set to table_name and its entity_id set to local.snapshot_id. A (possibly empty) list of detected Conflict objects. An empty list means the two snapshots are compatible. table_name Name of the table. local Input parameter. remote Input parameter. Return value. Calls: detectConcurrentUpdate(), push_back(), std::move(), detectOverlappingPeriods(), detectReferentialIntegrity(), detectUniquenessViolation().
 
+#### `std::vector< Conflict > detectConflicts(const std::string &table_name, const TemporalSnapshot &local, const TemporalSnapshot &remote)`
+- Source: `include/temporal/temporal_conflict_resolver.h`:369
+- Brief: Detect Conflicts.
+- Parameters:
+  - `table_name` (const std::string &): Name of the table.
+  - `local` (const TemporalSnapshot &): Input parameter.
+  - `remote` (const TemporalSnapshot &): Input parameter.
+- Return: A (possibly empty) list of detected Conflict objects. An empty list means the two snapshots are compatible.
+- Details: Detect all conflicts between local and remote for table_name. Each returned Conflict has its table_name set to table_name and its entity_id set to local.snapshot_id. A (possibly empty) list of detected Conflict objects. An empty list means the two snapshots are compatible. table_name Name of the table. local Input parameter. remote Input parameter. Return value. Calls: detectConcurrentUpdate(), push_back(), std::move(), detectOverlappingPeriods(), detectReferentialIntegrity(), detectUniquenessViolation().
+
 #### `std::optional< Conflict > detectOverlappingPeriods(const TemporalSnapshot &local, const TemporalSnapshot &remote)`
 - Source: `include/temporal/temporal_conflict_resolver.h`:425
 - Brief: Detect Overlapping Periods.
@@ -6989,6 +9291,24 @@ Status: active
   - `remote` (const TemporalSnapshot &): Input parameter.
 - Return: Return value.
 - Details: local Input parameter. remote Input parameter. Return value. Calls: is_object(), contains(), at(), is_number_integer().
+
+#### `std::optional< Conflict > detectOverlappingPeriods(const TemporalSnapshot &local, const TemporalSnapshot &remote)`
+- Source: `include/temporal/temporal_conflict_resolver.h`:425
+- Brief: Detect Overlapping Periods.
+- Parameters:
+  - `local` (const TemporalSnapshot &): Input parameter.
+  - `remote` (const TemporalSnapshot &): Input parameter.
+- Return: Return value.
+- Details: local Input parameter. remote Input parameter. Return value. Calls: is_object(), contains(), at(), is_number_integer().
+
+#### `std::optional< Conflict > detectReferentialIntegrity(const TemporalSnapshot &local, const TemporalSnapshot &remote)`
+- Source: `include/temporal/temporal_conflict_resolver.h`:430
+- Brief: Detect Referential Integrity.
+- Parameters:
+  - `local` (const TemporalSnapshot &): Input parameter.
+  - `remote` (const TemporalSnapshot &): Input parameter.
+- Return: Return value.
+- Details: local Input parameter. remote Input parameter. Return value. Calls: is_object(), contains(), at().
 
 #### `std::optional< Conflict > detectReferentialIntegrity(const TemporalSnapshot &local, const TemporalSnapshot &remote)`
 - Source: `include/temporal/temporal_conflict_resolver.h`:430
@@ -7008,11 +9328,35 @@ Status: active
 - Return: Return value.
 - Details: local Input parameter. remote Input parameter. Return value. Calls: is_object(), items(), contains(), push_back(), empty(), std::move().
 
+#### `std::optional< Conflict > detectUniquenessViolation(const TemporalSnapshot &local, const TemporalSnapshot &remote)`
+- Source: `include/temporal/temporal_conflict_resolver.h`:435
+- Brief: Detect Uniqueness Violation.
+- Parameters:
+  - `local` (const TemporalSnapshot &): Input parameter.
+  - `remote` (const TemporalSnapshot &): Input parameter.
+- Return: Return value.
+- Details: local Input parameter. remote Input parameter. Return value. Calls: is_object(), items(), contains(), push_back(), empty(), std::move().
+
 #### `std::vector< Conflict > getQueuedConflicts() const`
 - Source: `include/temporal/temporal_conflict_resolver.h`:403
 - Brief: n/a
 - Parameters: none
 - Details: Return a snapshot of all currently queued conflicts.
+
+#### `std::vector< Conflict > getQueuedConflicts() const`
+- Source: `include/temporal/temporal_conflict_resolver.h`:403
+- Brief: n/a
+- Parameters: none
+- Details: Return a snapshot of all currently queued conflicts.
+
+#### `std::string makeQueueKey(const std::string &table_name, const Conflict &conflict)`
+- Source: `include/temporal/temporal_conflict_resolver.h`:416
+- Brief: Helper: generate a deterministic dedup key for a conflict.
+- Parameters:
+  - `table_name` (const std::string &): Name of the table.
+  - `conflict` (const Conflict &): Input parameter.
+- Return: Return value.
+- Details: Make Queue Key. table_name Name of the table. conflict Input parameter. Return value. Implements makeQueueKey without additional internal calls.
 
 #### `std::string makeQueueKey(const std::string &table_name, const Conflict &conflict)`
 - Source: `include/temporal/temporal_conflict_resolver.h`:416
@@ -7032,7 +9376,22 @@ Status: active
 - Return: true if the conflict was queued; false if an identical conflict entry is already in the queue.
 - Details: Queue conflict for manual resolution within table_name. The stored entry has its table_name field overwritten with table_name so the queued conflict is always self-consistent. The dedup key is derived from table_name + entity_id + conflict type + both snapshot IDs, so the same logical conflict is never queued twice for the same table. true if the conflict was queued; false if an identical conflict entry is already in the queue. table_name Name of the table. conflict Input parameter. True when the operation succeeds. Calls: makeQueueKey(), lock(), count(), std::move().
 
+#### `bool queueForManualResolution(const std::string &table_name, const Conflict &conflict)`
+- Source: `include/temporal/temporal_conflict_resolver.h`:397
+- Brief: Queue For Manual Resolution.
+- Parameters:
+  - `table_name` (const std::string &): Name of the table.
+  - `conflict` (const Conflict &): Input parameter.
+- Return: true if the conflict was queued; false if an identical conflict entry is already in the queue.
+- Details: Queue conflict for manual resolution within table_name. The stored entry has its table_name field overwritten with table_name so the queued conflict is always self-consistent. The dedup key is derived from table_name + entity_id + conflict type + both snapshot IDs, so the same logical conflict is never queued twice for the same table. true if the conflict was queued; false if an identical conflict entry is already in the queue. table_name Name of the table. conflict Input parameter. True when the operation succeeds. Calls: makeQueueKey(), lock(), count(), std::move().
+
 ### themisdb::temporal::TemporalConflictResolver
+
+#### `TemporalConflictResolver(ConflictPolicy default_policy=ConflictPolicy::LAST_WRITE_WINS)`
+- Source: `include/temporal/temporal_conflict_resolver.h`:214
+- Brief: n/a
+- Parameters:
+  - `default_policy` (ConflictPolicy): n/a
 
 #### `TemporalConflictResolver(ConflictPolicy default_policy=ConflictPolicy::LAST_WRITE_WINS)`
 - Source: `include/temporal/temporal_conflict_resolver.h`:214
@@ -7046,10 +9405,27 @@ Status: active
 - Parameters: none
 - Details: Export the complete conflict history as a JSON array. Each entry contains: conflict_id, entity_id, winner, policy, resolved, detected_at_ms.
 
+#### `nlohmann::json exportAuditLog() const`
+- Source: `include/temporal/temporal_conflict_resolver.h`:251
+- Brief: n/a
+- Parameters: none
+- Details: Export the complete conflict history as a JSON array. Each entry contains: conflict_id, entity_id, winner, policy, resolved, detected_at_ms.
+
 #### `std::string generateConflictId() const`
 - Source: `include/temporal/temporal_conflict_resolver.h`:293
 - Brief: n/a
 - Parameters: none
+
+#### `std::string generateConflictId() const`
+- Source: `include/temporal/temporal_conflict_resolver.h`:293
+- Brief: n/a
+- Parameters: none
+
+#### `std::vector< ConflictRecord > getConflictHistory() const`
+- Source: `include/temporal/temporal_conflict_resolver.h`:244
+- Brief: n/a
+- Parameters: none
+- Details: Get the complete conflict history (resolved + unresolved). Useful for audit, compliance and replay.
 
 #### `std::vector< ConflictRecord > getConflictHistory() const`
 - Source: `include/temporal/temporal_conflict_resolver.h`:244
@@ -7063,6 +9439,18 @@ Status: active
 - Parameters: none
 - Details: Returns nullptr when the built-in LWW-per-field default is active.
 
+#### `std::shared_ptr< MergeResolver > getMergeResolver() const`
+- Source: `include/temporal/temporal_conflict_resolver.h`:277
+- Brief: Return the currently active MergeResolver.
+- Parameters: none
+- Details: Returns nullptr when the built-in LWW-per-field default is active.
+
+#### `nlohmann::json getStatistics() const`
+- Source: `include/temporal/temporal_conflict_resolver.h`:256
+- Brief: n/a
+- Parameters: none
+- Details: Get conflict statistics
+
 #### `nlohmann::json getStatistics() const`
 - Source: `include/temporal/temporal_conflict_resolver.h`:256
 - Brief: n/a
@@ -7074,6 +9462,22 @@ Status: active
 - Brief: n/a
 - Parameters: none
 - Details: Get all unresolved conflicts (for MANUAL policy)
+
+#### `std::vector< ConflictRecord > getUnresolvedConflicts() const`
+- Source: `include/temporal/temporal_conflict_resolver.h`:233
+- Brief: n/a
+- Parameters: none
+- Details: Get all unresolved conflicts (for MANUAL policy)
+
+#### `TemporalSnapshot resolve(const TemporalSnapshot &local, const TemporalSnapshot &remote, std::optional< ConflictPolicy > policy=std::nullopt)`
+- Source: `include/temporal/temporal_conflict_resolver.h`:224
+- Brief: Resolve.
+- Parameters:
+  - `local` (const TemporalSnapshot &): Input parameter.
+  - `remote` (const TemporalSnapshot &): Input parameter.
+  - `policy` (std::optional< ConflictPolicy >): Input parameter.
+- Return: Winning snapshot (merged or selected)
+- Details: Resolve conflict between local and remote snapshot local Local snapshot version remote Remote snapshot version policy Override default policy (optional) Winning snapshot (merged or selected) local Input parameter. remote Input parameter. policy Input parameter. Return value. Calls: fetch_add(), value_or(), generateConflictId(), std::chrono::system_clock::now(), resolveLastWriteWins(), resolveFirstWriteWins(), resolveNodePriority(), resolveCRDT().
 
 #### `TemporalSnapshot resolve(const TemporalSnapshot &local, const TemporalSnapshot &remote, std::optional< ConflictPolicy > policy=std::nullopt)`
 - Source: `include/temporal/temporal_conflict_resolver.h`:224
@@ -7094,6 +9498,24 @@ Status: active
 - Return: Return value.
 - Details: local Input parameter. remote Input parameter. Return value. Calls: lk(), merge().
 
+#### `TemporalSnapshot resolveCRDT(const TemporalSnapshot &local, const TemporalSnapshot &remote)`
+- Source: `include/temporal/temporal_conflict_resolver.h`:298
+- Brief: Resolve CRDT.
+- Parameters:
+  - `local` (const TemporalSnapshot &): Input parameter.
+  - `remote` (const TemporalSnapshot &): Input parameter.
+- Return: Return value.
+- Details: local Input parameter. remote Input parameter. Return value. Calls: lk(), merge().
+
+#### `TemporalSnapshot resolveFirstWriteWins(const TemporalSnapshot &local, const TemporalSnapshot &remote)`
+- Source: `include/temporal/temporal_conflict_resolver.h`:296
+- Brief: Resolve First Write Wins.
+- Parameters:
+  - `local` (const TemporalSnapshot &): Input parameter.
+  - `remote` (const TemporalSnapshot &): Input parameter.
+- Return: Return value.
+- Details: local Input parameter. remote Input parameter. Return value. Implements resolveFirstWriteWins without additional internal calls.
+
 #### `TemporalSnapshot resolveFirstWriteWins(const TemporalSnapshot &local, const TemporalSnapshot &remote)`
 - Source: `include/temporal/temporal_conflict_resolver.h`:296
 - Brief: Resolve First Write Wins.
@@ -7112,6 +9534,23 @@ Status: active
 - Return: Return value.
 - Details: local Input parameter. remote Input parameter. Return value. Implements resolveLastWriteWins without additional internal calls.
 
+#### `TemporalSnapshot resolveLastWriteWins(const TemporalSnapshot &local, const TemporalSnapshot &remote)`
+- Source: `include/temporal/temporal_conflict_resolver.h`:295
+- Brief: Resolve Last Write Wins.
+- Parameters:
+  - `local` (const TemporalSnapshot &): Input parameter.
+  - `remote` (const TemporalSnapshot &): Input parameter.
+- Return: Return value.
+- Details: local Input parameter. remote Input parameter. Return value. Implements resolveLastWriteWins without additional internal calls.
+
+#### `void resolveManually(const std::string &conflict_id, const std::string &winner)`
+- Source: `include/temporal/temporal_conflict_resolver.h`:238
+- Brief: Resolve Manually.
+- Parameters:
+  - `conflict_id` (const std::string &): Identifier of the conflict.
+  - `winner` (const std::string &): Input parameter.
+- Details: Manually resolve a conflict conflict_id Identifier of the conflict. winner Input parameter. Calls: lock(), find(), end(), push_back(), erase(), fetch_add().
+
 #### `void resolveManually(const std::string &conflict_id, const std::string &winner)`
 - Source: `include/temporal/temporal_conflict_resolver.h`:238
 - Brief: Resolve Manually.
@@ -7128,6 +9567,22 @@ Status: active
   - `remote` (const TemporalSnapshot &): Input parameter.
 - Return: Return value.
 - Details: local Input parameter. remote Input parameter. Return value. Implements resolveNodePriority without additional internal calls.
+
+#### `TemporalSnapshot resolveNodePriority(const TemporalSnapshot &local, const TemporalSnapshot &remote)`
+- Source: `include/temporal/temporal_conflict_resolver.h`:297
+- Brief: Resolve Node Priority.
+- Parameters:
+  - `local` (const TemporalSnapshot &): Input parameter.
+  - `remote` (const TemporalSnapshot &): Input parameter.
+- Return: Return value.
+- Details: local Input parameter. remote Input parameter. Return value. Implements resolveNodePriority without additional internal calls.
+
+#### `void setMergeResolver(std::shared_ptr< MergeResolver > resolver)`
+- Source: `include/temporal/temporal_conflict_resolver.h`:270
+- Brief: Inject a custom CRDT merge strategy.
+- Parameters:
+  - `resolver` (std::shared_ptr< MergeResolver >): Input parameter.
+- Details: Set Merge Resolver. When resolver is non-null it is used by resolveCRDT() instead of the built-in LWWFieldMergeResolver. Pass nullptr to revert to the default LWW-per-field behaviour. The call is thread-safe; the resolver is replaced atomically under the internal mutex. resolver Strategy to use, or nullptr to reset to the default. resolver Input parameter. Calls: lk(), std::move().
 
 #### `void setMergeResolver(std::shared_ptr< MergeResolver > resolver)`
 - Source: `include/temporal/temporal_conflict_resolver.h`:270
@@ -7147,7 +9602,22 @@ Status: active
   - `child_period` (const TimeRange &): n/a
 - Details: Validate that parent_table is the expected table and that it has at least one current row for parent_key whose valid-time period contains child_period. Returns true → referential integrity satisfied. Returns false → constraint violation: either parent_table is the wrong table (name mismatch), or no parent row covers the period.
 
+#### `bool validate(const BiTemporalTable &parent_table, const std::string &parent_key, const TimeRange &child_period) const`
+- Source: `include/temporal/bi_temporal.h`:71
+- Brief: n/a
+- Parameters:
+  - `parent_table` (const BiTemporalTable &): n/a
+  - `parent_key` (const std::string &): n/a
+  - `child_period` (const TimeRange &): n/a
+- Details: Validate that parent_table is the expected table and that it has at least one current row for parent_key whose valid-time period contains child_period. Returns true → referential integrity satisfied. Returns false → constraint violation: either parent_table is the wrong table (name mismatch), or no parent row covers the period.
+
 ### themisdb::temporal::TemporalIndex
+
+#### `TemporalIndex(std::string name)`
+- Source: `include/temporal/temporal_index.h`:81
+- Brief: n/a
+- Parameters:
+  - `name` (std::string): n/a
 
 #### `TemporalIndex(std::string name)`
 - Source: `include/temporal/temporal_index.h`:81
@@ -7162,10 +9632,31 @@ Status: active
   - `entry` (const TemporalIndexEntry &): Input parameter.
 - Details: Insert a new entry. entry Input parameter. Calls: lock(), emplace().
 
+#### `void insert(const TemporalIndexEntry &entry)`
+- Source: `include/temporal/temporal_index.h`:86
+- Brief: Insert.
+- Parameters:
+  - `entry` (const TemporalIndexEntry &): Input parameter.
+- Details: Insert a new entry. entry Input parameter. Calls: lock(), emplace().
+
+#### `const std::string & name() const noexcept`
+- Source: `include/temporal/temporal_index.h`:127
+- Brief: n/a
+- Parameters: none
+
 #### `const std::string & name() const noexcept`
 - Source: `include/temporal/temporal_index.h`:119
 - Brief: n/a
 - Parameters: none
+
+#### `std::vector< TemporalIndexEntry > queryKey(const std::string &key, std::optional< TimeRange > range=std::nullopt) const`
+- Source: `include/temporal/temporal_index.h`:121
+- Brief: Return entries for a key, optionally filtered by range.
+- Parameters:
+  - `key` (const std::string &): Logical key to query.
+  - `range` (std::optional< TimeRange >): Optional half-open interval; when supplied only overlapping entries are returned.
+- Return: Matching entries, or an empty vector when none match.
+- Details: key Logical key to query. range Optional half-open interval; when supplied only overlapping entries are returned. Matching entries, or an empty vector when none match.
 
 #### `std::vector< TemporalIndexEntry > queryKey(const std::string &key, std::optional< TimeRange > range=std::nullopt) const`
 - Source: `include/temporal/temporal_index.h`:113
@@ -7176,11 +9667,28 @@ Status: active
 - Details: Return all entries for a specific key, optionally filtered by range.
 
 #### `std::vector< TemporalIndexEntry > queryPoint(Timestamp t) const`
+- Source: `include/temporal/temporal_index.h`:104
+- Brief: Return entries valid at timestamp t.
+- Parameters:
+  - `t` (Timestamp): Timestamp tested against each entry's half-open range.
+- Return: Matching entries, or an empty vector when none match.
+- Details: t Timestamp tested against each entry's half-open range. Matching entries, or an empty vector when none match.
+
+#### `std::vector< TemporalIndexEntry > queryPoint(Timestamp t) const`
 - Source: `include/temporal/temporal_index.h`:103
 - Brief: n/a
 - Parameters:
   - `t` (Timestamp): n/a
 - Details: Return all entries that are valid at timestamp t (i.e., entry.range.contains(t) == true).
+
+#### `std::vector< TemporalIndexEntry > queryRange(Timestamp from, Timestamp to) const`
+- Source: `include/temporal/temporal_index.h`:112
+- Brief: Return entries whose range overlaps [from, to).
+- Parameters:
+  - `from` (Timestamp): Inclusive start of the query interval.
+  - `to` (Timestamp): Exclusive end of the query interval.
+- Return: Matching entries, or an empty vector when none match.
+- Details: from Inclusive start of the query interval. to Exclusive end of the query interval. Matching entries, or an empty vector when none match.
 
 #### `std::vector< TemporalIndexEntry > queryRange(Timestamp from, Timestamp to) const`
 - Source: `include/temporal/temporal_index.h`:108
@@ -7199,6 +9707,23 @@ Status: active
 - Return: Return value.
 - Details: Remove entries matching the given key and range. Returns the number of entries removed. key Input parameter. range Input parameter. Return value. Calls: lock(), begin(), end(), erase().
 
+#### `size_t remove(const std::string &key, const TimeRange &range)`
+- Source: `include/temporal/temporal_index.h`:92
+- Brief: Remove.
+- Parameters:
+  - `key` (const std::string &): Input parameter.
+  - `range` (const TimeRange &): Input parameter.
+- Return: Return value.
+- Details: Remove entries matching the given key and range. Returns the number of entries removed. key Input parameter. range Input parameter. Return value. Calls: lock(), begin(), end(), erase().
+
+#### `size_t removeKey(const std::string &key)`
+- Source: `include/temporal/temporal_index.h`:95
+- Brief: Remove Key.
+- Parameters:
+  - `key` (const std::string &): Input parameter.
+- Return: Return value.
+- Details: Remove all entries for the given key. key Input parameter. Return value. Calls: lock(), begin(), end(), erase().
+
 #### `size_t removeKey(const std::string &key)`
 - Source: `include/temporal/temporal_index.h`:95
 - Brief: Remove Key.
@@ -7208,7 +9733,17 @@ Status: active
 - Details: Remove all entries for the given key. key Input parameter. Return value. Calls: lock(), begin(), end(), erase().
 
 #### `size_t size() const`
+- Source: `include/temporal/temporal_index.h`:128
+- Brief: n/a
+- Parameters: none
+
+#### `size_t size() const`
 - Source: `include/temporal/temporal_index.h`:120
+- Brief: n/a
+- Parameters: none
+
+#### `TemporalIndexStats stats() const`
+- Source: `include/temporal/temporal_index.h`:129
 - Brief: n/a
 - Parameters: none
 
@@ -7224,7 +9759,17 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/temporal_index.h`:54
+- Brief: n/a
+- Parameters: none
+
 ### themisdb::temporal::TemporalMigrator
+
+#### `TemporalMigrator()=default`
+- Source: `include/temporal/temporal_migrator.h`:237
+- Brief: n/a
+- Parameters: none
 
 #### `TemporalMigrator()=default`
 - Source: `include/temporal/temporal_migrator.h`:237
@@ -7237,11 +9782,32 @@ Status: active
 - Parameters:
   - `<unnamed>` (TemporalMigrator &&): n/a
 
+#### `TemporalMigrator(TemporalMigrator &&) noexcept=default`
+- Source: `include/temporal/temporal_migrator.h`:242
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (TemporalMigrator &&): n/a
+
 #### `TemporalMigrator(const TemporalMigrator &)=delete`
 - Source: `include/temporal/temporal_migrator.h`:240
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const TemporalMigrator &): n/a
+
+#### `TemporalMigrator(const TemporalMigrator &)=delete`
+- Source: `include/temporal/temporal_migrator.h`:240
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (const TemporalMigrator &): n/a
+
+#### `MigrationPlan analyzeMigration(const std::string &table_name, const std::unordered_map< std::string, Document > &source_docs)`
+- Source: `include/temporal/temporal_migrator.h`:265
+- Brief: n/a
+- Parameters:
+  - `table_name` (const std::string &): Logical name of the source table / collection.
+  - `source_docs` (const std::unordered_map< std::string, Document > &): Map from row key to document payload. An empty map is accepted (the plan will have source_row_count=0).
+- Return: A MigrationPlan ready for inspection and use in migrateToTemporal().
+- Details: Analyse a source document collection and produce a MigrationPlan. table_name Logical name of the source table / collection. source_docs Map from row key to document payload. An empty map is accepted (the plan will have source_row_count=0). A MigrationPlan ready for inspection and use in migrateToTemporal().
 
 #### `MigrationPlan analyzeMigration(const std::string &table_name, const std::unordered_map< std::string, Document > &source_docs)`
 - Source: `include/temporal/temporal_migrator.h`:265
@@ -7261,11 +9827,32 @@ Status: active
 - Return: Number of historical versions successfully inserted.
 - Details: Insert historical versions from an audit log into an already-migrated SystemVersionedTable. Each VersionedDocument in history_entries is inserted as a closed (historical) version. Entries with sys_time.end == kMaxTimestamp are treated as "open" and are skipped with a warning because they would conflict with the current version inserted during migrateToTemporal(). table Target SystemVersionedTable (already migrated). history_entries Audit-log snapshots to backfill. Number of historical versions successfully inserted. table Input/output parameter. history_entries Input parameter. Return value. Calls: push_back(), getAsOf(), has_value(), insert(), replaceHistoricalPayload(), std::to_string().
 
+#### `size_t backfillHistory(SystemVersionedTable &table, const std::vector< VersionedDocument > &history_entries)`
+- Source: `include/temporal/temporal_migrator.h`:304
+- Brief: ============================================================================ Step 3: backfillHistory ============================================================================
+- Parameters:
+  - `table` (SystemVersionedTable &): Input/output parameter.
+  - `history_entries` (const std::vector< VersionedDocument > &): Input parameter.
+- Return: Number of historical versions successfully inserted.
+- Details: Insert historical versions from an audit log into an already-migrated SystemVersionedTable. Each VersionedDocument in history_entries is inserted as a closed (historical) version. Entries with sys_time.end == kMaxTimestamp are treated as "open" and are skipped with a warning because they would conflict with the current version inserted during migrateToTemporal(). table Target SystemVersionedTable (already migrated). history_entries Audit-log snapshots to backfill. Number of historical versions successfully inserted. table Input/output parameter. history_entries Input parameter. Return value. Calls: push_back(), getAsOf(), has_value(), insert(), replaceHistoricalPayload(), std::to_string().
+
 #### `const MigrationReport & getLastReport() const noexcept`
 - Source: `include/temporal/temporal_migrator.h`:339
 - Brief: n/a
 - Parameters: none
 - Details: Return the MigrationReport from the most recent verifyMigration() call. Returns a default-constructed report if verifyMigration() has not been called yet.
+
+#### `const MigrationReport & getLastReport() const noexcept`
+- Source: `include/temporal/temporal_migrator.h`:339
+- Brief: n/a
+- Parameters: none
+- Details: Return the MigrationReport from the most recent verifyMigration() call. Returns a default-constructed report if verifyMigration() has not been called yet.
+
+#### `const MigrationStats & getStats() const noexcept`
+- Source: `include/temporal/temporal_migrator.h`:332
+- Brief: n/a
+- Parameters: none
+- Details: Return accumulated stats from the most recent migration run.
 
 #### `const MigrationStats & getStats() const noexcept`
 - Source: `include/temporal/temporal_migrator.h`:332
@@ -7279,12 +9866,33 @@ Status: active
 - Parameters: none
 - Details: Return the current migration lifecycle state.
 
+#### `MigrationStatus getStatus() const noexcept`
+- Source: `include/temporal/temporal_migrator.h`:329
+- Brief: n/a
+- Parameters: none
+- Details: Return the current migration lifecycle state.
+
 #### `std::vector< ColumnInfo > inferColumns(const std::unordered_map< std::string, Document > &docs)`
 - Source: `include/temporal/temporal_migrator.h`:356
 - Brief: n/a
 - Parameters:
   - `docs` (const std::unordered_map< std::string, Document > &): n/a
 - Details: Infer column metadata by sampling all documents.
+
+#### `std::vector< ColumnInfo > inferColumns(const std::unordered_map< std::string, Document > &docs)`
+- Source: `include/temporal/temporal_migrator.h`:356
+- Brief: n/a
+- Parameters:
+  - `docs` (const std::unordered_map< std::string, Document > &): n/a
+- Details: Infer column metadata by sampling all documents.
+
+#### `std::string inferType(const nlohmann::json &value)`
+- Source: `include/temporal/temporal_migrator.h`:360
+- Brief: Infer Type.
+- Parameters:
+  - `value` (const nlohmann::json &): Input parameter.
+- Return: Return value.
+- Details: Extract the inferred JSON type name for a single value. value Input parameter. Return value. Calls: is_null(), is_boolean(), is_number(), is_string(), is_array(), is_object().
 
 #### `std::string inferType(const nlohmann::json &value)`
 - Source: `include/temporal/temporal_migrator.h`:360
@@ -7303,6 +9911,21 @@ Status: active
 - Return: Pair of (populated SystemVersionedTable, success flag). On failure, stats.errors describes what went wrong.
 - Details: Execute the migration described by plan. Creates a SystemVersionedTable and inserts every entry from source_docs as the initial current version. The sys_start timestamp for each row is taken from plan.baseline_timestamp unless the document contains a field named "_created_at" (interpreted as a millisecond-epoch integer). plan Plan produced by analyzeMigration(). source_docs The actual key/document pairs to migrate. Pair of (populated SystemVersionedTable, success flag). On failure, stats.errors describes what went wrong.
 
+#### `std::pair< SystemVersionedTable, bool > migrateToTemporal(const MigrationPlan &plan, const std::unordered_map< std::string, Document > &source_docs)`
+- Source: `include/temporal/temporal_migrator.h`:285
+- Brief: n/a
+- Parameters:
+  - `plan` (const MigrationPlan &): Plan produced by analyzeMigration().
+  - `source_docs` (const std::unordered_map< std::string, Document > &): The actual key/document pairs to migrate.
+- Return: Pair of (populated SystemVersionedTable, success flag). On failure, stats.errors describes what went wrong.
+- Details: Execute the migration described by plan. Creates a SystemVersionedTable and inserts every entry from source_docs as the initial current version. The sys_start timestamp for each row is taken from plan.baseline_timestamp unless the document contains a field named "_created_at" (interpreted as a millisecond-epoch integer). plan Plan produced by analyzeMigration(). source_docs The actual key/document pairs to migrate. Pair of (populated SystemVersionedTable, success flag). On failure, stats.errors describes what went wrong.
+
+#### `TemporalMigrator & operator=(TemporalMigrator &&) noexcept=default`
+- Source: `include/temporal/temporal_migrator.h`:243
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (TemporalMigrator &&): n/a
+
 #### `TemporalMigrator & operator=(TemporalMigrator &&) noexcept=default`
 - Source: `include/temporal/temporal_migrator.h`:243
 - Brief: n/a
@@ -7314,6 +9937,19 @@ Status: active
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const TemporalMigrator &): n/a
+
+#### `TemporalMigrator & operator=(const TemporalMigrator &)=delete`
+- Source: `include/temporal/temporal_migrator.h`:241
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (const TemporalMigrator &): n/a
+
+#### `void setProgressCallback(ProgressCallback cb)`
+- Source: `include/temporal/temporal_migrator.h`:252
+- Brief: Set Progress Callback.
+- Parameters:
+  - `cb` (ProgressCallback): Input parameter.
+- Details: Register a callback that is invoked on every MigrationStatus transition. Pass nullptr to remove any previously registered callback. cb Input parameter. Calls: std::move().
 
 #### `void setProgressCallback(ProgressCallback cb)`
 - Source: `include/temporal/temporal_migrator.h`:252
@@ -7330,6 +9966,14 @@ Status: active
   - `msg` (const std::string &): Input parameter.
 - Details: s Input parameter. msg Input parameter. Calls: progress_cb_(), empty(), statusName().
 
+#### `void setStatus(MigrationStatus s, const std::string &msg="")`
+- Source: `include/temporal/temporal_migrator.h`:353
+- Brief: Set Status.
+- Parameters:
+  - `s` (MigrationStatus): Input parameter.
+  - `msg` (const std::string &): Input parameter.
+- Details: s Input parameter. msg Input parameter. Calls: progress_cb_(), empty(), statusName().
+
 #### `std::string statusName(MigrationStatus s)`
 - Source: `include/temporal/temporal_migrator.h`:344
 - Brief: Status Name.
@@ -7337,6 +9981,22 @@ Status: active
   - `s` (MigrationStatus): Input parameter.
 - Return: Return value.
 - Details: Convert MigrationStatus to a human-readable string. s Input parameter. Return value. Implements statusName without additional internal calls.
+
+#### `std::string statusName(MigrationStatus s)`
+- Source: `include/temporal/temporal_migrator.h`:344
+- Brief: Status Name.
+- Parameters:
+  - `s` (MigrationStatus): Input parameter.
+- Return: Return value.
+- Details: Convert MigrationStatus to a human-readable string. s Input parameter. Return value. Implements statusName without additional internal calls.
+
+#### `MigrationReport verifyMigration(const SystemVersionedTable &table)`
+- Source: `include/temporal/temporal_migrator.h`:324
+- Brief: ============================================================================ Step 4: verifyMigration ============================================================================
+- Parameters:
+  - `table` (const SystemVersionedTable &): Input parameter.
+- Return: MigrationReport with all check results and aggregated stats.
+- Details: Run a suite of data-integrity checks against a migrated table. Checks performed: KEY_COUNT: total key count matches plan.source_row_count (if plan was set) VERSION_ORDER: for every key, versions are in ascending sys_start order NO_OVERLAPPING_VERSIONS: no two versions for the same key overlap in sys_time CURRENT_VERSION_OPEN: all current versions have sys_time.end == kMaxTimestamp HISTORY_CONTINUITY: closed versions form a contiguous chain (no gaps) (only checked when has_history_to_backfill was true in the plan) table The migrated SystemVersionedTable to verify. MigrationReport with all check results and aggregated stats. table Input parameter. Return value. Calls: setStatus(), tableName(), keyCount(), std::to_string(), push_back(), getAllKeys(), getHistory(), size().
 
 #### `MigrationReport verifyMigration(const SystemVersionedTable &table)`
 - Source: `include/temporal/temporal_migrator.h`:324
@@ -7358,6 +10018,26 @@ Status: active
 - Return: true if the predicate holds
 - Details: Apply a temporal predicate between two time ranges. op The temporal operator to evaluate lhs Left-hand period rhs Right-hand period true if the predicate holds
 
+#### `bool evaluatePredicate(TemporalOperator op, const TimeRange &lhs, const TimeRange &rhs) noexcept`
+- Source: `include/temporal/temporal_query_engine.h`:198
+- Brief: n/a
+- Parameters:
+  - `op` (TemporalOperator): The temporal operator to evaluate
+  - `lhs` (const TimeRange &): Left-hand period
+  - `rhs` (const TimeRange &): Right-hand period
+- Return: true if the predicate holds
+- Details: Apply a temporal predicate between two time ranges. op The temporal operator to evaluate lhs Left-hand period rhs Right-hand period true if the predicate holds
+
+#### `std::vector< VersionedDocument > executeTemporalQuery(const BiTemporalTable &table, const TemporalQuerySpec &spec, const std::vector< RowFilter > &filters={})`
+- Source: `include/temporal/temporal_query_engine.h`:397
+- Brief: Execute Temporal Query.
+- Parameters:
+  - `table` (const BiTemporalTable &): Input parameter.
+  - `spec` (const TemporalQuerySpec &): Input parameter.
+  - `filters` (const std::vector< RowFilter > &): Input parameter.
+- Return: Return value.
+- Details: Execute a SQL:2011 FOR APPLICATION_TIME query over a BiTemporalTable. Dispatches based on spec.clause: AS_OF → queryApplicationTime(table, spec.start_time, filters) FROM_TO → queryApplicationTimeRange(table, spec.start_time, spec.end_time, filters) BETWEEN_AND → queryApplicationTimeRange with closed upper bound CONTAINED_IN → current rows whose valid_time ⊆ [start, end) ALL → all current rows (all valid-time periods) table Source bi-temporal table. spec Temporal query specification (clause type + timestamps). filters Optional field-level row filters. table Input parameter. spec Input parameter. filters Input parameter. Return value. Calls: queryApplicationTime(), queryApplicationTimeRange(), reserve(), size(), push_back(), std::move(), applyDeletedFilter().
+
 #### `std::vector< VersionedDocument > executeTemporalQuery(const BiTemporalTable &table, const TemporalQuerySpec &spec, const std::vector< RowFilter > &filters={})`
 - Source: `include/temporal/temporal_query_engine.h`:397
 - Brief: Execute Temporal Query.
@@ -7378,6 +10058,16 @@ Status: active
 - Return: Return value.
 - Details: Execute a SQL:2011 FOR SYSTEM_TIME query over a SystemVersionedTable. Dispatches to the appropriate lower-level method based on spec.clause: AS_OF → queryAsOf(table, spec.start_time, filters) FROM_TO → queryFromTo(table, spec.start_time, spec.end_time, filters) BETWEEN_AND → queryBetween(table, spec.start_time, spec.end_time, filters) CONTAINED_IN → versions whose entire sys_time ⊆ [start, end) ALL → all stored versions (NON_SEQUENCED over full time range) When spec.include_deleted is false (default) rows whose data contains the field "deleted" with value true are excluded from the result. table Source system-versioned table. spec Temporal query specification (clause type + timestamps). filters Optional field-level row filters applied after the temporal predicate. table Input parameter. spec Input parameter. filters Input parameter. Return value. Calls: queryAsOf(), queryFromTo(), queryBetween(), reserve(), size(), push_back(), std::move(), queryWithSemantics().
 
+#### `std::vector< VersionedDocument > executeTemporalQuery(const SystemVersionedTable &table, const TemporalQuerySpec &spec, const std::vector< RowFilter > &filters={})`
+- Source: `include/temporal/temporal_query_engine.h`:377
+- Brief: Execute Temporal Query.
+- Parameters:
+  - `table` (const SystemVersionedTable &): Input parameter.
+  - `spec` (const TemporalQuerySpec &): Input parameter.
+  - `filters` (const std::vector< RowFilter > &): Input parameter.
+- Return: Return value.
+- Details: Execute a SQL:2011 FOR SYSTEM_TIME query over a SystemVersionedTable. Dispatches to the appropriate lower-level method based on spec.clause: AS_OF → queryAsOf(table, spec.start_time, filters) FROM_TO → queryFromTo(table, spec.start_time, spec.end_time, filters) BETWEEN_AND → queryBetween(table, spec.start_time, spec.end_time, filters) CONTAINED_IN → versions whose entire sys_time ⊆ [start, end) ALL → all stored versions (NON_SEQUENCED over full time range) When spec.include_deleted is false (default) rows whose data contains the field "deleted" with value true are excluded from the result. table Source system-versioned table. spec Temporal query specification (clause type + timestamps). filters Optional field-level row filters applied after the temporal predicate. table Input parameter. spec Input parameter. filters Input parameter. Return value. Calls: queryAsOf(), queryFromTo(), queryBetween(), reserve(), size(), push_back(), std::move(), queryWithSemantics().
+
 #### `TimeRange intersect(const TimeRange &a, const TimeRange &b) noexcept`
 - Source: `include/temporal/temporal_query_engine.h`:344
 - Brief: n/a
@@ -7385,6 +10075,24 @@ Status: active
   - `a` (const TimeRange &): n/a
   - `b` (const TimeRange &): n/a
 - Details: Compute the overlap intersection of two time ranges. Returns an empty range (start==end) when there is no overlap.
+
+#### `TimeRange intersect(const TimeRange &a, const TimeRange &b) noexcept`
+- Source: `include/temporal/temporal_query_engine.h`:344
+- Brief: n/a
+- Parameters:
+  - `a` (const TimeRange &): n/a
+  - `b` (const TimeRange &): n/a
+- Details: Compute the overlap intersection of two time ranges. Returns an empty range (start==end) when there is no overlap.
+
+#### `std::vector< std::pair< VersionedDocument, VersionedDocument > > joinAsOf(const SystemVersionedTable &left, const SystemVersionedTable &right, Timestamp as_of, const std::function< bool(const VersionedDocument &, const VersionedDocument &)> &predicate)`
+- Source: `include/temporal/temporal_query_engine.h`:214
+- Brief: n/a
+- Parameters:
+  - `left` (const SystemVersionedTable &): Left-hand table.
+  - `right` (const SystemVersionedTable &): Right-hand table.
+  - `as_of` (Timestamp): Point-in-time for both tables.
+  - `predicate` (const std::function< bool(const VersionedDocument &, const VersionedDocument &)> &): Join condition evaluated on every (left, right) pair. Return true to include the pair in the result.
+- Details: Temporal AS-OF join between two tables. Returns pairs (left_row, right_row) where both rows were current at the given system time and the join predicate returns true. left Left-hand table. right Right-hand table. as_of Point-in-time for both tables. predicate Join condition evaluated on every (left, right) pair. Return true to include the pair in the result.
 
 #### `std::vector< std::pair< VersionedDocument, VersionedDocument > > joinAsOf(const SystemVersionedTable &left, const SystemVersionedTable &right, Timestamp as_of, const std::function< bool(const VersionedDocument &, const VersionedDocument &)> &predicate)`
 - Source: `include/temporal/temporal_query_engine.h`:214
@@ -7407,6 +10115,17 @@ Status: active
   - `predicate` (const std::function< bool(const VersionedDocument &, const VersionedDocument &)> &): Join condition evaluated on every (left, right) pair.
 - Details: Bi-temporal join between two BiTemporalTables. Returns pairs (left_row, right_row) where: Both rows have sys_time.contains(sys_as_of) Both rows have valid_time.contains(valid_at) predicate(left_row, right_row) returns true This implements the combined transaction-time + valid-time join semantics defined in SQL:2011. left Left-hand bi-temporal table. right Right-hand bi-temporal table. sys_as_of System-time point applied to both tables. valid_at Valid-time point applied to both tables. predicate Join condition evaluated on every (left, right) pair.
 
+#### `std::vector< std::pair< VersionedDocument, VersionedDocument > > joinBiTemporal(const BiTemporalTable &left, const BiTemporalTable &right, Timestamp sys_as_of, Timestamp valid_at, const std::function< bool(const VersionedDocument &, const VersionedDocument &)> &predicate)`
+- Source: `include/temporal/temporal_query_engine.h`:239
+- Brief: n/a
+- Parameters:
+  - `left` (const BiTemporalTable &): Left-hand bi-temporal table.
+  - `right` (const BiTemporalTable &): Right-hand bi-temporal table.
+  - `sys_as_of` (Timestamp): System-time point applied to both tables.
+  - `valid_at` (Timestamp): Valid-time point applied to both tables.
+  - `predicate` (const std::function< bool(const VersionedDocument &, const VersionedDocument &)> &): Join condition evaluated on every (left, right) pair.
+- Details: Bi-temporal join between two BiTemporalTables. Returns pairs (left_row, right_row) where: Both rows have sys_time.contains(sys_as_of) Both rows have valid_time.contains(valid_at) predicate(left_row, right_row) returns true This implements the combined transaction-time + valid-time join semantics defined in SQL:2011. left Left-hand bi-temporal table. right Right-hand bi-temporal table. sys_as_of System-time point applied to both tables. valid_at Valid-time point applied to both tables. predicate Join condition evaluated on every (left, right) pair.
+
 #### `bool matchesFilters(const VersionedDocument &doc, const std::vector< RowFilter > &filters)`
 - Source: `include/temporal/temporal_query_engine.h`:352
 - Brief: Matches Filters.
@@ -7415,6 +10134,25 @@ Status: active
   - `filters` (const std::vector< RowFilter > &): Input parameter.
 - Return: True when the operation succeeds.
 - Details: Apply a list of field-level row filters to a document. Returns true only when the document satisfies every filter. Accessible as a public helper so that code outside the class (e.g. detail::queryAsOfCached) can reuse the same filter logic. doc Input parameter. filters Input parameter. True when the operation succeeds. Calls: matches().
+
+#### `bool matchesFilters(const VersionedDocument &doc, const std::vector< RowFilter > &filters)`
+- Source: `include/temporal/temporal_query_engine.h`:352
+- Brief: Matches Filters.
+- Parameters:
+  - `doc` (const VersionedDocument &): Input parameter.
+  - `filters` (const std::vector< RowFilter > &): Input parameter.
+- Return: True when the operation succeeds.
+- Details: Apply a list of field-level row filters to a document. Returns true only when the document satisfies every filter. Accessible as a public helper so that code outside the class (e.g. detail::queryAsOfCached) can reuse the same filter logic. doc Input parameter. filters Input parameter. True when the operation succeeds. Calls: matches().
+
+#### `std::vector< VersionedDocument > queryApplicationTime(const BiTemporalTable &table, Timestamp valid_at, const std::vector< RowFilter > &filters={})`
+- Source: `include/temporal/temporal_query_engine.h`:297
+- Brief: ============================================================================ FOR APPLICATION_TIME queries (SQL:2011 §7.
+- Parameters:
+  - `table` (const BiTemporalTable &): Input parameter.
+  - `valid_at` (Timestamp): Input parameter.
+  - `filters` (const std::vector< RowFilter > &): Input parameter.
+- Return: Return value.
+- Details: FOR APPLICATION_TIME AS OF valid_at (SQL:2011 §7.6) Returns all rows from a BiTemporalTable that are current in system-time (latest versions, i.e., sys_time end == kMaxTimestamp) and whose valid-time period contains valid_at. This is the application-time counterpart of queryAsOf(). table Source bi-temporal table. valid_at Point-in-application-time to query. filters Optional field-level row filters. table Input parameter. valid_at Input parameter. filters Input parameter. Return value. 6) ============================================================================ Calls: scanBiTemporal(), now(), empty(), reserve(), size(), matchesFilters(), push_back(), std::move().
 
 #### `std::vector< VersionedDocument > queryApplicationTime(const BiTemporalTable &table, Timestamp valid_at, const std::vector< RowFilter > &filters={})`
 - Source: `include/temporal/temporal_query_engine.h`:297
@@ -7437,6 +10175,17 @@ Status: active
 - Return: Return value.
 - Details: FOR APPLICATION_TIME FROM valid_from TO valid_to (SQL:2011 §7.6) Returns all rows from a BiTemporalTable whose valid-time period overlaps the half-open interval [valid_from, valid_to). Only rows that are currently active (sys_time end == kMaxTimestamp) are returned. table Source bi-temporal table. valid_from Start of the valid-time range (inclusive). valid_to End of the valid-time range (exclusive). filters Optional field-level row filters. table Input parameter. valid_from Input parameter. valid_to Input parameter. filters Input parameter. Return value. Calls: getAllKeys(), getHistory(), isCurrent(), overlaps(), empty(), matchesFilters(), push_back(), std::move().
 
+#### `std::vector< VersionedDocument > queryApplicationTimeRange(const BiTemporalTable &table, Timestamp valid_from, Timestamp valid_to, const std::vector< RowFilter > &filters={})`
+- Source: `include/temporal/temporal_query_engine.h`:315
+- Brief: Query Application Time Range.
+- Parameters:
+  - `table` (const BiTemporalTable &): Input parameter.
+  - `valid_from` (Timestamp): Input parameter.
+  - `valid_to` (Timestamp): Input parameter.
+  - `filters` (const std::vector< RowFilter > &): Input parameter.
+- Return: Return value.
+- Details: FOR APPLICATION_TIME FROM valid_from TO valid_to (SQL:2011 §7.6) Returns all rows from a BiTemporalTable whose valid-time period overlaps the half-open interval [valid_from, valid_to). Only rows that are currently active (sys_time end == kMaxTimestamp) are returned. table Source bi-temporal table. valid_from Start of the valid-time range (inclusive). valid_to End of the valid-time range (exclusive). filters Optional field-level row filters. table Input parameter. valid_from Input parameter. valid_to Input parameter. filters Input parameter. Return value. Calls: getAllKeys(), getHistory(), isCurrent(), overlaps(), empty(), matchesFilters(), push_back(), std::move().
+
 #### `std::vector< VersionedDocument > queryAsOf(const SystemVersionedTable &table, Timestamp as_of, const std::vector< RowFilter > &filters={})`
 - Source: `include/temporal/temporal_query_engine.h`:166
 - Brief: Query As Of.
@@ -7446,6 +10195,27 @@ Status: active
   - `filters` (const std::vector< RowFilter > &): Input parameter.
 - Return: Return value.
 - Details: Query all rows that were current at a specific system time. table Source table as_of Point-in-time (ms since epoch) filters Optional field-level row filters table Input parameter. as_of Input parameter. filters Input parameter. Return value. Calls: scan(), empty(), reserve(), size(), matchesFilters(), push_back(), std::move().
+
+#### `std::vector< VersionedDocument > queryAsOf(const SystemVersionedTable &table, Timestamp as_of, const std::vector< RowFilter > &filters={})`
+- Source: `include/temporal/temporal_query_engine.h`:166
+- Brief: Query As Of.
+- Parameters:
+  - `table` (const SystemVersionedTable &): Input parameter.
+  - `as_of` (Timestamp): Input parameter.
+  - `filters` (const std::vector< RowFilter > &): Input parameter.
+- Return: Return value.
+- Details: Query all rows that were current at a specific system time. table Source table as_of Point-in-time (ms since epoch) filters Optional field-level row filters table Input parameter. as_of Input parameter. filters Input parameter. Return value. Calls: scan(), empty(), reserve(), size(), matchesFilters(), push_back(), std::move().
+
+#### `std::vector< VersionedDocument > queryAsOfWithIndex(const SystemVersionedTable &table, const TemporalIndex &index, Timestamp as_of, const std::vector< RowFilter > &filters={})`
+- Source: `include/temporal/temporal_query_engine.h`:334
+- Brief: ============================================================================ Index-accelerated query (query optimization) ============================================================================
+- Parameters:
+  - `table` (const SystemVersionedTable &): Input parameter.
+  - `index` (const TemporalIndex &): Input parameter.
+  - `as_of` (Timestamp): Input parameter.
+  - `filters` (const std::vector< RowFilter > &): Input parameter.
+- Return: Return value.
+- Details: Index-accelerated AS-OF query (query optimization). Uses an externally managed TemporalIndex to identify candidate keys before consulting the table, reducing the scan space for large history tables. Falls back to a full scan when the index returns no candidates. table Source table. index Temporal index built over the same table. as_of Point-in-time to query. filters Optional field-level row filters. table Input parameter. index Input parameter. as_of Input parameter. filters Input parameter. Return value. Calls: queryPoint(), empty(), size(), queryAsOf(), reserve(), getHistoryInRange(), contains(), matchesFilters().
 
 #### `std::vector< VersionedDocument > queryAsOfWithIndex(const SystemVersionedTable &table, const TemporalIndex &index, Timestamp as_of, const std::vector< RowFilter > &filters={})`
 - Source: `include/temporal/temporal_query_engine.h`:334
@@ -7469,6 +10239,17 @@ Status: active
 - Return: Return value.
 - Details: FOR SYSTEM_TIME BETWEEN start AND end (SQL:2011 §7.6) Returns all row versions whose sys_time overlaps the closed interval [start, end]. This differs from queryFromTo() which uses the half-open interval [from, to). table Source table. start Inclusive range start. end Inclusive range end. filters Optional field-level row filters. table Input parameter. start Input parameter. end Input parameter. filters Input parameter. Return value. ..AND (SQL:2011 §7.6) ============================================================================ Calls: queryFromTo().
 
+#### `std::vector< VersionedDocument > queryBetween(const SystemVersionedTable &table, Timestamp start, Timestamp end, const std::vector< RowFilter > &filters={})`
+- Source: `include/temporal/temporal_query_engine.h`:279
+- Brief: ============================================================================ FOR SYSTEM_TIME BETWEEN.
+- Parameters:
+  - `table` (const SystemVersionedTable &): Input parameter.
+  - `start` (Timestamp): Input parameter.
+  - `end` (Timestamp): Input parameter.
+  - `filters` (const std::vector< RowFilter > &): Input parameter.
+- Return: Return value.
+- Details: FOR SYSTEM_TIME BETWEEN start AND end (SQL:2011 §7.6) Returns all row versions whose sys_time overlaps the closed interval [start, end]. This differs from queryFromTo() which uses the half-open interval [from, to). table Source table. start Inclusive range start. end Inclusive range end. filters Optional field-level row filters. table Input parameter. start Input parameter. end Input parameter. filters Input parameter. Return value. ..AND (SQL:2011 §7.6) ============================================================================ Calls: queryFromTo().
+
 #### `std::vector< VersionedDocument > queryFromTo(const SystemVersionedTable &table, Timestamp from, Timestamp to, const std::vector< RowFilter > &filters={})`
 - Source: `include/temporal/temporal_query_engine.h`:174
 - Brief: Query From To.
@@ -7479,6 +10260,28 @@ Status: active
   - `filters` (const std::vector< RowFilter > &): Input parameter.
 - Return: Return value.
 - Details: Query all row versions whose sys_time overlaps [from, to). table Input parameter. from Input parameter. to Input parameter. filters Input parameter. Return value. Calls: getAllKeys(), getHistoryInRange(), empty(), matchesFilters(), push_back(), std::move().
+
+#### `std::vector< VersionedDocument > queryFromTo(const SystemVersionedTable &table, Timestamp from, Timestamp to, const std::vector< RowFilter > &filters={})`
+- Source: `include/temporal/temporal_query_engine.h`:174
+- Brief: Query From To.
+- Parameters:
+  - `table` (const SystemVersionedTable &): Input parameter.
+  - `from` (Timestamp): Input parameter.
+  - `to` (Timestamp): Input parameter.
+  - `filters` (const std::vector< RowFilter > &): Input parameter.
+- Return: Return value.
+- Details: Query all row versions whose sys_time overlaps [from, to). table Input parameter. from Input parameter. to Input parameter. filters Input parameter. Return value. Calls: getAllKeys(), getHistoryInRange(), empty(), matchesFilters(), push_back(), std::move().
+
+#### `std::vector< VersionedDocument > queryKeyFromTo(const SystemVersionedTable &table, const std::string &key, Timestamp from, Timestamp to)`
+- Source: `include/temporal/temporal_query_engine.h`:184
+- Brief: Query Key From To.
+- Parameters:
+  - `table` (const SystemVersionedTable &): Input parameter.
+  - `key` (const std::string &): Input parameter.
+  - `from` (Timestamp): Input parameter.
+  - `to` (Timestamp): Input parameter.
+- Return: Return value.
+- Details: Query all row versions for a specific key whose sys_time overlaps [from, to). table Input parameter. key Input parameter. from Input parameter. to Input parameter. Return value. Calls: getHistoryInRange().
 
 #### `std::vector< VersionedDocument > queryKeyFromTo(const SystemVersionedTable &table, const std::string &key, Timestamp from, Timestamp to)`
 - Source: `include/temporal/temporal_query_engine.h`:184
@@ -7502,6 +10305,26 @@ Status: active
 - Return: Return value.
 - Details: Query a SystemVersionedTable with explicit SEQUENCED or NON-SEQUENCED semantics (SQL:2011 §4.16.5). SEQUENCED: Returns rows whose sys_time overlaps the given period. Temporal predicates are respected per individual period. NON_SEQUENCED: Returns all row versions regardless of sys_time, treating the table as an atemporal relation. table Source table. semantics SEQUENCED or NON_SEQUENCED. period Reference period (used for SEQUENCED filtering only). filters Optional field-level row filters. table Input parameter. semantics Input parameter. period Input parameter. filters Input parameter. Return value. Calls: getAllKeys(), getHistoryInRange(), empty(), matchesFilters(), push_back(), std::move(), queryFromTo().
 
+#### `std::vector< VersionedDocument > queryWithSemantics(const SystemVersionedTable &table, TemporalSemantics semantics, const TimeRange &period, const std::vector< RowFilter > &filters={})`
+- Source: `include/temporal/temporal_query_engine.h`:261
+- Brief: ============================================================================ Sequenced / Non-Sequenced query semantics ============================================================================
+- Parameters:
+  - `table` (const SystemVersionedTable &): Input parameter.
+  - `semantics` (TemporalSemantics): Input parameter.
+  - `period` (const TimeRange &): Input parameter.
+  - `filters` (const std::vector< RowFilter > &): Input parameter.
+- Return: Return value.
+- Details: Query a SystemVersionedTable with explicit SEQUENCED or NON-SEQUENCED semantics (SQL:2011 §4.16.5). SEQUENCED: Returns rows whose sys_time overlaps the given period. Temporal predicates are respected per individual period. NON_SEQUENCED: Returns all row versions regardless of sys_time, treating the table as an atemporal relation. table Source table. semantics SEQUENCED or NON_SEQUENCED. period Reference period (used for SEQUENCED filtering only). filters Optional field-level row filters. table Input parameter. semantics Input parameter. period Input parameter. filters Input parameter. Return value. Calls: getAllKeys(), getHistoryInRange(), empty(), matchesFilters(), push_back(), std::move(), queryFromTo().
+
+#### `std::vector< VersionedDocument > sequencedDistinct(const SystemVersionedTable &table, const std::vector< std::string > &compare_fields={})`
+- Source: `include/temporal/temporal_query_engine.h`:439
+- Brief: SQL:2011 §13.4 SEQUENCED DISTINCT — remove temporally redundant rows.
+- Parameters:
+  - `table` (const SystemVersionedTable &): Input parameter.
+  - `compare_fields` (const std::vector< std::string > &): Input parameter.
+- Return: Coalesced rows, sorted by key then sys_start.
+- Details: Sequenced Distinct. Returns the minimal set of VersionedDocument rows that captures the complete version history of each logical key, eliminating rows whose non-temporal data is identical to an adjacent version for the same key. Adjacent periods with identical data are merged into a single, longer interval. Definition (SQL:2011 §13.4) A row R is temporally redundant when there exists another row R' for the same key such that: R'.sys_time overlaps or is immediately adjacent to R.sys_time, AND the compared fields of R' are identical to those of R. The SEQUENCED DISTINCT result coalesces all such adjacent equal-data intervals into a single row whose sys_time spans the merged range. Example key="x",data={"v":1},sys_time=[0,10) key="x",data={"v":1},sys_time=[10,20)←samedata,adjacent→merge key="x",data={"v":2},sys_time=[20,30)←differentdata→keepseparate Result: key="x",data={"v":1},sys_time=[0,20) key="x",data={"v":2},sys_time=[20,30) table Source table (all historical versions are scanned). compare_fields JSON field names used for equality comparison. Pass an empty vector to compare the entire data document (all fields must match for merging). Coalesced rows, sorted by key then sys_start. table Input parameter. compare_fields Input parameter. Return value. Calls: getAllKeys(), coalesceVersions(), getHistory(), push_back(), std::move(), std::sort(), begin(), end().
+
 #### `std::vector< VersionedDocument > sequencedDistinct(const SystemVersionedTable &table, const std::vector< std::string > &compare_fields={})`
 - Source: `include/temporal/temporal_query_engine.h`:439
 - Brief: SQL:2011 §13.4 SEQUENCED DISTINCT — remove temporally redundant rows.
@@ -7521,7 +10344,22 @@ Status: active
 - Return: Coalesced rows for key, sorted by sys_start.
 - Details: Sequenced Distinct For Key. Same semantics as the table-wide overload, applied only to versions of the given key. Useful when the caller already knows the key and wants to avoid scanning the full table. table Source table. key Key whose versions should be coalesced. compare_fields Fields used for equality comparison (empty = all fields). Coalesced rows for key, sorted by sys_start. table Input parameter. key Input parameter. compare_fields Input parameter. Return value. Calls: coalesceVersions(), getHistory().
 
+#### `std::vector< VersionedDocument > sequencedDistinctForKey(const SystemVersionedTable &table, const std::string &key, const std::vector< std::string > &compare_fields={})`
+- Source: `include/temporal/temporal_query_engine.h`:455
+- Brief: SEQUENCED DISTINCT restricted to a single key.
+- Parameters:
+  - `table` (const SystemVersionedTable &): Input parameter.
+  - `key` (const std::string &): Input parameter.
+  - `compare_fields` (const std::vector< std::string > &): Input parameter.
+- Return: Coalesced rows for key, sorted by sys_start.
+- Details: Sequenced Distinct For Key. Same semantics as the table-wide overload, applied only to versions of the given key. Useful when the caller already knows the key and wants to avoid scanning the full table. table Source table. key Key whose versions should be coalesced. compare_fields Fields used for equality comparison (empty = all fields). Coalesced rows for key, sorted by sys_start. table Input parameter. key Input parameter. compare_fields Input parameter. Return value. Calls: coalesceVersions(), getHistory().
+
 ### themisdb::temporal::TemporalQuerySpec
+
+#### `TemporalQuerySpec all() noexcept`
+- Source: `include/temporal/temporal_query_engine.h`:143
+- Brief: Convenience factory — FOR SYSTEM_TIME ALL.
+- Parameters: none
 
 #### `TemporalQuerySpec all() noexcept`
 - Source: `include/temporal/temporal_query_engine.h`:143
@@ -7530,27 +10368,54 @@ Status: active
 
 #### `TemporalQuerySpec asOf(Timestamp t) noexcept`
 - Source: `include/temporal/temporal_query_engine.h`:127
-- Brief: Convenience factory — FOR SYSTEM_TIME AS OF <t>
+- Brief: Convenience factory for FOR SYSTEM_TIME AS OF.
+- Parameters:
+  - `t` (Timestamp): n/a
+
+#### `TemporalQuerySpec asOf(Timestamp t) noexcept`
+- Source: `include/temporal/temporal_query_engine.h`:127
+- Brief: Convenience factory — FOR SYSTEM_TIME AS OF <t>.
 - Parameters:
   - `t` (Timestamp): n/a
 
 #### `TemporalQuerySpec betweenAnd(Timestamp s, Timestamp e) noexcept`
 - Source: `include/temporal/temporal_query_engine.h`:135
-- Brief: Convenience factory — FOR SYSTEM_TIME BETWEEN AND <e>
+- Brief: Convenience factory for FOR SYSTEM_TIME BETWEEN ... AND.
+- Parameters:
+  - `s` (Timestamp): n/a
+  - `e` (Timestamp): n/a
+
+#### `TemporalQuerySpec betweenAnd(Timestamp s, Timestamp e) noexcept`
+- Source: `include/temporal/temporal_query_engine.h`:135
+- Brief: Convenience factory — FOR SYSTEM_TIME BETWEEN AND <e>.
 - Parameters:
   - `s` (Timestamp): n/a
   - `e` (Timestamp): n/a
 
 #### `TemporalQuerySpec containedIn(Timestamp s, Timestamp e) noexcept`
 - Source: `include/temporal/temporal_query_engine.h`:139
-- Brief: Convenience factory — FOR SYSTEM_TIME CONTAINED IN PERIOD (, <e>)
+- Brief: Convenience factory for FOR SYSTEM_TIME CONTAINED IN PERIOD.
+- Parameters:
+  - `s` (Timestamp): n/a
+  - `e` (Timestamp): n/a
+
+#### `TemporalQuerySpec containedIn(Timestamp s, Timestamp e) noexcept`
+- Source: `include/temporal/temporal_query_engine.h`:139
+- Brief: Convenience factory — FOR SYSTEM_TIME CONTAINED IN PERIOD (, <e>).
 - Parameters:
   - `s` (Timestamp): n/a
   - `e` (Timestamp): n/a
 
 #### `TemporalQuerySpec fromTo(Timestamp s, Timestamp e) noexcept`
 - Source: `include/temporal/temporal_query_engine.h`:131
-- Brief: Convenience factory — FOR SYSTEM_TIME FROM TO <e>
+- Brief: Convenience factory for FOR SYSTEM_TIME FROM ... TO.
+- Parameters:
+  - `s` (Timestamp): n/a
+  - `e` (Timestamp): n/a
+
+#### `TemporalQuerySpec fromTo(Timestamp s, Timestamp e) noexcept`
+- Source: `include/temporal/temporal_query_engine.h`:131
+- Brief: Convenience factory — FOR SYSTEM_TIME FROM TO <e>.
 - Parameters:
   - `s` (Timestamp): n/a
   - `e` (Timestamp): n/a
@@ -7565,6 +10430,19 @@ Status: active
 - Return: Return value.
 - Details: j Input parameter. Return value. Calls: at().
 
+#### `std::optional< TemporalSnapshot > fromJson(const nlohmann::json &j)`
+- Source: `include/temporal/temporal_conflict_resolver.h`:60
+- Brief: From Json.
+- Parameters:
+  - `j` (const nlohmann::json &): Input parameter.
+- Return: Return value.
+- Details: j Input parameter. Return value. Calls: at().
+
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/temporal_conflict_resolver.h`:59
+- Brief: n/a
+- Parameters: none
+
 #### `nlohmann::json toJson() const`
 - Source: `include/temporal/temporal_conflict_resolver.h`:59
 - Brief: n/a
@@ -7578,6 +10456,21 @@ Status: active
 - Parameters:
   - `clock` (ClockFn): Callable that returns the current time in milliseconds since epoch. Defaults to the module-level now(). Primarily used in tests to advance time deterministically.
 - Details: Construct a manager with an optional custom clock. clock Callable that returns the current time in milliseconds since epoch. Defaults to the module-level now(). Primarily used in tests to advance time deterministically.
+
+#### `TemporalSnapshotManager(ClockFn clock=&now)`
+- Source: `include/temporal/snapshot_manager.h`:137
+- Brief: n/a
+- Parameters:
+  - `clock` (ClockFn): Callable that returns the current time in milliseconds since epoch. Defaults to the module-level now(). Primarily used in tests to advance time deterministically.
+- Details: Construct a manager with an optional custom clock. clock Callable that returns the current time in milliseconds since epoch. Defaults to the module-level now(). Primarily used in tests to advance time deterministically.
+
+#### `SnapshotHandle createSnapshot(const std::map< std::string, const SystemVersionedTable * > &tables)`
+- Source: `include/temporal/snapshot_manager.h`:147
+- Brief: n/a
+- Parameters:
+  - `tables` (const std::map< std::string, const SystemVersionedTable * > &): Map of table_name → reference to the live table. The snapshot captures the tables' state atomically under a common timestamp.
+- Return: Handle to the new snapshot.
+- Details: Create a snapshot of the given tables at the current time. tables Map of table_name → reference to the live table. The snapshot captures the tables' state atomically under a common timestamp. Handle to the new snapshot.
 
 #### `SnapshotHandle createSnapshot(const std::map< std::string, const SystemVersionedTable * > &tables)`
 - Source: `include/temporal/snapshot_manager.h`:147
@@ -7598,6 +10491,25 @@ Status: active
   - std::invalid_argument: when either handle is invalid or refers to a released snapshot.
 - Details: Compute the incremental difference between two snapshots. Both handles must be valid (not released). The function compares each table that appears in both snapshots. Tables that exist in only one snapshot are treated as entirely added or entirely removed. Complexity: O(R log R) where R is the total number of rows across all shared tables (sort + linear scan per table). base Older snapshot handle. other Newer snapshot handle. SnapshotDiff; empty() == true when the snapshots are equal. std::invalid_argument when either handle is invalid or refers to a released snapshot.
 
+#### `SnapshotDiff diff(const SnapshotHandle &base, const SnapshotHandle &other) const`
+- Source: `include/temporal/snapshot_manager.h`:252
+- Brief: n/a
+- Parameters:
+  - `base` (const SnapshotHandle &): Older snapshot handle.
+  - `other` (const SnapshotHandle &): Newer snapshot handle.
+- Return: SnapshotDiff; empty() == true when the snapshots are equal.
+- Throws:
+  - std::invalid_argument: when either handle is invalid or refers to a released snapshot.
+- Details: Compute the incremental difference between two snapshots. Both handles must be valid (not released). The function compares each table that appears in both snapshots. Tables that exist in only one snapshot are treated as entirely added or entirely removed. Complexity: O(R log R) where R is the total number of rows across all shared tables (sort + linear scan per table). base Older snapshot handle. other Newer snapshot handle. SnapshotDiff; empty() == true when the snapshots are equal. std::invalid_argument when either handle is invalid or refers to a released snapshot.
+
+#### `size_t garbageCollectByAge(Timestamp max_age_ms)`
+- Source: `include/temporal/snapshot_manager.h`:192
+- Brief: Garbage Collect By Age.
+- Parameters:
+  - `max_age_ms` (Timestamp): Input parameter.
+- Return: Number of snapshots removed.
+- Details: Garbage-collect snapshots whose creation time is older than (clock() - max_age_ms). Snapshots whose age exceeds the threshold are released automatically. max_age_ms Maximum allowed age in milliseconds. Pass 0 to skip TTL-based collection. Number of snapshots removed. max_age_ms Input parameter. Return value. Calls: clock_(), lock(), push_back(), erase(), size().
+
 #### `size_t garbageCollectByAge(Timestamp max_age_ms)`
 - Source: `include/temporal/snapshot_manager.h`:192
 - Brief: Garbage Collect By Age.
@@ -7614,6 +10526,21 @@ Status: active
 - Return: Number of snapshots removed.
 - Details: Garbage-collect snapshots exceeding a maximum count. The oldest snapshots (by version_number) are removed first until at most max_snapshots remain. max_snapshots Maximum number of snapshots to keep. Number of snapshots removed. max_snapshots Input parameter. Return value. Calls: lock(), size(), reserve(), emplace_back(), std::sort(), begin(), end(), erase().
 
+#### `size_t garbageCollectByCount(size_t max_snapshots)`
+- Source: `include/temporal/snapshot_manager.h`:202
+- Brief: Garbage Collect By Count.
+- Parameters:
+  - `max_snapshots` (size_t): Input parameter.
+- Return: Number of snapshots removed.
+- Details: Garbage-collect snapshots exceeding a maximum count. The oldest snapshots (by version_number) are removed first until at most max_snapshots remain. max_snapshots Maximum number of snapshots to keep. Number of snapshots removed. max_snapshots Input parameter. Return value. Calls: lock(), size(), reserve(), emplace_back(), std::sort(), begin(), end(), erase().
+
+#### `std::string generateSnapshotId()`
+- Source: `include/temporal/snapshot_manager.h`:270
+- Brief: Generate Snapshot Id.
+- Parameters: none
+- Return: Return value.
+- Details: Return value. Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), gen(), rd(), lock(), dist(), str().
+
 #### `std::string generateSnapshotId()`
 - Source: `include/temporal/snapshot_manager.h`:270
 - Brief: Generate Snapshot Id.
@@ -7629,6 +10556,19 @@ Status: active
 - Return: Metadata, or a default-constructed (is_valid=false) struct if the snapshot does not exist.
 - Details: Return metadata for a live snapshot. handle A valid snapshot handle. Metadata, or a default-constructed (is_valid=false) struct if the snapshot does not exist.
 
+#### `SnapshotMetadata getSnapshotMetadata(const SnapshotHandle &handle) const`
+- Source: `include/temporal/snapshot_manager.h`:181
+- Brief: n/a
+- Parameters:
+  - `handle` (const SnapshotHandle &): A valid snapshot handle.
+- Return: Metadata, or a default-constructed (is_valid=false) struct if the snapshot does not exist.
+- Details: Return metadata for a live snapshot. handle A valid snapshot handle. Metadata, or a default-constructed (is_valid=false) struct if the snapshot does not exist.
+
+#### `nlohmann::json getStatistics() const`
+- Source: `include/temporal/snapshot_manager.h`:204
+- Brief: n/a
+- Parameters: none
+
 #### `nlohmann::json getStatistics() const`
 - Source: `include/temporal/snapshot_manager.h`:204
 - Brief: n/a
@@ -7640,6 +10580,23 @@ Status: active
 - Parameters:
   - `handle` (const SnapshotHandle &): n/a
 - Details: Return true if the snapshot handle is still alive.
+
+#### `bool isAlive(const SnapshotHandle &handle) const`
+- Source: `include/temporal/snapshot_manager.h`:169
+- Brief: n/a
+- Parameters:
+  - `handle` (const SnapshotHandle &): n/a
+- Details: Return true if the snapshot handle is still alive.
+
+#### `std::vector< VersionedDocument > querySnapshot(const SnapshotHandle &handle, const std::string &table_name, const std::vector< std::pair< std::string, nlohmann::json > > &filters={}) const`
+- Source: `include/temporal/snapshot_manager.h`:159
+- Brief: n/a
+- Parameters:
+  - `handle` (const SnapshotHandle &): Snapshot handle (must be valid and not released).
+  - `table_name` (const std::string &): Name of the table to query within the snapshot.
+  - `filters` (const std::vector< std::pair< std::string, nlohmann::json > > &): Optional field-level filters applied to rows.
+- Return: Matching rows, or empty if the snapshot/table is invalid.
+- Details: Query a snapshot for rows that were current at its creation time. handle Snapshot handle (must be valid and not released). table_name Name of the table to query within the snapshot. filters Optional field-level filters applied to rows. Matching rows, or empty if the snapshot/table is invalid.
 
 #### `std::vector< VersionedDocument > querySnapshot(const SnapshotHandle &handle, const std::string &table_name, const std::vector< std::pair< std::string, nlohmann::json > > &filters={}) const`
 - Source: `include/temporal/snapshot_manager.h`:159
@@ -7659,6 +10616,20 @@ Status: active
 - Return: True when the operation succeeds.
 - Details: Release a snapshot and free its resources. handle Input parameter. True when the operation succeeds. Calls: lock(), find(), end(), erase().
 
+#### `bool releaseSnapshot(const SnapshotHandle &handle)`
+- Source: `include/temporal/snapshot_manager.h`:166
+- Brief: Release Snapshot.
+- Parameters:
+  - `handle` (const SnapshotHandle &): Input parameter.
+- Return: True when the operation succeeds.
+- Details: Release a snapshot and free its resources. handle Input parameter. True when the operation succeeds. Calls: lock(), find(), end(), erase().
+
+#### `size_t snapshotCount() const`
+- Source: `include/temporal/snapshot_manager.h`:172
+- Brief: n/a
+- Parameters: none
+- Details: Number of live snapshots.
+
 #### `size_t snapshotCount() const`
 - Source: `include/temporal/snapshot_manager.h`:172
 - Brief: n/a
@@ -7673,12 +10644,30 @@ Status: active
 - Parameters: none
 - Details: true when base and other are identical across all shared tables.
 
+#### `bool empty() const noexcept`
+- Source: `include/temporal/snapshot_manager.h`:229
+- Brief: n/a
+- Parameters: none
+- Details: true when base and other are identical across all shared tables.
+
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/snapshot_manager.h`:233
+- Brief: n/a
+- Parameters: none
+
 #### `nlohmann::json toJson() const`
 - Source: `include/temporal/snapshot_manager.h`:233
 - Brief: n/a
 - Parameters: none
 
 ### themisdb::temporal::TemporalTierManager
+
+#### `TemporalTierManager(TierPolicy policy={}, std::shared_ptr< TemporalColdStore > cold_store=nullptr)`
+- Source: `include/temporal/temporal_tier_manager.h`:331
+- Brief: n/a
+- Parameters:
+  - `policy` (TierPolicy): n/a
+  - `cold_store` (std::shared_ptr< TemporalColdStore >): n/a
 
 #### `TemporalTierManager(TierPolicy policy={}, std::shared_ptr< TemporalColdStore > cold_store=nullptr)`
 - Source: `include/temporal/temporal_tier_manager.h`:319
@@ -7688,16 +10677,36 @@ Status: active
   - `cold_store` (std::shared_ptr< TemporalColdStore >): n/a
 
 #### `TemporalTierManager(const TemporalTierManager &)=delete`
+- Source: `include/temporal/temporal_tier_manager.h`:338
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (const TemporalTierManager &): n/a
+
+#### `TemporalTierManager(const TemporalTierManager &)=delete`
 - Source: `include/temporal/temporal_tier_manager.h`:326
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const TemporalTierManager &): n/a
 
 #### `std::vector< VersionedDocument > allFromBlock(const VersionBlock &block)`
+- Source: `include/temporal/temporal_tier_manager.h`:549
+- Brief: Collect all versions from a VersionBlock.
+- Parameters:
+  - `block` (const VersionBlock &): n/a
+
+#### `std::vector< VersionedDocument > allFromBlock(const VersionBlock &block)`
 - Source: `include/temporal/temporal_tier_manager.h`:501
 - Brief: Collect all versions from a VersionBlock.
 - Parameters:
   - `block` (const VersionBlock &): n/a
+
+#### `size_t compactTable(const std::string &table_name)`
+- Source: `include/temporal/temporal_tier_manager.h`:419
+- Brief: Compact all keys in table_name according to current policy.
+- Parameters:
+  - `table_name` (const std::string &): Name of the table.
+- Return: Total versions moved across all tiers.
+- Details: Compact Table. Total versions moved across all tiers. table_name Name of the table. Return value. Calls: lk(), find(), end(), push_back(), std::find(), begin(), makeContext(), evaluate().
 
 #### `size_t compactTable(const std::string &table_name)`
 - Source: `include/temporal/temporal_tier_manager.h`:400
@@ -7708,10 +10717,25 @@ Status: active
 - Details: Compact Table. Total versions moved across all tiers. table_name Name of the table. Return value. Calls: lk(), find(), end(), push_back(), std::find(), begin(), makeContext(), evaluate().
 
 #### `void compactionLoop()`
+- Source: `include/temporal/temporal_tier_manager.h`:520
+- Brief: Compaction Loop.
+- Parameters: none
+- Details: Calls: lk(), wait_for(), load(), push_back(), std::find(), begin(), end(), compactTable().
+
+#### `void compactionLoop()`
 - Source: `include/temporal/temporal_tier_manager.h`:472
 - Brief: Compaction Loop.
 - Parameters: none
 - Details: Calls: lk(), wait_for(), load(), push_back(), std::find(), begin(), end(), compactTable().
+
+#### `size_t flushHotToWarm(const std::string &table_name, const std::string &doc_key)`
+- Source: `include/temporal/temporal_tier_manager.h`:402
+- Brief: Flush oldest hot-tier versions to a new warm VersionBlock.
+- Parameters:
+  - `table_name` (const std::string &): Name of the table.
+  - `doc_key` (const std::string &): Input parameter.
+- Return: Number of versions moved.
+- Details: Flush Hot To Warm. Moves the oldest (hot_count - policy.hot_max_versions_per_key) closed versions from the hot map into a new VersionBlock appended to the warm tier. Number of versions moved. table_name Name of the table. doc_key Input parameter. Return value. Calls: lk(), flushHotToWarmLocked().
 
 #### `size_t flushHotToWarm(const std::string &table_name, const std::string &doc_key)`
 - Source: `include/temporal/temporal_tier_manager.h`:383
@@ -7723,6 +10747,15 @@ Status: active
 - Details: Flush Hot To Warm. Moves the oldest (hot_count - policy.hot_max_versions_per_key) closed versions from the hot map into a new VersionBlock appended to the warm tier. Number of versions moved. table_name Name of the table. doc_key Input parameter. Return value. Calls: lk(), flushHotToWarmLocked().
 
 #### `size_t flushHotToWarmLocked(const std::string &table_name, const std::string &doc_key, HotMap &hot_map, WarmBlocks &warm_blocks)`
+- Source: `include/temporal/temporal_tier_manager.h`:529
+- Brief: Flush hot → warm for key. Exclusive lock must be held.
+- Parameters:
+  - `table_name` (const std::string &): n/a
+  - `doc_key` (const std::string &): n/a
+  - `hot_map` (HotMap &): n/a
+  - `warm_blocks` (WarmBlocks &): n/a
+
+#### `size_t flushHotToWarmLocked(const std::string &table_name, const std::string &doc_key, HotMap &hot_map, WarmBlocks &warm_blocks)`
 - Source: `include/temporal/temporal_tier_manager.h`:481
 - Brief: Flush hot → warm for key. Exclusive lock must be held.
 - Parameters:
@@ -7730,6 +10763,15 @@ Status: active
   - `doc_key` (const std::string &): n/a
   - `hot_map` (HotMap &): n/a
   - `warm_blocks` (WarmBlocks &): n/a
+
+#### `size_t flushWarmToCold(const std::string &table_name, const std::string &doc_key)`
+- Source: `include/temporal/temporal_tier_manager.h`:412
+- Brief: Flush the oldest warm VersionBlock(s) to cold.
+- Parameters:
+  - `table_name` (const std::string &): Name of the table.
+  - `doc_key` (const std::string &): Input parameter.
+- Return: Number of versions moved.
+- Details: Flush Warm To Cold. Moves versions from the oldest warm block(s) into TemporalColdStore. Number of versions moved. table_name Name of the table. doc_key Input parameter. Return value. Calls: lk(), flushWarmToColdLocked().
 
 #### `size_t flushWarmToCold(const std::string &table_name, const std::string &doc_key)`
 - Source: `include/temporal/temporal_tier_manager.h`:393
@@ -7741,12 +10783,30 @@ Status: active
 - Details: Flush Warm To Cold. Moves versions from the oldest warm block(s) into TemporalColdStore. Number of versions moved. table_name Name of the table. doc_key Input parameter. Return value. Calls: lk(), flushWarmToColdLocked().
 
 #### `size_t flushWarmToColdLocked(const std::string &table_name, const std::string &doc_key, WarmBlocks &warm_blocks)`
+- Source: `include/temporal/temporal_tier_manager.h`:535
+- Brief: Flush oldest warm block → cold for key. Exclusive lock must be held.
+- Parameters:
+  - `table_name` (const std::string &): n/a
+  - `doc_key` (const std::string &): n/a
+  - `warm_blocks` (WarmBlocks &): n/a
+
+#### `size_t flushWarmToColdLocked(const std::string &table_name, const std::string &doc_key, WarmBlocks &warm_blocks)`
 - Source: `include/temporal/temporal_tier_manager.h`:487
 - Brief: Flush oldest warm block → cold for key. Exclusive lock must be held.
 - Parameters:
   - `table_name` (const std::string &): n/a
   - `doc_key` (const std::string &): n/a
   - `warm_blocks` (WarmBlocks &): n/a
+
+#### `std::optional< VersionedDocument > getAsOf(const std::string &table_name, const std::string &doc_key, Timestamp as_of) const`
+- Source: `include/temporal/temporal_tier_manager.h`:367
+- Brief: Return the version valid at timestamp as_of.
+- Parameters:
+  - `table_name` (const std::string &): Logical table containing the document.
+  - `doc_key` (const std::string &): Document key to query.
+  - `as_of` (Timestamp): System-time instant to match.
+- Return: Matching version, or an empty optional when none exists.
+- Details: Queries hot → warm → cold in order, returning the first match. table_name Logical table containing the document. doc_key Document key to query. as_of System-time instant to match. Matching version, or an empty optional when none exists.
 
 #### `std::optional< VersionedDocument > getAsOf(const std::string &table_name, const std::string &doc_key, Timestamp as_of) const`
 - Source: `include/temporal/temporal_tier_manager.h`:351
@@ -7758,6 +10818,15 @@ Status: active
 - Details: Queries hot → warm → cold in order, returning the first match.
 
 #### `std::vector< VersionedDocument > getHistory(const std::string &table_name, const std::string &doc_key) const`
+- Source: `include/temporal/temporal_tier_manager.h`:379
+- Brief: Return all stored historical versions, sorted by sys_start.
+- Parameters:
+  - `table_name` (const std::string &): Logical table containing the document.
+  - `doc_key` (const std::string &): Document key to query.
+- Return: All stored versions for the key.
+- Details: Merges hot + warm + cold tiers. table_name Logical table containing the document. doc_key Document key to query. All stored versions for the key.
+
+#### `std::vector< VersionedDocument > getHistory(const std::string &table_name, const std::string &doc_key) const`
 - Source: `include/temporal/temporal_tier_manager.h`:360
 - Brief: Return all stored historical versions, sorted by sys_start.
 - Parameters:
@@ -7766,12 +10835,29 @@ Status: active
 - Details: Merges hot + warm + cold tiers.
 
 #### `std::vector< VersionedDocument > getHistoryInRange(const std::string &table_name, const std::string &doc_key, const TimeRange &range) const`
+- Source: `include/temporal/temporal_tier_manager.h`:386
+- Brief: Return versions whose sys_time overlaps range, sorted by sys_start.
+- Parameters:
+  - `table_name` (const std::string &): n/a
+  - `doc_key` (const std::string &): n/a
+  - `range` (const TimeRange &): n/a
+
+#### `std::vector< VersionedDocument > getHistoryInRange(const std::string &table_name, const std::string &doc_key, const TimeRange &range) const`
 - Source: `include/temporal/temporal_tier_manager.h`:367
 - Brief: Return versions whose sys_time overlaps range, sorted by sys_start.
 - Parameters:
   - `table_name` (const std::string &): n/a
   - `doc_key` (const std::string &): n/a
   - `range` (const TimeRange &): n/a
+
+#### `bool insert(const std::string &table_name, const VersionedDocument &doc)`
+- Source: `include/temporal/temporal_tier_manager.h`:354
+- Brief: Insert a VersionedDocument into the hot tier.
+- Parameters:
+  - `table_name` (const std::string &): Name of the table.
+  - `doc` (const VersionedDocument &): Input parameter.
+- Return: false if doc.isCurrent() is true (current versions belong to the live table, not the history tiers).
+- Details: Insert. The version is inserted into the sorted hot-tier map for its key. After insertion the tier-decision is evaluated; if FLUSH_HOT_TO_WARM or FLUSH_WARM_TO_COLD is returned the corresponding operation is performed synchronously before returning. false if doc.isCurrent() is true (current versions belong to the live table, not the history tiers). table_name Name of the table. doc Input parameter. True when the operation succeeds. Calls: isCurrent(), lk(), makeContext(), evaluate(), flushWarmToColdLocked(), size(), flushHotToWarmLocked().
 
 #### `bool insert(const std::string &table_name, const VersionedDocument &doc)`
 - Source: `include/temporal/temporal_tier_manager.h`:342
@@ -7783,11 +10869,29 @@ Status: active
 - Details: Insert. The version is inserted into the sorted hot-tier map for its key. After insertion the tier-decision is evaluated; if FLUSH_HOT_TO_WARM or FLUSH_WARM_TO_COLD is returned the corresponding operation is performed synchronously before returning. false if doc.isCurrent() is true (current versions belong to the live table, not the history tiers). table_name Name of the table. doc Input parameter. True when the operation succeeds. Calls: isCurrent(), lk(), makeContext(), evaluate(), flushWarmToColdLocked(), size(), flushHotToWarmLocked().
 
 #### `KeyTierStats keyStats(const std::string &table_name, const std::string &doc_key) const`
+- Source: `include/temporal/temporal_tier_manager.h`:462
+- Brief: Return tier counts for one table key.
+- Parameters:
+  - `table_name` (const std::string &): Logical table containing the key.
+  - `doc_key` (const std::string &): Document key to inspect.
+- Return: Counts and approximate warm-tier bytes for the key.
+- Details: table_name Logical table containing the key. doc_key Document key to inspect. Counts and approximate warm-tier bytes for the key.
+
+#### `KeyTierStats keyStats(const std::string &table_name, const std::string &doc_key) const`
 - Source: `include/temporal/temporal_tier_manager.h`:426
 - Brief: n/a
 - Parameters:
   - `table_name` (const std::string &): n/a
   - `doc_key` (const std::string &): n/a
+
+#### `VersionBlock makeBlock(const std::string &doc_key, std::vector< VersionedDocument > versions)`
+- Source: `include/temporal/temporal_tier_manager.h`:540
+- Brief: Build an immutable VersionBlock from a sorted vector of documents.
+- Parameters:
+  - `doc_key` (const std::string &): Input parameter.
+  - `versions` (std::vector< VersionedDocument >): Input parameter.
+- Return: Return value.
+- Details: static doc_key Input parameter. versions Input parameter. Return value. Calls: std::sort(), begin(), end(), size(), BloomFilter(), reserve(), std::min(), std::max().
 
 #### `VersionBlock makeBlock(const std::string &doc_key, std::vector< VersionedDocument > versions)`
 - Source: `include/temporal/temporal_tier_manager.h`:492
@@ -7799,11 +10903,24 @@ Status: active
 - Details: static doc_key Input parameter. versions Input parameter. Return value. Calls: std::sort(), begin(), end(), size(), BloomFilter(), reserve(), std::min(), std::max().
 
 #### `TierDecisionContext makeContext(const std::string &table_name, const std::string &doc_key) const`
+- Source: `include/temporal/temporal_tier_manager.h`:525
+- Brief: Build a TierDecisionContext for (table, key). Lock must be held.
+- Parameters:
+  - `table_name` (const std::string &): n/a
+  - `doc_key` (const std::string &): n/a
+
+#### `TierDecisionContext makeContext(const std::string &table_name, const std::string &doc_key) const`
 - Source: `include/temporal/temporal_tier_manager.h`:477
 - Brief: Build a TierDecisionContext for (table, key). Lock must be held.
 - Parameters:
   - `table_name` (const std::string &): n/a
   - `doc_key` (const std::string &): n/a
+
+#### `TemporalTierManager & operator=(const TemporalTierManager &)=delete`
+- Source: `include/temporal/temporal_tier_manager.h`:339
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (const TemporalTierManager &): n/a
 
 #### `TemporalTierManager & operator=(const TemporalTierManager &)=delete`
 - Source: `include/temporal/temporal_tier_manager.h`:327
@@ -7812,9 +10929,23 @@ Status: active
   - `<unnamed>` (const TemporalTierManager &): n/a
 
 #### `const TierPolicy & policy() const noexcept`
+- Source: `include/temporal/temporal_tier_manager.h`:435
+- Brief: Return the manager's current tiering policy.
+- Parameters: none
+- Return: Reference to manager-owned policy state.
+- Details: Reference to manager-owned policy state. The reference is valid only while this manager lives; callers must not access it concurrently with setPolicy().
+
+#### `const TierPolicy & policy() const noexcept`
 - Source: `include/temporal/temporal_tier_manager.h`:405
 - Brief: n/a
 - Parameters: none
+
+#### `std::vector< VersionedDocument > rangeFromBlock(const VersionBlock &block, const TimeRange &range)`
+- Source: `include/temporal/temporal_tier_manager.h`:553
+- Brief: Collect overlapping versions from a VersionBlock.
+- Parameters:
+  - `block` (const VersionBlock &): n/a
+  - `range` (const TimeRange &): n/a
 
 #### `std::vector< VersionedDocument > rangeFromBlock(const VersionBlock &block, const TimeRange &range)`
 - Source: `include/temporal/temporal_tier_manager.h`:505
@@ -7824,11 +10955,25 @@ Status: active
   - `range` (const TimeRange &): n/a
 
 #### `std::optional< VersionedDocument > searchBlock(const VersionBlock &block, Timestamp as_of)`
+- Source: `include/temporal/temporal_tier_manager.h`:545
+- Brief: Search a single VersionBlock for the version containing as_of.
+- Parameters:
+  - `block` (const VersionBlock &): n/a
+  - `as_of` (Timestamp): n/a
+
+#### `std::optional< VersionedDocument > searchBlock(const VersionBlock &block, Timestamp as_of)`
 - Source: `include/temporal/temporal_tier_manager.h`:497
 - Brief: Search a single VersionBlock for the version containing as_of.
 - Parameters:
   - `block` (const VersionBlock &): n/a
   - `as_of` (Timestamp): n/a
+
+#### `void setPolicy(const TierPolicy &policy)`
+- Source: `include/temporal/temporal_tier_manager.h`:427
+- Brief: Replace the tiering policy used for subsequent decisions.
+- Parameters:
+  - `policy` (const TierPolicy &): Input parameter.
+- Details: Set Policy. policy Policy copied into this manager. policy Input parameter. Calls: lk().
 
 #### `void setPolicy(const TierPolicy &policy)`
 - Source: `include/temporal/temporal_tier_manager.h`:404
@@ -7838,10 +10983,24 @@ Status: active
 - Details: policy Input parameter. Calls: lk().
 
 #### `void startCompactionWorker()`
+- Source: `include/temporal/temporal_tier_manager.h`:440
+- Brief: Start the periodic background compaction thread (idempotent).
+- Parameters: none
+- Details: Start Compaction Worker. Calls: joinable(), std::thread(), compactionLoop().
+
+#### `void startCompactionWorker()`
 - Source: `include/temporal/temporal_tier_manager.h`:410
 - Brief: Start the periodic background compaction thread (idempotent).
 - Parameters: none
 - Details: Start Compaction Worker. Calls: joinable(), std::thread(), compactionLoop().
+
+#### `nlohmann::json statsJson(const std::string &table_name) const`
+- Source: `include/temporal/temporal_tier_manager.h`:490
+- Brief: Serialize table tier statistics as JSON.
+- Parameters:
+  - `table_name` (const std::string &): Logical table to inspect.
+- Return: JSON object with the table name, tier counts, warm bytes, and cumulative flush counts.
+- Details: table_name Logical table to inspect. JSON object with the table name, tier counts, warm bytes, and cumulative flush counts.
 
 #### `nlohmann::json statsJson(const std::string &table_name) const`
 - Source: `include/temporal/temporal_tier_manager.h`:442
@@ -7850,10 +11009,24 @@ Status: active
   - `table_name` (const std::string &): n/a
 
 #### `void stopCompactionWorker()`
+- Source: `include/temporal/temporal_tier_manager.h`:443
+- Brief: Stop the background compaction thread and wait for it to exit.
+- Parameters: none
+- Details: Stop Compaction Worker. Calls: notify_all(), joinable(), join().
+
+#### `void stopCompactionWorker()`
 - Source: `include/temporal/temporal_tier_manager.h`:413
 - Brief: Stop the background compaction thread and wait for it to exit.
 - Parameters: none
 - Details: Stop Compaction Worker. Calls: notify_all(), joinable(), join().
+
+#### `TableTierStats tableStats(const std::string &table_name) const`
+- Source: `include/temporal/temporal_tier_manager.h`:482
+- Brief: Return aggregate tier statistics for a table.
+- Parameters:
+  - `table_name` (const std::string &): Logical table to inspect.
+- Return: Hot/warm counts and cumulative flush counts. The cold-version count is the cold store's total count across all tables.
+- Details: table_name Logical table to inspect. Hot/warm counts and cumulative flush counts. The cold-version count is the cold store's total count across all tables.
 
 #### `TableTierStats tableStats(const std::string &table_name) const`
 - Source: `include/temporal/temporal_tier_manager.h`:440
@@ -7862,11 +11035,22 @@ Status: active
   - `table_name` (const std::string &): n/a
 
 #### `~TemporalTierManager()`
+- Source: `include/temporal/temporal_tier_manager.h`:335
+- Brief: n/a
+- Parameters: none
+
+#### `~TemporalTierManager()`
 - Source: `include/temporal/temporal_tier_manager.h`:323
 - Brief: n/a
 - Parameters: none
 
 ### themisdb::temporal::TierPolicy
+
+#### `TierDecision evaluate(const TierDecisionContext &ctx) const`
+- Source: `include/temporal/temporal_tier_manager.h`:284
+- Brief: Built-in threshold-based evaluation. Called by evaluate() when decision_fn is nullptr.
+- Parameters:
+  - `ctx` (const TierDecisionContext &): n/a
 
 #### `TierDecision evaluate(const TierDecisionContext &ctx) const`
 - Source: `include/temporal/temporal_tier_manager.h`:272
@@ -7882,6 +11066,18 @@ Status: active
 - Parameters:
   - `t` (Timestamp): n/a
 
+#### `bool contains(Timestamp t) const noexcept`
+- Source: `include/temporal/temporal_types.h`:57
+- Brief: n/a
+- Parameters:
+  - `t` (Timestamp): n/a
+
+#### `TimeRange fromJson(const nlohmann::json &j)`
+- Source: `include/temporal/temporal_types.h`:89
+- Brief: n/a
+- Parameters:
+  - `j` (const nlohmann::json &): n/a
+
 #### `TimeRange fromJson(const nlohmann::json &j)`
 - Source: `include/temporal/temporal_types.h`:89
 - Brief: n/a
@@ -7890,6 +11086,18 @@ Status: active
 
 #### `bool meets(const TimeRange &other) const noexcept`
 - Source: `include/temporal/temporal_types.h`:73
+- Brief: n/a
+- Parameters:
+  - `other` (const TimeRange &): n/a
+
+#### `bool meets(const TimeRange &other) const noexcept`
+- Source: `include/temporal/temporal_types.h`:73
+- Brief: n/a
+- Parameters:
+  - `other` (const TimeRange &): n/a
+
+#### `bool operator!=(const TimeRange &other) const noexcept`
+- Source: `include/temporal/temporal_types.h`:81
 - Brief: n/a
 - Parameters:
   - `other` (const TimeRange &): n/a
@@ -7906,8 +11114,26 @@ Status: active
 - Parameters:
   - `other` (const TimeRange &): n/a
 
+#### `bool operator==(const TimeRange &other) const noexcept`
+- Source: `include/temporal/temporal_types.h`:77
+- Brief: n/a
+- Parameters:
+  - `other` (const TimeRange &): n/a
+
 #### `bool overlaps(const TimeRange &other) const noexcept`
 - Source: `include/temporal/temporal_types.h`:61
+- Brief: n/a
+- Parameters:
+  - `other` (const TimeRange &): n/a
+
+#### `bool overlaps(const TimeRange &other) const noexcept`
+- Source: `include/temporal/temporal_types.h`:61
+- Brief: n/a
+- Parameters:
+  - `other` (const TimeRange &): n/a
+
+#### `bool precedes(const TimeRange &other) const noexcept`
+- Source: `include/temporal/temporal_types.h`:65
 - Brief: n/a
 - Parameters:
   - `other` (const TimeRange &): n/a
@@ -7924,12 +11150,28 @@ Status: active
 - Parameters:
   - `other` (const TimeRange &): n/a
 
+#### `bool succeeds(const TimeRange &other) const noexcept`
+- Source: `include/temporal/temporal_types.h`:69
+- Brief: n/a
+- Parameters:
+  - `other` (const TimeRange &): n/a
+
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/temporal_types.h`:85
+- Brief: n/a
+- Parameters: none
+
 #### `nlohmann::json toJson() const`
 - Source: `include/temporal/temporal_types.h`:85
 - Brief: n/a
 - Parameters: none
 
 ### themisdb::temporal::TrendResult
+
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/temporal_aggregator.h`:109
+- Brief: n/a
+- Parameters: none
 
 #### `nlohmann::json toJson() const`
 - Source: `include/temporal/temporal_aggregator.h`:109
@@ -7947,6 +11189,15 @@ Status: active
 - Return: A new TemporalSnapshot whose data represents the merged state. The metadata fields (snapshot_id, hlc, source_node_id, checksum) are set by the implementation — typically to those of the "dominant" input.
 - Details: local The locally-held snapshot version. remote The remotely-received snapshot version. A new TemporalSnapshot whose data represents the merged state. The metadata fields (snapshot_id, hlc, source_node_id, checksum) are set by the implementation — typically to those of the "dominant" input.
 
+#### `TemporalSnapshot merge(const TemporalSnapshot &local, const TemporalSnapshot &remote) const override`
+- Source: `include/temporal/temporal_conflict_resolver.h`:174
+- Brief: Merge two conflicting snapshots into a single resolved snapshot.
+- Parameters:
+  - `local` (const TemporalSnapshot &): The locally-held snapshot version.
+  - `remote` (const TemporalSnapshot &): The remotely-received snapshot version.
+- Return: A new TemporalSnapshot whose data represents the merged state. The metadata fields (snapshot_id, hlc, source_node_id, checksum) are set by the implementation — typically to those of the "dominant" input.
+- Details: local The locally-held snapshot version. remote The remotely-received snapshot version. A new TemporalSnapshot whose data represents the merged state. The metadata fields (snapshot_id, hlc, source_node_id, checksum) are set by the implementation — typically to those of the "dominant" input.
+
 ### themisdb::temporal::ValidationResult
 
 #### `nlohmann::json toJson() const`
@@ -7954,7 +11205,17 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/temporal_migrator.h`:182
+- Brief: n/a
+- Parameters: none
+
 ### themisdb::temporal::VersionBlock
+
+#### `VersionBlock()`
+- Source: `include/temporal/temporal_tier_manager.h`:168
+- Brief: n/a
+- Parameters: none
 
 #### `VersionBlock()`
 - Source: `include/temporal/temporal_tier_manager.h`:156
@@ -7968,6 +11229,16 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
+#### `bool isCurrent() const noexcept`
+- Source: `include/temporal/temporal_types.h`:109
+- Brief: n/a
+- Parameters: none
+
+#### `nlohmann::json toJson() const`
+- Source: `include/temporal/temporal_types.h`:113
+- Brief: n/a
+- Parameters: none
+
 #### `nlohmann::json toJson() const`
 - Source: `include/temporal/temporal_types.h`:113
 - Brief: n/a
@@ -7976,7 +11247,7 @@ Status: active
 ### themisdb::temporal::detail
 
 #### `std::vector< VersionedDocument > queryAsOfCached(const SystemVersionedTable &table, Timestamp as_of, QueryCache &cache, const std::vector< RowFilter > &filters)`
-- Source: `src/temporal/temporal_query_engine.cpp`:779
+- Source: `src/temporal/temporal_query_engine.cpp`:769
 - Brief: Query As Of Cached.
 - Parameters:
   - `table` (const SystemVersionedTable &): Input parameter.

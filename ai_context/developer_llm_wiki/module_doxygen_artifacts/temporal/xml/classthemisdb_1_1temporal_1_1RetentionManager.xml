@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="277" column="14" bodyfile="include/temporal/retention_manager.h" bodystart="277" bodyend="-1"/>
+        <location file="include/temporal/retention_manager.h" line="301" column="14" bodyfile="include/temporal/retention_manager.h" bodystart="301" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1RetentionManager_1ad3c2db36550a08079bb4d214f7921966" prot="private" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1ArchivedRecord" kindref="compound">ArchivedRecord</ref> &gt;</type>
@@ -31,7 +31,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="278" column="17" bodyfile="include/temporal/retention_manager.h" bodystart="278" bodyend="-1"/>
+        <location file="include/temporal/retention_manager.h" line="302" column="17" bodyfile="include/temporal/retention_manager.h" bodystart="302" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1RetentionManager_1ae73d1552e8e70655ba6ef6f3f6cd80ec" prot="private" static="no" mutable="no">
         <type>size_t</type>
@@ -46,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="281" column="12" bodyfile="include/temporal/retention_manager.h" bodystart="281" bodyend="281"/>
+        <location file="include/temporal/retention_manager.h" line="305" column="12" bodyfile="include/temporal/retention_manager.h" bodystart="305" bodyend="305"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1RetentionManager_1acfff5898b37a83bea67d35cf29f1f3ab" prot="private" static="no" mutable="no">
         <type>size_t</type>
@@ -61,7 +61,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="282" column="12" bodyfile="include/temporal/retention_manager.h" bodystart="282" bodyend="282"/>
+        <location file="include/temporal/retention_manager.h" line="306" column="12" bodyfile="include/temporal/retention_manager.h" bodystart="306" bodyend="306"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1RetentionManager_1a57440c334ec4c94dc52bef6c71d50fdc" prot="private" static="no" mutable="no">
         <type>uint64_t</type>
@@ -76,7 +76,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="283" column="14" bodyfile="include/temporal/retention_manager.h" bodystart="283" bodyend="283"/>
+        <location file="include/temporal/retention_manager.h" line="307" column="14" bodyfile="include/temporal/retention_manager.h" bodystart="307" bodyend="307"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1RetentionManager_1ad22e3e642b77c8c9be83dc419a7bd6de" prot="private" static="no" mutable="yes">
         <type>std::mutex</type>
@@ -90,7 +90,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="285" column="24" bodyfile="include/temporal/retention_manager.h" bodystart="285" bodyend="-1"/>
+        <location file="include/temporal/retention_manager.h" line="309" column="24" bodyfile="include/temporal/retention_manager.h" bodystart="309" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1RetentionManager_1a094d85304d6eb482ec51093b7edc4d58" prot="private" static="no" mutable="no">
         <type>std::vector&lt; ScheduledTable &gt;</type>
@@ -104,7 +104,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="293" column="17" bodyfile="include/temporal/retention_manager.h" bodystart="293" bodyend="-1"/>
+        <location file="include/temporal/retention_manager.h" line="317" column="17" bodyfile="include/temporal/retention_manager.h" bodystart="317" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1RetentionManager_1ad7c1e52e87033e4c849e9a4748daa8cc" prot="private" static="no" mutable="no">
         <type>std::thread</type>
@@ -118,7 +118,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="295" column="17" bodyfile="include/temporal/retention_manager.h" bodystart="295" bodyend="-1"/>
+        <location file="include/temporal/retention_manager.h" line="319" column="17" bodyfile="include/temporal/retention_manager.h" bodystart="319" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1RetentionManager_1a836976c01591ebf7e1c3781a98490779" prot="private" static="no" mutable="no">
         <type>std::atomic&lt; bool &gt;</type>
@@ -133,7 +133,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="296" column="17" bodyfile="include/temporal/retention_manager.h" bodystart="296" bodyend="296"/>
+        <location file="include/temporal/retention_manager.h" line="320" column="17" bodyfile="include/temporal/retention_manager.h" bodystart="320" bodyend="320"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1RetentionManager_1a0c7c79ca18ea908b5f1b4ff7af223545" prot="private" static="no" mutable="no">
         <type>std::atomic&lt; bool &gt;</type>
@@ -148,7 +148,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="297" column="17" bodyfile="include/temporal/retention_manager.h" bodystart="297" bodyend="297"/>
+        <location file="include/temporal/retention_manager.h" line="321" column="17" bodyfile="include/temporal/retention_manager.h" bodystart="321" bodyend="321"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -178,7 +178,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="203" column="5" bodyfile="src/temporal/retention_manager.cpp" bodystart="219" bodyend="221"/>
+        <location file="include/temporal/retention_manager.h" line="203" column="5" bodyfile="src/temporal/retention_manager.cpp" bodystart="199" bodyend="201"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1RetentionManager_1a816e3446214e676426a1a4e29e741e34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -195,11 +195,27 @@
           <declname>policy</declname>
         </param>
         <briefdescription>
-<para>Set Policy. </para>
+<para>Set the retention policy for a named table. </para>
         </briefdescription>
         <detaileddescription>
-<para>Set the retention policy for a named table.</para>
+<para>Set Policy.</para>
 <para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Policy copied and applied to that table by enforcement.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
 <parameternamelist>
 <parametername direction="in">table_name</parametername>
 </parameternamelist>
@@ -220,7 +236,7 @@ Calls: lock(). </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="208" column="10" bodyfile="src/temporal/retention_manager.cpp" bodystart="53" bodyend="57"/>
+        <location file="include/temporal/retention_manager.h" line="212" column="10" bodyfile="src/temporal/retention_manager.cpp" bodystart="53" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1RetentionManager_1ae3a231d86ff44853bbc983c07096a584" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1RetentionPolicy" kindref="compound">RetentionPolicy</ref> &gt;</type>
@@ -233,25 +249,25 @@ Calls: lock(). </para>
           <declname>table_name</declname>
         </param>
         <briefdescription>
+<para>Retrieve a table&apos;s registered retention policy. </para>
         </briefdescription>
         <detaileddescription>
-<para>Retrieve the retention policy for a table, if set. </para>
-        </detaileddescription>
-        <inbodydescription>
-<para>Lock. <parameterlist kind="param"><parameteritem>
+<para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername direction="in">mutex_</parametername>
+<parametername>table_name</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Input parameter. </para>
+<para>Logical table name. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<simplesect kind="return"><para>The policy, or an empty optional when none is registered. </para>
 </simplesect>
 </para>
+        </detaileddescription>
+        <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="211" column="19" bodyfile="src/temporal/retention_manager.cpp" bodystart="59" bodyend="72"/>
+        <location file="include/temporal/retention_manager.h" line="219" column="19" bodyfile="src/temporal/retention_manager.cpp" bodystart="59" bodyend="67"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1RetentionManager_1a0b68edd9f880964928ae49587cae0e98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structthemisdb_1_1temporal_1_1RetentionStats" kindref="compound">RetentionStats</ref></type>
@@ -264,11 +280,22 @@ Calls: lock(). </para>
           <declname>table</declname>
         </param>
         <briefdescription>
-<para>Enforce Retention. </para>
+<para>Apply the registered policy to a table. Non-current versions that violate the policy are physically deleted (and optionally archived before deletion). </para>
         </briefdescription>
         <detaileddescription>
-<para>Apply the registered policy to the given table. Non-current versions that violate the policy are physically deleted (and optionally archived before deletion).</para>
+<para>Enforce Retention.</para>
 <para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table whose history is evaluated. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Counts and status for the enforcement pass.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername direction="inout">table</parametername>
 </parameternamelist>
@@ -283,7 +310,7 @@ Calls: lock(), find(), tableName(), end(), push_back(), std::max(), applyPolicy(
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="220" column="20" bodyfile="src/temporal/retention_manager.cpp" bodystart="84" bodyend="123"/>
+        <location file="include/temporal/retention_manager.h" line="230" column="20" bodyfile="src/temporal/retention_manager.cpp" bodystart="79" bodyend="118"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1RetentionManager_1a2c0949ca25ef338b54ac76598481be87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structthemisdb_1_1temporal_1_1RetentionStats" kindref="compound">RetentionStats</ref></type>
@@ -300,11 +327,30 @@ Calls: lock(), find(), tableName(), end(), push_back(), std::max(), applyPolicy(
           <declname>policy</declname>
         </param>
         <briefdescription>
-<para>Enforce Retention. </para>
+<para>Apply a policy without registering it. </para>
         </briefdescription>
         <detaileddescription>
-<para>Apply the given policy directly without registering it.</para>
+<para>Enforce Retention.</para>
 <para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table whose history is evaluated. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Policy to apply for this pass only. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Counts and status for the enforcement pass.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername direction="inout">table</parametername>
 </parameternamelist>
@@ -327,7 +373,7 @@ Calls: std::max(), applyPolicy(), push_back(), std::string(), what(), empty(), l
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="225" column="20" bodyfile="src/temporal/retention_manager.cpp" bodystart="132" bodyend="157"/>
+        <location file="include/temporal/retention_manager.h" line="238" column="20" bodyfile="src/temporal/retention_manager.cpp" bodystart="127" bodyend="152"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1RetentionManager_1a33cb599cd9a28f99483a0e181dbe527e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -388,7 +434,7 @@ Calls: lock(), std::chrono::milliseconds(), std::chrono::steady_clock::now(), pu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="243" column="10" bodyfile="src/temporal/retention_manager.cpp" bodystart="229" bodyend="239"/>
+        <location file="include/temporal/retention_manager.h" line="256" column="10" bodyfile="src/temporal/retention_manager.cpp" bodystart="209" bodyend="219"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1RetentionManager_1a2f4e1a4a28c7879d5aff64a83b30631c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -405,7 +451,7 @@ Calls: lock(), std::chrono::milliseconds(), std::chrono::steady_clock::now(), pu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="250" column="10" bodyfile="src/temporal/retention_manager.cpp" bodystart="245" bodyend="252"/>
+        <location file="include/temporal/retention_manager.h" line="263" column="10" bodyfile="src/temporal/retention_manager.cpp" bodystart="225" bodyend="232"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1RetentionManager_1acbc98e447b9d35f8e851e0c5a6b67dd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -422,7 +468,7 @@ Calls: lock(), std::chrono::milliseconds(), std::chrono::steady_clock::now(), pu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="255" column="10" bodyfile="src/temporal/retention_manager.cpp" bodystart="258" bodyend="267"/>
+        <location file="include/temporal/retention_manager.h" line="268" column="10" bodyfile="src/temporal/retention_manager.cpp" bodystart="238" bodyend="247"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1RetentionManager_1ab4d7d44496d07e03035948785b7b9694" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>bool</type>
@@ -437,7 +483,7 @@ Calls: lock(), std::chrono::milliseconds(), std::chrono::steady_clock::now(), pu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="258" column="10" bodyfile="src/temporal/retention_manager.cpp" bodystart="269" bodyend="271"/>
+        <location file="include/temporal/retention_manager.h" line="271" column="10" bodyfile="src/temporal/retention_manager.cpp" bodystart="249" bodyend="251"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1RetentionManager_1aa459b84d1019fb1667f1851dafd29eca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1ArchivedRecord" kindref="compound">ArchivedRecord</ref> &gt;</type>
@@ -446,25 +492,16 @@ Calls: lock(), std::chrono::milliseconds(), std::chrono::steady_clock::now(), pu
         <name>getArchivedRecords</name>
         <qualifiedname>themisdb::temporal::RetentionManager::getArchivedRecords</qualifiedname>
         <briefdescription>
+<para>Return all archived records across tables. </para>
         </briefdescription>
         <detaileddescription>
-<para>Return all archived records (across all tables). </para>
-        </detaileddescription>
-        <inbodydescription>
-<para>Lock. <parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">mutex_</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Input parameter. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<para><simplesect kind="return"><para>Copy of the in-memory archive. </para>
 </simplesect>
 </para>
+        </detaileddescription>
+        <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="263" column="17" bodyfile="src/temporal/retention_manager.cpp" bodystart="163" bodyend="171"/>
+        <location file="include/temporal/retention_manager.h" line="279" column="17" bodyfile="src/temporal/retention_manager.cpp" bodystart="158" bodyend="161"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1RetentionManager_1a4c983aff908cf73a019ca6138454396e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1ArchivedRecord" kindref="compound">ArchivedRecord</ref> &gt;</type>
@@ -477,25 +514,25 @@ Calls: lock(), std::chrono::milliseconds(), std::chrono::steady_clock::now(), pu
           <declname>table_name</declname>
         </param>
         <briefdescription>
+<para>Return archived records for one table. </para>
         </briefdescription>
         <detaileddescription>
-<para>Return archived records for a specific table. </para>
-        </detaileddescription>
-        <inbodydescription>
-<para>Lock. <parameterlist kind="param"><parameteritem>
+<para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername direction="in">mutex_</parametername>
+<parametername>table_name</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Input parameter. </para>
+<para>Logical table name. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<simplesect kind="return"><para>Matching archived records. </para>
 </simplesect>
 </para>
+        </detaileddescription>
+        <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="266" column="17" bodyfile="src/temporal/retention_manager.cpp" bodystart="173" bodyend="190"/>
+        <location file="include/temporal/retention_manager.h" line="286" column="17" bodyfile="src/temporal/retention_manager.cpp" bodystart="163" bodyend="175"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1RetentionManager_1aedb245f1b643b9c85df92f1072f7986f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -504,15 +541,15 @@ Calls: lock(), std::chrono::milliseconds(), std::chrono::steady_clock::now(), pu
         <name>clearArchive</name>
         <qualifiedname>themisdb::temporal::RetentionManager::clearArchive</qualifiedname>
         <briefdescription>
-<para>Clear Archive. </para>
+<para>Remove all records from the in-memory archive. </para>
         </briefdescription>
         <detaileddescription>
-<para>Clear the in-memory archive.</para>
+<para>Clear Archive.</para>
 <para>Calls: lock(), clear(). </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="270" column="10" bodyfile="src/temporal/retention_manager.cpp" bodystart="196" bodyend="199"/>
+        <location file="include/temporal/retention_manager.h" line="290" column="10" bodyfile="src/temporal/retention_manager.cpp" bodystart="181" bodyend="184"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1RetentionManager_1a6c2b0dee12dbc80758a58159cda32e44" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>nlohmann::json</type>
@@ -521,24 +558,16 @@ Calls: lock(), std::chrono::milliseconds(), std::chrono::steady_clock::now(), pu
         <name>getCumulativeStats</name>
         <qualifiedname>themisdb::temporal::RetentionManager::getCumulativeStats</qualifiedname>
         <briefdescription>
+<para>Return cumulative retention statistics. </para>
         </briefdescription>
         <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-<para>Lock. <parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">mutex_</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Input parameter. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<para><simplesect kind="return"><para>JSON snapshot of the manager&apos;s cumulative counters. </para>
 </simplesect>
 </para>
+        </detaileddescription>
+        <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="274" column="20" bodyfile="src/temporal/retention_manager.cpp" bodystart="201" bodyend="213"/>
+        <location file="include/temporal/retention_manager.h" line="298" column="20" bodyfile="src/temporal/retention_manager.cpp" bodystart="186" bodyend="193"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -556,7 +585,7 @@ Calls: lock(), std::chrono::milliseconds(), std::chrono::steady_clock::now(), pu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="299" column="10" bodyfile="src/temporal/retention_manager.cpp" bodystart="277" bodyend="299"/>
+        <location file="include/temporal/retention_manager.h" line="323" column="10" bodyfile="src/temporal/retention_manager.cpp" bodystart="257" bodyend="279"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1RetentionManager_1aad6d114ba41bdd787f79b416a0fb9a5e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structthemisdb_1_1temporal_1_1RetentionStats" kindref="compound">RetentionStats</ref></type>
@@ -599,7 +628,7 @@ Calls: std::chrono::steady_clock::now(), <ref refid="namespacethemisdb_1_1tempor
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/retention_manager.h" line="301" column="20" bodyfile="src/temporal/retention_manager.cpp" bodystart="354" bodyend="678"/>
+        <location file="include/temporal/retention_manager.h" line="325" column="20" bodyfile="src/temporal/retention_manager.cpp" bodystart="334" bodyend="658"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -613,7 +642,7 @@ Calls: std::chrono::steady_clock::now(), <ref refid="namespacethemisdb_1_1tempor
 </simplesect>
 Thread-safety: all public methods are thread-safe. </para>
     </detaileddescription>
-    <location file="include/temporal/retention_manager.h" line="200" column="1" bodyfile="include/temporal/retention_manager.h" bodystart="200" bodyend="303"/>
+    <location file="include/temporal/retention_manager.h" line="200" column="1" bodyfile="include/temporal/retention_manager.h" bodystart="200" bodyend="327"/>
     <listofallmembers>
       <member refid="classthemisdb_1_1temporal_1_1RetentionManager_1aad6d114ba41bdd787f79b416a0fb9a5e" prot="private" virt="non-virtual"><scope>themisdb::temporal::RetentionManager</scope><name>applyPolicy</name></member>
       <member refid="classthemisdb_1_1temporal_1_1RetentionManager_1ad3c2db36550a08079bb4d214f7921966" prot="private" virt="non-virtual"><scope>themisdb::temporal::RetentionManager</scope><name>archive_</name></member>

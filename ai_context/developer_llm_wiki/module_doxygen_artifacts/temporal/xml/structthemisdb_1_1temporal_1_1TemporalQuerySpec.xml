@@ -77,7 +77,7 @@
           <declname>t</declname>
         </param>
         <briefdescription>
-<para>Convenience factory — FOR SYSTEM_TIME AS OF &lt;t&gt; </para>
+<para>Convenience factory for FOR SYSTEM_TIME AS OF. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -100,7 +100,7 @@
           <declname>e</declname>
         </param>
         <briefdescription>
-<para>Convenience factory — FOR SYSTEM_TIME FROM <s> TO &lt;e&gt; </s></para>
+<para>Convenience factory for FOR SYSTEM_TIME FROM ... TO. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -123,7 +123,7 @@
           <declname>e</declname>
         </param>
         <briefdescription>
-<para>Convenience factory — FOR SYSTEM_TIME BETWEEN <s> AND &lt;e&gt; </s></para>
+<para>Convenience factory for FOR SYSTEM_TIME BETWEEN ... AND. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -146,7 +146,7 @@
           <declname>e</declname>
         </param>
         <briefdescription>
-<para>Convenience factory — FOR SYSTEM_TIME CONTAINED IN PERIOD (<s>, &lt;e&gt;) </s></para>
+<para>Convenience factory for FOR SYSTEM_TIME CONTAINED IN PERIOD. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>

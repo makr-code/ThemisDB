@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_conflict_resolver.h" line="174" column="22" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="770" bodyend="797"/>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="174" column="22" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="750" bodyend="777"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

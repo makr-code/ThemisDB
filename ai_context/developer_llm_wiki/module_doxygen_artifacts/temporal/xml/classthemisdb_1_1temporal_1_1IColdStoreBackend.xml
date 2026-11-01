@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="122" column="13"/>
+        <location file="include/temporal/temporal_cold_store.h" line="123" column="13"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1IColdStoreBackend_1aeecb5c9cc2680fedeb8eae5da1e1a779" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -37,13 +37,33 @@
           <declname>json_value</declname>
         </param>
         <briefdescription>
+<para>Persist a serialized value under a composite key. </para>
         </briefdescription>
         <detaileddescription>
-<para>Persist key→value. Returns false on I/O failure. </para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>composite_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backend key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>json_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Serialized <ref refid="structthemisdb_1_1temporal_1_1VersionedDocument" kindref="compound">VersionedDocument</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false on backend failure. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="125" column="18"/>
+        <location file="include/temporal/temporal_cold_store.h" line="131" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1IColdStoreBackend_1a183da014cf1d79ddc3958cd3235aa5f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::string</type>
@@ -58,13 +78,25 @@
           <declname>composite_key</declname>
         </param>
         <briefdescription>
+<para>Retrieve a value by composite key. </para>
         </briefdescription>
         <detaileddescription>
-<para>Retrieve value for key. Returns empty string if not found. </para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>composite_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backend key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Serialized value, or an empty string when the key is absent. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="129" column="25"/>
+        <location file="include/temporal/temporal_cold_store.h" line="139" column="25"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1IColdStoreBackend_1a8165e518a3032d5105254ce8fd6b19ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -79,13 +111,25 @@
           <declname>composite_key</declname>
         </param>
         <briefdescription>
+<para>Delete a composite key. </para>
         </briefdescription>
         <detaileddescription>
-<para>Delete key. Returns true if the key existed. </para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>composite_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Backend key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the key existed and was deleted. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="132" column="18"/>
+        <location file="include/temporal/temporal_cold_store.h" line="146" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1IColdStoreBackend_1a40cc69b351e43cf1acbf419471819313" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -102,11 +146,22 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para>Enumerate all composite keys that start with prefix. Used to rebuild the RAM index on startup. </para>
+<para>Enumerate all composite keys that start with prefix. Used to rebuild the RAM index on startup. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key prefix to match. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Matching keys. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="139" column="5"/>
+        <location file="include/temporal/temporal_cold_store.h" line="155" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1IColdStoreBackend_1abe1faec3cb1e516e7712a790219bbf24" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>size_t</type>
@@ -121,13 +176,25 @@
           <declname>prefix</declname>
         </param>
         <briefdescription>
+<para>Remove all keys that start with a prefix. </para>
         </briefdescription>
         <detaileddescription>
-<para>Remove all keys that start with prefix. </para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key prefix to remove. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of keys removed. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="142" column="20"/>
+        <location file="include/temporal/temporal_cold_store.h" line="162" column="20"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1IColdStoreBackend_1a97c4b9270e209e9b5a864080fd53809d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -138,14 +205,13 @@
         <reimplementedby refid="classthemisdb_1_1temporal_1_1InMemoryBackend_1aa592b7d6626dee020845206be4c12257">clearAll</reimplementedby>
         <reimplementedby refid="classthemisdb_1_1temporal_1_1FileSystemBackend_1a51622609dd8740e9735e9106b928c1e0">clearAll</reimplementedby>
         <briefdescription>
+<para>Remove all stored entries. </para>
         </briefdescription>
         <detaileddescription>
-<para>Remove all entries. <linebreak/>
- </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="145" column="18"/>
+        <location file="include/temporal/temporal_cold_store.h" line="165" column="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -173,7 +239,7 @@
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/temporal/temporal_cold_store.h" line="120" column="1" bodyfile="include/temporal/temporal_cold_store.h" bodystart="120" bodyend="146"/>
+    <location file="include/temporal/temporal_cold_store.h" line="121" column="1" bodyfile="include/temporal/temporal_cold_store.h" bodystart="121" bodyend="166"/>
     <listofallmembers>
       <member refid="classthemisdb_1_1temporal_1_1IColdStoreBackend_1a97c4b9270e209e9b5a864080fd53809d" prot="public" virt="pure-virtual"><scope>themisdb::temporal::IColdStoreBackend</scope><name>clearAll</name></member>
       <member refid="classthemisdb_1_1temporal_1_1IColdStoreBackend_1a8165e518a3032d5105254ce8fd6b19ae" prot="public" virt="pure-virtual"><scope>themisdb::temporal::IColdStoreBackend</scope><name>del</name></member>

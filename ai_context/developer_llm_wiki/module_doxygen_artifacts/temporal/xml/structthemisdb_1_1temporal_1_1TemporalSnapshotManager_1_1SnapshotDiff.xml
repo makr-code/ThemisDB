@@ -94,7 +94,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/snapshot_manager.h" line="233" column="24" bodyfile="src/temporal/snapshot_manager.cpp" bodystart="284" bodyend="298"/>
+        <location file="include/temporal/snapshot_manager.h" line="233" column="24" bodyfile="src/temporal/snapshot_manager.cpp" bodystart="254" bodyend="268"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

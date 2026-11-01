@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="382" column="31" bodyfile="include/temporal/temporal_cdc.h" bodystart="382" bodyend="-1"/>
+        <location file="include/temporal/temporal_cdc.h" line="385" column="31" bodyfile="include/temporal/temporal_cdc.h" bodystart="385" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-attrib">
@@ -35,7 +35,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="467" column="31" bodyfile="include/temporal/temporal_cdc.h" bodystart="467" bodyend="-1"/>
+        <location file="include/temporal/temporal_cdc.h" line="471" column="31" bodyfile="include/temporal/temporal_cdc.h" bodystart="471" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a89c03ac1d3f945ba986ae346903cd0b1" prot="private" static="yes" constexpr="yes" mutable="no">
         <type>constexpr uint16_t</type>
@@ -50,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="468" column="31" bodyfile="include/temporal/temporal_cdc.h" bodystart="468" bodyend="-1"/>
+        <location file="include/temporal/temporal_cdc.h" line="472" column="31" bodyfile="include/temporal/temporal_cdc.h" bodystart="472" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -66,7 +66,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="471" column="18" bodyfile="include/temporal/temporal_cdc.h" bodystart="471" bodyend="-1"/>
+        <location file="include/temporal/temporal_cdc.h" line="475" column="18" bodyfile="include/temporal/temporal_cdc.h" bodystart="475" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a184d05fb13f92a6892d1f778e1b15f43" prot="private" static="no" mutable="no">
         <type>std::string</type>
@@ -80,7 +80,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="472" column="18" bodyfile="include/temporal/temporal_cdc.h" bodystart="472" bodyend="-1"/>
+        <location file="include/temporal/temporal_cdc.h" line="476" column="18" bodyfile="include/temporal/temporal_cdc.h" bodystart="476" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a5541bf4f65146dc4a17e4b146272987e" prot="private" static="no" mutable="no">
         <type>uint64_t</type>
@@ -94,7 +94,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="473" column="18" bodyfile="include/temporal/temporal_cdc.h" bodystart="473" bodyend="-1"/>
+        <location file="include/temporal/temporal_cdc.h" line="477" column="18" bodyfile="include/temporal/temporal_cdc.h" bodystart="477" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1aa86b0bf1be3298de6c6a86e52605dbae" prot="private" static="no" mutable="yes">
         <type>std::mutex</type>
@@ -108,7 +108,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="475" column="24" bodyfile="include/temporal/temporal_cdc.h" bodystart="475" bodyend="-1"/>
+        <location file="include/temporal/temporal_cdc.h" line="479" column="24" bodyfile="include/temporal/temporal_cdc.h" bodystart="479" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a035fdeef4059c3e5d00b0da7125586d0" prot="private" static="no" mutable="no">
         <type>std::FILE *</type>
@@ -123,7 +123,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="478" column="17" bodyfile="include/temporal/temporal_cdc.h" bodystart="478" bodyend="478"/>
+        <location file="include/temporal/temporal_cdc.h" line="482" column="17" bodyfile="include/temporal/temporal_cdc.h" bodystart="482" bodyend="482"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a39aafb5a3a0c682503be5b4335d00c61" prot="private" static="no" mutable="no">
         <type>uint64_t</type>
@@ -139,7 +139,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="479" column="18" bodyfile="include/temporal/temporal_cdc.h" bodystart="479" bodyend="479"/>
+        <location file="include/temporal/temporal_cdc.h" line="483" column="18" bodyfile="include/temporal/temporal_cdc.h" bodystart="483" bodyend="483"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a3c605c9f5d54376b42bf90a146ecd763" prot="private" static="no" mutable="no">
         <type>uint64_t</type>
@@ -155,7 +155,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="480" column="18" bodyfile="include/temporal/temporal_cdc.h" bodystart="480" bodyend="480"/>
+        <location file="include/temporal/temporal_cdc.h" line="484" column="18" bodyfile="include/temporal/temporal_cdc.h" bodystart="484" bodyend="484"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a5db36eeeeba3d8631cb3eb29f6290e2b" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -170,7 +170,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="481" column="18" bodyfile="include/temporal/temporal_cdc.h" bodystart="481" bodyend="481"/>
+        <location file="include/temporal/temporal_cdc.h" line="485" column="18" bodyfile="include/temporal/temporal_cdc.h" bodystart="485" bodyend="485"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1abeb5a31d5a6180806023daaac38e9ba6" prot="private" static="no" mutable="no">
         <type>std::atomic&lt; uint64_t &gt;</type>
@@ -185,7 +185,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="483" column="17" bodyfile="include/temporal/temporal_cdc.h" bodystart="483" bodyend="483"/>
+        <location file="include/temporal/temporal_cdc.h" line="487" column="17" bodyfile="include/temporal/temporal_cdc.h" bodystart="487" bodyend="487"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a472095b5fa46b9cdf5ce07396a616df7" prot="private" static="no" mutable="no">
         <type>std::atomic&lt; uint64_t &gt;</type>
@@ -200,7 +200,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="484" column="17" bodyfile="include/temporal/temporal_cdc.h" bodystart="484" bodyend="484"/>
+        <location file="include/temporal/temporal_cdc.h" line="488" column="17" bodyfile="include/temporal/temporal_cdc.h" bodystart="488" bodyend="488"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -257,7 +257,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="393" column="14" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="385" bodyend="391"/>
+        <location file="include/temporal/temporal_cdc.h" line="396" column="14" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="365" bodyend="371"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1add8ebd74f9be9d37d7568cf0c32d84e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -271,7 +271,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="397" column="5" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="393" bodyend="395"/>
+        <location file="include/temporal/temporal_cdc.h" line="400" column="5" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="373" bodyend="375"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1ae86f817d8a814a089baab7a2fa2abc34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -288,7 +288,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="400" column="5"/>
+        <location file="include/temporal/temporal_cdc.h" line="403" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a0b6d2e042ba6dca1569953ada3fef2e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classthemisdb_1_1temporal_1_1CDCPersistentLog" kindref="compound">CDCPersistentLog</ref> &amp;</type>
@@ -305,7 +305,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="401" column="22"/>
+        <location file="include/temporal/temporal_cdc.h" line="404" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a98aa8fccf6ab5c56ea17a2e5294f5aea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -340,7 +340,7 @@ Calls: lk(), std::filesystem::create_directories(), message(), listSegmentSeqs()
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="414" column="10" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="406" bodyend="484"/>
+        <location file="include/temporal/temporal_cdc.h" line="417" column="10" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="386" bodyend="464"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1afd1a2b7c8da4bbd8c58d92dea58270d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -357,7 +357,7 @@ Calls: lk(), std::filesystem::create_directories(), message(), listSegmentSeqs()
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="420" column="10" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="490" bodyend="498"/>
+        <location file="include/temporal/temporal_cdc.h" line="423" column="10" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="470" bodyend="478"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a84a2aa4c18ddc11083e9eac6aca693d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -406,7 +406,7 @@ Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmen
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="432" column="10" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="510" bodyend="549"/>
+        <location file="include/temporal/temporal_cdc.h" line="435" column="10" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="490" bodyend="529"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a396980b64d5c7bf90dcd2cb8a8f89bfb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1ChangeEvent" kindref="compound">ChangeEvent</ref> &gt;</type>
@@ -431,20 +431,8 @@ Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmen
 </para>
         </detaileddescription>
         <inbodydescription>
-<para>Lk. <parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">mutex_</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Input parameter. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Return value.</para>
-</simplesect>
-</para>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="442" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="603" bodyend="622"/>
+        <location file="include/temporal/temporal_cdc.h" line="445" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="583" bodyend="597"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a0454d7582727f6ef8a3a687ab1575ae2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1ChangeEvent" kindref="compound">ChangeEvent</ref> &gt;</type>
@@ -469,6 +457,8 @@ Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmen
 </parameterdescription>
 </parameteritem>
 </parameterlist>
+<simplesect kind="return"><para>Events read from that segment. </para>
+</simplesect>
 <parameterlist kind="exception"><parameteritem>
 <parameternamelist>
 <parametername>std::out_of_range</parametername>
@@ -489,20 +479,8 @@ Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmen
 </para>
         </detaileddescription>
         <inbodydescription>
-<para>Lk. <parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">mutex_</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Input parameter. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Return value.</para>
-</simplesect>
-</para>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="451" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="624" bodyend="641"/>
+        <location file="include/temporal/temporal_cdc.h" line="455" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="599" bodyend="611"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a7ca66fb7437c860fa1af2b1c6cc08683" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>uint64_t</type>
@@ -516,20 +494,8 @@ Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmen
 <para>Number of WAL segments that have been created (including active). </para>
         </detaileddescription>
         <inbodydescription>
-<para>Lk. <parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">mutex_</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Input parameter. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Return value.</para>
-</simplesect>
-</para>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="454" column="14" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="647" bodyend="655"/>
+        <location file="include/temporal/temporal_cdc.h" line="458" column="14" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="617" bodyend="620"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a690dea3197b19d1e7e2585553927b278" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>uint64_t</type>
@@ -544,7 +510,7 @@ Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmen
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="457" column="14" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="657" bodyend="659"/>
+        <location file="include/temporal/temporal_cdc.h" line="461" column="14" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="622" bodyend="624"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a3f7c83f5cc087fe6eef2c13eb4e030ef" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>uint64_t</type>
@@ -559,7 +525,7 @@ Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmen
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="460" column="14" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="661" bodyend="663"/>
+        <location file="include/temporal/temporal_cdc.h" line="464" column="14" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="626" bodyend="628"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1af179b791063094acca532eb9307954f5" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>bool</type>
@@ -573,20 +539,8 @@ Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmen
 <para>true when the log is currently open for writing. </para>
         </detaileddescription>
         <inbodydescription>
-<para>Lk. <parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">mutex_</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Input parameter. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Return value.</para>
-</simplesect>
-</para>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="463" column="10" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="665" bodyend="673"/>
+        <location file="include/temporal/temporal_cdc.h" line="467" column="10" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="630" bodyend="633"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -607,7 +561,7 @@ Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmen
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="489" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="679" bodyend="683"/>
+        <location file="include/temporal/temporal_cdc.h" line="493" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="639" bodyend="643"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1ad33d28f63596f12fdfc36d83872909ef" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; uint64_t &gt;</type>
@@ -622,7 +576,7 @@ Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmen
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="492" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="685" bodyend="709"/>
+        <location file="include/temporal/temporal_cdc.h" line="496" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="645" bodyend="669"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a93ecfcc48c6beb168902898b8b6ce0c4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -639,7 +593,7 @@ Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmen
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="504" column="10" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="756" bodyend="774"/>
+        <location file="include/temporal/temporal_cdc.h" line="508" column="10" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="716" bodyend="734"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -664,7 +618,7 @@ Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmen
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="495" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="711" bodyend="724"/>
+        <location file="include/temporal/temporal_cdc.h" line="499" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="671" bodyend="684"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a23e7f3b84dc325851a534e3ee2e3bedb" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -683,7 +637,7 @@ Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmen
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="498" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="726" bodyend="746"/>
+        <location file="include/temporal/temporal_cdc.h" line="502" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="686" bodyend="706"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1CDCPersistentLog_1af823979332265783e70385e3fd0a1a54" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>uint32_t</type>
@@ -702,7 +656,7 @@ Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmen
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cdc.h" line="501" column="21" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="748" bodyend="750"/>
+        <location file="include/temporal/temporal_cdc.h" line="505" column="21" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="708" bodyend="710"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -745,7 +699,7 @@ Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmen
 </programlisting> </para>
 </sect2>
     </detaileddescription>
-    <location file="include/temporal/temporal_cdc.h" line="379" column="1" bodyfile="include/temporal/temporal_cdc.h" bodystart="379" bodyend="505"/>
+    <location file="include/temporal/temporal_cdc.h" line="382" column="1" bodyfile="include/temporal/temporal_cdc.h" bodystart="382" bodyend="509"/>
     <listofallmembers>
       <member refid="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a3c605c9f5d54376b42bf90a146ecd763" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>active_bytes_</name></member>
       <member refid="classthemisdb_1_1temporal_1_1CDCPersistentLog_1a035fdeef4059c3e5d00b0da7125586d0" prot="private" virt="non-virtual"><scope>themisdb::temporal::CDCPersistentLog</scope><name>active_fd_</name></member>

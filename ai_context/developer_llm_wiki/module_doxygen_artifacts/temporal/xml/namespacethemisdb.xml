@@ -182,7 +182,7 @@
 </sect2>
 <sect2 id="namespacethemisdb_1autotoc_md16">
 <title>Key encoding</title>
-<para>Composite key: <computeroutput>&lt;table_name&gt;\x01&lt;doc_key&gt;\x01&lt;016llx biased timestamp&gt;</computeroutput> BIAS = uint64_max/2 + 1 so that negative timestamps sort before positive ones in lexicographic order.</para>
+<para>Composite key: table name, byte 0x01, document key, byte 0x01, then a fixed-width hexadecimal biased timestamp. BIAS = uint64_max/2 + 1 so that negative timestamps sort before positive ones in lexicographic order.</para>
 </sect2>
 <sect2 id="namespacethemisdb_1autotoc_md17">
 <title>Integration with SystemVersionedTable</title>

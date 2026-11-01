@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="258" column="5" bodyfile="include/temporal/bi_temporal.h" bodystart="258" bodyend="-1"/>
+        <location file="include/temporal/bi_temporal.h" line="308" column="5" bodyfile="include/temporal/bi_temporal.h" bodystart="308" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="255" column="17" bodyfile="include/temporal/bi_temporal.h" bodystart="255" bodyend="-1"/>
+        <location file="include/temporal/bi_temporal.h" line="305" column="17" bodyfile="include/temporal/bi_temporal.h" bodystart="305" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1a1a0bff3694aedf42d61c0a5b06c24ce8" prot="private" static="no" mutable="no">
         <type>std::string</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="256" column="17" bodyfile="include/temporal/bi_temporal.h" bodystart="256" bodyend="-1"/>
+        <location file="include/temporal/bi_temporal.h" line="306" column="17" bodyfile="include/temporal/bi_temporal.h" bodystart="306" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1a9177a225c5ad9edab55d87453ec567fc" prot="private" static="no" mutable="no">
         <type>std::map&lt; std::string, VersionList &gt;</type>
@@ -61,7 +61,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="259" column="14" bodyfile="include/temporal/bi_temporal.h" bodystart="259" bodyend="-1"/>
+        <location file="include/temporal/bi_temporal.h" line="309" column="14" bodyfile="include/temporal/bi_temporal.h" bodystart="309" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1a0cfdbd3bc8c83f182fffad8e208ba234" prot="private" static="no" mutable="yes">
         <type>std::mutex</type>
@@ -75,7 +75,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="261" column="24" bodyfile="include/temporal/bi_temporal.h" bodystart="261" bodyend="-1"/>
+        <location file="include/temporal/bi_temporal.h" line="311" column="24" bodyfile="include/temporal/bi_temporal.h" bodystart="311" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -95,12 +95,31 @@
           <defval>&quot;local&quot;</defval>
         </param>
         <briefdescription>
+<para>Construct a bi-temporal table. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source label recorded on newly written versions. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="96" column="14" bodyfile="src/temporal/bi_temporal.cpp" bodystart="30" bodyend="33"/>
+        <location file="include/temporal/bi_temporal.h" line="101" column="14" bodyfile="src/temporal/bi_temporal.cpp" bodystart="30" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1a46c8304d3bead48806b70a4e7194dd16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -120,7 +139,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="107" column="5"/>
+        <location file="include/temporal/bi_temporal.h" line="112" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1a2540db0f67ce8352ed489abf86fb90de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classthemisdb_1_1temporal_1_1BiTemporalTable" kindref="compound">BiTemporalTable</ref> &amp;</type>
@@ -137,7 +156,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="108" column="21"/>
+        <location file="include/temporal/bi_temporal.h" line="113" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1a6cf8342ba2439707d73e1cd9af0b9e08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -154,7 +173,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="109" column="5"/>
+        <location file="include/temporal/bi_temporal.h" line="114" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1a5ccd7f592bfc941a2b721a4b2fd23c36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classthemisdb_1_1temporal_1_1BiTemporalTable" kindref="compound">BiTemporalTable</ref> &amp;</type>
@@ -171,7 +190,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="110" column="21"/>
+        <location file="include/temporal/bi_temporal.h" line="115" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1afa41665c891d42f7739a28cc890fd772" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -227,7 +246,7 @@ Calls: lock(), isCurrent(), overlaps(), <ref refid="namespacethemisdb_1_1tempora
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="119" column="10" bodyfile="src/temporal/bi_temporal.cpp" bodystart="75" bodyend="98"/>
+        <location file="include/temporal/bi_temporal.h" line="124" column="10" bodyfile="src/temporal/bi_temporal.cpp" bodystart="75" bodyend="98"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1a3ccdbf4eca5bb959745109462f632443" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -283,7 +302,7 @@ Calls: lock(), find(), end(), isCurrent(), contains(), <ref refid="namespacethem
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="130" column="10" bodyfile="src/temporal/bi_temporal.cpp" bodystart="108" bodyend="155"/>
+        <location file="include/temporal/bi_temporal.h" line="135" column="10" bodyfile="src/temporal/bi_temporal.cpp" bodystart="108" bodyend="155"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1ac365940fd294b90d4f8ba27c7c09b825" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -327,7 +346,7 @@ Calls: lock(), find(), end(), <ref refid="namespacethemisdb_1_1temporal_1a311e9f
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="139" column="12" bodyfile="src/temporal/bi_temporal.cpp" bodystart="164" bodyend="179"/>
+        <location file="include/temporal/bi_temporal.h" line="144" column="12" bodyfile="src/temporal/bi_temporal.cpp" bodystart="164" bodyend="179"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1a21bb712b950d855d9eaaa0a431783af1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1VersionedDocument" kindref="compound">VersionedDocument</ref> &gt;</type>
@@ -348,25 +367,41 @@ Calls: lock(), find(), end(), <ref refid="namespacethemisdb_1_1temporal_1a311e9f
           <declname>valid_at</declname>
         </param>
         <briefdescription>
+<para>Run a bi-temporal AS-OF query. Returns rows that were current at sys_as_of and whose valid-time period contains valid_at. </para>
         </briefdescription>
         <detaileddescription>
-<para>Bi-temporal AS-OF query. Returns rows that were current at sys_as_of and whose valid-time period contains valid_at. </para>
-        </detaileddescription>
-        <inbodydescription>
-<para>Lock. <parameterlist kind="param"><parameteritem>
+<para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername direction="in">mutex_</parametername>
+<parametername>key</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Input parameter. </para>
+<para>Logical row key to query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sys_as_of</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>System-time instant at which the row must have been current. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valid_at</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Valid-time instant that the row&apos;s valid-time period must contain. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<simplesect kind="return"><para>Matching versions, or an empty vector when no version matches. </para>
 </simplesect>
 </para>
+        </detaileddescription>
+        <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="148" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="185" bodyend="210"/>
+        <location file="include/temporal/bi_temporal.h" line="157" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="185" bodyend="205"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1af5fd02d845b5fe735babd5ddc4430efd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1VersionedDocument" kindref="compound">VersionedDocument</ref> &gt;</type>
@@ -383,25 +418,33 @@ Calls: lock(), find(), end(), <ref refid="namespacethemisdb_1_1temporal_1a311e9f
           <declname>valid_at</declname>
         </param>
         <briefdescription>
+<para>Return current rows for a key whose valid-time period contains valid_at. </para>
         </briefdescription>
         <detaileddescription>
-<para>Return all current rows for a key whose valid-time period contains valid_at. </para>
-        </detaileddescription>
-        <inbodydescription>
-<para>Lock. <parameterlist kind="param"><parameteritem>
+<para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername direction="in">mutex_</parametername>
+<parametername>key</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Input parameter. </para>
+<para>Logical row key to query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valid_at</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Valid-time instant to test. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<simplesect kind="return"><para>Matching current versions, or an empty vector when none match. </para>
 </simplesect>
 </para>
+        </detaileddescription>
+        <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="156" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="212" bodyend="234"/>
+        <location file="include/temporal/bi_temporal.h" line="168" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="207" bodyend="224"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1abb0c52302bb9b4105534303f3d25085d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::pair&lt; <ref refid="structthemisdb_1_1temporal_1_1VersionedDocument" kindref="compound">VersionedDocument</ref>, <ref refid="structthemisdb_1_1temporal_1_1VersionedDocument" kindref="compound">VersionedDocument</ref> &gt; &gt;</type>
@@ -414,25 +457,25 @@ Calls: lock(), find(), end(), <ref refid="namespacethemisdb_1_1temporal_1a311e9f
           <declname>key</declname>
         </param>
         <briefdescription>
+<para>Detect overlaps among current rows for a key. </para>
         </briefdescription>
         <detaileddescription>
-<para>Detect overlaps among current rows for a key. Returns pairs of overlapping VersionedDocuments. </para>
-        </detaileddescription>
-        <inbodydescription>
-<para>Lock. <parameterlist kind="param"><parameteritem>
+<para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername direction="in">mutex_</parametername>
+<parametername>key</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Input parameter. </para>
+<para>Logical row key to inspect. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<simplesect kind="return"><para>Pairs of overlapping versions; empty when no overlaps exist. </para>
 </simplesect>
 </para>
+        </detaileddescription>
+        <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="163" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="237" bodyend="270"/>
+        <location file="include/temporal/bi_temporal.h" line="176" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="227" bodyend="255"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1adf2230c73f0f6e5c7fa46fe58489c77a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1TimeRange" kindref="compound">TimeRange</ref> &gt;</type>
@@ -453,27 +496,42 @@ Calls: lock(), find(), end(), <ref refid="namespacethemisdb_1_1temporal_1a311e9f
           <declname>to</declname>
         </param>
         <briefdescription>
+<para>Find uncovered valid-time intervals for a key. Detect gaps in the valid-time coverage of current rows for a key within the half-open interval [<computeroutput>from</computeroutput>, <computeroutput>to</computeroutput>). </para>
         </briefdescription>
         <detaileddescription>
-<para>Detect gaps in the valid-time coverage of current rows for a key within the half-open interval [<computeroutput>from</computeroutput>, <computeroutput>to</computeroutput>).</para>
 <para>A gap is a sub-interval within [<computeroutput>from</computeroutput>, <computeroutput>to</computeroutput>) not covered by any current row&apos;s valid-time period.</para>
-<para>Returns an empty vector when the period [<computeroutput>from</computeroutput>, <computeroutput>to</computeroutput>) is fully covered. Returns <computeroutput>{{from, to}}</computeroutput> when the key has no current rows or none of them overlap the query range (the entire interval is a gap). Returns an empty vector when <computeroutput>from</computeroutput> &gt;= <computeroutput>to</computeroutput>. </para>
-        </detaileddescription>
-        <inbodydescription>
-<para>Lock. <parameterlist kind="param"><parameteritem>
+<para>Returns an empty vector when the period [<computeroutput>from</computeroutput>, <computeroutput>to</computeroutput>) is fully covered. Returns <computeroutput>{{from, to}}</computeroutput> when the key has no current rows or none of them overlap the query range (the entire interval is a gap). Returns an empty vector when <computeroutput>from</computeroutput> &gt;= <computeroutput>to</computeroutput>. <parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername direction="in">mutex_</parametername>
+<parametername>key</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Input parameter. </para>
+<para>Logical row key to inspect. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inclusive start of the query interval. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Exclusive end of the query interval. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<simplesect kind="return"><para>Uncovered sub-intervals, or an empty vector when none exist or the query interval is invalid. </para>
 </simplesect>
 </para>
+        </detaileddescription>
+        <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="178" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="272" bodyend="341"/>
+        <location file="include/temporal/bi_temporal.h" line="197" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="257" bodyend="321"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1a173fd76c84ab20da467ee2389ff345dc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -490,26 +548,33 @@ Calls: lock(), find(), end(), <ref refid="namespacethemisdb_1_1temporal_1a311e9f
           <declname>period</declname>
         </param>
         <briefdescription>
+<para>Check whether a valid-time period conflicts with current rows. Check whether inserting a row with the given valid-time <computeroutput>period</computeroutput> for <computeroutput>key</computeroutput> would violate the temporal uniqueness constraint (i.e., overlap with an existing current row). </para>
         </briefdescription>
         <detaileddescription>
-<para>Check whether inserting a row with the given valid-time <computeroutput>period</computeroutput> for <computeroutput>key</computeroutput> would violate the temporal uniqueness constraint (i.e., overlap with an existing current row).</para>
-<para>Returns false immediately when <computeroutput>period</computeroutput> is empty or invalid (i.e., <computeroutput>period.start &gt;= period.end</computeroutput>). Returns true when a conflict exists; false when the insert would succeed. </para>
-        </detaileddescription>
-        <inbodydescription>
-<para>Lock. <parameterlist kind="param"><parameteritem>
+<para>Returns false immediately when <computeroutput>period</computeroutput> is empty or invalid (i.e., <computeroutput>period.start &gt;= period.end</computeroutput>). Returns true when a conflict exists; false when the insert would succeed. <parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername direction="in">mutex_</parametername>
+<parametername>key</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Input parameter. </para>
+<para>Logical row key to check. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>period</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Candidate half-open valid-time interval. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<simplesect kind="return"><para>true if the period overlaps a current row; false otherwise. </para>
 </simplesect>
 </para>
+        </detaileddescription>
+        <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="191" column="10" bodyfile="src/temporal/bi_temporal.cpp" bodystart="343" bodyend="368"/>
+        <location file="include/temporal/bi_temporal.h" line="214" column="10" bodyfile="src/temporal/bi_temporal.cpp" bodystart="323" bodyend="343"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1a9a20ecd05943bf956bc2dbefcac4ed3c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1VersionedDocument" kindref="compound">VersionedDocument</ref> &gt;</type>
@@ -522,25 +587,25 @@ Calls: lock(), find(), end(), <ref refid="namespacethemisdb_1_1temporal_1a311e9f
           <declname>key</declname>
         </param>
         <briefdescription>
+<para>Return all versions (history) for a key. </para>
         </briefdescription>
         <detaileddescription>
-<para>Return all versions (history) for a key. </para>
-        </detaileddescription>
-        <inbodydescription>
-<para>Lock. <parameterlist kind="param"><parameteritem>
+<para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername direction="in">mutex_</parametername>
+<parametername>key</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Input parameter. </para>
+<para>Logical row key to query. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<simplesect kind="return"><para>Versions for the key in stored order, or an empty vector if the key has no history. </para>
 </simplesect>
 </para>
+        </detaileddescription>
+        <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="197" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="370" bodyend="384"/>
+        <location file="include/temporal/bi_temporal.h" line="223" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="345" bodyend="354"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1a02e2989f57c96a67ea0137d5beff6a4b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1VersionedDocument" kindref="compound">VersionedDocument</ref> &gt;</type>
@@ -557,25 +622,33 @@ Calls: lock(), find(), end(), <ref refid="namespacethemisdb_1_1temporal_1a311e9f
           <declname>valid_at</declname>
         </param>
         <briefdescription>
+<para>Scan rows matching both system and valid time. Returns all rows where sys_time contains sys_as_of AND valid_time contains valid_at. Equivalent to a full-table AS-OF bi-temporal query. </para>
         </briefdescription>
         <detaileddescription>
-<para>Bi-temporal table scan. Returns all rows where sys_time contains sys_as_of AND valid_time contains valid_at. Equivalent to a full-table AS-OF bi-temporal query. </para>
-        </detaileddescription>
-        <inbodydescription>
-<para>Lock. <parameterlist kind="param"><parameteritem>
+<para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername direction="in">mutex_</parametername>
+<parametername>sys_as_of</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Input parameter. </para>
+<para>System-time instant to query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valid_at</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Valid-time instant to query. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<simplesect kind="return"><para>Matching versions, or an empty vector when none match. </para>
 </simplesect>
 </para>
+        </detaileddescription>
+        <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="205" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="386" bodyend="406"/>
+        <location file="include/temporal/bi_temporal.h" line="234" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="356" bodyend="371"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1a9ae57841af227bd0d883ef1b5d3e4500" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -584,25 +657,16 @@ Calls: lock(), find(), end(), <ref refid="namespacethemisdb_1_1temporal_1a311e9f
         <name>getAllKeys</name>
         <qualifiedname>themisdb::temporal::BiTemporalTable::getAllKeys</qualifiedname>
         <briefdescription>
+<para>Return every key ever written to the table. Includes keys whose rows have all been logically deleted. Useful for bi-temporal joins that must enumerate every key ever written. </para>
         </briefdescription>
         <detaileddescription>
-<para>Return all known keys (including keys whose rows have all been logically deleted). Useful for bi-temporal joins that must enumerate every key ever written to the table. </para>
-        </detaileddescription>
-        <inbodydescription>
-<para>Lock. <parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">mutex_</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Input parameter. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<para><simplesect kind="return"><para>All known keys. </para>
 </simplesect>
 </para>
+        </detaileddescription>
+        <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="213" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="408" bodyend="423"/>
+        <location file="include/temporal/bi_temporal.h" line="243" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="373" bodyend="383"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1a5ffea044c884cc74bf04f85f64f5fbc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structthemisdb_1_1temporal_1_1BiTemporalTable_1_1MergeResult" kindref="compound">MergeResult</ref></type>
@@ -648,7 +712,7 @@ Calls: lock(), find(), end(), <ref refid="namespacethemisdb_1_1temporal_1a311e9f
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="245" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="510" bodyend="585"/>
+        <location file="include/temporal/bi_temporal.h" line="275" column="17" bodyfile="src/temporal/bi_temporal.cpp" bodystart="455" bodyend="530"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1ac5b7e2c5e824bd1a6f440287c606fe0e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -657,12 +721,16 @@ Calls: lock(), find(), end(), <ref refid="namespacethemisdb_1_1temporal_1a311e9f
         <name>tableName</name>
         <qualifiedname>themisdb::temporal::BiTemporalTable::tableName</qualifiedname>
         <briefdescription>
+<para>Return this table&apos;s logical name. </para>
         </briefdescription>
         <detaileddescription>
+<para><simplesect kind="return"><para>Reference to the name owned by this table, valid for its lifetime. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="249" column="23" bodyfile="include/temporal/bi_temporal.h" bodystart="249" bodyend="249"/>
+        <location file="include/temporal/bi_temporal.h" line="283" column="23" bodyfile="include/temporal/bi_temporal.h" bodystart="283" bodyend="283"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1aea8d0195392cb8a0b59a06c53cd7bec3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -671,24 +739,16 @@ Calls: lock(), find(), end(), <ref refid="namespacethemisdb_1_1temporal_1a311e9f
         <name>keyCount</name>
         <qualifiedname>themisdb::temporal::BiTemporalTable::keyCount</qualifiedname>
         <briefdescription>
+<para>Count distinct keys retained in the table. </para>
         </briefdescription>
         <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-<para>Lock. <parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">mutex_</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Input parameter. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<para><simplesect kind="return"><para>Number of keys, including keys whose rows were logically deleted. </para>
 </simplesect>
 </para>
+        </detaileddescription>
+        <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="250" column="12" bodyfile="src/temporal/bi_temporal.cpp" bodystart="433" bodyend="441"/>
+        <location file="include/temporal/bi_temporal.h" line="289" column="12" bodyfile="src/temporal/bi_temporal.cpp" bodystart="393" bodyend="396"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1af2d9968e734b5974f3ae4232aa0f0d3e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -697,24 +757,16 @@ Calls: lock(), find(), end(), <ref refid="namespacethemisdb_1_1temporal_1a311e9f
         <name>versionCount</name>
         <qualifiedname>themisdb::temporal::BiTemporalTable::versionCount</qualifiedname>
         <briefdescription>
+<para>Count all current and historical row versions. </para>
         </briefdescription>
         <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-<para>Lock. <parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">mutex_</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Input parameter. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<para><simplesect kind="return"><para>Total number of stored versions. </para>
 </simplesect>
 </para>
+        </detaileddescription>
+        <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="251" column="12" bodyfile="src/temporal/bi_temporal.cpp" bodystart="443" bodyend="455"/>
+        <location file="include/temporal/bi_temporal.h" line="295" column="12" bodyfile="src/temporal/bi_temporal.cpp" bodystart="398" bodyend="405"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BiTemporalTable_1a046380bb4c1298e30aa34d478450d450" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>nlohmann::json</type>
@@ -723,24 +775,16 @@ Calls: lock(), find(), end(), <ref refid="namespacethemisdb_1_1temporal_1a311e9f
         <name>getStatistics</name>
         <qualifiedname>themisdb::temporal::BiTemporalTable::getStatistics</qualifiedname>
         <briefdescription>
+<para>Return a snapshot of table statistics. </para>
         </briefdescription>
         <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-<para>Lock. <parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">mutex_</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Input parameter. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<para><simplesect kind="return"><para>JSON with table_name, key_count, current_rows, historical_rows, and total_versions. </para>
 </simplesect>
 </para>
+        </detaileddescription>
+        <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="252" column="20" bodyfile="src/temporal/bi_temporal.cpp" bodystart="457" bodyend="482"/>
+        <location file="include/temporal/bi_temporal.h" line="302" column="20" bodyfile="src/temporal/bi_temporal.cpp" bodystart="407" bodyend="427"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -768,7 +812,7 @@ Calls: lock(), find(), end(), <ref refid="namespacethemisdb_1_1temporal_1a311e9f
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="265" column="12" bodyfile="src/temporal/bi_temporal.cpp" bodystart="488" bodyend="501"/>
+        <location file="include/temporal/bi_temporal.h" line="315" column="12" bodyfile="src/temporal/bi_temporal.cpp" bodystart="433" bodyend="446"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -781,7 +825,7 @@ Calls: lock(), find(), end(), <ref refid="namespacethemisdb_1_1temporal_1a311e9f
 <para>Overlap detection ensures that no two <emphasis>current</emphasis> rows for the same key have overlapping valid-time periods.</para>
 <para>Thread-safety: all public methods are thread-safe. </para>
     </detaileddescription>
-    <location file="include/temporal/bi_temporal.h" line="94" column="1" bodyfile="include/temporal/bi_temporal.h" bodystart="94" bodyend="268"/>
+    <location file="include/temporal/bi_temporal.h" line="94" column="1" bodyfile="include/temporal/bi_temporal.h" bodystart="94" bodyend="318"/>
     <listofallmembers>
       <member refid="classthemisdb_1_1temporal_1_1BiTemporalTable_1a131dae82ed6a488e7f08b5bc3948626e" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>BiTemporalTable</name></member>
       <member refid="classthemisdb_1_1temporal_1_1BiTemporalTable_1a46c8304d3bead48806b70a4e7194dd16" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable</scope><name>BiTemporalTable</name></member>

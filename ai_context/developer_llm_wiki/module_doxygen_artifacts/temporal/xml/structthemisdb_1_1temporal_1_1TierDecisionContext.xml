@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="177" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="177" bodyend="-1"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="189" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="189" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1TierDecisionContext_1a9941e0b3b67e18a5d7e4044aa22a2131" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="178" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="178" bodyend="-1"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="190" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="190" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1TierDecisionContext_1abdf00fa6e749bcbcb473887adfc6dad5" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -46,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="180" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="180" bodyend="180"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="192" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="192" bodyend="192"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1TierDecisionContext_1acb0ed186695b906c76624242c5802a05" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="181" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="181" bodyend="181"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="193" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="193" bodyend="193"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1TierDecisionContext_1ad24373e4318ff8597ac191749efd13ed" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="182" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="182" bodyend="182"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="194" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="194" bodyend="194"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1TierDecisionContext_1a483ec9b9c8de5e0217b127806eaf4223" prot="public" static="no" mutable="no">
         <type>uint64_t</type>
@@ -93,7 +93,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="183" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="183" bodyend="183"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="195" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="195" bodyend="195"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1TierDecisionContext_1aef5860aa64982608f1c87545ff6e04c5" prot="public" static="no" mutable="no">
         <type>uint64_t</type>
@@ -109,7 +109,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="184" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="184" bodyend="184"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="196" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="196" bodyend="196"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1TierDecisionContext_1a0dc29c58f3a7f81e6326b66e86feca8e" prot="public" static="no" mutable="no">
         <type><ref refid="namespacethemisdb_1_1temporal_1a4c7b3a2b0647866e134f95d5c6536db5" kindref="member">Timestamp</ref></type>
@@ -124,7 +124,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="186" column="15" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="186" bodyend="186"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="198" column="15" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="198" bodyend="198"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1TierDecisionContext_1a0e03bd40bbdfffd0d7cc0de7ea1deae5" prot="public" static="no" mutable="no">
         <type><ref refid="namespacethemisdb_1_1temporal_1a4c7b3a2b0647866e134f95d5c6536db5" kindref="member">Timestamp</ref></type>
@@ -139,7 +139,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="187" column="15" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="187" bodyend="187"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="199" column="15" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="199" bodyend="199"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1TierDecisionContext_1a114f2ebd7835f63e6e0d0b5237a5c079" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -155,7 +155,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="190" column="12" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="190" bodyend="190"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="202" column="12" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="202" bodyend="202"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -164,7 +164,7 @@
     <detaileddescription>
 <para>Contains all observable signals that a threshold-based rule or an ML model needs to emit a TierDecision. </para>
     </detaileddescription>
-    <location file="include/temporal/temporal_tier_manager.h" line="176" column="1" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="176" bodyend="191"/>
+    <location file="include/temporal/temporal_tier_manager.h" line="188" column="1" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="188" bodyend="203"/>
     <listofallmembers>
       <member refid="structthemisdb_1_1temporal_1_1TierDecisionContext_1a9941e0b3b67e18a5d7e4044aa22a2131" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierDecisionContext</scope><name>doc_key</name></member>
       <member refid="structthemisdb_1_1temporal_1_1TierDecisionContext_1abdf00fa6e749bcbcb473887adfc6dad5" prot="public" virt="non-virtual"><scope>themisdb::temporal::TierDecisionContext</scope><name>hot_version_count</name></member>

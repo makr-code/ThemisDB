@@ -106,7 +106,7 @@ Calls: detectConcurrentUpdate(), push_back(), std::move(), detectOverlappingPeri
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_conflict_resolver.h" line="369" column="17" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="388" bodyend="425"/>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="369" column="17" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="368" bodyend="405"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1TemporalConflictDetector_1a6a34db5dc4789e05f2c9d16d40c1260b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1TemporalSnapshot" kindref="compound">TemporalSnapshot</ref> &gt;</type>
@@ -152,7 +152,7 @@ Calls: resolver(), resolve(). </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_conflict_resolver.h" line="381" column="19" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="438" bodyend="447"/>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="381" column="19" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="418" bodyend="427"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1TemporalConflictDetector_1a215d6be82cc353963f2e30c7e4253aac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -199,7 +199,7 @@ Calls: makeQueueKey(), lock(), count(), std::move(). </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_conflict_resolver.h" line="397" column="10" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="460" bodyend="472"/>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="397" column="10" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="440" bodyend="452"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1TemporalConflictDetector_1a26d90f70204f38d081e64e4c3c675ed6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1Conflict" kindref="compound">Conflict</ref> &gt;</type>
@@ -226,7 +226,7 @@ Calls: makeQueueKey(), lock(), count(), std::move(). </para>
 </simplesect>
 </para>
         </inbodydescription>
-        <location file="include/temporal/temporal_conflict_resolver.h" line="403" column="17" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="474" bodyend="488"/>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="403" column="17" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="454" bodyend="468"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1TemporalConflictDetector_1a27d8603ac643bedc1ddf225f5b5bda3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -243,7 +243,7 @@ Calls: makeQueueKey(), lock(), count(), std::move(). </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_conflict_resolver.h" line="408" column="10" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="494" bodyend="497"/>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="408" column="10" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="474" bodyend="477"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -289,7 +289,7 @@ Implements makeQueueKey without additional internal calls. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_conflict_resolver.h" line="416" column="24" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="510" bodyend="525"/>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="416" column="24" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="490" bodyend="505"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1TemporalConflictDetector_1a9a6af5b6a15d7477b32232fcbee9cd39" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1Conflict" kindref="compound">Conflict</ref> &gt;</type>
@@ -333,7 +333,7 @@ Calls: is_object(), items(), contains(), push_back(), std::move(). </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_conflict_resolver.h" line="420" column="26" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="538" bodyend="584"/>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="420" column="26" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="518" bodyend="564"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1TemporalConflictDetector_1a850ac543a1031d1df26598ea5f46a548" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1Conflict" kindref="compound">Conflict</ref> &gt;</type>
@@ -376,7 +376,7 @@ Calls: is_object(), contains(), at(), is_number_integer(). </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_conflict_resolver.h" line="425" column="26" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="593" bodyend="643"/>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="425" column="26" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="573" bodyend="623"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1TemporalConflictDetector_1aaa808da7673868fe58a9bc04b7d14e17" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1Conflict" kindref="compound">Conflict</ref> &gt;</type>
@@ -419,7 +419,7 @@ Calls: is_object(), contains(), at(). </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_conflict_resolver.h" line="430" column="26" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="652" bodyend="678"/>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="430" column="26" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="632" bodyend="658"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1TemporalConflictDetector_1a97d30330ebb72a4659c4c69e2bce8ec4" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1Conflict" kindref="compound">Conflict</ref> &gt;</type>
@@ -462,7 +462,7 @@ Calls: is_object(), items(), contains(), push_back(), empty(), std::move(). </pa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_conflict_resolver.h" line="435" column="26" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="687" bodyend="734"/>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="435" column="26" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="667" bodyend="714"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

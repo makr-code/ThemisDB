@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="142" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="142" bodyend="-1"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="154" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="154" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1VersionBlock_1aecc9f751dfa36183a46a670219755b89" prot="public" static="no" mutable="no">
         <type><ref refid="namespacethemisdb_1_1temporal_1a4c7b3a2b0647866e134f95d5c6536db5" kindref="member">Timestamp</ref></type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="143" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="143" bodyend="143"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="155" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="155" bodyend="155"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1VersionBlock_1a461aa04e27771ef37dfd4f276b0bd95b" prot="public" static="no" mutable="no">
         <type><ref refid="namespacethemisdb_1_1temporal_1a4c7b3a2b0647866e134f95d5c6536db5" kindref="member">Timestamp</ref></type>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="144" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="144" bodyend="144"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="156" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="156" bodyend="156"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1VersionBlock_1a2baba7097af8199a3ca10280453474d7" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="145" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="145" bodyend="145"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="157" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="157" bodyend="157"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1VersionBlock_1ab81b178a2520e4de15bb8d216ddd5f37" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -78,7 +78,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="148" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="148" bodyend="-1"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="160" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="160" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1VersionBlock_1aad1a22f1235b95e5cb4d30e9b51671d2" prot="public" static="no" mutable="no">
         <type><ref refid="classthemisdb_1_1temporal_1_1BloomFilter" kindref="compound">BloomFilter</ref></type>
@@ -93,7 +93,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="151" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="151" bodyend="-1"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="163" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="163" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1VersionBlock_1aede406f50bf2d1027f8639f95f601a11" prot="public" static="no" mutable="no">
         <type>uint64_t</type>
@@ -109,7 +109,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="154" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="154" bodyend="154"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="166" column="14" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="166" bodyend="166"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -125,7 +125,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="156" column="5" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="156" bodyend="156"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="168" column="5" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="168" bodyend="168"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -154,7 +154,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/temporal/temporal_tier_manager.h" line="141" column="1" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="141" bodyend="157"/>
+    <location file="include/temporal/temporal_tier_manager.h" line="153" column="1" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="153" bodyend="169"/>
     <listofallmembers>
       <member refid="structthemisdb_1_1temporal_1_1VersionBlock_1aede406f50bf2d1027f8639f95f601a11" prot="public" virt="non-virtual"><scope>themisdb::temporal::VersionBlock</scope><name>approx_bytes</name></member>
       <member refid="structthemisdb_1_1temporal_1_1VersionBlock_1aad1a22f1235b95e5cb4d30e9b51671d2" prot="public" virt="non-virtual"><scope>themisdb::temporal::VersionBlock</scope><name>bloom</name></member>

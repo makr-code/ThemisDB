@@ -94,18 +94,20 @@ The current generated listing is
 [`src/temporal/DOXYGEN.md`](../../src/temporal/DOXYGEN.md), derived from
 [`module_doxygen_artifacts/temporal/xml/index.xml`](module_doxygen_artifacts/temporal/xml/index.xml)
 with Doxygen 1.9.8 on 2026-11-01. It covers 56 C/C++ inputs across include,
-source, tests, and benchmarks. Generation passed with 218 warnings; review the
-[warning log](module_doxygen_artifacts/temporal/doxygen-warnings.log) when
-checking extracted prose and parameter documentation. Public headers remain the
-source of truth for signatures and behavior.
+source, tests, and benchmarks. Generation passed with 73 warnings, primarily
+duplicate parameter documentation in implementation comments; the earlier
+malformed query examples and in-body `mutex_` parameter tags were corrected.
+Public headers remain the source of truth for signatures and behavior.
 
-The direct coverage check filtered 379 source symbols and found 25 missing
-symbols, 710 missing briefs, 345 missing parameter descriptions, and 336 missing
-return descriptions. These are documentation coverage findings, not proof that
-the declarations are absent from the source. See the
+The direct coverage check filtered 324 source symbols and found 24 missing
+symbols, 309 missing briefs, 159 missing parameter descriptions, and 183 missing
+return descriptions. The checker spans public headers, implementation, tests,
+and benchmarks; its unqualified-name matching and class/enum classification
+produce false positives. These counts are not acceptance targets or proof that
+the declarations lack usable documentation. See the
 [coverage summary](module_doxygen_artifacts/temporal/direct_doxygen_coverage.md)
 and [detailed report](module_doxygen_artifacts/temporal/direct_doxygen_summary.md)
-before relying on extracted descriptive text.
+for scope and examples before relying on extracted descriptive text.
 
 ## Source priority and freshness
 

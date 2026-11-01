@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="431" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="431" bodyend="431"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="467" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="467" bodyend="467"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1TemporalTierManager_1_1TableTierStats_1aeab41172b22d1f852194d56ef3deb642" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="432" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="432" bodyend="432"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="468" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="468" bodyend="468"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1TemporalTierManager_1_1TableTierStats_1af4157b368d486746fe9ed190cbbef7f5" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="433" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="433" bodyend="433"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="469" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="469" bodyend="469"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1TemporalTierManager_1_1TableTierStats_1a1364ad9eeef662b0cb0a3548f40b75be" prot="public" static="no" mutable="no">
         <type>uint64_t</type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="434" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="434" bodyend="434"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="470" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="470" bodyend="470"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1TemporalTierManager_1_1TableTierStats_1a7eb0a2b4d05024ad9cb114ccf787dbfe" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="435" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="435" bodyend="435"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="471" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="471" bodyend="471"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1TemporalTierManager_1_1TableTierStats_1a85fde4645987a9bd1fd0990ce789799d" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -92,7 +92,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="436" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="436" bodyend="436"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="472" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="472" bodyend="472"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1TemporalTierManager_1_1TableTierStats_1a5a2cc8d590fec5b46afac1eb4a65dec3" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -107,7 +107,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="437" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="437" bodyend="437"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="473" column="18" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="473" bodyend="473"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -115,7 +115,7 @@
     <detaileddescription>
 <para>Aggregate tier stats for table_name. </para>
     </detaileddescription>
-    <location file="include/temporal/temporal_tier_manager.h" line="430" column="5" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="430" bodyend="438"/>
+    <location file="include/temporal/temporal_tier_manager.h" line="466" column="5" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="466" bodyend="474"/>
     <listofallmembers>
       <member refid="structthemisdb_1_1temporal_1_1TemporalTierManager_1_1TableTierStats_1a85fde4645987a9bd1fd0990ce789799d" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager::TableTierStats</scope><name>flush_hot_to_warm_count</name></member>
       <member refid="structthemisdb_1_1temporal_1_1TemporalTierManager_1_1TableTierStats_1a5a2cc8d590fec5b46afac1eb4a65dec3" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalTierManager::TableTierStats</scope><name>flush_warm_to_cold_count</name></member>

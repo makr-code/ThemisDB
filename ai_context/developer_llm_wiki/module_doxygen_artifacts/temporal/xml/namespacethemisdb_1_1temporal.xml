@@ -295,7 +295,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="164" column="1" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="164" bodyend="168"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="176" column="1" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="176" bodyend="180"/>
       </memberdef>
       <memberdef kind="enum" id="namespacethemisdb_1_1temporal_1a8b05721af1ac0c25175e4998cb15dc57" prot="public" static="no" strong="yes">
         <type></type>
@@ -621,10 +621,10 @@
         </briefdescription>
         <detaileddescription>
 <para>SQL:2011 temporal clause type (§7.6).</para>
-<para>AS_OF — FOR SYSTEM_TIME AS OF &lt;timestamp&gt; Returns all rows current at the given instant.</para>
-<para>FROM_TO — FOR SYSTEM_TIME FROM &lt;start&gt; TO &lt;end&gt; Returns all row versions whose sys_time overlaps [start, end).</para>
-<para>BETWEEN_AND — FOR SYSTEM_TIME BETWEEN &lt;start&gt; AND &lt;end&gt; Closed-interval variant: overlaps [start, end].</para>
-<para>CONTAINED_IN — FOR SYSTEM_TIME CONTAINED IN PERIOD (&lt;start&gt;, &lt;end&gt;) Returns only rows whose entire sys_time lies within [start, end).</para>
+<para>AS_OF — FOR SYSTEM_TIME AS OF timestamp Returns all rows current at the given instant.</para>
+<para>FROM_TO — FOR SYSTEM_TIME FROM start TO end Returns all row versions whose sys_time overlaps [start, end).</para>
+<para>BETWEEN_AND — FOR SYSTEM_TIME BETWEEN start AND end Closed-interval variant: overlaps [start, end].</para>
+<para>CONTAINED_IN — FOR SYSTEM_TIME CONTAINED IN PERIOD (start, end) Returns only rows whose entire sys_time lies within [start, end).</para>
 <para>ALL — FOR SYSTEM_TIME ALL Returns every stored version (equivalent to NON_SEQUENCED). </para>
         </detaileddescription>
         <inbodydescription>
@@ -890,7 +890,7 @@ Calls: std::fopen(), c_str(), validateSegmentHeaderFile(), std::fclose(), std::f
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/temporal/temporal_cdc.cpp" line="561" column="20" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="561" bodyend="601"/>
+        <location file="src/temporal/temporal_cdc.cpp" line="541" column="20" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="541" bodyend="581"/>
       </memberdef>
       <memberdef kind="function" id="namespacethemisdb_1_1temporal_1ac61313d0595b45446d0a82902883df30" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint64_t</type>
@@ -921,7 +921,7 @@ Calls: size(), dump(). </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/temporal/retention_manager.cpp" line="311" column="17" bodyfile="src/temporal/retention_manager.cpp" bodystart="311" bodyend="315"/>
+        <location file="src/temporal/retention_manager.cpp" line="291" column="17" bodyfile="src/temporal/retention_manager.cpp" bodystart="291" bodyend="295"/>
       </memberdef>
       <memberdef kind="function" id="namespacethemisdb_1_1temporal_1a54a80b704cd76370657d384e3ca8ef66" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -964,7 +964,7 @@ Calls: empty(). </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/temporal/retention_manager.cpp" line="324" column="20" bodyfile="src/temporal/retention_manager.cpp" bodystart="324" bodyend="333"/>
+        <location file="src/temporal/retention_manager.cpp" line="304" column="20" bodyfile="src/temporal/retention_manager.cpp" bodystart="304" bodyend="313"/>
       </memberdef>
       <memberdef kind="function" id="namespacethemisdb_1_1temporal_1a6068c9bc465611ef0041a3a57006b0f3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -995,7 +995,7 @@ Calls: max(). </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/temporal/retention_manager.cpp" line="341" column="15" bodyfile="src/temporal/retention_manager.cpp" bodystart="341" bodyend="345"/>
+        <location file="src/temporal/retention_manager.cpp" line="321" column="15" bodyfile="src/temporal/retention_manager.cpp" bodystart="321" bodyend="325"/>
       </memberdef>
       <memberdef kind="function" id="namespacethemisdb_1_1temporal_1ae41c97f7f87df328b98c01d33d10e0ac" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>

@@ -184,7 +184,7 @@ Calls: lk(), std::chrono::steady_clock::now(), count(), <ref refid="namespacethe
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_compressor.h" line="198" column="22" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="486" bodyend="737"/>
+        <location file="include/temporal/temporal_compressor.h" line="198" column="22" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="487" bodyend="738"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -219,7 +219,7 @@ Calls: is_object(), contains(), decompressZstd(), decompressLz4(). </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_compressor.h" line="207" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="449" bodyend="472"/>
+        <location file="include/temporal/temporal_compressor.h" line="207" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="450" bodyend="473"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1TemporalCompressor_1a6ecde852f9aa709189c54d714c4788da" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -251,7 +251,7 @@ Implements algorithmName without additional internal calls. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_compressor.h" line="212" column="24" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="428" bodyend="437"/>
+        <location file="include/temporal/temporal_compressor.h" line="212" column="24" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="429" bodyend="438"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -274,41 +274,41 @@ Implements algorithmName without additional internal calls. </para>
           <declname>base_ref</declname>
         </param>
         <briefdescription>
-<para>============================================================================ Algorithm: DELTA (JSON field-level patch) A delta payload looks like: { &quot;__compressed&quot;: &quot;delta&quot;, &quot;__base_ref&quot;: &quot;&lt;key&gt;@&lt;sys_start_ms&gt;&quot;, &quot;__patch&quot;: { &lt;field&gt;: &lt;new_value&gt;, . </para>
+<para>Build a JSON field-level delta between two documents. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername direction="in">base</parametername>
+<parametername>base</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Input parameter. </para>
+<para>Document whose values form the baseline. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername direction="in">current</parametername>
+<parametername>current</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Input parameter. </para>
+<para>Document containing the updated values. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername direction="in">base_ref</parametername>
+<parametername>base_ref</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Input parameter. </para>
+<para>Reference used to locate the baseline during reconstruction. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<simplesect kind="return"><para>Delta payload with changed values and removed-field names.</para>
 </simplesect>
-.. }, &quot;__removed&quot;: [&lt;field&gt;, ...] } Fields absent from __patch and __removed are unchanged from the base. ============================================================================ Calls: nlohmann::json::object(), nlohmann::json::array(), items(), contains(), at(), push_back(). </para>
+Fields absent from both the patch and removed-field list are unchanged from the baseline. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_compressor.h" line="217" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="240" bodyend="265"/>
+        <location file="include/temporal/temporal_compressor.h" line="217" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="241" bodyend="266"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1TemporalCompressor_1acddfbf23c9de5c60a0732f2be6b3b054" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>nlohmann::json</type>
@@ -325,29 +325,31 @@ Implements algorithmName without additional internal calls. </para>
           <declname>level</declname>
         </param>
         <briefdescription>
-<para>============================================================================ Algorithm: ZSTD (simulated via RL-encode + base64) ============================================================================ </para>
+<para>Encode a payload using the current ZSTD-labelled implementation. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername direction="in">doc</parametername>
+<parametername>doc</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Input parameter. </para>
+<para>JSON document to encode. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername direction="in">int</parametername>
+<parametername>level</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Input parameter. </para>
+<para>Compression level accepted by the API; currently unused. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<simplesect kind="return"><para>JSON object containing the encoded payload and its marker. </para>
 </simplesect>
-Calls: dump(), base64Encode(), rlEncode(), size(). </para>
+<simplesect kind="note"><para>This implementation uses run-length encoding and base64, not Zstandard. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
@@ -398,23 +400,23 @@ Calls: at(), rlDecode(), base64Decode(), nlohmann::json::parse(). </para>
 <para>Compress a JSON document with LZ4 block format. </para>
         </briefdescription>
         <detaileddescription>
-<para>============================================================================ ============================================================================ Algorithm: LZ4 — high-throughput block compression ============================================================================ Payload format stored in the history table: { &quot;__compressed&quot;: &quot;lz4&quot;, &quot;__original_size&quot;: &lt;int&gt;, // original JSON string byte count &quot;__data&quot;: &quot;&lt;base64-encoded LZ4 compressed block&gt;&quot; }</para>
+<para>Compress a JSON document into the LZ4 payload format.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername direction="in">doc</parametername>
+<parametername>doc</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Input parameter. </para>
+<para>Document serialized before block compression. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<simplesect kind="return"><para>Marked JSON payload containing the original byte count and encoded compressed block. </para>
 </simplesect>
-Calls: dump(), size(), LZ4_compressBound(), dst(), LZ4_compress_default(), data(), resize(), base64Encode(). </para>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_compressor.h" line="227" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="353" bodyend="379"/>
+        <location file="include/temporal/temporal_compressor.h" line="227" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="354" bodyend="380"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1TemporalCompressor_1a84110e1e7f0e7948e0d0014fb80748f3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>nlohmann::json</type>
@@ -446,7 +448,7 @@ Calls: contains(), base64Decode(), decompressed(), LZ4_decompress_safe(), data()
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_compressor.h" line="230" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="387" bodyend="417"/>
+        <location file="include/temporal/temporal_compressor.h" line="230" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="388" bodyend="418"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1TemporalCompressor_1ae3775c20b6ef10bb8d64f78bc9ed2729" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>nlohmann::json</type>
@@ -469,7 +471,7 @@ Calls: contains(), base64Decode(), decompressed(), LZ4_decompress_safe(), data()
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_compressor.h" line="233" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="280" bodyend="311"/>
+        <location file="include/temporal/temporal_compressor.h" line="233" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="281" bodyend="312"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1TemporalCompressor_1a48fae62e2e0b7ac1d98677479e26bb7d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>nlohmann::json</type>
@@ -491,7 +493,7 @@ Calls: contains(), base64Decode(), decompressed(), LZ4_decompress_safe(), data()
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_compressor.h" line="237" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="320" bodyend="344"/>
+        <location file="include/temporal/temporal_compressor.h" line="237" column="27" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="321" bodyend="345"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1TemporalCompressor_1af3ecb4b1ab5678328d69bd3066edb961" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>

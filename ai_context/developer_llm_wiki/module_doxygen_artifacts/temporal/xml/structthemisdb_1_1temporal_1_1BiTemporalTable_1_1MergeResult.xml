@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="221" column="16" bodyfile="include/temporal/bi_temporal.h" bodystart="221" bodyend="221"/>
+        <location file="include/temporal/bi_temporal.h" line="251" column="16" bodyfile="include/temporal/bi_temporal.h" bodystart="251" bodyend="251"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1BiTemporalTable_1_1MergeResult_1a8d970314c868235ef20489550bdefec2" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="222" column="16" bodyfile="include/temporal/bi_temporal.h" bodystart="222" bodyend="222"/>
+        <location file="include/temporal/bi_temporal.h" line="252" column="16" bodyfile="include/temporal/bi_temporal.h" bodystart="252" bodyend="252"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1BiTemporalTable_1_1MergeResult_1aeb84429c8ad191f20aac31f775d9878f" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -50,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/bi_temporal.h" line="223" column="16" bodyfile="include/temporal/bi_temporal.h" bodystart="223" bodyend="223"/>
+        <location file="include/temporal/bi_temporal.h" line="253" column="16" bodyfile="include/temporal/bi_temporal.h" bodystart="253" bodyend="253"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -58,7 +58,7 @@
     <detaileddescription>
 <para>Result of a merge operation. </para>
     </detaileddescription>
-    <location file="include/temporal/bi_temporal.h" line="220" column="5" bodyfile="include/temporal/bi_temporal.h" bodystart="220" bodyend="224"/>
+    <location file="include/temporal/bi_temporal.h" line="250" column="5" bodyfile="include/temporal/bi_temporal.h" bodystart="250" bodyend="254"/>
     <listofallmembers>
       <member refid="structthemisdb_1_1temporal_1_1BiTemporalTable_1_1MergeResult_1aeb84429c8ad191f20aac31f775d9878f" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable::MergeResult</scope><name>conflicts_lww</name></member>
       <member refid="structthemisdb_1_1temporal_1_1BiTemporalTable_1_1MergeResult_1aedca185b34ca1079077246f8d09a2e4a" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalTable::MergeResult</scope><name>rows_inserted</name></member>

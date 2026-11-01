@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="115" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="115" bodyend="-1"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="127" column="17" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="127" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1BloomFilter_1acb3da0d01a50031374fee7a3565fbc1a" prot="private" static="no" mutable="no">
         <type>size_t</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="116" column="12" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="116" bodyend="-1"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="128" column="12" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="128" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -83,12 +83,25 @@
           <declname>value</declname>
         </param>
         <briefdescription>
+<para>Add a value to the filter. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timestamp value to record. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>The filter may report false positives; it does not remove values. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="109" column="10" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="77" bodyend="82"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="114" column="10" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="77" bodyend="82"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BloomFilter_1a8dfc6fbf9e30f350150b4fa06c7cbfcf" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>bool</type>
@@ -101,12 +114,25 @@
           <declname>value</declname>
         </param>
         <briefdescription>
+<para>Test whether a value may have been added to the filter. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timestamp value to test. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>false if the value was not added; true if it may have been added. A true result can be a false positive. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="110" column="10" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="84" bodyend="89"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="122" column="10" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="84" bodyend="89"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BloomFilter_1a264a1a5a937665698097c54c4e30e06e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
         <type>size_t</type>
@@ -120,7 +146,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="112" column="12" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="112" bodyend="112"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="124" column="12" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="124" bodyend="124"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -140,7 +166,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="118" column="21" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="32" bodyend="39"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="130" column="21" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="32" bodyend="39"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BloomFilter_1a01dd7715a1d3407208bd65105025f816" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>uint64_t</type>
@@ -158,7 +184,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="119" column="21" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="41" bodyend="46"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="131" column="21" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="41" bodyend="46"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BloomFilter_1ade9006d185787cda9036b5e367477c93" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>uint64_t</type>
@@ -176,7 +202,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="120" column="21" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="48" bodyend="57"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="132" column="21" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="48" bodyend="57"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -196,7 +222,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="122" column="10" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="67" bodyend="70"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="134" column="10" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="67" bodyend="70"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1BloomFilter_1a7096b147e4545bda863bb34379a6d0ed" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>bool</type>
@@ -214,7 +240,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_tier_manager.h" line="123" column="10" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="72" bodyend="75"/>
+        <location file="include/temporal/temporal_tier_manager.h" line="135" column="10" bodyfile="src/temporal/temporal_tier_manager.cpp" bodystart="72" bodyend="75"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -224,7 +250,7 @@
 <para>Uses 3 independent hash functions derived from Murmur3-style finalizers. Default sizing: 8 bits per expected element → ~2.4 % false-positive rate.</para>
 <para>Used in <ref refid="structthemisdb_1_1temporal_1_1VersionBlock" kindref="compound">VersionBlock</ref> to short-circuit getAsOf() calls that cannot possibly match (warm-tier miss detection). </para>
     </detaileddescription>
-    <location file="include/temporal/temporal_tier_manager.h" line="102" column="1" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="102" bodyend="124"/>
+    <location file="include/temporal/temporal_tier_manager.h" line="102" column="1" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="102" bodyend="136"/>
     <listofallmembers>
       <member refid="classthemisdb_1_1temporal_1_1BloomFilter_1a8d66dfe06c831a1aa6e0c06dedc06bf2" prot="public" virt="non-virtual"><scope>themisdb::temporal::BloomFilter</scope><name>add</name></member>
       <member refid="classthemisdb_1_1temporal_1_1BloomFilter_1a264a1a5a937665698097c54c4e30e06e" prot="public" virt="non-virtual"><scope>themisdb::temporal::BloomFilter</scope><name>bitCount</name></member>

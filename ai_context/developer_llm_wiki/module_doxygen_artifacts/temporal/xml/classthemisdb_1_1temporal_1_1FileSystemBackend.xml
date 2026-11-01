@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="233" column="27" bodyfile="include/temporal/temporal_cold_store.h" bodystart="233" bodyend="-1"/>
+        <location file="include/temporal/temporal_cold_store.h" line="253" column="27" bodyfile="include/temporal/temporal_cold_store.h" bodystart="253" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1FileSystemBackend_1a9847c538aa9294571019672d2e8f80f3" prot="private" static="no" mutable="yes">
         <type>std::shared_mutex</type>
@@ -31,7 +31,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="234" column="31" bodyfile="include/temporal/temporal_cold_store.h" bodystart="234" bodyend="-1"/>
+        <location file="include/temporal/temporal_cold_store.h" line="254" column="31" bodyfile="include/temporal/temporal_cold_store.h" bodystart="254" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -61,7 +61,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="220" column="14" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="226" bodyend="229"/>
+        <location file="include/temporal/temporal_cold_store.h" line="240" column="14" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="216" bodyend="219"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1FileSystemBackend_1ae77c2c3929f11564e3187041dea01507" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -105,7 +105,7 @@ Calls: lk(), keyToPath(), fs::create_directories(), parent_path(), fs::path(), s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="222" column="10" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="238" bodyend="262"/>
+        <location file="include/temporal/temporal_cold_store.h" line="242" column="10" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="228" bodyend="252"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1FileSystemBackend_1a1eae0204d79aa2843afd59014f5c9808" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -119,23 +119,24 @@ Calls: lk(), keyToPath(), fs::create_directories(), parent_path(), fs::path(), s
           <declname>composite_key</declname>
         </param>
         <briefdescription>
+<para>Retrieve a value by composite key. </para>
         </briefdescription>
         <detaileddescription>
-<para>Retrieve value for key. Returns empty string if not found. </para>
-        </detaileddescription>
-        <inbodydescription>
-<para>Lk. <parameterlist kind="param"><parameteritem>
+<para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername direction="in">mutex_</parametername>
+<parametername>composite_key</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Input parameter. </para>
+<para>Backend key. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<simplesect kind="return"><para>Serialized value, or an empty string when the key is absent. </para>
 </simplesect>
-Ifs. <parameterlist kind="param"><parameteritem>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ifs. <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername direction="in">target</parametername>
 </parameternamelist>
@@ -148,7 +149,7 @@ Ifs. <parameterlist kind="param"><parameteritem>
 </simplesect>
 </para>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="223" column="17" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="264" bodyend="286"/>
+        <location file="include/temporal/temporal_cold_store.h" line="243" column="17" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="254" bodyend="271"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1FileSystemBackend_1ae0e1c5c72031f9d40d4f8d893bb97a80" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -180,7 +181,7 @@ Calls: lk(), keyToPath(), fs::remove(). </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="224" column="10" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="294" bodyend="302"/>
+        <location file="include/temporal/temporal_cold_store.h" line="244" column="10" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="279" bodyend="287"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1FileSystemBackend_1ae7a298a01637c88333d68b8f4008edc9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -196,23 +197,22 @@ Calls: lk(), keyToPath(), fs::remove(). </para>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para>Enumerate all composite keys that start with prefix. Used to rebuild the RAM index on startup. </para>
-        </detaileddescription>
-        <inbodydescription>
-<para>Reconstruct the directory path the prefix maps to. <parameterlist kind="param"><parameteritem>
+<para>Enumerate all composite keys that start with prefix. Used to rebuild the RAM index on startup. <parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername direction="in">mutex_</parametername>
+<parametername>prefix</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Input parameter. </para>
+<para>Key prefix to match. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Return value.</para>
+<simplesect kind="return"><para>Matching keys. </para>
 </simplesect>
-prefix format: table&apos;\x01&apos;doc_key&apos;\x01&apos; (with trailing sep → per-key list) table&apos;\x01&apos; (with one sep → per-table list)</para>
+</para>
+        </detaileddescription>
+        <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="226" column="5" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="305" bodyend="333"/>
+        <location file="include/temporal/temporal_cold_store.h" line="246" column="5" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="290" bodyend="314"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1FileSystemBackend_1a048b041ffd8364dfd7311160a7ff1fe3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>size_t</type>
@@ -244,7 +244,7 @@ Calls: lk(), fs::recursive_directory_iterator(), is_regular_file(), path(), exte
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="227" column="12" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="341" bodyend="365"/>
+        <location file="include/temporal/temporal_cold_store.h" line="247" column="12" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="322" bodyend="346"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1FileSystemBackend_1a51622609dd8740e9735e9106b928c1e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -261,7 +261,7 @@ Calls: lk(), fs::recursive_directory_iterator(), is_regular_file(), path(), exte
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="228" column="10" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="371" bodyend="378"/>
+        <location file="include/temporal/temporal_cold_store.h" line="248" column="10" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="352" bodyend="359"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1FileSystemBackend_1a5b119d11303ee5927f776f00ea42e9ac" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
         <type>const std::filesystem::path &amp;</type>
@@ -275,7 +275,7 @@ Calls: lk(), fs::recursive_directory_iterator(), is_regular_file(), path(), exte
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="230" column="33" bodyfile="include/temporal/temporal_cold_store.h" bodystart="230" bodyend="230"/>
+        <location file="include/temporal/temporal_cold_store.h" line="250" column="33" bodyfile="include/temporal/temporal_cold_store.h" bodystart="250" bodyend="250"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -296,7 +296,7 @@ Calls: lk(), fs::recursive_directory_iterator(), is_regular_file(), path(), exte
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="237" column="27" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="184" bodyend="199"/>
+        <location file="include/temporal/temporal_cold_store.h" line="257" column="27" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="174" bodyend="189"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1FileSystemBackend_1a976fc0024539d62f89ba0dc38bdd49aa" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -315,7 +315,7 @@ Calls: lk(), fs::recursive_directory_iterator(), is_regular_file(), path(), exte
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="246" column="17" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="202" bodyend="220"/>
+        <location file="include/temporal/temporal_cold_store.h" line="266" column="17" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="192" bodyend="210"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -349,7 +349,7 @@ Encodes everything except unreserved URI characters (A-Z a-z 0-9 - _ . ~). Calls
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="240" column="24" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="128" bodyend="144"/>
+        <location file="include/temporal/temporal_cold_store.h" line="260" column="24" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="118" bodyend="134"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1FileSystemBackend_1af39bb11b11fd63e61a04aefd864d6cf8" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -381,7 +381,7 @@ Calls: reserve(), size(), hexVal(). </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="243" column="24" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="152" bodyend="180"/>
+        <location file="include/temporal/temporal_cold_store.h" line="263" column="24" bodyfile="src/temporal/temporal_cold_store.cpp" bodystart="142" bodyend="170"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -431,7 +431,7 @@ Calls: reserve(), size(), hexVal(). </para>
         <link refid="classthemisdb_1_1temporal_1_1IColdStoreBackend"/>
       </node>
     </collaborationgraph>
-    <location file="include/temporal/temporal_cold_store.h" line="214" column="1" bodyfile="include/temporal/temporal_cold_store.h" bodystart="214" bodyend="247"/>
+    <location file="include/temporal/temporal_cold_store.h" line="234" column="1" bodyfile="include/temporal/temporal_cold_store.h" bodystart="234" bodyend="267"/>
     <listofallmembers>
       <member refid="classthemisdb_1_1temporal_1_1FileSystemBackend_1a149d91a5099ca1248d3cc0ffd6cd8a62" prot="private" virt="non-virtual"><scope>themisdb::temporal::FileSystemBackend</scope><name>base_dir_</name></member>
       <member refid="classthemisdb_1_1temporal_1_1FileSystemBackend_1a5b119d11303ee5927f776f00ea42e9ac" prot="public" virt="non-virtual"><scope>themisdb::temporal::FileSystemBackend</scope><name>basePath</name></member>

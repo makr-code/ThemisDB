@@ -6,6 +6,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="src/temporal/temporal_query_engine.cpp" line="506" column="1"/>
+    <location file="src/temporal/temporal_query_engine.cpp" line="496" column="1"/>
   </compounddef>
 </doxygen>

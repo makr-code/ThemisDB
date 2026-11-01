@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="87" column="12" bodyfile="include/temporal/temporal_cold_store.h" bodystart="87" bodyend="87"/>
+        <location file="include/temporal/temporal_cold_store.h" line="88" column="12" bodyfile="include/temporal/temporal_cold_store.h" bodystart="88" bodyend="88"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1ColdStoreStats_1a87fc885467b4900a2b8c84dfa2359726" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="88" column="12" bodyfile="include/temporal/temporal_cold_store.h" bodystart="88" bodyend="88"/>
+        <location file="include/temporal/temporal_cold_store.h" line="89" column="12" bodyfile="include/temporal/temporal_cold_store.h" bodystart="89" bodyend="89"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1ColdStoreStats_1a13bdc21036a255f638671f08475f4a7b" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -50,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="89" column="12" bodyfile="include/temporal/temporal_cold_store.h" bodystart="89" bodyend="89"/>
+        <location file="include/temporal/temporal_cold_store.h" line="90" column="12" bodyfile="include/temporal/temporal_cold_store.h" bodystart="90" bodyend="90"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1ColdStoreStats_1ac6581d83445004fde291cb741f843721" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -66,7 +66,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="90" column="12" bodyfile="include/temporal/temporal_cold_store.h" bodystart="90" bodyend="90"/>
+        <location file="include/temporal/temporal_cold_store.h" line="91" column="12" bodyfile="include/temporal/temporal_cold_store.h" bodystart="91" bodyend="91"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1ColdStoreStats_1acd2eb8b4edcc888c448f7472029b3d36" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -82,7 +82,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="91" column="12" bodyfile="include/temporal/temporal_cold_store.h" bodystart="91" bodyend="91"/>
+        <location file="include/temporal/temporal_cold_store.h" line="92" column="12" bodyfile="include/temporal/temporal_cold_store.h" bodystart="92" bodyend="92"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1ColdStoreStats_1adfdd3c46a5d243676e7e7fde9e465d10" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -98,7 +98,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="92" column="12" bodyfile="include/temporal/temporal_cold_store.h" bodystart="92" bodyend="92"/>
+        <location file="include/temporal/temporal_cold_store.h" line="93" column="12" bodyfile="include/temporal/temporal_cold_store.h" bodystart="93" bodyend="93"/>
       </memberdef>
       <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1ColdStoreStats_1a29abb33334ba1c44f124b7ea070b1b50" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -114,7 +114,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="93" column="12" bodyfile="include/temporal/temporal_cold_store.h" bodystart="93" bodyend="93"/>
+        <location file="include/temporal/temporal_cold_store.h" line="94" column="12" bodyfile="include/temporal/temporal_cold_store.h" bodystart="94" bodyend="94"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -130,7 +130,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_cold_store.h" line="95" column="20" bodyfile="include/temporal/temporal_cold_store.h" bodystart="95" bodyend="103"/>
+        <location file="include/temporal/temporal_cold_store.h" line="96" column="20" bodyfile="include/temporal/temporal_cold_store.h" bodystart="96" bodyend="104"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -138,7 +138,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/temporal/temporal_cold_store.h" line="86" column="1" bodyfile="include/temporal/temporal_cold_store.h" bodystart="86" bodyend="104"/>
+    <location file="include/temporal/temporal_cold_store.h" line="87" column="1" bodyfile="include/temporal/temporal_cold_store.h" bodystart="87" bodyend="105"/>
     <listofallmembers>
       <member refid="structthemisdb_1_1temporal_1_1ColdStoreStats_1adfdd3c46a5d243676e7e7fde9e465d10" prot="public" virt="non-virtual"><scope>themisdb::temporal::ColdStoreStats</scope><name>backend_reads</name></member>
       <member refid="structthemisdb_1_1temporal_1_1ColdStoreStats_1a29abb33334ba1c44f124b7ea070b1b50" prot="public" virt="non-virtual"><scope>themisdb::temporal::ColdStoreStats</scope><name>backend_writes</name></member>

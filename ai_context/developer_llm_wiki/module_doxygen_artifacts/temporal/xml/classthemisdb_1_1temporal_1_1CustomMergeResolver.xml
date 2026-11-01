@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_conflict_resolver.h" line="198" column="14" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="801" bodyend="803"/>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="198" column="14" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="781" bodyend="783"/>
       </memberdef>
       <memberdef kind="function" id="classthemisdb_1_1temporal_1_1CustomMergeResolver_1a9223a9de78b403a6fa769ab3a4cacdbf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="structthemisdb_1_1temporal_1_1TemporalSnapshot" kindref="compound">TemporalSnapshot</ref></type>
@@ -107,7 +107,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/temporal/temporal_conflict_resolver.h" line="200" column="22" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="805" bodyend="810"/>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="200" column="22" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="785" bodyend="790"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
