@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-05-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
 AI_Model_Attribution: "Exact model backend not verifiable from final document text alone."
-AI_Contributor: "themisdb-doc-orchestrator"
+AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "unknown"
 ---
@@ -24,6 +24,9 @@ The format is based on Keep a Changelog.
 ## [Unreleased]
 
 ### Changed
+- Enabled the already-defined MILITARY edition in shared CMake validation,
+  edition-aware sharding sources, and distributed benchmark suite eligibility;
+  aligned API-contract comments with the enum declarations.
 - Documentation inventory review: corrected current test/benchmark registration
   counts and marked dated scan/build snapshots as historical; no build or test
   execution is claimed.
