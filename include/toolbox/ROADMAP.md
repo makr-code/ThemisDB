@@ -1,6 +1,20 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+>
+> The dated task targets below are retained from an older planning snapshot. They are proposals, not current schedule commitments or implementation/test evidence; target dates already passed should be re-planned before being treated as active.
+
+<!-- Status: planning snapshot | header inventory checked: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/toolbox/ROADMAP.md -->
 
 # Toolbox Module — Public Header Roadmap
@@ -28,7 +42,7 @@ All headers in `include/toolbox/` are present and expose the shared text-process
 
 - [x] Public header surfaces documented in `ARCHITECTURE.md`
 - [x] Canonical cross-links to `src/toolbox/` implementation docs established
-- [x] Layer association (**ANN/Tensor**) marked and verified against `FUTURE_PLAN.md`
+- [x] Layer association (**ANN/Tensor**) recorded in this planning document; strategic-plan alignment not independently verified here
 - [x] Namespace layout (`themis::toolbox`) documented
 
 ---
@@ -52,3 +66,5 @@ All headers in `include/toolbox/` are present and expose the shared text-process
 - [x] Public header surfaces documented
 - [x] Canonical links to implementation docs set
 - [ ] Deprecation annotations consistent
+
+> Exact model backend not verifiable from final document text alone.
