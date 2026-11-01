@@ -7,7 +7,7 @@
         "scanner": "Uniform Full Scanner",
         "priority": "SEMANTIC",
         "gaps_found": 264,
-        "runtime_ms": 2757.3189735412598,
+        "runtime_ms": 2658.5330963134766,
         "status": "success"
       }
     ],
@@ -47,7 +47,7 @@
     },
     "verification_phase_3_4": {
       "version": "3.0-Phase4",
-      "timestamp": "2026-11-01T06:42:24.230337",
+      "timestamp": "2026-11-01T07:24:32.997901",
       "python_version": "3.12.3",
       "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
       "repo_root": ".",
@@ -77,8 +77,8 @@
         }
       },
       "cache_phase3": {
-        "cache_exists": false,
-        "cache_age_hours": 0.0,
+        "cache_exists": true,
+        "cache_age_hours": 0.05,
         "cache_valid": true,
         "files_missing": 0,
         "missing_file_threshold_pct": 10.0
@@ -1490,26 +1490,12 @@
       "subsystem": null
     },
     {
-      "file": "src/user_storage_encrypted/ARCHITECTURE.md",
+      "file": "src/user_storage_encrypted/FUTURE_ENHANCEMENTS.md",
       "line": 1,
       "type": "module_doc_linkset_drift",
       "severity": "LOW",
       "confidence": 0.6,
-      "description": "Module doc 'ARCHITECTURE.md' is missing expected cross-links: FUTURE_ENHANCEMENTS.md, README.md, ROADMAP.md",
-      "remediation": "Review finding and apply recommended module-specific fix.",
-      "context": "Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set",
-      "scanner": "Uniform::themis_doc_freshness_rules",
-      "step": "phase7_10",
-      "impact_level": null,
-      "subsystem": null
-    },
-    {
-      "file": "src/user_storage_encrypted/ROADMAP.md",
-      "line": 1,
-      "type": "module_doc_linkset_drift",
-      "severity": "LOW",
-      "confidence": 0.6,
-      "description": "Module doc 'ROADMAP.md' is missing expected cross-links: ARCHITECTURE.md, FUTURE_ENHANCEMENTS.md, README.md",
+      "description": "Module doc 'FUTURE_ENHANCEMENTS.md' is missing expected cross-links: ARCHITECTURE.md",
       "remediation": "Review finding and apply recommended module-specific fix.",
       "context": "Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set",
       "scanner": "Uniform::themis_doc_freshness_rules",
@@ -1532,6 +1518,20 @@
       "subsystem": null
     },
     {
+      "file": "src/user_storage_encrypted/ARCHITECTURE.md",
+      "line": 1,
+      "type": "module_doc_linkset_drift",
+      "severity": "LOW",
+      "confidence": 0.6,
+      "description": "Module doc 'ARCHITECTURE.md' is missing expected cross-links: FUTURE_ENHANCEMENTS.md, README.md, ROADMAP.md",
+      "remediation": "Review finding and apply recommended module-specific fix.",
+      "context": "Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set",
+      "scanner": "Uniform::themis_doc_freshness_rules",
+      "step": "phase7_10",
+      "impact_level": null,
+      "subsystem": null
+    },
+    {
       "file": "src/user_storage_encrypted/PRODUCTION_REQUIREMENTS.md",
       "line": 1,
       "type": "module_doc_linkset_drift",
@@ -1546,12 +1546,12 @@
       "subsystem": null
     },
     {
-      "file": "src/user_storage_encrypted/FUTURE_ENHANCEMENTS.md",
+      "file": "src/user_storage_encrypted/ROADMAP.md",
       "line": 1,
       "type": "module_doc_linkset_drift",
       "severity": "LOW",
       "confidence": 0.6,
-      "description": "Module doc 'FUTURE_ENHANCEMENTS.md' is missing expected cross-links: ARCHITECTURE.md",
+      "description": "Module doc 'ROADMAP.md' is missing expected cross-links: ARCHITECTURE.md, FUTURE_ENHANCEMENTS.md, README.md",
       "remediation": "Review finding and apply recommended module-specific fix.",
       "context": "Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set",
       "scanner": "Uniform::themis_doc_freshness_rules",

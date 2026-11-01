@@ -1,6 +1,30 @@
+---
+Author: ThemisDB Contributors
+Created: unknown
+Creation_Date_Note: Original document creation date is not established; no date is inferred.
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: themisdb-doc-orchestrator
+Human_Review: false
+Human_Author: unknown
+Source_Level: level1
+SOT_Domain: release-versioning
+Canonical_References:
+  - src/security/ROADMAP.md
+  - tests/security/test_security_wavec_production_validation_focused.cpp
+  - src/security/AI_SAFETY_ARCHITECTURE.md
+Related_Issue: "#7379"
+Related_Milestone: DOC-WEEKLY-2026-W44
+Historical_Validation_Date: 2026-05-31
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: historical entries | prior validation marker: 2026-05-31 (not current validation) -->
 # Changelog — Security Module
 Based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 

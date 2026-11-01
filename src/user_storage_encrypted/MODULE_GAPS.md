@@ -28,7 +28,7 @@ Related: "#7392; DOC-WEEKLY-2026-44"
 ## Scan Snapshot
 
 - Module: user_storage_encrypted
-- Generated: 2026-11-01 06:45:49
+- Generated: 2026-11-01 07:24:45
 - Status: Critical scanner candidates present
 - Total Findings: 22
 - Actionable Findings (Critical + High): 10

@@ -2,23 +2,22 @@
  * @file test_opa_wasm_adapter.cpp
  * @brief Tests for OPA adapter WASM extension (Phase 5.3).
  *
- * 8 tests covering:
- * 1. REST mode still works (existing behaviour)
- * 2. WASM mode with missing bundle falls back to REST
- * 3. WASM mode: bundle file not found → falls back
- * 4. Config EvalMode::WASM set correctly
- * 5. Default mode is REST
- * 6. wasm_bundle_path defaults to empty
- * 7. Fallback counter incremented when WASM fails
- * 8. evaluate() returns nullopt when both WASM and REST fail
+ * Coverage:
+ * - REST behavior and default REST mode remain unchanged.
+ * - Missing/unevaluated WASM bundles fail closed without REST fallback.
+ * - Injected WASM evaluator success, nullopt, exceptions, and clearing.
  */
 
 #include <gtest/gtest.h>
 #include "governance/opa_adapter.h"
 
 #include <optional>
+#include <stdexcept>
 #include <string>
 #include <unordered_map>
+#include <chrono>
+#include <filesystem>
+#include <fstream>
 
 using namespace themis::governance;
 using EvalMode = OpaAdapter::Config::EvalMode;
@@ -46,6 +45,19 @@ static const std::unordered_map<std::string, std::string> kTestHeaders{
     {"X-User-Id",        "test_user"}
 };
 
+static void expect_strict_wasm_deny(const std::optional<PolicyDecision>& result) {
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result->classification, "streng-geheim");
+    EXPECT_EQ(result->mode, "enforce");
+    EXPECT_TRUE(result->encrypt_logs);
+    EXPECT_EQ(result->redaction, "strict");
+    EXPECT_FALSE(result->ann_allowed);
+    EXPECT_TRUE(result->require_content_encryption);
+    EXPECT_FALSE(result->export_allowed);
+    EXPECT_FALSE(result->cache_allowed);
+    EXPECT_EQ(result->retention_days, 7);
+}
+
 // ---------------------------------------------------------------------------
 // Test 1 — REST mode (existing behaviour) still works
 // ---------------------------------------------------------------------------
@@ -59,28 +71,42 @@ TEST(OpaWasmAdapter, RestMode_ExistingBehaviour) {
 }
 
 // ---------------------------------------------------------------------------
-// Test 2 — WASM mode with missing bundle falls back to REST
+// Test 2 — WASM mode with missing bundle fails closed, without REST fallback
 // ---------------------------------------------------------------------------
-TEST(OpaWasmAdapter, WasmMode_MissingBundle_FallsBackToRest) {
+TEST(OpaWasmAdapter, WasmMode_MissingBundle_ReturnsStrictDeny) {
     OpaAdapter adapter(make_wasm_config("")); // empty path
-    // WASM falls back to REST; REST server unreachable → nullopt
     EXPECT_NO_THROW({
         auto result = adapter.evaluate(kTestHeaders, "/vector/search");
-        // nullopt because both WASM and REST fail
-        EXPECT_FALSE(result.has_value());
+        expect_strict_wasm_deny(result);
     });
 }
 
 // ---------------------------------------------------------------------------
-// Test 3 — WASM mode: bundle file not found → falls back
+// Test 3 — WASM mode: missing bundle cannot authorize
 // ---------------------------------------------------------------------------
-TEST(OpaWasmAdapter, WasmMode_BundleFileNotFound_FallsBack) {
+TEST(OpaWasmAdapter, WasmMode_BundleFileNotFound_ReturnsStrictDeny) {
     OpaAdapter adapter(make_wasm_config("/nonexistent/path/bundle.wasm"));
     EXPECT_NO_THROW({
         auto result = adapter.evaluate(kTestHeaders, "/api/data");
-        // WASM fallback + REST unreachable → nullopt
-        EXPECT_FALSE(result.has_value());
+        expect_strict_wasm_deny(result);
     });
+}
+
+// Bundle presence is not evidence that policy evaluation took place.
+TEST(OpaWasmAdapter, WasmMode_ExistingUnevaluatedBundle_ReturnsStrictDeny) {
+    const auto path = std::filesystem::temp_directory_path() /
+        ("themis-opa-wasm-" + std::to_string(
+            std::chrono::steady_clock::now().time_since_epoch().count()) + ".wasm");
+    {
+        std::ofstream bundle(path, std::ios::binary);
+        ASSERT_TRUE(bundle.good());
+        bundle << "present, but not evaluated";
+    }
+
+    OpaAdapter adapter(make_wasm_config(path.string()));
+    const auto result = adapter.evaluate(kTestHeaders, "/protected");
+    std::filesystem::remove(path);
+    expect_strict_wasm_deny(result);
 }
 
 // ---------------------------------------------------------------------------
@@ -127,15 +153,13 @@ TEST(OpaWasmAdapter, WasmMode_FallbackCounterIncremented) {
 }
 
 // ---------------------------------------------------------------------------
-// Test 8 — evaluate() returns nullopt when both WASM and REST fail
+// Test 8 — unavailable WASM mode denies rather than returning nullopt
 // ---------------------------------------------------------------------------
-TEST(OpaWasmAdapter, WasmAndRestBothFail_ReturnsNullopt) {
-    // WASM: no bundle file, REST: unreachable server
+TEST(OpaWasmAdapter, WasmUnavailable_DeniesWithoutRESTFallback) {
     OpaAdapter adapter(make_wasm_config("/nonexistent/bundle.wasm"));
 
     const auto result = adapter.evaluate(kTestHeaders, "/vector/knn");
-    EXPECT_FALSE(result.has_value())
-        << "When both WASM and REST fail, evaluate() must return nullopt";
+    expect_strict_wasm_deny(result);
 }
 
 // ---------------------------------------------------------------------------
@@ -168,27 +192,34 @@ TEST(OpaWasmAdapter, WasmEvalFn_InjectedFnUsed) {
 }
 
 // ---------------------------------------------------------------------------
-// OPA-WASM-INJ-02 — Injected WasmEvalFn returning nullopt falls through to REST
+// OPA-WASM-INJ-02 — An injected evaluator failure denies without REST fallback
 // ---------------------------------------------------------------------------
-TEST(OpaWasmAdapter, WasmEvalFn_InjectedFnNulloptFallsThrough) {
+TEST(OpaWasmAdapter, WasmEvalFn_InjectedFnNulloptFailsClosed) {
     OpaAdapter adapter(make_wasm_config("/any/bundle.wasm"));
 
-    // Injected fn returns nullopt → evaluate() should try REST (unreachable → nullopt).
     adapter.setWasmEvalFn([](const std::unordered_map<std::string, std::string>&,
                               const std::string&) -> std::optional<PolicyDecision> {
         return std::nullopt;
     });
 
     const auto result = adapter.evaluate(kTestHeaders, "/api/data");
-    // REST is unreachable → overall result is still nullopt
-    EXPECT_FALSE(result.has_value())
-        << "OPA-WASM-INJ-02: injected fn returning nullopt must cause evaluate() to fall through to REST (which also returns nullopt here)";
+    expect_strict_wasm_deny(result);
+}
+
+TEST(OpaWasmAdapter, WasmEvalFn_ThrowingEvaluatorFailsClosed) {
+    OpaAdapter adapter(make_wasm_config("/any/bundle.wasm"));
+    adapter.setWasmEvalFn([](const std::unordered_map<std::string, std::string>&,
+                              const std::string&) -> std::optional<PolicyDecision> {
+        throw std::runtime_error("test evaluator failure");
+    });
+
+    expect_strict_wasm_deny(adapter.evaluate(kTestHeaders, "/api/data"));
 }
 
 // ---------------------------------------------------------------------------
-// OPA-WASM-INJ-03 — Clearing the WasmEvalFn (nullptr) restores stub behaviour
+// OPA-WASM-INJ-03 — Clearing the WasmEvalFn restores fail-closed behavior
 // ---------------------------------------------------------------------------
-TEST(OpaWasmAdapter, WasmEvalFn_ClearedRestoresStub) {
+TEST(OpaWasmAdapter, WasmEvalFn_ClearedRestoresFailClosed) {
     OpaAdapter adapter(make_wasm_config("/nonexistent/bundle.wasm"));
 
     // First inject a fn that always succeeds …
@@ -202,8 +233,6 @@ TEST(OpaWasmAdapter, WasmEvalFn_ClearedRestoresStub) {
     // … then clear it.
     adapter.setWasmEvalFn(nullptr);
 
-    // Stub path: bundle file doesn't exist → nullopt; REST also unreachable → nullopt.
     const auto result = adapter.evaluate(kTestHeaders, "/api/data");
-    EXPECT_FALSE(result.has_value())
-        << "OPA-WASM-INJ-03: after clearing WasmEvalFn, the built-in stub must be used (bundle missing → nullopt)";
+    expect_strict_wasm_deny(result);
 }

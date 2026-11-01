@@ -1,6 +1,24 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "api-contract"
+Canonical_References:
+  - "include/search/*.h"
+  - "src/search/FUTURE_ENHANCEMENTS.md"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
 
-<!-- Status: current | validated: 2026-08-06 -->
+Exact model backend not verifiable from final document text alone.
+
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/search/FUTURE_ENHANCEMENTS.md -->
 
 # Search Module — Public Header Future Enhancements
@@ -15,6 +33,11 @@
 Planned enhancements to the **public header contract** in `include/search/`. Runtime hardening and benchmark work remain tracked in:
 
 → [`../../src/search/FUTURE_ENHANCEMENTS.md`](../../src/search/FUTURE_ENHANCEMENTS.md)
+
+The interface names and timelines below are proposals only. They are not
+implemented or committed API unless the corresponding declarations exist in
+`include/search/`; performance and compatibility outcomes remain TODO until
+verified against implementation and release evidence.
 
 ---
 

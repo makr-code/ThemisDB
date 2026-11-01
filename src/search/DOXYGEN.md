@@ -2,8 +2,27 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot coding agent
+Human_Review: false
+Human_Author: unknown
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References: include/search/*.h; tests/search/*.cpp; benchmarks/search/*.cpp
+Related_Issue: #7378
+Related_Milestone: DOC-WEEKLY-2026-W44
+
+Exact model backend not verifiable from final document text alone.
+
+> **Generated historical snapshot:** The source XML and warnings paths below
+> refer to a previous Windows workspace and are not available evidence for the
+> current checkout. The symbol/test inventories and generated details may have
+> drifted. Do not treat this file as the current API reference. **TODO:** rerun
+> Doxygen from the current Doxyfile and compare its symbols, source links, and
+> warning artifact before republishing or relying on its reported metrics.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -3487,4 +3506,3 @@ Status: active
 - Source: `tests/search/test_search_integration_phase4.cpp`:46
 - Brief: n/a
 - Parameters: none
-

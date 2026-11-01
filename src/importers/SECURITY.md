@@ -1,6 +1,27 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-02"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "security"
+Canonical_References: "include/importers/importer_interface.h; include/importers/importers_api_contract.h; include/importers/huggingface_ingest_plugin.h; src/importers/huggingface_ingest_plugin.cpp"
+Related_Reference: "makr-code/ThemisDB#7353"
+---
+
+> Creation-date note: Original creation date is not recorded in the available checkout; the front-matter `Created` date is a metadata placeholder, not independently verified.
+
+> Exact model backend not verifiable from final document text alone.
+> This is a module-level summary, not a security audit or assurance statement.
+
 # Security - Importers Module
 
-<!-- Status: current | validated: 2026-08-02 -->
+<!-- Historical validation marker; this page is not a current security audit. -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · BUILD_STATUS.md -->
 
 Report vulnerabilities via project-level SECURITY.md.
@@ -19,20 +40,24 @@ Security in the importers module focuses on trusted ingestion boundaries, schema
 | hidden import tampering or weak traceability | audit trail and integrity-related evidence surfaces |
 | connector capability mismatch and silent failures | explicit connector support checks and bounded fallback/error paths |
 
-## Implemented Security Controls
+## Source-visible control surfaces (connector-specific)
 
-- importer flows use explicit source validation and typed schema checks.
-- conflict-resolution pathways enforce configured strategy behavior.
-- data-quality and audit components provide observable evidence of import decisions.
-- advanced paths (CDC/stream/object connectors) expose deterministic unsupported/degraded outcomes.
+- the shared API exposes source validation, schema/row-size/UTF-8 options,
+  structured errors, and a permission callback. The callback is optional and
+  host-supplied; omission is not authorization.
+- the shared interface declares conflict strategies and audit/quality helpers
+  exist. This does not prove that every connector enforces or invokes them.
+- optional connectors and specialized paths must be checked at their concrete
+  implementation and build configuration; do not generalize fallback behavior.
 
 ## Security Follow-ups
 
-- continue hardening connector-specific edge behavior under malformed input.
-- tighten diagnostics around permission/auth and unsupported connector incidents.
-- expand abuse-case coverage for high-volume mixed-format ingestion.
+- TODO: perform a connector-by-connector security review of authentication,
+  authorization, parser limits, secret handling, and diagnostics.
+- TODO: verify that production deployments supply and test host-side permission
+  policy; no built-in authentication claim is made here.
 
-## Sourcecode Verification (Module: importers/security)
+## Source references (selected; not a full security verification)
 
 - Verified files:
   - src/importers/postgres_importer.cpp
@@ -44,7 +69,5 @@ Security in the importers module focuses on trusted ingestion boundaries, schema
   - src/importers/data_quality.cpp
   - src/importers/audit_trail.cpp
   - src/importers/blockchain_integrity.cpp
-- Verified controls:
-  - source/schema/conflict validation gates
-  - auditable and deterministic import error/fallback surfaces
-  - connector capability safety boundaries
+- The files above expose relevant ingestion, validation, and audit surfaces.
+  Their presence is not evidence that all threat controls are complete.

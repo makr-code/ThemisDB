@@ -7,7 +7,7 @@ Status: Active
 
 - Added: 0
 - Removed: 0
-- Changed: 1
+- Changed: 2
 
 ## Added
 
@@ -19,4 +19,5 @@ Status: Active
 
 ## Changed
 
-- src/user_storage_encrypted/AUDIT.md
+- src/user_storage_encrypted/DOXYGEN.md
+- src/user_storage_encrypted/MODULE_GAPS.md

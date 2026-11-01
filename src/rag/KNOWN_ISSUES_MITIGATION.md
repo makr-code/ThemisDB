@@ -1,80 +1,50 @@
+---
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "ThemisDB documentation orchestrator"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # RAG Known Issues — Mitigation Strategies
 
-This document describes the three known issues from Phases 7-10 implementation and their production mitigation strategies.
+This document records known implementation gaps and possible mitigations. The
+procedures below are not evidence of production capability; current code state
+is called out where it differs from the original remediation notes.
 
 ## Issue 1: RocksDB Availability (Phases 8, 10)
 
 ### Problem
-Cost attribution tracking and cost model building use `void* db_` opaque pointers to RocksDB for persistent storage. During testing and development, RocksDB may not be available, but the code should not fail.
+`CostAttributionTracker` retains records in memory. Its `void* db_` is not an
+opened RocksDB handle, and cost records are not persisted.
 
 ### Current Status
-- `CostAttributionTracker` now includes `Initialize(db_path)` method for explicit RocksDB initialization
-- Falls back gracefully to in-memory storage if RocksDB unavailable
-- `IsPersistentStorageAvailable()` query method added
+- `Initialize(db_path)` creates the directory and sets an availability flag; it
+  does not open RocksDB or write/read records.
+- `IsPersistentStorageAvailable()` is not proof of durable storage.
+- `RecordCost()` and cost queries currently use in-memory records.
 
 ### Production Mitigation
 
-#### 1. Explicit Initialization (Recommended)
+#### 1. Do not rely on `Initialize()` for persistence
 
 ```cpp
 auto tracker = std::make_unique<CostAttributionTracker>();
 
-// Option A: Initialize with RocksDB persistence
+// This only checks/creates a directory; it does not enable durable storage.
 bool success = tracker->Initialize("/var/lib/themis/cost_db");
-if (!success) {
-  // RocksDB unavailable, falling back to in-memory
-  // Cost data will be lost after restart
-  LOG(WARNING) << "Cost tracking using in-memory storage (non-persistent)";
-}
-
-// Option B: In-memory only (testing)
-bool ok = tracker->Initialize("");  // Empty path = in-memory only
+// Even when success is true, the current tracker remains in-memory only.
 ```
 
-#### 2. Deployment Checklist
+#### 2. Persistence remains an implementation gap
 
-- [ ] Ensure RocksDB 8.0+ is installed on production servers
-- [ ] Create persistent storage directory (e.g., `/var/lib/themis/cost_db`)
-- [ ] Verify directory permissions are writable by service user
-- [ ] Add RocksDB data directory to backup procedures
-- [ ] Enable RocksDB compression (default: LZ4) to reduce disk usage
-- [ ] Set up disk space monitoring (cost records grow ~5-10 MB/day at 1K queries/sec)
+The current API cannot validate a RocksDB installation, enable persistence,
+or guarantee behavior across restart. Durable cost accounting requires a real
+storage implementation and corresponding tests before deployment reliance.
 
-#### 3. Graceful Degradation
-
-If RocksDB is unavailable but required:
-1. Application starts with in-memory tracking only
-2. Cost attribution data is available during session
-3. Data is lost on restart or crash
-4. No errors thrown - silent degradation
-
-**For mission-critical deployments**, implement startup validation:
-
-```cpp
-auto tracker = std::make_unique<CostAttributionTracker>();
-if (!tracker->Initialize("/var/lib/themis/cost_db")) {
-  LOG(FATAL) << "RocksDB required but unavailable";
-  exit(1);
-}
-```
-
-#### 4. RocksDB Integration Points (TODO)
-
-The following locations require actual RocksDB client code:
-
-**File: `src/rag/cost_attribution_tracker.cpp:35-65`**
-```cpp
-// TODO: Replace opaque pointer pattern with actual rocksdb::DB*
-// Current: void* db_ = nullptr
-// Production should:
-// 1. #include <rocksdb/db.h>
-// 2. Create rocksdb::DB* and open with rocksdb::DB::Open()
-// 3. Store persistent cost records in RocksDB
-// 4. Query cost history with rocksdb::Iterator
-// 5. Handle RocksDB status codes and errors
-```
-
-**Database Schema:**
+**Proposed schema only (not implemented):**
 ```
 Key:        "cost:<tenant_id>:<timestamp_us>"
 Value:      Binary-encoded CostRecord (operation, cost_usd, attributes)
@@ -85,19 +55,20 @@ Value:      Binary-encoded CostRecord (operation, cost_usd, attributes)
 ## Issue 2: OTLP Sender Implementation (Phase 8)
 
 ### Problem
-The `OTELSpanEmitter` prepares W3C trace context spans with attributes and events, but does not export them to an OTLP collector. Spans are buffered in memory but never transmitted.
+`OTELSpanEmitter` buffers spans and creates a local serialized JSON payload,
+but does not transmit it to an OTLP collector.
 
 ### Current Status
-- Span creation and attribute recording fully implemented
-- Batch buffering mechanism added (`pending_span_buffer_`)
-- Batch export method `ExportSpans()` scaffolded (TODO)
-- Statistics tracking: `emitted_spans_`, `dropped_spans_`, `pending_spans_`
+- Span creation and attribute recording are implemented.
+- `ExportSpans()` serializes buffered data locally and updates local state;
+  it does not perform OTLP network export.
+- Statistics are in-process counters and do not acknowledge collector receipt.
 
-### Production Mitigation
+### Future integration work
 
 #### 1. OTLP Exporter Integration
 
-**For opentelemetry-cpp (Recommended):**
+**Example direction only; no exporter is currently implemented:**
 
 ```cpp
 // In OTELSpanEmitter constructor:
@@ -119,7 +90,7 @@ auto exporter = std::make_unique<exporter::OtlpGrpcExporter>(
 otel_exporter_ = exporter.release();  // Store for later use
 ```
 
-**For Jaeger via gRPC:**
+**Alternative proposal only:**
 
 ```cpp
 // Alternative: Direct Jaeger export
@@ -131,9 +102,11 @@ otel_exporter_ = exporter.release();
 
 #### 2. Batch Export Implementation
 
-**File: `src/rag/otel_span_emitter.cpp:156-180` (ExportSpans method)**
+**Future work:** `src/rag/otel_span_emitter.cpp` needs a real OTLP exporter
+and delivery/error semantics before it can export spans.
 
-Replace the TODO with:
+The following is an implementation sketch only; it is not the current API or
+behavior:
 
 ```cpp
 bool OTELSpanEmitter::ExportSpans() {
@@ -166,19 +139,7 @@ bool OTELSpanEmitter::ExportSpans() {
 }
 ```
 
-#### 3. Deployment Checklist
-
-- [ ] Deploy OTLP collector (e.g., OpenTelemetry Collector, Jaeger, Tempo)
-- [ ] Configure OTLP endpoint in `OTELSpanEmitter` constructor
-- [ ] Enable gRPC TLS in production (set `use_ssl = true`)
-- [ ] Configure collector backend (Jaeger, Grafana Loki, Datadog, etc.)
-- [ ] Set batch size based on throughput:
-  - Low throughput (< 100 q/sec): batch_size = 50
-  - Medium throughput (100-1000 q/sec): batch_size = 200
-  - High throughput (> 1000 q/sec): batch_size = 1000
-- [ ] Set batch flush timeout (default: 1 second)
-
-#### 4. Production Configuration
+#### Example configuration (buffering only)
 
 ```cpp
 auto tracer = std::make_unique<OTELSpanEmitter>(
@@ -187,11 +148,12 @@ auto tracer = std::make_unique<OTELSpanEmitter>(
 );
 
 tracer->SetBatchExportEnabled(true);
-tracer->SetBatchExportSize(100);     // Export after 100 spans
-// Spans also flushed every 1 second (if batch not full)
+tracer->SetBatchExportSize(100);     // Local serialization at batch threshold
+// No timer-driven flush or network delivery is currently implemented.
 ```
 
-#### 5. Metrics Exported
+The following are proposed telemetry attributes, not fields automatically
+exported by the current implementation:
 
 Every span includes standard attributes:
 - `rag.operation_type`: "retrieve", "rerank", "refresh", etc.
@@ -202,39 +164,38 @@ Every span includes standard attributes:
 - `rag.cost_usd`: Per-operation cost
 - `rag.sla_status`: SLA compliance (success/timeout/error)
 
-#### 6. Error Handling
-
-In production, handle three failure scenarios:
-
-| Scenario | Behavior |
-|----------|----------|
-| Collector unreachable | Buffer spans locally (up to max_buffer_size), retry exponential backoff |
-| Network timeout | Log warning, drop oldest span, continue buffering |
-| Malformed span | Skip problematic span, continue batch |
+Delivery retry, network timeout, and collector-unavailable behavior are
+unimplemented until a transport is added.
 
 ---
 
 ## Issue 3: Cost Model Drift (Phase 10)
 
 ### Problem
-The `CostModelBuilder` trains a model once via `BuildModel()` and serves predictions without automatic retraining. As actual costs change, the model degrades and predictions become inaccurate.
+`CostModelBuilder` has no scheduled retraining loop. In the current source,
+`BuildModel()` uses a mean-cost intercept and placeholder metrics;
+`IsModelDriftDetected()` returns `false`, and `GetModelHealth()` reports
+placeholder drift values.
 
 ### Current Status
 - Model versioning metadata added: `version`, `built_at_sec`, `retrains_count`
-- Auto-retraining enable/disable mechanism: `EnableAutoRetraining()`
-- Drift detection scaffolded: `IsModelDriftDetected()`
-- Incremental training: `RebuildModelWithNewData()`
-- Model health tracking: `GetModelHealth()` (age, RMSE, drift ratio)
+- `EnableAutoRetraining()` stores configuration values; it does not schedule checks or retraining.
+- `IsModelDriftDetected()` is a placeholder and currently returns `false`.
+- `RebuildModelWithNewData()` explicitly calls `BuildModel()`; callers must initiate it.
+- `GetModelHealth()` returns placeholder current RMSE and drift values.
 
-### Production Mitigation
+### Future orchestration proposal
 
-#### 1. Automatic Retraining Configuration
+The following schedules and code sketches are design suggestions only. They
+cannot be enabled by `EnableAutoRetraining()` in the current implementation.
+
+#### 1. Configuration fields (not an automatic loop)
 
 ```cpp
 auto builder = std::make_unique<CostModelBuilder>();
 builder->AddTrainingData(historical_cost_data);
 
-// Enable auto-retraining with default parameters
+// This only stores the values; no background check is started.
 builder->EnableAutoRetraining(
     true,               // Enable auto-retraining
     3600,               // Check drift every 1 hour
@@ -244,7 +205,7 @@ builder->EnableAutoRetraining(
 auto model = builder->BuildModel("linear", 0.01f);
 ```
 
-#### 2. Retraining Schedule
+#### 2. Suggested retraining schedule
 
 **Recommended schedule based on throughput:**
 
@@ -254,7 +215,7 @@ auto model = builder->BuildModel("linear", 0.01f);
 | 100-1K q/sec | 6 hours | 15% | Every 6 hours |
 | > 1K q/sec | 1 hour | 10% | Every 1 hour (off-peak) |
 
-#### 3. Drift Detection (Production Implementation)
+#### 3. Drift detection (future implementation)
 
 **File: `src/rag/cost_model_builder.cpp:300-310` (IsModelDriftDetected method)**
 
@@ -287,7 +248,7 @@ bool CostModelBuilder::IsModelDriftDetected(
 }
 ```
 
-#### 4. Retraining Workflow
+#### 4. Retraining workflow (external orchestration required)
 
 **Recommended: Background job every N hours**
 
@@ -426,4 +387,3 @@ if (new_quality > old_quality) {
 - src/rag/ROADMAP.md: Phase 7-10 completion status
 - OpenTelemetry C++ SDK: https://github.com/open-telemetry/opentelemetry-cpp
 - RocksDB Getting Started: https://github.com/facebook/rocksdb/wiki/Getting-Started-with-RocksDB
-

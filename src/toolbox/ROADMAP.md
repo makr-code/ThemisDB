@@ -1,12 +1,26 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # Toolbox Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 | re-verified: 2026-08-07 -->
+<!-- Status: historical planning/checklist text below includes 2026-08-07 snapshots; not current verification -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · DEVELOPMENT_STATUS_2026_08_07.md -->
 
 ## Current Status
 
-Production-usable toolbox runtime exists for ingestion-oriented extraction orchestration, content bridging, registry/bootstrap behavior, and text helper primitives.
+The source tree contains toolbox orchestration, bridge, registry, composite, streaming, and helper implementations. As of this documentation review, CMake registers six toolbox test sources and three toolbox benchmark targets. These are inventory facts only: no build, test, benchmark, release-readiness, or production-certification result was generated for this update.
+
+The dated completion percentages, certification checklists, historical counts, and release assertions below are retained as planning/audit history. They are superseded as current status evidence and must not be used to claim active progress, test passage, benchmark certification, or release readiness without fresh artifacts.
 
 ## In Progress
 
@@ -307,6 +321,8 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
 - p95/p99 benchmarks must be refreshed on representative hardware before Wave D sign-off (Target: Q1 2027)
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
+
+> Exact model backend not verifiable from final document text alone.
 
 ### Program-Level Success Criteria (contribution)
 - [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — evidence: bridge null-check guards, routing fail-closed contract

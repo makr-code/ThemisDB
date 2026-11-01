@@ -1,122 +1,115 @@
-> **Build (Linux):** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`<br>
-> **Build (Windows):** `cmake --preset windows-release && cmake --build --preset windows-release`
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-# rpc_grpc Module Headers
+> Exact model backend not verifiable from final document text alone.
 
-<!-- Status: current | validated: 2026-05-13 | Primary: src/rpc_grpc/ | Secondary: docs/de/rpc_grpc/ -->
-<!-- Links: ../../src/rpc_grpc/README.md · ../../src/rpc_grpc/ROADMAP.md · ../../src/rpc_grpc/FUTURE_ENHANCEMENTS.md -->
+# rpc_grpc Public Headers
 
-This include folder currently carries module-facing API documentation. The
-runtime headers are source-local in `src/rpc_grpc/` and are typically included
-as `rpc_grpc/...` because in-tree builds expose `src/` on the include path.
+## Header layout
 
-## Public Entry Points
+The public include directory contains:
 
-| Header / Entry Point | Purpose |
+| Header | Purpose |
 |---|---|
-| `rpc_grpc/grpc_plugin.h` | Declares `GRPCServer` (`IRPCServer`) and `GRPCPlugin` (`IRPCPlugin`) |
-| `rpc_grpc/bidi_stream_adapter.h` | Header-only helper for bidirectional stream handlers |
-| `plugins/rpc_plugin_interface.h` | Stable cross-module contract (`RPCServerConfig`, `IRPCServer`, `IRPCPlugin`) |
-| `createPlugin()` / `destroyPlugin()` | C ABI plugin lifecycle exports for dynamic loading |
+| [`circuit_breaker.h`](circuit_breaker.h) | Standalone, mutex-protected CLOSED/OPEN/HALF_OPEN circuit breaker. It is not automatically used by `GRPCServer`. |
+| [`rpc_grpc_api_contract.h`](rpc_grpc_api_contract.h) | `RpcGrpcError`, `RpcServerState`, message-size defaults, and descriptive `RpcServiceDescriptor` metadata. |
 
-## Public API Surface
+The plugin implementation declarations and stream adapter are source-local:
+[`grpc_plugin.h`](../../src/rpc_grpc/grpc_plugin.h) and
+[`bidi_stream_adapter.h`](../../src/rpc_grpc/bidi_stream_adapter.h). This
+directory contains no `.proto` files or generated service stubs. The runtime
+implements [`IRPCServer`](../plugins/rpc_plugin_interface.h).
 
-### `GRPCPlugin`
+## Contract/runtime boundary
 
-- `initialize(config_json)`, `shutdown()`, `createServer()`
-- Metadata: `getName()`, `getVersion()`, `getProtocol()`, `getDefaultPort()`,
-  `getProtocolDescription()`, `getCapabilities()`
+`GRPCServer::start()` consumes
+`kDefaultMaxReceiveMessageBytes` and `kDefaultMaxSendMessageBytes` from
+`rpc_grpc_api_contract.h` (100 MiB each). `RpcServiceDescriptor` and
+`RpcServerState` are declared contract types; they are not consumed as runtime
+registration or lifecycle state by `GRPCServer`.
 
-### `GRPCServer`
+The circuit breaker counts consecutive failures and uses total lifetime call
+count for `min_calls_in_window`; it does not implement a time-based sliding
+window. Callers must explicitly consult it and record call outcomes.
 
-- Lifecycle: `initialize(config)`, `start()`, `stop()`, `isRunning()`
-- Service and stats: `registerService(void*)`, `getAddress()`, `getStats()`, `resetStats()`
-- TLS/admin extensions: `reloadTls(cert,key,ca)`, `getAdminAddress()`
-- Observability: `setServiceHealth()`, `isServiceHealthy()`, `recordRPC()`,
-  `getMetricsText()`, `setAccessLogSink()`, `logAccess()`
+## Runtime configuration
 
-### `BidiStreamAdapter<Req, Resp>`
+The plugin uses `RPCServerConfig` from `plugins/rpc_plugin_interface.h`.
+Defaults shown here are declared by that shared interface; they are not all
+applied by the gRPC plugin.
 
-- Handler registration: `onMessage(handler)`
-- Stream loop: `run()`
-- Outbound flow control: `write(response)` with bounded queue backpressure
-- Finalization/introspection: `finish(status)`, `isFinished()`, `queueDepth()`, `finishStatus()`
+| Field | Declared default | Runtime behavior |
+|---|---|---|
+| `host` | `"0.0.0.0"` | Used as the listener host; empty values are rejected. |
+| `port` | `0` | Used as configured. Zero requests an OS-assigned port; `getDefaultPort()` returning `50051` does not replace this field. |
+| `tls_enabled` | `false` | False selects insecure transport with a warning. |
+| `tls_cert_path`, `tls_key_path`, `tls_ca_cert_path` | empty | Required and read when TLS is enabled. |
+| `auth_required` | `true` | With TLS enabled, requires a client certificate; it is not application authorization. |
+| `extra_config["keepalive_time_ms"]` | unset | Integer string passed to gRPC when valid; invalid values are ignored. |
+| `extra_config["keepalive_timeout_ms"]` | unset | Integer string passed to gRPC when valid; invalid values are ignored. |
+| `extra_config["admin_port"]` | unset | Valid ports 1–65535 bind a second listener using insecure credentials. Keep it isolated from untrusted networks. |
 
-## Runtime Configuration Keys
+Other generic fields such as rate limits, connection limits, worker count,
+timeouts, namespaces, and compression are not applied by this plugin.
 
-`GRPCServer` reads these `RPCServerConfig` fields and protocol-specific keys:
+## Lifecycle and observability
 
-| Key | Type | Default | Behavior |
-|---|---|---|---|
-| `host` | string | `0.0.0.0` | Bind address for all listeners |
-| `port` | uint16 | `0` | Main listen port (`GRPCPlugin::getDefaultPort()` is `50051`) |
-| `tls_enabled` | bool | `false` | Enables TLS credential setup |
-| `tls_cert_path` / `tls_key_path` / `tls_ca_cert_path` | string | empty | PEM file inputs for TLS/mTLS credential creation |
-| `auth_required` | bool | `true` | mTLS mode (`true`) vs server-only TLS (`false`) |
-| `extra_config["keepalive_time_ms"]` | integer-as-string | unset | gRPC keepalive interval argument |
-| `extra_config["keepalive_timeout_ms"]` | integer-as-string | unset | gRPC keepalive timeout argument |
-| `extra_config["admin_port"]` | integer-as-string | unset | Optional extra insecure admin listener |
-
-## Runtime Behavior, Error Cases, and Limits
-
-- TLS startup is fail-closed: invalid cert/key/CA input aborts startup and does
-  not silently downgrade to insecure credentials.
-- If TLS is disabled, the module logs an explicit security warning and runs
-  insecure transport.
-- Message-size limits are 100 MiB for both receive and send, shared with the
-  runtime through `rpc_grpc_api_contract.h`.
-- `reloadTls()` drains and restarts the listener with the replacement
-  credentials. The operation has downtime and attempts to restore the prior
-  configuration if the replacement listener fails to start.
-- Service registration is pre-start and deduplicates identical service
-  pointers; the runtime does not enforce a service-count limit.
-- `recordRPC()`-based metrics are manual instrumentation hooks; metrics are empty
-  until at least one RPC is recorded.
-- Access logs are sink-driven JSON lines; no sink means no log emission.
+- Register externally owned `grpc::Service` objects before `start()`. Null,
+  late, or duplicate pointer registration is rejected or treated as a no-op;
+  `registerService()` returns `void`, so there is no programmatic error result.
+- `reloadTls()` validates replacement material before stopping the listener,
+  then drains and restarts it. It causes downtime; failed startup triggers a
+  rollback attempt, and failed rollback leaves the server stopped.
+- Metrics and access-log output are in-process hooks. `recordRPC()` is manual
+  instrumentation; the plugin does not install an automatic interceptor or
+  network scrape endpoint.
+- `BidiStreamAdapter::write()` may block under backpressure. `finish()` wakes
+  queue waiters but does not interrupt an already-blocked gRPC `Read()` or
+  `Write()`. The caller owns stream lifetime and cancellation.
 
 ## Usage
 
+This insecure loopback example is suitable only for local development:
+
 ```cpp
 #include "rpc_grpc/grpc_plugin.h"
+#include "plugins/rpc_plugin_interface.h"
 
 using namespace themis::plugins::rpc::grpc_plugin;
 
 GRPCPlugin plugin;
 auto server = plugin.createServer();
 
-RPCServerConfig cfg;
-cfg.host = "127.0.0.1";
-cfg.port = plugin.getDefaultPort();
-server->initialize(cfg);
-server->start();
+RPCServerConfig config;
+config.host = "127.0.0.1";
+config.port = 0;
+if (!server->initialize(config) || !server->start()) {
+    return;
+}
 server->stop();
 ```
 
+This only illustrates local lifecycle setup; production deployments should
+configure TLS and register services.
+
 ## Installation
 
-For in-tree targets, make sure both include roots are available:
+In-tree compilation needs both the repository `include/` and `src/` include
+roots. The shared-library target is conditional on `THEMIS_PLUGIN_RPC_GRPC`
+and gRPC being available; Protobuf is required after gRPC is found. The target
+installs the plugin library and manifest under `lib/themis/plugins/rpc`.
+`src/rpc_grpc/CMakeLists.txt` does not install these public headers.
 
-```cmake
-target_include_directories(your_target PRIVATE
-    ${THEMISDB_INCLUDE_DIR}
-    ${THEMISDB_SOURCE_DIR}/src
-)
-```
-
-## Troubleshooting
-
-- **Plugin loads but server start fails:** verify config values and TLS paths,
-  and inspect stderr for fail-closed credential errors.
-- **`getAdminAddress()` is empty:** set `extra_config["admin_port"]` to a valid
-  numeric port in the range 1..65535 before `start()`.
-- **`write()` blocks in `BidiStreamAdapter`:** consumer is applying backpressure;
-  increase queue depth or drain responses faster.
-
-## See Also
-
-- [`../../src/rpc_grpc/README.md`](../../src/rpc_grpc/README.md) — implementation overview
-- [`../../src/rpc_grpc/ARCHITECTURE.md`](../../src/rpc_grpc/ARCHITECTURE.md) — architecture and flow
-- [`../../src/rpc_grpc/ROADMAP.md`](../../src/rpc_grpc/ROADMAP.md) — phased delivery status
-- [`../../src/rpc_grpc/FUTURE_ENHANCEMENTS.md`](../../src/rpc_grpc/FUTURE_ENHANCEMENTS.md) — planned feature work
-- [`../../src/rpc_grpc/SECURITY.md`](../../src/rpc_grpc/SECURITY.md) — security model
-- [`../../docs/de/rpc_grpc/README.md`](../../docs/de/rpc_grpc/README.md) — German secondary overview
+See the [runtime API](../../src/rpc_grpc/API.md),
+[architecture](ARCHITECTURE.md), [implementation notes](../../src/rpc_grpc/IMPLEMENTATION.md),
+[tests](../../tests/rpc_grpc/README.md), and
+[benchmarks](../../benchmarks/rpc_grpc/README.md).

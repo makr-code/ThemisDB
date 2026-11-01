@@ -1,7 +1,39 @@
+---
+Author: ThemisDB Contributors
+Created: unknown
+Creation_Date_Note: Original document creation date is not established; no date is inferred.
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: themisdb-doc-orchestrator
+Human_Review: false
+Human_Author: unknown
+Source_Level: level1
+SOT_Domain: architecture-governance
+Canonical_References:
+  - src/security/ai_operation_guard.cpp
+  - src/security/intent_classifier.cpp
+  - src/security/prompt_injection_pattern_registry.cpp
+  - src/security/pii_redaction_policy.cpp
+  - src/security/query_masking_policy.cpp
+  - src/security/zero_trust_policy_enforcer.cpp
+  - src/security/behavioral_anomaly_detector.cpp
+Related_Issue: "#7379"
+Related_Milestone: DOC-WEEKLY-2026-W44
+Historical_Validation_Date: 2026-05-31
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # AI Safety Architecture - Security Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: historical validation snapshot | validated: 2026-05-31 | revalidation required -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
+
+> **Validation age:** The source-validation date below remains 2026-05-31. This
+> document was not revalidated for issue #7379; treat its implementation claims
+> as historical until they are checked against current code and tests.
 
 ## Purpose
 

@@ -1,3 +1,18 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone. Original creation dates
+> could not be verified from available history; `Created` records this AI-assisted revision.
+
 <!--
 Last Updated: 2026-08-09
 Source Level: level1
@@ -29,9 +44,12 @@ Related Milestone: DOC-WEEKLY-2026-W32
   - pHash computation failure must be non-fatal.
   - Evidence: `sd_plugin.cpp::computePerceptualHash` + focused tests `P4`, `P5`.
 
-- [x] **Model SHA-256 integrity check**
-  - `initialize(model_path, config)` must reject model when `model_sha256` does not match computed SHA-256.
-  - Evidence: `sd_plugin.cpp` initialization gate + focused tests `J4`, `J5`.
+- [x] **Optional Model SHA-256 integrity check**
+  - When `THEMIS_SD_ENABLE_SHA256` is enabled and OpenSSL is found, `initialize(model_path, config)`
+    must reject a model when `model_sha256` does not match the computed SHA-256.
+  - If the build gate is disabled or OpenSSL is unavailable, the configured digest is not enforced.
+  - Evidence: `src/stable_diffusion/CMakeLists.txt`, `sd_plugin.cpp` initialization gate, and
+    focused tests `J4`, `J5`.
 
 - [x] **Dimension guards**
   - Reject non-positive dimensions, dimensions above `8192`, and overflow-risk image sizes.
@@ -43,6 +61,7 @@ Related Milestone: DOC-WEEKLY-2026-W32
 - [x] **Focused test gate**
   - `SDPluginFocusedTests` must pass (62 tests in `test_sd_plugin.cpp`).
   - `SDPluginRegistrarTests` must pass (12 tests in `test_sd_plugin_registrar.cpp`).
+  - CMake registers these legacy targets only when OpenSSL is found.
   - Latest local evidence (2026-08-09): both suites pass on `community-release-allow-missing-rocksdb`
     with `THEMIS_AUTO_BOOTSTRAP_DEPS=ON`.
 

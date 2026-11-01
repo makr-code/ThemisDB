@@ -1,12 +1,38 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - ../../src/sharding/FUTURE_ENHANCEMENTS.md
+  - ../../src/sharding/ROADMAP.md
+  - sharding_api_contract.h
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
+> Exact model backend not verifiable from final document text alone.
+
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/sharding/FUTURE_ENHANCEMENTS.md -->
 
 # Sharding Module — Public Header Future Enhancements
 
 **Module Path:** `include/sharding/`
 **Canonical implementation enhancements:** [`../../src/sharding/FUTURE_ENHANCEMENTS.md`](../../src/sharding/FUTURE_ENHANCEMENTS.md)
+
+> **Status note (2026-10-31):** This is a proposal register, not a record of current API support or
+> a committed schedule. The listed Q3/Q4 2026 targets have elapsed. **TODO:** revalidate scope and
+> priority against the module roadmap before implementation planning.
+>
+> The proposed `topology_change_event.h` and `distributed_deadlock_snapshot.h` names below are
+> not present in the current `include/sharding/` tree. Treat them as future design proposals only;
+> no current API, implementation, or delivery commitment is implied.
 
 ---
 

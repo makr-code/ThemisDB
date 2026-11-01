@@ -1,8 +1,24 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-08"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+Source level: 1; SOT domain: module-behavior. Canonical references: `benchmarks/transaction/bench_transaction_phase4.cpp`, `benchmarks/transaction/bench_transaction_throughput.cpp`, `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`, and `benchmarks/transaction/CMakeLists.txt`. Related issue: #7390.
+
 # Transaction Module - Phase 4 Acceptance Checklist
 **Date:** 2026-08-08
 **Phase:** 4 - Performance and Operational Hardening (Benchmarking)
 **Target:** Q1 2027
-**Status:** ✓ IMPLEMENTATION COMPLETE (Build & Execution Verification In Progress)
+**Status:** Source inventory only; build, benchmark execution, and target attainment are unverified in this documentation task.
 
 ---
 
@@ -19,7 +35,7 @@ Phase 4 establishes performance baselines and operational limits for the transac
 - [x] Rollback throughput validated
 - [x] Distributed 2PC throughput validated (3-participant)
 - [x] Isolation level overhead compared (READ_COMMITTED vs SERIALIZABLE)
-- **Target:** 10K+ txns/sec (local), 5K+ txns/sec (distributed)
+- **Target:** Historical proposed thresholds; no measured result is established here.
 - **Evidence:** `benchmarks/transaction/bench_transaction_phase4.cpp`
   - `ThroughputBaseline_ReadCommitted`
   - `ThroughputBaseline_Rollback`
@@ -28,7 +44,7 @@ Phase 4 establishes performance baselines and operational limits for the transac
 ### AC-15: Latency Tail (Percentile Analysis)
 - [x] Single transaction latency measured (via UseRealTime benchmarks)
 - [x] Distributed transaction latency measured
-- **Target:** p99 < 50ms (local), p99 < 100ms (distributed); p999 < 200ms
+- **Target:** Historical proposed thresholds; the phase4 source does not establish tail-percentile results.
 - **Evidence:** `benchmarks/transaction/bench_transaction_phase4.cpp`
   - `ThroughputBaseline_ReadCommitted` (UseRealTime)
   - `DistributedThroughput_2PC_3Participants` (UseRealTime)
@@ -68,9 +84,9 @@ Phase 4 establishes performance baselines and operational limits for the transac
 
 | File | Purpose | Benchmark Count | Acceptance Criteria |
 |------|---------|-----------------|-------------------|
-| `benchmarks/transaction/bench_transaction_phase4.cpp` | Performance hardening | 8 benchmarks | AC-14 through AC-17 |
-| `benchmarks/transaction/bench_transaction_throughput.cpp` | Baseline throughput | 6 benchmarks | AC-14 |
-| **TOTALS** | **Phase 4 Performance** | **14 benchmarks** | **AC-14..AC-17** |
+| `benchmarks/transaction/bench_transaction_phase4.cpp` | Performance cases | 8 declared cases | Build/run unverified |
+| `benchmarks/transaction/bench_transaction_throughput.cpp` | Throughput, savepoint, OCC, and related cases | 14 declared cases | Build/run unverified |
+| `benchmarks/transaction/bench_transaction_dedicated_gates.cpp` | Dedicated latency/throughput cases | 4 declared cases | Build/run unverified |
 
 ### Benchmarks Implemented (bench_transaction_phase4.cpp)
 
@@ -83,9 +99,9 @@ Phase 4 establishes performance baselines and operational limits for the transac
 7. `DistributedThroughput_2PC_3Participants` — 3-node 2PC commit throughput
 8. `DistributedThroughput_AbortPath` — 3-node 2PC abort throughput
 
-**Note:** `BatchingEfficiency_*` and `RecoveryPerformance_*` benchmarks are not
-present in `bench_transaction_phase4.cpp`. Batching benchmarks exist in
-`bench_transaction_throughput.cpp`. Recovery benchmarks are planned for Q1 2027.
+**Note:** `BatchingEfficiency_*` and `RecoveryPerformance_*` cases are not present
+in `bench_transaction_phase4.cpp`. No dedicated recovery benchmark source was
+found in `benchmarks/transaction/`.
 
 ---
 
@@ -94,7 +110,6 @@ present in `bench_transaction_phase4.cpp`. Batching benchmarks exist in
 ### Represented Workloads
 - **Sequential**: Single-threaded, non-contending transaction stream
 - **Contention**: Multi-threaded concurrent transactions on overlapping key ranges
-- **YCSB**: Yahoo Cloud Serving Benchmark workload patterns
 - **Distributed**: Multi-node 2PC/3PC coordination
 - **High-frequency**: Rapid transaction submission and completion
 
@@ -110,23 +125,14 @@ present in `bench_transaction_phase4.cpp`. Batching benchmarks exist in
 
 | Gate | Criterion | Target | Validation |
 |------|-----------|--------|-----------|
-| **THP-01** | Single-thread READ_COMMITTED throughput | ≥ 10K txns/sec | ThroughputBaseline_ReadCommitted |
-| **THP-02** | Distributed 2PC throughput (3-node) | ≥ 5K txns/sec | DistributedThroughput_2PC_3Participants |
-| **ISO-01** | SERIALIZABLE isolation overhead | within 2x of RC | IsolationOverhead_Serializable |
-| **AUD-01** | Audit-path isolation overhead | within 2x of baseline | AuditOverhead_Enabled |
-| **BAT-01** | Batch efficiency improvement | ≥ 50% (bench_transaction_throughput.cpp) | Deferred to bench_transaction_throughput |
-| **REC-01** | Recovery time (10K txns) | < 5s | **Deferred to Q1 2027** |
+| THP / ISO / AUD / BAT / REC | Proposed targets in this historical checklist | Not validated here | Consult `PERFORMANCE_EXPECTATIONS.md` and benchmark evidence |
 
 ---
 
 ## Build & Execution Verification
 
 ### Configuration Status
-- [~] Configure with `community-release` preset (in progress)
-- [ ] Build transaction module and benchmarks
-- [ ] Execute full benchmark suite
-- [ ] Collect performance baseline data
-- [ ] Validate against gates (THP-01 through REC-01)
+- Build, execution, baseline collection, and target validation were not performed for this documentation audit.
 
 ### Test Execution Commands
 ```bash

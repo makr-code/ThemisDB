@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/whisper/FUTURE_ENHANCEMENTS.md -->
 
 # Whisper ASR Module — Public Header Future Enhancements
@@ -33,25 +47,29 @@ Current public surfaces cover: OpenAI Whisper ASR integration plugin, audio chun
 
 Planned extensions follow the same namespace (`themis::whisper`) and include-guard conventions.
 
+The current module target is C++17 (`src/whisper/CMakeLists.txt`). Any planned C++20 constraints
+or module interface must first define the compatibility/build-standard transition; they are not
+part of the current API.
+
 ---
 
 ## Planned Enhancements
 
-### Short-Term (Q3 2026)
+### Short-Term (reschedule; previous Q3 2026 target passed)
 
-- [ ] Add `[[deprecated]]` annotations to any legacy entry points with migration notes
-- [ ] Add explicit `noexcept` specifications to query/read paths where safe
-- [ ] Add structured diagnostic types for all thrown exceptions
+- [ ] Identify an obsolete public entry point before adding `[[deprecated]]`; document its replacement and migration notes (Target: TODO)
+- [ ] Add explicit `noexcept` only where exception behavior is proven and documented (Target: TODO)
+- [ ] Define structured diagnostics only if they preserve current error behavior and have a concrete consumer (Target: TODO)
 
 ### Medium-Term (Q4 2026)
 
-- [ ] Expand public surface with convenience factory functions for common usage patterns
-- [ ] Add Concepts (C++20) constraints to template parameters in public headers
-- [ ] Introduce explicit ABI stability markers (`THEMIS_STABLE_ABI`) to long-term interfaces
+- [ ] Evaluate convenience factories against existing `WhisperPluginRegistrar` helpers (Target: TODO)
+- [ ] Consider Concepts (C++20) only after a repository-wide C++ standard/compatibility decision (Target: TODO)
+- [ ] Define ABI-stability policy before adding stability-marker macros (Target: TODO)
 
 ### Long-Term (2027+)
 
-- [ ] Module-interface (C++20 modules) wrapper for `include/whisper/` entry points
+- [ ] Module-interface (C++20 modules) wrapper for `include/whisper/` entry points, gated on repository support (Target: TODO)
 - [ ] Header-only usage path for embedding scenarios (where feasible)
 - [ ] Extended layer-mapping documentation for LLM/Voice integration patterns
 

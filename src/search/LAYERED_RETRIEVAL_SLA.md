@@ -1,7 +1,37 @@
-# Layered Retrieval SLA — Performance & Resource Contracts
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "include/search/layered_retrieval_orchestrator.h"
+  - "src/search/layered_retrieval_orchestrator.cpp"
+  - "benchmarks/search/CMakeLists.txt"
+  - "benchmarks/search/bench_layered_retrieval_phase5.cpp"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
 
-<!-- Status: current | validated: 2026-08-18 -->
+Exact model backend not verifiable from final document text alone.
+
+# Layered Retrieval SLA — Unverified Planning Targets
+
 <!-- Links: LAYERED_RETRIEVAL_ARCHITECTURE.md · ROADMAP.md · bench_search_release_gates.cpp -->
+
+> **Evidence warning (2026-10-31):** This page contains historical numeric
+> targets and planning estimates, not measured SLAs or production guarantees.
+> The benchmark definitions and CMake registrations were inspected, but no
+> benchmark was run and no baseline artifact was found in the scoped evidence.
+> Hardware, latency, throughput, memory, availability, and alert thresholds
+> below are therefore **assumptions/TODOs**, not validated values. The code
+> declares a per-layer wait deadline; timed-out detached work is not cancelled.
 
 ## Service-Level Agreements
 
@@ -70,7 +100,7 @@ config.guardrails.max_layers = 2;  // Only ANN + Tensor
 | Temporary buffers (prompt builder, etc.) | ~2 KB | ~2 KB | ~2 KB | Transient allocation |
 | **Total Peak** | **~13.5 KB** | **~13.5 KB** | **~13.5 KB** | Bounded regardless of shard count |
 
-### Memory Guarantees
+### Memory assumptions (not guarantees)
 
 - **No unbounded allocations:** All arrays are pre-reserved with guardrail-enforced limits
 - **No memory leaks:** RAII smart pointers used throughout; all shared_ptr and unique_ptr cleaned up at execute() exit
@@ -199,16 +229,18 @@ All layers use **hard per-layer timeouts** (default 50ms):
 
 The following benchmarks validate SLA targets:
 
-| Gate | Metric | Target | Current Baseline |
+| Gate | Metric | Target | Verified current baseline |
 |---|---|---|---|
-| SRCP-1 | ANN dispatch p99 (100 shards, k=10) | ≤ 16.5ms | 15.2ms ✅ |
-| SRCP-2 | Merge throughput (64 shards) | ≥ 45K results/sec | 48.2K results/sec ✅ |
-| SRCP-3 | Reranking overhead (LLM fallback) | ≤ 5.5ms | 5.1ms ✅ |
-| SRCP-4 | GPU/CPU fallback (GPU ≤ 8.8ms, CPU ≤ 11ms) | GPU ≤ 8.8ms | GPU 8.2ms ✅ |
-| SRCP-5 | Stream flush (per 1K batch) | ≤ 11ms | 10.5ms ✅ |
-| SRCP-6 | Query expansion (1K queries) | ≤ 55ms | 52.3ms ✅ |
+| SRCP-1 | ANN dispatch p99 (100 shards, k=10) | ≤ 16.5ms (historical target) | TODO — no verified run |
+| SRCP-2 | Merge throughput (64 shards) | ≥ 45K results/sec (historical target) | TODO — no verified run |
+| SRCP-3 | Reranking overhead (LLM fallback) | ≤ 5.5ms (historical target) | TODO — no verified run |
+| SRCP-4 | GPU/CPU fallback | GPU ≤ 8.8ms (historical target) | TODO — no verified run |
+| SRCP-5 | Stream flush (per 1K batch) | ≤ 11ms (historical target) | TODO — no verified run |
+| SRCP-6 | Query expansion (1K queries) | ≤ 55ms (historical target) | TODO — no verified run |
 
-**Source:** `benchmarks/search/bench_search_release_gates.cpp`
+The referenced benchmark source defines cases; it does not supply these
+measured values. Attach a run artifact and hardware/build metadata before
+restoring any numerical baseline.
 
 ### Regression Tolerance
 

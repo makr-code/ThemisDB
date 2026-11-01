@@ -1,89 +1,71 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
-AI_Models: "GitHub Copilot"
+AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
-Human_Review: true
+Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
 
+Exact model backend not verifiable from final document text alone.
+
 # Research Notes: LLM Streaming
 
-This document captures the engineering research and design assumptions behind the `llm_streaming` module contract. The module is still a specification and traceability layer rather than a colocated runtime implementation directory, which means the research base is intentionally anchored to the canonical runtime owners in `src/llm/` and `src/server/` and to the validation artifacts under `tests/llm_streaming/` and `benchmarks/llm_streaming/`.
+This page records source observations and open design questions; it does not
+claim a complete runtime or an external research review.
 
-## Research problem
+## Source-grounded observations
 
-The core operational challenge is not merely how to emit tokens quickly. It is how to produce a stream that remains observable, ordered, cancellable, and safe under overload. The repository already reflects that concern in the stream-oriented tests and runbooks:
+- `include/llm/streaming_handler.h` declares `themis::llm::StreamingHandler`.
+- `src/llm/streaming_handler.cpp` escapes JSON string values, formats SSE
+  events, the `data: [DONE]\n\n` sentinel, one HTTP chunk-framing string, and a
+  callback adapter that invokes a caller-provided sink.
+- `tests/llm/test_streaming_handler.cpp` directly tests formatting and basic
+  sequential callback behavior, but not transport/runtime integration.
+- `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`,
+  `tests/integration/test_llm_streaming_soak.cpp`, and
+  `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp` define
+  separate in-process stubs. They do not use the helper or real network/model
+  backends.
+- `GET /api/v1/llm/stream` in `src/server/llm_api_handler.cpp` invokes
+  `EmbeddedLLM::generateStreamingSSE`, which formats inference callback values
+  as SSE and accumulates them into a string response body.
+- The route returns `http::string_body` after generation completes; this is
+  not incremental network delivery and it does not call `StreamingHandler`.
+- The route parses `prompt`, `request_id`, and `max_tokens`; the default token
+  limit is 512 and accepted query values are capped at 4096.
+- `tests/llm/test_llm_aql_explain_stream_api.cpp` checks unauthenticated route
+  handling for `/api/v1/llm/stream`; it does not exercise successful
+  authenticated generation or delivery.
 
-- `tests/integration/test_llm_streaming_soak.cpp` models sustained producer/consumer pressure, token throughput, backpressure, and ordering
-- `docs/operability/RUNBOOK_LLM_STREAMING.md` codifies incident response for buffer overflow, stall, cascade, disconnect, and ordering violations
-- `src/llm/streaming_handler.cpp` provides the actual low-level formatting helpers for SSE payloads and chunk framing used at the runtime edge
+The helper's atomic callback index does not establish ordered concurrent sink
+delivery. The source reviewed does not establish session lifecycle,
+backpressure, disconnect cancellation, gRPC, or streaming metrics.
+`AsyncInferenceEngine` has separate cancellation/deadline APIs, but the
+streaming HTTP handlers do not submit through it.
 
-## Source-grounded evidence
+## Open design questions
 
-### Runtime-adjacent implementation evidence
+1. Is buffered SSE sufficient, or must the route write events incrementally?
+2. Which tests should cover successful authenticated inference-to-response
+   delivery and terminal/error behavior?
+3. Which component should own disconnect cancellation, backpressure, and
+   cleanup if incremental delivery is required?
+4. Is the helper callback invoked concurrently, and what sink ordering contract
+   should callers observe?
+5. Are the benchmark labels intended product requirements, or merely
+   illustrative stub thresholds?
 
-- `include/llm/streaming_handler.h` defines the public stream-formatting surface used by the runtime
-- `src/llm/streaming_handler.cpp` escapes JSON safely, emits SSE `data:` blocks, and wraps token output with a per-request callback adapter
-- `tests/integration/test_llm_streaming_soak.cpp` uses in-process stubs to validate throughput and backpressure behavior under sustained load
+## Conclusion
 
-### Module-level contract evidence
+The current evidence supports a formatting utility, a buffered HTTP/SSE
+inference route, and separate stub scenarios. It does not support claims about
+incremental network delivery, cancellation/backpressure guarantees, deployment
+behavior, or release performance. The open questions require canonical
+implementation and test evidence.
 
-- `src/llm_streaming/ARCHITECTURE.md` defines the lifecycle states `open`, `active`, `cancelled`, and `closed`
-- `src/llm_streaming/ROADMAP.md` states that production runtime ownership must be mapped to canonical modules before release-grade claims are made
-- `src/llm_streaming/PRODUCTION_REQUIREMENTS.md` explicitly requires source-traceable ownership for stream runtime behavior
-
-## Research questions
-
-1. What lifecycle transitions are safe and observable when a stream is opened, cancelled, or closed?
-2. What ordering and backpressure invariants must hold when a stream is exposed to high-cardinality concurrency?
-3. Which runtime ownership boundaries are stable enough to support operator diagnosis and releases?
-4. How should the implementation bridge from model output to HTTP/SSE or other client transports without silently losing state?
-
-## Model assumptions
-
-The current design assumes the following constraints:
-
-- A stream has exactly one authoritative owner for lifecycle state and cleanup.
-- Token ordering is deterministic within a single stream unless a bounded, explicit reordering policy is documented.
-- Backpressure is a fail-closed condition: it must surface a defined status, not be silently dropped.
-- Client disconnect and request cancellation are terminal conditions that require idempotent cleanup.
-- Any production runtime implementation must live outside `src/llm_streaming/` until the canonical module ownership is documented.
-
-## Failure domains
-
-The documented failure taxonomy is deliberately narrow and operationally useful:
-
-- buffer overflow / queue saturation
-- generation stall / no progress for a bounded interval
-- backpressure cascade across concurrent sessions
-- mid-stream disconnect or transport reset
-- token sequence violation
-
-These correspond directly to the operator runbook in `docs/operability/RUNBOOK_LLM_STREAMING.md` and to the stress-test warnings in `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`.
-
-## Evaluation and trade-offs
-
-### Why a design contract is necessary
-
-A docs-only module path is useful when product and runtime ownership are intentionally separated. It creates a durable contract for required semantics without over-claiming production status. This is consistent with the repository’s governance stance that `src/llm_streaming/` may remain specification-first until real runtime code is placed in the owning canonical modules.
-
-### Trade-offs
-
-- Specification-first approach: clearer contract and lower implementation risk; limited immediate runtime evidence
-- Runtime-first approach: faster operational realism; requires stronger ownership, tests, and release evidence
-
-The repository currently chooses the former until canonical runtime ownership is established, which is consistent with the roadmap and production requirements documents.
-
-## Research conclusions
-
-The streaming design requirement is best framed as a contract around bounded, observable stream behavior rather than as a single implementation artifact. The most credible path for progress is:
-
-1. keep the module contract explicit and evidence-backed
-2. map concrete runtime ownership to `llm` and `server`
-3. release only after tests and benchmarks prove the behavior in the owning runtime files
-
-This allows ThemisDB to avoid the common trap of documenting a production streaming feature without source-traceable runtime evidence.
+**TODO:** add external papers or measured research references only if a
+specific design decision requires them; none is asserted here.

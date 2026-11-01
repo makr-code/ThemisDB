@@ -79,9 +79,15 @@ separate `PluginLifecycleState` enum in `plugin_interface.h`; see
 - `PluginMetrics` records load/reload/call/error and memory values.
   `PluginMetricsCollector::collect()` emits a point-in-time snapshot to an
   `IMetrics` sink; it does not itself run a scrape loop.
-- `loadWasmPlugin()` requires an expected hash and an enabled runtime path.
-  Without `THEMIS_WASM_SUPPORT`, the build does not provide the active runtime
-  bridge.
+- `loadWasmPlugin(path, expected_sha256, runtime, module_name, error_out)`
+  requires the expected hash and runtime/license checks on the built-in path.
+  A registered `WasmPluginLoadFn` is consulted first, including in builds
+  without `THEMIS_WASM_SUPPORT`; without a callback or enabled built-in path it
+  returns `nullptr`. Built-in Wasmtime/WasmEdge support additionally depends on
+  `THEMIS_WASM_WASMTIME` / `THEMIS_WASM_WASMEDGE`. These flags do not by
+  themselves establish a sandbox guarantee. The callback is supplied by the
+  embedding application; its validation/isolation behavior is not guaranteed by
+  this loader.
 
 Detailed schemas and behavioral contracts are in
 [`plugin_interface.h`](../../include/plugins/plugin_interface.h),

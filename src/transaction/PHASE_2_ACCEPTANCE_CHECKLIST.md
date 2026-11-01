@@ -1,8 +1,24 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-08"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+Source level: 1; SOT domain: module-behavior. Canonical references: `tests/transaction/test_transaction_distributed_phase2.cpp`, `tests/transaction/test_transaction_saga_compensation_phase2.cpp`, and `tests/transaction/CMakeLists.txt`. Related issue: #7390.
+
 # Transaction Module - Phase 2 Acceptance Checklist
 **Date:** 2026-08-08
 **Phase:** 2 - Distributed Coordination Hardening
 **Target:** Q4 2026
-**Status:** ✓ IMPLEMENTATION COMPLETE (Build & Execution Verification Pending)
+**Status:** Historical implementation checklist; current source declarations are inventoried below. Build and execution remain unverified in this documentation task.
 
 ---
 
@@ -82,9 +98,11 @@ Phase 2 focuses on hardening distributed transaction coordination, including 2PC
 
 | File | Purpose | Test Count | Acceptance Criteria |
 |------|---------|-----------|-------------------|
-| `test_transaction_distributed_phase2.cpp` | Distributed coordination | 9 tests | AC-4, AC-5, AC-6 |
-| `test_transaction_saga_compensation_phase2.cpp` | SAGA & compensation | 12 tests | AC-8, AC-9, AC-10 |
-| **TOTALS** | **Phase 2 Hardening** | **26 tests** | **AC-4,5,6,8,9,10** |
+| `test_transaction_distributed_phase2.cpp` | Distributed coordination | 14 declared cases | AC-4, AC-5, AC-6 |
+| `test_transaction_saga_compensation_phase2.cpp` | SAGA & compensation | 13 declared cases | AC-8, AC-9, AC-10 |
+| **TOTALS** | **Phase 2 source declarations** | **27 cases** | **AC-4,5,6,8,9,10** |
+
+> Detailed test names/counts elsewhere in this historical checklist do not fully match current source declarations. Use these source files and CMake registration as the current inventory; no test execution is implied.
 
 ### Distributed Coordination Tests (test_transaction_distributed_phase2.cpp)
 
@@ -169,7 +187,7 @@ ctest --preset community-release --label "transaction;phase-2" -V
 ```
 
 ### Expected Output
-- All 26 tests pass (or documented expected failures)
+- 27 test declarations are present; execution is not established by this checklist update
 - Stress tests show high concurrency (4-8 threads)
 - Performance metrics captured for Phase 4 baseline
 - No segmentation faults or data corruption
@@ -189,8 +207,8 @@ ctest --preset community-release --label "transaction;phase-2" -V
 ✓ Design constraints documented and enforced
 
 ### Quality Metrics
-- **Test Count:** 26 focused tests
-- **Concurrent Threads:** Up to 8 per stress test
+- **Test declarations:** 27 focused test cases
+- **Concurrent Threads:** Values in this historical checklist have not been reconciled with current source for every test
 - **Operations Per Test:** 5-10 distributed txns
 - **Distributed Protocols:** 2PC, 3PC, SAGA
 - **Failure Scenarios:** Timeout, crash, network partition, degradation
@@ -250,8 +268,7 @@ After Phase 2 verification:
 
 ## Sign-Off
 
-**Phase 2 Implementation:** COMPLETE  
-**Status:** Ready for Build & Test Verification  
+**Phase 2 Source Status:** Test files are present and registered. **Build/Execution Status:** Not verified by this documentation audit.
 **Date:** 2026-08-08  
 **Next Phase:** Phase 3 - SAGA and Compensation Reliability (Enhanced Validation)
 **Extended Phase 2-4:** Phase 2-3 focus on reliability; Phase 4 on performance

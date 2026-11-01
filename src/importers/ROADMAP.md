@@ -1,10 +1,44 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-02"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "ROADMAP.md; include/importers/importers_api_contract.h; tests/importers/CMakeLists.txt; benchmarks/importers/CMakeLists.txt"
+Related_Reference: "makr-code/ThemisDB#7353"
+---
+
+> Creation-date note: Original creation date is not recorded in the available checkout; the front-matter `Created` date is a metadata placeholder, not independently verified.
+
+> Exact model backend not verifiable from final document text alone.
+
 # Importers Module Roadmap
 
+## Current source/configuration snapshot (2026-10-31)
+
+The importer sources and public headers are present in this checkout, but this
+page does not certify module maturity or release readiness. The local focused
+test registration discovers 12 test sources and excludes three; two benchmark
+targets are declared when benchmark building is enabled. The focused mock test
+passed directly (16/16); standalone benchmark sources ran, but the benchmark
+library was built as DEBUG. No CTest execution, live connector/runtime test, or
+release-profile benchmark was completed. See [`BUILD_STATUS.md`](./BUILD_STATUS.md).
+
+TODO: review the plans and completion percentages below against current source,
+root `ROADMAP.md`, and reproducible test/benchmark evidence before treating them
+as active status.
+
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-02 | Evidence: build/test verified via #5650 -->
+<!-- Historical status metadata from 2026-08-02; superseded by the dated note above. -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · BUILD_STATUS.md -->
 
-## Current Status
+## Historical delivery plan and status (not revalidated)
 
 Production importer runtime exists across relational/document/stream/file/object ingestion paths, schema/conflict/quality handling, and auditable post-processing support.
 
@@ -75,7 +109,7 @@ Production importer runtime exists across relational/document/stream/file/object
 - [x] Phase 1-6 Wave 3B Category-D closure delivered (Q3 2026)
   - Contract header, 16 focused tests (IMCH-01..16), 6 release-gate benchmarks (IMRG-01..06)
 
-## Production Readiness Checklist
+## Historical readiness checklist (not a current readiness assessment)
 
 - [x] core importer surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
@@ -83,7 +117,7 @@ Production importer runtime exists across relational/document/stream/file/object
 - [x] remaining hardening tasks closed for connector/validation/conflict edge paths (Delivered: 2026-08-07)
 - [x] release benchmark stabilization complete (Delivered: 2026-08-07)
 
-## Build and Test Evidence
+## Historical build and test claims (not revalidated)
 
 ### Focused Test Inventory (Verified 2026-08-02)
 - Test files: 6 source files in `tests/importers/test_*.cpp`

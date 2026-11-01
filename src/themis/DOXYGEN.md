@@ -1,14 +1,29 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-20"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Model_Attribution: "Exact model backend not verifiable from final document text alone."
+AI_Contributor: "themisdb-doc-orchestrator"
+Human_Review: false
+Human_Author: "unknown"
+---
+
 # THEMIS DOXYGEN
 
-Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Generated snapshot date: 2026-09-20
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\themis\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\themis\doxygen-warnings.log`
+- The recorded XML index and warnings log were under a local Windows workspace
+  and are not available in this checkout.
+
+> **Historical generated snapshot:** The namespace, type, and structure metrics
+> below are retained from the 2026-09-20 generation. Their scope and current
+> accuracy cannot be verified from this checkout; use headers and current
+> Doxygen output as the authority for API claims.
 
 ## Structure Metrics
 - C/C++ Files (scanned): 97
@@ -10896,4 +10911,3 @@ Status: active
 - Source: `include/themis/network/wire_protocol_server.hpp`:391
 - Brief: n/a
 - Parameters: none
-

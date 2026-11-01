@@ -1,18 +1,42 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Model_Attribution: "Exact model backend not verifiable from final document text alone."
+AI_Contributor: "themisdb-doc-orchestrator"
+Human_Review: false
+Human_Author: "unknown"
+---
+
 # Themis Core Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-07 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-Production-usable themis core runtime exists for build identity, edition/license gating, secure module loading and verification, dependency resolution, and wire server operation.
+The source tree contains implementations for build identity, edition/license
+gating, module loading and verification, dependency resolution, and wire-server
+operation. This inventory does not establish module-level production
+readiness; root `ROADMAP.md` remains authoritative for aggregate release
+readiness and blockers.
+
+> **Evidence boundary (2026-10-31):** Current source, test, and benchmark
+> registration was checked, but no build, test, soak, or benchmark execution
+> was performed. A test/benchmark file's presence is not evidence that a
+> checklist item passed. Q3 2026 status labels and target dates below were not
+> independently revalidated and should be treated as unresolved where they
+> require run artifacts or sign-off.
 
 ## In Progress
 
-- [~] hardening loader/verification behavior under platform and trust-edge scenarios (Target: Q3 2026)
-- [~] improving diagnostics consistency across license, verification, and wire runtime stages (Target: Q3 2026)
-- [~] stabilizing benchmark-backed release guardrails for themis core hot paths (Target: Q3 2026)
+- [?] hardening loader/verification behavior under platform and trust-edge scenarios (Target: Q3 2026; status not revalidated)
+- [?] improving diagnostics consistency across license, verification, and wire runtime stages (Target: Q3 2026; status not revalidated)
+- [?] stabilizing benchmark-backed release guardrails for themis core hot paths (Target: Q3 2026; status not revalidated)
 
 ## Planned Features
 
@@ -45,8 +69,8 @@ Production-usable themis core runtime exists for build identity, edition/license
 - [x] extend deterministic stress fixtures for core runtime concurrency (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [x] lock benchmark-backed release gates for themis core hot paths (Target: Q4 2026)
-- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [?] lock benchmark-backed release gates for themis core hot paths (Target: Q4 2026; no run artifact was checked)
+- [?] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026; no run artifact was checked)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core themis module docs aligned to source-verifiable behavior
@@ -57,8 +81,8 @@ Production-usable themis core runtime exists for build identity, edition/license
 - [x] core themis surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [x] remaining hardening tasks closed for loader/gating/wire edge paths — evidence: tests/themis/test_themis_highcardinality_stress.cpp
-- [x] release benchmark stabilization complete
+- [?] remaining hardening tasks closed for loader/gating/wire edge paths — test source exists, but passing execution evidence was not checked
+- [?] release benchmark stabilization complete — benchmark sources are registered, but no baseline or run result was checked
 
 ## Known Issues and Limitations
 
@@ -78,9 +102,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `themis`
-- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — evidence: tests/themis/test_themis_highcardinality_stress.cpp, docs/operability/RUNBOOK_THEMIS_CORE.md
-- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — evidence: tests/integration/test_themis_core_soak.cpp (ThemisSoak_LoadVerifyThroughput, ThemisSoak_WireSessionStability, ThemisSoak_DependencyGatingReliability)
-- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_THEMIS_CORE.md (5 scenarios, log patterns [THEMIS:LoadFailed], [THEMIS:WireSessionStall], [THEMIS:TrustViolation], [THEMIS:GatingTimeout])
+- [?] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — source artifacts exist; execution and acceptance were not checked
+- [?] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — test source exists; registration and run results were not checked
+- [?] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — runbook exists; current signal availability was not verified
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -88,6 +112,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — evidence: module loader fail-closed, wire session heartbeat timeout
+- [?] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — require path-specific test and configuration evidence
 - [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
 - [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_THEMIS_CORE.md

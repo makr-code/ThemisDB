@@ -68,12 +68,12 @@ Status: Active
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `727c00e7c7af8ab4`
+- Hash: `8c12d23bf7df45cd`
 - Titel: ThemisDB Project Roadmap
 - Auszug:
   - <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
   - **Version:** 2.4.0-alpha
-  - **Last Updated:** 2026-10-30 (Wave C evidence status and governance target reconciliation)
+  - **Last Updated:** 2026-10-31 (Wave C and EPIC 2 source/evidence reconciliation)
 
 ## VERSIONING.md
 - Kategorie: governance_and_docs
@@ -401,7 +401,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/IMPORTERS.md
 - Kategorie: governance_and_docs
-- Hash: `aba92d33f74af838`
+- Hash: `a911a66ac898123d`
 - Titel: Importers — Developer LLM Wiki
 - Auszug:
   - ---

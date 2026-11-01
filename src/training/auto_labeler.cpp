@@ -155,6 +155,7 @@ public:
                     if (!persistSampleBatch(batch, stats.samples_persisted, persistence_error)) {
                         stats.persistence_errors++;
                         stats.error_message = std::move(persistence_error);
+                        batch.clear();
                         break;
                     }
                     batch.clear();
@@ -374,6 +375,7 @@ public:
                     if (!persistSampleBatch(batch, stats.samples_persisted, persistence_error)) {
                         stats.persistence_errors++;
                         stats.error_message = std::move(persistence_error);
+                        batch.clear();
                         break;
                     }
                     batch.clear();

@@ -1,3 +1,28 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - ../../include/sharding/consensus_factory.h
+  - ../../include/sharding/consensus_module.h
+  - ARCHITECTURE.md
+Related_Issue: "#7381"
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> **Scope note:** This is campaign narrative, not canonical product, release, or API documentation.
+> Its dated product/version and performance claims require separate current-source verification.
+
 Why AI Infrastructure Is Broken — and How ThemisDB Fixes It
 
 Anyone running a modern AI application today does not need a single system — they need a zoo of separate services. PostgreSQL stores business data. Neo4j manages relationships in the knowledge graph. Pinecone or Weaviate handles semantic vector search. InfluxDB processes time-series data from sensors. Elasticsearch powers full-text search. A separate LLM backend handles AI inference. Kafka or RabbitMQ keeps all of them talking to each other. Seven systems. Seven operations teams. Seven points of failure. Cloud costs exceeding ~ €15,000 per month for medium-sized deployments, despite the fact that AI inferencing is uncalcuable due to the token-usage and per-token costs scaling.
@@ -8,7 +33,11 @@ The fundamental technical problem runs deeper. The moment a single transaction �
 
 ThemisDB solves a little on this problem at the root. It is a single engine that natively handles all multiple data models — relational, graph, vector, document, time-series, and key-value — while maintaining true ACID guarantees across all of them. Native LLM inference (LLM = Large Language Model, the technology behind ChatGPT and similar systems) runs directly inside the database process via llama.cpp and ONNX: no external API call, no network latency, no privacy concerns from sending sensitive data to a cloud service. The development approach follows a scientific standard with measurable results, reproducible experiments, and transparent failure analysis.
 
-The technical foundations are already implemented. ThemisDB uses RocksDB LSM-Tree as MVCC (Multiversion Concurrency Control — a technique where each database access gets its own consistent snapshot of data without blocking other accesses) as the native basis for ACID semantics inside one engine. For distributed data, the sharding layer uses Raft-based coordination and RAID-sharding style inter-database communication, so replication, shard routing, and cross-node state agreement are handled in the distributed storage layer rather than in application code. 
+The technical foundations are described by separate storage and sharding components. The sharding
+tree contains multiple consensus abstractions/adapters (including Raft, Paxos, and Gossip); the
+active backend and its guarantees depend on configuration and integration. Do not interpret this
+campaign text as a claim that every deployment uses Raft or that all cross-node operations share
+one coordination path.
 
 The SAGA pattern also exists, but mainly as a concession to long-running or pre-existing distributed database workflows that users may already have; it is not the primary integrity model of ThemisDB's native multi-model core. For compute-intensive workloads, optional GPU acceleration is available via CUDA, HIP, and Vulkan. 
 

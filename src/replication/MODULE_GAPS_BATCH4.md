@@ -1,3 +1,31 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-08-16
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - ../../src/replication/
+  - MODULE_GAPS.md
+  - AUDIT.md
+Related_Issue: "#7373"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+> **Historical snapshot warning (2026-10-31):** This analysis was generated on
+> 2026-08-16 and includes findings that its companion document later marked closed.
+> Its line numbers, severity counts, and proposed fixes have not been revalidated
+> against current source. Treat as history, not as an active defect list; see
+> [AUDIT.md](AUDIT.md) for current documentation follow-ups.
+
 # Replication Module Gaps — Batch 4 Analysis (CRITICAL + HIGH)
 
 **Scope**: Analysis of all 1519 identified gaps in replication module  

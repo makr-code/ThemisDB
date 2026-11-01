@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -28,14 +28,22 @@ For security incidents, use the private reporting route in [SECURITY.md](../../S
 4. Inspect the active evaluator and `governance_opa_fallback_total`. A fallback means OPA did not return a usable decision; it is not equivalent to OPA approval.
 5. Verify the final `PolicyDecision` and downstream enforcement. Do not weaken classification or force `observe` solely to clear the incident.
 
-## OPA unavailable, malformed, or timing out
+## OPA REST unavailable, malformed, or timing out
 
-Symptoms include a `kOpaUnavailable` diagnostic for `opa_adapter`, network/timeout/invalid-policy counters, and increased native-fallback count.
+For REST mode, symptoms include a `kOpaUnavailable` diagnostic for
+`opa_adapter`, network/timeout/invalid-policy counters, and increased
+native-fallback count.
 
-1. Check endpoint reachability, policy path/bundle load, response shape, connection timeout, and configured `timeout_ms`.
-2. Determine whether REST evaluation returned `nullopt`; `PolicyEngine` then uses native evaluation. Compare that native result with the intended policy before resuming sensitive traffic.
-3. If `mode == WASM`, confirm an injected `WasmEvalFn` is active. The built-in path may return permissive `observe` defaults when a bundle exists but no evaluator is injected and WASM runtime support is absent. Treat any reliance on that path as a security incident; do not use it for authorization.
-4. Restore the supported evaluator/configuration, run the focused OPA tests, and verify a known allow and deny case before returning traffic.
+1. Check endpoint reachability, policy path/bundle load, response shape,
+   connection timeout, and configured `timeout_ms`.
+2. If REST evaluation returned `nullopt`, `PolicyEngine` uses native
+   evaluation. Compare that result with the intended policy before resuming
+   sensitive traffic.
+3. If `mode == WASM`, treat a missing or failed injected `WasmEvalFn` as a
+   strict deny. It does not fall back to REST or native policy; a bundle path
+   is not evidence that policy executed.
+4. Restore the intended evaluator/configuration, run the focused OPA tests, and
+   verify a known allow and deny case before returning traffic.
 
 ## Lineage or audit forwarding degraded
 
@@ -57,7 +65,9 @@ Restore audit sink availability/capacity, inspect failure logs, and verify succe
 
 For a bad policy change, inspect the active version and audit history, check rollback safety, preview impact, obtain the normal incident approval, perform the supported rollback, then verify both an allow and deny case. Stop if safety checks block rollback or the candidate version is unavailable; escalate to the governance/security owner rather than editing runtime state manually.
 
-Escalate immediately for suspected policy bypass, production use of the built-in WASM stub, unexplained evaluator changes, missing audit evidence, or uncertain erasure status. Follow [TRUST.md](TRUST.md), [SECURITY.md](SECURITY.md), and [SOP-05/SOP-08](../../SOP.md).
+Escalate immediately for suspected policy bypass, unexplained evaluator
+changes, missing audit evidence, or uncertain erasure status. Follow
+[TRUST.md](TRUST.md), [SECURITY.md](SECURITY.md), and [SOP-05/SOP-08](../../SOP.md).
 
 ## Source references
 

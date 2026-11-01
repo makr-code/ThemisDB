@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # ThemisDB LLM Module
 
 <!-- Status: enhanced | validated: 2026-08-17 -->
@@ -54,15 +68,20 @@ llm.shutdown();
 ### 2. Streaming Inference
 
 ```cpp
-// Request with streaming callback
-llm.streamComplete(prompt, CompletionConfig{
-    .max_tokens = 512
-}, [](const StreamToken& token) {
-    // Called for each token
-    std::cout << token.text;
+// EmbeddedLLM callback-based generation
+llm.generateStreaming(prompt, [](const std::string& text) {
+    std::cout << text;
     std::cout.flush();
-});
+}, 512);
 ```
+
+`EmbeddedLLM::generateStreaming` is a synchronous call with a callback. With a
+loaded Llama backend, the callback is invoked for generated token text; the
+non-LLM stub calls it once with the complete generated text. The server's
+`GET /api/v1/llm/stream` route uses `generateStreamingSSE`, but buffers all SSE
+events into an HTTP `string_body` response before returning; it does not flush
+tokens incrementally to the client. The separate `StreamingHandler` helper is
+not used by this route.
 
 ### 3. Model Routing
 
@@ -154,11 +173,11 @@ public:
         std::function<void(const Result<CompletionResponse>&)> callback
     );
     
-    // Streaming Inference
-    void streamComplete(
+    // Streaming callback inference (EmbeddedLLM)
+    std::string generateStreaming(
         const std::string& prompt,
-        const CompletionConfig& cfg,
-        std::function<void(const StreamToken&)> on_token
+        std::function<void(const std::string&)> callback,
+        int max_tokens = 512
     );
     
     // Embeddings

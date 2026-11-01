@@ -1,4 +1,22 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-19"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+Source level: 1; SOT domain: module-behavior. Canonical references: `tests/transaction/test_transaction_wave_a_closure.cpp`, `tests/transaction/CMakeLists.txt`, and `src/transaction/ROADMAP.md`. Related issue: #7390.
+
 # Transaction Module — Wave A Closure Evidence Bundle
+
+> **Historical evidence note:** This bundle records 2026-08 evidence claims. The current test source contains 15 declared cases and is registered in CMake; this documentation audit did not build/run those cases or revalidate historical CI/hardware claims.
 
 **Date:** 2026-08-25 (updated from 2026-08-19)  
 **Module:** `src/transaction/`  
@@ -144,20 +162,20 @@ all_voted_commit = fut.get();  // non-blocking: future already ready here
 
 | Phase | Test File | Tests |
 |-------|-----------|-------|
-| Phase 1 | test_transaction_lifecycle_phase1.cpp | 12 |
-| Phase 1 | test_transaction_isolation_contention_phase1.cpp | 10 |
-| Phase 1 | test_transaction_error_path_determinism_phase1.cpp | 11 |
-| Phase 2 | test_transaction_distributed_phase2.cpp | 9 |
-| Phase 2 | test_transaction_saga_compensation_phase2.cpp | 12 |
-| Phase 3 | test_transaction_fault_injection_phase3.cpp | 14 |
-| Wave A Closure | test_transaction_wave_a_closure.cpp | 15 |
-| **Total** | | **83** |
+| Phase 1 | test_transaction_lifecycle_phase1.cpp | 13 declared cases |
+| Phase 1 | test_transaction_isolation_contention_phase1.cpp | 9 declared cases |
+| Phase 1 | test_transaction_error_path_determinism_phase1.cpp | 10 declared cases |
+| Phase 2 | test_transaction_distributed_phase2.cpp | 14 declared cases |
+| Phase 2 | test_transaction_saga_compensation_phase2.cpp | 13 declared cases |
+| Phase 3 | test_transaction_fault_injection_phase3.cpp | 11 declared cases |
+| Wave A Closure | test_transaction_wave_a_closure.cpp | 15 declared cases |
+| **Total** | | **85 declarations; execution unverified** |
 
 ---
 
 ## CI/Build Evidence
 
-> **EVIDENCE NOTE (2026-08-24):** All transaction test files for Phases 1–3 and the Wave A closure
+> **HISTORICAL EVIDENCE NOTE (2026-08-24):** All transaction test files for Phases 1–3 and the Wave A closure
 > batch are **present on disk** and **registered in `tests/transaction/CMakeLists.txt`** with the
 > correct `add_executable` / `add_test` macro pattern and `release_critical` labels.
 > `bench_transaction_phase4.cpp` is registered in `benchmarks/transaction/CMakeLists.txt`.
@@ -166,16 +184,16 @@ all_voted_commit = fut.get();  // non-blocking: future already ready here
 
 | Artifact | CMakeLists Registration | Disk Presence | Execution Evidence |
 |----------|------------------------|---------------|-------------------|
-| `test_transaction_lifecycle_phase1.cpp` (12 tests) | ✅ Registered | ✅ Present | ⏳ Pending CI run |
-| `test_transaction_isolation_contention_phase1.cpp` (10 tests) | ✅ Registered | ✅ Present | ⏳ Pending CI run |
-| `test_transaction_error_path_determinism_phase1.cpp` (11 tests) | ✅ Registered | ✅ Present | ⏳ Pending CI run |
-| `test_transaction_distributed_phase2.cpp` (9 tests) | ✅ Registered | ✅ Present | ⏳ Pending CI run |
-| `test_transaction_saga_compensation_phase2.cpp` (12 tests) | ✅ Registered | ✅ Present | ⏳ Pending CI run |
-| `test_transaction_fault_injection_phase3.cpp` (14 tests) | ✅ Registered | ✅ Present | ⏳ Pending CI run |
-| `test_transaction_wave_a_closure.cpp` (15 tests) | ✅ Registered (`release_critical`) | ✅ Present | ⏳ Pending CI run |
+| `test_transaction_lifecycle_phase1.cpp` (13 declared cases) | ✅ Registered | ✅ Present | Not run in this audit |
+| `test_transaction_isolation_contention_phase1.cpp` (9 declared cases) | ✅ Registered | ✅ Present | Not run in this audit |
+| `test_transaction_error_path_determinism_phase1.cpp` (10 declared cases) | ✅ Registered | ✅ Present | Not run in this audit |
+| `test_transaction_distributed_phase2.cpp` (14 declared cases) | ✅ Registered | ✅ Present | Not run in this audit |
+| `test_transaction_saga_compensation_phase2.cpp` (13 declared cases) | ✅ Registered | ✅ Present | Not run in this audit |
+| `test_transaction_fault_injection_phase3.cpp` (11 declared cases) | ✅ Registered | ✅ Present | Not run in this audit |
+| `test_transaction_wave_a_closure.cpp` (15 declared cases) | ✅ Registered (`release_critical`) | ✅ Present | Not run in this audit |
 | `benchmarks/transaction/bench_transaction_phase4.cpp` | ✅ Registered | ✅ Present | ⏳ Pending hardware baseline run |
 
-**Total tests confirmed registered:** 83  
+**Current source test declarations:** 85 (70 in Phase 1–3 files plus 15 Wave A closure cases)
 **Hardware execution evidence:** pending representative-hardware access (target Q4 2026)
 
 ---
@@ -188,7 +206,7 @@ all_voted_commit = fut.get();  // non-blocking: future already ready here
 | Run verification | ⏳ Pending | Follows build confirmation on representative hardware |
 | Phase 4 benchmark baseline | ⏳ Pending | `benchmarks/transaction/bench_transaction_phase4.cpp` registered; baseline capture pending |
 | Representative-hardware p95/p99 | ⏳ Pending | Requires dedicated hardware CI run (target Q4 2026) |
-| `release_critical` CI green | ⏳ Pending | All 83 tests registered `release_critical`; green-on-develop evidence pending |
+| `release_critical` CI green | Not checked here | 15 Wave A closure cases carry the `release_critical` label; current CI status was not checked |
 
 ---
 

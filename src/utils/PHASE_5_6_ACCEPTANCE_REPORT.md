@@ -1,4 +1,23 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-17"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Phase 5-6 Acceptance Report – Utils Module
+
+> Historical report snapshot dated 2026-08-17. Its benchmark-gate claims are
+> not current production-path evidence: the cited top-level benchmark sources
+> are absent, and the current registered utils benchmark scope is documented
+> in [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md).
 
 **Report Date:** 2026-08-17 06:46:14 UTC  
 **Module:** src/utils/  

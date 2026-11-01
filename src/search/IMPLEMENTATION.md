@@ -1,14 +1,27 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
-Human_Author: "ThemisDB Team"
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "include/search/hybrid_search.h"
+  - "include/search/distributed_hybrid_search.h"
+  - "include/search/search_error_codes.h"
+  - "src/search/hybrid_search.cpp"
+  - "src/search/distributed_hybrid_search.cpp"
+  - "tests/search/CMakeLists.txt"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
+
+Exact model backend not verifiable from final document text alone.
 
 # Search Module Implementation Guide
 
@@ -30,7 +43,7 @@ The search module owns the query and ranking composition logic. It does not own 
 The codebase consistently follows these invariants:
 
 1. Search methods prioritize explicit degradation metadata over silent failure.
-2. Backend errors are logged and converted to partial or empty results rather than thrown from the main public search API.
+2. `HybridSearch::search()` catches backend/fusion exceptions and returns available or empty results; the current implementation does not populate all declared degradation/error fields.
 3. Bottleneck behavior is controlled with configuration validation and bounded candidate limits.
 4. LLM reranking remains optional and recoverable.
 5. Distributed queries report partial success clearly rather than pretending that all shards succeeded.
@@ -54,7 +67,13 @@ This is important because the module expects stable, deterministic configuration
 
 ### SearchStats and error taxonomy
 
-The module reports partial or degraded outcomes through `SearchStats` and `SearchErrorCode` rather than by relying on exceptions alone. The design states that retrieval failures are explicit and human-readable.
+`HybridSearch::search()` currently populates backend status, partial-result,
+and candidate-count fields. The header also declares `primary_error_code`,
+`fusion_failed`, and `rerank_fallback`, but the inspected implementation does
+not write them. `SearchErrorCode` is declared in a public header but is not
+currently consumed by the inspected search `.cpp` files. Treat the latter
+fields as declared API surface, not active runtime diagnostics; wiring and
+tests are TODO.
 
 ### DistributedHybridSearch
 

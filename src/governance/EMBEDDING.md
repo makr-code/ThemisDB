@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -37,7 +37,11 @@ For model-training export, `ModelGovernancePolicy::checkExportPermission()` deni
 
 The governance module can test decision and export behavior but cannot measure embedding quality, vector recall, distance semantics, model fairness in production, or index isolation. Such evaluations belong to the relevant vector/model module and must use its own benchmark and dataset. Governance bias-audit reports consume supplied adapter/dataset statistics; they do not inspect embedding vectors.
 
-An `ann_allowed` value is only an advisory contract unless the caller enforces it. A disabled or empty masking policy returns input unchanged. The built-in OPA WASM stub must not be used to authorize vector access or export; see [TRUST.md](TRUST.md) and [SECURITY.md](SECURITY.md).
+An `ann_allowed` value is only an advisory contract unless the caller enforces
+it. A disabled or empty masking policy returns input unchanged. Explicit OPA
+WASM mode requires an injected evaluator; without it, the adapter returns an
+enforced strict deny and does not substitute another evaluator. See
+[TRUST.md](TRUST.md) and [SECURITY.md](SECURITY.md).
 
 ## Source references
 

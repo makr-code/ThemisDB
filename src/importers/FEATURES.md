@@ -1,32 +1,55 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "include/importers/importer_interface.h; include/importers/flatfile_importer.h; src/importers/README.md; tests/importers/CMakeLists.txt"
+Related_Reference: "makr-code/ThemisDB#7353"
 ---
+
+> Exact model backend not verifiable from final document text alone.
 
 # Importers in ThemisDB
 
-## Ueberblick
-Production-capable source-to-ThemisDB ingestion capabilities for relational, document, stream, and file/object sources, including schema handling, conflict resolution, validation, auditability, and optional MDM/post-processing paths. Batch 5 enhancement focus: Error recovery determinism, streaming performance under load, large-file handling with backpressure. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+## Overview
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **PostgreSQL import execution and schema extraction**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+Importer source files cover relational, document, stream, flat-file, object,
+Wikipedia, and specialized ingestion/helper paths. This list describes source
+surfaces, not a guarantee that every connector is enabled, has equivalent
+behavior, or is production-ready. See the [API guide](./API.md) and
+[architecture](./ARCHITECTURE.md).
 
-Die zweite Kernfaehigkeit ist **MySQL/MariaDB import paths**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+## Source-backed feature areas
 
-Die dritte Kernfaehigkeit ist **SQLite import paths**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+- Database and document connectors: see the concrete public headers under
+  [`include/importers/`](../../include/importers/) and implementations under
+  this directory. Runtime support can depend on configuration and optional
+  dependencies.
+- Flat files: `FlatFileImporter` declares CSV, TSV, JSONL/NDJSON, and Parquet;
+  Parquet code is conditional on `ARROW_ENABLED`.
+- Shared processing: schema inference/validation, conflict resolution, audit,
+  data quality, MDM, and related helper components have corresponding headers
+  and sources. Connector use of these features must be confirmed individually.
+- Wikipedia and HuggingFace paths have distinct lifecycle and persistence
+  boundaries; see [implementation](./IMPLEMENTATION.md) and
+  [embedding boundary](./EMBEDDING.md).
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Importers Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
+## Evidence boundary
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
+The presence of source files or CMake test registrations is not a successful
+build, passing test run, production-readiness assessment, or measured performance
+result. Current local registration and the evidence limits are summarized in
+[`BUILD_STATUS.md`](./BUILD_STATUS.md). TODO: obtain a fresh full build and
+connector-level integration evidence before making broader readiness claims.
 
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/importers/README.md](./../../docs/importers/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+## References
+
+[Module README](./README.md) · [API](./API.md) · [Roadmap](./ROADMAP.md) ·
+[Security](./SECURITY.md) · [Production guidance](./PRODUCTION_REQUIREMENTS.md)

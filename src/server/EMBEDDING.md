@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-19"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
@@ -74,6 +74,11 @@ A production request is best conceptualized as:
 4. shard or local routing is decided,
 5. endpoint executes against other modules,
 6. result or failure is emitted back to the client.
+
+This is a conceptual flow, not a guarantee that every listener uses one
+shared gateway pipeline. `HttpServer::routeRequest()` and
+`APIGateway::handleRequest()` are distinct paths; verify the concrete route
+and configuration before assuming a common auth, admission, or dispatch order.
 
 This embedding model explains why the module's quality is operationally important: if it fails early or fails closed, the rest of ThemisDB remains safer and more diagnosable.
 

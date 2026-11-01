@@ -1,4 +1,22 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-08"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+Source level: 1; SOT domain: module-behavior. Canonical references: `tests/transaction/CMakeLists.txt`, `benchmarks/transaction/CMakeLists.txt`, and `src/transaction/ROADMAP.md`. Related issue: #7390.
+
 # TRANSACTION MODULE PHASE 5 - VERIFICATION GUIDE
+
+> **Historical snapshot (2026-08-08):** Commands, counts, expected outputs, and statuses below are historical instructions/claims, not evidence that the operations succeeded. As of the 2026-10-31 source audit, the phase test sources declare 70 cases total and `bench_transaction_phase4.cpp` declares 8 cases; no build, test, or benchmark was run. See `ROADMAP.md` for current inventory.
 **Date:** 2026-08-08
 **Status:** Framework Complete, Build Verification In Progress
 

@@ -1,6 +1,25 @@
-> WARNING: Historical changelog entries describe implementation state at the time they were recorded.
+---
+Author: "ThemisDB Team"
+Created: "2026-08-02"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "release-versioning"
+Canonical_References: "src/importers/*.cpp; include/importers/*.h; tests/importers/CMakeLists.txt; benchmarks/importers/CMakeLists.txt"
+Related_Reference: "makr-code/ThemisDB#7353"
+---
 
-<!-- Status: current | validated: 2026-08-02 -->
+> Creation-date note: Original creation date is not recorded in the available checkout; the front-matter `Created` date is a metadata placeholder, not independently verified.
+
+> Exact model backend not verifiable from final document text alone.
+> Historical changelog entries describe implementation state at the time recorded.
+
+<!-- Historical changelog status marker; entries remain time-bound. -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · BUILD_STATUS.md -->
 
 # Changelog - Importers Module
@@ -11,8 +30,7 @@ The format is based on Keep a Changelog.
 ## [Unreleased]
 
 ### Changed
-- Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
-- Performance expectations updated to explicit verified importer benchmark scenario symbols from importer throughput and process-import benchmark sources.
+- #7353 documentation sync: importer API, implementation, test registration, build presets, and benchmark-source claims checked against current repository files; runtime build/test/benchmark execution is not claimed.
 - #5184 remediation slice: reduced importer hot-path allocation/search overhead (pre-reserved JSONL/CSV/Parquet vectors, cached FK target-column sets and delta-hash key-column index) and replaced C-style hash-file formatting with stream-based zero-padded hex output.
 
 ## [2.2.0] - 2026-03-24

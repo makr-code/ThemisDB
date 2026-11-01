@@ -6,7 +6,7 @@ Last Updated: 2026-11-01
 Status: active
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: GitHub Copilot
+AI_Contributor: GitHub Copilot coding agent
 Human_Review: false
 Human_Author: ThemisDB Contributors
 Source_Level: level1
@@ -89,7 +89,8 @@ Related: #7392; DOC-WEEKLY-2026-44
 
 ## Notes
 - This is a derived artifact. Do not manually edit semantic content.
-- Regenerate via scripts/generate_module_doxygen_xml.py --write-module-markdown.
+- Exact model backend is not verifiable from the generated document.
+- Regenerate with `python3 scripts/generate_module_doxygen_xml.py --repo-root . --modules user_storage_encrypted --output-root build/module-doxygen --manifest build/module-doxygen/manifest.json --summary-md build/module-doxygen/summary.md --write-module-markdown`.
 
 ## Detailed Function Documentation (Soll-Ist)
 - Functions extracted: 329

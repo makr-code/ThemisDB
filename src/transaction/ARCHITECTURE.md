@@ -1,4 +1,20 @@
-> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+Source level: 1; SOT domain: module-behavior. Canonical references: `include/transaction/transaction_manager.h`, `include/transaction/distributed_transaction_manager.h`, `include/transaction/lock_manager.h`, `src/transaction/transaction_manager.cpp`, and `src/transaction/distributed_transaction_manager.cpp`. Related issue: #7390.
+
+> **Architecture note:** Verify classes/types/namespaces against current source. Mark unresolved implementation-level claims with `TODO` rather than inferring them.
 
 # Transaction Module - Architecture Guide
 
@@ -37,14 +53,14 @@ The transaction module provides ACID-oriented lifecycle handling, isolation sema
 ```
 Caller
   -> TransactionManager::beginTransaction(...)
-  -> Transaction operations (entity/index/graph/vector paths)
+  -> Transaction operations declared by `TransactionManager::Transaction`
   -> commit/rollback
 
 Distributed path
   -> DistributedTransactionManager::beginDistributed(...)
   -> prepareDistributed(...)
   -> commitDistributed(...) / abortDistributed(...)
-  -> recovery helpers for in-doubt states
+  -> separately declared recovery helpers (specific recovery guarantees depend on the coordinator)
 
 Compensation path
   -> Saga/SagaOrchestrator executes steps
@@ -67,17 +83,17 @@ Compensation path
 
 | Module | Interface / File | Purpose |
 |--------|-----------------|---------|
-| `storage` | `include/storage/rocksdb_wrapper.h`, `include/storage/history_manager.h` | Durable KV writes, MVCC history reads, WAL |
-| `index` | `include/index/secondary/`, `include/index/graph/`, `include/index/vector/` | Index updates co-ordinated within transaction boundaries |
-| `sharding` | `include/sharding/truetime.h`, `include/sharding/wal_manager.h` | TrueTime timestamps for distributed ordering; WAL append |
-| `plugins` | `include/plugins/` | Plugin hooks called during commit/rollback lifecycle |
+| `storage` | `include/storage/rocksdb_wrapper.h`, `include/storage/history_manager.h` | RocksDB-backed operations and history integration; exact durability options are configured elsewhere |
+| `index` | `include/index/` | TODO: verify which index mutations are enlisted atomically for each transaction operation |
+| `sharding` | `include/sharding/wal_manager.h` | TODO: establish the specific transaction-to-sharding call path before asserting dependency direction |
+| `plugins` | — | TODO: no transaction-manager plugin hook was established by the inspected manager header/source |
 | `utils` | `include/utils/` | Utility helpers (error codes, logging) |
 
 ### Direct Downstream Consumers (modules that use this module)
 
 | Module | Via | Notes |
 |--------|-----|-------|
-| `server` | `include/transaction/transaction_manager.h`, `include/transaction/snapshot_manager.h`, `include/transaction/branch_manager.h`, `include/transaction/merge_engine.h` | API-driven transaction, snapshot, branch, and merge endpoints |
+| `server` | Transaction-related headers | TODO: verify registered endpoint ownership before asserting a direct consumer relationship |
 | `query` | `include/transaction/transaction_manager.h` | Mutation transactions for DML statements |
 | `sharding` | `include/transaction/recoverable_two_phase_coordinator.h`, `include/transaction/distributed_transaction_manager.h` | Cross-shard 2PC coordination and distributed transaction management (managed circular dep) |
 | `storage` | `include/transaction/snapshot_manager.h` | Storage calls back to snapshot manager for MVCC snapshots |
@@ -89,30 +105,23 @@ Compensation path
 
 ## 6. Integration Points (Detailed)
 
-### Critical Integration: Transaction → Storage (Persistence)
-**Files:** `src/transaction/transaction_manager.cpp` ↔ `include/storage/rocksdb_wrapper.h`
-**Contract:** Each `commit()` call drives a batch write to RocksDB via the wrapper; `rollback()` discards in-memory mutations. WAL entry written before commit return.
-**Thread Safety:** `TransactionManager` is concurrent-safe; individual `Transaction` objects are single-owner.
-**Failure Mode:** Storage write failure → transaction aborted; WAL write failure → `kDurabilityError` returned, no partial commit.
+### Transaction → Storage
+`Transaction::commit()` delegates to its underlying RocksDB transaction. The header/source inspection does not establish a separate WAL append contract, a `kDurabilityError` result, or atomicity across arbitrary index/external-service effects. TODO: cite the RocksDB wrapper's configured write options before documenting durability details.
 
 ### Critical Integration: Transaction ↔ Sharding (2PC Circular)
 **Files:** `src/transaction/distributed_transaction_manager.cpp` ↔ `include/sharding/truetime.h`; `src/sharding/cross_shard_transaction.cpp` ↔ `include/transaction/recoverable_two_phase_coordinator.h`
-**Contract:** Sharding layer invokes `RecoverableTwoPhaseCoordinator` from transaction module to drive distributed prepare/commit; TrueTime from sharding provides commit timestamps. Managed circular dependency — sharding imports transaction header; transaction imports sharding TrueTime only.
-**Thread Safety:** Coordinator uses internal mutex for shared state; TrueTime reads are lock-free.
-**Failure Mode:** Prepare failure → automatic abort broadcast; coordinator crash → recovery via WAL replay on restart.
+**Contract:** A recoverable 2PC interface is declared in the transaction headers and the distributed manager has participant callbacks and RPC injection points. TODO: document concrete sharding callers and recovery behavior from those source paths; this guide does not assert TrueTime timestamps or a managed circular dependency.
 
 ### Critical Integration: Transaction → Index (Co-ordinated Updates)
 **Files:** `src/transaction/transaction_manager.cpp` ↔ `include/index/secondary/`, `include/index/graph/`, `include/index/vector/`
-**Contract:** Index updates are enqueued within the transaction scope and applied atomically on commit (or discarded on rollback). Index update errors trigger transaction abort.
-**Thread Safety:** Index update queues are per-transaction; no shared mutable state.
-**Failure Mode:** Index write error → transaction aborted; index inconsistency triggers reconciliation on next startup.
+**Contract:** TODO: verify the current index mutation path for each operation before claiming atomic enlistment, rollback behavior, or startup reconciliation.
 
 ---
 
 ## 7. Threading and Concurrency Model
 
-- `TransactionManager` is designed for concurrent caller access.
-- Individual transaction objects are single-owner/single-thread usage.
+- The manager implementation uses synchronization for shared manager state; no blanket thread-safety guarantee is stated for every public operation.
+- Individual transaction handles should be treated as single-owner unless a specific API comment states otherwise.
 - Distributed coordinator paths use internal synchronization for shared state.
 - Lock and deadlock helper paths are used to bound contention behavior.
 
@@ -131,23 +140,17 @@ Compensation path
 - **Avoid raw `new`/`delete` pairs** except in C plugin interfaces (where documented).
 - **All resource cleanup must be exception-safe** via RAII destructors.
 
-### Applied Patterns
+### Ownership patterns
 | Component | Pattern | Example |
 |-----------|---------|---------|
-| TransactionManager | std::unique_ptr for detector thread | `deadlock_detector_thread_ = std::make_unique<std::thread>(...)` |
-| DistributedTransactionManager | std::unique_ptr for WAL | `wal_ = std::make_unique<WALManager>(wal_cfg)` |
-| GlobalTransactionManager | std::shared_ptr for distributed state | `truetime_` shared across replicas |
-| SAGAOrchestratorGuard | std::unique_ptr for orchestrator lifecycle | Internal RAII wrapper in plugin |
+| TransactionManager | TODO: verify current member ownership before documenting a detector thread pointer |
+| DistributedTransactionManager | TODO: verify the current WAL member type/configuration |
+| GlobalTransactionManager | TODO: verify distributed-state ownership before documenting TrueTime sharing |
+| Saga plugin | TODO: verify current plugin source path and guard class before documenting |
 | Saga/SAGA steps | Lambda capture (stack-based lifetime) | Compensation actions captured by value |
 
-### C Plugin Interface Exception
-- **File:** `src/transaction/saga_plugin/saga_orchestrator_plugin.cpp`
-- **Reason:** Dynamic loading via C interface requires raw pointers.
-- **Mitigation:** 
-  - `createPlugin()` wraps allocation in try-catch with allocation safety checks.
-  - `destroyPlugin()` validates null pointers before deletion (double-delete safe).
-  - Internal RAII (`SAGAOrchestratorGuard`) ensures orchestrator lifecycle safety.
-  - All exceptions logged; no silent failures.
+### Plugin boundary
+TODO: verify the current saga plugin implementation and public C ABI before documenting allocation, exception, or deletion guarantees.
 
 ### Validation & Testing
 - Unit tests verify resource cleanup on exception paths.

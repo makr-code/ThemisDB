@@ -1,11 +1,33 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "api-contract"
+Canonical_References:
+  - "include/search/*.h"
+  - "src/search/README.md"
+  - "src/search/API.md"
+  - "src/search/search_result_stream.cpp"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
 
 # Search Module - Public API
 
-<!-- Status: current | validated: 2026-08-06 | commit: a14cdb2 -->
 <!-- Primary: src/search/ | Secondary: docs/de/src/search/ -->
 
 Public interface definitions for ThemisDB search functionality.
+
+> **Contract note:** Public headers are authoritative. The examples below are a convenience index, not a substitute for checking each declaration. Types are not all in one namespace: most listed APIs use `themis`, while the layered retrieval API uses `themis::search`. Do not infer a uniform namespace or unsupported backend/security behavior from the examples.
 
 ## Headers
 
@@ -102,7 +124,7 @@ Diagnostic information about a `search()` call.
 **Fields:**
 - `bm25_ok`: True if the BM25 backend ran without error
 - `vector_ok`: True if the vector backend ran without error
-- `partial_result`: True when both backends were available but one failed while the other returned candidates
+- `partial_result`: True when one source failed while another returned candidates (see implementation for exact cases)
 - `bm25_count`: Number of raw BM25 candidates before fusion
 - `vector_count`: Number of raw vector candidates before fusion
 
@@ -1016,7 +1038,7 @@ size_t best_start = SearchHighlighter::bestWindowOffset(doc, tokens, 100);
 ---
 
 ### search_result_stream.h
-**Purpose:** Cursor-based streaming pagination over a `HybridSearch` result set. Avoids materialising all results at once by delivering them one page at a time via `nextPage()` or a callback via `forEachResult()`.
+**Purpose:** Cursor-based pagination over a `HybridSearch` result set. `open()` materializes and stores the result vector up to `total_k`; page-sized delivery does not avoid full result materialization.
 
 **Key Classes:**
 - `SearchResultStream`: Stateful streaming wrapper around `HybridSearch`
@@ -1055,6 +1077,7 @@ stream.close();
 **Config Fields:**
 - `total_k`: Total maximum results to materialise from `HybridSearch` (default 1,000)
 - `page_size`: Results per `nextPage()` call (default 100)
+- `open_timeout_ms`: Timeout setting for `open()` (default 30,000 ms; see implementation for exact timeout behavior)
 
 **Stream lifecycle:** `open(query)` → `nextPage()` / `forEachResult()` → `reset()` (rewind) → `close()` (release).
 
@@ -1084,7 +1107,7 @@ HybridSearch search(&fulltext, &vectors, config);
 
 ## API Conventions
 
-### Namespace
+### Namespace example (HybridSearch only)
 ```cpp
 namespace themis {
     class HybridSearch { /* ... */ };
@@ -1105,6 +1128,10 @@ only a `Config` and two non-owning index pointers).
   partial result vector is returned rather than propagating the exception.
 
 ---
+
+## Build and test evidence
+
+The root `cmake/ModularBuild.cmake` query source set is the build-source reference; this page does not claim that every header has a linked implementation in every build configuration. The directory `tests/search/` contains test sources and its own CMake declarations; `tests/CMakeLists.txt` auto-discovers eligible module CMake files and adds `search` when tests are configured. Target generation, compilation, and execution still require verification in a configured build. No test execution or benchmark result is claimed by this API index.
 
 ## Examples
 
@@ -1164,18 +1191,15 @@ HybridSearch search(fulltext_idx, vector_idx, config);
 
 ### `std::invalid_argument` thrown on construction
 
-All search engine constructors validate their `Config` at construction time and throw
-`std::invalid_argument` for invalid values.  Common causes:
+Configuration validation is per class; do not infer identical checks across all
+search headers. The following cases were checked directly against the current
+headers:
 
 | Class | Typical cause |
 |---|---|
-| `HybridSearch` | `k == 0`, `rrf_k <= 0`, `default_table` or `default_column` is empty, `k > max_k` (hard upper bound, default 10,000), or `k_bm25 / k_vector > max_candidates` (default 10,000); see `HybridSearch::Config` above |
-| `ConversationalSearch` | Reserved for future validation (currently all default configs are valid) |
-| `FederatedSearch` | Reserved for future validation |
-| `LlmQueryRewriter` | `num_rewrites == 0` |
-| `LlmReranker` | `batch_size == 0` or `llm_weight` outside [0, 1] |
-| `NeuralSparseRetrieval` | `k == 0`, `max_terms_per_doc == 0`, or `score_threshold < 0` |
-| `SearchResultStream` | `page_size == 0` or `total_k == 0` |
+| `HybridSearch` | `k == 0`, `max_k == 0`, `k > max_k`, `max_candidates == 0`, candidate counts over `max_candidates`, non-positive `rrf_k`, negative weights, or empty default table/column |
+| `DistributedHybridSearch` | `max_concurrent_shards == 0` or empty `search_endpoint` |
+| `SearchResultStream` | Invalid `total_k` or `page_size` per its constructor validation |
 
 ### Empty results from `HybridSearch::search()`
 
@@ -1193,7 +1217,7 @@ All search engine constructors validate their `Config` at construction time and 
 
 ### LLM components return fallback / original results
 
-- `LlmQueryRewriter` and `LlmReranker` silently fall back to the original order/query when no backend is set, or when the backend throws.
+- `LlmQueryRewriter` and `LlmReranker` have fallback behavior when no backend is set or a backend fails; inspect each result type/config for whether fallback is reported.
 - Verify the backend is set via `setBackend()` and that the LLM service is reachable.
 - Inspect `RewrittenQuery::quality == RewriteQuality::FALLBACK` or `LlmRerankResult::llm_scored == false`.
 
@@ -1210,19 +1234,19 @@ All search engine constructors validate their `Config` at construction time and 
 
 ### Thread-safety violations
 
-All search classes in this module are **not thread-safe** by default.  If you observe data
-races or crashes in multi-threaded code:
-- Create one instance per thread (recommended for `HybridSearch` — it is lightweight).
-- Or protect shared instances with an external `std::mutex` around every call.
+Thread-safety is class-specific, not a module-wide guarantee. For example, the
+`HybridSearch` and `SearchResultStream` headers require caller synchronization for
+shared instances, while `SearchAnalytics` documents internal synchronization.
+Check the individual public header before sharing an instance across threads.
 
 ---
 
-## Performance Characteristics
+## Performance evidence
 
-- **Latency:** 5-20ms for typical queries
-- **Throughput:** 500-2K queries/second
-- **Memory:** O(k) per query
-- **Scalability:** Handles millions of documents
+No latency, throughput, memory, or corpus-size guarantee is established by this
+API overview. Benchmark sources and CMake registrations are listed in
+[`../../benchmarks/search/README.md`](../../benchmarks/search/README.md); measured
+results require a reproducible run on declared hardware.
 
 ---
 
@@ -1234,12 +1258,13 @@ races or crashes in multi-threaded code:
 
 ---
 
-*Last Updated: May 2026*
-*API Version: v2.4.0*
+*Last Updated: 2026-10-31*
 
 ## Installation
 
-This module is included as part of ThemisDB. Add the module headers to your include path:
+The public headers are under `include/search/`. **TODO:** document a supported
+consumer/package target and exported include variable from the current install
+configuration; the generic `THEMISDB_INCLUDE_DIR` name is not verified here.
 
 ```cmake
 target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})

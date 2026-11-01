@@ -1,14 +1,16 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
-Human_Author: "ThemisDB Team"
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
 ---
+
+Exact model backend not verifiable from final document text alone.
 
 # Vector Search Implementation Notes
 
@@ -43,26 +45,34 @@ Key responsibilities:
 - persist and reload state,
 - reconcile storage drift through rebuild and incremental reindex flows.
 
-The implementation also includes audit-logging hooks, expression-evaluation hooks, and optional advanced-index configuration that is rejected when required support is absent.
+The implementation also includes audit-logging hooks, expression-evaluation
+hooks, and optional advanced-index configuration. Unsupported configurations
+may return a failed status or warn and fall back, depending on the selected
+backend.
 
 ### MultiVectorSearch
 
-`MultiVectorSearch` provides a higher-order search layer built on top of the vector index manager. It combines multiple vector inputs or multiple fields using a fusion strategy such as:
+`MultiVectorSearch` provides a higher-order search layer built on top of the vector index manager. It combines multiple vector inputs and hybrid keyword scores using a fusion strategy such as:
 
 - linear combination,
 - average or max/min score fusion,
 - rank fusion,
 - reciprocal-rank fusion,
-- learned fusion (documented as future work rather than a current production guarantee).
+- learned fusion (the implementation obtains weights through `optimizeWeights()`
+  and applies a linear combination; it does not run a trained model).
 
 This is a retrieval-aggregation layer, not a separate storage backend.
+`searchMultiField()` currently repeats one query vector and does not route to
+field-specific indexes; its field names are not used in the actual searches.
 
 ## Invariants
 
 The implementation expects all of the following to remain true during operation:
 
-1. Dimension consistency across index creation, insertion, and query.
-2. Metric consistency across the runtime configuration and query path.
+1. Dimension consistency across index creation and query; the batch and MVCC
+   entity-write overloads also enforce it.
+2. The index metric is selected at initialization; search calls have no metric
+   parameter.
 3. Fail-closed behavior for unsupported or malformed runtime states.
 4. Explicit persistence and recovery operations for index lifecycle.
 5. Deterministic result ordering where the result distance is treated as ranking evidence.
@@ -73,9 +83,10 @@ When these invariants are not met, the code returns explicit statuses or logs wa
 
 The source treats invalid states as explicit operational failures. Examples include:
 
-- invalid dimensions,
-- NaN/Inf vector values,
-- unsupported metric selection,
+- query dimension mismatch,
+- entity-vector dimension mismatch in batch/MVCC writes (the direct-commit
+  `addEntity()` overload currently does not check vector length),
+- unverified handling of NaN/Inf values,
 - reindex triggers when storage drift becomes excessive,
 - advanced backend activation without runtime support.
 
@@ -126,4 +137,7 @@ When editing the vector-search runtime, keep the following priorities in order:
 
 ## Conclusion
 
-The vector-search implementation is a controlled retrieval subsystem that balances ANN search with explicit validation, recovery, and persistence. The most important rule is simple: keep the runtime contract explicit, fail closed on invalid state, and maintain the evidence trail that makes the operational behavior measurable.
+The vector-search implementation combines ANN search with explicit lifecycle,
+recovery, and persistence APIs. Input-validation guarantees are overload-specific;
+the direct-commit dimension check and finite-value handling remain open
+verification gaps.

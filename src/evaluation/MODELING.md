@@ -1,14 +1,16 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot; OpenAI ChatGPT/themisdb-doc-orchestrator"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
+
+> Exact model backend not verifiable from final document text alone.
 
 # Evaluation and Planner Modeling
 
@@ -24,8 +26,9 @@ uses:
 - NDCG@k = DCG normalized against the ideal ordering, with binary gain for
   membership in `G`.
 - MRR = reciprocal rank of the first relevant result (zero if none appears).
-- Candidate reduction = `1 - k / total_candidates` when a nonzero candidate
-  count is supplied.
+- Candidate reduction = `1 - k / total_candidates` when
+  `total_candidates >= k`; the implementation returns zero when the count is
+  zero or smaller than `k`.
 
 This metric contract expects a non-empty ground truth, `1 <= k <= ranked.size()`,
 and unique IDs in both lists. It rejects invalid data rather than silently

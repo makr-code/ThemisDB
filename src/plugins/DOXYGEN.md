@@ -1,9 +1,25 @@
-# PLUGINS DOXYGEN
+---
+Author: "ThemisDB Team"
+Created: "2026-09-20"
+Last Updated: "2026-10-31"
+Status: archived
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+> Exact model backend not verifiable from final document text alone.
+
+# PLUGINS DOXYGEN — historical generated snapshot
+
+> **Archived evidence only.** The material below was generated from a
+> machine-local Doxygen XML tree on 2026-09-20. Its Windows paths, type/file
+> counts, namespace list, and symbol inventory have not been regenerated or
+> validated against the current tree. Do not use it as current API or build
+> evidence. Regenerate Doxygen output from the current module sources when a
+> current inventory is needed.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -7651,4 +7667,3 @@ Status: active
 - Source: `tests/plugins/test_plugin_error_handling_phase3.cpp`:105
 - Brief: n/a
 - Parameters: none
-

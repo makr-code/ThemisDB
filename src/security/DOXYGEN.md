@@ -2,15 +2,52 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Last Generated: 2026-09-20 (date recorded by this snapshot)
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: themisdb-doc-orchestrator
+Human_Review: false
+Human_Author: unknown
+Source_Level: level1
+SOT_Domain: api-contract
+Canonical_References: `scripts/generate_module_doxygen_xml.py`, `Doxyfile.audit`, `include/security/`, `src/security/`
+Related_Issue: #7379
+Related_Milestone: DOC-WEEKLY-2026-W44
 
-## Source
-- This file is generated from module-scoped Doxygen XML.
+Exact model backend not verifiable from final document text alone.
+
+> **Generated snapshot; currentness unverified.** This 25k-line artifact records
+> a 2026-09-20 generation date. Its original XML and warnings-log locations
+> below are machine-local Windows paths, not reproducible repository paths. A
+> security XML index exists at
+> `ai_context/developer_llm_wiki/module_doxygen_artifacts/security/xml/index.xml`,
+> but no paired generation manifest or warnings log was located, so its
+> relationship to this Markdown snapshot cannot be established. Current API
+> authority remains the headers and implementation, not this generated listing.
+>
+> The body has been preserved; only this provenance/status section was updated.
+> Regeneration requires `doxygen` on `PATH` and rewrites this entire file,
+> including this block; restore governance metadata after generation (or update
+> the generator in a separately scoped change):
+>
+> ```bash
+> python3 scripts/generate_module_doxygen_xml.py \
+>   --repo-root . \
+>   --modules security \
+>   --write-module-markdown \
+>   --doxyfile Doxyfile.audit \
+>   --output-root /tmp/module-doxygen/artifacts \
+>   --manifest /tmp/module-doxygen/manifest.json \
+>   --summary-md /tmp/module-doxygen/summary.md
+> ```
+
+## Recorded source locations (2026-09-20)
 - XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\security\xml\index.xml`
 - Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\security\doxygen-warnings.log`
 
-## Structure Metrics
+## Structure Metrics (recorded snapshot)
 - C/C++ Files (scanned): 206
 - Compounds: 677
 - Classes/Structs: 372
@@ -24999,4 +25036,3 @@ Status: active
 - Source: `tests/security/test_security_hardening_fixes.cpp`:200
 - Brief: n/a
 - Parameters: none
-
