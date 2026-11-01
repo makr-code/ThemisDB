@@ -19,9 +19,10 @@
  *
  * ## Idempotency Contract
  *
- * Re-importing the same source with the same `import_id` is idempotent.
- * A second import of the same data must produce no additional rows.
- * The `import_id` uniqueness is enforced at the import coordinator level.
+ * Re-importing the same source with the same `import_id` succeeds idempotently
+ * and produces no additional rows. Reusing an `import_id` for a different
+ * source is rejected by the import coordinator as IMPORT_DUPLICATE_ID.
+ * The coordinator enforces the association between each `import_id` and source.
  *
  * ## Schema Evolution Contract
  *
@@ -144,7 +145,7 @@ enum class ImporterErrorCode : int {
     /// The import would exceed the configured row or byte quota.
     IMPORT_QUOTA_EXCEEDED = 5,
 
-    /// The import_id has already been used; re-import rejected.
+    /// An import_id was reused for a different source; the import is rejected.
     IMPORT_DUPLICATE_ID = 6,
 
     /// The import timed out before completing.
