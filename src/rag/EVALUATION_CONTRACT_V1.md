@@ -12,7 +12,7 @@ Human_Author: "ThemisDB Team"
 
 **Status:** Active  
 **Created:** 2026-09-24  
-**Last Updated:** 2026-09-24  
+**Last Updated:** 2026-11-01
 **Version:** 1.0.0  
 **Scope:** Binding quality and performance metrics for `release_critical` RAG workflows  
 
@@ -145,7 +145,7 @@ The commands and scripts previously described for dataset provisioning,
 repository command currently executes this full dataset-level contract. The
 focused RAG unit tests are registered from `tests/rag/CMakeLists.txt`; they
 validate component behavior, not these dataset-level thresholds. See
-`src/rag/RESEARCH.md` and `benchmarks/rag/CMakeLists.txt` for current benchmark
+`src/rag/RESEARCH.md` and the root `benchmarks/CMakeLists.txt` for current benchmark
 source and registration limitations.
 
 ---

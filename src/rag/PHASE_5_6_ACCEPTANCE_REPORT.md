@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-18"
+Last Updated: "2026-11-01"
+Status: "historical"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # RAG Module Phase 5-6 Acceptance Report
 
 > **Historical report only:** The completion, production-readiness, and
