@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -28,8 +28,10 @@ Report vulnerabilities via project-level SECURITY.md.
 
 > **Scope limitation:** This is a threat-surface overview, not a security audit or assurance that
 > the described mitigations are enforced on every path. No authentication, authorization,
-> transport, or cryptographic review was performed for this issue. **TODO:** verify security
-> controls against the concrete implementations, deployment configuration, and registered tests.
+> transport, or cryptographic review was performed for this issue. No deployment endpoint,
+> configuration, or runtime telemetry was available, so deployed controls remain unverified.
+> **TODO:** validate security controls against a named deployment, its concrete configuration,
+> and relevant executed tests before using this page as deployment assurance.
 
 ## Security Scope
 
@@ -37,19 +39,22 @@ Security in the sharding module focuses on deterministic routing and transaction
 
 ## Threat Model
 
-| Threat | Current Mitigation Surface |
+| Threat | Intended source/contract surface (deployment not verified) |
 |---|---|
-| unsafe shard routing or topology drift | bounded routing with explicit topology validation outcomes |
-| hidden cross-shard transaction inconsistencies | explicit cross-shard commit/abort signaling |
-| silent repair/rebalance data-loss risk | explicit repair/rebalance job status and failure propagation |
-| unobserved quorum/health degradation | operational metrics and health monitor surfaces |
+| unsafe shard routing or topology drift | routing and topology-validation code paths |
+| hidden cross-shard transaction inconsistencies | transaction commit/abort state and error paths |
+| silent repair/rebalance data-loss risk | repair/rebalance job-status and error paths |
+| unobserved quorum/health degradation | metrics and health-monitoring surfaces |
 
-## Implemented Security Controls
+## Source-Level Control Surfaces (not deployment verification)
 
-- routing and transaction operations expose explicit outcome states.
-- coordinator/quorum failures are surfaced deterministically.
-- repair/rebalance/migration paths remain observable and diagnosable.
-- health and operational metrics preserve runtime accountability.
+The source and public contract expose the following control surfaces; this review did not establish
+that they are complete, invoked on every path, or enabled in a deployed configuration:
+
+- routing and transaction APIs define explicit outcome states.
+- coordinator/quorum code has failure-reporting paths.
+- repair/rebalance/migration code exposes job or error state.
+- health and operational metrics provide observability surfaces.
 
 ## Security Follow-ups
 
@@ -57,9 +62,9 @@ Security in the sharding module focuses on deterministic routing and transaction
 - tighten diagnostics taxonomy across migration and repair incident classes.
 - deepen stress coverage for concurrent cross-shard transaction pressure.
 
-## Reference implementation surfaces (not a verification record)
+## Reference implementation surfaces (source inspection only)
 
-- Verified files:
+- Inspected source files:
   - src/sharding/shard_router.cpp
   - src/sharding/distributed_coordinator.cpp
   - src/sharding/cross_shard_transaction.cpp

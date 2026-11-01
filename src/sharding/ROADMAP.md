@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -29,11 +29,12 @@ Related_Milestone: DOC-WEEKLY-2026-W44
 
 ## Current Status
 
-> **Status evidence note (2026-10-31):** Checkboxes and completion statements below preserve
-> historical roadmap assertions. This static documentation audit confirms current source files and
-> selected test/benchmark registrations only; it did not build or run them, verify CI state, inspect
-> every cloud-provider path, or establish production/GA readiness. Revalidate each claim before
-> using it as a current release decision.
+> **Status evidence note (2026-11-01):** Historical completion checkboxes below are not current
+> release evidence. The follow-up ran only the standalone SH-BM-01..04 stub harness; a configured
+> CMake benchmark build failed because RocksDB is unavailable. No sharding tests, CI result, live
+> deployment, runtime telemetry, cloud-provider path, or production/GA readiness was verified.
+> See [`AUDIT.md`](AUDIT.md), [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md), and
+> [`../../ROADMAP.md`](../../ROADMAP.md) before making a release decision.
 
 > The root aggregate [`../../ROADMAP.md`](../../ROADMAP.md) currently reports Wave A at
 > approximately 70%, with sharding materially advanced but transaction/GPU blockers and other
@@ -51,9 +52,10 @@ repair, and operational components. The v1.x API contract is described in
 `../../tests/sharding/CMakeLists.txt`; benchmark availability depends on
 `THEMIS_BUILD_BENCHMARKS` and the selected CMake configuration.
 
-**TODO:** current CI results, production readiness, provider SDK behavior, benchmark measurements,
-and operator validation must be established from fresh build/runtime evidence; this static review
-does not establish them.
+**TODO:** current CI results, production readiness, provider SDK behavior, representative benchmark
+measurements, and operator validation require fresh build/runtime evidence. The standalone stub
+benchmark is not production evidence; deployment validation remains blocked until a deployment and
+its configuration/telemetry are available.
 
 **Wave Alignment (see root ROADMAP.md § Program Execution Model):**
 - **Wave A (Q3–Q4 2026):** Multi-shard exact-path gate (Phase C), topology-change auto-rebalance, latency-aware routing, distributed write stress
@@ -183,8 +185,8 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
 - [x] extend deterministic stress fixtures for distributed load and topology churn (P6-01/P6-02/P6-03 seed-42 deterministic suites delivered; SCR-01..SCR-16 kShardContractSeed=42) (Target: Q4 2026 → delivered 2026-07-29)
 
 ### Phase 5: Performance and Hardening
-- [x] lock benchmark-backed release gates for sharding hot paths — 6 release-gate benchmarks SRG-01..SRG-06 in `benchmarks/sharding/bench_sharding_release_gates.cpp` (GATE-SRG-01..GATE-SRG-06: consistent-hash routing, 2PC prepare/commit, WAL append, health check, route lookup) (Target: Q4 2026)
-- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] define SRG-01..SRG-06 source-level benchmark cases and thresholds in `benchmarks/sharding/bench_sharding_release_gates.cpp` (Target: Q4 2026)
+- [?] refresh SRG-01..SRG-06 p95/p99 and throughput evidence from the configured benchmark target; the 2026-08-17 snapshot is historical and SH-BM stub output is not a substitute (Target: Q4 2026 validation)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core sharding module docs aligned to source-verifiable behavior — `include/sharding/sharding_api_contract.h` freezes all routing/2PC/WAL/migration contracts for v1.x
@@ -193,10 +195,10 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
 ## Production Readiness Checklist
 
 - [x] core sharding surfaces documented and source-verified
-- [x] module-level security and failure behavior documented
+- [~] module-level security and failure behavior documented as source/contract surfaces; deployed-path enforcement is unverified
 - [x] benchmark mapping documented in performance expectations — `benchmarks/sharding/bench_sharding_release_gates.cpp` (SRG-01..SRG-06)
-- [x] remaining hardening tasks closed for failure/transaction/repair edge paths
-- [x] release benchmark stabilization complete
+- [?] remaining hardening tasks closed for failure/transaction/repair edge paths — current tests and deployed behavior were not validated in this follow-up
+- [?] release benchmark stabilization complete — historical SRG baseline has not been refreshed
 
 ## Known Issues and Limitations
 
@@ -214,13 +216,13 @@ This module is scoped to **Wave A — Runtime Reliability First** in the program
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D gate model and exit criteria.
 
 ### Wave A Scope for `sharding`
-- [x] Sharding: complete multi-shard exact-path gate, topology-change auto-rebalance hardening, latency-aware routing, and long-run distributed write stress (Target: Q3–Q4 2026, technical closure complete 2026-08-17)
+- [~] Sharding source and test/benchmark infrastructure are materially advanced; current execution evidence and project-wide Wave A closure remain open per the root roadmap (Target: Q3–Q4 2026)
 
 ### Wave A Exit Criteria (this module's contribution)
-- [x] Deterministic chaos evidence complete for recovery and failover paths (Target: Q4 2026, completed via TXC/FLR/FI/SCR release-critical suites)
-- [x] Fail-closed behavior verified for all distributed/acceleration paths in scope (Target: Q4 2026, completed via thread-safety/lock-order/recovery policy hardening)
-- [x] `release_critical` CI green on `develop` (Target: Q4 2026, Wave A gate integration + blocker remediation complete)
-- [x] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026, SRG-01..06 baseline gates captured)
+- [?] Current deterministic chaos/failover execution evidence revalidated (historical TXC/FLR/FI/SCR suite records do not establish current CI results)
+- [?] Fail-closed behavior verified across all distributed paths, including deployed configurations
+- [?] Current `release_critical` CI status on `develop`
+- [?] Representative-hardware p95/p99 baselines refreshed; 2026-08-17 SRG figures remain historical
 
 ### Wave A Closure Evidence Block
 - [x] Focused regression closure: TXC-01..32, FLR-01..20, FI-01..40, and SCR-01..16 suites are delivered and referenced in this roadmap.

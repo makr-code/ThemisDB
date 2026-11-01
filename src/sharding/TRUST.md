@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -19,42 +19,43 @@ Exact model backend not verifiable from final document text alone.
 
 # Sharding Trust and Security Boundaries
 
-> **Scope limitation:** This is a conceptual trust-boundary map, not a security assessment or
-> proof that every listed control is enforced on every path. Statements about quorum, transport,
-> WAL, and migration are contract- or component-specific. **TODO:** perform a path-by-path security
-> review before using this page as a deployment assurance.
+> **Scope limitation:** This is a conceptual trust-boundary map, not a security assessment or proof
+> that any listed control is enforced on every path. Only repository source and contract surfaces
+> were inspected; no deployed component, configuration, or runtime telemetry was available.
+> **TODO:** validate each boundary against a named deployment and its enabled runtime components
+> before using this page as deployment assurance.
 
 ## Trust boundary
 
-The sharding module is a critical trust boundary in ThemisDB. It decides how logical requests are mapped to shard ownership, when a distributed decision is accepted, when writes are durable, and when the system must fail closed instead of proceeding with uncertain state.
+The sharding module is intended to be a trust boundary in ThemisDB. Its components map logical requests to shard ownership, coordinate distributed decisions, and interact with persistence and failure handling. This document does not establish that deployed components enforce those boundaries.
 
 ## Key trust boundaries
 
 ### Routing boundary
 
-`shard_router.cpp` and `consistent_hash.cpp` define the route ownership model. If the ring is invalid or the target shard is unavailable under a configured strategy, the system should surface a precise failure rather than silently redirect the request.
+`shard_router.cpp` and `consistent_hash.cpp` contain route-ownership logic. Expected behavior for invalid rings and unavailable shards is component- and configuration-specific and was not validated against a running deployment.
 
 ### Transaction boundary
 
-`cross_shard_transaction.cpp` and the two-phase commit contract define the safety envelope for distributed writes. This is where trust is at risk: an unsafe commit path can create hidden divergence across shards. The module therefore insists on explicit terminal states and fail-closed conditions for quorum and in-doubt transactions.
+`cross_shard_transaction.cpp` and the public two-phase commit contract describe distributed-write state handling. This review did not establish that deployed transaction paths enforce the contract under quorum loss, coordinator failure, or in-doubt recovery.
 
 ### Durability boundary
 
-`wal_manager.cpp` and the associated WAL semantics are the integrity boundary for recovered state. A corrupt or partial WAL is not recoverable by optimistic fallback. This is a deliberate security and reliability control: silent recovery would mask integrity problems.
+`wal_manager.cpp` and its documented WAL semantics are relevant to recovered-state integrity. Corruption handling, durability, and recovery behavior must be checked against the selected storage backend and deployment; no runtime recovery was exercised.
 
 ### Migration and repair boundary
 
-Replication, migration, and rebalancer code must not silently ignore partial failures. The sharding layer explicitly distinguishes migration conflict, migration fault, and partial repair states so operators can inspect the exact fault and recover safely.
+Replication, migration, and rebalancer implementations are relevant to partial-failure handling. The error taxonomy includes migration states, but this inspection did not validate every implementation path or confirm that deployed operators can observe and recover each failure safely.
 
 ## Security and reliability controls
 
-The module relies on a small set of strong controls:
+The repository describes these intended/component-level controls; deployment enforcement is unverified:
 
-- deterministic ring-based routing under a valid topology,
-- explicit fail-closed behavior on lost quorum and corrupted WAL,
-- idempotent commit/abort semantics for distributed transactions,
-- strict migration and rollback checks,
-- health and failover signals that remain separate from business success signals.
+- ring-based routing under a valid topology,
+- component/contract-level fail-closed paths for quorum and WAL failures,
+- commit/abort state handling for distributed transactions,
+- migration and rollback checks,
+- health and failover signals distinct from business outcomes.
 
 ## Risk model
 
@@ -79,4 +80,6 @@ If a sharding incident is suspected:
 
 ## Summary
 
-The sharding module is trusted to preserve ownership, safety, and recoverability in a distributed environment. That trust is preserved only when the module remains explicit about failure, silent fallback is avoided, and recovery paths are bounded by the contract rather than by convenience.
+The repository contains sharding ownership, coordination, WAL, migration, and recovery surfaces.
+Their presence does not establish deployed safety or recoverability. Such assurance requires
+deployment-specific configuration review and execution evidence for the actual runtime components.

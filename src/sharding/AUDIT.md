@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -62,5 +62,21 @@ validation was performed.
 
 ## Validation status
 
-Static source/path and CMake registration inspection only. No tests, builds, benchmark runs, or
-link/lint checks were requested or performed.
+### Follow-up validation (2026-11-01)
+
+- Ran `bench_sharding_dedicated_gates.cpp` directly with
+  `c++ -O3 -DNDEBUG -std=c++20 -pthread`; on this 4-vCPU virtualized AMD EPYC 9V74 host it
+  reported SH-BM-01 route p95 0.03 µs, SH-BM-02 stub commit p95 0.03 µs,
+  SH-BM-03 stub migration 1,845,699,520 ops/s, and SH-BM-04 stub anti-entropy
+  1,844,337,883 rounds/s. These are execution results for the benchmark's local stub code only,
+  not sharding runtime, network, durable-WAL, or deployment evidence. The executable was compiled
+  directly because the configured CMake build stopped at missing system RocksDB.
+- CMake configuration was attempted with Release, benchmarks enabled, tests disabled, and Vulkan
+  disabled; configuration failed at `cmake/Dependencies.cmake:660` because RocksDB was unavailable.
+  The Google Benchmark release-gate target was therefore not built or run.
+- No sharding deployment endpoint, deployment configuration, or runtime telemetry was provided.
+  Deployment behavior and security controls remain unverified; no security audit or penetration
+  test was performed.
+- Current test/benchmark CMake registrations were inspected, but no sharding tests or CI runs were
+  executed or checked. The 2026-08-17 SRG-01..06 measurements remain historical and are not
+  refreshed by the standalone SH-BM-01..04 stub run.
