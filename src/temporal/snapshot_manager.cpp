@@ -52,11 +52,6 @@ SnapshotHandle TemporalSnapshotManager::createSnapshot(
         data.tables[name] = table_ptr->scan(creation_ts);
     }
 
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     data.handle.version_number = next_version_++;
     SnapshotHandle result_handle = data.handle; // copy before move
@@ -71,11 +66,6 @@ std::vector<VersionedDocument> TemporalSnapshotManager::querySnapshot(
     const std::string& table_name,
     const std::vector<std::pair<std::string, nlohmann::json>>& filters) const {
 
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto snap_it = snapshots_.find(handle.snapshot_id);
@@ -129,21 +119,11 @@ bool TemporalSnapshotManager::releaseSnapshot(const SnapshotHandle& handle) {
 }
 
 bool TemporalSnapshotManager::isAlive(const SnapshotHandle& handle) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     return snapshots_.count(handle.snapshot_id) > 0;
 }
 
 size_t TemporalSnapshotManager::snapshotCount() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     return snapshots_.size();
 }
@@ -151,11 +131,6 @@ size_t TemporalSnapshotManager::snapshotCount() const {
 SnapshotMetadata TemporalSnapshotManager::getSnapshotMetadata(
     const SnapshotHandle& handle) const {
 
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = snapshots_.find(handle.snapshot_id);
@@ -238,11 +213,6 @@ size_t TemporalSnapshotManager::garbageCollectByCount(size_t max_snapshots) {
 }
 
 nlohmann::json TemporalSnapshotManager::getStatistics() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     return {{"active_snapshots",snapshots_.size()},
             {"total_created", total_created_},
@@ -304,11 +274,6 @@ nlohmann::json TemporalSnapshotManager::SnapshotDiff::toJson() const {
 TemporalSnapshotManager::SnapshotDiff
 TemporalSnapshotManager::diff(const SnapshotHandle& base,
                                const SnapshotHandle& other) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it_base  = snapshots_.find(base.snapshot_id);

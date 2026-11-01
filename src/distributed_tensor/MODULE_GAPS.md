@@ -1,5 +1,25 @@
 # distributed_tensor Module - Developer Gap Note
 
+**Last Updated:** 2026-10-31
+**Source level:** Level 1 — module implementation
+**SOT domain:** module-behavior
+**Canonical references:** `src/distributed_tensor/PRODUCTION_REQUIREMENTS.md`, `src/distributed_tensor/CMakeLists.txt`
+**Related:** Issue #7341
+
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot Coding Agent
+Human_Review: false
+Human_Author: unknown
+Exact model backend not verifiable from final document text alone.
+-->
+
+> **Historical scan notice:** The scanner snapshot below is dated 2026-06-04.
+> Its single finding (“missing `PRODUCTION_REQUIREMENTS.md`”) is superseded:
+> that file exists in the current module directory. This note does not imply
+> that the scan was rerun or that its other findings were revalidated.
+
 > Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.
 

@@ -34,6 +34,8 @@ Exact model backend not verifiable from final document text alone.
   selection (Target: Q4 2026).
 - [~] Define the deployment and recovery contract for distributed indexing
   separately from the current in-process sharding implementation (Target: Q1 2027).
+- [~] Resolve the direct-commit `addEntity()` dimension-validation gap and
+  define actual multi-field routing and `SearchConfig` field behavior (Target: Q4 2026).
 
 ## Implementation Phases
 
@@ -58,6 +60,9 @@ Exact model backend not verifiable from final document text alone.
   paths using the public `Status` contract.
 - [ ] Verify and document numeric-value validation behavior from the actual
   runtime before making finite-value guarantees.
+- [ ] Resolve the direct-commit `addEntity()` dimension-validation gap and
+  define actual behavior for multi-field routing and currently unused
+  `SearchConfig` fields.
 - [ ] Document recovery behavior for persisted index load failures and
   encryption configuration failures.
 
@@ -69,6 +74,8 @@ Exact model backend not verifiable from final document text alone.
   repository-supported preset and attach the result to the issue.
 - [ ] Add or identify runtime-backed tests for production index lifecycle,
   search, persistence, and advanced-backend behavior.
+- [ ] Add focused tests for insertion-overload dimension checks, finite-value
+  handling, and field-specific routing/configuration behavior.
 
 ### Phase 5: Performance / Hardening
 
@@ -95,6 +102,8 @@ Exact model backend not verifiable from final document text alone.
 - [ ] Focused vector-search CTest evidence is attached from a configured preset.
 - [ ] Production-runtime benchmark evidence meets agreed release gates.
 - [ ] Maintainer release sign-off is recorded.
+- [ ] Direct-commit input validation and multi-field routing/configuration
+  behavior are verified by source and focused tests.
 
 ## Known Issues & Limitations
 
@@ -104,8 +113,13 @@ Exact model backend not verifiable from final document text alone.
   synthetic and cannot establish runtime performance or readiness.
 - `DistributedVectorIndex` is currently an in-process implementation; its
   `RANGE` strategy is hash-based and replication is future work.
-- The cited `ai_working/sourcecode_graph.json` is absent in this checkout, and
-  the checked-in generated compliance report describes a stale module-doc set.
+- `ai_working/sourcecode_graph.json` is absent in this checkout. The generated
+  compliance report at `ai_context/developer_llm_wiki/SOLL_IST_GAP_REPORT.json`
+  has a stale module-doc inventory.
+- The direct-commit `addEntity()` overload does not check vector dimension;
+  finite-value validation is unverified.
+- `searchMultiField()` does not perform field-specific routing, and the
+  `SearchConfig::index_name` and `ef_search` fields are unused.
 - The `windows-release` configure preset disables tests in this checkout;
   focused tests require a test-enabled preset and configured CTest metadata.
 

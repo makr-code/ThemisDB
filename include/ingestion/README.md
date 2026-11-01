@@ -1,27 +1,38 @@
 > **Build (Linux example):** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-05-13 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: ../../src/ingestion/README.md · ../../src/ingestion/ROADMAP.md · ../../src/ingestion/FUTURE_ENHANCEMENTS.md · ../../docs/de/ingestion/README.md -->
 
 # Ingestion Module — Public Headers
 
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
+
 **Module Path:** `include/ingestion/`
 **Implementation:** `../../src/ingestion/`
-**Status:** ✅ Production Ready
+**Status:** Public declarations exist; deployment readiness is caller-specific.
 
-Public C++ API for ThemisDB ingestion: source connectors, pipeline orchestration, retries/rate-limits, checkpointing, quarantine handling, and legal-text extraction components.
+Public C++ declarations for ingestion source management, connectors, workflow
+steps, validation, coordination, and sink adapters. The declarations do not
+establish that every connector uses every control or that every execution path
+persists output. See the implementation guide for the observed runtime limits.
 
 ## Header Listing
 
 | Header | Purpose |
 |--------|---------|
 | [`ingestion_manager.h`](ingestion_manager.h) | Core API (`IngestionManager`, `IngestionBuilder`, `IngestionAdminApi`, `SourceConfig`, `RetryConfig`, `RateLimitConfig`) |
-| [`ingestion_coordinator.h`](ingestion_coordinator.h) | Multi-node/distributed coordinator (`IngestionCoordinator`, leader election, shared checkpoints) |
-| [`api_connector.h`](api_connector.h) | Generic paginated REST ingestion source |
-| [`filesystem_ingester.h`](filesystem_ingester.h) | Local filesystem ingestion with format handling/OCR/converter hooks |
+| [`ingestion_coordinator.h`](ingestion_coordinator.h) | Source partitioning/worker coordinator; checkpoint and leader election are injectable |
+| [`api_connector.h`](api_connector.h) | API source connector; protocol and options are implementation-specific |
+| [`filesystem_ingester.h`](filesystem_ingester.h) | Filesystem connector and file processing hooks |
 | [`huggingface_connector.h`](huggingface_connector.h) | HuggingFace dataset ingestion source |
 | [`kafka_connector.h`](kafka_connector.h) | Kafka topic ingestion source |
-| [`database_connector.h`](database_connector.h) | JDBC/ODBC database ingestion source |
+| [`database_connector.h`](database_connector.h) | Database connector; do not infer JDBC/ODBC support without backend evidence |
 | [`s3_connector.h`](s3_connector.h) | S3-compatible object storage ingestion source |
 | [`object_storage_connector.h`](object_storage_connector.h) | Generic object storage ingestion source |
 | [`web_crawler_connector.h`](web_crawler_connector.h) | HTTP crawler + sitemap ingestion source |
@@ -44,6 +55,8 @@ Public C++ API for ThemisDB ingestion: source connectors, pipeline orchestration
 | [`inference_backend.h`](inference_backend.h) | Backend abstraction for AI inference |
 | [`legal_domain.h`](legal_domain.h) | Legal domain entity and classifier definitions |
 | [`oauth_token_manager.h`](oauth_token_manager.h) | OAuth token management interfaces |
+| [`ingestion_api_contract.h`](ingestion_api_contract.h), [`ingestion_error_contract.h`](ingestion_error_contract.h) | Versioned write-path/error contract declarations; check include conflicts and the interface actually used |
+| [`reindex_decision_engine.h`](reindex_decision_engine.h), [`canary_deployment_manager.h`](canary_deployment_manager.h) | Reindex decision and canary helper APIs; not proof of integrated index migration |
 
 ## Public API Entry Points
 
@@ -52,7 +65,7 @@ Public C++ API for ThemisDB ingestion: source connectors, pipeline orchestration
 | `IngestionBuilder` | `ingestion_manager.h` | Fluent module entry-point to configure sources and build a manager |
 | `IngestionManager` | `ingestion_manager.h` | Executes source ingestion, retries, rate-limits, checkpoints, quarantine |
 | `IngestionAdminApi` | `ingestion_manager.h` | Runtime admin control (`list`, `pause`, `resume`, quarantine operations) |
-| `IngestionCoordinator` | `ingestion_coordinator.h` | Distributed orchestration across worker nodes |
+| `IngestionCoordinator` | `ingestion_coordinator.h` | Source partitioning, worker dispatch, and report aggregation |
 | `ISourceConnector` | `ingestion_manager.h` | Base interface implemented by all connectors |
 
 ## Configuration Quick Reference
@@ -76,11 +89,11 @@ Public C++ API for ThemisDB ingestion: source connectors, pipeline orchestration
 
 ## Runtime Behavior, Errors, and Limits
 
-- Sources run sequentially or in parallel depending on manager configuration.
-- Incremental ingestion uses checkpoints to avoid re-processing already ingested ranges.
-- Persistent per-document failures are moved into quarantine for later retry.
-- Error handling is normalized via `IngestionError`, `IngestionErrorCode`, and `IngestionErrorSeverity`.
-- `max_pages = 0` means unlimited pagination/crawling; set explicit limits for untrusted or large sources.
+- Source execution and option support vary by connector; check its header and implementation.
+- Checkpoint behavior depends on the selected source and checkpoint implementation; coordinator defaults are in-memory.
+- Per-document failures may be quarantined according to the configured path.
+- `IngestionManager`, `ingestion_api_contract.h`, and `ingestion_error_contract.h` declare conflicting `IngestionErrorCode` names in the same namespace; do not include the competing declarations together until reconciled.
+- Several connector limits use zero as unlimited; verify the specific option and set explicit bounds for untrusted or large sources.
 - Connector and source availability is exposed through `isAvailable()` checks.
 
 ## Usage
@@ -114,7 +127,7 @@ target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
 Check `SourceConfig::location` and connector-specific credentials/options. Use `IngestionAdminApi::listSources()` to inspect source availability.
 
 ### API/HuggingFace returns `HTTP_UNAUTHORIZED`
-Set `options["api_key"]` or configure OAuth refresh in `GenericApiConnector` and verify token scope/expiry.
+Check the selected connector's documented credential option and token scope/expiry. OAuth refresh is connector-specific; do not assume a generic connector implementation.
 
 ### Very long crawl/API runs
 Set `options["max_pages"]` and (for web) `options["max_depth"]`; `0` means unlimited and can lead to unbounded runtimes.
@@ -130,3 +143,8 @@ Install external converters (`pdftotext`, `pandoc`) or configure `pdf_converter`
 - Future enhancements: [`../../src/ingestion/FUTURE_ENHANCEMENTS.md`](../../src/ingestion/FUTURE_ENHANCEMENTS.md)
 - Security notes: [`../../src/ingestion/SECURITY.md`](../../src/ingestion/SECURITY.md)
 - German docs overview: [`../../docs/de/ingestion/README.md`](../../docs/de/ingestion/README.md)
+
+The filesystem workflow branch currently reports successfully executed files as
+processed without passing its assembled result to a sink. A positive processed
+count on that path is not a persistence guarantee. The in-process admin API also
+does not provide HTTP authentication or authorization.

@@ -41,7 +41,7 @@ Latency observations are coarse. The bridge records elapsed whole milliseconds a
 
 - Run the primitive and contract test targets using the commands in [`tests/toolbox/README.md`](../../tests/toolbox/README.md).
 - For performance-sensitive releases, build `bench_toolbox_native_workloads` and compare repeatable measurements against a recorded baseline using [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md).
-- Record hardware, build profile, sample sizes, run count, and raw benchmark output. Do not treat historical gate-completion statements or the bridge placeholder benchmark as current release evidence.
+- Record hardware, build profile, sample sizes, run count, and raw benchmark output. Do not treat historical gate-completion statements or the non-gating `BM_BridgeProxy_EntitySetLatency` workload as current release evidence.
 - The toolbox has no module-owned profile reload command, queue-flush operation, or rollback CLI; use the host application's supported control plane.
 
 ## Recovery and rollback

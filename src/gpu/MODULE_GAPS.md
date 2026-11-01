@@ -1,5 +1,10 @@
 # gpu Module - Developer Gap Note
 
+> Historical generated scan snapshot from 2026-06-04, based on
+> `ai_working/gap_scan_results.json`. This file is evidence of that scan only,
+> not a current gap report or canonical source for present release/security
+> status. Re-run the scanner against current source before acting on counts.
+
 > Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.
 

@@ -25,6 +25,7 @@
 #include <cstring>
 #include <filesystem>
 #include <fstream>
+#include <limits>
 #include <mutex>
 #include <regex>
 #include <sstream>
@@ -413,10 +414,10 @@ Result<std::unique_ptr<WALStorage>> WALStorage::open(
 // ──────────────────────────────────────────────────────────────────────────────
 
 /**
- * @brief Open Or Create.
- * @param[in,out] on_recover Input/output parameter.
- * @return Return value.
- * @details Calls: fs::create_directories(), ErrVoid(), message(), clear(), fs::directory_iterator(), is_regular_file(), parseSegmentId(), path().
+ * @brief Open the WAL directory and replay every existing segment.
+ * @param[in,out] on_recover Callback applied to each complete recovered record.
+ * @return Success only after all segments have been scanned; any corruption,
+ *         I/O error, timeout, or callback abort is propagated to the caller.
  */
 Result<void> WALStorage::openOrCreate(RecoveryCallback& on_recover) {
     // Create directory if it doesn't exist.
@@ -446,7 +447,7 @@ Result<void> WALStorage::openOrCreate(RecoveryCallback& on_recover) {
             auto path = config_.dir + "/" + segmentName(sid);
             auto res = replaySegment(path, on_recover);
             if (!res) {
-                // Log but continue – partial entries at end of file are tolerated.
+                return ErrVoid(res.error().code(), res.error().context());
             }
         }
     } else {
@@ -459,7 +460,10 @@ Result<void> WALStorage::openOrCreate(RecoveryCallback& on_recover) {
                 }
                 return true;
             };
-            (void)replaySegment(path, noop);
+            auto res = replaySegment(path, noop);
+            if (!res) {
+                return ErrVoid(res.error().code(), res.error().context());
+            }
         }
     }
 
@@ -473,11 +477,12 @@ Result<void> WALStorage::openOrCreate(RecoveryCallback& on_recover) {
 }
 
 /**
- * @brief Replay Segment.
- * @param[in] path Input parameter.
- * @param[in,out] cb Input/output parameter.
- * @return Return value.
- * @details Calls: f(), is_open(), ErrVoid(), std::chrono::steady_clock::now(), std::chrono::minutes(), good(), THEMIS_WARN(), count().
+ * @brief Replay a segment without silently accepting corruption.
+ * @param[in] path WAL segment path.
+ * @param[in,out] cb Recovery callback for each complete, checksum-valid record.
+ * @return Error for corruption, I/O failure, timeout, sequence overflow, or
+ *         callback abort. A physically incomplete final record is truncated
+ *         to the last complete record before returning success.
  */
 Result<void> WALStorage::replaySegment(const std::string& path,
                                         RecoveryCallback& cb) {
@@ -487,59 +492,166 @@ Result<void> WALStorage::replaySegment(const std::string& path,
                        "cannot open WAL segment: " + path);
     }
 
-    // W1-S02: Recovery playback protection against slow/hung filesystems.
-    // Set a deadline to prevent indefinite blocking on recovery (CWE-833).
-    // If the system is under heavy I/O, recovery can still complete; this is a safety valve.
+    std::error_code size_error;
+    const uint64_t file_size = fs::file_size(path, size_error);
+    if (size_error) {
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                       "cannot determine WAL segment size: " + path + ": " +
+                           size_error.message());
+    }
+
     auto start_time = std::chrono::steady_clock::now();
     constexpr auto RECOVERY_TIMEOUT = std::chrono::minutes(5);
+    constexpr uint64_t FRAME_TRAILER_SIZE = 4;
+    constexpr std::size_t SCAN_CHUNK_SIZE = 64 * 1024;
+    uint64_t offset = 0;
 
-    while (f.good()) {
-        // Check timeout before attempting to read
-        auto elapsed = std::chrono::steady_clock::now() - start_time;
-        if (elapsed > RECOVERY_TIMEOUT) {
-            THEMIS_WARN("WALStorage::replaySegment: recovery timeout exceeded ({}ms), "
-                       "truncating replay at current position (path={})",
-                       std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count(),
-                       path);
-            break;  // Incomplete recovery is better than hung startup
+    auto contains_complete_record_after = [&](uint64_t scan_start) {
+        std::vector<uint8_t> buffer(SCAN_CHUNK_SIZE + HEADER_SIZE - 1);
+        uint64_t chunk_start = scan_start;
+        while (chunk_start + HEADER_SIZE <= file_size) {
+            if (std::chrono::steady_clock::now() - start_time > RECOVERY_TIMEOUT) {
+                return false;
+            }
+
+            f.clear();
+            f.seekg(static_cast<std::streamoff>(chunk_start));
+            const auto bytes_to_read = static_cast<std::streamsize>(
+                std::min<uint64_t>(buffer.size(), file_size - chunk_start));
+            f.read(reinterpret_cast<char*>(buffer.data()), bytes_to_read);
+            const auto bytes_read = static_cast<std::size_t>(f.gcount());
+            if (bytes_read < HEADER_SIZE) {
+                return false;
+            }
+
+            for (std::size_t i = 0; i + HEADER_SIZE <= bytes_read; ++i) {
+                const auto* candidate = buffer.data() + i;
+                if (decode_u32(candidate) != WAL_MAGIC) {
+                    continue;
+                }
+
+                const auto type = static_cast<EntryType>(candidate[12]);
+                if (type != EntryType::PUT && type != EntryType::DEL &&
+                    type != EntryType::CHECKPOINT) {
+                    continue;
+                }
+
+                const uint64_t candidate_size =
+                    static_cast<uint64_t>(HEADER_SIZE) +
+                    decode_u32(candidate + 13) +
+                    decode_u32(candidate + 17) +
+                    FRAME_TRAILER_SIZE;
+                const uint64_t candidate_offset = chunk_start + i;
+                if (candidate_size <= file_size - candidate_offset) {
+                    return true;
+                }
+            }
+
+            if (bytes_read <= HEADER_SIZE - 1) {
+                return false;
+            }
+            chunk_start += SCAN_CHUNK_SIZE;
+        }
+        return false;
+    };
+
+    auto truncate_incomplete_tail = [&](uint64_t last_valid_offset) -> Result<void> {
+        f.close();
+        std::error_code resize_error;
+        fs::resize_file(path, last_valid_offset, resize_error);
+        if (resize_error) {
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                           "cannot truncate incomplete WAL tail: " + path + ": " +
+                               resize_error.message());
+        }
+        THEMIS_WARN("WALStorage::replaySegment: truncated incomplete WAL tail "
+                    "(path={}, valid_bytes={}, discarded_bytes={})",
+                    path, last_valid_offset, file_size - last_valid_offset);
+        return OkVoid();
+    };
+
+    while (offset < file_size) {
+        if (std::chrono::steady_clock::now() - start_time > RECOVERY_TIMEOUT) {
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                           "WAL recovery timed out before the segment was fully replayed: " +
+                               path);
         }
 
-        // Read fixed header.
         uint8_t hdr[HEADER_SIZE];
+        const uint64_t remaining = file_size - offset;
+        if (remaining < HEADER_SIZE) {
+            return truncate_incomplete_tail(offset);
+        }
+
+        f.clear();
+        f.seekg(static_cast<std::streamoff>(offset));
         f.read(reinterpret_cast<char*>(hdr), HEADER_SIZE);
-        if (f.gcount() == 0) break;                      // clean EOF
-        if (static_cast<size_t>(f.gcount()) < HEADER_SIZE) break; // truncated
+        if (f.gcount() != static_cast<std::streamsize>(HEADER_SIZE)) {
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                           "I/O error reading WAL record header at byte " +
+                               std::to_string(offset) + " in " + path);
+        }
 
         uint32_t magic = decode_u32(hdr);
-        if (magic != WAL_MAGIC) break; // corruption / partial write
+        if (magic != WAL_MAGIC) {
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                           "invalid WAL record magic at byte " +
+                               std::to_string(offset) + " in " + path);
+        }
 
         uint64_t seq   = decode_u64(hdr + 4);
         auto     type  = static_cast<EntryType>(hdr[12]);
         uint32_t klen  = decode_u32(hdr + 13);
         uint32_t vlen  = decode_u32(hdr + 17);
+        if (type != EntryType::PUT && type != EntryType::DEL &&
+            type != EntryType::CHECKPOINT) {
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                           "invalid WAL entry type at byte " +
+                               std::to_string(offset) + " in " + path);
+        }
 
-        // Read key and value.
+        const uint64_t frame_size =
+            static_cast<uint64_t>(HEADER_SIZE) + klen + vlen + FRAME_TRAILER_SIZE;
+        if (frame_size > remaining) {
+            if (contains_complete_record_after(offset + HEADER_SIZE)) {
+                return ErrVoid(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                               "incomplete WAL record precedes another complete record at byte " +
+                                   std::to_string(offset) + " in " + path);
+            }
+            if (std::chrono::steady_clock::now() - start_time > RECOVERY_TIMEOUT) {
+                return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                               "WAL recovery timed out while checking an incomplete tail: " +
+                                   path);
+            }
+            return truncate_incomplete_tail(offset);
+        }
+
         std::string key(klen, '\0');
         if (klen > 0) {
             f.read(key.data(), klen);
-            if (static_cast<uint32_t>(f.gcount()) < klen) {
-              break;
+            if (f.gcount() != static_cast<std::streamsize>(klen)) {
+                return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                               "I/O error reading WAL key at byte " +
+                                   std::to_string(offset) + " in " + path);
             }
         }
 
         std::string value(vlen, '\0');
         if (vlen > 0) {
             f.read(value.data(), vlen);
-            if (static_cast<uint32_t>(f.gcount()) < vlen) {
-              break;
+            if (f.gcount() != static_cast<std::streamsize>(vlen)) {
+                return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                               "I/O error reading WAL value at byte " +
+                                   std::to_string(offset) + " in " + path);
             }
         }
 
-        // Read and verify CRC32.
         uint8_t crc_buf[4];
         f.read(reinterpret_cast<char*>(crc_buf), 4);
-        if (f.gcount() < 4) {
-          break;
+        if (f.gcount() != static_cast<std::streamsize>(FRAME_TRAILER_SIZE)) {
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                           "I/O error reading WAL checksum at byte " +
+                               std::to_string(offset) + " in " + path);
         }
 
         uint32_t stored_crc = decode_u32(crc_buf);
@@ -547,15 +659,28 @@ Result<void> WALStorage::replaySegment(const std::string& path,
         computed = crc32_update(computed, key.data(), klen);
         computed = crc32_update(computed, value.data(), vlen);
 
-        if (computed != stored_crc) break; // checksum mismatch → truncate here
+        if (computed != stored_crc) {
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                           "WAL checksum mismatch at byte " +
+                               std::to_string(offset) + " in " + path);
+        }
 
-        // Track highest sequence.
+        if (seq == std::numeric_limits<uint64_t>::max()) {
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                           "WAL sequence number overflow at byte " +
+                               std::to_string(offset) + " in " + path);
+        }
         if (seq >= next_seq_) {
-          next_seq_ = seq + 1;
+            next_seq_ = seq + 1;
         }
 
         Entry e{seq, type, std::move(key), std::move(value)};
-        if (!cb(e)) break; // caller requested early stop
+        if (!cb(e)) {
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                           "WAL recovery callback aborted at sequence " +
+                               std::to_string(seq) + " in " + path);
+        }
+        offset += frame_size;
     }
 
     return OkVoid();

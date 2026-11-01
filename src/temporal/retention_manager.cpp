@@ -58,11 +58,6 @@ void RetentionManager::setPolicy(const std::string& table_name,
 
 std::optional<RetentionPolicy> RetentionManager::getPolicy(
     const std::string& table_name) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = policies_.find(table_name);
     if (it == policies_.end()) {
@@ -161,22 +156,12 @@ RetentionStats RetentionManager::enforceRetention(SystemVersionedTable& table,
 // ============================================================================
 
 std::vector<ArchivedRecord> RetentionManager::getArchivedRecords() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     return archive_;
 }
 
 std::vector<ArchivedRecord> RetentionManager::getArchivedRecords(
     const std::string& table_name) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<ArchivedRecord> result = {};
 
@@ -199,11 +184,6 @@ void RetentionManager::clearArchive() {
 }
 
 nlohmann::json RetentionManager::getCumulativeStats() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     return {{"total_deleted", total_deleted_},
             {"total_archived", total_archived_},

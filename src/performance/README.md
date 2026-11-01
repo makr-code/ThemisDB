@@ -1,35 +1,40 @@
-# ThemisDB Performance Module
-
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "active"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_Sources:
+  - "src/performance/*.cpp"
+  - "include/performance/*.h"
+  - "tests/performance/CMakeLists.txt"
+  - "benchmarks/performance/CMakeLists.txt"
+Related_Issue: "#7366"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
 ## Module Purpose
 
-The performance module provides optimization, profiling, hardware-aware acceleration, and runtime performance-tuning infrastructure for ThemisDB.
+The performance module provides measurement/export, optimization and workload
+feedback, memory/cache support, selected algorithms, and optional hardware/I/O
+facilities. Components are exposed through public declarations in
+[`../../include/performance`](../../include/performance); callers compose them
+and retain responsibility for applying recommendations or selecting fallbacks.
 
 ## Relevant Interfaces
 
 | Interface / File | Role |
 |---|---|
-| cycle_metrics.cpp | cycle-based measurement and low-level timing surfaces |
-| prometheus_exporter.cpp | performance metric export behavior |
-| async_metrics_exporter.cpp | asynchronous performance metric export |
-| chimera_exporter.cpp | benchmark/result export integration |
-| numa_topology.cpp | NUMA topology discovery and affinity support |
-| numa_memory_manager.cpp | NUMA-aware allocation and memory behavior |
-| workload_predictor.cpp | workload prediction for performance adaptation |
-| workload_adaptive_optimizer.cpp | adaptive strategy selection and application |
-| advanced_cache_manager.cpp | cache policy and memory/caching optimizations |
-| hardware_accelerator.cpp | accelerator-dispatch behavior |
-| intelligent_prefetcher.cpp | prefetch optimization behavior |
-| phase2_feature_flags.cpp | runtime feature-flag control |
-| wisckey.cpp | WiscKey optimization implementation |
-| dostoevsky.cpp | compaction policy optimization implementation |
-| cicada.cpp | OCC optimization implementation |
-| rabitq.cpp | quantization optimization implementation |
-| ligra.cpp | graph-processing optimization implementation |
-| phase3/ | phase-3 optimization components |
-| phase4/ | phase-4 optimization components |
+| Measurement/export | `cycle_metrics.cpp`, `async_metrics_exporter.cpp`, `prometheus_exporter.cpp`, `chimera_exporter.cpp` | Compile-gated collection, asynchronous drain, and serializers; exporter behavior depends on configuration. |
+| Workload feedback and optimization | `workload_predictor.cpp`, `workload_adaptive_optimizer.cpp`, `adaptive_query_compiler.cpp` | Return forecasts, strategies, or compilation outcomes; recommendations are not resource changes. |
+| Memory, cache, and placement | `advanced_cache_manager.cpp`, `numa_memory_manager.cpp`, `numa_topology.cpp`, `intelligent_prefetcher.cpp` | Cache, NUMA, and prefetch components subject to their API and host constraints. |
+| Hardware controls and phase algorithms | `phase2_feature_flags.cpp`, `hardware_accelerator.cpp`, `wisckey.cpp`, `dostoevsky.cpp`, `cicada.cpp`, `ligra.cpp`, `rabitq.cpp` | Optional or specialized code paths; verify each compile gate, runtime gate, and result. |
+| Phase 3 and 4 | `phase3/*.cpp`, `phase4/*.cpp` | Query-cost, algorithm, memory-pressure, zero-copy I/O, PMEM, and PMU components. |
 
 ## Scope
 
@@ -46,8 +51,9 @@ Out of scope:
 ## Runtime Behavior and Limits
 
 - behavior depends on enabled compile/runtime feature flags and host capabilities.
-- unsupported hardware/acceleration paths degrade deterministically with explicit outcomes.
-- optimization behavior remains bounded by module-local policies and safety checks.
+- unsupported hardware/acceleration paths use the fallback or failure behavior
+  documented by the specific interface; do not assume one module-wide policy.
+- requested feature state is not proof that the implementation path was used.
 
 ## Sourcecode Verification (Module: performance/readme)
 
@@ -69,8 +75,13 @@ Out of scope:
   - src/performance/cicada.cpp
   - src/performance/rabitq.cpp
   - src/performance/ligra.cpp
+- Phase-specific implementations also present:
+  - `src/performance/phase3/*.cpp`
+  - `src/performance/phase4/*.cpp`
 - Verified behavior surfaces:
   - optimization, profiling, and hardware-aware adaptation paths
 - Note:
   - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
   - historical entries remain in CHANGELOG.md
+
+Exact model backend not verifiable from final document text alone.

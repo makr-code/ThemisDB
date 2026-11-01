@@ -1,7 +1,7 @@
 # Governance Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-10-30 -->
-<!-- Validation Cycle: 2026-10-30 OPA WASM target recorded as unverified; maintainer confirmation pending -->
+<!-- Status: current | Last Updated: 2026-10-31 | validated: 2026-10-31 -->
+<!-- Validation Cycle: 2026-10-31 OPA WASM runtime remains unimplemented; absent evaluator returns strict deny -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 <!--
 AI_Used: true
@@ -64,13 +64,16 @@ Exact model backend not verifiable from final document text alone.
 ## OPA WASM Evaluation
 
 ### Scope
-- Replace `OpaAdapter::evaluateWasm()`'s permissive bundle-existence stub with actual local evaluation of compiled OPA policies.
-- Keep the current WASM path unavailable for production authorization until implementation and enforcement behavior are verified.
+- Add an approved WASM runtime and actual local evaluation of compiled OPA policies.
+- Until then, explicit WASM mode only uses an injected evaluator and returns an
+  enforced strict deny when it is absent or fails, preventing native fallback.
+- It never falls through to REST/native evaluation; existence of a bundle file is not evaluation.
 
 ### Design Constraints
-- Runtime and dependency selection require maintainer approval; do not infer approval from the stale `v1.6.0` source comment.
+- Runtime and dependency selection require maintainer approval; no runtime is
+  currently integrated or enabled.
 - Missing bundles, invalid modules, runtime failures, and evaluation errors must never produce a permissive allow decision.
-- Preserve the injected `WasmEvalFn` path and make evaluator selection/fallback behavior explicit and observable.
+- Preserve the injected `WasmEvalFn` path and keep evaluator selection explicit.
 
 ### Required Interfaces
 - Define the contract between `OpaAdapter`, the selected WASM runtime, the compiled bundle, and the resulting `PolicyDecision`.
@@ -78,8 +81,8 @@ Exact model backend not verifiable from final document text alone.
 
 ### Implementation Notes
 - Select and approve the runtime/dependency before assigning a release target or enabling the production path.
-- Replace the permissive stub only when actual policy evaluation and fail-closed error handling are wired end to end.
-- **Release target:** unverified; maintainer confirmation is required. The source comment's `v1.6.0` value is stale and is not a committed target.
+- Integrate actual policy evaluation only with fail-closed error handling and an end-to-end tested runtime.
+- **Release target:** unverified; maintainer confirmation is required.
 
 ### Test Strategy
 - Verify valid bundle decisions against representative allow and deny policies.
@@ -90,5 +93,7 @@ Exact model backend not verifiable from final document text alone.
 - Establish and record evaluation latency and resource limits after runtime selection; no release performance target is approved yet.
 
 ### Security / Reliability
-- Do not use the current built-in stub for production authorization or export controls.
+- The strict-deny fallback is not policy evaluation. Do not treat it as a
+  substitute for an approved runtime or use it to imply that bundle policy was
+  evaluated.
 - Require tests proving that unavailable or failed WASM evaluation cannot authorize protected operations before enabling the implementation.

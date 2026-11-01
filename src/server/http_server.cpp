@@ -1440,6 +1440,9 @@ HttpServer::HttpServer(
             schema_manager_ = std::make_unique<themis::SchemaManager>(*storage_, secondary_index_.get());
             schema_api_handler_ = std::make_unique<server::SchemaApiHandler>(
                 storage_, secondary_index_, schema_manager_.get());
+            schema_api_handler_->setMetadataSecurityProvider(
+                config_.metadata_security_provider);
+            schema_api_handler_->setAuthMiddleware(auth_);
 
             // Wire metadata sub-components into SchemaApiHandler
             stats_collector_    = std::make_unique<StatisticsCollector>(*storage_);
@@ -1769,10 +1772,10 @@ HttpServer::HttpServer(
         THEMIS_INFO("AuditLogger wired into PolicyEngine");
     }
 
-    // Initialize OPA evaluator (optional); enabled when THEMIS_OPA_ENDPOINT_URL is set.
-    // OPA acts as an alternative policy evaluation engine (policy-as-code via Rego).
-    // If OPA is unreachable or times out, PolicyEngine falls back to native evaluation
-    // and increments the opa_fallback_total metric.
+    // Initialize OPA REST evaluation (optional); enabled when
+    // THEMIS_OPA_ENDPOINT_URL is set. OpaAdapter::Config defaults to REST here;
+    // this server path does not opt into local WASM mode. If REST is unreachable
+    // or times out, PolicyEngine retains its existing native fallback behavior.
     if (auto opa_url = themis_get_env("THEMIS_OPA_ENDPOINT_URL")) {
         themis::OpaAdapter::Config opa_cfg;
         opa_cfg.endpoint_url = *opa_url;

@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-10-30
-Last Updated: 2026-10-30
+Last Updated: 2026-10-31
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -14,6 +14,8 @@ Exact model backend not verifiable from final document text alone.
 
 # Image Analysis Implementation Guide
 
+<!-- Source level: level 1 | SOT domain: module-behavior -->
+
 ## Purpose and ownership
 
 This guide is for developers building or changing the module. Implementations
@@ -23,9 +25,12 @@ detection—not every capability declared in the shared interface.
 
 ## Build composition and dependency modes
 
-`src/image_analysis/CMakeLists.txt` uses
+[`src/image_analysis/CMakeLists.txt`](CMakeLists.txt) uses
 `THEMIS_PLUGIN_IMAGE_YOLOV8` and `THEMIS_PLUGIN_IMAGE_TESSERACT` to decide
-whether to create each shared plugin target. ONNX Runtime and Tesseract are
+whether to create each shared plugin target when that CMake file is configured.
+The root CMake files do not currently add `src/image_analysis/` or declare
+those two options, so this is not integration into the standard root build.
+ONNX Runtime and Tesseract are
 searched optionally. When a plugin target is enabled but its native runtime
 is absent, CMake still creates the library and warns that it is in stub mode;
 it does not enable real inference. `HAVE_ONNXRUNTIME` and `HAVE_TESSERACT` are
@@ -81,9 +86,12 @@ and performance targets honest about pending evidence.
 
 ## Focused validation
 
-`tests/image_analysis/CMakeLists.txt` compiles plugin sources into standalone
-test executables and only explicitly adds OpenCV when found. Its normal focused
-target does not turn on the optional Tesseract/ONNX compile paths. Build the
+[`tests/CMakeLists.txt`](../../tests/CMakeLists.txt) discovers
+[`tests/image_analysis/CMakeLists.txt`](../../tests/image_analysis/CMakeLists.txt) while
+tests are enabled. That module CMake file compiles plugin sources into
+standalone test executables and only explicitly adds OpenCV when found. Its
+normal focused target does not turn on the optional Tesseract/ONNX compile
+paths. Build the
 target `module_image_analysis_test_image_analysis_phase1_focused_focused` and
 run the registered CTest case
 `test_image_analysis_phase1_focused_ImageAnalysisFocusedTests` to validate

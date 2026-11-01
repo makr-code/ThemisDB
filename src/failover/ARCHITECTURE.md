@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -36,8 +36,10 @@ the storage restore implementation, or traffic-management infrastructure.
    uncached executions, and runs its fixed ordered step pipeline. A failed step
    stops later steps; the manager does not compensate earlier steps.
 4. `QuorumLog` optionally appends local pipe-delimited records with CRC32.
-   `TopologySnapshot` copies failure counts and sorts node IDs for stable
-   comparisons.
+   Startup logs the last valid record, but does not restore an epoch or quorum
+   decision into the manager. `TopologySnapshot` copies failure counts and sorts
+   node IDs for stable ordering; topology-change comparison checks node-set
+   changes, not snapshot-version differences.
 
 ## Contracts and failure domains
 
@@ -52,15 +54,13 @@ the storage restore implementation, or traffic-management infrastructure.
 ## Integration boundary and incomplete actions
 
 The current implementation does not execute every action implied by the
-orchestration names. Spare activation emits `SPARE_ACTIVATION_FAILED` when a
-spare manager is present, and its failure result is not used to abort the
-overall failover. Metadata update logs the old/new leader but performs no
-metadata write. Built-in disaster-recovery snapshot validation checks only ID
-presence; restore and traffic shift report success without invoking external
-adapters. Catch-up tests quorum, and verification checks health/quorum rather
-than restored contents or recovery-site identity. A successful result therefore
-does not prove those external effects occurred. See
-[IMPLEMENTATION.md](IMPLEMENTATION.md).
+orchestration names. Spare activation emits `SPARE_ACTIVATION_FAILED` and now
+blocks completion when a configured spare cannot be activated. Metadata
+persistence remains unavailable and returns failure. Non-dry-run DR snapshot
+validation, restore, replication-position catch-up, requested traffic shift,
+and recovered-state verification also fail closed without registered hooks.
+Configured hooks must perform and verify their external effects; the manager
+does not independently certify them. See [IMPLEMENTATION.md](IMPLEMENTATION.md).
 
 ## Observability boundary
 
@@ -69,6 +69,12 @@ The current `auto_failover_manager.cpp` and
 They do not publish named Prometheus metrics or create trace spans. Deployment
 monitoring must consume an explicitly configured admin/export surface; do not
 configure alerts against metric names or spans that this module does not emit.
+
+## Shutdown boundary
+
+`AutoFailoverManager::stop()` signals the worker and then calls `join()` on its
+threads. The calculated deadlines in source comments are not enforced by a
+timed-join mechanism, so shutdown duration is not bounded by those comments.
 
 ## Related documentation
 

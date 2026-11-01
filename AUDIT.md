@@ -9,6 +9,8 @@ Canonical audit source for this repository is the `/audit/**` tree.
 - BSI C5 delta audit: [audit/BSI_C5_2026_THEMISDB_AUDIT.md](audit/BSI_C5_2026_THEMISDB_AUDIT.md)
 - Maturity snapshot: [audit/MATURITY_REPORT_2026-08.md](audit/MATURITY_REPORT_2026-08.md)
 - Current implementation sync: [audit/IMPLEMENTATION_AUDIT_2026-09-30.md](audit/IMPLEMENTATION_AUDIT_2026-09-30.md)
+- Full deep-dive audit (source + docs, 2026-10-31): [audit/FULL_DEEP_DIVE_AUDIT_2026-10-31.md](audit/FULL_DEEP_DIVE_AUDIT_2026-10-31.md)
+- Audit-derived production-readiness roadmap: [audit/ROADMAP.md](audit/ROADMAP.md)
 
 ## Governance references
 
@@ -23,4 +25,4 @@ Canonical audit source for this repository is the `/audit/**` tree.
 - `ai_working/**` is evidence and draft material, never canonical source of truth for release/security status claims.
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-09-30
+Zuletzt geprueft (Root-Sync): 2026-10-31

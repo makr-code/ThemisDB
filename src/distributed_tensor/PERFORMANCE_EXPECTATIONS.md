@@ -1,67 +1,62 @@
 # Distributed Tensor Module Performance Expectations
 
-<!-- Status: current | validated: 2026-07-17 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+**Last Updated:** 2026-10-31
+**Source level:** Level 1 — module implementation
+**SOT domain:** module-behavior
+**Canonical references:** `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/distributed_tensor/bench_distributed_tensor_dedicated_gates.cpp`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `src/distributed_tensor/CMakeLists.txt`
+**Related:** Issue #7341
 
-## Current Baseline
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot Coding Agent
+Human_Review: false
+Human_Author: unknown
+Exact model backend not verifiable from final document text alone.
+-->
 
-Distributed tensor module behavior is at documentation scaffold stage. Module structure
-and planning docs exist; contract headers (`*.h`), skeleton translation units (`*.cc`),
-production distributed runtime behavior, and measured benchmark evidence are deferred to
-the implementation PR.
+## Current evidence
 
-## Phase 5 Governance Assets
+`benchmarks/distributed_tensor/CMakeLists.txt` conditionally registers sources
+matching `bench_*.cpp`. The current source,
+`bench_distributed_tensor_dedicated_gates.cpp`, defines four local stub gates:
 
-- `benchmarks/epic3_distributed_tensor/phase5_workload_profiles.json`
-- `benchmarks/epic3_distributed_tensor/release_gate_manifest_epic3.json`
-- `benchmarks/epic3_distributed_tensor/report_variance_epic3.py`
-- `benchmarks/epic3_distributed_tensor/RUNBOOK_EPIC3_PHASE5.md`
-- `benchmarks/epic3_distributed_tensor/REPRO_TRIAGE_EPIC3_PHASE5.md`
+| Gate | Source comment threshold | Limitation |
+|---|---:|---|
+| DT-BM-01 sharded operation dispatch | `≤ 1 µs` per call | In-process stub |
+| DT-BM-02 tensor sync round-trip | `≤ 10 µs` per cycle | In-process stub |
+| DT-BM-03 partition routing decision | `≤ 1 µs` per call | In-process stub |
+| DT-BM-04 concurrent sharded operations | `≥ 500 ops/s` with 8 workers | In-process stub |
 
-## Phase-Gated Performance Expectations
+The benchmark source explicitly says it does not require external network shards
+or GPU backends and must not be used in production code paths. These thresholds
+are source-defined targets, not measured results.
 
-### Phase 3-4 (behavior + tests)
-- establish deterministic correctness and fault-handling baselines
-- validate placement, integrity, and recovery contract semantics
+`tests/distributed_tensor/test_tensor_performance.cpp` is registered as a
+focused test executable; it is not the benchmark registration. No performance
+measurements, representative-hardware baselines, or SLO results are established
+by the checked-in source inventory or this documentation review.
 
-### Phase 5 (performance hardening)
-- define distributed latency/throughput targets for placement and retrieval planning paths
-- define recovery-time and integrity-check budget expectations
-- lock deterministic benchmark profiles and representative topologies before runtime execution
-- require canonical seed `42` across planner, placement, integrity, recovery, and control-plane scenarios
+## Other configured benchmark sources
 
-### Phase 6-7 (acceptance + integration)
-- publish only benchmark-backed and fault-tested performance claims
-- enforce regression gates before default integration
+The parent `benchmarks/CMakeLists.txt` also adds
+`benchmarks/epic3_distributed_tensor/` when its CMake file exists. That file
+configures four standard benchmark sources (placement, integrity, recovery,
+distributed retrieval) and two additional targets (partial refit and
+summary-first routing) when enabled. `tests/epic3_distributed_tensor/` also
+defines an integrity-verification benchmark test target. These configured
+sources and targets establish benchmark availability, not pass status or
+measured results.
 
-## Phase 5 Gate Targets
+The numeric EPIC 3 workload thresholds documented in older module files are
+planning criteria unless paired with recorded benchmark output. The dedicated
+local benchmark's stub thresholds likewise do not establish production
+performance.
 
-| Gate | Profile | Metric | Threshold |
-|---|---|---|---|
-| `GATE-E3-P5-01` | `planner_latency_healthy` | planner latency p99 | `<= 750 µs` |
-| `GATE-E3-P5-02` | `placement_throughput_balanced` | placement throughput | `>= 25,000 ops/s` |
-| `GATE-E3-P5-03` | `integrity_under_manifest_churn` | verification success ratio | `>= 0.999` |
-| `GATE-E3-P5-04` | `recovery_rebuild_degraded` | rebuild convergence | `<= 30,000 ms` |
-| `GATE-E3-P5-05` | `infrastructure_control_plane_stability` | degraded availability ratio | `>= 0.99` |
-| `GATE-E3-P5-06` | `planner_latency_healthy` | coefficient of variation | `<= 5.0%` |
+## Follow-up evidence needed
 
-These are gate definitions, not measured results. Pass/fail status remains pending
-until benchmark result bundles are produced from the runtime implementation.
-
-## Benchmark Work Items
-
-- maintain `benchmarks/epic3_distributed_tensor/` workload profiles, runbooks, and gate manifest
-- implement distributed/fault-path test evidence in `tests/epic3_distributed_tensor/`
-- capture runtime benchmark results and maintain release-baseline tracking for phase-gate promotion
-
-## Phase 6 Acceptance Preconditions
-
-- every Phase 5 profile has a result bundle entry
-- every gate records an explicit pass/fail decision
-- failed gates include triage notes and follow-up ownership
-- no acceptance claim is published without attached runtime evidence
-
-## Non-Goals (Current Stage)
-
-- no production distributed performance numbers are asserted yet
-- no resiliency/SLO claims are made without benchmark and fault-injection evidence
+- Record benchmark output, hardware and build configuration for any reported
+  result.
+- Use representative distributed and accelerator infrastructure before
+  extrapolating beyond the in-process stubs.
+- Keep performance claims explicitly separate from source-level gate comments.

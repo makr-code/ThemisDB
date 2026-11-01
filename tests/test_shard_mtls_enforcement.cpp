@@ -3,11 +3,8 @@
  * @brief Tests for mTLS default-on enforcement in ShardRPC client and server.
  *
  * Phase 2.2: mTLS Default-On for Shard RPC
- * Verifies that:
- * - Default config has enable_mtls=true
- * - THEMIS_SHARD_MTLS_DISABLED=1 allows override
- * - Production mode with enable_mtls=false throws on start()
- * - Production mode with THEMIS_SHARD_MTLS_DISABLED=1 allows start with warn
+ * Verifies that production-mode detection and shard RPC TLS failures never
+ * degrade to insecure credentials.
  */
 
 #include <gtest/gtest.h>
@@ -19,6 +16,12 @@
 #include <string>
 
 using namespace themis::sharding;
+
+#if defined(THEMIS_ENABLE_GRPC) && __has_include("shard_rpc.grpc.pb.h")
+#define THEMIS_TEST_HAS_SHARD_GRPC 1
+#else
+#define THEMIS_TEST_HAS_SHARD_GRPC 0
+#endif
 
 // ─── Helper: RAII environment variable setter ──────────────────────────────
 struct ScopedEnv {
@@ -65,74 +68,108 @@ TEST(ShardMtlsEnforcement, DefaultServerConfig_EnableMtlsTrue) {
 }
 
 // ---------------------------------------------------------------------------
-// Test 2 — THEMIS_SHARD_MTLS_DISABLED=1 env var allows override
+// Test 2 — The legacy override cannot disable production mTLS enforcement
 // ---------------------------------------------------------------------------
-TEST(ShardMtlsEnforcement, MtlsDisabledEnvVar_AllowsOverride) {
+TEST(ShardMtlsEnforcement, ProductionMode_MtlsDisabledOverrideStillFails) {
+#if THEMIS_TEST_HAS_SHARD_GRPC
+    ScopedEnv environment("THEMIS_ENVIRONMENT", "development");
     ScopedEnv prod("THEMIS_PRODUCTION_MODE", "1");
     ScopedEnv disable("THEMIS_SHARD_MTLS_DISABLED", "1");
 
     ShardRPCServer::Config cfg;
     cfg.enable_mtls = false;
-    cfg.listen_address = "localhost:0";
-
-    // With THEMIS_SHARD_MTLS_DISABLED=1, production mode should not throw
-    // (the server may fail to bind to port 0, but it should not throw the
-    // production-mode mTLS enforcement error before trying to bind)
-    // We cannot call start() as it requires gRPC; just verify the config check
-    // doesn't throw at config level.
-    EXPECT_FALSE(cfg.enable_mtls);
-    SUCCEED() << "THEMIS_SHARD_MTLS_DISABLED=1 override recognized";
+    cfg.listen_address = "127.0.0.1:0";
+    ShardRPCServer server(cfg);
+    EXPECT_FALSE(server.start());
+#else
+    GTEST_SKIP() << "Shard gRPC support is not available";
+#endif
 }
 
 // ---------------------------------------------------------------------------
-// Test 3 — Production mode (THEMIS_PRODUCTION_MODE=1) with enable_mtls=false
-//           throws on start()
+// Test 3 — Production mode with enable_mtls=false fails to start
 // ---------------------------------------------------------------------------
 TEST(ShardMtlsEnforcement, ProductionMode_MtlsDisabled_ThrowsOnStart) {
-#ifdef THEMIS_HAS_SHARD_GRPC
+#if THEMIS_TEST_HAS_SHARD_GRPC
+    ScopedEnv environment("THEMIS_ENVIRONMENT", "development");
     ScopedEnv prod("THEMIS_PRODUCTION_MODE", "1");
-    // Ensure THEMIS_SHARD_MTLS_DISABLED is NOT set
-    ::unsetenv("THEMIS_SHARD_MTLS_DISABLED");
 
     ShardRPCServer::Config cfg;
     cfg.enable_mtls = false;
-    cfg.listen_address = "localhost:0";
+    cfg.listen_address = "127.0.0.1:0";
 
     ShardRPCServer server(cfg);
-    EXPECT_THROW(server.start(), std::runtime_error)
-        << "Production mode with mTLS disabled must throw std::runtime_error";
+    EXPECT_FALSE(server.start())
+        << "Production mode with mTLS disabled must not start an insecure listener";
 #else
     GTEST_SKIP() << "gRPC not available — skipping start() test";
 #endif
 }
 
 // ---------------------------------------------------------------------------
-// Test 4 — Production mode with THEMIS_SHARD_MTLS_DISABLED=1 allows start
-//           (no throw — logs a warning instead)
+// Test 4 — Missing server credentials fail closed
 // ---------------------------------------------------------------------------
-TEST(ShardMtlsEnforcement, ProductionMode_WithDisableOverride_NoThrow) {
-#ifdef THEMIS_HAS_SHARD_GRPC
+TEST(ShardMtlsEnforcement, ProductionMode_MissingServerCredentialsFailClosed) {
+#if THEMIS_TEST_HAS_SHARD_GRPC
+    ScopedEnv environment("THEMIS_ENVIRONMENT", "development");
     ScopedEnv prod("THEMIS_PRODUCTION_MODE", "1");
-    ScopedEnv disable("THEMIS_SHARD_MTLS_DISABLED", "1");
 
     ShardRPCServer::Config cfg;
-    cfg.enable_mtls = false;
-    cfg.listen_address = "localhost:0";
+    cfg.enable_mtls = true;
+    cfg.listen_address = "127.0.0.1:0";
 
     ShardRPCServer server(cfg);
-    // Should not throw the production enforcement error; may fail to bind
-    // but must not throw std::runtime_error for the mTLS enforcement reason.
-    try {
-        server.start();
-        SUCCEED() << "start() completed (or port binding may have failed non-fatally)";
-    } catch (const std::runtime_error& e) {
-        const std::string msg(e.what());
-        // Must not be the mTLS enforcement error
-        EXPECT_EQ(msg.find("mTLS must be enabled in production mode"), std::string::npos)
-            << "With THEMIS_SHARD_MTLS_DISABLED=1, mTLS enforcement error must not be thrown";
-    }
+    EXPECT_FALSE(server.start())
+        << "Missing certificate, key, and CA files must not create an insecure listener";
 #else
     GTEST_SKIP() << "gRPC not available — skipping start() test";
+#endif
+}
+
+TEST(ShardMtlsEnforcement, ProductionMode_ClientInsecureOverrideCannotMaskMissingCredentials) {
+#if THEMIS_TEST_HAS_SHARD_GRPC
+    ScopedEnv environment("THEMIS_ENVIRONMENT", "development");
+    ScopedEnv prod("THEMIS_PRODUCTION_MODE", "1");
+
+    ShardRPCClient::Config cfg;
+    cfg.endpoint = "127.0.0.1:1";
+    cfg.enable_mtls = true;
+    cfg.allow_insecure = true;
+
+    EXPECT_THROW(
+        {
+            ShardRPCClient client(cfg);
+        },
+        std::runtime_error);
+#else
+    GTEST_SKIP() << "Shard gRPC support is not available";
+#endif
+}
+
+TEST(ShardMtlsEnforcement, ProductionMode_ClientRejectsDisabledMtlsAndVerification) {
+#if THEMIS_TEST_HAS_SHARD_GRPC
+    ScopedEnv environment("THEMIS_ENVIRONMENT", "development");
+    ScopedEnv prod("THEMIS_PRODUCTION_MODE", "1");
+
+    ShardRPCClient::Config cfg;
+    cfg.endpoint = "127.0.0.1:1";
+    cfg.enable_mtls = false;
+    cfg.allow_insecure = true;
+    EXPECT_THROW(
+        {
+            ShardRPCClient client(cfg);
+        },
+        std::runtime_error);
+
+    cfg.enable_mtls = true;
+    cfg.tls_verify_server = false;
+    EXPECT_THROW(
+        {
+            ShardRPCClient client(cfg);
+        },
+        std::runtime_error);
+#else
+    GTEST_SKIP() << "Shard gRPC support is not available";
 #endif
 }
 

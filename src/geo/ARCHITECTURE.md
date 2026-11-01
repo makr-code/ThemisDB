@@ -1,90 +1,84 @@
-# Architecture - Geo Module
+# Architecture — Geo Module
 
-<!-- Status: current | validated: 2026-09-09 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-10-31 -->
+<!-- Links: README.md · API.md · IMPLEMENTATION.md · ROADMAP.md -->
 
-## Overview
+## Scope and ownership
 
-The geo module composes CPU/GPU spatial backends, indexing structures, geometry processing, and advanced geo workflows into a bounded runtime contract for geospatial workloads in ThemisDB.
+The public declarations live under `include/geo/`
+(with shared geometry representations under
+`include/utils/geo/`). Implementations and
+build selection live under `src/geo/`.
+The module contains geometry parsing and operations, CPU/GPU compute paths,
+in-memory spatial indexing, joins, clustering, raster and temporal-spatial
+queries, tile helpers, and a point-only k-NN bridge.
 
-## Main Execution Planes
+This is a map of component ownership, not a claim that every operation passes
+through one common query pipeline or has identical limits and fallback behavior.
+Use the individual header and implementation for operation-specific guarantees.
 
-1. Backend execution plane
-- exact/approximate CPU paths and optional Boost exact behavior
-- GPU execution with CUDA/HIP paths and deterministic CPU fallback
+## Runtime components
 
-2. Spatial index and geometry plane
-- R-tree and cursor-based index access
-- GeoJSON geometry hierarchy, validation, and geometric operations
+| Component | Representative public surface | Role |
+|---|---|---|
+| Geometry and contract | `include/geo/geo_api_contract.h`, `include/geo/geo_json_geometry.h`, `include/utils/geo/ewkb.h` | Error vocabulary, typed GeoJSON objects, and parsed geometry representation |
+| Compute backends | `spatial_backend.h`, `geo_backend_dispatch.h`, `gpu_kernel_dispatcher.h` | CPU backend registry and separate batched kernel dispatch surfaces |
+| Index and joins | `geo_rtree.h`, `rtree_cursor.h`, `spatial_join.h`, `spatial_join_filter.h` | In-memory MBR index, cursor API, joins, and predicates |
+| Additional workflows | `geo_clustering.h`, `raster_query_interface.h`, `temporal_spatial_query.h`, `tile_server.h`, `geo_faiss_knn.h` | Clustering, raster queries, versioned-geometry queries, tile conversion/encoding, and point k-NN |
 
-3. Query and analytics plane
-- spatial joins and composable filters
-- clustering, raster, temporal-spatial, and k-NN bridge workflows
+These are API groupings; the headers do not imply shared storage ownership.
+`GeoRTree` owns its in-memory index, while persistent document access and
+request authorization belong to the owning integration.
 
-4. Runtime integration plane
-- device detection and backend selection
-- tile and runtime observability integration surfaces
+## Build and dispatch flow
 
-## Core Contracts
+The default integrated build uses the geo implementation under
+`src/geo/`. The parent CMake also supports
+`THEMIS_EXTERNALIZE_GEO_PLUGIN=ON`: when `THEMIS_PLUGIN_GEO` is enabled and the
+configured plugin submodule has a `CMakeLists.txt`, the external plugin replaces
+the integrated geo sources. If those conditions are not met, CMake retains the
+integrated implementation. The API/implementation descriptions in this module
+refer to the integrated source unless explicitly stated; external-plugin
+behavior was not audited here.
 
-| Contract | Behavior |
-|---|---|
-| backend contract | deterministic CPU/GPU selection and fallback semantics |
-| indexing/geometry contract | explicit spatial indexing and geometry-validation behavior |
-| query contract | bounded join/clustering/raster/temporal execution semantics |
-| integration contract | explicit capability detection and runtime bridge behavior |
+In the integrated build, `src/geo/CMakeLists.txt`
+adds the core geo sources to the parent build. It selects the CUDA source when
+`THEMIS_GEO_CUDA` is enabled, otherwise the HIP source when `THEMIS_GEO_HIP`
+is enabled, and otherwise the CPU dispatcher source. The stub and production
+backend wrappers are also listed. The repository CMake configuration makes
+CUDA take precedence over HIP. A compiled GPU path does not establish that a
+device is available, nor that every geo API uses that path.
 
-## Failure Semantics
+The public `GeoBackendDispatcher::computeVincentyBatch()` currently computes
+on the CPU; its implementation documents the missing GPU dispatch integration.
+Do not describe the separate CUDA kernel or `GpuKernelDispatcher` formula
+parameter as evidence that this method executes Vincenty on a GPU.
 
-- unsupported or degraded GPU paths fail over to CPU where supported.
-- invalid geometry inputs fail with explicit validation errors.
-- unavailable optional features surface deterministic non-silent failure behavior.
+## Integration and failure boundaries
 
-## Sourcecode Verification (Module: geo/architecture)
+- `src/server/spatial_api_handler.cpp` is a
+  server integration point. Authentication and authorization remain at that
+  service boundary; `SpatialQueryPolicy::allowed_collections` is advisory.
+- `GeoErrorCode` is declared in
+  `include/geo/geo_api_contract.h`; concrete
+  methods may also use result/status types or empty results. Consult the method
+  declaration rather than assuming all failures use one return shape.
+- `NoOpRasterQueryImpl` reports `RasterStatus::NOT_SUPPORTED`. The raster
+  interface names `THEMIS_ENABLE_RASTER`, but a corresponding repository CMake
+  option was not found in the geo feature configuration; see
+  `include/geo/README.md` (TODO).
+- Contract constants and helper validation are not proof that every request
+  path enforces every limit. Trace the concrete call path before treating a
+  declared limit as a deployment-wide resource boundary.
 
-- Verified files:
-  - src/geo/cpu_backend.cpp
-  - src/geo/gpu_backend_stub.cpp
-  - src/geo/gpu_backend_cuda.cu
-  - src/geo/gpu_backend_hip.cpp
-  - src/geo/geo_rtree.cpp
-  - src/geo/geo_json_geometry.cpp
-  - src/geo/spatial_join.cpp
-  - src/geo/raster.cpp
-  - src/geo/temporal_spatial_query.cpp
-- Verified architecture claims:
-  - explicit backend/indexing/query/integration planes
-  - bounded deterministic failure behavior for invalid/degraded paths
-  - module-local ownership of geospatial runtime orchestration
+## Source references
 
-## Module Dependencies
+- Build selection: `src/geo/CMakeLists.txt`,
+  `cmake/features/GeoFeatures.cmake`, and `cmake/CMakeLists.txt`.
+- Public interfaces: `include/geo/`.
+- Focused test registration: `tests/geo/CMakeLists.txt`.
 
-### Direct Upstream Dependencies (this module uses)
-| Module | Interface / File | Purpose |
-|--------|-----------------|---------|
-| storage | `include/storage/` | Reads and writes geometry features and spatial datasets |
-| index | `include/index/spatial_index.h` | R-tree and spatial index structures for cursor-based lookups |
-| acceleration | `include/acceleration/gpu_backend.h` | Optional GPU backend dispatch for CUDA/HIP spatial computations |
+---
 
-### Direct Downstream Consumers (modules that use this module)
-| Module | Via | Notes |
-|--------|-----|-------|
-| server | `server/spatial_api_handler.h` | Exposes spatial query, join, and tile APIs over HTTP/wire |
-| query | `include/geo/` (geospatial_cost_model.h, spatial_backend.h) | Query planner uses geo cost-model and backend selection for spatial sub-plans |
-
-## Integration Points
-
-### Critical Integration: Index Spatial Structures
-**Files:** `src/geo/geo_rtree.cpp` ↔ `index/spatial_index.h`
-**Contract:** Geo module creates and queries R-tree instances via the index module contract; index module owns cursor lifecycle.
-**Thread Safety:** R-tree reads are concurrency-safe via index module locking; geo caller must not modify cursor state across threads.
-
-### Critical Integration: Query Geospatial Cost Model
-**Files:** `src/geo/spatial_join.cpp` ↔ `query/geospatial_cost_model.h`
-**Contract:** Query planner queries geo cost-model for join and filter cardinality estimates; estimates must be deterministic for fixed inputs.
-**Thread Safety:** Cost model is read-only after initialisation; concurrent queries are safe.
-
-### Critical Integration: Acceleration GPU Backend
-**Files:** `src/geo/gpu_backend_cuda.cu`, `src/geo/gpu_backend_hip.cpp` ↔ `acceleration/gpu_backend.h`
-**Contract:** Geo module delegates compute kernels to the acceleration layer; fallback to CPU path is mandatory when GPU is unavailable.
-**Thread Safety:** GPU dispatch is single-threaded per request; device-context ownership must not be shared across concurrent geo sessions.
+**AI_Used:** true · **AI_Models:** unknown · **AI_Contributor:** GitHub Copilot coding agent · **Human_Review:** false · **Human_Author:** ThemisDB Contributors
+Exact model backend not verifiable from final document text alone.

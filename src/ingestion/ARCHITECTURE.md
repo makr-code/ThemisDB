@@ -1,89 +1,80 @@
 # Architecture - Ingestion Module
 
-<!-- Status: current | validated: 2026-09-09 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-10-31 -->
+<!-- Links: README.md · API.md · IMPLEMENTATION.md · ROADMAP.md -->
+
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
 
 ## Overview
 
-The ingestion module composes connector intake, pipeline controls, quality gates, and workflow orchestration into a bounded data-intake subsystem for ThemisDB.
+This document describes module boundaries and verified runtime paths for
+maintainers and integrators. Public declarations live in `include/ingestion/`;
+implementations live in `src/ingestion/`. Connector-specific limits,
+persistence, and security properties must be checked at the concrete call site.
 
 ## Main Execution Planes
 
-1. Connector intake plane
-- filesystem, API, stream, object, database, crawler, and dataset connectors
-- capability-aware connector activation and deterministic unsupported handling
+1. Source selection and connector intake
+- `IngestionManager` stores `SourceConfig` and selects a connector by
+  `SourceType`; connectors report their own availability and errors.
+- Current types cover filesystem, API, database, Kafka, object storage,
+  HuggingFace, web crawler, CDC, and plugin sources. Do not infer a protocol
+  variant or shared option support from the enum alone.
 
-2. Pipeline control plane
-- retry, rate limiting, checkpointing, and quarantine behavior
-- source coordination and ingestion run lifecycle control
+2. Manager and coordination
+- Manager APIs support per-source execution, aggregate `ingestAll()`, optional
+  retry/rate-limit/checkpoint/quarantine configuration, and in-process control.
+- `IngestionCoordinator` partitions configured sources across worker nodes and
+  aggregates returned reports. Its default shared checkpoint/leader-election
+  components are in-memory.
 
-3. Validation and quality plane
-- schema and semantic validation workflows
-- quality-judge scoring and re-ingestion decision support
+3. Validation and quality
+- Schema and semantic validation plus optional quality-judge evaluation are
+  distinct operations; their behavior depends on configuration and backend
+  availability.
 
-4. Workflow and extraction plane
-- workflow step execution with legal/semantic extraction helpers
-- adapter-driven extraction and reference validation support
+4. Workflow and output adapters
+- `WorkflowEngine` executes an ordered step list over `ExtractionContext` and
+  returns assembled entities.
+- Graph/vector/document/tensor sink interfaces are separate adapters. The
+  filesystem workflow branch currently increments processed counters without
+  handing the returned entity set to a sink.
 
 ## Core Contracts
 
 | Contract | Behavior |
 |---|---|
-| connector contract | deterministic source ingestion and error surfacing |
-| control contract | bounded retry/rate/checkpoint/quarantine semantics |
-| quality contract | explicit validation/judge outcomes and thresholds |
-| workflow contract | deterministic step orchestration and adapter integration |
+| connector contract | source-specific intake and structured outcomes; capability varies |
+| control contract | configurable retry/rate/checkpoint/quarantine behavior; defaults and durability vary |
+| quality contract | configured validation/judge outcomes; unavailable inference may leave a score unevaluated |
+| workflow contract | ordered step execution returning extraction/entity data; sink delivery is not implied |
 
 ## Failure Semantics
 
 - invalid input/schema/connectors fail with explicit structured outcomes.
-- unsupported or degraded connector capabilities degrade deterministically.
-- quality and workflow failures remain observable and non-silent.
+- reports can contain partial success and must be checked per source.
+- admin control is in-process; caller owns network exposure and authorization.
+- the default coordinator stores are not durable or shared across processes.
 
-## Sourcecode Verification (Module: ingestion/architecture)
+## Evidence
 
-- Verified files:
-  - src/ingestion/ingestion_manager.cpp
-  - src/ingestion/ingestion_coordinator.cpp
-  - src/ingestion/api_connector.cpp
-  - src/ingestion/filesystem_ingester.cpp
-  - src/ingestion/schema_validator.cpp
-  - src/ingestion/semantic_validator.cpp
-  - src/ingestion/ingestion_quality_judge.cpp
-  - src/ingestion/workflow_engine.cpp
-- Verified architecture claims:
-  - explicit intake/control/quality/workflow planes
-  - deterministic fallback/failure boundaries
-  - module-local ownership of ingestion orchestration surfaces
+Verified against `include/ingestion/ingestion_manager.h`,
+`include/ingestion/ingestion_coordinator.h`,
+`include/ingestion/workflow_engine.h`, `include/ingestion/ingestion_sinks.h`,
+`src/ingestion/ingestion_manager.cpp`, and
+`src/ingestion/ingestion_coordinator.cpp`. Focused behavior tests are registered
+through `tests/ingestion/CMakeLists.txt`; see [`MODULE_GUIDE.md`](./MODULE_GUIDE.md).
 
-## Module Dependencies
+## Non-goals
 
-### Direct Upstream Dependencies (this module uses)
-| Module | Interface / File | Purpose |
-|--------|-----------------|---------|
-| storage | `include/storage/` | Persists ingested records and checkpoint state |
-| content | `include/content/` | Hands off raw streams for content classification and extraction |
-| utils | `include/utils/` | Logging, rate-limiting, serialisation, and thread services |
-
-### Direct Downstream Consumers (modules that use this module)
-| Module | Via | Notes |
-|--------|-----|-------|
-| server | `server/ingestion_manager.h` | Exposes ingestion start/stop/status APIs to the server layer |
-| rag | `include/ingestion/` (base_entity, ingestion_sinks) | RAG module registers ingestion sinks to receive entity-level documents for indexing |
-
-## Integration Points
-
-### Critical Integration: Storage Checkpointing
-**Files:** `src/ingestion/ingestion_coordinator.cpp` ↔ `storage/`
-**Contract:** Ingestion coordinator writes checkpoint state to storage after each successful batch; checkpoint reads must be idempotent for restart safety.
-**Thread Safety:** Checkpoint writes are serialised per-source; concurrent source coordinators write to independent checkpoint keys.
-
-### Critical Integration: RAG Ingestion Sinks
-**Files:** `src/ingestion/ingestion_manager.cpp` ↔ `rag/ingestion_sinks`
-**Contract:** RAG registers `IngestionSink` callbacks; ingestion manager calls sinks in delivery order; sinks must not block the pipeline thread.
-**Thread Safety:** Sink callbacks are invoked on the pipeline thread; sinks requiring async work must dispatch internally.
-
-### Critical Integration: Server Ingestion Manager
-**Files:** `server/ingestion_manager.h` ↔ `include/ingestion/`
-**Contract:** Server controls ingestion run lifecycle (start/pause/stop/status) via public ingestion API; underlying connector state is opaque to the server.
-**Thread Safety:** Lifecycle methods are serialised under an internal run-state mutex.
+- This architecture page does not certify durability, end-to-end atomicity,
+  production capacity, or shared multi-host checkpoint behavior.
+- It does not claim that every successful report resulted in persisted data.
+- It does not establish server/RAG call sites or integration ownership without
+  caller-side source evidence.

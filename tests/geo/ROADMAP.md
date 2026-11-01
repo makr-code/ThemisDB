@@ -1,52 +1,31 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+# Geo test roadmap
 
-# ROADMAP
+## Current registration
 
-## Current Status
-- [~] Modul `tests/geo` dokumentiert; Backlog für weitere Härtung und Ausbau wird gepflegt.
+`tests/geo/CMakeLists.txt` generates
+focused test targets and CTest entries from `test_*.cpp`; prefix-matched
+`test_geo_*.cpp` files are also considered by a second registration loop.
+Source presence and registration do not establish that a test passed.
 
-## In Progress
-- [ ] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q2)
+The current source inventory includes geometry/parsing, CPU/GPU backend,
+index/cursor, join/filter, clustering, raster, temporal-spatial, tile, and
+server integration suites. Consult each test for concrete coverage and
+environment requirements.
 
-## Planned Features
-- [ ] Schnittstellen und Verantwortlichkeiten präzisieren (Target: 2026-Q3)
-- [ ] Testabdeckung für kritische Pfade erweitern (Target: 2026-Q3)
-- [ ] Betriebs- und Security-Härtung abschließen (Target: 2026-Q4)
+## Follow-up coverage
 
-## Implementation Phases
-### Phase 1: Design / API-Vertrag
-- [ ] Öffentliche und interne Interfaces des Moduls konsolidieren (Target: 2026-Q2)
-- [ ] Eingabe-/Ausgabeverträge und Fehlermodelle festlegen (Target: 2026-Q2)
+- [ ] Add a focused `GeoFaissKnn` test covering point filtering, original input
+  index mapping, search ordering, and CPU/GPU selection. No corresponding
+  `test_geo_faiss_knn.cpp` exists in the current test directory. **TODO:** assign
+  an implementation issue and owner before scheduling.
+- [ ] Record fresh results only after building/running the relevant focused
+  target in the intended backend configuration. Do not copy historical results
+  into current validation status.
 
-### Phase 2: Core-Implementierung
-- [ ] Kernlogik gemäß Schnittstellenvertrag vervollständigen (Target: 2026-Q3)
-- [ ] Integrationspunkte zu abhängigen Modulen stabilisieren (Target: 2026-Q3)
+Runtime feature status and implementation plans are maintained in
+`src/geo/ROADMAP.md`.
 
-### Phase 3: Fehlerbehandlung & Edge Cases
-- [ ] Fehlerfälle systematisch abdecken (Target: 2026-Q3)
-- [ ] Edge-Case-Handling und Guardrails ergänzen (Target: 2026-Q3)
+---
 
-### Phase 4: Tests
-- [ ] Unit-Tests für Kernpfade ausbauen (Target: 2026-Q3)
-- [ ] Integrations- und Regressionstests ergänzen (Target: 2026-Q3)
-
-### Phase 5: Performance/Hardening
-- [ ] Performance-Bottlenecks messen und reduzieren (Target: 2026-Q4)
-- [ ] Security- und Reliability-Hardening abschließen (Target: 2026-Q4)
-
-### Phase 6: Dokumentation & Abnahme
-- [ ] Betriebs- und Entwicklerdokumentation aktualisieren (Target: 2026-Q4)
-- [ ] Modulabnahme anhand Checklisten und Akzeptanzkriterien durchführen (Target: 2026-Q4)
-
-## Production Readiness Checklist
-- [ ] Definierte Fehlersemantik und Recovery-Pfade
-- [ ] Ausreichende Testabdeckung inkl. Regression
-- [ ] Security-Review und Dependency-Checks abgeschlossen
-- [ ] Monitoring/Observability-Anforderungen erfüllt
-- [ ] Dokumentation für Betrieb und Entwicklung vollständig
-
-## Known Issues & Limitations
-- [!] Detailtiefe der Modul-spezifischen Akzeptanzkriterien variiert und wird sukzessive geschärft.
-
-## Breaking Changes
-- Keine bekannten Breaking Changes dokumentiert.
+**AI_Used:** true · **AI_Models:** unknown · **AI_Contributor:** GitHub Copilot coding agent · **Human_Review:** false · **Human_Author:** ThemisDB Contributors
+Exact model backend not verifiable from final document text alone.

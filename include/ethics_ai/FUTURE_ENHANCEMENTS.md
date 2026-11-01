@@ -1,6 +1,20 @@
+---
+Author: ThemisDB Team
+Created: 2026-06-01
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | header inventory reviewed: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/ethics_ai/FUTURE_ENHANCEMENTS.md -->
 
 # Ethics AI Module — Public Header Future Enhancements
@@ -29,9 +43,9 @@ Planned enhancements to the **public header contract** in `include/ethics_ai/`. 
 
 ## Required Interfaces (Header Contract)
 
-Current public surfaces cover: multi-school ethical reasoning, argument synthesis, discourse memory, profile registry, and LLM cascade routing.
+Current public headers also declare LDM helper APIs (`DiscourseOrchestrator`, `MetaVerdictBuilder`, and `MirrorSchoolHandler`). Their declaration does not mean they are wired to production inference; see `../../src/ethics_ai/ARCHITECTURE.md`.
 
-Planned extensions follow the same namespace (`themis::ethics_ai`) and include-guard conventions.
+Planned extensions follow the namespace used by current headers (`themis::plugins::ethics`) and the existing include-guard conventions.
 
 ---
 
@@ -59,5 +73,5 @@ Planned extensions follow the same namespace (`themis::ethics_ai`) and include-g
 
 ## Alignment with Strategic Plan
 
-Enhancements align with `FUTURE_PLAN.md` layer **LLM**. For cross-layer integration planning see:
+The module is labeled as an LLM-layer interface in its module documentation. The previously referenced `FUTURE_PLAN.md` is not present at the repository root or in this directory. For cross-layer integration planning see:
 → [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)

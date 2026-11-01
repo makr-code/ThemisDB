@@ -4,6 +4,21 @@
 <!-- Scope: 628 verified gaps across backpressure, ordering, schema enforcement -->
 <!-- Wave Context: Wave B (Performance Consolidation Q3-Q4 2026) — Throughput + Latency Gates + Backpressure Reliability -->
 
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
+
+> **Historical Batch 5 snapshot (2026-08-14):** counts, percentages, blocker
+> labels, and proposed thresholds below are not current implementation evidence.
+> In particular, do not treat its "remaining actions" as the active gap list.
+> Verify behavior against current headers, implementation, tests, and benchmark
+> sources; see [`ROADMAP.md`](./ROADMAP.md) and
+> [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md).
+
 ## Executive Summary
 
 **Total Gaps:** 628 (scanner output) → **Verified: ~498 gaps** after L0.5 verification

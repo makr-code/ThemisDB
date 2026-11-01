@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-01"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -25,11 +25,12 @@ Use this runbook for incidents in `AutoFailoverManager` and `DisasterRecoveryMan
 3. Preserve the current topology and quorum-log evidence. If `quorum_log_path` is configured, confirm the log can be read and appended.
 4. Use the deployment's authenticated admin control surface. The manager APIs are not a shell command interface.
 
-The current built-in implementation does not activate a configured spare or
-write updated cluster metadata. Its DR restore and traffic-shift steps report
-success without calling storage or traffic-management adapters. Confirm those
-external actions independently; a successful manager result alone does not
-prove that a restore or cutover occurred.
+The current implementation does not activate a configured spare or persist
+cluster metadata; these failures now block overall failover completion. A
+non-dry-run DR plan also fails if snapshot, restore, replication-position,
+traffic-shift, or recovered-state hooks are missing. Confirm that configured
+hooks perform and verify their external actions before relying on a successful
+manager result.
 
 ## Incident procedures
 
@@ -50,7 +51,7 @@ prove that a restore or cutover occurred.
 2. Check whether an existing failover is progressing and whether its target remains healthy.
 3. Restore the dependency causing slow processing. Retry only after queue pressure clears and the failed-node/topology state is revalidated.
 
-The default configuration allows two concurrent failovers and emits queue pressure at 75% of that configured limit. Do not increase limits during an incident without the failover owner: concurrency can increase the promotion blast radius.
+The default configuration allows two pending failover requests and emits queue pressure at 75% of that configured limit. The current worker processes queued requests serially, so this setting bounds backlog rather than simultaneous promotion operations. Do not increase the limit during an incident without the failover owner; a larger backlog can leave stale requests queued.
 
 ### Quorum, fencing, or promotion failure
 

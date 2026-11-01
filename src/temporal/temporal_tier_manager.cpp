@@ -191,11 +191,6 @@ std::optional<VersionedDocument>
 TemporalTierManager::getAsOf(const std::string& table_name,
                               const std::string& doc_key,
                               Timestamp as_of) const {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock lk(mutex_);
 
     // 1. Hot tier — O(log h): upper_bound(as_of) then step back
@@ -248,11 +243,6 @@ TemporalTierManager::getAsOf(const std::string& table_name,
 std::vector<VersionedDocument>
 TemporalTierManager::getHistory(const std::string& table_name,
                                  const std::string& doc_key) const {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock lk(mutex_);
     std::vector<VersionedDocument> result;
 
@@ -303,11 +293,6 @@ std::vector<VersionedDocument>
 TemporalTierManager::getHistoryInRange(const std::string& table_name,
                                         const std::string& doc_key,
                                         const TimeRange& range) const {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock lk(mutex_);
     std::vector<VersionedDocument> result;
 
@@ -521,11 +506,6 @@ void TemporalTierManager::compactionLoop() {
 TemporalTierManager::KeyTierStats
 TemporalTierManager::keyStats(const std::string& table_name,
                                const std::string& doc_key) const {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock lk(mutex_);
     KeyTierStats s = {};
 
@@ -549,11 +529,6 @@ TemporalTierManager::keyStats(const std::string& table_name,
 
 TemporalTierManager::TableTierStats
 TemporalTierManager::tableStats(const std::string& table_name) const {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock lk(mutex_);
     TableTierStats s;
     s.flush_hot_to_warm_count  = stat_flush_hot_warm_.load();

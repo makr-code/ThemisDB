@@ -1,32 +1,56 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
+
+> Exact model backend not verifiable from final document text alone.
 
 # Ingestion in ThemisDB
 
 ## Ueberblick
-Production-capable data ingestion paths providing batch/streaming entry points, backpressure and flow control, ordering guarantees, and schema validation/enforcement for ThemisDB. Batch 5 enhancement focus: Backpressure determinism, ordering guarantee reliability, schema enforcement under sustained load. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+Das Modul bietet konfigurierbare Connectoren, Manager-Orchestrierung,
+optionale Workflow-Ausfuehrung und Validierungs-/Quarantaene-Funktionen. Es ist
+eine Entwickler-Capability-Uebersicht, keine Zusicherung von Produktionsreife,
+Persistenz, globalem Ordering oder garantierter Backpressure. Siehe
+[Architektur](./ARCHITECTURE.md), [API](./API.md),
+[Implementierung](./IMPLEMENTATION.md) und
+[Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md).
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **central ingestion orchestration and source lifecycle**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+## Kernfaehigkeiten und Grenzen
 
-Die zweite Kernfaehigkeit ist **parallel/distributed ingestion coordination**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+- `IngestionBuilder` konfiguriert Quellen und baut einen `IngestionManager`;
+  dieser liefert `IngestionStats`/`IngestionReport` mit strukturierten
+  Ergebnissen. Berichte koennen Teilerfolge enthalten.
+- `WorkflowEngine` verarbeitet geordnete Schritte auf einem
+  `ExtractionContext`; das Resultat wird nicht automatisch in jedem
+  Ausfuehrungspfad persistiert.
+- `IngestionCoordinator` bietet Worker-Partitionierung und Report-Aggregation.
+  Dauerhafte oder prozessuebergreifende Koordination ist nicht durch die
+  in-memory Defaults belegt.
+- Sink-Interfaces kapseln Ausgabepfade, muessen aber explizit verdrahtet sein.
+- Schema-Feldregeln fuer JSON sind keine universelle Schema-Pruefung fuer alle
+  Dokumentformate.
 
-Die dritte Kernfaehigkeit ist **sink-layer output behavior**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+## Quellen und Freigabegrenze
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Ingestion Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
-
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
+Die aktuelle API ist in `include/ingestion/` definiert; die Implementierungen
+und focused tests sind unter `src/ingestion/` und `tests/ingestion/`. Diese
+Uebersicht ersetzt keine connector-spezifische Pruefung oder
+deploymentbezogene Freigabe. Alte Batch- und Scannerwerte sind historische
+Snapshots.
 
 ## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/ingestion/README.md](./../../docs/ingestion/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+Kanonische Quellen: [`include/ingestion/ingestion_manager.h`](../../include/ingestion/ingestion_manager.h),
+[`include/ingestion/workflow_engine.h`](../../include/ingestion/workflow_engine.h),
+[`include/ingestion/ingestion_coordinator.h`](../../include/ingestion/ingestion_coordinator.h),
+[`include/ingestion/ingestion_sinks.h`](../../include/ingestion/ingestion_sinks.h)
+und die korrespondierenden `.cpp`-Dateien. Weiterfuehrend:
+[ROADMAP](./ROADMAP.md), [FUTURE_ENHANCEMENTS](./FUTURE_ENHANCEMENTS.md),
+[SECURITY](./SECURITY.md).

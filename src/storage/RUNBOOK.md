@@ -1,145 +1,91 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-19"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "../../include/storage/storage_engine.h"
+  - "../../include/storage/mvcc_store.h"
+  - "../../include/storage/wal_storage.h"
+  - "../../include/storage/backup_manager.h"
+  - "storage_engine.cpp"
+  - "mvcc_store.cpp"
+  - "wal_storage.cpp"
+  - "../../tests/storage/CMakeLists.txt"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
 
-AI-assisted drafting for this document was performed with MAI-Code-1.1-Flash in the current task session.
+Exact model backend not verifiable from final document text alone.
 
-# Storage Runbook
+# Storage troubleshooting notes
 
-## Purpose
+These are triage recommendations, not a recovery procedure certified for every
+deployment. Preserve evidence and follow the deployment's tested backup/restore
+procedure. Do not manually replay logs, delete files, or rebuild indexes/caches
+based only on this guide.
 
-This runbook is for operators and maintainers responding to storage failures in ThemisDB. It focuses on the concrete failure paths present in the source: WAL write or fsync failure, MVCC inconsistency, recovery regression, backup corruption, tiering failure, and production-config misdeployment.
+## Initial triage
 
-## Quick diagnosis checklist
+1. Record the exact component, operation, error/result, configuration, and
+   affected database path.
+2. Preserve relevant logs, WAL segments, manifests, and backup artifacts before
+   cleanup or restore attempts.
+3. Determine whether the report concerns RocksDB through `StorageEngine`,
+   `MVCCStore`, the standalone `WALStorage`, backup/PITR, or tiered/blob
+   storage. These are distinct APIs.
+4. If data integrity or write durability is uncertain, stop writes according
+   to the deployment incident process and escalate to the storage owner.
 
-1. Confirm whether the issue is at the write, recovery, or maintenance boundary.
-2. Check storage log output for explicit `StorageErrorContext` or recovery diagnostics.
-3. Determine whether the problem is local persistence, remote backup transport, or maintenance logic.
-4. If production startup fails, verify that no insecure default backend is being used.
-5. If a backup or PITR operation fails, verify the manifest, codec, and crypto prerequisites.
+## Component-specific checks
 
-## Scenario 1: WAL write or fsync failure
+### Engine open/read/write failure
 
-### Symptoms
+Check `StorageEngine::open()` results, the database path, and the dependency
+configuration. In production mode, the implementation rejects a null index
+manager and default no-op encryption/key-provider dependencies are not
+production-safe. See `storage_engine.cpp` and
+`tests/storage/test_storage_engine_prod.cpp`.
 
-- writes are acknowledged but recovery detects incomplete durable records,
-- logs show storage write or fsync errors,
-- the database becomes unavailable after a crash or restart.
+### MVCC read discrepancy
 
-### Diagnosis
+Capture the logical key and read timestamp; distinguish `getLatest()` from
+`getAtTimestamp()`. Check the encoded key/history and the corresponding focused
+tests before attempting any data repair. The current API does not expose a
+documented operator command to rebuild its in-memory latest-version cache.
 
-Check the storage log output near the write path and confirm whether the failure occurred before or after the WAL flush completed.
+### Standalone WAL failure
 
-### Recovery
+Check the `WALStorage` result, configured directory, segment files, and
+`fsync_on_write` setting. Do not infer this component's use from
+`StorageEngine::open()`; it enables RocksDB's WAL separately. Replay is driven
+by the `WALStorage::open()` recovery callback.
 
-1. stop write traffic,
-2. restore the last known-good checkpoint or backup,
-3. replay the WAL only after verifying that the log integrity is intact,
-4. restart writes after successful recovery validation.
+### Backup/PITR or blob failure
 
-### Prevention
+Retain the manifest and payloads, and inspect the specific backup/restore
+result, required codecs/crypto options, and provider configuration. Use the
+deployment's verified restore process; this guide does not establish a
+restore-time bound, retention policy, or safe in-place recovery sequence.
 
-- keep WAL write and fsync paths validated under crash simulations,
-- ensure the storage filesystem path remains writable and consistent,
-- avoid silent fallback to an unreliable local backend.
+### Tiering/maintenance issue
 
-## Scenario 2: MVCC read inconsistency
+Record tier configuration, key/tier metadata, worker state, and returned
+operation outcomes. Do not promise that migration is transparent or has a
+particular latency without deployment-specific test evidence.
 
-### Symptoms
+## Validation and escalation
 
-- reads return version churn or stale data,
-- historical snapshots cannot be resolved as expected,
-- the latest-version cache appears to regress.
+Use the matching tests registered in `tests/storage/CMakeLists.txt` and the
+current operator procedure for the deployment. Escalate unresolved data
+integrity, replay, restore, or production dependency failures; do not resume
+normal writes until the responsible owner confirms a safe recovery state.
 
-### Diagnosis
-
-Examine the versioned key encoding and timestamp ordering in `mvcc_store.cpp`, especially the latest timestamp update path.
-
-### Recovery
-
-1. pause writes,
-2. rebuild or rehydrate the latest-version cache from the versioned key history,
-3. verify reads against a known-good snapshot,
-4. resume writes only after consistency checks pass.
-
-## Scenario 3: Recovery or PITR failure
-
-### Symptoms
-
-- backup restore is rejected,
-- PITR targets cannot be reconstructed,
-- the module fails startup or recovery after a crash.
-
-### Diagnosis
-
-Check whether the failure is caused by:
-
-- missing codec support,
-- missing crypto backend support,
-- invalid manifest structure,
-- corrupted or partial payload objects.
-
-### Recovery
-
-1. verify the manifest and payloads are complete,
-2. confirm the restore target is consistent with available storage snapshots,
-3. reject partial restore attempts rather than continuing silently,
-4. recover from a known-good backup if the latest snapshot cannot be validated.
-
-## Scenario 4: Storage pressure or compaction stall
-
-### Symptoms
-
-- writes slow dramatically,
-- compaction or maintenance stalls,
-- storage audit logs show stress or capacity warnings.
-
-### Diagnosis
-
-Review the storage pressure and compaction diagnostics and confirm whether the runtime is exhausting the configured disk or tier thresholds.
-
-### Recovery
-
-1. inspect storage pressure logs and free space,
-2. verify tiering thresholds and migration policies,
-3. reduce write load or repair the failing tier backend,
-4. resume normal operation only after compaction and pressure metrics return to expected ranges.
-
-## Scenario 5: Production misconfiguration
-
-### Symptoms
-
-- storage service starts with default or insecure implementations,
-- the service uses no-op encryption or missing key providers,
-- the startup logs explicitly warn or throw about insecure defaults.
-
-### Diagnosis
-
-Review the dependency wiring for the storage engine. Production mode must not use default insecure helpers.
-
-### Recovery
-
-1. replace the default dependency with the correct implementation,
-2. re-run startup validation,
-3. verify the dependency is active and configured before resuming the workload.
-
-## Escalation guidance
-
-Escalate to the storage maintainer or release owner when:
-
-- WAL, recovery, or PITR remains inconsistent after a clean restore attempt,
-- integrity checks fail repeatedly,
-- storage pressure or compaction issues reoccur across more than one recovery cycle,
-- a change to storage config alters the durability contract.
-
-## Rollback policy
-
-Rollback is appropriate only when the issue is configuration-driven or caused by a recent storage change. Before rolling back, verify that the previous configuration will not silently reintroduce unsafe fallback behavior. Recovery, manifest integrity, and data durability checks must remain green before the system is returned to steady state.
+See [`OPERATIONS.md`](OPERATIONS.md), [`SECURITY.md`](SECURITY.md), and
+[`TRUST.md`](TRUST.md).

@@ -1,4 +1,26 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-18"
+Last Updated: "2026-11-01"
+Status: "historical"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # RAG Module Phase 5-6 Acceptance Report
+
+> **Historical report only:** The completion, production-readiness, and
+> performance-validation statements below are dated claims from 2026-08-18.
+> This checkout does not contain attached benchmark results or full evaluation
+> corpora to reproduce them. Benchmark executables are now conditionally
+> registered in the root `benchmarks/CMakeLists.txt`; registration alone does
+> not verify the listed gates. See `GATE_VERIFICATION_FRAMEWORK.md` for current
+> evidence limits.
 
 **Date:** 2026-08-18  
 **Status:** In Progress → Production-Ready  

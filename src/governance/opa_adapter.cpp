@@ -14,7 +14,6 @@
 #include <atomic>
 #include <chrono>
 #include <curl/curl.h>
-#include <filesystem>
 #include <mutex>
 #include <nlohmann/json.hpp>
 #include <stdexcept>
@@ -203,14 +202,10 @@ std::optional<PolicyDecision> OpaAdapter::parseOpaResponse(const std::string &re
 
 std::optional<PolicyDecision> OpaAdapter::evaluate(const std::unordered_map<std::string, std::string> &headers,
                                                    const std::string &route) const {
-    // WASM evaluation path (tried first when mode == WASM)
+    // Explicit WASM mode must never silently use REST (or native) as a
+    // substitute: that would evaluate a different policy source than selected.
     if (config_.mode == Config::EvalMode::WASM) {
-        auto wasm_result = evaluateWasm(headers, route);
-        if (wasm_result.has_value()) {
-            return wasm_result;
-        }
-        // WASM failed — fall through to REST
-        ++governance_opa_wasm_eval_wasm_fallback;
+        return evaluateWasm(headers, route);
     }
 
     const std::string url  = buildUrl();
@@ -355,65 +350,43 @@ std::optional<PolicyDecision> OpaAdapter::evaluate(const std::unordered_map<std:
     }
 }
 
-// STUB/SIMULATION NOTE:
-// Purpose: WASM-based OPA bundle evaluation without an OPA sidecar.
-//   Loads a pre-compiled OPA bundle (.wasm) and evaluates it locally.
-// Activation: Config::mode == EvalMode::WASM and wasm_bundle_path is set.
-//   Gated by THEMIS_ENABLE_OPA_WASM build flag for real WASM runtime linkage.
-//   When a WasmEvalFn is injected via setWasmEvalFn(), it is called first and
-//   bypasses the built-in stub path entirely.
-// Production Delta: Without an injected WasmEvalFn and without
-//   THEMIS_ENABLE_OPA_WASM, this stub checks only that the bundle file exists,
-//   then returns a permissive PolicyDecision. A real implementation would invoke
-//   a WASM runtime (e.g. wasmer/wasmtime) to evaluate the Rego bundle.
-// Roadmap ref: src/governance/ROADMAP.md § "OPA WASM Evaluation"
-//              src/governance/FUTURE_ENHANCEMENTS.md § "OPA WASM Evaluation"
-// Removal Plan: Replace with actual WASM runtime call when
-//   a WASM runtime dependency is approved and fail-closed behavior is verified.
-//   Release target: unverified; maintainer confirmation is required.
 std::optional<PolicyDecision> OpaAdapter::evaluateWasm(const std::unordered_map<std::string, std::string> &headers,
                                                        const std::string &route) const {
-    // Injected evaluator takes priority over the built-in stub.
+    const auto fail_closed = [] {
+        PolicyDecision decision;
+        decision.classification = "streng-geheim";
+        decision.mode = "enforce";
+        decision.encrypt_logs = true;
+        decision.redaction = "strict";
+        decision.ann_allowed = false;
+        decision.require_content_encryption = true;
+        decision.export_allowed = false;
+        decision.cache_allowed = false;
+        decision.retention_days = 7;
+        return decision;
+    };
+
+    // An injected evaluator is the only supported local WASM execution path.
     if (wasm_eval_fn_) {
-        auto result = wasm_eval_fn_(headers, route);
+        std::optional<PolicyDecision> result;
+        try {
+            result = wasm_eval_fn_(headers, route);
+        } catch (...) {
+            result = std::nullopt;
+        }
         if (result.has_value()) {
             ++governance_opa_wasm_eval_wasm_success;
-        } else {
-            ++governance_opa_wasm_eval_wasm_fallback;
+            return result;
         }
-        return result;
+        ++governance_opa_wasm_eval_wasm_fallback;
+        return fail_closed();
     }
 
-#ifdef THEMIS_ENABLE_OPA_WASM
-    // Real WASM evaluation path (not yet implemented — requires WASM runtime linkage)
-    // Fall through to REST
+    // Bundle presence does not establish that its contents were evaluated.
+    // Return an explicit deny so PolicyEngine cannot turn nullopt into a
+    // native-policy fallback that bypasses the selected WASM mode.
     ++governance_opa_wasm_eval_wasm_fallback;
-    return std::nullopt;
-#else
-    // Check that the bundle file exists before returning stub result
-    if (config_.wasm_bundle_path.empty()) {
-        ++governance_opa_wasm_eval_wasm_fallback;
-        return std::nullopt;
-    }
-    if (!std::filesystem::exists(config_.wasm_bundle_path)) {
-        ++governance_opa_wasm_eval_wasm_fallback;
-        return std::nullopt;
-    }
-
-    // Stub: bundle exists — return permissive PolicyDecision
-    ++governance_opa_wasm_eval_wasm_success;
-    PolicyDecision d;
-    d.classification             = "offen";
-    d.mode                       = "observe";
-    d.encrypt_logs               = false;
-    d.redaction                  = "none";
-    d.ann_allowed                = true;
-    d.require_content_encryption = false;
-    d.export_allowed             = true;
-    d.cache_allowed              = true;
-    d.retention_days             = 365;
-    return d;
-#endif
+    return fail_closed();
 }
 
 } // namespace governance

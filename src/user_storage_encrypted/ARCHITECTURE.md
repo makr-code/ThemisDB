@@ -1,61 +1,87 @@
-# Architecture - User Storage Encrypted Module
-
-<!-- Status: current | validated: 2026-08-08 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
-
-## Overview
-
-The user_storage_encrypted module combines encrypted mount lifecycle control, per-container key derivation, scheduled key rotation, and multi-tier encrypted storage coordination into a bounded plugin subsystem.
-
-## Main Execution Planes
-
-1. Backend plane
-- gocryptfs backend initialization, availability checks, mount-state inspection, mount, and unmount behavior
-
-2. Key-management plane
-- key derivation behavior and rotation scheduling by security level
-
-3. Tier-orchestration plane
-- HOT/WARM/COLD encrypted storage coordination and lifecycle behavior
-
-## Core Contracts
-
-| Contract | Behavior |
-|---|---|
-| backend contract | explicit mount lifecycle and availability behavior |
-| key contract | bounded derivation and rotation behavior |
-| orchestration contract | deterministic tier coordination and storage-level transitions |
-
-## Failure Semantics
-
-- missing host support or backend failures surface through explicit backend errors.
-- key derivation and rotation faults remain observable and non-silent.
-- tier-orchestration failures remain bounded to configured storage levels.
-
-## Sourcecode Verification (Module: user_storage_encrypted/architecture)
-
-- Verified files:
-  - src/user_storage_encrypted/gocryptfs_backend.cpp
-  - src/user_storage_encrypted/key_derivation_service.cpp
-  - src/user_storage_encrypted/key_rotation_scheduler.cpp
-  - src/user_storage_encrypted/multi_level_storage.cpp
-- Verified architecture claims:
-  - backend, key-management, and orchestration plane split
-  - explicit failure boundaries for backend and scheduler behavior
-  - module-local ownership of encrypted storage lifecycle behavior
+---
+Author: ThemisDB Contributors
+Created: 2026-08-08
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
 ---
 
-### Direct Downstream Consumers (modules that use this module)
+# Architecture - User Storage Encrypted Module
 
-> **Production consumer route: INTEGRATION-READY (plugin host + HTTP handler)**
-> Handler header `include/server/encrypted_storage_api_handler.h` has been created
-> as the production HTTP consumer route. The module is built as an opt-in plugin
-> target via `THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED`. Wiring
-> `EncryptedStorageApiHandler` into `HttpServer` and the plugin host are the
-> remaining steps.
+Exact model backend not verifiable from final document text alone.
 
-| Module | Via | Notes |
-|--------|-----|-------|
-| `server` | `include/server/encrypted_storage_api_handler.h` → `EncryptedStorageApiHandler` | Planned HTTP routes: `POST /user/storage/encrypted/store`, `GET /user/storage/encrypted/retrieve/{key}`, `DELETE /user/storage/encrypted/{key}`, `GET /user/storage/encrypted/list`, `POST /user/storage/encrypted/rotate`. Gate: `THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED`. Handler header implemented; `HttpServer` wiring pending. |
-| `plugin_host` | CMake flag `THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED` → `MultiLevelEncryptedStorage` plugin registration | Plugin loaded at startup when flag is ON; registers as `IThemisPlugin`. |
-| _(tests)_ | `include/user_storage_encrypted/multi_level_storage.hpp`, `gocryptfs_backend.hpp`, etc. | `tests/test_user_storage_v03.cpp`, `tests/test_kdf_argon2_bridge.cpp` — current only verified consumers. |
+## Runtime components
+
+`MultiLevelEncryptedStorage` parses and validates level configuration, chooses
+a key provider, constructs a `GocryptfsBackend`, and initializes/mounts each
+configured encrypted level. Plain levels use their configured filesystem path.
+User and group records are JSON files beneath the selected level's `users/` and
+`groups/` directories.
+
+The backend validates container/mount paths, manages gocryptfs lifecycle
+commands, and sends key bytes to the child process through stdin on supported
+POSIX builds. `Argon2idKeyDerivationService` can be supplied when directly
+constructing a backend; the multi-level plugin currently constructs the
+backend without a KDF service.
+
+`KeyRotationScheduler` is a separate API with one automatic polling thread and
+an optional rotation-state store. `triggerRotation()` is a manual callback
+invocation on the caller's thread; it does not call
+`MultiLevelEncryptedStorage::rotateKey()`. The orchestrator parses rotation
+configuration but does not instantiate the scheduler or wire its callbacks.
+Its `rotateKey(level)` method is a separate explicit provider/container
+operation, and the implementation does not establish transactional rotation.
+See [API contract comparison](API.md) for the frozen-header guarantees and
+source-by-source discrepancies.
+
+## Configuration and dataflow
+
+The implemented configuration root is `multi_level_storage`, containing a
+`levels` array. Plain levels require `name`, `encrypted: false`, and `path`.
+Encrypted levels require `name`, `encrypted: true`, `encrypted_dir`,
+`mount_point`, and `encryption.key_id`; provider settings are read from the
+nested `encryption` object. The shipped example is
+`plugins/user_storage_encrypted/config/storage_config.yaml.example`.
+
+At startup the plugin parses and validates configuration, attempts stale-mount
+reconciliation, then initializes configured levels. Encrypted level
+initialization probes gocryptfs/FUSE, resolves a provider, creates a container
+when its gocryptfs config file is absent, and mounts it. The startup
+reconciliation code is Linux-specific; failed cleanup is non-fatal and does
+not prove that the resulting mount state is healthy.
+
+## Health, errors, and metrics
+
+`checkLevelHealth()` verifies that an encrypted level has an initialized
+backend and appears mounted; it does not re-check provider health, key
+retrieval, or scheduler state. `getMetricsText()` emits mount, rotation, and
+container-size metric families, but the current implementation does not update
+the container-size gauge. The scheduler callback contract also does not
+propagate callback exceptions as failures.
+
+There are two distinct error surfaces: operational methods generally return
+message-bearing `Result<T>` values, while
+`user_storage_encrypted_api_contract.h` declares a separate error enum and
+predicate in `themis::user_storage_encrypted`. Some guarantees in that
+contract's comments are not demonstrated by current implementation behavior;
+see [API.md](API.md).
+
+## Build and optional integration
+
+`THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED` controls the shared-library target
+`themis_user_storage_encrypted`; the option is enabled by default where the
+edition does not disable it. The target installs its public headers and a
+generated plugin manifest. The manifest declares `auto_load: false`; enabling
+the build option alone does not establish that a host loads the plugin.
+Optional HTTP handler compilation/linking is conditional on the HTTP-server
+feature and plugin target; this document does not claim that HTTP routes are
+registered or served.
+
+Focused module tests are defined under `tests/user_storage_encrypted/`.
+Benchmark targets are defined under `benchmarks/user_storage_encrypted/`;
+their actual integration and limitations are documented in the corresponding
+README files.

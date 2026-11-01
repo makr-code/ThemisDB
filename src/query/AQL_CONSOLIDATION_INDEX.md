@@ -1,3 +1,24 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Original creation date was not recorded; this provenance block was first recorded on 2026-10-31.
+> Exact model backend not verifiable from final document text alone.
+
+Source level: 1
+SOT domain: module-behavior
+Canonical references: `ROADMAP.md`, `AQL_V2_0_0_COMPLETE_ROADMAP.md`, `AQL_LLM_INTEGRATION_CONTRACT.md`, `../../tests/query/CMakeLists.txt`, `../../benchmarks/query/CMakeLists.txt`
+Related issue: #7371
+Related milestone: `DOC-WEEKLY-2026-44`
+
 # AQL Feature Consolidation Index
 ## Cross-Module Documentation Reference Guide
 
@@ -16,7 +37,7 @@
 | **Status** | ✅ COMPLETE (2026-07-15, Phases 1-5) | All phases delivered |
 | **Parser** | src/query/aql_parser.cpp | aql_mutation_translator.cpp, aql_mutation_validator.cpp |
 | **Executor** | src/query/mutation_executor.cpp | Transaction coordinator integration |
-| **Tests** | tests/query/test_aql_ddl_phase2.cpp (32+ cases) | Integration tests (40+ additional) |
+| **Tests** | `tests/aql/test_aql_mutations_*.cpp` | Mutation parser, executor, validation, transaction, and phase tests are listed in `tests/aql/CMakeLists.txt`; this index does not claim pass results |
 | **Migration Guide** | (Pending Q4 2026) | Link in AQL_MUTATIONS_ROADMAP.md §Migration |
 
 **Key Decision**: Mutations feature-specific roadmap is canonical. src/aql/ROADMAP.md references this for unified rollout status.
@@ -28,11 +49,11 @@
 | Aspect | Source of Truth | Cross-References |
 |--------|-----------------|------------------|
 | **Roadmap** | src/query/AQL_DDL_ROADMAP.md | src/aql/ROADMAP.md (reference) |
-| **Status** | ✅ COMPLETE (2026-07-22, Phase 1) | Parser + Executor + 32 tests |
+| **Status** | ✅ COMPLETE (2026-07-22, Phases 1–4) | Parser and executor delivered; see feature roadmap for open sign-off items |
 | **Parser** | src/query/aql_parser.cpp (DDL branch) | ddl_executor.cpp |
 | **Executor** | src/query/ddl_executor.cpp | Schema manager integration |
-| **Tests** | tests/query/test_aql_ddl_phase2.cpp | Comprehensive coverage (CREATE/DROP all types) |
-| **Phase 2** | (Pending Q3 2026) | Optimizer hints for DDL statements |
+| **Tests** | `tests/query/test_aql_ddl_phase2.cpp` | Focused target is conditionally registered in `tests/query/CMakeLists.txt` |
+| **Phase 2** | ✅ Delivered (2026-07-22) | DDL roadmap records Phases 1–4 delivered; security audit and migration guide remain open |
 
 **Key Decision**: DDL feature-specific roadmap is canonical. Phase 2 (optimizer hints) will coordinate with Phase 2 Optimizer hardening work.
 
@@ -46,7 +67,7 @@
 | **Status** | ✅ PHASE 1 COMPLETE (2026-07-27) | ST_* functions working in FILTER/SORT/RETURN |
 | **Parser** | src/query/aql_parser.cpp (geospatial) | Geospatial function parsing |
 | **Executor** | src/query/query_engine.cpp::qe_evalFunction | ST_* function implementations |
-| **Tests** | tests/query/test_aql_st_predicates.cpp (26 cases) | Phase 1 validation complete |
+| **Tests** | `tests/aql/test_aql_st_predicates.cpp` (26 cases) | Case count checked against source; CMake registration/run status is not asserted here |
 | **Phase 2** | 📋 PENDING (Target: Q3 2026) | Optimizer hints for spatial index selection |
 | **Phase 3** | 📋 PENDING (Q4 2026) | Advanced spatial operations (buffer, simplify, etc.) |
 
@@ -59,31 +80,31 @@
 | Aspect | Source of Truth | Cross-References |
 |--------|-----------------|------------------|
 | **Roadmap** | src/query/AQL_V2_0_0_COMPLETE_ROADMAP.md §FTS | src/aql/ROADMAP.md (reference) |
-| **Status** | 📋 PENDING (Target: Q3-Q4 2026) | Basic FTS working; phrase/proximity enhancement needed |
+| **Status** | ✅ Parser/executor delivered (2026-09-09) | Module roadmap records phrase/proximity matching and FTS index/scoring wiring as complete; representative-hardware baseline refresh remains open |
 | **Parser** | src/query/aql_parser.cpp (FTS branch) | PHRASE(), PROXIMITY() syntax |
-| **Executor** | src/query/query_engine.cpp + synopsis_store.cpp | FTS query evaluation |
-| **Tests** | (To create) | 40+ test cases (20 phrase, 20 proximity) |
-| **Performance Target** | ≤100ms on 100K documents | Benchmark in tests/query/test_aql_fts_phrase_proximity.cpp |
+| **Executor** | `src/query/fts_executor.cpp`, `src/query/bm25_scorer.cpp`, `src/query/index_cache.cpp` | FTS execution, scoring, and index cache |
+| **Tests** | `tests/query/test_aql_fts_phrase_proximity.cpp`, `tests/query/test_fts_executor.cpp` | AQL phrase/proximity parsing is registered as `FtsPhraseProximityTests`; executor phrase/proximity behavior is covered by the registered `FtsExecutorTests` |
+| **Performance Evidence** | Local benchmark evidence recorded in `src/query/ROADMAP.md` | `benchmarks/rag/bench_fts_phase_b.cpp`; representative-hardware refresh remains open |
 
-**Key Decision**: FTS will be tracked as part of AQL_V2_0_0_COMPLETE_ROADMAP.md. Phase 6 agent will implement phrase/proximity queries.
+**Key Decision**: FTS delivery is tracked in `AQL_V2_0_0_COMPLETE_ROADMAP.md` and `src/query/ROADMAP.md`. The implementation status above is source/roadmap evidence, not a claim that the benchmark was run in this documentation pass.
 
 ---
 
-### 5. LLM Integration (Phases 1-3)
+### 5. LLM Integration (Phases 1-4)
 
 | Aspect | Source of Truth | Cross-References |
 |--------|-----------------|------------------|
-| **Roadmap** | src/query/ROADMAP.md line 22-44 | src/aql/ROADMAP.md (LLM orchestration coordination) |
-| **Status** | ✅ COMPLETE (2026-08-05, Phases 1-3 documentation) | Phase 4 SLA tests pending |
+| **Roadmap** | [`src/query/ROADMAP.md`](ROADMAP.md#in-progress) | src/aql/ROADMAP.md (LLM orchestration coordination) |
+| **Status** | ✅ Phases 1-4 recorded delivered in `src/query/ROADMAP.md` | This index does not independently verify test-run results |
 | **Phase 1: Boundary** | src/query/AQL_LLM_INTEGRATION_CONTRACT.md | Parser validation contract definition |
 | **Phase 2: Metrics** | src/query/AQL_LLM_INTEGRATION_PHASE3_METRICS.md | Comprehensive metrics interpretation |
 | **Phase 3: Documentation** | src/query/AQL_LLM_INTEGRATION_PHASE3_PARSER_CHANGES.md | Parser enhancements explained |
 | **API Contract** | src/query/AQL_LLM_INTEGRATION_PHASE3_API_CONTRACT.md | Public API definition for consumers |
 | **Migration Guide** | docs/aql/AQL_LLM_INTEGRATION_MIGRATION_GUIDE.md | User-facing adoption guide |
 | **Tests** | tests/query/test_aql_llm_integration.cpp (16 test cases) | Integration test suite (Phase 2) |
-| **Performance Tests** | tests/query/test_aql_validation_performance.cpp (8 test cases) | SLA verification (Phase 4, pending build) |
+| **Performance Tests** | `tests/query/test_aql_validation_performance.cpp` | Source exists and the focused registration is conditional in `tests/query/CMakeLists.txt`; execution status is not asserted here |
 
-**Key Decision**: LLM Integration documentation is canonical. Phase 1-3 complete; Phase 4 SLA tests in build verification.
+**Key Decision**: The module roadmap records Phases 1–4 delivered. The implementation and registration references above do not establish that tests passed in this documentation pass.
 
 ---
 

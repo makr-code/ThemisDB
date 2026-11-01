@@ -1,4 +1,23 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-04"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Model_Attribution: "Exact model backend not verifiable from final document text alone."
+AI_Contributor: "themisdb-doc-orchestrator"
+Human_Review: false
+Human_Author: "unknown"
+---
+
 # themis Module - Developer Gap Note
+
+> **Historical scanner snapshot:** This report reflects the scan generated
+> 2026-06-04 from `ai_working\gap_scan_results.json`. Its finding counts,
+> severities, line numbers, and recommendations are not current source
+> validation and must not be used as current defect or release status. No
+> replacement scan was performed for this review.
 
 > Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.

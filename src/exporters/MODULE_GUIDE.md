@@ -1,13 +1,17 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
-AI_Models: "unknown"
+AI_Models: unknown
 AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "include/exporters/streaming_exporter.h; src/exporters/streaming_exporter.cpp; include/exporters/*.h"
+Related: "Issue #7346; DOC-WEEKLY-2026-44"
 ---
 
 # Exporters Module Guide
@@ -20,7 +24,7 @@ Exact model backend not verifiable from final document text alone.
 |---|---|
 | JSONL training records or named prompt/chat shape | `JSONLLLMExporter` and `FormatTemplateType` |
 | Columnar analytical artifact | `ParquetExporter` or `ArrowIPCExporter` |
-| Bounded page-based output and resume state | `StreamingExporter` with an `ExportCursor` |
+| Cursor page-based output and resume state | `StreamingExporter` with an `ExportCursor` |
 | Sequence-based delta output | `IncrementalExporter` and a writable watermark path |
 | Combine two entity sets before output | `JoinExporter`; load the right collection first |
 | Hugging Face directory metadata and dataset card | `HuggingFaceExporter` |
@@ -58,9 +62,10 @@ show JSONL and checkpointed streaming setup.
 
 - A zero `max_file_size_bytes` or throughput limit is unlimited, not a
   conservative bound.
-- Streaming defaults to page size 1,000 and a 256 MiB configured buffer
-  ceiling. Its checkpoint path is optional; without one there is no persisted
-  resume offset.
+- Streaming defaults to page size 1,000 and `max_buffer_bytes` of 256 MiB. The
+  implementation uses that value as a flush trigger, not a cap on total
+  process memory. Its checkpoint path is optional; without one there is no
+  persisted resume offset.
 - Incremental export with an empty watermark path falls back to full-export
   behavior.
 - Join export has a default 1 GiB right-side memory budget; setting the limit

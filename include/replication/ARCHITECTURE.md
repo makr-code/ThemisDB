@@ -1,67 +1,66 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/replication/ARCHITECTURE.md -->
-
-# Replication Module — Public Header Architecture
-
-**Module Path:** `include/replication/`
-**Implementation:** `../../src/replication/`
-**Canonical architecture doc:** [`../../src/replication/ARCHITECTURE.md`](../../src/replication/ARCHITECTURE.md)
-
+---
+Author: ThemisDB Contributors
+Created: 2026-06-01
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: architecture-governance
+Canonical_References:
+  - README.md
+  - replication_manager.h
+  - async_wal_shipper.h
+  - logical_replication.h
+  - replication_slot.h
+  - ../../src/replication/ARCHITECTURE.md
+  - ../../src/replication/
+Related_Issue: "#7373"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
 
-## 1. Overview
+Exact model backend not verifiable from final document text alone.
 
-`include/replication/` defines the **public replication orchestration and data-propagation contract** for ThemisDB. The 13 headers cover leader/follower and multi-writer replication control, conflict resolution, logical replication and CDC, event streams, replication policies, and lag/topology observability.
+# Replication public-header architecture
 
-For runtime composition details — promotion/failover, conflict resolution internals, and observability plumbing — see:
-→ [`../../src/replication/ARCHITECTURE.md`](../../src/replication/ARCHITECTURE.md)
+`include/replication/` declares 18 public interfaces and data types. The corresponding
+runtime directory contains 13 `.cpp` files. Use
+[`../../src/replication/ARCHITECTURE.md`](../../src/replication/ARCHITECTURE.md) for
+the source-backed component flow; this page describes header groupings, not proof that
+all declarations are wired into the same runtime.
 
----
+## Header groups
 
-## 2. Header Groups
+| Group | Headers | Principal declarations |
+|---|---|---|
+| Manager/consensus | `replication_manager.h`, `raft_v2.h` | `ReplicationManager`, `ReplicationConfig`, `WALEntry`, `RaftV2ClusterConfig`, `MembershipChangeManager` |
+| Geographic placement/diagnostics | `geo_placement.h`, `replication_failover_diagnostics.h` | `GeoReplicaPlacementManager`, placement constraints and diagnostic data structures |
+| Logical stream/slots | `logical_replication.h`, `replication_slot.h`, `event_stream.h` | `LogicalReplicationManager`, `ReplicationSlotManager`, `ReplicationSlot`, `ReplicationEventStream` |
+| WAL shipping/lag | `async_wal_shipper.h`, `lag_alert_manager.h` | `AsyncWalShipper`, `WalShippingConfig`, `LagAlertManager`, `SLOThresholds` |
+| Conflict and CRDT | `conflict_resolution.h`, `multi_master_replication.h`, `crdt_types.h` | resolver classes, vector/HLC types, CRDT value types |
+| Policy/tiering/observability | `policy.h`, `multi_tier_replication.h`, `observability.h` | `ReplicationPolicy`, `MultiTierReplicationManager`, `ReplicationObserver` |
+| CDC/integration | `schema_cdc.h`, `kafka_change_stream.h` | `SchemaAwareCDCBridge` and Kafka exporter declarations |
+| Contract | `replication_api_contract.h` | `ReplicationErrorCode` and contract constants |
 
-### 2.1 Core Orchestration
+The headers use the `themisdb::replication` namespace except
+`replication_api_contract.h`, which declares its contract in `themis::replication`.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `replication_manager.h` | `ReplicationManager` | Primary replication lifecycle control |
-| `multi_master_replication.h` / `multi_tier_replication.h` | Multi-writer and tiered types | Alternative topology contracts |
-| `raft_v2.h` | `RaftV2` | Consensus-driven replication state |
-| `policy.h` | `ReplicationPolicy` | Replication policy assignment and validation |
+## Boundaries and implementation evidence
 
-### 2.2 Propagation and CDC
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `logical_replication.h` | `LogicalReplication` | Logical stream publication/consumption |
-| `replication_slot.h` | `ReplicationSlot` | Slot lifecycle and persistence |
-| `event_stream.h` | `ReplicationEventStream` | Replication event delivery |
-| `schema_cdc.h` | `SchemaCDCBridge` | Schema-aware change-data-capture bridge |
-| `kafka_change_stream.h` | `KafkaChangeStream` | Kafka-backed CDC integration |
-
-### 2.3 Conflict Resolution and Observability
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `conflict_resolution.h` | `ConflictResolver` | Conflict-resolution strategy contract |
-| `crdt_types.h` | CRDT value types | Conflict-free merge payloads |
-| `observability.h` | `ReplicationObservability` | Lag, topology, and health snapshots |
-
----
-
-## 3. Namespace Layout
-
-| Namespace | Scope |
-|-----------|-------|
-| `themis::replication` | Replication orchestration, stream, and conflict types |
-
----
-
-## 4. Public Contract Notes
-
-- Replication headers expose explicit promotion, failover, and replication-mode transitions rather than hiding them in storage internals.
-- Logical replication, slot, and CDC headers remain public because embedders may integrate external streaming backends.
-- Conflict resolution contracts are public to support deployment-specific resolver strategies and CRDT payload types.
-- Observability headers provide stable lag/topology diagnostics consumed by operations and admin layers.
+- `ReplicationManager` exposes lifecycle, replication, role/failover, health/quorum,
+  read-preference, and placement-policy methods.
+- `LogicalReplicationManager` and slot APIs expose independent logical-stream and
+  consumer-progress operations.
+- `AsyncWalShipper` accepts a caller-provided transport handler; the header's default
+  handler is a no-op counter, not a network transport.
+- `GeoReplicaPlacementManager` evaluates a topology snapshot and returns a candidate;
+  the caller remains responsible for promotion.
+- No same-named `.cpp` exists under `src/replication/` for
+  `kafka_change_stream.h` or `multi_master_replication.h`. **TODO:** Determine whether
+  their definitions or integrations are supplied elsewhere; do not infer runtime
+  availability from declaration presence alone.
+- C++ config structs do not establish user-facing YAML parser support. See the module
+  README's configuration caveat.

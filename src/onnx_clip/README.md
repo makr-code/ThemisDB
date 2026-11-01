@@ -5,9 +5,17 @@ Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot; ThemisDB documentation orchestration assistant"
 Human_Review: false
 Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_Sources:
+  - "src/onnx_clip/onnx_clip_plugin.h"
+  - "src/onnx_clip/onnx_clip_plugin.cpp"
+  - "src/onnx_clip/CMakeLists.txt"
+  - "include/plugins/image_analysis_interface.h"
+Related_Issue: "#7365"
 ---
 
 Exact model backend not verifiable from final document text alone.
@@ -21,9 +29,9 @@ Exact model backend not verifiable from final document text alone.
 
 # ThemisDB ONNX CLIP Plugin
 
-**Version:** 0.3.0
-**Status:** contract-validated reference implementation
-**Last Updated:** 2026-10-08
+**Plugin metadata version:** 1.0.0
+**Status:** deterministic reference implementation
+**Last Updated:** 2026-10-31
 **Module Path:** `src/onnx_clip/`
 **Namespace:** `themis::plugins::image`
 
@@ -41,7 +49,8 @@ the model label and backend selection do not prove that a model/provider is acti
 ## Subsystem Scope
 
 **In scope:** deterministic vectors derived from raw image bytes or text,
-per-plugin statistics, sequential batch chunking, optional SHA-256 verification,
+per-plugin statistics, sequential batch chunking (not a total request-size
+limit), optional SHA-256 verification,
 dynamic plugin export, and focused contract tests.
 
 **Out of scope:** pretrained CLIP inference, image decoding/preprocessing, a
@@ -91,11 +100,11 @@ contract unless a specific release or audit task requires them.
 |---|---|
 | `onnx_clip_plugin.h` | Public class declaration for `ONNXClipPlugin`, including lifecycle, embedding APIs, stats APIs, and `setModelHashFn()` |
 | `onnx_clip_plugin.cpp` | Deterministic embedding implementation, text tokenization, stats counters, batch splitting, config validation, and optional integrity verification |
-| `CMakeLists.txt` | Module build gating and optional integration points for ONNX Runtime/OpenCV discovery |
+| `CMakeLists.txt` | Creates the shared target when the option is enabled and ONNX Runtime is found; links ONNX Runtime and optionally OpenCV, though the current implementation calls neither API |
 
 ## Public API & Entry Points
 
-- Public header overview: [`../../include/onnx_clip/README.md`](../../include/onnx_clip/README.md)
+- In-tree header/API documentation: [`../../include/onnx_clip/README.md`](../../include/onnx_clip/README.md)
 - Source-local entry point: [`onnx_clip_plugin.h`](./onnx_clip_plugin.h)
 - Dynamic plugin export: `THEMIS_IMAGE_PLUGIN(themis::plugins::image::ONNXClipPlugin)`
 - Key methods:
@@ -215,7 +224,7 @@ target_include_directories(your_target PRIVATE
 
 ## Troubleshooting
 
-- **`AUTO` resolves to CPU**: expected in the current portable implementation; pass an explicit backend enum if the surrounding build/runtime supports a native provider.
+- **A non-CPU backend was requested**: the enum is stored and reported, but does not enable provider inference in the current implementation. `AUTO` resolves to CPU.
 - **Large batches behave sequentially**: the implementation sub-splits the batch by `max_batch_size`; it does not yet use a single native batched ONNX call.
 - **`initialize()` fails when a hash is configured**: verify both `model.path` and `model.expected_sha256`; in non-OpenSSL builds, register `setModelHashFn()` when verification must run.
 - **Embedding calls fail immediately**: call `initialize()` first and check `isReady()` / `healthCheck()`.
@@ -235,7 +244,7 @@ target_include_directories(your_target PRIVATE
 - [`ROADMAP.md`](./ROADMAP.md) — delivery phases and work items
 - [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md) — follow-up implementation work
 - [`SECURITY.md`](./SECURITY.md) — threat model and controls
-- [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md) — benchmark targets
+- [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md) — performance evidence boundary; no validated module results
 - [`AUDIT.md`](./AUDIT.md) — source inventory and focused verification
 - [`../../docs/en/onnx_clip/index.md`](../../docs/en/onnx_clip/index.md) — English secondary overview
 - [`../../docs/de/onnx_clip/index.md`](../../docs/de/onnx_clip/index.md) — German secondary overview

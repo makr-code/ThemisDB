@@ -1,114 +1,84 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "ThemisDB Contributors"
+Related: "Issue #7349"
 ---
 
 Exact model backend not verifiable from final document text alone.
 
 # ThemisDB Governance Module
 
-<!-- Status: current | validated: 2026-07-18 -->
-<!-- Validation Cycle: 2026-07-18 synchronization complete (Issue #5647) -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+## Purpose
 
-## Module Purpose
+The module contains policy evaluation and lifecycle APIs, compliance rules and
+reporting, data-governance controls, audit-related utilities, and OPA integration.
+Its public declarations are under `include/governance/`; implementation is under
+`src/governance/`. Returned policy/control decisions require enforcement by
+consuming callers.
 
-The governance module provides policy enforcement and compliance governance runtime surfaces for ThemisDB, including policy evaluation, masking, lineage, compliance rules/reporting, policy lifecycle/versioning, and OPA integration.
+## Implementation inventory
 
-## Relevant Interfaces
+The current top-level source set contains 35 `.cpp` files:
 
-| Interface / File | Role |
+`audit_batch_writer.cpp`, `ccpa_rules.cpp`, `compliance_framework.cpp`,
+`compliance_mapping.cpp`, `compliance_reporter.cpp`, `compliance_reporting.cpp`,
+`compliance_validator.cpp`, `cross_border_transfer.cpp`,
+`cross_tenant_policy_inheritance.cpp`, `data_lineage.cpp`, `data_masker.cpp`,
+`gdpr_subject_rights.cpp`, `governance_audit_integrity.cpp`,
+`governance_diagnostics.cpp`, `hipaa_rules.cpp`, `iso27001_rules.cpp`,
+`model_governance.cpp`, `opa_adapter.cpp`, `operational_audit.cpp`,
+`pci_dss_rules.cpp`, `policy_approval_workflow.cpp`, `policy_change_manager.cpp`,
+`policy_conflict_detector.cpp`, `policy_coordinator.cpp`, `policy_engine.cpp`,
+`policy_file_watcher.cpp`, `policy_manager.cpp`, `policy_manager_versioned.cpp`,
+`policy_review.cpp`, `policy_template.cpp`, `policy_validation.cpp`,
+`policy_validator.cpp`, `policy_version_history.cpp`, `review_scheduler.cpp`,
+and `soc2_controls.cpp`.
+
+The public header inventory is maintained in
+[`../../include/governance/README.md`](../../include/governance/README.md).
+The list above is a file inventory, not evidence that every API is linked into
+every binary or automatically used by a downstream module.
+
+## Runtime boundaries
+
+- `PolicyEngine` reads supported YAML sections and returns structured decisions;
+  callers apply restrictions.
+- OPA REST failure can fall back to native evaluation. Explicit WASM mode uses
+  only an injected evaluator; without one it returns an enforced strict deny
+  and does not fall back. A bundle file alone does not produce an allow.
+- Masking, lineage, model export, subject-rights, transfer, tenant-inheritance,
+  compliance, and audit APIs are distinct interfaces, not an automatic pipeline.
+- Lineage and operational-audit records include bounded/in-memory behavior;
+  durable retention must be configured and verified separately.
+- Compliance reports summarize supplied policies/evidence and do not establish
+  certification.
+
+## Developer documentation
+
+| Document | Purpose |
 |---|---|
-| policy_engine.cpp | core policy decision and query permission evaluation |
-| policy_manager.cpp | policy lifecycle management |
-| policy_manager_versioned.cpp | policy version history, rollback, and conflict handling |
-| policy_validation.cpp | policy validation execution paths |
-| policy_validator.cpp | validation helper/runtime rules |
-| policy_template.cpp | policy template provisioning |
-| policy_review.cpp | policy review workflow logic |
-| review_scheduler.cpp | review scheduling operations |
-| policy_file_watcher.cpp | policy hot-reload trigger surfaces |
-| policy_coordinator.cpp | multi-policy coordination paths |
-| compliance_reporter.cpp | compliance evidence/report aggregation |
-| compliance_reporting.cpp | compliance report rendering/export |
-| gdpr_subject_rights.cpp | GDPR rights handling |
-| ccpa_rules.cpp | CCPA/CPRA rule evaluation |
-| hipaa_rules.cpp | HIPAA rule evaluators |
-| iso27001_rules.cpp | ISO 27001 control evaluators |
-| pci_dss_rules.cpp | PCI-DSS rule evaluators |
-| soc2_controls.cpp | SOC 2 control evaluators |
-| data_masker.cpp | field-level masking/redaction |
-| data_lineage.cpp | data lineage tracking |
-| model_governance.cpp | AI/ML governance policy controls |
-| cross_tenant_policy_inheritance.cpp | tenant policy inheritance logic |
-| opa_adapter.cpp | OPA integration adapter |
+| [Architecture](ARCHITECTURE.md) | Runtime boundaries and data flow |
+| [API](API.md) and [implementation](IMPLEMENTATION.md) | Public contracts and configuration behavior |
+| [Module guide](MODULE_GUIDE.md) | Test registration and change workflow |
+| [Runbook](RUNBOOK.md) and [operations](OPERATIONS.md) | Diagnosis and operational considerations |
+| [Security](SECURITY.md) and [trust](TRUST.md) | Security limits and trust assumptions |
+| [Performance expectations](PERFORMANCE_EXPECTATIONS.md) | Benchmark source mapping and limits |
 
-## Scope
+Focused tests are defined by
+[`../../tests/governance/CMakeLists.txt`](../../tests/governance/CMakeLists.txt);
+two existing suites are currently skipped in its module-focused registration.
+Optional benchmark targets are described in
+[`../../benchmarks/governance/README.md`](../../benchmarks/governance/README.md).
 
-In scope:
-- policy-based governance evaluation and enforcement paths
-- compliance control/rule and reporting workflows
-- masking/lineage/model-governance and policy lifecycle/versioning
+## Source references
 
-Out of scope:
-- authentication ownership outside governance policy decisions
-- cryptographic primitive ownership outside governance interfaces
-- external audit storage subsystem ownership
-
-## Runtime Behavior and Limits
-
-- policy outcomes depend on loaded policy definitions and runtime headers/context.
-- compliance/masking/model-governance behavior is driven by configured rule sets.
-- integration fallback behavior (e.g. OPA) follows explicit bounded failure paths.
-
-## Developer Documentation
-
-| Document | Use it for |
-|---|---|
-| [Architecture](ARCHITECTURE.md) | Ownership boundaries, runtime planes, contracts, and failure semantics |
-| [Research](RESEARCH.md) and [Modeling](MODELING.md) | Evaluation evidence, domain models, assumptions, and limitations |
-| [Embedding boundary](EMBEDDING.md) | Governance decisions consumed by vector/model paths; governance does not generate embeddings |
-| [Implementation](IMPLEMENTATION.md), [API](API.md), and [Module Guide](MODULE_GUIDE.md) | Runtime behavior, public interfaces, and developer workflow |
-| [Runbook](RUNBOOK.md) and [Operations](OPERATIONS.md) | Incident diagnosis, recovery, rollout, and monitoring |
-| [Security](SECURITY.md) and [Trust](TRUST.md) | Threat model, trust boundaries, and security incident handling |
-
-## Sourcecode Verification (Module: governance/readme)
-
-- Verified files:
-  - src/governance/policy_engine.cpp
-  - src/governance/policy_manager.cpp
-  - src/governance/policy_manager_versioned.cpp
-  - src/governance/policy_validation.cpp
-  - src/governance/policy_validator.cpp
-  - src/governance/policy_template.cpp
-  - src/governance/policy_review.cpp
-  - src/governance/review_scheduler.cpp
-  - src/governance/policy_file_watcher.cpp
-  - src/governance/policy_coordinator.cpp
-  - src/governance/compliance_reporter.cpp
-  - src/governance/compliance_reporting.cpp
-  - src/governance/gdpr_subject_rights.cpp
-  - src/governance/ccpa_rules.cpp
-  - src/governance/hipaa_rules.cpp
-  - src/governance/iso27001_rules.cpp
-  - src/governance/pci_dss_rules.cpp
-  - src/governance/soc2_controls.cpp
-  - src/governance/data_masker.cpp
-  - src/governance/data_lineage.cpp
-  - src/governance/model_governance.cpp
-  - src/governance/cross_tenant_policy_inheritance.cpp
-  - src/governance/opa_adapter.cpp
-- Verified behavior surfaces:
-  - policy lifecycle/evaluation and compliance rule/reporting paths
-  - masking/lineage/model-governance integration boundaries
-  - versioning/review/hot-reload governance operations
-- Note:
-  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
-  - historical entries remain in CHANGELOG.md
+- Public interface index: [`../../include/governance/README.md`](../../include/governance/README.md)
+- Implementation sources: this directory
+- [Canonical module roadmap](ROADMAP.md) · [Historical changelog](CHANGELOG.md)

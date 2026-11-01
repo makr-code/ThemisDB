@@ -1,37 +1,33 @@
-> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
 
-# FUTURE_ENHANCEMENTS
+Exact model backend not verifiable from final document text alone.
 
-## tests/temporal
+# Temporal test enhancement proposals
 
-### Scope
-- Ausbau der Modulfähigkeiten in `tests/temporal` für Stabilität, Wartbarkeit und Betriebsreife.
-- Schließen dokumentierter Funktions- und Qualitätslücken.
+These are candidate test-maintenance topics, not scheduled work or evidence of
+known defects. The implementation and module plan are authoritative in
+[`../../src/temporal/ROADMAP.md`](../../src/temporal/ROADMAP.md).
 
-### Design Constraints
-- Rückwärtskompatibilität zu bestehenden Modulverträgen sicherstellen.
-- Kein Sicherheits- oder Compliance-Regression durch Erweiterungen.
-- Deterministisches, nachvollziehbares Fehlerverhalten beibehalten.
+## Candidate topics
 
-### Required Interfaces
-- Öffentliche APIs/CLI/Config-Verträge bleiben klar versioniert.
-- Interne Schnittstellen werden explizit dokumentiert und getestet.
+- Add runtime-class assertions when tests currently use test-local models for
+  contract statements; keep the two kinds of evidence explicit.
+- Add tests for documented failure and lifetime edges when implementation
+  changes establish a specific expected behavior.
+- Keep the high-cardinality and integration soak sources, but publish execution
+  configuration/results before treating them as reliability evidence.
+- Add runtime-backed benchmark validation only if an approved release
+  configuration defines its thresholds and baseline.
 
-### Implementation Notes
-- Erweiterungen inkrementell in kleinen, überprüfbaren Schritten liefern.
-- Abhängigkeiten minimieren und vorhandene Infrastruktur wiederverwenden.
-- Observability (Logs/Metriken/Tracing) für neue kritische Pfade ergänzen.
-
-### Test Strategy
-- Unit-Tests für neue Kernlogik und Fehlerpfade.
-- Integrations-/End-to-End-Tests für modulübergreifende Flows.
-- Regressionstests für bereits ausgelieferte Funktionalität.
-
-### Performance Targets
-- Keine signifikante Regression in Latenz/Throughput gegenüber Baseline.
-- Kritische Pfade mit reproduzierbaren Benchmarks absichern.
-
-### Security / Reliability
-- Security-Reviews für neue Eingabe- und Integrationsflächen.
-- Robuste Fehlerbehandlung, Timeouts und Recovery-Verhalten sicherstellen.
-- Relevante Änderungen durch Audit-Artefakte nachvollziehbar machen.
+**TODO:** select and approve a concrete coverage change before adding a delivery
+date or acceptance claim. This file does not establish a test coverage target.

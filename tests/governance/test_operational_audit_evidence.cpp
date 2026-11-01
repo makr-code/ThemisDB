@@ -30,18 +30,21 @@ using namespace themis::governance;
 
 class OperationalAuditTest : public ::testing::Test {
 protected:
+    std::shared_ptr<OperationalAuditLogger> audit_logger_owner;
+    std::unique_ptr<EventCorrelationEngine> correlation_engine_owner;
+    std::unique_ptr<ComplianceEvidenceCollector> evidence_collector_owner;
     OperationalAuditLogger* audit_logger;
     EventCorrelationEngine* correlation_engine;
     ComplianceEvidenceCollector* evidence_collector;
     
     void SetUp() override {
-        // Get global singletons
-        audit_logger = &getGlobalAuditLogger();
-        correlation_engine = &getGlobalCorrelationEngine();
-        evidence_collector = &getGlobalEvidenceCollector();
-        
-        // Clear any previous test data (in production, this would be persistence cleanup)
-        // For this test, we rely on separate instances per test
+        // Isolate each test: audit/evidence state is intentionally in-memory.
+        audit_logger_owner = std::make_shared<OperationalAuditLogger>();
+        correlation_engine_owner = std::make_unique<EventCorrelationEngine>(audit_logger_owner);
+        evidence_collector_owner = std::make_unique<ComplianceEvidenceCollector>(audit_logger_owner);
+        audit_logger = audit_logger_owner.get();
+        correlation_engine = correlation_engine_owner.get();
+        evidence_collector = evidence_collector_owner.get();
     }
     
     void TearDown() override {
@@ -925,7 +928,6 @@ TEST_F(OperationalAuditTest, EvidenceSerialization_JsonRoundTrip) {
     EXPECT_EQ(restored.fingerprint, original.fingerprint);
     EXPECT_EQ(restored.audit_classification, original.audit_classification);
 }
-
 
 
 

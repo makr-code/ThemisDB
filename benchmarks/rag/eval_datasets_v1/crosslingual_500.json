@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "dataset_id": "crosslingual_ir_500_v1",
+  "domain": "crosslingual_ir",
+  "data_kind": "synthetic_smoke_fixture",
+  "provenance": "Project-authored synthetic examples; English corpus passages and translated queries are original fixture text, not an external corpus.",
+  "limitations": "Four records only (German, French, and Spanish). This fixture checks language metadata and dataset plumbing; it is not representative evidence for multilingual retrieval quality or the named 500-query target.",
+  "query_languages": ["de", "fr", "es"],
+  "corpus_language": "en",
+  "records": [
+    {
+      "id": "cross-smoke-de-001",
+      "query": "Welcher Planet ist als Zwergplanet eingestuft?",
+      "query_language": "de",
+      "documents": [
+        {"id": "cross-doc-pluto", "text": "Pluto is classified as a dwarf planet."},
+        {"id": "cross-doc-mars", "text": "Mars is the fourth planet from the Sun."}
+      ],
+      "relevant_document_ids": ["cross-doc-pluto"]
+    },
+    {
+      "id": "cross-smoke-fr-001",
+      "query": "Quel instrument mesure la pression atmosphérique ?",
+      "query_language": "fr",
+      "documents": [
+        {"id": "cross-doc-barometer", "text": "A barometer measures atmospheric pressure."},
+        {"id": "cross-doc-thermometer", "text": "A thermometer measures temperature."}
+      ],
+      "relevant_document_ids": ["cross-doc-barometer"]
+    },
+    {
+      "id": "cross-smoke-es-001",
+      "query": "¿Qué proceso convierte la luz en energía química en las plantas?",
+      "query_language": "es",
+      "documents": [
+        {"id": "cross-doc-photosynthesis", "text": "Photosynthesis converts light energy into chemical energy in plants."},
+        {"id": "cross-doc-respiration", "text": "Cellular respiration releases energy from molecules such as glucose."}
+      ],
+      "relevant_document_ids": ["cross-doc-photosynthesis"]
+    },
+    {
+      "id": "cross-smoke-de-002",
+      "query": "Welcher Ozean ist der größte?",
+      "query_language": "de",
+      "documents": [
+        {"id": "cross-doc-pacific", "text": "The Pacific Ocean is the largest ocean on Earth."},
+        {"id": "cross-doc-arctic", "text": "The Arctic Ocean is the smallest ocean on Earth."}
+      ],
+      "relevant_document_ids": ["cross-doc-pacific"]
+    }
+  ]
+}

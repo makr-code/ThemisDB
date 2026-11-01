@@ -1,4 +1,24 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-11-01"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Model_Attribution: "Exact model backend not verifiable from final document text alone."
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> **Validation notice (2026-10-31):** Public headers are authoritative for
+> signatures and behavior. Some older examples and maturity statements in this
+> overview are illustrative, not build- or runtime-validated. In particular,
+> verify security policy, wire feature integration, edition selection, and
+> CMake target names against the linked headers and current CMake files before
+> relying on examples.
+
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # ThemisDB Core Framework Headers
 
@@ -63,7 +83,12 @@ std::cout << themis::build_info::formatBuildInfo(config) << std::endl;
 #### edition.h
 **Compile-time edition configuration and feature gating**
 
-Defines five editions with different hardware limits and feature sets. Edition is set at compile-time via CMake and embedded into the binary.
+`edition.h` declares five edition enum values and compile-time constants.
+`cmake/editions/EditionDefaults.cmake` selects and loads edition-specific
+settings; the shared edition validation in `cmake/CMakeLists.txt` accepts the
+same five values. `MILITARY` additionally requires an existing license file
+and applies its hardware and feature defaults through
+`cmake/editions/MILITARY.cmake`.
 
 **Editions:**
 - **MINIMAL**: Lightweight/embedded (0 GB GPU VRAM cap — CPU fallback, 1 node)
@@ -264,7 +289,11 @@ class DataContainer {
 #### base/module_loader.h
 **Secure module loading with signature verification**
 
-Provides secure loading of ThemisDB modular libraries with mandatory signature verification to prevent corrupted or malicious DLL injection.
+Provides module loading with configurable security verification. The current
+`ModuleSecurityVerifier` requires signatures and rejects unsigned modules in
+`NDEBUG` builds; its non-`NDEBUG` defaults allow unsigned modules. Callers and
+deployments must verify the effective policy rather than assume signature
+verification is unconditional.
 
 **Key Classes:**
 - `ModuleLoader` - Main module loading class
@@ -406,13 +435,12 @@ Implements ThemisDB's native binary protocol for low-latency, high-throughput cl
 - `MessageDispatcher` - OpCode routing
 - `WireFrameHeader` - Binary frame header (12 bytes)
 
-**Protocol Features:**
+**Header-declared protocol elements (not a guarantee that every operation is integrated):**
 - Binary framing with magic number (`0x544D4442` = "TMDB")
 - Protocol versioning (currently v1)
 - Message flags (compressed, encrypted, skip checksum)
 - CRC32 checksums for integrity
 - LZ4 compression support
-- ChaCha20-Poly1305 encryption support
 - Maximum payload size: 64MB
 
 **OpCodes:**
@@ -427,7 +455,7 @@ Implements ThemisDB's native binary protocol for low-latency, high-throughput cl
 **Message Flags:**
 - `SKIP_CHECKSUM` - Omit checksum (when TLS enabled)
 - `COMPRESSED` - LZ4-compressed payload
-- `ENCRYPTED` - ChaCha20-Poly1305 encrypted payload
+- `ENCRYPTED` - payload marked as encrypted (implementation support is not established by this overview)
 
 **Frame Format:**
 ```
@@ -490,12 +518,16 @@ std::cout << "Total connections: " << server.total_connections() << std::endl;
 - Persistent connections with keepalive
 - Suitable for: embedded clients, SDKs, microservices
 
-**Security:**
-- Authentication required before operations
-- Optional TLS wrapper (recommended)
-- Optional application-layer encryption (ChaCha20-Poly1305)
-- Checksum verification (CRC32)
-- Session management and timeout
+**Security and implementation notes:**
+- Server handlers check authentication for protected operations.
+- CRC32 checksums and a maximum payload size are implemented in the current
+  server source.
+- The header declares an `ENCRYPTED` flag, but this review did not establish
+  payload encryption or TLS support in this server implementation. Do not
+  interpret the flag as proof those features are available.
+- The header lists opcodes whose handlers may return explicit "not integrated"
+  or missing-backend responses. Check current server wiring before treating an
+  opcode as an implemented database operation.
 
 ---
 
@@ -579,7 +611,9 @@ High-performance clients use the wire protocol:
 
 ## Runtime Behavior, Error Cases, and Limits
 
-- **Module loading (`themis/base/module_loader.h`)** is fail-closed by design: hash/signature verification failures return `ModuleVerificationResult` with `success == false` and prevent activation of the module.
+- **Module loading (`themis/base/module_loader.h`)** returns
+  `ModuleVerificationResult`; verification failure prevents loading. Whether
+  unsigned modules are rejected depends on the configured policy/build mode.
 - **License checks (`themis/license_info.h`, `themis/runtime_license_gate.h`)** deny gated features when no valid license is embedded or when license constraints are violated.
 - **Edition gates (`themis/edition.h`, `themis/edition_manager.h`)** are compile-time + runtime constraints: unavailable features remain disabled in Community builds even when referenced by callers.
 - **Wire protocol v1 (`themis/network/wire_protocol_server.hpp`)** enforces frame integrity checks and a maximum payload size of **64 MB** per message (`themis::wire::MAX_PAYLOAD_SIZE`).
@@ -589,6 +623,7 @@ High-performance clients use the wire protocol:
 
 | Entry point | Purpose |
 |-------------|---------|
+| `themis/themis_api_contract.h` | Declares only the `themis::engine::ThemisError` and `themis::engine::Edition` enums |
 | `themis/build_info.h` | Build/runtime metadata and reproducibility information |
 | `themis/edition.h` | Compile-time edition configuration and feature flags |
 | `themis/edition_manager.h` | Runtime feature-gate evaluation by edition/license state |
@@ -599,6 +634,10 @@ High-performance clients use the wire protocol:
 | `themis/module_signature_verifier.h` | Platform-specific signature verification |
 | `themis/network/wire_protocol_server.hpp` | Binary wire protocol server (v1) |
 | `themis/network/wire_protocol_v2.hpp` | Multiplexed wire protocol API (v2) |
+
+`themis_api_contract.h` contains only enum declarations; it does not provide
+runtime build-info or capability-discovery functions. Use `build_info.h`,
+`edition.h`, and `edition_manager.h` for those separate contracts.
 
 ## Dependencies
 
@@ -620,53 +659,14 @@ Themis module is the foundation - it has minimal internal dependencies:
 
 ### CMake Integration
 
-```cmake
-# Themis is always built (foundation module)
-add_library(themis-base
-    src/themis/build_info.cpp
-    src/themis/license_info.cpp
-    src/themis/module_loader.cpp
-)
+The build configures `THEMIS_EDITION` in `cmake/CMakeLists.txt` and adds
+`src/themis` sources through the repository's CMake source lists. Do not create
+a standalone `themis-base` target from the illustrative source list in this
+older overview; it is not the current registration contract. For example:
 
-# Set edition at configure time
-set(THEMIS_EDITION "COMMUNITY" CACHE STRING "Edition: MINIMAL, COMMUNITY, ENTERPRISE, MILITARY, HYPERSCALER")
-
-target_compile_definitions(themis-base PUBLIC
-    THEMIS_EDITION_STRING="${THEMIS_EDITION}"
-)
-
-# Set edition-specific limits
-if(THEMIS_EDITION STREQUAL "MINIMAL")
-    target_compile_definitions(themis-base PUBLIC
-        THEMIS_GPU_MAX_VRAM_GB=0
-        THEMIS_SHARDING_MAX_NODES=1
-    )
-elseif(THEMIS_EDITION STREQUAL "COMMUNITY")
-    target_compile_definitions(themis-base PUBLIC
-        THEMIS_GPU_MAX_VRAM_GB=16
-        THEMIS_SHARDING_MAX_NODES=5
-    )
-elseif(THEMIS_EDITION STREQUAL "ENTERPRISE")
-    target_compile_definitions(themis-base PUBLIC
-        THEMIS_GPU_MAX_VRAM_GB=320
-        THEMIS_SHARDING_MAX_NODES=100
-        THEMIS_ENABLE_ENTERPRISE_PLUGINS=1
-        THEMIS_ENABLE_MULTI_MASTER=1
-        THEMIS_ENABLE_FIELD_ENCRYPTION=1
-        THEMIS_ENABLE_RBAC=1
-        THEMIS_ENABLE_HSM=1
-    )
-elseif(THEMIS_EDITION STREQUAL "MILITARY")
-    target_compile_definitions(themis-base PUBLIC
-        THEMIS_GPU_MAX_VRAM_GB=80
-        THEMIS_SHARDING_MAX_NODES=50
-    )
-elseif(THEMIS_EDITION STREQUAL "HYPERSCALER")
-    target_compile_definitions(themis-base PUBLIC
-        THEMIS_GPU_MAX_VRAM_GB=0
-        THEMIS_SHARDING_MAX_NODES=0
-    )
-endif()
+```bash
+cmake -S . -B build -DTHEMIS_EDITION=COMMUNITY
+cmake --build build
 ```
 
 ## Edition Selection
@@ -688,14 +688,11 @@ cmake --build build
 ## License Embedding
 
 ```bash
-# Embed license at build time
-cmake -B build \
-    -DTHEMIS_LICENSE_ORG="Acme Corp" \
-    -DTHEMIS_LICENSE_KEY="ABC-123-XYZ" \
-    -DTHEMIS_LICENSE_EDITION="ENTERPRISE" \
-    -DTHEMIS_LICENSE_EXPIRY="2025-12-31"
+# Embed license data from a protected JSON file at build time.
+# Do not put license keys or license-file contents in source control or logs.
+cmake -S . -B build -DTHEMIS_LICENSE_FILE=/secure/path/license.json
 
-# License data is embedded into binary
+# The CMake configuration reads the file and embeds its fields.
 cmake --build build
 ```
 
@@ -837,7 +834,9 @@ bool verify_deployment(const std::string& modules_dir) {
 
 ## Status
 
-**Production Ready** (as of v1.5.0)
+**Readiness:** This overview makes no current production-readiness assertion.
+Use `src/themis/ROADMAP.md` for module planning and root `ROADMAP.md` for
+aggregate release readiness.
 
 ✅ **Stable Components:**
 - Build information API

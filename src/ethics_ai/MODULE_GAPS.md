@@ -1,4 +1,20 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-06-04
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # ethics_ai Module - Developer Gap Note
+
+> **Historical generated snapshot:** The findings below were generated from `ai_working\\gap_scan_results.json` on 2026-06-04. They were not reproduced for issue #7343 and are not a current gap count or normative code-quality assessment.
 
 > Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.

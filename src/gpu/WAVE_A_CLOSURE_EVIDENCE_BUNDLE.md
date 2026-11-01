@@ -1,5 +1,10 @@
 # GPU Module — Wave A Closure Evidence Bundle
 
+> Historical evidence bundle begun 2026-08-19 and updated through 2026-09-23.
+> Test-source presence and status labels below do not establish current CMake
+> registration or passing execution; representative-hardware evidence remains
+> explicitly pending in the recorded snapshot.
+
 **Date:** 2026-08-19  
 **Module:** `src/gpu/`  
 **Wave:** Wave A — Runtime Reliability First  

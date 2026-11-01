@@ -1,63 +1,44 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/user_storage_encrypted/FUTURE_ENHANCEMENTS.md -->
-
-# User Storage Encrypted Module — Public Header Future Enhancements
-
-**Module Path:** `include/user_storage_encrypted/`  
-**Canonical implementation enhancements:** [`../../src/user_storage_encrypted/FUTURE_ENHANCEMENTS.md`](../../src/user_storage_encrypted/FUTURE_ENHANCEMENTS.md)
-
+---
+Author: ThemisDB Contributors
+Created: 2026-06-01
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
 ---
 
-## Scope
+# Public Header Future Enhancements - user_storage_encrypted
 
-Planned enhancements to the **public header contract** in `include/user_storage_encrypted/`. Runtime, algorithm, and benchmark work remains tracked in:
+Exact model backend not verifiable from final document text alone.
 
-→ [`../../src/user_storage_encrypted/FUTURE_ENHANCEMENTS.md`](../../src/user_storage_encrypted/FUTURE_ENHANCEMENTS.md)
+This page records possible header/API work only. It does not declare approved
+commitments. Runtime behavior and module-level work belong in
+[`../../src/user_storage_encrypted/FUTURE_ENHANCEMENTS.md`](../../src/user_storage_encrypted/FUTURE_ENHANCEMENTS.md)
+and [`../../src/user_storage_encrypted/ROADMAP.md`](../../src/user_storage_encrypted/ROADMAP.md).
 
----
+## Candidate API work
 
-## Design Constraints
+- Add focused examples for the actual `themis::plugins::user_storage` public
+  types and result/error handling.
+- Document platform support per declaration; POSIX-specific helpers such as
+  `PipeGuard` and `TimedFileOperation` must not be presented as portable.
+- Review the mismatch between the operational API and
+  `themis::user_storage_encrypted` contract types before promising stability
+  or guarantees.
+- Add compile-only checks for public headers and supported compiler/platform
+  combinations.
+- Review deprecation, ABI, and source-compatibility policy with maintainers
+  before introducing new annotations or compatibility promises.
 
-- `[x]` Public headers must not expose internal implementation types or arena/memory layout details to callers.
-- `[x]` Breaking changes to types in `include/user_storage_encrypted/` require a MAJOR version bump per `VERSIONING.md`.
-- `[x]` New entry points should be additive; existing stable APIs remain source-compatible.
-- `[x]` Layer association (**Graph**) must be preserved in all header expansions.
+No C++20 Concepts, module-interface wrapper, header-only implementation, or
+Graph-layer mapping is established by the current module sources. Such work
+requires explicit architectural approval.
 
----
+## References
 
-## Required Interfaces (Header Contract)
-
-Current public surfaces cover: per-user encrypted storage with pluggable backends (gocryptfs), key derivation, key rotation scheduling, multi-level storage, and security levels.
-
-Planned extensions follow the same namespace (`themis::user_storage_encrypted`) and include-guard conventions.
-
----
-
-## Planned Enhancements
-
-### Short-Term (Q3 2026)
-
-- [ ] Add `[[deprecated]]` annotations to any legacy entry points with migration notes
-- [ ] Add explicit `noexcept` specifications to query/read paths where safe
-- [ ] Add structured diagnostic types for all thrown exceptions
-
-### Medium-Term (Q4 2026)
-
-- [ ] Expand public surface with convenience factory functions for common usage patterns
-- [ ] Add Concepts (C++20) constraints to template parameters in public headers
-- [ ] Introduce explicit ABI stability markers (`THEMIS_STABLE_ABI`) to long-term interfaces
-
-### Long-Term (2027+)
-
-- [ ] Module-interface (C++20 modules) wrapper for `include/user_storage_encrypted/` entry points
-- [ ] Header-only usage path for embedding scenarios (where feasible)
-- [ ] Extended layer-mapping documentation for Graph integration patterns
-
----
-
-## Alignment with Strategic Plan
-
-Enhancements align with `FUTURE_PLAN.md` layer **Graph**. For cross-layer integration planning see:
-→ [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
+- [Header inventory](README.md)
+- [Header architecture](ARCHITECTURE.md)
+- [Canonical module roadmap](../../src/user_storage_encrypted/ROADMAP.md)

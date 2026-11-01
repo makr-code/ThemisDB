@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 <!-- Status: current | validated: 2026-06-01 -->
@@ -22,7 +36,7 @@ Planned enhancements to the **public header contract** in `include/server/`. Imp
 
 - `[x]` All API handler headers must be individually includable without pulling in the full server.
 - `[x]` `WebSocketSession::active_` must remain `atomic<bool>`; no regression to plain `bool`.
-- `[x]` `#pragma once` on every header.
+- `[!]` Header guards are inconsistent: 125 of 129 top-level headers use `#pragma once`; `distributed_gateway.h`, `request_coalescing.h`, `smart_routing.h`, and `wasm_handler_registry.h` currently have neither `#pragma once` nor conventional include guards. Verify intended single-inclusion constraints before changing these public headers.
 - `[x]` `[[nodiscard]]` on all factory functions and error-returning methods.
 - `[x]` gRPC-conditional headers (`THEMIS_ENABLE_GRPC`) must not be unconditionally included.
 - `[x]` Middleware headers must expose only the `IMiddleware` interface, not internal pipeline state.
@@ -38,7 +52,7 @@ Planned enhancements to the **public header contract** in `include/server/`. Imp
 | `RPCServiceImpl::dispatch()` | `rpc_service_impl.h` | gRPC dispatch loop | ✅ Stable |
 | `MonitoringApiHandler::handleRequest()` | `monitoring_api_handler.h` | /stats / /metrics | ✅ Stable |
 | `PolicyEngine::evaluate()` | `policy_engine.h` | All API handlers | ✅ Stable |
-| `RateLimiterV2::allow()` | `rate_limiter_v2.h` | Middleware pipeline | ✅ Stable |
+| `TokenBucketRateLimiter::tryAcquire()` | `rate_limiter_v2.h` | Middleware pipeline | ✅ Stable |
 | `TenantManager::resolveTenant()` | `tenant_manager.h` | Auth middleware | ✅ Stable |
 
 ---

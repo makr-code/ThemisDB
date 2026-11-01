@@ -104,6 +104,13 @@ struct Argon2idParams {
  *   - Parallelism: p = 4
  *   - Output:      32 bytes (256 bit)
  *
+ * Argon2idParams configure the domain-separated derive() API. The built-in
+ * Argon2id deriveKey() path uses the fixed kTimeCost/kMemoryCost/kParallelism/
+ * kKeyLength constants instead and ignores constructor params_. Its
+ * PBKDF2-HMAC-SHA256 fallback also uses a fixed 310,000 rounds. The
+ * domain-separated derive() PBKDF2 fallback uses params_.output_len but not
+ * params_.iterations.
+ *
  * Requires libargon2 (apt: libargon2-dev).
  */
 class Argon2idKeyDerivationService : public IKeyDerivationService, public KeyDerivationService {

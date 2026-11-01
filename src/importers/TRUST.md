@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -11,7 +11,7 @@ Human_Author: "ThemisDB Team"
 Source_Level: "level1"
 SOT_Domain: "security"
 Canonical_References: "src/importers/SECURITY.md; include/importers/importer_interface.h; include/importers/huggingface_ingest_plugin.h; src/importers/huggingface_ingest_plugin.cpp"
-Related_Reference: "makr-code/ThemisDB#7124"
+Related_Reference: "makr-code/ThemisDB#7353"
 ---
 
 > Exact model backend not verifiable from final document text alone.

@@ -16,7 +16,11 @@ Exact model backend not verifiable from final document text alone.
 
 ## Kontext
 
-The execution module is a small in-process runtime layer for bounded admission and bounded execution within ThemisDB. It sits between the server request path and the raw thread pool, providing deadline-ordered queueing with backpressure and low-priority shedding.
+The execution module provides in-process primitives for bounded admission and
+bounded task dispatch. They can be composed by a host consumer, but are not
+currently wired into the server request path: `HttpServer` constructs and tears
+down the primitives without submitting request work or implementing a
+scheduler-to-pool handoff.
 
 It is currently composed of:
 
@@ -90,25 +94,31 @@ Despite the thread-pool type name, the live implementation currently operates as
 
 ## Datenfluss
 
-The following diagram shows how a query moves from admission through execution:
+The following diagram shows a possible host-owned composition, not a live
+`HttpServer` request flow:
 
 ```mermaid
 flowchart TD
-    Caller["Caller\n(e.g. HttpServer)"] -->|"enqueue(fn, priority, sla_ms, timeout)"| QS["QueryScheduler\n• deadline = now + sla_ms\n• EDF priority queue\n• backpressure via condition_variable\n• LOW shed at shed_threshold"]
-    QS -->|"dequeue() → QueryEntry"| IL["Integration Layer\n• executes QueryEntry::execute()\n• calls reportCompletion(query_id)"]
-    IL -->|"submit(task, timeout)"| TP["WorkStealingThreadPool\n• central dispatch_queue_\n• fixed min_threads workers\n• bounded max_queue_depth\n• exceptions counted in failed_"]
-    TP -->|"task result / metrics"| IL
+    HS["HttpServer"] -.->|"construct / teardown only"| QS["QueryScheduler"]
+    HS -.->|"construct / teardown only"| TP["WorkStealingThreadPool"]
+    IL["Optional host consumer\n(not wired by HttpServer)"] -->|"enqueue(fn, priority, sla_ms, timeout)"| QS
+    QS -->|"dequeue() → QueryEntry"| IL
+    IL -->|"optional submit(task, timeout)"| TP
+    TP -->|"task execution / metrics"| IL
 ```
 
-**Kurzinterpretation:** A caller enqueues work through the `QueryScheduler`, which orders it by absolute deadline. The integration layer dequeues entries and forwards tasks to the `WorkStealingThreadPool` for execution. Metrics flow back through both layers.
+**Kurzinterpretation:** A host consumer may enqueue and dequeue scheduler entries
+and optionally submit work to the pool. `HttpServer` currently only constructs
+and tears down these primitives; it does not implement this flow.
 
 ## Sequenz (kritischer Ablauf)
 
-The following sequence shows a successful bounded execution under overload:
+The following sequence illustrates a possible consumer-owned composition; it is
+not the current `HttpServer` request path:
 
 ```mermaid
 sequenceDiagram
-    participant C as Caller
+    participant C as Optional host consumer
     participant QS as QueryScheduler
     participant IL as Integration Layer
     participant TP as WorkStealingThreadPool

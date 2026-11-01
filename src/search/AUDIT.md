@@ -1,71 +1,53 @@
-# Audit Report - Search Module
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "DOCUMENTATION_GOVERNANCE.md"
+  - "cmake/ModularBuild.cmake"
+  - "tests/search/CMakeLists.txt"
+  - "tests/CMakeLists.txt"
+  - "benchmarks/search/CMakeLists.txt"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
 
-<!-- Status: current | validated: 2026-08-06 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Summary
+# Search Module Documentation and Build Evidence Audit
 
-| Metric | Result |
-|---|---|
-| Build registration | pass |
-| Source set size | pass (module core files present) |
-| Focused test presence | pass |
-| Open hardening findings | yes |
-| Critical blockers | none identified |
+## Scope and evidence status
 
-## Verified Files
-
-- src/search/hybrid_search.cpp
-- src/search/distributed_hybrid_search.cpp
-- src/search/faceted_search.cpp
-- src/search/query_expander.cpp
-- src/search/fuzzy_matcher.cpp
-- src/search/autocomplete.cpp
-- src/search/llm_query_rewriter.cpp
-- src/search/llm_reranker.cpp
-- src/search/learning_to_rank.cpp
-- src/search/search_analytics.cpp
-- src/search/multi_field_search.cpp
-- src/search/multi_modal_search.cpp
-- src/search/neural_sparse_retrieval.cpp
-- src/search/search_result_stream.cpp
+This is a source/build-documentation inspection, not a code-quality or security
+audit and not a test execution report. It does not claim that a build, CTest
+suite, benchmark, or runtime integration was run.
 
 ## Findings
 
-### Open
+| Area | Observation | Status |
+|---|---|---|
+| Public API | Search contracts are declared under `include/search/`; most public types use `themis`, while the layered orchestrator uses `themis::search`. Check each header. | Inspected |
+| Main source set | `cmake/ModularBuild.cmake` lists a subset of search implementation files in `THEMIS_QUERY_SOURCES`; this does not prove all `src/search/*.cpp` are linked into every target. | Inspected; per-target mapping TODO |
+| Focused tests | `tests/search/CMakeLists.txt` globs `test_*.cpp`, declares focused targets with timeout 120 and default `search` label, with conditional source/label additions. | Inspected |
+| Test CMake inclusion | `tests/CMakeLists.txt` auto-discovers eligible `tests/*/CMakeLists.txt` files and adds `search` as a subdirectory when tests are configured. | CMake path inspected; actual configure/build/run not verified |
+| Test source inventory | `tests/search/` contains 16 `test_*.cpp` files. Presence does not establish compile or pass status. | Inspected |
+| Benchmarks | Local search CMake declares seven standard targets and two conditional smoke registrations; root CMake separately declares two hybrid benchmark targets. | Inspected; run evidence TODO |
+| Performance | No measured results or release-gate pass artifact was verified. | TODO |
 
-1. [SEA-AUD-01] distributed merge hardening remains active for shard-failure and overlap edge cases.
-- Severity: medium
-- Evidence: roadmap/future retain active hardening for merge failure and overlap variance scenarios.
-- Action: extend deterministic stress and regression coverage for shard-merge incident paths.
+## Follow-up evidence needed
 
-2. [SEA-AUD-02] fusion/utility diagnostics require deeper consistency.
-- Severity: medium
-- Evidence: active follow-up work for rerank/expansion/facet incident taxonomy.
-- Action: unify diagnostics across utility stages and partial-backend degradations.
-
-3. [SEA-AUD-03] benchmark depth should broaden for advanced search workflows.
-- Severity: low
-- Evidence: core mapping is valid while advanced multimodal/rerank scenarios need deeper direct coverage.
-- Action: add benchmark depth for advanced search pipelines and workload mixes.
-
-### Closed
-
-- core search runtime surfaces are present and source-verified.
-- documentation set is synchronized to source-verifiable claims.
-- changelog/roadmap role separation is aligned to module governance pattern.
-
-## Compliance Snapshot
-
-| Requirement | Status |
-|---|---|
-| Source-verifiable behavior claims | pass |
-| Structured forward planning in roadmap/future | pass |
-| Historical completion tracked in changelog | pass |
-| Core module docs synchronized | pass |
-
-## Issue Scope Traceability
-
-- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
-- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
-- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`
+1. Configure the project with tests enabled and record the discovered target names.
+2. Record test compilation and execution separately. Do not equate declarations
+   or source-defined assertions with passing runtime tests.
+3. Capture benchmark command, hardware/build metadata, output artifact, and
+   comparison baseline before claiming measured performance.
+4. Reconcile historical test counts, phase status, SLA values, and security
+   claims in adjacent module documents to those artifacts.

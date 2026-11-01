@@ -2,8 +2,23 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+
+Exact model backend not verifiable from final document text alone.
+
+> **Audit notice (2026-10-31):** This is a generated snapshot last dated
+> 2026-09-20, not verified current documentation. Regeneration was attempted
+> with `scripts/generate_module_doxygen_xml.py --modules failover
+> --write-module-markdown` but could not run because the `doxygen` executable is
+> unavailable in this environment. The absolute Windows paths and generated
+> metrics/entities below may be stale; regenerate before relying on them. Do not
+> treat this notice as a replacement for the generated content.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -1533,4 +1548,3 @@ Status: active
 - Parameters:
   - `<unnamed>` (TopologyVersioning): n/a
   - `<unnamed>` (VersionIncrementSequential): n/a
-

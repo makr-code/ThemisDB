@@ -88,9 +88,14 @@ public:
      *                   connection-count accounting across the protocol upgrade).
      *                   If empty the constructor falls back to extracting the IP
      *                   from the socket (for standalone construction).
+     * @param audit_connection_id Existing TCP connection identifier to close in
+     *                            the audit log after the protocol upgrade.
+     * @param audit_open_recorded Whether the TCP session already recorded open.
      */
     WireProtocolWebSocketSession(tcp::socket socket, WireProtocolServer* server,
-                                  const std::string& client_ip = {});
+                                  const std::string& client_ip = {},
+                                  uint64_t audit_connection_id = 0,
+                                  bool audit_open_recorded = false);
     ~WireProtocolWebSocketSession();
 
     /**
@@ -175,6 +180,7 @@ private:
     std::string makeError(const std::string& id,
                           const std::string& type,
                           const std::string& message) const;
+    void recordAuditClose();
 
     // ---- members ----
     websocket::stream<beast::tcp_stream> ws_;
@@ -183,6 +189,8 @@ private:
     WireProtocolServer* server_;
     uint64_t            session_id_;
     std::string         client_ip_;
+    uint64_t            audit_connection_id_ = 0;
+    std::atomic<bool>   audit_open_recorded_{false};
 
     std::atomic<bool>               active_{false};
 
@@ -201,4 +209,3 @@ private:
 } // namespace themis
 
 #endif // THEMIS_ENABLE_WEBSOCKET
-

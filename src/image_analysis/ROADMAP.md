@@ -6,7 +6,7 @@
 **Status:** active
 **AI_Used:** true
 **AI_Models:** unknown
-**AI_Contributor:** OpenAI ChatGPT
+**AI_Contributor:** GitHub Copilot
 **Human_Review:** false
 **Human_Author:** ThemisDB Contributors
 
@@ -14,15 +14,17 @@ Exact model backend not verifiable from final document text alone.
 
 <!-- Status: plugin-backed implementation | source review: 2026-10-31; validation not run -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · CMakeLists.txt -->
+<!-- Source level: level 1 | SOT domain: module-behavior -->
 
 ## Current Status
 
-The source-tracked Phase 1–6 delivery is recorded complete in the root `ROADMAP.md`. This is distinct from current release acceptance: real-runtime tests and performance evidence remain outstanding. The shared contract is under `include/plugins/`; two optional backend implementations are built through `src/image_analysis/CMakeLists.txt`.
+The source-tracked Phase 1–6 delivery is recorded complete in the root `ROADMAP.md`. This is distinct from current release acceptance: real-runtime tests and performance evidence remain outstanding. The shared contract is under `include/plugins/`; the module-local CMake file defines two optional backend targets, but the [root CMakeLists.txt](../../CMakeLists.txt) and [CMake orchestration](../../cmake/CMakeLists.txt) do not currently add `src/image_analysis/` or declare its plugin options.
 
 **Current status:** Tesseract OCR and YOLOv8 ONNX detection plugin sources exist. Missing inference runtimes return structured errors, but OpenCV is a separate optional dependency: without it, OCR does not decode encoded image bytes and YOLO preprocessing uses a zero-filled tensor. The module is not release-validated by this documentation review.
 
-- [x] Tesseract OCR plugin implementation exists and is wired through the module build (`src/image_analysis/tesseract_ocr_plugin.cpp`)
-- [x] YOLOv8 ONNX plugin implementation exists and is wired through the module build (`src/image_analysis/yolov8_onnx_plugin.cpp`)
+- [x] Tesseract OCR plugin source exists; a target is defined in the module-local CMake file (`src/image_analysis/tesseract_ocr_plugin.cpp`)
+- [x] YOLOv8 ONNX plugin source exists; a target is defined in the module-local CMake file (`src/image_analysis/yolov8_onnx_plugin.cpp`)
+- [ ] Integrate or explicitly keep the two plugin targets outside the standard root build; no root `add_subdirectory(src/image_analysis)` or declarations for `THEMIS_PLUGIN_IMAGE_TESSERACT` / `THEMIS_PLUGIN_IMAGE_YOLOV8` were found
 - [x] Plugin lifecycle and missing-runtime error paths are present in source
 - [ ] Validate the runtime/dependency combinations, including OpenCV-enabled encoded-image inference
 - [ ] Capture real-plugin benchmark and release-gate evidence; current benchmark sources use mock/synthetic plugins
@@ -39,7 +41,8 @@ The source-tracked Phase 1–6 delivery is recorded complete in the root `ROADMA
 ### Phase 1: Design / API Contract
 
 - [x] Define the shared plugin contract in `include/plugins/image_analysis_interface.h`
-- [x] Define plugin discovery and compatibility flow in `include/plugins/image_analysis_manager.h`
+- [x] Declare plugin discovery and compatibility APIs in `include/plugins/image_analysis_manager.h`
+- [ ] Implement/build manager discovery, loading, and capability routing before treating these declared APIs as available
 - [x] Document the build-time gating pattern in `src/image_analysis/CMakeLists.txt`
 - [x] Align module documentation to `PluginConfig`, structured result types, and plugin-specific capabilities
 
@@ -47,7 +50,7 @@ The source-tracked Phase 1–6 delivery is recorded complete in the root `ROADMA
 
 - [x] Implement Tesseract OCR plugin (`src/image_analysis/tesseract_ocr_plugin.cpp`)
 - [x] Implement YOLOv8 ONNX detection plugin (`src/image_analysis/yolov8_onnx_plugin.cpp`)
-- [x] Wire plugin builds and optional dependency checks in `src/image_analysis/CMakeLists.txt`
+- [x] Define local plugin targets and optional dependency checks in `src/image_analysis/CMakeLists.txt`
 - [ ] Validate runtime behavior and configuration defaults in the intended dependency-enabled build
 
 ### Phase 3: Error Handling & Edge Cases
@@ -59,7 +62,7 @@ The source-tracked Phase 1–6 delivery is recorded complete in the root `ROADMA
 
 ### Phase 4: Tests
 
-- [x] Focused and stress test source files exist under `tests/image_analysis/`
+- [x] Focused and stress test sources exist under `tests/image_analysis/`; [`tests/CMakeLists.txt`](../../tests/CMakeLists.txt) discovers this directory's CMake file and creates focused unit executables when tests are configured
 - [ ] Run the focused test target in the intended build profile; source presence is not a passing test result
 - [ ] Extend coverage for malformed inputs, optional dependency combinations, and manager routing (the current stress file uses local stubs)
 
@@ -68,6 +71,12 @@ The source-tracked Phase 1–6 delivery is recorded complete in the root `ROADMA
 - [x] Mark unsupported numeric performance expectations as unverified proposals in `PERFORMANCE_EXPECTATIONS.md`
 - [ ] Benchmark release-profile latency and throughput for OCR and detection under real model/runtime paths
 - [ ] Set numeric release gates only after reproducible runner evidence exists
+
+The three checked-in benchmark programs are all mock/synthetic. As shown in
+[`benchmarks/CMakeLists.txt`](../../benchmarks/CMakeLists.txt), the two
+registered under benchmark module `image_analysis` are
+`bench_image_analysis` and `bench_image_analysis_latency`; the third,
+`benchmark_image_analysis`, is registered under `benchmark_image`.
 
 ### Phase 6: Documentation & Acceptance
 

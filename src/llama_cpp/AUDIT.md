@@ -1,13 +1,32 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_Sources: "src/llama_cpp/llama_cpp_plugin.cpp; src/llama_cpp/llama_cpp_registrar.cpp; src/llama_cpp/llama_cpp_plugin_validation_gates.cpp; tests/llama_cpp/CMakeLists.txt"
+Related_Issue: "#7356"
+Related_Milestone: "DOC-WEEKLY-2026-44"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: current | validated: 2026-08-09 -->
+<!-- Status: historical snapshot | audit date: 2026-08-09 | not current audit evidence -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — llama_cpp Plugin
 
 **Last Audit:** 2026-08-09
 **Auditor:** Copilot (Sub-Agents A–F)
-**Status:** ✅ Pass
+**Status:** Historical snapshot only — the reported pass applies to the 2026-08-09 audit scope and is not current audit evidence.
 
 ## Summary
 
@@ -16,11 +35,10 @@
 | Source files audited | 3 (`llama_cpp_plugin.cpp`, `llama_cpp_registrar.cpp`, `llama_cpp_plugin_validation_gates.cpp`) |
 | Test targets | 2 (`LlamaCppPluginFocusedTests`, `LlamaCppRegistrarIntegrationTests`) |
 | Test count | 89 (groups A–X + W registrar tests) |
-| Open security issues | 0 |
-| Open functional issues | 0 |
-| Critical gap-scanner findings closed | 30 (all CRITICAL/HIGH from 2026-06-04 scan) |
+| Issues reported open at audit time | Security: 0; functional: 0 (not revalidated) |
+| Critical gap-scanner findings reported closed | 30 from the 2026-06-04 scan (not a current scan result) |
 | Build system registration | ✅ `tests/CMakeLists.txt` + `plugins/CMakeLists.txt` |
-| Documentation completeness | ✅ All docs present and updated |
+| Documentation completeness | Reported complete at audit time; not revalidated |
 
 ## Build System
 
@@ -35,7 +53,7 @@ Dependencies: `nlohmann_json` (required).
 
 | File | Responsibility | Finding |
 |------|---------------|---------|
-| `llama_cpp_plugin.cpp` | Full ILLMPlugin implementation | ✅ All methods implemented; thread-safe via `std::mutex`; error handling for uninit state; LoRA duplicate-id replacement |
+| `llama_cpp_plugin.cpp` | Full ILLMPlugin implementation | Uses a mutex for selected shared state and registry operations; this is not a blanket thread-safety guarantee. The current implementation also has wrapper, callback, and test-stub dispatch paths. |
 | `llama_cpp_registrar.cpp` | Plugin factory export (THEMIS_LLM_PLUGIN macro, create/destroy functions) | ✅ Reviewed |
 
 ## Interface Compliance
@@ -45,7 +63,7 @@ Dependencies: `nlohmann_json` (required).
 | `ILLMPlugin::loadModel` | ✅ | Opt-in digest gate; real LlamaWrapper via `THEMIS_LLM_ENABLED` |
 | `ILLMPlugin::unloadModel` | ✅ | Clears model state and LoRA registry |
 | `ILLMPlugin::getModelInfo` | ✅ | Returns nullopt when not loaded |
-| `ILLMPlugin::generate` | ✅ | Policy gate; retry-callback; fail-closed error when not loaded |
+| `ILLMPlugin::generate` | ✅ | Optional policy gate; pre-dispatch cancellation; stream-callback retry; unavailable-backend error outside test-stub builds |
 | `ILLMPlugin::generateRAG` | ✅ | Mutex-snapshot for shared state; RAGContextAssembler |
 | `ILLMPlugin::embed` | ✅ | Inject-fn or real LlamaWrapper embedding; zero-vector stub |
 | `ILLMPlugin::loadLoRA` | ✅ | Thread-safe; duplicate-id replacement |

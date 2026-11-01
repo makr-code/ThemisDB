@@ -199,11 +199,11 @@ std::string TemporalCompressor::rlDecode(const std::string& input) {
 }
 
 /**
- * @brief ============================================================================ Algorithm: ZSTD (simulated via RL-encode + base64) ============================================================================
- * @param[in] doc Input parameter.
- * @param[in] int Input parameter.
- * @return Return value.
- * @details Calls: dump(), base64Encode(), rlEncode(), size().
+ * @brief Encode a payload using the current ZSTD-labelled implementation.
+ * @param doc JSON document to encode.
+ * @param level Compression level accepted by the API; currently unused.
+ * @return JSON object containing the encoded payload and its marker.
+ * @note This implementation uses run-length encoding and base64, not Zstandard.
  */
 
 nlohmann::json TemporalCompressor::applyZstd(const nlohmann::json& doc, int /*level*/) {
@@ -229,12 +229,13 @@ nlohmann::json TemporalCompressor::decompressZstd(const nlohmann::json& doc) {
 }
 
 /**
- * @brief ============================================================================ Algorithm: DELTA (JSON field-level patch) A delta payload looks like: { "__compressed": "delta", "__base_ref": "<key>@<sys_start_ms>", "__patch": { <field>: <new_value>, .
- * @param[in] base Input parameter.
- * @param[in] current Input parameter.
- * @param[in] base_ref Input parameter.
- * @return Return value.
- * @details .. }, "__removed": [<field>, ...] } Fields absent from __patch and __removed are unchanged from the base. ============================================================================ Calls: nlohmann::json::object(), nlohmann::json::array(), items(), contains(), at(), push_back().
+ * @brief Build a JSON field-level delta between two documents.
+ * @param base Document whose values form the baseline.
+ * @param current Document containing the updated values.
+ * @param base_ref Reference used to locate the baseline during reconstruction.
+ * @return Delta payload with changed values and removed-field names.
+ * @details Fields absent from both the patch and removed-field list are
+ * unchanged from the baseline.
  */
 
 nlohmann::json TemporalCompressor::applyDelta(const nlohmann::json& base,
@@ -344,10 +345,10 @@ nlohmann::json TemporalCompressor::applyDictionary(
 }
 
 /**
- * @brief ============================================================================ ============================================================================ Algorithm: LZ4 — high-throughput block compression ============================================================================ Payload format stored in the history table: { "__compressed": "lz4", "__original_size": <int>, // original JSON string byte count "__data": "<base64-encoded LZ4 compressed block>" }
- * @param[in] doc Input parameter.
- * @return Return value.
- * @details Calls: dump(), size(), LZ4_compressBound(), dst(), LZ4_compress_default(), data(), resize(), base64Encode().
+ * @brief Compress a JSON document into the LZ4 payload format.
+ * @param doc Document serialized before block compression.
+ * @return Marked JSON payload containing the original byte count and encoded
+ *         compressed block.
  */
 
 nlohmann::json TemporalCompressor::applyLz4(const nlohmann::json& doc) {
@@ -738,5 +739,4 @@ CompressionStats TemporalCompressor::compressHistory(
 
 } // namespace temporal
 } // namespace themisdb
-
 

@@ -1,145 +1,72 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-11-01"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Failover Module Roadmap
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-29 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+> Root [`../../ROADMAP.md`](../../ROADMAP.md) is authoritative for aggregate
+> release maturity and readiness. This page summarizes source-visible module
+> scope and identifies follow-up work; historical wave labels are not test or
+> production sign-off.
 
-## Current Status
+## Current implementation
 
-Production failover runtime exists across automatic failover orchestration, disaster recovery plan execution, and queue/retry telemetry surfaces.
+- Automatic health/failure tracking, bounded request queue, quorum/fencing
+  checks, replica promotion requests, state/results, events, and statistics.
+- Optional local quorum log and deterministic topology snapshot helpers.
+- Disaster-recovery plan validation and fixed seven-step coordination with
+  step hooks and in-memory caching for named plans.
+- Focused test sources are registered through `tests/failover/CMakeLists.txt`
+  with `failover` and `release_critical` labels. Three Google Benchmark
+  executables are registered when benchmarks are enabled.
 
-## In Progress
+This inventory confirms code and CMake declarations only; it does not claim
+tests or benchmarks passed. See [`AUDIT.md`](AUDIT.md) for audit limitations.
 
-- [x] hardening dependency-degraded and multi-step recovery edge behavior (Delivered: Q3 2026)
-- [x] benchmark stabilization for recovery lifecycle hot paths (Delivered: Q3 2026)
-- [x] diagnostics consistency improvements for failover queue pressure and DR failures (Delivered: Q3 2026)
-- [x] canonical retry escalation contract helpers added (`isRetryEscalationCode`, `toRetryTimeoutSource`) in `failover_api_contract.h` with focused test coverage in `test_failover_contract_hardening_focused.cpp` (Delivered: 2026-08-09)
+## Known implementation limits
 
-## Planned Features
+- `stop()` uses direct `join()` calls. Source comments mention deadlines, but no
+  timeout is enforced on either join.
+- A timed-out health-check future can continue running; later monitoring cycles
+  are skipped until that future completes.
+- `target_promote_id` is queued but ignored when selecting a promotion candidate.
+- Quorum-log recovery is logged, not applied as restored manager state.
+- Spare activation failure now blocks failover completion; metadata persistence
+  remains unavailable and the built-in path returns failure.
+- Non-dry-run DR snapshot validation, restore, catch-up, requested traffic shift,
+  and recovered-state verification fail closed until their production hooks are
+  configured. Hooks must verify real effects; their correctness is not certified
+  by the manager.
+- Current failover runtime does not export named Prometheus metrics or trace spans.
+- Existing benchmark source includes mock/simulated workloads and declares
+  thresholds; source presence does not establish measured latency.
 
-### Short-term (3-6 months)
-- [x] tighten deterministic behavior under concurrent multi-node failover storms (Target: Q4 2026) — DELIVERED 2026-08-24: topology versioning (FO-IMPL-006), consensus quorum hardening (Wave B)
-- [x] expand regressions for fencing/quorum dependency edge scenarios (Target: Q4 2026) — DELIVERED: Wave A/C test suite (fencing, quorum persistence, concurrent promotion)
-- [x] improve operator diagnostics for DR-step failure and retry escalation (Target: Q4 2026) — DELIVERED: runbooks, WAVE_C_CLOSURE_EVIDENCE.md
+## Follow-up documentation and implementation questions
 
-### Mid-term (6-12 months)
-- [x] re-baseline p95/p99 envelopes for failover and recovery orchestration overhead (Target: Q1 2027) — DELIVERED: `benchmarks/failover/bench_failover_wave_b_gates.cpp`
-- [x] add dedicated benchmark coverage for failover manager and DR step pipelines (Target: Q1 2027) — DELIVERED: FWB-01..08
-- [x] harden long-running reliability under repeated failover/recovery cycles (Target: Q1 2027) — DELIVERED: `tests/integration/test_failover_soak_60min.cpp` (SOAK-01..04)
+- Decide whether `stop()` requires a genuinely bounded shutdown contract; if so,
+  implement and test it before documenting a maximum wait.
+- Implement durable metadata persistence and real adapters for restore, traffic,
+  replication-position catch-up, spare activation, snapshot validation, and
+  recovered-state verification before treating results as completed operations.
+- Establish whether quorum-log replay should restore any manager state and define
+  the persistence/consistency contract before making durability claims.
+- Validate performance targets on representative hardware and distinguish
+  workload simulations from end-to-end measurements.
 
-## Implementation Phases
+## References
 
-### Phase 1: Design / API Contract
-- [x] freeze failover/recovery manager contracts for active major line (Delivered: Q3 2026)
-- [x] define explicit error taxonomy for queue, dependency, and DR-step failure classes (Delivered: Q3 2026)
-  - Contract header: `include/failover/failover_api_contract.h`
-  - Error codes: ELECTION_TIMEOUT, SPLIT_BRAIN_DETECTED, HANDOVER_INCOMPLETE, NODE_REJOIN_FAILED,
-    HEARTBEAT_MISSED, STATE_SYNC_TIMEOUT, QUORUM_UNAVAILABLE, INVALID_EPOCH, INTERNAL_ERROR
-
-### Phase 2: Core Implementation
-- [x] complete hardening for queue/worker orchestration and DR-step internals (Delivered: Q4 2026)
-  - Bounded stop() with documented worst-case wait per thread (failover_thread_ ≤1 s, monitoring_thread_ ≤health_check_interval)
-  - attemptRecovery stats batch-updated: single lock acquisition per call instead of per iteration
-  - Canonical lock order documented: failover_mutex_ → stats_mutex_ → callbacks_mutex_
-  - executePlan concurrent execution guard (execution_mutex_ + try_to_lock; returns "concurrent execution rejected")
-- [x] align dependency/fencing integration behavior to bounded runtime contracts (Delivered: Q4 2026)
-  - preventSplitBrain fails closed (returns false + emitDiagnostic) when no EpochFencingManager is configured
-  - emitDiagnostic() helper unifies log + event-callback emission for all fencing/quorum contract violations
-
-### Phase 3: Error Handling and Edge Cases
-- [x] standardize fail-closed behavior for invalid plans and unsafe transition scenarios (Delivered: Q4 2026)
-  - canTransition() implements real state machine table: IDLE → VERIFYING_FAILURE → CHECKING_QUORUM → STARTING_LEADER_ELECTION → (LEADER_ELECTION_IN_PROGRESS →) UPDATING_METADATA → COMPLETING_FAILOVER → IDLE; FAILED reachable from any state; back to IDLE always valid
-  - transitionState() logs a warning for any transition not in the table (non-blocking, observable)
-  - preventSplitBrain fails closed when fencing manager is absent (QUORUM_UNAVAILABLE diagnostic emitted)
-- [x] unify diagnostics across queue saturation, retry, and DR-step failures (Delivered: Q4 2026)
-  - emitDiagnostic(FailoverErrorCode, node_id, detail) private helper: spdlog::error + emitEvent mapping
-  - Used in: preventSplitBrain (QUORUM_UNAVAILABLE), attemptRecovery exhaustion (NODE_REJOIN_FAILED)
-  - QUORUM_UNAVAILABLE maps to FailoverEventType::QUORUM_CHECK_FAILED for callback consumers
-
-### Phase 4: Tests
-- [x] expand focused regressions for queue pressure and dependency-degraded recovery scenarios (Delivered: Q3 2026)
-- [x] extend deterministic fixture coverage for DR-step permutation and timeout cases (Delivered: Q3 2026)
-- [x] add DR plan validation and step-isolation focused regressions (Delivered: Q3 2026)
-  - Test file: `tests/failover/test_failover_contract_hardening_focused.cpp`
-  - Test cases: FCH-01..FCH-16 (election, handover, recovery, error contract)
-  - kFailoverContractSeed = 42; all tests self-contained, no external I/O
-  - Test file: `tests/failover/test_failover_chaos_scenarios.cpp`
-  - Test cases: 17 scenarios (queue saturation, pressure telemetry, concurrent access, lifecycle)
-  - Test file: `tests/failover/test_failover_dr_edge_scenarios.cpp`
-  - Test cases: DRE-01..DRE-08 (plan validation, dry-run, step hook failure, statistics)
-  - kDREdgeSeed = 42; all tests self-contained, no external I/O
-
-### Phase 5: Performance and Hardening
-- [x] lock benchmark-backed release gates for failover/recovery hot paths (Delivered: Q3 2026)
-- [x] validate p95/p99 and throughput behavior against release baselines (Delivered: Q3 2026)
-  - Benchmark file: `benchmarks/failover/bench_failover_release_gates.cpp`
-  - Gates: FRG-01..FRG-06 (heartbeat ≤500µs, election ≤5ms, state-sync ≤200µs,
-    health-check ≤100µs, buffer-check ≤50µs, epoch-persist ≤1ms)
-  - kFailoverCanonicalSeed = 42; Repetitions(5)
-- [x] Phase 2/3 hot-path benchmarks delivered (Delivered: Q3 2026, 2026-07-29)
-  - Benchmark file: `benchmarks/failover/bench_failover_phase2_phase3_gates.cpp`
-  - Gates: FP23-01..FP23-06 covering canTransition (≤100µs), preventSplitBrain
-    fail-closed (≤200µs), executePlan concurrency guard (≤100µs), attemptRecovery
-    batch stats flush (≤200µs), emitDiagnostic dispatch (≤100µs),
-    triggerManualFailover queue-full drop (≤200µs)
-  - kP23CanonicalSeed = 42; Repetitions(5); mock-only (no I/O, no threads)
-
-### Phase 6: Documentation and Acceptance
-- [x] core failover module docs aligned to source-verifiable behavior
-- [x] roadmap/future planning separated from historical changelog entries
-- [x] Phase 1-6 Wave 3B Category-D closure delivered (Q3 2026)
-  - Contract header, 16 focused tests (FCH-01..16), 6 release-gate benchmarks (FRG-01..06)
-- [x] Q3 2026 status sync: roadmap validated against full module docs (2026-07-29)
-  - Test evidence: chaos scenarios (17 tests PASS), contract hardening (FCH-01..16), DR edge (DRE-01..08)
-  - Benchmark evidence: FRG-01..FRG-06 (bench_failover_release_gates.cpp)
-- [x] Phase 2/3 hardening delivered (2026-07-29)
-  - Test file: `tests/failover/test_failover_phase2_phase3_focused.cpp`
-  - Test cases: P23-01..P23-08 (canTransition table, fail-closed split-brain, batch stats, concurrent DR rejection, emitDiagnostic callback)
-  - kPhase23Seed = 42; all tests self-contained, no external I/O
-- [x] Phase 5 benchmark gates for Phase 2/3 hardening delivered (2026-07-29)
-  - Benchmark file: `benchmarks/failover/bench_failover_phase2_phase3_gates.cpp`
-  - Gates: FP23-01..FP23-06 (canTransition, preventSplitBrain, concurrency guard, batch stats, emitDiagnostic, queue-full drop)
-  - kP23CanonicalSeed = 42; Repetitions(5); all gates documented in benchmarks/failover/README.md
-
-## Production Readiness Checklist
-
-- [x] core failover surfaces documented and source-verified
-- [x] module-level security and failure behavior documented
-- [x] benchmark mapping documented in performance expectations
-- [x] dedicated failover benchmark file delivered (FRG-01..FRG-06)
-- [x] Q3 2026 hardening, benchmark stabilization, and diagnostics items closed
-- [x] remaining hardening tasks closed for dependency/queue/DR-step edge paths (Q4 2026)
-- [x] Phase 2/3 hot-path benchmarks delivered (FP23-01..FP23-06) (2026-07-29)
-- [x] release benchmark stabilization p95/p99 re-baseline complete (Q1 2027) — DELIVERED 2026-08-24: `benchmarks/failover/bench_failover_wave_b_gates.cpp` FWB-01..08
-
-## Known Issues and Limitations
-
-- runtime outcomes partially depend on external manager availability and behavior.
-- concurrent multi-node failover storm edge cases require continued hardening (Q4 2026).
-- fencing/quorum dependency edge scenarios are covered by contract tests but not yet stress-tested at scale.
-
-## Breaking Changes
-
-No breaking failover contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.
-
-## Program Execution Model — Wave Context
-
-This module is a **contributing module** in the program-level Wave A → B → C → D execution model.
-It does not own a primary wave deliverable but must remain `release_critical`-green throughout all waves
-and must deliver Wave D operability improvements in Q1 2027.
-See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
-
-### Wave D Contribution for `failover`
-- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — DELIVERED: `src/failover/WAVE_D_CLOSURE_EVIDENCE.md`; observability test: `tests/failover/test_failover_wave_d_observability.cpp`
-- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — DELIVERED: `tests/integration/test_failover_soak_60min.cpp` (SOAK-01..04)
-- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — DELIVERED: `docs/operability/failover_runbook_split_brain.md`, `failover_runbook_fencing_override.md`, `failover_runbook_manual_recovery.md`
-
-### Cross-Wave Requirements
-- `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
-- p95/p99 benchmarks must be refreshed on representative hardware before Wave D sign-off (Target: Q1 2027)
-- No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
-
-### Program-Level Success Criteria (contribution)
-- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — VERIFIED: fencing fail-closed (FO-IMPL-003), quorum-log fail-closed (FO-IMPL-004), topology versioning (FO-IMPL-006)
-- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027) — DELIVERED: `benchmarks/failover/bench_failover_wave_b_gates.cpp` (FWB-01..08)
-- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — DELIVERED: 3 runbooks in `docs/operability/`
+- [`API.md`](API.md) · [`ARCHITECTURE.md`](ARCHITECTURE.md) ·
+  [`IMPLEMENTATION.md`](IMPLEMENTATION.md)
+- [`tests/failover/CMakeLists.txt`](../../tests/failover/CMakeLists.txt)
+- [`benchmarks/failover/CMakeLists.txt`](../../benchmarks/failover/CMakeLists.txt)
+- Public contract: `include/failover/failover_api_contract.h`

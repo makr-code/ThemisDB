@@ -1,14 +1,40 @@
 # Distributed Tensor Module — Production Requirements
 
-**Last Updated:** 2026-08-17  
+**Last Updated:** 2026-10-31
 **Level:** 1 (Module Primary Documentation)  
 **SOT Domain:** module-behavior, architecture-governance  
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot Coding Agent
+Human_Review: false
+Human_Author: unknown
+Exact model backend not verifiable from final document text alone.
+-->
 **Canonical Source References:**  
-- `ARCHITECTURE.md` (module contract, Wave A context)  
-- `ROADMAP.md` (EPIC 3 phase gates, Q3–Q4 2026 targets)  
-- `FUTURE_ENHANCEMENTS.md` (performance and security expectations)  
-- `src/distributed_tensor/README.md` (implementation status, code structure)  
-- `PHASE_3_DESIGN_DOCUMENTATION.md` (Phase 3 safety gates reference)
+- `src/distributed_tensor/CMakeLists.txt` (configured library source/header lists)
+- `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt` (current test registration paths)
+- `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt` (current benchmark registration paths)
+- `src/distributed_tensor/README.md` and `ROADMAP.md` (module scope and status)
+
+> **Source-audit notice (2026-10-31):** This document preserves the
+> requirements and gate-status snapshot recorded on 2026-08-17. Its dated
+> pass/production-ready claims have not been verified against current CI
+> artifacts and are not current status evidence. The referenced EPIC 3 test
+> and benchmark directories do exist and are added by parent CMake files. In
+> this checkout, the module CMake file lists nine public headers and fifteen
+> implementation translation units; `tests/distributed_tensor/` registers
+> three local focused test executables, with additional tests registered by
+> `tests/epic3_distributed_tensor/` and `tests/integration/`. The benchmark
+> configuration includes the local in-process stub source and the EPIC 3
+> workload benchmarks. Source registration does not show that tests or
+> benchmarks passed. This review ran no build, test, benchmark, security scan,
+> or production validation. Also, the library target compiles
+> `src/distributed_tensor/integrity_verification.cc`, whose
+> `simple_sha256_hash()` is an FNV-1a demonstration hash. The nested
+> `src/distributed_tensor/src/integrity_verification.cc` with SHA-256 calls is
+> not in that target's source list. Its Merkle-shaped structures and receipts
+> must not be presented as cryptographic protection.
 
 ---
 
@@ -42,10 +68,9 @@
 
 #### Security Posture
 
-- **Integrity Verification:** SHA-256 based verification with Merkle proof chains enforced at all replication boundaries.
-  - Reference: `SECURITY.md` § Distributed Artifact Integrity
-  - Implementation: `src/distributed_tensor/src/integrity_verification.cc`
-  - Status: ✅ **PRODUCTION-READY**
+- **Integrity Verification:** The active module target's root-level `integrity_verification.cc` uses FNV-1a demonstration hashing through `simple_sha256_hash()`, despite the SHA-256 name. Merkle-shaped structures are present, but this implementation is not cryptographic SHA-256 and does not provide cryptographic security.
+  - The separate nested `src/distributed_tensor/src/integrity_verification.cc` contains SHA-256 calls but is not listed in `src/distributed_tensor/CMakeLists.txt`.
+  - Status: **NOT A CRYPTOGRAPHIC SECURITY CONTROL; production security use is unsupported by this source.**
 
 - **Recovery Determinism:** All recovery paths must be deterministic and fail-closed under Byzantine conditions.
   - Reference: `FUTURE_ENHANCEMENTS.md` § Byzantine Fault Tolerance for Tensor Recovery
@@ -74,14 +99,16 @@
 
 ### 2.3 Runtime Resilience Hardening (Phase 3 Safety Gates)
 
-All Phase 3 safety gates have been validated and are production-ready:
+The 2026-08-17 snapshot reported the following Phase 3 gate statuses. They
+remain historical, and the integrity item is not a cryptographic security
+guarantee; current pass status is unverified:
 
 | Gate | Implementation | Status | Reference |
 |------|----------------|--------|-----------|
 | **SG-DT-01: Fail-Closed Invariant** | All phases must fail closed under Byzantine conditions | ✅ PASSED | `PHASE_3_DESIGN_DOCUMENTATION.md` § Byzantine Coordination |
 | **SG-DT-02: Recovery Determinism** | Recovery outcomes deterministic given same input state | ✅ PASSED | `src/distributed_tensor/src/recovery_manager.cc` |
 | **SG-DT-03: Advisory Flag Immutability** | Tensor artifacts never bypass graph verification | ✅ PASSED | `src/distributed_tensor/include/advisory_only_guard.h` |
-| **SG-DT-04: Integrity Always Succeeds (Normal)** | Integrity verification succeeds for valid artifacts under nominal conditions | ✅ PASSED | `src/distributed_tensor/src/integrity_verification.cc` |
+| **SG-DT-04: Integrity Always Succeeds (Normal)** | Integrity verification function behavior; not a cryptographic security property | **UNVERIFIED** | Active target source uses FNV-1a demonstration hashing |
 | **SG-DT-05: Staleness Detection** | All artifacts checked against manifest timestamp; stale artifacts rejected | ✅ PASSED | `src/distributed_tensor/src/artifact_invalidation.cc` |
 | **SG-DT-06: Recovery Coordination** | Recovery coordination with failover and storage subsystems atomic | ✅ PASSED | `PHASE_3_DESIGN_DOCUMENTATION.md` § Coordination Protocol |
 
@@ -163,12 +190,21 @@ The advisory-only artifact placement invariant is the **blocking production requ
 - **Audit:** `src/distributed_tensor/src/recovery_manager.cc` implements deterministic recovery state machine.
 - **Test Evidence:** `tests/epic3_distributed_tensor/test_tensor_rebuild_fallback.cpp` (RFB-01..10)
 
-### 3.4 Integrity Verification Must Always Succeed Under Normal Conditions
+### 3.4 Integrity Verification Limitation
 
-- **Invariant:** SHA-256 integrity verification must succeed for all artifacts that passed manifest store admission under nominal conditions.
-- **Mechanism:** Manifest store enforces integrity at admission; Merkle proof chains enable efficient re-verification at retrieval.
-- **Failure Recovery:** Failed verification triggers artifact staleness marking and eviction from placement suggestions.
-- **Test Evidence:** `tests/epic3_distributed_tensor/integrity_verification_test.cc`; Benchmark: `benchmarks/epic3_distributed_tensor/integrity_verification_bench.cc` (IV-BENCH-01..08)
+- The active `themis_distributed_tensor` target uses the root-level
+  `integrity_verification.cc`, where `simple_sha256_hash()` is an FNV-1a
+  demonstration hash. Its 64-character output and SHA-256 naming do not make
+  it SHA-256.
+- Merkle-shaped tree/receipt operations built on that function are not
+  cryptographic integrity protection.
+- The nested `src/integrity_verification.cc` SHA-256 implementation is not
+  listed in the module target's CMake source list. Test source presence or a
+  historical test/benchmark status does not establish cryptographic behavior
+  in the active library target.
+- **Status:** Cryptographic integrity protection is not established by the
+  current module target; production security use requires implementation and
+  verification of a real cryptographic hash path.
 
 ---
 
@@ -348,27 +384,30 @@ The distributed tensor module coordinates recovery with EPIC 3.5 (failover orche
 
 | Test Directory | Focused Tests | CMake Registration |
 |----------------|---------------|--------------------|
-| `tests/epic3_distributed_tensor/` | MS-01..12, LSM-01..31, TDL-01..18, RFB-01..10, IV tests | `tests/epic3_distributed_tensor/CMakeLists.txt` |
-| `tests/distributed_tensor/` | (legacy) | Deprecated; consolidating into `tests/epic3_distributed_tensor/` |
+| `tests/distributed_tensor/` | Allocation, operations, performance focused tests | `tests/distributed_tensor/CMakeLists.txt` |
+| `tests/epic3_distributed_tensor/` | EPIC 3 phase/contract sources; exact inclusion depends on CMake guards | `tests/epic3_distributed_tensor/CMakeLists.txt` |
+| `tests/integration/` | Distributed tensor soak test when source is present | `tests/integration/CMakeLists.txt` |
 
 ### 7.3 Benchmark Directory References
 
 | Benchmark Directory | Focused Benchmarks | CMake Registration |
 |---------------------|-------------------|--------------------|
-| `benchmarks/epic3_distributed_tensor/` | placement_strategy, integrity_verification, recovery_rebuild, distributed_retrieval, partial_refit | `benchmarks/epic3_distributed_tensor/CMakeLists.txt` |
-| `benchmarks/tensor/` | fingerprint, compression, release gates (legacy) | Deprecated; consolidating into `benchmarks/epic3_distributed_tensor/` |
+| `benchmarks/distributed_tensor/` | In-process dedicated gates | `benchmarks/distributed_tensor/CMakeLists.txt` and parent `benchmarks/CMakeLists.txt` |
+| `benchmarks/epic3_distributed_tensor/` | Placement, integrity, recovery, distributed retrieval, partial refit, summary-first | `benchmarks/epic3_distributed_tensor/CMakeLists.txt` and parent `benchmarks/CMakeLists.txt` |
 
 ### 7.4 Implementation File References
 
 | Component | Header | Implementation | Purpose |
 |-----------|--------|-----------------|---------|
-| **Artifact Classes** | `include/distributed_tensor/tensor_artifact_classes.h` | `src/distributed_tensor/src/tensor_artifact_classes.cc` | Core artifact type definitions |
-| **Manifest Schema** | `include/distributed_tensor/artifact_manifest.h` | `src/distributed_tensor/src/artifact_manifest.cc` | JSON manifest serialization + validation |
-| **Shard Placement** | `include/distributed_tensor/shard_placement.h` | `src/distributed_tensor/src/shard_placement.cc` | Replica affinity + placement decisions |
-| **Integrity Verification** | `include/distributed_tensor/integrity_verification.h` | `src/distributed_tensor/src/integrity_verification.cc` | SHA-256 + Merkle proof verification |
-| **Recovery Manager** | `include/distributed_tensor/recovery_manager.h` | `src/distributed_tensor/src/recovery_manager.cc` | Deterministic recovery state machine |
-| **Distributed Planner** | `include/distributed_tensor/distributed_planner.h` | `src/distributed_tensor/src/distributed_planner.cc` | Distributed retrieval orchestration |
-| **Tensor Infrastructure** | `include/distributed_tensor/tensor_infrastructure.h` | `src/distributed_tensor/src/tensor_infrastructure.cc` | Subsystem init, lifecycle management |
+| **Artifact Classes** | `include/distributed_tensor/tensor_artifact_classes.h` | `src/distributed_tensor/tensor_artifact_classes.cc` | Artifact class and lifecycle implementation |
+| **Manifest Schema** | `include/distributed_tensor/artifact_manifest.h` | `src/distributed_tensor/artifact_manifest.cc`; `src/distributed_tensor/src/artifact_manifest.cc` | Manifest implementation sources listed by CMake |
+| **Shard Placement** | `include/distributed_tensor/shard_placement.h` | `src/distributed_tensor/shard_placement.cc` | Placement implementation |
+| **Integrity Verification** | `include/distributed_tensor/integrity_verification.h` | `src/distributed_tensor/integrity_verification.cc` | Integrity implementation |
+| **Recovery Manager** | `include/distributed_tensor/recovery_manager.h` | `src/distributed_tensor/recovery_manager.cc` | Recovery implementation |
+| **Distributed Planner** | `include/distributed_tensor/distributed_planner.h` | `src/distributed_tensor/distributed_planner.cc`; `src/distributed_tensor/src/distributed_planner.cc` | Planner implementation sources listed by CMake |
+| **Tensor Infrastructure** | `include/distributed_tensor/tensor_infrastructure.h` | `src/distributed_tensor/tensor_infrastructure.cc` | Infrastructure implementation |
+| **Training Coordination** | `include/distributed_tensor/tensor_training_coordinator.h` | `src/distributed_tensor/tensor_training_coordinator.cc` | Synchronous in-process worker callbacks; no network/distributed worker protocol |
+| **Storage Strategy** | `include/distributed_tensor/tensor_storage_strategy.h` | `src/distributed_tensor/src/tensor_storage_strategy.cc` | Storage strategy implementation |
 
 ### 7.5 Documentation Governance
 
@@ -422,6 +461,6 @@ This document must be updated when:
 ---
 
 **Document Version:** 1.0  
-**Status:** PRODUCTION-READY  
-**Next Review:** 2026-09-30 (Phase B completion target)  
+**Status:** Historical requirements snapshot — current readiness unverified
+**Next Review:** Revalidate against current source and evidence
 **Supersedes:** PHASE_3_DESIGN_DOCUMENTATION.md (Phase 3 gates reference only)

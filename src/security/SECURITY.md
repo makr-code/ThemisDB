@@ -31,6 +31,8 @@ Exact model backend not verifiable from final document text alone.
 
 ## Security Controls
 
+- Production safeguards use the canonical `themis::core::ProductionMode` parser; unsupported
+  `THEMIS_PRODUCTION_MODE` or `THEMIS_ENVIRONMENT` values fail instead of silently selecting development mode.
 - Access-control and policy enforcement surfaces (`rbac`, `access_control_manager`, `row_level_security`).
 - Encryption and key-provider paths (`field_encryption`, vault/HSM/PKI providers).
 - Detection controls (`aql_injection_detector`, anomaly/detection helpers, malware scanning).

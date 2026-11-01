@@ -1,8 +1,23 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-02"
+Last Updated: "2026-10-31"
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Index Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-02 -->
-<!-- Evidence: test_ann_frontdoor_focused [46 PASSED] module_index_test_ann_frontdoor_focused.exe; 18 test files, 381+ test cases total -->
+<!-- Historical targets: Q3 2026 dates in this roadmap have elapsed; owners must rebaseline them before they are treated as active commitments. -->
+<!-- Historical evidence snapshot: 2026-08-02. Current focused registration is defined by tests/index/CMakeLists.txt. -->
+<!-- Current inventory: 31 test_*.cpp sources; source presence does not imply registration or passing status. -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · AUDIT.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phase A–D), §7 (risk) -->
 
@@ -15,8 +30,8 @@ Production index runtime exists across vector/secondary/spatial/graph indexing, 
 - **Wave B Exit Criteria:** Full 4-layer retrieval chain (search: ANN+vector+graph+LLM) with stable p95/p99 on representative hardware
 - **Tier 2 Functional Completeness:** Index performance critical for all retrieval workloads; blocks RAG Phase B and search Phase B
 
-**Hybrid Retrieval Rollout Readiness**: 40% 🟡 (issue #5468).
-- Phase A (exact-first, CPU fallback): ✅ AnnFrontdoor ready with CPU fallback enforced.
+**Hybrid Retrieval Rollout Readiness**: 40% 🟡 (issue #5468; historical estimate, not current gate evidence).
+- Phase A (ANN routing): AnnFrontdoor routes to registered ANN backends. Its flat-brute-force helper returns no candidates when no usable backend is available; it is not an exact storage scan or a guaranteed CPU fallback.
 - Phase B (ANN + CPU validation): 🟡 Q3 2026 — buffer lifecycle RAII and concurrency gaps must be fixed.
 - Phase C (GPU ANN): ❌ Q4 2026 or later — blocked by gpu module gaps.
 - Rollout risk detail: `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §7`

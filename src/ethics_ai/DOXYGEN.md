@@ -1,4 +1,20 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-09-20
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # ETHICS_AI DOXYGEN
+
+> **Historical generated snapshot:** The metrics and symbol inventory below were generated from the XML path/date recorded in this file (2026-09-20), not regenerated during issue #7343. Do not treat them as current Doxygen coverage evidence.
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
@@ -3462,4 +3478,3 @@ Status: active
   - `opponent_arguments` (const std::vector< EthicalArgument > &): n/a
   - `tensions` (const std::vector< SchoolTension > &): n/a
   - `config` (const TournamentConfig &): n/a
-

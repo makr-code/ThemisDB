@@ -1,9 +1,17 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/ingestion/ARCHITECTURE.md -->
 
 # Ingestion Module — Public Header Architecture
+
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
 
 **Module Path:** `include/ingestion/`  
 **Implementation:** `../../src/ingestion/`  
@@ -13,7 +21,10 @@
 
 ## 1. Overview
 
-`include/ingestion/` defines the **public multi-connector ingestion pipeline (API, CDC, database, filesystem, HuggingFace, Kafka, S3, web crawler), entity assembly, semantic validation, and workflow orchestration API contract** for ThemisDB.
+`include/ingestion/` declares C++ interfaces for connector intake, source
+management, validation, ordered workflow steps, optional worker coordination,
+entity assembly, and output adapters. A public type or option does not imply
+support by every connector or automatic use by every runtime path.
 
 For runtime composition and implementation internals see:
 → [`../../src/ingestion/ARCHITECTURE.md`](../../src/ingestion/ARCHITECTURE.md)
@@ -26,19 +37,19 @@ For runtime composition and implementation internals see:
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
-| `ingestion_manager.h` | `IngestionManager` | Primary ingestion lifecycle manager |
-| `ingestion_coordinator.h` | `IngestionCoordinator` | Multi-source ingestion coordination |
+| `ingestion_manager.h` | `IngestionManager`, `IngestionBuilder`, `IngestionAdminApi`, `ISourceConnector` | Source lifecycle, direct execution, in-process admin wrapper |
+| `ingestion_coordinator.h` | `IngestionCoordinator` and worker/checkpoint interfaces | Source partitioning and worker dispatch; durable/shared stores are injectable |
 | `ingestion_step.h` | `IIngestionStep` | Composable ingestion step interface |
 | `builtin_step_factories.h` | `BuiltinStepFactories` | Factory for built-in step implementations |
-| `workflow_engine.h` | `WorkflowEngine` | DAG-based ingestion workflow engine |
-| `ingestion_sinks.h` | `IngestionSinks` | Output sink registry |
+| `workflow_engine.h` | `WorkflowEngine`, `StepRegistry` | Ordered steps over `ExtractionContext`; no DAG contract is asserted |
+| `ingestion_sinks.h` | `IGraphWriter`, `IVectorWriter`, document/tensor sink interfaces | Output adapters; no universal sink registry is asserted |
 ### 2.2 Connectors
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
-| `api_connector.h` | `APIConnector` | REST/GraphQL API ingestion connector |
+| `api_connector.h` | API connector types | API source connector; protocol details are implementation-specific |
 | `cdc_connector.h` | `CDCConnector` | CDC-based streaming connector |
-| `database_connector.h` | `DatabaseConnector` | Generic database connector |
+| `database_connector.h` | `DatabaseConnector` | Database source connector; backend/protocol support must be verified |
 | `filesystem_ingester.h` | `FilesystemIngester` | Local/network filesystem ingestion |
 | `huggingface_connector.h` | `HuggingFaceConnector` | HuggingFace dataset connector |
 | `kafka_connector.h` | `KafkaConnector` | Kafka topic connector |
@@ -62,7 +73,7 @@ For runtime composition and implementation internals see:
 | Header | Public Type | Purpose |
 |--------|------------|---------|
 | `semantic_validator.h` | `SemanticValidator` | Semantic consistency validation |
-| `ingestion_quality_judge.h` | `IngestionQualityJudge` | LLM-based quality scoring |
+| `ingestion_quality_judge.h` | `IngestionQualityJudge` | Optional quality scoring; inspect backend availability and evaluated scores |
 | `agentic_reference_validator.h` | `AgenticReferenceValidator` | Agentic reference and citation validator |
 ### 2.5 Auth and Inference
 
@@ -80,9 +91,12 @@ All public types reside in the `themis::ingestion` namespace (or a sub-namespace
 
 ---
 
-## 4. Contract Notes
+## 4. Runtime and contract notes
 
-- Headers in `include/ingestion/` expose the **stable public API**; internal types live in `src/ingestion/`.
-- Clients depend only on types declared here; implementation details in `src/` may change without notice.
+- Headers in `include/ingestion/` declare public surfaces; this page does not certify ABI stability or production readiness.
+- The manager's filesystem workflow branch currently increments processed counts after successful workflow execution but does not pass the assembled result to a sink.
+- Coordinator defaults for shared checkpoints and leader election are in-memory; multi-process or multi-host guarantees require injected implementations.
+- `IngestionAdminApi` is an in-process wrapper, not an HTTP endpoint or authorization layer.
+- Three headers declare `themis::ingestion::IngestionErrorCode` with differing declarations (`ingestion_manager.h`, `ingestion_api_contract.h`, `ingestion_error_contract.h`). Including competing declarations in one translation unit is a source-contract conflict requiring reconciliation.
 - For breaking-change policy see [`../../VERSIONING.md`](../../VERSIONING.md).
-- Layer association: **ANN Frontdoor**.
+- TODO: verify any module-layer association against a current architecture source before documenting one.

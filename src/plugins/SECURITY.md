@@ -10,54 +10,45 @@ Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
 
-Exact model backend not verifiable from final document text alone.
+> Exact model backend not verifiable from final document text alone.
 
-# Security - Plugins Module
+# Security boundaries — plugins module
 
-<!-- Status: review | validated: 2026-10-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · TRUST.md · ROADMAP.md -->
+Report vulnerabilities through the project-level
+[`../../SECURITY.md`](../../SECURITY.md). This page summarizes source-visible
+controls; it is not a security certification or a complete deployment policy.
+See [`TRUST.md`](./TRUST.md) for precise trust semantics and
+[`PRODUCTION_REQUIREMENTS.md`](./PRODUCTION_REQUIREMENTS.md) for unresolved
+policy questions.
 
-Report vulnerabilities via project-level SECURITY.md.
+## Load-path distinctions
 
-For the implementation-specific distinction between manifest hash checks,
-pinned-key Ed25519 catalog verification, OCI layer digests, and WASM hashes,
-see [TRUST.md](./TRUST.md).
+| Path/control | Source-visible behavior | Limit |
+|---|---|---|
+| `loadPlugin(name)` | Uses a discovered manifest, dependency declarations, edition/license checks, manifest checks, and binary verification before activation. | Manifest `.sig` verification is a SHA-256 comparison in `NDEBUG`, not a public-key signature. |
+| `loadPluginFromPath(path, config)` | Applies binary verification and native library/export/initialization checks. | Does not parse `plugin.json`; manifest edition/license rules are not applied. |
+| `loadPluginFromOci(...)` | Retrieves the plugin binary layer, checks its digest, then delegates to path loading. | Layer digest is not publisher authentication; manifest policy is not applied. |
+| `SignedPluginRepository` | Verifies catalog entries using active pinned Ed25519 keys and canonical manifest serialization. | Separate catalog API; its checks are not automatically used for every manager load. |
+| `loadWasmPlugin(...)` | Checks an expected hash and runtime license gate on the built-in path; a registered loader callback is consulted first. | Runtime availability depends on build flags. The module does not establish a general sandbox guarantee. |
 
-## Security Scope
+Native shared libraries execute in the host process. A defect or malicious
+plugin can affect the server process; unloading is not a containment boundary.
+Capabilities are snapshotted after initialization, but escalation detection is
+an explicit manager operation, not an implicit check on every call.
 
-Security in the plugins module focuses on safe plugin intake boundaries, deterministic signature/manifest/capability validation, explicit failure signaling, and bounded runtime activation behavior.
+## Deployment responsibilities and open policy
 
-## Threat Model
+Protect plugin and cache directory writes, scope registry credentials, preserve
+artifact provenance, and choose durable audit retention at the deployment
+boundary. The current module API allows anonymous OCI retrieval when no
+credentials are configured and does not provide durable audit retention.
 
-| Threat | Current Mitigation Surface |
-|---|---|
-| malformed or tampered plugin manifests | manifest validation and structured rejection paths |
-| unsigned or invalidly signed plugins | explicit signature verification before activation |
-| runtime capability escalation or mismatch | capability negotiation and gating behavior |
-| unsafe reload or hot-plug transitions | deterministic reload flow with explicit failure states |
+**TODO / blocking policy gap:** the source does not identify a single approved
+production policy for publisher identity across every load path, native-code
+isolation, mandatory registry authentication, or audit retention. Do not
+describe these as enforced module controls until the policy owner and evidence
+are identified.
 
-## Implemented Security Controls
-
-- plugin activation paths are gated by validation and signature checks.
-- capability handling enforces explicit, bounded negotiation outcomes.
-- hot-plug/reload flows expose deterministic failure and rollback behavior.
-- unsupported integration paths fail explicitly rather than silently bypassing checks.
-
-## Security Follow-ups
-
-- continue hardening manifest/signature edge scenarios and key-rotation workflows.
-- tighten diagnostics around capability escalation and runtime mismatch states.
-- expand stress and abuse coverage for high-churn plugin lifecycle operations.
-
-## Sourcecode Verification (Module: plugins/security)
-
-- Verified files:
-  - src/plugins/plugin_registry.cpp
-  - src/plugins/signed_plugin_repository.cpp
-  - src/plugins/plugin_manager.cpp
-  - src/plugins/plugin_hot_plug_monitor.cpp
-  - src/plugins/plugin_system_edition.cpp
-- Verified controls:
-  - validation-gated plugin activation behavior
-  - deterministic signature/capability handling
-  - explicit hot-plug/reload security boundaries
+Primary evidence: `plugin_manager.cpp`, `oci_registry_client.cpp`,
+`signed_plugin_repository.cpp`, `wasm_plugin_loader.cpp`, and the corresponding
+headers under [`../../include/plugins/`](../../include/plugins/).

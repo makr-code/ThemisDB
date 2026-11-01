@@ -1,5 +1,18 @@
 # Evaluation Module - Phase 6 Acceptance Checklist
 
+> **Update provenance (2026-10-31):** AI_Used: true; AI_Models: unknown;
+> AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB
+> Contributors. Exact model backend not verifiable from final document text alone.
+
+> **Historical planning artifact (issue #5643, 2026-08-18):** The status rows,
+> checked items, target names, example measurements and environment blocker
+> below are preserved as recorded, not verified as current. Some target and
+> source lists do not match current CMake registration. Reconcile against
+> [IMPLEMENTATION.md](./IMPLEMENTATION.md),
+> [MODULE_EVIDENCE.md](./MODULE_EVIDENCE.md), and current CMake before using
+> this checklist for execution or acceptance. No tests or benchmarks were run
+> for issue #7344.
+
 <!-- Status: 2026-08-18 — Phase 6 documented for acceptance workflow -->
 <!-- Issue: #5643 (Development Status) -->
 <!-- Links: ROADMAP.md · MODULE_EVIDENCE.md · JUSTIFIED_GAP.md · PRODUCTION_REQUIREMENTS.md · AUDIT.md -->

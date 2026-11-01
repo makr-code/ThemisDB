@@ -1,203 +1,42 @@
-# failover Module - Developer Gap Note
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-11-01"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-> Auto-generated from ai_working\gap_scan_results.json.
-> This file is overwritten on each regeneration.
-> **Manual status update 2026-08-24:** All critical/high findings from the 2026-06-04 scan
-> have been addressed in subsequent implementation batches (Phase 2/3 hardening, Wave A–D).
-> See AUDIT.md and MODULE_GAPS_BATCH5.md for closure evidence.
+Exact model backend not verifiable from final document text alone.
 
-## Scan Snapshot
+# Failover Gap Scan — Historical Snapshot
 
-- Module: failover
-- Generated: 2026-06-04 08:50:22
-- **Remediation Status: All Critical/High findings resolved as of 2026-08-24**
-- Status: All Findings Addressed
-- Total Findings: 22
-- Actionable Findings (Critical + High): 20
-- Affected Files: 4
+> **Historical, non-normative artifact.** The scan data below was generated on
+> 2026-06-04 and was not regenerated for this documentation update. Its raw
+> finding counts and remediation classifications are not verified current
+> status. Some conclusions conflict with current source (notably timed thread
+> joins and manager-state recovery from the quorum log); do not use this file to
+> claim that findings are fixed or open.
 
-## Remediation Status (2026-08-24)
+The original scanner snapshot reported 22 findings (5 critical, 15 high, and 2
+low) across source and documentation. These counts describe the old scan only.
+The original scanner output is retained in repository history; this summary does
+not reproduce its outdated line numbers or unsupported closure claims.
 
-All Critical and High findings from this scan have been addressed.
+## Current follow-up items confirmed by source inspection
 
-| Category | Resolution |
-|---|---|
-| `thread_join_no_timeout` (CRIT) | **Fixed**: Bounded deadlines computed before `join()`; see `stop()` in `auto_failover_manager.cpp` |
-| `missing_version_tracking` (CRIT) | **Fixed**: `config_` snapshot under lock + `topology_version_` atomic; see `triggerManualFailover()` |
-| `data_race` (CRIT) | **Fixed**: `execution_mutex_` (try_to_lock) rejects concurrent `executePlan()` calls |
-| `deadlock_risk` | **Fixed**: Canonical lock order documented and enforced (`failover_mutex_ → stats_mutex_ → callbacks_mutex_`) |
-| `lock_in_loop` / `lock_contention` | **Fixed**: Batch stats accumulation — single `stats_mutex_` acquisition per `attemptRecovery()` call |
-| `resource_leaked_in_exception` | **False positive**: All paths use RAII (`shared_ptr`, value types); no bare `new`/`delete` |
-| `range_temporary` | **False positive**: Scanner misclassified `cv::wait_for` lambda and `sleep_for` calls as range-for temporaries |
-| `uninitialized_access` | **False positive**: Scanner matched PR-history comment at file line 5, not live code |
-| `unspecified_consistency` | **False positive**: Thread construction does not imply replication-lag consistency concerns |
-| `module_doc_linkset_drift` | **Fixed**: Both `FUTURE_ENHANCEMENTS.md` and `PRODUCTION_REQUIREMENTS.md` carry correct `<!-- Links: ... -->` headers |
+- `AutoFailoverManager::stop()` uses direct thread `join()` calls; the computed
+  deadlines do not enforce a bounded join.
+- `QuorumLog::recover()` reads the file, but construction only logs the recovered
+  record and does not restore manager epoch or quorum state.
+- DR operations requiring external effects fail closed without configured
+  hooks, but production adapters are still missing. Spare activation reports
+  failure and blocks completion; metadata persistence is unavailable and fails.
+- Failover-specific runtime does not expose named metrics or trace spans.
 
-
-## Severity Summary
-
-| Severity | Count |
-|---|---:|
-| Critical | 5 |
-| High | 15 |
-| Medium | 0 |
-| Low | 2 |
-
-## Category Summary
-
-| Category | Count |
-|---|---:|
-| range_temporary | 5 |
-| deadlock_risk | 2 |
-| lock_contention | 2 |
-| missing_version_tracking | 2 |
-| module_doc_linkset_drift | 2 |
-| resource_leaked_in_exception | 2 |
-| thread_join_no_timeout | 2 |
-| unspecified_consistency | 2 |
-| data_race | 1 |
-| lock_in_loop | 1 |
-| uninitialized_access | 1 |
-
-## File Overview
-
-| File | Findings | Critical | High | Medium | Low |
-|---|---:|---:|---:|---:|---:|
-| failover/auto_failover_manager.cpp | 18 | 4 | 14 | 0 | 0 |
-| failover/disaster_recovery_manager.cpp | 2 | 1 | 1 | 0 | 0 |
-| failover/FUTURE_ENHANCEMENTS.md | 1 | 0 | 0 | 0 | 1 |
-| failover/PRODUCTION_REQUIREMENTS.md | 1 | 0 | 0 | 0 | 1 |
-
-## Full Scanner Findings
-
-### failover/auto_failover_manager.cpp
-Total findings: 18
-
-- Line 66: severity=CRITICAL; category=thread_join_no_timeout
-  Description: Thread join/wait without timeout (blocking indefinitely)
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_thread_safety
-  Context: monitoring_thread_.join();
-- Line 69: severity=CRITICAL; category=thread_join_no_timeout
-  Description: Thread join/wait without timeout (blocking indefinitely)
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_thread_safety
-  Context: failover_thread_.join();
-- Line 114: severity=CRITICAL; category=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::distributed_consistency
-  Context: static_cast<float>(config_.max_concurrent_failovers);
-- Line 132: severity=CRITICAL; category=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::distributed_consistency
-  Context: "/" + std::to_string(config_.max_concurrent_failovers);
-- Line 5: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::container
-  Context: * PR History (last 5): #4553 [MODULE] failover: Phase 4 ... (2026-04-12)
-- Line 47: severity=HIGH; category=unspecified_consistency
-  Description: Read without explicit consistency level (replication lag unknown)
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::distributed_consistency
-  Context: monitoring_thread_ = std::thread(&AutoFailoverManager::monitoringLoop, this);
-- Line 48: severity=HIGH; category=unspecified_consistency
-  Description: Read without explicit consistency level (replication lag unknown)
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::distributed_consistency
-  Context: failover_thread_ = std::thread(&AutoFailoverManager::failoverLoop, this);
-- Line 94: severity=HIGH; category=deadlock_risk
-  Description: Multiple locks acquired in nested scope — potential deadlock
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::concurrency
-  Context: std::lock_guard<std::mutex> lock(failover_mutex_);
-- Line 268: severity=HIGH; category=deadlock_risk
-  Description: Multiple locks acquired in nested scope — potential deadlock
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::concurrency
-  Context: std::unique_lock<std::mutex> lock(failover_mutex_);
-- Line 268: severity=HIGH; category=lock_contention
-  Description: Mutex lock in loop — high contention
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::performance
-  Context: std::unique_lock<std::mutex> lock(failover_mutex_);
-- Line 271: severity=HIGH; category=range_temporary
-  Description: Range-for on temporary container — references may be invalid
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::container
-  Context: failover_cv_.wait_for(lock, std::chrono::seconds(1), [this] {
-- Line 309: severity=HIGH; category=range_temporary
-  Description: Range-for on temporary container — references may be invalid
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::container
-  Context: std::this_thread::sleep_for(std::chrono::seconds(5));  // Brief delay before recovery attempt
-- Line 416: severity=HIGH; category=range_temporary
-  Description: Range-for on temporary container — references may be invalid
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::container
-  Context: std::this_thread::sleep_for(std::chrono::milliseconds(100));
-- Line 502: severity=HIGH; category=resource_leaked_in_exception
-  Description: Exception before delete causes resource leak
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::exception_safety
-- Line 550: severity=HIGH; category=lock_in_loop
-  Description: Mutex lock acquired per iteration (move outside loop)
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::performance_patterns
-  Context: for (uint32_t attempt = 0; attempt < config_.max_recovery_attempts; ++attempt) {
-- Line 552: severity=HIGH; category=lock_contention
-  Description: Mutex lock in loop — high contention
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::performance
-  Context: std::lock_guard<std::mutex> stats_lock(stats_mutex_);
-- Line 592: severity=HIGH; category=range_temporary
-  Description: Range-for on temporary container — references may be invalid
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::container
-  Context: std::this_thread::sleep_for(std::chrono::milliseconds(100));
-- Line 597: severity=HIGH; category=resource_leaked_in_exception
-  Description: Exception before delete causes resource leak
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::exception_safety
-
-### failover/disaster_recovery_manager.cpp
-Total findings: 2
-
-- Line 263: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::concurrency
-  Context: const auto token = fencing_mgr_->bumpEpoch("disaster-recovery: " + plan.plan_id);
-- Line 301: severity=HIGH; category=range_temporary
-  Description: Range-for on temporary container — references may be invalid
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::container
-  Context: std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
-### failover/FUTURE_ENHANCEMENTS.md
-Total findings: 1
-
-- Line 1: severity=LOW; category=module_doc_linkset_drift
-  Description: Module doc 'FUTURE_ENHANCEMENTS.md' is missing expected cross-links: ARCHITECTURE.md
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::themis_doc_freshness_rules
-  Context: Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set
-
-### failover/PRODUCTION_REQUIREMENTS.md
-Total findings: 1
-
-- Line 1: severity=LOW; category=module_doc_linkset_drift
-  Description: Module doc 'PRODUCTION_REQUIREMENTS.md' is missing expected cross-links: FUTURE_ENHANCEMENTS.md, README.md, ROADMAP.md
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::themis_doc_freshness_rules
-  Context: Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set
-
-## Update Workflow
-
-- Refresh scanner artifacts with: python tools/gs3_orchestrator.py ./src --output ai_working/gap_scan_results.json
-- Regenerate docs with: python tools/module_doc_generator.py . ai_working ai_working/module_gaps
-- Add --no-mirror when you only want archive docs in ai_working/module_gaps.
-
-Format: THEMIS_MODULE_GAPS_V4
+See [`AUDIT.md`](AUDIT.md) and [`IMPLEMENTATION.md`](IMPLEMENTATION.md) for the
+current code-backed audit. New scan findings require a fresh scan and source
+review before they are classified.

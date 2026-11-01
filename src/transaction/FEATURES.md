@@ -1,14 +1,23 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
 ---
+
+Exact model backend not verifiable from final document text alone.
+
+Source level: 1; SOT domain: module-behavior. Canonical references: `include/transaction/transaction_manager.h`, `include/transaction/distributed_transaction_manager.h`, `include/transaction/saga.h`, and `src/transaction/transaction_manager.cpp`. Related issue: #7390.
 
 # Transaction in ThemisDB
 
 ## Ueberblick
-Das Modul Transaction stellt ThemisDB's ACID-compliant transaction management system with support for distributed transactions, MVCC (Multi-Version Concurrency Control), deadlock detection, and Git-like versioning capabilities. Built on RocksDB's native transaction support, it delivers atomic multi-layer updates across relational tables, graph edges, secondary indexes, and vector embeddings with configurable isolation levels and the SAGA pattern for long-running distributed transactions. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+Das Modul enthält lokale Transaktions- und MVCC-APIs, Locking, verteilte Koordinationskomponenten sowie Saga- und Snapshot/Branch-Hilfen. Die Header belegen keine allgemeine atomare Garantie über unabhängige Index-, Netzwerk- oder Service-Nebenwirkungen; konkrete Grenzen sind in den jeweiligen Verträgen zu prüfen. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md) und [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen.
 
 ## Kern-Features im Detail
 Die erste Kernfaehigkeit ist **ACID transaction lifecycle: begin, commit, rollback**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.

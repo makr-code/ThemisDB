@@ -1,4 +1,22 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "api-contract"
+Canonical_References: "include/exporters/*.h; src/exporters/*.cpp; tests/exporters/CMakeLists.txt"
+Related: "Issue #7346; DOC-WEEKLY-2026-44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+> **Build:** `cmake --preset linux-debug && cmake --build --preset linux-debug`
 
 # Exporters Module — Public Headers
 
@@ -17,23 +35,23 @@ redaction, and metrics.
 | Header | Primary API | Runtime Role |
 |--------|-------------|--------------|
 | `exporter_interface.h` | `IExporter`, `ExportOptions`, `ExportStats` | Shared export contract, output path/filter/compression/progress options, authorization context |
-| `exporter_errors.h` | `ExporterException`, `SchemaValidationException`, `ExportIOException`, `SizeLimitException`, `ConfigException` | Stable exception surface for config, schema, I/O, and limit failures |
+| `exporter_errors.h` | `ExporterException`, `SchemaValidationException`, `ExportIOException`, `SizeLimitException`, `ConfigException` | Typed exception surface for config, schema, I/O, and limit failures |
 | `jsonl_llm_exporter.h` | `JSONLLLMExporter`, `JSONLLLMConfig` | JSONL export for instruction/chat/text completion datasets with template validation, weighting, metadata, and PII controls |
 | `format_template.h` | `FormatTemplateType`, `FormatTemplateFieldMapping`, `validateTemplate()` | Named Alpaca / ShareGPT / ChatML / OpenAI fine-tuning templates and preflight checks |
 | `streaming_exporter.h` | `ExportCursor`, `VectorExportCursor`, `StreamingExporter`, `StreamingExportConfig` | Cursor-driven export with checkpoint-based resume and ETA reporting |
 | `incremental_exporter.h` | `IncrementalExporter`, `IncrementalExportConfig` | Delta export based on a persisted sequence watermark |
 | `join_exporter.h` | `JoinExporter`, `JoinExportConfig` | Cross-collection hash join with output aliasing, optional AQL predicate, and memory budgeting |
 | `parquet_exporter.h` | `ParquetExporter`, `ParquetExportConfig` | Columnar export for analytics and dataset interchange |
-| `arrow_ipc_exporter.h` | `ArrowIPCExporter`, `ArrowIPCExportConfig`, `ArrowIPCFormat` | Arrow file / stream export for zero-copy pipelines |
+| `arrow_ipc_exporter.h` | `ArrowIPCExporter`, `ArrowIPCExportConfig`, `ArrowIPCFormat` | Arrow IPC file / stream serialization; Arrow-backed behavior depends on build support |
 | `huggingface_exporter.h` | `HuggingFaceExporter`, `HuggingFaceExportConfig` | Local Hugging Face dataset directory generation |
-| `huggingface_hub_client.h` | `HuggingFaceHubClient`, `HubUploadConfig`, `MemoryShardSpec`, `HubUploadResult` | Hub upload from disk or in-memory shards with retry, audit, and policy checks |
+| `huggingface_hub_client.h` | `HuggingFaceHubClient`, `HubUploadConfig`, `MemoryShardSpec`, `HubUploadResult` | Hub upload from disk or in-memory shards with retry, optional audit, and policy checks |
 | `export_encryption.h` | `ExportEncryption`, `ExportEncryptionConfig` | AES-256-GCM file encryption with KEK/DEK indirection |
 | `pii_detector.h` | `PIIDetector`, `PIIDetector::Config`, `PIIMetrics` | Pattern-based PII detection and redaction helpers |
 | `stream_writer.h` | `StreamWriter`, `CompressionType` | Buffered output writer with ZSTD-backed compression |
 | `export_format_registry.h` | `ExportFormatRegistry` | Central format registration for built-ins and user-defined templates |
 | `exporter_metrics.h` | `ExporterMetrics` | Metrics for throughput, delta skips, checkpoints, and rate limits |
-| `aql_predicate_filter.h` | `AqlPredicateFilter` | Predicate-based export filtering |
-| `data_augmentation.h` | `DataAugmentation`, `AugmentationConfig` | Optional synthetic augmentation for training exports |
+| `aql_predicate_filter.h` | `AqlPredicateFilter` | Predicate-based filtering used by supported export paths |
+| `data_augmentation.h` | `DataAugmentationPipeline`, `AugmentationConfig` | Optional synthetic augmentation helpers for training data |
 
 ## Public API Behavior
 
@@ -43,8 +61,9 @@ redaction, and metrics.
   bytes written, duration, optional error strings, and ETA for streaming runs.
 - `ExportOptions::output_path` is the required destination for file-backed
   exporters.
-- `include_fields`, `exclude_fields`, and `filter_expression` shape which data
-  reaches the serializer.
+- `include_fields` and `exclude_fields` provide shared projection options.
+  `filter_expression` is implemented by JSONL, streaming, incremental, join,
+  Parquet, and Hugging Face-through-JSONL paths; Arrow IPC does not evaluate it.
 - `progress_callback` receives periodic snapshots every
   `ExportOptions::progress_interval` records.
 - `enforceExportPolicy(options)` is the required authorization gate when
@@ -56,15 +75,18 @@ redaction, and metrics.
 - `JSONLLLMExporter` supports style-based formatting or named templates,
   optional weighting, schema checks, LoRA metadata, quality filters, and PII
   handling.
-- `StreamingExporter` keeps peak memory bounded by page size and stream-writer
-  buffers, and persists cursor offsets to `checkpoint_path` for resume.
+- `StreamingExporter` processes cursor pages through a buffered writer and
+  persists cursor offsets to `checkpoint_path` when set. `max_buffer_bytes`
+  triggers flushes; it is not a total-process-memory cap.
 - `IncrementalExporter` only exports entities whose sequence value is strictly
-  greater than the persisted watermark; watermark writes are atomic.
+  greater than the persisted watermark; it receives a vector from the caller
+  rather than scanning a source collection or CDC stream.
 - `JoinExporter` performs an in-memory hash join, requires `setRightCollection()`
   before export, and rejects ambiguous output fields without aliases.
 - `HuggingFaceHubClient` uploads either an on-disk dataset directory or
-  `MemoryShardSpec` buffers; it is not thread-safe and surfaces network / HTTP
-  failures via `HubUploadResult`.
+  `MemoryShardSpec` buffers and surfaces network / HTTP failures via
+  `HubUploadResult`. The header does not specify a general thread-safety
+  guarantee.
 
 ## Configuration and Limits
 
@@ -78,13 +100,14 @@ redaction, and metrics.
 | `HubUploadConfig` | `hf_token`, `hf_token_kek_id`, `repo_id`, `create_repo`, `private_repo`, `max_retries`, `retry_delay_ms`, `timeout_seconds`, `policy_engine`, `audit_log` | `uploadDataset()` / `uploadShards()` return `success=false` when auth, policy, or libcurl prerequisites fail |
 | `StreamWriter::Config` | `output_path`, `compression`, `compression_level`, `buffer_size`, `max_file_size` | `CompressionType::GZIP` is accepted for backward compatibility but produces ZSTD-framed output |
 
-## Installation
+## In-tree build integration
 
-Headers are included with ThemisDB. Ensure your target exposes the project
-include directory:
+Exporter headers are in the repository `include/` tree and are consumed by
+in-tree targets through the project build. This repository does not establish
+`${THEMISDB_INCLUDE_DIR}` as a public installed-package variable.
 
 ```cmake
-target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+target_link_libraries(your_target PRIVATE themis_core)
 ```
 
 ## Usage

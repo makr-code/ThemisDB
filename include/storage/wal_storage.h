@@ -111,7 +111,8 @@ public:
      * @brief Callback type for recovery replay.
      *
      * Called once per WAL entry during open().  Return @c false to abort
-     * replay early (e.g. on an unrecoverable application error).
+     * replay early (e.g. on an unrecoverable application error); in this case
+     * open() fails and does not return a usable WALStorage instance.
      */
     using RecoveryCallback = std::function<bool(const Entry&)>;
 
@@ -124,6 +125,10 @@ public:
      * @param config  WAL configuration (directory, rotation threshold, fsync).
      * @param on_recover  Callback invoked for each recovered entry; may be null.
      * @return Result<std::unique_ptr<WALStorage>> on success, Error on failure.
+     *         Corrupt records, recovery timeouts, I/O errors, or a callback
+     *         that aborts replay are reported as errors. A physically
+     *         incomplete final record is truncated to the last complete record
+     *         before the segment is reopened for appends.
      */
     static Result<std::unique_ptr<WALStorage>> open(
         const Config& config,

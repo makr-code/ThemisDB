@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="namespacethemis_1_1bench_1_1temporal__dedicated" kind="namespace" language="C++">
     <compoundname>themis::bench::temporal_dedicated</compoundname>
     <sectiondef kind="var">
       <memberdef kind="variable" id="namespacethemis_1_1bench_1_1temporal__dedicated_1a3e1c54786538a11930b08fb0e06174c0" prot="public" static="yes" constexpr="yes" mutable="no">
-        <type>uint64_t</type>
-        <definition>uint64_t themis::bench::temporal_dedicated::kCanonicalSeed</definition>
+        <type>constexpr uint64_t</type>
+        <definition>constexpr uint64_t themis::bench::temporal_dedicated::kCanonicalSeed</definition>
         <argsstring></argsstring>
         <name>kCanonicalSeed</name>
         <qualifiedname>themis::bench::temporal_dedicated::kCanonicalSeed</qualifiedname>
@@ -19,8 +19,8 @@
         <location file="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" line="48" column="27" bodyfile="benchmarks/temporal/bench_temporal_dedicated_gates.cpp" bodystart="48" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacethemis_1_1bench_1_1temporal__dedicated_1a7dd1b2570548250dd6d219051931aa30" prot="public" static="yes" constexpr="yes" mutable="no">
-        <type>int</type>
-        <definition>int themis::bench::temporal_dedicated::kRepetitions</definition>
+        <type>constexpr int</type>
+        <definition>constexpr int themis::bench::temporal_dedicated::kRepetitions</definition>
         <argsstring></argsstring>
         <name>kRepetitions</name>
         <qualifiedname>themis::bench::temporal_dedicated::kRepetitions</qualifiedname>

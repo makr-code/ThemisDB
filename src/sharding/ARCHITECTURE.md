@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -9,7 +9,7 @@ AI_Contributor: "GitHub Copilot coding agent"
 Human_Review: false
 Human_Author: "ThemisDB Contributors"
 Source_Level: "level1"
-SOT_Domain: "module-behavior"
+SOT_Domain: "architecture-governance"
 Canonical_References:
   - "README.md"
   - "API.md"
@@ -44,6 +44,11 @@ Exact model backend not verifiable from final document text alone.
 | Durability and operations | [`WALManager`](../../include/sharding/wal_manager.h), [`WALApplier`](../../include/sharding/wal_applier.h), [`AutoRebalancer`](../../include/sharding/auto_rebalancer.h), [`DataMigrator`](../../include/sharding/data_migrator.h) | Record/apply shard WAL state and manage rebalance/migration work. |
 
 The source contains multiple consensus adapters (including Raft, Paxos, and Gossip); this architecture does not treat one adapter as the only supported implementation.
+
+The public tree also exposes both `CrossShardTransactionCoordinator` and
+`TwoPhaseCommitCoordinator`. They are distinct public surfaces; the presence of both does not imply
+that one delegates to the other or that their protocols/recovery paths are interchangeable.
+**TODO:** document the concrete integration path for each deployed transaction flow.
 
 ## Data and event flow
 

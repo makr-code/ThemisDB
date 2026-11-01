@@ -1,46 +1,55 @@
-# PERFORMANCE_EXPECTATIONS - src/governance
+---
+Author: "ThemisDB Contributors"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Related: "Issue #7349"
+---
 
-## Scope
+Exact model backend not verifiable from final document text alone.
 
-- Module: src/governance
-- This file defines measurable governance module performance expectations for release gating.
+# Governance Performance Expectations
 
-## Benchmark Reference
+## Benchmark source and registration
 
-- Relevant benchmark files:
-  - benchmarks/bench_governance_policy_latency.cpp
+The policy-latency source is
+[`benchmarks/governance/bench_governance_policy_latency.cpp`](../../benchmarks/governance/bench_governance_policy_latency.cpp);
+its target is registered in
+[`benchmarks/governance/CMakeLists.txt`](../../benchmarks/governance/CMakeLists.txt).
+Benchmark building is optional and requires `THEMIS_BUILD_BENCHMARKS=ON`.
 
-## Specific Expectations
+| Case | Path |
+|---|---|
+| `BM_Evaluate_NoYAML_Offen`, `BM_Evaluate_NoYAML_Geheim` | `PolicyEngine::evaluate()` without loaded YAML |
+| `BM_Evaluate_YAML_AllClassifications`, `BM_Evaluate_ResourceMappingRoute` | YAML/configuration-backed evaluation cases |
+| `BM_Evaluate_CCPA_OptedOut`, `BM_Evaluate_CCPA_NotOptedOut` | CCPA opt-out state |
+| `BM_CheckQueryPermission_NoYAML`, `BM_CheckQueryPermission_WithMaskingRules`, `BM_CheckQueryPermission_StrictClassification` | query permission result path |
+| `BM_CheckQueryPermission_HighVolume` | query-permission batch sizes 1, 10, 100, 1,000 |
+| `BM_Evaluate_Throughput` | evaluation throughput |
 
-| Target ID | Expectation | Benchmark case |
-|---|---|---|
-| GOVP-1 | evaluate path remains bounded across no-YAML, YAML, and route-mapped scenarios | BM_Evaluate_NoYAML_Offen, BM_Evaluate_NoYAML_Geheim, BM_Evaluate_YAML_AllClassifications, BM_Evaluate_ResourceMappingRoute |
-| GOVP-2 | CCPA opted-out/non-opted-out evaluation paths remain bounded | BM_Evaluate_CCPA_OptedOut, BM_Evaluate_CCPA_NotOptedOut |
-| GOVP-3 | query permission paths remain bounded with masking and strict classes | BM_CheckQueryPermission_NoYAML, BM_CheckQueryPermission_WithMaskingRules, BM_CheckQueryPermission_StrictClassification |
-| GOVP-4 | high-volume permission checks remain stable under benchmark load scaling | BM_CheckQueryPermission_HighVolume |
-| GOVP-5 | evaluate throughput path remains bounded | BM_Evaluate_Throughput |
+The benchmark source comments state a p99 target below 0.5 ms for `evaluate()`
+and `checkQueryPermission()`. This is a source comment/expectation, not evidence
+of a measured result or a confirmed repository-wide release gate. Older tables
+in this file listed different cases and thresholds and are superseded.
 
-## Module Hard Gates (v1.0 docs baseline)
+## Measurement limits
 
-| Gate ID | Expectation | Measurement |
-|---|---|---|
-| GOVG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| GOVG-2 | governance hot-path p99 <= release threshold | p99 from mapped governance benchmark cases |
-| GOVG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+- The YAML-backed benchmark calls `loadFromYAML()` best-effort and does not
+  assert success. Some runs may therefore measure fallback behavior rather than
+  the configured profiles.
+- The source documents `config/governance.yaml` as its default path and uses
+  `GOVERNANCE_YAML_PATH` when set. Verify YAML-load success before treating a
+  run as YAML-backed.
+- The benchmark measures selected module calls, not end-to-end authorization,
+  audit persistence, compliance-report generation, or caller-side masking.
+- No benchmark result, release baseline, hardware specification, or current CI
+  pass is asserted by this document.
 
-## Validation
-
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- Mapping should be expanded as additional governance benchmark scenarios are introduced.
-
-## Sourcecode Verification (Module: governance/performance)
-
-- Verified benchmark sources:
-  - benchmarks/bench_governance_policy_latency.cpp
-- Verified mapping surfaces:
-  - evaluate path variants and throughput benchmark cases
-  - CCPA path benchmark cases
-  - query permission/no-yaml/masking/strict/high-volume benchmark cases
-- Result:
-  - Referenced benchmark cases exist in current benchmark sources.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+Record benchmark binary, exact case/filter, build profile, effective YAML,
+hardware, and baseline when comparing results. See
+[`benchmarks/governance/README.md`](../../benchmarks/governance/README.md).

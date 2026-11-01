@@ -1,4 +1,33 @@
-# performance Module - Developer Gap Note
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-04"
+Last Updated: "2026-10-31"
+Status: "archived"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_Sources:
+  - "src/performance/*.cpp"
+  - "include/performance/*.h"
+Related_Issue: "#7366"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+# performance Module - Historical Developer Gap Snapshot
+
+> This file preserves an automated scan snapshot generated on 2026-06-04.
+> Its counts and findings are not a current audit or security assessment.
+> The scan input is historical evidence only; validate any concern against
+> current code and current canonical security/audit sources before acting.
+
+Exact model backend not verifiable from final document text alone.
+
+---
+
+<!-- Original generated snapshot retained below without recalculation. -->
 
 > Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.
@@ -1803,7 +1832,7 @@ Total findings: 7
   Description: Container element access before initialization
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::container
-  Context: return [col](const Row& a, const Row& b) {
+  Context: return \[col\](const Row& a, const Row& b) {
 - Line 700: severity=HIGH; category=missing_trace_point
   Description: Critical function execute without trace point
   Remediation: Review finding and apply recommended module-specific fix.

@@ -98,15 +98,10 @@ private:
      */
     static std::optional<PolicyDecision> parseOpaResponse(const std::string& body);
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: WASM-based OPA bundle evaluation path — evaluates pre-compiled
-    //          OPA bundles (.wasm) locally without requiring an OPA sidecar.
-    // Activation: Config::mode == EvalMode::WASM and wasm_bundle_path is set.
-    // Production Delta: Returns a stub PolicyDecision (allow=true, defaults)
-    //   rather than a real WASM evaluation. Actual WASM execution requires the
-    //   THEMIS_ENABLE_OPA_WASM build flag and a linked WASM runtime.
-    // Removal Plan: Replace stub with real opa-go-wasm binding when
-    //   THEMIS_ENABLE_OPA_WASM is enabled in the build.
+    // In WASM mode, only an injected evaluator can produce an allow decision.
+    // If it is absent or fails, evaluation returns a strict deny decision;
+    // REST/native evaluation is not substituted because it may represent a
+    // different policy source.
     std::optional<PolicyDecision> evaluateWasm(
         const std::unordered_map<std::string, std::string>& headers,
         const std::string& route) const;

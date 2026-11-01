@@ -1,71 +1,34 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+# Evaluation include directory
 
-# Evaluation Module — Public Headers
+> **Update provenance (2026-10-31):** AI_Used: true; AI_Models: unknown;
+> AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB
+> Contributors. Exact model backend not verifiable from final document text alone.
 
-**Module Path:** `include/evaluation/`
-**Implementation:** `../../src/evaluation/`
+This directory currently contains only `evaluation.h`. That file is a placeholder
+umbrella header; it does not include or declare the evaluation component APIs.
+Do not use it as evidence that the metric, planner, or lifecycle interfaces are
+available through this header.
 
-## Purpose
+## Contract headers and build ownership
 
-Public interfaces and declarations for ThemisDB's evaluation and quality assessment subsystem, providing tools for model evaluation, metric computation, and result validation.
+The component declarations are in `src/evaluation/include/`. The module CMake
+file installs those headers under `include/evaluation` as part of the
+`themis_evaluation` target when that target is included in the configured build.
+That target compiles the benchmark matrix, hardware profile, retrieval metrics,
+ablation, and artifact lifecycle sources. Query planning and approximation rules
+are separate conditional targets; header presence alone does not mean that their
+implementations are linked.
 
-## Canonical Module Documentation
+The comment in `evaluation.h` mentions `THEMIS_BUILD_EVALUATION=ON`, but
+`src/evaluation/CMakeLists.txt` does not define that option. It declares
+`themis_evaluation` and the conditional `epic2_*` targets described above.
 
-`include/evaluation/` contains public header contracts. Canonical module behavior, architecture, and operations docs live in `src/evaluation/`:
+For the actual contracts, source-to-target mapping, and focused tests, see
+[`../src/evaluation/API.md`](../../src/evaluation/API.md),
+[`../src/evaluation/IMPLEMENTATION.md`](../../src/evaluation/IMPLEMENTATION.md),
+and [`../tests/evaluation/README.md`](../../tests/evaluation/README.md).
 
-- [`../../src/evaluation/README.md`](../../src/evaluation/README.md)
-- [`../../src/evaluation/ARCHITECTURE.md`](../../src/evaluation/ARCHITECTURE.md)
-- [`../../src/evaluation/ROADMAP.md`](../../src/evaluation/ROADMAP.md)
-- [`../../src/evaluation/FUTURE_ENHANCEMENTS.md`](../../src/evaluation/FUTURE_ENHANCEMENTS.md)
-
-## Header Files
-
-| Header | Primary Class / Interface |
-|--------|--------------------------|
-| `evaluation.h` | `Evaluator` — core evaluation framework and metric computation |
-| `metric_registry.h` | `MetricRegistry` — metric collection and aggregation |
-| `result_validator.h` | `ResultValidator` — output validation and quality checks |
-| `evaluation_context.h` | `EvaluationContext` — evaluation session management |
-| `quality_gates.h` | `QualityGate` — acceptance criteria and threshold enforcement |
-
-## Usage
-
-```cpp
-#include "evaluation/evaluation.h"
-
-auto evaluator = themis::evaluation::createEvaluator({
-    .metrics = {"accuracy", "precision", "recall"},
-    .validation_enabled = true
-});
-
-auto results = evaluator->evaluate(model, test_data);
-auto quality = evaluator->computeQuality(results);
-```
-
-For full runtime usage examples (metrics, validation, quality gates), see [`../../src/evaluation/README.md`](../../src/evaluation/README.md).
-
-## Key Configuration Surface
-
-Important configuration entry points are declared in:
-
-- `evaluation.h` (`Evaluator::Config` for metric selection)
-- `metric_registry.h` (custom metric registration)
-- `result_validator.h` (`ResultValidator::Config` for validation rules)
-- `quality_gates.h` (`QualityGate` threshold configuration)
-
-## Build
-
-```cmake
-cmake --preset release && cmake --build build/release --target themis-evaluation
-```
-
-## See Also
-
-- [`../../src/evaluation/README.md`](../../src/evaluation/README.md) — implementation details
-- [`../../src/training/README.md`](../../src/training/README.md) — model training integration
-
-## Installation
-
-```cmake
-target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
-```
+There is no verified standalone usage snippet for this umbrella header because
+it currently contributes no component declarations. Check the target and
+installed include layout in `src/evaluation/CMakeLists.txt` before integrating a
+component API.

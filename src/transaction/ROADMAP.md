@@ -1,24 +1,42 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-09"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+Source level: 1; SOT domain: module-behavior. Canonical references: current transaction headers/source, `tests/transaction/CMakeLists.txt`, and `benchmarks/transaction/CMakeLists.txt`. Related issue: #7390.
+
 > **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks ueberfuehren. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+>
+> **Documentation audit (2026-10-31):** Source/test registration was inspected for issue #7390; no build, test, or benchmark was run. Counts below describe test declarations in current sources, not passing results. Canonical references: `tests/transaction/CMakeLists.txt`, `benchmarks/transaction/CMakeLists.txt`, and corresponding test/benchmark source files.
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 # Transaction Module Roadmap
 
 ## Current Status
-Production-grade transaction stack with ACID lifecycle management, MVCC integration, savepoints, distributed coordination paths, and audit/batching utilities in active use.
+The source tree contains local transaction lifecycle, MVCC-backed operations, savepoints, distributed-coordination, saga, audit, and batching components. Release maturity/active-deployment claims are governed by the root roadmap and release evidence, not established by this source inventory.
 
 ## In Progress
 - [~] Transaction hardening wave for distributed safety, timeout semantics, and recovery guarantees (Target: Q3 2026)
-  - [x] `ITransactionCoordinator` unified interface for all commit protocols (2PC, 3PC, SAGA, Percolator, Calvin) — Issue #5374
+  - [x] `ITransactionCoordinator` interface declaration includes protocol identifiers (2PC, 3PC, SAGA, Percolator, Calvin); concrete implementation of every protocol is not implied — Issue #5374
   - [~] Complete remaining cross-shard failure-injection coverage for coordinator and participant transitions (Target: Q3 2026)
-    - [x] Phase 1 test suites complete: Lifecycle, Isolation Contention, Error Path Determinism (33 tests)
+    - [x] Phase 1 test source files registered: Lifecycle (13 declared cases), Isolation Contention (9), Error Path Determinism (10); execution remains unverified
   - [~] Tighten timeout and rollback determinism under sustained contention and mixed workloads (Target: Q3 2026)
-    - [x] Phase 1: Timeout determinism tests with contention loads (10 tests)
+    - [x] Phase 1: timeout determinism source coverage present; build/run status is not established by this inventory
     - [~] Phase 2: Distributed coordinator timeout/retry hardening — tests implemented, build verification pending (Target: Q3 2026)
   - [~] Build verification for Phase 2+3 test files (Target: Q3 2026):
-    - [x] `test_transaction_distributed_phase2.cpp` — 9 tests (AC-4/5/6) — file present; build + run confirmation tracked separately (Target: Q3 2026)
-    - [x] `test_transaction_saga_compensation_phase2.cpp` — 12 tests (AC-8/9/10) — file present; build + run confirmation tracked separately (Target: Q3 2026)
-    - [x] `test_transaction_fault_injection_phase3.cpp` — 14 tests (AC-11/12/13) — file present; build + run confirmation tracked separately (Target: Q3 2026)
+    - [x] `test_transaction_distributed_phase2.cpp` — 14 declared cases (AC-4/5/6); build/run unverified
+    - [x] `test_transaction_saga_compensation_phase2.cpp` — 13 declared cases (AC-8/9/10); build/run unverified
+    - [x] `test_transaction_fault_injection_phase3.cpp` — 11 declared cases (AC-11/12/13); build/run unverified
 - [x] Coordinator crash-recovery validation: in-doubt reconciliation via WAL replay (AC-6) under chaos scenarios; deterministic rollback under ≥30s contention without data loss — Wave D soak test `TransactionSoak_2PCStability` provides coverage; production chaos validation tracked separately (Delivered: 2026-09-16)
 - [x] SAGA orchestration hardening: partial remote failure scenarios, retry storm suppression with circuit breaker (AC-9/AC-10); compensation idempotency under concurrent retries — Wave D stress test `Concurrent2PCStress` provides coverage (Delivered: 2026-09-16)
 - [x] Timeout semantics: distributed coordinator timeout/retry with exponential backoff within deterministic bounds (AC-5) (Target: Q3 2026)
@@ -43,7 +61,7 @@ Production-grade transaction stack with ACID lifecycle management, MVCC integrat
   - Also apply to `abort()` (L306) and `recoverInDoubtTransactions()` (L415)
   - Tests: concurrent `beginTransaction` not blocked during slow Phase-2 delivery
 - [x] **T4 — Silent Predicate Lock Drop** (`lock_manager.cpp:530-538`): capacity-based `return false` has no log/counter; SSI false-positive abort rate invisible to operators; add `THEMIS_WARN` + metric counter on `max_locks` capacity reject (MEDIUM) — **Done 2026-08-26**
-- **Regression tests:** `tests/transaction/test_wave4c_transaction_hardening.cpp`
+- **Regression test:** `tests/transaction/test_wave4c_t1t4_hardening.cpp` (CMake executable target: `test_wave4c_t1t4_hardening`)
 
 ### Short-term (3-6 months)
 
@@ -78,9 +96,9 @@ Production-grade transaction stack with ACID lifecycle management, MVCC integrat
 **Evidence:** src/transaction/PHASE_1_ACCEPTANCE_CHECKLIST.md
 
 Completed Deliverables:
-- [x] `test_transaction_lifecycle_phase1.cpp` — 12 focused tests validating AC-1, AC-2, AC-3
-- [x] `test_transaction_isolation_contention_phase1.cpp` — 10 focused tests validating AC-3, AC-7
-- [x] `test_transaction_error_path_determinism_phase1.cpp` — 11 focused tests validating AC-2, AC-7
+- [x] `test_transaction_lifecycle_phase1.cpp` — 13 declared test cases
+- [x] `test_transaction_isolation_contention_phase1.cpp` — 9 declared test cases
+- [x] `test_transaction_error_path_determinism_phase1.cpp` — 10 declared test cases
 - [x] CMakeLists.txt test registration with proper macro pattern
 - [x] Acceptance criteria documentation and verification checklist
 
@@ -97,8 +115,8 @@ Next: Build verification and test execution (scheduled immediately)
 **Evidence:** src/transaction/PHASE_2_ACCEPTANCE_CHECKLIST.md
 
 Completed Deliverables:
-- [x] `test_transaction_distributed_phase2.cpp` — 9 focused tests validating AC-4, AC-5, AC-6
-- [x] `test_transaction_saga_compensation_phase2.cpp` — 12 focused tests validating AC-8, AC-9, AC-10
+- [x] `test_transaction_distributed_phase2.cpp` — 14 declared test cases
+- [x] `test_transaction_saga_compensation_phase2.cpp` — 13 declared test cases
 - [x] CMakeLists.txt test registration with proper macro pattern
 - [x] Acceptance criteria documentation and verification checklist
 
@@ -110,10 +128,8 @@ Acceptance Criteria Coverage:
 - [x] AC-9: SAGA Orchestration Under Failures (partial failures, network degradation)
 - [x] AC-10: Recovery and Retry Storm Handling (bounded retries, circuit breaker)
 
-**Q3 2026 Hardening Tasks:**
-- [~] Build verification: `cmake --preset community-release && cmake --build --target test_transaction_distributed_phase2` returns exit 0 — test file exists; CI run confirmation pending (Target: Q3 2026)
-- [~] Run verification: all 9 tests in `test_transaction_distributed_phase2.cpp` green — test file exists; CI run confirmation pending (Target: Q3 2026)
-- [~] Run verification: all 12 tests in `test_transaction_saga_compensation_phase2.cpp` green — test file exists; CI run confirmation pending (Target: Q3 2026)
+**Q3 2026 Hardening Tasks (historical verification plan):**
+- [~] Build/run verification remains unconfirmed here; current sources declare 14 cases in `test_transaction_distributed_phase2.cpp` and 13 in `test_transaction_saga_compensation_phase2.cpp`.
 - [~] Coordinator crash-recovery: WAL replay scenario with simulated coordinator crash mid-prepare; verify in-doubt resolution completes within 5s (AC-6) (Target: Q3 2026) — product feature engineering
 - [~] SAGA compensation idempotency: inject concurrent retry storm (≥10 concurrent retries); verify exactly-once compensation outcome (AC-8/AC-10) (Target: Q3 2026) — product feature engineering
 - [~] Circuit breaker validation: after 5 consecutive SAGA step failures, circuit opens and no further retries are attempted (AC-10) (Target: Q3 2026) — product feature engineering
@@ -125,7 +141,7 @@ Next: Build verification and test execution (scheduled Q3 2026)
 **Evidence:** src/transaction/PHASE_3_ACCEPTANCE_CHECKLIST.md
 
 Completed Deliverables:
-- [x] `test_transaction_fault_injection_phase3.cpp` — 14 focused tests validating AC-11, AC-12, AC-13
+- [x] `test_transaction_fault_injection_phase3.cpp` — 11 declared test cases
 - [x] CMakeLists.txt test registration with proper macro pattern
 - [x] Acceptance criteria documentation and verification checklist
 - [x] Fault injection patterns: Random, Cascading, Simultaneous, Network, Slow, Byzantine
@@ -135,10 +151,10 @@ Acceptance Criteria Coverage:
 - [x] AC-12: Chaos Engineering Validation (simultaneous crashes, network partitions, Byzantine)
 - [x] AC-13: Recovery from Cascading Failures (multi-level, sequential crashes)
 
-Cumulative Tests: 73 tests across Phases 1-3 (33+26+14)
+Cumulative Phase 1-3 test declarations: 70 (32+27+11); no execution result is implied.
 
 **Q3 2026 Hardening Tasks:**
-- [~] Build verification: all 14 tests in `test_transaction_fault_injection_phase3.cpp` build and run green on `community-release` preset — test file exists; CI run confirmation pending (Target: Q3 2026)
+- [~] Build/run verification for `test_transaction_fault_injection_phase3.cpp` remains pending; 11 test declarations are present (Target: Q3 2026)
 - [~] Byzantine failure scenario: inject conflicting prepare-votes from ≥2 participants; verify coordinator rolls back deterministically (AC-12) (Target: Q3 2026) — product feature engineering
 - [~] Cross-shard failure injection: all coordinator + participant state transitions covered (AC-11); confirm transition graph is complete with no uncovered edge (Target: Q3 2026) — product feature engineering
 - [~] Cascading failure: simulate 3-level coordinator chain failure during distributed commit; verify recovery without data loss (AC-13) (Target: Q3 2026) — product feature engineering
@@ -150,25 +166,15 @@ Next: Build verification and test execution (scheduled Q3 2026)
 **Target:** Q4 2026
 **Evidence:** src/transaction/PHASE_4_ACCEPTANCE_CHECKLIST.md
 
-Completed Deliverables:
-- [x] `benchmarks/transaction/bench_transaction_phase4.cpp` — 13 benchmarks validating AC-14 through AC-18
-- [x] Throughput baselines (single-thread, multi-thread, distributed)
-- [x] Tail-latency analysis (p99, p999, contention-induced spikes)
-- [x] Audit overhead measurement benchmarks
-- [x] Batching efficiency benchmarks (various batch sizes)
-- [x] Recovery performance validation benchmarks
-- [x] Performance gate definitions (THP-01 through REC-01)
+Source inventory:
+- [x] `benchmarks/transaction/bench_transaction_phase4.cpp` contains 8 registered benchmark cases; `bench_transaction_throughput.cpp` and `bench_transaction_dedicated_gates.cpp` are separate registered sources.
+- [ ] Phase 4 source does not contain dedicated recovery or batching-efficiency benchmark cases; target thresholds and measured performance remain unverified.
 
 Acceptance Criteria Coverage:
-- [x] AC-14: Throughput Baseline (10K+ txns/sec local, 5K+ distributed)
-- [x] AC-15: Latency Tail (p99 < 50ms, p999 < 200ms)
-- [x] AC-16: Audit Overhead (< 5% regression)
-- [x] AC-17: Batching Efficiency (50%+ throughput improvement)
-- [x] AC-18: Recovery Performance (< 5s for 10K transactions)
+- [ ] AC-14 through AC-18 are performance targets, not verified outcomes; use `PERFORMANCE_EXPECTATIONS.md` and benchmark execution evidence
 
 **Q4 2026 Benchmark Execution Gates:**
-- [~] Execute `bench_transaction_phase4` on `community-release` preset; gate `THP-01` (≥10K txns/sec local) MUST be green (Target: Q4 2026) — product feature engineering / gate validation
-- [~] Execute `bench_transaction_phase4`; gate `REC-01` (recovery <5s for 10K transactions) MUST be green (Target: Q4 2026) — product feature engineering / gate validation
+- [~] Execute registered benchmarks and assess mapping targets; no throughput/recovery gate result is established by this source audit (Target: Q4 2026)
 - [~] Save baseline JSON (`phase4_baseline.json`) and commit to `benchmarks/transaction/baselines/` (Target: Q4 2026) — product feature engineering
 - [ ] Audit overhead gate AC-16: confirm <5% regression vs no-audit baseline (Target: Q4 2026)
 
@@ -202,11 +208,11 @@ Next: Complete build verification and baseline collection immediately
 - Status: Phases 1-4 Complete (Verification In Progress); Phase 5 Documentation (In Progress)
 - Core Acceptance Criteria: AC-1 through AC-18 (All implemented)
 - Evidence: 
-  - [x] 33 Phase 1 focused tests (lifecycle, isolation, contention, error paths)
-  - [x] 26 Phase 2 focused tests (distributed coordination, SAGA, compensation)
-  - [x] 14 Phase 3 focused tests (fault injection, chaos engineering, cascading failures)
-  - [x] 73 total focused tests across all phases
-  - [x] 19 Phase 4 benchmarks (throughput, latency, audit overhead, batching, recovery)
+  - [x] Phase 1: 32 declared test cases across registered source files
+  - [x] Phase 2: 27 declared test cases across registered source files
+  - [x] Phase 3: 11 declared test cases in the registered source file
+  - [x] Phase 1-3 total: 70 declared test cases; execution status not established
+  - [x] Phase 4 source: 8 benchmark cases in `bench_transaction_phase4.cpp`; other benchmark sources are registered separately
   - [~] Build verification and execution evidence (in progress)
   - [x] Distributed transaction coordinator interface finalized
   - [x] In-doubt reconciliation tested (Phase 2)
@@ -267,9 +273,9 @@ cmake --build --preset community-release --target bench_transaction_phase4
 This module is scoped to **Wave A — Runtime Reliability First** in the program-level wave model.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D gate model and exit criteria.
 
-<!-- EVIDENCE NOTE (Wave A):
+<!-- HISTORICAL EVIDENCE NOTE (Wave A):
      Build evidence: test files present and registered in tests/transaction/CMakeLists.txt
-     for all Phases 1–3 and Wave A closure batch (83 total tests; bench_transaction_phase4.cpp
+     for all Phases 1–3 and Wave A closure batch (85 declared cases; bench_transaction_phase4.cpp
      now registered in benchmarks/transaction/CMakeLists.txt).
      Dedicated Wave-B workflow now includes chaos/recovery execution and Phase 4
      baseline artifact jobs; authoritative representative-hardware execution
@@ -289,13 +295,13 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [ ] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026)
 
 ### Wave A Closure Evidence Block
-- [x] Focused regression closure: 83 focused tests delivered across lifecycle (Phase 1), distributed coordination (Phase 2), fault-injection (Phase 3), and Wave A closure batch (2026-08-19). See `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`.
-- [x] Chaos/fault-injection evidence: TXN-RECOVERY-01..04, TXN-SAGA-HARDENING-01..04, TXN-BYZANTINE-01..02, TXN-XSHARD-01..02 delivered in `test_transaction_wave_a_closure.cpp` (15 tests, registered `release_critical`).
-- [x] Fail-closed verification: coordinator crash-recovery (WAL replay idempotent), SAGA circuit-breaker (threshold enforcement), Byzantine-vote forced ABORT, cross-shard partition TIMEOUT surfacing — all verified by dedicated test cases.
+- [x] Focused regression closure: current source declares 70 Phase 1-3 test cases and 15 Wave A closure cases. See `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`; these counts are not execution results.
+- [x] Source declarations for TXN-RECOVERY-01..04, TXN-SAGA-HARDENING-01..04, TXN-BYZANTINE-01..02, and TXN-XSHARD-01..02 are present in `test_transaction_wave_a_closure.cpp` (15 cases, registered `release_critical`); execution is not established by this audit.
+- [ ] Fail-closed behavior, WAL replay idempotency, and timeout outcomes require current test execution evidence; source declarations alone do not verify runtime results.
 - [~] Build/run confirmation note (2026-09-09): dedicated Wave-B CI is green again and now includes explicit chaos/recovery evidence plus Phase 4 baseline artifact jobs; run `34322902518` failed because the new jobs violated the repository-wide sccache requirement during `Configure CMake`, and a rerun has been prepared with that fix.
 - [~] Representative-hardware p95/p99 baselines: `benchmarks/transaction/bench_transaction_phase4.cpp` is now CMake/CTest-wired and exported by the dedicated workflow; baseline capture and gate refresh remain open until the patched rerun produces verified artifacts.
-- [x] Dedicated transaction CI lane green on `develop`: run `34313051247` restored the Wave-B workflow to PASS.
-- [~] `release_critical` coverage: 15 Wave A closure tests (TXN-RECOVERY-01..04, TXN-SAGA-HARDENING-01..04, TXN-BYZANTINE-01..02, TXN-XSHARD-01..02) registered `release_critical` in `tests/transaction/CMakeLists.txt`; green-on-`develop` execution evidence pending final chaos/Phase 4 rerun.
+- [~] Historical CI report: run `34313051247` was recorded as PASS on `develop`; current CI status was not checked in this audit.
+- [~] `release_critical` coverage: 15 Wave A closure test declarations (TXN-RECOVERY-01..04, TXN-SAGA-HARDENING-01..04, TXN-BYZANTINE-01..02, TXN-XSHARD-01..02) are registered; current CI execution status is not established by this documentation audit.
 - [~] Next closure item: execute the new chaos/recovery and Phase 4 artifact jobs on `develop`, then promote the resulting hardware-backed evidence into the roadmap/gate record.
 
 ### Dependencies on Later Waves

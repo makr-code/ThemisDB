@@ -1,8 +1,24 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-08"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+Source level: 1; SOT domain: module-behavior. Canonical references: `tests/transaction/test_transaction_lifecycle_phase1.cpp`, `tests/transaction/test_transaction_isolation_contention_phase1.cpp`, `tests/transaction/test_transaction_error_path_determinism_phase1.cpp`, and `tests/transaction/CMakeLists.txt`. Related issue: #7390.
+
 # Transaction Module - Phase 1 Acceptance Checklist
 **Date:** 2026-08-08
 **Phase:** 1 - Lifecycle and Isolation Safety Hardening
 **Target:** Q3-Q4 2026
-**Status:** ✓ IMPLEMENTATION COMPLETE (Testing & Verification Pending)
+**Status:** Historical implementation checklist; current source declarations are inventoried below. Build and execution remain unverified in this documentation task.
 
 ---
 
@@ -61,10 +77,12 @@ Phase 1 focuses on re-validating transaction lifecycle invariants and hardening 
 
 | File | Purpose | Test Count | Acceptance Criteria |
 |------|---------|-----------|-------------------|
-| `test_transaction_lifecycle_phase1.cpp` | Lifecycle invariants and state machine | 12 tests | AC-1, AC-2 |
-| `test_transaction_isolation_contention_phase1.cpp` | Isolation under contention | 10 tests | AC-3, AC-7 |
-| `test_transaction_error_path_determinism_phase1.cpp` | Error path determinism | 11 tests | AC-2, AC-7 |
-| **TOTALS** | **Phase 1 Hardening** | **33 tests** | **AC-1,2,3,7** |
+| `test_transaction_lifecycle_phase1.cpp` | Lifecycle invariants and state machine | 13 declared cases | AC-1, AC-2 |
+| `test_transaction_isolation_contention_phase1.cpp` | Isolation under contention | 9 declared cases | AC-3, AC-7 |
+| `test_transaction_error_path_determinism_phase1.cpp` | Error path determinism | 10 declared cases | AC-2, AC-7 |
+| **TOTALS** | **Phase 1 source declarations** | **32 cases** | **AC-1,2,3,7** |
+
+> The detailed case-name breakdown below is a historical checklist and does not fully match the current test source. Use the named source files and CMake registration as the current inventory; listed cases are not evidence of execution.
 
 ### Test Coverage Breakdown
 
@@ -138,7 +156,7 @@ ctest --preset community-release --label "transaction;phase-1" -V
 ```
 
 ### Expected Output
-- All 33 tests pass
+- 32 test declarations are present; execution is not established by this checklist update
 - No segmentation faults
 - Deterministic test results across runs
 - Performance within expected bounds (< 5s per test)
@@ -148,7 +166,7 @@ ctest --preset community-release --label "transaction;phase-1" -V
 ## Phase 1 Deliverables
 
 ### Code Artifacts
-✓ 3 comprehensive Phase 1 test files (18.4 KB + 20.3 KB + 17 KB = 55.7 KB)
+✓ 3 Phase 1 test source files are present and registered (sizes are not used as verification evidence)
 ✓ CMakeLists.txt updated with test registration
 ✓ Full acceptance criteria coverage in code
 
@@ -158,7 +176,7 @@ ctest --preset community-release --label "transaction;phase-1" -V
 ✓ Stress test results captured and reported
 
 ### Quality Metrics
-- **Test Count:** 33 focused tests
+- **Test declarations:** 32 focused test cases
 - **Concurrent Threads:** Up to 10 per test
 - **Operations Per Test:** 20-100 transactions
 - **Coverage:** Lifecycle, isolation, errors, contention, timeouts, recovery
@@ -186,8 +204,7 @@ After Phase 1 verification:
 
 ## Sign-Off
 
-**Phase 1 Implementation:** COMPLETE  
-**Status:** Ready for Build & Test Verification  
+**Phase 1 Source Status:** Test files are present and registered. **Build/Execution Status:** Not verified by this documentation audit.
 **Date:** 2026-08-08  
 **Next Phase:** Phase 2 - Distributed Coordination Hardening
 

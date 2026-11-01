@@ -1,9 +1,28 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_Sources: "include/llama_cpp/llama_cpp_plugin.h; include/llama_cpp/llama_cpp_registrar.h; src/llama_cpp/llama_cpp_plugin.cpp; src/llama_cpp/CMakeLists.txt"
+Related_Issue: "#7356"
+Related_Milestone: "DOC-WEEKLY-2026-44"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Build (Linux):** `cmake --preset linux-release && cmake --build --preset linux-release`<br>
 > **Build (Windows):** `cmake --preset windows-release && cmake --build --preset windows-release`
 
 # llama_cpp Module Headers
 
-<!-- Status: current | validated: 2026-05-13 | Primary: include/llama_cpp/ | Secondary: docs/de/llama_cpp/ -->
+<!-- Status: current | validated: 2026-10-31 | Primary: include/llama_cpp/ | Secondary: docs/de/llama_cpp/ -->
 <!-- Links: ../../src/llama_cpp/README.md · ../../src/llama_cpp/ROADMAP.md · ../../src/llama_cpp/FUTURE_ENHANCEMENTS.md -->
 
 Public headers for the standalone llama.cpp-backed plugin integration.
@@ -30,9 +49,9 @@ The `config` JSON passed to `loadModel()` / registrar helpers accepts:
 
 | Key | Type | Behavior |
 |---|---|---|
-| `model_path` | string | Non-empty path attempts real `LlamaWrapper` initialization; empty path keeps stub-capable mode |
-| `context_length` | number | Preferred context window override |
-| `n_ctx` | number | Alternative context-window key (used by wrapper config) |
+| `model_path` | string | Non-empty path attempts `LlamaWrapper` initialization when `THEMIS_LLM_ENABLED` is compiled in |
+| `context_length` | number | Context override; used for the plugin's local value first, but the wrapper prefers `n_ctx` when both are supplied |
+| `n_ctx` | number | Preferred wrapper context setting; supplies the plugin's local value when `context_length` is absent |
 | `n_gpu_layers` | number | Forwarded to `LlamaWrapper::Config` when LLM support is compiled in |
 | `n_batch` | number | Forwarded batch size hint |
 | `n_threads` | number | Forwarded CPU thread count hint |
@@ -40,10 +59,10 @@ The `config` JSON passed to `loadModel()` / registrar helpers accepts:
 ## Runtime Behavior, Errors, and Limits
 
 - Build/runtime gating: real llama.cpp execution requires `THEMIS_LLM_ENABLED` and a loadable model path.
-- Without a loaded model, `generate()` returns `success=false` with error text in production path (test builds may enable `THEMIS_LLAMA_CPP_STUB_MODE`).
+- An empty model path does not load a model. Synthetic generation is available only in builds defining `THEMIS_LLAMA_CPP_STUB_MODE`; otherwise generation without a backend returns an error.
 - `embed()` falls back to a 384-dim zero vector when no real backend (wrapper/injected function) is available.
 - `generateBatch()` preserves request order but executes sequentially.
-- `supports_function_call` is currently `false` in capabilities.
+- `supports_function_call` is advertised as `true` in static capabilities; this is not proof that a real backend is loaded or ready.
 
 ## Usage
 
@@ -83,7 +102,7 @@ target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
 ## Troubleshooting
 
 - **`generate()` returns "Model not loaded"**: call `loadModel()` first and ensure `model_path` exists.
-- **Always stub-like output/empty embedding**: verify build includes `THEMIS_LLM_ENABLED` and the wrapper can load the model.
+- **Stub-like output/empty embedding**: for generation, check `THEMIS_LLAMA_CPP_STUB_MODE` and real-wrapper availability; for embeddings, verify the wrapper or injected callback and reject the zero-vector fallback.
 - **No hot-reload initialization**: pass a non-empty `model_path` in registrar config.
 - **Unexpected token budget in RAG calls**: check `n_ctx` / `context_length` values in load config.
 

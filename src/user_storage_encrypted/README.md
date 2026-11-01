@@ -1,52 +1,86 @@
-# ThemisDB User Storage Encrypted Module
+---
+Author: ThemisDB Contributors
+Created: 2026-05-13
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
 
-<!-- Status: current | validated: 2026-08-08 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+# User Storage Encrypted Module
 
-## Module Purpose
+Exact model backend not verifiable from final document text alone.
 
-The user_storage_encrypted module provides encrypted user-storage behavior for ThemisDB through a gocryptfs-backed mount backend, key derivation behavior, key rotation scheduling, and multi-tier encrypted storage orchestration.
+The module provides file-backed user/group records organized by security
+level, an optional gocryptfs backend, KDF interfaces, a standalone key
+rotation scheduler, and a multi-level plugin. This page describes implemented
+scope, not a production-readiness certification.
 
-## Relevant Interfaces
+## Components
 
-| Interface / File | Role |
+| Source/header | Responsibility |
 |---|---|
-| gocryptfs_backend.cpp | gocryptfs-backed container lifecycle behavior |
-| key_derivation_service.cpp | per-container key derivation behavior |
-| key_rotation_scheduler.cpp | scheduled rotation behavior by security level |
-| multi_level_storage.cpp | HOT/WARM/COLD storage orchestration behavior |
-| CMakeLists.txt | module build and dependency wiring |
+| `gocryptfs_backend.cpp` / `gocryptfs_backend.hpp` | Container create, mount, unmount, mount-state, and availability operations |
+| `key_derivation_service.cpp` / `key_derivation_service.hpp` | Argon2id or PBKDF2 fallback KDF APIs and salt handling |
+| `key_rotation_scheduler.cpp` / `key_rotation_scheduler.hpp` | Separate scheduler thread and optional rotation-state persistence |
+| `multi_level_storage.cpp` / `multi_level_storage.hpp` | Configuration, providers, per-level lifecycle, JSON user/group files, health, and metrics |
+| `diagnostic_events.cpp` / `error_codes.hpp` | Diagnostic event types and default logging handler |
+| `CMakeLists.txt` | Optional shared-library and Argon2 build wiring |
 
-## Scope
+## Runtime configuration
 
-In scope:
-- encrypted container initialization, mount, unmount, and mount-state behavior
-- key derivation and rotation scheduling behavior
-- multi-level encrypted storage orchestration behavior
+`MultiLevelEncryptedStorage::initialize(const char*)` expects JSON rooted at
+`multi_level_storage.levels`. Plain entries require `path`; encrypted entries
+require `encrypted_dir`, `mount_point`, and nested `encryption.key_id`.
+Provider settings (`vault`, `hsm`, or `mock`) are in the nested `encryption`
+object. The shipped YAML example is
+`plugins/user_storage_encrypted/config/storage_config.yaml.example`; convert
+its content to the JSON shape expected by the runtime before passing it to
+`initialize()`.
 
-Out of scope:
-- non-encrypted generic storage behavior owned by other modules
-- OS-level FUSE implementation details outside module boundaries
+The plugin creates its backend without a KDF service. It parses rotation
+configuration but does not instantiate the standalone scheduler. Both
+capabilities require separate caller wiring.
 
-## Runtime Behavior and Limits
+## Runtime behavior and limits
 
-- mount lifecycle behavior depends on gocryptfs and host FUSE availability.
-- key material handling remains inside module-controlled execution paths.
-- tier orchestration remains bounded to configured HOT/WARM/COLD storage behavior.
-- host-environment failures surface as explicit backend or scheduling errors.
+- Encrypted lifecycle depends on gocryptfs and host FUSE support.
+- KDF mode depends on CMake's libargon2 discovery; fallback is
+  PBKDF2-HMAC-SHA256.
+- Stale mount cleanup is best-effort and non-fatal.
+- Health checks inspect backend presence/mount state, not provider or
+  scheduler health.
+- `unmountAll()` ignores per-level unmount results.
+- `KeyRotationScheduler` callbacks report `(level, true, "")`; exceptions are
+  swallowed and `last_check_ms` advances after an attempt. Manual
+  `triggerRotation()` invokes its callback on the caller's thread and does not
+  perform `MultiLevelEncryptedStorage::rotateKey()`.
+- `MultiLevelEncryptedStorage::rotateKey()` is a separate provider/container
+  operation; ignored unmount/rollback results mean source does not establish
+  transactional rotation.
+- Key cleanup is limited to some temporary buffers. The KDF's domain-separated
+  `derive()` clears its temporary concatenated password, but does not wipe
+  caller-owned master-key or salt inputs. See [API contract comparison](API.md).
+- `container_size_bytes` is emitted but is not updated by current source.
 
-## Sourcecode Verification (Module: user_storage_encrypted/readme)
+The separately declared error contract contains stronger guarantees than
+some operational paths demonstrate. See [API.md](API.md).
 
-- Verified files:
-  - src/user_storage_encrypted/gocryptfs_backend.cpp
-  - src/user_storage_encrypted/key_derivation_service.cpp
-  - src/user_storage_encrypted/key_rotation_scheduler.cpp
-  - src/user_storage_encrypted/multi_level_storage.cpp
-  - src/user_storage_encrypted/CMakeLists.txt
-- Verified behavior surfaces:
-  - encrypted mount lifecycle
-  - key derivation and rotation scheduling
-  - multi-level storage orchestration
-- Verified benchmark/test anchors:
-  - benchmarks/bench_user_storage_mount_latency.cpp
-  - tests/test_user_storage_v03.cpp
+## Build, tests, and benchmarks
+
+The shared library is controlled by `THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED`.
+Focused test registration is in `tests/user_storage_encrypted/CMakeLists.txt`.
+Benchmark target registration is in `benchmarks/user_storage_encrypted/CMakeLists.txt`.
+See their README files for conditional registration, skipped tests, simulated
+benchmarks, and evidence limitations.
+
+## Source references
+
+- `include/user_storage_encrypted/`
+- `src/user_storage_encrypted/`
+- `tests/user_storage_encrypted/README.md`
+- `benchmarks/user_storage_encrypted/README.md`
+- `plugins/user_storage_encrypted/config/storage_config.yaml.example`

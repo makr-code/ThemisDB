@@ -11,9 +11,11 @@
 
 #pragma once
 
-#include <string>
+#include <algorithm>
+#include <cctype>
 #include <cstdlib>
 #include <stdexcept>
+#include <string>
 
 namespace themis {
 namespace core {
@@ -21,42 +23,61 @@ namespace core {
 class ProductionMode {
 public:
     /**
-     * @brief Is Enabled.
-     * @return True when the operation succeeds.
-     * @details Calls: std::getenv(), mode_str(), env_str().
+     * @brief Reports whether production safeguards must be enforced.
+     * @return True if either canonical production variable enables production; false if both
+     *         are unset or contain recognized non-production values.
+     * @throws std::runtime_error if a configured value is not recognized.
+     * @note THEMIS_PRODUCTION_MODE accepts 1, true, yes, on, production, 0, false, no, or off.
+     *       THEMIS_ENVIRONMENT accepts production/prod or development/dev/test/testing/
+     *       staging/stage/ci/local. Matching is case-insensitive.
      */
-    static bool isEnabled() {
+    [[nodiscard]] static bool isEnabled() {
         const char* prod_mode = std::getenv("THEMIS_PRODUCTION_MODE");
         const char* environment = std::getenv("THEMIS_ENVIRONMENT");
-        
-        // Check THEMIS_PRODUCTION_MODE
+
+        const auto normalize = [](const char* value) {
+            std::string normalized(value);
+            std::transform(normalized.begin(), normalized.end(), normalized.begin(),
+                           [](unsigned char character) {
+                               return static_cast<char>(std::tolower(character));
+                           });
+            return normalized;
+        };
+
+        bool enabled = false;
         if (prod_mode) {
-            std::string mode_str(prod_mode);
-            if (mode_str == "1" || mode_str == "true" || 
-                mode_str == "True" || mode_str == "TRUE" ||
-                mode_str == "yes" || mode_str == "Yes" ||
-                mode_str == "on" || mode_str == "On") {
-                return true;
+            const std::string mode = normalize(prod_mode);
+            if (mode == "1" || mode == "true" || mode == "yes" ||
+                mode == "on" || mode == "production") {
+                enabled = true;
+            } else if (mode != "0" && mode != "false" &&
+                       mode != "no" && mode != "off") {
+                throw std::runtime_error(
+                    "Unrecognized THEMIS_PRODUCTION_MODE value; use a documented true or false value");
             }
         }
-        
-        // Check THEMIS_ENVIRONMENT
+
         if (environment) {
-            std::string env_str(environment);
-            if (env_str == "production" || env_str == "prod") {
-                return true;
+            const std::string env = normalize(environment);
+            if (env == "production" || env == "prod") {
+                enabled = true;
+            } else if (env != "development" && env != "dev" &&
+                       env != "test" && env != "testing" &&
+                       env != "staging" && env != "stage" &&
+                       env != "ci" && env != "local") {
+                throw std::runtime_error(
+                    "Unrecognized THEMIS_ENVIRONMENT value; use a documented environment name");
             }
         }
-        
-        return false;
+
+        return enabled;
     }
     
     /**
-     * @brief Enforce.
-     * @param[in] condition Input parameter.
-     * @param[in] error_message Input parameter.
-     * @throws std::runtime_error if an error occurs.
-     * @details Calls: isEnabled().
+     * @brief Enforces a safety condition when production mode is active.
+     * @param condition Whether the requested operation satisfies its safety requirement.
+     * @param error_message Diagnostic to include when the condition is false.
+     * @throws std::runtime_error if production mode is invalid or the condition is false in production.
      */
     static void enforce(bool condition, const std::string& error_message) {
         if (isEnabled() && !condition) {
@@ -65,9 +86,9 @@ public:
     }
     
     /**
-     * @brief Mode Name.
-     * @return Return value.
-     * @details Calls: isEnabled().
+     * @brief Returns the effective environment mode.
+     * @return "production" when production safeguards are enabled, otherwise "development".
+     * @throws std::runtime_error if a configured value is not recognized.
      */
     static std::string modeName() {
         return isEnabled() ? "production" : "development";

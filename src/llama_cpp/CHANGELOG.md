@@ -1,17 +1,41 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "release-versioning"
+Canonical_Sources: "CHANGELOG.md; src/llama_cpp/llama_cpp_plugin.cpp; src/llama_cpp/llama_cpp_registrar.cpp; include/llama_cpp/llama_cpp_plugin.h; src/llama_cpp/CMakeLists.txt"
+Related_Issue: "#7356"
+Related_Milestone: "DOC-WEEKLY-2026-44"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
 
-<!-- Status: current | validated: 2026-04-10 -->
+<!-- Historical entry log | validated: 2026-10-31 | current plugin version is stated below -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — llama_cpp Plugin
 
 All notable changes to the llama_cpp LLM backend plugin are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+The current plugin version reported by the implementation and module CMake is
+`2.1.0`. Historical section labels below are retained as recorded and do not
+supersede that current runtime version.
 
 ## [Unreleased]
 
-- True parallel `generateBatch()` when real llama.cpp multi-sequence batching is available
-- SHA-256 model digest (replace FNV-64 placeholder with OpenSSL `EVP_DigestFinal`)
+No additional module-specific unreleased entries are listed here. The
+parallel-batch and cryptographic-digest ideas previously listed here are not
+approved implementation work; proposals belong in
+[`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md).
 
 ## [2.4.0] — 2026-08-09
 
@@ -19,16 +43,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **`std::atomic<uint64_t>` counters**: `inference_count_`, `error_count_`, `stream_retry_count_`
   are now lock-free atomics; `getPerformanceStats()` exposes all three including `stream_retry_count`.
 - **Stream-callback retry**: `generate()` wraps every `stream_callback` invocation in
-  `invokeStreamCallback()` with up to 3 transient-exception retries; `std::bad_alloc` is
-  non-retryable; `stream_retry_count_` tracks retries for observability.
+  `invokeStreamCallback()` with up to 3 total attempts (at most 2 retries);
+  `std::bad_alloc` is non-retryable; `stream_retry_count_` tracks retries for observability.
 - **Join-hardening review**: removed the unused `joinWithTimeout` helper after review
   because its detached monitor thread lifetime was unsafe; the module keeps no owned
   join sites and the original `thread_join_no_timeout` findings remain triaged as false positives.
-- **`importLoRA` security hardening**: GGUF magic-bytes validation (`0x47 0x47 0x55 0x46`)
-  and 2 GB size bound enforced before any delegation to `LlamaWrapper`; fail-closed.
-- **`loadModel` integrity gate**: opt-in FNV-64 digest check via `"verify_model_digest": true`
-  + `"expected_model_digest"` config keys; fails closed on mismatch. Upgrade path to SHA-256
-  documented in header.
+- **`importLoRA` input checks**: GGUF magic-bytes validation (`0x47 0x47 0x55 0x46`)
+  and a 2 GiB size bound are checked before optional `LlamaWrapper` delegation.
+  Without a wrapper, accepted bytes are not loaded as adapter weights.
+- **`loadModel` opt-in digest comparison**: FNV-64 comparison via
+  `"verify_model_digest": true` and `"expected_model_digest"`; mismatch fails
+  closed. FNV-64 is not a cryptographic integrity or authenticity check.
 - **`setPolicyFn(PolicyFn)`**: pluggable inference policy hook; `generate()` and `generateRAG()`
   gate on the functor result before dispatching inference; denial returns `success=false` with
   the caller-supplied reason.
@@ -38,8 +63,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   `model_path` is present; returns `true` (stub mode) for empty path.
 - **generateRAG() data-race fix**: shared state (`model_loaded_`, `context_length_`) is
   snapshotted under `mutex_` at entry; subsequent work is lock-free.
-- **LLCPG-1..4 release gate benchmarks**: TTFT stub baseline, 100-doc batch-embedding
-  throughput, LoRA-load P99, and regression-baseline snapshot (all with `UseRealTime()`).
+- **LLCPG-1..4 benchmark cases**: empty-path generation, 100-document embedding fallback,
+  LoRA registry load/unload, and a generation baseline (all with `UseRealTime()`).
+  Thresholds are emitted as counters; these cases do not load a model or enforce
+  production latency/throughput gates. LLCPG-3 measures registry operations, not P99.
 - **21 new tests** — Groups U (concurrency ×4), V (security ×6), W (registrar integration ×8),
   X (retry/join ×3).
 
@@ -49,8 +76,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `getPerformanceStats()`: now uses explicit `.load()` for all atomic reads.
 
 ### Security
-- `importLoRA`: GGUF magic + 2 GB size-bound prevent heap-exhaustion and deserialization attacks.
-- `loadModel`: opt-in model-file digest gate prevents tampered GGUF models from being loaded.
+- `importLoRA`: GGUF magic and a 2 GiB size bound reject some malformed or oversized inputs; they do not prove safety or authenticity.
+- `loadModel`: the optional FNV-64 comparison rejects a mismatch against the configured value; it does not authenticate a model artifact.
 - `setPolicyFn`: inference can be gated by an external governance policy without modifying the plugin.
 
 ## [2.3.0] — 2026-06-10

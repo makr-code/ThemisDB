@@ -1,13 +1,13 @@
 # Developer LLM Wiki — Delta Report
 
-Datum: 2026-10-31
+Datum: 2026-11-01
 Status: Active
 
 ## Summary
 
 - Added: 0
 - Removed: 0
-- Changed: 1
+- Changed: 2
 
 ## Added
 
@@ -19,4 +19,5 @@ Status: Active
 
 ## Changed
 
-- ai_context/developer_llm_wiki/UPDATES.md
+- src/user_storage_encrypted/DOXYGEN.md
+- src/user_storage_encrypted/MODULE_GAPS.md

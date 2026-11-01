@@ -1,32 +1,54 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
+Last Updated: "2026-10-31"
 Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
 # Tensor in ThemisDB
 
-## Ueberblick
-Das Modul tensor stellt tensor-aware indexing, retrieval, and graph/fingerprint behavior for ThemisDB, including tensor index management, tensor fingerprint graph operations, and tensor deduplication-related behavior. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+## Overview
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **tensor index behavior**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+The tensor module provides TT-based indexing interfaces and implementations,
+ingestion/storage bridges, adapter persistence, fingerprint similarity, and
+tensor-specific helper workflows. Its interfaces are implemented across
+`include/tensor/` and `src/tensor/`; storage backends and routing contracts are
+owned by their respective modules.
 
-Die zweite Kernfaehigkeit ist **tensor index lifecycle and routing behavior**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+## Implemented capabilities
 
-Die dritte Kernfaehigkeit ist **tensor core bridge behavior**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+- `ITensorIndex` supports TT-train and flat-vector insert/search operations.
+- `TensorIndexManager` owns index lifecycle, file persistence, route estimation,
+  and mapped-core access. Its current `createIndex()` implementation does not
+  apply the separate `routeFor()` result; see [API.md](./API.md).
+- `TensorCoreStorageBridge` stores serialized ingestion records through an
+  injected backend or registered factory; without either, storage is in-memory.
+- `AdapterRepository` stores TT trains and can register them with
+  `TensorFingerprintGraph`. Key-based similarity uses TT inner products;
+  fingerprint search is an approximate candidate scan, not an LSH index.
+- `TensorWorkflowObservability` exposes metric recording, Prometheus text export,
+  and SLO evaluation APIs; deployments must connect these APIs to their own
+  collection/export path.
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Tensor Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
+## Limits
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
+- `routeFor()` returns an estimate; the current manager creation path does not
+  use it to choose an index implementation.
+- `TensorIndexManager::mapCores()` normally uses anonymous mapped memory and
+  copies core data. File-backed `MAP_SHARED` requires the separate FD or
+  injected-mapper path.
+- Module benchmark registration and stated target thresholds are not evidence
+  of a successful run. See the [benchmark notes](../../benchmarks/tensor/).
 
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/tensor/README.md](./../../docs/tensor/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+## References
+
+- [Module README](./README.md)
+- [Architecture](./ARCHITECTURE.md)
+- [API contract](./API.md)
+- [Implementation map](./IMPLEMENTATION.md)
+- [Production requirements and evidence status](./PRODUCTION_REQUIREMENTS.md)

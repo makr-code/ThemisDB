@@ -163,18 +163,35 @@ def collect_sources(repo_root: Path, full_sync: bool) -> List[SourceEntry]:
             continue
         unique_files[r] = file_path
 
+    previous_sources: Dict[str, dict] = {}
+    previous_manifest_path = repo_root / SOURCES_JSON
+    if previous_manifest_path.is_file():
+        try:
+            previous_manifest = json.loads(read_text_safe(previous_manifest_path))
+            previous_sources = {
+                str(item.get("path", "")): item
+                for item in previous_manifest.get("sources", [])
+                if isinstance(item, dict)
+            }
+        except Exception:
+            previous_sources = {}
+
     entries: List[SourceEntry] = []
     for path_rel in sorted(unique_files.keys()):
         abs_path = unique_files[path_rel]
         digest = hashlib.sha256(abs_path.read_bytes()).hexdigest()
         stat = abs_path.stat()
+        previous = previous_sources.get(path_rel, {})
+        modified_utc = datetime.fromtimestamp(stat.st_mtime, UTC).isoformat(timespec="seconds")
+        if previous.get("size") == stat.st_size and previous.get("sha256") == digest:
+            modified_utc = str(previous.get("modified_utc", modified_utc))
         entries.append(
             SourceEntry(
                 path=path_rel,
                 category=classify_source(path_rel),
                 size=stat.st_size,
                 sha256=digest,
-                modified_utc=datetime.fromtimestamp(stat.st_mtime, UTC).isoformat(timespec="seconds"),
+                modified_utc=modified_utc,
             )
         )
     return entries
@@ -251,6 +268,20 @@ def render_index(entries: Sequence[SourceEntry], generated_at: str, full_sync: b
     mode = "FULL_SYNC" if full_sync else "INCREMENTAL"
     return "\n".join(
         [
+            "---",
+            'Author: "ThemisDB Team"',
+            'Created: "2026-10-31"',
+            f'Last Updated: "{generated_at[:10]}"',
+            'Status: "active"',
+            "AI_Used: true",
+            'AI_Models: "unknown"',
+            'AI_Contributor: "GitHub Copilot"',
+            "Human_Review: false",
+            'Human_Author: "ThemisDB Team"',
+            "---",
+            "",
+            "> Exact model backend not verifiable from final document text alone.",
+            "",
             "# Developer LLM Wiki — Index",
             "",
             f"Datum: {generated_at[:10]}",
@@ -276,10 +307,15 @@ def render_index(entries: Sequence[SourceEntry], generated_at: str, full_sync: b
             "- [MODULES_AND_APIS.md](MODULES_AND_APIS.md)",
             "- [BUILD_TEST_CI_AND_OPERATIONS.md](BUILD_TEST_CI_AND_OPERATIONS.md)",
             "- [GOVERNANCE_AND_ROADMAP.md](GOVERNANCE_AND_ROADMAP.md)",
-            "- [AQL module context](AQL.md) — assistance API boundaries, validation behavior, and test/benchmark registration",
+            "- [AQL module context](AQL.md) — assistance API boundaries, validation behavior, and test/benchmark registration.",
             "- [Graph module context](GRAPH.md) — graph execution boundaries, RotatE evidence, focused tests, and archived artifacts",
+            "- [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary.",
             "- [IMPORTERS.md](IMPORTERS.md) — curated importer module context",
             "- [UPDATES.md](UPDATES.md) — curated updates module context",
+            "- [DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md) — curated distributed tensor module context",
+            "- [TEMPORAL.md](TEMPORAL.md) — temporal runtime/API boundaries, test and benchmark evidence limits",
+            "- [STORAGE.md](STORAGE.md) — curated storage API boundaries, test evidence, and contract gaps",
+            "- [USER_STORAGE_ENCRYPTED.md](USER_STORAGE_ENCRYPTED.md) — encrypted user-storage architecture, configuration, and evidence boundaries",
             "- [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)",
             "- [WIKI_STATUS.json](WIKI_STATUS.json)",
             "- [WIKI_DELTA_REPORT.md](WIKI_DELTA_REPORT.md)",
@@ -334,14 +370,33 @@ def render_modules_and_apis(repo_root: Path, entries: Sequence[SourceEntry]) -> 
     lines = _render_section(repo_root, entries, "Developer LLM Wiki — Modules and APIs", "modules_and_api")
     return "\n".join(
         [
+            "---",
+            'Author: "ThemisDB Team"',
+            'Created: "2026-10-31"',
+            f'Last Updated: "{datetime.now(UTC).strftime("%Y-%m-%d")}"',
+            'Status: "active"',
+            "AI_Used: true",
+            'AI_Models: "unknown"',
+            'AI_Contributor: "GitHub Copilot"',
+            "Human_Review: false",
+            'Human_Author: "ThemisDB Team"',
+            "---",
+            "",
+            "> Exact model backend not verifiable from final document text alone.",
+            "",
             *lines[:4],
             "",
             "## Curated module contexts",
             "",
             "- [AQL module context](AQL.md) — assistance API boundaries, validation behavior, and test/benchmark registration.",
             "- [Graph module context](GRAPH.md) — graph execution boundaries, RotatE evidence, focused tests, and archived artifacts.",
+            "- [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary.",
             "- [Importer module context](IMPORTERS.md) — shared contracts, connector boundaries, focused test evidence, and operational limits.",
             "- [Updates module context](UPDATES.md) — update lifecycle, rollout and patch contracts, diagnostic evidence, and operator boundaries.",
+            "- [Distributed tensor module context](DISTRIBUTED_TENSOR.md) — tensor artifact contracts, planning boundaries, C++ requirements, and verified test/benchmark evidence.",
+            "- [Temporal module context](TEMPORAL.md) — runtime/API separation, persistence boundaries, test and benchmark evidence limits.",
+            "- [Storage module context](STORAGE.md) — component boundaries, contract-vs-evidence gaps, and focused test/benchmark limits.",
+            "- [Encrypted user storage module context](USER_STORAGE_ENCRYPTED.md) — runtime architecture, configuration, build/test boundaries, and scanner/Doxygen evidence limits.",
             "",
             *lines[4:],
         ]

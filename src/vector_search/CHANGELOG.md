@@ -22,6 +22,10 @@ repository release changelog.
 
 ### Changed
 
+- Reconciled API and behavior descriptions with the current shared-index
+  implementation, including multi-field routing, configuration usage, and
+  insertion-validation differences.
+- Corrected the soak-test source path and documented open validation gaps.
 - Reconciled module ownership and runtime references with `include/index/` and
   `src/index/`.
 - Replaced unsupported error-code, performance-baseline, and production-ready

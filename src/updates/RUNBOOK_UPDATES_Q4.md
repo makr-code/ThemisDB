@@ -1,4 +1,26 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Updates Module Operator Runbook (Q4 2026)
+
+> **Historical, unverified draft — do not execute as an operational runbook.**
+> The commands, service names, CLI syntax, endpoint/port assumptions, timings,
+> alert names, and recovery procedures below could not be verified against a
+> current deployment interface. No universal `themis_cli` contract is declared
+> by the updates C++ headers. Use [`RUNBOOK.md`](RUNBOOK.md) and the
+> deployment-owned control-plane documentation; validate any retained
+> procedure with its service owner before use.
 
 ## Overview
 

@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-17"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # PERFORMANCE_EXPECTATIONS - src/server
 
-<!-- Status: current | validated: 2026-08-17 -->
+<!-- Status: current | validated: 2026-10-31 -->
 
 ## Scope
 
@@ -11,17 +25,17 @@
 
 | Gate ID | Source | Description |
 |---|---|---|
-| SVR-01..SVR-08 | `benchmarks/server/bench_server_hotpaths.cpp` | 8 benchmark release gates covering server hot-paths; Wave-7 baselines (read p99≤200µs, write ≥80k ops/s) confirmed with no regressions from retry/timeout logic |
-| WSR-01..WSR-16 | `tests/server/test_server_phase5_hardening.cpp` | P5-S01 wire-protocol retry latency gates (exponential backoff, budget cap, jitter paths) |
-| HST-01..HST-12 | `tests/server/test_server_phase5_hardening.cpp` | P5-S02 HTTP timeout and graceful-shutdown timing gates (deadline enforcement, drain ordering) |
+| SVR-01..SVR-08 | `benchmarks/server/bench_server_hotpaths.cpp` | Eight benchmark cases with thresholds GATE-SVR-01..08; these are targets, not published measurements |
+| WSR-01..WSR-16 | `tests/server/test_server_phase5_hardening.cpp` | P5-S01 wire-protocol retry behavior tests (backoff, budget cap, jitter paths) |
+| HST-01..HST-12 | `tests/server/test_server_phase5_hardening.cpp` | P5-S02 HTTP timeout and graceful-shutdown behavior tests (deadline enforcement, drain ordering) |
 
 These gates supplement the baseline SRVP-1..SRVP-4 / SRVG-1..SRVG-3 expectations below.
 
 ## Benchmark Reference
 
 - Relevant benchmark files:
-  - benchmarks/bench_api_endpoints.cpp
-  - benchmarks/bench_stream_protocol.cpp
+  - benchmarks/server/bench_api_endpoints.cpp
+  - benchmarks/server/bench_stream_protocol.cpp
 
 ## Specific Expectations
 
@@ -43,13 +57,14 @@ These gates supplement the baseline SRVP-1..SRVP-4 / SRVG-1..SRVG-3 expectations
 ## Validation
 
 - Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
+- The source and CMake configuration define benchmark cases and thresholds; this document does not record measured results or establish that a given machine has passed them.
 - Mapping should be expanded as additional server benchmark scenarios are introduced.
 
 ## Sourcecode Verification (Module: server/performance)
 
 - Verified benchmark sources:
-  - benchmarks/bench_api_endpoints.cpp
-  - benchmarks/bench_stream_protocol.cpp
+  - benchmarks/server/bench_api_endpoints.cpp
+  - benchmarks/server/bench_stream_protocol.cpp
 - Verified mapping surfaces:
   - GraphQL parse and mock-execution behavior
   - HTTP message, JSON, and selected endpoint behavior

@@ -36,7 +36,9 @@ The unit under study is the governance runtime in `src/governance/`: given a loa
 2. Exercise expected, denied, malformed, missing-context, and degraded-integration cases. Include unknown classifications, disabled/empty masking policies, duplicate field rules, OPA `nullopt`, and partial subject-erasure failures where applicable.
 3. Compare structured outcomes, not log wording alone. Check policy fields, error/result codes, per-store reports, lineage circuit state, and emitted diagnostics.
 4. Run focused regression suites before interpreting benchmark movement. Use the existing benchmark map in `PERFORMANCE_EXPECTATIONS.md` for evaluation and query-permission hot paths.
-5. Record whether the result came from native evaluation, REST OPA, an injected WASM evaluator, or the built-in WASM stub. These paths are not interchangeable.
+5. Record whether the result came from native evaluation, REST OPA, or an
+   injected WASM evaluator. Explicit WASM mode has no built-in stub and does not
+   switch evaluator when its injected evaluator is unavailable.
 
 ## Existing evidence and measurements
 

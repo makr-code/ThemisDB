@@ -1,6 +1,22 @@
-# Metadata Module - Future Enhancements
+# Metadata Module — Future Enhancements
 
-<!-- Status: current | validated: 2026-08-03 -->
+**Author:** ThemisDB Contributors  
+**Created:** 2026-10-31  
+**Last Updated:** 2026-10-31  
+**Status:** review  
+**AI_Used:** true  
+**AI_Models:** unknown  
+**AI_Contributor:** GitHub Copilot coding agent / ThemisDB documentation orchestrator  
+**Human_Review:** false  
+**Human_Author:** ThemisDB Contributors  
+**Source level:** level1 — module-local  
+**SOT domain:** module-behavior  
+**Canonical source references:** [metadata roadmap](./ROADMAP.md), [module developer runbook](./RUNBOOK.md), [metadata benchmark sources](../../benchmarks/metadata/)  
+**Related issue / milestone:** [#7362](https://github.com/makr-code/ThemisDB/issues/7362) · DOC-WEEKLY-2026-W44
+
+> Exact model backend not verifiable from final document text alone.
+
+<!-- Planning note reconciled 2026-10-31; remaining targets are not delivery evidence -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
@@ -35,7 +51,9 @@
 - Phase C delivered: distributed catalog diagnostics via RecordingChangeListener (MCH-DC01..DC04), RBAC diagnostics (MCH-SEC01..SEC04).
 - Phase D delivered: benchmark broadened to consistency/lineage hot paths with GATE-MCL-01..04.
 - expand deep concurrent-access stress coverage beyond focused unit tests (Q2 2027).
-- add operator runbook for metadata incident triage (Q2 2027).
+- reconcile deployment-runbook scope and completion status with the existing
+  developer runbook; the deployment runbook's operational commands were not
+  verified in this source review (Q2 2027).
 
 ## Test Strategy
 

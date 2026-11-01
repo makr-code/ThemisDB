@@ -1,74 +1,61 @@
-# Audit Report - Governance Module
+---
+Author: "ThemisDB Contributors"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Related: "Issue #7349"
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Summary
+# Governance Documentation/Source Audit Snapshot
 
-| Metric | Result |
+This is a repository inspection snapshot, not a build, security, compliance, or
+release audit. No build, test, linter, or benchmark was run for Issue #7349.
+
+## Current inventory and registration evidence
+
+| Item | Observation |
 |---|---|
-| Build registration | pass |
-| Source set size | 26 implementation files in src/governance |
-| Focused test presence | pass |
-| Open hardening findings | yes |
-| Critical blockers | none identified |
+| Implementation files | 35 `.cpp` files directly under `src/governance/` at review time |
+| Public headers | 36 `.h` files directly under `include/governance/` at review time |
+| Focused test sources | 16 `.cpp` files directly under `tests/governance/` at review time |
+| Module-focused test registration | CMake quarantines `test_operational_audit_evidence` and `test_policy_versioning_and_approval` pending canonical project configure/build/run validation; operational audit passed a standalone local run (26/26), while project configuration is blocked by missing RocksDB and versioning/approval has not been linked or run |
+| Benchmarks | Four `.cpp` sources under `benchmarks/governance/`; this directory's CMake registers policy-latency and release-gate targets, while top-level CMake also handles other benchmark sources |
 
-## Verified Files
+These are source-tree/CMake observations, not proof of successful compilation or
+passing execution. Test registration must be distinguished from execution, and
+benchmark presence from benchmark execution.
 
-- src/governance/policy_engine.cpp
-- src/governance/policy_manager.cpp
-- src/governance/policy_manager_versioned.cpp
-- src/governance/policy_validation.cpp
-- src/governance/policy_validator.cpp
-- src/governance/policy_template.cpp
-- src/governance/policy_review.cpp
-- src/governance/review_scheduler.cpp
-- src/governance/policy_file_watcher.cpp
-- src/governance/policy_coordinator.cpp
-- src/governance/compliance_reporter.cpp
-- src/governance/compliance_reporting.cpp
-- src/governance/gdpr_subject_rights.cpp
-- src/governance/ccpa_rules.cpp
-- src/governance/hipaa_rules.cpp
-- src/governance/iso27001_rules.cpp
-- src/governance/pci_dss_rules.cpp
-- src/governance/soc2_controls.cpp
-- src/governance/data_masker.cpp
-- src/governance/data_lineage.cpp
-- src/governance/model_governance.cpp
-- src/governance/cross_tenant_policy_inheritance.cpp
-- src/governance/opa_adapter.cpp
+## Documentation findings corrected for this snapshot
 
-## Findings
+- Public header list and exact type spellings aligned to the current headers.
+- Stale downstream architecture claims and build/test/benchmark instructions
+  removed or qualified.
+- Fail-closed WASM evaluator selection, RSA key requirements, policy
+  configuration, and bounded in-memory audit/lineage limits made explicit.
+- `RSA_SHA256` now uses OpenSSL EVP with an unencrypted PEM RSA private key
+  (minimum 2048 bits) for signing; verification accepts the private PEM or its
+  public-key PEM. Focused source tests cover signature verification, tampering,
+  and malformed-key failure; this does not establish key custody or lifecycle.
+- Legacy compliance, audit-integrity, conflict, and versioning guarantees are
+  withdrawn where they exceed current implementation evidence.
 
-### Open
+## Remaining verification limits
 
-1. [GOV-AUD-01] conflict/fallback parity hardening remains active.
-- Severity: medium
-- Evidence: roadmap/future retain active work for denial/conflict/fallback consistency.
-- Action: close deterministic regressions across conflict resolution and fallback transitions.
+- No full dependency/build graph or runtime integration was executed.
+- No benchmark result or release baseline was inspected for this review.
+- Compliance and production readiness require deployment-level evidence beyond
+  source declarations and focused tests.
 
-2. [GOV-AUD-02] lifecycle and inheritance diagnostics need further tightening.
-- Severity: medium
-- Evidence: active follow-up work for versioning, rollback, and inheritance incident visibility.
-- Action: unify taxonomy and observability for policy lifecycle failures.
+## References
 
-3. [GOV-AUD-03] benchmark depth should broaden for advanced governance workflows.
-- Severity: low
-- Evidence: core benchmark mapping is valid, but advanced governance operations are less represented.
-- Action: add benchmark depth for reporting and lifecycle-intensive paths.
-
-### Closed
-
-- core governance runtime surfaces are present and source-verified.
-- documentation set is synchronized to source-verifiable claims.
-- changelog/roadmap role separation is aligned to governance pattern.
-
-## Compliance Snapshot
-
-| Requirement | Status |
-|---|---|
-| Source-verifiable behavior claims | pass |
-| Structured forward planning in roadmap/future | pass |
-| Historical completion tracked in changelog | pass |
-| Core module docs synchronized | pass |
+- [Governance test CMake](../../tests/governance/CMakeLists.txt)
+- [Governance benchmark CMake](../../benchmarks/governance/CMakeLists.txt)
+- [Public-header inventory](../../include/governance/README.md)
+- [Module roadmap](ROADMAP.md)

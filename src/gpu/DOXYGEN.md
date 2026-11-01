@@ -1,5 +1,10 @@
 # GPU DOXYGEN
 
+> Generated documentation snapshot dated 2026-09-20. Its Windows XML/log paths,
+> metrics, symbol details, and test/benchmark references describe that
+> generation only; they are not a current API or test registry. Regenerate from
+> current Doxygen inputs before using it as current evidence.
+
 Author: ThemisDB Contributors
 Created: 2026-09-20
 Last Updated: 2026-09-20
@@ -15290,4 +15295,3 @@ Status: active
 - Parameters:
   - `<unnamed>` (GPUAdversarialTest): n/a
   - `<unnamed>` (TimeoutFaultFallsBackToCPU): n/a
-

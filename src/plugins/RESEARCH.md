@@ -31,9 +31,10 @@ The source provides two materially different execution paths:
 - Native shared libraries are opened through the platform loader in
   `plugin_manager.cpp`. They execute in the ThemisDB process; the plugin
   subsystem does not sandbox native code.
-- WASM loading is an optional build/runtime path in `wasm_plugin_loader.cpp`.
-  It requires an expected SHA-256 value, an enabled runtime build, and the
-  `enterprise_plugins` license feature.
+- The built-in WASM loading path in `wasm_plugin_loader.cpp` checks an expected
+  SHA-256 value and the `enterprise_plugins` license gate, with runtime support
+  dependent on build configuration. A registered `WasmPluginLoadFn` is
+  consulted first and owns its own validation/runtime behavior.
 
 OCI is a distribution transport, not an execution isolation mechanism. Its
 downloaded binary is checked against the manifest layer digest before it is

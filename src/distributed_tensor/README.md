@@ -1,117 +1,102 @@
-# Distributed Tensor Module Documentation
+# Distributed Tensor Module
 
-<!-- Status: PRODUCTION_CANDIDATE | Phase 3-4 complete | EPIC 5428 Contract Coverage Delivered | validated: 2026-08-10 -->
-<!-- Status: Phase 3 Complete | EPIC 5428 Runtime Safety Gates | validated: 2026-07-17 -->
+**Last Updated:** 2026-10-31
+**Source level:** Level 1 — module implementation
+**SOT domain:** module-behavior
+**Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `include/distributed_tensor/*.h`, `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
+**Related:** Issue #7341
 
-## Purpose
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot Coding Agent
+Human_Review: false
+Human_Author: unknown
+Exact model backend not verifiable from final document text alone.
+-->
 
-`src/distributed_tensor` implements EPIC 5428 Phase 2 (Core Implementation), delivering portable tensor artifacts,
-manifest semantics, shard placement, integrity verification, and recovery planning for ThemisDB's distributed sharding fabric.
+## Purpose and current source scope
 
-## Implementation Status (Phase 4 Complete)
+The module provides C++ interfaces and implementations for distributed tensor
+artifacts, manifests, shard placement, integrity verification, recovery,
+retrieval planning, infrastructure coordination, in-process training-job
+coordination, and storage-strategy assessment. Its exact build source list is
+maintained in [`CMakeLists.txt`](CMakeLists.txt); this README does not imply
+production readiness or measured performance.
 
-| Sub-issue | Contract | Source | Status | Test | Lines |
-|-----------|----------|--------|--------|------|-------|
-| 3.1 Artifact classes | ✅ tensor_artifact_classes.h | ✅ tensor_artifact_classes.cc | Complete | Phase 4 covered | 450 |
-| 3.2 Manifest schema | ✅ artifact_manifest.h | ✅ artifact_manifest.cc | Complete | Phase 4 covered | 460 |
-| 3.3 Shard placement | ✅ shard_placement.h | ✅ shard_placement.cc | Complete | Phase 4 covered | 425 |
-| 3.4 Integrity model | ✅ integrity_verification.h | ✅ integrity_verification.cc | Complete | Phase 4 covered | 490 |
-| 3.5 Recovery strategy | ✅ recovery_manager.h | ✅ recovery_manager.cc | Complete | Phase 4 covered | 465 |
-| 3.6 Distributed retrieval | ✅ distributed_planner.h | ✅ distributed_planner.cc | Complete | Phase 4 covered | 430 |
-| 3.7 Tensor infrastructure | ✅ tensor_infrastructure.h | ✅ tensor_infrastructure.cc | Complete | Phase 4 covered | 440 |
+The public header directory currently contains contracts for artifact classes,
+manifests, shard placement, integrity verification, recovery, distributed
+planning, tensor infrastructure, in-process training-job coordination, and
+storage strategy.
+The module target is the static library `themis_distributed_tensor`. The
+`include/distributed_tensor/tensor_storage_strategy.h` includes `<span>` and
+exposes `std::span`, so the public API requires C++20. The target declares
+`cxx_std_20` as a `PUBLIC` compile feature so CMake consumers linking the target
+inherit the requirement. Direct users of the installed headers must also
+compile as C++20. The source CMake file links `themis_base` and conditionally
+links `themis_core` and `themis_tensor` when those targets exist.
 
-**Total:** ~3,200 LOC of production-ready C++17 code with comprehensive documentation,
-active community-build integration, and focused Phase 3 plus broadened Phase 4 regression coverage.
+The module target's `integrity_verification.cc` uses an FNV-1a demonstration
+hash in `simple_sha256_hash()`. The separately present nested
+`src/integrity_verification.cc` contains SHA-256 calls but is not in this
+target's source list. Thus the default module target does not provide
+cryptographic SHA-256; Merkle-shaped receipt/tree structures are not a
+cryptographic security guarantee.
 
-## Current Delivery State
+## Build and verification inventory
 
-- ✅ Phase 1: Architecture and planning documented
-- ✅ **Phase 2: Core implementation COMPLETE**
-  - All 7 components implemented with production-ready API contracts
-  - Full Doxygen documentation
-  - Modern C++17 with RAII, move semantics, const-correctness
-  - noexcept exception safety guarantees
-  - CMakeLists.txt configured for static library build
-- ✅ **Phase 3: Error handling & edge cases COMPLETE**
-- Fail-closed integrity checks for partial receipts and invalid manifests
-- Recovery planning now blocks unsafe paths and only allows degraded reads explicitly
-- Placement and retrieval planners expose hard-failure vs degraded-mode decisions
-- ✅ Phase 4: Distributed contract and fault-path coverage delivered via `test_phase4_contract_coverage.cpp` (58 tests)
-- 🔄 Phase 5: Performance & hardening (Target: Q4 2026)
-- 🔄 Phase 6: Acceptance documentation (Target: Q1 2027)
-- 🔄 Phase 7: Production integration (Target: Q1 2027)
+- The module is added by `cmake/CMakeLists.txt` when its module CMake file exists.
+- Build the configured module target with
+  `cmake --build <build-dir> --target themis_distributed_tensor`.
+- `tests/distributed_tensor/CMakeLists.txt` registers three focused test
+  executables from `test_tensor_allocation.cpp`, `test_tensor_operations.cpp`,
+  and `test_tensor_performance.cpp`. Their existence and registration do not
+  establish that they were built or passed.
+- `tests/epic3_distributed_tensor/CMakeLists.txt` separately registers the
+  EPIC 3 contract/update test sources and an integrity benchmark test target;
+  `tests/CMakeLists.txt` conditionally adds that directory. The integration
+  test configuration also includes `test_distributed_tensor_soak.cpp` when
+  present.
+- `benchmarks/distributed_tensor/CMakeLists.txt` conditionally registers
+  `bench_distributed_tensor_dedicated_gates.cpp` when
+  `THEMIS_BUILD_BENCHMARKS` is enabled. That benchmark uses in-process stubs;
+  it is not evidence of network, GPU, or production workload performance.
+- `benchmarks/epic3_distributed_tensor/CMakeLists.txt` separately configures
+  the placement, integrity, recovery, retrieval, partial-refit, and
+  summary-first benchmark sources when benchmarks are enabled.
 
-## Seven-Phase Gate (module view)
+## Verification attempt (2026-10-31)
 
-- [x] Phase 1: artifact and infrastructure contracts documented
-- [x] **Phase 2: Core implementation with all 7 components**
-- [x] Phase 3: failure handling for placement/integrity/recovery paths
-- [x] Phase 4: distributed contract tests and fault-injection scenarios
-- [~] Phase 5: scale/performance hardening scaffold, deterministic gates, and runbooks
-- [ ] Phase 6: acceptance documentation tied to recovery/integrity evidence
-- [ ] Phase 7: integration with production retrieval/evaluation pipelines
+A diagnostic configure with tests and benchmarks enabled used CMake 3.31.6,
+GNU 13.3.0, Debug mode, and an empty toolchain file. Configuration stopped at
+`cmake/Dependencies.cmake:727` because the required `fmt` library was not
+available; no build tree targets were generated. Consequently, no
+distributed-tensor test or benchmark executable was built or run. A standalone
+syntax check of `tensor_storage_strategy.h` passed with `-std=c++20` and was
+rejected with `-std=c++17` at `std::span`, as expected.
 
-## Key Components
+## Component references
 
-### 1. Tensor Artifact Classes (3.1)
-- ArtifactClass: PRIMARY, DERIVED, EPHEMERAL
-- Lifecycle stages: STAGING → ACTIVE → STALE → RECOVERING → DEPRECATED → DELETED
-- DurabilityLevel: NONE, SINGLE_COPY, REPLICATED, ERASURE_CODED
+| Area | Public interface | Implementation source(s) |
+|---|---|---|
+| Artifact classes and manifests | `tensor_artifact_classes.h`, `artifact_manifest.h` | `tensor_artifact_classes.cc`, `artifact_manifest.cc`, `src/artifact_manifest.cc` |
+| Placement and retrieval | `shard_placement.h`, `distributed_planner.h` | `shard_placement.cc`, `distributed_planner.cc`, `src/distributed_planner.cc` |
+| Integrity and recovery | `integrity_verification.h`, `recovery_manager.h` | `integrity_verification.cc`, `recovery_manager.cc` |
+| Infrastructure and in-process training jobs | `tensor_infrastructure.h`, `tensor_training_coordinator.h` | `tensor_infrastructure.cc`, `tensor_training_coordinator.cc` |
+| Storage strategy | `tensor_storage_strategy.h` | `src/tensor_storage_strategy.cc` |
 
-### 2. Artifact Manifest Schema (3.2)
-- Manifest-driven coordination with durable versioning
-- ShardPlacement with tier awareness and replication factors
-- Integrity receipts with Merkle root hashes
+Additional implementation sources, including delta-log, manifest-store,
+checkpoint, snapshot-update, and shard-summary components, are listed directly
+in the module CMake file. This table is an orientation aid, not a complete source
+inventory.
 
-### 3. Shard Placement Strategy (3.3)
-- RAID-style round-robin distribution
-- Factorization-aware placement hints
-- Capacity-aware node selection
+## Status and limitations
 
-### 4. Integrity Verification (3.4)
-- Cryptographic hashing support
-- Merkle tree construction for incremental verification
-- Shard-level and artifact-level integrity checking
-
-### 5. Recovery Manager (3.5)
-- Multiple recovery strategies (replication, erasure coding, rebuild)
-- Priority-based job scheduling with state machine
-- Automatic retry logic with exponential backoff
-
-### 6. Distributed Planner (3.6)
-- Cost-based retrieval strategy selection
-- Parallel retrieval support with bandwidth estimation
-- Tier-aware retrieval location preferences
-
-### 7. Tensor Infrastructure (3.7)
-- Node registry with health tracking
-- Hardware capability advertisement
-- Stripe transport configuration
-
-## Module Boundaries
-
-In scope (Phase 4 Complete):
-- Portable artifact taxonomy and manifest contracts
-- Placement, integrity, and recovery interfaces and default implementations
-- Infrastructure interfaces for node health and stripe transport
-- Runtime failure gating for placement, integrity, recovery, and retrieval flows
-
-Out of scope (Phases 5-7):
-- Performance optimization and hardening
-
-## Build Integration
-
-- Static library: `themis_distributed_tensor`
-- Community build graph integration via `cmake/CMakeLists.txt`
-- Focused CTest targets: `test_phase3_failure_semantics_epic3_distributed_tensor_FocusedTests`,
-  `test_phase4_contract_coverage_epic3_distributed_tensor_FocusedTests`, `ManifestStorePhaseATests`
-- C++17 standard compliance
-- Full Doxygen documentation included
-- RAII resource management and move semantics throughout
-
-## References
-
-- EPIC 5428: Distributed tensor artifacts, RAID-style sharding, integrity and recovery
-- `DISTRIBUTED_TENSOR_SHARDING.md` - Architecture and design principles
-- `src/distributed_tensor/ROADMAP.md` - Phase-by-phase delivery plan
-- `src/distributed_tensor/ARCHITECTURE.md` - Component ownership and integration
+`TensorTrainingCoordinator` runs worker callbacks synchronously in-process; it
+does not provide networked or distributed worker execution. The source and
+headers establish implementation surfaces, but the attempted configure did not
+establish module test pass status, production enablement, cross-module
+deployment, or benchmark outcomes. Representative-hardware performance and
+production sign-off remain unverified. Historical EPIC 3 plans and evidence
+records remain historical; consult the current source, build registration, and
+[`ROADMAP.md`](ROADMAP.md) before making status claims.

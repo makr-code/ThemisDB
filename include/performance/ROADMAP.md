@@ -1,7 +1,20 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/performance/ROADMAP.md -->
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "active"
+Source_Level: "level1"
+SOT_Domain: "api-contract"
+Canonical_Sources:
+  - "include/performance/*.h"
+  - "src/performance/ROADMAP.md"
+Related_Issue: "#7366"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
 # Performance Module — Public Header Roadmap
 
@@ -20,7 +33,10 @@ Tracks public performance API contract stability, optimization/header coverage, 
 
 ## Current Status
 
-All 43 performance headers are present and cover measurement, adaptive optimization, cache/NUMA tuning, lock-free metrics primitives, accelerator dispatch, and phase-3/phase-4 advanced optimization surfaces.
+The current header tree contains 44 public headers covering measurement,
+adaptive optimization, cache/NUMA tuning, concurrency primitives, accelerator
+dispatch, and phase-specific components. This inventory is a point-in-time
+count, not a stability or implementation-maturity claim.
 
 ---
 
@@ -35,19 +51,24 @@ All 43 performance headers are present and cover measurement, adaptive optimizat
 
 ## In Progress
 
-- [ ] Clarify stability expectations for experimental phase-3/phase-4 headers versus core performance contracts (Target: 2026-Q3)
-- [ ] Add stronger unsupported-hardware and degraded-feature guidance to accelerator-facing headers (Target: 2026-Q3)
+- [ ] Clarify stability expectations for phase-3/phase-4 headers versus shared performance contracts; no common stability marker was verified across these headers (Target: 2026-Q4)
+- [ ] Keep unsupported-hardware and degraded-feature behavior explicit in accelerator-facing declarations; verify each path against implementation and host capability (Target: 2026-Q4)
 
 ---
 
 ## Planned
 
-- [ ] `performance_capability_profile.h` — shared runtime capability summary for tuning decisions (Target: 2026-Q4)
-- [ ] `optimizer_incident.h` — common incident/diagnostic DTO for fallback and tuning failures (Target: 2026-Q4)
+- [ ] Consider `performance_capability_profile.h` — proposed shared runtime capability summary; file not present in the current include tree (Target: 2026-Q4)
+- [ ] Consider `optimizer_incident.h` — proposed diagnostic type; file not present in the current include tree (Target: 2026-Q4)
 - [ ] Document benchmark-backed compatibility notes for core measurement and adaptive hot paths (Target: 2026-Q4)
 
 ---
 
 ## Breaking Change History
 
-None in v1.x. Public performance headers must remain backward compatible within the active major line; contract changes require migration notes and changelog updates.
+No breaking-change history is recorded in this header roadmap. The active
+contract statement and compatibility scope should be read from
+[`performance_api_contract.h`](performance_api_contract.h) and the project
+release/versioning documents.
+
+Exact model backend not verifiable from final document text alone.

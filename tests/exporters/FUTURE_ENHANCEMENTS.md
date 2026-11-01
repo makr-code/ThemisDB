@@ -1,37 +1,63 @@
-> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "tests/exporters/CMakeLists.txt; src/exporters/ROADMAP.md; include/exporters/exporters_api_contract.h"
+Related: "Issue #7346; DOC-WEEKLY-2026-44"
+---
 
-# FUTURE_ENHANCEMENTS
+# Exporter tests: future enhancements
 
-## tests/exporters
+Exact model backend not verifiable from final document text alone.
 
-### Scope
-- Ausbau der Modulfähigkeiten in `tests/exporters` für Stabilität, Wartbarkeit und Betriebsreife.
-- Schließen dokumentierter Funktions- und Qualitätslücken.
+## Scope
 
-### Design Constraints
-- Rückwärtskompatibilität zu bestehenden Modulverträgen sicherstellen.
-- Kein Sicherheits- oder Compliance-Regression durch Erweiterungen.
-- Deterministisches, nachvollziehbares Fehlerverhalten beibehalten.
+Maintain focused tests for exporter API and runtime changes; this file does not
+define a separate runtime roadmap.
 
-### Required Interfaces
-- Öffentliche APIs/CLI/Config-Verträge bleiben klar versioniert.
-- Interne Schnittstellen werden explizit dokumentiert und getestet.
+## Design Constraints
 
-### Implementation Notes
-- Erweiterungen inkrementell in kleinen, überprüfbaren Schritten liefern.
-- Abhängigkeiten minimieren und vorhandene Infrastruktur wiederverwenden.
-- Observability (Logs/Metriken/Tracing) für neue kritische Pfade ergänzen.
+- Keep tests aligned with the public headers and actual implementation behavior.
+- Do not infer success from target registration or mocked external interactions.
 
-### Test Strategy
-- Unit-Tests für neue Kernlogik und Fehlerpfade.
-- Integrations-/End-to-End-Tests für modulübergreifende Flows.
-- Regressionstests für bereits ausgelieferte Funktionalität.
+## Required Interfaces
 
-### Performance Targets
-- Keine signifikante Regression in Latenz/Throughput gegenüber Baseline.
-- Kritische Pfade mit reproduzierbaren Benchmarks absichern.
+- Use the top-level `test_*.cpp` convention and existing test libraries.
+- Keep target/CTest naming consistent with `tests/exporters/CMakeLists.txt`.
 
-### Security / Reliability
-- Security-Reviews für neue Eingabe- und Integrationsflächen.
-- Robuste Fehlerbehandlung, Timeouts und Recovery-Verhalten sicherstellen.
-- Relevante Änderungen durch Audit-Artefakte nachvollziehbar machen.
+## Implementation Notes
+
+Add or update the closest focused suite when an exporter contract changes.
+Cover relevant success, invalid input, error, limit, and recovery cases.
+
+## Test Strategy
+
+Build the affected focused target and run its registered CTest entry; record
+actual commands and environment blockers with the change.
+
+## Performance Targets
+
+No test-only performance threshold is established here. Add a measurable target
+only when supported by a canonical exporter requirement and benchmark evidence.
+
+## Security / Reliability
+
+Use synthetic records and test-only credentials. Tests are regression evidence,
+not proof that deployment authorization, key management, or incident controls
+are configured correctly.
+
+This folder has no independent implementation roadmap. Runtime priorities and
+contracts are owned by [`../../src/exporters/ROADMAP.md`](../../src/exporters/ROADMAP.md)
+and the public headers.
+
+TODO: Identify any test gap only by comparing a named runtime requirement or
+public API contract against current test sources. No unsourced gap or delivery
+date is asserted here.

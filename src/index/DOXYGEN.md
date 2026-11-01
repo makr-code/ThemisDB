@@ -1,9 +1,25 @@
-# INDEX DOXYGEN
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-20"
+Last Updated: "2026-10-31"
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Exact model backend not verifiable from final document text alone.
+
+# INDEX DOXYGEN (Historical Generated Snapshot)
+
+> **Provenance limitation:** This generated snapshot points to temporary XML
+> and warning-log files in a local Windows workspace. Those inputs are not
+> present here, so the metrics and symbol inventory cannot be reproduced from
+> this document. Regenerate Doxygen output before using it as current API or
+> documentation-quality evidence.
+
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -15575,4 +15591,3 @@ Status: active
   - `query_variants` (const std::vector< std::vector< float > > &): n/a
   - `config` (const SearchConfig &): n/a
 - Details: Useful for query expansion where multiple variants of the query are generated. Combines results from all variants using the specified fusion strategy.
-

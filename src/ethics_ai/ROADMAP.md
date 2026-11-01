@@ -1,25 +1,39 @@
+---
+Author: ThemisDB Team
+Created: 2026-07-28
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Ethics AI Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-18 (retrospective closure from 2026-08-09 work completion) -->
+<!-- Status: current | source review: 2026-10-31; historical closures remain dated snapshots -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · RETROSPECTIVE_CLOSURE_2026_08_18.md -->
 
 ## Current Status
 
-Production-grade ethics_ai runtime exists for profile loading, discourse orchestration, argument persistence, RAG context assembly, evaluation metrics, and plugin lifecycle integration.
+The plugin runtime includes profile loading, debate initialization/continuation, argument persistence, RAG context assembly, evaluation, and lifecycle integration. LDM router/orchestrator/meta-verdict/mirror APIs and focused tests exist, but source inspection does not establish an integrated production LDM pipeline.
 
-**EU AI Act Compliance Milestone (Q4 2026):** ✅ **COMPLETE as of 2026-08-09**
-- Art. 13 (Transparency) fully implemented: participating school listing, audit trail immutability, legal grounding
-- Art. 22 (Human Oversight) fully implemented: ChainVisualizer visualization, NormEvidence legal citations
-- Layered Discourse Model (LDM) Phases 1–5 fully implemented with equal-weight contract enforcement
-- Community build separability verified (fail-closed without private sources)
-- 9+ focused EU compliance tests all passing; benchmark gates instrumented
-- See `RETROSPECTIVE_CLOSURE_2026_08_18.md` for detailed closure evidence
+Root `ROADMAP.md` remains the maturity aggregate and identifies `plugins/themisdb_ethic_ai/` as the canonical plugin implementation. This file records local `src/ethics_ai/` evidence only and does not override root release-readiness status.
 
-The current `EthicsSelectionRouter` operates in `SELECTION_ONLY` mode (Top-N pre-selection) with Ebene-1–5 Layered Discourse Model (LDM) available for `LAYERED_FULL` and `LAYERED_FAST` modes. Design rationale documented in
+**Compliance status:** source-level audit/types and focused test cases cover selected transparency, audit-log, visualization, and grounding behaviors. This is not a legal compliance determination or a current passing-test result. The historical closure snapshot is in `RETROSPECTIVE_CLOSURE_2026_08_18.md`; current source behavior and unresolved wiring/measurement gaps take precedence.
+
+`RouterConfig` defaults to `SELECTION_ONLY`. `LAYERED_FULL`/`LAYERED_FAST` planning and helper APIs exist, but `ethics_ai_plugin.cpp` and `discourse_engine.cpp` do not call those APIs. The helper fallback is deterministic when no inference callback is injected; full production wiring remains open. Design rationale documented in
 `docs/research/ethics_discourse_process_equality.md`.
 
+The LDM benchmark suite exercises deterministic stub fixtures, not a real LLM or a legal database. Its target is conditionally registered when dependencies are available. The separate `bench_ethics_ai_plugin` source exists, but its CMake existence guard points at a different directory and currently skips target creation. Target values are not measurement evidence.
+
 ## In Progress
+
+> Q3 2026 target labels below are original planning dates and have elapsed; this roadmap does not assign replacement milestones.
 
 - [~] hardening deterministic behavior for profile-edge and multi-school debate permutations (Target: Q3 2026) — forward work
 - [~] benchmark stabilization for decision, context, and evaluator hot paths (Target: Q3 2026) — forward work; GATE-EUAI-AUDIT-01 instrumented
@@ -30,7 +44,7 @@ The current `EthicsSelectionRouter` operates in `SELECTION_ONLY` mode (Top-N pre
 ## Q4 2026 — EU AI Act Compliance Plan
 
 > This section encodes the mandatory Art. 13/22 compliance work for the `ethics_ai` module.
-> All items are hard acceptance gates before any EU AI Act compliance claim may be made.
+> The checkboxes record implementation/test artifacts reported at the time; they are not a legal compliance determination, current test-run evidence, or proof of production integration. The separate benchmark gate below remains open.
 
 ### Art. 13 — Transparency and Participating School Listing
 
@@ -62,7 +76,7 @@ The current `EthicsSelectionRouter` operates in `SELECTION_ONLY` mode (Top-N pre
 - [~] Execute `benchmarks/ethics_ai/bench_ldm.cpp` suite; confirm baseline runtimes for LAYERED_FULL and LAYERED_FAST modes (Target: Q4 2026) — `GATE-EUAI-AUDIT-01` benchmark added 2026-08-09; baseline run requires representative hardware execution — sandbox-blocked; pending hardware sign-off
 - [x] Art. 13 audit export overhead ≤5% regression vs baseline LAYERED_FULL run without audit export (Target: Q4 2026) ✅ **BM_LDM_AuditLog_Append + BM_LDM_AuditLog_ExportOnly added 2026-08-09**
 - [~] ChainVisualizer artifact generation overhead ≤10ms per run (Target: Q4 2026) — benchmark baseline instrumentation present; hardware confirmation pending
-- [ ] Gate MUST be green before any EU AI Act Art. 13/22 compliance claim appears in documentation (Target: Q4 2026)
+- [ ] Gate MUST be green before any EU AI Act Art. 13/22 compliance claim appears in documentation (Target date has passed; no current green gate evidence is recorded here)
 
 ### Private Plugin Separability (Target: Q4 2026)
 
@@ -169,6 +183,8 @@ The current `EthicsSelectionRouter` operates in `SELECTION_ONLY` mode (Top-N pre
 
 ## Implementation Phases
 
+> Phase checkmarks record historical delivery claims for individual APIs/tests. They do not establish that the LDM pipeline is integrated into the plugin runtime or that its performance targets have passed.
+
 ### Phase 1: Design / API Contract
 - [x] research paper on Process Equality and LDM scalability architecture
   (`docs/research/ethics_discourse_process_equality.md`)
@@ -202,10 +218,11 @@ The current `EthicsSelectionRouter` operates in `SELECTION_ONLY` mode (Top-N pre
 - [x] extend deterministic fixture coverage for multi-school and long-round workflows (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [x] LDM LAYERED_FULL: P95 ≤ 8 s end-to-end (Ebene-1 + Ebene-2 + Ebene-3) (Target: Q2 2027)
-- [x] LDM LAYERED_FAST: P95 ≤ 1.2 s end-to-end (Target: Q2 2027)
-- [x] lock benchmark-backed release gates for decision/context/evaluator hot paths (Target: Q4 2026)
-- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [ ] LDM LAYERED_FULL: obtain representative end-to-end P95 evidence (no matching LDM full-mode benchmark is currently registered)
+- [ ] LDM LAYERED_FAST: validate the target with a real inference integration and representative hardware
+- [ ] establish that benchmark expectations are enforced against release baselines; the CTest registration helper runs benchmark binaries but does not itself enforce numerical thresholds
+- [ ] correct/confirm the `bench_ethics_ai_plugin` source-path guard before relying on its cases as registered benchmarks
+- [ ] validate p95/p99 and throughput behavior against release baselines
 
 ### Phase 6: Documentation and Acceptance
 - [x] core ethics_ai module docs aligned to source-verifiable behavior
@@ -222,11 +239,11 @@ The current `EthicsSelectionRouter` operates in `SELECTION_ONLY` mode (Top-N pre
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [x] LDM design rationale documented in research paper
-- [x] remaining hardening tasks closed for profile/discourse/context edge paths
+- [~] remaining hardening tasks for profile/discourse/context edge paths require current evidence
 - [x] LDM DiscourseMode API contract frozen
 - [x] MetaVerdict struct and audit fields defined
-- [x] LDM Ebene-1/2/3 implemented and tested
-- [x] release benchmark stabilization complete
+- [~] LDM plan/helper paths and focused tests exist; production end-to-end integration is incomplete
+- [ ] release benchmark stabilization complete (benchmark cases exist; representative-hardware evidence remains pending)
 
 ## Closure Path (for issue #5642)
 
@@ -241,6 +258,8 @@ The current `EthicsSelectionRouter` operates in `SELECTION_ONLY` mode (Top-N pre
 
 ### Issue #5642 Evidence Snapshot (2026-07-28)
 
+> Historical issue snapshot only; it is superseded for current source/runtime status by the Current Status and Known Issues sections above.
+
 - Build preset reference: `windows-release` (issue baseline).
 - Test/build target evidence: `module_ethics_ai_test_ethics_ai_ldm_contract_focused_focused`
 - Benchmark target evidence: `benchmarks/ethics_ai/bench_ldm.cpp` (LDM benchmark suite)
@@ -251,14 +270,9 @@ The current `EthicsSelectionRouter` operates in `SELECTION_ONLY` mode (Top-N pre
 
 ## Known Issues and Limitations
 
-- `EthicsSelectionRouter` operates only in `SELECTION_ONLY` mode (Top-N pre-selection);
-  this introduces cultural pre-selection bias contrary to Habermas participatory fairness.
-  Tracked for resolution via LDM-1 through LDM-5.
-- `weight_boost` in `domain_overrides` (YAML assets) currently acts as pre-selection boost;
-  in LDM it must be converted to post-hoc synthesis weight only.
-- Non-western school profiles (islamische_ethik, konfuzianismus, buddhistische_ethik,
-  juedische_bioethik) receive systematically lower semantic scores against western-language
-  queries; AdaLoRA compensation planned in LDM-8.
+- The plugin decision path does not currently call the LDM router/orchestrator helpers; `RouterConfig` and `planDiscourse()` expose selection and layered planning modes.
+- `MetaVerdictBuilder` uses unit counts and does not apply YAML `domain_overrides.weight_boost`; post-hoc weight integration remains open.
+- Any claim of cultural semantic-score bias is a research/design hypothesis, not verified by the current focused tests or LDM benchmarks; AdaLoRA work remains planned.
 - runtime quality remains dependent on profile quality and coverage.
 - selected advanced context generation paths remain configuration-dependent.
 - benchmark coverage should continue expanding for advanced ethics workflow helpers.

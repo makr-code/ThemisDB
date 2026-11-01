@@ -1,36 +1,48 @@
-# Retrieval Module Performance Expectations
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "ThemisDB documentation orchestration assistant"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "README.md"
+  - "CMakeLists.txt"
+  - "../../benchmarks/retrieval/README.md"
+  - "../../benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp"
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Current Baseline
+# Retrieval performance evidence
 
-The retrieval module is currently at documentation scaffold stage: module structure and
-planning docs exist, while contract headers (`*.h`), skeleton translation units (`*.cc`),
-and production retrieval behavior are deferred to the implementation PR.
+## Current evidence
 
-## Phase-Gated Performance Expectations
+No production retrieval latency, throughput, memory, CPU, GPU, p95, or p99
+baseline is established by the current module.
 
-### Phase 3-4 (behavior + tests)
-- establish deterministic correctness baselines for all seven EPIC 1 contract surfaces
-- add contract-level regression scenarios before tuning work starts
+The only benchmark source under `benchmarks/retrieval/` measures synthetic
+key-to-shard hashing and in-process vector-summing functions. The function
+named as a GPU path is explicitly a stub and performs no GPU work. These
+results are not retrieval-engine performance measurements or release gates.
 
-### Phase 5 (performance hardening)
-- define p95/p99 latency targets per retrieval stage
-- lock throughput baselines for representative request mixes
-- track memory/CPU/GPU budget envelopes for retrieval paths
+The tests under `tests/retrieval/` also include local mocks and routing/shard
+stubs; their timings and stress-loop completion do not establish production
+performance.
 
-### Phase 6-7 (acceptance + integration)
-- tie published expectations to measured benchmark evidence
-- enforce regression gates before default pipeline enablement
+## Configuration and interpretation
 
-## Benchmark Work Items
+The retrieval target has no runtime performance/configuration controls. Its
+module-specific CMake option is `THEMIS_BUILD_RETRIEVAL` (default `ON`); this
+only enables or disables building the artifact library.
 
-- `benchmarks/epic1_retrieval/` benchmark suite implementation
-- stage-specific profiling for ANN, tensor, graph, and governance transitions
-- release-profile benchmark baselines for sustained workload runs
-
-## Non-Goals (Current Stage)
-
-- no production latency or throughput numbers are asserted yet
-- no tuning claims are made before benchmark suites are implemented
+Until a real retrieval execution path and representative benchmark workload
+are identified, do not publish numerical performance expectations or infer
+hardware break-even, scaling, or operational capacity from the synthetic
+gates. The required workload and owner for future production measurements are
+not established by the current code.

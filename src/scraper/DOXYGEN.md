@@ -2,15 +2,25 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Status: archived
+
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot; themisdb-doc-orchestrator
+**Human_Review:** false
+**Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
+
+> **Snapshot notice:** This generated output is dated 2026-09-20. Its paths, structure metrics, and extracted declarations are historical snapshot data, not a current inventory.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\scraper\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\scraper\doxygen-warnings.log`
+- Recorded XML index path from the snapshot environment: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\scraper\xml\index.xml` (not present in this checkout).
+- Recorded warnings-log path from the snapshot environment: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\scraper\doxygen-warnings.log` (not present in this checkout).
+- The regeneration script exists, but the `doxygen` executable and the recorded XML/warnings inputs are unavailable here. Other archived XML artifacts in the developer-wiki tree have not been verified as the inputs for this snapshot and were not used to refresh it.
 
-## Structure Metrics
+## Structure Metrics (2026-09-20 snapshot; not current)
 - C/C++ Files (scanned): 35
 - Compounds: 113
 - Classes/Structs: 58
@@ -98,8 +108,8 @@ Status: active
 - This is a derived artifact. Do not manually edit semantic content.
 - Regenerate via scripts/generate_module_doxygen_xml.py --write-module-markdown.
 
-## Detailed Function Documentation (Soll-Ist)
-- Functions extracted: 250
+## Detailed Function Documentation (Soll-Ist, 2026-09-20 snapshot)
+- Functions extracted: 250 (snapshot count; not refreshed)
 
 ### StubFetcher
 
@@ -1890,4 +1900,3 @@ Status: active
 - Parameters:
   - `<unnamed>` (ScraperRunSummary): n/a
   - `<unnamed>` (SCR28_IsHealthyLogic): n/a
-

@@ -1,4 +1,23 @@
-# tensor — MODULE_GAPS.md (Phase 5 Verified)
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-31"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> Historical scanner snapshot from 2026-08-31 only. Gap totals, severities,
+> source locations, and classifications below are not current verified findings;
+> rerun the documented scanner before using them for implementation or release
+> decisions. See [ROADMAP.md](./ROADMAP.md) for active module planning.
+
+# tensor — MODULE_GAPS.md (Historical Phase 5 Snapshot)
 
 This file documents all documentation and code quality gaps in the **tensor** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 
