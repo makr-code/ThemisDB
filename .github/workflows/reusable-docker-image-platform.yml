@@ -3,6 +3,11 @@ name: "Reusable: Docker Image Platform Build"
 on:
   workflow_call:
     inputs:
+      edition:
+        description: Public edition to build (COMMUNITY or MINIMAL)
+        required: false
+        default: COMMUNITY
+        type: string
       platform:
         description: "Target platform to build (linux/amd64 or linux/arm64)"
         required: true
@@ -109,6 +114,7 @@ jobs:
       cache_key_suffix: ${{ github.ref_name || github.sha }}
 
   build:
+    environment: ${{ inputs.push_to_registry && 'docker-production' || 'docker-validation' }}
     needs: [prepare-llm-model-cache]
     if: >-
       always() && (
@@ -145,7 +151,18 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
-          ref: ${{ github.sha }}
+          ref: ${{ inputs.source_sha || github.sha }}
+
+      - name: Enforce public edition boundary
+        shell: bash
+        env:
+          EDITION: ${{ inputs.edition }}
+        run: |
+          set -euo pipefail
+          case "$EDITION" in
+            COMMUNITY|MINIMAL) ;;
+            *) echo "::error::Private editions cannot use the public Docker delivery workflow."; exit 1 ;;
+          esac
 
       - name: Validate Dockerfile model-case syntax
         shell: bash
@@ -190,14 +207,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Log in to GitHub Container Registry (OIDC)
-        if: |
-          (inputs.push_to_registry == true || inputs.push_to_registry == 'true') && (
-            (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
-            (github.event_name == 'release') ||
-            (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'ghcr.io') ||
-            (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'both') ||
-            (github.event_name == 'workflow_call' && (inputs.push_to_registry == true || inputs.push_to_registry == 'true') && (inputs.registry == 'ghcr.io' || inputs.registry == 'both'))
-          )
+        if: inputs.push_to_registry
         uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
         with:
           registry: ghcr.io
@@ -323,7 +333,7 @@ jobs:
           sbom: ${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' }}
           tags: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
           build-args: |
-            THEMIS_EDITION=COMMUNITY
+            THEMIS_EDITION=${{ inputs.edition }}
             VERSION=${{ inputs.version }}
             VCPKG_MANIFEST_HASH=${{ hashFiles('docker/vcpkg-*.json', 'vcpkg-configuration.json', 'ports/**') }}
             INCLUDE_TINYLLAMA=${{ inputs.include_tinyllama && 'ON' || 'OFF' }}

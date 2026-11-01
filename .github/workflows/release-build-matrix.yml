@@ -5,6 +5,11 @@ name: "Release: Build Matrix"
 on:
   workflow_call:
     inputs:
+      source_sha:
+        description: Resolved release source commit
+        required: false
+        default: ''
+        type: string
       build_matrix:
         description: Build matrix presets
         required: false
@@ -146,7 +151,11 @@ jobs:
               raise ValueError(f"Unsupported build type selector: {build_type}")
           if distribution not in allowed_distributions:
               raise ValueError(f"Unsupported distribution selector: {distribution}")
-          cmake_flags = f"-DTHEMIS_EDITION={edition.upper()} -DCMAKE_BUILD_TYPE={build_type}"
+          cmake_flags = (
+              f"-DTHEMIS_EDITION={edition.upper()} -DCMAKE_BUILD_TYPE={build_type} "
+              "-DTHEMIS_DOCS_DB_MODE=BUILD -DTHEMIS_MODELS_MODE=PACKAGE "
+              "-DTHEMIS_PACKAGE_INCLUDE_TINYLLAMA=ON -DTHEMIS_PACKAGE_INCLUDE_GEMMA=OFF"
+          )
 
           def lane_enabled(lane_id: str) -> bool:
               # Platform-specific -only patterns
@@ -294,8 +303,25 @@ jobs:
               if not entry.get("enabled"):
                   continue
               lane_os = "linux" if entry["id"].startswith("linux") else ("windows" if entry["id"].startswith("windows") else "macos")
+              entry["setup_command"] += (
+                  '\nMODEL_DIR="${GITHUB_WORKSPACE}/models" OUTPUT_NAME=tinyllama.gguf '
+                  'bash scripts/download-tinyllama-hf.sh'
+              )
+              if lane_os == "linux":
+                  entry["setup_command"] += "\nsudo apt-get install -y --no-install-recommends libarchive-tools"
               entry["configure_command"] = entry["configure_command"].replace("${CMAKE_FLAGS}", cmake_flags)
+              payload_gate = (
+                  f'cmake --build "{entry["build_directory"]}" --target docs_database --config {build_type}\n'
+                  f'cmake --install "{entry["build_directory"]}" --config {build_type} '
+                  f'--prefix "{entry["build_directory"]}/runtime-payload" --component documentation\n'
+                  f'cmake --install "{entry["build_directory"]}" --config {build_type} '
+                  f'--prefix "{entry["build_directory"]}/runtime-payload" --component models\n'
+                  f'python3 scripts/release/validate_runtime_payload.py "{entry["build_directory"]}/runtime-payload"\n'
+              )
+              entry["validation_command"] = "set -euo pipefail\n" + payload_gate + entry["validation_command"]
               entry["validation_command"] = entry["validation_command"].replace("${PACKAGE_GENERATORS}", generators_for(lane_os))
+              entry["validation_command"] += '\npython3 scripts/release/validate_runtime_payload.py "${PACKAGES_DIR}" --packages'
+              entry["validation_continue_on_error"] = False
 
           selected = [entry for entry in entries if entry["enabled"]]
           print(f"matrix={json.dumps({'include': selected})}")
@@ -320,6 +346,7 @@ jobs:
       vcpkg_triplet: ${{ matrix.triplet }}
       shell: bash
       fetch_depth: '0'
+      source_sha: ${{ inputs.source_sha }}
       setup_command: ${{ matrix.setup_command }}
       configure_command: ${{ matrix.configure_command }}
       build_directory: ${{ matrix.build_directory }}
