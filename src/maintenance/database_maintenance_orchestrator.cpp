@@ -248,11 +248,20 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::createSchedule
          * @return Return value.
          */
         std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
+        if (!checkChurnLimit(entry.id, entry.max_schedule_changes_per_interval)) {
+            return tl::unexpected(Error(errors::ErrorCode::ERR_RATE_LIMIT_EXCEEDED,
+                "Maintenance schedule mutation limit exceeded: schedule_id=" + entry.id +
+                ", max_schedule_changes_per_interval=" +
+                std::to_string(entry.max_schedule_changes_per_interval) +
+                ", interval_ms=" + std::to_string(kChurnIntervalMs)));
+        }
         // Persist to durable storage first; fail the operation if persistence
         // fails so the caller can retry rather than silently losing durability.
         if (schedule_store_) {
             auto persist_result = schedule_store_->save(entry);
             if (!persist_result.has_value()) {
+                std::lock_guard<std::mutex> churn_lock(churn_mutex_);
+                churn_counts_.erase(entry.id);
                 return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                     "Failed to persist schedule id=" + entry.id + ": " +
                     persist_result.error().message()));
@@ -377,6 +386,14 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::updateSchedule
         entry.cron_expression = frequencyToCron(entry.frequency, entry.window_start_hour);
     }
 
+    if (!checkChurnLimit(id, it->second.max_schedule_changes_per_interval)) {
+        return tl::unexpected(Error(errors::ErrorCode::ERR_RATE_LIMIT_EXCEEDED,
+            "Maintenance schedule mutation limit exceeded: schedule_id=" + id +
+            ", max_schedule_changes_per_interval=" +
+            std::to_string(it->second.max_schedule_changes_per_interval) +
+            ", interval_ms=" + std::to_string(kChurnIntervalMs)));
+    }
+
     // Persist to durable storage before committing the in-memory change so
     // that a storage failure leaves the existing entry intact and returnable.
     if (schedule_store_) {
@@ -453,6 +470,14 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::patchSchedule(
         return tl::unexpected(Error(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT, ex.what()));
     }
 
+    if (!checkChurnLimit(id, it->second.max_schedule_changes_per_interval)) {
+        return tl::unexpected(Error(errors::ErrorCode::ERR_RATE_LIMIT_EXCEEDED,
+            "Maintenance schedule mutation limit exceeded: schedule_id=" + id +
+            ", max_schedule_changes_per_interval=" +
+            std::to_string(it->second.max_schedule_changes_per_interval) +
+            ", interval_ms=" + std::to_string(kChurnIntervalMs)));
+    }
+
     // Persist the patched entry to durable storage before updating in-memory
     // state; a storage failure leaves it->second unchanged.
     if (schedule_store_) {
@@ -504,6 +529,14 @@ Result<void> DatabaseMaintenanceOrchestrator::deleteSchedule(const std::string& 
                                     "Schedule not found: " + id));
     }
 
+    if (!checkChurnLimit(id, it->second.max_schedule_changes_per_interval)) {
+        return tl::unexpected(Error(errors::ErrorCode::ERR_RATE_LIMIT_EXCEEDED,
+            "Maintenance schedule mutation limit exceeded: schedule_id=" + id +
+            ", max_schedule_changes_per_interval=" +
+            std::to_string(it->second.max_schedule_changes_per_interval) +
+            ", interval_ms=" + std::to_string(kChurnIntervalMs)));
+    }
+
     std::string name = it->second.name;
 
     // Remove from durable store first; if the durable remove fails, abort the
@@ -515,6 +548,11 @@ Result<void> DatabaseMaintenanceOrchestrator::deleteSchedule(const std::string& 
                 "Failed to remove schedule id=" + id + " from storage: " +
                 persist_result.error().message()));
         }
+    }
+
+    {
+        std::lock_guard<std::mutex> churn_lock(churn_mutex_);
+        churn_counts_.erase(id);
     }
 
     deregisterFromScheduler(id);
@@ -1958,7 +1996,10 @@ void DatabaseMaintenanceOrchestrator::recordDispatchOutcome(DispatchOutcome outc
  * @brief --------------------------------------------------------------------------- Phase 2: Churn rate-limit check ---------------------------------------------------------------------------
  * @param[in] schedule_id Identifier of the schedule.
  * @param[in] max_changes_per_interval Input parameter.
- * @return True when the operation succeeds.
+ * @return True when the attempt is permitted; false when the configured cap is reached.
+ * @note The caller holds schedules_mutex_ so checking and counting are serialized
+ *       with schedule mutations. Existing-schedule attempts consume a slot if
+ *       persistence later fails; create/delete paths clean up obsolete tracking.
  */
 
 bool DatabaseMaintenanceOrchestrator::checkChurnLimit(
@@ -1966,7 +2007,8 @@ bool DatabaseMaintenanceOrchestrator::checkChurnLimit(
 {
     if (max_changes_per_interval == 0) return true; // disabled
 
-    int64_t now = themis::maintenance::nowMs();
+    const int64_t now = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now().time_since_epoch()).count();
     /**
      * @brief Lock.
      * @param[in] churn_mutex_ Input parameter.
@@ -1974,13 +2016,16 @@ bool DatabaseMaintenanceOrchestrator::checkChurnLimit(
      */
     std::lock_guard<std::mutex> lock(churn_mutex_);
     auto& [count, interval_start] = churn_counts_[schedule_id];
-    if (now - interval_start >= kChurnIntervalMs) {
-        // New interval — reset counter
+    if (count == 0 || now - interval_start >= kChurnIntervalMs) {
+        // Start a window for the first mutation or reset an expired window.
         interval_start = now;
         count = 0;
     }
+    if (count >= max_changes_per_interval) {
+        return false;
+    }
     ++count;
-    return count <= max_changes_per_interval;
+    return true;
 }
 
 } // namespace maintenance

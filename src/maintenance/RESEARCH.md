@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -28,8 +28,10 @@ not train or evaluate a predictive maintenance model.
   explicit storage error without changing the in-memory schedule?
 - Does execution preserve declared task order, enforce declared dependencies,
   and avoid re-entering the same schedule concurrently?
-- Can an operator distinguish handler absence, dispatch failure, persistence
-  failure, and intentional skips from job state and health diagnostics?
+- Can an operator distinguish handler absence, dispatch failure, and intentional
+  skips from job state and the outcomes actually emitted by the health report?
+  Persistence failures are returned by mutation calls or logged during startup;
+  they are not currently emitted into the dispatch-outcome ring.
 - The `TaskScheduler` supplies recurring triggers. Task-specific work is
   performed directly for selected index operations or by registered handlers.
 - Persistence is optional. A null storage engine makes schedule state
@@ -44,13 +46,13 @@ dataset. Review changes against:
 |---|---|---|
 | Schedule validation and mutation | `database_maintenance_orchestrator.cpp`: `validateEntry`, `createSchedule`, `updateSchedule`, `patchSchedule`, `deleteSchedule` | Reject invalid names, empty task lists, missing custom cron expressions, out-of-range hours, and invalid dependency graphs. Inject a persistence failure and verify the old in-memory entry remains. |
 | Dependency order | `resolveTaskExecutionOrder` in `database_maintenance_orchestrator.cpp` | Verify positional order without dependencies, stable topological order with dependencies, and rejection of missing references and cycles. |
-| Persistence recovery | `maintenance_schedule_store.cpp` and `MaintenanceScheduleStoreTest.LoadAll_SkipsCorruptEntry` in `tests/test_database_maintenance_orchestrator.cpp` | Save and reload valid schedules; confirm corrupt records are skipped while valid entries remain available; distinguish scan errors from malformed records. |
-| Dispatch outcomes | `maintenance_health_report.h` and `test_maintenance_diagnostics_focused.cpp` | Verify outcome serialization, the bounded 256-entry FIFO ring, and visibility of failure/skip categories. |
-| Churn and concurrency | `test_maintenance_churn_hardening_focused.cpp` | Exercise configured mutation limits and duplicate in-flight schedule dispatch. |
+| Persistence recovery | `maintenance_schedule_store.cpp` and `MaintenanceScheduleStoreTest.LoadAll_SkipsCorruptEntry` in `tests/database/test_database_maintenance_orchestrator.cpp` | Production-store test covers valid reload and per-record corruption skipping; the scan-error path is distinct in implementation. |
+| Dispatch outcomes | `maintenance_health_report.h` and `test_maintenance_diagnostics_focused.cpp` | Test serializes manually populated outcomes and a local ring-buffer model; it does not exercise the orchestrator's ring buffer. |
+| Churn and concurrency | `test_maintenance_churn_hardening_focused.cpp` | Tests local `ChurnTracker` / `InFlightGuard` models that mirror implementation logic, not full orchestrator mutation/dispatch paths. |
 
 Focused regression coverage is in
 [`tests/maintenance/`](../../tests/maintenance/), with production store cases in
-[`tests/test_database_maintenance_orchestrator.cpp`](../../tests/test_database_maintenance_orchestrator.cpp).
+[`tests/database/test_database_maintenance_orchestrator.cpp`](../../tests/database/test_database_maintenance_orchestrator.cpp).
 These files describe available test evidence; their presence alone does not
 assert that a particular build or test run passed.
 
@@ -60,10 +62,19 @@ fixture is not the production `MaintenanceScheduleStore`; use the production
 store implementation and its focused test for the actual partial-recovery
 behavior.
 
+The churn, diagnostics, stress, endurance, and high-cardinality tests use local
+models/stubs for at least some scenarios; they are not all end-to-end tests of the
+production orchestrator. In particular, high-cardinality compaction/vacuum tests
+exercise in-process stubs. The maintenance API-contract header's standalone
+`MaintenanceError` taxonomy is also not wired into the production orchestrator.
+
 ## Measurements and trade-offs
 
 The module does not publish a measured universal latency or throughput result.
-Release comparisons belong to the mapped cases and baselines in
+The maintenance-specific benchmark targets contain synthetic proxies (including
+JSON file round-trip and in-memory lock/listing models), not end-to-end timing of
+the production orchestrator or `MaintenanceScheduleStore`. Their thresholds and
+the manifest's `PASS` labels are not run-result evidence. Release comparisons belong to the mapped cases and baselines in
 [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md). Those expectations
 include p99 limits for the in-flight guard, persistence/reload, ring-buffer
 write, distributed-lock dispatch, and schedule listing. Compare results only

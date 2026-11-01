@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -38,8 +38,9 @@ keep maintenance as a typed dispatch/integration point.
 
 ## Integration and failure behavior
 
-- A schedule containing `VECTOR_REINDEX` must be validated and enabled only
-  after startup has wired the relevant index-maintenance capability.
+- **Operator guidance (not enforced by schedule validation):** enable a schedule
+  containing `VECTOR_REINDEX` only after startup has wired the relevant
+  index-maintenance capability.
 - If `IndexMaintenanceManager` is unavailable, the task reports failure.
 - If `triggerMaintenanceCheck()` returns an error, the task reports that error
   through the job result.

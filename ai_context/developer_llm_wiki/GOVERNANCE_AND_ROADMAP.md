@@ -23,7 +23,7 @@ Status: Active
 
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
-- Hash: `7ad42111ac267b9d`
+- Hash: `2bccfc56de48dbc2`
 - Titel: Changelog
 - Auszug:
   - All notable changes to ThemisDB will be documented in this file.
@@ -68,12 +68,12 @@ Status: Active
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `ff02bc1e802a975b`
+- Hash: `c872893d00e70d75`
 - Titel: ThemisDB Project Roadmap
 - Auszug:
   - <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
   - **Version:** 2.4.0-alpha
-  - **Last Updated:** 2026-10-31 (pointer to audit-derived production-readiness roadmap; Wave C evidence status unchanged since 2026-10-30)
+  - **Last Updated:** 2026-11-01 (audit-derived production-readiness roadmap pointer; RotatE target clarification; Wave C evidence status unchanged since 2026-10-30)
 
 ## VERSIONING.md
 - Kategorie: governance_and_docs
@@ -374,7 +374,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/AQL.md
 - Kategorie: governance_and_docs
-- Hash: `888a3c0d0909f4fc`
+- Hash: `e1b02c1672ef56d3`
 - Titel: AQL — Developer LLM Wiki
 - Auszug:
   - ---
@@ -399,6 +399,15 @@ Status: Active
   - Author: "ThemisDB Team"
   - Created: "2026-10-31"
 
+## ai_context/developer_llm_wiki/GRAPH.md
+- Kategorie: governance_and_docs
+- Hash: `3979911b787f7dd3`
+- Titel: Graph — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-10-31"
+
 ## ai_context/developer_llm_wiki/IMPORTERS.md
 - Kategorie: governance_and_docs
 - Hash: `a911a66ac898123d`
@@ -407,6 +416,15 @@ Status: Active
   - ---
   - Author: "ThemisDB Team"
   - Created: "2026-10-31"
+
+## ai_context/developer_llm_wiki/MAINTENANCE.md
+- Kategorie: governance_and_docs
+- Hash: `e315de50bf8e9588`
+- Titel: Maintenance — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-11-01"
 
 ## ai_context/developer_llm_wiki/MODULE_DIRECT_DOXYGEN_CHECK.md
 - Kategorie: governance_and_docs
@@ -704,21 +722,3 @@ Status: Active
   - This document summarizes the implementation of AI Decision Auditing and Explainability features for ThemisDB, ensuring compliance with EU AI Act, GDPR Article 22, and eIDAS regulations.
   - **Issue**: #TBD - Enhance AI Decision Auditing and Explainability
   - **Priority**: HIGH
-
-## docs/ARCHIVED/ai-working-history/AI_WIKI_INTEGRATION_PLAYBOOK.md
-- Kategorie: governance_and_docs
-- Hash: `4bebc6b94e1a9ce5`
-- Titel: AI Wiki Integration Playbook fuer ThemisDB
-- Auszug:
-  - Datum: 2026-07-28
-  - Status: Active
-  - Bezug: Uebertragung des LLM-Wiki-Musters auf ThemisDB Development-Management und AI Vibe Coding
-
-## docs/ARCHIVED/ai-working-history/ANALYSIS_EXECUTIVE_SUMMARY.md
-- Kategorie: governance_and_docs
-- Hash: `6216d8088deb07b9`
-- Titel: Gap Validation Analysis - Executive Summary
-- Auszug:
-  - **Date:** 2026-06-02
-  - **Analysis Method:** Automated heuristic classification of 50 stratified validation gaps
-  - **Full Dataset:** 18,795 gaps (after progressive context filtering)

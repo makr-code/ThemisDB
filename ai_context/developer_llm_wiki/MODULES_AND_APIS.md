@@ -29,6 +29,7 @@ Status: Active
 - [Temporal module context](TEMPORAL.md) — runtime/API separation, persistence boundaries, test and benchmark evidence limits.
 - [Storage module context](STORAGE.md) — component boundaries, contract-vs-evidence gaps, and focused test/benchmark limits.
 - [Encrypted user storage module context](USER_STORAGE_ENCRYPTED.md) — runtime architecture, configuration, build/test boundaries, and scanner/Doxygen evidence limits.
+- [Maintenance module context](MAINTENANCE.md) — runtime API boundaries, schedule CRUD churn enforcement, persistence behavior, and benchmark evidence status.
 
 
 ## include/acceleration/ai_hardware_dispatcher.h

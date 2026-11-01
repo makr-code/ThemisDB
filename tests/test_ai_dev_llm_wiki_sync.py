@@ -37,6 +37,8 @@ class CuratedModuleIndexTests(unittest.TestCase):
         self.assertIn("[Importer module context](IMPORTERS.md)", modules)
         self.assertIn("[Updates module context](UPDATES.md)", modules)
         self.assertIn("[DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md)", index)
+        self.assertIn("[MAINTENANCE.md](MAINTENANCE.md)", index)
+        self.assertIn("[Maintenance module context](MAINTENANCE.md)", modules)
         self.assertIn("AI_Used: true", index)
         self.assertIn("[Distributed tensor module context](DISTRIBUTED_TENSOR.md)", modules)
         self.assertIn("[Temporal module context](TEMPORAL.md)", modules)
@@ -105,6 +107,7 @@ class CuratedModuleIndexTests(unittest.TestCase):
                 "IMPORTERS.md",
                 "UPDATES.md",
                 "DISTRIBUTED_TENSOR.md",
+                "MAINTENANCE.md",
                 "TEMPORAL.md",
                 "STORAGE.md",
                 "USER_STORAGE_ENCRYPTED.md",
@@ -123,11 +126,50 @@ class CuratedModuleIndexTests(unittest.TestCase):
                 "ai_context/developer_llm_wiki/ETHICS_AI.md",
                 "ai_context/developer_llm_wiki/UPDATES.md",
                 "ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md",
+                "ai_context/developer_llm_wiki/MAINTENANCE.md",
                 "ai_context/developer_llm_wiki/TEMPORAL.md",
                 "ai_context/developer_llm_wiki/STORAGE.md",
                 "ai_context/developer_llm_wiki/USER_STORAGE_ENCRYPTED.md",
             },
         )
+
+    def test_source_scan_preserves_timestamp_for_unchanged_content(self):
+        wiki_sync = _load_module()
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo_root = Path(temp_dir)
+            source = repo_root / "ai_context" / "maintenance.md"
+            source.parent.mkdir(parents=True)
+            source.write_text("# Maintenance\n", encoding="utf-8")
+            content_hash = wiki_sync.hashlib.sha256(source.read_bytes()).hexdigest()
+            manifest_path = repo_root / wiki_sync.SOURCES_JSON
+            manifest_path.parent.mkdir(parents=True)
+            manifest_path.write_text(
+                json.dumps(
+                    {
+                        "sources": [
+                            {
+                                "path": "ai_context/maintenance.md",
+                                "size": source.stat().st_size,
+                                "sha256": content_hash,
+                                "modified_utc": "2026-10-30T12:00:00+00:00",
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            unchanged = wiki_sync.collect_sources(repo_root, full_sync=False)
+            self.assertEqual(
+                unchanged[0].modified_utc, "2026-10-30T12:00:00+00:00"
+            )
+
+            source.write_text("# Maintenance updated\n", encoding="utf-8")
+            changed = wiki_sync.collect_sources(repo_root, full_sync=False)
+            self.assertNotEqual(
+                changed[0].modified_utc, "2026-10-30T12:00:00+00:00"
+            )
 
 
 if __name__ == "__main__":

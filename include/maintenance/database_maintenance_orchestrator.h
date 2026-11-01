@@ -421,9 +421,16 @@ private:
     /// Record a DispatchOutcome into the ring buffer (thread-safe).
     void recordDispatchOutcome(DispatchOutcome outcome);
 
-    /// Check and enforce churn rate limit for a schedule.
-    /// Returns true if the change is permitted; false if the limit is exceeded.
-    bool checkChurnLimit(const std::string& schedule_id, uint32_t max_changes_per_interval);
+    /// @brief Check and count one validated schedule mutation attempt.
+    /// @param schedule_id Schedule whose per-window mutation count is tracked.
+    /// @param max_changes_per_interval Configured cap; zero disables enforcement.
+    /// @return True when the attempt is permitted; false when the cap is reached.
+    /// @note Caller must hold schedules_mutex_. The fixed window uses a
+    ///       monotonic clock. Validated existing-schedule attempts consume a slot
+    ///       before persistence; failed creates discard tracking and deletes
+    ///       clear it.
+    [[nodiscard]] bool checkChurnLimit(
+        const std::string& schedule_id, uint32_t max_changes_per_interval);
 
     // ---- Members ----------------------------------------------------------
     TaskScheduler*                           scheduler_;
@@ -468,7 +475,7 @@ private:
     static constexpr int64_t kChurnIntervalMs = 60'000LL; // 60 seconds
     /// Protects churn_counts_.
     mutable std::mutex                                              churn_mutex_;
-    /// Per-schedule change count and interval start: {count, interval_start_ms}
+    /// Per-schedule count and steady-clock window start in milliseconds.
     std::unordered_map<std::string, std::pair<uint32_t, int64_t>>  churn_counts_;
 
     // ---- Phase 4: DispatchOutcome ring buffer ------------------------------

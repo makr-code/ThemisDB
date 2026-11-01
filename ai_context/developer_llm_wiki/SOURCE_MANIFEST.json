@@ -1,8 +1,8 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-01T08:30:56+00:00",
-  "source_count": 9513,
+  "generated_at": "2026-11-01T09:34:05+00:00",
+  "source_count": 9515,
   "sources": [
     {
       "path": ".github/workflows/benchmark-gate.yml",
@@ -714,9 +714,9 @@
     {
       "path": "CHANGELOG.md",
       "category": "governance_and_docs",
-      "size": 100130,
-      "sha256": "7ad42111ac267b9def61f2d278c95ef01266ea1e15ea7c07a726833fd88f5be2",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 101024,
+      "sha256": "2bccfc56de48dbc21d1dc564f4612c1857b5d5b3a4d47703c7982772cf2038ec",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "DOCUMENTATION_GOVERNANCE.md",
@@ -749,9 +749,9 @@
     {
       "path": "ROADMAP.md",
       "category": "governance_and_docs",
-      "size": 234049,
-      "sha256": "ff02bc1e802a975bbcb9eccde0e258f0e47352b76878e6e5bf6fc2570177d2e4",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 234669,
+      "sha256": "c872893d00e70d754589fc6125d5323ae56455f017d65b3303375617b3d75707",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "VERSIONING.md",
@@ -987,9 +987,9 @@
     {
       "path": "ai_context/developer_llm_wiki/AQL.md",
       "category": "governance_and_docs",
-      "size": 4492,
-      "sha256": "888a3c0d0909f4fc587c4a37d8fc9ddefa5b5925ce94358084c15439bb5e2603",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 4455,
+      "sha256": "e1b02c1672ef56d3d1d4bf18453a24a6c5c5a13cb57e37b1f5b1b9be2c68ba0e",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md",
@@ -1006,11 +1006,25 @@
       "modified_utc": "2026-11-01T06:39:13+00:00"
     },
     {
+      "path": "ai_context/developer_llm_wiki/GRAPH.md",
+      "category": "governance_and_docs",
+      "size": 5731,
+      "sha256": "3979911b787f7dd3dc1647d268961c91451d8a495e7f970525733ffba92e27d4",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
+    },
+    {
       "path": "ai_context/developer_llm_wiki/IMPORTERS.md",
       "category": "governance_and_docs",
       "size": 7310,
       "sha256": "a911a66ac898123d684917c6ae853a91b584ce84f1f96d15883906083a657bbb",
       "modified_utc": "2026-11-01T08:29:05+00:00"
+    },
+    {
+      "path": "ai_context/developer_llm_wiki/MAINTENANCE.md",
+      "category": "governance_and_docs",
+      "size": 5191,
+      "sha256": "e315de50bf8e958864bf6589a1d3c6a2b2a71f31ce585a1b29177b7269157492",
+      "modified_utc": "2026-11-01T09:31:57+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/MODULE_DIRECT_DOXYGEN_CHECK.md",
@@ -45304,9 +45318,9 @@
     {
       "path": "include/maintenance/database_maintenance_orchestrator.h",
       "category": "modules_and_api",
-      "size": 20439,
-      "sha256": "ca0cb6372b825ffc424930e89135c437ed3221ae2a00150dfd2ab0175cb6abe7",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 20891,
+      "sha256": "c943a69795814cd5cbc52780a83e22124da03e15e59b01a09845d3b72fd635a6",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "include/maintenance/i_distributed_lock.h",
@@ -45325,9 +45339,9 @@
     {
       "path": "include/maintenance/maintenance_api_contract.h",
       "category": "modules_and_api",
-      "size": 7916,
-      "sha256": "f0db095f1939aebeac9256926fa2f1eae4ef91657691843668b75127adab24b2",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 5655,
+      "sha256": "17e5686c748d50d19eddad2d507744dea7f21c6e533a7052db7b3e7f053ea0be",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "include/maintenance/maintenance_health_report.h",
@@ -45339,9 +45353,9 @@
     {
       "path": "include/maintenance/maintenance_schedule.h",
       "category": "modules_and_api",
-      "size": 17303,
-      "sha256": "be511ded6605ed4c3a63b689076027503472dc3244b3ff2cdb20ed3aed81dd1d",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 17661,
+      "sha256": "ea295ccba986d8c08b6b7f5f45fecb07bb5d975a7f6e27b8b5dffe05c3ed6507",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "include/maintenance/maintenance_schedule_store.h",
@@ -48699,16 +48713,16 @@
     {
       "path": "include/scheduler/distributed_task_coordinator.h",
       "category": "modules_and_api",
-      "size": 15076,
-      "sha256": "c2d0471ec3a2084750c842c4e7baacae92341812e215a1bcd082deebc4ae2941",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 17335,
+      "sha256": "b91a3ce94ba5375be092d22b11518b60d8aaabb2ac546d3c6c59360786aa1d75",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "include/scheduler/event_trigger.h",
       "category": "modules_and_api",
-      "size": 8253,
-      "sha256": "347ec175a712107f7b93984a0495e855292d1dd9245b7592b1b2007e2469d4c3",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 8307,
+      "sha256": "2377f6c808acd83a4604e018ee472f082845375a39de36a9e979153fa63f72d3",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "include/scheduler/external_scheduler_adapter.h",
@@ -48762,9 +48776,9 @@
     {
       "path": "include/scheduler/task_scheduler.h",
       "category": "modules_and_api",
-      "size": 34593,
-      "sha256": "651a2ec1525aea8f5b554571d5f41a518542040a14de02b2358a549b5c975fbf",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 36550,
+      "sha256": "f0d5b2d0c86df25ebc58b331f1ba3a80e6aa9a161c373efdfec35f3c85f97f83",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "include/scraper/gov_source_catalog.h",
@@ -54131,9 +54145,9 @@
     {
       "path": "scripts/ai-dev-llm-wiki-sync.py",
       "category": "build_test_ci",
-      "size": 24729,
-      "sha256": "5a98899776ef7e4e216ff457018790ac078657089e2ea50c860eba4e02f44164",
-      "modified_utc": "2026-11-01T08:30:52+00:00"
+      "size": 25327,
+      "sha256": "f87fd427ab011d001112ab175063c5ba7715f4b6c8bd8defe337decf4321ed77",
+      "modified_utc": "2026-11-01T09:33:58+00:00"
     },
     {
       "path": "scripts/ai-working-compact.py",
@@ -59101,9 +59115,9 @@
     {
       "path": "src/graph/ADVANCED_FEATURES_README.md",
       "category": "modules_and_api",
-      "size": 21985,
-      "sha256": "00ad26b4eed30c4015acf9493a76fa428654f9d846ff0a32f6e22869dddc53ee",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 23197,
+      "sha256": "8bf5b502f9e7861e736767c150017fa2225069fc8862ccdd9cf1e68d87929397",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/API.md",
@@ -59115,86 +59129,86 @@
     {
       "path": "src/graph/ARCHITECTURE.md",
       "category": "modules_and_api",
-      "size": 5849,
-      "sha256": "8ba224330befb6e38b2e131e57953d7750c31ca2d9c14e2fa968744db7b4adcf",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 7466,
+      "sha256": "f8e65887b8386c615a1d65d75e57a91fc17708bc6737ab368fc1f06fe490e79b",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/AUDIT.md",
       "category": "modules_and_api",
-      "size": 919,
-      "sha256": "52e29bdc5b9a50c652aa643ca22b21806b14aa12e10447c4e83c3be950f8f3cc",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 2164,
+      "sha256": "22074317ed9ee9301ff53b60ebc9648f00277b80eae966a09afaced062c3e457",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/CHANGELOG.md",
       "category": "modules_and_api",
-      "size": 2849,
-      "sha256": "9e1ae6ad66b0f071d36e7234eaae7b20e8ce18989b5c7ed9af34bbc16a1e957c",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 3573,
+      "sha256": "0879d5d330e8d027251880cbb2e2503adc047773ff15a418604c4ac302a9cb99",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/DOXYGEN.md",
       "category": "modules_and_api",
-      "size": 521067,
-      "sha256": "67aff875b81b739cc6182449f0fb29b0910a3c7b86052edebc122935483104b8",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 521982,
+      "sha256": "244d2d187183e898907e306980eb861ee4328ce03d72242d79b6e0cf15822f37",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/EMBEDDING.md",
       "category": "modules_and_api",
-      "size": 5637,
-      "sha256": "54ab5c8bf2fa56ab790f6f1e57bed691b71d036db201700ab3e5e4c2aa9173b8",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 5835,
+      "sha256": "aa8eff9e36dc8f58fd449d1ac94259fe6112fe0cf6f3480d7b5b48e0f966dc5e",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/FEATURES.md",
       "category": "modules_and_api",
-      "size": 2618,
-      "sha256": "2b397c1c6613ac7402f304944213127b6e3926af2e0a865c37db359e226ca968",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 3015,
+      "sha256": "cda0d97522d3b05116207bac6a92ff8250d16de69684bc55e484952bb8e959b4",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 3153,
-      "sha256": "828f41d142b951ee2e800a636615e9168a990ca27c0143889124c5c8d72e437c",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 4885,
+      "sha256": "9938016263ab1d30faed0c4548e9c69eb7ad51f7fe33a4ec2449851532849628",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/GRAPH_API_CONTRACTS_PHASE1.md",
       "category": "modules_and_api",
-      "size": 15123,
-      "sha256": "d41569ba3edda4168ff1bbc0fd66970e41f8f6a65b6e19cbda23746017c136e2",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 15999,
+      "sha256": "d1943a62a52630aebdf67f46be4a884be56a7f8b0a3f39aee06ff1cba63db948",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/GRAPH_PHASE1_ANALYSIS_SYNTHESIS.md",
       "category": "modules_and_api",
-      "size": 13868,
-      "sha256": "2a548dad5cfa85d2b4cdad2135f4f861f416d09755267e0f0406a091485ee01c",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 14744,
+      "sha256": "12589f4a03f03364cc509d18502ca830131c237ca82e6e9dc2d3e765bb96b5c2",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/GRAPH_PHASE1_IMPLEMENTATION_SUMMARY.md",
       "category": "modules_and_api",
-      "size": 15580,
-      "sha256": "648f151870ac1418756485907dd5a997ef07643a61598b42c48137ed6cfb35b1",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 16408,
+      "sha256": "c76c77b6cca12853e241adb49e4fe735fdf68c235bffea4b59c3e2e14edca903",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/GRAPH_PHASE2_ERROR_HARDENING_PLAN.md",
       "category": "modules_and_api",
-      "size": 19571,
-      "sha256": "85cb8e59a813ac2b263cde3f8445deff248af150d937197875132b5df30d3250",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 20477,
+      "sha256": "d981a8685d8c22dd764282c7d26bc7842b986cb9593e6ae0cbfca3e7178e7531",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/IMPLEMENTATION.md",
       "category": "modules_and_api",
-      "size": 6692,
-      "sha256": "0e2b104af66bd1ccbfca7b6cf05112f02cf9d8d79356977198d129e19da67510",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 7219,
+      "sha256": "0e5290f2e1e7f1675c0772c47168d4ed9e2566074587a91a87edc5b6efc134c3",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/MODELING.md",
@@ -59206,9 +59220,9 @@
     {
       "path": "src/graph/MODULE_GAPS.md",
       "category": "modules_and_api",
-      "size": 8184,
-      "sha256": "17cde6f48219d973519d859cf1590da313f91edfe22012f2a29af99ae4d63ddd",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 9052,
+      "sha256": "bc7c859db9cc560e27b66110fadfd89d0eda5ed1aa81d5d69bbcc7bd71e6fe77",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/MODULE_GUIDE.md",
@@ -59227,37 +59241,37 @@
     {
       "path": "src/graph/PERFORMANCE_EXPECTATIONS.md",
       "category": "modules_and_api",
-      "size": 4260,
-      "sha256": "4819a064261fc01c09f1c24da4b167e60c6f3795ea35c2261ccf536681c73acf",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 5496,
+      "sha256": "83b31e2d9088dc509d81ce06a0f9d4414efd10387ee0656f9cbd0bd168fd493f",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/PRODUCTION_REQUIREMENTS.md",
       "category": "modules_and_api",
-      "size": 2702,
-      "sha256": "7d1962b56e396bb972031be9ef2bdcbb7933f9f4f78b287d001e7e0f99b0f9f5",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 3662,
+      "sha256": "882c872389e5a3d98c1c9b28b0931d291b55ae1b671f624042fb92c681838432",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/README.md",
       "category": "modules_and_api",
-      "size": 3957,
-      "sha256": "000010122703e16303c44f7105de23a4f6e66845cfb476976d9a48aaeb66fc09",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 5329,
+      "sha256": "7f515010a5adcdf1b202a16ae0227ff9ff740d049c201920bda2fc2028c2826b",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/RESEARCH.md",
       "category": "modules_and_api",
-      "size": 6658,
-      "sha256": "1ecc0502a1ee851c6e894acbe213985e286a47ea00e632cad3f7faa179b4e1d3",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 6858,
+      "sha256": "b2f7ec4b772f5f978072db6664b204720f9ba15404208a7eb716002638503c92",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 10801,
-      "sha256": "d3202b76145fe20a2594600fd51bda64b71d40845294279d3a8175e67b2d0d22",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 13366,
+      "sha256": "007a4c9a8b0d72ff102bdcaa1ae1ceb1c0b49b13eb31fc44e0014b1126adcc39",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/RUNBOOK.md",
@@ -59269,9 +59283,9 @@
     {
       "path": "src/graph/SECURITY.md",
       "category": "modules_and_api",
-      "size": 2393,
-      "sha256": "3a26b071269c885245422ddcb1a64b20b823c1aba8a81f60dc94cf28d1d16fac",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 3502,
+      "sha256": "51fa4bfb862d2443b69b15849f33294c19758a717e979db40806f21a1019c554",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/graph/TRUST.md",
@@ -60732,23 +60746,23 @@
     {
       "path": "src/maintenance/API.md",
       "category": "modules_and_api",
-      "size": 5096,
-      "sha256": "4da01d818824a015f0729e0cacbe59ed498819644c3b6351bdf112c610c0c069",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 5426,
+      "sha256": "f8ba9faa0992a30e61cbb62be370674fcc4671ba627bc382901fb04880379fd2",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "src/maintenance/ARCHITECTURE.md",
       "category": "modules_and_api",
-      "size": 4973,
-      "sha256": "252a2fbd02e7fe7bd8964cb33133a6a11dbd1144a5cfbcf2bd682b1d71524c4d",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 5255,
+      "sha256": "ae51fc21f00617ca9827057bd171e678bd02c6e5aeef128cf2bc19bd364379ed",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "src/maintenance/AUDIT.md",
       "category": "modules_and_api",
-      "size": 1834,
-      "sha256": "26534f43fa37d378d64a858af9648500d30abe032fa3f00ccaf7a9d260b35743",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 4141,
+      "sha256": "b2593975d3c1a2874efb06b7208190b622c5769f8bfc7eb246186932c42da9f8",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "src/maintenance/CHANGELOG.md",
@@ -60767,16 +60781,16 @@
     {
       "path": "src/maintenance/EMBEDDING.md",
       "category": "modules_and_api",
-      "size": 2891,
-      "sha256": "366e0ef3bfca4aeda90375321936b95a49a073f234b5051d0a784306c9948c49",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 2931,
+      "sha256": "020f86bb42468d85297520829847a41c8a0fce8e48a26644084d64dcf8bbdd9f",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "src/maintenance/FEATURES.md",
       "category": "modules_and_api",
-      "size": 2680,
-      "sha256": "417233d997912b230a0f9a73e98419286cc7db58f18e9d39ac04b11ed04ce034",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 2521,
+      "sha256": "e5bc16a6c16e25504d29501704cb7846eaaf1a5e84eaceb63e603057fc43e224",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "src/maintenance/FUTURE_ENHANCEMENTS.md",
@@ -60788,16 +60802,16 @@
     {
       "path": "src/maintenance/IMPLEMENTATION.md",
       "category": "modules_and_api",
-      "size": 6072,
-      "sha256": "3d3d1429ec83123f2442b016d3948684663aeb10f0abfd68950b1cd1005ad21c",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 6495,
+      "sha256": "cdc3a10492eebdbf309faea3ce0c99305c08fe3c51b552f64a78ee6b8fb78039",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "src/maintenance/MODELING.md",
       "category": "modules_and_api",
-      "size": 4702,
-      "sha256": "7a8f3713ef33744ca16bddb134df93be7f6350420356352daabca8df706d9e2a",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 4926,
+      "sha256": "4b2e559c6bf6ede59dce7bcdad50e43c93ecd6b0f2511512a3120d6bc10bb9d8",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "src/maintenance/MODULE_GAPS.md",
@@ -60809,65 +60823,65 @@
     {
       "path": "src/maintenance/MODULE_GAPS_BATCH5.md",
       "category": "modules_and_api",
-      "size": 8632,
-      "sha256": "f340dbe94a32265012ef0971bba35869843eedd7f7e9f34f941d95bac3bbc240",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 9225,
+      "sha256": "0f6b9f5ad4cdf4fff91cc4c7a25f2b2771415c8dc968de07cb1be0015352b586",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "src/maintenance/MODULE_GUIDE.md",
       "category": "modules_and_api",
-      "size": 4831,
-      "sha256": "8a7627dca6a4200a88031e3831e0b4bc6d0faf52ffda63cdee351d20b9796a4d",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 5180,
+      "sha256": "cb5d7e6f1ffb93b3c8837407a44624bb53b244952d217408ecb8db28ec485b21",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "src/maintenance/OPERATIONS.md",
       "category": "modules_and_api",
-      "size": 3497,
-      "sha256": "100a9ff17696617832085aba700558c5a4f714b5f6d29ebd952cd6886aa9887e",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 3952,
+      "sha256": "dea8fb88c48f0f1cbad22ba4423c64e407a839987915e66f31371edcf1ad4dd1",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "src/maintenance/PERFORMANCE_EXPECTATIONS.md",
       "category": "modules_and_api",
-      "size": 4140,
-      "sha256": "9abaa2185a677c1f358129dbd27b4b1e97ff7b1ec3e752fe1af5f8644a6aff94",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 3108,
+      "sha256": "0991c6fb9f6b6e6cee308a716ef0e0d772bd1adcc4321e974ca67effb7964441",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "src/maintenance/PRODUCTION_REQUIREMENTS.md",
       "category": "modules_and_api",
-      "size": 2820,
-      "sha256": "b4455f21fae1b25c8242f36659cf1123b57c6ea86443e08550bbe5bfafd915f0",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 3746,
+      "sha256": "36965b3f0226bacf8d4d3f2973ee33d2635b40bc94cf95681426c973620a7a54",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "src/maintenance/README.md",
       "category": "modules_and_api",
-      "size": 2350,
-      "sha256": "350fcac1008401f842899cfb27087bccb95ea0fc93b89269a3b6d8e63c64b080",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 4448,
+      "sha256": "fa8dfeed28b950b74e5a201e22b2e55d96a113f0926f8fcc73428507167848af",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "src/maintenance/RESEARCH.md",
       "category": "modules_and_api",
-      "size": 5244,
-      "sha256": "7b6e6a39d0e6197e98752de06b7a03b8e90fb8c2890ee0279d413e159d0f40cb",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 6178,
+      "sha256": "afc86f619e5d2c0ae9d4ec5bbd1091c04c2316a7300a864fc0cc9f079b8c883e",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "src/maintenance/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 7646,
-      "sha256": "2e86a8db8e792687215dc326f18483bcd97804b750e45dd7134e96ceecc06d43",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 9457,
+      "sha256": "2c135581c099f67787468d1fea3dd1ca8c5b76afd331243febdb402bd24617e8",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "src/maintenance/RUNBOOK.md",
       "category": "modules_and_api",
-      "size": 4254,
-      "sha256": "5ded8129d90b382d1923f44aa04b85acf63eb6b42336757a77d06a0898c8720c",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 4413,
+      "sha256": "f302252f46999fc1d5276325bc4e68a881accb2414fb42283b4e5629758b30f8",
+      "modified_utc": "2026-11-01T09:32:02+00:00"
     },
     {
       "path": "src/maintenance/SECURITY.md",
@@ -63343,86 +63357,86 @@
     {
       "path": "src/scheduler/ARCHITECTURE.md",
       "category": "modules_and_api",
-      "size": 15379,
-      "sha256": "a470b1b358cad5bd33418e6ccdde5fe9e3675eb7456e27275b140ce78f6a314f",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 5546,
+      "sha256": "6a0b0ebb361bfb276930b9136601ef72655eaf9ecaddd2e7057131c4c8f12383",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/scheduler/AUDIT.md",
       "category": "modules_and_api",
-      "size": 2051,
-      "sha256": "265d9707237b51e165900b4b8c8705fb895e2d85ccb54ff244c5290578e6fa74",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 3206,
+      "sha256": "ae213165d5a7230ce4b4c6393c534a137c25246b150cf2a36535710db91aac54",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/scheduler/CHANGELOG.md",
       "category": "modules_and_api",
-      "size": 979,
-      "sha256": "02b8971175266cf9cca861f290ebc5cebc23640466736c054ff89b371058f692",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 1466,
+      "sha256": "de635c566cd51b5f9b12b49e8c296de24c2fa3ee0303e13ece94e39719f82a67",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/scheduler/DOXYGEN.md",
       "category": "modules_and_api",
-      "size": 128755,
-      "sha256": "b6efe35b697c2e1c27e2de4c4313fa217219788f351a969caa92fc7fa372610e",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 129535,
+      "sha256": "fe9c2615b54dee47b78397c57febc7a6fbd2128475523b2150a4c8d342459d9c",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/scheduler/FEATURES.md",
       "category": "modules_and_api",
-      "size": 2637,
-      "sha256": "ac0fdf0ff0bffc085b32f0b595af62c078b5ca576dad8d50adbe531c6b9f1021",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 1162,
+      "sha256": "027aa65dbc65d22bdb1536c864093d7780e36948e034da21a8883139571cca15",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/scheduler/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 2255,
-      "sha256": "f5723121a3f8408c934b26e3dfd7b896f86674889b3495498279e780d27fc95a",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 1615,
+      "sha256": "6e3d5cc5fcdcb2d6ef5c6a73f99ee1c8e8965f858cce40db1f1d7b6a9855a5bc",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/scheduler/MODULE_GAPS.md",
       "category": "modules_and_api",
-      "size": 2694,
-      "sha256": "a0a42ed3cfe2263a42aa1542640890869c2e66736c2f9e8c76afa20fc3952675",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 1985,
+      "sha256": "80d001980e0ec0a4bb672c5f000596912fc2e539a276494115bf4f13c0f35470",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/scheduler/PERFORMANCE_EXPECTATIONS.md",
       "category": "modules_and_api",
-      "size": 1852,
-      "sha256": "12b7db3e772a207030e199200493d3d29f71a23d94883662e7061e2f106a148c",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 2995,
+      "sha256": "ea365244e4e221fff025587cf5f61e63e52668df9f4544f9b6ec79f8f36a835b",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/scheduler/PRODUCTION_REQUIREMENTS.md",
       "category": "modules_and_api",
-      "size": 2708,
-      "sha256": "aa5b5130d79c093fa0148362b9042b7854adfc6b317b451cc120fb46a48fcb35",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 2870,
+      "sha256": "705efdfacf043b26a680a75e04223c5dcafb6331c14c8d63206ac155de8ff789",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/scheduler/README.md",
       "category": "modules_and_api",
-      "size": 2519,
-      "sha256": "c355b0286ac522b6614864d4f65ae65aeafbace0cac19833ff33ebbf6a20fd1e",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 4377,
+      "sha256": "e5acf2595bf2b9e9fde78b4acc399bb23cf57f1273410678e1f87889e4ed42f6",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/scheduler/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 6524,
-      "sha256": "fa4ed26351df4697737beec0daead3bef85d6345034366ee9b0eb2745275a262",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 3190,
+      "sha256": "0c7641a908c195182d4ebfaf4c218080332cd1076af9497744836effa7b1a2a7",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/scheduler/SECURITY.md",
       "category": "modules_and_api",
-      "size": 1925,
-      "sha256": "f4a09f9390c7a56c83055553faeea45a7f6855fba3b2218855dbe562274f1cf2",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 3097,
+      "sha256": "f1ed530d398cfb7201f1a77fe226d58dd03524bfae6b89ac9fdd61bcb23b6c9f",
+      "modified_utc": "2026-11-01T09:32:51+00:00"
     },
     {
       "path": "src/scraper/API.md",

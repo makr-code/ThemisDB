@@ -23,7 +23,7 @@ Planned enhancements to the **public header contract** in `include/maintenance/`
 - `[x]` Public headers must not expose internal implementation types or arena/memory layout details to callers.
 - `[x]` Breaking changes to types in `include/maintenance/` require a MAJOR version bump per `VERSIONING.md`.
 - `[x]` New entry points should be additive; existing stable APIs remain source-compatible.
-- `[x]` Layer association (**Graph**) must be preserved in all header expansions.
+- `[?]` Layer association (**Graph**) is inherited from legacy planning notes; **TODO:** verify it against the current maintenance architecture before treating it as normative.
 
 ---
 
@@ -59,5 +59,7 @@ Planned extensions follow the same namespace (`themis::maintenance`) and include
 
 ## Alignment with Strategic Plan
 
-Enhancements align with `FUTURE_PLAN.md` layer **Graph**. For cross-layer integration planning see:
-→ [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
+> **TODO/Assumption:** The legacy `FUTURE_PLAN.md` layer association and linked
+> cross-layer plan have not been verified against current maintenance ownership.
+> Use [`../../src/maintenance/ARCHITECTURE.md`](../../src/maintenance/ARCHITECTURE.md)
+> for current runtime boundaries.

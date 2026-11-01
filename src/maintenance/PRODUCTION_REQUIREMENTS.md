@@ -1,4 +1,16 @@
-> **Status:** 2026-06-01 – mit aktuellem Maintenance-Code (`maintenance_registry.cpp`) abgeglichen.
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+Exact model backend not verifiable from final document text alone.
 
 # ThemisDB Maintenance Module - Production Requirements
 
@@ -6,6 +18,11 @@
 
 Dieses Dokument ist der **kanonische Referenzpunkt für produktive Mindestanforderungen** des Maintenance-Moduls.
 Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Maintenance-Registry, Maintenance-Schedule-Store, Wartungsoperationen.
+
+Die folgenden MUST-Aussagen sind normative Deployment-Anforderungen, keine
+Behauptung, dass das Maintenance-Modul sie selbst implementiert oder beim Start
+erzwingt. Die HTTP-Routen prüfen ihre Scopes in der Server-Schicht; direkte
+In-Process-Aufrufe benötigen eine eigene Autorisierung.
 
 ## Dokumentabgrenzung (Canonical Split)
 
@@ -18,7 +35,7 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Maintenanc
 
 - **MUST:** Maintenance-Operationen nur für autorisierte Operator-Rollen; kein unauthentifizierter Zugriff auf Wartungs-APIs.
 - **MUST:** Maintenance-Scheduling mit definierten Zeitfenstern; unkontrollierte Wartungsoperationen in Produktions-Peak-Zeiten vermeiden.
-- **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
+- **MUST:** Alle sicherheitsrelevanten Konfigurationswerte des Deployments beim Start validieren; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten. Im aktuellen Maintenance-Code ist kein entsprechender Konfigurationsloader nachgewiesen.
 - **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
 
 ## Verbindliche Sicherheitsanforderungen
@@ -29,7 +46,7 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Maintenanc
 
 ## Betriebsgrenzen
 
-- Konfigurationswerte müssen deployment-spezifisch gesetzt sein; Default-Werte gelten nicht als produktionssicher.
+- Konfigurationswerte müssen deployment-spezifisch gesetzt sein; Default-Werte gelten nicht automatisch als produktionssicher. Der Orchestrator stellt u. a. optionale Persistenz und einen unbegrenzten Tenant-Job-Limit-Default bereit.
 - Ressourcen-Limits (Größen, Counts, Timeouts) müssen mit den Deployment-Anforderungen übereinstimmen.
 - Externe Abhängigkeiten müssen mit expliziten Verbindungs-Timeouts und Retry-Policies konfiguriert sein.
 
@@ -40,7 +57,11 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Maintenanc
 - [ ] Ressourcen-Limits explizit konfiguriert (keine Unlimited-Defaults)
 - [ ] Audit-Logging aktiv
 - [ ] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
+- [ ] Produktionsmodus durch den Deployment-Eigner definiert und geprüft
+
+> **TODO/Assumption:** Es ist in den Maintenance-Quellen kein Lesen oder Validieren
+> von `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` nachgewiesen. Diese
+> Umgebungsvariablen sind daher kein bestätigter Maintenance-Konfigurationsvertrag.
 
 ## Review / Sourcecode-Audit-Nachweis
 

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -33,7 +33,10 @@ Use `recent_dispatch_outcomes` and the job state to distinguish:
 
 - `skipped_no_handler`: register/restore the correct handler; do not replace it with a no-op.
 - `skipped_concurrent`: confirm the current run is healthy; the orchestrator guards against schedule re-entry.
-- `failed_persistence`: restore storage availability and inspect the persisted schedule before retrying.
+- Persistence errors: schedule mutations return an error and startup scan errors
+  are logged. `FAILED_PERSISTENCE` is declared as an outcome type but is not
+  emitted into the current dispatch-outcome ring; diagnose from the API result or
+  startup logs instead.
 - `failed_dispatch`: inspect the handler error and any already-completed tasks.
 - `skipped` due to tenant quota or maintenance window: confirm the applicable UTC window and concurrency settings.
 

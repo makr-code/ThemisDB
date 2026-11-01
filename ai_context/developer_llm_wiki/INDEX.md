@@ -23,11 +23,8 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 - Ziel: Onboarding- und Coding-relevantes Wissen fuer Entwickler-LLMs
 - Laufmodus: FULL_SYNC
-- Quellen gesamt: 9419
-- Quellen-Hash: `d8a35a984a466683d714b65e1660ade3e2cfecca591a1d1a9c623f47aeda2d1a`
-- The source inventory predates the manually curated Graph and Storage pages; the source manifest was not regenerated for those additions.
-- The Storage page is manually curated and is not included in these generated
-  counts or the source manifest until a full wiki sync is run.
+- Quellen gesamt: 9515
+- Quellen-Hash: `a21ea00e6fba7d62e398dbc850f5b782b258746340b23c97655a08a1b2a7934d`
 
 ## Status And Source-of-Truth Governance
 
@@ -50,6 +47,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - [TEMPORAL.md](TEMPORAL.md) — temporal runtime/API boundaries, test and benchmark evidence limits
 - [STORAGE.md](STORAGE.md) — curated storage API boundaries, test evidence, and contract gaps
 - [USER_STORAGE_ENCRYPTED.md](USER_STORAGE_ENCRYPTED.md) — encrypted user-storage architecture, configuration, and evidence boundaries
+- [MAINTENANCE.md](MAINTENANCE.md) — maintenance runtime API, CRUD churn enforcement, persistence, and unverified benchmark gates
 - [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)
 - [WIKI_STATUS.json](WIKI_STATUS.json)
 - [WIKI_DELTA_REPORT.md](WIKI_DELTA_REPORT.md)
@@ -58,7 +56,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 - modules_and_api: 3821
 - build_test_ci: 203
-- governance_and_docs: 5489
+- governance_and_docs: 5491
 - misc: 0
 
 ## Source-Priority / Konfliktregel
