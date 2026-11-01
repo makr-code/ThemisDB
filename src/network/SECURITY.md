@@ -1,8 +1,8 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
@@ -45,13 +45,13 @@ Exact model backend not verifiable from final document text alone.
 
 - Security behavior depends on runtime deployment configuration and enabled transport surfaces.
 - Some policy depth (for example, network-specific IPv6 CIDR governance) remains roadmap work and is not treated as fully enforced in this module documentation.
-- Authentication is configuration-dependent: the wire server enforces its credential checks only when `require_auth` is enabled. When enabled, its startup validation requires a non-empty `SCRAM-SHA-256` configuration and rejects blank or invalid tokens.
+- Authentication is configuration-dependent: the wire server enforces its credential checks only when `require_auth` is enabled. Startup requires the `SCRAM-SHA-256` configuration label and a non-empty secret; the current AUTH handler compares a pre-shared JSON token rather than performing a SCRAM challenge-response exchange.
 - Transport encryption is not authorization. QUIC pins TLS 1.3, but other listeners and TLS enablement depend on their transport configuration and deployment certificates.
 - Treat authentication tokens, private keys, and certificate files as secrets; restrict their provisioning and filesystem permissions and never log or commit their contents.
 
 ## Incident Handling
 
-On suspected listener, certificate, or credential compromise, disable the affected listener or revoke the credential, preserve network audit and server logs, and verify transport and auth settings before reopening traffic. Use [SOP-05](../../SOP.md) and [SOP-08](../../SOP.md).
+On suspected listener, certificate, or credential compromise, disable the affected listener or revoke the credential, preserve available server logs and `WireProtocolServer` audit events, and verify transport and auth settings before reopening traffic. The wire-server audit buffer is bounded and in-memory; preserve/export events through a configured callback sink when durable incident evidence is required. Other network transports do not automatically share this log. Use [SOP-05](../../SOP.md) and [SOP-08](../../SOP.md).
 
 ## Sourcecode Verification (Module: network/security)
 

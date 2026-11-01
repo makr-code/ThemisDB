@@ -1,9 +1,28 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-20"
+Last Updated: "2026-10-31"
+Status: "historical"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> **Generated snapshot:** The symbol inventory and metrics below were generated
+> from Doxygen XML on 2026-09-20. The recorded Windows temporary paths are
+> machine-local; regenerate this artifact before relying on it as current API
+> documentation.
+
 # NETWORK DOXYGEN
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
 Last Updated: 2026-09-20
-Status: active
+Status: historical snapshot
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -13481,4 +13500,3 @@ Status: active
 - Brief: n/a
 - Parameters:
   - `increment` (uint32_t): n/a
-
