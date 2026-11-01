@@ -1,7 +1,33 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-07-22
+Last Updated: 2026-11-01
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level4
+SOT_Domain: module-behavior
+Canonical_References:
+  - ../../ROADMAP.md
+  - ../../src/sharding/ROADMAP.md
+  - ../../include/sharding/detail/two_phase_commit_contract.h
+  - ../../src/sharding/cross_shard_transaction.cpp
+  - ../../src/sharding/two_phase_commit_coordinator.cpp
+  - ../../tests/test_two_phase_commit.cpp
+  - ../governance/SHARDING_P6_RESIDUAL_RISK_ACCEPTANCE.md
+Related_Issue: "#5373 (DIS-05)"
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Sharding Phase 6 (P6-01 / P6-02 / P6-03) — Sign-Off Evidence Bundle
 
-<!-- Status: current | generated: 2026-07-22 -->
-<!-- Primary (Quelle der Wahrheit): src/sharding/ROADMAP.md §Phase 4 -->
+<!-- Status: historical evidence bundle; current DIS-05 status is in the dated addendum | generated: 2026-07-22 -->
+<!-- Primary sources: ROADMAP.md for current aggregate; implementation/contracts and tests for behavior; src/sharding/ROADMAP.md §Phase 4 for historical P6 tracking -->
 <!-- Gate: release_critical label on develop -->
 
 ## Summary
@@ -9,6 +35,10 @@
 Block E (Sharding P6) delivers the final distributed-transaction consistency and fault-injection
 hardening required for the v1.9.0 GA release. This document captures evidence that all three
 P6 deliverables meet their acceptance criteria and are cleared for the GA gate.
+
+> **Record status:** This is the historical 2026-07-22 P6 evidence bundle. Its original evidence
+> and generated-date record are retained; the current DIS-05 scope/status is documented separately
+> in the addendum below and does not establish current CTest or release-gate results.
 
 ---
 
@@ -25,7 +55,7 @@ P6 deliverables meet their acceptance criteria and are cleared for the GA gate.
 | ID | Criterion | Evidence |
 |----|-----------|----------|
 | P6-01-A | 2PC: coordinator drives PREPARE → vote collection → COMMIT/ABORT correctly | TXC-01..TXC-08 |
-| P6-01-B | 2PC: in-doubt state re-driven via WAL replay after coordinator restart | TXC-09..TXC-12 |
+| P6-01-B | Standalone `TwoPhaseCommitCoordinator`: in-doubt decision re-driven via WAL after restart | TXC-09..TXC-12 |
 | P6-01-C | 2PC: idempotent COMMIT/ABORT delivery (double-delivery safe) | TXC-13..TXC-16 |
 | P6-01-D | 3PC: PreCommit phase before final COMMIT; fail-closed on PreCommit failure | TXC-17..TXC-22 |
 | P6-01-E | Percolator: TrueTime edge-cases and primary-lock acquisition | TXC-23..TXC-26 |
@@ -33,9 +63,10 @@ P6 deliverables meet their acceptance criteria and are cleared for the GA gate.
 
 ### WAL/Recovery Contract
 
-- **Coordinator durability:** decision (COMMIT or ABORT) is written to WAL **before** any participant delivery; crash-restart replays from WAL to completion.
+- **Standalone coordinator durability:** `TwoPhaseCommitCoordinator` writes its COMMIT/ABORT decision to WAL **before** participant delivery; recovery re-drives and resolves only after all acknowledgements and a completion record.
+- **Cross-shard coordinator recovery:** `CrossShardTransactionCoordinator::recoverFromWAL()` restores state and reports resume candidates; it does not automatically re-drive PREPARE/COMMIT/ABORT RPCs.
 - **Participant idempotency:** repeated COMMIT or ABORT on a participant in COMMITTED/ABORTED state is a no-op (no state mutation, no error).
-- **In-doubt semantics:** PREPARE logged without COMMIT/ABORT → coordinator is considered in-doubt; recovery re-drives COMMIT if all votes were YES.
+- **In-doubt semantics:** a durable decision is authoritative during `TwoPhaseCommitCoordinator` WAL recovery; if no decision was recorded, that coordinator conservatively aborts. `CrossShardTransactionCoordinator` recovery restores state and reports candidates but does not automatically re-drive phase two.
 - **3PC fail-closed:** failure to deliver PreCommit to any participant triggers ABORT (not COMMIT).
 
 ---
@@ -112,7 +143,7 @@ The following WAL/recovery surface mapping is established and must not diverge:
 
 | Module | Recovery Driver | Idempotency Guarantee | WAL Entry on Decision |
 |--------|----------------|----------------------|----------------------|
-| `cross_shard_transaction` (Coordinator) | `recoverFromWAL()` | Yes — COMMITTED/ABORTED states absorb re-drive | COMMIT or ABORT before participant fan-out |
+| `cross_shard_transaction` (Coordinator) | `recoverFromWAL()` | Restores state/reports candidates; no automatic phase-two re-drive | COMMIT or ABORT before participant fan-out |
 | `two_phase_commit_participant` | `recoverFromWAL()` | Yes — participant ignores repeated COMMIT/ABORT | COMMITTED/ABORTED after state transition |
 | `transaction_wal` | `replay()` | Yes — append idempotent by LSN | All protocol phase changes logged |
 | `replication_manager` (WAL) | `applyFrom(LSN)` | Yes — re-apply from LSN is safe | Quorum commit-index entries |
@@ -137,10 +168,28 @@ requirement.
 
 | Risk | Severity | Status |
 |------|----------|--------|
-| 2PC duplication (`CrossShardTransactionCoordinator` vs. `TwoPhaseCommitCoordinator`) — two overlapping commit-orchestration surfaces | MEDIUM | Interface separation documented in `docs/architecture/transaction_coordinators.md`; consolidation scheduled for v2.1.0 |
+| DIS-05 execution divergence for `CrossShardTransactionCoordinator` vs. `TwoPhaseCommitCoordinator` | MEDIUM | Closed for the named pair by `include/sharding/detail/two_phase_commit_contract.h`; transport/WAL/recovery remain separate. This does not cover the third 2PC-capable `DistributedTransactionCoordinator` or establish repo-wide convergence. See status update below. |
 | WAL-layer drift across sharding + replication boundaries | LOW | Cross-module recovery contract documented above; no divergence detected in current codebase |
 | Production re-drive timing enforcement (currently simulated synchronously) | LOW | Real-time re-drive timer integration required before cluster deployment; tracked in sharding ROADMAP Phase 5 |
 
 ---
+
+### Current status update — 2026-11-01 (DIS-05)
+
+The shared contract defines prepare → configured decision record → phase two; failed phase-two
+acknowledgements do not convert a decision into successful completion. It covers only the named
+pair and does not unify their transports, transaction lifecycles, WAL formats, or recovery. It also
+does not cover `DistributedTransactionCoordinator` or establish repo-wide 2PC convergence.
+`tests/test_two_phase_commit.cpp`
+covers failed COMMIT and ABORT acknowledgements through both named public paths. The prior verification note recorded that the affected source and test translation units compiled,
+but `TwoPhaseCommitFocusedTests` could not run because CTest's on-demand build was blocked by missing
+`pugixml.hpp` in unrelated `src/security/xxe_safe_xml_parser.cpp`. This documentation-only
+synchronization did not rerun a build or tests.
+CrossShard WAL/snapshot recovery restores state and reports resume candidates but does not
+automatically re-drive phase two. Recovery/WAL unification remains DIS-06 follow-up scope.
+`DistributedTransactionCoordinator`
+(`include/sharding/distributed_transaction.h`) is a separate 2PC-capable coordinator outside
+DIS-05. This update supplements the original sign-off; it does not alter the historical approval
+or generated-date record below.
 
 *Document generated 2026-07-22. Human approver sign-off required in `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9 before GA promotion.*

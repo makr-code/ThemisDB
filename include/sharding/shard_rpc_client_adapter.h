@@ -33,6 +33,7 @@
 #include <chrono>
 #include <memory>
 #include <string>
+#include <utility>
 #include <nlohmann/json.hpp>
 
 namespace themis::sharding {
@@ -46,9 +47,8 @@ namespace themis::sharding {
  *
  * Thread-safe: the underlying ShardRPCClient handles its own locking.
  *
- * @note Abort is treated as best-effort (always returns true even if the
- *       remote shard reports a failure), consistent with the abort
- *       semantics in the rest of the sharding layer.
+ * @note Phase-two acknowledgements are propagated. A failed remote ABORT
+ *       returns false so the coordinator retains the decision as in-doubt.
  */
 class ShardRPCClientAdapter final : public ShardRPCServer::RequestHandler {
 public:
@@ -59,6 +59,18 @@ public:
     explicit ShardRPCClientAdapter(const ShardRPCClient::Config& config)
         : client_(config)
     {}
+
+    /**
+     * @brief Construct an adapter with a response handler for explicit inproc endpoints.
+     * @param config ShardRPCClient configuration.
+     * @param handler Test/custom response handler; used only for inproc:// or loopback://.
+     */
+    ShardRPCClientAdapter(
+        const ShardRPCClient::Config& config,
+        ShardRPCClient::InProcessResponseHandler handler)
+        : client_(config) {
+        client_.setInProcessResponseHandler(std::move(handler));
+    }
 
     ~ShardRPCClientAdapter() override = default;
 
@@ -116,18 +128,17 @@ public:
 
     /**
      * @brief Translate ABORT call to a ShardRPCClient::abort() RPC.
-     *
-     * Abort is best-effort: network or participant failures are ignored
-     * (returns true regardless) because idempotency guarantees the shard
-     * can be re-aborted on recovery.
+     * @return true only when the remote shard acknowledges ABORT; false on a
+     *         negative response or transport failure.
+     * @note A false result keeps the coordinator's selected ABORT decision
+     *       unresolved; retry/recovery policy remains coordinator-specific.
      */
     bool onAbort(const std::string& transaction_id) override {
         try {
-            client_.abort(transaction_id);
+            return client_.abort(transaction_id);
         } catch (...) {
-            // Intentionally swallowed – abort is best-effort
+            return false;
         }
-        return true;
     }
 
     /**
