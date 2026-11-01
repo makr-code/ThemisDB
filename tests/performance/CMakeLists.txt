@@ -4,10 +4,28 @@ file(GLOB PERFORMANCE_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
+file(GLOB_RECURSE PERFORMANCE_NESTED_MODULE_TEST_SOURCES CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/phase3/test_*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/phase4/test_*.cpp"
+)
+
+list(APPEND PERFORMANCE_MODULE_TEST_SOURCES
+    ${PERFORMANCE_NESTED_MODULE_TEST_SOURCES}
+)
+
 foreach(_src IN LISTS PERFORMANCE_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
-    set(_target "module_performance_${_stem}_focused")
-    set(_ctest "${_stem}_PerformanceFocusedTests")
+    file(RELATIVE_PATH _relative_source "${CMAKE_CURRENT_SOURCE_DIR}" "${_src}")
+    if(_relative_source MATCHES "^phase[34]/")
+        string(SHA256 _source_hash "${_relative_source}")
+        string(SUBSTRING "${_source_hash}" 0 16 _source_hash)
+        set(_name_stem "nested_${_stem}_${_source_hash}")
+    else()
+        set(_name_stem "${_stem}")
+    endif()
+
+    set(_target "module_performance_${_name_stem}_focused")
+    set(_ctest "${_name_stem}_PerformanceFocusedTests")
     set(_extra_sources)
 
     if(_stem MATCHES "^test_rabitq")
@@ -58,10 +76,28 @@ file(GLOB PERFORMANCE_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_performance_*.cpp"
 )
 
+file(GLOB_RECURSE PERFORMANCE_NESTED_AUTOGEN_PREFIX_TEST_SOURCES CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/phase3/test_performance_*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/phase4/test_performance_*.cpp"
+)
+
+list(APPEND PERFORMANCE_AUTOGEN_PREFIX_TEST_SOURCES
+    ${PERFORMANCE_NESTED_AUTOGEN_PREFIX_TEST_SOURCES}
+)
+
 foreach(_src IN LISTS PERFORMANCE_AUTOGEN_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
-    set(_target "module_performance_${_stem}_autofocused")
-    set(_ctest "${_stem}_performance_AutoFocusedTests")
+    file(RELATIVE_PATH _relative_source "${CMAKE_CURRENT_SOURCE_DIR}" "${_src}")
+    if(_relative_source MATCHES "^phase[34]/")
+        string(SHA256 _source_hash "${_relative_source}")
+        string(SUBSTRING "${_source_hash}" 0 16 _source_hash)
+        set(_name_stem "nested_${_stem}_${_source_hash}")
+    else()
+        set(_name_stem "${_stem}")
+    endif()
+
+    set(_target "module_performance_${_name_stem}_autofocused")
+    set(_ctest "${_name_stem}_performance_AutoFocusedTests")
     set(_extra_sources)
 
     if(_stem STREQUAL "test_performance_hardware_accelerator")
