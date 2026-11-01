@@ -4,6 +4,11 @@ Author: ThemisDB Contributors
 Created: 2026-11-01
 Last Updated: 2026-11-01
 Status: active
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -1065,6 +1070,7 @@ Status: active
 
 ## Notes
 - This is a derived artifact. Do not manually edit semantic content.
+- Exact model backend is not verifiable from the generated document.
 - Regenerate with `python3 scripts/generate_module_doxygen_xml.py --repo-root . --modules query --output-root build/module-doxygen --manifest build/module-doxygen/manifest.json --summary-md build/module-doxygen/summary.md --write-module-markdown`.
 
 ## Detailed Function Documentation (Soll-Ist)

@@ -316,6 +316,11 @@ def write_module_markdown(
     lines.append(f"Created: {generated_at[:10]}")
     lines.append(f"Last Updated: {generated_at[:10]}")
     lines.append("Status: active")
+    lines.append("AI_Used: true")
+    lines.append('AI_Models: "unknown"')
+    lines.append('AI_Contributor: "GitHub Copilot coding agent"')
+    lines.append("Human_Review: false")
+    lines.append('Human_Author: "ThemisDB Contributors"')
     lines.append("")
     lines.append("## Source")
     lines.append("- This file is generated from module-scoped Doxygen XML.")
@@ -359,6 +364,7 @@ def write_module_markdown(
 
     lines.append("## Notes")
     lines.append("- This is a derived artifact. Do not manually edit semantic content.")
+    lines.append("- Exact model backend is not verifiable from the generated document.")
     lines.append(
         f"- Regenerate with `python3 scripts/generate_module_doxygen_xml.py --repo-root . "
         f"--modules {module} --output-root build/module-doxygen "
