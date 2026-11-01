@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Architecture - Utils Module
 
-<!-- Status: current | validated: 2026-09-09 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -29,8 +43,30 @@ The utils module groups foundational helper subsystems that other ThemisDB modul
 ## Failure Semantics
 
 - utility failures must remain explicit and must not silently change consuming module behavior.
-- host-library or external-service dependencies degrade predictably rather than expanding failure domains.
+- failure handling is component-specific: callers must inspect each helper's documented result, exception, timeout, or diagnostic rather than assume one shared fallback.
 - hot-path helpers remain bounded and measurable through benchmark-backed verification.
+
+## Data Flow and Ownership
+
+1. A consumer includes a public declaration from `include/utils/`.
+2. The corresponding implementation in `src/utils/` validates input and
+   invokes its component-specific library or service dependencies.
+3. The helper returns its documented result or reports failure through its
+   documented error channel. The consumer owns policy decisions such as
+   retrying, rejecting a request, or treating a partial scan as incomplete.
+
+The public headers define the API and thread-safety contract. Do not infer
+thread safety, fallback behavior, or ownership guarantees between different
+utility components.
+
+## Build and Test
+
+The utility implementation is built as part of the repository's core target;
+there is no separate utils library target. Module tests are registered in
+[`tests/utils/CMakeLists.txt`](../../tests/utils/CMakeLists.txt), which is
+included by the root test build. The registered release-gate benchmark is
+`bench_utils_release_gates`; see
+[`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) for its scope.
 
 ## Sourcecode Verification (Module: utils/architecture)
 
@@ -52,26 +88,23 @@ The utils module groups foundational helper subsystems that other ThemisDB modul
 ### Direct Upstream Dependencies (this module uses)
 | Module | Interface / File | Purpose |
 |--------|-----------------|---------|
-| (none — Layer 0) | stdlib, nlohmann/json, spdlog | No ThemisDB module dependencies; relies only on third-party and standard libraries |
+| Core/security and storage interfaces | For example, `security/encryption.h` and RocksDB-backed helpers | Some utility headers directly depend on shared core/security/storage types; inspect the specific header before treating a helper as standalone |
+| External libraries | OpenSSL, spdlog, JSON, compression and optional tracing/network libraries | Availability and failure behavior are component- and build-configuration-specific |
 
 ### Direct Downstream Consumers (modules that use this module)
 | Module | Via | Notes |
 |--------|-----|-------|
-| ALL modules | `include/utils/` | Every ThemisDB module consumes at least one utils surface (logging, compression, thread-pool, tracing, etc.) |
+| ThemisDB consumers | `include/utils/` | Utilities are shared broadly; each consuming module depends on its selected helper surfaces |
 
 ## Integration Points
 
-### Critical Integration: Observability Pipeline
-**Files:** `src/utils/audit_logger.cpp`, `src/utils/tracing.cpp`
-**Contract:** All audit-log and trace calls across ThemisDB route through utils helpers; output format is fixed (structured JSON / W3C TraceContext); callers must not build log payloads outside these helpers.
-**Thread Safety:** Logger and tracer helpers are thread-safe; each call is independently atomic; no cross-call ordering guarantees.
+### Integration Boundaries
 
-### Critical Integration: Thread-Pool Services
-**Files:** `src/utils/thread_pool_manager.cpp`
-**Contract:** Modules obtain worker threads from the shared pool; tasks must not capture pool references beyond their own lifetime.
-**Thread Safety:** Thread pool is fully thread-safe; submit() may be called from any thread concurrently.
+| Surface | Ownership and caller responsibility |
+|---|---|
+| Logging, audit, and tracing | Use the specific header contract for event shape, initialization, flushing, and errors; no repository-wide routing or ordering guarantee is implied. |
+| Thread pools and rate limiting | The caller handles rejected work and timeout outcomes and keeps captured dependencies alive for the task lifetime. |
+| Compression and serialization | The caller selects the codec API and respects its documented size bounds, frame state, and error result. |
 
-### Critical Integration: Compression Codec
-**Files:** `src/utils/zstd_codec.cpp`
-**Contract:** Codec is stateless and re-entrant; compressor/decompressor instances are not shared across threads without external synchronisation.
-**Thread Safety:** Stateless encode/decode calls are safe; streaming context objects must not be shared.
+These are integration reminders, not substitutes for the API contracts in
+[`API.md`](API.md) and the corresponding public headers.
