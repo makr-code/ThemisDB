@@ -159,6 +159,9 @@ def read_files_from_list(path: Path) -> list[str]:
 
 
 def rule_for_file(rel_path: str, config: dict) -> dict | None:
+    path_rule = config.get("path_rules", {}).get(rel_path)
+    if path_rule:
+        return path_rule
     name = Path(rel_path).name
     return config.get("rules", {}).get(name)
 

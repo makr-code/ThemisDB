@@ -236,6 +236,11 @@ using tcp = net::ip::tcp;
 using RequestHandler = std::function<http::response<http::string_body>(
     const http::request<http::string_body>&)>;
 
+/**
+ * @brief Coordinates HTTP server lifecycle and request-handler dispatch.
+ * @details Configures the server endpoints and retains shared ownership of
+ *          the storage and index services supplied during construction.
+ */
 class HttpServer {
 public:
     struct Config {
@@ -358,7 +363,15 @@ public:
      */
     bool reloadTls();
 
-    // Test helper: expose content manager metrics (nullable)
+    /**
+     * @brief Exposes metrics from the initialized content manager.
+     * @return Borrowed pointer to the metrics, or nullptr when the content
+     *         manager was not initialized.
+     * @note The pointer is valid only while this server retains its content
+     *       manager. Metric fields provide their own atomic reads; this method
+     *       does not return a snapshot.
+     * @note Test helper; this method is not a stable public API contract.
+     */
     const themis::content::ContentManager::Metrics* contentMetrics() const {
         return content_manager_ ? &content_manager_->getMetrics() : nullptr;
     }
