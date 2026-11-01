@@ -1,8 +1,8 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-30
-Status: active
+Last Updated: 2026-10-31
+Status: review
 AI_Used: true
 AI_Models: unknown
 AI_Contributor: GitHub Copilot
@@ -14,83 +14,53 @@ Human_Author: ThemisDB Contributors
 
 Exact model backend not verifiable from final document text alone.
 
-This module's trust model is straightforward: the system is trusted only when the encrypted backend, the key derivation path, and the rotation scheduler all remain valid. The public contract in `include/user_storage_encrypted/user_storage_encrypted_api_contract.h` is explicit about fail-closed handling: backend unavailability, KDF failure, and internal errors are treated as denial conditions.
+The module relies on trusted host filesystem/mount behavior, gocryptfs and
+FUSE, provider/key state, configuration paths, and (where used) KDF salt and
+rotation-state persistence. This page is a source-based risk summary, not a
+production-readiness certification.
 
-## Trust boundaries
+## Risks and implementation boundaries
 
-The module spans multiple trust boundaries:
+| Risk | Source-visible behavior / limit |
+|---|---|
+| Unsafe path reaching gocryptfs lifecycle call | `createContainer()` and `mountContainer()` validate paths and use argument vectors; stale-mount cleanup has a separate process path. |
+| Missing host backend | `checkAvailability()` probes gocryptfs and Linux `/dev/fuse`; host permissions still need deployment validation. |
+| KDF mode or key mismatch | CMake selects Argon2id when libargon2 exists, otherwise PBKDF2-HMAC-SHA256. Compatibility with earlier data must be confirmed by its owner. |
+| Salt loss | A KDF-enabled direct backend stores a raw salt file under the encrypted directory; preserve it with the corresponding key version. |
+| Rotation failure/callback exception | The scheduler swallows callback exceptions and advances/persists its timestamp after an attempt. |
+| Partial mount/unmount/rotation state | `unmountAll()` ignores individual results and some rotation unmount results are ignored. Verify actual host state. |
+| Misleading health/metrics | Health checks mounted state and backend presence only; container-size metric is emitted but not updated by current source. |
 
-- host OS / gocryptfs boundary
-- key material and salt boundary
-- configuration validation boundary
-- mount lifecycle boundary
-- scheduler and persistence boundary
+The operational plugin does not instantiate a KDF-enabled backend or connect
+its parsed rotation configuration to the scheduler. Those capabilities require
+separate caller wiring. The `OFFEN` level is intentionally unencrypted; it
+must not be treated as equivalent to an encrypted level.
 
-These boundaries matter because the module does not assume that any one layer is inherently safe. Valid configuration and successful backend validation are required before an encrypted storage layer is treated as operational.
+## Contract discrepancy
 
-## Risk model
+`user_storage_encrypted_api_contract.h` declares error values and a
+fail-closed predicate in a different namespace from the operational plugin.
+It is normative contract text, not evidence that the operational implementation
+meets each guarantee. In particular, mount failure cleanup, general key/salt
+zeroing, transactional rotation, per-container serialization, and callback
+thread/re-entry behavior differ or are not established by the current source.
+See the [source-by-source comparison](API.md).
 
-The primary risks are:
+## Trust and recovery practices
 
-1. invalid or hostile paths reaching subprocess execution
-2. absent or unsupported backend dependencies
-3. weak or incompatible key derivation assumptions
-4. stale mount residue from prior failures
-5. rotation state corruption or callback misfire
+Treat host access, key custody, mount/salt paths, and rotation state as trusted
+operational dependencies. Preserve diagnostics and the approved salt/key
+version during incident investigation. Before restoring access after a key,
+mount, or provider incident, verify data access with the retained compatible
+key material and inspect mount state independently.
 
-The source addresses these risks directly through validation, fail-closed logic, explicit error states, and stale mount cleanup. In other words, the module is designed to fail loudly when trust cannot be established rather than silently degrade into a lower-security mode.
+## Source references
 
-## Security controls implemented in source
-
-The implementation demonstrates several controls:
-
-- path sanitization and flag validation in `gocryptfs_backend.cpp`
-- Argon2id and PBKDF2 KDF decisions in `key_derivation_service.cpp`
-- strict rotation state persistence and interval checks in `key_rotation_scheduler.cpp`
-- configuration validation and stale mount reconciliation in `multi_level_storage.cpp`
-
-These controls are not mere comments; they are actual runtime checks embedded in the logic path.
-
-## Trust assumptions that are not safe
-
-The following assumptions should not be treated as valid in production:
-
-- a missing gocryptfs binary is a harmless nuisance
-- a KDF fallback preserves compatibility with keys derived by older algorithms
-- rotation can continue without persistent state validation
-- stale mount state is always harmless and can be ignored
-- a partially successful mount should be considered a healthy storage outcome
-
-The implementation validates path/key inputs and returns errors on unavailable backends or failed derivation. The built-in KDF uses Argon2id when available, or PBKDF2-HMAC-SHA256 when libargon2 is unavailable; keys created with the older iterative-SHA-256 path are not compatible with this fallback.
-
-## Incident handling
-
-When trust breaks, the module is designed to preserve clear evidence and stop the unsafe flow.
-
-Recommended handling pattern:
-
-1. isolate the failing level or backend path
-2. preserve logs, metrics, and scheduler state
-3. determine whether the issue is in host support, KDF path, or rotation logic
-4. restore a known-good configuration and re-check health before re-enabling storage operations
-
-### Incident priority
-
-High-priority incidents include:
-
-- repeated backend unavailable errors
-- key derivation failure across multiple containers
-- unmount or stale-mount loops at startup
-- rotation state corruption after a restart
-
-These are all explicitly visible in source and should not be treated as routine operational noise.
-
-## Current trust posture
-
-The encrypted storage boundary includes the host OS, gocryptfs executable, mount configuration, persistent salt/state, and configured key provider. Key material is passed to the subprocess through standard input, but remains sensitive in process memory and on the trusted host. Restrict the service account and mount/salt paths; retain the required salt and key versions for recovery.
-
-This page is not a production-readiness certification. Validate the selected KDF and key provider, mount behavior, rotation state, and recovery path for the deployment.
-
-## Incident response
-
-If mount integrity or key custody is in doubt, stop access to the affected storage level, preserve diagnostics and rotation state, revoke/rotate the affected provider key, and verify recovery with the retained salt and approved key version before reopening. Report vulnerabilities privately through [project SECURITY.md](../../SECURITY.md); use [SOP-05](../../SOP.md) and [SOP-08](../../SOP.md).
+- `include/user_storage_encrypted/user_storage_encrypted_api_contract.h`
+- `include/user_storage_encrypted/gocryptfs_backend.hpp`
+- `include/user_storage_encrypted/key_derivation_service.hpp`
+- `include/user_storage_encrypted/multi_level_storage.hpp`
+- `src/user_storage_encrypted/gocryptfs_backend.cpp`
+- `src/user_storage_encrypted/key_derivation_service.cpp`
+- `src/user_storage_encrypted/key_rotation_scheduler.cpp`
+- `src/user_storage_encrypted/multi_level_storage.cpp`
