@@ -14,11 +14,14 @@ Exact model backend not verifiable from final document text alone.
 
 # `src/retrieval/src/` implementation
 
-The only translation unit in this directory is `lora_package.cc`. The local
+The translation units in this directory are `lora_package.cc` and
+`lora_package_config.cc`. The local
 [`CMakeLists.txt`](../CMakeLists.txt) builds it into the static
 `themis_retrieval` target. It implements JSON serialization, manifest
-SHA-256 helpers, in-memory manifest-store operations, and optional signature
-callback checks.
+SHA-256 helpers, persistent RocksDB manifest-store operations, YAML runtime
+settings parsing, and fail-closed Ed25519 verification through the shared
+pinned-key primitive. The target also compiles the existing RAG quality gate
+controller implementation for the artifact deployment boundary.
 
 `dual_read_validator.cpp` is a sibling of this directory, not a file in it. It
 implements `DualReadValidator`, but it is not included in the

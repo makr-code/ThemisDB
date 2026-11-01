@@ -8,7 +8,7 @@
  *   - PortableAdapterProduct construction, serialization, and deserialization
  *   - LoRAManifestStore CRUD operations for both artifact types
  *   - Integrity: manifest-hash computation and hash-mismatch detection
- *   - Integrity: signature-verifier callback integration (sign + verify)
+ *   - Integrity: pinned Ed25519 signature verification (sign + verify)
  *   - Status lifecycle transitions (enum → string → enum round-trip)
  *   - Policy and provenance field round-trip
  *   - Edge cases: empty IDs, missing required fields, unknown status strings
@@ -22,6 +22,11 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
+#include <atomic>
+#include <chrono>
+#include <filesystem>
+#include <openssl/evp.h>
+#include "plugins/pinned_ed25519_verifier.h"
 
 using namespace themis::retrieval;
 
@@ -30,6 +35,99 @@ using namespace themis::retrieval;
 // ============================================================================
 
 namespace {
+
+std::vector<uint8_t> testPrivateSeed() {
+    std::vector<uint8_t> seed(32);
+    for (size_t i = 0; i < seed.size(); ++i) {
+        seed[i] = static_cast<uint8_t>(i + 1);
+    }
+    return seed;
+}
+
+themis::plugins::PinnedKey testPinnedKey() {
+    const auto seed = testPrivateSeed();
+    auto* key = EVP_PKEY_new_raw_private_key(
+        EVP_PKEY_ED25519, nullptr, seed.data(), seed.size());
+    if (!key) {
+        throw std::runtime_error("failed to construct test Ed25519 key");
+    }
+    themis::plugins::PinnedKey pin;
+    pin.public_key.resize(32);
+    size_t size = pin.public_key.size();
+    const int result =
+        EVP_PKEY_get_raw_public_key(key, pin.public_key.data(), &size);
+    EVP_PKEY_free(key);
+    if (result != 1 || size != 32) {
+        throw std::runtime_error("failed to extract test Ed25519 public key");
+    }
+    pin.public_key.resize(size);
+    pin.fingerprint =
+        themis::plugins::pinned_ed25519::fingerprint(pin.public_key);
+    pin.label = "retrieval unit test key";
+    return pin;
+}
+
+std::string signHash(const std::string& hash) {
+    const auto seed = testPrivateSeed();
+    auto* key = EVP_PKEY_new_raw_private_key(
+        EVP_PKEY_ED25519, nullptr, seed.data(), seed.size());
+    auto* context = EVP_MD_CTX_new();
+    if (!key || !context ||
+        EVP_DigestSignInit(context, nullptr, nullptr, nullptr, key) != 1) {
+        EVP_MD_CTX_free(context);
+        EVP_PKEY_free(key);
+        throw std::runtime_error("failed to initialize test Ed25519 signer");
+    }
+    std::vector<uint8_t> signature(64);
+    size_t signature_size = signature.size();
+    const int sign_result = EVP_DigestSign(
+        context, signature.data(), &signature_size,
+        reinterpret_cast<const unsigned char*>(hash.data()), hash.size());
+    EVP_MD_CTX_free(context);
+    EVP_PKEY_free(key);
+    if (sign_result != 1 || signature_size != 64) {
+        throw std::runtime_error("failed to sign retrieval test manifest");
+    }
+    std::string encoded(89, '\0');
+    const int encoded_size = EVP_EncodeBlock(
+        reinterpret_cast<unsigned char*>(encoded.data()), signature.data(),
+        static_cast<int>(signature.size()));
+    if (encoded_size != 88) {
+        throw std::runtime_error("failed to encode test signature");
+    }
+    encoded.resize(static_cast<size_t>(encoded_size));
+    return encoded;
+}
+
+LoRAManifestStore::RuntimeConfig makeStoreConfig() {
+    static std::atomic<uint64_t> next_id{0};
+    LoRAManifestStore::RuntimeConfig config;
+    config.database_path =
+        (std::filesystem::temp_directory_path() /
+         ("themis-epic1-retrieval-test-" +
+          std::to_string(std::chrono::steady_clock::now()
+                             .time_since_epoch().count()) + "-" +
+          std::to_string(next_id.fetch_add(1)))).string();
+    const auto pin = testPinnedKey();
+    config.pinned_keys.push_back(pin);
+    config.quality_gate =
+        std::make_shared<themis::rag::quality::DeploymentGateController>();
+    return config;
+}
+
+void signPackage(LoRAPackage& package) {
+    package.computeManifestHash();
+    package.integrity.signature = signHash(package.integrity.manifest_hash);
+    package.integrity.signature_algorithm = "Ed25519";
+    package.integrity.signer_id = testPinnedKey().fingerprint;
+}
+
+void signProduct(PortableAdapterProduct& product) {
+    product.computeManifestHash();
+    product.integrity.signature = signHash(product.integrity.manifest_hash);
+    product.integrity.signature_algorithm = "Ed25519";
+    product.integrity.signer_id = testPinnedKey().fingerprint;
+}
 
 LoRAPackage makeValidPackage(const std::string& id = "pkg-001") {
     LoRAPackage p;
@@ -56,6 +154,7 @@ LoRAPackage makeValidPackage(const std::string& id = "pkg-001") {
     p.policy.license         = "MIT";
     p.policy.restrictions    = "Research use only";
     p.policy.allowed_base_models = {"llama-3-8b", "mistral-7b"};
+    signPackage(p);
     return p;
 }
 
@@ -78,6 +177,7 @@ PortableAdapterProduct makeValidProduct(const std::string& id = "prod-001",
     pr.status                  = AdapterProductStatus::READY;
     pr.created_at              = "2026-07-01T01:00:00Z";
     pr.updated_at              = "2026-07-01T01:00:00Z";
+    signProduct(pr);
     return pr;
 }
 
@@ -206,21 +306,24 @@ TEST(LoRAPackageTest, FromJson_ThrowsOnMissingPackageId) {
     json j;
     j["name"]    = "x";
     j["version"] = "1.0.0";
-    EXPECT_THROW(LoRAPackage::from_json(j), std::invalid_argument);
+    EXPECT_THROW(static_cast<void>(LoRAPackage::from_json(j)),
+                 std::invalid_argument);
 }
 
 TEST(LoRAPackageTest, FromJson_ThrowsOnMissingName) {
     json j;
     j["package_id"] = "x";
     j["version"]    = "1.0.0";
-    EXPECT_THROW(LoRAPackage::from_json(j), std::invalid_argument);
+    EXPECT_THROW(static_cast<void>(LoRAPackage::from_json(j)),
+                 std::invalid_argument);
 }
 
 TEST(LoRAPackageTest, FromJson_ThrowsOnMissingVersion) {
     json j;
     j["package_id"] = "x";
     j["name"]       = "y";
-    EXPECT_THROW(LoRAPackage::from_json(j), std::invalid_argument);
+    EXPECT_THROW(static_cast<void>(LoRAPackage::from_json(j)),
+                 std::invalid_argument);
 }
 
 // ============================================================================
@@ -334,21 +437,24 @@ TEST(PortableAdapterProductTest, FromJson_ThrowsOnMissingProductId) {
     json j;
     j["source_package_id"]    = "pkg-x";
     j["target_base_model_id"] = "llama-3-8b";
-    EXPECT_THROW(PortableAdapterProduct::from_json(j), std::invalid_argument);
+    EXPECT_THROW(static_cast<void>(PortableAdapterProduct::from_json(j)),
+                 std::invalid_argument);
 }
 
 TEST(PortableAdapterProductTest, FromJson_ThrowsOnMissingSourcePackageId) {
     json j;
     j["product_id"]           = "prod-x";
     j["target_base_model_id"] = "llama-3-8b";
-    EXPECT_THROW(PortableAdapterProduct::from_json(j), std::invalid_argument);
+    EXPECT_THROW(static_cast<void>(PortableAdapterProduct::from_json(j)),
+                 std::invalid_argument);
 }
 
 TEST(PortableAdapterProductTest, FromJson_ThrowsOnMissingTargetBaseModelId) {
     json j;
     j["product_id"]        = "prod-x";
     j["source_package_id"] = "pkg-x";
-    EXPECT_THROW(PortableAdapterProduct::from_json(j), std::invalid_argument);
+    EXPECT_THROW(static_cast<void>(PortableAdapterProduct::from_json(j)),
+                 std::invalid_argument);
 }
 
 // ============================================================================
@@ -441,7 +547,7 @@ TEST(IntegrityHelperTest, Sha256Hex_Bytes_MatchesStringOverload) {
 // ============================================================================
 
 TEST(LoRAManifestStoreTest, StoreAndLoad_Package) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     const auto pkg = makeValidPackage("pkg-crud-1");
     ASSERT_TRUE(store.storePackage(pkg));
     const auto loaded = store.loadPackage("pkg-crud-1");
@@ -450,12 +556,12 @@ TEST(LoRAManifestStoreTest, StoreAndLoad_Package) {
 }
 
 TEST(LoRAManifestStoreTest, LoadPackage_NotFound_ReturnsNullopt) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     EXPECT_FALSE(store.loadPackage("nonexistent").has_value());
 }
 
 TEST(LoRAManifestStoreTest, DeletePackage_RemovesEntry) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     const auto pkg = makeValidPackage("pkg-del");
     store.storePackage(pkg);
     ASSERT_TRUE(store.deletePackage("pkg-del"));
@@ -463,12 +569,12 @@ TEST(LoRAManifestStoreTest, DeletePackage_RemovesEntry) {
 }
 
 TEST(LoRAManifestStoreTest, DeletePackage_NotFound_ReturnsFalse) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     EXPECT_FALSE(store.deletePackage("ghost"));
 }
 
 TEST(LoRAManifestStoreTest, StorePackage_EmptyId_ReturnsFalse) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     LoRAPackage pkg;
     // package_id is empty
     EXPECT_FALSE(store.storePackage(pkg));
@@ -476,7 +582,7 @@ TEST(LoRAManifestStoreTest, StorePackage_EmptyId_ReturnsFalse) {
 }
 
 TEST(LoRAManifestStoreTest, ListPackageIds) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     store.storePackage(makeValidPackage("p1"));
     store.storePackage(makeValidPackage("p2"));
     const auto ids = store.listPackageIds();
@@ -484,7 +590,7 @@ TEST(LoRAManifestStoreTest, ListPackageIds) {
 }
 
 TEST(LoRAManifestStoreTest, ListPackagesByStatus) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     auto p1 = makeValidPackage("ps1");
     p1.status = LoRAPackageStatus::DRAFT;
     auto p2 = makeValidPackage("ps2");
@@ -506,7 +612,7 @@ TEST(LoRAManifestStoreTest, ListPackagesByStatus) {
 // ============================================================================
 
 TEST(LoRAManifestStoreTest, StoreAndLoad_Product) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     const auto prod = makeValidProduct("prod-c1");
     ASSERT_TRUE(store.storeProduct(prod));
     const auto loaded = store.loadProduct("prod-c1");
@@ -515,21 +621,21 @@ TEST(LoRAManifestStoreTest, StoreAndLoad_Product) {
 }
 
 TEST(LoRAManifestStoreTest, DeleteProduct_RemovesEntry) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     store.storeProduct(makeValidProduct("prod-del"));
     ASSERT_TRUE(store.deleteProduct("prod-del"));
     EXPECT_FALSE(store.loadProduct("prod-del").has_value());
 }
 
 TEST(LoRAManifestStoreTest, StoreProduct_EmptyId_ReturnsFalse) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     PortableAdapterProduct prod;
     // product_id and source_package_id are both empty
     EXPECT_FALSE(store.storeProduct(prod));
 }
 
 TEST(LoRAManifestStoreTest, ListProductsByPackage) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     store.storeProduct(makeValidProduct("pr1", "pkg-A"));
     store.storeProduct(makeValidProduct("pr2", "pkg-A"));
     store.storeProduct(makeValidProduct("pr3", "pkg-B"));
@@ -544,16 +650,16 @@ TEST(LoRAManifestStoreTest, ListProductsByPackage) {
 }
 
 TEST(LoRAManifestStoreTest, ListProductsByStatus) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     auto p1 = makeValidProduct("ps1");
     p1.status = AdapterProductStatus::READY;
     auto p2 = makeValidProduct("ps2");
     p2.status = AdapterProductStatus::DEPLOYED;
     store.storeProduct(p1);
-    store.storeProduct(p2);
+    EXPECT_FALSE(store.storeProduct(p2));
 
     EXPECT_EQ(store.listProductsByStatus(AdapterProductStatus::READY).size(),    1u);
-    EXPECT_EQ(store.listProductsByStatus(AdapterProductStatus::DEPLOYED).size(), 1u);
+    EXPECT_EQ(store.listProductsByStatus(AdapterProductStatus::DEPLOYED).size(), 0u);
     EXPECT_EQ(store.listProductsByStatus(AdapterProductStatus::FAILED).size(),   0u);
 }
 
@@ -561,98 +667,77 @@ TEST(LoRAManifestStoreTest, ListProductsByStatus) {
 // LoRAManifestStore — integrity verification
 // ============================================================================
 
-TEST(LoRAManifestStoreTest, VerifyPackageIntegrity_ValidHash_ReturnsTrue) {
-    LoRAManifestStore store;
+TEST(LoRAManifestStoreTest, VerifyPackageIntegrity_HashOnlyFailsWithoutSignature) {
+    LoRAManifestStore store(makeStoreConfig());
     auto pkg = makeValidPackage("pkg-vi");
-    pkg.computeManifestHash();
-    store.storePackage(pkg);
-    EXPECT_TRUE(store.verifyPackageIntegrity("pkg-vi"));
+    pkg.integrity.signature.clear();
+    EXPECT_FALSE(store.storePackage(pkg));
+    EXPECT_FALSE(store.verifyPackageIntegrity("pkg-vi"));
 }
 
 TEST(LoRAManifestStoreTest, VerifyPackageIntegrity_TamperedField_ReturnsFalse) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     auto pkg = makeValidPackage("pkg-tamper");
     pkg.computeManifestHash();
     store.storePackage(pkg);
 
-    // Retrieve, tamper, and re-store without recomputing hash
+    // Retrieve, tamper, and attempt to re-store without recomputing/signing.
     auto loaded = store.loadPackage("pkg-tamper").value();
     loaded.description = "TAMPERED";
-    store.storePackage(loaded);
+    EXPECT_FALSE(store.storePackage(loaded));
 
-    EXPECT_FALSE(store.verifyPackageIntegrity("pkg-tamper"));
+    EXPECT_TRUE(store.verifyPackageIntegrity("pkg-tamper"));
 }
 
 TEST(LoRAManifestStoreTest, VerifyPackageIntegrity_EmptyHash_ReturnsFalse) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     auto pkg = makeValidPackage("pkg-nohash");
-    // Do NOT call computeManifestHash()
-    store.storePackage(pkg);
+    pkg.integrity.manifest_hash.clear();
+    EXPECT_FALSE(store.storePackage(pkg));
     EXPECT_FALSE(store.verifyPackageIntegrity("pkg-nohash"));
 }
 
 TEST(LoRAManifestStoreTest, VerifyPackageIntegrity_NotFound_ReturnsFalse) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     EXPECT_FALSE(store.verifyPackageIntegrity("nonexistent"));
 }
 
-TEST(LoRAManifestStoreTest, VerifyProductIntegrity_ValidHash_ReturnsTrue) {
-    LoRAManifestStore store;
+TEST(LoRAManifestStoreTest, VerifyProductIntegrity_HashOnlyFailsWithoutSignature) {
+    LoRAManifestStore store(makeStoreConfig());
     auto prod = makeValidProduct("prod-vi");
-    prod.computeManifestHash();
-    store.storeProduct(prod);
-    EXPECT_TRUE(store.verifyProductIntegrity("prod-vi"));
+    prod.integrity.signature.clear();
+    EXPECT_FALSE(store.storeProduct(prod));
+    EXPECT_FALSE(store.verifyProductIntegrity("prod-vi"));
 }
 
 TEST(LoRAManifestStoreTest, VerifyProductIntegrity_TamperedField_ReturnsFalse) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     auto prod = makeValidProduct("prod-tamper");
-    prod.computeManifestHash();
-    store.storeProduct(prod);
+    ASSERT_TRUE(store.storeProduct(prod));
 
     auto loaded = store.loadProduct("prod-tamper").value();
     loaded.quantization = "INT4"; // tamper
-    store.storeProduct(loaded);
+    EXPECT_FALSE(store.storeProduct(loaded));
 
-    EXPECT_FALSE(store.verifyProductIntegrity("prod-tamper"));
+    EXPECT_TRUE(store.verifyProductIntegrity("prod-tamper"));
 }
 
 // ============================================================================
 // LoRAManifestStore — signature verifier integration
 // ============================================================================
 
-TEST(LoRAManifestStoreTest, SignatureVerifier_CalledOnVerifyPackageIntegrity) {
-    LoRAManifestStore store;
-    bool verifier_called = false;
-    store.setSignatureVerifier(
-        [&](const std::string&, const std::string&, const std::string&) -> bool {
-            verifier_called = true;
-            return true;
-        });
-
+TEST(LoRAManifestStoreTest, PinnedEd25519VerifierAcceptsValidPackage) {
+    LoRAManifestStore store(makeStoreConfig());
     auto pkg = makeValidPackage("pkg-sig");
-    pkg.computeManifestHash();
-    pkg.integrity.signature           = "fake-sig";
-    pkg.integrity.signature_algorithm = "Ed25519";
-    pkg.integrity.signer_id           = "key-1";
-    store.storePackage(pkg);
-
+    ASSERT_TRUE(store.storePackage(pkg));
     EXPECT_TRUE(store.verifyPackageIntegrity("pkg-sig"));
-    EXPECT_TRUE(verifier_called);
 }
 
-TEST(LoRAManifestStoreTest, SignatureVerifier_ReturnsFalse_FailsVerification) {
-    LoRAManifestStore store;
-    store.setSignatureVerifier(
-        [](const std::string&, const std::string&, const std::string&) -> bool {
-            return false; // Simulate bad signature
-        });
-
+TEST(LoRAManifestStoreTest, PinnedEd25519VerifierRejectsInvalidSignature) {
+    LoRAManifestStore store(makeStoreConfig());
     auto pkg = makeValidPackage("pkg-badsig");
-    pkg.computeManifestHash();
-    pkg.integrity.signature = "bad-sig";
-    store.storePackage(pkg);
-
+    pkg.integrity.signature = "invalid";
+    EXPECT_FALSE(store.storePackage(pkg));
     EXPECT_FALSE(store.verifyPackageIntegrity("pkg-badsig"));
 }
 
@@ -661,14 +746,14 @@ TEST(LoRAManifestStoreTest, SignatureVerifier_ReturnsFalse_FailsVerification) {
 // ============================================================================
 
 TEST(LoRAManifestStoreTest, ExportImportPackages_RoundTrip) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     store.storePackage(makeValidPackage("exp1"));
     store.storePackage(makeValidPackage("exp2"));
 
     const auto exported = store.exportPackages();
     ASSERT_EQ(exported.size(), 2u);
 
-    LoRAManifestStore store2;
+    LoRAManifestStore store2(makeStoreConfig());
     const auto imported = store2.importPackages(exported);
     EXPECT_EQ(imported, 2u);
     EXPECT_EQ(store2.packageCount(), 2u);
@@ -677,21 +762,21 @@ TEST(LoRAManifestStoreTest, ExportImportPackages_RoundTrip) {
 }
 
 TEST(LoRAManifestStoreTest, ExportImportProducts_RoundTrip) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     store.storeProduct(makeValidProduct("ep1", "pkg-x"));
     store.storeProduct(makeValidProduct("ep2", "pkg-x"));
 
     const auto exported = store.exportProducts();
     ASSERT_EQ(exported.size(), 2u);
 
-    LoRAManifestStore store2;
+    LoRAManifestStore store2(makeStoreConfig());
     const auto imported = store2.importProducts(exported);
     EXPECT_EQ(imported, 2u);
     EXPECT_EQ(store2.productCount(), 2u);
 }
 
 TEST(LoRAManifestStoreTest, ImportPackages_MalformedEntry_Skipped) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     json arr = json::array();
     arr.push_back({{"name", "missing-id-field"}, {"version", "1.0.0"}});  // malformed
     arr.push_back(makeValidPackage("good-pkg").to_json());                   // valid
@@ -706,7 +791,7 @@ TEST(LoRAManifestStoreTest, ImportPackages_MalformedEntry_Skipped) {
 // ============================================================================
 
 TEST(LoRAManifestStoreTest, PackageAndProductCount) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     EXPECT_EQ(store.packageCount(), 0u);
     EXPECT_EQ(store.productCount(), 0u);
 
@@ -723,12 +808,12 @@ TEST(LoRAManifestStoreTest, PackageAndProductCount) {
 // ============================================================================
 
 TEST(LoRALifecycleIntegrationTest, FullPipelinePackageToDeployedProduct) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
 
     // Step 1: Create DRAFT package
     auto pkg = makeValidPackage("lifecycle-pkg");
     pkg.status = LoRAPackageStatus::DRAFT;
-    pkg.computeManifestHash();
+    signPackage(pkg);
     store.storePackage(pkg);
     EXPECT_TRUE(store.verifyPackageIntegrity("lifecycle-pkg"));
 
@@ -736,7 +821,7 @@ TEST(LoRALifecycleIntegrationTest, FullPipelinePackageToDeployedProduct) {
     {
         auto p = store.loadPackage("lifecycle-pkg").value();
         p.status = LoRAPackageStatus::VALIDATED;
-        p.computeManifestHash();
+        signPackage(p);
         store.storePackage(p);
     }
     EXPECT_EQ(store.loadPackage("lifecycle-pkg")->status, LoRAPackageStatus::VALIDATED);
@@ -744,27 +829,28 @@ TEST(LoRALifecycleIntegrationTest, FullPipelinePackageToDeployedProduct) {
     // Step 3: Build product from validated package
     auto prod = makeValidProduct("lifecycle-prod", "lifecycle-pkg");
     prod.status = AdapterProductStatus::BUILDING;
+    signProduct(prod);
     store.storeProduct(prod);
 
     // Step 4: Mark product READY with hash
     {
         auto p = store.loadProduct("lifecycle-prod").value();
         p.status = AdapterProductStatus::READY;
-        p.computeManifestHash();
+        signProduct(p);
         store.storeProduct(p);
     }
     EXPECT_TRUE(store.verifyProductIntegrity("lifecycle-prod"));
     EXPECT_EQ(store.loadProduct("lifecycle-prod")->status, AdapterProductStatus::READY);
 
-    // Step 5: Deploy
+    // Product status cannot be set by ordinary CRUD; deployment is gated.
     {
         auto p = store.loadProduct("lifecycle-prod").value();
         p.status      = AdapterProductStatus::DEPLOYED;
         p.deployed_at = "2026-07-01T12:00:00Z";
         p.computeManifestHash();
-        store.storeProduct(p);
+        EXPECT_FALSE(store.storeProduct(p));
     }
-    EXPECT_EQ(store.listProductsByStatus(AdapterProductStatus::DEPLOYED).size(), 1u);
+    EXPECT_EQ(store.listProductsByStatus(AdapterProductStatus::DEPLOYED).size(), 0u);
 
     // Step 6: Deprecate source package (products still valid)
     {

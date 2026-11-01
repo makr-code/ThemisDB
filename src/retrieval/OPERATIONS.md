@@ -22,15 +22,26 @@ This document records the limited callable behavior and operational boundaries o
 
 The checked-in code exposes these narrow operations:
 
-1. keep packages and products in a process-local, mutex-protected map,
-2. allow callers to verify manifest hashes and optionally invoke a signature callback,
-3. compute metrics from explicitly supplied result and ground-truth vectors.
+1. keep packages and products in a mutex-protected cache backed by an explicit RocksDB path,
+2. verify manifest hashes and require pinned-signer signature verification,
+3. deploy products only after quality `kAllow` and independent service authorization,
+4. compute metrics from explicitly supplied result and ground-truth vectors.
 
 These APIs do not enforce artifact governance or perform live retrieval validation.
 
 ## Runtime inputs and outputs
 
 ### Package registry lifecycle
+
+The application must load `config/ai_ml/retrieval.yaml` through
+`RuntimeConfig::loadFromThemisConfig()` or construct the production store with
+`openFromThemisConfig()`. The YAML file must contain a dedicated persistent
+RocksDB path and administrator-provisioned Ed25519 public-key pins; an empty or
+invalid pin set prevents startup. Keep the database path dedicated to this
+store and protected by service filesystem/storage controls. When deployment is
+required, inject the quality controller and the distinct authorization callback
+from the owning deployment service; without authorization, `deployProduct()`
+denies.
 
 Inputs to the store include:
 
@@ -72,14 +83,20 @@ Key signals to watch:
 - a warning when a query has no cached ground truth,
 - metric helper results supplied to `HasRegression()` by a caller.
 
-The store does not emit lifecycle-transition or audit events. The signature callback is only invoked when configured and a signature is non-empty; absence of either does not fail a matching manifest hash.
+The store does not emit lifecycle-transition or audit events. Missing or
+invalid signatures, unpinned signers, bad hashes, missing quality controller,
+and missing/denied/throwing authorization all fail closed. The quality
+controller evaluates regression only and cannot authorize an operation.
 
 ## Safety posture
 
-The module does not implement a general fail-closed operational policy:
+The module does not implement a general retrieval fail-closed operational policy:
 
 - selected missing/malformed JSON fields can throw, while many fields remain optional,
-- explicit hash verification returns false for missing records, empty manifest hashes, or hash mismatches,
+- production writes/imports reject artifacts with missing records, hashes,
+  signatures, pins, or failed Ed25519 verification; invalid persisted records
+  prevent startup,
+- deployment requires explicit owning-service authorization and quality allow,
 - metrics are only informative when supplied with real results and judgments,
 - no automatic promotion/rollback decision is implemented.
 
@@ -87,9 +104,9 @@ The module does not implement a general fail-closed operational policy:
 
 If an application builds on these APIs, it must independently decide:
 
-- how artifact data is persisted and protected,
-- whether signatures are mandatory and which trusted verifier is used,
-- how lifecycle/deployment authorization is enforced,
+- how the RocksDB path and signer keys in `config/ai_ml/retrieval.yaml` are
+  provisioned/rotated/protected,
+- how the owning service implements and audits deployment authorization,
 - how real retrieval results and ground truth are obtained,
 - how verification failures and operational recovery are handled.
 

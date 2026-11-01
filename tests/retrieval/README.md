@@ -27,7 +27,7 @@ The tests are not all integration tests of production retrieval behavior:
 | File | What it exercises | Boundary |
 |---|---|---|
 | `test_dual_read_validator.cpp` | Metric calculations, regression helpers, ground-truth storage, and batch behavior | Compiles `src/retrieval/dual_read_validator.cpp` directly; its `ExecuteQuery()` is still an empty-result placeholder. |
-| `test_retrieval_llm_reranking_focused.cpp` | `LoRAManifestStore` package store/load and status listing | Despite its filename, it is a LoRA manifest-store smoke test; it compiles `src/retrieval/src/lora_package.cc` directly. |
+| `test_retrieval_llm_reranking_focused.cpp` | RocksDB reopen persistence, config validation, signature pins/callback, deployment auth, quality allow/deny, and concurrency | Exercises the production `themis_retrieval` target; the authorization callback is a test boundary, not owner/RBAC implementation. |
 | `test_retrieval_hybrid_parity_focused.cpp` | Test-local `MockExactRetriever`, `MockANNRetriever`, and `HybridRetrieverEngine` behavior | Self-contained mocks; it does not call a production hybrid retriever. |
 | `test_retrieval_lora_trust_boundary_focused.cpp` | `AdapterConsistencyChecker` and a test-local signer allowlist | Exercises LLM LoRA checker code plus a local mock trust registry, not `LoRAManifestStore` signature policy. |
 | `test_retrieval_highcardinality_stress.cpp` | Local stub routing table/shards and synthetic concurrency/failover loops | Does not exercise a production retrieval router or shard implementation. |
@@ -40,6 +40,7 @@ cmake --build build
 ctest --test-dir build -L retrieval --output-on-failure
 ```
 
-The module's test CMake file links focused executables with `themis_core`,
-`spdlog`, threads, and the repository's test libraries. Runtime test registration
-and target availability depend on the repository's top-level test configuration.
+The module's test CMake file links focused executables with `themis_retrieval`,
+`themis_core`, `spdlog`, threads, and the repository's test libraries. Runtime
+test registration and target availability depend on the repository's top-level
+test configuration.

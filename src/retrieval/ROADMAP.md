@@ -26,13 +26,17 @@ Exact model backend not verifiable from final document text alone.
 
 # Retrieval Module Roadmap and status
 
-## Verified current state (2026-10-31)
+## Verified current state (2026-11-01)
 
-- `themis_retrieval` is a static C++17 target built from `src/lora_package.cc`; it is enabled by default through `THEMIS_BUILD_RETRIEVAL`.
-- `LoRAManifestStore` is mutex-protected in-memory storage with package/product CRUD, import/export, manifest-hash verification, and an optional signature-verifier callback. It is not persistent and does not enforce lifecycle or deployment policy.
+- `themis_retrieval` is a static C++17 target built from the artifact store and the existing RAG quality-gate controller implementation; it is enabled by default through `THEMIS_BUILD_RETRIEVAL`.
+- `LoRAManifestStore::openFromThemisConfig()` loads `config/ai_ml/retrieval.yaml` through `ConfigPathResolver` and yaml-cpp, requires a non-empty DB path and valid Ed25519 pins, and uses synchronous RocksDB writes. On reopen it rejects malformed or invalidly signed records.
+- Every production write/import requires a matching manifest hash and a valid Ed25519 signature over `manifest_hash`, verified by the shared pinned-key primitive used by `SignedPluginRepository`. Administrators must provision/rotate public-key pins in the canonical YAML config.
+- A source-compatible no-argument constructor remains isolated non-production mode and rejects all artifact writes/imports and deployment.
+- `deployProduct()` uses `DeploymentGateController` for quality-only evaluation and requires an independent deployment-authorization callback. Missing authorization or quality wiring denies deployment. No owner/RBAC policy is implemented or invented here; no source-backed deployment-service composition currently supplies the callback.
+- Production callers use the canonical YAML loader and inject the quality controller and authorization callback from the owning composition service when deployment is needed. Default-constructed callers cannot store artifacts or deploy.
 - `DualReadValidator` is declared in `include/retrieval/dual_read_validator.h`; its `ExecuteQuery()` returns an empty result vector. `ValidateQuery()` does not return a comparison delta.
 - Five focused retrieval test sources exist under `tests/retrieval/`; several are test-local mocks or stubs. The dedicated benchmark is synthetic routing and stub CPU/GPU work.
-- No production retrieval runtime, runtime configuration system, production benchmark baseline, or production-readiness approval is established by these files.
+- The LoRA artifact registry now has persistence, typed runtime configuration, signed-artifact checks, and gated deployment entry behavior. This does not establish a production retrieval runtime, deployment-service authorization wiring, production benchmark baseline, or production-readiness approval.
 
 The remainder of this file retains an older rollout plan as historical
 planning material. Its checkboxes, issue statuses, test/benchmark results,
@@ -101,8 +105,8 @@ identified.
 
 **Phase 4: Tests**
 - [x] 55 GTest cases in `tests/epic1_retrieval/lora_package_test.cc`
-- [x] Coverage: serialization round-trips, lifecycle status, integrity hash, signature
-      verifier callback, CRUD operations, bulk export/import, lifecycle integration test
+- [x] Coverage: serialization round-trips, lifecycle status, integrity hash,
+      Ed25519 signatures, CRUD operations, bulk export/import, lifecycle integration test
 
 **Phase 5: Performance and Hardening**
 - [x] Benchmark suite in `benchmarks/epic1_retrieval/lora_loading_bench.cc` (12 BM_ scenarios)

@@ -28,6 +28,9 @@ umbrella placeholder, not a declaration of a retrieval engine.
 
 No ANN front door, tensor mid-layer, graph validator, model-switch, federated
 summary, or retrieval-observability headers are present in this directory.
-`LoRAManifestStore` is in-memory and does not implement deployment or lifecycle
-policy enforcement. See the [module API reference](../API.md) and
+`LoRAManifestStore(RuntimeConfig)` persists artifacts through RocksDB. Its
+source-compatible default constructor is test-only and rejects artifact writes;
+production uses the YAML/config-resolver path and requires signatures. Deployment
+remains subject to separate quality and authorization checks. See the
+[module API reference](../API.md) and
 [architecture](../ARCHITECTURE.md) for current behavior.

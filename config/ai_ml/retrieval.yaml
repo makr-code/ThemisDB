@@ -1,0 +1,14 @@
+# Canonical runtime configuration for retrieval artifact persistence.
+# Provision one or more administrator-approved Ed25519 public keys before
+# starting a service that constructs the production LoRAManifestStore.
+retrieval:
+  artifact_registry:
+    database_path: /var/lib/themisdb/retrieval-artifacts
+    # Each entry requires:
+    #   fingerprint: SHA-256 fingerprint of the raw 32-byte public key
+    #   public_key_hex: 64 hexadecimal characters
+    #   label: administrator-readable key label
+    #
+    # An empty list is intentionally invalid at runtime. Do not copy test keys
+    # into production configuration.
+    pinned_keys: []

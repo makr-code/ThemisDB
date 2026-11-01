@@ -23,22 +23,18 @@ Exact model backend not verifiable from final document text alone.
 
 # Retrieval production requirements: implementation boundary
 
-This page is not evidence that the retrieval module is production-ready, and
-the requirements and approval gates previously described here were not
-implemented by the checked-in retrieval sources. No production deployment
-policy or runtime configuration contract can be established from this module.
+This page is not evidence that the retrieval module is production-ready. The
+artifact registry now has an explicit runtime config and RocksDB persistence,
+but application authorization wiring, key lifecycle, and production acceptance
+remain external or unestablished.
 
 ## What the code provides
 
-- `themis_retrieval` is a C++17 static library built from `src/lora_package.cc`,
+- `themis_retrieval` is a C++17 static library built from the artifact store and quality gate source,
   controlled by the default-ON build option `THEMIS_BUILD_RETRIEVAL`.
-- `LoRAManifestStore` offers mutex-protected, process-local package/product
-  maps, CRUD/list operations, and JSON import/export. It has no persistent
-  backend, bounded cache, audit log, or lifecycle/deployment-policy engine.
-- Manifest verification checks that a stored manifest hash is non-empty and
-  matches the canonicalized data. An optional signature callback is called
-  only if both a callback and a non-empty signature are present. No callback
-  or signature is required by the implementation.
+- `LoRAManifestStore::openFromThemisConfig()` loads `config/ai_ml/retrieval.yaml` via `ConfigPathResolver`/yaml-cpp and requires a database path plus at least one valid pinned key before opening RocksDB.
+- Every production artifact write/import and persisted record reload requires a matching manifest hash and a valid Ed25519 signature over that hash using the shared pinned-key verifier. The no-argument compatibility constructor rejects all writes.
+- `deployProduct()` applies quality-only gating and requires a distinct authorization callback. This is a boundary, not a local access-control policy.
 - `DualReadValidator::ExecuteQuery()` returns an empty vector. The validator
   does not connect to indexes or provide production dual-read execution.
 - No module-specific runtime configuration exists beyond
@@ -47,17 +43,16 @@ policy or runtime configuration contract can be established from this module.
 
 ## Not established here
 
-This module does not supply or verify persistent storage, signer/key
-management, access control, lifecycle transitions, deployment authorization,
-operator audit events, resource limits, shard coordination, ANN routing,
-GPU execution, or production performance acceptance. Do not treat the
+This module does not supply owner/RBAC policy, public-key provisioning or
+rotation, source-backed authorization callback wiring, operator audit events,
+resource limits, shard coordination, ANN routing, GPU execution, or production
+performance acceptance. Do not treat the
 historical Phase A-D claims or the synthetic benchmark as implementation or
 approval evidence.
 
 ## Follow-up
 
-Before a production requirements contract can be written, the responsible
-owners must identify the intended runtime integration and authoritative
-security/deployment policies. Those requirements are unresolved by this
-source review; this page does not guess them. See [module architecture](ARCHITECTURE.md),
+The owning deployment service must be identified and wired to supply the
+authorization callback and key-verification composition. This page does not
+guess the service's policy. See [module architecture](ARCHITECTURE.md),
 [security boundaries](SECURITY.md), and [roadmap status](ROADMAP.md).

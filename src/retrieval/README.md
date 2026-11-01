@@ -35,7 +35,15 @@ The top-level `include/retrieval/retrieval.h` is currently a placeholder umbrell
 
 ## Artifact store behavior and limits
 
-`LoRAManifestStore` stores packages and products in in-memory `std::unordered_map`s protected by a mutex. It supports CRUD, listing, JSON import/export, manifest SHA-256 verification, and an optional signature-verifier callback. Verification invokes that callback only when both a callback and a non-empty signature are present; without them, a valid manifest hash is sufficient for the method to return true. The store is not persistent and does not enforce lifecycle transitions, deployment authorization, or deployment policy.
+`LoRAManifestStore::openFromThemisConfig()` is the production entry point. It loads `config/ai_ml/retrieval.yaml` through `ConfigPathResolver` and yaml-cpp, requires a non-empty RocksDB path and valid Ed25519 public-key pins, then opens the persistent store. Every production write/import verifies the content hash and detached signature over `manifest_hash`; unsigned or invalid records on reopen fail construction. The source-compatible no-argument constructor is non-production and rejects all artifact writes/imports and deployments. The owning application still supplies the quality controller and separate deployment authorization callback.
+
+Artifact integrity checks fail closed unless the manifest hash matches, the
+signature and `Ed25519` algorithm label are present, signer ID is pinned, and
+the store's internally bound Ed25519 verifier accepts it. Public-key pins are
+loaded from YAML and validated against their fingerprints; callers cannot
+replace or disable the verifier.
+
+Product deployment is allowed only via `deployProduct()`: it checks signed package/product artifacts and lifecycle readiness, invokes `themis::rag::quality::DeploymentGateController`, accepts only `kAllow`, then invokes the independent authorization callback. Missing configuration, absent/denied/throwing authorization, invalid quality metrics, or persistence errors deny deployment. This module does not invent an owner/RBAC policy; the owning deployment service must provide authorization. The current repository has no source-backed composition wiring for that callback, so direct module use cannot deploy by default.
 
 ## Dual-read validation behavior and limits
 

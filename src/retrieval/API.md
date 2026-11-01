@@ -60,19 +60,73 @@ The class exposes:
 
 ### `LoRAManifestStore`
 
-`LoRAManifestStore` is an in-memory registry backed by `std::unordered_map` containers and a mutex. The API includes:
+`LoRAManifestStore(RuntimeConfig)` is the production RocksDB-backed registry.
+The canonical runtime settings are loaded from `config/ai_ml/retrieval.yaml`
+through `themis::config::ConfigPathResolver` and yaml-cpp. The YAML loader
+requires a non-empty database path and at least one valid Ed25519 pin. Each pin
+contains a fingerprint, the raw public key in hex, and an operator-readable
+label. The fingerprint must match the key bytes; malformed, missing, duplicate,
+or empty pins reject startup.
 
-- `setSignatureVerifier(...)`
+Production composition should call `LoRAManifestStore::openFromThemisConfig()`
+for storage and artifact verification, or load `RuntimeConfig` first when it
+must also attach the quality controller and owning-service authorization
+callback. Those latter dependencies are not serialized into YAML. The checked-in
+`config/ai_ml/retrieval.yaml` intentionally has no trusted keys and therefore
+fails closed until an administrator provisions the real pins.
+
+For source compatibility, `LoRAManifestStore()` remains an isolated
+non-production fixture. It has no database, keys, or verifier and rejects every
+artifact write/import and deployment.
+
+### Migration from callback verification
+
+The former `setSignatureVerifier()` injection API is intentionally removed:
+accepting arbitrary verifier callbacks would let production callers bypass the
+configured trust pins. Configure active Ed25519 public keys in
+`config/ai_ml/retrieval.yaml` and construct the persistent store with
+`openFromThemisConfig()` instead. Existing default-constructed test and
+benchmark fixtures remain source-compatible, but their writes now fail closed;
+migrate any fixture that needs valid artifact writes to a temporary RocksDB
+path and a test-only Ed25519 key pair through `RuntimeConfig`.
+
+The API includes:
+
+- `RuntimeConfig::loadFromYaml(...)` / `RuntimeConfig::loadFromThemisConfig()`
+- `openFromThemisConfig()`
 - `storePackage(...)` / `loadPackage(...)` / `deletePackage(...)`
 - `listPackageIds()` / `listPackagesByStatus(...)`
 - `storeProduct(...)` / `loadProduct(...)` / `deleteProduct(...)`
 - `listProductIds()` / `listProductsByPackage(...)` / `listProductsByStatus(...)`
 - `verifyPackageIntegrity(...)` / `verifyProductIntegrity(...)`
+- `deployProduct(...)`
 - `exportPackages()` / `importPackages(...)`
 - `exportProducts()` / `importProducts(...)`
 - `packageCount()` / `productCount()`
 
-CRUD and import/export operate on this process-local store; they do not provide persistence or enforce lifecycle/deployment policies.
+Every production package/product write and import is accepted only when the
+content hash matches and a non-empty Base64 Ed25519 signature verifies over the
+exact `manifest_hash` using the active pinned public key whose fingerprint
+matches `signer_id`. The store binds verification internally to the shared
+`themis::plugins::pinned_ed25519` primitive used by `SignedPluginRepository`;
+callers cannot replace or disable it. Invalid/unsigned persisted entries cause
+store construction to fail on reopen.
+
+`deployProduct()` accepts only a READY product with a VALIDATED source package,
+valid signatures, non-empty finite quality metrics, and an explicitly supplied
+quality controller that returns `kAllow`. It separately requires a non-empty
+deployment authorization callback and its approval. Missing/throwing/denying
+authorization, a quality warning/deny, a missing quality controller, invalid
+metrics, or persistence errors fail closed. The callback is only an integration
+boundary: this module does not define or implement owner/RBAC policy. Ordinary
+`storeProduct()` and `importProducts()` reject the DEPLOYED status; the gated
+deployment method is the sole module API that sets it.
+
+Production callers must use the canonical YAML config and inject the quality
+gate and independent deployment authorization callback through the typed
+runtime config when deployment is required. Existing default-constructed
+test/local callers remain source-compatible, but that overload has no trust
+configuration and cannot accept artifacts.
 
 ## Integrity helper API
 
@@ -121,9 +175,10 @@ The source establishes the following behavior:
 - `from_json()` requires selected identity fields but reads many remaining fields optionally; do not assume every absent field is rejected.
 - empty ground-truth input produces zero-valued quality metrics.
 - manifest verification fails for missing records, missing manifest hashes, or hash mismatches.
-- the optional signature verifier runs only if a verifier callback is configured and the artifact has a non-empty signature. A missing callback or signature does not itself fail verification when the manifest hash matches.
-- lifecycle enums are stored/serialized metadata; the store does not enforce transitions or deployment gates.
+- missing signatures, an absent verifier, an unpinned signer, a non-Ed25519 algorithm label, a hash mismatch, or verifier rejection fails artifact verification.
+- lifecycle status/update timestamps do not alter the signed content hash. DEPLOYED is rejected by ordinary product CRUD/import and can only be set by the gated deploy method.
+- a quality warning is not accepted as deployment allow; deployment also fails if the independent authorization callback or quality controller is absent.
 
 ## Conclusion
 
-The checked-in API is narrow: an in-memory LoRA artifact manifest helper and a dual-read metrics helper whose query executor remains a placeholder. It is not evidence of a complete retrieval runtime or production deployment system.
+The checked-in API is a persistent LoRA artifact registry with fail-closed signed-artifact checks and a quality-plus-authorization deployment boundary, alongside a dual-read metrics helper whose query executor remains a placeholder. It is not evidence of an integrated deployment service, owner/RBAC policy, or complete retrieval runtime.

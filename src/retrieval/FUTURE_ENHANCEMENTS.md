@@ -22,14 +22,19 @@ Exact model backend not verifiable from final document text alone.
 # Retrieval follow-up questions
 
 This is a non-normative list of open questions, not a delivery commitment or
-approved feature plan. The checked-in module currently provides an in-memory
-LoRA artifact manifest helper and a separate dual-read metrics helper whose
-query executor is a placeholder.
+approved feature plan. The LoRA artifact registry now has configured RocksDB
+persistence, fail-closed signature callback checks, and quality-gated
+deployment entry behavior. The separate dual-read metrics helper still has a
+placeholder query executor.
 
 ## Unresolved design and ownership questions
 
-- Is a persistent manifest backend intended, and if so, which owning module
-  and security policy define its storage, key management, and retention?
+- Which application/deployment-service owner will provide and operate the
+  required authorization callback? This module deliberately does not define
+  owner/RBAC policy and has no current source-backed composition wiring.
+- What are the owning service's public-key provisioning, rotation, revocation,
+  and callback audit requirements? The retrieval module checks signer-ID pins
+  and requires the callback but does not manage keys or audit decisions.
 - Is a real index integration for `DualReadValidator` intended? Identify the
   authoritative query API and test owner before specifying behavior.
 - Are ANN, hybrid retrieval, embedding, reranking, shard coordination, or GPU

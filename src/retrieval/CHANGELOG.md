@@ -22,6 +22,24 @@ Exact model backend not verifiable from final document text alone.
 All notable changes to the retrieval module are documented here.
 The format is based on Keep a Changelog.
 
+## [Unreleased]
+
+### Changed
+- Added an explicitly configured, synchronous RocksDB production path for the
+  LoRA manifest store while retaining a non-production default constructor for
+  source compatibility; that mode rejects all artifact writes and deployment.
+- Removed arbitrary `setSignatureVerifier()` injection. Callers must provision
+  pinned Ed25519 keys in retrieval YAML; see the API migration notes.
+- Added canonical `config/ai_ml/retrieval.yaml` loading through
+  `ConfigPathResolver` and yaml-cpp, with pinned-key validation using the shared
+  `SignedPluginRepository` Ed25519 verifier.
+- Production writes/imports and reopen loading now reject every unsigned,
+  malformed, or invalidly signed artifact.
+- Made artifact signature checks fail closed on missing signatures or pins and
+  bound verification to ThemisDB's shared pinned-key Ed25519 primitive.
+- Added quality-gated product deployment with an independent authorization
+  callback boundary; authorization remains owned by the deployment service.
+
 ## Historical documentation updates (legacy Unreleased section; entry dates not recorded)
 
 ### Changed

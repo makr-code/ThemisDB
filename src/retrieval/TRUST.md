@@ -16,7 +16,7 @@ Exact model backend not verifiable from final document text alone.
 
 ## Purpose
 
-This document describes only source-level behavior. The module does not establish a deployment trust policy or govern lifecycle transitions.
+This document describes only source-level behavior. The module enforces a signed-artifact verification boundary and gates its deployment entry point, but it does not establish the owning service's authorization policy.
 
 ## Trust boundaries
 
@@ -26,10 +26,11 @@ This document describes only source-level behavior. The module does not establis
 
 The boundary breaks down as follows:
 
-- records are inserted into an in-memory manifest store;
-- manifest SHA-256 can be recomputed and compared by explicit verification calls;
-- status values are serialized metadata; the store does not enforce transitions;
-- deployment authorization and safe-use decisions are outside this module.
+- records are persisted to RocksDB configured by `config/ai_ml/retrieval.yaml`;
+- every production write/import and reopen requires a matching content hash,
+  active pinned signer fingerprint, and valid Ed25519 signature;
+- ordinary product writes/imports cannot set DEPLOYED;
+- quality evaluation and external deployment authorization are both required to deploy.
 
 ### 2. Retrieval evaluation boundary
 
@@ -41,31 +42,34 @@ Ground truth is provided as a map by `SetGroundTruth()`; missing entries return 
 
 The main risks are:
 
-- records accepted by CRUD operations without semantic validation;
+- deployment authorization remains an external service boundary;
 - confusion between manifest-hash verification and signature authenticity;
 - stale or absent caller-supplied ground truth;
 - interpreting empty placeholder results or synthetic tests as retrieval evidence;
-- assuming artifact status fields enforce deployment policy.
+- assuming the quality gate is authorization or that status metadata alone establishes trust.
 
 ## Controls in source
 
 The current source-level controls include:
 
-- canonical JSON serialization and SHA-256 manifest-hash verification;
-- an optional verifier callback, invoked only when it is configured and a
-  signature is present;
-- mutex-protected, process-local package/product maps;
+- canonical JSON serialization and SHA-256 content-hash verification;
+- ConfigPathResolver/YAML-loaded Ed25519 pins and the shared
+  `SignedPluginRepository` cryptographic verification primitive;
+- mutex-protected package/product caches backed by persistent RocksDB;
+- quality-gated deployment with an independent, fail-closed external authorization callback;
 - metric helper functions, with empty metrics for empty results/ground truth.
 
 These are limited code-level mechanisms, not a complete trust or security
-system. In particular, unsigned artifacts can pass hash verification, and
-neither storage persistence nor lifecycle/deployment enforcement is present.
+system. The module does not own private signing keys, define owner/RBAC policy,
+or wire authorization to a deployment service. Absent authorization wiring,
+deployment fails closed.
 
 ## Incident handling
 
 Incident handling, quarantine, rollback, and evidence retention are not
 implemented by this module. The consuming system must define those procedures;
-the module's in-memory store is not durable incident evidence.
+the RocksDB registry provides durable artifact records, not an audit-event
+system.
 
 ## Trust posture
 

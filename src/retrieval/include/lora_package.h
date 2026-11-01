@@ -30,9 +30,9 @@
  *   - Deployment lifecycle status
  *
  * ### LoRAManifestStore
- * Persistent manifest registry backed by an in-memory map (real storage
- * integration via RocksDB/file is wired by the caller).  Provides
- * CRUD and integrity-check helpers for both artifact classes.
+ * Persistent manifest registry backed by RocksDB when constructed with
+ * RuntimeConfig. A source-compatible default constructor is retained only as
+ * an isolated test fixture; it has no verifier and rejects all artifact writes.
  *
  * ## Serialization
  * Both artifact classes serialise to/from `nlohmann::json`.  The canonical
@@ -60,6 +60,13 @@
 #include <functional>
 #include <stdexcept>
 #include <nlohmann/json.hpp>
+#include "plugins/signed_plugin_repository.h"
+#include "rag/deployment_gate_controller.h"
+#include "rag/quality_metrics_collector.h"
+
+namespace rocksdb {
+class DB;
+}
 
 namespace themis {
 namespace retrieval {
@@ -194,6 +201,12 @@ struct LoRAPackage {
      * @brief ── Helpers ──────────────────────────────────────────────────────────
      */
 
+    /**
+     * @brief Compute the canonical artifact-content hash.
+     * @note Signature metadata and mutable lifecycle status/update timestamps
+     *       are excluded; identity, provenance, policy, and artifact content
+     *       remain covered.
+     */
     void computeManifestHash();
 
     [[nodiscard]] bool supportsArchitecture(const std::string& arch) const;
@@ -258,6 +271,12 @@ struct PortableAdapterProduct {
      * @brief ── Helpers ──────────────────────────────────────────────────────────
      */
 
+    /**
+     * @brief Compute the canonical product-content hash.
+     * @note Signature metadata and mutable lifecycle status/update/deployment
+     *       timestamps are excluded; model binding and product content remain
+     *       covered.
+     */
     void computeManifestHash();
 
     [[nodiscard]] std::string statusToString() const;
@@ -298,29 +317,155 @@ public:
         const std::string& manifest_hash,
         const std::string& signature,
         const std::string& signer_id)>;
+    /**
+     * @brief Owning deployment-service authorization boundary.
+     * @param product Signed product snapshot under consideration.
+     * @param source_package Signed, validated source-package snapshot.
+     * @return true only when the owning service authorizes deployment; false
+     *         or an exception denies the deployment.
+     * @note This callback is not an owner/RBAC implementation. It must be
+     *       supplied by the owning deployment service.
+     */
+    using DeploymentAuthorization = std::function<bool(
+        const PortableAdapterProduct& product,
+        const LoRAPackage& source_package)>;
+    /**
+     * @brief Validate that deployment evidence is authentic and bound to a product.
+     * @param product Exact signed product snapshot selected for deployment.
+     * @param candidate_model_version Candidate version asserted by the service.
+     * @param baseline_model_version Baseline version asserted by the service.
+     * @param candidate_metrics Candidate metrics asserted by the service.
+     * @param baseline_metrics Baseline metrics asserted by the service.
+     * @return true only when the owning service validates the evidence and its
+     *         binding to this exact product; false or exceptions deny deployment.
+     * @note This validates evidence only. It is not deployment authorization or
+     *       a quality decision.
+     */
+    using DeploymentEvidenceValidator = std::function<bool(
+        const PortableAdapterProduct& product,
+        uint32_t candidate_model_version,
+        uint32_t baseline_model_version,
+        const themis::rag::quality::AggregatedMetrics& candidate_metrics,
+        const themis::rag::quality::AggregatedMetrics& baseline_metrics)>;
+    /**
+     * @brief Owner-service decision for an explicit lifecycle transition.
+     * @param artifact_type "package" or "product".
+     * @param artifact Full current artifact JSON snapshot.
+     * @param current_status Existing status string.
+     * @param requested_status Requested status string.
+     * @return true only when the owner service authorizes this exact transition.
+     * @note The registry independently validates and persists the transition.
+     */
+    using LifecycleTransitionAuthorizer = std::function<bool(
+        const std::string& artifact_type,
+        const json& artifact,
+        const std::string& current_status,
+        const std::string& requested_status)>;
+    /**
+     * @brief Check persisted lifecycle state against the owner service's authority.
+     * @param artifact_type "package" or "product".
+     * @param artifact Full persisted artifact JSON snapshot.
+     * @param status Persisted status string.
+     * @return true only when the owner service recognizes this exact state.
+     * @note Required when reopening any non-initial lifecycle state. It must
+     *       consult authoritative owner state, not trust the RocksDB value alone.
+     */
+    using PersistedLifecycleVerifier = std::function<bool(
+        const std::string& artifact_type,
+        const json& artifact,
+        const std::string& status)>;
 
-    LoRAManifestStore() = default;
-    ~LoRAManifestStore() = default;
+    /**
+     * @brief Runtime configuration for the persistent artifact registry.
+     * @note Signature verification is bound internally to the shared
+     *       `SignedPluginRepository` Ed25519 primitive over the supplied
+     *       manifest_hash with the active key whose fingerprint equals
+     *       signer_id; callers cannot replace it.
+     *       Authorization is delegated to the owning deployment service; it
+     *       is never inferred from artifact metadata.
+     */
+    struct RuntimeConfig {
+        std::string database_path; ///< Dedicated persistent RocksDB directory.
+        std::vector<themis::plugins::PinnedKey> pinned_keys; ///< Active Ed25519 public-key pins.
+        DeploymentAuthorization deployment_authorizer; ///< Owning-service authorization boundary.
+        DeploymentEvidenceValidator deployment_evidence_validator; ///< Authenticates product-bound model versions/metrics; not authorization.
+        LifecycleTransitionAuthorizer lifecycle_transition_authorizer; ///< Owner-service approval for non-default lifecycle transitions.
+        PersistedLifecycleVerifier persisted_lifecycle_verifier; ///< Owner-authoritative validation on transition and reopen.
+        std::shared_ptr<themis::rag::quality::DeploymentGateController> quality_gate; ///< Quality only; not authorization.
 
-    // Non-copyable; movable
+        /**
+         * @brief Load typed retrieval settings from a YAML file.
+         * @param yaml_path Resolved ThemisDB YAML config path.
+         * @return Validated persistent settings with active pinned-key material.
+         * @throws std::invalid_argument for malformed, incomplete, unpinned, or
+         *         unsupported settings; std::runtime_error for file access errors.
+         */
+        [[nodiscard]] static RuntimeConfig loadFromYaml(const std::string& yaml_path);
+
+        /**
+         * @brief Load the canonical retrieval settings through ConfigPathResolver.
+         * @return Validated production runtime settings.
+         * @throws std::exception when the config is absent or invalid.
+         */
+        [[nodiscard]] static RuntimeConfig loadFromThemisConfig();
+    };
+
+    /**
+     * @brief Outcome of the product deployment decision.
+     * @note Quality is evaluated independently from authorization. A quality
+     *       warning is not an allow decision and therefore does not deploy.
+     */
+    struct DeploymentResult {
+        bool deployed = false; ///< True only after all checks and durable write succeed.
+        themis::rag::quality::GateDecision quality_decision; ///< Quality-only decision; authorization is separate.
+        std::string reason; ///< Failure reason or successful completion summary.
+    };
+
+    /**
+     * @brief Construct a production store from config/ai_ml/retrieval.yaml.
+     * @return Owned persistent store; construction fails on missing/invalid config.
+     * @throws std::exception if configuration or RocksDB initialization fails.
+     */
+    [[nodiscard]] static std::unique_ptr<LoRAManifestStore> openFromThemisConfig();
+
+    /**
+     * @brief Construct an isolated, non-production compatibility fixture.
+     * @note NON-PRODUCTION: this instance has no persistent DB or pinned keys.
+     *       All artifact writes/imports and deployments fail closed. Production
+     *       callers must use openFromThemisConfig().
+     */
+    LoRAManifestStore();
+
+    /**
+     * @brief Open the persistent RocksDB artifact registry with validated settings.
+     * @param config Runtime settings with a non-empty DB path and at least one
+     *        valid pinned Ed25519 key. The constructor binds the required
+     *        verifier internally to ThemisDB's shared pinned-key primitive.
+     * @throws std::invalid_argument for missing/invalid required settings.
+     * @throws std::runtime_error if RocksDB cannot be opened or persisted
+     *         records are malformed, unsigned, or fail verification.
+     * @note Production composition should use openFromThemisConfig(); this
+     *       constructor is also available for controlled tests. Callers cannot
+     *       replace or disable the cryptographic verifier.
+     */
+    explicit LoRAManifestStore(RuntimeConfig config);
+    ~LoRAManifestStore();
+
+    // RocksDB ownership and mutex lifetime make instances non-copyable/non-movable.
     LoRAManifestStore(const LoRAManifestStore&) = delete;
     LoRAManifestStore& operator=(const LoRAManifestStore&) = delete;
-    LoRAManifestStore(LoRAManifestStore&&) = default;
-    LoRAManifestStore& operator=(LoRAManifestStore&&) = default;
+    LoRAManifestStore(LoRAManifestStore&&) = delete;
+    LoRAManifestStore& operator=(LoRAManifestStore&&) = delete;
 
     /**
-     * @brief ── Configuration ─────────────────────────────────────────────────────
-     * @param[in] verifier Input parameter.
+     * @brief Verify and persist a signed package record.
+     * @param pkg Package with non-empty ID, matching content hash, Ed25519
+     *        signature, and signer ID matching a configured active pin.
+     * @return true if the synchronous RocksDB write succeeds; false for an
+     *         invalid/unsigned artifact, empty ID, or write error.
+     * @note Safe for concurrent calls; an error does not update the in-memory
+     *       view.
      */
-
-    void setSignatureVerifier(SignatureVerifier verifier);
-
-    /**
-     * @brief ── LoRAPackage CRUD ──────────────────────────────────────────────────
-     * @param[in] pkg Input parameter.
-     * @return True when the operation succeeds.
-     */
-
     bool storePackage(const LoRAPackage& pkg);
 
     [[nodiscard]] std::optional<LoRAPackage> loadPackage(
@@ -333,17 +478,37 @@ public:
      */
     bool deletePackage(const std::string& package_id);
 
+    /**
+     * @brief Apply an owner-authorized package lifecycle transition.
+     * @param package_id Existing signed package.
+     * @param expected_status Required current status; protects against stale callers.
+     * @param requested_status Target status; only legal forward/revocation transitions are accepted.
+     * @return true only when owner authorization, authoritative-state validation,
+     *         and synchronous persistence all succeed.
+     * @note Ordinary store/import APIs accept DRAFT only. Missing, denying, or
+     *       throwing lifecycle callbacks fail closed.
+     */
+    [[nodiscard]] bool transitionPackageStatus(
+        const std::string& package_id,
+        LoRAPackageStatus expected_status,
+        LoRAPackageStatus requested_status);
+
     [[nodiscard]] std::vector<std::string> listPackageIds() const;
 
     [[nodiscard]] std::vector<LoRAPackage> listPackagesByStatus(
         LoRAPackageStatus status) const;
 
     /**
-     * @brief ── PortableAdapterProduct CRUD ───────────────────────────────────────
-     * @param[in] product Input parameter.
-     * @return True when the operation succeeds.
+     * @brief Verify and persist a signed product that is not marked DEPLOYED.
+     * @param product Product with non-empty product_id and source_package_id.
+     *        Must also have a matching content hash, Ed25519 signature, and
+     *        signer ID matching a configured active pin. DEPLOYED is reserved
+     *        for deployProduct().
+     * @return true if the synchronous RocksDB write succeeds; false for invalid
+     *         identity, a DEPLOYED status, or write error.
+     * @note Safe for concurrent calls; an error does not update the in-memory
+     *       view.
      */
-
     bool storeProduct(const PortableAdapterProduct& product);
 
     [[nodiscard]] std::optional<PortableAdapterProduct> loadProduct(
@@ -356,6 +521,21 @@ public:
      */
     bool deleteProduct(const std::string& product_id);
 
+    /**
+     * @brief Apply an owner-authorized product lifecycle transition.
+     * @param product_id Existing signed product.
+     * @param expected_status Required current status; protects against stale callers.
+     * @param requested_status Target status; DEPLOYED is reserved for deployProduct().
+     * @return true only when owner authorization, authoritative-state validation,
+     *         and synchronous persistence all succeed.
+     * @note Ordinary store/import APIs accept BUILDING only. Missing, denying, or
+     *       throwing lifecycle callbacks fail closed.
+     */
+    [[nodiscard]] bool transitionProductStatus(
+        const std::string& product_id,
+        AdapterProductStatus expected_status,
+        AdapterProductStatus requested_status);
+
     [[nodiscard]] std::vector<std::string> listProductIds() const;
 
     [[nodiscard]] std::vector<PortableAdapterProduct> listProductsByPackage(
@@ -366,27 +546,72 @@ public:
 
     // ── Integrity verification ────────────────────────────────────────────
 
+    /**
+     * @brief Verify a package's content hash and detached signature.
+     * @param package_id Existing package identifier.
+     * @return true only for a matching content hash, Ed25519 signature,
+     *         configured pinned signer ID, and successful cryptographic verification.
+     *         Missing records/configuration or any verification error returns false.
+     */
     [[nodiscard]] bool verifyPackageIntegrity(const std::string& package_id) const;
 
+    /**
+     * @brief Verify a product's content hash and detached signature.
+     * @param product_id Existing product identifier.
+     * @return true only for a matching content hash, Ed25519 signature,
+     *         configured pinned signer ID, and successful cryptographic verification.
+     *         Missing records/configuration or any verification error returns false.
+     */
     [[nodiscard]] bool verifyProductIntegrity(const std::string& product_id) const;
+
+    /**
+     * @brief Deploy a ready product after independent quality and authorization checks.
+     * @param product_id Existing product whose status must be READY.
+     * @param candidate_model_version Candidate model version supplied by the
+     *        deployment service.
+     * @param baseline_model_version Baseline model version supplied by the
+     *        deployment service.
+     * @param candidate_metrics Non-empty quality evaluation for the candidate.
+     * @param baseline_metrics Non-empty quality evaluation for the baseline.
+     * @return deployed=true only if both artifact signatures are valid, the
+     *         evidence validator confirms exact product/version/metric binding,
+     *         the quality controller returns kAllow, the separate authorization
+     *         callback approves, and the update is durably persisted.
+     * @note Missing/throwing evidence validation, lifecycle-state validation,
+     *       quality controller, metrics, signatures, or authorization fail
+     *       closed. The authorization callback is an integration boundary, not
+     *       an implementation of owner/RBAC policy.
+     * @note External callbacks run without the store mutex. The artifact
+     *       snapshots are rechecked before the deployment write to reject races.
+     */
+    [[nodiscard]] DeploymentResult deployProduct(
+        const std::string& product_id,
+        uint32_t candidate_model_version,
+        uint32_t baseline_model_version,
+        const themis::rag::quality::AggregatedMetrics& candidate_metrics,
+        const themis::rag::quality::AggregatedMetrics& baseline_metrics);
 
     // ── Bulk export / import ──────────────────────────────────────────────
 
     [[nodiscard]] json exportPackages() const;
 
     /**
-     * @brief Import Packages.
-     * @param[in] j Input parameter.
-     * @return Return value.
+     * @brief Import only cryptographically valid, pinned-key signed packages.
+     * @param j JSON array of package records; malformed or unsigned entries are
+     *        skipped without altering the registry.
+     * @return Number of entries successfully persisted.
+     * @note Safe for concurrent calls; writes are synchronous to RocksDB.
      */
     size_t importPackages(const json& j);
 
     [[nodiscard]] json exportProducts() const;
 
     /**
-     * @brief Import Products.
-     * @param[in] j Input parameter.
-     * @return Return value.
+     * @brief Import only cryptographically valid, pinned-key signed products.
+     * @param j JSON array of product records; malformed, unsigned, or DEPLOYED
+     *        entries are skipped without altering the registry.
+     * @return Number of entries successfully persisted.
+     * @note Safe for concurrent calls; writes are synchronous to RocksDB.
      */
     size_t importProducts(const json& j);
 
@@ -402,7 +627,9 @@ private:
     std::unordered_map<std::string, LoRAPackage>           packages_;
     std::unordered_map<std::string, PortableAdapterProduct> products_;
 
+    RuntimeConfig config_;
     SignatureVerifier signature_verifier_;
+    std::unique_ptr<rocksdb::DB> db_;
 };
 
 } // namespace retrieval

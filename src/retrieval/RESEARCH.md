@@ -37,7 +37,12 @@ The present source does not define a general-purpose vector search engine API. I
 - deterministic JSON serialization and SHA-256 integrity checks,
 - metric calculation over caller-supplied result and ground-truth values. The current validator does not query index backends.
 
-The explicit manifest verifier returns failure for absent records, empty hashes, or hash mismatches. However, CRUD does not require verification, and a missing signature callback or signature does not fail a matching manifest hash. No general fail-closed or deployment policy is implemented.
+The artifact registry now has a production path that requires YAML-loaded
+RocksDB settings and pinned Ed25519 keys. Production CRUD/import and reopen
+validation require a matching content hash and signature over `manifest_hash`;
+the verifier is internally bound to ThemisDB's shared pinned-key primitive.
+This does not make the entire retrieval module a production search engine, and
+deployment authorization still belongs to the owning deployment service.
 
 ### 2. Why do package lifecycle and retrieval quality share the same module?
 
@@ -58,7 +63,11 @@ The code currently implements these facts:
 
 ### Safety over permissiveness
 
-`LoRAManifestStore` provides explicit manifest-hash verification, but no policy gate. If a callback and signature are both absent, a matching manifest hash still passes verification.
+`LoRAManifestStore` production construction rejects missing database settings,
+empty/invalid key pins, unsigned artifacts, and failed signature verification.
+The compatibility no-argument constructor is isolated and cannot store or
+deploy artifacts. Quality-gated deployment still fails closed without an
+explicit authorization callback from its owning service.
 
 ### Local validation before broad retrieval claims
 

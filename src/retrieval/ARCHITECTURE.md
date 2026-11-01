@@ -37,7 +37,7 @@ The checked-in `src/retrieval/` implementation is narrower than a general retrie
 |---|---|---|
 | Public include surface | [`retrieval.h`](../../include/retrieval/retrieval.h) | Umbrella include file; current contents do not wire in the implementation headers. |
 | Dual-read validation | [`DualReadValidator`](../../include/retrieval/dual_read_validator.h) | Accept index-path strings and map-supplied judgments; current query execution returns empty result vectors, while metric helpers operate on supplied results. |
-| Adapter artifacts | [`lora_package.h`](include/lora_package.h) | `LoRAPackage`, `PortableAdapterProduct`, `LoRAManifestStore`, and integrity helper APIs exposed by the `themis_retrieval` target's include directory. |
+| Adapter artifacts | [`lora_package.h`](include/lora_package.h) | `LoRAPackage`, `PortableAdapterProduct`, RocksDB-backed `LoRAManifestStore`, config-loaded pinned Ed25519 verification, and gated deployment API. |
 
 The artifact implementation is built from [`src/lora_package.cc`](src/lora_package.cc) by [`CMakeLists.txt`](CMakeLists.txt). The top-level `src/retrieval/dual_read_validator.cpp` is a separate implementation source.
 
@@ -45,7 +45,11 @@ The artifact implementation is built from [`src/lora_package.cc`](src/lora_packa
 
 1. `DualReadValidator` accepts current/previous index path strings and uses map-supplied ground truth; `RetrievalMetrics` separately exposes `HasRegression()` and `ComputeDeltas()`.
 2. Its `ExecuteQuery()` implementation is a placeholder that returns an empty result vector. Consequently, `ValidateQuery()` returns current-result metrics and both result lists, logs a previous-result metric, but does not calculate or return a current-versus-previous delta or perform a live index comparison.
-3. The LoRA artifact path serializes package/product metadata, computes/verifies manifest hashes, and stores/lists package and product records through `LoRAManifestStore`.
+3. The LoRA artifact path serializes package/product metadata, stores/reloads
+   records through RocksDB, and fails signature verification closed unless the
+   YAML configuration supplies valid pinned-key material. The store binds the
+   Ed25519 verifier internally; callers cannot replace it.
+4. Product deployment calls the RAG quality controller and then an independent deployment authorization callback. The quality controller is not authorization; no owner/RBAC policy or current composition wiring is claimed.
 
 ## Failure domains and edge cases
 

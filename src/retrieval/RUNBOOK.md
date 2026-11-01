@@ -16,7 +16,7 @@ Exact model backend not verifiable from final document text alone.
 
 ## Purpose
 
-This page is guidance for an application integrating the module, not an operator runbook for a production retrieval service. The module itself has no persistent store, deployment controls, or live index query path. `DualReadValidator::ExecuteQuery()` returns an empty result vector, and `ValidateQuery()` does not return a comparison delta.
+This page is guidance for an application integrating the module, not an operator runbook for a production retrieval service. Artifact records are persistent in explicitly configured RocksDB, and deployment has a fail-closed quality/authorization entry point, but there is no current deployment-service wiring or live index query path. `DualReadValidator::ExecuteQuery()` returns an empty result vector, and `ValidateQuery()` does not return a comparison delta.
 
 ## Common symptoms
 
@@ -26,6 +26,8 @@ Symptoms:
 
 - `verifyPackageIntegrity()` or `verifyProductIntegrity()` returns false,
 - manifest hash does not match the canonical JSON representation,
+- the artifact lacks a matching manifest hash, valid Ed25519 signature, or active
+  configured signer pin,
 - a caller's import or verification handling reports an issue.
 
 Action:
@@ -33,7 +35,9 @@ Action:
 1. Recompute the artifact manifest using the canonical JSON serialization path.
 2. Recompute and compare the manifest hash. This API does not read or verify the referenced weight file.
 3. Confirm whether the package was imported from an untrusted source or tampered with.
-4. Reject or quarantine the artifact before deployment.
+4. The registry rejects unsigned/invalid artifacts during write/import and
+   rejects invalid persisted records during startup; quarantine the source and
+   investigate the signing key if encountered.
 
 Escalation:
 
@@ -76,9 +80,10 @@ Action:
 
 Use the following checklist before rollout or promotion:
 
-- [ ] artifact hashes have been recomputed and verified,
-- [ ] the consuming application has defined how status fields are interpreted; this store does not enforce transitions,
-- [ ] the consuming application has decided whether signatures are mandatory; the callback is optional in this implementation,
+- [ ] the configured RocksDB path is dedicated, persistent, and protected by the owning service,
+- [ ] artifact hashes and signatures pass verification with the configured pinned-key verifier,
+- [ ] the owning deployment service supplies and audits its authorization callback,
+- [ ] quality inputs are non-empty and the RAG quality controller returns `kAllow`,
 - [ ] all critical queries have ground truth loaded,
 - [ ] regression deltas are reviewed before promoting a new retrieval build,
 - [ ] package or product records are not silently reclassified without evidence.
@@ -87,7 +92,7 @@ Use the following checklist before rollout or promotion:
 
 ### Recovery from bad package state
 
-- remove the bad package from this process-local store if appropriate; quarantine requires an external system,
+- remove the bad package from the persistent store if appropriate; quarantine requires an external system,
 - confirm that no derived product continues to reference the invalid package,
 - restore the last valid package version if necessary,
 - re-run integrity verification on all restored artifacts.
@@ -110,4 +115,4 @@ Escalate to module or release ownership when:
 
 ## Conclusion
 
-These are application-side response suggestions, not implemented module controls. The in-memory manifest store is not durable incident evidence, and no rollback, quarantine, or alerting mechanism is provided by this module.
+These are application-side response suggestions, not implemented module controls. The RocksDB registry is durable artifact state, not an audit-event system; rollback, quarantine, and alerting remain external.

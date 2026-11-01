@@ -25,31 +25,50 @@ Exact model backend not verifiable from final document text alone.
 
 ## Implemented code-level checks
 
-- The artifact library computes manifest SHA-256 values and compares a stored
-  manifest hash with a recomputed canonical representation.
-- `LoRAManifestStore` protects its in-memory package/product maps and verifier
-  callback with a mutex.
-- A signature-verifier callback is optional. It is called only when configured
-  and when the artifact has a non-empty signature. A matching manifest hash
-  can pass verification when either is absent; the code does not establish a
-  mandatory-signature policy.
-- `from_json()` checks selected required fields but treats many other fields
-  as optional. `storePackage()` and `storeProduct()` check for a non-empty ID,
-  not a deployment authorization or lifecycle transition.
+- Production settings load through `ConfigPathResolver` from
+  `config/ai_ml/retrieval.yaml`. Startup requires a non-empty RocksDB path,
+  at least one valid public-key pin. The store binds its required verifier
+  internally to the shared `SignedPluginRepository` Ed25519 verification
+  primitive; YAML cannot provide or replace a verifier.
+- Every production package/product write and import requires a matching
+  content hash, non-empty Base64 Ed25519 signature, and signer ID matching an
+  active key fingerprint; the signature is checked over the `manifest_hash`.
+  Invalid signed records already in RocksDB fail store construction on reopen.
+- The source-compatible no-argument constructor is isolated non-production
+  mode. With no persistent database, keys, or verifier, it rejects every
+  artifact write/import and deployment.
+- Lifecycle status and update timestamps are mutable registry metadata and are
+  excluded from the artifact content hash. Other manifest content remains
+  covered. Do not treat status metadata as authorization.
+- `deployProduct()` requires signed package/product artifacts, a READY product,
+  a VALIDATED source package, valid non-empty quality metrics, and an explicit
+  `DeploymentGateController` decision of `kAllow`. It then separately requires
+  the configured owning-service authorization callback to approve and persists
+  the DEPLOYED status. Quality is not authorization.
+- Missing quality controller, absent/denying/throwing authorization callback,
+  missing signatures, and write errors fail closed. Ordinary product storage
+  and import reject DEPLOYED status.
+- Store records are protected by a mutex; runtime callbacks are immutable after
+  construction. Verification/authorization callbacks run without holding the
+  store mutex, and artifact snapshots are rechecked before deployment persists.
 - The dual-read query executor returns no results. Its metrics therefore do
   not validate a live index or provide a production security gate.
 
 ## Not provided by this module
 
-The checked-in target provides no persistent or access-controlled store, key
-management, signer trust registry, deployment authorization, lifecycle-policy
-enforcement, audit event system, runtime configuration, or production
-retrieval path. Tests that use a local signer registry or hybrid retrieval
-mock do not implement these controls in the library.
+The module does not implement the deployment service's owner/RBAC policy, key
+provisioning/rotation, public-key storage, audit-event pipeline, artifact file
+content hashing, runtime index retrieval, or live dual-read query execution.
+The YAML config supplies only the database path and pinned key material. The
+quality controller and separate deployment authorization callback are injected
+by application composition. No source-backed application wiring currently
+supplies those callbacks, so deployment remains disabled unless the owning
+service explicitly provides them.
 
-Do not treat this page as a production security certification. The consuming
-application must determine and document its own security policy and integration
-controls; those requirements are not defined by the present module code.
+The quality controller evaluates regression only. It must never be treated as
+an authorization decision. This module is not a production security
+certification, and standalone artifact storage does not prove deployment
+service integration.
 
 ## References
 

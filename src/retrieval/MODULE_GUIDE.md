@@ -32,7 +32,7 @@ Exact model backend not verifiable from final document text alone.
 ### Source
 
 - `include/lora_package.h` — artifact declarations exposed by the library target
-- `src/lora_package.cc` — serialization, manifest-hash helpers, and in-memory store
+- `src/lora_package.cc` — serialization, manifest-hash helpers, persistent RocksDB store, and deployment checks
 - `../../include/retrieval/dual_read_validator.h` and `dual_read_validator.cpp` — separate validator API and implementation; query execution is a placeholder
 
 ## How to reason about the module
@@ -50,7 +50,8 @@ When modifying the module, keep these rules in mind:
 
 - preserve deterministic hashing and serialization,
 - preserve source-backed error behavior,
-- do not imply that status fields enforce transitions or that the in-memory store is persistent,
+- do not treat status metadata or the quality gate as authorization,
+- preserve the explicit database/verifier/authorization configuration boundary,
 - avoid broad retrieval claims without a matching roadmap update,
 - update the runbook when operational steps or failure signals change.
 
@@ -72,7 +73,7 @@ When modifying the module, keep these rules in mind:
 
 ## Known boundaries
 
-The module is not a blanket replacement for the broader search stack. The manifest store is in-memory and does not enforce trust or lifecycle policy; the dual-read query path does not execute retrieval. Do not infer production readiness from historical roadmap claims.
+The module is not a blanket replacement for the broader search stack. The manifest store is persistent and has fail-closed signature/deployment checks, but key lifecycle, owner/RBAC policy, and application authorization wiring remain external; the dual-read query path does not execute retrieval. Do not infer production readiness from historical roadmap claims.
 
 ## Conclusion
 

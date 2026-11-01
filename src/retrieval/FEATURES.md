@@ -21,10 +21,13 @@ search, vector, or RAG capabilities.
 
 - LoRA package and portable-product metadata structures, JSON conversion, and
   manifest SHA-256 helpers in `src/retrieval/include/lora_package.h`.
-- An in-memory, mutex-protected `LoRAManifestStore` with CRUD, list,
-  import/export, and explicit manifest verification methods.
-- An optional signature-verifier callback. It is called only when both the
-  callback and a non-empty signature are present.
+- A mutex-protected, RocksDB-backed `LoRAManifestStore` with explicit typed
+  configuration, durable CRUD/import/export, and reload-on-reopen behavior.
+- Fail-closed signature verification requiring a matching manifest hash,
+  Ed25519 signature, an active public-key fingerprint pin, and ThemisDB's shared
+  pinned-key verifier.
+- A gated `deployProduct()` path requiring a quality controller's allow result
+  and a separate deployment authorization callback from the owning service.
 - Retrieval metric calculations and helper methods (`HasRegression()` and
   `ComputeDeltas()`) in the dual-read validator surface.
 
@@ -42,7 +45,7 @@ search, vector, or RAG capabilities.
 ## Not provided by this module
 
 No ANN or vector search pipeline, ranking/reranking runtime, embedding
-generation, persistence backend, lifecycle/deployment enforcement, runtime
-configuration system, or production performance baseline is implemented by
-this target. See the [module README](README.md), [architecture](ARCHITECTURE.md),
-and [API reference](API.md).
+generation, owner/RBAC policy, deployment-service callback wiring, or
+production performance baseline is implemented by this target. See the
+[module README](README.md), [architecture](ARCHITECTURE.md), and
+[API reference](API.md).

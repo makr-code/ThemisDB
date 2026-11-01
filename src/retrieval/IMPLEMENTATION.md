@@ -29,15 +29,21 @@ This document describes the implementation behavior that is actually present in 
 - `AdapterUsagePolicy`, `LoRAPackageProvenance`, and `ArtifactIntegrity`
 - `LoRAManifestStore` CRUD and integrity verification APIs
 
-`src/retrieval/src/lora_package.cc` is the only source in the static `themis_retrieval` target. It implements serialization and manifest-hash behavior. The relevant details are:
+`src/retrieval/src/lora_package.cc` implements the artifact store and serialization; the target also compiles the existing RAG deployment quality controller so the deployment method uses that implementation. The relevant details are:
 
 - canonical JSON serialization using `nlohmann::json`
 - SHA-256 hashing via an internal portable implementation
 - deterministic field encoding and manifest hashing
 - `from_json` checks selected required fields; many fields are optional and default-initialized
 - verification helpers that compare computed hashes against expected values
-- mutex-protected in-memory maps for package/product CRUD, listing, and import/export
-- optional signature callback, invoked only when a callback and a non-empty signature are both present
+- mutex-protected package/product caches backed by synchronous RocksDB CRUD/import/export
+- reopen-time record recovery; malformed persisted records fail construction
+- ConfigPathResolver/yaml-cpp loading from `config/ai_ml/retrieval.yaml`,
+  including Ed25519 public-key pin validation and an internally bound shared
+  `SignedPluginRepository` verifier
+- production writes/imports and reopen recovery that reject unsigned, malformed,
+  hash-mismatched, or cryptographically invalid artifacts
+- product deployment requiring signed artifacts, a quality decision of `kAllow`, and an independent external authorization callback
 
 ### Dual-read regression validation
 
@@ -59,7 +65,8 @@ The current implementation strongly implies the following correctness invariants
 1. Manifest hash verification recomputes the canonical JSON hash and compares it with a non-empty stored hash.
 2. `from_json()` rejects some missing required fields, but does not require every metadata field.
 3. Missing ground-truth entries return an empty vector; empty metric inputs produce zero-valued metrics.
-4. Status enums are data fields; the store does not enforce lifecycle transitions or deployment policy.
+4. Status metadata is not authorization. Ordinary CRUD/import cannot set DEPLOYED; only the gated deployment method does.
+5. Signature callbacks, quality controllers, and authorization callbacks are explicit composition dependencies; absent deployment authorization denies deployment.
 
 ## Error-handling model
 

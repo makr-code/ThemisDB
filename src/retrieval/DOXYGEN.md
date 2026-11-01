@@ -14,6 +14,20 @@ Human_Author: "ThemisDB Contributors"
 
 Exact model backend not verifiable from final document text alone.
 
+## Current API amendment (2026-11-01)
+
+The generated XML snapshot below predates the persistence/security changes and
+is retained as historical derived output. The current Doxygen source of truth
+is `include/lora_package.h`: `LoRAManifestStore(RuntimeConfig)` owns a
+persistent RocksDB database, loads runtime settings through
+`ConfigPathResolver` from `config/ai_ml/retrieval.yaml`, and requires each
+artifact signature to verify over its manifest hash with a pinned Ed25519 key.
+It exposes `deployProduct()` with separate quality-gate and authorization
+checks. A source-compatible default constructor remains explicitly test-only
+and rejects all artifact writes and deployment.
+Regenerate this report from the current source before treating its symbol
+inventory or counts as current.
+
 ## Source note
 - This derived report was generated on 2026-09-20 from retrieval-scoped Doxygen XML.
 - The original machine-local XML and warnings-log paths are not repository references and are not available as canonical sources here.
@@ -509,13 +523,6 @@ Exact model backend not verifiable from final document text alone.
 - Source: `src/retrieval/include/lora_package.h`:397
 - Brief: n/a
 - Parameters: none
-
-#### `void setSignatureVerifier(SignatureVerifier verifier)`
-- Source: `src/retrieval/include/lora_package.h`:316
-- Brief: ── Configuration ─────────────────────────────────────────────────────
-- Parameters:
-  - `verifier` (SignatureVerifier): Input parameter.
-- Details: Set Signature Verifier. verifier Input parameter. verifier Input parameter. Calls: lk(), std::move().
 
 #### `bool storePackage(const LoRAPackage &pkg)`
 - Source: `src/retrieval/include/lora_package.h`:324

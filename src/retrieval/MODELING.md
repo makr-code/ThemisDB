@@ -49,7 +49,7 @@ The types distinguish source-package metadata from product metadata; no runtime 
 
 ### 3. Manifest store model
 
-`LoRAManifestStore` holds `LoRAPackage` and `PortableAdapterProduct` values in in-memory `std::unordered_map` containers protected by a `std::mutex`. It provides CRUD/list, import/export, and explicit verification methods. It does not persist data or enforce state consistency beyond its map operations.
+`LoRAManifestStore::openFromThemisConfig()` loads typed settings from `config/ai_ml/retrieval.yaml` through ThemisDB's path resolver/YAML loader and persists records to RocksDB. Production CRUD/import and reopen require valid Ed25519 signatures over the matching manifest hash using the shared pinned-key verifier. The source-compatible no-argument constructor is isolated non-production mode and rejects all artifact writes and deployment.
 
 ### 4. Retrieval-quality model
 
@@ -68,10 +68,10 @@ The conceptual graph is simple but intentional:
 
 - `LoRAPackage` -> `PortableAdapterProduct` via `source_package_id`
 - `LoRAPackage` -> `ArtifactIntegrity` -> `signed_at`, `weights_hash`, `manifest_hash`
-- `LoRAManifestStore` -> in-memory package map + product map
+- `LoRAManifestStore` -> RocksDB records + synchronized package/product cache
 - `DualReadValidator` -> results + ground truth -> `RetrievalMetrics`
 
-The structures distinguish artifact metadata from product metadata and metric values; they do not implement runtime deployment.
+The structures distinguish artifact metadata from product metadata and metric values. `deployProduct()` integrates the RAG quality controller but requires a separate application-provided authorization callback; that callback is not an implemented owner/RBAC policy.
 
 ## Lifecycle model
 
@@ -80,7 +80,7 @@ The structures distinguish artifact metadata from product metadata and metric va
 - DRAFT / VALIDATED / DEPRECATED / REVOKED
 - BUILDING / READY / DEPLOYED / RETIRED / FAILED
 
-These are representable enum values. The store can list by status, but it does not enforce transitions or determine whether an artifact is safe to deploy.
+These are representable enum values. CRUD/import cannot set product status DEPLOYED; the module's deployment method sets it only after signature, quality, and external authorization checks. Package validation status itself is metadata, not proof of authorization.
 
 ## Invariants
 
@@ -90,13 +90,13 @@ The implementation provides the following limited behaviors:
 2. The API does not automatically require verification before storing or loading an artifact.
 3. Package and product are distinct C++ structures with a source-package identifier relation.
 4. Metric computation accepts caller-supplied judgments; missing judgments are empty.
-5. The code defines statuses but does not implement a lifecycle state machine.
+5. The deployment entry point requires READY/VALIDATED metadata, but the owner service remains responsible for authorization and policy.
 
 ## Design trade-offs
 
 ### Source-of-truth vs convenience
 
-The code provides typed metadata and in-memory CRUD; durable source-of-truth behavior and governance are not implemented.
+The code provides typed metadata and RocksDB persistence; key lifecycle, owner/RBAC governance, and application deployment wiring are not implemented.
 
 ### Evaluation vs speculation
 
@@ -104,7 +104,7 @@ The metric routines evaluate the results passed to them against supplied relevan
 
 ### Trust boundary vs flexibility
 
-No operator- or deployment-policy controls are implemented by this module.
+The module does not implement owner/RBAC policy. It fails closed unless the owning service supplies the authorization callback.
 
 ## Conclusion
 
