@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="prompt__injection__detector_8cpp" kind="file" language="C++">
     <compoundname>prompt_injection_detector.cpp</compoundname>
     <includes refid="prompt__injection__detector_8h" local="yes">prompt_engineering/prompt_injection_detector.h</includes>
@@ -79,8 +79,6 @@
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="prompt__injection__detector_8h" kindref="compound">prompt_engineering/prompt_injection_detector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/prompt_injection_pattern_registry.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;spdlog/spdlog.h&gt;</highlight><highlight class="normal"></highlight></codeline>
@@ -88,18 +86,18 @@
 <codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
-<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">prompt_engineering</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">prompt_engineering<sp/>{</highlight></codeline>
 <codeline lineno="20"><highlight class="normal"></highlight></codeline>
 <codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DetectionResult</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight></codeline>
-<codeline lineno="25"><highlight class="normal">nlohmann::json<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result_1a5a13bbe52dca5ac92419479d5aa617ae" kindref="member">PromptInjectionDetector::DetectionResult::toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">nlohmann::json<sp/><ref refid="structthemis_1_1prompt__engineering_1_1PromptInjectionDetector_1_1DetectionResult_1a5a13bbe52dca5ac92419479d5aa617ae" kindref="member">PromptInjectionDetector::DetectionResult::toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;is_injection&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result_1a0720abf6d32f78244de867ef32f059a6" kindref="member">is_injection</ref>},</highlight></codeline>
-<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;risk_score&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result_1a002ba94d9dba1a715a5a62636c06456b" kindref="member">risk_score</ref>},</highlight></codeline>
-<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;matched_patterns&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result_1ac2862404600fc1b36fec311cacf92f7f" kindref="member">matched_patterns</ref>},</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;sanitized_text&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result_1abcc76ba6229a43444952a8ce6e43664b" kindref="member">sanitized_text</ref>}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;is_injection&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1prompt__engineering_1_1PromptInjectionDetector_1_1DetectionResult_1a0720abf6d32f78244de867ef32f059a6" kindref="member">is_injection</ref>},</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;risk_score&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1prompt__engineering_1_1PromptInjectionDetector_1_1DetectionResult_1a002ba94d9dba1a715a5a62636c06456b" kindref="member">risk_score</ref>},</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;matched_patterns&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1prompt__engineering_1_1PromptInjectionDetector_1_1DetectionResult_1ac2862404600fc1b36fec311cacf92f7f" kindref="member">matched_patterns</ref>},</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;sanitized_text&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1prompt__engineering_1_1PromptInjectionDetector_1_1DetectionResult_1abcc76ba6229a43444952a8ce6e43664b" kindref="member">sanitized_text</ref>}</highlight></codeline>
 <codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="32"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
@@ -107,8 +105,8 @@
 <codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PromptInjectionDetector</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="37"><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1a2f7d256fee3040d5218cabd4cfc4047e" kindref="member">PromptInjectionDetector::PromptInjectionDetector</ref>()</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1a2f7d256fee3040d5218cabd4cfc4047e" kindref="member">PromptInjectionDetector</ref>(<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_config" kindref="compound">Config</ref>{})<sp/>{}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1PromptInjectionDetector_1a2f7d256fee3040d5218cabd4cfc4047e" kindref="member">PromptInjectionDetector::PromptInjectionDetector</ref>()</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1prompt__engineering_1_1PromptInjectionDetector_1a2f7d256fee3040d5218cabd4cfc4047e" kindref="member">PromptInjectionDetector</ref>(Config{})<sp/>{}</highlight></codeline>
 <codeline lineno="40"><highlight class="normal"></highlight></codeline>
 <codeline lineno="41"><highlight class="normal">PromptInjectionDetector::PromptInjectionDetector(Config<sp/>config)</highlight></codeline>
 <codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>config_(std::move(config))<sp/>{</highlight></codeline>
@@ -222,8 +220,8 @@
 <codeline lineno="154"><highlight class="normal"></highlight></codeline>
 <codeline lineno="155"><highlight class="normal">PromptInjectionDetector::DetectionResult</highlight></codeline>
 <codeline lineno="156"><highlight class="normal">PromptInjectionDetector::detect(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1_1testing_1ad0051c8f602e1f36188bba55d7c4795d" kindref="member">DetectionResult</ref><sp/>result;</highlight></codeline>
-<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result_1abcc76ba6229a43444952a8ce6e43664b" kindref="member">sanitized_text</ref><sp/>=<sp/>prompt;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1_1testing_1aca8efd3052d83b1a6af4db037d6a5c17" kindref="member">DetectionResult</ref><sp/>result;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1prompt__engineering_1_1PromptInjectionDetector_1_1DetectionResult_1abcc76ba6229a43444952a8ce6e43664b" kindref="member">sanitized_text</ref><sp/>=<sp/>prompt;</highlight></codeline>
 <codeline lineno="159"><highlight class="normal"></highlight></codeline>
 <codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!config_.enabled)<sp/>{</highlight></codeline>
 <codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
@@ -254,14 +252,14 @@
 <codeline lineno="186"><highlight class="normal">PromptInjectionDetector::DetectionResult</highlight></codeline>
 <codeline lineno="187"><highlight class="normal">PromptInjectionDetector::detectInResponse(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!config_.enabled)<sp/>{</highlight></codeline>
-<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1_1testing_1ad0051c8f602e1f36188bba55d7c4795d" kindref="member">DetectionResult</ref><sp/>result;</highlight></codeline>
-<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result_1abcc76ba6229a43444952a8ce6e43664b" kindref="member">sanitized_text</ref><sp/>=<sp/>response;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1_1testing_1aca8efd3052d83b1a6af4db037d6a5c17" kindref="member">DetectionResult</ref><sp/>result;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1prompt__engineering_1_1PromptInjectionDetector_1_1DetectionResult_1abcc76ba6229a43444952a8ce6e43664b" kindref="member">sanitized_text</ref><sp/>=<sp/>response;</highlight></codeline>
 <codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
 <codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="193"><highlight class="normal"></highlight></codeline>
 <codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Start<sp/>with<sp/>the<sp/>base<sp/>detection<sp/>pass<sp/>shared<sp/>with<sp/>user-supplied<sp/>prompts.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adversarially<sp/>crafted<sp/>responses<sp/>often<sp/>embed<sp/>the<sp/>same<sp/>override<sp/>patterns.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1_1testing_1ad0051c8f602e1f36188bba55d7c4795d" kindref="member">DetectionResult</ref><sp/>result<sp/>=<sp/>detect(response);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1_1testing_1aca8efd3052d83b1a6af4db037d6a5c17" kindref="member">DetectionResult</ref><sp/>result<sp/>=<sp/>detect(response);</highlight></codeline>
 <codeline lineno="197"><highlight class="normal"></highlight></codeline>
 <codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>heuristics<sp/>for<sp/>indirect<sp/>/<sp/>second-order<sp/>injection:<sp/>cases<sp/>where</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>model<sp/>embeds<sp/>fake<sp/>system-role<sp/>tokens<sp/>or<sp/>instruction<sp/>blocks<sp/>in<sp/>its<sp/>own</highlight><highlight class="normal"></highlight></codeline>

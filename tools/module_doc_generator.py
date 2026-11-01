@@ -302,7 +302,10 @@ class ModuleDocumentationGenerator:
         pattern = str(finding.get("pattern") or "")
         desc = str(finding.get("description") or "").strip()
         remediation = str(finding.get("remediation") or "").strip()
-        context = str(finding.get("context") or finding.get("snippet") or "").strip()
+        context = "\n".join(
+            line.rstrip()
+            for line in str(finding.get("context") or finding.get("snippet") or "").splitlines()
+        ).strip()
         scanner = str(finding.get("scanner") or "").strip()
 
         head = f"- Line {line}: severity={severity}; category={category}"

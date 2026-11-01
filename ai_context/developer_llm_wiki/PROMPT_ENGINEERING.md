@@ -11,6 +11,9 @@ Human_Author: "ThemisDB Team"
 Source_Level: "level1"
 SOT_Domain: "module-behavior"
 Canonical_References: "include/prompt_engineering/README.md; src/prompt_engineering/README.md; src/prompt_engineering/ARCHITECTURE.md; src/prompt_engineering/API.md; src/prompt_engineering/IMPLEMENTATION.md; src/prompt_engineering/MODULE_GUIDE.md; tests/prompt_engineering/CMakeLists.txt; benchmarks/prompt_engineering/README.md"
+source: "include/prompt_engineering/README.md; include/prompt_engineering/prompt_manager.h; include/prompt_engineering/prompt_engineering_integration.h; include/prompt_engineering/prompt_evaluator.h; include/prompt_engineering/prompt_injection_detector.h; include/prompt_engineering/rewrite_engine.h; src/prompt_engineering/README.md; src/prompt_engineering/ARCHITECTURE.md; src/prompt_engineering/API.md; src/prompt_engineering/IMPLEMENTATION.md; src/prompt_engineering/MODULE_GUIDE.md; tests/prompt_engineering/CMakeLists.txt; benchmarks/prompt_engineering/README.md"
+source_class: "secondary"
+source_weight: 60
 ---
 
 > Exact model backend not verifiable from final document text alone.

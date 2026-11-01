@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,13 +14,14 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Modules and APIs
 
-Datum: 2026-10-31
+Datum: 2026-11-01
 Status: Active
 
 ## Curated module contexts
 
 - [AQL module context](AQL.md) — assistance API boundaries, validation behavior, and test/benchmark registration.
 - [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary.
+- [Prompt engineering module context](PROMPT_ENGINEERING.md) — prompt runtime boundaries, trust caveats, and test/benchmark registration.
 - [Importer module context](IMPORTERS.md) — shared contracts, connector boundaries, focused test evidence, and operational limits.
 - [Updates module context](UPDATES.md) — update lifecycle, rollout and patch contracts, diagnostic evidence, and operator boundaries.
 - [Distributed tensor module context](DISTRIBUTED_TENSOR.md) — tensor artifact contracts, planning boundaries, C++ requirements, and verified test/benchmark evidence.

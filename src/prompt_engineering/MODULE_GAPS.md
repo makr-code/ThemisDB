@@ -6,7 +6,7 @@
 ## Scan Snapshot
 
 - Module: prompt_engineering
-- Generated: 2026-11-01 06:43:14
+- Generated: 2026-11-01 06:48:12
 - Status: Critical Findings Present
 - Total Findings: 96
 - Actionable Findings (Critical + High): 54
@@ -336,7 +336,7 @@ Total findings: 9
 
     }
 
-    
+
 
     result.metadata["score"] = score;
 
@@ -349,7 +349,7 @@ Total findings: 9
   Scanner: Uniform::phase1_memory_safety
   Context: }
 
-    
+
 
     result.metadata["score"] = score;
 
@@ -357,7 +357,7 @@ Total findings: 9
 
     result.metadata["original_length"] = original_prompt.length();
 
-    
+
 
     THEMIS_DEBUG("Generated meta-prompt of length {}", result.meta_prompt.length());
 - Line 146: severity=HIGH; category=pointer_arithmetic_unbounded
@@ -370,7 +370,7 @@ Total findings: 9
 
     result.metadata["original_length"] = original_prompt.length();
 
-    
+
 
     THEMIS_DEBUG("Generated meta-prompt of length {}", result.meta_prompt.length());
 - Line 188: severity=HIGH; category=unchecked_result
@@ -458,11 +458,11 @@ Total findings: 7
 
                 );
 
-                
+
 
                 result.metadata["ab_test_id"] = test_id;
 
-                
+
 
                 THEMIS_INFO("Optimization completed, starting A/B test: {}", test_id);
 
@@ -481,7 +481,7 @@ Total findings: 7
 
     }
 
-    
+
 
     return finalizeResult(result.status == OptimizationStatus::NOT_STARTED
 - Line 437: severity=HIGH; category=pointer_arithmetic_unbounded
@@ -492,7 +492,7 @@ Total findings: 7
 
         for (auto& results : optimization_history_[test.prompt_id]) {
 
-            if (results.metadata.contains("ab_test_id") && 
+            if (results.metadata.contains("ab_test_id") &&
 
                 results.metadata["ab_test_id"] == test_id) {
 
@@ -509,7 +509,7 @@ Total findings: 7
 
         for (auto& results : optimization_history_[test.prompt_id]) {
 
-            if (results.metadata.contains("ab_test_id") && 
+            if (results.metadata.contains("ab_test_id") &&
 
                 results.metadata["ab_test_id"] == test_id) {
 
@@ -524,15 +524,15 @@ Total findings: 7
   Scanner: Uniform::phase1_memory_safety
   Context: updated_template.content = version;
 
-    
+
 
     // Update metadata to track deployment
 
-    updated_template.metadata["last_deployed"] = 
+    updated_template.metadata["last_deployed"] =
 
         std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
-    
+
 
     // Create new version (in production, this would use PromptVersionControl)
 
@@ -670,13 +670,13 @@ Total findings: 4
 
     result.converged = result.converged || (current_score >= config_.target_score);
 
-    
+
 
     result.metadata["initial_score"] = result.score_history[0];
 
     result.metadata["improvement"] = current_score - result.score_history[0];
 
-    result.metadata["relative_improvement"] = 
+    result.metadata["relative_improvement"] =
 
         (result.score_history[0] > 0) ?
 - Line 117: severity=HIGH; category=pointer_arithmetic_unbounded
@@ -685,15 +685,15 @@ Total findings: 4
   Scanner: Uniform::phase1_memory_safety
   Context: result.converged = result.converged || (current_score >= config_.target_score);
 
-    
+
 
     result.metadata["initial_score"] = result.score_history[0];
 
     result.metadata["improvement"] = current_score - result.score_history[0];
 
-    result.metadata["relative_improvement"] = 
+    result.metadata["relative_improvement"] =
 
-        (result.score_history[0] > 0) ? 
+        (result.score_history[0] > 0) ?
 
         (current_score - result.score_history[0]) / result.score_history[0] : 0.0;
 - Line 118: severity=HIGH; category=pointer_arithmetic_unbounded
@@ -704,9 +704,9 @@ Total findings: 4
 
     result.metadata["improvement"] = current_score - result.score_history[0];
 
-    result.metadata["relative_improvement"] = 
+    result.metadata["relative_improvement"] =
 
-        (result.score_history[0] > 0) ? 
+        (result.score_history[0] > 0) ?
 
         (current_score - result.score_history[0]) / result.score_history[0] : 0.0;
 - Line 181: severity=HIGH; category=unvalidated_llm_output
@@ -821,7 +821,7 @@ Total findings: 2
 
     }
 
-    
+
 
     acc->second.metadata["experiment_id"] = experiment_id;
 

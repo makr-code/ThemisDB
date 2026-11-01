@@ -1,10 +1,10 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-10-31T11:12:38+00:00",
+  "generated_at": "2026-11-01T06:48:56+00:00",
   "mode": "full_sync",
-  "source_count": 9419,
-  "source_hash": "d8a35a984a466683d714b65e1660ade3e2cfecca591a1d1a9c623f47aeda2d1a",
+  "source_count": 9507,
+  "source_hash": "28434d27e8b2f110db5114506f0767f0aacaab74083cdac2edccd8c89202a41d",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
@@ -12,9 +12,9 @@
     "added_preview": [],
     "removed_preview": [],
     "changed_preview": [
-      "ai_context/developer_llm_wiki/UPDATES.md"
+      "src/prompt_engineering/AUDIT.md"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "c389671e1b762f5cfc4e59f043d3344d8fd10050f8bbb0ed9efeeca359fe0e4a"
+  "manifest_sha256": "a92e7960f2ff3425baedf606ec2a395822f5ae8660eacfecb42452b7f71d75fb"
 }
