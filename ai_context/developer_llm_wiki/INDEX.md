@@ -23,8 +23,8 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 - Ziel: Onboarding- und Coding-relevantes Wissen fuer Entwickler-LLMs
 - Laufmodus: FULL_SYNC
-- Quellen gesamt: 9514
-- Quellen-Hash: `b03102e23aa8e0651adb453b6887c2a454e947e28ab6fe69da9cb8fdfed3e09d`
+- Quellen gesamt: 9516
+- Quellen-Hash: `7560acd9adf14df58c30dc5d8a5b69a3632d25faa02723b73c8868b9a813f02d`
 
 ## Status And Source-of-Truth Governance
 
@@ -40,6 +40,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - [AQL module context](AQL.md) — assistance API boundaries, validation behavior, and test/benchmark registration.
 - [Graph module context](GRAPH.md) — graph execution boundaries, RotatE evidence, focused tests, and archived artifacts
 - [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary.
+- [Prompt engineering module context](PROMPT_ENGINEERING.md) — prompt runtime boundaries, trust caveats, and test/benchmark registration.
 - [IMPORTERS.md](IMPORTERS.md) — curated importer module context
 - [UPDATES.md](UPDATES.md) — curated updates module context
 - [DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md) — curated distributed tensor module context
@@ -47,6 +48,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - [TEMPORAL.md](TEMPORAL.md) — temporal runtime/API boundaries, test and benchmark evidence limits
 - [STORAGE.md](STORAGE.md) — curated storage API boundaries, test evidence, and contract gaps
 - [USER_STORAGE_ENCRYPTED.md](USER_STORAGE_ENCRYPTED.md) — encrypted user-storage architecture, configuration, and evidence boundaries
+- [MAINTENANCE.md](MAINTENANCE.md) — maintenance runtime API, CRUD churn enforcement, persistence, and unverified benchmark gates
 - [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)
 - [WIKI_STATUS.json](WIKI_STATUS.json)
 - [WIKI_DELTA_REPORT.md](WIKI_DELTA_REPORT.md)
@@ -55,7 +57,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 - modules_and_api: 3821
 - build_test_ci: 203
-- governance_and_docs: 5490
+- governance_and_docs: 5492
 - misc: 0
 
 ## Source-Priority / Konfliktregel

@@ -37,6 +37,7 @@ namespace themis {
 namespace query { class QueryEngine; }
 using QueryEngine = query::QueryEngine;
 class EventTriggerManager;
+class DistributedTaskCoordinator;
 class CronExpression;
 class RocksDBWrapper;
 
@@ -378,10 +379,9 @@ public:
     /**
      * @brief Per-request authentication context propagated via thread-local storage.
      *
-     * HTTP handler code sets this on the handler thread before calling scheduler
-     * operations. The scheduler reads it when constructing audit events so that
-     * audit trails correctly attribute operations to the requesting operator rather
-     * than the system account.
+     * HTTP handler code and trusted in-process callers set this before invoking
+     * security-sensitive operations. Missing context is denied, not treated as
+     * an implicit system administrator.
      */
     struct RequestContext {
         std::string user_id;    ///< Authenticated user / service account
@@ -391,8 +391,28 @@ public:
         std::string authorization_justification;             ///< Why access was granted (policy/scope decision)
     };
 
+    /**
+     * @brief Temporarily apply a request context on the current thread.
+     *
+     * The previous context is restored on scope exit, or the context is cleared
+     * if none was set. The guard is non-copyable and must be destroyed on the
+     * thread where it was constructed.
+     *
+     * @param context Explicit identity, permissions, and roles for the scope.
+     */
+    class ScopedRequestContext {
+    public:
+        explicit ScopedRequestContext(const RequestContext& context);
+        ~ScopedRequestContext() noexcept;
+        ScopedRequestContext(const ScopedRequestContext&) = delete;
+        ScopedRequestContext& operator=(const ScopedRequestContext&) = delete;
+    private:
+        RequestContext previous_;
+        bool had_previous_ = false;
+    };
+
     /// Set the authentication context for the calling thread.
-    /// Must be called before any scheduler method that performs audit logging.
+    /// Must be called before security-sensitive scheduler operations.
     /// Thread-safe (each thread owns its own context slot).
     static void setRequestContext(const RequestContext& ctx) noexcept;
 
@@ -404,8 +424,12 @@ public:
 
     /// Return the client IP from the thread-local request context (empty if not set).
     static std::string currentClientIp() noexcept;
+    /// Return false when no request context is set or the permission is absent.
     static bool hasPermission(const std::string& permission) noexcept;
+    /// Return false when no request context is set or the role is absent.
     static bool hasRole(const std::string& role) noexcept;
+    /// Return whether this thread has an explicitly set request context.
+    static bool hasRequestContext() noexcept;
     static std::string currentAuthorizationJustification(const char* fallback = "") noexcept;
     
     /**
@@ -449,18 +473,21 @@ public:
     /**
      * @brief Unregister a task
      * @param task_id Task ID to remove
+     * @throws std::runtime_error if task:unregister is not granted
      */
     void unregisterTask(const std::string& task_id);
     
     /**
      * @brief Enable a disabled task
      * @param task_id Task ID to enable
+     * @throws std::runtime_error if task:update is not granted
      */
     void enableTask(const std::string& task_id);
     
     /**
      * @brief Disable a task (will not be executed until re-enabled)
      * @param task_id Task ID to disable
+     * @throws std::runtime_error if task:update is not granted
      */
     void disableTask(const std::string& task_id);
     
@@ -470,6 +497,7 @@ public:
      * 
      * ⚠️ SECURITY: This method MUST be protected by authentication and authorization.
      * Verify user has permission to modify the specified task.
+     * Requires task:update in the current RequestContext.
      */
     void updateTask(const ScheduledTask& task);
     
@@ -516,13 +544,14 @@ public:
      * ⚠️ SECURITY: This method MUST be protected by authentication and authorization.
      */
     DagExecutionResult executeDAG(const std::vector<std::string>& task_ids);
-    
+
     // Function registration (for custom post-processing logic)
     using TaskFunction = std::function<nlohmann::json(const nlohmann::json& params)>;
     
     /**
      * @brief Register a custom function that can be called by tasks
      * @param name Function name
+     * @throws std::runtime_error unless task:register_function and system_admin are granted
      * @param func Function implementation
      * 
      * ⚠️ SECURITY CRITICAL: This allows arbitrary code execution.
@@ -534,6 +563,7 @@ public:
     /**
      * @brief Unregister a custom function
      * @param name Function name
+     * @throws std::runtime_error unless task:register_function and system_admin are granted
      */
     void unregisterFunction(const std::string& name);
     
@@ -670,11 +700,20 @@ public:
     size_t getDynamicConcurrencyLimit() const noexcept;
 
 private:
+    friend class DistributedTaskCoordinator;
+    static std::optional<RequestContext> currentRequestContext();
+    /**
+     * Attach a shared distributed-execution gate. A false gate prevents dispatch;
+     * shared ownership prevents stale coordinator captures after destruction.
+     */
+    void setDistributedExecutionGate(std::shared_ptr<const std::atomic<bool>> gate);
+
     // Core components
     QueryEngine* query_engine_;
     Changefeed* changefeed_;
     utils::AuditLogger* audit_logger_;  // Optional audit logger for SIEM integration
     Config config_;
+    std::shared_ptr<const std::atomic<bool>> distributed_execution_gate_;
     
     // Audit and anomaly detection
     std::shared_ptr<scheduler::TaskAuditManager> audit_manager_;
@@ -731,6 +770,7 @@ private:
     
     // Task execution
     void executeTask(std::shared_ptr<ScheduledTask> task);
+    bool coordinationAllowsExecution(const std::string& task_id) const;
     nlohmann::json executeAqlQuery(const std::string& aql);
     nlohmann::json executeFunction(const std::string& name, const nlohmann::json& params);
     
@@ -787,4 +827,3 @@ private:
 };
 
 } // namespace themis
-

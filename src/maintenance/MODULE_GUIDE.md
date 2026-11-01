@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -27,7 +27,7 @@ implementation semantics of every dispatched task.
 | `src/maintenance/` | Orchestration, persistence adapter, and default schedule registration |
 | `include/server/maintenance_api_handler.h` and `src/server/maintenance_api_handler.cpp` | Translate HTTP-level maintenance operations to typed orchestrator calls |
 | `src/server/http_server.cpp` | Route registration, authorization checks, and HTTP status mapping |
-| `tests/maintenance/` and `tests/test_database_maintenance_orchestrator.cpp` | Focused contract, regression, and stress tests |
+| `tests/maintenance/` and `tests/database/test_database_maintenance_orchestrator.cpp` | Focused contract, regression, and stress tests |
 
 ## Integrating a task handler
 
@@ -87,6 +87,11 @@ multi-node work, inject a genuinely shared `IDistributedLock`; the provided
   layer. It does not imply a rollback or bypass the other dispatch guards.
 - Job history is in memory and completed jobs are pruned after 24 hours by
   default. Export incident evidence when longer retention is required.
+- `max_schedule_changes_per_interval` is enforced by create/update/patch/delete
+  using the existing schedule's limit for mutations after create. Counters are
+  in-memory fixed 60-second windows; existing-schedule attempts consume a slot
+  before persistence, successful deletes clear their counters, and restart clears
+  remaining counts.
 - A task skipped for a missing handler can appear in the dispatch diagnostics
   without making the aggregate job state `FAILED`; inspect task-level outcomes.
 

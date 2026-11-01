@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="structured__output_8cpp" kind="file" language="C++">
     <compoundname>structured_output.cpp</compoundname>
     <includes refid="structured__output_8h" local="yes">prompt_engineering/structured_output.h</includes>
@@ -90,7 +90,6 @@
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight></codeline>
 <codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="structured__output_8h" kindref="compound">prompt_engineering/structured_output.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight></codeline>
 <codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="markdown__utils_8h" kindref="compound">prompt_engineering/markdown_utils.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -100,7 +99,7 @@
 <codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight></codeline>
 <codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">prompt_engineering</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">prompt_engineering<sp/>{</highlight></codeline>
 <codeline lineno="21"><highlight class="normal"></highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Repair<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
@@ -386,7 +385,7 @@
 <codeline lineno="353"><highlight class="normal"></highlight></codeline>
 <codeline lineno="362"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>StructuredOutputEnforcer::validateJsonSchema(</highlight></codeline>
 <codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output,</highlight></codeline>
-<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint" kindref="compound">JsonSchemaConstraint</ref>&amp;<sp/>schema,</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>JsonSchemaConstraint&amp;<sp/>schema,</highlight></codeline>
 <codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;&amp;<sp/><sp/><sp/>errors)<sp/>{</highlight></codeline>
 <codeline lineno="366"><highlight class="normal"></highlight></codeline>
 <codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Step<sp/>1:<sp/>structural<sp/>validity</highlight><highlight class="normal"></highlight></codeline>
@@ -430,7 +429,7 @@
 <codeline lineno="405"><highlight class="normal"></highlight></codeline>
 <codeline lineno="414"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>StructuredOutputEnforcer::validateRegex(</highlight></codeline>
 <codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output,</highlight></codeline>
-<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint" kindref="compound">RegexGrammarConstraint</ref>&amp;<sp/><sp/>grammar,</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>RegexGrammarConstraint&amp;<sp/><sp/>grammar,</highlight></codeline>
 <codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>errors)<sp/>{</highlight></codeline>
 <codeline lineno="418"><highlight class="normal"></highlight></codeline>
 <codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(grammar.pattern.empty())<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>constraint</highlight><highlight class="normal"></highlight></codeline>
@@ -452,9 +451,8 @@
 <codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="436"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="437"><highlight class="normal"></highlight></codeline>
-<codeline lineno="446"><highlight class="normal"></highlight></codeline>
-<codeline lineno="447"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1af8163c26f05c333577ce3884afab0bc6" kindref="member">StructuredOutputEnforcer::validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output,</highlight></codeline>
-<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_config" kindref="compound">StructuredOutputConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1StructuredOutputEnforcer_1af8163c26f05c333577ce3884afab0bc6" kindref="member">StructuredOutputEnforcer::validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output,</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StructuredOutputConfig&amp;<sp/>config,</highlight></codeline>
 <codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;&amp;<sp/><sp/><sp/><sp/><sp/>errors)<sp/>{</highlight></codeline>
 <codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(config.type)<sp/>{</highlight></codeline>
 <codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1prompt__engineering_1af0b204eff200ce0864b6c12c0f370b4aab50339a10e1de285ac99d4c3990b8693" kindref="member">OutputConstraintType::NONE</ref>:</highlight></codeline>
@@ -467,10 +465,9 @@
 <codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>unreachable</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="459"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="460"><highlight class="normal"></highlight></codeline>
-<codeline lineno="468"><highlight class="normal"></highlight></codeline>
-<codeline lineno="469"><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_result" kindref="compound">StructuredOutputResult</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1a2f68e362b40ed5b9b6772d379a7f8960" kindref="member">StructuredOutputEnforcer::enforce</ref>(</highlight></codeline>
+<codeline lineno="469"><highlight class="normal">StructuredOutputResult<sp/><ref refid="classthemis_1_1prompt__engineering_1_1StructuredOutputEnforcer_1a2f68e362b40ed5b9b6772d379a7f8960" kindref="member">StructuredOutputEnforcer::enforce</ref>(</highlight></codeline>
 <codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>raw_output,</highlight></codeline>
-<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_config" kindref="compound">StructuredOutputConfig</ref>&amp;<sp/>config)<sp/>{</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StructuredOutputConfig&amp;<sp/>config)<sp/>{</highlight></codeline>
 <codeline lineno="472"><highlight class="normal"></highlight></codeline>
 <codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t_start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
 <codeline lineno="474"><highlight class="normal"></highlight></codeline>
@@ -505,7 +502,7 @@
 <codeline lineno="503"><highlight class="normal"></highlight></codeline>
 <codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.validated_output<sp/>=<sp/>candidate;</highlight></codeline>
 <codeline lineno="505"><highlight class="normal"></highlight></codeline>
-<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1af8163c26f05c333577ce3884afab0bc6" kindref="member">validate</ref>(candidate,<sp/>config,<sp/>result.validation_errors))<sp/>{</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="classthemis_1_1prompt__engineering_1_1StructuredOutputEnforcer_1af8163c26f05c333577ce3884afab0bc6" kindref="member">validate</ref>(candidate,<sp/>config,<sp/>result.validation_errors))<sp/>{</highlight></codeline>
 <codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.is_valid<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>

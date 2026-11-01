@@ -1,46 +1,36 @@
-# Security - Prompt Engineering Module
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+> Exact model backend not verifiable from final document text alone.
 
-Report vulnerabilities via project-level SECURITY.md.
+# Security — Prompt Engineering Module
 
-## Security Scope
+## Security boundary
 
-Security in the prompt_engineering module focuses on prompt-template validation boundaries, safe context injection behavior, explicit version history/accountability, and non-silent failure signaling in optimization/evaluation paths.
+The module contains template validators, injection-detection heuristics, structured-output helpers, and rewrite-rule interfaces. These are library-level controls and do not provide authorization, model isolation, a complete prompt firewall, or guaranteed output safety. The integrating service owns access control, model transport, tool policy, and downstream parsing/validation.
 
-## Threat Model
+## Source-backed limits
 
-| Threat | Current Mitigation Surface |
-|---|---|
-| malformed or unsafe templates | validation-gated template lifecycle paths |
-| unsafe or uncontrolled context substitution | bounded context injection contract |
-| hidden prompt revision drift | explicit version commit/history behavior |
-| silent quality regression in optimization loops | explicit evaluation/feedback/metrics outcomes |
+- `PromptManager::injectContext()` performs literal substitution; it does not escape inserted values or decide whether they are authorized.
+- `PromptInjectionDetector` uses heuristics and can miss novel attacks or flag benign text. Its result is a signal for caller policy, not an access decision.
+- `PromptTemplateValidator` and `PromptManager::validateTemplate()` have distinct contracts; manager field validation does not run the JSON validator's injection heuristics.
+- Feedback may retain query/response content, and provider calls may receive text supplied for evaluation. The host owns retention, access, and redaction policy.
+- Rewrite rules are separate from the integration hooks; code presence does not mean they are applied to requests.
 
-## Implemented Security Controls
+## Integration requirements
 
-- prompt template creation and validation are explicit and gated.
-- template misses/invalid inputs return deterministic outcomes.
-- revision history remains explicit via version control surfaces.
-- feedback and metrics paths keep prompt behavior observable.
+- Authorize and constrain context before substitution; validate generated output before using it as a query, tool input, or command.
+- Apply least privilege to template/rule writers, database access, provider credentials, and readers of feedback or metrics.
+- Minimize or redact prompt and response content in logs and incident records.
+- Require security review for policy-rule changes, data propagation, provider/model changes, and detector threshold changes.
 
-## Security Follow-ups
-
-- expand adversarial template and injection edge-case coverage.
-- tighten diagnostics for optimization/evaluation failure classes.
-- deepen stress coverage for concurrent template/version operations.
-
-## Sourcecode Verification (Module: prompt_engineering/security)
-
-- Verified files:
-  - src/prompt_engineering/prompt_manager.cpp
-  - src/prompt_engineering/prompt_template_validator.cpp
-  - src/prompt_engineering/prompt_version_control.cpp
-  - src/prompt_engineering/prompt_optimizer.cpp
-  - src/prompt_engineering/prompt_evaluator.cpp
-  - src/prompt_engineering/prompt_injection_detector.cpp
-- Verified controls:
-  - validation-gated template operations
-  - deterministic miss/error handling for prompt lifecycle paths
-  - explicit observability via versioning/feedback/metrics
+See [`TRUST.md`](./TRUST.md) for detailed trust boundaries, [`RUNBOOK.md`](./RUNBOOK.md) for incident response, and the repository [security policy](../../SECURITY.md) for reporting.

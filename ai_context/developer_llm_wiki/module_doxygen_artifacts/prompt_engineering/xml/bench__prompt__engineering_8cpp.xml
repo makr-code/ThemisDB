@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="bench__prompt__engineering_8cpp" kind="file" language="C++">
     <compoundname>bench_prompt_engineering.cpp</compoundname>
     <includes local="no">benchmark/benchmark.h</includes>
@@ -11,6 +11,7 @@
     <includes refid="prompt__engineering__metrics_8h" local="yes">prompt_engineering/prompt_engineering_metrics.h</includes>
     <includes local="no">nlohmann/json.hpp</includes>
     <includes local="no">memory</includes>
+    <includes local="no">unordered_map</includes>
     <includes local="no">string</includes>
     <includes local="no">thread</includes>
     <includes local="no">vector</includes>
@@ -36,6 +37,8 @@
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
@@ -213,7 +216,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="90" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="90" bodyend="98"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="91" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="91" bodyend="99"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -229,7 +232,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="99" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="99" declcolumn="1"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="100" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="100" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1a92156af7c5bde6a825bfbcdc1e1d1367" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -246,7 +249,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="105" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="105" bodyend="113"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="106" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="106" bodyend="114"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1a15b3b6d3ffb9aa87f4c03dea1389dfc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -262,7 +265,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="114" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="114" declcolumn="1"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="115" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="115" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1afe09368ace6d5b1045add50cf5cec917" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -279,7 +282,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="116" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="116" bodyend="122"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="117" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="117" bodyend="123"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1a49b801e8d836056b1c9a94dcd083354b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -295,7 +298,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="123" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="123" declcolumn="1"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="124" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="124" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1ac3bb19bfe5c85ec4c6e5a1bc67a1316c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -312,7 +315,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="129" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="129" bodyend="139"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="130" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="130" bodyend="140"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1a91281903faf25386fbb0bfc46b9f53d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -328,7 +331,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="140" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="140" declcolumn="1"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="141" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="141" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1aef2fbe3c83437846cdcac4a4803c1e60" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -345,7 +348,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="146" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="146" bodyend="152"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="147" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="147" bodyend="153"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1a0eef6e686c5ed2e3c3461b40cd7405c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -361,7 +364,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="153" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="153" declcolumn="1"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="154" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="154" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1a3baa7a4c4025fffac222b0951054d4f0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -378,7 +381,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="155" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="155" bodyend="161"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="156" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="156" bodyend="162"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1a7ba072f9ac75341675527f781c95aa3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -394,7 +397,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="162" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="162" declcolumn="1"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="163" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="163" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1af708bc5fc246f8c4fe32cf332a9bf046" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -411,7 +414,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="168" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="168" bodyend="180"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="169" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="169" bodyend="181"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1aa85e7b3cf1e4d455db9fa7e3632875ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -427,7 +430,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="181" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="181" declcolumn="1"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="182" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="182" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1a6913a4304331d2799c72314a9e37c85a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -444,7 +447,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="187" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="187" bodyend="196"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="188" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="188" bodyend="197"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1ad75664e138f05c097fd56ff9a867c6b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -460,7 +463,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="197" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="197" declcolumn="1"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="198" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="198" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1a626e46af42ae5ee82e786c0b9fb1da1a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -477,7 +480,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="203" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="203" bodyend="216"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="204" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="204" bodyend="217"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1ae2f73e19c1ec2f9ee205b62b76787ae0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -493,7 +496,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="217" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="217" declcolumn="1"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="218" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="218" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1ae81971c82481c12e97ba73f199ec22b5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -510,7 +513,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="223" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="223" bodyend="237"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="224" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="224" bodyend="238"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1a5c8bb11ec158d2259710b12f8c27cc6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -526,7 +529,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="238" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="238" declcolumn="1"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="239" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="239" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1a6381aae21de954e8641f2dba5e8cce2e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -543,7 +546,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="244" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="244" bodyend="272"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="245" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="245" bodyend="273"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1a7463766ac1054302ed2b48ab6c52c399" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -559,7 +562,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="273" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="273" declcolumn="1"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="274" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="274" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1ad08a03dfe395d32c3c4cb7ec2acd67e1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -576,7 +579,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="279" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="279" bodyend="287"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="280" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="280" bodyend="288"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1aecf45b18ad3c54f4de934590822ff32f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -592,7 +595,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="288" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="288" declcolumn="1"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="289" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="289" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1a47f4be46afce7bc7e3eb85433a7722a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -609,7 +612,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="294" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="294" bodyend="301"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="295" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="295" bodyend="302"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1a25ce4620f5b8b3f023302b40d4ff5f13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -625,7 +628,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="302" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="302" declcolumn="1"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="303" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="303" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1a4bfe0161545c4c93f7162d7ff85abc7d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -642,7 +645,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="304" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="304" bodyend="311"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="305" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="305" bodyend="312"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1ae46130339e1e19761a33e15764718f59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -658,7 +661,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="312" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="312" declcolumn="1"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="313" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="313" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1ac3cb307f0c592b8810373c6beb6ab35e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -675,7 +678,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="318" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="318" bodyend="328"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="319" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="319" bodyend="329"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1ae28b70d65288ecaacc505adf33364177" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -691,7 +694,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="329" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="329" declcolumn="1"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="330" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="330" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1ac7c3a0055c11896a16042ac089d04470" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -708,7 +711,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="335" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="335" bodyend="350"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="336" column="13" bodyfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" bodystart="336" bodyend="351"/>
       </memberdef>
       <memberdef kind="function" id="bench__prompt__engineering_8cpp_1a86180654eb5204a60a85057b4aaaaaeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -724,7 +727,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="351" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="351" declcolumn="1"/>
+        <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" line="352" column="1" declfile="benchmarks/prompt_engineering/bench_prompt_engineering.cpp" declline="352" declcolumn="1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -732,21 +735,21 @@
     </briefdescription>
     <detaileddescription>
 <para>Measures:<orderedlist>
-<listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a95e1205d5cd546f043442898a712a67b" kindref="member">PromptManager::createTemplate</ref> – in-memory insert throughput</para>
-</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a2bcd2d054434a2879f1d7de81c885918" kindref="member">PromptManager::getTemplate</ref> – in-memory lookup latency (hit / miss)</para>
-</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a959712289c985e8f0d363b35719c3136" kindref="member">PromptManager::injectContext</ref> – variable substitution throughput</para>
-</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a5e6d1db58c86404e842e89ad965afe89" kindref="member">PromptManager::validateTemplate</ref> – validation latency (valid / invalid)</para>
-</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1aa6eeadd376a4e5fbd919167a88587437" kindref="member">PromptVersionControl::commit</ref> – version commit throughput</para>
-</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a737fc5b5f3448eb750939ad8a548c7f9" kindref="member">PromptVersionControl::getHistory</ref> – history retrieval (10 versions)</para>
-</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a2b330048b544c621f0fca27a1a1ffb5e" kindref="member">FeedbackCollector::recordFeedback</ref> – recording throughput</para>
-</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a19c99e3d23fcaa5841f6e3be3ff5561f" kindref="member">FeedbackCollector::getStats</ref> – aggregate stats latency</para>
-</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1aa6db251aedf456cc2c6482a7f5deb7eb" kindref="member">PromptOptimizer::optimize</ref> – single-iteration loop latency</para>
+<listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1PromptManager_1a95e1205d5cd546f043442898a712a67b" kindref="member">PromptManager::createTemplate</ref> – in-memory insert throughput</para>
+</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1PromptManager_1a2bcd2d054434a2879f1d7de81c885918" kindref="member">PromptManager::getTemplate</ref> – in-memory lookup latency (hit / miss)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1PromptManager_1a959712289c985e8f0d363b35719c3136" kindref="member">PromptManager::injectContext</ref> – variable substitution throughput</para>
+</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1PromptManager_1a5e6d1db58c86404e842e89ad965afe89" kindref="member">PromptManager::validateTemplate</ref> – validation latency (valid / invalid)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1PromptVersionControl_1aa6eeadd376a4e5fbd919167a88587437" kindref="member">PromptVersionControl::commit</ref> – version commit throughput</para>
+</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1PromptVersionControl_1a737fc5b5f3448eb750939ad8a548c7f9" kindref="member">PromptVersionControl::getHistory</ref> – history retrieval (10 versions)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1FeedbackCollector_1a2b330048b544c621f0fca27a1a1ffb5e" kindref="member">FeedbackCollector::recordFeedback</ref> – recording throughput</para>
+</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1FeedbackCollector_1a19c99e3d23fcaa5841f6e3be3ff5561f" kindref="member">FeedbackCollector::getStats</ref> – aggregate stats latency</para>
+</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1PromptOptimizer_1aa6db251aedf456cc2c6482a7f5deb7eb" kindref="member">PromptOptimizer::optimize</ref> – single-iteration loop latency</para>
 </listitem></orderedlist>
 </para>
-<para><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_evaluator_1aac4f34997a81bc84507c1c5f44da75f9" kindref="member">PromptEvaluator::evaluateSingle</ref> – structural evaluation latency<orderedlist>
-<listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics" kindref="compound">PromptEngineeringMetrics</ref> (record*) – metrics recording throughput</para>
-</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager" kindref="compound">PromptManager</ref> concurrent writes – 4-thread TBB concurrent_hash_map insert</para>
-</listitem><listitem><para><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control" kindref="compound">PromptVersionControl</ref> concurrent commits – 4-thread concurrent commit throughput</para>
+<para><ref refid="classthemis_1_1prompt__engineering_1_1PromptEvaluator_1aac4f34997a81bc84507c1c5f44da75f9" kindref="member">PromptEvaluator::evaluateSingle</ref> – structural evaluation latency<orderedlist>
+<listitem><para>PromptEngineeringMetrics (record*) – metrics recording throughput</para>
+</listitem><listitem><para>PromptManager concurrent writes – 4-thread TBB concurrent_hash_map insert</para>
+</listitem><listitem><para>PromptVersionControl concurrent commits – 4-thread concurrent commit throughput</para>
 </listitem></orderedlist>
 </para>
 <para>Performance targets (from src/prompt_engineering/ROADMAP.md):<itemizedlist>
@@ -764,7 +767,6 @@
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight></codeline>
 <codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="37"><highlight class="normal"></highlight></codeline>
 <codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="prompt__manager_8h" kindref="compound">prompt_engineering/prompt_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -777,310 +779,311 @@
 <codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="46"><highlight class="normal"></highlight></codeline>
 <codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="52"><highlight class="normal"></highlight></codeline>
-<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">themis::prompt_engineering</ref>;</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"></highlight></codeline>
-<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shared<sp/>fixtures</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight></codeline>
-<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"></highlight></codeline>
-<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>valid<sp/>template<sp/>used<sp/>across<sp/>benchmarks.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template" kindref="compound">PromptManager::PromptTemplate</ref><sp/>MakeTemplate(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0)<sp/>{</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template" kindref="compound">PromptManager::PromptTemplate</ref><sp/>t;</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a62bd7f00d9852a123edc6ac21eb799ea" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench_tmpl_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a8d3399d8823207c1ab27209d8551b2bc" kindref="member">version</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a9fa2f923fc372a65fafd4a37c8d80f04" kindref="member">content</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;You<sp/>are<sp/>a<sp/>helpful<sp/>assistant.<sp/>User<sp/>query:<sp/>{query}.<sp/>Context:<sp/>{context}.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Language:<sp/>{lang}.<sp/>Format:<sp/>{format}.<sp/>Extra:<sp/>{extra}.&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1ac9c4d6e1c02d429f02ef235b22b04959" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Benchmark<sp/>template<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a66237dc50cee964112072f55998d3fd0" kindref="member">active</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>t;</highlight></codeline>
-<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight></codeline>
-<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Context<sp/>map<sp/>matching<sp/>the<sp/>5<sp/>placeholders<sp/>in<sp/>MakeTemplate().</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>MakeCtx()<sp/>{</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>ThemisDB?&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;context&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ThemisDB<sp/>is<sp/>a<sp/>hybrid<sp/>database&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lang&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;format&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;markdown&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;extra&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;no<sp/>additional<sp/>info&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"></highlight></codeline>
-<codeline lineno="84"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="85"><highlight class="normal"></highlight></codeline>
-<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>1.<sp/>PromptManager::createTemplate<sp/>–<sp/>in-memory<sp/>insert<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="89"><highlight class="normal"></highlight></codeline>
-<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PromptManager_CreateTemplate(benchmark::State&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager" kindref="compound">PromptManager</ref><sp/>mgr;</highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/><sp/>=<sp/>MakeTemplate(i++);</highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/><sp/>=<sp/>mgr.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a95e1205d5cd546f043442898a712a67b" kindref="member">createTemplate</ref>(std::move(t));</highlight></codeline>
-<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(r);</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_PromptManager_CreateTemplate);</highlight></codeline>
-<codeline lineno="100"><highlight class="normal"></highlight></codeline>
-<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>PromptManager::getTemplate<sp/>–<sp/>lookup<sp/>latency<sp/>(hit<sp/>and<sp/>miss)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="104"><highlight class="normal"></highlight></codeline>
-<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PromptManager_GetTemplate_Hit(benchmark::State&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager" kindref="compound">PromptManager</ref><sp/>mgr;</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>inserted<sp/>=<sp/>mgr.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a95e1205d5cd546f043442898a712a67b" kindref="member">createTemplate</ref>(MakeTemplate(0));</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>inserted.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a8d8cd7e4676976394dbf25a872d828f5" kindref="member">id</ref>;</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>mgr.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a2bcd2d054434a2879f1d7de81c885918" kindref="member">getTemplate</ref>(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(r);</highlight></codeline>
-<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_PromptManager_GetTemplate_Hit);</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"></highlight></codeline>
-<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PromptManager_GetTemplate_Miss(benchmark::State&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager" kindref="compound">PromptManager</ref><sp/>mgr;</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>mgr.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a2bcd2d054434a2879f1d7de81c885918" kindref="member">getTemplate</ref>(</highlight><highlight class="stringliteral">&quot;nonexistent-id-xyz&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(r);</highlight></codeline>
-<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_PromptManager_GetTemplate_Miss);</highlight></codeline>
-<codeline lineno="124"><highlight class="normal"></highlight></codeline>
-<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>3.<sp/>PromptManager::injectContext<sp/>–<sp/>variable<sp/>substitution<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="128"><highlight class="normal"></highlight></codeline>
-<codeline lineno="129"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PromptManager_InjectContext(benchmark::State&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager" kindref="compound">PromptManager</ref><sp/>mgr;</highlight></codeline>
-<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>tmpl<sp/>=</highlight></codeline>
-<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;You<sp/>are<sp/>a<sp/>helpful<sp/>assistant.<sp/>User<sp/>query:<sp/>{query}.<sp/>Context:<sp/>{context}.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Language:<sp/>{lang}.<sp/>Format:<sp/>{format}.<sp/>Extra:<sp/>{extra}.&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>MakeCtx();</highlight></codeline>
-<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>mgr.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a959712289c985e8f0d363b35719c3136" kindref="member">injectContext</ref>(tmpl,<sp/>ctx);</highlight></codeline>
-<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(r);</highlight></codeline>
-<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="140"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_PromptManager_InjectContext);</highlight></codeline>
-<codeline lineno="141"><highlight class="normal"></highlight></codeline>
-<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>4.<sp/>PromptManager::validateTemplate<sp/>–<sp/>valid<sp/>and<sp/>invalid<sp/>paths</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="145"><highlight class="normal"></highlight></codeline>
-<codeline lineno="146"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PromptManager_ValidateTemplate_Valid(benchmark::State&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>MakeTemplate(0);</highlight></codeline>
-<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a5e6d1db58c86404e842e89ad965afe89" kindref="member">PromptManager::validateTemplate</ref>(t);</highlight></codeline>
-<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(r);</highlight></codeline>
-<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="153"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_PromptManager_ValidateTemplate_Valid);</highlight></codeline>
-<codeline lineno="154"><highlight class="normal"></highlight></codeline>
-<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PromptManager_ValidateTemplate_Invalid(benchmark::State&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template" kindref="compound">PromptManager::PromptTemplate</ref><sp/>t;<sp/></highlight><highlight class="comment">//<sp/>empty<sp/>name/content<sp/>→<sp/>validation<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a5e6d1db58c86404e842e89ad965afe89" kindref="member">PromptManager::validateTemplate</ref>(t);</highlight></codeline>
-<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(r);</highlight></codeline>
-<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="162"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_PromptManager_ValidateTemplate_Invalid);</highlight></codeline>
-<codeline lineno="163"><highlight class="normal"></highlight></codeline>
-<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>5.<sp/>PromptVersionControl::commit<sp/>–<sp/>in-memory<sp/>commit<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="167"><highlight class="normal"></highlight></codeline>
-<codeline lineno="168"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_VersionControl_Commit(benchmark::State&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control" kindref="compound">PromptVersionControl</ref><sp/>vc;</highlight></codeline>
-<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vid<sp/>=<sp/>vc.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1aa6eeadd376a4e5fbd919167a88587437" kindref="member">commit</ref>(</highlight></codeline>
-<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;prompt-bench&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;template<sp/>content<sp/>revision<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i++),</highlight></codeline>
-<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;bench<sp/>commit&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;bench-author&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(vid);</highlight></codeline>
-<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="181"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_VersionControl_Commit);</highlight></codeline>
-<codeline lineno="182"><highlight class="normal"></highlight></codeline>
-<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>6.<sp/>PromptVersionControl::getHistory<sp/>–<sp/>history<sp/>retrieval<sp/>(10<sp/>versions<sp/>pre-loaded)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="186"><highlight class="normal"></highlight></codeline>
-<codeline lineno="187"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_VersionControl_GetHistory(benchmark::State&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control" kindref="compound">PromptVersionControl</ref><sp/>vc;</highlight></codeline>
-<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
-<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vc.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1aa6eeadd376a4e5fbd919167a88587437" kindref="member">commit</ref>(</highlight><highlight class="stringliteral">&quot;prompt-bench&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;content<sp/>v&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;commit<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
-<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h<sp/>=<sp/>vc.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a737fc5b5f3448eb750939ad8a548c7f9" kindref="member">getHistory</ref>(</highlight><highlight class="stringliteral">&quot;prompt-bench&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(h);</highlight></codeline>
-<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="196"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="197"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_VersionControl_GetHistory);</highlight></codeline>
-<codeline lineno="198"><highlight class="normal"></highlight></codeline>
-<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>7.<sp/>FeedbackCollector::recordFeedback<sp/>–<sp/>recording<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="202"><highlight class="normal"></highlight></codeline>
-<codeline lineno="203"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_FeedbackCollector_RecordFeedback(benchmark::State&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector" kindref="compound">FeedbackCollector</ref><sp/>fc;</highlight></codeline>
-<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>fc.<ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a2b330048b544c621f0fca27a1a1ffb5e" kindref="member">recordFeedback</ref>(</highlight></codeline>
-<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;prompt-bench&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;query<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
-<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;response<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
-<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a741a693bbff093ea47dabeeea8dafe07" kindref="member">FeedbackType::USER_POSITIVE</ref></highlight></codeline>
-<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++i;</highlight></codeline>
-<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="217"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_FeedbackCollector_RecordFeedback);</highlight></codeline>
-<codeline lineno="218"><highlight class="normal"></highlight></codeline>
-<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>8.<sp/>FeedbackCollector::getStats<sp/>–<sp/>aggregate<sp/>stats<sp/>latency<sp/>(100<sp/>entries<sp/>pre-loaded)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="222"><highlight class="normal"></highlight></codeline>
-<codeline lineno="223"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_FeedbackCollector_GetStats(benchmark::State&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector" kindref="compound">FeedbackCollector</ref><sp/>fc;</highlight></codeline>
-<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
-<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fc.<ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a2b330048b544c621f0fca27a1a1ffb5e" kindref="member">recordFeedback</ref>(</highlight></codeline>
-<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;prompt-bench&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
-<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
-<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(i<sp/>%<sp/>3<sp/>==<sp/>0)<sp/>?<sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469aa8bbe6ea211bb91ac31ea0c1ba43a51c" kindref="member">FeedbackType::USER_NEGATIVE</ref><sp/>:<sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a741a693bbff093ea47dabeeea8dafe07" kindref="member">FeedbackType::USER_POSITIVE</ref></highlight></codeline>
-<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>fc.<ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a19c99e3d23fcaa5841f6e3be3ff5561f" kindref="member">getStats</ref>(</highlight><highlight class="stringliteral">&quot;prompt-bench&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(s);</highlight></codeline>
-<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="238"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_FeedbackCollector_GetStats);</highlight></codeline>
-<codeline lineno="239"><highlight class="normal"></highlight></codeline>
-<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>9.<sp/>PromptOptimizer::optimize<sp/>–<sp/>1-iteration<sp/>loop<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="243"><highlight class="normal"></highlight></codeline>
-<codeline lineno="244"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PromptOptimizer_Optimize_OneIter(benchmark::State&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_optimization_config" kindref="compound">OptimizationConfig</ref><sp/>cfg;</highlight></codeline>
-<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1prompt__engineering_1_1_optimization_config_1afbaedc091beb8a50b02e7c2d330881ed" kindref="member">max_iterations</ref><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
-<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1prompt__engineering_1_1_optimization_config_1ae39637f8536e79a9859fc7bcaac7d120" kindref="member">min_improvement</ref><sp/><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>always<sp/>iterate</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1prompt__engineering_1_1_optimization_config_1a2dd0526c9dc76353f0f1bfeb6e2d47c0" kindref="member">target_score</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>satisfied<sp/>after<sp/>1<sp/>step</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer" kindref="compound">PromptOptimizer</ref><sp/>opt(cfg);</highlight></codeline>
-<codeline lineno="250"><highlight class="normal"></highlight></codeline>
-<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deterministic<sp/>eval:<sp/>returns<sp/>0.8<sp/>regardless<sp/>of<sp/>input.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a57816934201209c26107444f149c499e" kindref="member">EvaluationFunction</ref><sp/>eval_fn<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
-<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;TestCase&gt;&amp;)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.8;</highlight></codeline>
-<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a402103a5be2cbf0dfd7e1241962e7ae5" kindref="member">ImprovementFunction</ref><sp/>improve_fn<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>p,</highlight></codeline>
-<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>double,</highlight></codeline>
-<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>-&gt;<sp/>std::string<sp/>{</highlight></codeline>
-<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>p<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>[improved]&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="261"><highlight class="normal"></highlight></codeline>
-<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>init_prompt<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Answer<sp/>the<sp/>question:<sp/>{query}&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;TestCase&gt;<sp/>cases<sp/>=<sp/>{</highlight></codeline>
-<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>ThemisDB?&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A<sp/>hybrid<sp/>database&quot;</highlight><highlight class="normal">,<sp/>{}},</highlight></codeline>
-<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;How<sp/>does<sp/>indexing<sp/>work?&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Via<sp/>B-tree<sp/>or<sp/>hash&quot;</highlight><highlight class="normal">,<sp/>{}},</highlight></codeline>
-<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="267"><highlight class="normal"></highlight></codeline>
-<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>opt.optimize(init_prompt,<sp/>cases,<sp/>eval_fn,<sp/>improve_fn);</highlight></codeline>
-<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(r);</highlight></codeline>
-<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="273"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_PromptOptimizer_Optimize_OneIter);</highlight></codeline>
-<codeline lineno="274"><highlight class="normal"></highlight></codeline>
-<codeline lineno="275"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="276"><highlight class="normal"></highlight><highlight class="comment">//<sp/>10.<sp/>PromptEvaluator::evaluatePrompt<sp/>–<sp/>structural<sp/>similarity<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="277"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="278"><highlight class="normal"></highlight></codeline>
-<codeline lineno="279"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PromptEvaluator_EvaluatePrompt(benchmark::State&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_evaluator" kindref="compound">PromptEvaluator</ref><sp/>evaluator;</highlight></codeline>
-<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>output<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ThemisDB<sp/>is<sp/>a<sp/>hybrid<sp/>database<sp/>system<sp/>supporting<sp/>multiple<sp/>models.&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>expected<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ThemisDB<sp/>is<sp/>a<sp/>hybrid<sp/>database<sp/>supporting<sp/>multiple<sp/>storage<sp/>engines.&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>m<sp/>=<sp/>evaluator.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_evaluator_1aac4f34997a81bc84507c1c5f44da75f9" kindref="member">evaluateSingle</ref>(output,<sp/>expected);</highlight></codeline>
-<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(m);</highlight></codeline>
-<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="287"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="288"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_PromptEvaluator_EvaluatePrompt);</highlight></codeline>
-<codeline lineno="289"><highlight class="normal"></highlight></codeline>
-<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>11.<sp/>PromptEngineeringMetrics<sp/>–<sp/>recording<sp/>throughput<sp/>(per-call<sp/>overhead)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="293"><highlight class="normal"></highlight></codeline>
-<codeline lineno="294"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Metrics_RecordOptimizationAttempt(benchmark::State&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics" kindref="compound">PromptEngineeringMetrics</ref><sp/>metrics;</highlight></codeline>
-<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a2e373ac0f1f0b4baca8dbe9e8a05082f" kindref="member">recordOptimizationAttempt</ref>(</highlight><highlight class="stringliteral">&quot;prompt-bench-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i<sp/>%<sp/>16));</highlight></codeline>
-<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++i;</highlight></codeline>
-<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="301"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="302"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_Metrics_RecordOptimizationAttempt);</highlight></codeline>
-<codeline lineno="303"><highlight class="normal"></highlight></codeline>
-<codeline lineno="304"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Metrics_RecordPromptExecution(benchmark::State&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics" kindref="compound">PromptEngineeringMetrics</ref><sp/>metrics;</highlight></codeline>
-<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1af072ccad30c879ad021c069a46e8f2bf" kindref="member">recordPromptExecution</ref>(</highlight><highlight class="stringliteral">&quot;prompt-bench-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i<sp/>%<sp/>16),<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>12.5);</highlight></codeline>
-<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++i;</highlight></codeline>
-<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="311"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="312"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_Metrics_RecordPromptExecution);</highlight></codeline>
-<codeline lineno="313"><highlight class="normal"></highlight></codeline>
-<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>12.<sp/>PromptManager<sp/>concurrent<sp/>writes<sp/>–<sp/>4-thread<sp/>TBB<sp/>concurrent_hash_map<sp/>insert</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="316"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="317"><highlight class="normal"></highlight></codeline>
-<codeline lineno="318"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PromptManager_ConcurrentCreate(benchmark::State&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>shared<sp/>across<sp/>all<sp/>4<sp/>threads<sp/>—<sp/>exercises<sp/>TBB<sp/>concurrent_hash_map<sp/>under<sp/>contention.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager" kindref="compound">PromptManager</ref><sp/>shared_mgr;</highlight></codeline>
-<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::atomic&lt;int&gt;<sp/>shared_counter{0};</highlight></codeline>
-<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>idx<sp/><sp/><sp/><sp/><sp/>=<sp/>shared_counter.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
-<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>MakeTemplate(idx);</highlight></codeline>
-<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>shared_mgr.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a95e1205d5cd546f043442898a712a67b" kindref="member">createTemplate</ref>(std::move(t));</highlight></codeline>
-<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
-<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="328"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="329"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_PromptManager_ConcurrentCreate)-&gt;Threads(4);</highlight></codeline>
-<codeline lineno="330"><highlight class="normal"></highlight></codeline>
-<codeline lineno="331"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="332"><highlight class="normal"></highlight><highlight class="comment">//<sp/>13.<sp/>PromptVersionControl<sp/>concurrent<sp/>commits<sp/>–<sp/>4-thread<sp/>commit<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="333"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="334"><highlight class="normal"></highlight></codeline>
-<codeline lineno="335"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_VersionControl_ConcurrentCommit(benchmark::State&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>shared<sp/>VersionControl<sp/>—<sp/>each<sp/>thread<sp/>commits<sp/>to<sp/>its<sp/>own<sp/>prompt-id<sp/>branch</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>so<sp/>HEAD-update<sp/>contention<sp/>is<sp/>per-thread<sp/>while<sp/>the<sp/>internal<sp/>map<sp/>is<sp/>shared.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control" kindref="compound">PromptVersionControl</ref><sp/>shared_vc;</highlight></codeline>
-<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::atomic&lt;int&gt;<sp/>shared_counter{0};</highlight></codeline>
-<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
-<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>shared_counter.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
-<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>per-thread<sp/>prompt<sp/>id<sp/>to<sp/>avoid<sp/>contention<sp/>on<sp/>the<sp/>same<sp/>branch<sp/>HEAD.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vid<sp/>=<sp/>shared_vc.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1aa6eeadd376a4e5fbd919167a88587437" kindref="member">commit</ref>(</highlight></codeline>
-<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;prompt-thread-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(<ref refid="bench__rewrite__engine_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.thread_index()),</highlight></codeline>
-<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;content<sp/>rev<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(idx),</highlight></codeline>
-<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;concurrent<sp/>bench<sp/>commit&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(vid);</highlight></codeline>
-<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="350"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="351"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_VersionControl_ConcurrentCommit)-&gt;Threads(4);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">themis::prompt_engineering</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shared<sp/>fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>valid<sp/>template<sp/>used<sp/>across<sp/>benchmarks.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1PromptManager_1_1PromptTemplate" kindref="compound">PromptManager::PromptTemplate</ref><sp/>MakeTemplate(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1PromptManager_1_1PromptTemplate" kindref="compound">PromptManager::PromptTemplate</ref><sp/>t;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1prompt__engineering_1_1PromptManager_1_1PromptTemplate_1a62bd7f00d9852a123edc6ac21eb799ea" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench_tmpl_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1prompt__engineering_1_1PromptManager_1_1PromptTemplate_1a8d3399d8823207c1ab27209d8551b2bc" kindref="member">version</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1prompt__engineering_1_1PromptManager_1_1PromptTemplate_1a9fa2f923fc372a65fafd4a37c8d80f04" kindref="member">content</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;You<sp/>are<sp/>a<sp/>helpful<sp/>assistant.<sp/>User<sp/>query:<sp/>{query}.<sp/>Context:<sp/>{context}.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Language:<sp/>{lang}.<sp/>Format:<sp/>{format}.<sp/>Extra:<sp/>{extra}.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1prompt__engineering_1_1PromptManager_1_1PromptTemplate_1ac9c4d6e1c02d429f02ef235b22b04959" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Benchmark<sp/>template<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1prompt__engineering_1_1PromptManager_1_1PromptTemplate_1a66237dc50cee964112072f55998d3fd0" kindref="member">active</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>t;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Context<sp/>map<sp/>matching<sp/>the<sp/>5<sp/>placeholders<sp/>in<sp/>MakeTemplate().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>MakeCtx()<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>ThemisDB?&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;context&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ThemisDB<sp/>is<sp/>a<sp/>hybrid<sp/>database&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lang&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;format&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;markdown&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;extra&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;no<sp/>additional<sp/>info&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>1.<sp/>PromptManager::createTemplate<sp/>–<sp/>in-memory<sp/>insert<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PromptManager_CreateTemplate(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1PromptManager" kindref="compound">PromptManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/><sp/>=<sp/>MakeTemplate(i++);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/><sp/>=<sp/>mgr.<ref refid="classthemis_1_1prompt__engineering_1_1PromptManager_1a95e1205d5cd546f043442898a712a67b" kindref="member">createTemplate</ref>(std::move(t));</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(r);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_PromptManager_CreateTemplate);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>PromptManager::getTemplate<sp/>–<sp/>lookup<sp/>latency<sp/>(hit<sp/>and<sp/>miss)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PromptManager_GetTemplate_Hit(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1PromptManager" kindref="compound">PromptManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>inserted<sp/>=<sp/>mgr.<ref refid="classthemis_1_1prompt__engineering_1_1PromptManager_1a95e1205d5cd546f043442898a712a67b" kindref="member">createTemplate</ref>(MakeTemplate(0));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>inserted.<ref refid="structthemis_1_1prompt__engineering_1_1PromptManager_1_1PromptTemplate_1a8d8cd7e4676976394dbf25a872d828f5" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>mgr.<ref refid="classthemis_1_1prompt__engineering_1_1PromptManager_1a2bcd2d054434a2879f1d7de81c885918" kindref="member">getTemplate</ref>(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(r);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_PromptManager_GetTemplate_Hit);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PromptManager_GetTemplate_Miss(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1PromptManager" kindref="compound">PromptManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>mgr.<ref refid="classthemis_1_1prompt__engineering_1_1PromptManager_1a2bcd2d054434a2879f1d7de81c885918" kindref="member">getTemplate</ref>(</highlight><highlight class="stringliteral">&quot;nonexistent-id-xyz&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(r);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_PromptManager_GetTemplate_Miss);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>3.<sp/>PromptManager::injectContext<sp/>–<sp/>variable<sp/>substitution<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PromptManager_InjectContext(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1PromptManager" kindref="compound">PromptManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>tmpl<sp/>=</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;You<sp/>are<sp/>a<sp/>helpful<sp/>assistant.<sp/>User<sp/>query:<sp/>{query}.<sp/>Context:<sp/>{context}.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Language:<sp/>{lang}.<sp/>Format:<sp/>{format}.<sp/>Extra:<sp/>{extra}.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>MakeCtx();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>mgr.<ref refid="classthemis_1_1prompt__engineering_1_1PromptManager_1a959712289c985e8f0d363b35719c3136" kindref="member">injectContext</ref>(tmpl,<sp/>ctx);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(r);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_PromptManager_InjectContext);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>4.<sp/>PromptManager::validateTemplate<sp/>–<sp/>valid<sp/>and<sp/>invalid<sp/>paths</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PromptManager_ValidateTemplate_Valid(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>MakeTemplate(0);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="classthemis_1_1prompt__engineering_1_1PromptManager_1a5e6d1db58c86404e842e89ad965afe89" kindref="member">PromptManager::validateTemplate</ref>(t);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(r);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_PromptManager_ValidateTemplate_Valid);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PromptManager_ValidateTemplate_Invalid(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1PromptManager_1_1PromptTemplate" kindref="compound">PromptManager::PromptTemplate</ref><sp/>t;<sp/></highlight><highlight class="comment">//<sp/>empty<sp/>name/content<sp/>→<sp/>validation<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="classthemis_1_1prompt__engineering_1_1PromptManager_1a5e6d1db58c86404e842e89ad965afe89" kindref="member">PromptManager::validateTemplate</ref>(t);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(r);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_PromptManager_ValidateTemplate_Invalid);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>5.<sp/>PromptVersionControl::commit<sp/>–<sp/>in-memory<sp/>commit<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_VersionControl_Commit(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1PromptVersionControl" kindref="compound">PromptVersionControl</ref><sp/>vc;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vid<sp/>=<sp/>vc.<ref refid="classthemis_1_1prompt__engineering_1_1PromptVersionControl_1aa6eeadd376a4e5fbd919167a88587437" kindref="member">commit</ref>(</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;prompt-bench&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;template<sp/>content<sp/>revision<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i++),</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;bench<sp/>commit&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;bench-author&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(vid);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_VersionControl_Commit);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>6.<sp/>PromptVersionControl::getHistory<sp/>–<sp/>history<sp/>retrieval<sp/>(10<sp/>versions<sp/>pre-loaded)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_VersionControl_GetHistory(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1PromptVersionControl" kindref="compound">PromptVersionControl</ref><sp/>vc;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vc.<ref refid="classthemis_1_1prompt__engineering_1_1PromptVersionControl_1aa6eeadd376a4e5fbd919167a88587437" kindref="member">commit</ref>(</highlight><highlight class="stringliteral">&quot;prompt-bench&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;content<sp/>v&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;commit<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h<sp/>=<sp/>vc.<ref refid="classthemis_1_1prompt__engineering_1_1PromptVersionControl_1a737fc5b5f3448eb750939ad8a548c7f9" kindref="member">getHistory</ref>(</highlight><highlight class="stringliteral">&quot;prompt-bench&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(h);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_VersionControl_GetHistory);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>7.<sp/>FeedbackCollector::recordFeedback<sp/>–<sp/>recording<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_FeedbackCollector_RecordFeedback(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1FeedbackCollector" kindref="compound">FeedbackCollector</ref><sp/>fc;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>fc.<ref refid="classthemis_1_1prompt__engineering_1_1FeedbackCollector_1a2b330048b544c621f0fca27a1a1ffb5e" kindref="member">recordFeedback</ref>(</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;prompt-bench&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;query<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;response<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FeedbackType::USER_POSITIVE</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++i;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_FeedbackCollector_RecordFeedback);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>8.<sp/>FeedbackCollector::getStats<sp/>–<sp/>aggregate<sp/>stats<sp/>latency<sp/>(100<sp/>entries<sp/>pre-loaded)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_FeedbackCollector_GetStats(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1FeedbackCollector" kindref="compound">FeedbackCollector</ref><sp/>fc;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fc.<ref refid="classthemis_1_1prompt__engineering_1_1FeedbackCollector_1a2b330048b544c621f0fca27a1a1ffb5e" kindref="member">recordFeedback</ref>(</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;prompt-bench&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(i<sp/>%<sp/>3<sp/>==<sp/>0)<sp/>?<sp/>FeedbackType::USER_NEGATIVE<sp/>:<sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" kindref="member">FeedbackType</ref>::<ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a741a693bbff093ea47dabeeea8dafe07" kindref="member">USER_POSITIVE</ref></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>fc.<ref refid="classthemis_1_1prompt__engineering_1_1FeedbackCollector_1a19c99e3d23fcaa5841f6e3be3ff5561f" kindref="member">getStats</ref>(</highlight><highlight class="stringliteral">&quot;prompt-bench&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(s);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_FeedbackCollector_GetStats);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>9.<sp/>PromptOptimizer::optimize<sp/>–<sp/>1-iteration<sp/>loop<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PromptOptimizer_Optimize_OneIter(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1OptimizationConfig" kindref="compound">OptimizationConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1prompt__engineering_1_1OptimizationConfig_1afbaedc091beb8a50b02e7c2d330881ed" kindref="member">max_iterations</ref><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1prompt__engineering_1_1OptimizationConfig_1ae39637f8536e79a9859fc7bcaac7d120" kindref="member">min_improvement</ref><sp/><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>always<sp/>iterate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1prompt__engineering_1_1OptimizationConfig_1a2dd0526c9dc76353f0f1bfeb6e2d47c0" kindref="member">target_score</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>satisfied<sp/>after<sp/>1<sp/>step</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1PromptOptimizer" kindref="compound">PromptOptimizer</ref><sp/>opt(cfg);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deterministic<sp/>eval:<sp/>returns<sp/>0.8<sp/>regardless<sp/>of<sp/>input.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a196d305bb3e9032eb5877d2d904c8e03" kindref="member">EvaluationFunction</ref><sp/>eval_fn<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;TestCase&gt;&amp;)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.8;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a4d54315411303171ead21e5d53d396d0" kindref="member">ImprovementFunction</ref><sp/>improve_fn<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>p,</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>double,</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>-&gt;<sp/>std::string<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>p<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>[improved]&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>init_prompt<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Answer<sp/>the<sp/>question:<sp/>{query}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;TestCase&gt;<sp/>cases<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>ThemisDB?&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A<sp/>hybrid<sp/>database&quot;</highlight><highlight class="normal">,<sp/>{}},</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;How<sp/>does<sp/>indexing<sp/>work?&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Via<sp/>B-tree<sp/>or<sp/>hash&quot;</highlight><highlight class="normal">,<sp/>{}},</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>opt.optimize(init_prompt,<sp/>cases,<sp/>eval_fn,<sp/>improve_fn);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(r);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_PromptOptimizer_Optimize_OneIter);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="comment">//<sp/>10.<sp/>PromptEvaluator::evaluatePrompt<sp/>–<sp/>structural<sp/>similarity<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PromptEvaluator_EvaluatePrompt(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1PromptEvaluator" kindref="compound">PromptEvaluator</ref><sp/>evaluator;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>output<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ThemisDB<sp/>is<sp/>a<sp/>hybrid<sp/>database<sp/>system<sp/>supporting<sp/>multiple<sp/>models.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>expected<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ThemisDB<sp/>is<sp/>a<sp/>hybrid<sp/>database<sp/>supporting<sp/>multiple<sp/>storage<sp/>engines.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>m<sp/>=<sp/>evaluator.<ref refid="classthemis_1_1prompt__engineering_1_1PromptEvaluator_1aac4f34997a81bc84507c1c5f44da75f9" kindref="member">evaluateSingle</ref>(output,<sp/>expected);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(m);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_PromptEvaluator_EvaluatePrompt);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>11.<sp/>PromptEngineeringMetrics<sp/>–<sp/>recording<sp/>throughput<sp/>(per-call<sp/>overhead)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Metrics_RecordOptimizationAttempt(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1PromptEngineeringMetrics" kindref="compound">PromptEngineeringMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1prompt__engineering_1_1PromptEngineeringMetrics_1a2e373ac0f1f0b4baca8dbe9e8a05082f" kindref="member">recordOptimizationAttempt</ref>(</highlight><highlight class="stringliteral">&quot;prompt-bench-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i<sp/>%<sp/>16));</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++i;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_Metrics_RecordOptimizationAttempt);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Metrics_RecordPromptExecution(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1PromptEngineeringMetrics" kindref="compound">PromptEngineeringMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1prompt__engineering_1_1PromptEngineeringMetrics_1af072ccad30c879ad021c069a46e8f2bf" kindref="member">recordPromptExecution</ref>(</highlight><highlight class="stringliteral">&quot;prompt-bench-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i<sp/>%<sp/>16),<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>12.5);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++i;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_Metrics_RecordPromptExecution);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight><highlight class="comment">//<sp/>12.<sp/>PromptManager<sp/>concurrent<sp/>writes<sp/>–<sp/>4-thread<sp/>TBB<sp/>concurrent_hash_map<sp/>insert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PromptManager_ConcurrentCreate(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>shared<sp/>across<sp/>all<sp/>4<sp/>threads<sp/>—<sp/>exercises<sp/>TBB<sp/>concurrent_hash_map<sp/>under<sp/>contention.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1PromptManager" kindref="compound">PromptManager</ref><sp/>shared_mgr;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::atomic&lt;int&gt;<sp/>shared_counter{0};</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>idx<sp/><sp/><sp/><sp/><sp/>=<sp/>shared_counter.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>MakeTemplate(idx);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>shared_mgr.<ref refid="classthemis_1_1prompt__engineering_1_1PromptManager_1a95e1205d5cd546f043442898a712a67b" kindref="member">createTemplate</ref>(std::move(t));</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_PromptManager_ConcurrentCreate)-&gt;Threads(4);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="comment">//<sp/>13.<sp/>PromptVersionControl<sp/>concurrent<sp/>commits<sp/>–<sp/>4-thread<sp/>commit<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_VersionControl_ConcurrentCommit(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>shared<sp/>VersionControl<sp/>—<sp/>each<sp/>thread<sp/>commits<sp/>to<sp/>its<sp/>own<sp/>prompt-id<sp/>branch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>so<sp/>HEAD-update<sp/>contention<sp/>is<sp/>per-thread<sp/>while<sp/>the<sp/>internal<sp/>map<sp/>is<sp/>shared.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1PromptVersionControl" kindref="compound">PromptVersionControl</ref><sp/>shared_vc;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::atomic&lt;int&gt;<sp/>shared_counter{0};</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>shared_counter.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>per-thread<sp/>prompt<sp/>id<sp/>to<sp/>avoid<sp/>contention<sp/>on<sp/>the<sp/>same<sp/>branch<sp/>HEAD.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vid<sp/>=<sp/>shared_vc.<ref refid="classthemis_1_1prompt__engineering_1_1PromptVersionControl_1aa6eeadd376a4e5fbd919167a88587437" kindref="member">commit</ref>(</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;prompt-thread-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(state.thread_index()),</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;content<sp/>rev<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(idx),</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;concurrent<sp/>bench<sp/>commit&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(vid);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><ref refid="bench__prompt__engineering_8cpp_1a0f855ea0645329abf1dcd2343abe4769" kindref="member">BENCHMARK</ref>(BM_VersionControl_ConcurrentCommit)-&gt;Threads(4);</highlight></codeline>
     </programlisting>
     <location file="benchmarks/prompt_engineering/bench_prompt_engineering.cpp"/>
   </compounddef>

@@ -1,42 +1,58 @@
-# PERFORMANCE_EXPECTATIONS - src/prompt_engineering
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
+# Performance Expectations — `prompt_engineering`
 
 ## Scope
 
-- Module: src/prompt_engineering
-- This file defines measurable prompt engineering module performance expectations for release gating.
+- Module: `src/prompt_engineering`
+- This file maps implemented microbenchmark cases. It does not report measured performance or prove release-gate completion.
 
 ## Benchmark Reference
 
 - Relevant benchmark files:
-  - benchmarks/bench_prompt_engineering.cpp
+  - `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`
+  - `benchmarks/prompt_engineering/bench_rewrite_engine.cpp`
 
 ## Specific Expectations
 
 | Target ID | Expectation | Benchmark case |
 |---|---|---|
-| PEP-1 | template lifecycle and context injection paths remain bounded | BM_PromptManager_CreateTemplate, BM_PromptManager_GetTemplate_Hit, BM_PromptManager_GetTemplate_Miss, BM_PromptManager_InjectContext |
-| PEP-2 | template validation and prompt versioning paths remain bounded | BM_PromptManager_ValidateTemplate_Valid, BM_PromptManager_ValidateTemplate_Invalid, BM_VersionControl_Commit, BM_VersionControl_GetHistory |
-| PEP-3 | optimization/evaluation/feedback/metrics and concurrent mutation paths remain bounded | BM_PromptOptimizer_Optimize_OneIter, BM_PromptEvaluator_EvaluatePrompt, BM_FeedbackCollector_RecordFeedback, BM_FeedbackCollector_GetStats, BM_Metrics_RecordOptimizationAttempt, BM_Metrics_RecordPromptExecution, BM_PromptManager_ConcurrentCreate, BM_VersionControl_ConcurrentCommit |
+| PEP-1 | template lifecycle and context injection paths | `BM_PromptManager_CreateTemplate`, `BM_PromptManager_GetTemplate_Hit`, `BM_PromptManager_GetTemplate_Miss`, `BM_PromptManager_InjectContext` |
+| PEP-2 | template validation and prompt versioning paths | `BM_PromptManager_ValidateTemplate_Valid`, `BM_PromptManager_ValidateTemplate_Invalid`, `BM_VersionControl_Commit`, `BM_VersionControl_GetHistory` |
+| PEP-3 | optimization/evaluation/feedback/metrics and concurrent mutation paths | `BM_PromptOptimizer_Optimize_OneIter`, `BM_PromptEvaluator_EvaluatePrompt`, `BM_FeedbackCollector_RecordFeedback`, `BM_FeedbackCollector_GetStats`, `BM_Metrics_RecordOptimizationAttempt`, `BM_Metrics_RecordPromptExecution`, `BM_PromptManager_ConcurrentCreate`, `BM_VersionControl_ConcurrentCommit` |
 
-## Module Hard Gates (v1.0 docs baseline)
+## Proposed measurement criteria
 
 | Gate ID | Expectation | Measurement |
 |---|---|---|
-| PEG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| PEG-2 | prompt hot-path p99 <= release threshold | p99 from mapped prompt engineering benchmark cases |
-| PEG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+| PEG-1 | Regression <= 10 percent vs. a reviewed release baseline | `(current - baseline) / baseline` |
+| PEG-2 | Prompt hot-path p99 remains within a reviewed threshold | p99 from the mapped module benchmark cases |
+| PEG-3 | Every mapped benchmark case is present in the release run | Benchmark run manifest |
 
 ## Validation
 
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- Mapping should be expanded as additional prompt engineering benchmark scenarios are introduced.
+- These are proposed criteria; no current measurement or completed release gate is claimed here.
+- `bench_rewrite_engine.cpp` uses local synthetic rewrite helpers and does not benchmark the module's `RewriteEngine` implementation. Use it only as a synthetic baseline until it is wired to the public engine API.
+- Expand the mapping when direct benchmark coverage for additional module workflows is added.
 
 ## Sourcecode Verification (Module: prompt_engineering/performance)
 
-- Verified benchmark sources:
-  - benchmarks/bench_prompt_engineering.cpp
+- Benchmark sources:
+  - `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`
+  - `benchmarks/prompt_engineering/bench_rewrite_engine.cpp`
 - Verified mapping surfaces:
   - template lifecycle, injection, validation, versioning, optimization/evaluation, feedback/metrics, concurrency
-- Result:
-  - Referenced benchmark cases exist in current benchmark source.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+- The core benchmark cases are registered in the current source.
+- Benchmark registration requires `THEMIS_BUILD_BENCHMARKS=ON` and an available Google Benchmark package; registration is not evidence that a benchmark was run.

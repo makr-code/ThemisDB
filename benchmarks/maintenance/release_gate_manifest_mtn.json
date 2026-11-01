@@ -28,8 +28,8 @@
       "unit": "ns",
       "direction": "lower_is_better",
       "severity": "blocking",
-      "status": "PASS",
-      "description": "Error enum cast p99 must not exceed 5 ns.",
+      "status": "UNVERIFIED",
+      "description": "Error enum cast p99 target is 5 ns; the benchmark does not calculate p99.",
       "rationale": "Error-path hot loop overhead baseline."
     },
     {
@@ -41,8 +41,8 @@
       "unit": "ns",
       "direction": "lower_is_better",
       "severity": "blocking",
-      "status": "PASS",
-      "description": "Switch dispatch p99 must not exceed 10 ns.",
+      "status": "UNVERIFIED",
+      "description": "Switch dispatch p99 target is 10 ns; the benchmark does not calculate p99.",
       "rationale": "Validates O(1) jump-table compilation."
     },
     {
@@ -54,8 +54,8 @@
       "unit": "ns",
       "direction": "lower_is_better",
       "severity": "blocking",
-      "status": "PASS",
-      "description": "ScheduleDescriptor struct allocation p99 must not exceed 500 ns.",
+      "status": "UNVERIFIED",
+      "description": "ScheduleDescriptor allocation p99 target is 500 ns; the benchmark does not calculate p99.",
       "rationale": "Schedule-churn path allocation gate."
     },
     {
@@ -67,8 +67,8 @@
       "unit": "us",
       "direction": "lower_is_better",
       "severity": "blocking",
-      "status": "PASS",
-      "description": "Batch error cast (1000 iterations) p99 must not exceed 5 µs.",
+      "status": "UNVERIFIED",
+      "description": "Batch error cast p99 target is 5 µs; the benchmark does not calculate p99.",
       "rationale": "High-churn schedule-validation hot loop amortised cost."
     },
     {
@@ -80,8 +80,8 @@
       "unit": "us",
       "direction": "lower_is_better",
       "severity": "blocking",
-      "status": "PASS",
-      "description": "Concurrent-scheduling-guard check (in-flight lookup + insert) p99 must not exceed 50 µs.",
+      "status": "UNVERIFIED",
+      "description": "In-flight lookup + insert p99 target is 50 µs; the benchmark does not calculate p99.",
       "rationale": "Phase 2 churn guard must not add observable latency to the hot path."
     },
     {
@@ -93,8 +93,8 @@
       "unit": "ms",
       "direction": "lower_is_better",
       "severity": "blocking",
-      "status": "PASS",
-      "description": "Persist+reload round-trip for 10 schedules p99 must not exceed 2 ms.",
+      "status": "UNVERIFIED",
+      "description": "Persist+reload p99 target for 10 schedules is 2 ms; the benchmark does not calculate p99.",
       "rationale": "Phase 3 persistence path must not degrade restart latency."
     },
     {
@@ -106,8 +106,8 @@
       "unit": "ns",
       "direction": "lower_is_better",
       "severity": "blocking",
-      "status": "PASS",
-      "description": "DispatchOutcome ring-buffer write p99 must not exceed 200 ns.",
+      "status": "UNVERIFIED",
+      "description": "DispatchOutcome ring-buffer write p99 target is 200 ns; the benchmark does not calculate p99.",
       "rationale": "Phase 4 diagnostics ring buffer must not degrade task execution hot path."
     },
     {
@@ -119,8 +119,8 @@
       "unit": "us",
       "direction": "lower_is_better",
       "severity": "blocking",
-      "status": "PASS",
-      "description": "Leader-gated schedule dispatch under a mock distributed lock p99 must not exceed 500 µs.",
+      "status": "UNVERIFIED",
+      "description": "Leader-gated dispatch p99 target is 500 µs; the benchmark does not calculate p99.",
       "rationale": "Distributed locking overhead must not cause unacceptable scheduling tail latency."
     },
     {
@@ -132,8 +132,8 @@
       "unit": "ms",
       "direction": "lower_is_better",
       "severity": "blocking",
-      "status": "PASS",
-      "description": "Schedule listing with 1000 entries p99 must not exceed 5 ms.",
+      "status": "UNVERIFIED",
+      "description": "Schedule listing p99 target for 1000 entries is 5 ms; the benchmark does not calculate p99.",
       "rationale": "listSchedules() must remain responsive under maximum expected schedule count."
     }
   ]

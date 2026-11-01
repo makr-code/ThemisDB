@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="test__prompt__engineering__highcardinality__stress_8cpp" kind="file" language="C++">
     <compoundname>test_prompt_engineering_highcardinality_stress.cpp</compoundname>
     <includes local="no">gtest/gtest.h</includes>
@@ -121,16 +121,18 @@
     </briefdescription>
     <detaileddescription>
 <para>Stress coverage for prompt_engineering hot paths under high-cardinality concurrent load: template rendering, concurrent version mutation, and feedback loop stress.</para>
-<sect1 id="test__prompt__engineering__highcardinality__stress_8cpp_1autotoc_md3_1s1"><sect2 id="test__prompt__engineering__highcardinality__stress_8cpp_1autotoc_md3">
-<title>Test cases</title><para><itemizedlist>
+<sect2 id="test__prompt__engineering__highcardinality__stress_8cpp_1autotoc_md4">
+<title>Test cases</title>
+<para><itemizedlist>
 <listitem><para>HighCardinalityTemplateRender : concurrent template rendering at scale</para>
 </listitem><listitem><para>ConcurrentVersionMutationStress : concurrent version mutation traffic</para>
 </listitem><listitem><para>FeedbackLoopStress : sustained feedback loop load</para>
 </listitem></itemizedlist>
 </para>
-</sect2></sect1>
-<sect1 id="test__prompt__engineering__highcardinality__stress_8cpp_1autotoc_md4_1s1"><sect2 id="test__prompt__engineering__highcardinality__stress_8cpp_1autotoc_md4">
-<title>Labels</title><para>wave_d;stress;not_release_critical</para>
+</sect2>
+<sect2 id="test__prompt__engineering__highcardinality__stress_8cpp_1autotoc_md5">
+<title>Labels</title>
+<para>wave_d;stress;not_release_critical</para>
 <para><simplesect kind="version"><para>1.0.0 </para>
 </simplesect>
 <simplesect kind="see"><para>docs/operability/RUNBOOK_PROMPT_ENGINEERING.md </para>
@@ -138,13 +140,12 @@
 <simplesect kind="see"><para>src/prompt_engineering/ROADMAP.md — Wave D contribution closure </para>
 </simplesect>
 </para>
-</sect2></sect1>
+</sect2>
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight></codeline>
-<codeline lineno="24"><highlight class="normal"></highlight></codeline>
 <codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="26"><highlight class="normal"></highlight></codeline>
 <codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>

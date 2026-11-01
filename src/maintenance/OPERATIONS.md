@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-01"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -35,9 +35,14 @@ Metric identifiers are emitted through `MetricsCollector`; the module does not d
 
 - Verify registered task handlers before enabling schedules that use them.
 - Confirm schedule persistence is configured for restart survival; storage is optional and null means in-memory-only.
-- Review recent `FAILED_PERSISTENCE`, `FAILED_DISPATCH`, `SKIPPED_NO_HANDLER`, and `SKIPPED_CONCURRENT` outcomes.
+- Review recent `FAILED_DISPATCH`, `SKIPPED_NO_HANDLER`, and `SKIPPED_CONCURRENT` dispatch outcomes. The enum also declares `FAILED_PERSISTENCE`, but the current implementation does not record that outcome; persistence errors are returned by schedule mutations or logged during startup.
 - Check tenant UTC maintenance windows, max concurrent job quotas, and distributed-lock availability.
-- Keep schedule changes within configured churn limits; inspect audit events for forced runs and CRUD operations.
+- Inspect audit events for forced runs and CRUD operations. The
+  `max_schedule_changes_per_interval` cap applies per schedule in a fixed
+  60-second in-memory window. Existing-schedule attempts consume a slot before
+  storage writes; the counter resets after restart and is not shared across
+  instances. Use deployment-side controls if limits must survive restarts or
+  apply across instances.
 
 ## Safe controls and boundaries
 

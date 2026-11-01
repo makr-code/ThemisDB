@@ -1,12 +1,25 @@
-# Prompt Engineering Error Taxonomy - Phase 1 Reference
+---
+Author: "ThemisDB Team"
+Created: "2026-08-05"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
+# Prompt Engineering Error Taxonomy Reference
 
 ## Overview
 
-This document provides a comprehensive reference for all prompt engineering error codes, their meanings, recovery strategies, and usage patterns.
+This document summarizes the error identifiers declared by [`PromptEngineeringErrorCode`](../../include/prompt_engineering/prompt_engineering_errors.h). The enum currently declares 62 values. It is a taxonomy, not proof that every code is emitted by a current runtime path.
 
 **Phase:** 1 (Design / API Contract)  
-**Status:** Frozen (Q3 2026)  
-**Last Updated:** 2026-08-05
+**Status:** Enum inventory verified against the current header (2026-10-31)
 
 ---
 
@@ -132,112 +145,16 @@ These errors indicate problems with configuration files or settings.
 
 ---
 
-## Error Context Best Practices
+## Runtime and retry guidance
 
-Every error MUST be accompanied by `PromptEngineeringErrorContext`:
+The current public header declares the enum and `error_code_to_string()`; it does not declare the `PromptEngineeringErrorContext`, `PromptEngineeringException`, `TemplateResult`, or `get_template()` APIs shown in older examples. Use each operation's actual result/exception contract in its public header. The cause, recovery, and retryability columns above are guidance only; they do not guarantee runtime emission, safe retry semantics, or a particular recovery action.
 
-```cpp
-struct PromptEngineeringErrorContext {
-    PromptEngineeringErrorCode code;      // The error code
-    std::string message;                  // Human-readable message
-    std::string template_id;              // If applicable
-    std::string version_id;               // If applicable
-    std::string operation;                // create/get/inject/optimize/evaluate/rewrite
-    std::string remediation_hint;         // What to do next
-    uint32_t retry_count;                 // How many retries already attempted
-    bool is_retryable;                    // Can this operation be safely retried?
-};
-```
-
----
-
-## Recovery Strategies by Category
-
-### Template Errors (9500–9509)
-**General strategy:** Fix template definition, validate, and retry
-- **Immediate actions:** Check template ID, syntax, placeholders
-- **Long-term:** Implement template validation before registration
-
-### Injection Errors (9550–9559)
-**General strategy:** Verify context matches template requirements
-- **Immediate actions:** Check context keys, types, sizes
-- **Long-term:** Implement schema validation for context
-
-### Version Errors (9600–9649)
-**General strategy:** Handle conflicts, retry if transient
-- **Immediate actions:** Check version ID, disk space, permissions
-- **Long-term:** Implement conflict resolution policies
-
-### Optimization Errors (9650–9699)
-**General strategy:** Adjust parameters, retry, escalate if persistent
-- **Immediate actions:** Adjust learning rate, iteration limits
-- **Long-term:** Monitor convergence; implement adaptive strategies
-
-### Evaluator Errors (9700–9749)
-**General strategy:** Restart evaluator, check dependencies
-- **Immediate actions:** Verify model availability, restart
-- **Long-term:** Implement fallback evaluators
-
-### Rewrite Errors (9750–9799)
-**General strategy:** Validate rules, check phase ordering
-- **Immediate actions:** Fix YAML, verify rule registration
-- **Long-term:** Implement rule validation before load
-
-### Concurrency Errors (9800–9849)
-**General strategy:** Retry, reduce contention
-- **Immediate actions:** Retry operation; check lock contention
-- **Long-term:** Implement better locking strategies
-
-### Configuration Errors (9850–9899)
-**General strategy:** Fix config, restart
-- **Immediate actions:** Validate YAML, check file permissions
-- **Long-term:** Implement config validation, schema versioning
-
----
-
-## Usage in Code
-
-### Checking Errors
-
-```cpp
-auto result = template_manager->get_template(template_id);
-if (!result.success) {
-    auto ctx = result.error_context;
-    LOG(ERROR) << error_code_to_string(ctx.code)
-               << " | Template: " << ctx.template_id
-               << " | Hint: " << ctx.remediation_hint;
-    
-    if (ctx.is_retryable && ctx.retry_count < MAX_RETRIES) {
-        // Retry after backoff
-    } else {
-        // Fail permanently
-    }
-}
-```
-
-### Documenting Errors in Functions
-
-```cpp
-/**
- * @brief Create a new prompt template.
- * @param template_id Unique template identifier
- * @return Result with error code on failure
- * @throws Throws PromptEngineeringException with error context
- *
- * Possible error codes:
- * - TEMPLATE_INVALID_ID: template_id is empty or malformed
- * - TEMPLATE_ALREADY_EXISTS: template_id already registered
- * - TEMPLATE_VALIDATION_FAILED: template structure invalid
- *
- * Error context includes template_id and remediation_hint.
- */
-TemplateResult create_template(const std::string& template_id);
-```
+For examples based on current interfaces, see [`API.md`](./API.md), [`IMPLEMENTATION.md`](./IMPLEMENTATION.md), and [`../../include/prompt_engineering/prompt_engineering_errors.h`](../../include/prompt_engineering/prompt_engineering_errors.h).
 
 ---
 
 ## References
 
 - Header: `include/prompt_engineering/prompt_engineering_errors.h`
-- Backward Compatibility: `src/prompt_engineering/PHASE_1_CONTRACT.md`
-- ROADMAP: `src/prompt_engineering/ROADMAP.md`
+- Design history: [`PHASE_1_CONTRACT.md`](./PHASE_1_CONTRACT.md)
+- Current status and test boundaries: [`ROADMAP.md`](./ROADMAP.md)

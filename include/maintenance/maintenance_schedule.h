@@ -186,23 +186,28 @@ struct MaintenanceScheduleEntry {
     // ---- Churn / rate-limit policy ---------------------------------------
 
     /**
-     * @brief Maximum permitted mutations (create/update/patch/delete) per
-     *        rolling interval (DatabaseMaintenanceOrchestrator::kChurnIntervalMs,
-     *        default 60 s).  0 = disabled (no rate limit applied).
+     * @brief Maximum permitted validated mutation attempts per schedule in a
+     *        fixed 60-second window. 0 disables the limit.
      *
      * ### Semantics
-     * When > 0 the orchestrator counts each CRUD write for this schedule
-     * within the current interval window.  The (N+1)th mutation within the
-     * same window is rejected with MaintenanceError::kChurnLimitExceeded and
-     * a structured error message containing the schedule_id and the current
-     * count.
+     * When > 0, create/update/patch/delete calls that pass validation count
+     * toward a per-schedule window beginning with the first counted mutation.
+     * The next call at the configured limit is rejected with
+     * `ERR_RATE_LIMIT_EXCEEDED`. A rejected call does not increase the count;
+     * existing-schedule attempts consume a slot even if their later storage
+     * write fails. A failed create discards its uncommitted counter; successful
+     * deletion clears the schedule's counter. The window uses a monotonic clock,
+     * so wall-clock adjustments do not change its duration.
+     * The counter is in-memory and resets after an orchestrator restart. For
+     * update, patch, and delete, the existing schedule's limit is applied;
+     * create uses the submitted entry's limit.
      *
      * ### Max schedule age concept
      * Schedules may carry an implicit age derived from `created_at_ms`.
      * Future tooling will surface schedules older than a configurable TTL
      * as candidates for review or auto-expiry (TTL-policy placeholder — see
      * FUTURE_ENHANCEMENTS.md).  The `max_schedule_changes_per_interval` field
-     * participates in that governance by slowing accidental churn on aged
+     * can slow accidental churn on aged
      * schedules.
      *
      * ### Auto-expire behaviour note
@@ -399,4 +404,3 @@ struct MaintenanceScheduleEntry {
 
 } // namespace maintenance
 } // namespace themis
-

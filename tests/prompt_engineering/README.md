@@ -1,52 +1,52 @@
-# tests/prompt_engineering
+---
+Author: "ThemisDB Team"
+Created: "2026-08-05"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-Focused module test folder for `src/prompt_engineering`.
+> Exact model backend not verifiable from final document text alone.
 
-## Focused Test Suite (PE-FT-001..PE-FT-015)
+# Tests for `prompt_engineering`
 
-The focused test suite provides production readiness validation for the prompt_engineering module:
+The module test CMake file discovers every `test_*.cpp` in this directory and registers a focused unit-test target with the `prompt_engineering` CTest label. The current source files are:
 
-- **test_prompt_engineering_focused.cpp** (15 test cases)
-  - Template lifecycle management (create, get, list, list templates)
-  - Context injection and validation
-  - Version control commit and history operations
-  - Feedback collection and statistics
-  - Optimizer basic optimization loop
-  - Evaluator structural evaluation
-  - Metrics recording and retrieval
-  - Error handling for missing templates and invalid context
-  - Concurrency sanity checks
-  - Injection validation edge cases
-  - Consistency checks across multiple invocations
+- `test_prompt_engineering_focused.cpp` — manager, version-control, feedback, optimizer, evaluator, and metrics smoke checks
+- `test_prompt_engineering_adversarial_focused.cpp` — adversarial prompt/detector cases
+- `test_prompt_engineering_validation_hardening.cpp` — template validation edge cases
+- `test_prompt_engineering_highcardinality_stress.cpp` — high-cardinality stress scenarios
+- `test_llm_reflection_adapter_focused.cpp` — reflection adapter checks
+- `test_rewrite_engine_focused.cpp` — three interface/compile-contract checks; it does not exercise rewrite execution
+- `test_structured_output_focused.cpp` — structured-output checks
 
-### Build and Test
+The PE-FT identifiers in older roadmap and issue-closure snapshots are not GoogleTest names for the current focused test source; do not use those snapshots as current test counts or pass results.
+
+## Build and test
+
+From the repository root, configure the existing community preset with tests enabled:
 
 ```bash
-# Configure with tests enabled
-cmake --preset=community-release-allow-missing-rocksdb \
+cmake --preset community-release-allow-missing-rocksdb \
   -DTHEMIS_BUILD_TESTS=ON
+```
 
-# Build focused test
+Build the manager/version/evaluator focused target:
+
+```bash
 cmake --build build-community-release-allow-missing-rocksdb \
   --target module_prompt_engineering_test_prompt_engineering_focused_focused
+```
 
-# Run focused test
-ctest --preset=community-release-allow-missing-rocksdb \
+Run all registered prompt-engineering tests:
+
+```bash
+ctest --preset community-release-allow-missing-rocksdb \
   -L prompt_engineering --output-on-failure
 ```
 
-### Test Results
-
-All 15 PE-FT test cases validate core prompt_engineering surfaces:
-
-| Surface | Test ID | Coverage |
-|---------|---------|----------|
-| PromptManager | PE-FT-001, PE-FT-002, PE-FT-003 | Template lifecycle, context injection, validation |
-| PromptVersionControl | PE-FT-004, PE-FT-013 | Commit, history, consistency |
-| FeedbackCollector | PE-FT-005 | Recording and statistics |
-| PromptOptimizer | PE-FT-006, PE-FT-014 | Optimization loop, diagnostics |
-| PromptEvaluator | PE-FT-007, PE-FT-015 | Structural evaluation, consistency |
-| PromptEngineeringMetrics | PE-FT-008 | Metrics recording |
-| Error Handling | PE-FT-009, PE-FT-010, PE-FT-012 | Missing templates, invalid context, edge cases |
-| Concurrency | PE-FT-011 | Basic concurrent access sanity |
-
+The CMake registration is in [`CMakeLists.txt`](./CMakeLists.txt). The label selects all module test targets, not only the target shown above. A test result must be recorded from an actual run; this document does not assert that the current suite passed.

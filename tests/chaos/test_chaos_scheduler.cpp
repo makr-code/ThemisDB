@@ -37,6 +37,13 @@ using namespace std::chrono_literals;
 class ChaosSchedulerTest : public ::testing::Test {
 protected:
     void SetUp() override {
+        TaskScheduler::RequestContext test_context;
+        test_context.user_id = "scheduler-chaos-test";
+        test_context.granted_permissions = {
+            "task:register", "task:unregister", "task:update", "task:execute",
+            "task:register_function"};
+        test_context.roles.insert("system_admin");
+        TaskScheduler::setRequestContext(test_context);
 #ifdef _WIN32
         GTEST_SKIP() << "Skipping ChaosSchedulerTest on Windows due to known timeout/deadlock instability.";
 #endif
@@ -70,6 +77,7 @@ protected:
         storage_.reset();
         std::error_code ec = {};
         std::filesystem::remove_all(db_path_, ec);
+        TaskScheduler::clearRequestContext();
     }
 
     void makeScheduler(size_t max_concurrent = 8) {

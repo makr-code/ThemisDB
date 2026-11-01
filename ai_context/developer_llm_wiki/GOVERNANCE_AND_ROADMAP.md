@@ -23,7 +23,7 @@ Status: Active
 
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
-- Hash: `7ad42111ac267b9d`
+- Hash: `2bccfc56de48dbc2`
 - Titel: Changelog
 - Auszug:
   - All notable changes to ThemisDB will be documented in this file.
@@ -417,6 +417,15 @@ Status: Active
   - Author: "ThemisDB Team"
   - Created: "2026-10-31"
 
+## ai_context/developer_llm_wiki/MAINTENANCE.md
+- Kategorie: governance_and_docs
+- Hash: `e315de50bf8e9588`
+- Titel: Maintenance — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-11-01"
+
 ## ai_context/developer_llm_wiki/MODULE_DIRECT_DOXYGEN_CHECK.md
 - Kategorie: governance_and_docs
 - Hash: `3d30d546388ef585`
@@ -466,6 +475,15 @@ Status: Active
 - Kategorie: governance_and_docs
 - Hash: `151107d3e0260d67`
 - Titel: Process — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-11-01"
+
+## ai_context/developer_llm_wiki/PROMPT_ENGINEERING.md
+- Kategorie: governance_and_docs
+- Hash: `cb4e42e9e8d1328e`
+- Titel: Prompt Engineering — Developer LLM Wiki
 - Auszug:
   - ---
   - Author: "ThemisDB Team"
@@ -704,21 +722,3 @@ Status: Active
   - **Status**: ✅ **READY FOR DELIVERY**
   - ---
   - - [x] src/replication/async_wal_shipper.cpp
-
-## docs/ARCHIVED/ai-working-history/AI_DECISION_AUDITING_IMPLEMENTATION_SUMMARY.md
-- Kategorie: governance_and_docs
-- Hash: `cab49ac2e9386905`
-- Titel: AI Decision Auditing and Explainability - Implementation Summary
-- Auszug:
-  - This document summarizes the implementation of AI Decision Auditing and Explainability features for ThemisDB, ensuring compliance with EU AI Act, GDPR Article 22, and eIDAS regulations.
-  - **Issue**: #TBD - Enhance AI Decision Auditing and Explainability
-  - **Priority**: HIGH
-
-## docs/ARCHIVED/ai-working-history/AI_WIKI_INTEGRATION_PLAYBOOK.md
-- Kategorie: governance_and_docs
-- Hash: `4bebc6b94e1a9ce5`
-- Titel: AI Wiki Integration Playbook fuer ThemisDB
-- Auszug:
-  - Datum: 2026-07-28
-  - Status: Active
-  - Bezug: Uebertragung des LLM-Wiki-Musters auf ThemisDB Development-Management und AI Vibe Coding

@@ -1,58 +1,16 @@
 /**
  * @file maintenance_api_contract.h
- * @brief Frozen maintenance module API contract for schedule, execution, and persistence.
+ * @brief Compatibility helper types for maintenance contract tests and benchmarks.
  * @version 1.0.0
  *
- * ## §Purpose
- *
- * Defines the normative contract for the maintenance module covering schedule
- * orchestration, task-handler dispatch, persistence/reload, and registry-driven
- * setup.  All maintenance module components must honour these contracts within
- * the current v1.x major release line.
- *
- * ## §API Contracts
- *
- * Key behavioural invariants:
- *   1. A schedule may only be executed if its handler is registered in the task
- *      registry; missing handlers produce kHandlerNotRegistered, never a crash.
- *   2. Persistence operations are atomic from the caller's perspective: a failed
- *      write leaves the existing persisted state intact (kPersistenceFailed).
- *   3. Schedule reload on restart MUST reconstruct an identical in-memory
- *      representation from the persisted state.
- *   4. The orchestrator propagates kOrchestratorDegraded and halts further
- *      dispatches when the underlying infrastructure is unhealthy.
- *   5. All timing operations use monotonic clocks; wall-clock adjustments do
- *      not affect schedule correctness.
- *
- * ## §Error Taxonomy
- *
- * | Code  | Constant                  | Meaning                                      |
- * |-------|---------------------------|----------------------------------------------|
- * | 0     | kSuccess                  | Operation completed without error            |
- * | 8100  | kScheduleNotFound         | Referenced schedule ID does not exist        |
- * | 8101  | kHandlerNotRegistered     | No handler registered for task type          |
- * | 8102  | kPersistenceFailed        | Schedule store write or read operation failed|
- * | 8103  | kExecutionTimeout         | Task execution exceeded allowed time budget  |
- * | 8104  | kConcurrentModification   | Schedule modified concurrently; retry safe   |
- * | 8105  | kInvalidSchedule          | Schedule descriptor fails structural checks  |
- * | 8106  | kOrchestratorDegraded     | Orchestrator health check failed; deny all   |
- * | 8107  | kInternalError            | Unclassified internal error; always deny     |
- *
- * ## §Threading Guarantees
- *
- * - ScheduleStore implementations MUST be safe for concurrent reads; writes
- *   are serialized by the orchestrator's internal mutex.
- * - Handler registration is single-threaded at startup; subsequent reads are
- *   lock-free (read-only map).
- * - kConcurrentModification is a retriable error; callers MUST back off and
- *   retry with an appropriate jitter strategy.
- *
- * ## §Contract Freeze
- *
- * This contract is stable within v1.x.  Breaking changes require a v2.0 bump
- * with migration notes and a CHANGELOG entry.
- *
- * @see src/maintenance/ROADMAP.md — Phase 1 item
+ * @note This header is not the runtime maintenance API contract. The production
+ *       orchestrator uses MaintenanceScheduleEntry and Result<T>/Error; it does
+ *       not return MaintenanceError, MaintenanceScheduleDescriptor, or
+ *       MaintenanceHealthSnapshot. The declarations below remain available to
+ *       helper tests and synthetic benchmarks only.
+ * @see maintenance/database_maintenance_orchestrator.h
+ * @see maintenance/maintenance_schedule.h
+ * @see maintenance/maintenance_health_report.h
  */
 
 #pragma once
@@ -69,10 +27,10 @@ namespace maintenance {
 // ============================================================================
 
 /**
- * @brief Canonical error codes for the maintenance module.
+ * @brief Compatibility error values used by maintenance helper tests.
  *
- * All maintenance module operations return or throw with one of these codes.
- * Values are in the reserved range [8100, 8199].
+ * These values are not returned by the production orchestrator. Runtime
+ * operations expose repository ErrorCode values through Result<T>.
  */
 enum class MaintenanceError : int32_t {
     kSuccess               = 0,
@@ -86,23 +44,23 @@ enum class MaintenanceError : int32_t {
     kInternalError         = 8107, ///< Unclassified internal error.
     kSkippedConcurrent     = 8108, ///< Schedule already in-flight; this invocation was skipped.
     kPersistenceCorrupt    = 8109, ///< Persisted data is corrupt or truncated; cannot be loaded.
-    kChurnLimitExceeded    = 8110, ///< max_schedule_changes_per_interval policy triggered.
+    kChurnLimitExceeded    = 8110, ///< Helper-test value; runtime uses ERR_RATE_LIMIT_EXCEEDED.
 };
 
 // ============================================================================
 // § 2  Schedule descriptor constraints
 // ============================================================================
 
-/// Maximum allowed schedule identifier length in bytes.
+/// Helper-contract limit only; not enforced by the production orchestrator.
 inline constexpr std::size_t kMaxScheduleIdBytes = 256;
 
-/// Maximum number of schedules manageable by a single orchestrator instance.
+/// Helper-contract limit only; not enforced by the production orchestrator.
 inline constexpr std::size_t kMaxSchedulesPerOrchestrator = 65536;
 
-/// Maximum allowed single-task execution wall-clock duration.
+/// Helper-contract value only; not enforced as a runtime task timeout.
 inline constexpr std::chrono::minutes kMaxTaskExecutionDuration{60};
 
-/// Minimum permitted schedule interval for recurring tasks.
+/// Helper-contract value only; not enforced by the production schedule API.
 inline constexpr std::chrono::seconds kMinRecurringIntervalSeconds{10};
 
 // ============================================================================
@@ -112,9 +70,8 @@ inline constexpr std::chrono::seconds kMinRecurringIntervalSeconds{10};
 /**
  * @brief Compact descriptor for a maintenance schedule entry.
  *
- * Passed across the orchestrator / persistence boundary.  All fields must be
- * populated before submission; zero-initialised fields are rejected with
- * MaintenanceError::kInvalidSchedule.
+ * This is a helper value type, not the descriptor accepted by the production
+ * orchestrator or schedule store. Its fields are not runtime-validated.
  */
 struct MaintenanceScheduleDescriptor {
     /// Unique schedule identifier (non-empty, max kMaxScheduleIdBytes).
@@ -136,20 +93,17 @@ struct MaintenanceScheduleDescriptor {
      * @brief Maximum number of schedule changes (create/update/patch/delete)
      *        permitted per interval window.  0 means disabled (no limit).
      *
-     * When > 0 the orchestrator tracks mutations per schedule per rolling
-     * interval.  Excess mutations are rejected with
-     * MaintenanceError::kChurnLimitExceeded.
-     *
-     * @note The interval duration is controlled by
-     *       DatabaseMaintenanceOrchestrator::kChurnIntervalMs (default 60 s).
+     * This field does not configure the production orchestrator. Runtime churn
+     * enforcement is configured on MaintenanceScheduleEntry.
      */
     uint32_t      max_schedule_changes_per_interval{0};
 };
 
 /**
- * @brief Lightweight health snapshot returned by the orchestrator.
+ * @brief Compatibility health value type for helper tests.
  *
- * A degraded report (is_healthy == false) MUST prevent further task dispatch.
+ * The production orchestrator returns MaintenanceHealthReport instead; this
+ * snapshot is not used to gate dispatch.
  */
 struct MaintenanceHealthSnapshot {
     bool          is_healthy{false};       ///< Overall orchestrator health.
@@ -163,9 +117,10 @@ struct MaintenanceHealthSnapshot {
 // ============================================================================
 
 /**
- * @brief Returns true when the given error mandates fail-closed denial of dispatch.
+ * @brief Classifies compatibility error values for helper tests.
  *
- * Callers MUST check this before scheduling further work when handling an error.
+ * The production orchestrator does not call this predicate, and it does not
+ * enforce fail-closed dispatch behavior.
  */
 [[nodiscard]] inline constexpr bool isMaintenanceFailClosed(MaintenanceError e) noexcept {
     return e == MaintenanceError::kOrchestratorDegraded
