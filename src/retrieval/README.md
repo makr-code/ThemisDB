@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-18"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -12,6 +12,8 @@ Source_Level: "level1"
 SOT_Domain: "module-behavior"
 Canonical_References:
   - "CMakeLists.txt"
+  - "src/lora_package_config.cc"
+  - "../../config/ai_ml/retrieval.yaml"
   - "include/lora_package.h"
   - "src/lora_package.cc"
   - "../../include/retrieval/dual_read_validator.h"
@@ -28,14 +30,16 @@ Exact model backend not verifiable from final document text alone.
 
 `src/retrieval/` currently contains two separate surfaces:
 
-- The `themis_retrieval` static library builds `src/lora_package.cc`. Its declarations are in `src/retrieval/include/lora_package.h`; the target exposes that directory publicly, links `nlohmann_json`, and requires C++17.
+- The `themis_retrieval` static library builds `src/lora_package.cc`, `src/lora_package_config.cc`, and `../../src/rag/deployment_gate_controller.cpp`. Its declarations are in `src/retrieval/include/lora_package.h`; the target exposes that directory and the repository `include/` directory publicly, links `nlohmann_json` and RocksDB, and requires C++20. It also uses `themis_core`, yaml-cpp, and OpenSSL Crypto privately.
 - `DualReadValidator` and `RetrievalMetrics` are declared in `include/retrieval/dual_read_validator.h` and implemented in `src/retrieval/dual_read_validator.cpp`. The validator implementation is not part of the `themis_retrieval` source list.
 
 The top-level `include/retrieval/retrieval.h` is currently a placeholder umbrella header. It includes and declares no retrieval API. This module is not a general ANN, hybrid-search, reranking, embedding, or RAG execution stack.
 
 ## Artifact store behavior and limits
 
-`LoRAManifestStore::openFromThemisConfig()` is the production entry point. It loads `config/ai_ml/retrieval.yaml` through `ConfigPathResolver` and yaml-cpp, requires a non-empty RocksDB path and valid Ed25519 public-key pins, then opens the persistent store. Every production write/import verifies the content hash and detached signature over `manifest_hash`; unsigned or invalid records on reopen fail construction. The source-compatible no-argument constructor is non-production and rejects all artifact writes/imports and deployments. The owning application still supplies the quality controller and separate deployment authorization callback.
+`LoRAManifestStore::openFromThemisConfig()` loads `config/ai_ml/retrieval.yaml` through `ConfigPathResolver` and yaml-cpp, requires a non-empty RocksDB path and valid Ed25519 public-key pins, then opens the persistent store. Every production write/import verifies the content hash and detached signature over `manifest_hash`; unsigned or invalid records on reopen fail construction. The source-compatible no-argument constructor is non-production and rejects all artifact writes/imports and deployments.
+
+The canonical YAML config supplies storage and key pins only. Deployment additionally requires an application-supplied quality controller, evidence validator, deployment authorizer, lifecycle transition authorizer, and persisted-state verifier through `RuntimeConfig`; the no-argument config factory does not configure these callbacks. Applications that need those operations must load `RuntimeConfig`, inject the owning-service integrations, and construct the store with that config. Without them, deployment and non-initial lifecycle transitions fail closed, and reopening persisted non-initial lifecycle states is rejected.
 
 Artifact integrity checks fail closed unless the manifest hash matches, the
 signature and `Ed25519` algorithm label are present, signer ID is pinned, and
@@ -62,4 +66,4 @@ The exact CMake target is `themis_retrieval` (underscore). Focused tests are reg
 
 ## Configuration and maturity
 
-There is no retrieval runtime configuration system in this target. The only module-specific configuration described here is the build option `THEMIS_BUILD_RETRIEVAL`. Do not infer production readiness, persistence, deployment controls, index integration, or measured performance from the artifact APIs, tests, roadmap history, or benchmark names.
+The module-specific build option is `THEMIS_BUILD_RETRIEVAL`; runtime storage and key-pin settings are in `config/ai_ml/retrieval.yaml`. The checked-in configuration intentionally has an empty `pinned_keys` list and cannot initialize a production store until an administrator provisions approved keys. This target does not provide key provisioning/rotation, owner/RBAC policy, composition wiring for deployment callbacks, or live index integration. Do not infer end-to-end production readiness or measured performance from the artifact APIs, tests, roadmap history, or benchmark names.

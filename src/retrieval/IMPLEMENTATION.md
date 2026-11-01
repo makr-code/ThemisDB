@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -100,4 +100,4 @@ When touching this module, keep the following priorities:
 
 ## Conclusion
 
-The artifact library and metric helper are limited components. They do not constitute a complete retrieval engine, persistent registry, or production trust/deployment system.
+The artifact library and metric helper are limited components. They do not constitute a complete retrieval engine or production trust/deployment system; the registry's persistence does not provide application authorization, key lifecycle management, or live index integration.
