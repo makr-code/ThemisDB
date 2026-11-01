@@ -43,6 +43,13 @@ protected:
     }
 
     void SetUp() override {
+        TaskScheduler::RequestContext test_context;
+        test_context.user_id = "scheduler-scaling-test";
+        test_context.granted_permissions = {
+            "task:register", "task:unregister", "task:update", "task:execute",
+            "task:register_function"};
+        test_context.roles.insert("system_admin");
+        TaskScheduler::setRequestContext(test_context);
         db_path_ = makeDbPath();
         std::filesystem::create_directories(db_path_);
 
@@ -65,6 +72,7 @@ protected:
         storage_->close();
         storage_.reset();
         std::filesystem::remove_all(db_path_);
+        TaskScheduler::clearRequestContext();
     }
 
     /// Create a scheduler with dynamic scaling enabled.

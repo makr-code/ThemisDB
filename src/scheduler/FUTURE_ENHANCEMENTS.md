@@ -1,53 +1,44 @@
-# Scheduler Module - Future Enhancements
+---
+Author: ThemisDB Team
+Created: 2026-10-31
+Last Updated: 2026-11-01
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+Source level: 1
+SOT domain: module-behavior
+Canonical references: include/scheduler/*.h; src/scheduler/*.cpp; tests/scheduler/*.cpp; benchmarks/scheduler/*.cpp
+Related issue: #7376; DOC-WEEKLY-2026-44
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Scope
+# Scheduler future enhancements
 
-- hardening and refinement of scheduler runtime behavior
-- deterministic reliability improvements for lifecycle/execution/coordination paths
-- stronger benchmark-backed guardrails for scheduler hot paths
+The items below are proposals and review needs, not committed delivery dates or
+claims about current implementation.
 
-## Design Constraints
+## Reliability and contract alignment
 
-- scheduler contracts remain backward compatible within major release line.
-- lifecycle/execution outcomes remain explicit and deterministic.
-- degraded coordination/adapter paths remain observable and non-silent.
-- audit/result/anomaly behavior remains actionable for operations.
+- Broaden coordination failure and failover tests beyond the current production
+  coordinator integration coverage; the older placeholder suite remains skipped.
+- Revisit scheduler API authorization scope names with the server/security
+  owners before extending the permission model.
 
-## Required Interfaces
+## Performance and operability
 
-| Interface | Requirement |
-|---|---|
-| lifecycle interfaces | deterministic register/unregister/list semantics |
-| execution interfaces | stable execute-now and stats contracts |
-| coordination interfaces | bounded distributed/external scheduler behavior |
-| observability interfaces | explicit audit/result/anomaly/trigger visibility |
+- Establish an owner, metric/statistic, CI workflow, threshold, and
+  representative-hardware baseline before describing a benchmark as a release
+  gate. The production-path benchmark currently has a CTest smoke only.
+- Expand production-component benchmark coverage only where a measurable use
+  case exists.
+- Keep operational requirements and security policy in the corresponding
+  reviewed canonical documents rather than inferring them from configuration
+  fields.
 
-## Implementation Notes
-
-- tighten parity between registration validation and execution readiness checks.
-- standardize diagnostics for coordination/adapter incident classes.
-- expand resilience tests for prolonged concurrent scheduler mutation traffic.
-- broaden benchmark depth for distributed/external scheduler scenarios.
-
-## Test Strategy
-
-- unit and integration suites for scheduler lifecycle, execution, and observability behavior.
-- regressions for invalid task configs, concurrent register/execute, and adapter faults.
-- deterministic stress runs for burst scheduling and retention-heavy workloads.
-- release-profile benchmark runs for mapped scheduler targets.
-
-## Performance Targets
-
-- scheduler hot paths remain inside regression budgets.
-- register/execute/list/stats-sensitive operations remain stable at p95/p99 envelopes.
-- mapped benchmark manifests reach no-missing-case status for release gating.
-
-## Security / Reliability
-
-- maintain strict validation before task activation and execution.
-- preserve explicit failure signaling for lifecycle/coordination faults.
-- enforce bounded behavior under scheduler burst pressure.
-- keep diagnostics actionable for production scheduler incidents.
+See [ROADMAP.md](ROADMAP.md), [AUDIT.md](AUDIT.md), and
+[PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md) for verified gaps and
+current benchmark coverage.
