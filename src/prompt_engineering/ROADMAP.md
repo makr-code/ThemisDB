@@ -1,263 +1,88 @@
-# Prompt Engineering Module Roadmap
+---
+Author: "ThemisDB Team"
+Created: "2026-08-05"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-05 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+> Exact model backend not verifiable from final document text alone.
+
+# Prompt Engineering Module Roadmap
 
 ## Current Status
 
-Production-capable prompt engineering runtime exists for template lifecycle operations, context injection, revision/version control, optimization/evaluation loops, feedback ingestion, and prompt metrics support.
+The source tree contains implementations for template management, version control, evaluation/optimization, feedback, metrics, and the standalone rewrite engine. The root build adds these sources to `themis_core`. Code presence is not a production-readiness or test-pass claim; release acceptance requires current test, benchmark, and human-review evidence.
+
+The rewrite engine is not invoked automatically by `PromptEngineeringIntegration`. Its current focused test checks three interface/compile contracts and does not exercise rule execution.
 
 ## In Progress
 
-- [x] hardening adversarial/edge-case template and injection validation behavior (Target: Q3 2026) — **COMPLETED 2026-08-08**
-- [~] improving optimization/evaluation diagnostics consistency across failure classes (Target: Q3 2026)
-- [~] stabilizing benchmark-backed release guardrails for prompt engineering hot paths (Target: Q3 2026)
+- [~] Add behavior-level tests for rewrite rule execution, YAML loading, terminal behavior, tracing, and step exhaustion (Target: Q4 2026).
+- [~] Run the focused prompt-engineering test label and record current results for the registered test sources (Target: Q4 2026).
+- [~] Replace synthetic rewrite microbenchmarks with cases that exercise `RewriteEngine` and `RewriteRuleLoader` directly (Target: Q4 2026).
+- [~] Establish release-profile measurements and baselines for the implemented prompt-engineering cases (Target: Q4 2026).
 
 ## Planned Features
 
-### Short-term (3-6 months)
-- [ ] tighten deterministic behavior for concurrent template/version mutation traffic (Target: Q4 2026)
-- [ ] expand stress coverage for optimization loops and feedback-heavy scenarios (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for prompt incident triage (Target: Q4 2026)
-- [ ] introduce deterministic `RewriteEngine` for prompt normalization, policy rewrites, and NL→AQL preprocessing (Target: Q4 2026)
-
-### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for prompt template/version/quality paths (Target: Q1 2027)
-- [ ] broaden benchmark depth for module-native advanced prompt workflows (Target: Q1 2027)
-- [ ] harden long-run reliability under sustained prompt update/evaluation pressure (Target: Q1 2027)
-- [ ] extend `RewriteEngine` to post-generation canonicalization and structured agent/tool output normalization (Target: Q1 2027)
+- [ ] Integrate rewrite execution at explicitly owned prompt/request boundaries, with downstream validation and policy checks (Target: Q1 2027).
+- [ ] Add representative fixtures for optimization/evaluation and long-run mutation workloads (Target: Q1 2027).
+- [ ] Expand operator diagnostics based on verified failure behavior (Target: Q1 2027).
 
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [x] freeze template/versioning/optimization contracts for current major line (Target: Q3 2026) — See PHASE_1_CONTRACT.md
-- [x] define explicit error taxonomy for prompt engineering failure classes (Target: Q3 2026) — See ERROR_TAXONOMY_REFERENCE.md and prompt_engineering_errors.h (52 error codes)
-- [x] define `RewriteEngine` interfaces (`RewriteDocument`, `RewriteContext`, `RewriteResult`, `RewriteTrace`, `IRewriteRule`) and phase boundaries (Target: Q4 2026) — See rewrite_engine.h
+- [x] Define public template, evaluation, revision, and rewrite interfaces in `include/prompt_engineering/` (Target: Q3 2026).
+- [x] Define 62 `PromptEngineeringErrorCode` enum values and document their limits as identifiers, not guaranteed runtime emissions (Target: Q3 2026).
 
 ### Phase 2: Core Implementation
-- [x] complete hardening for manager/version control and validator internals (Target: Q4 2026) — PHASE_1_CONTRACT.md baseline established
-- [x] align optimization/evaluation behavior to bounded runtime contracts (Target: Q4 2026) — baseline contracts defined
-- [x] implement deterministic ordered rule execution, rule registration, and YAML-backed low-risk rewrite loading (Target: Q4 2026) — RewriteEngine implementation complete
-  - `rewrite_engine.cpp`: Core orchestration with phase ordering, priority-based execution, max-steps prevention
-  - `rewrite_rule_base.cpp`: Concrete rule types (RegexRewriteRule, DictionaryRewriteRule, PolicyRewriteRule, SemanticRewriteRule)
-  - `rewrite_rule_loader.cpp`: YAML schema validation and lexical rule loading
-  - `rewrite_metrics.cpp`: Observability with per-rule and per-phase metrics
-- [x] implement `RewriteEngine` executor with deterministic rule evaluation and phase isolation (Target: Q4 2026) — all 4 phases (input normalization, policy, NL→AQL, post-gen) implemented
-- [x] implement YAML configuration schema for input normalization rules (Target: Q4 2026) — regex and dictionary rules with schema validation
+- [x] Implement the template, version, feedback, evaluation, and optimization source paths (Target: Q4 2026).
+- [x] Implement the separate rewrite engine, rule types, metrics, and YAML loader; YAML loading is restricted to lexical regex/dictionary rules (Target: Q4 2026).
+- [x] Keep the rewrite engine distinct from automatic integration-hook behavior (Target: Q4 2026).
 
 ### Phase 3: Error Handling and Edge Cases
-- [x] standardize fail-safe behavior for invalid templates, injection mismatches, and version faults (Target: Q4 2026) — **COMPLETED 2026-08-08**
-  - `PromptTemplateValidator` extended with injection detection methods
-  - SQL, command, path traversal, and template injection patterns detected
-  - Adversarial test cases: 54+ malicious payloads covering evasion attempts and edge cases
-  - Integration: `validate()` automatically checks template content for injection patterns
-- [x] unify diagnostics across manager/version/optimizer/evaluator incidents using `PromptEngineeringErrorContext` (Target: Q4 2026)
-- [x] enforce rewrite step bounds, phase isolation, malformed-rule rejection, and terminal policy behavior (Target: Q4 2026)
-- [x] **BATCH 3: Adversarial/Edge-Case Validation** (Target: Q3 2026) — **COMPLETED 2026-08-15**
-  - 8 test classes covering: SQL injection, Command injection, Path traversal, XSS, Template recursion, Unicode evasion, Null byte injection, Mixed attacks
-  - 54+ malicious payloads for comprehensive injection pattern detection
-  - File: `tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp`
-  - Target detection rate: 100% on known malicious inputs, <1% false positives on benign prompts
+- [x] Keep manager field validation distinct from serialized-JSON injection heuristics (Target: Q4 2026).
+- [~] Add and verify regression coverage for malformed templates, persistence failures, duplicate rewrite rules, and rewrite termination (Target: Q4 2026).
 
 ### Phase 4: Tests
-- [~] expand focused regressions for invalid template and concurrent mutation scenarios (Target: Q4 2026) — Focused test suite PE-FT-001..PE-FT-015 established; BATCH 3 adversarial suite PE-ADV-01..08 complete (2026-08-15)
-- [~] extend deterministic stress fixtures for optimization/evaluation workloads (Target: Q4 2026) — Synthetic workload generators implemented; stress test harness ready (2026-08-07)
-- [~] add unit/integration coverage for rewrite rule ordering, trace generation, normalization idempotence, and NL→AQL preprocessing flows (Target: Q4 2026) — Rewrite rule test cases drafted; NL→AQL preprocessing validation pending (2026-08-07)
+- [x] Register `test_*.cpp` files from `tests/prompt_engineering/CMakeLists.txt` as focused unit targets (Target: Q3 2026).
+- [~] Add behavior-level rewrite tests; `test_rewrite_engine_focused.cpp` currently contains only three interface/compile-contract cases (Target: Q4 2026).
+- [~] Record a current run of the `prompt_engineering` CTest label; this roadmap does not claim that the tests pass (Target: Q4 2026).
 
 ### Phase 5: Performance and Hardening
-- [x] lock benchmark-backed release gates for prompt engineering hot paths (Target: Q4 2026) — Complete: bench_prompt_engineering.cpp (PromptManager/VersionControl/Optimizer/Evaluator gates) + bench_rewrite_engine.cpp (PEG-01..06 RewriteEngine gates) delivered (2026-08-07)
-- [~] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — Benchmark suite ready for execution; p95/p99 validation in progress (2026-08-07)
-- [~] benchmark rewrite latency/trace overhead and harden regex/rule execution against adversarial expansion or loop behavior (Target: Q4 2026) — PEG-04..06 (rule loading, trace gen, step limits) implemented; adversarial testing in progress (2026-08-07)
+- [x] Add core microbenchmark cases for template, version, feedback, optimization, evaluation, metrics, and concurrent-write paths (Target: Q4 2026).
+- [~] Benchmark actual rewrite implementation behavior; `bench_rewrite_engine.cpp` currently measures local synthetic helpers (Target: Q4 2026).
+- [~] Collect release-profile results and compare with reviewed baselines before calling any performance gate complete (Target: Q4 2026).
 
 ### Phase 6: Documentation and Acceptance
-- [x] core prompt_engineering docs aligned to source-verifiable behavior (Target: Q3-Q4 2026) — Complete with Phase 1-2 deliverables
-- [x] roadmap/future planning separated from historical changelog entries
-- [x] focused test infrastructure (PE-FT-001..PE-FT-015) implemented at `tests/prompt_engineering/test_prompt_engineering_focused.cpp` (Target: Q3 2026)
-- [x] document RewriteEngine core architecture and operational guidance (`docs/architecture/rewrite_engine_architecture.md`) (Target: Q4 2026) — Documentation complete 2026-08-07; request-pipeline integration remains future work
-- [x] benchmark gates documented: GATE-PE-01..06 (PEG-01..06) in `benchmarks/prompt_engineering/bench_rewrite_engine.cpp` (Target: Q4 2026) — Delivered 2026-08-07
-- [~] acceptance checklist sign-off ready for final human review (Target: Q4 2026)
+- [~] Keep API, test, benchmark, and runtime documentation synchronized with source and CMake registration (Target: Q4 2026).
+- [ ] Complete human review of module readiness and supporting test/benchmark evidence before a release claim (Target: Q4 2026).
 
 ## Production Readiness Checklist
 
-- [x] core prompt engineering surfaces documented and source-verified
-- [x] module-level security and failure behavior documented (Phase 1: error taxonomy in prompt_engineering_errors.h and ERROR_TAXONOMY_REFERENCE.md)
-- [x] benchmark mapping documented in performance expectations (Phase 5: bench_prompt_engineering.cpp + bench_rewrite_engine.cpp with GATE-PE-01..06)
-- [x] focused test infrastructure (PE-FT-001..PE-FT-015) implemented for core surfaces
-- [~] remaining hardening tasks in progress for template/versioning/quality edge paths (Phase 3 + Phase 4 work, target completion 2026-08-15)
-- [~] release benchmark stabilization in progress (Phase 5 work, target completion 2026-08-15)
-- [~] rewrite engine deterministic rule execution, bounded behavior, and audit trace support validated in production-like test profiles (Phase 2–5 work, target completion 2026-08-15)
-- [x] backward compatibility guarantee documented and reviewed (Phase 1: PHASE_1_CONTRACT.md)
-- [x] RewriteEngine benchmarks with 6 release gates (GATE-PE-01..06) documented and registered (2026-08-07)
+- [x] Core public headers and implementation sources are present.
+- [x] Focused module tests and benchmark targets are wired into the repository build.
+- [~] Rewrite behavior tests cover execution semantics and error cases (Target: Q4 2026).
+- [~] Release-profile benchmarks exercise production implementations and have reviewed baselines (Target: Q4 2026).
+- [ ] Human acceptance confirms the release criteria and operational ownership (Target: Q4 2026).
 
-## Known Issues and Limitations
+## Known Issues & Limitations
 
-- runtime behavior depends on template quality, injected context shape, optimizer configuration, and downstream model behavior.
-- selected adversarial and concurrency-heavy edge scenarios need continued hardening.
-- benchmark depth should continue expanding for advanced prompt engineering workflows.
-- RewriteEngine core execution and YAML lexical-rule loading exist in the source and are compiled into `themis_core`; integration into prompt/NL→AQL request paths and functional rule-behavior regression coverage remain incomplete. Callers must not assume the integration façade invokes the engine.
+- `PromptEngineeringIntegration` does not automatically invoke `RewriteEngine`; callers must not assume requests are rewritten.
+- `test_rewrite_engine_focused.cpp` checks interface contracts only; it is not evidence of rule execution behavior.
+- `bench_rewrite_engine.cpp` uses local synthetic helpers and is not evidence of `RewriteEngine` performance.
+- The error-code enum does not establish that each code is emitted by current runtime paths.
+- Prompt scoring quality depends on caller-provided cases and, when configured, an external embedding provider.
+- Prompt substitution and injection heuristics do not replace caller-owned authorization, output validation, or safety policy.
 
 ## Breaking Changes
 
-No breaking prompt engineering contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.
+No breaking change is scheduled here. Update the public header contract, migration guidance, and changelog before any breaking API or persisted-format change.
 
-## Module Evidence and Validation (Q3 2026 Snapshot)
+## Historical Evidence
 
-### Focused Test Infrastructure (PE-FT-001..PE-FT-015)
-
-Implemented focused test suite at `tests/prompt_engineering/test_prompt_engineering_focused.cpp`:
-
-| Test ID | Area | Coverage | Status |
-|---------|------|----------|--------|
-| PE-FT-001 | PromptManager template lifecycle | create/get/list operations | ✅ PASS |
-| PE-FT-002 | Context injection | context map substitution | ✅ PASS |
-| PE-FT-003 | Template validation | valid/invalid template checks | ✅ PASS |
-| PE-FT-004 | PromptVersionControl | commit/history operations | ✅ PASS |
-| PE-FT-005 | FeedbackCollector | feedback recording and stats | ✅ PASS |
-| PE-FT-006 | PromptOptimizer | basic optimization loop | ✅ PASS |
-| PE-FT-007 | PromptEvaluator | structural evaluation | ✅ PASS |
-| PE-FT-008 | PromptEngineeringMetrics | metrics recording | ✅ PASS |
-| PE-FT-009 | Error handling | missing template edge case | ✅ PASS |
-| PE-FT-010 | Error handling | invalid context injection edge case | ✅ PASS |
-| PE-FT-011 | Concurrency | basic concurrent template access | ✅ PASS |
-| PE-FT-012 | Injection validation | empty placeholder edge case | ✅ PASS |
-| PE-FT-013 | Version control | commit history consistency | ✅ PASS |
-| PE-FT-014 | Optimizer diagnostics | diagnostic output validation | ✅ PASS |
-| PE-FT-015 | Evaluator consistency | multiple evaluation consistency | ✅ PASS |
-
-### Benchmark Evidence (Existing)
-
-- `benchmarks/prompt_engineering/bench_prompt_engineering.cpp` provides performance validation
-- Covers 13 benchmark targets for template operations, context injection, version control, feedback, optimization, and evaluation
-- Performance targets documented and tracked (e.g., createTemplate < 10 µs, getTemplate < 1 µs)
-
-### Build Targets
-
-- **Build** (Preset: `community-release-allow-missing-rocksdb`)
-  - `module_prompt_engineering_test_prompt_engineering_focused_focused` - focused test executable
-  - `bench_prompt_engineering` - benchmark executable
-  
-- **Test Registry**
-  - Focused tests registered with: `themis_register_module_focused_test(MODULE prompt_engineering TIER unit TIMEOUT 120)`
-  - CTest labels: `prompt_engineering` for filtering and aggregation
-
-### Validation Summary
-
-- ✅ Roadmap priorities (8 Q3/Q4/Q1 2027 items) synced with ROADMAP.md
-- ✅ Future enhancements scope aligned with FUTURE_ENHANCEMENTS.md
-- ✅ Core API surfaces tested (template, versioning, feedback, optimization, evaluation, metrics)
-- ✅ Error handling and edge cases covered (15 focused test cases)
-- ✅ Concurrency sanity check included
-- ✅ Benchmark infrastructure exists and measurable against documented targets
-
-## Phase 2: RewriteEngine Core Implementation Evidence (2026-08-05)
-
-### Implementation Deliverables
-
-**Core Engine Implementation**
-- `src/prompt_engineering/rewrite_engine.cpp` (495 lines)
-  - Phase-ordered deterministic execution (phases 1-4 in strict sequence)
-  - Thread-safe rule registration and management with shared_mutex
-  - Max-steps loop prevention (default 1000, configurable per context)
-  - Rule lookup optimization by phase
-  - Trace collection with optional max_trace_entries limit
-  - JSON stats export with rule counts, latency, transformation metrics
-
-**Concrete Rule Type Implementations**
-- `src/prompt_engineering/rewrite_rule_base.cpp` (409 lines)
-  - `RegexRewriteRule`: Precompiled regex patterns with backreference support, max_replacements bound
-  - `DictionaryRewriteRule`: Hash-based substitution with case-sensitive/insensitive modes
-  - `PolicyRewriteRule`: Custom match/apply callbacks for semantic policy enforcement (terminal mode)
-  - `SemanticRewriteRule`: Base class for complex C++-only rule implementations
-
-**YAML Rule Loader**
-- `src/prompt_engineering/rewrite_rule_loader.cpp` (328 lines)
-  - Schema validation for YAML rule definitions
-  - Lexical-only constraint enforcement (regex and dictionary rules only from YAML)
-  - All-or-nothing loading semantics (partial failures don't modify registry)
-  - Phase/priority/mapping validation with detailed error messages
-  - Regex compilation validation at load time
-
-**Observability**
-- `src/prompt_engineering/rewrite_metrics.cpp` (230 lines)
-  - Per-rule metrics: match/apply/error counts, min/max/avg latency
-  - Per-phase metrics: aggregated rules_evaluated/rules_applied/total_latency
-  - Global singleton metrics collection with reset capability
-  - JSON export with timestamp for integration with monitoring systems
-
-### Test Coverage (RW-P2-01..06)
-
-| Test ID | Coverage | Location | Status |
-|---------|----------|----------|--------|
-| RW-P2-01 | Rule registration and deduplication | test_rewrite_engine_focused.cpp:45-113 | ✅ PASS |
-| RW-P2-02 | Phase ordering enforcement | test_rewrite_engine_focused.cpp:125-160 | ✅ PASS |
-| RW-P2-03 | Priority-based execution within phases | test_rewrite_engine_focused.cpp:172-207 | ✅ PASS |
-| RW-P2-04 | Max-steps loop prevention | test_rewrite_engine_focused.cpp:219-256 | ✅ PASS |
-| RW-P2-05 | Trace correctness and completeness | test_rewrite_engine_focused.cpp:268-330 | ✅ PASS |
-| RW-P2-06 | Thread-safety under concurrent register/rewrite | test_rewrite_engine_focused.cpp:342-427 | ✅ PASS |
-
-**Additional Tests**
-- Multi-phase execution integration test
-- Dictionary rule substitution
-- Statistics tracking and JSON export
-- 28 focused test cases total covering RW-FT-001..028 scenarios
-
-### Header Files Created
-
-- `include/prompt_engineering/rewrite_rule.h` (238 lines)
-  - Interface declarations for all 4 rule types
-  - Callback function type aliases for PolicyRewriteRule
-  - Doxygen documentation for all public methods
-
-- `include/prompt_engineering/rewrite_rule_loader.h` (62 lines)
-  - RewriteRuleLoader class with load/validate/error reporting
-  - All-or-nothing semantics documented
-
-### Build Configuration
-
-- `src/prompt_engineering/CMakeLists.txt` created
-  - `themis_prompt_engineering_rewrite` library target
-  - Linked against nlohmann_json, spdlog, yaml-cpp
-  - C++17 standard requirement
-  - Integrated with test infrastructure via glob pattern in tests/prompt_engineering/CMakeLists.txt
-
-### Acceptance Criteria - Phase 2 Complete ✅
-
-- ✅ RewriteEngine core implemented and linked
-- ✅ All rule types (regex, dictionary, policy, semantic) compilable and functional
-- ✅ YAML loading works for lexical rules with schema validation
-- ✅ 6 focused RW-P2 tests passing (28 total test cases)
-- ✅ No blocking compile/link errors
-- ✅ Thread-safety verified under concurrent operations
-- ✅ Deterministic phase ordering enforced
-- ✅ Observability metrics collected and exported
-
-### Next Steps: Phases 3-6 Parallel Streams
-
-- **Stream B (Secondary):** Phase 3 error paths (RW-P3-01..04) — can proceed immediately
-- **Stream C (Tertiary):** Phase 4 comprehensive tests (RW-FT-001..060 expansion)
-- **Stream D (Performance):** Phase 5 benchmarking (bench_rewrite_engine.cpp)
-- **Stream E (Documentation):** Phase 6 docs (operational guidance, YAML schema reference)
-
-
-## Program Execution Model — Wave Context
-
-This module is a **contributing module** in the program-level Wave A → B → C → D execution model.
-It does not own a primary wave deliverable but must remain `release_critical`-green throughout all waves
-and must deliver Wave D operability improvements in Q1 2027.
-See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
-
-### Wave D Contribution for `prompt_engineering`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
-
-### Cross-Wave Requirements
-- `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
-- p95/p99 benchmarks must be refreshed on representative hardware before Wave D sign-off (Target: Q1 2027)
-- No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
-
-### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+Older PE-FT/RW test IDs and pass tables are historical snapshots, not current test names or results. See [`ISSUE_5663_CLOSURE_EVIDENCE.md`](./ISSUE_5663_CLOSURE_EVIDENCE.md) for the dated closure record. Current test source inventory and commands are in [`../../tests/prompt_engineering/README.md`](../../tests/prompt_engineering/README.md); benchmark source limitations are in [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md).

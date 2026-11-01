@@ -1,75 +1,54 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/process/ARCHITECTURE.md -->
-
-# Process Mining Module — Public Header Architecture
-
-**Module Path:** `include/process/`  
-**Implementation:** `../../src/process/`  
-**Canonical architecture doc:** [`../../src/process/ARCHITECTURE.md`](../../src/process/ARCHITECTURE.md)
-
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+Source_Level: level 1
+SOT_Domain: architecture-governance
+Canonical_Sources: include/process/*.h; src/process/ARCHITECTURE.md; src/process/API.md; DOCUMENTATION_GOVERNANCE.md
+Related_Issue: "#7368"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
 ---
 
-## 1. Overview
+# Process Public-Header Architecture
 
-`include/process/` defines the **public BPM/BPMN/CMMN/DMN process modelling, EPK, XPDL, OCEL, object-centric tracing, LLM process descriptors, and RAG integration API contract** for ThemisDB.
+**AI provenance:** Exact model backend not verifiable from final document text alone.
 
-For runtime composition and implementation internals see:
-→ [`../../src/process/ARCHITECTURE.md`](../../src/process/ARCHITECTURE.md)
+`include/process/` exposes declarations for process-model management, format handling, linking, retrieval, analytics, diagnostics, and integration surfaces. The header set changes over time; do not treat lists or counts in older snapshots as exhaustive. For the current declarations, inspect this directory and the linked module [API guide](../../src/process/API.md).
 
----
+## Contract boundary
 
-## 2. Header Groups
+- Public signatures, enum values, defaults, and comments in the relevant header are authoritative for that interface.
+- Runtime behavior must be confirmed in the matching implementation; a header comment or design-contract file alone does not establish that behavior is implemented or validated.
+- API compatibility/stability must be determined by the repository's current versioning policy; this page does not designate every header as a stable ABI.
+- Process model deployment to `ProcessGraphManager` is an integration surface, not evidence that the process module owns a general workflow orchestration service.
+- Federation, audit, diagnostics, and telemetry contracts are present. Their existence does not establish production maturity; current implementations include explicit alpha/simplified behavior.
 
-### 2.1 Process Model Serialisation
+## Public components and data flow
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `bpmn_serializer.h` | `BPMNSerializer` | BPMN 2.0 import/export |
-| `cmmn_serializer.h` | `CMMNSerializer` | CMMN case model import/export |
-| `epk_serializer.h` | `EPKSerializer` | Event-Process Chain serialisation |
-| `epk_aris_xml_importer.h` | `EPKARISXMLImporter` | ARIS XML EPK importer |
-| `dmn_evaluator.h` | `DMNEvaluator` | DMN decision table evaluation |
-| `vcc_vpb_importer.h` | `VCCVPBImporter` | VCC VPB process model importer |
-| `xpdl_importer.h` | `XPDLImporter` | XPDL workflow definition importer |
-| `fim_importer.h` | `FIMImporter` | FIM process model importer |
-### 2.2 Process Management
+The public headers cover model lifecycle and format handlers, linking, graph/agentic/light retrieval, diagnostics, analytics, and integration surfaces. At runtime, callers provide records or import supported formats through the model manager; retrieval combines available model/instance data and optional link/community evidence. The detailed implementation flow and limits are documented in the [module architecture](../../src/process/ARCHITECTURE.md).
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `process_model_manager.h` | `ProcessModelManager` | Process model lifecycle management |
-| `process_model_generator.h` | `ProcessModelGenerator` | LLM-assisted process model generation |
-| `process_linker.h` | `ProcessLinker` | Cross-model process linking and tracing |
-| `process_common.h` | `ProcessCommon` | Shared process domain types |
-### 2.3 Process Mining and Analytics
+## Failure paths
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `object_centric_tracer.h` | `ObjectCentricTracer` | Object-centric event log tracing |
-| `ocel_exporter.h` | `OCELExporter` | OCEL 2.0 event log export |
-| `process_community_detector.h` | `ProcessCommunityDetector` | Community detection in process graphs |
-### 2.4 RAG and LLM Integration
+- Invalid or missing input can produce failure results, empty retrieval material, or explicit diagnostics depending on the operation; inspect the specific API contract.
+- GLOBAL retrieval may fall back to LOCAL when community reports are unavailable.
+- Profile activation and rollback are multiple writes without a transaction guarantee.
+- The light-retriever resource limits are declared but not enforced by the current implementation.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `process_agentic_rag.h` | `ProcessAgenticRAG` | Agentic RAG over process models |
-| `process_graph_rag.h` | `ProcessGraphRAG` | Graph-RAG over process data |
-| `process_light_retriever.h` | `ProcessLightRetriever` | Lightweight process knowledge retrieval |
-| `llm_process_adapter.h` | `LLMProcessAdapter` | LLM adapter for process queries |
-| `llm_process_descriptor.h` | `LLMProcessDescriptor` | LLM-generated process descriptions |
+## Non-goals
 
----
+- This header directory does not define ownership of a general workflow execution service.
+- Listing an API or design contract here does not certify its implementation, deployment controls, or release readiness.
 
-## 3. Namespace Layout
+## Source and validation layout
 
-All public types reside in the `themis::process` namespace (or a sub-namespace).
+- Implementation: [`../../src/process/`](../../src/process/)
+- Tests: [`../../tests/process/CMakeLists.txt`](../../tests/process/CMakeLists.txt)
+- Benchmarks: [`../../benchmarks/process/CMakeLists.txt`](../../benchmarks/process/CMakeLists.txt)
+- Detailed architecture: [`../../src/process/ARCHITECTURE.md`](../../src/process/ARCHITECTURE.md)
 
----
-
-## 4. Contract Notes
-
-- Headers in `include/process/` expose the **stable public API**; internal types live in `src/process/`.
-- Clients depend only on types declared here; implementation details in `src/` may change without notice.
-- For breaking-change policy see [`../../VERSIONING.md`](../../VERSIONING.md).
-- Layer association: **Graph/LLM**.
+The test and benchmark CMake files define registration, not proof of successful execution. There is no `src/process/CMakeLists.txt`.

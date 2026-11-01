@@ -19,7 +19,7 @@ This runbook supports triage of prompt lifecycle, evaluation, rewrite, and feedb
 ## First response
 
 1. Identify the affected prompt/template ID, operation, time window, deployment version, and whether the in-memory or RocksDB-backed path is in use.
-2. Capture the structured result/error code, relevant `PromptEngineeringErrorContext` fields, and nearby module logs. Avoid copying raw prompts, responses, credentials, or user context into an incident ticket; use a redacted sample where possible.
+2. Capture the operation's actual result or exception fields and nearby module logs. The error-code enum does not imply a shared `PromptEngineeringErrorContext` API. Avoid copying raw prompts, responses, credentials, or user context into an incident ticket; use a redacted sample where possible.
 3. Check `PromptEngineeringIntegration::getStatus()` and background-worker status when the integration façade is used. Export `PromptEngineeringMetrics::exportMetrics()` through the service's configured metrics adapter; the library itself only returns metric text.
 4. Preserve current prompt version IDs and feedback snapshots before attempting rollback, pruning, or configuration replacement.
 

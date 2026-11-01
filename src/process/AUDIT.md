@@ -1,68 +1,43 @@
-# Audit Report - Process Module
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+Source_Level: level 1
+SOT_Domain: module-behavior
+Canonical_Sources: include/process/process_diagnostics.h; include/process/process_diagnostics_api.h; src/process/process_diagnostics.cpp; src/process/process_audit_logger.cpp; src/process/process_telemetry_integration.cpp; tests/process/CMakeLists.txt; benchmarks/process/CMakeLists.txt
+Related_Issue: "#7368"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+# Process Module Source Audit Notes
 
-## Summary
+**AI provenance:** Exact model backend not verifiable from final document text alone.
 
-| Metric | Result |
+This page records source observations, not a test/build audit or production approval. It replaces a previous audit snapshot whose fixed inventory and pass/status assertions were not supported by the current tree.
+
+## Observed source surfaces
+
+- Process diagnostics define **nine** `DiagnosticIncidentType` values, including `MISSING_TARGET_INCIDENT`. `DiagnosticMetricsCollector` can count/export incidents; this does not establish deployment metrics or alerting.
+- Audit logger declarations and implementation exist. The current `.cpp` marks persistence as in-memory/simplified and its delta codec is explicitly a placeholder; do not describe the current path as durable audit storage, a verified RFC 7386 implementation, or full point-in-time recovery.
+- Telemetry integration declarations and implementation exist. Current span export serializes simplified JSON and logs the endpoint; it does not demonstrate a working OpenTelemetry collector transport or an independently measured overhead target.
+- Federation and conflict-resolution source files exist. The source comments label implementation maturity alpha/core; their presence alone does not verify consensus safety, Byzantine tolerance, or production readiness.
+- The process test and benchmark registration points are `tests/process/CMakeLists.txt` and `benchmarks/process/CMakeLists.txt`. No test or benchmark result is asserted here.
+
+## Validation status
+
+| Check | Result |
 |---|---|
-| Build registration | pass |
-| Source set size | 15+ implementation files in src/process |
-| Focused test presence | pass |
-| Open hardening findings | yes |
-| Critical blockers | none identified |
+| Current process documentation inventory | Read/search performed for all Markdown under `src/process/`, `include/process/`, `tests/process/`, and `benchmarks/process/` |
+| Source behavior | Spot-checked against the headers and implementations cited above; this is not exhaustive runtime verification |
+| Build/tests/benchmarks | Not run for this documentation-only task |
+| Release or production status | Not established by this audit |
 
-## Verified Files
+## References
 
-- src/process/process_model_manager.cpp
-- src/process/bpmn_serializer.cpp
-- src/process/epk_serializer.cpp
-- src/process/epk_aris_xml_importer.cpp
-- src/process/vcc_vpb_importer.cpp
-- src/process/llm_process_descriptor.cpp
-- src/process/process_graph_rag.cpp
-- src/process/process_agentic_rag.cpp
-- src/process/process_linker.cpp
-- src/process/process_model_generator.cpp
-- src/process/process_light_retriever.cpp
-- src/process/process_community_detector.cpp
-- src/process/object_centric_tracer.cpp
-- src/process/ocel_exporter.cpp
-- src/process/dmn_evaluator.cpp
-- src/process/cmmn_serializer.cpp
-- src/process/fim_importer.cpp
-
-## Findings
-
-### Open
-
-1. [PRC-AUD-01] parser and lifecycle edge-case hardening remains active.
-- Severity: medium
-- Evidence: roadmap/future retain active work for deterministic behavior under model churn.
-- Action: close deterministic regressions across import/update/delete transition paths.
-
-2. [PRC-AUD-02] linking and retrieval diagnostics need further tightening.
-- Severity: medium
-- Evidence: active follow-up work for process-link and retrieval incident observability.
-- Action: unify taxonomy and diagnostics for process retrieval fault classes.
-
-3. [PRC-AUD-03] benchmark depth should broaden for advanced mining and RAG workflows.
-- Severity: low
-- Evidence: core process benchmark mapping is valid while advanced workflows need deeper coverage.
-- Action: add benchmark depth for complex process analytics scenarios.
-
-### Closed
-
-- core process runtime surfaces are present and source-verified.
-- documentation set is synchronized to source-verifiable claims.
-- changelog/roadmap role separation is aligned to module governance pattern.
-
-## Compliance Snapshot
-
-| Requirement | Status |
-|---|---|
-| Source-verifiable behavior claims | pass |
-| Structured forward planning in roadmap/future | pass |
-| Historical completion tracked in changelog | pass |
-| Core module docs synchronized | pass |
+- [API guide](API.md) · [Implementation notes](IMPLEMENTATION.md) · [Architecture](ARCHITECTURE.md)
+- [`tests/process/CMakeLists.txt`](../../tests/process/CMakeLists.txt) · [`benchmarks/process/CMakeLists.txt`](../../benchmarks/process/CMakeLists.txt)

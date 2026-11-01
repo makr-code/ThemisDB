@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1prompt__engineering_1_1_0d60" kind="namespace" language="C++">
+    <compoundname>themis::prompt_engineering</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1prompt__engineering_1_1_0d60_1af3e3966a5a7e7b8bdc0bdbd200a39877" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TokenKind</name>
+        <qualifiedname>themis::prompt_engineering::TokenKind</qualifiedname>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1_1_0d60_1af3e3966a5a7e7b8bdc0bdbd200a39877a61a96ffcb251bb9bf0abf8fec19d0ea8" prot="public">
+          <name>TEXT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1_1_0d60_1af3e3966a5a7e7b8bdc0bdbd200a39877a0b688c5f3d542268089da39994214ab8" prot="public">
+          <name>SLOT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1_1_0d60_1af3e3966a5a7e7b8bdc0bdbd200a39877ade6ee2b5d856295add4d5e3631fbfb93" prot="public">
+          <name>IF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1_1_0d60_1af3e3966a5a7e7b8bdc0bdbd200a39877a778537b0acce06229cb78d5f72c907ab" prot="public">
+          <name>ELSE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1_1_0d60_1af3e3966a5a7e7b8bdc0bdbd200a39877aa7edf885402c37993bf4581db4a4615c" prot="public">
+          <name>ENDIF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1_1_0d60_1af3e3966a5a7e7b8bdc0bdbd200a39877a7885ad399f9cab93cb42befbe402c588" prot="public">
+          <name>FOR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1prompt__engineering_1_1_0d60_1af3e3966a5a7e7b8bdc0bdbd200a39877a8d2b266238aa71b4ba19ace822ba4711" prot="public">
+          <name>ENDFOR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/prompt_template_compiler.cpp" line="113" column="1" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="113" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/prompt_engineering/prompt_template_compiler.cpp" line="97" column="1"/>
+  </compounddef>
+</doxygen>

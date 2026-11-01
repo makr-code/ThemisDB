@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="bench__temporal__release__gates_8cpp" kind="file" language="C++">
     <compoundname>bench_temporal_release_gates.cpp</compoundname>
     <includes local="no">benchmark/benchmark.h</includes>
@@ -52,7 +52,7 @@
         <label>vector</label>
       </node>
     </incdepgraph>
-    <innerclass refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry" prot="public">themis::bench::trg::BiTemporalEntry</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1trg_1_1BiTemporalEntry" prot="public">themis::bench::trg::BiTemporalEntry</innerclass>
     <innernamespace refid="namespacethemis">themis</innernamespace>
     <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
     <innernamespace refid="namespacethemis_1_1bench_1_1trg">themis::bench::trg</innernamespace>
@@ -76,8 +76,9 @@
     </briefdescription>
     <detaileddescription>
 <para>Provides reproducible latency and throughput measurements for the temporal module critical paths. Results serve as release gates.</para>
-<sect1 id="bench__temporal__release__gates_8cpp_1autotoc_md32_1s1"><sect2 id="bench__temporal__release__gates_8cpp_1autotoc_md32">
-<title>Benchmark families</title><para><heading level="3">TRG-01 — Bi-temporal insert (in-memory)</heading>
+<sect2 id="bench__temporal__release__gates_8cpp_1autotoc_md30">
+<title>Benchmark families</title>
+<para><heading level="3">TRG-01 — Bi-temporal insert (in-memory)</heading>
 </para>
 <para>Gate: ≥ 100k inserts/s.</para>
 <para><heading level="3">TRG-02 — Interval tree point query (1k intervals)</heading>
@@ -95,42 +96,43 @@
 <para><heading level="3">TRG-06 — Valid-time range computation</heading>
 </para>
 <para>Gate: p99 ≤ 50 µs.</para>
-</sect2></sect1>
-<sect1 id="bench__temporal__release__gates_8cpp_1autotoc_md33_1s1"><sect2 id="bench__temporal__release__gates_8cpp_1autotoc_md33">
-<title>Hard release gates</title><para><table rows="7" cols="3"><row>
-<entry thead="yes"><para>Gate ID  </para>
-</entry><entry thead="yes"><para>Benchmark  </para>
-</entry><entry thead="yes"><para>Threshold  </para>
+</sect2>
+<sect2 id="bench__temporal__release__gates_8cpp_1autotoc_md31">
+<title>Hard release gates</title>
+<para><table rows="7" cols="3"><row>
+<entry thead="yes"><para>Gate ID   </para>
+</entry><entry thead="yes"><para>Benchmark   </para>
+</entry><entry thead="yes"><para>Threshold    </para>
 </entry></row>
 <row>
-<entry thead="no"><para>GATE-TRG-01  </para>
-</entry><entry thead="no"><para>TRG-01  </para>
-</entry><entry thead="no"><para>≥ 100k inserts/s  </para>
+<entry thead="no"><para>GATE-TRG-01   </para>
+</entry><entry thead="no"><para>TRG-01   </para>
+</entry><entry thead="no"><para>≥ 100k inserts/s    </para>
 </entry></row>
 <row>
-<entry thead="no"><para>GATE-TRG-02  </para>
-</entry><entry thead="no"><para>TRG-02  </para>
-</entry><entry thead="no"><para>p99 ≤ 500 µs  </para>
+<entry thead="no"><para>GATE-TRG-02   </para>
+</entry><entry thead="no"><para>TRG-02   </para>
+</entry><entry thead="no"><para>p99 ≤ 500 µs    </para>
 </entry></row>
 <row>
-<entry thead="no"><para>GATE-TRG-03  </para>
-</entry><entry thead="no"><para>TRG-03  </para>
-</entry><entry thead="no"><para>p99 ≤ 1 ms  </para>
+<entry thead="no"><para>GATE-TRG-03   </para>
+</entry><entry thead="no"><para>TRG-03   </para>
+</entry><entry thead="no"><para>p99 ≤ 1 ms    </para>
 </entry></row>
 <row>
-<entry thead="no"><para>GATE-TRG-04  </para>
-</entry><entry thead="no"><para>TRG-04  </para>
-</entry><entry thead="no"><para>p99 ≤ 100 µs  </para>
+<entry thead="no"><para>GATE-TRG-04   </para>
+</entry><entry thead="no"><para>TRG-04   </para>
+</entry><entry thead="no"><para>p99 ≤ 100 µs    </para>
 </entry></row>
 <row>
-<entry thead="no"><para>GATE-TRG-05  </para>
-</entry><entry thead="no"><para>TRG-05  </para>
-</entry><entry thead="no"><para>p99 ≤ 5 ms  </para>
+<entry thead="no"><para>GATE-TRG-05   </para>
+</entry><entry thead="no"><para>TRG-05   </para>
+</entry><entry thead="no"><para>p99 ≤ 5 ms    </para>
 </entry></row>
 <row>
-<entry thead="no"><para>GATE-TRG-06  </para>
-</entry><entry thead="no"><para>TRG-06  </para>
-</entry><entry thead="no"><para>p99 ≤ 50 µs  </para>
+<entry thead="no"><para>GATE-TRG-06   </para>
+</entry><entry thead="no"><para>TRG-06   </para>
+</entry><entry thead="no"><para>p99 ≤ 50 µs   </para>
 </entry></row>
 </table>
 </para>
@@ -139,13 +141,12 @@
 <simplesect kind="see"><para>src/temporal/ROADMAP.md — Phase 5 items </para>
 </simplesect>
 </para>
-</sect2></sect1>
+</sect2>
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight></codeline>
-<codeline lineno="45"><highlight class="normal"></highlight></codeline>
 <codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="47"><highlight class="normal"></highlight></codeline>
 <codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="temporal__api__contract_8h" kindref="compound">temporal/temporal_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -156,36 +157,36 @@
 <codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="54"><highlight class="normal"></highlight></codeline>
 <codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench" kindref="compound">bench</ref><sp/>{</highlight></codeline>
-<codeline lineno="57" refid="namespacethemis_1_1bench_1_1trg" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1trg" kindref="compound">trg</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1bench" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">bench<sp/>{</highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1bench_1_1trg" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">trg<sp/>{</highlight></codeline>
 <codeline lineno="58"><highlight class="normal"></highlight></codeline>
 <codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constants</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="62"><highlight class="normal"></highlight></codeline>
-<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kTemporalCanonicalSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="64"><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kTemporalCanonicalSeed<sp/>=<sp/>42;</highlight></codeline>
 <codeline lineno="65"><highlight class="normal"></highlight></codeline>
-<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kWarmupIterations<sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="67"><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kWarmupIterations<sp/>=<sp/>200;</highlight></codeline>
 <codeline lineno="68"><highlight class="normal"></highlight></codeline>
-<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kRepetitions<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="70"><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kRepetitions<sp/>=<sp/>5;</highlight></codeline>
 <codeline lineno="71"><highlight class="normal"></highlight></codeline>
 <codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="75"><highlight class="normal"></highlight></codeline>
-<codeline lineno="76" refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry" kindref="compound">BiTemporalEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1bench_1_1trg_1_1BiTemporalEntry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1bench_1_1trg_1_1BiTemporalEntry" kindref="compound">BiTemporalEntry</ref><sp/>{</highlight></codeline>
 <codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry_1a5572a96b5fda80d427efa22a0c980ce6" kindref="member">valid_start</ref>;</highlight></codeline>
-<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry_1ac2dc038e5420086706beb59a67d793d9" kindref="member">valid_end</ref>;</highlight></codeline>
-<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry_1afe98727d7dc95c253c84f19680da8957" kindref="member">tx_time</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1bench_1_1trg_1_1BiTemporalEntry_1a5572a96b5fda80d427efa22a0c980ce6" kindref="member">valid_start</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1bench_1_1trg_1_1BiTemporalEntry_1ac2dc038e5420086706beb59a67d793d9" kindref="member">valid_end</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1bench_1_1trg_1_1BiTemporalEntry_1afe98727d7dc95c253c84f19680da8957" kindref="member">tx_time</ref>;</highlight></codeline>
 <codeline lineno="81"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="82"><highlight class="normal"></highlight></codeline>
-<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>btInsert(std::vector&lt;BiTemporalEntry&gt;&amp;<sp/>store,</highlight></codeline>
+<codeline lineno="84"><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>btInsert(std::vector&lt;BiTemporalEntry&gt;&amp;<sp/>store,</highlight></codeline>
 <codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>std::int64_t<sp/>vs,<sp/>std::int64_t<sp/>ve,<sp/>std::int64_t<sp/>tx)<sp/>{</highlight></codeline>
 <codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>store.push_back({id,<sp/>vs,<sp/>ve,<sp/>tx});</highlight></codeline>
 <codeline lineno="87"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="88"><highlight class="normal"></highlight></codeline>
-<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::size_t<sp/>intervalQuery(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BiTemporalEntry&gt;&amp;<sp/>store,</highlight></codeline>
+<codeline lineno="90"><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::size_t<sp/>intervalQuery(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BiTemporalEntry&gt;&amp;<sp/>store,</highlight></codeline>
 <codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>point)<sp/>{</highlight></codeline>
 <codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>count<sp/>=<sp/>0;</highlight></codeline>
 <codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>store)<sp/>{</highlight></codeline>
@@ -196,7 +197,7 @@
 <codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>count;</highlight></codeline>
 <codeline lineno="99"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="100"><highlight class="normal"></highlight></codeline>
-<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::size_t<sp/>snapshotRead(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BiTemporalEntry&gt;&amp;<sp/>store,</highlight></codeline>
+<codeline lineno="102"><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::size_t<sp/>snapshotRead(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BiTemporalEntry&gt;&amp;<sp/>store,</highlight></codeline>
 <codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>t,<sp/>std::int64_t<sp/>snapshot_tx)<sp/>{</highlight></codeline>
 <codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>count<sp/>=<sp/>0;</highlight></codeline>
 <codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>store)<sp/>{</highlight></codeline>
@@ -207,11 +208,11 @@
 <codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>count;</highlight></codeline>
 <codeline lineno="111"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="112"><highlight class="normal"></highlight></codeline>
-<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isExpired(std::int64_t<sp/>valid_end,<sp/>std::int64_t<sp/>boundary)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isExpired(std::int64_t<sp/>valid_end,<sp/>std::int64_t<sp/>boundary)<sp/>{</highlight></codeline>
 <codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>valid_end<sp/>&lt;<sp/>boundary;</highlight></codeline>
 <codeline lineno="116"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="117"><highlight class="normal"></highlight></codeline>
-<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::size_t<sp/>pitrRestore(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BiTemporalEntry&gt;&amp;<sp/>history,</highlight></codeline>
+<codeline lineno="119"><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::size_t<sp/>pitrRestore(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BiTemporalEntry&gt;&amp;<sp/>history,</highlight></codeline>
 <codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>target_tx)<sp/>{</highlight></codeline>
 <codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>count<sp/>=<sp/>0;</highlight></codeline>
 <codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>history)<sp/>{</highlight></codeline>
@@ -222,7 +223,7 @@
 <codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>count;</highlight></codeline>
 <codeline lineno="128"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="129"><highlight class="normal"></highlight></codeline>
-<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::int64_t<sp/>validTimeIntersection(std::int64_t<sp/>as,<sp/>std::int64_t<sp/>ae,</highlight></codeline>
+<codeline lineno="131"><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::int64_t<sp/>validTimeIntersection(std::int64_t<sp/>as,<sp/>std::int64_t<sp/>ae,</highlight></codeline>
 <codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>bs,<sp/>std::int64_t<sp/>be)<sp/>{</highlight></codeline>
 <codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>start<sp/>=<sp/>std::max(as,<sp/>bs);</highlight></codeline>
 <codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>end<sp/><sp/><sp/>=<sp/>std::min(ae,<sp/>be);</highlight></codeline>

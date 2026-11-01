@@ -1,55 +1,39 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+# Temporal public-header status
 
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/temporal/ROADMAP.md -->
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
 
-# Temporal Module — Public Header Roadmap
+Exact model backend not verifiable from final document text alone.
 
-**Module Path:** `include/temporal/`
-**Canonical implementation roadmap:** [`../../src/temporal/ROADMAP.md`](../../src/temporal/ROADMAP.md)
+This file is a header inventory, not an independent release roadmap. The
+canonical module plan is [`../../src/temporal/ROADMAP.md`](../../src/temporal/ROADMAP.md);
+the root [`../../ROADMAP.md`](../../ROADMAP.md) controls aggregate maturity and
+release readiness.
 
----
+## Current inventory
 
-## Overview
+The directory contains 17 headers: 16 runtime headers in `themisdb::temporal`
+and the separate `temporal_api_contract.h` in `themis::temporal`. Header groups,
+their public types, and contract boundaries are listed in
+[`README.md`](README.md).
 
-Tracks public temporal API contract stability, header coverage, and future public entry points. Runtime enforcement, CDC pipeline, and tiering work remain in:
+## Status notes
 
-→ [`../../src/temporal/ROADMAP.md`](../../src/temporal/ROADMAP.md)
-
----
-
-## Current Status
-
-All 16 temporal headers are present. Public entry points exist for bi-temporal tables, bitemporal joins, interval-tree and persistent indexing, snapshots, retention, cold-store tiering, CDC, period-aware aggregation, compression, conflict resolution, migration, and temporal query.
-
----
-
-## Completed ✅
-
-- [x] `bi_temporal.h`, `system_versioned_table.h`, `temporal_types.h` — core bi-temporal and SQL:2011 table contract
-- [x] `bitemporal_join.h`, `interval_tree_index.h`, `temporal_index.h` — join and index surfaces
-- [x] `snapshot_manager.h`, `retention_manager.h`, `temporal_cold_store.h`, `temporal_tier_manager.h` — snapshot, retention, and tiering
-- [x] `temporal_cdc.h`, `temporal_aggregator.h` — CDC and period-aware aggregation
-- [x] `temporal_compressor.h`, `temporal_conflict_resolver.h`, `temporal_migrator.h` — compression, conflict, and migration
-- [x] `temporal_query_engine.h` — AS OF / period-range query surface
-
----
-
-## In Progress
-
-- [ ] Document period-overlap conflict semantics and resolution precedence across `temporal_conflict_resolver.h` and `bi_temporal.h` (Target: 2026-Q3)
-- [ ] Clarify tier-transition triggers between hot/warm/cold in `temporal_tier_manager.h` docs (Target: 2026-Q3)
-
----
-
-## Planned
-
-- [ ] `temporal_audit_log.h` — immutable audit trail for temporal row-version changes (Target: 2026-Q4)
-- [ ] Add ISO SQL:2011 conformance annotations to bi-temporal and system-versioned headers (Target: 2026-Q4)
-- [ ] Expose benchmark latency targets for point-in-time snapshot retrieval hot paths (Target: 2026-Q4)
-
----
-
-## Breaking Change History
-
-None in v1.x. Temporal headers maintain backward compatibility within the active major line; period-semantics changes require migration notes and changelog updates.
+- The runtime headers declare system-versioned and bitemporal APIs, query/join
+  helpers, indexes, aggregation, snapshots, retention, CDC, conflict handling,
+  compression, migration, and tier/cold-store operations.
+- `temporal_api_contract.h` is a distinct contract surface. Its declarations
+  and written rules do not replace the runtime headers' millisecond and
+  half-open-range semantics.
+- The directory inventory does not establish API/ABI stability, SQL:2011
+  conformance, CMake target availability, or benchmark/release-gate completion.
+- No additional public-header commitment or delivery date is established by
+  this document. **TODO:** record a requested interface change here only after
+  it is approved in the canonical module roadmap.

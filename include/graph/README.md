@@ -1,18 +1,48 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: ThemisDB documentation orchestration specialist
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source level: level1
+SOT domain: api-contract
+Canonical source references:
+  - ./
+  - ../../src/graph/API.md
+  - ../../include/index/graph_index.h
+Related milestone: DOC-WEEKLY-2026-44
+AI_Model_Note: Exact model backend not verifiable from final document text alone.
+---
+
 # ThemisDB Graph Module - Header Reference
 
-<!-- Status: current | validated: 2026-07-17 -->
+<!-- Status: legacy API summary; header declarations are authoritative -->
 <!-- Primary sources: ../../src/graph/README.md · ../../src/graph/ROADMAP.md -->
 
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+> **Build:** see [`tests/graph/README.md`](../../tests/graph/README.md) for a test-enabled
+> configuration. `linux-release` disables both tests and benchmarks.
+
+> **Contract notice:** This page contains legacy signatures, examples, concurrency statements,
+> and performance estimates from its 2026-07 snapshot. They are not authoritative where they
+> differ from the current `include/graph/*.h` declarations. For current navigation see
+> [`src/graph/API.md`](../../src/graph/API.md); verify each exact contract in its header.
 
 ## Current Implementation Status
 
+> **Historical snapshot only:** the prior implementation-status claims were not independently
+> revalidated here and do not establish a current gap count or release-readiness status.
+
 - Backing implementation status follows the canonical graph module docs in `src/graph/README.md`
   and `src/graph/ROADMAP.md`.
-- The 2026-06-25 L0 re-validation closed the earlier scanner alert: all 9 initial detections were
-  verified as defensive patterns, leaving **0 verified gaps** in the graph implementation.
-- Headers listed below remain the public API reference for a production-ready graph module; runtime
-  hardening and follow-on roadmap items continue to live in `src/graph/`.
+- The 2026-06-25 historical snapshot reported all 9 initial detections reclassified as defensive
+  patterns. That report was not independently revalidated here and does not establish a current
+  gap count or release-readiness status.
+- Headers below are the public declarations; declarations alone do not prove implementation
+  completeness or production readiness. Runtime evidence and roadmap status belong in `src/graph/`.
 
 ---
 
@@ -26,20 +56,25 @@ This directory contains the public header files for ThemisDB's Graph module. The
 
 | Header | Primary Public Entry Points | Backing Implementation |
 |--------|------------------------------|------------------------|
-| `graph_query_optimizer.h` | `GraphQueryOptimizer`, `QueryConstraints`, `OptimizationPlan` | `src/graph/graph_query_optimizer.cpp` |
-| `path_constraints.h` | `PathConstraints`, `PathResult` | `src/graph/path_constraints.cpp` |
-| `distributed_graph.h` | `DistributedGraph`, `DistributedGraphConfig` | `src/graph/distributed_graph.cpp` |
+| `graph_query_optimizer.h` | `GraphQueryOptimizer`, `GraphQueryOptimizer::QueryConstraints`, `GraphQueryOptimizer::OptimizationPlan` | `src/graph/graph_query_optimizer.cpp` |
+| `path_constraints.h` | `PathConstraints`, `PathConstraints::PathResult` | `src/graph/path_constraints.cpp` |
+| [`distributed_graph.h`](distributed_graph.h) | `DistributedGraphManager`, `ShardGraphExecutor`, `DistributedGraphConfig` | `src/graph/distributed_graph.cpp` |
 | `parallel_traversal.h` | `ParallelTraversal`, `ParallelTraversal::Config` | `src/graph/parallel_traversal.cpp` |
 | `gpu_traversal.h` | `GPUGraphTraversal`, `GPUGraphTraversal::Config` | `src/graph/gpu_traversal.cpp`, `src/graph/gpu_traversal_cuda.cu` |
 | `scheduled_edge_refresh.h` | `ScheduledGraphEdgeRefreshEngine`, `RefreshPolicy`, `RefreshStats` | `src/graph/scheduled_edge_refresh.cpp` |
 | `graph_query_rewriter.h` | `GraphQueryRewriter`, `RewriteConfig` | `src/graph/graph_query_rewriter.cpp` |
 | `knowledge_graph_reasoner.h` | `KnowledgeGraphReasoner`, inference/LoRA integration API | `src/graph/knowledge_graph_reasoner.cpp` |
 | `ontology_manager.h` | `OntologyManager`, semantic ontology loading/lookup | `src/graph/ontology_manager.cpp` |
-| `graph_embedding.h` | `GraphEmbeddingModel`, `GraphEmbeddingConfig` | (header-level API; module implementation integrated via consumers) |
+| [`graph_embedding.h`](graph_embedding.h) | `IGraphEmbeddingProvider`, `GraphEmbeddingConfig` | (header-level API; concrete provider implementation is not established by this header) |
 | `graph_watermark.h` | `GraphWatermark` | `src/graph/graph_watermark.cpp` |
-| `explain_plan.h` | `ExplainPlan` | `src/graph/explain_plan.cpp` |
+| [`explain_plan.h`](explain_plan.h) | `GraphExplainPlan`, `IGraphExplainProvider` | `src/graph/explain_plan.cpp` |
 | `tensor_fingerprint_graph.h` | `TensorFingerprintGraph`, `FingerprintGraphConfig` | `src/graph/tensor_fingerprint_graph.cpp` |
 | `tensor_deduplication_manager.h` | `TensorDeduplicationManager`, `DeduplicationConfig` | `src/graph/tensor_deduplication_manager.cpp` |
+
+> **Historical, non-compilable C++ excerpts:** Every C++ code block below—including pseudo-signatures
+> and usage examples—is retained from an older documentation snapshot. These fragments may not
+> compile and are not current API declarations. Use the linked public headers in the table above
+> for authoritative names and signatures; do not infer a current contract from the snippets.
 
 ### graph_query_optimizer.h
 **Purpose:** Cost-based graph query optimization and algorithm selection
@@ -536,16 +571,16 @@ std::cout << optimizer.explainPlan(plan.value()) << std::endl;
 
 | Header | Purpose |
 |--------|---------|
-| `distributed_graph.h` | `DistributedGraph` — partitioned graph execution across shards |
-| `explain_plan.h` | `ExplainPlan` — human-readable query plan explanation output |
+| `distributed_graph.h` | `DistributedGraphManager`, `ShardGraphExecutor` — registered shard-executor coordination |
+| `explain_plan.h` | `GraphExplainPlan`, `IGraphExplainProvider` — graph plan representation/provider |
 | `gpu_traversal.h` | `GPUGraphTraversal` — GPU-accelerated traversal with CPU fallback |
-| `graph_embedding.h` | `GraphEmbedding` — node and edge embedding computation |
+| `graph_embedding.h` | `IGraphEmbeddingProvider` — provider interface declaration; a concrete graph-module implementation is not established by this header |
 | `graph_query_rewriter.h` | `GraphQueryRewriter` — rewrite rules for graph query optimisation |
 | `graph_watermark.h` | `GraphWatermark` — temporal watermark tracking for streaming graph updates |
-| `knowledge_graph_reasoner.h` | `KnowledgeGraphReasoner` — rule-based + LoRA-assisted graph inference |
+| `knowledge_graph_reasoner.h` | `KnowledgeGraphReasoner` — graph facts, rules, inference, and explanation surfaces |
 | `ontology_manager.h` | `OntologyManager` — ontology loading and semantic type checks |
 | `parallel_traversal.h` | `ParallelTraversal` — multi-threaded BFS/DFS traversal engine |
-| `scheduled_edge_refresh.h` | `ScheduledEdgeRefresh` — periodic refresh of derived/cached edges |
+| `scheduled_edge_refresh.h` | `ScheduledGraphEdgeRefreshEngine` — scheduled edge-refresh surface |
 | `tensor_fingerprint_graph.h` | `TensorFingerprintGraph` — tensor-similarity graph via MinHash/LSH |
 | `tensor_deduplication_manager.h` | `TensorDeduplicationManager` — similarity-based tensor deduplication |
 
@@ -578,7 +613,7 @@ std::cout << optimizer.explainPlan(plan.value()) << std::endl;
 | No GPU path observed | `min_vertices_for_gpu` not reached or runtime without GPU support | Tune config for tests and rely on documented CPU fallback behavior in production. |
 | Refresh cycles repeatedly abort | `RefreshPolicy` thresholds too strict for current graph churn | Increase removal/add limits or rebalance thresholds incrementally. |
 
-*Last Updated: May 2026*
+*Body/examples last updated: May 2026; header index rechecked 2026-10-31.*
 *Module Version: v1.5.0*
 
 ## Installation

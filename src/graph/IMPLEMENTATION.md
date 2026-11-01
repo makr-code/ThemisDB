@@ -1,6 +1,6 @@
 > Author: ThemisDB Team
 > Created: 2026-10-30
-> Last Updated: 2026-10-30
+> Last Updated: 2026-10-31
 > Status: active
 > AI_Used: true
 > AI_Models: unknown
@@ -9,8 +9,9 @@
 > Human_Author: ThemisDB Team
 > Source level: level1
 > SOT domain: module-behavior
-> Canonical source references: [graph public headers](../../include/graph/), [graph implementation](.), [graph focused-test CMake](../../tests/graph/CMakeLists.txt)
+> Canonical source references: [graph public headers](../../include/graph/), [graph implementation](.), [graph focused-test CMake](../../tests/graph/CMakeLists.txt), [CMake presets](../../CMakePresets.json)
 > Related issue: #7122
+> Related milestone: DOC-WEEKLY-2026-44
 >
 > Exact model backend not verifiable from final document text alone.
 
@@ -46,14 +47,20 @@ The module implements graph planning, traversal, constraints, rewrite/explain be
 `tests/graph/CMakeLists.txt` discovers current `test_*.cpp` files and derives each focused target as `module_graph_<stem>_focused` and CTest name as `<stem>_GraphFocusedTests`, where `<stem>` includes the `test_` prefix. Use the actual files present in `tests/graph/` and this CMake registration when selecting validation targets. For example:
 
 ```bash
-cmake --build --preset linux-release --target module_graph_test_graph_exact_traversal_focused
-ctest --preset linux-release -R "test_graph_exact_traversal_GraphFocusedTests" --output-on-failure
+cmake --preset community-debug -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF
+cmake --build --preset community-debug --target module_graph_test_graph_exact_traversal_focused
+ctest --preset community-debug -R "test_graph_exact_traversal_GraphFocusedTests" --output-on-failure
 
 # Run the graph-focused tests registered with the module label
-ctest --preset linux-release -L "module:graph" --output-on-failure
+ctest --preset community-debug -L "module:graph" --output-on-failure
 ```
 
-Replace the target/filter with the test covering the changed behavior. This documents the repository's test registration; it does not assert that a local build has been configured or that the tests passed.
+The clean `linux-release` preset disables tests and benchmarks; the current `linux-debug` also
+inherits tests-off from the base preset. The example uses `community-debug` with an explicit
+test-on override. This system-package preset requires its documented Linux/macOS compiler,
+Ninja, and development dependencies; enabling tests requires the `GTest` CONFIG package.
+Replace the target/filter with the test covering the changed behavior. These commands document
+registration only and do not assert that a local build has been configured or that tests passed.
 
 ## Change discipline
 

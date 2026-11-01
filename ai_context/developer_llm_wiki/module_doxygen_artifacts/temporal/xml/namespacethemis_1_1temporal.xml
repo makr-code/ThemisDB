@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="namespacethemis_1_1temporal" kind="namespace" language="C++">
     <compoundname>themis::temporal</compoundname>
     <innernamespace refid="namespacethemis_1_1temporal_1_1test">themis::temporal::test</innernamespace>
@@ -84,8 +84,8 @@
     </sectiondef>
     <sectiondef kind="var">
       <memberdef kind="variable" id="namespacethemis_1_1temporal_1a11f35fa1b4fddbcf5fd1203decf8fa86" prot="public" static="no" constexpr="yes" mutable="no">
-        <type>std::int64_t</type>
-        <definition>std::int64_t themis::temporal::kTemporalOpenEnd</definition>
+        <type>constexpr std::int64_t</type>
+        <definition>constexpr std::int64_t themis::temporal::kTemporalOpenEnd</definition>
         <argsstring></argsstring>
         <name>kTemporalOpenEnd</name>
         <qualifiedname>themis::temporal::kTemporalOpenEnd</qualifiedname>
@@ -100,8 +100,8 @@
         <location file="include/temporal/temporal_api_contract.h" line="53" column="31" bodyfile="include/temporal/temporal_api_contract.h" bodystart="53" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacethemis_1_1temporal_1a28a27fde7f959c49abf21389dc820574" prot="public" static="no" constexpr="yes" mutable="no">
-        <type>std::int64_t</type>
-        <definition>std::int64_t themis::temporal::kTemporalMinTimestampNs</definition>
+        <type>constexpr std::int64_t</type>
+        <definition>constexpr std::int64_t themis::temporal::kTemporalMinTimestampNs</definition>
         <argsstring></argsstring>
         <name>kTemporalMinTimestampNs</name>
         <qualifiedname>themis::temporal::kTemporalMinTimestampNs</qualifiedname>
@@ -116,8 +116,8 @@
         <location file="include/temporal/temporal_api_contract.h" line="56" column="31" bodyfile="include/temporal/temporal_api_contract.h" bodystart="56" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacethemis_1_1temporal_1afca2df6398e073799804a8cf3cb01729" prot="public" static="no" constexpr="yes" mutable="no">
-        <type>std::size_t</type>
-        <definition>std::size_t themis::temporal::kIntervalTreeMaxDepth</definition>
+        <type>constexpr std::size_t</type>
+        <definition>constexpr std::size_t themis::temporal::kIntervalTreeMaxDepth</definition>
         <argsstring></argsstring>
         <name>kIntervalTreeMaxDepth</name>
         <qualifiedname>themis::temporal::kIntervalTreeMaxDepth</qualifiedname>
@@ -132,8 +132,8 @@
         <location file="include/temporal/temporal_api_contract.h" line="73" column="30" bodyfile="include/temporal/temporal_api_contract.h" bodystart="73" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacethemis_1_1temporal_1a8491b23be20873e0f48a739c6ae61144" prot="public" static="no" constexpr="yes" mutable="no">
-        <type>std::int64_t</type>
-        <definition>std::int64_t themis::temporal::kDefaultRetentionSeconds</definition>
+        <type>constexpr std::int64_t</type>
+        <definition>constexpr std::int64_t themis::temporal::kDefaultRetentionSeconds</definition>
         <argsstring></argsstring>
         <name>kDefaultRetentionSeconds</name>
         <qualifiedname>themis::temporal::kDefaultRetentionSeconds</qualifiedname>
@@ -148,8 +148,8 @@
         <location file="include/temporal/temporal_api_contract.h" line="178" column="31" bodyfile="include/temporal/temporal_api_contract.h" bodystart="178" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacethemis_1_1temporal_1afebb5d24c2f78bf2dce777098982b770" prot="public" static="no" constexpr="yes" mutable="no">
-        <type>std::int64_t</type>
-        <definition>std::int64_t themis::temporal::kMinRetentionSeconds</definition>
+        <type>constexpr std::int64_t</type>
+        <definition>constexpr std::int64_t themis::temporal::kMinRetentionSeconds</definition>
         <argsstring></argsstring>
         <name>kMinRetentionSeconds</name>
         <qualifiedname>themis::temporal::kMinRetentionSeconds</qualifiedname>
@@ -164,8 +164,8 @@
         <location file="include/temporal/temporal_api_contract.h" line="181" column="31" bodyfile="include/temporal/temporal_api_contract.h" bodystart="181" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacethemis_1_1temporal_1a4037aea35684c8ab71f0e2407c613031" prot="public" static="no" constexpr="yes" mutable="no">
-        <type>std::size_t</type>
-        <definition>std::size_t themis::temporal::kMaxRetentionPoliciesPerTable</definition>
+        <type>constexpr std::size_t</type>
+        <definition>constexpr std::size_t themis::temporal::kMaxRetentionPoliciesPerTable</definition>
         <argsstring></argsstring>
         <name>kMaxRetentionPoliciesPerTable</name>
         <qualifiedname>themis::temporal::kMaxRetentionPoliciesPerTable</qualifiedname>
@@ -181,9 +181,9 @@
       </memberdef>
     </sectiondef>
     <sectiondef kind="func">
-      <memberdef kind="function" id="namespacethemis_1_1temporal_1a697bb58de45f39e2b42baeccece0df10" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
-        <type>bool</type>
-        <definition>bool themis::temporal::isHardTemporalError</definition>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1a697bb58de45f39e2b42baeccece0df10" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>constexpr bool</type>
+        <definition>constexpr bool themis::temporal::isHardTemporalError</definition>
         <argsstring>(TemporalErrorCode code) noexcept</argsstring>
         <name>isHardTemporalError</name>
         <qualifiedname>themis::temporal::isHardTemporalError</qualifiedname>
@@ -200,9 +200,9 @@
         </inbodydescription>
         <location file="include/temporal/temporal_api_contract.h" line="156" column="24" bodyfile="include/temporal/temporal_api_contract.h" bodystart="156" bodyend="161"/>
       </memberdef>
-      <memberdef kind="function" id="namespacethemis_1_1temporal_1a3cead857661ef4245eef4e283460e63e" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
-        <type>bool</type>
-        <definition>bool themis::temporal::isLifecycleError</definition>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1a3cead857661ef4245eef4e283460e63e" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>constexpr bool</type>
+        <definition>constexpr bool themis::temporal::isLifecycleError</definition>
         <argsstring>(TemporalErrorCode code) noexcept</argsstring>
         <name>isLifecycleError</name>
         <qualifiedname>themis::temporal::isLifecycleError</qualifiedname>

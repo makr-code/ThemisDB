@@ -1,46 +1,46 @@
 # Security - Temporal Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Report vulnerabilities through the project-level `SECURITY.md`. -->
 
-Report vulnerabilities via project-level SECURITY.md.
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
 
-## Security Scope
+Exact model backend not verifiable from final document text alone.
 
-Security in the temporal module focuses on deterministic temporal query semantics, explicit version-lifecycle transitions, bounded retention/snapshot behavior, and observable conflict/CDC error signaling.
+## Security boundary
 
-## Threat Model
+The temporal interfaces accept caller-provided keys, timestamps, ranges, table
+names, JSON payloads, and policy values. The inspected APIs do not authenticate
+callers or authorize access to tables; enforce those controls in the consuming
+service. Do not treat temporal versioning, snapshots, or a change log as an
+authorization or compliance boundary.
 
-| Threat | Current Mitigation Surface |
-|---|---|
-| silent temporal version inconsistency | explicit system-time/valid-time lifecycle behavior |
-| hidden snapshot or retention data-loss path | deterministic snapshot/retention status outcomes |
-| opaque temporal conflict handling | explicit conflict-resolution outcomes |
-| unobserved CDC/indexing degradation | diagnosable CDC/index behavior surfaces |
+## Data exposure and persistence
 
-## Implemented Security Controls
+- Snapshots, the default CDC ring, conflict history/queues, and the retention
+  archive are process-memory state, not durable backups.
+- CDC callbacks receive event payloads synchronously. Restrict subscriptions and
+  avoid publishing unnecessary sensitive data.
+- `CDCPersistentLog` writes serialized event data to filesystem segments. Its
+  CRC-32 record check is not encryption or writer authentication. Protect the
+  WAL directory, backups, and deletion lifecycle at the deployment boundary.
+- Custom merge resolvers and subscriber callbacks execute application code;
+  validate inputs and review their exception, concurrency, and privilege
+  behavior.
+- Retention can physically remove historical versions. Set and review policies
+  against the application's legal, audit, and recovery requirements.
 
-- temporal query and version transitions expose explicit outcomes.
-- snapshot and retention paths remain deterministic and diagnosable.
-- conflict-resolution behavior is explicit and observable.
-- CDC and indexing faults are surfaced through module diagnostics.
+## Validation boundary
 
-## Security Follow-ups
-
-- expand fault-injection coverage for retention/snapshot edge failures.
-- deepen stress coverage for concurrent bitemporal update contention.
-- tighten diagnostics taxonomy across temporal lifecycle incidents.
-
-## Sourcecode Verification (Module: temporal/security)
-
-- Verified files:
-  - src/temporal/temporal_query_engine.cpp
-  - src/temporal/system_versioned_table.cpp
-  - src/temporal/snapshot_manager.cpp
-  - src/temporal/retention_manager.cpp
-  - src/temporal/temporal_conflict_resolver.cpp
-  - src/temporal/temporal_cdc.cpp
-- Verified controls:
-  - explicit temporal lifecycle and query error signaling
-  - deterministic snapshot/retention behavior
-  - observable conflict and CDC incident surfaces
+The module tests exercise temporal behavior but do not by themselves establish a
+security review, deployment authorization, audit logging, or production
+acceptance. The project security process is defined by the root
+[`SECURITY.md`](../../SECURITY.md); module maturity is tracked in the root
+[`ROADMAP.md`](../../ROADMAP.md).

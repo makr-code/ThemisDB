@@ -37,6 +37,9 @@
  * | GATE-MTN-04  | BatchCast       | p99 ≤ 5 µs/batch |
  *
  * All benchmarks use kCanonicalSeed = 42 for deterministic inputs.
+ * The Google Benchmark repetitions report aggregate timing; these source cases
+ * do not calculate per-operation p99, so the manifest p99 targets remain
+ * unverified until a connected percentile measurement supplies evidence.
  *
  * @see src/maintenance/ROADMAP.md — Phase 5 items
  * @see include/maintenance/maintenance_api_contract.h
@@ -78,7 +81,7 @@ static void BM_MTN01_ErrorEnumCast(benchmark::State& state) {
         auto e = static_cast<maintenance::MaintenanceError>(raw);
         benchmark::DoNotOptimize(e);
     }
-    state.SetLabel("GATE-MTN-01: p99 <= 5 ns");
+    state.SetLabel("GATE-MTN-01: p99 target <= 5 ns; not measured");
 }
 BENCHMARK(BM_MTN01_ErrorEnumCast)
     ->Repetitions(kRepetitions)
@@ -117,7 +120,7 @@ static void BM_MTN02_SwitchDispatch(benchmark::State& state) {
         benchmark::DoNotOptimize(label);
         ++idx;
     }
-    state.SetLabel("GATE-MTN-02: p99 <= 10 ns");
+    state.SetLabel("GATE-MTN-02: p99 target <= 10 ns; not measured");
 }
 BENCHMARK(BM_MTN02_SwitchDispatch)
     ->Repetitions(kRepetitions)
@@ -136,7 +139,7 @@ static void BM_MTN03_StructAlloc(benchmark::State& state) {
         desc.enabled     = true;
         benchmark::DoNotOptimize(desc);
     }
-    state.SetLabel("GATE-MTN-03: p99 <= 500 ns");
+    state.SetLabel("GATE-MTN-03: p99 target <= 500 ns; not measured");
 }
 BENCHMARK(BM_MTN03_StructAlloc)
     ->Repetitions(kRepetitions)
@@ -163,7 +166,7 @@ static void BM_MTN04_BatchCast(benchmark::State& state) {
         }
     }
     state.SetItemsProcessed(state.iterations() * kBatchSize);
-    state.SetLabel("GATE-MTN-04: p99 <= 5 us per batch");
+    state.SetLabel("GATE-MTN-04: p99 target <= 5 us per batch; not measured");
 }
 BENCHMARK(BM_MTN04_BatchCast)
     ->Repetitions(kRepetitions)
@@ -176,7 +179,7 @@ BENCHMARK(BM_MTN04_BatchCast)
 /**
  * @brief Measures in-flight lookup + insert latency.
  *
- * Gate: p99 ≤ 50 µs
+ * Target: p99 ≤ 50 µs; this benchmark reports aggregate timing, not p99.
  */
 static void BM_MTN05_InFlightGuard(benchmark::State& state) {
     std::mutex mu = {};
@@ -194,7 +197,7 @@ static void BM_MTN05_InFlightGuard(benchmark::State& state) {
             in_flight.erase(sched_id);
         }
     }
-    state.SetLabel("GATE-MTN-05: p99 <= 50 us");
+    state.SetLabel("GATE-MTN-05: p99 target <= 50 us; not measured");
 }
 BENCHMARK(BM_MTN05_InFlightGuard)
     ->Repetitions(kRepetitions)
@@ -209,7 +212,7 @@ BENCHMARK(BM_MTN05_InFlightGuard)
  *        nlohmann::json serialisation path and a temp-file write/read.
  *
  * Uses UseRealTime() to measure wall-clock time (I/O bound).
- * Gate: p99 ≤ 2 ms.
+ * Target: p99 ≤ 2 ms; this benchmark reports aggregate timing, not p99.
  */
 namespace {
 static std::string make_mtn06_schedule_json(int idx) {
@@ -275,7 +278,7 @@ static void BM_MTN06_PersistReloadRoundTrip(benchmark::State& state) {
         fs::remove(tmp_file);
         state.ResumeTiming();
     }
-    state.SetLabel("GATE-MTN-06: p99 <= 2 ms");
+    state.SetLabel("GATE-MTN-06: p99 target <= 2 ms; not measured");
 }
 BENCHMARK(BM_MTN06_PersistReloadRoundTrip)
     ->Repetitions(kRepetitions)
@@ -290,7 +293,7 @@ BENCHMARK(BM_MTN06_PersistReloadRoundTrip)
  * @brief Measures the cost of a single DispatchOutcome push to the ring buffer
  *        (mutex + deque push_back + conditional pop_front).
  *
- * Gate: p99 ≤ 200 ns.
+ * Target: p99 ≤ 200 ns; this benchmark reports aggregate timing, not p99.
  */
 static void BM_MTN07_RingBufferWrite(benchmark::State& state) {
     std::mutex mu = {};
@@ -312,7 +315,7 @@ static void BM_MTN07_RingBufferWrite(benchmark::State& state) {
         }
         benchmark::DoNotOptimize(ring.size());
     }
-    state.SetLabel("GATE-MTN-07: p99 <= 200 ns");
+    state.SetLabel("GATE-MTN-07: p99 target <= 200 ns; not measured");
 }
 BENCHMARK(BM_MTN07_RingBufferWrite)
     ->Repetitions(kRepetitions)

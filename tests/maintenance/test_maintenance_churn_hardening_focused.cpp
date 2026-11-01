@@ -62,7 +62,8 @@ struct InFlightGuard {
 };
 
 // ---------------------------------------------------------------------------
-// Minimal churn-rate-limit tracker (mirrors orchestrator logic)
+// Standalone churn model; production CRUD enforcement is covered by the
+// DatabaseMaintenanceOrchestrator tests.
 // ---------------------------------------------------------------------------
 
 static constexpr int64_t kChurnIntervalMs = 60'000LL;
@@ -88,8 +89,11 @@ struct ChurnTracker {
             start = now;
             count = 0;
         }
+        if (count >= max_per_interval) {
+            return false;
+        }
         ++count;
-        return count <= max_per_interval;
+        return true;
     }
 };
 

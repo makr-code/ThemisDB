@@ -308,11 +308,17 @@ def render_index(entries: Sequence[SourceEntry], generated_at: str, full_sync: b
             "- [BUILD_TEST_CI_AND_OPERATIONS.md](BUILD_TEST_CI_AND_OPERATIONS.md)",
             "- [GOVERNANCE_AND_ROADMAP.md](GOVERNANCE_AND_ROADMAP.md)",
             "- [AQL module context](AQL.md) — assistance API boundaries, validation behavior, and test/benchmark registration.",
+            "- [Graph module context](GRAPH.md) — graph execution boundaries, RotatE evidence, focused tests, and archived artifacts",
             "- [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary.",
+            "- [Prompt engineering module context](PROMPT_ENGINEERING.md) — prompt runtime boundaries, trust caveats, and test/benchmark registration.",
             "- [IMPORTERS.md](IMPORTERS.md) — curated importer module context",
             "- [UPDATES.md](UPDATES.md) — curated updates module context",
             "- [DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md) — curated distributed tensor module context",
+            "- [PROCESS.md](PROCESS.md) — curated Process module context",
+            "- [TEMPORAL.md](TEMPORAL.md) — temporal runtime/API boundaries, test and benchmark evidence limits",
+            "- [STORAGE.md](STORAGE.md) — curated storage API boundaries, test evidence, and contract gaps",
             "- [USER_STORAGE_ENCRYPTED.md](USER_STORAGE_ENCRYPTED.md) — encrypted user-storage architecture, configuration, and evidence boundaries",
+            "- [MAINTENANCE.md](MAINTENANCE.md) — maintenance runtime API, CRUD churn enforcement, persistence, and unverified benchmark gates",
             "- [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)",
             "- [WIKI_STATUS.json](WIKI_STATUS.json)",
             "- [WIKI_DELTA_REPORT.md](WIKI_DELTA_REPORT.md)",
@@ -386,11 +392,17 @@ def render_modules_and_apis(repo_root: Path, entries: Sequence[SourceEntry]) -> 
             "## Curated module contexts",
             "",
             "- [AQL module context](AQL.md) — assistance API boundaries, validation behavior, and test/benchmark registration.",
+            "- [Graph module context](GRAPH.md) — graph execution boundaries, RotatE evidence, focused tests, and archived artifacts.",
             "- [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary.",
+            "- [Prompt engineering module context](PROMPT_ENGINEERING.md) — prompt runtime boundaries, trust caveats, and test/benchmark registration.",
             "- [Importer module context](IMPORTERS.md) — shared contracts, connector boundaries, focused test evidence, and operational limits.",
             "- [Updates module context](UPDATES.md) — update lifecycle, rollout and patch contracts, diagnostic evidence, and operator boundaries.",
             "- [Distributed tensor module context](DISTRIBUTED_TENSOR.md) — tensor artifact contracts, planning boundaries, C++ requirements, and verified test/benchmark evidence.",
+            "- [Process module context](PROCESS.md) — process model lifecycle, retrieval boundaries, test registration, and benchmark evidence.",
+            "- [Temporal module context](TEMPORAL.md) — runtime/API separation, persistence boundaries, test and benchmark evidence limits.",
+            "- [Storage module context](STORAGE.md) — component boundaries, contract-vs-evidence gaps, and focused test/benchmark limits.",
             "- [Encrypted user storage module context](USER_STORAGE_ENCRYPTED.md) — runtime architecture, configuration, build/test boundaries, and scanner/Doxygen evidence limits.",
+            "- [Maintenance module context](MAINTENANCE.md) — runtime API boundaries, schedule CRUD churn enforcement, persistence behavior, and benchmark evidence status.",
             "",
             *lines[4:],
         ]
@@ -543,9 +555,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         return 2
 
     generated_at = datetime.now(UTC).isoformat(timespec="seconds")
+    prev_status = load_previous_status(repo_root / STATUS_JSON)
     entries = collect_sources(repo_root, full_sync=args.full_sync)
     digest = aggregate_hash(entries)
-    prev_status = load_previous_status(repo_root / STATUS_JSON)
     delta = build_delta(prev_status, entries)
 
     output_files = [

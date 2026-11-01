@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="meta__prompt__generator_8cpp" kind="file" language="C++">
     <compoundname>meta_prompt_generator.cpp</compoundname>
     <includes refid="meta__prompt__generator_8h" local="yes">prompt_engineering/meta_prompt_generator.h</includes>
@@ -84,7 +84,6 @@
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight></codeline>
 <codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="meta__prompt__generator_8h" kindref="compound">prompt_engineering/meta_prompt_generator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
@@ -92,9 +91,9 @@
 <codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cctype&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="16"><highlight class="normal"></highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
-<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">prompt_engineering</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">prompt_engineering<sp/>{</highlight></codeline>
 <codeline lineno="19"><highlight class="normal"></highlight></codeline>
-<codeline lineno="20"><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_meta_prompt_generator_1a0fb652afc581d81a6ef3f4a779f9248d" kindref="member">MetaPromptGenerator::MetaPromptGenerator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_meta_prompt_config" kindref="compound">MetaPromptConfig</ref>&amp;<sp/>config)</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1MetaPromptGenerator_1a0fb652afc581d81a6ef3f4a779f9248d" kindref="member">MetaPromptGenerator::MetaPromptGenerator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MetaPromptConfig&amp;<sp/>config)</highlight></codeline>
 <codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>config_(config)<sp/>{</highlight></codeline>
 <codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>THEMIS_DEBUG(</highlight><highlight class="stringliteral">&quot;Initialized<sp/>MetaPromptGenerator<sp/>with<sp/>strategy={}&quot;</highlight><highlight class="normal">,</highlight></codeline>
 <codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_.improvement_strategy);</highlight></codeline>
@@ -128,7 +127,7 @@
 <codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>meta_prompt<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Current<sp/>Score:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>score<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>/<sp/>1.0\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>meta_prompt<sp/>&lt;&lt;<sp/>feedback<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Improvement<sp/>instructions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Improvement<sp/>instructions</highlight></codeline>
 <codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>meta_prompt<sp/>&lt;&lt;<sp/>buildImprovementInstructions(feedback,<sp/>score);</highlight></codeline>
 <codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Constraints</highlight><highlight class="normal"></highlight></codeline>

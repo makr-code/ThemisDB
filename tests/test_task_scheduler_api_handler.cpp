@@ -19,6 +19,16 @@ using namespace themis;
 using namespace themis::server;
 using namespace std::chrono_literals;
 
+static void setTrustedSchedulerTestContext() {
+    TaskScheduler::RequestContext context;
+    context.user_id = "scheduler-api-test";
+    context.granted_permissions = {
+        "task:register", "task:unregister", "task:update", "task:execute",
+        "task:register_function"};
+    context.roles.insert("system_admin");
+    TaskScheduler::setRequestContext(context);
+}
+
 // ============================================================================
 // Test fixture
 // ============================================================================
@@ -34,6 +44,7 @@ protected:
     void SetUp() override {
         TaskScheduler::clearRequestContext();
         ASSERT_EQ(TaskScheduler::currentUserId(), "system");
+        setTrustedSchedulerTestContext();
         db_path_ = makeDbPath();
         std::filesystem::create_directories(db_path_);
 
@@ -69,6 +80,7 @@ protected:
         storage_->close();
         storage_.reset();
         std::filesystem::remove_all(db_path_);
+        TaskScheduler::clearRequestContext();
     }
 
     // Build a minimal valid task JSON
@@ -540,6 +552,7 @@ protected:
     }
 
     void SetUp() override {
+        setTrustedSchedulerTestContext();
         db_path_ = makeDbPath();
         std::filesystem::create_directories(db_path_);
 
@@ -587,6 +600,7 @@ protected:
         storage_->close();
         storage_.reset();
         std::filesystem::remove_all(db_path_);
+        TaskScheduler::clearRequestContext();
     }
 
     // Register + execute a function task, return its generated task ID.
@@ -671,6 +685,7 @@ protected:
     }
 
     void SetUp() override {
+        setTrustedSchedulerTestContext();
         db_path_ = makeDbPath();
         std::filesystem::create_directories(db_path_);
 
@@ -705,6 +720,7 @@ protected:
         storage_->close();
         storage_.reset();
         std::filesystem::remove_all(db_path_);
+        TaskScheduler::clearRequestContext();
     }
 
     // Directly inject audit events via the audit manager

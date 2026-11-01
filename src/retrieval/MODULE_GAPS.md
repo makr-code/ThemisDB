@@ -1,4 +1,24 @@
-# retrieval Module - Developer Gap Note
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-04"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "ThemisDB documentation orchestration assistant"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+# Historical generated gap-scan snapshot — 2026-06-04
+
+> This snapshot is retained for history only. It is not a current scan: the
+> listed finding that `PRODUCTION_REQUIREMENTS.md` is missing is stale, and
+> the counts/status below have not been regenerated or verified.
 
 > Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.

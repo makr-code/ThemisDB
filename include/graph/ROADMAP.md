@@ -1,9 +1,34 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: ThemisDB documentation orchestration specialist
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source level: level1
+SOT domain: api-contract
+Canonical source references:
+  - ../../ROADMAP.md
+  - ../../src/graph/ROADMAP.md
+  - ./
+Related milestone: DOC-WEEKLY-2026-44
+AI_Model_Note: Exact model backend not verifiable from final document text alone.
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
+> **Build:** see [`tests/graph/README.md`](../../tests/graph/README.md) for a test-enabled
+> configuration; release preset settings are not suitable for focused tests.
+
+<!-- Historical header-roadmap snapshot validated: 2026-06-01; dates below require owner review. -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/graph/ROADMAP.md -->
 
 # Graph Module — Public Header Roadmap
+
+> The root [`ROADMAP.md`](../../ROADMAP.md) is the repository-level maturity aggregate; the
+> header-specific dates and checkboxes below are an older planning snapshot, not current
+> commitments or compatibility guarantees.
 
 **Module Path:** `include/graph/`  
 **Canonical implementation roadmap:** [`../../src/graph/ROADMAP.md`](../../src/graph/ROADMAP.md)
@@ -20,7 +45,9 @@ Tracks public `graph` API contract stability, header-level coverage work, and fu
 
 ## Current Status
 
-All headers in `include/graph/` are present and expose the graph traversal, embedding, knowledge-graph reasoning, ontology management, tensor deduplication, and query optimisation surface.
+The directory contains graph-facing headers for traversal, planning, reasoning, ontology, tensor,
+and related utility surfaces. A declared interface does not establish a concrete backend
+implementation; consult its source and current CMake registration.
 
 ---
 

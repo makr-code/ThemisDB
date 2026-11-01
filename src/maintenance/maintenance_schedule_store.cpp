@@ -1,5 +1,4 @@
 #include "maintenance/maintenance_schedule_store.h"
-#include "maintenance/maintenance_api_contract.h"
 
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>

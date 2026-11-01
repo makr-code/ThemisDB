@@ -9,11 +9,9 @@
 ///   - TaskScheduler::listTasks()       – list overhead vs. registered count
 ///   - TaskScheduler::registerFunction() + executeTaskNow() – function call
 ///
-/// Performance targets (src/scheduler/ROADMAP.md):
-///   - registerTask:    < 100 µs
-///   - unregisterTask:  < 50 µs
-///   - executeTaskNow:  < 500 µs (function task, no actual query engine)
-///   - listTasks (100): < 200 µs
+/// This benchmark exercises production TaskScheduler APIs. Numeric release
+/// gates remain undefined until an owner, stable hardware, baseline, and
+/// threshold are agreed.
 
 #include <benchmark/benchmark.h>
 #include "scheduler/task_scheduler.h"
@@ -58,6 +56,13 @@ public:
         sched_cfg.enable_anomaly_detection = false;
 
         scheduler_ = std::make_unique<TaskScheduler>(engine_.get(), sched_cfg);
+        TaskScheduler::RequestContext benchmark_context;
+        benchmark_context.user_id = "scheduler-benchmark";
+        benchmark_context.granted_permissions = {
+            "task:register", "task:unregister", "task:update", "task:execute",
+            "task:register_function"};
+        benchmark_context.roles.insert("system_admin");
+        TaskScheduler::setRequestContext(benchmark_context);
         scheduler_->start();
     }
 
@@ -71,6 +76,7 @@ public:
         if (std::filesystem::exists(db_path_)) {
             std::filesystem::remove_all(db_path_);
         }
+        TaskScheduler::clearRequestContext();
     }
 
     std::string                             db_path_;
@@ -124,6 +130,11 @@ BENCHMARK_DEFINE_F(TaskSchedulerBenchFixture, ExecuteTaskNow)(benchmark::State& 
 
     for (auto _ : state) {
         auto result = scheduler_->executeTaskNow(tid);
+        if (result.contains("error")) {
+            state.SkipWithError(
+                "TaskScheduler::executeTaskNow returned an error; refusing to time a failed call");
+            break;
+        }
         benchmark::DoNotOptimize(result);
     }
 

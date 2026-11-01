@@ -1,12 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxyfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="doxyfile.xsd" version="1.17.0" xml:lang="en-US">
+<doxyfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="doxyfile.xsd" version="1.9.8" xml:lang="en-US">
   <option  id='DOXYFILE_ENCODING' default='yes' type='string'><value><![CDATA[UTF-8]]></value></option>
   <option  id='PROJECT_NAME' default='no' type='string'><value><![CDATA[ThemisDB::prompt_engineering]]></value></option>
   <option  id='PROJECT_NUMBER' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='PROJECT_BRIEF' default='no' type='string'><value><![CDATA["Hybrid Database System"]]></value></option>
   <option  id='PROJECT_LOGO' default='yes' type='string'><value><![CDATA[]]></value></option>
-  <option  id='PROJECT_ICON' default='yes' type='string'><value><![CDATA[]]></value></option>
-  <option  id='OUTPUT_DIRECTORY' default='no' type='string'><value><![CDATA[C:/Projects/ThemisDB/ai_context/developer_llm_wiki/module_doxygen_artifacts/prompt_engineering]]></value></option>
+  <option  id='OUTPUT_DIRECTORY' default='no' type='string'><value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/ai_context/developer_llm_wiki/module_doxygen_artifacts/prompt_engineering]]></value></option>
   <option  id='CREATE_SUBDIRS' default='yes' type='bool'><value>NO</value></option>
   <option  id='CREATE_SUBDIRS_LEVEL' default='yes' type='int'><value>8</value></option>
   <option  id='ALLOW_UNICODE_NAMES' default='yes' type='bool'><value>NO</value></option>
@@ -52,12 +51,9 @@
   <option  id='EXTENSION_MAPPING' default='yes' type='stringlist'>
   </option>
   <option  id='MARKDOWN_SUPPORT' default='yes' type='bool'><value>YES</value></option>
-  <option  id='MARKDOWN_STRICT' default='yes' type='bool'><value>YES</value></option>
   <option  id='TOC_INCLUDE_HEADINGS' default='no' type='int'><value>2</value></option>
   <option  id='MARKDOWN_ID_STYLE' default='yes' type='string'><value>DOXYGEN</value></option>
   <option  id='AUTOLINK_SUPPORT' default='yes' type='bool'><value>YES</value></option>
-  <option  id='AUTOLINK_IGNORE_WORDS' default='yes' type='stringlist'>
-  </option>
   <option  id='BUILTIN_STL_SUPPORT' default='yes' type='bool'><value>NO</value></option>
   <option  id='CPP_CLI_SUPPORT' default='yes' type='bool'><value>NO</value></option>
   <option  id='SIP_SUPPORT' default='yes' type='bool'><value>NO</value></option>
@@ -82,7 +78,6 @@
   <option  id='RESOLVE_UNNAMED_PARAMS' default='yes' type='bool'><value>YES</value></option>
   <option  id='HIDE_UNDOC_MEMBERS' default='yes' type='bool'><value>NO</value></option>
   <option  id='HIDE_UNDOC_CLASSES' default='yes' type='bool'><value>NO</value></option>
-  <option  id='HIDE_UNDOC_NAMESPACES' default='yes' type='bool'><value>YES</value></option>
   <option  id='HIDE_FRIEND_COMPOUNDS' default='yes' type='bool'><value>NO</value></option>
   <option  id='HIDE_IN_BODY_DOCS' default='yes' type='bool'><value>NO</value></option>
   <option  id='INTERNAL_DOCS' default='yes' type='bool'><value>NO</value></option>
@@ -104,8 +99,6 @@
   <option  id='GENERATE_TESTLIST' default='yes' type='bool'><value>YES</value></option>
   <option  id='GENERATE_BUGLIST' default='yes' type='bool'><value>YES</value></option>
   <option  id='GENERATE_DEPRECATEDLIST' default='yes' type='bool'><value>YES</value></option>
-  <option  id='GENERATE_REQUIREMENTS' default='yes' type='bool'><value>YES</value></option>
-  <option  id='REQ_TRACEABILITY_INFO' default='yes' type='string'><value>YES</value></option>
   <option  id='ENABLED_SECTIONS' default='yes' type='stringlist'>
   </option>
   <option  id='MAX_INITIALIZER_LINES' default='yes' type='int'><value>30</value></option>
@@ -116,8 +109,6 @@
   <option  id='LAYOUT_FILE' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='CITE_BIB_FILES' default='yes' type='stringlist'>
   </option>
-  <option  id='EXTERNAL_TOOL_PATH' default='yes' type='stringlist'>
-  </option>
   <option  id='QUIET' default='yes' type='bool'><value>NO</value></option>
   <option  id='WARNINGS' default='yes' type='bool'><value>YES</value></option>
   <option  id='WARN_IF_UNDOCUMENTED' default='yes' type='bool'><value>YES</value></option>
@@ -125,92 +116,92 @@
   <option  id='WARN_IF_INCOMPLETE_DOC' default='yes' type='bool'><value>YES</value></option>
   <option  id='WARN_NO_PARAMDOC' default='yes' type='bool'><value>NO</value></option>
   <option  id='WARN_IF_UNDOC_ENUM_VAL' default='yes' type='bool'><value>NO</value></option>
-  <option  id='WARN_LAYOUT_FILE' default='yes' type='bool'><value>YES</value></option>
   <option  id='WARN_AS_ERROR' default='yes' type='string'><value>NO</value></option>
   <option  id='WARN_FORMAT' default='yes' type='string'><value><![CDATA["$file:$line: $text"]]></value></option>
   <option  id='WARN_LINE_FORMAT' default='yes' type='string'><value><![CDATA["at line $line of file $file"]]></value></option>
-  <option  id='WARN_LOGFILE' default='no' type='string'><value><![CDATA[C:/Projects/ThemisDB/ai_context/developer_llm_wiki/module_doxygen_artifacts/prompt_engineering/doxygen-warnings.log]]></value></option>
+  <option  id='WARN_LOGFILE' default='no' type='string'><value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/ai_context/developer_llm_wiki/module_doxygen_artifacts/prompt_engineering/doxygen-warnings.log]]></value></option>
   <option  id='INPUT' default='no' type='stringlist'>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/adversarial_prompt_tester.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/chain_of_thought.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/context_window_manager.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/cot_tracer.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/dspy_module.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/feedback_collector.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/llm_reflection_adapter.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/markdown_utils.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/meta_prompt_generator.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/prompt_ab_experiment.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/prompt_compressor.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/prompt_engineering_errors.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/prompt_engineering_integration.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/prompt_engineering_metrics.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/prompt_evaluator.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/prompt_injection_detector.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/prompt_library_io.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/prompt_manager.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/prompt_optimizer.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/prompt_performance_tracker.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/prompt_quality_evaluator.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/prompt_regression_runner.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/prompt_template_compiler.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/prompt_template_validator.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/prompt_version_control.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/protegi_optimizer.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/rag_context_budget_manager.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/rag_prompt_builder.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/reflection_tuner.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/rewrite_engine.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/rewrite_rule.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/rewrite_rule_loader.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/self_improvement_orchestrator.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/structured_output.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/system_prompt_manager.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/prompt_engineering/tree_of_thoughts.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/adversarial_prompt_tester.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/chain_of_thought.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/context_window_manager.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/cot_tracer.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/dspy_module.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/feedback_collector.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/llm_reflection_adapter.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/markdown_utils.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/meta_prompt_generator.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/prompt_ab_experiment.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/prompt_compressor.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/prompt_engineering_integration.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/prompt_engineering_metrics.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/prompt_evaluator.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/prompt_injection_detector.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/prompt_library_io.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/prompt_manager.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/prompt_optimizer.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/prompt_performance_tracker.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/prompt_quality_evaluator.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/prompt_regression_runner.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/prompt_template_compiler.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/prompt_template_validator.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/prompt_version_control.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/protegi_optimizer.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/rag_context_budget_manager.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/rag_prompt_builder.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/reflection_tuner.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/rewrite_engine.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/rewrite_metrics.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/rewrite_rule_base.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/rewrite_rule_loader.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/self_improvement_orchestrator.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/structured_output.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/system_prompt_manager.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/prompt_engineering/tree_of_thoughts.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/prompt_engineering/test_prompt_engineering_focused.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/prompt_engineering/test_prompt_engineering_highcardinality_stress.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/prompt_engineering/test_rewrite_engine_focused.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/benchmarks/prompt_engineering/bench_prompt_engineering.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/benchmarks/prompt_engineering/bench_rewrite_engine.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/rewrite_engine.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/prompt_compressor.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/chain_of_thought.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/prompt_optimizer.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/prompt_template_validator.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/prompt_engineering_integration.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/rag_context_budget_manager.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/feedback_collector.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/meta_prompt_generator.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/prompt_template_compiler.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/prompt_injection_detector.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/prompt_library_io.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/prompt_engineering_metrics.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/markdown_utils.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/cot_tracer.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/structured_output.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/reflection_tuner.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/prompt_ab_experiment.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/rewrite_rule_loader.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/prompt_engineering_errors.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/prompt_performance_tracker.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/prompt_evaluator.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/system_prompt_manager.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/dspy_module.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/context_window_manager.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/llm_reflection_adapter.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/prompt_regression_runner.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/self_improvement_orchestrator.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/prompt_quality_evaluator.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/rewrite_rule.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/prompt_version_control.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/adversarial_prompt_tester.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/protegi_optimizer.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/rag_prompt_builder.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/tree_of_thoughts.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/prompt_engineering/prompt_manager.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/prompt_template_validator.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/rag_prompt_builder.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/llm_reflection_adapter.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/prompt_injection_detector.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/prompt_version_control.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/prompt_evaluator.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/system_prompt_manager.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/prompt_compressor.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/reflection_tuner.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/dspy_module.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/structured_output.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/prompt_manager.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/prompt_engineering_integration.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/rewrite_engine.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/prompt_ab_experiment.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/protegi_optimizer.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/chain_of_thought.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/meta_prompt_generator.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/rewrite_rule_loader.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/prompt_optimizer.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/prompt_engineering_metrics.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/context_window_manager.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/markdown_utils.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/prompt_quality_evaluator.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/prompt_template_compiler.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/prompt_library_io.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/rewrite_rule_base.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/prompt_performance_tracker.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/cot_tracer.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/self_improvement_orchestrator.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/rag_context_budget_manager.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/feedback_collector.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/adversarial_prompt_tester.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/rewrite_metrics.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/prompt_regression_runner.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/tree_of_thoughts.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/prompt_engineering/test_prompt_engineering_focused.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/prompt_engineering/test_rewrite_engine_focused.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/prompt_engineering/test_prompt_engineering_highcardinality_stress.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/prompt_engineering/test_structured_output_focused.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/benchmarks/prompt_engineering/bench_rewrite_engine.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/benchmarks/prompt_engineering/bench_prompt_engineering.cpp]]></value>
   </option>
   <option  id='INPUT_ENCODING' default='yes' type='string'><value><![CDATA[UTF-8]]></value></option>
   <option  id='INPUT_FILE_ENCODING' default='yes' type='stringlist'>
@@ -250,7 +241,6 @@
   <option  id='FILTER_SOURCE_PATTERNS' default='yes' type='stringlist'>
   </option>
   <option  id='USE_MDFILE_AS_MAINPAGE' default='yes' type='string'><value><![CDATA[]]></value></option>
-  <option  id='IMPLICIT_DIR_DOCS' default='yes' type='bool'><value>YES</value></option>
   <option  id='FORTRAN_COMMENT_AFTER' default='yes' type='int'><value>72</value></option>
   <option  id='SOURCE_BROWSER' default='yes' type='bool'><value>NO</value></option>
   <option  id='INLINE_SOURCES' default='yes' type='bool'><value>NO</value></option>
@@ -286,8 +276,6 @@
   <option  id='HTML_DYNAMIC_MENUS' default='yes' type='bool'><value>YES</value></option>
   <option  id='HTML_DYNAMIC_SECTIONS' default='yes' type='bool'><value>NO</value></option>
   <option  id='HTML_CODE_FOLDING' default='yes' type='bool'><value>YES</value></option>
-  <option  id='HTML_COPY_CLIPBOARD' default='yes' type='bool'><value>YES</value></option>
-  <option  id='HTML_PROJECT_COOKIE' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='HTML_INDEX_NUM_ENTRIES' default='yes' type='int'><value>100</value></option>
   <option  id='GENERATE_DOCSET' default='yes' type='bool'><value>NO</value></option>
   <option  id='DOCSET_FEEDNAME' default='yes' type='string'><value><![CDATA["Doxygen generated docs"]]></value></option>
@@ -314,11 +302,9 @@
   <option  id='GENERATE_ECLIPSEHELP' default='yes' type='bool'><value>NO</value></option>
   <option  id='ECLIPSE_DOC_ID' default='yes' type='string'><value><![CDATA[org.doxygen.Project]]></value></option>
   <option  id='DISABLE_INDEX' default='yes' type='bool'><value>NO</value></option>
-  <option  id='GENERATE_TREEVIEW' default='yes' type='bool'><value>YES</value></option>
-  <option  id='PAGE_OUTLINE_PANEL' default='yes' type='bool'><value>YES</value></option>
+  <option  id='GENERATE_TREEVIEW' default='yes' type='bool'><value>NO</value></option>
   <option  id='FULL_SIDEBAR' default='yes' type='bool'><value>NO</value></option>
   <option  id='ENUM_VALUES_PER_LINE' default='yes' type='int'><value>4</value></option>
-  <option  id='SHOW_ENUM_VALUES' default='yes' type='bool'><value>NO</value></option>
   <option  id='TREEVIEW_WIDTH' default='yes' type='int'><value>250</value></option>
   <option  id='EXT_LINKS_IN_WINDOW' default='yes' type='bool'><value>NO</value></option>
   <option  id='OBFUSCATE_EMAILS' default='yes' type='bool'><value>YES</value></option>
@@ -359,7 +345,7 @@
   <option  id='USE_PDFLATEX' default='yes' type='bool'><value>YES</value></option>
   <option  id='LATEX_BATCHMODE' default='yes' type='string'><value>NO</value></option>
   <option  id='LATEX_HIDE_INDICES' default='yes' type='bool'><value>NO</value></option>
-  <option  id='LATEX_BIB_STYLE' default='yes' type='string'><value><![CDATA[plainnat]]></value></option>
+  <option  id='LATEX_BIB_STYLE' default='yes' type='string'><value><![CDATA[plain]]></value></option>
   <option  id='LATEX_EMOJI_DIRECTORY' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='GENERATE_RTF' default='yes' type='bool'><value>NO</value></option>
   <option  id='RTF_OUTPUT' default='yes' type='string'><value><![CDATA[rtf]]></value></option>
@@ -367,8 +353,6 @@
   <option  id='RTF_HYPERLINKS' default='yes' type='bool'><value>NO</value></option>
   <option  id='RTF_STYLESHEET_FILE' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='RTF_EXTENSIONS_FILE' default='yes' type='string'><value><![CDATA[]]></value></option>
-  <option  id='RTF_EXTRA_FILES' default='yes' type='stringlist'>
-  </option>
   <option  id='GENERATE_MAN' default='yes' type='bool'><value>NO</value></option>
   <option  id='MAN_OUTPUT' default='yes' type='string'><value><![CDATA[man]]></value></option>
   <option  id='MAN_EXTENSION' default='yes' type='string'><value><![CDATA[.3]]></value></option>
@@ -408,9 +392,8 @@
   <option  id='EXTERNAL_GROUPS' default='yes' type='bool'><value>YES</value></option>
   <option  id='EXTERNAL_PAGES' default='yes' type='bool'><value>YES</value></option>
   <option  id='HIDE_UNDOC_RELATIONS' default='yes' type='bool'><value>YES</value></option>
-  <option  id='HAVE_DOT' default='yes' type='bool'><value>NO</value></option>
+  <option  id='HAVE_DOT' default='yes' type='bool'><value>YES</value></option>
   <option  id='DOT_NUM_THREADS' default='yes' type='int'><value>0</value></option>
-  <option  id='DOT_BATCH_SIZE' default='yes' type='int'><value>50</value></option>
   <option  id='DOT_COMMON_ATTR' default='yes' type='string'><value><![CDATA["fontname=Helvetica,fontsize=10"]]></value></option>
   <option  id='DOT_EDGE_ATTR' default='yes' type='string'><value><![CDATA["labelfontname=Helvetica,labelfontsize=10"]]></value></option>
   <option  id='DOT_NODE_ATTR' default='yes' type='string'><value><![CDATA["shape=box,height=0.2,width=0.4"]]></value></option>
@@ -420,7 +403,6 @@
   <option  id='GROUP_GRAPHS' default='yes' type='bool'><value>YES</value></option>
   <option  id='UML_LOOK' default='yes' type='bool'><value>NO</value></option>
   <option  id='UML_LIMIT_NUM_FIELDS' default='yes' type='int'><value>10</value></option>
-  <option  id='UML_MAX_EDGE_LABELS' default='yes' type='int'><value>10</value></option>
   <option  id='DOT_UML_DETAILS' default='yes' type='string'><value>NO</value></option>
   <option  id='DOT_WRAP_THRESHOLD' default='yes' type='int'><value>17</value></option>
   <option  id='TEMPLATE_RELATIONS' default='yes' type='bool'><value>NO</value></option>
@@ -443,16 +425,9 @@
   <option  id='PLANTUML_CFG_FILE' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='PLANTUML_INCLUDE_PATH' default='yes' type='stringlist'>
   </option>
-  <option  id='PLANTUMLFILE_DIRS' default='yes' type='stringlist'>
-  </option>
-  <option  id='MERMAID_PATH' default='yes' type='string'><value><![CDATA[]]></value></option>
-  <option  id='MERMAID_CONFIG_FILE' default='yes' type='string'><value><![CDATA[]]></value></option>
-  <option  id='MERMAID_RENDER_MODE' default='yes' type='string'><value>AUTO</value></option>
-  <option  id='MERMAID_JS_URL' default='yes' type='string'><value><![CDATA[https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs]]></value></option>
-  <option  id='MERMAIDFILE_DIRS' default='yes' type='stringlist'>
-  </option>
   <option  id='DOT_GRAPH_MAX_NODES' default='yes' type='int'><value>50</value></option>
   <option  id='MAX_DOT_GRAPH_DEPTH' default='yes' type='int'><value>0</value></option>
+  <option  id='DOT_MULTI_TARGETS' default='yes' type='bool'><value>NO</value></option>
   <option  id='GENERATE_LEGEND' default='yes' type='bool'><value>YES</value></option>
   <option  id='DOT_CLEANUP' default='yes' type='bool'><value>YES</value></option>
   <option  id='MSCGEN_TOOL' default='yes' type='string'><value><![CDATA[]]></value></option>

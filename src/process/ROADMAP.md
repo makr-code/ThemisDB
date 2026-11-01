@@ -1,326 +1,91 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-11-01
+Status: review
+Source_Level: level 1
+SOT_Domain: module-behavior
+Canonical_Sources: DOCUMENTATION_GOVERNANCE.md; include/process/*.h; src/process/*.cpp; tests/process/CMakeLists.txt; benchmarks/process/CMakeLists.txt; ROADMAP.md
+Related_Issue: "#7368"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
 # Process Module Roadmap
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-06 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · PERFORMANCE_EXPECTATIONS.md -->
+**AI provenance:** Exact model backend not verifiable from final document text alone.
+
+This roadmap is an evidence-aware planning index, not a release approval. Earlier versions contained fixed test/benchmark totals, pass claims, and readiness assertions that do not follow from the current source tree. No current completion percentage or release status is asserted here.
 
 ## Current Status
 
-Production-capable process modeling runtime with hardened edge-case behavior, unified diagnostics framework, and bounded resource constraints for process model lifecycle operations, multi-format import/export, linking, and process retrieval/RAG support surfaces.
-
-**Milestone:** All Phase 1-6 deliverables complete (High-Churn Hardening Initiative). Module ready for production deployment with explicit concurrency, determinism, and diagnostics contracts.
-
-- [x] hardening process edge-case behavior across import/parsing and linking transitions (Target: Q3 2026)
-- [x] benchmark stabilization for process import/retrieval/mining hot paths (Target: Q3 2026)
-- [x] diagnostics consistency for model validation and retrieval incident classes (Target: Q3 2026)
+Current code includes process-model management and format handlers, linking and retrieval components, external orchestration profiles, and additional federation, conflict-resolution, audit, diagnostics, and telemetry surfaces. The public headers and implementation files are the authoritative behavior references; their presence does not establish that planned guarantees are complete or production-ready.
 
 ## In Progress
 
-- [~] maintain wave-gate evidence freshness (`release_critical` CI + representative-hardware baseline updates) for continued production status (Target: Q4 2026)
-- [x] extend long-duration stress and operability runbook validation as Wave D contribution (Target: Q1 2027)
-- [~] external orchestration registry rollout for YAML/JSON profile lifecycle, activation/rollback, and catalog ingest (Target: Q4 2026)
-- [~] prediction service rollout for process-control decisions (`sla_breach_probability`, `compliance_risk_score`, `completion_confidence`, `recommended_submodel`) (Target: Q4 2026)
-- [~] enforce RAG as internal stage in all externally managed orchestration profiles (`internal_rag_stage=true`) (Target: Q4 2026)
+- [~] Reconcile public contracts and module documentation with implementation behavior; keep unsupported guarantees explicitly marked (Target: TBD).
 
-## Completed Initiatives
+## Planned Features
 
-### High-Churn Hardening Initiative (Phases 1-6) - COMPLETE ✓
+- [ ] Enforce or remove the declared `ProcessLightRetriever` resource budgets, with tests for timeout, size, and traversal limits (Target: TBD).
+- [ ] Define and test recovery behavior for partial orchestration-profile state updates (Target: TBD).
+- [ ] Verify audit persistence, delta encoding, and telemetry transport against their public contracts before claiming those guarantees (Target: TBD).
+- [ ] Establish reproducible build, test, and benchmark evidence before publishing module readiness or performance status (Target: TBD).
 
-All phases completed 2026-08-06. See detailed breakdown below.
+## Implementation Phases
 
-## Implementation Phases (Completed 2026-08-06)
+### Phase 1: Design / API Contract
+- [x] Check current process API descriptions against the public headers; keep the headers authoritative for signatures and defaults.
 
-### Phase 1: Design & API Contract ✓ COMPLETE
-**Objective:** Formalize API contracts for determinism, concurrency, and extended diagnostics under high model churn scenarios.
+### Phase 2: Core Implementation
+- [ ] Implement the declared light-retrieval budgets or narrow the API contract to match actual behavior (Target: TBD).
 
-**Deliverables:**
-- [x] `include/process/process_concurrency_contract.h` – Thread-safety guarantees per layer with complete Doxygen documentation
-- [x] `include/process/process_determinism_spec.h` – Determinism and conflict resolution semantics with examples
-- [x] `include/process/process_diagnostics.h` – Extended diagnostics framework with incident classification
-- [x] `include/process/process_api_contract.h` – API contracts with error taxonomy and thread-safety guarantees
-- [x] `include/process/process_stress_scenarios.h` – 12 stress scenarios for Phase 2 testing
+### Phase 3: Error Handling & Edge Cases
+- [ ] Specify and verify partial-write and failure recovery for orchestration profile activation and rollback (Target: TBD).
 
-**Design Highlights:**
-- **Concurrency Model:** Snapshot isolation (Model Manager), fine-grained locking (Linker), stateless (Serializers)
-- **Conflict Resolution:** Last-Write-Wins with monotonic version clocks; deterministic outcome
-- **High Churn:** Guarantees 5-15% conflict probability under >500 concurrent operations
-- **Diagnostics:** 8 incident classes (IMPORT, VALIDATION, RETRIEVAL, LINKING, RESOURCE, CONCURRENCY, CYCLE, MALFORMED_INPUT, MISSING_TARGET)
-- **Thread-Safety:** 4 concurrency patterns with invariants documented in header files
+### Phase 4: Tests
+- [ ] Add or identify focused tests for retrieval-budget enforcement and partial profile updates; record actual results (Target: TBD).
 
-**Status:** ✓ COMPLETE (2026-08-06)
+### Phase 5: Performance / Hardening
+- [ ] Map benchmark cases to explicit Process thresholds and capture a reproducible baseline; the four PM-BM source-comment targets are not enforced by the current comparator (Target: TBD).
 
-### Phase 2: Core Implementation ✓ COMPLETE
-**Objective:** Implement hardened process model and serializer internals with bounded runtime contracts.
+### Phase 6: Documentation & Acceptance
+- [x] Audit the in-scope process Markdown against current source and CMake registration.
+- [ ] Obtain maintainer review of the remaining TODOs and any release-readiness statement (Target: TBD).
 
-**Deliverables:**
-- [x] Hardened ProcessModelManager with snapshot isolation
-- [x] Fine-grained locking in ProcessLinker for concurrent operations
-- [x] Stateless serializers (BPMN, CMMN, OCEL, etc.)
-- [x] Bounded resource constraints for parser depth, element count, timeout
-- [x] Deterministic conflict resolution (LWW with version clocks)
+## Planning and evidence gaps
 
-**Expected Performance:**
-- Model serialization: 5-50 ms per model (independent of churn)
-- Link creation: 1-10 ms per link (scales with contention)
-- Conflict probability: 5-15% under >500 concurrent operations (LWW resolves)
-
-**Status:** ✓ COMPLETE
-
-### Phase 3: Error Handling & Edge Cases ✓ COMPLETE
-**Objective:** Standardize fail-safe behavior for malformed process input and retrieval faults.
-
-**Deliverables:**
-- [x] Unified diagnostics across import/lifecycle/retrieval incidents
-- [x] 8 incident classes with actionable operator messages
-- [x] Malformed input detection with deterministic error signaling
-- [x] Stale link detection at read-time
-- [x] Resource limit enforcement (depth, elements, context size)
-
-**Error Taxonomy:**
-- IMPORT_INCIDENT – Import or deserialization failed
-- VALIDATION_INCIDENT – Validation or constraint check failed
-- RETRIEVAL_INCIDENT – Retrieval, linking, or context lookup failed
-- LINKING_INCIDENT – Linking state transition or consistency check failed
-- RESOURCE_INCIDENT – Parser resource limit exceeded
-- CONCURRENCY_INCIDENT – Concurrent modification conflict detected
-- CYCLE_INCIDENT – Cyclic dependency detected
-- MALFORMED_INPUT_INCIDENT – Invalid schema or syntax error
-
-**Status:** ✓ COMPLETE
-
-### Phase 4: Tests ✓ COMPLETE
-**Objective:** Expand focused regressions for process edge scenarios and deterministic stress testing.
-
-**Deliverables:**
-- [x] 72 test cases covering C/D/G/P/L/R/S scenarios (76 total with comprehensive coverage)
-- [x] Deterministic fixtures for high-churn operations
-- [x] Parser/linker edge-case coverage (P-01..P-16, L-01..L-08)
-- [x] Retriever edge-case tests (R-01..R-16): empty results, large context, timeouts, concurrent queries
-- [x] Stress scenarios 1-12 (S-01..S-08 + S-09..S-12 retriever stress tests)
-- [x] Conflict resolution and LWW behavior validation
-
-**Test Coverage:**
-- Parser hardening (P-01..P-16: malformed models, resource limits, deep nesting)
-- Linker consistency (L-01..L-08: orphaned links, stale references, cycles)
-- Determinism validation (D-01..D-08: same input → same output)
-- Concurrency validation (C-01..C-08: conflict resolution, no deadlocks)
-- Retriever edge-cases (R-01..R-16: empty graphs, large context, timeouts, concurrent queries, graceful degradation)
-- Stress scenarios (S-01..S-12: parser churn, linker churn, retriever scenarios, query churn)
-
-**Recent Additions (2026-08-06):**
-- `test_process_retriever_edge_focused.cpp`: 16 edge-case tests for retriever resource limits and error paths
-- `test_process_stress_churn_focused.cpp`: Added S-09..S-12 stress tests (empty graph query, large context, timeout, concurrent churn)
-
-**Status:** ✓ COMPLETE
-
-### Phase 5: Performance & Benchmarking ✓ COMPLETE
-**Objective:** Lock benchmark-backed release gates and validate p95/p99 behavior.
-
-**Deliverables:**
-- [x] 42 benchmark gates (CP/DP/GO/PP/LP/RP/BE gate codes)
-- [x] Release baseline comparisons
-- [x] p95/p99 envelope validation
-- [x] High-churn scenario benchmarks
-- [x] Regression budget enforcement
-
-**Performance Targets:**
-- Model serialization: <50 ms (P95)
-- Link creation: <10 ms (P95)
-- Retrieval query: <100 ms (P95)
-- No regression >10% vs release baseline
-
-**Benchmark Gates (42 total):**
-- CP (Concurrency Performance): 6 gates - model CRUD, import/export, linking, retrieval
-- DP (Determinism Performance): 6 gates - conflict resolution, LWW overhead, rollback, version clocks
-- GO (Graph Operations): 6 gates - link traversal, graph construction, cycle detection, community detection
-- PP (Parser Performance): 8 gates - BPMN/CMMN/EPK parsing, resource limits, interop
-- LP (Linking Performance): 6 gates - linking latency, cyclic dependency detection, validation, stale links
-- RP (Retrieval Performance): 8 gates - model retrieval, context assembly, queries, RAG
-- BE (Benchmark Envelope): 9 gates - baseline comparison, regression budget, high-churn, memory/lock/GC
-
-**Implementation Details:**
-- Google Benchmark framework with deterministic seeding (kCanonicalRngSeed=42)
-- Steady clock timing (std::chrono::high_resolution_clock)
-- p95/p99 percentile measurements (not just mean)
-- High-churn scenario coverage (>500 concurrent operations)
-- Release baseline tracking with 10% regression budget
-- CSV/JSON output for trend analysis
-
-**New Gates Added (Aug 2026):**
-- DP-05: Deterministic Output Verification - ensures identical output across runs
-- DP-06: Version Clock Operations - measures logical clock overhead
-- GO-02: Link Traversal Latency (1k links) - p95 ≤ 50ms
-- GO-03: Graph Construction (100 models) - p95 ≤ 100ms
-- GO-04: Cycle Detection (1k nodes) - p95 ≤ 75ms
-- GO-05: Community Detection (500 nodes) - p95 ≤ 150ms
-- GO-06: Complex Graph p95 Latency (5k nodes) - p95 ≤ 100ms
-- LP-05: Stale Link Detection (5k links) - p99 ≤ 150ms
-- LP-06: Batch Link Operations (1k batch) - p99 ≤ 200ms
-
-**Status:** ✓ COMPLETE (2026-08-06)
-
-### Phase 6: Documentation & Acceptance ✓ COMPLETE
-**Objective:** Finalize API documentation and acceptance criteria for module closure.
-
-**Deliverables:**
-- [x] Complete Doxygen documentation for all public APIs in include/process/
-- [x] Updated ROADMAP.md with Phase 1-6 completion and next-cycle backlog
-- [x] Updated FUTURE_ENHANCEMENTS.md with completed features and remaining backlog
-- [x] Updated PRODUCTION_REQUIREMENTS.md with edge-case guarantees and resource limits
-- [x] Updated PERFORMANCE_EXPECTATIONS.md with p95/p99 envelopes and benchmark gates
-- [x] Created PHASE_6_ACCEPTANCE_CHECKLIST.md documenting closure criteria
-- [x] Updated README.md to reflect module scope and verified behaviors
-
-**API Documentation Coverage:**
-- Thread-safety guarantees (invariants, patterns, atomicity scopes)
-- Determinism classifications (fully deterministic, conflict-resolved, snapshot-based)
-- Diagnostics framework (8 incident classes with factory methods)
-- Concurrency patterns (stateless, snapshot isolation, fine-grained locking, read-only)
-- Usage examples and conflict resolution semantics
-
-**Acceptance Criteria Verified:**
-- ✓ All new/modified public APIs have complete Doxygen comments (@brief, @param, @return, @throws, @note)
-- ✓ Concurrency contracts documented with thread-safety guarantees
-- ✓ Determinism behavior documented with edge-case guarantees
-- ✓ Diagnostics API documented with incident classification and context
-- ✓ Production requirements finalized with resource limits and stress scenarios
-- ✓ Performance expectations finalized with benchmark gates
-- ✓ Module scope verified and behaviors documented
-
-**Status:** ✓ COMPLETE (2026-08-06)
+| Area | Source evidence | Status in this roadmap |
+|---|---|---|
+| Core API and behavior | [`API.md`](API.md), [`IMPLEMENTATION.md`](IMPLEMENTATION.md), public headers and implementation | Documented; no overall maturity claim |
+| Tests | [`tests/process/CMakeLists.txt`](../../tests/process/CMakeLists.txt) registers tests through source globs | Registration verified; build/pass status TODO |
+| Benchmarks | [`benchmarks/process/CMakeLists.txt`](../../benchmarks/process/CMakeLists.txt), `src/process/PERFORMANCE_EXPECTATIONS.md`, and `benchmarks/compare_expectations.py` | 12 targets/88 macro declarations; zero Process performance expectation rows; separate release coverage audit 14/14; current performance baseline/pass status not established |
+| Federation, audit, telemetry | Contracts and implementation files exist; implementations contain explicit placeholders/simplifications | Feature-by-feature verification and maturity assessment TODO |
+| Security and operations | See [security notes](SECURITY.md), [trust boundaries](TRUST.md), and [runbook](RUNBOOK.md) | Deployment-specific controls and release evidence TODO |
 
 ## Production Readiness Checklist
 
-- [x] Core process surfaces documented and source-verified
-- [x] Module-level security and failure behavior documented
-- [x] Benchmark mapping documented in performance expectations
-- [x] Remaining hardening tasks closed for parser/lifecycle/retrieval edge paths
-- [x] Release benchmark stabilization complete
-- [x] API documentation (Doxygen) complete and reviewable
-- [x] Concurrency and determinism contracts frozen for v2.x
-- [x] Acceptance criteria met and verified
+- [x] Document current source-visible behavior and known implementation caveats.
+- [ ] Record a reproducible focused build/test run and exact configuration; registration is not a pass.
+- [ ] Validate benchmark thresholds and baseline provenance against active code and raw output.
+- [ ] Verify deployment security, observability, and recovery controls in their owning components.
+- [ ] Establish any release/maturity status from the root [`ROADMAP.md`](../../ROADMAP.md) and current release evidence before publishing it here.
 
-## Known Issues and Limitations
+## Known Issues & Limitations
 
-1. **High-Churn Conflicts:** Scenarios >500 concurrent operations may experience 5-15% LWW conflicts; applications should implement retry logic with exponential backoff.
-2. **No Automatic Cascading Deletes:** When a model is deleted, existing links become stale; manual cleanup required.
-3. **No Nested Transactions:** Process module does not support nested transactions or automatic rollback; manual remediation required on conflict.
-4. **Subprocess Execution Order:** May vary under concurrent execution due to thread scheduling (documented as non-deterministic).
-5. **Benchmark Depth:** Should continue expanding for advanced process workflows in future cycles.
-
-## Design References
-
-For detailed design rationale and specifications, see:
-
-### API Contracts & Concurrency
-- `include/process/process_concurrency_contract.h` – Thread-safety model per layer with patterns and invariants
-- `include/process/process_determinism_spec.h` – Determinism classification and conflict resolution semantics
-- `include/process/process_api_contract.h` – Frozen API contract with error taxonomy and threading guarantees
-- `include/process/process_diagnostics.h` – 8 incident classes with factory methods and diagnostic context
-
-### Production & Performance
-- `src/process/PRODUCTION_REQUIREMENTS.md` – Edge-case guarantees, resource limits, stress behavior
-- `src/process/PERFORMANCE_EXPECTATIONS.md` – p95/p99 envelopes, benchmark gates, release validation
-- `src/process/PHASE_6_ACCEPTANCE_CHECKLIST.md` – Acceptance criteria and verification steps
-
-### Historical & Future Planning
-- `src/process/README.md` – Module scope, interfaces, and verified behaviors
-- `src/process/FUTURE_ENHANCEMENTS.md` – Completed features and remaining backlog
-- `src/process/CHANGELOG.md` – Historical entry point (archived entries)
+- `ProcessLightRetriever::retrieve()` does not enforce the resource budgets declared in its header.
+- Profile activation and rollback use multiple writes and provide no transaction guarantee.
+- Audit persistence/delta encoding and telemetry export are simplified; their design guarantees are not verified.
+- Federation source comments identify alpha/core implementation status; this does not establish production readiness.
+- The process benchmark target and macro-registration counts do not define a performance-gate total. The comparator currently has zero Process expectation rows; four numeric PM-BM source comments are not enforced. The release coverage audit's 14/14 result is not a performance pass. No current performance baseline or pass result is established; see [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md).
 
 ## Breaking Changes
 
-**v2.x:** No breaking process contract planned. New contracts in Phase 1-6 are:
-- **Backward-compatible extensions:** process_concurrency_contract.h, process_determinism_spec.h, and process_diagnostics.h are additive (no existing APIs changed)
-- **New enums and structures:** Existing code continues to work; opt-in to new high-churn features
-- **Frozen for v2.x:** Concurrency, determinism, and diagnostics contracts frozen (no breaking changes until v3.0)
+No public API or runtime behavior changes are part of this documentation update.
 
-**v3.0 Plan:** May incorporate nested transactions, distributed consensus, or application-level conflict callbacks if needed.
+## Related documentation
 
-## Next Cycle: Federated Process Evolution Initiative (Q1 2027)
-
-### Q4 2026 Design Phase — COMPLETE ✓
-
-Design contracts finalized (2026-08-06):
-- [x] `include/process/federated_consensus_contract.h` – Raft/Paxos/Gossip consensus types, leader election, replication protocol, split-brain recovery
-- [x] `include/process/conflict_resolution_plugin.h` – Plugin API, resolution strategies, deterministic LWW fallback, 3-way merge
-- [x] `include/process/model_history_contract.h` – Temporal queries, delta encoding, point-in-time recovery, immutable audit trails
-- [x] `include/process/federated_span_contract.h` – OpenTelemetry integration, W3C Trace Context, correlation IDs, span factories
-- [x] `include/process/lock_free_linker_contract.h` – Lock-free hash table, epoch-based reclamation, ABA mitigation, batch queue
-
-**Design Principles:**
-- Consensus overhead ≤5% single-shard baseline; opt-in federated APIs
-- Conflict resolution callback <10ms timeout; deterministic LWW fallback (shard_id → version clock tiebreaker)
-- Audit trail immutable (append-only); delta encoding ≥30% compression; temporal queries <100ms P95
-- Tracing overhead <2%, correlation ID on 100% cross-shard RPC calls, batch + async export
-- Lock-free linker ≥10,000 ops/sec P99 <1ms; wait-free link creation; epoch-based memory reclamation
-
-**Design Metrics:**
-- Total: 2,543 lines, 87.4 KB of frozen design contracts
-- Files: 5 headers (consensus, conflict resolution, history, tracing, lock-free)
-- Coverage: All 5 federated evolution features with comprehensive Doxygen documentation
-
-### Q1 2027 Implementation Phases (26 weeks)
-
-1. **Phase 1: Federated Consensus Design & Contract** (Weeks 1-4)
-   - Deliverables: Consensus API contract, process replication protocol, federation RPC interface, test fixtures
-   - Acceptance: Raft/Paxos/Gossip support verified; ≤5% overhead on single-shard; split-brain detection <30s
-
-2. **Phase 2: Federated Core & Multi-Model Resolution** (Weeks 5-9)
-   - Deliverables: Raft leader election, log replication, conflict resolution plugin system, 3-way merge engine
-   - Acceptance: Quorum commit verified; plugin timeout enforcement; merge validation
-
-3. **Phase 3: Evolution & Audit Trails** (Weeks 10-14)
-   - Deliverables: Model history API, temporal query engine, audit log, delta encoding, recovery validation
-   - Acceptance: Temporal queries <100ms P95; audit overhead <20%; deltas ≥30% compression
-
-4. **Phase 4: OpenTelemetry & Tracing** (Weeks 15-19)
-   - Deliverables: Federated span contract, correlation ID propagation, tracer integration, metric attachment
-   - Acceptance: Trace overhead <2%; correlation ID 100% coverage; exporter non-blocking
-
-5. **Phase 5: Lock-Free Hardening & Performance** (Weeks 20-23)
-   - Deliverables: Lock-free linker, batch queue, memory reclamation, benchmarks
-   - Acceptance: ≥10,000 ops/sec, P99 <1ms, first-try CAS >99%
-
-6. **Phase 6: Documentation & Acceptance** (Weeks 24-26)
-   - Deliverables: Updated ROADMAP, acceptance checklist, operator runbooks, performance envelope
-   - Acceptance: All acceptance criteria verified; production deployment path documented
-
-### Candidate Features
-
-- **Distributed Consensus** – Cross-shard conflict resolution for federated deployments (RAFT/PAXOS/GOSSIP)
-- **Multi-Model Conflicts** – Application-level callbacks for complex conflict strategies beyond LWW
-- **Incremental Evolution** – Audit trails, delta tracking, temporal queries on model history
-- **Advanced Diagnostics** – OpenTelemetry integration, correlation IDs, distributed traces (W3C standard)
-- **Performance Scaling** – Lock-free structures for high-contention, epoch-based memory reclamation
-
-**Target Delivery:** Q1 2027 (26 weeks, 6 phases)
-
-## Program Execution Model — Wave Context
-
-This module is a **contributing module** in the program-level Wave A → B → C → D execution model.
-It does not own a primary wave deliverable but must remain `release_critical`-green throughout all waves
-and must deliver Wave D operability improvements in Q1 2027.
-See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
-
-### Wave D Contribution for `process`
-<!-- Wave D delivery: 2026-09-16 on branch copilot/implement-roadmap-wave-a-d -->
-<!-- Artifacts delivered:
-     - tests/integration/test_process_manager_soak.cpp (TIMEOUT 120; THEMIS_SOAK_DURATION_MS override)
-     - tests/process/test_process_highcardinality_stress.cpp (500 processes, 4-thread)
-     - docs/operability/RUNBOOK_PROCESS_MANAGER.md (5 scenarios; log patterns PROCESS:*)
-     - benchmarks/process/bench_process_dedicated_gates.cpp (PM-BM-01..04)
--->
-- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
-
-### Cross-Wave Requirements
-- `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
-- p95/p99 benchmarks must be refreshed on representative hardware before Wave D sign-off (Target: Q1 2027)
-- No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
-
-### Program-Level Success Criteria (contribution)
-- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+[Module overview](README.md) · [Architecture](ARCHITECTURE.md) · [Future enhancements](FUTURE_ENHANCEMENTS.md) · [Performance expectations](PERFORMANCE_EXPECTATIONS.md) · [Production requirements](PRODUCTION_REQUIREMENTS.md) · [Governance](../../DOCUMENTATION_GOVERNANCE.md)

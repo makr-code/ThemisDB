@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="temporal__api__contract_8h" kind="file" language="C++">
     <compoundname>temporal_api_contract.h</compoundname>
     <includes local="no">cstddef</includes>
@@ -47,8 +47,9 @@
     </briefdescription>
     <detaileddescription>
 <para>This header defines the normative contract for the temporal module covering bi-temporal data management, interval-tree indexing, snapshot reads, data retention, and point-in-time recovery (PITR).</para>
-<sect1 id="temporal__api__contract_8h_1autotoc_md1_1s1"><sect2 id="temporal__api__contract_8h_1autotoc_md1">
-<title>Contract Scope</title><para>The contracts below are binding for all components in the ThemisDB temporal pipeline:<itemizedlist>
+<sect2 id="temporal__api__contract_8h_1autotoc_md23">
+<title>Contract Scope</title>
+<para>The contracts below are binding for all components in the ThemisDB temporal pipeline:<itemizedlist>
 <listitem><para>Bi-temporal insert / query (valid_time, transaction_time)</para>
 </listitem><listitem><para>Interval tree index (insert, query, delete complexity)</para>
 </listitem><listitem><para>Snapshot manager (consistent read at timestamp T)</para>
@@ -56,26 +57,26 @@
 </listitem><listitem><para>PITR restore (exact committed state recovery)</para>
 </listitem></itemizedlist>
 </para>
-</sect2></sect1>
-<sect1 id="temporal__api__contract_8h_1autotoc_md2_1s1"><sect2 id="temporal__api__contract_8h_1autotoc_md2">
-<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry.</para>
+</sect2>
+<sect2 id="temporal__api__contract_8h_1autotoc_md24">
+<title>Versioning</title>
+<para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry.</para>
 <para><simplesect kind="see"><para>src/temporal/ROADMAP.md — Phase 1 contract item </para>
 </simplesect>
 <simplesect kind="see"><para>include/temporal/ROADMAP.md — Phase 6 documentation item </para>
 </simplesect>
 </para>
-</sect2></sect1>
+</sect2>
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
-<codeline lineno="27"><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight></codeline>
 <codeline lineno="33" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
-<codeline lineno="34" refid="namespacethemis_1_1temporal" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1temporal" kindref="compound">temporal</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1temporal" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">temporal<sp/>{</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight></codeline>
 <codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Bi-temporal<sp/>model<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
@@ -93,9 +94,9 @@
 <codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>all<sp/>overlapping<sp/>rows<sp/>for<sp/>a<sp/>given<sp/>(valid_time,<sp/>transaction_time)<sp/>probe<sp/>point.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="51"><highlight class="normal"></highlight></codeline>
-<codeline lineno="53" refid="namespacethemis_1_1temporal_1a11f35fa1b4fddbcf5fd1203decf8fa86" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::int64_t<sp/><ref refid="namespacethemis_1_1temporal_1a11f35fa1b4fddbcf5fd1203decf8fa86" kindref="member">kTemporalOpenEnd</ref><sp/>=<sp/>INT64_MAX;</highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1temporal_1a11f35fa1b4fddbcf5fd1203decf8fa86" refkind="member"><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::int64_t<sp/><ref refid="namespacethemis_1_1temporal_1a11f35fa1b4fddbcf5fd1203decf8fa86" kindref="member">kTemporalOpenEnd</ref><sp/>=<sp/>INT64_MAX;</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"></highlight></codeline>
-<codeline lineno="56" refid="namespacethemis_1_1temporal_1a28a27fde7f959c49abf21389dc820574" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::int64_t<sp/><ref refid="namespacethemis_1_1temporal_1a28a27fde7f959c49abf21389dc820574" kindref="member">kTemporalMinTimestampNs</ref><sp/>=<sp/>0LL;</highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1temporal_1a28a27fde7f959c49abf21389dc820574" refkind="member"><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::int64_t<sp/><ref refid="namespacethemis_1_1temporal_1a28a27fde7f959c49abf21389dc820574" kindref="member">kTemporalMinTimestampNs</ref><sp/>=<sp/>0LL;</highlight></codeline>
 <codeline lineno="57"><highlight class="normal"></highlight></codeline>
 <codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Interval<sp/>tree<sp/>index<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
@@ -111,7 +112,7 @@
 <codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>that<sp/>allow<sp/>temporary<sp/>stale<sp/>reads<sp/>are<sp/>prohibited.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="71"><highlight class="normal"></highlight></codeline>
-<codeline lineno="73" refid="namespacethemis_1_1temporal_1afca2df6398e073799804a8cf3cb01729" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1temporal_1afca2df6398e073799804a8cf3cb01729" kindref="member">kIntervalTreeMaxDepth</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1temporal_1afca2df6398e073799804a8cf3cb01729" refkind="member"><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1temporal_1afca2df6398e073799804a8cf3cb01729" kindref="member">kIntervalTreeMaxDepth</ref><sp/>=<sp/>64;</highlight></codeline>
 <codeline lineno="74"><highlight class="normal"></highlight></codeline>
 <codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Snapshot<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
@@ -164,19 +165,19 @@
 <codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="124"><highlight class="normal"></highlight></codeline>
 <codeline lineno="130" refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1d" kindref="member">TemporalErrorCode</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="132" refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da40da9fc3a51ad1391af03ce450e603e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da40da9fc3a51ad1391af03ce450e603e1" kindref="member">TEMPORAL_RANGE_INVALID</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>300,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da40da9fc3a51ad1391af03ce450e603e1" kindref="member">TEMPORAL_RANGE_INVALID</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>300,</highlight></codeline>
 <codeline lineno="133"><highlight class="normal"></highlight></codeline>
-<codeline lineno="135" refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1daaa279fe27631220a8ca97bf68cd40249" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1daaa279fe27631220a8ca97bf68cd40249" kindref="member">SNAPSHOT_EXPIRED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>301,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1daaa279fe27631220a8ca97bf68cd40249" kindref="member">SNAPSHOT_EXPIRED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>301,</highlight></codeline>
 <codeline lineno="136"><highlight class="normal"></highlight></codeline>
-<codeline lineno="138" refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da8570bbd815731ae6ee454e40d4958657" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da8570bbd815731ae6ee454e40d4958657" kindref="member">RETENTION_POLICY_CONFLICT</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>302,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da8570bbd815731ae6ee454e40d4958657" kindref="member">RETENTION_POLICY_CONFLICT</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>302,</highlight></codeline>
 <codeline lineno="139"><highlight class="normal"></highlight></codeline>
-<codeline lineno="141" refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da56791bbeab30edbbe2a7d15519b2c6dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da56791bbeab30edbbe2a7d15519b2c6dc" kindref="member">PITR_TIMESTAMP_BEFORE_OLDEST</ref><sp/><sp/>=<sp/>303,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da56791bbeab30edbbe2a7d15519b2c6dc" kindref="member">PITR_TIMESTAMP_BEFORE_OLDEST</ref><sp/><sp/>=<sp/>303,</highlight></codeline>
 <codeline lineno="142"><highlight class="normal"></highlight></codeline>
-<codeline lineno="144" refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da94764c90b73a4eb3afbcb293919188f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da94764c90b73a4eb3afbcb293919188f2" kindref="member">INTERVAL_TREE_INCONSISTENT</ref><sp/><sp/><sp/><sp/>=<sp/>304,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da94764c90b73a4eb3afbcb293919188f2" kindref="member">INTERVAL_TREE_INCONSISTENT</ref><sp/><sp/><sp/><sp/>=<sp/>304,</highlight></codeline>
 <codeline lineno="145"><highlight class="normal"></highlight></codeline>
-<codeline lineno="147" refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da8add034d2789187565326e05f7a2feeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da8add034d2789187565326e05f7a2feeb" kindref="member">NULL_TEMPORAL_DIMENSION</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>305,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1da8add034d2789187565326e05f7a2feeb" kindref="member">NULL_TEMPORAL_DIMENSION</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>305,</highlight></codeline>
 <codeline lineno="148"><highlight class="normal"></highlight></codeline>
-<codeline lineno="150" refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1dae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1dae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>399,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1dae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>399,</highlight></codeline>
 <codeline lineno="151"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="152"><highlight class="normal"></highlight></codeline>
 <codeline lineno="156" refid="namespacethemis_1_1temporal_1a697bb58de45f39e2b42baeccece0df10" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1temporal_1a697bb58de45f39e2b42baeccece0df10" kindref="member">isHardTemporalError</ref>(<ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1d" kindref="member">TemporalErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
@@ -196,11 +197,11 @@
 <codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>7<sp/><sp/>Retention<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="176"><highlight class="normal"></highlight></codeline>
-<codeline lineno="178" refid="namespacethemis_1_1temporal_1a8491b23be20873e0f48a739c6ae61144" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::int64_t<sp/><ref refid="namespacethemis_1_1temporal_1a8491b23be20873e0f48a739c6ae61144" kindref="member">kDefaultRetentionSeconds</ref><sp/>=<sp/>90LL<sp/>*<sp/>24<sp/>*<sp/>3600;</highlight></codeline>
+<codeline lineno="178" refid="namespacethemis_1_1temporal_1a8491b23be20873e0f48a739c6ae61144" refkind="member"><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::int64_t<sp/><ref refid="namespacethemis_1_1temporal_1a8491b23be20873e0f48a739c6ae61144" kindref="member">kDefaultRetentionSeconds</ref><sp/>=<sp/>90LL<sp/>*<sp/>24<sp/>*<sp/>3600;</highlight></codeline>
 <codeline lineno="179"><highlight class="normal"></highlight></codeline>
-<codeline lineno="181" refid="namespacethemis_1_1temporal_1afebb5d24c2f78bf2dce777098982b770" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::int64_t<sp/><ref refid="namespacethemis_1_1temporal_1afebb5d24c2f78bf2dce777098982b770" kindref="member">kMinRetentionSeconds</ref><sp/>=<sp/>3600LL;</highlight></codeline>
+<codeline lineno="181" refid="namespacethemis_1_1temporal_1afebb5d24c2f78bf2dce777098982b770" refkind="member"><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::int64_t<sp/><ref refid="namespacethemis_1_1temporal_1afebb5d24c2f78bf2dce777098982b770" kindref="member">kMinRetentionSeconds</ref><sp/>=<sp/>3600LL;</highlight></codeline>
 <codeline lineno="182"><highlight class="normal"></highlight></codeline>
-<codeline lineno="184" refid="namespacethemis_1_1temporal_1a4037aea35684c8ab71f0e2407c613031" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1temporal_1a4037aea35684c8ab71f0e2407c613031" kindref="member">kMaxRetentionPoliciesPerTable</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="184" refid="namespacethemis_1_1temporal_1a4037aea35684c8ab71f0e2407c613031" refkind="member"><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1temporal_1a4037aea35684c8ab71f0e2407c613031" kindref="member">kMaxRetentionPoliciesPerTable</ref><sp/>=<sp/>16;</highlight></codeline>
 <codeline lineno="185"><highlight class="normal"></highlight></codeline>
 <codeline lineno="186"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>temporal</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="187"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>

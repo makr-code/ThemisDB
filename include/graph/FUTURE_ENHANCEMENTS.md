@@ -1,9 +1,34 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: ThemisDB documentation orchestration specialist
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source level: level1
+SOT domain: api-contract
+Canonical source references:
+  - ../../VERSIONING.md
+  - ../../src/graph/FUTURE_ENHANCEMENTS.md
+  - ./
+Related milestone: DOC-WEEKLY-2026-44
+AI_Model_Note: Exact model backend not verifiable from final document text alone.
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
+> **Build:** this is a planning document; use [`tests/graph/README.md`](../../tests/graph/README.md)
+> for test-enabled configure/build commands.
+
+<!-- Planning snapshot dated 2026-06-01; target dates below are not current commitments. -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/graph/FUTURE_ENHANCEMENTS.md -->
 
 # Graph Module — Public Header Future Enhancements
+
+> The dated checkboxes and compatibility statements below are historical proposals. They are
+> not approved API/ABI commitments. The inspected graph headers and root
+> [`VERSIONING.md`](../../VERSIONING.md) define current declarations and release policy.
 
 **Module Path:** `include/graph/`  
 **Canonical implementation enhancements:** [`../../src/graph/FUTURE_ENHANCEMENTS.md`](../../src/graph/FUTURE_ENHANCEMENTS.md)
@@ -21,8 +46,8 @@ Planned enhancements to the **public header contract** in `include/graph/`. Runt
 ## Design Constraints
 
 - `[x]` Public headers must not expose internal implementation types or arena/memory layout details to callers.
-- `[x]` Breaking changes to types in `include/graph/` require a MAJOR version bump per `VERSIONING.md`.
-- `[x]` New entry points should be additive; existing stable APIs remain source-compatible.
+- `[x]` Compatibility changes must follow repository `VERSIONING.md`; do not infer a major-bump rule from this historic checklist alone.
+- `[x]` Additive entry points are a design preference, not a guarantee that every existing header has a stable compatibility contract.
 - `[x]` Layer association (**Graph Truth Layer**) must be preserved in all header expansions.
 
 ---
@@ -59,5 +84,6 @@ Planned extensions follow the same namespace (`themis::graph`) and include-guard
 
 ## Alignment with Strategic Plan
 
-Enhancements align with `FUTURE_PLAN.md` layer **Graph Truth Layer**. For cross-layer integration planning see:
-→ [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
+Enhancements should be reviewed against the current
+[`src/graph/FUTURE_ENHANCEMENTS.md`](../../src/graph/FUTURE_ENHANCEMENTS.md) and root roadmap.
+No current approval or milestone is implied by the historic dates above.

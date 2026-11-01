@@ -1,315 +1,60 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-11-01
+Status: review
+Source_Level: level 1
+SOT_Domain: module-behavior
+Canonical_Sources: benchmarks/process/CMakeLists.txt; benchmarks/process/*.cpp; include/process/process_light_retriever.h; src/process/process_light_retriever.cpp; DOCUMENTATION_GOVERNANCE.md
+Related_Issue: "#7368"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
 # Process Module Performance Expectations
 
-**Status:** 2026-08-06 – Phase 5 complete, all 46 benchmark gates locked  
-**Validation:** All mapped benchmarks passing with p95/p99 envelopes validated
-
-## Scope
-
-This document defines measurable performance expectations for release gating and production baseline validation of the process module.
-
-**Module:** `src/process`  
-**Version:** v2.x (v1.0 GA documentation baseline)  
-**Last Updated:** 2026-08-06  
-**Validated Against:** Phase 5 benchmark run (Q4 2026)
-
-## Performance Targets by Subsystem
-
-### 1. Parser Performance (PRCP-1)
-
-**Target:** All parse/import operations remain bounded and independent of concurrent churn.
-
-| Operation | Baseline | P95 | P99 | Max | Gate |
-|-----------|----------|-----|-----|-----|------|
-| BPMN deserialize (1K nodes) | 2 ms | <15 ms | <30 ms | 50 ms | PRCP-1A |
-| BPMN deserialize (5K nodes) | 5 ms | <25 ms | <50 ms | 75 ms | PRCP-1B |
-| CMMN deserialize (1K tasks) | 2 ms | <15 ms | <30 ms | 50 ms | PRCP-1C |
-| EPK deserialize (500 events) | 1 ms | <10 ms | <20 ms | 40 ms | PRCP-1D |
-| DMN evaluate (100 rules) | 1 ms | <5 ms | <10 ms | 20 ms | PRCP-1E |
-| Model validation | 1 ms | <10 ms | <20 ms | 50 ms | PRCP-1F |
-| OCEL export (1K events) | 2 ms | <20 ms | <40 ms | 100 ms | PRCP-1G |
-
-**Regression Budget:** ≤10% vs release baseline  
-**High-Churn Behavior:** P95/P99 independent of concurrent operations (snapshot isolation)
-
-### 2. Linking Performance (PRCP-2)
-
-**Target:** Link creation and maintenance remain fast and scalable under concurrent operations.
-
-| Operation | Baseline | P95 | P99 | Max | Gate |
-|-----------|----------|-----|-----|-----|------|
-| Create link (single) | 0.5 ms | <5 ms | <10 ms | 20 ms | PRCP-2A |
-| Create link (high contention) | 2 ms | <10 ms | <20 ms | 50 ms | PRCP-2B |
-| Query links (10 links) | 0.2 ms | <2 ms | <5 ms | 10 ms | PRCP-2C |
-| Delete link | 0.5 ms | <5 ms | <10 ms | 20 ms | PRCP-2D |
-| Validate link consistency | 1 ms | <10 ms | <20 ms | 50 ms | PRCP-2E |
-| Detect stale link | 0.5 ms | <3 ms | <10 ms | 20 ms | PRCP-2F |
-| Bulk link creation (100) | 50 ms | <150 ms | <300 ms | 500 ms | PRCP-2G |
-
-**Regression Budget:** ≤10% vs release baseline  
-**Concurrency Pattern:** Fine-grained locking (per-link, no blocking across instances)
-
-### 3. Retrieval Performance (PRCP-3)
-
-**Target:** Retrieval queries remain fast and consistent under snapshot isolation.
-
-| Operation | Baseline | P95 | P99 | Max | Gate |
-|-----------|----------|-----|-----|-----|------|
-| Retrieve model (cached) | 1 ms | <5 ms | <10 ms | 20 ms | PRCP-3A |
-| Retrieve model (disk) | 10 ms | <50 ms | <100 ms | 200 ms | PRCP-3B |
-| Build system prompt (5K tokens) | 5 ms | <20 ms | <50 ms | 100 ms | PRCP-3C |
-| Graph search (PPR, 100 results) | 10 ms | <50 ms | <100 ms | 200 ms | PRCP-3D |
-| Community detection (1K nodes) | 20 ms | <100 ms | <200 ms | 500 ms | PRCP-3E |
-| Conformance check (100 event log) | 5 ms | <20 ms | <50 ms | 100 ms | PRCP-3F |
-| Full-text search (10K models) | 50 ms | <200 ms | <500 ms | 1000 ms | PRCP-3G |
-
-**Regression Budget:** ≤10% vs release baseline  
-**Snapshot Behavior:** All retrieval operations return consistent snapshots
-
-### 4. High-Churn Scenario Targets (PRCP-4)
-
-**Target:** Performance remains bounded under concurrent updates >500 ops/sec or >100 model updates/sec.
-
-| Scenario | Throughput | Conflict Rate | Latency (P95) | Gate |
-|----------|-----------|---------------|---------------|------|
-| Concurrent model updates | 100+ updates/sec | <15% | <50 ms | PRCP-4A |
-| Link creation storm | 100+ links/sec | <15% | <10 ms | PRCP-4B |
-| Mixed R/W workload | 50+ ops/sec | <10% | <30 ms | PRCP-4C |
-| Cache churn (1M models) | N/A | N/A | <100 ms (P95) | PRCP-4D |
-| Parsing under contention | 50+ parses/sec | N/A | <50 ms | PRCP-4E |
-
-**Determinism:** Conflict resolution (LWW) deterministic; same timing → same winner  
-**No Starvation:** Fast operations not blocked by slow operations (lock-free principles)
-
-### 5. Serialization Performance (PRCP-5)
-
-**Target:** Serialization remains fast and deterministic across all formats.
-
-| Operation | Baseline | P95 | P99 | Max | Gate |
-|-----------|----------|-----|-----|-----|------|
-| Serialize to BPMN (5K nodes) | 3 ms | <20 ms | <50 ms | 100 ms | PRCP-5A |
-| Serialize to CMMN (1K tasks) | 2 ms | <15 ms | <30 ms | 50 ms | PRCP-5B |
-| Serialize to OCEL (1K events) | 2 ms | <20 ms | <40 ms | 100 ms | PRCP-5C |
-| Round-trip fidelity test | N/A | 100% | 100% | 100% | PRCP-5D |
-| UUID determinism (1K models) | N/A | 100% | 100% | 100% | PRCP-5E |
-
-**Regression Budget:** ≤10% vs release baseline  
-**Determinism:** Same model → same serialized output (deterministic) every time
-
-## Benchmark Gate Naming & Mapping
-
-This document uses two complementary naming schemes for benchmark gates to support both functional organization and operational categorization.
-
-### Naming Scheme Reference
-
-**Primary Scheme (Performance Targets Sections 1-5):**
-- Format: `PRCP-<subsystem>-<variant>`
-  - `PRCP-1A, PRCP-1B, ..., PRCP-1G` = Parser Performance gates
-  - `PRCP-2A, PRCP-2B, ..., PRCP-2G` = Linking Performance gates
-  - `PRCP-3A, PRCP-3B, ..., PRCP-3G` = Retrieval Performance gates
-  - `PRCP-4A, PRCP-4B, ..., PRCP-4E` = High-Churn Scenario gates
-
-**Secondary Scheme (Benchmark Gate Mapping & Enforcement):**
-- Format: `<Category>-<NN>`
-  - `CP-01 to CP-06` = Concurrency Performance gates (maps to PRCP-2 subsystem)
-  - `DP-01 to DP-06` = Determinism Performance gates (maps to PRCP-2 subsystem)
-  - `GO-01 to GO-06` = Diagnostics Overhead gates (new subsystem)
-  - `PP-01 to PP-08` = Parser Performance gates (maps to PRCP-1 subsystem)
-  - `LP-01 to LP-06` = Linker Performance gates (maps to PRCP-2 subsystem)
-  - `RP-01 to RP-08` = Retriever Performance gates (maps to PRCP-3 subsystem)
-  - `BE-01 to BE-06` = Benchmark Envelope gates (cross-cutting)
-
-### PRCP → Categorical Gate Mapping
-
-| PRCP Gates | → | Categorical Gates | Count |
-|------------|---|-------------------|-------|
-| PRCP-1 (Parser) | → | PP-01..08 | 8 |
-| PRCP-2 (Linking) | → | CP-01..06, DP-01..06, LP-01..06 | 18 |
-| PRCP-3 (Retrieval) | → | RP-01..08 | 8 |
-| PRCP-4 (High-Churn) | → | BE-01..06 | 6 |
-| (Diagnostics Overhead) | → | GO-01..06 | 6 |
-| **Total** | | **46 gates** | **46** |
-
-**Usage Note:** For operational monitoring and release automation, use the categorical scheme (CP/DP/GO/LP/RP/BE/HC). For performance documentation and performance target discussions, use the subsystem scheme (PRCP-N).
-
-## Benchmark Gate Mapping
-
-### Core Benchmark Targets (46 gates)
-
-#### Concurrency Performance Gates (CP)
-- CP-01: Concurrent CRUD (100 models)
-- CP-02: Concurrent CRUD (1k models)
-- CP-03: Concurrent Import (100 BPMN)
-- CP-04: Concurrent Export (100 models)
-- CP-05: Concurrent Linking (100 models)
-- CP-06: Concurrent Retrieval (1k models)
-
-#### Determinism Performance Gates (DP)
-- DP-01: BpmnParsing_Deterministic
-- DP-02: UuidV5_Deterministic
-- DP-03: ConflictResolution_Deterministic
-- DP-04: RoundTrip_Fidelity
-- DP-05: SerializationOrder_Deterministic
-- DP-06: Export_Deterministic
-
-#### Diagnostics Overhead Gates (GO)
-- GO-01: DiagnosticsOverhead_Idle
-- GO-02: DiagnosticsOverhead_LowLoad
-- GO-03: DiagnosticsOverhead_MediumLoad
-- GO-04: DiagnosticsOverhead_HighLoad
-- GO-05: DiagnosticsOverhead_Incident
-- GO-06: DiagnosticsOverhead_Batch
-
-#### Parser Performance Gates (PP)
-- PP-01: BpmnDeserialize_SmallModel
-- PP-02: BpmnDeserialize_LargeModel
-- PP-03: BpmnDeserialize_DeepNesting
-- PP-04: CmmnDeserialize_Standard
-- PP-05: EpkDeserialize_Standard
-- PP-06: DmnEvaluate_Standard
-- PP-07: OcelExport_Standard
-- PP-08: ModelValidation_Standard
-
-#### Linking Performance Gates (LP)
-- LP-01: LinkCreation_SingleThread
-- LP-02: LinkCreation_HighContention
-- LP-03: LinkQuery_Batch
-- LP-04: LinkDelete_Standard
-- LP-05: ConsistencyValidation_Standard
-- LP-06: StaleDetection_Standard
-
-#### Retriever Performance Gates (RP)
-- RP-01: ModelRetrieve_Cached
-- RP-02: ModelRetrieve_Disk
-- RP-03: PromptGeneration_Standard
-- RP-04: GraphSearch_FullText
-- RP-05: EmbeddingGenerate_Standard
-- RP-06: BulkRetrieve_QPS
-- RP-07: KnowledgeGraph_Build
-- RP-08: RAG_Pipeline_E2E
-
-#### Benchmark Envelope Gates (BE)
-- BE-01: Regression_Budget ≤10%
-- BE-02: P95_Variance <20%
-- BE-03: P99_Limit <200ms
-- BE-04: NoOutliers >3σ
-- BE-05: HighChurn_Stability
-- BE-06: ConcurrencyConflict_Rate
-
-### High-Churn Scenario Gates (HC)
-
-| Gate | Scenario | Target | Measurement |
-|------|----------|--------|-------------|
-| HC-001 | Model update storm | 100+ updates/sec | Throughput ≥100 |
-| HC-002 | Link creation storm | 100+ links/sec | Throughput ≥100 |
-| HC-003 | Conflict resolution | 5-15% LWW conflicts | Conflict rate 5-15% |
-| HC-004 | Latency under churn | P95 <50ms | Model ops <50ms |
-| HC-005 | No deadlocks | Lock-free serializers | Deadlock count = 0 |
-
-## Release Gate Enforcement
-
-### Hard Gates (must pass for release)
-
-These gates are **required** to pass for release promotion:
-
-1. **BE-001 Regression Budget:** Current <= baseline + 10%
-2. **BE-002 P95 Variance:** Coefficient of variation <20%
-3. **PRCP-1 Parser:** All parser latencies within envelope
-4. **PRCP-2 Linking:** Link creation <10ms P95
-5. **PRCP-3 Retrieval:** Retrieval <100ms P95
-6. **PRCP-4 High-Churn:** 100+ ops/sec throughput
-7. **DP Determinism:** 100% deterministic outcome on re-runs
-
-### Soft Gates (monitoring, not blocking)
-
-These gates are monitored but do not block release (unless trend is concerning):
-
-1. **P99 Tail Latency:** Monitor for unexpected growth
-2. **Outlier Frequency:** Alert if >5% of samples exceed 3σ
-3. **Throughput Variance:** Monitor for consistency
-4. **Cache Hit Rate:** Track optimization effectiveness
-
-## Benchmark Validation Procedure
-
-### Before Release
-
-1. **Run Benchmark Suite**
-   - Execute all 46 benchmark gates in release profile
-   - Capture P50, P95, P99 latencies
-   - Collect resource metrics (memory, CPU, context switches)
-
-2. **Regression Analysis**
-   - Compare vs release baseline (tagged in Git)
-   - Calculate percentage difference per gate
-   - Verify no gate exceeds 10% regression
-
-3. **Envelope Validation**
-   - Verify P95 within documented maximum for each operation
-   - Verify P99 <3x P95 (tail latency reasonable)
-   - Verify no pathological outliers >3σ
-
-4. **Concurrency Validation**
-   - Run high-churn scenario (>500 concurrent ops)
-   - Verify conflict probability 5-15% (LWW as expected)
-   - Verify no deadlocks or timeouts
-
-5. **Gate Manifest Completeness**
-   - Verify all 46 gates present in benchmark output
-   - Verify no missing cases (100% coverage requirement)
-
-### Release Sign-Off
-
-Gate manifest validation:
-```
-GATE CHECK STATUS
-==================
-Total gates: 46
-Passed: 46
-Failed: 0
-Blocked: 0
-RECOMMENDATION: ✓ APPROVED FOR RELEASE
-```
-
-## Performance Monitoring (Production)
-
-### Continuous Monitoring Metrics
-
-| Metric | Alert Threshold | Action |
-|--------|-----------------|--------|
-| P95 model serialization | >60 ms | Investigate regression |
-| P95 link creation | >15 ms | Investigate lock contention |
-| Concurrency incident rate | >1/min | Check for conflict storm |
-| Parser resource incidents | >10/hour | Check for malformed input surge |
-| Regression vs baseline | >10% | Investigate code changes |
-
-### Baseline Capture & Comparison
-
-- **Release Baseline:** Captured during GA release (tag: v2.0.0)
-- **Baseline File:** `.git/tags/v2.0.0/benchmark_baseline.json`
-- **Comparison Tool:** `scripts/benchmark_compare.py`
-- **Diff Report:** Generated per release cycle
-
-## References
-
-### Benchmark Sources
-- `benchmarks/bench_process_import_retrieval.cpp` – Parser and retrieval benchmarks
-- `benchmarks/bench_process_mining.cpp` – Mining analytics benchmarks
-- `benchmarks/bench_process_retrieval.cpp` – Graph retrieval benchmarks
-
-### Related Documentation
-- `src/process/PRODUCTION_REQUIREMENTS.md` – Resource limits and edge-case guarantees
-- `src/process/ROADMAP.md` – Delivery phases and timeline
-- `include/process/process_concurrency_contract.h` – Concurrency model and thread-safety
-- `include/process/process_determinism_spec.h` – Determinism guarantees
-
-### Performance Baselines
-
-| Baseline | Release | Date | Link |
-|----------|---------|------|------|
-| v2.0.0 GA | 2.0.0 | 2026-08-06 | `.git/tags/v2.0.0/benchmark_baseline.json` |
-
-## Version History
-
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0 | 2026-08-06 | Initial performance expectations (Phase 5 completion) |
-
+**AI provenance:** Exact model backend not verifiable from final document text alone.
+
+This page separates source registrations, source-commented targets, configured comparison expectations, and observed run evidence. These are distinct facts; none alone establishes Process performance or release readiness.
+
+## Registered benchmark sources
+
+[`benchmarks/process/CMakeLists.txt`](../../benchmarks/process/CMakeLists.txt) registers these standard benchmarks when `THEMIS_BUILD_BENCHMARKS` is enabled:
+
+The current CMake file contains **12 benchmark target registrations**. Those 12 source files contain **88 Google Benchmark registration macro declarations** (87 `BENCHMARK(...)` calls and one `BENCHMARK_REGISTER_F(...)` call). This is a source-syntax count; parameterized cases and repetitions can produce a different number of runtime result rows. Neither count is a count of performance gates.
+
+- `bench_process_import_retrieval.cpp`
+- `bench_process_mining.cpp`
+- `bench_process_retrieval.cpp`
+- `bench_process_release_gates.cpp`
+- `bench_process_concurrency_gates.cpp`
+- `bench_process_determinism_gates.cpp`
+- `bench_process_diagnostics_overhead.cpp`
+- `bench_process_parser_gates.cpp`
+- `bench_process_linker_gates.cpp`
+- `bench_process_retriever_gates.cpp`
+- `bench_process_advanced_workflows.cpp`
+- `bench_process_dedicated_gates.cpp`
+
+Registration does not prove that a benchmark source measures production behavior, that a named gate is enforced, or that any run passed. For example, inspect the benchmark implementation before interpreting simulated or stubbed operations as module performance.
+The repository defines no canonical aggregate Process performance-gate count; keep source registrations, comment-only targets, comparator expectations, and coverage-audit mappings as separate measures.
+
+## Interpretation and follow-up
+
+- **Configured Process thresholds:** `benchmarks/compare_expectations.py` reads rows under a module's `## Specific Expectations` section. This file has no such section, so the comparator currently discovers **zero Process expectation targets** and applies no Process-specific numeric threshold. The weekly workflow's overall result cannot be attributed to Process in this state.
+- **Source-commented targets:** `bench_process_dedicated_gates.cpp` lists four PM-BM targets: spawn p95 < 1 ms; terminate p95 < 500 µs; signal delivery ≥ 1 M/s; and four-thread spawn throughput ≥ 200 k/s. These are comments, not comparator inputs or runtime assertions. The benchmark uses in-process stub manager/signal-bus classes; it does not exercise OS process operations. Its Google Benchmark repetition aggregates do not calculate the named p95/p99 percentiles.
+- **Release coverage gate (separate from performance):** `.github/workflows/gate-release-benchmark-validation.yml` requires 100% source-to-CMake-to-CTest coverage for listed critical modules and 95% for other discovered modules. Process is not in the critical list. The report maps 14 Process benchmark targets and records 14/14 CTest registrations (100%). Run [#19](https://github.com/makr-code/ThemisDB/actions/runs/41001268780) passed overall on 2026-10-30 with Process at 14/14. Latest run [#21](https://github.com/makr-code/ThemisDB/actions/runs/41271872461), 2026-11-01, also reports Process at 14/14 but fails overall because `training/bench_lora_data_paths.cpp` is unregistered. This is registration coverage, not benchmark execution or performance.
+- **Historical result artifact:** [`artifacts/nightly/bench_process_mining.json`](../../artifacts/nightly/bench_process_mining.json) contains 22 results from 2026-04-15 (Release, four CPUs, one repetition per result). It has no source revision identifier or associated threshold-comparison report, so it is historical sample data, not a current baseline or a pass record.
+- **Latest visible weekly performance run:** [run 40257720669](https://github.com/makr-code/ThemisDB/actions/runs/40257720669), dated 2026-10-26, failed during CMake configure because RocksDB was not found. Build, benchmark execution, and report jobs were skipped; this run provides no Process performance result.
+- **Current performance baseline and Process performance-pass status:** not established by the current source, historical artifact, or latest visible weekly performance run. A reproducible baseline requires a source SHA, build and hardware details, raw output, and an explicit threshold-to-case mapping. The coverage runs above must not be presented as performance passes.
+- **Run command and binary location:** the root `community-debug` preset enables benchmarks; the root CMake configuration places runtime targets under `build-community-debug/bin/`. See the [benchmark README](../../benchmarks/process/README.md) for a focused command.
+- **Resource limits:** Do not use this page to infer bounded latency or resource use. In particular, `ProcessLightRetriever::retrieve()` does not currently enforce its header-declared resource budgets; see [implementation notes](IMPLEMENTATION.md).
+
+## Related sources
+
+- [`benchmarks/process/CMakeLists.txt`](../../benchmarks/process/CMakeLists.txt)
+- [Process benchmark catalog](../../benchmarks/process/README.md)
+- [Module roadmap](ROADMAP.md) · [Production requirements](PRODUCTION_REQUIREMENTS.md)

@@ -9,6 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+Exact model backend not verifiable from final document text alone.
+-->
+### Scheduler safety hardening
+
+- Scheduler authorization now denies security-sensitive operations without an explicit `RequestContext`; HTTP, persistence restoration, and distributed-coordinator operations use scoped, narrow contexts.
+- Distributed scheduler dispatch now checks a shared lifetime-safe coordination gate for immediate, scheduled, and DAG execution and does not fall back to local execution on coordination failure.
+- CDC trigger configurations reject malformed/unknown predicates and runtime condition errors never match.
+- Added a production `TaskScheduler` benchmark CTest smoke; benchmark timing remains informational pending an owner, stable hardware, baseline, and agreed threshold.
+
 ### Acceleration Phase-C Guard Hardening (2026-09-15)
 
 - Added strict WGS84 range validation and geo distance output-range validation in `BatchValidator` and wired checks into CPU/CUDA/bridge geo batch paths (`include/acceleration/batch_validator.h`, `src/acceleration/cpu_backend.cpp`, `src/acceleration/cuda_backend.cpp`, `src/acceleration/geo_acceleration_bridge.cpp`).

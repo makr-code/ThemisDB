@@ -1,4 +1,24 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-08-14
+Last Updated: 2026-11-01
+Status: archived
+Source_Level: level 1
+SOT_Domain: module-behavior
+Canonical_Sources: generated ai_working/gap_scanner_verified_process.json snapshot; current include/process/*.h; src/process/*.cpp; tests/process/CMakeLists.txt
+Related_Issue: "#7368"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
 # process Module - Gap Analysis & Wave A Alignment (Batch 5)
+
+> Historical scanner snapshot, validated in its original report on 2026-08-14 only; not current readiness evidence. Gap totals, severity classifications, line numbers, completion percentages, test/pass claims, and wave status below have not been independently revalidated and are not current source-of-truth statements. Use current code, focused tests, and [`ROADMAP.md`](ROADMAP.md) instead.
+>
+> AI provenance: Exact model backend not verifiable from final document text alone.
 
 <!-- Status: Batch 5 Enhancement | validated: 2026-08-14 -->
 <!-- Scope: 607 verified gaps across recovery determinism, phase isolation, crash consistency, and resource limits -->
@@ -140,7 +160,7 @@
 - **Source Truth:** `ai_working/gap_scanner_verified_process.json` (post-L0.5 classification)
 - **Wave Context:** Root `ROADMAP.md` § Wave A → Wave B → Wave C → Wave D
 - **Production Spec:** `src/process/PRODUCTION_REQUIREMENTS.md`
-- **Performance Gates:** `src/process/PERFORMANCE_EXPECTATIONS.md` (42 gates)
+- **Performance Gates:** This historical report asserted 42 gates; that count is not a current source-backed total. The current comparator has zero Process expectation rows, while four PM-BM numeric targets are comments only; see [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md).
 - **Concurrency Contract:** `include/process/process_concurrency_contract.h`
 - **Test Suite:** `tests/test_process_*.cpp` (72 test cases)
 

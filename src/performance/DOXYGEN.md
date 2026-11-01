@@ -1,9 +1,29 @@
-# PERFORMANCE DOXYGEN
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-20"
+Last Updated: "2026-10-31"
+Status: "archived"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_Sources:
+  - "include/performance/*.h"
+  - "src/performance/*.cpp"
+Related_Issue: "#7366"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+# PERFORMANCE DOXYGEN — Historical Generated Snapshot
+
+> This generated report records a 2026-09-20 Doxygen run. Its machine-local
+> Windows XML/log paths, symbol inventory, and metrics are historical output,
+> not a current API index or an authoritative maturity statement. Regenerate
+> from the current Doxygen XML before using those details.
+
+Exact model backend not verifiable from final document text alone.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -8720,4 +8740,3 @@ Status: active
 - Source: `include/performance/rcu.h`:46
 - Brief: n/a
 - Parameters: none
-

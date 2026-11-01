@@ -1,32 +1,45 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
+Last Updated: "2026-10-31"
 Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
-# Temporal in ThemisDB
+# Temporal module features
 
-## Ueberblick
-Das Modul temporal stellt system-time and valid-time data behavior, time-travel querying, temporal joins/aggregation behavior, retention/snapshot handling, and temporal conflict/consistency behavior for ThemisDB. Phase 1-6 complete with all release gates validated. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+This page summarizes behavior exposed by the current temporal headers. It is an
+API overview, not a release-readiness statement. The root
+[`ROADMAP.md`](../../ROADMAP.md) is authoritative for module maturity and
+release blockers.
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **temporal and bitemporal query execution behavior**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+## Runtime surfaces
 
-Die zweite Kernfaehigkeit ist **bitemporal record lifecycle behavior**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+| Capability | Public interface | Source-backed scope |
+|---|---|---|
+| System-time history | [`SystemVersionedTable`](../../include/temporal/system_versioned_table.h) | Insert, update, delete, current/as-of reads, history scans, and historical-version purging. |
+| Bitemporal records | [`BiTemporalTable`](../../include/temporal/bi_temporal.h) | System and valid time, as-of queries, current valid-time queries, overlap/gap inspection, and merge. |
+| Temporal queries and joins | [`TemporalQueryEngine`](../../include/temporal/temporal_query_engine.h), [`BiTemporalJoin`](../../include/temporal/bitemporal_join.h) | C++ query helpers over versioned tables; no claim that SQL/AQL syntax is wired to these classes. |
+| Indexing and aggregation | [`TemporalIndex`](../../include/temporal/temporal_index.h), [`IntervalTreeIndex`](../../include/temporal/interval_tree_index.h), [`TemporalAggregator`](../../include/temporal/temporal_aggregator.h) | Time/range lookup, interval lookup, and window aggregation APIs. |
+| Lifecycle | [`TemporalSnapshotManager`](../../include/temporal/snapshot_manager.h), [`RetentionManager`](../../include/temporal/retention_manager.h) | In-memory snapshots and policy-driven historical-version cleanup. |
+| Change and conflict handling | [`TemporalCDC`](../../include/temporal/temporal_cdc.h), [`TemporalConflictResolver`](../../include/temporal/temporal_conflict_resolver.h) | Bounded in-memory event replay, an optional filesystem WAL API, and configured conflict strategies. |
+| History storage transforms | [`TemporalCompressor`](../../include/temporal/temporal_compressor.h), [`TemporalTierManager`](../../include/temporal/temporal_tier_manager.h), [`TemporalColdStore`](../../include/temporal/temporal_cold_store.h), [`TemporalMigrator`](../../include/temporal/temporal_migrator.h) | Compression, hot/warm/cold history operations, cold-store backends, and migration helpers. |
 
-Die dritte Kernfaehigkeit ist **bitemporal join behavior**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+## Important boundary
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Temporal Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
+The runtime types in `themisdb::temporal` use millisecond timestamps and
+half-open ranges. `include/temporal/temporal_api_contract.h` is a separate
+`themis::temporal` contract surface with different named timestamp constants;
+do not treat that header as proof that its stated contracts are implemented by
+the runtime classes. See [`MODELING.md`](MODELING.md).
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
+The temporal interfaces do not establish caller authorization, deployment
+configuration, a CLI, or release acceptance. See
+[`SECURITY.md`](SECURITY.md), [`PRODUCTION_REQUIREMENTS.md`](PRODUCTION_REQUIREMENTS.md),
+and the root roadmap for those boundaries.
 
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/temporal/README.md](./../../docs/temporal/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+Exact model backend not verifiable from final document text alone.

@@ -1,8 +1,16 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "active"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_Sources:
+  - "src/performance/*.cpp"
+  - "include/performance/*.h"
+  - "tests/performance/CMakeLists.txt"
+  - "benchmarks/performance/CMakeLists.txt"
+Related_Issue: "#7366"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
@@ -65,19 +73,31 @@ Avoid converting a real failure into a successful-looking metric or result.
 
 ## Test and benchmark evidence
 
-Focused C++ tests are under [`tests/performance`](../../tests/performance).
-The module CMake file registers those test sources and derives focused target
-names from their source filenames. Tests relevant to the changed implementation
-should be run alongside the affected release benchmark cases in
-[`benchmarks/performance/bench_performance_release_gates.cpp`](../../benchmarks/performance/bench_performance_release_gates.cpp).
+The module CMake file
+[`tests/performance/CMakeLists.txt`](../../tests/performance/CMakeLists.txt)
+registers root-level `test_*.cpp` files and recursively includes phase3/phase4
+tests. Root targets are named `module_performance_<stem>_focused`; nested target
+and CTest names add a `nested_` prefix and a stable hash of the relative path.
+A second root-level glob adds `_autofocused` targets for
+`test_performance_*.cpp` files. Confirm target/test discovery after configuring
+with tests enabled:
+
+```bash
+cmake --build <build-dir> --target help
+ctest --test-dir <build-dir> -N -L 'module:performance'
+```
+
+Run relevant registered tests alongside the registered benchmark cases in
+[`benchmarks/performance/README.md`](../../benchmarks/performance/README.md).
 The repository's docs validation command is:
 
 ```bash
 python -m unittest discover -s tests -p "test_doc_metadata_gate.py"
 ```
 
-For performance changes, compare a reproducible release-profile run against
-the mapped baseline and retain the manifest; see
+For performance changes, compare a reproducible release-profile run against a
+measured, host-matched baseline and retain the manifest; a performance-module
+baseline has not yet been established. See
 [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md).
 
 Exact model backend not verifiable from final document text alone.

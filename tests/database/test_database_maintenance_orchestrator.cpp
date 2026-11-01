@@ -369,6 +369,44 @@ TEST_F(MaintenanceOrchestratorTest, DeleteSchedule_ReturnsErrorForUnknownId) {
     EXPECT_FALSE(result);
 }
 
+TEST_F(MaintenanceOrchestratorTest, ScheduleMutationLimitRejectsExcessWrites) {
+    auto entry = makeEntry("Limited schedule");
+    entry.max_schedule_changes_per_interval = 2;
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    auto updated = *created;
+    updated.name = "Updated once";
+    ASSERT_TRUE(orchestrator_->updateSchedule(created->id, updated));
+
+    nlohmann::json patch = {{"name", "Updated twice"}};
+    auto patch_result = orchestrator_->patchSchedule(created->id, patch);
+    ASSERT_FALSE(patch_result);
+    EXPECT_EQ(patch_result.error().code(), errors::ErrorCode::ERR_RATE_LIMIT_EXCEEDED);
+    EXPECT_NE(patch_result.error().context().find(created->id), std::string::npos);
+
+    auto current = orchestrator_->getSchedule(created->id);
+    ASSERT_TRUE(current);
+    EXPECT_EQ(current->name, "Updated once");
+
+    auto delete_result = orchestrator_->deleteSchedule(created->id);
+    ASSERT_FALSE(delete_result);
+    EXPECT_EQ(delete_result.error().code(), errors::ErrorCode::ERR_RATE_LIMIT_EXCEEDED);
+    EXPECT_TRUE(orchestrator_->getSchedule(created->id));
+}
+
+TEST_F(MaintenanceOrchestratorTest, ScheduleMutationLimitZeroAllowsRepeatedWrites) {
+    auto created = orchestrator_->createSchedule(makeEntry("Unlimited schedule"));
+    ASSERT_TRUE(created);
+
+    for (int i = 0; i < 3; ++i) {
+        nlohmann::json patch = {{"name", "Unlimited update " + std::to_string(i)}};
+        ASSERT_TRUE(orchestrator_->patchSchedule(created->id, patch));
+    }
+
+    EXPECT_TRUE(orchestrator_->deleteSchedule(created->id));
+}
+
 // ===========================================================================
 // Serialisation round-trip
 // ===========================================================================

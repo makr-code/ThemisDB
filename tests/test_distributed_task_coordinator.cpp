@@ -42,6 +42,13 @@ protected:
     }
 
     void SetUp() override {
+        TaskScheduler::RequestContext test_context;
+        test_context.user_id = "distributed-scheduler-test";
+        test_context.granted_permissions = {
+            "task:register", "task:unregister", "task:update", "task:execute",
+            "task:register_function"};
+        test_context.roles.insert("system_admin");
+        TaskScheduler::setRequestContext(test_context);
 #ifdef _WIN32
         GTEST_SKIP() << "Skipping distributed task coordinator focused tests on Windows due to intermittent segfaults in fixture lifecycle.";
 #endif
@@ -82,11 +89,14 @@ protected:
         gossip_cfg.enabled        = false;  // No real network in tests
         gossip_ = std::make_shared<GossipConfigManager>(gossip_cfg, topology_);
 
-        // DistributedCoordinator (do NOT start it – we drive it manually)
+        // Start the production coordinator with gossip disabled and a long
+        // election timeout; tests drive leadership transitions directly.
         DistributedCoordinator::Config coord_cfg;
         coord_cfg.enable_automatic_failover = false;
+        coord_cfg.election_timeout_ms = 60000;
         coordinator_ = std::make_unique<DistributedCoordinator>(
             "node-1", topology_, gossip_, coord_cfg);
+        coordinator_->start();
 
         // DistributedTaskCoordinator under test
         DistributedTaskCoordinator::Config dtc_cfg;
@@ -111,6 +121,7 @@ protected:
         if (!db_path_.empty()) {
             std::filesystem::remove_all(db_path_);
         }
+        TaskScheduler::clearRequestContext();
     }
 
     // Helper – build a minimal FUNCTION task
@@ -196,11 +207,59 @@ TEST_F(DistributedTaskCoordinatorTest, SchedulerDeactivatedWhenLeadershipLost) {
     EXPECT_FALSE(dtc_->isSchedulerActive());
 }
 
+TEST_F(DistributedTaskCoordinatorTest, StaleActivationCannotReopenGateAfterLeadershipLoss) {
+    dtc_->start();
+    coordinator_->becomeLeader();
+    ASSERT_TRUE(dtc_->isSchedulerActive());
+
+    // Simulate the leadership-loss callback arriving while the underlying
+    // coordinator still reports its previous local-leader state.
+    dtc_->onLeaderElected("node-99");
+    ASSERT_FALSE(dtc_->isSchedulerActive());
+
+    EXPECT_THROW(dtc_->activateScheduler(), std::runtime_error);
+    EXPECT_FALSE(dtc_->isSchedulerActive());
+}
+
 TEST_F(DistributedTaskCoordinatorTest, SchedulerRemainsInactiveWhenNotLeader) {
     dtc_->start();
     // Never call becomeLeader() – scheduler should remain inactive
     EXPECT_FALSE(dtc_->isSchedulerActive());
     EXPECT_FALSE(scheduler_->isRunning());
+}
+
+TEST_F(DistributedTaskCoordinatorTest, CoordinationGatePreventsLocalExecutionWithoutLeadership) {
+    std::atomic<int> calls{0};
+    scheduler_->registerFunction("coordination_gate_fn", [&calls](const nlohmann::json&) {
+        ++calls;
+        return nlohmann::json{{"ok", true}};
+    });
+
+    ScheduledTask task = makeTask("coordination_gate");
+    task.function_name = "coordination_gate_fn";
+    const auto task_id = scheduler_->registerTask(task);
+
+    const auto result = scheduler_->executeTaskNow(task_id);
+    EXPECT_TRUE(result.contains("error"));
+    EXPECT_NE(result.value("error", "").find("Coordination layer unavailable"),
+              std::string::npos);
+    EXPECT_EQ(result.value("code", 0),
+              static_cast<int>(SchedulerError::kCoordinationError));
+    EXPECT_EQ(calls.load(), 0);
+
+    EXPECT_THROW(scheduler_->executeDAG({task_id}), std::runtime_error);
+    EXPECT_EQ(calls.load(), 0);
+
+    ScheduledTask scheduled = makeTask("coordination_gate_scheduled");
+    scheduled.function_name = "coordination_gate_fn";
+    scheduled.trigger_type = ScheduledTask::TriggerType::INTERVAL;
+    scheduled.interval = 10ms;
+    scheduled.next_run = std::chrono::system_clock::now() - 1s;
+    scheduler_->registerTask(scheduled);
+    scheduler_->start();
+    std::this_thread::sleep_for(150ms);
+    scheduler_->stop();
+    EXPECT_EQ(calls.load(), 0);
 }
 
 TEST_F(DistributedTaskCoordinatorTest, AlreadyLeaderAtStart) {

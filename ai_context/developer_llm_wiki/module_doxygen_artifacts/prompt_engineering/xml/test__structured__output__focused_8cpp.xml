@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="test__structured__output__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_structured_output_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="structured__output_8h" local="yes">prompt_engineering/structured_output.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>prompt_engineering/structured_output.h</label>
+        <link refid="structured__output_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/prompt_engineering/test_structured_output_focused.cpp</label>
+        <link refid="test__structured__output__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1prompt__engineering">themis::prompt_engineering</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="structured__output_8h" kindref="compound">prompt_engineering/structured_output.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">themis::prompt_engineering</ref><sp/>{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal">StructuredOutputConfig<sp/>payloadSchema()<sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/>StructuredOutputConfig<sp/>config;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>config.type<sp/>=<sp/><ref refid="namespacethemis_1_1prompt__engineering_1af0b204eff200ce0864b6c12c0f370b4aad50412d73dedf3e191f712be4d30d677" kindref="member">OutputConstraintType::JSON_SCHEMA</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>config.json_schema.schema_json<sp/>=</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:{&quot;payload&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;nested&quot;:{&quot;type&quot;:&quot;object&quot;}},&quot;required&quot;:[&quot;payload&quot;]})&quot;;</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering_1ac8b169aae70a5977a67781f9a5fdc07b" kindref="member">TEST</ref>(StructuredOutputEnforcer,<sp/>AcceptsEscapedDelimitersAndNestedKeys)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>StructuredOutputEnforcer<sp/>enforcer;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>output<sp/>=</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;payload&quot;:&quot;a<sp/>closing<sp/>brace<sp/>}<sp/>and<sp/>escaped<sp/>quote:<sp/>\&quot;&quot;,&quot;nested&quot;:{&quot;payload&quot;:&quot;not<sp/>top-level&quot;}})&quot;;</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>errors;</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_TRUE(enforcer.validate(output,<sp/>payloadSchema(),<sp/>errors));</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_TRUE(errors.empty());</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral">}</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><ref refid="namespacethemis_1_1prompt__engineering_1ac8b169aae70a5977a67781f9a5fdc07b" kindref="member">TEST</ref>(StructuredOutputEnforcer,<sp/>NestedKeyDoesNotSatisfyTopLevelRequiredField)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>StructuredOutputEnforcer<sp/>enforcer;</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>errors;</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_FALSE(enforcer.validate(</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;nested&quot;:{&quot;payload&quot;:&quot;present&quot;}})&quot;,<sp/>payloadSchema(),<sp/>errors));</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_EQ(errors.size(),<sp/>1U);</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_NE(errors.front().find(</highlight><highlight class="stringliteral">&quot;Missing<sp/>required<sp/>field:<sp/>\&quot;payload\&quot;&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::prompt_engineering</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/prompt_engineering/test_structured_output_focused.cpp"/>
+  </compounddef>
+</doxygen>

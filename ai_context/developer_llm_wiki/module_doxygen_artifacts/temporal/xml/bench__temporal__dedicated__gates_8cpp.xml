@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="bench__temporal__dedicated__gates_8cpp" kind="file" language="C++">
     <compoundname>bench_temporal_dedicated_gates.cpp</compoundname>
     <includes local="no">benchmark/benchmark.h</includes>
@@ -55,8 +55,9 @@
     </briefdescription>
     <detaileddescription>
 <para>Provides reproducible latency measurements for the temporal store module under Wave D operability requirements.</para>
-<sect1 id="bench__temporal__dedicated__gates_8cpp_1autotoc_md30_1s1"><sect2 id="bench__temporal__dedicated__gates_8cpp_1autotoc_md30">
-<title>Benchmark families</title><para><heading level="3">TMP-BM-01 — History query throughput</heading>
+<sect2 id="bench__temporal__dedicated__gates_8cpp_1autotoc_md32">
+<title>Benchmark families</title>
+<para><heading level="3">TMP-BM-01 — History query throughput</heading>
 </para>
 <para>Measures per-query cost for the stub temporal query engine.</para>
 <para><heading level="3">TMP-BM-02 — Versioned write throughput</heading>
@@ -68,32 +69,33 @@
 <para><heading level="3">TMP-BM-04 — CDC event emit batch (1 000 events)</heading>
 </para>
 <para>Amortised per-event cost for CDC emission across 1 000 events.</para>
-</sect2></sect1>
-<sect1 id="bench__temporal__dedicated__gates_8cpp_1autotoc_md31_1s1"><sect2 id="bench__temporal__dedicated__gates_8cpp_1autotoc_md31">
-<title>Hard release gates</title><para><table rows="5" cols="3"><row>
-<entry thead="yes"><para>Gate ID  </para>
-</entry><entry thead="yes"><para>Benchmark  </para>
-</entry><entry thead="yes"><para>Threshold  </para>
+</sect2>
+<sect2 id="bench__temporal__dedicated__gates_8cpp_1autotoc_md33">
+<title>Hard release gates</title>
+<para><table rows="5" cols="3"><row>
+<entry thead="yes"><para>Gate ID   </para>
+</entry><entry thead="yes"><para>Benchmark   </para>
+</entry><entry thead="yes"><para>Threshold    </para>
 </entry></row>
 <row>
-<entry thead="no"><para>TMP-BM-01  </para>
-</entry><entry thead="no"><para>HistoryQuery  </para>
-</entry><entry thead="no"><para>p99 ≤ 500 ns  </para>
+<entry thead="no"><para>TMP-BM-01   </para>
+</entry><entry thead="no"><para>HistoryQuery   </para>
+</entry><entry thead="no"><para>p99 ≤ 500 ns    </para>
 </entry></row>
 <row>
-<entry thead="no"><para>TMP-BM-02  </para>
-</entry><entry thead="no"><para>VersionedWrite  </para>
-</entry><entry thead="no"><para>p99 ≤ 300 ns  </para>
+<entry thead="no"><para>TMP-BM-02   </para>
+</entry><entry thead="no"><para>VersionedWrite   </para>
+</entry><entry thead="no"><para>p99 ≤ 300 ns    </para>
 </entry></row>
 <row>
-<entry thead="no"><para>TMP-BM-03  </para>
-</entry><entry thead="no"><para>ConflictResolve  </para>
-</entry><entry thead="no"><para>p99 ≤ 200 ns  </para>
+<entry thead="no"><para>TMP-BM-03   </para>
+</entry><entry thead="no"><para>ConflictResolve   </para>
+</entry><entry thead="no"><para>p99 ≤ 200 ns    </para>
 </entry></row>
 <row>
-<entry thead="no"><para>TMP-BM-04  </para>
-</entry><entry thead="no"><para>BatchCdcEmit  </para>
-</entry><entry thead="no"><para>p99 ≤ 50 µs/batch  </para>
+<entry thead="no"><para>TMP-BM-04   </para>
+</entry><entry thead="no"><para>BatchCdcEmit   </para>
+</entry><entry thead="no"><para>p99 ≤ 50 µs/batch   </para>
 </entry></row>
 </table>
 </para>
@@ -102,13 +104,12 @@
 <simplesect kind="see"><para>docs/operability/RUNBOOK_TEMPORAL_STORE.md </para>
 </simplesect>
 </para>
-</sect2></sect1>
+</sect2>
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight></codeline>
-<codeline lineno="37"><highlight class="normal"></highlight></codeline>
 <codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="39"><highlight class="normal"></highlight></codeline>
 <codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
@@ -116,8 +117,8 @@
 <codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="43"><highlight class="normal"></highlight></codeline>
 <codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
-<codeline lineno="45" refid="namespacethemis_1_1bench" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench" kindref="compound">bench</ref><sp/>{</highlight></codeline>
-<codeline lineno="46" refid="namespacethemis_1_1bench_1_1temporal__dedicated" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1bench_1_1temporal__dedicated" kindref="compound">temporal_dedicated</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">bench<sp/>{</highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1bench_1_1temporal__dedicated" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">temporal_dedicated<sp/>{</highlight></codeline>
 <codeline lineno="47"><highlight class="normal"></highlight></codeline>
 <codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kCanonicalSeed<sp/>=<sp/>42;</highlight></codeline>
 <codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>kRepetitions<sp/><sp/><sp/>=<sp/>5;</highlight></codeline>

@@ -1,4 +1,28 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: ThemisDB documentation orchestration specialist
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source level: level1
+SOT domain: module-behavior
+Canonical source references:
+  - ../ROADMAP.md
+  - ../../include/graph/
+  - ../../src/graph/
+Related milestone: DOC-WEEKLY-2026-44
+AI_Model_Note: Exact model backend not verifiable from final document text alone.
+---
+
 # Graph Module - Code Quality Audit
+
+> **Historical scanner snapshot (2026-06-25):** The counts below are not a current audit,
+> readiness, or security finding. The referenced `ai_working/` artifact is historical and was not
+> validated finding-by-finding for this update. Do not use the reported totals as current status.
 
 ## L0 Code Quality Audit (2026-06-25)
 
@@ -33,4 +57,9 @@
 
 ---
 
-*Source: ai_working/gap_scan_results_verified_L0.5_enhanced.json*
+*The original historical source path recorded by the snapshot,
+`ai_working/gap_scan_results_verified_L0.5_enhanced.json`, is absent from the current worktree and
+no archived copy of that JSON was found. The related
+[historical graph verifier report](../../docs/ARCHIVED/ai-working-history/gap_verifier_report_graph.md)
+is a different artifact and is not a substitute for the missing raw scan. Its contents and findings
+remain unverified; maintainer confirmation is needed before retaining this audit claim.*

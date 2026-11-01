@@ -1,22 +1,22 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="namespacethemis_1_1prompt__engineering_1_1testing" kind="namespace" language="C++">
     <compoundname>themis::prompt_engineering::testing</compoundname>
-    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base" prot="public">themis::prompt_engineering::testing::AdversarialPromptTestBase</innerclass>
-    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_s_q_l_injection_test_class" prot="public">themis::prompt_engineering::testing::SQLInjectionTestClass</innerclass>
-    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_command_injection_test_class" prot="public">themis::prompt_engineering::testing::CommandInjectionTestClass</innerclass>
-    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_path_traversal_test_class" prot="public">themis::prompt_engineering::testing::PathTraversalTestClass</innerclass>
-    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_x_s_s_injection_test_class" prot="public">themis::prompt_engineering::testing::XSSInjectionTestClass</innerclass>
-    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_template_recursion_test_class" prot="public">themis::prompt_engineering::testing::TemplateRecursionTestClass</innerclass>
-    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_unicode_evasion_test_class" prot="public">themis::prompt_engineering::testing::UnicodeEvasionTestClass</innerclass>
-    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_null_byte_injection_test_class" prot="public">themis::prompt_engineering::testing::NullByteInjectionTestClass</innerclass>
-    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_complex_mixed_attack_test_class" prot="public">themis::prompt_engineering::testing::ComplexMixedAttackTestClass</innerclass>
-    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_validation_hardening_test_class" prot="public">themis::prompt_engineering::testing::ValidationHardeningTestClass</innerclass>
-    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1_coverage_metrics_test_class" prot="public">themis::prompt_engineering::testing::CoverageMetricsTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1AdversarialPromptTestBase" prot="public">themis::prompt_engineering::testing::AdversarialPromptTestBase</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1CommandInjectionTestClass" prot="public">themis::prompt_engineering::testing::CommandInjectionTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1ComplexMixedAttackTestClass" prot="public">themis::prompt_engineering::testing::ComplexMixedAttackTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1CoverageMetricsTestClass" prot="public">themis::prompt_engineering::testing::CoverageMetricsTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1NullByteInjectionTestClass" prot="public">themis::prompt_engineering::testing::NullByteInjectionTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1PathTraversalTestClass" prot="public">themis::prompt_engineering::testing::PathTraversalTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1SQLInjectionTestClass" prot="public">themis::prompt_engineering::testing::SQLInjectionTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1TemplateRecursionTestClass" prot="public">themis::prompt_engineering::testing::TemplateRecursionTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1UnicodeEvasionTestClass" prot="public">themis::prompt_engineering::testing::UnicodeEvasionTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1ValidationHardeningTestClass" prot="public">themis::prompt_engineering::testing::ValidationHardeningTestClass</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1testing_1_1XSSInjectionTestClass" prot="public">themis::prompt_engineering::testing::XSSInjectionTestClass</innerclass>
     <sectiondef kind="typedef">
-      <memberdef kind="typedef" id="namespacethemis_1_1prompt__engineering_1_1testing_1aa11f9ed857028af02f31e15db0b26fda" prot="public" static="no">
-        <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template" kindref="compound">PromptManager::PromptTemplate</ref></type>
-        <definition>using themis::prompt_engineering::testing::PromptTemplate = PromptManager::PromptTemplate</definition>
+      <memberdef kind="typedef" id="namespacethemis_1_1prompt__engineering_1_1testing_1a440d01306c88a1dc156b216ac4f89be6" prot="public" static="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1PromptManager_1_1PromptTemplate" kindref="compound">PromptManager::PromptTemplate</ref></type>
+        <definition>using themis::prompt_engineering::testing::PromptTemplate = typedef PromptManager::PromptTemplate</definition>
         <argsstring></argsstring>
         <name>PromptTemplate</name>
         <qualifiedname>themis::prompt_engineering::testing::PromptTemplate</qualifiedname>
@@ -28,9 +28,9 @@
         </inbodydescription>
         <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="33" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="33" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="namespacethemis_1_1prompt__engineering_1_1testing_1a3ec99d2f9c566805e03505f44c6a841d" prot="public" static="no">
-        <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result" kindref="compound">PromptManager::ValidationResult</ref></type>
-        <definition>using themis::prompt_engineering::testing::ValidationResult = PromptManager::ValidationResult</definition>
+      <memberdef kind="typedef" id="namespacethemis_1_1prompt__engineering_1_1testing_1aae519501ba2b592f4f8a82bb29d37fc5" prot="public" static="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1PromptManager_1_1ValidationResult" kindref="compound">PromptManager::ValidationResult</ref></type>
+        <definition>using themis::prompt_engineering::testing::ValidationResult = typedef PromptManager::ValidationResult</definition>
         <argsstring></argsstring>
         <name>ValidationResult</name>
         <qualifiedname>themis::prompt_engineering::testing::ValidationResult</qualifiedname>
@@ -42,9 +42,9 @@
         </inbodydescription>
         <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="34" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="34" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="namespacethemis_1_1prompt__engineering_1_1testing_1ad0051c8f602e1f36188bba55d7c4795d" prot="public" static="no">
-        <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_detection_result" kindref="compound">PromptInjectionDetector::DetectionResult</ref></type>
-        <definition>using themis::prompt_engineering::testing::DetectionResult = PromptInjectionDetector::DetectionResult</definition>
+      <memberdef kind="typedef" id="namespacethemis_1_1prompt__engineering_1_1testing_1aca8efd3052d83b1a6af4db037d6a5c17" prot="public" static="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1PromptInjectionDetector_1_1DetectionResult" kindref="compound">PromptInjectionDetector::DetectionResult</ref></type>
+        <definition>using themis::prompt_engineering::testing::DetectionResult = typedef PromptInjectionDetector::DetectionResult</definition>
         <argsstring></argsstring>
         <name>DetectionResult</name>
         <qualifiedname>themis::prompt_engineering::testing::DetectionResult</qualifiedname>
@@ -65,7 +65,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_s_q_l_injection_test_class" kindref="compound">SQLInjectionTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1SQLInjectionTestClass" kindref="compound">SQLInjectionTestClass</ref></type>
         </param>
         <param>
           <type>DetectBasicSQLInjection</type>
@@ -85,7 +85,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_s_q_l_injection_test_class" kindref="compound">SQLInjectionTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1SQLInjectionTestClass" kindref="compound">SQLInjectionTestClass</ref></type>
         </param>
         <param>
           <type>DetectAdvancedSQLInjection</type>
@@ -105,7 +105,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_s_q_l_injection_test_class" kindref="compound">SQLInjectionTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1SQLInjectionTestClass" kindref="compound">SQLInjectionTestClass</ref></type>
         </param>
         <param>
           <type>BenignSQLContextIsAllowed</type>
@@ -125,7 +125,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_command_injection_test_class" kindref="compound">CommandInjectionTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1CommandInjectionTestClass" kindref="compound">CommandInjectionTestClass</ref></type>
         </param>
         <param>
           <type>DetectBasicCommandInjection</type>
@@ -145,7 +145,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_command_injection_test_class" kindref="compound">CommandInjectionTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1CommandInjectionTestClass" kindref="compound">CommandInjectionTestClass</ref></type>
         </param>
         <param>
           <type>DetectAdvancedCommandInjection</type>
@@ -165,7 +165,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_command_injection_test_class" kindref="compound">CommandInjectionTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1CommandInjectionTestClass" kindref="compound">CommandInjectionTestClass</ref></type>
         </param>
         <param>
           <type>BenignCommandContextIsAllowed</type>
@@ -185,7 +185,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_path_traversal_test_class" kindref="compound">PathTraversalTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1PathTraversalTestClass" kindref="compound">PathTraversalTestClass</ref></type>
         </param>
         <param>
           <type>DetectBasicPathTraversal</type>
@@ -205,7 +205,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_path_traversal_test_class" kindref="compound">PathTraversalTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1PathTraversalTestClass" kindref="compound">PathTraversalTestClass</ref></type>
         </param>
         <param>
           <type>DetectAdvancedPathTraversal</type>
@@ -225,7 +225,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_path_traversal_test_class" kindref="compound">PathTraversalTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1PathTraversalTestClass" kindref="compound">PathTraversalTestClass</ref></type>
         </param>
         <param>
           <type>BenignPathContextIsAllowed</type>
@@ -245,7 +245,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_x_s_s_injection_test_class" kindref="compound">XSSInjectionTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1XSSInjectionTestClass" kindref="compound">XSSInjectionTestClass</ref></type>
         </param>
         <param>
           <type>DetectBasicXSSAttacks</type>
@@ -265,7 +265,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_x_s_s_injection_test_class" kindref="compound">XSSInjectionTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1XSSInjectionTestClass" kindref="compound">XSSInjectionTestClass</ref></type>
         </param>
         <param>
           <type>DetectAdvancedXSSAttacks</type>
@@ -285,7 +285,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_x_s_s_injection_test_class" kindref="compound">XSSInjectionTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1XSSInjectionTestClass" kindref="compound">XSSInjectionTestClass</ref></type>
         </param>
         <param>
           <type>BenignHTMLContextIsAllowed</type>
@@ -305,7 +305,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_template_recursion_test_class" kindref="compound">TemplateRecursionTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1TemplateRecursionTestClass" kindref="compound">TemplateRecursionTestClass</ref></type>
         </param>
         <param>
           <type>DetectRecursiveTemplateMarkers</type>
@@ -325,7 +325,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_unicode_evasion_test_class" kindref="compound">UnicodeEvasionTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1UnicodeEvasionTestClass" kindref="compound">UnicodeEvasionTestClass</ref></type>
         </param>
         <param>
           <type>DetectUnicodeEvasionAttempts</type>
@@ -345,7 +345,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_null_byte_injection_test_class" kindref="compound">NullByteInjectionTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1NullByteInjectionTestClass" kindref="compound">NullByteInjectionTestClass</ref></type>
         </param>
         <param>
           <type>DetectNullByteInjection</type>
@@ -365,7 +365,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_complex_mixed_attack_test_class" kindref="compound">ComplexMixedAttackTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1ComplexMixedAttackTestClass" kindref="compound">ComplexMixedAttackTestClass</ref></type>
         </param>
         <param>
           <type>DetectComplexMixedAttacks</type>
@@ -385,7 +385,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_validation_hardening_test_class" kindref="compound">ValidationHardeningTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1ValidationHardeningTestClass" kindref="compound">ValidationHardeningTestClass</ref></type>
         </param>
         <param>
           <type>RejectTemplateWithSQLInjection</type>
@@ -405,7 +405,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_validation_hardening_test_class" kindref="compound">ValidationHardeningTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1ValidationHardeningTestClass" kindref="compound">ValidationHardeningTestClass</ref></type>
         </param>
         <param>
           <type>RejectTemplateWithCommandInjection</type>
@@ -425,7 +425,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_validation_hardening_test_class" kindref="compound">ValidationHardeningTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1ValidationHardeningTestClass" kindref="compound">ValidationHardeningTestClass</ref></type>
         </param>
         <param>
           <type>AcceptCleanTemplate</type>
@@ -445,7 +445,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_validation_hardening_test_class" kindref="compound">ValidationHardeningTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1ValidationHardeningTestClass" kindref="compound">ValidationHardeningTestClass</ref></type>
         </param>
         <param>
           <type>AcceptTemplateWithReferencesToDatabases</type>
@@ -465,7 +465,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::prompt_engineering::testing::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_coverage_metrics_test_class" kindref="compound">CoverageMetricsTestClass</ref></type>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1testing_1_1CoverageMetricsTestClass" kindref="compound">CoverageMetricsTestClass</ref></type>
         </param>
         <param>
           <type>PrintCoverageStatistics</type>

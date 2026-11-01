@@ -136,6 +136,21 @@ Zuletzt geprueft (Root-Sync): 2026-07-28
 - Aktion: Veraltete Version, Marketing-Metriken und nicht mehr gültige Wiki-Pfade aus `docs/Home.md` entfernt; sprachneutrale Weiterleitung auf gepflegte Indizes eingerichtet.
 - Relevanz fuer AI-Wiki: README und Docs-Home verweisen für Status und Release-Reife auf die kanonische Roadmap statt eigene Statuswahrheiten zu führen.
 
+## [2026-11-01] process-module-context | Process in Developer LLM Wiki verankert
+
+- Quellen: `include/process/`, `src/process/README.md`, `src/process/ARCHITECTURE.md`, `src/process/PERFORMANCE_EXPECTATIONS.md`, `tests/process/CMakeLists.txt`, `benchmarks/process/CMakeLists.txt`, `benchmarks/compare_expectations.py`.
+- Aktion: Source-grounded Modulkontext `ai_context/developer_llm_wiki/PROCESS.md` angelegt und in Wiki-Index sowie Modules-and-APIs-Navigation aufgenommen.
+- Benchmark-Evidenz: 12 CMake-Targets und 88 Makro-Registrierungen sind keine Performance-Gate-Zählung; der Comparator findet aktuell null Process-Erwartungswerte. Die Coverage-Audits melden 14/14 Process-Zuordnungen, nicht jedoch Laufzeitleistung. Die vier PM-BM-Zielwerte sind Kommentare über Stub-Benchmarks; das Mining-JSON ist ein historischer 2026-04-15-Snapshot.
+- Relevanz fuer AI-Wiki: Modulgrenzen, Tests und Performance-Evidenz sind auffindbar, ohne Registrierung oder historische Messungen als aktuelle Pass-/Readiness-Aussage zu behandeln.
+
+## [2026-11-01] prompt-engineering-context-refresh | Prompt Engineering Entwicklerkontext und Berichte aktualisiert
+
+- Quellen: `include/prompt_engineering/`, `src/prompt_engineering/`, `tests/prompt_engineering/CMakeLists.txt`, `benchmarks/prompt_engineering/README.md`, `Doxyfile.audit`, `scripts/generate_module_doxygen_xml.py`, `tools/gs3_orchestrator.py`.
+- Aktion: Source-verlinkte Prompt-Engineering-Kontextseite angelegt, in Developer-Wiki-Indizes aufgenommen und den Wiki-Quellenbestand synchronisiert.
+- Aktion: Modul-Doxygen-XML und `src/prompt_engineering/DOXYGEN.md` mit aktuellem Quellbestand neu generiert; `src/prompt_engineering/MODULE_GAPS.md` aus einem frischen, modulbezogenen Scan neu erzeugt.
+- Abgrenzung: Der Doxygen-Lauf war erfolgreich, meldete aber 392 Warnungen. Der Gap-Scanner meldete einen Fehler in der Markdown-Regel für einen archivierten Bericht und einen Verzeichnis-Lesefehler; die Gap-Findings sind nicht unabhängig triagiert und kein Test- oder Readiness-Nachweis.
+- Relevanz fuer AI-Wiki: Aktuelle Modulgrenzen, Tests, Benchmark-Limits und die dokumentierten Scanner-Einschränkungen sind auffindbar, ohne Berichte als belastbare Qualitätsfreigabe darzustellen.
+
 ## [2026-11-01] storage-contract-evidence-sync | Storage contract and wiki context refreshed
 
 - Quellen: `include/storage/storage_api_contract.h`, `include/storage/storage_engine.h`, `include/storage/wal_storage.h`, `include/storage/mvcc_store.h`, `src/storage/storage_engine.cpp`, `src/storage/wal_storage.cpp`, `src/storage/mvcc_store.cpp`, `tests/storage/test_storage_contract_hardening_focused.cpp`, `tests/storage/test_storage_engine_prod.cpp`, `tests/storage/CMakeLists.txt`, `benchmarks/storage/bench_storage_release_gates.cpp`, `benchmarks/storage/CMakeLists.txt`, `CMakePresets.json`.
