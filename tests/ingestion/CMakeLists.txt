@@ -32,6 +32,14 @@ foreach(_src IN LISTS INGESTION_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if(_stem STREQUAL "test_ingestion_builtin_steps_v14")
+        target_link_libraries(${_target} PRIVATE nlohmann_json::nlohmann_json)
+        set_target_properties(${_target} PROPERTIES
+            CXX_STANDARD 17
+            CXX_STANDARD_REQUIRED ON
+        )
+    endif()
+
     themis_register_module_focused_test(
         MODULE ingestion
         NAME ${_ctest}

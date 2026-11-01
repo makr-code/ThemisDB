@@ -247,68 +247,64 @@ endif()
 
 # ── Phase C Tensor Shard Summary tests (TSS-01..41) ──────────────────────────────
 
-if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_shard_summary.cpp")
-    message(STATUS "Adding EPIC3: Phase C Tensor Shard Summary tests (TSS-01..41)")
+message(STATUS "Adding EPIC3: Phase C Tensor Shard Summary tests (TSS-01..41)")
 
-    add_executable(module_epic3_distributed_tensor_tensor_shard_summary_focused
-        test_tensor_shard_summary.cpp
-    )
+add_executable(module_epic3_distributed_tensor_tensor_shard_summary_focused
+    test_tensor_shard_summary.cpp
+)
 
-    target_include_directories(module_epic3_distributed_tensor_tensor_shard_summary_focused PRIVATE
-        ${THEMIS_ROOT_DIR}
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/include
-        ${THEMIS_ROOT_DIR}/src
-    )
+target_include_directories(module_epic3_distributed_tensor_tensor_shard_summary_focused PRIVATE
+    ${THEMIS_ROOT_DIR}
+    ${THEMIS_ROOT_DIR}/include
+    ${THEMIS_ROOT_DIR}/src/distributed_tensor/include
+    ${THEMIS_ROOT_DIR}/src
+)
 
-    set(_shard_summary_link_libs ${TEST_LIBS} GTest::gtest_main Threads::Threads)
-    if(TARGET themis_distributed_tensor)
-        list(APPEND _shard_summary_link_libs themis_distributed_tensor)
-    endif()
-    if(TARGET themis_tensor)
-        list(APPEND _shard_summary_link_libs themis_tensor)
-    endif()
-    if(NOT TARGET themis_distributed_tensor)
-        target_sources(module_epic3_distributed_tensor_tensor_shard_summary_focused
-            PRIVATE
-                ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/shard_summary_coordinator.cc
-                ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/manifest_store.cpp
-                ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/artifact_manifest.cc
-        )
-    endif()
-    if(NOT TARGET themis_tensor)
-        target_sources(module_epic3_distributed_tensor_tensor_shard_summary_focused
-            PRIVATE ${THEMIS_ROOT_DIR}/src/tensor/tensor_summary_types.cpp
-        )
-    endif()
-
-    target_link_libraries(module_epic3_distributed_tensor_tensor_shard_summary_focused
-        PRIVATE ${_shard_summary_link_libs}
-    )
-
-    target_compile_definitions(module_epic3_distributed_tensor_tensor_shard_summary_focused
-        PRIVATE THEMIS_TEST_BUILD=1
-    )
-
-    if(COMMAND themis_register_module_focused_test)
-        themis_register_module_focused_test(
-            MODULE epic3_distributed_tensor
-            NAME TensorShardSummaryPhaseCTests
-            TARGET module_epic3_distributed_tensor_tensor_shard_summary_focused
-            TIER unit
-            TIMEOUT 120
-            LABELS epic3 distributed_tensor phase-c shard-summary freshness-consensus exact-on-demand
-        )
-    else()
-        add_test(NAME TensorShardSummaryPhaseCTests
-            COMMAND module_epic3_distributed_tensor_tensor_shard_summary_focused
-        )
-    endif()
-
-    message(STATUS "  Phase C Shard Summary: refresh, routing, consensus, exact fetch (TSS-01..41)")
-else()
-    message(STATUS "EPIC3 Phase C Shard Summary tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_tensor_shard_summary.cpp")
+set(_shard_summary_link_libs ${TEST_LIBS} GTest::gtest_main Threads::Threads)
+if(TARGET themis_distributed_tensor)
+    list(APPEND _shard_summary_link_libs themis_distributed_tensor)
 endif()
+if(TARGET themis_tensor)
+    list(APPEND _shard_summary_link_libs themis_tensor)
+endif()
+if(NOT TARGET themis_distributed_tensor)
+    target_sources(module_epic3_distributed_tensor_tensor_shard_summary_focused
+        PRIVATE
+            ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/shard_summary_coordinator.cc
+            ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/manifest_store.cpp
+            ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/artifact_manifest.cc
+    )
+endif()
+if(NOT TARGET themis_tensor)
+    target_sources(module_epic3_distributed_tensor_tensor_shard_summary_focused
+        PRIVATE ${THEMIS_ROOT_DIR}/src/tensor/tensor_summary_types.cpp
+    )
+endif()
+
+target_link_libraries(module_epic3_distributed_tensor_tensor_shard_summary_focused
+    PRIVATE ${_shard_summary_link_libs}
+)
+
+target_compile_definitions(module_epic3_distributed_tensor_tensor_shard_summary_focused
+    PRIVATE THEMIS_TEST_BUILD=1
+)
+
+if(COMMAND themis_register_module_focused_test)
+    themis_register_module_focused_test(
+        MODULE epic3_distributed_tensor
+        NAME TensorShardSummaryPhaseCTests
+        TARGET module_epic3_distributed_tensor_tensor_shard_summary_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS epic3 distributed_tensor phase-c shard-summary freshness-consensus exact-on-demand
+    )
+else()
+    add_test(NAME TensorShardSummaryPhaseCTests
+        COMMAND module_epic3_distributed_tensor_tensor_shard_summary_focused
+    )
+endif()
+
+message(STATUS "  Phase C Shard Summary: refresh, routing, consensus, exact fetch (TSS-01..41)")
 
 file(GLOB EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES
     CONFIGURE_DEPENDS
@@ -331,6 +327,18 @@ foreach(_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_epic3_distributed_tensor_${_stem}_focused")
     set(_ctest "${_stem}_epic3_distributed_tensor_FocusedTests")
+
+    if(_stem STREQUAL "test_tensor_shard_summary")
+        themis_register_module_focused_test(
+            MODULE epic3_distributed_tensor
+            NAME ${_ctest}
+            TARGET module_epic3_distributed_tensor_tensor_shard_summary_focused
+            TIER unit
+            TIMEOUT 120
+            LABELS epic3 distributed_tensor
+        )
+        continue()
+    endif()
 
     if(TARGET ${_target})
         continue()
@@ -480,4 +488,3 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_phase_b_edge_cases.cpp")
 else()
     message(STATUS "EPIC3 Phase B Edge Case tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_phase_b_edge_cases.cpp")
 endif()
-

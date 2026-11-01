@@ -1,8 +1,32 @@
 # gpu module tests
 
+set(_gpu_graph_traversal_target module_gpu_test_gpu_graph_traversal_focused)
+add_executable(${_gpu_graph_traversal_target} test_gpu_graph_traversal.cpp)
+target_include_directories(${_gpu_graph_traversal_target} PRIVATE
+    ${THEMIS_ROOT_DIR}
+    ${THEMIS_ROOT_DIR}/include
+    ${THEMIS_ROOT_DIR}/src
+    ${THEMIS_ROOT_DIR}/tests
+)
+target_link_libraries(${_gpu_graph_traversal_target} PRIVATE
+    ${TEST_LIBS}
+    themis_core
+    spdlog::spdlog
+    Threads::Threads
+)
+target_compile_definitions(${_gpu_graph_traversal_target} PRIVATE THEMIS_TEST_BUILD=1)
+themis_register_module_focused_test(
+    MODULE gpu
+    NAME test_gpu_graph_traversal_gpu_FocusedTests
+    TARGET ${_gpu_graph_traversal_target}
+    TIER unit
+    TIMEOUT 120
+    LABELS gpu graph bfs dfs cpu-fallback
+)
+
 # Only build GPU tests if GPU support is enabled
 if(NOT THEMIS_ENABLE_GPU)
-    message(STATUS "GPU tests disabled (THEMIS_ENABLE_GPU=OFF) - skipping tests/gpu/CMakeLists.txt")
+    message(STATUS "GPU tests disabled (THEMIS_ENABLE_GPU=OFF) - retaining CPU-fallback graph traversal test")
     return()
 endif()
 
@@ -10,8 +34,37 @@ file(GLOB GPU_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
+set(_gpu_legacy_discovery_stems
+    test_gpu_admin_api
+    test_gpu_alerts
+    test_gpu_audit_log
+    test_gpu_config
+    test_gpu_device_discovery
+    test_gpu_feature_flags
+    test_gpu_graph_cache
+    test_gpu_kernel_validator
+    test_gpu_launcher
+    test_gpu_memory_management
+    test_gpu_module
+    test_gpu_olap_accelerator
+    test_gpu_policy
+    test_gpu_query_accelerator
+    test_gpu_safe_fail
+    test_gpu_safe_fail_module
+    test_gpu_stream_manager
+    test_gpu_stubs_comprehensive
+    test_gpu_tensor
+    test_gpu_training_loop
+    test_gpu_vector_index
+    test_gpu_vram_allocation
+)
+
 foreach(_src IN LISTS GPU_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
+    if(_stem STREQUAL "test_gpu_graph_traversal")
+        continue()
+    endif()
+
     set(_target "module_gpu_${_stem}_focused")
     set(_ctest "${_stem}_gpu_FocusedTests")
 
@@ -107,4 +160,13 @@ foreach(_src IN LISTS GPU_MODULE_TEST_SOURCES)
         TIMEOUT 120
         LABELS ${_labels}
     )
+
+    if(NOT THEMIS_BUILD_MODULAR AND _stem IN_LIST _gpu_legacy_discovery_stems)
+        gtest_discover_tests(${_target}
+            DISCOVERY_MODE POST_BUILD
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif()
 endforeach()

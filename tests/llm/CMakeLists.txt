@@ -544,12 +544,7 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
     endif()
 
     set(_focused_target "module_llm_${_stem}_focused")
-    if(_stem STREQUAL "test_llm_wiki_phase_b_integration"
-       OR _stem STREQUAL "test_llm_wiki_process_policy_manager"
-       OR _stem STREQUAL "test_llm_federated_failure_envelopes")
-        # These sources have distinct implementation-provider source sets
-        # between focused and autofocused targets, so both binaries remain.
-    elseif(TARGET ${_focused_target})
+    if(TARGET ${_focused_target})
         # In modular builds the focused target includes the LlamaCpp providers;
         # reuse that canonical binary for the legacy AutoFocused CTest name.
         themis_register_module_focused_test(
