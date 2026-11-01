@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="prompt__compressor_8cpp" kind="file" language="C++">
     <compoundname>prompt_compressor.cpp</compoundname>
     <includes refid="prompt__compressor_8h" local="yes">prompt_engineering/prompt_compressor.h</includes>
@@ -74,7 +74,6 @@
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight></codeline>
 <codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="prompt__compressor_8h" kindref="compound">prompt_engineering/prompt_compressor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight></codeline>
 <codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
@@ -83,7 +82,7 @@
 <codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
-<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">prompt_engineering</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">prompt_engineering<sp/>{</highlight></codeline>
 <codeline lineno="20"><highlight class="normal"></highlight></codeline>
 <codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
@@ -145,7 +144,7 @@
 <codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constructor</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="98"><highlight class="normal"></highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1aadec243bcacd689bbd4dd54267f3734e" kindref="member">SimplePromptCompressor::SimplePromptCompressor</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1SimplePromptCompressor_1aadec243bcacd689bbd4dd54267f3734e" kindref="member">SimplePromptCompressor::SimplePromptCompressor</ref>()<sp/>{</highlight></codeline>
 <codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>GPT-2<sp/>approximation:<sp/>1<sp/>token<sp/>≈<sp/>4<sp/>characters.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>token_estimator_<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
 <codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>estimate<sp/>=<sp/>text.size()<sp/>/<sp/>4;</highlight></codeline>
@@ -220,13 +219,13 @@
 <codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="172"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="173"><highlight class="normal"></highlight></codeline>
-<codeline lineno="179"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a4a35a57238b8e5875b2007d5419151b9" kindref="member">SimplePromptCompressor::setTokenEstimator</ref>(TokenEstimatorFn<sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1SimplePromptCompressor_1a4a35a57238b8e5875b2007d5419151b9" kindref="member">SimplePromptCompressor::setTokenEstimator</ref>(TokenEstimatorFn<sp/>fn)<sp/>{</highlight></codeline>
 <codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fn)<sp/>{</highlight></codeline>
 <codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>token_estimator_<sp/>=<sp/>std::move(fn);</highlight></codeline>
 <codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="183"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="184"><highlight class="normal"></highlight></codeline>
-<codeline lineno="190"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1a5df536684c5297bb6381a046da56eeab" kindref="member">SimplePromptCompressor::setSummaryFn</ref>(SummaryFn<sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1SimplePromptCompressor_1a5df536684c5297bb6381a046da56eeab" kindref="member">SimplePromptCompressor::setSummaryFn</ref>(SummaryFn<sp/>fn)<sp/>{</highlight></codeline>
 <codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fn)<sp/>{</highlight></codeline>
 <codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>summary_fn_<sp/>=<sp/>std::move(fn);</highlight></codeline>
 <codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -236,7 +235,7 @@
 <codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Token<sp/>estimation</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="199"><highlight class="normal"></highlight></codeline>
-<codeline lineno="206"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1aad5e78c8361b23d3d5584faf76d2098d" kindref="member">SimplePromptCompressor::estimateTokenCount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1SimplePromptCompressor_1aad5e78c8361b23d3d5584faf76d2098d" kindref="member">SimplePromptCompressor::estimateTokenCount</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/>{</highlight></codeline>
 <codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>token_estimator_(text);</highlight></codeline>
 <codeline lineno="208"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="209"><highlight class="normal"></highlight></codeline>
@@ -397,9 +396,9 @@
 <codeline lineno="364"><highlight class="normal"></highlight><highlight class="comment">//<sp/>compress()</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="365"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="366"><highlight class="normal"></highlight></codeline>
-<codeline lineno="374"><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_compression_result" kindref="compound">CompressionResult</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1af8c871b220449918a9c9ea5f360ad1c1" kindref="member">SimplePromptCompressor::compress</ref>(</highlight></codeline>
+<codeline lineno="374"><highlight class="normal">CompressionResult<sp/><ref refid="classthemis_1_1prompt__engineering_1_1SimplePromptCompressor_1af8c871b220449918a9c9ea5f360ad1c1" kindref="member">SimplePromptCompressor::compress</ref>(</highlight></codeline>
 <codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>prompt,</highlight></codeline>
-<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_compression_config" kindref="compound">PromptCompressionConfig</ref>&amp;<sp/>config)<sp/>{</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PromptCompressionConfig&amp;<sp/>config)<sp/>{</highlight></codeline>
 <codeline lineno="377"><highlight class="normal"></highlight></codeline>
 <codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t_start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
 <codeline lineno="379"><highlight class="normal"></highlight></codeline>
@@ -476,7 +475,7 @@
 <codeline lineno="450"><highlight class="normal"></highlight><highlight class="comment">//<sp/>supportedStrategies()</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="451"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="452"><highlight class="normal"></highlight></codeline>
-<codeline lineno="453"><highlight class="normal">std::vector&lt;CompressionStrategy&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_compressor_1af29cb4a3d6739edb4cfb8b7f28ff6a4a" kindref="member">SimplePromptCompressor::supportedStrategies</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="453"><highlight class="normal">std::vector&lt;CompressionStrategy&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1SimplePromptCompressor_1af29cb4a3d6739edb4cfb8b7f28ff6a4a" kindref="member">SimplePromptCompressor::supportedStrategies</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
 <codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca7be66255e9086d26ebe7594696a68fe1" kindref="member">CompressionStrategy::TRUNCATE_HEAD</ref>,</highlight></codeline>
 <codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ac58dba09d6bc1306551030953ed735eca6278dedff74149cbec8d704ab3669ac3" kindref="member">CompressionStrategy::TRUNCATE_TAIL</ref>,</highlight></codeline>

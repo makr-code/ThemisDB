@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="namespacethemis_1_1bench_1_1trg" kind="namespace" language="C++">
     <compoundname>themis::bench::trg</compoundname>
-    <innerclass refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry" prot="public">themis::bench::trg::BiTemporalEntry</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1trg_1_1BiTemporalEntry" prot="public">themis::bench::trg::BiTemporalEntry</innerclass>
     <sectiondef kind="var">
       <memberdef kind="variable" id="namespacethemis_1_1bench_1_1trg_1a80e0bb4f2ba46df11a77b843ae908d87" prot="public" static="yes" constexpr="yes" mutable="no">
-        <type>uint64_t</type>
-        <definition>uint64_t themis::bench::trg::kTemporalCanonicalSeed</definition>
+        <type>constexpr uint64_t</type>
+        <definition>constexpr uint64_t themis::bench::trg::kTemporalCanonicalSeed</definition>
         <argsstring></argsstring>
         <name>kTemporalCanonicalSeed</name>
         <qualifiedname>themis::bench::trg::kTemporalCanonicalSeed</qualifiedname>
@@ -21,8 +21,8 @@
         <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="64" column="27" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="64" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacethemis_1_1bench_1_1trg_1a1b0b92dae909861b7c3fbd5a7781ff2a" prot="public" static="yes" constexpr="yes" mutable="no">
-        <type>int</type>
-        <definition>int themis::bench::trg::kWarmupIterations</definition>
+        <type>constexpr int</type>
+        <definition>constexpr int themis::bench::trg::kWarmupIterations</definition>
         <argsstring></argsstring>
         <name>kWarmupIterations</name>
         <qualifiedname>themis::bench::trg::kWarmupIterations</qualifiedname>
@@ -37,8 +37,8 @@
         <location file="benchmarks/temporal/bench_temporal_release_gates.cpp" line="67" column="22" bodyfile="benchmarks/temporal/bench_temporal_release_gates.cpp" bodystart="67" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacethemis_1_1bench_1_1trg_1a2ff7599d68727fade894bb01adb48e31" prot="public" static="yes" constexpr="yes" mutable="no">
-        <type>int</type>
-        <definition>int themis::bench::trg::kRepetitions</definition>
+        <type>constexpr int</type>
+        <definition>constexpr int themis::bench::trg::kRepetitions</definition>
         <argsstring></argsstring>
         <name>kRepetitions</name>
         <qualifiedname>themis::bench::trg::kRepetitions</qualifiedname>
@@ -61,7 +61,7 @@
         <name>btInsert</name>
         <qualifiedname>themis::bench::trg::btInsert</qualifiedname>
         <param>
-          <type>std::vector&lt; <ref refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry" kindref="compound">BiTemporalEntry</ref> &gt; &amp;</type>
+          <type>std::vector&lt; <ref refid="structthemis_1_1bench_1_1trg_1_1BiTemporalEntry" kindref="compound">BiTemporalEntry</ref> &gt; &amp;</type>
           <declname>store</declname>
         </param>
         <param>
@@ -96,7 +96,7 @@
         <name>intervalQuery</name>
         <qualifiedname>themis::bench::trg::intervalQuery</qualifiedname>
         <param>
-          <type>const std::vector&lt; <ref refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry" kindref="compound">BiTemporalEntry</ref> &gt; &amp;</type>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1bench_1_1trg_1_1BiTemporalEntry" kindref="compound">BiTemporalEntry</ref> &gt; &amp;</type>
           <declname>store</declname>
         </param>
         <param>
@@ -119,7 +119,7 @@
         <name>snapshotRead</name>
         <qualifiedname>themis::bench::trg::snapshotRead</qualifiedname>
         <param>
-          <type>const std::vector&lt; <ref refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry" kindref="compound">BiTemporalEntry</ref> &gt; &amp;</type>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1bench_1_1trg_1_1BiTemporalEntry" kindref="compound">BiTemporalEntry</ref> &gt; &amp;</type>
           <declname>store</declname>
         </param>
         <param>
@@ -169,7 +169,7 @@
         <name>pitrRestore</name>
         <qualifiedname>themis::bench::trg::pitrRestore</qualifiedname>
         <param>
-          <type>const std::vector&lt; <ref refid="structthemis_1_1bench_1_1trg_1_1_bi_temporal_entry" kindref="compound">BiTemporalEntry</ref> &gt; &amp;</type>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1bench_1_1trg_1_1BiTemporalEntry" kindref="compound">BiTemporalEntry</ref> &gt; &amp;</type>
           <declname>history</declname>
         </param>
         <param>

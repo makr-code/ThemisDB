@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -61,11 +61,13 @@ removes those replacements. Hooks are callable code, not automatically
 side-effect-free test mocks. Protect hook registration from concurrent execution
 and ensure any hook used in a dry run explicitly preserves dry-run safety.
 
-Important current behavior: the built-in snapshot check tests only ID presence;
-restore and traffic shift report success without calling storage or traffic
-adapters; catch-up waits for quorum; verification checks health/quorum but not
-restored data or recovery-site identity. A successful result does not by itself
-prove that a real restore or cutover occurred.
+For non-dry-run plans, snapshot validation, restore, replication-position
+catch-up, requested traffic shift, and recovered-state verification require
+registered step hooks that perform and verify the real operation. The built-in
+handlers fail with an explicit `adapter is not configured` error instead of
+reporting success without external effects. A disabled traffic shift is treated
+as an explicit plan choice. Hook implementations remain responsible for actual
+side effects and independent verification.
 
 ## Supporting types
 

@@ -1,5 +1,9 @@
 # Wave A GPU CUDA Reduction — Phase 1 & 2 Complete, Phase 3-4 Ready
 
+> Historical status report dated 2026-09-23. Its completion percentages,
+> fallback guarantee, and readiness claims are not current validation or
+> representative-hardware measurements.
+
 **Issue:** makr-code/ThemisDB#6575  
 **Date:** 2026-09-23  
 **Status:** ✅ **PHASE 1 & 2 COMPLETE** — GPU infrastructure deployed, 75% CUDA reduction achieved, Phase 3 & 4 ready to execute

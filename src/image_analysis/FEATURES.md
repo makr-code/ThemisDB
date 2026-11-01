@@ -1,32 +1,69 @@
 ---
-Author: "ThemisDB Team"
-Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Author: ThemisDB Contributors
+Created: 2026-10-18
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
 ---
 
-# Image-Analysis in ThemisDB
+> Exact model backend not verifiable from final document text alone.
 
-## Ueberblick
-Das Modul image analysis stellt the ThemisDB vision layer for OCR and object detection. The live implementation is plugin-first: src/image_analysis/CMakeLists.txt builds optional OCR and detection backends, and the canonical runtime contract is defined in include/plugins/image_analysis_interface.h together with the manager and plugin wrappers under include/plugins/. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+# Image Analysis Features
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **Canonical image-analysis backend contract and result types**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+This page lists behavior present in the two concrete plugin implementations.
+The shared interface declares more operations than these plugins implement.
+Both concrete `getInfo()` implementations advertise detection only; neither
+advertises image/text embedding or plugin discovery/selection.
 
-Die zweite Kernfaehigkeit ist **Discovery, registration, and selection of loaded plugins**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+## Implemented
 
-Die dritte Kernfaehigkeit ist **OCR plugin interface and OCR-result structures**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+| Feature | Implementation | Limits |
+|---|---|---|
+| OCR | `TesseractOCRPlugin` maps recognized words to detection boxes through `detectObjects()` and exposes the full transcript through `getLastOcrResult()` | Requires a build with Tesseract for OCR. Without OpenCV, input bytes are treated as raw grayscale data, not decoded image files. |
+| Object detection | `YOLOv8OnnxPlugin` runs a compatible ONNX Runtime model and returns normalized boxes | Requires ONNX Runtime and a compatible model. Without OpenCV, preprocessing uses a zero-filled tensor rather than decoding the input. |
+| Structured results and lifecycle | Both plugins implement initialization, shutdown, readiness, health checks, statistics, and structured detection results | In a build missing the native runtime, initialization/readiness may succeed while inference returns an error. |
+| Optional dependency wiring | The module-local CMake file defines the Tesseract and YOLO plugin targets and probes their runtime and OpenCV dependencies | The root build does not currently add `src/image_analysis/` or declare the module's two plugin options; standalone module CMake wiring is not root-build integration. |
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Image-Analysis Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
+## Not implemented by these plugins
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
+- Image embedding generation; both concrete `generateEmbedding()` methods return unsupported-operation errors.
+- `generateTextEmbedding()` is unsupported by the shared interface default and neither concrete plugin overrides it.
+- Captioning, segmentation, image generation, visual question answering, and real-time video analysis.
+- Manager discovery, registration, and capability selection. `ImageAnalysisManager` APIs are declarations in `include/plugins/image_analysis_manager.h`; no implementation is built by this module.
+- Batch processing advertised by either concrete backend.
 
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+## Test and benchmark evidence boundary
+
+The focused test directory has two source files. Its CMake file is discovered by
+`tests/CMakeLists.txt`, compiles plugin sources into standalone test executables,
+and does not enable the Tesseract or ONNX Runtime compile paths. The test sources
+therefore do not establish native-runtime inference or model accuracy.
+
+All three checked-in benchmark programs use mock/synthetic plugins. The two
+targets registered to benchmark module `image_analysis` when present are
+`bench_image_analysis` and `bench_image_analysis_latency`; the third,
+`benchmark_image_analysis`, is registered to `benchmark_image` when present.
+The benchmark suite returns early unless `THEMIS_BUILD_BENCHMARKS=ON` and
+Google Benchmark is found; the target helper skips missing source files.
+Registration in CTest is also conditional on the target existing. The root
+project defaults the option to `OFF`. No real OCR or detection performance
+result is established by these sources. See
+[`benchmarks/CMakeLists.txt`](../../benchmarks/CMakeLists.txt) and the root
+[`CMakeLists.txt`](../../CMakeLists.txt).
+
+## Canonical sources
+
+- [`image_analysis_interface.h`](../../include/plugins/image_analysis_interface.h)
+- [`tesseract_ocr_plugin.h`](../../include/plugins/tesseract_ocr_plugin.h)
+- [`yolov8_onnx_plugin.h`](../../include/plugins/yolov8_onnx_plugin.h)
+- [`src/image_analysis/CMakeLists.txt`](CMakeLists.txt)
+- [`tests/image_analysis/CMakeLists.txt`](../../tests/image_analysis/CMakeLists.txt)
+- [`tests/CMakeLists.txt`](../../tests/CMakeLists.txt)
+- [`benchmarks/CMakeLists.txt`](../../benchmarks/CMakeLists.txt)
+- [`CMakeLists.txt`](../../CMakeLists.txt) and [`cmake/CMakeLists.txt`](../../cmake/CMakeLists.txt)

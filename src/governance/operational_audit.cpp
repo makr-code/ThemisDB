@@ -1,1421 +1,802 @@
 /**
  * @file operational_audit.cpp
- * @brief Implementation of operational event logging, correlation, and compliance evidence collection
- * @author ThemisDB Governance Team
- * @date 2024
- * @license Apache License 2.0
- *
- * This implementation provides:
- * - Structured event logging for all governance operations
- * - Event correlation with causality tracking across module boundaries
- * - Automated compliance evidence collection and requirement linking
- * - Performance monitoring and metrics aggregation
- * - Thread-safe operations with circular buffer for unbounded growth prevention
- *
- * Maturity: 🟢 PRODUCTION-READY
+ * @brief In-memory operational event logging, correlation, and evidence collection.
  */
-
 #include "governance/operational_audit.h"
-#include <openssl/rand.h>
+
 #include <openssl/evp.h>
-#include <chrono>
-#include <sstream>
-#include <iomanip>
+#include <openssl/rand.h>
+
 #include <algorithm>
-#include <numeric>
+#include <chrono>
+#include <iomanip>
+#include <sstream>
+#include <stdexcept>
+#include <unordered_set>
 
 namespace themis::governance {
+namespace {
 
-/**
- * @brief ============================================================================ Helper Functions: UUID Generation & Fingerprinting ============================================================================
- * @return Return value.
- * @details Calls: RAND_bytes(), std::chrono::high_resolution_clock::now(), time_since_epoch(), count(), snprintf(), std::string(), std::setw(), std::setfill().
- */
+int64_t currentTimeMs() {
+    return std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+}
 
-static std::string generateUUID() {
+std::string randomUuid() {
     unsigned char bytes[16];
     if (RAND_bytes(bytes, sizeof(bytes)) != 1) {
-        // Fallback to simple time-based ID if RAND fails
-        auto now = std::chrono::high_resolution_clock::now();
-        auto duration = now.time_since_epoch();
-        auto nanos = std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
-        char buffer[37];
-        snprintf(buffer, sizeof(buffer), "%016llx-%04x-%04x-%04x-%012llx",
-                 (unsigned long long)(nanos >> 32),
-                 (unsigned int)(nanos & 0xFFFF),
-                 (unsigned int)((nanos >> 16) & 0xFFFF),
-                 (unsigned int)((nanos >> 48) & 0xFFFF),
-                 (unsigned long long)(nanos & 0xFFFFFFFFFFFFULL));
-        return std::string(buffer);
+        throw std::runtime_error("Unable to generate an operational audit identifier");
     }
-    
-    // Set version (4) and variant bits
-    bytes[6] = (bytes[6] & 0x0f) | 0x40;  // Version 4
-    bytes[8] = (bytes[8] & 0x3f) | 0x80;  // Variant 1
-    
-    std::ostringstream oss = {};
-    for (int i = 0; i < 16; ++i) {
-        if (i == 4 || i == 6 || i == 8 || i == 10) {
-          oss << '-';
-        }
-        oss << std::hex << std::setw(2) << std::setfill('0') << (int)bytes[i];
+    bytes[6] = static_cast<unsigned char>((bytes[6] & 0x0f) | 0x40);
+    bytes[8] = static_cast<unsigned char>((bytes[8] & 0x3f) | 0x80);
+    std::ostringstream result;
+    result << std::hex << std::setfill('0');
+    for (size_t i = 0; i < sizeof(bytes); ++i) {
+        if (i == 4 || i == 6 || i == 8 || i == 10) result << '-';
+        const auto byte = bytes[i];
+        result << std::setw(2) << static_cast<unsigned int>(byte);
     }
-    return oss.str();
+    return result.str();
 }
 
-/**
- * @brief Compute SHA256.
- * @param[in] data Input parameter.
- * @return Return value.
- * @details Calls: EVP_MD_CTX_new(), EVP_DigestInit_ex(), EVP_sha256(), EVP_MD_CTX_free(), EVP_DigestUpdate(), c_str(), length(), EVP_DigestFinal_ex().
- */
-static std::string computeSHA256(const std::string& data) {
-    EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
-    unsigned char hash[EVP_MAX_MD_SIZE];
-    unsigned int hash_len;
-    
-    if (!mdctx) {
-      return "";
-    }
-    
-    if (EVP_DigestInit_ex(mdctx, EVP_sha256(), nullptr) != 1) {
-        EVP_MD_CTX_free(mdctx);
-        return "";
-    }
-    
-    if (EVP_DigestUpdate(mdctx, data.c_str(), data.length()) != 1) {
-        EVP_MD_CTX_free(mdctx);
-        return "";
-    }
-    
-    if (EVP_DigestFinal_ex(mdctx, hash, &hash_len) != 1) {
-        EVP_MD_CTX_free(mdctx);
-        return "";
-    }
-    
-    EVP_MD_CTX_free(mdctx);
-    
-    std::ostringstream oss = {};
-    for (unsigned int i = 0; i < hash_len; ++i) {
-        oss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
-    }
-    return oss.str();
+std::string randomId(const char* prefix) {
+    return std::string(prefix) + randomUuid();
 }
 
-// ============================================================================
-// OperationalEvent Serialization
-// ============================================================================
+std::string sha256Hex(const std::string& value) {
+    unsigned char digest[EVP_MAX_MD_SIZE];
+    unsigned int length = 0;
+    if (EVP_Digest(value.data(), value.size(), digest, &length, EVP_sha256(), nullptr) != 1) {
+        throw std::runtime_error("Unable to fingerprint compliance evidence");
+    }
+    std::ostringstream result;
+    result << std::hex << std::setfill('0');
+    for (unsigned int i = 0; i < length; ++i) {
+        result << std::setw(2) << static_cast<unsigned int>(digest[i]);
+    }
+    return result.str();
+}
+
+int64_t percentile(std::vector<int64_t> values, double fraction) {
+    if (values.empty()) {
+        return 0;
+    }
+    std::sort(values.begin(), values.end());
+    const auto index = static_cast<size_t>(
+        fraction * static_cast<double>(values.size() - 1));
+    return values[index];
+}
+
+std::shared_ptr<OperationalAuditLogger> globalLoggerPtr() {
+    static auto logger = std::make_shared<OperationalAuditLogger>();
+    return logger;
+}
+
+} // namespace
 
 nlohmann::json OperationalEvent::toJson() const {
-    nlohmann::json j;
-    j["event_id"] = event_id;
-    j["event_code"] = static_cast<int>(event_type);
-    j["correlation_id"] = correlation_id;
-    j["causality_parent_id"] = causality_parent_id;
-    j["timestamp_ms"] = timestamp_ms;
-    j["sequence_number"] = sequence_number;
-    j["actor_id"] = actor_id;
-    j["actor_type"] = actor_type;
-    j["module_name"] = module_name;
-    j["operation_name"] = operation_name;
-    j["resource_id"] = resource_id;
-    j["resource_type"] = resource_type;
-    j["action"] = action;
-    j["result"] = result;
-    j["classification"] = classification;
-    
-    nlohmann::json tags_array = nlohmann::json::array();
-    for (const auto& tag : compliance_tags) {
-        tags_array.push_back(tag);
-    }
-    j["compliance_tags"] = tags_array;
-    
-    j["operation_duration_us"] = operation_duration_us;
-    j["logging_duration_us"] = logging_duration_us;
-    j["context"] = context;
-    j["error_message"] = error_message;
-    j["event_payload"] = event_payload;
-    
-    nlohmann::json evidence_ids_array = nlohmann::json::array();
-    for (const auto& eid : evidence_ids) {
-        evidence_ids_array.push_back(eid);
-    }
-    j["evidence_ids"] = evidence_ids_array;
-    
-    return j;
+    return nlohmann::json{
+        {"event_id", event_id},
+        {"event_code", static_cast<int32_t>(event_type)},
+        {"correlation_id", correlation_id},
+        {"causality_parent_id", causality_parent_id},
+        {"timestamp_ms", timestamp_ms},
+        {"sequence_number", sequence_number},
+        {"actor_id", actor_id},
+        {"actor_type", actor_type},
+        {"module_name", module_name},
+        {"operation_name", operation_name},
+        {"resource_id", resource_id},
+        {"resource_type", resource_type},
+        {"action", action},
+        {"result", result},
+        {"classification", classification},
+        {"compliance_tags", compliance_tags},
+        {"operation_duration_us", operation_duration_us},
+        {"logging_duration_us", logging_duration_us},
+        {"context", context},
+        {"error_message", error_message},
+        {"event_payload", event_payload},
+        {"evidence_ids", evidence_ids}
+    };
 }
 
-/**
- * @brief From Json.
- * @param[in] j Input parameter.
- * @return Return value.
- * @details Calls: contains(), is_array(), push_back().
- */
 OperationalEvent OperationalEvent::fromJson(const nlohmann::json& j) {
-    OperationalEvent event = {};
-    
-    if (j.contains("event_id")) {
-      event.event_id = j["event_id"];
-    }
-    if (j.contains("event_code")) {
-      event.event_type = static_cast<OperationalEventType>(j["event_code"].get<int>());
-    }
-    if (j.contains("correlation_id")) {
-      event.correlation_id = j["correlation_id"];
-    }
-    if (j.contains("causality_parent_id")) {
-      event.causality_parent_id = j["causality_parent_id"];
-    }
-    if (j.contains("timestamp_ms")) {
-      event.timestamp_ms = j["timestamp_ms"];
-    }
-    if (j.contains("sequence_number")) {
-      event.sequence_number = j["sequence_number"];
-    }
-    if (j.contains("actor_id")) {
-      event.actor_id = j["actor_id"];
-    }
-    if (j.contains("actor_type")) {
-      event.actor_type = j["actor_type"];
-    }
-    if (j.contains("module_name")) {
-      event.module_name = j["module_name"];
-    }
-    if (j.contains("operation_name")) {
-      event.operation_name = j["operation_name"];
-    }
-    if (j.contains("resource_id")) {
-      event.resource_id = j["resource_id"];
-    }
-    if (j.contains("resource_type")) {
-      event.resource_type = j["resource_type"];
-    }
-    if (j.contains("action")) {
-      event.action = j["action"];
-    }
-    if (j.contains("result")) {
-      event.result = j["result"];
-    }
-    if (j.contains("classification")) {
-      event.classification = j["classification"];
-    }
-    
-    if (j.contains("compliance_tags") && j["compliance_tags"].is_array()) {
-        for (const auto& tag : j["compliance_tags"]) {
-            event.compliance_tags.push_back(tag.get<std::string>());
-        }
-    }
-    
-    if (j.contains("operation_duration_us")) {
-      event.operation_duration_us = j["operation_duration_us"];
-    }
-    if (j.contains("logging_duration_us")) {
-      event.logging_duration_us = j["logging_duration_us"];
-    }
-    if (j.contains("context")) {
-      event.context = j["context"];
-    }
-    if (j.contains("error_message")) {
-      event.error_message = j["error_message"];
-    }
-    if (j.contains("event_payload")) {
-      event.event_payload = j["event_payload"];
-    }
-    
-    if (j.contains("evidence_ids") && j["evidence_ids"].is_array()) {
-        for (const auto& eid : j["evidence_ids"]) {
-            event.evidence_ids.push_back(eid.get<std::string>());
-        }
-    }
-    
+    OperationalEvent event;
+    if (j.contains("event_id")) event.event_id = j.at("event_id").get<std::string>();
+    if (j.contains("event_code")) event.event_type = static_cast<OperationalEventType>(j.at("event_code").get<int32_t>());
+    if (j.contains("correlation_id")) event.correlation_id = j.at("correlation_id").get<std::string>();
+    if (j.contains("causality_parent_id")) event.causality_parent_id = j.at("causality_parent_id").get<std::string>();
+    if (j.contains("timestamp_ms")) event.timestamp_ms = j.at("timestamp_ms").get<int64_t>();
+    if (j.contains("sequence_number")) event.sequence_number = j.at("sequence_number").get<int64_t>();
+    if (j.contains("actor_id")) event.actor_id = j.at("actor_id").get<std::string>();
+    if (j.contains("actor_type")) event.actor_type = j.at("actor_type").get<std::string>();
+    if (j.contains("module_name")) event.module_name = j.at("module_name").get<std::string>();
+    if (j.contains("operation_name")) event.operation_name = j.at("operation_name").get<std::string>();
+    if (j.contains("resource_id")) event.resource_id = j.at("resource_id").get<std::string>();
+    if (j.contains("resource_type")) event.resource_type = j.at("resource_type").get<std::string>();
+    if (j.contains("action")) event.action = j.at("action").get<std::string>();
+    if (j.contains("result")) event.result = j.at("result").get<std::string>();
+    if (j.contains("classification")) event.classification = j.at("classification").get<std::string>();
+    if (j.contains("compliance_tags")) event.compliance_tags = j.at("compliance_tags").get<std::vector<std::string>>();
+    if (j.contains("operation_duration_us")) event.operation_duration_us = j.at("operation_duration_us").get<int64_t>();
+    if (j.contains("logging_duration_us")) event.logging_duration_us = j.at("logging_duration_us").get<int64_t>();
+    if (j.contains("context")) event.context = j.at("context").get<std::unordered_map<std::string, std::string>>();
+    if (j.contains("error_message")) event.error_message = j.at("error_message").get<std::string>();
+    if (j.contains("event_payload")) event.event_payload = j.at("event_payload").get<std::string>();
+    if (j.contains("evidence_ids")) event.evidence_ids = j.at("evidence_ids").get<std::vector<std::string>>();
     return event;
 }
 
-// ============================================================================
-// ComplianceEvidence Serialization
-// ============================================================================
-
 nlohmann::json ComplianceEvidence::toJson() const {
-    nlohmann::json j;
-    j["evidence_id"] = evidence_id;
-    j["requirement_id"] = requirement_id;
-    j["requirement_type"] = requirement_type;
-    j["collected_at_ms"] = collected_at_ms;
-    j["evidence_type"] = evidence_type;
-    j["description"] = description;
-    j["source_event_id"] = source_event_id;
-    j["fingerprint"] = fingerprint;
-    j["data_summary"] = data_summary;
-    j["retention_until_ms"] = retention_until_ms;
-    j["audit_classification"] = audit_classification;
-    j["metadata"] = metadata;
-    
-    return j;
+    return nlohmann::json{
+        {"evidence_id", evidence_id},
+        {"requirement_id", requirement_id},
+        {"requirement_type", requirement_type},
+        {"collected_at_ms", collected_at_ms},
+        {"evidence_type", evidence_type},
+        {"description", description},
+        {"source_event_id", source_event_id},
+        {"fingerprint", fingerprint},
+        {"data_summary", data_summary},
+        {"retention_until_ms", retention_until_ms},
+        {"audit_classification", audit_classification},
+        {"metadata", metadata}
+    };
 }
 
-/**
- * @brief From Json.
- * @param[in] j Input parameter.
- * @return Return value.
- * @details Calls: contains().
- */
 ComplianceEvidence ComplianceEvidence::fromJson(const nlohmann::json& j) {
-    ComplianceEvidence evidence = {};
-    
-    if (j.contains("evidence_id")) {
-      evidence.evidence_id = j["evidence_id"];
-    }
-    if (j.contains("requirement_id")) {
-      evidence.requirement_id = j["requirement_id"];
-    }
-    if (j.contains("requirement_type")) {
-      evidence.requirement_type = j["requirement_type"];
-    }
-    if (j.contains("collected_at_ms")) {
-      evidence.collected_at_ms = j["collected_at_ms"];
-    }
-    if (j.contains("evidence_type")) {
-      evidence.evidence_type = j["evidence_type"];
-    }
-    if (j.contains("description")) {
-      evidence.description = j["description"];
-    }
-    if (j.contains("source_event_id")) {
-      evidence.source_event_id = j["source_event_id"];
-    }
-    if (j.contains("fingerprint")) {
-      evidence.fingerprint = j["fingerprint"];
-    }
-    if (j.contains("data_summary")) {
-      evidence.data_summary = j["data_summary"];
-    }
-    if (j.contains("retention_until_ms")) {
-      evidence.retention_until_ms = j["retention_until_ms"];
-    }
-    if (j.contains("audit_classification")) {
-      evidence.audit_classification = j["audit_classification"];
-    }
-    if (j.contains("metadata")) {
-      evidence.metadata = j["metadata"];
-    }
-    
+    ComplianceEvidence evidence;
+    if (j.contains("evidence_id")) evidence.evidence_id = j.at("evidence_id").get<std::string>();
+    if (j.contains("requirement_id")) evidence.requirement_id = j.at("requirement_id").get<std::string>();
+    if (j.contains("requirement_type")) evidence.requirement_type = j.at("requirement_type").get<std::string>();
+    if (j.contains("collected_at_ms")) evidence.collected_at_ms = j.at("collected_at_ms").get<int64_t>();
+    if (j.contains("evidence_type")) evidence.evidence_type = j.at("evidence_type").get<std::string>();
+    if (j.contains("description")) evidence.description = j.at("description").get<std::string>();
+    if (j.contains("source_event_id")) evidence.source_event_id = j.at("source_event_id").get<std::string>();
+    if (j.contains("fingerprint")) evidence.fingerprint = j.at("fingerprint").get<std::string>();
+    if (j.contains("data_summary")) evidence.data_summary = j.at("data_summary").get<std::string>();
+    if (j.contains("retention_until_ms")) evidence.retention_until_ms = j.at("retention_until_ms").get<int64_t>();
+    if (j.contains("audit_classification")) evidence.audit_classification = j.at("audit_classification").get<std::string>();
+    if (j.contains("metadata")) evidence.metadata = j.at("metadata");
+    evidence.event_id = evidence.source_event_id;
+    evidence.compliance_requirement = evidence.requirement_id;
+    evidence.evidence_timestamp_ms = evidence.collected_at_ms;
+    evidence.evidence_description = evidence.description;
+    evidence.evidence_content = evidence.data_summary;
     return evidence;
 }
 
-// ============================================================================
-// CorrelationGroup Serialization
-// ============================================================================
-
 nlohmann::json CorrelationGroup::toJson() const {
-    nlohmann::json j;
-    j["correlation_id"] = correlation_id;
-    j["created_at_ms"] = created_at_ms;
-    j["last_updated_ms"] = last_updated_ms;
-    j["event_ids"] = nlohmann::json(event_ids);
-    j["causality_chain"] = nlohmann::json(causality_chain);
-    return j;
+    return nlohmann::json{
+        {"correlation_id", correlation_id},
+        {"created_at_ms", created_at_ms},
+        {"last_updated_ms", last_updated_ms},
+        {"event_ids", event_ids},
+        {"causality_chain", causality_chain}
+    };
 }
-
-// ============================================================================
-// OperationalAuditLogger Implementation
-// ============================================================================
 
 OperationalAuditLogger::OperationalAuditLogger(size_t max_events)
-    : max_events_(max_events),
-      current_sequence_number_(0),
-      performance_metrics_() {
-}
+    : max_events_(max_events) {}
 
 OperationalAuditLogger::~OperationalAuditLogger() = default;
 
-void OperationalAuditLogger::logEvent(
-    OperationalEventType event_type,
-    const std::string& actor_id,
-    const std::string& actor_type,
-    const std::string& module_name,
-    const std::string& operation_name,
-    const std::string& resource_id,
-    const std::string& resource_type,
-    const std::string& action,
-    const std::string& result,
-    const std::string& classification,
-    int64_t operation_duration_us,
-    const std::vector<std::string>& compliance_tags,
-    const nlohmann::json& context,
-    const std::string& error_message,
-    const nlohmann::json& event_payload,
-    const std::string& correlation_id,
-    const std::string& causality_parent_id) {
-    
-    auto log_start = std::chrono::high_resolution_clock::now();
-    
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    // Generate event ID and capture timestamp
+std::string OperationalAuditLogger::generateEventId() const {
+    return randomUuid();
+}
+
+int64_t OperationalAuditLogger::getNextSequenceNumber() const {
+    return metrics_.total_operations + 1;
+}
+
+OperationalEvent OperationalAuditLogger::logEvent(const OperationalEvent& input) {
+    const auto started = std::chrono::steady_clock::now();
+    OperationalEvent event = input;
+    if (event.event_id.empty()) event.event_id = generateEventId();
+    if (event.timestamp_ms == 0) event.timestamp_ms = currentTimeMs();
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (event.sequence_number == 0) event.sequence_number = getNextSequenceNumber();
+        if (event.correlation_id.empty()) event.correlation_id = event.event_id;
+        if (!event.causality_parent_id.empty()) {
+            causality_map_[event.causality_parent_id].push_back(event.event_id);
+        }
+        events_.push_back(event);
+        if (max_events_ > 0 && events_.size() > max_events_) {
+            events_.erase(events_.begin(), events_.begin() + (events_.size() - max_events_));
+        }
+        ++metrics_.total_operations;
+    }
+
+    event.logging_duration_us = std::max<int64_t>(1, std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::steady_clock::now() - started).count());
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        metrics_.logging_times_us.push_back(event.logging_duration_us);
+        if (metrics_.logging_times_us.size() > 10000) {
+            metrics_.logging_times_us.erase(metrics_.logging_times_us.begin());
+        }
+        auto found = std::find_if(events_.rbegin(), events_.rend(), [&](const auto& saved) {
+            return saved.event_id == event.event_id;
+        });
+        if (found != events_.rend()) found->logging_duration_us = event.logging_duration_us;
+    }
+    return event;
+}
+
+OperationalEvent OperationalAuditLogger::logPolicyEvaluation(
+    const std::string& correlation_id, const std::string& policy_id,
+    const std::string& decision, const std::string& actor_id,
+    const std::unordered_map<std::string, std::string>& context) {
     OperationalEvent event;
-    event.event_id = generateUUID();
-    event.event_type = event_type;
-    event.correlation_id = correlation_id.empty() ? event.event_id : correlation_id;
-    event.causality_parent_id = causality_parent_id;
-    
-    // Timestamp in milliseconds since epoch
-    auto now = std::chrono::system_clock::now();
-    auto duration = now.time_since_epoch();
-    event.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
-    
-    event.sequence_number = current_sequence_number_++;
+    event.event_type = decision == "permit" || decision == "allow"
+        ? OperationalEventType::POLICY_EVALUATION_PERMIT
+        : decision == "deny" ? OperationalEventType::POLICY_EVALUATION_DENY
+                              : OperationalEventType::POLICY_EVALUATION_ERROR;
+    event.correlation_id = correlation_id;
     event.actor_id = actor_id;
-    event.actor_type = actor_type;
-    event.module_name = module_name;
+    event.actor_type = "service";
+    event.module_name = "policy_engine";
+    event.operation_name = "evaluate";
+    event.resource_id = policy_id;
+    event.resource_type = "policy";
+    event.action = "evaluate";
+    event.result = decision;
+    event.classification = "POLICY_DECISION";
+    event.context = context;
+    return logEvent(event);
+}
+
+OperationalEvent OperationalAuditLogger::logComplianceCheck(
+    const std::string& correlation_id, const std::string& check_name,
+    const std::string& result, const std::string& actor_id,
+    const std::unordered_map<std::string, std::string>& context) {
+    OperationalEvent event;
+    event.event_type = result == "pass" ? OperationalEventType::COMPLIANCE_CHECK_PASS
+        : result == "fail" ? OperationalEventType::COMPLIANCE_CHECK_FAIL
+                           : OperationalEventType::COMPLIANCE_CHECK_ERROR;
+    event.correlation_id = correlation_id;
+    event.actor_id = actor_id;
+    event.actor_type = "service";
+    event.module_name = "compliance_engine";
+    event.operation_name = "check";
+    event.resource_id = check_name;
+    event.resource_type = "compliance_check";
+    event.action = "check";
+    event.result = result;
+    event.classification = "COMPLIANCE";
+    event.context = context;
+    for (const auto& item : context) event.compliance_tags.push_back(item.second);
+    return logEvent(event);
+}
+
+OperationalEvent OperationalAuditLogger::logDataGovernanceOp(
+    const std::string& correlation_id, const std::string& operation_name,
+    const std::string& resource_id, bool success, const std::string& actor_id,
+    const std::unordered_map<std::string, std::string>& context) {
+    OperationalEvent event;
+    event.event_type = success ? OperationalEventType::DATA_LINEAGE_RECORDED
+                               : OperationalEventType::DATA_LINEAGE_ERROR;
+    event.correlation_id = correlation_id;
+    event.actor_id = actor_id;
+    event.actor_type = "service";
+    event.module_name = "data_governance";
     event.operation_name = operation_name;
     event.resource_id = resource_id;
-    event.resource_type = resource_type;
-    event.action = action;
-    event.result = result;
-    event.classification = classification;
-    event.operation_duration_us = operation_duration_us;
-    event.compliance_tags = compliance_tags;
+    event.resource_type = "data";
+    event.action = operation_name;
+    event.result = success ? "success" : "failure";
+    event.classification = "DATA_GOVERNANCE";
     event.context = context;
-    event.error_message = error_message;
-    event.event_payload = event_payload;
-    
-    // Compute logging latency
-    auto log_end = std::chrono::high_resolution_clock::now();
-    event.logging_duration_us = std::chrono::duration_cast<std::chrono::microseconds>(log_end - log_start).count();
-    
-    // Store event
-    events_.push_back(event);
-    event_map_[event.event_id] = static_cast<int>(events_.size() - 1);
-    
-    // Update actor index
-    if (!actor_id.empty()) {
-        actor_index_[actor_id].push_back(event.event_id);
-    }
-    
-    // Update module index
-    if (!module_name.empty()) {
-        module_index_[module_name].push_back(event.event_id);
-    }
-    
-    // Update resource index
-    if (!resource_id.empty()) {
-        resource_index_[resource_id].push_back(event.event_id);
-    }
-    
-    // Update timeline index
-    timeline_index_.push_back({event.timestamp_ms, event.event_id});
-    
-    // Add causality link if parent ID provided
-    if (!causality_parent_id.empty()) {
-        causality_map_[causality_parent_id].push_back(event.event_id);
-    }
-    
-    // Track logging metrics
-    performance_metrics_.logging_times_us.push_back(event.logging_duration_us);
-    performance_metrics_.total_operations++;
-    
-    // Enforce circular buffer size limit
-    if (static_cast<int>(events_.size()) > max_events_) {
-        // Remove oldest event
-        const auto& oldest_event = events_.front();
-        
-        // Remove from indices
-        event_map_.erase(oldest_event.event_id);
-        
-        if (!oldest_event.actor_id.empty()) {
-            auto& actor_events = actor_index_[oldest_event.actor_id];
-            actor_events.erase(
-                std::remove(actor_events.begin(), actor_events.end(), oldest_event.event_id),
-                actor_events.end());
-        }
-        
-        if (!oldest_event.module_name.empty()) {
-            auto& module_events = module_index_[oldest_event.module_name];
-            module_events.erase(
-                std::remove(module_events.begin(), module_events.end(), oldest_event.event_id),
-                module_events.end());
-        }
-        
-        if (!oldest_event.resource_id.empty()) {
-            auto& resource_events = resource_index_[oldest_event.resource_id];
-            resource_events.erase(
-                std::remove(resource_events.begin(), resource_events.end(), oldest_event.event_id),
-                resource_events.end());
-        }
-        
-        // Remove causality links
-        if (!oldest_event.causality_parent_id.empty()) {
-            auto& child_events = causality_map_[oldest_event.causality_parent_id];
-            child_events.erase(
-                std::remove(child_events.begin(), child_events.end(), oldest_event.event_id),
-                child_events.end());
-        }
-        
-        // Remove from timeline
-        timeline_index_.erase(
-            std::remove_if(timeline_index_.begin(), timeline_index_.end(),
-                          [&oldest_event](const auto& pair) {
-                              return pair.second == oldest_event.event_id;
-                          }),
-            timeline_index_.end());
-        
-        // Remove event itself
-        events_.erase(events_.begin());
-    }
+    return logEvent(event);
 }
 
-// Convenience logging methods
-
-/**
- * @brief Log Policy Evaluation.
- * @param[in] policy_id Identifier of the policy.
- * @param[in] decision Input parameter.
- * @param[in] evaluation_duration_us Input parameter.
- * @param[in] actor_id Identifier of the actor.
- * @param[in] evaluation_context Input parameter.
- * @details Calls: logEvent(), nlohmann::json::object().
- */
-void OperationalAuditLogger::logPolicyEvaluation(
-    const std::string& policy_id,
-    const std::string& decision,
-    int64_t evaluation_duration_us,
-    const std::string& actor_id,
-    const nlohmann::json& evaluation_context) {
-    
-    nlohmann::json context = evaluation_context;
-    context["policy_id"] = policy_id;
-    
-    logEvent(
-        OperationalEventType::POLICY_EVALUATION,
-        actor_id, "service", "policy_engine", "evaluate_policy",
-        policy_id, "policy", "evaluate", decision,
-        "POLICY_DECISION",
-        evaluation_duration_us,
-        {"COMPLIANCE_CHECK"},
-        context, "", nlohmann::json::object());
+OperationalEvent OperationalAuditLogger::logPolicyLifecycle(
+    const std::string& correlation_id, const std::string& policy_id,
+    const std::string& lifecycle_event, const std::string& actor_id,
+    const std::unordered_map<std::string, std::string>& context) {
+    OperationalEvent event;
+    if (lifecycle_event == "create") event.event_type = OperationalEventType::POLICY_CREATED;
+    else if (lifecycle_event == "delete") event.event_type = OperationalEventType::POLICY_DELETED;
+    else if (lifecycle_event == "activate") event.event_type = OperationalEventType::POLICY_ACTIVATED;
+    else if (lifecycle_event == "deactivate" || lifecycle_event == "deprecate") event.event_type = OperationalEventType::POLICY_DEPRECATED;
+    else event.event_type = OperationalEventType::POLICY_UPDATED;
+    event.correlation_id = correlation_id;
+    event.actor_id = actor_id;
+    event.actor_type = "user";
+    event.module_name = "policy_management";
+    event.operation_name = lifecycle_event;
+    event.resource_id = policy_id;
+    event.resource_type = "policy";
+    event.action = lifecycle_event;
+    event.result = "success";
+    event.classification = "POLICY_LIFECYCLE";
+    event.context = context;
+    return logEvent(event);
 }
 
-/**
- * @brief Log Compliance Check.
- * @param[in] check_id Identifier of the check.
- * @param[in] result Input parameter.
- * @param[in] check_duration_us Input parameter.
- * @param[in] actor_id Identifier of the actor.
- * @param[in] compliance_tags Input parameter.
- * @details Calls: logEvent(), nlohmann::json::object().
- */
-void OperationalAuditLogger::logComplianceCheck(
-    const std::string& check_id,
-    const std::string& result,
-    int64_t check_duration_us,
-    const std::string& actor_id,
-    const std::vector<std::string>& compliance_tags) {
-    
-    logEvent(
-        OperationalEventType::COMPLIANCE_CHECK_PASSED,
-        actor_id, "service", "compliance_engine", "check_compliance",
-        check_id, "compliance_check", "execute", result,
-        "COMPLIANCE_VERIFICATION",
-        check_duration_us,
-        compliance_tags, nlohmann::json::object(), "");
-}
-
-/**
- * @brief Log Data Governance Op.
- * @param[in] operation Input parameter.
- * @param[in] resource_id Identifier of the resource.
- * @param[in] actor_id Identifier of the actor.
- * @param[in] op_duration_us Input parameter.
- * @param[in] op_details Input parameter.
- * @details Calls: logEvent().
- */
-void OperationalAuditLogger::logDataGovernanceOp(
-    const std::string& operation,
-    const std::string& resource_id,
-    const std::string& actor_id,
-    int64_t op_duration_us,
-    const nlohmann::json& op_details) {
-    
-    logEvent(
-        (operation == "mask") ? OperationalEventType::DATA_MASKING_APPLIED :
-        (operation == "lineage") ? OperationalEventType::DATA_LINEAGE_MODIFIED :
-        OperationalEventType::RESOURCE_ACCESSED,
-        actor_id, "service", "data_governance", operation,
-        resource_id, "data_resource", operation, "success",
-        "DATA_GOVERNANCE",
-        op_duration_us,
-        {"DATA_PROTECTION"}, op_details);
-}
-
-/**
- * @brief Log Policy Lifecycle.
- * @param[in] policy_id Identifier of the policy.
- * @param[in] lifecycle_event Input parameter.
- * @param[in] actor_id Identifier of the actor.
- * @param[in] details Input parameter.
- * @details Calls: logEvent().
- */
-void OperationalAuditLogger::logPolicyLifecycle(
-    const std::string& policy_id,
-    const std::string& lifecycle_event,
-    const std::string& actor_id,
-    const nlohmann::json& details) {
-    
-    OperationalEventType event_type = OperationalEventType::POLICY_CREATED;
-    if (lifecycle_event == "update") {
-      event_type = OperationalEventType::POLICY_UPDATED;
-    }
-    else if (lifecycle_event == "delete") event_type = OperationalEventType::POLICY_DELETED;
-    else if (lifecycle_event == "activate") event_type = OperationalEventType::POLICY_ACTIVATED;
-    else if (lifecycle_event == "deactivate") event_type = OperationalEventType::POLICY_DEACTIVATED;
-    
-    logEvent(event_type, actor_id, "user", "policy_management", lifecycle_event,
-            policy_id, "policy", lifecycle_event, "success",
-            "POLICY_LIFECYCLE", 0, {"GOVERNANCE"}, details);
-}
-
-// Query methods
-
-size_t OperationalAuditLogger::getTotalEventCount() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
+void OperationalAuditLogger::linkCausalityRelationship(
+    const std::string& parent_event_id, const std::string& child_event_id) {
+    if (parent_event_id.empty() || child_event_id.empty()) return;
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(events_.size());
+    causality_map_[parent_event_id].push_back(child_event_id);
 }
 
-/**
- * @brief Get Event By Id.
- * @param[in] event_id Identifier of the event.
- * @return Pointer to the result.
- * @details Calls: lock(), find(), end().
- */
-OperationalEvent* OperationalAuditLogger::getEventById(const std::string& event_id) {
+std::optional<OperationalEvent> OperationalAuditLogger::getEventById(const std::string& event_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    
-    auto it = event_map_.find(event_id);
-    if (it == event_map_.end()) {
-        return nullptr;
-    }
-    
-    return &events_[it->second];
+    const auto found = std::find_if(events_.begin(), events_.end(), [&](const auto& event) {
+        return event.event_id == event_id;
+    });
+    if (found == events_.end()) return std::nullopt;
+    return *found;
 }
 
-std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByCorrelationId(
-    const std::string& correlation_id) const {
-    
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
+std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByCorrelationId(const std::string& id) const {
     std::vector<OperationalEvent> result;
-    
-    for (const auto& event : events_) {
-        if (event.correlation_id == correlation_id) {
-            result.push_back(event);
-        }
-    }
-    
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (const auto& event : events_) if (event.correlation_id == id) result.push_back(event);
     return result;
 }
 
 std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByTimeRange(
-    int64_t start_ms, int64_t end_ms) const {
-    
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
+    int64_t start_ms, int64_t end_ms, const std::optional<OperationalEventType>& event_type) const {
+    const auto started = std::chrono::steady_clock::now();
     std::vector<OperationalEvent> result;
-    
-    // Binary search for start position
-    auto start_it = std::lower_bound(
-        timeline_index_.begin(), timeline_index_.end(),
-        std::make_pair(start_ms, ""),
-        [](const auto& a, const auto& b) { return a.first < b.first; });
-    
-    // Collect events in time range
-    for (auto it = start_it; it != timeline_index_.end(); ++it) {
-        if (it->first > end_ms) {
-          break;
-        }
-        
-        auto event_it = event_map_.find(it->second);
-        if (event_it != event_map_.end()) {
-            result.push_back(events_[event_it->second]);
-        }
-    }
-    
-    return result;
-}
-
-std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByActor(
-    const std::string& actor_id) const {
-    
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<OperationalEvent> result;
-    
-    auto it = actor_index_.find(actor_id);
-    if (it != actor_index_.end()) {
-        for (const auto& event_id : it->second) {
-            auto event_it = event_map_.find(event_id);
-            if (event_it != event_map_.end()) {
-                result.push_back(events_[event_it->second]);
-            }
-        }
-    }
-    
-    return result;
-}
-
-std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByModule(
-    const std::string& module_name) const {
-    
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<OperationalEvent> result;
-    
-    auto it = module_index_.find(module_name);
-    if (it != module_index_.end()) {
-        for (const auto& event_id : it->second) {
-            auto event_it = event_map_.find(event_id);
-            if (event_it != event_map_.end()) {
-                result.push_back(events_[event_it->second]);
-            }
-        }
-    }
-    
-    return result;
-}
-
-std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByResource(
-    const std::string& resource_id) const {
-    
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<OperationalEvent> result;
-    
-    auto it = resource_index_.find(resource_id);
-    if (it != resource_index_.end()) {
-        for (const auto& event_id : it->second) {
-            auto event_it = event_map_.find(event_id);
-            if (event_it != event_map_.end()) {
-                result.push_back(events_[event_it->second]);
-            }
-        }
-    }
-    
-    return result;
-}
-
-// Causality tracking
-
-std::vector<std::string> OperationalAuditLogger::getCausalityChain(
-    const std::string& event_id) const {
-    
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> chain;
-    
-    std::string current_id = event_id;
-    while (!current_id.empty()) {
-        chain.push_back(current_id);
-        
-        // Find parent
-        bool found_parent = false;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
         for (const auto& event : events_) {
-            if (event.event_id == current_id && !event.causality_parent_id.empty()) {
-                current_id = event.causality_parent_id;
-                found_parent = true;
-                break;
-            }
+            if (start_ms != 0 && event.timestamp_ms < start_ms) continue;
+            if (end_ms != 0 && event.timestamp_ms > end_ms) continue;
+            if (event_type && event.event_type != *event_type) continue;
+            result.push_back(event);
         }
-        
-        if (!found_parent) {
-          break;
+        ++metrics_.total_query_operations;
+    }
+    const auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::steady_clock::now() - started).count();
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        metrics_.query_times_us.push_back(elapsed);
+        if (metrics_.query_times_us.size() > 10000) metrics_.query_times_us.erase(metrics_.query_times_us.begin());
+    }
+    return result;
+}
+
+std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByActor(const std::string& id) const {
+    std::vector<OperationalEvent> result;
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (const auto& event : events_) if (event.actor_id == id) result.push_back(event);
+    return result;
+}
+
+std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByModule(const std::string& name) const {
+    std::vector<OperationalEvent> result;
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (const auto& event : events_) if (event.module_name == name) result.push_back(event);
+    return result;
+}
+
+std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByResource(const std::string& id) const {
+    std::vector<OperationalEvent> result;
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (const auto& event : events_) if (event.resource_id == id) result.push_back(event);
+    return result;
+}
+
+std::vector<OperationalEvent> OperationalAuditLogger::getCausalityChain(const std::string& id) const {
+    auto starting = getEventById(id);
+    if (!starting) {
+        auto correlated = queryEventsByCorrelationId(id);
+        if (!correlated.empty()) {
+            std::sort(correlated.begin(), correlated.end(), [](const auto& left, const auto& right) {
+                return left.sequence_number < right.sequence_number;
+            });
+            return correlated;
         }
     }
-    
+    std::vector<OperationalEvent> chain;
+    std::unordered_set<std::string> seen;
+    while (starting && seen.insert(starting->event_id).second) {
+        chain.push_back(*starting);
+        if (starting->causality_parent_id.empty()) break;
+        starting = getEventById(starting->causality_parent_id);
+    }
     std::reverse(chain.begin(), chain.end());
     return chain;
 }
 
-std::vector<std::string> OperationalAuditLogger::getTriggeredEvents(
-    const std::string& parent_event_id) const {
-    
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    auto it = causality_map_.find(parent_event_id);
-    if (it != causality_map_.end()) {
-        return it->second;
+std::vector<OperationalEvent> OperationalAuditLogger::getTriggeredEvents(const std::string& parent_id) const {
+    std::vector<std::string> child_ids;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        const auto found = causality_map_.find(parent_id);
+        if (found != causality_map_.end()) child_ids = found->second;
     }
-    
-    return {};
-}
-
-/**
- * @brief Link Causality Relationship.
- * @param[in] parent_event_id Identifier of the parent event.
- * @param[in] child_event_id Identifier of the child event.
- * @details Calls: lock(), find(), end(), push_back().
- */
-void OperationalAuditLogger::linkCausalityRelationship(
-    const std::string& parent_event_id,
-    const std::string& child_event_id) {
-    
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    // Find and update child event
-    auto child_it = event_map_.find(child_event_id);
-    if (child_it != event_map_.end()) {
-        events_[child_it->second].causality_parent_id = parent_event_id;
+    std::vector<OperationalEvent> result;
+    for (const auto& id : child_ids) {
+        auto event = getEventById(id);
+        if (event) result.push_back(*event);
     }
-    
-    // Update causality map
-    causality_map_[parent_event_id].push_back(child_event_id);
-}
-
-// Export and statistics
-
-nlohmann::json OperationalAuditLogger::exportEvents(
-    int64_t start_ms, int64_t end_ms, size_t limit) const {
-    
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
-    nlohmann::json result = nlohmann::json::object();
-    
-    auto events = queryEventsByTimeRange(start_ms, end_ms);
-    
-    // Apply limit
-    if (limit > 0 && static_cast<int>(events.size()) > limit) {
-        events.resize(limit);
-    }
-    
-    nlohmann::json events_array = nlohmann::json::array();
-    for (const auto& event : events) {
-        events_array.push_back(event.toJson());
-    }
-    
-    result["events"] = events_array;
-    result["event_count"] = events.size();
-    result["start_ms"] = start_ms;
-    result["end_ms"] = end_ms;
-    result["export_timestamp_ms"] = std::chrono::duration_cast<std::chrono::milliseconds>(
-        std::chrono::system_clock::now().time_since_epoch()).count();
-    
     return result;
 }
 
-OperationalAuditLogger::PerformanceMetrics OperationalAuditLogger::getPerformanceMetrics() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
-    return performance_metrics_;
+nlohmann::json OperationalAuditLogger::exportEvents(
+    int64_t start_ms, int64_t end_ms,
+    const std::optional<OperationalEventType>& event_type, bool compress) const {
+    (void)compress;
+    const auto events = queryEventsByTimeRange(start_ms, end_ms, event_type);
+    nlohmann::json output;
+    output["events"] = nlohmann::json::array();
+    for (const auto& event : events) output["events"].push_back(event.toJson());
+    output["event_count"] = events.size();
+    return output;
 }
 
 nlohmann::json OperationalAuditLogger::getEventStatistics() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
-    nlohmann::json stats = nlohmann::json::object();
-    
-    stats["total_events"] = events_.size();
-    stats["unique_actors"] = actor_index_.size();
-    stats["unique_modules"] = module_index_.size();
-    stats["unique_resources"] = resource_index_.size();
-    stats["current_sequence"] = current_sequence_number_;
-    
-    // Calculate percentiles for logging latency
-    if (!performance_metrics_.logging_times_us.empty()) {
-        auto sorted_times = performance_metrics_.logging_times_us;
-        std::sort(sorted_times.begin(), sorted_times.end());
-        
-        size_t p50_idx = sorted_times.size() / 2;
-        size_t p95_idx = (sorted_times.size() * 95) / 100;
-        size_t p99_idx = (sorted_times.size() * 99) / 100;
-        const size_t last_idx = sorted_times.size() - 1;
-        
-        stats["logging_latency_p50_us"] = sorted_times[p50_idx];
-        stats["logging_latency_p95_us"] = sorted_times[std::min(p95_idx, last_idx)];
-        stats["logging_latency_p99_us"] = sorted_times[std::min(p99_idx, last_idx)];
-    }
-    
-    return stats;
+    std::unordered_map<int32_t, size_t> by_type;
+    for (const auto& event : events_) ++by_type[static_cast<int32_t>(event.event_type)];
+    nlohmann::json types = nlohmann::json::object();
+    for (const auto& item : by_type) types[std::to_string(item.first)] = item.second;
+    return {
+        {"total_events", events_.size()},
+        {"event_types", types},
+        {"logging_latency_p50_us", percentile(metrics_.logging_times_us, 0.50)},
+        {"logging_latency_p95_us", percentile(metrics_.logging_times_us, 0.95)},
+        {"logging_latency_p99_us", percentile(metrics_.logging_times_us, 0.99)}
+    };
 }
 
-// ============================================================================
-// EventCorrelationEngine Implementation
-// ============================================================================
-
-EventCorrelationEngine::EventCorrelationEngine()
-    : performance_metrics_() {
+nlohmann::json OperationalAuditLogger::getPerformanceMetrics() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return {
+        {"total_operations", metrics_.total_operations},
+        {"total_query_operations", metrics_.total_query_operations},
+        {"logging_latency_p50_us", percentile(metrics_.logging_times_us, 0.50)},
+        {"logging_latency_p95_us", percentile(metrics_.logging_times_us, 0.95)},
+        {"logging_latency_p99_us", percentile(metrics_.logging_times_us, 0.99)},
+        {"query_latency_p50_us", percentile(metrics_.query_times_us, 0.50)}
+    };
 }
+
+size_t OperationalAuditLogger::getTotalEventCount() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return events_.size();
+}
+
+void OperationalAuditLogger::clear() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    events_.clear();
+    causality_map_.clear();
+    metrics_ = {};
+}
+
+EventCorrelationEngine::EventCorrelationEngine(std::shared_ptr<OperationalAuditLogger> logger)
+    : audit_logger_(std::move(logger)) {}
 
 EventCorrelationEngine::~EventCorrelationEngine() = default;
 
-/**
- * @brief Create Correlation.
- * @param[in] correlation_id Identifier of the correlation.
- * @param[in] initial_event Input parameter.
- * @details Calls: lock(), insert(), push_back(), empty().
- */
-void EventCorrelationEngine::createCorrelation(
-    const std::string& correlation_id,
-    const OperationalEvent& initial_event) {
-    
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    // Create new correlation group
+std::string EventCorrelationEngine::generateCorrelationId() const {
+    return randomId("corr_");
+}
+
+std::string EventCorrelationEngine::createCorrelation(
+    const std::string& operation_name, const std::string& actor_id,
+    const std::unordered_map<std::string, std::string>& initial_context) {
+    const auto id = generateCorrelationId();
+    const auto now = currentTimeMs();
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        correlations_[id] = CorrelationGroup{id, now, now, {}, {}};
+        if (!actor_id.empty()) actor_correlations_[actor_id].push_back(id);
+        timeline_.emplace_back(now, id);
+    }
+    if (audit_logger_) {
+        OperationalEvent event;
+        event.event_type = OperationalEventType::CORRELATION_CREATED;
+        event.correlation_id = id;
+        event.actor_id = actor_id;
+        event.actor_type = "service";
+        event.module_name = "governance";
+        event.operation_name = operation_name;
+        event.action = "create_correlation";
+        event.result = "success";
+        event.context = initial_context;
+        audit_logger_->logEvent(event);
+    }
+    return id;
+}
+
+std::optional<CorrelationGroup> EventCorrelationEngine::getCorrelationGroup(const std::string& id) const {
     CorrelationGroup group;
-    group.correlation_id = correlation_id;
-    group.first_event_time_ms = initial_event.timestamp_ms;
-    group.last_event_time_ms = initial_event.timestamp_ms;
-    group.event_count = 1;
-    group.actor_ids.insert(initial_event.actor_id);
-    group.module_names.insert(initial_event.module_name);
-    group.related_event_ids.push_back(initial_event.event_id);
-    
-    correlations_[correlation_id] = group;
-    timeline_index_.push_back({initial_event.timestamp_ms, correlation_id});
-    
-    // Index by actor
-    if (!initial_event.actor_id.empty()) {
-        actor_correlation_index_[initial_event.actor_id].push_back(correlation_id);
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        const auto found = correlations_.find(id);
+        if (found == correlations_.end()) return std::nullopt;
+        group = found->second;
     }
+    if (audit_logger_) {
+        const auto events = audit_logger_->queryEventsByCorrelationId(id);
+        group.event_ids.clear();
+        group.causality_chain.clear();
+        for (const auto& event : events) {
+            group.event_ids.push_back(event.event_id);
+            group.causality_chain.push_back(event.event_id);
+            group.last_updated_ms = std::max(group.last_updated_ms, event.timestamp_ms);
+        }
+    }
+    return group;
 }
 
-/**
- * @brief Add Event To Correlation.
- * @param[in] correlation_id Identifier of the correlation.
- * @param[in] event Input parameter.
- * @details Calls: lock(), find(), end(), insert(), push_back().
- */
-void EventCorrelationEngine::addEventToCorrelation(
-    const std::string& correlation_id,
-    const OperationalEvent& event) {
-    
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    auto it = correlations_.find(correlation_id);
-    if (it == correlations_.end()) {
-        return;
+std::vector<CorrelationGroup> EventCorrelationEngine::queryCorrelationsByTimeRange(int64_t start, int64_t end) const {
+    std::vector<std::string> ids;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        for (const auto& item : timeline_) if (item.first >= start && item.first <= end) ids.push_back(item.second);
     }
-    
-    auto& group = it->second;
-    group.last_event_time_ms = event.timestamp_ms;
-    group.event_count++;
-    group.actor_ids.insert(event.actor_id);
-    group.module_names.insert(event.module_name);
-    group.related_event_ids.push_back(event.event_id);
-}
-
-/**
- * @brief Get Correlation Group.
- * @param[in] correlation_id Identifier of the correlation.
- * @return Pointer to the result.
- * @details Calls: lock(), find(), end().
- */
-CorrelationGroup* EventCorrelationEngine::getCorrelationGroup(
-    const std::string& correlation_id) {
-    
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    auto it = correlations_.find(correlation_id);
-    if (it == correlations_.end()) {
-        return nullptr;
-    }
-    
-    return &it->second;
-}
-
-std::vector<CorrelationGroup> EventCorrelationEngine::queryCorrelationsByTimeRange(
-    int64_t start_ms, int64_t end_ms) const {
-    
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
     std::vector<CorrelationGroup> result;
-    
-    // Binary search for start position
-    auto start_it = std::lower_bound(
-        timeline_index_.begin(), timeline_index_.end(),
-        std::make_pair(start_ms, ""),
-        [](const auto& a, const auto& b) { return a.first < b.first; });
-    
-    // Collect correlations in time range
-    for (auto it = start_it; it != timeline_index_.end(); ++it) {
-        if (it->first > end_ms) {
-          break;
-        }
-        
-        auto corr_it = correlations_.find(it->second);
-        if (corr_it != correlations_.end()) {
-            result.push_back(corr_it->second);
-        }
+    for (const auto& id : ids) {
+        auto group = getCorrelationGroup(id);
+        if (group) result.push_back(*group);
     }
-    
     return result;
 }
 
-std::vector<CorrelationGroup> EventCorrelationEngine::queryCorrelationsByActor(
-    const std::string& actor_id) const {
-    
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
+std::vector<CorrelationGroup> EventCorrelationEngine::queryCorrelationsByActor(const std::string& actor_id) const {
+    std::vector<std::string> ids;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        ids.reserve(correlations_.size());
+        for (const auto& item : correlations_) ids.push_back(item.first);
+    }
     std::vector<CorrelationGroup> result;
-    
-    auto it = actor_correlation_index_.find(actor_id);
-    if (it != actor_correlation_index_.end()) {
-        for (const auto& corr_id : it->second) {
-            auto corr_it = correlations_.find(corr_id);
-            if (corr_it != correlations_.end()) {
-                result.push_back(corr_it->second);
+    for (const auto& id : ids) {
+        auto group = getCorrelationGroup(id);
+        if (!group) continue;
+        if (!audit_logger_) {
+            std::lock_guard<std::mutex> lock(mutex_);
+            const auto found = actor_correlations_.find(actor_id);
+            if (found != actor_correlations_.end() &&
+                std::find(found->second.begin(), found->second.end(), id) != found->second.end()) {
+                result.push_back(*group);
             }
+            continue;
+        }
+        const auto events = audit_logger_->queryEventsByCorrelationId(id);
+        if (std::any_of(events.begin(), events.end(), [&](const auto& event) {
+                return event.actor_id == actor_id;
+            })) {
+            result.push_back(*group);
         }
     }
-    
     return result;
 }
 
-int64_t EventCorrelationEngine::getCorrelationLatency(
-    const std::string& correlation_id) const {
-    
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    auto it = correlations_.find(correlation_id);
-    if (it == correlations_.end()) {
-        return -1;
-    }
-    
-    return it->second.last_event_time_ms - it->second.first_event_time_ms;
+int64_t EventCorrelationEngine::getCorrelationLatency(const std::string& id) const {
+    const auto group = getCorrelationGroup(id);
+    return group ? std::max<int64_t>(0, group->last_updated_ms - group->created_at_ms) : 0;
 }
 
 nlohmann::json EventCorrelationEngine::getCorrelationLatencyStats() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
-    nlohmann::json stats = nlohmann::json::object();
-    
-    if (performance_metrics_.latency_ms.empty()) {
-        return stats;
+    std::vector<int64_t> latencies;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        latencies.reserve(correlations_.size());
+        for (const auto& item : correlations_) {
+            latencies.push_back(std::max<int64_t>(0, item.second.last_updated_ms - item.second.created_at_ms));
+        }
     }
-    
-    auto sorted_latencies = performance_metrics_.latency_ms;
-    std::sort(sorted_latencies.begin(), sorted_latencies.end());
-    
-    size_t p50_idx = sorted_latencies.size() / 2;
-    size_t p95_idx = (sorted_latencies.size() * 95) / 100;
-    size_t p99_idx = (sorted_latencies.size() * 99) / 100;
-    const size_t last_idx = sorted_latencies.size() - 1;
-    
-    double sum = std::accumulate(sorted_latencies.begin(), sorted_latencies.end(), 0.0);
-    
-    stats["min_latency_ms"] = sorted_latencies.front();
-    stats["max_latency_ms"] = sorted_latencies.back();
-    stats["avg_latency_ms"] = sum / sorted_latencies.size();
-    stats["p50_latency_ms"] = sorted_latencies[p50_idx];
-    stats["p95_latency_ms"] = sorted_latencies[std::min(p95_idx, last_idx)];
-    stats["p99_latency_ms"] = sorted_latencies[std::min(p99_idx, last_idx)];
-    stats["total_correlations"] = correlations_.size();
-    
-    return stats;
+    return {{"correlation_count", latencies.size()}, {"latency_p50_ms", percentile(latencies, 0.50)},
+            {"latency_p95_ms", percentile(latencies, 0.95)}, {"latency_p99_ms", percentile(latencies, 0.99)}};
 }
 
-nlohmann::json EventCorrelationEngine::exportCorrelations(
-    int64_t start_ms, int64_t end_ms) const {
-    
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
-    nlohmann::json result = nlohmann::json::object();
-    
-    auto correlations = queryCorrelationsByTimeRange(start_ms, end_ms);
-    
-    nlohmann::json correlations_array = nlohmann::json::array();
-    for (const auto& corr : correlations) {
-        correlations_array.push_back(corr.toJson());
+nlohmann::json EventCorrelationEngine::exportCorrelations(const std::optional<std::string>& id) const {
+    nlohmann::json output;
+    output["correlations"] = nlohmann::json::array();
+    if (id) {
+        auto group = getCorrelationGroup(*id);
+        if (group) output["correlations"].push_back(group->toJson());
+    } else {
+        std::vector<std::string> ids;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            for (const auto& item : correlations_) ids.push_back(item.first);
+        }
+        for (const auto& key : ids) {
+            auto group = getCorrelationGroup(key);
+            if (group) output["correlations"].push_back(group->toJson());
+        }
     }
-    
-    result["correlations"] = correlations_array;
-    result["correlation_count"] = correlations.size();
-    result["start_ms"] = start_ms;
-    result["end_ms"] = end_ms;
-    result["export_timestamp_ms"] = std::chrono::duration_cast<std::chrono::milliseconds>(
-        std::chrono::system_clock::now().time_since_epoch()).count();
-    
-    return result;
+    output["correlation_count"] = output["correlations"].size();
+    return output;
 }
 
-// ============================================================================
-// ComplianceEvidenceCollector Implementation
-// ============================================================================
-
-ComplianceEvidenceCollector::ComplianceEvidenceCollector(
-    OperationalAuditLogger* audit_logger)
-    : audit_logger_(audit_logger),
-      evidence_count_(0) {
-}
+ComplianceEvidenceCollector::ComplianceEvidenceCollector(std::shared_ptr<OperationalAuditLogger> logger)
+    : audit_logger_(std::move(logger)) {}
 
 ComplianceEvidenceCollector::~ComplianceEvidenceCollector() = default;
 
-/**
- * @brief Record Evidence.
- * @param[in] requirement_id Identifier of the requirement.
- * @param[in] requirement_type Input parameter.
- * @param[in] evidence_type Input parameter.
- * @param[in] description Input parameter.
- * @param[in] source_event_id Identifier of the source event.
- * @param[in] data Input parameter.
- * @param[in] retention_days Input parameter.
- * @param[in] audit_classification Input parameter.
- * @details Calls: lock(), generateUUID(), std::chrono::system_clock::now(), time_since_epoch(), count(), is_null(), dump(), computeSHA256().
- */
-void ComplianceEvidenceCollector::recordEvidence(
-    const std::string& requirement_id,
-    const std::string& requirement_type,
-    const std::string& evidence_type,
-    const std::string& description,
-    const std::string& source_event_id,
-    const nlohmann::json& data,
-    int64_t retention_days,
-    const std::string& audit_classification) {
-    
-    std::lock_guard<std::mutex> lock(mutex_);
-    
+std::string ComplianceEvidenceCollector::generateEvidenceId() const {
+    return randomId("evi_");
+}
+
+std::string ComplianceEvidenceCollector::computeEvidenceFingerprint(const std::string& content) const {
+    return sha256Hex(content);
+}
+
+std::vector<ComplianceEvidence> ComplianceEvidenceCollector::collectEvidence(
+    const std::string& requirement, const std::string& actor_id,
+    const std::unordered_map<std::string, std::string>& context) {
     ComplianceEvidence evidence;
-    evidence.evidence_id = generateUUID();
-    evidence.requirement_id = requirement_id;
-    evidence.requirement_type = requirement_type;
-    
-    auto now = std::chrono::system_clock::now();
-    evidence.collected_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-        now.time_since_epoch()).count();
-    
-    evidence.evidence_type = evidence_type;
-    evidence.description = description;
-    evidence.source_event_id = source_event_id;
-    
-    // Fingerprint the data
-    std::string data_str = data.is_null() ? "{}" : data.dump();
-    evidence.fingerprint = computeSHA256(data_str);
-    evidence.data_summary = data_str.substr(0, 256);  // First 256 chars
-    
-    // Set retention
-    evidence.retention_until_ms = evidence.collected_at_ms + (retention_days * 24 * 3600 * 1000);
-    evidence.audit_classification = audit_classification;
-    evidence.metadata = nlohmann::json::object();
-    
-    // Store evidence
-    evidence_list_.push_back(evidence);
-    evidence_map_[evidence.evidence_id] = static_cast<int>(evidence_list_.size() - 1);
-    evidence_count_++;
-    
-    // Index by requirement
-    if (!requirement_id.empty()) {
-        requirement_evidence_index_[requirement_id].push_back(evidence.evidence_id);
-    }
-    
-    // Index by event
-    if (!source_event_id.empty()) {
-        evidence_event_index_[source_event_id].push_back(evidence.evidence_id);
-    }
-}
-
-/**
- * @brief Collect Evidence.
- * @param[in] requirement_type Input parameter.
- * @details Calls: lock(), queryEventsByModule(), find(), end(), recordEvidence().
- */
-void ComplianceEvidenceCollector::collectEvidence(
-    const std::string& requirement_type) {
-    
-    if (!audit_logger_) {
-      return;
-    }
-    
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    // Query audit logger for relevant events based on requirement type
-    // This is a simplified example; real implementation would have more sophisticated filtering
-    
-    std::vector<OperationalEvent> relevant_events;
-    
-    if (requirement_type == "EU_AI_ACT_13") {
-        // Collect all policy evaluation and audit events
-        // In real implementation, would call audit_logger_->queryEventsByModule("policy_engine")
-        relevant_events = audit_logger_->queryEventsByModule("policy_engine");
-    } else if (requirement_type == "SOC2_CC7.2") {
-        // Collect all compliance check events
-        relevant_events = audit_logger_->queryEventsByModule("compliance_engine");
-    } else if (requirement_type == "ISO27001_A1") {
-        // Collect all policy lifecycle events
-        // Query by module "policy_management"
-        relevant_events = audit_logger_->queryEventsByModule("policy_management");
-    }
-    
-    // For each relevant event, create evidence record
-    for (const auto& event : relevant_events) {
-        // Check if already collected
-        auto it = evidence_event_index_.find(event.event_id);
-        if (it != evidence_event_index_.end()) {
-            continue;  // Already collected
-        }
-        
-        std::string classification = "REGULATORY";
-        if (requirement_type.find("EU") != std::string::npos) {
-            classification = "EU_REGULATED";
-        }
-        
-        recordEvidence(
-            requirement_type,
-            requirement_type,
-            "OPERATIONAL_EVENT",
-            "Automatically collected from event: " + event.operation_name,
-            event.event_id,
-            event.event_payload,
-            365,  // 1 year retention
-            classification);
-    }
-}
-
-/**
- * @brief Link Evidence To Event.
- * @param[in] evidence_id Identifier of the evidence.
- * @param[in] event_id Identifier of the event.
- * @details Calls: lock(), find(), end(), push_back().
- */
-void ComplianceEvidenceCollector::linkEvidenceToEvent(
-    const std::string& evidence_id,
-    const std::string& event_id) {
-    
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    auto it = evidence_map_.find(evidence_id);
-    if (it == evidence_map_.end()) {
-      return;
-    }
-    
-    auto& evidence = evidence_list_[it->second];
-    evidence.source_event_id = event_id;
-    
-    // Update event index
-    evidence_event_index_[event_id].push_back(evidence_id);
-}
-
-std::vector<ComplianceEvidence> ComplianceEvidenceCollector::getEvidenceByRequirement(
-    const std::string& requirement_id) const {
-    
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<ComplianceEvidence> result;
-    
-    auto it = requirement_evidence_index_.find(requirement_id);
-    if (it != requirement_evidence_index_.end()) {
-        for (const auto& evidence_id : it->second) {
-            auto evidence_it = evidence_map_.find(evidence_id);
-            if (evidence_it != evidence_map_.end()) {
-                result.push_back(evidence_list_[evidence_it->second]);
+    evidence.requirement_id = requirement;
+    evidence.requirement_type = requirement;
+    evidence.evidence_type = "operational_audit";
+    evidence.description = "Operational audit events collected for compliance requirement";
+    evidence.audit_classification = "REGULATORY";
+    evidence.collected_at_ms = currentTimeMs();
+    evidence.metadata = context;
+    if (audit_logger_) {
+        const auto events = audit_logger_->queryEventsByTimeRange(0, 0);
+        nlohmann::json event_data = nlohmann::json::array();
+        for (const auto& event : events) {
+            if (std::find(event.compliance_tags.begin(), event.compliance_tags.end(), requirement) != event.compliance_tags.end()) {
+                event_data.push_back(event.toJson());
             }
         }
+        evidence.data_summary = event_data.dump();
+    } else {
+        evidence.data_summary = "[]";
     }
-    
+    evidence.metadata["collected_by"] = actor_id;
+    auto recorded = recordEvidence(evidence);
+    return {recorded};
+}
+
+ComplianceEvidence ComplianceEvidenceCollector::recordEvidence(const ComplianceEvidence& input) {
+    ComplianceEvidence evidence = input;
+    if (evidence.evidence_id.empty()) evidence.evidence_id = generateEvidenceId();
+    if (evidence.collected_at_ms == 0) evidence.collected_at_ms = currentTimeMs();
+    if (evidence.requirement_id.empty()) evidence.requirement_id = evidence.compliance_requirement;
+    if (evidence.requirement_type.empty()) evidence.requirement_type = evidence.requirement_id;
+    if (evidence.description.empty()) evidence.description = evidence.evidence_description;
+    if (evidence.data_summary.empty()) evidence.data_summary = evidence.evidence_content;
+    if (evidence.source_event_id.empty()) evidence.source_event_id = evidence.event_id;
+    if (evidence.fingerprint.empty()) evidence.fingerprint = computeEvidenceFingerprint(evidence.data_summary);
+    evidence.event_id = evidence.source_event_id;
+    evidence.compliance_requirement = evidence.requirement_id;
+    evidence.evidence_timestamp_ms = evidence.collected_at_ms;
+    evidence.evidence_description = evidence.description;
+    evidence.evidence_content = evidence.data_summary;
+    std::lock_guard<std::mutex> lock(mutex_);
+    evidence_.push_back(evidence);
+    requirement_evidence_map_[evidence.requirement_id].push_back(evidence.evidence_id);
+    if (!evidence.source_event_id.empty()) {
+        evidence_event_links_[evidence.evidence_id].push_back(evidence.source_event_id);
+    }
+    return evidence;
+}
+
+void ComplianceEvidenceCollector::linkEvidenceToEvent(const std::string& evidence_id, const std::string& event_id) {
+    linkEvidenceToEvents(evidence_id, {event_id});
+}
+
+void ComplianceEvidenceCollector::linkEvidenceToEvents(
+    const std::string& evidence_id, const std::vector<std::string>& event_ids) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    const auto found = std::find_if(evidence_.begin(), evidence_.end(), [&](const auto& item) {
+        return item.evidence_id == evidence_id;
+    });
+    if (found == evidence_.end()) return;
+    for (const auto& event_id : event_ids) {
+        if (event_id.empty()) continue;
+        evidence_event_links_[evidence_id].push_back(event_id);
+        if (found->source_event_id.empty()) found->source_event_id = event_id;
+        found->related_events.push_back(event_id);
+    }
+    found->event_id = found->source_event_id;
+}
+
+std::vector<ComplianceEvidence> ComplianceEvidenceCollector::getEvidenceByRequirement(const std::string& requirement) const {
+    std::vector<ComplianceEvidence> result;
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (const auto& evidence : evidence_) {
+        if (evidence.requirement_id == requirement || evidence.requirement_type == requirement) result.push_back(evidence);
+    }
     return result;
 }
 
-std::vector<ComplianceEvidence> ComplianceEvidenceCollector::getEvidenceByEvent(
-    const std::string& event_id) const {
-    
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
+std::vector<ComplianceEvidence> ComplianceEvidenceCollector::getEvidenceByEvent(const std::string& event_id) const {
     std::vector<ComplianceEvidence> result;
-    
-    auto it = evidence_event_index_.find(event_id);
-    if (it != evidence_event_index_.end()) {
-        for (const auto& evidence_id : it->second) {
-            auto evidence_it = evidence_map_.find(evidence_id);
-            if (evidence_it != evidence_map_.end()) {
-                result.push_back(evidence_list_[evidence_it->second]);
-            }
-        }
-    }
-    
-    return result;
-}
-
-std::vector<ComplianceEvidence> ComplianceEvidenceCollector::getEvidenceByTimeRange(
-    int64_t start_ms, int64_t end_ms) const {
-    
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<ComplianceEvidence> result;
-    
-    for (const auto& evidence : evidence_list_) {
-        if (evidence.collected_at_ms >= start_ms && evidence.collected_at_ms <= end_ms) {
+    for (const auto& evidence : evidence_) {
+        const auto links = evidence_event_links_.find(evidence.evidence_id);
+        if (evidence.source_event_id == event_id ||
+            (links != evidence_event_links_.end() &&
+             std::find(links->second.begin(), links->second.end(), event_id) != links->second.end())) {
             result.push_back(evidence);
         }
     }
-    
+    return result;
+}
+
+std::vector<ComplianceEvidence> ComplianceEvidenceCollector::getEvidenceByTimeRange(int64_t start, int64_t end) const {
+    std::vector<ComplianceEvidence> result;
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (const auto& evidence : evidence_) {
+        if (start != 0 && evidence.collected_at_ms < start) continue;
+        if (end != 0 && evidence.collected_at_ms > end) continue;
+        result.push_back(evidence);
+    }
     return result;
 }
 
 nlohmann::json ComplianceEvidenceCollector::exportEvidenceForAudit(
-    const std::string& requirement_type) const {
-    
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
-    nlohmann::json result = nlohmann::json::object();
-    
-    nlohmann::json evidence_array = nlohmann::json::array();
-    size_t count = 0;
-    
-    for (const auto& evidence : evidence_list_) {
-        if (evidence.requirement_type == requirement_type) {
-            evidence_array.push_back(evidence.toJson());
-            count++;
-        }
+    const std::optional<std::string>& requirement, int64_t start, int64_t end) const {
+    auto evidence = getEvidenceByTimeRange(start, end);
+    if (requirement) {
+        evidence.erase(std::remove_if(evidence.begin(), evidence.end(), [&](const auto& item) {
+            return item.requirement_type != *requirement && item.requirement_id != *requirement;
+        }), evidence.end());
     }
-    
-    result["requirement_type"] = requirement_type;
-    result["evidence_count"] = count;
-    result["evidence"] = evidence_array;
-    result["export_timestamp_ms"] = std::chrono::duration_cast<std::chrono::milliseconds>(
-        std::chrono::system_clock::now().time_since_epoch()).count();
-    
-    return result;
+    nlohmann::json output;
+    output["evidence"] = nlohmann::json::array();
+    for (const auto& item : evidence) output["evidence"].push_back(item.toJson());
+    output["evidence_count"] = evidence.size();
+    output["requirement_type"] = requirement.value_or("");
+    return output;
+}
+
+nlohmann::json ComplianceEvidenceCollector::generateEvidenceReport(const std::vector<std::string>& requirements) const {
+    nlohmann::json output;
+    output["requirements"] = nlohmann::json::array();
+    for (const auto& requirement : requirements) {
+        auto items = getEvidenceByRequirement(requirement);
+        output["requirements"].push_back({
+            {"requirement", requirement},
+            {"evidence_count", items.size()},
+            {"evidence", exportEvidenceForAudit(requirement)["evidence"]}
+        });
+    }
+    return output;
 }
 
 nlohmann::json ComplianceEvidenceCollector::getEvidenceStatistics() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
-    nlohmann::json stats = nlohmann::json::object();
-    
-    stats["total_evidence"] = evidence_list_.size();
-    stats["unique_requirements"] = requirement_evidence_index_.size();
-    stats["unique_events"] = evidence_event_index_.size();
-    
-    // Count by requirement type
-    nlohmann::json by_type = nlohmann::json::object();
-    for (const auto& evidence : evidence_list_) {
-        by_type[evidence.requirement_type] = by_type[evidence.requirement_type].get<int>() + 1;
-    }
-    stats["by_requirement_type"] = by_type;
-    
-    return stats;
+    std::unordered_map<std::string, size_t> by_requirement;
+    for (const auto& evidence : evidence_) ++by_requirement[evidence.requirement_id];
+    nlohmann::json output;
+    output["total_evidence"] = evidence_.size();
+    output["by_requirement"] = nlohmann::json::object();
+    for (const auto& item : by_requirement) output["by_requirement"][item.first] = item.second;
+    return output;
 }
 
-// ============================================================================
-// Global Singleton Instances
-// ============================================================================
+size_t ComplianceEvidenceCollector::getTotalEvidenceCount() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return evidence_.size();
+}
 
-/**
- * @brief Get Global Audit Logger.
- * @return Return value.
- * @details Calls: logger().
- */
+void ComplianceEvidenceCollector::clear() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    evidence_.clear();
+    requirement_evidence_map_.clear();
+    evidence_event_links_.clear();
+}
+
 OperationalAuditLogger& getGlobalAuditLogger() {
-    static OperationalAuditLogger logger(100000);  // Max 100k events
-    return logger;
+    return *globalLoggerPtr();
 }
 
-/**
- * @brief Get Global Correlation Engine.
- * @return Return value.
- * @details Implements getGlobalCorrelationEngine without additional internal calls.
- */
 EventCorrelationEngine& getGlobalCorrelationEngine() {
-    static EventCorrelationEngine engine;
+    static EventCorrelationEngine engine(globalLoggerPtr());
     return engine;
 }
 
-/**
- * @brief Get Global Evidence Collector.
- * @return Return value.
- * @details Calls: collector(), getGlobalAuditLogger().
- */
 ComplianceEvidenceCollector& getGlobalEvidenceCollector() {
-    static ComplianceEvidenceCollector collector(&getGlobalAuditLogger());
+    static ComplianceEvidenceCollector collector(globalLoggerPtr());
     return collector;
 }
 
-}  // namespace themis::governance
+} // namespace themis::governance

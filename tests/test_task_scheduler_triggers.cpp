@@ -12,6 +12,13 @@ using namespace themis;
 class TaskSchedulerIntegrationTest : public ::testing::Test {
 protected:
     void SetUp() override {
+        TaskScheduler::RequestContext test_context;
+        test_context.user_id = "scheduler-trigger-test";
+        test_context.granted_permissions = {
+            "task:register", "task:unregister", "task:update", "task:execute",
+            "task:register_function"};
+        test_context.roles.insert("system_admin");
+        TaskScheduler::setRequestContext(test_context);
         const std::string db_path = "data/themis_scheduler_integration_test";
         if (std::filesystem::exists(db_path)) {
             std::filesystem::remove_all(db_path);
@@ -47,6 +54,7 @@ protected:
         changefeed_.reset();
         // query_engine_.reset();  // Not initialized
         storage_->close();
+        TaskScheduler::clearRequestContext();
     }
     
     std::shared_ptr<RocksDBWrapper> storage_;

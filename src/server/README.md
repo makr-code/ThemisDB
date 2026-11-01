@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Server Module
 
-<!-- Status: current | validated: 2026-08-17 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose
@@ -45,37 +59,26 @@ Out of scope:
 - storage, query execution, or index internals owned by other modules
 - client SDKs and external consumer libraries outside server runtime boundaries
 
+## Installation and usage
+
+The server is built as part of ThemisDB and is not installed independently.
+Use the repository's root CMake preset for a build; focused test and benchmark
+commands are listed below. For request and gateway contracts, see
+[`API.md`](API.md) and [`IMPLEMENTATION.md`](IMPLEMENTATION.md).
+
 ## Runtime Behavior and Limits
 
 - server behavior depends on routing, middleware, and endpoint-handler composition.
 - hot paths include HTTP request build/parse helpers, selected endpoint paths, and stream protocol helpers.
 - degradation under overload must remain explicit through rate limiting, shedding, and health signaling.
 
-## Thread-Safety Model (Tier 1 Requirement)
+## Concurrency and Failure Behavior
 
-**Concurrency guarantees:**
-- **HTTP Request Dispatch:** Thread-safe for concurrent requests via per-connection thread pools
-- **API Gateway Routing:** Immutable route table after initialization; lock-free read paths
-- **Auth Middleware:** Thread-safe credential validation via `auth_cache_mutex_` (concurrent readers, single writer)
-- **Rate Limiting:** Atomic counters for per-client/global quotas; no lock-free races
-- **Session Management:** Per-session state isolated via `SessionContext`; concurrent sessions have independent mutexes
-- **Health Checks:** Atomic reads of service state; no blocking on health endpoint
-- **Error Service:** Thread-safe error code registry via `error_registry_mutex_`
-
-**Known thread-safety invariants:**
-- HTTP/2 stream multiplexing uses per-stream mutexes (no cross-stream races)
-- WebSocket/MQTT session lifecycle protected by `session_lifecycle_mutex_`
-- Rate limiter state updates are atomic or protected by `rate_limit_mutex_`
-- Graceful shutdown uses `ServerState` atomic with state machine validation
-
-**Fail-Closed Behavior (Wave A — Runtime Reliability):**
-- **Rate Limit Exceeded:** Return 429 Too Many Requests (no queue overflow); drop new requests
-- **Backend Unavailable:** Return 503 Service Unavailable; fail fast without retrying indefinitely
-- **Request Timeout:** Enforce per-request deadline; return 504 Gateway Timeout on overrun
-- **Auth Failure:** Return 401 Unauthorized (fail-closed); no partial auth bypass
-- **Overload Shedding:** Reject requests with 503 Service Unavailable when queue depth > threshold
-- **Graceful Shutdown:** Drain in-flight requests with deadline; return 503 to new clients
-- **Connection Error:** Close connection immediately; propagate error to client
+`HttpServer` owns its worker threads and request dispatch. Session and handler
+thread-safety guarantees are component-specific; consult the corresponding
+header and implementation rather than assuming a module-wide locking or
+status-code contract. Authentication, rate limiting, overload handling, and
+shutdown behavior depend on the selected configuration and request path.
 
 ---
 
@@ -108,5 +111,20 @@ Out of scope:
   - tests/server/test_server_contract_hardening_focused.cpp (SCH-01..SCH-20; Phase 1 auth/contract hardening)
   - tests/server/test_server_phase5_hardening.cpp (P5-S01 WSR-01..16 wire-protocol retry; P5-S02 HST-01..12 HTTP timeout/shutdown)
 - Verified benchmark anchors:
-  - benchmarks/bench_api_endpoints.cpp
-  - benchmarks/bench_stream_protocol.cpp
+  - benchmarks/server/bench_api_endpoints.cpp
+  - benchmarks/server/bench_stream_protocol.cpp
+  - benchmarks/server/bench_server_hotpaths.cpp
+
+## Build and focused validation
+
+`tests/server/CMakeLists.txt` discovers `test_*.cpp` and registers targets as
+`module_server_<test-name>_focused`. For example:
+
+```sh
+cmake --build <build-dir> --target module_server_test_api_gateway_focused
+ctest --test-dir <build-dir> -R '^test_api_gateway_server_FocusedTests$' --output-on-failure
+```
+
+Server benchmarks are in `benchmarks/server/` and are configured when
+`THEMIS_BUILD_BENCHMARKS` is enabled. The CMake targets include
+`bench_api_endpoints`, `bench_stream_protocol`, and `bench_server_hotpaths`.

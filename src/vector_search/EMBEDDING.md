@@ -1,14 +1,16 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
-Human_Author: "ThemisDB Team"
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
 ---
+
+Exact model backend not verifiable from final document text alone.
 
 # Vector Embedding and Indexing Notes
 
@@ -29,14 +31,19 @@ This means the embedding representation is treated as a schema-level property of
 
 ## Input validation boundaries
 
-The implementation makes validation part of the API contract. This includes ensuring that:
+Validation differs by API overload. The current source establishes that:
 
-- vectors match the configured dimension,
-- invalid floating-point values are not accepted silently,
-- metric selection is supported before query/index use,
-- advanced backend configuration is requested only when the required runtime support exists.
+- initialization rejects an empty namespace or non-positive dimension,
+- `searchKnn()` rejects a query whose dimension does not match the index,
+- `addEntity()` with `WriteBatchWrapper` or `TransactionWrapper` rejects an
+  entity vector whose dimension does not match the index,
+- direct-commit `addEntity()` checks for a readable vector field but does not
+  currently check its dimension.
 
-These checks appear in the source as explicit status returns and logging around advanced-index setup and vector operations.
+The direct-commit dimension check is an open implementation gap. The code does
+not establish that NaN/Inf values are rejected; finite-value validation remains
+unverified. Metric selection is an initialization setting, not a per-query
+argument.
 
 ## Storage and persistence model
 
@@ -52,7 +59,9 @@ This makes persistence and recovery a core operational concern rather than an im
 
 ## Query semantics
 
-A query is only valid when it matches the index's configured dimension and metric semantics. Search results are not just candidate IDs; they include the distance ranking data used by the caller to decide how relevant a result is.
+A query must match the index's configured dimension. The index metric determines
+the result distance semantics: lower values rank first, with squared L2,
+`1 - cosine`, or negative dot product for the corresponding metrics.
 
 The `VectorIndexManager::Result` structure is intentionally small and explicit:
 
@@ -66,10 +75,11 @@ That keeps similarity interpretation stable for both single-vector and multi-vec
 
 `MultiVectorSearch` extends the single embedding model to cases where a retrieval request is composed of multiple vectors or multiple fields.
 
-Examples described in the code include:
+The API includes:
 
 - multi-vector query sets,
-- multi-field search over title/content/body embeddings,
+- a `searchMultiField()` entry point, which currently repeats one query vector
+  and does not route to field-specific indexes,
 - query expansion across several variants,
 - hybrid ranking using vector similarity plus auxiliary signal sources.
 
@@ -85,15 +95,19 @@ The embedding subsystem is expected to operate under realistic load, including:
 - reindex or rebuild during drift recovery,
 - long-lived index persistence across restarts.
 
-The stress test in `tests/vector_search/test_vector_search_highcardinality_stress.cpp` validates the behavior expected under high-cardinality insertion and concurrent query/test conditions.
+The high-cardinality stress fixture in
+`tests/vector_search/test_vector_search_highcardinality_stress.cpp` uses an
+in-process flat index, not `VectorIndexManager`; it exercises the fixture's
+insertion and query code rather than the production runtime.
 
 ## Known failure domains
 
 The most important embedding-related failure domains include:
 
 - dimension mismatch,
-- invalid float values and NaN/Inf content,
-- unsupported metric or backend selection,
+- dimension mismatch (including the unchecked direct-commit insertion path),
+- unverified NaN/Inf handling,
+- unavailable advanced backend support (with backend-specific error or fallback behavior),
 - stale index metadata after updates or deletes,
 - resource exhaustion under large batches or long-running ANN rebuilds.
 
@@ -103,7 +117,7 @@ The repository treats these as explicit failure modes rather than hidden degrada
 
 When modifying embedding-related behavior, validate the following invariants:
 
-1. dimension compatibility stays strict,
+1. verify dimension compatibility separately for each insertion overload,
 2. metric semantics are unchanged or intentionally updated with code and docs,
 3. persistence and rebuild behavior remain recoverable,
 4. multi-vector fusion remains deterministic for supported strategies,
@@ -111,4 +125,7 @@ When modifying embedding-related behavior, validate the following invariants:
 
 ## Conclusion
 
-The vector-search embedding model is a controlled, schema-aware retrieval system. It assumes a fixed dimensionality and an explicit metric, requires validation at the boundary, and expects persistence, reindex, and multi-vector aggregation to remain explicit and measurable operations.
+The shared index stores vectors under a configured dimension and metric, but
+not all insertion overloads currently enforce that dimension. The direct-commit
+gap and unverified finite-value validation must be resolved or guarded by callers
+before documenting strict input validation.

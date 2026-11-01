@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -11,7 +11,7 @@ Human_Author: "ThemisDB Team"
 Source_Level: "level1"
 SOT_Domain: "module-behavior"
 Canonical_References: "include/importers/importer_interface.h; include/importers/importers_api_contract.h; src/importers/PRODUCTION_REQUIREMENTS.md; src/importers/PERFORMANCE_EXPECTATIONS.md"
-Related_Reference: "makr-code/ThemisDB#7124"
+Related_Reference: "makr-code/ThemisDB#7353"
 ---
 
 > Exact model backend not verifiable from final document text alone.
@@ -59,11 +59,10 @@ Monitor at minimum:
 - checkpoint age/progress and quarantine/dead-letter growth;
 - target commit/visibility and downstream replication behavior.
 
-The contract declares a per-node maximum of 32 concurrent import jobs and a
-five-second cross-node replication-lag SLO reference. Confirm that the runtime
-coordinator enforces the applicable limit and that the deployment's actual
-replication behavior meets its own SLO; constants are not a substitute for
-observed capacity evidence.
+The contract header declares `kMaxConcurrentImports = 32` and a five-second
+cross-node replication-lag SLO reference. These declarations alone do not
+establish that every runtime coordinator enforces the limit or that a deployment
+meets that SLO; verify the concrete coordinator and deployment evidence.
 
 ## Routine operation and change control
 

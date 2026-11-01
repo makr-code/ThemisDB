@@ -34,8 +34,24 @@ class WriteModuleMarkdownTests(unittest.TestCase):
             )
 
             markdown = (repo_root / "src/aql/DOXYGEN.md").read_text(encoding="utf-8")
+            self.assertIn("AI_Used: true", markdown)
+            self.assertIn('AI_Models: "unknown"', markdown)
+            self.assertIn('AI_Contributor: "GitHub Copilot coding agent"', markdown)
+            self.assertIn("Human_Review: false", markdown)
+            self.assertIn('Human_Author: "ThemisDB Contributors"', markdown)
+            self.assertIn(
+                "Exact model backend is not verifiable from the generated document.",
+                markdown,
+            )
             self.assertIn("`aql/xml/index.xml`", markdown)
             self.assertIn("`aql/doxygen-warnings.log`", markdown)
+            self.assertIn(
+                "`python3 scripts/generate_module_doxygen_xml.py --repo-root . "
+                "--modules aql --output-root build/module-doxygen "
+                "--manifest build/module-doxygen/manifest.json "
+                "--summary-md build/module-doxygen/summary.md --write-module-markdown`",
+                markdown,
+            )
             self.assertNotIn(str(output_root), markdown)
             self.assertTrue(markdown.endswith("\n"))
             self.assertFalse(markdown.endswith("\n\n"))

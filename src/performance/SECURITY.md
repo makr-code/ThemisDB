@@ -1,7 +1,22 @@
-# Security - Performance Module
-
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "active"
+Source_Level: "level1"
+SOT_Domain: "security"
+Canonical_Sources:
+  - "include/performance/*.h"
+  - "src/performance/*.cpp"
+  - "src/performance/TRUST.md"
+  - "src/performance/PRODUCTION_REQUIREMENTS.md"
+Related_Issue: "#7366"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
 Report vulnerabilities via project-level SECURITY.md.
 
@@ -43,3 +58,9 @@ Security in the performance module focuses on safe low-level measurement boundar
   - explicit feature gating and fallback behavior
   - deterministic capability handling
   - observable diagnostics for runtime failures
+
+  These are implementation surfaces, not evidence that every host/build
+  combination has been security-tested. The production requirements and trust
+  boundaries remain subject to deployment-specific verification.
+
+  Exact model backend not verifiable from final document text alone.

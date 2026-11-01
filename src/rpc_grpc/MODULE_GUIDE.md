@@ -71,9 +71,10 @@ JSON schema as proof of runtime configuration.
 Use [`BidiStreamAdapter`](bidi_stream_adapter.h) only while the underlying
 stream remains alive. It does not own the stream. Install the message handler
 before `run()`. `write()` is synchronous and may block; the adapter does not
-propagate `Stream::Write` failure. Call `finish(status)` to stop its read loop
-and wake response writers; separately coordinate cancellation and worker
-lifetimes.
+propagate `Stream::Write` failure. A zero queue depth is not validated and
+blocks writers until `finish(status)`. `finish()` wakes queue waiters but does
+not interrupt a `Read()` or `Write()` already blocked in gRPC; separately
+coordinate cancellation, stream lifetime, and worker lifetimes.
 
 ## Validation path
 

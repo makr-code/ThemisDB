@@ -1,7 +1,32 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: ThemisDB documentation orchestration specialist
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source level: level1
+SOT domain: module-behavior
+Canonical source references:
+  - ../../include/graph/
+  - ../../src/graph/
+  - ../../tests/graph/test_rotate_completion_acceptance.cpp
+Related milestone: DOC-WEEKLY-2026-44
+AI_Model_Note: Exact model backend not verifiable from final document text alone.
+---
+
 # Graph Module - Future Enhancements
 
 <!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+
+> Planning notes below preserve the prior roadmap scope, not approved commitments or current
+> implementation status. RotatE is present in current source; the root roadmap now distinguishes
+> its higher quality targets from the lower acceptance-test assertions. The higher targets remain
+> unverified pending a separately recorded evaluation.
 
 ## Scope
 
@@ -34,13 +59,14 @@
 
 ### Wave B B2: Knowledge Graph Completion (RotatE)
 **Priority:** High
-**Target:** Q1–Q2 2027
+**Historical target:** Q1–Q2 2027 (this target is superseded; implementation is present in
+`rotate_completion.cpp` and declared in `include/graph/rotate_completion.h`).
 
-- implement RotatE embeddings with relation-as-rotation scoring
-- add negative-sampling triple loss for training
-- add link-prediction inference head for top-k completion
-- wire completion output into `KnowledgeGraphReasoner`
-- benchmark quality/latency against TransE baseline in the deterministic acceptance fixture
+- Historic proposal: implement RotatE embeddings with relation-as-rotation scoring.
+- Historic proposal: add negative-sampling triple loss and a top-k link-prediction head.
+- Current code includes `KGCompletionEngine` reasoner-injection surface; see the public header.
+- The acceptance-test assertions are MRR ≥ 0.10, Hits@10 ≥ 0.40, relative-to-TransE bounds,
+  and p99 top-20 latency < 50 ms; they are test thresholds, not run results.
 
 ## Test Strategy
 
@@ -64,8 +90,17 @@
 
 ## Wave B Acceptance Gates (B2)
 
-- ✅ mrr ≥ 0.35 and hits@10 ≥ 0.55 on the deterministic acceptance fixture
-- ✅ inference latency ≤ 50 ms for top-20 predictions
+> **Quality targets:** these are not current test assertions or evaluation results. The root
+> roadmap distinguishes them from the current acceptance-test floor.
+
+The current assertions in
+[`test_rotate_completion_acceptance.cpp`](../../tests/graph/test_rotate_completion_acceptance.cpp)
+are MRR ≥ 0.10, Hits@10 ≥ 0.40, relative-to-TransE bounds, and p99 top-20 latency < 50 ms. These
+are test thresholds, not captured outcomes. The higher quality targets below remain unverified
+until a separate evaluation is recorded.
+
+- [ ] mrr ≥ 0.35 and hits@10 ≥ 0.55 on a documented evaluation fixture
+- [ ] inference latency ≤ 50 ms for top-20 predictions under a separately documented evaluation
 - ✅ no backward compatibility breaks in graph/reasoner APIs
 
 ## Related Documents

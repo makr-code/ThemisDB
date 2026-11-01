@@ -2,8 +2,21 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Status: archived snapshot
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+
+> **Historical generated artifact:** this symbol inventory and its Windows
+> generation paths describe the Doxygen output produced on 2026-09-20. It was
+> not regenerated or revalidated for this documentation update. Do not use it
+> as the current API/class/function inventory; current declarations under
+> `include/ingestion/` and implementations/tests are authoritative.
+>
+> Exact model backend not verifiable from final document text alone.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -14336,4 +14349,3 @@ Status: active
 - Brief: n/a
 - Parameters:
   - `stem` (const std::string &): n/a
-

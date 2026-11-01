@@ -1,4 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-05"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Prompt Engineering Module - Backward Compatibility & Feature Gating (Phase 1)
+
+> Historical design proposal from Q3 2026, not an authoritative statement of current build flags, API types, or approved release policy. Current public declarations and CMake configuration are authoritative; the rewrite feature flags and `PromptEngineeringErrorContext` type named below are not present in the current public API/build configuration.
 
 ## Document Status
 - **Maturity:** 🟡 DESIGN/CONTRACT
@@ -36,28 +52,11 @@ RewriteEngine interfaces are new in Phase 2 (Q4 2026) and will stabilize at v2.4
 
 ---
 
-## Feature Gating Strategy
+## Feature Gating Strategy (Historical Proposal)
 
-### Phase 1 (Q3 2026): Interface Contracts Only
-- **Enabled by default:** No (interfaces only, no implementation)
-- **Feature gate:** Not applicable yet
+The flags `THEMISDB_ENABLE_REWRITE_ENGINE` and `THEMISDB_ENABLE_REWRITE_ENGINE_STRICT_VALIDATION` were proposed in the original Phase 1 plan. They are not defined in the current repository CMake configuration, so they do not enable or disable current rewrite behavior. The rewrite implementation is built as part of the repository core target; see [`ROADMAP.md`](./ROADMAP.md) for current integration and test limitations.
 
-### Phase 2 (Q4 2026): RewriteEngine Implementation
-- **Feature gate:** `THEMISDB_ENABLE_REWRITE_ENGINE` (CMake flag)
-- **Default:** OFF (opt-in until Phase 3 sign-off)
-- **Impact:** Controls RewriteEngine implementation availability
-- **Fallback:** If disabled, no rewrite operations are available; template manager operates unchanged
-
-### Phase 3 (Q4 2026): Production Hardening
-- **Feature gate:** `THEMISDB_ENABLE_REWRITE_ENGINE_STRICT_VALIDATION` (CMake flag)
-- **Default:** OFF (strict mode is opt-in)
-- **Impact:** Enables fail-fast validation and stricter phase isolation
-- **Recommendation:** Enable in production after Phase 3 sign-off
-
-### Phase 4 (Q1 2027): Full Production Rollout
-- **Feature gate:** May remain for backward compat but recommended default is ON
-- **Deprecation:** Legacy non-rewrite paths deprecated (marked `[[deprecated]]`)
-- **Timeline:** Full removal in v3.0.0
+The phase-by-phase rollout and deprecation statements below were planning proposals only; they do not establish an approved release schedule or compatibility guarantee.
 
 ---
 
@@ -190,5 +189,5 @@ For Phase 1 (Design Contract) to be considered COMPLETE:
 
 - [Prompt Engineering ROADMAP](./ROADMAP.md)
 - [FUTURE_ENHANCEMENTS](./FUTURE_ENHANCEMENTS.md)
-- [Error Taxonomy Header](../include/prompt_engineering/prompt_engineering_errors.h)
-- [RewriteEngine Interface Header](../include/prompt_engineering/rewrite_engine.h)
+- [Error Taxonomy Header](../../include/prompt_engineering/prompt_engineering_errors.h)
+- [RewriteEngine Interface Header](../../include/prompt_engineering/rewrite_engine.h)

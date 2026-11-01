@@ -1,3 +1,18 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone. Original creation dates
+> could not be verified from available history; `Created` records this AI-assisted revision.
+
 > **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
 
 <!-- Status: current | validated: 2026-08-09 -->
@@ -43,7 +58,8 @@ Planned enhancements beyond v2.0.0. Core implementation in `src/stable_diffusion
   and enforced in `SDPlugin`.
 - LoRA hot-loading request path (`applyLoRA`) is implemented and validated.
 - Optional `GeneratedImage::perceptual_hash` metadata is implemented with non-fatal fallback.
-- Model integrity check (`model_sha256`) is implemented during `initialize()`.
+- Optional model integrity check (`model_sha256`) is implemented during `initialize()` when the
+  SHA-256 build gate is enabled and OpenSSL is available.
 - Dimension guards are implemented for request and output validation.
 
 ---
@@ -62,15 +78,17 @@ Planned enhancements beyond v2.0.0. Core implementation in `src/stable_diffusion
 
 ---
 
-### 2. Real-backend E2E Automation (Target: Q3 2026)
+### 2. Real-backend E2E verification
 
-**Problem:** Focused unit tests validate logic, but no dedicated stable_diffusion E2E gate
-exists for real model execution in CI.
+**Current state:** The opt-in `SDPluginRealBackendE2ETests` target exists and includes
+text2img/img2img and parallel-generate cases. This document does not establish CI wiring or
+an executed run with a configured model/runtime.
 
-**Solution:** Maintain opt-in E2E target that runs with `THEMIS_ENABLE_STABLE_DIFFUSION=ON`,
-a test model path, and SHA-256 verification enabled.
+**Follow-up:** **TODO:** verify whether CI invokes this target; if not, wire it in and publish
+execution evidence using `THEMIS_ENABLE_STABLE_DIFFUSION=ON` and a test model path.
 
-**Tests:** one text2img and one img2img E2E case asserting valid PNG output and metadata.
+**Tests:** the source currently contains text2img/img2img and parallel-generation cases; target
+execution remains opt-in.
 
 ---
 
@@ -78,6 +96,11 @@ a test model path, and SHA-256 verification enabled.
 
 - Any new image decoder path must validate dimensions before allocation to prevent
   integer-overflow-based heap attacks.
-- Model integrity verification (SHA-256 policy) is enforced when `model_sha256` is provided.
+- Model integrity verification is enforced when `model_sha256` is provided and the
+  `THEMIS_SD_ENABLE_SHA256` build gate is enabled with OpenSSL available; otherwise the digest
+  is not checked.
+- The public API header describes provenance fields as mandatory, but current result paths do
+  not populate every field on failures. **TODO:** reconcile the implementation with that
+  contract before treating failure-result provenance as guaranteed.
 - Any future batch override in `SDCppGenerator` must preserve per-prompt
   `SDPromptSanitizer::isAllowed()` checks.

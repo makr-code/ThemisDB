@@ -23,7 +23,8 @@ The LLM Wiki module supplies ThemisDB with a typed plugin boundary for wiki-rela
 - **Input screening:** a plugin-local fixed-string matcher can flag a subset of query and chunk text. A separate `WikiGuardrails` utility offers broader patterns; the plugin-local matcher does not automatically inherit that full set.
 - **Policy validation:** an optional YAML process policy is checked against its JSON Schema and semantic invariants; optional reload retains the prior in-memory policy if candidate validation fails.
 - **Edition gate:** the core checks a compile-time edition switch. This is not a runtime license or caller-authorization service.
-- **Optional persistence building block:** `RocksDbWikiStore` is compiled and linked when the CMake configuration finds a RocksDB target.
+- **Optional persistence building block:** `RocksDbWikiStore` is compiled and linked when CMake finds a supported RocksDB target, an explicit target override, or a recognized RocksDB package/library result.
+- **Knowledge-sphere design assets:** a JSON Schema, policy YAML, and runtime JSON example are present, but are not loaded or enforced by the current plugin path.
 
 ## Operational value and boundaries
 

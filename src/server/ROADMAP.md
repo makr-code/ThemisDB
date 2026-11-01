@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-17"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks ueberfuehren. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -56,17 +70,17 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 ### Wave 4-A: Server Integrity Gate + Audit Completion (Target: Q4 2026)
 
 > **Source:** gap-verifier subagent triage 2026-08-25 · Inflation factor ~8–10× (~158 raw CRITICAL → 15–20 real)  
-> **FP closed:** `model_integrity_gap` (10 scanner hits) — SHA-256 gate already at `llm_api_handler.cpp:981`; scanner fires on dispatch line + every post-gate `loadModel()` call  
+> **FP closed:** `model_integrity_gap` (10 scanner hits) — SHA-256 gate is implemented in `llm_api_handler.cpp` with `ModelIntegrityVerifier::verifyModel()`; scanner fires on dispatch and post-gate `loadModel()` paths
 > **FP closed:** `iterator_invalidation` in `query_api_handler.cpp` (3 hits) — container identity confusion (`parent` vs `visited`), read-only loops; no real invalidation  
 > **FP closed:** `data_race` local `[&]` lambdas (~15 hits) — function-local variables, single-threaded dispatch  
 > **FP closed:** `new_without_raii` / `smart_ptr_misuse` in `shard_repair_api_handler.cpp` (5 hits) — JS `new Date()`/`new Error()` inside C++ string literals  
 > **FP closed:** `missing_audit_log` in `http_server.cpp` + `session_api_handler.cpp` (7 hits) — route through `requireScope()`/`requireAccess()` with centralised audit at lines 10073-10081
 
-- [x] Model Integrity Gate: **CONFIRMED IMPLEMENTED** — `ModelIntegrityVerifier::verifyModel()` called at `llm_api_handler.cpp:981`; manifest lookup, SHA-256 match, reject on mismatch; closed as FP (2026-08-25)
+- [x] Model Integrity Gate: **CONFIRMED IMPLEMENTED** — `ModelIntegrityVerifier::verifyModel()` performs manifest lookup and SHA-256 verification before model loading; closed as FP (2026-08-25)
 - [x] Iterator Invalidation: **CONFIRMED FP** — `parent` is read-only inside BFS loop; scanner mislabeled separate `pathVisited` container as `parent` mutation (2026-08-25)
 - [x] `integrity_gate_bypass` (`llm_api_handler.cpp:978`): `if (!path.empty())` silently skips SHA-256 gate when `path` absent; replace with HTTP 400 reject (Target: Q4 2026 → Completed 2026-08-26)
   - Tests: empty-path model-load returns 400, non-empty path proceeds normally
-- [x] `path_traversal` (`llm_api_handler.cpp:967-969`): user-supplied `path` not validated; add `weakly_canonical()` + model-store root escape check before `verifyModel`/`loadModel` (Target: Q4 2026 → Completed 2026-08-26)
+- [x] `path_traversal` (`llm_api_handler.cpp`): validate the user-supplied model path against the model-store root before `verifyModel`/`loadModel` (Target: Q4 2026 → Completed 2026-08-26)
   - Tests: `../` path blocked, absolute path outside model root blocked
 - [x] `missing_audit_log` (`lora_api_handler.cpp`): add `THEMIS_INFO("[AUDIT] authorize result={} scope={}", result, scope)` after `authorize()` on ALLOW+DENY branches (Target: Q4 2026 → Completed 2026-08-26)
 - [x] `missing_audit_log` (`import_api_handler.cpp`): same pattern (Target: Q4 2026 → Completed 2026-08-26)

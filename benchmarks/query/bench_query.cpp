@@ -49,15 +49,23 @@ struct BenchEnv {
     // NOTE: Reduced N from 100k to 1k for bench_query to avoid long initialization.
     bool ensureInit(benchmark::State& state, size_t N = 1000) {
         if (ready && initializedN == N) {
-          return true;
+            return true;
         }
         try {
             const std::string db_path = std::string("data/themis_bench_query_") + std::to_string(N);
-            if (std::filesystem::exists(db_path)) {
-                std::filesystem::remove_all(db_path);
-            }
-            storage.reset();
+            // SecondaryIndexManager borrows the storage wrapper's RocksDB handle.
+            // Destroy the borrower before releasing the owning wrapper on dataset reinit.
             secIdx.reset();
+            storage.reset();
+            if (std::filesystem::exists(db_path)) {
+                std::error_code cleanup_error;
+                std::filesystem::remove_all(db_path, cleanup_error);
+                if (cleanup_error) {
+                    state.SkipWithError(("Failed to clear query benchmark DB: " +
+                                         cleanup_error.message()).c_str());
+                    return false;
+                }
+            }
             RocksDBWrapper::Config cfg; cfg.db_path = db_path; cfg.memtable_size_mb = 128; cfg.block_cache_size_mb = 256;
             storage = std::make_shared<RocksDBWrapper>(cfg);
             if (!storage->open()) {

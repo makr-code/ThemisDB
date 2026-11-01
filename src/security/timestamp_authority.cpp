@@ -30,6 +30,7 @@
 // Roadmap ref: src/security/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
 
 #include "security/timestamp_authority.h"
+#include "core/production_mode.h"
 #include "utils/logger.h"
 #include <chrono>
 #include <sstream>
@@ -44,41 +45,12 @@ namespace themis { namespace security {
 
 // Helper: check production mode (mirrors HSM stub pattern)
 /**
- * @brief Is Production Mode.
- * @return True when the operation succeeds.
- * @details Calls: std::getenv(), s().
+ * @brief Checks whether the canonical production safeguards are enabled.
+ * @return True when production mode is enabled.
+ * @throws std::runtime_error if a configured production-mode value is unknown.
  */
 static bool isProductionMode() {
-    const char* prod_mode = std::getenv("THEMIS_PRODUCTION_MODE");
-    const char* environment = std::getenv("THEMIS_ENVIRONMENT");
-    const char* env_type    = std::getenv("ENVIRONMENT");
-    const char* node_env    = std::getenv("NODE_ENV");
-
-    if (prod_mode) {
-        const std::string s(prod_mode);
-        if (s == "1" || s == "true" || s == "True" || s == "TRUE" ||
-            s == "yes"  || s == "Yes"  || s == "on"   || s == "On")
-            return true;
-    }
-    if (environment) {
-        const std::string s(environment);
-        if (s == "production" || s == "prod") {
-          return true;
-        }
-    }
-    if (env_type) {
-        const std::string s(env_type);
-        if (s == "production" || s == "prod") {
-          return true;
-        }
-    }
-    if (node_env) {
-        const std::string s(node_env);
-        if (s == "production") {
-          return true;
-        }
-    }
-    return false;
+    return themis::core::ProductionMode::isEnabled();
 }
 
 // Helper: check if TSA stub is explicitly allowed

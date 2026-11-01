@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: unknown
@@ -54,7 +54,7 @@ For baseline expectations and their named benchmark mappings, see [`PERFORMANCE_
 - Its `getCapabilities()` values describe the advertised interface, not proof that the current build has a real inference or embedding backend.
 - `generateBatch()` is a sequential loop. Stub output, injected callbacks and live wrapper output must be reported separately.
 - The standalone validation-gate export is not shown as a call from `generate()` or `loadModel()` in this module's implementation. Do not assume its checks run on every inference or model load.
-- `ai_context/developer_llm_wiki` is a 2026-10-26 snapshot and is not current implementation evidence.
+- `ai_context/developer_llm_wiki/WIKI_STATUS.json` records a 2026-10-31 full sync, but the wiki's build/test page still describes its generated inventory as a 2026-10-26 snapshot and the curated module index has no llama_cpp-specific context page. Treat the wiki as derivative context; verify behavior against module source, public headers, tests, and benchmarks.
 
 ## Related module documents
 

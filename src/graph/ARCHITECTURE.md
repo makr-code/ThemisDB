@@ -1,24 +1,56 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: ThemisDB documentation orchestration specialist
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source level: level1
+SOT domain: architecture-governance
+Canonical source references:
+  - ../../include/graph/
+  - ../../src/graph/
+  - ../../include/index/graph_index.h
+Related milestone: DOC-WEEKLY-2026-44
+AI_Model_Note: Exact model backend not verifiable from final document text alone.
+---
+
 # Architecture - Graph Module
 
-<!-- Status: current | validated: 2026-09-09 -->
+<!-- Historical source-structure validation: 2026-09-09; see the status notice above. -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS.md -->
 
-## ✅ L0 Verification Report (2026-06-25)
+> **Status notice:** The 2026-06 scanner report below is historical and not current audit
+> evidence. Dependencies and integration statements further down are summaries; verify ownership
+> and exact contracts in current headers/source. See [`API.md`](API.md) for the current boundary
+> summary.
 
-**Risk Level: INFO — 0 verified gaps; all findings are defensive patterns**
+## Historical L0 Verification Report (2026-06-25; not current audit evidence)
+
+> The following values and conclusions reproduce an older scanner summary; they were not
+> independently revalidated during this documentation update and do not establish readiness.
+
+**Reported risk level: INFO — 0 verified gaps; scanner classified findings as defensive patterns**
 
 | Dimension | Finding | Impact |
 |-----------|---------|--------|
-| **Completeness** | 9 initial detections; 8 GUARDED_STUB + 1 FALSE_POSITIVE | All patterns are production-quality |
-| **Severity** | All downgraded from CRITICAL/HIGH → INFO | No implementation blockers |
-| **Release Status** | ✅ Production-ready | No remediation required |
+| **Completeness** | 9 initial detections; 8 GUARDED_STUB + 1 FALSE_POSITIVE (reported) | Historical scanner conclusion; not revalidated |
+| **Severity** | All downgraded from CRITICAL/HIGH → INFO (reported) | Historical scanner conclusion; not revalidated |
+| **Release Status** | Marked production-ready by the snapshot | Not a current release decision |
 
 **Pattern Examples:**
 - `explain_plan::toDot()` (line 68): Empty plan → empty DOT output (correct semantics)
 - `ontology_manager::parseString()` (line 73): Parse error → empty string (documented behavior)
 - `rotate_completion::entityEmbedding()` (line 95): Untrained model → empty vector (defensive guard)
 
-**Analysis**: All findings follow idiomatic error-handling patterns with semantic correctness. Real implementation follows guard checks. See [gap_scanner_verified_graph.json](../../ai_working/gap_scanner_verified_graph.json) (timestamp: 2026-06-25T14:45:00).
+**Analysis recorded by the snapshot**: Findings were described as defensive patterns. This
+analysis was not rechecked against current code. An archived copy of the historical scan is
+available at
+[`gap_scanner_verified_graph.json`](../../docs/ARCHIVED/ai-working-history/gap_scanner_verified_graph.json);
+it is not current audit evidence.
 
 ---
 
@@ -61,6 +93,9 @@ The graph module composes planning, traversal, constraints, and advanced graph-p
 
 ## Sourcecode Verification (Module: graph/architecture)
 
+> The dated verification notes in this section record an earlier review. They are not a current
+> source audit or proof of the listed integration guarantees.
+
 - Verified files:
   - src/graph/graph_query_optimizer.cpp
   - src/graph/path_constraints.cpp
@@ -81,6 +116,9 @@ The graph module composes planning, traversal, constraints, and advanced graph-p
   - follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`
 
 ## Module Dependencies
+
+> The tables below are an older integration inventory. They are not a complete or current
+> dependency graph; validate an edge against the named interface and its current owner.
 
 ### Direct Upstream Dependencies (this module uses)
 | Module | Interface / File | Purpose |

@@ -768,6 +768,10 @@ WireProtocolServer::Stats WireProtocolServer::getStats() const {
     return stats_;
 }
 
+NetworkAuditLog& WireProtocolServer::getAuditLog() noexcept {
+    return audit_log_;
+}
+
 /**
  * @brief ------------------------------------------------------------------------- Per-tenant bandwidth quota management – public forwarding API -------------------------------------------------------------------------
  * @param[in] tenant_id Identifier of the tenant.
@@ -997,6 +1001,9 @@ void WireProtocolServer::handleAccept(std::shared_ptr<Session> session, const bo
         }
 
         if (!checkRateLimit(remote_ip)) {
+            audit_log_.recordRateLimited(
+                remote_ip, session->getSessionID(),
+                "requests_per_second_or_minute");
             boost::system::error_code close_ec;
             session->socket_.close(close_ec);
 
@@ -1052,6 +1059,9 @@ void WireProtocolServer::Session::start() {
         client_ip_ = "unknown";
     }
 
+    audit_open_recorded_.store(true, std::memory_order_release);
+    server_->audit_log_.recordConnectionOpen(client_ip_, session_id_);
+
     // Register this connection with the per-tenant QoS manager
     server_->qos_manager_.registerConnection(session_id_, Priority::MEDIUM);
 
@@ -1074,6 +1084,10 @@ void WireProtocolServer::Session::start() {
 void WireProtocolServer::Session::close() {
     if (closed_.exchange(true, std::memory_order_acq_rel)) {
         return;
+    }
+
+    if (audit_open_recorded_.exchange(false, std::memory_order_acq_rel)) {
+        server_->audit_log_.recordConnectionClose(client_ip_, session_id_);
     }
 
     cancelTimeout();
@@ -1324,7 +1338,8 @@ void WireProtocolServer::Session::asyncUpgradeToWebSocket(
             // (which would drop the count to 0 while the WS session is still alive).
             const std::string ws_client_ip = client_ip_;
             auto ws_session = std::make_shared<WireProtocolWebSocketSession>(
-                std::move(socket_), server_, ws_client_ip);
+                std::move(socket_), server_, ws_client_ip, session_id_, true);
+            audit_open_recorded_.store(false, std::memory_order_release);
             client_ip_.clear();  // neutralize destructor unregister
 
             // Remove from binary-session tracking
@@ -1764,26 +1779,35 @@ void WireProtocolServer::Session::handleAuthRequest() {
     // Expected payload (JSON): {"token": "<bearer-token>", "username": "<optional>"}
     // On success sets authenticated_ = true and records the username.
     // When Config::require_auth is false, any non-empty token (or no token) is accepted.
+    std::string token;
+    std::string username_req;
+    const auto record_auth_failure = [this, &token]() {
+        server_->audit_log_.recordAuth(
+            false, client_ip_, session_id_, {}, token);
+    };
+
     try {
-        std::string token = {};
-        std::string username_req = {};
 
         if (!payload_buffer_.empty()) {
             if (payload_buffer_.size() > kMaxAuthPayloadBytes) {
+                record_auth_failure();
                 sendError(413, "AUTH payload too large");
                 return;
             }
 
             json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
             if (!request.is_object()) {
+                record_auth_failure();
                 sendError(400, "Invalid AUTH payload: expected JSON object");
                 return;
             }
             if (request.contains("token") && !request["token"].is_string()) {
+                record_auth_failure();
                 sendError(400, "Invalid AUTH payload: token must be string");
                 return;
             }
             if (request.contains("username") && !request["username"].is_string()) {
+                record_auth_failure();
                 sendError(400, "Invalid AUTH payload: username must be string");
                 return;
             }
@@ -1792,6 +1816,7 @@ void WireProtocolServer::Session::handleAuthRequest() {
             username_req = request.value("username", "");
 
             if (!username_req.empty() && !isReasonableWireIdentifier(username_req)) {
+                record_auth_failure();
                 sendError(400, "Invalid AUTH payload: username contains control characters or is too long");
                 return;
             }
@@ -1824,6 +1849,8 @@ void WireProtocolServer::Session::handleAuthRequest() {
         if (accepted) {
             authenticated_.store(true, std::memory_order_release);
             username_ = username_req.empty() ? "wire-client" : username_req;
+            server_->audit_log_.recordAuth(
+                true, client_ip_, session_id_, username_, token);
 
             json response;
             response["authenticated"] = true;
@@ -1839,11 +1866,14 @@ void WireProtocolServer::Session::handleAuthRequest() {
                 std::lock_guard<std::mutex> lock(server_->stats_mutex_);
                 server_->stats_.auth_failures++;
             }
+            record_auth_failure();
             sendError(0x0401, "Authentication failed: invalid token");
         }
     } catch (const json::exception& e) {
+        record_auth_failure();
         sendError(400, std::string("Invalid JSON in AUTH payload: ") + e.what());
     } catch (const std::exception& e) {
+        record_auth_failure();
         sendError(0x0007, std::string("AUTH error: ") + e.what());
     }
 }
@@ -4239,4 +4269,3 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
 }
 
 } // namespace themis::network
-

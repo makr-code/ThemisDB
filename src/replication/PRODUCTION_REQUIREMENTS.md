@@ -1,116 +1,78 @@
-> **Status:** 2026-08-18 – mit aktuellem Replication-Code (`raft_v2.cpp`, Wave A Block 2 Hardening) abgeglichen.
+---
+Author: ThemisDB Contributors
+Created: 2026-08-18
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: security
+Canonical_References:
+  - ../../include/replication/replication_manager.h
+  - ../../include/replication/raft_v2.h
+  - ../../include/replication/replication_slot.h
+  - ../../include/replication/async_wal_shipper.h
+  - ../../include/replication/lag_alert_manager.h
+  - ../../tests/CMakeLists.txt
+  - ../../tests/replication/
+Related_Issue: "#7373"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
 
-# ThemisDB Replication Module - Production Requirements
+Exact model backend not verifiable from final document text alone.
 
-## Zweck und Geltungsbereich
+# Replication production requirements: evidence boundary
 
-Dieses Dokument ist der **kanonische Referenzpunkt für produktive Mindestanforderungen** des Replication-Moduls.
-Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Raft-v2-Consensus, Replication-Policy, Replication-Manager, Lock-Ordering und Timeout-Hardening.
+This page is a draft checklist of topics that deployment owners should review. It is
+not a validated production standard or proof that the implementation enforces each
+item. Statements previously phrased as mandatory implementation guarantees are not
+repeated here without source or owner evidence.
 
-## Dokumentabgrenzung (Canonical Split)
+## What the public API confirms
 
-- **`src/replication/PRODUCTION_REQUIREMENTS.md` (dieses Dokument):** verpflichtende Produktionsanforderungen (MUST/MUST NOT), Sicherheitsannahmen, Betriebsgrenzen, Lock-Hierarchie, Timeout-Konfiguration.
-- **`src/replication/README.md`:** Funktionsübersicht, Architekturkontext, API- und Nutzungsbeispiele.
-- **`src/replication/ROADMAP.md`:** Lieferphasen, offene/abgeschlossene Features, Readiness-Planung.
-- **`src/replication/FUTURE_ENHANCEMENTS.md`:** mittelfristige/langfristige Erweiterungen und Forschungsfelder.
+- `ReplicationConfig` declares election/heartbeat/replication timing, WAL, quorum,
+  failover, read preference, TLS-path, and `require_mtls` fields.
+- `AsyncWalShipper` declares a bounded queue, `false` on a full queue, configurable lag
+  threshold, injected ship handler, and `stop()`.
+- `LagAlertManager` declares configurable alert/critical/failover thresholds and
+  caller-invoked evaluation.
+- Slot APIs declare state persistence and LSN progress operations.
+- `RaftV2ClusterConfig` exposes joint-consensus membership and quorum methods.
 
-## Verbindliche Produktionsanforderungen
+Declaration presence does not prove that a value is parsed from production config,
+validated at startup, or honored in all integrations. A user-facing config example
+for the server-side sharding WAL shipper is distinct from these module APIs.
 
-- **MUST:** Raft-Leader-Election mit konfigurierten Election-Timeouts; kein Split-Brain ohne definierte Resolution-Policy.
-- **MUST:** Replication-Policy aktiv; Replikationskonflikte werden mit Metadaten persistiert (Fail-Closed, keine Silent-Drops).
-- **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
-- **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
+## Deployment-owner checklist (verify per deployment)
 
-## Verbindliche Lock-Ordering und Timeout-Anforderungen (Wave A Block 2)
+- [ ] Confirm peer authentication, transport encryption, credential storage, and
+  rotation for the concrete transport handler.
+- [ ] Confirm caller authorization for member changes, promotion/failover, and slot
+  controls.
+- [ ] Select and validate timeout, lag, queue, and resource limits for topology and
+  deployment conditions; API defaults are not automatically production values.
+- [ ] Define how queue-full, transport failure, lag alerts, and quorum loss affect
+  caller-visible write success.
+- [ ] Validate slot persistence, WAL retention, restart/replay, and recovery procedures.
+- [ ] Confirm monitoring names, labels, endpoint exposure, and alert ownership.
+- [ ] Identify the exact configured build/test targets and collect execution evidence.
 
-### Lock Hierarchy Enforcement (MUST)
-- **MUST:** Alle Replication-Module respektieren die 3-Level Lock Hierarchy (Manager → Resource → I/O)
-- **MUST:** Keine I/O-Operationen (File, Network, WAL append) unter Level 1 oder Level 2 Locks
-- **MUST:** State Copying Pattern: Mutable state wird unter Lock kopiert, Lock freigegeben, dann auf Kopie operiert
-- **MUST:** Deadlock Detection: Tests verifizieren kein Circular Wait (siehe test_replication_lock_ordering_focused.cpp)
+## Open verification items
 
-### Timeout Configuration (MUST)
+- **TODO:** Identify a source-backed lock hierarchy per component. The earlier global
+  three-level “Manager → Resource → I/O” rule and lock timing budgets are not
+  substantiated by the reviewed public APIs as universal requirements.
+- **TODO:** Locate and confirm the claimed focused lock-ordering test; the former
+  `test_replication_lock_ordering_focused.cpp` path is not in the current
+  `tests/replication/` inventory.
+- **TODO:** Verify `file_io_timeout_ms` and other timeout fields against all blocking
+  I/O paths; a struct field alone does not establish a bounded operation.
+- **TODO:** Have the security/operations owners approve deployment requirements and
+  escalation procedures.
 
-The following configuration keys MUST be set in production deployments:
-
-```yaml
-replication:
-  # Lock timeout for background worker thread condition variables
-  timeout_ms: 5000  # Default: 5 seconds; adjust based on I/O performance
-  
-  # Specific timeouts for critical operations
-  io_timeout_ms: 10000        # File I/O operations (default: 10 sec)
-  wal_append_timeout_ms: 5000 # WAL append operations (default: 5 sec)
-  
-  # AsyncWalShipper configuration
-  wal_shipping:
-    max_lag_ms: 1000           # Maximum acceptable replication lag (1 sec)
-    max_queue_depth: 4096      # Queue size before backpressure
-    timeout_ms: 5000           # Worker loop wake-up timeout
-```
-
-### Timeout Guarantee (MUST)
-- **MUST:** Condition variable waits use `cv.wait_for(lock, timeout, predicate)` NOT bare `cv.wait()`
-- **MUST:** All background worker threads respond to stop signals within timeout window
-- **MUST:** Operations abort cleanly on timeout rather than hang indefinitely
-- **MUST:** Timeout values are configurable per deployment environment
-
-## Verbindliche Sicherheitsanforderungen
-
-- Sicherheitsrelevante Operationen werden über dedizierte Kontroll-Surfaces geleitet.
-- Fehler in sicherheitskritischen Pfaden werden als explizite Fehlercodes propagiert; kein Silent-Permit.
-- Audit-Logging für sicherheitsrelevante Operationen aktiv in Produktionsdeployments.
-
-## Betriebsgrenzen
-
-- Konfigurationswerte müssen deployment-spezifisch gesetzt sein; Default-Werte gelten nicht als produktionssicher.
-- Ressourcen-Limits (Größen, Counts, Timeouts) müssen mit den Deployment-Anforderungen übereinstimmen.
-- Externe Abhängigkeiten müssen mit expliziten Verbindungs-Timeouts und Retry-Policies konfiguriert sein.
-- Lock Hold Time Limits (Überschreitungen führen zu Warnings):
-  - Level 1 locks: < 1 ms typical (map operations only)
-  - Level 2 locks: < 1 ms typical (state copy only)
-  - Level 3 locks: < 100 ms typical (queue operations, no I/O)
-
-## Minimaler Produktions-Check (Audit-fähig)
-
-- [ ] Modul-Konfiguration vollständig und beim Start validiert
-- [ ] Sicherheits- und Autorisierungs-Checks aktiv
-- [ ] Ressourcen-Limits explizit konfiguriert (keine Unlimited-Defaults)
-- [ ] Lock-Timeout-Werte explizit gesetzt (replication.timeout_ms, etc.)
-- [ ] Deadlock-Detection Tests erfolgreich (test_replication_lock_ordering_focused.cpp)
-- [ ] Audit-Logging aktiv
-- [ ] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
-- [ ] Lock hierarchy documentation present in all 6 target files (verified)
-- [ ] No raw `mutex.lock()` or `cv.wait()` patterns (timeout-guarded only)
-
-## Review / Sourcecode-Audit-Nachweis
-
-### Betroffene Dateien im Review (Wave A Block 2)
-
-- `src/replication/PRODUCTION_REQUIREMENTS.md` (dieses Dokument)
-- `src/replication/ARCHITECTURE.md` (Lock Hierarchy Diagramm hinzugefügt)
-- `src/replication/raft_v2.cpp` (Lock-Ordering-Violation behoben)
-- `src/replication/replication_slot.cpp` (Lock Hierarchy dokumentiert)
-- `src/replication/event_stream.cpp` (Lock Hierarchy dokumentiert)
-- `src/replication/async_wal_shipper.cpp` (Lock Hierarchy + Timeout Guards hinzugefügt)
-- `src/replication/logical_replication.cpp` (Lock Hierarchy dokumentiert)
-- `src/replication/multi_tier_replication.cpp` (Lock Hierarchy + Scope Optimization hinzugefügt)
-- `tests/test_replication_lock_ordering_focused.cpp` (10 Focused Tests, ≥8 für Lock-Ordering & Timeouts)
-
-### Verifikationsergebnisse
-
-**Circular Lock Ordering Gaps (Wave A Block 2):**
-- [x] raft_v2.cpp: writeEntry() WAL append lock violation FIXED (moved outside lock)
-- [x] replication_slot.cpp: lag() external call lock-free pattern verified
-- [x] event_stream.cpp: callbacks outside locks verified
-- [x] async_wal_shipper.cpp: handler invocation lock-free pattern verified
-- [x] logical_replication.cpp: Level 1→2 hierarchy documented
-- [x] multi_tier_replication.cpp: Level 1→2 hierarchy scope-optimized
-
-**No Timeout Gaps (Wave A Block 2):**
-- [x] async_wal_shipper.cpp: cv.wait_for() with 1-second timeout implemented
-- [x] All blocking I/O wrapped: No bare cv.wait() patterns found
-- [x] Configuration keys documented: replication.timeout_ms, wal_shipping.timeout_ms
-- [x] Test coverage: 10 tests including timeout validation (test_replication_lock_ordering_focused.cpp)
-
+See [SECURITY.md](SECURITY.md), [OPERATIONS.md](OPERATIONS.md), and
+[AUDIT.md](AUDIT.md) for the corresponding source gaps. No production audit, build, or
+test run is claimed for this update.

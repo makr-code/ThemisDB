@@ -1,4 +1,31 @@
-# replication — MODULE_GAPS.md (Phase 5 Verified)
+---
+Author: ThemisDB Contributors
+Created: 2026-08-25
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - ../../src/replication/
+  - MODULE_GAPS_BATCH4.md
+  - AUDIT.md
+Related_Issue: "#7373"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+> **Historical snapshot warning (2026-10-31):** Counts and findings below describe the
+> scanner report at its recorded date. They have not been re-run or reconciled against
+> current source; do not use them as a current gap count or active implementation status.
+> See [AUDIT.md](AUDIT.md) for current source-review gaps.
+
+# replication — MODULE_GAPS.md (Phase 5 Verified at capture time)
 
 This file documents all documentation and code quality gaps in the **replication** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 

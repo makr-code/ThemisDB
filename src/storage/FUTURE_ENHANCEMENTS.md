@@ -1,6 +1,27 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-07-19"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "ROADMAP.md"
+  - "PERFORMANCE_EXPECTATIONS.md"
+  - "../../include/storage/"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Storage Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-07-19 -->
+<!-- Planning document reviewed: 2026-10-31; items below are proposals, not verified current behavior or measured targets. -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope

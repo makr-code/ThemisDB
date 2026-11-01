@@ -33,6 +33,54 @@ class BenchmarkResultAggregationTests(unittest.TestCase):
         self.assertEqual(result.real_time_ns, 3000.0)
         self.assertEqual(result.cpu_time_ns, 2000.0)
 
+    def test_benchmark_preflight_errors_are_not_counted_as_measurements(self):
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            results_directory = Path(temporary_directory)
+            (results_directory / "skipped.json").write_text(json.dumps({
+                "benchmarks": [{"name": "BM_ModelTraining", "iterations": 0,
+                                "error_occurred": True,
+                                "error_message": "GGUF model is missing"}]
+            }), encoding="utf-8")
+
+            results = _load_all_results(results_directory)
+
+        self.assertNotIn("BM_ModelTraining", results)
+
+    def test_megascale_ops_per_second_uses_items_per_second(self):
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            source_directory = root / "src" / "network"
+            results_directory = root / "bench_results"
+            source_directory.mkdir(parents=True)
+            results_directory.mkdir()
+            (source_directory / "PERFORMANCE_EXPECTATIONS.md").write_text(
+                "## Specific Expectations\n\n"
+                "| Target ID | Expectation | Benchmark case |\n"
+                "|---|---|---|\n"
+                "| SP-1 | > 50 M ops/s | BM_StreamProtocol_FrameHeaderBuild |\n",
+                encoding="utf-8",
+            )
+            (results_directory / "bench_stream_protocol.json").write_text(json.dumps({
+                "benchmarks": [{
+                    "name": "BM_StreamProtocol_FrameHeaderBuild/128",
+                    "iterations": 17920000,
+                    "real_time": 6.749,
+                    "cpu_time": 6.104,
+                    "time_unit": "ns",
+                    "items_per_second": 327680000.0,
+                }]
+            }), encoding="utf-8")
+            report_path = results_directory / "report.md"
+            args = ["compare_expectations.py", "--src-dir", str(root / "src"),
+                    "--results-dir", str(results_directory), "--output", str(report_path)]
+
+            with patch.object(sys, "argv", args), contextlib.redirect_stderr(io.StringIO()):
+                self.assertEqual(main(), 0)
+
+            report = report_path.read_text(encoding="utf-8")
+
+        self.assertIn("`SP-1` | ✅ PASS", report)
+
     def test_cli_writes_markdown_report_from_results_directory(self):
         with tempfile.TemporaryDirectory() as temporary_directory:
             root = Path(temporary_directory)

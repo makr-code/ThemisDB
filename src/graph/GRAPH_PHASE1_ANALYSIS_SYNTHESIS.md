@@ -1,3 +1,28 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: ThemisDB documentation orchestration specialist
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source level: level1
+SOT domain: module-behavior
+Canonical source references:
+  - ../../include/graph/
+  - ../../src/graph/
+  - ../../tests/graph/
+Related milestone: DOC-WEEKLY-2026-44
+AI_Model_Note: Exact model backend not verifiable from final document text alone.
+---
+
+> **Historical Phase 1 analysis snapshot.** Maturity scores, gap counts, method signatures,
+> thread-safety claims, planned work, and test-pass statements below are not current findings.
+> Validate current behavior against headers, implementations, focused tests, and CMake before
+> reuse. Some proposed names or tests may not exist in the current tree.
+
 /**
  * @file GRAPH_PHASE1_ANALYSIS_SYNTHESIS.md
  * @brief Phase 1 Contract Analysis Synthesis

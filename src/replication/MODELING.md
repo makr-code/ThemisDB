@@ -1,129 +1,74 @@
 ---
-Author: "ThemisDB Contributors"
-Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Author: ThemisDB Contributors
+Created: 2026-10-21
+Last Updated: 2026-10-31
+Status: review
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
-Human_Author: "ThemisDB Contributors"
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - ../../include/replication/replication_manager.h
+  - ../../include/replication/raft_v2.h
+  - ../../include/replication/logical_replication.h
+  - ../../include/replication/replication_slot.h
+  - ../../include/replication/async_wal_shipper.h
+  - ../../include/replication/geo_placement.h
+  - ../../include/replication/conflict_resolution.h
+  - ../../src/replication/ARCHITECTURE.md
+Related_Issue: "#7373"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
 
 Exact model backend not verifiable from final document text alone.
 
-# Replication Modeling Notes
+# Replication state model
 
-## Purpose
+This model groups current public interfaces; it is not a formal guarantee that the
+subsystems form a single integrated state machine.
 
-This document models the replication subsystem as a set of stateful runtime planes and explicit contracts. It is grounded in the concrete implementation of `ReplicationManager`, `ReplicationSlotManager`, `LogicalReplicationManager`, `MultiTierReplicationManager`, and the auxiliary shipping and alerting components.
+## Entities and state
 
-## High-level model
+- **Replica:** `ReplicaInfo` carries node ID, endpoint, role, applied sequence/term,
+  heartbeat, voting status, datacenter, priority, health, and failure metadata.
+- **Manager config:** `ReplicationConfig` carries mode, timing, batching, WAL,
+  quorum, failover, read preference, TLS-related fields, and seed-node values.
+- **WAL record:** `WALEntry` contains sequence, term, timestamp, operation,
+  collection/document identifiers, data, and checksum; serialize/deserialize methods
+  are declared.
+- **Raft membership:** `RaftV2ClusterConfig` tracks old/new sets while a joint
+  consensus membership transition is in flight.
+- **Physical slot:** `ReplicationSlot::SlotState` tracks name, status,
+  confirmed/restart LSN, plugin, consumer identity, and timestamps.
+- **Logical change:** `LogicalChange` represents typed change data, schema/version
+  fields, old/new JSON data, DDL, LSN, and timestamp.
+- **Async shipping:** `WalSegment` carries sequence, bytes, enqueue time, and target
+  datacenter; a bounded queue and transport handler are owned by `AsyncWalShipper`.
 
-The replication module is organized into four primary execution planes:
+## Component flow (interface-level)
 
-1. Cluster control plane: leader election, health checks, promotion, and failover state.
-2. Data propagation plane: WAL write propagation, slot advancement, and logical change streaming.
-3. Conflict/merge plane: multi-writer divergence handling and deterministic merge semantics.
-4. Observability and policy plane: lag accounting, placement validation, and operator-facing metrics and alerts.
+1. A caller invokes manager/WAL APIs with a replication mode and topology.
+2. Logical replication can select/read buffered changes through slot APIs.
+3. Async shipping queues segments and invokes its configured handler outside the
+   caller's enqueue operation.
+4. Placement evaluates a supplied replica snapshot; the caller acts on its candidate.
+5. Conflict, lag-alert, event, and observer APIs expose additional behavior through
+   separate components.
 
-This model is consistent with the source layout in `src/replication/*` and the architecture summary in `src/replication/ARCHITECTURE.md`.
+This is not evidence that these steps are wired end-to-end in a particular server
+configuration. See [EMBEDDING.md](EMBEDDING.md).
 
-## State model
+## Limits and explicit TODOs
 
-### Node state
-
-Each replica is represented by `ReplicaInfo` in the replication manager API. The record includes:
-
-- node identity and endpoint,
-- role (leader, follower, candidate, observer, witness),
-- heartbeats and failure counters,
-- health status,
-- datacenter and priority metadata.
-
-This is enough to model leader election, placement-aware failover, and read-preference routing.
-
-### WAL state
-
-`WALEntry` is the atomic replication record. It includes:
-
-- `sequence_number`
-- `term`
-- `timestamp`
-- operation metadata (`operation`, `collection`, `document_id`, `data`, `checksum`)
-
-This gives the module a durable ordering primitive for consistent replay.
-
-### Slot state
-
-`ReplicationSlot` and `ReplicationSlotManager` hold per-slot lifecycle state: active, paused, dropped, and LSN/lag metadata. This is the mechanism by which the system avoids silent data loss and supports controlled recovery after lag or transport issues.
-
-### Logical change model
-
-`LogicalReplicationManager::makeLogicalChange()` turns WAL entries into `LogicalChange` records with collection, document, operation, and filter metadata. That is the point where CDC or logical propagation becomes semantically meaningful for downstream consumers.
-
-## Interaction model
-
-### Leader election and failover
-
-`ReplicationManager` tracks quorum, health, and leader lease semantics. The cluster chooses a leader using explicit health and placement policy checks, then transitions to failover only when the conditions justify that move.
-
-Key model features:
-
-- health checks are periodic and explicit,
-- failover is not automatic for any replica by default,
-- quorum and placement constraints gate whether a new leader is valid,
-- the cluster emits health and lag signals while the state changes.
-
-### Data propagation
-
-The flow is:
-
-1. A write is committed as a WAL entry.
-2. The entry is replicated to peers or shipped asynchronously.
-3. Followers or downstream subscribers apply or acknowledge the write.
-4. Slot or logical replication state advances according to ack and LSN rules.
-
-The implementation makes the flow observable through lag metrics and slot state while keeping blocking transport outside lock scopes.
-
-### Conflict handling
-
-The conflict model is deterministic at the strategy boundary. `ConflictResolution` enumerates the supported strategies, and the relevant merge logic resolves concurrent changes using ordering or conflict metadata rather than a silent last-write-wins default hidden in the transport pipeline.
-
-## Failure model
-
-The key failure domains are:
-
-- network partitions and stale leader detection,
-- lag spikes and failover thresholds,
-- queue saturation in asynchronous WAL shipping,
-- slot persistence or replay failures,
-- mismatched or unresolvable conflict states,
-- schema or CDC change mismatches in logical replication.
-
-The design treats each as explicit and diagnosable. It does not model failure as a normal success path.
-
-## Invariants
-
-The implementation relies on a tight set of invariants:
-
-- sequence numbers must be monotonic within the replication domain,
-- leader or replica state changes must be validated before the system accepts them,
-- lag and queue events must be measurable and alertable,
-- lock ordering must remain safe and ordered,
-- blocking I/O must not execute while core replication locks are held,
-- data must not be silently overwritten when conflict or quorum policy is unresolved.
-
-## Operational consequences
-
-This model makes replica behavior explainable for operators and maintainers:
-
-- if lag is rising, `LagAlertManager` is the primary signal,
-- if failover is required, `ReplicationManager` is the state machine,
-- if the stream is stalled, `ReplicationSlot` and `LogicalReplicationManager` reveal the bounded state,
-- if the queue backs up, `AsyncWalShipper` is the recovery surface,
-- if a multi-writer conflict occurs, the conflict strategy and merge semantics are the final deterministic boundary.
-
-## Summary
-
-The replication module models cluster state as an explicit set of node, slot, WAL, and policy states rather than as a passive set of background tasks. That is the core reason it can provide recoverable consistency and accountable failover behavior in production.
+- A monotonic-sequence or LSN invariant should be claimed only for an operation whose
+  implementation enforces it; similarly named fields alone do not prove global order.
+- `LagAlertManager` reports threshold eligibility but the reviewed interface does not
+  prove an automatic `ReplicationManager` failover call.
+- `AsyncWalShipper` queue-full returns `false`; callers must decide how to respond.
+- A declared contract header is not conformance evidence for every runtime path.
+- **TODO:** Define the integrated consistency, delivery, replay, and failure model
+  against actual callers and tests.
+- **TODO:** Document how header-only/unmatched implementation surfaces are provided.

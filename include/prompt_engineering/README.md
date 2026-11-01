@@ -1,107 +1,78 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+---
+Author: "ThemisDB Team"
+Created: "2026-05-13"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-05-13 -->
-<!-- Links: ../../src/prompt_engineering/README.md · ../../src/prompt_engineering/ROADMAP.md · ../../src/prompt_engineering/FUTURE_ENHANCEMENTS.md · ../../docs/de/prompt_engineering/README.md -->
+> Exact model backend not verifiable from final document text alone.
 
-# Prompt Engineering Module (Public Headers)
+# Prompt Engineering Module — Public Headers
 
-Public API surface for ThemisDB prompt lifecycle management, optimization, safety checks, and integration helpers.
+This directory declares the public C++ interfaces for prompt templates, evaluation, revision, context handling, safety helpers, and integration hooks. Header declarations are authoritative; this index describes responsibility rather than duplicating signatures.
 
-## Header Entry Points
+## Header inventory
 
-| Header | Key Public API | Description |
-|---|---|---|
-| `prompt_engineering_integration.h` | `PromptEngineeringIntegration`, `IntegrationConfig`, `ExecutionContext` | High-level façade and runtime integration contract |
-| `prompt_manager.h` | `PromptManager`, `PromptTemplate`, `ValidationResult`, `ImageDescription` | Template registry, validation, context injection, optional multimodal metadata |
-| `feedback_collector.h` | `FeedbackCollector`, `FeedbackEntry`, `FeedbackStats`, `FeedbackType` | Feedback ingestion, aggregation, and failure-pattern analysis |
-| `prompt_evaluator.h` | `PromptEvaluator`, `IEmbeddingProvider`, `EvaluatorConfig` | Quality scoring and statistical significance checks |
-| `prompt_optimizer.h` | `PromptOptimizer`, `OptimizationConfig`, `OptimizerResult` | Iterative prompt optimization workflow |
-| `meta_prompt_generator.h` | `MetaPromptGenerator`, `ILLMProvider`, `MetaPromptConfig` | Meta-prompt generation and LLM-provider extension point |
-| `self_improvement_orchestrator.h` | `SelfImprovementOrchestrator`, `ImprovementConfig`, `OptimizationResult` | Automated optimization orchestration and A/B handoff |
-| `prompt_version_control.h` | `PromptVersionControl`, `PromptVersion`, `BranchInfo`, `MergeResult` | Git-like prompt versioning (branch/commit/diff/merge) |
-| `prompt_performance_tracker.h` | `PromptPerformanceTracker`, `PromptMetrics` | Execution-quality and latency tracking |
-| `prompt_engineering_metrics.h` | `PromptEngineeringMetrics`, `Config`, `AlertConfig` | Prometheus-style counters, alert thresholds, snapshot/restore |
-| `prompt_injection_detector.h` | `PromptInjectionDetector`, `DetectionResult`, `Config` | Prompt/response injection detection and sanitization |
-| `context_window_manager.h` | `ContextWindowBudgetManager`, `ModelTokenBudget`, `BudgetAllocation`, `PromptBudgetExceededError` | Token-budget planning and context-limit enforcement |
-| `rag_prompt_builder.h` | `RAGPromptBuilder`, `RetrievedChunk`, `RAGPromptConfig` | Retrieval-augmented prompt composition with source citations |
-| `chain_of_thought.h` | `ChainOfThoughtBuilder`, `CoTStep`, `CoTConfig` | Structured chain-of-thought prompt construction |
-| `cot_tracer.h` | `IChainOfThoughtTracer`, `RecordingCoTTracer`, `CoTTraceCollector`, `CoTSpanRecord` | CoT execution tracing and span collection |
-| `reflection_tuner.h` | `ReflectionTuner`, `ReflectionConfig`, `ReflectionResult`, `IReflectionProvider` | Reflection-based iterative revision with hallucination guard |
-| `llm_reflection_adapter.h` | `ILLMProviderReflectionAdapter`, `IReflectionScorer` | Adapter from `ILLMProvider` to reflection provider contracts |
-| `prompt_regression_runner.h` | `PromptRegressionRunner`, `RegressionFixture`, `RegressionConfig`, `RegressionResult` | Golden-set regression execution and drift classification |
-| `prompt_ab_experiment.h` | `PromptABExperimentFramework`, `PromptExperiment`, `ExperimentOutcome` | Deterministic traffic splitting and experiment evaluation |
-| `prompt_library_io.h` | `PromptLibraryIO`, `PromptLibraryBundle`, `ImportResult`, `ExportResult` | Prompt library import/export (JSON/YAML) |
-| `prompt_template_compiler.h` | `PromptTemplateCompiler`, `IPromptTemplate`, `PromptContextValue` | Typed template DSL and runtime compilation |
-| `prompt_template_validator.h` | `PromptTemplateValidator`, `TemplateValidationResult` | Template schema and structure validation |
-| `system_prompt_manager.h` | `SystemPromptManager`, `SystemPrompt`, `Role` | Role-based system prompt lifecycle and rendering |
-| `tree_of_thoughts.h` | `TreeOfThoughtsBuilder`, `ToTConfig`, `ToTResult` | Tree-of-thought multi-path reasoning workflow |
-| `protegi_optimizer.h` | `ProTeGiOptimizer`, `ProTeGiConfig`, `ProTeGiResult`, `IProTeGiLLMProvider` | Textual-gradient prompt optimization |
-| `dspy_module.h` | `DspyModule`, `DspySignature`, `DspyChainOfThought`, `IDspyLLMProvider` | DSPy-style declarative prompt APIs |
-| `prompt_compressor.h` | `IPromptCompressor`, `PromptCompressionConfig`, `CompressionResult` | Prompt compression contract |
-| `structured_output.h` | `IStructuredOutputEnforcer`, `StructuredOutputConfig`, `StructuredOutputResult` | Structured-output constraints (JSON schema/regex grammar) |
-| `prompt_quality_evaluator.h` | `IPromptQualityEvaluator`, `QualityConfig`, `QualityReport` | Prompt-quality audit contract |
-| `rag_context_budget_manager.h` | `IRAGContextBudgetManager`, `BudgetHandle`, `BudgetSnapshot` | RAG context-budget reservation contract |
-| `adversarial_prompt_tester.h` | `IAdversarialPromptTester`, `AdversarialTestCase`, `AdversarialTestReport` | Adversarial prompt security testing contract |
+| Header | Responsibility |
+|---|---|
+| `adversarial_prompt_tester.h` | Adversarial prompt test cases and reports |
+| `chain_of_thought.h` | Chain-of-thought prompt construction |
+| `context_window_manager.h` | Token estimation and context-window budgeting |
+| `cot_tracer.h` | Chain-of-thought trace collection |
+| `dspy_module.h` | DSPy-style signatures and modules |
+| `feedback_collector.h` | Feedback recording, aggregation, and pruning |
+| `llm_reflection_adapter.h` | Adapter for reflection provider interfaces |
+| `markdown_utils.h` | Markdown processing helpers |
+| `meta_prompt_generator.h` | Meta-prompt generation contract |
+| `prompt_ab_experiment.h` | Prompt variant experiments |
+| `prompt_compressor.h` | Prompt compression contract |
+| `prompt_engineering_errors.h` | Prompt-engineering error-code enum and formatter |
+| `prompt_engineering_integration.h` | Execution hooks and background optimization lifecycle |
+| `prompt_engineering_metrics.h` | In-memory counters, export, and snapshot/restore |
+| `prompt_evaluator.h` | Output scoring and optional embedding-provider interface |
+| `prompt_injection_detector.h` | Prompt/response injection heuristics and sanitization |
+| `prompt_library_io.h` | Prompt-library import/export |
+| `prompt_manager.h` | Template lifecycle, validation, and context substitution |
+| `prompt_optimizer.h` | Bounded optimization loop |
+| `prompt_performance_tracker.h` | Per-prompt performance measurements |
+| `prompt_quality_evaluator.h` | Prompt quality checks and reports |
+| `prompt_regression_runner.h` | Fixture-based prompt regression evaluation |
+| `prompt_template_compiler.h` | Typed prompt-template compilation |
+| `prompt_template_validator.h` | Serialized-template validation |
+| `prompt_version_control.h` | Prompt revisions, branches, diffs, and rollback |
+| `protegi_optimizer.h` | ProTeGi-style textual-gradient optimization |
+| `rag_context_budget_manager.h` | RAG token-budget reservations |
+| `rag_prompt_builder.h` | Retrieval-augmented prompt assembly |
+| `reflection_tuner.h` | Reflection-based response refinement |
+| `rewrite_engine.h` | Ordered rewrite execution interfaces |
+| `rewrite_rule.h` | Rewrite rule types and contracts |
+| `rewrite_rule_loader.h` | YAML loader for supported lexical rule types |
+| `self_improvement_orchestrator.h` | Optimization orchestration and A/B handoff |
+| `structured_output.h` | Structured-output enforcement interfaces |
+| `system_prompt_manager.h` | System-prompt lifecycle and rendering |
+| `tree_of_thoughts.h` | Tree-of-thought prompt exploration |
 
-## Configuration Surfaces
+## Runtime boundaries
 
-Primary runtime/configuration structs exposed in public headers:
+- Most APIs are library calls; this module does not make an LLM request or provide a metrics HTTP endpoint.
+- `PromptEngineeringIntegration` exposes `beforeExecution()` and `afterExecution()` hooks. The caller must execute the model call between them and define its own error and retry policy.
+- `PromptManager::injectContext()` performs literal substitution; it does not escape inserted values or authorize context.
+- The injection detector provides heuristics, not an authorization decision or a complete safety boundary.
+- `PromptEvaluator` uses lexical similarity by default; embedding scoring requires a caller-supplied provider.
+- `RewriteEngine` is implemented as a separate core API but is not automatically called by the integration hooks.
 
-- `IntegrationConfig` (`prompt_engineering_integration.h`)
-- `ImprovementConfig` (`self_improvement_orchestrator.h`)
-- `EvaluatorConfig` (`prompt_evaluator.h`)
-- `OptimizationConfig` (`prompt_optimizer.h`)
-- `MetaPromptConfig` (`meta_prompt_generator.h`)
-- `PromptInjectionDetector::Config` (`prompt_injection_detector.h`)
-- `PromptEngineeringMetrics::Config` + `AlertConfig` (`prompt_engineering_metrics.h`)
-- `ModelTokenBudget` (`context_window_manager.h`)
-- `RAGPromptConfig` (`rag_prompt_builder.h`)
-- `ReflectionConfig` (`reflection_tuner.h`)
-- `RegressionConfig` (`prompt_regression_runner.h`)
-- `PromptCompressionConfig` (`prompt_compressor.h`)
-- `StructuredOutputConfig` (`structured_output.h`)
-- `ProTeGiConfig` (`protegi_optimizer.h`)
+## Build and use
 
-## Runtime Behavior, Error Cases, and Limits
+The module is built as part of ThemisDB. For the supported build preset and focused test commands, see [`../../src/prompt_engineering/MODULE_GUIDE.md`](../../src/prompt_engineering/MODULE_GUIDE.md). For exact API call flow and error handling, see [`../../src/prompt_engineering/API.md`](../../src/prompt_engineering/API.md) and the corresponding public headers.
 
-- Most APIs are synchronous and return status/optional data; validation failures are surfaced via result objects (for example `ValidationResult`, `TemplateValidationResult`, `DetectionResult`) rather than process termination.
-- Budget and threshold policies are explicit in config structs; callers should tune these to model limits (`ModelTokenBudget`) and quality/SLO targets (`AlertConfig`, `ImprovementConfig`).
-- Statistical/optimization APIs require representative input datasets; poor or tiny datasets can produce unstable significance and regression outcomes.
-- `PromptBudgetExceededError` signals context-limit breaches in budget-managed flows.
+## Related documentation
 
-## Usage
-
-```cpp
-#include "prompt_engineering/prompt_engineering_integration.h"
-#include "prompt_engineering/prompt_manager.h"
-
-themis::prompt_engineering::IntegrationConfig cfg;
-cfg.enable_prompt_injection_detection = true;
-cfg.enable_auto_optimization = false;
-
-themis::prompt_engineering::PromptEngineeringIntegration integration(cfg, &db, cf);
-auto result = integration.execute("sql_generation_v1", {{"user_query", "count open cases"}});
-```
-
-## Troubleshooting
-
-- **Template creation fails**: inspect `ValidationResult.errors` and verify required fields (`name`, `version`, `content`).
-- **Unexpected prompt truncation or failure**: check token budget inputs (`ModelTokenBudget`) and context chunk sizes.
-- **Low optimization gains**: verify test-case quality and `OptimizationConfig`/`ImprovementConfig` thresholds before increasing iterations.
-- **False-positive injection alerts**: review `PromptInjectionDetector::Config::custom_patterns` and adjust pattern strictness.
-
-## Related Documentation
-
-- Source module guide: [`../../src/prompt_engineering/README.md`](../../src/prompt_engineering/README.md)
-- Source architecture: [`../../src/prompt_engineering/ARCHITECTURE.md`](../../src/prompt_engineering/ARCHITECTURE.md)
-- Module roadmap: [`../../src/prompt_engineering/ROADMAP.md`](../../src/prompt_engineering/ROADMAP.md)
-- Future enhancements: [`../../src/prompt_engineering/FUTURE_ENHANCEMENTS.md`](../../src/prompt_engineering/FUTURE_ENHANCEMENTS.md)
-- German module docs: [`../../docs/de/prompt_engineering/README.md`](../../docs/de/prompt_engineering/README.md)
-
-## Installation
-
-The module is part of ThemisDB. Add include directories through your target:
-
-```cmake
-target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
-```
+- [`ARCHITECTURE.md`](./ARCHITECTURE.md)
+- [`../../src/prompt_engineering/README.md`](../../src/prompt_engineering/README.md)
+- [`../../src/prompt_engineering/ROADMAP.md`](../../src/prompt_engineering/ROADMAP.md)
+- [`../../src/prompt_engineering/FUTURE_ENHANCEMENTS.md`](../../src/prompt_engineering/FUTURE_ENHANCEMENTS.md)

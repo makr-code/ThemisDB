@@ -196,7 +196,8 @@ TEST_F(WALStorageTest, Recovery_EarlyStop) {
         return ++count < 3; // stop after 2 entries
     };
 
-    (void)WALStorage::open(config(), cb);
+    auto recovery = WALStorage::open(config(), cb);
+    EXPECT_FALSE(recovery.has_value());
     EXPECT_EQ(count, 3); // callback was called for 3 entries (returns false on 3rd)
 }
 
@@ -287,30 +288,93 @@ TEST_F(WALStorageTest, Flush_Succeeds) {
 // CRC32 corruption detection
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST_F(WALStorageTest, CorruptedEntry_StopsReplay) {
-    // Write one valid entry.
+TEST_F(WALStorageTest, MidLogCorruption_FailsClosed) {
+    // Write multiple valid entries so the damaged entry is not at the segment tail.
     {
         auto wal = WALStorage::open(config());
         ASSERT_TRUE(wal.has_value());
-        (*wal)->appendPut("good_key", "good_value");
+        ASSERT_TRUE((*wal)->appendPut("first", "valid").has_value());
+        ASSERT_TRUE((*wal)->appendPut("damaged", "record").has_value());
+        ASSERT_TRUE((*wal)->appendPut("last", "valid").has_value());
     }
 
-    // Corrupt the segment file by flipping a byte in the middle.
+    // Corrupt the first entry's magic; replay must not report a successful open.
     std::string seg_path = dir_ + "/" + WALStorage::segmentName(1);
     {
         std::fstream f(seg_path, std::ios::in | std::ios::out | std::ios::binary);
         ASSERT_TRUE(f.is_open());
-        f.seekp(10); // somewhere inside the entry
-        char corrupt = 0xFF;
+        f.seekp(0);
+        char corrupt = '\0';
         f.write(&corrupt, 1);
     }
 
-    // Recovery should silently stop at the corrupted entry – not crash.
-    std::vector<WALStorage::Entry> entries;
-    WALStorage::open(config(), [&](const WALStorage::Entry& e) {
-        entries.push_back(e);
+    auto recovery = WALStorage::open(config(), [](const WALStorage::Entry&) {
         return true;
     });
-    // The corrupted entry should not be recovered.
-    EXPECT_EQ(entries.size(), 0u);
+    EXPECT_FALSE(recovery.has_value())
+        << "A mid-log magic mismatch must prevent startup";
+}
+
+TEST_F(WALStorageTest, ChecksumMismatch_FailsClosed) {
+    {
+        auto wal = WALStorage::open(config());
+        ASSERT_TRUE(wal.has_value());
+        ASSERT_TRUE((*wal)->appendPut("first", "valid").has_value());
+        ASSERT_TRUE((*wal)->appendPut("damaged", "record").has_value());
+        ASSERT_TRUE((*wal)->appendPut("last", "valid").has_value());
+    }
+
+    const std::string seg_path = dir_ + "/" + WALStorage::segmentName(1);
+    {
+        std::fstream f(seg_path, std::ios::in | std::ios::out | std::ios::binary);
+        ASSERT_TRUE(f.is_open());
+        f.seekp(10);
+        const char corrupt = static_cast<char>(0xFF);
+        f.write(&corrupt, 1);
+    }
+
+    auto recovery = WALStorage::open(config(), [](const WALStorage::Entry&) {
+        return true;
+    });
+    EXPECT_FALSE(recovery.has_value())
+        << "A checksum mismatch before later records must prevent startup";
+}
+
+TEST_F(WALStorageTest, IncompleteTail_IsTruncatedBeforeAppend) {
+    {
+        auto wal = WALStorage::open(config());
+        ASSERT_TRUE(wal.has_value());
+        ASSERT_TRUE((*wal)->appendPut("before-crash", "durable").has_value());
+    }
+
+    const std::string seg_path = dir_ + "/" + WALStorage::segmentName(1);
+    const auto valid_size = fs::file_size(seg_path);
+    {
+        std::ofstream f(seg_path, std::ios::binary | std::ios::app);
+        ASSERT_TRUE(f.is_open());
+        const char partial_header[] = {0x34, 0x12, static_cast<char>(0xAB)};
+        f.write(partial_header, sizeof(partial_header));
+    }
+
+    std::vector<WALStorage::Entry> recovered;
+    auto wal = WALStorage::open(config(), [&](const WALStorage::Entry& entry) {
+        recovered.push_back(entry);
+        return true;
+    });
+    ASSERT_TRUE(wal.has_value());
+    ASSERT_EQ(recovered.size(), 1u);
+    EXPECT_EQ(fs::file_size(seg_path), valid_size);
+
+    ASSERT_TRUE((*wal)->appendPut("after-recovery", "visible").has_value());
+    (*wal).reset();
+
+    recovered.clear();
+    auto reopened = WALStorage::open(config(), [&](const WALStorage::Entry& entry) {
+        recovered.push_back(entry);
+        return true;
+    });
+    ASSERT_TRUE(reopened.has_value());
+    ASSERT_EQ(recovered.size(), 2u);
+    EXPECT_EQ(recovered[0].key, "before-crash");
+    EXPECT_EQ(recovered[1].key, "after-recovery");
 }

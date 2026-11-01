@@ -98,14 +98,17 @@ compression, and worker counts are not applied here.
 `BidiStreamAdapter<Req, Resp>` stores a non-owning pointer to a stream; passing
 null throws `std::invalid_argument`. The default queue depth is 100. Copy and
 move are disabled. `run()` calls `Read()` until EOF or the finished flag is
-observed and invokes the registered handler if one exists.
+observed and invokes the registered handler if one exists. Setting the flag
+does not interrupt a `Read()` already blocked inside gRPC.
 
 `write()` waits while the response queue is full, pushes a response, and
 synchronously drains the queue using `Stream::Write`. It returns false when
 the adapter is finished; it does not propagate the return value of
-`Stream::Write`. There is no internal write deadline. `finish(status)` stores
-the status and wakes waiters; it does not itself join a reader or own the
-underlying stream. Callers must coordinate stream lifetime and cancellation.
+`Stream::Write`. There is no internal write deadline. A zero queue depth is not
+rejected and makes a writer wait until `finish()` releases it. `finish(status)`
+stores the status and wakes queue waiters; it does not interrupt an in-flight
+gRPC read/write, join a reader, or own the underlying stream. Callers must
+coordinate stream lifetime and cancellation.
 
 ## Focused validation
 

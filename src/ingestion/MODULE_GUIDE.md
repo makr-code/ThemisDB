@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -48,7 +48,7 @@ provide ingestion test targets:
 
 ```bash
 cmake -S . -B build-ingestion-tests -DTHEMIS_BUILD_TESTS=ON
-cmake --build build-ingestion-tests --target module_ingestion_test_ingestion_contract_hardening_focused
+cmake --build build-ingestion-tests --target module_ingestion_test_ingestion_contract_hardening_focused_focused
 ctest --test-dir build-ingestion-tests -L ingestion --output-on-failure
 ```
 

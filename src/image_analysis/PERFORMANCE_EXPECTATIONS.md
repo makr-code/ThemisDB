@@ -6,7 +6,7 @@
 **Status:** active
 **AI_Used:** true
 **AI_Models:** unknown
-**AI_Contributor:** OpenAI ChatGPT
+**AI_Contributor:** GitHub Copilot
 **Human_Review:** false
 **Human_Author:** ThemisDB Contributors
 
@@ -14,6 +14,7 @@ Exact model backend not verifiable from final document text alone.
 
 <!-- Status: source review: 2026-10-31; benchmarks not run -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Source level: level 1 | SOT domain: module-behavior -->
 
 ## Scope
 
@@ -53,6 +54,8 @@ Exact model backend not verifiable from final document text alone.
   - `benchmarks/image_analysis/bench_image_analysis_latency.cpp`
   - `benchmarks/image_analysis/benchmark_image_analysis.cpp`
 - These sources instantiate synthetic/mock plugins and exercise embedding/captioning or simulated workloads; they do not measure the Tesseract or YOLOv8 plugin implementations.
+- When targets exist, [`benchmarks/CMakeLists.txt`](../../benchmarks/CMakeLists.txt) registers `bench_image_analysis` and `bench_image_analysis_latency` under benchmark module `image_analysis`; `benchmark_image_analysis` is registered under `benchmark_image`. All three sources use mock/synthetic plugins.
+- Target creation is gated by `THEMIS_BUILD_BENCHMARKS=ON`, an available Google Benchmark package, and source-file presence; CTest registration is conditional on target existence. The root project defaults the option to `OFF`.
 - No baseline, regression percentage, cache performance, OCR/detection latency, or release-profile result is established by these files or by this documentation review.
 
 ## Requirements Before Setting Numeric Gates

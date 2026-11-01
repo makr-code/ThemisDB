@@ -6,6 +6,10 @@
 
 # GPU Backend Dispatch - Phase 2/3 Hardening Delivery
 
+> Historical delivery summary dated 2026-08-05. The test/benchmark delivery
+> statements below are not evidence of current CMake registration, successful
+> builds, passing runs, or current performance.
+
 ## Overview
 
 Completed Phase 2/3 hardening integration for GPU backend allocation and dispatch code, following the production readiness pattern established by failover and auth modules. This deliverable includes:

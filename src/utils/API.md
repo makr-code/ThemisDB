@@ -27,7 +27,7 @@ not supersede them. Internal `.cpp` files under `src/utils` are not public API.
 |---|---|---|
 | Privacy | `PIIDetector`, `IPIIDetectionEngine`, `PIIStreamScanner`, `PIIPseudonymizer` | Findings include type, value, offsets, confidence, and engine identity. Validate results and distinguish errors from no findings; configure streaming lookahead for cross-chunk spans. |
 | Audit and logs | `AuditLogger`, `Logger`, `SagaLogger` | Use the dedicated helpers for structured/audit events. Handle enqueue, flush, persistence, and signature errors according to the concrete class contract. |
-| Crypto and keys | `HkdfHelper`, `HkdfCache`, `LEKManager`, `VCCPKIClient` | Keep key-provider and storage lifetimes valid. Validate all result flags; key retrieval and configured signature verification can fail. |
+| Crypto and keys | `HKDFHelper`, `HKDFCache`, `LEKManager`, `VCCPKIClient` | Keep key-provider and storage lifetimes valid. Validate all result flags; key retrieval and configured signature verification can fail. |
 | Compression | `zstd_*_safe`, `lz4_*_safe`, streaming Zstd classes | Prefer `Result`-based APIs. Validate encoded sizes, decompression bounds, and codec availability. LZ4 block decoding also requires the original size. |
 | Runtime | `ThreadPool`, `ThreadPoolManager`, `RateLimiter`, connection pools | Handle rejected submissions, exhausted capacity, and timeout returns. Stop/join owned workers during shutdown. |
 | Data and time helpers | `BloomFilter`, `ConsistentHash`, SIMD/geospatial helpers, `CronParser`, timestamp utilities | Follow each header's input constraints and synchronization guarantees; do not infer thread safety across unrelated helpers. |

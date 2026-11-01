@@ -106,7 +106,19 @@ public:
 
     BloomFilter() : BloomFilter(64) {}
 
+    /**
+     * @brief Add a value to the filter.
+     * @param value Timestamp value to record.
+     * @note The filter may report false positives; it does not remove values.
+     */
     void add(int64_t value) noexcept;
+
+    /**
+     * @brief Test whether a value may have been added to the filter.
+     * @param value Timestamp value to test.
+     * @return false if the value was not added; true if it may have been added.
+     *         A true result can be a false positive.
+     */
     bool mightContain(int64_t value) const noexcept;
 
     size_t bitCount() const noexcept { return num_bits_; }
@@ -347,6 +359,10 @@ public:
      * @brief Return the version valid at timestamp as_of.
      *
      * Queries hot → warm → cold in order, returning the first match.
+     * @param table_name Logical table containing the document.
+     * @param doc_key Document key to query.
+     * @param as_of System-time instant to match.
+     * @return Matching version, or an empty optional when none exists.
      */
     std::optional<VersionedDocument> getAsOf(const std::string& table_name,
                                              const std::string& doc_key,
@@ -356,6 +372,9 @@ public:
      * @brief Return all stored historical versions, sorted by sys_start.
      *
      * Merges hot + warm + cold tiers.
+     * @param table_name Logical table containing the document.
+     * @param doc_key Document key to query.
+     * @return All stored versions for the key.
      */
     std::vector<VersionedDocument> getHistory(const std::string& table_name,
                                               const std::string& doc_key) const;
@@ -401,7 +420,18 @@ public:
 
     // ── Policy ────────────────────────────────────────────────────────────
 
+    /**
+     * @brief Replace the tiering policy used for subsequent decisions.
+     * @param policy Policy copied into this manager.
+     */
     void setPolicy(const TierPolicy& policy);
+
+    /**
+     * @brief Return the manager's current tiering policy.
+     * @return Reference to manager-owned policy state.
+     * @note The reference is valid only while this manager lives; callers must
+     *       not access it concurrently with setPolicy().
+     */
     const TierPolicy& policy() const noexcept { return policy_; }
 
     // ── Background worker ─────────────────────────────────────────────────
@@ -423,6 +453,12 @@ public:
         size_t   cold_versions{0};
     };
 
+    /**
+     * @brief Return tier counts for one table key.
+     * @param table_name Logical table containing the key.
+     * @param doc_key Document key to inspect.
+     * @return Counts and approximate warm-tier bytes for the key.
+     */
     KeyTierStats keyStats(const std::string& table_name,
                           const std::string& doc_key) const;
 
@@ -437,8 +473,20 @@ public:
         size_t   flush_warm_to_cold_count{0};
     };
 
+    /**
+     * @brief Return aggregate tier statistics for a table.
+     * @param table_name Logical table to inspect.
+     * @return Hot/warm counts and cumulative flush counts. The cold-version
+     *         count is the cold store's total count across all tables.
+     */
     TableTierStats tableStats(const std::string& table_name) const;
 
+    /**
+     * @brief Serialize table tier statistics as JSON.
+     * @param table_name Logical table to inspect.
+     * @return JSON object with the table name, tier counts, warm bytes, and
+     *         cumulative flush counts.
+     */
     nlohmann::json statsJson(const std::string& table_name) const;
 
 private:

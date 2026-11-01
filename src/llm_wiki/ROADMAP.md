@@ -22,6 +22,7 @@ The repository contains a public `ILLMWikiPlugin` contract, a `themis_llm_wiki` 
 
 - [~] Document and test the distinction between declared SDK behavior and the current plugin implementation (Target: Q4 2026)
 - [~] Validate workspace persistence and policy reload failure behavior with focused tests (Target: Q4 2026)
+- [ ] Resolve the public thread-safety/lock-free-query contract mismatch against observed plugin synchronization before claiming concurrent-safe use (Target: Q4 2026)
 - [ ] Establish production-path retrieval and ingestion behavior before publishing performance claims (Target: Q4 2026)
 
 ## Planned Features

@@ -23,6 +23,12 @@
 
 #include <string>
 #include <vector>
+#include <atomic>
+#include <chrono>
+#include <filesystem>
+#include <memory>
+#include <openssl/evp.h>
+#include "plugins/pinned_ed25519_verifier.h"
 
 using namespace themis::retrieval;
 
@@ -31,6 +37,97 @@ using namespace themis::retrieval;
 // ============================================================================
 
 namespace {
+
+std::vector<uint8_t> benchmarkSeed() {
+    std::vector<uint8_t> seed(32);
+    for (size_t i = 0; i < seed.size(); ++i) {
+        seed[i] = static_cast<uint8_t>(i + 33);
+    }
+    return seed;
+}
+
+themis::plugins::PinnedKey benchmarkPinnedKey() {
+    const auto seed = benchmarkSeed();
+    auto* key = EVP_PKEY_new_raw_private_key(
+        EVP_PKEY_ED25519, nullptr, seed.data(), seed.size());
+    if (!key) {
+        throw std::runtime_error("failed to construct benchmark Ed25519 key");
+    }
+    themis::plugins::PinnedKey pin;
+    pin.public_key.resize(32);
+    size_t size = pin.public_key.size();
+    const int result =
+        EVP_PKEY_get_raw_public_key(key, pin.public_key.data(), &size);
+    EVP_PKEY_free(key);
+    if (result != 1 || size != 32) {
+        throw std::runtime_error("failed to extract benchmark Ed25519 key");
+    }
+    pin.public_key.resize(size);
+    pin.fingerprint =
+        themis::plugins::pinned_ed25519::fingerprint(pin.public_key);
+    pin.label = "benchmark-only key";
+    return pin;
+}
+
+std::string signHash(const std::string& hash) {
+    const auto seed = benchmarkSeed();
+    auto* key = EVP_PKEY_new_raw_private_key(
+        EVP_PKEY_ED25519, nullptr, seed.data(), seed.size());
+    auto* context = EVP_MD_CTX_new();
+    if (!key || !context ||
+        EVP_DigestSignInit(context, nullptr, nullptr, nullptr, key) != 1) {
+        EVP_MD_CTX_free(context);
+        EVP_PKEY_free(key);
+        throw std::runtime_error("failed to initialize benchmark signer");
+    }
+    std::vector<uint8_t> signature(64);
+    size_t size = signature.size();
+    const int result = EVP_DigestSign(
+        context, signature.data(), &size,
+        reinterpret_cast<const unsigned char*>(hash.data()), hash.size());
+    EVP_MD_CTX_free(context);
+    EVP_PKEY_free(key);
+    if (result != 1 || size != 64) {
+        throw std::runtime_error("failed to sign benchmark manifest");
+    }
+    std::string encoded(89, '\0');
+    const int encoded_size = EVP_EncodeBlock(
+        reinterpret_cast<unsigned char*>(encoded.data()), signature.data(),
+        static_cast<int>(signature.size()));
+    if (encoded_size != 88) {
+        throw std::runtime_error("failed to encode benchmark signature");
+    }
+    encoded.resize(static_cast<size_t>(encoded_size));
+    return encoded;
+}
+
+void sign(LoRAPackage& package) {
+    package.computeManifestHash();
+    package.integrity.signature = signHash(package.integrity.manifest_hash);
+    package.integrity.signature_algorithm = "Ed25519";
+    package.integrity.signer_id = benchmarkPinnedKey().fingerprint;
+}
+
+void sign(PortableAdapterProduct& product) {
+    product.computeManifestHash();
+    product.integrity.signature = signHash(product.integrity.manifest_hash);
+    product.integrity.signature_algorithm = "Ed25519";
+    product.integrity.signer_id = benchmarkPinnedKey().fingerprint;
+}
+
+LoRAManifestStore::RuntimeConfig makeStoreConfig() {
+    static std::atomic<uint64_t> next_id{0};
+    LoRAManifestStore::RuntimeConfig config;
+    config.database_path =
+        (std::filesystem::temp_directory_path() /
+         ("themis-epic1-retrieval-bench-" +
+          std::to_string(std::chrono::steady_clock::now()
+                             .time_since_epoch().count()) + "-" +
+          std::to_string(next_id.fetch_add(1)))).string();
+    const auto pin = benchmarkPinnedKey();
+    config.pinned_keys.push_back(pin);
+    return config;
+}
 
 LoRAPackage makePackage(const std::string& id = "bench-pkg") {
     LoRAPackage p;
@@ -54,6 +151,7 @@ LoRAPackage makePackage(const std::string& id = "bench-pkg") {
     p.provenance.base_model_hash = std::string(64, 'b');
     p.policy.license          = "MIT";
     p.policy.allowed_base_models = {"llama-3-8b"};
+    sign(p);
     return p;
 }
 
@@ -76,6 +174,7 @@ PortableAdapterProduct makeProduct(const std::string& id = "bench-prod",
     pr.status                   = AdapterProductStatus::READY;
     pr.created_at               = "2026-07-01T01:00:00Z";
     pr.updated_at               = "2026-07-01T01:00:00Z";
+    sign(pr);
     return pr;
 }
 
@@ -91,14 +190,14 @@ const json& cachedProductJson() {
 }
 
 // Pre-populated store with N packages for bulk benchmarks
-LoRAManifestStore makePopulatedStore(size_t n) {
-    LoRAManifestStore store;
+std::unique_ptr<LoRAManifestStore> makePopulatedStore(size_t n) {
+    auto store = std::make_unique<LoRAManifestStore>(makeStoreConfig());
     for (size_t i = 0; i < n; ++i) {
         auto pkg = makePackage("pkg-" + std::to_string(i));
         pkg.computeManifestHash();
-        store.storePackage(pkg);
-        store.storeProduct(makeProduct("prod-" + std::to_string(i),
-                                        "pkg-" + std::to_string(i)));
+        store->storePackage(pkg);
+        store->storeProduct(makeProduct("prod-" + std::to_string(i),
+                                         "pkg-" + std::to_string(i)));
     }
     return store;
 }
@@ -164,21 +263,23 @@ BENCHMARK(BM_Product_ComputeHash);
 // ============================================================================
 
 static void BM_ManifestStore_Store_Pkg(benchmark::State& state) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     const auto pkg = makePackage();
     int idx = 0;
     for (auto _ : state) {
         LoRAPackage p = pkg;
         p.package_id  = "pkg-" + std::to_string(idx++);
+        state.PauseTiming();
+        sign(p);
+        state.ResumeTiming();
         benchmark::DoNotOptimize(store.storePackage(p));
     }
 }
 BENCHMARK(BM_ManifestStore_Store_Pkg);
 
 static void BM_ManifestStore_Load_Pkg(benchmark::State& state) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     auto pkg = makePackage("load-target");
-    pkg.computeManifestHash();
     store.storePackage(pkg);
 
     for (auto _ : state) {
@@ -188,9 +289,8 @@ static void BM_ManifestStore_Load_Pkg(benchmark::State& state) {
 BENCHMARK(BM_ManifestStore_Load_Pkg);
 
 static void BM_ManifestStore_Verify_Pkg(benchmark::State& state) {
-    LoRAManifestStore store;
+    LoRAManifestStore store(makeStoreConfig());
     auto pkg = makePackage("verify-target");
-    pkg.computeManifestHash();
     store.storePackage(pkg);
 
     for (auto _ : state) {
@@ -204,18 +304,18 @@ BENCHMARK(BM_ManifestStore_Verify_Pkg);
 // ============================================================================
 
 static void BM_ManifestStore_Export(benchmark::State& state) {
-    const LoRAManifestStore store = makePopulatedStore(100);
+    const auto store = makePopulatedStore(100);
     for (auto _ : state) {
-        benchmark::DoNotOptimize(store.exportPackages());
+        benchmark::DoNotOptimize(store->exportPackages());
     }
 }
 BENCHMARK(BM_ManifestStore_Export);
 
 static void BM_ManifestStore_Import(benchmark::State& state) {
-    const LoRAManifestStore src = makePopulatedStore(100);
-    const json exported = src.exportPackages();
+    const auto src = makePopulatedStore(100);
+    const json exported = src->exportPackages();
     for (auto _ : state) {
-        LoRAManifestStore store;
+        LoRAManifestStore store(makeStoreConfig());
         benchmark::DoNotOptimize(store.importPackages(exported));
     }
 }

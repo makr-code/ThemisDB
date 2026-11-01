@@ -1,51 +1,66 @@
-> **Status:** 2026-06-01 – mit aktuellem Scheduler-Code (`task_audit_manager.cpp`) abgeglichen.
+---
+Author: ThemisDB Team
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+Source level: 1
+SOT domain: module-behavior
+Canonical references: include/scheduler/task_scheduler.h; src/scheduler/task_scheduler.cpp; include/scheduler/task_audit_manager.h; src/scheduler/task_audit_manager.cpp
+Related issue: #7376; DOC-WEEKLY-2026-44
+---
 
-# ThemisDB Scheduler Module - Production Requirements
+Exact model backend not verifiable from final document text alone.
 
-## Zweck und Geltungsbereich
+# Scheduler production-operation notes
 
-Dieses Dokument ist der **kanonische Referenzpunkt für produktive Mindestanforderungen** des Scheduler-Moduls.
-Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Task-Audit-Manager, Task-Audit-Event, Task-Scheduling.
+## Scope
 
-## Dokumentabgrenzung (Canonical Split)
+This file distinguishes source-visible configuration from deployment
+requirements. It does not certify the scheduler as production-ready. Normative
+production controls require review by the owners of the server/API, security,
+storage, and deployment configuration.
 
-- **`src/scheduler/PRODUCTION_REQUIREMENTS.md` (dieses Dokument):** verpflichtende Produktionsanforderungen (MUST/MUST NOT), Sicherheitsannahmen, Betriebsgrenzen.
-- **`src/scheduler/README.md`:** Funktionsübersicht, Architekturkontext, API- und Nutzungsbeispiele.
-- **`src/scheduler/ROADMAP.md`:** Lieferphasen, offene/abgeschlossene Features, Readiness-Planung.
-- **`src/scheduler/FUTURE_ENHANCEMENTS.md`:** mittelfristige/langfristige Erweiterungen und Forschungsfelder.
+## Source-visible configuration
 
-## Verbindliche Produktionsanforderungen
+- `TaskScheduler::Config` defaults audit logging and anomaly detection to
+  enabled, but permits disabling them. Result storage and sandboxed execution
+  default to disabled. The effective behavior depends on the configuration
+  passed to the constructor and, for result storage, the supplied storage
+  object.
+- `TaskAuditConfig` separately configures audit/security logging, anomaly
+  detection, export, HMAC, retention, archival, and corruption recovery. The
+  presence of a setting is not evidence that it is enabled or operationally
+  provisioned.
+- The task scheduler requires a `QueryEngine`; CDC-trigger tasks additionally
+  require a `Changefeed`. The distributed coordinator stores non-owning
+  references to its scheduler and coordinator; callers must preserve their
+  lifetime.
+- The `linux-release` preset exists in `CMakePresets.json`. Scheduler source
+  registration is gated by `THEMIS_ENABLE_HTTP_SERVER`; this is build
+  registration, not a deployment-mode check.
 
-- **MUST:** Task-Audit-Manager aktiv; alle Task-Lifecycle-Ereignisse werden auditiert.
-- **MUST:** Task-Scheduling mit definierten Queue-Limits und Priority-Bounds; kein unbegrenztes Task-Queue-Wachstum.
-- **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
-- **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
+## Security-sensitive boundary
 
-## Verbindliche Sicherheitsanforderungen
+`TaskScheduler` checks permission names for selected operations, but its
+permission helpers fall back to allow when a request context is absent. The
+calling API must provide and clear the intended request context and enforce its
+own authentication boundary. See [SECURITY.md](SECURITY.md).
 
-- Sicherheitsrelevante Operationen werden über dedizierte Kontroll-Surfaces geleitet.
-- Fehler in sicherheitskritischen Pfaden werden als explizite Fehlercodes propagiert; kein Silent-Permit.
-- Audit-Logging für sicherheitsrelevante Operationen aktiv in Produktionsdeployments.
+## Unresolved deployment requirements
 
-## Betriebsgrenzen
+- **TODO:** Define required audit/security settings, HMAC-key provisioning,
+  retention and archival policy, authorization context propagation, sandbox
+  policy, and storage lifecycle with the relevant owners.
+- **TODO:** Establish deployment-specific limits, timeouts, retries, and
+  availability requirements from actual supported configuration and operations.
+- **Assumption not made:** No environment variable or generic production-mode
+  switch is documented here because none was verified in the scoped scheduler
+  source.
 
-- Konfigurationswerte müssen deployment-spezifisch gesetzt sein; Default-Werte gelten nicht als produktionssicher.
-- Ressourcen-Limits (Größen, Counts, Timeouts) müssen mit den Deployment-Anforderungen übereinstimmen.
-- Externe Abhängigkeiten müssen mit expliziten Verbindungs-Timeouts und Retry-Policies konfiguriert sein.
-
-## Minimaler Produktions-Check (Audit-fähig)
-
-- [ ] Modul-Konfiguration vollständig und beim Start validiert
-- [ ] Sicherheits- und Autorisierungs-Checks aktiv
-- [ ] Ressourcen-Limits explizit konfiguriert (keine Unlimited-Defaults)
-- [ ] Audit-Logging aktiv
-- [ ] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
-
-## Review / Sourcecode-Audit-Nachweis
-
-### Betroffene Dateien im Review
-
-- `src/scheduler/PRODUCTION_REQUIREMENTS.md`
-- `src/scheduler/task_audit_manager.cpp`
-- `src/scheduler/task_audit_event.cpp`
+Until these gaps are resolved, use this page as a code/configuration inventory,
+not as a production readiness checklist.

@@ -1,3 +1,28 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: ThemisDB documentation orchestration specialist
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source level: level1
+SOT domain: module-behavior
+Canonical source references:
+  - ../../include/graph/
+  - ../../src/graph/
+  - ../../tests/graph/CMakeLists.txt
+Related milestone: DOC-WEEKLY-2026-44
+AI_Model_Note: Exact model backend not verifiable from final document text alone.
+---
+
+> **Historical Phase 2 proposal, non-normative.** The pseudo-code, counts, APIs, acceptance
+> checkboxes, and claimed test/ThreadSanitizer outcomes below are not current source evidence.
+> Several examples describe interfaces that must be checked against the current headers and
+> implementations. Use `ROADMAP.md`, current code, and registered tests for active status.
+
 /**
  * @file GRAPH_PHASE2_ERROR_HARDENING_PLAN.md
  * @brief Graph Module Phase 2: Error-Path & Thread-Safety Hardening

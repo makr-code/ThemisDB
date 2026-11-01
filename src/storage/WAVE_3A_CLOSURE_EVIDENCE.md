@@ -1,4 +1,28 @@
-# Wave 3-A Closure Evidence
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-25"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "MODULE_GAPS.md"
+  - "../../tests/storage/CMakeLists.txt"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+> Historical closure evidence dated 2026-08-25. The listed fixes/tests and
+> scanner verdicts describe that snapshot only; this file is not a current
+> verification or test execution report.
+
+# Wave 3-A Closure Evidence (Historical)
 
 **Date:** 2026-08-25  
 **Branch:** `copilot/select-important-core-modules`  

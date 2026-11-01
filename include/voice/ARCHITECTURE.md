@@ -1,95 +1,84 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/voice/ARCHITECTURE.md -->
-
-# Voice Module — Public Header Architecture
-
-**Module Path:** `include/voice/`
-**Implementation:** `../../src/voice/`
-**Canonical architecture doc:** [`../../src/voice/ARCHITECTURE.md`](../../src/voice/ARCHITECTURE.md)
-
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
-## 1. Overview
+> Exact model backend not verifiable from final document text alone.
 
-`include/voice/` defines the **public voice interface, streaming, intent detection, security, and telephony API contract** for ThemisDB. The 18 headers cover the voice assistant, audio preprocessing, TTS customisation, session management, batch processing, browser streaming, emotion analysis, intent detection, voice authentication, security, macros, meeting support, model cache, accessibility, telephony, wake-word detection, and error handling.
+# Voice Public Headers — Architecture and API Map
 
-For runtime composition — Whisper/STT pipeline integration, TTS engine routing, telephony signalling, and wake-word inference internals — see:
-→ [`../../src/voice/ARCHITECTURE.md`](../../src/voice/ARCHITECTURE.md)
+`include/voice/` contains 23 public headers. Header declarations and comments are
+the API authority; this page is an index, not a promise that every optional
+integration is enabled or production-ready. Runtime composition is summarized in
+[`../../src/voice/ARCHITECTURE.md`](../../src/voice/ARCHITECTURE.md).
 
----
+## Public interfaces
 
-## 2. Header Groups
+| Header | Principal declared types |
+|---|---|
+| `audio_preprocessing.h` | `AudioPreprocessingPipeline`, `NoiseSuppressor`, `AudioFrame` |
+| `emotion_analyzer.h` | `EmotionAnalyzer`, `EmotionAnalysis` |
+| `voice_accessibility.h` | `VoiceAccessibility`, caption/export records |
+| `voice_anti_spoof_engine.h` | `VoiceAntiSpoofEngine`, `SpoofAnalysis` |
+| `voice_assistant.h` | `VoiceAssistant`, `VoiceSession`, `Config` |
+| `voice_audio_storage.h` | `VoiceAudioStorage`, audio/storage records |
+| `voice_audit_logger.h` | `VoiceAuditLogger` |
+| `voice_auth.h` | `VoiceBiometricAuthenticator`, enrollment and verification results |
+| `voice_batch_processor.h` | `VoiceBatchProcessor`, batch job/result records |
+| `voice_browser_streaming.h` | `VoiceStreamingSession`, `VoiceStreamingManager` |
+| `voice_error_handler.h` | `VoiceException`, `VoiceCircuitBreaker`, `VoiceRetryHandler`, `VoiceErrorHandler` |
+| `voice_intent_detector.h` | `VoiceIntentDetector`, `ConversationContext`, `IntentResult` |
+| `voice_liveness_checker.h` | `VoiceLivenessChecker`, `LivenessCheckResult` |
+| `voice_liveness_detector.h` | `VoiceLivenessDetector`, challenge/result records |
+| `voice_macro.h` | `VoiceMacroManager`, macro/step records |
+| `voice_meeting_support.h` | `VoiceMeetingSupport`, `RealtimeMeetingSession`, meeting records |
+| `voice_model_cache.h` | `VoiceModelCache`, cache records |
+| `voice_security.h` | `VoiceSecurityManager`, consent/audit/deletion records |
+| `voice_session_manager.h` | `VoiceSessionManager`, `ISessionPersistenceBackend`, `InMemorySessionBackend` |
+| `voice_stream_validator.h` | `VoiceStreamValidator`, `StreamValidationPolicy`, `ValidatedAudioChunk` |
+| `voice_telephony.h` | `SipCallSession`, `WebRtcCallSession`, `IvrEngine`, `TelephonyBridge` |
+| `voice_tts_customizer.h` | `VoiceTTSCustomizer`, voice/prosody records |
+| `wake_word_detector.h` | `WakeWordDetector`, `WakeWordDetectionResult` |
 
-### 2.1 Core Assistant and Session
+Types are declared in `themis::voice`. Consult each header for exact methods,
+preconditions, result types, and feature-specific limits; class names and
+contracts in older header summaries may not match the current declarations.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `voice_assistant.h` | `VoiceAssistant` | Top-level voice assistant lifecycle and request routing |
-| `voice_session_manager.h` | `VoiceSessionManager` | Session creation, tracking, and teardown |
-| `voice_model_cache.h` | `VoiceModelCache` | Cached STT/TTS model management |
-| `wake_word_detector.h` | `WakeWordDetector` | Wake-word detection trigger |
+## Build and registration boundaries
 
-### 2.2 Audio Processing and TTS
+- `THEMIS_ENABLE_VOICE_ASSISTANT` is an opt-in CMake feature and defaults to
+  `OFF` in `cmake/CMakeLists.txt`; it gates the server voice API handler. The
+  voice implementation sources listed there are gated by `THEMIS_ENABLE_LLM`.
+- `THEMIS_ENABLE_RNNOISE` also defaults to `OFF`; preprocessing documents the
+  fallback behavior in `audio_preprocessing.h`.
+- Voice tests are discovered by the module CMake in `tests/voice/CMakeLists.txt`
+  when tests are enabled. That file is auto-discovered by `tests/CMakeLists.txt`.
+- Voice benchmarks are globbed from `benchmarks/voice/bench_*.cpp` when
+  `THEMIS_BUILD_BENCHMARKS` is enabled. Registration is not execution evidence.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `audio_preprocessing.h` | `AudioPreprocessor` | Audio normalisation, denoising, and feature extraction |
-| `voice_tts_customizer.h` | `VoiceTTSCustomizer` | Voice and prosody customisation for TTS output |
-| `voice_batch_processor.h` | `VoiceBatchProcessor` | Batch audio transcription and synthesis |
+## Contract cautions
 
-### 2.3 Streaming and Browser Integration
+- `VoiceAssistant::Config` defaults `enable_voice_auth` and `enable_wake_word`
+  to `false`; integrations must not assume these checks are active.
+- Browser streaming has a placeholder transcript/TTS path unless the relevant
+  backend is injected. It is not evidence of speech recognition or synthesis.
+- Storage, audit, biometric, and session helpers expose in-process behavior;
+  their interfaces do not establish durable storage, cryptographic protection,
+  caller authorization, or compliance.
+- “SIP”, “WebRTC”, “persistent”, “secure”, and “model” in a type or feature name
+  do not alone prove protocol conformance, durability, security validation, or
+  an external model integration. Verify the implementation and deployment.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `voice_browser_streaming.h` | `VoiceBrowserStreaming` | Browser WebRTC / WebSocket voice streaming |
-| `voice_audio_storage.h` | `VoiceAudioStorage` | Persistent audio storage for session recordings |
+## Canonical references
 
-### 2.4 Intent and Emotion Analysis
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `voice_intent_detector.h` | `VoiceIntentDetector` | NLU-based intent extraction from transcribed speech |
-| `emotion_analyzer.h` | `EmotionAnalyzer` | Emotion recognition from audio features |
-
-### 2.5 Authentication and Security
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `voice_auth.h` | `VoiceAuth` | Voice biometric / speaker-ID authentication |
-| `voice_security.h` | `VoiceSecurity` | Anti-spoofing, deepfake detection, and PII scrubbing |
-
-### 2.6 Telephony and Meeting Support
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `voice_telephony.h` | `VoiceTelephony` | SIP/PSTN telephony gateway integration |
-| `voice_meeting_support.h` | `VoiceMeetingSupport` | Multi-speaker meeting transcription and diarisation |
-
-### 2.7 Accessibility, Macros, and Errors
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `voice_accessibility.h` | `VoiceAccessibility` | Accessibility output and caption generation |
-| `voice_macro.h` | `VoiceMacro` | Reusable voice-command macro definition |
-| `voice_error_handler.h` | `VoiceErrorHandler` | Structured error handling for voice pipeline failures |
-
----
-
-## 3. Namespace Layout
-
-| Namespace | Scope |
-|-----------|-------|
-| `themis::voice` | All voice assistant, streaming, intent, security, and telephony types |
-
----
-
-## 4. Public Contract Notes
-
-- `VoiceAssistant` and `VoiceSessionManager` form the primary entry points; STT/TTS engine selection and pipeline routing remain internal.
-- Authentication headers define stable voice biometric contracts; speaker-model and anti-spoofing internals are opaque.
-- Security headers must fail closed for detected deepfake or spoofing signals and must scrub PII before downstream delivery.
-- Telephony and browser-streaming headers define stable signalling contracts; transport-layer protocol details remain internal.
-- Emotion and intent headers expose deterministic scoring contracts; model inference internals are opaque.
-- Error-handler header provides structured error propagation for all voice pipeline stages.
+- Public contract: headers in this directory.
+- Implementation/dataflow: [`../../src/voice/ARCHITECTURE.md`](../../src/voice/ARCHITECTURE.md)
+- Test discovery and labels: [`../../tests/voice/CMakeLists.txt`](../../tests/voice/CMakeLists.txt)
+- Benchmark discovery: [`../../benchmarks/voice/CMakeLists.txt`](../../benchmarks/voice/CMakeLists.txt)

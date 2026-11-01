@@ -1,11 +1,25 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-07-27"
+Last Updated: "2026-10-31"
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # AQL FTS (Full-Text Search) Implementation Roadmap
 
 <!-- Status: [ ] open | [~] in progress | [x] done | [I] issue | [P] PR | [?] blocked -->
 
-**Status:** 📋 PLANNED — Phases 1–4 pending (Target: Q3–Q4 2026)
+**Status:** Parser work is present; translator/execution integration and end-to-end status require separate validation.
 **Target Release:** v2.0.0 (Q4 2026)
 **Owner:** query module / Team B/C
-**Last Updated:** 2026-07-27
+**Last Updated:** 2026-10-31
 
 ---
 
@@ -25,21 +39,25 @@ parses and executes within ≤ 100 ms on 100 000 documents (Gate 5).
 
 | Feature | Status | Evidence |
 |---------|--------|----------|
-| `InvertedIndex::search()` — BM25-scored keyword search | ✅ Production | `include/index/inverted_index.h:searchPhrase`, `src/index/inverted_index.cpp` |
-| `InvertedIndex::searchPhrase()` — exact phrase matching | ✅ Production | `include/index/inverted_index.h:170-178` |
-| `InvertedIndex::searchFuzzy()` — fuzzy matching | ✅ Production | `include/index/inverted_index.h` |
+| `InvertedIndex` search interfaces | Present in module header/implementation; production readiness is not assessed here | `include/index/inverted_index.h`, `src/index/inverted_index.cpp` |
 | `BM25(doc)` AQL function | ✅ Production | `tests/aql/test_aql_bm25.cpp` + parser |
 | FULLTEXT() AQL function | ✅ Production | `tests/aql/test_aql_fulltext_hybrid.cpp` |
-| AQL SEARCH keyword / clause | ❌ Not Implemented | Keywords not wired in parser |
-| PHRASE() AQL function in FILTER | ❌ Not Implemented | No parser node; searchPhrase() not callable from AQL |
-| PROXIMITY() / NEAR() AQL function | ❌ Not Implemented | No parser node |
+| AQL SEARCH keyword / clause | Parser and AST support present; execution wiring not confirmed | `include/query/aql_parser.h`, `src/query/aql_parser.cpp`; no `search_clause` translator/executor reference found |
+| PHRASE / NEAR / STARTS_WITH predicates | Parser forms present; end-to-end execution not confirmed | `src/query/aql_parser.cpp`; translator has a separate `PHRASE()` function path |
 | Spatial + FTS combined queries | ❌ Not Implemented | Requires geospatial + FTS both wired |
 
 ---
 
+> **Status conflict to resolve:** Root `ROADMAP.md` states that FTS executor
+> wiring, phrase/proximity matching, and the 100K-document benchmark gate were
+> delivered (query Phase B). This scoped source check found parser structures
+> and parsing, but did not find a use of `search_clause` outside the parser and
+> AST declarations. Reconcile this roadmap with the query implementation and
+> current test/benchmark evidence before marking the integration complete.
+
 ## Architecture
 
-### Current (BM25-Only Path)
+### Previously documented BM25 path (executor status not independently confirmed)
 
 ```
 AQL: FOR doc IN col FILTER BM25(doc) > threshold RETURN doc
@@ -65,30 +83,27 @@ QueryEngine: executes FTS plan, returns scored results
 
 ## Implementation Phases
 
-### Phase 1: Parser Integration (1–2 weeks) — [ ] PLANNED (Target: Q3 2026)
+### Phase 1: Parser Integration — [x] Parser structures present; end-to-end parser tests not confirmed
 
-**Goal:** AQL SEARCH keyword + PHRASE()/NEAR()/STARTS_WITH() function family parse correctly.
+**Goal:** AQL SEARCH keyword + PHRASE()/NEAR/STARTS_WITH predicates parse correctly.
 
-- [ ] Add `SEARCH` token to `TokenType` enum in `include/query/aql_parser.h` (Target: Q3 2026)
-- [ ] Add `SearchClauseNode` to `ASTNodeType` enum (Target: Q3 2026)
-- [ ] Add `PHRASE`, `NEAR`, `STARTS_WITH`, `BOOST`, `ANALYZER` function tokens (Target: Q3 2026)
-- [ ] Implement `parseSearchClause()` in `src/query/aql_parser.cpp` (Target: Q3 2026)
-- [ ] Define `FtsPredicateNode` struct with: `field`, `term`, `type` (phrase/proximity/prefix), `boost`, `analyzer` (Target: Q3 2026)
-- [ ] Register SEARCH as optional clause after FOR…IN (alongside FILTER, SORT, LIMIT) (Target: Q3 2026)
+- [x] Add `SEARCH` token and AST node declarations to `include/query/aql_parser.h`.
+- [x] Implement tokenization and `parseSearchClause()` in `src/query/aql_parser.cpp`.
+- [x] Parse PHRASE, NEAR, STARTS_WITH, BOOST, and ANALYZER forms in the SEARCH clause.
+- [ ] Confirm focused parser tests cover valid and invalid forms (Target: Q4 2026).
 
 **Acceptance:** SEARCH clause with PHRASE/NEAR/STARTS_WITH parses without errors; AST contains `SearchClauseNode`.
 
-### Phase 2: Translator Wiring (1–2 weeks) — [ ] PLANNED (Target: Q3 2026)
+### Phase 2: Translator Wiring — [?] Reconcile source and roadmap status; Q3 2026 target elapsed
 
 **Goal:** `SearchClauseNode` translates to an `FtsExecutionPlan` that calls the correct `InvertedIndex` method.
 
-- [ ] Add `FtsExecutionPlan` to `include/query/aql_translator.h` (Target: Q3 2026)
-- [ ] Implement `translateSearchClause()` in `src/query/aql_translator.cpp` (Target: Q3 2026)
+- [?] Verify whether SEARCH AST translation/execution is implemented; the root roadmap and source search disagree.
   - `PHRASE(field, text)` → `InvertedIndex::searchPhrase(table, column, phrase, limit)`
   - `NEAR(field, text, dist)` → `InvertedIndex::searchFuzzy()` with distance cap
   - `STARTS_WITH(field, prefix)` → `InvertedIndex::search()` with prefix flag
-- [ ] Integrate `FtsExecutionPlan` into `QueryEngine::execute()` dispatch (Target: Q3 2026)
-- [ ] Preserve BM25 fallback when no SEARCH clause (no regression) (Target: Q3 2026)
+- [?] Reconcile the executor-dispatch status with the root query roadmap and current source.
+- [?] Confirm BM25 behavior without SEARCH and add regression evidence after executor status is resolved.
 
 **Acceptance:** `FOR doc IN col SEARCH PHRASE(doc.content, "machine learning") RETURN doc` executes end-to-end.
 
@@ -153,7 +168,7 @@ QueryEngine: executes FTS plan, returns scored results
 
 ## References
 
-- [AQL_V2_0_0_COMPLETE_ROADMAP.md](./AQL_V2_0_0_COMPLETE_ROADMAP.md) — Master v2.0.0 language standard roadmap (Gate 5)
+- [AQL v2.0 complete roadmap](../query/AQL_V2_0_0_COMPLETE_ROADMAP.md) — Master v2.0.0 language standard roadmap (Gate 5)
 - `include/index/inverted_index.h` — Production FTS backend (searchPhrase, search, searchFuzzy)
 - `tests/aql/test_aql_bm25.cpp` — Existing BM25 integration tests
 - `tests/aql/test_aql_fulltext_hybrid.cpp` — Existing FULLTEXT integration tests

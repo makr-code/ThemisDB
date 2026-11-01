@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-05"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Prompt Engineering Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-08-05 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
@@ -69,6 +83,8 @@
 - ensure traces/logging are sanitized before persistence or operator exposure.
 
 ## Rewrite Engine Integration and Enhancements
+
+The current rewrite implementation is a separate API, not an automatically invoked request pipeline. `tests/prompt_engineering/test_rewrite_engine_focused.cpp` currently checks interface/compile contracts only, and `benchmarks/prompt_engineering/bench_rewrite_engine.cpp` uses synthetic helpers rather than the implementation. Treat the work below as open until behavior-level tests and direct benchmarks are added.
 
 ### 1. Deterministic Rewrite Engine Foundation
 

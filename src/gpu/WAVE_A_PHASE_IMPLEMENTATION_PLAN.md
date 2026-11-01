@@ -1,5 +1,9 @@
 # Wave A GPU CUDA Reduction — Implementation Phases
 
+> Historical implementation plan dated 2026-09-23. Phase statuses, projected
+> dates, and checklist results below are not current completion or test/build
+> evidence.
+
 **Document Type:** Phase Implementation Plan  
 **Issue:** makr-code/ThemisDB#6575 — Wave-A GPU CUDA Reduction + Representative-Hardware Baseline Evidence  
 **Created:** 2026-09-23  

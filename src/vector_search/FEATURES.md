@@ -20,16 +20,32 @@ Vector search is implemented by the shared `index` subsystem. This module
 documents its contracts and validation evidence; it does not contain a
 standalone runtime.
 
+## Problem and operational value
+
+Applications that store embeddings need nearest-neighbour retrieval and, where
+supported by the caller, a way to combine several query results. The shared
+index API provides the persistence and search boundary so consumers do not need
+to own a separate vector-storage implementation.
+
 ## Capabilities represented by the public interfaces
 
 - `VectorIndexManager` provides a RocksDB-backed vector namespace, entity
   mutation, KNN and filtered search, reindex/rebuild operations, and index
   save/load APIs. Optional HNSW and advanced-index behavior depends on build
   support.
-- `MultiVectorSearch` combines results from multiple vectors, fields, query
-  expansions, or keyword scores using the configured fusion strategy.
+- `MultiVectorSearch` combines results from multiple vectors, query expansions,
+  or keyword scores using the configured fusion strategy. The current
+  `searchMultiField()` implementation does not route to field-specific indexes;
+  see [API contract](API.md).
 - `DistributedVectorIndex` provides in-process shard routing and scatter-gather
   search. It is not a durable or replicated multi-node deployment service.
+
+## Target scenarios
+
+- KNN retrieval over vectors stored in a RocksDB-backed namespace.
+- Filtered vector search and index rebuild/reindex operations.
+- Query expansion or hybrid vector/keyword score fusion through
+  `MultiVectorSearch`.
 
 ## Trade-offs and limits
 

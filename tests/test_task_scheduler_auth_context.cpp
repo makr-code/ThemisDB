@@ -53,6 +53,16 @@ protected:
         return std::make_unique<TaskScheduler>(engine_.get(), cfg);
     }
 
+    static TaskScheduler::RequestContext trustedTestContext() {
+        TaskScheduler::RequestContext ctx;
+        ctx.user_id = "scheduler-test";
+        ctx.granted_permissions = {
+            "task:register", "task:unregister", "task:update", "task:execute",
+            "task:register_function"};
+        ctx.roles.insert("system_admin");
+        return ctx;
+    }
+
     void TearDown() override {
         // Always clear thread-local context so tests don't interfere
         TaskScheduler::clearRequestContext();
@@ -104,10 +114,31 @@ TEST_F(TaskSchedulerAuthContextTest, ClearRequestContextRestoresFallback) {
     EXPECT_TRUE(TaskScheduler::currentClientIp().empty());
 }
 
-TEST_F(TaskSchedulerAuthContextTest, PermissionAndRoleFallbackAllowWhenContextUnset) {
+TEST_F(TaskSchedulerAuthContextTest, ScopedContextRestoresPreviousContext) {
+    TaskScheduler::RequestContext prior;
+    prior.user_id = "prior-user";
+    prior.granted_permissions.insert("task:execute");
+    TaskScheduler::setRequestContext(prior);
+
+    {
+        TaskScheduler::RequestContext scoped;
+        scoped.user_id = "internal-operation";
+        scoped.granted_permissions.insert("task:register");
+        TaskScheduler::ScopedRequestContext context(scoped);
+        EXPECT_EQ(TaskScheduler::currentUserId(), "internal-operation");
+        EXPECT_TRUE(TaskScheduler::hasPermission("task:register"));
+        EXPECT_FALSE(TaskScheduler::hasPermission("task:execute"));
+    }
+
+    EXPECT_EQ(TaskScheduler::currentUserId(), "prior-user");
+    EXPECT_TRUE(TaskScheduler::hasPermission("task:execute"));
+    EXPECT_FALSE(TaskScheduler::hasPermission("task:register"));
+}
+
+TEST_F(TaskSchedulerAuthContextTest, PermissionAndRoleDenyWhenContextUnset) {
     TaskScheduler::clearRequestContext();
-    EXPECT_TRUE(TaskScheduler::hasPermission("task:register"));
-    EXPECT_TRUE(TaskScheduler::hasRole("system_admin"));
+    EXPECT_FALSE(TaskScheduler::hasPermission("task:register"));
+    EXPECT_FALSE(TaskScheduler::hasRole("system_admin"));
 }
 
 TEST_F(TaskSchedulerAuthContextTest, EmptyUserIdFallsBackToSystemFallback) {
@@ -150,14 +181,16 @@ TEST_F(TaskSchedulerAuthContextTest, ThreadLocalContextIsIsolatedPerThread) {
 TEST_F(TaskSchedulerAuthContextTest, RegisterTaskAuditEventUsesThreadLocalUser) {
     auto sched = makeAuditScheduler();
 
-    TaskScheduler::setRequestContext({"operator1", "192.168.0.100"});
-
     ScheduledTask task;
     task.id   = "auth_ctx_task";
     task.name = "Auth Context Test Task";
     task.type = ScheduledTask::TaskType::FUNCTION;
     task.function_name = "noop_fn";
     task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    auto ctx = trustedTestContext();
+    ctx.user_id = "operator1";
+    ctx.client_ip = "192.168.0.100";
+    TaskScheduler::setRequestContext(ctx);
     sched->registerTask(task);
 
     TaskScheduler::clearRequestContext();
@@ -179,8 +212,11 @@ TEST_F(TaskSchedulerAuthContextTest, RegisterTaskAuditEventUsesThreadLocalUser) 
 TEST_F(TaskSchedulerAuthContextTest, RegisterTaskAuditEventFallsBackToSystem) {
     auto sched = makeAuditScheduler();
 
-    // No request context set
-    TaskScheduler::clearRequestContext();
+    // Trusted in-process code must provide an explicit, narrow context.
+    TaskScheduler::RequestContext internal_ctx;
+    internal_ctx.granted_permissions.insert("task:register");
+    internal_ctx.authorization_justification = "trusted audit test operation";
+    TaskScheduler::setRequestContext(internal_ctx);
 
     ScheduledTask task;
     task.id   = "system_ctx_task";
@@ -310,6 +346,30 @@ TEST_F(TaskSchedulerAuthContextTest, RegisterFunctionRequiresPermissionAndSystem
     TaskScheduler::clearRequestContext();
 }
 
+TEST_F(TaskSchedulerAuthContextTest, SecuritySensitiveOperationsDenyWithoutContext) {
+    auto sched = makeAuditScheduler();
+    {
+        TaskScheduler::ScopedRequestContext trusted_context(trustedTestContext());
+        ScheduledTask task;
+        task.id = "no_context_mutation_task";
+        task.name = "No Context Mutation";
+        task.type = ScheduledTask::TaskType::FUNCTION;
+        task.function_name = "noop_fn";
+        task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+        sched->registerTask(task);
+    }
+
+    TaskScheduler::clearRequestContext();
+    ScheduledTask updated;
+    updated.id = "no_context_mutation_task";
+    EXPECT_THROW(sched->updateTask(updated), std::runtime_error);
+    EXPECT_THROW(sched->enableTask(updated.id), std::runtime_error);
+    EXPECT_THROW(sched->disableTask(updated.id), std::runtime_error);
+    EXPECT_THROW(sched->unregisterTask(updated.id), std::runtime_error);
+    EXPECT_THROW(
+        sched->unregisterFunction("untrusted_fn"), std::runtime_error);
+}
+
 // ===== sandbox_execution config flag =====
 
 TEST_F(TaskSchedulerAuthContextTest, FunctionExecutesWithSandboxEnabled) {
@@ -322,6 +382,7 @@ TEST_F(TaskSchedulerAuthContextTest, FunctionExecutesWithSandboxEnabled) {
     cfg.sandbox_execution = true;
 
     auto sched = std::make_unique<TaskScheduler>(engine_.get(), cfg);
+    TaskScheduler::ScopedRequestContext trusted_context(trustedTestContext());
 
     std::atomic<int> call_count{0};
     sched->registerFunction("sandbox_fn", [&](const nlohmann::json& p) -> nlohmann::json {
@@ -358,6 +419,7 @@ TEST_F(TaskSchedulerAuthContextTest, FunctionExecutesWithSandboxDisabledByDefaul
     EXPECT_FALSE(cfg.sandbox_execution);
 
     auto sched = std::make_unique<TaskScheduler>(engine_.get(), cfg);
+    TaskScheduler::ScopedRequestContext trusted_context(trustedTestContext());
 
     sched->registerFunction("no_sandbox_fn", [](const nlohmann::json&) -> nlohmann::json {
         return {{"result", "direct"}};

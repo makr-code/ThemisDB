@@ -1,173 +1,74 @@
-> **Hinweis:** Produktionsanforderungen gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+---
+Author: "ThemisDB Team"
+Created: "2026-06-13"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-06-13 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · SECURITY.md -->
+> Exact model backend not verifiable from final document text alone.
 
 # Production Requirements — Whisper Plugin
 
-> For project-level production requirements, see the global [PRODUCTION_REQUIREMENTS.md](../../PRODUCTION_REQUIREMENTS.md).
+No root-level `PRODUCTION_REQUIREMENTS.md` exists in this checkout. This page records module
+implementation facts and open validation requirements; it does not certify production readiness.
 
-## Module Scope
+## Module scope
 
-This document defines the production readiness criteria for the Whisper audio transcription plugin module, covering:
-- `WhisperPlugin` (plugin entry point and orchestration)
-- `WhisperCppTranscriber` (whisper.cpp integration)
-- `WavAudioChunkReader` and `FfmpegAudioChunkReader` (audio input processing)
-- `WhisperConfig` (runtime configuration)
-- `EnergyThresholdVad` (voice activity detection)
+- `WhisperPlugin`: `audio::IAudioBackend` implementation and orchestration.
+- `WhisperConfig`: JSON configuration, optional model digest, language-confidence threshold.
+- `WavAudioChunkReader`, `FfmpegAudioChunkReader`, and `CompositeAudioChunkReader`: whole-file
+  decoding to float32 PCM.
+- `IWhisperTranscriber`: model interface; `WhisperCppTranscriber` is conditional on
+  `THEMIS_ENABLE_WHISPER`, `libwhisper`, and a model.
+- `EnergyThresholdVad`: optional RMS detector applied by `transcribeStream()` when installed.
 
----
+## Verified implementation behavior
 
-## Production Readiness Criteria
+| Area | Current behavior | Limitation / evidence gap |
+|---|---|---|
+| Language/build | The module target uses C++17. `THEMIS_ENABLE_WHISPER` defaults off; `libwhisper` is optional. | Real-model behavior requires separate model-backed validation. |
+| Stub | Returns empty text, language `"unknown"`, and confidence `0`; result type defaults to success. | It is not speech recognition and must not be used as evidence of inference quality. |
+| File input | WAV supports 16-bit PCM and float32; FFmpeg reader handles listed extensions and emits 16 kHz mono float32. | WAV is read wholly into memory without a module size limit. FFmpeg is an optional runtime executable. |
+| Model digest | Non-empty `model_sha256` is checked before whisper.cpp loads the model. | Integrity check is optional and does not prove publisher authenticity. |
+| Streaming | Callback API exists; default transcriber emits one completed-text token. | `WhisperCppTranscriber` does not provide incremental token output. |
+| Diarisation | API and orchestration exist. | Current whisper.cpp implementation returns one whole-transcript segment and one speaker ID; it does not distinguish speakers. |
+| VAD | RMS threshold detector and streaming integration exist. | `transcribe()` does not apply VAD; accuracy/performance has no measured production baseline. |
+| Statistics | `getStatistics()` returns plugin/model/initialized fields, transcription/error counts, and last error. | No module metrics exporter or duration histogram is implemented here. |
+| Concurrency | Calls into one transcriber instance are serialized; state/counters use atomics or mutexes. | This does not establish concurrent throughput; requests on one instance wait in the mutex. |
 
-### 1. Code Quality
+## Build, tests, and benchmark
 
-| Requirement | Status | Evidence |
-|-------------|--------|----------|
-| All public interfaces documented with Doxygen comments | ✅ | Doxygen blocks present in all header files |
-| No raw `new`/`delete` outside RAII wrappers | ✅ | Factory path uses `std::make_unique(...).release()` for plugin C-API bridge |
-| All exceptions caught or documented as uncaught | ✅ | Plugin boundaries catch concrete exception types and return structured errors |
-| No manual resource cleanup in destructors | ✅ | `WhisperCppTranscriber` context lifetime handled via `WhisperContextDeleter` |
-| Thread-safety verified for all shared state | ⚠️ | See MODULE_GAPS.md Lines 434-488 (primitive_no_volatile findings) |
+- Root `tests/CMakeLists.txt` registers `WhisperPluginFocusedTests` from
+  `src/whisper/tests/test_whisper_plugin.cpp` (69 source test cases).
+- `tests/whisper/CMakeLists.txt` discovers the stub bridge and synthetic high-cardinality test
+  sources (three cases each).
+- `src/whisper/tests/test_whisper_plugin_registrar.cpp` contains 12 tests but is not registered
+  by current CMake.
+- `benchmarks/whisper/bench_whisper_transcription.cpp` contains stub and conditional real-model
+  cases. Current benchmark CMake target guard checks a missing root-level file, so target
+  registration is not established.
+- TODO: configure and run the real backend with a pinned model, record the digest and hardware,
+  and capture success/failure evidence before claiming inference readiness.
 
-### 2. Build & Integration
+## Deployment responsibilities
 
-| Requirement | Status | Evidence |
-|-------------|--------|----------|
-| Clean compilation with `-Wall -Wextra -Werror` | ✅ | CI pipeline passes |
-| No dependencies on external audio libraries for WAV | ✅ | `WavAudioChunkReader` is pure C++ |
-| FFmpeg dependency is optional with graceful degradation | ✅ | `FfmpegAudioChunkReader` checks for ffmpeg binary at runtime |
-| Plugin interface stable (IAudioBackend) | ✅ | Documented in FUTURE_ENHANCEMENTS.md Lines 17-18 |
+- Require callers to authorize file paths and set request/file limits; the module has no WAV size
+  cap, request rate limiter, or transcription timeout.
+- Install `ffmpeg` only when non-WAV format support is required.
+- If model integrity is required, provide the expected digest through a trusted distribution path.
+- Do not treat the runbook's operational metric names, alert names, or CLI commands as implemented
+  by this module; verify them against the deployed server integration.
 
-### 3. Configuration Management
+## Open acceptance items
 
-| Requirement | Status | Evidence |
-|-------------|--------|----------|
-| All configuration serializable to/from JSON | ✅ | `WhisperConfig::fromJson()` and `WhisperConfig::toJson()` implemented |
-| Default values are production-safe | ✅ | All defaults validated in `whisper_config.cpp` Lines 37-41 |
-| Configuration changes do not require recompilation | ✅ | Runtime config via JSON |
-
-### 4. Error Handling
-
-| Requirement | Status | Evidence |
-|-------------|--------|----------|
-| All error paths return valid error codes | ✅ | `TranscriptionResult` carries success flag |
-| No exception leakage from plugin boundary | ✅ | Exception boundaries use typed catches with explicit `error_message` propagation |
-| Resource cleanup on exception paths | ✅ | FFmpeg probe/decode subprocess handles are now scope-guarded via RAII |
-
-### 5. Performance
-
-| Metric | Target | Current | Evidence |
-|--------|--------|---------|----------|
-| Transcription latency (1-min audio, 16kHz, stub) | < 100ms | < 50ms | Performance test results |
-| VAD processing (1-sec chunk, CPU) | < 5ms | < 5ms | FUTURE_ENHANCEMENTS.md Line 92 |
-| First-token latency (streaming) | ≤ 50ms | Planned Q3 2026 | FUTURE_ENHANCEMENTS.md Line 54 |
-| Memory usage per concurrent transcription | < 500MB | TBD | Needs profiling |
-
-### 6. Security
-
-| Requirement | Status | Evidence |
-|-------------|--------|----------|
-| Input validation for all file paths | ✅ | SECURITY.md Lines 33-35 |
-| No transcript text in logs | ✅ | SECURITY.md Line 50 |
-| Path traversal prevention | ✅ | SECURITY.md Line 21 |
-| Model file integrity verification | ✅ | `WhisperConfig.model_sha256` + SHA-256 verification in transcriber initialization |
-
-### 7. Observability
-
-| Requirement | Status | Evidence |
-|-------------|--------|----------|
-| All operations emit metrics | ⚠️ | Needs implementation |
-| Provenance stamps on all results | ✅ | SECURITY.md Lines 42-43 |
-| Structured logging for all significant events | ⚠️ | Needs audit |
-
-### 8. Testing
-
-| Requirement | Status | Evidence |
-|-------------|--------|----------|
-| Unit test coverage > 80% | ⚠️ | Needs measurement |
-| Integration tests with audio files | ✅ | `tests/test_whisper_plugin.cpp` exists |
-| Exception safety tests | ⚠️ | See MODULE_GAPS.md uncaught_exception findings |
-| Thread-safety tests | ⚠️ | See MODULE_GAPS.md thread_join_no_timeout findings |
-
----
-
-## Blocking Issues for Production
-
-Based on MODULE_GAPS.md analysis, the following issues must be resolved before production deployment:
-
-### Critical (Must Fix)
-1. **Real-model validation execution in CI**
-   - Benchmark gate `BM_WhisperRealModel_1min` requires `THEMIS_BENCH_WHISPER_MODEL_PATH`.
-   - Remediation: Ensure CI release-hardening jobs export a validated model path.
-
-### High Priority (Should Fix Before Production)
-1. **Uninitialized access** (whisper_plugin_registrar.cpp:90)
-   - Container element access before initialization
-   - Remediation: Ensure all containers are initialized before access
-
-2. **Missing retry logic** (whisper_plugin.cpp:25)
-   - RPC/network call without retry logic
-   - Remediation: Add retry logic with exponential backoff
-
-3. **Operational model provisioning**
-   - Real-model integrity/performance checks depend on production model delivery.
-   - Remediation: Maintain signed model distribution and environment configuration runbooks.
-
----
-
-## Deployment Requirements
-
-### Prerequisites
-- C++17 or later
-- whisper.cpp library and model files
-- FFmpeg binary (optional, for MP3/OGG support)
-- nlohmann/json header
-
-### Configuration
-```json
-{
-  "model_path": "/path/to/ggml-model.bin",
-  "language": "auto",
-  "n_threads": 4,
-  "translate": false,
-  "beam_size": 5,
-  "print_progress": false,
-  "quality_threshold": 0.0,
-  "language_confidence_threshold": 0.0,
-  "model_sha256": ""
-}
-```
-
-### Resource Limits
-- Recommended: Limit audio file size to 100MB
-- Recommended: Limit concurrent transcriptions per instance
-- Recommended: Timeout for transcription operations: 30 seconds
-
----
-
-## Monitoring Requirements
-
-The following metrics should be monitored in production:
-- `whisper_transcription_count` (counter)
-- `whisper_transcription_duration_ms` (histogram)
-- `whisper_transcription_errors` (counter)
-- `whisper_audio_bytes_processed` (counter)
-- `whisper_concurrent_transcriptions` (gauge)
-
----
-
-## Validation Checklist
-
-- [x] All critical issues from MODULE_GAPS.md resolved (code-path fixes applied)
-- [~] All high-priority issues from MODULE_GAPS.md resolved or accepted
-- [x] Thread-safety verified for all shared state
-- [x] Exception safety verified for all code paths
-- [x] Resource leak testing completed for touched paths
-- [~] Performance benchmarks meet targets (real-model gate requires CI model path)
-- [x] Security controls validated (including model SHA-256 gate)
-- [x] Documentation reviewed and updated
-
----
+- [ ] Run and record real-model transcription validation on pinned model/hardware (Target: TODO).
+- [ ] Implement/validate actual incremental whisper.cpp callbacks or document the API as completed-text fallback (Target: TODO).
+- [ ] Define and validate a real multi-speaker diarisation backend and quality metric (Target: TODO).
+- [ ] Register the benchmark target and publish reproducible performance percentiles (Target: TODO).
 
 Format: THEMIS_PRODUCTION_REQUIREMENTS_V1

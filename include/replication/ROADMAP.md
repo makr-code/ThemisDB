@@ -1,6 +1,27 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: ThemisDB Contributors
+Created: 2026-06-01
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - README.md
+  - ARCHITECTURE.md
+  - ../../src/replication/ROADMAP.md
+  - ../../include/replication/
+Related_Issue: "#7373"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
+Exact model backend not verifiable from final document text alone.
+
+<!-- Historical/backlog status entries; header inventory checked 2026-10-31, not every item revalidated. -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/replication/ROADMAP.md -->
 
 # Replication Module — Public Header Roadmap
@@ -20,7 +41,7 @@ Tracks public replication API contract stability, header-level failover/CDC cove
 
 ## Current Status
 
-All 13 replication headers are present and cover orchestration, multi-writer variants, logical streaming, CDC, conflict resolution, and lag/topology observability.
+The directory currently contains 18 replication headers covering orchestration, Raft-v2, placement, logical streaming, CDC, conflict resolution, lag/observability, diagnostics, and related declarations. This inventory does not imply implementation or runtime integration for every header; see `README.md` and `ARCHITECTURE.md`.
 
 ---
 
@@ -51,3 +72,8 @@ All 13 replication headers are present and cover orchestration, multi-writer var
 ## Breaking Change History
 
 None in v1.x. Public replication headers must remain backward compatible within the active major line; contract changes require migration notes and changelog updates.
+
+> **Status note (2026-10-31):** The dated checkboxes and planned filenames above are
+> retained as roadmap/backlog history, not verified claims about current implementation
+> or a promise that an item is still planned. Compare the current headers and sources
+> before using them as requirements.

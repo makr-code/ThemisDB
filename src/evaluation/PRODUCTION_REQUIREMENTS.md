@@ -1,6 +1,17 @@
-> **Status:** 2026-07-29 – mit aktuellem Evaluation-Code und Statusdokumenten fuer Issue #5643 abgeglichen.
+> **Historical review status:** 2026-07-29 – recorded for issue #5643.
+>
+> **Current scope note (2026-10-31):** The MUST/MUST NOT statements below are
+> intended requirements, not evidence that the checked-in implementation,
+> deployment or current release satisfies them. No production-readiness,
+> security, build, test or benchmark audit was performed for issue #7344.
+> Current source/target boundaries and the remaining aggregate execution-evidence
+> gap are summarized in [ROADMAP.md](./ROADMAP.md).
 
 # ThemisDB Evaluation Module - Production Requirements
+
+> **Update provenance (2026-10-31):** AI_Used: true; AI_Models: unknown;
+> AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB
+> Contributors. Exact model backend not verifiable from final document text alone.
 
 ## Zweck und Geltungsbereich
 

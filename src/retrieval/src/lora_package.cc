@@ -11,9 +11,21 @@
 #include <cctype>
 #include <cstdint>
 #include <cstring>
+#include <ctime>
+#include <filesystem>
+#include <fstream>
 #include <sstream>
 #include <stdexcept>
 #include <iomanip>
+#include <cmath>
+#include <set>
+#include <type_traits>
+#include <utility>
+#include <rocksdb/db.h>
+#include <rocksdb/options.h>
+#include <yaml-cpp/yaml.h>
+#include "plugins/pinned_ed25519_verifier.h"
+#include "utils/rocksdb_open_compat.h"
 
 namespace themis {
 namespace retrieval {
@@ -24,6 +36,176 @@ namespace retrieval {
 // ============================================================================
 
 namespace {
+
+constexpr const char* kPackagePrefix = "retrieval:package:";
+constexpr const char* kProductPrefix = "retrieval:product:";
+
+std::string artifactKey(const char* prefix, const std::string& id) {
+    return std::string(prefix) + id;
+}
+
+rocksdb::WriteOptions durableWriteOptions() {
+    rocksdb::WriteOptions options;
+    options.sync = true;
+    return options;
+}
+
+bool validQualityMetrics(
+    const themis::rag::quality::AggregatedMetrics& candidate,
+    const themis::rag::quality::AggregatedMetrics& baseline) {
+    if (candidate.sample_count == 0 || baseline.sample_count == 0) {
+        return false;
+    }
+    const double values[] = {
+        candidate.mean_recall_10, candidate.mean_ndcg_10, candidate.mean_mrr,
+        baseline.mean_recall_10, baseline.mean_ndcg_10, baseline.mean_mrr};
+    for (const double value : values) {
+        if (!std::isfinite(value) || value < 0.0 || value > 1.0) {
+            return false;
+        }
+    }
+    // The existing controller calculates relative changes. A zero baseline
+    // would otherwise produce NaN/Inf and can be mistakenly treated as allow.
+    return baseline.mean_recall_10 > 0.0 &&
+           baseline.mean_ndcg_10 > 0.0 && baseline.mean_mrr > 0.0;
+}
+
+bool verifyPersistedLifecycleState(
+    const std::string& artifact_type,
+    const json& artifact,
+    const std::string& status,
+    const std::string& initial_status,
+    const LoRAManifestStore::PersistedLifecycleVerifier& verifier) {
+    if (status == initial_status) {
+        return true;
+    }
+    if (!verifier) {
+        return false;
+    }
+    try {
+        return verifier(artifact_type, artifact, status);
+    } catch (...) {
+        return false;
+    }
+}
+
+bool authorizeLifecycleTransition(
+    const std::string& artifact_type,
+    const json& artifact,
+    const std::string& current_status,
+    const std::string& requested_status,
+    const LoRAManifestStore::LifecycleTransitionAuthorizer& authorizer) {
+    if (!authorizer) {
+        return false;
+    }
+    try {
+        return authorizer(
+            artifact_type, artifact, current_status, requested_status);
+    } catch (...) {
+        return false;
+    }
+}
+
+bool isLegalPackageTransition(
+    LoRAPackageStatus current, LoRAPackageStatus requested) {
+    switch (current) {
+        case LoRAPackageStatus::DRAFT:
+            return requested == LoRAPackageStatus::VALIDATED ||
+                   requested == LoRAPackageStatus::DEPRECATED ||
+                   requested == LoRAPackageStatus::REVOKED;
+        case LoRAPackageStatus::VALIDATED:
+            return requested == LoRAPackageStatus::DEPRECATED ||
+                   requested == LoRAPackageStatus::REVOKED;
+        case LoRAPackageStatus::DEPRECATED:
+            return requested == LoRAPackageStatus::REVOKED;
+        case LoRAPackageStatus::REVOKED:
+            return false;
+    }
+    return false;
+}
+
+bool isLegalProductTransition(
+    AdapterProductStatus current, AdapterProductStatus requested) {
+    switch (current) {
+        case AdapterProductStatus::BUILDING:
+            return requested == AdapterProductStatus::READY ||
+                   requested == AdapterProductStatus::FAILED;
+        case AdapterProductStatus::READY:
+            return requested == AdapterProductStatus::RETIRED ||
+                   requested == AdapterProductStatus::FAILED;
+        case AdapterProductStatus::DEPLOYED:
+            return requested == AdapterProductStatus::RETIRED;
+        case AdapterProductStatus::RETIRED:
+        case AdapterProductStatus::FAILED:
+            return false;
+    }
+    return false;
+}
+
+std::string utcTimestampNow() {
+    const auto now = std::chrono::system_clock::now();
+    const auto time = std::chrono::system_clock::to_time_t(now);
+    std::tm tm{};
+#if defined(_MSC_VER)
+    gmtime_s(&tm, &time);
+#else
+    gmtime_r(&time, &tm);
+#endif
+    std::ostringstream timestamp;
+    timestamp << std::put_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
+    return timestamp.str();
+}
+
+template <typename Artifact>
+bool verifySignedArtifact(
+    const Artifact& artifact,
+    const std::vector<themis::plugins::PinnedKey>& pinned_keys,
+    const LoRAManifestStore::SignatureVerifier& verifier) {
+    const auto& integrity = artifact.integrity;
+    if (integrity.manifest_hash.empty() || integrity.signature.empty() ||
+        integrity.signature_algorithm != "Ed25519" ||
+        integrity.signer_id.empty() || !verifier) {
+        return false;
+    }
+
+    const bool has_valid_pin = std::any_of(
+        pinned_keys.begin(), pinned_keys.end(), [&](const auto& key) {
+            return key.active && key.fingerprint == integrity.signer_id &&
+                   themis::plugins::pinned_ed25519::fingerprint(key.public_key) ==
+                       key.fingerprint;
+        });
+    if (!has_valid_pin) {
+        return false;
+    }
+
+    Artifact unsigned_artifact = artifact;
+    unsigned_artifact.integrity.manifest_hash.clear();
+    unsigned_artifact.integrity.signature.clear();
+    unsigned_artifact.integrity.signature_algorithm.clear();
+    unsigned_artifact.integrity.signer_id.clear();
+    unsigned_artifact.integrity.signed_at.clear();
+    if constexpr (std::is_same_v<Artifact, LoRAPackage>) {
+        unsigned_artifact.status = LoRAPackageStatus::DRAFT;
+        unsigned_artifact.updated_at.clear();
+    } else {
+        unsigned_artifact.status = AdapterProductStatus::BUILDING;
+        unsigned_artifact.updated_at.clear();
+        unsigned_artifact.deployed_at.clear();
+    }
+    if (IntegrityHelper::sha256Hex(unsigned_artifact.to_json().dump()) !=
+        integrity.manifest_hash) {
+        return false;
+    }
+
+    try {
+        return verifier(integrity.manifest_hash, integrity.signature,
+                        integrity.signer_id);
+    } catch (const std::exception&) {
+        return false;
+    } catch (...) {
+        return false;
+    }
+}
 
 // --- SHA-256 constants -------------------------------------------------------
 static constexpr std::array<uint32_t, 64> kK = {{
@@ -145,7 +327,234 @@ std::string bytesToHex(const std::array<uint8_t, 32>& bytes) {
     return oss.str();
 }
 
+std::vector<uint8_t> decodeHexPublicKey(const std::string& encoded) {
+    if (encoded.size() != 64) {
+        return {};
+    }
+    auto decodeNibble = [](unsigned char c) -> int {
+        if (c >= '0' && c <= '9') {
+            return c - '0';
+        }
+        if (c >= 'a' && c <= 'f') {
+            return c - 'a' + 10;
+        }
+        if (c >= 'A' && c <= 'F') {
+            return c - 'A' + 10;
+        }
+        return -1;
+    };
+    std::vector<uint8_t> key;
+    key.reserve(32);
+    for (size_t i = 0; i < encoded.size(); i += 2) {
+        const int high = decodeNibble(static_cast<unsigned char>(encoded[i]));
+        const int low = decodeNibble(static_cast<unsigned char>(encoded[i + 1]));
+        if (high < 0 || low < 0) {
+            return {};
+        }
+        key.push_back(static_cast<uint8_t>((high << 4) | low));
+    }
+    return key;
+}
+
 } // anonymous namespace
+
+LoRAManifestStore::RuntimeConfig
+LoRAManifestStore::RuntimeConfig::loadFromYaml(const std::string& yaml_path) {
+    if (yaml_path.empty()) {
+        throw std::invalid_argument("retrieval YAML config path must not be empty");
+    }
+
+    RuntimeConfig result;
+    YAML::Node document;
+    try {
+        document = YAML::LoadFile(yaml_path);
+    } catch (const YAML::Exception& error) {
+        throw std::runtime_error(
+            std::string("failed to load retrieval YAML config: ") + error.what());
+    }
+
+    if (!document.IsMap() || document.size() != 1 ||
+        !document["retrieval"].IsMap() || document["retrieval"].size() != 1 ||
+        !document["retrieval"]["artifact_registry"].IsMap()) {
+        throw std::invalid_argument(
+            "retrieval YAML must contain only retrieval.artifact_registry");
+    }
+    const YAML::Node registry = document["retrieval"]["artifact_registry"];
+    if (registry.size() != 2 || !registry["database_path"] ||
+        !registry["pinned_keys"] || !registry["database_path"].IsScalar() ||
+        !registry["pinned_keys"].IsSequence()) {
+        throw std::invalid_argument(
+            "artifact_registry requires only database_path and pinned_keys");
+    }
+    result.database_path = registry["database_path"].as<std::string>();
+    if (result.database_path.empty()) {
+        throw std::invalid_argument("retrieval database_path must not be empty");
+    }
+    if (registry["pinned_keys"].size() == 0) {
+        throw std::invalid_argument("retrieval requires at least one pinned Ed25519 key");
+    }
+
+    std::set<std::string> seen_fingerprints;
+    for (const auto& yaml_key : registry["pinned_keys"]) {
+        if (!yaml_key.IsMap() || yaml_key.size() != 3 ||
+            !yaml_key["fingerprint"] || !yaml_key["public_key_hex"] ||
+            !yaml_key["label"] || !yaml_key["fingerprint"].IsScalar() ||
+            !yaml_key["public_key_hex"].IsScalar() || !yaml_key["label"].IsScalar()) {
+            throw std::invalid_argument(
+                "each pinned key requires fingerprint, public_key_hex, and label");
+        }
+        themis::plugins::PinnedKey key;
+        key.fingerprint = yaml_key["fingerprint"].as<std::string>();
+        key.public_key = decodeHexPublicKey(
+            yaml_key["public_key_hex"].as<std::string>());
+        key.label = yaml_key["label"].as<std::string>();
+        if (key.public_key.size() != 32 || key.label.empty() ||
+            themis::plugins::pinned_ed25519::fingerprint(key.public_key) !=
+                key.fingerprint ||
+            !seen_fingerprints.insert(key.fingerprint).second) {
+            throw std::invalid_argument(
+                "pinned key fingerprint/key mismatch, invalid key, or duplicate fingerprint");
+        }
+        result.pinned_keys.push_back(std::move(key));
+    }
+
+    return result;
+}
+
+LoRAManifestStore::LoRAManifestStore() = default;
+
+LoRAManifestStore::LoRAManifestStore(RuntimeConfig config)
+    : config_(std::move(config)) {
+    if (config_.database_path.empty()) {
+        throw std::invalid_argument("retrieval database_path must not be empty");
+    }
+    if (config_.pinned_keys.empty()) {
+        throw std::invalid_argument(
+            "retrieval production config requires at least one pinned Ed25519 key");
+    }
+    std::set<std::string> seen_fingerprints;
+    for (const auto& key : config_.pinned_keys) {
+        if (!key.active || key.label.empty() || key.fingerprint.empty() ||
+            key.public_key.size() != 32 ||
+            themis::plugins::pinned_ed25519::fingerprint(key.public_key) !=
+                key.fingerprint ||
+            !seen_fingerprints.insert(key.fingerprint).second) {
+            throw std::invalid_argument(
+                "retrieval pinned keys must be active, valid, and unique");
+        }
+    }
+    const auto verifier_keys = config_.pinned_keys;
+    signature_verifier_ =
+        [verifier_keys](const std::string& hash, const std::string& signature,
+                        const std::string& signer_id) {
+            const auto key = std::find_if(
+                verifier_keys.begin(), verifier_keys.end(),
+                [&signer_id](const auto& candidate) {
+                    return candidate.active &&
+                           candidate.fingerprint == signer_id;
+                });
+            return key != verifier_keys.end() &&
+                   themis::plugins::pinned_ed25519::verify(
+                       key->fingerprint, key->public_key, hash, signature);
+        };
+    const std::filesystem::path db_path(config_.database_path);
+    try {
+        if (db_path.has_parent_path()) {
+            std::filesystem::create_directories(db_path.parent_path());
+        }
+    } catch (const std::filesystem::filesystem_error& error) {
+        throw std::runtime_error(
+            std::string("Failed to prepare retrieval artifact database path: ") +
+            error.what());
+    }
+    rocksdb::Options options;
+    options.create_if_missing = true;
+    rocksdb::DB* raw_db = nullptr;
+    const auto status =
+        themis::storage::detail::openDbCompat(options, config_.database_path, &raw_db);
+    if (!status.ok()) {
+        throw std::runtime_error("Failed to open retrieval artifact RocksDB: " +
+                                 status.ToString());
+    }
+    db_.reset(raw_db);
+
+    std::unique_ptr<rocksdb::Iterator> iterator(
+        db_->NewIterator(rocksdb::ReadOptions()));
+    for (iterator->Seek(kPackagePrefix);
+         iterator->Valid() &&
+         iterator->key().ToString().rfind(kPackagePrefix, 0) == 0;
+         iterator->Next()) {
+        try {
+            const auto package = LoRAPackage::from_json(
+                json::parse(iterator->value().ToString()));
+            if (artifactKey(kPackagePrefix, package.package_id) !=
+                iterator->key().ToString()) {
+                throw std::runtime_error("retrieval package key/id mismatch");
+            }
+            if (!verifySignedArtifact(package, config_.pinned_keys,
+                                      signature_verifier_)) {
+                throw std::runtime_error(
+                    "persisted retrieval package signature verification failed");
+            }
+            if (!verifyPersistedLifecycleState(
+                    "package", package.to_json(), package.statusToString(),
+                    "DRAFT", config_.persisted_lifecycle_verifier)) {
+                throw std::runtime_error(
+                    "persisted package lifecycle state is not owner-verified");
+            }
+            packages_.emplace(package.package_id, package);
+        } catch (const std::exception& error) {
+            throw std::runtime_error(
+                std::string("Invalid persisted retrieval package: ") + error.what());
+        }
+    }
+    if (!iterator->status().ok()) {
+        throw std::runtime_error("Failed to scan retrieval packages: " +
+                                 iterator->status().ToString());
+    }
+    iterator.reset(db_->NewIterator(rocksdb::ReadOptions()));
+    for (iterator->Seek(kProductPrefix);
+         iterator->Valid() &&
+         iterator->key().ToString().rfind(kProductPrefix, 0) == 0;
+         iterator->Next()) {
+        try {
+            const auto product = PortableAdapterProduct::from_json(
+                json::parse(iterator->value().ToString()));
+            if (artifactKey(kProductPrefix, product.product_id) !=
+                iterator->key().ToString()) {
+                throw std::runtime_error("retrieval product key/id mismatch");
+            }
+            if (!verifySignedArtifact(product, config_.pinned_keys,
+                                      signature_verifier_)) {
+                throw std::runtime_error(
+                    "persisted retrieval product signature verification failed");
+            }
+            if (!verifyPersistedLifecycleState(
+                    "product", product.to_json(), product.statusToString(),
+                    "BUILDING", config_.persisted_lifecycle_verifier)) {
+                throw std::runtime_error(
+                    "persisted product lifecycle state is not owner-verified");
+            }
+            products_.emplace(product.product_id, product);
+        } catch (const std::exception& error) {
+            throw std::runtime_error(
+                std::string("Invalid persisted retrieval product: ") + error.what());
+        }
+    }
+    if (!iterator->status().ok()) {
+        throw std::runtime_error("Failed to scan retrieval products: " +
+                                 iterator->status().ToString());
+    }
+}
+
+LoRAManifestStore::~LoRAManifestStore() {
+    if (db_) {
+        rocksdb::FlushOptions options;
+        options.wait = true;
+        db_->Flush(options);
+        db_->Close();
+    }
+}
 
 // ============================================================================
 // IntegrityHelper
@@ -439,19 +848,18 @@ LoRAPackage LoRAPackage::from_json(const json& j) {
  * @details Calls: to_json(), dump(), IntegrityHelper::sha256Hex().
  */
 void LoRAPackage::computeManifestHash() {
-    // Temporarily clear signature fields AND manifest_hash to obtain the
-    // canonical content bytes that the hash covers.  Only non-signature
-    // integrity fields (weights_hash) are included in the canonical form.
-    const ArtifactIntegrity saved = integrity;
-    integrity.manifest_hash       = "";
-    integrity.signature           = "";
-    integrity.signature_algorithm = "";
-    integrity.signer_id           = "";
-    integrity.signed_at           = "";
-    const std::string canonical   = to_json().dump();
-    // Restore signature fields; update hash only.
-    integrity                     = saved;
-    integrity.manifest_hash       = IntegrityHelper::sha256Hex(canonical);
+    // Lifecycle state is mutable by the registry; the signed payload covers
+    // artifact identity/content, not status or update timestamps.
+    LoRAPackage unsigned_package = *this;
+    unsigned_package.integrity.manifest_hash.clear();
+    unsigned_package.integrity.signature.clear();
+    unsigned_package.integrity.signature_algorithm.clear();
+    unsigned_package.integrity.signer_id.clear();
+    unsigned_package.integrity.signed_at.clear();
+    unsigned_package.status = LoRAPackageStatus::DRAFT;
+    unsigned_package.updated_at.clear();
+    integrity.manifest_hash =
+        IntegrityHelper::sha256Hex(unsigned_package.to_json().dump());
 }
 
 bool LoRAPackage::supportsArchitecture(const std::string& arch) const {
@@ -604,15 +1012,17 @@ PortableAdapterProduct PortableAdapterProduct::from_json(const json& j) {
  * @details Calls: to_json(), dump(), IntegrityHelper::sha256Hex().
  */
 void PortableAdapterProduct::computeManifestHash() {
-    const ArtifactIntegrity saved = integrity;
-    integrity.manifest_hash       = "";
-    integrity.signature           = "";
-    integrity.signature_algorithm = "";
-    integrity.signer_id           = "";
-    integrity.signed_at           = "";
-    const std::string canonical   = to_json().dump();
-    integrity                     = saved;
-    integrity.manifest_hash       = IntegrityHelper::sha256Hex(canonical);
+    PortableAdapterProduct unsigned_product = *this;
+    unsigned_product.integrity.manifest_hash.clear();
+    unsigned_product.integrity.signature.clear();
+    unsigned_product.integrity.signature_algorithm.clear();
+    unsigned_product.integrity.signer_id.clear();
+    unsigned_product.integrity.signed_at.clear();
+    unsigned_product.status = AdapterProductStatus::BUILDING;
+    unsigned_product.updated_at.clear();
+    unsigned_product.deployed_at.clear();
+    integrity.manifest_hash =
+        IntegrityHelper::sha256Hex(unsigned_product.to_json().dump());
 }
 
 std::string PortableAdapterProduct::statusToString() const {
@@ -658,16 +1068,6 @@ AdapterProductStatus PortableAdapterProduct::statusFromString(const std::string&
 // ============================================================================
 
 /**
- * @brief Set Signature Verifier.
- * @param[in] verifier Input parameter.
- * @details Calls: lk(), std::move().
- */
-void LoRAManifestStore::setSignatureVerifier(SignatureVerifier verifier) {
-    std::lock_guard<std::mutex> lk(mutex_);
-    signature_verifier_ = std::move(verifier);
-}
-
-/**
  * @brief ── LoRAPackage CRUD ──────────────────────────────────────────────────────────
  * @param[in] pkg Input parameter.
  * @return True when the operation succeeds.
@@ -675,10 +1075,24 @@ void LoRAManifestStore::setSignatureVerifier(SignatureVerifier verifier) {
  */
 
 bool LoRAManifestStore::storePackage(const LoRAPackage& pkg) {
-    if (pkg.package_id.empty()) {
+    if (!db_ || pkg.package_id.empty() ||
+        pkg.status != LoRAPackageStatus::DRAFT ||
+        !verifySignedArtifact(pkg, config_.pinned_keys,
+                              signature_verifier_)) {
       return false;
     }
     std::lock_guard<std::mutex> lk(mutex_);
+    const auto existing = packages_.find(pkg.package_id);
+    if (existing != packages_.end() &&
+        existing->second.status != LoRAPackageStatus::DRAFT) {
+        return false;
+    }
+    const auto status = db_->Put(
+        durableWriteOptions(), artifactKey(kPackagePrefix, pkg.package_id),
+        pkg.to_json().dump());
+    if (!status.ok()) {
+        return false;
+    }
     packages_[pkg.package_id] = pkg;
     return true;
 }
@@ -706,7 +1120,73 @@ std::optional<LoRAPackage> LoRAManifestStore::loadPackage(
  */
 bool LoRAManifestStore::deletePackage(const std::string& package_id) {
     std::lock_guard<std::mutex> lk(mutex_);
-    return packages_.erase(package_id) > 0;
+    if (packages_.find(package_id) == packages_.end()) {
+        return false;
+    }
+    if (db_) {
+        const auto status = db_->Delete(
+            durableWriteOptions(), artifactKey(kPackagePrefix, package_id));
+        if (!status.ok()) {
+            return false;
+        }
+    }
+    packages_.erase(package_id);
+    return true;
+}
+
+bool LoRAManifestStore::transitionPackageStatus(
+    const std::string& package_id,
+    LoRAPackageStatus expected_status,
+    LoRAPackageStatus requested_status) {
+    if (!db_ || !isLegalPackageTransition(expected_status, requested_status)) {
+        return false;
+    }
+
+    std::optional<LoRAPackage> current;
+    LifecycleTransitionAuthorizer authorizer;
+    PersistedLifecycleVerifier state_verifier;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        const auto it = packages_.find(package_id);
+        if (it == packages_.end() || it->second.status != expected_status) {
+            return false;
+        }
+        current = it->second;
+        authorizer = config_.lifecycle_transition_authorizer;
+        state_verifier = config_.persisted_lifecycle_verifier;
+    }
+
+    if (!verifySignedArtifact(*current, config_.pinned_keys,
+                              signature_verifier_) ||
+        !authorizeLifecycleTransition(
+            "package", current->to_json(), current->statusToString(),
+            LoRAPackage{.status = requested_status}.statusToString(), authorizer)) {
+        return false;
+    }
+
+    auto updated = *current;
+    updated.status = requested_status;
+    updated.updated_at = utcTimestampNow();
+    const auto requested_status_string = updated.statusToString();
+    if (!verifyPersistedLifecycleState(
+            "package", updated.to_json(), requested_status_string,
+            "DRAFT", state_verifier)) {
+        return false;
+    }
+
+    std::lock_guard<std::mutex> lock(mutex_);
+    const auto it = packages_.find(package_id);
+    if (it == packages_.end() || it->second.to_json() != current->to_json()) {
+        return false;
+    }
+    const auto status = db_->Put(
+        durableWriteOptions(), artifactKey(kPackagePrefix, package_id),
+        updated.to_json().dump());
+    if (!status.ok()) {
+        return false;
+    }
+    it->second = std::move(updated);
+    return true;
 }
 
 std::vector<std::string> LoRAManifestStore::listPackageIds() const {
@@ -751,10 +1231,26 @@ std::vector<LoRAPackage> LoRAManifestStore::listPackagesByStatus(
  */
 
 bool LoRAManifestStore::storeProduct(const PortableAdapterProduct& product) {
-    if (product.product_id.empty() || product.source_package_id.empty()) {
+    if (!db_ || product.product_id.empty() || product.source_package_id.empty() ||
+        product.status != AdapterProductStatus::BUILDING) {
       return false;
     }
+    if (!verifySignedArtifact(product, config_.pinned_keys,
+                              signature_verifier_)) {
+        return false;
+    }
     std::lock_guard<std::mutex> lk(mutex_);
+    const auto existing = products_.find(product.product_id);
+    if (existing != products_.end() &&
+        existing->second.status != AdapterProductStatus::BUILDING) {
+        return false;
+    }
+    const auto status = db_->Put(
+        durableWriteOptions(), artifactKey(kProductPrefix, product.product_id),
+        product.to_json().dump());
+    if (!status.ok()) {
+        return false;
+    }
     products_[product.product_id] = product;
     return true;
 }
@@ -782,7 +1278,75 @@ std::optional<PortableAdapterProduct> LoRAManifestStore::loadProduct(
  */
 bool LoRAManifestStore::deleteProduct(const std::string& product_id) {
     std::lock_guard<std::mutex> lk(mutex_);
-    return products_.erase(product_id) > 0;
+    if (products_.find(product_id) == products_.end()) {
+        return false;
+    }
+    if (db_) {
+        const auto status = db_->Delete(
+            durableWriteOptions(), artifactKey(kProductPrefix, product_id));
+        if (!status.ok()) {
+            return false;
+        }
+    }
+    products_.erase(product_id);
+    return true;
+}
+
+bool LoRAManifestStore::transitionProductStatus(
+    const std::string& product_id,
+    AdapterProductStatus expected_status,
+    AdapterProductStatus requested_status) {
+    if (!db_ || requested_status == AdapterProductStatus::DEPLOYED ||
+        !isLegalProductTransition(expected_status, requested_status)) {
+        return false;
+    }
+
+    std::optional<PortableAdapterProduct> current;
+    LifecycleTransitionAuthorizer authorizer;
+    PersistedLifecycleVerifier state_verifier;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        const auto it = products_.find(product_id);
+        if (it == products_.end() || it->second.status != expected_status) {
+            return false;
+        }
+        current = it->second;
+        authorizer = config_.lifecycle_transition_authorizer;
+        state_verifier = config_.persisted_lifecycle_verifier;
+    }
+
+    PortableAdapterProduct target_status;
+    target_status.status = requested_status;
+    if (!verifySignedArtifact(*current, config_.pinned_keys,
+                              signature_verifier_) ||
+        !authorizeLifecycleTransition(
+            "product", current->to_json(), current->statusToString(),
+            target_status.statusToString(), authorizer)) {
+        return false;
+    }
+
+    auto updated = *current;
+    updated.status = requested_status;
+    updated.updated_at = utcTimestampNow();
+    if (!verifyPersistedLifecycleState(
+            "product", updated.to_json(), updated.statusToString(),
+            "BUILDING", state_verifier)) {
+        return false;
+    }
+
+    std::lock_guard<std::mutex> lock(mutex_);
+    const auto it = products_.find(product_id);
+    if (it == products_.end() || it->second.to_json() != current->to_json()) {
+        return false;
+    }
+    const auto status = db_->Put(
+        durableWriteOptions(), artifactKey(kProductPrefix, product_id),
+        updated.to_json().dump());
+    if (!status.ok()) {
+        return false;
+    }
+    it->second = std::move(updated);
+    return true;
 }
 
 std::vector<std::string> LoRAManifestStore::listProductIds() const {
@@ -841,9 +1405,9 @@ std::vector<PortableAdapterProduct> LoRAManifestStore::listProductsByStatus(
 
 bool LoRAManifestStore::verifyPackageIntegrity(
     const std::string& package_id) const {
-    // Take a copy under lock; verification itself is outside the lock.
     std::optional<LoRAPackage> maybe;
     SignatureVerifier verifier;
+    std::vector<themis::plugins::PinnedKey> pinned_keys;
     {
         /**
          * @brief Lk.
@@ -857,37 +1421,16 @@ bool LoRAManifestStore::verifyPackageIntegrity(
         }
         maybe    = it->second;
         verifier = signature_verifier_;
+        pinned_keys = config_.pinned_keys;
     }
-    LoRAPackage pkg = *maybe;
-
-    const std::string stored_hash = pkg.integrity.manifest_hash;
-    if (stored_hash.empty()) return false; // Unsigned / unhashed package
-
-    // Reproduce the canonical bytes: clear manifest_hash AND all signature fields.
-    pkg.integrity.manifest_hash       = "";
-    pkg.integrity.signature           = "";
-    pkg.integrity.signature_algorithm = "";
-    pkg.integrity.signer_id           = "";
-    pkg.integrity.signed_at           = "";
-    const std::string canonical = pkg.to_json().dump();
-    const std::string computed  = IntegrityHelper::sha256Hex(canonical);
-    if (computed != stored_hash) {
-      return false;
-    }
-
-    // Signature check: use the original (non-cleared) signature from the copy.
-    const std::string sig        = maybe->integrity.signature;
-    const std::string signer_id  = maybe->integrity.signer_id;
-    if (verifier && !sig.empty()) {
-        return verifier(stored_hash, sig, signer_id);
-    }
-    return true;
+    return verifySignedArtifact(*maybe, pinned_keys, verifier);
 }
 
 bool LoRAManifestStore::verifyProductIntegrity(
     const std::string& product_id) const {
     std::optional<PortableAdapterProduct> maybe;
     SignatureVerifier verifier;
+    std::vector<themis::plugins::PinnedKey> pinned_keys;
     {
         /**
          * @brief Lk.
@@ -901,32 +1444,157 @@ bool LoRAManifestStore::verifyProductIntegrity(
         }
         maybe    = it->second;
         verifier = signature_verifier_;
+        pinned_keys = config_.pinned_keys;
     }
-    PortableAdapterProduct prod = *maybe;
+    return verifySignedArtifact(*maybe, pinned_keys, verifier);
+}
 
-    const std::string stored_hash = prod.integrity.manifest_hash;
-    if (stored_hash.empty()) {
-      return false;
+LoRAManifestStore::DeploymentResult LoRAManifestStore::deployProduct(
+    const std::string& product_id,
+    uint32_t candidate_model_version,
+    uint32_t baseline_model_version,
+    const themis::rag::quality::AggregatedMetrics& candidate_metrics,
+    const themis::rag::quality::AggregatedMetrics& baseline_metrics) {
+    DeploymentResult result;
+    if (!db_) {
+        result.reason =
+            "deployment requires a persistent RocksDB store; in-memory mode is test-only";
+        return result;
+    }
+    std::optional<PortableAdapterProduct> product;
+    std::optional<LoRAPackage> package;
+    SignatureVerifier verifier;
+    DeploymentAuthorization authorizer;
+    DeploymentEvidenceValidator evidence_validator;
+    PersistedLifecycleVerifier lifecycle_state_verifier;
+    std::shared_ptr<themis::rag::quality::DeploymentGateController> quality_gate;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        const auto product_it = products_.find(product_id);
+        if (product_it == products_.end() ||
+            product_it->second.status != AdapterProductStatus::READY) {
+            result.reason = "product is missing or not READY";
+            return result;
+        }
+        const auto package_it =
+            packages_.find(product_it->second.source_package_id);
+        if (package_it == packages_.end() ||
+            package_it->second.status != LoRAPackageStatus::VALIDATED) {
+            result.reason = "source package is missing or not VALIDATED";
+            return result;
+        }
+        product = product_it->second;
+        package = package_it->second;
+        verifier = signature_verifier_;
+        authorizer = config_.deployment_authorizer;
+        evidence_validator = config_.deployment_evidence_validator;
+        lifecycle_state_verifier = config_.persisted_lifecycle_verifier;
+        quality_gate = config_.quality_gate;
     }
 
-    // Reproduce canonical bytes — clear manifest_hash and all signature fields.
-    prod.integrity.manifest_hash       = "";
-    prod.integrity.signature           = "";
-    prod.integrity.signature_algorithm = "";
-    prod.integrity.signer_id           = "";
-    prod.integrity.signed_at           = "";
-    const std::string canonical = prod.to_json().dump();
-    const std::string computed  = IntegrityHelper::sha256Hex(canonical);
-    if (computed != stored_hash) {
-      return false;
+    if (!verifySignedArtifact(*package, config_.pinned_keys, verifier) ||
+        !verifySignedArtifact(*product, config_.pinned_keys, verifier)) {
+        result.reason = "artifact signature or pinned signer verification failed";
+        return result;
+    }
+    if (!quality_gate) {
+        result.reason = "quality gate controller is not configured";
+        return result;
+    }
+    if (!validQualityMetrics(candidate_metrics, baseline_metrics)) {
+        result.reason = "candidate or baseline quality metrics are missing or invalid";
+        return result;
+    }
+    if (!evidence_validator) {
+        result.reason = "deployment evidence validator is not configured";
+        return result;
+    }
+    if (!lifecycle_state_verifier) {
+        result.reason = "owner lifecycle-state verifier is not configured";
+        return result;
+    }
+    try {
+        if (!evidence_validator(*product, candidate_model_version,
+                                baseline_model_version, candidate_metrics,
+                                baseline_metrics)) {
+            result.reason =
+                "deployment evidence is not authenticated or product-bound";
+            return result;
+        }
+    } catch (...) {
+        result.reason = "deployment evidence validation failed";
+        return result;
     }
 
-    const std::string sig       = maybe->integrity.signature;
-    const std::string signer_id = maybe->integrity.signer_id;
-    if (verifier && !sig.empty()) {
-        return verifier(stored_hash, sig, signer_id);
+    try {
+        result.quality_decision = quality_gate->EvaluateCandidate(
+            candidate_model_version, baseline_model_version, candidate_metrics,
+            baseline_metrics);
+    } catch (const std::exception&) {
+        result.quality_decision.decision =
+            themis::rag::quality::GateDecision::kDeny;
+        result.reason = "quality gate evaluation failed";
+        return result;
+    } catch (...) {
+        result.quality_decision.decision =
+            themis::rag::quality::GateDecision::kDeny;
+        result.reason = "quality gate evaluation failed";
+        return result;
     }
-    return true;
+    if (result.quality_decision.decision !=
+        themis::rag::quality::GateDecision::kAllow) {
+        result.reason = "quality gate did not return kAllow";
+        return result;
+    }
+    if (!authorizer) {
+        result.reason = "deployment authorization callback is not configured";
+        return result;
+    }
+    try {
+        if (!authorizer(*product, *package)) {
+            result.reason = "deployment authorization callback denied the request";
+            return result;
+        }
+    } catch (const std::exception&) {
+        result.reason = "deployment authorization callback failed";
+        return result;
+    } catch (...) {
+        result.reason = "deployment authorization callback failed";
+        return result;
+    }
+
+    PortableAdapterProduct deployed = *product;
+    deployed.status = AdapterProductStatus::DEPLOYED;
+    deployed.deployed_at = utcTimestampNow();
+    deployed.updated_at = deployed.deployed_at;
+    if (!verifyPersistedLifecycleState(
+            "product", deployed.to_json(), "DEPLOYED", "BUILDING",
+            lifecycle_state_verifier)) {
+        result.reason = "owner service did not verify DEPLOYED lifecycle state";
+        return result;
+    }
+
+    std::lock_guard<std::mutex> lock(mutex_);
+    const auto product_it = products_.find(product_id);
+    const auto package_it = packages_.find(product->source_package_id);
+    if (product_it == products_.end() || package_it == packages_.end() ||
+        product_it->second.to_json() != product->to_json() ||
+        package_it->second.to_json() != package->to_json()) {
+        result.reason = "artifact changed during deployment authorization";
+        return result;
+    }
+    const auto write_status = db_->Put(
+        durableWriteOptions(), artifactKey(kProductPrefix, product_id),
+        deployed.to_json().dump());
+    if (!write_status.ok()) {
+        result.reason = "failed to persist deployment status: " +
+                        write_status.ToString();
+        return result;
+    }
+    product_it->second = std::move(deployed);
+    result.deployed = true;
+    result.reason = "deployment quality and authorization checks passed";
+    return result;
 }
 
 // ── Bulk export / import ──────────────────────────────────────────────────────
@@ -967,7 +1635,24 @@ size_t LoRAManifestStore::importPackages(const json& j) {
     for (const auto& item : j) {
         try {
             LoRAPackage pkg = LoRAPackage::from_json(item);
+            if (!db_ || pkg.package_id.empty() ||
+                pkg.status != LoRAPackageStatus::DRAFT ||
+                !verifySignedArtifact(pkg, config_.pinned_keys,
+                                      signature_verifier_)) {
+                continue;
+            }
             std::lock_guard<std::mutex> lk(mutex_);
+            const auto existing = packages_.find(pkg.package_id);
+            if (existing != packages_.end() &&
+                existing->second.status != LoRAPackageStatus::DRAFT) {
+                continue;
+            }
+            const auto status = db_->Put(
+                durableWriteOptions(),
+                artifactKey(kPackagePrefix, pkg.package_id), pkg.to_json().dump());
+            if (!status.ok()) {
+                continue;
+            }
             packages_[pkg.package_id] = std::move(pkg);
             ++count;
         } catch (const std::exception&) {
@@ -1013,7 +1698,24 @@ size_t LoRAManifestStore::importProducts(const json& j) {
     for (const auto& item : j) {
         try {
             PortableAdapterProduct prod = PortableAdapterProduct::from_json(item);
+            if (!db_ || prod.product_id.empty() || prod.source_package_id.empty() ||
+                prod.status != AdapterProductStatus::BUILDING ||
+                !verifySignedArtifact(prod, config_.pinned_keys,
+                                      signature_verifier_)) {
+                continue;
+            }
             std::lock_guard<std::mutex> lk(mutex_);
+            const auto existing = products_.find(prod.product_id);
+            if (existing != products_.end() &&
+                existing->second.status != AdapterProductStatus::BUILDING) {
+                continue;
+            }
+            const auto status = db_->Put(
+                durableWriteOptions(),
+                artifactKey(kProductPrefix, prod.product_id), prod.to_json().dump());
+            if (!status.ok()) {
+                continue;
+            }
             products_[prod.product_id] = std::move(prod);
             ++count;
         } catch (const std::exception&) {

@@ -40,7 +40,8 @@ compression paths, and index maintenance. It does not own embedding generation,
 query-planner policy, storage-engine implementation, user authentication, or
 GPU driver/hardware validation.
 
-Public interfaces live under [`include/index/`](../../include/index/README.md);
+Public interfaces live under `include/index/`; consult the
+[source-checked API reference](API.md) and the declarations themselves.
 implementation is under this `src/index/`; focused module tests are under
 [`tests/index/`](../../tests/index/README.md). Begin with the module
 [README](README.md), [architecture](ARCHITECTURE.md), and

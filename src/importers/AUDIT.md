@@ -1,6 +1,27 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-02"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "src/importers/*.cpp; tests/importers/CMakeLists.txt; benchmarks/importers/CMakeLists.txt; src/importers/ROADMAP.md"
+Related_Reference: "makr-code/ThemisDB#7353"
+---
+
+> Creation-date note: Original creation date is not recorded in the available checkout; the front-matter `Created` date is a metadata placeholder, not independently verified.
+
+> Exact model backend not verifiable from final document text alone.
+> This is a historical audit summary; no fresh audit or build was run for this update.
+
 # Audit Report - Importers Module
 
-<!-- Status: current | validated: 2026-08-02 -->
+<!-- Historical validation marker; current audit status is explicitly unassessed below. -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · BUILD_STATUS.md -->
 
 ## Summary
@@ -8,10 +29,10 @@
 | Metric | Result |
 |---|---|
 | Build registration | pass |
-| Source set size | 35+ implementation files in src/importers |
-| Focused test presence | pass |
-| Open hardening findings | yes |
-| Critical blockers | none identified |
+| Source inventory | 48 top-level `.cpp` files currently present in `src/importers/` |
+| Focused test registration | 12 test sources are discovered locally; 3 are skipped by the local CMake registration |
+| Audit status | No fresh full-module audit performed in this documentation change |
+| Critical blockers | Not assessed by a fresh audit |
 
 ## Verified Files
 
@@ -39,30 +60,30 @@
 - src/importers/federated_learning.cpp
 - src/importers/graphql_federation.cpp
 
-## Findings
+## Historical findings (not revalidated)
 
 ### Open
 
-1. [IMP-AUD-01] connector parity and degraded-path hardening remains active.
+1. [IMP-AUD-01] connector parity and degraded-path hardening was previously tracked.
 - Severity: medium
-- Evidence: roadmap/future retain active work for mixed capability and unsupported connector incidents.
+- Evidence: prior roadmap/future snapshot; current status requires re-audit.
 - Action: close deterministic regressions across connector degradation and fallback transitions.
 
-2. [IMP-AUD-02] schema/conflict diagnostics need further tightening.
+2. [IMP-AUD-02] schema/conflict diagnostics were previously identified for review.
 - Severity: medium
 - Evidence: active follow-up work for validation and conflict incident observability.
 - Action: unify taxonomy and diagnostics for import denial/failure classes.
 
-3. [IMP-AUD-03] benchmark depth should broaden for advanced ingestion workflows.
+3. [IMP-AUD-03] benchmark depth was previously identified for review.
 - Severity: low
 - Evidence: throughput mapping is valid, but CDC/stream/integrity scenarios need deeper benchmark coverage.
 - Action: add benchmark depth for advanced import and quality/audit intensive flows.
 
 ### Closed
 
-- core importer runtime surfaces are present and source-verified.
-- documentation set is synchronized to source-verifiable claims.
-- changelog/roadmap role separation is aligned to module governance pattern.
+- The items above are not fresh findings and are not statements about current
+  open/closed state. TODO: rerun the module audit and attach reproducible evidence
+  before using this page as a current audit report.
 
 ## Performance Fixes (2026-06-03)
 

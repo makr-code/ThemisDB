@@ -23,7 +23,7 @@ Status: Active
 
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
-- Hash: `7ad42111ac267b9d`
+- Hash: `2bccfc56de48dbc2`
 - Titel: Changelog
 - Auszug:
   - All notable changes to ThemisDB will be documented in this file.
@@ -50,7 +50,7 @@ Status: Active
 
 ## INDEX.md
 - Kategorie: governance_and_docs
-- Hash: `018c281cfed99f40`
+- Hash: `87676997ec43194c`
 - Titel: ThemisDB Root Index
 - Auszug:
   - ---
@@ -68,12 +68,12 @@ Status: Active
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `727c00e7c7af8ab4`
+- Hash: `c872893d00e70d75`
 - Titel: ThemisDB Project Roadmap
 - Auszug:
   - <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
   - **Version:** 2.4.0-alpha
-  - **Last Updated:** 2026-10-30 (Wave C evidence status and governance target reconciliation)
+  - **Last Updated:** 2026-11-01 (audit-derived production-readiness roadmap pointer; RotatE target clarification; Wave C evidence status unchanged since 2026-10-30)
 
 ## VERSIONING.md
 - Kategorie: governance_and_docs
@@ -347,12 +347,12 @@ Status: Active
 
 ## ai_context/api_contracts/storage.md
 - Kategorie: governance_and_docs
-- Hash: `2f885ba883438e09`
-- Titel: Storage Module Contract
+- Hash: `87978907cd6f5b0a`
+- Titel: Storage API contract and conformance evidence
 - Auszug:
-  - Datum: 2026-10-29
-  - **Status:** Active
-  - **Module:** storage (RocksDB backend, K-V layer, LSM-tree)
+  - ---
+  - Author: "ThemisDB Contributors"
+  - Created: "2026-10-31"
 
 ## ai_context/api_contracts/transaction.md
 - Kategorie: governance_and_docs
@@ -374,7 +374,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/AQL.md
 - Kategorie: governance_and_docs
-- Hash: `888a3c0d0909f4fc`
+- Hash: `e1b02c1672ef56d3`
 - Titel: AQL — Developer LLM Wiki
 - Auszug:
   - ---
@@ -399,9 +399,18 @@ Status: Active
   - Author: "ThemisDB Team"
   - Created: "2026-10-31"
 
+## ai_context/developer_llm_wiki/GRAPH.md
+- Kategorie: governance_and_docs
+- Hash: `3979911b787f7dd3`
+- Titel: Graph — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-10-31"
+
 ## ai_context/developer_llm_wiki/IMPORTERS.md
 - Kategorie: governance_and_docs
-- Hash: `aba92d33f74af838`
+- Hash: `a911a66ac898123d`
 - Titel: Importers — Developer LLM Wiki
 - Auszug:
   - ---
@@ -462,6 +471,15 @@ Status: Active
   - Status: Generated
   - Bezug: Automated module doxygen analysis and documentation inventory
 
+## ai_context/developer_llm_wiki/PROMPT_ENGINEERING.md
+- Kategorie: governance_and_docs
+- Hash: `cb4e42e9e8d1328e`
+- Titel: Prompt Engineering — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-11-01"
+
 ## ai_context/developer_llm_wiki/RETRIEVAL_DIRECT_DOXYGEN_CHECK.md
 - Kategorie: governance_and_docs
 - Hash: `ff0a4aa5152fe57a`
@@ -480,6 +498,24 @@ Status: Active
   - - Modules: 72
   - - Modules with docs gaps: 7
 
+## ai_context/developer_llm_wiki/STORAGE.md
+- Kategorie: governance_and_docs
+- Hash: `4204a326f3c0f9a2`
+- Titel: Storage — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Contributors"
+  - Created: "2026-11-01"
+
+## ai_context/developer_llm_wiki/TEMPORAL.md
+- Kategorie: governance_and_docs
+- Hash: `b4d46654824427d8`
+- Titel: Temporal — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-11-01"
+
 ## ai_context/developer_llm_wiki/UPDATES.md
 - Kategorie: governance_and_docs
 - Hash: `6e18be74f473e3df`
@@ -488,6 +524,33 @@ Status: Active
   - ---
   - Author: "ThemisDB Team"
   - Created: "2026-10-31"
+
+## ai_context/developer_llm_wiki/USER_STORAGE_ENCRYPTED.md
+- Kategorie: governance_and_docs
+- Hash: `e70d576660a2478a`
+- Titel: User Storage Encrypted — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Contributors"
+  - Created: "2026-11-01"
+
+## ai_context/developer_llm_wiki/module_doxygen_artifacts/temporal/direct_doxygen_coverage.md
+- Kategorie: governance_and_docs
+- Hash: `84e5aeb0d5994675`
+- Titel: Module Doxygen Coverage Summary
+- Auszug:
+  - - Module: temporal
+  - - Source mode: direct_doxygen_markers
+  - - Symbol presence ratio: 0.897
+
+## ai_context/developer_llm_wiki/module_doxygen_artifacts/temporal/direct_doxygen_summary.md
+- Kategorie: governance_and_docs
+- Hash: `780ad5c40b6206b9`
+- Titel: Direct Doxygen Check: temporal
+- Auszug:
+  - - Source mode: direct_doxygen_markers
+  - - Source files scanned: 56
+  - - Source symbols (raw/filter): 351 / 324
 
 ## ai_context/legacy_status/STATUS_2026_08_01.md
 - Kategorie: governance_and_docs
@@ -659,66 +722,3 @@ Status: Active
   - This document summarizes the implementation of AI Decision Auditing and Explainability features for ThemisDB, ensuring compliance with EU AI Act, GDPR Article 22, and eIDAS regulations.
   - **Issue**: #TBD - Enhance AI Decision Auditing and Explainability
   - **Priority**: HIGH
-
-## docs/ARCHIVED/ai-working-history/AI_WIKI_INTEGRATION_PLAYBOOK.md
-- Kategorie: governance_and_docs
-- Hash: `4bebc6b94e1a9ce5`
-- Titel: AI Wiki Integration Playbook fuer ThemisDB
-- Auszug:
-  - Datum: 2026-07-28
-  - Status: Active
-  - Bezug: Uebertragung des LLM-Wiki-Musters auf ThemisDB Development-Management und AI Vibe Coding
-
-## docs/ARCHIVED/ai-working-history/ANALYSIS_EXECUTIVE_SUMMARY.md
-- Kategorie: governance_and_docs
-- Hash: `6216d8088deb07b9`
-- Titel: Gap Validation Analysis - Executive Summary
-- Auszug:
-  - **Date:** 2026-06-02
-  - **Analysis Method:** Automated heuristic classification of 50 stratified validation gaps
-  - **Full Dataset:** 18,795 gaps (after progressive context filtering)
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_CURRENT_STATUS_SNAPSHOT.md
-- Kategorie: governance_and_docs
-- Hash: `585644beadb0227b`
-- Titel: Analytics Module Gap Closure – Current Status Snapshot
-- Auszug:
-  - **Timestamp**: 2026-08-15 14:30 UTC
-  - **Overall Progress**: 70%+ complete (28+/40 functions implemented)
-  - **Framework**: 6-Phase Coordinated Implementation
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_EXECUTION_STATUS_2026_08_15.md
-- Kategorie: governance_and_docs
-- Hash: `5ce181ec7ad1ed62`
-- Titel: Analytics Module Gap Closure – Execution Status (2026-08-15)
-- Auszug:
-  - **Status**: 🚀 Phase 2-6 Implementation UNDERWAY
-  - **Total Gaps**: 40 (35 critical, 5 high-priority stubs)
-  - **Framework**: 6-Phase Coordinated Implementation
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_EXECUTIVE_SUMMARY_2026_08_15.md
-- Kategorie: governance_and_docs
-- Hash: `5ce8894686f5a3b7`
-- Titel: Analytics Module Gap Closure – Executive Summary
-- Auszug:
-  - **Project Date**: 2026-08-15
-  - **Status**: 🟢 ON TRACK FOR COMPLETION (~18:00 UTC)
-  - **Overall Progress**: 90% complete (5 of 6 phases done)
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_GAP_CLOSURE_ARCHITECTURE_UPDATE.md
-- Kategorie: governance_and_docs
-- Hash: `560b0960c973721b`
-- Titel: ARCHITECTURE.md Update: Gap Closure Phase 2-6
-- Auszug:
-  - **Status**: ✅ COMPLETE
-  - **Date**: 2026-08-15
-  - **Location**: `src/analytics/ARCHITECTURE.md` (new section)
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_GAP_CLOSURE_FINAL_REPORT_TEMPLATE.md
-- Kategorie: governance_and_docs
-- Hash: `302552ccd136d37e`
-- Titel: Analytics Module Gap Closure — Final Report
-- Auszug:
-  - **Status:** 🟡 IN PROGRESS (Phases 2-5 completion awaited)
-  - **Generated:** 2026-08-15T09:11:07Z
-  - **Module:** Analytics (`src/analytics/`)

@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "dataset_id": "wikipedia_rag_2k_v1",
+  "domain": "general_knowledge",
+  "data_kind": "synthetic_smoke_fixture",
+  "provenance": "Project-authored synthetic examples; no external corpus or licensed dataset is included.",
+  "limitations": "Four records only. This fixture validates dataset plumbing and is not representative evidence for retrieval quality or the named 2K corpus target.",
+  "query_language": "en",
+  "corpus_language": "en",
+  "records": [
+    {
+      "id": "wiki-smoke-001",
+      "query": "Which planet is classified as a dwarf planet?",
+      "documents": [
+        {"id": "wiki-doc-pluto", "text": "Pluto is classified as a dwarf planet by the International Astronomical Union."},
+        {"id": "wiki-doc-mars", "text": "Mars is the fourth planet from the Sun."}
+      ],
+      "relevant_document_ids": ["wiki-doc-pluto"]
+    },
+    {
+      "id": "wiki-smoke-002",
+      "query": "What process lets green plants convert light into chemical energy?",
+      "documents": [
+        {"id": "wiki-doc-photosynthesis", "text": "Photosynthesis converts light energy into chemical energy stored in sugars."},
+        {"id": "wiki-doc-cell", "text": "Cells are the basic structural units of living organisms."}
+      ],
+      "relevant_document_ids": ["wiki-doc-photosynthesis"]
+    },
+    {
+      "id": "wiki-smoke-003",
+      "query": "At what temperature does pure water boil at standard atmospheric pressure?",
+      "documents": [
+        {"id": "wiki-doc-boiling", "text": "At standard atmospheric pressure, pure water boils at 100 degrees Celsius."},
+        {"id": "wiki-doc-freezing", "text": "Pure water freezes at 0 degrees Celsius at standard pressure."}
+      ],
+      "relevant_document_ids": ["wiki-doc-boiling"]
+    },
+    {
+      "id": "wiki-smoke-004",
+      "query": "Which ocean is the largest by area?",
+      "documents": [
+        {"id": "wiki-doc-pacific", "text": "The Pacific Ocean is the largest and deepest ocean on Earth."},
+        {"id": "wiki-doc-arctic", "text": "The Arctic Ocean is the smallest of Earth's five oceans."}
+      ],
+      "relevant_document_ids": ["wiki-doc-pacific"]
+    }
+  ]
+}

@@ -1,22 +1,35 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "CMakeLists.txt"
+  - "../../src/storage/SECURITY.md"
+  - "../../SECURITY.md"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
 
-# SECURITY
+Exact model backend not verifiable from final document text alone.
 
-## Scope
-- Modul/Ordner: `tests/storage`
-- Sicherheitsrelevante Funktionen, Konfigurationen und Datenflüsse in diesem Verzeichnis.
+# Security scope of storage tests
 
-## Bedrohungsmodell (Kurz)
-- Unvalidierte Eingaben
-- Unzureichende Autorisierung/Authentisierung
-- Leakage sensibler Daten in Logs/Artefakten
-- Fehlkonfiguration bei Deployment/Runtime
+This directory contains tests for storage behavior; it is not itself a security
+boundary or deployment policy. Test presence does not certify the security of
+production configuration, stored data, backups, logs, or external providers.
 
-## Mindestanforderungen
-- Eingaben strikt validieren und Fehler explizit behandeln
-- Geheimnisse niemals im Klartext ablegen
-- Security-relevante Änderungen mit Tests absichern
-- Abhängigkeiten regelmäßig auf Schwachstellen prüfen
+Security-sensitive changes should add tests for the changed input, failure,
+and configuration paths and should be reviewed against the implementation and
+the module's [`../../src/storage/SECURITY.md`](../../src/storage/SECURITY.md).
+Report vulnerabilities through the repository's
+[`../../SECURITY.md`](../../SECURITY.md) process.
 
-## Incident & Meldung
-- Sicherheitsfunde gemäß Root-`SECURITY.md` melden und behandeln.
+TODO: link explicit security-test names only after verifying the current test
+source and registration in `CMakeLists.txt`.

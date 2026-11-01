@@ -1,3 +1,26 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "benchmarks/search/CMakeLists.txt"
+  - "benchmarks/search/benchmark_hybrid_search.cpp"
+  - "benchmarks/search/benchmark_distributed_hybrid_search.cpp"
+  - "benchmarks/search/bench_search_release_gates.cpp"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # PERFORMANCE_EXPECTATIONS - src/search
 
 ## Scope
@@ -8,9 +31,10 @@
 ## Benchmark Reference
 
 - Relevant benchmark files:
-  - benchmarks/benchmark_hybrid_search.cpp
-  - benchmarks/benchmark_distributed_hybrid_search.cpp
-  - benchmarks/bench_vector_search.cpp
+  - `benchmarks/search/benchmark_hybrid_search.cpp`
+  - `benchmarks/search/benchmark_distributed_hybrid_search.cpp`
+  - `benchmarks/search/bench_vector_search_gates.cpp`
+  - `benchmarks/search/bench_search_release_gates.cpp`
 
 ## Specific Expectations
 
@@ -18,9 +42,9 @@
 |---|---|---|
 | SRCP-1 | hybrid fusion and score normalization paths remain bounded | BM_RRF_BM25Only, BM_RRF_VectorOnly, BM_RRF_Hybrid_NoOverlap, BM_RRF_Hybrid_50PctOverlap, BM_RRF_Hybrid_FullOverlap, BM_Linear_Hybrid, BM_NormalizeScores_BM25, BM_NormalizeScores_Vector, BM_RRF_VaryingRrfK, BM_ConfigConstruction |
 | SRCP-2 | distributed shard merge paths remain bounded under overlap/failure/k-limit variation | BM_MergeShardResults_ShardCount, BM_MergeShardResults_ResultsPerShard, BM_MergeShardResults_Overlap, BM_MergeShardResults_KLimit, BM_MergeShardResults_WithFailures |
-| SRCP-3 | vector-search-sensitive retrieval building blocks remain bounded | BM_VectorSearch_efSearch, BM_VectorInsert_Batch100, BM_L2Distance_1000_512, BM_CosineDistance_1000_512, BM_TopK_5000_50 |
+| SRCP-3 | vector-search-sensitive retrieval building blocks remain bounded | Current vector-gate functions: `BM_VectorSearchL2`, `BM_VectorSearchCosineBatch`; the former list of `efSearch`, insert, and TopK cases is not present in the current scoped benchmark source. |
 
-## Module Hard Gates (v1.0 docs baseline)
+## Module Hard Gates (proposed thresholds; execution evidence required)
 
 | Gate ID | Expectation | Measurement |
 |---|---|---|
@@ -28,22 +52,12 @@
 | SRCG-2 | search hot-path p99 <= release threshold | p99 from mapped search benchmark cases |
 | SRCG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
-## Validation
+## Build, registration, and validation status
 
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- Mapping should be expanded as additional search benchmark scenarios are introduced.
-
-## Sourcecode Verification (Module: search/performance)
-
-- Verified benchmark sources:
-  - benchmarks/benchmark_hybrid_search.cpp
-  - benchmarks/benchmark_distributed_hybrid_search.cpp
-  - benchmarks/bench_vector_search.cpp
-- Verified mapping surfaces:
-  - hybrid fusion, distributed merge, and vector-search building block behavior
-- Result:
-  - Referenced benchmark cases exist in current benchmark sources.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+- `benchmarks/search/CMakeLists.txt` currently declares seven standard benchmark targets, including `bench_search_release_gates`, `bench_layered_retrieval_phase5`, and `bench_search_dedicated_gates`. It registers two benchmark smoke tests conditionally when the corresponding targets exist.
+- The two `benchmark_hybrid_search` and `benchmark_distributed_hybrid_search` targets are separately declared in `benchmarks/CMakeLists.txt`; the source cases are not evidence that a benchmark was executed.
+- The SRCP tables above are expectations only. No baseline run, measured p95/p99, or passing release gate is established by this document or by inspecting benchmark definitions.
+- **TODO:** document the current release-run manifest and measured baseline source before claiming any threshold passed; keep expectations distinct from results.
 
 ## Issue Scope Traceability
 

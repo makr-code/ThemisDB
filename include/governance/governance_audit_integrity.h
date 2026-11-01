@@ -107,6 +107,17 @@ public:
         RSA_SHA256        // Asymmetric (use for compliance/non-repudiation)
     };
     
+    /**
+     * @brief Construct a signer/verifier.
+     * @param algorithm HMAC-SHA256 or RSA-SHA256.
+     * @param key_id Identifier associated with the signing key.
+     * @param secret_key HMAC secret for HMAC_SHA256. For RSA_SHA256, an
+     * unencrypted PEM-encoded RSA private key is required for signing.
+     * Verification accepts either that private key PEM or its PEM-encoded RSA
+     * public key. RSA keys must be at least 2048 bits. Invalid/missing,
+     * encrypted, undersized, or non-RSA keys cause signing to return an empty
+     * signature and verification to fail.
+     */
     AuditSigner(
         SignatureAlgorithm algorithm,
         const std::string& key_id,

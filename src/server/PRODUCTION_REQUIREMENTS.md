@@ -1,11 +1,26 @@
-> **Status:** 2026-06-01 – mit aktuellem Server-Code (`auth_middleware.cpp`, `rate_limiting_middleware.cpp`, `load_shedder.cpp`) abgeglichen.
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
 
 # ThemisDB Server Module - Production Requirements
 
 ## Zweck und Geltungsbereich
 
-Dieses Dokument ist der **kanonische Referenzpunkt für produktive Mindestanforderungen** des Server-Moduls.
-Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für HTTP/2-, gRPC-, WebSocket-, MQTT- und PostgreSQL-Wire-Protokoll-Endpunkte.
+Dieses Dokument fasst deployment-seitige Sicherheitsanforderungen für das
+Server-Modul zusammen. Die Anforderungen sind operational guidance, keine
+Garantie, dass jeder Listener oder Handler sie automatisch durchsetzt.
+Prüfe für das konkrete Deployment die aktivierte Transport-, Auth- und
+Admission-Konfiguration.
 
 ## Dokumentabgrenzung (Canonical Split)
 
@@ -14,58 +29,59 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für HTTP/2-, g
 - **`src/server/ROADMAP.md`:** Lieferphasen, offene/abgeschlossene Features, Readiness-Planung.
 - **`src/server/FUTURE_ENHANCEMENTS.md`:** mittelfristige/langfristige Erweiterungen und Forschungsfelder.
 
-## Verbindliche Transportanforderungen
+## Transport configuration
 
-- **MUST:** TLS-Transport (`validateTransportSecurity(...)`) in Produktionsdeployments aktivieren; unsichere HTTP-Endpunkte nur in explizit deklarierten Nicht-Produktionsumgebungen zulassen.
-- **MUST:** `api_auth_config` mit gültigem `auth_token` konfigurieren; leere/ungültige Tokens werden beim Start abgewiesen.
-- **MUST NOT:** `auth_middleware` in Produktionspfaden deaktivieren oder umgehen.
+- `HttpServer::Config::enable_tls` defaults to `false`; plaintext HTTP is
+  therefore possible unless TLS is configured by the deployment.
+- TLS startup requires certificate and key paths when TLS is enabled.
+- `ApiAuthConfig::createSecureDefaults()` and `createDevDefaults()` are
+  explicit profiles. The selected profile and the actual `AuthMiddleware`
+  configuration determine which credentials and scopes are accepted.
+- No `validateTransportSecurity()` API or `THEMIS_PRODUCTION_MODE` /
+  `THEMIS_ENVIRONMENT` switch is defined by the server module; do not rely on
+  those names as startup enforcement.
 
-## Verbindliche Sicherheitsanforderungen
+## Authentication and request controls
 
-### 1) Authentifizierung und Request-Kontrolle
+- Configure and inject the authentication and admission components required
+  by each listener and route. The presence of an auth or limiter API alone
+  does not enable it globally.
+- Select JWT, API-key, Kerberos, mTLS, or USB-admin authentication only when
+  its provider and corresponding credentials are configured.
+- The server includes rate-limiting and load-shedding components, but their
+  use and rejection behavior are determined by the runtime path and config.
+- Configure and test each protocol session's timeout and close behavior
+  independently; do not assume one lifecycle policy applies to all protocols.
 
-- **MUST:** Auth-Middleware (`auth_middleware.cpp`) läuft vor allen sensiblen Handlern.
-- **MUST:** JWT-Validierung aktiviert, wenn JWT-basierter Zugang konfiguriert ist.
-- **MUST:** Ungültige Authentifizierungsversuche werden mit `401 Unauthorized` abgebrochen (Fail Closed).
+## Source-grounded runtime notes
 
-### 2) Rate Limiting und Overload-Schutz
+- `HttpServer::routeRequest()` and `APIGateway::handleRequest()` are separate
+  request paths; confirm which one handles the endpoint being changed.
+- TLS, HTTP/2, and HTTP/3 are configured separately through server settings;
+  enabling TLS is not implied by selecting a protocol.
+- Authentication failures, rate-limit decisions, and unknown routes are
+  returned through the relevant handler or gateway response path; avoid
+  assuming a single status mapping for every endpoint.
 
-- **MUST:** `rate_limiting_middleware` mit expliziten Grenzen konfigurieren (kein Default-Unlimited).
-- **MUST:** `load_shedder.cpp` aktiv, um Overload-Zustände mit messbaren Schwellwerten abzufangen.
-- **MUST:** `adaptive_rate_limiter.cpp` in Produktionspfaden aktiv; statische Limiter allein reichen nicht.
+## Deployment checklist
 
-### 3) Session- und Protokollbindung
+- [ ] Confirm TLS and certificate configuration for every externally reachable listener.
+- [ ] Confirm the intended auth profile and enabled provider for every protected route.
+- [ ] Set and verify the rate-limit and load-shed thresholds used by the deployment.
+- [ ] Exercise health, timeout, and shutdown behavior for enabled protocols.
+- [ ] Verify public status routes do not expose sensitive metadata.
 
-- **MUST:** WebSocket-Sessions (`websocket_session.cpp`) mit bounded Lifecycle (kein Silent-Hang auf close()).
-- **MUST:** MQTT-Sessions mit expliziten Verbindungsabbruch-Signalen konfiguriert.
-- **MUST NOT:** Session-State ohne explizite Fehlerbehandlung bei Protokoll-Downgrade-Versuchen beibehalten.
-
-## Betriebsgrenzen (aktuelles Server-Verhalten)
-
-- Request-Flooding und Connection-Limiter werden vom `adaptive_rate_limiter` durchgesetzt; Overload-Events sind beobachtbar via `health_error_service.cpp`.
-- WebSocket und MQTT Sessions werden bei Schließen über `net::dispatch(executor)` beendet; synchrone `ws.close()` Aufrufe in Write-Lock-Pfaden sind behoben.
-- `api_gateway.cpp` leitet Anfragen an registrierte Handler weiter; unbekannte Routen werden mit explizitem Fehlercode abgelehnt.
-
-## Minimaler Produktions-Check (Audit-fähig)
-
-- [ ] TLS-Transport aktiviert (kein plain HTTP ohne explizite Deklaration)
-- [ ] Auth-Middleware aktiviert und konfiguriert
-- [ ] `auth_token` nicht leer/blank
-- [ ] Rate-Limiter und Load-Shedder mit expliziten Schwellwerten konfiguriert
-- [ ] `health_error_service` erreichbar und liefert observierbare Overload-Signale
-- [ ] Session-Lifecycle für WebSocket/MQTT bounded und testbar
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
-
-## Review / Sourcecode-Audit-Nachweis
+## Source references
 
 ### Betroffene Dateien im Review
 
-- `src/server/PRODUCTION_REQUIREMENTS.md`
-- `src/server/auth_middleware.cpp`
+- `include/server/http_server.h`
+- `include/server/api_auth_config.h`
+- `include/server/auth_middleware.h`
+- `include/server/rate_limiting_middleware.h`
+- `include/server/load_shedder.h`
+- `src/server/http_server.cpp`
 - `src/server/api_auth_config.cpp`
+- `src/server/auth_middleware.cpp`
 - `src/server/rate_limiting_middleware.cpp`
-- `src/server/adaptive_rate_limiter.cpp`
 - `src/server/load_shedder.cpp`
-- `src/server/health_error_service.cpp`
-- `src/server/websocket_session.cpp`
-- `src/server/mqtt_session.cpp`

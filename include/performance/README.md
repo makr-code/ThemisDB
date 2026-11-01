@@ -1,204 +1,90 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+Source_Level: "level1"
+SOT_Domain: "api-contract"
+Canonical_Sources:
+  - "include/performance/*.h"
+  - "CMakeLists.txt"
+  - "cmake/CMakeLists.txt"
+Related_Issue: "#7366"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
 # Performance Optimization Headers
 
-<!-- status: current | validated: 2026-04-06 -->
-<!-- Links: Primary → src/performance/README.md | Secondary → docs/de/performance/README.md -->
+## Scope and dataflow
 
-## Overview
+`include/performance/` declares public interfaces for measurement, feature
+controls, memory/cache management, workload adaptation, hardware dispatch, and
+phase-specific algorithms. Implementations are in `src/performance/`; callers
+consume these declarations from other modules. The headers are the authority
+for signatures, ownership, exceptions, error results, and thread-safety.
 
-This directory contains public headers for ThemisDB's performance optimization infrastructure. These headers provide interfaces for research-based performance enhancements, hardware-level optimizations, profiling tools, and feature flags for runtime optimization control.
+The measurement path is compile-time gated: cycle macros in
+[`cycle_metrics_config.h`](cycle_metrics_config.h) call the collector only when
+the corresponding definitions are enabled; exporter implementations are
+separate runtime components. Feature-flag classes expose runtime state, but a
+runtime flag alone does not establish that a feature is compiled, supported by
+the host, or actually used by a caller. Check the implementation and returned
+result/capability fields for each path.
 
-All optimizations are based on peer-reviewed academic research (45+ papers) with proven performance gains. The system uses zero-cost abstractions via compile-time flags to ensure zero overhead when features are disabled.
+## Header groups
 
----
+| Area | Representative public headers | Contract surface |
+|---|---|---|
+| Measurement and configuration | `cycle_metrics.h`, `cycle_metrics_config.h`, `expected_cycles.h`, `runtime_config.h` | Cycle and metric macros are compiled according to their respective definitions. |
+| Feature controls | `feature_flags.h`, `phase2_feature_flags.h`, `phase3/feature_flags.h`, `phase4/feature_flags.h` | Phase-specific runtime controls; verify the implementation's compile and capability gates. |
+| Memory and placement | `allocator.h`, `huge_pages.h`, `numa_memory_manager.h`, `numa_topology.h`, `alignment_helpers.h` | Allocation, alignment, topology and placement contracts; host OS support may limit behavior. |
+| Cache and concurrency | `advanced_cache_manager.h`, `lirs_cache.h`, `rcu.h`, `rcu_hash_table.h`, `lockfree_metrics_buffer.h`, `lockfree_histogram.h` | Cache and synchronization interfaces; honor the documented concurrency contract (including SPSC-only buffers). |
+| Workload adaptation | `workload_predictor.h`, `workload_adaptive_optimizer.h`, `adaptive_query_compiler.h`, `phase3/per_query_cost_model.h`, `phase3/adaptive_batch_tuner.h` | Forecasts, strategy recommendations and query-cost feedback. Recommendations do not themselves resize caller-owned resources. |
+| Algorithms and optional I/O | `rabitq.h`, `phase3/diskann.h`, `phase3/bwtree.h`, `phase3/splinterdb.h`, `phase3/gunrock.h`, `phase4/io_uring_zero_copy.h`, `phase4/pmem_storage.h`, `phase4/pmu_counters.h` | Specialized algorithm and capability-dependent interfaces; experimental or optional behavior must not be inferred from a header name. |
 
-## Quick Reference
+Use [`performance_api_contract.h`](performance_api_contract.h) for its shared
+error/result types, but follow each individual header where an API uses a
+different error channel such as an exception, boolean status, or errno value.
 
-### Feature Flags
-- `feature_flags.h` - Phase 1 optimizations (mimalloc, huge pages, RCU, LIRS)
-- `phase2_feature_flags.h` - Phase 2 optimizations (WiscKey, Cicada, Ligra, RaBitQ, Dostoevsky)
-- `phase3/feature_flags.h` - Phase 3 optimizations (DiskANN, Bw-Tree, SplinterDB, Gunrock, Bao)
-- `feature_flags_examples.h` - Usage examples
+## Build configuration
 
-### Performance Measurement
-- `cycle_metrics.h` - Hardware cycle counters (RDTSC/CNTVCT_EL0)
-- `cycle_metrics_config.h` - Zero-cost macros
-- `expected_cycles.h` - Expected values for validation
-- `lockfree_metrics_buffer.h` - Wait-free SPSC buffer
-- `lockfree_histogram.h` - Lock-free histogram for latency distribution
-- `runtime_config.h` - Runtime configuration API
+The repository declares these measurement/build controls in its CMake files:
 
-### Memory Management
-- `allocator.h` - Unified allocator interface (mimalloc/system)
-- `huge_pages.h` - 2MB/1GB huge page support
-- `numa_memory_manager.h` - NUMA-aware memory allocation
-- `numa_topology.h` - NUMA topology detection and queries
-- `alignment_helpers.h` - Cache-line/page alignment
-- `alignment_examples.h` - Alignment usage examples
+- Root `CMakeLists.txt`: `THEMIS_ENABLE_CYCLE_METRICS`,
+  `THEMIS_ENABLE_DETAILED_METRICS`, `THEMIS_ENABLE_GPU_CYCLE_METRICS`,
+  `THEMIS_ENABLE_PMU_COUNTERS`, `THEMIS_ENABLE_IO_URING`,
+  `THEMIS_ENABLE_METRICS_EXPORT`, and `THEMIS_BENCHMARK_MODE`.
+- `cmake/CMakeLists.txt`: `THEMIS_ENABLE_MIMALLOC`,
+  `THEMIS_ENABLE_HUGE_PAGES`, `THEMIS_ENABLE_RCU_INDEX`, and
+  `THEMIS_ENABLE_LIRS_CACHE`.
 
-### Synchronization
-- `rcu.h` - Read-Copy-Update (lock-free reads)
-- `rcu_hash_table.h` - RCU-based concurrent hash table
+These are not a complete list of every `THEMIS_ENABLE_*` identifier mentioned
+in header comments. Whether a phase-specific flag is a configured CMake option
+or is wired into a particular build target is not established by this list;
+check the active CMake configuration before relying on it. Platform facilities
+such as GPU counters, PMU access, NUMA policies, and io_uring additionally
+depend on host support and permissions.
 
-### Cache Optimization
-- `lirs_cache.h` - LIRS cache (scan-resistant)
-- `prefetch_hints.h` - Software prefetch instructions
+## Limits
 
-### Phase-Specific Optimizations
-- `wisckey.h`, `cicada.h`, `ligra.h`, `rabitq.h`, `dostoevsky.h` - Phase 2
-- `phase3/diskann.h`, `phase3/bwtree.h`, `phase3/splinterdb.h`, `phase3/gunrock.h`, `phase3/bao.h` - Phase 3
-- `phase3/adaptive_batch_tuner.h` - Phase 3 adaptive batch tuning
-- `phase3/memory_pressure.h` - Phase 3 memory pressure management
-- `phase3/per_query_cost_model.h` - Phase 3 per-query cost model
+- Research citations and comments about expected gains are not local benchmark
+  results. No universal throughput, latency, or compression gain is promised
+  here.
+- Disabled cycle/metric macros expand to no-ops where defined that way; this
+  does not establish zero overhead for every performance component.
+- Optional paths may report fallback or failure. Inspect actual result fields
+  instead of treating requested configuration as proof of activation.
+- Keep allocation ownership, dimension/range validation, and threading
+  requirements specific to each public declaration.
 
-### Workload-Aware Optimization
-- `adaptive_query_compiler.h` - Adaptive query compilation
-- `advanced_cache_manager.h` - Advanced multi-tier cache management
-- `hardware_accelerator.h` - Hardware accelerator abstraction (SIMD/GPU)
-- `intelligent_prefetcher.h` - ML-driven data prefetching
-- `workload_adaptive_optimizer.h` - Workload-adaptive optimizer
-- `workload_predictor.h` - Workload pattern prediction
+See the implementation overview at
+[`../../src/performance/README.md`](../../src/performance/README.md), the caller
+contract map at [`../../src/performance/API.md`](../../src/performance/API.md),
+and CMake registration in `tests/performance/CMakeLists.txt` and
+`benchmarks/performance/CMakeLists.txt`.
 
----
-
-## Public API and Configuration Surface
-
-| Area | Primary Public Headers | Entry/Integration Notes |
-|------|------------------------|-------------------------|
-| Cycle metrics + export | `cycle_metrics.h`, `cycle_metrics_config.h`, `runtime_config.h` | Uses compile-time feature flags; integrates with exporters in `src/performance/*exporter*.cpp` |
-| Runtime feature flags | `feature_flags.h`, `phase2_feature_flags.h`, `phase3/feature_flags.h`, `phase4/feature_flags.h` | Runtime toggles are effective only for features enabled at compile-time |
-| Memory/NUMA | `allocator.h`, `huge_pages.h`, `numa_memory_manager.h`, `numa_topology.h` | NUMA/huge-page behavior depends on OS support and privileges |
-| Concurrent structures | `rcu.h`, `rcu_hash_table.h`, `lockfree_metrics_buffer.h`, `lockfree_histogram.h` | `lockfree_metrics_buffer.h` is SPSC-only; violating this contract is unsupported |
-| Workload-aware optimizers | `workload_predictor.h`, `workload_adaptive_optimizer.h`, `advanced_cache_manager.h` | Enables adaptive behavior based on observed workload profile |
-
----
-
-## Usage Examples
-
-### Enable Optimizations
-```cpp
-#include <performance/feature_flags.h>
-#include <performance/phase2_feature_flags.h>
-
-// Check if enabled
-if (THEMIS_PERF_MIMALLOC_ENABLED()) {
-    void* ptr = themis::memory::allocate(size);
-}
-
-// Runtime toggle
-auto& flags = themis::performance::PerformanceFeatureFlags::instance();
-flags.set_mimalloc_enabled(true);
-```
-
-### Measure Performance
-```cpp
-#include <performance/cycle_metrics.h>
-
-uint64_t cycles;
-THEMIS_SCOPED_CYCLE_TIMER(cycles);
-// Code to measure
-```
-
-### Use Memory Allocators
-```cpp
-#include <performance/allocator.h>
-
-void* buffer = themis::memory::allocate(1024 * 1024);
-themis::memory::deallocate(buffer);
-```
-
-### RCU Synchronization
-```cpp
-#include <performance/rcu.h>
-
-{
-    themis::rcu::ReadLock guard;
-    auto value = shared_data->read(key);
-}
-```
-
-### LIRS Cache
-```cpp
-#include <performance/lirs_cache.h>
-
-themis::performance::LIRSCache<Key, Value> cache(10000, 0.9);
-cache.put(key, value);
-```
-
----
-
-## Build Configuration
-
-```bash
-# Phase 1
-cmake -DTHEMIS_ENABLE_MIMALLOC=ON \
-      -DTHEMIS_ENABLE_HUGE_PAGES=ON \
-      -DTHEMIS_ENABLE_RCU_INDEX=ON \
-      -DTHEMIS_ENABLE_LIRS_CACHE=ON
-
-# Metrics
-cmake -DTHEMIS_ENABLE_CYCLE_METRICS=ON \
-      -DTHEMIS_ENABLE_METRICS_EXPORT=ON
-```
-
----
-
-## Runtime Behavior, Error Cases, and Limits
-
-- Feature toggles are two-layered: CMake (`THEMIS_ENABLE_*`) gates compilation, runtime flags gate activation.
-- PMU/GPU metrics and accelerator paths are platform-dependent and may degrade to fallback implementations.
-- NUMA pinning and huge page allocation can fail due to host privileges or kernel configuration; callers should tolerate fallback behavior.
-- `lockfree_metrics_buffer.h` must be used with one producer and one consumer only.
-- Full instrumentation (`THEMIS_BENCHMARK_MODE`) is intended for profiling/benchmarking and can increase runtime overhead.
-
-## Troubleshooting
-
-| Symptom | Check |
-|---------|-------|
-| Instrumentation compiles but no cycle metrics are exported | Verify `THEMIS_ENABLE_CYCLE_METRICS=ON` and `THEMIS_ENABLE_METRICS_EXPORT=ON` during CMake configure |
-| Runtime `set_*_enabled(true)` calls do not change behavior | Confirm corresponding feature was compiled in via `THEMIS_ENABLE_*` |
-| Missing GPU/PMU metrics fields | Validate platform/tooling support (CUDA, perf permissions) and rely on fallback counters where unavailable |
-| Inconsistent metrics stream under load | Verify strict SPSC usage for lock-free metrics buffers |
-
----
-
-## Performance Gains
-
-| Optimization | Workload | Gain |
-|-------------|----------|------|
-| mimalloc | General | +10-20% |
-| Huge Pages | Memory-intensive | +15-30% |
-| RCU | Read-heavy | +200-500% |
-| LIRS | Cache-sensitive | +30-40% |
-| WiscKey | Write-heavy | +40-60% |
-| Cicada | OLTP | +100-150% |
-| Ligra | Graph | +200-300% |
-| RaBitQ | Vector | +50-80%, 16x memory |
-| DiskANN | Billion-scale | +300-400% |
-| Gunrock | GPU graph | +1000-3000% |
-
----
-
-## Documentation
-
-- **Module implementation overview**: [`../../src/performance/README.md`](../../src/performance/README.md)
-- **Architecture**: [`../../src/performance/ARCHITECTURE.md`](../../src/performance/ARCHITECTURE.md)
-- **Roadmap**: [`../../src/performance/ROADMAP.md`](../../src/performance/ROADMAP.md)
-- **Future enhancements**: [`../../src/performance/FUTURE_ENHANCEMENTS.md`](../../src/performance/FUTURE_ENHANCEMENTS.md)
-- **Performance targets/SLO mapping**: [`../../src/performance/PERFORMANCE_EXPECTATIONS.md`](../../src/performance/PERFORMANCE_EXPECTATIONS.md)
-- **Module overview (DE)**: [`../../docs/de/performance/README.md`](../../docs/de/performance/README.md)
-- **Research papers**: [`../../docs/de/research/WISSENSCHAFTLICHE_PERFORMANCE_OPTIMIERUNGEN.md`](../../docs/de/research/WISSENSCHAFTLICHE_PERFORMANCE_OPTIMIERUNGEN.md)
-
----
-
-**Last Updated**: 2026-05-13
-**Version**: 1.2
-
-## Installation
-
-This module is included as part of ThemisDB. Add the module headers to your include path:
-
-```cmake
-target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
-```
+Exact model backend not verifiable from final document text alone.

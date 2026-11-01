@@ -1,3 +1,27 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-06-04"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "ai_working/gap_scan_results.json (historical input only); src/importers/*.cpp; tests/importers/CMakeLists.txt"
+Related_Reference: "makr-code/ThemisDB#7353"
+---
+
+> Creation-date note: Original creation date is not recorded in the available checkout; the front-matter `Created` date is a metadata placeholder, not independently verified.
+
+> Exact model backend not verifiable from final document text alone.
+> Historical generated scanner snapshot from 2026-06-04; not current audit evidence.
+> Finding totals and line-number references are stale and have not been revalidated
+> against current source. Treat as history only, not as the active gap backlog.
+> TODO: regenerate and triage scanner findings against current code before using.
+
 # importers Module - Developer Gap Note
 
 > Auto-generated from ai_working\gap_scan_results.json.

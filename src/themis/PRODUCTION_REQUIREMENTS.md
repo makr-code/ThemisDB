@@ -1,4 +1,21 @@
-> **Status:** 2026-06-01 – mit aktuellem Themis-Code (`module_signature_verifier.cpp`) abgeglichen.
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Model_Attribution: "Exact model backend not verifiable from final document text alone."
+AI_Contributor: "themisdb-doc-orchestrator"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> **Validation note (2026-10-31):** The requirements below are deployment
+> policy, not proof that every build/deployment enforces them. The current
+> `ModuleSecurityVerifier` selects signature-required/unsigned-denied defaults
+> under `NDEBUG` and unsigned-allowed defaults otherwise; deployments must
+> verify their build mode and configured policy.
 
 # ThemisDB Themis Module - Production Requirements
 
@@ -18,7 +35,7 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Module-Sig
 
 - **MUST:** Module-Signature-Verifier aktiv; alle geladenen Module werden mit Signatur validiert bevor Aktivierung.
 - **MUST:** Module-Dependency-Resolver prüft Kompatibilitäts-Matrix; inkompatible Module-Kombinationen werden abgewiesen.
-- **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
+- **MUST:** Alle für die jeweilige Produktionskonfiguration sicherheitsrelevanten Werte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten. Die konkrete Konfigurationsliste ist deployment-spezifisch und muss belegt werden.
 - **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
 
 ## Verbindliche Sicherheitsanforderungen
@@ -40,7 +57,7 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Module-Sig
 - [ ] Ressourcen-Limits explizit konfiguriert (keine Unlimited-Defaults)
 - [ ] Audit-Logging aktiv
 - [ ] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
+- [ ] Produktions-Buildmodus und Signatur-/Unsigned-Policy anhand der tatsächlich verwendeten Build- und Laufzeitkonfiguration nachgewiesen. Für `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` wurde in den geprüften Quellen keine Definition gefunden; diese Variablennamen sind daher keine belegte Modulkonfiguration.
 
 ## Review / Sourcecode-Audit-Nachweis
 

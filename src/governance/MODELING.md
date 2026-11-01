@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -24,7 +24,11 @@ This document describes the runtime data and decision models represented by `inc
 
 `PolicyEngine` maps request headers and route context to a `PolicyDecision`. Its result contains classification, enforcement/observe mode, logging and content-encryption requirements, redaction, ANN/export/cache permissions, retention, and CCPA opt-out state. A missing explicit classification uses a route mapping when present; otherwise the native path uses `streng-geheim`. An unknown label also resolves to the strictest result. Configured profiles take precedence over native heuristics for known classifications.
 
-An attached OPA evaluator is consulted first. A concrete OPA decision replaces the native decision, after which the CCPA opt-out export restriction is applied. An unavailable evaluator returns no decision, causing native evaluation and a fallback counter. The built-in WASM stub is a different, non-evaluating path; see [Trust](TRUST.md).
+An attached OPA evaluator is consulted first. A concrete OPA decision replaces
+the native decision, after which the CCPA opt-out export restriction is applied.
+An unavailable REST evaluator can result in native evaluation. Explicit WASM
+mode uses only its injected evaluator and returns an enforced strict deny if
+unavailable; it does not fall through. See [Trust](TRUST.md).
 
 ## Compliance and evidence model
 

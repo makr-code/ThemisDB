@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -32,8 +32,9 @@ not reproduce its outdated line numbers or unsupported closure claims.
   deadlines do not enforce a bounded join.
 - `QuorumLog::recover()` reads the file, but construction only logs the recovered
   record and does not restore manager epoch or quorum state.
-- Built-in DR restore and traffic-shift handlers do not call external adapters;
-  spare activation and metadata update likewise do not complete those actions.
+- DR operations requiring external effects fail closed without configured
+  hooks, but production adapters are still missing. Spare activation reports
+  failure and blocks completion; metadata persistence is unavailable and fails.
 - Failover-specific runtime does not expose named metrics or trace spans.
 
 See [`AUDIT.md`](AUDIT.md) and [`IMPLEMENTATION.md`](IMPLEMENTATION.md) for the

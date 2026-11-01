@@ -1,25 +1,45 @@
 # Embedding & Index Version Governance
 
-**Status:** Design & Implementation  
+**Status:** Historical design proposal; partial helper implementation only
 **Created:** 2026-09-24  
+**Last Updated:** 2026-10-31
 **Version:** 1.0.0 (Specification)  
 **Target Completion:** Q4 2026 – Q1 2027  
 **Scope:** Versioning contract for embedding models, index schemas, and reindex decisions  
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
+
+> **Implementation boundary (2026-10-31):** This page is not a binding runtime
+> contract and is not evidence that the pictured manifest, RocksDB persistence,
+> dual-read path, environment variables, CMake option, rollback command, or
+> rollout schedule exists. Current ingestion evidence is summarized in
+> [`EMBEDDING.md`](./EMBEDDING.md). `ReindexDecisionEngine` implements a
+> metadata comparison helper, and `CanaryDeploymentManager` implements
+> in-process metric/phase helper behavior; neither alone demonstrates a live
+> index migration or traffic switch. Examples below are design assumptions
+> unless marked as present in current source/tests.
 
 ---
 
 ## Purpose
 
-This document defines the binding versioning and lifecycle governance for embeddings and indexes in ThemisDB RAG systems. The contract ensures:
+This document proposes versioning and lifecycle governance for embeddings and
+indexes in ThemisDB RAG systems. The following are design goals, not guarantees
+of the current ingestion implementation:
 
-1. **Deterministic Reindex Decisions:** Embedding/chunking changes automatically trigger reindex decisions
-2. **Version Tracking:** All index writes include metadata about the embedding model, dimensions, chunking profile, and schema version
-3. **Migration Safety:** Canary deployments with dual-read comparison before full cutover
-4. **Audit Trail:** Index manifests preserve version history for debugging and rollback
+1. **Deterministic Reindex Decisions:** The implemented helper can compare the metadata conditions described below; automatic orchestration is not established.
+2. **Version Tracking:** Proposed metadata for index writes; persistence/integration remains TODO.
+3. **Migration Safety:** Proposed canary and dual-read design; not verified as an integrated runtime flow.
+4. **Audit Trail:** Proposed manifest/audit design; no ingestion-side lifecycle implementation is established here.
 
 ---
 
-## Version Schema
+## Proposed Version Schema (illustrative, not a current persisted contract)
 
 ### Embedding Model Versioning
 
@@ -86,6 +106,11 @@ Every embedding operation must track:
 
 ## Reindex Decision Logic
 
+The trigger comparison is implemented by `ReindexDecisionEngine`; details and
+limits are in [`EMBEDDING.md`](./EMBEDDING.md). The example data formats and
+manifest persistence below remain proposed unless a matching implementation and
+test are identified.
+
 ### Trigger Conditions
 
 A reindex is **required** when:
@@ -109,7 +134,8 @@ A reindex is **required** when:
 ### Decision Engine Implementation
 
 ```cpp
-// pseudo-code in src/ingestion/reindex_decision_engine.cpp
+// Historical pseudocode; current method signatures are in
+// include/ingestion/reindex_decision_engine.h.
 
 struct ReindexDecision {
   bool reindex_required;
@@ -216,7 +242,7 @@ All index writes must produce an `INDEX_MANIFEST.json` containing:
 
 ---
 
-## RocksDB Persistence
+## Proposed RocksDB Persistence (TODO; implementation not verified)
 
 ### Storage Schema
 
@@ -242,7 +268,7 @@ Value: VersionHistoryEntry JSON
 
 ---
 
-## Canary Deployment Pattern
+## Proposed Canary Deployment Pattern (not verified as integrated runtime behavior)
 
 ### Phase 1: Setup (Day 0)
 
@@ -298,7 +324,7 @@ If at any point regression > 2pp threshold:
 
 ---
 
-## Dual-Read Implementation
+## Proposed Dual-Read Implementation (example only; no ingestion integration verified)
 
 ### Query-Time Decision
 
@@ -364,7 +390,7 @@ DualReadResult queryWithDualRead(const QueryRequest& query) {
 
 ---
 
-## Index Version Rollback Utility
+## Proposed Index Version Rollback Utility (example only; command not verified)
 
 ### Rollback Command
 
@@ -413,7 +439,7 @@ DualReadResult queryWithDualRead(const QueryRequest& query) {
 
 ---
 
-## Configuration & Controls
+## Proposed Configuration & Controls (environment variables/options not verified)
 
 ### Environment Variables
 
@@ -456,7 +482,7 @@ endif()
 
 ---
 
-## Testing & Validation
+## Historical Testing Examples (not current tests)
 
 ### Unit Tests
 
@@ -541,10 +567,10 @@ TEST(CanaryDeploymentE2E, FullCycleWithGradualRollout) {
 
 ### Q4 2026 (Immediate)
 
-- [ ] Implement reindex decision engine (`src/ingestion/reindex_decision_engine.cpp`)
+- [x] Reindex decision helper exists (`src/ingestion/reindex_decision_engine.cpp`; see focused tests). It does not implement manifest storage or index migration.
 - [ ] Implement index manifest persistence and loading
-- [ ] Create INDEX_MANIFEST_V1_SCHEMA.json
-- [ ] Add unit tests for decision logic
+- [x] `src/index/INDEX_MANIFEST_V1_SCHEMA.json` exists; its existence does not prove persistence integration.
+- [x] Unit tests for decision helper exist in `tests/ingestion/test_reindex_decision_engine.cpp`.
 - [ ] Document in ROADMAP.md and FUTURE_ENHANCEMENTS.md
 
 ### Q1 2027 (Next Phase)

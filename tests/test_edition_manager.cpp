@@ -65,7 +65,9 @@ TEST(EditionManager, GetEditionTypeReturnsValidValue) {
     const EditionType et = EditionManager::instance().getEditionType();
     EXPECT_TRUE(et == EditionType::COMMUNITY ||
                 et == EditionType::ENTERPRISE ||
+                et == EditionType::MILITARY ||
                 et == EditionType::HYPERSCALER ||
+                et == EditionType::MINIMAL ||
                 et == EditionType::UNKNOWN);
 }
 

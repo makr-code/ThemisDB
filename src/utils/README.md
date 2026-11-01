@@ -1,15 +1,29 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Utils Module
 
-<!-- Status: current | validated: 2026-07-18 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose
 
 The utils module provides shared cross-cutting runtime building blocks for ThemisDB, including audit and structured logging, privacy utilities, key and checksum helpers, compression and serialization, concurrency and rate limiting, tracing, timestamp and cron helpers, and generic support code used by many other modules.
 
-## Relevant Interfaces
+## Representative Implementations
 
-| Interface / File | Role |
+| Implementation | Role |
 |---|---|
 | audit_logger.cpp | audit trail behavior |
 | logger.cpp | structured logging behavior |
@@ -50,9 +64,9 @@ Out of scope:
 - utility hot paths include privacy scan, compression, thread-pool, and SIMD helper behavior.
 - selected components depend on host libraries or external services, but failures must degrade predictably.
 
-## Sourcecode Verification (Module: utils/readme)
+## Source and Build Verification (Module: utils/readme)
 
-- Verified files:
+- Representative source files checked (not an exhaustive inventory):
   - src/utils/audit_logger.cpp
   - src/utils/logger.cpp
   - src/utils/saga_logger.cpp
@@ -75,10 +89,16 @@ Out of scope:
   - src/utils/timestamp_utils.cpp
   - src/utils/consistent_hash.cpp
   - src/utils/bloom_filter.cpp
-- Verified benchmark anchors:
-  - benchmarks/bench_pii_stream_scanner.cpp
-  - benchmarks/bench_simd_distance.cpp
-  - benchmarks/bench_thread_pool_saturation.cpp
-  - benchmarks/bench_encryption.cpp
-  - benchmarks/bench_compression.cpp
-  - benchmarks/bench_security.cpp
+- Benchmark sources under `benchmarks/utils/`:
+  - `bench_utils_release_gates.cpp` is the only benchmark registered by
+    `benchmarks/utils/CMakeLists.txt`.
+  - `bench_pii_stream_scanner.cpp`, `benchmark_runner.cpp`, and
+    `phase_a3_benchmark_runner.cpp` exist but are not registered by that
+    CMake file. The Phase A.3 runner uses simulated work; its historic
+    measurements are not production-path performance evidence.
+- `tests/utils/CMakeLists.txt` registers focused tests and discovers
+  `test_utils_*.cpp` files. The root `tests/CMakeLists.txt` includes module
+  test directories that contain a `CMakeLists.txt`.
+- See [`tests/utils/README.md`](../../tests/utils/README.md) for build and test
+  commands and [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md)
+  for the current benchmark boundary.

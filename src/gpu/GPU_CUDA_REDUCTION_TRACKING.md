@@ -1,5 +1,11 @@
 # GPU Module — CUDA Kernel Call Reduction Tracking
 
+> Historical tracking snapshot dated 2026-09-23. Its reduction percentages,
+> runner readiness, and test/CI statuses are reported historical claims, not
+> current measurements. The document itself records conflicting measurement
+> states; re-run the audit and representative-hardware benchmarks before using
+> those figures as release evidence.
+
 **Date:** 2026-09-23  
 **Module:** `src/gpu/`  
 **Target:** Wave A GPU CUDA reduction ≥40% vs Wave 7 baseline  

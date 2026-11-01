@@ -1,8 +1,22 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Source level: 1; SOT domain: security. Canonical references: root `SECURITY.md`, `transaction_manager.cpp`, `lock_manager.cpp`, `distributed_transaction_manager.cpp`, `saga_orchestrator.cpp`, `distributed_saga.cpp`, and `transaction_auditor.cpp`. Related issue: #7390.
+
 > **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
 
 <!-- Status: current | validated: 2026-05-31 -->
 # Security - Transaction Module
-> Report vulnerabilities via [SECURITY.md](../../../SECURITY.md).
+> Report vulnerabilities via [SECURITY.md](../../SECURITY.md).
 
 ## Threat Model
 

@@ -14,7 +14,7 @@ Exact model backend not verifiable from final document text alone.
 
 # ThemisDB GPU Module
 
-<!-- Status: current | validated: 2026-08-17 -->
+<!-- Source-reviewed: 2026-10-31; no runtime validation performed -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · PRODUCTION_REQUIREMENTS.md · PERFORMANCE_EXPECTATIONS.md · SECURITY.md · RESEARCH.md · MODELING.md · EMBEDDING.md · IMPLEMENTATION.md · API.md · MODULE_GUIDE.md · RUNBOOK.md · OPERATIONS.md · TRUST.md -->
 
 ## Module Purpose
@@ -73,7 +73,7 @@ Out of scope:
 
 - behavior is bounded by enabled backend support, feature flags, and edition policy limits.
 - GPU-disabled and degraded-hardware paths must remain deterministic; callers must verify workload-level fallback rather than infer it from facade status.
-- backend gate denials and fallback transitions emit structured `GPUBackendDispatchDiagnostics` events for parity/debug checks.
+- diagnostics, audit, and metrics are separate surfaces: the dispatch diagnostics API is used by paths that explicitly call it, while `GPUModule` audit/metrics recording is feature-gated. Do not assume every denial or fallback emits a dispatch diagnostic.
 - cluster/topology capabilities can be limited by host/runtime environment features.
 - For `GPUModule::submitWork`, a non-GPU success records that the fallback callback returned success; this facade callback does not itself execute the submitted work item on CPU. Callers must verify workload-level fallback and output correctness.
 

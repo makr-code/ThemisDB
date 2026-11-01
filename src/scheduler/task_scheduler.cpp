@@ -102,6 +102,39 @@ void TaskScheduler::setRequestContext(const RequestContext& ctx) noexcept {
     tls_request_ctx.set = true;
 }
 
+std::optional<TaskScheduler::RequestContext> TaskScheduler::currentRequestContext() {
+    if (!tls_request_ctx.set) {
+        return std::nullopt;
+    }
+    RequestContext context;
+    context.user_id = tls_request_ctx.user_id;
+    context.client_ip = tls_request_ctx.client_ip;
+    context.granted_permissions = tls_request_ctx.granted_permissions;
+    context.roles = tls_request_ctx.roles;
+    context.authorization_justification = tls_request_ctx.authorization_justification;
+    return context;
+}
+
+TaskScheduler::ScopedRequestContext::ScopedRequestContext(const RequestContext& context)
+    : had_previous_(tls_request_ctx.set) {
+    if (had_previous_) {
+        previous_.user_id = tls_request_ctx.user_id;
+        previous_.client_ip = tls_request_ctx.client_ip;
+        previous_.granted_permissions = tls_request_ctx.granted_permissions;
+        previous_.roles = tls_request_ctx.roles;
+        previous_.authorization_justification = tls_request_ctx.authorization_justification;
+    }
+    TaskScheduler::setRequestContext(context);
+}
+
+TaskScheduler::ScopedRequestContext::~ScopedRequestContext() noexcept {
+    if (had_previous_) {
+        TaskScheduler::setRequestContext(previous_);
+    } else {
+        TaskScheduler::clearRequestContext();
+    }
+}
+
 void TaskScheduler::clearRequestContext() noexcept {
     tls_request_ctx.user_id.clear();
     tls_request_ctx.client_ip.clear();
@@ -109,6 +142,23 @@ void TaskScheduler::clearRequestContext() noexcept {
     tls_request_ctx.roles.clear();
     tls_request_ctx.authorization_justification.clear();
     tls_request_ctx.set = false;
+}
+
+void TaskScheduler::setDistributedExecutionGate(
+    std::shared_ptr<const std::atomic<bool>> gate) {
+    std::atomic_store(&distributed_execution_gate_, std::move(gate));
+}
+
+bool TaskScheduler::coordinationAllowsExecution(const std::string& task_id) const {
+    const auto gate = std::atomic_load(&distributed_execution_gate_);
+    if (gate && !gate->load(std::memory_order_acquire)) {
+        THEMIS_ERROR(
+            "Scheduler dispatch denied: distributed coordination unavailable for task {} (code={})",
+            task_id,
+            static_cast<int>(scheduler::SchedulerError::kCoordinationError));
+        return false;
+    }
+    return true;
 }
 
 std::string TaskScheduler::currentUserId(const char* fallback) noexcept {
@@ -129,11 +179,10 @@ bool TaskScheduler::hasPermission(const std::string& permission) noexcept {
     if (!tls_request_ctx.set) {
         if (!g_warned_missing_permission_context.exchange(true)) {
             THEMIS_WARN(
-                "TaskScheduler::hasPermission fallback allow without request context (permission='{}'). Configure RequestContext in security-sensitive entry points.",
+                "TaskScheduler::hasPermission denied without request context (permission='{}').",
                 permission);
         }
-        // Backward-compatible fallback for trusted in-process calls.
-        return true;
+        return false;
     }
     return tls_request_ctx.granted_permissions.count(permission) > 0 ||
            hasSuperuserRole(tls_request_ctx.roles);
@@ -143,13 +192,16 @@ bool TaskScheduler::hasRole(const std::string& role) noexcept {
     if (!tls_request_ctx.set) {
         if (!g_warned_missing_role_context.exchange(true)) {
             THEMIS_WARN(
-                "TaskScheduler::hasRole fallback allow without request context (role='{}'). Configure RequestContext in security-sensitive entry points.",
+                "TaskScheduler::hasRole denied without request context (role='{}').",
                 role);
         }
-        // Backward-compatible fallback for trusted in-process calls.
-        return true;
+        return false;
     }
     return tls_request_ctx.roles.count(role) > 0 || hasSuperuserRole(tls_request_ctx.roles);
+}
+
+bool TaskScheduler::hasRequestContext() noexcept {
+    return tls_request_ctx.set;
 }
 
 std::string TaskScheduler::currentAuthorizationJustification(const char* fallback) noexcept {
@@ -767,6 +819,12 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
  * @details Calls: lock(), find(), end(), removeEventTrigger(), erase(), THEMIS_INFO(), logTaskSchedulerEvent(), TaskScheduler::currentUserId().
  */
 void TaskScheduler::unregisterTask(const std::string& task_id) {
+    if (!hasPermission("task:unregister")) {
+        const std::string reason = "missing permission 'task:unregister'";
+        logUnauthorizedPermissionAttempt(
+            audit_manager_, task_id, task_id, "task:unregister", "unregisterTask", reason);
+        throw std::runtime_error("Unauthorized: Missing required permission 'task:unregister'");
+    }
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     
     auto it = tasks_.find(task_id);
@@ -812,6 +870,12 @@ void TaskScheduler::unregisterTask(const std::string& task_id) {
  * @details Calls: lock(), find(), end(), THEMIS_INFO(), logTaskSchedulerEvent(), TaskScheduler::currentUserId(), saveTasks().
  */
 void TaskScheduler::enableTask(const std::string& task_id) {
+    if (!hasPermission("task:update")) {
+        const std::string reason = "missing permission 'task:update'";
+        logUnauthorizedPermissionAttempt(
+            audit_manager_, task_id, task_id, "task:update", "enableTask", reason);
+        throw std::runtime_error("Unauthorized: Missing required permission 'task:update'");
+    }
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     
     auto it = tasks_.find(task_id);
@@ -845,6 +909,12 @@ void TaskScheduler::enableTask(const std::string& task_id) {
  * @details Calls: lock(), find(), end(), THEMIS_INFO(), logTaskSchedulerEvent(), TaskScheduler::currentUserId(), saveTasks().
  */
 void TaskScheduler::disableTask(const std::string& task_id) {
+    if (!hasPermission("task:update")) {
+        const std::string reason = "missing permission 'task:update'";
+        logUnauthorizedPermissionAttempt(
+            audit_manager_, task_id, task_id, "task:update", "disableTask", reason);
+        throw std::runtime_error("Unauthorized: Missing required permission 'task:update'");
+    }
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     
     auto it = tasks_.find(task_id);
@@ -878,6 +948,12 @@ void TaskScheduler::disableTask(const std::string& task_id) {
  * @details Calls: lock(), find(), end(), THEMIS_INFO(), saveTasks().
  */
 void TaskScheduler::updateTask(const ScheduledTask& task) {
+    if (!hasPermission("task:update")) {
+        const std::string reason = "missing permission 'task:update'";
+        logUnauthorizedPermissionAttempt(
+            audit_manager_, task.id, task.name, "task:update", "updateTask", reason);
+        throw std::runtime_error("Unauthorized: Missing required permission 'task:update'");
+    }
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     
     auto it = tasks_.find(task.id);
@@ -946,19 +1022,12 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
     std::mutex& task_exec_lock = getTaskExecutionLock(task_id);
     std::lock_guard<std::mutex> exec_lock(task_exec_lock);
     
-    // ========================================================================
-    // HARDENING: Fail-Closed Coordination Check (Phase 3 contract)
-    // ========================================================================
-    // If coordination layer is unavailable (future: distributed task coordination),
-    // fail-closed by not dispatching the task execution.
-    // For now, this is a structural placeholder for coordination availability check.
-    // When distributed_task_coordinator_ is added, uncomment:
-    //   if (!coordinator_ || !coordinator_->isHealthy()) {
-    //       THEMIS_ERROR("Coordination layer unavailable; failing closed for task {}",
-    //                    task_id);
-    //       span.setAttribute("coordination_error", true);
-    //       return nlohmann::json{{"error", "Coordination layer unavailable"}};
-    //   }
+    if (!coordinationAllowsExecution(task_id)) {
+        span.setAttribute("coordination_error", true);
+        return nlohmann::json{
+            {"error", "Coordination layer unavailable"},
+            {"code", static_cast<int>(scheduler::SchedulerError::kCoordinationError)}};
+    }
     
     // Audit log manual task execution trigger
     if (config_.enable_audit_logging && audit_logger_) {
@@ -1225,6 +1294,15 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
         }
     }
 
+    for (const auto& task_id : task_ids) {
+        if (!coordinationAllowsExecution(task_id)) {
+            throw std::runtime_error(
+                "TaskScheduler::executeDAG: coordination layer unavailable (code=" +
+                std::to_string(static_cast<int>(
+                    scheduler::SchedulerError::kCoordinationError)) + ")");
+        }
+    }
+
     // Build adjacency: task -> list of its deps that are within the requested set.
     // adj[task] = [dep1, dep2, ...] means task depends on dep1, dep2, ...
     std::map<std::string, std::vector<std::string>> adj;
@@ -1359,11 +1437,22 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
 
         for (size_t i = 0; i < wave.size(); ++i) {
             wave_results[i].id = wave[i];
-            threads.emplace_back([this, &wave_results, i, &task_map]() {
+            const auto request_context = currentRequestContext();
+            threads.emplace_back([this, &wave_results, i, &task_map, request_context]() {
+                std::optional<ScopedRequestContext> context_scope;
+                if (request_context) {
+                    context_scope.emplace(*request_context);
+                }
                 const auto& id = wave_results[i].id;
                 auto task = task_map[id];
                 const int64_t exec_start_ms = getCurrentTimeMs();
                 const auto exec_start = std::chrono::steady_clock::now();
+
+                if (!coordinationAllowsExecution(id)) {
+                    wave_results[i].error = "Coordination layer unavailable";
+                    wave_results[i].error_type = "COORDINATION_ERROR";
+                    return;
+                }
 
                 // Log TASK_STARTED audit event
                 if (audit_manager_) {
@@ -1564,6 +1653,15 @@ void TaskScheduler::registerFunction(const std::string& name, TaskFunction func)
  * @details Calls: lock(), erase(), THEMIS_INFO().
  */
 void TaskScheduler::unregisterFunction(const std::string& name) {
+    if (!hasPermission("task:register_function") || !hasRole("system_admin")) {
+        const std::string reason = !hasPermission("task:register_function")
+            ? "missing permission 'task:register_function'"
+            : "missing role 'system_admin'";
+        logUnauthorizedPermissionAttempt(
+            audit_manager_, name, name, "task:register_function", "unregisterFunction", reason);
+        throw std::runtime_error(
+            "Unauthorized: Missing 'task:register_function' permission and/or 'system_admin' role");
+    }
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     functions_.erase(name);
     THEMIS_INFO("Unregistered task function: {}", name);
@@ -1946,6 +2044,15 @@ void TaskScheduler::schedulerLoop() {
  * @details Calls: Tracer::startSpan(), setAttribute(), getTaskExecutionLock(), exec_lock(), std::chrono::steady_clock::now(), getCurrentTimeMs(), scheduler::generateUUID(), std::chrono::system_clock::now().
  */
 void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
+    RequestContext internal_context;
+    internal_context.user_id = "system:scheduler";
+    internal_context.authorization_justification = "trusted scheduled dispatch";
+    ScopedRequestContext context_scope(internal_context);
+    if (!coordinationAllowsExecution(task->id)) {
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
+        task->running = false;
+        return;
+    }
     auto span = Tracer::startSpan("TaskScheduler.executeTask");
     span.setAttribute("task_id", task->id);
     span.setAttribute("task_name", task->name);
@@ -2473,6 +2580,11 @@ void TaskScheduler::saveTasks() {
  * @details Calls: file(), good(), THEMIS_DEBUG(), value(), nlohmann::json::object(), std::chrono::milliseconds(), contains(), insert().
  */
 void TaskScheduler::loadTasks() {
+    RequestContext internal_context;
+    internal_context.user_id = "system:scheduler-persistence";
+    internal_context.authorization_justification = "trusted persisted task restoration";
+    internal_context.granted_permissions.insert("task:register");
+    ScopedRequestContext context_scope(internal_context);
     try {
         std::ifstream file(config_.persistence_path + "/tasks.json");
         if (!file.good()) {
@@ -2935,6 +3047,19 @@ void TaskScheduler::validateCDCTrigger(const ScheduledTask::CDCTrigger& trigger)
             throw std::invalid_argument("Invalid CDC event type: " + std::to_string(type));
         }
     }
+
+    CDCTriggerConfig event_config;
+    event_config.key_prefix = trigger.key_prefix;
+    event_config.condition = trigger.condition;
+    event_config.debounce_ms = trigger.debounce_ms;
+    for (int type : trigger.event_types) {
+        event_config.event_types.insert(
+            static_cast<Changefeed::ChangeEventType>(type));
+    }
+    if (!event_config.isValid()) {
+        throw std::invalid_argument(
+            "Invalid CDC trigger condition: " + event_config.getValidationError());
+    }
 }
 
 /**
@@ -3318,5 +3443,3 @@ std::mutex& TaskScheduler::getTaskExecutionLock(const std::string& task_id) {
 }
 
 } // namespace themis
-
-

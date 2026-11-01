@@ -1,5 +1,36 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-06"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Projects Module - Development Status Report
 ## Status as of 2026-08-06
+
+> Historical snapshot only. The status, test results, and readiness statements
+> below refer to 2026-08-06 and are not current build/test evidence. See
+> `ROADMAP.md`, `PERFORMANCE_EXPECTATIONS.md`, and the current CMake files for
+> the source-verified status.
+
+## Source Inventory Checked 2026-10-31
+
+The three test files directly under `tests/projects/` currently declare 56
+tests: 39 in `test_projects.cpp`, 8 in
+`test_projects_phase4_hardening_focused.cpp`, and 9 in
+`test_projects_contract_hardening_focused.cpp` (including PRJ-09). This is a
+source inventory, not a claim that the tests were executed in this update.
+The benchmark files previously cited below belong to the content and query
+modules; they do not measure project runtime operations. The
+`projects`-directory benchmark currently exercises `ProjError` enum
+operations only.
 
 ---
 
@@ -100,8 +131,8 @@ The ThemisDB projects module has completed **Phase 1 through Phase 6** implement
 - PRJG-3: No mapped benchmark case missing in release run
 
 **Benchmark Coverage:**
-- benchmarks/bench_content_versioning.cpp: snapshot creation/retrieval
-- benchmarks/bench_query_lazy_eval.cpp: projection-sensitive paths
+- benchmarks/content/bench_content_versioning.cpp: content `VersionManager` creation/retrieval; not project snapshots
+- benchmarks/query/bench_query_lazy_eval.cpp: query projection; not a projects-module workload
 
 ### ✅ Phase 6: Documentation and Acceptance (COMPLETE)
 - [x] Core projects module docs aligned to source-verifiable behavior

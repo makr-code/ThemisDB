@@ -1,40 +1,52 @@
-# PERFORMANCE_EXPECTATIONS — src/network
+---
+Author: "ThemisDB Contributors"
+Created: "unknown (pre-existing document; creation date not recorded)"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-## Scope
-- Modul: `src/network`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
+> Exact model backend not verifiable from final document text alone.
 
-## Benchmark-Bezug
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_api_endpoints.cpp`
-  - `benchmarks/bench_stream_protocol.cpp`
+# Network Performance Evidence
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Current benchmark sources
+
+The network benchmark targets are in `benchmarks/network/`:
+
+| Source | Cases | What they establish |
 |---|---|---|
-| NET-1 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_GraphQL_Execute_MockResolver` (proxy) |
-| NET-2 | Protokoll-Header-Build darf keine signifikante Regression ggü. Baseline zeigen | `BM_StreamProtocol_FrameHeaderBuild` |
-| NET-3 | LZ4-Stream-Roundtrip bleibt im Baseline-Korridor (p95/p99 Trend) | `BM_StreamProtocol_LZ4Roundtrip` |
-| NET-4 | Metrics-Snapshot-Pfad bleibt im Baseline-Korridor | `BM_StreamProtocol_MetricsSnapshot` |
-| NET-5 | BufferPool-Roundtrip bleibt im Baseline-Korridor | `BM_StreamProtocol_BufferPoolRoundtrip` |
-| NET-6 | HTTP-Endpoint-Overhead-Regression <= 15 % ggü. Baseline | `BM_HttpServer_Health_Endpoint` (proxy) |
-| SP-1 | > 50 M ops/s | `BM_StreamProtocol_FrameHeaderBuild` |
-| SP-2 | < 1 ms (16 KiB Payload) | `BM_StreamProtocol_LZ4Roundtrip` |
-| SP-3 | < 5 ms (10k Samples) | `BM_StreamProtocol_MetricsSnapshot` |
+| `bench_network_release_gates.cpp` | NRG-01..NRG-06 | In-process frame dispatch, auth/rate-limit helpers, WebSocket dispatch, mock accept, serialization gates |
+| `bench_network_routing_gates.cpp` | NRG-07..NRG-12 | In-memory topology, load-balancer, circuit-breaker, queue, and session-guard paths |
+| `bench_network_protocol_path.cpp` | NRG-P1..NRG-P4 | Explicit stub/model cases for WebSocket parsing, zero-copy overhead, QUIC 0-RTT, and gRPC metadata |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+The release and routing targets define regression thresholds; they do not
+measure production listener capacity or prove live transport latency. The
+protocol-path cases are stubs, and representative hardware baselines remain
+pending. Do not report these thresholds as achieved measurements.
 
-## Sourcecode Verification (Module: network/performance)
+No current network benchmark directly compares `ProtobufParser`/
+`ProtobufSerializer` with libprotobuf or measures live TCP/TLS/QUIC/gRPC
+throughput.
 
-- Gepruefte Benchmark-Quellen:
-  - `benchmarks/bench_stream_protocol.cpp`
-  - `benchmarks/bench_api_endpoints.cpp`
-- Gepruefte Ziel-Fall-Zuordnung:
-  - stream protocol frame/serialization/metrics paths (`BM_StreamProtocol_*`)
-  - endpoint-side proxy signal (`BM_HttpServer_Health_Endpoint`, `BM_GraphQL_Execute_MockResolver`)
-- Ergebnis:
-  - Die referenzierten Benchmark-Faelle existieren im aktuellen Benchmark-Source.
-  - Direkte TLS/QUIC/UDP transport-spezifische Mikrobenchmarks sind in dieser Datei weiterhin als Folgeaufgabe zu behandeln, solange keine dedizierten Benchmark-Faelle im Modulbestand vorliegen.
+## Build and run
+
+The `linux-release` preset disables benchmarks by default. Configure and build
+with:
+
+```sh
+cmake --preset linux-release -DTHEMIS_BUILD_BENCHMARKS=ON
+cmake --build build-gcc-linux-release --target \
+  bench_network_bench_network_release_gates \
+  bench_network_bench_network_routing_gates \
+  bench_network_bench_network_protocol_path
+```
+
+Run the relevant executable for its Google Benchmark output. Record compiler,
+build flags, hardware, exact case, and whether the path is modeled or stubbed
+before comparing results. See [`RESEARCH.md`](RESEARCH.md) for measurement
+controls and limits.

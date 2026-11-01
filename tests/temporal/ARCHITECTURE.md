@@ -1,20 +1,37 @@
-> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
 
-# ARCHITECTURE
+Exact model backend not verifiable from final document text alone.
 
-## Kontext
-- Modul/Ordner: `tests/temporal`
-- Rolle innerhalb der Gesamtarchitektur von ThemisDB.
+# Temporal test architecture
 
-## Verantwortlichkeiten
-- Bereitstellung der in diesem Ordner enthaltenen Bausteine/Artefakte
-- Integration mit benachbarten Schichten (API, Query, Storage, Distributed)
-- Einhaltung von Stabilitäts-, Sicherheits- und Wartbarkeitszielen
+The directory is a flat set of focused C++ test sources for the APIs in
+`include/temporal/` and implementations in `src/temporal/`. The source files do
+not define a separate runtime API, configuration system, CLI, or service
+integration.
 
-## Schnittstellen
-- Nach außen: über öffentliche APIs/Konfigurationsdateien/CLI-Pfade
-- Nach innen: über interne Module desselben Funktionsbereichs
+[`CMakeLists.txt`](CMakeLists.txt) has two glob-based registrations:
 
-## Nicht-Ziele
-- Keine Duplizierung von Logik, die in übergeordneten Core-Modulen verankert ist
-- Keine Umgehung zentraler Sicherheits- und Compliance-Vorgaben
+1. All `test_*.cpp` files become `_focused` targets with a 120-second CTest
+   timeout.
+2. The `test_temporal_*.cpp` subset is also registered as `_autofocused`
+   targets, with `temporal` and `autogen` labels.
+
+The second loop creates additional test registrations from existing source
+files; it does not represent a second independent implementation or suite of
+source files. Optional linking to `themis_temporal` and the fallback
+`src/index/temporal_graph.cpp` are conditional in CMake.
+
+Tests that rely on `themisdb::temporal` runtime classes should be distinguished
+from contract-focused tests that use test-local helper models. A test's presence
+does not establish that it was executed or passed. See the directory
+[`README.md`](README.md) for the source inventory and test groupings.

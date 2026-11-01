@@ -1,12 +1,12 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-21
+Last Updated: 2026-10-31
 Status: active
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: unknown
-Human_Review: true
+AI_Contributor: GitHub Copilot
+Human_Review: false
 Human_Author: ThemisDB Contributors
 ---
 
@@ -14,85 +14,73 @@ Human_Author: ThemisDB Contributors
 
 Exact model backend not verifiable from final document text alone.
 
-This document describes how to operate the module during steady state and in degraded service. The implementation exposes explicit health and metrics surfaces, so operators should treat those as the primary runtime evidence rather than relying only on generic container health.
+Use the module's actual runtime surfaces and host evidence; do not infer
+provider or scheduler health from the module's health result alone.
 
-## Runtime responsibilities
+## Health and metrics
 
-The module is responsible for:
+`checkLevelHealth(level)` reports a configured plain level healthy, or for an
+encrypted level checks that its backend exists and that `isMounted()` reports
+the configured mount point. It does not retrieve a key, probe Vault/HSM, or
+check scheduler state. `checkHealth()` combines those per-level outcomes.
 
-- validating backend availability and host mount prerequisites
-- managing encrypted container lifecycle for each configured security level
-- keeping key derivation and rotation state explicit and inspectable
-- surfacing health and Prometheus-style metrics to the wider system
+`getMetricsText()` emits:
 
-The central operations surfaces are `checkHealth()`, `checkLevelHealth(level)`, and `getMetricsText()` in `MultiLevelEncryptedStorage`.
+- `user_storage_mounts_active`
+- `user_storage_mount_operations_total{operation="mount"|"unmount"}`
+- `user_storage_key_rotations_total`
+- `user_storage_container_size_bytes`
 
-## Metrics to monitor
+The mount and rotation counters are updated in the source. The emitted
+container-size gauge is not updated by current implementation code and should
+not be used as a live size signal. The rotation metric has no level label.
 
-The implementation defines four operational metric families:
+## Startup and degraded conditions
 
-- `user_storage_mounts_active` — active mounted containers
-- `user_storage_mount_operations_total` — mount/unmount count, labeled by operation
-- `user_storage_key_rotations_total` — rotation callbacks fired, labeled by security level
-- `user_storage_container_size_bytes` — sum of encrypted container sizes
+The plugin reads `multi_level_storage.levels`, validates required fields, and
+initializes configured levels during `initialize()`. Encrypted levels depend
+on gocryptfs, host FUSE support, valid paths, and an available configured
+provider. The standalone KDF API depends on its selected build path and
+preserved salt/key material.
 
-Operators should treat deviations here as a leading signal. A static or missing counter may indicate the module is not mounted or is no longer processing scheduled rotation events.
+Stale-mount cleanup is best-effort and non-fatal. The current health endpoint
+does not attest cleanup success. Check host mount state directly if startup
+reports cleanup problems. `unmountAll()` currently discards individual
+unmount errors and returns success; verify actual mount state independently
+after shutdown or maintenance.
 
-## Health checks
+## Rotation and recovery
 
-`checkHealth()` and `checkLevelHealth(level)` provide the main health API. The module's design expects health checks to answer:
+`rotation` fields in configuration are parsed but are not wired to
+`KeyRotationScheduler`. Do not assume scheduled rotation is active because
+configuration contains `auto_rotate: true`. `KeyRotationScheduler` requires
+explicit initialization and schedule registration by its caller.
 
-- is a mount path valid?
-- is the backend reachable and working?
-- is the key provider configured for the current level?
-- is the scheduler or level state degraded?
+The scheduler swallows callback exceptions and advances/persists its check
+timestamp after the callback attempt. It does not signal those failures
+through callback arguments. Inspect the callback's external logs/provider
+state and verify resulting data access before declaring recovery.
 
-If these checks fail, the module should be treated as unhealthy even if the process remains running.
+`MultiLevelEncryptedStorage::rotateKey()` has a separate provider/container
+flow and does not provide demonstrated all-or-nothing behavior. Preserve the
+old data and key version until deployment-specific recovery checks succeed.
 
-## Normal operating posture
+## Operator checks
 
-A healthy instance should show:
+1. Verify the configured JSON shape and required level fields.
+2. Verify gocryptfs/FUSE and process permissions on the host.
+3. Verify Vault/HSM availability and key ID/version independently.
+4. Verify mount state on the host, especially after `unmountAll()` or
+   stale-mount cleanup.
+5. Confirm rotation is explicitly wired and verify callback outcome outside
+   the scheduler.
+6. Preserve salt files and provider key versions required to reopen
+   containers.
 
-- the backend is installed and available
-- security levels validate without missing provider or config data
-- active mount counts remain consistent with policy
-- key rotation events are observed on schedule
-- stale mounts are reconciled rather than accumulating across restarts
+## References
 
-## Degraded operating posture
-
-The module is designed to remain explicit under degraded conditions. Typical degraded states include:
-
-- gocryptfs binary absent from PATH
-- mount point permission issue
-- invalid key material or missing salt state
-- stale mount cleaning failing on the host
-- rotation store state mismatch or corruption
-
-These should be treated as service-affecting signs, not as safe fallback states.
-
-## Recovery expectations
-
-Recovery must be narrow and specific:
-
-1. restore backend availability or fix the host prerequisite
-2. validate the mount path and configuration
-3. confirm key provider and salt state for the level
-4. re-run health and metrics checks
-5. confirm rotation scheduler state has not been silently corrupted
-
-Because the contract is fail-closed, a downgraded or partial state should be kept visible to operators rather than being normalized into an implicit success.
-
-## Monitoring and escalation
-
-Escalate to the owning subsystem when:
-
-- mount counts fall unexpectedly or growth diverges from configuration
-- metric families are missing or non-updating
-- rotation callbacks are absent after the expected interval
-- stale mounts repeatedly appear after startup or crash recovery
-- host support for FUSE or gocryptfs is unstable across runtime environments
-
-## Ownership of operations
-
-This module is not a general storage runtime; it is a security-sensitive storage boundary. Operational ownership therefore belongs to the same team that manages encrypted filesystem support, key management, and host-level system constraints. The module is intentionally explicit about failure modes so that the responsible operator can act quickly without misclassifying the issue as a generic storage outage.
+- [Runbook](RUNBOOK.md)
+- [Security](SECURITY.md)
+- [API behavior and contract discrepancy](API.md)
+- `src/user_storage_encrypted/multi_level_storage.cpp`
+- `src/user_storage_encrypted/key_rotation_scheduler.cpp`

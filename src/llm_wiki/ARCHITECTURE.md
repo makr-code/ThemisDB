@@ -29,6 +29,7 @@ The root [`ROADMAP.md`](../../ROADMAP.md) owns project-level release status. Thi
 | Guardrail utilities | `src/llm_wiki/guardrail_patterns.h` and a separate local matcher in the plugin implementation | Pattern screening; the plugin path uses only its local fixed-string list |
 | Workspace state manager | `src/llm_wiki/workspace_state_manager.cpp`, public declaration in `include/llm_wiki/workspace_state_manager.h` | Separate JSON state persistence, checksum comparison, and attempted log recovery |
 | Process policy manager | `src/llm_wiki/process_policy_manager.cpp` | YAML parsing, schema validation, and semantic invariant checks |
+| Knowledge-sphere design artifacts | `src/llm_wiki/schema/knowledge_spheres.schema.json`, `process/knowledge_spheres_policy.yaml`, `runtime/knowledge_spheres.runtime.json` | Static schema/configuration examples; no current plugin loader, registry, or migration path consumes them |
 | Optional RocksDB wrapper | `src/llm_wiki/rocksdb_wiki_store.cpp`, public declaration in `include/llm_wiki/rocksdb_wiki_store.h` | Low-level key/value operations when a RocksDB target is available |
 
 There is no `WikiContextManager`, result-cache component, runtime identity provider, or plugin router in this module's current source tree.
@@ -88,7 +89,26 @@ sequenceDiagram
 - Ingest before initialization and policy reload errors produce an ingestion error result; other filesystem failures can be logged while the workspace operation continues.
 - Query before initialization or after policy reload failure returns an empty result. An unsafe query is empty unless `fail_open` is true.
 - The workspace manager's checksum is non-cryptographic, and recovery behavior differs by parse/checksum failure; see [`RUNBOOK.md`](RUNBOOK.md).
-- Plugin `ingest()` and `query()` use an exclusive mutex. `WorkspaceStateManager` callers must serialize access separately.
+- Plugin synchronization does not match the public thread-safety contract; details follow. `WorkspaceStateManager` callers must serialize access separately.
+
+### Synchronization and thread-safety contract
+
+The public interface header says all methods are thread-safe after initialization
+and concurrent `query()` calls are lock-free. The implementation does not
+support treating those statements as verified guarantees:
+
+- `initialize()`, `shutdown()`, `ingest()`, `query()`, and `wikiInit()` take an
+  exclusive plugin `unique_lock`; `wikiIngest()` and `wikiQuery()` delegate to
+  the locked methods. In particular, queries serialize rather than run
+  lock-free.
+- `wikiLint()` and `stats()` access plugin members without the plugin mutex.
+  Their calls into the workspace orchestrator take its separate mutex, but
+  that does not protect the plugin's `workspace_` pointer or `workspace_root_`
+  from concurrent lifecycle or other plugin calls.
+
+The API/source contract remains unresolved because this task is
+documentation-only. Callers should serialize all plugin calls, including
+`wikiLint()` and `stats()`, until the contract and implementation are aligned.
 
 ### Initialization
 
@@ -114,11 +134,11 @@ The workspace orchestrator has a separate query method that accepts an `IWikiInd
 
 The workspace orchestrator stores human-readable pages and JSON workspace metadata beneath its configured root. `WorkspaceStateManager` is a distinct state representation; its checksum routine uses 64-bit FNV-1a despite the `sha256:` label, and its methods require caller-side synchronization. Neither mechanism provides cryptographic integrity or authenticated provenance.
 
-`RocksDbWikiStore` is optional at configure/build time. CMake conditionally links the store when it finds a supported RocksDB target. Do not infer end-to-end plugin persistence from the presence of the wrapper or a build definition alone.
+`RocksDbWikiStore` is optional at configure/build time. CMake adds its compile definitions and linkage when it finds a supported RocksDB target, an explicit `THEMIS_ROCKSDB_TARGET`, or a recognized RocksDB package/library result. Do not infer end-to-end plugin persistence from the presence of the wrapper or a build definition alone.
 
 ## Nicht-Ziele
 
-The current source does not establish semantic embeddings, content parsing, production query ranking, multi-backend federation, a cache, background scheduling, adaptive ML updates, production audit telemetry, or a release performance guarantee. Future designs in [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) remain planned work until code and tests demonstrate them.
+The current source does not establish semantic embeddings, content parsing, production query ranking, multi-backend federation, a cache, background scheduling, adaptive ML updates, production audit telemetry, a knowledge-sphere registry/migration runtime, or a release performance guarantee. Future designs in [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) remain planned work until code and tests demonstrate them.
 
 ## Verweise
 

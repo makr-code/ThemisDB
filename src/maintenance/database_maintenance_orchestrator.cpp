@@ -31,6 +31,7 @@
 #include <shared_mutex>
 #include <sstream>
 #include <iomanip>
+#include <optional>
 #include <thread>
 
 namespace themis {
@@ -1018,6 +1019,17 @@ void DatabaseMaintenanceOrchestrator::registerWithScheduler(
     if (!scheduler_) {
       return;
     }
+    TaskScheduler::RequestContext scheduler_context;
+    scheduler_context.user_id = "system:database-maintenance";
+    scheduler_context.authorization_justification =
+        "trusted maintenance schedule registration";
+    scheduler_context.granted_permissions = {
+        "task:register", "task:register_function"};
+    scheduler_context.roles.insert("system_admin");
+    std::optional<TaskScheduler::ScopedRequestContext> context_scope;
+    if (!TaskScheduler::hasRequestContext()) {
+        context_scope.emplace(scheduler_context);
+    }
 
     ScheduledTask task;
     task.id             = schedulerTaskId(entry.id);
@@ -1097,6 +1109,17 @@ void DatabaseMaintenanceOrchestrator::deregisterFromScheduler(
 {
     if (!scheduler_) {
       return;
+    }
+    TaskScheduler::RequestContext scheduler_context;
+    scheduler_context.user_id = "system:database-maintenance";
+    scheduler_context.authorization_justification =
+        "trusted maintenance schedule removal";
+    scheduler_context.granted_permissions = {
+        "task:unregister", "task:register_function"};
+    scheduler_context.roles.insert("system_admin");
+    std::optional<TaskScheduler::ScopedRequestContext> context_scope;
+    if (!TaskScheduler::hasRequestContext()) {
+        context_scope.emplace(scheduler_context);
     }
     const std::string tid = schedulerTaskId(schedule_id);
     scheduler_->unregisterTask(tid);

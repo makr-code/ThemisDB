@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -30,6 +30,26 @@ The normative sharding behavior is specified in `include/sharding/sharding_api_c
 - **WAL:** ordered, durable append/replay contract; checksum corruption halts replay with `WAL_CORRUPTION`.
 - **Migration:** explicit state transitions, conflict rejection, and rollback/fault reporting for incomplete work.
 - **Router calls:** `ShardRouter` accepts resolver/executor dependencies and exposes point operations; `ShardResult.success` must be checked before consuming its data.
+
+## `ShardRouter` public surface
+
+The declarations in `include/sharding/shard_router.h` expose:
+
+| Declaration | Declared behavior / result |
+|---|---|
+| `ShardRouter::Config` | `local_shard_id`; `scatter_timeout_ms` defaults to 30000; `max_concurrent_shards` defaults to 10; query pushdown defaults on and result caching defaults off |
+| Constructor | Takes shared `URNResolver` and `RemoteExecutor`, a config reference, and optional `PrometheusMetrics` / `TrueTime` shared pointers |
+| `get(URN, optional snapshot timestamp)` | Returns `optional<nlohmann::json>` |
+| `put(URN, JSON)` and `del(URN)` | Return `bool` |
+| `analyzeQuery(string)` | Returns `RoutingStrategy` |
+| `executeQuery(string)` | Returns combined JSON; header notes scatter-gather fallback when single-shard extraction is inconclusive |
+| `scatterGather(string)` | Returns one `ShardResult` record per invoked shard |
+| `executeOnShards(string, shard_ids)` | Returns per-shard result records; header says unknown or unhealthy IDs are skipped with a warning |
+
+These are declaration/header semantics. They do not establish that each transport, caching, or
+query-pushdown path is enabled or conformant in every build. The implementation is
+`src/sharding/shard_router.cpp`; `tests/sharding/CMakeLists.txt` conditionally registers the
+contract-hardening and focused sharding tests.
 
 ## Caller and maintainer obligations
 

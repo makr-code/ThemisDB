@@ -1,4 +1,18 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+Source level: 1; SOT domain: api-contract. Canonical references: `transaction_manager.h`, `isolation_level.h`, `lock_manager.h`, `distributed_transaction_manager.h`, `transaction_coordinator.h`, and `saga.h`. Related issue: #7390.
 
 <!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/transaction/ARCHITECTURE.md -->
@@ -24,23 +38,23 @@ For full protocol details — 2PC/3PC flows, Raft log integration, saga rollback
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
-| `transaction_coordinator.h` | `ITransactionCoordinator` | **Unified Strategy-pattern interface for all commit-protocol coordinators** (2PC, 3PC, SAGA, Percolator, Calvin) |
-| `transaction_manager.h` | `ITransactionManager` | Core local transaction interface |
+| `transaction_coordinator.h` | `ITransactionCoordinator` | Protocol-agnostic interface; its protocol enum names 2PC, 3PC, SAGA, Percolator, Calvin, and custom protocols |
+| `transaction_manager.h` | `TransactionManager` | Concrete local transaction manager |
 | `global_transaction_manager.h` | `GlobalTransactionManager` | Cross-node transaction coordinator |
-| `distributed_transaction_manager.h` | `IDistributedTransactionManager` | Distributed 2PC/3PC interface |
+| `distributed_transaction_manager.h` | `DistributedTransactionManager`, `IDistributedParticipantCallback` | Concrete participant-based distributed transaction manager and callback contract |
 | `isolation_level.h` | `IsolationLevel` (enum) | Isolation level enumeration |
 | `snapshot_manager.h` | `SnapshotManager` | MVCC snapshot lifecycle |
 | `lock_manager.h` | `LockManager` | Row- and range-level lock management |
 | `deadlock_predictor.h` | `DeadlockPredictor` | Wait-for graph cycle detection |
 | `crash_recovery_manager.h` | `CrashRecoveryManager` | WAL replay and in-doubt tx resolution |
-| `in_doubt_recovery_coordinator.h` | `InDoubtRecoveryCoordinator` | Base in-doubt 2PC transaction recovery |
+| `in_doubt_recovery_coordinator.h` | `IInDoubtRecoveryCoordinator` | In-doubt recovery interface |
 | `recoverable_two_phase_coordinator.h` | `IRecoverableTwoPhaseCoordinator` | Unified cross-coordinator 2PC recovery and reporting |
 | `transaction_auditor.h` | `TransactionAuditor` | Per-transaction audit trail |
 | `transaction_batcher.h` | `TransactionBatcher` | Micro-batch grouping for write throughput |
 | `transaction_semantic_advisor.h` | `TransactionSemanticAdvisor` | Application-level conflict advice |
 | `merge_engine.h` | `MergeEngine` | MVCC merge resolution engine |
 | `branch_manager.h` | `BranchManager` | Named branch lifecycle management |
-| `saga.h` | `ISaga` | Saga step interface |
+| `saga.h` | `Saga` | Compensation callback collection and execution |
 | `saga_orchestrator.h` | `SagaOrchestrator` | Long-running saga coordination |
 | `distributed_saga.h` | `DistributedSaga` | Cross-shard saga with compensation |
 | `saga_plugin_bridge.h` | `SagaPluginBridge` | Plugin-host bridge for saga steps |
@@ -51,29 +65,28 @@ For full protocol details — 2PC/3PC flows, Raft log integration, saga rollback
 
 | Namespace | Scope |
 |-----------|-------|
-| `themis::txn` | Core transaction manager types |
-| `themis::txn::saga` | Saga and distributed saga types |
-| `themis::txn::recovery` | Crash recovery and in-doubt resolution |
+| `themis` | Local `TransactionManager`, `IsolationLevel`, `LockManager`, and `Saga` |
+| `themis::transaction` | Distributed coordinator and recovery-related interfaces |
+| `themis::transaction::saga` | TODO: verify namespace before documenting |
 
 ---
 
 ## 4. Isolation Levels
 
-`isolation_level.h` defines the canonical `IsolationLevel` enum used across all transaction interfaces:
+`isolation_level.h` defines the canonical `themis::IsolationLevel` enum:
 
 ```
-ReadUncommitted → ReadCommitted → RepeatableRead
-→ SnapshotIsolation → Serializable
+READ_UNCOMMITTED → READ_COMMITTED → REPEATABLE_READ → SERIALIZABLE
 ```
 
-The default isolation for distributed transactions is configurable via `THEMIS_DTXN_DEFAULT_ISOLATION` (see `src/server/distributed_txn_api_handler.cpp`); per-request isolation takes precedence.
+`Snapshot` is a legacy alias for `REPEATABLE_READ`; `SerializableSnapshot` is an alias for `SERIALIZABLE`. **TODO:** identify a current configuration source before claiming a distributed default-isolation environment variable.
 
 ---
 
 ## 5. Saga Protocol
 
 The saga pattern is split across three headers for extensibility:
-- `saga.h` — the step interface (`ISaga::execute() / compensate()`)
+- `saga.h` — `Saga` compensation callbacks (`addStep()`, `compensate()`)
 - `saga_orchestrator.h` — ordered saga execution with compensation on failure
 - `distributed_saga.h` — cross-shard saga with RPC-based compensation
 - `saga_plugin_bridge.h` — host-side bridge for dynamically loaded saga step plugins
@@ -82,17 +95,15 @@ The saga pattern is split across three headers for extensibility:
 
 ## 6. Relationship to Strategic Architecture
 
-- **Graph Truth Layer**: `lock_manager.h` and `snapshot_manager.h` protect graph-truth store mutations
-- **Tensor Mid-Layer**: `transaction_batcher.h` enables efficient tensor batch writes with MVCC semantics
-- **LLM/LoRA Final Layer**: `transaction_semantic_advisor.h` can expose conflict semantics to an LLM decision layer
-- **ANN Frontdoor**: index mutations are wrapped via `ITransactionManager` to ensure ANN index consistency
+The header/source set does not establish the strategic-layer guarantees described in earlier versions of this section. **TODO:** add concrete consumer/source references before documenting cross-layer responsibilities or ANN/LLM integration as implemented behavior.
 
 ---
 
 ## 7. Unified Coordinator Interface
 
-`transaction_coordinator.h` defines `ITransactionCoordinator`, the Strategy-pattern
-interface that unifies all five commit protocols under a single API.  See
+`transaction_coordinator.h` declares `ITransactionCoordinator` and a `CommitProtocol`
+enum naming multiple protocols. This declaration alone does not establish concrete
+implementations for all those protocols. See
 [`docs/ITRANSACTION_COORDINATOR.md`](../../docs/ITRANSACTION_COORDINATOR.md) for
 the interface specification, ASCII-UML hierarchy, and the phased migration plan
 for existing coordinators.

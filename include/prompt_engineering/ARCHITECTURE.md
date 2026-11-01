@@ -1,89 +1,37 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/prompt_engineering/ARCHITECTURE.md -->
-
-# Prompt Engineering Module — Public Header Architecture
-
-**Module Path:** `include/prompt_engineering/`  
-**Implementation:** `../../src/prompt_engineering/`  
-**Canonical architecture doc:** [`../../src/prompt_engineering/ARCHITECTURE.md`](../../src/prompt_engineering/ARCHITECTURE.md)
-
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
-## 1. Overview
+> Exact model backend not verifiable from final document text alone.
 
-`include/prompt_engineering/` defines the **public prompt authoring, optimisation, versioning, evaluation, injection detection, RAG budget management, chain-of-thought, and self-improvement orchestration API contract** for ThemisDB.
+# Prompt Engineering Public Header Architecture
 
-For runtime composition and implementation internals see:
-→ [`../../src/prompt_engineering/ARCHITECTURE.md`](../../src/prompt_engineering/ARCHITECTURE.md)
+## Scope and ownership
 
----
+`include/prompt_engineering/` declares the public C++ interfaces. Implementations are in [`../../src/prompt_engineering/`](../../src/prompt_engineering/), and the canonical runtime overview is [`../../src/prompt_engineering/ARCHITECTURE.md`](../../src/prompt_engineering/ARCHITECTURE.md). Header filenames and current entry points are indexed in [`README.md`](./README.md); declarations in each header are authoritative for signatures and types.
 
-## 2. Header Groups
+## Interface groups
 
-### 2.1 Prompt Authoring and Management
+- **Template lifecycle and storage:** `prompt_manager.h`, `prompt_template_validator.h`, `prompt_template_compiler.h`, `prompt_library_io.h`, `system_prompt_manager.h`
+- **Revision and quality workflows:** `prompt_version_control.h`, `prompt_optimizer.h`, `prompt_evaluator.h`, `prompt_regression_runner.h`, `prompt_ab_experiment.h`, `prompt_quality_evaluator.h`
+- **Context and retrieval:** `context_window_manager.h`, `rag_context_budget_manager.h`, `rag_prompt_builder.h`, `prompt_compressor.h`
+- **Safety and errors:** `prompt_injection_detector.h`, `adversarial_prompt_tester.h`, `prompt_engineering_errors.h`
+- **Reasoning and integrations:** `chain_of_thought.h`, `cot_tracer.h`, `tree_of_thoughts.h`, `reflection_tuner.h`, `llm_reflection_adapter.h`, `meta_prompt_generator.h`, `dspy_module.h`, `self_improvement_orchestrator.h`
+- **Rewrite contracts:** `rewrite_engine.h`, `rewrite_rule.h`, `rewrite_rule_loader.h`
+- **Feedback and observability:** `feedback_collector.h`, `prompt_engineering_metrics.h`, `prompt_performance_tracker.h`
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `prompt_manager.h` | `PromptManager` | Prompt lifecycle and versioning |
-| `prompt_template_compiler.h` | `PromptTemplateCompiler` | Jinja-style prompt template compilation |
-| `prompt_template_validator.h` | `PromptTemplateValidator` | Template syntax and safety validation |
-| `prompt_version_control.h` | `PromptVersionControl` | Git-style prompt version control |
-| `prompt_library_io.h` | `PromptLibraryIO` | Prompt library serialisation and import/export |
-| `system_prompt_manager.h` | `SystemPromptManager` | System prompt lifecycle management |
-### 2.2 Optimisation and Compression
+These are library interfaces, not an LLM transport or serving API. `PromptEngineeringIntegration` provides `beforeExecution()` and `afterExecution()` hooks; the caller owns the model call and decides how to handle failures. The rewrite engine is a separate public surface and is not automatically invoked by those hooks.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `prompt_optimizer.h` | `PromptOptimizer` | Automatic prompt optimisation |
-| `protegi_optimizer.h` | `ProtegiOptimizer` | ProTeGi gradient-based prompt optimisation |
-| `prompt_compressor.h` | `PromptCompressor` | Semantic prompt compression |
-| `context_window_manager.h` | `ContextWindowManager` | Context window budget allocation |
-| `rag_context_budget_manager.h` | `RAGContextBudgetManager` | RAG context budget tracking |
-| `rag_prompt_builder.h` | `RAGPromptBuilder` | RAG-aware prompt construction |
-### 2.3 Evaluation and Testing
+## Build and contract boundaries
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `prompt_evaluator.h` | `PromptEvaluator` | Prompt quality evaluation |
-| `prompt_quality_evaluator.h` | `PromptQualityEvaluator` | Multi-dimensional quality scoring |
-| `prompt_performance_tracker.h` | `PromptPerformanceTracker` | Per-prompt performance telemetry |
-| `prompt_regression_runner.h` | `PromptRegressionRunner` | Automated prompt regression tests |
-| `prompt_ab_experiment.h` | `PromptABExperiment` | A/B experimentation for prompt variants |
-| `adversarial_prompt_tester.h` | `AdversarialPromptTester` | Red-team adversarial prompt testing |
-| `prompt_injection_detector.h` | `PromptInjectionDetector` | Prompt injection attack detection |
-| `feedback_collector.h` | `PromptFeedbackCollector` | User feedback collection for prompts |
-### 2.4 Chain-of-Thought and Reasoning
+The root CMake configuration adds prompt-engineering implementation sources to `themis_core`; module tests and benchmarks are registered separately. Database wrapper and column-family pointers accepted by manager/version/feedback interfaces are non-owning, so their owners must outlive the receiving objects. See the individual headers for exact lifetime, concurrency, and error contracts.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `chain_of_thought.h` | `ChainOfThought` | Chain-of-thought prompt orchestration |
-| `cot_tracer.h` | `COTTracer` | CoT execution trace capture |
-| `tree_of_thoughts.h` | `TreeOfThoughts` | Tree-of-Thoughts search over reasoning paths |
-| `meta_prompt_generator.h` | `MetaPromptGenerator` | Meta-prompt automatic generation |
-| `dspy_module.h` | `DSPyModule` | DSPy-style prompt module abstraction |
-| `structured_output.h` | `StructuredOutput` | JSON/grammar-constrained structured output |
-| `markdown_utils.h` | `MarkdownUtils` | Markdown-aware prompt utility functions |
-### 2.5 Self-Improvement
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `self_improvement_orchestrator.h` | `SelfImprovementOrchestrator` | Self-improvement loop orchestration |
-| `reflection_tuner.h` | `ReflectionTuner` | Reflection-based prompt tuning |
-| `llm_reflection_adapter.h` | `LLMReflectionAdapter` | LLM adapter for reflection prompts |
-
----
-
-## 3. Namespace Layout
-
-All public types reside in the `themis::prompt_engineering` namespace (or a sub-namespace).
-
----
-
-## 4. Contract Notes
-
-- Headers in `include/prompt_engineering/` expose the **stable public API**; internal types live in `src/prompt_engineering/`.
-- Clients depend only on types declared here; implementation details in `src/` may change without notice.
-- For breaking-change policy see [`../../VERSIONING.md`](../../VERSIONING.md).
-- Layer association: **LLM**.
+Use [`../../src/prompt_engineering/API.md`](../../src/prompt_engineering/API.md) for a call-flow overview and [`../../src/prompt_engineering/MODULE_GUIDE.md`](../../src/prompt_engineering/MODULE_GUIDE.md) for build and focused-test commands.

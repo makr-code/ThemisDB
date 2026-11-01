@@ -1,42 +1,51 @@
-# PERFORMANCE_EXPECTATIONS - src/temporal
+# Temporal performance evidence and benchmark mapping
 
-## Scope
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
 
-- Module: src/temporal
-- This file defines measurable temporal module performance expectations for release gating.
+Exact model backend not verifiable from final document text alone.
 
-## Benchmark Reference
+## Runtime benchmark cases
 
-- Relevant benchmark files:
-  - benchmarks/bench_temporal_queries.cpp
+`benchmarks/temporal/bench_temporal_queries.cpp` benchmarks the
+`themisdb::temporal::BiTemporalTable` implementation:
 
-## Specific Expectations
-
-| Target ID | Expectation | Benchmark case |
+| Area | Benchmark cases | Input dimensions in source |
 |---|---|---|
-| TMPP-1 | bitemporal insert/update/delete mutation paths remain bounded | BM_BiTemporalTable_Insert, BM_BiTemporalTable_Update, BM_BiTemporalTable_Delete |
-| TMPP-2 | bitemporal as-of and valid-time query paths remain bounded | BM_BiTemporalTable_QueryBiTemporal, BM_BiTemporalTable_QueryCurrentByValidTime |
-| TMPP-3 | bitemporal history retrieval path remains bounded | BM_BiTemporalTable_GetHistory |
+| Insert | `BM_BiTemporalTable_Insert` | 1, 100 rows per key |
+| Update | `BM_BiTemporalTable_Update` | 1, 100 versions |
+| Delete | `BM_BiTemporalTable_Delete` | Single-key repeated delete/reinsert |
+| Bitemporal read | `BM_BiTemporalTable_QueryBiTemporal` | 10, 100, 1,000 versions |
+| Current valid-time read | `BM_BiTemporalTable_QueryCurrentByValidTime` | 10, 100 keys |
+| History | `BM_BiTemporalTable_GetHistory` | See benchmark source for setup |
 
-## Module Hard Gates (v1.0 docs baseline)
+`benchmarks/temporal/bench_interval_tree_erase.cpp` exercises
+`IntervalTreeIndex` erase/rebuild and mixed read/erase workloads.
 
-| Gate ID | Expectation | Measurement |
-|---|---|---|
-| TMPG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| TMPG-2 | temporal hot-path p99 <= release threshold | p99 from mapped temporal benchmark cases |
-| TMPG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+## Registration and thresholds
 
-## Validation
+`benchmarks/temporal/CMakeLists.txt` glob-registers `bench_*.cpp` with
+`themis_add_standard_benchmark` when `THEMIS_BUILD_BENCHMARKS` is enabled. The
+top-level CMake default is `OFF`.
 
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- Mapping should be expanded as additional temporal benchmark scenarios are introduced.
+The other two sources are not runtime performance evidence:
 
-## Sourcecode Verification (Module: temporal/performance)
+- `bench_temporal_dedicated_gates.cpp` times local stub functions.
+- `bench_temporal_release_gates.cpp` measures mock vector operations and helper
+  functions; it does not call the temporal runtime APIs.
 
-- Verified benchmark sources:
-  - benchmarks/bench_temporal_queries.cpp
-- Verified mapping surfaces:
-  - bitemporal mutation, query, and history retrieval behavior
-- Result:
-  - Referenced benchmark cases exist in current benchmark sources.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+Their embedded thresholds are source comments, not evidence that release gates
+are wired to or have passed on a configured runtime benchmark. The inspected
+module sources do not provide benchmark results, a release baseline, a p99
+threshold configuration, or manifest-completeness validation.
+
+**TODO:** before treating a threshold as an active release gate, identify its
+canonical release configuration, runtime workload, baseline artifact, and
+recorded run result. No numeric acceptance target is asserted by this page.

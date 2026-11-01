@@ -83,7 +83,6 @@ it does not replace source contracts.
 
 For behavior, prefer the implementation and focused test for the exact path,
 then public header contracts and the module API/architecture documents, then
-this summary. Root governance overrides module synthesis. The generated wiki
-inventory in `MODULES_AND_APIS.md` and `WIKI_STATUS.json` has not been fully
-resynchronized as part of this page addition; this curated page is indexed
-manually and does not claim a fresh full-source scan.
+this summary. Root governance overrides module synthesis. The inventory timestamp and hash in `WIKI_STATUS.json` describe the last full
+sync and can predate manual curated-page changes; check freshness before relying
+on the inventory as current.

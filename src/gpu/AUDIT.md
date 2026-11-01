@@ -1,6 +1,10 @@
-# Audit Report - GPU Module
+# Audit Report Snapshot - GPU Module
 
-<!-- Status: current | validated: 2026-08-17 -->
+> Historical audit snapshot validated 2026-08-17. Its findings, “none identified”
+> blocker statement, and compliance checks were not revalidated against the
+> current tree; do not treat them as a current audit result.
+
+<!-- Historical snapshot: validated 2026-08-17; not a current audit -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Summary

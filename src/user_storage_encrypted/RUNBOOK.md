@@ -1,12 +1,12 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-21
+Last Updated: 2026-10-31
 Status: active
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: unknown
-Human_Review: true
+AI_Contributor: GitHub Copilot
+Human_Review: false
 Human_Author: ThemisDB Contributors
 ---
 
@@ -14,125 +14,89 @@ Human_Author: ThemisDB Contributors
 
 Exact model backend not verifiable from final document text alone.
 
-This runbook is grounded in the actual source paths and runtime behavior present in the module: `gocryptfs_backend.cpp`, `key_derivation_service.cpp`, `key_rotation_scheduler.cpp`, and `multi_level_storage.cpp`.
+Operational methods commonly return `Result<T>` error strings. Diagnostic
+codes in `error_codes.hpp` are a separate type from the frozen error enum in
+`user_storage_encrypted_api_contract.h`; do not assume every method returns a
+specific contract code.
 
-## Symptom: gocryptfs is missing or backend not available
+## Backend unavailable or mount fails
 
-### Signals
+1. Check that the configured gocryptfs binary is available to the service
+   account.
+2. On Linux, check `/dev/fuse`, FUSE support, and mount permissions.
+3. Check `encrypted_dir`, `mount_point`, and the `encryption` settings in
+   `multi_level_storage.levels`.
+4. Inspect the returned `Result` message and module/host logs before retrying.
+5. Verify the resulting mount state directly on the host. Do not treat
+   `unmountAll()` success as proof that all levels unmounted.
 
-- `checkAvailability()` returns an error
-- mount attempts fail before any storage operation executes
-- logs record `BACKEND_NOT_AVAILABLE`
+Do not silently redirect an encrypted level to the `OFFEN` path; `OFFEN` is
+an explicitly unencrypted configuration.
 
-### Response
+## Stale mount after startup/restart
 
-1. Confirm the `gocryptfs` binary is installed and on PATH.
-2. Confirm host FUSE support is available for the runtime environment.
-3. Re-run backend validation before retrying the storage path.
-4. If this is a deployment issue, fix the host environment rather than bypassing the backend check.
+The plugin attempts best-effort stale mount cleanup during initialization.
+On Linux it scans `/proc/mounts` and tries `fusermount -u`, then `umount` in
+the cleanup paths. Cleanup failure is non-fatal and does not prove that the
+level is healthy.
 
-### Recovery
+1. Inspect `/proc/mounts` and compare the affected mount to configured paths.
+2. Confirm no active process still owns the mount.
+3. Check service-account permissions and availability of unmount utilities.
+4. Perform any manual cleanup only under the deployment's mount-recovery
+   procedure; recheck the mount state before enabling access.
 
-- do not continue with plaintext fallback
-- treat this as a deployment or host configuration problem
-- escalate to environment or infrastructure ownership if the host lacks required support
+## KDF or salt issue
 
-## Symptom: stale mount remains after a restart
+The multi-level plugin does not configure a KDF service. For a directly
+constructed KDF-enabled backend:
 
-### Signals
+1. Confirm which build selected the KDF path: CMake defines
+   `THEMIS_HAS_ARGON2` when libargon2 is found; otherwise PBKDF2-HMAC-SHA256
+   is used.
+2. Preserve and inspect `<encrypted_dir>/.themis_kdf_salt`; do not replace or
+   regenerate a salt for existing data without an approved migration plan.
+3. Verify the matching key/provider version and validate recovery on a copy
+   before changing production state.
 
-- startup logs show stale mount cleanup work
-- `/proc/mounts` contains a mount at a previous ephemeral path
-- initial level initialization is slower or blocked by orphaned state
+The source does not establish that an old key derivation scheme is compatible
+with either current build mode. Confirm compatibility with the data owner.
 
-### Response
+## Rotation issue
 
-1. Inspect the base path and configured mount points.
-2. Confirm the stale mount is not part of the currently active configuration.
-3. Allow `reconcileStaleMounts()` to cleanup orphaned entries during initialization.
-4. If cleanup fails, verify host permissions and `fusermount` / `umount` availability.
+`rotation` configuration is parsed but is not wired to
+`KeyRotationScheduler`. First confirm the application explicitly initialized
+the scheduler and registered a schedule/callback. The scheduler calls
+callbacks with `(level, true, "")`; it swallows exceptions and advances its
+check timestamp after an attempt. Its callback arguments therefore do not
+prove rotation succeeded.
 
-### Recovery
+For `MultiLevelEncryptedStorage::rotateKey()`, inspect provider version, both
+container paths, mount state, and preserved data before retrying. The source
+does not establish fully atomic recovery; do not delete the old container or
+key version until an independent recovery check passes.
 
-- if cleanup fails, keep the storage path in a degraded but explicit state
-- do not proceed with a silent re-mount that hides the stale mount condition
+## Health and metrics
 
-## Symptom: key derivation fails
+`checkLevelHealth()` checks backend presence and mounted state, not provider
+or scheduler health. `getMetricsText()` emits mount/rotation counters and a
+container-size gauge; the source does not update that gauge. Use provider and
+host-level checks for those boundaries.
 
-### Signals
+## Escalation
 
-- empty master key or salt
-- `argon2id_hash_raw` or PBKDF2 path fails
-- `kKeyDerivationFailed` is surfaced in the error contract
+Escalate to the module/host owner if mount state is ambiguous, cleanup fails,
+key/salt compatibility is unknown, the scheduler may have advanced after a
+failed callback, or rotation left multiple container versions. Preserve
+configuration (without secrets), logs, provider key-version metadata, and
+mount state for diagnosis.
 
-### Response
+## References
 
-1. Confirm the input key material is not empty and is of valid length.
-2. Check whether the environment supports Argon2 by inspecting the build definition or logs for `THEMIS_HAS_ARGON2` and the compile-time branch in `key_derivation_service.cpp`.
-3. If `THEMIS_HAS_ARGON2` is not set, confirm the PBKDF2 fallback is expected for this build and record the active path in the environment's deployment notes.
-4. Confirm the salt file is valid and persisted correctly when `loadOrCreateSalt()` is used.
-
-### Recovery
-
-- reject the operation and do not continue with an incompatible key path
-- rotate to a valid key source or restore the previously known-good salt and key material
-
-## Symptom: rotation scheduling or callback failure
-
-### Signals
-
-- `scheduleRotation()` is present but no rotation callback fires
-- schedule state is missing or corrupted in persisted JSON
-- callback exceptions are swallowed and operator visibility is low
-
-### Response
-
-1. Inspect rotation state under the configured store.
-2. Confirm the level is included in the schedule and the interval is valid.
-3. Verify the callback is not re-entering the scheduler or backend unexpectedly.
-4. Check the persisted JSON for invalid `last_check_ms` or interval values.
-
-### Recovery
-
-- reset the schedule state only after confirming the correct rotation policy
-- keep the old key active if rotation cannot be validated
-- escalate if callback or store logic is causing repeated failure
-
-## Symptom: mount or unmount operation fails
-
-### Signals
-
-- `kMountFailed` or `kUnmountFailed`
-- logs show shell invocation or mount process issues
-- a mount remains half-open after a failed operation
-
-### Response
-
-1. Check that the mount path and encrypted directory are valid.
-2. Confirm the host has permission to mount/unmount the target path.
-3. Verify the backend is available and the command validator accepts the target parameters.
-4. Inspect whether a stale path or stale mount state is blocking the operation.
-
-### Recovery
-
-- attempt cleanup in a controlled way
-- treat partial success as evidence of a failed operation, not a resolved one
-
-## Escalation policy
-
-Escalate to the owning subsystem when:
-
-- `gocryptfs` or FUSE is unavailable for more than a low-level maintenance window
-- key derivation fails repeatedly across multiple operators or containers
-- rotation state cannot be recovered without changing policy assumptions
-- mount cleanup or unmount failures threaten persistent production storage
-
-## Rollback guidance
-
-Rollback should be narrow and evidence-backed. The module's source treats invalid backend state and key derivation failure as fail-closed events, so rollback should generally mean:
-
-- restore a previous valid configuration
-- re-establish the correct key provider state
-- re-run availability and rotation validation before re-enabling the level
-
-Do not attempt a broad revert that re-enables an old plaintext or unvalidated backend path without verifying the host environment and level contract.
+- [Operations](OPERATIONS.md)
+- [Security](SECURITY.md)
+- [API behavior and contract discrepancy](API.md)
+- `src/user_storage_encrypted/gocryptfs_backend.cpp`
+- `src/user_storage_encrypted/key_derivation_service.cpp`
+- `src/user_storage_encrypted/key_rotation_scheduler.cpp`
+- `src/user_storage_encrypted/multi_level_storage.cpp`

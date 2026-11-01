@@ -90,16 +90,16 @@ struct StorageMetrics {
  * - 4 security classification levels (offen, vs-nfd, geheim, streng-geheim)
  * - Separate encrypted containers per level
  * - Integration with HashiCorp Vault and HSM
- * - Automatic key rotation
- * - Zero-downtime key rotation
+ * - An explicit rotateKey() operation; parsed rotation settings do not start
+ *   or wire the standalone KeyRotationScheduler
+ * - No transactional, atomic, or zero-downtime rotation guarantee
  * 
- * Architecture:
- * - offen: Unencrypted filesystem storage
- * - vs-nfd: gocryptfs + Vault (90-day rotation)
- * - geheim: gocryptfs + Vault (60-day rotation)
- * - streng-geheim: gocryptfs + HSM (30-day rotation)
- * 
- * Thread Safety: All methods are thread-safe
+ * Rotation configuration is parsed per encrypted level, but scheduling and
+ * callback wiring are the caller's responsibility. The rotation implementation
+ * and its failure behavior are documented in the source-level module API.
+ *
+ * Thread safety: internal locking is limited; callers should synchronize
+ * concurrent lifecycle and rotation operations.
  */
 class MultiLevelEncryptedStorage : public ::themis::plugins::IThemisPlugin {
 public:

@@ -6,24 +6,27 @@
 **Status:** active
 **AI_Used:** true
 **AI_Models:** unknown
-**AI_Contributor:** OpenAI ChatGPT
+**AI_Contributor:** GitHub Copilot
 **Human_Review:** false
 **Human_Author:** ThemisDB Contributors
 
 Exact model backend not verifiable from final document text alone.
 
-<!-- Status: plugin-backed implementation | source reviewed: 2026-10-31 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · CMakeLists.txt -->
+<!-- Status: plugin implementation sources present; root build integration and release validation are unverified -->
+<!-- Source level: level 1 | SOT domain: module-behavior -->
+<!-- Canonical sources: include/plugins/{image_analysis_interface.h,tesseract_ocr_plugin.h,yolov8_onnx_plugin.h}; src/image_analysis/{tesseract_ocr_plugin.cpp,yolov8_onnx_plugin.cpp,CMakeLists.txt}; tests/image_analysis/CMakeLists.txt; benchmarks/CMakeLists.txt -->
 
 ## Module Purpose
 
-The image-analysis source directory builds optional OCR and object-detection plugin backends. Their shared contract is `include/plugins/image_analysis_interface.h`; plugin headers are under `include/plugins/`. `include/plugins/image_analysis_manager.h` declares a manager API, but the module CMake file does not build an `ImageAnalysisManager` implementation.
+The source tree contains optional OCR and object-detection plugin implementations. Their shared contract is `include/plugins/image_analysis_interface.h`; concrete plugin headers are under `include/plugins/`. `include/plugins/image_analysis_manager.h` declares manager APIs, but this module has no manager implementation. `src/image_analysis/CMakeLists.txt` defines plugin targets behind `THEMIS_PLUGIN_IMAGE_YOLOV8` and `THEMIS_PLUGIN_IMAGE_TESSERACT`; the [root CMakeLists.txt](../../CMakeLists.txt) and [CMake orchestration](../../cmake/CMakeLists.txt) do not currently add that source directory or declare those two options. The module CMake file is therefore local build wiring, not evidence that these plugin targets are part of the standard root build.
 
 The current source-backed implementation focuses on:
 - OCR via the Tesseract plugin (`src/image_analysis/tesseract_ocr_plugin.cpp`)
 - Object detection via the YOLOv8 ONNX plugin (`src/image_analysis/yolov8_onnx_plugin.cpp`)
 - Structured error results when Tesseract or ONNX Runtime is absent
 - Optional OpenCV decoding for encoded image data
+
+The focused test CMake directory is included through the tests tree's module-directory discovery and compiles the plugin sources directly into test executables. The three benchmark source files are synthetic/mock workloads; only `bench_image_analysis` and `bench_image_analysis_latency` are registered under benchmark module `image_analysis`. `benchmark_image_analysis` is registered under `benchmark_image`. None is real-backend OCR/detection performance evidence.
 
 ## Relevant Interfaces
 

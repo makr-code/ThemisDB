@@ -1,12 +1,12 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-21
-Status: active
+Last Updated: 2026-10-31
+Status: review
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: unknown
-Human_Review: true
+AI_Contributor: GitHub Copilot
+Human_Review: false
 Human_Author: ThemisDB Contributors
 ---
 
@@ -14,67 +14,61 @@ Human_Author: ThemisDB Contributors
 
 Exact model backend not verifiable from final document text alone.
 
-This module exists to make encrypted user storage a bounded, observable subsystem instead of a loose collection of shell invocations and ad hoc key handling. The source under `src/user_storage_encrypted` shows three design anchors: a `gocryptfs` backend boundary, an Argon2id/PBKDF2 key derivation service, and a scheduler-driven multi-level storage orchestrator.
+These notes distinguish source structure from behavior that still requires
+integration or operational evidence. They are not a security certification or
+production-readiness assessment.
 
-## Problem framing
+## Implementation boundaries
 
-The module's public contract in `include/user_storage_encrypted/user_storage_encrypted_api_contract.h` defines fail-closed semantics for backend, key, and rotation failures. In practice, the implementation enforces this through:
+- `GocryptfsBackend` is the module's host-command/FUSE integration boundary.
+  Availability and mount operations depend on the host environment. Review
+  `gocryptfs_backend.cpp` and its header for the actual checks and command
+  behavior; do not infer guarantees such as complete traversal prevention,
+  safe subprocess handling, or stale-mount recovery from the API contract
+  comments alone.
+- `KeyDerivationService` has Argon2id support when CMake finds libargon2 and a
+  PBKDF2-HMAC-SHA256 fallback otherwise. The multi-level plugin constructs its
+  backend without injecting a KDF service. Existing-data compatibility across
+  build modes is not established by the reviewed sources.
+- `KeyRotationScheduler` is a separate component. Its callback and persistence
+  behavior should not be confused with configured rotation being automatically
+  wired into `MultiLevelEncryptedStorage`; that wiring is not present in the
+  reviewed implementation.
+- `MultiLevelEncryptedStorage` parses the multi-level JSON configuration and
+  coordinates backend instances. Health checks and metrics have limited
+  coverage; see `AUDIT.md` and `OPERATIONS.md`.
 
-- backend validation before mount operations (`gocryptfs_backend.cpp`)
-- strict key derivation validation in `key_derivation_service.cpp`
-- rotation state persistence and scheduled callbacks in `key_rotation_scheduler.cpp`
-- configuration validation and stale-mount reconciliation in `multi_level_storage.cpp`
+## Source-backed questions
 
-The design assumes host availability is not guaranteed. `checkAvailability()` validates the `gocryptfs` binary and host/FUSE support while `reconcileStaleMounts()` cleans up stale mount state left behind by prior crashes. The module therefore treats the OS environment as a first-class failure domain rather than an implementation detail.
+1. **Contract/runtime parity:** The frozen contract in
+   `include/user_storage_encrypted/user_storage_encrypted_api_contract.h`
+   differs from the operational API in namespace/error types. Contract
+   guarantees include partial-mount cleanup, general key/salt zeroing,
+   transactional rotation, per-container serialization, and callback
+   restrictions. Current source does not establish those guarantees across
+   implementation paths. Resolve the discrepancy before treating normative
+   contract text as verified runtime behavior; see [API comparison](API.md).
+2. **Failure propagation:** `unmountAll()` does not preserve individual
+   unmount errors, and some rotation unmount errors are ignored. Define and
+   test the desired recovery semantics.
+3. **Rotation semantics:** `isRotationDue()` and `getNextRotationTime()` are
+   timestamp helpers. `triggerRotation()` invokes a callback, not
+   `MultiLevelEncryptedStorage::rotateKey()`; manual calls execute on the
+   caller's thread. The scheduler swallows callback exceptions and
+   advances/persists its timestamp after an attempt. Decide what success,
+   retry, and observable failure should mean.
+4. **KDF deployment:** Specify how deployments select and persist derivation
+   parameters, and how they handle data created with a different build-time
+   KDF. Current source evidence does not establish cross-mode compatibility.
+5. **Evidence:** E2E cases currently skip unconditionally; the hardening test
+   source is not registered in the scoped CMake file. Lifecycle benchmark
+   cases include simulations, while dedicated gates use stubs. Real lifecycle
+   and performance evidence remains follow-up work.
 
-## Key design decisions
+## Research direction
 
-### 1. Backend isolation
-
-`GocryptfsBackend` is intentionally a narrow integration layer around the host command line. Its implementation validates paths, rejects unsafe shell metacharacters, and uses a controlled pipe-based stdin delivery path for key material. This reduces command injection risk and keeps encrypted mount behavior inside a single backend contract.
-
-The `CommandArgumentValidator` helpers in `gocryptfs_backend.cpp` explicitly reject traversal attempts (`..`) and unknown gocryptfs flags. This is a source-grounded design choice: the module assumes untrusted paths and mount configuration should be rejected before a subprocess is launched.
-
-### 2. KDF reasoning
-
-`Argon2idKeyDerivationService` is the module's primary production KDF path when `libargon2` is available. The implementation uses `argon2id_hash_raw()` with fixed time and memory parameters. The CMake logic in `src/user_storage_encrypted/CMakeLists.txt` sets `THEMIS_HAS_ARGON2` when `libargon2` is found; otherwise the module falls back to PBKDF2-HMAC-SHA256 and notes the compatibility split in the source comments.
-
-This means:
-
-- Argon2id is treated as the default strong path.
-- The runtime injection bridge in `setDeriveKeyFn()` is intentionally supplemental for testing or custom providers.
-- The module and roadmap explicitly warn that older iterative SHA-256-derived keys are not compatible with the current fallback path.
-
-### 3. Rotation and orchestration
-
-`KeyRotationScheduler` persists rotation state in JSON via `IRotationStore` implementations and keeps a dedicated thread to poll configured levels. `MultiLevelEncryptedStorage` then orchestrates mount lifecycle, key provider selection, and failure-bounded level configuration.
-
-The module does not assume all security levels are equally sensitive. `SecurityLevel` values (`OFFEN`, `VS_NFD`, `GEHEIM`, `STRENG_GEHEIM`) map to different storage policies, with stronger levels using stricter provider assumptions and shorter rotation intervals as defined in `include/user_storage_encrypted/user_models.hpp` and `multi_level_storage.hpp`.
-
-## Trade-offs and boundaries
-
-### Security trade-offs
-
-- The backend depends on gocryptfs and FUSE support, so availability is a hard operational dependency.
-- Key material is handled in-memory and then zeroed as part of a best-effort cleanup path; the code does not pretend that memory clearing is a substitute for strong system security.
-- Rotation relies on explicit callbacks and persisted state, which makes operation observable but also requires disciplined scheduler and callback design.
-
-### Operational trade-offs
-
-- `reconcileStaleMounts()` chooses to continue startup after a failed unmount rather than hard-failing, so the module remains resilient to previous crashes but may leave a degraded state visible to operators.
-- Storage metrics are intentionally simple and Prometheus-ready; they prioritize explicit operational visibility over rich analytics.
-
-## Validation approach
-
-The implementation already indicates the intended validation path:
-
-- backend availability and mount validation under `gocryptfs_backend.cpp`
-- KDF derivation and salt persistence under `key_derivation_service.cpp`
-- rotation scheduling and persistence under `key_rotation_scheduler.cpp`
-- level validation, stale mount cleanup, and orchestration under `multi_level_storage.cpp`
-
-This module is best validated through integration tests that exercise the real lifecycle boundary (create mount, rotate, unmount, remount) rather than only unit-level key derivation checks.
-
-## Current status
-
-The source shows the module is production-oriented but still operating under residual hardening work. The roadmap in `src/user_storage_encrypted/ROADMAP.md` explicitly tracks mount and scheduler hardening, benchmark re-baselining, and wider integration coverage. That means the research position is not "complete and closed," but "functionally production-ready with continuing hardening and operator evidence work."
+Prioritize explicit API/implementation parity, failure reporting, KDF
+compatibility policy, and executable integration coverage before making
+stronger availability, atomicity, rotation, or performance claims. See
+[module roadmap](ROADMAP.md), [audit notes](AUDIT.md), and
+[performance evidence](PERFORMANCE_EXPECTATIONS.md).

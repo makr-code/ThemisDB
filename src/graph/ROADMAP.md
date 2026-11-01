@@ -1,12 +1,47 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: ThemisDB documentation orchestration specialist
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source level: level1
+SOT domain: module-behavior
+Canonical source references:
+  - ../../ROADMAP.md
+  - ../../include/graph/
+  - ../../src/graph/
+  - ../../tests/graph/
+Related milestone: DOC-WEEKLY-2026-44
+AI_Model_Note: Exact model backend not verifiable from final document text alone.
+---
+
 # Graph Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-20 -->
+<!-- Historical status snapshot validated: 2026-07-20; current claims require revalidation. -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS.md · ../../NEXT_PHASE_IMPLEMENTATION_PLAN.md -->
+
+> **Status notice:** Checkboxes, scanner counts, maturity/readiness statements, and targets in
+> this accumulated roadmap are historical planning records, not current validation. The root
+> [`ROADMAP.md`](../../ROADMAP.md) is the repository maturity aggregate. `ai_working/` reports
+> referenced below are not current source-of-truth evidence.
+
+## Current source inventory (2026-10-31)
+
+Current code includes optimizer, path constraints, local/parallel and device-aware traversal,
+registered shard executors, ontology/reasoning, RotatE, and graph utility sources. The focused
+test and benchmark source inventories are registered through their local CMake files. File
+presence does not establish feature parity, production readiness, or passing tests.
 
 ## L0 Verification Status (2026-06-25) — **0 REAL GAPS**
 
-**Status**: All 9 L0 findings verified and reclassified as defensive patterns
+> **Historical snapshot:** the following values and classifications reproduce the older scanner
+> report; they were not independently revalidated for this documentation update and are not
+> current status.
 
 | Finding Type | Count | Classification | Severity (L0.5) | Status |
 |---|---|---|---|---|
@@ -21,13 +56,21 @@
 
 **L0.5 Analysis**: All findings follow standard defensive programming patterns with semantic correctness. No implementation blockers.
 
-**Reference**: `ai_working/gap_scanner_verified_graph.json` (timestamp: 2026-06-25T14:45:00)
+**Historical reference recorded by the snapshot**: the archived copy of
+[`gap_scanner_verified_graph.json`](../../docs/ARCHIVED/ai-working-history/gap_scanner_verified_graph.json)
+(timestamp: 2026-06-25T14:45:00). The original `ai_working/` path is no longer active; this
+archived scan is historical only and does not establish current readiness.
 
 ---
 
 ## Current Status
 
-Production graph runtime exists across query planning, constraint-aware traversal, rewrite/explain support, parallel and distributed execution, and reasoning-oriented graph capabilities.
+> **Historical status narrative:** the maturity/readiness statements in this section are not
+> current source verification.
+
+The earlier roadmap described graph runtime across query planning, constraint-aware traversal,
+rewrite/explain support, parallel/distributed execution, and reasoning capabilities. This
+historical summary is not a current readiness assessment.
 
 **Hybrid Retrieval Rollout Readiness**: 60% 🟢 (issue #5468).
 - L0 gap verification: 0 real gaps — all 9 findings verified as defensive patterns (2026-06-25).
@@ -36,7 +79,9 @@ Production graph runtime exists across query planning, constraint-aware traversa
 - Phase C (hybrid planning): ✅ Ready for exact graph layer; Category B kernels conditional.
 - **Invariant**: Category C kernels (policy, provenance, transactions) are CPU-first permanently.
   GPU acceleration is never permitted on policy enforcement or transaction paths.
-- Rollout risk detail: `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §7`
+- Historical rollout-risk reference: the archived
+  [Hybrid Retrieval Rollout Plan](../../docs/ARCHIVED/ai-working-history/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md),
+  §7. The plan is a historical snapshot, not current rollout or readiness evidence.
 
 ## In Progress
 
@@ -71,7 +116,10 @@ Production graph runtime exists across query planning, constraint-aware traversa
 - [~] re-baseline p95/p99 envelopes for optimizer and traversal pathways (Target: Q1 2027)
 - [~] broaden benchmark depth for semantic reasoning and incremental refresh workflows (Target: Q1 2027)
 - [~] harden reliability under sustained multi-tenant graph execution pressure (Target: Q1 2027)
-- [~] Wave B B2: RotatE link-prediction integration with `KnowledgeGraphReasoner` (Target: Q1–Q2 2027) — core impl + KGC-01..15 tests done
+- [x] RotatE link-prediction implementation and reasoner-injection surface exist in current source;
+  the old target date is historical. The root roadmap now distinguishes the acceptance-test floor
+  from the higher MRR/Hits@10 targets, which remain unverified pending a separately recorded
+  evaluation.
 
 ### Distributed Maturity Phase 3 — Track 2 Items (Q3–Q4 2026)
 
@@ -142,6 +190,8 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 
 ## Wave B (Q1–Q2 2027) Tracking — B2 Knowledge Graph Completion (RotatE)
 
+> **Historical plan:** the dates and completion checkboxes below are not current validation.
+
 ### Scope
 - [x] RotatE embedding model (relation-as-rotation) implementation
 - [x] Triple loss with negative sampling
@@ -153,8 +203,10 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 - [x] Benchmark vs TransE baseline
 
 ### Acceptance Gates
-- [x] MRR ≥ 0.35, Hits@10 ≥ 0.55 on deterministic acceptance fixture
-- [x] Inference latency ≤ 50 ms for top-20 predictions
+- Historical quality targets: MRR ≥ 0.35 and Hits@10 ≥ 0.55. The current acceptance test asserts
+  MRR ≥ 0.10, Hits@10 ≥ 0.40, relative-to-TransE bounds, and p99 top-20 latency < 50 ms; these
+  thresholds are not captured outcomes. The root roadmap now records this distinction; the higher
+  targets remain unverified until a separate evaluation is recorded.
 - [x] Zero backward compatibility breaks
 
 ### Dependencies

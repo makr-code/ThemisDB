@@ -335,7 +335,8 @@ private:
         std::vector<int64_t> query_times_us;
         int64_t total_operations = 0;
         int64_t total_query_operations = 0;
-    } metrics_;
+    };
+    mutable PerformanceMetrics metrics_;
     
     // Causality tracking (event_id -> vector of child event_ids)
     std::unordered_map<std::string, std::vector<std::string>> causality_map_;

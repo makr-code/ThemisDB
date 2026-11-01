@@ -1,92 +1,36 @@
-# Security - Toolbox Module
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+# Toolbox security boundaries
 
-Report vulnerabilities via project-level SECURITY.md.
+**Scope:** This page describes source-visible behavior, not a security certification or complete incident taxonomy. Project-wide reporting instructions are in [`../../SECURITY.md`](../../SECURITY.md).
 
-## Security Scope
+## Implemented boundaries
 
-Security in the toolbox module focuses on deterministic extraction and bridge behavior, explicit registry/bootstrap guarding, bounded text-processing helper behavior, and observable soft-failure handling for ingestion-facing paths.
+- `ContentToolboxBridge::ingest()` passes raw bytes to `ContentManager::ingestRawBlob()` before retrieving assembled text for toolbox enrichment. The security, authorization, scanning, and storage guarantees of that call belong to the content subsystem and host configuration.
+- `enrichExisting()` reads existing metadata and assembled text; it does not repeat raw-blob ingestion. Callers must enforce authorization and decide whether re-enrichment is permitted.
+- The registry throws when accessed before initialization. A repeated initialization replaces the previous instance and logs a warning.
+- Optional graph and vector writer failures are logged and counted separately. They are soft failures; `BridgeResult::ok` can remain true, so callers requiring durable writes must check the relevant outcome.
+- Language and boilerplate outputs are heuristics, not security validation or access-control decisions. SHA-256 fingerprints identify bytes but do not authenticate them or prove provenance.
+- Error messages and IDs may be returned or logged. The host must apply its own redaction and sensitive-data handling policies.
 
-## Threat Model
+## Metrics and coverage limits
 
-| Threat | Current Mitigation Surface |
-|---|---|
-| hidden extraction pipeline failure | explicit empty/soft-fail result behavior and metrics surfaces |
-| unsafe global registry access | explicit initialization guard and test reset behavior |
-| malformed text-path degradation | deterministic helper behavior for chunking, normalization, and language detection |
-| opaque bridge sink failures | logged and diagnosable content bridge soft-fail behavior |
+- Extraction and bridge objects expose text metrics for counters/failure observations. The global registry misuse counter is appended by the registry free-function metric export when non-zero; this is not an HTTP endpoint.
+- Helper metric accessors exist, but ordinary helper input paths do not increment their error counters. Do not interpret zero helper counters as evidence that input was valid or that all helper incidents are covered.
+- No complete source-defined set of incident IDs or exhaustive security-test coverage is established by the current toolbox implementation. Test presence does not establish production safety or release certification.
 
-## Implemented Security Controls
+## Integration guidance
 
-- builder and registry operations expose explicit lifecycle errors.
-- bridge and extraction paths remain diagnosable under soft failures.
-- helper utilities keep deterministic bounded behavior on empty or malformed input.
-- streaming and composite dispatch remain explicit and observable.
+Avoid logging raw document content, credentials, or full secret-bearing configuration. Before retrying, establish whether content storage or an optional sink may already have committed data. For operational triage see [`RUNBOOK.md`](./RUNBOOK.md); for dataflow and result semantics see [`ARCHITECTURE.md`](./ARCHITECTURE.md) and [`TRUST.md`](./TRUST.md).
 
-## Security Follow-ups
-
-- broaden fault-injection coverage for bridge sink and registry misuse edge cases.
-- deepen stress coverage for synchronous streaming and composite-routing workloads.
-- tighten diagnostics taxonomy across extraction and helper incident classes.
-
-## Unified Incident Taxonomy
-
-### Layer 1: Orchestration (ingestion_toolbox.cpp)
-| Code | Incident | Cause | Mitigation |
-|------|----------|-------|-----------|
-| EX-EMPTY | extraction_empty | No text extracted from content | Recorded via `toolbox_extract_empty_results_total` counter |
-| EX-FAILED | extraction_failed | Processor returned error | Recorded via `toolbox_extraction_failures_total` counter |
-| EX-TIMEOUT | extraction_timeout | Operation exceeded budget | Monitored via `toolbox_extraction_latency_us` histogram |
-| EX-OVERFLOW | extraction_overflow | Output too large | Logged + error counter incremented |
-
-### Layer 2: Bridge (content_toolbox_bridge.cpp)
-| Code | Incident | Cause | Mitigation |
-|------|----------|-------|-----------|
-| BR-NO-TEXT | bridge_no_text | ContentManager couldn't extract text | Soft-fail with empty result; `toolbox_bridge_failures_total` incremented |
-| BR-WRITER | bridge_writer_failed | Writer sink (graph/vector) returned error | Soft-fail logged; `toolbox_bridge_latency_us` tracked; granular failure counters |
-| BR-TOOLBOX | bridge_toolbox_failed | toolbox_ returned error | Logged + `toolbox_bridge_failures_total` incremented |
-| BR-EMPTY | bridge_empty_result | Bridge succeeded but with no entities | Recorded in metrics; not counted as error |
-
-### Layer 3: Registry (toolbox_registry.cpp)
-| Code | Incident | Cause | Mitigation |
-|------|----------|-------|-----------|
-| REG-NOT-INIT | registry_not_initialized | globalToolbox() called before initialize() | Exception thrown; `toolbox_registry_misuse_total` incremented |
-| REG-DOUBLE | registry_double_init | initialize() called when already initialized | Overwrites previous; logged warning |
-| REG-RESET-ACTIVE | registry_reset_during_active | reset() during active usage | Soft-fail; subsequent calls throw; `toolbox_registry_misuse_total` incremented |
-
-### Layer 4: Helper (text_*.cpp)
-| Code | Incident | Cause | Mitigation |
-|------|----------|-------|-----------|
-| HLP-EMPTY | helper_empty_input | Empty text passed to helper | Returns default/empty result; `toolbox_helper_errors_total` incremented |
-| HLP-ENCODING | helper_encoding_unsupported | Text encoding not supported | Logged + error counter incremented; fallback to UTF-8 |
-| HLP-SIZE | helper_size_exceeded | Helper exceeded size limit | Truncate/skip; `toolbox_helper_errors_total` incremented |
-| HLP-MALFORMED | helper_malformed_input | Invalid format for operation | Returns default; error counter incremented |
-
-## Threat Model (Updated)
-
-| Threat | Layer | Severity | Current Mitigation | Observable Signal |
-|--------|-------|----------|-------------------|-------------------|
-| hidden extraction pipeline failure | Orchestration | HIGH | explicit empty/soft-fail result behavior and metrics surfaces (EX-*) | toolbox_extraction_* counters + latency histogram |
-| unsafe global registry access | Registry | HIGH | explicit initialization guard and test reset behavior (REG-*) | toolbox_registry_misuse_total + exception logging |
-| malformed text-path degradation | Helper | MEDIUM | deterministic helper behavior for chunking, normalization, and language detection (HLP-*) | toolbox_helper_errors_total counters |
-| opaque bridge sink failures | Bridge | MEDIUM | logged and diagnosable content bridge soft-fail behavior (BR-*) | toolbox_bridge_failures_total + granular writer failure counters |
-
-## Sourcecode Verification (Module: toolbox/security)
-
-- Verified files:
-  - src/toolbox/ingestion_toolbox.cpp
-  - src/toolbox/toolbox_builder.cpp
-  - src/toolbox/content_toolbox_bridge.cpp
-  - src/toolbox/toolbox_registry.cpp
-  - src/toolbox/toolbox_streaming.cpp
-  - src/toolbox/text_quality_scorer.cpp
-  - src/toolbox/text_chunker.cpp
-  - src/toolbox/text_normalizer.cpp
-- Verified controls:
-  - explicit bootstrap and registry guards
-  - observable bridge/extraction soft-fail behavior
-  - deterministic helper-path behavior
-  - unified incident taxonomy across 4 execution planes
-  - Prometheus metrics instrumentation for all incident classes
+> Exact model backend not verifiable from final document text alone.

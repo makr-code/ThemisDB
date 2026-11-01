@@ -1,14 +1,24 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
-Human_Author: "ThemisDB Team"
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "include/search/hybrid_search.h"
+  - "src/search/hybrid_search.cpp"
+  - "include/search/search_error_codes.h"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
+
+Exact model backend not verifiable from final document text alone.
 
 # Search Embedding and Dense Retrieval Guide
 
@@ -65,7 +75,11 @@ Common dense retrieval failures include:
 - ANN backend timeout or backend failure
 - empty candidate set even when the vector path is enabled
 
-Those states are surfaced through `SearchStats` and `SearchErrorCode` categories. For example, a vector backend returning empty or partial results is treated as a retrieval-level error and is not silently ignored at the fusion layer.
+The current implementation records whether the vector path ran without
+exception, but does not populate the declared `SearchErrorCode` taxonomy or
+`HybridSearch::SearchStats::primary_error_code`. An empty result is not by
+itself recorded as a code. **TODO:** define and test whether empty/partial
+backend responses are errors for each caller contract.
 
 ## Why the module uses bounded dense retrieval
 

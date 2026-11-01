@@ -1,99 +1,58 @@
-# Search Module Release Gate Benchmarks
-
-**Version:** 2.0.0  
-**Status:** Phase 5 Complete (2026-08-06)  
-**Benchmark Suite:** bench_search_release_gates.cpp
-
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "benchmarks/search/CMakeLists.txt"
+  - "benchmarks/CMakeLists.txt"
+  - "benchmarks/search/bench_search_release_gates.cpp"
+  - "benchmarks/search/bench_layered_retrieval_phase5.cpp"
+  - "tests/search/CMakeLists.txt"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
 
-## Overview
+Exact model backend not verifiable from final document text alone.
 
-This directory contains the performance benchmarks and release gates for ThemisDB Search Module v2.0.0 production readiness. All gates are defined with baseline values and 10% regression tolerance thresholds.
+# Search Benchmark Sources and Build Registration
 
-## Release Gate Definitions
+This page inventories current search benchmark definitions and their CMake registration. It is not a report of benchmark runs or measured release performance.
 
-### SRCP-1: Hybrid Search Dispatch
-- **Metric:** p99 latency for hybrid dispatch (BM25 + vector + RRF)
-- **Baseline:** ≤ 15 ms
-- **Gate Threshold:** p99 ≤ 16.5 ms (10% tolerance)
-- **Fixture:** 100 shards, 10K candidates, seed=42
+## Current CMake registration
 
-### SRCP-2: Distributed Merge Throughput
-- **Metric:** Merge throughput (results/sec)
-- **Baseline:** ≥ 50K results/sec
-- **Gate Threshold:** ≥ 45K results/sec (10% tolerance)
-- **Fixture:** 64 shards, 1K results each
+When `THEMIS_BUILD_BENCHMARKS` is enabled, `benchmarks/search/CMakeLists.txt` declares these standard benchmark targets:
 
-### SRCP-3: Reranking Overhead
-- **Metric:** p99 latency for LLM fallback
-- **Baseline:** ≤ 5 ms overhead
-- **Gate Threshold:** ≤ 5.5 ms
-- **Fixture:** 1K candidate set, LLM unavailable
+- `bench_search_release_gates`
+- `bench_advanced_scenarios`
+- `bench_distributed_merge_gates`
+- `bench_hybrid_fusion_gates`
+- `bench_layered_retrieval_phase5`
+- `bench_vector_search_gates`
+- `bench_search_dedicated_gates`
 
-### SRCP-4: Multi-Device GPU Acceleration
-- **Metric:** p99 latency GPU vs CPU fallback
-- **Baseline GPU:** ≤ 8 ms
-- **Baseline CPU:** ≤ 10 ms
-- **Gate Threshold GPU:** ≤ 8.8 ms
-- **Gate Threshold CPU:** ≤ 11 ms
+It conditionally registers CTest smoke entries for `bench_layered_retrieval_phase5` and `bench_search_dedicated_gates` only when those targets exist. The root `benchmarks/CMakeLists.txt` separately declares `benchmark_hybrid_search` and `benchmark_distributed_hybrid_search` from the sources in this directory.
 
-### SRCP-5: Stream Buffer Flush
-- **Metric:** Flush latency per 1K-result batch
-- **Baseline:** ≤ 10 ms
-- **Gate Threshold:** ≤ 11 ms
-- **Fixture:** 64-shard streaming
+## Source cases
 
-### SRCP-6: Query Expansion Throughput
-- **Metric:** Expansion time for 1K queries
-- **Baseline:** ≤ 50 ms
-- **Gate Threshold:** ≤ 55 ms
-- **Fixture:** expansion_limit=5
+- `bench_search_release_gates.cpp`: SRCP-1 through SRCP-6 and SRCP-ADV-1 through SRCP-ADV-3.
+- `bench_search_dedicated_gates.cpp`: FTS query, ranking, facet-filter, and concurrent-throughput cases.
+- `bench_layered_retrieval_phase5.cpp`: layered retrieval and fallback cases.
+- `benchmark_hybrid_search.cpp`: RRF, linear fusion, score normalization, and config construction.
+- `benchmark_distributed_hybrid_search.cpp`: shard-count, result-count, overlap, k-limit, failure, and config-construction cases.
+- The remaining registered source files define the advanced-scenario, distributed-merge, hybrid-fusion, and vector-gate functions. Their existence does not establish runtime results.
 
-## Advanced Benchmarks (Q1 2027)
+## Build and validation
 
-- **SRCP-ADV-1:** Multimodal search (text + image, ≤ 20 ms, nDCG@10 ≥ 0.85)
-- **SRCP-ADV-2:** Learning-to-Rank (500 candidates depth=100, ≤ 25 ms)
-- **SRCP-ADV-3:** Concurrent indexing (latency increase ≤ 10%)
+Configure a build with `THEMIS_BUILD_BENCHMARKS=ON`, then build a named target using that build directory's CMake build command. Repository release presets inspected for issue #7378 disable benchmarks by default, so do not assume those presets enable these targets.
 
-## Baseline Hardware
+No measured baseline, gate pass/fail, hardware profile, or timing value is established here. Older SRCP thresholds and hardware figures previously listed in this README are retained only as historical planning context and are **not verified results**. **TODO:** attach the reproducible run command, build configuration, hardware details, and result artifact before publishing measured claims.
 
-**Reference Platform:**
-- CPU: Intel Xeon Gold 6348 (28 cores)
-- RAM: 256 GB
-- GPU: NVIDIA H100 (optional)
-- Network: 10 Gbps
-
-**Minimum Production:**
-- CPU: Intel Xeon Silver 4310 (12 cores)
-- RAM: 64 GB
-- Network: 1 Gbps
-
-## Regression Thresholds
-
-- **≤ 5% slower:** Monitor
-- **5–10% slower:** Investigate
-- **> 10% slower:** FAIL (block merge)
-
-## Running Benchmarks
-
-```bash
-# Build
-cmake --preset release
-cmake --build --preset release --target bench_search_release_gates
-
-# Run all gates
-./build/benchmarks/bin/bench_search_release_gates
-
-# Run single gate
-./build/benchmarks/bin/bench_search_release_gates \
-  --benchmark_filter=SRCP_1_HybridSearchDispatch
-```
-
-## Documentation
-
-- **Runbook:** docs/operations/search_runbook.md
-- **Performance Tuning:** docs/operations/search_tuning.md
-- **Troubleshooting:** docs/operations/search_troubleshooting.md
-
-**Last Updated:** 2026-08-06  
-**Next Review:** 2026-11-06 (Q4 2026 re-baseline)
+The local benchmark CMake file's CTest entries are smoke registrations, not evidence that a benchmark was executed in this checkout.

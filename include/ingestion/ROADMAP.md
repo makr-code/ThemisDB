@@ -1,9 +1,17 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/ingestion/ROADMAP.md -->
 
 # Ingestion Module — Public Header Roadmap
+
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
 
 **Module Path:** `include/ingestion/`  
 **Canonical implementation roadmap:** [`../../src/ingestion/ROADMAP.md`](../../src/ingestion/ROADMAP.md)
@@ -16,11 +24,19 @@ Tracks public `ingestion` API contract stability, header-level coverage work, an
 
 → [`../../src/ingestion/ROADMAP.md`](../../src/ingestion/ROADMAP.md)
 
+> **Status note (2026-10-31):** Checklist targets below are retained planning
+> entries, not evidence that the work is still open or that it has shipped.
+> Reconcile each item against current headers, CMake, and tests before using it
+> for release planning. This file does not certify production readiness.
+
 ---
 
 ## Current Status
 
-All headers in `include/ingestion/` are present and expose the multi-connector ingestion pipeline (API, CDC, database, filesystem, HuggingFace, Kafka, S3, web crawler), entity assembly, semantic validation, and workflow orchestration surface.
+The directory currently contains public headers for source management,
+connectors, workflow steps, validation, coordination, sink adapters, and
+reindex/canary helper APIs. Connector behavior and maturity vary; header
+presence alone does not demonstrate end-to-end implementation.
 
 ---
 
@@ -28,14 +44,14 @@ All headers in `include/ingestion/` are present and expose the multi-connector i
 
 - [x] Public header surfaces documented in `ARCHITECTURE.md`
 - [x] Canonical cross-links to `src/ingestion/` implementation docs established
-- [x] Layer association (**ANN Frontdoor**) marked and verified against `FUTURE_PLAN.md`
+- [ ] TODO: identify a current authoritative architecture source before asserting a layer association; the previous **ANN Frontdoor** label is unverified.
 - [x] Namespace layout (`themis::ingestion`) documented
 
 ---
 
 ## In Progress
 
-- [ ] Per-header deprecation and breaking-change notices aligned with `VERSIONING.md` (Target: 2026-Q3)
+- [ ] TODO: verify current deprecation annotations and migration notes against headers before retaining this target (historical target: 2026-Q3)
 
 ---
 

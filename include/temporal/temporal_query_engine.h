@@ -83,16 +83,16 @@ struct RowFilter {
 /**
  * SQL:2011 temporal clause type (§7.6).
  *
- * AS_OF          — FOR SYSTEM_TIME AS OF <timestamp>
+ * AS_OF          — FOR SYSTEM_TIME AS OF timestamp
  *                  Returns all rows current at the given instant.
  *
- * FROM_TO        — FOR SYSTEM_TIME FROM <start> TO <end>
+ * FROM_TO        — FOR SYSTEM_TIME FROM start TO end
  *                  Returns all row versions whose sys_time overlaps [start, end).
  *
- * BETWEEN_AND    — FOR SYSTEM_TIME BETWEEN <start> AND <end>
+ * BETWEEN_AND    — FOR SYSTEM_TIME BETWEEN start AND end
  *                  Closed-interval variant: overlaps [start, end].
  *
- * CONTAINED_IN   — FOR SYSTEM_TIME CONTAINED IN PERIOD (<start>, <end>)
+ * CONTAINED_IN   — FOR SYSTEM_TIME CONTAINED IN PERIOD (start, end)
  *                  Returns only rows whose entire sys_time lies within [start, end).
  *
  * ALL            — FOR SYSTEM_TIME ALL
@@ -123,19 +123,19 @@ struct TemporalQuerySpec {
     Timestamp end_time{kMaxTimestamp};
     bool include_deleted{false};
 
-    /// Convenience factory — FOR SYSTEM_TIME AS OF <t>
+    /// Convenience factory for FOR SYSTEM_TIME AS OF.
     static TemporalQuerySpec asOf(Timestamp t) noexcept {
         return {TemporalClause::AS_OF, t, kMaxTimestamp, false};
     }
-    /// Convenience factory — FOR SYSTEM_TIME FROM <s> TO <e>
+    /// Convenience factory for FOR SYSTEM_TIME FROM ... TO.
     static TemporalQuerySpec fromTo(Timestamp s, Timestamp e) noexcept {
         return {TemporalClause::FROM_TO, s, e, false};
     }
-    /// Convenience factory — FOR SYSTEM_TIME BETWEEN <s> AND <e>
+    /// Convenience factory for FOR SYSTEM_TIME BETWEEN ... AND.
     static TemporalQuerySpec betweenAnd(Timestamp s, Timestamp e) noexcept {
         return {TemporalClause::BETWEEN_AND, s, e, false};
     }
-    /// Convenience factory — FOR SYSTEM_TIME CONTAINED IN PERIOD (<s>, <e>)
+    /// Convenience factory for FOR SYSTEM_TIME CONTAINED IN PERIOD.
     static TemporalQuerySpec containedIn(Timestamp s, Timestamp e) noexcept {
         return {TemporalClause::CONTAINED_IN, s, e, false};
     }
@@ -489,10 +489,13 @@ public:
     explicit QueryCache(size_t max_entries = 256);
 
     /**
-     * Look up a cached result.
+     * @brief Look up a cached result.
      * Returns a copy of the cached vector, or std::nullopt on cache miss.
      * Returning by value avoids returning a pointer into internal storage
      * that can be invalidated by a concurrent put/invalidate/clear call.
+     * @param table_name Logical table name used as part of the cache key.
+     * @param as_of System-time instant used as part of the cache key.
+     * @return Cached rows, or std::nullopt when the key is not cached.
      */
     std::optional<std::vector<VersionedDocument>> get(const std::string& table_name,
                                                       Timestamp as_of) const;
@@ -508,6 +511,7 @@ public:
     /** Discard all cached entries. */
     void clear();
 
+    /** @brief Return the number of cached entries. */
     size_t size() const;
 
 private:
@@ -574,4 +578,3 @@ std::vector<VersionedDocument> queryAsOfCached(
 
 } // namespace temporal
 } // namespace themisdb
-
