@@ -745,12 +745,12 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "c09517873f6c5650"
+      "sha256_prefix": "604b4e1c58c4803b"
     },
     {
       "category": "governance",
       "path": "ROADMAP.md",
-      "sha256_prefix": "8c12d23bf7df45cd"
+      "sha256_prefix": "706d8a4c0a877e08"
     },
     {
       "category": "governance",
@@ -775,7 +775,7 @@
     {
       "category": "governance",
       "path": "CHANGELOG.md",
-      "sha256_prefix": "7ad42111ac267b9d"
+      "sha256_prefix": "2bccfc56de48dbc2"
     },
     {
       "category": "governance",
@@ -790,7 +790,7 @@
     {
       "category": "governance",
       "path": "AUDIT.md",
-      "sha256_prefix": "5a11239cccd7bc91"
+      "sha256_prefix": "f5002f609f339d03"
     },
     {
       "category": "docs",
@@ -2120,7 +2120,7 @@
     {
       "category": "docs",
       "path": "docs/benchmarks/metadata_cache_benchmark_results.md",
-      "sha256_prefix": "d5bc6975d4e78f07"
+      "sha256_prefix": "f213d18497321bbf"
     },
     {
       "category": "docs",
@@ -2500,7 +2500,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "47f62089f6df6d06"
+      "sha256_prefix": "5f8a4ace520c688d"
     },
     {
       "category": "docs",
@@ -4805,12 +4805,12 @@
     {
       "category": "docs",
       "path": "docs/metadata/recovery_runbook.md",
-      "sha256_prefix": "06ad8519301bd63c"
+      "sha256_prefix": "db2d79beb4e7b17e"
     },
     {
       "category": "docs",
       "path": "docs/metadata/schema_migration_runbook.md",
-      "sha256_prefix": "2add685777b9ccc7"
+      "sha256_prefix": "6ae94b8f2c462c1b"
     },
     {
       "category": "docs",
@@ -5050,7 +5050,7 @@
     {
       "category": "docs",
       "path": "docs/operability/RUNBOOK_METADATA_STORE.md",
-      "sha256_prefix": "8aa5550e5e5a8184"
+      "sha256_prefix": "00b74e094d274672"
     },
     {
       "category": "docs",
@@ -6885,7 +6885,7 @@
     {
       "category": "docs",
       "path": "docs/updates/STRESS_COVERAGE_Q4.md",
-      "sha256_prefix": "67abe91d8667acd5"
+      "sha256_prefix": "878dbc40788789ae"
     },
     {
       "category": "docs",
@@ -7003,14 +7003,14 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-11-01T07:38:57.792877+00:00",
+  "generated_at": "2026-11-01T10:47:26.898443+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-11-01\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
     "module_api_count": 80,
-    "source_count": 9506,
-    "wiki_generated_at": "2026-11-01T06:27:55+00:00",
-    "wiki_source_hash": "d4b39c7066abbaec377480210d3d7676137a6b42c14e3ab392599ebca0957ac3"
+    "source_count": 9516,
+    "wiki_generated_at": "2026-11-01T09:52:28+00:00",
+    "wiki_source_hash": "7560acd9adf14df58c30dc5d8a5b69a3632d25faa02723b73c8868b9a813f02d"
   },
   "modules": [
     {
@@ -7313,130 +7313,53 @@
     {
       "api_contracts": [
         {
-          "api": "`put()`",
-          "errors": "WriteError (disk full, IO error), KeyError (invalid key)",
-          "input_contract": "Key (≤8KB), Value (≤128MB), WriteOptions",
-          "namespace": "`themis::storage::IStorageEngine`",
-          "output_contract": "Status (OK or ErrorCode)"
-        },
-        {
-          "api": "`get()`",
-          "errors": "NotFoundError (treated as empty, not error), ReadError (IO/corruption)",
-          "input_contract": "Key (UTF-8, ≤8KB), ReadOptions (snapshot_id, timeout)",
-          "namespace": "`themis::storage::IStorageEngine`",
-          "output_contract": "std::optional<std::string> (value if found, empty if not)"
-        },
-        {
-          "api": "`delete()`",
-          "errors": "DeleteError (IO), KeyNotFoundError (OK; idempotent)",
-          "input_contract": "Key (≤8KB), DeleteOptions (immediate/deferred)",
-          "namespace": "`themis::storage::IStorageEngine`",
-          "output_contract": "Status (OK or error)"
-        },
-        {
-          "api": "`scan()`",
-          "errors": "ScanError (range invalid), SnapshotExpired",
-          "input_contract": "Range (start_key, end_key), batch_size (≤1K), snapshot",
-          "namespace": "`themis::storage::IStorageEngine`",
-          "output_contract": "Iterator<(Key, Value)> (lazy; yields batch_size items per next())"
-        },
-        {
-          "api": "`deleteRange()`",
-          "errors": "RangeError (invalid bounds), DeleteError",
-          "input_contract": "Key range [start, end), async flag",
-          "namespace": "`themis::storage::IStorageEngine`",
-          "output_contract": "void (keys in range scheduled for deletion)"
-        },
-        {
-          "api": "`createSnapshot()`",
-          "errors": "SnapshotLimitError (max 100 concurrent)",
-          "input_contract": "Snapshot ID (optional; auto-generated if empty)",
-          "namespace": "`themis::storage::IStorageEngine`",
-          "output_contract": "Snapshot handle (unique, valid 1 hour)"
-        },
-        {
-          "api": "`releaseSnapshot()`",
-          "errors": "SnapshotNotFoundError (already released)",
-          "input_contract": "Snapshot handle",
-          "namespace": "`themis::storage::IStorageEngine`",
-          "output_contract": "void"
-        },
-        {
-          "api": "`compact()`",
-          "errors": "CompactionError (storage failure)",
-          "input_contract": "Range (optional), strategy (balanced/aggressive)",
-          "namespace": "`themis::storage::IStorageEngine`",
-          "output_contract": "void (LSM compaction runs async; progress available via stats)"
-        },
-        {
-          "api": "`stats()`",
-          "errors": "None",
-          "input_contract": "N/A",
-          "namespace": "`themis::storage::IStorageEngine`",
-          "output_contract": "StorageStats (size_mb, key_count, write_amp, compaction_progress)"
-        },
-        {
-          "api": "Level",
+          "api": "Contract area",
           "errors": "",
-          "input_contract": "Latency",
-          "namespace": "Durability",
-          "output_contract": "Use"
+          "input_contract": "Current test/implementation evidence",
+          "namespace": "Normative declaration",
+          "output_contract": "Conformance status"
         },
         {
-          "api": "SyncWrite",
+          "api": "WAL durability and sequencing",
           "errors": "",
-          "input_contract": "≤100µs",
-          "namespace": "fsync per write",
-          "output_contract": "Transactions, critical ops"
+          "input_contract": "`WALStorage` has a real file-backed append/replay/checkpoint API. STR-01–04 and STR-09–11 in the contract-hardening test use `MockWal` and `MockKvStore`; they do not call `WALStorage` or exercise disk I/O. `tests/test_mvcc_wal_integration.cpp` configures RocksDB's internal WAL through `RocksDBWrapper`; it does not call `WALStorage` or test ACK ordering.",
+          "namespace": "Write-before-ack, idempotent replay, monotonic sequence numbers, checkpoint ordering, and fixed WAL limits/timeouts.",
+          "output_contract": "Not demonstrated end to end. Test the actual WAL and engine write path together, including restart and failure cases."
         },
         {
-          "api": "BatchWrite",
+          "api": "MVCC isolation",
           "errors": "",
-          "input_contract": "≤50µs",
-          "namespace": "fsync per batch (default 100)",
-          "output_contract": "Normal CRUD"
+          "input_contract": "The contract-hardening test's STR-05–08 use a minimal `MockMvccTx`. The source for `tests/test_mvcc_wal_integration.cpp` uses RocksDB-backed `MVCCStore` and includes timestamp reads, version scans, GC, and close/reopen persistence cases. Those cases do not establish transaction-level read-your-writes, dirty-read prevention, or conflict semantics.",
+          "namespace": "Read-your-writes, snapshot isolation, dirty-read prevention, and transaction/version limits.",
+          "output_contract": "Some concrete MVCC read/version/GC behaviors have implementation-backed test source; full declared transaction semantics remain unverified. No test execution or pass is claimed here."
         },
         {
-          "api": "AsyncWrite",
+          "api": "Recovery",
           "errors": "",
-          "input_contract": "≤5µs",
-          "namespace": "fsync ~100ms interval",
-          "output_contract": "Non-critical logging"
+          "input_contract": "The contract-hardening replay helper operates on mock entries. The MVCC integration test source includes normal database close/reopen persistence using RocksDB, not a crash/torn-tail test of `WALStorage`. `WALStorage::open()` provides a recovery callback, but that is not evidence the full declaration is met after a real process crash.",
+          "namespace": "Checkpoint-based replay, torn-tail handling, and recovery limits/diagnostics.",
+          "output_contract": "Normal MVCC persistence has test source; standalone WAL crash/recovery conformance still requires file-backed fault-injection tests."
         },
         {
-          "api": "Gate",
-          "errors": "Test",
-          "input_contract": "Concurrency",
-          "namespace": "Latency",
-          "output_contract": "Write Level"
+          "api": "Backup and PITR",
+          "errors": "",
+          "input_contract": "STR-13–15 use a `MockPitrManager`; the focused contract suite does not exercise actual backup artifacts or restore through the storage components.",
+          "namespace": "Consistent snapshots, timestamp restore rules, retention, and concurrency limits.",
+          "output_contract": "Not demonstrated end to end. Exercise real backup, concurrent writes, restore, and invalid timestamps."
         },
         {
-          "api": "GATE-STOR-01",
-          "errors": "bench_storage_release_gates.cpp",
-          "input_contract": "64 writers",
-          "namespace": "put() ≤50 µs",
-          "output_contract": "BatchWrite"
+          "api": "Tiering",
+          "errors": "",
+          "input_contract": "The contract-hardening suite has no tiering conformance case. Separate tiering APIs and tests do not by themselves prove the complete declaration across concurrent reads and migration.",
+          "namespace": "Hot/warm/cold migration is transparent to readers and obeys the declared failure/timeout behavior.",
+          "output_contract": "Requires implementation-linked concurrent migration/read tests and recorded results."
         },
         {
-          "api": "GATE-STOR-02",
-          "errors": "bench_storage_read_gates.cpp",
-          "input_contract": "64 readers",
-          "namespace": "get() ≤20 µs",
-          "output_contract": "Snapshot"
-        },
-        {
-          "api": "GATE-STOR-03",
-          "errors": "bench_storage_delete_gates.cpp",
-          "input_contract": "64 writers",
-          "namespace": "delete() ≤30 µs",
-          "output_contract": "BatchWrite"
-        },
-        {
-          "api": "GATE-STOR-04",
-          "errors": "bench_storage_scan_gates.cpp",
-          "input_contract": "Concurrent",
-          "namespace": "scan() ≤5 µs/item",
-          "output_contract": "Snapshot"
+          "api": "Error taxonomy",
+          "errors": "",
+          "input_contract": "STR-12 and STR-16 check classification helpers. The phase-3 focused suite checks diagnostic/fault-handler behavior, but neither establishes that all real operation errors map to the declared taxonomy.",
+          "namespace": "Storage operation failures map to the declared codes; helper functions classify selected errors.",
+          "output_contract": "Helpers are source-declared and selectively tested; end-to-end mapping remains open."
         }
       ],
       "consumed_by": [
@@ -9079,15 +9002,15 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "c09517873f6c5650",
+    "ARCHITECTURE.md": "604b4e1c58c4803b",
     "FUTURE_ENHANCEMENTS.md": "ab3cf42244d049f6",
-    "ROADMAP.md": "8c12d23bf7df45cd",
+    "ROADMAP.md": "706d8a4c0a877e08",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
-    "ai_context/api_contracts/": "ff71327044f8d28f",
-    "ai_context/developer_llm_wiki/": "37921e7005518e7f",
-    "ai_working/": "b5bebe9990327acb",
-    "docs/": "ab4672caa04f412f"
+    "ai_context/api_contracts/": "5e5c50bf8a903852",
+    "ai_context/developer_llm_wiki/": "7b93a2d31860c8d7",
+    "ai_working/": "52346260da576891",
+    "docs/": "0e7394261d804482"
   },
   "statistics": {
     "ai_working_artifact_count": 28,
