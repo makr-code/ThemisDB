@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-07"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # PERFORMANCE_EXPECTATIONS - src/tensor
 
 ## Scope
@@ -13,6 +27,12 @@
   - benchmarks/tensor/bench_tensor_deduplication_manager.cpp
   - benchmarks/tensor/bench_tensor_release_gates.cpp
   - benchmarks/tensor/bench_tensor_dedicated_gates.cpp
+
+Benchmark registration is not proof that a benchmark measures the
+`themis::tensor` implementation. `bench_tensor_fingerprint_graph.cpp` uses
+`themis::graph::TensorFingerprintGraph`, while `bench_tensor_dedicated_gates.cpp`
+uses in-process stubs. Do not use either as performance evidence for the
+tensor-module fingerprint graph or production bridges.
 
 ## Specific Expectations
 
@@ -126,6 +146,12 @@ cmake --build --preset windows-release --target bench_tensor_release_gates bench
 
 ## CTest Validation Protocol (Tensor + RoPE)
 
+The tensor focused-test commands below refer to targets registered in
+`tests/tensor/CMakeLists.txt`. The RoPE, neurocognitive, and machine-dreaming
+test names in the following "acceptance additions" sections are planned
+deliverables only: their source files and CMake registrations are not present
+in the current checkout. They cannot be run as current gates.
+
 ### 1) Build focused tensor tests
 
 ```powershell
@@ -178,6 +204,9 @@ All five machine-dreaming acceptance tests are required for BRAIN-DREAM-* gate c
 
 - Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
 - Mapping should be expanded as additional tensor benchmark scenarios are introduced.
+- `bench_tensor_dedicated_gates.cpp` uses in-process stub implementations, so its
+  results are not measurements of tensor index, graph, deduplication, or bridge
+  production paths.
 - For TN-ROPE, neurocognitive, and machine-dreaming gate decisions, benchmark + CTest evidence must be attached in one packet:
   - benchmark command log
   - benchmark JSON artifacts
