@@ -66,6 +66,15 @@ LoRAManifestStore::RuntimeConfig MakeConfig(
     pinned_key.public_key = public_key;
     pinned_key.label = "retrieval unit test key";
     config.pinned_keys.push_back(pinned_key);
+    config.deployment_evidence_validator =
+        [](const PortableAdapterProduct&, uint32_t, uint32_t,
+           const themis::rag::quality::AggregatedMetrics&,
+           const themis::rag::quality::AggregatedMetrics&) { return true; };
+    config.lifecycle_transition_authorizer =
+        [](const std::string&, const json&, const std::string&,
+           const std::string&) { return true; };
+    config.persisted_lifecycle_verifier =
+        [](const std::string&, const json&, const std::string&) { return true; };
     if (authorize) {
         config.deployment_authorizer =
             [](const PortableAdapterProduct&, const LoRAPackage&) { return true; };
@@ -162,24 +171,38 @@ void Sign(PortableAdapterProduct& product) {
     product.integrity.signed_at = "2026-11-01T00:00:00Z";
 }
 
-LoRAPackage MakeValidatedPackage() {
+LoRAPackage MakeDraftPackage() {
     LoRAPackage package;
     package.package_id = "package-1";
     package.name = "retrieval-adapter";
     package.version = "1.0.0";
-    package.status = LoRAPackageStatus::VALIDATED;
     Sign(package);
     return package;
 }
 
-PortableAdapterProduct MakeReadyProduct() {
+PortableAdapterProduct MakeBuildingProduct() {
     PortableAdapterProduct product;
     product.product_id = "product-1";
     product.source_package_id = "package-1";
     product.target_base_model_id = "base-model";
-    product.status = AdapterProductStatus::READY;
     Sign(product);
     return product;
+}
+
+bool StoreDeployableArtifacts(LoRAManifestStore& store) {
+    const auto package = MakeDraftPackage();
+    if (!store.storePackage(package) ||
+        !store.transitionPackageStatus(
+            package.package_id, LoRAPackageStatus::DRAFT,
+            LoRAPackageStatus::VALIDATED)) {
+        return false;
+    }
+
+    const auto product = MakeBuildingProduct();
+    return store.storeProduct(product) &&
+           store.transitionProductStatus(
+               product.product_id, AdapterProductStatus::BUILDING,
+               AdapterProductStatus::READY);
 }
 
 themis::rag::quality::AggregatedMetrics Metrics(double score) {
@@ -196,12 +219,12 @@ themis::rag::quality::AggregatedMetrics Metrics(double score) {
 TEST(RetrievalArtifactStore, DefaultConstructorIsIsolatedAndRejectsWrites) {
     {
         LoRAManifestStore store;
-        const auto package = MakeValidatedPackage();
+        const auto package = MakeDraftPackage();
         EXPECT_FALSE(store.storePackage(package));
         EXPECT_FALSE(store.loadPackage(package.package_id).has_value());
         EXPECT_FALSE(store.verifyPackageIntegrity(package.package_id));
 
-        EXPECT_FALSE(store.storeProduct(MakeReadyProduct()));
+        EXPECT_FALSE(store.storeProduct(MakeBuildingProduct()));
         const auto result =
             store.deployProduct("product-1", 2, 1, Metrics(0.8), Metrics(0.8));
         EXPECT_FALSE(result.deployed);
@@ -219,10 +242,7 @@ TEST(RetrievalArtifactStore, PersistsPackagesAndProductsAcrossReopen) {
     const auto db_path = root / "artifacts";
     {
         LoRAManifestStore store(MakeConfig(db_path));
-        auto package = MakeValidatedPackage();
-        auto product = MakeReadyProduct();
-        ASSERT_TRUE(store.storePackage(package));
-        ASSERT_TRUE(store.storeProduct(product));
+        ASSERT_TRUE(StoreDeployableArtifacts(store));
     }
     {
         LoRAManifestStore store(MakeConfig(db_path));
@@ -243,14 +263,14 @@ TEST(RetrievalArtifactStore, RejectsUnsignedRecordsAlreadyPersistedInRocksDB) {
     const auto db_path = root / "artifacts";
     {
         LoRAManifestStore store(MakeConfig(db_path));
-        ASSERT_TRUE(store.storePackage(MakeValidatedPackage()));
+        ASSERT_TRUE(store.storePackage(MakeDraftPackage()));
     }
 
     rocksdb::Options options;
     rocksdb::DB* raw_db = nullptr;
     ASSERT_TRUE(rocksdb::DB::Open(options, db_path.string(), &raw_db).ok());
     std::unique_ptr<rocksdb::DB> db(raw_db);
-    auto unsigned_package = MakeValidatedPackage();
+    auto unsigned_package = MakeDraftPackage();
     unsigned_package.integrity.signature.clear();
     ASSERT_TRUE(db->Put(rocksdb::WriteOptions(),
                         "retrieval:package:package-1",
@@ -308,7 +328,7 @@ TEST(RetrievalArtifactStore, LoadsThemisYamlAndVerifiesPinnedEd25519Signature) {
     auto config =
         LoRAManifestStore::RuntimeConfig::loadFromYaml(yaml_path.string());
     LoRAManifestStore store(std::move(config));
-    const auto package = MakeValidatedPackage();
+    const auto package = MakeDraftPackage();
     ASSERT_TRUE(store.storePackage(package));
     EXPECT_TRUE(store.verifyPackageIntegrity(package.package_id));
     std::filesystem::remove_all(root);
@@ -319,7 +339,7 @@ TEST(RetrievalArtifactStore, RequiresSignatureAndPinnedSigner) {
     {
         auto config = MakeConfig(root / "missing-signature");
         LoRAManifestStore store(std::move(config));
-        auto package = MakeValidatedPackage();
+        auto package = MakeDraftPackage();
         package.integrity.signature.clear();
         EXPECT_FALSE(store.storePackage(package));
         EXPECT_FALSE(store.verifyPackageIntegrity(package.package_id));
@@ -327,7 +347,7 @@ TEST(RetrievalArtifactStore, RequiresSignatureAndPinnedSigner) {
     {
         auto config = MakeConfig(root / "bad-signature");
         LoRAManifestStore store(std::move(config));
-        auto package = MakeValidatedPackage();
+        auto package = MakeDraftPackage();
         package.integrity.signature = "not-a-valid-signature";
         EXPECT_FALSE(store.storePackage(package));
         EXPECT_FALSE(store.verifyPackageIntegrity(package.package_id));
@@ -335,7 +355,7 @@ TEST(RetrievalArtifactStore, RequiresSignatureAndPinnedSigner) {
     {
         auto config = MakeConfig(root / "unpinned-signer");
         LoRAManifestStore store(std::move(config));
-        auto package = MakeValidatedPackage();
+        auto package = MakeDraftPackage();
         package.integrity.signer_id = "untrusted-key";
         EXPECT_FALSE(store.storePackage(package));
         EXPECT_FALSE(store.verifyPackageIntegrity(package.package_id));
@@ -348,7 +368,7 @@ TEST(RetrievalArtifactStore, RequiresSignatureAndPinnedSigner) {
     {
         auto config = MakeConfig(root / "malformed-signature");
         LoRAManifestStore store(std::move(config));
-        auto package = MakeValidatedPackage();
+        auto package = MakeDraftPackage();
         package.integrity.signature = "broken-base64";
         EXPECT_FALSE(store.storePackage(package));
         EXPECT_FALSE(store.verifyPackageIntegrity(package.package_id));
@@ -360,7 +380,7 @@ TEST(RetrievalArtifactStore, AcceptsValidEd25519SignatureFromPinnedSigner) {
     const auto root = NewTestDirectory();
     {
         LoRAManifestStore store(MakeConfig(root / "signed"));
-        const auto package = MakeValidatedPackage();
+        const auto package = MakeDraftPackage();
         ASSERT_TRUE(store.storePackage(package));
         EXPECT_TRUE(store.verifyPackageIntegrity(package.package_id));
     }
@@ -373,8 +393,7 @@ TEST(RetrievalArtifactStore, DeploymentFailsClosedWithoutAuthorizationCallback) 
         auto config = MakeConfig(root / "no-auth");
         config.deployment_authorizer = {};
         LoRAManifestStore store(std::move(config));
-        ASSERT_TRUE(store.storePackage(MakeValidatedPackage()));
-        ASSERT_TRUE(store.storeProduct(MakeReadyProduct()));
+        ASSERT_TRUE(StoreDeployableArtifacts(store));
         const auto result =
             store.deployProduct("product-1", 2, 1, Metrics(0.8), Metrics(0.8));
         EXPECT_FALSE(result.deployed);
@@ -385,8 +404,7 @@ TEST(RetrievalArtifactStore, DeploymentFailsClosedWithoutAuthorizationCallback) 
         auto config = MakeConfig(root / "no-quality-gate", true);
         config.quality_gate.reset();
         LoRAManifestStore store(std::move(config));
-        ASSERT_TRUE(store.storePackage(MakeValidatedPackage()));
-        ASSERT_TRUE(store.storeProduct(MakeReadyProduct()));
+        ASSERT_TRUE(StoreDeployableArtifacts(store));
         const auto result =
             store.deployProduct("product-1", 2, 1, Metrics(0.8), Metrics(0.8));
         EXPECT_FALSE(result.deployed);
@@ -399,8 +417,7 @@ TEST(RetrievalArtifactStore, DeploymentRequiresQualityAllowAndAuthorizationAppro
     const auto root = NewTestDirectory();
     {
         LoRAManifestStore store(MakeConfig(root / "gate"));
-        ASSERT_TRUE(store.storePackage(MakeValidatedPackage()));
-        ASSERT_TRUE(store.storeProduct(MakeReadyProduct()));
+        ASSERT_TRUE(StoreDeployableArtifacts(store));
 
         auto denied =
             store.deployProduct("product-1", 2, 1, Metrics(0.6), Metrics(0.8));
@@ -412,8 +429,7 @@ TEST(RetrievalArtifactStore, DeploymentRequiresQualityAllowAndAuthorizationAppro
     {
         auto config = MakeConfig(root / "authorized", true);
         LoRAManifestStore store(std::move(config));
-        ASSERT_TRUE(store.storePackage(MakeValidatedPackage()));
-        ASSERT_TRUE(store.storeProduct(MakeReadyProduct()));
+        ASSERT_TRUE(StoreDeployableArtifacts(store));
         const auto allowed =
             store.deployProduct("product-1", 2, 1, Metrics(0.8), Metrics(0.8));
         ASSERT_TRUE(allowed.deployed) << allowed.reason;
@@ -435,8 +451,7 @@ TEST(RetrievalArtifactStore, RejectsEmptyQualityEvaluationAndAuthorizationDenial
     {
         auto config = MakeConfig(root / "empty-metrics", true);
         LoRAManifestStore store(std::move(config));
-        ASSERT_TRUE(store.storePackage(MakeValidatedPackage()));
-        ASSERT_TRUE(store.storeProduct(MakeReadyProduct()));
+        ASSERT_TRUE(StoreDeployableArtifacts(store));
         const auto result =
             store.deployProduct("product-1", 2, 1, Metrics(0.8), Metrics(0.0));
         EXPECT_FALSE(result.deployed);
@@ -447,8 +462,7 @@ TEST(RetrievalArtifactStore, RejectsEmptyQualityEvaluationAndAuthorizationDenial
         config.deployment_authorizer =
             [](const PortableAdapterProduct&, const LoRAPackage&) { return false; };
         LoRAManifestStore store(std::move(config));
-        ASSERT_TRUE(store.storePackage(MakeValidatedPackage()));
-        ASSERT_TRUE(store.storeProduct(MakeReadyProduct()));
+        ASSERT_TRUE(StoreDeployableArtifacts(store));
         const auto result =
             store.deployProduct("product-1", 2, 1, Metrics(0.8), Metrics(0.8));
         EXPECT_FALSE(result.deployed);
@@ -461,8 +475,7 @@ TEST(RetrievalArtifactStore, RejectsEmptyQualityEvaluationAndAuthorizationDenial
                 throw std::runtime_error("authorization service unavailable");
             };
         LoRAManifestStore store(std::move(config));
-        ASSERT_TRUE(store.storePackage(MakeValidatedPackage()));
-        ASSERT_TRUE(store.storeProduct(MakeReadyProduct()));
+        ASSERT_TRUE(StoreDeployableArtifacts(store));
         const auto result =
             store.deployProduct("product-1", 2, 1, Metrics(0.8), Metrics(0.8));
         EXPECT_FALSE(result.deployed);

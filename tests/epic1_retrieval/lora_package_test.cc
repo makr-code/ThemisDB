@@ -112,6 +112,17 @@ LoRAManifestStore::RuntimeConfig makeStoreConfig() {
     config.pinned_keys.push_back(pin);
     config.quality_gate =
         std::make_shared<themis::rag::quality::DeploymentGateController>();
+    config.deployment_evidence_validator =
+        [](const PortableAdapterProduct&, uint32_t, uint32_t,
+           const themis::rag::quality::AggregatedMetrics&,
+           const themis::rag::quality::AggregatedMetrics&) { return true; };
+    config.lifecycle_transition_authorizer =
+        [](const std::string&, const json&, const std::string&,
+           const std::string&) { return true; };
+    config.persisted_lifecycle_verifier =
+        [](const std::string&, const json&, const std::string&) { return true; };
+    config.deployment_authorizer =
+        [](const PortableAdapterProduct&, const LoRAPackage&) { return true; };
     return config;
 }
 
@@ -174,7 +185,7 @@ PortableAdapterProduct makeValidProduct(const std::string& id = "prod-001",
     pr.max_context_length      = 4096;
     pr.memory_requirement_mb   = 2048u;
     pr.compatible_model_versions = {"3.8b-v1", "3.8b-v2"};
-    pr.status                  = AdapterProductStatus::READY;
+    pr.status                  = AdapterProductStatus::BUILDING;
     pr.created_at              = "2026-07-01T01:00:00Z";
     pr.updated_at              = "2026-07-01T01:00:00Z";
     signProduct(pr);
@@ -594,9 +605,11 @@ TEST(LoRAManifestStoreTest, ListPackagesByStatus) {
     auto p1 = makeValidPackage("ps1");
     p1.status = LoRAPackageStatus::DRAFT;
     auto p2 = makeValidPackage("ps2");
-    p2.status = LoRAPackageStatus::VALIDATED;
     store.storePackage(p1);
-    store.storePackage(p2);
+    ASSERT_TRUE(store.storePackage(p2));
+    ASSERT_TRUE(store.transitionPackageStatus(
+        p2.package_id, LoRAPackageStatus::DRAFT,
+        LoRAPackageStatus::VALIDATED));
 
     const auto drafts     = store.listPackagesByStatus(LoRAPackageStatus::DRAFT);
     const auto validated  = store.listPackagesByStatus(LoRAPackageStatus::VALIDATED);
@@ -652,10 +665,12 @@ TEST(LoRAManifestStoreTest, ListProductsByPackage) {
 TEST(LoRAManifestStoreTest, ListProductsByStatus) {
     LoRAManifestStore store(makeStoreConfig());
     auto p1 = makeValidProduct("ps1");
-    p1.status = AdapterProductStatus::READY;
     auto p2 = makeValidProduct("ps2");
     p2.status = AdapterProductStatus::DEPLOYED;
-    store.storeProduct(p1);
+    ASSERT_TRUE(store.storeProduct(p1));
+    ASSERT_TRUE(store.transitionProductStatus(
+        p1.product_id, AdapterProductStatus::BUILDING,
+        AdapterProductStatus::READY));
     EXPECT_FALSE(store.storeProduct(p2));
 
     EXPECT_EQ(store.listProductsByStatus(AdapterProductStatus::READY).size(),    1u);
@@ -817,13 +832,10 @@ TEST(LoRALifecycleIntegrationTest, FullPipelinePackageToDeployedProduct) {
     store.storePackage(pkg);
     EXPECT_TRUE(store.verifyPackageIntegrity("lifecycle-pkg"));
 
-    // Step 2: Validate package
-    {
-        auto p = store.loadPackage("lifecycle-pkg").value();
-        p.status = LoRAPackageStatus::VALIDATED;
-        signPackage(p);
-        store.storePackage(p);
-    }
+    // Step 2: Validate package through the owner-authorized lifecycle API.
+    ASSERT_TRUE(store.transitionPackageStatus(
+        "lifecycle-pkg", LoRAPackageStatus::DRAFT,
+        LoRAPackageStatus::VALIDATED));
     EXPECT_EQ(store.loadPackage("lifecycle-pkg")->status, LoRAPackageStatus::VALIDATED);
 
     // Step 3: Build product from validated package
@@ -832,13 +844,10 @@ TEST(LoRALifecycleIntegrationTest, FullPipelinePackageToDeployedProduct) {
     signProduct(prod);
     store.storeProduct(prod);
 
-    // Step 4: Mark product READY with hash
-    {
-        auto p = store.loadProduct("lifecycle-prod").value();
-        p.status = AdapterProductStatus::READY;
-        signProduct(p);
-        store.storeProduct(p);
-    }
+    // Step 4: Mark the product READY through the owner-authorized lifecycle API.
+    ASSERT_TRUE(store.transitionProductStatus(
+        "lifecycle-prod", AdapterProductStatus::BUILDING,
+        AdapterProductStatus::READY));
     EXPECT_TRUE(store.verifyProductIntegrity("lifecycle-prod"));
     EXPECT_EQ(store.loadProduct("lifecycle-prod")->status, AdapterProductStatus::READY);
 
@@ -852,12 +861,9 @@ TEST(LoRALifecycleIntegrationTest, FullPipelinePackageToDeployedProduct) {
     }
     EXPECT_EQ(store.listProductsByStatus(AdapterProductStatus::DEPLOYED).size(), 0u);
 
-    // Step 6: Deprecate source package (products still valid)
-    {
-        auto p = store.loadPackage("lifecycle-pkg").value();
-        p.status = LoRAPackageStatus::DEPRECATED;
-        p.computeManifestHash();
-        store.storePackage(p);
-    }
+    // Step 6: Deprecate source package (products still valid).
+    ASSERT_TRUE(store.transitionPackageStatus(
+        "lifecycle-pkg", LoRAPackageStatus::VALIDATED,
+        LoRAPackageStatus::DEPRECATED));
     EXPECT_EQ(store.listPackagesByStatus(LoRAPackageStatus::DEPRECATED).size(), 1u);
 }
