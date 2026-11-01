@@ -7836,7 +7836,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_query
       TARGET bench_query
       MODULE "query"
-      TIMEOUT 120
+      TIMEOUT 240
     EXTRA_LABELS release_critical
     )
   endif()

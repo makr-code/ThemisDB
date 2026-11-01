@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -40,14 +40,15 @@ Exact model backend not verifiable from final document text alone.
 
 ## Integration gaps operators must account for
 
-- The built-in snapshot check tests ID presence only. Restore and traffic-shift
-  handlers report success without calling storage or traffic adapters.
-- Catch-up checks quorum, not replication position. Verification checks for at
-  least one healthy node and, if configured, quorum; it does not validate restored
-  contents or recovery-site identity.
+- Non-dry-run snapshot validation, restore, replication-position catch-up,
+  requested traffic shift, and recovered-state verification fail closed when
+  their step hook/adapter is not configured. Quorum alone is not catch-up proof.
+- The manager does not validate the correctness of configured hooks; each hook
+  must perform the external operation and verify its result before returning true.
 - A configured spare manager causes `activateSpareIfNeeded()` to emit
-  `SPARE_ACTIVATION_FAILED` and return false; the main failover path ignores that
-  return value. Metadata update logs IDs and returns true without writing metadata.
+  `SPARE_ACTIVATION_FAILED` and return false; the main failover path now blocks
+  completion on that result. Metadata persistence remains unimplemented and
+  returns failure rather than success.
 - A dry run skips built-in prechecks and operational steps. The
   `allow_dry_run_without_managers` configuration field does not change this
   behavior in the current implementation. Step hooks replace the built-in handler

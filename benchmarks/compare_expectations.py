@@ -107,6 +107,9 @@ def _parse_constraint(text: str) -> tuple[Optional[str], Optional[float], Option
     op = m.group(1)
     val = _parse_number(m.group(2))
     unit = (m.group(3) or "").lower().replace(" ", "").replace("ops/sec", "ops/s")
+    if unit == "mops/s":
+        val *= 1_000_000.0
+        unit = "ops/s"
     return op, val, unit or None
 
 

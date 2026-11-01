@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4.0-alpha  
-**Last Updated:** 2026-10-30 (Wave C evidence status and governance target reconciliation)
+**Last Updated:** 2026-10-31 (pointer to audit-derived production-readiness roadmap; Wave C evidence status unchanged since 2026-10-30)
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). Wave C (Security Production Validation) remains open: the latest tracked closure manifest (2026-10-01) records C1/C2 as successful, C3 sustained-load evidence as pending, and C4 compliance sign-off as in progress. Its linked validation artifact expired 2026-10-30; refresh the evidence before promoting these gates. GA promotion also remains gated by unresolved Wave-A/B evidence and final human sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. **Q3 2026 quarterly pentest complete (2026-09-28): 0 critical findings, 1 high finding (30-day remediation deadline), gate PASS. See `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`.**
 <!--
 AI_Used: true
@@ -39,6 +39,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - `ai_context/` contains active operational context for AI agents and engineering coordination; it is explanatory and must remain aligned to the root roadmap rather than redefining the project status.
 - `ai_working/` contains historical execution snapshots and evidence records. These files are explicitly non-normative and must not be used as the basis for current GA or launch claims unless explicitly promoted by root governance documents.
 - Canonical read order for active status: `ROADMAP.md` -> module `src/<module>/ROADMAP.md` -> current governance/release docs -> `ai_context/` operational summaries -> `ai_working/` historical evidence.
+- Audit-derived production-readiness plan (non-normative for release status; items must be mirrored here or in module roadmaps before they count): [audit/ROADMAP.md](audit/ROADMAP.md), based on [audit/FULL_DEEP_DIVE_AUDIT_2026-10-31.md](audit/FULL_DEEP_DIVE_AUDIT_2026-10-31.md) (2 Critical / 22 High findings; verdict: not production-ready).
 
 ## Source-Verified Reality Check (2026-09-09)
 
