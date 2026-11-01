@@ -24,9 +24,10 @@ than presented as measured results.
 The scheduled [thematic benchmark workflow](../../.github/workflows/benchmark-thematic-suites.yml)
 is configured to run the metadata cache suite by building only `bench_metadata_cache` with
 LLM targets disabled. The reusable job installs yaml-cpp, records run/commit and
-runner CPU details in `run_metadata.json`, and stores non-empty Google Benchmark
-JSON as `results/bench_metadata_cache.json`. A missing or empty result fails the
-metadata benchmark gate.
+runner CPU, OS, compiler/CMake, and apt dependency versions in
+`run_metadata.json`, and stores non-empty Google Benchmark JSON as
+`results/bench_metadata_cache.json`. A missing or empty result fails the metadata
+benchmark gate.
 
 To review actual measurements, download the `benchmark-pipeline-<scenario>-metadata-<run-id>`
 artifact from a successful run. Do not copy values into this document without
