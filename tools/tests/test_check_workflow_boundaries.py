@@ -297,6 +297,26 @@ def test_core_gate_delegates_issue_permissions_to_build_components():
         assert caller["permissions"]["pull-requests"] == "write"
 
 
+def test_release_critical_quality_build_explicitly_uses_system_dependencies(tmp_path: Path):
+    root = Path(__file__).resolve().parents[2]
+    core = yaml.safe_load((root / ".github/workflows/gate-pr-core.yml").read_text())
+    inputs = core["jobs"]["quality-test-build"]["with"]
+    assert inputs["enable_sccache_gha"] is False
+    assert "-DCMAKE_TOOLCHAIN_FILE=" in inputs["configure_flags"].split()
+    assert "dependencies installed via apt" in inputs["setup_command"]
+    reusable = yaml.safe_load((root / ".github/workflows/reusable-cmake-build.yml").read_text())
+    resolver = next(step for step in reusable["jobs"]["build"]["steps"] if step.get("id") == "resolve_mode")
+    output = tmp_path / "output"
+    subprocess.run(
+        ["bash", "-c", resolver["run"]],
+        env={**os.environ, **{key: "" for key in resolver["env"]},
+             "BUILD_MODE": inputs["build_mode"], "PRESET": inputs["preset"],
+             "CONFIGURE_FLAGS": inputs["configure_flags"], "GITHUB_OUTPUT": str(output)},
+        check=True, capture_output=True,
+    )
+    assert "-DCMAKE_TOOLCHAIN_FILE=" in output.read_text()
+
+
 def test_cmake_cache_retries_disable_forced_launcher_without_resetting_toolchain():
     workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "reusable-cmake-build.yml"
     steps = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]["build"]["steps"]
@@ -329,7 +349,7 @@ def test_cmake_cache_recovery_propagates_status(tmp_path: Path, stage, retry_sta
         '#!/bin/bash\n'
         'echo "$*" >> "$CALLS_FILE"\n'
         'if [[ "$*" == *"-DTHEMIS_ENABLE_COMPILER_CACHE=OFF"* ]]; then\n'
-        '  if [[ "$TEST_STAGE" == Configure && ( -v CMAKE_C_COMPILER_LAUNCHER || -v CMAKE_CXX_COMPILER_LAUNCHER ) ]]; then exit 8; fi\n'
+        '  if [[ -v CMAKE_C_COMPILER_LAUNCHER || -v CMAKE_CXX_COMPILER_LAUNCHER ]]; then exit 8; fi\n'
         '  # Arrow rediscovers sccache after the compiler-probe retry clears launchers.\n'
         '  if [[ "$SCCACHE_GHA_ENABLED" != false ]]; then\n'
         '    echo "sccache: error: Server startup failed: cache storage failed to read"\n'
@@ -446,6 +466,220 @@ def test_release_matrix_honors_sccache_backend_selection():
         workflow["jobs"]["release-platform-matrix"]["with"]["enable_sccache_gha"]
         == "${{ matrix.enable_sccache_gha }}"
     )
+
+
+def test_cache_snapshot_inventory_detects_growth_without_timestamp_churn(tmp_path: Path):
+    script = Path(__file__).resolve().parents[2] / ".github/scripts/cache-directory-fingerprint.sh"
+    archive_dir = tmp_path / "archives with spaces"
+    downloads = tmp_path / "downloads"
+
+    def fingerprint():
+        return subprocess.run(
+            ["bash", str(script), str(archive_dir), str(downloads)],
+            check=True, capture_output=True, text=True,
+        ).stdout.strip()
+
+    empty = fingerprint()
+    archive_dir.mkdir()
+    assert fingerprint() == empty
+    archive = archive_dir / "abi.zip"
+    archive.write_bytes(b"completed package")
+    populated = fingerprint()
+    assert populated != empty
+    os.utime(archive, (1, 1))
+    assert fingerprint() == populated
+    archive.write_bytes(b"larger completed package")
+    assert fingerprint() != populated
+    archive.unlink()
+    assert fingerprint() == empty
+    downloads.mkdir()
+    (downloads / "source.tar.gz").write_bytes(b"download")
+    assert fingerprint() != empty
+
+
+@pytest.mark.parametrize(
+    ("name", "expected_count"),
+    [("build-wave-a-gpu.yml", 4), ("build-wave-b-transaction.yml", 6),
+     ("build-benchmarks.yml", 3)],
+)
+def test_specialized_sccache_restore_prefixes_match_source_change_keys(name, expected_count):
+    root = Path(__file__).resolve().parents[2]
+    workflow = yaml.safe_load((root / ".github/workflows" / name).read_text())
+    count = 0
+    for job_name, job in workflow["jobs"].items():
+        for step in job.get("steps", []):
+            cache = step.get("with", {})
+            key = cache.get("key", "")
+            if not key.startswith("sccache-"):
+                continue
+            count += 1
+            prefix = cache["restore-keys"].strip()
+            assert key.startswith(prefix), (name, job_name, key, prefix)
+            assert "${{ runner.os }}" in prefix
+            assert "${{ runner.arch }}" in prefix
+            assert "${{ github.job }}" in prefix
+            assert "hashFiles" not in prefix
+            # A source change must still restore the previous job/architecture cache.
+            assert key.split("${{ hashFiles", 1)[0] == prefix
+    assert count == expected_count
+
+
+def test_pinned_release_sources_use_workflow_revision_cache_tooling():
+    root = Path(__file__).resolve().parents[2]
+    job = yaml.safe_load((root / ".github/workflows/reusable-cmake-build.yml").read_text())["jobs"]["build"]
+    checkout = next(step for step in job["steps"]
+                    if step.get("name") == "Checkout cache tooling for pinned release sources")
+    assert checkout["if"] == "inputs.source_sha != ''"
+    assert checkout["with"]["ref"] == "${{ github.workflow_sha }}"
+    assert checkout["with"]["path"] == ".ci-cache-tools"
+    assert checkout["with"]["persist-credentials"] is False
+    assert checkout["with"]["sparse-checkout"] == ".github/scripts/cache-directory-fingerprint.sh"
+    assert "inputs.source_sha != ''" in job["env"]["THEMIS_CACHE_TOOLS_PREFIX"]
+    for name in ("cache_before", "cache_after"):
+        inventory = next(step for step in job["steps"] if step.get("id") == name)
+        assert "${THEMIS_CACHE_TOOLS_PREFIX}.github/scripts/" in inventory["run"]
+        assert job["steps"].index(checkout) < job["steps"].index(inventory)
+
+
+@pytest.mark.parametrize(
+    ("runner_os", "compiler", "expected"),
+    [("Windows", "msvc", "msvc-14.44.35207"),
+     ("Windows", "", "msvc-14.44.35207"),
+     ("Linux", "gcc", "gcc-13.3.0"),
+     ("macOS", "clang", "Apple_clang_version_17.0.0")],
+)
+def test_cache_identity_uses_selected_compiler(tmp_path, runner_os, compiler, expected):
+    root = Path(__file__).resolve().parents[2]
+    steps = yaml.safe_load((root / ".github/workflows/reusable-cmake-build.yml").read_text())["jobs"]["build"]["steps"]
+    initialize = next(step for step in steps if step.get("name") == "Initialize compiler and dependency cache environment")
+    msvc = next(step for step in steps if step.get("name") == "Setup MSVC environment (Windows only)")
+    assert steps.index(msvc) < steps.index(initialize)
+    values = {
+        "inputs.cache_arch": "x64", "runner.arch": "X64",
+        "inputs.cache_compiler": compiler, "inputs.vcpkg_triplet": "test-triplet",
+        "runner.os": runner_os, "inputs.build_mode": "default",
+        "inputs.preset": "", "inputs.configure_flags": "",
+    }
+    script = initialize["run"]
+    for key, value in values.items():
+        script = script.replace("${{ " + key + " }}", value)
+    assert "${{" not in script
+    bin_dir = tmp_path / "bin"
+    bin_dir.mkdir()
+    for name, body in {
+        "gcc": 'test "$1" = -dumpfullversion || exit 1\necho 13.3.0',
+        "clang": 'echo "Apple clang version 17.0.0"\necho "Target: arm64-apple-darwin"',
+    }.items():
+        command = bin_dir / name
+        command.write_text("#!/bin/bash\n" + body + "\n")
+        command.chmod(0o755)
+    output = tmp_path / "env"
+    subprocess.run(
+        ["bash", "-c", script], cwd=root,
+        env={**os.environ, "PATH": f"{bin_dir}{os.pathsep}{os.environ['PATH']}",
+             "VCToolsVersion": "14.44.35207", "GITHUB_WORKSPACE": str(tmp_path),
+             "GITHUB_ENV": str(output)}, check=True, capture_output=True,
+    )
+    assert f"THEMIS_COMPILER_VERSION={expected}\n" in output.read_text()
+    assert "THEMIS_VCPKG_REVISION=" in output.read_text()
+    restore = next(step for step in steps if step.get("id") == "restore_cmake_cache")
+    assert "env.THEMIS_VCPKG_REVISION" in restore["with"]["key"]
+    for name in ("reusable-cmake-build.yml", "msvc.yml"):
+        job = "build" if name.startswith("reusable") else "analyze"
+        workflow = yaml.safe_load((root / ".github/workflows" / name).read_text())
+        restore = next(step for step in workflow["jobs"][job]["steps"]
+                       if step.get("uses") == "actions/cache/restore@v5")
+        assert "'ports/**'" in restore["with"]["key"]
+        assert "'triplets/**'" in restore["with"]["key"]
+
+
+@pytest.mark.parametrize(
+    ("workflow_name", "job_name", "restore_id", "save_name", "next_step"),
+    [
+        ("reusable-cmake-build.yml", "build", "restore_cmake_cache",
+         "Save updated compiler and dependency cache", "Validation"),
+        ("msvc.yml", "analyze", "restore_vcpkg_cache",
+         "Save updated vcpkg cache before analysis", "Ensure sccache is available"),
+    ],
+)
+def test_cache_snapshots_save_only_growth_before_downstream_failures(
+    workflow_name, job_name, restore_id, save_name, next_step
+):
+    workflows = Path(__file__).resolve().parents[2] / ".github/workflows"
+    steps = yaml.safe_load((workflows / workflow_name).read_text())["jobs"][job_name]["steps"]
+    restore = next(step for step in steps if step.get("id") == restore_id)
+    save = next(step for step in steps if step.get("name") == save_name)
+    assert restore["uses"] == "actions/cache/restore@v5"
+    assert "${{ github.run_id }}-${{ github.run_attempt }}" in restore["with"]["key"]
+    assert save["uses"] == "actions/cache/save@v5"
+    assert save["with"]["path"] == restore["with"]["path"]
+    assert save["with"]["key"] == "${{ steps." + restore_id + ".outputs.cache-primary-key }}"
+    assert "!cancelled()" in save["if"]
+    assert "steps.cache_after.outputs.fingerprint != steps.cache_before.outputs.fingerprint" in save["if"]
+    assert steps.index(save) < next(i for i, step in enumerate(steps) if step.get("name") == next_step)
+    if workflow_name == "reusable-cmake-build.yml":
+        after = next(step for step in steps if step.get("id") == "cache_after")
+        assert "steps.configure.outcome == 'failure'" in after["if"]
+        assert len(restore["with"]["restore-keys"].strip().splitlines()) == 1
+    else:
+        after = next(step for step in steps if step.get("id") == "cache_after")
+        assert "steps.prepare_vcpkg.outcome == 'success'" in after["if"]
+        prepare = next(step for step in steps if step.get("id") == "prepare_vcpkg")
+        assert "$PSNativeCommandUseErrorActionPreference = $true" in prepare["run"]
+        for variable in ("VCPKG_DOWNLOADS", "VCPKG_DEFAULT_BINARY_CACHE", "VCPKG_BINARY_SOURCES"):
+            assert "$env:" + variable + " =" in prepare["run"]
+            assert prepare["run"].index("$env:" + variable + " =") < prepare["run"].index(
+                'Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/bootstrap-vcpkg.bat"'
+            )
+
+
+def test_windows_release_keeps_github_sccache_backend_enabled(tmp_path: Path):
+    workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
+    workflow = yaml.safe_load((workflows / "release-build-matrix.yml").read_text(encoding="utf-8"))
+    plan = workflow["jobs"]["prepare-release-matrix"]["steps"][0]
+    output = tmp_path / "outputs"
+    env = {
+        **os.environ,
+        "BUILD_MATRIX": "windows-amd64-only",
+        "OS_SELECTOR": "all",
+        "ARCH_SELECTOR": "all",
+        "EDITION": "community",
+        "BUILD_TYPE": "Release",
+        "PACKAGING": "auto",
+        "DISTRIBUTION": "all",
+        "RUN_NUMBER": "1",
+        "GITHUB_OUTPUT": str(output),
+    }
+    subprocess.run(["bash", "-c", plan["run"]], env=env, check=True, capture_output=True)
+    lane = json.loads(output.read_text(encoding="utf-8").removeprefix("matrix="))["include"][0]
+
+    assert lane["id"] == "windows-amd64"
+    assert lane["enable_sccache_gha"] is True
+    for command in ("configure_command", "build_command"):
+        assert "SCCACHE_GHA_ENABLED=false" not in lane[command]
+        assert "CMAKE_C_COMPILER_LAUNCHER=sccache" in lane[command]
+        assert "CMAKE_CXX_COMPILER_LAUNCHER=sccache" in lane[command]
+
+
+def test_vcpkg_cache_paths_match_the_installation_modes():
+    workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
+    reusable = yaml.safe_load((workflows / "reusable-cmake-build.yml").read_text(encoding="utf-8"))
+    dependency_cache = next(
+        step for step in reusable["jobs"]["build"]["steps"]
+        if step.get("id") == "restore_cmake_cache"
+    )
+    assert "${{ env.THEMIS_VCPKG_CACHE_DIR }}" in dependency_cache["with"]["path"]
+    assert "${{ env.THEMIS_VCPKG_DOWNLOADS_DIR }}" in dependency_cache["with"]["path"]
+    assert "${{ github.workspace }}/vcpkg_installed" not in dependency_cache["with"]["path"]
+
+    msvc = yaml.safe_load((workflows / "msvc.yml").read_text(encoding="utf-8"))
+    steps = msvc["jobs"]["analyze"]["steps"]
+    submodule_step = next(i for i, step in enumerate(steps) if step.get("id") == "vcpkg")
+    cache_step = next(i for i, step in enumerate(steps) if step.get("id") == "restore_vcpkg_cache")
+    assert submodule_step < cache_step
+    assert "${{ github.workspace }}/vcpkg/installed" in steps[cache_step]["with"]["path"]
+    assert "${{ github.workspace }}/.vcpkg-binary-cache" in steps[cache_step]["with"]["path"]
+    assert "${{ steps.vcpkg.outputs.commit }}" in steps[cache_step]["with"]["key"]
 
 
 @pytest.mark.parametrize(

@@ -268,8 +268,8 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/.cache/sccache
-          key: sccache-critical-baselines-${{ hashFiles('benchmarks/auth/**', 'benchmarks/voice/**', 'benchmarks/rag/**', 'src/auth/**', 'src/voice/**', 'src/query/**') }}-${{ runner.os }}
-          restore-keys: sccache-critical-baselines-${{ runner.os }}-
+          key: sccache-critical-baselines-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('benchmarks/auth/**', 'benchmarks/voice/**', 'benchmarks/rag/**', 'src/auth/**', 'src/voice/**', 'src/query/**') }}
+          restore-keys: sccache-critical-baselines-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
 
       - name: Configure broad baseline build
         run: |
@@ -451,8 +451,8 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/.cache/sccache
-          key: sccache-wave-a-benchmarks-${{ matrix.flow_name }}-${{ hashFiles('benchmarks/**', 'src/**', 'cmake/**', 'CMakeLists.txt', 'CMakePresets.json') }}-${{ runner.os }}
-          restore-keys: sccache-wave-a-benchmarks-${{ matrix.flow_name }}-${{ runner.os }}-
+          key: sccache-wave-a-benchmarks-${{ matrix.flow_name }}-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('benchmarks/**', 'src/**', 'cmake/**', 'CMakeLists.txt', 'CMakePresets.json') }}
+          restore-keys: sccache-wave-a-benchmarks-${{ matrix.flow_name }}-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
 
       - name: Configure benchmark build
         env:
@@ -561,8 +561,8 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/.cache/sccache
-          key: sccache-wave-a-longrun-${{ matrix.flow_name }}-${{ hashFiles('tests/**', 'src/**', 'cmake/**', 'CMakeLists.txt', 'CMakePresets.json') }}-${{ runner.os }}
-          restore-keys: sccache-wave-a-longrun-${{ matrix.flow_name }}-${{ runner.os }}-
+          key: sccache-wave-a-longrun-${{ matrix.flow_name }}-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('tests/**', 'src/**', 'cmake/**', 'CMakeLists.txt', 'CMakePresets.json') }}
+          restore-keys: sccache-wave-a-longrun-${{ matrix.flow_name }}-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
 
       - name: Configure long-run test build
         env:

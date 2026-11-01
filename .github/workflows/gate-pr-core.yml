@@ -189,7 +189,7 @@ jobs:
     if: github.event_name == 'pull_request' && github.base_ref != ''
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
-      enable_sccache_gha: true
+      enable_sccache_gha: false
       build_mode: tests
       preset: pr-release-critical
       setup_command: >-
@@ -199,6 +199,7 @@ jobs:
         -DTHEMIS_BUILD_BENCHMARKS=OFF
         -DTHEMIS_ENABLE_LLM=ON
         -DTHEMIS_ENABLE_GPU=OFF
+        -DCMAKE_TOOLCHAIN_FILE=
       build_command: >-
         PARALLEL_JOBS="$(nproc 2>/dev/null || echo 4)";
         if cmake --build build-pr-release-critical --target help | grep -Eq '^[[:space:]]*themis_release_critical_tests:'; then

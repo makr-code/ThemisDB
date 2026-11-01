@@ -109,6 +109,46 @@ Focused offline checks: `python -m unittest discover -s tests -p
 These checks do not publish releases or contact external package registries.
 Actual WinGet schema validation remains in the Windows job via `winget validate`.
 
+## C++ build cache contracts
+
+The reusable CMake workflow stores vcpkg download files and binary package
+archives under the runner/architecture/compiler/triplet-scoped cache. The
+binary archive cache is the portable dependency cache; do not point cache steps
+at a root-level `vcpkg_installed` directory that manifest-mode builds do not
+use. Windows release lanes must preserve `SCCACHE_GHA_ENABLED` from the reusable
+workflow input instead of disabling it in their configure/build commands.
+The standalone MSVC analysis lane initializes its vcpkg submodule before
+restoring `vcpkg/installed`; its cache key includes the submodule commit and the
+manifest/configuration hash. Cache-hit status, restored archive counts, and
+sccache statistics are emitted as run diagnostics.
+
+Dependency caches use explicit restore/save actions with run/attempt snapshot
+keys. A relative-filename/size inventory fingerprint suppresses unchanged uploads;
+it is not content integrity validation. The reusable checkpoints archive/download
+and compiler caches before validation, even after configure/build failure, but
+not cancellation. MSVC checkpoints its installed tree only after successful
+dependency preparation, before analysis. Reusable restore prefixes stay within
+the same OS/architecture/compiler/triplet lane. Snapshot growth and eviction
+remain operational risks; online speedups still require measurement.
+Dependency keys include overlay ports/triplets; the reusable also records the
+checked-out source's vcpkg gitlink revision. MSVC setup precedes cache identity
+and uses its toolset version instead of Git Bash GCC. The inventory helper uses
+Python filesystem APIs to avoid GNU-only `find -printf` on macOS.
+Pinned source builds sparse-checkout the inventory helper from the workflow
+revision separately, so older release sources need not contain the new script.
+The specialized GPU, transaction and benchmark workflows place OS/architecture/
+job (and matrix flow where applicable) before the source hash in sccache keys.
+Their restore prefixes now match that exact leading portion, enabling restore
+after source changes and isolating concurrent job saves. Their existing automatic
+success-only save policy remains unchanged; the new key layout starts cold.
+
+Focused regression checks: `python -m pytest tools/tests/test_check_workflow_boundaries.py -q`.
+The apt-based `gate-pr-core.yml` release-critical quality lane explicitly clears
+the toolchain and uses local sccache. This avoids the observed GHA backend outage
+followed by a missing-vcpkg-toolchain reconfigure failure. Build recovery unsets
+both launcher environment variables as configure recovery already does, without
+resetting other lanes' real toolchains. Full post-fix CI execution remains pending.
+
 Wiki health note: the generated Index source count/hash currently differs from
 `WIKI_STATUS.json`; use the canonical workflow sources above for this contract.
 Generated source inventories below are snapshots, not evidence that changed

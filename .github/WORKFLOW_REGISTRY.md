@@ -2,8 +2,8 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-10-31
-> Update Note: Repaired Linux release sccache backend outage handling; workflow inventory unchanged
+> Last Updated: 2026-11-01
+> Update Note: Documented vcpkg cache paths, Windows sccache backend and cache measurement limits; workflow inventory unchanged
 > Status: active
 > Total Workflows: 99 (verified 2026-10-29)
 > AI_Used: true
@@ -53,6 +53,62 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 - Linux-Release-Matrix-Lanes verwenden den über Actions-Cache persistierten lokalen
   sccache-Speicher statt des GHA-Cache-Backends; die Auswahl wird je Plattform
   explizit durchgereicht, damit ein `false` nicht durch einen Fallback überschrieben wird.
+
+### Build-Cache-Aktualisierung (2026-11-01)
+
+| Workflow | Aktualisierter Cache-Vertrag |
+|---|---|
+| [reusable-cmake-build.yml](workflows/reusable-cmake-build.yml) | Persistiert vcpkg-Downloads, Binary-Archive und lokalen sccache-Speicher; entfernt den nicht verwendeten Root-Installationspfad aus dem Cache. Loggt Archivanzahl/-größe und behält Archive auch bei fehlendem exakten Cache-Treffer. |
+| [release-build-matrix.yml](workflows/release-build-matrix.yml) | Windows-Configure-/Build-Befehle erhalten das aktivierte GHA-sccache-Backend vom Reusable. Linux bleibt beim lokalen Backend; Windows-Parallelitätslimits bleiben unverändert. |
+| [msvc.yml](workflows/msvc.yml) | Initialisiert das vcpkg-Submodul vor Restore, cached den klassischen Installationspfad `vcpkg/installed` und bindet den Schlüssel an Submodul-Commit und Manifest-/Configuration-Hash. Aktiviert den dateibasierten Binary-Cache explizit. |
+
+Workflow-Anzahl, Trigger, Concurrency und Release-/Security-Gates werden durch
+diese Änderungen nicht geändert. Der Reusable und die MSVC-Analyse verwenden
+weiterhin getrennte Cache-Namensräume. Die Reparatur führt weder einen gemeinsamen
+Windows-Paketfeed noch einen zusätzlichen Cache-Warming-Workflow ein.
+
+Zusätzlich verwenden Reusable und MSVC getrennte Restore-/Save-Schritte mit
+Run-/Attempt-Snapshot-Schlüsseln. Nur geänderte Dateiinventare werden gespeichert:
+im Reusable nach Configure/Build (auch bei Fehlern), in MSVC nach erfolgreicher
+Dependency-Vorbereitung und jeweils vor nachgelagerten Validierungs-/Analyseschritten.
+Abgebrochene Läufe speichern nicht. Reusable-Restore-Präfixe bleiben innerhalb
+derselben OS-/Architektur-/Compiler-/Triplet-Lane statt auf OS allein zurückzufallen.
+Dependency-Schlüssel berücksichtigen auch Overlay-Ports und Triplets; der Reusable
+liest zusätzlich die vcpkg-Gitlink-Revision des ausgecheckten Commits. MSVC wird vor
+der Cache-Initialisierung eingerichtet, sodass seine Toolset-Version statt des
+Git-Bash-GCC-Banners verwendet wird. Die Inventarprüfung nutzt Python statt
+GNU-spezifischem `find -printf` und funktioniert damit auch auf macOS.
+Gepinnte Release-Sources erhalten das Cache-Hilfsskript über einen separaten
+Sparse-Checkout der Workflow-Revision, ohne den Build-Source-Commit zu ändern.
+
+Die [Guidelines zur Cache-Diagnose](WORKFLOW_GUIDELINES.md#build-cache-betrieb-und-diagnose)
+beschreiben die drei getrennten Messgrößen Actions-Restore, vcpkg-Paket-Restore
+und Compiler-Treffer. Snapshot-Wachstum/Cache-Eviction und gleich große Änderungen
+unter gleichen Dateinamen bleiben Grenzen der Inventar-basierten Save-Erkennung.
+Die vorhandenen Regressionstests
+prüfen den Workflow-Vertrag; verbesserte Online-Trefferraten und Windows-Laufzeiten
+sind erst durch erfolgreiche Wiederholungsläufe nachzuweisen.
+
+### Spezialisierte sccache-Präfixe (2026-11-01)
+
+`build-wave-a-gpu.yml` (vier Cache-Schritte), `build-wave-b-transaction.yml`
+(sechs) und `build-benchmarks.yml` (drei) verwenden nun übereinstimmende
+Key-/Restore-Präfixe. OS, Architektur und Job stehen vor dem Source-Hash;
+Benchmark-Matrix-Lanes behalten zusätzlich ihre Flow-Namen. Damit können
+Source-Änderungen einen vorherigen Lane-Cache restaurieren, ohne verschiedene
+Jobs unter denselben Cache-Key zusammenzufassen. Automatische Saves, Trigger
+und Build-/Testverhalten bleiben unverändert. Einmaliger Cold-Start beim Wechsel
+der Schlüsselstruktur und weiterhin erfolgsabhängige Saves sind zu beachten.
+
+### Release-Critical-Quality-Recovery (2026-11-01)
+
+Die apt-basierte Quality-Build-Lane in `gate-pr-core.yml` verwendet lokalen
+sccache-Speicher und setzt `CMAKE_TOOLCHAIN_FILE` explizit leer. Dies verhindert
+die im CI beobachtete Retry-Kaskade aus GHA-sccache-Backendausfall und anschließend
+fehlender vcpkg-Toolchain beim Reconfigure. Reusable-Build-Recovery entfernt nun
+wie Configure-Recovery beide Launcher-Umgebungsvariablen. Bestehende echte
+Toolchain-Verträge anderer Lanes bleiben unverändert; Testselektion und Gates
+werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nachzuweisen.
 
 ## Leitprinzipien
 
