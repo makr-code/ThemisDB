@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,15 +14,18 @@ Exact model backend not verifiable from final document text alone.
 
 # Audit Report - Training Module
 
-> **Evidence status (2026-10-31):** This page includes historical issue #5414
-> scanner-triage claims. No current scanner run was performed for this
-> documentation review. The generated `MODULE_GAPS.md` snapshot is dated
-> 2026-06-04 and reports 171 findings, which does not reconcile with the 295
-> findings cited below. Current scanner/open-finding status is therefore
-> **unverified**; regenerate and reconcile the reports before using their totals
-> as current audit evidence.
+> **Evidence status (2026-11-01):** A full-mode scanner run against
+> `src/training` emitted 586 raw rows. The console reported 167 after
+> verification, but the JSON export retained 586 rows and its metadata reported
+> 167. A path/existence filter identified 81 existing-file rows in the training
+> module (44 HIGH, 33 MEDIUM, 4 LOW); the run also included 419 missing paths
+> under `src/training/docs/` and 86 rows outside the module. These are scanner hits, not
+> human-adjudicated open findings. The current open-finding count remains
+> **unverified** because the scanner output is inconsistent and scope-leaking.
+> See `MODULE_GAPS.md` for the run details; the June 171 and historical 295
+> Critical/High counts are not comparable to this run.
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: review | validated: 2026-11-01 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Summary
@@ -32,8 +35,8 @@ Exact model backend not verifiable from final document text alone.
 | Build registration | pass |
 | Source set size | pass (module core files present) |
 | Focused test presence | pass |
-| Open hardening findings | not assessed by this documentation update |
-| Critical blockers | not assessed by this documentation update |
+| Current scanner hits in existing training paths | 81 (44 HIGH, 33 MEDIUM, 4 LOW; not triaged) |
+| Open hardening findings / critical blockers | unverified; scanner output inconsistent and scope-leaking |
 
 ## Verified Files
 
@@ -78,8 +81,9 @@ scanner result or a statement that no findings remain open.
 - [scanner findings] The historical issue #5414 record reports 295 Critical/High
   findings triaged: 7 genuine defects fixed (data_race ×4, model_integrity_gap ×1,
   no_timeout ×2), with 288 reported false positives. The checked-in
-  `MODULE_GAPS.md` snapshot reports a different count (171 total findings); the
-  current scan evidence and reconciliation are unverified.
+  `MODULE_GAPS.md` snapshot reports a different count (171 total findings).
+  The 2026-11-01 scan is also not a valid historical reconciliation: its exported
+  JSON and metadata disagree, and its input scope leaked into unrelated modules.
 
 ## Compliance Snapshot
 

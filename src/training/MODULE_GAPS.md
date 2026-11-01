@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-06-04"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -17,10 +17,31 @@ Exact model backend not verifiable from final document text alone.
 > Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.
 >
-> **Historical snapshot:** Generated 2026-06-04. Its finding counts and
-> `Critical Findings Present` status are not current scanner results. No fresh
-> gap scan was run for this documentation update; regenerate this report and
-> reconcile it with `AUDIT.md` and `SECURITY.md` before treating it as current.
+> **Historical snapshot:** The detailed findings below were generated 2026-06-04.
+> Their counts and `Critical Findings Present` status are historical, not the
+> result of the current run. See the run and scope limitations below.
+
+## Current Scanner Run (2026-11-01)
+
+- Tool: `tools/gs3_orchestrator.py`, full mode, `--force-refresh`, input
+  `src/training`; the run used the repository state at commit `3fd7982953`.
+- The scanner emitted 586 raw rows. Its console summary reported 167 rows after
+  verification (48 HIGH, 53 MEDIUM, 66 LOW), but the exported JSON still
+  contained all 586 rows while its metadata described 167. The integrated
+  export therefore cannot be treated as a self-consistent authoritative total.
+- A path-and-existence filter of the raw output for
+  `src/training/`, `include/training/`, `tests/training/`, and
+  `benchmarks/training/` found 81 rows pointing to existing files: 44 HIGH,
+  33 MEDIUM, and 4 LOW. The other 419 rows under the training path referenced
+  missing paths under `src/training/docs/`, mostly from archived and research
+  document link checks. The run also emitted 86 rows outside the
+  training module, confirming scope leakage.
+- These are scanner hits, not human-adjudicated vulnerabilities or an open-issue
+  count. The current run is useful evidence but does not reconcile directly with
+  either the 171-finding June snapshot or the historical 295 Critical/High
+  triage; scanner version, scope, and output inconsistencies prevent a trend
+  comparison. Keep current open-finding status unverified pending corrected,
+  module-isolated output and triage.
 
 ## Scan Snapshot
 

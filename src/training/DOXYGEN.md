@@ -1,14 +1,32 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-11-01"
+Last Updated: "2026-11-01"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # TRAINING DOXYGEN
 
 Author: ThemisDB Contributors
 Created: 2026-11-01
 Last Updated: 2026-11-01
-Status: active
+Status: review
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index (relative to the artifact output root): `training/xml/index.xml`
-- Warnings log (relative to the artifact output root): `training/doxygen-warnings.log`
+- Generated with Doxygen 1.9.8 using `Doxyfile.audit` and
+  `scripts/generate_module_doxygen_xml.py`.
+- Run: 2026-11-01T06:40:29Z; training module result: PASS (exit code 0).
+- The XML index and warning log were written to a temporary output directory
+  and are not checked into the repository.
+- Warning-log length: 191 lines, including multiline warning continuations.
 
 ## Structure Metrics
 - C/C++ Files (scanned): 62

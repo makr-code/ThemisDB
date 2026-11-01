@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,11 +14,15 @@ Exact model backend not verifiable from final document text alone.
 
 # Security - Training Module
 
-> Scanner totals in the historical issue #5414 notes below are not a current
-> security assessment. No new scanner run was performed for this documentation
-> update; see [`AUDIT.md`](./AUDIT.md) for the discrepancy and follow-up.
+> The 2026-11-01 full-mode scanner run is not a security assessment or
+> human-adjudicated finding count: it emitted 586 raw rows, while its console
+> and JSON metadata reported 167 after verification; the JSON retained all 586
+> rows and the scan included unrelated paths. The training-path filter found 81
+> existing-file scanner hits (44 HIGH, 33 MEDIUM, 4 LOW). See
+> [`AUDIT.md`](./AUDIT.md) and [`MODULE_GAPS.md`](./MODULE_GAPS.md); historical
+> issue #5414 totals remain non-comparable.
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: review | validated: 2026-11-01 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 Report vulnerabilities via project-level SECURITY.md.
@@ -49,6 +53,9 @@ Security in the training module focuses on deterministic training-data handling,
 - broaden fault-injection coverage for checkpoint corruption and rollback edge cases.
 - deepen stress coverage for concurrent training and adapter lifecycle scenarios.
 - tighten diagnostics taxonomy across labeling, checkpoint, and serving incidents.
+- verify that production training integrations configure and enforce the
+  optional `QueryEngine::setCollectionAccessChecker()` hook; module code does
+  not install it.
 
 ## Historical Scanner Finding Triage (issue #5414, batches 1–6, 13–14)
 
@@ -65,6 +72,13 @@ The issue #5414 triage report recorded 295 Critical/High findings:
   included float-tensor variable names, generated comment headers, pimpl-pointer
   calls, and sentinel equality comparisons. These are historical claims only
   and do not establish the current scanner count or open-finding state.
+
+## Current Scanner Evidence
+
+The 2026-11-01 run and its scope/export inconsistencies are detailed in
+[`MODULE_GAPS.md`](./MODULE_GAPS.md). Its 81 existing-file hits under the
+training paths are not human-validated vulnerabilities; no current open
+security-finding count is claimed.
 
 ## Sourcecode Verification (Module: training/security)
 
