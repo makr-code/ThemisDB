@@ -1,22 +1,24 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-19"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
 Exact model backend not verifiable from final document text alone.
 
+Source level: 1; SOT domain: module-behavior. Canonical references: `include/transaction/transaction_manager.h`, `include/transaction/lock_manager.h`, `include/transaction/distributed_transaction_manager.h`, and `include/transaction/saga.h`. Related issue: #7390.
+
 # Transaction Runbook
 
 ## Operational scope
 
-This runbook covers the main operational failure modes for the transaction module: lock contention, transaction timeout, deadlock, compensation failure, distributed in-doubt states, and coordinator restart recovery.
+This runbook summarizes failure categories visible in transaction APIs. It does not define deployment-specific commands, dashboards, or an operator procedure for force-resolving transactions; TODO: add those only from current runtime/operations interfaces.
 
 ## Symptoms and likely causes
 
@@ -26,7 +28,7 @@ Symptoms:
 
 - transactions stall waiting for a resource,
 - operation latency increases under contention,
-- lock wait counters grow.
+- lock waiters/timeouts increase (where `LockManager` statistics are exposed).
 
 Likely causes:
 
@@ -45,7 +47,7 @@ Action:
 Symptoms:
 
 - transaction aborts after wait cycles,
-- deadlock detector reports cycle resolution,
+- deadlock APIs report a cycle/victim (where those diagnostics are surfaced),
 - throughput falls sharply under high contention.
 
 Likely causes:
@@ -105,7 +107,7 @@ Action:
 1. identify the affected transaction id and state,
 2. determine whether the issue is local lock contention, deadlock, or distributed uncertainty,
 3. inspect timeout, deadlock, or compensation metrics,
-4. abort or recover the transaction according to the module's explicit state machine,
+4. abort or recover the transaction only through the configured coordinator's documented API; TODO: specify deployment procedure and authorized recovery action,
 5. verify that resulting state is consistent across the storage/index layers.
 
 ## Escalation triggers

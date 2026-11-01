@@ -11,7 +11,7 @@
 
 #include <algorithm>
 #include <chrono>
-#include <uuid.h>
+#include <fstream>
 #include <fmt/format.h>
 
 namespace themis {

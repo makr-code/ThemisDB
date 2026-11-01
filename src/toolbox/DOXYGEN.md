@@ -1,9 +1,25 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-20"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # TOOLBOX DOXYGEN
+
+> **Staleness notice (2026-10-31):** This generated report includes old source paths and symbols from its XML snapshot; do not use its metrics/type list as the current API or implementation inventory. The semantic body is intentionally unchanged. Regenerate it from current Doxygen XML using the documented generator before publication; public headers and source remain authoritative.
+>
+> Exact model backend not verifiable from final document text alone.
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Status: review
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -1977,4 +1993,3 @@ Status: active
 - Brief: Clear the registered instance.
 - Parameters: none
 - Details: Intended for test isolation only. After reset() any call to instance() will throw std::logic_error until initialize() is called again. Not safe to call while any thread is executing a toolbox operation. Always call from a single-threaded context (e.g. TearDownTestSuite()).
-

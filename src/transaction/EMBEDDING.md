@@ -1,16 +1,18 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-19"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
 Exact model backend not verifiable from final document text alone.
+
+Source level: 1; SOT domain: module-behavior. Canonical references: `include/transaction/transaction_manager.h`, `include/transaction/distributed_transaction_manager.h`, `src/transaction/transaction_manager.cpp`, and `src/transaction/distributed_transaction_manager.cpp`. Related issue: #7390.
 
 # Transaction Embedding and Runtime Placement
 
@@ -44,7 +46,7 @@ The module therefore sits near the core of ThemisDB's correctness plane, not at 
 
 ### Local write boundary
 
-`TransactionManager` coordinates the local write path: begin a transaction, mutate the transactional state, then commit or rollback as a single unit. This is the core safety boundary for relational and index-backed updates.
+`TransactionManager` coordinates a local RocksDB-backed transaction lifecycle. This does not by itself establish atomicity for arbitrary external side effects or every separately managed index path; TODO: cite the specific integration contract before claiming those guarantees.
 
 ### Lock and contention boundary
 
@@ -52,7 +54,7 @@ The module therefore sits near the core of ThemisDB's correctness plane, not at 
 
 ### Compensation boundary
 
-`Saga` sits just below higher-level orchestration and enforces reverse-order compensation. It is used when a local or distributed workflow must unwind side effects without leaving the system in an uncertain state.
+`Saga` stores and invokes compensation callbacks. Application-defined callbacks determine the effect of compensation; this class does not guarantee that external side effects are fully undone.
 
 ### Distributed coordination boundary
 

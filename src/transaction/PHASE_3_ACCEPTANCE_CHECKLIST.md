@@ -1,8 +1,24 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-08"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+Source level: 1; SOT domain: module-behavior. Canonical references: `tests/transaction/test_transaction_fault_injection_phase3.cpp` and `tests/transaction/CMakeLists.txt`. Related issue: #7390.
+
 # Transaction Module - Phase 3 Acceptance Checklist
 **Date:** 2026-08-08
 **Phase:** 3 - Fault Injection and Extended Reliability
 **Target:** Q4 2026 - Q1 2027
-**Status:** ✓ IMPLEMENTATION COMPLETE (Build & Execution Verification Pending)
+**Status:** Historical implementation checklist; current source declares 11 test cases. Build and execution remain unverified in this documentation task.
 
 ---
 
@@ -53,8 +69,10 @@ Phase 3 extends Phase 1-2 reliability validation with comprehensive fault inject
 
 | File | Purpose | Test Count | Acceptance Criteria |
 |------|---------|-----------|-------------------|
-| `test_transaction_fault_injection_phase3.cpp` | Fault injection & chaos | 14 tests | AC-11, AC-12, AC-13 |
-| **TOTALS** | **Phase 3 Extended** | **14 tests** | **AC-11,12,13** |
+| `test_transaction_fault_injection_phase3.cpp` | Fault injection & chaos | 11 declared cases | AC-11, AC-12, AC-13 |
+| **TOTALS** | **Phase 3 source declarations** | **11 cases** | **AC-11,12,13** |
+
+> Detailed test names, totals, and fault-model claims elsewhere in this historical checklist do not fully match the current test source. Use the source and CMake registration as the current inventory; no execution is implied.
 
 ### Fault Injection Tests (test_transaction_fault_injection_phase3.cpp)
 
@@ -168,7 +186,7 @@ ctest --preset community-release --label "transaction;phase-3" -V
 ```
 
 ### Expected Output
-- All 14 tests pass or show expected fault handling
+- 11 test declarations are present; execution is not established by this checklist update
 - Stress tests complete 80-100+ operations
 - Long-running test sustains 5+ seconds
 - No segmentation faults despite fault injection
@@ -188,7 +206,7 @@ ctest --preset community-release --label "transaction;phase-3" -V
 ✓ Fault injection pattern enumeration and description
 
 ### Quality Metrics
-- **Test Count:** 14 focused tests
+- **Test declarations:** 11 focused test cases
 - **Concurrent Threads:** Up to 8 per stress test
 - **Fault Patterns:** 6 types (Random, Cascading, Simultaneous, Network, Slow, Byzantine)
 - **Failure Scenarios:** Prepare timeout, commit timeout, multi-shard, sequential crashes
@@ -200,10 +218,10 @@ ctest --preset community-release --label "transaction;phase-3" -V
 
 | Phase | Tests | Acceptance Criteria | Coverage |
 |-------|-------|-------------------|----------|
-| Phase 1 | 33 | AC-1,2,3,7 | Lifecycle, Isolation, Errors, Timeouts |
-| Phase 2 | 26 | AC-4,5,6,8,9,10 | Distributed, Coordination, SAGA, Compensation |
-| Phase 3 | 14 | AC-11,12,13 | Fault Injection, Chaos, Cascading Recovery |
-| **TOTAL** | **73** | **AC-1..13** | **Complete End-to-End Hardening** |
+| Phase 1 | 32 declarations | AC-1,2,3,7 | Lifecycle, Isolation, Errors, Timeouts |
+| Phase 2 | 27 declarations | AC-4,5,6,8,9,10 | Distributed, Coordination, SAGA, Compensation |
+| Phase 3 | 11 declarations | AC-11,12,13 | Fault Injection, Chaos, Cascading Recovery |
+| **TOTAL** | **70 declared cases** | **AC-1..13** | **Source inventory only; execution unverified** |
 
 ---
 
@@ -254,10 +272,9 @@ After Phase 3 verification:
 
 ## Sign-Off
 
-**Phase 3 Implementation:** COMPLETE  
-**Status:** Ready for Build & Test Verification  
+**Phase 3 Source Status:** Test file is present and registered. **Build/Execution Status:** Not verified by this documentation audit.
 **Date:** 2026-08-08  
-**Cumulative Tests:** 73 tests across Phases 1-3  
+**Cumulative declarations:** 70 test cases across Phases 1-3; execution unverified
 **Next Phase:** Phase 4 - Performance and Operational Hardening
 
 ---

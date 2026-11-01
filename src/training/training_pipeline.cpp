@@ -152,6 +152,7 @@ public:
         PipelineStats stats = PipelineStats();
         PipelineMetrics metrics = PipelineMetrics();
         auto pipeline_start = std::chrono::steady_clock::now();
+        std::vector<std::string> selected_sample_ids;
 
         // QW-40: Fail-closed guards against prompt injection
         // Guard 1 (Location 182): labeler_config validation (empty input)
@@ -309,6 +310,10 @@ public:
             stats.selection_output_count   = sel.selected_samples.size();
             stats.selection_filtered_count =
                 sel.audit_entry.input_sample_count - sel.selected_samples.size() ;
+            selected_sample_ids.reserve(sel.selected_samples.size());
+            for (const auto& sample : sel.selected_samples) {
+                selected_sample_ids.push_back(sample.id);
+            }
 
             metrics.endStage("data_selection");
 
@@ -331,10 +336,14 @@ public:
             metrics.beginStage("training");
             emitCallback("training", 0, "Starting LoRA training stage");
 
-            TrainingResult tr = trainer_->train(TrainingMode::INITIAL,
+            TrainingCallback training_callback =
                 [&](size_t epoch, size_t step, double loss, const std::string& msg) {
                     emitCallback("training", step, msg);
-                });
+                };
+            TrainingResult tr = config_.enable_data_selection
+                ? trainer_->trainSelected(
+                    TrainingMode::INITIAL, selected_sample_ids, std::move(training_callback))
+                : trainer_->train(TrainingMode::INITIAL, std::move(training_callback));
 
             stats.training_success = tr.success;
             stats.training_samples_consumed = tr.samples_trained;
@@ -342,6 +351,9 @@ public:
             stats.training_loss    = tr.training_loss;
             stats.accuracy         = tr.accuracy;
             stats.adapter_version  = tr.version;
+            if (!tr.success) {
+                stats.error_message = tr.error_message;
+            }
             metrics.endStage("training");
 
             emitCallback("training", 1,

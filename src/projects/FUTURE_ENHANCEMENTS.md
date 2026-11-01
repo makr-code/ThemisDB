@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-06"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Projects Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-08-06 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · ARCHITECTURE.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
@@ -23,7 +37,7 @@
 | lifecycle interfaces | deterministic state transition semantics |
 | versioning interfaces | immutable snapshot/restore behavior with integrity checks |
 | diff/template interfaces | stable delta/merge and template bootstrap contracts |
-| collaboration interfaces | permission-checked operations with bounded change feed behavior |
+| collaboration interfaces | sharing/permission-record operations, lock ownership checks, and bounded change feed behavior |
 
 ## Implementation Notes
 
@@ -44,6 +58,7 @@
 - project hot paths remain inside regression budgets.
 - snapshot/versioning/projection-sensitive operations remain stable at p95/p99 envelopes.
 - mapped benchmark manifests reach no-missing-case status for release gating.
+- Numeric thresholds and project-runtime baselines are not yet established; the current content/query benchmarks are not projects-module performance evidence.
 
 ## Security / Reliability
 

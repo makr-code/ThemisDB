@@ -14,7 +14,6 @@ Human_Author: "ThemisDB Team"
 
 AI provenance note: Exact model backend not verifiable from final document text alone.
 
-<!-- Status: PRODUCTION_CANDIDATE | Phase 1-3 complete | validated: 2026-08-10 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Zweck
@@ -40,24 +39,26 @@ Out of scope:
 
 ## Quickstart (Build/Run)
 
-The RAG sources are included in the standard ThemisDB build:
+RAG implementations are included through CMake source lists, but the main RAG
+source group is conditional on `THEMIS_ENABLE_LLM`; individual components may
+have separate or non-LLM wiring. The 100 files under `src/rag/` are not all
+unconditionally compiled by every build configuration. A representative
+configuration/build is:
 
 ```bash
 cmake -S . -B build
 cmake --build build
 ```
 
-To run the focused RAG integration tests:
+The focused tests are registered by `tests/rag/CMakeLists.txt`. For example:
 
 ```bash
-ctest --test-dir build -R "test_rag|test_hybrid_retriever|test_self_rag" -V
+ctest --test-dir build -R '^(test_rag_hybrid_retriever|test_rag_context_assembler|test_self_rag)_RagFocusedTests$' -V
 ```
 
-To run the Wave B quality-gate tests:
-
-```bash
-ctest --test-dir build -R "test_rag_quality|test_llm_judge_integration" -V
-```
+There is no dedicated `test_rag_quality` or `test_llm_judge_integration` entry
+in the RAG test directory. Use the actual registered test source/CTest name for
+the behavior being changed; the module guide maps common changes to tests.
 
 ## API/CLI Einstieg
 
@@ -105,30 +106,31 @@ The following diagram shows how the RAG module integrates with the server, LLM, 
 
 ```mermaid
 flowchart LR
-    Server["HttpServer\n(src/server/)"] -->|"RAG request"| HR["HybridRetriever\nhybrid_retriever.cpp"]
-    Server --> PID["PromptInjectionDetector\nprompt_injection_detector.cpp"]
-    HR -->|"BM25 + vector results"| CA["RagContextAssembler\nrag_context_assembler.cpp"]
-    CA -->|"assembled context"| LLM["LLM Backend\n(src/llm/)"]
-    LLM -->|"generated answer"| QCP["QualityControlPipeline\nquality_control_pipeline.cpp"]
-    QCP -->|"evaluation"| Judge["LLMJudge\nrag_judge.cpp"]
-    IB["RagIngestionBridge\nrag_ingestion_bridge.cpp"] -->|"enriched docs"| Storage["Storage\n(src/storage/)"]
-    Storage -->|"retrieval index"| HR
+    Search["Caller / search backend"] -->|"candidate lists"| HR["HybridRetriever\nhybrid_retriever.cpp"]
+    HR -->|"fused candidates"| CA["RAGContextAssembler\nrag_context_assembler.cpp"]
+    CA -->|"assembled context"| LLM["Caller-selected LLM backend"]
+    LLM -->|"answer + evidence, if called"| QCP["QualityControlPipeline\nquality_control_pipeline.cpp"]
+    Caller["Calling service"] -. "may invoke explicitly" .-> PID["PromptInjectionDetector\nprompt_injection_detector.cpp"]
+    Caller -. "may invoke explicitly" .-> Judge["RAGJudge\nrag_judge.cpp"]
+    IB["RAGIngestionBridge\nrag_ingestion_bridge.cpp"] -->|"optional writes"| Sinks["Injected vector / graph sinks"]
 ```
 
-**Kurzinterpretation:** The `HttpServer` routes RAG requests through injection detection, then hybrid retrieval, context assembly, and LLM generation. The quality-control pipeline and judge evaluate the final answer. The ingestion bridge keeps the retrieval index populated from storage.
+**Interpretation:** This is a possible composition, not a guaranteed server
+data flow. `HybridRetriever` fuses candidates supplied by its caller; it does
+not query an index. Safety checks, generation, evaluation, authorization, and
+sink persistence are caller/integration responsibilities.
 
-## Known Limitations
+## Current limitations and integration boundaries
 
 - Runtime behavior varies with the configured retriever, evaluator, and LLM backend combination.
-- Some cross-node production mixes still require broader benchmark evidence.
-- WikiIndexStore Phase B (RocksDB, BM25+, HNSW, RRF fusion) is not yet production-ready — Wave B target Q4 2026.
-- Release-grade benchmark evidence for persistent embedding cache and per-query retrieval guardrails is pending.
-- Multi-step RAG (iterative, map-reduce) and adaptive retrieval depth are production-ready with limits.
-
-**Production Readiness Status (Batch 3 verified 2026-08-14):**
-- **Ready for production:** Hybrid retrieval (BM25 + vector), streaming context assembly, retrieval quality gates, ingestion bridge, Self-RAG (Wave B B1 with ALCE acceptance gates)
-- **Production-ready with limits:** Multi-step RAG, adaptive retrieval depth control, prompt-injection detection
-- **Not yet production-ready:** WikiIndexStore Phase B — Wave B target Q4 2026
+- The module does not provide a mandatory end-to-end request pipeline or
+  automatically enforce authorization, injection scanning, or quality results.
+- `CrossEncoderReranker` currently scores with its heuristic implementation;
+  loading a model file does not run ONNX inference.
+- Monitoring components are not evidence of durable storage, external alerting,
+  or network telemetry export. See [operations](OPERATIONS.md).
+- Performance and acceptance targets are not measurements. See the current
+  benchmark registration notes in [research](RESEARCH.md).
 
 ## Verweise
 

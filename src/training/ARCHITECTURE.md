@@ -34,23 +34,12 @@ The training module composes auto-labeling and enrichment behavior, LoRA/AdaLoRA
 
 ## Training Data Paths
 
-- Prepared input paths include in-memory/custom inputs and configured collections.
-- DB-backed paths: `LegalAutoLabeler` reads a source collection through an
-  injected `QueryEngine`; the pipeline can persist generated samples to the
-  configured target collection; `IncrementalLoRATrainer` can read bounded
-  `input`/`output` records from its configured training collection. Invalid
-  collection identifiers, query errors, invalid result shapes, and empty valid
-  sample sets fail closed.
-- The focused RocksDB pipeline test verifies persisted labels are consumed by
-  training when selection is disabled. The pipeline's selection stage currently
-  records the selected subset and counts but does not pass those samples to the
-  trainer; the trainer reads its configured collection separately.
-- `TrainingDataIterator` is implemented in the `llm` module and has its own AQL
-  batch-reading path. Its behavior and integration are not owned by
-  `src/training/`.
-- Trainer/pipeline DB paths have focused tests, but per-input-route benchmarks
-  and broader integration acceptance remain open. Offline/test behavior is not
-  evidence of a live database read.
+- Prepared input paths: AQL built-in samples, custom/in-memory samples, JSON import, and `TrainingData` batch composition.
+- DB-backed paths: `LegalAutoLabeler` reads a source collection through an injected `QueryEngine`; generated samples are persisted to the configured target collection; `IncrementalLoRATrainer` reads bounded, validated samples from that collection; `TrainingDataIterator` executes AQL and yields batches.
+- Selection-to-training path: `TrainingPipeline` passes selected sample `_key` values to `IncrementalLoRATrainer`, which filters its collection query to those IDs and fails closed on empty or unavailable selections.
+- End-to-end path: `TrainingPipeline` wires the same `QueryEngine` through labeling, sample persistence, selection, and training; stage timings remain observable independently.
+- Data-source timings are reported separately from LoRA updates; DB failures never count as a successful DB-backed run.
+- The benchmark covers preparation-only and DB-backed CPU paths without a model artifact. Actual model-backed LoRA cases require a real GGUF and remain unmeasured when the preflight cannot find one.
 
 ## Core Contracts
 

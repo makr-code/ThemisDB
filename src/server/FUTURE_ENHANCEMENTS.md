@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Hinweis:** Vage Eintraege ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
 
 <!-- Status: current | validated: 2026-05-31 -->
@@ -21,12 +35,12 @@
 
 | Interface | Consumer | Notes |
 |---|---|---|
-| `HTTPServer::routeRequest(...)` | all HTTP endpoint flows | must enforce auth/validation sequencing |
+| `HttpServer::routeRequest(...)` | HTTP endpoint flows owned by `HttpServer` | request dispatch and route-local authorization/validation sequencing |
 | `AuthMiddleware::authorize(...)` | privileged endpoint routes | policy and scope checks must be explicit |
-| `RateLimiterV2::checkRateLimit(...)` | API gateway and middleware | local and distributed backends must preserve predictable denial behavior |
+| `TokenBucketRateLimiter::tryAcquire(...)` | callers using `rate_limiter_v2.h` | local and optional Redis-backed limit decisions; Redis failures reject the triggering request |
 | `RequestValidationMiddleware` | request intake path | JSON/schema checks before business logic |
 | `DistributedGateway` | cluster routing | failover, quorum, and config propagation correctness |
-| `WasmHandlerRegistry` | serverless endpoint path | bounded execution policy and safe failure behavior |
+| `WASMHandlerRegistry` | serverless endpoint path | bounded execution policy and safe failure behavior |
 
 ## Implementation Notes
 

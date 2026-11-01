@@ -1,60 +1,81 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/plugins/FUTURE_ENHANCEMENTS.md -->
+> Exact model backend not verifiable from final document text alone.
 
 # Plugins Module — Public Header Future Enhancements
 
-**Module Path:** `include/plugins/`
-**Canonical implementation enhancements:** [`../../src/plugins/FUTURE_ENHANCEMENTS.md`](../../src/plugins/FUTURE_ENHANCEMENTS.md)
-
----
+These are candidate areas for owner and policy review, not approved API
+commitments or scheduled work. Current header inventory is in
+[`README.md`](./README.md); implementation and release posture are summarized in
+[`../../src/plugins/ROADMAP.md`](../../src/plugins/ROADMAP.md) and
+[`../../ROADMAP.md`](../../ROADMAP.md).
 
 ## Scope
 
-Planned enhancements to the **public header contract** in `include/plugins/`. Runtime plugin sandboxing, OCI pull/push mechanics, WASM instantiation internals, and benchmark work remain tracked in:
-
-→ [`../../src/plugins/FUTURE_ENHANCEMENTS.md`](../../src/plugins/FUTURE_ENHANCEMENTS.md)
-
----
+- Clarify compatibility expectations for the declared public plugin contracts.
+- Identify any required runtime-enforced resource or capability policy.
+- Clarify WASM host-import and isolation guarantees for configured runtimes.
+- Align distribution-related declarations with an approved provenance policy.
 
 ## Design Constraints
 
-- `[x]` `IPlugin` must remain the mandatory base contract; all plugins must implement it.
-- `[x]` `PluginAPI` must remain a stable host-side surface; breaking changes require major-version bumps.
-- `[x]` OCI signing headers must fail closed for unsigned or untrusted artefacts.
-- `[x]` WASM host-function headers must not expose sandboxing or memory-isolation internals to plugin consumers.
-
----
+- Header declarations do not establish that a corresponding implementation is
+  built or wired into `PluginManager`.
+- Do not add a compatibility path, quota, sandbox, or signature guarantee
+  without an identified enforcement boundary and owner.
+- Keep OCI digests, manifest `.sig` hash comparison, and pinned-key catalog
+  verification distinct.
+- Do not promise performance characteristics without a registered benchmark
+  that measures the relevant behavior.
 
 ## Required Interfaces (Header Contract)
 
-| Interface | Declared In | Consumer | Status |
-|-----------|------------|----------|--------|
-| `IPlugin` load / unload / execute | `plugin_interface.h` | Plugin manager and host | ✅ Stable |
-| `PluginAPI` host-side API | `plugin_api.h` | All loaded plugins | ✅ Stable |
-| `OCIManifestSigning` verify | `oci_manifest_signing.h` | Plugin distribution pipeline | ✅ Stable |
-| `WASMComponentModel` instantiate | `wasm_component_model.h` | WASM plugin runtime | ✅ Stable |
-| `PluginHealthMonitor` check API | `plugin_health_monitor.h` | Orchestration and observability | ✅ Stable |
+- No new public interface is approved by this document.
+- Review `plugin_interface.h`, `plugin_manager.h`, `plugins_api_contract.h`,
+  `oci_registry_client.h`, and `signed_plugin_repository.h` before proposing
+  changes.
+- Any proposed interface must specify ownership, failure behavior, and
+  compatibility expectations in its declaration and API documentation.
 
----
+## Implementation Notes
 
-## Planned Enhancements
+- Confirm host/runtime wiring before documenting a declared interface as an
+  active runtime feature.
+- Define provenance and isolation requirements before changing the distribution
+  or WASM-facing API.
+- Record a concrete owner and acceptance criteria before adding an API roadmap
+  commitment.
 
-### Short-Term (Q3 2026)
+## Test Strategy
 
-- Document OCI manifest signing fail-closed semantics for unsigned artefacts in `oci_manifest_signing.h`.
-- Clarify WASM memory isolation guarantees and host-function capability limits in `wasm_host_api.h`.
-- Add explicit stability annotations for domain plugin interfaces (`IImageAnalysisPlugin`, `IAudioBackend`).
+- Pair any public contract change with focused tests for valid, invalid, and
+  unsupported inputs.
+- Verify runtime wiring and build-flag behavior independently from header
+  declaration presence.
+- Keep test registration distinct from evidence that tests were executed.
 
-### Medium-Term (Q4 2026)
+## Performance Targets
 
-- Introduce `plugin_policy.h` to provide per-plugin resource quotas, capability restrictions, and security-policy contract.
-- Add `IPlugin` version-negotiation protocol to `plugin_interface.h` to support graceful API evolution.
-- Expose benchmark-reference load/unload latency targets for hot-plug and WASM instantiation hot paths.
+- No numeric API performance target is approved.
+- Establish benchmark coverage and reproducible baselines before publishing
+  latency or throughput expectations.
 
-### Long-Term
+## Security / Reliability
 
-- Unify domain plugin result types behind a shared plugin-context envelope for consistent host-side handling.
-- Add extension hooks for embedders to register custom distribution backends alongside the OCI registry client.
-- Provide plugin capability-introspection APIs via `plugin_registry.h` to support dynamic feature negotiation.
+- A content digest alone does not authenticate a publisher.
+- Public declarations do not guarantee runtime isolation or enforcement.
+- Verify authorization, failure handling, and trust boundaries in the owning
+  implementation before documenting security guarantees.
+
+**TODO:** No owner, milestone, acceptance criteria, or approval for these
+candidates was verified in the canonical sources consulted.

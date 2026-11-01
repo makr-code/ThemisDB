@@ -25,11 +25,14 @@ the integrating service is responsible for access control.
 ## Source-supported controls
 
 - Index initialization requires a non-empty namespace and positive dimension.
-- Entity and search operations validate required state and query dimension.
+- `searchKnn()` validates query dimension. Batch and MVCC entity-write overloads
+  validate vector dimension; direct-commit `addEntity()` currently does not.
+- The source does not establish that NaN/Inf input values are rejected.
 - Optional index encryption controls and an audit-logger hook are exposed by
   `VectorIndexManager`.
-- Persistence/load and advanced-backend operations return explicit status
-  failures when operations cannot be completed.
+- Save/load and configuration methods expose status failures for their
+  documented error cases; optional-backend shutdown failures may be logged
+  without being propagated, and unsupported backends can follow fallback paths.
 
 These interfaces do not establish that encryption is enabled in a deployment,
 that key management is configured securely, or that audit events are retained.
@@ -38,7 +41,8 @@ Those are deployment responsibilities and require separate evidence.
 ## Risks and required handling
 
 - **Malformed or mismatched vectors:** check operation status and reject
-  failed writes or searches.
+  failed writes or searches. Until the direct-commit dimension gap is resolved,
+  validate vector lengths in the caller or use a dimension-checking overload.
 - **Optional backend mismatch:** confirm build support and configuration before
   enabling advanced indexing.
 - **Persisted index state:** validate save/load and recovery behavior for the

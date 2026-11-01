@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-09"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Architecture - Tensor Module
 
-<!-- Status: current | validated: 2026-09-09 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -10,13 +24,20 @@ The tensor module composes tensor index management, bridge-oriented ingestion/ru
 ## Main Execution Planes
 
 1. Tensor index and retrieval plane
-- tensor index, manager, and hybrid index bridge behavior
+- `TensorIndexManager::routeFor()` obtains a `TensorRouter` decision from a dimension-derived profile; `createIndex()` currently constructs a flat TT index without applying that decision. `HnswTTBridge` is a separate `ITensorIndex` implementation.
 
 2. Bridge and ingestion plane
-- tensor core/ingestion/mmap bridges and conversion behavior
+- `TensorIngestionBridge` produces TT artifacts; `TensorCoreStorageBridge` writes serialized records through an injected storage backend; `TensorMmapBridge` supplies lifetime-bound core slices. The default manager mapping copies into anonymous mapped memory; direct file mapping requires the separate FD or injected mapper path.
 
 3. Fingerprint and structural plane
-- tensor fingerprint graph, dedup-adjacent, and structural helper behavior
+- `AdapterRepository` may register TT trains with `TensorFingerprintGraph`. The graph stores first-core fingerprints and registered trains; key-based search uses TT inner products, while raw-fingerprint search scans candidates using approximate cosine similarity. Structural helpers are separate public surfaces.
+
+## Data Flow
+
+1. A caller supplies dimensions and vector count to `routeFor()` for a routing estimate.
+2. `createIndex()` creates or restores the manager's flat TT index; `addFlat()`/`searchFlat()` compress flat vectors, while `add()`/`search()` accept `TTTrain` values directly.
+3. Ingestion records are serialized and passed to the configured tensor storage backend. Adapter storage uses its own required backend and can optionally wire the fingerprint graph.
+4. Similarity requests use either registered-train comparison or the approximate first-core fingerprint path; invalid/missing registered-train state is rejected or skipped, with diagnostics on the corresponding error paths.
 
 ## Core Contracts
 
@@ -69,24 +90,26 @@ The tensor module composes tensor index management, bridge-oriented ingestion/ru
 ### Direct Upstream Dependencies (this module uses)
 | Module | Interface / File | Purpose |
 |--------|-----------------|---------|
-| storage | `include/storage/` (tensor_network_storage_engine.h, tensor_train_decomposer.h, tt_quantizer.h) | Storage provides TT-decomposition, quantisation, and tensor network storage engine surfaces |
-| utils | `include/utils/` | Logging, thread helpers, and SIMD distance utilities |
-| acceleration | `include/acceleration/` | Optional GPU acceleration for tensor operations |
+| CMake target | Linkage | Purpose |
+|--------|-----------------|---------|
+| `Threads::Threads` | public | Threading used by the library interface |
+| `spdlog::spdlog` | private | Internal logging |
+| `themis_core`, `themis_index`, `themis_rag`, `themis_query` | private, when each target exists | Optional integration with targets already defined by the build |
+| storage headers | source-level | TT representation/decomposition, routing, and tensor storage backend contracts |
 
-### Direct Downstream Consumers (modules that use this module)
-| Module | Via | Notes |
-|--------|-----|-------|
-| storage | `include/tensor/` (tensor_network_storage_engine.h, tensor_train_decomposer.h, tt_quantizer.h) | Storage layer imports tensor decomposition and quantisation from tensor module (mutual interface) |
-| rag | `include/tensor/` (tensor_rag_cost_model.h) | RAG uses tensor cost-model to estimate retrieval cost for tensor-based index paths |
+`themis_tensor` is a static library target requiring C++17. The source list and
+conditional links are defined in `src/tensor/CMakeLists.txt`; test and benchmark
+registration are defined in `tests/tensor/CMakeLists.txt` and
+`benchmarks/tensor/CMakeLists.txt`. There is no single tensor-module runtime
+configuration file: behavior is controlled by API arguments, injected backends,
+and optional compile-time guards.
 
 ## Integration Points
 
 ### Critical Integration: Storage Tensor Network Engine
 **Files:** `src/tensor/tensor_core_bridge.cpp` ↔ `storage/tensor_network_storage_engine.h`
-**Contract:** Tensor module exchanges decomposed artifacts with storage via the TT storage engine contract; artifact format must remain backward-compatible within a major version.
-**Thread Safety:** Storage engine serialises write access; tensor module coordinates via engine-provided locks.
+**Contract:** `TensorCoreStorageBridge` stores serialized `TensorCoreRecord` bytes through `ITensorStorageBackend`. A backend or default factory can be injected; absent either, the implementation uses an in-memory backend. The bridge does not add a separate signature-validation or durable-storage guarantee.
 
-### Critical Integration: RAG Tensor Cost Model
-**Files:** `src/tensor/` ↔ `rag/tensor_rag_cost_model.h`
-**Contract:** RAG queries tensor cost-model for per-query estimated retrieval cost; model must return deterministic estimates for identical inputs.
-**Thread Safety:** Cost model is read-only after initialisation; concurrent query calls are safe.
+### Integration: Ingestion contract
+**Files:** `src/tensor/tensor_core_bridge.cpp` ↔ `include/ingestion/ingestion_sinks.h`
+**Contract:** `TensorCoreStorageBridge` implements `ingestion::ITensorCoreBridge`; it validates tenant and record fields and reports backend write failures through its result type.

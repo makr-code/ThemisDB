@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-04-07"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
 
-<!-- Status: current | validated: 2026-04-07 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Security — Whisper Plugin
@@ -18,25 +32,28 @@ This document covers the security posture of the Whisper audio transcription plu
 
 | Threat | Attack Vector | Mitigation |
 |--------|--------------|------------|
-| Path traversal via audio file path | Attacker supplies `../../etc/passwd` as audio path | `WavAudioChunkReader` opens only regular files; path is not further interpreted; callers should normalise paths before passing |
-| Malformed WAV file causing buffer overflow | Crafted WAV with oversized chunk size headers | Parser validates all chunk sizes against the remaining file size; no heap allocation proportional to untrusted header values |
-| Model file tampering | Whisper model replaced with a crafted binary | SHA-256 digest check before model load via `WhisperConfig.model_sha256`; mismatch aborts initialization |
-| Transcript exfiltration via log sink | Transcription text written to log files | Transcript text is never passed to any log sink; only metadata (model_id, duration_ms, success flag) is logged |
-| Denial of service via large audio file | Attacker submits a multi-hour WAV file | `WavAudioChunkReader` reads the file into memory; callers should enforce a maximum file size limit before calling `transcribe()` |
-| Inference resource exhaustion | Flood of `transcribe()` calls consuming all CPU/GPU | Rate limiting must be applied at the API layer; `WhisperPlugin` itself has no rate limiter in v2.0.0 |
+| Caller-controlled audio path | Untrusted path is passed to `transcribeFile()` | This module does not enforce an allowed-root policy; callers must authorize/normalize paths. WAV uses file I/O and FFmpeg uses a shell-quoted argument. |
+| Malformed WAV | Crafted RIFF chunks or format fields | Parser checks RIFF/WAVE markers, accepted sample formats, and channel count (1–64); it reads the whole file into memory and has no WAV size cap. |
+| Model file mismatch | Model contents differ from configured expected digest | Optional `model_sha256` is checked before load by `WhisperCppTranscriber`; no digest means no integrity check. |
+| FFmpeg input/output abuse | Malicious or oversized media passed to the subprocess | Filename extension selects the reader; FFmpeg decodes content. Paths containing NUL are rejected, shell arguments are quoted, and raw output is capped at 500 MiB. No MIME/content allowlist is implemented. |
+| Transcript exposure in logs | Transcript text is written to module logs | Current whisper module code does not log transcript text; deployments should review caller/API logging separately. |
+| Resource exhaustion | Large WAV or many inference requests | WAV has no module-level file-size cap; FFmpeg output is capped. Calls through one plugin are serialized, but there is no rate limiter or request timeout here. |
 
 ---
 
 ## Security Controls
 
 ### Audio Input Validation
-- RIFF magic bytes (`RIFF`, `WAVE`) validated before any data is read into memory.
-- PCM format chunk validated: only 16-bit integer and 32-bit float samples accepted.
-- File size is checked against the declared data-chunk length before allocation.
+- RIFF/WAVE markers are checked after the file has been read into memory.
+- PCM format accepts 16-bit integer and 32-bit float samples; channel count must be in `[1, 64]`.
+- Data length is limited to the bytes remaining in the loaded file; this is not a bound on total WAV allocation.
+- FFmpeg output is converted to 16 kHz mono float32 and limited to 500 MiB.
 
 ### Model Integrity
-- SHA-256 digest verification of the model file is supported through `WhisperConfig.model_sha256`.
-- Initialization fails when the computed digest does not match the expected value.
+- SHA-256 verification is optional through `WhisperConfig.model_sha256` and is performed only by
+  the whisper.cpp backend before model load.
+- A digest mismatch or digest-read failure aborts model initialization. This does not establish
+  publisher authenticity unless the expected digest is obtained through a trusted channel.
 
 ### Provenance
 - Every `TranscriptionResult` carries `ingestion_source_type="WHISPER"` and `plugin_version`,
@@ -44,12 +61,13 @@ This document covers the security posture of the Whisper audio transcription plu
 
 ---
 
-## Security Checklist (v2.0.0)
+## Current module controls and gaps
 
 - [x] Magic-byte / format validation in WAV parser
-- [x] No transcript text in log output
-- [x] Exception isolation: transcriber exceptions caught, not propagated to caller
-- [x] Model file integrity check (SHA-256 gate in `WhisperCppTranscriber::initialize()`)
-- [ ] Maximum audio file size enforcement (caller responsibility; to be documented in API layer)
-- [ ] Rate limiting (caller / API layer responsibility)
-- [x] Thread-safety audit
+- [x] FFmpeg path argument quoting, NUL rejection, and 500 MiB output limit
+- [x] Optional expected model SHA-256 check in `WhisperCppTranscriber::initialize()`
+- [x] `WhisperPlugin` converts `std::exception` failures from transcription/read paths to error results
+- [ ] WAV file-size limit (not enforced by this module; caller responsibility)
+- [ ] Request rate limiting and timeout (not implemented by this module; caller responsibility)
+- [ ] Content-based format validation for FFmpeg inputs (routing is extension-based)
+- [ ] Independent security audit/model supply-chain verification (not established by source inspection)

@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/server/ROADMAP.md -->
 
 # Server Module — Public Header Roadmap
@@ -20,7 +34,7 @@ Tracks public server API contract stability, planned header additions, and break
 
 ## Current Status
 
-All 124 production server headers are present and `#pragma once` guarded. `WebSocketSession::active_` is `atomic<bool>` (data race fixed). HTTP/3 QUIC session is production-present. RPC timeout parsing follows `grpc-timeout → x-timeout-ms → request-timeout-ms` precedence. All REST API handler headers are stable.
+All 129 top-level server headers are present. `WebSocketSession::active_` is `atomic<bool>`. HTTP/3 QUIC session support is present. RPC timeout parsing follows `grpc-timeout → x-timeout-ms → request-timeout-ms` precedence. Header presence does not imply that every handler/API contract is stable.
 
 ---
 
@@ -36,10 +50,15 @@ All 124 production server headers are present and `#pragma once` guarded. `WebSo
 - [x] `monitoring_api_handler.h` — includes `/stats` and `/metrics/html` with continuous-learning loop status
 - [x] `distributed_txn_api_handler.h` — isolation level configurable via `THEMIS_DTXN_DEFAULT_ISOLATION`
 - [x] `mcp_server.h` — Model Context Protocol server
+- [x] `wasm_handler_registry.h` — WebAssembly handler registry with per-handler CPU and memory limits
 
 ---
 
 ## In Progress
+
+> The Q3 2026 targets below have passed. Their status remains open until
+> completion is evidenced; confirm and record revised targets rather than
+> assuming that the work is still scheduled for the original quarter.
 
 - [ ] Document `rpc/` subdirectory headers in ARCHITECTURE.md (Target: 2026-Q3)
 - [ ] Align `grpc_web_proxy_handler.h` with updated gRPC-Web spec (Target: 2026-Q3)
@@ -48,9 +67,12 @@ All 124 production server headers are present and `#pragma once` guarded. `WebSo
 
 ## Planned
 
+> Planned items with Q3 2026 targets are overdue as of 2026-10-31; their
+> implementation status remains unverified until the corresponding headers
+> and behavior are present.
+
 - [ ] `graphql_subscription_handler.h` — long-lived GraphQL subscription connection management (Target: 2026-Q3)
 - [ ] `server_observability.h` — unified per-request trace/metric emission interface (Target: 2026-Q3)
-- [ ] `wasm_handler_registry.h` — WASM sandbox isolation and resource limits (Target: 2026-Q4)
 - [ ] Deprecate `rate_limiter.h` (v1) once `rate_limiter_v2.h` reaches full parity (Target: 2026-Q4)
 
 ---
@@ -100,7 +122,7 @@ All 124 production server headers are present and `#pragma once` guarded. `WebSo
 ## Production Readiness Checklist
 
 ### Code Quality
-- [x] All 124 headers have `#pragma once` guards
+- [!] 125 of 129 top-level headers use `#pragma once`; `distributed_gateway.h`, `request_coalescing.h`, `smart_routing.h`, and `wasm_handler_registry.h` currently have neither `#pragma once` nor conventional include guards. Verify whether single inclusion is intentional before changing these public headers.
 - [x] Complete Doxygen documentation with usage examples
 - [x] Data race free (WebSocketSession::active_ is atomic<bool>)
 - [x] No compiler warnings (MSVC /W4, GCC -Wall -Wextra -Wshadow)

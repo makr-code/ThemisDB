@@ -12,12 +12,39 @@
 #include <vector>
 #include <random>
 #include <sstream>
+#include <cstdio>
 
 using namespace themis;
 
 // ============================================================================
 // Test Setup
 // ============================================================================
+
+static bool cleanupBenchmarkDatabase(
+    const std::filesystem::path& path,
+    benchmark::State* state = nullptr) {
+    std::error_code error;
+    constexpr size_t kCleanupAttempts = 6;
+    for (size_t attempt = 0; attempt < kCleanupAttempts; ++attempt) {
+        error.clear();
+        std::filesystem::remove_all(path, error);
+        if (!error) {
+            return true;
+        }
+        if (attempt + 1 < kCleanupAttempts) {
+            std::this_thread::sleep_for(
+                std::chrono::milliseconds(10 * (1 << attempt)));
+        }
+    }
+
+    const std::string message = "Changefeed benchmark database cleanup failed: " + error.message();
+    if (state != nullptr) {
+        state->SkipWithError(message.c_str());
+    } else {
+        std::fprintf(stderr, "%s (%s)\n", message.c_str(), path.string().c_str());
+    }
+    return false;
+}
 
 class ChangefeedBenchmarkFixture : public benchmark::Fixture {
 public:
@@ -31,9 +58,9 @@ public:
             std::filesystem::path("data") / suffix.str());
         test_db_path_ = db_dir.string();
         
-        // Clean up any existing test database
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+        // Clean up any existing test database before opening RocksDB.
+        if (!cleanupBenchmarkDatabase(test_db_path_)) {
+            throw std::runtime_error("Failed to clear changefeed benchmark database");
         }
         
         // Create RocksDB wrapper with absolute paths and WAL directory
@@ -57,10 +84,7 @@ public:
         db_->close();
         db_.reset();
         
-        // Clean up test database
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
-        }
+        cleanupBenchmarkDatabase(test_db_path_);
     }
     
 protected:
@@ -217,6 +241,7 @@ BENCHMARK_REGISTER_F(ChangefeedBenchmarkFixture, ConcurrentSubscribers)
     ->Arg(10)
     ->Arg(50)
     ->Unit(benchmark::kMillisecond)
+    ->UseRealTime()
     ->Iterations(3);
 
 // ============================================================================
@@ -226,8 +251,8 @@ BENCHMARK_REGISTER_F(ChangefeedBenchmarkFixture, ConcurrentSubscribers)
 static void BM_EventTypeMix(benchmark::State& state) {
     // Setup
     std::string test_db_path = "./data/bench_changefeed_event_mix_tmp";
-    if (std::filesystem::exists(test_db_path)) {
-        std::filesystem::remove_all(test_db_path);
+    if (!cleanupBenchmarkDatabase(test_db_path, &state)) {
+        return;
     }
     
     RocksDBWrapper::Config config;
@@ -270,8 +295,8 @@ static void BM_EventTypeMix(benchmark::State& state) {
     db->close();
     db.reset();
     
-    if (std::filesystem::exists(test_db_path)) {
-        std::filesystem::remove_all(test_db_path);
+    if (!cleanupBenchmarkDatabase(test_db_path, &state)) {
+        return;
     }
     
     state.SetItemsProcessed(state.iterations());
@@ -290,8 +315,8 @@ BENCHMARK(BM_EventTypeMix)
 static void BM_BurstWrites(benchmark::State& state) {
     // Setup
     std::string test_db_path = "./data/bench_changefeed_burst_tmp";
-    if (std::filesystem::exists(test_db_path)) {
-        std::filesystem::remove_all(test_db_path);
+    if (!cleanupBenchmarkDatabase(test_db_path, &state)) {
+        return;
     }
     
     RocksDBWrapper::Config config;
@@ -325,8 +350,8 @@ static void BM_BurstWrites(benchmark::State& state) {
     db->close();
     db.reset();
     
-    if (std::filesystem::exists(test_db_path)) {
-        std::filesystem::remove_all(test_db_path);
+    if (!cleanupBenchmarkDatabase(test_db_path, &state)) {
+        return;
     }
     
     state.SetItemsProcessed(state.iterations() * burst_size);
@@ -339,7 +364,8 @@ BENCHMARK(BM_BurstWrites)
     ->Arg(10)
     ->Arg(100)
     ->Arg(1000)
-    ->Unit(benchmark::kMillisecond);
+    ->Unit(benchmark::kMillisecond)
+    ->UseRealTime();
 
 // ============================================================================
 // Benchmark: Replication Lag Simulation
@@ -348,8 +374,8 @@ BENCHMARK(BM_BurstWrites)
 static void BM_ReplicationLag(benchmark::State& state) {
     // Setup
     std::string test_db_path = "./data/bench_changefeed_lag_tmp";
-    if (std::filesystem::exists(test_db_path)) {
-        std::filesystem::remove_all(test_db_path);
+    if (!cleanupBenchmarkDatabase(test_db_path, &state)) {
+        return;
     }
     
     RocksDBWrapper::Config config;
@@ -405,8 +431,8 @@ static void BM_ReplicationLag(benchmark::State& state) {
     db->close();
     db.reset();
     
-    if (std::filesystem::exists(test_db_path)) {
-        std::filesystem::remove_all(test_db_path);
+    if (!cleanupBenchmarkDatabase(test_db_path, &state)) {
+        return;
     }
     
     state.SetItemsProcessed(state.iterations() * total_events);
@@ -427,8 +453,8 @@ static void BM_ReplicationLagWAN(benchmark::State& state) {
     const int batch_size = 100;
 
     std::string test_db_path = "./data/bench_changefeed_lag_wan_tmp";
-    if (std::filesystem::exists(test_db_path)) {
-        std::filesystem::remove_all(test_db_path);
+    if (!cleanupBenchmarkDatabase(test_db_path, &state)) {
+        return;
     }
 
     RocksDBWrapper::Config config;
@@ -495,8 +521,8 @@ static void BM_ReplicationLagWAN(benchmark::State& state) {
     changefeed.reset();
     db->close();
     db.reset();
-    if (std::filesystem::exists(test_db_path)) {
-        std::filesystem::remove_all(test_db_path);
+    if (!cleanupBenchmarkDatabase(test_db_path, &state)) {
+        return;
     }
 }
 
@@ -504,6 +530,7 @@ BENCHMARK(BM_ReplicationLagWAN)
     ->Arg(2)
     ->Arg(50)
     ->Unit(benchmark::kMillisecond)
+    ->UseRealTime()
     ->Iterations(5);
 
 // ============================================================================
@@ -515,8 +542,8 @@ BENCHMARK(BM_ReplicationLagWAN)
 
 static void BM_RecordEventLatency(benchmark::State& state) {
     std::string test_db_path = "./data/bench_changefeed_record_latency_tmp";
-    if (std::filesystem::exists(test_db_path)) {
-        std::filesystem::remove_all(test_db_path);
+    if (!cleanupBenchmarkDatabase(test_db_path, &state)) {
+        return;
     }
 
     RocksDBWrapper::Config config;
@@ -559,8 +586,8 @@ static void BM_RecordEventLatency(benchmark::State& state) {
     changefeed.reset();
     db->close();
     db.reset();
-    if (std::filesystem::exists(test_db_path)) {
-        std::filesystem::remove_all(test_db_path);
+    if (!cleanupBenchmarkDatabase(test_db_path, &state)) {
+        return;
     }
 }
 
@@ -578,8 +605,8 @@ static void BM_ListEventsLatency(benchmark::State& state) {
     const int num_events = static_cast<int>(state.range(0));
 
     std::string test_db_path = "./data/bench_changefeed_list_latency_tmp";
-    if (std::filesystem::exists(test_db_path)) {
-        std::filesystem::remove_all(test_db_path);
+    if (!cleanupBenchmarkDatabase(test_db_path, &state)) {
+        return;
     }
 
     RocksDBWrapper::Config config;
@@ -635,8 +662,8 @@ static void BM_ListEventsLatency(benchmark::State& state) {
     changefeed.reset();
     db->close();
     db.reset();
-    if (std::filesystem::exists(test_db_path)) {
-        std::filesystem::remove_all(test_db_path);
+    if (!cleanupBenchmarkDatabase(test_db_path, &state)) {
+        return;
     }
 }
 

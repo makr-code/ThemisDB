@@ -1,32 +1,35 @@
 ---
 Author: "ThemisDB Team"
-Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
-# Plugins in ThemisDB
+> Exact model backend not verifiable from final document text alone.
 
-## Ueberblick
-Das Modul plugins stellt dynamic plugin loading, registration, lifecycle management, security validation/signing, hot-plug behavior, health monitoring, and plugin metrics/integration infrastructure for ThemisDB. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+# Plugins module features
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **core plugin lifecycle orchestration**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+The module source implements plugin lifecycle and integration infrastructure.
+Feature availability depends on the selected API path, build flags, and
+deployment configuration.
 
-Die zweite Kernfaehigkeit ist **plugin registration and manifest/security validation**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+| Capability | Source-backed boundary |
+|---|---|
+| Native lifecycle | Manifest discovery, dependency checks, load, initialize, unload, reload, and manager diagnostics via `PluginManager`. |
+| Typed factories | Independent `PluginRegistry` factory registration/creation; this is not dynamic-library lifecycle management. |
+| Policy checks | Manifest edition/license rules on the manifest-backed manager path; explicit-path/OCI loading do not parse `plugin.json`. |
+| Trust/distribution | Separate binary verifier, manifest `.sig` hash check, pinned-key signed catalog, and OCI layer digest verification. These controls are not interchangeable. |
+| Monitoring | Optional filesystem hot-plug monitoring, health/recovery interfaces, and process-local metrics collection. |
+| RPC | A plugin RPC service registry with registration and lookup APIs. |
+| WASM | The built-in loader path applies expected-hash and runtime/license checks; a registered `WasmPluginLoadFn` is consulted first and owns its own validation. The module does not claim general sandboxing. |
 
-Die dritte Kernfaehigkeit ist **edition-based plugin capability gating**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
-
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Plugins Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
-
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
-
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/plugins/README.md](./../../docs/plugins/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+The module does not itself provide universal plugin sandboxing, durable audit
+retention, embedding models, or semantic embedding-quality guarantees. See
+[`ARCHITECTURE.md`](./ARCHITECTURE.md), [`API.md`](./API.md),
+[`TRUST.md`](./TRUST.md), and [`EMBEDDING.md`](./EMBEDDING.md) for boundaries
+and primary code references.

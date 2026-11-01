@@ -334,7 +334,7 @@ bool TrainingDataIterator::loadSamples(const std::string& aql_query) {
         return false;
     }
 
-    auto result = query_engine_->executeAndEntities(translated.conjunctive_query);
+    auto result = query_engine_->executeAndEntitiesWithFallback(translated.conjunctive_query, true);
     if (!result) {
         last_error_ = "TrainingDataIterator AQL execution failed: " + result.error().message();
         return false;

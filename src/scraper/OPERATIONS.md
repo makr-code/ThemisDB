@@ -5,7 +5,7 @@ Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot; themisdb-doc-orchestrator"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
@@ -28,10 +28,12 @@ Human_Author: "ThemisDB Team"
 
 The default metadata writer is in-memory; persistent service deployments must inject a writer backed by the intended storage layers. See [IMPLEMENTATION.md](./IMPLEMENTATION.md).
 
+The `scraper_render_contract.h` timeout classifier and the diagnostic/run-summary types are standalone helpers. The plugin does not enforce renderer process timeouts through that helper or emit structured diagnostic events.
+
 ## Safe operating envelope
 
 - Start with a small, approved seed list and narrowly scoped allowlist; increase source coverage only after checking output, discard decisions, write results, and source policy.
-- Configure inter-request delay and search/API page limits for the source contract. Respect upstream terms, rate limits, and access controls.
+- Configure HTML search delay and HTML/API pagination limits for the source contract. `request_delay_ms` is not applied to API pagination, and API pagination uses the `ApiEndpointConfig` passed to the client—not the parsed `ScraperConfig::api_options`. Respect upstream terms, rate limits, and access controls; apply API throttling in the integration if required.
 - Keep credentials in the environment variable referenced by a catalog source's `api_key_env`; the adapter reads it into an Authorization bearer header. Do not store credentials in source control or result metadata.
 - Enable JS rendering only when an approved renderer executable is deployed and its subprocess behavior is understood.
 - Retain the run statistics and the config/build revision with each job. The module does not export a built-in Prometheus endpoint or durable run history.
@@ -44,7 +46,7 @@ There is no module-level source pause, cancellation, retry queue, or record-retr
 
 ## Configuration limitations to verify
 
-The parser accepts `respect_robots`, `same_domain_only`, `max_depth`, and crawl `max_pages`, but the main `ScraperPlugin` path does not apply those fields. `scraper_robots.*` and `scraper_sitemap.*` are independent helpers, not automatic crawl policies. Until the orchestration is changed and tested, enforce source boundaries and rate controls in the caller/network boundary as well as the module's actual `UrlPolicy`.
+The parser accepts `respect_robots`, `same_domain_only`, `max_depth`, and crawl `max_pages`, but the main `ScraperPlugin` path does not apply those fields. `api_options`, `search_options.results_per_page`, `llm_options.model_path`, and `llm_options.temperature` are also parsed but unused; the evaluator selects the default LLM plugin with a fixed temperature. `scraper_robots.*` and `scraper_sitemap.*` are independent helpers, not automatic crawl policies. Also, catalog seed URLs are not checked by the plugin's `UrlPolicy`; the exact API endpoint is exempted from result filtering. `js_timeout_ms` is passed to the renderer command but the subprocess adapter does not independently terminate a hung child. Until orchestration changes are verified, enforce source boundaries, timeouts, and rate controls in the caller/network boundary.
 
 For incident symptoms and safe recovery steps see [RUNBOOK.md](./RUNBOOK.md). For trust boundaries and security risks see [TRUST.md](./TRUST.md).
 

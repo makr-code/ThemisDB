@@ -1,8 +1,26 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-07"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Tensor Module - Future Enhancements
 
 <!-- Status: current | validated: 2026-08-07 -->
 <!-- Evidence: 16 test files (406+ tests, 9,025+ LOC), 7 benchmarks (1,937 LOC), 33+ implementation files (8,275+ LOC) -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · FUTURE_TENSOR_ROPE.md · THEMIS_BRAIN_MEMORY_COMPARATIVE_PAPER.md -->
+
+Dedicated [Tensor RoPE investigation](./FUTURE_TENSOR_ROPE.md) and its
+acceptance targets in [PERFORMANCE_EXPECTATIONS.md](./PERFORMANCE_EXPECTATIONS.md)
+are planned work, not implemented runtime behavior.
 
 ## Scope
 

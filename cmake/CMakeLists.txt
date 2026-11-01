@@ -3064,6 +3064,7 @@ set(THEMIS_CORE_SOURCES
     ../src/network/socket_timeout_manager.cpp
     ../src/network/adaptive_circuit_breaker.cpp
     ../src/network/qos_manager.cpp
+    ../src/network/network_audit_log.cpp
     ../src/network/udp_fast_path.cpp
     ../src/network/wire_retry_policy.cpp
     ../src/network/multipath_tcp.cpp

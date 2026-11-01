@@ -148,7 +148,8 @@ public:
      * The callback is called *outside* the internal mutex, so it may
      * safely call back into the log (e.g., to read stats).  Only one
      * callback can be registered at a time; a second call replaces the
-     * previous one.
+     * previous one. Exceptions from the callback are logged and suppressed
+     * so a sink failure cannot interrupt network request handling.
      *
      * @param cb  Callable receiving a const-reference to the new event.
      *            Pass nullptr to clear the callback.

@@ -1,7 +1,30 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-05-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - ../../include/replication/
+  - ../../src/replication/
+  - ../../tests/CMakeLists.txt
+  - ../../benchmarks/replication/
+Related_Issue: "#7373"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Replication Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Roadmap/backlog status entries below are dated history; not revalidated by this documentation sync. -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -181,3 +204,10 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - Wave B performance consolidation depends on Wave A gate closure.
 - Wave C security validation depends on stable Wave A runtime behavior.
 - Wave D operability hardening depends on all prior waves being gate-complete.
+
+> **Source review note (2026-10-31):** Historical completion dates, test names, numeric
+> performance claims, and checked boxes above are retained as roadmap evidence and
+> were not re-certified here. Current source and CMake inventories are summarized in
+> [AUDIT.md](AUDIT.md); no tests or benchmarks were executed for this documentation
+> task. Reconcile this backlog with the current source before treating a status as
+> current release evidence.

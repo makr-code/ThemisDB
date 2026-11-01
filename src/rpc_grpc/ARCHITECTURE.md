@@ -1,65 +1,91 @@
-# Architecture - RPC gRPC Module
-
-<!-- Status: current | validated: 2026-08-06 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
-
-## Overview
-
-The rpc_grpc module encapsulates gRPC server lifecycle management, TLS/mTLS credential provisioning, service registration, bidirectional stream adapter integration, and per-method observability in a scoped RPC transport plugin subsystem.
-
-## Main Execution Planes
-
-1. Server lifecycle plane
-- initialize/start/stop behavior
-- listener and runtime argument handling
-
-2. Credentials and service plane
-- TLS/mTLS material load/reload behavior
-- service registration and dispatch preparation
-
-3. Streaming and observability plane
-- bidi stream adapter support behavior
-- method metrics and structured access logging surfaces
-
-## Core Contracts
-
-| Contract | Behavior |
-|---|---|
-| lifecycle contract | deterministic init/start/stop/reload semantics |
-| credentials contract | fail-closed TLS/mTLS handling; reload drains and restarts the listener with rollback attempt |
-| service contract | pre-start pointer registration; null, late, and duplicate pointers rejected or ignored; no count cap |
-| observability contract | per-method RPC metric/log emission behavior |
-
-## Failure Semantics
-
-- invalid TLS material fails startup/reload explicitly.
-- TLS reload is disruptive and may leave the server stopped if both replacement startup and rollback fail.
-- duplicate/invalid lifecycle transitions return explicit failure outcomes.
-- service registration errors are surfaced deterministically.
-- stream and observability path failures remain non-silent.
-
-## Sourcecode Verification (Module: rpc_grpc/architecture)
-
-- Verified files:
-  - src/rpc_grpc/grpc_plugin.cpp
-  - src/rpc_grpc/grpc_plugin.h
-  - src/rpc_grpc/bidi_stream_adapter.h
-- Verified architecture claims:
-  - lifecycle + credentials/service + streaming/observability plane split
-  - explicit failure boundaries for lifecycle, credentials, and registration
-  - module-local ownership of gRPC transport plugin behavior
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
-### Direct Downstream Consumers (modules that use this module)
+> Exact model backend not verifiable from final document text alone.
 
-> **Production consumer route: PLUGIN HOST (CMake flag `THEMIS_PLUGIN_RPC_GRPC`)**
-> The rpc_grpc module is built as an opt-in plugin target. Its production consumer
-> is the plugin host/registry via `THEMIS_PLUGIN_RPC_GRPC`. There is no direct
-> `#include "rpc_grpc/"` in production source — the plugin is loaded by the plugin
-> host at startup when the flag is ON. This is the expected pattern for all
-> ThemisDB plugin modules.
+# RPC gRPC Module Architecture
 
-| Module | Via | Notes |
-|--------|-----|-------|
-| `plugin_host` | CMake flag `THEMIS_PLUGIN_RPC_GRPC` → plugin registry load | Production consumer route via plugin loading. The plugin is registered and started by the plugin host at startup. No direct header import in production code. |
-| _(tests)_ | `include/rpc_grpc/grpc_plugin.h` | `tests/test_grpc_observability.cpp` and related gRPC test files — verified consumers via direct header import. |
+## Boundary and build flow
+
+`src/rpc_grpc` is the runtime-loadable gRPC RPC plugin. It implements
+`IRPCPlugin` and `IRPCServer` from
+[`include/plugins/rpc_plugin_interface.h`](../../include/plugins/rpc_plugin_interface.h).
+It is separate from the built-in API gRPC server in `src/api`.
+
+When `THEMIS_PLUGIN_RPC_GRPC` is enabled and CMake finds gRPC, the module builds
+the `themis_rpc_grpc` shared library and plugin manifest. Protobuf is required
+after gRPC is found; reflection is linked only if its imported target exists.
+The plugin runtime itself is implemented in `grpc_plugin.cpp` and declared in
+`grpc_plugin.h`. `bidi_stream_adapter.h` is a source-local stream helper.
+
+## Runtime flow
+
+1. The host creates `GRPCPlugin` and obtains a `GRPCServer` through
+   `createServer()`. `GRPCPlugin::initialize()` currently ignores its JSON
+   argument; server settings are passed separately through `RPCServerConfig`.
+2. `GRPCServer::initialize()` validates the host and, when TLS is enabled, the
+   certificate, key, and CA file paths. It stores `host:port`; port zero is
+   permitted for an OS-assigned port.
+3. Before `start()`, the host registers externally owned `grpc::Service`
+   pointers. The server rejects null/late registrations and treats duplicate
+   pointers as a no-op; it imposes no count limit.
+4. `start()` builds the listener, applies supported keepalive arguments and
+   100 MiB send/receive limits, registers services, and marks the server running
+   only after `BuildAndStart()` succeeds. With no services, it adds an idle
+   completion queue.
+5. `stop()` marks tracked health entries not-serving, invokes gRPC shutdown,
+   drains the idle completion queue when present, and clears the running flag.
+
+Lifecycle methods and registration are not synchronized as a group; serialize
+them at the host boundary.
+
+## Credentials and service plane
+
+TLS mode loads the configured PEM files and creates server credentials.
+`auth_required` controls whether a client certificate is required; it does not
+provide application-level authorization. With TLS disabled, the implementation
+uses insecure credentials and emits a warning. A valid `admin_port` adds a
+second listener with insecure credentials even when the main listener uses TLS.
+
+`reloadTls()` validates replacement credentials before stopping the listener,
+then drains and restarts it. This causes downtime. If the replacement listener
+fails to start, the prior configuration and credentials are used for a rollback
+attempt; if that also fails, the server remains stopped.
+
+## Streaming and observability
+
+`BidiStreamAdapter` wraps a non-owning stream pointer. Its `run()` loop reads
+messages and invokes an optional handler; `write()` synchronously drains a
+bounded response queue. `finish()` releases queue waiters but does not interrupt
+an already-blocked gRPC read/write. Callers remain responsible for cancellation
+and stream lifetime.
+
+`recordRPC()` updates method counters and aggregate server totals and invokes
+the optional access-log sink. The module does not attach an automatic request
+interceptor or expose an HTTP metrics endpoint. Health state is an in-memory
+map, not a remote gRPC health service.
+
+The public `CircuitBreaker` helper is separate from `GRPCServer` and must be
+called explicitly. `RpcServiceDescriptor` is descriptive metadata not consumed
+by `registerService()`.
+
+## Tests and benchmarks
+
+Focused tests under `tests/rpc_grpc` cover contract types, the circuit breaker,
+plugin/server lifecycle, and a test-local stress simulation. Stream-adapter and
+observability tests are also registered from `tests/CMakeLists.txt`; the
+integration test requires gRPC. The module benchmarks are listed in
+[`../../benchmarks/rpc_grpc/README.md`](../../benchmarks/rpc_grpc/README.md);
+their source definitions are not evidence of measured production performance.
+
+See the [API reference](API.md), [implementation notes](IMPLEMENTATION.md),
+[module guide](MODULE_GUIDE.md), and [trust boundary](TRUST.md).
