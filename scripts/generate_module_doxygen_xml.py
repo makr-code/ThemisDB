@@ -359,7 +359,12 @@ def write_module_markdown(
 
     lines.append("## Notes")
     lines.append("- This is a derived artifact. Do not manually edit semantic content.")
-    lines.append("- Regenerate via scripts/generate_module_doxygen_xml.py --write-module-markdown.")
+    lines.append(
+        f"- Regenerate with `python3 scripts/generate_module_doxygen_xml.py --repo-root . "
+        f"--modules {module} --output-root build/module-doxygen "
+        f"--manifest build/module-doxygen/manifest.json "
+        f"--summary-md build/module-doxygen/summary.md --write-module-markdown`."
+    )
     lines.append("")
 
     lines.append("## Detailed Function Documentation (Soll-Ist)")

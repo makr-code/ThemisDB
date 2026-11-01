@@ -1,45 +1,45 @@
 # QUERY DOXYGEN
 
 Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
+Created: 2026-11-01
+Last Updated: 2026-11-01
 Status: active
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\query\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\query\doxygen-warnings.log`
+- XML index (relative to the artifact output root): `query/xml/index.xml`
+- Warnings log (relative to the artifact output root): `query/doxygen-warnings.log`
 
 ## Structure Metrics
-- C/C++ Files (scanned): 243
-- Compounds: 1318
-- Classes/Structs: 986
-- Namespaces: 78
-- File Compounds: 243
+- C/C++ Files (scanned): 245
+- Compounds: 1296
+- Classes/Structs: 958
+- Namespaces: 81
+- File Compounds: 245
 
 ## Namespaces
-- @015013242375354133037265025266210225031205112030
-- @025316016300235034060330133255012357244034047066
-- @100374057346146002226207244333214060230023153010
-- @124254041070132367317273137220272113271151167016
-- @153146173325116070020063372246170132146170122225
-- @157274256203230261355313216326356305171050030104
-- @160237114072351114064250144206231350173155116012
-- @167244344347172270330010167327311152316153062176
-- @172265113160146130034022035103365236057343250005
-- @211052326020114024136033207162226242345040354145
-- @310076264224054277352314024175173220322066006131
-- @336242217174152056134324334325375261356273111340
-- @372361005176356041234311300024324351327326261234
-- @374150077111235214100016325265237320157250006054
+- @117
+- @120
+- @167
+- @192
+- @193
+- @200
+- @216
+- @233
+- @237
+- @239
+- @240
+- @241
+- @242
+- @243
 - std::chrono_literals
 - tbb
 - testing
 - themis
-- themis::@012331101304025323177145265312343254346017210120
-- themis::@030100067276042225236025321112014207061367250127
-- themis::@355051202346065224276275354240112125053122303165
-- themis::@375351050024005040112360062261356162110363031353
+- themis::@119
+- themis::@139
+- themis::@150
+- themis::@166
 - themis::distributed_knowledge
 - themis::errors
 - themis::index
@@ -48,36 +48,37 @@ Status: active
 - themis::performance
 - themis::performance::phase3
 - themis::query
-- themis::query::@002146346153041073002003033253174317112335336271
-- themis::query::@012262104364061355001035222320067374364201102313
-- themis::query::@026324162003141033077072363010115330010326034366
-- themis::query::@073000076257042171227024343222044163213174065342
-- themis::query::@101367067032316260034203015303265240027177307235
-- themis::query::@105335210343153050144216066056023156366003057253
-- themis::query::@211012020040262017330034356341357321206371142326
-- themis::query::@212315113234205247306207277132046036175253103171
-- themis::query::@215367156241231252124256035227134356101356262210
-- themis::query::@241023053077304271034170377144110225205006063252
-- themis::query::@265257163362330372344136152237376062160217305343
-- themis::query::@307306301151214252003371253314371311244153043037
-- themis::query::@310267123367223011047154235312012251213245120175
-- themis::query::@313306373102034324060250314371134213047143265240
-- themis::query::@321015121365255175347047336203021345075003150212
-- themis::query::@371314324213211114302250227063341213216233130073
+- themis::query::@105
+- themis::query::@111
+- themis::query::@112
+- themis::query::@114
+- themis::query::@121
+- themis::query::@124
+- themis::query::@125
+- themis::query::@131
+- themis::query::@133
+- themis::query::@137
+- themis::query::@138
+- themis::query::@142
+- themis::query::@146
+- themis::query::@155
+- themis::query::@157
+- themis::query::@160
+- themis::query::@207
 - themis::query::fts
-- themis::query::fts::@006241017067316132335042253167102367116177054224
-- themis::query::fts::@016350001326245264236306001227160176166046210325
-- themis::query::fts::@027021033003262225127076210021107230111265144267
-- themis::query::fts::@201343221232020063163101331161012177153064133103
-- themis::query::fts::@203027120333122366305035304317012002212020010113
-- themis::query::fts::@207046106200367100154323277114054262001074334227
+- themis::query::fts::@153
+- themis::query::fts::@154
+- themis::query::fts::@162
+- themis::query::fts::@209
+- themis::query::fts::@218
+- themis::query::fts::@220
 - themis::query::functions
-- themis::query::functions::@044176365346042273144216367110332131371140121013
-- themis::query::functions::@054137321372241076007334105321323312223342206332
-- themis::query::functions::@112002026261227231213345120375331260004000313373
-- themis::query::functions::@127136014105102075036224077163060263163261013242
-- themis::query::functions::@170101370242350300123277051062260257070127113115
-- themis::query::functions::@342143123130164076055255275051237000334012017371
+- themis::query::functions::@170
+- themis::query::functions::@171
+- themis::query::functions::@174
+- themis::query::functions::@175
+- themis::query::functions::@83
+- themis::query::functions::@91
 - themis::query::functions::crs
 - themis::query::functions::geo_helpers
 - themis::query::functions::graph_helpers
@@ -87,6 +88,8 @@ Status: active
 - themis::query::utils
 - themis::search
 - themis::security
+- themis::server
+- themis::server::test
 - themis::sharding
 - themis::storage
 - themis::tbb
@@ -95,7 +98,7 @@ Status: active
 - themisdb::analytics
 - themisdb::query
 - themisdb::query::functions
-- themisdb::query::functions::@242372027315324256354240064141260335326163011242
+- themisdb::query::functions::@77
 
 ## Types
 ### Classes
@@ -113,6 +116,7 @@ Status: active
 - FederationHardnessIntegrationTest
 - FtsParserTest
 - GeospatialBenchmark
+- GeospatialBenchmarkData
 - GeospatialCostModelTest
 - GeospatialHintsTest
 - GeospatialIndexSelectorTest
@@ -132,13 +136,12 @@ Status: active
 - MockStorageEngine
 - OverflowRegressionTest
 - PageRankFunctionTest
+- ParallelExecutorDeadlockTest
 - PredicatePushdownTest
 - QueryCacheManagerTest
 - QueryCacheTest
 - QueryCancellerTimedMutexTest
 - QueryCrossFeatureMatrixTest
-- QueryEngine
-- QueryEngine::QueryExpressionEvaluator
 - QueryEngineBuilderTest
 - QueryEngineConcurrencyTest
 - QueryFederationRoutingTest
@@ -208,7 +211,6 @@ Status: active
 - themis::query::DDLExecutor
 - themis::query::DegradedModeExecutor
 - themis::query::DistributedQueryCostModel
-- themis::query::FTSPhraseProximityTest
 - themis::query::FederationResilienceCoordinator
 - themis::query::GeoPredicatePatternDetector
 - themis::query::GeospatialCostEstimator
@@ -699,6 +701,7 @@ Status: active
 - themis::query::test::AQLParserEdgeCasesTest
 - themis::query::test::AQLParserServiceTest
 - themis::query::test::QueryOptimizerThreadSafetyTest
+- themis::server::test::QueryApiHandlerQW46Test
 - themis::tbb::task_arena
 - themis::tbb::task_group
 - themisdb::query::functions::ClassifyFunction
@@ -709,40 +712,12 @@ Status: active
 - themisdb::query::functions::SummarizeFunction
 
 ### Structs
-- ArrayLiteralExpr
-- BinaryOpExpr
-- ConjunctiveQuery
-- Expression
-- Expression::BinaryOpExpression
-- Expression::FieldAccessExpression
-- Expression::FunctionCallExpression
-- Expression::LiteralExpression
-- Expression::UnaryOpExpression
-- FieldAccessExpr
-- FunctionCallExpr
-- LiteralExpr
 - MockContinuousQueryEngine::Config
 - MockContinuousQueryEngine::InjectedTuple
 - MockPersistenceManager::Checkpoint
-- OrderBy
-- PredicateEq
-- ProximityCallExpr
-- QueryEngine::AuditConfigSnapshot
-- QueryEngine::CTESpec
-- QueryEngine::ContentGeoResult
-- QueryEngine::ContentSearchResult
-- QueryEngine::EvaluationContext
-- QueryEngine::FilteredVectorSearchResult
-- QueryEngine::KeysWithScores
-- QueryEngine::RadiusVectorSearchResult
-- QueryEngine::Status
-- QueryEngine::VectorGeoResult
-- SimilarityCallExpr
 - StressStubJoinExecutor::JoinResult
 - StressStubParser::ParseResult
 - StressStubPlanner::PlanResult
-- UnaryOpExpr
-- VariableExpr
 - themis::AQLTranslator::TranslationResult
 - themis::AQLTranslator::TranslationResult::CTEExecution
 - themis::AQLTranslator::TranslationResult::JoinQuery
@@ -1090,10 +1065,10 @@ Status: active
 
 ## Notes
 - This is a derived artifact. Do not manually edit semantic content.
-- Regenerate via scripts/generate_module_doxygen_xml.py --write-module-markdown.
+- Regenerate with `python3 scripts/generate_module_doxygen_xml.py --repo-root . --modules query --output-root build/module-doxygen --manifest build/module-doxygen/manifest.json --summary-md build/module-doxygen/summary.md --write-module-markdown`.
 
 ## Detailed Function Documentation (Soll-Ist)
-- Functions extracted: 4395
+- Functions extracted: 4301
 
 ### AdaptiveJoinPreallocTest
 
@@ -1140,54 +1115,6 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
-### ArrayLiteralExpr
-
-#### `ArrayLiteralExpr(std::vector< std::shared_ptr< Expression > > elems)`
-- Source: `include/query/aql_parser.h`:292
-- Brief: Array Literal Expr.
-- Parameters:
-  - `elems` (std::vector< std::shared_ptr< Expression > >): Input parameter.
-- Return: Return value.
-- Details: elems Input parameter. Return value.
-
-#### `ASTNodeType getType() const override`
-- Source: `include/query/aql_parser.h`:295
-- Brief: Get Type.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `nlohmann::json toJSON() const override`
-- Source: `include/query/aql_parser.h`:296
-- Brief: To JSON.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-### BinaryOpExpr
-
-#### `BinaryOpExpr(BinaryOperator o, std::shared_ptr< Expression > l, std::shared_ptr< Expression > r)`
-- Source: `include/query/aql_parser.h`:229
-- Brief: n/a
-- Parameters:
-  - `o` (BinaryOperator): n/a
-  - `l` (std::shared_ptr< Expression >): n/a
-  - `r` (std::shared_ptr< Expression >): n/a
-
-#### `ASTNodeType getType() const override`
-- Source: `include/query/aql_parser.h`:232
-- Brief: Get Type.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `nlohmann::json toJSON() const override`
-- Source: `include/query/aql_parser.h`:233
-- Brief: To JSON.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
 ### ContinuousQueryHardeningTest
 
 #### `ContinuousQuerySpec makeTestSpec(const std::string &name)`
@@ -1205,101 +1132,6 @@ Status: active
 
 #### `void TearDown() override`
 - Source: `tests/query/test_query_cancellation.cpp`:192
-- Brief: n/a
-- Parameters: none
-
-### Expression
-
-#### `ASTNodeType getType() const=0`
-- Source: `include/query/aql_parser.h`:185
-- Brief: Get Type.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `nlohmann::json toJSON() const=0`
-- Source: `include/query/aql_parser.h`:190
-- Brief: To JSON.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `~Expression()=default`
-- Source: `include/query/aql_parser.h`:180
-- Brief: Expression.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-### Expression::BinaryOpExpression
-
-#### `BinaryOpExpression()=default`
-- Source: `include/query/aql_parser.h`:1193
-- Brief: n/a
-- Parameters: none
-
-#### `StringBinaryOpExpr()=default`
-- Source: `include/query/aql_parser.h`:1192
-- Brief: n/a
-- Parameters: none
-
-### Expression::FieldAccessExpression
-
-#### `FieldAccessExpression()=default`
-- Source: `include/query/aql_parser.h`:1189
-- Brief: n/a
-- Parameters: none
-
-#### `PathFieldAccessExpr()=default`
-- Source: `include/query/aql_parser.h`:1188
-- Brief: n/a
-- Parameters: none
-
-#### `PathFieldAccessExpr(std::vector< std::string > p)`
-- Source: `include/query/aql_parser.h`:1188
-- Brief: n/a
-- Parameters:
-  - `p` (std::vector< std::string >): n/a
-
-### Expression::FunctionCallExpression
-
-#### `CompatFunctionCallExpr()=default`
-- Source: `include/query/aql_parser.h`:1200
-- Brief: n/a
-- Parameters: none
-
-#### `FunctionCallExpression()=default`
-- Source: `include/query/aql_parser.h`:1201
-- Brief: n/a
-- Parameters: none
-
-### Expression::LiteralExpression
-
-#### `JsonLiteralExpr()=default`
-- Source: `include/query/aql_parser.h`:1184
-- Brief: n/a
-- Parameters: none
-
-#### `JsonLiteralExpr(const nlohmann::json &v)`
-- Source: `include/query/aql_parser.h`:1184
-- Brief: n/a
-- Parameters:
-  - `v` (const nlohmann::json &): n/a
-
-#### `LiteralExpression()=default`
-- Source: `include/query/aql_parser.h`:1185
-- Brief: n/a
-- Parameters: none
-
-### Expression::UnaryOpExpression
-
-#### `StringUnaryOpExpr()=default`
-- Source: `include/query/aql_parser.h`:1196
-- Brief: n/a
-- Parameters: none
-
-#### `UnaryOpExpression()=default`
-- Source: `include/query/aql_parser.h`:1197
 - Brief: n/a
 - Parameters: none
 
@@ -1337,29 +1169,6 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
-### FieldAccessExpr
-
-#### `FieldAccessExpr(std::shared_ptr< Expression > obj, std::string f)`
-- Source: `include/query/aql_parser.h`:217
-- Brief: n/a
-- Parameters:
-  - `obj` (std::shared_ptr< Expression >): n/a
-  - `f` (std::string): n/a
-
-#### `ASTNodeType getType() const override`
-- Source: `include/query/aql_parser.h`:220
-- Brief: Get Type.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `nlohmann::json toJSON() const override`
-- Source: `include/query/aql_parser.h`:221
-- Brief: To JSON.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
 ### FtsParserTest
 
 #### `void parse_err(const std::string &aql)`
@@ -1374,32 +1183,16 @@ Status: active
 - Parameters:
   - `aql` (const std::string &): n/a
 
-### FunctionCallExpr
-
-#### `FunctionCallExpr(std::string n, std::vector< std::shared_ptr< Expression > > args)`
-- Source: `include/query/aql_parser.h`:251
-- Brief: n/a
-- Parameters:
-  - `n` (std::string): n/a
-  - `args` (std::vector< std::shared_ptr< Expression > >): n/a
-
-#### `ASTNodeType getType() const override`
-- Source: `include/query/aql_parser.h`:254
-- Brief: Get Type.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `nlohmann::json toJSON() const override`
-- Source: `include/query/aql_parser.h`:255
-- Brief: To JSON.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
 ### GeospatialBenchmark
 
 #### `void SetUp() override`
+- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:68
+- Brief: n/a
+- Parameters: none
+
+### GeospatialBenchmarkData
+
+#### `void SetUp()`
 - Source: `benchmarks/query/bench_geospatial_phase2.cpp`:44
 - Brief: n/a
 - Parameters: none
@@ -1472,31 +1265,9 @@ Status: active
 
 #### `QueryCompiler::ExecuteFn makeFailingExecutor(const std::string &fail_pattern)`
 - Source: `tests/query/test_query_jit_equivalence.cpp`:85
-- Brief: Executor that fails on specific query patterns (for fallback testing).
+- Brief: Executor that fails on specific query patterns (for fallback testing)
 - Parameters:
   - `fail_pattern` (const std::string &): n/a
-
-### LiteralExpr
-
-#### `LiteralExpr(LiteralValue val)`
-- Source: `include/query/aql_parser.h`:196
-- Brief: n/a
-- Parameters:
-  - `val` (LiteralValue): n/a
-
-#### `ASTNodeType getType() const override`
-- Source: `include/query/aql_parser.h`:198
-- Brief: Get Type.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `nlohmann::json toJSON() const override`
-- Source: `include/query/aql_parser.h`:199
-- Brief: To JSON.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
 
 ### MaterializedViewScopeTest
 
@@ -1624,14 +1395,14 @@ Status: active
 ### MockIndexManager
 
 #### `Result< IGraphIndex * > createGraphIndex(std::string_view, const std::string &) override`
-- Source: `tests/query/test_query_engine_di.cpp`:47
+- Source: `tests/query/test_query_engine_di.cpp`:49
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (std::string_view): n/a
   - `<unnamed>` (const std::string &): n/a
 
 #### `Result< ISecondaryIndex * > createSecondaryIndex(std::string_view, std::string_view, const std::string &) override`
-- Source: `tests/query/test_query_engine_di.cpp`:39
+- Source: `tests/query/test_query_engine_di.cpp`:41
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (std::string_view): n/a
@@ -1639,7 +1410,7 @@ Status: active
   - `<unnamed>` (const std::string &): n/a
 
 #### `Result< IVectorIndex * > createVectorIndex(std::string_view, uint32_t, const std::string &) override`
-- Source: `tests/query/test_query_engine_di.cpp`:43
+- Source: `tests/query/test_query_engine_di.cpp`:45
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (std::string_view): n/a
@@ -1647,37 +1418,49 @@ Status: active
   - `<unnamed>` (const std::string &): n/a
 
 #### `Result< void > dropIndex(std::string_view) override`
-- Source: `tests/query/test_query_engine_di.cpp`:60
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (std::string_view): n/a
-
-#### `Result< IGraphIndex * > getGraphIndex(std::string_view) const override`
-- Source: `tests/query/test_query_engine_di.cpp`:57
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (std::string_view): n/a
-
-#### `Result< IndexType > getIndexType(std::string_view) const override`
 - Source: `tests/query/test_query_engine_di.cpp`:62
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (std::string_view): n/a
 
+#### `std::optional< IndexCapabilities > getCapabilities(std::string_view) const override`
+- Source: `tests/query/test_query_engine_di.cpp`:39
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (std::string_view): n/a
+
+#### `Result< IGraphIndex * > getGraphIndex(std::string_view) const override`
+- Source: `tests/query/test_query_engine_di.cpp`:59
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (std::string_view): n/a
+
+#### `std::optional< IndexStatistics > getIndexSummary(std::string_view) const override`
+- Source: `tests/query/test_query_engine_di.cpp`:40
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (std::string_view): n/a
+
+#### `Result< IndexType > getIndexType(std::string_view) const override`
+- Source: `tests/query/test_query_engine_di.cpp`:64
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (std::string_view): n/a
+
 #### `Result< ISecondaryIndex * > getSecondaryIndex(std::string_view) const override`
-- Source: `tests/query/test_query_engine_di.cpp`:51
+- Source: `tests/query/test_query_engine_di.cpp`:53
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (std::string_view): n/a
 
 #### `Result< IVectorIndex * > getVectorIndex(std::string_view) const override`
-- Source: `tests/query/test_query_engine_di.cpp`:54
+- Source: `tests/query/test_query_engine_di.cpp`:56
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (std::string_view): n/a
 
 #### `std::vector< std::string > listIndexes() const override`
-- Source: `tests/query/test_query_engine_di.cpp`:61
+- Source: `tests/query/test_query_engine_di.cpp`:63
 - Brief: n/a
 - Parameters: none
 
@@ -1802,27 +1585,12 @@ Status: active
   - `to` (const std::string &): n/a
   - `weight` (double): n/a
 
-### ProximityCallExpr
+### ParallelExecutorDeadlockTest
 
-#### `ProximityCallExpr(std::vector< std::shared_ptr< Expression > > args)`
-- Source: `include/query/aql_parser.h`:273
+#### `ParallelExecutor::ParallelConfig defaultConfig()`
+- Source: `tests/query/test_query_deadlock_concurrent_timeout.cpp`:52
 - Brief: n/a
-- Parameters:
-  - `args` (std::vector< std::shared_ptr< Expression > >): n/a
-
-#### `ASTNodeType getType() const override`
-- Source: `include/query/aql_parser.h`:274
-- Brief: Get Type.
 - Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `nlohmann::json toJSON() const override`
-- Source: `include/query/aql_parser.h`:275
-- Brief: To JSON.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
 
 ### QueryCacheManagerTest
 
@@ -1838,464 +1606,10 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
-### QueryEngine
-
-#### `QueryEngine(IStorageEnginePtr storage, IIndexManagerPtr index_manager)`
-- Source: `include/query/query_engine.h`:332
-- Brief: n/a
-- Parameters:
-  - `storage` (IStorageEnginePtr): n/a
-  - `index_manager` (IIndexManagerPtr): n/a
-
-#### `QueryEngine(RocksDBWrapper &db, SecondaryIndexManager &secIdx)`
-- Source: `include/query/query_engine.h`:323
-- Brief: n/a
-- Parameters:
-  - `db` (RocksDBWrapper &): n/a
-  - `secIdx` (SecondaryIndexManager &): n/a
-
-#### `QueryEngine(RocksDBWrapper &db, SecondaryIndexManager &secIdx, GraphIndexManager &graphIdx)`
-- Source: `include/query/query_engine.h`:324
-- Brief: n/a
-- Parameters:
-  - `db` (RocksDBWrapper &): n/a
-  - `secIdx` (SecondaryIndexManager &): n/a
-  - `graphIdx` (GraphIndexManager &): n/a
-
-#### `QueryEngine(RocksDBWrapper &db, SecondaryIndexManager &secIdx, GraphIndexManager &graphIdx, VectorIndexManager *vectorIdx, SpatialIndexManager *spatialIdx)`
-- Source: `include/query/query_engine.h`:325
-- Brief: n/a
-- Parameters:
-  - `db` (RocksDBWrapper &): n/a
-  - `secIdx` (SecondaryIndexManager &): n/a
-  - `graphIdx` (GraphIndexManager &): n/a
-  - `vectorIdx` (VectorIndexManager *): n/a
-  - `spatialIdx` (SpatialIndexManager *): n/a
-
-#### `query::QueryPlanNode buildExplainPlan(const ConjunctiveQuery &q) const`
-- Source: `include/query/query_engine.h`:669
-- Brief: Build Explain Plan.
-- Parameters:
-  - `q` (const ConjunctiveQuery &): Input parameter.
-- Return: Return value.
-- Details: q Input parameter. Return value.
-
-#### `std::shared_ptr< QueryEngine > createDefault()`
-- Source: `include/query/query_engine.h`:341
-- Brief: Create Default.
-- Parameters: none
-- Return: Return value.
-- Details: Return value. Return value. Calls: StorageEngine::createDefaultIndexManager().
-
-#### `bool evaluateCondition(const std::shared_ptr< query::Expression > &expr, const EvaluationContext &ctx) const`
-- Source: `include/query/query_engine.h`:413
-- Brief: Expression evaluation (public for testing).
-- Parameters:
-  - `expr` (const std::shared_ptr< query::Expression > &): Input parameter.
-  - `ctx` (const EvaluationContext &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: expr Input parameter. ctx Input parameter. True when the operation succeeds.
-
-#### `Result< nlohmann::json > evaluateExpression(const std::shared_ptr< query::Expression > &expr, const EvaluationContext &ctx) const`
-- Source: `include/query/query_engine.h`:756
-- Brief: Expression evaluation helpers (implemented in cpp).
-- Parameters:
-  - `expr` (const std::shared_ptr< query::Expression > &): Input parameter.
-  - `ctx` (const EvaluationContext &): Input parameter.
-- Return: Return value.
-- Details: expr Input parameter. ctx Input parameter. Return value.
-
-#### `Result< size_t > executeAndCount(const ConjunctiveQuery &q) const`
-- Source: `include/query/query_engine.h`:456
-- Brief: Execute And Count.
-- Parameters:
-  - `q` (const ConjunctiveQuery &): Input parameter.
-- Return: Return value.
-- Details: q Input parameter. Return value.
-
-#### `Result< std::vector< BaseEntity > > executeAndEntities(const ConjunctiveQuery &q) const`
-- Source: `include/query/query_engine.h`:442
-- Brief: Execute And Entities.
-- Parameters:
-  - `q` (const ConjunctiveQuery &): Input parameter.
-- Return: Return value.
-- Details: q Input parameter. Return value.
-
-#### `Result< std::vector< BaseEntity > > executeAndEntitiesRangeAware_(const ConjunctiveQuery &q) const`
-- Source: `include/query/query_engine.h`:793
-- Brief: Execute And Entities Range Aware.
-- Parameters:
-  - `q` (const ConjunctiveQuery &): Input parameter.
-- Return: Return value.
-- Details: q Input parameter. Return value.
-
-#### `Result< std::vector< BaseEntity > > executeAndEntitiesSequential(const std::string &table, const std::vector< PredicateEq > &orderedPredicates) const`
-- Source: `include/query/query_engine.h`:512
-- Brief: Execute And Entities Sequential.
-- Parameters:
-  - `table` (const std::string &): Input parameter.
-  - `orderedPredicates` (const std::vector< PredicateEq > &): Input parameter.
-- Return: Return value.
-- Details: table Input parameter. orderedPredicates Input parameter. Return value.
-
-#### `Result< std::vector< BaseEntity > > executeAndEntitiesWithFallback(const ConjunctiveQuery &q, bool optimize=true) const`
-- Source: `include/query/query_engine.h`:523
-- Brief: n/a
-- Parameters:
-  - `q` (const ConjunctiveQuery &): n/a
-  - `optimize` (bool): n/a
-
-#### `Result< std::vector< std::string > > executeAndKeys(const ConjunctiveQuery &q) const`
-- Source: `include/query/query_engine.h`:449
-- Brief: Execute And Keys.
-- Parameters:
-  - `q` (const ConjunctiveQuery &): Input parameter.
-- Return: Return value.
-- Details: q Input parameter. Return value.
-
-#### `Result< std::vector< std::string > > executeAndKeysRangeAware_(const ConjunctiveQuery &q) const`
-- Source: `include/query/query_engine.h`:787
-- Brief: Execute And Keys Range Aware.
-- Parameters:
-  - `q` (const ConjunctiveQuery &): Input parameter.
-- Return: Return value.
-- Details: q Input parameter. Return value.
-
-#### `Result< std::vector< std::string > > executeAndKeysSequential(const std::string &table, const std::vector< PredicateEq > &orderedPredicates) const`
-- Source: `include/query/query_engine.h`:501
-- Brief: Sequenzielles Ausführen in vorgegebener Reihenfolge (z.
-- Parameters:
-  - `table` (const std::string &): Input parameter.
-  - `orderedPredicates` (const std::vector< PredicateEq > &): Input parameter.
-- Return: Return value.
-- Details: table Input parameter. orderedPredicates Input parameter. Return value. B. vom Optimizer)
-
-#### `Result< std::vector< std::string > > executeAndKeysWithFallback(const ConjunctiveQuery &q, bool optimize=true) const`
-- Source: `include/query/query_engine.h`:518
-- Brief: n/a
-- Parameters:
-  - `q` (const ConjunctiveQuery &): n/a
-  - `optimize` (bool): n/a
-
-#### `Result< KeysWithScores > executeAndKeysWithScores(const ConjunctiveQuery &q) const`
-- Source: `include/query/query_engine.h`:468
-- Brief: Execute And Keys With Scores.
-- Parameters:
-  - `q` (const ConjunctiveQuery &): Input parameter.
-- Return: Return value.
-- Details: q Input parameter. Return value.
-
-#### `Result< void > executeCTEs(const std::vector< CTESpec > &ctes, EvaluationContext &context) const`
-- Source: `include/query/query_engine.h`:570
-- Brief: Execute CTEs.
-- Parameters:
-  - `ctes` (const std::vector< CTESpec > &): Input parameter.
-  - `context` (EvaluationContext &): Input/output parameter.
-- Return: Return value.
-- Details: ctes Input parameter. context Input/output parameter. Return value.
-
-#### `Result< std::vector< ContentGeoResult > > executeContentGeoQuery(const ContentGeoQuery &q) const`
-- Source: `include/query/query_engine.h`:608
-- Brief: Execute Content Geo Query.
-- Parameters:
-  - `q` (const ContentGeoQuery &): Input parameter.
-- Return: Return value.
-- Details: q Input parameter. Return value.
-
-#### `Result< std::vector< ContentSearchResult > > executeContentSearch(const ContentSearchQuery &q) const`
-- Source: `include/query/query_engine.h`:656
-- Brief: Execute Content Search.
-- Parameters:
-  - `q` (const ContentSearchQuery &): Input parameter.
-- Return: Return value.
-- Details: q Input parameter. Return value.
-
-#### `Result< std::vector< FilteredVectorSearchResult > > executeFilteredVectorSearch(const FilteredVectorSearchQuery &q) const`
-- Source: `include/query/query_engine.h`:624
-- Brief: Execute Filtered Vector Search.
-- Parameters:
-  - `q` (const FilteredVectorSearchQuery &): Input parameter.
-- Return: Return value.
-- Details: q Input parameter. Return value.
-
-#### `Result< std::vector< TraversalResult > > executeGeneralTraversal(const std::string &startVertex, int minDepth, int maxDepth, TraversalDirection direction, const std::string &graphId="default", const std::string &edgeTypeFilter="") const`
-- Source: `include/query/query_engine.h`:428
-- Brief: n/a
-- Parameters:
-  - `startVertex` (const std::string &): n/a
-  - `minDepth` (int): n/a
-  - `maxDepth` (int): n/a
-  - `direction` (TraversalDirection): n/a
-  - `graphId` (const std::string &): n/a
-  - `edgeTypeFilter` (const std::string &): n/a
-
-#### `Result< std::vector< nlohmann::json > > executeGroupBy(const query::ForNode &for_node, const std::shared_ptr< query::CollectNode > &collect, const std::vector< std::shared_ptr< query::FilterNode > > &filters, const std::shared_ptr< query::ReturnNode > &return_node) const`
-- Source: `include/query/query_engine.h`:549
-- Brief: Execute Group By.
-- Parameters:
-  - `for_node` (const query::ForNode &): Input parameter.
-  - `collect` (const std::shared_ptr< query::CollectNode > &): Input parameter.
-  - `filters` (const std::vector< std::shared_ptr< query::FilterNode > > &): Input parameter.
-  - `return_node` (const std::shared_ptr< query::ReturnNode > &): Input parameter.
-- Return: Return value.
-- Details: for_node Input parameter. collect Input parameter. filters Input parameter. return_node Input parameter. Return value.
-
-#### `Result< std::vector< nlohmann::json > > executeJoin(const std::vector< query::ForNode > &for_nodes, const std::vector< std::shared_ptr< query::FilterNode > > &filters, const std::vector< query::LetNode > &let_nodes, const std::shared_ptr< query::ReturnNode > &return_node, const std::shared_ptr< query::SortNode > &sort, const std::shared_ptr< query::LimitNode > &limit, const EvaluationContext *parent_context=nullptr) const`
-- Source: `include/query/query_engine.h`:531
-- Brief: n/a
-- Parameters:
-  - `for_nodes` (const std::vector< query::ForNode > &): n/a
-  - `filters` (const std::vector< std::shared_ptr< query::FilterNode > > &): n/a
-  - `let_nodes` (const std::vector< query::LetNode > &): n/a
-  - `return_node` (const std::shared_ptr< query::ReturnNode > &): n/a
-  - `sort` (const std::shared_ptr< query::SortNode > &): n/a
-  - `limit` (const std::shared_ptr< query::LimitNode > &): n/a
-  - `parent_context` (const EvaluationContext *): n/a
-
-#### `Result< std::vector< BaseEntity > > executeOrEntities(const DisjunctiveQuery &q) const`
-- Source: `include/query/query_engine.h`:482
-- Brief: Execute Or Entities.
-- Parameters:
-  - `q` (const DisjunctiveQuery &): Input parameter.
-- Return: Return value.
-- Details: q Input parameter. Return value.
-
-#### `Result< std::vector< BaseEntity > > executeOrEntitiesWithFallback(const DisjunctiveQuery &q, bool optimize=true) const`
-- Source: `include/query/query_engine.h`:489
-- Brief: n/a
-- Parameters:
-  - `q` (const DisjunctiveQuery &): n/a
-  - `optimize` (bool): n/a
-
-#### `Result< std::vector< std::string > > executeOrKeys(const DisjunctiveQuery &q) const`
-- Source: `include/query/query_engine.h`:475
-- Brief: OR-Queries: Union von mehreren AND-Blöcken.
-- Parameters:
-  - `q` (const DisjunctiveQuery &): Input parameter.
-- Return: Return value.
-- Details: q Input parameter. Return value.
-
-#### `Result< std::vector< std::string > > executeOrKeysWithFallback(const DisjunctiveQuery &q, bool optimize=true) const`
-- Source: `include/query/query_engine.h`:484
-- Brief: n/a
-- Parameters:
-  - `q` (const DisjunctiveQuery &): n/a
-  - `optimize` (bool): n/a
-
-#### `Result< std::vector< RadiusVectorSearchResult > > executeRadiusVectorSearch(const RadiusVectorSearchQuery &q) const`
-- Source: `include/query/query_engine.h`:640
-- Brief: Execute Radius Vector Search.
-- Parameters:
-  - `q` (const RadiusVectorSearchQuery &): Input parameter.
-- Return: Return value.
-- Details: q Input parameter. Return value.
-
-#### `Result< std::vector< std::vector< std::string > > > executeRecursivePathQuery(const RecursivePathQuery &q) const`
-- Source: `include/query/query_engine.h`:423
-- Brief: Rekursive Pfadabfrage (Multi-Hop Traversal).
-- Parameters:
-  - `q` (const RecursivePathQuery &): Input parameter.
-- Return: Return value.
-- Details: q Input parameter. Return value.
-
-#### `Result< std::vector< VectorGeoResult > > executeVectorGeoQuery(const VectorGeoQuery &q) const`
-- Source: `include/query/query_engine.h`:591
-- Brief: Execute Vector Geo Query.
-- Parameters:
-  - `q` (const VectorGeoQuery &): Input parameter.
-- Return: Return value.
-- Details: q Input parameter. Return value.
-
-#### `std::vector< std::string > fullScanAndFilter_(const ConjunctiveQuery &q) const`
-- Source: `include/query/query_engine.h`:779
-- Brief: Full-Scan Fallback: Durchsucht alle Reihen einer Tabelle und filtert per Prädikaten.
-- Parameters:
-  - `q` (const ConjunctiveQuery &): Input parameter.
-- Return: Return value.
-- Details: q Input parameter. Return value.
-
-#### `IExpressionEvaluatorPtr get_expression_evaluator()`
-- Source: `include/query/query_engine.h`:402
-- Brief: Get expression evaluator.
-- Parameters: none
-- Return: Return value.
-- Details: Return value. Return value. Implements get_expression_evaluator without additional internal calls.
-
-#### `std::vector< std::string > intersectSortedLists_(std::vector< std::vector< std::string > > lists)`
-- Source: `include/query/query_engine.h`:766
-- Brief: Intersect Sorted Lists.
-- Parameters:
-  - `lists` (std::vector< std::vector< std::string > >): Input parameter.
-- Return: Return value.
-- Details: lists Input parameter. Return value.
-
-#### `std::vector< std::string > listCollections() const`
-- Source: `include/query/query_engine.h`:675
-- Brief: List Collections.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `void setAuditLogger(::themis::utils::AuditLogger *al) noexcept`
-- Source: `include/query/query_engine.h`:374
-- Brief: n/a
-- Parameters:
-  - `al` (::themis::utils::AuditLogger *): n/a
-
-#### `void setCollectionAccessChecker(std::function< bool(const std::string &collection, const std::string &caller_id)> checker, std::string caller_id="") noexcept`
-- Source: `include/query/query_engine.h`:359
-- Brief: n/a
-- Parameters:
-  - `checker` (std::function< bool(const std::string &collection, const std::string &caller_id)>): n/a
-  - `caller_id` (std::string): n/a
-
-#### `void setQueryTimeout(std::chrono::milliseconds query_timeout=std::chrono::seconds(30), std::chrono::milliseconds lock_timeout=std::chrono::seconds(1)) noexcept`
-- Source: `include/query/query_engine.h`:384
-- Brief: n/a
-- Parameters:
-  - `query_timeout` (std::chrono::milliseconds): n/a
-  - `lock_timeout` (std::chrono::milliseconds): n/a
-
-#### `void setStatisticsCollector(StatisticsCollector *sc) noexcept`
-- Source: `include/query/query_engine.h`:349
-- Brief: n/a
-- Parameters:
-  - `sc` (StatisticsCollector *): n/a
-
-#### `void setStorage(IStorageEnginePtr storage)`
-- Source: `include/query/query_engine.h`:347
-- Brief: Set Storage.
-- Parameters:
-  - `storage` (IStorageEnginePtr): Input parameter.
-- Details: storage Input parameter. storage Input parameter. Implements setStorage without additional internal calls.
-
-#### `AuditConfigSnapshot snapshotAuditConfig() const noexcept`
-- Source: `include/query/query_engine.h`:696
-- Brief: n/a
-- Parameters: none
-
-#### `std::vector< std::string > unionSortedLists_(std::vector< std::vector< std::string > > lists)`
-- Source: `include/query/query_engine.h`:772
-- Brief: Union Sorted Lists.
-- Parameters:
-  - `lists` (std::vector< std::vector< std::string > >): Input parameter.
-- Return: Return value.
-- Details: lists Input parameter. Return value.
-
-### QueryEngine::EvaluationContext
-
-#### `void bind(const std::string &var, nlohmann::json value)`
-- Source: `include/query/query_engine.h`:817
-- Brief: Bind.
-- Parameters:
-  - `var` (const std::string &): Input parameter.
-  - `value` (nlohmann::json): Input parameter.
-- Details: var Input parameter. value Input parameter. Calls: std::move().
-
-#### `EvaluationContext createChild() const`
-- Source: `include/query/query_engine.h`:865
-- Brief: n/a
-- Parameters: none
-
-#### `std::optional< nlohmann::json > get(const std::string &var) const`
-- Source: `include/query/query_engine.h`:821
-- Brief: n/a
-- Parameters:
-  - `var` (const std::string &): n/a
-
-#### `double getBm25ScoreForPk(const std::string &pk) const`
-- Source: `include/query/query_engine.h`:839
-- Brief: n/a
-- Parameters:
-  - `pk` (const std::string &): n/a
-
-#### `std::optional< std::vector< nlohmann::json > > getCTE(const std::string &name) const`
-- Source: `include/query/query_engine.h`:862
-- Brief: Get CTE.
-- Parameters:
-  - `name` (const std::string &): Input parameter.
-- Return: Return value.
-- Details: name Input parameter. Return value.
-
-#### `void setBm25Scores(std::shared_ptr< std::unordered_map< std::string, double > > scores)`
-- Source: `include/query/query_engine.h`:836
-- Brief: n/a
-- Parameters:
-  - `scores` (std::shared_ptr< std::unordered_map< std::string, double > >): n/a
-
-#### `void storeCTE(const std::string &name, std::vector< nlohmann::json > results)`
-- Source: `include/query/query_engine.h`:856
-- Brief: Phase 4.
-- Parameters:
-  - `name` (const std::string &): Input parameter.
-  - `results` (std::vector< nlohmann::json >): Input parameter.
-- Details: Store CTE. name Input parameter. results Input parameter. 3: CTE access with cache fallback (out-of-line to avoid incomplete CTECache) name Input parameter. results Input parameter. Calls: store(), std::move().
-
-### QueryEngine::QueryExpressionEvaluator
-
-#### `QueryExpressionEvaluator(QueryEngine *engine)`
-- Source: `include/query/query_engine.h`:725
-- Brief: Query Expression Evaluator.
-- Parameters:
-  - `engine` (QueryEngine *): Input/output parameter.
-- Return: Return value.
-- Details: engine Input/output parameter. Return value.
-
-#### `bool canEvaluate(std::string_view expression) const`
-- Source: `include/query/query_engine.h`:744
-- Brief: Can Evaluate.
-- Parameters:
-  - `expression` (std::string_view): Input parameter.
-- Return: True when the operation succeeds.
-- Details: expression Input parameter. True when the operation succeeds.
-
-#### `bool evaluate(const std::string &expression, const void *context) const override`
-- Source: `include/query/query_engine.h`:729
-- Brief: n/a
-- Parameters:
-  - `expression` (const std::string &): n/a
-  - `context` (const void *): n/a
-
-#### `bool evaluateBoolean(std::string_view expression, const void *context) const`
-- Source: `include/query/query_engine.h`:738
-- Brief: Helpers for richer evaluation paths (non-override).
-- Parameters:
-  - `expression` (std::string_view): Input parameter.
-  - `context` (const void *): Input parameter.
-- Return: True when the operation succeeds.
-- Details: expression Input parameter. context Input parameter. True when the operation succeeds.
-
-#### `std::string get_expression_type() const override`
-- Source: `include/query/query_engine.h`:730
-- Brief: n/a
-- Parameters: none
-
-#### `~QueryExpressionEvaluator() override=default`
-- Source: `include/query/query_engine.h`:719
-- Brief: n/a
-- Parameters: none
-
-### QueryEngine::Status
-
-#### `Status Error(std::string msg)`
-- Source: `include/query/query_engine.h`:317
-- Brief: Error.
-- Parameters:
-  - `msg` (std::string): Input parameter.
-- Return: Return value.
-- Details: msg Input parameter. Return value. Calls: std::move().
-
-#### `Status OK()`
-- Source: `include/query/query_engine.h`:310
-- Brief: OK.
-- Parameters: none
-- Return: Return value.
-- Details: Return value. Implements OK without additional internal calls.
-
 ### QueryEngineBuilderTest
 
 #### `void SetUp() override`
-- Source: `tests/query/test_query_engine_di.cpp`:73
+- Source: `tests/query/test_query_engine_di.cpp`:75
 - Brief: n/a
 - Parameters: none
 
@@ -2485,28 +1799,6 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
-### SimilarityCallExpr
-
-#### `SimilarityCallExpr(std::vector< std::shared_ptr< Expression > > args)`
-- Source: `include/query/aql_parser.h`:260
-- Brief: n/a
-- Parameters:
-  - `args` (std::vector< std::shared_ptr< Expression > >): n/a
-
-#### `ASTNodeType getType() const override`
-- Source: `include/query/aql_parser.h`:261
-- Brief: Get Type.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `nlohmann::json toJSON() const override`
-- Source: `include/query/aql_parser.h`:262
-- Brief: To JSON.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
 ### StressStubJoinExecutor
 
 #### `JoinResult execute(uint32_t cost, int fan_out)`
@@ -2563,51 +1855,6 @@ Status: active
 - Source: `tests/query/test_query_federation_hardness.cpp`:27
 - Brief: n/a
 - Parameters: none
-
-### UnaryOpExpr
-
-#### `UnaryOpExpr(UnaryOperator o, std::shared_ptr< Expression > e)`
-- Source: `include/query/aql_parser.h`:240
-- Brief: n/a
-- Parameters:
-  - `o` (UnaryOperator): n/a
-  - `e` (std::shared_ptr< Expression >): n/a
-
-#### `ASTNodeType getType() const override`
-- Source: `include/query/aql_parser.h`:243
-- Brief: Get Type.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `nlohmann::json toJSON() const override`
-- Source: `include/query/aql_parser.h`:244
-- Brief: To JSON.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-### VariableExpr
-
-#### `VariableExpr(std::string n)`
-- Source: `include/query/aql_parser.h`:205
-- Brief: n/a
-- Parameters:
-  - `n` (std::string): n/a
-
-#### `ASTNodeType getType() const override`
-- Source: `include/query/aql_parser.h`:207
-- Brief: Get Type.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `nlohmann::json toJSON() const override`
-- Source: `include/query/aql_parser.h`:208
-- Brief: To JSON.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
 
 ### bench_adaptive_query_cache.cpp
 
@@ -2832,104 +2079,102 @@ Status: active
 ### bench_geospatial_phase2.cpp
 
 #### `BENCHMARK(BM_ContainsCostEstimation)`
-- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:265
+- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:278
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_ContainsCostEstimation): n/a
 
 #### `BENCHMARK(BM_DistanceCostEstimation)`
-- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:253
+- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:266
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_DistanceCostEstimation): n/a
 
 #### `BENCHMARK(BM_HintParsing)`
-- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:274
+- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:287
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_HintParsing): n/a
 
 #### `BENCHMARK(BM_IndexSelection)`
-- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:296
+- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:309
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_IndexSelection): n/a
 
-#### `BENCHMARK_MAIN(argc, argv)`
-- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:299
+#### `BENCHMARK_MAIN()`
+- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:312
 - Brief: n/a
-- Parameters:
-  - `<unnamed>` (argc): n/a
-  - `<unnamed>` (argv): n/a
+- Parameters: none
 
 #### `void BM_ContainsCostEstimation(benchmark::State &state)`
-- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:255
+- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:268
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_DistanceCostEstimation(benchmark::State &state)`
-- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:243
+- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:256
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_HintParsing(benchmark::State &state)`
-- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:267
+- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:280
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_IndexSelection(benchmark::State &state)`
-- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:276
+- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:289
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `TEST_F(GeospatialBenchmark, BENCH_GEO_01_DistanceNearestNeighbor)`
-- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:66
+- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:79
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GeospatialBenchmark): n/a
   - `<unnamed>` (BENCH_GEO_01_DistanceNearestNeighbor): n/a
 
 #### `TEST_F(GeospatialBenchmark, BENCH_GEO_02_ContainsPointInPolygon)`
-- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:93
+- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:106
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GeospatialBenchmark): n/a
   - `<unnamed>` (BENCH_GEO_02_ContainsPointInPolygon): n/a
 
 #### `TEST_F(GeospatialBenchmark, BENCH_GEO_03_IntersectsBoundingBox)`
-- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:122
+- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:135
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GeospatialBenchmark): n/a
   - `<unnamed>` (BENCH_GEO_03_IntersectsBoundingBox): n/a
 
 #### `TEST_F(GeospatialBenchmark, BENCH_GEO_04_ComplexQuery)`
-- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:146
+- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:159
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GeospatialBenchmark): n/a
   - `<unnamed>` (BENCH_GEO_04_ComplexQuery): n/a
 
 #### `TEST_F(GeospatialBenchmark, BENCH_GEO_05_Throughput)`
-- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:161
+- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:174
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GeospatialBenchmark): n/a
   - `<unnamed>` (BENCH_GEO_05_Throughput): n/a
 
 #### `TEST_F(GeospatialBenchmark, REGRESSION_GATE_CostEstimation)`
-- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:185
+- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:198
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GeospatialBenchmark): n/a
   - `<unnamed>` (REGRESSION_GATE_CostEstimation): n/a
 
 #### `TEST_F(GeospatialBenchmark, REGRESSION_GATE_IndexSelection)`
-- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:207
+- Source: `benchmarks/query/bench_geospatial_phase2.cpp`:220
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GeospatialBenchmark): n/a
@@ -2938,13 +2183,13 @@ Status: active
 ### bench_phase4_performance.cpp
 
 #### `BENCHMARK(BenchFallbackLatency_OnFailure) -> Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/query/bench_phase4_performance.cpp`:375
+- Source: `benchmarks/query/bench_phase4_performance.cpp`:380
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BenchFallbackLatency_OnFailure): n/a
 
 #### `BENCHMARK(BenchLatencyDistribution_VectorizedFilter) -> Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/query/bench_phase4_performance.cpp`:418
+- Source: `benchmarks/query/bench_phase4_performance.cpp`:423
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BenchLatencyDistribution_VectorizedFilter): n/a
@@ -2956,31 +2201,31 @@ Status: active
   - `<unnamed>` (BenchMemoryEnvelope_VariousSizes): n/a
 
 #### `BENCHMARK(BenchMemoryUsage_LargeBatches) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_phase4_performance.cpp`:538
+- Source: `benchmarks/query/bench_phase4_performance.cpp`:543
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BenchMemoryUsage_LargeBatches): n/a
 
 #### `BENCHMARK(BenchMemoryUsage_SmallBatches) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_phase4_performance.cpp`:521
+- Source: `benchmarks/query/bench_phase4_performance.cpp`:526
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BenchMemoryUsage_SmallBatches): n/a
 
 #### `BENCHMARK(BenchMixed_DiverseOperations) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_phase4_performance.cpp`:500
+- Source: `benchmarks/query/bench_phase4_performance.cpp`:505
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BenchMixed_DiverseOperations): n/a
 
 #### `BENCHMARK(BenchOLAP_LargeScanWithAggregation) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_phase4_performance.cpp`:454
+- Source: `benchmarks/query/bench_phase4_performance.cpp`:459
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BenchOLAP_LargeScanWithAggregation): n/a
 
 #### `BENCHMARK(BenchOLTP_PointQuerySimulation) -> Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/query/bench_phase4_performance.cpp`:476
+- Source: `benchmarks/query/bench_phase4_performance.cpp`:481
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BenchOLTP_PointQuerySimulation): n/a
@@ -2992,7 +2237,7 @@ Status: active
   - `<unnamed>` (BenchQueryCompilerColdPath): n/a
 
 #### `BENCHMARK(BenchQueryCompilerHotPath) -> Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/query/bench_phase4_performance.cpp`:323
+- Source: `benchmarks/query/bench_phase4_performance.cpp`:327
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BenchQueryCompilerHotPath): n/a
@@ -3016,13 +2261,13 @@ Status: active
   - `<unnamed>` (BenchVectorizedFilterThroughput_OLAP_1M): n/a
 
 #### `void BenchFallbackLatency_OnFailure(benchmark::State &state)`
-- Source: `benchmarks/query/bench_phase4_performance.cpp`:329
+- Source: `benchmarks/query/bench_phase4_performance.cpp`:333
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BenchLatencyDistribution_VectorizedFilter(benchmark::State &state)`
-- Source: `benchmarks/query/bench_phase4_performance.cpp`:381
+- Source: `benchmarks/query/bench_phase4_performance.cpp`:386
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
@@ -3034,31 +2279,31 @@ Status: active
   - `state` (benchmark::State &): n/a
 
 #### `void BenchMemoryUsage_LargeBatches(benchmark::State &state)`
-- Source: `benchmarks/query/bench_phase4_performance.cpp`:523
+- Source: `benchmarks/query/bench_phase4_performance.cpp`:528
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BenchMemoryUsage_SmallBatches(benchmark::State &state)`
-- Source: `benchmarks/query/bench_phase4_performance.cpp`:506
+- Source: `benchmarks/query/bench_phase4_performance.cpp`:511
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BenchMixed_DiverseOperations(benchmark::State &state)`
-- Source: `benchmarks/query/bench_phase4_performance.cpp`:478
+- Source: `benchmarks/query/bench_phase4_performance.cpp`:483
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BenchOLAP_LargeScanWithAggregation(benchmark::State &state)`
-- Source: `benchmarks/query/bench_phase4_performance.cpp`:424
+- Source: `benchmarks/query/bench_phase4_performance.cpp`:429
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BenchOLTP_PointQuerySimulation(benchmark::State &state)`
-- Source: `benchmarks/query/bench_phase4_performance.cpp`:456
+- Source: `benchmarks/query/bench_phase4_performance.cpp`:461
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
@@ -3096,254 +2341,254 @@ Status: active
 ### bench_query.cpp
 
 #### `BENCHMARK(BM_ComplexWhere) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_query.cpp`:1086
+- Source: `benchmarks/query/bench_query.cpp`:1089
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_ComplexWhere): n/a
 
 #### `BENCHMARK(BM_ComplexWhere_P99) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_query.cpp`:1089
+- Source: `benchmarks/query/bench_query.cpp`:1092
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_ComplexWhere_P99): n/a
 
 #### `BENCHMARK(BM_ComplexWhere_Scaled) -> Args({1000}) ->Args({10000}) ->Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_query.cpp`:1094
+- Source: `benchmarks/query/bench_query.cpp`:1097
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_ComplexWhere_Scaled): n/a
 
 #### `BENCHMARK(BM_JoinUsersPosts) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_query.cpp`:1087
+- Source: `benchmarks/query/bench_query.cpp`:1090
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_JoinUsersPosts): n/a
 
 #### `BENCHMARK(BM_JoinUsersPosts_Batched_P99) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_query.cpp`:1091
+- Source: `benchmarks/query/bench_query.cpp`:1094
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_JoinUsersPosts_Batched_P99): n/a
 
 #### `BENCHMARK(BM_JoinUsersPosts_IndexKeys_P99) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_query.cpp`:1092
+- Source: `benchmarks/query/bench_query.cpp`:1095
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_JoinUsersPosts_IndexKeys_P99): n/a
 
 #### `BENCHMARK(BM_JoinUsersPosts_P99) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_query.cpp`:1090
+- Source: `benchmarks/query/bench_query.cpp`:1093
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_JoinUsersPosts_P99): n/a
 
 #### `BENCHMARK(BM_JoinUsersPosts_Scaled) -> Args({1000}) ->Args({10000}) ->Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_query.cpp`:1095
+- Source: `benchmarks/query/bench_query.cpp`:1098
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_JoinUsersPosts_Scaled): n/a
 
 #### `BENCHMARK(BM_Pagination_Cursor) -> Args({20, 10}) ->Unit(benchmark::kMillisecond) ->MinTime(1.0)`
-- Source: `benchmarks/query/bench_query.cpp`:1083
+- Source: `benchmarks/query/bench_query.cpp`:1086
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Pagination_Cursor): n/a
 
 #### `BENCHMARK(BM_Pagination_Offset) -> Args({20, 10}) ->Unit(benchmark::kMillisecond) ->MinTime(1.0)`
-- Source: `benchmarks/query/bench_query.cpp`:1081
+- Source: `benchmarks/query/bench_query.cpp`:1084
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Pagination_Offset): n/a
 
 #### `BENCHMARK(BM_PointLookup) -> Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/query/bench_query.cpp`:1096
+- Source: `benchmarks/query/bench_query.cpp`:1099
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_PointLookup): n/a
 
 #### `BENCHMARK(BM_PointLookup_P99) -> Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/query/bench_query.cpp`:1098
+- Source: `benchmarks/query/bench_query.cpp`:1101
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_PointLookup_P99): n/a
 
 #### `BENCHMARK(BM_PointLookup_WithDeserialize) -> Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/query/bench_query.cpp`:1097
+- Source: `benchmarks/query/bench_query.cpp`:1100
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_PointLookup_WithDeserialize): n/a
 
 #### `BENCHMARK(BM_QueryMix_Historical) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_query.cpp`:1099
+- Source: `benchmarks/query/bench_query.cpp`:1102
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_QueryMix_Historical): n/a
 
 #### `BENCHMARK(BM_QueryMix_Historical_P99) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_query.cpp`:1100
+- Source: `benchmarks/query/bench_query.cpp`:1103
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_QueryMix_Historical_P99): n/a
 
 #### `BENCHMARK(BM_QueryMix_Historical_P99_Batched) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_query.cpp`:1101
+- Source: `benchmarks/query/bench_query.cpp`:1104
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_QueryMix_Historical_P99_Batched): n/a
 
 #### `BENCHMARK(BM_QueryMix_Historical_P99_IndexKeys) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_query.cpp`:1102
+- Source: `benchmarks/query/bench_query.cpp`:1105
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_QueryMix_Historical_P99_IndexKeys): n/a
 
 #### `BENCHMARK(BM_SimpleWhere) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_query.cpp`:1085
+- Source: `benchmarks/query/bench_query.cpp`:1088
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_SimpleWhere): n/a
 
 #### `BENCHMARK(BM_SimpleWhere_P99) -> Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_query.cpp`:1088
+- Source: `benchmarks/query/bench_query.cpp`:1091
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_SimpleWhere_P99): n/a
 
 #### `BENCHMARK(BM_SimpleWhere_Scaled) -> Args({1000}) ->Args({10000}) ->Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/query/bench_query.cpp`:1093
+- Source: `benchmarks/query/bench_query.cpp`:1096
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_SimpleWhere_Scaled): n/a
 
 #### `void BM_ComplexWhere(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:237
+- Source: `benchmarks/query/bench_query.cpp`:240
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_ComplexWhere_P99(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:554
+- Source: `benchmarks/query/bench_query.cpp`:557
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_ComplexWhere_Scaled(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:327
+- Source: `benchmarks/query/bench_query.cpp`:330
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_JoinUsersPosts(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:260
+- Source: `benchmarks/query/bench_query.cpp`:263
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_JoinUsersPosts_Batched_P99(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:630
+- Source: `benchmarks/query/bench_query.cpp`:633
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_JoinUsersPosts_IndexKeys_P99(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:669
+- Source: `benchmarks/query/bench_query.cpp`:672
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_JoinUsersPosts_P99(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:591
+- Source: `benchmarks/query/bench_query.cpp`:594
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_JoinUsersPosts_Scaled(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:347
+- Source: `benchmarks/query/bench_query.cpp`:350
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Pagination_Cursor(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:166
+- Source: `benchmarks/query/bench_query.cpp`:167
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Pagination_Offset(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:131
+- Source: `benchmarks/query/bench_query.cpp`:132
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_PointLookup(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:981
+- Source: `benchmarks/query/bench_query.cpp`:984
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_PointLookup_P99(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:1035
+- Source: `benchmarks/query/bench_query.cpp`:1038
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_PointLookup_WithDeserialize(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:1007
+- Source: `benchmarks/query/bench_query.cpp`:1010
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_QueryMix_Historical(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:714
+- Source: `benchmarks/query/bench_query.cpp`:717
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_QueryMix_Historical_P99(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:752
+- Source: `benchmarks/query/bench_query.cpp`:755
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_QueryMix_Historical_P99_Batched(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:827
+- Source: `benchmarks/query/bench_query.cpp`:830
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_QueryMix_Historical_P99_IndexKeys(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:901
+- Source: `benchmarks/query/bench_query.cpp`:904
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_SimpleWhere(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:215
+- Source: `benchmarks/query/bench_query.cpp`:218
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_SimpleWhere_P99(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:517
+- Source: `benchmarks/query/bench_query.cpp`:520
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_SimpleWhere_Scaled(benchmark::State &state)`
-- Source: `benchmarks/query/bench_query.cpp`:307
+- Source: `benchmarks/query/bench_query.cpp`:310
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `double percentile_us(std::vector< double > &samples_us, double p)`
-- Source: `benchmarks/query/bench_query.cpp`:369
+- Source: `benchmarks/query/bench_query.cpp`:372
 - Brief: n/a
 - Parameters:
   - `samples_us` (std::vector< double > &): n/a
   - `p` (double): n/a
 
 #### `bool run_complex_where(QueryEngine &engine, size_t &matched_users, std::string &err)`
-- Source: `benchmarks/query/bench_query.cpp`:392
+- Source: `benchmarks/query/bench_query.cpp`:395
 - Brief: n/a
 - Parameters:
   - `engine` (QueryEngine &): n/a
@@ -3351,7 +2596,7 @@ Status: active
   - `err` (std::string &): n/a
 
 #### `bool run_join_users_posts(QueryEngine &engine, size_t &matched_users, size_t &joined_rows, std::string &err)`
-- Source: `benchmarks/query/bench_query.cpp`:406
+- Source: `benchmarks/query/bench_query.cpp`:409
 - Brief: n/a
 - Parameters:
   - `engine` (QueryEngine &): n/a
@@ -3360,7 +2605,7 @@ Status: active
   - `err` (std::string &): n/a
 
 #### `bool run_join_users_posts_batched(QueryEngine &engine, size_t &matched_users, size_t &joined_rows, std::string &err)`
-- Source: `benchmarks/query/bench_query.cpp`:437
+- Source: `benchmarks/query/bench_query.cpp`:440
 - Brief: n/a
 - Parameters:
   - `engine` (QueryEngine &): n/a
@@ -3369,7 +2614,7 @@ Status: active
   - `err` (std::string &): n/a
 
 #### `bool run_join_users_posts_index_keys(QueryEngine &engine, size_t &matched_users, size_t &joined_rows, std::string &err)`
-- Source: `benchmarks/query/bench_query.cpp`:482
+- Source: `benchmarks/query/bench_query.cpp`:485
 - Brief: n/a
 - Parameters:
   - `engine` (QueryEngine &): n/a
@@ -3378,7 +2623,7 @@ Status: active
   - `err` (std::string &): n/a
 
 #### `bool run_simple_where(QueryEngine &engine, size_t &matched_users, std::string &err)`
-- Source: `benchmarks/query/bench_query.cpp`:379
+- Source: `benchmarks/query/bench_query.cpp`:382
 - Brief: n/a
 - Parameters:
   - `engine` (QueryEngine &): n/a
@@ -3572,7 +2817,7 @@ Status: active
 ### tbb
 
 #### `void parallel_invoke(F1 &&f1, F2 &&f2)`
-- Source: `src/query/query_engine.cpp`:144
+- Source: `src/query/query_engine.cpp`:168
 - Brief: Parallel invoke.
 - Parameters:
   - `f1` (F1 &&): Input parameter.
@@ -3580,7 +2825,7 @@ Status: active
 - Details: f1 Input parameter. f2 Input parameter. Implements parallel_invoke without additional internal calls.
 
 #### `void parallel_sort(Iter first, Iter last)`
-- Source: `src/query/query_engine.cpp`:121
+- Source: `src/query/query_engine.cpp`:145
 - Brief: Parallel sort.
 - Parameters:
   - `first` (Iter): Input parameter.
@@ -3588,7 +2833,7 @@ Status: active
 - Details: first Input parameter. last Input parameter. Calls: std::sort().
 
 #### `void parallel_sort(Iter first, Iter last, Compare comp)`
-- Source: `src/query/query_engine.cpp`:133
+- Source: `src/query/query_engine.cpp`:157
 - Brief: Parallel sort.
 - Parameters:
   - `first` (Iter): Input parameter.
@@ -3599,19 +2844,26 @@ Status: active
 ### tbb::task_group
 
 #### `void cancel() noexcept`
-- Source: `src/query/query_engine.cpp`:105
-- Brief: n/a
+- Source: `src/query/query_engine.cpp`:129
+- Brief: Compatibility alias for cancel_group_execution().
 - Parameters: none
+- Details: Retained for older code paths that still call cancel() on a task_group-like shim. This wrapper delegates to the canonical cancellation method used by the timeout watchdog. DeprecatedUse cancel_group_execution() instead.
+
+#### `void cancel_group_execution() noexcept`
+- Source: `src/query/query_engine.cpp`:117
+- Brief: Request cancellation for the fallback task group.
+- Parameters: none
+- Details: Marks the group as cancelled so queued work is skipped and timeout-driven cancellation skips queued work after any active task returns. The atomic stop flag can be published by the timeout watchdog while the calling thread is executing a task.
 
 #### `void run(F &&f)`
-- Source: `src/query/query_engine.cpp`:86
+- Source: `src/query/query_engine.cpp`:88
 - Brief: Run.
 - Parameters:
   - `f` (F &&): Input parameter.
 - Details: f Input parameter. Calls: emplace_back().
 
 #### `void wait()`
-- Source: `src/query/query_engine.cpp`:96
+- Source: `src/query/query_engine.cpp`:98
 - Brief: Wait.
 - Parameters: none
 - Details: Calls: task(), clear().
@@ -3714,14 +2966,14 @@ Status: active
 
 #### `TEST_F(AqlDdlPhase2Test, DDL14_CreateCollectionDuplicateErrors)`
 - Source: `tests/query/test_aql_ddl_phase2.cpp`:202
-- Brief: DDL-14 — CREATE COLLECTION duplicate → error (without IF NOT EXISTS).
+- Brief: DDL-14 — CREATE COLLECTION duplicate → error (without IF NOT EXISTS)
 - Parameters:
   - `<unnamed>` (AqlDdlPhase2Test): n/a
   - `<unnamed>` (DDL14_CreateCollectionDuplicateErrors): n/a
 
 #### `TEST_F(AqlDdlPhase2Test, DDL15_CreateCollectionIfNotExistsIdempotent)`
 - Source: `tests/query/test_aql_ddl_phase2.cpp`:209
-- Brief: DDL-15 — CREATE COLLECTION duplicate IF NOT EXISTS → Ok (idempotent).
+- Brief: DDL-15 — CREATE COLLECTION duplicate IF NOT EXISTS → Ok (idempotent)
 - Parameters:
   - `<unnamed>` (AqlDdlPhase2Test): n/a
   - `<unnamed>` (DDL15_CreateCollectionIfNotExistsIdempotent): n/a
@@ -3735,14 +2987,14 @@ Status: active
 
 #### `TEST_F(AqlDdlPhase2Test, DDL17_DropCollectionNonExistentErrors)`
 - Source: `tests/query/test_aql_ddl_phase2.cpp`:225
-- Brief: DDL-17 — DROP COLLECTION non-existent → error (without IF EXISTS).
+- Brief: DDL-17 — DROP COLLECTION non-existent → error (without IF EXISTS)
 - Parameters:
   - `<unnamed>` (AqlDdlPhase2Test): n/a
   - `<unnamed>` (DDL17_DropCollectionNonExistentErrors): n/a
 
 #### `TEST_F(AqlDdlPhase2Test, DDL18_DropCollectionIfExistsIdempotent)`
 - Source: `tests/query/test_aql_ddl_phase2.cpp`:230
-- Brief: DDL-18 — DROP COLLECTION non-existent IF EXISTS → Ok (idempotent).
+- Brief: DDL-18 — DROP COLLECTION non-existent IF EXISTS → Ok (idempotent)
 - Parameters:
   - `<unnamed>` (AqlDdlPhase2Test): n/a
   - `<unnamed>` (DDL18_DropCollectionIfExistsIdempotent): n/a
@@ -3826,7 +3078,7 @@ Status: active
 
 #### `TEST_F(AqlDdlPhase2Test, DDL30_ConcurrentCreateDropDifferentCollections)`
 - Source: `tests/query/test_aql_ddl_phase2.cpp`:329
-- Brief: DDL-30 — Concurrent CREATE/DROP on different collections (thread-safety).
+- Brief: DDL-30 — Concurrent CREATE/DROP on different collections (thread-safety)
 - Parameters:
   - `<unnamed>` (AqlDdlPhase2Test): n/a
   - `<unnamed>` (DDL30_ConcurrentCreateDropDifferentCollections): n/a
@@ -3974,6 +3226,29 @@ Status: active
   - `<unnamed>` (FtsParserTest): n/a
   - `<unnamed>` (FtsP16_BareStringTermPredicate): n/a
 - Details: FTS-P-16: SEARCH "bare_term" → TERM predicate with term="bare_term", field empty.
+
+### test_aql_fts_phrase_proximity.cpp
+
+#### `TEST(AqlFtsPhraseProximityTest, ParsesNearDistanceIntoProximityPredicate)`
+- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:23
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (AqlFtsPhraseProximityTest): n/a
+  - `<unnamed>` (ParsesNearDistanceIntoProximityPredicate): n/a
+
+#### `TEST(AqlFtsPhraseProximityTest, ParsesPhrasePredicateIntoSearchClause)`
+- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:7
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (AqlFtsPhraseProximityTest): n/a
+  - `<unnamed>` (ParsesPhrasePredicateIntoSearchClause): n/a
+
+#### `TEST(AqlFtsPhraseProximityTest, RejectsMalformedPhrasePredicate)`
+- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:40
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (AqlFtsPhraseProximityTest): n/a
+  - `<unnamed>` (RejectsMalformedPhrasePredicate): n/a
 
 ### test_continuous_query_e2e.cpp
 
@@ -5412,6 +4687,94 @@ Status: active
   - `<unnamed>` (QueryCrossFeatureMatrixTest): n/a
   - `<unnamed>` (QCFM04_CrossFeaturePlanCacheHonoursDeadlines): n/a
 
+### test_query_deadlock_concurrent_timeout.cpp
+
+#### `TEST(QueryCancellerTimeoutTest, CancelledQueryDoesNotDeadlock)`
+- Source: `tests/query/test_query_deadlock_concurrent_timeout.cpp`:367
+- Brief: Verify that query cancellation doesn't cause deadlock in concurrent scenarios.
+- Parameters:
+  - `<unnamed>` (QueryCancellerTimeoutTest): n/a
+  - `<unnamed>` (CancelledQueryDoesNotDeadlock): n/a
+- Details: TestQueryCancellerTimeoutTest::CancelledQueryDoesNotDeadlock
+
+#### `TEST_F(ParallelExecutorDeadlockTest, ConcurrentScansNoDeadlock)`
+- Source: `tests/query/test_query_deadlock_concurrent_timeout.cpp`:215
+- Brief: Verify multiple concurrent parallel scans don't deadlock each other. This is a stress test to catch lock-order or nested blocking issues.
+- Parameters:
+  - `<unnamed>` (ParallelExecutorDeadlockTest): n/a
+  - `<unnamed>` (ConcurrentScansNoDeadlock): n/a
+- Details: TestParallelExecutorDeadlockTest::ConcurrentScansNoDeadlock
+
+#### `TEST_F(ParallelExecutorDeadlockTest, ConcurrentScansWithTimeoutPressureDontBlock)`
+- Source: `tests/query/test_query_deadlock_concurrent_timeout.cpp`:256
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (ParallelExecutorDeadlockTest): n/a
+  - `<unnamed>` (ConcurrentScansWithTimeoutPressureDontBlock): n/a
+
+#### `TEST_F(ParallelExecutorDeadlockTest, ParallelAggregateNoDeadlock)`
+- Source: `tests/query/test_query_deadlock_concurrent_timeout.cpp`:330
+- Brief: Verify parallel aggregate doesn't deadlock on completion.
+- Parameters:
+  - `<unnamed>` (ParallelExecutorDeadlockTest): n/a
+  - `<unnamed>` (ParallelAggregateNoDeadlock): n/a
+- Details: TestParallelExecutorDeadlockTest::ParallelAggregateNoDeadlock
+
+#### `TEST_F(ParallelExecutorDeadlockTest, ParallelHashJoinNoDeadlock)`
+- Source: `tests/query/test_query_deadlock_concurrent_timeout.cpp`:287
+- Brief: Verify parallel hash join doesn't deadlock on completion.
+- Parameters:
+  - `<unnamed>` (ParallelExecutorDeadlockTest): n/a
+  - `<unnamed>` (ParallelHashJoinNoDeadlock): n/a
+- Details: TestParallelExecutorDeadlockTest::ParallelHashJoinNoDeadlock
+
+#### `TEST_F(ParallelExecutorDeadlockTest, ParallelScanTimeoutAvoidsDeadlock)`
+- Source: `tests/query/test_query_deadlock_concurrent_timeout.cpp`:132
+- Brief: Verify timeout handling returns without hanging on long-running scan tasks.
+- Parameters:
+  - `<unnamed>` (ParallelExecutorDeadlockTest): n/a
+  - `<unnamed>` (ParallelScanTimeoutAvoidsDeadlock): n/a
+- Details: TestParallelExecutorDeadlockTest::ParallelScanTimeoutAvoidsDeadlock
+
+#### `TEST_F(ParallelExecutorDeadlockTest, ParallelScanWithEmptyInput)`
+- Source: `tests/query/test_query_deadlock_concurrent_timeout.cpp`:170
+- Brief: Verify parallel scan handles empty input correctly. Tests the null guard on sequential fallback path.
+- Parameters:
+  - `<unnamed>` (ParallelExecutorDeadlockTest): n/a
+  - `<unnamed>` (ParallelScanWithEmptyInput): n/a
+- Details: TestParallelExecutorDeadlockTest::ParallelScanWithEmptyInput
+
+#### `TEST_F(ParallelExecutorDeadlockTest, ParallelScanWithQuickCompletion)`
+- Source: `tests/query/test_query_deadlock_concurrent_timeout.cpp`:67
+- Brief: Verify parallel scan completes without deadlock when all tasks finish promptly.
+- Parameters:
+  - `<unnamed>` (ParallelExecutorDeadlockTest): n/a
+  - `<unnamed>` (ParallelScanWithQuickCompletion): n/a
+- Details: TestParallelExecutorDeadlockTest::ParallelScanWithQuickCompletion
+
+#### `TEST_F(ParallelExecutorDeadlockTest, ParallelScanWithSlowFilter)`
+- Source: `tests/query/test_query_deadlock_concurrent_timeout.cpp`:99
+- Brief: Verify parallel scan completes even with slow filter functions. This tests that watchdog timeout doesn't cause deadlock in the join operation.
+- Parameters:
+  - `<unnamed>` (ParallelExecutorDeadlockTest): n/a
+  - `<unnamed>` (ParallelScanWithSlowFilter): n/a
+- Details: TestParallelExecutorDeadlockTest::ParallelScanWithSlowFilter
+
+#### `TEST_F(ParallelExecutorDeadlockTest, SequentialFallbackPath)`
+- Source: `tests/query/test_query_deadlock_concurrent_timeout.cpp`:189
+- Brief: Verify sequential path is used when parallelism is disabled.
+- Parameters:
+  - `<unnamed>` (ParallelExecutorDeadlockTest): n/a
+  - `<unnamed>` (SequentialFallbackPath): n/a
+- Details: TestParallelExecutorDeadlockTest::SequentialFallbackPath
+
+#### `BaseEntity createTestEntity(const std::string &id, int value)`
+- Source: `tests/query/test_query_deadlock_concurrent_timeout.cpp`:39
+- Brief: n/a
+- Parameters:
+  - `id` (const std::string &): n/a
+  - `value` (int): n/a
+
 ### test_query_engine.cpp
 
 #### `TEST(QueryEngineTest, AndQuery_UsesSecondaryIndexes)`
@@ -5458,56 +4821,56 @@ Status: active
 ### test_query_engine_di.cpp
 
 #### `TEST_F(QueryEngineBuilderTest, BuildWithAllDeps)`
-- Source: `tests/query/test_query_engine_di.cpp`:82
+- Source: `tests/query/test_query_engine_di.cpp`:84
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryEngineBuilderTest): n/a
   - `<unnamed>` (BuildWithAllDeps): n/a
 
 #### `TEST_F(QueryEngineBuilderTest, BuildWithNoDepsThrows)`
-- Source: `tests/query/test_query_engine_di.cpp`:108
+- Source: `tests/query/test_query_engine_di.cpp`:110
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryEngineBuilderTest): n/a
   - `<unnamed>` (BuildWithNoDepsThrows): n/a
 
 #### `TEST_F(QueryEngineBuilderTest, BuildWithNullStorage)`
-- Source: `tests/query/test_query_engine_di.cpp`:91
+- Source: `tests/query/test_query_engine_di.cpp`:93
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryEngineBuilderTest): n/a
   - `<unnamed>` (BuildWithNullStorage): n/a
 
 #### `TEST_F(QueryEngineBuilderTest, BuildWithoutIndexManagerThrows)`
-- Source: `tests/query/test_query_engine_di.cpp`:100
+- Source: `tests/query/test_query_engine_di.cpp`:102
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryEngineBuilderTest): n/a
   - `<unnamed>` (BuildWithoutIndexManagerThrows): n/a
 
 #### `TEST_F(QueryEngineBuilderTest, FluentChaining)`
-- Source: `tests/query/test_query_engine_di.cpp`:126
+- Source: `tests/query/test_query_engine_di.cpp`:128
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryEngineBuilderTest): n/a
   - `<unnamed>` (FluentChaining): n/a
 
 #### `TEST_F(QueryEngineBuilderTest, LateBindingViaSetStorage)`
-- Source: `tests/query/test_query_engine_di.cpp`:135
+- Source: `tests/query/test_query_engine_di.cpp`:137
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryEngineBuilderTest): n/a
   - `<unnamed>` (LateBindingViaSetStorage): n/a
 
 #### `TEST_F(QueryEngineBuilderTest, StandardFactoryRequiresDeps)`
-- Source: `tests/query/test_query_engine_di.cpp`:113
+- Source: `tests/query/test_query_engine_di.cpp`:115
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryEngineBuilderTest): n/a
   - `<unnamed>` (StandardFactoryRequiresDeps): n/a
 
 #### `TEST_F(QueryEngineBuilderTest, StandardFactoryWithIndexManager)`
-- Source: `tests/query/test_query_engine_di.cpp`:118
+- Source: `tests/query/test_query_engine_di.cpp`:120
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryEngineBuilderTest): n/a
@@ -7367,42 +6730,42 @@ Status: active
   - `<unnamed>` (AdminRoleBypassesMasking): n/a
 
 #### `TEST_F(QueryMaskingPolicyTest, AutoDetectEmailInValue)`
-- Source: `tests/query/test_query_masking_policy.cpp`:100
+- Source: `tests/query/test_query_masking_policy.cpp`:109
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryMaskingPolicyTest): n/a
   - `<unnamed>` (AutoDetectEmailInValue): n/a
 
 #### `TEST_F(QueryMaskingPolicyTest, AutoDetectSSNInValue)`
-- Source: `tests/query/test_query_masking_policy.cpp`:113
+- Source: `tests/query/test_query_masking_policy.cpp`:122
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryMaskingPolicyTest): n/a
   - `<unnamed>` (AutoDetectSSNInValue): n/a
 
 #### `TEST_F(QueryMaskingPolicyTest, BothDetectionModesDisabledPassesThrough)`
-- Source: `tests/query/test_query_masking_policy.cpp`:312
+- Source: `tests/query/test_query_masking_policy.cpp`:321
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryMaskingPolicyTest): n/a
   - `<unnamed>` (BothDetectionModesDisabledPassesThrough): n/a
 
 #### `TEST_F(QueryMaskingPolicyTest, ConcurrentMaskAndDeclareFieldIsSafe)`
-- Source: `tests/query/test_query_masking_policy.cpp`:263
+- Source: `tests/query/test_query_masking_policy.cpp`:272
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryMaskingPolicyTest): n/a
   - `<unnamed>` (ConcurrentMaskAndDeclareFieldIsSafe): n/a
 
 #### `TEST_F(QueryMaskingPolicyTest, DeclaredFieldAlwaysMasked)`
-- Source: `tests/query/test_query_masking_policy.cpp`:126
+- Source: `tests/query/test_query_masking_policy.cpp`:135
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryMaskingPolicyTest): n/a
   - `<unnamed>` (DeclaredFieldAlwaysMasked): n/a
 
 #### `TEST_F(QueryMaskingPolicyTest, DeclaredFieldWithExplicitPIITypeHint)`
-- Source: `tests/query/test_query_masking_policy.cpp`:331
+- Source: `tests/query/test_query_masking_policy.cpp`:340
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryMaskingPolicyTest): n/a
@@ -7423,14 +6786,14 @@ Status: active
   - `<unnamed>` (EmailFieldMaskedByName): n/a
 
 #### `TEST_F(QueryMaskingPolicyTest, EmptyArrayReturnedAsEmptyArray)`
-- Source: `tests/query/test_query_masking_policy.cpp`:249
+- Source: `tests/query/test_query_masking_policy.cpp`:258
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryMaskingPolicyTest): n/a
   - `<unnamed>` (EmptyArrayReturnedAsEmptyArray): n/a
 
 #### `TEST_F(QueryMaskingPolicyTest, EmptyObjectReturnedAsEmptyObject)`
-- Source: `tests/query/test_query_masking_policy.cpp`:242
+- Source: `tests/query/test_query_masking_policy.cpp`:251
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryMaskingPolicyTest): n/a
@@ -7443,6 +6806,13 @@ Status: active
   - `<unnamed>` (QueryMaskingPolicyTest): n/a
   - `<unnamed>` (EnabledByDefault): n/a
 
+#### `TEST_F(QueryMaskingPolicyTest, GenericNameAndCityFieldsPassThroughByDefault)`
+- Source: `tests/query/test_query_masking_policy.cpp`:96
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryMaskingPolicyTest): n/a
+  - `<unnamed>` (GenericNameAndCityFieldsPassThroughByDefault): n/a
+
 #### `TEST_F(QueryMaskingPolicyTest, IsPrivilegedReturnsTrueForAdminRole)`
 - Source: `tests/query/test_query_masking_policy.cpp`:64
 - Brief: n/a
@@ -7451,35 +6821,35 @@ Status: active
   - `<unnamed>` (IsPrivilegedReturnsTrueForAdminRole): n/a
 
 #### `TEST_F(QueryMaskingPolicyTest, MaskResultSetAdminBypassesAll)`
-- Source: `tests/query/test_query_masking_policy.cpp`:170
+- Source: `tests/query/test_query_masking_policy.cpp`:179
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryMaskingPolicyTest): n/a
   - `<unnamed>` (MaskResultSetAdminBypassesAll): n/a
 
 #### `TEST_F(QueryMaskingPolicyTest, MaskResultSetMasksAllEntities)`
-- Source: `tests/query/test_query_masking_policy.cpp`:152
+- Source: `tests/query/test_query_masking_policy.cpp`:161
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryMaskingPolicyTest): n/a
   - `<unnamed>` (MaskResultSetMasksAllEntities): n/a
 
 #### `TEST_F(QueryMaskingPolicyTest, MaskResultSetOnObjectFallsBackToMaskResult)`
-- Source: `tests/query/test_query_masking_policy.cpp`:229
+- Source: `tests/query/test_query_masking_policy.cpp`:238
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryMaskingPolicyTest): n/a
   - `<unnamed>` (MaskResultSetOnObjectFallsBackToMaskResult): n/a
 
 #### `TEST_F(QueryMaskingPolicyTest, MixedRolesWithAdminBypassesMasking)`
-- Source: `tests/query/test_query_masking_policy.cpp`:298
+- Source: `tests/query/test_query_masking_policy.cpp`:307
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryMaskingPolicyTest): n/a
   - `<unnamed>` (MixedRolesWithAdminBypassesMasking): n/a
 
 #### `TEST_F(QueryMaskingPolicyTest, NestedObjectFieldsMasked)`
-- Source: `tests/query/test_query_masking_policy.cpp`:187
+- Source: `tests/query/test_query_masking_policy.cpp`:196
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryMaskingPolicyTest): n/a
@@ -7500,14 +6870,14 @@ Status: active
   - `<unnamed>` (NonPrivilegedRoleGetsMaskedResults): n/a
 
 #### `TEST_F(QueryMaskingPolicyTest, NumericAndBoolFieldsPassThrough)`
-- Source: `tests/query/test_query_masking_policy.cpp`:209
+- Source: `tests/query/test_query_masking_policy.cpp`:218
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryMaskingPolicyTest): n/a
   - `<unnamed>` (NumericAndBoolFieldsPassThrough): n/a
 
 #### `TEST_F(QueryMaskingPolicyTest, UndeclaredFieldRestoredToAutoDetect)`
-- Source: `tests/query/test_query_masking_policy.cpp`:137
+- Source: `tests/query/test_query_masking_policy.cpp`:146
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (QueryMaskingPolicyTest): n/a
@@ -7559,7 +6929,7 @@ Status: active
 
 #### `TEST_F(QueryOptimizerRegressionTests, CM7_ExternalSortDetection)`
 - Source: `tests/query/test_query_optimizer_regression.cpp`:281
-- Brief: Test 17: External sort detection (via public estimateSort API).
+- Brief: Test 17: External sort detection (via public estimateSort API)
 - Parameters:
   - `<unnamed>` (QueryOptimizerRegressionTests): n/a
   - `<unnamed>` (CM7_ExternalSortDetection): n/a
@@ -7699,7 +7069,7 @@ Status: active
 
 #### `TEST_F(QueryOptimizerRegressionTests, RC4_HistogramSelectivityRangeLess)`
 - Source: `tests/query/test_query_optimizer_regression.cpp`:119
-- Brief: Test 4: Histogram range query (<).
+- Brief: Test 4: Histogram range query (<)
 - Parameters:
   - `<unnamed>` (QueryOptimizerRegressionTests): n/a
   - `<unnamed>` (RC4_HistogramSelectivityRangeLess): n/a
@@ -7734,7 +7104,7 @@ Status: active
 
 #### `TEST_F(QueryOptimizerRegressionTests, RC9_JoinCardinalityIndependent)`
 - Source: `tests/query/test_query_optimizer_regression.cpp`:195
-- Brief: Test 9: Cardinality without correlation (independent).
+- Brief: Test 9: Cardinality without correlation (independent)
 - Parameters:
   - `<unnamed>` (QueryOptimizerRegressionTests): n/a
   - `<unnamed>` (RC9_JoinCardinalityIndependent): n/a
@@ -9454,7 +8824,7 @@ Status: active
 - Details: algo Input parameter. Pointer to the result. Exception safety: noexcept.
 
 #### `bool waitWithTimeout(tbb::task_group &tg, double timeout_seconds=5.0) noexcept`
-- Source: `src/query/parallel_executor.cpp`:116
+- Source: `src/query/parallel_executor.cpp`:160
 - Brief: n/a
 - Parameters:
   - `tg` (tbb::task_group &): n/a
@@ -10643,7 +10013,7 @@ Status: active
 ### themis::query
 
 #### `TEST_F(AQLValidationPerformanceTest, BatchValidation)`
-- Source: `tests/query/test_aql_validation_performance.cpp`:229
+- Source: `tests/query/test_aql_validation_performance.cpp`:234
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLValidationPerformanceTest): n/a
@@ -10719,328 +10089,8 @@ Status: active
   - `<unnamed>` (CQWatermarkTest): n/a
   - `<unnamed>` (LateEventTrackingExceptionSafety): n/a
 
-#### `TEST_F(FTSPhraseProximityTest, FPH01_BasicPhraseExactSequence)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:64
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH01_BasicPhraseExactSequence): n/a
-- Details: FPH-01: Basic phrase query — exact sequence Query: PHRASE("hello world") Expected: Returns documents containing "hello world" in exact sequence
-
-#### `TEST_F(FTSPhraseProximityTest, FPH02_PhraseWithPunctuation)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:75
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH02_PhraseWithPunctuation): n/a
-- Details: FPH-02: Phrase query with punctuation handling Query: PHRASE("don't", "worry") Expected: Handles apostrophes and punctuation correctly
-
-#### `TEST_F(FTSPhraseProximityTest, FPH03_MultiWordPhrase)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:85
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH03_MultiWordPhrase): n/a
-- Details: FPH-03: Multi-word phrase matching Query: PHRASE("the quick brown fox") Expected: Matches exact 4-word sequence
-
-#### `TEST_F(FTSPhraseProximityTest, FPH04_CaseInsensitivePhrase)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:95
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH04_CaseInsensitivePhrase): n/a
-- Details: FPH-04: Phrase query case insensitivity Query: PHRASE("Hello World") should match "hello world" Expected: Case-insensitive matching
-
-#### `TEST_F(FTSPhraseProximityTest, FPH05_PhraseWithSpecialChars)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:105
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH05_PhraseWithSpecialChars): n/a
-- Details: FPH-05: Phrase with special characters Query: PHRASE("C++ programming") Expected: Correctly handles special characters
-
-#### `TEST_F(FTSPhraseProximityTest, FPH06_NegatedPhrase)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:115
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH06_NegatedPhrase): n/a
-- Details: FPH-06: Phrase matching with negation Query: !PHRASE("deprecated API") Expected: Returns documents NOT containing the phrase
-
-#### `TEST_F(FTSPhraseProximityTest, FPH07_PhraseWithOtherFilters)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:125
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH07_PhraseWithOtherFilters): n/a
-- Details: FPH-07: Phrase combined with other filters Query: PHRASE() AND FILTER u.age > 18 Expected: Combines phrase search with other predicates
-
-#### `TEST_F(FTSPhraseProximityTest, FPH08_MultiplePhrasesOR)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:135
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH08_MultiplePhrasesOR): n/a
-- Details: FPH-08: Multiple phrase conditions (OR) Query: PHRASE() \|\| PHRASE() Expected: Matches either phrase
-
-#### `TEST_F(FTSPhraseProximityTest, FPH09_PhraseOnSpecificField)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:145
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH09_PhraseOnSpecificField): n/a
-- Details: FPH-09: Phrase query on specific fields Query: PHRASE(doc.title, ...) vs PHRASE(doc.body, ...) Expected: Field-specific phrase searching
-
-#### `TEST_F(FTSPhraseProximityTest, FPH10_PhraseWithStemming)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:155
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH10_PhraseWithStemming): n/a
-- Details: FPH-10: Phrase with stemming/lemmatization Query: PHRASE("running run runs") Expected: Stem variants recognized in phrase
-
-#### `TEST_F(FTSPhraseProximityTest, FPH11_EmptyPhrase)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:165
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH11_EmptyPhrase): n/a
-- Details: FPH-11: Empty phrase query Query: PHRASE(doc.content, "") Expected: Returns all documents (or error handling)
-
-#### `TEST_F(FTSPhraseProximityTest, FPH12_SingleWordPhrase)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:175
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH12_SingleWordPhrase): n/a
-- Details: FPH-12: Single-word phrase Query: PHRASE(doc.content, "single") Expected: Matches single word (equivalent to term search)
-
-#### `TEST_F(FTSPhraseProximityTest, FPH13_PhraseWithNumbers)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:185
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH13_PhraseWithNumbers): n/a
-- Details: FPH-13: Phrase with numbers Query: PHRASE("version 2.0.0") Expected: Correctly handles numeric values in phrases
-
-#### `TEST_F(FTSPhraseProximityTest, FPH14_PhraseResultSorting)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:195
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH14_PhraseResultSorting): n/a
-- Details: FPH-14: Phrase query result sorting Query: PHRASE() ... SORT BY relevance DESC Expected: Results sorted by phrase relevance/position
-
-#### `TEST_F(FTSPhraseProximityTest, FPH15_PhraseWithLimit)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:205
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH15_PhraseWithLimit): n/a
-- Details: FPH-15: Phrase query with limit Query: PHRASE() LIMIT 10 Expected: Returns top 10 phrase matches
-
-#### `TEST_F(FTSPhraseProximityTest, FPH16_PhraseWithWildcards)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:215
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH16_PhraseWithWildcards): n/a
-- Details: FPH-16: Phrase with wildcards (if supported) Query: PHRASE("term* remaining") Expected: Prefix matching within phrase
-
-#### `TEST_F(FTSPhraseProximityTest, FPH17_PhrasePerformanceLatency)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:224
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH17_PhrasePerformanceLatency): n/a
-- Details: FPH-17: Performance test — phrase query latency Expected: ≤100ms on 100K documents
-
-#### `TEST_F(FTSPhraseProximityTest, FPH18_PhrasePerformanceThroughput)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:234
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH18_PhrasePerformanceThroughput): n/a
-- Details: FPH-18: Performance test — phrase throughput Expected: Process ≥100 phrases/second
-
-#### `TEST_F(FTSPhraseProximityTest, FPH19_PhraseIndexUsage)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:252
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH19_PhraseIndexUsage): n/a
-- Details: FPH-19: Phrase index usage verification Expected: Query uses phrase index (if available)
-
-#### `TEST_F(FTSPhraseProximityTest, FPH20_PhraseErrorHandling)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:262
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPH20_PhraseErrorHandling): n/a
-- Details: FPH-20: Phrase query error handling Expected: Invalid phrases generate meaningful errors
-
-#### `TEST_F(FTSPhraseProximityTest, FPX01_BasicProximity)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:277
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX01_BasicProximity): n/a
-- Details: FPX-01: Basic proximity query Query: PROXIMITY("term1", "term2", distance=5) Expected: Returns documents with terms within 5 words
-
-#### `TEST_F(FTSPhraseProximityTest, FPX02_ProximityDefaultDistance)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:287
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX02_ProximityDefaultDistance): n/a
-- Details: FPX-02: Proximity with default distance Query: PROXIMITY("term1", "term2") Expected: Uses default distance (e.g., 10 words)
-
-#### `TEST_F(FTSPhraseProximityTest, FPX03_ProximityZeroDistance)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:297
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX03_ProximityZeroDistance): n/a
-- Details: FPX-03: Proximity with zero distance (same as phrase) Query: PROXIMITY("term1", "term2", distance=0) Expected: Matches adjacent terms
-
-#### `TEST_F(FTSPhraseProximityTest, FPX04_ProximityLargeDistance)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:307
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX04_ProximityLargeDistance): n/a
-- Details: FPX-04: Proximity with large distance Query: PROXIMITY("term1", "term2", distance=100) Expected: Matches terms far apart but within limit
-
-#### `TEST_F(FTSPhraseProximityTest, FPX05_ProximityMultipleTerms)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:317
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX05_ProximityMultipleTerms): n/a
-- Details: FPX-05: Proximity with multiple terms Query: PROXIMITY("term1", "term2", "term3", distance=10) Expected: All terms within 10-word window
-
-#### `TEST_F(FTSPhraseProximityTest, FPX06_ProximityOrdered)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:327
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX06_ProximityOrdered): n/a
-- Details: FPX-06: Proximity with ordered terms Query: PROXIMITY("first", "second", ordered=true) Expected: Terms must appear in specified order
-
-#### `TEST_F(FTSPhraseProximityTest, FPX07_ProximityUnordered)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:337
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX07_ProximityUnordered): n/a
-- Details: FPX-07: Proximity with unordered terms Query: PROXIMITY("first", "second", ordered=false) Expected: Terms can appear in any order within distance
-
-#### `TEST_F(FTSPhraseProximityTest, FPX08_NegatedProximity)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:347
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX08_NegatedProximity): n/a
-- Details: FPX-08: Proximity negation Query: !PROXIMITY("term1", "term2") Expected: Returns documents where terms are NOT proximal
-
-#### `TEST_F(FTSPhraseProximityTest, FPX09_ProximityFieldScoping)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:357
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX09_ProximityFieldScoping): n/a
-- Details: FPX-09: Proximity with field scoping Query: PROXIMITY(doc.title, ...) vs PROXIMITY(doc.body, ...) Expected: Proximity search on specific fields
-
-#### `TEST_F(FTSPhraseProximityTest, FPX10_ProximityAndPhrase)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:367
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX10_ProximityAndPhrase): n/a
-- Details: FPX-10: Proximity combined with phrase Query: PHRASE() AND PROXIMITY() Expected: Combines phrase and proximity conditions
-
-#### `TEST_F(FTSPhraseProximityTest, FPX11_ProximityCaseInsensitive)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:377
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX11_ProximityCaseInsensitive): n/a
-- Details: FPX-11: Proximity with case handling Query: PROXIMITY("Term1", "term2") Expected: Case-insensitive matching
-
-#### `TEST_F(FTSPhraseProximityTest, FPX12_ProximityWithNumbers)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:387
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX12_ProximityWithNumbers): n/a
-- Details: FPX-12: Proximity with numbers Query: PROXIMITY("version", "2.0") Expected: Handles numeric proximity
-
-#### `TEST_F(FTSPhraseProximityTest, FPX13_ProximityStemming)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:397
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX13_ProximityStemming): n/a
-- Details: FPX-13: Proximity with stemming Query: PROXIMITY("running", "run", distance=5) Expected: Stem variants recognized in proximity
-
-#### `TEST_F(FTSPhraseProximityTest, FPX14_ProximitySorting)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:407
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX14_ProximitySorting): n/a
-- Details: FPX-14: Proximity sorting by distance Query: PROXIMITY() SORT BY _distance ASC Expected: Results sorted by proximity distance
-
-#### `TEST_F(FTSPhraseProximityTest, FPX15_ProximityDistanceProjection)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:417
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX15_ProximityDistanceProjection): n/a
-- Details: FPX-15: Proximity result projection with distance Query: PROXIMITY() RETURN {doc, distance: _distance} Expected: Include distance metric in results
-
-#### `TEST_F(FTSPhraseProximityTest, FPX16_ProximityPerformanceLatency)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:426
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX16_ProximityPerformanceLatency): n/a
-- Details: FPX-16: Performance test — proximity query latency Expected: ≤100ms on 100K documents
-
-#### `TEST_F(FTSPhraseProximityTest, FPX17_ProximityPerformanceThroughput)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:436
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX17_ProximityPerformanceThroughput): n/a
-- Details: FPX-17: Performance test — proximity throughput Expected: Process ≥100 proximity queries/second
-
-#### `TEST_F(FTSPhraseProximityTest, FPX18_ProximityIndexUsage)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:454
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX18_ProximityIndexUsage): n/a
-- Details: FPX-18: Proximity index usage Expected: Query uses proximity index (if available)
-
-#### `TEST_F(FTSPhraseProximityTest, FPX19_ProximityErrorHandling)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:463
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX19_ProximityErrorHandling): n/a
-- Details: FPX-19: Proximity error handling Expected: Invalid proximity syntax generates clear errors
-
-#### `TEST_F(FTSPhraseProximityTest, FPX20_ProximityLargeScale)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:473
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (FTSPhraseProximityTest): n/a
-  - `<unnamed>` (FPX20_ProximityLargeScale): n/a
-- Details: FPX-20: Proximity with very large document set Expected: Maintains ≤100ms latency on 100K+ documents
-
 #### `TEST_F(LLMAQLValidationTest, DDLDisabled)`
-- Source: `tests/query/test_aql_llm_integration.cpp`:174
+- Source: `tests/query/test_aql_llm_integration.cpp`:184
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLValidationTest): n/a
@@ -11048,7 +10098,7 @@ Status: active
 - Details: TestDDLDisabled: Parser rejects DDL when disabled Simulates: LLM attempts to generate CREATE COLLECTION, parser rejects (DDL is disabled in SetUp for security reasons)
 
 #### `TEST_F(LLMAQLValidationTest, ErrorCategoryPopulated)`
-- Source: `tests/query/test_aql_llm_integration.cpp`:252
+- Source: `tests/query/test_aql_llm_integration.cpp`:287
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLValidationTest): n/a
@@ -11056,7 +10106,7 @@ Status: active
 - Details: TestErrorCategoryPopulated: Parser provides error categorization Simulates: LLM categorizes error types for appropriate retry strategy
 
 #### `TEST_F(LLMAQLValidationTest, JoinQuery)`
-- Source: `tests/query/test_aql_llm_integration.cpp`:187
+- Source: `tests/query/test_aql_llm_integration.cpp`:197
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLValidationTest): n/a
@@ -11096,7 +10146,7 @@ Status: active
 - Details: TestParserDiagnosticsIncludeSuggestions: Error message may include suggestions Simulates: LLM receives corrective suggestions from parser for retry Note: Suggestions are optional based on error type, but when available, the LLM can use them to refine the query for retry
 
 #### `TEST_F(LLMAQLValidationTest, ParserVersion)`
-- Source: `tests/query/test_aql_llm_integration.cpp`:273
+- Source: `tests/query/test_aql_llm_integration.cpp`:308
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLValidationTest): n/a
@@ -11104,7 +10154,7 @@ Status: active
 - Details: TestParserVersion: Verify parser service version Simulates: Client queries parser version for compatibility check
 
 #### `TEST_F(LLMAQLValidationTest, QueryWithComplexExpression)`
-- Source: `tests/query/test_aql_llm_integration.cpp`:160
+- Source: `tests/query/test_aql_llm_integration.cpp`:170
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLValidationTest): n/a
@@ -11112,7 +10162,7 @@ Status: active
 - Details: TestQueryWithComplexExpression: Parser validates complex expressions Simulates: LLM generates query with nested functions/expressions
 
 #### `TEST_F(LLMAQLValidationTest, ValidateCOLLECT)`
-- Source: `tests/query/test_aql_llm_integration.cpp`:213
+- Source: `tests/query/test_aql_llm_integration.cpp`:240
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLValidationTest): n/a
@@ -11120,7 +10170,7 @@ Status: active
 - Details: TestValidateCOLLECT: Parser handles COLLECT aggregation Simulates: LLM generates aggregation query
 
 #### `TEST_F(LLMAQLValidationTest, ValidateFeatureSupport)`
-- Source: `tests/query/test_aql_llm_integration.cpp`:285
+- Source: `tests/query/test_aql_llm_integration.cpp`:320
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLValidationTest): n/a
@@ -11128,7 +10178,7 @@ Status: active
 - Details: TestValidateFeatureSupport: Query feature availability Simulates: LLM queries which features are enabled before generating query
 
 #### `TEST_F(LLMAQLValidationTest, ValidateLETVariable)`
-- Source: `tests/query/test_aql_llm_integration.cpp`:200
+- Source: `tests/query/test_aql_llm_integration.cpp`:219
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLValidationTest): n/a
@@ -11136,7 +10186,7 @@ Status: active
 - Details: TestValidateLETVariable: Parser handles LET bindings Simulates: LLM generates query with intermediate variables
 
 #### `TEST_F(LLMAQLValidationTest, ValidateLIMIT)`
-- Source: `tests/query/test_aql_llm_integration.cpp`:239
+- Source: `tests/query/test_aql_llm_integration.cpp`:274
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLValidationTest): n/a
@@ -11144,7 +10194,7 @@ Status: active
 - Details: TestValidateLIMIT: Parser handles pagination Simulates: LLM generates paginated results
 
 #### `TEST_F(LLMAQLValidationTest, ValidateSORT)`
-- Source: `tests/query/test_aql_llm_integration.cpp`:226
+- Source: `tests/query/test_aql_llm_integration.cpp`:261
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (LLMAQLValidationTest): n/a
@@ -11292,7 +10342,7 @@ Status: active
 
 #### `TEST_F(QueryMoveSemanticsSafetyTest, RuleOfFive_CopyDeleted)`
 - Source: `tests/query/test_move_semantics_query.cpp`:333
-- Brief: Verify copying is properly handled (deleted or implemented).
+- Brief: Verify copying is properly handled (deleted or implemented)
 - Parameters:
   - `<unnamed>` (QueryMoveSemanticsSafetyTest): n/a
   - `<unnamed>` (RuleOfFive_CopyDeleted): n/a
@@ -11374,7 +10424,7 @@ Status: active
   - `<unnamed>` (TensorSimilarityOverflowSafety): n/a
 
 #### `EquiJoinCondition analyzeEquiJoin(const std::vector< std::shared_ptr< query::FilterNode > > &filters, const std::string &var1, const std::string &var2)`
-- Source: `src/query/query_engine.cpp`:3450
+- Source: `src/query/query_engine.cpp`:3517
 - Brief: Analyze Equi Join.
 - Parameters:
   - `filters` (const std::vector< std::shared_ptr< query::FilterNode > > &): Input parameter.
@@ -11384,7 +10434,7 @@ Status: active
 - Details: filters Input parameter. var1 Input parameter. var2 Input parameter. Return value. Calls: getType(), checkFieldAccess(), empty().
 
 #### `VGPlan chooseVGPlan(const VectorGeoQuery &q, const index::SpatialIndexManager *spatialIdx, const VectorIndexManager *vectorIdx, double bbox_ratio_threshold, const std::optional< std::vector< std::string > > &eqPrefilter)`
-- Source: `src/query/query_engine.cpp`:4845
+- Source: `src/query/query_engine.cpp`:4912
 - Brief: n/a
 - Parameters:
   - `q` (const VectorGeoQuery &): n/a
@@ -11394,7 +10444,7 @@ Status: active
   - `eqPrefilter` (const std::optional< std::vector< std::string > > &): n/a
 
 #### `void collectVariables(const std::shared_ptr< query::Expression > &expr, std::set< std::string > &vars)`
-- Source: `src/query/query_engine.cpp`:3376
+- Source: `src/query/query_engine.cpp`:3443
 - Brief: Collect Variables.
 - Parameters:
   - `expr` (const std::shared_ptr< query::Expression > &): Input parameter.
@@ -11427,7 +10477,7 @@ Status: active
 - Details: s Input parameter. Return value. Calls: reserve(), size().
 
 #### `bool evalAqlExpression(const std::string &expression, const QueryEngine::EvaluationContext *ctx, const QueryEngine *engine)`
-- Source: `src/query/query_engine.cpp`:375
+- Source: `src/query/query_engine.cpp`:442
 - Brief: Eval Aql Expression.
 - Parameters:
   - `expression` (const std::string &): Input parameter.
@@ -11437,7 +10487,7 @@ Status: active
 - Details: expression Input parameter. ctx Input parameter. engine Input parameter. True when the operation succeeds. Calls: empty(), parseExpression(), evaluateCondition(), THEMIS_WARN().
 
 #### `std::optional< utils::geo::MBR > extractBBoxFromFilter(const std::shared_ptr< themis::query::Expression > &expr)`
-- Source: `src/query/query_engine.cpp`:4720
+- Source: `src/query/query_engine.cpp`:4787
 - Brief: Extract BBox From Filter.
 - Parameters:
   - `expr` (const std::shared_ptr< themis::query::Expression > &): Input parameter.
@@ -11485,7 +10535,7 @@ Status: active
 - Details: rows Input parameter. query_type Input parameter. Return value. Calls: is_array(), empty(), is_object(), begin(), end(), key(), find(), insert().
 
 #### `HybridVGConfig loadHybridConfig_(RocksDBWrapper &db)`
-- Source: `src/query/query_engine.cpp`:4815
+- Source: `src/query/query_engine.cpp`:4882
 - Brief: Load Hybrid Config.
 - Parameters:
   - `db` (RocksDBWrapper &): Input/output parameter.
@@ -11493,7 +10543,7 @@ Status: active
 - Details: db Input/output parameter. Return value. Calls: get(), has_value(), nlohmann::json::parse(), value(), contains(), THEMIS_WARN().
 
 #### `void logSortedDeserializeFailures(std::vector< std::string > &failed_pks, const char *context)`
-- Source: `src/query/query_engine.cpp`:357
+- Source: `src/query/query_engine.cpp`:424
 - Brief: Log Sorted Deserialize Failures.
 - Parameters:
   - `failed_pks` (std::vector< std::string > &): Input/output parameter.
@@ -11501,12 +10551,12 @@ Status: active
 - Details: failed_pks Input/output parameter. context Input parameter. Calls: empty(), std::sort(), begin(), end(), THEMIS_WARN().
 
 #### `std::unique_ptr< ContinuousQueryEngine > makeContinuousQueryEngine(std::chrono::milliseconds tick_interval)`
-- Source: `src/query/continuous_query_engine.cpp`:447
-- Brief: Make Continuous Query Engine.
+- Source: `src/query/continuous_query_engine.cpp`:469
+- Brief: Create a continuous query engine with the given tick interval.
 - Parameters:
   - `tick_interval` (std::chrono::milliseconds): Input parameter.
-- Return: Return value.
-- Details: tick_interval Input parameter. Return value. Implements makeContinuousQueryEngine without additional internal calls.
+- Return: Owning pointer to a concrete engine instance.
+- Details: Make Continuous Query Engine. tick_interval Period between evaluation ticks. Owning pointer to a concrete engine instance. tick_interval Input parameter. Return value. Implements makeContinuousQueryEngine without additional internal calls.
 
 #### `std::vector< HybridAnnGraphResult > planAnnGraphHybrid(const HybridAnnGraphQuery &query, const index::AnnFrontdoor *frontdoor, const themis::rag::kg::IKnowledgeGraph *kg)`
 - Source: `src/query/tensor_aware_query_optimizer.cpp`:379
@@ -11519,7 +10569,7 @@ Status: active
 - Details: query Input parameter. frontdoor Input parameter. kg Input parameter. Return value.
 
 #### `Result< nlohmann::json > qe_evalExpr(const std::shared_ptr< themis::query::Expression > &expr, const themis::query::QueryEngine::EvaluationContext &ctx)`
-- Source: `src/query/query_engine.cpp`:2751
+- Source: `src/query/query_engine.cpp`:2818
 - Brief: Qe eval Expr.
 - Parameters:
   - `expr` (const std::shared_ptr< themis::query::Expression > &): Input parameter.
@@ -11528,7 +10578,7 @@ Status: active
 - Details: expr Input parameter. ctx Input parameter. Return value. expr Input parameter. ctx Input parameter. Return value. Calls: Ok(), nlohmann::json(), getType(), std::visit(), get(), has_value(), value(), is_null().
 
 #### `Result< nlohmann::json > qe_evalFunction(const std::string &funcName, const std::vector< std::shared_ptr< themis::query::Expression > > &args, const themis::query::QueryEngine::EvaluationContext &ctx)`
-- Source: `src/query/query_engine.cpp`:1840
+- Source: `src/query/query_engine.cpp`:1907
 - Brief: Qe eval Function.
 - Parameters:
   - `funcName` (const std::string &): Input parameter.
@@ -11538,7 +10588,7 @@ Status: active
 - Details: funcName Input parameter. args Input parameter. ctx Input parameter. Return value. Calls: qe_evalExpr(), size(), fmt::format(), evalArg(), value(), is_string(), Ok(), nlohmann::json().
 
 #### `nlohmann::json qe_getNested(const nlohmann::json &base, const std::vector< std::string > &path)`
-- Source: `src/query/query_engine.cpp`:1798
+- Source: `src/query/query_engine.cpp`:1865
 - Brief: Qe get Nested.
 - Parameters:
   - `base` (const nlohmann::json &): Input parameter.
@@ -11547,7 +10597,7 @@ Status: active
 - Details: base Input parameter. path Input parameter. Return value. Calls: is_object(), find(), end(), is_array(), std::stoull(), size().
 
 #### `bool qe_toBool(const nlohmann::json &v)`
-- Source: `src/query/query_engine.cpp`:1775
+- Source: `src/query/query_engine.cpp`:1842
 - Brief: Qe to Bool.
 - Parameters:
   - `v` (const nlohmann::json &): Input parameter.
@@ -11555,7 +10605,7 @@ Status: active
 - Details: v Input parameter. True when the operation succeeds. Calls: is_boolean(), is_number(), is_string(), empty(), is_array(), is_object().
 
 #### `double qe_toNumber(const nlohmann::json &v)`
-- Source: `src/query/query_engine.cpp`:1756
+- Source: `src/query/query_engine.cpp`:1823
 - Brief: Qe to Number.
 - Parameters:
   - `v` (const nlohmann::json &): Input parameter.
@@ -11571,7 +10621,7 @@ Status: active
 - Details: t Input parameter. Return value. t Input parameter. Return value. Implements resultFieldTypeName without additional internal calls.
 
 #### `bool stableJsonLess(const nlohmann::json &a, const nlohmann::json &b)`
-- Source: `src/query/query_engine.cpp`:331
+- Source: `src/query/query_engine.cpp`:398
 - Brief: Stable Json Less.
 - Parameters:
   - `a` (const nlohmann::json &): Input parameter.
@@ -11580,7 +10630,7 @@ Status: active
 - Details: a Input parameter. b Input parameter. True when the operation succeeds. Calls: stableJsonOrderKey(), dump().
 
 #### `std::string stableJsonOrderKey(const nlohmann::json &doc)`
-- Source: `src/query/query_engine.cpp`:317
+- Source: `src/query/query_engine.cpp`:384
 - Brief: Stable Json Order Key.
 - Parameters:
   - `doc` (const nlohmann::json &): Input parameter.
@@ -11588,7 +10638,7 @@ Status: active
 - Details: doc Input parameter. Return value. Calls: contains(), is_string(), dump().
 
 #### `bool stableJsonPtrLess(const nlohmann::json *a, const nlohmann::json *b)`
-- Source: `src/query/query_engine.cpp`:347
+- Source: `src/query/query_engine.cpp`:414
 - Brief: Stable Json Ptr Less.
 - Parameters:
   - `a` (const nlohmann::json *): Input parameter.
@@ -11597,7 +10647,7 @@ Status: active
 - Details: a Input parameter. b Input parameter. True when the operation succeeds. Calls: stableJsonLess().
 
 #### `void tbbWaitWithTimeout(tbb::task_group &tg, ::themis::utils::AuditLogger *audit_logger, std::chrono::milliseconds timeout_ms, const std::string &phase, const std::string &query_id="")`
-- Source: `src/query/query_engine.cpp`:175
+- Source: `src/query/query_engine.cpp`:199
 - Brief: n/a
 - Parameters:
   - `tg` (tbb::task_group &): n/a
@@ -12320,7 +11370,7 @@ Status: active
 ### themis::query::CQResultStreamImpl
 
 #### `CQResultStreamImpl(std::shared_ptr< ResultQueue > queue)`
-- Source: `include/query/continuous_query_engine_impl.h`:85
+- Source: `include/query/continuous_query_engine_impl.h`:108
 - Brief: CQResult Stream Impl.
 - Parameters:
   - `queue` (std::shared_ptr< ResultQueue >): Input parameter.
@@ -12328,18 +11378,18 @@ Status: active
 - Details: queue Input parameter. Return value.
 
 #### `void cancel() noexcept override`
-- Source: `include/query/continuous_query_engine_impl.h`:89
+- Source: `include/query/continuous_query_engine_impl.h`:112
 - Brief: Cancel.
 - Parameters: none
 - Details: Exception safety: noexcept.
 
 #### `bool hasMore() const noexcept override`
-- Source: `include/query/continuous_query_engine_impl.h`:87
+- Source: `include/query/continuous_query_engine_impl.h`:110
 - Brief: n/a
 - Parameters: none
 
 #### `std::optional< CQResult > next(std::chrono::milliseconds timeout) override`
-- Source: `include/query/continuous_query_engine_impl.h`:88
+- Source: `include/query/continuous_query_engine_impl.h`:111
 - Brief: Next.
 - Parameters:
   - `timeout` (std::chrono::milliseconds): Input parameter.
@@ -12347,12 +11397,12 @@ Status: active
 - Details: timeout Input parameter. Return value. Calls: pop().
 
 #### `size_t queueDepth() const noexcept override`
-- Source: `include/query/continuous_query_engine_impl.h`:90
+- Source: `include/query/continuous_query_engine_impl.h`:113
 - Brief: n/a
 - Parameters: none
 
 #### `~CQResultStreamImpl() override=default`
-- Source: `include/query/continuous_query_engine_impl.h`:79
+- Source: `include/query/continuous_query_engine_impl.h`:102
 - Brief: n/a
 - Parameters: none
 
@@ -12773,17 +11823,13 @@ Status: active
 
 #### `ASTNodeType getType() const override`
 - Source: `include/query/aql_parser.h`:1172
-- Brief: Get Type.
+- Brief: n/a
 - Parameters: none
-- Return: Return value.
-- Details: Return value.
 
 #### `nlohmann::json toJSON() const override`
 - Source: `include/query/aql_parser.h`:1173
-- Brief: To JSON.
+- Brief: n/a
 - Parameters: none
-- Return: Return value.
-- Details: Return value.
 
 ### themis::query::ConstantFoldingRule
 
@@ -12875,13 +11921,13 @@ Status: active
 ### themis::query::ContinuousQueryEngineImpl
 
 #### `ContinuousQueryEngineImpl(std::chrono::milliseconds tick_interval=std::chrono::milliseconds{100})`
-- Source: `include/query/continuous_query_engine_impl.h`:115
+- Source: `include/query/continuous_query_engine_impl.h`:138
 - Brief: n/a
 - Parameters:
   - `tick_interval` (std::chrono::milliseconds): n/a
 
 #### `Result< void > dropQuery(const std::string &name) override`
-- Source: `include/query/continuous_query_engine_impl.h`:121
+- Source: `include/query/continuous_query_engine_impl.h`:144
 - Brief: Drop Query.
 - Parameters:
   - `name` (const std::string &): Input parameter.
@@ -12889,7 +11935,7 @@ Status: active
 - Details: name Input parameter. Return value. Calls: lock(), find(), end(), ErrVoid(), cancel(), erase(), OkVoid().
 
 #### `void injectTuple(const std::string &collection, const std::string &tuple, int64_t event_ts) override`
-- Source: `include/query/continuous_query_engine_impl.h`:125
+- Source: `include/query/continuous_query_engine_impl.h`:148
 - Brief: Inject Tuple.
 - Parameters:
   - `collection` (const std::string &): Input parameter.
@@ -12898,43 +11944,43 @@ Status: active
 - Details: collection Input parameter. tuple Input parameter. event_ts Input parameter. Calls: lock(), size(), pop_front(), push_back().
 
 #### `std::vector< ContinuousQueryInfo > listQueries() const override`
-- Source: `include/query/continuous_query_engine_impl.h`:124
+- Source: `include/query/continuous_query_engine_impl.h`:147
 - Brief: n/a
 - Parameters: none
 
 #### `Result< ContinuousQueryHandle > registerQuery(ContinuousQuerySpec spec) override`
-- Source: `include/query/continuous_query_engine_impl.h`:120
+- Source: `include/query/continuous_query_engine_impl.h`:143
 - Brief: n/a
 - Parameters:
   - `spec` (ContinuousQuerySpec): n/a
 
 #### `void startLoop()`
-- Source: `include/query/continuous_query_engine_impl.h`:133
+- Source: `include/query/continuous_query_engine_impl.h`:156
 - Brief: Start Loop.
 - Parameters: none
 - Details: Calls: store(), std::thread(), load(), lock(), wait_for(), tickOnce().
 
 #### `void stopLoop()`
-- Source: `include/query/continuous_query_engine_impl.h`:137
+- Source: `include/query/continuous_query_engine_impl.h`:160
 - Brief: Stop Loop.
 - Parameters: none
 - Details: Calls: store(), notify_all(), joinable(), std::move(), watcher(), join(), lk(), notify_one().
 
 #### `Result< ResultStreamPtr > subscribe(const std::string &name, ResultMode mode) override`
-- Source: `include/query/continuous_query_engine_impl.h`:122
+- Source: `include/query/continuous_query_engine_impl.h`:145
 - Brief: n/a
 - Parameters:
   - `name` (const std::string &): n/a
   - `mode` (ResultMode): n/a
 
 #### `void tickOnce()`
-- Source: `include/query/continuous_query_engine_impl.h`:141
+- Source: `include/query/continuous_query_engine_impl.h`:164
 - Brief: Tick Once.
 - Parameters: none
 - Details: Calls: inj_lock(), empty(), reg_lock(), observe(), insert(), std::move(), push(), clear().
 
 #### `~ContinuousQueryEngineImpl() override`
-- Source: `include/query/continuous_query_engine_impl.h`:117
+- Source: `include/query/continuous_query_engine_impl.h`:140
 - Brief: n/a
 - Parameters: none
 
@@ -13749,11 +12795,6 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
-#### `StringBinaryOpExpr()=default`
-- Source: `include/query/aql_parser.h`:1192
-- Brief: n/a
-- Parameters: none
-
 ### themis::query::Expression::FieldAccessExpression
 
 #### `FieldAccessExpression()=default`
@@ -13761,23 +12802,7 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
-#### `PathFieldAccessExpr()=default`
-- Source: `include/query/aql_parser.h`:1188
-- Brief: n/a
-- Parameters: none
-
-#### `PathFieldAccessExpr(std::vector< std::string > p)`
-- Source: `include/query/aql_parser.h`:1188
-- Brief: n/a
-- Parameters:
-  - `p` (std::vector< std::string >): n/a
-
 ### themis::query::Expression::FunctionCallExpression
-
-#### `CompatFunctionCallExpr()=default`
-- Source: `include/query/aql_parser.h`:1200
-- Brief: n/a
-- Parameters: none
 
 #### `FunctionCallExpression()=default`
 - Source: `include/query/aql_parser.h`:1201
@@ -13786,17 +12811,6 @@ Status: active
 
 ### themis::query::Expression::LiteralExpression
 
-#### `JsonLiteralExpr()=default`
-- Source: `include/query/aql_parser.h`:1184
-- Brief: n/a
-- Parameters: none
-
-#### `JsonLiteralExpr(const nlohmann::json &v)`
-- Source: `include/query/aql_parser.h`:1184
-- Brief: n/a
-- Parameters:
-  - `v` (const nlohmann::json &): n/a
-
 #### `LiteralExpression()=default`
 - Source: `include/query/aql_parser.h`:1185
 - Brief: n/a
@@ -13804,31 +12818,8 @@ Status: active
 
 ### themis::query::Expression::UnaryOpExpression
 
-#### `StringUnaryOpExpr()=default`
-- Source: `include/query/aql_parser.h`:1196
-- Brief: n/a
-- Parameters: none
-
 #### `UnaryOpExpression()=default`
 - Source: `include/query/aql_parser.h`:1197
-- Brief: n/a
-- Parameters: none
-
-### themis::query::FTSPhraseProximityTest
-
-#### `int64_t ExecuteQueryAndMeasure(const std::string &query_str)`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:47
-- Brief: n/a
-- Parameters:
-  - `query_str` (const std::string &): n/a
-
-#### `void SetUp() override`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:37
-- Brief: n/a
-- Parameters: none
-
-#### `void TearDown() override`
-- Source: `tests/query/test_aql_fts_phrase_proximity.cpp`:42
 - Brief: n/a
 - Parameters: none
 
@@ -14796,17 +13787,13 @@ Status: active
 
 #### `ASTNodeType getType() const override`
 - Source: `include/query/aql_parser.h`:1127
-- Brief: Get Type.
+- Brief: n/a
 - Parameters: none
-- Return: Return value.
-- Details: Return value.
 
 #### `nlohmann::json toJSON() const override`
 - Source: `include/query/aql_parser.h`:1128
-- Brief: To JSON.
+- Brief: n/a
 - Parameters: none
-- Return: Return value.
-- Details: Return value.
 
 ### themis::query::LLMAQLValidationTest
 
@@ -14869,7 +13856,7 @@ Status: active
 - Return: Current fallback policy.
 - Details: Current fallback policy.
 
-#### `bool isDeterministic() const noexcept`
+#### `constexpr bool isDeterministic() const noexcept`
 - Source: `include/query/llm_generate_operator.h`:173
 - Brief: LLM operators are always non-deterministic.
 - Parameters: none
@@ -14959,7 +13946,7 @@ Status: active
 
 #### `nlohmann::json applyLogicalOp(const std::string &op, const nlohmann::json &left, const nlohmann::json &right) const`
 - Source: `include/query/let_evaluator.h`:189
-- Brief: Helper: Logische Operation (AND, OR).
+- Brief: Helper: Logische Operation (AND, OR)
 - Parameters:
   - `op` (const std::string &): Input parameter.
   - `left` (const nlohmann::json &): Input parameter.
@@ -15028,7 +14015,7 @@ Status: active
 
 #### `nlohmann::json evaluateUnaryOp(const UnaryOpExpr *unaryOp, const nlohmann::json &currentDoc) const`
 - Source: `include/query/let_evaluator.h`:120
-- Brief: Helper: Evaluiert Unary Operations (-, NOT).
+- Brief: Helper: Evaluiert Unary Operations (-, NOT)
 - Parameters:
   - `unaryOp` (const UnaryOpExpr *): Input parameter.
   - `currentDoc` (const nlohmann::json &): Input parameter.
@@ -16083,8 +15070,8 @@ Status: active
 - Source: `include/query/mutation_transaction.h`:99
 - Brief: Get.
 - Parameters:
-  - `collection` (std::string_view): n/a
-  - `key` (std::string_view): n/a
+  - `<unnamed>` (std::string_view): n/a
+  - `<unnamed>` (std::string_view): n/a
 - Return: Return value.
 - Details: string_view Input parameter. string_view Input parameter. Return value. Implements get without additional internal calls.
 
@@ -16636,17 +15623,13 @@ Status: active
 
 #### `ASTNodeType getType() const override`
 - Source: `include/query/aql_parser.h`:1138
-- Brief: Get Type.
+- Brief: n/a
 - Parameters: none
-- Return: Return value.
-- Details: Return value.
 
 #### `nlohmann::json toJSON() const override`
 - Source: `include/query/aql_parser.h`:1139
-- Brief: To JSON.
+- Brief: n/a
 - Parameters: none
-- Return: Return value.
-- Details: Return value.
 
 ### themis::query::PlanCache
 
@@ -17813,7 +16796,7 @@ Status: active
 
 #### `bool evaluateCondition(const std::shared_ptr< query::Expression > &expr, const EvaluationContext &ctx) const`
 - Source: `include/query/query_engine.h`:413
-- Brief: Expression evaluation (public for testing).
+- Brief: Expression evaluation (public for testing)
 - Parameters:
   - `expr` (const std::shared_ptr< query::Expression > &): Input parameter.
   - `ctx` (const EvaluationContext &): Input parameter.
@@ -17822,7 +16805,7 @@ Status: active
 
 #### `Result< nlohmann::json > evaluateExpression(const std::shared_ptr< query::Expression > &expr, const EvaluationContext &ctx) const`
 - Source: `include/query/query_engine.h`:756
-- Brief: Expression evaluation helpers (implemented in cpp).
+- Brief: Expression evaluation helpers (implemented in cpp)
 - Parameters:
   - `expr` (const std::shared_ptr< query::Expression > &): Input parameter.
   - `ctx` (const EvaluationContext &): Input parameter.
@@ -18016,7 +16999,7 @@ Status: active
 
 #### `Result< std::vector< std::vector< std::string > > > executeRecursivePathQuery(const RecursivePathQuery &q) const`
 - Source: `include/query/query_engine.h`:423
-- Brief: Rekursive Pfadabfrage (Multi-Hop Traversal).
+- Brief: Rekursive Pfadabfrage (Multi-Hop Traversal)
 - Parameters:
   - `q` (const RecursivePathQuery &): Input parameter.
 - Return: Return value.
@@ -18182,7 +17165,7 @@ Status: active
 
 #### `bool evaluateBoolean(std::string_view expression, const void *context) const`
 - Source: `include/query/query_engine.h`:738
-- Brief: Helpers for richer evaluation paths (non-override).
+- Brief: Helpers for richer evaluation paths (non-override)
 - Parameters:
   - `expression` (std::string_view): Input parameter.
   - `context` (const void *): Input parameter.
@@ -19332,29 +18315,33 @@ Status: active
 ### themis::query::ResultQueue
 
 #### `ResultQueue(size_t capacity=kDefaultResultQueueCapacity)`
-- Source: `include/query/continuous_query_engine_impl.h`:41
+- Source: `include/query/continuous_query_engine_impl.h`:53
 - Brief: n/a
 - Parameters:
   - `capacity` (size_t): n/a
 
 #### `void cancel() noexcept`
-- Source: `include/query/continuous_query_engine_impl.h`:60
+- Source: `include/query/continuous_query_engine_impl.h`:72
 - Brief: Cancel.
 - Parameters: none
 - Details: Exception safety: noexcept.
 
 #### `size_t depth() const noexcept`
-- Source: `include/query/continuous_query_engine_impl.h`:62
-- Brief: n/a
+- Source: `include/query/continuous_query_engine_impl.h`:80
+- Brief: Returns the number of queued results currently waiting to be read.
 - Parameters: none
+- Return: Number of buffered result items in the queue.
+- Details: Number of buffered result items in the queue. The value is sampled while holding the queue mutex, so it reflects a consistent snapshot of the queue depth for a single call.
 
 #### `bool isCancelled() const noexcept`
-- Source: `include/query/continuous_query_engine_impl.h`:63
-- Brief: n/a
+- Source: `include/query/continuous_query_engine_impl.h`:86
+- Brief: Reports whether the queue has been cancelled for shutdown.
 - Parameters: none
+- Return: true if cancellation has been requested; otherwise false.
+- Details: true if cancellation has been requested; otherwise false.
 
 #### `std::optional< CQResult > pop(std::chrono::milliseconds timeout)`
-- Source: `include/query/continuous_query_engine_impl.h`:54
+- Source: `include/query/continuous_query_engine_impl.h`:66
 - Brief: Pop.
 - Parameters:
   - `timeout` (std::chrono::milliseconds): Input parameter.
@@ -19362,7 +18349,7 @@ Status: active
 - Details: timeout Input parameter. Return value. timeout Input parameter. Return value. Calls: lock(), wait_for(), empty(), load(), std::move(), front(), pop_front().
 
 #### `void push(CQResult item)`
-- Source: `include/query/continuous_query_engine_impl.h`:47
+- Source: `include/query/continuous_query_engine_impl.h`:59
 - Brief: Push.
 - Parameters:
   - `item` (CQResult): Input parameter.
@@ -20431,17 +19418,13 @@ Status: active
 
 #### `ASTNodeType getType() const override`
 - Source: `include/query/aql_parser.h`:1150
-- Brief: Get Type.
+- Brief: n/a
 - Parameters: none
-- Return: Return value.
-- Details: Return value.
 
 #### `nlohmann::json toJSON() const override`
 - Source: `include/query/aql_parser.h`:1151
-- Brief: To JSON.
+- Brief: n/a
 - Parameters: none
-- Return: Return value.
-- Details: Return value.
 
 ### themis::query::StringUnaryOpExpr
 
@@ -20452,17 +19435,13 @@ Status: active
 
 #### `ASTNodeType getType() const override`
 - Source: `include/query/aql_parser.h`:1161
-- Brief: Get Type.
+- Brief: n/a
 - Parameters: none
-- Return: Return value.
-- Details: Return value.
 
 #### `nlohmann::json toJSON() const override`
 - Source: `include/query/aql_parser.h`:1162
-- Brief: To JSON.
+- Brief: n/a
 - Parameters: none
-- Return: Return value.
-- Details: Return value.
 
 ### themis::query::SubqueryEvaluator
 
@@ -21807,7 +20786,7 @@ Status: active
 
 ### themis::query::WindowSpec
 
-#### `bool isTimeBased() const noexcept`
+#### `constexpr bool isTimeBased() const noexcept`
 - Source: `include/query/window_spec.h`:63
 - Brief: n/a
 - Parameters: none
@@ -22099,7 +21078,7 @@ Status: active
 
 #### `Result< std::vector< SearchResult > > traverseAndScore(const SearchNode &query, const ExecutionOptions &options)`
 - Source: `include/query/fts_executor.h`:165
-- Brief: Internal helper methods (implementation detail).
+- Brief: Internal helper methods (implementation detail)
 - Parameters:
   - `query` (const SearchNode &): Input parameter.
   - `options` (const ExecutionOptions &): Input parameter.
@@ -32941,14 +31920,14 @@ Status: active
 
 #### `TEST_F(AQLParserEdgeCasesTest, DeeplyNestedExpression)`
 - Source: `tests/query/test_query_parser_edge_cases.cpp`:145
-- Brief: Test 14: Deeply nested expression (may hit depth limit).
+- Brief: Test 14: Deeply nested expression (may hit depth limit)
 - Parameters:
   - `<unnamed>` (AQLParserEdgeCasesTest): n/a
   - `<unnamed>` (DeeplyNestedExpression): n/a
 
 #### `TEST_F(AQLParserEdgeCasesTest, DeleteMutationDetection)`
 - Source: `tests/query/test_query_parser_edge_cases.cpp`:280
-- Brief: Test 28: DELETE mutation detection (SQL-style).
+- Brief: Test 28: DELETE mutation detection (SQL-style)
 - Parameters:
   - `<unnamed>` (AQLParserEdgeCasesTest): n/a
   - `<unnamed>` (DeleteMutationDetection): n/a
@@ -33011,7 +31990,7 @@ Status: active
 
 #### `TEST_F(AQLParserEdgeCasesTest, InvalidNumericLiteral)`
 - Source: `tests/query/test_query_parser_edge_cases.cpp`:101
-- Brief: Test 9: Invalid numeric literal (too large for int64).
+- Brief: Test 9: Invalid numeric literal (too large for int64)
 - Parameters:
   - `<unnamed>` (AQLParserEdgeCasesTest): n/a
   - `<unnamed>` (InvalidNumericLiteral): n/a
@@ -33067,7 +32046,7 @@ Status: active
 
 #### `TEST_F(AQLParserEdgeCasesTest, ModeratelyNestedExpression)`
 - Source: `tests/query/test_query_parser_edge_cases.cpp`:136
-- Brief: Test 13: Moderately nested expression (should pass).
+- Brief: Test 13: Moderately nested expression (should pass)
 - Parameters:
   - `<unnamed>` (AQLParserEdgeCasesTest): n/a
   - `<unnamed>` (ModeratelyNestedExpression): n/a
@@ -33172,7 +32151,7 @@ Status: active
 
 #### `TEST_F(AQLParserEdgeCasesTest, ValidSimpleQuery)`
 - Source: `tests/query/test_query_parser_edge_cases.cpp`:332
-- Brief: Test 33: Valid simple query (should parse).
+- Brief: Test 33: Valid simple query (should parse)
 - Parameters:
   - `<unnamed>` (AQLParserEdgeCasesTest): n/a
   - `<unnamed>` (ValidSimpleQuery): n/a
@@ -33199,63 +32178,63 @@ Status: active
   - `<unnamed>` (WhitespaceOnlyQuery): n/a
 
 #### `TEST_F(AQLParserServiceTest, ConcurrentParseThreadSafe)`
-- Source: `tests/query/test_aql_parser_service.cpp`:278
+- Source: `tests/query/test_aql_parser_service.cpp`:298
 - Brief: Test 22: Concurrent parse calls are thread-safe.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (ConcurrentParseThreadSafe): n/a
 
 #### `TEST_F(AQLParserServiceTest, CustomFeatureConfiguration)`
-- Source: `tests/query/test_aql_parser_service.cpp`:240
+- Source: `tests/query/test_aql_parser_service.cpp`:260
 - Brief: Test 19: supportsFeature with custom features.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (CustomFeatureConfiguration): n/a
 
 #### `TEST_F(AQLParserServiceTest, DDLDisabledByDefault)`
-- Source: `tests/query/test_aql_parser_service.cpp`:235
+- Source: `tests/query/test_aql_parser_service.cpp`:255
 - Brief: Test 18: supportsFeature - ddl disabled by default.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (DDLDisabledByDefault): n/a
 
 #### `TEST_F(AQLParserServiceTest, DiagnosticsIncludeContext)`
-- Source: `tests/query/test_aql_parser_service.cpp`:170
+- Source: `tests/query/test_aql_parser_service.cpp`:190
 - Brief: Test 12: Diagnostics include error context.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (DiagnosticsIncludeContext): n/a
 
 #### `TEST_F(AQLParserServiceTest, DiagnosticsIncludeSuggestions)`
-- Source: `tests/query/test_aql_parser_service.cpp`:185
+- Source: `tests/query/test_aql_parser_service.cpp`:205
 - Brief: Test 13: Diagnostics include suggestions.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (DiagnosticsIncludeSuggestions): n/a
 
 #### `TEST_F(AQLParserServiceTest, DiagnosticsPopulatedOnError)`
-- Source: `tests/query/test_aql_parser_service.cpp`:152
+- Source: `tests/query/test_aql_parser_service.cpp`:172
 - Brief: Test 11: Diagnostics populated on error.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (DiagnosticsPopulatedOnError): n/a
 
 #### `TEST_F(AQLParserServiceTest, FactoryCreatesWorkingInstance)`
-- Source: `tests/query/test_aql_parser_service.cpp`:257
+- Source: `tests/query/test_aql_parser_service.cpp`:277
 - Brief: Test 20: Factory creates working instance.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (FactoryCreatesWorkingInstance): n/a
 
 #### `TEST_F(AQLParserServiceTest, FactoryWithFeaturesConfigures)`
-- Source: `tests/query/test_aql_parser_service.cpp`:265
+- Source: `tests/query/test_aql_parser_service.cpp`:285
 - Brief: Test 21: Factory with features creates configured instance.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (FactoryWithFeaturesConfigures): n/a
 
 #### `TEST_F(AQLParserServiceTest, MutationsDisabledByDefault)`
-- Source: `tests/query/test_aql_parser_service.cpp`:229
+- Source: `tests/query/test_aql_parser_service.cpp`:249
 - Brief: Test 17: supportsFeature - mutations disabled by default.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
@@ -33269,70 +32248,70 @@ Status: active
   - `<unnamed>` (ParseComplexQuery): n/a
 
 #### `TEST_F(AQLParserServiceTest, ParseFailsEmptyQuery)`
-- Source: `tests/query/test_aql_parser_service.cpp`:127
+- Source: `tests/query/test_aql_parser_service.cpp`:147
 - Brief: Test 9: Parse fails - empty query.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (ParseFailsEmptyQuery): n/a
 
 #### `TEST_F(AQLParserServiceTest, ParseFailsMalformedFunction)`
-- Source: `tests/query/test_aql_parser_service.cpp`:113
+- Source: `tests/query/test_aql_parser_service.cpp`:133
 - Brief: Test 8: Parse fails - malformed function call.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (ParseFailsMalformedFunction): n/a
 
 #### `TEST_F(AQLParserServiceTest, ParseFailsMissingReturn)`
-- Source: `tests/query/test_aql_parser_service.cpp`:90
+- Source: `tests/query/test_aql_parser_service.cpp`:110
 - Brief: Test 6: Parse fails - missing RETURN clause.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (ParseFailsMissingReturn): n/a
 
 #### `TEST_F(AQLParserServiceTest, ParseFailsUnknownKeyword)`
-- Source: `tests/query/test_aql_parser_service.cpp`:102
+- Source: `tests/query/test_aql_parser_service.cpp`:122
 - Brief: Test 7: Parse fails - unknown keyword.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (ParseFailsUnknownKeyword): n/a
 
 #### `TEST_F(AQLParserServiceTest, ParseFailsWhitespaceOnly)`
-- Source: `tests/query/test_aql_parser_service.cpp`:138
+- Source: `tests/query/test_aql_parser_service.cpp`:158
 - Brief: Test 10: Parse fails - only whitespace.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (ParseFailsWhitespaceOnly): n/a
 
 #### `TEST_F(AQLParserServiceTest, ParseGeospatialQuery)`
-- Source: `tests/query/test_aql_parser_service.cpp`:76
+- Source: `tests/query/test_aql_parser_service.cpp`:91
 - Brief: Test 5: Parse geospatial query with ST_Distance.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (ParseGeospatialQuery): n/a
 
 #### `TEST_F(AQLParserServiceTest, ParseNestedFunctionCalls)`
-- Source: `tests/query/test_aql_parser_service.cpp`:352
+- Source: `tests/query/test_aql_parser_service.cpp`:372
 - Brief: Test 25: Parse query with nested function calls.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (ParseNestedFunctionCalls): n/a
 
 #### `TEST_F(AQLParserServiceTest, ParseQueryWithCollect)`
-- Source: `tests/query/test_aql_parser_service.cpp`:66
+- Source: `tests/query/test_aql_parser_service.cpp`:77
 - Brief: Test 4: Parse query with COLLECT.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (ParseQueryWithCollect): n/a
 
 #### `TEST_F(AQLParserServiceTest, ParseQueryWithLet)`
-- Source: `tests/query/test_aql_parser_service.cpp`:56
+- Source: `tests/query/test_aql_parser_service.cpp`:62
 - Brief: Test 3: Parse query with LET clause.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (ParseQueryWithLet): n/a
 
 #### `TEST_F(AQLParserServiceTest, ParseQueryWithSpecialChars)`
-- Source: `tests/query/test_aql_parser_service.cpp`:319
+- Source: `tests/query/test_aql_parser_service.cpp`:339
 - Brief: Test 23: Parse query with special characters in string literals.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
@@ -33346,28 +32325,28 @@ Status: active
   - `<unnamed>` (ParseSimpleForReturn): n/a
 
 #### `TEST_F(AQLParserServiceTest, ParseVeryLongQuery)`
-- Source: `tests/query/test_aql_parser_service.cpp`:332
+- Source: `tests/query/test_aql_parser_service.cpp`:352
 - Brief: Test 24: Parse very long query.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (ParseVeryLongQuery): n/a
 
 #### `TEST_F(AQLParserServiceTest, SupportsCoreFeaturesAlways)`
-- Source: `tests/query/test_aql_parser_service.cpp`:213
+- Source: `tests/query/test_aql_parser_service.cpp`:233
 - Brief: Test 15: supportsFeature - core features.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (SupportsCoreFeaturesAlways): n/a
 
 #### `TEST_F(AQLParserServiceTest, SupportsGeospatialByDefault)`
-- Source: `tests/query/test_aql_parser_service.cpp`:223
+- Source: `tests/query/test_aql_parser_service.cpp`:243
 - Brief: Test 16: supportsFeature - geospatial default.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
   - `<unnamed>` (SupportsGeospatialByDefault): n/a
 
 #### `TEST_F(AQLParserServiceTest, VersionStringNonEmpty)`
-- Source: `tests/query/test_aql_parser_service.cpp`:205
+- Source: `tests/query/test_aql_parser_service.cpp`:225
 - Brief: Test 14: Version string is non-empty.
 - Parameters:
   - `<unnamed>` (AQLParserServiceTest): n/a
@@ -33485,17 +32464,257 @@ Status: active
 - Return: Return value.
 - Details: cfg Input parameter. Return value. Implements createLlmReranker without additional internal calls.
 
+### themis::server::test
+
+#### `TEST_F(QueryApiHandlerQW46Test, ConsistentValidationAcrossInvocations)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:229
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (ConsistentValidationAcrossInvocations): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, ConsistentValidationAcrossMultipleNames)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:244
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (ConsistentValidationAcrossMultipleNames): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, EmptyTableName)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:191
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (EmptyTableName): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, LDAPInjection_Asterisk)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:215
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (LDAPInjection_Asterisk): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, LDAPInjection_Parenthesis)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:220
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (LDAPInjection_Parenthesis): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, LengthBoundary_Exactly256Chars)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:151
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (LengthBoundary_Exactly256Chars): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, LengthBoundary_ExceedsMax)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:157
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (LengthBoundary_ExceedsMax): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, LengthBoundary_VeryLong)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:162
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (LengthBoundary_VeryLong): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, MixedValidInvalidPatterns)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:238
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (MixedValidInvalidPatterns): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, PathTraversalAttack_AbsolutePath)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:93
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (PathTraversalAttack_AbsolutePath): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, PathTraversalAttack_BackslashSeparator)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:103
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (PathTraversalAttack_BackslashSeparator): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, PathTraversalAttack_DoubleDot)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:82
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (PathTraversalAttack_DoubleDot): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, PathTraversalAttack_DoubleSlash)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:88
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (PathTraversalAttack_DoubleSlash): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, PathTraversalAttack_EscapedDot)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:108
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (PathTraversalAttack_EscapedDot): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, PathTraversalAttack_WindowsAbsolutePath)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:98
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (PathTraversalAttack_WindowsAbsolutePath): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, SQLInjection_Like)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:205
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (SQLInjection_Like): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, SQLInjection_Union)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:210
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (SQLInjection_Union): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, ShellInjection_Ampersand)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:127
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (ShellInjection_Ampersand): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, ShellInjection_Backtick)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:132
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (ShellInjection_Backtick): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, ShellInjection_Dollar)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:137
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (ShellInjection_Dollar): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, ShellInjection_Newline)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:142
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (ShellInjection_Newline): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, ShellInjection_Pipe)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:122
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (ShellInjection_Pipe): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, ShellInjection_Semicolon)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:117
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (ShellInjection_Semicolon): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, SpecialChar_Bracket)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:186
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (SpecialChar_Bracket): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, SpecialChar_Dot)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:181
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (SpecialChar_Dot): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, SpecialChar_Parenthesis)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:176
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (SpecialChar_Parenthesis): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, SpecialChar_Space)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:171
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (SpecialChar_Space): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, ValidTableName_MaxLength256)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:72
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (ValidTableName_MaxLength256): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, ValidTableName_MixedAlphanumeric)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:66
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (ValidTableName_MixedAlphanumeric): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, ValidTableName_SimpleAlphanumeric)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:48
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (ValidTableName_SimpleAlphanumeric): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, ValidTableName_WithHyphen)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:60
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (ValidTableName_WithHyphen): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, ValidTableName_WithUnderscore)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:54
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (ValidTableName_WithUnderscore): n/a
+
+#### `TEST_F(QueryApiHandlerQW46Test, WhitespaceOnlyTableName)`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:196
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (QueryApiHandlerQW46Test): n/a
+  - `<unnamed>` (WhitespaceOnlyTableName): n/a
+
+### themis::server::test::QueryApiHandlerQW46Test
+
+#### `void SetUp() override`
+- Source: `tests/query/test_query_api_handler_qw46.cpp`:39
+- Brief: n/a
+- Parameters: none
+
 ### themis::tbb::task_arena
 
 #### `void execute(F &&f)`
-- Source: `src/query/parallel_executor.cpp`:105
+- Source: `src/query/parallel_executor.cpp`:149
 - Brief: Execute.
 - Parameters:
   - `f` (F &&): Input parameter.
 - Details: f Input parameter. Implements execute without additional internal calls.
 
 #### `task_arena(int)`
-- Source: `src/query/parallel_executor.cpp`:97
+- Source: `src/query/parallel_executor.cpp`:141
 - Brief: Task arena.
 - Parameters:
   - `<unnamed>` (int): n/a
@@ -33505,19 +32724,31 @@ Status: active
 ### themis::tbb::task_group
 
 #### `void cancel() noexcept`
-- Source: `src/query/parallel_executor.cpp`:80
+- Source: `src/query/parallel_executor.cpp`:119
+- Brief: Compatibility alias for cancel_group_execution().
+- Parameters: none
+- Details: Kept for older call sites that still use the generic cancel() entry point. The fallback implementation simply delegates to the TBB- compatible cancellation path without taking any additional locks. DeprecatedUse cancel_group_execution() instead.
+
+#### `void cancel_group_execution() noexcept`
+- Source: `src/query/parallel_executor.cpp`:102
+- Brief: Request cancellation for the fallback task group.
+- Parameters: none
+- Details: Marks queued work as cancelled so subsequent tasks are skipped and the timeout watchdog can unblock a stalled wait path. Thread-safe: the cancellation flag is published with release semantics so waiting code observes the stop request promptly.
+
+#### `bool isCancelled() const`
+- Source: `src/query/parallel_executor.cpp`:124
 - Brief: n/a
 - Parameters: none
 
 #### `void run(F &&f)`
-- Source: `src/query/parallel_executor.cpp`:61
+- Source: `src/query/parallel_executor.cpp`:63
 - Brief: Run.
 - Parameters:
   - `f` (F &&): Input parameter.
 - Details: f Input parameter. Calls: emplace_back().
 
 #### `void wait()`
-- Source: `src/query/parallel_executor.cpp`:71
+- Source: `src/query/parallel_executor.cpp`:79
 - Brief: Wait.
 - Parameters: none
 - Details: Calls: task(), clear().
@@ -33644,4 +32875,3 @@ Status: active
 - Source: `include/query/functions/ai_ml_functions.h`:297
 - Brief: n/a
 - Parameters: none
-

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -1414,35 +1414,35 @@ The following headers are present in `include/query/` and supplement the compone
 
 | Header | Description |
 |---|---|
-| `adaptive_join.h` | Adaptive join strategy that switches between nested-loop, hash, and merge join at runtime <!-- TODO: verify --> |
-| `approximate_aggregator.h` | Approximate aggregation using sketches (HyperLogLog, Count-Min, T-Digest) <!-- TODO: verify --> |
-| `aql_runner.h` | High-level AQL query runner; wraps parser + optimizer + engine into a single call <!-- TODO: verify --> |
-| `aql_translator.h` | Translates AQL ASTs to execution plans or other query dialects <!-- TODO: verify --> |
-| `cross_cluster_federation.h` | Cross-cluster query federation extending `query_federation.h` to span multiple independent clusters <!-- TODO: verify --> |
+| `adaptive_join.h` | Defines join inputs, strategy/configuration types, cost helpers, and `AdaptiveJoinExecutor` implementations for nested-loop, hash, merge, index-nested-loop, grace-hash, broadcast, and shuffle joins. |
+| `approximate_aggregator.h` | Defines an approximate-aggregation interface with count-distinct, percentile, and sampling implementations, including estimate/error and merge/reset operations. |
+| `aql_runner.h` | Exposes AQL and SQL execution, limits, explain output, RLS-aware and annotated execution, and cancellable AQL execution helpers. |
+| `aql_translator.h` | Translates AQL query structures into engine-facing results for traversal, joins, spatial/vector/content queries and CTEs; mutation translation is a separate class. |
+| `cross_cluster_federation.h` | Registers remote cluster endpoints, estimates costs, builds and executes cross-cluster plans, and merges results. |
 | `cte_cache.h` | Per-query cache for materialised CTE results (`CTECache` class) |
-| `cypher_parser.h` | Parser for Cypher graph query language (Neo4j-compatible subset) <!-- TODO: verify --> |
-| `graphql_dialect.h` | GraphQL query dialect adapter; translates GraphQL queries to AQL <!-- TODO: verify --> |
-| `gremlin_parser.h` | Parser for Apache Gremlin graph traversal language <!-- TODO: verify --> |
-| `incremental_view.h` | Incremental view maintenance: applies delta updates to pre-computed view results <!-- TODO: verify --> |
-| `let_evaluator.h` | Evaluates `LET` variable bindings in AQL queries <!-- TODO: verify --> |
-| `materialized_cte.h` | Materialised CTE storage and retrieval backed by RocksDB <!-- TODO: verify --> |
-| `materialized_view.h` | Fully materialised view: stored pre-computed results with refresh policies <!-- TODO: verify --> |
-| `optimizer_cost_model.h` | Pluggable cost model interface used by `QueryOptimizer` for plan costing <!-- TODO: verify --> |
-| `parallel_executor.h` | Parallel query execution engine that partitions work across worker threads <!-- TODO: verify --> |
-| `parallel_scan.h` | Parallel table/index scan splitting ranges across threads <!-- TODO: verify --> |
-| `plan_cache.h` | Caches compiled execution plans keyed by normalised query fingerprint <!-- TODO: verify --> |
-| `query_cache_manager.h` | Manages multiple `QueryCache` instances with coordinated invalidation <!-- TODO: verify --> |
-| `query_canceller.h` | Cooperative cancellation token for long-running queries <!-- TODO: verify --> |
-| `query_compiler.h` | Compiles AQL ASTs to native or bytecode execution plans <!-- TODO: verify --> |
-| `query_plan_visualizer.h` | Renders query execution plans as DOT graphs or JSON for `EXPLAIN` output <!-- TODO: verify --> |
-| `query_profiler.h` | Per-operator timing and row-count profiler for `PROFILE` queries <!-- TODO: verify --> |
-| `query_resource_limits.h` | Per-query CPU time, memory, and row-count resource limits and enforcement <!-- TODO: verify --> |
-| `query_rewrite_rule.h` | Interface and registry for pluggable AST-level query rewrite rules <!-- TODO: verify --> |
-| `result_type_annotation.h` | Annotates result columns with inferred or declared type information <!-- TODO: verify --> |
-| `runtime_reoptimizer.h` | Re-optimises a running query mid-execution when actual cardinalities diverge from estimates <!-- TODO: verify --> |
-| `sparql_parser.h` | Parser for SPARQL RDF query language <!-- TODO: verify --> |
-| `sql_parser.h` | Parser for SQL dialect (SELECT/INSERT/UPDATE/DELETE subset) <!-- TODO: verify --> |
-| `vectorized_execution.h` | SIMD-accelerated vectorized execution engine operating on columnar batches <!-- TODO: verify --> |
+| `cypher_parser.h` | Parses Cypher query text into the declared AST structures and provides a Cypher-to-AQL transpiler. |
+| `graphql_dialect.h` | Defines GraphQL query/result types and a dialect interface for parsing, AQL conversion, execution, type-resolver registration, and schema SDL. |
+| `gremlin_parser.h` | Parses Gremlin traversal text into AST steps and provides a Gremlin-to-AQL transpiler. |
+| `incremental_view.h` | Defines the incremental-view maintainer contract for create/drop/refresh, refresh mode, statistics, listing, and staleness checks. |
+| `let_evaluator.h` | Evaluates AQL `LET` bindings and expressions, with variable lookup, nested-field access, and optional secondary-index access. |
+| `materialized_cte.h` | Defines materialized CTE rows, change records, aggregation/filter metadata, freshness tracking, and a CTE registry; this header does not establish RocksDB-backed storage. |
+| `materialized_view.h` | Defines materialized-view creation, refresh and delta application, staleness/statistics access, registry operations, and rewrite checks. |
+| `optimizer_cost_model.h` | Estimates scan, filter, join, aggregation, sort, and network-transfer costs and exposes table/column/index statistics operations. |
+| `parallel_executor.h` | Provides parallel scan, hash-join, and aggregation operations with execution configuration and sequential fallbacks. |
+| `parallel_scan.h` | Declares configuration for the parallel full-table-scan path; the header alone does not define a scan executor. |
+| `plan_cache.h` | Caches query plans with query-template fingerprints, reuse validation, expiry, failure tracking, and cache statistics. |
+| `query_cache_manager.h` | Provides query-cache get/put, dependency invalidation, warming, configuration, workload inspection, and statistics APIs. |
+| `query_canceller.h` | Provides cancellation tokens and a registry for query cancellation, including scoped query registration. |
+| `query_compiler.h` | Defines a hot-query compilation/cache wrapper whose `ExecuteFn` performs execution; configuration includes thresholds, optimization level, JIT flag, timeout, and cache size. |
+| `query_plan_visualizer.h` | Builds query-plan representations and renders them as text, JSON, or DOT. |
+| `query_profiler.h` | Collects query and operator profiles and exposes the current profile and slowest-operator information. |
+| `query_resource_limits.h` | Defines per-query row, memory, and elapsed-time accounting and a guard for enforcing the configured limits. |
+| `query_rewrite_rule.h` | Defines query rewrite-rule interfaces and a pipeline with predicate/projection pushdown, OR-to-IN, constant-folding, and common-subexpression rules. |
+| `result_type_annotation.h` | Defines result-field type annotations, query-result schemas, and annotated-result data structures. |
+| `runtime_reoptimizer.h` | Tracks execution statistics and exposes misestimation/reoptimization decisions and adjustment factors; it does not promise mid-execution plan replacement. |
+| `sparql_parser.h` | Parses SPARQL query text into AST structures and provides SPARQL-to-AQL transpilation APIs. |
+| `sql_parser.h` | Parses SQL statements into AST structures and provides SQL-to-AQL transpilation APIs for select/insert/update/delete statements. |
+| `vectorized_execution.h` | Defines a column-batch query pipeline with filter, project, aggregate, sort, and limit stages. |
 
 ## Installation
 

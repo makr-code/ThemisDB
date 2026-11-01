@@ -83,7 +83,7 @@ Related milestone: `DOC-WEEKLY-2026-44`
 | **Status** | ✅ Parser/executor delivered (2026-09-09) | Module roadmap records phrase/proximity matching and FTS index/scoring wiring as complete; representative-hardware baseline refresh remains open |
 | **Parser** | src/query/aql_parser.cpp (FTS branch) | PHRASE(), PROXIMITY() syntax |
 | **Executor** | `src/query/fts_executor.cpp`, `src/query/bm25_scorer.cpp`, `src/query/index_cache.cpp` | FTS execution, scoring, and index cache |
-| **Tests** | `tests/query/test_aql_fts_phrase_proximity.cpp`, `tests/query/test_fts_executor.cpp` | Both source files exist; `test_fts_executor` is conditionally registered as `FtsExecutorTests`; no direct CMake registration was found for the phrase/proximity test source |
+| **Tests** | `tests/query/test_aql_fts_phrase_proximity.cpp`, `tests/query/test_fts_executor.cpp` | AQL phrase/proximity parsing is registered as `FtsPhraseProximityTests`; executor phrase/proximity behavior is covered by the registered `FtsExecutorTests` |
 | **Performance Evidence** | Local benchmark evidence recorded in `src/query/ROADMAP.md` | `benchmarks/rag/bench_fts_phase_b.cpp`; representative-hardware refresh remains open |
 
 **Key Decision**: FTS delivery is tracked in `AQL_V2_0_0_COMPLETE_ROADMAP.md` and `src/query/ROADMAP.md`. The implementation status above is source/roadmap evidence, not a claim that the benchmark was run in this documentation pass.

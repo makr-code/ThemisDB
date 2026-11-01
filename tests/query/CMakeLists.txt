@@ -758,6 +758,37 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_aql_fts_parser_focused.cpp")
     message(STATUS "  FTS Parser: SEARCH clause tokens, AST nodes, modifiers (FTS-P-01..16)")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_aql_fts_phrase_proximity.cpp")
+    add_executable(test_aql_fts_phrase_proximity_focused
+        test_aql_fts_phrase_proximity.cpp
+    )
+
+    target_include_directories(test_aql_fts_phrase_proximity_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_aql_fts_phrase_proximity_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_aql_fts_phrase_proximity_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE query
+        NAME FtsPhraseProximityTests
+        TARGET test_aql_fts_phrase_proximity_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS fts search phrase proximity
+    )
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_fts_index_cache.cpp")
     add_executable(test_fts_index_cache
         test_fts_index_cache.cpp
