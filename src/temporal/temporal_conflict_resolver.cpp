@@ -244,11 +244,6 @@ TemporalSnapshot TemporalConflictResolver::resolveCRDT(
 }
 
 std::vector<ConflictRecord> TemporalConflictResolver::getUnresolvedConflicts() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<ConflictRecord> result = {};
 
@@ -279,11 +274,6 @@ void TemporalConflictResolver::resolveManually(const std::string& conflict_id, c
 }
 
 std::vector<ConflictRecord> TemporalConflictResolver::getConflictHistory() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<ConflictRecord> result = conflict_history_;
     // Append unresolved conflicts so callers see the complete picture
@@ -294,11 +284,6 @@ std::vector<ConflictRecord> TemporalConflictResolver::getConflictHistory() const
 }
 
 nlohmann::json TemporalConflictResolver::exportAuditLog() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     nlohmann::json log = nlohmann::json::array();
 
@@ -338,11 +323,6 @@ nlohmann::json TemporalConflictResolver::exportAuditLog() const {
 }
 
 nlohmann::json TemporalConflictResolver::getStatistics() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     return {
         {"total_conflicts", total_conflicts_.load()},
@@ -824,11 +804,6 @@ void TemporalConflictResolver::setMergeResolver(std::shared_ptr<MergeResolver> r
 }
 
 std::shared_ptr<MergeResolver> TemporalConflictResolver::getMergeResolver() const {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mutex_);
     return merge_resolver_;
 }

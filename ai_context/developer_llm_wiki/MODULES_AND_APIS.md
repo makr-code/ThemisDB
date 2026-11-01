@@ -20,7 +20,7 @@ Canonical_References:
 
 # Developer LLM Wiki — Modules and APIs
 
-Datum: 2026-11-01
+Datum: 2026-10-31 inventory snapshot; curated temporal context added 2026-11-01
 Status: Active
 
 ## Curated module contexts
@@ -30,6 +30,7 @@ Status: Active
 - [Importer module context](IMPORTERS.md) — shared contracts, connector boundaries, focused test evidence, and operational limits.
 - [Updates module context](UPDATES.md) — update lifecycle, rollout and patch contracts, diagnostic evidence, and operator boundaries.
 - [Distributed tensor module context](DISTRIBUTED_TENSOR.md) — tensor artifact contracts, planning boundaries, C++ requirements, and verified test/benchmark evidence.
+- [Temporal module context](TEMPORAL.md) — runtime/API separation, persistence boundaries, test and benchmark evidence limits.
 - [Storage module context](STORAGE.md) — component boundaries, contract-vs-evidence gaps, and focused test/benchmark limits.
 
 

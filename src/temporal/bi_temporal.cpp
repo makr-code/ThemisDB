@@ -186,11 +186,6 @@ std::vector<VersionedDocument> BiTemporalTable::queryBiTemporal(
     const std::string& key,
     Timestamp sys_as_of,
     Timestamp valid_at) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -211,11 +206,6 @@ std::vector<VersionedDocument> BiTemporalTable::queryBiTemporal(
 
 std::vector<VersionedDocument> BiTemporalTable::queryCurrentByValidTime(
     const std::string& key, Timestamp valid_at) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -235,11 +225,6 @@ std::vector<VersionedDocument> BiTemporalTable::queryCurrentByValidTime(
 
 std::vector<std::pair<VersionedDocument, VersionedDocument>>
 BiTemporalTable::findOverlaps(const std::string& key) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -280,11 +265,6 @@ std::vector<TimeRange> BiTemporalTable::findGaps(const std::string& key,
     // sort and merge are independent of shared state and run unlocked.
     std::vector<TimeRange> covered;
     {
-        /**
-         * @brief Lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
 
         auto it = rows_.find(key);
@@ -347,11 +327,6 @@ bool BiTemporalTable::hasUniquenessConflict(const std::string& key,
         return false;
     }
 
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -369,11 +344,6 @@ bool BiTemporalTable::hasUniquenessConflict(const std::string& key,
 
 std::vector<VersionedDocument> BiTemporalTable::getHistory(
     const std::string& key) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -385,11 +355,6 @@ std::vector<VersionedDocument> BiTemporalTable::getHistory(
 
 std::vector<VersionedDocument> BiTemporalTable::scanBiTemporal(
     Timestamp sys_as_of, Timestamp valid_at) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<VersionedDocument> result = {};
@@ -406,11 +371,6 @@ std::vector<VersionedDocument> BiTemporalTable::scanBiTemporal(
 }
 
 std::vector<std::string> BiTemporalTable::getAllKeys() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<std::string> keys = {};
@@ -431,21 +391,11 @@ std::vector<std::string> BiTemporalTable::getAllKeys() const {
 // ============================================================================
 
 size_t BiTemporalTable::keyCount() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     return rows_.size();
 }
 
 size_t BiTemporalTable::versionCount() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     size_t count = 0;
     for (const auto& [k, v] : rows_) {
@@ -455,11 +405,6 @@ size_t BiTemporalTable::versionCount() const {
 }
 
 nlohmann::json BiTemporalTable::getStatistics() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     size_t current_count = 0;

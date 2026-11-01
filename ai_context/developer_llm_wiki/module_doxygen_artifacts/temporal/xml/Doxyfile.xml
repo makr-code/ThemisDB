@@ -1,12 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxyfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="doxyfile.xsd" version="1.17.0" xml:lang="en-US">
+<doxyfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="doxyfile.xsd" version="1.9.8" xml:lang="en-US">
   <option  id='DOXYFILE_ENCODING' default='yes' type='string'><value><![CDATA[UTF-8]]></value></option>
   <option  id='PROJECT_NAME' default='no' type='string'><value><![CDATA[ThemisDB::temporal]]></value></option>
   <option  id='PROJECT_NUMBER' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='PROJECT_BRIEF' default='no' type='string'><value><![CDATA["Hybrid Database System"]]></value></option>
   <option  id='PROJECT_LOGO' default='yes' type='string'><value><![CDATA[]]></value></option>
-  <option  id='PROJECT_ICON' default='yes' type='string'><value><![CDATA[]]></value></option>
-  <option  id='OUTPUT_DIRECTORY' default='no' type='string'><value><![CDATA[C:/Projects/ThemisDB/ai_context/developer_llm_wiki/module_doxygen_artifacts/temporal]]></value></option>
+  <option  id='OUTPUT_DIRECTORY' default='no' type='string'><value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/ai_context/developer_llm_wiki/module_doxygen_artifacts/temporal]]></value></option>
   <option  id='CREATE_SUBDIRS' default='yes' type='bool'><value>NO</value></option>
   <option  id='CREATE_SUBDIRS_LEVEL' default='yes' type='int'><value>8</value></option>
   <option  id='ALLOW_UNICODE_NAMES' default='yes' type='bool'><value>NO</value></option>
@@ -52,12 +51,9 @@
   <option  id='EXTENSION_MAPPING' default='yes' type='stringlist'>
   </option>
   <option  id='MARKDOWN_SUPPORT' default='yes' type='bool'><value>YES</value></option>
-  <option  id='MARKDOWN_STRICT' default='yes' type='bool'><value>YES</value></option>
   <option  id='TOC_INCLUDE_HEADINGS' default='no' type='int'><value>2</value></option>
   <option  id='MARKDOWN_ID_STYLE' default='yes' type='string'><value>DOXYGEN</value></option>
   <option  id='AUTOLINK_SUPPORT' default='yes' type='bool'><value>YES</value></option>
-  <option  id='AUTOLINK_IGNORE_WORDS' default='yes' type='stringlist'>
-  </option>
   <option  id='BUILTIN_STL_SUPPORT' default='yes' type='bool'><value>NO</value></option>
   <option  id='CPP_CLI_SUPPORT' default='yes' type='bool'><value>NO</value></option>
   <option  id='SIP_SUPPORT' default='yes' type='bool'><value>NO</value></option>
@@ -82,7 +78,6 @@
   <option  id='RESOLVE_UNNAMED_PARAMS' default='yes' type='bool'><value>YES</value></option>
   <option  id='HIDE_UNDOC_MEMBERS' default='yes' type='bool'><value>NO</value></option>
   <option  id='HIDE_UNDOC_CLASSES' default='yes' type='bool'><value>NO</value></option>
-  <option  id='HIDE_UNDOC_NAMESPACES' default='yes' type='bool'><value>YES</value></option>
   <option  id='HIDE_FRIEND_COMPOUNDS' default='yes' type='bool'><value>NO</value></option>
   <option  id='HIDE_IN_BODY_DOCS' default='yes' type='bool'><value>NO</value></option>
   <option  id='INTERNAL_DOCS' default='yes' type='bool'><value>NO</value></option>
@@ -104,8 +99,6 @@
   <option  id='GENERATE_TESTLIST' default='yes' type='bool'><value>YES</value></option>
   <option  id='GENERATE_BUGLIST' default='yes' type='bool'><value>YES</value></option>
   <option  id='GENERATE_DEPRECATEDLIST' default='yes' type='bool'><value>YES</value></option>
-  <option  id='GENERATE_REQUIREMENTS' default='yes' type='bool'><value>YES</value></option>
-  <option  id='REQ_TRACEABILITY_INFO' default='yes' type='string'><value>YES</value></option>
   <option  id='ENABLED_SECTIONS' default='yes' type='stringlist'>
   </option>
   <option  id='MAX_INITIALIZER_LINES' default='yes' type='int'><value>30</value></option>
@@ -116,8 +109,6 @@
   <option  id='LAYOUT_FILE' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='CITE_BIB_FILES' default='yes' type='stringlist'>
   </option>
-  <option  id='EXTERNAL_TOOL_PATH' default='yes' type='stringlist'>
-  </option>
   <option  id='QUIET' default='yes' type='bool'><value>NO</value></option>
   <option  id='WARNINGS' default='yes' type='bool'><value>YES</value></option>
   <option  id='WARN_IF_UNDOCUMENTED' default='yes' type='bool'><value>YES</value></option>
@@ -125,68 +116,67 @@
   <option  id='WARN_IF_INCOMPLETE_DOC' default='yes' type='bool'><value>YES</value></option>
   <option  id='WARN_NO_PARAMDOC' default='yes' type='bool'><value>NO</value></option>
   <option  id='WARN_IF_UNDOC_ENUM_VAL' default='yes' type='bool'><value>NO</value></option>
-  <option  id='WARN_LAYOUT_FILE' default='yes' type='bool'><value>YES</value></option>
   <option  id='WARN_AS_ERROR' default='yes' type='string'><value>NO</value></option>
   <option  id='WARN_FORMAT' default='yes' type='string'><value><![CDATA["$file:$line: $text"]]></value></option>
   <option  id='WARN_LINE_FORMAT' default='yes' type='string'><value><![CDATA["at line $line of file $file"]]></value></option>
-  <option  id='WARN_LOGFILE' default='no' type='string'><value><![CDATA[C:/Projects/ThemisDB/ai_context/developer_llm_wiki/module_doxygen_artifacts/temporal/doxygen-warnings.log]]></value></option>
+  <option  id='WARN_LOGFILE' default='no' type='string'><value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/ai_context/developer_llm_wiki/module_doxygen_artifacts/temporal/doxygen-warnings.log]]></value></option>
   <option  id='INPUT' default='no' type='stringlist'>
-    <value><![CDATA[C:/Projects/ThemisDB/include/temporal/bitemporal_join.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/temporal/bi_temporal.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/temporal/interval_tree_index.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/temporal/retention_manager.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/temporal/snapshot_manager.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/temporal/system_versioned_table.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/temporal/temporal_aggregator.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/temporal/temporal_api_contract.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/temporal/temporal_cdc.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/temporal/temporal_cold_store.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/temporal/temporal_compressor.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/temporal/temporal_conflict_resolver.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/temporal/temporal_index.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/temporal/temporal_migrator.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/temporal/temporal_query_engine.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/temporal/temporal_tier_manager.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/include/temporal/temporal_types.h]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/temporal/bitemporal_join.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/temporal/bi_temporal.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/temporal/interval_tree_index.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/temporal/retention_manager.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/temporal/snapshot_manager.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/temporal/system_versioned_table.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/temporal/temporal_aggregator.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/temporal/temporal_cdc.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/temporal/temporal_cold_store.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/temporal/temporal_compressor.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/temporal/temporal_conflict_resolver.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/temporal/temporal_index.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/temporal/temporal_migrator.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/temporal/temporal_query_engine.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/src/temporal/temporal_tier_manager.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_bi_temporal.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_interval_tree_index.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_retention_manager.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_snapshot_manager.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_system_versioned_table.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_temporal_aggregation.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_temporal_aggregation_property.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_temporal_aggregator.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_temporal_cdc.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_temporal_cold_store.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_temporal_compressor.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_temporal_conflict_resolver.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_temporal_contract_hardening_focused.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_temporal_graph.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_temporal_highcardinality_stress.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_temporal_index.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_temporal_migrator.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_temporal_query_engine.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_temporal_tier_manager.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/tests/temporal/test_temporal_v18_v19.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/benchmarks/temporal/bench_interval_tree_erase.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/benchmarks/temporal/bench_temporal_dedicated_gates.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/benchmarks/temporal/bench_temporal_queries.cpp]]></value>
-    <value><![CDATA[C:/Projects/ThemisDB/benchmarks/temporal/bench_temporal_release_gates.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/temporal/temporal_migrator.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/temporal/temporal_cdc.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/temporal/temporal_tier_manager.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/temporal/temporal_compressor.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/temporal/temporal_index.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/temporal/temporal_types.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/temporal/temporal_cold_store.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/temporal/temporal_api_contract.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/temporal/bi_temporal.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/temporal/interval_tree_index.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/temporal/snapshot_manager.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/temporal/retention_manager.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/temporal/temporal_conflict_resolver.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/temporal/temporal_query_engine.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/temporal/temporal_aggregator.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/temporal/bitemporal_join.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/include/temporal/system_versioned_table.h]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/temporal/temporal_cdc.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/temporal/retention_manager.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/temporal/bitemporal_join.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/temporal/temporal_aggregator.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/temporal/bi_temporal.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/temporal/temporal_query_engine.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/temporal/system_versioned_table.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/temporal/temporal_migrator.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/temporal/temporal_conflict_resolver.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/temporal/interval_tree_index.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/temporal/temporal_cold_store.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/temporal/snapshot_manager.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/temporal/temporal_tier_manager.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/temporal/temporal_compressor.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/src/temporal/temporal_index.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_temporal_index.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_temporal_compressor.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_temporal_cold_store.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_system_versioned_table.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_retention_manager.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_temporal_query_engine.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_temporal_aggregation.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_temporal_cdc.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_temporal_tier_manager.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_temporal_contract_hardening_focused.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_temporal_v18_v19.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_bi_temporal.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_temporal_migrator.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_temporal_aggregator.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_temporal_conflict_resolver.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_temporal_graph.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_interval_tree_index.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_temporal_highcardinality_stress.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_temporal_aggregation_property.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/tests/temporal/test_snapshot_manager.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/benchmarks/temporal/bench_interval_tree_erase.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/benchmarks/temporal/bench_temporal_release_gates.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/benchmarks/temporal/bench_temporal_dedicated_gates.cpp]]></value>
+    <value><![CDATA[/home/runner/work/ThemisDB/ThemisDB/benchmarks/temporal/bench_temporal_queries.cpp]]></value>
   </option>
   <option  id='INPUT_ENCODING' default='yes' type='string'><value><![CDATA[UTF-8]]></value></option>
   <option  id='INPUT_FILE_ENCODING' default='yes' type='stringlist'>
@@ -226,7 +216,6 @@
   <option  id='FILTER_SOURCE_PATTERNS' default='yes' type='stringlist'>
   </option>
   <option  id='USE_MDFILE_AS_MAINPAGE' default='yes' type='string'><value><![CDATA[]]></value></option>
-  <option  id='IMPLICIT_DIR_DOCS' default='yes' type='bool'><value>YES</value></option>
   <option  id='FORTRAN_COMMENT_AFTER' default='yes' type='int'><value>72</value></option>
   <option  id='SOURCE_BROWSER' default='yes' type='bool'><value>NO</value></option>
   <option  id='INLINE_SOURCES' default='yes' type='bool'><value>NO</value></option>
@@ -262,8 +251,6 @@
   <option  id='HTML_DYNAMIC_MENUS' default='yes' type='bool'><value>YES</value></option>
   <option  id='HTML_DYNAMIC_SECTIONS' default='yes' type='bool'><value>NO</value></option>
   <option  id='HTML_CODE_FOLDING' default='yes' type='bool'><value>YES</value></option>
-  <option  id='HTML_COPY_CLIPBOARD' default='yes' type='bool'><value>YES</value></option>
-  <option  id='HTML_PROJECT_COOKIE' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='HTML_INDEX_NUM_ENTRIES' default='yes' type='int'><value>100</value></option>
   <option  id='GENERATE_DOCSET' default='yes' type='bool'><value>NO</value></option>
   <option  id='DOCSET_FEEDNAME' default='yes' type='string'><value><![CDATA["Doxygen generated docs"]]></value></option>
@@ -290,11 +277,9 @@
   <option  id='GENERATE_ECLIPSEHELP' default='yes' type='bool'><value>NO</value></option>
   <option  id='ECLIPSE_DOC_ID' default='yes' type='string'><value><![CDATA[org.doxygen.Project]]></value></option>
   <option  id='DISABLE_INDEX' default='yes' type='bool'><value>NO</value></option>
-  <option  id='GENERATE_TREEVIEW' default='yes' type='bool'><value>YES</value></option>
-  <option  id='PAGE_OUTLINE_PANEL' default='yes' type='bool'><value>YES</value></option>
+  <option  id='GENERATE_TREEVIEW' default='yes' type='bool'><value>NO</value></option>
   <option  id='FULL_SIDEBAR' default='yes' type='bool'><value>NO</value></option>
   <option  id='ENUM_VALUES_PER_LINE' default='yes' type='int'><value>4</value></option>
-  <option  id='SHOW_ENUM_VALUES' default='yes' type='bool'><value>NO</value></option>
   <option  id='TREEVIEW_WIDTH' default='yes' type='int'><value>250</value></option>
   <option  id='EXT_LINKS_IN_WINDOW' default='yes' type='bool'><value>NO</value></option>
   <option  id='OBFUSCATE_EMAILS' default='yes' type='bool'><value>YES</value></option>
@@ -335,7 +320,7 @@
   <option  id='USE_PDFLATEX' default='yes' type='bool'><value>YES</value></option>
   <option  id='LATEX_BATCHMODE' default='yes' type='string'><value>NO</value></option>
   <option  id='LATEX_HIDE_INDICES' default='yes' type='bool'><value>NO</value></option>
-  <option  id='LATEX_BIB_STYLE' default='yes' type='string'><value><![CDATA[plainnat]]></value></option>
+  <option  id='LATEX_BIB_STYLE' default='yes' type='string'><value><![CDATA[plain]]></value></option>
   <option  id='LATEX_EMOJI_DIRECTORY' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='GENERATE_RTF' default='yes' type='bool'><value>NO</value></option>
   <option  id='RTF_OUTPUT' default='yes' type='string'><value><![CDATA[rtf]]></value></option>
@@ -343,8 +328,6 @@
   <option  id='RTF_HYPERLINKS' default='yes' type='bool'><value>NO</value></option>
   <option  id='RTF_STYLESHEET_FILE' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='RTF_EXTENSIONS_FILE' default='yes' type='string'><value><![CDATA[]]></value></option>
-  <option  id='RTF_EXTRA_FILES' default='yes' type='stringlist'>
-  </option>
   <option  id='GENERATE_MAN' default='yes' type='bool'><value>NO</value></option>
   <option  id='MAN_OUTPUT' default='yes' type='string'><value><![CDATA[man]]></value></option>
   <option  id='MAN_EXTENSION' default='yes' type='string'><value><![CDATA[.3]]></value></option>
@@ -384,9 +367,8 @@
   <option  id='EXTERNAL_GROUPS' default='yes' type='bool'><value>YES</value></option>
   <option  id='EXTERNAL_PAGES' default='yes' type='bool'><value>YES</value></option>
   <option  id='HIDE_UNDOC_RELATIONS' default='yes' type='bool'><value>YES</value></option>
-  <option  id='HAVE_DOT' default='yes' type='bool'><value>NO</value></option>
+  <option  id='HAVE_DOT' default='yes' type='bool'><value>YES</value></option>
   <option  id='DOT_NUM_THREADS' default='yes' type='int'><value>0</value></option>
-  <option  id='DOT_BATCH_SIZE' default='yes' type='int'><value>50</value></option>
   <option  id='DOT_COMMON_ATTR' default='yes' type='string'><value><![CDATA["fontname=Helvetica,fontsize=10"]]></value></option>
   <option  id='DOT_EDGE_ATTR' default='yes' type='string'><value><![CDATA["labelfontname=Helvetica,labelfontsize=10"]]></value></option>
   <option  id='DOT_NODE_ATTR' default='yes' type='string'><value><![CDATA["shape=box,height=0.2,width=0.4"]]></value></option>
@@ -396,7 +378,6 @@
   <option  id='GROUP_GRAPHS' default='yes' type='bool'><value>YES</value></option>
   <option  id='UML_LOOK' default='yes' type='bool'><value>NO</value></option>
   <option  id='UML_LIMIT_NUM_FIELDS' default='yes' type='int'><value>10</value></option>
-  <option  id='UML_MAX_EDGE_LABELS' default='yes' type='int'><value>10</value></option>
   <option  id='DOT_UML_DETAILS' default='yes' type='string'><value>NO</value></option>
   <option  id='DOT_WRAP_THRESHOLD' default='yes' type='int'><value>17</value></option>
   <option  id='TEMPLATE_RELATIONS' default='yes' type='bool'><value>NO</value></option>
@@ -419,16 +400,9 @@
   <option  id='PLANTUML_CFG_FILE' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='PLANTUML_INCLUDE_PATH' default='yes' type='stringlist'>
   </option>
-  <option  id='PLANTUMLFILE_DIRS' default='yes' type='stringlist'>
-  </option>
-  <option  id='MERMAID_PATH' default='yes' type='string'><value><![CDATA[]]></value></option>
-  <option  id='MERMAID_CONFIG_FILE' default='yes' type='string'><value><![CDATA[]]></value></option>
-  <option  id='MERMAID_RENDER_MODE' default='yes' type='string'><value>AUTO</value></option>
-  <option  id='MERMAID_JS_URL' default='yes' type='string'><value><![CDATA[https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs]]></value></option>
-  <option  id='MERMAIDFILE_DIRS' default='yes' type='stringlist'>
-  </option>
   <option  id='DOT_GRAPH_MAX_NODES' default='yes' type='int'><value>50</value></option>
   <option  id='MAX_DOT_GRAPH_DEPTH' default='yes' type='int'><value>0</value></option>
+  <option  id='DOT_MULTI_TARGETS' default='yes' type='bool'><value>NO</value></option>
   <option  id='GENERATE_LEGEND' default='yes' type='bool'><value>YES</value></option>
   <option  id='DOT_CLEANUP' default='yes' type='bool'><value>YES</value></option>
   <option  id='MSCGEN_TOOL' default='yes' type='string'><value><![CDATA[]]></value></option>

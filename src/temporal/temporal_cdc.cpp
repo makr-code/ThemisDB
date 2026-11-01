@@ -137,11 +137,6 @@ std::string TemporalCDC::subscribeToChanges(
     const uint64_t id = next_sub_id_.fetch_add(1, std::memory_order_relaxed);
     const std::string sub_id = "cdc_sub_" + std::to_string(id);
 
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mutex_);
     subscriptions_[sub_id] = Subscription{sub_id, table_name, std::move(callback)};
     return sub_id;
@@ -159,11 +154,6 @@ bool TemporalCDC::unsubscribe(const std::string& sub_id) {
 }
 
 size_t TemporalCDC::subscriptionCount() const {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mutex_);
     return subscriptions_.size();
 }
@@ -225,11 +215,6 @@ std::vector<ChangeEvent> TemporalCDC::replayChanges(
     const std::string& table_name,
     const TimeRange& range) const {
 
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     std::vector<ChangeEvent> result = {};
@@ -251,11 +236,6 @@ std::vector<ChangeEvent> TemporalCDC::replayChanges(
 // ============================================================================
 
 size_t TemporalCDC::logSize() const {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mutex_);
     return log_.size();
 }
@@ -603,11 +583,6 @@ static std::vector<ChangeEvent> replayFile(const std::string& path) {
 std::vector<ChangeEvent> CDCPersistentLog::replayAll() const {
     std::vector<uint64_t> seqs;
     {
-        /**
-         * @brief Lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         seqs = listSegmentSeqs();
     }
@@ -624,11 +599,6 @@ std::vector<ChangeEvent> CDCPersistentLog::replayAll() const {
 std::vector<ChangeEvent> CDCPersistentLog::replaySegment(uint64_t seq) const {
     std::vector<uint64_t> seqs;
     {
-        /**
-         * @brief Lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         seqs = listSegmentSeqs();
     }
@@ -645,11 +615,6 @@ std::vector<ChangeEvent> CDCPersistentLog::replaySegment(uint64_t seq) const {
 // ---------------------------------------------------------------------------
 
 uint64_t CDCPersistentLog::segmentCount() const noexcept {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mutex_);
     return static_cast<uint64_t>(listSegmentSeqs().size());
 }
@@ -663,11 +628,6 @@ uint64_t CDCPersistentLog::totalEventsAppended() const noexcept {
 }
 
 bool CDCPersistentLog::isOpen() const noexcept {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mutex_);
     return is_open_;
 }

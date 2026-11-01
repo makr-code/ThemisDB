@@ -1,21 +1,40 @@
-> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
 
-# AUDIT
+Exact model backend not verifiable from final document text alone.
 
-## Scope
-- Modul/Ordner: `tests/temporal`
-- Betrachtung von Code-, Konfigurations- und Integrationsrisiken auf Verzeichnisebene.
+# Temporal test-source audit
 
-## Prüffelder
-- Eingabevalidierung und Fehlerpfade
-- Logging/Auditing und Nachvollziehbarkeit
-- Abhängigkeiten und externe Integrationen
-- Testabdeckung für kritische Pfade
+## Scope and result
 
-## Aktueller Stand
-- [ ] Initiale Modul-Audit-Checkliste vollständig abgearbeitet
-- [ ] Findings priorisiert und Issues/PRs verknüpft
-- [ ] Re-Audit nach Änderungen durchgeführt
+This is a source-registration and documentation review of `tests/temporal/`.
+No CMake configure, compilation, CTest execution, coverage run, sanitizer, or
+security scan was performed.
 
-## Nachweis
-- Audit-Ergebnisse werden in PRs, Issues oder `docs/audits/` referenziert.
+| Check | Source evidence | Result |
+|---|---|---|
+| Test files | 20 `test_*.cpp` files in this directory | Present; presence is not a pass result. |
+| CMake registration | `tests/temporal/CMakeLists.txt` | Glob registers each source once as a focused target; the 15 `test_temporal_*.cpp` sources also receive an `_autofocused` registration. |
+| Timeout | Both registrations specify `TIMEOUT 120` | Registration setting only; runtime duration was not measured. |
+| Test/contract distinction | `test_temporal_contract_hardening_focused.cpp` and runtime-class test sources | Review each test's helpers and fixtures; do not assume every contract test exercises the production runtime class. |
+
+## Follow-up
+
+- **TODO:** configure the intended repository preset and record build plus
+  focused CTest results before asserting pass/fail status.
+- **TODO:** use current test execution and coverage reports to identify gaps;
+  this inventory does not substantiate coverage percentages or severity-rated
+  findings.
+- Confirm generated CTest names/labels in the selected build because registration
+  names are assembled from source stems in CMake.
+
+See [`README.md`](README.md) for directory organization and registration detail.

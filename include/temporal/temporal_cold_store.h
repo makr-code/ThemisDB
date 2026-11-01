@@ -47,7 +47,8 @@
  *
  * ## Key encoding
  *
- * Composite key: `<table_name>\x01<doc_key>\x01<016llx biased timestamp>`
+ * Composite key: table name, byte 0x01, document key, byte 0x01, then a
+ * fixed-width hexadecimal biased timestamp.
  * BIAS = uint64_max/2 + 1 so that negative timestamps sort before positive
  * ones in lexicographic order.
  *
@@ -121,27 +122,46 @@ class IColdStoreBackend {
 public:
     virtual ~IColdStoreBackend() = default;
 
-    /** Persist key→value.  Returns false on I/O failure. */
+    /**
+     * @brief Persist a serialized value under a composite key.
+     * @param composite_key Backend key.
+     * @param json_value Serialized VersionedDocument.
+     * @return true on success; false on backend failure.
+     */
     virtual bool put(const std::string& composite_key,
                      const std::string& json_value) = 0;
 
-    /** Retrieve value for key.  Returns empty string if not found. */
+    /**
+     * @brief Retrieve a value by composite key.
+     * @param composite_key Backend key.
+     * @return Serialized value, or an empty string when the key is absent.
+     */
     virtual std::string get(const std::string& composite_key) const = 0;
 
-    /** Delete key.  Returns true if the key existed. */
+    /**
+     * @brief Delete a composite key.
+     * @param composite_key Backend key.
+     * @return true if the key existed and was deleted.
+     */
     virtual bool del(const std::string& composite_key) = 0;
 
     /**
      * Enumerate all composite keys that start with prefix.
      * Used to rebuild the RAM index on startup.
+     * @param prefix Key prefix to match.
+     * @return Matching keys.
      */
     virtual std::vector<std::string>
     listKeysWithPrefix(const std::string& prefix) const = 0;
 
-    /** Remove all keys that start with prefix. */
+    /**
+     * @brief Remove all keys that start with a prefix.
+     * @param prefix Key prefix to remove.
+     * @return Number of keys removed.
+     */
     virtual size_t deletePrefix(const std::string& prefix) = 0;
 
-    /** Remove all entries.  */
+    /** @brief Remove all stored entries. */
     virtual void clearAll() = 0;
 };
 
@@ -328,7 +348,10 @@ public:
      * Uses `upper_bound(prefix + encode(as_of))` on the RAM index — O(log N)
      * — then issues at most O(1) backend reads in the common case.
      *
-     * @return nullopt if no matching cold-tier version exists.
+     * @param table_name Logical table containing the document.
+     * @param doc_key Document key to query.
+     * @param as_of System-time instant to match.
+     * @return Matching version, or nullopt when no cold-tier version exists.
      */
     std::optional<VersionedDocument> getAsOf(const std::string& table_name,
                                              const std::string& doc_key,
@@ -337,6 +360,9 @@ public:
     /**
      * @brief Return all cold-tier versions for (table_name, doc_key),
      *        sorted ascending by sys_start.
+     * @param table_name Logical table containing the document.
+     * @param doc_key Document key to query.
+     * @return All stored versions for the key.
      */
     std::vector<VersionedDocument> getAll(const std::string& table_name,
                                           const std::string& doc_key) const;
@@ -344,6 +370,10 @@ public:
     /**
      * @brief Return cold-tier versions whose sys_time overlaps range,
      *        sorted ascending by sys_start.
+     * @param table_name Logical table containing the document.
+     * @param doc_key Document key to query.
+     * @param range Half-open system-time interval to match.
+     * @return Matching versions.
      */
     std::vector<VersionedDocument> getRange(const std::string& table_name,
                                             const std::string& doc_key,
@@ -351,14 +381,22 @@ public:
 
     // ── Metadata ─────────────────────────────────────────────────────────────
 
-    /** Number of cold-tier versions for (table_name, doc_key). O(log N + k). */
+    /**
+     * @brief Count cold-tier versions for one table key.
+     * @param table_name Logical table containing the document.
+     * @param doc_key Document key to count.
+     * @return Number of versions; O(log N + k).
+     */
     size_t versionCount(const std::string& table_name,
                         const std::string& doc_key) const;
 
     /** Total versions in the RAM index. O(1). */
     size_t totalVersionCount() const noexcept;
 
-    /** Snapshot of cumulative statistics. */
+    /**
+     * @brief Return a snapshot of cold-store statistics.
+     * @return Cumulative counters and the indexed version count.
+     */
     ColdStoreStats stats() const;
 
     /** Access the underlying backend (for testing / inspection). */
@@ -385,17 +423,18 @@ public:
      * @brief Encode a (table, doc_key, sys_start) triple into a sortable
      *        composite key.
      *
-     * Format: `<table>\x01<doc_key>\x01<016llx biased timestamp>`
+     * Format: table name, byte 0x01, document key, byte 0x01, then a
+     * fixed-width hexadecimal biased timestamp.
      */
     static std::string encodeKey(const std::string& table_name,
                                   const std::string& doc_key,
                                   Timestamp sys_start);
 
-    /** Prefix for all versions of (table_name, doc_key): `<table>\x01<key>\x01` */
+    /** Prefix for all versions of a table key; byte 0x01 is the separator. */
     static std::string keyPrefix(const std::string& table_name,
                                   const std::string& doc_key);
 
-    /** Prefix for all versions of table_name: `<table>\x01` */
+    /** Prefix for all versions in a table; byte 0x01 is the separator. */
     static std::string tablePrefix(const std::string& table_name);
 
 private:
@@ -422,4 +461,3 @@ private:
 
 } // namespace temporal
 } // namespace themisdb
-
