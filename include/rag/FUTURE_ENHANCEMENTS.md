@@ -1,3 +1,13 @@
+---
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "ThemisDB documentation orchestrator"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 <!-- Status: current | validated: 2026-06-01 -->
@@ -20,6 +30,9 @@ Planned enhancements to the **public header contract** in `include/rag/`. Runtim
 
 ## Design Constraints
 
+The checked boxes below record documentation/design intent; they do not
+certify that every implementation or integration path satisfies the constraint.
+
 - `[x]` Retriever headers must define stable strategy contracts; index and vector-store internals remain opaque.
 - `[x]` `IVectorizer` must remain the public extension point for custom embedding backends.
 - `[x]` Evaluation headers must model deterministic scoring contracts; LLM judge calls require explicit timeout handling.
@@ -32,11 +45,11 @@ Planned enhancements to the **public header contract** in `include/rag/`. Runtim
 
 | Interface | Declared In | Consumer | Status |
 |-----------|------------|----------|--------|
-| `HybridRetriever` retrieve API | `hybrid_retriever.h` | RAG generation pipeline | ✅ Stable |
-| `FaithfulnessEvaluator::score()` | `faithfulness_evaluator.h` | Quality-control pipeline | ✅ Stable |
-| `QualityControlPipeline` run API | `quality_control_pipeline.h` | Evaluation orchestration | ✅ Stable |
-| `ContinuousLearningOrchestrator` loop | `continuous_learning_orchestrator.h` | ML telemetry and monitoring | ✅ Stable |
-| `PromptInjectionDetector::detect()` | `prompt_injection_detector.h` | Security middleware | ✅ Stable |
+| `HybridRetriever::fuse()` / `retrieveWithVectorizer()` | `hybrid_retriever.h` | Caller-supplied candidates | Declared; stability not inferred here |
+| `FaithfulnessEvaluator::score()` | `faithfulness_evaluator.h` | Quality-control pipeline | Declared; stability not asserted |
+| `QualityControlPipeline` run API | `quality_control_pipeline.h` | Evaluation orchestration | Declared; stability not asserted |
+| `ContinuousLearningOrchestrator` loop | `continuous_learning_orchestrator.h` | ML telemetry and monitoring | Declared; stability not asserted |
+| `PromptInjectionDetector::scan()` | `prompt_injection_detector.h` | Explicit caller-selected safety check | Declared; not automatic middleware |
 
 ---
 

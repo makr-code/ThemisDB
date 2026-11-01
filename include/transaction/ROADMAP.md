@@ -1,4 +1,18 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+> **Build:** Modular builds declare `themis_transaction` in `cmake/ModularBuild.cmake`; no `themis::transaction` alias was found. Monolithic source integration is defined in `cmake/CMakeLists.txt`.
 
 <!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/transaction/ROADMAP.md -->
@@ -7,6 +21,7 @@
 
 **Module Path:** `include/transaction/`
 **Canonical implementation roadmap:** [`../../src/transaction/ROADMAP.md`](../../src/transaction/ROADMAP.md)
+**Last Updated:** 2026-10-31; **Source level:** 1; **SOT domain:** api-contract. **Canonical references:** `include/transaction/*.h`, `src/transaction/ROADMAP.md`, and `tests/transaction/CMakeLists.txt`. **Related issue:** #7390.
 
 ---
 
@@ -20,14 +35,14 @@ Tracks public transaction API contract stability, planned header additions, and 
 
 ## Current Status
 
-All transaction headers are present and `#pragma once` guarded. `ITransactionManager` and `IDistributedTransactionManager` are stable for v1.x. `DeadlockPredictor` supports distributed wait-for edges via `reportDistributedWait`/`clearDistributedWaits`. `SagaOrchestrator` and `DistributedSaga` are production-enabled.
+Transaction-related headers are present, including `ITransactionCoordinator`, `IRecoverableTwoPhaseCoordinator`, `DistributedTransactionManager`, and saga APIs. The headers do not define `ITransactionManager` or `IDistributedTransactionManager`, nor do they establish a transaction-specific v1.x stability guarantee. `DeadlockPredictor` exposes distributed wait reporting/clearing methods. This inventory does not make a release-readiness claim.
 
 ---
 
 ## Completed ✅
 
-- [x] `transaction_manager.h` — local transaction interface
-- [x] `global_transaction_manager.h` / `distributed_transaction_manager.h` — distributed 2PC/3PC
+- [x] `transaction_manager.h` — concrete local `TransactionManager` and nested `Transaction`
+- [x] `global_transaction_manager.h` / `distributed_transaction_manager.h` — distributed coordination APIs (protocol guarantees are in each header)
 - [x] `isolation_level.h` — isolation level enum (ReadUncommitted → Serializable)
 - [x] `snapshot_manager.h` — MVCC snapshot lifecycle
 - [x] `lock_manager.h` — row- and range-level locking
@@ -37,7 +52,7 @@ All transaction headers are present and `#pragma once` guarded. `ITransactionMan
 - [x] `transaction_auditor.h` / `transaction_batcher.h` / `transaction_semantic_advisor.h`
 - [x] `branch_manager.h` — named branch lifecycle
 - [x] `merge_engine.h` — MVCC merge resolution
-- [x] `transaction_coordinator.h` — `ITransactionCoordinator` unified Strategy-pattern interface for 2PC, 3PC, SAGA, Percolator, Calvin (Issue #5374)
+- [x] `transaction_coordinator.h` — `ITransactionCoordinator` declaration and protocol identifiers (Issue #5374); concrete support for every enum protocol is not implied
 
 ---
 

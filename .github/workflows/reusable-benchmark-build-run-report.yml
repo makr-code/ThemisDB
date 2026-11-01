@@ -57,6 +57,11 @@ on:
         required: false
         default: true
         type: boolean
+      enable_llm:
+        description: 'Enable LLM targets in the benchmark build'
+        required: false
+        default: true
+        type: boolean
 
 permissions:
   contents: read
@@ -102,6 +107,7 @@ jobs:
             pkg-config \
             python3 \
             librocksdb-dev \
+            libyaml-cpp-dev \
             libgtest-dev \
             libgmock-dev \
             libssl-dev \
@@ -117,17 +123,109 @@ jobs:
             libboost-filesystem-dev
 
       - name: Prepare benchmark artifacts
+        env:
+          ENABLE_LLM: ${{ inputs.enable_llm }}
+          GITHUB_REF: ${{ github.ref }}
+          BENCHMARK_HARDWARE_PROFILE: ${{ inputs.hardware_profile }}
+          BENCHMARK_SUITE: ${{ inputs.benchmark_suite }}
+          BENCHMARK_MIN_TIME: ${{ inputs.benchmark_min_time }}
+          BENCHMARK_REPETITIONS: ${{ inputs.benchmark_repetitions }}
+          BENCHMARK_FILTER: ${{ inputs.benchmark_filter }}
+          BENCHMARK_BUILD_TARGET: ${{ inputs.build_target }}
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p benchmark-artifacts/results
-          bash ./scripts/prepare_llm_bench_artifacts.sh --model-dir "${GITHUB_WORKSPACE}/models"
-          echo "THEMIS_MODEL_DIR=${GITHUB_WORKSPACE}/models" >> "$GITHUB_ENV"
-          if [[ -f "${GITHUB_WORKSPACE}/models/gguf/Meta-Llama-3-8B-Instruct.Q4_K_M.gguf" ]]; then
-            echo "THEMIS_LLM_STUB_MODELS=OFF" >> "$GITHUB_ENV"
-          else
-            echo "THEMIS_LLM_STUB_MODELS=ON" >> "$GITHUB_ENV"
+          if [[ "${ENABLE_LLM}" == "true" ]]; then
+            bash ./scripts/prepare_llm_bench_artifacts.sh --model-dir "${GITHUB_WORKSPACE}/models"
+            echo "THEMIS_MODEL_DIR=${GITHUB_WORKSPACE}/models" >> "$GITHUB_ENV"
+            if [[ -f "${GITHUB_WORKSPACE}/models/gguf/Meta-Llama-3-8B-Instruct.Q4_K_M.gguf" ]]; then
+              echo "THEMIS_LLM_STUB_MODELS=OFF" >> "$GITHUB_ENV"
+            else
+              echo "THEMIS_LLM_STUB_MODELS=ON" >> "$GITHUB_ENV"
+            fi
           fi
+          python3 - <<'PY'
+          import json
+          import os
+          import platform
+          import subprocess
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          def output(*args):
+              return subprocess.run(args, check=True, text=True, capture_output=True).stdout.strip()
+
+          cpu_model = "unknown"
+          try:
+              for line in Path("/proc/cpuinfo").read_text().splitlines():
+                  if line.lower().startswith("model name"):
+                      cpu_model = line.split(":", 1)[1].strip()
+                      break
+          except OSError:
+              pass
+
+          package_names = [
+              "build-essential", "ninja-build", "pkg-config", "librocksdb-dev",
+              "libyaml-cpp-dev", "libgtest-dev", "libgmock-dev", "libssl-dev",
+              "zlib1g-dev", "libfmt-dev", "libspdlog-dev", "libtbb-dev",
+              "nlohmann-json3-dev", "libcpp-httplib-dev", "libbenchmark-dev",
+              "libboost-dev", "libboost-system-dev", "libboost-filesystem-dev",
+          ]
+          metadata = {
+              "created_at_utc": datetime.now(timezone.utc).isoformat(),
+              "repository": os.environ["GITHUB_REPOSITORY"],
+              "workflow": os.environ["GITHUB_WORKFLOW"],
+              "run_id": os.environ["GITHUB_RUN_ID"],
+              "run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "ref": os.environ["GITHUB_REF"],
+              "commit": output("git", "rev-parse", "HEAD"),
+              "runner_os": platform.platform(),
+              "os_release": Path("/etc/os-release").read_text(encoding="utf-8"),
+              "architecture": platform.machine(),
+              "cpu_model": cpu_model,
+              "logical_cpu_count": os.cpu_count(),
+              "memory_total_kib": next(
+                  (int(line.split()[1]) for line in Path("/proc/meminfo").read_text().splitlines()
+                   if line.startswith("MemTotal:")),
+                  None,
+              ),
+              "compiler": output("c++", "--version").splitlines()[0],
+              "cmake_version": output("cmake", "--version").splitlines()[0],
+              "dependency_package_versions": output(
+                  "dpkg-query", "-W", "-f=${binary:Package}=${Version}\\n", *package_names
+              ).splitlines(),
+              "hardware_profile": os.environ["BENCHMARK_HARDWARE_PROFILE"],
+              "benchmark_suite": os.environ["BENCHMARK_SUITE"],
+              "benchmark_min_time": os.environ["BENCHMARK_MIN_TIME"],
+              "benchmark_repetitions": int(os.environ["BENCHMARK_REPETITIONS"]),
+              "benchmark_filter": os.environ["BENCHMARK_FILTER"],
+              "build_type": "Release",
+              "build_target": os.environ["BENCHMARK_BUILD_TARGET"],
+              "llm_enabled": os.environ["ENABLE_LLM"] == "true",
+              "configure_options": [
+                  "-DTHEMIS_BUILD_BENCHMARKS=ON",
+                  "-DTHEMIS_BUILD_TESTS=OFF",
+                  "-DTHEMIS_ENABLE_HTTP_SERVER=OFF",
+                  f"-DTHEMIS_ENABLE_LLM={'ON' if os.environ['ENABLE_LLM'] == 'true' else 'OFF'}",
+                  "-DTHEMIS_MODELS_MODE=SKIP",
+              ],
+              "google_benchmark_args": [
+                  "--benchmark_format=json",
+                  "--benchmark_out_format=json",
+                  f"--benchmark_min_time={os.environ['BENCHMARK_MIN_TIME']}",
+                  f"--benchmark_repetitions={os.environ['BENCHMARK_REPETITIONS']}",
+                  *(
+                      [f"--benchmark_filter={os.environ['BENCHMARK_FILTER']}"]
+                      if os.environ["BENCHMARK_FILTER"]
+                      else []
+                  ),
+              ],
+          }
+          Path("benchmark-artifacts/run_metadata.json").write_text(
+              json.dumps(metadata, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          PY
 
       - name: Configure benchmark build
         shell: bash
@@ -138,7 +236,7 @@ jobs:
             -DTHEMIS_BUILD_BENCHMARKS=ON \
             -DTHEMIS_BUILD_TESTS=OFF \
             -DTHEMIS_ENABLE_HTTP_SERVER=OFF \
-            -DTHEMIS_ENABLE_LLM=ON \
+            -DTHEMIS_ENABLE_LLM=${{ inputs.enable_llm && 'ON' || 'OFF' }} \
             -DTHEMIS_MODELS_MODE=SKIP
 
       - name: Build benchmark target from CMake benchmark list
@@ -308,6 +406,21 @@ jobs:
             fi
           } > "${REPORT}"
 
+          if [[ "${{ inputs.benchmark_suite }}" == "metadata" ]]; then
+            python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          results = list(Path("benchmark-artifacts/results").glob("bench_metadata_cache*.json"))
+          if not results:
+              raise SystemExit("Metadata benchmark run produced no raw JSON results.")
+          for result in results:
+              data = json.loads(result.read_text(encoding="utf-8"))
+              if not isinstance(data.get("benchmarks"), list) or not data["benchmarks"]:
+                  raise SystemExit(f"Metadata benchmark result is empty: {result}")
+          PY
+          fi
+
       - name: Upload benchmark pipeline artifact
         if: always()
         uses: actions/upload-artifact@v5
@@ -315,4 +428,4 @@ jobs:
           name: benchmark-pipeline-${{ inputs.scenario_label }}-${{ inputs.benchmark_suite }}-${{ github.run_id }}
           path: benchmark-artifacts/
           retention-days: 30
-          if-no-files-found: warn
+          if-no-files-found: error

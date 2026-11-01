@@ -10,12 +10,12 @@
 
 
 #include "plugins/signed_plugin_repository.h"
+#include "plugins/pinned_ed25519_verifier.h"
 
 #include <openssl/evp.h>
 #include <openssl/sha.h>
 
 #include <algorithm>
-#include <iomanip>
 #include <sstream>
 #include <stdexcept>
 
@@ -96,21 +96,6 @@ std::vector<uint8_t> base64Decode(const std::string& encoded) {
     }
     buf.resize(static_cast<size_t>(decoded_len));
     return buf;
-}
-
-/**
- * @brief Convert raw bytes to lowercase hex string.
- * @param[in] data Input parameter.
- * @param[in] len Input parameter.
- * @return Return value.
- * @details Calls: std::setw(), std::setfill(), str().
- */
-std::string bytesToHex(const uint8_t* data, size_t len) {
-    std::ostringstream ss = {};
-    for (size_t i = 0; i < len; ++i) {
-        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(data[i]);
-    }
-    return ss.str();
 }
 
 /**
@@ -323,14 +308,7 @@ void SignedPluginRepository::clear() {
 std::string SignedPluginRepository::computeKeyFingerprint(
     const std::vector<uint8_t>& public_key)
 {
-    if (public_key.empty()) {
-        return {};
-    }
-    uint8_t digest[SHA256_DIGEST_LENGTH];
-    if (SHA256(public_key.data(),public_key.size(), digest) == nullptr) {
-        return {};
-    }
-    return bytesToHex(digest, SHA256_DIGEST_LENGTH);
+    return themis::plugins::pinned_ed25519::fingerprint(public_key);
 }
 
 /**
@@ -398,11 +376,13 @@ const PinnedKey* SignedPluginRepository::findPinnedKeyLocked(
 
 bool SignedPluginRepository::verifyEntryLocked(const RepositoryEntry& entry) const {
     const PinnedKey* key = findPinnedKeyLocked(entry.key_fingerprint);
-    if (!key || !key->active) {
+    if (!key || !key->active ||
+        themis::plugins::pinned_ed25519::fingerprint(key->public_key) !=
+            key->fingerprint) {
         return false;
     }
-    std::vector<uint8_t> sig = base64Decode(entry.signature_b64);
-    if (sig.empty()) {
+    const std::vector<uint8_t> sig = base64Decode(entry.signature_b64);
+    if (sig.size() != 64) {
         return false;
     }
     const std::string payload = canonicalManifestJson(entry.manifest);
@@ -414,40 +394,9 @@ bool SignedPluginRepository::verifyEd25519Signature(
     const std::string& message,
     const std::vector<uint8_t>& signature) const
 {
-    if (public_key.size() != 32 || signature.size() != 64) {
-        return false;
-    }
-    // Load the raw Ed25519 public key via OpenSSL EVP_PKEY using RAII wrapper
-    EVP_PKEY* pkey_raw = EVP_PKEY_new_raw_public_key(
-        EVP_PKEY_ED25519, nullptr, public_key.data(),public_key.size());
-    if (!pkey_raw) {
-        return false;
-    }
-    /**
-     * @brief Pkey.
-     * @param[in] pkey_raw Input parameter.
-     * @return Return value.
-     */
-    UniqueEvpPkey pkey(pkey_raw);
-    
-    // Create EVP_MD_CTX using RAII wrapper to ensure cleanup
-    UniqueEvpMdCtx ctx(EVP_MD_CTX_new());
-    if (!ctx) {
-        return false;  // pkey and ctx will be automatically freed
-    }
-    
-    bool ok = false;
-    if (EVP_DigestVerifyInit(ctx.get(), nullptr, nullptr, nullptr, pkey.get()) == 1) {
-        int rc = EVP_DigestVerify(
-            ctx.get(),
-            signature.data(),signature.size(),
-            reinterpret_cast<const uint8_t*>(message.data()),message.size());
-        ok = (rc == 1);
-    }
-    // Both ctx and pkey automatically freed when they go out of scope
-    return ok;
+    return themis::plugins::pinned_ed25519::verifyRaw(
+        public_key, message, signature);
 }
 
 } // namespace plugins
 } // namespace themis
-

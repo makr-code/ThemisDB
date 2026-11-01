@@ -1,12 +1,12 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-21
+Last Updated: 2026-10-31
 Status: active
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: unknown
-Human_Review: true
+AI_Contributor: GitHub Copilot
+Human_Review: false
 Human_Author: ThemisDB Contributors
 ---
 
@@ -14,89 +14,65 @@ Human_Author: ThemisDB Contributors
 
 Exact model backend not verifiable from final document text alone.
 
-This module models encrypted user storage as a security-tiered container system. The canonical contract is spread across `include/user_storage_encrypted/security_level.hpp`, `user_models.hpp`, `multi_level_storage.hpp`, and `user_storage_encrypted_api_contract.h`.
+The implementation models four `SecurityLevel` enum values and a
+`LevelConfig` map. The enum names and string conversion are defined in
+`include/user_storage_encrypted/security_level.hpp`; actual paths, provider
+selection, and rotation fields are configured per level in
+`multi_level_storage.hpp` and `multi_level_storage.cpp`.
 
-## Security-level model
+## Configuration model
 
-The module defines four levels:
+`MultiLevelEncryptedStorage::initialize()` expects
+`multi_level_storage.levels`. Plain entries require `name`, `encrypted:
+false`, and `path`. Encrypted entries require `name`, `encrypted: true`,
+`encrypted_dir`, `mount_point`, and `encryption.key_id`. Provider selection is
+read from the nested `encryption` object; the source handles `vault`, `hsm`,
+and `mock`.
 
-| Level | Name | Intended behavior |
-|---|---|---|
-| `OFFEN` | `offen` | unencrypted baseline storage path used only where the system explicitly chooses a plain layer |
-| `VS_NFD` | `vs-nfd` | encrypted storage with Vault-based key provider |
-| `GEHEIM` | `geheim` | encrypted storage with stricter vault behavior |
-| `STRENG_GEHEIM` | `streng-geheim` | encrypted storage with HSM-backed key provider |
+Descriptions that map `VS_NFD`/`GEHEIM` to Vault, `STRENG_GEHEIM` to HSM, or
+set specific rotation periods describe the shipped example configuration,
+not policy defaults enforced by the enum. The example's settings are in
+`plugins/user_storage_encrypted/config/storage_config.yaml.example`.
 
-The naming and behavior are implemented in `security_level.hpp`, and the `LevelConfig` structure in `multi_level_storage.hpp` carries the actual runtime configuration for each level. The module uses a map of `SecurityLevel` to `LevelConfig`, with per-level fields for mount path, backend, key provider, rotation interval, and notification policies.
+## Runtime flow and boundaries
 
-`OFFEN` is a policy-level baseline rather than a privileged encrypted-storage tier. Its plain storage path is intentionally different from the fail-closed semantics used for encrypted levels. The fail-closed contract in `user_storage_encrypted_api_contract.h` remains relevant for any level that depends on backend or KDF availability, but operators should not treat the `OFFEN` path as a security-equivalent replacement for encrypted storage.
+1. The plugin parses and validates level configuration.
+2. Initialization attempts stale-mount reconciliation.
+3. Each configured encrypted level constructs `GocryptfsBackend`, checks
+   availability, resolves its provider, creates a container when needed, and
+   mounts it. Plain levels create their configured directory.
+4. User and group records are JSON files beneath each level's mounted/base
+   directory.
+5. Health and metrics are exposed by `MultiLevelEncryptedStorage`.
 
-## Runtime model
+The current multi-level plugin constructs `GocryptfsBackend` without a KDF
+service. The backend can be constructed directly with a
+`KeyDerivationService*`, but this is not configured by `MultiLevelEncryptedStorage`.
 
-The runtime model is intentionally simple and bounded:
+`rotation` fields are parsed but not used to configure a scheduler.
+`KeyRotationScheduler` is a separate API, and automatic rotation requires
+caller wiring. `rotateKey()` is a distinct orchestrator operation.
 
-1. A security level resolves to a `LevelConfig`.
-2. That config identifies whether the level is encrypted.
-3. The module initializes the level-specific backend and key provider.
-4. It mounts or reuses a container at the configured path.
-5. User and group records are stored in a level-specific file layout.
-6. Rotation and failure-handling logic are evaluated at the level boundary.
+## Failure and observability boundaries
 
-This is more than a storage abstraction; it is a policy model. The operational guarantee is not "everything is encrypted" but "each security tier chooses a configured backend, key provider, and rotation schedule while failing closed on invalid conditions."
+Operational methods generally return `Result<T>` error strings; they do not
+uniformly produce the frozen contract enum. Some failure paths are not
+propagated: `unmountAll()` ignores per-level unmount results; scheduler
+callback exceptions are swallowed and the schedule timestamp is advanced;
+the container-size metric is declared/emitted but not updated by current
+source. `checkLevelHealth()` checks backend presence and mount state only.
 
-## Key-provider model
+`user_storage_encrypted_api_contract.h` is a separate contract namespace with
+stronger guarantees in comments than all current implementation paths
+demonstrate. Treat the discrepancy as unresolved rather than assuming
+atomicity or fail-closed behavior beyond the implemented path.
 
-`MultiLevelEncryptedStorage` stores provider metadata per level in `LevelConfig` and later resolves the concrete provider through `getKeyProvider()`. The header imports security dependencies such as `vault_key_provider.h` and `hsm_key_provider_adapter.h`; a `mock_key_provider.h` reference is present in the source tree for test and validation use, but it is not a production key-provider strategy and should not be treated as a deployable runtime backend.
+## Source references
 
-Important invariants:
-
-- a missing or invalid provider is not silently accepted
-- rotation state is tracked per security level
-- stronger levels must be able to reject or fail closed when provider assumptions break
-
-## Rotation model
-
-The rotation model is scheduler-driven. `KeyRotationScheduler` uses a `RotationSchedule` map keyed by `SecurityLevel`; callbacks can trigger rotation when the interval is exceeded. The schedule also persists `last_check_ms` and `interval_days` into a backing store using JSON and a key naming convention such as `user_storage:rotation_state:{level}`.
-
-This creates a durable model where the scheduler can recover from restarts without losing the notion of when a rotation was last checked.
-
-## Failure domains
-
-The source identifies these main failure domains:
-
-- backend availability (`gocryptfs` not installed or unsupported FUSE)
-- path validation failures (`..`, invalid chars, bad flags)
-- key derivation failures (empty keys, invalid salts, Argon2id/PBKDF2 failure)
-- stale mount residue after crash or process restart
-- rotation callback or persistence failures
-
-These failures are treated as explicit runtime conditions, not as hidden fallbacks. The module is designed to keep a failure isolated to the affected security level and to expose the condition to logs and diagnostics.
-
-## Data ownership and lifecycle model
-
-The implementation keeps user and group data in level-scoped file paths and relies on container-level metadata to determine mount state. `MultiLevelEncryptedStorage` is therefore a container orchestrator, not a generic data store abstraction.
-
-The intended lifecycle is:
-
-- configure security levels
-- validate and reconcile state
-- initialize each level
-- mount all configured containers
-- rotate keys on schedule
-- fail closed under backend or KDF errors
-- unmount and clean up when shutting down
-
-## Limitations of the current model
-
-The model is deliberately bounded to host-environment control, not general-purpose encrypted object storage. It does not model distributed consensus, cross-node replication, or complex key escrow flows beyond the provider and scheduler abstractions already visible in the code. The module's roadmap and design comments acknowledge that stronger operational hardening and wider integration coverage remain outstanding work.
-
-## Source-grounded summary
-
-The code makes the model explicit:
-
-- `multi_level_storage.cpp` configures and validates level layouts
-- `gocryptfs_backend.cpp` defines backend validation and mount failure boundaries
-- `key_derivation_service.cpp` defines KDF behavior and compatibility constraints
-- `key_rotation_scheduler.cpp` defines scheduling and persistence
-
-The modeling is therefore not speculative: it is the direct runtime structure encoded in the current module implementation.
+- `include/user_storage_encrypted/security_level.hpp`
+- `include/user_storage_encrypted/multi_level_storage.hpp`
+- `include/user_storage_encrypted/user_models.hpp`
+- `include/user_storage_encrypted/key_rotation_scheduler.hpp`
+- `src/user_storage_encrypted/multi_level_storage.cpp`
+- `src/user_storage_encrypted/key_rotation_scheduler.cpp`
+- `plugins/user_storage_encrypted/config/storage_config.yaml.example`

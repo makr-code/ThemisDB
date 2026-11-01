@@ -1,32 +1,60 @@
 ---
-Author: "ThemisDB Team"
-Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Author: ThemisDB Contributors
+Created: 2026-10-18
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "ThemisDB documentation orchestrator"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
-# Rag in ThemisDB
+# RAG Module Features
 
-## Ueberblick
-Das Modul RAG stellt retrieval-augmented generation runtime surfaces for ThemisDB: document retrieval, context assembly, quality evaluation, and safety checks. It combines hybrid BM25+vector retrieval, token-budget-aware streaming, multi-dimensional evaluation gates, and prompt-injection safety controls into a single composable runtime layer. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+Exact model backend not verifiable from final document text alone.
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **specific performance and reliability controls (adaptive depth, streaming)**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+This page summarizes component capabilities exposed by the current RAG headers.
+It is not a claim that every component is connected to every request path or
+that a performance or production-readiness target has been met.
 
-Die zweite Kernfaehigkeit ist **RAG HTTP transport and server bootstrap details**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+## Current component surfaces
 
-Die dritte Kernfaehigkeit ist **test_llm_judge_integration" -V**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+- **Candidate fusion:** `HybridRetriever::fuse()` combines supplied sparse and
+  dense candidate lists using reciprocal-rank fusion by default. It does not
+  query an index; `retrieveWithVectorizer()` scores only the supplied BM25 pool.
+- **Context assembly:** `RAGContextAssembler` selects and, when configured,
+  truncates chunks under a context budget while reserving response tokens.
+- **Ingestion bridge:** `RAGIngestionBridge` validates documents and can pass
+  them through the ingestion workflow and optional vector/graph sinks. Check
+  `IndexResult` and independently verify persistence; partial sink failures may
+  not make `ok` false.
+- **Evaluation:** `QualityControlPipeline`, `RAGJudge`, and evaluator classes
+  expose independent checks and result objects. Calling them is an integration
+  choice; the module does not enforce a universal response gate.
+- **Safety:** injection detection and sanitization are explicit APIs. Callers
+  remain responsible for applying them to every relevant input path and for
+  enforcing authorization before retrieval.
+- **Monitoring:** freshness, SLO, quality-monitoring, and span components are
+  available, but their existence does not establish durable metrics, external
+  alert delivery, or OTLP network export.
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Rag Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
+## Build and focused validation
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
+RAG test sources are registered by `tests/rag/CMakeLists.txt`; for example, the
+focused CTest entries are `test_rag_hybrid_retriever_RagFocusedTests` and
+`test_rag_context_assembler_RagFocusedTests`. The test registration and target
+names are generated from the source stems. There is no `tests/rag` or
+`benchmarks/rag` Markdown guide.
 
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/rag/README.md](./../../docs/rag/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+Benchmark source files and their actual CMake registration are documented in
+[`RESEARCH.md`](RESEARCH.md) and [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md).
+
+## Canonical references
+
+- [Module overview and API examples](README.md)
+- [Architecture and composition boundaries](ARCHITECTURE.md)
+- [Public C++ contracts](API.md)
+- [Implementation behavior](IMPLEMENTATION.md)
+- [Test map](MODULE_GUIDE.md)
+- [Roadmap and open work](ROADMAP.md)

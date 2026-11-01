@@ -1,14 +1,25 @@
-# VOICE DOXYGEN
+# VOICE DOXYGEN — Historical Generated Snapshot
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+
+> Exact model backend not verifiable from final document text alone.
+>
+> This generated artifact was built from a local Doxygen XML directory on
+> 2026-09-20. Its source inventory, symbols and metrics have not been refreshed
+> against the current tree. Do not treat it as the current API reference;
+> `include/voice/*.h` and the implementation are authoritative.
 
 ## Source
-- This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\voice\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\voice\doxygen-warnings.log`
+- Generated from module-scoped Doxygen XML; the original local XML and warnings
+  paths are unavailable in this repository snapshot.
 
 ## Structure Metrics
 - C/C++ Files (scanned): 89
@@ -12128,4 +12139,3 @@ Status: active
 - Brief: n/a
 - Parameters:
   - `bytes` (size_t): n/a
-

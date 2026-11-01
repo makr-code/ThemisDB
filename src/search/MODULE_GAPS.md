@@ -1,4 +1,33 @@
-# search — MODULE_GAPS.md (Phase 5 Verified)
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "src/search/*.cpp"
+  - "include/search/*.h"
+  - "DOCUMENTATION_GOVERNANCE.md"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+# search — MODULE_GAPS.md (Historical Phase 5 Scan)
+
+> **Not current evidence:** The counts and file/line findings below are a
+> historical scan snapshot. The prior Windows path/date does not identify a
+> reproducible scan of the current checkout. Do not treat its classifications
+> as verified current defects or as evidence that code fixes landed. **TODO:**
+> rerun the documented scanner against the current tree and attach its command,
+> version, exclusions, and artifact.
 
 This file documents all documentation and code quality gaps in the **search** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 
@@ -6,7 +35,7 @@ This file documents all documentation and code quality gaps in the **search** mo
 
 - **Total Gaps**: 854
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
-- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
+- **Scan provenance**: historical snapshot; original path was `C:\Projects\ThemisDB`. Current scan date and reproducible provenance: **TODO**.
 
 ### By Severity
 

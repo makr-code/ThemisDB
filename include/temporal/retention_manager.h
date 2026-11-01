@@ -204,23 +204,36 @@ public:
 
     // ── Policy management ────────────────────────────────────────────────────
 
-    /** Set the retention policy for a named table. */
+    /**
+     * @brief Set the retention policy for a named table.
+     * @param table_name Logical table name.
+     * @param policy Policy copied and applied to that table by enforcement.
+     */
     void setPolicy(const std::string& table_name, const RetentionPolicy& policy);
 
-    /** Retrieve the retention policy for a table, if set. */
+    /**
+     * @brief Retrieve a table's registered retention policy.
+     * @param table_name Logical table name.
+     * @return The policy, or an empty optional when none is registered.
+     */
     std::optional<RetentionPolicy> getPolicy(const std::string& table_name) const;
 
     // ── Enforcement ──────────────────────────────────────────────────────────
 
     /**
-     * Apply the registered policy to the given table.
+     * @brief Apply the registered policy to a table.
      * Non-current versions that violate the policy are physically deleted
      * (and optionally archived before deletion).
+     * @param table Table whose history is evaluated.
+     * @return Counts and status for the enforcement pass.
      */
     RetentionStats enforceRetention(SystemVersionedTable& table);
 
     /**
-     * Apply the given policy directly without registering it.
+     * @brief Apply a policy without registering it.
+     * @param table Table whose history is evaluated.
+     * @param policy Policy to apply for this pass only.
+     * @return Counts and status for the enforcement pass.
      */
     RetentionStats enforceRetention(SystemVersionedTable& table,
                                     const RetentionPolicy& policy);
@@ -259,18 +272,29 @@ public:
 
     // ── Archive ──────────────────────────────────────────────────────────────
 
-    /** Return all archived records (across all tables). */
+    /**
+     * @brief Return all archived records across tables.
+     * @return Copy of the in-memory archive.
+     */
     std::vector<ArchivedRecord> getArchivedRecords() const;
 
-    /** Return archived records for a specific table. */
+    /**
+     * @brief Return archived records for one table.
+     * @param table_name Logical table name.
+     * @return Matching archived records.
+     */
     std::vector<ArchivedRecord> getArchivedRecords(
         const std::string& table_name) const;
 
-    /** Clear the in-memory archive. */
+    /** @brief Remove all records from the in-memory archive. */
     void clearArchive();
 
     // ── Statistics ───────────────────────────────────────────────────────────
 
+    /**
+     * @brief Return cumulative retention statistics.
+     * @return JSON snapshot of the manager's cumulative counters.
+     */
     nlohmann::json getCumulativeStats() const;
 
 private:

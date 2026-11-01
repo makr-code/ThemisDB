@@ -33,6 +33,7 @@
 #include "failover/disaster_recovery_manager.h"
 
 #include <cstdint>
+#include <initializer_list>
 #include <string>
 #include <vector>
 
@@ -67,6 +68,27 @@ DisasterRecoveryPlan makeMinimalDryRunPlan() {
     plan.dry_run       = true;
     plan.shift_traffic = false;
     return plan;
+}
+
+DisasterRecoveryPlan makeMinimalProductionPlan() {
+    auto plan = makeMinimalDryRunPlan();
+    plan.dry_run = false;
+    plan.snapshot_id = "snapshot-drtest";
+    return plan;
+}
+
+DisasterRecoveryManager::StepHook successfulAdapterHook() {
+    return [](const DisasterRecoveryPlan&, std::string& detail) {
+        detail = "test adapter acknowledged operation";
+        return true;
+    };
+}
+
+void installAdapterHooks(DisasterRecoveryManager& manager,
+                         std::initializer_list<DisasterRecoveryStep> steps) {
+    for (const auto step : steps) {
+        manager.setStepHook(step, successfulAdapterHook());
+    }
 }
 
 }  // namespace
@@ -231,4 +253,79 @@ TEST(DisasterRecoveryEdgeDRE08, StepHookFailureIsolatedAndStatisticsUpdated) {
     EXPECT_EQ(stats.total_runs, 1u);
     EXPECT_EQ(stats.failed_runs, 1u);
     EXPECT_EQ(stats.successful_runs, 0u);
+}
+
+TEST(DisasterRecoveryEdgeDRE09, ProductionPlanRequiresSnapshotValidationAdapter) {
+    DisasterRecoveryManager mgr(makeTestConfig(), nullptr, nullptr);
+
+    const auto result = mgr.executePlan(makeMinimalProductionPlan());
+
+    EXPECT_FALSE(result.success);
+    ASSERT_EQ(result.step_results.size(), 2u);
+    EXPECT_EQ(result.step_results.back().step,
+              DisasterRecoveryStep::SNAPSHOT_VALIDATION);
+    EXPECT_NE(result.error_message.find("adapter is not configured"),
+              std::string::npos);
+}
+
+TEST(DisasterRecoveryEdgeDRE10, ProductionPlanRequiresRestoreAdapter) {
+    DisasterRecoveryManager mgr(makeTestConfig(), nullptr, nullptr);
+    installAdapterHooks(mgr, {DisasterRecoveryStep::SNAPSHOT_VALIDATION});
+
+    const auto result = mgr.executePlan(makeMinimalProductionPlan());
+
+    EXPECT_FALSE(result.success);
+    ASSERT_EQ(result.step_results.size(), 4u);
+    EXPECT_EQ(result.step_results.back().step, DisasterRecoveryStep::RESTORE);
+    EXPECT_NE(result.error_message.find("storage restore adapter"),
+              std::string::npos);
+}
+
+TEST(DisasterRecoveryEdgeDRE11, QuorumDoesNotSatisfyCatchupRequirement) {
+    DisasterRecoveryManager mgr(makeTestConfig(), nullptr, nullptr);
+    installAdapterHooks(mgr, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+                              DisasterRecoveryStep::RESTORE});
+
+    const auto result = mgr.executePlan(makeMinimalProductionPlan());
+
+    EXPECT_FALSE(result.success);
+    ASSERT_EQ(result.step_results.size(), 5u);
+    EXPECT_EQ(result.step_results.back().step,
+              DisasterRecoveryStep::REPLICA_CATCHUP);
+    EXPECT_NE(result.error_message.find("replication-position adapter"),
+              std::string::npos);
+}
+
+TEST(DisasterRecoveryEdgeDRE12, ProductionPlanRequiresTrafficShiftAdapter) {
+    DisasterRecoveryManager mgr(makeTestConfig(), nullptr, nullptr);
+    installAdapterHooks(mgr, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+                              DisasterRecoveryStep::RESTORE,
+                              DisasterRecoveryStep::REPLICA_CATCHUP});
+
+    const auto result = mgr.executePlan(makeMinimalProductionPlan());
+
+    EXPECT_FALSE(result.success);
+    ASSERT_EQ(result.step_results.size(), 6u);
+    EXPECT_EQ(result.step_results.back().step,
+              DisasterRecoveryStep::TRAFFIC_SHIFT);
+    EXPECT_NE(result.error_message.find("traffic-shift adapter"),
+              std::string::npos);
+}
+
+TEST(DisasterRecoveryEdgeDRE13, ProductionPlanRequiresRecoveredStateVerification) {
+    DisasterRecoveryManager mgr(makeTestConfig(), nullptr, nullptr);
+    auto plan = makeMinimalProductionPlan();
+    plan.shift_traffic = false;
+    installAdapterHooks(mgr, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+                              DisasterRecoveryStep::RESTORE,
+                              DisasterRecoveryStep::REPLICA_CATCHUP});
+
+    const auto result = mgr.executePlan(plan);
+
+    EXPECT_FALSE(result.success);
+    ASSERT_EQ(result.step_results.size(), 7u);
+    EXPECT_EQ(result.step_results.back().step,
+              DisasterRecoveryStep::VERIFICATION);
+    EXPECT_NE(result.error_message.find("verification adapter"),
+              std::string::npos);
 }

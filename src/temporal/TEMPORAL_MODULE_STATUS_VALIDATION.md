@@ -1,10 +1,31 @@
 # Temporal Module Development Status Validation
 
+---
+Author: ThemisDB Contributors
+Created: 2026-08-06
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
+
 **Issue:** makr-code/ThemisDB#5673  
 **Module:** temporal  
 **Date:** 2026-08-06  
 **Validated by:** Issue validation process  
 **Status:** Evidence compilation and validation complete
+
+Exact model backend not verifiable from final document text alone.
+
+> **Historical snapshot:** The issue validation and percentages below describe
+> the evidence compilation performed on 2026-08-06. They are not current
+> implementation, test-result, benchmark-result, or release-readiness claims.
+> Several linked source comments describe mocked benchmark workloads. Use the
+> current headers, implementations, tests, benchmark sources, and root
+> [`ROADMAP.md`](../../ROADMAP.md) for present-day authority.
 
 ---
 

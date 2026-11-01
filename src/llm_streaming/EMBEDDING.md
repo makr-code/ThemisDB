@@ -1,83 +1,79 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
-AI_Models: "GitHub Copilot"
+AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
-Human_Review: true
+Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
 
-# Embedding the Streaming Contract in ThemisDB
+Exact model backend not verifiable from final document text alone.
 
-This document explains how the `llm_streaming` contract fits into the surrounding runtime architecture. It is source-grounded in the observable implementation and operability evidence that currently exists: `src/llm/streaming_handler.cpp`, stress and soak tests, and the module documentation in `src/llm_streaming/`.
+# Embedding the Streaming Helper in ThemisDB
 
-## Runtime embedding model
+## What is present
 
-At a high level, the streaming flow is:
+The concrete source evidence is the lightweight `themis::llm::StreamingHandler`
+API in `include/llm/streaming_handler.h` and
+`src/llm/streaming_handler.cpp`. A caller may use `makeStreamCallback` to wrap a
+sink: each callback invocation formats a token as an SSE `data:` JSON event
+with request ID and an atomically allocated index. Other static helpers format
+a `[DONE]` sentinel or one HTTP chunk-framing string.
 
-1. a request is initiated and assigned a stream identity
-2. the LLM runtime emits tokens
-3. the adapter serializes them into a transport-safe payload
-4. the stream sink writes the payload through HTTP/SSE or another transport boundary
-5. cancellation or disconnect triggers explicit fail-closed cleanup
+These are formatting and callback-adapter utilities. A separate path connects
+model generation to HTTP/SSE: `LLMApiHandler::handleStreamInference` invokes
+`EmbeddedLLM::generateStreamingSSE`, whose callback formats tokens using
+`LlamaWrapper::formatStreamTokenAsSSE`. The server appends events to a
+`std::string` and returns a `http::string_body` response only after generation
+finishes. It does not use `StreamingHandler`, and this is not incremental
+network delivery. No gRPC integration was verified.
 
-This matches the design in `src/llm_streaming/ARCHITECTURE.md` and the actual `StreamingHandler` helper in `src/llm/streaming_handler.cpp`.
+## Example data shape
 
-## Concrete transport contract
+`formatSseEvent` returns a string shaped like:
 
-The actual helper layer already encodes the wire contract used by the runtime:
+```text
+data: {"id":"request-123","token":"hello","index":0,"done":false}
 
-- `StreamingHandler::formatSseEvent()` emits a JSON payload wrapped in `data:`
-- `StreamingHandler::formatDoneEvent()` emits the terminal sentinel `data: [DONE]\n\n`
-- `StreamingHandler::formatChunkedData()` emits a chunked transfer payload in HTTP-style framing
-- `StreamingHandler::makeStreamCallback()` creates a callback that formats each token before it reaches the sink
-
-This is the clearest evidence that the module is not abstract; it is a real transport-facing concern that must remain deterministic and observable.
-
-## Embedding within server and LLM layers
-
-The repository explicitly says that the canonical runtime ownership should be mapped to the owning runtime modules, especially `src/llm/` and `src/server/`.
-
-That is a crucial architectural point: the streaming design is embedded in the broader request lifecycle but is not meant to be a hidden implementation layer in `src/llm_streaming/` itself.
-
-Expected embedding responsibilities:
-
-- `llm`: token production and termination signal generation
-- `server`: inbound request lifecycle, HTTP/gRPC/SSE transport adaptation
-- `query` / `rag`: orchestration layers that consume and shape context while streaming responses are produced
-- `observability`: metrics and incident reporting for failure and throughput monitoring
-
-## Event model
-
-The canonical streaming event model is intentionally simple:
-
-```json
-{"id":"request-123","token":"hello","index":0,"done":false}
 ```
 
-The runtime helper uses this pattern and escapes JSON string content before building the payload. That means the stream payload remains safe and schema-like even when token text contains quotes, control characters, or line breaks.
+The JSON string values are escaped by the implementation. The `index` is
+supplied by the caller for direct formatting, or assigned by the callback
+adapter. Atomic index allocation is not a guarantee of sink delivery order
+under concurrent invocations.
 
-## Operational embedding
+## Integration boundary
 
-The operational semantics are deliberately exposed to operators rather than hidden under a generic “it just works” model:
+The helper takes a `std::function<void(const std::string&)>` sink; its caller
+owns that sink and its transport/threading contract. The HTTP route parses
+`prompt`, `request_id`, and `max_tokens` from the query string; `max_tokens`
+defaults to 512 and values above 4096 are ignored. It appends a terminal done
+event on the normal path and an error event if generation throws. The route
+does not expose per-stream cancellation, disconnect propagation, or bounded
+backpressure, and no stream-specific configuration keys were verified.
 
-- buffer overflow at the sink or queue boundary
-- generation stall in model output
-- backpressure cascade across streams
-- disconnect in the middle of delivery
-- ordering violations in reassembled chunks
+`tests/llm/test_streaming_handler.cpp` directly covers helper formatting,
+callback delivery/indexing, and empty-sink rejection. The stress/soak tests and
+dedicated benchmark use separate in-process stubs and do not exercise the HTTP
+route. `tests/llm/test_llm_aql_explain_stream_api.cpp` checks unauthenticated
+route/auth behavior but does not exercise successful authenticated generation
+or event delivery. Broader cancellation, backpressure, and network-flush
+behavior remain unverified.
 
-This is the same set of conditions captured in `docs/operability/RUNBOOK_LLM_STREAMING.md` and modeled by the soak/stress tests.
+**TODO / assumption:** add route-level tests and decide whether the current
+buffered response satisfies the required transport behavior.
 
-## Limits to the current embedding
+## Sources
 
-The repository does not currently present a complete production streaming runtime under `src/llm_streaming/`. That means the embedding is intentionally conceptual and governance-driven today:
-
-- canonical ownership is documented instead of hidden
-- design assumptions are strong and explicit
-- runtime evidence must still be collected in the real module files before any release claim is accepted
-
-This is the repository’s intended balance between product clarity and source-traceable runtime discipline.
+- `include/llm/streaming_handler.h`
+- `src/llm/streaming_handler.cpp`
+- `include/llm/embedded_llm.h`
+- `src/llm/embedded_llm.cpp`
+- `src/llm/embedded_llm_stub.cpp`
+- `src/server/llm_api_handler.cpp`
+- `tests/llm/test_streaming_handler.cpp`
+- `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`
+- `tests/integration/test_llm_streaming_soak.cpp`

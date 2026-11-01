@@ -5,6 +5,8 @@
 #include <vector>
 #include <random>
 #include <filesystem>
+#include <thread>
+#include <chrono>
 
 #include "security/mock_key_provider.h"
 #include "security/encryption.h"
@@ -35,8 +37,19 @@ std::string makeRandomString(size_t len) {
     return s;
 }
 
-void cleanupPath(const std::string& path) {
-    std::error_code ec; std::filesystem::remove_all(path, ec);
+bool cleanupPath(const std::string& path, std::error_code& error) {
+    constexpr size_t cleanup_attempts = 6;
+    for (size_t attempt = 0; attempt < cleanup_attempts; ++attempt) {
+        error.clear();
+        std::filesystem::remove_all(path, error);
+        if (!error) {
+            return true;
+        }
+        if (attempt + 1 < cleanup_attempts) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10 * (1 << attempt)));
+        }
+    }
+    return false;
 }
 
 struct CryptoEnv {
@@ -74,9 +87,16 @@ struct DBEnv {
     std::unique_ptr<SecondaryIndexManager> secIdx;
 
     void open() {
-        cleanupPath(db_path);
+        std::error_code cleanup_error;
+        if (!cleanupPath(db_path, cleanup_error)) {
+            throw std::runtime_error("Failed to clear encryption benchmark DB: " +
+                                     cleanup_error.message());
+        }
         RocksDBWrapper::Config cfg; cfg.db_path = db_path; cfg.memtable_size_mb = 128; cfg.block_cache_size_mb = 256;
         db = std::make_shared<RocksDBWrapper>(cfg);
+        if (!db->open()) {
+            throw std::runtime_error("Failed to open encryption benchmark RocksDB");
+        }
         secIdx = std::make_unique<SecondaryIndexManager>(*db);
         // Typical index on username and created_at
         secIdx->createIndex("User", "username", true);
@@ -84,7 +104,13 @@ struct DBEnv {
     }
 
     void close() {
-        secIdx.reset(); db.reset(); cleanupPath(db_path);
+        secIdx.reset();
+        db.reset();
+        std::error_code cleanup_error;
+        if (!cleanupPath(db_path, cleanup_error)) {
+            std::fprintf(stderr, "Encryption benchmark DB cleanup failed: %s\n",
+                         cleanup_error.message().c_str());
+        }
     }
 };
 

@@ -17,11 +17,13 @@
 #include <boost/beast.hpp>
 #include <boost/asio.hpp>
 #include <memory>
+#include <optional>
 #include <string>
 
 namespace themis {
 
 // Forward declarations
+class AuthMiddleware;
 class RocksDBWrapper;
 class SecondaryIndexManager;
 class SchemaManager;
@@ -31,6 +33,7 @@ class SchemaVersionManager;
 class SchemaAuditLog;
 
 namespace metadata {
+class IMetadataSecurityProvider;
 class IndexRecommender;
 class ColumnLineageTracker;
 } // namespace metadata
@@ -49,6 +52,24 @@ public:
     );
 
     ~SchemaApiHandler();
+
+    /**
+     * @brief Configure optional RBAC enforcement for metadata HTTP handlers.
+     * @param provider Shared provider retained for the handler lifetime; nullptr
+     *        disables this additional metadata-specific gate.
+     * @note When configured, requests require an enabled AuthMiddleware and a
+     *       valid bearer token; missing identity fails closed with HTTP 401.
+     */
+    void setMetadataSecurityProvider(
+        std::shared_ptr<const metadata::IMetadataSecurityProvider> provider);
+
+    /**
+     * @brief Configure the authenticator used to resolve metadata request principals.
+     * @param auth Shared AuthMiddleware retained for the handler lifetime.
+     * @note A null or disabled authenticator denies requests when a metadata
+     *       security provider is configured.
+     */
+    void setAuthMiddleware(std::shared_ptr<AuthMiddleware> auth);
 
 
     /**
@@ -314,9 +335,21 @@ private:
         http::status status,
         const std::string& message) const;
 
+    /**
+     * @brief Apply optional provider authorization before handling a metadata request.
+     * @param req Request whose path, method, and bearer identity determine access.
+     * @return An HTTP error response when identity or permission is denied;
+     *         std::nullopt when the request may proceed.
+     * @note A null provider preserves the existing unauthenticated handler behavior.
+     */
+    std::optional<http::response<http::string_body>> authorizeMetadataRequest(
+        const http::request<http::string_body>& req) const;
+
     std::shared_ptr<RocksDBWrapper>        storage_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
     SchemaManager*          schema_mgr_          = nullptr;  ///< Non-owning
+    std::shared_ptr<const metadata::IMetadataSecurityProvider> metadata_security_provider_;
+    std::shared_ptr<AuthMiddleware> auth_middleware_;
     StatisticsCollector*    stats_collector_     = nullptr;  ///< Non-owning
     SchemaConstraints*      schema_constraints_  = nullptr;  ///< Non-owning
     SchemaVersionManager*   version_mgr_         = nullptr;  ///< Non-owning
@@ -327,5 +360,4 @@ private:
 
 } // namespace server
 } // namespace themis
-
 

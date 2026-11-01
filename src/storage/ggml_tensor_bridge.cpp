@@ -12,6 +12,7 @@
 
 #include "storage/ggml_tensor_bridge.h"
 #include "storage/tensor_train_decomposer.h"
+#include "core/production_mode.h"
 #include "utils/logger.h"
 
 #include <atomic>
@@ -20,7 +21,6 @@
 #include <cstring>
 #include <mutex>
 #include <stdexcept>
-#include <cstdlib>
 #include <string>
 #include <unordered_map>
 
@@ -43,20 +43,12 @@ namespace storage {
 
 namespace {
 /**
- * @brief Is production mode.
- * @return True when the operation succeeds.
- * @details Calls: std::getenv(), mode(), std::string().
+ * @brief Checks whether the canonical production safeguards are enabled.
+ * @return True when production mode is enabled.
+ * @throws std::runtime_error if a configured production-mode value is unknown.
  */
 bool is_production_mode() {
-    const char* mode_env = std::getenv("THEMIS_PRODUCTION_MODE");
-    const char* env_env = std::getenv("THEMIS_ENVIRONMENT");
-    if (mode_env) {
-        const std::string mode(mode_env);
-        if (mode == "1" || mode == "true" || mode == "production") {
-            return true;
-        }
-    }
-    return env_env && std::string(env_env) == "production";
+    return themis::core::ProductionMode::isEnabled();
 }
 
 /**

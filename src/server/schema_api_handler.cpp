@@ -13,7 +13,9 @@
 // Copyright (c) 2026 ThemisDB Contributors
 
 #include "server/schema_api_handler.h"
+#include "server/auth_middleware.h"
 #include <stdexcept>
+#include "metadata/imetadata_security_provider.h"
 #include "metadata/schema_manager.h"
 #include "metadata/information_schema.h"
 #include "metadata/statistics_collector.h"
@@ -55,6 +57,142 @@ SchemaApiHandler::~SchemaApiHandler() {
     spdlog::info("SchemaApiHandler destroyed");
 }
 
+void SchemaApiHandler::setMetadataSecurityProvider(
+    std::shared_ptr<const metadata::IMetadataSecurityProvider> provider) {
+    metadata_security_provider_ = std::move(provider);
+}
+
+void SchemaApiHandler::setAuthMiddleware(std::shared_ptr<AuthMiddleware> auth) {
+    auth_middleware_ = std::move(auth);
+}
+
+std::optional<http::response<http::string_body>>
+SchemaApiHandler::authorizeMetadataRequest(
+    const http::request<http::string_body>& req) const {
+    if (!metadata_security_provider_) {
+        return std::nullopt;
+    }
+
+    if (!auth_middleware_ || !auth_middleware_->isEnabled()) {
+        return makeError(req, http::status::unauthorized,
+                         "Metadata authorization requires enabled authentication");
+    }
+
+    const auto auth_header = req.find(http::field::authorization);
+    if (auth_header == req.end()) {
+        return makeError(req, http::status::unauthorized,
+                         "Missing Authorization header");
+    }
+
+    const auto token = AuthMiddleware::extractBearerToken(
+        std::string_view(auth_header->value().data(), auth_header->value().size()));
+    if (!token) {
+        return makeError(req, http::status::unauthorized,
+                         "Invalid Authorization header");
+    }
+
+    const auto identity = auth_middleware_->validateToken(*token);
+    if (!identity.authorized || identity.user_id.empty()) {
+        return makeError(req, http::status::unauthorized,
+                         "Invalid or incomplete authenticated identity");
+    }
+
+    std::string path(req.target());
+    if (const auto query_pos = path.find('?'); query_pos != std::string::npos) {
+        path.resize(query_pos);
+    }
+
+    auto resourceAfter = [&path](std::string_view prefix, bool first_segment = true) {
+        if (path.compare(0, prefix.size(), prefix) != 0) {
+            return std::string{"*"};
+        }
+        std::string resource = path.substr(prefix.size());
+        const auto slash = resource.find('/');
+        if (slash != std::string::npos && first_segment) {
+            resource.resize(slash);
+        }
+        return resource.empty() ? std::string{"*"} : resource;
+    };
+
+    auto operation = metadata::MetadataOperation::READ_SCHEMA;
+    std::string resource{"*"};
+
+    if (path.rfind("/api/v1/metadata/stats/", 0) == 0) {
+        operation = req.method() == http::verb::post
+            ? metadata::MetadataOperation::WRITE_STATISTICS
+            : metadata::MetadataOperation::READ_STATISTICS;
+        resource = resourceAfter("/api/v1/metadata/stats/", false);
+    } else if (path.rfind("/api/v1/metadata/lineage", 0) == 0) {
+        if (req.method() == http::verb::post) {
+            operation = metadata::MetadataOperation::WRITE_LINEAGE;
+            try {
+                const auto body = json::parse(req.body());
+                if (body.contains("target") && body["target"].is_object()) {
+                    resource = body["target"].value("table", std::string{"*"});
+                }
+            } catch (const json::exception&) {
+                // The handler reports malformed bodies; authorization remains
+                // scoped to "*" until a valid target can be resolved.
+            }
+        } else {
+            operation = metadata::MetadataOperation::READ_LINEAGE;
+            resource = resourceAfter("/api/v1/metadata/lineage/");
+        }
+    } else if (path.rfind("/api/v1/metadata/audit", 0) == 0) {
+        operation = metadata::MetadataOperation::READ_AUDIT_LOG;
+        resource = resourceAfter("/api/v1/metadata/audit/");
+    } else if (path.rfind("/api/v1/metadata/index_recommendations", 0) == 0) {
+        operation = metadata::MetadataOperation::READ_STATISTICS;
+        resource = resourceAfter("/api/v1/metadata/index_recommendations/", false);
+    } else if (path.rfind("/api/v1/metadata/constraints/validate/", 0) == 0) {
+        operation = metadata::MetadataOperation::READ_SCHEMA;
+        resource = resourceAfter("/api/v1/metadata/constraints/validate/", false);
+    } else if (path.rfind("/api/v1/metadata/constraints/", 0) == 0) {
+        operation = metadata::MetadataOperation::READ_SCHEMA;
+        resource = resourceAfter("/api/v1/metadata/constraints/", false);
+    } else if (path.rfind("/api/v1/metadata/schema_import", 0) == 0) {
+        operation = metadata::MetadataOperation::WRITE_SCHEMA;
+    } else if (path.rfind("/api/v1/schema/versions/", 0) == 0) {
+        operation = req.method() == http::verb::post
+            ? metadata::MetadataOperation::WRITE_SCHEMA
+            : metadata::MetadataOperation::READ_SCHEMA;
+        resource = resourceAfter("/api/v1/schema/versions/", false);
+    } else if (path.rfind("/api/v1/schema/diff/", 0) == 0) {
+        operation = metadata::MetadataOperation::READ_SCHEMA;
+        resource = resourceAfter("/api/v1/schema/diff/", false);
+    } else if (path.rfind("/api/v1/schema/tables/", 0) == 0) {
+        operation = metadata::MetadataOperation::READ_SCHEMA;
+        resource = resourceAfter("/api/v1/schema/tables/", false);
+    } else if (path.rfind("/api/v1/schema/", 0) == 0 &&
+               path != "/api/v1/schema/tables") {
+        operation = (req.method() == http::verb::put ||
+                     req.method() == http::verb::patch)
+            ? metadata::MetadataOperation::WRITE_SCHEMA
+            : metadata::MetadataOperation::READ_SCHEMA;
+        resource = resourceAfter("/api/v1/schema/", false);
+    } else if (path.rfind("/api/v1/information_schema", 0) == 0) {
+        operation = metadata::MetadataOperation::READ_SCHEMA;
+        if (path.rfind("/api/v1/information_schema/columns/", 0) == 0) {
+            resource = resourceAfter("/api/v1/information_schema/columns/", false);
+        } else if (path.rfind("/api/v1/information_schema/statistics/", 0) == 0) {
+            resource = resourceAfter("/api/v1/information_schema/statistics/", false);
+        }
+    }
+
+    try {
+        metadata_security_provider_->assertPermission(
+            identity.user_id, operation, resource);
+    } catch (const metadata::MetadataAccessDeniedException&) {
+        return makeError(req, http::status::forbidden,
+                         "Metadata access denied");
+    } catch (const std::exception&) {
+        return makeError(req, http::status::internal_server_error,
+                         "Metadata authorization provider failed");
+    }
+
+    return std::nullopt;
+}
+
 /**
  * @brief Handle Get Schema.
  * @param[in] req Input parameter.
@@ -64,6 +202,7 @@ SchemaApiHandler::~SchemaApiHandler() {
 http::response<http::string_body> SchemaApiHandler::handleGetSchema(
     const http::request<http::string_body>& req
 ) {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     auto span = Tracer::startSpan("GET /schema");
     http::response<http::string_body> res{http::status::ok, req.version()};
     res.set(http::field::server, "ThemisDB");
@@ -115,6 +254,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetSchema(
 http::response<http::string_body> SchemaApiHandler::handleGetTables(
     const http::request<http::string_body>& req
 ) {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     auto span = Tracer::startSpan("GET /schema/tables");
     http::response<http::string_body> res{http::status::ok, req.version()};
     res.set(http::field::server, "ThemisDB");
@@ -182,6 +322,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetTables(
 http::response<http::string_body> SchemaApiHandler::handleGetTable(
     const http::request<http::string_body>& req
 ) {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     auto span = Tracer::startSpan("GET /schema/tables/:name");
     http::response<http::string_body> res{http::status::ok, req.version()};
     res.set(http::field::server, "ThemisDB");
@@ -285,6 +426,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetTable(
 http::response<http::string_body> SchemaApiHandler::handleGetCapabilities(
     const http::request<http::string_body>& req
 ) {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     auto span = Tracer::startSpan("GET /schema/capabilities");
     http::response<http::string_body> res{http::status::ok, req.version()};
     res.set(http::field::server, "ThemisDB");
@@ -365,6 +507,7 @@ std::string SchemaApiHandler::extractAndValidateSchemaTableName(
 http::response<http::string_body> SchemaApiHandler::handlePutSchema(
     const http::request<http::string_body>& req
 ) {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     auto span = Tracer::startSpan("PUT /schema/tables/:name");
     http::response<http::string_body> res{http::status::ok, req.version()};
     res.set(http::field::server, "ThemisDB");
@@ -503,6 +646,7 @@ http::response<http::string_body> SchemaApiHandler::handlePutSchema(
 http::response<http::string_body> SchemaApiHandler::handlePatchSchema(
     const http::request<http::string_body>& req
 ) {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     auto span = Tracer::startSpan("PATCH /schema/tables/:name");
     http::response<http::string_body> res{http::status::ok, req.version()};
     res.set(http::field::server, "ThemisDB");
@@ -707,6 +851,7 @@ std::string SchemaApiHandler::extractTableName(
 http::response<http::string_body> SchemaApiHandler::handleGetInformationSchema(
     const http::request<http::string_body>& req)
 {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     if (!schema_mgr_) {
         return makeError(req, http::status::service_unavailable,
                          "Schema manager not available");
@@ -791,6 +936,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetInformationSchema(
 http::response<http::string_body> SchemaApiHandler::handleGetStats(
     const http::request<http::string_body>& req)
 {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     if (!stats_collector_) {
         return makeError(req, http::status::service_unavailable,
                          "Statistics collector not available");
@@ -836,6 +982,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetStats(
 http::response<http::string_body> SchemaApiHandler::handleCollectStats(
     const http::request<http::string_body>& req)
 {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     if (!stats_collector_) {
         return makeError(req, http::status::service_unavailable,
                          "Statistics collector not available");
@@ -887,6 +1034,7 @@ http::response<http::string_body> SchemaApiHandler::handleCollectStats(
 http::response<http::string_body> SchemaApiHandler::handleGetConstraints(
     const http::request<http::string_body>& req)
 {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     if (!schema_constraints_) {
         return makeError(req, http::status::service_unavailable,
                          "Schema constraints not available");
@@ -938,6 +1086,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetConstraints(
 http::response<http::string_body> SchemaApiHandler::handleGetVersionHistory(
     const http::request<http::string_body>& req)
 {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     if (!version_mgr_) {
         return makeError(req, http::status::service_unavailable,
                          "Schema version manager not available");
@@ -984,6 +1133,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetVersionHistory(
 http::response<http::string_body> SchemaApiHandler::handleCreateVersion(
     const http::request<http::string_body>& req)
 {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     if (!version_mgr_) {
         return makeError(req, http::status::service_unavailable,
                          "Schema version manager not available");
@@ -1041,6 +1191,7 @@ http::response<http::string_body> SchemaApiHandler::handleCreateVersion(
 http::response<http::string_body> SchemaApiHandler::handleGetDiff(
     const http::request<http::string_body>& req)
 {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     if (!version_mgr_) {
         return makeError(req, http::status::service_unavailable,
                          "Schema version manager not available");
@@ -1121,6 +1272,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetDiff(
 http::response<http::string_body> SchemaApiHandler::handleGetIndexRecommendations(
     const http::request<http::string_body>& req)
 {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     if (!index_recommender_) {
         return makeError(req, http::status::service_unavailable,
                          "Index recommender not available");
@@ -1201,6 +1353,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetIndexRecommendation
 http::response<http::string_body> SchemaApiHandler::handleGetAuditLog(
     const http::request<http::string_body>& req)
 {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     if (!audit_log_) {
         return makeError(req, http::status::service_unavailable,
                          "Audit log not available");
@@ -1258,6 +1411,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetAuditLog(
 http::response<http::string_body> SchemaApiHandler::handleSchemaImport(
     const http::request<http::string_body>& req)
 {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     if (!schema_mgr_) {
         return makeError(req, http::status::service_unavailable,
                          "Schema manager not available");
@@ -1338,6 +1492,7 @@ http::response<http::string_body> SchemaApiHandler::handleSchemaImport(
 http::response<http::string_body> SchemaApiHandler::handleBatchConstraintValidation(
     const http::request<http::string_body>& req)
 {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     if (!schema_constraints_) {
         return makeError(req, http::status::service_unavailable,
                          "Constraint engine not available");
@@ -1438,6 +1593,7 @@ http::response<http::string_body> SchemaApiHandler::handleBatchConstraintValidat
 http::response<http::string_body> SchemaApiHandler::handleGetColumnLineage(
     const http::request<http::string_body>& req)
 {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     if (!column_lineage_tracker_) {
         return makeError(req, http::status::service_unavailable,
             "Column lineage tracker not available");
@@ -1502,6 +1658,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetColumnLineage(
 http::response<http::string_body> SchemaApiHandler::handleRecordLineageDerivation(
     const http::request<http::string_body>& req)
 {
+    if (auto denied = authorizeMetadataRequest(req)) return std::move(*denied);
     if (!column_lineage_tracker_) {
         return makeError(req, http::status::service_unavailable,
             "Column lineage tracker not available");
@@ -1569,4 +1726,3 @@ http::response<http::string_body> SchemaApiHandler::handleRecordLineageDerivatio
 
 } // namespace server
 } // namespace themis
-

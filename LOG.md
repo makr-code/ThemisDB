@@ -5,12 +5,23 @@ Last Updated: 2026-11-01
 Status: active
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: GitHub Copilot
+AI_Contributor: GitHub Copilot coding agent
 Human_Review: false
-Human_Author: ThemisDB Team
+Human_Author: ThemisDB Contributors
+Source_Level: level2
+SOT_Domain: architecture-governance
+Canonical_References:
+  - DOCUMENTATION_GOVERNANCE.md
+  - AI_WIKI_INTEGRATION_PLAYBOOK.md
+  - ai_context/developer_llm_wiki/STORAGE.md
+Related_Milestone: DOC-WEEKLY-2026-W44
 ---
 
+> Exact model backend not verifiable from final document text alone.
+
 # LOG
+
+> Exact model backend not verifiable from final document text alone.
 
 Datum: 2026-07-28
 Status: Active
@@ -132,3 +143,18 @@ Zuletzt geprueft (Root-Sync): 2026-07-28
 - Aktion: Modul-Doxygen-XML und `src/prompt_engineering/DOXYGEN.md` mit aktuellem Quellbestand neu generiert; `src/prompt_engineering/MODULE_GAPS.md` aus einem frischen, modulbezogenen Scan neu erzeugt.
 - Abgrenzung: Der Doxygen-Lauf war erfolgreich, meldete aber 392 Warnungen. Der Gap-Scanner meldete einen Fehler in der Markdown-Regel für einen archivierten Bericht und einen Verzeichnis-Lesefehler; die Gap-Findings sind nicht unabhängig triagiert und kein Test- oder Readiness-Nachweis.
 - Relevanz fuer AI-Wiki: Aktuelle Modulgrenzen, Tests, Benchmark-Limits und die dokumentierten Scanner-Einschränkungen sind auffindbar, ohne Berichte als belastbare Qualitätsfreigabe darzustellen.
+
+## [2026-11-01] storage-contract-evidence-sync | Storage contract and wiki context refreshed
+
+- Quellen: `include/storage/storage_api_contract.h`, `include/storage/storage_engine.h`, `include/storage/wal_storage.h`, `include/storage/mvcc_store.h`, `src/storage/storage_engine.cpp`, `src/storage/wal_storage.cpp`, `src/storage/mvcc_store.cpp`, `tests/storage/test_storage_contract_hardening_focused.cpp`, `tests/storage/test_storage_engine_prod.cpp`, `tests/storage/CMakeLists.txt`, `benchmarks/storage/bench_storage_release_gates.cpp`, `benchmarks/storage/CMakeLists.txt`, `CMakePresets.json`.
+- Aktion: `ai_context/api_contracts/storage.md` trennt normative Deklarationen von durch Implementierung und Tests belegtem Verhalten und dokumentiert offene End-to-End-Konformitätslücken; Storage-Beispiel-README und kuratierte Storage-Wiki-Seite aktualisiert/angelegt.
+- Navigation: Storage-Seite in `ai_context/developer_llm_wiki/INDEX.md`, `ai_context/developer_llm_wiki/MODULES_AND_APIS.md` und `INDEX.md` verlinkt.
+- Abgrenzung: Contract-Härtungstests nutzen Mock-Fixtures; Release-Gate-Benchmark ist In-Memory/Mock. `SOURCE_MANIFEST.json` und `WIKI_STATUS.json` wurden nicht neu generiert; der dokumentierte Inventar-Snapshot bleibt vom 2026-10-31.
+- Nicht geändert: C++-Implementierung, Header und `src/storage/DOXYGEN.md`.
+
+## [2026-11-01] storage-evidence-followup | MVCC and Doxygen evidence qualified
+
+- Quellen: `tests/test_mvcc_wal_integration.cpp`, `src/storage/DOXYGEN.md`.
+- Aktion: Storage contract matrix and curated wiki now distinguish RocksDB-backed MVCC read/version/GC/close-reopen test source from standalone `WALStorage` ACK-ordering, PITR, and transaction-contract evidence.
+- Abgrenzung: The MVCC test source or registration is not execution evidence; no pass result is claimed. Doxygen 1.9.8 generation is reported as PASS for 164 files/547 compounds with 656 untriaged warnings; this is generation evidence, not runtime conformance.
+- Nicht geändert: `src/storage/DOXYGEN.md`; no C++ source or test was changed or run.

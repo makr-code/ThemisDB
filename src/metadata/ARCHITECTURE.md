@@ -1,77 +1,101 @@
-# Architecture - Metadata Module
+# Architecture — Metadata Module
 
-<!-- Status: current | validated: 2026-09-09 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+**Author:** ThemisDB Contributors  
+**Created:** 2026-10-31  
+**Last Updated:** 2026-10-31  
+**Status:** review  
+**AI_Used:** true  
+**AI_Models:** unknown  
+**AI_Contributor:** GitHub Copilot coding agent / ThemisDB documentation orchestrator  
+**Human_Review:** false  
+**Human_Author:** ThemisDB Contributors  
+**Source level:** level1 — module-local  
+**SOT domain:** architecture-governance  
+**Canonical source references:** [metadata public headers](../../include/metadata/), [metadata implementations](./), [build source registration](../../cmake/CMakeLists.txt), [module tests](../../tests/metadata/CMakeLists.txt)  
+**Related issue / milestone:** [#7362](https://github.com/makr-code/ThemisDB/issues/7362) · DOC-WEEKLY-2026-W44
 
-## Overview
+> Exact model backend not verifiable from final document text alone.
 
-The metadata module composes schema discovery, metadata statistics, consistency verification, and export/integration behavior into a bounded metadata subsystem for ThemisDB.
+## Boundary and runtime flow
 
-## Main Execution Planes
+`include/metadata/` declares the public contracts; `src/metadata/` implements
+the compiled module. The module describes and operates on schema/catalog
+metadata. It does not own general entity storage, query execution, or embedding
+generation.
 
-1. Schema and catalog plane
-- schema discovery and metadata representation surfaces
-- information-schema and versioning behavior
+```mermaid
+flowchart TD
+    DB[RocksDBWrapper and stored entities] --> SM[SchemaManager]
+    IX[SecondaryIndexManager, when supplied] --> SM
+    SM --> IS[InformationSchema]
+    SM --> SC[SchemaConsistencyChecker]
+    SM --> VM[SchemaVersionManager]
+    DB --> VM
+    DB --> SC
+    CN[SchemaConstraints] --> SC
+    CN <-->|explicit persist/load| DB
+    SM --> CE[CatalogExporter]
+    SM --> DC[DistributedMetadataCatalog]
+    DB --> ST[StatisticsCollector]
+    ST --> SC
+    DB --> AL[SchemaAuditLog]
+    SM --> ER[ERDiagramExporter]
+    SM --> AQ[themis::aql::fromTableSchema]
+    CL[ColumnLineageTracker] -. in-memory lineage .-> OUT[JSON export]
+```
 
-2. Validation and consistency plane
-- constraints, consistency checks, and audit behavior
-- deterministic metadata validation outcomes
+- `SchemaManager` discovers table prefixes and samples stored entities to infer
+  property metadata. It can obtain index descriptions from the optional index
+  manager, caches schema views, and exposes explicit refresh and mutation APIs.
+- `InformationSchema` constructs metadata rows from a `SchemaManager`; it is a
+  read view, not an independent schema store.
+- `StatisticsCollector` samples entities, caches results behind a
+  `std::shared_mutex`, and persists collected statistics. Its refresh worker is
+  managed through `setRefreshInterval()` / `stopRefresh()`.
+- `SchemaConsistencyChecker::runCheck()` reports orphan key prefixes and, when
+  collaborators are supplied, stale statistics and missing constraint
+  definitions. Its orphan scan is capped at 5,000 keys; it reports findings and
+  does not repair them.
+- `SchemaVersionManager`, `SchemaAuditLog`, and `SchemaConstraints` are separate
+  state/persistence surfaces. Constraint persistence is explicit; version
+  history and audit entries are not interchangeable.
+- `ColumnLineageTracker` is an in-memory, thread-safe tracker. Its JSON export
+  does not itself persist lineage.
+- `CatalogExporter` publishes Atlas/DataHub payloads over HTTP.
+  `IMetadataExportPolicy` is a separate interface and is not accepted by the
+  current exporter API.
+- `DistributedMetadataCatalog` delegates through a non-owning
+  `MetadataShardRouter` reference. `InMemoryMetadataSnapshotStore` is explicitly
+  in-memory, not durable.
 
-3. Lineage and export plane
-- lineage graph traversal and ER/catalog export behavior
-- distributed metadata and integration interfaces
+## Synchronization and failure boundaries
 
-## Core Contracts
+Thread-safety is per interface, not a module-wide guarantee. `SchemaManager`
+uses a shared mutex for cache access; `StatisticsCollector` uses a shared mutex
+for cache reads/writes. `SchemaVersionManager` and `SchemaConstraints` require
+external synchronization. `SchemaConsistencyChecker::runCheck()` is thread-safe,
+but its background start/stop calls must not race each other. Consult each
+owning header for other classes' guarantees and non-owning dependencies.
 
-| Contract | Behavior |
-|---|---|
-| schema contract | deterministic schema discovery and metadata access semantics |
-| consistency contract | explicit constraint/consistency outcomes and diagnostics |
-| lineage contract | bounded provenance traversal and export behavior |
-| integration contract | deterministic catalog export and distributed metadata behavior |
+Malformed input, missing records, storage errors, and external-service failures
+have API-specific outcomes (`bool`, `std::optional`, typed result objects,
+`PublishResult`, or exceptions). Callers must preserve these distinctions; a
+failed or empty result is not a general health signal.
 
-## Failure Semantics
+## Build and test registration
 
-- invalid schema/constraint input fails with explicit outcomes.
-- export/integration failures are surfaced explicitly.
-- metadata inconsistencies remain observable and non-silent.
+- The standard source list registers metadata implementation files in
+  [`cmake/CMakeLists.txt`](../../cmake/CMakeLists.txt). In the modular build,
+  distributed-catalog compilation is registered with the sharding components
+  in [`cmake/ModularBuild.cmake`](../../cmake/ModularBuild.cmake).
+- Focused test targets are registered in
+  [`tests/metadata/CMakeLists.txt`](../../tests/metadata/CMakeLists.txt), which
+  is discovered by the test CMake module scan. The registration file is the
+  authority for target names, labels, and timeouts.
+- Optional benchmarks are registered by
+  [`benchmarks/metadata/CMakeLists.txt`](../../benchmarks/metadata/CMakeLists.txt)
+  when the benchmark build is enabled. Benchmark source presence is not evidence
+  that a run or release gate passed.
 
-## Sourcecode Verification (Module: metadata/architecture)
-
-- Verified files:
-  - src/metadata/schema_manager.cpp
-  - src/metadata/information_schema.cpp
-  - src/metadata/schema_version_manager.cpp
-  - src/metadata/schema_consistency_checker.cpp
-  - src/metadata/catalog_exporter.cpp
-  - src/metadata/distributed_catalog.cpp
-- Verified architecture claims:
-  - explicit schema/consistency/lineage/integration planes
-  - deterministic failure boundaries across metadata workflows
-  - module-local ownership of metadata orchestration behavior
-
-## Module Dependencies
-
-### Direct Upstream Dependencies (this module uses)
-| Module | Interface / File | Purpose |
-|--------|-----------------|---------|
-| utils | `include/utils/` | Logging, audit trail, and serialisation helpers |
-| storage | `include/storage/` | Persists schema versions, catalog snapshots, and distributed metadata |
-
-### Direct Downstream Consumers (modules that use this module)
-| Module | Via | Notes |
-|--------|-----|-------|
-| server | `server/schema_*.h`, `statistics_collector.h`, `column_lineage.h`, `index_recommender.h` | Server exposes schema management, statistics, lineage, and recommendation APIs |
-| query | `include/metadata/` (StatisticsCollector) | Query planner reads table/column statistics for cost estimation |
-
-## Integration Points
-
-### Critical Integration: Query Statistics Collection
-**Files:** `src/metadata/schema_manager.cpp` ↔ `query/` (StatisticsCollector)
-**Contract:** Query engine reads `StatisticsCollector` estimates (row counts, cardinalities) from metadata; statistics must be eventually consistent with committed storage state.
-**Thread Safety:** Statistics reads are lock-free reads against an atomically updated snapshot; concurrent writes use compare-and-swap.
-
-### Critical Integration: Server Schema Management
-**Files:** `server/schema_*.h` ↔ `include/metadata/schema_manager.h`
-**Contract:** Server delegates all DDL operations to metadata module; metadata module serialises schema mutations through versioned lock.
-**Thread Safety:** Schema mutations are serialised; concurrent read-only schema lookups are safe.
+For symbol-level contracts, see [`API.md`](./API.md); for code ownership and
+test mapping, see [`IMPLEMENTATION.md`](./IMPLEMENTATION.md).

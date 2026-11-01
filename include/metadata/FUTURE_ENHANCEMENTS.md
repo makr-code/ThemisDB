@@ -1,9 +1,25 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Selected public type names reconciled 2026-10-31; remaining planning status not revalidated -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/metadata/FUTURE_ENHANCEMENTS.md -->
 
 # Metadata Module — Public Header Future Enhancements
+
+**Author:** ThemisDB Contributors  
+**Created:** 2026-10-31  
+**Last Updated:** 2026-10-31  
+**Status:** review  
+**AI_Used:** true  
+**AI_Models:** unknown  
+**AI_Contributor:** GitHub Copilot coding agent / ThemisDB documentation orchestrator  
+**Human_Review:** false  
+**Human_Author:** ThemisDB Contributors  
+**Source level:** level1 — module-local  
+**SOT domain:** api-contract  
+**Canonical source references:** [public metadata headers](./), [runtime future enhancements](../../src/metadata/FUTURE_ENHANCEMENTS.md), [API reference](../../src/metadata/API.md)  
+**Related issue / milestone:** [#7362](https://github.com/makr-code/ThemisDB/issues/7362) · DOC-WEEKLY-2026-W44
+
+> Exact model backend not verifiable from final document text alone.
 
 **Module Path:** `include/metadata/`
 **Canonical implementation enhancements:** [`../../src/metadata/FUTURE_ENHANCEMENTS.md`](../../src/metadata/FUTURE_ENHANCEMENTS.md)
@@ -34,7 +50,7 @@ Planned enhancements to the **public header contract** in `include/metadata/`. R
 | `SchemaManager` | `schema_manager.h` | DDL and API layers | ✅ Stable |
 | `SchemaConsistencyChecker` | `schema_consistency_checker.h` | Validation and admin tooling | ✅ Stable |
 | `CatalogExporter` / `ERDiagramExporter` | `catalog_exporter.h`, `er_diagram_exporter.h` | External integrations | ✅ Stable |
-| `DistributedCatalog` | `distributed_catalog.h` | Multi-node metadata consumers | ✅ Stable |
+| `DistributedMetadataCatalog` | `distributed_catalog.h` | Multi-node metadata consumers | ✅ Implemented interface; review compatibility before contract changes |
 
 ---
 

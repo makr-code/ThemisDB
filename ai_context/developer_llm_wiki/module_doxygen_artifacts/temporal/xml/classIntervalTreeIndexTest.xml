@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classIntervalTreeIndexTest" kind="class" language="C++" prot="public">
+    <compoundname>IntervalTreeIndexTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classIntervalTreeIndexTest_1a8910c0b5c09e0d64ce21cceee4c8f9ce" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1temporal_1_1IntervalTreeIndex" kindref="compound">IntervalTreeIndex</ref></type>
+        <definition>IntervalTreeIndex IntervalTreeIndexTest::tree</definition>
+        <argsstring></argsstring>
+        <name>tree</name>
+        <qualifiedname>IntervalTreeIndexTest::tree</qualifiedname>
+        <initializer>{&quot;test_tree&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="17" column="23" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="17" bodyend="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classIntervalTreeIndexTest_1ac2fa407087d97f860c02863429149626" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1IntervalEntry" kindref="compound">IntervalEntry</ref></type>
+        <definition>IntervalEntry IntervalTreeIndexTest::makeEntry</definition>
+        <argsstring>(const std::string &amp;key, Timestamp start, Timestamp end, nlohmann::json payload={})</argsstring>
+        <name>makeEntry</name>
+        <qualifiedname>IntervalTreeIndexTest::makeEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a4c7b3a2b0647866e134f95d5c6536db5" kindref="member">Timestamp</ref></type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a4c7b3a2b0647866e134f95d5c6536db5" kindref="member">Timestamp</ref></type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>payload</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_interval_tree_index.cpp" line="19" column="19" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="19" bodyend="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>IntervalTreeIndexTest</label>
+        <link refid="classIntervalTreeIndexTest"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>IntervalTreeIndexTest</label>
+        <link refid="classIntervalTreeIndexTest"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>tree</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::temporal::IntervalTreeIndex</label>
+        <link refid="classthemisdb_1_1temporal_1_1IntervalTreeIndex"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/temporal/test_interval_tree_index.cpp" line="15" column="1" bodyfile="tests/temporal/test_interval_tree_index.cpp" bodystart="15" bodyend="24"/>
+    <listofallmembers>
+      <member refid="classIntervalTreeIndexTest_1ac2fa407087d97f860c02863429149626" prot="protected" virt="non-virtual"><scope>IntervalTreeIndexTest</scope><name>makeEntry</name></member>
+      <member refid="classIntervalTreeIndexTest_1a8910c0b5c09e0d64ce21cceee4c8f9ce" prot="protected" virt="non-virtual"><scope>IntervalTreeIndexTest</scope><name>tree</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

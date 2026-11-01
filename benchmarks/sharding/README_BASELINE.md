@@ -1,4 +1,31 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-08-17
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - bench_sharding_release_gates.cpp
+  - CMakeLists.txt
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Wave A p95/p99 Baseline — Quick Reference
+
+> **Historical snapshot only:** These measurements are dated 2026-08-17. They describe the
+> benchmark run recorded at that time, not the current source/build or current release-gate result.
+> The in-memory/mocked case boundaries below are important; rerun the current targets before
+> making performance or release decisions. See [`README.md`](README.md) for current source/build
+> registration. The historical `>20%` regression recommendation below is not an enforced sharding
+> gate. **TODO:** verify the raw output, build configuration, and current gate mapping.
 
 ## Files in This Directory
 

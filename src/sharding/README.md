@@ -1,6 +1,28 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - ../../include/sharding/sharding_api_contract.h
+  - ../../include/sharding/shard_router.h
+  - ../../tests/sharding/CMakeLists.txt
+  - ../../benchmarks/sharding/CMakeLists.txt
+Related_Issue: "#7381"
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Sharding Module
 
-<!-- Status: current | validated: 2026-07-18 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose
@@ -11,21 +33,20 @@ The sharding module provides distributed partitioning, routing, consensus coordi
 
 | Interface / File | Role |
 |---|---|
-| shard_router.cpp | shard routing and key-to-shard decision behavior |
-| adaptive_shard_router.cpp | adaptive route selection under load/profile constraints |
-| consistent_hash.cpp | consistent hash placement behavior |
-| distributed_coordinator.cpp | distributed coordination behavior |
-| cross_shard_transaction.cpp | cross-shard transaction orchestration behavior |
-| two_phase_commit_coordinator.cpp | 2PC coordinator behavior |
-| shard_repair_engine.cpp | repair scheduling and execution behavior |
-| auto_rebalancer.cpp | automatic rebalance decision behavior |
-| data_migrator.cpp | data movement and migration path behavior |
-| replication_coordinator.cpp | shard-level replication coordination behavior |
-| health_monitor.cpp | shard health monitoring behavior |
-| operational_metrics.cpp | operational metrics surface behavior |
-| quorum_manager.cpp | quorum decision and validation behavior |
-| wal_manager.cpp | shard WAL handling behavior |
-| wal_applier.cpp | WAL apply behavior |
+| `ShardRouter` (`shard_router.h/.cpp`) | URN point operations, query strategy selection, scatter/gather, and selected-shard execution |
+| `ConsistentHashRing` (`consistent_hash.h/.cpp`) | Hash-ring placement and lookup |
+| `AdaptiveShardRouter` (`adaptive_shard_router.h/.cpp`) | Adaptive routing surface; policy is component-specific |
+| `DistributedCoordinator` (`distributed_coordinator.h/.cpp`) | Distributed task/coordination surface |
+| `CrossShardTransactionCoordinator` (`cross_shard_transaction.h/.cpp`) | Cross-shard transaction coordination and transaction-state APIs |
+| `TwoPhaseCommitCoordinator` (`two_phase_commit_coordinator.h/.cpp`) | 2PC coordinator surface |
+| `ShardRepairEngine`, `AutoRebalancer`, `DataMigrator` | Separate repair, rebalance, and migration components |
+| `WALManager`, `WALApplier` (`wal_manager.h`, `wal_applier.h`) | Sharding WAL interfaces and application path |
+| `HealthMonitor`, `OperationalMetrics` | Health and metrics surfaces |
+
+These are source/header mappings, not claims that all adapters, transport backends, or optional
+hardware paths are enabled in every build. The normative v1.x statements in
+`include/sharding/sharding_api_contract.h` are contracts; implementation conformance must be
+checked in the affected component and its tests.
 
 ## Scope
 
@@ -41,41 +62,47 @@ Out of scope:
 
 ## Runtime Behavior and Limits
 
-- routing and placement behavior is bounded by topology/config constraints.
-- cross-shard transaction paths expose explicit commit/abort outcomes.
-- repair/rebalance/migration behavior remains observable and deterministic.
-- degraded shard states and quorum/health outcomes are explicit.
+- routing/placement behavior depends on the selected topology and router configuration.
+- transaction, repair, rebalance, and migration classes expose component-specific results and
+  states; this summary does not assert one universal commit, rollback, or failover policy.
+- the public contract describes intended outcomes; verify the implementation and relevant test for
+  each changed path.
 
-## Thread-Safety Model (Tier 1 Requirement — Critical)
+## Concurrency and failure behavior
 
-**Concurrency guarantees (canonical lock ordering):**
-- **Routing Decisions:** Immutable shard map after initialization; lock-free read paths via `std::shared_ptr<ShardTopology>`
-- **Cross-Shard Coordination:** DualConsensusOrchestrator uses canonical lock order: `state_mutex_` (1) < `audit_mutex_` (2) < `metrics_mutex_` (3)
-- **Consensus State:** RaftConsensusAdapter canonical order: `state_mutex_` (1) < `callbacks_mutex_` (2) < `cluster_mutex_` (3) < `snapshot_mutex_` (4)
-- **2PC Coordinator:** Atomic transaction state transitions via `xact_state_` atomic<>; per-shard locks only when sending prepare/commit
-- **Replication Coordinator:** Per-shard state protected by shard-local mutex; no global lock holds
-- **WAL Manager:** Lock-free ring buffer for WAL entries; individual entry writes are atomic
-- **Health Monitor:** Atomic health state updates; no blocking on health check paths
+Thread-safety and failure semantics are component-specific; there is no single module-wide
+lock-ordering or automatic failover policy. The API contract header documents intended contract
+semantics, while the implementation and focused test must be checked for the component being
+changed. **TODO:** document a lock hierarchy only where it is backed by the corresponding current
+class implementation and test.
 
-**Known thread-safety hardening (Batch 3 verified 2026-08-10):**
-- Lock-ordering violations reduced from 95 → 0 (TSO/LKO/CCR test evidence)
-- Cross-shard thread-safety gaps reduced from 340+ → ~102 (dual_consensus_orchestrator, replica_consistency hardened)
-- `std::scoped_lock` used for atomic dual-mutex acquisition in `logGroundingOperation`
-- `backgroundSyncThread` detects quorum loss and backs off; no indefinite waits
-- Detached-thread hazards eliminated via explicit ownership transfer in SubagentLifecycleManager
+Do not infer that a quorum loss automatically blocks every write path, a failed consensus adapter
+automatically switches to another, or a migration automatically triggers repair. Those effects
+depend on the specific coordinator/router/operation path.
 
-**Fail-Closed Behavior (Wave A — Runtime Reliability):**
-- **Shard Unavailable:** Fail fast with `Status::kShardUnavailable`; no indefinite retry
-- **Quorum Loss:** Return `Status::kQuorumLost`; block new writes until quorum restored
-- **Transaction Timeout:** Enforce per-transaction deadline; abort on overrun with `kDeadlineExceeded`
-- **Rebalance Blocked:** If topology change fails, keep current routing; signal via health endpoint
-- **Consensus Deadlock:** Detect via timeout; trigger failover to next consensus adapter
-- **Migration Failure:** Backoff with exponential delay; trigger repair process; log error
-- **Network Partition:** Detect via health checks; self-heal via anti-entropy process
+## Build and test hints
+
+The `linux-release` preset defaults both tests and benchmarks off. To opt in for a focused local
+build, configure with:
+
+```sh
+cmake --preset linux-release -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON
+cmake --build build-gcc-linux-release --target test_sharding_core_focused bench_sharding_release_gates
+ctest --test-dir build-gcc-linux-release -R ShardingCoreFocusedTests
+```
+
+Tests and their CMake names/labels are registered conditionally in
+`../../tests/sharding/CMakeLists.txt`. Other useful focused sources include
+`test_sharding_contract_hardening_focused.cpp`, `test_sharding_multishard_exact.cpp`, and
+`test_sharding_thread_safety_lock_order_focused.cpp`. Registration does not mean a test passed;
+this audit did not execute the commands above.
+
+Benchmarks are in `../../benchmarks/sharding/`. See `PERFORMANCE_EXPECTATIONS.md` for current
+benchmark-to-source mapping and the boundary of the historical baseline.
 
 ---
 
-## Sourcecode Verification (Module: sharding/readme)
+## Source map checked for this document (2026-10-31)
 
 - Verified files:
   - src/sharding/shard_router.cpp
@@ -93,9 +120,10 @@ Out of scope:
   - src/sharding/quorum_manager.cpp
   - src/sharding/wal_manager.cpp
   - src/sharding/wal_applier.cpp
-- Verified behavior surfaces:
-  - routing/consensus/transaction/repair/rebalance/observability paths
+- The files above are implementation references for routing/consensus/transaction/repair/rebalance/
+  observability topics; their presence is not an execution or conformance result.
 - Note:
   - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
   - historical entries remain in CHANGELOG.md
-  - thread-safety sign-off evidence: tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp (TSO/LKO/CCR tests)
+  - the thread-safety/lock-order source is `tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp`;
+    current CMake registration is in `tests/sharding/CMakeLists.txt`.

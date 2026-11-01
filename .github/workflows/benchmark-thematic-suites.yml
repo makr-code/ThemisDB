@@ -75,7 +75,7 @@ jobs:
           fi
 
   thematic-suite-daily:
-    name: "Benchmark: baseline (daily)"
+    name: "Benchmark: ${{ matrix.suite }} (daily)"
     needs: hardware-detection
     if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '0 3 * * *') }}
     strategy:
@@ -83,6 +83,7 @@ jobs:
       matrix:
         suite:
           - baseline
+          - metadata
     uses: ./.github/workflows/reusable-benchmark-build-run-report.yml
     with:
       scenario_label: ${{ github.event_name == 'workflow_dispatch' && inputs.scenario || 'small_10k' }}
@@ -95,6 +96,8 @@ jobs:
       timeout_minutes: 180
       run_hybrid_break_even: false
       enable_ctest_validation: true
+      build_target: ${{ matrix.suite == 'metadata' && 'bench_metadata_cache' || 'themis_benchmarks_all_eligible' }}
+      enable_llm: ${{ matrix.suite != 'metadata' }}
 
   thematic-suite-weekly:
     name: "Benchmark: ${{ matrix.suite }} (weekly)"

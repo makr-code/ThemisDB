@@ -227,11 +227,6 @@ bool SystemVersionedTable::deleteRow(const std::string& key) {
 
 std::optional<VersionedDocument> SystemVersionedTable::getCurrent(
     const std::string& key) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -248,11 +243,6 @@ std::optional<VersionedDocument> SystemVersionedTable::getCurrent(
 
 std::optional<VersionedDocument> SystemVersionedTable::getAsOf(
     const std::string& key, Timestamp as_of) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -269,11 +259,6 @@ std::optional<VersionedDocument> SystemVersionedTable::getAsOf(
 
 std::vector<VersionedDocument> SystemVersionedTable::getHistory(
     const std::string& key) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -285,11 +270,6 @@ std::vector<VersionedDocument> SystemVersionedTable::getHistory(
 
 std::vector<VersionedDocument> SystemVersionedTable::getHistoryInRange(
     const std::string& key, const TimeRange& range) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -309,11 +289,6 @@ std::vector<VersionedDocument> SystemVersionedTable::getHistoryInRange(
 
 std::vector<VersionedDocument> SystemVersionedTable::scan(
     Timestamp as_of) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<VersionedDocument> result = {};
@@ -339,11 +314,6 @@ std::vector<VersionedDocument> SystemVersionedTable::scan(
 // ============================================================================
 
 std::vector<std::string> SystemVersionedTable::getAllKeys() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> keys = {};
 
@@ -358,11 +328,6 @@ size_t SystemVersionedTable::purgeHistoricalVersions(
     const std::string& key,
     const std::function<bool(const VersionedDocument&)>& predicate) {
 
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -394,11 +359,6 @@ size_t SystemVersionedTable::purgeHistoricalVersions(
     // inside the per-key call; call per-key which locks each time)
     std::vector<std::string> keys;
     {
-        /**
-         * @brief Lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         for (const auto& [k, _] : rows_) {
             keys.push_back(k);
@@ -484,21 +444,11 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
 // ============================================================================
 
 size_t SystemVersionedTable::keyCount() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     return rows_.size();
 }
 
 size_t SystemVersionedTable::versionCount() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     size_t count = 0;
     for (const auto& [k, v] : rows_) {
@@ -508,11 +458,6 @@ size_t SystemVersionedTable::versionCount() const {
 }
 
 nlohmann::json SystemVersionedTable::getStatistics() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     size_t current_count = 0;

@@ -97,18 +97,26 @@ public:
     // ── Queries ───────────────────────────────────────────────────────────────
 
     /**
-     * Return all entries that are valid at timestamp t
-     * (i.e., entry.range.contains(t) == true).
+     * @brief Return entries valid at timestamp t.
+     * @param t Timestamp tested against each entry's half-open range.
+     * @return Matching entries, or an empty vector when none match.
      */
     std::vector<TemporalIndexEntry> queryPoint(Timestamp t) const;
 
     /**
-     * Return all entries whose range overlaps [from, to).
+     * @brief Return entries whose range overlaps [from, to).
+     * @param from Inclusive start of the query interval.
+     * @param to Exclusive end of the query interval.
+     * @return Matching entries, or an empty vector when none match.
      */
     std::vector<TemporalIndexEntry> queryRange(Timestamp from, Timestamp to) const;
 
     /**
-     * Return all entries for a specific key, optionally filtered by range.
+     * @brief Return entries for a key, optionally filtered by range.
+     * @param key Logical key to query.
+     * @param range Optional half-open interval; when supplied only overlapping
+     *        entries are returned.
+     * @return Matching entries, or an empty vector when none match.
      */
     std::vector<TemporalIndexEntry> queryKey(
         const std::string& key,

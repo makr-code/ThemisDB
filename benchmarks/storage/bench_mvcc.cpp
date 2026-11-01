@@ -7,13 +7,39 @@
 #include "index/secondary_index.h"
 #include <filesystem>
 #include <random>
+#include <cstdio>
+#include <thread>
+#include <chrono>
+
+namespace {
+
+bool removeBenchmarkDatabase(const std::filesystem::path& path, std::error_code& error) {
+    constexpr size_t kCleanupAttempts = 6;
+    for (size_t attempt = 0; attempt < kCleanupAttempts; ++attempt) {
+        error.clear();
+        std::filesystem::remove_all(path, error);
+        if (!error) {
+            return true;
+        }
+        if (attempt + 1 < kCleanupAttempts) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10 * (1 << attempt)));
+        }
+    }
+    return false;
+}
+
+} // namespace
 
 using namespace themis;
 
 class MVCCFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
-        std::filesystem::remove_all("data/bench_mvcc");
+        std::error_code cleanup_error;
+        if (!removeBenchmarkDatabase("data/bench_mvcc", cleanup_error)) {
+            throw std::runtime_error("Failed to clear MVCC benchmark DB: " +
+                                     cleanup_error.message());
+        }
         
         RocksDBWrapper::Config config;
         config.db_path = "data/bench_mvcc";
@@ -21,8 +47,9 @@ public:
         config.block_cache_size_mb = 256;
         
         db_ = std::make_unique<RocksDBWrapper>(config);
-       if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
-        db_->open();
+        if (!db_->open()) {
+            throw std::runtime_error("Failed to open RocksDB in benchmark");
+        }
         
         secIdx_ = std::make_unique<SecondaryIndexManager>(*db_);
         secIdx_->createIndex("users", "email");
@@ -33,7 +60,11 @@ public:
         secIdx_.reset();
         db_->close();
         db_.reset();
-        std::filesystem::remove_all("data/bench_mvcc");
+        std::error_code cleanup_error;
+        if (!removeBenchmarkDatabase("data/bench_mvcc", cleanup_error)) {
+            std::fprintf(stderr, "MVCC benchmark DB cleanup failed: %s\n",
+                         cleanup_error.message().c_str());
+        }
     }
 
     BaseEntity createTestEntity(const std::string& pk, int age) {

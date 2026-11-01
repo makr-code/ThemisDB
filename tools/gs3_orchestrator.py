@@ -678,6 +678,8 @@ def main():
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
+    # Export the verified Phase 1/2/5 results, not the pipeline's raw scan list.
+    pipeline.all_gaps = gaps
     pipeline.export_json(output_path)
 
     # Enrich exported JSON with scope-separated summary + Phase 3-4 metadata

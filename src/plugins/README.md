@@ -26,7 +26,7 @@ The plugins module provides dynamic plugin loading, registration, lifecycle mana
 | Interface / File | Role |
 |---|---|
 | plugin_manager.cpp | core plugin lifecycle orchestration |
-| plugin_registry.cpp | plugin registration and manifest/security validation |
+| plugin_registry.cpp | type-indexed factory registry (separate from manager-owned loaded instances) |
 | plugin_system_edition.cpp | edition-based plugin capability gating |
 | plugin_metrics.cpp | per-plugin metrics and telemetry surfaces |
 | plugin_health_monitor.cpp | plugin liveness and recovery monitoring |
@@ -67,8 +67,9 @@ Out of scope:
 ## Runtime Behavior and Limits
 
 - behavior depends on plugin manifests, enabled edition/features, and runtime configuration.
-- unsupported plugin runtime paths degrade deterministically with explicit outcomes.
-- validation/security checks are enforced before activation boundaries.
+- manifest-backed `loadPlugin(name)` applies manifest edition/license policy; explicit-path and OCI paths do not parse `plugin.json`.
+- OCI layer-digest validation, manifest `.sig` hash comparison, the binary verifier, and pinned-key Ed25519 catalog verification are separate controls.
+- native shared libraries execute in the host process; WASM support is build/runtime-dependent and this module does not claim general sandboxing.
 
 ## Sourcecode Verification (Module: plugins/readme)
 

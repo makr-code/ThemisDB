@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Contributors
 **Created:** 2026-09-13
-**Last Updated:** 2026-10-01
+**Last Updated:** 2026-10-31
 **Status:** active
 **Repository Metadata:** `VERSION=2.4.0-alpha`
 **Canonical Rule:** `/audit/**` is the audit source of truth; `/docs/**` is downstream publication/legacy mirror unless explicitly marked otherwise.
@@ -25,6 +25,8 @@
 
 | Document | Purpose |
 |---|---|
+| `FULL_DEEP_DIVE_AUDIT_2026-10-31.md` | Full deep-dive audit of source and docs (73 modules, 79 calibrated findings, doc-vs-code drift matrix) |
+| `ROADMAP.md` | Audit-derived production-readiness roadmap (WS1–WS11, milestones M0–M4, traceability matrix); non-normative for release status |
 | `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md` | Consolidated source-verified audit, maturity, security, and monetary update |
 | `AUDIT.md` | Central security/compliance/release audit summary |
 | `MATURITY_REPORT_2026-08.md` | Monthly maturity and gate posture |
@@ -67,6 +69,8 @@
 - `../docs/de/compliance/compliance_full_checklist.md`
 
 ### Release & Security Evidence
+- `FULL_DEEP_DIVE_AUDIT_2026-10-31.md`
+- `ROADMAP.md`
 - `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md`
 - `AUDIT.md`
 - `MATURITY_REPORT_2026-08.md`
@@ -95,6 +99,7 @@
 
 ## Current Status Snapshot
 
+- **2026-10-31 deep-dive verdict:** ThemisDB 2.4.0-alpha is **not production-ready** (unweighted ≈ 2.4/5; 2 Critical, 22 High). Critical: fail-open recovery in `WALStorage` (cross-shard transaction and replication WAL) and failover/DR handlers reporting success without action. See `FULL_DEEP_DIVE_AUDIT_2026-10-31.md` and the remediation plan in `ROADMAP.md`.
 - The real production audit implementation is present in source: `include/utils/audit_logger.h` and `src/utils/audit_logger.cpp`.
 - The current source-backed status is: implemented and substantively present, but not fully end-to-end GA-/production-certified without a live run against the actual sink and persistence path.
 - The Wave-C proof file `tests/audit/test_audit_wavec_integrity_export_focused.cpp` is a mock-based design validation harness, not a direct proof of the real production backend.
@@ -119,6 +124,9 @@ The audit implementation in source is real and present, but a number of high-lev
 | EU AI Act | 🟡 65% | `docs/compliance/EU_AI_ACT_COMPLIANCE.md` |
 | NIS2 | ✅ 94% | `../docs/de/compliance/compliance_bcp_drp.md` |
 | SOC 2 Type II | ✅ 90% | `../docs/de/compliance/compliance_full_checklist.md` |
+
+> Percentages are checklist-based self-assessments, not third-party certifications or attestations
+> (see drift item 11 in `FULL_DEEP_DIVE_AUDIT_2026-10-31.md`).
 
 ---
 

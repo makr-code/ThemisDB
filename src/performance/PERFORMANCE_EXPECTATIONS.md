@@ -1,53 +1,84 @@
-# PERFORMANCE_EXPECTATIONS - src/performance
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-11-01"
+Status: "active"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_Sources:
+  - "benchmarks/performance/CMakeLists.txt"
+  - "benchmarks/performance/bench_performance_release_gates.cpp"
+  - "benchmarks/performance/bench_random_access_prefetch.cpp"
+  - "tests/performance/CMakeLists.txt"
+Related_Issue: "#7366"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+# Performance Expectations
 
 ## Scope
 
-- Module: src/performance
-- This file defines measurable performance module expectations for release gating.
+This file maps the benchmark sources currently present under
+`benchmarks/performance/` and states what evidence they provide. It does not
+assert module-wide performance guarantees. A benchmark source, CMake target, or
+test name is not evidence that a benchmark was run or passed.
 
-## Benchmark Reference
+## Registered benchmark target
 
-- Relevant benchmark files:
-  - benchmarks/bench_core_performance.cpp
-  - benchmarks/bench_storage_performance.cpp
-  - benchmarks/bench_sharding_performance.cpp
-  - benchmarks/bench_olap_performance.cpp
-  - benchmarks/bench_mixed_precision_perf.cpp
-  - benchmarks/bench_embedding_cache_performance.cpp
+`benchmarks/performance/CMakeLists.txt` returns without defining a target when
+`THEMIS_BUILD_BENCHMARKS` is off. When enabled, it registers `bench_performance_release_gates` and
+`bench_random_access_prefetch` using the repository's standard benchmark
+helper.
+The helper applies release compile flags only when `CMAKE_BUILD_TYPE` is
+`Release`.
 
-## Specific Expectations
-
-| Target ID | Expectation | Benchmark case |
+| Source ID | Benchmark case | What the source measures |
 |---|---|---|
-| PRFP-1 | core SIMD/index performance paths remain bounded | SIMDDistanceThroughput_PERFD3, SecondaryIndexBench/BM_SecondaryIndex_BatchInsert |
-| PRFP-2 | storage allocator/memory/RCU and sustained-write paths remain bounded | BM_Allocator_System_Small, BM_Allocator_Themis_Small, BM_Allocator_System_Large, BM_Allocator_Themis_Large, BM_Allocator_Mixed, BM_Memory_RegularPages_Sequential, BM_Memory_HugePages_Sequential, BM_Memory_RegularPages_Random, BM_Memory_HugePages_Random, BM_RCU_Read_SingleThread, BM_RCU_Write_WithSync, BM_RCU_Read_MultiThread, BM_Storage_SustainedWrite_NoSync, BM_Storage_SustainedWrite_Batched, BM_Storage_SustainedWrite_FullSync, BM_WAL_GroupCommit_Batch |
-| PRFP-3 | sharding and distributed performance-related workflows remain bounded | ScatterGatherFixture/ScatterGatherLatency, CrossShardJoinFixture/BroadcastHashJoin, CrossShardJoinFixture/CoLocatedJoinSimulation, BM_PercolatorCommitLatency, RebalancingFixture/BatchSerializationThroughput, RebalancingFixture/BatchDeserializationThroughput, RebalancingFixture/WriteLatencyDuringMigration, RebalancingFixture/RebalancerDecisionCycle, RebalancingFixture/AntiEntropyScanThroughput, RebalancingFixture/GpuReedSolomonThroughput, RebalancingFixture/SnapshotTransfer1GB, RebalancingFixture/SnapshotCompressionRatioZstdL3, RebalancingFixture/ReplicaCatchupThroughput, GossipOverheadFixture/MessageSerialization, GossipOverheadFixture/FanoutSelection, GossipOverheadFixture/VersionVectorMerge, GossipOverheadFixture/TopologyPropagation100Nodes, MultiDCRoutingFixture/DCProximityRouting, MultiDCRoutingFixture/CrossDCLatencySimulation, BM_ConcurrentShardAccess |
-| PRFP-4 | OLAP, mixed-precision, and embedding-cache performance paths remain bounded | BM_OLAP_Count, BM_OLAP_Sum, BM_OLAP_Avg, BM_OLAP_MinMax, BM_OLAP_GroupBy_SingleDim, BM_OLAP_GroupBy_TwoDim, BM_OLAP_GroupBy_ThreeDim, BM_OLAP_Filter_Equality, BM_OLAP_Filter_Range, BM_OLAP_Filter_Complex, BM_OLAP_Sort_SingleColumn, BM_OLAP_Sort_MultiColumn, BM_OLAP_Sum_Optimized, BM_OLAP_GroupBy_Optimized, BM_OLAP_ComplexQuery, BM_MixedPrecision_GPUDisabled, BM_Training_FP32, BM_Training_FP16, BM_Memory_FP32_vs_FP16, BM_TensorCore_Speedup, BM_EmbeddingCache_Store_NoIndex, BM_EmbeddingCache_Store_WithIndex, BM_EmbeddingCache_Query_NoIndex, BM_EmbeddingCache_Query_WithIndex, BM_EmbeddingCache_Query_Miss, BM_EmbeddingCache_BatchStore, BM_EmbeddingCache_BatchQuery, BM_EmbeddingCache_Eviction, BM_EmbeddingCache_SimilarityThreshold, BM_EmbeddingCache_MemoryUsage, BM_EmbeddingCache_CostSavings |
+| GATE-PFM-01 | `BM_CacheStats_Compute` | Local computation of a `CacheStats` hit-rate value |
+| GATE-PFM-02 | `BM_PoolAcquireResult_Construct` | Default result construction and boolean assignment |
+| GATE-PFM-03 | `BM_PerfError_Cast` | Cast throughput across the seven `PerfError` values |
+| GATE-PFM-04 | `BM_CostEstimate_Arithmetic` | Arithmetic on `CostEstimate` values |
+| GATE-PFM-05 | `BM_CacheStats_BatchAlloc` | Vector allocation and initialization for 1,000 `CacheStats` entries |
+| GATE-PFM-06 | `BM_PoolAcquireResult_Batch` | Vector allocation and initialization for 1,000 result entries |
 
-## Module Hard Gates (v1.0 docs baseline)
+Each GATE-PFM case uses five repetitions. Deterministic seeds are used for the
+cases that generate random values. These microbenchmarks do not exercise
+end-to-end query, storage, distributed, or vector-search workloads and the C++
+source contains no numeric pass/fail thresholds or cross-run baseline
+comparison.
 
-| Gate ID | Expectation | Measurement |
-|---|---|---|
-| PRFG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| PRFG-2 | performance hot-path p99 <= release threshold | p99 from mapped performance benchmark cases |
-| PRFG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+## Random-access and prefetch cases
 
-## Validation
+`bench_random_access_prefetch.cpp` is registered as
+`bench_random_access_prefetch`. It includes paired prefetch-disabled/enabled
+point-read, batch-read, and prefix-scan cases, as well as standalone prefetch
+overhead/range and batch-scaling cases. The paired results are not reduced to
+an on/off ratio by this executable, and its source comments' target values do
+not cause a pass/fail result.
 
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- Mapping should be expanded as additional performance benchmark scenarios are introduced.
+## Tests and reproducibility
 
-## Sourcecode Verification (Module: performance/performance)
+The test module CMake file registers root-level tests and recursively includes
+`tests/performance/phase3/` and `phase4/`; nested target and test names include a
+stable hash of the relative source path to prevent collisions. Inspect tests
+discovered in the configured build before reporting coverage. To configure
+and build the registered benchmark targets:
 
-- Verified benchmark sources:
-  - benchmarks/bench_core_performance.cpp
-  - benchmarks/bench_storage_performance.cpp
-  - benchmarks/bench_sharding_performance.cpp
-  - benchmarks/bench_olap_performance.cpp
-  - benchmarks/bench_mixed_precision_perf.cpp
-  - benchmarks/bench_embedding_cache_performance.cpp
-- Verified mapping surfaces:
-  - core, storage, sharding, OLAP, mixed-precision, and embedding-cache paths
-- Result:
-  - Referenced benchmark cases exist in current benchmark sources.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+```bash
+cmake -S . -B <build-dir> -DTHEMIS_BUILD_BENCHMARKS=ON -DCMAKE_BUILD_TYPE=Release
+cmake --build <build-dir> --target bench_performance_release_gates bench_random_access_prefetch
+```
+
+No measured performance-module baseline or numeric threshold is currently
+available. Establish one only from repeated benchmark runs on declared
+representative hardware; retain the exact revision, build configuration,
+command/output, host, workload, and raw results. Until that evidence exists,
+the repository expectation comparator has no defensible numeric limit for
+this module, and the benchmarks are measurements rather than enforced release
+gates.
+
+Exact model backend not verifiable from final document text alone.

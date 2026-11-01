@@ -1,12 +1,75 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-02"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "build-test"
+Canonical_References: "CMakePresets.json; cmake/CMakeLists.txt; tests/importers/CMakeLists.txt; benchmarks/importers/CMakeLists.txt; tests/importers/test_importers_contract_hardening_focused.cpp; benchmarks/importers/bench_importers_release_gates.cpp"
+Related_Reference: "makr-code/ThemisDB#7353"
+---
+
+> Creation-date note: Original creation date is not recorded in the available checkout; the front-matter `Created` date is a metadata placeholder, not independently verified.
+
+> Exact model backend not verifiable from final document text alone.
+
 # Importers Module - Build and Test Status
 
-**Last Updated:** 2026-08-02  
-**Issue Reference:** #5650  
-**Status:** In Progress (Q3 2026 hardening tasks active)
+## Current repository evidence (2026-10-31)
 
-## Evidence Summary
+This update verifies checked-in configuration and registration declarations.
+The contract-hardening test source was compiled directly with GCC and GoogleTest
+1.14; all 16 tests from 16 suites passed. Both importer benchmark sources were
+also compiled directly and run with Google Benchmark 1.8.3. The benchmark library
+reported that it was built as DEBUG, so these runs are exploratory only. A
+diagnostic CMake configure succeeded and CTest listed the focused case, but the
+target build was stopped before linking after it started a 1,220-step dependency
+build. No CTest execution, full project build, live connector/runtime test, or
+release-profile benchmark was completed.
 
-This document provides build and test evidence for the importers module, addressing the evidence gap noted in issue #5650. All infrastructure is verified and test/benchmark registration is confirmed through CMake configuration.
+- `community-release` is Release with `THEMIS_BUILD_TESTS=OFF` and
+  `THEMIS_BUILD_BENCHMARKS=OFF`. `community-release-allow-missing-rocksdb`
+  inherits it, changes to Debug and enables diagnostic missing-RocksDB mode,
+  but does not override those test/benchmark options. Do not use that preset as
+  evidence that importer tests or benchmarks are enabled.
+- `tests/importers/CMakeLists.txt` globs `test_*.cpp`; 12 files are present.
+  The local focused registration skips `test_importers_phase2b_exception_safety_focused`,
+  `test_importers_phase2_phase3_integration_focused`, and
+  `test_importers_phase2a_data_race_focused` before defining local focused
+  targets. The other nine are registered by this file with a 120-second timeout
+  and `importers phase4` labels (with additional labels on selected tests).
+- `benchmarks/importers/CMakeLists.txt` returns unless
+  `THEMIS_BUILD_BENCHMARKS` is enabled; it declares
+  `bench_importer_throughput` and `bench_importers_release_gates` using
+  `themis_add_standard_benchmark()`. Google Benchmark must be found by the
+  parent benchmark configuration.
+- The contract test is a self-contained mock, not live connector or database
+  atomicity evidence. It now models identical-source replay as successful with
+  no added rows, and rejects reuse of an ID for a different source, matching
+  `importers_api_contract.h` (the row sequence represents source identity in
+  the mock). The versioned contract enum is not consumed by a coordinator in
+  `src/importers/`; this mock does not prove live connector conformance.
+- The six IMRG labels and thresholds are benchmark-source targets, not proof of
+  a pass/fail CI gate. The standalone run did not calculate p99 values or
+  validate thresholds; it used in-memory and synthetic data. See
+  [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md).
+
+TODO: complete the registered CMake test target and a release-profile benchmark
+run with retained logs before publishing connector/runtime, performance, or
+production-readiness claims.
+
+## Historical build/test snapshot (2026-08; not revalidated)
+
+The remainder of this file records claims made in an earlier issue #5650
+snapshot. Its machine versions, test inventory, preset behavior, benchmark
+results, roadmap status, and dependency claims are not current evidence.
+
+### Historical evidence summary
 
 ## Build Infrastructure
 
@@ -88,7 +151,7 @@ endforeach()
 
 #### IMCH-01..04: Idempotency Contract
 - **IMCH-01:** Re-importing same data with same import_id produces no duplicates
-- **IMCH-02:** import_id uniqueness is enforced; duplicate rejected
+- **IMCH-02:** Reusing an import_id for a different source is rejected
 - **IMCH-03:** Different import_id with same data is accepted (new import)
 - **IMCH-04:** Committed row count matches source row count
 

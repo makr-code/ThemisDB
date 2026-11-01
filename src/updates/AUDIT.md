@@ -1,96 +1,80 @@
-# Audit Report - Updates Module
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-11-01"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+> Exact model backend not verifiable from final document text alone.
 
-## Summary
+# Updates Module Documentation Audit
 
-| Metric | Result |
-|---|---|
-| Build registration | pass |
-| Source set size | pass (module core files present) |
-| Focused test presence | pass |
-| Open hardening findings | yes |
-| Critical blockers | none identified |
+**Audit date:** 2026-11-01
+**Scope:** Comparison of scoped module Markdown with current public headers,
+implementation/source inventory, focused test sources, and CMake registration.
+Diagnostic CMake configuration and focused builds were attempted; no completed
+test or benchmark run is claimed.
 
-## Verified Files
+## Verified repository facts
 
-- src/updates/update_state_machine.cpp
-- src/updates/release_manifest.cpp
-- src/updates/manifest_database.cpp
-- src/updates/delta_update_engine.cpp
-- src/updates/hot_reload_engine.cpp
-- src/updates/coordinated_update_manager.cpp
-- src/updates/cluster_update_manager.cpp
-- src/updates/tenant_update_scheduler.cpp
-- src/updates/in_place_schema_migrator.cpp
-- src/updates/schema_migration.cpp
-- src/updates/schema_migration_tester.cpp
-- src/updates/build_verifier.cpp
-- src/updates/dependency_resolver.cpp
-- src/updates/canary_rollout.cpp
-- src/updates/notification_webhook.cpp
-- src/updates/parallel_downloader.cpp
-- src/updates/preflight_health_check.cpp
-- src/updates/update_history_logger.cpp
-- src/updates/updates_config.cpp
-- src/updates/blue_green_deployment.cpp
-- src/updates/hardware_telemetry.cpp
+- Public interface files are under [`../../include/updates/`](../../include/updates/).
+- Implementations are under this directory; the module overview and API index
+  are [`README.md`](README.md) and [`API.md`](API.md).
+- Focused test sources and registration are under
+  [`../../tests/updates/`](../../tests/updates/).
+- The configured diagnostic build exposes ten focused updates CTest entries:
+  `test_updates_batch5_finalization_updates_FocusedTests`,
+  `test_updates_cluster_scheduling_stress_focused_updates_FocusedTests`,
+  `test_updates_contract_hardening_focused_updates_FocusedTests`,
+  `test_updates_determinism_edge_cases_focused_updates_FocusedTests`,
+  `test_updates_highcardinality_stress_updates_FocusedTests`,
+  `test_updates_operator_diagnostics_focused_updates_FocusedTests`,
+  `test_updates_performance_batch4_updates_FocusedTests`,
+  `test_updates_phase2_phase3_hardening_focused_updates_FocusedTests`,
+  `test_updates_production_updates_FocusedTests`, and
+  `test_updates_rollback_hardening_focused_updates_FocusedTests`. This is
+  registration evidence only; no test executable has completed.
+- Five benchmark sources and conditional registrations are under
+  [`../../benchmarks/updates/`](../../benchmarks/updates/).
+- `bench_updates_cluster_stress_q4` is registered separately in
+  [`../../benchmarks/CMakeLists.txt`](../../benchmarks/CMakeLists.txt), which
+  also adds a conditional CTest smoke entry. It is not listed in
+  `benchmarks/updates/CMakeLists.txt`.
+- Historical status/evidence documents contain completion and performance
+  claims that are not established by this static audit.
 
-## Findings
+## Findings and follow-up
 
-### Open
+1. **Current test execution state is not verified.** Diagnostic CMake
+   configuration completed and exposed the focused update test targets, but
+   their build did not complete in this environment. No passing CTest run is
+   claimed. TODO: record a complete build and focused CTest result.
+2. **Current benchmark evidence is not verified.** The cluster-stress target
+   and CTest smoke entry are registered, but no successful benchmark run or
+   representative baseline is available. The source comments contain candidate
+   throughput values, not owner-approved release thresholds. TODO: capture
+   output, host/build metadata, reviewed thresholds, and an auditable run
+   manifest.
+3. **Historical maturity statements conflict with the root maturity aggregate.**
+   Root [`../../ROADMAP.md`](../../ROADMAP.md) currently classifies `updates`
+   as `HARDENING`; module-local and historical GA claims must not supersede it.
+4. **Legacy planning/runbook claims need evidence review.** See
+   [`MODULE_GAPS.md`](MODULE_GAPS.md),
+   [`MODULE_GAPS_BATCH5.md`](MODULE_GAPS_BATCH5.md),
+   [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md), and
+   [`RUNBOOK_UPDATES_Q4.md`](RUNBOOK_UPDATES_Q4.md). They are retained as
+   historical material and are not current implementation or operational
+   authority.
 
-1. [UPD-AUD-01] rollback and rollout hardening remains active.
-- Severity: medium
-- Evidence: roadmap/future retain active work for coordinated rollout and rollback edge scenarios.
-- Action: extend deterministic failure-path regression and stress coverage.
+## Validation boundary
 
-2. [UPD-AUD-02] diagnostics consistency across state, patch, and rollout incident classes needs tightening.
-- Severity: medium
-- Evidence: active follow-up work for unified update incident taxonomy.
-- Action: standardize diagnostics output across transition, migration, and rollout stages.
-
-3. [UPD-AUD-03] benchmark depth should broaden for coordinated update and migration workloads.
-- Severity: low
-- Evidence: core mapping is valid while wider orchestration diversity remains desirable.
-- Action: add benchmark depth for advanced update pipeline scenarios.
-
-### Closed
-
-- core updates runtime surfaces are present and source-verified.
-- documentation set is synchronized to source-verifiable claims.
-- changelog/roadmap role separation is aligned to module governance pattern.
-
-### Addressed (Block 2-4 Hardening Completion)
-
-- [UPD-AUD-01] rollback and rollout hardening remains active.
-  - Status: ✅ CLOSED
-  - Evidence: Phase 2-3 hardening completed with UPH-01..20 tests (20 test cases)
-  - Evidence: test_updates_phase2_phase3_hardening_focused.cpp with state machine, delta engine, migration, and coordinated update edge cases
-  - Evidence: All hardening tests passing; coordinated update edge paths thoroughly exercised
-
-- [UPD-AUD-02] diagnostics consistency across state, patch, and rollout incident classes needs tightening.
-  - Status: ✅ CLOSED
-  - Evidence: Unified error taxonomy implemented in updates_diagnostics.h
-  - Evidence: Four error classes: StateTransitionError, PatchApplyError, MigrationError, RolloutError
-  - Evidence: Standardized fail-safe behavior across all incident surfaces
-
-- [UPD-AUD-03] benchmark depth should broaden for coordinated update and migration workloads.
-  - Status: ✅ CLOSED
-  - Evidence: 4 new benchmark suites created:
-    - bench_updates_coordinated_hardening.cpp (multi-node coordination)
-    - bench_updates_canary_resilience.cpp (canary failure injection)
-    - bench_updates_schema_diversity.cpp (large dataset migrations)
-    - bench_updates_long_run_stability.cpp (48h+ operational envelope)
-  - Evidence: New performance gates UPDP-4..7 mapped to benchmarks
-  - Evidence: Extended benchmark coverage from 3 gates (UPDP-1..3) to 7 gates
-
-## Compliance Snapshot
-
-| Requirement | Status |
-|---|---|
-| Source-verifiable behavior claims | pass |
-| Structured forward planning in roadmap/future | pass |
-| Historical completion tracked in changelog | pass |
-| Core module docs synchronized | pass |
+This is a documentation/source inventory and CMake-configuration review, not a
+security review, passing behavioral test, benchmark run, or production-readiness
+approval. Deployment-specific enforcement remains unconfirmed until the
+responsible deployment owners provide evidence. Consult the public header and
+implementation for the specific path before making a runtime claim.

@@ -1,10 +1,23 @@
 # Metadata Module — Public API
-<!-- status: current | validated: 2026-05-13 | commit: HEAD -->
+
+**Author:** ThemisDB Contributors  
+**Created:** 2026-10-31  
+**Last Updated:** 2026-10-31  
+**Status:** review  
+**AI_Used:** true  
+**AI_Models:** unknown  
+**AI_Contributor:** GitHub Copilot coding agent / ThemisDB documentation orchestrator  
+**Human_Review:** false  
+**Human_Author:** ThemisDB Contributors  
+**Source level:** level1 — module-local  
+**SOT domain:** api-contract  
+**Canonical source references:** [metadata public headers](./), [metadata implementations](../../src/metadata/), [focused test registration](../../tests/metadata/CMakeLists.txt)  
+**Related issue / milestone:** [#7362](https://github.com/makr-code/ThemisDB/issues/7362) · DOC-WEEKLY-2026-W44
+
+> Exact model backend not verifiable from final document text alone.
 
 **Module Path:** `include/metadata/`
 **Implementation:** `../../src/metadata/`
-**Status:** ✅ Production Ready (v1.6.0)
-
 Public C++ header files for the ThemisDB metadata module. All headers are
 `#pragma once` guarded. Headers containing only interfaces and inline
 implementations are header-only; the remaining classes have `.cpp` counterparts
@@ -35,6 +48,7 @@ in `src/metadata/`.
 | `imetadata_export_policy.h` | `IMetadataExportPolicy`, `AlwaysExportPolicy`, `FilteredExportPolicy` | Header-only |
 | `imetadata_encryption_provider.h` | `IMetadataEncryptionProvider`, `FieldSetMetadataEncryptionProvider` | Header-only |
 | `aql_schema_bridge.h` | `aql::fromTableSchema()` | Header-only bridge |
+| `metadata_api_contract.h` | `MetaError` | Frozen contract artifact; its method names and behavior text are not the current runtime API; see [`src/metadata/API.md`](../../src/metadata/API.md) |
 
 ---
 
@@ -64,10 +78,10 @@ point for the metadata module.
 SchemaManager schema_mgr(db, index_mgr);   // index_mgr may be nullptr
 
 // Schema discovery
-std::vector<TableSchema> getAllTables();
-std::optional<TableSchema> getTable(std::string_view name);
-std::vector<RelationshipSchema> getAllRelationships();
-DatabaseMetadata getDatabaseMetadata();
+std::vector<SchemaManager::TableSchema> getAllTables();
+std::optional<SchemaManager::TableSchema> getTable(std::string_view name);
+std::vector<SchemaManager::RelationshipSchema> getAllRelationships();
+SchemaManager::DatabaseMetadata getDatabaseMetadata();
 
 // Cache control
 void setCacheTTL(std::chrono::seconds ttl);   // default: 60 s
@@ -88,11 +102,11 @@ json tableToJSON(std::string_view table_name);
 json getCapabilitiesJSON();
 
 // Schema management (PUT/PATCH/DELETE)
-bool setTableSchema(std::string_view name, const TableSchema& schema);
+bool setTableSchema(std::string_view name, const SchemaManager::TableSchema& schema);
 bool patchTableSchema(std::string_view name, const json& updates);
 bool deleteTableSchema(std::string_view name);
-std::string validateSchema(const TableSchema& schema) const;
-static TableSchema parseTableSchema(const json& j);
+std::string validateSchema(const SchemaManager::TableSchema& schema) const;
+static SchemaManager::TableSchema parseTableSchema(const json& j);
 ```
 
 **Usage:**
@@ -116,7 +130,9 @@ if (schema) {
 ```
 
 **Thread Safety:** `std::shared_mutex` — many concurrent readers, single writer.
-**Performance:** `getAllTables()` < 100 ms; `getTable()` < 1 ms (cached).
+**Performance:** See [`PERFORMANCE_EXPECTATIONS.md`](../../src/metadata/PERFORMANCE_EXPECTATIONS.md)
+for benchmark-case mappings. Those are targets, not guaranteed latency or a
+record of a passing run.
 
 ---
 
@@ -148,22 +164,23 @@ if (result.ok) {
     }
 }
 
-// Auto-refresh in the background
-stats.startAutoRefresh(std::chrono::hours(1));
-stats.stopAutoRefresh();
+// Auto-refresh already sampled tables; zero disables the worker
+stats.setRefreshInterval(std::chrono::hours(1));
+stats.stopRefresh();
 
 // Import statistics from the index manager
 stats.importIndexStats("users", index_stats_json);
 ```
 
-**Thread Safety:** Thread-safe with per-table read-write locks.
+**Thread Safety:** The header documents shared-mutex-protected cache access;
+concurrent reads are supported and writes serialize.
 
 ---
 
 ### information_schema.h
 
-**Purpose:** SQL:2003-compatible `INFORMATION_SCHEMA` views — `TABLES`, `COLUMNS`,
-`STATISTICS` — enabling familiar SQL introspection queries.
+**Purpose:** SQL-style metadata rows such as `TABLES`, `COLUMNS`, and
+`STATISTICS`. The listed views do not claim complete SQL:2003 compatibility.
 
 **Key Classes:**
 
@@ -264,13 +281,8 @@ SchemaAuditLog audit(db);
 // Wire into SchemaVersionManager
 svm.setAuditLog(&audit);
 
-// Manual log entry
-SchemaAuditEntry entry;
-entry.table_name = "users";
-entry.operation  = "update";
-entry.author     = "ops-team";
-entry.description = "added phone column";
-audit.append(entry);
+// Record a change
+audit.record("users", "update", "ops-team", "added phone column");
 
 // Query history
 auto history = audit.getHistory("users");
@@ -283,8 +295,9 @@ auto recent  = audit.getHistory("users", 10); // last 10 entries
 
 ### schema_consistency_checker.h
 
-**Purpose:** Background health scan that detects orphan keys, stale statistics,
-and missing constraints in the metadata catalog.
+**Purpose:** Synchronous consistency check with an optional periodic background
+worker. It detects orphan key prefixes and, when the relevant collaborators are
+provided, stale statistics and missing constraint definitions.
 
 **Key Classes:**
 
@@ -337,7 +350,7 @@ DEFAULT, and FOREIGN_KEY constraints.
 | `ColumnConstraint` | A single constraint (kind, name, optional check_expr / default / FK refs) |
 | `ColumnConstraint::Kind` | `NOT_NULL`, `UNIQUE`, `CHECK`, `DEFAULT`, `FOREIGN_KEY` |
 | `ConstraintViolation` | Violation details (table, column, constraint name, message) |
-| `ColumnValue` | `std::variant<monostate, string, int64_t, double, bool>` |
+| `ColumnValue` | `std::variant<std::monostate, std::string, int64_t, double, bool>` |
 
 **Key API:**
 
@@ -345,7 +358,7 @@ DEFAULT, and FOREIGN_KEY constraints.
 #include "metadata/schema_constraints.h"
 using namespace themis;
 
-SchemaConstraints sc(db);
+SchemaConstraints sc;
 
 // Define constraints
 sc.addConstraint("users", "email",
@@ -353,8 +366,9 @@ sc.addConstraint("users", "email",
 sc.addConstraint("users", "age",
     ColumnConstraint::makeCheck("chk_age", "age >= 0"));
 
-// Validate a row (as JSON object)
-auto violations = sc.validate("users", row_json);
+// Validate a row value map (a missing map key is treated as NULL)
+std::map<std::string, ColumnValue> row = {{"email", std::string("a@b.c")}};
+auto violations = sc.enforce("users", row);
 if (!violations.empty()) {
     for (const auto& v : violations) {
         spdlog::warn("Constraint '{}' violated on {}.{}: {}",
@@ -402,14 +416,15 @@ if (!diff.isEmpty()) {
 
 ### metadata_snapshot.h
 
-**Purpose:** Point-in-time capture of the complete schema — supports rollback,
-audit, and CI/CD gate checks. Header-only.
+**Purpose:** Value type for a point-in-time schema capture and a store interface.
+The supplied `InMemoryMetadataSnapshotStore` is volatile and does not provide
+durable rollback or audit storage. Header-only.
 
 **Key Classes:**
 
 | Class / Struct | Description |
 |----------------|-------------|
-| `MetadataSnapshot` | Immutable snapshot: snapshot_id, created_at, tables, author, description |
+| `MetadataSnapshot` | Snapshot value: snapshot_id, created_at, tables, author, description |
 | `IMetadataSnapshotStore` | Abstract persistence interface (save / load / list / remove / size) |
 | `InMemoryMetadataSnapshotStore` | Thread-safe in-memory store (testing / embedded use) |
 | `MetadataSnapshotException` | Thrown on invalid snapshot_id or I/O error |
@@ -492,7 +507,7 @@ nlohmann::json prov = tracker.getColumnProvenance({"users", "full_name"});
 |----------------|-------------|
 | `CatalogExporter` | Main export interface |
 | `CatalogExporter::Config` | Connection parameters (type, endpoint, credentials) |
-| `CatalogExporter::PublishResult` | Outcome: `success`, `entity_count`, `error` |
+| `CatalogExporter::PublishResult` | Outcome: `success`, `entities_published`, `error` |
 | `CatalogExporter::CatalogType` | `APACHE_ATLAS` or `DATAHUB` |
 
 **Key API:**
@@ -524,11 +539,15 @@ dh.publishSchema(schema_mgr.getAllTables());
 
 // Inject custom HTTP function (unit tests, offline mode)
 exporter.setHttpPostForTesting([](const std::string&, const std::string&,
-                                   const std::string&) { return 200; });
+                                   const std::string&, std::string&) { return 200; });
 ```
 
-**Thread Safety:** No shared mutable state; create one instance per thread or
-guard with external synchronization.
+**Thread Safety:** The header says concurrent publish calls are safe with
+different `Config` instances; do not share one exporter instance across threads
+without external synchronization.
+
+`IMetadataExportPolicy` is a separate interface; `CatalogExporter` does not
+accept a policy in its constructor or publish methods.
 
 ---
 
@@ -560,15 +579,15 @@ catalog.syncFromSchemaManager(schema_mgr);
 // Fetch from the cluster (bypasses local cache)
 auto remote = catalog.fetchSchema("users");
 
-// Delete
-catalog.deleteSchema("archived_table");
+// Remove
+catalog.removeSchema("archived_table");
 
 // Diagnostics
-nlohmann::json stats = catalog.getStats();
+nlohmann::json stats = catalog.getStatistics();
 ```
 
-**Thread Safety:** All public methods are thread-safe (atomic operation counters,
-thread-safety delegated to the router).
+**Thread Safety:** The header documents thread-safe public methods and delegates
+router concurrency to the injected router. The router reference is non-owning.
 
 ---
 
@@ -626,47 +645,49 @@ patterns and suggests indexes that would improve query performance.
 
 ```cpp
 #include "metadata/index_recommender.h"
+#include "metadata/statistics_collector.h"
 using namespace themis;
+using namespace themis::metadata;
 
-IndexRecommender recommender(db, &stats);
+StatisticsCollector stats(db);
+IndexRecommender recommender;
+recommender.setStatisticsCollector(&stats); // optional, non-owning
 
 // Record access patterns (call from query executor)
 recommender.recordAccess("users", "email",
-    /* filter_count= */ 100, /* sort_count= */ 0,
-    /* avg_selectivity= */ 0.01);
+    IndexRecommender::AccessType::FILTER, /* selectivity= */ 0.01);
 
 // Get recommendations
-auto recs = recommender.recommend();
+auto recs = recommender.recommend("users");
 for (const auto& r : recs) {
     std::cout << (r.action == IndexRecommendation::Action::ADD ? "ADD" : "DROP")
               << " INDEX ON " << r.table_name << "." << r.column_name
               << " (score=" << r.benefit_score << "): " << r.rationale << "\n";
 }
 
-// Background recommender with periodic analysis
-recommender.startBackgroundAnalysis(std::chrono::hours(1));
-recommender.stopBackgroundAnalysis();
+// A persistence-enabled constructor starts its own optional persistence worker;
+// pass a zero interval to disable that worker. It is not a periodic analysis API.
 ```
 
 ---
 
 ### imetadata_security_provider.h
 
-**Purpose:** Pluggable RBAC / access-control interface for all metadata operations.
-Header-only; ships three implementations.
+**Purpose:** Pluggable RBAC/access-control interface. It is a building block;
+callers must explicitly invoke it, and its presence does not mean all metadata
+access paths are protected. Header-only.
 
 **Key Classes:**
 
 | Class / Struct | Description |
 |----------------|-------------|
 | `IMetadataSecurityProvider` | Abstract interface; `hasPermission()` + `assertPermission()` |
-| `NoOpMetadataSecurityProvider` | Default permit-all (zero overhead) |
+| `NoOpMetadataSecurityProvider` | Permit-all implementation; not an enforced default for all module callers |
 | `InMemoryRbacMetadataSecurityProvider` | Thread-safe in-memory RBAC: `grant`/`revoke`/`revokeAll` |
 | `MetadataOperation` | `READ_SCHEMA`, `WRITE_SCHEMA`, `READ_STATISTICS`, `WRITE_STATISTICS`, `READ_LINEAGE`, `WRITE_LINEAGE`, `READ_AUDIT_LOG`, `ADMIN` |
 | `MetadataAccessDeniedException` | Thrown by `assertPermission()` on denial |
 
 **Design rules:**
-- `hasPermission()` is non-blocking; ≤ 1 µs on the hot path.
 - Wildcard resource `"*"` grants the operation on every resource.
 - `ADMIN` implies all other operations on all resources.
 
@@ -738,9 +759,9 @@ rec.clear();
 
 ### imetadata_export_policy.h
 
-**Purpose:** Pluggable policy that controls which tables are exported to external
-metadata catalogs, and with what batching delay. Header-only; ships three
-implementations.
+**Purpose:** Standalone policy interface for export eligibility and delay.
+`CatalogExporter` does not currently consume this interface, so policy objects
+do not filter or delay its publish calls automatically. Header-only.
 
 **Key Classes:**
 
@@ -752,7 +773,7 @@ implementations.
 | `FilteredExportPolicy` | Exclude explicitly listed tables; configurable uniform delay |
 | `MetadataExportTrigger` | `SCHEMA_CREATED`, `SCHEMA_MODIFIED`, `SCHEMA_DROPPED`, `STATISTICS_UPDATED` |
 
-**Design:** `shouldExport()` must be non-blocking; ≤ 1 µs on the hot path.
+
 
 **Key API:**
 
@@ -773,22 +794,24 @@ auto delay  = policy.exportDelay("users", MetadataExportTrigger::SCHEMA_MODIFIED
 
 ### imetadata_encryption_provider.h
 
-**Purpose:** Pluggable field-level encryption policy for metadata values at rest
-or in transit. Header-only; ships three implementations.
+**Purpose:** Pluggable field-level transformation/encryption interface. The
+header does not wire a provider into all metadata storage or transport paths.
+Header-only.
 
 **Key Classes:**
 
 | Class / Struct | Description |
 |----------------|-------------|
 | `IMetadataEncryptionProvider` | Abstract interface: `encrypt()` + `decrypt()` + `shouldEncrypt()` + `algorithm()` |
-| `NoOpMetadataEncryptionProvider` | Pass-through (no encryption, default) |
+| `NoOpMetadataEncryptionProvider` | Pass-through (no encryption); not a universal module default |
 | `FieldSetMetadataEncryptionProvider` | Byte-wise XOR cipher (**demo/testing only** — NOT cryptographically secure) |
 | `MetadataEncryptionAlgorithm` | `NONE`, `XOR_BASIC`, `AES_GCM_256`, `CUSTOM` |
 | `MetadataEncryptionException` | Thrown on empty encryption key or corrupt ciphertext |
 
 > ⚠️ **Warning:** `FieldSetMetadataEncryptionProvider` uses XOR and is intended
 > only for testing. Production deployments requiring encryption at rest must
-> supply a custom `IMetadataEncryptionProvider` backed by AES-256-GCM.
+> supply an approved implementation and integrate it at the relevant caller;
+> `AES_GCM_256` is an algorithm identifier, not an implementation or key manager.
 
 **Key API:**
 
@@ -839,9 +862,12 @@ aql_builder.setSchema(meta);
 
 ### Namespaces
 
-Most classes live in `namespace themis`; the v1.6.0 interface headers
-(`imetadata_*.h`, `metadata_snapshot.h`, `schema_diff.h`) use
-`namespace themis::metadata`.  `aql_schema_bridge.h` uses `namespace themis::aql`.
+Namespace is header-specific. Core classes such as `SchemaManager`,
+`StatisticsCollector`, `SchemaConstraints`, `CatalogExporter`, and
+`DistributedMetadataCatalog` are in `namespace themis`. Provider interfaces,
+snapshots, schema diff, lineage, and index recommendation types are in
+`namespace themis::metadata`; `aql_schema_bridge.h` declares
+`themis::aql::fromTableSchema()`.
 
 ### Return Patterns
 
@@ -858,16 +884,16 @@ Most classes live in `namespace themis`; the v1.6.0 interface headers
 | Header | Thread-Safe? |
 |--------|-------------|
 | `schema_manager.h` | ✅ `std::shared_mutex` |
-| `statistics_collector.h` | ✅ per-table locks |
-| `information_schema.h` | ✅ (delegates to SchemaManager) |
+| `statistics_collector.h` | ✅ `std::shared_mutex` protects its cache |
+| `information_schema.h` | Not stated as a class-level guarantee in this header |
 | `schema_version_manager.h` | ❌ external synchronization required |
-| `schema_audit_log.h` | ✅ append-only |
+| `schema_audit_log.h` | Concurrent reads and sequential writes are documented |
 | `schema_consistency_checker.h` | ✅ `runCheck()`; `start/stop` not reentrant |
-| `schema_constraints.h` | ✅ |
+| `schema_constraints.h` | ❌ external synchronization required |
 | `schema_diff.h` | ✅ stateless |
 | `metadata_snapshot.h` | ✅ `std::mutex` |
 | `column_lineage.h` | ✅ |
-| `catalog_exporter.h` | ❌ no shared state; create per-thread |
+| `catalog_exporter.h` | Do not share one instance across threads without external synchronization |
 | `distributed_catalog.h` | ✅ atomics + router |
 | `er_diagram_exporter.h` | ✅ stateless |
 | `index_recommender.h` | ✅ `std::mutex` |
@@ -883,9 +909,8 @@ Most classes live in `namespace themis`; the v1.6.0 interface headers
 | Parameter | Default | Description |
 |-----------|---------|-------------|
 | `SchemaManager::setCacheTTL()` | 60 s | Metadata cache expiry |
-| `StatisticsCollector::startAutoRefresh()` | no default | Statistics refresh interval |
-| `SchemaConsistencyChecker::kDefaultMaxStatsAge` | 24 h | Age before `stale_stats` issued |
-| `FilteredExportPolicy` constructor | 0 ms | Batching delay for export policy |
+| `StatisticsCollector::setRefreshInterval()` | no interval default documented | Background refresh interval; zero stops the worker |
+| `SchemaConsistencyChecker::kDefaultMaxStatsAge` | 24 h | Age before `stale_stats` is reported |
 
 ---
 
@@ -893,16 +918,15 @@ Most classes live in `namespace themis`; the v1.6.0 interface headers
 
 | Situation | Behavior |
 |-----------|----------|
-| Cache expired, RocksDB unreachable | `getAllTables()` returns stale cached data; logs warning |
 | `SchemaVersionManager` table not found | Returns `VersionResult` with `TABLE_NOT_FOUND` |
-| `SchemaAuditLog` write failure | Returns false; logs error; does not throw |
+| `SchemaAuditLog::record()` write failure | Returns false and logs a warning |
 | `CatalogExporter` network failure | Returns `PublishResult{success=false, error=<message>}` |
 | `MetadataAccessDeniedException` | Thrown by `assertPermission()`; catch in middleware |
 | `MetadataSnapshotException` | Thrown by `store.save()` with empty `snapshot_id` |
 | `MetadataEncryptionException` | Thrown by `FieldSetMetadataEncryptionProvider` with empty key |
-| First schema discovery (cold cache) | May take up to 30 s for > 10 M RocksDB keys |
-| Statistics accuracy | Sample-based; histogram accuracy ±20 % for uniform/skewed data |
-| Version history in-memory limit | Last 1,000 versions per table; older versions purged from cache |
+| Orphan-key consistency scan | Scans at most 5,000 keys; a clean result is not proof of a complete scan of a larger store |
+| Constraint durability | Explicitly persist/load through `SchemaConstraints` APIs; not automatic |
+| Lineage durability | The tracker is in-memory; callers own any durable export |
 
 ---
 
@@ -947,7 +971,8 @@ auto script = svm.generateMigrationScript("orders", 1, 2);
 if (script.ok) std::cout << script.value;
 
 for (const auto& e : audit.getHistory("orders")) {
-    std::cout << e.timestamp_str << " " << e.operation << " by " << e.author << "\n";
+    std::cout << e.operation << " by " << e.author << ": "
+              << e.description << "\n";
 }
 ```
 
@@ -974,9 +999,11 @@ try {
 
 ## Troubleshooting
 
-### `getAllTables()` returns empty list on first call
-- **Cause:** Cache is cold; initial RocksDB scan may take several seconds.
-- **Fix:** Call `schema_mgr.refreshCache()` at startup and pre-warm the cache.
+### `getAllTables()` returns an empty list
+- An empty result alone does not distinguish an empty catalog from a discovery
+  or storage problem. Inspect the stored key pattern and the implementation in
+  `src/metadata/schema_manager.cpp`; do not treat an empty vector as a health
+  check.
 
 ### Cache returns stale schema after `ALTER TABLE`
 - **Cause:** Cache TTL has not expired yet.
@@ -985,39 +1012,36 @@ try {
   `schema_mgr.recordMutation(table_name)` on every write.
 
 ### `CatalogExporter::publishSchema()` returns `success=false`
-- **Cause:** Network connectivity issue, wrong credentials, or catalog API
-  version mismatch.
-- **Fix:** Verify endpoint URL and credentials in `Config`. Use
+- Inspect the returned error and HTTP response path; do not assume one cause.
+  Verify endpoint URL and credentials in `Config`. Use
   `setHttpPostForTesting()` to inject a mock HTTP function for offline testing.
 
-### `VersionResult` contains `TABLE_NOT_FOUND`
-- **Cause:** `SchemaVersionManager::createSchemaVersion()` was never called for
-  that table.
-- **Fix:** Call `createSchemaVersion()` to snapshot the initial schema before
-  querying history or running migrations.
+### A `VersionResult` reports an error
+- Inspect its `error` and `error_message` fields, then verify the table and
+  requested version against `SchemaVersionManager` history. Do not infer the
+  cause from the result alone.
 
-### `MetadataAccessDeniedException` in production
-- **Cause:** `InMemoryRbacMetadataSecurityProvider` does not have a grant for
-  the requested (principal, operation, resource) triple.
-- **Fix:** Call `sec.grant(principal, op, resource)` during initialization, or
-  use the wildcard resource `"*"` to grant access to all resources.
+### A caller receives `MetadataAccessDeniedException`
+- If the caller explicitly invokes `assertPermission()`, inspect the principal,
+  operation, and resource grant. Provider availability does not establish that
+  the caller or every route is wired to use it.
 
 ### `SchemaConsistencyChecker` reports `stale_stats` on every run
-- **Cause:** `StatisticsCollector::startAutoRefresh()` has not been started, or
+- **Cause:** statistics have not been collected recently, or
   the refresh interval is longer than `kDefaultMaxStatsAge` (24 h).
-- **Fix:** Start the auto-refresh thread with a suitable interval, or lower the
+- **Fix:** Call `updateStats()` / `collectStats()` as appropriate, or configure
+  `setRefreshInterval()` for tables already sampled. Review the
   max stats age threshold.
 
 ---
 
 ## Installation
 
-This module is included as part of ThemisDB. Add the module headers to your
-include path:
-
-```cmake
-target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
-```
+This module is built as part of ThemisDB. Source registration is in
+[`cmake/CMakeLists.txt`](../../cmake/CMakeLists.txt); focused tests are declared
+in [`tests/metadata/CMakeLists.txt`](../../tests/metadata/CMakeLists.txt).
+There is no module-specific install variable documented here; use the
+repository's configured build and include conventions.
 
 ---
 

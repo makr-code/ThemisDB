@@ -18,6 +18,9 @@
 #include "governance/opa_adapter.h"
 
 #include <memory>
+#include <chrono>
+#include <filesystem>
+#include <fstream>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -121,6 +124,71 @@ TEST(GovernanceOpaAdapterTest, GetConfigReturnsConstructedConfig) {
     EXPECT_EQ(adapter.getConfig().endpoint_url, "http://opa.internal:8181");
     EXPECT_EQ(adapter.getConfig().policy_path,  "myorg/governance/allow");
     EXPECT_EQ(adapter.getConfig().timeout_ms,    100);
+}
+
+TEST(GovernanceOpaAdapterTest, WasmModeDoesNotAllowExistingUnevaluatedBundle) {
+    const auto bundle_path = std::filesystem::temp_directory_path() /
+        ("themis-opa-bundle-" + std::to_string(
+            std::chrono::steady_clock::now().time_since_epoch().count()) + ".wasm");
+    {
+        std::ofstream bundle(bundle_path, std::ios::binary);
+        ASSERT_TRUE(bundle.good());
+        bundle << "present but not executable policy";
+    }
+
+    OpaAdapter::Config cfg;
+    cfg.mode = OpaAdapter::Config::EvalMode::WASM;
+    cfg.wasm_bundle_path = bundle_path.string();
+    OpaAdapter adapter(cfg);
+    const auto result = adapter.evaluate({}, "/protected");
+    std::filesystem::remove(bundle_path);
+
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result->classification, "streng-geheim");
+    EXPECT_EQ(result->mode, "enforce");
+    EXPECT_FALSE(result->export_allowed);
+    EXPECT_FALSE(result->cache_allowed);
+    EXPECT_FALSE(result->ann_allowed)
+        << "A bundle file is not evidence that WASM policy evaluation occurred";
+}
+
+TEST(GovernanceOpaAdapterTest, WasmModeUsesInjectedEvaluatorAndPropagatesFailure) {
+    OpaAdapter::Config cfg;
+    cfg.mode = OpaAdapter::Config::EvalMode::WASM;
+    OpaAdapter adapter(cfg);
+    PolicyDecision expected = makeDenyDecision();
+    adapter.setWasmEvalFn([](const auto&, const auto&) -> std::optional<PolicyDecision> {
+        return makeDenyDecision();
+    });
+
+    const auto result = adapter.evaluate({}, "/protected");
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result->classification, expected.classification);
+    EXPECT_FALSE(result->export_allowed);
+
+    adapter.setWasmEvalFn([](const auto&, const auto&) -> std::optional<PolicyDecision> {
+        return std::nullopt;
+    });
+    const auto failed_result = adapter.evaluate({}, "/protected");
+    ASSERT_TRUE(failed_result.has_value());
+    EXPECT_EQ(failed_result->classification, "streng-geheim");
+    EXPECT_EQ(failed_result->mode, "enforce");
+    EXPECT_FALSE(failed_result->export_allowed);
+}
+
+TEST(GovernanceOpaEngineTest, WasmUnavailableDoesNotFallBackToNativeAllow) {
+    OpaAdapter::Config cfg;
+    cfg.mode = OpaAdapter::Config::EvalMode::WASM;
+    OpaAdapter adapter(cfg);
+    PolicyEngine engine;
+    engine.setOpaEvaluator(&adapter);
+
+    const auto decision = engine.evaluate(
+        {{"X-Classification", "offen"}}, "/public");
+    EXPECT_EQ(decision.classification, "streng-geheim");
+    EXPECT_EQ(decision.mode, "enforce");
+    EXPECT_FALSE(decision.export_allowed);
+    EXPECT_FALSE(decision.cache_allowed);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

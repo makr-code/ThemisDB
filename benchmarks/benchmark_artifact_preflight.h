@@ -75,6 +75,8 @@
 #include <filesystem>
 #include <fstream>
 #include <string>
+#include <utility>
+#include <vector>
 
 namespace themis {
 namespace bench {
@@ -155,6 +157,76 @@ inline bool stubModelsEnabled() {
 }
 
 /**
+ * Finds a direct GGUF model in a directory, excluding llama.cpp vocabulary files.
+ */
+inline std::string findGgufModelInDirectory(const std::filesystem::path& directory) {
+    std::error_code error = {};
+    if (!std::filesystem::is_directory(directory, error) || error) {
+        return "";
+    }
+
+    const auto default_model = directory / "default.gguf";
+    if (std::filesystem::is_regular_file(default_model, error) && !error) {
+        auto preferred = default_model;
+        preferred.make_preferred();
+        return preferred.string();
+    }
+
+    std::vector<std::pair<std::uintmax_t, std::filesystem::path>> candidates;
+    std::filesystem::directory_iterator iterator(directory, error);
+    const std::filesystem::directory_iterator end;
+    while (!error && iterator != end) {
+        const auto path = iterator->path();
+        const auto filename = path.filename().string();
+        if (path.extension() == ".gguf" && filename.rfind("ggml-vocab-", 0) != 0 &&
+            iterator->is_regular_file(error) && !error) {
+            const auto size = std::filesystem::file_size(path, error);
+            if (!error) {
+                candidates.emplace_back(size, path);
+            }
+        }
+        iterator.increment(error);
+    }
+
+    if (candidates.empty()) {
+        return "";
+    }
+    std::sort(candidates.begin(), candidates.end(), [](const auto& left, const auto& right) {
+        if (left.first != right.first) {
+            return left.first < right.first;
+        }
+        return left.second.native() < right.second.native();
+    });
+    auto model = candidates.front().second;
+    model.make_preferred();
+    return model.string();
+}
+
+/**
+ * Searches repository-local model folders from the current directory upward.
+ */
+inline std::string findRepositoryModel() {
+    std::error_code error = {};
+    auto directory = std::filesystem::current_path(error);
+    while (!error && !directory.empty()) {
+        for (const auto& relative : {std::filesystem::path("models"),
+                                     std::filesystem::path("llama.cpp/models"),
+                                     std::filesystem::path("llama_cpp/models")}) {
+            const auto model = findGgufModelInDirectory(directory / relative);
+            if (!model.empty()) {
+                return model;
+            }
+        }
+        const auto parent = directory.parent_path();
+        if (parent == directory) {
+            break;
+        }
+        directory = parent;
+    }
+    return "";
+}
+
+/**
  * Resolves the primary model path.
  *
  * If THEMIS_LLM_MODEL_PATH is set and the file exists, that path is returned.
@@ -197,6 +269,16 @@ inline std::string resolveModelPath() {
     stub.make_preferred();
     if (std::filesystem::exists(stub)) {
         return stub.string();
+    }
+
+    const auto model_in_base = findGgufModelInDirectory(base);
+    if (!model_in_base.empty()) {
+        return model_in_base;
+    }
+
+    const char* configured_model_dir = std::getenv("THEMIS_MODEL_DIR");
+    if (!configured_model_dir || *configured_model_dir == '\0') {
+        return findRepositoryModel();
     }
 
     return "";

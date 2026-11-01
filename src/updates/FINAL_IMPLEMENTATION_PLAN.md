@@ -1,4 +1,25 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Updates Module Final Implementation Plan
+
+> **Historical planning snapshot (dated 2026-08-08):** This plan's completion,
+> GA-readiness, test-pass, benchmark, and release assertions have not been
+> reproduced or approved by the current documentation audit. Proposed targets
+> and sample deliverables below are not evidence that they exist or run. Use
+> [`ROADMAP.md`](ROADMAP.md), [`AUDIT.md`](AUDIT.md), current CMake files, and
+> the root [`../../ROADMAP.md`](../../ROADMAP.md) for present status.
 
 **Date:** 2026-08-08  
 **Scope:** Updates module Phases 4-8 delivery roadmap (Q4 2026 – Q1 2027)  

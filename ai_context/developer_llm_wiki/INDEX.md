@@ -23,8 +23,8 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 - Ziel: Onboarding- und Coding-relevantes Wissen fuer Entwickler-LLMs
 - Laufmodus: FULL_SYNC
-- Quellen gesamt: 9507
-- Quellen-Hash: `28434d27e8b2f110db5114506f0767f0aacaab74083cdac2edccd8c89202a41d`
+- Quellen gesamt: 9513
+- Quellen-Hash: `a7be132e0eaadb96b11583e3792d602d53408d3d9ea3c2f37fcbeb6e15496dce`
 
 ## Status And Source-of-Truth Governance
 
@@ -43,15 +43,18 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - [IMPORTERS.md](IMPORTERS.md) — curated importer module context
 - [UPDATES.md](UPDATES.md) — curated updates module context
 - [DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md) — curated distributed tensor module context
+- [TEMPORAL.md](TEMPORAL.md) — temporal runtime/API boundaries, test and benchmark evidence limits
+- [STORAGE.md](STORAGE.md) — curated storage API boundaries, test evidence, and contract gaps
+- [USER_STORAGE_ENCRYPTED.md](USER_STORAGE_ENCRYPTED.md) — encrypted user-storage architecture, configuration, and evidence boundaries
 - [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)
 - [WIKI_STATUS.json](WIKI_STATUS.json)
 - [WIKI_DELTA_REPORT.md](WIKI_DELTA_REPORT.md)
 
 ## Source Distribution
 
-- modules_and_api: 3820
+- modules_and_api: 3821
 - build_test_ci: 203
-- governance_and_docs: 5484
+- governance_and_docs: 5489
 - misc: 0
 
 ## Source-Priority / Konfliktregel

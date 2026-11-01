@@ -1,4 +1,29 @@
-# storage — MODULE_GAPS.md (Phase 5 Verified)
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-25"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "WAVE_3A_CLOSURE_EVIDENCE.md"
+  - "../../audit/MARKER_LOCATIONS_2026-08-31.md"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+> Historical scanner snapshot, not a current source audit or verified inventory.
+> Counts, classifications, and closure claims below are retained as evidence
+> from the dated scan; TODO: rerun the scanner and validate each finding against
+> current code before using them as current status.
+
+# storage — MODULE_GAPS.md (Historical Phase 5 snapshot)
 
 This file documents all documentation and code quality gaps in the **storage** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 

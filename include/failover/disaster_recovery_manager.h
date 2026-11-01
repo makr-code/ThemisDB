@@ -94,6 +94,16 @@ struct DisasterRecoveryResult {
 
 class DisasterRecoveryManager {
 public:
+    /**
+     * @brief Executes and verifies one external DR operation.
+     * @param plan The validated recovery plan.
+     * @param detail Output diagnostic; populated on success and failure.
+     * @return True only when the operation completed and was verified.
+     * @note Production adapters must perform the real side effect and independently
+     *       verify it; returning true without doing so makes the orchestration unsafe.
+     * @note Hooks run synchronously; the manager does not impose a timeout or
+     *       cancellation boundary on hook execution.
+     */
     using StepHook = std::function<bool(const DisasterRecoveryPlan&, std::string&)>;
 
     /**
@@ -109,9 +119,13 @@ public:
         std::shared_ptr<sharding::EpochFencingManager> fencing_mgr);
 
     /**
-     * @brief Execute Plan.
-     * @param[in] plan Input parameter.
-     * @return Return value.
+     * @brief Execute an ordered disaster-recovery plan.
+     * @param[in] plan Plan to validate and execute.
+     * @return A completed result only when every required operation succeeds.
+     *         Missing snapshot, restore, catch-up, traffic-shift, or verification
+     *         adapters fail the result; traffic shift is not required when disabled
+     *         by the plan. Dry-run plans do not perform external side effects.
+     * @note Steps completed before a failure are not compensated or rolled back.
      */
     DisasterRecoveryResult executePlan(const DisasterRecoveryPlan& plan);
 

@@ -1,3 +1,21 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-25"
+Last Updated: "2026-10-31"
+Status: "historical"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> **Historical snapshot:** The findings below describe the L0 audit performed
+> on 2026-06-25. They are not current gap counts or a substitute for checking
+> the present source, tests, and current roadmap.
+
 # Network Module - Code Quality Audit
 
 ## L0 Code Quality Audit (2026-06-25)

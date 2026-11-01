@@ -1,14 +1,38 @@
-# RETRIEVAL DOXYGEN
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-20"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "ThemisDB documentation orchestration assistant"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+# Retrieval Doxygen snapshot
 
-## Source
-- This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\retrieval\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\retrieval\doxygen-warnings.log`
+Exact model backend not verifiable from final document text alone.
+
+## Current API amendment (2026-11-01)
+
+The generated XML snapshot below predates the persistence/security changes and
+is retained as historical derived output. The current Doxygen source of truth
+is `include/lora_package.h`: `LoRAManifestStore(RuntimeConfig)` owns a
+persistent RocksDB database, loads runtime settings through
+`ConfigPathResolver` from `config/ai_ml/retrieval.yaml`, and requires each
+artifact signature to verify over its manifest hash with a pinned Ed25519 key.
+It exposes `deployProduct()` with separate quality-gate and authorization
+checks. A source-compatible default constructor remains explicitly test-only
+and rejects all artifact writes and deployment.
+Regenerate this report from the current source before treating its symbol
+inventory or counts as current.
+
+## Source note
+- This derived report was generated on 2026-09-20 from retrieval-scoped Doxygen XML.
+- The original machine-local XML and warnings-log paths are not repository references and are not available as canonical sources here.
+- Source paths recorded below are relative to the repository. This report is a snapshot, not the canonical API reference; verify declarations against source headers.
+- Test and benchmark types in this output include test-local mocks and stubs, not production retrieval components.
 
 ## Structure Metrics
 - C/C++ Files (scanned): 8
@@ -500,13 +524,6 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
-#### `void setSignatureVerifier(SignatureVerifier verifier)`
-- Source: `src/retrieval/include/lora_package.h`:316
-- Brief: ── Configuration ─────────────────────────────────────────────────────
-- Parameters:
-  - `verifier` (SignatureVerifier): Input parameter.
-- Details: Set Signature Verifier. verifier Input parameter. verifier Input parameter. Calls: lk(), std::move().
-
 #### `bool storePackage(const LoRAPackage &pkg)`
 - Source: `src/retrieval/include/lora_package.h`:324
 - Brief: ── LoRAPackage CRUD ──────────────────────────────────────────────────
@@ -848,4 +865,3 @@ Status: active
 - Brief: n/a
 - Parameters:
   - `other` (const RetrievalResult &): n/a
-

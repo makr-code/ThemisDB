@@ -2,13 +2,24 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+
+Exact model backend not verifiable from final document text alone.
+
+> **Historical generated output:** This snapshot was generated on 2026-09-20 and is not current authority for APIs, paths, build targets, or test inventory. Verify those claims against current headers, source, and CMake definitions. **TODO:** regenerate through the current repository Doxygen workflow.
+
+Source level: 1; SOT domain: module-behavior. Canonical references: current transaction headers and sources, `tests/transaction/CMakeLists.txt`, and `benchmarks/transaction/CMakeLists.txt`. Related issue: #7390.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\transaction\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\transaction\doxygen-warnings.log`
+- XML index: historical local Windows temporary path; unavailable in this repository.
+- Warnings log: historical local Windows temporary path; unavailable in this repository.
 
 ## Structure Metrics
 - C/C++ Files (scanned): 82
@@ -10715,4 +10726,3 @@ Status: active
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Calls: buildConflictingBatch(), size(), PLANNED(), setDeadlockPredictor(), std::chrono::high_resolution_clock::now(), analyzeBatch(), count(), assert().
-

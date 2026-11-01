@@ -33,7 +33,7 @@ Human_Author: "ThemisDB Team"
 | `VoiceSessionManager` | Default idle timeout 5 minutes, maximum session duration 30 minutes, cleanup interval 30 seconds; documented manager limit 1,000 concurrent sessions |
 | `VoiceStreamingManager` | Default active-session limit 200; creation returns an empty ID when at capacity |
 
-These limits belong to distinct classes and are not interchangeable. The frozen [`VOICE_SESSION_CONTRACT.md`](../../include/voice/VOICE_SESSION_CONTRACT.md) describes the shared lifecycle and failure expectations, while implementation-specific limits are in the headers and sources linked above.
+These limits belong to distinct classes and are not interchangeable. [`VOICE_SESSION_CONTRACT.md`](../../include/voice/VOICE_SESSION_CONTRACT.md) is a historical, non-normative snapshot; use the current headers and sources linked above for lifecycle and failure behavior.
 
 ## Failure and concurrency invariants
 

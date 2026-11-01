@@ -1,10 +1,22 @@
-> **Build (Linux):** `cmake --preset linux-release && cmake --build --preset linux-release`<br>
-> **Build (Windows):** `cmake --preset windows-release && cmake --build --preset windows-release`
+> **Full-repository build examples (not scraper-only):** `cmake --preset linux-release && cmake --build --preset linux-release`<br>
+> **Windows:** `cmake --preset windows-release && cmake --build --preset windows-release`
 
 # ThemisDB Scraper Module Headers
 
-<!-- Status: current | validated: 2026-05-13 | Primary: src/scraper/ | Secondary: docs/de/scraper/ -->
+<!-- Status: current | validated: 2026-10-31 | Primary: src/scraper/ -->
 <!-- Links: ../../src/scraper/README.md · ../../src/scraper/ROADMAP.md · ../../src/scraper/FUTURE_ENHANCEMENTS.md -->
+
+**Author:** ThemisDB Contributors<br>
+**Created:** 2026-10-31<br>
+**Last Updated:** 2026-10-31<br>
+**Status:** review
+
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot; themisdb-doc-orchestrator
+**Human_Review:** false
+**Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
 
 This folder exposes the public C++ header API for the agentic web-scraper plugin.
 All headers are included as `scraper/<header>.h` because in-tree builds expose
@@ -18,12 +30,18 @@ All headers are included as `scraper/<header>.h` because in-tree builds expose
 |---|---|
 | `scraper/scraper_plugin.h` | Top-level entry point — `IScraperPlugin`, `ScraperPlugin`, `ScrapedDocument`, `ScraperRunStats` |
 | `scraper/scraper_config.h` | Configuration types — `ScraperConfig`, `ScraperRenderMode`, `GapContext`, `UrlPolicy` |
-| `scraper/scraper_api_client.h` | JSON/REST API client — `IScraperApiClient`, `HttpScraperApiClient`, `ApiEndpointConfig`, `ApiResult` |
+| `scraper/scraper_api_client.h` | JSON REST/GraphQL client — `IScraperApiClient`, `HttpScraperApiClient`, `ApiEndpointConfig`, `ApiResult` |
 | `scraper/scraper_search_engine.h` | HTML search-form engine — `IScraperSearchEngine`, `HtmlSearchEngine`, `SearchForm`, `SearchResultPage` |
 | `scraper/scraper_llm_evaluator.h` | LLM quality evaluator — `IScraperLLMEvaluator`, `ScraperLLMEvaluator`, `EvaluationResult` |
-| `scraper/scraper_metadata_writer.h` | Persistence layer — `IScraperMetadataWriter`, `ScraperRelationalRecord`, `ScraperRecordBuilder` |
+| `scraper/scraper_metadata_writer.h` | Writer contract and record builders — `IScraperMetadataWriter`, relational/graph/vector records, `ScraperRecordBuilder` |
 | `scraper/scraper_js_renderer.h` | Headless JS renderer — `IScraperJSRenderer`, `SubprocessJSRenderer` |
 | `scraper/gov_source_catalog.h` | Government source registry — `GovSourceCatalog`, `GovDataSource` |
+| `scraper/scraper_api_contract.h` | Error/result contract types and constants |
+| `scraper/scraper_burst_controller.h` | Optional per-seed token-bucket controller |
+| `scraper/scraper_diagnostics.h` | Standalone fault/event/sink types; not emitted by `ScraperPlugin` |
+| `scraper/scraper_render_contract.h` | Standalone renderer-result and pagination predicates; not wired into `ScraperPlugin` |
+| `scraper/scraper_run_summary.h` | Standalone collector for explicitly emitted diagnostic events |
+| `scraper/scraper_robots.h`, `scraper/scraper_sitemap.h` | Helper declarations; not invoked by `ScraperPlugin`, omitted from `scraper_plugin` source list, and not covered by scoped scraper tests |
 
 ---
 
@@ -31,7 +49,7 @@ All headers are included as `scraper/<header>.h` because in-tree builds expose
 
 ### `IScraperPlugin` / `ScraperPlugin`
 
-The primary plugin interface and its production implementation.
+The plugin interface and its concrete orchestration implementation.
 
 ```cpp
 // Lifecycle
@@ -52,7 +70,7 @@ void setHttpFetch(HttpFn fn);   // inject custom HTTP backend (replaces libcurl)
 
 ### `ScrapedDocument`
 
-Result record produced for every accepted document.
+Result record produced for each processed document (including discarded documents).
 
 | Field | Type | Description |
 |---|---|---|
@@ -62,11 +80,12 @@ Result record produced for every accepted document.
 | `extracted_text` | `string` | Plain text extracted from HTML |
 | `source_name` | `string` | Gov source id or hostname |
 | `document_type` | `string` | `"Urteil"`, `"Gesetz"`, `"API"`, … |
-| `quality_score` | `double` | 0.0–1.0; produced by the LLM evaluator |
+| `date_issued` | `string` | Publication/decision date when present |
+| `quality_score` | `double` | Evaluator output; LLM or heuristic path |
 | `gap_relevance` | `double` | 0.0–1.0; relevance to the gap context |
 | `discarded` | `bool` | `true` when the document was below threshold |
 | `discard_reason` | `string` | Non-empty when `discarded == true` |
-| `doc_id` | `string` | FNV-1a content hash (16 hex chars) |
+| `doc_id` | `string` | 16-hex FNV-1a hash of URL plus the first 512 text characters, for accepted records |
 | `metadata` | `map<string,string>` | Arbitrary extra metadata |
 | `is_scraper_ingested` | `bool` | **Provenance** — always `true` |
 | `ingestion_source_type` | `string` | **Provenance** — always `"SCRAPER"` |
@@ -78,16 +97,19 @@ Counters returned by `scrape()`.
 
 | Field | Description |
 |---|---|
-| `urls_visited` | Total URLs fetched |
-| `forms_submitted` | HTML search forms submitted |
-| `result_pages_parsed` | Search result pages paginated through |
-| `api_pages_fetched` | JSON REST API pages fetched |
-| `docs_scraped` | Raw documents collected |
+| `urls_visited` | Successful seed/result fetches and API result entries counted by the path; not a complete request-attempt count |
+| `forms_submitted` | Incremented for non-empty HTML result pages processed, not a count of successful POST form submissions |
+| `result_pages_parsed` | Non-empty HTML result pages passed to the parser |
+| `api_pages_fetched` | API result items returned by the client, not HTTP page requests |
+| `docs_scraped` | Path-specific documents processed; HTML items shorter than 50 extracted characters are excluded |
 | `docs_accepted` | Documents that passed the quality threshold |
-| `docs_discarded` | Documents that were filtered out |
+| `docs_discarded` | Documents rejected by the evaluator |
 | `docs_written` | Documents successfully persisted |
 | `write_errors` | Persistence failures |
+| `urls_skipped` | Seeds skipped when an injected burst controller has no token |
 | `elapsed_ms` | Total run duration |
+
+`docs_accepted` counts documents that passed evaluation, even if the writer subsequently failed. The plugin does not include the result of `flush()` in the returned statistics.
 
 ### `ScraperConfig`
 
@@ -104,12 +126,17 @@ Key sub-structs and their defaults:
 | `GapContext` | `gap_id`, `description`, `keywords` |
 | `CrawlOptions` | `max_depth=3`, `max_pages=500`, `user_agent`, `respect_robots=true`, `same_domain_only=true`, `request_delay_ms=250`, `render_mode=STATIC` |
 | `SearchOptions` | `enabled=true`, `queries`, `max_result_pages=10`, `results_per_page=20`, `result_list_selector` |
-| `ApiOptions` | `pagination_mode="page"`, `page_param="p"`, `results_field="results"`, `max_pages=20`, `headers`, `body_template` |
+| `ApiOptions` | `pagination_mode="page"`, `page_param="p"`, `results_field="results"`, `max_pages=20`, `headers`, `body_template` (parsed only; not applied by current `ScraperPlugin`) |
 | `LlmOptions` | `quality_threshold=0.65`, `model_path`, `temperature=0.1` |
 | `GovSourcesOptions` | `bund_enabled`, `bundeslaender_enabled`, `eu_enabled`, `source_ids`, `custom_catalog_path` |
 
 `ScraperConfig` also carries `seed_urls`, `whitelist`, and `blacklist` lists that
-feed into `UrlPolicy`.
+feed into `UrlPolicy`. Important implementation limits: `max_depth`, crawl
+`max_pages`, `respect_robots`, `same_domain_only`, and `api_options` are parsed
+but not consumed by `ScraperPlugin`. `request_delay_ms` is used in the HTML
+search path, not API pagination. API endpoint limits come from the
+`ApiEndpointConfig` passed to the client (or a catalog source), not directly
+from `ScraperConfig::api_options`.
 
 ### `ScraperRenderMode`
 
@@ -118,14 +145,14 @@ feed into `UrlPolicy`.
 | `STATIC` | Plain HTTP GET + HTML parsing (libcurl, default) |
 | `JS_RENDERED` | Headless browser renders the page before extraction |
 | `API_JSON` | Seed URL is a JSON REST endpoint |
-| `API_GRAPHQL` | Seed URL is a GraphQL endpoint; queries sent as POST |
+| `API_GRAPHQL` | Selects the API path; does not by itself configure a GraphQL POST/body in `ScraperPlugin` |
 
 ### `UrlPolicy`
 
 Controls which URLs may be scraped:
-- Whitelist: empty = allow all; non-empty = URL must match at least one prefix/glob.
+- Whitelist: empty = allow all HTTP(S) URLs; non-empty = URL must match at least one prefix/limited `*` pattern. The plugin checks explicit seeds and HTML result URLs, but does not check selected catalog seed URLs and exempts the exact API endpoint during API-result filtering.
 - Blacklist: URL matching any entry is blocked regardless of the whitelist.
-- Schemes `http` and `https` only — SSRF guard rejects other schemes unconditionally.
+- Schemes `http` and `https` only. These string checks do not provide complete SSRF/egress protection; redirect destinations are not checked again.
 
 ### `IScraperApiClient` / `HttpScraperApiClient`
 
@@ -134,8 +161,15 @@ std::vector<ApiResult> fetchAll(const ApiEndpointConfig& cfg, const std::string&
 ```
 
 Handles `page`, `cursor`, and `offset` pagination automatically.
-When `THEMIS_ENABLE_CURL` is not defined, `fetchAll()` returns an empty vector
-(build environments without libcurl compile and link cleanly).
+When `THEMIS_ENABLE_CURL` is not defined, the built-in `fetchAll()` path returns
+an empty vector (unless a custom fetch function is injected).
+
+`ApiEndpointConfig` supports POST body templates with `{{QUERY}}`, `{{PAGE}}`,
+and `{{CURSOR}}` substitution. The YAML `ScraperConfig::api_options` block below
+is parsed but is not copied into the endpoint built by `ScraperPlugin`; plugin
+runs use catalog-source settings or `ApiEndpointConfig` defaults. To use a
+custom endpoint/body template directly, configure `ApiEndpointConfig` and call
+`HttpScraperApiClient::fetchAll()` (or inject an appropriately configured client).
 
 `InMemoryScraperApiClient` is a test double that returns pre-injected results.
 
@@ -188,7 +222,10 @@ JsRenderResult render(const JsRenderRequest& req);
 bool isAvailable() const;
 ```
 
-`SubprocessJSRenderer` invokes an external headless browser via subprocess.
+`SubprocessJSRenderer` invokes an external headless browser via subprocess. On
+Unix-like systems it uses an argument vector; its Windows implementation uses
+`_popen` with a constructed command string. Review the renderer command and
+platform-specific argument handling as privileged configuration.
 The command receives `<url> [--timeout <ms>] [--wait-for <selector>] [extra_args…]`
 and must write rendered HTML to stdout and exit 0 on success.
 
@@ -239,6 +276,9 @@ search_options:
   results_per_page: 20
   result_list_selector: ""   # Optional CSS hint, e.g. ".result-list"
 
+# Parsed by ScraperConfig, but currently ignored by ScraperPlugin.
+# These values do not configure its API requests; see the direct
+# ApiEndpointConfig / HttpScraperApiClient contract above.
 api_options:
   pagination_mode: "page"    # page | cursor | offset | none
   page_param: "p"
@@ -250,8 +290,8 @@ api_options:
 
 llm_options:
   quality_threshold: 0.65
-  model_path: ""             # GGUF path; empty = use plugin manager
-  temperature: 0.1
+  model_path: ""             # parsed but currently unused by ScraperPlugin
+  temperature: 0.1           # parsed but evaluator uses a fixed 0.1
 
 gov_sources:
   bund_enabled: false
@@ -272,24 +312,41 @@ blacklist:
 
 ## Runtime Behavior, Error Cases, and Limits
 
-- `initialize()` must be called and must return `true` before `scrape()` may be called;
-  `scrape()` on an uninitialized plugin throws `std::logic_error`.
-- HTTP fetch errors (network timeout, non-200 responses) are caught per-URL; the
-  scraper logs the error and continues with remaining seeds rather than aborting.
+- `initialize()` must be called before `scrape()`; the current implementation returns
+  `true` after storing config and attempting the optional catalog load.
+  `scrape()` before initialization throws `std::runtime_error`.
+- In the HTML fetch path, an injected fetch callback exception is swallowed and
+  becomes an empty body; the built-in libcurl path returns its body buffer without
+  checking the transfer result or HTTP status. These paths do not log the failure.
+  Empty bodies stop or continue the relevant path depending on context; do not
+  assume every non-200 response is rejected.
 - LLM evaluation failures fall back to the heuristic scorer; the run never aborts
   due to an LLM error.
-- JS rendering subprocess timeout (`js_timeout_ms`) results in an error
-  `JsRenderResult{success=false}` for that page; the scraper logs and skips.
-- `UrlPolicy` rejects non-http/https schemes silently (SSRF guard); the URL is
-  counted as visited but no fetch is performed.
-- libcurl is required at runtime when `render_mode != JS_RENDERED` and
-  `THEMIS_ENABLE_CURL` is defined; without libcurl, HTTP fetches return empty strings.
+- `js_timeout_ms` is passed to the renderer command. The subprocess adapter does
+  not independently kill a hung process; the renderer must honor its argument.
+- `UrlPolicy` rejects non-http/https schemes, but its rejection is not an SSRF
+  boundary. Explicit seed URLs rejected during seed collection and blocked HTML
+  result URLs are skipped before `urls_visited` increments. Selected catalog seed
+  URLs bypass that seed check, and the exact API endpoint is exempted during API
+  result filtering.
+- without libcurl, the built-in HTTP fetch returns an empty string. Without
+  pugixml, HTML form discovery and result-list parsing return empty results;
+  direct page text extraction has a fallback tag stripper.
 - `ScraperRecordBuilder` provenance fields (`is_scraper_ingested`,
   `ingestion_source_type`, `ingestion_plugin_version`) must not be cleared or
   overridden by the caller — they are the authoritative ingestion trail.
-- `max_pages` caps the scraper at a safe upper bound to prevent runaway crawls;
-  the default is 500 pages per seed URL.
-- `request_delay_ms` (default: 250 ms) enforces polite crawl rate limiting between requests.
+- `max_depth`, crawl `max_pages`, `respect_robots`, and `same_domain_only` are
+  not enforced by the current main loop. HTML result traversal uses
+  `search_options.max_result_pages`; API pagination uses the configured
+  `ApiEndpointConfig::max_pages`. `request_delay_ms` applies in the HTML search
+  path; API pagination has no corresponding built-in delay.
+- `api_options`, `search_options.results_per_page`, `llm_options.model_path`, and
+  `llm_options.temperature` are parsed but unused by the current plugin path.
+- HTML search-form POST bodies are constructed, but the current plugin fetches the
+  generated search URL through its simple HTTP fetch function; it does not send
+  that form body as a POST request.
+- `reset()` clears results and counters but leaves the plugin initialized.
+  `initialize()` stores config and resets per-run state.
 
 ---
 
@@ -351,24 +408,23 @@ assert(writer->relationalRecords().size() == 1);
 
 ## Installation
 
-For in-tree builds both include roots must be visible:
+For a CMake build that includes `src/scraper` as a subdirectory, link the target and use its propagated include paths,
+compile features, optional dependency links, and feature definitions:
 
 ```cmake
-target_include_directories(your_target PRIVATE
-    ${THEMISDB_INCLUDE_DIR}          # include/
-    ${THEMISDB_SOURCE_DIR}/src       # src/ (for source-local headers)
-)
+target_link_libraries(your_target PRIVATE scraper_plugin)
 ```
 
-Optionally enable backend features:
+The module CMake file discovers yaml-cpp, pugixml, and libcurl and conditionally
+enables their feature definitions. It links a discovered nlohmann_json package
+or adds the repository's bundled header path when present; the source includes
+`nlohmann/json.hpp`, so that header must be available at compile time.
+`THEMIS_ENABLE_LLM` enables the LLM path. The module target itself is C++17.
+Do not define feature macros without linking the corresponding dependency.
 
-```cmake
-target_compile_definitions(your_target PRIVATE
-    THEMIS_ENABLE_CURL     # link libcurl for HTTP fetch
-    THEMIS_ENABLE_PUGIXML  # link pugixml for HTML parsing
-    THEMIS_ENABLE_LLM      # enable LLM evaluator path
-)
-```
+Focused test target and CTest names are generated from `tests/scraper/CMakeLists.txt`:
+`module_scraper_<test filename>_focused` and `<test filename>_scraper_FocusedTests`.
+The tests are registered with the `scraper` label.
 
 ---
 

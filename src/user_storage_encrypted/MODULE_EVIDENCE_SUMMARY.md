@@ -1,3 +1,22 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-08-08
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
+
+Exact model backend not verifiable from final document text alone.
+
+> **Historical snapshot:** This report records issue #5681 status as of
+> 2026-08-08. Its closure, test-coverage, benchmark-gating, and
+> production-readiness assertions have not been revalidated and are not current
+> evidence. See [current source review](AUDIT.md) and [roadmap](ROADMAP.md).
+
 # User Storage Encrypted Module - Development Status Evidence Summary
 
 **Date:** 2026-08-08  

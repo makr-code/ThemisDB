@@ -1,6 +1,8 @@
 # evaluation/src documentation
 
-<!-- Status: current | aligned with status issue #5643 | validated: 2026-07-29 -->
+<!-- Status: current | aligned with status issue #5643 | validated: 2026-10-31 -->
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB Contributors -->
+<!-- Exact model backend not verifiable from final document text alone. -->
 
 ## Purpose
 
@@ -18,11 +20,11 @@ and artifact lifecycle handling.
 | `approximation_rules.cc` | 2.4 | approximation policy evaluation and violation reporting |
 | `query_planner.cc` | 2.5 | hybrid path selection from planner requests |
 | `artifact_lifecycle.cc` | 2.6 | lifecycle state transitions and freshness policy handling |
-| `storage_strategy.cc` | 2.7 | storage recommendation selection and trade-off scoring |
+| `src/distributed_tensor/src/tensor_storage_strategy.cc` | 2.7 (EPIC #5436, issue #5443) | Cross-module assessment; not an evaluation-owned source |
 
 ## Delivery Expectations
 
-- delivered at source level: the current EPIC 2 runtime files listed above
+- delivered at source level: the evaluation-owned runtime files listed above
 - next: broader Phase 3 behavior definitions for validation failures, policy conflicts, and fallback paths
 - after: refreshed executable test/benchmark evidence and measured acceptance gates
 - later: downstream workflow integration per roadmap

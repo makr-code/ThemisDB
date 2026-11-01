@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Security - Projects Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 Report vulnerabilities via project-level SECURITY.md.
@@ -13,9 +27,9 @@ Security in the projects module focuses on lifecycle transition integrity, snaps
 
 | Threat | Current Mitigation Surface |
 |---|---|
-| unauthorized lifecycle mutation | transition validation and actor-aware state paths |
+| invalid lifecycle mutation | transition validation and actor-aware state paths (not general caller authentication) |
 | snapshot tampering or corrupted restore inputs | integrity checks before restore apply |
-| unauthorized collaboration mutation | permission checks and lock ownership enforcement |
+| invalid collaboration operation | input validation and lock ownership enforcement |
 | hidden merge/data consistency loss | explicit conflict surfaces and deterministic error returns |
 
 ## Implemented Security Controls
@@ -24,6 +38,11 @@ Security in the projects module focuses on lifecycle transition integrity, snaps
 - snapshot restore applies integrity checks before persistence.
 - lock ownership mismatch is surfaced explicitly.
 - audit and metrics surfaces keep project operations observable.
+- these module checks do not provide general user authentication or
+  authorization middleware. Callers remain responsible for access control
+  around project operations.
+- `project_bundle.h` is an interface declaration; this module does not provide
+  ZIP validation, encryption, or import/export security controls.
 
 ## Security Follow-ups
 

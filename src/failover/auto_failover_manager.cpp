@@ -611,15 +611,22 @@ FailoverResult AutoFailoverManager::processFailover(const FailoverTask& task) {
 
         // Step 5: Activate spare if needed
         if (config_.enable_spare_activation) {
-            activateSpareIfNeeded(task.failed_node_id);
+            if (!activateSpareIfNeeded(task.failed_node_id)) {
+                spdlog::error("Spare activation is not available; blocking failover completion");
+                transitionState(FailoverOrchestratorState::FAILED);
+                result.success = false;
+                result.error_message = "spare activation failed or is not configured";
+                return result;
+            }
         }
 
         // Step 6: Update metadata
         transitionState(FailoverOrchestratorState::UPDATING_METADATA);
         if (!updateMetadata(task.failed_node_id, promoted_id)) {
-            spdlog::error("Failed to update metadata");
+            spdlog::error("Metadata persistence is not configured; blocking failover completion");
             transitionState(FailoverOrchestratorState::FAILED);
             result.success = false;
+            result.error_message = "metadata persistence adapter is not configured";
             return result;
         }
 
@@ -795,7 +802,8 @@ bool AutoFailoverManager::selectAndPromoteReplica(const std::string& failed_node
  * @brief Activate Spare If Needed.
  * @param[in] failed_node_id Identifier of the failed node.
  * @return True when the operation succeeds.
- * @details Calls: spdlog::info(), emitEvent().
+ * @details Emits a failure event when a spare manager is present. The caller
+ *          must block failover completion when this operation returns false.
  */
 bool AutoFailoverManager::activateSpareIfNeeded(const std::string& failed_node_id) {
     if (!spare_manager_) {
@@ -818,13 +826,14 @@ bool AutoFailoverManager::activateSpareIfNeeded(const std::string& failed_node_i
  * @param[in] old_leader_id Identifier of the old leader.
  * @param[in] new_leader_id Identifier of the new leader.
  * @return True when the operation succeeds.
- * @details Calls: spdlog::info().
+ * @details The current implementation has no metadata persistence adapter and
+ *          therefore always fails closed.
  */
 bool AutoFailoverManager::updateMetadata(const std::string& old_leader_id,
                                          const std::string& new_leader_id) {
-    spdlog::info("Updating metadata: {} -> {}", old_leader_id, new_leader_id);
-    // Update cluster topology, DNS, reputation scores, etc.
-    return true;
+    spdlog::error("Cannot update metadata {} -> {}: metadata persistence adapter is not configured",
+                  old_leader_id, new_leader_id);
+    return false;
 }
 
 /**
@@ -1274,4 +1283,3 @@ void AutoFailoverManager::resetStatistics() {
 
 }  // namespace failover
 }  // namespace themis
-

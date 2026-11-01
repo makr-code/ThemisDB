@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -37,7 +37,7 @@ These are in-process API surfaces, not metric names guaranteed to be scraped by 
 - Confirm the manager is running and the last result is understood.
 - Track the `current_queue_depth`, `tasks_dropped_queue_full`, `failed_failovers`, retry totals, and `failed_runs` trends.
 - Verify quorum, replica health, and fencing before planned failover/DR activity.
-- A built-in dry run skips quorum checks, snapshot lookup, fencing, restore, catch-up, traffic shift, and verification. Non-dry-run snapshot validation checks only that the ID is non-empty. Review registered step hooks separately because they replace built-in handlers.
+- A built-in dry run skips quorum checks, snapshot lookup, fencing, restore, catch-up, traffic shift, and verification. Non-dry-run execution fails at the first required external operation whose step hook is absent. Review registered hooks and their independent verification behavior before running a plan.
 - Retain quorum-log and DR step-result evidence through incident closure.
 
 ## Operating safeguards

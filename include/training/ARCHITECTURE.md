@@ -1,76 +1,75 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/training/ARCHITECTURE.md -->
-
-# Training Module — Public Header Architecture
-
-**Module Path:** `include/training/`
-**Implementation:** `../../src/training/`
-**Canonical architecture doc:** [`../../src/training/ARCHITECTURE.md`](../../src/training/ARCHITECTURE.md)
-
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
-## 1. Overview
+Exact model backend not verifiable from final document text alone.
 
-`include/training/` defines the **public LoRA adapter training, knowledge-graph enrichment, data labelling, and model-serving API contract** for ThemisDB. The 15 headers cover LoRA and AdaLoRA adapters, adapter merging, TT-bridge, checkpoint management, incremental and data-selection-driven training, auto-labelling, knowledge-graph enrichment, provenance tracking, adapter serving, and training pipeline interfaces.
+# Training Public-Header Architecture
 
-For runtime composition — trainer loops, data pipeline scheduling, checkpoint management internals, and serving hot-swap — see:
-→ [`../../src/training/ARCHITECTURE.md`](../../src/training/ARCHITECTURE.md)
+`include/training/` declares contracts for training data preparation, adapter
+lifecycle, checkpoint and provenance handling, and adapter handoff. Runtime
+behavior is implemented under [`../../src/training/`](../../src/training/);
+this document describes public boundaries, not a guarantee that every
+configured integration is available in every build.
 
----
+## Contract groups
 
-## 2. Header Groups
+| Group | Public entry points | Boundary |
+|---|---|---|
+| Data preparation | `LegalAutoLabeler`, `DatabaseDomainAutoLabeler`, `ModalityDetector`, `KnowledgeGraphEnricher` | Convert configured source data to samples and optional graph/vector context |
+| Selection and orchestration | `DataSelectionPipeline`, `TrainingPipeline` | Filter/select samples and run enabled pipeline stages |
+| Training and adapters | `IncrementalLoRATrainer`, `LoRAAdapter`, `AdaLoRAAdapter`, `MultiTaskLoRATrainer` | Train or update adapters and expose their lifecycle |
+| Persistence and lineage | `LoRACheckpointManager`, `ProvenanceTracker` | Persist/validate checkpoint data and record sample lineage |
+| Serving handoff | `ILLMRouter`, `DeployResult` | Request adapter traffic updates and report the operation outcome |
+| Shared contracts | Interfaces, errors, diagnostics, failsafe and incident-emitter headers | Define extension points and failure reporting |
 
-### 2.1 LoRA Adapter Contract
+The public namespace is `themis::training`. `training_interfaces.h` declares
+checkpoint, provenance, enrichment, calibration, asynchronous pipeline, and
+lineage interfaces; it does not declare the `ITrainer` or `IDataIterator` types
+claimed by older versions of this page.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `lora_adapter.h` | `LoRAAdapter` | LoRA adapter definition, configuration, and serialisation |
-| `ada_lora_adapter.h` | `AdaLoRAAdapter` | Adaptive LoRA (AdaLoRA) adapter with dynamic rank |
-| `adalora_tt_bridge.h` | `AdaLoRATTBridge` | Tensor-Train bridge for AdaLoRA low-rank decomposition |
-| `lora_adapter_merger.h` | `LoRAAdapterMerger` | Merge multiple LoRA adapters into a consolidated weight set |
-| `lora_checkpoint_manager.h` | `LoRACheckpointManager` | Adapter checkpoint save/restore lifecycle |
+## Data and control flow
 
-### 2.2 Training Pipeline and Data
+1. Labeling and modality extraction produce `TrainingSample` values.
+2. Selection accepts the separate `DataSample` type and returns a selected
+   subset with selection audit data. Do not treat the two sample structures as
+   interchangeable without conversion.
+3. Optional graph enrichment can query configured graph data and an injected
+   vector index.
+4. `TrainingPipeline` conditionally coordinates preparation, quality/drift
+   checks, selection, and training according to `PipelineConfig`. Its current
+   selection stage records results but does not pass the selected subset
+   directly to the trainer.
+5. The trainer/checkpoint manager persist or resume adapter state; the
+   `ILLMRouter` integration separately handles deployment and rollback.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `incremental_lora_trainer.h` | `IncrementalLoRATrainer` | Incremental online LoRA fine-tuning |
-| `lora_data_selection.h` | `LoRADataSelection` | Data-selection strategies for efficient LoRA training |
-| `training_pipeline.h` | `TrainingPipeline` | Top-level training pipeline orchestration |
-| `training_interfaces.h` | `ITrainer`, `IDataIterator` | Backend-agnostic trainer and data-iterator contracts |
-| `modality_parser.h` | `ModalityParser` | Multi-modal input parsing for training data |
+The trainer supports bounded reads from its configured collection through an
+injected `QueryEngine`; invalid collections, query failures, and empty valid
+datasets fail closed. The pipeline can persist labeled samples and train from
+that collection, and focused RocksDB tests exercise these paths. The separate
+`TrainingDataIterator` is owned by `llm`, not this module. Broader input-route
+benchmarks and end-to-end acceptance remain open. The data-selection clustering
+path uses a character-statistic heuristic, not a learned embedding service; the
+optional OCR path does not produce recognized image text.
 
-### 2.3 Auto-Labelling and Knowledge
+## Ownership and failure boundaries
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `auto_labeler.h` | `AutoLabeler` | LLM-assisted automatic data labelling |
-| `database_domain_auto_labeler.h` | `DatabaseDomainAutoLabeler` | Domain-specific auto-labelling for database artefacts |
-| `knowledge_graph_enricher.h` | `KnowledgeGraphEnricher` | Training-data enrichment via knowledge-graph lookup |
-
-### 2.4 Provenance and Serving
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `provenance_tracker.h` | `ProvenanceTracker` | Training-data and model-version provenance recording |
-| `adapter_serving.h` | `AdapterServing` | Adapter registration and hot-serve lifecycle |
-
----
-
-## 3. Namespace Layout
-
-| Namespace | Scope |
-|-----------|-------|
-| `themis::training` | All LoRA training, data-selection, and serving types |
-
----
-
-## 4. Public Contract Notes
-
-- LoRA adapter headers define stable serialisation and configuration contracts; weight-tensor layout is opaque.
-- `ITrainer` and `IDataIterator` in `training_interfaces.h` provide the public extension points for custom training backends and data sources.
-- Checkpoint management headers expose stable save/restore contracts; checkpoint format versioning is tracked in `lora_checkpoint_manager.h`.
-- Provenance headers define immutable recording contracts; provenance storage backends remain internal.
-- Adapter-serving headers integrate with `include/llm/adapter_deployment_manager.h` for hot-swap coordination.
+- Injected query, storage, vector-index, and router dependencies retain their
+  documented ownership/lifetime rules; consult the corresponding header
+  comments before integration.
+- Checkpoint validation/recovery and adapter deployment return explicit
+  outcomes. Callers must inspect those outcomes and must not infer serving
+  success from training success.
+- Vector-index search requires an initialized index and vectors keyed by
+  document ID. Missing vectors and failed searches can yield no results.
+- See [`TRAINING_CONTRACT.md`](./TRAINING_CONTRACT.md) for the lifecycle/error
+  summary and [`../../src/training/ARCHITECTURE.md`](../../src/training/ARCHITECTURE.md)
+  for module-level implementation flow.

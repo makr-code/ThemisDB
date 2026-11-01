@@ -1,6 +1,18 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
+> Exact model backend not verifiable from final document text alone.
+
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/tensor/ARCHITECTURE.md -->
 
 # Tensor Mid-Layer Module — Public Header Architecture
@@ -13,7 +25,7 @@
 
 ## 1. Overview
 
-`include/tensor/` defines the **public tensor index management, encoder interfaces, HNSW tensor bridges, hyper-index construction, butterfly operators, tensor fingerprints, mmap bridges, and TT decomposition API contract** for ThemisDB.
+`include/tensor/` defines the public declarations for tensor indexing, ingestion/storage bridges, fingerprints, compression and structural helpers, workflow types, and related operations. The [header inventory](./README.md) lists all current headers.
 
 For runtime composition and implementation internals see:
 → [`../../src/tensor/ARCHITECTURE.md`](../../src/tensor/ARCHITECTURE.md)
@@ -26,18 +38,18 @@ For runtime composition and implementation internals see:
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
-| `tensor_index.h` | `TensorIndex` | Primary tensor index entry point |
+| `tensor_index.h` | `ITensorIndex`, `TensorSearchResult`, `TensorIndexStats` | TT index contract and result/statistics types |
 | `tensor_index_manager.h` | `TensorIndexManager` | Multi-tensor index lifecycle manager |
-| `ht_index.h` | `HTIndex` | Hierarchical tensor index |
+| `ht_index.h` | `IHierarchicalTuckerIndex`, `FlatHTIndex` | Hierarchical Tucker index contract and flat implementation |
 | `ht_train.h` | `HTTrain` | Hierarchical tensor index training |
 | `hyper_index_builder.h` | `HyperIndexBuilder` | Hyper-index construction pipeline |
 ### 2.2 Encoder and Bridges
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
-| `encoder_interface.h` | `IEncoderInterface` | Pluggable encoder contract |
-| `hnsw_tt_bridge.h` | `HNSWTTBridge` | HNSW↔tensor-train bridge |
-| `tensor_core_bridge.h` | `TensorCoreBridge` | Tensor-core operation bridge |
+| `encoder_interface.h` | `ITextEncoder`, `IImageEncoder` | Pluggable text/image encoder contracts |
+| `hnsw_tt_bridge.h` | `HnswTTBridge`, `HnswTTConfig` | HNSW↔tensor-train index implementation and config |
+| `tensor_core_bridge.h` | `TensorCoreStorageBridge` | Ingestion-to-storage bridge |
 | `tensor_mmap_bridge.h` | `TensorMmapBridge` | Memory-mapped tensor access bridge |
 | `tensor_ingestion_bridge.h` | `TensorIngestionBridge` | Ingestion→tensor pipeline bridge |
 ### 2.3 Operations and Fingerprinting
@@ -46,26 +58,28 @@ For runtime composition and implementation internals see:
 |--------|------------|---------|
 | `tensor_butterfly_operator.h` | `TensorButterflyOperator` | Butterfly-transform tensor operator |
 | `tensor_fingerprint_graph.h` | `TensorFingerprintGraph` | Tensor fingerprint for graph dedup |
-| `hiss_structural_search.h` | `HISSStructuralSearch` | HISS structural similarity search |
+| `hiss_structural_search.h` | `HissStructuralSearchEngine` | HISS structural search |
 | `utr_converter.h` | `UTRConverter` | Universal tensor representation converter |
 ### 2.4 Adapter and Tasks
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
 | `adapter_repository.h` | `AdapterRepository` | Tensor adapter registry |
-| `tnsr_task.h` | `TnsrTask` | Async tensor computation task |
+| `tnsr_task.h` | `TNSRTask` | Tensor computation task |
 
 ---
 
 ## 3. Namespace Layout
 
-All public types reside in the `themis::tensor` namespace (or a sub-namespace).
+Public types use `themis::tensor` or a nested namespace. Check the declaration's
+header for its exact namespace and signature.
 
 ---
 
 ## 4. Contract Notes
 
-- Headers in `include/tensor/` expose the **stable public API**; internal types live in `src/tensor/`.
-- Clients depend only on types declared here; implementation details in `src/` may change without notice.
+- Headers in `include/tensor/` are the public declarations; signatures and implementation details must be checked in the corresponding header/source.
+- A public header's presence does not establish production maturity for every feature.
+- The target propagates C++17 to consumers; build and focused-test commands are in the [public-header README](./README.md).
 - For breaking-change policy see [`../../VERSIONING.md`](../../VERSIONING.md).
 - Layer association: **Tensor Mid-Layer**.

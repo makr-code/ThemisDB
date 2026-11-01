@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -12,10 +12,17 @@ Human_Author: "ThemisDB Contributors"
 
 Exact model backend not verifiable from final document text alone.
 
-Source level: 1
-SOT domain: module-behavior
-Canonical references: `include/replication/replication_manager.h`, `include/replication/async_wal_shipper.h`, `src/replication/replication_manager.cpp`, `src/replication/async_wal_shipper.cpp`, `tests/replication/test_replication_async_wal_lag_alerts.cpp`
-Related issues: #7093, #7167
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - ../../include/replication/replication_manager.h
+  - ../../include/replication/async_wal_shipper.h
+  - replication_manager.cpp
+  - async_wal_shipper.cpp
+  - ../../tests/replication/test_replication_async_wal_lag_alerts.cpp
+  - ../../tests/CMakeLists.txt
+Related_Issue: "#7373"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
 
 # Replication implementation
 
@@ -41,6 +48,11 @@ For replication maintainers changing leader/replica management or asynchronous c
 1. Identify whether the change is manager, shipper, slot, logical stream, or placement behavior.
 2. Read the corresponding public header and implementation before changing state or callback behavior.
 3. Use `tests/replication/test_replication_async_wal_lag_alerts.cpp` for shipper/lag changes and `test_replication_contract_hardening_focused.cpp` for contract behavior.
-4. Run the affected target registered in `tests/replication/CMakeLists.txt`.
+4. Confirm the affected test's active registration in `tests/CMakeLists.txt` and/or
+   `tests/replication/CMakeLists.txt`, then run that configured target.
+
+The root `tests/CMakeLists.txt` contains explicit replication registrations. The
+module-local registration file also exists, but its inclusion by every configure path
+is not established here. No build or test run is claimed for this documentation update.
 
 See `API.md`, `MODULE_GUIDE.md`, and `RUNBOOK.md` for callers and operations.

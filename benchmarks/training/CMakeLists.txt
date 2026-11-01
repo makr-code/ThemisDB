@@ -19,3 +19,17 @@ foreach(_src IN LISTS TRAINING_BENCH_SOURCES)
 
     themis_add_standard_benchmark(${_stem} "${_src}")
 endforeach()
+
+if(TARGET bench_lora_data_paths)
+    if(THEMIS_BUILD_MODULAR)
+        target_sources(bench_lora_data_paths PRIVATE
+            ${THEMIS_ROOT_DIR}/src/aql/aql_lora_finetuner.cpp
+        )
+    endif()
+    if(TARGET themis_training)
+        target_link_libraries(bench_lora_data_paths PRIVATE themis_training)
+    endif()
+    if(TARGET themis_llm)
+        target_link_libraries(bench_lora_data_paths PRIVATE themis_llm)
+    endif()
+endif()

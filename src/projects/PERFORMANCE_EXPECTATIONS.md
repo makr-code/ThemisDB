@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # PERFORMANCE_EXPECTATIONS - src/projects
 
 ## Scope
@@ -5,40 +19,49 @@
 - Module: src/projects
 - This file defines measurable projects module performance expectations for release gating.
 
-## Benchmark Reference
+## Existing Benchmark Coverage
 
-- Relevant benchmark files:
-  - benchmarks/bench_content_versioning.cpp
-  - benchmarks/bench_query_lazy_eval.cpp
+- `benchmarks/projects/bench_projects_release_gates.cpp` exercises `ProjError`
+  enum casts, switch dispatch, range checks, and batch casts. It does not call
+  project lifecycle, snapshot, diff, template, collaboration, or audit APIs.
+- `benchmarks/content/bench_content_versioning.cpp` measures the content
+  `VersionManager`, not `projects::ProjectVersioning` or `ProjectDiff`.
+- `benchmarks/query/bench_query_lazy_eval.cpp` measures query lazy evaluation,
+  not project operations.
+- The content/query cases are therefore cross-module context only and are not
+  evidence of projects-module latency or throughput.
 
 ## Specific Expectations
 
 | Target ID | Expectation | Benchmark case |
 |---|---|---|
-| PRJP-1 | snapshot/version lifecycle paths remain bounded | BM_VersionCreation, BM_VersionRetrieval, BM_ConcurrentVersioning |
-| PRJP-2 | diff and version-storage overhead paths remain bounded | BM_DiffComputation, BM_StorageOverhead |
-| PRJP-3 | projection-sensitive project-like data path remains bounded (proxy) | BM_LazyEval_FilterProject |
+| PRJP-1 | Measure snapshot creation, retrieval, and restore on `ProjectVersioning` | Not currently measured |
+| PRJP-2 | Measure `ProjectDiff`/`ProjectMerge` workloads with representative document counts and conflicts | Not currently measured |
+| PRJP-3 | Measure template instantiation and collaboration change/lock paths | Not currently measured |
 
-## Module Hard Gates (v1.0 docs baseline)
+## Release-Gate Status
 
 | Gate ID | Expectation | Measurement |
 |---|---|---|
-| PRJG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| PRJG-2 | project hot-path p99 <= release threshold | p99 from mapped projects benchmark cases |
-| PRJG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+| PRJG-1 | Regression threshold vs a project-specific baseline | Not established |
+| PRJG-2 | Project hot-path p99 threshold | Not established |
+| PRJG-3 | Complete project benchmark manifest | Not established |
 
 ## Validation
 
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- Mapping should be expanded as dedicated project-collaboration/template benchmark scenarios are introduced.
+- No project-runtime performance target or release gate is verified by the
+  current benchmark source. Treat the targets above as work to define, not
+  achieved release criteria.
+- Add module-native benchmark cases before setting numeric limits; derive
+  thresholds from repeatable release-profile measurements on declared hardware.
 
 ## Sourcecode Verification (Module: projects/performance)
 
 - Verified benchmark sources:
-  - benchmarks/bench_content_versioning.cpp
-  - benchmarks/bench_query_lazy_eval.cpp
-- Verified mapping surfaces:
-  - snapshot/version creation-retrieval, diff/storage overhead, projection-sensitive proxy path
+  - benchmarks/projects/bench_projects_release_gates.cpp
+  - benchmarks/content/bench_content_versioning.cpp
+  - benchmarks/query/bench_query_lazy_eval.cpp
 - Result:
-  - Referenced benchmark cases exist in current benchmark sources.
-  - Current mapping uses one explicit proxy case for project-like projection behavior until module-native benchmark depth is expanded.
+  - only enum representation/dispatch is directly benchmarked under `projects`;
+    the other workloads belong to separate modules and do not validate project
+    runtime performance.

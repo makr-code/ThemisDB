@@ -1,77 +1,67 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/performance/ARCHITECTURE.md -->
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "active"
+Source_Level: "level1"
+SOT_Domain: "api-contract"
+Canonical_Sources:
+  - "include/performance/*.h"
+  - "src/performance/*.cpp"
+  - "CMakeLists.txt"
+Related_Issue: "#7366"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
 # Performance Module — Public Header Architecture
 
-**Module Path:** `include/performance/`
-**Implementation:** `../../src/performance/`
-**Canonical architecture doc:** [`../../src/performance/ARCHITECTURE.md`](../../src/performance/ARCHITECTURE.md)
+## Boundary and dataflow
 
----
+`include/performance/` is the public declaration layer; implementations are
+under `src/performance/`. A caller configures build-time support, checks the
+relevant runtime flag and host capability, then invokes a component-specific
+interface. Results, exceptions, error codes, or fallback indicators flow back
+to the caller. The headers do not create one central optimization pipeline:
+callers decide which optional components to compose and whether to apply a
+recommendation.
 
-## 1. Overview
+The measurement path is separately gated: cycle macros may record through the
+collector, which feeds the module's exporter implementations when configured.
+Workload predictors and optimizers accept observations and return forecasts or
+strategies; they do not prove that downstream resources changed. Hardware,
+NUMA, PMU, persistent-memory, and io_uring interfaces remain conditional on
+their implementation and host prerequisites.
 
-`include/performance/` defines the **public measurement, optimization, and hardware-aware tuning contract** for ThemisDB. The 43 headers cover low-level timing, runtime config and feature flags, cache/NUMA tuning, adaptive optimization, hardware acceleration, and phase-specific advanced performance components.
+## Header groups
 
-For runtime composition details — adaptive optimizer behavior, accelerator fallback logic, and benchmarking/export internals — see:
-→ [`../../src/performance/ARCHITECTURE.md`](../../src/performance/ARCHITECTURE.md)
+| Group | Representative declarations |
+|---|---|
+| Measurement and configuration | `cycle_metrics.h`, `cycle_metrics_config.h`, `runtime_config.h`, `feature_flags.h` |
+| Adaptive behavior and feedback | `workload_predictor.h`, `workload_adaptive_optimizer.h`, `adaptive_query_compiler.h`, `phase3/per_query_cost_model.h`, `phase3/adaptive_batch_tuner.h` |
+| Memory, cache, and concurrency | `allocator.h`, `numa_memory_manager.h`, `numa_topology.h`, `advanced_cache_manager.h`, `lirs_cache.h`, `rcu.h`, `lockfree_metrics_buffer.h` |
+| Algorithms and optional facilities | `rabitq.h`, `phase3/diskann.h`, `phase3/bwtree.h`, `phase3/splinterdb.h`, `phase3/gunrock.h`, `phase4/io_uring_zero_copy.h`, `phase4/pmem_storage.h`, `phase4/pmu_counters.h` |
 
----
+Use the declarations and comments in the individual headers for exact
+signatures, ownership, synchronization, validation, and error semantics. Shared
+result types are in [`performance_api_contract.h`](performance_api_contract.h);
+not all interfaces use that common error vocabulary.
 
-## 2. Header Groups
+## Configuration boundary
 
-### 2.1 Measurement and Runtime Control
+The root build declares measurement options including
+`THEMIS_ENABLE_CYCLE_METRICS`, `THEMIS_ENABLE_DETAILED_METRICS`,
+`THEMIS_ENABLE_GPU_CYCLE_METRICS`, `THEMIS_ENABLE_PMU_COUNTERS`,
+`THEMIS_ENABLE_IO_URING`, and `THEMIS_ENABLE_METRICS_EXPORT`. Additional
+allocator/cache options are declared in `cmake/CMakeLists.txt`. These do not
+establish that every feature-flag name in the headers has a corresponding
+configured option or active implementation path; inspect the target build and
+implementation before documenting a specific feature as available.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `cycle_metrics.h`, `cycle_metrics_config.h`, `expected_cycles.h` | Cycle-metrics types | Low-level timing and expected-cycle baselines |
-| `runtime_config.h`, `feature_flags.h`, `phase2_feature_flags.h` | Runtime config and feature flags | Performance feature toggles |
-| `feature_flags_examples.h`, `alignment_examples.h` | Example/support headers | Feature-flag and alignment usage examples |
+For implementation composition and failure handling, see
+[`../../src/performance/ARCHITECTURE.md`](../../src/performance/ARCHITECTURE.md).
 
-### 2.2 Optimization and Adaptation
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `adaptive_query_compiler.h` | `AdaptiveQueryCompiler` | Adaptive query compilation contract |
-| `workload_predictor.h`, `workload_adaptive_optimizer.h` | Adaptive workload types | Workload prediction and optimization |
-| `intelligent_prefetcher.h`, `prefetch_hints.h` | Prefetch types | Predictive prefetch control |
-| `phase3/adaptive_batch_tuner.h`, `phase3/bao.h`, `phase3/per_query_cost_model.h` | Phase-3 optimizer types | Cost-aware and batch tuning |
-
-### 2.3 Memory, Cache, and Concurrency
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `advanced_cache_manager.h`, `lirs_cache.h` | Cache-tuning types | Performance-oriented cache strategies |
-| `allocator.h`, `numa_memory_manager.h`, `numa_topology.h`, `huge_pages.h` | Memory/NUMA types | Allocation and NUMA control |
-| `rcu.h`, `rcu_hash_table.h`, `lockfree_histogram.h`, `lockfree_metrics_buffer.h` | Concurrency primitives | Lock-free data structures and metrics |
-| `alignment_helpers.h` | Alignment helpers | Memory/alignment utility surface |
-
-### 2.4 Hardware and Advanced Engines
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `hardware_accelerator.h` | `HardwareAccelerator` | Capability-aware accelerator dispatch |
-| `cicada.h`, `dostoevsky.h`, `wisckey.h`, `ligra.h`, `rabitq.h` | Engine/algorithm types | Specialized performance engines |
-| `phase3/bwtree.h`, `phase3/diskann.h`, `phase3/gunrock.h`, `phase3/splinterdb.h` | Advanced phase-3 types | Data-structure / accelerator integrations |
-| `phase4/io_uring_zero_copy.h`, `phase4/pmem_storage.h`, `phase4/pmu_counters.h` | Phase-4 types | IO/PMEM/PMU performance surfaces |
-
----
-
-## 3. Namespace Layout
-
-| Namespace | Scope |
-|-----------|-------|
-| `themis::performance` | Performance measurement and optimization types |
-| `themis::performance::phase3` | Phase-3 advanced optimization types |
-| `themis::performance::phase4` | Phase-4 hardware/IO types |
-
----
-
-## 4. Public Contract Notes
-
-- Runtime-config and feature-flag headers remain public so deployments can gate low-level performance features explicitly.
-- Adaptive optimization and prefetch headers are public because query, cache, and server layers consume them directly.
-- NUMA, allocator, and huge-page contracts provide deployment-level control without exposing implementation internals.
-- Advanced phase-3/phase-4 headers remain public to document experimental but consumable optimization entry points.
+Exact model backend not verifiable from final document text alone.

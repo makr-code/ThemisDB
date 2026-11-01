@@ -19,4 +19,4 @@ Status: Active
 
 ## Changed
 
-- src/prompt_engineering/AUDIT.md
+- scripts/ai-dev-llm-wiki-sync.py

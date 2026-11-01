@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "ThemisDB documentation orchestration assistant"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
@@ -16,7 +16,7 @@ Exact model backend not verifiable from final document text alone.
 
 ## Purpose
 
-This document explains the representation boundaries in the current `src/retrieval` implementation. The module does not currently hold a production embedding generator or embedding index implementation. Instead, it governs the assets and evaluation surfaces that sit around retrieval quality and adapter deployment.
+This document explains the representation boundaries in the current `src/retrieval` implementation. The module does not currently hold a production embedding generator or embedding index implementation. Instead, it represents adapter metadata and exposes a separate, currently stubbed retrieval-metrics helper.
 
 ## What this module does not do
 
@@ -32,7 +32,7 @@ This is an important trust boundary. The retrieval module describes how retrieva
 
 ### Artifact representation
 
-`LoRAPackage` and `PortableAdapterProduct` are the model's primary representation objects. They bundle the information a downstream system needs to decide whether a model adaptation is valid, compatible, and safe to deploy.
+`LoRAPackage` and `PortableAdapterProduct` are metadata structures for adapter packages and model-bound products. They carry compatibility and integrity fields, but the module does not decide whether an adaptation is valid or safe to deploy.
 
 The representation includes:
 
@@ -42,7 +42,7 @@ The representation includes:
 - provenance and integrity state,
 - deployable resource metadata.
 
-This is the module's operational representation layer for retrieval-related model adaptation.
+These are metadata fields; this module does not perform model adaptation or deployment.
 
 ### Quality representation
 
@@ -54,20 +54,21 @@ This is the module's operational representation layer for retrieval-related mode
 - comparison deltas,
 - total relevant count.
 
-This gives the module an observable, objective representation for comparing retrieval behavior across index versions.
+The metric structure can hold these values, but the validator's query executor returns no results and `ValidateQuery()` does not return a comparison delta. It is not currently evidence of measured behavior across real index versions.
 
 ## Assumptions and boundaries
 
 The current representation model assumes:
 
-- the actual embedding vectors are created upstream by the model or vector pipeline,
-- the retrieval module is responsible for validating quality and artifacts, not generating all ranking features in-house,
-- cross-index comparisons are meaningful only when judgments are explicit and stable,
-- policy and verification metadata matter as much as raw score values.
+- the artifact classes do not contain or generate embedding vectors,
+- `DualReadValidator` consumes results only from its current query implementation, which is a placeholder,
+- ground-truth judgments are provided by callers through `SetGroundTruth()`,
+- policy and verification fields are metadata; lifecycle or deployment policy is not enforced here.
 
-## Evaluation stance
+## Evaluation questions (not current capabilities)
 
-A module is considered healthy when it can answer these questions:
+These are possible evaluation questions for a future integration; the current
+module cannot answer them from live retrieval results:
 
 - Do we know which adapter created a retrieval artifact?
 - Is the artifact intact and policy-compliant?
@@ -84,8 +85,8 @@ The code favors explicit, typed representation over broad generics. This increas
 
 ### Evaluation evidence vs. optimism
 
-`DualReadValidator` and the metric definitions prefer measurable signal with explicit ground truth. That is a stronger operational model than heuristic or unbounded performance claims.
+The metric helper accepts explicit result and judgment values; because query execution is stubbed, this does not provide operational retrieval evidence.
 
 ## Conclusion
 
-The current retrieval module is best understood as the representation and validation layer around retrieval quality and adapter trust, not as the full embeddings stack itself. Its value is in making artifact provenance, compatibility, and retrieval performance explicit and auditable.
+The current module contains adapter metadata/hash helpers and a separate metrics helper. It does not generate embeddings, execute retrieval, establish adapter trust, or produce auditable production performance measurements.
