@@ -14,20 +14,24 @@ Exact model backend not verifiable from final document text alone.
 
 # Vector Search Module
 
-## Purpose and ownership
+## Zweck
 
 This directory is the documentation and governance boundary for vector search.
 It contains no vector-search implementation source. The shared runtime is owned
 by the `index` subsystem under `include/index/` and `src/index/`; this module
 must not be treated as a second implementation or an independent release claim.
 
+## Scope
+
 The primary runtime interfaces are `VectorIndexManager` and `MultiVectorSearch`.
 The former stores vectors in a RocksDB-backed namespace and can use optional
-HNSW acceleration; the latter combines results from multiple vector queries or
-fields. Optional advanced and distributed index implementations also live in
-the shared index subsystem and have separate capability and readiness limits.
+HNSW acceleration; the latter combines results from multiple vector queries,
+query expansions, or keyword scores. Its `searchMultiField()` API does not
+currently route to field-specific indexes. Optional advanced and distributed
+index implementations also live in the shared index subsystem and have
+separate capability and readiness limits.
 
-## Build and focused validation
+## Quickstart (Build/Run)
 
 Use a configure preset available in the repository's `CMakePresets.json`:
 
@@ -47,6 +51,43 @@ implementations. They validate those test fixtures, not the production
 uses an in-process flat index and emits threshold counters; it is not measured
 production-runtime performance evidence. See [performance expectations](PERFORMANCE_EXPECTATIONS.md)
 and [module gaps](MODULE_GAPS.md) for evidence boundaries.
+
+## Installation
+
+There is no module-specific installation step. Vector search is part of the
+shared `index` subsystem; the available ANN backend depends on build-time
+support.
+
+## API/CLI Einstieg
+
+There is no standalone vector-search CLI or executable. Integrators use
+[`VectorIndexManager`](../../include/index/vector_index.h) for storage-backed
+index lifecycle and KNN operations, and
+[`MultiVectorSearch`](../../include/index/multi_vector_search.h) for result
+fusion. See [API contract](API.md) for current signatures and known limitations.
+
+## Usage
+
+Use the `VectorIndexManager` and `MultiVectorSearch` APIs through the ThemisDB
+runtime; there is no separate vector-search process to launch. Follow the
+configuration and validation notes in the [API contract](API.md).
+
+## Integrationsueberblick
+
+```mermaid
+flowchart LR
+    caller[Caller] -->|KNN or mutation| manager[VectorIndexManager]
+    caller -->|multi-query fusion| multi[MultiVectorSearch]
+    multi --> manager
+    manager --> store[(RocksDB namespace)]
+    manager --> cache[In-memory cache]
+    manager --> ann[Optional HNSW or ANN backend]
+    manager --> result[Status and ranked results]
+```
+
+Kurzinterpretation: The shared manager owns persistence and index operations;
+multi-query fusion delegates searches to it. The optional ANN path depends on
+the build configuration, and the diagram does not imply a distributed service.
 
 ## Live source and evidence
 
@@ -70,7 +111,7 @@ and [module gaps](MODULE_GAPS.md) for evidence boundaries.
 - Production readiness requires runtime-specific validation and maintainer
   sign-off; this module's documentation does not grant that sign-off.
 
-## Related documentation
+## Verweise
 
 - [Architecture](ARCHITECTURE.md)
 - [API contract](API.md)

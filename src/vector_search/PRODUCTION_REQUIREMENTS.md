@@ -27,6 +27,9 @@ production approval.
   dimension; operation status must be checked by the caller.
 - Use a query dimension consistent with the initialized index. Dimension
   mismatch is returned as a failed `Status`.
+- The direct-commit `addEntity()` overload currently does not check vector
+  length; callers requiring dimension safety must validate before using it. The
+  `WriteBatchWrapper` and MVCC overloads perform that dimension check.
 - Treat entity field, RocksDB, persistence, and optional encryption failures as
   operation failures; do not report success when the manager returns an error.
 - Determine optional HNSW/advanced backend availability from the build and
@@ -37,6 +40,9 @@ production approval.
 The public API uses `VectorIndexManager::Status`; the former E5400-series error
 codes in this module's older documentation are not part of the verified API
 contract.
+
+The source does not establish NaN/Inf rejection. Do not claim finite-value
+validation until it is verified in code and covered by tests.
 
 ## Test and release evidence
 
