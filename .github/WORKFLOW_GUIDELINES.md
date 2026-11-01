@@ -396,6 +396,14 @@ Die frühere Angabe von 60–80% Treffern ist keine gemessene Zusicherung.
 Eine Laufzeitverbesserung erst nach vergleichbaren erfolgreichen Wiederholungsläufen
 mit unveränderter Toolchain, Manifest und vcpkg-Revision bestätigen.
 
+Die spezialisierten GPU-, Transaktions- und Benchmark-Lanes bilden sccache-Keys
+als `<Namespace>-<OS>-<Architektur>-<Job>-<Source-Hash>`; Benchmark-Matrix-Lanes
+nehmen zusätzlich den Flow-Namen auf. Restore-Präfixe enden unmittelbar vor dem
+Source-Hash und passen dadurch auch nach Source-Änderungen. Der Job-Anteil
+verhindert konkurrierende Saves verschiedener Jobs unter demselben Schlüssel.
+Diese Lanes behalten ihre vorhandene automatische Save-Policy bei; die erste
+Ausführung mit der korrigierten Schlüsselstruktur beginnt mit einem kalten Cache.
+
 Fokussierte Vertragsprüfung:
 `python -m pytest tools/tests/test_check_workflow_boundaries.py -q`.
 Sie prüft Cachepfade und Backend-Auswahl, nicht die tatsächliche Online-Trefferrate.

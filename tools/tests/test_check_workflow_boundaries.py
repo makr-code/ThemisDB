@@ -477,6 +477,33 @@ def test_cache_snapshot_inventory_detects_growth_without_timestamp_churn(tmp_pat
     assert fingerprint() != empty
 
 
+@pytest.mark.parametrize(
+    ("name", "expected_count"),
+    [("build-wave-a-gpu.yml", 4), ("build-wave-b-transaction.yml", 6),
+     ("build-benchmarks.yml", 3)],
+)
+def test_specialized_sccache_restore_prefixes_match_source_change_keys(name, expected_count):
+    root = Path(__file__).resolve().parents[2]
+    workflow = yaml.safe_load((root / ".github/workflows" / name).read_text())
+    count = 0
+    for job_name, job in workflow["jobs"].items():
+        for step in job.get("steps", []):
+            cache = step.get("with", {})
+            key = cache.get("key", "")
+            if not key.startswith("sccache-"):
+                continue
+            count += 1
+            prefix = cache["restore-keys"].strip()
+            assert key.startswith(prefix), (name, job_name, key, prefix)
+            assert "${{ runner.os }}" in prefix
+            assert "${{ runner.arch }}" in prefix
+            assert "${{ github.job }}" in prefix
+            assert "hashFiles" not in prefix
+            # A source change must still restore the previous job/architecture cache.
+            assert key.split("${{ hashFiles", 1)[0] == prefix
+    assert count == expected_count
+
+
 def test_pinned_release_sources_use_workflow_revision_cache_tooling():
     root = Path(__file__).resolve().parents[2]
     job = yaml.safe_load((root / ".github/workflows/reusable-cmake-build.yml").read_text())["jobs"]["build"]

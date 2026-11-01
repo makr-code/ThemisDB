@@ -89,6 +89,17 @@ Die vorhandenen Regressionstests
 prüfen den Workflow-Vertrag; verbesserte Online-Trefferraten und Windows-Laufzeiten
 sind erst durch erfolgreiche Wiederholungsläufe nachzuweisen.
 
+### Spezialisierte sccache-Präfixe (2026-11-01)
+
+`build-wave-a-gpu.yml` (vier Cache-Schritte), `build-wave-b-transaction.yml`
+(sechs) und `build-benchmarks.yml` (drei) verwenden nun übereinstimmende
+Key-/Restore-Präfixe. OS, Architektur und Job stehen vor dem Source-Hash;
+Benchmark-Matrix-Lanes behalten zusätzlich ihre Flow-Namen. Damit können
+Source-Änderungen einen vorherigen Lane-Cache restaurieren, ohne verschiedene
+Jobs unter denselben Cache-Key zusammenzufassen. Automatische Saves, Trigger
+und Build-/Testverhalten bleiben unverändert. Einmaliger Cold-Start beim Wechsel
+der Schlüsselstruktur und weiterhin erfolgsabhängige Saves sind zu beachten.
+
 ## Leitprinzipien
 
 - **Keine Schatten-CI:** Alle 99 aktiven Workflow-Dateien sind in diesem Registry dokumentiert.

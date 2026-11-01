@@ -136,6 +136,11 @@ and uses its toolset version instead of Git Bash GCC. The inventory helper uses
 Python filesystem APIs to avoid GNU-only `find -printf` on macOS.
 Pinned source builds sparse-checkout the inventory helper from the workflow
 revision separately, so older release sources need not contain the new script.
+The specialized GPU, transaction and benchmark workflows place OS/architecture/
+job (and matrix flow where applicable) before the source hash in sccache keys.
+Their restore prefixes now match that exact leading portion, enabling restore
+after source changes and isolating concurrent job saves. Their existing automatic
+success-only save policy remains unchanged; the new key layout starts cold.
 
 Focused regression checks: `python -m pytest tools/tests/test_check_workflow_boundaries.py -q`.
 
