@@ -272,7 +272,12 @@ jobs:
             *) echo "::error::Private-edition images require a provisioned private delivery pipeline."; exit 1 ;;
           esac
           if [[ -n "${TAG_INPUT}" || "${GIT_REF}" == refs/tags/* || "${EVENT_NAME}" == "release" ]]; then
-            SOURCE_SHA="$(git rev-parse --verify "refs/tags/${VERSION}^{commit}")"
+            TAG_REF="refs/tags/${VERSION}"
+            if ! git show-ref --verify --quiet "${TAG_REF}"; then
+              echo "::error::Requested release tag '${VERSION}' does not exist in the checked-out repository; push the tag before starting Docker publication." >&2
+              exit 1
+            fi
+            SOURCE_SHA="$(git rev-parse --verify "${TAG_REF}^{commit}")"
             git checkout --detach "${SOURCE_SHA}"
           else
             SOURCE_SHA="$(git rev-parse HEAD)"

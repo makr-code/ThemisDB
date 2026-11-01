@@ -87,6 +87,18 @@ class DeploymentWorkflowTests(unittest.TestCase):
                 )
                 self.assertNotEqual(result.returncode, 0)
 
+    def test_docker_publication_explains_missing_release_tag(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.make_source(directory)
+            result, _ = run_bash(
+                step("release-docker-image.yml", "prepare-release-context", "version")["run"],
+                directory, EVENT_NAME="workflow_dispatch", GIT_REF="refs/heads/develop",
+                TAG_INPUT="v2.4.99", PUSH_INPUT="true", GITHUB_EVENT_PATH="/dev/null",
+            )
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("Requested release tag 'v2.4.99' does not exist", result.stderr)
+
     def test_docker_unpublished_dry_run_can_use_workflow_source(self):
         with tempfile.TemporaryDirectory() as temp:
             directory = Path(temp)
