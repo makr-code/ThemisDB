@@ -1,4 +1,28 @@
-# Voice Module — Frozen Session & Command Contract
+---
+Author: "ThemisDB Team"
+Created: "2026-08-09"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> **Historical, non-normative snapshot.** This document's cross-component
+> lifecycle, audio formats/error prefixes, authentication, callback, telephony,
+> and backend fallback requirements conflict with or are not established by
+> current public declarations and implementation. Current API comments and
+> source take precedence under `DOCUMENTATION_GOVERNANCE.md`; use
+> [`../../src/voice/API.md`](../../src/voice/API.md) and
+> [`../../src/voice/ARCHITECTURE.md`](../../src/voice/ARCHITECTURE.md) for
+> current summaries and inspect headers/source for exact behavior. This record
+> is retained only for historical traceability.
+
+# Voice Module — Historical Session & Command Contract Snapshot
 
 **Version:** 1.0.0 (Frozen)  
 **Status:** FROZEN — Q3 2026 gate delivery  
