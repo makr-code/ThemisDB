@@ -1,87 +1,85 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/plugins/ARCHITECTURE.md -->
-
-# Plugins Module — Public Header Architecture
-
-**Module Path:** `include/plugins/`
-**Implementation:** `../../src/plugins/`
-**Canonical architecture doc:** [`../../src/plugins/ARCHITECTURE.md`](../../src/plugins/ARCHITECTURE.md)
-
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
-## 1. Overview
+> Exact model backend not verifiable from final document text alone.
 
-`include/plugins/` defines the **public plugin lifecycle, registry, security, OCI distribution, and WASM runtime API contract** for ThemisDB. The 20 headers cover the core plugin interfaces and API, plugin manager, registry, dependency resolution, health monitoring, hot-plug, metrics, self-healing, RPC plugin, OCI registry/manifest signing, signed plugin repository, HuggingFace ingestion plugin, image analysis and generation interfaces, audio backend, and WebAssembly component model and host API.
+# Public plugin header architecture
 
-For runtime composition — plugin sandboxing, OCI layer pull/push mechanics, WASM instantiation, and self-healing loop internals — see:
-→ [`../../src/plugins/ARCHITECTURE.md`](../../src/plugins/ARCHITECTURE.md)
+`include/plugins/` declares contracts used by plugin hosting and domain
+extensions. It does not itself guarantee that every declared extension has an
+implementation, is linked into a build, or is routed through `PluginManager`.
+The runtime implementation is under [`../../src/plugins/`](../../src/plugins/);
+the main module architecture and load-path distinctions are in
+[`../../src/plugins/ARCHITECTURE.md`](../../src/plugins/ARCHITECTURE.md).
 
----
+## Public contract groups
 
-## 2. Header Groups
+| Group | Headers | Responsibility |
+|---|---|---|
+| Core lifecycle | `plugin_interface.h`, `plugin_manager.h`, `plugin_api.h`, `plugin_registry.h`, `plugin_dependency_resolver.h`, `plugins_api_contract.h` | Plugin interface and manifest types; manager API; independent typed factory registry; dependency helpers; error vocabulary. |
+| Monitoring | `plugin_health_monitor.h`, `plugin_hot_plug_monitor.h`, `plugin_metrics.h`, `self_healing_plugin.h` | Optional health/recovery, filesystem monitoring, metrics, and self-healing contracts. |
+| Distribution and trust | `oci_registry_client.h`, `signed_plugin_repository.h`, `oci_manifest_signing.h` | OCI transport/client and separate signature/catalog declarations. Do not equate OCI digest verification with publisher authentication. |
+| Domain APIs | `rpc_plugin_interface.h`, `image_analysis_interface.h`, `image_analysis_manager.h`, `image_generation_interface.h`, `audio_backend_interface.h`, `huggingface_ingestion_plugin.h` | Domain-specific extension interfaces and manager declarations. |
+| WASM | `wasm_host_api.h`, `wasm_component_model.h` | WASM host bridge/component declarations with runtime-dependent availability. |
+| Concrete/helper declarations | `edition_policy_plugin.h`, `tesseract_ocr_plugin.h`, `yolov8_onnx_plugin.h` | Edition-policy and image-backend declarations; implementations and build wiring must be checked separately. |
 
-### 2.1 Core Plugin Contract
+## Manifest-backed native load dataflow
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `plugin_interface.h` | `IPlugin` | Base plugin interface every plugin must implement |
-| `plugin_api.h` | `PluginAPI` | Host-side API surface exposed to plugins |
-| `plugin_manager.h` | `PluginManager` | Plugin load/unload lifecycle and dispatch |
-| `plugin_registry.h` | `PluginRegistry` | Plugin discovery and capability-based lookup |
-| `plugin_dependency_resolver.h` | `PluginDependencyResolver` | Dependency-graph resolution and load ordering |
+```mermaid
+flowchart LR
+  M["plugin.json"] --> S["PluginManager scan / parse"]
+  S --> D["manifest entries and dependency graph"]
+  D --> V["edition/license + manifest + binary policy"]
+  V --> L["platform shared-library loader"]
+  L --> F["createPlugin / initialize(config)"]
+  F --> C["loaded instance + post-init capability snapshot"]
+  C --> R["manager callers"]
+```
 
-### 2.2 Health, Monitoring, and Self-Healing
+`loadPlugin(name)` follows the manifest-backed path. Dependency loading,
+edition/license checks, manifest checks and plugin-binary verification occur
+before activation. The exported `createPlugin` / `destroyPlugin` symbols are
+provided by `THEMIS_PLUGIN_IMPL`.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `plugin_health_monitor.h` | `PluginHealthMonitor` | Liveness and readiness checks for loaded plugins |
-| `plugin_hot_plug_monitor.h` | `PluginHotPlugMonitor` | Hot-plug insertion and removal detection |
-| `plugin_metrics.h` | `PluginMetrics` | Per-plugin Prometheus-compatible metrics |
-| `self_healing_plugin.h` | `SelfHealingPlugin` | Self-healing retry and recovery contract |
+Other paths have distinct policy boundaries:
 
-### 2.3 Security and Distribution
+```mermaid
+flowchart LR
+  O["OCI reference"] --> P["fetch manifest + plugin binary layer"]
+  P --> H["verify layer digest + cache"]
+  H --> X["loadPluginFromPath"]
+  X --> N["binary policy + native library load"]
+```
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `oci_registry_client.h` | `OCIRegistryClient` | OCI-registry pull/push client |
-| `oci_manifest_signing.h` | `OCIManifestSigning` | OCI manifest cosign/sigstore signing and verification |
-| `signed_plugin_repository.h` | `SignedPluginRepository` | Repository of signature-verified plugin artefacts |
+OCI/path loading does not parse `plugin.json` and therefore does not apply its
+edition/license restrictions. `SignedPluginRepository` performs its own
+pinned-key catalog verification and is not automatically invoked by these
+loading paths. See [`../../src/plugins/TRUST.md`](../../src/plugins/TRUST.md).
 
-### 2.4 Domain Plugin Interfaces
+`PluginRegistry` is a distinct, type-indexed factory store; it is not the
+manager's loaded-instance registry. On the built-in WASM path, the loader checks
+its expected hash and license gate. A registered `WasmPluginLoadFn` is consulted
+first and owns its own validation/runtime behavior. Runtime support depends on
+the build configuration; the source does not establish a general sandbox
+guarantee.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `rpc_plugin_interface.h` | `IRPCPlugin` | RPC endpoint extension plugin interface |
-| `huggingface_ingestion_plugin.h` | `HuggingFaceIngestionPlugin` | HuggingFace Hub dataset ingestion plugin |
-| `image_analysis_interface.h` | `IImageAnalysisPlugin` | Image analysis plugin contract |
-| `image_analysis_manager.h` | `ImageAnalysisManager` | Image-analysis plugin lifecycle and dispatch |
-| `image_generation_interface.h` | `IImageGenerationPlugin` | Image generation plugin contract |
-| `audio_backend_interface.h` | `IAudioBackend` | Audio backend plugin contract |
+## Dependencies and consumers
 
-### 2.5 WebAssembly Runtime
+The implementation directly includes plugin-local APIs plus utility logging
+and tracing, edition/runtime-license gates, the acceleration plugin security
+verifier, libcurl, OpenSSL, and JSON support. This list describes visible
+implementation dependencies, not a complete link graph.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `wasm_component_model.h` | `WASMComponentModel` | WebAssembly Component Model instantiation and binding |
-| `wasm_host_api.h` | `WASMHostAPI` | Host-function API exposed to WASM components |
-
----
-
-## 3. Namespace Layout
-
-| Namespace | Scope |
-|-----------|-------|
-| `themis::plugins` | All plugin lifecycle, registry, security, and WASM types |
-
----
-
-## 4. Public Contract Notes
-
-- `IPlugin` in `plugin_interface.h` is the mandatory base contract; all plugins must implement it.
-- `PluginAPI` defines the stable host-side surface exposed to loaded plugins; breaking changes require major-version bumps.
-- OCI and signing headers define stable distribution and verification contracts; cosign/sigstore verification must fail closed for unsigned or untrusted artefacts.
-- Domain plugin interfaces (`IImageAnalysisPlugin`, `IImageGenerationPlugin`, `IAudioBackend`, `IRPCPlugin`) are public extension points for embedders.
-- WASM headers define the Component Model and host-function contracts; sandboxing and memory isolation remain internal.
-- Health, hot-plug, and self-healing headers expose stable monitoring and recovery contracts for orchestration consumers.
+**TODO — verify downstream consumers:** the public headers alone do not prove
+which server or domain modules instantiate these APIs. Do not treat older
+consumer lists as current integration contracts without checking the actual
+call sites.

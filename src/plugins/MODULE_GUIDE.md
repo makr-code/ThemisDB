@@ -59,9 +59,10 @@ restrictions; their binary and digest checks are not a substitute.
 - Use `loadPluginFromOci()` only when registry transport and artifact digest
   verification are part of the deployment. Registry access can fail before
   plugin validation begins.
-- Use the WASM bridge only in a build with WASM support and a permitted
-  runtime/license configuration. A valid hash is required but does not by
-  itself authenticate the source.
+- The built-in WASM loader requires its runtime/license configuration and an
+  expected hash. A registered `WasmPluginLoadFn` is invoked first and is
+  responsible for its own validation/runtime behavior. A matching hash does not
+  by itself authenticate the publisher or prove isolation.
 - For an image backend, see
   [`image_analysis_interface.h`](../../include/plugins/image_analysis_interface.h)
   and [`EMBEDDING.md`](./EMBEDDING.md). This separate interface is not a
