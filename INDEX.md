@@ -1,13 +1,21 @@
 ---
 Author: ThemisDB Team
 Created: 2026-09-23
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: active
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: GitHub Copilot
+AI_Contributor: GitHub Copilot coding agent
 Human_Review: false
-Human_Author: ThemisDB Team
+Human_Author: ThemisDB Contributors
+Source_Level: level3
+SOT_Domain: architecture-governance
+Canonical_References:
+  - DOCUMENTATION_GOVERNANCE.md
+  - ai_context/developer_llm_wiki/INDEX.md
+  - ai_context/developer_llm_wiki/MODULES_AND_APIS.md
+  - ai_context/developer_llm_wiki/STORAGE.md
+Related_Milestone: DOC-WEEKLY-2026-W44
 ---
 
 # ThemisDB Root Index
@@ -98,6 +106,7 @@ The canonical AI docs base is the `ai_context/` hub plus its module indexes. Kee
 - [ai_context/README.md](ai_context/README.md) — root AI context overview and retention rules
 - [ai_context/developer_llm_wiki/INDEX.md](ai_context/developer_llm_wiki/INDEX.md) — developer LLM wiki index and module status registry
 - [ai_context/developer_llm_wiki/MODULES_AND_APIS.md](ai_context/developer_llm_wiki/MODULES_AND_APIS.md) — module/API contract map
+- [ai_context/developer_llm_wiki/STORAGE.md](ai_context/developer_llm_wiki/STORAGE.md) — curated storage context, source/test evidence, and contract gaps
 - [ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md](ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md) — build/test/CI and operations context
 - [ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md](ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md) — roadmap and governance status
 - [ai_context/api_contracts/README.md](ai_context/api_contracts/README.md) — API contract landing page

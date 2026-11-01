@@ -5,9 +5,15 @@ Last Updated: "2026-11-01"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot coding agent"
 Human_Review: false
-Human_Author: "ThemisDB Team"
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level2"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "DOCUMENTATION_GOVERNANCE.md"
+  - "ai_context/developer_llm_wiki/MODULES_AND_APIS.md"
+  - "ai_context/developer_llm_wiki/STORAGE.md"
 ---
 
 > Exact model backend not verifiable from final document text alone.
@@ -23,8 +29,10 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 - Ziel: Onboarding- und Coding-relevantes Wissen fuer Entwickler-LLMs
 - Laufmodus: FULL_SYNC
-- Quellen gesamt: 9507
-- Quellen-Hash: `d41e0ee1cf698c701e36d0761f403beac873780108456fd36266f6e7b2f72a7d`
+- Quellen gesamt: 9419
+- Quellen-Hash: `d8a35a984a466683d714b65e1660ade3e2cfecca591a1d1a9c623f47aeda2d1a`
+- The Storage page is manually curated and is not included in these generated
+  counts or the source manifest until a full wiki sync is run.
 
 ## Status And Source-of-Truth Governance
 
@@ -42,7 +50,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - [IMPORTERS.md](IMPORTERS.md) — curated importer module context
 - [UPDATES.md](UPDATES.md) — curated updates module context
 - [DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md) — curated distributed tensor module context
-- [USER_STORAGE_ENCRYPTED.md](USER_STORAGE_ENCRYPTED.md) — encrypted user-storage architecture, configuration, and evidence boundaries
+- [STORAGE.md](STORAGE.md) — curated storage API boundaries, test evidence, and contract gaps
 - [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)
 - [WIKI_STATUS.json](WIKI_STATUS.json)
 - [WIKI_DELTA_REPORT.md](WIKI_DELTA_REPORT.md)
