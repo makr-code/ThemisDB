@@ -1,27 +1,26 @@
 # PROMPT_ENGINEERING DOXYGEN
 
 Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
+Created: 2026-11-01
+Last Updated: 2026-11-01
 Status: active
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\prompt_engineering\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\prompt_engineering\doxygen-warnings.log`
+- XML index (relative to the artifact output root): `prompt_engineering/xml/index.xml`
+- Warnings log (relative to the artifact output root): `prompt_engineering/doxygen-warnings.log`
 
 ## Structure Metrics
-- C/C++ Files (scanned): 80
+- C/C++ Files (scanned): 81
 - Compounds: 291
-- Classes/Structs: 186
+- Classes/Structs: 185
 - Namespaces: 17
-- File Compounds: 80
+- File Compounds: 81
 
 ## Namespaces
-- @076274372345107163253332216327375202263341261325
-- @147257220270273276307076317045022044324315072004
-- @172274153104011235111020273021211306243350316122
-- benchmark
+- @75
+- @79
+- @80
 - rocksdb
 - std
 - std::chrono_literals
@@ -29,10 +28,11 @@ Status: active
 - themis
 - themis::distributed_knowledge
 - themis::prompt_engineering
-- themis::prompt_engineering::@015006250031366111141171213064072275240264124152
-- themis::prompt_engineering::@145032172367060226047001165305206075321244244364
-- themis::prompt_engineering::@263130061170034254115171155242150143077014332172
-- themis::prompt_engineering::@355270060245167317346252303106176216125144275143
+- themis::prompt_engineering::@44
+- themis::prompt_engineering::@60
+- themis::prompt_engineering::@61
+- themis::prompt_engineering::@68
+- themis::prompt_engineering::@78
 - themis::prompt_engineering::detail
 - themis::prompt_engineering::testing
 
@@ -41,7 +41,6 @@ Status: active
 - EchoLLMProvider
 - FixedScorer
 - PromptTemplateValidatorHardeningTest
-- RewriteEngineFixture
 - themis::prompt_engineering::BackgroundOptimizationWorker
 - themis::prompt_engineering::BudgetExhaustedError
 - themis::prompt_engineering::BudgetHandle
@@ -232,7 +231,7 @@ Status: active
 - Regenerate via scripts/generate_module_doxygen_xml.py --write-module-markdown.
 
 ## Detailed Function Documentation (Soll-Ist)
-- Functions extracted: 863
+- Functions extracted: 862
 
 ### EchoLLMProvider
 
@@ -252,7 +251,7 @@ Status: active
 
 #### `std::string name() const override`
 - Source: `tests/prompt_engineering/test_llm_reflection_adapter_focused.cpp`:27
-- Brief: Human-readable name of this provider (for logging / metrics).
+- Brief: Human-readable name of this provider (for logging / metrics)
 - Parameters: none
 
 ### FixedScorer
@@ -280,251 +279,231 @@ Status: active
 - Parameters:
   - `content` (const std::string &): n/a
 
-### RewriteEngineFixture
-
-#### `void SetUp(const ::benchmark::State &) override`
-- Source: `benchmarks/prompt_engineering/bench_rewrite_engine.cpp`:119
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const ::benchmark::State &): n/a
-
-#### `void TearDown(const ::benchmark::State &) override`
-- Source: `benchmarks/prompt_engineering/bench_rewrite_engine.cpp`:124
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const ::benchmark::State &): n/a
-
 ### bench_prompt_engineering.cpp
 
 #### `BENCHMARK(BM_FeedbackCollector_GetStats)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:238
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:239
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_FeedbackCollector_GetStats): n/a
 
 #### `BENCHMARK(BM_FeedbackCollector_RecordFeedback)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:217
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:218
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_FeedbackCollector_RecordFeedback): n/a
 
 #### `BENCHMARK(BM_Metrics_RecordOptimizationAttempt)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:302
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:303
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Metrics_RecordOptimizationAttempt): n/a
 
 #### `BENCHMARK(BM_Metrics_RecordPromptExecution)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:312
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:313
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Metrics_RecordPromptExecution): n/a
 
 #### `BENCHMARK(BM_PromptEvaluator_EvaluatePrompt)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:288
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:289
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_PromptEvaluator_EvaluatePrompt): n/a
 
 #### `BENCHMARK(BM_PromptManager_ConcurrentCreate) -> Threads(4)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:329
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:330
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_PromptManager_ConcurrentCreate): n/a
 
 #### `BENCHMARK(BM_PromptManager_CreateTemplate)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:99
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:100
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_PromptManager_CreateTemplate): n/a
 
 #### `BENCHMARK(BM_PromptManager_GetTemplate_Hit)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:114
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:115
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_PromptManager_GetTemplate_Hit): n/a
 
 #### `BENCHMARK(BM_PromptManager_GetTemplate_Miss)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:123
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:124
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_PromptManager_GetTemplate_Miss): n/a
 
 #### `BENCHMARK(BM_PromptManager_InjectContext)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:140
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:141
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_PromptManager_InjectContext): n/a
 
 #### `BENCHMARK(BM_PromptManager_ValidateTemplate_Invalid)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:162
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:163
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_PromptManager_ValidateTemplate_Invalid): n/a
 
 #### `BENCHMARK(BM_PromptManager_ValidateTemplate_Valid)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:153
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:154
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_PromptManager_ValidateTemplate_Valid): n/a
 
 #### `BENCHMARK(BM_PromptOptimizer_Optimize_OneIter)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:273
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:274
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_PromptOptimizer_Optimize_OneIter): n/a
 
 #### `BENCHMARK(BM_VersionControl_Commit)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:181
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:182
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_VersionControl_Commit): n/a
 
 #### `BENCHMARK(BM_VersionControl_ConcurrentCommit) -> Threads(4)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:351
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:352
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_VersionControl_ConcurrentCommit): n/a
 
 #### `BENCHMARK(BM_VersionControl_GetHistory)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:197
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:198
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_VersionControl_GetHistory): n/a
 
 #### `void BM_FeedbackCollector_GetStats(benchmark::State &state)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:223
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:224
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_FeedbackCollector_RecordFeedback(benchmark::State &state)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:203
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:204
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Metrics_RecordOptimizationAttempt(benchmark::State &state)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:294
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:295
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Metrics_RecordPromptExecution(benchmark::State &state)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:304
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:305
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_PromptEvaluator_EvaluatePrompt(benchmark::State &state)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:279
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:280
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_PromptManager_ConcurrentCreate(benchmark::State &state)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:318
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:319
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_PromptManager_CreateTemplate(benchmark::State &state)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:90
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:91
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_PromptManager_GetTemplate_Hit(benchmark::State &state)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:105
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:106
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_PromptManager_GetTemplate_Miss(benchmark::State &state)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:116
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:117
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_PromptManager_InjectContext(benchmark::State &state)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:129
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:130
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_PromptManager_ValidateTemplate_Invalid(benchmark::State &state)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:155
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:156
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_PromptManager_ValidateTemplate_Valid(benchmark::State &state)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:146
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:147
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_PromptOptimizer_Optimize_OneIter(benchmark::State &state)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:244
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:245
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_VersionControl_Commit(benchmark::State &state)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:168
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:169
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_VersionControl_ConcurrentCommit(benchmark::State &state)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:335
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:336
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_VersionControl_GetHistory(benchmark::State &state)`
-- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:187
+- Source: `benchmarks/prompt_engineering/bench_prompt_engineering.cpp`:188
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 ### bench_rewrite_engine.cpp
 
-#### `state SetItemsProcessed(state.iterations() *100)`
-- Source: `benchmarks/prompt_engineering/bench_rewrite_engine.cpp`:255
+#### `void BM_PromptRewriteAql(benchmark::State &state)`
+- Source: `benchmarks/prompt_engineering/bench_rewrite_engine.cpp`:123
 - Brief: n/a
 - Parameters:
-  - `100` (state.iterations() *): n/a
+  - `state` (benchmark::State &): n/a
 
-#### `state SetItemsProcessed(state.iterations())`
-- Source: `benchmarks/prompt_engineering/bench_rewrite_engine.cpp`:155
+#### `void BM_PromptRewriteNormalization(benchmark::State &state)`
+- Source: `benchmarks/prompt_engineering/bench_rewrite_engine.cpp`:89
 - Brief: n/a
 - Parameters:
-  - `iterations` (state.): n/a
+  - `state` (benchmark::State &): n/a
 
-#### `Unit(benchmark::kMicrosecond) -> Repetitions(kRepetitions) ->Iterations(1000) ->UseRealTime()`
-- Source: `benchmarks/prompt_engineering/bench_rewrite_engine.cpp`:158
+#### `void BM_PromptRewritePolicy(benchmark::State &state)`
+- Source: `benchmarks/prompt_engineering/bench_rewrite_engine.cpp`:106
 - Brief: n/a
 - Parameters:
-  - `<unnamed>` (benchmark::kMicrosecond): n/a
+  - `state` (benchmark::State &): n/a
 
-#### `for(auto _ :state)`
+#### `void BM_PromptRewriteStepLimitEnforcement(benchmark::State &state)`
 - Source: `benchmarks/prompt_engineering/bench_rewrite_engine.cpp`:145
 - Brief: n/a
 - Parameters:
-  - `<unnamed>` (auto _ :state): n/a
+  - `state` (benchmark::State &): n/a
 
-#### `for(const auto &rule :rules)`
-- Source: `benchmarks/prompt_engineering/bench_rewrite_engine.cpp`:139
+#### `Unit(benchmark::kMicrosecond) -> Repetitions(kRepetitions) ->Iterations(1000) ->UseRealTime()`
+- Source: `benchmarks/prompt_engineering/bench_rewrite_engine.cpp`:101
 - Brief: n/a
 - Parameters:
-  - `<unnamed>` (const auto &rule :rules): n/a
-
-#### `oss<< "---\nrules:\n";for(int i=0;i< 100;++i) { oss<< " - id: rule_"<< i<< "\n"<< " type: regex\n"<< " phase: "<<(i % 4)<< "\n"<< " pattern: 'pattern_"<< i<< "'\n"<< " replacement: 'replacement_"<< i<< "'\n"<< " priority: "<<(i % 10)<< "\n";} std::string config=oss.str();for(auto _ :state) { auto rules=loader_-> loadFromYAML(config)`
-- Source: `benchmarks/prompt_engineering/bench_rewrite_engine.cpp`:252
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (config): n/a
+  - `<unnamed>` (benchmark::kMicrosecond): n/a
 
 ### test_llm_reflection_adapter_focused.cpp
 
@@ -944,6 +923,13 @@ Status: active
 
 ### themis::prompt_engineering
 
+#### `TEST(StructuredOutputEnforcer, NestedKeyDoesNotSatisfyTopLevelRequiredField)`
+- Source: `tests/prompt_engineering/test_structured_output_focused.cpp`:26
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (StructuredOutputEnforcer): n/a
+  - `<unnamed>` (NestedKeyDoesNotSatisfyTopLevelRequiredField): n/a
+
 #### `const char * attackCategoryName(AttackCategory category) noexcept`
 - Source: `src/prompt_engineering/adversarial_prompt_tester.cpp`:25
 - Brief: Convert category to a human-readable string (e.g., "JAILBREAK").
@@ -960,7 +946,7 @@ Status: active
 - Details: haystack Input parameter. needle Input parameter. True when the operation succeeds. Calls: std::search(), begin(), end(), std::tolower().
 
 #### `std::unique_ptr< IRewriteEngine > create_rewrite_engine()`
-- Source: `src/prompt_engineering/rewrite_engine.cpp`:375
+- Source: `src/prompt_engineering/rewrite_engine.cpp`:376
 - Brief: Factory function to create a RewriteEngine instance.
 - Parameters: none
 - Return: Newly allocated engine (caller takes ownership)
@@ -994,8 +980,8 @@ Status: active
 - Brief: Check if text appears to be wrapped in markdown code fences.
 - Parameters:
   - `text` (std::string_view): Input parameter.
-- Return: true if text starts with and ends with , false otherwise.
-- Details: Is Wrapped In Markdown Fences. text Text to check. true if text starts with and ends with , false otherwise. text Input parameter. True when the operation succeeds. Calls: size(), substr(), find().
+- Return: true if text starts with and ends with, false otherwise.
+- Details: Is Wrapped In Markdown Fences. text Text to check. true if text starts with and ends with, false otherwise. text Input parameter. True when the operation succeeds. Calls: size(), substr(), find().
 
 #### `void record_rewrite_rule_apply(const std::string &rule_id, RewritePhase phase, uint64_t latency_micros)`
 - Source: `src/prompt_engineering/rewrite_metrics.cpp`:182
@@ -1066,7 +1052,7 @@ Status: active
   - `text` (const std::string &): Input parameter.
   - `language_tag` (std::string *): Input/output parameter.
 - Return: Text with fences removed and trimmed of leading/trailing whitespace. Returns empty string if input contains only fence markers.
-- Details: Strip Markdown Fences. Removes outer code-fence delimiters ( or language). Handles both Unix (LF) and Windows (CRLF) line endings automatically. Examples: Input: "```\nselect * from foo\n```" Output: "select * from foo" Input: "```json\n{\"a\": 1}\n```" Output: "{\"a\": 1}" text Input text possibly wrapped in markdown code fences. language_tag Optional output parameter filled with language tag if present (e.g., "json", "aql", "sql"). Empty string if no tag. Text with fences removed and trimmed of leading/trailing whitespace. Returns empty string if input contains only fence markers. text Input parameter. language_tag Input/output parameter. Return value. Calls: clear(), size(), open_fence(), close_fence(), std::regex_search(), str(), std::regex_replace(), themis::utils::trim().
+- Details: Strip Markdown Fences. Removes outer code-fence delimiters (orlanguage). Handles both Unix (LF) and Windows (CRLF) line endings automatically. Examples: Input: "```\nselect * from foo\n```" Output: "select * from foo" Input: "```json\n{\"a\": 1}\n```" Output: "{\"a\": 1}" text Input text possibly wrapped in markdown code fences. language_tag Optional output parameter filled with language tag if present (e.g., "json", "aql", "sql"). Empty string if no tag. Text with fences removed and trimmed of leading/trailing whitespace. Returns empty string if input contains only fence markers. text Input parameter. language_tag Input/output parameter. Return value. Calls: clear(), size(), open_fence(), close_fence(), std::regex_search(), str(), std::regex_replace(), themis::utils::trim().
 
 #### `std::string variantToString(ExperimentVariant v)`
 - Source: `src/prompt_engineering/prompt_ab_experiment.cpp`:35
@@ -2065,7 +2051,7 @@ Status: active
 
 #### `std::vector< FeedbackEntry > getFeedbackPaged(const std::string &prompt_id, size_t offset, size_t page_size, std::optional< FeedbackType > type_filter=std::nullopt) const`
 - Source: `include/prompt_engineering/feedback_collector.h`:272
-- Brief: Get feedback entries for a specific prompt (paginated).
+- Brief: Get feedback entries for a specific prompt (paginated)
 - Parameters:
   - `prompt_id` (const std::string &): Prompt template ID
   - `offset` (size_t): Number of entries to skip (0-based)
@@ -2113,7 +2099,7 @@ Status: active
 
 #### `void persist(const FeedbackEntry &entry)`
 - Source: `include/prompt_engineering/feedback_collector.h`:359
-- Brief: Persist feedback to RocksDB (primary key + time-based secondary index).
+- Brief: Persist feedback to RocksDB (primary key + time-based secondary index)
 - Parameters:
   - `entry` (const FeedbackEntry &): Input parameter.
 - Details: Persist. entry Input parameter. Calls: std::string(), toJson(), dump(), bytes(), begin(), end(), put(), THEMIS_ERROR().
@@ -2343,7 +2329,7 @@ Status: active
 
 #### `std::string name() const =0`
 - Source: `include/prompt_engineering/prompt_evaluator.h`:46
-- Brief: Human-readable name of this provider (for logging / metrics).
+- Brief: Human-readable name of this provider (for logging / metrics)
 - Parameters: none
 
 #### `~IEmbeddingProvider()=default`
@@ -2363,7 +2349,7 @@ Status: active
 
 #### `std::string name() const =0`
 - Source: `include/prompt_engineering/meta_prompt_generator.h`:42
-- Brief: Human-readable name of this provider (for logging / metrics).
+- Brief: Human-readable name of this provider (for logging / metrics)
 - Parameters: none
 
 #### `~ILLMProvider()=default`
@@ -2966,7 +2952,7 @@ Status: active
 
 #### `void clearLLMProvider()`
 - Source: `include/prompt_engineering/meta_prompt_generator.h`:154
-- Brief: Remove the attached LLM provider (fall back to template-based generation).
+- Brief: Remove the attached LLM provider (fall back to template-based generation)
 - Parameters: none
 
 #### `std::vector< std::string > extractSuccessPatterns(const std::vector< std::pair< std::string, double > > &successful_prompts) const`
@@ -3827,7 +3813,7 @@ Status: active
 
 #### `void reset()`
 - Source: `include/prompt_engineering/prompt_engineering_metrics.h`:157
-- Brief: Reset all metrics (for testing).
+- Brief: Reset all metrics (for testing)
 - Parameters: none
 - Details: Reset the modification detection flag. Calls: store(), lock(), clear().
 
@@ -3875,12 +3861,12 @@ Status: active
 
 #### `void clearEmbeddingProvider()`
 - Source: `include/prompt_engineering/prompt_evaluator.h`:220
-- Brief: Remove the attached embedding provider (fall back to Jaccard).
+- Brief: Remove the attached embedding provider (fall back to Jaccard)
 - Parameters: none
 
 #### `double computeCosineSimilarity(const std::vector< double > &v1, const std::vector< double > &v2)`
 - Source: `include/prompt_engineering/prompt_evaluator.h`:256
-- Brief: Compute cosine similarity of two dense vectors (static helper).
+- Brief: Compute cosine similarity of two dense vectors (static helper)
 - Parameters:
   - `v1` (const std::vector< double > &): Input parameter.
   - `v2` (const std::vector< double > &): Input parameter.
@@ -3915,7 +3901,7 @@ Status: active
 
 #### `double computePartialMatch(const std::string &output, const std::string &expected)`
 - Source: `include/prompt_engineering/prompt_evaluator.h`:159
-- Brief: Compute partial match score (normalized edit distance).
+- Brief: Compute partial match score (normalized edit distance)
 - Parameters:
   - `output` (const std::string &): Input parameter.
   - `expected` (const std::string &): Input parameter.
@@ -4744,6 +4730,14 @@ Status: active
   - `require_id` (bool): When true (default), an empty or missing id field is an error. Set to false for pre-persist validation.
 - Details: require_id When true (default), an empty or missing id field is an error. Set to false for pre-persist validation.
 
+#### `TemplateValidationResult detectInjectionPatterns(const std::string &content) const`
+- Source: `include/prompt_engineering/prompt_template_validator.h`:92
+- Brief: Detect injection attack patterns in template content.
+- Parameters:
+  - `content` (const std::string &): The template content to check for injection patterns
+- Return: TemplateValidationResult with warnings/errors for detected patterns
+- Details: Checks for: SQL injection patterns (UNION, DROP, INSERT, DELETE, SELECT with quotes) Command injection patterns (\|, &, ;, `, $(), backticks) Path traversal patterns (../, ., ..) Template injection patterns ({{{, }}}, malformed variables) content The template content to check for injection patterns TemplateValidationResult with warnings/errors for detected patterns
+
 #### `bool hasCommandInjectionPattern(const std::string &content) const`
 - Source: `include/prompt_engineering/prompt_template_validator.h`:109
 - Brief: n/a
@@ -4762,11 +4756,11 @@ Status: active
 
 #### `bool hasSQLInjectionPattern(const std::string &content) const`
 - Source: `include/prompt_engineering/prompt_template_validator.h`:103
-- Brief: Detect injection attack patterns in template content.
+- Brief: ====== INJECTION DETECTION HELPERS (Phase 3 Hardening) ======
 - Parameters:
-  - `content` (const std::string &): The template content to check for injection patterns
-- Return: TemplateValidationResult with warnings/errors for detected patterns */ TemplateValidationResult detectInjectionPatterns(const std::string& content) const;
-- Details: Checks for: SQL injection patterns (UNION, DROP, INSERT, DELETE, SELECT with quotes) Command injection patterns (\|, &, ;, `, $(), backticks) Path traversal patterns (../, ., ..) Template injection patterns ({{{, }}}, malformed variables) content The template content to check for injection patterns TemplateValidationResult with warnings/errors for detected patterns */ TemplateValidationResult detectInjectionPatterns(const std::string& content) const; private: bool require_id_; / ====== INJECTION DETECTION HELPERS (Phase 3 Hardening) ====== /** Check for SQL injection patterns in the given string. true if SQL injection pattern detected
+  - `content` (const std::string &): n/a
+- Return: true if SQL injection pattern detected
+- Details: Check for SQL injection patterns in the given string. true if SQL injection pattern detected
 
 #### `bool hasTemplateInjectionPattern(const std::string &content) const`
 - Source: `include/prompt_engineering/prompt_template_validator.h`:121
@@ -4872,7 +4866,7 @@ Status: active
 
 #### `std::string generateVersionId(const std::string &prompt_id, const std::string &content, const std::string &parent) const`
 - Source: `include/prompt_engineering/prompt_version_control.h`:328
-- Brief: Generate unique version ID (SHA-like hash).
+- Brief: Generate unique version ID (SHA-like hash)
 - Parameters:
   - `prompt_id` (const std::string &): n/a
   - `content` (const std::string &): n/a
@@ -4889,7 +4883,7 @@ Status: active
 
 #### `std::unordered_map< std::string, std::string > getGenealogy(const std::string &prompt_id) const`
 - Source: `include/prompt_engineering/prompt_version_control.h`:259
-- Brief: Get version genealogy (parent-child relationships).
+- Brief: Get version genealogy (parent-child relationships)
 - Parameters:
   - `prompt_id` (const std::string &): Prompt template ID
 - Return: Map of version_id -> parent_version_id
@@ -5455,12 +5449,12 @@ Status: active
 ### themis::prompt_engineering::RewriteEngine
 
 #### `RewriteEngine()`
-- Source: `src/prompt_engineering/rewrite_engine.cpp`:34
+- Source: `src/prompt_engineering/rewrite_engine.cpp`:35
 - Brief: n/a
 - Parameters: none
 
 #### `std::shared_ptr< const IRewriteRule > get_rule(const std::string &rule_id) const override`
-- Source: `src/prompt_engineering/rewrite_engine.cpp`:94
+- Source: `src/prompt_engineering/rewrite_engine.cpp`:95
 - Brief: Get registered rule by ID.
 - Parameters:
   - `rule_id` (const std::string &): ID of rule to retrieve
@@ -5468,27 +5462,27 @@ Status: active
 - Details: rule_id ID of rule to retrieve Shared pointer to rule, or nullptr if not found
 
 #### `std::vector< std::shared_ptr< IRewriteRule > > get_rules_for_phase(RewritePhase phase) const`
-- Source: `src/prompt_engineering/rewrite_engine.cpp`:350
+- Source: `src/prompt_engineering/rewrite_engine.cpp`:351
 - Brief: n/a
 - Parameters:
   - `phase` (RewritePhase): n/a
 
 #### `std::string get_stats_json() const override`
-- Source: `src/prompt_engineering/rewrite_engine.cpp`:303
+- Source: `src/prompt_engineering/rewrite_engine.cpp`:304
 - Brief: Get execution statistics.
 - Parameters: none
 - Return: JSON object with rule counts, total executions, latency stats
 - Details: JSON object with rule counts, total executions, latency stats
 
 #### `std::vector< std::string > list_rules() const override`
-- Source: `src/prompt_engineering/rewrite_engine.cpp`:111
+- Source: `src/prompt_engineering/rewrite_engine.cpp`:112
 - Brief: List all registered rules.
 - Parameters: none
 - Return: Vector of all registered rule IDs
 - Details: Vector of all registered rule IDs
 
 #### `bool load_rules_from_yaml(const std::string &yaml_path) override`
-- Source: `src/prompt_engineering/rewrite_engine.cpp`:128
+- Source: `src/prompt_engineering/rewrite_engine.cpp`:129
 - Brief: Load rewrite rules from YAML configuration file.
 - Parameters:
   - `yaml_path` (const std::string &): Path to YAML rule file
@@ -5496,7 +5490,7 @@ Status: active
 - Details: Only low-risk lexical rules (regex, dictionary) are loadable from YAML. Semantic and policy rules must be registered programmatically in C++. yaml_path Path to YAML rule file True if load succeeded If load fails, no rules are modified (all-or-nothing semantics).
 
 #### `bool register_rule(std::shared_ptr< IRewriteRule > rule) override`
-- Source: `src/prompt_engineering/rewrite_engine.cpp`:40
+- Source: `src/prompt_engineering/rewrite_engine.cpp`:41
 - Brief: Register a rewrite rule for execution.
 - Parameters:
   - `rule` (std::shared_ptr< IRewriteRule >): Ownership transferred to engine
@@ -5504,12 +5498,12 @@ Status: active
 - Details: rule Ownership transferred to engine True if registration succeeded, false if rule_id already registered Rules cannot be re-registered; must unregister then re-register. Rules are locked once execution begins.
 
 #### `void reset_stats() override`
-- Source: `src/prompt_engineering/rewrite_engine.cpp`:325
+- Source: `src/prompt_engineering/rewrite_engine.cpp`:326
 - Brief: Reset all execution statistics.
 - Parameters: none
 
 #### `RewriteResult rewrite(RewriteDocument &doc, const RewriteContext &ctx) override`
-- Source: `src/prompt_engineering/rewrite_engine.cpp`:164
+- Source: `src/prompt_engineering/rewrite_engine.cpp`:165
 - Brief: Execute all phases of rewrite on a document.
 - Parameters:
   - `doc` (RewriteDocument &): Input document (content will be modified in-place on success)
@@ -5518,7 +5512,7 @@ Status: active
 - Details: Phases execute in strict order: 1 → 2 → 3 → 4. Within each phase, rules execute by priority, then registration order. doc Input document (content will be modified in-place on success) ctx Execution context Result with transformed content or error If any phase returns an error or blocks the document, execution stops immediately.
 
 #### `RewriteResult rewrite_phase(RewritePhase phase, RewriteDocument &doc, const RewriteContext &ctx) override`
-- Source: `src/prompt_engineering/rewrite_engine.cpp`:203
+- Source: `src/prompt_engineering/rewrite_engine.cpp`:204
 - Brief: Execute a specific phase only.
 - Parameters:
   - `phase` (RewritePhase): Which phase to execute
@@ -5528,7 +5522,7 @@ Status: active
 - Details: phase Which phase to execute doc Input document (content will be modified in-place on success) ctx Execution context Result with transformed content or error For testing and diagnostic purposes only. Normal operation uses full rewrite().
 
 #### `bool unregister_rule(const std::string &rule_id) override`
-- Source: `src/prompt_engineering/rewrite_engine.cpp`:75
+- Source: `src/prompt_engineering/rewrite_engine.cpp`:76
 - Brief: Unregister a previously registered rule.
 - Parameters:
   - `rule_id` (const std::string &): ID of rule to remove
@@ -5536,7 +5530,7 @@ Status: active
 - Details: rule_id ID of rule to remove True if rule existed and was removed Cannot unregister while rewrite is in progress.
 
 #### `~RewriteEngine() override=default`
-- Source: `src/prompt_engineering/rewrite_engine.cpp`:38
+- Source: `src/prompt_engineering/rewrite_engine.cpp`:39
 - Brief: n/a
 - Parameters: none
 
@@ -5999,7 +5993,7 @@ Status: active
 
 #### `uint32_t fnv1a32(const std::string &user_id, const std::string &key) noexcept`
 - Source: `include/prompt_engineering/prompt_ab_experiment.h`:488
-- Brief: FNV-1a-32 hash over user_id + '\0' + key.
+- Brief: FNV-1a-32 hash over user_id + \0' + key`.
 - Parameters:
   - `user_id` (const std::string &): n/a
   - `key` (const std::string &): n/a
@@ -6674,4 +6668,3 @@ Status: active
 - Parameters:
   - `t` (const PromptTemplate &): n/a
 - Details: Validate template with enhanced injection checks
-
