@@ -1,9 +1,23 @@
 # USER_STORAGE_ENCRYPTED DOXYGEN
 
 Author: ThemisDB Contributors
-Created: 2026-11-01
+Created: 2026-09-20
 Last Updated: 2026-11-01
 Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References: include/user_storage_encrypted/; src/user_storage_encrypted/; tests/user_storage_encrypted/; benchmarks/user_storage_encrypted/
+source: include/user_storage_encrypted/; src/user_storage_encrypted/; tests/user_storage_encrypted/; benchmarks/user_storage_encrypted/
+source_class: generated
+source_weight: 60
+Related: #7392; DOC-WEEKLY-2026-44
+
+> Exact model backend not verifiable from final document text alone.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.

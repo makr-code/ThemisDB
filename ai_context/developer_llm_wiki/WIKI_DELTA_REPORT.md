@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Delta Report
 
-Datum: 2026-10-31
+Datum: 2026-11-01
 Status: Active
 
 ## Summary
@@ -19,4 +19,4 @@ Status: Active
 
 ## Changed
 
-- ai_context/developer_llm_wiki/UPDATES.md
+- src/user_storage_encrypted/AUDIT.md

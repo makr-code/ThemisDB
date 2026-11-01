@@ -93,15 +93,21 @@ audit, build result, test pass, or production-readiness approval.
 
 ## Generated and historical artifacts
 
-- `DOXYGEN.md` identifies itself as generated from a Windows temporary XML
-  directory and is dated 2026-09-20. It was not regenerated; treat its
-  declarations and metrics as a snapshot, not current API evidence. The
-  repository generator (`scripts/generate_module_doxygen_xml.py
-  --write-module-markdown`) was attempted for this module, but cannot run here
-  because the `doxygen` executable is absent; package installation is blocked
-  by insufficient apt permissions.
-- `MODULE_GAPS.md` is an auto-generated scanner snapshot dated 2026-06-04.
-  Its finding counts and severities were not re-run or manually revalidated.
+- `DOXYGEN.md` was regenerated on 2026-11-01 with Doxygen 1.9.8 via
+  `scripts/generate_module_doxygen_xml.py --write-module-markdown`. The XML,
+  manifest, and warnings log were written under `/tmp` and are not retained;
+  the log contained 27 Doxygen warnings, chiefly about duplicate or unmatched
+  parameter documentation. The Markdown is a derived snapshot, not current API
+  authority; those source-comment warnings remain unresolved.
+- `MODULE_GAPS.md` was regenerated on 2026-11-01 from a focused Gap Scanner V3
+  scan. The scanner's file-existence/classification verification and Phase 5
+  external-submodule filter were applied. The retained scanner input contains
+  110 verified candidates across its scan scope; 22 are scoped to this module
+  and summarized in `MODULE_GAPS.md`. The input is
+  `ai_working/user_storage_encrypted_scan/gap_scan_results.json`. Findings are
+  heuristic candidates, not independently confirmed defects or security
+  findings. The scanner export stores the verified findings list, while its
+  metadata retains verification counts for removed candidates.
 - `MODULE_EVIDENCE_SUMMARY.md` is retained as a historical issue #5681 record;
   its current-status claims are explicitly disclaimed at the top of that file.
 

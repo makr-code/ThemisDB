@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Modules and APIs
 
-Datum: 2026-10-31
+Datum: 2026-11-01
 Status: Active
 
 ## Curated module contexts
@@ -24,6 +24,7 @@ Status: Active
 - [Importer module context](IMPORTERS.md) — shared contracts, connector boundaries, focused test evidence, and operational limits.
 - [Updates module context](UPDATES.md) — update lifecycle, rollout and patch contracts, diagnostic evidence, and operator boundaries.
 - [Distributed tensor module context](DISTRIBUTED_TENSOR.md) — tensor artifact contracts, planning boundaries, C++ requirements, and verified test/benchmark evidence.
+- [Encrypted user storage module context](USER_STORAGE_ENCRYPTED.md) — runtime architecture, configuration, build/test boundaries, and scanner/Doxygen evidence limits.
 
 
 ## include/acceleration/ai_hardware_dispatcher.h

@@ -313,9 +313,35 @@ def write_module_markdown(
     lines.append(f"# {module.upper()} DOXYGEN")
     lines.append("")
     lines.append("Author: ThemisDB Contributors")
-    lines.append(f"Created: {generated_at[:10]}")
+    created_at = generated_at[:10]
+    if module_doc.exists():
+        for existing_line in module_doc.read_text(encoding="utf-8").splitlines():
+            if existing_line.startswith("Created:"):
+                created_at = existing_line.partition(":")[2].strip()
+                break
+    canonical_references = "; ".join(
+        f"{root}/{module}/"
+        for root in ("include", "src", "tests", "benchmarks")
+        if (repo_root / root / module).is_dir()
+    )
+    lines.append(f"Created: {created_at}")
     lines.append(f"Last Updated: {generated_at[:10]}")
     lines.append("Status: active")
+    lines.append("AI_Used: true")
+    lines.append("AI_Models: unknown")
+    lines.append("AI_Contributor: GitHub Copilot")
+    lines.append("Human_Review: false")
+    lines.append("Human_Author: ThemisDB Contributors")
+    lines.append("Source_Level: level1")
+    lines.append("SOT_Domain: module-behavior")
+    lines.append(f"Canonical_References: {canonical_references}")
+    lines.append(f"source: {canonical_references}")
+    lines.append("source_class: generated")
+    lines.append("source_weight: 60")
+    if module == "user_storage_encrypted":
+        lines.append("Related: #7392; DOC-WEEKLY-2026-44")
+    lines.append("")
+    lines.append("> Exact model backend not verifiable from final document text alone.")
     lines.append("")
     lines.append("## Source")
     lines.append("- This file is generated from module-scoped Doxygen XML.")
