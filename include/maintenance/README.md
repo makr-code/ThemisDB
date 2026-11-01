@@ -3,7 +3,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -143,14 +143,14 @@ PENDING → RUNNING → SUCCEEDED
 | `lock_ttl_ms` | `0` (auto) | Distributed lock TTL; 0 = window duration + 30 s |
 | `TenantMaintenanceConfig::max_concurrent_jobs` | `0` (unlimited) | Per-tenant concurrent job cap |
 | `kJobRetentionMs` | 24 h | Compile-time completed-job retention threshold; pruning runs after a normal execution completes |
-| `max_schedule_changes_per_interval` | `0` | Declared schedule policy field; **TODO:** current mutation paths do not call `checkChurnLimit()`, so this does not enforce a rate limit |
+| `max_schedule_changes_per_interval` | `0` | Enforced per schedule in a fixed 60-second in-memory window; validated CRUD attempts consume a slot before persistence |
 
 `maintenance_api_contract.h` separately declares helper `MaintenanceError`,
 `MaintenanceScheduleDescriptor`, and `MaintenanceHealthSnapshot` types. The
 orchestrator does not use these as its runtime schedule/error contract; its
-runtime uses `MaintenanceScheduleEntry` and repository `Result`/`Error`.
-**TODO:** reconcile the helper header's documented timeout, fail-closed, and
-atomic-reload guarantees before treating them as implemented behavior.
+runtime uses `MaintenanceScheduleEntry`, `MaintenanceHealthReport`, and
+repository `Result`/`Error`. The helper limits, timeout/error taxonomy, and
+fail-closed predicate are not runtime-enforced guarantees.
 
 ## Installation
 

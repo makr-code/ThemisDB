@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -50,10 +50,13 @@ must apply its own access policy.
 The schedule payload is the JSON representation of
 [`MaintenanceScheduleEntry`](../../include/maintenance/maintenance_schedule.h).
 It includes a name, frequency/cron, task list, optional task dependencies,
-window settings, enablement, tenant ID, failure/lock policy, and the declared
-`max_schedule_changes_per_interval` field. **TODO:** the latter field is not
-currently enforced by schedule mutation paths. The orchestrator assigns the
-schedule ID and timestamps on create.
+window settings, enablement, tenant ID, failure/lock policy, and the
+`max_schedule_changes_per_interval` field. Zero disables the mutation limit;
+non-zero values cap validated CRUD attempts per schedule in a fixed 60-second
+in-memory window. Creates use the submitted limit; update, patch, and delete use
+the current schedule limit. A limit rejection returns
+`ERR_RATE_LIMIT_EXCEEDED`. The orchestrator assigns the schedule ID and
+timestamps on create.
 
 Create and update require a non-empty name, at least one task, valid window
 hours (`0` through `23`), and a cron expression for custom frequency. Declared

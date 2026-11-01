@@ -29,6 +29,9 @@
  * | GATE-MTN-DIST-02  | ScheduleListing | p99 ≤ 5 ms      |
  *
  * All benchmarks use kCanonicalSeed = 42 for deterministic inputs.
+ * The Google Benchmark repetitions report aggregate timing; these source cases
+ * do not calculate per-operation p99, so the manifest p99 targets remain
+ * unverified until a connected percentile measurement supplies evidence.
  *
  * @see benchmarks/maintenance/bench_maintenance_release_gates.cpp
  * @see src/maintenance/ROADMAP.md — Phase 5 items
@@ -67,7 +70,7 @@ static constexpr int kRepetitions = 5;
  *        3. If leader, dispatch (increment counter as a proxy for real work).
  *        4. Release lock.
  *
- * Gate: p99 ≤ 500 µs.
+ * Target: p99 ≤ 500 µs; this benchmark reports aggregate timing, not p99.
  */
 static void BM_MTN_DIST01_LeaderGatedDispatch(benchmark::State& state) {
     std::mutex lock_mu = {};
@@ -85,7 +88,7 @@ static void BM_MTN_DIST01_LeaderGatedDispatch(benchmark::State& state) {
         }
         benchmark::DoNotOptimize(dispatched);
     }
-    state.SetLabel("GATE-MTN-DIST-01: p99 <= 500 us");
+    state.SetLabel("GATE-MTN-DIST-01: p99 target <= 500 us; not measured");
 }
 BENCHMARK(BM_MTN_DIST01_LeaderGatedDispatch)
     ->Repetitions(kRepetitions)
@@ -99,7 +102,7 @@ BENCHMARK(BM_MTN_DIST01_LeaderGatedDispatch)
  * @brief Measures the cost of listing 1000 maintenance schedules from an
  *        unordered_map (the listSchedules() hot path in the orchestrator).
  *
- * Gate: p99 ≤ 5 ms.
+ * Target: p99 ≤ 5 ms; this benchmark reports aggregate timing, not p99.
  */
 static void BM_MTN_DIST02_ScheduleListing(benchmark::State& state) {
     static constexpr int kEntries = 1000;
@@ -127,7 +130,7 @@ static void BM_MTN_DIST02_ScheduleListing(benchmark::State& state) {
         }
         benchmark::DoNotOptimize(result.size());
     }
-    state.SetLabel("GATE-MTN-DIST-02: p99 <= 5 ms");
+    state.SetLabel("GATE-MTN-DIST-02: p99 target <= 5 ms; not measured");
 }
 BENCHMARK(BM_MTN_DIST02_ScheduleListing)
     ->Repetitions(kRepetitions)

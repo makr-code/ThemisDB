@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -92,12 +92,12 @@ for serialization and task-order coverage.
 
 Relevant bounds and policies are implementation-defined: completed-job history
 is pruned after 24 hours, the dispatch-outcome ring buffer defaults to 256
-entries, and an internal churn helper uses a 60-second interval. However,
-`max_schedule_changes_per_interval` and `checkChurnLimit()` are declared, but no
-production mutation path calls that helper; the configured field does not
-currently enforce a rate limit. These bounds do not make task side effects
-transactional or guarantee that a handler will complete within a particular
-latency.
+entries, and `max_schedule_changes_per_interval` is enforced by schedule CRUD
+in a fixed 60-second in-memory window. Existing-schedule attempts consume a
+slot before persistence; failed creates discard their new-ID counter, successful
+deletes clear it, and all counters reset after restart. These bounds do not make
+task side effects transactional or guarantee that a handler will complete within
+a particular latency.
 
 ## Sources
 

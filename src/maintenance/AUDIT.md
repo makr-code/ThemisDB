@@ -3,7 +3,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -40,20 +40,20 @@ Exact model backend not verifiable from final document text alone.
 
 ### Follow-ups
 
-1. [MNT-AUD-01] Schedule edge hardening is partly complete; churn enforcement remains unresolved.
+1. [MNT-AUD-01] Schedule mutation churn enforcement was missing.
 - Severity: medium
-- Status: the in-flight schedule guard and schedule validation are present. The churn tests use a local model, and `checkChurnLimit()` has no production call site.
-- Action: implement and production-test the configured mutation limit, or remove/retire the unused policy field.
+- Status: RESOLVED. Create/update/patch/delete enforce the configured limit through `checkChurnLimit()`; production CRUD tests verify rejection and unchanged state.
+- Action: retain production-path coverage when changing the mutation limit contract.
 
 2. [MNT-AUD-02] Persistence errors are handled, but are not part of dispatch-outcome diagnostics.
 - Severity: medium
-- Status: schedule-store recovery skips malformed records and reports scan errors; production store coverage is in `tests/database/test_database_maintenance_orchestrator.cpp`. Persistence errors are returned by mutations or logged at startup, not emitted as `FAILED_PERSISTENCE` in the dispatch ring. The helper error taxonomy in `maintenance_api_contract.h` is not wired into the orchestrator.
-- Action: reconcile the helper contract and decide whether persistence failures need a runtime dispatch outcome.
+- Status: schedule-store recovery skips malformed records and reports scan errors; production store coverage is in `tests/database/test_database_maintenance_orchestrator.cpp`. Persistence errors are returned by mutations or logged at startup, not emitted as `FAILED_PERSISTENCE` in the dispatch ring. The header now states that its helper taxonomy is not the runtime taxonomy.
+- Action: decide separately whether persistence failures need a runtime dispatch outcome.
 
 3. [MNT-AUD-03] Maintenance benchmark sources and targets exist; performance evidence is still open.
 - Severity: low
-- Status: the two registered targets define nine module-owned cases. Distributed, persistence, churn-guard, and ring-buffer cases use proxies rather than the production orchestrator/store. Source comments and manifest label thresholds as p99, but the C++ cases report repeated aggregates and do not calculate p99 themselves. Manifest `PASS` labels are not run-result evidence.
-- Action: verify any external percentile-processing step, retain release-profile results and baseline comparisons, and add production-path benchmarks where required.
+- Status: the two registered targets define nine module-owned cases. Distributed, persistence, churn-guard, and ring-buffer cases use proxies rather than the production orchestrator/store. The C++ cases report repeated aggregates and do not calculate p99; no connected external processor was verified. Manifest gates are `UNVERIFIED`, not `PASS`.
+- Action: implement a suitable percentile measurement/evidence path, retain release-profile results and baseline comparisons, and add production-path benchmarks where required.
 
 ### Closed
 

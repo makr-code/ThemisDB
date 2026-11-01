@@ -33,6 +33,8 @@ class CuratedModuleIndexTests(unittest.TestCase):
         self.assertIn("[Updates module context](UPDATES.md)", modules)
         self.assertIn("[Ethics AI module context](ETHICS_AI.md)", modules)
         self.assertIn("[DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md)", index)
+        self.assertIn("[MAINTENANCE.md](MAINTENANCE.md)", index)
+        self.assertIn("[Maintenance module context](MAINTENANCE.md)", modules)
         self.assertIn("AI_Used: true", index)
         self.assertIn("must not redefine project status", index)
         self.assertIn("[Importer module context](IMPORTERS.md)", modules)
@@ -99,6 +101,7 @@ class CuratedModuleIndexTests(unittest.TestCase):
                 "IMPORTERS.md",
                 "UPDATES.md",
                 "DISTRIBUTED_TENSOR.md",
+                "MAINTENANCE.md",
             ):
                 (wiki_dir / name).write_text(f"# {name}\n", encoding="utf-8")
 
@@ -112,8 +115,43 @@ class CuratedModuleIndexTests(unittest.TestCase):
                 "ai_context/developer_llm_wiki/ETHICS_AI.md",
                 "ai_context/developer_llm_wiki/UPDATES.md",
                 "ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md",
+                "ai_context/developer_llm_wiki/MAINTENANCE.md",
             },
         )
+
+    def test_source_scan_preserves_timestamp_for_unchanged_content(self):
+        wiki_sync = _load_module()
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo_root = Path(temp_dir)
+            source = repo_root / "ai_context" / "maintenance.md"
+            source.parent.mkdir(parents=True)
+            source.write_text("# Maintenance\n", encoding="utf-8")
+            content_hash = wiki_sync.hashlib.sha256(source.read_bytes()).hexdigest()
+            previous = {
+                "sources": [
+                    {
+                        "path": "ai_context/maintenance.md",
+                        "sha256": content_hash,
+                        "modified_utc": "2026-10-30T12:00:00+00:00",
+                    }
+                ]
+            }
+
+            unchanged = wiki_sync.collect_sources(
+                repo_root, full_sync=False, previous=previous
+            )
+            self.assertEqual(
+                unchanged[0].modified_utc, "2026-10-30T12:00:00+00:00"
+            )
+
+            source.write_text("# Maintenance updated\n", encoding="utf-8")
+            changed = wiki_sync.collect_sources(
+                repo_root, full_sync=False, previous=previous
+            )
+            self.assertNotEqual(
+                changed[0].modified_utc, "2026-10-30T12:00:00+00:00"
+            )
 
 
 if __name__ == "__main__":

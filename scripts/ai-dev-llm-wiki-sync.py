@@ -140,10 +140,20 @@ def classify_source(path_rel: str) -> str:
     return "misc"
 
 
-def collect_sources(repo_root: Path, full_sync: bool) -> List[SourceEntry]:
+def collect_sources(
+    repo_root: Path, full_sync: bool, previous: Optional[dict] = None
+) -> List[SourceEntry]:
     patterns = list(STANDARD_SOURCE_GLOBS)
     if full_sync:
         patterns.extend(FULL_SYNC_EXTRA_GLOBS)
+
+    previous_sources: Dict[str, dict] = {}
+    if previous and isinstance(previous.get("sources"), list):
+        previous_sources = {
+            item["path"]: item
+            for item in previous["sources"]
+            if isinstance(item, dict) and isinstance(item.get("path"), str)
+        }
 
     files: List[Path] = []
     for root_doc in ROOT_DOCS:
@@ -168,13 +178,21 @@ def collect_sources(repo_root: Path, full_sync: bool) -> List[SourceEntry]:
         abs_path = unique_files[path_rel]
         digest = hashlib.sha256(abs_path.read_bytes()).hexdigest()
         stat = abs_path.stat()
+        previous_entry = previous_sources.get(path_rel, {})
+        previous_modified = previous_entry.get("modified_utc")
+        modified_utc = (
+            previous_modified
+            if previous_entry.get("sha256") == digest
+            and isinstance(previous_modified, str)
+            else datetime.fromtimestamp(stat.st_mtime, UTC).isoformat(timespec="seconds")
+        )
         entries.append(
             SourceEntry(
                 path=path_rel,
                 category=classify_source(path_rel),
                 size=stat.st_size,
                 sha256=digest,
-                modified_utc=datetime.fromtimestamp(stat.st_mtime, UTC).isoformat(timespec="seconds"),
+                modified_utc=modified_utc,
             )
         )
     return entries
@@ -295,6 +313,7 @@ def render_index(entries: Sequence[SourceEntry], generated_at: str, full_sync: b
             "- [IMPORTERS.md](IMPORTERS.md) — curated importer module context",
             "- [UPDATES.md](UPDATES.md) — curated updates module context",
             "- [DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md) — curated distributed tensor module context",
+            "- [MAINTENANCE.md](MAINTENANCE.md) — maintenance runtime API, CRUD churn enforcement, persistence, and unverified benchmark gates",
             "- [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)",
             "- [WIKI_STATUS.json](WIKI_STATUS.json)",
             "- [WIKI_DELTA_REPORT.md](WIKI_DELTA_REPORT.md)",
@@ -372,6 +391,7 @@ def render_modules_and_apis(repo_root: Path, entries: Sequence[SourceEntry]) -> 
             "- [Importer module context](IMPORTERS.md) — shared contracts, connector boundaries, focused test evidence, and operational limits.",
             "- [Updates module context](UPDATES.md) — update lifecycle, rollout and patch contracts, diagnostic evidence, and operator boundaries.",
             "- [Distributed tensor module context](DISTRIBUTED_TENSOR.md) — tensor artifact contracts, planning boundaries, C++ requirements, and verified test/benchmark evidence.",
+            "- [Maintenance module context](MAINTENANCE.md) — runtime API boundaries, schedule CRUD churn enforcement, persistence behavior, and benchmark evidence status.",
             "",
             *lines[4:],
         ]
@@ -524,9 +544,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         return 2
 
     generated_at = datetime.now(UTC).isoformat(timespec="seconds")
-    entries = collect_sources(repo_root, full_sync=args.full_sync)
-    digest = aggregate_hash(entries)
     prev_status = load_previous_status(repo_root / STATUS_JSON)
+    entries = collect_sources(repo_root, full_sync=args.full_sync, previous=prev_status)
+    digest = aggregate_hash(entries)
     delta = build_delta(prev_status, entries)
 
     output_files = [

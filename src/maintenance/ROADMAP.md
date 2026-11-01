@@ -17,7 +17,7 @@ Production maintenance runtime exists for schedule orchestration, execution coor
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [~] implement the in-flight schedule guard and add model-based churn fixtures (Target: Q4 2026) — implementation: `database_maintenance_orchestrator.cpp`; `test_maintenance_churn_hardening_focused.cpp` models the guard/limit rather than invoking the production orchestrator. **TODO:** `checkChurnLimit()` has no production call site, so `max_schedule_changes_per_interval` is not enforced.
+- [x] enforce schedule mutation churn limits on production CRUD paths (Target: Q4 2026) — create/update/patch/delete call `checkChurnLimit()` and production coverage is in `tests/database/test_database_maintenance_orchestrator.cpp`. The separate focused churn fixture remains a model test for its other cases.
 - [x] add mock-store stress fixtures for serialization and handler-outcome shapes (Target: Q4 2026) — evidence: tests/maintenance/test_maintenance_stress_focused.cpp (MTN-21..MTN-28). **Note:** this fixture's all-or-nothing `PersistenceCorrupt` behavior is not the production store contract; production store tests are in `tests/database/test_database_maintenance_orchestrator.cpp`.
 - [~] implement operator diagnostics and add serialization/model tests (Target: Q4 2026) — implementation: `database_maintenance_orchestrator.cpp` and `maintenance_health_report.h`; `test_maintenance_diagnostics_focused.cpp` does not exercise the production ring buffer.
 
@@ -29,8 +29,8 @@ Production maintenance runtime exists for schedule orchestration, execution coor
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [~] document the current schedule/execution/persistence declarations for the active major line (Target: Q3 2026) — evidence: `include/maintenance/` headers. **TODO:** reconcile `maintenance_api_contract.h` with the runtime `MaintenanceScheduleEntry` and `Result`/`Error` implementation before claiming a frozen runtime contract.
-- [~] define the runtime error taxonomy for schedule, persistence, and handler execution (Target: Q3 2026) — `maintenance_api_contract.h` declares helper error codes, but the orchestrator does not use them; runtime errors currently use repository `Error` values.
+- [x] distinguish helper contract types from the production API (Target: Q4 2026) — `maintenance_api_contract.h` now states that its helper taxonomy and types are not runtime guarantees; the orchestrator uses `MaintenanceScheduleEntry`, `MaintenanceHealthReport`, and repository `Result`/`Error`.
+- [~] define a unified runtime error taxonomy for schedule, persistence, and handler execution (Target: Q1 2027) — current operations return repository `Error` values; the compatibility helper enum is not used by runtime code.
 
 ### Phase 2: Core Implementation
 - [x] complete hardening for orchestrator and schedule-store internals (Target: Q4 2026) — evidence: src/maintenance/database_maintenance_orchestrator.cpp; src/maintenance/maintenance_schedule_store.cpp; tests/maintenance/test_maintenance_hardening_phase23_focused.cpp (MTN-10, MTN-11, MTN-14, MTN-16)
@@ -46,7 +46,7 @@ Production maintenance runtime exists for schedule orchestration, execution coor
 
 ### Phase 5: Performance and Hardening
 - [x] add benchmark source/target definitions for maintenance proxies (Target: Q4 2026) — evidence: benchmarks/maintenance/bench_maintenance_release_gates.cpp and benchmarks/maintenance/CMakeLists.txt
-- [?] validate p95/p99 and throughput behavior against release baselines — **TODO:** no measured run or baseline comparison is established by the benchmark source or manifest alone.
+- [?] validate p95/p99 and throughput behavior against release baselines — the C++ cases emit repeated aggregates, not per-operation percentiles; all manifest gates are UNVERIFIED until a suitable measurement and evidence path exists.
 
 ### Phase 6: Documentation and Acceptance
 - [x] core maintenance module docs aligned to source-verifiable behavior
@@ -62,15 +62,17 @@ Production maintenance runtime exists for schedule orchestration, execution coor
 
 ## Known Issues and Limitations
 
-- `max_schedule_changes_per_interval` is not enforced: `checkChurnLimit()` has
-  no production call site, and the churn tests use a local model.
+- `max_schedule_changes_per_interval` is an in-memory fixed-window limit; its
+  counts reset after orchestrator restart. Existing-schedule attempts consume a
+  slot even if persistence later fails; successful deletes clear their counters.
 - Persistence errors are returned by schedule mutations or logged at startup,
-  but are not emitted as `FAILED_PERSISTENCE` dispatch outcomes; the helper error
-  taxonomy in `maintenance_api_contract.h` is not wired into the orchestrator.
+  but are not emitted as `FAILED_PERSISTENCE` dispatch outcomes. The helper error
+  taxonomy in `maintenance_api_contract.h` is intentionally not the runtime
+  taxonomy; runtime APIs continue to use repository `Error` values.
 - Maintenance benchmark targets are proxies; their C++ cases do not calculate
-  p99, and no release-profile output or baseline comparison is established.
-  Verify any external percentile processing and add production-path benchmarks
-  where required.
+  p99, and no external processor connected to them was verified. The manifest
+  keeps the p99 targets but marks all gates UNVERIFIED; production-path
+  benchmarks and release-profile evidence remain future work.
 
 ## Breaking Changes
 
@@ -94,6 +96,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [?] Fail-closed behavior for distributed/acceleration paths — **TODO:** the standalone helper contract is not wired into the runtime orchestrator.
+- [?] Fail-closed behavior for distributed/acceleration paths — **TODO:** the production orchestrator has no fail-closed health gate; the compatibility helper predicate does not control runtime dispatch.
 - [?] Benchmark-backed p95/p99 baselines on representative hardware — **TODO:** no measured run evidence is cited.
 - [~] Operator diagnostics and runbooks exist; **TODO:** alert thresholds/integration are deployment-owned and not defined by the module.

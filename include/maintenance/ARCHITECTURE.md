@@ -3,7 +3,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -69,7 +69,7 @@ All public types reside in the `themis::maintenance` namespace (or a sub-namespa
 
 - Headers in `include/maintenance/` expose the **stable public API**; internal types live in `src/maintenance/`.
 - Clients depend only on types declared here; implementation details in `src/` may change without notice.
-- `maintenance_api_contract.h` also declares helper `MaintenanceError`, descriptor, and health-snapshot types. **TODO:** its documented timeout, fail-closed, and reload guarantees are not implemented by the current orchestrator; do not treat them as runtime guarantees until reconciled.
+- `maintenance_api_contract.h` declares compatibility helper error, descriptor, and snapshot types for focused tests/benchmarks. It explicitly does not define runtime guarantees; the orchestrator uses `MaintenanceScheduleEntry`, `MaintenanceHealthReport`, and repository `Result`/`Error` values.
 - For breaking-change policy see [`../../VERSIONING.md`](../../VERSIONING.md).
 - **TODO/Assumption:** The legacy **Graph** layer association is not verified
   against current maintenance ownership; see the public-header roadmap.

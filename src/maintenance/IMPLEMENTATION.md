@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -124,7 +124,8 @@ semantics.
 - [Architecture and failure boundaries](ARCHITECTURE.md)
 - [Trust boundaries](TRUST.md)
 
-> **TODO/Assumption:** `maintenance_api_contract.h` currently defines helper
-> taxonomy/descriptor types that are not the runtime schedule or error contract.
-> Reconcile that header before relying on its timeout, fail-closed, or atomic
-> reload guarantees.
+`maintenance_api_contract.h` now identifies its taxonomy, descriptor, health
+snapshot, and fail-closed predicate as compatibility helpers for tests and
+benchmarks, not runtime guarantees. The runtime contract remains
+`MaintenanceScheduleEntry`, `MaintenanceHealthReport`, and repository
+`Result<T>`/`Error`.

@@ -3,7 +3,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -57,11 +57,21 @@ Out of scope:
 - `triggerNow()` does not require the schedule's `enabled` flag and bypasses cron timing; `force=true` bypasses only the UTC window check.
 - Cancellation and later task failures do not undo already-completed task effects.
 
-> **TODO/Assumption:** `include/maintenance/maintenance_api_contract.h` declares a separate `MaintenanceError` taxonomy and descriptor/snapshot types. The current orchestrator implementation uses `Result`/`Error` and `MaintenanceScheduleEntry` instead; do not treat the helper contract header's fail-closed, timeout, or error-code statements as implemented orchestrator behavior until the API contract is reconciled.
+`include/maintenance/maintenance_api_contract.h` contains compatibility helper
+types used by focused tests and synthetic benchmarks; it is not the runtime
+contract. The orchestrator uses `MaintenanceScheduleEntry`,
+`MaintenanceHealthReport`, and repository `Result<T>`/`Error` values. In
+particular, the helper error taxonomy and fail-closed predicate do not control
+runtime dispatch.
 
-> **TODO:** `max_schedule_changes_per_interval` and `checkChurnLimit()` are
-> declared, but no production schedule-mutation path calls the helper. Do not
-> rely on this field as an active rate limit.
+`max_schedule_changes_per_interval` is enforced by create, update, patch, and
+delete operations. Zero disables it; a non-zero value caps validated mutation
+attempts per schedule in a fixed 60-second in-memory window. Existing-schedule
+attempts consume a slot before persistence, including when a later storage write
+fails. A failed create discards its uncommitted counter; successful deletion
+clears the schedule's counter.
+Updates, patches, and deletes use the existing schedule's limit; creates use the
+submitted entry's limit. The counter resets after process restart.
 
 ## Sourcecode Verification (Module: maintenance/readme)
 

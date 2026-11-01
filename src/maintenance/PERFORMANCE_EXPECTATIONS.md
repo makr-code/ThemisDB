@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -27,17 +27,17 @@ Exact model backend not verifiable from final document text alone.
 when `THEMIS_BUILD_BENCHMARKS` is enabled. The benchmark CMake integration also
 registers both targets with CTest.
 
-| Gate | Registered benchmark case | Threshold | What the case measures |
-|---|---|---|
-| GATE-MTN-01 | `mtn/BM_MTN01_ErrorEnumCast` | p99 ≤ 5 ns | Casts a helper `MaintenanceError` value |
-| GATE-MTN-02 | `mtn/BM_MTN02_SwitchDispatch` | p99 ≤ 10 ns | Switches over helper error codes |
-| GATE-MTN-03 | `mtn/BM_MTN03_StructAlloc` | p99 ≤ 500 ns | Initializes a `MaintenanceScheduleDescriptor`; not schedule CRUD |
-| GATE-MTN-04 | `mtn/BM_MTN04_BatchCast` | p99 ≤ 5 µs/batch | Casts 1,000 helper error values |
-| GATE-MTN-05 | `mtn/BM_MTN05_InFlightGuard` | p99 ≤ 50 µs | Local mutex and in-flight-set insert/erase model |
-| GATE-MTN-06 | `mtn/BM_MTN06_PersistReloadRoundTrip` | p99 ≤ 2 ms | JSON and temporary-file round trip for 10 schedules; not `MaintenanceScheduleStore` |
-| GATE-MTN-07 | `mtn/BM_MTN07_RingBufferWrite` | p99 ≤ 200 ns | Local mutex/deque ring; not the orchestrator's ring buffer |
-| GATE-MTN-DIST-01 | `mtn/BM_MTN_DIST01_LeaderGatedDispatch` | p99 ≤ 500 µs | Mock mutex/boolean leadership and counter, not `IDistributedLock` dispatch |
-| GATE-MTN-DIST-02 | `mtn/BM_MTN_DIST02_ScheduleListing` | p99 ≤ 5 ms | Copies 1,000 entries from a local map; not `DatabaseMaintenanceOrchestrator::listSchedules()` |
+| Gate | Registered benchmark case | Target | What the case measures | Status |
+|---|---|---|---|---|
+| GATE-MTN-01 | `mtn/BM_MTN01_ErrorEnumCast` | p99 ≤ 5 ns | Casts a helper `MaintenanceError` value | UNVERIFIED |
+| GATE-MTN-02 | `mtn/BM_MTN02_SwitchDispatch` | p99 ≤ 10 ns | Switches over helper error codes | UNVERIFIED |
+| GATE-MTN-03 | `mtn/BM_MTN03_StructAlloc` | p99 ≤ 500 ns | Initializes a `MaintenanceScheduleDescriptor`; not schedule CRUD | UNVERIFIED |
+| GATE-MTN-04 | `mtn/BM_MTN04_BatchCast` | p99 ≤ 5 µs/batch | Casts 1,000 helper error values | UNVERIFIED |
+| GATE-MTN-05 | `mtn/BM_MTN05_InFlightGuard` | p99 ≤ 50 µs | Local mutex and in-flight-set insert/erase model | UNVERIFIED |
+| GATE-MTN-06 | `mtn/BM_MTN06_PersistReloadRoundTrip` | p99 ≤ 2 ms | JSON and temporary-file round trip for 10 schedules; not `MaintenanceScheduleStore` | UNVERIFIED |
+| GATE-MTN-07 | `mtn/BM_MTN07_RingBufferWrite` | p99 ≤ 200 ns | Local mutex/deque ring; not the orchestrator's ring buffer | UNVERIFIED |
+| GATE-MTN-DIST-01 | `mtn/BM_MTN_DIST01_LeaderGatedDispatch` | p99 ≤ 500 µs | Mock mutex/boolean leadership and counter, not `IDistributedLock` dispatch | UNVERIFIED |
+| GATE-MTN-DIST-02 | `mtn/BM_MTN_DIST02_ScheduleListing` | p99 ≤ 5 ms | Copies 1,000 entries from a local map; not `DatabaseMaintenanceOrchestrator::listSchedules()` | UNVERIFIED |
 
 ## Interpretation and evidence
 
@@ -46,13 +46,11 @@ registers both targets with CTest.
   `benchmarks/maintenance/release_gate_manifest_mtn.json`.
 - The benchmark implementations are proxies or helper-type microbenchmarks;
   none measures the production orchestrator or schedule store end to end.
-- The source and manifest label these limits as p99, but the benchmark sources
-  use repeated Google Benchmark runs with aggregate reporting; they do not
-  calculate a p99 percentile themselves. **TODO/Assumption:** verify an
-  external result-processing step supplies the manifest's p99 metric before
-  treating these as blocking percentile gates.
-- The manifest's `PASS` labels have no accompanying run output here and must not
-  be treated as measured results. Record release-profile output and baseline
-  comparisons before claiming a performance gate passed.
+- The p99 values are target thresholds only. The benchmark sources report
+  repeated Google Benchmark aggregates; they do not calculate per-operation
+  p99, and no external processor wired to these targets was verified.
+- The manifest marks all nine gates `UNVERIFIED`; there is no measured run output
+  or baseline comparison to support a `PASS`. Do not treat source labels,
+  aggregate means, or target registration as p99 evidence.
 - Repository benchmarks for scheduler, sharding, index rebuild, or TPCC are not
   maintenance-owned release gates and are intentionally not mapped here.

@@ -3,7 +3,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -37,8 +37,8 @@ ctest --test-dir build-gcc-linux-nightly \
 ```
 
 The benchmark tests execute source-defined cases. Capture their output and
-baseline comparison separately; target registration and manifest `PASS` labels
-are not run-result evidence. Although source comments and the manifest call the
-limits p99, the C++ cases report repeated aggregates rather than calculating a
-p99 percentile; verify any external percentile-processing step before treating
-these as measured p99 gates.
+baseline comparison separately; target registration is not run-result evidence.
+The C++ cases report repeated Google Benchmark aggregates, not per-operation
+p99. No external percentile processor connected to these targets was verified,
+so all nine manifest gates are `UNVERIFIED` and their p99 thresholds remain
+targets rather than measured release results.
