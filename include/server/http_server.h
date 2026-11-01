@@ -214,6 +214,10 @@ namespace index {
 class SpatialIndexManager;
 }
 
+namespace metadata {
+class IMetadataSecurityProvider;
+}
+
 namespace server {
 
 // Forward declare SSE manager so member can exist without header
@@ -255,6 +259,15 @@ public:
         uint32_t sse_max_events_per_second = 0; // 0 = unlimited; server-side rate limit per connection
         // API rate limits
         uint32_t audit_rate_limit_per_minute = 100; // 0 = unlimited
+
+        /**
+         * @brief Optional provider for metadata HTTP route authorization.
+         * @note When set, metadata requests require an enabled AuthMiddleware,
+         *       a valid bearer token, and a matching provider grant. A null
+         *       value preserves the existing route behavior.
+         */
+        std::shared_ptr<themis::metadata::IMetadataSecurityProvider>
+            metadata_security_provider;
         
         // TLS/SSL Configuration
         bool enable_tls = false; // Enable HTTPS (TLS)

@@ -1,9 +1,25 @@
 # METADATA DOXYGEN
 
-Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+**Author:** ThemisDB Contributors  
+**Created:** 2026-09-20  
+**Last Updated:** 2026-10-31  
+**Status:** archived  
+**AI_Used:** true  
+**AI_Models:** unknown  
+**AI_Contributor:** GitHub Copilot coding agent / ThemisDB documentation orchestrator  
+**Human_Review:** false  
+**Human_Author:** ThemisDB Contributors  
+**Source level:** level1 — module-local  
+**SOT domain:** module-behavior  
+**Canonical source references:** [current metadata public headers](../../include/metadata/), [Doxygen configuration](../../Doxyfile)  
+**Related issue / milestone:** [#7362](https://github.com/makr-code/ThemisDB/issues/7362) · DOC-WEEKLY-2026-W44
+
+> Exact model backend not verifiable from final document text alone.
+
+> Historical generated snapshot only: the source paths below point to a
+> 2026-09-20 Windows build directory. This file was not regenerated or
+> revalidated for this update; symbol lists and metrics must not be used as the
+> current API or Doxygen-coverage authority. Consult the current headers.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -7198,4 +7214,3 @@ Status: active
   - `to` (const SchemaManager::TableSchema &): The target (new) schema.
 - Return: A SchemaDiff describing every detected change. Returns an empty diff when the schemas are identical.
 - Details: from The baseline (old) schema. to The target (new) schema. A SchemaDiff describing every detected change. Returns an empty diff when the schemas are identical.
-

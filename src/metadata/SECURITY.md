@@ -1,7 +1,20 @@
-# Security - Metadata Module
+# Security — Metadata Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+**Author:** ThemisDB Contributors  
+**Created:** 2026-10-31  
+**Last Updated:** 2026-10-31  
+**Status:** review  
+**AI_Used:** true  
+**AI_Models:** unknown  
+**AI_Contributor:** GitHub Copilot coding agent / ThemisDB documentation orchestrator  
+**Human_Review:** false  
+**Human_Author:** ThemisDB Contributors  
+**Source level:** level1 — module-local  
+**SOT domain:** security  
+**Canonical source references:** [security provider header](../../include/metadata/imetadata_security_provider.h), [export policy header](../../include/metadata/imetadata_export_policy.h), [catalog exporter header](../../include/metadata/catalog_exporter.h), [metadata security tests](../../tests/metadata/test_metadata_security_provider.cpp)  
+**Related issue / milestone:** [#7362](https://github.com/makr-code/ThemisDB/issues/7362) · DOC-WEEKLY-2026-W44
+
+> Exact model backend not verifiable from final document text alone.
 
 Report vulnerabilities via project-level SECURITY.md.
 
@@ -14,7 +27,7 @@ Security in the metadata module focuses on safe schema/metadata introspection bo
 | Threat | Current Mitigation Surface |
 |---|---|
 | malformed metadata/schema payloads | validation and constraint enforcement paths |
-| unauthorized or unsafe metadata export behavior | explicit export policy and integration handling |
+| unauthorized or unsafe metadata export behavior | caller-owned authorization and integration handling; the current `CatalogExporter` API does not accept `IMetadataExportPolicy` |
 | hidden metadata consistency corruption | consistency checker and audit surfaces |
 | silent lineage/export failures | explicit error propagation and diagnostics |
 
@@ -23,7 +36,9 @@ Security in the metadata module focuses on safe schema/metadata introspection bo
 - metadata/schema intake is gated by validation and explicit outcomes.
 - consistency and audit paths expose observable failure states.
 - export/integration behavior surfaces explicit errors.
-- unsupported metadata paths fail deterministically rather than silently bypassing.
+- `IMetadataSecurityProvider` and `IMetadataExportPolicy` are separate interfaces;
+  their presence does not establish that a server route or exporter call uses
+  them. Confirm wiring at each caller.
 
 ## Security Follow-ups
 
@@ -41,5 +56,9 @@ Security in the metadata module focuses on safe schema/metadata introspection bo
   - src/metadata/catalog_exporter.cpp
 - Verified controls:
   - validation-gated metadata behavior
-  - deterministic export/integration failure handling
+  - explicit export/integration failure handling
   - bounded and observable consistency/audit behavior
+
+  No security audit or complete caller-wiring review was performed for this
+  documentation update. For the source-visible provider limits and required
+  integration checks, see [`TRUST.md`](./TRUST.md).

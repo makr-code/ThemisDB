@@ -1440,6 +1440,9 @@ HttpServer::HttpServer(
             schema_manager_ = std::make_unique<themis::SchemaManager>(*storage_, secondary_index_.get());
             schema_api_handler_ = std::make_unique<server::SchemaApiHandler>(
                 storage_, secondary_index_, schema_manager_.get());
+            schema_api_handler_->setMetadataSecurityProvider(
+                config_.metadata_security_provider);
+            schema_api_handler_->setAuthMiddleware(auth_);
 
             // Wire metadata sub-components into SchemaApiHandler
             stats_collector_    = std::make_unique<StatisticsCollector>(*storage_);
