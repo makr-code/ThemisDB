@@ -669,6 +669,7 @@ jobs:
             fi
             export SCCACHE_GHA_ENABLED=false
             echo "SCCACHE_GHA_ENABLED=false" >> "$GITHUB_ENV"
+            unset CMAKE_C_COMPILER_LAUNCHER CMAKE_CXX_COMPILER_LAUNCHER
             if [ -n "${BUILD_DIR:-}" ] && [ -d "$BUILD_DIR" ]; then
               cmake "$BUILD_DIR" -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER= 2>&1 | tee -a "$build_output_log"
             fi

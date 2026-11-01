@@ -143,6 +143,11 @@ after source changes and isolating concurrent job saves. Their existing automati
 success-only save policy remains unchanged; the new key layout starts cold.
 
 Focused regression checks: `python -m pytest tools/tests/test_check_workflow_boundaries.py -q`.
+The apt-based `gate-pr-core.yml` release-critical quality lane explicitly clears
+the toolchain and uses local sccache. This avoids the observed GHA backend outage
+followed by a missing-vcpkg-toolchain reconfigure failure. Build recovery unsets
+both launcher environment variables as configure recovery already does, without
+resetting other lanes' real toolchains. Full post-fix CI execution remains pending.
 
 Wiki health note: the generated Index source count/hash currently differs from
 `WIKI_STATUS.json`; use the canonical workflow sources above for this contract.

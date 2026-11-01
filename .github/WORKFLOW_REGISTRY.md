@@ -100,6 +100,16 @@ Jobs unter denselben Cache-Key zusammenzufassen. Automatische Saves, Trigger
 und Build-/Testverhalten bleiben unverändert. Einmaliger Cold-Start beim Wechsel
 der Schlüsselstruktur und weiterhin erfolgsabhängige Saves sind zu beachten.
 
+### Release-Critical-Quality-Recovery (2026-11-01)
+
+Die apt-basierte Quality-Build-Lane in `gate-pr-core.yml` verwendet lokalen
+sccache-Speicher und setzt `CMAKE_TOOLCHAIN_FILE` explizit leer. Dies verhindert
+die im CI beobachtete Retry-Kaskade aus GHA-sccache-Backendausfall und anschließend
+fehlender vcpkg-Toolchain beim Reconfigure. Reusable-Build-Recovery entfernt nun
+wie Configure-Recovery beide Launcher-Umgebungsvariablen. Bestehende echte
+Toolchain-Verträge anderer Lanes bleiben unverändert; Testselektion und Gates
+werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nachzuweisen.
+
 ## Leitprinzipien
 
 - **Keine Schatten-CI:** Alle 99 aktiven Workflow-Dateien sind in diesem Registry dokumentiert.

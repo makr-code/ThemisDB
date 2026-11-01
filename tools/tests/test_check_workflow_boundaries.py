@@ -297,6 +297,26 @@ def test_core_gate_delegates_issue_permissions_to_build_components():
         assert caller["permissions"]["pull-requests"] == "write"
 
 
+def test_release_critical_quality_build_explicitly_uses_system_dependencies(tmp_path: Path):
+    root = Path(__file__).resolve().parents[2]
+    core = yaml.safe_load((root / ".github/workflows/gate-pr-core.yml").read_text())
+    inputs = core["jobs"]["quality-test-build"]["with"]
+    assert inputs["enable_sccache_gha"] is False
+    assert "-DCMAKE_TOOLCHAIN_FILE=" in inputs["configure_flags"].split()
+    assert "dependencies installed via apt" in inputs["setup_command"]
+    reusable = yaml.safe_load((root / ".github/workflows/reusable-cmake-build.yml").read_text())
+    resolver = next(step for step in reusable["jobs"]["build"]["steps"] if step.get("id") == "resolve_mode")
+    output = tmp_path / "output"
+    subprocess.run(
+        ["bash", "-c", resolver["run"]],
+        env={**os.environ, **{key: "" for key in resolver["env"]},
+             "BUILD_MODE": inputs["build_mode"], "PRESET": inputs["preset"],
+             "CONFIGURE_FLAGS": inputs["configure_flags"], "GITHUB_OUTPUT": str(output)},
+        check=True, capture_output=True,
+    )
+    assert "-DCMAKE_TOOLCHAIN_FILE=" in output.read_text()
+
+
 def test_cmake_cache_retries_disable_forced_launcher_without_resetting_toolchain():
     workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "reusable-cmake-build.yml"
     steps = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]["build"]["steps"]
@@ -329,7 +349,7 @@ def test_cmake_cache_recovery_propagates_status(tmp_path: Path, stage, retry_sta
         '#!/bin/bash\n'
         'echo "$*" >> "$CALLS_FILE"\n'
         'if [[ "$*" == *"-DTHEMIS_ENABLE_COMPILER_CACHE=OFF"* ]]; then\n'
-        '  if [[ "$TEST_STAGE" == Configure && ( -v CMAKE_C_COMPILER_LAUNCHER || -v CMAKE_CXX_COMPILER_LAUNCHER ) ]]; then exit 8; fi\n'
+        '  if [[ -v CMAKE_C_COMPILER_LAUNCHER || -v CMAKE_CXX_COMPILER_LAUNCHER ]]; then exit 8; fi\n'
         '  # Arrow rediscovers sccache after the compiler-probe retry clears launchers.\n'
         '  if [[ "$SCCACHE_GHA_ENABLED" != false ]]; then\n'
         '    echo "sccache: error: Server startup failed: cache storage failed to read"\n'

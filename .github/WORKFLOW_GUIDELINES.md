@@ -110,6 +110,12 @@ flowchart TD
   Custom-Configure-Aufrufe geben ihr tatsächliches Binärverzeichnis mit
   `build_directory` an, damit Cache und Recovery dasselbe Verzeichnis verwenden.
   Recovery konfiguriert das vorhandene Cache-Verzeichnis, nicht pauschal die Root-Quelle.
+  Configure- und Build-Recovery entfernen außerdem beide Launcher-Umgebungsvariablen,
+  damit verschachtelte Dependency-Builds keinen deaktivierten Launcher rediscovern.
+  Die apt-basierte Release-Critical-Quality-Lane in `gate-pr-core.yml` setzt
+  `CMAKE_TOOLCHAIN_FILE` explizit leer und verwendet lokalen sccache-Speicher.
+  So bleibt Systempaket-Modus auch beim Reconfigure erhalten, ohne einen
+  fehlenden vcpkg-Submodulpfad als Toolchain zu aktivieren.
 - Fehlgeschlagene Läufe ohne Jobs können abgelaufene Ausführungsfreigaben sein.
   Dies ist kein Testfehler; Maintainer müssen die Ausführung freigeben.
 - Beim Wave-4-Gate wird das CMake-Preset explizit ausgeführt. Der Benchmark läuft
