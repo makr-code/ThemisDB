@@ -1,16 +1,34 @@
-<!-- Status: current | validated: 2026-05-13 | auditor: Copilot -->
+---
+Author: "ThemisDB Contributors"
+Created: "2026-05-13"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+<!-- Status: historical design proposal | last source comparison: 2026-05-13 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · SECURITY.md · AUDIT.md -->
 
 # VCCDB Design — Architektonischer Entwurf des ThemisDB Multi-Modell-Kerns
 
 **Version:** 1.2
 **Last Updated:** 2026-05-13
-**Status:** `current` — Inhalt gegen Modulcode v1.7.0 und Commit `a04b89b` verifiziert.
+**Status:** `historical proposal` — The design below is not a description of
+the current server implementation or a normative storage/API contract. The
+implementation has not been revalidated against current source.
 **Module Path:** `src/server/`
 
 > **Scope dieses Dokuments:**
 > Dieses Dokument beschreibt die kernel-level Architektur des kanonischen Speicherformats,
 > der Projektionsschichten, der Speicherhierarchie und der Sicherheitsarchitektur von ThemisDB.
+> Es ist ein historischer Entwurf; references to candidate technologies and runtime behavior
+> are assumptions/proposals unless independently confirmed in current module documentation.
 > Es ist ein ergänzendes Entwurfsdokument neben den operativen Server-Dokumenten.
 > Für die laufende Server-Implementierung, Schnittstellen und Betriebsdokumentation
 > siehe [README.md](README.md), [ARCHITECTURE.md](ARCHITECTURE.md), [ROADMAP.md](ROADMAP.md),
@@ -632,7 +650,7 @@ Dieses Dokument wurde gegen den Modulcode und die bestehenden Server-Dokumentati
 
 ### Querverweis auf Governance-Dokumente
 
-- [Documentation Review Guidelines](../../docs/DOCUMENTATION_REVIEW_GUIDELINES.md)
-- [Systematischer Reviewplan](../../docs/SYSTEMATISCHER_REVIEWPLAN.md)
+- [Archived Documentation Review Guidelines](../../docs/ARCHIVED/root-drafts/DOCUMENTATION_REVIEW_GUIDELINES.md)
+- [Archived systematischer Reviewplan](../../docs/ARCHIVED/implementation-summaries/SYSTEMATISCHER_REVIEWPLAN.md)
 - [Source Code Audit](../../docs/de/development/SOURCE_CODE_AUDIT.md)
 - [Audit Runbook](../../docs/audit-framework/AUDIT_RUNBOOK.md)
