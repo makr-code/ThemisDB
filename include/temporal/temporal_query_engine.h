@@ -489,10 +489,13 @@ public:
     explicit QueryCache(size_t max_entries = 256);
 
     /**
-     * Look up a cached result.
+     * @brief Look up a cached result.
      * Returns a copy of the cached vector, or std::nullopt on cache miss.
      * Returning by value avoids returning a pointer into internal storage
      * that can be invalidated by a concurrent put/invalidate/clear call.
+     * @param table_name Logical table name used as part of the cache key.
+     * @param as_of System-time instant used as part of the cache key.
+     * @return Cached rows, or std::nullopt when the key is not cached.
      */
     std::optional<std::vector<VersionedDocument>> get(const std::string& table_name,
                                                       Timestamp as_of) const;
@@ -508,6 +511,7 @@ public:
     /** Discard all cached entries. */
     void clear();
 
+    /** @brief Return the number of cached entries. */
     size_t size() const;
 
 private:

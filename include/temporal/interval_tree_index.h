@@ -171,28 +171,38 @@ public:
     // ── Queries ───────────────────────────────────────────────────────────────
 
     /**
-     * Return all entries whose interval contains timestamp t,
+     * @brief Return entries whose interval contains timestamp t,
      * i.e. entry.range.start <= t < entry.range.end.
      * O(log n + k).
+     * @param t Timestamp tested against each entry's half-open interval.
+     * @return Matching entries, or an empty vector when none match.
      */
     std::vector<IntervalEntry> queryPoint(Timestamp t) const;
 
     /**
-     * Return all entries whose interval overlaps [from, to).
+     * @brief Return entries whose interval overlaps [from, to).
      * An interval [a, b) overlaps [from, to) iff a < to && from < b.
      * O(log n + k).
+     * @param from Inclusive start of the query interval.
+     * @param to Exclusive end of the query interval.
+     * @return Matching entries, or an empty vector when none match.
      */
     std::vector<IntervalEntry> queryOverlap(Timestamp from, Timestamp to) const;
 
     /**
-     * Return all entries whose interval overlaps the given range.
+     * @brief Return entries whose interval overlaps the given range.
      * Convenience overload for queryOverlap(range.start, range.end).
+     * @param range Half-open interval to query.
+     * @return Matching entries, or an empty vector when none match.
      */
     std::vector<IntervalEntry> queryOverlap(const TimeRange& range) const;
 
     /**
-     * Return all entries for a specific key, optionally filtered to those
+     * @brief Return entries for a key, optionally filtered to those
      * whose interval overlaps the given range.  O(n) worst-case.
+     * @param key Logical key to query.
+     * @param range Optional half-open interval filter.
+     * @return Matching entries, or an empty vector when none match.
      */
     std::vector<IntervalEntry> queryKey(
         const std::string& key,

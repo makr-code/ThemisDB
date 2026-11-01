@@ -359,6 +359,10 @@ public:
      * @brief Return the version valid at timestamp as_of.
      *
      * Queries hot → warm → cold in order, returning the first match.
+     * @param table_name Logical table containing the document.
+     * @param doc_key Document key to query.
+     * @param as_of System-time instant to match.
+     * @return Matching version, or an empty optional when none exists.
      */
     std::optional<VersionedDocument> getAsOf(const std::string& table_name,
                                              const std::string& doc_key,
@@ -368,6 +372,9 @@ public:
      * @brief Return all stored historical versions, sorted by sys_start.
      *
      * Merges hot + warm + cold tiers.
+     * @param table_name Logical table containing the document.
+     * @param doc_key Document key to query.
+     * @return All stored versions for the key.
      */
     std::vector<VersionedDocument> getHistory(const std::string& table_name,
                                               const std::string& doc_key) const;

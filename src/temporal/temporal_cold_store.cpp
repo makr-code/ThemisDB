@@ -307,7 +307,8 @@ FileSystemBackend::listKeysWithPrefix(const std::string& prefix) const {
      * @brief Reconstruct the directory path the prefix maps to.
      * @param[in] mutex_ Input parameter.
      * @return Return value.
-     * @details prefix format: table'\x01'doc_key'\x01' (with trailing sep → per-key list) table'\x01' (with one sep → per-table list)
+     * @details A key prefix ending with byte 0x01 after the document key selects
+     * that key; a table prefix ending with one byte 0x01 selects the table.
      */
     std::shared_lock lk(mutex_);
     std::vector<std::string> result;
@@ -729,4 +730,3 @@ ColdStoreStats TemporalColdStore::stats() const {
 
 } // namespace temporal
 } // namespace themisdb
-

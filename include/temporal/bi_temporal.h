@@ -146,29 +146,38 @@ public:
     // ── Queries ───────────────────────────────────────────────────────────────
 
     /**
-     * Bi-temporal AS-OF query.
+     * @brief Run a bi-temporal AS-OF query.
      * Returns rows that were current at sys_as_of and whose valid-time period
      * contains valid_at.
+     * @param key Logical row key to query.
+     * @param sys_as_of System-time instant at which the row must have been current.
+     * @param valid_at Valid-time instant that the row's valid-time period must contain.
+     * @return Matching versions, or an empty vector when no version matches.
      */
     std::vector<VersionedDocument> queryBiTemporal(const std::string& key,
                                                    Timestamp sys_as_of,
                                                    Timestamp valid_at) const;
 
     /**
-     * Return all current rows for a key whose valid-time period contains
+     * @brief Return current rows for a key whose valid-time period contains
      * valid_at.
+     * @param key Logical row key to query.
+     * @param valid_at Valid-time instant to test.
+     * @return Matching current versions, or an empty vector when none match.
      */
     std::vector<VersionedDocument> queryCurrentByValidTime(
         const std::string& key, Timestamp valid_at) const;
 
     /**
-     * Detect overlaps among current rows for a key.
-     * Returns pairs of overlapping VersionedDocuments.
+     * @brief Detect overlaps among current rows for a key.
+     * @param key Logical row key to inspect.
+     * @return Pairs of overlapping versions; empty when no overlaps exist.
      */
     std::vector<std::pair<VersionedDocument, VersionedDocument>> findOverlaps(
         const std::string& key) const;
 
     /**
+     * @brief Find uncovered valid-time intervals for a key.
      * Detect gaps in the valid-time coverage of current rows for a key
      * within the half-open interval [@p from, @p to).
      *
@@ -179,12 +188,18 @@ public:
      * covered.  Returns `{{from, to}}` when the key has no current rows or
      * none of them overlap the query range (the entire interval is a gap).
      * Returns an empty vector when @p from >= @p to.
+     * @param key Logical row key to inspect.
+     * @param from Inclusive start of the query interval.
+     * @param to Exclusive end of the query interval.
+     * @return Uncovered sub-intervals, or an empty vector when none exist or
+     *         the query interval is invalid.
      */
     std::vector<TimeRange> findGaps(const std::string& key,
                                     Timestamp from,
                                     Timestamp to) const;
 
     /**
+     * @brief Check whether a valid-time period conflicts with current rows.
      * Check whether inserting a row with the given valid-time @p period for
      * @p key would violate the temporal uniqueness constraint (i.e., overlap
      * with an existing current row).
@@ -192,28 +207,38 @@ public:
      * Returns false immediately when @p period is empty or invalid
      * (i.e., `period.start >= period.end`).
      * Returns true when a conflict exists; false when the insert would succeed.
+     * @param key Logical row key to check.
+     * @param period Candidate half-open valid-time interval.
+     * @return true if the period overlaps a current row; false otherwise.
      */
     bool hasUniquenessConflict(const std::string& key,
                                 const TimeRange& period) const;
 
     /**
-     * Return all versions (history) for a key.
+     * @brief Return all versions (history) for a key.
+     * @param key Logical row key to query.
+     * @return Versions for the key in stored order, or an empty vector if
+     *         the key has no history.
      */
     std::vector<VersionedDocument> getHistory(const std::string& key) const;
 
     /**
-     * Bi-temporal table scan.
+     * @brief Scan rows matching both system and valid time.
      * Returns all rows where sys_time contains sys_as_of AND
      * valid_time contains valid_at.
      * Equivalent to a full-table AS-OF bi-temporal query.
+     * @param sys_as_of System-time instant to query.
+     * @param valid_at Valid-time instant to query.
+     * @return Matching versions, or an empty vector when none match.
      */
     std::vector<VersionedDocument> scanBiTemporal(Timestamp sys_as_of,
                                                    Timestamp valid_at) const;
 
     /**
-     * Return all known keys (including keys whose rows have all been
-     * logically deleted).  Useful for bi-temporal joins that must
-     * enumerate every key ever written to the table.
+     * @brief Return every key ever written to the table.
+     * Includes keys whose rows have all been logically deleted. Useful for
+     * bi-temporal joins that must enumerate every key ever written.
+     * @return All known keys.
      */
     std::vector<std::string> getAllKeys() const;
 

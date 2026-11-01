@@ -152,32 +152,51 @@ public:
 
     // ── Queries ───────────────────────────────────────────────────────────────
 
-    /** Return the current version of a row, if it exists. */
+    /**
+     * @brief Return the current version of a row.
+     * @param key Logical row key.
+     * @return The current version, or an empty optional if the key has none.
+     */
     std::optional<VersionedDocument> getCurrent(const std::string& key) const;
 
-    /** Return the version that was current at the given timestamp. */
+    /**
+     * @brief Return the version current at a system-time instant.
+     * @param key Logical row key.
+     * @param as_of System-time instant in the module's timestamp units.
+     * @return Matching version, or an empty optional when none was current.
+     */
     std::optional<VersionedDocument> getAsOf(const std::string& key,
                                              Timestamp as_of) const;
 
-    /** Return all historical versions of a row. */
+    /**
+     * @brief Return the full version history of a row.
+     * @param key Logical row key.
+     * @return All stored versions for the key, or an empty vector if unknown.
+     */
     std::vector<VersionedDocument> getHistory(const std::string& key) const;
 
     /**
-     * Return all versions of a row whose sys_time overlaps the given range.
+     * @brief Return versions whose system-time overlaps a range.
+     * @param key Logical row key.
+     * @param range Half-open system-time interval to match.
+     * @return Matching versions, or an empty vector when none match.
      */
     std::vector<VersionedDocument> getHistoryInRange(const std::string& key,
                                                      const TimeRange& range) const;
 
     /**
-     * Return all current rows as a snapshot at the given timestamp.
+     * @brief Return all rows current at a system-time instant.
      * When as_of == kMaxTimestamp the latest current rows are returned.
+     * @param as_of System-time instant; kMaxTimestamp selects the latest state.
+     * @return Matching rows, or an empty vector when no rows are current.
      */
     std::vector<VersionedDocument> scan(Timestamp as_of = kMaxTimestamp) const;
 
     /**
-     * Return all known keys (including keys whose rows have all been deleted).
+     * @brief Return all known keys, including keys whose rows were deleted.
      * This allows callers (e.g. RetentionManager) to enumerate every key that
      * ever had data, not just keys with a currently-alive row.
+     * @return All retained keys.
      */
     std::vector<std::string> getAllKeys() const;
 
@@ -251,18 +270,34 @@ public:
 
     // ── Metadata ─────────────────────────────────────────────────────────────
 
+    /**
+     * @brief Return this table's logical name.
+     * @return Reference to the name owned by this table, valid for its lifetime.
+     */
     const std::string& tableName() const noexcept { return table_name_; }
 
-    /** Returns the active Config for this table. */
+    /**
+     * @brief Return the active configuration.
+     * @return Reference to the configuration owned by this table.
+     */
     const Config& getConfig() const noexcept { return config_; }
 
-    /** Number of distinct keys (including deleted ones). */
+    /**
+     * @brief Count distinct keys, including keys whose rows were deleted.
+     * @return Number of keys retained by the table.
+     */
     size_t keyCount() const;
 
-    /** Total number of row versions stored (current + historical). */
+    /**
+     * @brief Count all current and historical row versions.
+     * @return Total number of versions stored.
+     */
     size_t versionCount() const;
 
-    /** JSON statistics for monitoring. */
+    /**
+     * @brief Return JSON statistics for monitoring.
+     * @return Statistics snapshot for this table.
+     */
     nlohmann::json getStatistics() const;
 
 private:

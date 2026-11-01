@@ -253,6 +253,9 @@ public:
      * Returns events whose `transaction_time` falls in the half-open interval
      * [range.start, range.end) and whose `table_name` matches.
      * Pass an empty `table_name` to replay events for all tables.
+     * @param table_name Table name to filter; empty selects all tables.
+     * @param range Half-open transaction-time interval to scan.
+     * @return Matching events still retained in the ring buffer.
      *
      * @note Only events retained in the ring-buffer are available.
      *       Events evicted due to log overflow are permanently lost.
@@ -445,6 +448,7 @@ public:
      * Replay events from a specific segment (by 0-based sequence number).
      *
      * @param segment_seq  Segment sequence number.
+     * @return Events read from that segment.
      * @throws std::out_of_range   when @p segment_seq >= segmentCount().
      * @throws std::runtime_error  on I/O errors.
      */
@@ -506,5 +510,4 @@ private:
 
 } // namespace temporal
 } // namespace themisdb
-
 
