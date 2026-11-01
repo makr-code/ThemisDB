@@ -2,8 +2,8 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-10-31
-> Update Note: Repaired Linux release sccache backend outage handling; workflow inventory unchanged
+> Last Updated: 2026-11-01
+> Update Note: Documented vcpkg cache paths, Windows sccache backend and cache measurement limits; workflow inventory unchanged
 > Status: active
 > Total Workflows: 99 (verified 2026-10-29)
 > AI_Used: true
@@ -53,6 +53,26 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 - Linux-Release-Matrix-Lanes verwenden den über Actions-Cache persistierten lokalen
   sccache-Speicher statt des GHA-Cache-Backends; die Auswahl wird je Plattform
   explizit durchgereicht, damit ein `false` nicht durch einen Fallback überschrieben wird.
+
+### Build-Cache-Aktualisierung (2026-11-01)
+
+| Workflow | Aktualisierter Cache-Vertrag |
+|---|---|
+| [reusable-cmake-build.yml](workflows/reusable-cmake-build.yml) | Persistiert vcpkg-Downloads, Binary-Archive und lokalen sccache-Speicher; entfernt den nicht verwendeten Root-Installationspfad aus dem Cache. Loggt Archivanzahl/-größe und behält Archive auch bei fehlendem exakten Cache-Treffer. |
+| [release-build-matrix.yml](workflows/release-build-matrix.yml) | Windows-Configure-/Build-Befehle erhalten das aktivierte GHA-sccache-Backend vom Reusable. Linux bleibt beim lokalen Backend; Windows-Parallelitätslimits bleiben unverändert. |
+| [msvc.yml](workflows/msvc.yml) | Initialisiert das vcpkg-Submodul vor Restore, cached den klassischen Installationspfad `vcpkg/installed` und bindet den Schlüssel an Submodul-Commit und Manifest-/Configuration-Hash. Aktiviert den dateibasierten Binary-Cache explizit. |
+
+Workflow-Anzahl, Trigger, Concurrency und Release-/Security-Gates werden durch
+diese Änderungen nicht geändert. Der Reusable und die MSVC-Analyse verwenden
+weiterhin getrennte Cache-Namensräume. Die Reparatur führt weder einen gemeinsamen
+Windows-Paketfeed noch einen zusätzlichen Cache-Warming-Workflow ein.
+
+Die [Guidelines zur Cache-Diagnose](WORKFLOW_GUIDELINES.md#build-cache-betrieb-und-diagnose)
+beschreiben die drei getrennten Messgrößen Actions-Restore, vcpkg-Paket-Restore
+und Compiler-Treffer. Unveränderliche Cache-Einträge und ausbleibende automatische
+Saves bei Jobfehlern bleiben Einschränkungen. Die vorhandenen Regressionstests
+prüfen den Workflow-Vertrag; verbesserte Online-Trefferraten und Windows-Laufzeiten
+sind erst durch erfolgreiche Wiederholungsläufe nachzuweisen.
 
 ## Leitprinzipien
 

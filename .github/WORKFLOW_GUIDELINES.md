@@ -2,7 +2,7 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-10-30
+> Last Updated: 2026-11-01
 > Status: active
 > AI_Used: true
 > AI_Models: unknown
@@ -315,8 +315,63 @@ Siehe `.github/ACTION_PIN_POLICY.md` fuer vollstaendige Dokumentation und Allowl
 - `.github/actions/manage-governance-issue/`  — Kanonische create/update Issue-Action (close-if-empty ist policy-bedingt no-op; aktuell noch nicht von Workflows verwendet)
 - `build-mainline.yml` nutzt `mozilla-actions/sccache-action` mit `SCCACHE_GHA_ENABLED=true`.
 - CMake muss mit `-DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache` konfiguriert werden.
-- Cache-Warming erfolgt wöchentlich (montags 00:00 UTC) für Linux (GCC) und Windows (MSVC).
-- Erwartete Wiedertreffer-Rate: 60–80% bei unveränderter Toolchain + vcpkg-Baseline.
+- Der wiederverwendbare CMake-Workflow persistiert vcpkg-Downloads und Binary-Archive;
+  diese Archive sind der portable Cache für manifest-basierte Build-Lanes. Keine
+  Cachepfade auf ein nicht verwendetes Workspace-Root-`vcpkg_installed` richten.
+  Der klassische MSVC-Analyse-Lane nutzt `vcpkg/installed` und bindet seinen Cache-Key
+  an den vcpkg-Submodul-Commit plus Manifest/Configuration. Cache-Hit-Status,
+  Archivanzahl und sccache-Statistik müssen im Lauf sichtbar bleiben.
+- Windows-Release-Matrix-Lanes nutzen den GHA-sccache-Backend-Schalter des Reusable
+  Workflows. Lane-Befehle dürfen `SCCACHE_GHA_ENABLED` nicht wieder auf `false` setzen.
+
+### Build-Cache-Betrieb und Diagnose
+
+Kanonische Implementierungen: [reusable-cmake-build.yml](workflows/reusable-cmake-build.yml),
+[release-build-matrix.yml](workflows/release-build-matrix.yml) und
+[msvc.yml](workflows/msvc.yml). Die Workflow-Inventur steht im
+[Registry](WORKFLOW_REGISTRY.md#build-cache-aktualisierung-2026-11-01).
+
+| Cache-Ebene | Persistierter Inhalt | Schlüssel und Backend |
+|---|---|---|
+| Reusable-Abhängigkeiten | `.cache/vcpkg-downloads/<tag>`, `.cache/vcpkg-binary/<tag>` und lokaler sccache-Speicher | `cmake-cache-<OS>-<tag>-<Manifest-/Configuration-Hash>-<Compilerkennung>`; `<tag>` enthält OS, Architektur, Compiler und Triplet |
+| CMake-Konfiguration | CMakeCache, CMakeFiles und Ninja-Metadaten im deklarierten `build_directory` | Separater `cmake-build-tree`-Key mit Lane, Build-Modus, Binärverzeichnis und CMake-/Manifest-Hash; kein vollständiger Objektdatei-Cache |
+| MSVC-Analyse | `.vcpkg-downloads`, `.vcpkg-binary-cache`, `vcpkg/installed` | `msvc-vcpkg-<OS>-<vcpkg-Commit>-<Manifest-/Configuration-Hash>`; Restore-Präfix bleibt beim gleichen vcpkg-Commit |
+
+`VCPKG_BINARY_SOURCES=clear;files,<Binary-Cache>,readwrite` aktiviert den
+dateibasierten vcpkg-Cache explizit, ohne NuGet-Feed. vcpkg entscheidet anhand
+der Paket-ABI, welche Archive zur aktuellen Toolchain passen. Ein vorhandenes
+Archiv ist deshalb noch kein Beleg, dass das benötigte Paket wiederverwendet wird.
+Die Linux-Release-Lanes verwenden lokalen sccache-Speicher
+(`enable_sccache_gha=false`), die Windows-Release-Lane das GHA-Backend
+(`enable_sccache_gha=true`). Windows behält die bestehenden Parallelitätslimits
+von zwei Jobs bei; eine Erhöhung ist nicht Bestandteil der Cache-Reparatur.
+
+Für die Auswertung diese Signale getrennt erfassen:
+
+- **Actions-Restore:** `cache-hit=true` bedeutet einen exakten Schlüssel-Treffer.
+  `false` kann ein Restore über ein Präfix sein; den tatsächlich restaurierten
+  Schlüssel im Cache-Step prüfen. Ein fehlender exakter Treffer ist nicht
+  gleichbedeutend mit einem leeren Cache.
+- **vcpkg-Wiederverwendung:** Archivanzahl/-größe aus dem Reusable-Log und die
+  Paket-Restore-/Build-Meldungen der Configure-Phase vergleichen. Im MSVC-Log
+  zusätzlich `vcpkg installed tree restored` prüfen.
+- **Compiler-Wiederverwendung:** sccache-Treffer, Misses und nicht cachebare
+  Aufrufe aus der Build-Summary prüfen. Configure- und Build-Laufzeiten getrennt
+  von Runner-Wartezeit messen.
+
+Actions-Cache-Einträge sind unveränderlich: Ein exakter Treffer wird am
+Jobende nicht unter demselben Schlüssel aktualisiert. Außerdem ist das
+automatische Speichern an erfolgreiche Jobs gebunden; nachfolgende Test- oder
+Packaging-Fehler können daher verhindern, dass neu erzeugte vcpkg-Archive
+persistiert werden. Diese Grenzen bleiben im aktuellen Workflow bestehen.
+Ein eigener wöchentlicher C++-Cache-Warming-Workflow ist aktuell nicht definiert.
+Die frühere Angabe von 60–80% Treffern ist keine gemessene Zusicherung.
+Eine Laufzeitverbesserung erst nach vergleichbaren erfolgreichen Wiederholungsläufen
+mit unveränderter Toolchain, Manifest und vcpkg-Revision bestätigen.
+
+Fokussierte Vertragsprüfung:
+`python -m pytest tools/tests/test_check_workflow_boundaries.py -q`.
+Sie prüft Cachepfade und Backend-Auswahl, nicht die tatsächliche Online-Trefferrate.
 
 ## Issue-/PR-Kommentar-Standard
 - GitHub-Workflows dürfen Fehler, Statusänderungen und Recovery-Hinweise nicht direkt per ad-hoc `github.rest.issues.createComment` oder PR-Kommentar-Blocks schreiben, wenn dies als trackerbasierte Status- oder Fehlerkommunikation modelliert ist.

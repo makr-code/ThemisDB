@@ -272,7 +272,6 @@ jobs:
             ${{ env.THEMIS_SCCACHE_DIR }}
             ${{ env.THEMIS_VCPKG_DOWNLOADS_DIR }}
             ${{ env.THEMIS_VCPKG_CACHE_DIR }}
-            ${{ github.workspace }}/vcpkg_installed
           key: cmake-cache-${{ runner.os }}-${{ env.THEMIS_CACHE_TAG }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}-${{ env.THEMIS_COMPILER_VERSION }}
           restore-keys: |
             cmake-cache-${{ runner.os }}-${{ env.THEMIS_CACHE_TAG }}-
@@ -293,13 +292,9 @@ jobs:
           echo "vcpkg binary cache: ${VCPKG_DEFAULT_BINARY_CACHE:-<unset>}"
           echo "vcpkg binary sources: ${VCPKG_BINARY_SOURCES:-<unset>}"
           echo "vcpkg downloads: ${VCPKG_DOWNLOADS:-<unset>}"
-          ls -ld "${GITHUB_WORKSPACE}/.cache" "${GITHUB_WORKSPACE}/.cache/vcpkg-binary" "${GITHUB_WORKSPACE}/.cache/vcpkg-downloads" || true
-          if [ -d "${GITHUB_WORKSPACE}/vcpkg_installed" ]; then
-            echo "vcpkg_installed restored: yes"
-            find "${GITHUB_WORKSPACE}/vcpkg_installed" -maxdepth 2 -mindepth 1 -type d | head -n 20 || true
-          else
-            echo "vcpkg_installed restored: no"
-          fi
+          archive_count="$(find "${VCPKG_DEFAULT_BINARY_CACHE}" -type f 2>/dev/null | wc -l)"
+          echo "vcpkg binary archives restored: ${archive_count}"
+          du -sh "${VCPKG_DEFAULT_BINARY_CACHE}" "${VCPKG_DOWNLOADS}" 2>/dev/null || true
 
       - name: Setup MSVC environment (Windows only)
         if: runner.os == 'Windows'
@@ -533,13 +528,12 @@ jobs:
             cmake-build-tree-${{ runner.os }}-${{ runner.arch }}-${{ inputs.cache_compiler || 'default' }}-${{ inputs.vcpkg_triplet || 'default' }}-
           enableCrossOsArchive: false
 
-      - name: Prune stale local vcpkg state only when both caches miss
+      - name: Ensure vcpkg archive cache is available when build caches miss
         if: ${{ steps.restore_build_dir_cache.outputs.cache-hit != 'true' && steps.restore_cmake_cache.outputs.cache-hit != 'true' }}
         shell: bash
         run: |
           set -euo pipefail
-          echo "No matching build-tree/dependency cache hit; clearing stale local vcpkg install state before reconfigure."
-          rm -rf "${GITHUB_WORKSPACE}/vcpkg_installed"
+          echo "No matching build-tree/dependency cache hit; retaining the vcpkg binary archive cache for dependency restore."
           mkdir -p "${GITHUB_WORKSPACE}/.cache/vcpkg-binary" "${GITHUB_WORKSPACE}/.cache/vcpkg-downloads"
 
       - name: Configure

@@ -448,6 +448,55 @@ def test_release_matrix_honors_sccache_backend_selection():
     )
 
 
+def test_windows_release_keeps_github_sccache_backend_enabled(tmp_path: Path):
+    workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
+    workflow = yaml.safe_load((workflows / "release-build-matrix.yml").read_text(encoding="utf-8"))
+    plan = workflow["jobs"]["prepare-release-matrix"]["steps"][0]
+    output = tmp_path / "outputs"
+    env = {
+        **os.environ,
+        "BUILD_MATRIX": "windows-amd64-only",
+        "OS_SELECTOR": "all",
+        "ARCH_SELECTOR": "all",
+        "EDITION": "community",
+        "BUILD_TYPE": "Release",
+        "PACKAGING": "auto",
+        "DISTRIBUTION": "all",
+        "RUN_NUMBER": "1",
+        "GITHUB_OUTPUT": str(output),
+    }
+    subprocess.run(["bash", "-c", plan["run"]], env=env, check=True, capture_output=True)
+    lane = json.loads(output.read_text(encoding="utf-8").removeprefix("matrix="))["include"][0]
+
+    assert lane["id"] == "windows-amd64"
+    assert lane["enable_sccache_gha"] is True
+    for command in ("configure_command", "build_command"):
+        assert "SCCACHE_GHA_ENABLED=false" not in lane[command]
+        assert "CMAKE_C_COMPILER_LAUNCHER=sccache" in lane[command]
+        assert "CMAKE_CXX_COMPILER_LAUNCHER=sccache" in lane[command]
+
+
+def test_vcpkg_cache_paths_match_the_installation_modes():
+    workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
+    reusable = yaml.safe_load((workflows / "reusable-cmake-build.yml").read_text(encoding="utf-8"))
+    dependency_cache = next(
+        step for step in reusable["jobs"]["build"]["steps"]
+        if step.get("id") == "restore_cmake_cache"
+    )
+    assert "${{ env.THEMIS_VCPKG_CACHE_DIR }}" in dependency_cache["with"]["path"]
+    assert "${{ env.THEMIS_VCPKG_DOWNLOADS_DIR }}" in dependency_cache["with"]["path"]
+    assert "${{ github.workspace }}/vcpkg_installed" not in dependency_cache["with"]["path"]
+
+    msvc = yaml.safe_load((workflows / "msvc.yml").read_text(encoding="utf-8"))
+    steps = msvc["jobs"]["analyze"]["steps"]
+    submodule_step = next(i for i, step in enumerate(steps) if step.get("id") == "vcpkg")
+    cache_step = next(i for i, step in enumerate(steps) if step.get("id") == "restore_vcpkg_cache")
+    assert submodule_step < cache_step
+    assert "${{ github.workspace }}/vcpkg/installed" in steps[cache_step]["with"]["path"]
+    assert "${{ github.workspace }}/.vcpkg-binary-cache" in steps[cache_step]["with"]["path"]
+    assert "${{ steps.vcpkg.outputs.commit }}" in steps[cache_step]["with"]["key"]
+
+
 @pytest.mark.parametrize(
     ("build_matrix", "os_selector", "arch_selector", "lane_id", "runs_on"),
     [

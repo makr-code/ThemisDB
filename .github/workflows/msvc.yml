@@ -54,6 +54,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
+      - name: Initialize vcpkg submodule
+        id: vcpkg
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          git submodule sync -- vcpkg
+          git submodule update --init --depth 1 vcpkg
+          if (-not (Test-Path "vcpkg/scripts/buildsystems/vcpkg.cmake")) {
+            throw "vcpkg submodule/toolchain missing before cache restore."
+          }
+          "commit=$(git -C vcpkg rev-parse HEAD)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
       - name: Restore vcpkg cache
         id: restore_vcpkg_cache
         uses: actions/cache@v5
@@ -61,22 +73,25 @@ jobs:
           path: |
             ${{ github.workspace }}/.vcpkg-downloads
             ${{ github.workspace }}/.vcpkg-binary-cache
-            ${{ github.workspace }}/vcpkg_installed
-          key: msvc-vcpkg-${{ runner.os }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+            ${{ github.workspace }}/vcpkg/installed
+          key: msvc-vcpkg-${{ runner.os }}-${{ steps.vcpkg.outputs.commit }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
           restore-keys: |
-            msvc-vcpkg-${{ runner.os }}-
+            msvc-vcpkg-${{ runner.os }}-${{ steps.vcpkg.outputs.commit }}-
 
       - name: Print vcpkg cache status
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
           Write-Host "vcpkg cache hit: ${{ steps.restore_vcpkg_cache.outputs.cache-hit || 'unknown' }}"
-          if (Test-Path "$env:GITHUB_WORKSPACE/vcpkg_installed") {
-            Write-Host "vcpkg_installed restored: yes"
-            Get-ChildItem "$env:GITHUB_WORKSPACE/vcpkg_installed" -Directory -ErrorAction SilentlyContinue | Select-Object -First 20 | ForEach-Object { Write-Host $_.FullName }
+          $binaryCache = "$env:GITHUB_WORKSPACE/.vcpkg-binary-cache"
+          if (Test-Path $binaryCache) {
+            $archiveCount = @(Get-ChildItem $binaryCache -File -Recurse -ErrorAction SilentlyContinue).Count
+            Write-Host "vcpkg binary archives restored: $archiveCount"
           } else {
-            Write-Host "vcpkg_installed restored: no"
+            Write-Host "vcpkg binary archives restored: 0"
           }
+          $installedTreeRestored = Test-Path "$env:GITHUB_WORKSPACE/vcpkg/installed"
+          Write-Host "vcpkg installed tree restored: $installedTreeRestored"
 
       - name: Prepare vcpkg dependencies
         shell: pwsh
@@ -102,9 +117,6 @@ jobs:
             }
           }
 
-          git submodule sync -- vcpkg
-          git submodule update --init --depth 1 vcpkg
-
           if (-not (Test-Path "vcpkg/scripts/buildsystems/vcpkg.cmake")) {
             throw "vcpkg submodule/toolchain missing before bootstrap."
           }
@@ -113,6 +125,7 @@ jobs:
           "VCPKG_ROOT=$env:GITHUB_WORKSPACE/vcpkg" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           "VCPKG_DOWNLOADS=$env:GITHUB_WORKSPACE/.vcpkg-downloads" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           "VCPKG_DEFAULT_BINARY_CACHE=$env:GITHUB_WORKSPACE/.vcpkg-binary-cache" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "VCPKG_BINARY_SOURCES=clear;files,$env:GITHUB_WORKSPACE/.vcpkg-binary-cache,readwrite" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
           New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE/.vcpkg-downloads" | Out-Null
           New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE/.vcpkg-binary-cache" | Out-Null
