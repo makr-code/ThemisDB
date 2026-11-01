@@ -103,6 +103,10 @@ struct IntervalTreeStats {
  */
 class IntervalTreeIndex {
 public:
+    /**
+     * @brief Construct an interval index with a diagnostic name.
+     * @param name Name returned by name(); it does not affect index behavior.
+     */
     explicit IntervalTreeIndex(std::string name);
 
     // Non-copyable; movable
@@ -196,11 +200,19 @@ public:
 
     // ── Metadata ─────────────────────────────────────────────────────────────
 
+    /**
+     * @brief Return the diagnostic name supplied at construction.
+     * @return Reference to the name owned by this index, valid for its lifetime.
+     */
     const std::string& name() const noexcept { return name_; }
 
     /** O(1) — maintained as an atomic counter. */
     size_t size() const noexcept;
 
+    /**
+     * @brief Return the current tree statistics.
+     * @return Snapshot containing entry bounds, query counters, and tree height.
+     */
     IntervalTreeStats stats() const;
 
 private:

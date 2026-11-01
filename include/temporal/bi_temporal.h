@@ -93,6 +93,11 @@ struct TemporalForeignKey {
  */
 class BiTemporalTable {
 public:
+    /**
+     * @brief Construct a bi-temporal table.
+     * @param table_name Logical table name.
+     * @param source_node Source label recorded on newly written versions.
+     */
     explicit BiTemporalTable(std::string table_name,
                              std::string source_node = "local");
 
@@ -246,9 +251,29 @@ public:
 
     // ── Metadata ─────────────────────────────────────────────────────────────
 
+    /**
+     * @brief Return this table's logical name.
+     * @return Reference to the name owned by this table, valid for its lifetime.
+     */
     const std::string& tableName() const noexcept { return table_name_; }
+
+    /**
+     * @brief Count distinct keys retained in the table.
+     * @return Number of keys, including keys whose rows were logically deleted.
+     */
     size_t keyCount() const;
+
+    /**
+     * @brief Count all current and historical row versions.
+     * @return Total number of stored versions.
+     */
     size_t versionCount() const;
+
+    /**
+     * @brief Return a snapshot of table statistics.
+     * @return JSON with table_name, key_count, current_rows, historical_rows,
+     *         and total_versions.
+     */
     nlohmann::json getStatistics() const;
 
 private:
