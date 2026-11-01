@@ -3,6 +3,7 @@
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
+#include "../benchmark_cleanup.h"
 #include <filesystem>
 #include <iostream>
 
@@ -11,9 +12,10 @@ using namespace themis;
 static void BM_SimpleInsert(benchmark::State& state) {
     const std::string DB_PATH = "simple_test_db";
     
-    // Clean up
-    if (std::filesystem::exists(DB_PATH)) {
-        std::filesystem::remove_all(DB_PATH);
+    std::error_code cleanup_error;
+    if (!themis::bench::removeBenchmarkDirectory(DB_PATH, cleanup_error)) {
+        state.SkipWithError(("Failed to clear SimpleInsert DB: " + cleanup_error.message()).c_str());
+        return;
     }
     
     // Open database
@@ -34,43 +36,40 @@ static void BM_SimpleInsert(benchmark::State& state) {
         state.SkipWithError("Failed to open database");
         return;
     }
-    
-    SecondaryIndexManager indexMgr(db);
-    
-    // Create indexes
-    auto st = indexMgr.createIndex("users", "email", false);
-    if (!st.ok) {
-        std::cerr << "Failed to create email index: " << st.message << std::endl;
-    }
-    
-    st = indexMgr.createIndex("users", "username", true);
-    if (!st.ok) {
-        std::cerr << "Failed to create username index: " << st.message << std::endl;
-    }
-    
-    for (auto _ : state) {
-        // Create entity
-        BaseEntity entity("test_user_1");
-        entity.setField("email", "test@example.com");
-        entity.setField("username", "testuser");
-        entity.setField("age", "25");
-        
-        // Try to insert
-        auto status = indexMgr.put("users", entity);
+    {
+        SecondaryIndexManager indexMgr(db);
+
+        auto status = indexMgr.createIndex("users", "email", false);
         if (!status.ok) {
-            std::cerr << "Insert failed: " << status.message << std::endl;
-            state.SkipWithError(("Insert failed: " + status.message).c_str());
-            return;
+            std::cerr << "Failed to create email index: " << status.message << std::endl;
         }
-        
-        // Clean up for next iteration
-        indexMgr.erase("users", "test_user_1");
+
+        status = indexMgr.createIndex("users", "username", true);
+        if (!status.ok) {
+            std::cerr << "Failed to create username index: " << status.message << std::endl;
+        }
+
+        for (auto _ : state) {
+            BaseEntity entity("test_user_1");
+            entity.setField("email", "test@example.com");
+            entity.setField("username", "testuser");
+            entity.setField("age", "25");
+
+            status = indexMgr.put("users", entity);
+            if (!status.ok) {
+                std::cerr << "Insert failed: " << status.message << std::endl;
+                state.SkipWithError(("Insert failed: " + status.message).c_str());
+                break;
+            }
+
+            indexMgr.erase("users", "test_user_1");
+        }
     }
     
     // Cleanup
     db.close();
-    if (std::filesystem::exists(DB_PATH)) {
-        std::filesystem::remove_all(DB_PATH);
+    if (!themis::bench::removeBenchmarkDirectory(DB_PATH, cleanup_error)) {
+        std::fprintf(stderr, "SimpleInsert DB cleanup failed: %s\n", cleanup_error.message().c_str());
     }
 }
 

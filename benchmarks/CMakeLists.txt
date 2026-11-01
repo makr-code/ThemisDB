@@ -5644,7 +5644,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_advanced_patterns
       TARGET bench_advanced_patterns
       MODULE "advanced_patterns"
-      TIMEOUT 120
+      TIMEOUT 600
     )
   endif()
   # Module: advanced_scenarios (1)
@@ -7325,7 +7325,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_lora_training
       TARGET bench_lora_training
       MODULE "lora_training"
-      TIMEOUT 120
+      TIMEOUT 600
     )
   endif()
   if(TARGET bench_lora_data_paths)

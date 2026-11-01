@@ -224,9 +224,13 @@ static void BM_LoRALayer_Backward(benchmark::State& state) {
     size_t rank = 8;
     
     LoRALayer layer(dim, dim, rank);
+    Tensor input({1, dim});
     Tensor grad_output({1, dim});
     
     for (auto _ : state) {
+        state.PauseTiming();
+        layer.forward(input);
+        state.ResumeTiming();
         Tensor grad_input = layer.backward(grad_output);
         benchmark::DoNotOptimize(grad_input);
     }
@@ -249,9 +253,13 @@ static void BM_AttentionLoRA_Backward(benchmark::State& state) {
     size_t rank = 8;
     
     AttentionLoRA attn(dim, rank);
+    Tensor input({1, dim});
     Tensor grad_output({1, dim});
     
     for (auto _ : state) {
+        state.PauseTiming();
+        attn.forward(input);
+        state.ResumeTiming();
         Tensor grad_input = attn.backward(grad_output);
         benchmark::DoNotOptimize(grad_input);
     }
@@ -277,9 +285,13 @@ static void BM_Sequential_Backward(benchmark::State& state) {
         seq.add(std::make_unique<LoRALayer>(768, 768, 8));
     }
     
+    Tensor input({1, 768});
     Tensor grad_output({1, 768});
     
     for (auto _ : state) {
+        state.PauseTiming();
+        seq.forward(input);
+        state.ResumeTiming();
         Tensor grad_input = seq.backward(grad_output);
         benchmark::DoNotOptimize(grad_input);
     }

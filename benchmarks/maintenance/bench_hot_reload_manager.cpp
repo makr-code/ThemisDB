@@ -202,7 +202,7 @@ BENCHMARK_F(HotReloadBenchFixture, GetStats)(benchmark::State& state) {
 // Concurrency: parallel reload attempts on the same module
 // =============================================================================
 
-BENCHMARK_F(HotReloadBenchFixture, ConcurrentReloads)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(HotReloadBenchFixture, ConcurrentReloads)(benchmark::State& state) {
     mgr->registerModule("concurrent_bench", *loader);
 
     const int threads_count = static_cast<int>(state.range(0));

@@ -3,6 +3,7 @@
 #include "transaction/snapshot_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include "cdc/changefeed.h"
+#include "../benchmark_cleanup.h"
 #include <filesystem>
 #include <memory>
 #include <stdexcept>
@@ -24,9 +25,9 @@ public:
             std::filesystem::path("data") / suffix.str());
         test_db_path_ = db_dir.string();
         
-        // Remove if exists
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(db_dir, cleanup_error)) {
+            throw std::runtime_error("Failed to clear branch benchmark DB: " + cleanup_error.message());
         }
         
         // Initialize database with absolute paths and WAL directory
@@ -64,11 +65,13 @@ public:
         branch_manager_.reset();
         snapshot_manager_.reset();
         changefeed_.reset();
+        db_->close();
         db_.reset();
         
-        // Remove test database
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(test_db_path_, cleanup_error)) {
+            std::fprintf(stderr, "BranchManager benchmark DB cleanup failed: %s\n",
+                         cleanup_error.message().c_str());
         }
     }
     
@@ -90,7 +93,10 @@ BENCHMARK_F(BranchManagerBenchmark, CreateBranch)(benchmark::State& state) {
             "Benchmark branch",
             "bench_user"
         );
-        benchmark::DoNotOptimize(branch);
+        benchmark::DoNotOptimize(branch.has_value());
+        if (branch.has_value()) {
+            benchmark::DoNotOptimize(branch->branch_name.data());
+        }
     }
 }
 
@@ -106,13 +112,16 @@ BENCHMARK_F(BranchManagerBenchmark, GetBranch)(benchmark::State& state) {
     for (auto _ : state) {
         std::string branch_name = "feature/bench_" + std::to_string(idx % 100);
         auto branch = branch_manager_->getBranch(branch_name);
-        benchmark::DoNotOptimize(branch);
+        benchmark::DoNotOptimize(branch.has_value());
+        if (branch.has_value()) {
+            benchmark::DoNotOptimize(branch->branch_name.data());
+        }
         idx++;
     }
 }
 
 // Benchmark: List branches
-BENCHMARK_F(BranchManagerBenchmark, ListBranches)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(BranchManagerBenchmark, ListBranches)(benchmark::State& state) {
     int num_branches = state.range(0);
     
     // Create branches
@@ -123,7 +132,7 @@ BENCHMARK_F(BranchManagerBenchmark, ListBranches)(benchmark::State& state) {
     
     for (auto _ : state) {
         auto branches = branch_manager_->listBranches();
-        benchmark::DoNotOptimize(branches);
+        benchmark::DoNotOptimize(branches.size());
     }
 }
 
@@ -186,7 +195,7 @@ BENCHMARK_F(BranchManagerBenchmark, BranchExists)(benchmark::State& state) {
 }
 
 // Benchmark: Get stats
-BENCHMARK_F(BranchManagerBenchmark, GetStats)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(BranchManagerBenchmark, GetStats)(benchmark::State& state) {
     int num_branches = state.range(0);
     
     // Create branches

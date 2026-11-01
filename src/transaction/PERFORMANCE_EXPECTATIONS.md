@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -29,10 +29,14 @@ Source level: 1; SOT domain: module-behavior. Canonical references: `benchmarks/
   - `benchmarks/transaction/bench_transaction_dedicated_gates.cpp`
 
 ## Spezifische Erwartungswerte
+Parametrisierte Benchmark-Fälle werden mit dem exakten Argument-Suffix angegeben,
+wenn ein SLO nur für eine Workload-Größe gilt. So prüft der Comparator nicht
+versehentlich Geschwisterfälle mit anderen Größen.
+
 | Ziel-ID | Erwartungswert | Benchmark-Fall |
 |---|---|---|
-| TX-1 | <= 100 us | `TransactionBenchmarkFixture/CommitLatency` |
-| TX-2 | <= 5 ms | `TransactionBenchmarkFixture/CommitLatency` |
+| TX-1 | <= 100 us | `TransactionBenchmarkFixture/CommitLatency/1` |
+| TX-2 | <= 5 ms | `TransactionBenchmarkFixture/CommitLatency/100` |
 | TX-3 | > 6 k/s | `TransactionBenchmarkFixture/WriteOnlyTransaction` |
 | TX-4 | <= 5 ms | `TransactionBenchmarkFixture/MixedTransaction` |
 | TX-5 | <= 20 ms | `SagaBenchmarkFixture/DatabaseWriteCompensation` |

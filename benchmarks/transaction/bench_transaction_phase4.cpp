@@ -31,6 +31,7 @@
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"
+#include "../benchmark_cleanup.h"
 
 #include <chrono>
 #include <filesystem>
@@ -106,8 +107,9 @@ public:
             std::filesystem::path("data") / suffix.str());
         test_db_path_ = db_dir.string();
 
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(db_dir, cleanup_error)) {
+            throw std::runtime_error("Failed to clear transaction phase 4 benchmark DB: " + cleanup_error.message());
         }
 
         RocksDBWrapper::Config config;
@@ -138,8 +140,10 @@ public:
             db_->close();
             db_.reset();
         }
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(test_db_path_, cleanup_error)) {
+            std::fprintf(stderr, "Transaction phase 4 benchmark DB cleanup failed: %s\n",
+                         cleanup_error.message().c_str());
         }
     }
 

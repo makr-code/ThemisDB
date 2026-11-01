@@ -30,6 +30,8 @@ using namespace themis::distributed_knowledge;
 
 namespace {
 
+constexpr uint64_t kBenchmarkFederationRound = 0;
+
 FederationConfig makeFedConfig(size_t n = 8) {
     FederationConfig cfg;
     cfg.min_participants = n;
@@ -96,7 +98,7 @@ static void BM_TriggerAggregation_NoTimeout(benchmark::State& state) {
         auto cfg = makeFedConfig(n);
         LoRAFederationCoordinator coord(cfg);
         for (size_t s = 0; s < n; ++s) {
-            coord.submitGradient(makeGradN("shard-" + std::to_string(s), 1, num_keys));
+            coord.submitGradient(makeGradN("shard-" + std::to_string(s), kBenchmarkFederationRound, num_keys));
         }
         state.ResumeTiming();
 
@@ -178,7 +180,7 @@ static void BM_Erase_FederationCoordinator(benchmark::State& state) {
         auto cfg = makeFedConfig(n);
         LoRAFederationCoordinator coord(cfg);
         for (size_t s = 0; s < n; ++s) {
-            coord.submitGradient(makeGradN("shard-" + std::to_string(s), 1, 20));
+            coord.submitGradient(makeGradN("shard-" + std::to_string(s), kBenchmarkFederationRound, 20));
         }
         state.ResumeTiming();
 

@@ -3,10 +3,24 @@
 #include "index/vector_index.h"
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
+#include "../benchmark_cleanup.h"
 #include <numeric>
 #include <filesystem>
 
 using namespace themis;
+
+class BenchmarkDirectoryCleanup {
+public:
+    explicit BenchmarkDirectoryCleanup(const std::filesystem::path& path) : path_(path) {}
+
+    ~BenchmarkDirectoryCleanup() {
+        std::error_code cleanup_error;
+        themis::bench::removeBenchmarkDirectory(path_, cleanup_error);
+    }
+
+private:
+    std::filesystem::path path_;
+};
 
 // ============================================================================
 // Single Rotation Benchmarks
@@ -141,7 +155,12 @@ BENCHMARK(BM_RotaryEmbedding_RelationalRotation)
 static void BM_VectorIndex_AddWithoutRotation(benchmark::State& state) {
     // Setup
     auto test_dir = std::filesystem::temp_directory_path() / "themis_rope_bench_no_rot";
-    std::filesystem::remove_all(test_dir);
+    std::error_code cleanup_error;
+    if (!themis::bench::removeBenchmarkDirectory(test_dir, cleanup_error)) {
+        state.SkipWithError(("Failed to clear test directory: " + cleanup_error.message()).c_str());
+        return;
+    }
+    BenchmarkDirectoryCleanup cleanup(test_dir);
     std::filesystem::create_directories(test_dir);
     
     RocksDBWrapper::Config config;
@@ -178,8 +197,6 @@ static void BM_VectorIndex_AddWithoutRotation(benchmark::State& state) {
     
     state.SetItemsProcessed(state.iterations());
     
-    // Cleanup
-    std::filesystem::remove_all(test_dir);
 }
 BENCHMARK(BM_VectorIndex_AddWithoutRotation)
     ->Unit(benchmark::kMicrosecond);
@@ -187,7 +204,12 @@ BENCHMARK(BM_VectorIndex_AddWithoutRotation)
 static void BM_VectorIndex_AddWithRotation(benchmark::State& state) {
     // Setup
     auto test_dir = std::filesystem::temp_directory_path() / "themis_rope_bench_with_rot";
-    std::filesystem::remove_all(test_dir);
+    std::error_code cleanup_error;
+    if (!themis::bench::removeBenchmarkDirectory(test_dir, cleanup_error)) {
+        state.SkipWithError(("Failed to clear test directory: " + cleanup_error.message()).c_str());
+        return;
+    }
+    BenchmarkDirectoryCleanup cleanup(test_dir);
     std::filesystem::create_directories(test_dir);
     
     RocksDBWrapper::Config db_config;
@@ -239,8 +261,6 @@ static void BM_VectorIndex_AddWithRotation(benchmark::State& state) {
     
     state.SetItemsProcessed(state.iterations());
     
-    // Cleanup
-    std::filesystem::remove_all(test_dir);
 }
 BENCHMARK(BM_VectorIndex_AddWithRotation)
     ->Unit(benchmark::kMicrosecond);
@@ -252,7 +272,12 @@ BENCHMARK(BM_VectorIndex_AddWithRotation)
 static void BM_VectorIndex_SearchWithRotation(benchmark::State& state) {
     // Setup
     auto test_dir = std::filesystem::temp_directory_path() / "themis_rope_bench_search";
-    std::filesystem::remove_all(test_dir);
+    std::error_code cleanup_error;
+    if (!themis::bench::removeBenchmarkDirectory(test_dir, cleanup_error)) {
+        state.SkipWithError(("Failed to clear test directory: " + cleanup_error.message()).c_str());
+        return;
+    }
+    BenchmarkDirectoryCleanup cleanup(test_dir);
     std::filesystem::create_directories(test_dir);
     
     RocksDBWrapper::Config db_config;
@@ -318,8 +343,6 @@ static void BM_VectorIndex_SearchWithRotation(benchmark::State& state) {
     
     state.SetItemsProcessed(state.iterations());
     
-    // Cleanup
-    std::filesystem::remove_all(test_dir);
 }
 BENCHMARK(BM_VectorIndex_SearchWithRotation)
     ->Arg(100)

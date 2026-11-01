@@ -132,7 +132,7 @@ BENCHMARK_F(DeonticExtractionFixture, SingleSentence_AllCategories)(benchmark::S
 
 // ─── 2. Batch extraction scaling ─────────────────────────────────────────────
 
-BENCHMARK_F(DeonticExtractionFixture, BatchExtraction_Scaling)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(DeonticExtractionFixture, BatchExtraction_Scaling)(benchmark::State& state) {
     const int kBatch = static_cast<int>(state.range(0));
 
     std::vector<std::string> sentences;
@@ -222,7 +222,7 @@ BENCHMARK_F(LlmAdapterFixture, BuildExtractor_Factory)(benchmark::State& state) 
 
 // ─── 7. Extractor throughput via adapter-configured extractor ─────────────────
 
-BENCHMARK_F(LlmAdapterFixture, ExtractorFn_Throughput)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(LlmAdapterFixture, ExtractorFn_Throughput)(benchmark::State& state) {
     // Build a DeonticExtractor configured with this adapter's fn (Phase 1 = regex)
     auto extractor = adapter->buildExtractor(0.75);
     const int kN = static_cast<int>(state.range(0));

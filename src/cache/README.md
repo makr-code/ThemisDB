@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-11-01"
+Last Updated: "2026-11-01"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Cache Module
 
 <!-- Status: PRODUCTION_CANDIDATE | Phase 1-4 complete | validated: 2026-08-10 -->
@@ -39,7 +53,7 @@ Out of scope:
 
 ## Runtime Behavior and Limits
 
-- behavior depends on configured cache tiers, limits, and feature flags.
+- behavior depends on configured cache tiers, limits, and feature flags. An empty `l3_db_path` disables the optional RocksDB cold tier while retaining L1/L2 operation.
 - distributed paths depend on selected coordination backends.
 - cache operations return structured failure paths for invalid/degraded conditions.
 

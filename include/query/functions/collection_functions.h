@@ -1466,9 +1466,9 @@ public:
 };
 
 /**
- * @brief SWITCH(expr, case1, val1, case2, val2, ..., [default]) - Switch/Case (Excel-compatible)
- * 
- * Matches expression against cases and returns corresponding value.
+ * @brief Matches an expression against any number of cases and returns the matching value.
+ * @throws std::runtime_error if fewer than an expression and one result argument are supplied.
+ * Case arguments are value pairs followed by an optional default value.
  * 
  * Examples:
  *   SWITCH(2, 1, "one", 2, "two", 3, "three")  => "two"
@@ -1493,6 +1493,12 @@ public:
                 R"(SWITCH(x, "a", 1, "b", 2, 0) // 0 if no match)"
             }
         };
+    }
+
+    void validateArgs(const std::vector<nlohmann::json>& args) const override {
+        if (args.size() < 2) {
+            throw std::runtime_error("SWITCH requires an expression and at least one result argument");
+        }
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,

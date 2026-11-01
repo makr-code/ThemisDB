@@ -17,6 +17,7 @@
 #include "sharding/two_phase_commit_participant.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
+#include "../benchmark_cleanup.h"
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"
@@ -30,6 +31,7 @@
 #include <thread>
 #include <sstream>
 #include <chrono>
+#include <cstdio>
 
 using namespace themis;
 
@@ -49,8 +51,9 @@ public:
              << "_" << unique_id;
         const auto db_dir = std::filesystem::absolute(std::filesystem::path("data") / suffix.str());
         test_db_path_ = db_dir.string();
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(db_dir, cleanup_error)) {
+            throw std::runtime_error("Failed to clear transaction benchmark DB: " + cleanup_error.message());
         }
         
         // Create RocksDB wrapper
@@ -87,9 +90,10 @@ public:
         db_->close();
         db_.reset();
         
-        // Clean up test database
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(test_db_path_, cleanup_error)) {
+            std::fprintf(stderr, "Transaction benchmark DB cleanup failed: %s\n",
+                         cleanup_error.message().c_str());
         }
     }
     
@@ -622,8 +626,9 @@ static void BM_TransactionContention(benchmark::State& state) {
            << "_" << unique_id;
     const auto db_dir = std::filesystem::absolute(std::filesystem::path("data") / suffix.str());
     std::string test_db_path = db_dir.string();
-    if (std::filesystem::exists(test_db_path)) {
-        std::filesystem::remove_all(test_db_path);
+    std::error_code cleanup_error;
+    if (!themis::bench::removeBenchmarkDirectory(db_dir, cleanup_error)) {
+        throw std::runtime_error("Failed to clear transaction contention benchmark DB: " + cleanup_error.message());
     }
     
     RocksDBWrapper::Config config;
@@ -672,8 +677,9 @@ static void BM_TransactionContention(benchmark::State& state) {
     db->close();
     db.reset();
     
-    if (std::filesystem::exists(test_db_path)) {
-        std::filesystem::remove_all(test_db_path);
+    if (!themis::bench::removeBenchmarkDirectory(test_db_path, cleanup_error)) {
+        std::fprintf(stderr, "Transaction contention benchmark DB cleanup failed: %s\n",
+                     cleanup_error.message().c_str());
     }
     
     state.SetItemsProcessed(state.iterations());

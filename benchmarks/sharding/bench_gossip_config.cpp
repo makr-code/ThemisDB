@@ -40,7 +40,8 @@ public:
         config.local_shard_id = "shard-0";
         config.local_endpoint = "localhost:8000";
         config.gossip_interval_ms = 1000;
-        config.fanout = 3;
+        config.fanout = 0;          // Measure local update construction, not unreachable peers.
+        config.require_mtls = false; // No transport client is needed for this local-only benchmark.
         
         manager_ = std::make_unique<GossipConfigManager>(config, topology_);
     }

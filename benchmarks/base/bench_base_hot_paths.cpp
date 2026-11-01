@@ -158,8 +158,8 @@ BENCHMARK_F(BaseHotPathsReloadFixture,
 }
 
 /// @note GATE-BASE-03 (scaling variant): registeredModules() with N modules
-BENCHMARK_F(BaseHotPathsReloadFixture,
-            GateBase03_RegisteredModules_Scaling)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(BaseHotPathsReloadFixture,
+                   GateBase03_RegisteredModules_Scaling)(benchmark::State& state) {
     const int kN = static_cast<int>(state.range(0));
     for (int i = 0; i < kN; ++i) {
         mgr->registerModule("gate03_scale_" + std::to_string(i), *loader);

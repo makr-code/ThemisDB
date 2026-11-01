@@ -51,7 +51,7 @@ protected:
 // AdaptiveVRAMAllocator Benchmarks
 // ============================================================================
 
-BENCHMARK_F(VRAMBenchmark, CalculateAllocation_Llama7B)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(VRAMBenchmark, CalculateAllocation_Llama7B)(benchmark::State& state) {
     AdaptiveVRAMAllocator allocator;
     auto model = createLlama7B();
     auto hw = createRTX4090();
@@ -92,7 +92,7 @@ BENCHMARK_F(VRAMBenchmark, CalculateKVCacheSize)(benchmark::State& state) {
 // PagedKVCacheManager Benchmarks
 // ============================================================================
 
-BENCHMARK_F(VRAMBenchmark, KVCache_BlockAllocation)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(VRAMBenchmark, KVCache_BlockAllocation)(benchmark::State& state) {
     PagedKVCacheManager::Config config;
     config.num_blocks = 4096;
     config.block_size = 16;
@@ -119,7 +119,7 @@ BENCHMARK_REGISTER_F(VRAMBenchmark, KVCache_BlockAllocation)
     ->Args({256})
     ->Unit(benchmark::kMicrosecond);
 
-BENCHMARK_F(VRAMBenchmark, KVCache_SequenceManagement)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(VRAMBenchmark, KVCache_SequenceManagement)(benchmark::State& state) {
     PagedKVCacheManager::Config config;
     config.num_blocks = 4096;
     config.block_size = 16;
@@ -145,7 +145,7 @@ BENCHMARK_REGISTER_F(VRAMBenchmark, KVCache_SequenceManagement)
     ->Args({8192})
     ->Unit(benchmark::kMicrosecond);
 
-BENCHMARK_F(VRAMBenchmark, KVCache_PrefixCaching)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(VRAMBenchmark, KVCache_PrefixCaching)(benchmark::State& state) {
     PagedKVCacheManager::Config config;
     config.num_blocks = 4096;
     config.enable_prefix_caching = true;
@@ -227,7 +227,7 @@ BENCHMARK_F(VRAMBenchmark, MultiGPU_PipelineParallelDistribution)(benchmark::Sta
     state.SetItemsProcessed(state.iterations());
 }
 
-BENCHMARK_F(VRAMBenchmark, MultiGPU_LoadBalancing)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(VRAMBenchmark, MultiGPU_LoadBalancing)(benchmark::State& state) {
     MultiGPUMemoryCoordinator coordinator;
     coordinator.initialize({0, 1, 2, 3});
     
@@ -252,7 +252,7 @@ BENCHMARK_REGISTER_F(VRAMBenchmark, MultiGPU_LoadBalancing)
 // MixedPrecisionInference Benchmarks
 // ============================================================================
 
-BENCHMARK_F(VRAMBenchmark, MixedPrecision_SelectOptimalPrecision)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(VRAMBenchmark, MixedPrecision_SelectOptimalPrecision)(benchmark::State& state) {
     MixedPrecisionInference mpi;
     
     size_t available_vram = state.range(0) * 1024ULL * 1024 * 1024;  // GB to bytes
@@ -273,7 +273,7 @@ BENCHMARK_REGISTER_F(VRAMBenchmark, MixedPrecision_SelectOptimalPrecision)
     ->Args({80})  // 80 GB
     ->Unit(benchmark::kMicrosecond);
 
-BENCHMARK_F(VRAMBenchmark, MixedPrecision_CalculateModelSize)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(VRAMBenchmark, MixedPrecision_CalculateModelSize)(benchmark::State& state) {
     size_t num_params = 7'000'000'000;
     PrecisionMode precision = static_cast<PrecisionMode>(state.range(0));
     
@@ -338,7 +338,7 @@ BENCHMARK_F(VRAMBenchmark, MemoryFragmentation_RandomAllocationPattern)(benchmar
 // Throughput Simulation Benchmarks
 // ============================================================================
 
-BENCHMARK_F(VRAMBenchmark, Throughput_BatchedInference)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(VRAMBenchmark, Throughput_BatchedInference)(benchmark::State& state) {
     AdaptiveVRAMAllocator allocator;
     auto model = createLlama7B();
     auto hw = createRTX4090();
@@ -383,7 +383,7 @@ BENCHMARK_REGISTER_F(VRAMBenchmark, Throughput_BatchedInference)
 // Prefix Caching Efficiency Benchmark
 // ============================================================================
 
-BENCHMARK_F(VRAMBenchmark, PrefixCaching_MemorySavings)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(VRAMBenchmark, PrefixCaching_MemorySavings)(benchmark::State& state) {
     PagedKVCacheManager::Config config;
     config.num_blocks = 8192;
     config.enable_prefix_caching = true;

@@ -1598,9 +1598,6 @@ bool AdaptiveQueryCache::Config::validate(std::string *error_msg) const {
     if (l3_ttl_seconds < 0) {
         return set_error("l3_ttl_seconds must be non-negative");
     }
-    if (l3_db_path.empty()) {
-        return set_error("l3_db_path must not be empty");
-    }
     // Validate legacy TTL aliases only when they are explicitly overridden.
     const bool legacy_min_overridden = (min_ttl_seconds != 60);
     const bool legacy_max_overridden = (max_ttl_seconds != 86400);

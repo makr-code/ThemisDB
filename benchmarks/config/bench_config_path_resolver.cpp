@@ -8,6 +8,7 @@
 #include <benchmark/benchmark.h>
 #include <filesystem>
 #include <fstream>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -27,6 +28,28 @@ static void writeFile(const fs::path& p, const char* content = "key: value\n") {
     f << content;
 }
 
+struct ConcurrentCacheFile {
+    fs::path path;
+
+    ConcurrentCacheFile() {
+        const auto unique_id = static_cast<unsigned long long>(
+            std::chrono::steady_clock::now().time_since_epoch().count());
+        path = fs::temp_directory_path() /
+               ("themisdb_config_cache_concurrent_" + std::to_string(unique_id) + ".yaml");
+        writeFile(path);
+    }
+
+    ~ConcurrentCacheFile() {
+        std::error_code cleanup_error;
+        fs::remove(path, cleanup_error);
+    }
+};
+
+static const fs::path& concurrentCacheFilePath() {
+    static const ConcurrentCacheFile fixture_file;
+    return fixture_file.path;
+}
+
 // ============================================================================
 // Fixture
 // ============================================================================
@@ -41,9 +64,9 @@ static void writeFile(const fs::path& p, const char* content = "key: value\n") {
  *   config/pii_patterns.yaml                    <- legacy fallback only (new not created)
  *   config/unmapped_bench.yaml                  <- no PATH_MAPPING entry
  *
- * The benchmark changes the process working directory to temp_root_ so that
- * ConfigPathResolver's relative-path filesystem::exists() calls resolve
- * against the synthetic tree.  The original CWD is restored in TearDown.
+ * Single-thread benchmarks change the process working directory to temp_root_
+ * so relative-path checks resolve against the synthetic tree. The concurrent
+ * cache-hit benchmark uses a standalone shared absolute path instead.
  */
 class ConfigPathResolverBenchFixture : public benchmark::Fixture {
 public:
@@ -72,9 +95,8 @@ public:
         ConfigPathResolver::setCachingEnabled(true);
 
         // Warm the cache for the mapped-path cache-hit benchmarks.
-        mapped_key_   = "config/lora_training_config.yaml";
+        mapped_key_ = "config/lora_training_config.yaml";
         unmapped_abs_ = (temp_root_ / "config" / "unmapped_bench.yaml").string();
-
         ConfigPathResolver::tryResolve(mapped_key_);   // populates cache
         ConfigPathResolver::tryResolve(unmapped_abs_); // populates cache
     }
@@ -390,17 +412,23 @@ BENCHMARK_REGISTER_F(ConfigPathResolverBenchFixture, CacheHitRate_BulkAccess)
 // 11. Concurrent cache hit throughput (multi-threaded)
 // ============================================================================
 
-BENCHMARK_DEFINE_F(ConfigPathResolverBenchFixture, ConcurrentCacheHit)(
-        benchmark::State& state) {
-    // Cache is pre-warmed in SetUp().
+static void BM_ConcurrentCacheHit(benchmark::State& state) {
+    const std::string key = concurrentCacheFilePath().string();
+    static std::once_flag cache_warm_flag;
+    std::call_once(cache_warm_flag, [&key] {
+        ConfigPathResolver::setCachingEnabled(true);
+        ConfigPathResolver::clearCache();
+        ConfigPathResolver::tryResolve(key);
+    });
+
     for (auto _ : state) {
-        auto result = ConfigPathResolver::tryResolve(mapped_key_);
+        auto result = ConfigPathResolver::tryResolve(key);
         benchmark::DoNotOptimize(result);
     }
     state.SetLabel("multi-thread cache hit throughput");
 }
 
-BENCHMARK_REGISTER_F(ConfigPathResolverBenchFixture, ConcurrentCacheHit)
+BENCHMARK(BM_ConcurrentCacheHit)
     ->Threads(1)
     ->Threads(2)
     ->Threads(4)

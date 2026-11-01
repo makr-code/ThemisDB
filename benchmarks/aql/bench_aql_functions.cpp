@@ -37,7 +37,7 @@ public:
 // String Function Benchmarks
 // ============================================================================
 
-BENCHMARK_F(AQLFunctionBenchmark, StringLength)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(AQLFunctionBenchmark, StringLength)(benchmark::State& state) {
     auto& reg = FunctionRegistry::instance();
     std::string testStr(state.range(0), 'x');
     
@@ -97,7 +97,7 @@ BENCHMARK_F(AQLFunctionBenchmark, MathTrigonometry)(benchmark::State& state) {
     }
 }
 
-BENCHMARK_F(AQLFunctionBenchmark, MathAggregateSum)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(AQLFunctionBenchmark, MathAggregateSum)(benchmark::State& state) {
     auto& reg = FunctionRegistry::instance();
     nlohmann::json arr = nlohmann::json::array();
     for (int i = 0; i < state.range(0); ++i) {
@@ -131,7 +131,7 @@ BENCHMARK_F(AQLFunctionBenchmark, ArrayFlatten)(benchmark::State& state) {
     }
 }
 
-BENCHMARK_F(AQLFunctionBenchmark, ArrayUnique)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(AQLFunctionBenchmark, ArrayUnique)(benchmark::State& state) {
     auto& reg = FunctionRegistry::instance();
     nlohmann::json arr = nlohmann::json::array();
     for (int i = 0; i < state.range(0); ++i) {
@@ -148,7 +148,7 @@ BENCHMARK_REGISTER_F(AQLFunctionBenchmark, ArrayUnique)
     ->Range(8, 8<<10)
     ->Complexity();
 
-BENCHMARK_F(AQLFunctionBenchmark, ArraySorted)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(AQLFunctionBenchmark, ArraySorted)(benchmark::State& state) {
     auto& reg = FunctionRegistry::instance();
     nlohmann::json arr = nlohmann::json::array();
     for (int i = state.range(0); i > 0; --i) {
@@ -290,7 +290,7 @@ BENCHMARK_F(AQLFunctionBenchmark, CrsTransformWgs84ToUtm)(benchmark::State& stat
 // Vector Function Benchmarks
 // ============================================================================
 
-BENCHMARK_F(AQLFunctionBenchmark, VectorCosineSimilarity)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(AQLFunctionBenchmark, VectorCosineSimilarity)(benchmark::State& state) {
     auto& reg = FunctionRegistry::instance();
     nlohmann::json v1 = nlohmann::json::array();
     nlohmann::json v2 = nlohmann::json::array();
@@ -319,7 +319,7 @@ BENCHMARK_F(AQLFunctionBenchmark, VectorEuclideanDistance)(benchmark::State& sta
     }
 }
 
-BENCHMARK_F(AQLFunctionBenchmark, VectorNormalize)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(AQLFunctionBenchmark, VectorNormalize)(benchmark::State& state) {
     auto& reg = FunctionRegistry::instance();
     nlohmann::json v = nlohmann::json::array();
     for (int i = 0; i < state.range(0); ++i) {
@@ -340,7 +340,7 @@ BENCHMARK_REGISTER_F(AQLFunctionBenchmark, VectorNormalize)
 // Graph Function Benchmarks
 // ============================================================================
 
-BENCHMARK_F(AQLFunctionBenchmark, GraphShortestPath)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(AQLFunctionBenchmark, GraphShortestPath)(benchmark::State& state) {
     auto& reg = FunctionRegistry::instance();
     
     // Create a chain graph
@@ -442,62 +442,6 @@ BENCHMARK_F(AQLFunctionBenchmark, LogicalSwitch)(benchmark::State& state) {
 }
 
 // ============================================================================
-// Excel Function Benchmarks
-// ============================================================================
-
-BENCHMARK_F(AQLFunctionBenchmark, ExcelVlookup)(benchmark::State& state) {
-    auto& reg = FunctionRegistry::instance();
-    
-    nlohmann::json table = nlohmann::json::array();
-    for (int i = 0; i < state.range(0); ++i) {
-        table.push_back(nlohmann::json::array({
-            "ID" + std::to_string(i),
-            "Name" + std::to_string(i),
-            i * 100
-        }));
-    }
-    
-    std::string searchKey = "ID" + std::to_string(state.range(0) / 2);
-    
-    for (auto _ : state) {
-        benchmark::DoNotOptimize(reg.call("VLOOKUP", {searchKey, table, 3}, ctx));
-    }
-    
-    state.SetComplexityN(state.range(0));
-}
-BENCHMARK_REGISTER_F(AQLFunctionBenchmark, ExcelVlookup)
-    ->Range(8, 1024)
-    ->Complexity();
-
-BENCHMARK_F(AQLFunctionBenchmark, ExcelSumproduct)(benchmark::State& state) {
-    auto& reg = FunctionRegistry::instance();
-    
-    nlohmann::json arr1 = nlohmann::json::array();
-    nlohmann::json arr2 = nlohmann::json::array();
-    for (int i = 0; i < state.range(0); ++i) {
-        arr1.push_back(i);
-        arr2.push_back(i * 2);
-    }
-    
-    for (auto _ : state) {
-        benchmark::DoNotOptimize(reg.call("SUMPRODUCT", {arr1, arr2}, ctx));
-    }
-    
-    state.SetComplexityN(state.range(0));
-}
-BENCHMARK_REGISTER_F(AQLFunctionBenchmark, ExcelSumproduct)
-    ->Range(8, 1<<10)
-    ->Complexity();
-
-BENCHMARK_F(AQLFunctionBenchmark, ExcelPmt)(benchmark::State& state) {
-    auto& reg = FunctionRegistry::instance();
-    
-    for (auto _ : state) {
-        benchmark::DoNotOptimize(reg.call("PMT", {0.06/12, 360, 200000}, ctx));
-    }
-}
-
-// ============================================================================
 // Security Function Benchmarks
 // ============================================================================
 
@@ -513,7 +457,7 @@ BENCHMARK_F(AQLFunctionBenchmark, SecurityMask)(benchmark::State& state) {
     auto& reg = FunctionRegistry::instance();
     
     for (auto _ : state) {
-        benchmark::DoNotOptimize(reg.call("MASK", {"1234567890123456"}, ctx));
+        benchmark::DoNotOptimize(reg.call("MASK", {"1234567890123456", 2, 2, "*"}, ctx));
     }
 }
 

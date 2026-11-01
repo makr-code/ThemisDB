@@ -33,7 +33,7 @@ using namespace themis::distributed_knowledge;
 
 namespace {
 
-constexpr uint64_t kDefaultFixtureRound = 1;
+constexpr uint64_t kDefaultFixtureRound = 0;
 constexpr size_t kDefaultFixtureSampleCount = 100;
 
 /// Build a gradient with `num_keys` numeric fields.
@@ -58,7 +58,7 @@ EncryptedGradient makeGradN(const std::string& shard_id, uint64_t round,
 ///
 /// Each gradient object can provide:
 ///  - `shard_id` (string, optional; defaults to `fixture-shard-<index>`)
-///  - `round` (number, optional; defaults to 1)
+///  - `round` (number, optional; defaults to 0)
 ///  - `sample_count` (number, optional; defaults to 100)
 ///  - `data` (object, required for a usable entry)
 ///
@@ -190,12 +190,15 @@ static void BM_TriggerAggregation_N64(benchmark::State& state) {
             return;
         }
         prepared_gradients = std::move(*loaded);
+        for (auto& gradient : prepared_gradients) {
+            gradient.round = kDefaultFixtureRound;
+        }
         using_fixture = true;
     } else {
         prepared_gradients.reserve(num_shards);
         for (size_t i = 0; i < num_shards; ++i) {
             prepared_gradients.push_back(
-                makeGradN("shard-" + std::to_string(i), 1, num_keys));
+                makeGradN("shard-" + std::to_string(i), kDefaultFixtureRound, num_keys));
         }
     }
 

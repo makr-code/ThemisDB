@@ -52,6 +52,7 @@
 #include "index/graph_index.h"
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
+#include "../benchmark_cleanup.h"
 
 #include <filesystem>
 #include <memory>
@@ -73,7 +74,10 @@ protected:
 
     void SetUp(const ::benchmark::State& /*state*/) override {
         std::string db_path = "./data/bench_graph_release_tmp";
-        std::filesystem::remove_all(db_path);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(db_path, cleanup_error)) {
+            throw std::runtime_error("Failed to clear graph release benchmark DB: " + cleanup_error.message());
+        }
 
         RocksDBWrapper::Config config;
         config.db_path = db_path;
@@ -117,7 +121,11 @@ protected:
             db_->close();
         }
         db_.reset();
-        std::filesystem::remove_all("./data/bench_graph_release_tmp");
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory("./data/bench_graph_release_tmp", cleanup_error)) {
+            std::fprintf(stderr, "Graph release benchmark DB cleanup failed: %s\n",
+                         cleanup_error.message().c_str());
+        }
     }
 };
 
@@ -221,7 +229,7 @@ BENCHMARK_DEFINE_F(GraphOptimizationFixture, GRG06_ReasoningIntegration)(benchma
 
     for (auto _ : state) {
         auto chain = reasoner_->infer("person:alice", 2);
-        benchmark::DoNotOptimize(chain);
+        benchmark::DoNotOptimize(chain.size());
     }
     state.SetItemsProcessed(state.iterations());
 }

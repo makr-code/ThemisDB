@@ -491,7 +491,10 @@ static void BM_ResetWithData(benchmark::State& state) {
 BENCHMARK(BM_ResetWithData)
     ->Arg(100)
     ->Arg(1000)
-    ->Arg(10000);
+    ->Arg(10000)
+    ->Iterations(1)
+    ->Repetitions(5)
+    ->UseRealTime();
 
 // ============================================================================
 // Real-World Simulation Benchmarks

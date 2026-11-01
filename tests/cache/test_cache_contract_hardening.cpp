@@ -23,7 +23,7 @@ static AdaptiveQueryCache::Config makeContractConfig() {
     cfg.l1_max_entry_size      = 65536;
     cfg.l2_max_entries         = 128;
     cfg.l2_max_entry_size      = 65536;
-    cfg.l3_db_path             = "./cache_contract_hardening_l3";
+    cfg.l3_db_path             = "";
     cfg.enable_circuit_breaker = false;
     cfg.enable_size_limits     = true;
     cfg.max_total_entry_size   = 67108864;              // 64 MiB hard cap
@@ -200,7 +200,9 @@ TEST(CacheContractHardening, CCH07_TemporalConstantOrdering) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST(CacheContractHardening, CCH08_AdaptiveQueryCacheRoundTrip) {
-    AdaptiveQueryCache cache(makeContractConfig());
+    const auto config = makeContractConfig();
+    ASSERT_TRUE(config.validate()) << "An empty L3 path must disable RocksDB without invalidating the cache config";
+    AdaptiveQueryCache cache(config);
 
     // A fingerprint well within kMaxCacheKeyBytes (SHA-256 hex = 64 chars).
     const std::string fp = cache.generateFingerprint("SELECT contract_test", {});

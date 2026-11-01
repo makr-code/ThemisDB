@@ -49,7 +49,8 @@ public:
                                      vector_status.message);
         }
         gnn_manager_ = std::make_unique<GNNEmbeddingManager>(*db_, *property_graph_, *vector_index_);
-        for (const auto& model : {std::pair{"gcn_v1", "GCN"},
+        for (const auto& model : {std::pair{"node2vec_v1", "Node2Vec"},
+                      std::pair{"gcn_v1", "GCN"},
                                   std::pair{"graphsage_v1", "GraphSAGE"},
                                   std::pair{"gat_v1", "GAT"}}) {
             const auto status = gnn_manager_->registerModel(model.first, model.second, 64);
@@ -90,7 +91,7 @@ public:
             node_ids_.push_back(node_id);
             
             BaseEntity node(node_id);
-            node.setField("_labels", std::vector<std::string>{"Person"});
+            node.setField("_labels", std::string("[\"Person\"]"));
             node.setField("name", "User " + std::to_string(i));
             node.setField("age", static_cast<int>(age_dist(rng)));
             node.setField("followers", static_cast<int64_t>(rng() % 10000));
@@ -353,7 +354,7 @@ static void BM_EmbeddingDimensions(benchmark::State& state) {
         node_ids.push_back(node_id);
         
         BaseEntity node(node_id);
-        node.setField("_labels", std::vector<std::string>{"Test"});
+        node.setField("_labels", std::string("[\"Test\"]"));
         node.setField("id", node_id);
         auto node_status = property_graph->addNode(node, "test");
         if (!node_status.ok) {

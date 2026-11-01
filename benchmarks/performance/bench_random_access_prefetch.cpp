@@ -25,6 +25,7 @@
 #include <benchmark/benchmark.h>
 #include "storage/rocksdb_wrapper.h"
 #include "performance/prefetch_hints.h"
+#include "../benchmark_cleanup.h"
 #include <vector>
 #include <string>
 #include <random>
@@ -33,6 +34,7 @@
 #include <memory>
 #include <stdexcept>
 #include <filesystem>
+#include <cstdio>
 
 using namespace themis;
 using namespace themis::performance;
@@ -89,7 +91,10 @@ public:
     void SetUp(const ::benchmark::State& state) override {
         // Create temporary database
         test_db_path_ = "./bench_random_access_" + std::to_string(state.thread_index());
-        std::filesystem::remove_all(test_db_path_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(test_db_path_, cleanup_error)) {
+            throw std::runtime_error("Failed to clear random access benchmark DB: " + cleanup_error.message());
+        }
         
         // Configure database
         RocksDBWrapper::Config config;
@@ -123,7 +128,11 @@ public:
     void TearDown(const ::benchmark::State& state) override {
         db_->close();
         db_.reset();
-        std::filesystem::remove_all(test_db_path_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(test_db_path_, cleanup_error)) {
+            std::fprintf(stderr, "Random access benchmark DB cleanup failed: %s\n",
+                         cleanup_error.message().c_str());
+        }
     }
     
 protected:

@@ -6,9 +6,11 @@
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
+#include "../benchmark_cleanup.h"
 #include <benchmark/benchmark.h>
 #include <filesystem>
 #include <random>
+#include <cstdio>
 
 using namespace themis;
 using namespace themis::graph;
@@ -22,8 +24,9 @@ public:
     void SetUp(const ::benchmark::State& state) override {
         // Clean up any existing test database
         test_db_path_ = "./data/bench_graph_optimizer_tmp";
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(test_db_path_, cleanup_error)) {
+            throw std::runtime_error("Failed to clear graph optimizer benchmark DB: " + cleanup_error.message());
         }
         
         // Create RocksDB wrapper
@@ -58,9 +61,10 @@ public:
         db_->close();
         db_.reset();
         
-        // Clean up test database
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(test_db_path_, cleanup_error)) {
+            std::fprintf(stderr, "Graph optimizer benchmark DB cleanup failed: %s\n",
+                         cleanup_error.message().c_str());
         }
     }
     
@@ -118,7 +122,7 @@ protected:
 BENCHMARK_DEFINE_F(GraphQueryOptimizerBenchmarkFixture, PlanGeneration_ShortestPath)(benchmark::State& state) {
     for (auto _ : state) {
         auto result = optimizer_->optimizeShortestPath("node_0", "node_50");
-        benchmark::DoNotOptimize(result);
+        benchmark::DoNotOptimize(static_cast<bool>(result));
     }
     
     state.SetItemsProcessed(state.iterations());
@@ -127,7 +131,7 @@ BENCHMARK_DEFINE_F(GraphQueryOptimizerBenchmarkFixture, PlanGeneration_ShortestP
 BENCHMARK_DEFINE_F(GraphQueryOptimizerBenchmarkFixture, PlanGeneration_KHopNeighborhood)(benchmark::State& state) {
     for (auto _ : state) {
         auto result = optimizer_->optimizeKHopNeighborhood("node_0", 3);
-        benchmark::DoNotOptimize(result);
+        benchmark::DoNotOptimize(static_cast<bool>(result));
     }
     
     state.SetItemsProcessed(state.iterations());
@@ -141,7 +145,7 @@ BENCHMARK_DEFINE_F(GraphQueryOptimizerBenchmarkFixture, PlanGeneration_WithCache
     
     for (auto _ : state) {
         auto result = optimizer_->optimizeShortestPath("node_0", "node_50");
-        benchmark::DoNotOptimize(result);
+        benchmark::DoNotOptimize(static_cast<bool>(result));
     }
     
     state.SetItemsProcessed(state.iterations());

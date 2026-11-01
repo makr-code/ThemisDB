@@ -182,7 +182,7 @@ BENCHMARK_F(HotReloadLoadFixture, RegisterReloadUnregister_Cycle)(benchmark::Sta
 
 // ─── 9. Concurrent reload scalability ────────────────────────────────────────
 
-BENCHMARK_F(HotReloadLoadFixture, ConcurrentReload_Scalability)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(HotReloadLoadFixture, ConcurrentReload_Scalability)(benchmark::State& state) {
     const int kThreads = static_cast<int>(state.range(0));
 
     // Pre-register modules
