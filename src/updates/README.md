@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -76,9 +76,13 @@ Out of scope:
 - Focused test sources and registration:
   [`tests/updates/`](../../tests/updates/) and
   [`tests/updates/CMakeLists.txt`](../../tests/updates/CMakeLists.txt).
-- Benchmark sources and conditional registration:
+- Five benchmark sources and conditional registration:
   [`benchmarks/updates/`](../../benchmarks/updates/) and
   [`benchmarks/updates/CMakeLists.txt`](../../benchmarks/updates/CMakeLists.txt).
+- The cluster-stress target is separately registered in
+  [`benchmarks/CMakeLists.txt`](../../benchmarks/CMakeLists.txt), with a
+  conditional CTest smoke entry. Registration does not establish a successful
+  run or approved performance gate.
 - The benchmark map distinguishes source presence from current run results:
   [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md).
 

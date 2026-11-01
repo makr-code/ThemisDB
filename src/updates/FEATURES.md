@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-18
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -48,7 +48,11 @@ establish cluster consensus. See
 [`TRUST.md`](TRUST.md), [`API.md`](API.md), and
 [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
-Build/test and benchmark registration are defined by
-[`tests/updates/CMakeLists.txt`](../../tests/updates/CMakeLists.txt) and
+Focused test registration is defined by
+[`tests/updates/CMakeLists.txt`](../../tests/updates/CMakeLists.txt). Five
+benchmark targets are registered by
 [`benchmarks/updates/CMakeLists.txt`](../../benchmarks/updates/CMakeLists.txt);
-source presence alone does not establish a passing run.
+the cluster-stress target and its conditional CTest smoke entry are registered
+in the repository-level [`benchmarks/CMakeLists.txt`](../../benchmarks/CMakeLists.txt).
+Registration or source presence alone does not establish a passing run or an
+approved performance gate.

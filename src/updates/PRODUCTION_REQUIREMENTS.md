@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -22,8 +22,10 @@ Human_Author: "ThemisDB Team"
 > implementation. The static documentation audit did not verify enforcement of
 > all listed controls, including start-up validation, audit logging, production
 > environment variables, or automatic rollback. Integrators must establish
-> enforcement in their own control plane. **TODO:** attach owner-reviewed
-> deployment evidence before describing any item as implemented or enforced.
+> enforcement in their own control plane. No deployment-owner evidence was
+> available for this review on 2026-11-01. **TODO:** obtain responsible-owner
+> confirmation and attach deployment-specific evidence before describing any
+> item as implemented or enforced.
 
 ## Zweck und Geltungsbereich
 
