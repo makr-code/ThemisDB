@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Contributors  
 **Created:** 2026-10-31  
-**Last Updated:** 2026-10-31  
+**Last Updated:** 2026-11-01
 **Status:** review  
 **AI_Used:** true  
 **AI_Models:** unknown  
@@ -16,12 +16,46 @@
 
 > Exact model backend not verifiable from final document text alone.
 
-## Boundary and runtime flow
+## Kontext
 
 `include/metadata/` declares the public contracts; `src/metadata/` implements
 the compiled module. The module describes and operates on schema/catalog
 metadata. It does not own general entity storage, query execution, or embedding
 generation.
+
+## Komponenten
+
+- `SchemaManager` discovers tables and sampled properties, maintains cached
+  schema views, and exposes explicit refresh and mutation APIs.
+- `InformationSchema` constructs metadata rows from a `SchemaManager`; it is a
+  read view, not an independent schema store.
+- `StatisticsCollector` samples entities, caches results, and persists
+  collected statistics. Its refresh worker is managed by its lifecycle API.
+- `SchemaConsistencyChecker` reports orphan key prefixes and, when supplied
+  collaborators support it, stale statistics and missing constraint
+  definitions. It does not repair the store.
+- `SchemaVersionManager`, `SchemaAuditLog`, and `SchemaConstraints` are
+  separate history, audit, and constraint-persistence surfaces.
+- `ColumnLineageTracker` is an in-memory, thread-safe tracker; JSON export does
+  not itself persist lineage.
+- `CatalogExporter` publishes Atlas/DataHub payloads over HTTP.
+  `DistributedMetadataCatalog` delegates through a non-owning router reference.
+
+## Schnittstellen
+
+Public interfaces are declared under [`include/metadata/`](../../include/metadata/).
+The main entry points are `SchemaManager` for schema discovery and mutation,
+`InformationSchema` for read-only metadata rows, and `SchemaConsistencyChecker`
+for diagnostics. `StatisticsCollector`, `SchemaVersionManager`,
+`SchemaConstraints`, `SchemaAuditLog`, `CatalogExporter`, and
+`DistributedMetadataCatalog` expose separate contracts; their error,
+ownership, and thread-safety guarantees are per interface.
+
+`IMetadataExportPolicy` is a separate interface and is not accepted by the
+current `CatalogExporter` API. Likewise,
+`InMemoryMetadataSnapshotStore` is explicitly in-memory, not durable.
+
+## Datenfluss
 
 ```mermaid
 flowchart TD
@@ -44,31 +78,29 @@ flowchart TD
     CL[ColumnLineageTracker] -. in-memory lineage .-> OUT[JSON export]
 ```
 
-- `SchemaManager` discovers table prefixes and samples stored entities to infer
-  property metadata. It can obtain index descriptions from the optional index
-  manager, caches schema views, and exposes explicit refresh and mutation APIs.
-- `InformationSchema` constructs metadata rows from a `SchemaManager`; it is a
-  read view, not an independent schema store.
-- `StatisticsCollector` samples entities, caches results behind a
-  `std::shared_mutex`, and persists collected statistics. Its refresh worker is
-  managed through `setRefreshInterval()` / `stopRefresh()`.
-- `SchemaConsistencyChecker::runCheck()` reports orphan key prefixes and, when
-  collaborators are supplied, stale statistics and missing constraint
-  definitions. Its orphan scan is capped at 5,000 keys; it reports findings and
-  does not repair them.
-- `SchemaVersionManager`, `SchemaAuditLog`, and `SchemaConstraints` are separate
-  state/persistence surfaces. Constraint persistence is explicit; version
-  history and audit entries are not interchangeable.
-- `ColumnLineageTracker` is an in-memory, thread-safe tracker. Its JSON export
-  does not itself persist lineage.
-- `CatalogExporter` publishes Atlas/DataHub payloads over HTTP.
-  `IMetadataExportPolicy` is a separate interface and is not accepted by the
-  current exporter API.
-- `DistributedMetadataCatalog` delegates through a non-owning
-  `MetadataShardRouter` reference. `InMemoryMetadataSnapshotStore` is explicitly
-  in-memory, not durable.
+Kurzinterpretation: Stored entities feed schema discovery and statistics;
+those results supply read views, consistency checks, exports, and adapters.
+Lineage remains a separate in-memory path.
 
-## Synchronization and failure boundaries
+## Sequenz (kritischer Ablauf)
+
+```mermaid
+sequenceDiagram
+    actor Caller
+    participant SM as SchemaManager
+    participant Store as Entity storage
+    Caller->>SM: discoverProperties(table_name, sample_size)
+    SM->>Store: sample stored entities
+    Store-->>SM: sampled entity values
+    SM->>SM: infer property metadata
+    SM-->>Caller: vector<PropertyInfo>
+```
+
+Kurzinterpretation: Property inference is based on the bounded entity sample
+requested by the caller. The result describes observed properties and is not a
+guarantee that unsampled records contain no additional fields.
+
+## Fehlerpfade und Resilienz
 
 Thread-safety is per interface, not a module-wide guarantee. `SchemaManager`
 uses a shared mutex for cache access; `StatisticsCollector` uses a shared mutex
@@ -82,7 +114,22 @@ have API-specific outcomes (`bool`, `std::optional`, typed result objects,
 `PublishResult`, or exceptions). Callers must preserve these distinctions; a
 failed or empty result is not a general health signal.
 
-## Build and test registration
+`SchemaConsistencyChecker::runCheck()` caps its orphan-key scan at 5,000 keys
+and reports findings without repairing data. Callers must treat this as a
+bounded diagnostic, not a complete reconciliation or automatic recovery.
+
+## Nicht-Ziele
+
+- The metadata module does not own entity persistence or query execution.
+- Schema sampling does not establish a complete inventory of all possible
+  properties when records are not included in the sample.
+- Export-policy declarations do not imply that `CatalogExporter` enforces them.
+- An in-memory lineage tracker or snapshot store does not provide durable
+  persistence.
+- Module-wide thread-safety must not be inferred from individual synchronized
+  classes.
+
+## Verweise
 
 - The standard source list registers metadata implementation files in
   [`cmake/CMakeLists.txt`](../../cmake/CMakeLists.txt). In the modular build,
@@ -98,4 +145,6 @@ failed or empty result is not a general health signal.
   that a run or release gate passed.
 
 For symbol-level contracts, see [`API.md`](./API.md); for code ownership and
-test mapping, see [`IMPLEMENTATION.md`](./IMPLEMENTATION.md).
+test mapping, see [`IMPLEMENTATION.md`](./IMPLEMENTATION.md). Public contracts
+are defined by the owning headers under
+[`include/metadata/`](../../include/metadata/).

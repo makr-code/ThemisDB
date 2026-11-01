@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Contributors  
 **Created:** 2026-10-31  
-**Last Updated:** 2026-10-31  
+**Last Updated:** 2026-11-01
 **Status:** review  
 **AI_Used:** true  
 **AI_Models:** unknown  
@@ -16,11 +16,42 @@
 
 > Exact model backend not verifiable from final document text alone.
 
-## Module Purpose
+## Zweck
 
 The metadata module provides schema discovery, metadata management, statistics surfaces, consistency tooling, and metadata export/integration behavior for ThemisDB.
 
-## Main implementation surfaces
+## Scope
+
+In scope:
+- schema and table discovery, schema cache, and explicit schema mutations
+- statistics, information-schema views, consistency diagnostics, and constraints
+- schema version history, audit records, lineage, and catalog export
+
+Out of scope:
+- ownership of stored entities and the storage engine
+- query execution and AQL runtime ownership
+- durable lineage storage; `ColumnLineageTracker` is in-memory
+
+## Quickstart (Build/Run)
+
+The metadata module is linked into ThemisDB; it is not a standalone service.
+From the repository root, configure and build the Linux release:
+
+```bash
+cmake --preset linux-release
+cmake --build --preset linux-release
+```
+
+That preset requires vcpkg and disables tests. For focused tests, use a
+tests-enabled build and the target registered in
+[`tests/metadata/CMakeLists.txt`](../../tests/metadata/CMakeLists.txt):
+
+```bash
+cmake --build <build-dir> --target test_schema_manager_focused
+ctest --test-dir <build-dir> --output-on-failure -R '^SchemaManagerFocusedTests$'
+```
+
+## API/CLI Einstieg
 
 | Concern | Public contract | Implementation |
 |---|---|---|
@@ -35,19 +66,33 @@ The metadata module provides schema discovery, metadata management, statistics s
 | Distributed catalog | [`DistributedMetadataCatalog`](../../include/metadata/distributed_catalog.h) | `distributed_catalog.cpp` |
 | Index recommendations | [`IndexRecommender`](../../include/metadata/index_recommender.h) | `index_recommender.cpp` |
 
-## Scope
+There is no metadata-specific command-line interface. Server-facing schema
+routes are owned by the server module; metadata consumers use the C++ contracts
+linked above. The public headers define the exact ownership, threading, and
+error behavior.
 
-In scope:
-- metadata and schema discovery/lifecycle behavior
-- metadata consistency, lineage, and export surfaces
-- information-schema and metadata statistics behavior
+## Integrationsueberblick
 
-Out of scope:
-- storage-engine ownership beyond metadata interactions
-- query runtime ownership beyond metadata support boundaries
-- non-metadata operational domains outside schema and catalog scope
+```mermaid
+flowchart LR
+    DB[Stored entities and metadata] --> SM[SchemaManager]
+    IX[Optional SecondaryIndexManager] --> SM
+    SM --> IS[InformationSchema]
+    SM --> SC[SchemaConsistencyChecker]
+    SM --> CE[CatalogExporter]
+    SM --> DC[DistributedMetadataCatalog]
+    DB --> ST[StatisticsCollector]
+    ST --> SC
+    SM --> ER[ERDiagramExporter]
+    CL[ColumnLineageTracker] -. in-memory .-> OUT[JSON export]
+```
 
-## Runtime behavior and limits
+Kurzinterpretation: `SchemaManager` ist die zentrale Sicht auf erkannte
+Schemas; weitere Komponenten lesen diese Sicht oder verwalten abgegrenzte
+Statistik-, Konsistenz-, Export- und Lineage-Aufgaben. Der optionale
+Index-Manager ergänzt Indexinformationen, er ersetzt nicht die Schemaquelle.
+
+## Known Limitations
 
 - Schema discovery samples stored entities; inferred properties may omit fields
   not present in the sample. See `SchemaManager::discoverProperties()`.
@@ -61,7 +106,7 @@ Out of scope:
 - Consult the owning public header for per-class thread-safety, ownership, and
   error contracts; the module has no single global concurrency guarantee.
 
-## Build and test entry points
+## Verweise
 
 - Compiled metadata source files are registered in
   [`cmake/CMakeLists.txt`](../../cmake/CMakeLists.txt); modular build ownership
@@ -75,5 +120,7 @@ Out of scope:
   See [`benchmarks/metadata/README.md`](../../benchmarks/metadata/README.md);
   benchmark definitions alone do not establish measured results.
 
-For runtime flow, see [`ARCHITECTURE.md`](./ARCHITECTURE.md); for current work
-and known planning gaps, see [`ROADMAP.md`](./ROADMAP.md).
+For runtime flow, see [`ARCHITECTURE.md`](./ARCHITECTURE.md); for API behavior
+see [`API.md`](./API.md) and the owning headers under
+[`include/metadata/`](../../include/metadata/). Current work and planning gaps
+are tracked in [`ROADMAP.md`](./ROADMAP.md).
