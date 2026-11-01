@@ -1,4 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-06-04"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # toolbox Module - Developer Gap Note
+
+> **Historical generated scan snapshot (2026-06-04), not current findings.** This scanner output is retained without rewriting its findings; several findings may be stale or false against current source. Regenerate through the documented scanner workflow before using it for remediation or release decisions.
+>
+> Exact model backend not verifiable from final document text alone.
 
 > Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.

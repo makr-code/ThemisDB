@@ -1,6 +1,18 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-18"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # ThemisDB Toolbox Module
 
-<!-- Status: current | validated: 2026-05-31 | re-verified: 2026-08-07 -->
+<!-- Status: current | source inventory checked: 2026-10-31; release maturity not assessed -->
 <!-- Links: ARCHITECTURE.md · RESEARCH.md · MODELING.md · EMBEDDING.md · IMPLEMENTATION.md · API.md · MODULE_GUIDE.md · RUNBOOK.md · OPERATIONS.md · TRUST.md · ROADMAP.md · PRODUCTION_REQUIREMENTS.md · PERFORMANCE_EXPECTATIONS.md · SECURITY.md · FUTURE_ENHANCEMENTS.md · CHANGELOG.md -->
 
 ## Module Purpose
@@ -39,7 +51,7 @@ Out of scope:
 - toolbox build and registry behavior expose explicit lifecycle outcomes.
 - extraction and bridge behavior remain bounded and diagnosable under empty or soft-fail inputs.
 - helper utilities return deterministic outputs for chunking, normalization, scoring, and detection paths.
-- streaming behavior is synchronous and explicitly bounded by caller-controlled iteration.
+- streaming behavior is synchronous and processes input chunks sequentially; the API does not expose a caller-controlled iteration limit.
 
 ## Developer Documentation
 
@@ -68,3 +80,5 @@ Out of scope:
 - Note:
   - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
   - historical entries remain in CHANGELOG.md
+
+> Exact model backend not verifiable from final document text alone.

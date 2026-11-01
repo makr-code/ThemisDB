@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # LLM Module - API Reference
 
 <!-- Status: complete | validated: 2026-08-17 -->
@@ -153,32 +167,29 @@ Result<CompletionResponse> wait(
 #### Streaming Inference
 
 ```cpp
-/// @brief Stream tokens as they're generated.
-/// @param prompt Input prompt.
-/// @param config Inference configuration.
-/// @param on_token Callback invoked for each token.
-/// @return Status::kOk on success.
-/// @note Callbacks run on worker thread; caller responsible for thread safety.
-Status streamComplete(
+/// EmbeddedLLM callback APIs declared in include/llm/embedded_llm.h.
+std::string generateStreaming(
     const std::string& prompt,
-    const CompletionConfig& config,
-    std::function<void(const StreamToken&)> on_token
+    std::function<void(const std::string&)> callback,
+    int max_tokens = 512
 );
 
-/// @brief Stream with error handling callback.
-/// @param prompt Input prompt.
-/// @param config Inference configuration.
-/// @param on_token Token callback.
-/// @param on_error Error callback (invoked if inference fails).
-/// @param on_complete Completion callback (invoked when stream ends).
-Status streamCompleteWithCallbacks(
+std::string generateStreamingSSE(
     const std::string& prompt,
-    const CompletionConfig& config,
-    std::function<void(const StreamToken&)> on_token,
-    std::function<void(Status)> on_error,
-    std::function<void()> on_complete
+    std::function<void(const std::string&)> callback,
+    const std::string& request_id = "",
+    int max_tokens = 512
 );
 ```
+
+These are synchronous `EmbeddedLLM` methods, not members of a `Completion`
+client API. With the Llama backend, generated token text is passed to the
+callback during inference; the no-LLM stub invokes it once with its generated
+text (and the SSE stub emits a terminal callback event). The server route
+`GET /api/v1/llm/stream` calls `generateStreamingSSE`, buffers callback events,
+then returns a complete HTTP `string_body` response. It does not provide
+incremental network writes. No stream-specific configuration, cancellation,
+or backpressure API is declared here.
 
 #### Embedding & RAG
 
@@ -350,26 +361,13 @@ int main() {
 }
 ```
 
-### Example 2: Streaming with Error Handling
+### Example 2: Embedded callback streaming
 
 ```cpp
-auto status = llm.streamCompleteWithCallbacks(
+auto text = llm.generateStreaming(
     "Tell me a story",
-    CompletionConfig{.max_tokens = 500},
-    [](const StreamToken& token) {
-        // On each token
-        std::cout << token.text;
-        std::cout.flush();
-    },
-    [](Status error) {
-        // On error
-        LOG(ERROR) << "Stream failed: " << error.message();
-    },
-    []() {
-        // On complete
-        std::cout << "\n[DONE]" << std::endl;
-    }
-);
+    [](const std::string& token_text) { std::cout << token_text; },
+    500);
 ```
 
 ### Example 3: Asynchronous with Polling

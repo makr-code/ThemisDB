@@ -1,14 +1,28 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+Source level: 1; SOT domain: api-contract. Canonical references: `../transaction_semantic_advisor.h`, `../deadlock_predictor.h`, `transaction_semantic_advisor_example.cpp`, `../../../cmake/ModularBuild.cmake`, and `../../../cmake/CMakeLists.txt`. Related issue: #7390.
 
 # Transaction Module — Examples
 
-Examples for the `transaction` module demonstrating Paper 2 Layer 5 (TransactionSemanticAdvisor) implementation patterns.
+This directory contains a `TransactionSemanticAdvisor` example sketch. The current header declares `TransactionSemanticAdvisor::analyzeBatch()` and `suggestDeferral()` over `TransactionContext`; the example's `TransactionBatch`, `BatchAffinityHint`, predictor scoring, GDPR guard, `DecisionRecord`, and `TransactionBatcher::applyAffinityHint()` calls are not current APIs.
 
 ## Contents
 
 | File | Paper | Issue | Status |
 |------|-------|-------|--------|
-| `transaction_semantic_advisor_example.cpp` | Paper 2 §Layer 5 | IMPL-B5 | Specification / planned API |
+| `transaction_semantic_advisor_example.cpp` | Paper 2 §Layer 5 | IMPL-B5 | Non-buildable design sketch; calls are commented or simulated |
 
 ## transaction_semantic_advisor_example.cpp
 
@@ -21,7 +35,7 @@ Demonstrates:
 5. **DecisionRecord** written to `AIDecisionAuditor` for every non-trivial hint
 6. **Latency invariant** — hint computation ≤ 2 ms p99
 
-Calls to planned IMPL-B5 API are marked with `/* PLANNED */` comments.
+The source file itself states that the shown advisor calls are planned; this status is stale for the current `TransactionSemanticAdvisor` type. The current class does not declare the methods/types or performance/privacy guarantees described in the sketch. Treat the sketch's estimates and safeguards as **TODO/assumptions**, not implementation claims.
 
 ## Related Documentation
 
@@ -31,18 +45,14 @@ Calls to planned IMPL-B5 API are marked with `/* PLANNED */` comments.
 
 ## Installation
 
-This module is included as part of ThemisDB. Add the module headers to your include path:
-
-```cmake
-target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
-```
+This module is included as part of ThemisDB. The inspected build definitions do not establish an exported `THEMISDB_INCLUDE_DIR` variable or installed transaction package target. **TODO:** document installed-consumer instructions from the canonical packaging/export configuration.
 
 ## Usage
 
 Include the relevant headers from this module:
 
 ```cpp
-#include "transaction/module_header.h"
+#include "transaction/transaction_semantic_advisor.h"
 ```
 
-See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.
+See [`ARCHITECTURE.md`](../ARCHITECTURE.md) and [`ROADMAP.md`](../ROADMAP.md) for details.

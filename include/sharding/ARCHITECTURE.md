@@ -1,6 +1,24 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: architecture-governance
+Canonical_References:
+  - ../../src/sharding/ARCHITECTURE.md
+  - sharding_api_contract.h
+  - shard_router.h
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
+> Exact model backend not verifiable from final document text alone.
+
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/sharding/ARCHITECTURE.md -->
 
 # Sharding Module — Public Header Architecture
@@ -13,7 +31,11 @@
 
 ## 1. Overview
 
-`include/sharding/` defines the **public distributed partitioning, routing, and coordination contract** for ThemisDB. The 87 headers cover shard placement, consensus and quorum management, cross-shard transactions, repair and rebalance operations, metadata and WAL durability, transport security, and operational metrics.
+`include/sharding/` contains the public declarations for distributed partitioning, routing, and
+coordination. At this inventory, the directory contains 107 `.h` files covering shard placement,
+consensus and quorum management, cross-shard transactions, repair/rebalance, metadata and WAL,
+transport security, and operational metrics. Presence of a header is not evidence that every
+declared backend is enabled or production-ready.
 
 For full distributed-runtime details — routing internals, consensus adapters, and repair/rebalance orchestration — see:
 → [`../../src/sharding/ARCHITECTURE.md`](../../src/sharding/ARCHITECTURE.md)
@@ -82,9 +104,16 @@ For full distributed-runtime details — routing internals, consensus adapters, 
 
 ## 3. Namespace Layout
 
-| Namespace | Scope |
-|-----------|-------|
-| `themis::sharding` | Shard routing, coordination, and durability types |
+The public headers do not share one namespace. Verified examples:
+
+| Namespace | Checked declarations |
+|---|---|
+| `themis::sharding` | `ShardRouter` (`shard_router.h`), `ConsistentHashRing` (`consistent_hash.h`), `WALManager` (`wal_manager.h`) |
+| `themisdb::sharding` | `ConsensusConfig` (`consensus_module.h`), `ConsensusFactory` (`consensus_factory.h`), `CrossShardTransactionCoordinator` (`cross_shard_transaction.h`) |
+
+These are representative, not an exhaustive namespace inventory; some headers declare types in
+more than one namespace. **TODO:** check each symbol's enclosing namespace in its header rather
+than applying either prefix module-wide.
 
 ---
 

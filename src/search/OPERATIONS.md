@@ -1,18 +1,32 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
-Human_Author: "ThemisDB Team"
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "include/search/hybrid_search.h"
+  - "include/search/distributed_hybrid_search.h"
+  - "include/search/layered_retrieval_orchestrator.h"
+  - "src/search/hybrid_search.cpp"
+  - "src/search/distributed_hybrid_search.cpp"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
+
+Exact model backend not verifiable from final document text alone.
 
 # Search Module Operations Guide
 
-This document describes the operational expectations for the search module in production: health checks, observability signals, recovery behavior, and rollback triggers.
+This document describes source-observable signals and operational questions.
+The module does not define a deployment-wide health check or alerting policy;
+configure those at the owning service boundary.
 
 ## Normal operating posture
 
@@ -31,6 +45,11 @@ Operationally relevant signals are produced from the code paths in the module:
 - `DistributedHybridSearch` logs remote shard timeout and failure states
 - `LlmReranker` logs backend failures and fallback actions
 - `LayeredRetrievalOrchestrator` records per-layer decisions and latency metadata
+
+The hybrid stats struct declares more fields than the current implementation
+populates: only backend status, partial-result, and candidate counts are
+written by `HybridSearch::search()`. Error-code/fusion/reranker fields are not
+currently active signals in that path (**TODO:** wire and test them).
 
 Watch for:
 

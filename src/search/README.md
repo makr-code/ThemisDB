@@ -1,6 +1,29 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "DOCUMENTATION_GOVERNANCE.md"
+  - "src/search/README.md"
+  - "cmake/ModularBuild.cmake"
+  - "tests/search/CMakeLists.txt"
+  - "tests/CMakeLists.txt"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Search Module
 
-<!-- Status: current | validated: 2026-08-06 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose
@@ -49,48 +72,14 @@ Out of scope:
 - hybrid and distributed paths are bounded by configured candidate limits.
 - merge/fusion behavior is deterministic per ranking configuration.
 - optional LLM augmentation paths remain explicit and degradable.
-- analytics/stream behavior remains observable and non-silent.
+- analytics and streaming APIs expose per-class diagnostics; verify each header
+  for its exact observability and buffering contract.
 
-## Sourcecode Verification (Module: search/readme)
+## Build and test evidence
 
-**Complete Implementation Status (2026-08-08):** All 20 search module implementations now integrated into build configuration.
+- The root `cmake/ModularBuild.cmake` query-source list includes search implementations, but it does not list every `.cpp` under `src/search/`. Do not infer that every module file is compiled into every target.
+- `tests/search/CMakeLists.txt` declares glob-based focused-test targets with a 120-second CTest timeout and the `search` label (plus conditional labels for selected tests). `tests/CMakeLists.txt` auto-discovers this module CMake file and adds `search` when tests are configured; target generation, compilation, and execution still require verification in a configured build.
+- The directory currently contains 16 `test_*.cpp` files. Their presence and CMake declarations are not evidence that they compiled or ran. No runtime test result is asserted here.
+- For actual API and behavioral details, use the public headers and implementation files cited by [ARCHITECTURE.md](ARCHITECTURE.md); maturity percentages and earlier line-count inventories in this README are retired because they are not current source evidence.
 
-- Verified files (20 implementations):
-  - src/search/autocomplete.cpp (193 lines, 6 methods)
-  - src/search/conversational_search.cpp (126 lines, 6 methods) ✨ NEW
-  - src/search/cross_lingual_search.cpp (222 lines)
-  - src/search/distributed_hybrid_search.cpp (489 lines)
-  - src/search/faceted_search.cpp (230 lines)
-  - src/search/federated_search.cpp (198 lines, 9 methods) ✨ NEW
-  - src/search/fuzzy_matcher.cpp (305 lines)
-  - src/search/hybrid_search.cpp (450 lines)
-  - src/search/learning_to_rank.cpp (232 lines)
-  - src/search/llm_query_rewriter.cpp (297 lines)
-  - src/search/llm_reranker.cpp (272 lines)
-  - src/search/multi_field_search.cpp (187 lines)
-  - src/search/multi_modal_search.cpp (262 lines)
-  - src/search/negative_keyword_filter.cpp (179 lines)
-  - src/search/neural_sparse_retrieval.cpp (306 lines)
-  - src/search/personalized_ranker.cpp (174 lines)
-  - src/search/query_expander.cpp (452 lines)
-  - src/search/search_analytics.cpp (177 lines)
-  - src/search/search_highlighter.cpp (301 lines)
-  - src/search/search_result_stream.cpp (171 lines, 9 methods) ✨ NEW
-  
-- Total Lines of Code: 5,223 across all implementations
-- Build Configuration Status: ✅ All 20 files integrated into cmake/ModularBuild.cmake (2026-08-08)
-- Production Quality: All implementations marked PRODUCTION-READY (85-95% maturity scores)
-- Verified behavior surfaces:
-  - hybrid/distributed merge, ranking, utility, and observability paths
-  - conversational context tracking and result curation
-  - federated search with multi-tenant isolation
-  - streaming and pagination support
-- Note:
-  - Build integration completed via commit 8888dc81 (feat: add missing search module implementations)
-  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
-  - Wave B dependency planning for search enhancements is tracked in issue `#5039`
-  - upstream planning context links: Wave C `#5040`, Wave A `#5038`
-  - historical entries remain in CHANGELOG.md
-  - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
-  - dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
-  - follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`
+The local source set includes optional query rewriting/reranking and layered retrieval, but backend availability and runtime configuration are supplied by callers. Search-owned code does not establish an embedding model's quality or a production latency/SLA.

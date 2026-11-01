@@ -1,4 +1,31 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - ../../include/sharding/sharding_api_contract.h
+  - ../../tests/sharding/CMakeLists.txt
+  - ../../benchmarks/sharding/CMakeLists.txt
+Related_Issue: "#7381"
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Sharding Module - Future Enhancements
+
+> **Status note (2026-10-31):** This is a planning document, not evidence that a feature or
+> remediation is currently implemented or validated. Targets and implementation-status statements
+> in the historical 2026-07-19 stub-remediation section require source revalidation. **TODO:**
+> reconcile outstanding items with the current module roadmap and registered test/benchmark targets.
 
 <!-- Status: current | validated: 2026-07-18 | updated: 2026-07-19 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->

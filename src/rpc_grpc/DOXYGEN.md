@@ -1,14 +1,26 @@
-# RPC_GRPC DOXYGEN
+# RPC_GRPC DOXYGEN — Generated Snapshot
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
+
+> **Stale generated artifact:** this page has not been regenerated against the
+> current source. Its function inventory, counts, line references, and extracted
+> briefs may be out of date. Do not use it as current API documentation.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\rpc_grpc\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\rpc_grpc\doxygen-warnings.log`
+- Prior XML and warning-log paths were local build artifacts and are omitted.
+- Regenerate with `scripts/generate_module_doxygen_xml.py --modules rpc_grpc`
+  and the required Doxygen tool installed.
 
 ## Structure Metrics
 - C/C++ Files (scanned): 12
@@ -880,7 +892,7 @@ Status: active
 
 #### `CircuitState state() const noexcept`
 - Source: `include/rpc_grpc/circuit_breaker.h`:218
-- Brief: Return the current circuit state (lock-free read).
+- Brief: Historical generated text called this a lock-free read; the current implementation locks `mutex_` in `CircuitBreaker::state()` (`src/rpc_grpc/circuit_breaker.cpp`).
 - Parameters: none
 
 #### `CircuitBreakerStats stats() const`

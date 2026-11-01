@@ -1,4 +1,23 @@
-# Server Module - Code Quality Audit
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-25"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+# Server Module - Historical Code Quality Audit
+
+> **Historical snapshot:** The findings below describe the scan performed on
+> 2026-06-25 and its 2026-08-25 remediation notes. Counts and risk summaries
+> are not a current assessment; use the current source and
+> [`ROADMAP.md`](ROADMAP.md) for active status.
 
 ## L0 Code Quality Audit (2026-06-25)
 

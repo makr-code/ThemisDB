@@ -1,14 +1,31 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-20"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "include/importers/*.h; include/importers/*.hpp; src/importers/*.cpp; tests/importers/*.cpp"
+Related_Reference: "makr-code/ThemisDB#7353"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # IMPORTERS DOXYGEN
 
-Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+> Generated reference snapshot dated 2026-09-20; it was not regenerated from
+> current Doxygen XML during issue #7353. Its counts, paths, and declarations may
+> be stale. TODO: regenerate before using as current API evidence.
 
 ## Source
-- This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\importers\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\importers\doxygen-warnings.log`
+- Generated from module-scoped Doxygen XML (snapshot metadata only).
+- Historical generator host paths were local to the original build and are not
+  valid repository paths or reproducible source references.
 
 ## Structure Metrics
 - C/C++ Files (scanned): 111
@@ -9961,4 +9978,3 @@ Status: active
 - Source: `tests/importers/test_importers_phase2b_exception_safety_focused.cpp`:277
 - Brief: n/a
 - Parameters: none
-

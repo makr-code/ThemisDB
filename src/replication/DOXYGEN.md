@@ -1,3 +1,34 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-09-20
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - ../../Doxyfile
+  - ../../include/replication/
+  - ../../src/replication/
+Related_Issue: "#7373"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+> **Generated snapshot warning (2026-10-31):** The contents below were generated
+> 2026-09-20 from the XML path recorded in this file. Counts, symbols, and signatures
+> have not been regenerated or compared individually against current headers in this
+> update. Treat headers and implementation as authoritative.
+>
+> **TODO:** Regenerate this artifact from the current Doxygen XML output, remove
+> machine-local paths from the generated metadata, and review the resulting API
+> coverage. No Doxygen generation/build was run for this documentation task.
+
 # REPLICATION DOXYGEN
 
 Author: ThemisDB Contributors
@@ -9719,4 +9750,3 @@ Status: active
   - `collection` (const std::string &): n/a
   - `operation` (const std::string &): n/a
 - Details: Helper to create a test MMWriteEntry.
-

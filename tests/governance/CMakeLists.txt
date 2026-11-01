@@ -10,8 +10,11 @@ foreach(_src IN LISTS GOVERNANCE_MODULE_TEST_SOURCES)
     set(_ctest "${_stem}_governance_FocusedTests")
     set(_labels governance)
 
-    # Temporarily quarantine this suite while operational_audit.h/.cpp API
-    # convergence is in progress; otherwise it blocks unrelated build waves.
+    # Keep both suites quarantined until the canonical project build can
+    # configure, build, and run their focused targets. The operational-audit
+    # test passes a standalone local build, but the project configure is blocked
+    # here by missing RocksDB; versioning/approval additionally depends on the
+    # full core dependency graph.
     if(_stem STREQUAL "test_operational_audit_evidence"
        OR _stem STREQUAL "test_policy_versioning_and_approval")
         continue()
@@ -22,6 +25,21 @@ foreach(_src IN LISTS GOVERNANCE_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+
+    if(_stem STREQUAL "test_operational_audit_evidence")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/governance/operational_audit.cpp
+        )
+        target_link_libraries(${_target} PRIVATE OpenSSL::Crypto)
+    endif()
+
+    if(_stem STREQUAL "test_policy_versioning_and_approval")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/governance/policy_change_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/governance/policy_approval_workflow.cpp
+        )
+        target_link_libraries(${_target} PRIVATE fmt::fmt)
+    endif()
 
     # Audit-integrity focused tests require concrete implementation symbols
     # from governance_audit_integrity.cpp.

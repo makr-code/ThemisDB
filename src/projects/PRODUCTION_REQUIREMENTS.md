@@ -1,4 +1,20 @@
-> **Status:** 2026-06-01 – mit aktuellem Projects-Code (`project_template.cpp`) abgeglichen.
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
+> **Status:** Anforderungen, keine vollständige Implementierungsbestätigung.
+> Stand der Quellenprüfung: 2026-10-31.
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # ThemisDB Projects Module - Production Requirements
 
@@ -15,6 +31,14 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Project-Te
 - **`src/projects/FUTURE_ENHANCEMENTS.md`:** mittelfristige/langfristige Erweiterungen und Forschungsfelder.
 
 ## Verbindliche Produktionsanforderungen
+
+Die folgenden MUST-Anforderungen sind Abnahmekriterien, keine Aussage über
+bereits vorhandene Modulmechanismen. Der aktuelle Projects-Code stellt keine
+allgemeine Authentifizierung, Deployment-Konfigurationsvalidierung oder
+Autorisierungs-Middleware bereit. `shareProject()` und die Objekt-Locks
+implementieren ihre jeweiligen Moduloperationen, aber keinen allgemeinen
+Zugriffsschutz für beliebige Project-State-Schreibzugriffe. Dieses Modul
+enthält außerdem keine produktive Bundle-Implementierung.
 
 - **MUST:** Project-API mit Zugriffskontrolle; kein unauthentifizierter Schreibzugriff auf Project-State.
 - **MUST:** Project-Templates werden vor Instanziierung validiert; Template-Injection-Vektoren werden geprüft.

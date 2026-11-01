@@ -1,6 +1,34 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-07"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "benchmarks/importers/bench_importers_release_gates.cpp; benchmarks/importers/CMakeLists.txt; src/importers/PERFORMANCE_EXPECTATIONS.md"
+Related_Reference: "makr-code/ThemisDB#7353"
+---
+
+> Creation-date note: Original creation date is not recorded in the available checkout; the front-matter `Created` date is a metadata placeholder, not independently verified.
+
+> Exact model backend not verifiable from final document text alone.
+
 # Importers Module — Phase 2-3 Benchmark Stabilization Report
 
-**Status:** 🟢 COMPLETE | **Date:** 2026-08-07 | **Phase:** 5 — Performance & Hardening
+> Historical report, not current validation. The result tables and PASS/
+> stability claims below have no linked raw benchmark output, machine/build
+> manifest, or retained CI run here and were not reproduced for issue #7353.
+> Current benchmark source declares six in-memory/mock cases, repetitions and
+> target labels; it does not compute p99 or enforce those thresholds. TODO:
+> attach reproducible output and environment before presenting any reported
+> baseline as verified.
+
+**Historical status in source document:** reported complete on 2026-08-07; not revalidated.
 
 ---
 

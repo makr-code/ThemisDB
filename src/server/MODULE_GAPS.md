@@ -1,4 +1,24 @@
-# Server Module - Verified Gap Analysis (L0.5)
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-25"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+# Server Module - Historical Verified Gap Analysis (L0.5)
+
+> **Historical snapshot:** This generated analysis is based on the scan dated
+> 2026-06-25 and includes remediation notes through 2026-08-25. Its totals and
+> severity counts are not current. Use current source and
+> [`ROADMAP.md`](ROADMAP.md) for active status; do not treat this report as a
+> current inventory of open defects.
 
 > Last Updated: 2026-06-25T14:00:24Z
 > Source: gap_scan_results_verified_L0.5_full.json

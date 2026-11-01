@@ -1,7 +1,22 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone. Original creation dates
+> could not be verified from available history; `Created` records this AI-assisted revision.
+
 > **Build (Linux):** `cmake --preset linux-release && cmake --build --preset linux-release`<br>
 > **Build (Windows):** `cmake --preset windows-release && cmake --build --preset windows-release`
 
-<!-- Status: current | validated: 2026-08-09 | Primary: src/stable_diffusion/ -->
+<!-- Status: current | validated: 2026-10-31 | Primary: src/stable_diffusion/ -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Stable Diffusion Image Generation Plugin
@@ -10,12 +25,12 @@ Image generation plugin for ThemisDB backed by stable-diffusion.cpp.
 
 ## Module Purpose
 
-Implements text-to-image generation for ThemisDB. Provides a policy-safe `IImageGenerationBackend`
-interface with a production implementation (`SDPlugin`) backed by
-[stable-diffusion.cpp](https://github.com/leejet/stable-diffusion.cpp) and a zero-dependency
-stub mode for CI environments without a model file.
+Implements text-to-image generation for ThemisDB. Provides an `IImageGenerationBackend`
+interface with configurable keyword filtering and an implementation (`SDPlugin`) backed by
+[stable-diffusion.cpp](https://github.com/leejet/stable-diffusion.cpp) and a stub mode that
+does not require that backend library or a model file.
 
-Content-policy enforcement is built in: prompts are screened by `SDPromptSanitizer`
+Keyword-based content-policy filtering is built in: prompts are screened by `SDPromptSanitizer`
 before reaching the generator. Blocked prompts return a `GeneratedImage` with
 `success=false` without ever calling the model.
 
@@ -37,8 +52,9 @@ integration with the document storage pipeline (handled by `document` module).
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta (v2.3.0) — Core pipeline operational in stub mode and with optional
-real inference when `THEMIS_ENABLE_STABLE_DIFFUSION=ON` and a model file is present.
+**Maturity:** EXPERIMENTAL (v2.3.0; root `ROADMAP.md` aggregate) — Core pipeline is available
+in stub mode; real inference requires `THEMIS_ENABLE_STABLE_DIFFUSION=ON`, the
+stable-diffusion.cpp library to be found and linked, and a model file.
 
 ## Quick Start
 
@@ -97,9 +113,15 @@ cmake -B build -DTHEMIS_ENABLE_STABLE_DIFFUSION=ON
 | `SDPluginFocusedTests` | 62 | `plugins;stable_diffusion;image_generation;v2.3.0` |
 | `SDPluginRegistrarTests` | 12 | `plugins;stable_diffusion;image_generation;registrar;v2.3.0` |
 | `SDPluginRealBackendE2ETests` | 2 | `plugins;stable_diffusion;image_generation;e2e;real_backend;v2.3.0` (opt-in) |
+| Modular focused suites | 5 source files under `tests/stable_diffusion/` | CTest names are `<source-stem>_StableDiffusionFocusedTests`; high-cardinality test is simulation-only |
+
+The legacy focused and registrar targets are registered only when CMake finds OpenSSL.
+The real-backend E2E target additionally requires `THEMIS_ENABLE_STABLE_DIFFUSION=ON` and
+the stable-diffusion.cpp library to be found and linked.
 
 ```bash
 ctest -R "SDPlugin(Focused|Registrar)Tests" --output-on-failure
+ctest -R StableDiffusionFocusedTests --output-on-failure
 # real-backend opt-in:
 # THEMIS_SD_E2E_MODEL_PATH=/path/to/model.gguf ctest -R SDPluginRealBackendE2ETests --output-on-failure
 ```
@@ -110,10 +132,11 @@ ctest -R "SDPlugin(Focused|Registrar)Tests" --output-on-failure
 |---|---|---|
 | `nlohmann_json` | ✅ | config / stats |
 | `stable-diffusion.cpp` | ❌ optional | real model inference |
+| OpenSSL | ❌ optional | model SHA-256 gate when found and enabled |
 
 ## Provenance Fields
 
-Every `GeneratedImage` carries:
+Successful generated images carry:
 
 | Field | Value |
 |---|---|
@@ -122,6 +145,10 @@ Every `GeneratedImage` carries:
 | `prompt_hash` | FNV-1a 64-bit hex of sanitised prompt |
 | `perceptual_hash` | optional 64-bit perceptual hash (non-fatal if unavailable) |
 | `model_id` | model path or `"stub"` |
+
+Failure results do not necessarily contain every provenance field: for example,
+`generation_timestamp` is assigned on successful generation only. **TODO:** reconcile this
+implementation behavior with the public interface header's mandatory-provenance comment.
 
 ## Installation
 

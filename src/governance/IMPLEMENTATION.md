@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -29,7 +29,11 @@ Use this guide when modifying governance runtime behavior. Public declarations l
 
 The engine parses into temporary profile, mapping, and masking state, then swaps those values while holding its mutex. A YAML or standard exception returns `false` before publishing the replacement state. `reloadIfChanged()` checks the remembered path/mtime and reports a load failure as `false`; callers should not treat a failed reload as a successful policy update.
 
-Native evaluation uses an explicit classification, then a configured route mapping, and finally `streng-geheim` when neither is available. Unknown classifications also resolve to the strictest policy result. An attached OPA decision is used when available; `std::nullopt` falls back to native evaluation. CCPA opt-out overrides export permission after either successful evaluator path.
+Native evaluation uses an explicit classification, then a configured route mapping, and finally `streng-geheim` when neither is available. Unknown classifications also resolve to the strictest policy result. An attached OPA decision is used when available; REST `std::nullopt` falls
+back to native evaluation. In explicit WASM mode, the adapter returns a strict
+deny when its injected evaluator is absent or fails, preventing native
+fallback. CCPA opt-out overrides export permission after a successful
+evaluator path.
 
 ## Data-protection implementation details
 
@@ -40,7 +44,13 @@ Native evaluation uses an explicit classification, then a configured route mappi
 
 ## OPA boundary
 
-REST evaluation has a configured endpoint, policy path, and timeout. Network/timeout/HTTP/response-parse failures return no decision and record diagnostics; `PolicyEngine` then applies native evaluation. In WASM mode, an injected evaluator is the only implemented local evaluation hook. Without it, current code may take a permissive observe-mode stub if a bundle exists and the real runtime is unavailable. Never describe that path as Rego evaluation or use it for production authorization. The roadmap marks replacement as pending maintainer confirmation.
+REST evaluation has a configured endpoint, policy path, and timeout.
+Network/timeout/HTTP/response-parse failures return no decision and record
+diagnostics; `PolicyEngine` may then apply native evaluation. In explicit WASM
+mode, an injected evaluator is the only local evaluation hook. Without it, or
+if it fails, the adapter returns an enforced strict deny and does not
+substitute REST or native evaluation. Bundle presence does not indicate policy
+execution.
 
 ## Change and validation checklist
 

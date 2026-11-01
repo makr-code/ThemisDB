@@ -1,4 +1,25 @@
-> **Status:** 2026-06-01 – mit aktuellem Query-Code (`aql_parser.cpp`, `query_federation.cpp`, `cross_cluster_federator.cpp`, `query_canceller.cpp`) abgeglichen.
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Original creation date was not recorded; this provenance block was first recorded on 2026-10-31.
+> Exact model backend not verifiable from final document text alone.
+
+Source level: 1
+SOT domain: security
+Canonical references: `../../include/query/`, `src/query/`, `SECURITY.md`, `../../SECURITY.md`
+Related issue: #7371
+Related milestone: `DOC-WEEKLY-2026-44`
+
+> **Scope note (2026-10-31):** This is a normative requirements document, not a current implementation audit. The file list below identifies intended review surfaces; it does not assert that every requirement was re-verified in this documentation pass.
 
 # ThemisDB Query Module - Production Requirements
 
@@ -40,7 +61,7 @@ Es definiert verbindliche Anforderungen für Query-Limits, SSRF-Schutz, Tenant-I
 
 - **MUST:** `query_canceller.cpp` in Produktionspfaden aktiv; hängende Queries müssen über Request-ID abbrechbar sein.
 
-## Betriebsgrenzen (aktuelles Query-Verhalten)
+## Documented behavior statements (not re-verified in this pass)
 
 - `AQLParser` ist stateless (KL-01, geschlossen); keine threadlocal Query-State-Leaks zwischen parallelen Requests.
 - SPARQL/SQL-Inputs werden vollständig in AST übersetzt; Raw-Dialect-Strings werden nicht direkt ausgeführt.
@@ -64,7 +85,7 @@ Es definiert verbindliche Anforderungen für Query-Limits, SSRF-Schutz, Tenant-I
 - `src/query/PRODUCTION_REQUIREMENTS.md`
 - `src/query/aql_parser.cpp`
 - `src/query/query_federation.cpp`
-- `src/query/cross_cluster_federator.cpp` (falls vorhanden)
+- `src/query/cross_cluster_federation.cpp`
 - `src/query/continuous_query_engine.cpp` (falls vorhanden)
 - `src/query/query_canceller.cpp`
 - `src/query/aql_safety_validator.cpp`

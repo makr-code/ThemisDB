@@ -1,6 +1,33 @@
-# sharding — MODULE_GAPS.md (Phase 5 Verified)
+---
+Author: ThemisDB Contributors
+Created: 2026-08-14
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References: `../../tests/sharding/CMakeLists.txt`, `../../include/sharding/sharding_api_contract.h`
+Related_Issue: "#7381"
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
 
-This file documents all documentation and code quality gaps in the **sharding** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
+> Exact model backend not verifiable from final document text alone.
+
+# sharding — Historical MODULE_GAPS scanner snapshot
+
+> **Historical/unverified data:** The counts and classifications below are retained from an older
+> scanner output and are not a current gap inventory. The embedded Windows scan path, dated
+> hardening claims, and test identifiers have not been independently revalidated against today's
+> code or registered tests. Do not treat scanner counts as confirmed defects or completed fixes.
+> **TODO:** regenerate a current report from a reproducible scanner configuration and reconcile its
+> findings with source review and `tests/sharding/CMakeLists.txt`.
+
+This file preserves the historical scanner output described below; it does not document all current
+documentation or code quality gaps in the sharding module.
 
 ## Summary
 

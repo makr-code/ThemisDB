@@ -1,4 +1,16 @@
-> **Status:** 2026-06-01 – mit aktuellem Tensor-Code (`adapter_repository.cpp`) abgeglichen.
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
 
 # ThemisDB Tensor Module - Production Requirements
 
@@ -14,18 +26,29 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Adapter-Re
 - **`src/tensor/ROADMAP.md`:** Lieferphasen, offene/abgeschlossene Features, Readiness-Planung.
 - **`src/tensor/FUTURE_ENHANCEMENTS.md`:** mittelfristige/langfristige Erweiterungen und Forschungsfelder.
 
-## Verbindliche Produktionsanforderungen
+## Source evidence and implementation status
 
-- **MUST:** Adapter-Repository mit Signatur-Validierung; unsignierte oder nicht-verifizierte Adapter werden nicht in Produktion geladen.
-- **MUST:** Tensor-MMap-Bridge mit definierten Memory-Limits; kein unbegrenztes Tensor-MMap-Wachstum.
-- **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
+The requirements below are desired production gates, not a claim that the
+current tensor implementation already satisfies them. Source inspection for
+this documentation update found no adapter-signature verification or
+module-wide startup configuration/audit-logging path. `TensorCoreStorageBridge`
+falls back to `InMemoryTensorBackend` without an injected backend/factory.
+`TensorMmapBridge` treats page-lock failure as non-fatal and does not expose a
+configured module-wide memory limit. A deployment must provide independent
+evidence before treating these controls as implemented.
+
+## Required production gates (not source-verified)
+
+- **MUST:** Adapter-Repository mit Signatur-Validierung; current `AdapterRepository` code does not demonstrate this gate.
+- **MUST:** Tensor-MMap-Bridge mit definierten Memory-Limits; no module-level limit is exposed by the current bridge API.
+- **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; a module-wide startup configuration surface was not found.
 - **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
 
 ## Verbindliche Sicherheitsanforderungen
 
-- Sicherheitsrelevante Operationen werden über dedizierte Kontroll-Surfaces geleitet.
-- Fehler in sicherheitskritischen Pfaden werden als explizite Fehlercodes propagiert; kein Silent-Permit.
-- Audit-Logging für sicherheitsrelevante Operationen aktiv in Produktionsdeployments.
+- Sicherheitsrelevante Operationen müssen über dedizierte Kontroll-Surfaces geleitet werden.
+- Fehler in sicherheitskritischen Pfaden müssen als explizite Fehlercodes propagiert werden; kein Silent-Permit.
+- Audit-Logging muss in Produktionsdeployments aktiv sein; module-local audit logging was not established by this source review.
 
 ## Betriebsgrenzen
 

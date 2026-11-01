@@ -1,3 +1,24 @@
+---
+Author: "ThemisDB Tensor Stream A"
+Created: "2026-08-07"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> Historical completion report, not current build/test or performance evidence.
+> Its fingerprint-graph benchmark references target
+> `themis::graph::TensorFingerprintGraph`, not the tensor module's
+> `themis::tensor::TensorFingerprintGraph`; the dedicated tensor gates use
+> in-process stubs. Treat completion, PASS, and release-sign-off statements
+> below as historical records only.
+
 # Tensor Module Stream A, Block A3 - Benchmark Stabilization Work Summary
 
 **Completion Date**: 2026-08-07  

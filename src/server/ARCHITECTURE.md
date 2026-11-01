@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-09"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Architecture - Server Module
 
-<!-- Status: current | validated: 2026-09-09 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -72,35 +86,29 @@ These patterns are covered by 8 benchmark release gates SVR-01..SVR-08 in `bench
 
 | Module | Via | Notes |
 |--------|-----|-------|
-| *(none — Layer 6 apex)* | — | `server` is the client-facing boundary; no ThemisDB module imports it |
+| `llm` | `src/llm/mcp_tool_bridge.cpp` → `include/server/mcp_server.h` | LLM-side MCP tool integration |
 
 ---
 
 ## Integration Points
 
 ### Critical Integration: Query Dispatch
-**Files:** `include/server/api_gateway.h` ↔ `include/query/aql_runner.h`
-**Contract:** HTTP request body (AQL string or JSON query object) is forwarded to `AqlRunner::run()`; result stream is serialised back as chunked HTTP response.
-**Thread Safety:** Each HTTP worker holds its own `AqlRunner` context; no shared mutable state across requests.
-**Failure Mode:** Query parse or runtime errors return HTTP 400/408/507; transport errors surface as 500 with structured error body.
+**Files:** `include/server/api_gateway.h`, `src/server/api_gateway.cpp`, and the configured local handler.
+**Contract:** `APIGateway::handleRequest()` performs optional authentication, configured rate limiting and load shedding, version-path normalization, route selection, then calls the local handler or configured shard path. Query parsing and execution belong to the selected handler and query modules; the gateway does not directly invoke `AqlRunner`.
+**Failure Mode:** The gateway returns explicit responses for its own auth, admission, and routing failures. Handler-specific query errors and transport responses are determined by those downstream components.
 
 ### Critical Integration: Auth Middleware → Security / Auth
 **Files:** `include/server/auth_middleware.h` ↔ `include/auth/` + `include/security/`
-**Contract:** Every inbound request passes through `AuthMiddleware::process()`; token validation calls into `auth` module, permission checks call into `security` module. Middleware short-circuits to 401/403 on failure.
-**Thread Safety:** Auth/security checks are stateless per-request; shared credential stores use internal locking.
-**Failure Mode:** Auth module unavailability returns 503 (not 401) to prevent false grant.
+**Contract:** `AuthMiddleware::authorize(token, required_scope)` returns an `AuthResult`; callers must check `authorized` before using its identity context. The gateway and individual HTTP routes invoke auth according to their configuration and route logic; there is no module-wide `AuthMiddleware::process()` stage.
+**Failure Mode:** The caller determines the response mapping for a denied result. Do not assume one status code for every route or that auth is enabled globally.
 
-### Critical Integration: LLM ↔ Server Circular Bridge (MCP)
+### LLM and MCP integration
 **Files:** `src/server/lora_api_handler.cpp` → `include/llm/lora_framework/lora_orchestrator.h`; `src/llm/mcp_tool_bridge.cpp` → `include/server/mcp_server.h`
-**Contract:** Managed circular dependency; `lora_api_handler` drives LoRA training jobs via orchestrator; `mcp_tool_bridge` calls back into server's MCP surface for tool registration.
-**Thread Safety:** Both edges are queue-mediated; no synchronous re-entrant call paths.
-**Failure Mode:** Orchestrator unavailability returns 503 from the LoRA API; MCP tool registration failures are logged and retried asynchronously.
+**Contract:** The LoRA handler integrates with the LLM orchestrator; the LLM-side MCP tool bridge depends on the server MCP interface. These are explicit module edges, not evidence that every call is asynchronous or retried.
 
-### Critical Integration: Session / Protocol Plane → Network
-**Files:** `src/server/websocket_session.cpp`, `src/server/mqtt_session.cpp`, `src/server/postgres_session.cpp`, `src/server/themis_core_grpc_service.cpp` ↔ `include/network/`
-**Contract:** Protocol sessions delegate raw I/O to `network` module transports; session state (auth, query context) remains in server module.
-**Thread Safety:** Each session object is single-threaded; session registry uses shared mutex.
-**Failure Mode:** Transport disconnects trigger explicit session teardown; in-flight requests are aborted with appropriate status.
+### Protocol and session ownership
+**Files:** `src/server/websocket_session.cpp`, `src/server/mqtt_session.cpp`, `src/server/postgres_session.cpp`, and `src/server/themis_core_grpc_service.cpp`
+**Contract:** These components implement server-owned protocol/session behavior. Their I/O, synchronization, and teardown details are protocol-specific; consult the corresponding implementation and tests before relying on a shared lifecycle or thread-safety guarantee.
 
 ---
 

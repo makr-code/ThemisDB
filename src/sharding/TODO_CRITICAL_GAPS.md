@@ -1,4 +1,30 @@
-# TODO: Critical Gaps in sharding Module
+---
+Author: ThemisDB Contributors
+Created: 2026-06-13
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References: `MODULE_GAPS.md`, `../../tests/sharding/CMakeLists.txt`
+Related_Issue: "#7381"
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
+
+> Exact model backend not verifiable from final document text alone.
+
+# Historical TODO: Critical Gaps in the sharding Module
+
+> **Historical/unverified snapshot (generated 2026-06-13):** Counts, file/line references, and
+> remediation suggestions below are not a current code audit. Several named files, findings, or
+> tests may have changed; the proposed timeout/consensus/versioning rules are not universal
+> sharding contracts. Do not execute this list as an active remediation plan without checking the
+> current implementation and registered tests. **TODO:** regenerate and review a current findings
+> report before converting any entry into work.
 
 > Generated: 2026-06-13
 > Source: MODULE_GAPS.md (1371 total findings, 997 Critical+High)
@@ -14,7 +40,7 @@
 **Files to Check:**
 - [ ] Remaining files with `thread.join()` without timeout
 **Action:** Replace `th.join()` with `th.try_join_for(std::chrono::seconds(30))` + error handling
-**Reference:** Use `utils/thread_join_utils.h::joinThreadWithin()` (mentioned in W4-Sharding)
+**Reference:** The existing helper is [`thread_join_utils.h`](../../include/utils/thread_join_utils.h) (`joinThreadWithin()`); verify its cooperative-shutdown semantics before applying it to any current code.
 
 ---
 
@@ -199,7 +225,7 @@ result.insert(result.end(), chunk.begin(), chunk.end());
 ## 📋 IMPLEMENTATION CHECKLIST
 
 - [ ] Add `#include <chrono>` to all files using thread joins
-- [ ] Create utility function for thread join with timeout (if not exists in utils/thread_join_utils.h)
+- [ ] Create utility function for thread join with timeout only if one is not available in `include/utils/thread_join_utils.h`; verify its guarantees before adopting it.
 - [ ] Replace all `th.join()` with timeout versions
 - [ ] Audit all resource acquisitions for exception safety
 - [ ] Add consensus checks to all write operations
@@ -213,7 +239,7 @@ result.insert(result.end(), chunk.begin(), chunk.end());
 
 - [MODULE_GAPS.md](./MODULE_GAPS.md) - Full scanner findings
 - [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md) - Production readiness criteria
-- [utils/thread_join_utils.h](../utils/thread_join_utils.h) - Thread join utilities (if exists)
+- [Thread join utilities](../../include/utils/thread_join_utils.h) — existing header; its API and suitability for these historical findings still require review.
 
 ---
 

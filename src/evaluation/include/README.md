@@ -1,6 +1,8 @@
 # evaluation/include documentation
 
-<!-- Status: current | aligned with status issue #5643 | validated: 2026-07-29 -->
+<!-- Status: current | aligned with status issue #5643 | validated: 2026-10-31 -->
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB Contributors -->
+<!-- Exact model backend not verifiable from final document text alone. -->
 
 ## Purpose
 
@@ -19,7 +21,7 @@ governance, query planning, and artifact lifecycle handling.
 | `approximation_rules.h` | 2.4 | exactness zones, violations, and policy checks |
 | `query_planner.h` | 2.5 | path-selection request/plan schema and planner config |
 | `artifact_lifecycle.h` | 2.6 | freshness state, staleness triggers, and lifecycle policy |
-| `storage_strategy.h` | 2.7 | storage mode/quantization strategy recommendation contracts |
+| `include/distributed_tensor/tensor_storage_strategy.h` | 2.7 (EPIC #5436, issue #5443) | Cross-module assessment contract; not an evaluation-owned header |
 
 ## Contract Governance Rules
 

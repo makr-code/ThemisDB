@@ -1,49 +1,69 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-11-01"
+Last Updated: "2026-11-01"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # TRAINING DOXYGEN
 
 Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Created: 2026-11-01
+Last Updated: 2026-11-01
+Status: review
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\training\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\training\doxygen-warnings.log`
+- Generated with Doxygen 1.9.8 using `Doxyfile.audit` and
+  `scripts/generate_module_doxygen_xml.py`.
+- Run: 2026-11-01T06:40:29Z; training module result: PASS (exit code 0).
+- The XML index and warning log were written to a temporary output directory
+  and are not checked into the repository.
+- Warning-log length: 191 lines, including multiline warning continuations.
 
 ## Structure Metrics
-- C/C++ Files (scanned): 60
-- Compounds: 286
-- Classes/Structs: 185
-- Namespaces: 32
-- File Compounds: 60
+- C/C++ Files (scanned): 62
+- Compounds: 278
+- Classes/Structs: 173
+- Namespaces: 34
+- File Compounds: 62
 
 ## Namespaces
-- @035103364310234067031314020266162237253004034111
-- @064131232112155210374202205231321173365217150034
-- @105177243144272223067224055341123341042172042377
-- @134177327164312220257356066113105321014024030314
-- @251260161047165327134102240347331236160141333350
-- @266326253255133230023037015033025271046044266326
-- @317130012017053126216144232111275347027002005112
-- @351377241121160244255100072041312253377172310242
-- @353167352166063324020137236027245145204275330264
+- @29
+- @32
+- @36
+- @39
+- @41
+- @42
+- @43
+- @48
+- @56
+- @60
+- @61
 - gates
 - std
 - std::chrono_literals
 - testing
 - themis
-- themis::@311102272032135057126032037243066123303010061340
+- themis::@49
 - themis::analytics
 - themis::llm::lora
 - themis::query
 - themis::sharding
 - themis::training
-- themis::training::@023116274235024336132332000203124121211051336062
-- themis::training::@033367135005133133371145144171046233124257074202
-- themis::training::@153131046371305372244072120266273120076340345251
-- themis::training::@172260015270123206021262306325063237151340361043
-- themis::training::@360142137027144076337206146172017153051030066105
-- themis::training::@372204352027114372206272253163142153235077166245
+- themis::training::@21
+- themis::training::@22
+- themis::training::@24
+- themis::training::@25
+- themis::training::@27
+- themis::training::@40
 - themis::training::aql_templates
 - themis::training::checkpoint
 - themis::training::detail
@@ -57,9 +77,6 @@ Status: active
 - CheckpointResumeGpuStressTest
 - CheckpointResumeStressTest
 - CitationExtractorTest
-- DataSelectionPipeline
-- DataSelectionPipeline::Impl
-- DatabaseDomainAutoLabeler
 - DeployVersionExTest
 - MergeConflictTest
 - MockLLMRouter
@@ -76,8 +93,6 @@ Status: active
 - TrainingPipelineE2ETest
 - TrainingServiceRegistryTest
 - UnavailableLLMRouter
-- themis::DataSelectionPipeline
-- themis::DataSelectionPipeline::Impl
 - themis::training::AdaLoRAAdapter
 - themis::training::AdaLoRAAdapter::Impl
 - themis::training::AdaLoraTTBridge
@@ -138,14 +153,7 @@ Status: active
 - themis::training::TrainingSession
 
 ### Structs
-- DataSample
-- FeedbackEntry
-- LabeledDbSample
-- LoRADataSelectionConfig
 - SimpleCheckpointManager::CheckpointData
-- themis::DataSample
-- themis::LoRADataSelectionConfig
-- themis::PipelineConfig
 - themis::training::AcceptanceGateMetrics
 - themis::training::AdaLoRAAdapter::Impl::Layer
 - themis::training::AdaLoRALayerStats
@@ -246,7 +254,7 @@ Status: active
 - Regenerate via scripts/generate_module_doxygen_xml.py --write-module-markdown.
 
 ## Detailed Function Documentation (Soll-Ist)
-- Functions extracted: 1128
+- Functions extracted: 1070
 
 ### CheckpointRecoveryTest
 
@@ -324,270 +332,6 @@ Status: active
 - Source: `tests/training/test_training_convergence.cpp`:332
 - Brief: n/a
 - Parameters: none
-
-### DataSample
-
-#### `DataSample()=default`
-- Source: `include/training/lora_data_selection.h`:137
-- Brief: n/a
-- Parameters: none
-
-#### `DataSample(std::string id_, std::string text_)`
-- Source: `include/training/lora_data_selection.h`:138
-- Brief: n/a
-- Parameters:
-  - `id_` (std::string): n/a
-  - `text_` (std::string): n/a
-
-### DataSelectionPipeline
-
-#### `DataSelectionPipeline(const DataSelectionPipeline &)=delete`
-- Source: `include/training/lora_data_selection.h`:288
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const DataSelectionPipeline &): n/a
-
-#### `DataSelectionPipeline(const LoRADataSelectionConfig &config)`
-- Source: `include/training/lora_data_selection.h`:285
-- Brief: Construct pipeline with the given configuration.
-- Parameters:
-  - `config` (const LoRADataSelectionConfig &): n/a
-
-#### `std::vector< DataSample > clusterAndSample(const std::vector< DataSample > &samples, size_t k=0) const`
-- Source: `include/training/lora_data_selection.h`:326
-- Brief: Run only Stage 3: cluster-based diversity sampling.
-- Parameters:
-  - `samples` (const std::vector< DataSample > &): Samples to cluster.
-  - `k` (size_t): Number of clusters (computed from config if 0).
-- Return: Centroid-nearest samples covering diverse clusters.
-- Details: samples Samples to cluster. k Number of clusters (computed from config if 0). Centroid-nearest samples covering diverse clusters.
-
-#### `DataSelectionMetrics computeMetrics(const DataSelectionResult &result)`
-- Source: `include/training/lora_data_selection.h`:368
-- Brief: Derive a DataSelectionMetrics snapshot from a completed pipeline result.
-- Parameters:
-  - `result` (const DataSelectionResult &): Input parameter.
-- Return: Populated metrics snapshot (all fields 0.0 for empty results).
-- Details: Compute Metrics. Computes per-stage rejection rates and average quality/difficulty/ diversity scores from the returned samples. Useful for feeding the result directly into SelfImprovementModule::applyAdaptiveRules() and SelfImprovementModule::needsRollback(). result The result returned by a previous run() call. Populated metrics snapshot (all fields 0.0 for empty results). result Input parameter. Return value. Calls: DataSelectionMetrics(), empty(), ss(), reserve(), size(), std::isalpha(), std::tolower(), std::isdigit().
-
-#### `std::vector< DataSample > deduplicate(const std::vector< DataSample > &samples) const`
-- Source: `include/training/lora_data_selection.h`:317
-- Brief: Run only Stage 2: MinHash deduplication.
-- Parameters:
-  - `samples` (const std::vector< DataSample > &): n/a
-- Return: Samples with duplicates removed.
-- Details: Samples with duplicates removed.
-
-#### `std::vector< DataSample > filterByQuality(const std::vector< DataSample > &samples) const`
-- Source: `include/training/lora_data_selection.h`:310
-- Brief: Run only Stage 1: quality filtering.
-- Parameters:
-  - `samples` (const std::vector< DataSample > &): n/a
-- Return: Samples that pass all quality filters.
-- Details: Applies the shared prompt-safety policy before token/language/toxicity checks. Samples matching blocked prompt-injection patterns are rejected (fail-closed). Allowed samples continue with sanitized control-token redaction applied to their text. Samples that pass all quality filters.
-
-#### `const LoRADataSelectionConfig & getConfig() const`
-- Source: `include/training/lora_data_selection.h`:354
-- Brief: Get the current pipeline configuration.
-- Parameters: none
-
-#### `DataSelectionPipeline & operator=(const DataSelectionPipeline &)=delete`
-- Source: `include/training/lora_data_selection.h`:289
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const DataSelectionPipeline &): n/a
-
-#### `DataSelectionResult run(const std::vector< DataSample > &input_samples, SelectionProgressCallback callback=nullptr)`
-- Source: `include/training/lora_data_selection.h`:297
-- Brief: Execute all five pipeline stages on input_samples.
-- Parameters:
-  - `input_samples` (const std::vector< DataSample > &): Input parameter.
-  - `callback` (SelectionProgressCallback): Input parameter.
-- Return: Selection result including selected samples and audit entry.
-- Details: Run. input_samples Raw samples loaded from the training collection. callback Optional per-stage progress callback. Selection result including selected samples and audit entry. input_samples Input parameter. callback Input parameter. Return value. Calls: std::move(), getConfig(), empty(), detail::appendAuditJSONL(), toJSONL().
-
-#### `void scoreQualityAndDifficulty(std::vector< DataSample > &samples) const`
-- Source: `include/training/lora_data_selection.h`:334
-- Brief: Run only Stage 4: quality/difficulty scoring. Modifies quality_score and difficulty_score in-place.
-- Parameters:
-  - `samples` (std::vector< DataSample > &): n/a
-
-#### `void setConfig(const LoRADataSelectionConfig &config)`
-- Source: `include/training/lora_data_selection.h`:349
-- Brief: Update the pipeline configuration (live reload support).
-- Parameters:
-  - `config` (const LoRADataSelectionConfig &): Input parameter.
-- Details: Set Config. config Input parameter. Implements setConfig without additional internal calls.
-
-#### `std::vector< DataSample > stratifiedSample(const std::vector< DataSample > &scored_samples, size_t target=0) const`
-- Source: `include/training/lora_data_selection.h`:342
-- Brief: Run only Stage 5: curriculum stratified sampling.
-- Parameters:
-  - `scored_samples` (const std::vector< DataSample > &): Samples with difficulty_score populated.
-  - `target` (size_t): Total samples to return (0 = use config).
-- Return: Stratified subset (easy + medium + hard).
-- Details: scored_samples Samples with difficulty_score populated. target Total samples to return (0 = use config). Stratified subset (easy + medium + hard).
-
-#### `~DataSelectionPipeline()`
-- Source: `include/training/lora_data_selection.h`:286
-- Brief: n/a
-- Parameters: none
-
-### DataSelectionPipeline::Impl
-
-#### `Impl(const LoRADataSelectionConfig &config)`
-- Source: `src/training/lora_data_selection.cpp`:404
-- Brief: n/a
-- Parameters:
-  - `config` (const LoRADataSelectionConfig &): n/a
-
-#### `std::vector< DataSample > clusterAndSample(const std::vector< DataSample > &samples, size_t k) const`
-- Source: `src/training/lora_data_selection.cpp`:506
-- Brief: n/a
-- Parameters:
-  - `samples` (const std::vector< DataSample > &): n/a
-  - `k` (size_t): n/a
-
-#### `std::vector< DataSample > deduplicate(const std::vector< DataSample > &samples) const`
-- Source: `src/training/lora_data_selection.cpp`:466
-- Brief: n/a
-- Parameters:
-  - `samples` (const std::vector< DataSample > &): n/a
-
-#### `std::vector< DataSample > filterByQuality(const std::vector< DataSample > &samples) const`
-- Source: `src/training/lora_data_selection.cpp`:407
-- Brief: n/a
-- Parameters:
-  - `samples` (const std::vector< DataSample > &): n/a
-
-#### `const LoRADataSelectionConfig & getConfig() const`
-- Source: `src/training/lora_data_selection.cpp`:798
-- Brief: n/a
-- Parameters: none
-
-#### `DataSelectionResult run(const std::vector< DataSample > &input, SelectionProgressCallback cb)`
-- Source: `src/training/lora_data_selection.cpp`:722
-- Brief: - Full pipeline run ----------------------------------------------
-- Parameters:
-  - `input` (const std::vector< DataSample > &): Input parameter.
-  - `cb` (SelectionProgressCallback): Input parameter.
-- Return: Return value.
-- Details: input Input parameter. cb Input parameter. Return value. Calls: DataSelectionResult(), std::chrono::steady_clock::now(), filterByQuality(), cb(), size(), deduplicate(), clusterAndSample(), scoreQualityAndDifficulty().
-
-#### `void scoreQualityAndDifficulty(std::vector< DataSample > &samples) const`
-- Source: `src/training/lora_data_selection.cpp`:628
-- Brief: n/a
-- Parameters:
-  - `samples` (std::vector< DataSample > &): n/a
-
-#### `void setConfig(const LoRADataSelectionConfig &config)`
-- Source: `src/training/lora_data_selection.cpp`:797
-- Brief: Set Config.
-- Parameters:
-  - `config` (const LoRADataSelectionConfig &): Input parameter.
-- Details: config Input parameter. Implements setConfig without additional internal calls.
-
-#### `std::vector< DataSample > stratifiedSample(const std::vector< DataSample > &scored, size_t target) const`
-- Source: `src/training/lora_data_selection.cpp`:655
-- Brief: n/a
-- Parameters:
-  - `scored` (const std::vector< DataSample > &): n/a
-  - `target` (size_t): n/a
-
-### DatabaseDomainAutoLabeler
-
-#### `DatabaseDomainAutoLabeler(double sensitivity_ms=10.0)`
-- Source: `include/training/database_domain_auto_labeler.h`:68
-- Brief: Construct with optional sensitivity parameter.
-- Parameters:
-  - `sensitivity_ms` (double): Latency delta (ms) that maps to sigmoid inflection point (confidence = 0.73). Default: 10.0 ms.
-- Details: sensitivity_ms Latency delta (ms) that maps to sigmoid inflection point (confidence = 0.73). Default: 10.0 ms.
-
-#### `LabeledDbSample buildSample(const std::string &query, const std::string &plan_json, double delta_p99_ms, const std::string &source) const`
-- Source: `include/training/database_domain_auto_labeler.h`:152
-- Brief: Internal: build a LabeledDbSample from raw components.
-- Parameters:
-  - `query` (const std::string &): n/a
-  - `plan_json` (const std::string &): n/a
-  - `delta_p99_ms` (double): n/a
-  - `source` (const std::string &): n/a
-
-#### `double computeConfidence(double delta_p99_ms) const`
-- Source: `include/training/database_domain_auto_labeler.h`:123
-- Brief: Map a latency delta to a confidence score in [0.0, 1.0].
-- Parameters:
-  - `delta_p99_ms` (double): Measured latency improvement (sign is ignored).
-- Return: Confidence in [0.5, 1.0). Returns exactly 0.5 when delta == 0.
-- Details: confidence = sigmoid(\|delta_p99_ms\| / sensitivity_ms) delta_p99_ms Measured latency improvement (sign is ignored). Confidence in [0.5, 1.0). Returns exactly 0.5 when delta == 0.
-
-#### `std::string exportToJsonl(const std::vector< LabeledDbSample > &samples)`
-- Source: `include/training/database_domain_auto_labeler.h`:145
-- Brief: Serialize a batch of labeled samples to a JSONL string.
-- Parameters:
-  - `samples` (const std::vector< LabeledDbSample > &): Input parameter.
-- Return: JSONL string; empty string when samples is empty.
-- Details: static Each sample is emitted as one compact JSON object on its own line: {"query":"SELECT…","explain_plan":"…","latency_delta_ms":-42.5} The output is suitable for appending to a .jsonl log file or piping to a downstream ingestion tool. samples Samples to serialize (may be empty). JSONL string; empty string when samples is empty. samples Input parameter. Return value.
-
-#### `LabeledDbSample labelFromBaoDecision(const std::string &query, const std::string &bao_plan_json, double delta_p99_ms) const`
-- Source: `include/training/database_domain_auto_labeler.h`:80
-- Brief: Create a labeled sample from a BaoOptimizer decision log entry.
-- Parameters:
-  - `query` (const std::string &): SQL query string.
-  - `bao_plan_json` (const std::string &): JSON-serialized BaoOptimizer plan.
-  - `delta_p99_ms` (double): Latency improvement: negative = query got faster.
-- Return: LabeledDbSample with source = "bao_log".
-- Details: query SQL query string. bao_plan_json JSON-serialized BaoOptimizer plan. delta_p99_ms Latency improvement: negative = query got faster. LabeledDbSample with source = "bao_log".
-
-#### `LabeledDbSample labelFromDBAFeedback(const FeedbackEntry &entry) const`
-- Source: `include/training/database_domain_auto_labeler.h`:94
-- Brief: Create a labeled sample from a DBA feedback entry.
-- Parameters:
-  - `entry` (const FeedbackEntry &): FeedbackEntry from the DBA or system operator.
-- Return: LabeledDbSample with source = "dba_feedback".
-- Details: Negative (is_positive=false) feedback receives confidence ≥ 0.9, reflecting high signal strength. entry FeedbackEntry from the DBA or system operator. LabeledDbSample with source = "dba_feedback".
-
-#### `std::vector< LabeledDbSample > labelFromLogFile(const std::string &log_path, size_t max_samples=50000, double min_confidence=0.0) const`
-- Source: `include/training/database_domain_auto_labeler.h`:108
-- Brief: Batch-label samples from a query log file.
-- Parameters:
-  - `log_path` (const std::string &): Path to the query log file.
-  - `max_samples` (size_t): Maximum number of samples to return (0 = unlimited).
-  - `min_confidence` (double): Filter: samples below this threshold are discarded.
-- Return: Vector of labeled samples (may be empty if file is missing / empty).
-- Details: Each line in the file must be a JSON object with at least the fields "query", "plan", and "delta_p99_ms". Lines that cannot be parsed are silently skipped and counted in the returned stats. log_path Path to the query log file. max_samples Maximum number of samples to return (0 = unlimited). min_confidence Filter: samples below this threshold are discarded. Vector of labeled samples (may be empty if file is missing / empty).
-
-#### `double sensitivityMs() const`
-- Source: `include/training/database_domain_auto_labeler.h`:127
-- Brief: n/a
-- Parameters: none
-
-### LoRADataSelectionConfig
-
-#### `LoRADataSelectionConfig()=default`
-- Source: `include/training/lora_data_selection.h`:84
-- Brief: n/a
-- Parameters: none
-
-#### `LoRADataSelectionConfig fromYAMLString(const std::string &yaml_text, const std::string &section="lora_data_selection")`
-- Source: `include/training/lora_data_selection.h`:111
-- Brief: Parse configuration from an in-memory YAML string.
-- Parameters:
-  - `yaml_text` (const std::string &): Input parameter.
-  - `section` (const std::string &): Input parameter.
-- Return: Return value.
-- Details: From YAMLString. Useful for unit testing or when the YAML content is already loaded. yaml_text YAML text containing the data-selection section. section Top-level key to read (default: lora_data_selection). yaml_text Input parameter. section Input parameter. Return value. Calls: yaml_detail::parseYAMLText().
-
-#### `LoRADataSelectionConfig loadFromYAML(const std::string &path, const std::string &section="lora_data_selection")`
-- Source: `include/training/lora_data_selection.h`:99
-- Brief: Load configuration from a YAML file.
-- Parameters:
-  - `path` (const std::string &): Input parameter.
-  - `section` (const std::string &): Input parameter.
-- Return: Return value.
-- Throws:
-  - std::runtime_error: if the file cannot be opened.
-  - std::runtime_error: if an error occurs.
-- Details: Load From YAML. Reads the section block (default: lora_data_selection) from the YAML file at path and fills a new config object. Uses a built-in line-by-line parser – no external yaml-cpp dependency. Supports live-reload: call again at any time to obtain an updated config. path Path to the YAML configuration file. section Top-level YAML key containing the data-selection block. std::runtime_error if the file cannot be opened. path Input parameter. section Input parameter. Return value. std::runtime_error if an error occurs. Calls: f(), is_open(), rdbuf(), yaml_detail::parseYAMLText(), str().
 
 ### MergeConflictTest
 
@@ -839,102 +583,102 @@ Status: active
 ### bench_training_lifecycle_gates.cpp
 
 #### `BENCHMARK(BM_TLG01_AdapterConstruct) -> Arg(64) ->Arg(256) ->Arg(768)`
-- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:108
+- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:91
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_TLG01_AdapterConstruct): n/a
 
 #### `BENCHMARK(BM_TLG02_ApplyUpdate) -> Arg(64) ->Arg(256) ->Arg(768)`
-- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:137
+- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:117
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_TLG02_ApplyUpdate): n/a
 
 #### `BENCHMARK(BM_TLG03_BatchUpdate)`
-- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:172
+- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:150
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_TLG03_BatchUpdate): n/a
 
 #### `BENCHMARK(BM_TLG04_LinearMerge) -> Arg(64) ->Arg(256)`
-- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:209
+- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:184
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_TLG04_LinearMerge): n/a
 
 #### `BENCHMARK(BM_TLG05_TIESMerge) -> Arg(64) ->Arg(256)`
-- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:245
+- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:218
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_TLG05_TIESMerge): n/a
 
 #### `BENCHMARK(BM_TLG06_ExportWeights)`
-- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:275
+- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:246
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_TLG06_ExportWeights): n/a
 
 #### `BENCHMARK(BM_TLG07_ImportWeights)`
-- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:307
+- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:276
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_TLG07_ImportWeights): n/a
 
 #### `BENCHMARK(BM_TLG08_ThousandStepLifecycle)`
-- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:339
+- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:305
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_TLG08_ThousandStepLifecycle): n/a
 
 #### `BENCHMARK_MAIN()`
-- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:341
+- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:307
 - Brief: n/a
 - Parameters: none
 
 #### `void BM_TLG01_AdapterConstruct(benchmark::State &state)`
-- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:89
+- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:71
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_TLG02_ApplyUpdate(benchmark::State &state)`
-- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:113
+- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:93
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_TLG03_BatchUpdate(benchmark::State &state)`
-- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:142
+- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:119
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_TLG04_LinearMerge(benchmark::State &state)`
-- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:177
+- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:152
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_TLG05_TIESMerge(benchmark::State &state)`
-- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:214
+- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:186
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_TLG06_ExportWeights(benchmark::State &state)`
-- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:250
+- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:220
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_TLG07_ImportWeights(benchmark::State &state)`
-- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:280
+- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:248
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_TLG08_ThousandStepLifecycle(benchmark::State &state)`
-- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:312
+- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:278
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
@@ -951,7 +695,7 @@ Status: active
 ### gates
 
 #### `void reportViolation(const char *gate_name, double measured, double target, const char *unit)`
-- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:55
+- Source: `benchmarks/training/bench_training_lifecycle_gates.cpp`:60
 - Brief: n/a
 - Parameters:
   - `gate_name` (const char *): n/a
@@ -3439,210 +3183,6 @@ Status: active
   - `<unnamed>` (TrainingServiceRegistryTest): n/a
   - `<unnamed>` (Singleton_ReturnsSameInstance): n/a
 
-### themis::DataSample
-
-#### `DataSample()=default`
-- Source: `include/training/lora_data_selection.h`:137
-- Brief: n/a
-- Parameters: none
-
-#### `DataSample(std::string id_, std::string text_)`
-- Source: `include/training/lora_data_selection.h`:138
-- Brief: n/a
-- Parameters:
-  - `id_` (std::string): n/a
-  - `text_` (std::string): n/a
-
-### themis::DataSelectionPipeline
-
-#### `DataSelectionPipeline(const DataSelectionPipeline &)=delete`
-- Source: `include/training/lora_data_selection.h`:288
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const DataSelectionPipeline &): n/a
-
-#### `DataSelectionPipeline(const LoRADataSelectionConfig &config)`
-- Source: `include/training/lora_data_selection.h`:285
-- Brief: Construct pipeline with the given configuration.
-- Parameters:
-  - `config` (const LoRADataSelectionConfig &): n/a
-
-#### `std::vector< DataSample > clusterAndSample(const std::vector< DataSample > &samples, size_t k=0) const`
-- Source: `include/training/lora_data_selection.h`:326
-- Brief: Run only Stage 3: cluster-based diversity sampling.
-- Parameters:
-  - `samples` (const std::vector< DataSample > &): Samples to cluster.
-  - `k` (size_t): Number of clusters (computed from config if 0).
-- Return: Centroid-nearest samples covering diverse clusters.
-- Details: samples Samples to cluster. k Number of clusters (computed from config if 0). Centroid-nearest samples covering diverse clusters.
-
-#### `DataSelectionMetrics computeMetrics(const DataSelectionResult &result)`
-- Source: `include/training/lora_data_selection.h`:368
-- Brief: Derive a DataSelectionMetrics snapshot from a completed pipeline result.
-- Parameters:
-  - `result` (const DataSelectionResult &): Input parameter.
-- Return: Populated metrics snapshot (all fields 0.0 for empty results).
-- Details: Compute Metrics. Computes per-stage rejection rates and average quality/difficulty/ diversity scores from the returned samples. Useful for feeding the result directly into SelfImprovementModule::applyAdaptiveRules() and SelfImprovementModule::needsRollback(). result The result returned by a previous run() call. Populated metrics snapshot (all fields 0.0 for empty results). result Input parameter. Return value. Calls: DataSelectionMetrics(), empty(), ss(), reserve(), size(), std::isalpha(), std::tolower(), std::isdigit().
-
-#### `std::vector< DataSample > deduplicate(const std::vector< DataSample > &samples) const`
-- Source: `include/training/lora_data_selection.h`:317
-- Brief: Run only Stage 2: MinHash deduplication.
-- Parameters:
-  - `samples` (const std::vector< DataSample > &): n/a
-- Return: Samples with duplicates removed.
-- Details: Samples with duplicates removed.
-
-#### `std::vector< DataSample > filterByQuality(const std::vector< DataSample > &samples) const`
-- Source: `include/training/lora_data_selection.h`:310
-- Brief: Run only Stage 1: quality filtering.
-- Parameters:
-  - `samples` (const std::vector< DataSample > &): n/a
-- Return: Samples that pass all quality filters.
-- Details: Applies the shared prompt-safety policy before token/language/toxicity checks. Samples matching blocked prompt-injection patterns are rejected (fail-closed). Allowed samples continue with sanitized control-token redaction applied to their text. Samples that pass all quality filters.
-
-#### `const LoRADataSelectionConfig & getConfig() const`
-- Source: `include/training/lora_data_selection.h`:354
-- Brief: Get the current pipeline configuration.
-- Parameters: none
-
-#### `DataSelectionPipeline & operator=(const DataSelectionPipeline &)=delete`
-- Source: `include/training/lora_data_selection.h`:289
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const DataSelectionPipeline &): n/a
-
-#### `DataSelectionResult run(const std::vector< DataSample > &input_samples, SelectionProgressCallback callback=nullptr)`
-- Source: `include/training/lora_data_selection.h`:297
-- Brief: Execute all five pipeline stages on input_samples.
-- Parameters:
-  - `input_samples` (const std::vector< DataSample > &): Input parameter.
-  - `callback` (SelectionProgressCallback): Input parameter.
-- Return: Selection result including selected samples and audit entry.
-- Details: Run. input_samples Raw samples loaded from the training collection. callback Optional per-stage progress callback. Selection result including selected samples and audit entry. input_samples Input parameter. callback Input parameter. Return value. Calls: std::move(), getConfig(), empty(), detail::appendAuditJSONL(), toJSONL().
-
-#### `void scoreQualityAndDifficulty(std::vector< DataSample > &samples) const`
-- Source: `include/training/lora_data_selection.h`:334
-- Brief: Run only Stage 4: quality/difficulty scoring. Modifies quality_score and difficulty_score in-place.
-- Parameters:
-  - `samples` (std::vector< DataSample > &): n/a
-
-#### `void setConfig(const LoRADataSelectionConfig &config)`
-- Source: `include/training/lora_data_selection.h`:349
-- Brief: Update the pipeline configuration (live reload support).
-- Parameters:
-  - `config` (const LoRADataSelectionConfig &): Input parameter.
-- Details: Set Config. config Input parameter. Implements setConfig without additional internal calls.
-
-#### `std::vector< DataSample > stratifiedSample(const std::vector< DataSample > &scored_samples, size_t target=0) const`
-- Source: `include/training/lora_data_selection.h`:342
-- Brief: Run only Stage 5: curriculum stratified sampling.
-- Parameters:
-  - `scored_samples` (const std::vector< DataSample > &): Samples with difficulty_score populated.
-  - `target` (size_t): Total samples to return (0 = use config).
-- Return: Stratified subset (easy + medium + hard).
-- Details: scored_samples Samples with difficulty_score populated. target Total samples to return (0 = use config). Stratified subset (easy + medium + hard).
-
-#### `~DataSelectionPipeline()`
-- Source: `include/training/lora_data_selection.h`:286
-- Brief: n/a
-- Parameters: none
-
-### themis::DataSelectionPipeline::Impl
-
-#### `Impl(const LoRADataSelectionConfig &config)`
-- Source: `src/training/lora_data_selection.cpp`:404
-- Brief: n/a
-- Parameters:
-  - `config` (const LoRADataSelectionConfig &): n/a
-
-#### `std::vector< DataSample > clusterAndSample(const std::vector< DataSample > &samples, size_t k) const`
-- Source: `src/training/lora_data_selection.cpp`:506
-- Brief: n/a
-- Parameters:
-  - `samples` (const std::vector< DataSample > &): n/a
-  - `k` (size_t): n/a
-
-#### `std::vector< DataSample > deduplicate(const std::vector< DataSample > &samples) const`
-- Source: `src/training/lora_data_selection.cpp`:466
-- Brief: n/a
-- Parameters:
-  - `samples` (const std::vector< DataSample > &): n/a
-
-#### `std::vector< DataSample > filterByQuality(const std::vector< DataSample > &samples) const`
-- Source: `src/training/lora_data_selection.cpp`:407
-- Brief: n/a
-- Parameters:
-  - `samples` (const std::vector< DataSample > &): n/a
-
-#### `const LoRADataSelectionConfig & getConfig() const`
-- Source: `src/training/lora_data_selection.cpp`:798
-- Brief: n/a
-- Parameters: none
-
-#### `DataSelectionResult run(const std::vector< DataSample > &input, SelectionProgressCallback cb)`
-- Source: `src/training/lora_data_selection.cpp`:722
-- Brief: - Full pipeline run ----------------------------------------------
-- Parameters:
-  - `input` (const std::vector< DataSample > &): Input parameter.
-  - `cb` (SelectionProgressCallback): Input parameter.
-- Return: Return value.
-- Details: input Input parameter. cb Input parameter. Return value. Calls: DataSelectionResult(), std::chrono::steady_clock::now(), filterByQuality(), cb(), size(), deduplicate(), clusterAndSample(), scoreQualityAndDifficulty().
-
-#### `void scoreQualityAndDifficulty(std::vector< DataSample > &samples) const`
-- Source: `src/training/lora_data_selection.cpp`:628
-- Brief: n/a
-- Parameters:
-  - `samples` (std::vector< DataSample > &): n/a
-
-#### `void setConfig(const LoRADataSelectionConfig &config)`
-- Source: `src/training/lora_data_selection.cpp`:797
-- Brief: Set Config.
-- Parameters:
-  - `config` (const LoRADataSelectionConfig &): Input parameter.
-- Details: config Input parameter. Implements setConfig without additional internal calls.
-
-#### `std::vector< DataSample > stratifiedSample(const std::vector< DataSample > &scored, size_t target) const`
-- Source: `src/training/lora_data_selection.cpp`:655
-- Brief: n/a
-- Parameters:
-  - `scored` (const std::vector< DataSample > &): n/a
-  - `target` (size_t): n/a
-
-### themis::LoRADataSelectionConfig
-
-#### `LoRADataSelectionConfig()=default`
-- Source: `include/training/lora_data_selection.h`:84
-- Brief: n/a
-- Parameters: none
-
-#### `LoRADataSelectionConfig fromYAMLString(const std::string &yaml_text, const std::string &section="lora_data_selection")`
-- Source: `include/training/lora_data_selection.h`:111
-- Brief: Parse configuration from an in-memory YAML string.
-- Parameters:
-  - `yaml_text` (const std::string &): Input parameter.
-  - `section` (const std::string &): Input parameter.
-- Return: Return value.
-- Details: From YAMLString. Useful for unit testing or when the YAML content is already loaded. yaml_text YAML text containing the data-selection section. section Top-level key to read (default: lora_data_selection). yaml_text Input parameter. section Input parameter. Return value. Calls: yaml_detail::parseYAMLText().
-
-#### `LoRADataSelectionConfig loadFromYAML(const std::string &path, const std::string &section="lora_data_selection")`
-- Source: `include/training/lora_data_selection.h`:99
-- Brief: Load configuration from a YAML file.
-- Parameters:
-  - `path` (const std::string &): Input parameter.
-  - `section` (const std::string &): Input parameter.
-- Return: Return value.
-- Throws:
-  - std::runtime_error: if the file cannot be opened.
-  - std::runtime_error: if an error occurs.
-- Details: Load From YAML. Reads the section block (default: lora_data_selection) from the YAML file at path and fills a new config object. Uses a built-in line-by-line parser – no external yaml-cpp dependency. Supports live-reload: call again at any time to obtain an updated config. path Path to the YAML configuration file. section Top-level YAML key containing the data-selection block. std::runtime_error if the file cannot be opened. path Input parameter. section Input parameter. Return value. std::runtime_error if an error occurs. Calls: f(), is_open(), rdbuf(), yaml_detail::parseYAMLText(), str().
-
-### themis::PipelineConfig
-
-#### `PipelineConfig()=default`
-- Source: `include/training/training_pipeline.h`:297
-- Brief: n/a
-- Parameters: none
-
 ### themis::training
 
 #### `std::string computeDeploymentFingerprint(const std::string &adapter_version, const std::string &checkpoint_sha256)`
@@ -4246,7 +3786,7 @@ Status: active
 ### themis::training::AutoLabelConfig
 
 #### `AutoLabelConfig()=default`
-- Source: `include/training/auto_labeler.h`:118
+- Source: `include/training/auto_labeler.h`:122
 - Brief: n/a
 - Parameters: none
 
@@ -4260,7 +3800,7 @@ Status: active
 ### themis::training::CalibratedThreshold
 
 #### `CalibratedThreshold()=default`
-- Source: `include/training/training_pipeline.h`:111
+- Source: `include/training/training_pipeline.h`:116
 - Brief: n/a
 - Parameters: none
 
@@ -4274,7 +3814,7 @@ Status: active
 ### themis::training::CalibrationResult
 
 #### `CalibrationResult()=default`
-- Source: `include/training/training_pipeline.h`:123
+- Source: `include/training/training_pipeline.h`:128
 - Brief: n/a
 - Parameters: none
 
@@ -4379,12 +3919,12 @@ Status: active
 ### themis::training::ConfidenceCalibrator
 
 #### `ConfidenceCalibrator()=default`
-- Source: `include/training/training_pipeline.h`:149
+- Source: `include/training/training_pipeline.h`:154
 - Brief: n/a
 - Parameters: none
 
 #### `void addSample(const std::string &category, float confidence, bool model_correct)`
-- Source: `include/training/training_pipeline.h`:157
+- Source: `include/training/training_pipeline.h`:162
 - Brief: Record a validation sample for calibration.
 - Parameters:
   - `category` (const std::string &): Input parameter.
@@ -4393,27 +3933,27 @@ Status: active
 - Details: ============================================================================ ConfidenceCalibrator implementation (Phase 3 – isotonic regression / PAV) ============================================================================ category Legal category of the sample. confidence Model confidence score in [0, 1]. model_correct Whether the model produced the correct label. category Input parameter. confidence Input parameter. model_correct Input parameter. Calls: push_back().
 
 #### `CalibrationResult calibrate() const`
-- Source: `include/training/training_pipeline.h`:167
+- Source: `include/training/training_pipeline.h`:172
 - Brief: Compute calibrated thresholds using isotonic regression (PAV).
 - Parameters: none
 - Return: Calibration result with per-category thresholds.
 - Details: For each category, fits a monotone non-decreasing step function to the (confidence → correct) pairs and selects the threshold that maximises F1. Calibration result with per-category thresholds.
 
 #### `void reset()`
-- Source: `include/training/training_pipeline.h`:172
+- Source: `include/training/training_pipeline.h`:177
 - Brief: Reset all accumulated samples.
 - Parameters: none
 - Details: Reset the modification detection flag. Calls: clear().
 
 #### `size_t sampleCount() const`
-- Source: `include/training/training_pipeline.h`:177
+- Source: `include/training/training_pipeline.h`:182
 - Brief: Number of samples accumulated so far.
 - Parameters: none
 
 ### themis::training::DataQualityReport
 
 #### `DataQualityReport()=default`
-- Source: `include/training/training_pipeline.h`:87
+- Source: `include/training/training_pipeline.h`:92
 - Brief: n/a
 - Parameters: none
 
@@ -4701,7 +4241,7 @@ Status: active
 ### themis::training::DriftReport
 
 #### `DriftReport()=default`
-- Source: `include/training/training_pipeline.h`:99
+- Source: `include/training/training_pipeline.h`:104
 - Brief: n/a
 - Parameters: none
 
@@ -4894,7 +4434,7 @@ Status: active
 ### themis::training::EpochMetrics
 
 #### `EpochMetrics()=default`
-- Source: `include/training/incremental_lora_trainer.h`:88
+- Source: `include/training/incremental_lora_trainer.h`:92
 - Brief: n/a
 - Parameters: none
 
@@ -4908,21 +4448,21 @@ Status: active
 ### themis::training::HyperparamResult
 
 #### `HyperparamResult()=default`
-- Source: `include/training/training_pipeline.h`:257
+- Source: `include/training/training_pipeline.h`:262
 - Brief: n/a
 - Parameters: none
 
 ### themis::training::HyperparamSearchConfig
 
 #### `HyperparamSearchConfig()=default`
-- Source: `include/training/training_pipeline.h`:224
+- Source: `include/training/training_pipeline.h`:229
 - Brief: n/a
 - Parameters: none
 
 ### themis::training::HyperparamTrialResult
 
 #### `HyperparamTrialResult()=default`
-- Source: `include/training/training_pipeline.h`:236
+- Source: `include/training/training_pipeline.h`:241
 - Brief: n/a
 - Parameters: none
 
@@ -5148,28 +4688,37 @@ Status: active
 ### themis::training::IncrementalLoRATrainer
 
 #### `IncrementalLoRATrainer(const IncrementalLoRATrainer &)=delete`
-- Source: `include/training/incremental_lora_trainer.h`:241
+- Source: `include/training/incremental_lora_trainer.h`:259
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const IncrementalLoRATrainer &): n/a
 
 #### `IncrementalLoRATrainer(const IncrementalTrainingConfig &config, const std::string &db_connection)`
-- Source: `include/training/incremental_lora_trainer.h`:235
+- Source: `include/training/incremental_lora_trainer.h`:241
 - Brief: Construct incremental trainer.
 - Parameters:
   - `config` (const IncrementalTrainingConfig &): Training configuration
   - `db_connection` (const std::string &): Database connection string
 - Details: config Training configuration db_connection Database connection string
 
+#### `IncrementalLoRATrainer(const IncrementalTrainingConfig &config, const std::string &db_connection, query::QueryEngine *query_engine)`
+- Source: `include/training/incremental_lora_trainer.h`:252
+- Brief: Construct a trainer with an optional live DB query engine.
+- Parameters:
+  - `config` (const IncrementalTrainingConfig &): Training configuration.
+  - `db_connection` (const std::string &): Connection label retained for checkpoint paths.
+  - `query_engine` (query::QueryEngine *): Non-owning pointer used to fetch training_data_collection; it must outlive the trainer. With an engine, DB failures and empty datasets fail closed instead of using synthetic input.
+- Details: config Training configuration. db_connection Connection label retained for checkpoint paths. query_engine Non-owning pointer used to fetch training_data_collection; it must outlive the trainer. With an engine, DB failures and empty datasets fail closed instead of using synthetic input.
+
 #### `void applyGlobalDelta(const themis::distributed_knowledge::GlobalAdapterDelta &delta)`
-- Source: `include/training/incremental_lora_trainer.h`:422
+- Source: `include/training/incremental_lora_trainer.h`:440
 - Brief: Incorporate an aggregated global delta into the local adapter weights.
 - Parameters:
   - `delta` (const themis::distributed_knowledge::GlobalAdapterDelta &): Input parameter.
 - Details: Apply Global Delta. Applies: local_weight[layer] += federated_lr * delta.delta[layer] for every layer name present in delta.delta. Unknown layer names in the delta are silently ignored (forward-compatible with larger global models). delta Aggregated weight delta produced by LoRAFederationCoordinator. delta Input parameter. Implements applyGlobalDelta without additional internal calls.
 
 #### `bool deployVersion(const std::string &adapter_version, float traffic_split=1.0f)`
-- Source: `include/training/incremental_lora_trainer.h`:275
+- Source: `include/training/incremental_lora_trainer.h`:293
 - Brief: Deploy adapter version to production.
 - Parameters:
   - `adapter_version` (const std::string &): Input parameter.
@@ -5178,7 +4727,7 @@ Status: active
 - Details: Deploy Version. adapter_version Version to deploy traffic_split Traffic split for A/B testing (0.0-1.0) true if deployment successful (including integrity verification) adapter_version Input parameter. traffic_split Input parameter. True when the operation succeeds. Implements deployVersion without additional internal calls.
 
 #### `DeployResult deployVersionEx(const std::string &adapter_version, float traffic_split=1.0f)`
-- Source: `include/training/incremental_lora_trainer.h`:297
+- Source: `include/training/incremental_lora_trainer.h`:315
 - Brief: Deploy adapter version with full result details.
 - Parameters:
   - `adapter_version` (const std::string &): Input parameter.
@@ -5187,7 +4736,7 @@ Status: active
 - Details: Deploy Version Ex. Equivalent to deployVersion() but returns a DeployResult that includes the active version, applied split fraction, and a human-readable error message on failure. When an ILLMRouter has been injected via setLLMRouter(), the router's setAdapterWeight() is called atomically after the local version registry is updated. Error codes in DeployResult::error: "version_not_found" – version is unknown and not in checkpoint dir "integrity_failure" – checkpoint checksum validation failed "router_unavailable" – router is not reachable "router_update_failed" – router rejected the weight update and local state was reverted "invalid_split" – traffic_split outside [0, 1] adapter_version Version identifier to deploy. traffic_split Fraction of traffic routed to this version [0,1]. DeployResult with success flag, active_version, split_applied, error. adapter_version Input parameter. traffic_split Input parameter. Return value. Implements deployVersionEx without additional internal calls.
 
 #### `void enableIntermediateCheckpointing(bool enabled, size_t save_interval=100)`
-- Source: `include/training/incremental_lora_trainer.h`:486
+- Source: `include/training/incremental_lora_trainer.h`:504
 - Brief: Phase 2: Enable intermediate checkpoint saving during training.
 - Parameters:
   - `enabled` (bool): Input parameter.
@@ -5195,7 +4744,7 @@ Status: active
 - Details: Enable Intermediate Checkpointing. When enabled, saves adapter state to checkpoint every N steps. This allows resuming from the most recent checkpoint on interruption. enabled Whether to enable intermediate checkpoints save_interval Steps between intermediate saves (default: 100) enabled Input parameter. save_interval Input parameter. Calls: setCheckpointing().
 
 #### `TrainingResult evaluate(const std::string &adapter_version)`
-- Source: `include/training/incremental_lora_trainer.h`:267
+- Source: `include/training/incremental_lora_trainer.h`:285
 - Brief: Evaluate adapter on validation set.
 - Parameters:
   - `adapter_version` (const std::string &): Input parameter.
@@ -5203,7 +4752,7 @@ Status: active
 - Details: Evaluate. adapter_version Adapter version to evaluate Evaluation metrics adapter_version Input parameter. Return value. Implements evaluate without additional internal calls.
 
 #### `themis::distributed_knowledge::EncryptedGradient exportGradient(uint64_t federation_round)`
-- Source: `include/training/incremental_lora_trainer.h`:411
+- Source: `include/training/incremental_lora_trainer.h`:429
 - Brief: Export the accumulated gradient delta as a federated contribution.
 - Parameters:
   - `federation_round` (uint64_t): Current federated round number (embedded in the result).
@@ -5213,7 +4762,7 @@ Status: active
 - Details: Reads the gradient accumulator that has been filled during train() calls since the last exportGradient() invocation (or since construction). The gradient is normalised: data[layer] = Σ(deltas) / update_count. After a successful export the accumulator is reset to zero so that the next export only reflects new training steps. federation_round Current federated round number (embedded in the result). EncryptedGradient with non-empty data map. std::runtime_error When no training has occurred since the last export.
 
 #### `double getLocalWeight(const std::string &layer_name) const`
-- Source: `include/training/incremental_lora_trainer.h`:434
+- Source: `include/training/incremental_lora_trainer.h`:452
 - Brief: Return the current local weight for a named layer.
 - Parameters:
   - `layer_name` (const std::string &): Layer identifier (e.g. "lora_A_layer_0").
@@ -5221,40 +4770,40 @@ Status: active
 - Details: Used by tests and observability tooling to verify that applyGlobalDelta() has modified the local weight map. layer_name Layer identifier (e.g. "lora_A_layer_0"). Current weight value, or 0.0 if the layer is not yet tracked.
 
 #### `TrainingMetrics getMetrics() const`
-- Source: `include/training/incremental_lora_trainer.h`:370
+- Source: `include/training/incremental_lora_trainer.h`:388
 - Brief: Get training metrics accumulated during the last train() call.
 - Parameters: none
 - Details: Returns per-epoch and per-step losses, best loss values, and timing. The metrics are reset at the start of each train() call.
 
 #### `std::string getRecoveryStatus() const`
-- Source: `include/training/incremental_lora_trainer.h`:475
+- Source: `include/training/incremental_lora_trainer.h`:493
 - Brief: Phase 2: Get training interruption status and recovery options.
 - Parameters: none
 - Return: Recovery status string (empty if no interruption).
 - Details: Returns information about any previous training interruption: Whether a checkpoint can be resumed from Recommended recovery action Time since interruption Recovery status string (empty if no interruption).
 
 #### `std::string getTrainingDiagnostics() const`
-- Source: `include/training/incremental_lora_trainer.h`:463
+- Source: `include/training/incremental_lora_trainer.h`:481
 - Brief: Phase 2: Get detailed training diagnostics and recovery info.
 - Parameters: none
 - Return: Formatted diagnostics string.
 - Details: Returns human-readable diagnostics including: Current training state (IDLE/TRAINING/SAVING/RECOVERING) Last error encountered (if any) Checkpoint recovery status Performance metrics summary Formatted diagnostics string.
 
 #### `std::vector< std::string > listVersions() const`
-- Source: `include/training/incremental_lora_trainer.h`:322
+- Source: `include/training/incremental_lora_trainer.h`:340
 - Brief: Get list of available adapter versions.
 - Parameters: none
 - Return: Vector of version identifiers
 - Details: Vector of version identifiers
 
 #### `IncrementalLoRATrainer & operator=(const IncrementalLoRATrainer &)=delete`
-- Source: `include/training/incremental_lora_trainer.h`:242
+- Source: `include/training/incremental_lora_trainer.h`:260
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const IncrementalLoRATrainer &): n/a
 
 #### `TrainingResult resumeFromCheckpoint(const std::string &checkpoint_path, TrainingCallback callback=nullptr)`
-- Source: `include/training/incremental_lora_trainer.h`:259
+- Source: `include/training/incremental_lora_trainer.h`:277
 - Brief: Resume training from checkpoint.
 - Parameters:
   - `checkpoint_path` (const std::string &): Path to the checkpoint.
@@ -5263,7 +4812,7 @@ Status: active
 - Details: Resume From Checkpoint. checkpoint_path Path to checkpoint file callback Optional progress callback Training result checkpoint_path Path to the checkpoint. callback Input parameter. Return value. Implements resumeFromCheckpoint without additional internal calls.
 
 #### `bool rollbackVersion(const std::string &target_version)`
-- Source: `include/training/incremental_lora_trainer.h`:305
+- Source: `include/training/incremental_lora_trainer.h`:323
 - Brief: Rollback to previous adapter version.
 - Parameters:
   - `target_version` (const std::string &): Input parameter.
@@ -5271,7 +4820,7 @@ Status: active
 - Details: Rollback Version. target_version Version to roll back to true if rollback successful target_version Input parameter. True when the operation succeeds. Implements rollbackVersion without additional internal calls.
 
 #### `DeployResult rollbackVersionEx(const std::string &target_version)`
-- Source: `include/training/incremental_lora_trainer.h`:316
+- Source: `include/training/incremental_lora_trainer.h`:334
 - Brief: Roll back to a target version with full result details.
 - Parameters:
   - `target_version` (const std::string &): Input parameter.
@@ -5279,14 +4828,14 @@ Status: active
 - Details: Rollback Version Ex. Equivalent to rollbackVersion() but returns a DeployResult. When an ILLMRouter has been injected, the router weight is updated atomically. target_version Version to roll back to. DeployResult describing the outcome. target_version Input parameter. Return value. Implements rollbackVersionEx without additional internal calls.
 
 #### `std::string selectAdapterForRequest() const`
-- Source: `include/training/incremental_lora_trainer.h`:333
+- Source: `include/training/incremental_lora_trainer.h`:351
 - Brief: Select an adapter version for the next request using weighted-random traffic routing.
 - Parameters: none
 - Return: Selected adapter version name, or empty string if no version is active.
 - Details: Returns the adapter version name chosen according to the traffic_split weights set via deployVersion(). When multiple versions are active, each call independently samples from the configured distribution, enabling A/B-test-style canary rollouts. Selected adapter version name, or empty string if no version is active.
 
 #### `void setCheckpointing(bool enabled, size_t checkpoint_steps=100)`
-- Source: `include/training/incremental_lora_trainer.h`:348
+- Source: `include/training/incremental_lora_trainer.h`:366
 - Brief: Enable/disable checkpointing.
 - Parameters:
   - `enabled` (bool): Input parameter.
@@ -5294,14 +4843,14 @@ Status: active
 - Details: Set Checkpointing. enabled Whether to save checkpoints checkpoint_steps Steps between checkpoints enabled Input parameter. checkpoint_steps Input parameter. Implements setCheckpointing without additional internal calls.
 
 #### `void setFederatedLearningRate(double lr)`
-- Source: `include/training/incremental_lora_trainer.h`:394
+- Source: `include/training/incremental_lora_trainer.h`:412
 - Brief: Set the learning rate applied when incorporating a global delta.
 - Parameters:
   - `lr` (double): Input parameter.
 - Details: Set Federated Learning Rate. Controls the weight update in applyGlobalDelta(): local_weight[layer] += federated_lr * global_delta[layer] Defaults to 0.01. Must be positive. lr Federated learning rate (> 0). lr Input parameter. Implements setFederatedLearningRate without additional internal calls.
 
 #### `void setHyperparameters(int rank, float alpha, float learning_rate)`
-- Source: `include/training/incremental_lora_trainer.h`:341
+- Source: `include/training/incremental_lora_trainer.h`:359
 - Brief: Set training hyperparameters.
 - Parameters:
   - `rank` (int): Input parameter.
@@ -5310,21 +4859,21 @@ Status: active
 - Details: Set Hyperparameters. rank LoRA rank alpha LoRA alpha learning_rate Learning rate rank Input parameter. alpha Input parameter. learning_rate Input parameter. Implements setHyperparameters without additional internal calls.
 
 #### `void setLLMRouter(ILLMRouter *router)`
-- Source: `include/training/incremental_lora_trainer.h`:362
+- Source: `include/training/incremental_lora_trainer.h`:380
 - Brief: Inject an LLM router for adapter serving integration.
 - Parameters:
   - `router` (ILLMRouter *): Input/output parameter.
 - Details: Set LLMRouter. When a non-null router is set, deployVersionEx() and rollbackVersionEx() call router->setAdapterWeight() after updating the local version registry to propagate the traffic split to the live inference layer. The trainer does NOT take ownership; the router must remain valid for the lifetime of this trainer. router Pointer to ILLMRouter implementation, or nullptr to detach. router Input/output parameter. Implements setLLMRouter without additional internal calls.
 
 #### `void setShardId(const std::string &shard_id)`
-- Source: `include/training/incremental_lora_trainer.h`:382
+- Source: `include/training/incremental_lora_trainer.h`:400
 - Brief: Set the shard identifier used in exported gradients.
 - Parameters:
   - `shard_id` (const std::string &): Identifier of the shard.
 - Details: ── IMPL-A3: Federation bridges ──────────────────────────────────────────── The shard_id is embedded in every EncryptedGradient produced by exportGradient(). Defaults to "default_shard" when not set. shard_id Cluster-unique shard identifier. shard_id Identifier of the shard. Implements setShardId without additional internal calls.
 
 #### `TrainingResult train(TrainingMode mode=TrainingMode::INITIAL, TrainingCallback callback=nullptr)`
-- Source: `include/training/incremental_lora_trainer.h`:250
+- Source: `include/training/incremental_lora_trainer.h`:268
 - Brief: Train LoRA adapter.
 - Parameters:
   - `mode` (TrainingMode): Input parameter.
@@ -5333,51 +4882,52 @@ Status: active
 - Details: Train. mode Training mode (INITIAL/INCREMENTAL/FINETUNE) callback Optional progress callback Training result with version info mode Input parameter. callback Input parameter. Return value. Implements train without additional internal calls.
 
 #### `std::string validateTrainingState() const`
-- Source: `include/training/incremental_lora_trainer.h`:450
+- Source: `include/training/incremental_lora_trainer.h`:468
 - Brief: Phase 2: Validate training state machine for correctness.
 - Parameters: none
 - Return: Empty string if state is valid; error message otherwise.
 - Details: Returns an error message if the trainer is in an invalid state: Training cannot start if already in progress Checkpointing cannot save intermediate states incorrectly Deployment cannot occur during active training Empty string if state is valid; error message otherwise.
 
 #### `~IncrementalLoRATrainer()`
-- Source: `include/training/incremental_lora_trainer.h`:238
+- Source: `include/training/incremental_lora_trainer.h`:256
 - Brief: n/a
 - Parameters: none
 
 ### themis::training::IncrementalLoRATrainer::Impl
 
-#### `Impl(const IncrementalTrainingConfig &config, const std::string &db_connection)`
-- Source: `src/training/incremental_lora_trainer.cpp`:272
+#### `Impl(const IncrementalTrainingConfig &config, const std::string &db_connection, ::themis::query::QueryEngine *query_engine)`
+- Source: `src/training/incremental_lora_trainer.cpp`:275
 - Brief: Impl.
 - Parameters:
   - `config` (const IncrementalTrainingConfig &): Input parameter.
   - `db_connection` (const std::string &): Input parameter.
+  - `query_engine` (::themis::query::QueryEngine *): n/a
 - Return: Return value.
 - Details: config Input parameter. db_connection Input parameter. Return value.
 
 #### `int activeGpuCount() const`
-- Source: `src/training/incremental_lora_trainer.cpp`:1785
+- Source: `src/training/incremental_lora_trainer.cpp`:1865
 - Brief: n/a
 - Parameters: none
 
 #### `void applyGlobalDelta(const themis::distributed_knowledge::GlobalAdapterDelta &delta)`
-- Source: `src/training/incremental_lora_trainer.cpp`:846
+- Source: `src/training/incremental_lora_trainer.cpp`:864
 - Brief: Apply Global Delta.
 - Parameters:
   - `delta` (const themis::distributed_knowledge::GlobalAdapterDelta &): Input parameter.
 - Details: delta Input parameter. Calls: items(), count(), is_number().
 
 #### `double computeAccuracy(double loss)`
-- Source: `src/training/incremental_lora_trainer.cpp`:1815
-- Brief: Estimate accuracy from loss (Phase 3).
+- Source: `src/training/incremental_lora_trainer.cpp`:1895
+- Brief: Estimate accuracy from loss (Phase 3)
 - Parameters:
   - `loss` (double): Input parameter.
 - Return: Return value.
 - Details: loss Input parameter. Return value. Calls: std::exp().
 
 #### `double computeSimulatedLoss(size_t step, float learning_rate)`
-- Source: `src/training/incremental_lora_trainer.cpp`:1802
-- Brief: Simulate a decreasing loss curve (Phase 3).
+- Source: `src/training/incremental_lora_trainer.cpp`:1882
+- Brief: Simulate a decreasing loss curve (Phase 3)
 - Parameters:
   - `step` (size_t): Input parameter.
   - `learning_rate` (float): Input parameter.
@@ -5385,7 +4935,7 @@ Status: active
 - Details: step Input parameter. learning_rate Input parameter. Return value. Calls: std::exp().
 
 #### `bool deployVersion(const std::string &adapter_version, float traffic_split)`
-- Source: `src/training/incremental_lora_trainer.cpp`:583
+- Source: `src/training/incremental_lora_trainer.cpp`:601
 - Brief: ---------------------------------------------------------------------- Phase 4: Deployment and version management ----------------------------------------------------------------------
 - Parameters:
   - `adapter_version` (const std::string &): Input parameter.
@@ -5394,7 +4944,7 @@ Status: active
 - Details: adapter_version Input parameter. traffic_split Input parameter. True when the operation succeeds. Calls: empty(), version_lock(), find(), end(), VersionRecord(), std::chrono::system_clock::now().
 
 #### `DeployResult deployVersionEx(const std::string &adapter_version, float traffic_split)`
-- Source: `src/training/incremental_lora_trainer.cpp`:971
+- Source: `src/training/incremental_lora_trainer.cpp`:989
 - Brief: Deploy Version Ex.
 - Parameters:
   - `adapter_version` (const std::string &): Input parameter.
@@ -5403,14 +4953,14 @@ Status: active
 - Details: adapter_version Input parameter. traffic_split Input parameter. Return value. Calls: empty(), DeployResult::fail(), verifyAdapterIntegrity(), version_lock(), deployVersion(), lk(), isAvailable(), setAdapterWeight().
 
 #### `std::vector< float > encodeSample(const std::string &text, size_t feature_dim) const`
-- Source: `src/training/incremental_lora_trainer.cpp`:1319
+- Source: `src/training/incremental_lora_trainer.cpp`:1399
 - Brief: n/a
 - Parameters:
   - `text` (const std::string &): n/a
   - `feature_dim` (size_t): n/a
 
 #### `TrainingResult evaluate(const std::string &adapter_version)`
-- Source: `src/training/incremental_lora_trainer.cpp`:531
+- Source: `src/training/incremental_lora_trainer.cpp`:549
 - Brief: ---------------------------------------------------------------------- Phase 4: Evaluation ----------------------------------------------------------------------
 - Parameters:
   - `adapter_version` (const std::string &): Input parameter.
@@ -5418,30 +4968,30 @@ Status: active
 - Details: adapter_version Input parameter. Return value. Calls: TrainingResult(), std::chrono::steady_clock::now(), empty(), size(), computeAccuracy(), std::string(), what(), count().
 
 #### `themis::distributed_knowledge::EncryptedGradient exportGradient(uint64_t federation_round)`
-- Source: `src/training/incremental_lora_trainer.cpp`:817
+- Source: `src/training/incremental_lora_trainer.cpp`:835
 - Brief: n/a
 - Parameters:
   - `federation_round` (uint64_t): n/a
 
 #### `std::string generateVersionId(const std::string &base_version) const`
-- Source: `src/training/incremental_lora_trainer.cpp`:1962
+- Source: `src/training/incremental_lora_trainer.cpp`:2042
 - Brief: n/a
 - Parameters:
   - `base_version` (const std::string &): n/a
 
 #### `double getLocalWeight(const std::string &layer_name) const`
-- Source: `src/training/incremental_lora_trainer.cpp`:860
+- Source: `src/training/incremental_lora_trainer.cpp`:878
 - Brief: n/a
 - Parameters:
   - `layer_name` (const std::string &): n/a
 
 #### `TrainingMetrics getMetrics() const`
-- Source: `src/training/incremental_lora_trainer.cpp`:790
+- Source: `src/training/incremental_lora_trainer.cpp`:808
 - Brief: n/a
 - Parameters: none
 
 #### `void initLoRAComponents()`
-- Source: `src/training/incremental_lora_trainer.cpp`:1157
+- Source: `src/training/incremental_lora_trainer.cpp`:1237
 - Brief: Init Lo RAComponents.
 - Parameters: none
 - Throws:
@@ -5449,12 +4999,12 @@ Status: active
 - Details: std::runtime_error if an error occurs. Calls: std::max(), defined(), num_gpus(), std::to_string(), empty(), create_layer(), spdlog::info(), reset().
 
 #### `std::vector< std::string > listVersions() const`
-- Source: `src/training/incremental_lora_trainer.cpp`:667
+- Source: `src/training/incremental_lora_trainer.cpp`:685
 - Brief: n/a
 - Parameters: none
 
 #### `bool loadCheckpoint(const std::string &path, std::string &version, size_t &epoch, size_t &step, double &loss, double &accuracy, std::string *error_reason=nullptr) const`
-- Source: `src/training/incremental_lora_trainer.cpp`:1894
+- Source: `src/training/incremental_lora_trainer.cpp`:1974
 - Brief: n/a
 - Parameters:
   - `path` (const std::string &): n/a
@@ -5465,15 +5015,22 @@ Status: active
   - `accuracy` (double &): n/a
   - `error_reason` (std::string *): n/a
 
+#### `bool loadTrainingDataFromDatabase(std::vector< std::pair< std::string, std::string > > &training_data, std::string &error_message) const`
+- Source: `src/training/incremental_lora_trainer.cpp`:1163
+- Brief: n/a
+- Parameters:
+  - `training_data` (std::vector< std::pair< std::string, std::string > > &): n/a
+  - `error_message` (std::string &): n/a
+
 #### `void registerVersion(const TrainingResult &result)`
-- Source: `src/training/incremental_lora_trainer.cpp`:1948
+- Source: `src/training/incremental_lora_trainer.cpp`:2028
 - Brief: ---------------------------------------------------------------------- Phase 4: Version registry helpers ----------------------------------------------------------------------
 - Parameters:
   - `result` (const TrainingResult &): Input parameter.
 - Details: result Input parameter. Calls: std::chrono::system_clock::now().
 
 #### `TrainingResult resumeFromCheckpoint(const std::string &checkpoint_path, TrainingCallback callback)`
-- Source: `src/training/incremental_lora_trainer.cpp`:449
+- Source: `src/training/incremental_lora_trainer.cpp`:467
 - Brief: ---------------------------------------------------------------------- Phase 5: Resume from checkpoint ----------------------------------------------------------------------
 - Parameters:
   - `checkpoint_path` (const std::string &): Path to the checkpoint.
@@ -5482,7 +5039,7 @@ Status: active
 - Details: checkpoint_path Path to the checkpoint. callback Input parameter. Return value. Calls: TrainingResult(), std::chrono::steady_clock::now(), empty(), loadCheckpoint(), verifyCheckpointPayloadIntegrity(), initLoRAComponents(), loadCheckpointWeights(), train().
 
 #### `bool rollbackVersion(const std::string &target_version)`
-- Source: `src/training/incremental_lora_trainer.cpp`:635
+- Source: `src/training/incremental_lora_trainer.cpp`:653
 - Brief: Rollback Version.
 - Parameters:
   - `target_version` (const std::string &): Input parameter.
@@ -5490,7 +5047,7 @@ Status: active
 - Details: target_version Input parameter. True when the operation succeeds. Calls: empty(), version_lock(), find(), end(), VersionRecord(), std::chrono::system_clock::now().
 
 #### `DeployResult rollbackVersionEx(const std::string &target_version)`
-- Source: `src/training/incremental_lora_trainer.cpp`:1031
+- Source: `src/training/incremental_lora_trainer.cpp`:1049
 - Brief: Rollback Version Ex.
 - Parameters:
   - `target_version` (const std::string &): Input parameter.
@@ -5498,7 +5055,7 @@ Status: active
 - Details: target_version Input parameter. Return value. Calls: empty(), DeployResult::fail(), verifyAdapterIntegrity(), version_lock(), rollbackVersion(), lk(), isAvailable(), setAdapterWeight().
 
 #### `double runTrainingStep(const std::vector< std::pair< std::string, std::string > > &training_data, size_t batch_offset, size_t step_idx)`
-- Source: `src/training/incremental_lora_trainer.cpp`:1584
+- Source: `src/training/incremental_lora_trainer.cpp`:1664
 - Brief: n/a
 - Parameters:
   - `training_data` (const std::vector< std::pair< std::string, std::string > > &): n/a
@@ -5506,7 +5063,7 @@ Status: active
   - `step_idx` (size_t): n/a
 
 #### `void saveCheckpoint(const std::string &version, size_t epoch, size_t step, double loss, double accuracy) const`
-- Source: `src/training/incremental_lora_trainer.cpp`:1823
+- Source: `src/training/incremental_lora_trainer.cpp`:1903
 - Brief: n/a
 - Parameters:
   - `version` (const std::string &): n/a
@@ -5516,12 +5073,12 @@ Status: active
   - `accuracy` (double): n/a
 
 #### `std::string selectAdapterForRequest() const`
-- Source: `src/training/incremental_lora_trainer.cpp`:685
+- Source: `src/training/incremental_lora_trainer.cpp`:703
 - Brief: n/a
 - Parameters: none
 
 #### `void setCheckpointing(bool enabled, size_t checkpoint_steps)`
-- Source: `src/training/incremental_lora_trainer.cpp`:775
+- Source: `src/training/incremental_lora_trainer.cpp`:793
 - Brief: Set Checkpointing.
 - Parameters:
   - `enabled` (bool): Input parameter.
@@ -5529,7 +5086,7 @@ Status: active
 - Details: enabled Input parameter. checkpoint_steps Input parameter. Implements setCheckpointing without additional internal calls.
 
 #### `void setFederatedLearningRate(double lr)`
-- Source: `src/training/incremental_lora_trainer.cpp`:810
+- Source: `src/training/incremental_lora_trainer.cpp`:828
 - Brief: Set Federated Learning Rate.
 - Parameters:
   - `lr` (double): Input parameter.
@@ -5538,7 +5095,7 @@ Status: active
 - Details: lr Input parameter. std::invalid_argument if an error occurs. Implements setFederatedLearningRate without additional internal calls.
 
 #### `void setHyperparameters(int rank, float alpha, float learning_rate)`
-- Source: `src/training/incremental_lora_trainer.cpp`:731
+- Source: `src/training/incremental_lora_trainer.cpp`:749
 - Brief: ---------------------------------------------------------------------- Phase 3: Hyperparameter API ----------------------------------------------------------------------
 - Parameters:
   - `rank` (int): Input parameter.
@@ -5549,21 +5106,21 @@ Status: active
 - Details: rank Input parameter. alpha Input parameter. learning_rate Input parameter. std::invalid_argument if an error occurs. Calls: reset(), defined().
 
 #### `void setLLMRouter(ILLMRouter *router)`
-- Source: `src/training/incremental_lora_trainer.cpp`:785
+- Source: `src/training/incremental_lora_trainer.cpp`:803
 - Brief: Set LLMRouter.
 - Parameters:
   - `router` (ILLMRouter *): Input/output parameter.
 - Details: router Input/output parameter. Calls: lk().
 
 #### `void setShardId(const std::string &shard_id)`
-- Source: `src/training/incremental_lora_trainer.cpp`:800
+- Source: `src/training/incremental_lora_trainer.cpp`:818
 - Brief: ── IMPL-A3: Federation bridges ──────────────────────────────────────────
 - Parameters:
   - `shard_id` (const std::string &): Identifier of the shard.
 - Details: shard_id Identifier of the shard. Calls: empty().
 
 #### `TrainingResult train(TrainingMode mode, TrainingCallback callback)`
-- Source: `src/training/incremental_lora_trainer.cpp`:288
+- Source: `src/training/incremental_lora_trainer.cpp`:294
 - Brief: ---------------------------------------------------------------------- Phase 3: Training implementation ----------------------------------------------------------------------
 - Parameters:
   - `mode` (TrainingMode): Input parameter.
@@ -5572,18 +5129,18 @@ Status: active
 - Details: mode Input parameter. callback Input parameter. Return value. Calls: exchange(), TrainingResult(), THEMIS_ERROR(), std::chrono::steady_clock::now(), sanitizeTrainingPromptLikeText(), store(), reset(), generateVersionId().
 
 #### `void validateHyperparameters() const`
-- Source: `src/training/incremental_lora_trainer.cpp`:1767
+- Source: `src/training/incremental_lora_trainer.cpp`:1847
 - Brief: n/a
 - Parameters: none
 
 #### `bool verifyAdapterIntegrity(const std::string &adapter_version) const`
-- Source: `src/training/incremental_lora_trainer.cpp`:873
+- Source: `src/training/incremental_lora_trainer.cpp`:891
 - Brief: n/a
 - Parameters:
   - `adapter_version` (const std::string &): n/a
 
 #### `bool verifyCheckpointPayloadIntegrity(const std::string &checkpoint_prefix, const std::string &adapter_version, size_t epoch, size_t step, std::string *error_reason) const`
-- Source: `src/training/incremental_lora_trainer.cpp`:899
+- Source: `src/training/incremental_lora_trainer.cpp`:917
 - Brief: n/a
 - Parameters:
   - `checkpoint_prefix` (const std::string &): n/a
@@ -5593,14 +5150,14 @@ Status: active
   - `error_reason` (std::string *): n/a
 
 #### `~Impl()=default`
-- Source: `src/training/incremental_lora_trainer.cpp`:279
+- Source: `src/training/incremental_lora_trainer.cpp`:285
 - Brief: n/a
 - Parameters: none
 
 ### themis::training::IncrementalTrainingConfig
 
 #### `IncrementalTrainingConfig()=default`
-- Source: `include/training/incremental_lora_trainer.h`:191
+- Source: `include/training/incremental_lora_trainer.h`:197
 - Brief: n/a
 - Parameters: none
 
@@ -5708,7 +5265,7 @@ Status: active
 
 #### `std::string getQueryTemplate(const std::string &query_name) const`
 - Source: `include/training/knowledge_graph_enricher.h`:260
-- Brief: Get AQL query template by name (Phase 6).
+- Brief: Get AQL query template by name (Phase 6)
 - Parameters:
   - `query_name` (const std::string &): Built-in name ("find_provisions", "find_case_law", "find_guidance", "find_similar", "update_context", "fetch_all") or custom name
 - Return: AQL query template string, or empty string if not found
@@ -5939,14 +5496,24 @@ Status: active
 ### themis::training::LabelingStats
 
 #### `LabelingStats()=default`
-- Source: `include/training/auto_labeler.h`:74
+- Source: `include/training/auto_labeler.h`:78
 - Brief: n/a
 - Parameters: none
 
 ### themis::training::LegalAutoLabeler
 
+#### `LegalAutoLabeler(const AutoLabelConfig &config, const std::string &db_connection, query::QueryEngine *engine, SecondaryIndexManager *sample_storage)`
+- Source: `include/training/auto_labeler.h`:173
+- Brief: Construct a DB-backed labeler with explicit sample persistence.
+- Parameters:
+  - `config` (const AutoLabelConfig &): Labeling configuration.
+  - `db_connection` (const std::string &): Informational connection label.
+  - `engine` (query::QueryEngine *): Non-owning AQL QueryEngine; must outlive the labeler.
+  - `sample_storage` (SecondaryIndexManager *): Non-owning index manager used to persist target-collection samples; it must outlive the labeler.
+- Details: config Labeling configuration. db_connection Informational connection label. engine Non-owning AQL QueryEngine; must outlive the labeler. sample_storage Non-owning index manager used to persist target-collection samples; it must outlive the labeler.
+
 #### `LegalAutoLabeler(const AutoLabelConfig &config, const std::string &db_connection, query::QueryEngine *engine=nullptr)`
-- Source: `include/training/auto_labeler.h`:157
+- Source: `include/training/auto_labeler.h`:161
 - Brief: Construct auto-labeler without a database connection.
 - Parameters:
   - `config` (const AutoLabelConfig &): Labeling configuration
@@ -5955,13 +5522,13 @@ Status: active
 - Details: config Labeling configuration db_connection Database connection string (informational) engine Optional AQL query engine; when non-null, labelAll() and labelQuery() fetch document IDs from the database via AQL. Pass nullptr (the default) to operate in test/offline mode, where no documents are fetched from the database.
 
 #### `LegalAutoLabeler(const LegalAutoLabeler &)=delete`
-- Source: `include/training/auto_labeler.h`:164
+- Source: `include/training/auto_labeler.h`:181
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const LegalAutoLabeler &): n/a
 
 #### `std::vector< TrainingSample > getLowConfidenceSamples(float min_confidence=0.5f)`
-- Source: `include/training/auto_labeler.h`:195
+- Source: `include/training/auto_labeler.h`:212
 - Brief: Get low-confidence samples for human review.
 - Parameters:
   - `min_confidence` (float): Input parameter.
@@ -5969,7 +5536,7 @@ Status: active
 - Details: Get Low Confidence Samples. min_confidence Minimum confidence threshold Vector of low-confidence samples min_confidence Input parameter. Return value. Implements getLowConfidenceSamples without additional internal calls.
 
 #### `LabelingStats labelAll(LabelingCallback callback=nullptr)`
-- Source: `include/training/auto_labeler.h`:172
+- Source: `include/training/auto_labeler.h`:189
 - Brief: Label all documents in source collection.
 - Parameters:
   - `callback` (LabelingCallback): Input parameter.
@@ -5977,7 +5544,7 @@ Status: active
 - Details: Label All. callback Optional progress callback Labeling statistics callback Input parameter. Return value. Implements labelAll without additional internal calls.
 
 #### `std::vector< TrainingSample > labelDocument(const std::string &document_id)`
-- Source: `include/training/auto_labeler.h`:179
+- Source: `include/training/auto_labeler.h`:196
 - Brief: Label a specific document.
 - Parameters:
   - `document_id` (const std::string &): Identifier of the document.
@@ -5985,7 +5552,7 @@ Status: active
 - Details: Label Document. document_id Document ID Vector of generated training samples document_id Identifier of the document. Return value. Implements labelDocument without additional internal calls.
 
 #### `LabelingStats labelQuery(const std::string &aql_query, LabelingCallback callback=nullptr)`
-- Source: `include/training/auto_labeler.h`:187
+- Source: `include/training/auto_labeler.h`:204
 - Brief: Label documents matching a query.
 - Parameters:
   - `aql_query` (const std::string &): Input parameter.
@@ -5994,13 +5561,13 @@ Status: active
 - Details: Label Query. aql_query AQL query to select documents callback Optional progress callback Labeling statistics aql_query Input parameter. callback Input parameter. Return value. Implements labelQuery without additional internal calls.
 
 #### `LegalAutoLabeler & operator=(const LegalAutoLabeler &)=delete`
-- Source: `include/training/auto_labeler.h`:165
+- Source: `include/training/auto_labeler.h`:182
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const LegalAutoLabeler &): n/a
 
 #### `void registerDocument(const std::string &document_id, const std::string &text)`
-- Source: `include/training/auto_labeler.h`:223
+- Source: `include/training/auto_labeler.h`:240
 - Brief: Register a document text for offline/test-mode labeling.
 - Parameters:
   - `document_id` (const std::string &): Identifier of the document.
@@ -6008,7 +5575,7 @@ Status: active
 - Details: Register Document. When no QueryEngine is wired in, labelDocument() and fetchDocumentText() look up documents registered here instead of falling back to a fixed hardcoded placeholder paragraph. This allows unit and integration tests to exercise the full NLP pipeline with controlled, per-document texts without requiring a live database. Documents registered via this method take precedence over the built-in hardcoded fallback text. They do not affect the AQL-backed code path: when a QueryEngine is present, the DB always wins. document_id Primary key used to identify the document. text Document body text. document_id Identifier of the document. text Input parameter. Implements registerDocument without additional internal calls.
 
 #### `void updateSampleConfidence(const std::string &sample_id, float new_confidence, const std::string &reviewed_by)`
-- Source: `include/training/auto_labeler.h`:203
+- Source: `include/training/auto_labeler.h`:220
 - Brief: Update sample confidence after human review.
 - Parameters:
   - `sample_id` (const std::string &): Identifier of the sample.
@@ -6017,29 +5584,30 @@ Status: active
 - Details: Update Sample Confidence. sample_id Sample ID new_confidence Updated confidence score reviewed_by User who reviewed the sample sample_id Identifier of the sample. new_confidence Input parameter. reviewed_by Input parameter. Implements updateSampleConfidence without additional internal calls.
 
 #### `~LegalAutoLabeler()`
-- Source: `include/training/auto_labeler.h`:161
+- Source: `include/training/auto_labeler.h`:178
 - Brief: n/a
 - Parameters: none
 
 ### themis::training::LegalAutoLabeler::Impl
 
-#### `Impl(const AutoLabelConfig &config, const std::string &db_connection, ::themis::query::QueryEngine *engine)`
-- Source: `src/training/auto_labeler.cpp`:87
+#### `Impl(const AutoLabelConfig &config, const std::string &db_connection, ::themis::query::QueryEngine *engine, ::themis::SecondaryIndexManager *sample_storage)`
+- Source: `src/training/auto_labeler.cpp`:88
 - Brief: n/a
 - Parameters:
   - `config` (const AutoLabelConfig &): n/a
   - `db_connection` (const std::string &): n/a
   - `engine` (::themis::query::QueryEngine *): n/a
+  - `sample_storage` (::themis::SecondaryIndexManager *): n/a
 
 #### `std::string buildQuery(const std::string &tmpl, const std::vector< std::pair< std::string, std::string > > &bindings) const`
-- Source: `src/training/auto_labeler.cpp`:742
+- Source: `src/training/auto_labeler.cpp`:808
 - Brief: n/a
 - Parameters:
   - `tmpl` (const std::string &): n/a
   - `bindings` (const std::vector< std::pair< std::string, std::string > > &): n/a
 
 #### `TrainingSample createSampleFromModality(const std::string &document_id, const std::string &text, const analytics::LegalModality &modality) const`
-- Source: `src/training/auto_labeler.cpp`:811
+- Source: `src/training/auto_labeler.cpp`:877
 - Brief: n/a
 - Parameters:
   - `document_id` (const std::string &): n/a
@@ -6047,51 +5615,51 @@ Status: active
   - `modality` (const analytics::LegalModality &): n/a
 
 #### `std::vector< std::string > executeAqlQuery(const std::string &aql) const`
-- Source: `src/training/auto_labeler.cpp`:532
+- Source: `src/training/auto_labeler.cpp`:556
 - Brief: n/a
 - Parameters:
   - `aql` (const std::string &): n/a
 
 #### `std::optional< nlohmann::json > executeAqlWithRetry(const std::string &aql) const`
-- Source: `src/training/auto_labeler.cpp`:790
+- Source: `src/training/auto_labeler.cpp`:856
 - Brief: n/a
 - Parameters:
   - `aql` (const std::string &): n/a
 
 #### `std::vector< analytics::LegalModality > extractFallbackModalities(const std::string &text) const`
-- Source: `src/training/auto_labeler.cpp`:645
+- Source: `src/training/auto_labeler.cpp`:669
 - Brief: n/a
 - Parameters:
   - `text` (const std::string &): n/a
 
 #### `std::vector< std::string > fetchAllDocumentIdsDirect() const`
-- Source: `src/training/auto_labeler.cpp`:479
+- Source: `src/training/auto_labeler.cpp`:503
 - Brief: n/a
 - Parameters: none
 
 #### `std::vector< BaseEntity > fetchAllDocumentsDirect() const`
-- Source: `src/training/auto_labeler.cpp`:466
+- Source: `src/training/auto_labeler.cpp`:490
 - Brief: n/a
 - Parameters: none
 
 #### `std::string fetchDocumentText(const std::string &document_id) const`
-- Source: `src/training/auto_labeler.cpp`:570
+- Source: `src/training/auto_labeler.cpp`:594
 - Brief: n/a
 - Parameters:
   - `document_id` (const std::string &): n/a
 
 #### `std::string getBatchInsertQuery() const`
-- Source: `src/training/auto_labeler.cpp`:439
+- Source: `src/training/auto_labeler.cpp`:461
 - Brief: n/a
 - Parameters: none
 
 #### `std::string getFetchAllQuery() const`
-- Source: `src/training/auto_labeler.cpp`:434
+- Source: `src/training/auto_labeler.cpp`:456
 - Brief: n/a
 - Parameters: none
 
 #### `std::vector< TrainingSample > getLowConfidenceSamples(float min_confidence)`
-- Source: `src/training/auto_labeler.cpp`:394
+- Source: `src/training/auto_labeler.cpp`:416
 - Brief: Get Low Confidence Samples.
 - Parameters:
   - `min_confidence` (float): Input parameter.
@@ -6099,25 +5667,31 @@ Status: active
 - Details: min_confidence Input parameter. Return value. Implements getLowConfidenceSamples without additional internal calls.
 
 #### `size_t getTotalErrors() const`
-- Source: `src/training/auto_labeler.cpp`:431
+- Source: `src/training/auto_labeler.cpp`:453
 - Brief: n/a
 - Parameters: none
 
 #### `size_t getTotalProcessed() const`
-- Source: `src/training/auto_labeler.cpp`:430
+- Source: `src/training/auto_labeler.cpp`:452
 - Brief: n/a
 - Parameters: none
 
 #### `bool isReadOnlyAqlQuery(const std::string &aql)`
-- Source: `src/training/auto_labeler.cpp`:762
+- Source: `src/training/auto_labeler.cpp`:828
 - Brief: Is Read Only Aql Query.
 - Parameters:
   - `aql` (const std::string &): Input parameter.
 - Return: True when the operation succeeds.
 - Details: aql Input parameter. True when the operation succeeds. Calls: empty(), reserve(), size(), push_back(), std::toupper(), find().
 
+#### `bool isValidCollectionIdentifier(const std::string &collection)`
+- Source: `src/training/auto_labeler.cpp`:787
+- Brief: n/a
+- Parameters:
+  - `collection` (const std::string &): n/a
+
 #### `LabelingStats labelAll(LabelingCallback callback)`
-- Source: `src/training/auto_labeler.cpp`:117
+- Source: `src/training/auto_labeler.cpp`:121
 - Brief: Label All.
 - Parameters:
   - `callback` (LabelingCallback): Input parameter.
@@ -6125,7 +5699,7 @@ Status: active
 - Details: callback Input parameter. Return value. Calls: LabelingStats(), std::chrono::steady_clock::now(), buildQuery(), executeAqlQuery(), empty(), fetchAllDocumentIdsDirect(), reserve(), labelDocument().
 
 #### `std::vector< TrainingSample > labelDocument(const std::string &document_id)`
-- Source: `src/training/auto_labeler.cpp`:186
+- Source: `src/training/auto_labeler.cpp`:199
 - Brief: Label Document.
 - Parameters:
   - `document_id` (const std::string &): Identifier of the document.
@@ -6133,7 +5707,7 @@ Status: active
 - Details: document_id Identifier of the document. Return value. Calls: empty(), fetchDocumentText(), lock(), parseDocument(), THEMIS_INFO(), mean_conf(), push_back(), std::move().
 
 #### `LabelingStats labelQuery(const std::string &aql_query, LabelingCallback callback)`
-- Source: `src/training/auto_labeler.cpp`:329
+- Source: `src/training/auto_labeler.cpp`:342
 - Brief: Label Query.
 - Parameters:
   - `aql_query` (const std::string &): Input parameter.
@@ -6141,14 +5715,16 @@ Status: active
 - Return: Return value.
 - Details: aql_query Input parameter. callback Input parameter. Return value. Calls: LabelingStats(), std::chrono::steady_clock::now(), empty(), isReadOnlyAqlQuery(), executeAqlQuery(), reserve(), labelDocument(), updateStats().
 
-#### `void persistSampleBatch(const std::vector< TrainingSample > &batch) const`
-- Source: `src/training/auto_labeler.cpp`:723
+#### `bool persistSampleBatch(const std::vector< TrainingSample > &batch, size_t &persisted, std::string &error)`
+- Source: `src/training/auto_labeler.cpp`:747
 - Brief: n/a
 - Parameters:
   - `batch` (const std::vector< TrainingSample > &): n/a
+  - `persisted` (size_t &): n/a
+  - `error` (std::string &): n/a
 
 #### `void registerDocument(const std::string &document_id, const std::string &text)`
-- Source: `src/training/auto_labeler.cpp`:461
+- Source: `src/training/auto_labeler.cpp`:485
 - Brief: Register Document.
 - Parameters:
   - `document_id` (const std::string &): Identifier of the document.
@@ -6156,13 +5732,13 @@ Status: active
 - Details: document_id Identifier of the document. text Input parameter. Calls: lock().
 
 #### `std::vector< std::string > tryDirectKeyQueryFallback(const std::string &aql) const`
-- Source: `src/training/auto_labeler.cpp`:491
+- Source: `src/training/auto_labeler.cpp`:515
 - Brief: n/a
 - Parameters:
   - `aql` (const std::string &): n/a
 
 #### `void updateSampleConfidence(const std::string &sample_id, float new_confidence, const std::string &reviewed_by)`
-- Source: `src/training/auto_labeler.cpp`:415
+- Source: `src/training/auto_labeler.cpp`:437
 - Brief: Update Sample Confidence.
 - Parameters:
   - `sample_id` (const std::string &): Identifier of the sample.
@@ -6171,14 +5747,14 @@ Status: active
 - Details: sample_id Identifier of the sample. new_confidence Input parameter. reviewed_by Input parameter. Calls: empty(), std::max(), std::min().
 
 #### `void updateStats(LabelingStats &stats, const TrainingSample &sample) const`
-- Source: `src/training/auto_labeler.cpp`:732
+- Source: `src/training/auto_labeler.cpp`:798
 - Brief: n/a
 - Parameters:
   - `stats` (LabelingStats &): n/a
   - `sample` (const TrainingSample &): n/a
 
 #### `~Impl()=default`
-- Source: `src/training/auto_labeler.cpp`:109
+- Source: `src/training/auto_labeler.cpp`:113
 - Brief: n/a
 - Parameters: none
 
@@ -7126,35 +6702,35 @@ Status: active
 ### themis::training::PipelineConfig
 
 #### `PipelineConfig()=default`
-- Source: `include/training/training_pipeline.h`:297
+- Source: `include/training/training_pipeline.h`:302
 - Brief: n/a
 - Parameters: none
 
 ### themis::training::PipelineMetrics
 
 #### `void beginStage(const std::string &name)`
-- Source: `src/training/training_pipeline.cpp`:68
+- Source: `src/training/training_pipeline.cpp`:81
 - Brief: Begin Stage.
 - Parameters:
   - `name` (const std::string &): Input parameter.
 - Details: name Input parameter. Calls: std::chrono::steady_clock::now().
 
 #### `void endStage(const std::string &name)`
-- Source: `src/training/training_pipeline.cpp`:77
+- Source: `src/training/training_pipeline.cpp`:90
 - Brief: End Stage.
 - Parameters:
   - `name` (const std::string &): Input parameter.
 - Details: name Input parameter. Calls: std::chrono::steady_clock::now(), count().
 
 #### `double totalElapsed() const`
-- Source: `src/training/training_pipeline.cpp`:83
+- Source: `src/training/training_pipeline.cpp`:96
 - Brief: n/a
 - Parameters: none
 
 ### themis::training::PipelineStats
 
 #### `PipelineStats()=default`
-- Source: `include/training/training_pipeline.h`:72
+- Source: `include/training/training_pipeline.h`:77
 - Brief: n/a
 - Parameters: none
 
@@ -7340,12 +6916,12 @@ Status: active
 ### themis::training::QuantizationConfig
 
 #### `QuantizationConfig()=default`
-- Source: `include/training/incremental_lora_trainer.h`:66
+- Source: `include/training/incremental_lora_trainer.h`:70
 - Brief: n/a
 - Parameters: none
 
 #### `QuantizationConfig(TrainingQuantizationType t, int bs=64)`
-- Source: `include/training/incremental_lora_trainer.h`:67
+- Source: `include/training/incremental_lora_trainer.h`:71
 - Brief: n/a
 - Parameters:
   - `t` (TrainingQuantizationType): n/a
@@ -7847,33 +7423,43 @@ Status: active
 ### themis::training::TrainingMetrics
 
 #### `TrainingMetrics()=default`
-- Source: `include/training/incremental_lora_trainer.h`:105
+- Source: `include/training/incremental_lora_trainer.h`:109
 - Brief: n/a
 - Parameters: none
 
 #### `void reset()`
-- Source: `include/training/incremental_lora_trainer.h`:108
+- Source: `include/training/incremental_lora_trainer.h`:112
 - Brief: Reset all accumulated metrics.
 - Parameters: none
 
 ### themis::training::TrainingPipeline
 
 #### `TrainingPipeline(const PipelineConfig &config, const std::string &db_connection)`
-- Source: `include/training/training_pipeline.h`:341
+- Source: `include/training/training_pipeline.h`:346
 - Brief: Construct pipeline.
 - Parameters:
   - `config` (const PipelineConfig &): Pipeline configuration
   - `db_connection` (const std::string &): Database connection string
 - Details: config Pipeline configuration db_connection Database connection string
 
+#### `TrainingPipeline(const PipelineConfig &config, const std::string &db_connection, query::QueryEngine *query_engine, SecondaryIndexManager *sample_storage)`
+- Source: `include/training/training_pipeline.h`:356
+- Brief: Construct a pipeline with shared non-owning DB dependencies.
+- Parameters:
+  - `config` (const PipelineConfig &): Pipeline configuration.
+  - `db_connection` (const std::string &): Informational connection label retained for checkpoint paths.
+  - `query_engine` (query::QueryEngine *): AQL engine used for source/target collection reads; must outlive the pipeline.
+  - `sample_storage` (SecondaryIndexManager *): Index manager used to persist auto-labeled samples; must outlive the pipeline.
+- Details: config Pipeline configuration. db_connection Informational connection label retained for checkpoint paths. query_engine AQL engine used for source/target collection reads; must outlive the pipeline. sample_storage Index manager used to persist auto-labeled samples; must outlive the pipeline.
+
 #### `TrainingPipeline(const TrainingPipeline &)=delete`
-- Source: `include/training/training_pipeline.h`:347
+- Source: `include/training/training_pipeline.h`:364
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const TrainingPipeline &): n/a
 
 #### `void addCalibrationSample(const std::string &category, float confidence, bool model_correct)`
-- Source: `include/training/training_pipeline.h`:424
+- Source: `include/training/training_pipeline.h`:441
 - Brief: Feed a per-sample validation pair to the internal calibrator.
 - Parameters:
   - `category` (const std::string &): Input parameter.
@@ -7882,7 +7468,7 @@ Status: active
 - Details: Add Calibration Sample. Should be called once per sample after the validation loop in IncrementalLoRATrainer to accumulate data for runCalibration(). category Legal category of the sample. confidence Model confidence score in [0, 1]. model_correct Whether the model produced the correct label. category Input parameter. confidence Input parameter. model_correct Input parameter. Implements addCalibrationSample without additional internal calls.
 
 #### `DataQualityReport checkDataQuality(float min_confidence=0.5f)`
-- Source: `include/training/training_pipeline.h`:433
+- Source: `include/training/training_pipeline.h`:450
 - Brief: Perform data-quality checks on the training collection.
 - Parameters:
   - `min_confidence` (float): Input parameter.
@@ -7890,7 +7476,7 @@ Status: active
 - Details: Check Data Quality. min_confidence Minimum acceptable sample confidence Data quality report min_confidence Input parameter. Return value. Implements checkDataQuality without additional internal calls.
 
 #### `DriftReport detectLabelDrift(const std::vector< std::string > &reference_samples={})`
-- Source: `include/training/training_pipeline.h`:440
+- Source: `include/training/training_pipeline.h`:457
 - Brief: Detect label drift between training samples and new data.
 - Parameters:
   - `reference_samples` (const std::vector< std::string > &): Input parameter.
@@ -7898,18 +7484,18 @@ Status: active
 - Details: Detect Label Drift. reference_samples Baseline sample IDs for comparison Drift detection report reference_samples Input parameter. Return value. Implements detectLabelDrift without additional internal calls.
 
 #### `PipelineStats getLastStats() const`
-- Source: `include/training/training_pipeline.h`:453
+- Source: `include/training/training_pipeline.h`:470
 - Brief: Get the last pipeline execution statistics.
 - Parameters: none
 
 #### `TrainingPipeline & operator=(const TrainingPipeline &)=delete`
-- Source: `include/training/training_pipeline.h`:348
+- Source: `include/training/training_pipeline.h`:365
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const TrainingPipeline &): n/a
 
 #### `PipelineStats run(PipelineCallback callback=nullptr)`
-- Source: `include/training/training_pipeline.h`:361
+- Source: `include/training/training_pipeline.h`:378
 - Brief: Execute the full training pipeline.
 - Parameters:
   - `callback` (PipelineCallback): Input parameter.
@@ -7917,14 +7503,14 @@ Status: active
 - Details: Run. callback Optional per-stage progress callback Aggregated pipeline statistics Fail-closed guards (QW-40): Validates critical inputs before execution: target_collection non-empty (prompt injection prevention) drift_threshold in valid range [0, 1] (prevent invalid LLM queries) data_selection collection_name non-empty (prevent injection) If any guard fails, returns error_message in stats and avoids LLM calls. callback Input parameter. Return value. Implements run without additional internal calls.
 
 #### `CalibrationResult runCalibration()`
-- Source: `include/training/training_pipeline.h`:412
+- Source: `include/training/training_pipeline.h`:429
 - Brief: Run the confidence calibration stage and persist the result.
 - Parameters: none
 - Return: Calibration result with per-category thresholds.
 - Details: Run Calibration. Executes ConfidenceCalibrator::calibrate() on any accumulated per-sample (confidence, correct) pairs and, when enable_checkpoint_manager is true, writes a calibration_manifest.json to the checkpoint directory via LoRACheckpointManager. Calibration result with per-category thresholds. Return value. Implements runCalibration without additional internal calls.
 
 #### `DataSelectionResult runDataSelection(SelectionProgressCallback callback=nullptr)`
-- Source: `include/training/training_pipeline.h`:391
+- Source: `include/training/training_pipeline.h`:408
 - Brief: Run only the automated data selection stage.
 - Parameters:
   - `callback` (SelectionProgressCallback): Input parameter.
@@ -7932,7 +7518,7 @@ Status: active
 - Details: Run Data Selection. Executes all five selection sub-stages (quality filter, deduplication, clustering, scoring, curriculum sampling) on the current training collection and returns the selection result with audit entry. callback Optional per-stage progress callback. Emitted messages are sanitized via the shared prompt-safety policy before callback invocation. Selection result including selected samples and provenance. callback Input parameter. Return value. Calls: std::move().
 
 #### `EnrichmentStats runEnrichment(EnrichmentCallback callback=nullptr)`
-- Source: `include/training/training_pipeline.h`:377
+- Source: `include/training/training_pipeline.h`:394
 - Brief: Run only the enrichment stage.
 - Parameters:
   - `callback` (EnrichmentCallback): Input parameter.
@@ -7940,7 +7526,7 @@ Status: active
 - Details: Run Enrichment. Callback messages are sanitized via the shared prompt-safety policy before emission. callback Input parameter. Return value. Implements runEnrichment without additional internal calls.
 
 #### `HyperparamResult runHyperparamSearch(const HyperparamSearchConfig &config, HyperparamSearchCallback callback=nullptr)`
-- Source: `include/training/training_pipeline.h`:475
+- Source: `include/training/training_pipeline.h`:492
 - Brief: Run an automated hyperparameter search over rank × lr combinations.
 - Parameters:
   - `config` (const HyperparamSearchConfig &): Input parameter.
@@ -7949,7 +7535,7 @@ Status: active
 - Details: Run Hyperparam Search. Generates the Cartesian product of config.rank_candidates and config.lr_candidates, shuffles the trial list with config.seed for deterministic ordering, then executes up to config.max_trials trials. Each trial clones the pipeline's trainer config with the trial's rank and learning rate and runs a single-pass training simulation. When config.budget_seconds > 0 the search stops early once the wall-clock budget is exceeded and returns the best result seen so far. On success, the best (rank, lr) pair is automatically applied to the pipeline's internal trainer configuration so subsequent calls to run() or runTraining() use the optimised hyperparameters. config Search configuration (candidates, budget, seed). callback Optional per-trial callback. Search result with best rank, lr, val_loss, and trial log. config Input parameter. callback Input parameter. Return value. Calls: std::move().
 
 #### `LabelingStats runLabeling(LabelingCallback callback=nullptr)`
-- Source: `include/training/training_pipeline.h`:369
+- Source: `include/training/training_pipeline.h`:386
 - Brief: Run only the auto-labeling stage.
 - Parameters:
   - `callback` (LabelingCallback): Input parameter.
@@ -7957,7 +7543,7 @@ Status: active
 - Details: Run Labeling. Callback messages are sanitized via the shared prompt-safety policy before emission. callback Input parameter. Return value. Implements runLabeling without additional internal calls.
 
 #### `TrainingResult runTraining(TrainingCallback callback=nullptr)`
-- Source: `include/training/training_pipeline.h`:400
+- Source: `include/training/training_pipeline.h`:417
 - Brief: Run only the training stage.
 - Parameters:
   - `callback` (TrainingCallback): Input parameter.
@@ -7965,7 +7551,7 @@ Status: active
 - Details: Run Training. Callback messages are sanitized via the shared prompt-safety policy before emission. callback Input parameter. Return value. Implements runTraining without additional internal calls.
 
 #### `std::string sanitizeCallbackMessage(const std::string &message)`
-- Source: `include/training/training_pipeline.h`:334
+- Source: `include/training/training_pipeline.h`:339
 - Brief: Sanitize a pipeline callback/progress message with the shared prompt-safety policy.
 - Parameters:
   - `message` (const std::string &): Input parameter.
@@ -7973,7 +7559,7 @@ Status: active
 - Details: Sanitize Callback Message. The returned string is safe to emit through telemetry, logs, or external callback sinks: blocked prompt-injection patterns are fail-closed to a constant marker allowed payloads are returned with control-token redaction applied message Raw callback/progress message. Sanitized callback message suitable for downstream emission. message Input parameter. Return value. Calls: sanitizeTrainingPipelineMessage().
 
 #### `void scheduleRetraining(size_t interval_hours, PipelineCallback callback=nullptr)`
-- Source: `include/training/training_pipeline.h`:447
+- Source: `include/training/training_pipeline.h`:464
 - Brief: Schedule automated retraining at a fixed interval.
 - Parameters:
   - `interval_hours` (size_t): Input parameter.
@@ -7981,23 +7567,25 @@ Status: active
 - Details: Schedule Retraining. interval_hours How often to retrain (in hours) callback Optional per-run callback interval_hours Input parameter. callback Input parameter. Implements scheduleRetraining without additional internal calls.
 
 #### `~TrainingPipeline()`
-- Source: `include/training/training_pipeline.h`:344
+- Source: `include/training/training_pipeline.h`:361
 - Brief: n/a
 - Parameters: none
 
 ### themis::training::TrainingPipeline::Impl
 
-#### `Impl(const PipelineConfig &config, const std::string &db_connection)`
-- Source: `src/training/training_pipeline.cpp`:103
+#### `Impl(const PipelineConfig &config, const std::string &db_connection, ::themis::query::QueryEngine *query_engine, ::themis::SecondaryIndexManager *sample_storage)`
+- Source: `src/training/training_pipeline.cpp`:116
 - Brief: Impl.
 - Parameters:
   - `config` (const PipelineConfig &): Input parameter.
   - `db_connection` (const std::string &): Input parameter.
+  - `query_engine` (::themis::query::QueryEngine *): n/a
+  - `sample_storage` (::themis::SecondaryIndexManager *): n/a
 - Return: Return value.
 - Details: config Input parameter. db_connection Input parameter. Return value.
 
 #### `void addCalibrationSample(const std::string &category, float confidence, bool correct)`
-- Source: `src/training/training_pipeline.cpp`:502
+- Source: `src/training/training_pipeline.cpp`:586
 - Brief: Add Calibration Sample.
 - Parameters:
   - `category` (const std::string &): Input parameter.
@@ -8006,7 +7594,7 @@ Status: active
 - Details: category Input parameter. confidence Input parameter. correct Input parameter. Calls: addSample().
 
 #### `DataQualityReport checkDataQuality(float min_confidence)`
-- Source: `src/training/training_pipeline.cpp`:410
+- Source: `src/training/training_pipeline.cpp`:494
 - Brief: ---------------------------------------------------------------------- Phase 7: Data-quality checks ----------------------------------------------------------------------
 - Parameters:
   - `min_confidence` (float): Input parameter.
@@ -8014,7 +7602,7 @@ Status: active
 - Details: min_confidence Input parameter. Return value. Calls: DataQualityReport().
 
 #### `DriftReport detectLabelDrift(const std::vector< std::string > &reference_samples)`
-- Source: `src/training/training_pipeline.cpp`:441
+- Source: `src/training/training_pipeline.cpp`:525
 - Brief: ---------------------------------------------------------------------- Phase 7: Label-drift detection ----------------------------------------------------------------------
 - Parameters:
   - `reference_samples` (const std::vector< std::string > &): Input parameter.
@@ -8022,12 +7610,12 @@ Status: active
 - Details: reference_samples Input parameter. Return value. Calls: DriftReport().
 
 #### `PipelineStats getLastStats() const`
-- Source: `src/training/training_pipeline.cpp`:460
+- Source: `src/training/training_pipeline.cpp`:544
 - Brief: n/a
 - Parameters: none
 
 #### `PipelineStats run(PipelineCallback callback)`
-- Source: `src/training/training_pipeline.cpp`:131
+- Source: `src/training/training_pipeline.cpp`:151
 - Brief: ---------------------------------------------------------------------- Phase 7: Full pipeline execution ----------------------------------------------------------------------
 - Parameters:
   - `callback` (PipelineCallback): Input parameter.
@@ -8035,14 +7623,14 @@ Status: active
 - Details: callback Input parameter. Return value. Calls: PipelineStats(), PipelineMetrics(), std::chrono::steady_clock::now(), empty(), callback(), sanitizeTrainingPipelineMessage(), beginStage(), emitCallback().
 
 #### `CalibrationResult runCalibration()`
-- Source: `src/training/training_pipeline.cpp`:481
+- Source: `src/training/training_pipeline.cpp`:565
 - Brief: ---------------------------------------------------------------------- Phase 3: Calibration wrappers ----------------------------------------------------------------------
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Calls: calibrate(), empty(), serializeCalibrationResult(), saveCalibrationJson().
 
 #### `DataSelectionResult runDataSelection(SelectionProgressCallback callback)`
-- Source: `src/training/training_pipeline.cpp`:381
+- Source: `src/training/training_pipeline.cpp`:427
 - Brief: ---------------------------------------------------------------------- Data selection stage (Quality & Diversity Layer) ----------------------------------------------------------------------
 - Parameters:
   - `callback` (SelectionProgressCallback): Input parameter.
@@ -8050,7 +7638,7 @@ Status: active
 - Details: callback Input parameter. Return value. Calls: setConfig(), run(), std::move(), callback(), sanitizeTrainingPipelineMessage().
 
 #### `EnrichmentStats runEnrichment(EnrichmentCallback callback)`
-- Source: `src/training/training_pipeline.cpp`:348
+- Source: `src/training/training_pipeline.cpp`:394
 - Brief: Run Enrichment.
 - Parameters:
   - `callback` (EnrichmentCallback): Input parameter.
@@ -8058,7 +7646,7 @@ Status: active
 - Details: callback Input parameter. Return value. Calls: enrichAll(), callback(), sanitizeTrainingPipelineMessage().
 
 #### `HyperparamResult runHyperparamSearch(const HyperparamSearchConfig &cfg, HyperparamSearchCallback callback)`
-- Source: `src/training/training_pipeline.cpp`:513
+- Source: `src/training/training_pipeline.cpp`:597
 - Brief: ---------------------------------------------------------------------- Phase 2: Automated hyperparameter search (rank × lr grid sweep) ----------------------------------------------------------------------
 - Parameters:
   - `cfg` (const HyperparamSearchConfig &): Input parameter.
@@ -8067,7 +7655,7 @@ Status: active
 - Details: cfg Input parameter. callback Input parameter. Return value. Calls: empty(), std::chrono::steady_clock::now(), reserve(), size(), push_back(), std::swap(), shuffle_lcg(), resize().
 
 #### `LabelingStats runLabeling(LabelingCallback callback)`
-- Source: `src/training/training_pipeline.cpp`:332
+- Source: `src/training/training_pipeline.cpp`:378
 - Brief: ---------------------------------------------------------------------- Phase 7: Stage-specific entry points ----------------------------------------------------------------------
 - Parameters:
   - `callback` (LabelingCallback): Input parameter.
@@ -8075,7 +7663,7 @@ Status: active
 - Details: callback Input parameter. Return value. Calls: labelAll(), callback(), sanitizeTrainingPipelineMessage().
 
 #### `TrainingResult runTraining(TrainingCallback callback)`
-- Source: `src/training/training_pipeline.cpp`:364
+- Source: `src/training/training_pipeline.cpp`:410
 - Brief: Run Training.
 - Parameters:
   - `callback` (TrainingCallback): Input parameter.
@@ -8083,15 +7671,15 @@ Status: active
 - Details: callback Input parameter. Return value. Calls: train(), callback(), sanitizeTrainingPipelineMessage().
 
 #### `void scheduleRetraining(size_t interval_hours, PipelineCallback callback)`
-- Source: `src/training/training_pipeline.cpp`:470
-- Brief: Phase 7: Schedule retraining (stored for reference; actual scheduling requires a thread/timer service in production).
+- Source: `src/training/training_pipeline.cpp`:554
+- Brief: Phase 7: Schedule retraining (stored for reference; actual scheduling requires a thread/timer service in production)
 - Parameters:
   - `interval_hours` (size_t): Input parameter.
   - `callback` (PipelineCallback): Input parameter.
 - Details: interval_hours Input parameter. callback Input parameter. Implements scheduleRetraining without additional internal calls.
 
 #### `std::string serializeCalibrationResult(const CalibrationResult &r)`
-- Source: `src/training/training_pipeline.cpp`:655
+- Source: `src/training/training_pipeline.cpp`:741
 - Brief: Serialise a CalibrationResult to a key=value text format (no JSON dep).
 - Parameters:
   - `r` (const CalibrationResult &): Input parameter.
@@ -8099,21 +7687,21 @@ Status: active
 - Details: r Input parameter. Return value. Calls: size(), str().
 
 #### `~Impl()=default`
-- Source: `src/training/training_pipeline.cpp`:123
+- Source: `src/training/training_pipeline.cpp`:143
 - Brief: n/a
 - Parameters: none
 
 ### themis::training::TrainingResult
 
 #### `TrainingResult()=default`
-- Source: `include/training/incremental_lora_trainer.h`:134
+- Source: `include/training/incremental_lora_trainer.h`:139
 - Brief: n/a
 - Parameters: none
 
 ### themis::training::TrainingSample
 
 #### `TrainingSample()`
-- Source: `include/training/auto_labeler.h`:61
+- Source: `include/training/auto_labeler.h`:62
 - Brief: n/a
 - Parameters: none
 
@@ -8185,7 +7773,7 @@ Status: active
 ### themis::training::checkpoint
 
 #### `bool parseDoubleStrict(const std::string &value, double &out)`
-- Source: `src/training/incremental_lora_trainer.cpp`:144
+- Source: `src/training/incremental_lora_trainer.cpp`:147
 - Brief: Parse Double Strict.
 - Parameters:
   - `value` (const std::string &): Input parameter.
@@ -8194,7 +7782,7 @@ Status: active
 - Details: value Input parameter. out Input/output parameter. True when the operation succeeds. Calls: empty(), std::strtod(), c_str(), std::isfinite().
 
 #### `bool parseMetadata(const std::string &data, std::string &version, size_t &epoch, size_t &step, double &loss, double &accuracy, std::string *error_reason=nullptr)`
-- Source: `src/training/incremental_lora_trainer.cpp`:185
+- Source: `src/training/incremental_lora_trainer.cpp`:188
 - Brief: n/a
 - Parameters:
   - `data` (const std::string &): n/a
@@ -8206,7 +7794,7 @@ Status: active
   - `error_reason` (std::string *): n/a
 
 #### `bool parseSizeTStrict(const std::string &value, size_t &out)`
-- Source: `src/training/incremental_lora_trainer.cpp`:116
+- Source: `src/training/incremental_lora_trainer.cpp`:119
 - Brief: Parse Size TStrict.
 - Parameters:
   - `value` (const std::string &): Input parameter.
@@ -8215,7 +7803,7 @@ Status: active
 - Details: value Input parameter. out Input/output parameter. True when the operation succeeds. Calls: empty(), front(), std::strtoull(), c_str(), max().
 
 #### `std::string serializeMetadata(const std::string &version, size_t epoch, size_t step, double loss, double accuracy)`
-- Source: `src/training/incremental_lora_trainer.cpp`:169
+- Source: `src/training/incremental_lora_trainer.cpp`:172
 - Brief: Serialize checkpoint metadata to a simple key=value string.
 - Parameters:
   - `version` (const std::string &): Input parameter.
@@ -8339,7 +7927,7 @@ Status: active
 
 #### `uint32_t fnv1a(const std::string &s)`
 - Source: `src/training/lora_data_selection.cpp`:163
-- Brief: Compute a lightweight FNV-1a hash of a string (for MinHash shingle hashing).
+- Brief: Compute a lightweight FNV-1a hash of a string (for MinHash shingle hashing)
 - Parameters:
   - `s` (const std::string &): Input parameter.
 - Return: Return value.
@@ -8347,7 +7935,7 @@ Status: active
 
 #### `std::string hashConfig(const LoRADataSelectionConfig &cfg)`
 - Source: `src/training/lora_data_selection.cpp`:352
-- Brief: Build a compact FNV hash string for the config (provenance fingerprint).
+- Brief: Build a compact FNV hash string for the config (provenance fingerprint)
 - Parameters:
   - `cfg` (const LoRADataSelectionConfig &): Input parameter.
 - Return: Return value.
@@ -8371,7 +7959,7 @@ Status: active
 
 #### `bool isTableSeparator(const std::string &line)`
 - Source: `src/training/modality_parser.cpp`:106
-- Brief: Return true if the line consists primarily of dashes (table separator).
+- Brief: Return true if the line consists primarily of dashes (table separator)
 - Parameters:
   - `line` (const std::string &): Input parameter.
 - Return: True when the operation succeeds.
@@ -8518,4 +8106,3 @@ Status: active
   - `s` (std::string): Input parameter.
 - Return: Return value.
 - Details: s Input parameter. Return value. Calls: empty(), back(), pop_back().
-

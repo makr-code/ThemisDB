@@ -1,7 +1,19 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/scraper/ROADMAP.md -->
+
+**Author:** ThemisDB Contributors<br>
+**Created:** 2026-10-31<br>
+**Last Updated:** 2026-10-31<br>
+**Status:** review
+
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot; themisdb-doc-orchestrator
+**Human_Review:** false
+**Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
 
 # Scraper Module — Public Header Roadmap
 
@@ -20,7 +32,7 @@ Tracks public `scraper` API contract stability, header-level coverage work, and 
 
 ## Current Status
 
-All headers in `include/scraper/` are present and expose the web scraping, LLM-assisted content evaluation, JavaScript rendering, metadata writing, and government source cataloguing surface.
+The public headers declare plugin/configuration, HTML/API retrieval, renderer, evaluator, metadata-writer, catalog, burst-control, and helper types. Header presence does not establish that every helper is integrated in the runtime; see [`../../src/scraper/ARCHITECTURE.md`](../../src/scraper/ARCHITECTURE.md).
 
 ---
 
@@ -28,22 +40,23 @@ All headers in `include/scraper/` are present and expose the web scraping, LLM-a
 
 - [x] Public header surfaces documented in `ARCHITECTURE.md`
 - [x] Canonical cross-links to `src/scraper/` implementation docs established
-- [x] Layer association (**ANN Frontdoor**) marked and verified against `FUTURE_PLAN.md`
 - [x] Namespace layout (`themis::scraper`) documented
 
 ---
 
 ## In Progress
 
-- [ ] Per-header deprecation and breaking-change notices aligned with `VERSIONING.md` (Target: 2026-Q3)
+- [ ] Review per-header deprecation and breaking-change notices against `VERSIONING.md` (target date not established here)
 
 ---
 
 ## Planned
 
-- [ ] API contract index for high-frequency entry points with usage examples (Target: 2026-Q3)
-- [ ] Compatibility matrix (C++17/20 and platform coverage) per header group (Target: 2026-Q4)
-- [ ] CI-enforced compile checks for all public headers (Target: 2026-Q4)
+- [ ] Maintain examples and contract notes for commonly used entry points (target date not established here)
+- [ ] Document verified compiler/platform coverage per header group (target date not established here)
+- [ ] Verify CI compile coverage for all public headers (target date not established here)
+
+Focused source/test registration is defined by `src/scraper/CMakeLists.txt` and `tests/scraper/CMakeLists.txt`; the latter creates one focused target and CTest entry per `test_scraper_*.cpp`. This roadmap does not claim that those targets have been built or run.
 
 ---
 

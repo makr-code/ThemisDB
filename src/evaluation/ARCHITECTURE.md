@@ -1,66 +1,94 @@
 # Evaluation Module Architecture
 
-<!-- Status: current | validated: 2026-07-17 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+> **Update provenance (2026-10-31):** AI_Used: true; AI_Models: unknown;
+> AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB
+> Contributors. Exact model backend not verifiable from final document text alone.
 
-## Overview
+<!-- Status: source-audited 2026-10-31; build/runtime integration not verified -->
+<!-- Last Updated: 2026-10-31 · Issue: #7344 · Milestone: DOC-WEEKLY-2026-44 -->
 
-`src/evaluation` provides EPIC 2 contracts for hardware-aware planning, benchmark matrix
-definition, evaluation metrics, approximation governance, query planning, artifact
-lifecycle management, and storage strategy selection.
+## Purpose and boundary
 
-Current architecture is mixed-stage: the hardware-profile contract and the EPIC 2.5
-hybrid query planner are live, while the remaining EPIC 2 surfaces stay staged behind
-their local roadmap gates.
+`src/evaluation` contains C++ contracts and implementations for metrics,
+benchmark-result bookkeeping, hardware profiles, ablation, approximation rules,
+query-path selection and artifact lifecycle metadata. The functions consume
+caller-supplied values. The planner selects a path; it does not perform
+retrieval, hardware discovery, persistence or artifact rebuild work.
 
-## Component Map
+## Component and build map
 
-| Component | Planned contract | Planned implementation |
-|---|---|---|
-| Hardware profile | `include/hardware_profile.h` | `src/hardware_profile.cc` |
-| Benchmark matrix | `include/benchmark_matrix.h` | `src/benchmark_matrix.cc` |
-| Evaluation metrics | `include/evaluation_metrics.h` | `src/evaluation_metrics.cc` |
-| Approximation rules | `include/approximation_rules.h` | `src/approximation_rules.cc` |
-| Query planner | `include/query_planner.h` | `src/query_planner.cc` |
-| Artifact lifecycle | `include/artifact_lifecycle.h` | `src/artifact_lifecycle.cc` |
-| Storage strategy | `include/storage_strategy.h` | `src/storage_strategy.cc` |
+| Component | Header | Implementation | CMake ownership |
+|---|---|---|---|
+| Benchmark matrix | `include/benchmark_matrix.h` | `src/benchmark_matrix.cc` | `themis_evaluation` |
+| Hardware profiles | `include/hardware_profile.h` | `src/hardware_profile.cc` | `themis_evaluation` |
+| Retrieval metrics | `include/retrieval_metrics.h` | `src/retrieval_metrics.cc` | `themis_evaluation` |
+| Ablation | `include/ablation_framework.h` | `src/ablation_framework.cc` | `themis_evaluation` |
+| Artifact lifecycle | `include/artifact_lifecycle.h` | `src/artifact_lifecycle.cc` | `themis_evaluation`; also a conditional EPIC 2.6 library |
+| Query planner | `include/query_planner.h` | `src/query_planner.cc` | Separate conditional `epic2_evaluation_lib` |
+| Approximation rules | `include/approximation_rules.h` | `src/approximation_rules.cc` | Separate conditional `epic2_approximation_lib` |
 
-## Boundaries
+`src/evaluation/CMakeLists.txt` lists seven contract headers but only five
+sources in `themis_evaluation`. The query planner, approximation, and second
+artifact-lifecycle targets have separate conditional declarations. No
+`storage_strategy` header or source appears in the module inventory checked for
+this update.
 
-In scope:
-- EPIC 2 contract ownership and sequencing
-- integration seams with EPIC 1 retrieval and EPIC 3 distributed artifacts
-- phase-gated readiness documentation
-- hybrid planner routing and fallback semantics for ANN, tensor, graph, and distributed paths
+The public-path file `include/evaluation/evaluation.h` currently contains no
+component includes or declarations. The component headers live under
+`src/evaluation/include/`; do not infer API exposure or linkage from the
+umbrella-header path alone.
 
-Out of scope at current stage:
-- learned or adaptive planner cost models
-- finalized benchmark and policy tuning outcomes beyond the shipped query-planner baselines
-- default pipeline enablement for integrations still marked deferred
+## Data flow and failure boundaries
 
-## Integration Surfaces
+1. A caller supplies ranked results and labels to metric functions; invalid
+   inputs can raise `MetricError`.
+2. A caller supplies benchmark values to `BenchmarkMatrix`; absent cells are
+   reported as `nullopt`, and a clean zero-sample insert is rejected.
+3. A caller supplies eligibility, freshness and planner policy to
+   `QueryPlanner::selectPath()`. The returned `PlannerDecision` describes a
+   selection and fallback reason, not an executed retrieval result.
+4. A caller supplies lifecycle metadata and thresholds to
+   `ArtifactLifecycleManager`; methods return calculated state or updated
+   metadata. Background work and persistence are outside this component.
+5. Approximation policy checks return a typed decision that the caller must
+   interpret; they do not enforce authorization on their own.
 
-- Planning: `docs/EPIC2_ARCHITECTURE.md` and EPIC 2 sub-issue docs
-- Implemented contracts: `src/evaluation/include/hardware_profile.h`, `src/evaluation/include/query_planner.h`
-- Implemented runtimes: `src/evaluation/src/hardware_profile.cc`, `src/evaluation/src/query_planner.cc`
-- Active planner verification: `tests/epic2_evaluation/query_planner_test.cc`
-- Active planner hardening bench: `benchmarks/epic2_evaluation/planner_decision_bench.cc`
-- Remaining contracts/implementations: still phase-gated per local module docs
-- Dependency sequencing: `docs/EPIC1_2_3_DEPENDENCIES.md`
+## Non-goals and integration limits
 
----
+- No standalone service, runtime configuration endpoint, telemetry exporter or
+  database access is defined by these module APIs.
+- No learned planner cost model or storage-strategy implementation is present in
+  the reviewed source inventory.
+- Local test and benchmark registrations do not prove execution or downstream
+  production integration.
 
-### Direct Downstream Consumers (modules that use this module)
+## Cross-module ownership and aggregate evidence
 
-> **Production consumer route: `query` module planner integration (PLANNED)**
-> The evaluation module is intended to integrate with `QueryPlanner`/`PlannerObserver`
-> in the `query` module to provide plan diagnostics and routing correctness checks.
-> This integration is explicitly listed as an open item in the evaluation ROADMAP
-> ("downstream default-workflow consumers still need planner-envelope and
-> routing-diagnostics integration"). Evaluation phase 4–6 must complete before
-> this wiring is implemented.
+EPIC 2 item 2.7 is the quantization/mmap/zero-copy assessment defined by
+sub-issue #5443 of parent EPIC #5436. Its storage-strategy implementation is
+not part of the evaluation module:
+`StorageStrategyAssessor` is declared in
+`include/distributed_tensor/tensor_storage_strategy.h`, implemented in
+`src/distributed_tensor/src/tensor_storage_strategy.cc`, and included in the
+`themis_distributed_tensor` library. Its test source is registered through the
+focused-test glob in `tests/epic3_distributed_tensor/CMakeLists.txt`.
 
-| Module | Via | Notes |
-|--------|-----|-------|
-| `query` _(planned)_ | `include/evaluation/` → `QueryPlanner`/`PlannerObserver` integration | Planned production route: evaluation diagnostics injected into the query planning pipeline. Blocked on evaluation Phase 4–6 completion per module ROADMAP. |
-| _(tests)_ | `include/evaluation/` | `tests/` evaluation-focused test files — current only verified consumers. |
+The EPIC 2 `storage_strategy_bench` is a distinct harness that calls
+`DefaultShardPlacementStrategy` with synthetic node inputs; it does not measure
+`StorageStrategyAssessor`. Root `ROADMAP.md` records this mapping and the
+implementation locations. The CI run attached to merged PR #5606 failed during
+configure and skipped build/test; no benchmark result artifact was found.
+Source and CMake registrations do not prove 220+ passing tests or completed
+benchmark runs.
+
+## References
+
+- [Module overview](./README.md)
+- [Implementation and targets](./IMPLEMENTATION.md)
+- [API contracts](./API.md)
+- [Current roadmap and unresolved evidence](./ROADMAP.md)
+- `src/evaluation/CMakeLists.txt`
+- `tests/evaluation/CMakeLists.txt`
+- `tests/epic2_evaluation/CMakeLists.txt`
+- `benchmarks/evaluation/CMakeLists.txt`
+- `benchmarks/epic2_evaluation/CMakeLists.txt`

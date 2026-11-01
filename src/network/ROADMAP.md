@@ -1,3 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "unknown (pre-existing document; creation date not recorded)"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> Statuses below describe tracked work; benchmark gates and contract tests do
+> not establish live transport performance or production deployment readiness.
+>
 > **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks ueberfuehren. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -5,7 +22,7 @@
 # Network Module Roadmap
 
 ## Current Status
-Production-grade transport and protocol layer with TCP wire protocol, WebSocket, UDP paths, QUIC/HTTP3, and gRPC components in active use.
+Transport and protocol implementation surfaces include TCP wire protocol, WebSocket, UDP, optional QUIC/HTTP3, and gRPC. Build flags, runtime wiring, and production-readiness evidence vary by transport.
 
 ## In Progress
 - [~] Network hardening wave for protocol safety, transport resilience, and predictable latency behavior (Target: Q3 2026)
@@ -30,9 +47,7 @@ Production-grade transport and protocol layer with TCP wire protocol, WebSocket,
 These items are part of the next-phase **Track 2: Distributed Systems Maturity — 3.5 Network** plan
 (see `ROADMAP.md §Track 2`). Hard gate per item: deterministic under-load benchmark + `release_critical` CI green.
 
-- [x] **HTTP/3 QUIC production enablement**: promote the existing QUIC/HTTP3 implementation from
-  experimental to production-default for external API endpoints; validate connection migration and
-  0-RTT resumption under realistic packet-loss profiles (Target: Q3 2026)
+- [~] **HTTP/3 QUIC production enablement**: the optional QUIC/HTTP3 component and focused readiness tests exist; production-default deployment and live packet-loss/0-RTT validation are not established (Target: Q3 2026)
   - Acceptance: QUIC connection migration test passes at 1% simulated packet loss; 0-RTT handshake
     succeeds on reconnect within 50 ms; HTTP/3 throughput ≥ HTTP/2 baseline; `release_critical` green
   - Evidence: NQP-01..NQP-06 in tests/network/test_network_lifecycle_guardrails_focused.cpp
@@ -65,12 +80,12 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 ### Phase 4: Performance and Operational Hardening
 - [x] Contract-hardening focused tests NCH-01..NCH-16 covering frame validation, auth/session, rate-limit, and connection lifecycle invariants (tests/network/test_network_contract_hardening_focused.cpp) (Target: Q1 2027)
 - [x] Harden connection lifecycle guardrails (limits, backpressure, timeout interplay) under peak load (Target: Q4 2026) — NLG-01..NLG-08 in tests/network/test_network_lifecycle_guardrails_focused.cpp
-- [x] QUIC production readiness: connection migration, 0-RTT contract sanity, throughput invariants (Target: Q3 2026) — NQP-01..NQP-06 in tests/network/test_network_lifecycle_guardrails_focused.cpp
-- [x] Re-baseline protocol throughput and tail-latency envelopes across representative production mixes (Target: Q1 2027)
-- [x] Keep compression/batching/zero-copy overhead bounded under high concurrency (Target: Q1 2027)
+- [~] HTTP/3 QUIC production readiness: NQP-01..NQP-06 provide focused contract/readiness coverage; live transport and representative performance evidence remain outstanding (Target: Q3 2026)
+- [~] Measure protocol throughput and tail-latency envelopes across representative production mixes (Target: Q1 2027) — representative hardware baselines remain pending
+- [~] Measure compression/batching/zero-copy overhead under high concurrency (Target: Q1 2027)
 
 ### Phase 5: Documentation and Release Readiness
-- [x] Lock benchmark-backed release gates for network hot paths: NRG-01..NRG-06 in benchmarks/network/bench_network_release_gates.cpp (TCP dispatch p99≤200µs, auth check p99≤100µs, rate-limit p99≤50µs, WS dispatch p99≤300µs, accept p99≤1ms, serialize p99≤100µs) (Target: Q3 2026)
+- [x] Define regression thresholds for in-process network helper gates: NRG-01..NRG-06 in benchmarks/network/bench_network_release_gates.cpp (TCP dispatch p99≤200µs, auth check p99≤100µs, rate-limit p99≤50µs, WS dispatch p99≤300µs, mock accept p99≤1ms, serialize p99≤100µs) (Target: Q3 2026)
 - [x] Extended routing/CB/lifecycle benchmark gates: NRG-07..NRG-12 in benchmarks/network/bench_network_routing_gates.cpp (topology select, LB forward, CB shouldAllow, connection limit, queue gate, session guard) (Target: Q4 2026)
 - [x] Keep network docs source-aligned with explicit sourcecode verification evidence per cycle (Target: ongoing)
 - [x] Keep completed roadmap items exclusively in changelog (Target: ongoing)
@@ -88,9 +103,9 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 - [x] Benchmark CMakeLists registered: benchmarks/network/CMakeLists.txt
 - [x] AdaptiveCircuitBreaker per-error-class thresholds: include/network/adaptive_circuit_breaker.h + src/network/adaptive_circuit_breaker.cpp; NCB-PEC-01..08 in tests/network/test_network_cb_per_error_class_focused.cpp
 - [x] Zero-copy sendfile/splice for large payloads: ZeroCopyFrameBuilder::writeToWithSendfile() in include/network/wire_protocol_zero_copy.h + src/network/wire_protocol_zero_copy.cpp
-- [x] HTTP/3 QUIC production enablement: NQP-01..NQP-06 contract tests; QuicTransport production-ready (THEMIS_ENABLE_HTTP3)
+- [~] Optional HTTP/3 QUIC component and focused readiness tests exist; production deployment validation and live performance evidence remain outstanding (THEMIS_ENABLE_HTTP3)
 - [x] New public headers: multipath_tcp.h, bbr_congestion_control.h, network_observability.h (implementations in src/network/)
-- [x] EnvoyXDSClient xDS subscription lifecycle documented: src/network/ARCHITECTURE.md §8
+- [x] EnvoyXdsClient xDS REST polling lifecycle documented: src/network/ARCHITECTURE.md §8
 - Nachweise: network focused tests, transport integration tests, protocol security regressions, performance suites
 - Hinweis: Abgeschlossene Arbeit wird ausschliesslich in CHANGELOG dokumentiert.
 
@@ -123,7 +138,7 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 
 ### Program-Level Success Criteria (contribution)
 - [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — confirmed: wire-protocol strand-safety fix eliminates race; all auth/frame/rate-limit paths remain fail-closed per NCH-01..NCH-16
-- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027) — NRG-P1..NRG-P4 stub benchmarks created; hardware baselines pending Wave D sign-off
+- [~] Establish p95/p99 baselines on representative hardware (Target: Q1 2027) — NRG-P1..NRG-P4 are stub benchmarks; hardware baselines pending
 - [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — docs/operability/RUNBOOK_NETWORK_TRANSPORT.md delivered 2026-09-16
 
 ---
@@ -144,4 +159,4 @@ Mid-term planned features advanced to `[~]`:
 - Resilience stress coverage expanded; full mesh/topology benchmarks pending
 - Observability runbook and D1 span targets documented; instrumentation pending Phase 2A
 
-**Validated date:** 2026-09-16
+**Historical closure evidence date:** 2026-09-16; this is not a later hardware-baseline or production sign-off.

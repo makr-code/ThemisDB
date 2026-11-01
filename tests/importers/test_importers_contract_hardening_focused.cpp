@@ -13,7 +13,7 @@
  *
  * ### IMCH-01..04 — Idempotency contract
  *   IMCH-01  Re-importing same data with same import_id produces no duplicates
- *   IMCH-02  import_id uniqueness is enforced; duplicate rejected
+ *   IMCH-02  Reusing an import_id for a different source is rejected
  *   IMCH-03  Different import_id with same data is accepted (new import)
  *   IMCH-04  Committed row count matches source row count
  *
@@ -48,7 +48,6 @@
 #include <map>
 #include <optional>
 #include <random>
-#include <set>
 #include <string>
 #include <vector>
 
@@ -78,7 +77,24 @@ struct MockImportResult {
 };
 
 struct MockImportCoordinator {
-    std::set<std::string> used_ids;  // import_id registry
+    // The submitted row sequence stands in for source identity in this mock.
+    std::map<std::string, std::vector<MockRow>> sources_by_id;
+    std::vector<MockRow> all_committed;
+
+    static bool sameSource(const std::vector<MockRow>& lhs,
+                           const std::vector<MockRow>& rhs) {
+        if (lhs.size() != rhs.size()) {
+            return false;
+        }
+        for (std::size_t i = 0; i < lhs.size(); ++i) {
+            if (lhs[i].index != rhs[i].index ||
+                lhs[i].fields != rhs[i].fields ||
+                lhs[i].valid != rhs[i].valid) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     MockImportResult run(const std::string&        import_id,
                          const std::vector<MockRow>& rows,
@@ -86,9 +102,14 @@ struct MockImportCoordinator {
                          std::uint64_t               row_quota = 0u) {
         MockImportResult result;
 
-        // Idempotency: reject duplicate import_id
-        if (used_ids.count(import_id)) {
-            result.code = ImporterErrorCode::IMPORT_DUPLICATE_ID;
+        const auto existing = sources_by_id.find(import_id);
+        if (existing != sources_by_id.end()) {
+            if (!sameSource(existing->second, rows)) {
+                result.code = ImporterErrorCode::IMPORT_DUPLICATE_ID;
+                return result;
+            }
+            // Same-source replay is successful but adds no committed rows.
+            result.visible = true;
             return result;
         }
 
@@ -115,7 +136,8 @@ struct MockImportCoordinator {
         }
 
         // Commit atomically — row ordering preserved
-        used_ids.insert(import_id);
+        sources_by_id.emplace(import_id, rows);
+        all_committed.insert(all_committed.end(), staging.begin(), staging.end());
         result.committed = staging;
         result.visible   = true;
         return result;
@@ -166,25 +188,33 @@ TEST(ImportersContractHardeningIMCH01, ReImportSameIdNoDuplicates) {
     auto r1 = coord.run("imp-001", rows, BadRowDisposition::Skip);
     EXPECT_EQ(r1.code, ImporterErrorCode::OK);
     EXPECT_EQ(r1.committed.size(), 1u);
+    EXPECT_EQ(coord.all_committed.size(), 1u);
 
     // Re-import same import_id
     auto r2 = coord.run("imp-001", rows, BadRowDisposition::Skip);
-    EXPECT_EQ(r2.code, ImporterErrorCode::IMPORT_DUPLICATE_ID)
-        << "Duplicate import_id must be rejected";
+    EXPECT_EQ(r2.code, ImporterErrorCode::OK)
+        << "An identical source replay must succeed idempotently";
     EXPECT_EQ(r2.committed.size(), 0u);
+    EXPECT_TRUE(r2.visible);
+    EXPECT_EQ(coord.all_committed.size(), 1u)
+        << "An identical replay must not add rows";
 }
 
 // ===========================================================================
-// IMCH-02 — import_id uniqueness is enforced
+// IMCH-02 — Reusing an import_id for a different source is rejected
 // ===========================================================================
 
 TEST(ImportersContractHardeningIMCH02, ImportIdUniquenessEnforced) {
     MockImportCoordinator coord;
-    std::vector<MockRow> rows = {{0, {{"x","1"}}, true}};
+    std::vector<MockRow> first_source = {{0, {{"x","1"}}, true}};
+    std::vector<MockRow> different_source = {{0, {{"x","2"}}, true}};
 
-    coord.run("id-A", rows, BadRowDisposition::Skip);
-    auto r = coord.run("id-A", rows, BadRowDisposition::Skip);
+    auto first = coord.run("id-A", first_source, BadRowDisposition::Skip);
+    ASSERT_EQ(first.code, ImporterErrorCode::OK);
+    auto r = coord.run("id-A", different_source, BadRowDisposition::Skip);
     EXPECT_EQ(r.code, ImporterErrorCode::IMPORT_DUPLICATE_ID);
+    EXPECT_TRUE(r.committed.empty());
+    EXPECT_EQ(coord.all_committed.size(), 1u);
 }
 
 // ===========================================================================

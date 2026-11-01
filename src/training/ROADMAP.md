@@ -38,7 +38,7 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 
 ### Mid-term (6-12 months)
 - [ ] re-baseline p95/p99 envelopes for adapter lifecycle and training-step-sensitive paths (Target: Q1 2027)
-- [x] broaden benchmark depth for training pipeline and enrichment workload diversity (Wave D: bench_training_dedicated_gates.cpp — TR-BM-01..04 delivered 2026-09-16)
+- [x] add dedicated in-process dispatch/checkpoint/sync benchmark cases (Wave D: `bench_training_dedicated_gates.cpp`, TR-BM-01..04; stub-only measurements, not pipeline/enrichment release evidence)
 - [x] harden long-run reliability under sustained training and deployment pressure (Wave D: test_training_pipeline_soak.cpp — 3 soak cases delivered 2026-09-16)
 - [~] Wave B B3: Multi-task LoRA shared-base/domain-gating training rollout (Target: Q1–Q2 2027) — core impl + ablation/benchmark tests done
 

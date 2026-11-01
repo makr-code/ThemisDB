@@ -67,8 +67,8 @@ For global access, `ToolboxRegistry::instance()` throws if startup did not initi
 
 ## Tests and references
 
-- Start with `ctest --preset linux-release -R test_toolbox_primitives --output-on-failure` for helper behavior.
-- Run `ctest --preset linux-release -R "test_toolbox_(contract_hardening|ingestion)" --output-on-failure` for lifecycle and bridge integration.
+- Start with `ctest --preset linux-release -R test_toolbox_primitives_toolbox_FocusedTests --output-on-failure` for helper behavior.
+- Run `ctest --preset linux-release -R "test_toolbox_(contract_hardening_focused|ingestion)_toolbox_FocusedTests" --output-on-failure` for lifecycle and bridge integration.
 - See [`API.md`](./API.md), [`IMPLEMENTATION.md`](./IMPLEMENTATION.md), [`EMBEDDING.md`](./EMBEDDING.md), and [`tests/toolbox/README.md`](../../tests/toolbox/README.md).
 
 > Exact model backend not verifiable from final document text alone.

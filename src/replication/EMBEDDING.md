@@ -1,89 +1,58 @@
 ---
-Author: "ThemisDB Contributors"
-Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Author: ThemisDB Contributors
+Created: 2026-10-21
+Last Updated: 2026-10-31
+Status: review
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
-Human_Author: "ThemisDB Contributors"
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - ../../include/replication/replication_manager.h
+  - ../../include/replication/async_wal_shipper.h
+  - ../../include/replication/logical_replication.h
+  - ../../include/replication/replication_slot.h
+  - ../../include/replication/geo_placement.h
+  - ../../src/replication/ARCHITECTURE.md
+  - ../../src/main_server.cpp
+Related_Issue: "#7373"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
 
 Exact model backend not verifiable from final document text alone.
 
-# Replication Embedding and Integration Notes
+# Replication integration boundaries
 
-## Purpose
+## In-module responsibilities
 
-This document explains how the replication module fits into ThemisDB as an operational and data-plane subsystem. The module is not an isolated library; it is the runtime boundary that coordinates cluster state, local mutation durability, and downstream CDC/logical replication consumers.
+The module-local sources implement or support the declared manager/Raft-v2,
+logical-replication, slot, event-stream, async-shipping, placement, conflict, policy,
+observability, tier, lag-alert, and schema-CDC components. Read
+[ARCHITECTURE.md](ARCHITECTURE.md) for the current component map.
 
-## Embedded responsibilities
+## Dependencies and injected behavior
 
-The replication subsystem is the place where the system coordinates the following responsibilities:
+- `ReplicationManager` includes and uses WAL-related interfaces; the storage engine
+  and durable storage lifecycle remain outside this module's documented ownership.
+- `AsyncWalShipper` delegates actual segment transmission to its injected
+  `ShipHandler`; its default handler only accounts bytes.
+- `GeoReplicaPlacementManager` evaluates topology supplied by the caller and returns
+  an optional candidate. The caller performs role transition/promotion.
+- `LogicalReplicationManager` exposes logical change and slot operations; downstream
+  consumers must follow the `readChanges()`/`advanceSlot()` contracts.
 
-- durable local write record creation through WAL entries,
-- replicate/failover orchestration across cluster peers,
-- containment of lag and health events,
-- logical change generation for downstream CDC consumers,
-- deterministic conflict resolution for multi-master or concurrent-write contexts.
+## Distinct server configuration path
 
-The actual implementation distribution is visible across the following files:
+`src/main_server.cpp` reads the `replication.shipper_enabled`, `primary_id`, `replicas`,
+batch/retry, compression, and TLS-path fields into
+`themis::sharding::WALShipperConfig`. That code constructs the server's sharding
+`WALShipper` and `ReplicationCoordinator`; it is not evidence that the same YAML
+configures `themisdb::replication::AsyncWalShipper` or its `WalShippingConfig`.
 
-- `include/replication/replication_manager.h`
-- `include/replication/async_wal_shipper.h`
-- `include/replication/lag_alert_manager.h`
-- `src/replication/replication_manager.cpp`
-- `src/replication/logical_replication.cpp`
-- `src/replication/raft_v2.cpp`
-- `src/replication/conflict_resolution.cpp`
-- `src/replication/replication_slot.cpp`
-- `src/replication/geo_placement.cpp`
-
-## Upstream and downstream relationships
-
-### Upstream relationships
-
-The module depends on the durable write and state semantics it receives from storage and WAL-oriented infrastructure. The source and architecture docs clearly treat replication as a consumer of durable state and a producer of cluster-wide behavior.
-
-### Downstream relationships
-
-The downstream consumers are the parts of ThemisDB that need either:
-
-- a leader/follower or multi-node synchronized state,
-- a CDC stream of logical changes,
-- a failover or placement-aware read routing decision,
-- alerting / metrics / operational controls for cluster health.
-
-The server and operational surfaces rely on the module's state for clean behavior under load, while consumer modules can use the logical replication stream without directly owning replication policy.
-
-## CDC and logical stream embedding
-
-`LogicalReplicationManager` is the bridge from raw WAL state to logical row- or operation-level changes. That means the module is deeply embedded in change-data-capture semantics even when the primary writer state continues to live in the storage and replication managers.
-
-This is the exact place where ThemisDB turns a low-level append stream into a semantically useful consumer-facing replication stream, filtering and transforming the changes based on configured logical filters and collection keys.
-
-## Failover and observability embedding
-
-The module also embeds failover and observability into the operational core:
-
-- `LagAlertManager` monitors replica lags and raises operational alerts,
-- `ReplicationManager` provides the health model and failover transitions,
-- `exportPrometheusMetrics()` surfaces metrics for operator dashboards and SLO checks,
-- `readiness`-type patterns are encoded in cluster health and read routing decisions.
-
-This keeps operational concerns inside the replication subsystem instead of scattering them across unrelated codepaths.
-
-## Embedded invariants
-
-The integration contract depends on a few critical invariants:
-
-- the module must not silently claim success when a durability or quorum condition is not met,
-- lag reporting must be explicit and comparable across replicas,
-- slot, WAL, and logical change states must not drift silently,
-- failover must only occur after health and placement checks pass,
-- partition or timeout conditions must be surfaced as operational decisions.
-
-## Summary
-
-The replication module is embedded in ThemisDB as the authoritative runtime for availability and smooth continuity across replicas. It sits at the boundary between durable local state and cluster-wide operational behavior, and it carries the operational signals necessary for correct failover, CDC consumption, and health management.
+**TODO:** Document the concrete integration path from database writes to each
+replication implementation, including the transport, API callers, lifecycle ownership,
+and supported config schema. The source reviewed here does not substantiate a single
+module-wide authoritative availability or durability guarantee.

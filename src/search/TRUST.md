@@ -1,18 +1,34 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
-Human_Author: "ThemisDB Team"
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "security"
+Canonical_References:
+  - "include/search/hybrid_search.h"
+  - "include/search/distributed_hybrid_search.h"
+  - "include/search/layered_retrieval_orchestrator.h"
+  - "src/search/SECURITY.md"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
+
+Exact model backend not verifiable from final document text alone.
 
 # Search Module Trust and Safety Notes
 
 This document captures the trust boundaries, operational risks, and control points for the search module. It complements `src/search/SECURITY.md` and should be read alongside the implementation and API contracts.
+
+This note is not an authentication/authorization or adversarial-input assessment.
+The inspected search interfaces accept caller-provided queries and injected
+backend clients; **TODO:** document identity, authorization, tenant-isolation,
+and prompt-injection controls from their owning modules before asserting them.
 
 ## Trust boundaries
 
@@ -24,7 +40,10 @@ The search module assumes trust boundaries between these areas:
 - LLM rerankers used as optional ranking services
 - internal configuration values such as candidate caps, timeouts, and weights
 
-The module treats untrusted input as a query-path concern, not a security boundary itself. The actual trust boundary is the point where backend availability, quality, and configuration validity can degrade the response semantics.
+The search interfaces expose query and backend boundaries, but the inspected
+contracts do not establish how callers authenticate/authorize queries or how
+LLM prompt content is screened. Treat these as unresolved boundary evidence,
+not as controls supplied by this module.
 
 ## Risks
 
@@ -34,7 +53,9 @@ Unbounded candidate counts or large vector dimensions can create expensive searc
 
 ### 2. Silent degradation
 
-A major risk is a partially failed search silently passing as a full success. This is why the module uses `SearchStats`, `SearchErrorCode`, and explicit partial-result semantics instead of a blind success-only return path.
+A major risk is a partially failed search silently passing as a full success.
+The current hybrid path exposes selected `SearchStats` fields, but does not
+populate the declared error-code taxonomy; see `API.md` for the diagnostic gap.
 
 ### 3. External dependency failure
 
@@ -47,9 +68,9 @@ LLM reranking adds semantic quality but also may be inconsistent or unavailable.
 ## Controls in place
 
 - validation of search config values in constructors
-- explicit `SearchErrorCode` taxonomy for diagnostic clarity
+- a declared `SearchErrorCode` taxonomy (not currently wired into the inspected search implementation)
 - partial-result flags on degraded queries
-- timeout handling for shard and layered operations
+- shard request timeouts and layered wait deadlines (timed-out layered work is not cancelled)
 - candidate count and prompt-size guardrails
 - LLM reranker fallback to the original score ordering
 
@@ -64,7 +85,10 @@ When a search incident is reported, the operating team should determine:
 
 ## Review principle
 
-The trust model for this module is simple: query quality is important, but explicit degradation signals are more important than hidden success. That principle is reflected in the implementation throughout the search sources and in the module's error taxonomy.
+The trust model favors visible degradation, but observability is incomplete:
+the hybrid implementation populates only selected stats fields, and the
+declared error taxonomy is not consumed by the inspected search source. Do not
+assume every failure class is surfaced as a code.
 
 ## Related docs
 

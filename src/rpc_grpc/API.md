@@ -93,10 +93,12 @@ send message and a 100 MiB maximum receive message. The values in
 response, and stream types. It accepts a non-owning stream pointer and optional
 queue depth (default 100); a null stream throws `std::invalid_argument`.
 `onMessage` accepts a `std::function<void(Req&&)>`, `run` reads until stream
-EOF/finish, `write` performs synchronous stream writes, and `finish` stores a
-gRPC status and releases queue waiters. `write` returns false after finish,
-but does not report a failed `Stream::Write`; callers retain cancellation and
-lifetime responsibility.
+EOF or observes the finished flag, `write` performs synchronous stream writes,
+and `finish` stores a gRPC status and releases queue waiters. `finish` does not
+cancel an already-blocked `Read` or `Write`; the caller must coordinate stream
+cancellation and lifetime. A zero queue depth is not validated and causes
+`write` to wait until the adapter is finished. `write` returns false after
+finish, but does not report a failed `Stream::Write`.
 
 ## Observability contract
 

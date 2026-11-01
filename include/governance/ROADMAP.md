@@ -1,54 +1,41 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/governance/ROADMAP.md -->
-
-# Governance Module — Public Header Roadmap
-
-**Module Path:** `include/governance/`  
-**Canonical implementation roadmap:** [`../../src/governance/ROADMAP.md`](../../src/governance/ROADMAP.md)
-
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Related: "Issue #7349"
 ---
 
-## Overview
+Exact model backend not verifiable from final document text alone.
 
-Tracks public `governance` API contract stability, header-level coverage work, and future public entry points. Runtime implementation work remains in:
+# Governance Public-Header Roadmap
 
-→ [`../../src/governance/ROADMAP.md`](../../src/governance/ROADMAP.md)
+This file is a navigation-level derivative, not an independent status authority.
+The implementation roadmap and its known limitations are maintained in
+[`../../src/governance/ROADMAP.md`](../../src/governance/ROADMAP.md).
 
----
+## Current scope
 
-## Current Status
+The public API is declared across the headers listed in
+[`README.md`](README.md). This document does not establish a stable ABI, a
+specific language-standard/platform compatibility matrix, or release readiness.
 
-All headers in `include/governance/` are present and expose the data governance, regulatory compliance (GDPR, HIPAA, CCPA, PCI-DSS, SOC2, ISO27001), policy engine, data lineage, model governance, and OPA integration surface.
+## Follow-up topics
 
----
+Potential header-level work (deprecation annotations, documentation coverage,
+and compile checks) remains subject to maintainer prioritization and verification.
+No completion claim or target quarter is asserted here. For module runtime,
+testing, and release status, use the canonical module roadmap and current CMake
+registration rather than the historical checkboxes previously kept in this file.
 
-## Completed ✅
+## References
 
-- [x] Public header surfaces documented in `ARCHITECTURE.md`
-- [x] Canonical cross-links to `src/governance/` implementation docs established
-- [x] Layer association (**Graph**) marked and verified against `FUTURE_PLAN.md`
-- [x] Namespace layout (`themis::governance`) documented
-
----
-
-## In Progress
-
-- [ ] Per-header deprecation and breaking-change notices aligned with `VERSIONING.md` (Target: 2026-Q3)
-
----
-
-## Planned
-
-- [ ] API contract index for high-frequency entry points with usage examples (Target: 2026-Q3)
-- [ ] Compatibility matrix (C++17/20 and platform coverage) per header group (Target: 2026-Q4)
-- [ ] CI-enforced compile checks for all public headers (Target: 2026-Q4)
-
----
-
-## Production Readiness Checklist
-
-- [x] Public header surfaces documented
-- [x] Canonical links to implementation docs set
-- [ ] Deprecation annotations consistent
+- [Public-header architecture](ARCHITECTURE.md)
+- [Header inventory](README.md)
+- [Canonical module roadmap](../../src/governance/ROADMAP.md)
+- [Repository versioning policy](../../VERSIONING.md)

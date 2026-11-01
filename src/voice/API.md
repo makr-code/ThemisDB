@@ -38,10 +38,19 @@ The implementation's default browser transcript is placeholder text unless a par
 
 - The session manager uses `ACTIVE`, `IDLE`, `EXPIRED`, `CLOSING`, and `TERMINATED` states; unknown session IDs report `TERMINATED` via `getSessionState`.
 - Manager APIs return snapshots or value results; an empty `session_id`, `nullopt`, `false`, no matches, or `UNKNOWN` represents a failed/not-found/low-confidence outcome according to the method.
-- The frozen shared session/command semantics and error-prefix expectations are in [`VOICE_SESSION_CONTRACT.md`](../../include/voice/VOICE_SESSION_CONTRACT.md). When a source implementation differs from the frozen contract, treat the source/header implementation and module roadmap as evidence of current behavior and raise the drift for maintainer resolution rather than silently relying on an example.
+- [`VOICE_SESSION_CONTRACT.md`](../../include/voice/VOICE_SESSION_CONTRACT.md)
+  is a historical, non-normative snapshot and contains claims not established
+  by current source. Use current public header comments and implementations for
+  behavior; raise discrepancies for maintainer review rather than relying on
+  the old contract text.
 
 ## Compatibility and validation
 
-The v1.x session and command contract is described as frozen. Changes to lifecycle transitions or failure prefixes require the versioning treatment in `VOICE_SESSION_CONTRACT.md`. Add tests for both return value and side effects at boundary conditions. Existing focused tests include session manager, stream validation, browser streaming, telephony, and auth security suites in [`tests/voice`](../../tests/voice).
+This page does not establish a frozen v1.x compatibility contract. Apply the
+repository's active versioning policy to proposed API changes. Add tests for
+both return value and side effects at boundary conditions. Existing focused
+tests include session manager, stream validation, browser streaming,
+telephony, and auth security suites in [`tests/voice`](../../tests/voice);
+registration is not evidence that they passed.
 
 For subsystem boundaries and failure flow, see [`ARCHITECTURE.md`](ARCHITECTURE.md); for integration sequencing and validation, see [`MODULE_GUIDE.md`](MODULE_GUIDE.md).
