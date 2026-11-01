@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -24,17 +24,19 @@ Exact model backend not verifiable from final document text alone.
 
 - `CMakeLists.txt` uses a flat source glob for `test_*.cpp`; it registers
   focused CTest targets with unit tier and a 120-second timeout.
-- Additional target-specific sources/labels and a second auto-focused source
-  glob are specified in CMake.
+- Target-specific sources and release-critical labels remain on the canonical
+  focused targets. The AutoFocused CTest entries reuse those targets rather
+  than compiling duplicate executables.
 - Source presence or target registration does not establish test execution,
   coverage completeness, or a passing result.
 
 ## Audit status
 
-No tests or build were run for this documentation update. The historical
-storage audit in [`../../src/storage/AUDIT.md`](../../src/storage/AUDIT.md)
-also distinguishes source inventory from execution evidence.
+On 2026-11-01, the Windows Debug profile was reconfigured after consolidating
+13 duplicate storage targets. The focused
+`module_storage_test_storage_audit_logger_focused` build and both its focused
+and AutoFocused CTest registrations passed.
 
-TODO: attach a current CI/CTest run and configuration before recording a test
-pass or coverage conclusion. Route code findings through the repository's
-normal issue/PR process.
+Full storage-suite and current CI evidence remain outstanding; the focused
+results above are not a coverage or release-readiness conclusion. Route code
+findings through the repository's normal issue/PR process.

@@ -872,26 +872,60 @@ file(GLOB QUERY_AUTOGEN_PREFIX_TEST_SOURCES
 )
 
 foreach(_src IN LISTS QUERY_AUTOGEN_PREFIX_TEST_SOURCES)
-    # Skip sources already wired by explicit focused targets in this module file.
-    set(_src_already_registered FALSE)
+    get_filename_component(_src_real "${_src}" REALPATH)
+    set(_registered_targets "")
     get_property(_query_dir_targets DIRECTORY PROPERTY BUILDSYSTEM_TARGETS)
     foreach(_query_tgt IN LISTS _query_dir_targets)
+        if(_query_tgt STREQUAL "themis_tests")
+            continue()
+        endif()
+        get_target_property(_query_tgt_type ${_query_tgt} TYPE)
+        if(NOT _query_tgt_type STREQUAL "EXECUTABLE")
+            continue()
+        endif()
         get_target_property(_query_tgt_sources ${_query_tgt} SOURCES)
-        if(_query_tgt_sources)
-            list(FIND _query_tgt_sources "${_src}" _query_src_idx)
-            if(NOT _query_src_idx EQUAL -1)
-                set(_src_already_registered TRUE)
+        foreach(_query_tgt_source IN LISTS _query_tgt_sources)
+            if(_query_tgt_source MATCHES "\\$<")
+                continue()
+            endif()
+            if(NOT IS_ABSOLUTE "${_query_tgt_source}")
+                get_filename_component(
+                    _query_tgt_source
+                    "${_query_tgt_source}"
+                    ABSOLUTE
+                    BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}"
+                )
+            endif()
+            get_filename_component(_query_tgt_source_real "${_query_tgt_source}" REALPATH)
+            if(_query_tgt_source_real STREQUAL _src_real)
+                list(APPEND _registered_targets "${_query_tgt}")
                 break()
             endif()
-        endif()
+        endforeach()
     endforeach()
-    if(_src_already_registered)
+
+    get_filename_component(_stem "${_src}" NAME_WE)
+    set(_ctest "${_stem}_query_AutoFocusedTests")
+    list(LENGTH _registered_targets _registered_target_count)
+    if(_registered_target_count GREATER 1)
+        message(FATAL_ERROR
+            "Query test source ${_src} is already compiled by multiple executable targets: "
+            "${_registered_targets}"
+        )
+    elseif(_registered_target_count EQUAL 1)
+        list(GET _registered_targets 0 _registered_target)
+        themis_register_module_focused_test(
+            MODULE query
+            NAME ${_ctest}
+            TARGET ${_registered_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS query autogen
+        )
         continue()
     endif()
 
-    get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_query_${_stem}_autofocused")
-    set(_ctest "${_stem}_query_AutoFocusedTests")
 
     if(TARGET ${_target})
         continue()

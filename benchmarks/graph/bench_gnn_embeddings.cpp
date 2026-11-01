@@ -42,6 +42,12 @@ public:
         // Create managers
         property_graph_ = std::make_unique<PropertyGraphManager>(*db_);
         vector_index_ = std::make_unique<VectorIndexManager>(*db_);
+        const auto vector_status = vector_index_->init(
+            "embedding", 64, VectorIndexManager::Metric::COSINE);
+        if (!vector_status.ok) {
+            throw std::runtime_error("Failed to initialize GNN benchmark vector index: " +
+                                     vector_status.message);
+        }
         gnn_manager_ = std::make_unique<GNNEmbeddingManager>(*db_, *property_graph_, *vector_index_);
         for (const auto& model : {std::pair{"gcn_v1", "GCN"},
                                   std::pair{"graphsage_v1", "GraphSAGE"},
@@ -84,7 +90,7 @@ public:
             node_ids_.push_back(node_id);
             
             BaseEntity node(node_id);
-            node.setField("label", "Person");
+            node.setField("_labels", std::vector<std::string>{"Person"});
             node.setField("name", "User " + std::to_string(i));
             node.setField("age", static_cast<int>(age_dist(rng)));
             node.setField("followers", static_cast<int64_t>(rng() % 10000));
@@ -323,8 +329,14 @@ static void BM_EmbeddingDimensions(benchmark::State& state) {
     
     auto property_graph = std::make_unique<PropertyGraphManager>(*db);
     auto vector_index = std::make_unique<VectorIndexManager>(*db);
-    auto gnn_manager = std::make_unique<GNNEmbeddingManager>(*db, *property_graph, *vector_index);
     const int embedding_dim = static_cast<int>(state.range(0));
+    const auto vector_status = vector_index->init(
+        "embedding", embedding_dim, VectorIndexManager::Metric::COSINE);
+    if (!vector_status.ok) {
+        state.SkipWithError(vector_status.message.c_str());
+        return;
+    }
+    auto gnn_manager = std::make_unique<GNNEmbeddingManager>(*db, *property_graph, *vector_index);
     const std::string model_name = "model_dim" + std::to_string(embedding_dim);
     const auto model_status = gnn_manager->registerModel(model_name, "GCN", embedding_dim);
     if (!model_status.ok) {
@@ -341,7 +353,7 @@ static void BM_EmbeddingDimensions(benchmark::State& state) {
         node_ids.push_back(node_id);
         
         BaseEntity node(node_id);
-        node.setField("label", "Test");
+        node.setField("_labels", std::vector<std::string>{"Test"});
         node.setField("id", node_id);
         auto node_status = property_graph->addNode(node, "test");
         if (!node_status.ok) {

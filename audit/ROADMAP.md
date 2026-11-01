@@ -325,9 +325,48 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
   - [x] 2026-11-01: Redundante Geo-Autofocused-Registrierung entfernt. Das Windows-Debug-Profil enthält danach
     41 kompilierte Geo-Testquellen ohne doppelte fokussierte Geo-Targets; `module_geo_test_geo_3d_functions_focused`
     baut erfolgreich und `test_geo_3d_functions_GeoFocusedTests` besteht.
+  - [x] 2026-11-01: Sechs Timeseries-Quellen verwenden nur noch ihr kanonisches `_focused`-Buildtarget; die
+    `AutoFocusedTests`-CTest-Namen und das `autogen`-Label bleiben auf demselben Binary registriert. Der Windows-
+    Debug-Build und beide Retention-CTest-Registrierungen bestehen.
+  - [x] 2026-11-01: 19 Process-Quellen verwenden nur noch ihr kanonisches `_focused`-Buildtarget; die
+    release-critical `AutoFocusedTests`-CTest-Namen und das `autogen`-Label bleiben erhalten.
+    `module_process_test_process_aris_xml_focused` baut; beide Process-CTest-Einträge bestehen. Die Windows-
+    Runtime-DLL-Synchronisierung wird am gemeinsam genutzten Target nur einmal angehängt.
+  - [x] 2026-11-01: 15 Temporal-Quellen verwenden nur noch ihr kanonisches `_focused`-Buildtarget; die
+    `AutoFocusedTests`-CTest-Namen und `temporal`-/`autogen`-Labels bleiben erhalten.
+    `module_temporal_test_temporal_aggregation_focused` baut und beide Temporal-CTest-Einträge bestehen.
+  - [x] 2026-11-01: 13 Storage-Quellen verwenden nur noch ihr kanonisches `_focused`-Buildtarget; der
+    `AutoFocusedTests`-Alias und seine Labels bleiben erhalten. Target-spezifische Produktionsquellen und
+    release-critical Labels verbleiben am gemeinsamen Executable; gezielter Build und beide CTest-Einträge
+    bestehen.
+  - [x] 2026-11-01: 12 Index-Quellen verwenden nur noch ihr kanonisches `_focused`-Buildtarget; die
+    `AutoFocusedTests`-Namen, `index`-/`autogen`-Labels und strikten Build-Flags bleiben erhalten.
+    `module_index_test_index_manager_di_focused` baut und beide CTest-Einträge bestehen.
+  - [x] 2026-11-01: 12 Transaction-Quellen verwenden nur noch ihr jeweiliges kanonisches Testtarget;
+    `AutoFocusedTests`-Namen sowie `transaction`-/`autogen`-Labels bleiben auf demselben Binary registriert.
+    Target-spezifische Quellen und Link-Konfiguration bleiben erhalten; `test_transaction_auditor_focused`
+    baut und beide Auditor-CTest-Einträge bestehen.
+  - [x] 2026-11-01: 10 Query-Quellen verwenden nur noch ihr kanonisches fokussiertes Testtarget; die
+    `AutoFocusedTests`-Namen und `query`-/`autogen`-Labels bleiben erhalten. `test_query_engine_focused`
+    baut und beide Query-Engine-CTest-Einträge bestehen.
+  - [x] 2026-11-01: 10 Security-Quellen und 9 Metadata-Quellen verwenden nur noch ihr jeweiliges
+    kanonisches fokussiertes Testtarget; die `AutoFocusedTests`-Namen und Modul-/`autogen`-Labels bleiben
+    erhalten. Zusatzquellen am Metadata-Snapshot-Target bleiben am gemeinsamen Binary.
+  - [x] 2026-11-01: Nach der Neu-Konfiguration enthält das Windows-Debug-Profil in Security und Metadata
+    keine mehrfach fokussiert kompilierten Testquellen mehr; der Gesamtbestand sank von 141 auf 122.
+  - [x] 2026-11-01: 7 Sharding-Quellen und 5 Performance-Quellen verwenden nur noch ihr kanonisches Testtarget;
+    ihre `AutoFocusedTests`-Namen und Modul-/`autogen`-Labels bleiben erhalten. Target-spezifische Zusatzquellen
+    bleiben am jeweiligen gemeinsamen Binary.
+  - [x] 2026-11-01: Nach der Neu-Konfiguration enthält das Windows-Debug-Profil in Sharding und Performance
+    keine mehrfach fokussiert kompilierten Testquellen mehr; der Gesamtbestand sank von 122 auf 110.
+  - [x] 2026-11-01: 39 RAG-Quellen verwenden nur noch ihr kanonisches fokussiertes Testtarget; für alle
+    verglichenen Paare waren die kompilierten Quelldateien identisch. `AutoFocusedTests`-Namen und
+    `rag`-/`autogen`-Labels bleiben erhalten; beide Adaptive-Retrieval-CTest-Einträge bestehen.
   - Offen: Baseline bereinigen und begründete Ausschlussliste erstellen. Das lokale Windows-Debug-Profil findet
-    4.235 Quellen, davon 2.815 kompiliert und 1.420 außerhalb des Profils; von den kompilierten Quellen haben
-    228 mehrere fokussierte Targets (zuvor 254 vor der Geo-Deduplizierung). Diese Profil-abhängigen Bestandslücken
+    4.235 Quellen, davon 2.823 kompiliert und 1.412 außerhalb des Profils; von den kompilierten Quellen haben
+    nach der Neu-Konfiguration noch 71 mehrere fokussierte Targets (zuvor 110 vor RAG, 122 vor Sharding/
+    Performance, 141 vor Security/Metadata, 151 vor Query, 163 vor Transaction und 175 vor Index).
+    Diese Profil-abhängigen Bestandslücken
     und Mehrfachregistrierungen müssen einzeln geprüft werden, bevor ein globales Inventar-Gate fail-closed
     geschaltet wird. Historische Guards (teils mit fehlenden Quellen) sind ebenfalls noch einzeln zu bewerten.
 - [ ] **P0 · OPS-07 – Fuzz-Smoke auf PRs** (Target: M1 · 2027-01-31) – 5 min je Parser-Fuzzer (AQL, HTTP, Wire-Protokoll, Importer)

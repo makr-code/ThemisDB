@@ -526,30 +526,64 @@ file(GLOB SHARDING_AUTOGEN_PREFIX_TEST_SOURCES
 )
 
 foreach(_src IN LISTS SHARDING_AUTOGEN_PREFIX_TEST_SOURCES)
-    # Skip sources already wired by explicit focused targets in this module file.
-    set(_src_already_registered FALSE)
-    get_property(_sharding_dir_targets DIRECTORY PROPERTY BUILDSYSTEM_TARGETS)
-    foreach(_sharding_tgt IN LISTS _sharding_dir_targets)
-        get_target_property(_sharding_tgt_sources ${_sharding_tgt} SOURCES)
-        if(_sharding_tgt_sources)
-            list(FIND _sharding_tgt_sources "${_src}" _sharding_src_idx)
-            if(NOT _sharding_src_idx EQUAL -1)
-                set(_src_already_registered TRUE)
-                break()
-            endif()
-        endif()
-    endforeach()
-    if(_src_already_registered)
-        continue()
-    endif()
-
     if(_src MATCHES ".*/test_sharding_chaos_batch_a9\\.cpp$")
         continue()
     endif()
 
+    get_filename_component(_src_real "${_src}" REALPATH)
+    set(_registered_targets "")
+    get_property(_sharding_dir_targets DIRECTORY PROPERTY BUILDSYSTEM_TARGETS)
+    foreach(_sharding_tgt IN LISTS _sharding_dir_targets)
+        if(_sharding_tgt STREQUAL "themis_tests")
+            continue()
+        endif()
+        get_target_property(_sharding_tgt_type ${_sharding_tgt} TYPE)
+        if(NOT _sharding_tgt_type STREQUAL "EXECUTABLE")
+            continue()
+        endif()
+        get_target_property(_sharding_tgt_sources ${_sharding_tgt} SOURCES)
+        foreach(_sharding_tgt_source IN LISTS _sharding_tgt_sources)
+            if(_sharding_tgt_source MATCHES "\\$<")
+                continue()
+            endif()
+            if(NOT IS_ABSOLUTE "${_sharding_tgt_source}")
+                get_filename_component(
+                    _sharding_tgt_source
+                    "${_sharding_tgt_source}"
+                    ABSOLUTE
+                    BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}"
+                )
+            endif()
+            get_filename_component(_sharding_tgt_source_real "${_sharding_tgt_source}" REALPATH)
+            if(_sharding_tgt_source_real STREQUAL _src_real)
+                list(APPEND _registered_targets "${_sharding_tgt}")
+                break()
+            endif()
+        endforeach()
+    endforeach()
+
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_sharding_${_stem}_autofocused")
     set(_ctest "${_stem}_sharding_AutoFocusedTests")
+
+    list(LENGTH _registered_targets _registered_target_count)
+    if(_registered_target_count GREATER 1)
+        message(FATAL_ERROR
+            "Sharding test source ${_src} is already compiled by multiple executable targets: "
+            "${_registered_targets}"
+        )
+    elseif(_registered_target_count EQUAL 1)
+        list(GET _registered_targets 0 _registered_target)
+        themis_register_module_focused_test(
+            MODULE sharding
+            NAME ${_ctest}
+            TARGET ${_registered_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS sharding autogen
+        )
+        continue()
+    endif()
 
     if(TARGET ${_target})
         continue()

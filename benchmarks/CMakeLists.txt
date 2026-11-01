@@ -1545,35 +1545,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/base/bench_hotspots_micro.cpp")
     message(STATUS "  Storage Hotspots: raw write, mixed read/write, secondary index; owner target for Wave-2 CRUD cases")
 endif()
 
-# Random Access with Prefetch Benchmarks (v1.4.1)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/performance/bench_random_access_prefetch.cpp")
-    message(STATUS "Adding Random Access Prefetch benchmarks")
-    
-    add_executable(bench_random_access_prefetch
-        performance/bench_random_access_prefetch.cpp
-    )
-    
-    target_link_libraries(bench_random_access_prefetch PRIVATE
-        ${BENCHMARK_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
-    
-    target_compile_definitions(bench_random_access_prefetch PRIVATE
-        THEMIS_BENCHMARK_BUILD=1
-    )
-
-    themis_apply_benchmark_release_flags(bench_random_access_prefetch)
-    
-    install(TARGETS bench_random_access_prefetch
-        RUNTIME DESTINATION bin/benchmarks
-        COMPONENT benchmarks
-    )
-    
-    message(STATUS "  Random Access: CPU prefetch hints, data locality")
-endif()
-
 # OLAP Performance Benchmarks
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/bench_olap_performance.cpp")
     message(STATUS "Adding OLAP Performance benchmarks")

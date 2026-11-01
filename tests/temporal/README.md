@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -24,11 +24,12 @@ source inventory is not a test result or a coverage percentage.
 [`CMakeLists.txt`](CMakeLists.txt) glob-registers every `test_*.cpp` as a
 `module_temporal_<stem>_focused` target and a focused CTest entry with a
 120-second timeout. A second loop registers each of the 15 `test_temporal_*.cpp`
-sources again as an `_autofocused` target/CTest entry with the `temporal` and
-`autogen` labels. These are separate registrations of the same source files,
-not additional test source files.
+sources again as a `*_temporal_AutoFocusedTests` CTest entry with the
+`temporal` and `autogen` labels, but now reuses the canonical `_focused`
+executable. This preserves existing CTest filtering while compiling each
+source once; a missing canonical target fails CMake configuration.
 
-Each target links `TEST_LIBS`, `themis_core`, `spdlog::spdlog`, and
+The canonical target links `TEST_LIBS`, `themis_core`, `spdlog::spdlog`, and
 `Threads::Threads`; it links `themis_temporal` only if that CMake target exists.
 When it does not, CMake conditionally adds `src/index/temporal_graph.cpp` if
 present. Confirm the configured target graph before relying on the optional

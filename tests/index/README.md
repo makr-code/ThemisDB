@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-04-17"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -21,9 +21,11 @@ Path: `tests/index/`
 This directory contains focused C++ tests for ANN routing, vector indexes,
 index management and manifests, GPU fallback/memory behavior, compression,
 spatial correctness, tier migration, and hardening. The test sources are not a
-single uniform suite: CMake registers `test_*.cpp` files as focused tests and
-also creates a second autofocused registration for eligible `test_index_*.cpp`
-files.
+single uniform suite: CMake registers eligible `test_*.cpp` files as focused
+tests and adds a second AutoFocused CTest name for eligible
+`test_index_*.cpp` sources using the same executable. The alias retains its
+`index` and `autogen` labels; canonical targets retain strict compilation
+flags. Explicitly quarantined tests remain unregistered by these loops.
 
 ## Registration and limits
 
