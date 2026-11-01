@@ -359,10 +359,13 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
     bleiben am jeweiligen gemeinsamen Binary.
   - [x] 2026-11-01: Nach der Neu-Konfiguration enthält das Windows-Debug-Profil in Sharding und Performance
     keine mehrfach fokussiert kompilierten Testquellen mehr; der Gesamtbestand sank von 122 auf 110.
+  - [x] 2026-11-01: 39 RAG-Quellen verwenden nur noch ihr kanonisches fokussiertes Testtarget; für alle
+    verglichenen Paare waren die kompilierten Quelldateien identisch. `AutoFocusedTests`-Namen und
+    `rag`-/`autogen`-Labels bleiben erhalten; beide Adaptive-Retrieval-CTest-Einträge bestehen.
   - Offen: Baseline bereinigen und begründete Ausschlussliste erstellen. Das lokale Windows-Debug-Profil findet
     4.235 Quellen, davon 2.823 kompiliert und 1.412 außerhalb des Profils; von den kompilierten Quellen haben
-    nach der Neu-Konfiguration noch 110 mehrere fokussierte Targets (zuvor 122 vor Sharding/Performance, 141 vor
-    Security/Metadata, 151 vor Query, 163 vor Transaction und 175 vor Index).
+    nach der Neu-Konfiguration noch 71 mehrere fokussierte Targets (zuvor 110 vor RAG, 122 vor Sharding/
+    Performance, 141 vor Security/Metadata, 151 vor Query, 163 vor Transaction und 175 vor Index).
     Diese Profil-abhängigen Bestandslücken
     und Mehrfachregistrierungen müssen einzeln geprüft werden, bevor ein globales Inventar-Gate fail-closed
     geschaltet wird. Historische Guards (teils mit fehlenden Quellen) sind ebenfalls noch einzeln zu bewerten.
