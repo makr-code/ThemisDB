@@ -17,6 +17,16 @@ Status: Active
 
 > Exact model backend not verifiable from final document text alone.
 
+## PR merge-readiness cancellation
+
+The canonical aggregator in
+[gate-pr-merge-readiness.yml](../../.github/workflows/gate-pr-merge-readiness.yml)
+uses `!cancelled()` so a cancelled workflow does not publish blocked/ready labels
+or a merge-readiness comment. Active workflows still aggregate failed
+prerequisites; a prerequisite reporting `cancelled` is not accepted as a pass.
+Successful and intentionally skipped gates retain their existing behavior.
+Focused regression checks: `python tests/test_merge_readiness_workflow.py -v`.
+
 ## Curated release delivery contracts
 
 Canonical behavior sources are
