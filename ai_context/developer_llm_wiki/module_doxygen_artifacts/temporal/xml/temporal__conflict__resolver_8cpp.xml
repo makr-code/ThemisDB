@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="temporal__conflict__resolver_8cpp" kind="file" language="C++">
     <compoundname>temporal_conflict_resolver.cpp</compoundname>
     <includes refid="temporal__conflict__resolver_8h" local="yes">temporal/temporal_conflict_resolver.h</includes>
@@ -107,37 +107,34 @@
 </para>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight></codeline>
-<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"></codeline>
 <codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="temporal__conflict__resolver_8h" kindref="compound">temporal/temporal_conflict_resolver.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iomanip&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="23"><highlight class="normal"></highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
-<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal" kindref="compound">temporal</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">temporal<sp/>{</highlight></codeline>
 <codeline lineno="26"><highlight class="normal"></highlight></codeline>
 <codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TemporalSnapshot<sp/>Implementation</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal">nlohmann::json<sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_1a9f3da233f7c8b26bcedf88e66deee908" kindref="member">TemporalSnapshot::toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">nlohmann::json<sp/><ref refid="structthemisdb_1_1temporal_1_1TemporalSnapshot_1a9f3da233f7c8b26bcedf88e66deee908" kindref="member">TemporalSnapshot::toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;snapshot_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_1a32c335602dbb3e038fde4ed2449b90e4" kindref="member">snapshot_id</ref>},</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;snapshot_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1TemporalSnapshot_1a32c335602dbb3e038fde4ed2449b90e4" kindref="member">snapshot_id</ref>},</highlight></codeline>
 <codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hlc&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;physical&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_1a56bf78e3782dc2484c9a20d8c5549268" kindref="member">hlc</ref>.physical},</highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;logical&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_1a56bf78e3782dc2484c9a20d8c5549268" kindref="member">hlc</ref>.logical},</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_1a56bf78e3782dc2484c9a20d8c5549268" kindref="member">hlc</ref>.node_id}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;physical&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1TemporalSnapshot_1a56bf78e3782dc2484c9a20d8c5549268" kindref="member">hlc</ref>.physical},</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;logical&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1TemporalSnapshot_1a56bf78e3782dc2484c9a20d8c5549268" kindref="member">hlc</ref>.logical},</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1TemporalSnapshot_1a56bf78e3782dc2484c9a20d8c5549268" kindref="member">hlc</ref>.node_id}</highlight></codeline>
 <codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}},</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;source_node_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_1ad04e79df97ccf49cbc7b71c91ce55df0" kindref="member">source_node_id</ref>},</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_1a53a94cdef14479aab605728296185305" kindref="member">data</ref>},</highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;checksum&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_1a098038f867782c4d7846480240402318" kindref="member">checksum</ref>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;source_node_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1TemporalSnapshot_1ad04e79df97ccf49cbc7b71c91ce55df0" kindref="member">source_node_id</ref>},</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1TemporalSnapshot_1a53a94cdef14479aab605728296185305" kindref="member">data</ref>},</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;checksum&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1TemporalSnapshot_1a098038f867782c4d7846480240402318" kindref="member">checksum</ref>}</highlight></codeline>
 <codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="43"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="44"><highlight class="normal"></highlight></codeline>
-<codeline lineno="51"><highlight class="normal">std::optional&lt;TemporalSnapshot&gt;<sp/><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot_1adc11dcdd7a791cc0c5534e396b071d4c" kindref="member">TemporalSnapshot::fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">std::optional&lt;TemporalSnapshot&gt;<sp/><ref refid="structthemisdb_1_1temporal_1_1TemporalSnapshot_1adc11dcdd7a791cc0c5534e396b071d4c" kindref="member">TemporalSnapshot::fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j)<sp/>{</highlight></codeline>
 <codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
 <codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TemporalSnapshot<sp/>snapshot;</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>snapshot.snapshot_id<sp/>=<sp/>j.at(</highlight><highlight class="stringliteral">&quot;snapshot_id&quot;</highlight><highlight class="normal">).get&lt;std::string&gt;();</highlight></codeline>
@@ -157,7 +154,7 @@
 <codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TemporalConflictResolver<sp/>Implementation</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="70"><highlight class="normal"></highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><ref refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver_1acde1e9c88b9636e69c7aa324f71063c9" kindref="member">TemporalConflictResolver::TemporalConflictResolver</ref>(<ref refid="namespacethemisdb_1_1temporal_1a4afb0bf492e23e2b9a3183d73590837a" kindref="member">ConflictPolicy</ref><sp/>default_policy)</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="classthemisdb_1_1temporal_1_1TemporalConflictResolver_1acde1e9c88b9636e69c7aa324f71063c9" kindref="member">TemporalConflictResolver::TemporalConflictResolver</ref>(<ref refid="namespacethemisdb_1_1temporal_1a4afb0bf492e23e2b9a3183d73590837a" kindref="member">ConflictPolicy</ref><sp/>default_policy)</highlight></codeline>
 <codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>default_policy_(default_policy)<sp/>{}</highlight></codeline>
 <codeline lineno="73"><highlight class="normal"></highlight></codeline>
 <codeline lineno="82"><highlight class="normal">TemporalSnapshot<sp/>TemporalConflictResolver::resolve(</highlight></codeline>

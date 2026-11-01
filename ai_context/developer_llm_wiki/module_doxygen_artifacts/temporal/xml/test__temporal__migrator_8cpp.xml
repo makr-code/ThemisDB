@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="test__temporal__migrator_8cpp" kind="file" language="C++">
     <compoundname>test_temporal_migrator.cpp</compoundname>
     <includes local="no">gtest/gtest.h</includes>
@@ -110,7 +110,7 @@
         <label>vector</label>
       </node>
     </incdepgraph>
-    <innerclass refid="class_temporal_migrator_test" prot="public">TemporalMigratorTest</innerclass>
+    <innerclass refid="classTemporalMigratorTest" prot="public">TemporalMigratorTest</innerclass>
     <sectiondef kind="func">
       <memberdef kind="function" id="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -118,7 +118,7 @@
         <argsstring>(TemporalMigratorTest, Analyze_ReturnsCorrectTableName)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Analyze_ReturnsCorrectTableName</type>
@@ -137,7 +137,7 @@
         <argsstring>(TemporalMigratorTest, Analyze_ReturnsCorrectRowCount)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Analyze_ReturnsCorrectRowCount</type>
@@ -156,7 +156,7 @@
         <argsstring>(TemporalMigratorTest, Analyze_EmptySource_ZeroRows)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Analyze_EmptySource_ZeroRows</type>
@@ -175,7 +175,7 @@
         <argsstring>(TemporalMigratorTest, Analyze_InfersStringColumn)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Analyze_InfersStringColumn</type>
@@ -194,7 +194,7 @@
         <argsstring>(TemporalMigratorTest, Analyze_InfersNumberColumn)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Analyze_InfersNumberColumn</type>
@@ -213,7 +213,7 @@
         <argsstring>(TemporalMigratorTest, Analyze_InfersBooleanColumn)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Analyze_InfersBooleanColumn</type>
@@ -232,7 +232,7 @@
         <argsstring>(TemporalMigratorTest, Analyze_DetectsNullableColumn)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Analyze_DetectsNullableColumn</type>
@@ -251,7 +251,7 @@
         <argsstring>(TemporalMigratorTest, Analyze_NonNullableWhenAllPresent)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Analyze_NonNullableWhenAllPresent</type>
@@ -270,7 +270,7 @@
         <argsstring>(TemporalMigratorTest, Analyze_BaselineTimestampIsPositive)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Analyze_BaselineTimestampIsPositive</type>
@@ -289,7 +289,7 @@
         <argsstring>(TemporalMigratorTest, Analyze_DefaultHistoryTableName)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Analyze_DefaultHistoryTableName</type>
@@ -308,7 +308,7 @@
         <argsstring>(TemporalMigratorTest, Analyze_DetectsEmptyDocument)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Analyze_DetectsEmptyDocument</type>
@@ -327,7 +327,7 @@
         <argsstring>(TemporalMigratorTest, Analyze_NoEmptyDocumentWhenAllPopulated)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Analyze_NoEmptyDocumentWhenAllPopulated</type>
@@ -346,7 +346,7 @@
         <argsstring>(TemporalMigratorTest, Analyze_KeysAreUniqueForMapInput)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Analyze_KeysAreUniqueForMapInput</type>
@@ -365,7 +365,7 @@
         <argsstring>(TemporalMigratorTest, Migrate_CreatesTableWithCorrectName)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Migrate_CreatesTableWithCorrectName</type>
@@ -384,7 +384,7 @@
         <argsstring>(TemporalMigratorTest, Migrate_AllRowsInserted)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Migrate_AllRowsInserted</type>
@@ -403,7 +403,7 @@
         <argsstring>(TemporalMigratorTest, Migrate_RowsAreCurrent)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Migrate_RowsAreCurrent</type>
@@ -422,7 +422,7 @@
         <argsstring>(TemporalMigratorTest, Migrate_StatsRowsMigratedEquals5)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Migrate_StatsRowsMigratedEquals5</type>
@@ -441,7 +441,7 @@
         <argsstring>(TemporalMigratorTest, Migrate_EmptySource_SucceedsWithZeroRows)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Migrate_EmptySource_SucceedsWithZeroRows</type>
@@ -460,7 +460,7 @@
         <argsstring>(TemporalMigratorTest, Migrate_PreservesDocumentData)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Migrate_PreservesDocumentData</type>
@@ -479,7 +479,7 @@
         <argsstring>(TemporalMigratorTest, Migrate_StatusIsCompleteOnSuccess)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Migrate_StatusIsCompleteOnSuccess</type>
@@ -498,7 +498,7 @@
         <argsstring>(TemporalMigratorTest, Migrate_ElapsedMsIsNonNegative)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Migrate_ElapsedMsIsNonNegative</type>
@@ -517,7 +517,7 @@
         <argsstring>(TemporalMigratorTest, Backfill_SkipsOpenEndedVersions)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Backfill_SkipsOpenEndedVersions</type>
@@ -536,7 +536,7 @@
         <argsstring>(TemporalMigratorTest, Backfill_AcceptsClosedVersions)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Backfill_AcceptsClosedVersions</type>
@@ -555,7 +555,7 @@
         <argsstring>(TemporalMigratorTest, Backfill_EmptyList_ReturnsZero)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Backfill_EmptyList_ReturnsZero</type>
@@ -574,7 +574,7 @@
         <argsstring>(TemporalMigratorTest, Backfill_StatsVersionsBackfilledAccessible)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Backfill_StatsVersionsBackfilledAccessible</type>
@@ -593,7 +593,7 @@
         <argsstring>(TemporalMigratorTest, Verify_PassesForFreshMigration)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Verify_PassesForFreshMigration</type>
@@ -612,7 +612,7 @@
         <argsstring>(TemporalMigratorTest, Verify_ReportHasCorrectTableName)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Verify_ReportHasCorrectTableName</type>
@@ -631,7 +631,7 @@
         <argsstring>(TemporalMigratorTest, Verify_ChecksContainKeyCount)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Verify_ChecksContainKeyCount</type>
@@ -650,7 +650,7 @@
         <argsstring>(TemporalMigratorTest, Verify_ChecksContainVersionOrder)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Verify_ChecksContainVersionOrder</type>
@@ -669,7 +669,7 @@
         <argsstring>(TemporalMigratorTest, Verify_ChecksContainNoOverlapping)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Verify_ChecksContainNoOverlapping</type>
@@ -688,7 +688,7 @@
         <argsstring>(TemporalMigratorTest, Verify_ChecksContainCurrentVersionOpen)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Verify_ChecksContainCurrentVersionOpen</type>
@@ -707,7 +707,7 @@
         <argsstring>(TemporalMigratorTest, Verify_EmptyTable_StillPasses)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Verify_EmptyTable_StillPasses</type>
@@ -726,7 +726,7 @@
         <argsstring>(TemporalMigratorTest, Verify_FailedCheckCountReflectsIssues)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Verify_FailedCheckCountReflectsIssues</type>
@@ -745,7 +745,7 @@
         <argsstring>(TemporalMigratorTest, Verify_KeyCountCheckPassesWhenEqual)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>Verify_KeyCountCheckPassesWhenEqual</type>
@@ -764,7 +764,7 @@
         <argsstring>(TemporalMigratorTest, InitialStatus_IsPending)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>InitialStatus_IsPending</type>
@@ -783,7 +783,7 @@
         <argsstring>(TemporalMigratorTest, StatusName_ReturnsExpectedStrings)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>StatusName_ReturnsExpectedStrings</type>
@@ -802,7 +802,7 @@
         <argsstring>(TemporalMigratorTest, ProgressCallback_InvokedDuringMigration)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>ProgressCallback_InvokedDuringMigration</type>
@@ -821,7 +821,7 @@
         <argsstring>(TemporalMigratorTest, ProgressCallback_CanBeCleared)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>ProgressCallback_CanBeCleared</type>
@@ -840,7 +840,7 @@
         <argsstring>(TemporalMigratorTest, AfterMigrate_StatusIsComplete)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>AfterMigrate_StatusIsComplete</type>
@@ -859,7 +859,7 @@
         <argsstring>(TemporalMigratorTest, MigrationPlan_ToJson_HasSourceTableName)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>MigrationPlan_ToJson_HasSourceTableName</type>
@@ -878,7 +878,7 @@
         <argsstring>(TemporalMigratorTest, MigrationPlan_ToJson_HasSourceRowCount)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>MigrationPlan_ToJson_HasSourceRowCount</type>
@@ -897,7 +897,7 @@
         <argsstring>(TemporalMigratorTest, MigrationPlan_ToJson_HasColumns)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>MigrationPlan_ToJson_HasColumns</type>
@@ -916,7 +916,7 @@
         <argsstring>(TemporalMigratorTest, MigrationReport_ToJson_HasSuccessField)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>MigrationReport_ToJson_HasSuccessField</type>
@@ -935,7 +935,7 @@
         <argsstring>(TemporalMigratorTest, MigrationReport_ToJson_HasChecksArray)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>MigrationReport_ToJson_HasChecksArray</type>
@@ -954,7 +954,7 @@
         <argsstring>(TemporalMigratorTest, MigrationStats_ToJson_HasRowsMigrated)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>MigrationStats_ToJson_HasRowsMigrated</type>
@@ -973,7 +973,7 @@
         <argsstring>(TemporalMigratorTest, GetLastReport_BeforeVerify_IsDefault)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>GetLastReport_BeforeVerify_IsDefault</type>
@@ -992,7 +992,7 @@
         <argsstring>(TemporalMigratorTest, GetLastReport_AfterVerify_MatchesReturnValue)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref></type>
+          <type><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref></type>
         </param>
         <param>
           <type>GetLastReport_AfterVerify_MatchesReturnValue</type>
@@ -1012,7 +1012,6 @@
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
-<codeline lineno="15"><highlight class="normal"></highlight></codeline>
 <codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="temporal__migrator_8h" kindref="compound">temporal/temporal_migrator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="temporal__types_8h" kindref="compound">temporal/temporal_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -1024,12 +1023,12 @@
 <codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="26"><highlight class="normal"></highlight></codeline>
-<codeline lineno="27" refid="class_temporal_migrator_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="27" refid="classTemporalMigratorTest" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator" kindref="compound">TemporalMigrator</ref><sp/><ref refid="class_temporal_migrator_test_1a63d55fd6db81cf1b0c85bae5af4f35d7" kindref="member">migrator</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1TemporalMigrator" kindref="compound">TemporalMigrator</ref><sp/><ref refid="classTemporalMigratorTest_1a63d55fd6db81cf1b0c85bae5af4f35d7" kindref="member">migrator</ref>;</highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>a<sp/>small<sp/>source<sp/>document<sp/>map</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>Document&gt;<sp/><ref refid="class_temporal_migrator_test_1a3d19147f1aa9cb85f038b8aebfcc119e" kindref="member">makeSourceDocs</ref>(</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>Document&gt;<sp/><ref refid="classTemporalMigratorTest_1a3d19147f1aa9cb85f038b8aebfcc119e" kindref="member">makeSourceDocs</ref>(</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>5,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prefix<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;emp&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Document&gt;<sp/>docs<sp/>=<sp/>{};</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight></codeline>
@@ -1045,17 +1044,17 @@
 <codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="46"><highlight class="normal"></highlight></codeline>
 <codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>historical<sp/>version<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;VersionedDocument&gt;<sp/><ref refid="class_temporal_migrator_test_1a524fb60516a7d8e6ea81c8ea8eabbff9" kindref="member">makeHistory</ref>(</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;VersionedDocument&gt;<sp/><ref refid="classTemporalMigratorTest_1a524fb60516a7d8e6ea81c8ea8eabbff9" kindref="member">makeHistory</ref>(</highlight></codeline>
 <codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>versions)<sp/>{</highlight></codeline>
 <codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;VersionedDocument&gt;<sp/>entries<sp/>=<sp/>{};</highlight></codeline>
 <codeline lineno="51"><highlight class="normal"></highlight></codeline>
 <codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>versions;<sp/>++i)<sp/>{</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref><sp/>vd;</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vd.<ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1a9f648e85fa51de74b77ea5b35f82a61e" kindref="member">key</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>key;</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vd.<ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1a948c330e41450fe200cf1a22855d05e7" kindref="member">data</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">,<sp/>i},<sp/>{</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,<sp/>i<sp/>*<sp/>100}};</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vd.<ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1a87fae863c444243377d548f9e0e325d6" kindref="member">sys_time</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(1000<sp/>+<sp/>i<sp/>*<sp/>500),</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(1000<sp/>+<sp/>(i<sp/>+<sp/>1)<sp/>*<sp/>500)};</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vd.<ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1adcf8f8c6b8b22489437d6c878aa70d9c" kindref="member">modified_by</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;backfill&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1VersionedDocument" kindref="compound">VersionedDocument</ref><sp/>vd;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vd.<ref refid="structthemisdb_1_1temporal_1_1VersionedDocument_1a9f648e85fa51de74b77ea5b35f82a61e" kindref="member">key</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>key;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vd.<ref refid="structthemisdb_1_1temporal_1_1VersionedDocument_1a948c330e41450fe200cf1a22855d05e7" kindref="member">data</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">,<sp/>i},<sp/>{</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,<sp/>i<sp/>*<sp/>100}};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vd.<ref refid="structthemisdb_1_1temporal_1_1VersionedDocument_1a87fae863c444243377d548f9e0e325d6" kindref="member">sys_time</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a4c7b3a2b0647866e134f95d5c6536db5" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(1000<sp/>+<sp/>i<sp/>*<sp/>500),</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal_1a4c7b3a2b0647866e134f95d5c6536db5" kindref="member">Timestamp</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(1000<sp/>+<sp/>(i<sp/>+<sp/>1)<sp/>*<sp/>500)};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vd.<ref refid="structthemisdb_1_1temporal_1_1VersionedDocument_1adcf8f8c6b8b22489437d6c878aa70d9c" kindref="member">modified_by</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;backfill&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entries.push_back(vd);</highlight></codeline>
 <codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>entries;</highlight></codeline>
@@ -1066,97 +1065,97 @@
 <codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Group<sp/>1:<sp/>analyzeMigration</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="68"><highlight class="normal"></highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_ReturnsCorrectTableName)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_ReturnsCorrectTableName)<sp/>{</highlight></codeline>
 <codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(3);</highlight></codeline>
 <codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.source_table_name,<sp/></highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="73"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="74"><highlight class="normal"></highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_ReturnsCorrectRowCount)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_ReturnsCorrectRowCount)<sp/>{</highlight></codeline>
 <codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(7);</highlight></codeline>
 <codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.source_row_count,<sp/>7u);</highlight></codeline>
 <codeline lineno="79"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="80"><highlight class="normal"></highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_EmptySource_ZeroRows)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_EmptySource_ZeroRows)<sp/>{</highlight></codeline>
 <codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;empty_table&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
 <codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.source_row_count,<sp/>0u);</highlight></codeline>
 <codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plan.columns.empty());</highlight></codeline>
 <codeline lineno="85"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="86"><highlight class="normal"></highlight></codeline>
-<codeline lineno="87"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_InfersStringColumn)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_InfersStringColumn)<sp/>{</highlight></codeline>
 <codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Document&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
 <codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;title&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">}}},</highlight></codeline>
 <codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;title&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;world&quot;</highlight><highlight class="normal">}}}</highlight></codeline>
 <codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;articles&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/><sp/><sp/>=<sp/>std::find_if(plan.columns.begin(),<sp/>plan.columns.end(),</highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_column_info" kindref="compound">ColumnInfo</ref>&amp;<sp/>c){<sp/>return<sp/>c.name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;title&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1ColumnInfo" kindref="compound">ColumnInfo</ref>&amp;<sp/>c){<sp/>return<sp/>c.name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;title&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
 <codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(it,<sp/>plan.columns.end());</highlight></codeline>
 <codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(it-&gt;inferred_type,<sp/></highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="97"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="98"><highlight class="normal"></highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_InfersNumberColumn)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_InfersNumberColumn)<sp/>{</highlight></codeline>
 <codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Document&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
 <codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">,<sp/>42}}},</highlight></codeline>
 <codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">,<sp/>99}}}</highlight></codeline>
 <codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;scores&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/><sp/><sp/>=<sp/>std::find_if(plan.columns.begin(),<sp/>plan.columns.end(),</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_column_info" kindref="compound">ColumnInfo</ref>&amp;<sp/>c){<sp/>return<sp/>c.name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1ColumnInfo" kindref="compound">ColumnInfo</ref>&amp;<sp/>c){<sp/>return<sp/>c.name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
 <codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(it,<sp/>plan.columns.end());</highlight></codeline>
 <codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(it-&gt;inferred_type,<sp/></highlight><highlight class="stringliteral">&quot;number&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="109"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="110"><highlight class="normal"></highlight></codeline>
-<codeline lineno="111"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_InfersBooleanColumn)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_InfersBooleanColumn)<sp/>{</highlight></codeline>
 <codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Document&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
 <codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}}},</highlight></codeline>
 <codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">}}}</highlight></codeline>
 <codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;flags&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/><sp/><sp/>=<sp/>std::find_if(plan.columns.begin(),<sp/>plan.columns.end(),</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_column_info" kindref="compound">ColumnInfo</ref>&amp;<sp/>c){<sp/>return<sp/>c.name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1ColumnInfo" kindref="compound">ColumnInfo</ref>&amp;<sp/>c){<sp/>return<sp/>c.name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
 <codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(it,<sp/>plan.columns.end());</highlight></codeline>
 <codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(it-&gt;inferred_type,<sp/></highlight><highlight class="stringliteral">&quot;boolean&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="121"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="122"><highlight class="normal"></highlight></codeline>
-<codeline lineno="123"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_DetectsNullableColumn)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_DetectsNullableColumn)<sp/>{</highlight></codeline>
 <codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Document&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
 <codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;opt&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;present&quot;</highlight><highlight class="normal">}}},</highlight></codeline>
 <codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;other&quot;</highlight><highlight class="normal">,<sp/>1}}}<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;opt&quot;<sp/>is<sp/>absent</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/><sp/><sp/>=<sp/>std::find_if(plan.columns.begin(),<sp/>plan.columns.end(),</highlight></codeline>
-<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_column_info" kindref="compound">ColumnInfo</ref>&amp;<sp/>c){<sp/>return<sp/>c.name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;opt&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1ColumnInfo" kindref="compound">ColumnInfo</ref>&amp;<sp/>c){<sp/>return<sp/>c.name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;opt&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
 <codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(it,<sp/>plan.columns.end());</highlight></codeline>
 <codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(it-&gt;nullable);</highlight></codeline>
 <codeline lineno="133"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="134"><highlight class="normal"></highlight></codeline>
-<codeline lineno="135"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_NonNullableWhenAllPresent)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_NonNullableWhenAllPresent)<sp/>{</highlight></codeline>
 <codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Document&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
 <codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>1}}},</highlight></codeline>
 <codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>2}}}</highlight></codeline>
 <codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/><sp/><sp/>=<sp/>std::find_if(plan.columns.begin(),<sp/>plan.columns.end(),</highlight></codeline>
-<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_column_info" kindref="compound">ColumnInfo</ref>&amp;<sp/>c){<sp/>return<sp/>c.name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1ColumnInfo" kindref="compound">ColumnInfo</ref>&amp;<sp/>c){<sp/>return<sp/>c.name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
 <codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(it,<sp/>plan.columns.end());</highlight></codeline>
 <codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(it-&gt;nullable);</highlight></codeline>
 <codeline lineno="145"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="146"><highlight class="normal"></highlight></codeline>
-<codeline lineno="147"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_BaselineTimestampIsPositive)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_BaselineTimestampIsPositive)<sp/>{</highlight></codeline>
 <codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(2);</highlight></codeline>
 <codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(plan.baseline_timestamp,<sp/>0);</highlight></codeline>
 <codeline lineno="151"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="152"><highlight class="normal"></highlight></codeline>
-<codeline lineno="153"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_DefaultHistoryTableName)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_DefaultHistoryTableName)<sp/>{</highlight></codeline>
 <codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(2);</highlight></codeline>
 <codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.versioned_config.history_table_name,<sp/></highlight><highlight class="stringliteral">&quot;employees_history&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="157"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="158"><highlight class="normal"></highlight></codeline>
-<codeline lineno="159"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_DetectsEmptyDocument)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_DetectsEmptyDocument)<sp/>{</highlight></codeline>
 <codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Document&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
 <codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{}},</highlight></codeline>
 <codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>1}}}</highlight></codeline>
@@ -1165,13 +1164,13 @@
 <codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plan.has_empty_documents);</highlight></codeline>
 <codeline lineno="166"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="167"><highlight class="normal"></highlight></codeline>
-<codeline lineno="168"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_NoEmptyDocumentWhenAllPopulated)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_NoEmptyDocumentWhenAllPopulated)<sp/>{</highlight></codeline>
 <codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(3);</highlight></codeline>
 <codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(plan.has_empty_documents);</highlight></codeline>
 <codeline lineno="172"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="173"><highlight class="normal"></highlight></codeline>
-<codeline lineno="174"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_KeysAreUniqueForMapInput)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Analyze_KeysAreUniqueForMapInput)<sp/>{</highlight></codeline>
 <codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(4);</highlight></codeline>
 <codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plan.keys_are_unique);</highlight></codeline>
@@ -1181,7 +1180,7 @@
 <codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Group<sp/>2:<sp/>migrateToTemporal</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="183"><highlight class="normal"></highlight></codeline>
-<codeline lineno="184"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Migrate_CreatesTableWithCorrectName)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Migrate_CreatesTableWithCorrectName)<sp/>{</highlight></codeline>
 <codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(3);</highlight></codeline>
 <codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
@@ -1189,7 +1188,7 @@
 <codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(table.tableName(),<sp/></highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="190"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="191"><highlight class="normal"></highlight></codeline>
-<codeline lineno="192"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Migrate_AllRowsInserted)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Migrate_AllRowsInserted)<sp/>{</highlight></codeline>
 <codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(5);</highlight></codeline>
 <codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
@@ -1197,7 +1196,7 @@
 <codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(table.keyCount(),<sp/>5u);</highlight></codeline>
 <codeline lineno="198"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="199"><highlight class="normal"></highlight></codeline>
-<codeline lineno="200"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Migrate_RowsAreCurrent)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Migrate_RowsAreCurrent)<sp/>{</highlight></codeline>
 <codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(4);</highlight></codeline>
 <codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
@@ -1209,21 +1208,21 @@
 <codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="210"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="211"><highlight class="normal"></highlight></codeline>
-<codeline lineno="212"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Migrate_StatsRowsMigratedEquals5)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Migrate_StatsRowsMigratedEquals5)<sp/>{</highlight></codeline>
 <codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(5);</highlight></codeline>
 <codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
 <codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(migrator.getStats().rows_migrated,<sp/>5u);</highlight></codeline>
 <codeline lineno="217"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="218"><highlight class="normal"></highlight></codeline>
-<codeline lineno="219"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Migrate_EmptySource_SucceedsWithZeroRows)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Migrate_EmptySource_SucceedsWithZeroRows)<sp/>{</highlight></codeline>
 <codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;empty&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
 <codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>{});</highlight></codeline>
 <codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
 <codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(table.keyCount(),<sp/>0u);</highlight></codeline>
 <codeline lineno="224"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="225"><highlight class="normal"></highlight></codeline>
-<codeline lineno="226"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Migrate_PreservesDocumentData)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Migrate_PreservesDocumentData)<sp/>{</highlight></codeline>
 <codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Document&gt;<sp/>docs<sp/>=<sp/>{</highlight></codeline>
 <codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;salary&quot;</highlight><highlight class="normal">,<sp/>80000}}}</highlight></codeline>
 <codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
@@ -1236,14 +1235,14 @@
 <codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(current-&gt;data[</highlight><highlight class="stringliteral">&quot;salary&quot;</highlight><highlight class="normal">],<sp/>80000);</highlight></codeline>
 <codeline lineno="237"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="238"><highlight class="normal"></highlight></codeline>
-<codeline lineno="239"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Migrate_StatusIsCompleteOnSuccess)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Migrate_StatusIsCompleteOnSuccess)<sp/>{</highlight></codeline>
 <codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(2);</highlight></codeline>
 <codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
-<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(migrator.getStatus(),<sp/><ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916a3de44296982e58199afc513a715b12ba" kindref="member">MigrationStatus::COMPLETE</ref>);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(migrator.getStatus(),<sp/>MigrationStatus::COMPLETE);</highlight></codeline>
 <codeline lineno="244"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="245"><highlight class="normal"></highlight></codeline>
-<codeline lineno="246"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Migrate_ElapsedMsIsNonNegative)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Migrate_ElapsedMsIsNonNegative)<sp/>{</highlight></codeline>
 <codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(3);</highlight></codeline>
 <codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
@@ -1254,24 +1253,24 @@
 <codeline lineno="254"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Group<sp/>3:<sp/>backfillHistory</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="256"><highlight class="normal"></highlight></codeline>
-<codeline lineno="257"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Backfill_SkipsOpenEndedVersions)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Backfill_SkipsOpenEndedVersions)<sp/>{</highlight></codeline>
 <codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(1);</highlight></codeline>
 <codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
 <codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
 <codeline lineno="262"><highlight class="normal"></highlight></codeline>
 <codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construct<sp/>an<sp/>open-ended<sp/>version<sp/>(sys_end<sp/>==<sp/>kMaxTimestamp)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref><sp/>open_vd;</highlight></codeline>
-<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>open_vd.<ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1a9f648e85fa51de74b77ea5b35f82a61e" kindref="member">key</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>open_vd.<ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1a948c330e41450fe200cf1a22855d05e7" kindref="member">data</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Old<sp/>Alice&quot;</highlight><highlight class="normal">}};</highlight></codeline>
-<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>open_vd.<ref refid="structthemisdb_1_1temporal_1_1_versioned_document_1a87fae863c444243377d548f9e0e325d6" kindref="member">sys_time</ref><sp/>=<sp/>{100,<sp/>kMaxTimestamp};</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1VersionedDocument" kindref="compound">VersionedDocument</ref><sp/>open_vd;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>open_vd.<ref refid="structthemisdb_1_1temporal_1_1VersionedDocument_1a9f648e85fa51de74b77ea5b35f82a61e" kindref="member">key</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>open_vd.<ref refid="structthemisdb_1_1temporal_1_1VersionedDocument_1a948c330e41450fe200cf1a22855d05e7" kindref="member">data</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Old<sp/>Alice&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>open_vd.<ref refid="structthemisdb_1_1temporal_1_1VersionedDocument_1a87fae863c444243377d548f9e0e325d6" kindref="member">sys_time</ref><sp/>=<sp/>{100,<sp/>kMaxTimestamp};</highlight></codeline>
 <codeline lineno="268"><highlight class="normal"></highlight></codeline>
 <codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>inserted<sp/>=<sp/>migrator.backfillHistory(table,<sp/>{open_vd});</highlight></codeline>
 <codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Open-ended<sp/>entries<sp/>must<sp/>be<sp/>skipped</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(inserted,<sp/>0u);</highlight></codeline>
 <codeline lineno="272"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="273"><highlight class="normal"></highlight></codeline>
-<codeline lineno="274"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Backfill_AcceptsClosedVersions)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Backfill_AcceptsClosedVersions)<sp/>{</highlight></codeline>
 <codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(1);</highlight></codeline>
 <codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
@@ -1283,7 +1282,7 @@
 <codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(inserted,<sp/>0u);</highlight></codeline>
 <codeline lineno="284"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="285"><highlight class="normal"></highlight></codeline>
-<codeline lineno="286"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Backfill_EmptyList_ReturnsZero)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Backfill_EmptyList_ReturnsZero)<sp/>{</highlight></codeline>
 <codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(1);</highlight></codeline>
 <codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
@@ -1293,7 +1292,7 @@
 <codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(inserted,<sp/>0u);</highlight></codeline>
 <codeline lineno="294"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="295"><highlight class="normal"></highlight></codeline>
-<codeline lineno="296"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Backfill_StatsVersionsBackfilledAccessible)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Backfill_StatsVersionsBackfilledAccessible)<sp/>{</highlight></codeline>
 <codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(1);</highlight></codeline>
 <codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
@@ -1311,7 +1310,7 @@
 <codeline lineno="311"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Group<sp/>4:<sp/>verifyMigration</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="312"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="313"><highlight class="normal"></highlight></codeline>
-<codeline lineno="314"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Verify_PassesForFreshMigration)<sp/>{</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Verify_PassesForFreshMigration)<sp/>{</highlight></codeline>
 <codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(5);</highlight></codeline>
 <codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
@@ -1321,7 +1320,7 @@
 <codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.success);</highlight></codeline>
 <codeline lineno="322"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="323"><highlight class="normal"></highlight></codeline>
-<codeline lineno="324"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Verify_ReportHasCorrectTableName)<sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Verify_ReportHasCorrectTableName)<sp/>{</highlight></codeline>
 <codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(3);</highlight></codeline>
 <codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
@@ -1331,7 +1330,7 @@
 <codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(report.table_name,<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="332"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="333"><highlight class="normal"></highlight></codeline>
-<codeline lineno="334"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Verify_ChecksContainKeyCount)<sp/>{</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Verify_ChecksContainKeyCount)<sp/>{</highlight></codeline>
 <codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(2);</highlight></codeline>
 <codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
@@ -1345,7 +1344,7 @@
 <codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found);</highlight></codeline>
 <codeline lineno="346"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="347"><highlight class="normal"></highlight></codeline>
-<codeline lineno="348"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Verify_ChecksContainVersionOrder)<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Verify_ChecksContainVersionOrder)<sp/>{</highlight></codeline>
 <codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(2);</highlight></codeline>
 <codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
@@ -1359,7 +1358,7 @@
 <codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found);</highlight></codeline>
 <codeline lineno="360"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="361"><highlight class="normal"></highlight></codeline>
-<codeline lineno="362"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Verify_ChecksContainNoOverlapping)<sp/>{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Verify_ChecksContainNoOverlapping)<sp/>{</highlight></codeline>
 <codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(2);</highlight></codeline>
 <codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
@@ -1373,7 +1372,7 @@
 <codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found);</highlight></codeline>
 <codeline lineno="374"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="375"><highlight class="normal"></highlight></codeline>
-<codeline lineno="376"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Verify_ChecksContainCurrentVersionOpen)<sp/>{</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Verify_ChecksContainCurrentVersionOpen)<sp/>{</highlight></codeline>
 <codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(2);</highlight></codeline>
 <codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
@@ -1387,7 +1386,7 @@
 <codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found);</highlight></codeline>
 <codeline lineno="388"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="389"><highlight class="normal"></highlight></codeline>
-<codeline lineno="390"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Verify_EmptyTable_StillPasses)<sp/>{</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Verify_EmptyTable_StillPasses)<sp/>{</highlight></codeline>
 <codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;empty&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
 <codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>{});</highlight></codeline>
 <codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
@@ -1396,7 +1395,7 @@
 <codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.success);</highlight></codeline>
 <codeline lineno="397"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="398"><highlight class="normal"></highlight></codeline>
-<codeline lineno="399"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Verify_FailedCheckCountReflectsIssues)<sp/>{</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Verify_FailedCheckCountReflectsIssues)<sp/>{</highlight></codeline>
 <codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(3);</highlight></codeline>
 <codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
@@ -1407,7 +1406,7 @@
 <codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(report.failedCheckCount(),<sp/>0u);</highlight></codeline>
 <codeline lineno="408"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="409"><highlight class="normal"></highlight></codeline>
-<codeline lineno="410"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>Verify_KeyCountCheckPassesWhenEqual)<sp/>{</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>Verify_KeyCountCheckPassesWhenEqual)<sp/>{</highlight></codeline>
 <codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(4);</highlight></codeline>
 <codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
@@ -1426,20 +1425,20 @@
 <codeline lineno="426"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Group<sp/>5:<sp/>Status<sp/>/<sp/>progress<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="427"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="428"><highlight class="normal"></highlight></codeline>
-<codeline lineno="429"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>InitialStatus_IsPending)<sp/>{</highlight></codeline>
-<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(migrator.getStatus(),<sp/><ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">MigrationStatus::PENDING</ref>);</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>InitialStatus_IsPending)<sp/>{</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(migrator.getStatus(),<sp/>MigrationStatus::PENDING);</highlight></codeline>
 <codeline lineno="431"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="432"><highlight class="normal"></highlight></codeline>
-<codeline lineno="433"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>StatusName_ReturnsExpectedStrings)<sp/>{</highlight></codeline>
-<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a1b9f8c4258dc78db6e3353cee710aa8f" kindref="member">TemporalMigrator::statusName</ref>(<ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">MigrationStatus::PENDING</ref>),<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;PENDING&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a1b9f8c4258dc78db6e3353cee710aa8f" kindref="member">TemporalMigrator::statusName</ref>(<ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916adb5bd93b8153dc2898de98e205c29478" kindref="member">MigrationStatus::ANALYZING</ref>),<sp/></highlight><highlight class="stringliteral">&quot;ANALYZING&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a1b9f8c4258dc78db6e3353cee710aa8f" kindref="member">TemporalMigrator::statusName</ref>(<ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916ac36add926b1f9baaecf45c04dc407098" kindref="member">MigrationStatus::MIGRATING</ref>),<sp/></highlight><highlight class="stringliteral">&quot;MIGRATING&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a1b9f8c4258dc78db6e3353cee710aa8f" kindref="member">TemporalMigrator::statusName</ref>(<ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916a4ea687957de9caaad1e098e3e95aae9e" kindref="member">MigrationStatus::VERIFYING</ref>),<sp/></highlight><highlight class="stringliteral">&quot;VERIFYING&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a1b9f8c4258dc78db6e3353cee710aa8f" kindref="member">TemporalMigrator::statusName</ref>(<ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916a3de44296982e58199afc513a715b12ba" kindref="member">MigrationStatus::COMPLETE</ref>),<sp/><sp/></highlight><highlight class="stringliteral">&quot;COMPLETE&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a1b9f8c4258dc78db6e3353cee710aa8f" kindref="member">TemporalMigrator::statusName</ref>(<ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916ab9e14d9b2886bcff408b85aefa780419" kindref="member">MigrationStatus::FAILED</ref>),<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FAILED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>StatusName_ReturnsExpectedStrings)<sp/>{</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemisdb_1_1temporal_1_1TemporalMigrator_1a1b9f8c4258dc78db6e3353cee710aa8f" kindref="member">TemporalMigrator::statusName</ref>(MigrationStatus::PENDING),<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;PENDING&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemisdb_1_1temporal_1_1TemporalMigrator_1a1b9f8c4258dc78db6e3353cee710aa8f" kindref="member">TemporalMigrator::statusName</ref>(MigrationStatus::ANALYZING),<sp/></highlight><highlight class="stringliteral">&quot;ANALYZING&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemisdb_1_1temporal_1_1TemporalMigrator_1a1b9f8c4258dc78db6e3353cee710aa8f" kindref="member">TemporalMigrator::statusName</ref>(MigrationStatus::MIGRATING),<sp/></highlight><highlight class="stringliteral">&quot;MIGRATING&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemisdb_1_1temporal_1_1TemporalMigrator_1a1b9f8c4258dc78db6e3353cee710aa8f" kindref="member">TemporalMigrator::statusName</ref>(MigrationStatus::VERIFYING),<sp/></highlight><highlight class="stringliteral">&quot;VERIFYING&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemisdb_1_1temporal_1_1TemporalMigrator_1a1b9f8c4258dc78db6e3353cee710aa8f" kindref="member">TemporalMigrator::statusName</ref>(MigrationStatus::COMPLETE),<sp/><sp/></highlight><highlight class="stringliteral">&quot;COMPLETE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemisdb_1_1temporal_1_1TemporalMigrator_1a1b9f8c4258dc78db6e3353cee710aa8f" kindref="member">TemporalMigrator::statusName</ref>(MigrationStatus::FAILED),<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FAILED&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="440"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="441"><highlight class="normal"></highlight></codeline>
-<codeline lineno="442"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>ProgressCallback_InvokedDuringMigration)<sp/>{</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>ProgressCallback_InvokedDuringMigration)<sp/>{</highlight></codeline>
 <codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MigrationStatus&gt;<sp/>statuses;</highlight></codeline>
 <codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/>migrator.setProgressCallback([&amp;](<ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916" kindref="member">MigrationStatus</ref><sp/>s,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
 <codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>statuses.push_back(s);</highlight></codeline>
@@ -1452,7 +1451,7 @@
 <codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(statuses.empty());</highlight></codeline>
 <codeline lineno="453"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="454"><highlight class="normal"></highlight></codeline>
-<codeline lineno="455"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>ProgressCallback_CanBeCleared)<sp/>{</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>ProgressCallback_CanBeCleared)<sp/>{</highlight></codeline>
 <codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MigrationStatus&gt;<sp/>statuses;</highlight></codeline>
 <codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/>migrator.setProgressCallback([&amp;](<ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916" kindref="member">MigrationStatus</ref><sp/>s,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
 <codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>statuses.push_back(s);</highlight></codeline>
@@ -1467,32 +1466,32 @@
 <codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(statuses.empty());</highlight></codeline>
 <codeline lineno="468"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="469"><highlight class="normal"></highlight></codeline>
-<codeline lineno="470"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>AfterMigrate_StatusIsComplete)<sp/>{</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>AfterMigrate_StatusIsComplete)<sp/>{</highlight></codeline>
 <codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(2);</highlight></codeline>
 <codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
-<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(migrator.getStatus(),<sp/><ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916a3de44296982e58199afc513a715b12ba" kindref="member">MigrationStatus::COMPLETE</ref>);</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(migrator.getStatus(),<sp/>MigrationStatus::COMPLETE);</highlight></codeline>
 <codeline lineno="475"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="476"><highlight class="normal"></highlight></codeline>
 <codeline lineno="477"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="478"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Group<sp/>6:<sp/>Serialisation</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="479"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="480"><highlight class="normal"></highlight></codeline>
-<codeline lineno="481"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>MigrationPlan_ToJson_HasSourceTableName)<sp/>{</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>MigrationPlan_ToJson_HasSourceTableName)<sp/>{</highlight></codeline>
 <codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(2);</highlight></codeline>
 <codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/><sp/><sp/><sp/>=<sp/>plan.toJson();</highlight></codeline>
 <codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;source_table_name&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="486"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="487"><highlight class="normal"></highlight></codeline>
-<codeline lineno="488"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>MigrationPlan_ToJson_HasSourceRowCount)<sp/>{</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>MigrationPlan_ToJson_HasSourceRowCount)<sp/>{</highlight></codeline>
 <codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(3);</highlight></codeline>
 <codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/><sp/><sp/><sp/>=<sp/>plan.toJson();</highlight></codeline>
 <codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;source_row_count&quot;</highlight><highlight class="normal">],<sp/>3u);</highlight></codeline>
 <codeline lineno="493"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="494"><highlight class="normal"></highlight></codeline>
-<codeline lineno="495"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>MigrationPlan_ToJson_HasColumns)<sp/>{</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>MigrationPlan_ToJson_HasColumns)<sp/>{</highlight></codeline>
 <codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(2);</highlight></codeline>
 <codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/><sp/><sp/><sp/>=<sp/>plan.toJson();</highlight></codeline>
@@ -1500,7 +1499,7 @@
 <codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(j[</highlight><highlight class="stringliteral">&quot;columns&quot;</highlight><highlight class="normal">].empty());</highlight></codeline>
 <codeline lineno="501"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="502"><highlight class="normal"></highlight></codeline>
-<codeline lineno="503"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>MigrationReport_ToJson_HasSuccessField)<sp/>{</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>MigrationReport_ToJson_HasSuccessField)<sp/>{</highlight></codeline>
 <codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(2);</highlight></codeline>
 <codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
@@ -1509,7 +1508,7 @@
 <codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">));</highlight></codeline>
 <codeline lineno="510"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="511"><highlight class="normal"></highlight></codeline>
-<codeline lineno="512"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>MigrationReport_ToJson_HasChecksArray)<sp/>{</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>MigrationReport_ToJson_HasChecksArray)<sp/>{</highlight></codeline>
 <codeline lineno="513"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(2);</highlight></codeline>
 <codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="515"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
@@ -1518,7 +1517,7 @@
 <codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j[</highlight><highlight class="stringliteral">&quot;checks&quot;</highlight><highlight class="normal">].is_array());</highlight></codeline>
 <codeline lineno="519"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="520"><highlight class="normal"></highlight></codeline>
-<codeline lineno="521"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>MigrationStats_ToJson_HasRowsMigrated)<sp/>{</highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>MigrationStats_ToJson_HasRowsMigrated)<sp/>{</highlight></codeline>
 <codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(4);</highlight></codeline>
 <codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
@@ -1527,14 +1526,14 @@
 <codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;rows_migrated&quot;</highlight><highlight class="normal">],<sp/>4u);</highlight></codeline>
 <codeline lineno="528"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="529"><highlight class="normal"></highlight></codeline>
-<codeline lineno="530"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>GetLastReport_BeforeVerify_IsDefault)<sp/>{</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>GetLastReport_BeforeVerify_IsDefault)<sp/>{</highlight></codeline>
 <codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>migrator.getLastReport();</highlight></codeline>
 <codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Before<sp/>any<sp/>verification,<sp/>the<sp/>default<sp/>report<sp/>should<sp/>not<sp/>indicate<sp/>success</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(it<sp/>is<sp/>default-constructed<sp/>with<sp/>success<sp/>=<sp/>false)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(report.success);</highlight></codeline>
 <codeline lineno="535"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="536"><highlight class="normal"></highlight></codeline>
-<codeline lineno="537"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="class_temporal_migrator_test" kindref="compound">TemporalMigratorTest</ref>,<sp/>GetLastReport_AfterVerify_MatchesReturnValue)<sp/>{</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><ref refid="test__temporal__migrator_8cpp_1a937bd82d262f6bb5f0ed603353a5f704" kindref="member">TEST_F</ref>(<ref refid="classTemporalMigratorTest" kindref="compound">TemporalMigratorTest</ref>,<sp/>GetLastReport_AfterVerify_MatchesReturnValue)<sp/>{</highlight></codeline>
 <codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs<sp/>=<sp/>makeSourceDocs(3);</highlight></codeline>
 <codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>migrator.analyzeMigration(</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>docs);</highlight></codeline>
 <codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[table,<sp/>ok]<sp/>=<sp/>migrator.migrateToTemporal(plan,<sp/>docs);</highlight></codeline>
