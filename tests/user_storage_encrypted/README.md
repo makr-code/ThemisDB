@@ -1,318 +1,84 @@
-# tests/user_storage_encrypted
+---
+Author: ThemisDB Contributors
+Created: 2026-06-01
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
 
-Test suites for the encrypted user storage module, covering unit tests, integration tests, and stress tests.
+# Tests for user_storage_encrypted
 
-## Overview
+Exact model backend not verifiable from final document text alone.
 
-This directory contains focused test suites that validate encrypted storage functionality across multiple phases:
+The test targets and CTest labels below come from
+`tests/user_storage_encrypted/CMakeLists.txt`. The root `tests/CMakeLists.txt`
+auto-discovers module directories that contain a `CMakeLists.txt`. Building
+requires the repository test configuration and GTest.
 
-- **Phase 1-2:** Unit tests for core components (I/O safety, command injection prevention)
-- **Phase 3:** Contract hardening and failure handling
-- **Phase 4:** End-to-end integration tests and stress tests
-- **Phase 5:** Performance gates and release validation
+## Registered focused targets
 
-## Test Suites
+| Source file | CTest tier | Additional labels | Scope |
+|---|---|---|---|
+| `test_user_storage_encrypted_contract_hardening_focused.cpp` | unit | none | 8 contract/error-value, descriptor/request default, and fail-closed-predicate checks |
+| `test_backend_io_timeout_focused.cpp` | unit | `io_safety` | PipeGuard and timed-I/O tests; target is registered on UNIX |
+| `test_backend_command_injection_focused.cpp` | unit | `command_injection`, `security` | Path, character, key-format, and flag validation checks |
+| `test_phase2_error_codes_focused.cpp` | unit | `error_handling`, `diagnostics`, `phase2` | Error-code mapping and diagnostic event tests |
+| `test_user_storage_encrypted_e2e_vault_integration_focused.cpp` | integration | `e2e`, `vault` | 8 scenario stubs; each calls `GTEST_SKIP()` before exercising its scenario, so this is not executable Vault validation |
+| `test_user_storage_encrypted_stress_focused.cpp` | stress | `concurrency`, `error_injection` | Concurrent lifecycle and failure-path test cases |
+| `test_user_storage_encrypted_highcardinality_stress.cpp` | stress | `wave_d`, `not_release_critical` | Three stub-backed concurrent write, rotation, and round-trip tests |
 
-### Phase 1-2: Core Component Tests
+`test_user_storage_encrypted_phase1_hardening.cpp` is present in this
+directory, but is not registered by the current module `CMakeLists.txt`.
+Presence of that source file is not evidence that it is built or run.
 
-#### I/O Timeout & Safety (UST-IO-01 through UST-IO-08)
+## Running registered targets
 
-**File:** `test_backend_io_timeout_focused.cpp`
-
-Tests for timeout handling and I/O safety in gocryptfs_backend operations.
-
-- **UST-IO-01:** PipeGuard creation and validity checks
-- **UST-IO-02 through UST-IO-08:** Timeout handling, RAII cleanup, exception safety
-
-**Run:**
-```bash
-ctest --preset linux-release -L "user_storage_encrypted,io_safety" -V
-```
-
-#### Command Injection Prevention
-
-**File:** `test_backend_command_injection_focused.cpp`
-
-Tests for protection against command injection attacks in backend operations.
-
-**Run:**
-```bash
-ctest --preset linux-release -L "user_storage_encrypted,command_injection" -V
-```
-
-### Phase 3: Contract Hardening
-
-**File:** `test_user_storage_encrypted_contract_hardening_focused.cpp`
-
-Tests for hardening failure handling across hostile or degraded host environments.
-
-**Run:**
-```bash
-ctest --preset linux-release -L "user_storage_encrypted" -V
-```
-
-### Phase 4: E2E Integration Tests
-
-#### Vault Integration (E2E-01 through E2E-08)
-
-**File:** `test_user_storage_encrypted_e2e_vault_integration_focused.cpp`
-
-End-to-end integration tests requiring Docker Compose with Vault.
-
-| Test ID | Description                                        | Prerequisites              |
-|---------|----------------------------------------------------|-----------------------------|
-| E2E-01  | Create, mount, write, unmount, remount lifecycle  | Docker + Vault             |
-| E2E-02  | All four security levels (OFFEN, VERTRAUT, ...)  | Docker + Vault             |
-| E2E-03  | Zero-downtime key rotation with concurrent load  | Docker + Vault + gocryptfs |
-| E2E-04  | Mount failure recovery (FUSE unavailable)        | Docker                     |
-| E2E-05  | Invalid container path handling                  | No special prerequisites   |
-| E2E-06  | Vault timeout and automatic recovery             | Docker + Vault             |
-| E2E-07  | Stale mount reconciliation on startup            | Docker + gocryptfs         |
-| E2E-08  | Multi-tenant isolation                           | Docker + Vault             |
-
-**Prerequisites:**
-```bash
-# Start Docker Compose with Vault
-docker-compose -f docker-compose.user-storage.yml up -d vault vault-init
-sleep 10  # Wait for Vault to be ready
-```
-
-**Run:**
-```bash
-ctest --preset linux-release -L "user_storage_encrypted,e2e" -V
-```
-
-**Cleanup:**
-```bash
-docker-compose -f docker-compose.user-storage.yml down
-```
-
-### Phase 4: Stress & Failure Injection Tests
-
-**File:** `test_user_storage_encrypted_stress_focused.cpp`
-
-Stress tests with error injection for resilience validation.
-
-| Test ID   | Description                                   | Category                  |
-|-----------|-----------------------------------------------|---------------------------|
-| STRESS-01 | Concurrent mount/unmount operations          | Concurrency / Deadlock    |
-| STRESS-02 | Key rotation under high concurrency           | Concurrency / Rotation    |
-| STRESS-03 | Error injection: command timeout             | Error Handling / Timeout  |
-| STRESS-04 | Error injection: Vault unavailable           | Error Handling / Resilience |
-| STRESS-05 | Error injection: disk full                    | Error Handling / Resources |
-| STRESS-06 | Error injection: permission denied           | Error Handling / Security |
-
-**Run:**
-```bash
-ctest --preset linux-release -L "user_storage_encrypted,stress" -V
-```
-
-## Running Tests
-
-### All user_storage_encrypted Tests
+Configure/build the repository with tests enabled, then run all registered
+module tests:
 
 ```bash
-ctest --preset linux-release -L user_storage_encrypted -V
+ctest --preset linux-release -L user_storage_encrypted --output-on-failure
 ```
 
-### By Test Tier
+Select additional labels with CTest's label regular-expression filter, for
+example:
 
 ```bash
-# Unit tests only
-ctest --preset linux-release -L "user_storage_encrypted,unit" -V
-
-# Integration tests only
-ctest --preset linux-release -L "user_storage_encrypted,integration" -V
-
-# Stress tests only
-ctest --preset linux-release -L "user_storage_encrypted,stress" -V
+ctest --preset linux-release -L io_safety --output-on-failure
+ctest --preset linux-release -L 'command_injection|security' --output-on-failure
+ctest --preset linux-release -L 'integration|e2e|vault' --output-on-failure
+ctest --preset linux-release -L 'stress|wave_d' --output-on-failure
 ```
 
-### By Category
+The local CMake registration specifies 120-second timeouts for unit targets
+and 300-second timeouts for integration/stress targets. Individual targets
+are conditionally registered when their source files exist; the E2E target is
+also UNIX-only.
 
-```bash
-# Security tests
-ctest --preset linux-release -L "user_storage_encrypted,security" -V
+## External dependencies and evidence limits
 
-# I/O safety tests
-ctest --preset linux-release -L "user_storage_encrypted,io_safety" -V
+- The backend requires host gocryptfs/FUSE for real encrypted mount behavior.
+- The E2E source comments mention Vault, `VAULT_ADDR`, and `VAULT_TOKEN`, but
+  the test code does not read those settings or connect to Vault. Each case
+  skips before the scenario body; treat the comments as planning notes, not
+  runnable integration configuration.
+- High-cardinality tests use an in-process stub and do not validate actual
+  gocryptfs encryption or disk I/O.
+- CMake registration establishes build/test wiring, not a successful build or
+  passing test run. No test execution result is claimed by this document.
 
-# E2E + Vault integration tests
-ctest --preset linux-release -L "user_storage_encrypted,vault" -V
-```
+## Source references
 
-### With Verbose Output
-
-```bash
-ctest --preset linux-release -L user_storage_encrypted -V --output-on-failure
-```
-
-### With Timeout Handling
-
-```bash
-ctest --preset linux-release -L user_storage_encrypted --timeout 300 -V
-```
-
-## Test Infrastructure
-
-### Docker Compose Setup
-
-The E2E integration tests require Docker Compose with Vault:
-
-**File:** `docker-compose.user-storage.yml` (repo root)
-
-Services:
-- **vault:** HashiCorp Vault dev server on port 8200
-- **vault-init:** One-time initialization job for Vault keys
-- **themisdb:** ThemisDB application container
-
-Health checks ensure Vault is ready before tests run.
-
-### Environment Variables
-
-For local testing, set:
-
-```bash
-export VAULT_ADDR=http://localhost:8200
-export VAULT_TOKEN=dev-token-12345
-```
-
-## Test Configuration
-
-### CMake Integration
-
-Tests are registered via `themis_register_module_focused_test()` in `CMakeLists.txt`:
-
-```cmake
-themis_register_module_focused_test(
-    MODULE user_storage_encrypted
-    NAME   test_name
-    TARGET target_name
-    TIER   unit|integration|stress
-    TIMEOUT seconds
-    LABELS  "label1;label2"
-)
-```
-
-### Timeouts
-
-| Test Type | Timeout   | Rationale                         |
-|-----------|-----------|-----------------------------------|
-| Unit      | 120 sec   | Quick validation                  |
-| Integration | 300 sec | Vault + mount/unmount operations |
-| Stress    | 300 sec   | Multiple concurrent operations   |
-
-## Known Limitations
-
-### Docker Dependency
-
-E2E tests require Docker and docker-compose to be available:
-
-```bash
-docker --version
-docker-compose --version
-```
-
-If Docker is unavailable, E2E tests will be skipped with `GTEST_SKIP()`.
-
-### System Requirements
-
-- **FUSE support:** gocryptfs operations require FUSE kernel support
-- **Temporary storage:** Tests use `/tmp/` for encrypted containers (requires ~1GB free space)
-- **User privileges:** Some tests may require sufficient permissions (non-root recommended for isolation)
-
-### Vault Connectivity
-
-E2E tests assume:
-- Vault is accessible at `http://vault:8200` (inside Docker)
-- Default token: `dev-token-12345` (dev mode only)
-- KV v2 secrets engine enabled at path `/themis/`
-
-## Acceptance Criteria
-
-All tests must pass for a release:
-
-- ✅ All unit tests pass (zero failures)
-- ✅ All integration tests pass (with Docker + Vault running)
-- ✅ All stress tests complete without deadlocks or resource leaks
-- ✅ No flaky tests (99%+ pass rate on 10 consecutive runs)
-- ✅ Performance gates met (see benchmarks/user_storage_encrypted/README.md)
-
-## Troubleshooting
-
-### Test Hangs / Timeouts
-
-If a test times out:
-
-1. Check Docker Compose status:
-   ```bash
-   docker-compose -f docker-compose.user-storage.yml ps
-   ```
-
-2. Check Vault health:
-   ```bash
-   curl -s http://localhost:8200/v1/sys/health | jq .
-   ```
-
-3. Check mount points:
-   ```bash
-   mount | grep gocryptfs
-   ```
-
-4. Increase timeout in CTest:
-   ```bash
-   ctest --preset linux-release -L user_storage_encrypted --timeout 600 -V
-   ```
-
-### Permission Errors
-
-If you see permission errors:
-
-1. Ensure `/tmp/themis_*` directories are readable/writable
-2. For FUSE errors, verify gocryptfs is installed:
-   ```bash
-   which gocryptfs
-   gocryptfs --version
-   ```
-
-3. Check FUSE device availability:
-   ```bash
-   ls -la /dev/fuse
-   ```
-
-### Vault Connection Refused
-
-If Vault initialization fails:
-
-1. Ensure Docker daemon is running:
-   ```bash
-   docker ps
-   ```
-
-2. Check Vault container logs:
-   ```bash
-   docker logs themis-vault
-   docker logs themis-vault-init
-   ```
-
-3. Manually initialize Vault:
-   ```bash
-   docker-compose -f docker-compose.user-storage.yml exec vault \
-       vault secrets enable -path=themis kv-v2
-   ```
-
-## Performance Expectations
-
-Tests should complete in:
-- Unit tests: ~10-30 seconds (all 8 tests)
-- Integration tests: ~2-5 minutes (with Docker overhead)
-- Stress tests: ~2-3 minutes (concurrent operations)
-- Full suite: ~5-10 minutes (with Docker + Vault)
-
-## References
-
-- [API Contract](../../include/user_storage_encrypted/user_storage_encrypted_api_contract.h)
-- [Architecture](../../include/user_storage_encrypted/ARCHITECTURE.md)
-- [ROADMAP](../../src/user_storage_encrypted/ROADMAP.md)
-- [Docker Compose Setup](../../docker-compose.user-storage.yml)
-
+- `tests/user_storage_encrypted/CMakeLists.txt`
+- `tests/CMakeLists.txt` (module directory discovery)
+- `tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp`
+- `tests/user_storage_encrypted/test_backend_io_timeout_focused.cpp`
+- `tests/user_storage_encrypted/test_backend_command_injection_focused.cpp`
+- `tests/user_storage_encrypted/test_phase2_error_codes_focused.cpp`
+- `tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp`
+- `tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp`
+- `tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp`

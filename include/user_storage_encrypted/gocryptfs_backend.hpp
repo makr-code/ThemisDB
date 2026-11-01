@@ -32,19 +32,25 @@ namespace user_storage {
  * ("-passfile /dev/stdin"), never via a temporary file on disk.
  *
  * Optional KDF: when a KeyDerivationService is supplied the raw key_material
- * argument is treated as the master key; the per-container derived key is
- * computed with Argon2id and used as the gocryptfs passphrase.
+ * argument is treated as the master key; the per-container derived key uses
+ * Argon2id when libargon2 is available, otherwise the built-in
+ * PBKDF2-HMAC-SHA256 fallback, and is used as the gocryptfs passphrase.
  *
  * Requirements:
- * - gocryptfs binary in PATH (>= v2.0)
+ * - gocryptfs binary in PATH (the implementation does not enforce a minimum
+ *   version)
  * - FUSE support (libfuse on Linux, macFUSE on macOS)
  * - Appropriate permissions for mount operations
  *
- * Platform Support:
- * - Linux: ✅ Full support
- * - macOS: ✅ Via macFUSE
- * - Windows: ⚠️ Via WinFsp/Dokany (experimental)
- * - Raspberry Pi: ✅ ARM64 support
+ * Platform behavior verified in this source:
+ * - Linux: POSIX command paths are implemented; checkAvailability() probes
+ *   gocryptfs and /dev/fuse.
+ * - macOS: POSIX command paths are present; checkAvailability() probes the
+ *   macFUSE/osxfuse package identifier and logs a warning if absent, but this
+ *   does not verify a complete mount lifecycle.
+ * - Windows: unsupported; _WIN32 command/stdin paths return an explicit
+ *   "not supported on Windows" error. WinFsp/Dokany support is not implemented.
+ * - Other platforms/architectures: no support guarantee is made here.
  */
 class GocryptfsBackend : public EncryptionBackendInterface {
 public:

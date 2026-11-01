@@ -68,12 +68,12 @@ Status: Active
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `727c00e7c7af8ab4`
+- Hash: `8c12d23bf7df45cd`
 - Titel: ThemisDB Project Roadmap
 - Auszug:
   - <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
   - **Version:** 2.4.0-alpha
-  - **Last Updated:** 2026-10-30 (Wave C evidence status and governance target reconciliation)
+  - **Last Updated:** 2026-10-31 (Wave C and EPIC 2 source/evidence reconciliation)
 
 ## VERSIONING.md
 - Kategorie: governance_and_docs
@@ -401,7 +401,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/IMPORTERS.md
 - Kategorie: governance_and_docs
-- Hash: `aba92d33f74af838`
+- Hash: `a911a66ac898123d`
 - Titel: Importers — Developer LLM Wiki
 - Auszug:
   - ---
@@ -479,6 +479,15 @@ Status: Active
   - ---
   - Author: "ThemisDB Team"
   - Created: "2026-10-31"
+
+## ai_context/developer_llm_wiki/USER_STORAGE_ENCRYPTED.md
+- Kategorie: governance_and_docs
+- Hash: `e70d576660a2478a`
+- Titel: User Storage Encrypted — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Contributors"
+  - Created: "2026-11-01"
 
 ## ai_context/legacy_status/STATUS_2026_08_01.md
 - Kategorie: governance_and_docs
@@ -713,12 +722,3 @@ Status: Active
   - **Status:** 🟡 IN PROGRESS (Phases 2-5 completion awaited)
   - **Generated:** 2026-08-15T09:11:07Z
   - **Module:** Analytics (`src/analytics/`)
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_GAP_CLOSURE_INDEX.md
-- Kategorie: governance_and_docs
-- Hash: `fc997e2601a360fa`
-- Titel: Analytics Module Gap Closure — Master Index
-- Auszug:
-  - **Project**: ThemisDB Analytics Module Gap Closure
-  - **Status**: 🟢 **WEEK 1 COMPLETE** (Phases 1-5 delivered, Phase 6 initial review done)
-  - **Timeline**: 4-5 weeks (target completion 2026-09-13)
