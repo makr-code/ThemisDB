@@ -65,6 +65,30 @@ TEST_F(EventTriggerTest, ConfigValidationEmptyEventTypes) {
     EXPECT_FALSE(invalid_config.getValidationError().empty());
 }
 
+TEST_F(EventTriggerTest, ConfigValidationRejectsInvalidCondition) {
+    CDCTriggerConfig config;
+    config.key_prefix = "users:";
+    config.event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
+    config.condition = "key MATCHES users";
+
+    EXPECT_FALSE(config.isValid());
+    EXPECT_NE(config.getValidationError().find("Condition"), std::string::npos);
+}
+
+TEST_F(EventTriggerTest, InvalidConditionRejectedByConstructionAndUpdate) {
+    CDCTriggerConfig valid;
+    valid.key_prefix = "users:";
+    valid.event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
+    auto callback = [](const Changefeed::ChangeEvent&) {};
+    EventTrigger trigger(changefeed_.get(), valid, callback);
+
+    auto invalid = valid;
+    invalid.condition = "unknown == value";
+    EXPECT_THROW(EventTrigger(changefeed_.get(), invalid, callback), std::invalid_argument);
+    EXPECT_THROW(trigger.updateConfig(invalid), std::invalid_argument);
+    EXPECT_TRUE(trigger.getConfig().isValid());
+}
+
 // ===== EventTrigger Basic Tests =====
 
 TEST_F(EventTriggerTest, ConstructorValidation) {
@@ -404,6 +428,26 @@ TEST_F(EventTriggerTest, ConditionEqualMatch) {
     ev2.timestamp_ms = 2000;
     changefeed_->recordEvent(ev2);
 
+    std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+    trigger.stop();
+
+    EXPECT_EQ(count.load(), 1);
+}
+
+TEST_F(EventTriggerTest, ConditionContainsAndInsideQuotedValue) {
+    CDCTriggerConfig config;
+    config.key_prefix = "*";
+    config.event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
+    config.condition = R"(key CONTAINS "foo AND bar")";
+    ASSERT_TRUE(config.isValid()) << config.getValidationError();
+
+    std::atomic<int> count{0};
+    EventTrigger trigger(changefeed_.get(), config,
+                         [&count](const Changefeed::ChangeEvent&) { ++count; });
+    trigger.start();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+    changefeed_->recordEvent(makeEvent("users:foo AND bar"));
     std::this_thread::sleep_for(std::chrono::milliseconds(1500));
     trigger.stop();
 

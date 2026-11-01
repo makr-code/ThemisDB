@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -23,22 +23,18 @@ claims about current implementation.
 
 ## Reliability and contract alignment
 
-- Implement and exercise the coordinator-availability check currently left as
-  a placeholder in `TaskScheduler::executeTaskNow`.
-- Reconcile the event-condition parser's documented failure policy with its
-  current structural rejection and unknown-operator match behavior.
-- Replace skipped/simulated coordination and stress scenarios with tests of the
-  actual scheduler components.
-- Confirm request-context behavior and API authorization expectations with the
-  server/security owners.
+- Broaden coordination failure and failover tests beyond the current production
+  coordinator integration coverage; the older placeholder suite remains skipped.
+- Revisit scheduler API authorization scope names with the server/security
+  owners before extending the permission model.
 
 ## Performance and operability
 
-- Establish an owner, metric/statistic, CI workflow, thresholds, and
+- Establish an owner, metric/statistic, CI workflow, threshold, and
   representative-hardware baseline before describing a benchmark as a release
-  gate.
-- Add direct production-component benchmark coverage for integration paths only
-  where a measurable use case exists.
+  gate. The production-path benchmark currently has a CTest smoke only.
+- Expand production-component benchmark coverage only where a measurable use
+  case exists.
 - Keep operational requirements and security policy in the corresponding
   reviewed canonical documents rather than inferring them from configuration
   fields.

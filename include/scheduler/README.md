@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -70,10 +70,26 @@ abbreviated class definition that could drift from the API.
   or return JSON errors instead.
 - The `WEBHOOK` task trigger enum value is declared in `task_scheduler.h`; do
   not infer a working webhook integration from the declaration alone.
-- The permission helpers allow when no request context is present. The caller
-  must establish the intended request/security context.
-- The distributed coordinator health-check code in `executeTaskNow` is
-  commented out in the implementation.
+- Security-sensitive task mutations, function registration, and manual/DAG
+  execution deny when no `RequestContext` is present. HTTP entry points and
+  trusted in-process callers must provide a scoped context with only the
+  operation's required permission; function registration additionally requires
+  the `system_admin` role. `ScopedRequestContext` restores the previous
+  thread-local context on scope exit.
+- `DistributedTaskCoordinator` shares a lifetime-safe execution gate with the
+  scheduler. Manual, scheduled, and DAG dispatch fail closed while leadership
+  or coordinator health is unavailable. A scheduler with no attached
+  distributed coordinator remains in standalone mode.
+- CDC trigger conditions are validated at construction/update and rejected at
+  runtime on parse or evaluation errors; invalid predicates never fire.
+- **Call-site migration:** code that previously relied on implicit permission
+  fallback must set `RequestContext` explicitly. Scheduler mutation scopes are
+  `task:register`, `task:unregister`, and `task:update`; execution uses
+  `task:execute`; function registry changes require `task:register_function`
+  and `system_admin`.
+- No numeric scheduler benchmark is release-critical yet. The registered
+  production-path benchmark is a CTest smoke only until a benchmark owner,
+  stable hardware, baseline, and threshold are agreed.
 - A declared configurable feature is not necessarily enabled by default.
   Consult `TaskScheduler::Config` and the implementation for defaults and
   requirements.
@@ -84,7 +100,8 @@ The repository defines the `linux-release` preset in `CMakePresets.json`.
 Scheduler source registration is conditional on `THEMIS_ENABLE_HTTP_SERVER`.
 Focused tests under `tests/scheduler/` and benchmarks under
 `benchmarks/scheduler/` are registered by their local CMake files; some tests
-are placeholders or skipped and some benchmarks use stubs. See the
+are placeholders or skipped and non-production benchmark cases are not evidence
+for a scheduler performance gate. See the
 [test/benchmark audit](../../src/scheduler/AUDIT.md).
 
 ## Related documentation

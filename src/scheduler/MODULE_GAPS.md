@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -28,16 +28,18 @@ forward as active defects.
 
 ## Gaps confirmed during documentation review
 
-- The coordination-health check in `TaskScheduler::executeTaskNow` remains a
-  commented placeholder.
+- Distributed dispatch uses a lifetime-safe shared gate checked on immediate,
+  scheduled, and DAG execution paths. Existing coordination-failure placeholder
+  tests remain skipped; a production coordinator integration test covers the
+  no-leadership denial path.
 - The coordination failure fixture skips, and some burst/retention test cases
   are simulated or placeholders.
 - Existing benchmark families do not establish an enforced CI threshold for
   production scheduler latency or a hardware baseline.
-- Event-trigger condition behavior has mixed fail-open and rejection paths;
-  intended semantics need confirmation.
-- Permission checks fall back to allow without a request context; the invoking
-  authorization boundary and context propagation require deployment review.
+- Event-trigger configuration and runtime evaluation reject malformed or
+  unsupported conditions.
+- Security-sensitive scheduler operations deny when `RequestContext` is absent;
+  HTTP and trusted in-process callers now set operation-limited scoped contexts.
 
 These are source/documentation observations, not a rescan of all static-analysis
 gap categories.

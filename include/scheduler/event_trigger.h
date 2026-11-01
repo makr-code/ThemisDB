@@ -31,7 +31,7 @@ namespace themis {
 struct CDCTriggerConfig {
     std::string key_prefix;                           // Filter by key prefix (e.g., "users:")
     std::set<Changefeed::ChangeEventType> event_types; // Event types to trigger on
-    std::optional<std::string> condition;             // Optional AQL filter condition
+    std::optional<std::string> condition;             // Optional key/value predicate joined by AND
     uint32_t debounce_ms = 0;                         // Debounce interval in milliseconds
     
     // Validation
@@ -176,6 +176,7 @@ private:
     // the condition changes.  Access is guarded by condition_cache_mutex_.
     mutable std::vector<ParsedClause> parsed_clauses_;
     mutable bool condition_parsed_{false};
+    mutable bool condition_valid_{true};
     mutable std::mutex condition_cache_mutex_;
 
     // Parse config_.condition into parsed_clauses_; must be called under

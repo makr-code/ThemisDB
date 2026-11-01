@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -37,10 +37,10 @@ guarantee or production-readiness certification.
 | `TaskResultStore` | `task_result_store.cpp`, `task_execution_result.cpp` | Result serialization and per-task result storage/retrieval |
 | `TaskAnomalyDetector` | `task_anomaly_detector.cpp` | Per-task statistics, anomaly metrics, and optional callback delivery |
 
-These are separate classes and integration surfaces. In particular, the
-`TaskScheduler::executeTaskNow` coordination-check block is currently a
-commented-out placeholder; this method does not perform the documented
-coordinator-health check.
+These are separate classes and integration surfaces. `DistributedTaskCoordinator`
+attaches a shared execution gate to its `TaskScheduler`; immediate, scheduled, and
+DAG dispatch are denied while that gate is closed. Standalone schedulers without
+an attached coordinator remain local.
 
 ## Error and failure behavior
 
@@ -54,15 +54,14 @@ throw exceptions.
 | Path | Verified behavior |
 |---|---|
 | Task registration | Checks `task:register`, validates applicable task fields, and can throw for invalid input. Conflicting re-registration is rejected. |
-| Immediate execution | Checks `task:execute`, applies the execution rate limiter, looks up the task, and serializes same-task execution with a per-task lock. The coordinator check remains a placeholder. |
+| Immediate execution | Checks `task:execute`, applies the execution rate limiter, looks up the task, serializes same-task execution with a per-task lock, and checks the distributed execution gate before dispatch. |
 | Result retention | `TaskResultStore::store` returns `kRetentionLimitExceeded` when the configured positive per-task cap is already full. The post-write prune is a safety net, not the normal full-capacity policy. |
-| Event conditions | Conditions are parsed and evaluated by `EventTrigger`; current code has mixed behavior: structural checks can reject an event, while an unknown operator logs and matches. Do not describe this path as uniformly fail-closed. |
+| Event conditions | Construction and updates reject malformed predicates, unknown fields, and unsupported operators. Runtime parser/evaluator errors reject the event. |
 | Anomaly reporting | The detector returns metrics and can queue callbacks when configured. `TaskAuditManager` also has a separately configured anomaly callback. Neither is represented by a universal `kAnomalyDetected` execution result. |
 
-**Open verification item:** the event-condition parser's documented fail-open
-comment and its structural-rejection branches do not define one simple failure
-policy. Preserve this distinction until the parser behavior and intended contract
-are reconciled.
+Distributed dispatch is denied when the shared coordinator gate is closed. The
+gate is lifetime-safe and is closed on leadership loss, heartbeat failure, and
+coordinator shutdown; standalone scheduler instances have no distributed gate.
 
 ## Concurrency and ownership
 

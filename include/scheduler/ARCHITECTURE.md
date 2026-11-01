@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -43,14 +43,14 @@ establish ABI stability. For runtime behavior and known limitations, see the
 - Read each declaration and its implementation before treating comments in
   another module document as a guarantee.
 - `SchedulerError` is not the return type for all scheduler failures.
-- `TaskScheduler::executeTaskNow` has no active distributed-coordinator health
-  check in its implementation; the check is a commented placeholder.
+- `TaskScheduler` checks a shared distributed-execution gate on immediate,
+  scheduled, and DAG dispatch. Standalone schedulers have no attached gate.
 - `isSchedulerFailClosed()` identifies only `kCoordinationError` and
   `kInternalError` as fail-closed. It does not encode every operation-specific
   rejection policy.
-- Request-context permission helpers in `task_scheduler.h` fall back to allow
-  when the context is unset. API callers must establish the intended security
-  boundary.
+- Request-context permission helpers deny when the context is unset. Callers
+  must establish a narrowly scoped context; `ScopedRequestContext` restores the
+  prior context at scope exit.
 
 The canonical implementation-level discussion is
 [src/scheduler/ARCHITECTURE.md](../../src/scheduler/ARCHITECTURE.md).

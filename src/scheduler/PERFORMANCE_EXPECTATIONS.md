@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -26,7 +26,7 @@ hardware-specific target has been met.
 
 | File / cases | What the source measures | Scope caveat |
 |---|---|---|
-| `benchmarks/scheduler/bench_task_scheduler.cpp`: `TaskSchedulerBenchFixture/{RegisterUnregister,ExecuteTaskNow,ListTasks,GetStats,ConcurrentRegister}` | Calls the production `TaskScheduler` APIs. `ListTasks` registers 10, 50, or 100 tasks. | The fixture uses a real in-process storage/query setup and disables persistence/audit/anomaly features. |
+| `benchmarks/scheduler/bench_task_scheduler.cpp`: `TaskSchedulerBenchFixture/{RegisterUnregister,ExecuteTaskNow,ListTasks,GetStats,ConcurrentRegister}` | Calls the production `TaskScheduler` APIs. `ListTasks` registers 10, 50, or 100 tasks. | The fixture uses a real in-process storage/query setup and disables persistence/audit/anomaly features. This is the only scheduler benchmark used for the CTest smoke. |
 | `benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp`: `BM_SC_BM_01_RegisterP95` through `BM_SC_BM_04_StatsQueryP95` | A local `stubs::TaskScheduler` with a mutex and queue. | Does not call production `TaskScheduler`. “p95” appears in case names/labels; no percentile computation is configured in this source. |
 | `benchmarks/scheduler/bench_scheduler_release_gates.cpp`: `BM_SCH01`–`BM_SCH04` | Enum cast/switch, a locally declared descriptor allocation, and batch enum casts. | Not measurements of task registration, execution, or end-to-end scheduler behavior. The labels state targets; this source does not enforce them as pass/fail assertions. |
 | `benchmarks/scheduler/bench_thread_pool_saturation.cpp` | `ThreadPoolManager` submission, saturation, ordering, producer, stats, and shutdown cases. | Generic thread-pool measurements, not scheduler task lifecycle benchmarks. |
@@ -36,12 +36,13 @@ hardware-specific target has been met.
 
 ## Expectations and gates
 
-No current scheduler CI threshold, baseline manifest, or representative-hardware
-result was verified in the scoped benchmark/CMake sources. Treat the numeric
-targets embedded in benchmark comments/labels as proposed benchmark metadata,
-not as demonstrated release acceptance criteria.
+No current scheduler CI threshold, baseline manifest, benchmark owner, or
+representative-hardware result was verified in the scoped benchmark/CMake
+sources. The production-path benchmark is registered as a CTest smoke that
+checks successful execution only; its timing is informational. Numeric targets
+embedded in other benchmark comments/labels are not scheduler release criteria.
 
-**TODO:** identify the owner and CI workflow for release baselines, define the
-statistic actually reported (including percentile methodology if required), and
-confirm which benchmarks must gate a release. Until then, do not claim a
-verified p95/p99 or regression budget.
+**Release gate remains unresolved:** an owner must identify stable representative
+hardware, establish a baseline, agree on the measured statistic and threshold,
+and decide which cases gate a release. Until then, do not claim a verified
+p95/p99, regression budget, or release-critical benchmark.

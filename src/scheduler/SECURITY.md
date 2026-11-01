@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -24,15 +24,23 @@ approval or a claim that deployment authorization is complete.
 
 ## Source-visible controls
 
-- Task registration checks `task:register` and validates applicable AQL,
-  resource, cron, and CDC configuration. `executeTaskNow` checks
-  `task:execute` and applies a per-task rate limit. Function registration checks
+- Task registration checks `task:register`; removal checks `task:unregister`;
+  enable, disable, and update check `task:update`; manual and DAG execution
+  check `task:execute`. Function registration and removal require
   `task:register_function` and the `system_admin` role.
-- `TaskScheduler::RequestContext` carries permissions and roles. **Important:**
-  `hasPermission` and `hasRole` fall back to allow when no request context is
-  present. The header instructs callers to set context before audited
-  operations. The invoking server/API boundary must therefore be reviewed; do
-  not treat these helpers alone as an authorization boundary.
+- `TaskScheduler::RequestContext` carries permissions and roles.
+  `hasPermission` and `hasRole` deny when context is absent. HTTP routes and
+  trusted in-process services must provide a scoped context with only the
+  operation's required permissions. `ScopedRequestContext` restores the prior
+  thread context at scope exit.
+- Distributed scheduler dispatch checks a shared gate maintained by
+  `DistributedTaskCoordinator`; manual, scheduled, CDC-triggered, and DAG
+  dispatch fail closed until healthy leadership and fail closed on detected
+  leadership/health loss. Standalone schedulers with no distributed coordinator
+  remain local.
+- CDC predicates reject malformed syntax, unknown fields, and unsupported
+  operators during configuration validation; runtime parse/evaluation errors
+  reject the event rather than matching by default.
 - `sandbox_execution`, audit logging, anomaly detection, result storage, and
   GDPR masking are configurable. Sandbox execution and result storage default
   to disabled; audit/anomaly behavior can also be disabled by configuration.
@@ -42,11 +50,11 @@ approval or a claim that deployment authorization is complete.
 
 ## Limits and follow-up
 
-- The coordination-health check in `executeTaskNow` is a commented placeholder;
-  do not rely on it to block execution during coordinator failure.
 - The scheduler implementation does not establish a `THEMIS_PRODUCTION_MODE`
   or `THEMIS_ENVIRONMENT` gate. No production mode should be inferred from this
   module.
+- Existing callers that relied on absent-context allow behavior must migrate to
+  explicit `RequestContext` scopes. This is a deliberate behavior change.
 - A deployment review should verify request-context propagation, API
   authentication/authorization, audit configuration and key management,
   sandbox policy, storage lifetime, and rate-limit behavior for its own

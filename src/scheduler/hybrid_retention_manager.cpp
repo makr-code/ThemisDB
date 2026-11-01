@@ -16,9 +16,27 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "scheduler/scheduler_api_contract.h"
+#include <initializer_list>
+#include <optional>
 #include <sstream>
 
 namespace themis {
+namespace {
+
+TaskScheduler::RequestContext makeRetentionContext(
+    std::initializer_list<std::string> permissions,
+    bool administrator = false) {
+    TaskScheduler::RequestContext context;
+    context.user_id = "system:hybrid-retention";
+    context.authorization_justification = "trusted hybrid-retention operation";
+    context.granted_permissions.insert(permissions.begin(), permissions.end());
+    if (administrator) {
+        context.roles.insert("system_admin");
+    }
+    return context;
+}
+
+} // namespace
 
 // ===== HybridRetentionManager Implementation =====
 
@@ -59,6 +77,11 @@ HybridRetentionManager::~HybridRetentionManager() noexcept {
  */
 
 void HybridRetentionManager::start() {
+    std::optional<TaskScheduler::ScopedRequestContext> internal_context;
+    if (!TaskScheduler::hasRequestContext()) {
+        internal_context.emplace(
+            makeRetentionContext({"task:register", "task:register_function"}, true));
+    }
     std::unique_lock<std::shared_mutex> lock(mutex_);
     
     if (running_) {
@@ -92,6 +115,10 @@ void HybridRetentionManager::start() {
  * @details Calls: lock(), THEMIS_INFO(), empty(), unregisterTask().
  */
 void HybridRetentionManager::stop() {
+    std::optional<TaskScheduler::ScopedRequestContext> internal_context;
+    if (!TaskScheduler::hasRequestContext()) {
+        internal_context.emplace(makeRetentionContext({"task:unregister"}));
+    }
     std::unique_lock<std::shared_mutex> lock(mutex_);
     
     if (!running_) {
@@ -161,6 +188,10 @@ HybridRetentionConfig HybridRetentionManager::getConfig() const {
  */
 
 void HybridRetentionManager::executeStage1() {
+    std::optional<TaskScheduler::ScopedRequestContext> internal_context;
+    if (!TaskScheduler::hasRequestContext()) {
+        internal_context.emplace(makeRetentionContext({"task:execute"}));
+    }
     auto span = Tracer::startSpan("HybridRetentionManager.executeStage1");
     THEMIS_INFO("Manually executing Stage 1: Gorilla Compression");
     
@@ -174,6 +205,10 @@ void HybridRetentionManager::executeStage1() {
  * @details Calls: Tracer::startSpan(), THEMIS_INFO(), empty(), executeTaskNow().
  */
 void HybridRetentionManager::executeStage2() {
+    std::optional<TaskScheduler::ScopedRequestContext> internal_context;
+    if (!TaskScheduler::hasRequestContext()) {
+        internal_context.emplace(makeRetentionContext({"task:execute"}));
+    }
     auto span = Tracer::startSpan("HybridRetentionManager.executeStage2");
     THEMIS_INFO("Manually executing Stage 2: Adaptive Retention");
     
@@ -187,6 +222,10 @@ void HybridRetentionManager::executeStage2() {
  * @details Calls: Tracer::startSpan(), THEMIS_INFO(), empty(), executeTaskNow().
  */
 void HybridRetentionManager::executeStage3() {
+    std::optional<TaskScheduler::ScopedRequestContext> internal_context;
+    if (!TaskScheduler::hasRequestContext()) {
+        internal_context.emplace(makeRetentionContext({"task:execute"}));
+    }
     auto span = Tracer::startSpan("HybridRetentionManager.executeStage3");
     THEMIS_INFO("Manually executing Stage 3: Time-Based Retention");
     
@@ -200,6 +239,10 @@ void HybridRetentionManager::executeStage3() {
  * @details Calls: Tracer::startSpan(), THEMIS_INFO(), executeStage1(), executeStage2(), executeStage3(), empty(), executeTaskNow().
  */
 void HybridRetentionManager::executeAll() {
+    std::optional<TaskScheduler::ScopedRequestContext> internal_context;
+    if (!TaskScheduler::hasRequestContext()) {
+        internal_context.emplace(makeRetentionContext({"task:execute"}));
+    }
     auto span = Tracer::startSpan("HybridRetentionManager.executeAll");
     THEMIS_INFO("Manually executing all retention stages");
     

@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -52,5 +52,7 @@ header rather than assuming one namespace for the whole directory.
 
 `include/scheduler/scheduler_api_contract.h` declares the scheduler error
 enumeration, but error handling is operation-specific. The
-`TaskScheduler::executeTaskNow` coordination-health check is currently a
-commented placeholder. See the [implementation architecture](../../src/scheduler/ARCHITECTURE.md).
+The scheduler now checks the shared execution gate attached by
+`DistributedTaskCoordinator`; the gate is closed until healthy leadership and
+is re-checked by immediate, scheduled, and DAG dispatch. See the
+[implementation architecture](../../src/scheduler/ARCHITECTURE.md).

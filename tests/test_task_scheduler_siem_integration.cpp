@@ -48,6 +48,13 @@ private:
 class TaskSchedulerSIEMIntegrationTest : public ::testing::Test {
 protected:
     void SetUp() override {
+        TaskScheduler::RequestContext test_context;
+        test_context.user_id = "scheduler-siem-test";
+        test_context.granted_permissions = {
+            "task:register", "task:unregister", "task:update", "task:execute",
+            "task:register_function"};
+        test_context.roles.insert("system_admin");
+        TaskScheduler::setRequestContext(test_context);
         // Clean up any previous test artifacts
         test_dir_ = "test_data/siem_test_" + std::to_string(time(nullptr));
         std::filesystem::create_directories(test_dir_);
@@ -113,6 +120,7 @@ protected:
         
         // Clean up test directory
         std::filesystem::remove_all(test_dir_);
+        TaskScheduler::clearRequestContext();
     }
     
     // Helper to read audit log entries

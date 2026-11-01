@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -30,26 +30,31 @@ interfaces and implementation map is summarized in [README.md](README.md).
 
 ## Open work
 
-- [ ] Implement and verify the coordination-availability behavior currently
-  left as a placeholder in `TaskScheduler::executeTaskNow`.
+- [x] Replace the `executeTaskNow` coordination placeholder with a shared,
+  coordinator-owned execution gate checked by manual, scheduled, and DAG
+  dispatch. The gate is false until healthy leadership is established and is
+  closed on leadership loss, heartbeat failure, and coordinator shutdown.
 - [ ] Replace skipped coordination failure scenarios and simulated
   burst/retention cases with tests that exercise the actual implementation.
-- [ ] Resolve the intended condition-parser behavior for malformed/unknown
-  trigger predicates and align code, header comments, and tests.
-- [ ] Confirm authorization behavior when no `RequestContext` exists and
-  document the server/API boundary; current permission helpers allow in that
-  case.
-- [ ] Define a real benchmark release workflow, statistic, thresholds, and
-  representative-hardware baseline. Existing stub/generic cases do not establish
-  production scheduler gates.
+- [x] Reject malformed, unknown-field, and unknown-operator CDC predicates;
+  configuration validation and runtime evaluation both fail closed.
+- [x] Deny security-sensitive scheduler operations when `RequestContext` is
+  absent. HTTP routes and trusted coordinator/persistence paths now set scoped,
+  operation-limited contexts.
+- [ ] Define a numeric benchmark release workflow, statistic, threshold, and
+  representative-hardware baseline. The production scheduler benchmark has a
+  CTest smoke registration, but its timing is informational until an owner,
+  stable hardware, baseline, and threshold are agreed.
 - [ ] Obtain security/deployment-owner review for production requirements and
   configuration defaults; see [PRODUCTION_REQUIREMENTS.md](PRODUCTION_REQUIREMENTS.md).
 
 ## Evidence inventory
 
 - Focused test CMake registration globs `tests/scheduler/test_scheduler_*.cpp`.
-  The coordination fixture skips, and some stress tests use simulation or
-  placeholder logic. See [AUDIT.md](AUDIT.md).
+  The existing coordination-failure placeholder suite remains skipped; the
+  production distributed coordinator integration tests cover the execution
+  gate. Some stress tests still have simulation or placeholder logic. See
+  [AUDIT.md](AUDIT.md).
 - Benchmark CMake registration globs `benchmarks/scheduler/bench_*.cpp` when
   `THEMIS_BUILD_BENCHMARKS` is enabled. See
   [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md) for what each

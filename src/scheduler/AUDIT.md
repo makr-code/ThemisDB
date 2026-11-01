@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -23,8 +23,10 @@ Exact model backend not verifiable from final document text alone.
 Targeted source inspection covered the scoped scheduler Markdown, relevant
 public declarations and implementation paths, scheduler test/benchmark sources,
 and their CMake registration.
-No build, lint, or tests were run. This is a documentation consistency review,
-not a code-quality or security certification.
+The initial documentation review did not run build, lint, or tests. Subsequent
+scheduler hardening added source-level behavior and regression coverage; focused
+build/test execution remains blocked when required system dependencies are absent.
+This is not a code-quality or security certification.
 
 | Check | Finding |
 |---|---|
@@ -36,26 +38,25 @@ not a code-quality or security certification.
 
 ## Open source/documentation gaps
 
-1. `TaskScheduler::executeTaskNow` contains a commented coordination-health
-   placeholder. The module must not claim that this path currently blocks
-   dispatch on coordinator unavailability.
-2. The coordination-failure test fixture calls `GTEST_SKIP()` in setup. The
+1. The coordination-failure placeholder fixture still calls `GTEST_SKIP()` in
+   setup. A production `DistributedTaskCoordinator` test now verifies that
+   immediate, scheduled, and DAG paths do not execute without healthy
+   leadership, but the broader failover scenarios remain unimplemented.
+2. The
    burst/retention test includes simulated or placeholder scenarios. These
    sources do not substantiate all the behavior their names/comments describe.
 3. The dedicated “p95” benchmark cases use a local stub scheduler; the release
    gate benchmark measures enum operations and a local descriptor. No scoped
    CMake registration or benchmark source establishes a CI-enforced scheduler
    release threshold or hardware baseline.
-4. Event-trigger condition handling is not uniformly fail-closed: structural
-   validation rejects some conditions, while an unknown operator returns a
-   match. The parser's intended contract needs owner review.
-5. The permission helpers allow when no request context is present; the caller's
-   authorization and context-propagation boundary remains deployment-sensitive.
+4. CDC condition configuration and runtime evaluation now reject malformed
+   predicates, unknown fields, and unsupported operators.
+5. Permission and role helpers deny without a request context. HTTP and trusted
+   in-process scheduler callers use scoped contexts with narrow permissions;
+   deployments must still verify their identity-provider mappings.
 
 ## Disposition
 
-The scoped implementation and registration surfaces are present, but earlier
-documentation overstated coordination fail-closed behavior, lock-order
-guarantees, production requirements, and performance-gate status. Updated
-module docs now state verified behavior and leave the unresolved items visible.
-No claim is made here that the open gaps are resolved.
+The current docs reflect the implemented fail-closed deltas. Broader coordinator
+failure testing and a benchmark owner/hardware/baseline/threshold agreement
+remain open; timing is not a release gate.
