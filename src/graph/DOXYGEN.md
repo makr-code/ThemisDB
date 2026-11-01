@@ -1,14 +1,35 @@
-# GRAPH DOXYGEN
-
+---
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: ThemisDB documentation orchestration specialist
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source level: level1
+SOT domain: module-behavior
+Canonical source references:
+  - ../../include/graph/
+  - ../../src/graph/
+  - ../../tests/graph/
+  - ../../benchmarks/graph/
+Related milestone: DOC-WEEKLY-2026-44
+AI_Model_Note: Exact model backend not verifiable from final document text alone.
+---
+
+# GRAPH DOXYGEN — historical generated snapshot
+
+> This file is a generated snapshot, not a current API reference. Its recorded Windows build
+> paths, source counts, symbols, and detailed function listings reflect the generation date
+> below and have not been regenerated or checked against the present tree for this task. Consult
+> current headers and source; do not treat snapshot text as normative.
 
 ## Source
-- This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\graph\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\graph\doxygen-warnings.log`
+- Historical generation metadata (2026-09-20; retained from the snapshot):
+- XML index recorded by the generator: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\graph\xml\index.xml`
+- Warnings log recorded by the generator: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\graph\doxygen-warnings.log`
 
 ## Structure Metrics
 - C/C++ Files (scanned): 84
@@ -13437,4 +13458,3 @@ Status: active
 - Source: `tests/graph/test_graph_phase3_optimization.cpp`:1357
 - Brief: n/a
 - Parameters: none
-

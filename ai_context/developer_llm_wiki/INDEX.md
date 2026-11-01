@@ -31,6 +31,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - Laufmodus: FULL_SYNC
 - Quellen gesamt: 9419
 - Quellen-Hash: `d8a35a984a466683d714b65e1660ade3e2cfecca591a1d1a9c623f47aeda2d1a`
+- The source inventory predates the manually curated Graph and Storage pages; the source manifest was not regenerated for those additions.
 - The Storage page is manually curated and is not included in these generated
   counts or the source manifest until a full wiki sync is run.
 
@@ -46,12 +47,14 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - [BUILD_TEST_CI_AND_OPERATIONS.md](BUILD_TEST_CI_AND_OPERATIONS.md)
 - [GOVERNANCE_AND_ROADMAP.md](GOVERNANCE_AND_ROADMAP.md)
 - [AQL module context](AQL.md) — assistance API boundaries, validation behavior, and test/benchmark registration.
+- [Graph module context](GRAPH.md) — graph execution boundaries, RotatE evidence, focused tests, and archived artifacts
 - [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary.
 - [IMPORTERS.md](IMPORTERS.md) — curated importer module context
 - [UPDATES.md](UPDATES.md) — curated updates module context
 - [DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md) — curated distributed tensor module context
 - [TEMPORAL.md](TEMPORAL.md) — temporal runtime/API boundaries, test and benchmark evidence limits
 - [STORAGE.md](STORAGE.md) — curated storage API boundaries, test evidence, and contract gaps
+- [USER_STORAGE_ENCRYPTED.md](USER_STORAGE_ENCRYPTED.md) — encrypted user-storage architecture, configuration, and evidence boundaries
 - [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)
 - [WIKI_STATUS.json](WIKI_STATUS.json)
 - [WIKI_DELTA_REPORT.md](WIKI_DELTA_REPORT.md)

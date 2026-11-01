@@ -1,8 +1,20 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
+Last Updated: "2026-10-31"
 Status: "active"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: ThemisDB documentation orchestration specialist
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source level: level1
+SOT domain: module-behavior
+Canonical source references:
+  - ../../include/graph/
+  - ../../src/graph/
+Related milestone: DOC-WEEKLY-2026-44
+AI_Model_Note: Exact model backend not verifiable from final document text alone.
 ---
 
 # Graph in ThemisDB
