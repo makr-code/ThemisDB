@@ -1,11 +1,30 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Model_Attribution: "Exact model backend not verifiable from final document text alone."
+AI_Contributor: "themisdb-doc-orchestrator"
+Human_Review: false
+Human_Author: "unknown"
+---
+
 # Security - Themis Core Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 Report vulnerabilities via project-level SECURITY.md.
 
 ## Security Scope
+
+> This page summarizes source surfaces; it is not a security audit or
+> confirmation of deployment policy. No security tests or audit were run as
+> part of the 2026-10-31 documentation review. Production signature enforcement
+> depends on build mode and verifier policy; see
+> [production requirements](./PRODUCTION_REQUIREMENTS.md).
 
 Security in the themis core module focuses on deterministic license/edition decisions, secure module verification and loading, integrity-preserving dependency resolution, and explicit wire-runtime fault signaling.
 

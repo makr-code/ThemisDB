@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -27,6 +27,7 @@ behavior described by older design prose or interface comments.
 | Query pattern screening | `guardrail_patterns.h`; plugin-local matching in `wikipedia/llm_wiki_plugin_impl.cpp` | Case-folded substring checks for configured patterns |
 | Workspace persistence | [`../../include/llm_wiki/workspace_state_manager.h`](../../include/llm_wiki/workspace_state_manager.h), `workspace_state_manager.cpp` | JSON file persistence, validation, and log recovery |
 | Process policy | [`../../include/llm_wiki/process_policy_manager.h`](../../include/llm_wiki/process_policy_manager.h), `process_policy_manager.cpp` | YAML parse, schema lookup, and semantic invariant checks |
+| Knowledge-sphere artifacts | `schema/knowledge_spheres.schema.json`, `process/knowledge_spheres_policy.yaml`, `runtime/knowledge_spheres.runtime.json` | Static design/configuration files; no runtime loader or registry use is present in the plugin path |
 | Optional page store | [`../../include/llm_wiki/rocksdb_wiki_store.h`](../../include/llm_wiki/rocksdb_wiki_store.h), `rocksdb_wiki_store.cpp` | RocksDB key/value operations when `THEMIS_USE_ROCKSDB` is defined |
 | Build target | `CMakeLists.txt` | `themis_llm_wiki` static library and optional RocksDB linkage |
 
@@ -65,6 +66,12 @@ contract:
 - `ingestWikipediaDump()` currently ignores its arguments and returns fixed
   counts. It is not evidence that dump ingestion is operational in this
   implementation.
+- **Synchronization mismatch:** the public header promises thread-safe methods
+  and lock-free concurrent queries, but plugin `query()` takes an exclusive
+  `unique_lock`. `wikiLint()` and `stats()` do not lock plugin member access;
+  the workspace orchestrator's internal lock does not protect the plugin's
+  pointer/root fields. Serialize plugin calls externally until the source/API
+  contract is resolved; see [`API.md`](API.md).
 - `guardrail_patterns.h` and the plugin's local `containsUnsafePattern`
   helper are separate matching implementations. Do not assume the former's
   complete pattern set is applied by the latter without tracing the call path.

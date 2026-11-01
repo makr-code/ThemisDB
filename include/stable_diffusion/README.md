@@ -1,3 +1,18 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone. Original creation dates
+> could not be verified from available history; `Created` records this AI-assisted revision.
+
 > **Build (Linux):** `cmake --preset linux-release && cmake --build --preset linux-release`<br>
 > **Build (Windows):** `cmake --preset windows-release && cmake --build --preset windows-release`
 
@@ -86,11 +101,13 @@ Public headers for Stable Diffusion image-generation plugin integration.
 - **Stub mode** is always available without a model file; `SDStubGenerator` returns a
   zero-filled RGB buffer (solid black) and records the seed actually used.
 - **Real inference** (`SDCppGenerator`) requires `THEMIS_ENABLE_STABLE_DIFFUSION=ON` at
-  build time and a valid GGUF or safetensors model at the path given to `initialize()`.
+  build time, the stable-diffusion.cpp library to be found and linked, and a valid GGUF or
+  safetensors model at the path given to `initialize()`.
 - **Content policy**: every `generate()`, `generateBatch()`, and `generateImg2Img()` call
   screens both `prompt` and `negative_prompt` through `SDPromptSanitizer::isAllowed()`
   before reaching the generator. Blocked prompts return `success=false` without calling
-  the model and increment `blocked_count`.
+  the model and increment `blocked_count`. This is literal keyword-list filtering, not
+  comprehensive content moderation or a safety guarantee.
 - **Uninitialized plugin**: calling `generate*()` before `initialize()` returns
   `GeneratedImage{success=false, error_message="...not initialized..."}`.
 - **Generator exception**: exceptions thrown by the generator are caught; the result is
@@ -98,14 +115,18 @@ Public headers for Stable Diffusion image-generation plugin integration.
 - **Thread safety**: `generate()`, `generateBatch()`, and `generateImg2Img()` are
   serialized by an internal `std::mutex`. `initialize()` and `shutdown()` are not
   concurrently safe with each other or with generate paths.
-- **`SDCppGenerator` parallel calls** are serialized within the generator instance and
-  validated by an opt-in real-backend concurrency audit test target
-  (`SDPluginRealBackendE2ETests`); external deployment policy may still choose stricter
-  process-level serialization depending on GPU runtime constraints.
-- **Provenance stamps** (`plugin_version`, `generation_timestamp`, `prompt_hash`) are
-  always set by `SDPlugin` on every result path regardless of generator implementation.
+- **`SDCppGenerator` parallel calls** are serialized within the generator instance. An
+  opt-in real-backend parallel-generation test exists in
+  `SDPluginRealBackendE2ETests`; test presence alone is not evidence that a specific model
+  or deployment runtime has been exercised. External deployment policy may require stricter
+  process-level serialization.
+- **Provenance stamps** are populated by `SDPlugin`, not by generators. In the current
+  implementation `generation_timestamp` is assigned on success; some early error results
+  do not include every provenance field. **TODO:** reconcile this with
+  `image_generation_interface.h`, whose comments describe these fields as mandatory.
 - **`prompt_hash`** uses FNV-1a 64-bit (not cryptographic; the algorithm is fixed across
-  plugin versions so hash values are stable and reproducible for the same sanitized prompt).
+  plugin versions so hash values are stable and reproducible for the same sanitized prompt
+  on accepted requests; blocked requests fingerprint the original prompt.
 
 ## Usage
 
@@ -195,11 +216,15 @@ target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
 - **`SDCppGenerator` not available**: the build does not include
   `THEMIS_ENABLE_STABLE_DIFFUSION=ON` or the `stable-diffusion.cpp` submodule is not
   present; the plugin automatically falls back to `SDStubGenerator`.
-- **`generateImg2Img()` ignores the input image**: stub and in-memory generators fall back
-  to text-to-image; real denoising requires `SDCppGenerator` (see ROADMAP Phase 5).
+- **`generateImg2Img()` behavior depends on the generator**: `SDStubGenerator` returns a
+  valid input image unchanged (or falls back to text-to-image when input is invalid);
+  `InMemorySDGenerator` uses its preset output; `SDCppGenerator` calls real img2img inference.
+- **Header-comment discrepancy:** `sd_plugin.h` still describes real-backend img2img as
+  future work, but `sd_generator.h` contains an `SDCppGenerator` img2img implementation.
+  **TODO:** reconcile the header comment; runtime behavior is evidenced by the implementation.
 - **Thread-safety concerns with `SDCppGenerator`**: parallel calls depend on the
-  downstream `stable-diffusion.cpp` runtime; serialize externally or await the
-  concurrency audit tracked in ROADMAP.md.
+  downstream `stable-diffusion.cpp` runtime. Run the opt-in real-backend test with the
+  deployment model/runtime; serialize externally if that evidence is unavailable.
 
 ## See Also
 

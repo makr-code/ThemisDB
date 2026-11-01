@@ -1,6 +1,21 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "include/timeseries/; src/timeseries/ROADMAP.md; tests/timeseries/CMakeLists.txt"
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
+> Exact model backend not verifiable from final document text alone.
+
+<!-- Planning inventory checked against current headers: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/timeseries/ROADMAP.md -->
 
 # Timeseries Module — Public Header Roadmap
@@ -20,7 +35,12 @@ Tracks public time-series API contract stability, header coverage, and future pu
 
 ## Current Status
 
-All 22 timeseries headers are present. Public entry points exist for hypertable management, Gorilla and SIMD compression, downsampling, gap-fill, continuous aggregation, anomaly detection, adaptive flushing, encrypted chunk storage, Prometheus remote-write, streaming cursors, and query optimisation.
+All 26 headers listed in [`README.md`](README.md) are present. This records
+header inventory only; it does not assert runtime integration, API stability,
+or successful build/test execution. The public declarations include store,
+partitioning, compression, downsampling, gap-fill, continuous aggregation,
+anomaly detection, buffering, encryption, remote-write decoding, cursors,
+metrics, and diagnostics.
 
 ---
 
@@ -38,8 +58,8 @@ All 22 timeseries headers are present. Public entry points exist for hypertable 
 
 ## In Progress
 
-- [ ] Document continuous-aggregate refresh-lag and staleness bounds in `continuous_agg.h` and `aggregate_scheduler.h` (Target: 2026-Q3)
-- [ ] Clarify back-pressure semantics and flush-rate contract in `adaptive_flush_controller.h` (Target: 2026-Q3)
+- [ ] Reconcile continuous-aggregate refresh-lag and staleness documentation with the current declarations in `continuous_agg.h` and `aggregate_scheduler.h` (planning item; completion not established by this inventory)
+- [ ] Clarify back-pressure semantics and flush-rate contract in `adaptive_flush_controller.h` (planning item; completion not established by this inventory)
 
 ---
 
@@ -47,10 +67,13 @@ All 22 timeseries headers are present. Public entry points exist for hypertable 
 
 - [ ] `timeseries_policy.h` — unified retention, downsampling, and compression policy contract (Target: 2026-Q4)
 - [ ] Add SIMD availability guards and fallback notes to `gorilla_simd.h` (Target: 2026-Q4)
-- [ ] Expose benchmark throughput targets for Prometheus remote-write ingest hot path (Target: 2026-Q4)
+- [ ] Expose benchmark throughput targets for Prometheus remote-write payload decoding (Target: 2026-Q4)
 
 ---
 
 ## Breaking Change History
 
-None in v1.x. Timeseries headers maintain backward compatibility within the active major line; compression-format and partition-schema changes require migration notes and changelog updates.
+No breaking-change history was established by this header-inventory review.
+Do not treat the presence of the current declarations as a backward
+compatibility guarantee; use the repository's release and versioning sources
+for supported compatibility policy.

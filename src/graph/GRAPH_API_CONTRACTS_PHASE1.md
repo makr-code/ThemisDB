@@ -1,3 +1,28 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-08-01
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: ThemisDB documentation orchestration specialist
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source level: level1
+SOT domain: api-contract
+Canonical source references:
+  - ../../include/graph/
+  - ../../src/graph/
+  - ../../tests/graph/
+Related milestone: DOC-WEEKLY-2026-44
+AI_Model_Note: Exact model backend not verifiable from final document text alone.
+---
+
+> **Historical Phase 1 artifact (2026-08-01), not a current API contract or freeze policy.**
+> Its signatures, result wrappers, guarantees, and error semantics are not authoritative where
+> they differ from current `include/graph/` declarations, implementations, tests, or project
+> versioning policy. See [API.md](API.md) for the current navigation guide.
+
 /**
  * @file GRAPH_API_CONTRACTS_PHASE1.md
  * @brief Graph Module API Contract Definitions (Phase 1 - Frozen 2026-08-01)

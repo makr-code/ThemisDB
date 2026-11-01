@@ -1,49 +1,85 @@
-# ThemisDB LLM Streaming Module — Production Requirements
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-> Status: source-validated design contract only (2026-10-07)
->
-> This module is not a production implementation directory today. The requirements below define the minimum governance rules for any future runtime implementation and for the evidence trail that must accompany it.
+Exact model backend not verifiable from final document text alone.
 
-## Purpose and Scope
+# LLM Streaming — Production Requirements (Proposed)
 
-The `llm_streaming` module is the contract layer for streaming semantics, lifecycle guarantees, and operator expectations. It must not be treated as a shipping runtime source path until a real implementation exists in a canonical module and is source-traceable from this document and the roadmap.
+## Current status
 
-## Canonical Ownership Rule
+`src/llm_streaming/` is docs-only. The helper is in
+`src/llm/streaming_handler.cpp` and `include/llm/streaming_handler.h`. A separate
+HTTP/SSE inference route exists at `GET /api/v1/llm/stream` and an
+OpenAI-compatible streaming mode at `POST /v1/chat/completions`; both buffer the
+complete response body before returning it, rather than delivering events
+incrementally over the network.
+Neither route has verified disconnect cancellation or backpressure, and the
+stub-based module tests/benchmark do not validate them. Requirements below
+distinguish this current behavior from proposed acceptance work.
 
-- Production runtime behavior must live in the owning module(s), not in `src/llm_streaming/`.
-- If runtime code is added here, it must be justified by explicit source ownership and matching references in `README.md`, `ARCHITECTURE.md`, and `ROADMAP.md`.
-- Existing validation files in `tests/llm_streaming/` and `benchmarks/llm_streaming/` remain non-production artifacts unless they are upgraded to real runtime evidence.
+## Proposed ownership and behavior requirements
 
-## Required Product Behavior
+- Treat `LLMApiHandler` as the owner of the current HTTP route and
+  `EmbeddedLLM` as its inference callback boundary; assign any new transport
+  lifecycle behavior to the relevant owner.
+- Define and test stream identity, completion, cancellation, disconnect, and
+  cleanup behavior in that owner.
+- Specify ordering semantics under concurrent callback invocations; the
+  helper's atomic index does not serialize sink delivery.
+- Decide whether buffered `string_body` delivery is acceptable; if not, define
+  incremental writes and their backpressure, disconnect, cancellation, and
+  cleanup behavior before implementing them.
+- Add diagnostics and operator procedures that correspond to observable
+  source behavior.
 
-- A stream must have a well-defined lifecycle: open, active, cancelled, closed.
-- Token order must be explicit and deterministic for a single stream unless the runtime defines a bounded reordering policy.
-- Cancellation must trigger cleanup and explicit terminal state transitions.
-- Backpressure overflow must yield explicit fail-closed behavior rather than silent truncation.
-- Client disconnects and upstream failures must be observable and diagnosable.
+## Acceptance evidence (not yet demonstrated)
 
-## Governance Requirements
+- [x] current HTTP routes, callers, and buffered response behavior are mapped
+      to source
+- [x] direct helper unit tests exist for escaping, indexes, sink behavior, and
+      empty-sink exception semantics
+- [x] a server API smoke test checks unauthenticated route/auth behavior
+- [ ] add authenticated route integration tests for generated events and
+      terminal/error response behavior
+- [ ] execute/maintain those tests and extend coverage for callback copies and
+      concurrency semantics
+- [ ] route integration tests exercise actual inference callbacks, response
+      buffering, terminal/error events, and the selected transport behavior
+- [ ] cancellation, disconnect, and backpressure are implemented and tested if
+      incremental network delivery is required
+- [ ] performance criteria are confirmed, measured, and reported on a stated
+      hardware profile; stub benchmark labels are not baselines
+- [ ] streaming-specific configuration is either implemented/documented or
+      explicitly excluded; current route parameters are documented
+- [ ] diagnostics and operational procedures are verified
+- [ ] release claims are traceable to the owning implementation and evidence
 
-- Any production claim must be backed by real implementation files, tests, and CI or benchmark evidence.
-- Design-only docs must not use release-grade language without matching runtime evidence.
-- The module path may remain docs-only until a canonical implementation is introduced and validated.
+## Existing validation and build references
 
-## Minimum Acceptance Gates
+- Direct helper unit test:
+  `tests/llm/test_streaming_handler.cpp`
+- Focused stub test source:
+  `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`
+- Integration soak stub source:
+  `tests/integration/test_llm_streaming_soak.cpp`
+- Stub benchmark:
+  `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`
+- CMake registration: `tests/llm_streaming/CMakeLists.txt`,
+  `tests/integration/CMakeLists.txt`, and
+  `benchmarks/llm_streaming/CMakeLists.txt`
 
-Before a runtime implementation is declared production-ready, the following gates must be satisfied:
+The unit test is evidence for its individual helper cases. The stub stress,
+soak, and benchmark sources are not acceptance evidence for a production
+runtime.
 
-- [ ] a canonical runtime source path is identified and documented
-- [ ] stream lifecycle semantics are implemented and tested
-- [ ] cancellation and disconnect recoveries are validated
-- [ ] backpressure overflow conditions are bounded and observable
-- [ ] p95/p99 latency and throughput baselines are captured on representative hardware
-- [ ] operator diagnostics and runbook coverage exist for failure scenarios
-
-## Required References
-
-- `README.md`
-- `ARCHITECTURE.md`
-- `ROADMAP.md`
-- `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`
-- `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`
-- `docs/architecture/DATA_FLOW_PATHS.md`
+**TODO / assumption:** product owner, deployment profile, incremental-delivery
+requirement, and release milestone are not established by the sources reviewed.

@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4.0-alpha  
-**Last Updated:** 2026-10-30 (Wave C evidence status and governance target reconciliation)
+**Last Updated:** 2026-11-01 (audit-derived production-readiness roadmap pointer; RotatE target clarification; Wave C evidence status unchanged since 2026-10-30)
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). Wave C (Security Production Validation) remains open: the latest tracked closure manifest (2026-10-01) records C1/C2 as successful, C3 sustained-load evidence as pending, and C4 compliance sign-off as in progress. Its linked validation artifact expired 2026-10-30; refresh the evidence before promoting these gates. GA promotion also remains gated by unresolved Wave-A/B evidence and final human sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. **Q3 2026 quarterly pentest complete (2026-09-28): 0 critical findings, 1 high finding (30-day remediation deadline), gate PASS. See `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`.**
 <!--
 AI_Used: true
@@ -39,6 +39,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - `ai_context/` contains active operational context for AI agents and engineering coordination; it is explanatory and must remain aligned to the root roadmap rather than redefining the project status.
 - `ai_working/` contains historical execution snapshots and evidence records. These files are explicitly non-normative and must not be used as the basis for current GA or launch claims unless explicitly promoted by root governance documents.
 - Canonical read order for active status: `ROADMAP.md` -> module `src/<module>/ROADMAP.md` -> current governance/release docs -> `ai_context/` operational summaries -> `ai_working/` historical evidence.
+- Audit-derived production-readiness plan (non-normative for release status; items must be mirrored here or in module roadmaps before they count): [audit/ROADMAP.md](audit/ROADMAP.md), based on [audit/FULL_DEEP_DIVE_AUDIT_2026-10-31.md](audit/FULL_DEEP_DIVE_AUDIT_2026-10-31.md) (2 Critical / 22 High findings; verdict: not production-ready).
 
 ## Source-Verified Reality Check (2026-09-09)
 
@@ -258,13 +259,13 @@ This execution contract is the active implementation sequence to close hardening
 > References: `src/ai/ROADMAP.md`, `src/ai/FUTURE_ENHANCEMENTS.md`, `docs/research/ml_enhancements_bibliography.md`
 
 - [x] **B1 — Self-RAG** (`SelfRAGController` + `InferenceEnhancementEngine`): iterative retrieve-critique loop, binary retrieval gate, 3-class critic (Relevant/Partial/Irrelevant), max-round exhaustion path — ✅ COMPLETE; ALCE-01..05 acceptance tests pass (`tests/rag/test_self_rag_alce.cpp`). Acceptance: hallucination reduction ≥ 20%, latency ≤ 1.5×, Precision@K ≥ 0.85.
-- [x] **B2 — RotatE KGC** (`RotatEModel`, `LinkPredictionHead`, `KGCompletionEngine`, `KnowledgeGraphReasoner`): relation-as-rotation embedding, negative-sampling triple loss, tail/head link prediction — ✅ COMPLETE; KGC-01..15 tests pass (`tests/test_rotate_completion.cpp`). Acceptance: MRR ≥ 0.35, Hits@10 ≥ 0.55, inference ≤ 50 ms.
+- [x] **B2 — RotatE KGC** (`RotatEModel`, `LinkPredictionHead`, `KGCompletionEngine`, `KnowledgeGraphReasoner`): relation-as-rotation embedding, negative-sampling triple loss, tail/head link prediction — implementation complete; the recorded KGC suite is `tests/graph/test_rotate_completion.cpp` and the deterministic acceptance assertions are in `tests/graph/test_rotate_completion_acceptance.cpp`. That acceptance fixture asserts MRR ≥ 0.10, Hits@10 ≥ 0.40, relative-to-TransE bounds, and top-20 p99 latency < 50 ms; it does not assert the higher roadmap quality targets MRR ≥ 0.35 and Hits@10 ≥ 0.55. The 2026-09-09 sign-off below records the implemented test gate and CI evidence, not measured proof of those higher targets. Treat the higher values as unverified targets pending a separately recorded evaluation.
 - [x] **B3 — Multi-Task LoRA** (`MultiTaskLoRA`): shared LoRA base with task-specific projections, domain-gating mechanism, configurable joint loss, 3-task benchmark — ✅ COMPLETE; MTL acceptance tests pass (`tests/training/test_multitask_lora_acceptance_gates.cpp`). Acceptance: avg task perf ≥ +8%, training overhead ≤ 15%.
 
 ### Wave B Exit Criteria (Gate to Wave C)
 - [x] Full 4-layer retrieval chain has stable p95/p99 and bounded memory on representative hardware (Target: Q4 2026) — Search Wave-B closure evidence recorded
 - [x] Access Model benchmark and observability gates are closed with reproducible evidence (Target: Q4 2026) — GATE-ACM-01..06 closed
-- [x] Wave B ML Enhancements (B1 Self-RAG, B2 RotatE KGC, B3 Multi-Task LoRA) exit-gate signed off — ALCE-01..05 + KGC-01..15 + MTL acceptance tests implemented and passing; CI evidence archival complete (2026-09-09, Issue #6286). See `src/ai/ROADMAP.md`, `src/ai/FUTURE_ENHANCEMENTS.md`.
+- [x] Wave B ML Enhancements (B1 Self-RAG, B2 RotatE KGC, B3 Multi-Task LoRA) exit-gate signed off — ALCE-01..05 + KGC-01..15 + MTL acceptance tests implemented and passing; CI evidence archival complete (2026-09-09, Issue #6286). For B2, this sign-off does not establish the higher MRR/Hits@10 targets stated as unverified in the item above. See `src/ai/ROADMAP.md`, `src/ai/FUTURE_ENHANCEMENTS.md`.
 - [~] Release decisions are based on representative hardware baselines, not module-local-only scaffolding benchmarks (Target: Q4 2026) — partial closure; remaining modules (LLM Wiki Phase B, GPU, Transaction, Voice) require representative-hardware CI validation
 
 ### Wave C — Security Production Validation (Q4 2026)
@@ -1501,7 +1502,7 @@ Plan: `src/MODULE_GAP_ANALYSIS_WAVE2.md` (Wave 2 + Wave 3 konsolidiert).
 | **distributed_tensor** | THIN/PLACEHOLDER | LOC=0, Stub/KLOC=0, Tests=0, TestRefs=0 |
 | **document** | HARDENING | LOC=2362, Stub/KLOC=8,89, Tests=47, TestRefs=20 |
 | **ethics_ai** | HARDENING | LOC=6315, Stub/KLOC=10,45, Tests=0, TestRefs=42 |
-| **evaluation** | HARDENING | LOC=860, Stub/KLOC=0, Tests=40+, TestRefs=0 | EPIC 2 complete: all 7 components (2.1 Hardware Profiles, 2.2 Benchmark Matrix, 2 Phase 2 Metrics/Ablation, 2.4 Approximation Rules, 2.5 Query Planner, 2.6 Artifact Lifecycle, 2.7 Storage Strategy) implemented, tested (220+ tests), benchmarked |
+| **evaluation** | HARDENING | LOC=860, Stub/KLOC=0, Tests=40+, TestRefs=0 | EPIC 2 item 2.7 is the quantization/mmap/zero-copy assessment tracked by [sub-issue #5443](https://github.com/makr-code/ThemisDB/issues/5443) under [EPIC #5436](https://github.com/makr-code/ThemisDB/issues/5436). Its `StorageStrategyAssessor` implementation and focused test are owned by `distributed_tensor` ([merged PR #5606](https://github.com/makr-code/ThemisDB/pull/5606)); the EPIC 2 placement benchmark instead exercises `DefaultShardPlacementStrategy` with synthetic nodes. The reviewed [CI run](https://github.com/makr-code/ThemisDB/actions/runs/29581923742) failed during configure and skipped build/test; no benchmark result artifact was found in the reviewed module docs or PR checks. Therefore 220+ passing tests and completed benchmark runs are not verified acceptance evidence. |
 | **execution** | HARDENING | Scheduler/thread-pool core delivered; hardening and deployment gate tracking active (`src/execution/ROADMAP.md`) |
 | **exporters** | HARDENING | LOC=9810, Stub/KLOC=7,03, Tests=378, TestRefs=15 |
 | **failover** | HARDENING | LOC=1259, Stub/KLOC=6,35, Tests=17, TestRefs=6 |

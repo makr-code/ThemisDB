@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "ThemisDB documentation orchestration assistant"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
@@ -18,14 +18,14 @@ Exact model backend not verifiable from final document text alone.
 
 This document records the technical assumptions and design pressure for the retrieval module as it exists in source today. The implementation currently centers on two concrete surfaces: the LoRA artifact contract in `src/retrieval/include/lora_package.h` and the retrieval validation path in `src/retrieval/dual_read_validator.cpp`.
 
-The module is not yet a full production retrieval engine. Instead, it is a governed seam for artifact packaging, integrity verification, and regression-focused evaluation of retrieval quality.
+The module is not a production retrieval engine. It provides artifact data/hash helpers and a separate metrics helper; it does not enforce artifact governance or perform live retrieval evaluation.
 
 ## Source evidence
 
 - `src/retrieval/include/lora_package.h` defines the public artifact model (`LoRAPackage`, `PortableAdapterProduct`, `LoRAManifestStore`), status states, integrity metadata, and serialization contract.
 - `src/retrieval/src/lora_package.cc` implements the canonical hashing and manifest logic used to validate package integrity and lifecycle state.
-- `src/retrieval/dual_read_validator.cpp` measures recall, nDCG, and MRR across candidate sets and uses ground-truth judgments to detect retrieval regressions.
-- `src/retrieval/ROADMAP.md` and `src/retrieval/FUTURE_ENHANCEMENTS.md` show that production-quality retrieval routing and multi-shard coordination remain staged follow-on work.
+- `src/retrieval/dual_read_validator.cpp` contains metric helpers and ground-truth lookup, but `ExecuteQuery()` returns an empty result vector and `ValidateQuery()` does not return a comparison delta.
+- `src/retrieval/ROADMAP.md` contains historical rollout material; its old phase claims are not verified current implementation status.
 
 ## Research questions
 
@@ -35,48 +35,57 @@ The present source does not define a general-purpose vector search engine API. I
 
 - package lifecycle control for LoRA artifacts,
 - deterministic JSON serialization and SHA-256 integrity checks,
-- explicit validation of a current retrieval index versus a prior reference index.
+- metric calculation over caller-supplied result and ground-truth values. The current validator does not query index backends.
 
-This is aligned with the code's fail-closed posture: validation and integrity checks produce explicit failure states rather than silently accepting invalid or drifted artifacts.
+The artifact registry now has a production path that requires YAML-loaded
+RocksDB settings and pinned Ed25519 keys. Production CRUD/import and reopen
+validation require a matching content hash and signature over `manifest_hash`;
+the verifier is internally bound to ThemisDB's shared pinned-key primitive.
+This does not make the entire retrieval module a production search engine, and
+deployment authorization still belongs to the owning deployment service.
 
 ### 2. Why do package lifecycle and retrieval quality share the same module?
 
-The module sits at the boundary between model adaptation and retrieval quality evaluation. A retrieval system is only as safe as the adapters and model artifacts it is allowed to serve. The LoRA package contract therefore treats model provenance, policy, and integrity as part of the retrieval trust surface.
+The same module contains adapter metadata and metric helper types. Their coexistence does not imply an implemented runtime integration between model adaptation and retrieval.
 
-At the same time, an index can regress even when artifacts are valid. The dual-read validator is meant to catch that by comparing current and previous retrieval metrics under the same query judgments.
+Although `DualReadValidator` has current/previous path fields, its query executor returns no results; the current implementation does not detect index regressions.
 
 ### 3. Which assumptions are explicit in the current implementation?
 
-The code assumes the following:
+The code currently implements these facts:
 
-- artifact metadata is authoritative only when serialized and verified deterministically,
-- base-model compatibility is a policy concern, not an implicit runtime property,
-- retrieval evaluation needs explicit ground truth to remain meaningful,
-- index drift and metric regressions should surface as explicit evidence, not silent fallback.
+- artifact metadata can be serialized and manifest hashes can be explicitly checked,
+- compatibility and lifecycle fields exist but do not enforce deployment policy,
+- ground truth is supplied by the caller and missing entries return empty data,
+- query execution is a placeholder rather than an index-drift detection path.
 
 ## Constraints and trade-offs
 
 ### Safety over permissiveness
 
-The `LoRAManifestStore` is designed around verification and policy gating. In `lora_package.cc`, hash verification and status flows are explicit and deterministic. This avoids the common failure mode where untrusted or inconsistent adapters are accepted under an ambiguous fallback path.
+`LoRAManifestStore` production construction rejects missing database settings,
+empty/invalid key pins, unsigned artifacts, and failed signature verification.
+The compatibility no-argument constructor is isolated and cannot store or
+deploy artifacts. Quality-gated deployment still fails closed without an
+explicit authorization callback from its owning service.
 
 ### Local validation before broad retrieval claims
 
-The dual-read validator computes metrics only from provided query results and ground-truth sets. It does not claim to replace full online evaluation. This is a deliberate trade-off: the module prefers transparent, measurable regression checks over broad assumptions about production behavior.
+Metric methods can calculate metrics from provided result and ground-truth values. `ValidateQuery()` cannot currently do this with live results because its executor is a placeholder.
 
 ### Narrow scope and staged rollout
 
-The module documentation indicates that large retrieval surfaces, multi-shard coordination, and GPU acceleration remain planned work. The source is aligned to that: the current implementation covers the integrity and evaluation infrastructure rather than a full distributed retrieval stack.
+The source in this scope does not implement large retrieval surfaces, multi-shard coordination, or GPU acceleration. Historical planning claims do not change that implementation boundary.
 
 ## Evaluation criteria
 
 This module is healthy when the following hold:
 
-- every LoRA package can be serialized, hashed, and verified reproducibly,
-- invalid or tampered package inputs are rejected explicitly,
-- retrieval metrics are computed against concrete ground truth instead of implicit assumptions,
+- package hash/serialization behavior is tested by the actual relevant test sources,
+- manifest hash mismatches can be detected by explicit verification calls,
+- metric helpers accept concrete ground-truth values, while real retrieval result acquisition is absent,
 - the code remains transparent about what work is implemented and what remains future work.
 
 ## Conclusion
 
-The retrieval module's research direction is conservative and governance-heavy: it prioritizes correctness, integrity, and explicit evaluation before broader search features are admitted. That design matches the source and the roadmap: the module is currently a reliable foundation layer, not yet a full production retrieval fabric.
+The current source establishes a limited artifact-hash implementation and metric helper, not a production retrieval or governance system. Research and delivery priorities beyond this boundary need an identified owner and canonical source; none are inferred here.

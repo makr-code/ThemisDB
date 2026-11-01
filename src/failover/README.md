@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -19,7 +19,7 @@ Exact model backend not verifiable from final document text alone.
 
 Automatic failover orchestration and disaster-recovery plan coordination for ThemisDB. The module provides bounded queueing, health/failure tracking, quorum and configured fencing gates, replica-promotion requests, ordered recovery steps, and in-process results/events.
 
-**Implementation boundary:** orchestration results do not prove every implied external action. Spare activation emits a failure event when a spare manager is configured (its return value is ignored by the main path); metadata update only logs; built-in DR restore and traffic-shift handlers do not call storage or traffic adapters. See [IMPLEMENTATION.md](IMPLEMENTATION.md).
+**Implementation boundary:** missing DR adapters now fail non-dry-run plans instead of returning success-shaped results. Production hooks must perform and verify their real actions. Spare activation failure blocks failover completion; metadata persistence is still unavailable and blocks the built-in failover path. See [IMPLEMENTATION.md](IMPLEMENTATION.md).
 
 ## Relevant Interfaces
 
@@ -62,7 +62,7 @@ Out of scope:
 - failover behavior depends on configured thresholds, queue limits, and external manager availability.
 - disaster recovery validates required plan strings before executing its ordered steps; current built-in snapshot validation checks only that an ID is present.
 - the request queue is bounded, but a queue limit does not bound dependency call duration or `stop()` join time. `stop()` calls `join()` directly; it has no enforced timed join.
-- `DisasterRecoveryManager` does not roll back completed steps; built-in restore and traffic-shift handlers do not perform those external operations.
+- `DisasterRecoveryManager` does not roll back completed steps. Non-dry-run steps requiring external effects fail until their production hooks are configured.
 
 ## Sourcecode Verification (Module: failover/readme)
 

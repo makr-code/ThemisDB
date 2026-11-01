@@ -1,253 +1,68 @@
-# benchmarks/training
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-Phase 5 Performance Gates and Stress Test Benchmarks for Training Module
+Exact model backend not verifiable from final document text alone.
 
-## Overview
+# Training benchmarks
 
-This directory contains comprehensive performance benchmarks for ThemisDB's training module with Phase 5 hardening gates. All benchmarks validate performance against established thresholds and report regressions for continuous monitoring.
+This directory contains two Google Benchmark executables. CMake discovers
+`bench_*.cpp` sources here only when `THEMIS_BUILD_BENCHMARKS` is enabled. These
+benchmarks are separate from LoRA/GPU benchmarks in `benchmarks/llm/` and
+`benchmarks/gpu/`.
 
-## Phase 5 Performance Gates
+## Targets and coverage
 
-### CPU Training Performance Targets
+| Target / source | Measured operations | Current threshold behavior |
+|---|---|---|
+| `bench_training_lifecycle_gates` / `bench_training_lifecycle_gates.cpp` | Actual `LoRAAdapter` construction, updates, linear/TIES merge, weight export/import, and 1,000 repeated updates | TLG-01..08 compare measurements with the in-source limits and print `[PERF_GATE]` diagnostics to stderr when exceeded |
+| `bench_training_dedicated_gates` / `bench_training_dedicated_gates.cpp` | Queue enqueue/dequeue, stub checkpoint save/restore, atomic stub gradient sync, and 8-worker queue operations | TR-BM-01..04 set labels describing target values; they use in-process stubs and do not enforce threshold failures |
 
-| Operation | Target | Measurement | Notes |
-|-----------|--------|-------------|-------|
-| LoRA Layer Construction | <50µs | per-layer | Standard 768-dim layer |
-| Forward Pass (LoRA) | <100µs/sample | single sample | Batch size = 1 |
-| Forward Pass (Attention) | <150µs/sample | single sample | Batch size = 1 |
-| Backward Pass (LoRA) | <150µs/sample | single sample | Batch size = 1 |
-| Backward Pass (Attention) | <200µs/sample | single sample | Batch size = 1 |
-| Training Step (32-sample batch) | <500ms | end-to-end | Forward + Backward + Optimizer |
-| Adapter Merge | <100ms | operation | Merge 2+ adapters |
-| Checkpoint Save (50MB) | <200ms | operation | Standard-size adapter |
-| Checkpoint Load (50MB) | <500ms | operation | Standard-size adapter |
+Lifecycle limits are: adapter construction ≤50 µs; single update ≤10 µs;
+three-layer batch update ≤30 µs; linear and TIES merges ≤5 ms; weight export
+and import ≤200 µs; and 1,000 adapter updates ≤100 ms. Inputs/dimensions are
+defined in the benchmark source.
 
-### GPU Training Performance Targets
+The dedicated benchmark's labeled targets are enqueue ≤1 µs, checkpoint stub
+round-trip ≤100 µs, gradient-sync throughput ≥1,000 operations/s, and
+eight-worker dispatch throughput ≥500 operations/s total. Because the queue,
+checkpoint, and sync implementations in this file are stubs, these results do
+not measure production database, checkpoint, GPU, or distributed-training
+behavior.
 
-| Operation | Target | Measurement | Notes |
-|-----------|--------|-------------|-------|
-| Forward Pass | ≤2x CPU baseline | GPU vs CPU | Batch size dependent |
-| Backward Pass | ≤2x CPU baseline | GPU vs CPU | Batch size dependent |
-| Min GPU Speedup (batch>1) | ≥1.5x | GPU/CPU ratio | Batch sizes 4+ recommended |
-| Memory Cleanup | <10ms | after training step | GPU memory reclamation |
-| GPU-to-CPU Transfer | <200ms | adapter data | Standard-size (50MB) |
+## Build and run
 
-### Memory Regression Detection
+Configure a supported CMake preset with `THEMIS_BUILD_BENCHMARKS=ON`, then
+build and run the targets:
 
-- **CPU Memory**: Flag increases >5% over baseline during sustained training
-- **GPU Memory**: Flag increases >10% over baseline during training
-- **Extended Sessions**: Monitor 1000+ training steps for memory leaks
-- **Concurrent Adapters**: Test 4-8 simultaneous adapter training
-
-## Benchmark Categories
-
-### 1. Layer Construction Benchmarks
-
-```bash
-./build-*/bin/bench_lora_training --benchmark_filter="Construction"
+```sh
+cmake --preset <supported-configure-preset> -DTHEMIS_BUILD_BENCHMARKS=ON
+cmake --build <build-dir> --target \
+  bench_training_lifecycle_gates bench_training_dedicated_gates
+<build-dir>/bin/bench_training_lifecycle_gates
+<build-dir>/bin/bench_training_dedicated_gates
 ```
 
-Measures:
-- LoRA layer construction time with varying dimensions (256-4096)
-- Attention LoRA construction
-- Sequential layer composition overhead
-- Per-layer construction time tracking
+Google Benchmark options such as `--benchmark_filter=TLG` and
+`--benchmark_repetitions=5` can narrow or repeat a run. The two benchmark
+targets are not registered as CTest tests. A printed gate diagnostic or target
+label is measurement output, not proof that a release workflow enforces that
+threshold; check the relevant workflow and baseline configuration separately.
 
-**Gate Validation**: Reports violations when construction exceeds 50µs for standard dimensions.
+## Source of truth
 
-### 2. Forward Pass Benchmarks
-
-```bash
-./build-*/bin/bench_lora_training --benchmark_filter="Forward"
-```
-
-Measures:
-- Single-sample forward pass performance
-- Per-sample throughput
-- Layer dimension scaling
-- Sequential pass composition overhead
-
-**Gate Validation**: Reports if forward pass exceeds 100µs/sample (LoRA) or 150µs/sample (Attention).
-
-### 3. Backward Pass Benchmarks
-
-```bash
-./build-*/bin/bench_lora_training --benchmark_filter="Backward"
-```
-
-Measures:
-- Single-sample backward pass performance
-- Gradient computation overhead
-- Per-sample throughput
-- Sequential backward composition
-
-**Gate Validation**: Reports if backward exceeds 150µs/sample (LoRA) or 200µs/sample (Attention).
-
-### 4. Memory Efficiency Benchmarks
-
-```bash
-./build-*/bin/bench_lora_training --benchmark_filter="Memory"
-```
-
-Measures:
-- Layer memory footprint
-- LoRA vs full fine-tuning memory comparison
-- Rank impact on memory usage
-- Memory baseline tracking
-
-**Gate Validation**: Compares current memory with baseline and reports >5% regression.
-
-### 5. Phase 5 Stress Test Benchmarks
-
-```bash
-./build-*/bin/bench_lora_training --benchmark_filter="Extended|Concurrent|LargeBatch"
-```
-
-#### Extended Training Session (1000+ steps)
-
-Validates:
-- No memory accumulation over 1000 training steps
-- Consistent per-step performance (no degradation)
-- Proper gradient cleanup
-- Checkpoint/restore cycles
-
-**Gate Validation**: Ensures training step remains <500ms throughout session.
-
-#### Concurrent Adapter Training
-
-Validates:
-- Training 4+ adapters simultaneously
-- No cross-adapter memory interference
-- Independent gradient streams
-- Resource contention handling
-
-**Gate Validation**: Per-adapter throughput remains consistent.
-
-#### Large Batch Training (Memory Pressure)
-
-Validates:
-- Training with batch sizes 64, 128, 256
-- Graceful memory management under pressure
-- No out-of-memory during training
-- Backward pass stability
-
-**Gate Validation**: Reports memory pressure scenarios and peak usage.
-
-### 6. GPU Training Benchmarks
-
-```bash
-./build-*/bin/bench_gpu_training_cycle [--benchmark_filter="CUDA|HIP|Vulkan"]
-```
-
-Measures (CUDA/HIP/Vulkan):
-- CPU baseline (reference)
-- GPU training cycle performance
-- GPU vs CPU speedup ratio
-- Complete training step (forward + backward + optimizer)
-- Memory transfer overhead
-
-**Gate Validation**:
-- GPU performance within 2x CPU baseline
-- Minimum 1.5x speedup for batch size > 1
-- GPU memory cleanup < 10ms after step
-
-## Interpreting Performance Gate Output
-
-### Success Indication
-
-```
-[PERF_GATE] No violations - all operations within target envelopes
-```
-
-### Regression Detection
-
-```
-[PERF_GATE] BM_LoRALayer_Forward VIOLATION: measured=125.5µs gate=100.0µs (+25.5%)
-```
-
-Means:
-- Operation exceeded target by 25.5%
-- May indicate regression or system overload
-- Investigate with profiling tools before committing
-
-### GPU Speedup Violations
-
-```
-[GPU_SPEEDUP_GATE] BM_TrainingCycle_CUDA: speedup=1.2x (target min=1.5x)
-```
-
-Means:
-- GPU not delivering expected speedup
-- May indicate memory bottleneck or computation/comm ratio
-- Review kernel efficiency
-
-## Regression Thresholds by Hardware
-
-### Baseline Hardware (Reference)
-- CPU: Intel Core i7-12700K or equivalent
-- GPU: NVIDIA RTX 4090 or equivalent
-- Memory: 64GB+ system RAM, 24GB+ GPU VRAM
-
-### Conservative Thresholds (Slower Hardware)
-- Increase gate targets by 50%
-- Report as "Adjusted for Hardware X"
-- Document in benchmark run notes
-
-### Performance Variance
-- Single-run variance: ±10-15% expected
-- Use multiple runs (5+) for gate decisions
-- Use geometric mean for multi-run average
-
-## Running All Phase 5 Benchmarks
-
-```bash
-# CPU benchmarks with all gates
-cd build-release
-./bin/bench_lora_training \
-  --benchmark_time_unit=us \
-  --benchmark_repetitions=5 \
-  --benchmark_display_aggregates_only=true
-
-# GPU benchmarks (if CUDA available)
-./bin/bench_gpu_training_cycle \
-  --benchmark_time_unit=ms \
-  --benchmark_repetitions=5 \
-  --benchmark_display_aggregates_only=true
-
-# Generate JSON report for CI
-./bin/bench_lora_training \
-  --benchmark_out=perf_gates_cpu.json \
-  --benchmark_out_format=json
-
-./bin/bench_gpu_training_cycle \
-  --benchmark_out=perf_gates_gpu.json \
-  --benchmark_out_format=json
-```
-
-## Gate Violation Response
-
-When a performance gate violation is detected:
-
-1. **Immediate**: Run benchmark again (variance check)
-2. **Profiling**: Use `perf`, `flamegraph`, or `vtune` to identify hot paths
-3. **Analysis**: Compare with last passing run
-4. **Decision**:
-   - If regression: Identify commit and revert or optimize
-   - If new baseline: Document change with justification
-   - If variance: Use more repetitions for stability
-
-## Documentation
-
-- **Phase 5 Requirements**: See ROADMAP.md (lines 48-50)
-- **Measurement Hygiene**: See benchmarks/MEASUREMENT_HYGIENE.md
-- **Performance Expectations**: See PERFORMANCE_EXPECTATIONS.md
-- **Hardware Requirements**: See HARDWARE_REQUIREMENTS.md
-
-## Integration with CI/CD
-
-Performance gates are validated in:
-- `release_critical` CI workflow (gates blocking promotion)
-- `nightly` performance monitoring (trend detection)
-- Pull request benchmarks (regression detection before merge)
-
-See `.github/workflows/` for integration details.
+- [`CMakeLists.txt`](./CMakeLists.txt) — optional target registration.
+- [`bench_training_lifecycle_gates.cpp`](./bench_training_lifecycle_gates.cpp)
+  — lifecycle operations and limits.
+- [`bench_training_dedicated_gates.cpp`](./bench_training_dedicated_gates.cpp)
+  — stub operations and descriptive target labels.
+- [`../../src/training/PERFORMANCE_EXPECTATIONS.md`](../../src/training/PERFORMANCE_EXPECTATIONS.md)
+  — mapping and limitations.

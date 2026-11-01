@@ -308,7 +308,8 @@ bool DisasterRecoveryManager::runPrechecks(const DisasterRecoveryPlan& plan, std
  * @param[in] plan Input parameter.
  * @param[in,out] detail Input/output parameter.
  * @return True when the operation succeeds.
- * @details Calls: empty().
+ * @details A non-dry-run plan requires a registered snapshot-validation hook;
+ *          an identifier alone does not establish that the snapshot exists.
  */
 bool DisasterRecoveryManager::validateSnapshot(const DisasterRecoveryPlan& plan, std::string& detail) {
     if (plan.dry_run) {
@@ -321,8 +322,9 @@ bool DisasterRecoveryManager::validateSnapshot(const DisasterRecoveryPlan& plan,
         return false;
     }
 
-    detail = "snapshot validated: " + plan.snapshot_id;
-    return true;
+    detail = "snapshot validation adapter is not configured for snapshot '" +
+             plan.snapshot_id + "'";
+    return false;
 }
 
 /**
@@ -367,7 +369,7 @@ bool DisasterRecoveryManager::applyEpochFencing(const DisasterRecoveryPlan& plan
  * @param[in] plan Input parameter.
  * @param[in,out] detail Input/output parameter.
  * @return True when the operation succeeds.
- * @details Implements runRestore without additional internal calls.
+ * @details A real restore must be performed by a registered step hook.
  */
 bool DisasterRecoveryManager::runRestore(const DisasterRecoveryPlan& plan, std::string& detail) {
     if (plan.dry_run) {
@@ -375,8 +377,9 @@ bool DisasterRecoveryManager::runRestore(const DisasterRecoveryPlan& plan, std::
         return true;
     }
 
-    detail = "restore workflow completed for snapshot " + plan.snapshot_id;
-    return true;
+    detail = "storage restore adapter is not configured for snapshot '" +
+             plan.snapshot_id + "'";
+    return false;
 }
 
 /**
@@ -384,7 +387,8 @@ bool DisasterRecoveryManager::runRestore(const DisasterRecoveryPlan& plan, std::
  * @param[in] plan Input parameter.
  * @param[in,out] detail Input/output parameter.
  * @return True when the operation succeeds.
- * @details Calls: std::chrono::steady_clock::now(), hasQuorum(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ * @details Quorum reachability is not evidence that a replica applied the
+ *          required position; a replication-position hook is required.
  */
 bool DisasterRecoveryManager::waitForCatchup(const DisasterRecoveryPlan& plan, std::string& detail) {
     if (plan.dry_run) {
@@ -392,21 +396,9 @@ bool DisasterRecoveryManager::waitForCatchup(const DisasterRecoveryPlan& plan, s
         return true;
     }
 
-    if (!replication_mgr_) {
-        detail = "replication manager required for catchup";
-        return false;
-    }
-
-    const auto deadline = std::chrono::steady_clock::now() + config_.catchup_timeout;
-    while (std::chrono::steady_clock::now() < deadline) {
-        if (!config_.require_quorum || replication_mgr_->hasQuorum()) {
-            detail = "replica catchup reached quorum";
-            return true;
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
-
-    detail = "catchup timeout waiting for quorum";
+    // Quorum says that enough nodes are reachable; it does not prove that the
+    // recovery site has applied the required replication position.
+    detail = "replication-position adapter is not configured; quorum alone cannot prove catch-up";
     return false;
 }
 
@@ -415,7 +407,7 @@ bool DisasterRecoveryManager::waitForCatchup(const DisasterRecoveryPlan& plan, s
  * @param[in] plan Input parameter.
  * @param[in,out] detail Input/output parameter.
  * @return True when the operation succeeds.
- * @details Implements shiftTraffic without additional internal calls.
+ * @details A requested traffic cutover must be performed by a registered step hook.
  */
 bool DisasterRecoveryManager::shiftTraffic(const DisasterRecoveryPlan& plan, std::string& detail) {
     if (!plan.shift_traffic) {
@@ -428,8 +420,9 @@ bool DisasterRecoveryManager::shiftTraffic(const DisasterRecoveryPlan& plan, std
         return true;
     }
 
-    detail = "traffic shifted to recovery site '" + plan.recovery_site + "'";
-    return true;
+    detail = "traffic-shift adapter is not configured for recovery site '" +
+             plan.recovery_site + "'";
+    return false;
 }
 
 /**
@@ -437,7 +430,8 @@ bool DisasterRecoveryManager::shiftTraffic(const DisasterRecoveryPlan& plan, std
  * @param[in] plan Input parameter.
  * @param[in,out] detail Input/output parameter.
  * @return True when the operation succeeds.
- * @details Calls: getClusterHealth(), std::any_of(), begin(), end(), hasQuorum(), std::this_thread::sleep_for().
+ * @details Recovered contents and recovery-site identity require a registered
+ *          verification hook.
  */
 bool DisasterRecoveryManager::verifyRecoveredState(const DisasterRecoveryPlan& plan, std::string& detail) {
     if (plan.dry_run) {
@@ -445,25 +439,7 @@ bool DisasterRecoveryManager::verifyRecoveredState(const DisasterRecoveryPlan& p
         return true;
     }
 
-    if (!replication_mgr_) {
-        detail = "replication manager required for verification";
-        return false;
-    }
-
-    for (uint32_t attempt = 0; attempt < config_.max_verification_retries; ++attempt) {
-        const auto health = replication_mgr_->getClusterHealth();
-        const bool any_healthy = std::any_of(health.begin(), health.end(),
-            [](const auto& pair) { return pair.second; });
-        if (any_healthy && (!config_.require_quorum || replication_mgr_->hasQuorum())) {
-            detail = "verification passed";
-            return true;
-        }
-
-        std::this_thread::sleep_for(
-            config_.verification_timeout / std::max<uint32_t>(1, config_.max_verification_retries));
-    }
-
-    detail = "verification failed after retries";
+    detail = "recovered-state verification adapter is not configured";
     return false;
 }
 

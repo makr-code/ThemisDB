@@ -1,6 +1,16 @@
+---
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "ThemisDB documentation orchestrator"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # RAG Module - Architecture Guide
 
-<!-- Status: current | validated: 2026-08-18 (Phase 6 Acceptance) -->
+<!-- This guide describes component boundaries; it is not evidence of deployment wiring or release readiness. -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · PRODUCTION_REQUIREMENTS.md · CHANGELOG.md · MODULE_STATUS.md -->
 <!-- Phase 6: Documentation enhanced with thread-safety, complexity analysis, failure modes -->
 
@@ -12,63 +22,48 @@ Module Path: src/rag/
 
 The RAG module implements retrieval, context construction, evaluation, and guardrail surfaces for retrieval-augmented generation workflows.
 
-**Phase 6 Status:** Documentation and acceptance complete. All critical gap fixes from Batches 1-3 documented. API contracts frozen with production-ready Doxygen documentation.
+The RAG directory contains composable components, not one mandatory request
+pipeline. Historical phase and maturity labels elsewhere in this document are
+not runtime or release-readiness evidence. The public headers and current
+implementations define the actual API behavior.
 
 ## 2. Architecture Surfaces
 
-| Surface | Source files | Maturity | Thread-Safe |
+| Surface | Representative source files | Integration boundary |
 |---|---|---|---|
-| Retrieval fusion and ranking | src/rag/hybrid_retriever.cpp, src/rag/reranker.cpp, src/rag/replug_retriever.cpp | PROD | ✅ |
-| Context assembly and orchestration | src/rag/streaming_retriever.cpp, src/rag/rag_context_assembler.cpp, src/rag/multi_step_rag.cpp | PROD | ✅ |
-| Ingestion bridge and enrichment | src/rag/rag_ingestion_bridge.cpp, src/rag/document_splitter.cpp | PROD | ✅ |
-| Evaluation and quality control | src/rag/rag_judge.cpp, src/rag/faithfulness_evaluator.cpp, src/rag/quality_control_pipeline.cpp | PROD | ✅ |
-| Adaptive and iterative retrieval | src/rag/adaptive_retrieval.cpp, src/rag/agentic_rag.cpp, src/rag/multi_hop_reasoner.cpp | PROD | ⚠️ |
-| Safety and sanitization | src/rag/prompt_injection_detector.cpp, src/rag/bias_detector.cpp | PROD | ✅ |
-| Metrics and reporting | src/rag/hallucination_dashboard.cpp, src/rag/evaluation_report_exporter.cpp | PROD | ⚠️ |
-| Reliability benchmarking | src/rag/delegate_evaluator.cpp, src/rag/batch_evaluator.cpp | EVAL | ⚠️ |
-| **Phase 7: Freshness SLA** | src/rag/ingestion_latency_monitor.cpp, src/rag/staleness_aware_router.cpp, src/rag/index_refresh_scheduler.cpp, src/rag/freshness_sla_enforcer.cpp | PROD | ✅ |
-| **Phase 8: Observability SLO** | src/rag/realtime_slo_tracker.cpp, src/rag/otel_span_emitter.cpp, src/rag/cost_attribution_tracker.cpp | PROD | ✅ |
-| **Phase 9: Research Evaluation** | src/rag/benchmark_suite.cpp, src/rag/metric_computation.cpp, src/rag/evaluation_result_store.cpp | PROD | ✅ |
-| **Phase 10: Cost Optimizer** | src/rag/gradient_descent_optimizer.cpp, src/rag/cost_model_builder.cpp, src/rag/recommendation_engine.cpp | PROD | ✅ |
-
-**Legend:** PROD = Production-Ready, EVAL = Evaluation-Only, ✅ = Thread-Safe, ⚠️ = See concurrency model
+| Retrieval fusion and ranking | `hybrid_retriever.cpp`, `reranker.cpp`, `replug_retriever.cpp` | Caller supplies candidates and composes stages |
+| Context assembly and orchestration | `streaming_retriever.cpp`, `rag_context_assembler.cpp`, `multi_step_rag.cpp` | Caller selects and invokes the desired component |
+| Ingestion bridge | `rag_ingestion_bridge.cpp`, `document_splitter.cpp` | Optional injected sinks; persistence must be verified separately |
+| Evaluation and quality control | `rag_judge.cpp`, `faithfulness_evaluator.cpp`, `quality_control_pipeline.cpp` | Explicit evaluation APIs; not a universal response gate |
+| Safety | `prompt_injection_detector.cpp`, `bias_detector.cpp` | Explicit controls; invocation and authorization are caller responsibilities |
+| Monitoring and evaluation tools | `realtime_slo_tracker.cpp`, `otel_span_emitter.cpp`, `metric_computation.cpp` | Component presence does not imply durable metrics or external export |
 
 ## 3. Runtime Control Flow
 
-1. Query enters retrieval path.
-2. Hybrid or adaptive retriever selects candidate chunks (thread-safe under concurrent load).
-3. Context assembler builds bounded prompt context (deterministic, O(n log n)).
-4. Ingestion bridge enriches retrieved documents with NER entities (thread-safe, O(d*e)).
-5. Generation and evaluation stages run with quality/safety checks.
-6. Result, citations, and diagnostics are emitted to downstream handlers.
+1. A calling service obtains candidates from its selected search backend.
+2. It may pass candidate lists to `HybridRetriever` for fusion; fusion does not
+   perform index search.
+3. It may pass chunks to `RAGContextAssembler` to build bounded context.
+4. The service chooses whether to invoke generation, injection scanning,
+   evaluation, or enrichment. The module does not enforce a fixed order.
+5. Ingestion is a separate path; `RAGIngestionBridge` writes only to configured
+   injected sinks and does not guarantee their persistence.
 
 ## 4. Integration Boundaries
 
 | Direction | Integration | Status |
 |---|---|---|
-| Used by | API handlers, orchestration layers, AI runtime features | ✅ Documented |
-| Uses | llm module (ContextWindowBudget), index/search surfaces, ingestion toolbox | ✅ Documented |
-| Exposes | retrieval APIs, context assembly outputs (AssembledContext), evaluation signals | ✅ Documented |
+| Used by | Calling services may compose RAG components with search, LLM, and storage | Integration-specific |
+| Uses | `ContextWindowBudget`, supplied candidate lists, ingestion toolbox, optional sinks | Per-component |
+| Exposes | Retrieval, context, ingestion, evaluation, safety, and monitoring APIs | Public headers |
 
 ## 5. Concurrency Model (Phase 6 Updated)
 
-### Thread-Safe Components
-- **RAGContextAssembler:** All methods are const or operate on local state. Safe for concurrent assemble() calls.
-  - No mutable shared state beyond constructor-injected config_
-  - Config changes via setConfig() must not race with concurrent assemble() calls
-- **RAGIngestionBridge:** All public methods thread-safe.
-  - Holds no mutable state beyond constructor-injected shared pointers (toolbox, vector_writer, graph_writer)
-  - Safe for concurrent indexDocument(), enrichRetrievedDocuments(), extractEntitiesForContext() calls
-- **Retrieval fusion & ranking:** Thread-safe under concurrent request load
-  - Shared caches use coordinated access patterns
-  - No unsynchronized reads during concurrent retrieval
-- **Quality control & judges:** Thread-safe
-  - Evaluation stages run independently per request
-
-### Components Requiring Synchronization
-- **Adaptive retrieval (agentic_rag.cpp):** Maintains per-request state; use separate instances per concurrent request
-- **Metrics & reporting (hallucination_dashboard.cpp):** Aggregates metrics under concurrent load; uses internal synchronization
-- **Continuous learning orchestrator:** Signal providers must be thread-safe; see wireLiveSignalProviders()
+Thread-safety is component-specific. Follow each public header's contract and
+implementation; do not infer module-wide guarantees. In particular,
+`DPRVectorizer` documents that a single instance is not thread-safe, and
+`RealtimeSLOTracker` does not provide synchronization. Concurrent calls must
+also not race with configuration mutation or shared dependency use.
 
 ## 6. Complexity Analysis (Phase 6 Documented)
 
@@ -105,59 +100,36 @@ All bounds enforced with fail-closed validation:
 | Context window | Configurable | rag_context_assembler.h:60 | RAGContextAssemblerConfig.model_context_tokens |
 | Response budget | max(min_response_tokens, 20% window) | rag_context_assembler.cpp:70-82 | ContextWindowBudget enforcement |
 
-## 9. Sourcecode Verification (Module: rag/architecture, Phase 6 Enhanced)
+## 9. Source verification and limits
 
-### API Documentation Status (Phase 6 Complete)
-All public APIs now have comprehensive Doxygen documentation:
+The current public headers, implementations, tests, and CMake files are the
+evidence for API behavior. The maturity-score comments in some source headers
+are generated metadata, not independent production-readiness evidence.
 
-**include/rag/rag_context_assembler.h**
-- ✅ Class documentation: 🟢 PRODUCTION-READY (100/100 score)
-- ✅ All public methods: @brief, @param, @return, @throws, @pre, @post, @thread-safe, @complexity
-- ✅ Failure modes documented: empty input, zero budget, all chunks over-budget
-- ✅ Response reservation guarantee documented: max(min_response_tokens, 20% window)
+- Focused test source/CTest mapping is in `tests/rag/CMakeLists.txt`; historical
+  test counts in phase reports describe their dated snapshots.
+- `QualityControlPipeline` returns a result to its caller; it does not enforce
+  a mandatory response gate, perform generation retries, or send feedback over
+  HTTP/gRPC.
+- `OTELSpanEmitter` does not export over the network, and
+  `CostAttributionTracker` does not persist records.
+- `CostModelBuilder` exposes model/drift methods, but current fitting and drift
+  results include placeholders.
+- Thread-safety and failure behavior are component-specific; consult each
+  header and implementation before relying on a module-wide statement.
 
-**include/rag/rag_ingestion_bridge.h**
-- ✅ Class documentation: 🟢 PRODUCTION-READY (86/100 score)
-- ✅ All public methods: @brief, @param, @return, @throws, @pre, @post, @thread-safe, @complexity
-- ✅ Failure modes documented: empty text, size validation, workflow fallback, I/O errors
-- ✅ Thread-safety contract: no mutable state beyond constructor-injected pointers
-
-### Implementation Comments (Phase 6 Added)
-- ✅ src/rag/rag_context_assembler.cpp: complexity analysis, sorting logic, greedy fill algorithm
-- ✅ src/rag/rag_ingestion_bridge.cpp: validation section, fallback path, error recovery, vector/graph writers
-
-### Test Coverage Evidence (Phase 4 Complete, Phase 6 Documented)
-- ✅ test_rag_budget_consistency_focused.cpp: 20 tests (budget determinism, propagation, truncation, response reservation)
-- ✅ test_rag_ingestion_bridge_hardening_focused.cpp: 19 tests (malformed input, metadata, empty retrieval, determinism, error recovery)
-- ✅ test_rag_error_handling_edge_cases_focused.cpp: 23 tests (malformed context, invalid budget, partial failures, backend fallback, resource exhaustion)
-- Total: **62 new focused tests** + existing coverage
-
-### Verified Components
-- ✅ src/rag/hybrid_retriever.cpp (thread-safe, tested)
-- ✅ src/rag/reranker.cpp (thread-safe, tested)
-- ✅ src/rag/streaming_retriever.cpp (thread-safe, tested)
-- ✅ src/rag/rag_context_assembler.cpp (thread-safe, O(n log n), 100% maturity)
-- ✅ src/rag/rag_judge.cpp (thread-safe, tested)
-- ✅ src/rag/quality_control_pipeline.cpp (thread-safe, mandatory gates)
-- ✅ src/rag/adaptive_retrieval.cpp (tested, see concurrency notes)
-- ✅ src/rag/rag_ingestion_bridge.cpp (thread-safe, 86% maturity, fail-closed validation)
-- ✅ src/rag/prompt_injection_detector.cpp (thread-safe, safety-critical)
-- ✅ src/rag/delegate_evaluator.cpp (evaluated)
-- **Phase 7:** ✅ ingestion_latency_monitor.cpp, staleness_aware_router.cpp, index_refresh_scheduler.cpp, freshness_sla_enforcer.cpp
-- **Phase 8:** ✅ realtime_slo_tracker.cpp, otel_span_emitter.cpp, cost_attribution_tracker.cpp
-- **Phase 9:** ✅ benchmark_suite.cpp, metric_computation.cpp, evaluation_result_store.cpp
-- **Phase 10:** ✅ gradient_descent_optimizer.cpp, cost_model_builder.cpp, recommendation_engine.cpp
-
-### References
-- **Issue Tracking:** 
-  - Phases 1-4 complete: https://github.com/makr-code/ThemisDB/issues/5665
-  - Parent epic: https://github.com/makr-code/ThemisDB/issues/5624
-- **Governance:** DOCUMENTATION_GOVERNANCE.md (root governance file)
-- **Status Report:** MODULE_STATUS.md (phases 1-6 evidence summary)
-- **Production Checklist:** PRODUCTION_REQUIREMENTS.md (mandatory requirements + evidence)
-- **Changelog:** CHANGELOG.md (version history, phase milestones)
+See [API.md](API.md), [IMPLEMENTATION.md](IMPLEMENTATION.md),
+[MODULE_GUIDE.md](MODULE_GUIDE.md), and [OPERATIONS.md](OPERATIONS.md) for
+current behavior and validation references.
 
 ## 9.1 Phase 7-10 Subsystem Architecture
+
+> The following phase details are a historical specification snapshot. Method
+> names, thresholds, data flows, and “complete” labels below are not guaranteed
+> to match the current implementation; use the current headers and
+> implementations as authority. In particular, component existence does not
+> establish automatic refresh, durable SLO history, external alert delivery,
+> or OTLP export.
 
 ### Phase 7: Freshness SLA Monitoring & Enforcement
 

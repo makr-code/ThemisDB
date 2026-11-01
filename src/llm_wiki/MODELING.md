@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -21,9 +21,13 @@ the normative entity contract. The separate filesystem workspace state is
 represented by `WorkspaceState` in
 [`../../include/llm_wiki/workspace_state_manager.h`](../../include/llm_wiki/workspace_state_manager.h).
 
-Do not treat roadmap concepts such as a knowledge-sphere registry or automated
-schema migration as implemented model features unless corresponding code and
-tests exist.
+The module also contains a draft knowledge-sphere schema,
+[`schema/knowledge_spheres.schema.json`](schema/knowledge_spheres.schema.json),
+policy YAML, and runtime example. These are static artifacts: the plugin and
+`ProcessPolicyManager` do not load them, and no registry, lifecycle validator,
+or migration runner is implemented in the current request path. Do not treat
+these files or roadmap concepts as active model behavior without runtime
+integration and corresponding tests.
 
 ## Entity model
 

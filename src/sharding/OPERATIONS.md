@@ -1,18 +1,31 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-19"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - ../../include/sharding/operational_metrics.h
+  - ../../include/sharding/health_monitor.h
+  - ../../tests/sharding/CMakeLists.txt
+Related_Issue: "#7381"
+Related_Milestone: DOC-WEEKLY-2026-W44
 ---
 
 Exact model backend not verifiable from final document text alone.
 
 # Sharding Operations Guide
+
+> The checks below are operator recommendations, not guaranteed built-in commands or automatic
+> remediation behavior. Signals and available actions depend on the selected components and
+> deployment. **TODO:** attach deployment-specific metrics names, alert thresholds, and recovery
+> procedures before using this as an operational runbook.
 
 ## Operational mission
 

@@ -1,45 +1,48 @@
-# PERFORMANCE_EXPECTATIONS - src/storage
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-19"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "../../benchmarks/storage/CMakeLists.txt"
+  - "../../benchmarks/storage/bench_storage_performance.cpp"
+  - "../../benchmarks/storage/bench_storage_release_gates.cpp"
+  - "../../benchmarks/storage/bench_storage_dedicated_gates.cpp"
+  - "ROADMAP.md"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
 
-## Scope
+Exact model backend not verifiable from final document text alone.
 
-- Module: src/storage
-- This file defines measurable storage module performance expectations for release gating.
+# Storage benchmark inventory and limits
 
-## Benchmark Reference
+This file maps benchmark source code; it does not report measured performance
+or assert that a threshold is a production release gate. The release-gate and
+dedicated-gate sources explicitly use in-process mocks/stubs and do not perform
+real RocksDB or disk I/O.
 
-- Relevant benchmark files:
-  - benchmarks/bench_storage_performance.cpp
-  - benchmarks/bench_user_storage_mount_latency.cpp
-
-## Specific Expectations
-
-| Target ID | Expectation | Benchmark case |
+| Source | Registered cases relevant to this module | What is measured |
 |---|---|---|
-| STGP-1 | allocator and memory path behavior remain bounded under representative allocation patterns | BM_Allocator_System_Small, BM_Allocator_Themis_Small, BM_Allocator_System_Large, BM_Allocator_Themis_Large, BM_Allocator_Mixed, BM_Memory_RegularPages_Sequential, BM_Memory_HugePages_Sequential, BM_Memory_RegularPages_Random, BM_Memory_HugePages_Random, BM_Memory_Overhead |
-| STGP-2 | storage sustained-write and WAL group-commit paths remain bounded | BM_Storage_SustainedWrite_NoSync, BM_Storage_SustainedWrite_Batched, BM_Storage_SustainedWrite_FullSync, BM_WAL_GroupCommit_Batch |
-| STGP-3 | RCU read/write helper behavior remains bounded | BM_RCU_Read_SingleThread, BM_RCU_Write_WithSync, BM_RCU_Read_MultiThread |
-| STGP-4 | user storage mount and mount-dispatch helper paths remain bounded | GocryptfsBenchFixture/Initialize, GocryptfsBenchFixture/CheckAvailability, GocryptfsBenchFixture/IsMounted, GocryptfsBenchFixture/MountContainer_FastFail, GocryptfsBenchFixture/UnmountContainer_FastFail, GocryptfsBenchFixture/MountUnmountCycle, BM_MountDispatch_NoKDF, GocryptfsBenchFixture/BackendMeta |
+| `benchmarks/storage/bench_storage_performance.cpp` | `BM_Allocator_*`, `BM_Memory_*`, `BM_RCU_*`, storage sustained-write and WAL cases | Allocator, memory-page, RCU, in-memory storage/WAL behavior |
+| `benchmarks/storage/bench_storage_release_gates.cpp` | `BM_SGRG01_WalAppendThroughput`, `BM_SGRG02_MvccReadWarm`, `BM_SGRG03_MvccWrite`, `BM_SGRG04_CheckpointOverhead`, `BM_SGRG05_TieringDecision`, `BM_SGRG06_CompactionTriggerCheck` | In-memory/mock gate harnesses; not production I/O |
+| `benchmarks/storage/bench_storage_dedicated_gates.cpp` | `BM_ST_BM_01_KVWrite`, `BM_ST_BM_02_KVRead`, `BM_ST_BM_03_WALReplayThroughput`, `BM_ST_BM_04_CompactionTriggerCheck` | In-process stub gates; not real RocksDB or disk I/O |
 
-## Module Hard Gates (v1.0 docs baseline)
+`benchmarks/storage/CMakeLists.txt` only configures these targets when
+`THEMIS_BUILD_BENCHMARKS` is enabled and Google Benchmark is available. The
+source registers the SGRG smoke test with CTest; registration is not evidence
+that a benchmark ran or passed a latency/throughput threshold.
 
-| Gate ID | Expectation | Measurement |
-|---|---|---|
-| STGG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| STGG-2 | storage hot-path p99 <= release threshold | p99 from mapped storage benchmark cases |
-| STGG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+## Follow-up
 
-## Validation
-
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- Mapping should be expanded as additional storage benchmark scenarios are introduced.
-
-## Sourcecode Verification (Module: storage/performance)
-
-- Verified benchmark sources:
-  - benchmarks/bench_storage_performance.cpp
-  - benchmarks/bench_user_storage_mount_latency.cpp
-- Verified mapping surfaces:
-  - allocator/memory, RCU, sustained-write/WAL, and mount-latency behavior
-- Result:
-  - Referenced benchmark cases exist in current benchmark sources.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+- TODO: attach results, machine/build configuration, and baseline-comparison
+  evidence before publishing numerical performance claims.
+- TODO: identify and register any intended user-storage mount benchmark; the
+  previously cited `bench_user_storage_mount_latency.cpp` is not present at
+  either `benchmarks/` or `benchmarks/storage/`.

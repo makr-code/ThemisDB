@@ -1,4 +1,26 @@
-# Voice Module Architecture — Session Lifecycle & Teardown Safety
+---
+Author: "ThemisDB Team"
+Created: "2026-08-18"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> **Historical, unverified design snapshot.** The state diagram, teardown
+> guarantees, names, error codes, configuration/build flags, audit/storage
+> behavior and test/acceptance claims below are not normative current API
+> contracts. Several are not established by current headers or CMake. Consult
+> [`voice_session_manager.h`](voice_session_manager.h) and its implementation
+> at [`../../src/voice/voice_session_manager.cpp`](../../src/voice/voice_session_manager.cpp)
+> for current behavior. No build/test execution is represented here.
+
+# Voice Module Architecture — Historical Teardown Safety Snapshot
 ## Wave A Block 2 Implementation
 
 **Status:** Production Ready  

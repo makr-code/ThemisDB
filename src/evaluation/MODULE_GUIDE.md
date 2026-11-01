@@ -1,14 +1,16 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot; OpenAI ChatGPT/themisdb-doc-orchestrator"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
+
+> Exact model backend not verifiable from final document text alone.
 
 # Evaluation Module Developer Guide
 
@@ -25,19 +27,23 @@ validation status.
 
 ## Where to start
 
-| Change area | Read first | Focused verification |
+| Change area | Read first | Registered test source/target |
 |---|---|---|
-| Retrieval quality or evidence metrics | `include/retrieval_metrics.h`, `src/retrieval_metrics.cc` | `test_evaluation_retrieval_metrics_focused` |
-| Benchmark matrix | `include/benchmark_matrix.h`, `src/benchmark_matrix.cc` | `test_evaluation_benchmark_matrix_focused` |
-| Hardware profiles | `include/hardware_profile.h`, `src/hardware_profile.cc` | `hardware_profile_test` |
-| Ablation metrics | `include/ablation_framework.h`, `src/ablation_framework.cc` | `test_evaluation_ablation_framework_focused` |
-| Planner routing | `include/query_planner.h`, `src/query_planner.cc` | `query_planner_test` |
-| Approximation boundaries | `include/approximation_rules.h`, `src/approximation_rules.cc` | `approximation_rules_test` |
-| Artifact freshness/lifecycle | `include/artifact_lifecycle.h`, `src/artifact_lifecycle.cc` | `test_evaluation_artifact_lifecycle_focused` |
+| Retrieval quality and evidence metrics | `src/evaluation/include/retrieval_metrics.h`, `src/evaluation/src/retrieval_metrics.cc` | `tests/evaluation/test_evaluation_retrieval_metrics_focused.cpp`; local focused target generated from filename |
+| Benchmark matrix | `src/evaluation/include/benchmark_matrix.h`, `src/evaluation/src/benchmark_matrix.cc` | `tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp`; also `tests/epic2_evaluation/benchmark_matrix_test.cc` |
+| Hardware profiles | `src/evaluation/include/hardware_profile.h`, `src/evaluation/src/hardware_profile.cc` | `tests/epic2_evaluation/hardware_profile_test.cc`; conditional module-focused target |
+| Ablation metrics | `src/evaluation/include/ablation_framework.h`, `src/evaluation/src/ablation_framework.cc` | `tests/evaluation/test_evaluation_ablation_framework_focused.cpp`; also `tests/epic2_evaluation/ablation_framework_test.cc` |
+| Planner routing | `src/evaluation/include/query_planner.h`, `src/evaluation/src/query_planner.cc` | `tests/epic2_evaluation/query_planner_test.cc`; conditional on planner library and GTest |
+| Approximation boundaries | `src/evaluation/include/approximation_rules.h`, `src/evaluation/src/approximation_rules.cc` | `tests/epic2_evaluation/approximation_rules_test.cc`; conditional on the approximation library and GTest |
+| Artifact freshness/lifecycle | `src/evaluation/include/artifact_lifecycle.h`, `src/evaluation/src/artifact_lifecycle.cc` | `tests/evaluation/test_evaluation_artifact_lifecycle_focused.cpp`; also `tests/epic2_evaluation/artifact_lifecycle_test.cc` |
 
 Target and CTest names can differ slightly from source filenames; consult the
 two test CMake files before assuming an executable is registered. Optional
 targets may be absent when GTest or the relevant module option is unavailable.
+The files in `tests/evaluation/` are discovered by a filename glob; the
+EPIC 2 tests have individual dependency and target checks. Neither registration
+proves that a test was built or executed. The public-path
+`include/evaluation/evaluation.h` currently does not include component headers.
 
 ## Safe integration sequence
 

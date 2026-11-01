@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -39,7 +39,9 @@ identifiers, then evaluates prechecks, snapshot-ID presence, fencing, restore,
 catch-up, traffic shift, and verification. A failure stops later steps, but
 completed side effects are not compensated. In the current implementation,
 snapshot validation does not query a snapshot store, and built-in restore and
-traffic-shift steps do not invoke external adapters.
+traffic-shift, replication-position catch-up, and recovered-state verification
+steps fail closed when their required hooks are absent. Configured hooks must
+perform and verify the external operations.
 
 ## Evaluation path
 

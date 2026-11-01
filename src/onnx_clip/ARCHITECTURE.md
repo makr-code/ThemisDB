@@ -35,13 +35,21 @@ integration. The interface and component boundaries are defined in
 |---|---|
 | `onnx_clip_plugin.h` | Declares the public class, lifecycle and embedding methods, reload operation, and hash callback type. |
 | `onnx_clip_plugin.cpp` | Implements deterministic image/text vector generation, config reads, batch chunking, statistics, request tracking, digest verification, and mmap resource lifetime. |
-| `CMakeLists.txt` | Adds a shared plugin target only when the ONNX image plugin option is enabled and an `onnxruntime` package is found; OpenCV discovery is optional. |
+| `CMakeLists.txt` | The shared plugin target requires the ONNX image plugin option and a found `onnxruntime` package; OpenCV discovery/linking is optional. |
 | `include/plugins/image_analysis_interface.h` | Defines shared result/config types, backend enum, plugin contract, and dynamic export macro. |
 | `tests/onnx_clip/` and `tests/test_onnx_clip_*.cpp` | Exercise reference behavior and lifecycle contracts with generated inputs/mock model files. |
 
 The CMake target's ONNX Runtime link dependency is not evidence that the current
 source calls ONNX Runtime. The implementation source does not use ONNX Runtime
 or OpenCV APIs.
+
+`getInfo()` reports plugin metadata version `1.0.0`, model label `CLIP`, model
+version `vit-b32`, advertised formats (`jpeg`, `jpg`, `png`, `bmp`, `webp`,
+`tiff`), capability flags, and backend declarations (`CPU`, `CUDA`, `DIRECTML`,
+`TENSORRT`, `AUTO`). These values describe the declared interface, not active
+implementation paths: input bytes are not decoded according to the advertised
+formats, and non-CPU backends are neither probed nor selected for inference
+(`AUTO` resolves to CPU).
 
 ## Runtime flow
 

@@ -1,16 +1,38 @@
-> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "ThemisDB documentation orchestration assistant"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "release-versioning"
+Canonical_Sources:
+  - "src/onnx_clip/onnx_clip_plugin.cpp"
+  - "src/onnx_clip/onnx_clip_plugin.h"
+  - "src/onnx_clip/CMakeLists.txt"
+  - "tests/onnx_clip/CMakeLists.txt"
+Related_Issue: "#7365"
+---
 
-<!-- Status: current | validated: 2026-09-22 -->
-<!-- Links: README.md · ARCHITECTURE.md · PRODUCTION_REQUIREMENTS.md · ROADMAP.md -->
+Exact model backend not verifiable from final document text alone.
 
 # Changelog — ONNX CLIP Plugin
 
-All notable changes to this module are documented here.
+> **Historical release record:** Version entries below preserve claims made at
+> the time; they are not current implementation or validation evidence. In
+> particular, current source does not load CLIP weights or execute ONNX Runtime.
+> The legacy Unreleased bullets are backlog notes, not measured targets or proof
+> that the listed work is currently scheduled.
+
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), newest first.
 
 ---
 
-## [Unreleased]
+## [Unreleased] — legacy backlog note (status not verified)
 
 - Integration tests with real ViT-B/32 and ViT-L/14 ONNX model files
 - Performance benchmarks (ViT-B/32 CPU ≤ 150 ms/image; CUDA ≤ 20 ms/image)

@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Contributors
 **Created:** 2026-10-31
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-01
 **Status:** review
 **AI_Used:** true
 **AI_Models:** unknown
@@ -35,16 +35,30 @@ caller enforces those controls.
   grants, and `ADMIN` grants; its state is in-memory and protected by a mutex.
 - `NoOpMetadataSecurityProvider` permits every operation. It is not an
   authorization policy for deployments that require access control.
-- These provider implementations are available building blocks; authorization
-  must be explicitly integrated by the caller and verified at every relevant
-  access path. In the inspected schema HTTP handler,
-  [`SchemaApiHandler`](../../include/server/schema_api_handler.h) declares no
-  metadata-security-provider dependency or injection point. Do not infer that
-  provider instances are wired into all HTTP routes.
+- These provider implementations are available building blocks and are not
+  enabled automatically. `HttpServer::Config` has an optional
+  `metadata_security_provider`; when supplied, the server injects it and its
+  `AuthMiddleware` into
+  [`SchemaApiHandler`](../../include/server/schema_api_handler.h).
+- Each schema/metadata handler checks the configured provider before reading or
+  mutating state. The handler validates a bearer token, uses the authenticated
+  `user_id` as the principal, and maps the HTTP verb/path to a
+  `MetadataOperation` and table resource. Missing/disabled authentication
+  returns 401; provider denial returns 403. Bulk/schema-wide requests use `"*"`
+  as the resource and therefore need a matching wildcard grant.
+- A null provider preserves the prior behavior; this is an opt-in gate, not a
+  claim that deployments are protected by default. `NoOpMetadataSecurityProvider`
+  permits every operation if a caller explicitly configures it.
+- The gate covers calls through `SchemaApiHandler`. Direct C++ use of metadata
+  classes does not pass through this HTTP authorization boundary and must be
+  secured by its caller.
 
 Tests for allow/deny, wildcard, admin, revocation, exception details, and
 concurrent use are in
 [`test_metadata_security_provider.cpp`](../../tests/metadata/test_metadata_security_provider.cpp).
+HTTP identity, resource-specific denial, write-operation enforcement, and
+default compatibility are covered by
+[`test_schema_api_metadata_security.cpp`](../../tests/metadata/test_schema_api_metadata_security.cpp).
 
 ### Encryption
 

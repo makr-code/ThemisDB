@@ -10,7 +10,12 @@ The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
+### Added
+- **DB-backed LoRA data-path coverage**: added bounded AQL/collection reads, sample persistence, selection-aware training by selected `_key`, and a 16-case preparation/DB/model benchmark. Model-backed cases require a real GGUF artifact and are reported as not run when preflight fails.
+
 ### Fixed
+- **auto-label persistence retry**: a failed batch is no longer retried by the final flush, avoiding duplicate writes when persistence failed after a partial commit.
+- **benchmark reporting**: Google Benchmark entries marked `error_occurred` are excluded from measured-case counts, so artifact preflight skips are not reported as executed measurements.
 - **checkpoint payload hardening** (incremental_lora_trainer, issue #5414):
   `resumeFromCheckpoint` now fails fast when LoRA checkpoint weight payloads are
   missing/malformed/truncated or contain unexpected trailing bytes, instead of

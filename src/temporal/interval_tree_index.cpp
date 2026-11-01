@@ -416,11 +416,6 @@ size_t IntervalTreeIndex::treeHeight(const Node* n) noexcept {
 
 std::vector<IntervalEntry>
 IntervalTreeIndex::queryPoint(Timestamp t) const {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock<std::shared_mutex> lk(mutex_);
     ++stats_.point_queries;
     std::vector<IntervalEntry> result;
@@ -439,11 +434,6 @@ IntervalTreeIndex::queryPoint(Timestamp t) const {
 
 std::vector<IntervalEntry>
 IntervalTreeIndex::queryOverlap(Timestamp from, Timestamp to) const {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock<std::shared_mutex> lk(mutex_);
     ++stats_.overlap_queries;
     std::vector<IntervalEntry> result;
@@ -459,11 +449,6 @@ IntervalTreeIndex::queryOverlap(const TimeRange& range) const {
 std::vector<IntervalEntry>
 IntervalTreeIndex::queryKey(const std::string& key,
                              std::optional<TimeRange> range) const {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock<std::shared_mutex> lk(mutex_);
     const auto it = key_index_.find(key);
     if (it == key_index_.end()) return {};
@@ -488,11 +473,6 @@ size_t IntervalTreeIndex::size() const noexcept {
 }
 
 IntervalTreeStats IntervalTreeIndex::stats() const {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock<std::shared_mutex> lk(mutex_);
     stats_.height = treeHeight(root_.get());
     return stats_;

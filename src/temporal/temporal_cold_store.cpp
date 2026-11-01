@@ -49,11 +49,6 @@ bool InMemoryBackend::put(const std::string& key, const std::string& value) {
 }
 
 std::string InMemoryBackend::get(const std::string& key) const {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock lk(mutex_);
     auto it = data_.find(key);
     return (it != data_.end()) ? it->second : std::string{};
@@ -72,11 +67,6 @@ bool InMemoryBackend::del(const std::string& key) {
 
 std::vector<std::string>
 InMemoryBackend::listKeysWithPrefix(const std::string& prefix) const {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock lk(mutex_);
     std::vector<std::string> result = {};
 
@@ -262,11 +252,6 @@ bool FileSystemBackend::put(const std::string& key, const std::string& value) {
 }
 
 std::string FileSystemBackend::get(const std::string& key) const {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock lk(mutex_);
     try {
         const fs::path target = keyToPath(key);
@@ -303,12 +288,8 @@ bool FileSystemBackend::del(const std::string& key) {
 
 std::vector<std::string>
 FileSystemBackend::listKeysWithPrefix(const std::string& prefix) const {
-    /**
-     * @brief Reconstruct the directory path the prefix maps to.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     * @details prefix format: table'\x01'doc_key'\x01' (with trailing sep → per-key list) table'\x01' (with one sep → per-table list)
-     */
+    // A prefix ending after the second separator selects one document key;
+    // a prefix ending after the first separator selects all keys in a table.
     std::shared_lock lk(mutex_);
     std::vector<std::string> result;
     try {
@@ -603,11 +584,6 @@ TemporalColdStore::getAsOf(const std::string& table_name,
     const std::string search_key = encodeKey(table_name, doc_key, as_of);
     const std::string prefix     = keyPrefix(table_name, doc_key);
 
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock lk(mutex_);
 
     // upper_bound gives first key > search_key; step back to find candidates.
@@ -637,11 +613,6 @@ std::vector<VersionedDocument>
 TemporalColdStore::getAll(const std::string& table_name,
                            const std::string& doc_key) const {
     const std::string prefix = keyPrefix(table_name, doc_key);
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock lk(mutex_);
 
     std::vector<VersionedDocument> result = {};
@@ -664,11 +635,6 @@ TemporalColdStore::getRange(const std::string& table_name,
                              const std::string& doc_key,
                              const TimeRange& range) const {
     const std::string prefix = keyPrefix(table_name, doc_key);
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock lk(mutex_);
 
     std::vector<VersionedDocument> result = {};
@@ -699,11 +665,6 @@ TemporalColdStore::getRange(const std::string& table_name,
 size_t TemporalColdStore::versionCount(const std::string& table_name,
                                         const std::string& doc_key) const {
     const std::string prefix = keyPrefix(table_name, doc_key);
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock lk(mutex_);
     size_t count = 0;
     for (auto it = key_index_.lower_bound(prefix);
@@ -717,11 +678,6 @@ size_t TemporalColdStore::totalVersionCount() const noexcept {
 }
 
 ColdStoreStats TemporalColdStore::stats() const {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock lk(mutex_);
     stats_.total_versions = total_count_.load();
     return stats_;
@@ -729,4 +685,3 @@ ColdStoreStats TemporalColdStore::stats() const {
 
 } // namespace temporal
 } // namespace themisdb
-

@@ -1,19 +1,33 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-07"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Tensor Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-07 -->
-<!-- Evidence: 16 test files (406+ tests, 9,025+ LOC), 7 benchmarks (1,937 LOC), 33+ implementation files (8,275+ LOC) -->
+<!-- Status: current | validated: 2026-10-31 -->
+<!-- Current target, focused-test, and benchmark source lists are defined by the module CMake files; registration is not execution evidence. -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · FUTURE_TENSOR_ROPE.md · THEMIS_BRAIN_MEMORY_COMPARATIVE_PAPER.md -->
 
 ## Current Status
 
-Production-usable tensor runtime exists for tensor index management, hybrid bridge operation, and fingerprint graph benchmarked behavior; advanced structural and experimental surfaces continue hardening.
+Implemented runtime surfaces include tensor index management, bridges, adapter persistence, and fingerprint similarity. Benchmark targets are registered, but current source-specific performance evidence is not established by the historical baseline reports; advanced structural and experimental surfaces continue hardening.
 
 ## In Progress
 
 - [x] hardening tensor index/bridge behavior under concurrent workload pressure (Target: Q3 2026) [COMPLETED 2026-08-07]
 - [x] improving diagnostics consistency across tensor index, bridge, and graph operations (Target: Q3 2026) [COMPLETED 2026-08-07]
-- [x] stabilizing benchmark-backed release guardrails for tensor fingerprint and dedup paths (Target: Q3 2026) [COMPLETED 2026-08-07]
+- [~] define and validate source-specific release guardrails for tensor fingerprint and dedup paths (Target: Q1 2027 — registered targets exist; representative evidence remains required)
 - [x] federated and cross-shard tensor summaries (Completed 2026-07-06, Issue #5427)
 - [x] phase-5+ tensor integration closure: durable fingerprint persistence, distributed training coordinator, CUDA compression/routing path, and workflow SLO observability (Completed 2026-07-22)
 
@@ -91,7 +105,7 @@ Production-usable tensor runtime exists for tensor index management, hybrid brid
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for tensor hot paths (Completed 2026-07-29 — bench_tensor_release_gates.cpp, TRNRG-01..TRNRG-06)
-- [x] validate p95/p99 and throughput behavior against release baselines (Completed 2026-08-07)
+- [~] validate p95/p99 and throughput behavior for the actual tensor implementation against release baselines (Target: Q1 2027 — historical measurements do not identify the tensor implementation)
 - [ ] run ablation benchmarks for `none` vs `fixed` vs `relational` vs `learned` and pair-rotation vs WHT/Radon/Greens transform families (Target: Q1 2027)
 - [ ] meet RoPE rollout gates: Recall@10 gain on >=1 production-like dataset, no required-set nDCG regression worse than -0.5%, latency budget compliance (Target: Q1 2027)
 - [ ] run replay/homeostasis/arbitration benchmark families with statistical protocol (minimum run counts, confidence intervals, effect-size reporting) and reproducibility manifests (Target: Q2 2027)
@@ -113,9 +127,9 @@ Production-usable tensor runtime exists for tensor index management, hybrid brid
 - [x] benchmark mapping documented in performance expectations
 - [x] tensor_api_contract.h frozen contract header (Phase 1 closure, 2026-07-29)
 - [x] test_tensor_contract_hardening_focused.cpp — TNCH-01..TNCH-16 (Phase 4 closure, 2026-07-29)
-- [x] bench_tensor_release_gates.cpp — TRNRG-01..TRNRG-06 gate benchmarks (Phase 5 closure, 2026-07-29)
+- [~] bench_tensor_release_gates.cpp and bench_tensor_dedicated_gates.cpp are registered; source-specific representative measurements and review remain required
 - [x] remaining hardening tasks closed for index/bridge/graph edge paths (Phase 2 closure, 2026-08-07)
-- [x] release benchmark stabilization complete (Phase 5 closure, 2026-08-07)
+- [~] release benchmark validation remains open until reproducible, source-specific evidence is recorded
 
 ## Known Issues and Limitations
 

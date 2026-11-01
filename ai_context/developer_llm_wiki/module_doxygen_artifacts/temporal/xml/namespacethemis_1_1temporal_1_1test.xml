@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="namespacethemis_1_1temporal_1_1test" kind="namespace" language="C++">
     <compoundname>themis::temporal::test</compoundname>
-    <innerclass refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row" prot="public">themis::temporal::test::BiTemporalRow</innerclass>
+    <innerclass refid="structthemis_1_1temporal_1_1test_1_1BiTemporalRow" prot="public">themis::temporal::test::BiTemporalRow</innerclass>
     <sectiondef kind="var">
       <memberdef kind="variable" id="namespacethemis_1_1temporal_1_1test_1ac0dde9a4f2d6bef13549d3862554463b" prot="public" static="yes" constexpr="yes" mutable="no">
-        <type>uint64_t</type>
-        <definition>uint64_t themis::temporal::test::kTemporalContractSeed</definition>
+        <type>constexpr uint64_t</type>
+        <definition>constexpr uint64_t themis::temporal::test::kTemporalContractSeed</definition>
         <argsstring></argsstring>
         <name>kTemporalContractSeed</name>
         <qualifiedname>themis::temporal::test::kTemporalContractSeed</qualifiedname>
@@ -46,13 +46,13 @@
         <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="72" column="22" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="72" bodyend="81"/>
       </memberdef>
       <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1ad333a1cc08d32d20e925480f9ced48da" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>std::vector&lt; <ref refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &gt;</type>
+        <type>std::vector&lt; <ref refid="structthemis_1_1temporal_1_1test_1_1BiTemporalRow" kindref="compound">BiTemporalRow</ref> &gt;</type>
         <definition>static std::vector&lt; BiTemporalRow &gt; themis::temporal::test::mockSnapshotAt</definition>
         <argsstring>(const std::vector&lt; BiTemporalRow &gt; &amp;store, std::int64_t t, std::int64_t snapshot_tx)</argsstring>
         <name>mockSnapshotAt</name>
         <qualifiedname>themis::temporal::test::mockSnapshotAt</qualifiedname>
         <param>
-          <type>const std::vector&lt; <ref refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &gt; &amp;</type>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1temporal_1_1test_1_1BiTemporalRow" kindref="compound">BiTemporalRow</ref> &gt; &amp;</type>
           <declname>store</declname>
         </param>
         <param>
@@ -79,7 +79,7 @@
         <name>mockApplyRetention</name>
         <qualifiedname>themis::temporal::test::mockApplyRetention</qualifiedname>
         <param>
-          <type>std::vector&lt; <ref refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &gt; &amp;</type>
+          <type>std::vector&lt; <ref refid="structthemis_1_1temporal_1_1test_1_1BiTemporalRow" kindref="compound">BiTemporalRow</ref> &gt; &amp;</type>
           <declname>store</declname>
         </param>
         <param>
@@ -106,7 +106,7 @@
         <name>mockGcCount</name>
         <qualifiedname>themis::temporal::test::mockGcCount</qualifiedname>
         <param>
-          <type>const std::vector&lt; <ref refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &gt; &amp;</type>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1temporal_1_1test_1_1BiTemporalRow" kindref="compound">BiTemporalRow</ref> &gt; &amp;</type>
           <declname>store</declname>
         </param>
         <briefdescription>

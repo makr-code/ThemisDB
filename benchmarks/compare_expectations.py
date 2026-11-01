@@ -44,7 +44,7 @@ class Expectation:
     # Parsed numeric constraint (if any)
     constraint_op: Optional[str] = None   # "<=", ">=", "<", ">", "=="
     constraint_value: Optional[float] = None
-    constraint_unit: Optional[str] = None # "us", "ms", "s", "ops/s", "k/s", "%"
+    constraint_unit: Optional[str] = None # "us", "ms", "s", "ops/s", "k/s", "mops/s", "%"
 
 
 @dataclass
@@ -77,11 +77,11 @@ class TargetVerdict:
 _TABLE_ROW_RE = re.compile(r"^\s*\|(.+)\|\s*$")
 
 # Heuristics for extracting numeric thresholds from expectation text
-# Examples: "<= 100 us", "> 6 k/s", ">= 1 000 ops/sec", "<= 10 ms",
+# Examples: "<= 100 us", "> 6 k/s", "> 50 M ops/s", ">= 1 000 ops/sec", "<= 10 ms",
 #           "<= 10%", "< 5 %", ">= 1000", "<= 1 µs"
 _CONSTRAINT_RE = re.compile(
     r"(<=|>=|<|>|==)\s*([\d][,\d\s]*[\d]|[\d]+)"
-    r"(?:\s*(us|µs|ms|s|ops/s|ops/sec|k/s|%))?",
+    r"(?:\s*(M\s*ops/s|M\s*ops/sec|us|µs|ms|s|ops/s|ops/sec|k/s|%))?",
     re.IGNORECASE,
 )
 
@@ -106,7 +106,10 @@ def _parse_constraint(text: str) -> tuple[Optional[str], Optional[float], Option
         return None, None, None
     op = m.group(1)
     val = _parse_number(m.group(2))
-    unit = (m.group(3) or "").lower().replace("ops/sec", "ops/s")
+    unit = (m.group(3) or "").lower().replace(" ", "").replace("ops/sec", "ops/s")
+    if unit == "mops/s":
+        val *= 1_000_000.0
+        unit = "ops/s"
     return op, val, unit or None
 
 
@@ -269,6 +272,8 @@ def _load_benchmark_json(path: Path) -> dict[str, BenchmarkResult]:
 
     results: dict[str, BenchmarkResult] = {}
     for bm in data.get("benchmarks", []):
+        if bm.get("error_occurred", False):
+            continue
         name: str = bm.get("name", "")
         time_unit: str = bm.get("time_unit", "ns")
         raw_real = bm.get("real_time", None)
@@ -392,17 +397,21 @@ def _evaluate_expectation(
             )
             continue
 
-        elif unit in ("ops/s", "k/s"):
+        elif unit in ("ops/s", "k/s", "mops/s"):
             # Throughput constraint
             if r.items_per_second is not None:
                 measured = r.items_per_second
                 if unit == "k/s":
                     measured = measured / 1_000.0
+                elif unit == "mops/s":
+                    measured = measured / 1_000_000.0
             elif r.real_time_ns and r.iterations:
                 # Derive ops/s from time and iterations
                 measured = r.iterations / (r.real_time_ns * 1e-9)
                 if unit == "k/s":
                     measured = measured / 1_000.0
+                elif unit == "mops/s":
+                    measured = measured / 1_000_000.0
 
         if measured is None:
             warnings.append(

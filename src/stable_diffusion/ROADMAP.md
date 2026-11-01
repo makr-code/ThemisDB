@@ -1,17 +1,33 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone. Original creation dates
+> could not be verified from available history; `Created` records this AI-assisted revision.
+
 > **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
 
 # Stable Diffusion Plugin Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Roadmap-Status: current | validated: 2026-08-09 | Primary: src/stable_diffusion/ -->
+<!-- Roadmap-Status: current | validated: 2026-10-31 | Primary: src/stable_diffusion/ -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-Core pipeline is operational in stub mode and optional real-backend mode.
+Core pipeline is operational in stub mode and optional real-backend mode when the
+stable-diffusion.cpp library is found and linked.
 ControlNet request fields, LoRA request handling, perceptual hash metadata,
-model SHA-256 integrity validation, and request dimension guards are implemented
-in `SDPlugin` and covered by focused tests.
+request dimension guards, and the optional model SHA-256 gate are implemented
+in `SDPlugin` and covered by focused tests; SHA-256 enforcement depends on the build gate.
 
 ## Completed ✅
 
@@ -49,8 +65,10 @@ in `SDPlugin` and covered by focused tests.
 
 ## Planned Features
 
-- [~] Benchmark gate: stable_diffusion benchmark target added; baseline publication pending (Target: Q3 2026)
-- [~] End-to-end real-model gate (`THEMIS_ENABLE_STABLE_DIFFUSION=ON`) in CI (Target: Q3 2026)
+- [~] Benchmark gate: target added; baseline publication pending (Target: Q3 2026, elapsed).
+  **TODO:** replan; no replacement target inferred.
+- [~] End-to-end real-model gate (`THEMIS_ENABLE_STABLE_DIFFUSION=ON`) in CI (Target: Q3 2026, elapsed).
+  **TODO:** verify CI wiring and replan; no replacement target inferred.
 - [~] Dedicated parallel-call audit for `SDCppGenerator` backend semantics (Target: Q4 2026)
 
 ## Implementation Phases
@@ -113,25 +131,23 @@ in `SDPlugin` and covered by focused tests.
   share an `SDPlugin` instance across threads without external synchronisation for
   `initialize()` calls.
 - `SDCppGenerator` parallel-call safety depends on stable-diffusion.cpp's own thread model;
-  a full audit is pending.
+  an opt-in real-backend parallel-generation test exists, but this document has no evidence
+  that it has been run against a configured deployment model/runtime.
+- Generated `DOXYGEN.md` (2026-09-20) and `MODULE_GAPS.md` (2026-06-04) are stale snapshots.
+  **TODO:** regenerate them with their documented tools and revalidate their findings; Doxygen
+  was unavailable during this documentation audit.
 
 ## Breaking Changes
 
 None (v2.0.0 is the initial release).
 
-## Latente Symbole (Unused-Functions-Audit)
+## Historical Unused-Functions Snapshot
 
-_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
-
-### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
-
-- `SDPlugin` – Stable-Diffusion-Plugin-Implementierung; Tests + Plugin-Registrar vorhanden
-  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
-
-### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
-
-- `samplerFromString` – Parst Sampler-Namen (euler, ddim, …) zu Enum; Header-only Helper
-  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+The 2026-04-20 [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md) is historical
+and is not a current usage inventory.
+Current source defines and uses `samplerFromString` in `include/stable_diffusion/sd_generator.h`;
+the plugin and registrar are also present in source and CMake registration.
+**TODO:** refresh `src/UNUSED_FUNCTIONS_REPORT.md` before using its classifications for cleanup.
 
 ## Program Execution Model — Wave Context
 
@@ -141,9 +157,12 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `stable_diffusion`
-- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [!] TODO: confirm which Wave-D tracing/exporter/operator-remediation requirements apply; the
+  inspected module source does not establish those capabilities. The scoped high-cardinality
+  stress test uses in-process simulations and does not exercise `SDPlugin`.
+- [ ] Provide or link long-duration soak evidence for the module's actual generation paths
+  (Target: Q1 2027); no such evidence was found in the scoped tests.
+- [!] TODO: link an operator runbook for module-critical scenarios or confirm that none is required.
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -151,6 +170,8 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [!] TODO: confirm applicability of distributed/acceleration fail-closed criteria; no such
+  runtime path is evidenced by the scoped Stable Diffusion source/header set.
+- [ ] Publish representative-hardware p95/p99 measurements; `benchmarks/stable_diffusion/BASELINE.md`
+  currently records pending runs, not published measurements (Target: Q1 2027).
+- [!] TODO: provide evidence or confirm applicability for diagnostics, alerts, and operator runbooks.

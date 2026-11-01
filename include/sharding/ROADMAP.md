@@ -1,6 +1,24 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - ../../src/sharding/ROADMAP.md
+  - sharding_api_contract.h
+  - tests/sharding/CMakeLists.txt
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
+> Exact model backend not verifiable from final document text alone.
+
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/sharding/ROADMAP.md -->
 
 # Sharding Module — Public Header Roadmap
@@ -20,9 +38,11 @@ Tracks public sharding API contract stability, distributed-operations header cov
 
 ## Current Status
 
-All 99 sharding headers are present and cover routing, consensus, quorum, cross-shard transactions,
-WAL durability, rebalance/repair operations, secure transport, adapter distribution, and operational
-metrics.
+The current tree contains 107 `.h` files under `include/sharding/`. This inventory confirms files,
+not contract completeness or runtime maturity. The target files and future items below are retained
+as planning records; their dates have elapsed and their present priority/commitment has not been
+revalidated. **TODO:** reconcile each proposal with the active module roadmap before treating it as
+an active delivery commitment.
 
 ---
 
@@ -45,11 +65,14 @@ metrics.
 
 ---
 
-## Planned
+## Planned (proposal; not a current API commitment)
 
 - [ ] `topology_change_event.h` — shared event contract for routing/repair subscribers (Target: 2026-Q4)
 - [ ] `distributed_deadlock_snapshot.h` — explicit deadlock-diagnostics DTO for cross-shard transaction consumers (Target: 2026-Q4)
 - [ ] Deprecation notes for legacy single-path router helpers once adaptive/locality-aware routing becomes default (Target: 2026-Q4)
+
+The proposed headers above are not present in the current `include/sharding/` inventory. No
+implementation or compatibility schedule is implied by listing them here.
 
 ---
 

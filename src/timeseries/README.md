@@ -1,102 +1,76 @@
-# ThemisDB Timeseries Module
-
-**Status:** PRODUCTION_CANDIDATE  
-**Phase:** 6 (Documentation & Acceptance) — ✅ COMPLETE  
-**Last Updated:** 2026-08-10  
-**Owner:** Time-Series Data Team
-
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "include/timeseries/tsstore.h; include/timeseries/ts_auto_buffer.h; src/timeseries/tsstore.cpp; tests/timeseries/CMakeLists.txt; benchmarks/timeseries/CMakeLists.txt"
 ---
 
-## Module Purpose
+> Exact model backend not verifiable from final document text alone.
 
-The timeseries module provides ingestion, storage, compression, retention, aggregation, and query behavior for high-frequency time-series workloads in ThemisDB.
+# Timeseries module
 
-## Production Status
+This directory contains the implementation of the timeseries storage and
+processing APIs declared in [`../../include/timeseries/`](../../include/timeseries/).
+This overview describes source organization; it does not establish that a
+particular build, test suite, benchmark, or production deployment has passed.
 
-✅ **PRODUCTION-READY** (Phase 1–6 complete, 2026-08-07)
-- Core API contract frozen (Phase 1)
-- Comprehensive implementation (Phase 2–3)
-- Contract test suite complete: TSCH-01..16 (Phase 4)
-- Release gates locked: TSRG-01..06 (Phase 5)
-- Documentation and acceptance complete (Phase 6)
+## Runtime shape
 
-## Quick Links for Operators and Developers
+- `TSStore` stores individual points under `ts:` keys. With Gorilla configured,
+  `putDataPoints()` and `putBatch()` group and encode batches under `tsc:` keys.
+  `putDataPoint()` is an individual write unless Gorilla is configured and an
+  attached auto-buffer accepts the point.
+- `TSAutoBuffer` is optional. Its limits and flush behavior are configured by
+  `TSAutoBufferConfig`; it holds a non-owning pointer to `TSStore`.
+- The module also contains query/aggregation, downsampling, retention,
+  encryption/key rotation, Prometheus remote-write decoding, metrics, and
+  diagnostics components. Their lifecycles and thread-safety requirements are
+  defined by the corresponding public headers.
+- `TSStore` timestamps and query bounds use signed Unix epoch milliseconds.
+  Ordering validation is disabled for non-positive
+  `late_arrival_window_ms`; a positive value rejects timestamps strictly below
+  the per-series watermark minus that window.
 
-- **Operators:** See [OPERATOR_GUIDE.md](OPERATOR_GUIDE.md) for deployment, tuning, monitoring, and incident response
-- **Performance:** See [PERFORMANCE_BASELINE.md](PERFORMANCE_BASELINE.md) for release gate baselines and regression detection
-- **Production Requirements:** See [PRODUCTION_REQUIREMENTS.md](PRODUCTION_REQUIREMENTS.md) for mandatory constraints
-- **Phase 6 Acceptance:** See [PHASE_6_ACCEPTANCE_CHECKLIST.md](PHASE_6_ACCEPTANCE_CHECKLIST.md) for completion evidence
-- **Architecture:** See [ARCHITECTURE.md](ARCHITECTURE.md) for design overview
-- **Roadmap:** See [ROADMAP.md](ROADMAP.md) for delivery phases and status
+## Implementation inventory
 
-## Relevant Interfaces
-
-| Interface / File | Role |
+| Area | Source files |
 |---|---|
-| timeseries.cpp | public timeseries API behavior |
-| tsstore.cpp | core timeseries storage behavior |
-| gorilla.cpp | Gorilla compression/decompression behavior |
-| gorilla_simd.cpp | SIMD Gorilla decode behavior |
-| ts_auto_buffer.cpp | auto-buffer ingest behavior |
-| ts_auto_buffer_adaptive.cpp | adaptive flush behavior |
-| adaptive_flush_controller.cpp | standalone flush-control behavior |
-| continuous_agg.cpp | continuous aggregation behavior |
-| aggregate_scheduler.cpp | aggregate refresh scheduling behavior |
-| downsampling.cpp | timeseries downsampling behavior |
-| query_optimizer.cpp | timeseries query optimization behavior |
-| retention.cpp | retention lifecycle behavior |
-| hypertable.cpp | hypertable partition behavior |
-| anomaly_detection.cpp | anomaly detection behavior |
-| gap_fill.cpp | gap-fill behavior |
-| ts_stream_cursor.cpp | streaming cursor behavior |
-| prometheus_remote_write.cpp | Prometheus remote-write ingest behavior |
-| encrypted_chunk_store.cpp | encrypted chunk storage behavior |
-| ts_encrypted_key_rotation.cpp | encrypted chunk key-rotation behavior |
-| timeseries_metrics.cpp | metrics/observability behavior |
+| Store and entry points | `timeseries.cpp`, `tsstore.cpp`, `hypertable.cpp` |
+| Buffering and flush | `ts_auto_buffer.cpp`, `ts_auto_buffer_adaptive.cpp`, `adaptive_flush_controller.cpp` |
+| Compression | `gorilla.cpp`, `gorilla_simd.cpp`, `compression_selector.cpp` |
+| Query and derived data | `aggregates.cpp`, `aggregate_scheduler.cpp`, `aggregate_scheduler_helper.cpp`, `continuous_agg.cpp`, `downsampling.cpp`, `query_optimizer.cpp`, `gap_fill.cpp`, `ts_stream_cursor.cpp` |
+| Retention and encryption | `retention.cpp`, `encrypted_chunk_store.cpp`, `ts_encrypted_key_rotation.cpp` |
+| Integrations and diagnostics | `prometheus_remote_write.cpp`, `anomaly_detection.cpp`, `timeseries_metrics.cpp`, `timeseries_incident_taxonomy.cpp`, `ts_edge_case_handler.cpp`, `ts_operator_diagnostics.cpp` |
 
-## Scope
+This list reflects the source files present in `src/timeseries/`; it is not a
+claim that every component is wired into every application path.
 
-In scope:
-- high-frequency time-series ingest, compression, query, retention, and downsampling behavior
-- adaptive flush, aggregation scheduling, and monitoring behavior
-- encrypted chunk and remote-write timeseries paths
+## Validation and registration
 
-Out of scope:
-- generic temporal lifecycle semantics owned by temporal module
-- non-timeseries business logic outside module boundaries
+- Focused module tests are source files named `test_*.cpp` in
+  [`../../tests/timeseries/`](../../tests/timeseries/). The directory's
+  `CMakeLists.txt` creates focused targets from that glob. Storage-backed
+  timeseries tests also exist elsewhere under `tests/`.
+- Benchmark sources named `bench_*.cpp` in
+  [`../../benchmarks/timeseries/`](../../benchmarks/timeseries/) are registered
+  when `THEMIS_BUILD_BENCHMARKS` is enabled. Some benchmark sources use
+  in-process models/stubs and do not measure the complete TSStore runtime.
+- For target names and configuration, consult those CMake files and the
+  configured build tree. No build, test, or benchmark execution is asserted by
+  this document.
 
-## Runtime Behavior and Limits
+## Developer references
 
-- ingest and flush behavior is bounded by buffer, chunk, and storage configuration.
-- query and range behavior expose explicit results under chunk and aggregation constraints.
-- retention, downsampling, and encryption lifecycle behavior remains observable.
-- remote-write and anomaly/gap-fill paths remain explicit and diagnosable.
-
-## Sourcecode Verification (Module: timeseries/readme)
-
-- Verified files:
-  - src/timeseries/timeseries.cpp
-  - src/timeseries/tsstore.cpp
-  - src/timeseries/gorilla.cpp
-  - src/timeseries/gorilla_simd.cpp
-  - src/timeseries/ts_auto_buffer.cpp
-  - src/timeseries/ts_auto_buffer_adaptive.cpp
-  - src/timeseries/adaptive_flush_controller.cpp
-  - src/timeseries/continuous_agg.cpp
-  - src/timeseries/aggregate_scheduler.cpp
-  - src/timeseries/downsampling.cpp
-  - src/timeseries/query_optimizer.cpp
-  - src/timeseries/retention.cpp
-  - src/timeseries/hypertable.cpp
-  - src/timeseries/anomaly_detection.cpp
-  - src/timeseries/gap_fill.cpp
-  - src/timeseries/ts_stream_cursor.cpp
-  - src/timeseries/prometheus_remote_write.cpp
-  - src/timeseries/encrypted_chunk_store.cpp
-  - src/timeseries/ts_encrypted_key_rotation.cpp
-  - src/timeseries/timeseries_metrics.cpp
-- Verified behavior surfaces:
-  - ingest/compression/query/retention/downsampling/encryption/remote-write paths
-- Note:
-  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
-  - historical entries remain in CHANGELOG.md
+- [API guide](API.md) and [implementation guide](IMPLEMENTATION.md)
+- [Architecture](ARCHITECTURE.md) and [data model](MODELING.md)
+- [Focused developer guide](MODULE_GUIDE.md)
+- [Operations](OPERATIONS.md), [runbook](RUNBOOK.md), and [trust boundaries](TRUST.md)
+- [Roadmap](ROADMAP.md) and [future enhancements](FUTURE_ENHANCEMENTS.md)

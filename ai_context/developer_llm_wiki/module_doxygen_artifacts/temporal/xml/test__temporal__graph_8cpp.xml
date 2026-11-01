@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="test__temporal__graph_8cpp" kind="file" language="C++">
     <compoundname>test_temporal_graph.cpp</compoundname>
     <includes local="no">gtest/gtest.h</includes>
@@ -50,7 +50,7 @@
         <label>storage/rocksdb_wrapper.h</label>
       </node>
     </incdepgraph>
-    <innerclass refid="class_temporal_graph_test" prot="public">TemporalGraphTest</innerclass>
+    <innerclass refid="classTemporalGraphTest" prot="public">TemporalGraphTest</innerclass>
     <sectiondef kind="func">
       <memberdef kind="function" id="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -58,7 +58,7 @@
         <argsstring>(TemporalGraphTest, TemporalFilter_NoFilter_AcceptsAll)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>TemporalFilter_NoFilter_AcceptsAll</type>
@@ -77,7 +77,7 @@
         <argsstring>(TemporalGraphTest, TemporalFilter_WithTimestamp_FiltersCorrectly)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>TemporalFilter_WithTimestamp_FiltersCorrectly</type>
@@ -96,7 +96,7 @@
         <argsstring>(TemporalGraphTest, TemporalFilter_BoundaryConditions)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>TemporalFilter_BoundaryConditions</type>
@@ -115,7 +115,7 @@
         <argsstring>(TemporalGraphTest, BfsAtTime_NoTemporalEdges_ReturnsAllNeighbors)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>BfsAtTime_NoTemporalEdges_ReturnsAllNeighbors</type>
@@ -134,7 +134,7 @@
         <argsstring>(TemporalGraphTest, BfsAtTime_FiltersByValidFrom)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>BfsAtTime_FiltersByValidFrom</type>
@@ -153,7 +153,7 @@
         <argsstring>(TemporalGraphTest, BfsAtTime_FiltersByValidTo)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>BfsAtTime_FiltersByValidTo</type>
@@ -172,7 +172,7 @@
         <argsstring>(TemporalGraphTest, BfsAtTime_FiltersByValidRange)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>BfsAtTime_FiltersByValidRange</type>
@@ -191,7 +191,7 @@
         <argsstring>(TemporalGraphTest, BfsAtTime_MultiplePathsOverTime)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>BfsAtTime_MultiplePathsOverTime</type>
@@ -210,7 +210,7 @@
         <argsstring>(TemporalGraphTest, BfsAtTime_IsolatedNodeAfterExpiration)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>BfsAtTime_IsolatedNodeAfterExpiration</type>
@@ -229,7 +229,7 @@
         <argsstring>(TemporalGraphTest, DijkstraAtTime_FindsShortestPathAtTime)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>DijkstraAtTime_FindsShortestPathAtTime</type>
@@ -248,7 +248,7 @@
         <argsstring>(TemporalGraphTest, DijkstraAtTime_PathChangesOverTime)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>DijkstraAtTime_PathChangesOverTime</type>
@@ -267,7 +267,7 @@
         <argsstring>(TemporalGraphTest, DijkstraAtTime_NoPathAtTime)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>DijkstraAtTime_NoPathAtTime</type>
@@ -286,7 +286,7 @@
         <argsstring>(TemporalGraphTest, BfsAtTime_EmptyStartNode_ReturnsError)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>BfsAtTime_EmptyStartNode_ReturnsError</type>
@@ -305,7 +305,7 @@
         <argsstring>(TemporalGraphTest, BfsAtTime_NegativeDepth_ReturnsError)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>BfsAtTime_NegativeDepth_ReturnsError</type>
@@ -324,7 +324,7 @@
         <argsstring>(TemporalGraphTest, DijkstraAtTime_EmptyNodes_ReturnsError)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>DijkstraAtTime_EmptyNodes_ReturnsError</type>
@@ -343,7 +343,7 @@
         <argsstring>(TemporalGraphTest, BfsAtTime_MaxDepthZero_ReturnsOnlyStart)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>BfsAtTime_MaxDepthZero_ReturnsOnlyStart</type>
@@ -362,7 +362,7 @@
         <argsstring>(TemporalGraphTest, RealWorld_EmploymentHistory)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>RealWorld_EmploymentHistory</type>
@@ -381,7 +381,7 @@
         <argsstring>(TemporalGraphTest, RealWorld_KnowledgeGraphEvolution)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>RealWorld_KnowledgeGraphEvolution</type>
@@ -400,7 +400,7 @@
         <argsstring>(TemporalGraphTest, TimeRangeFilter_NoFilter_AcceptsAll)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>TimeRangeFilter_NoFilter_AcceptsAll</type>
@@ -419,7 +419,7 @@
         <argsstring>(TemporalGraphTest, TimeRangeFilter_HasOverlap_DetectsOverlap)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>TimeRangeFilter_HasOverlap_DetectsOverlap</type>
@@ -438,7 +438,7 @@
         <argsstring>(TemporalGraphTest, TimeRangeFilter_HasOverlap_UnboundedEdge)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>TimeRangeFilter_HasOverlap_UnboundedEdge</type>
@@ -457,7 +457,7 @@
         <argsstring>(TemporalGraphTest, TimeRangeFilter_FullyContains_DetectsContainment)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>TimeRangeFilter_FullyContains_DetectsContainment</type>
@@ -476,7 +476,7 @@
         <argsstring>(TemporalGraphTest, TimeRangeFilter_Since_OneSidedBound)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>TimeRangeFilter_Since_OneSidedBound</type>
@@ -495,7 +495,7 @@
         <argsstring>(TemporalGraphTest, TimeRangeFilter_Until_OneSidedBound)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>TimeRangeFilter_Until_OneSidedBound</type>
@@ -514,7 +514,7 @@
         <argsstring>(TemporalGraphTest, GetEdgesInTimeRange_ReturnsOverlappingEdges)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>GetEdgesInTimeRange_ReturnsOverlappingEdges</type>
@@ -533,7 +533,7 @@
         <argsstring>(TemporalGraphTest, GetEdgesInTimeRange_FullContainment)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>GetEdgesInTimeRange_FullContainment</type>
@@ -552,7 +552,7 @@
         <argsstring>(TemporalGraphTest, GetOutEdgesInTimeRange_FiltersFromNode)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>GetOutEdgesInTimeRange_FiltersFromNode</type>
@@ -571,7 +571,7 @@
         <argsstring>(TemporalGraphTest, GetOutEdgesInTimeRange_EmptyNodeReturnsError)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>GetOutEdgesInTimeRange_EmptyNodeReturnsError</type>
@@ -590,7 +590,7 @@
         <argsstring>(TemporalGraphTest, GetTemporalStats_ReturnsCorrectCounts)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>GetTemporalStats_ReturnsCorrectCounts</type>
@@ -609,7 +609,7 @@
         <argsstring>(TemporalGraphTest, GetTemporalStats_DurationStatistics)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>GetTemporalStats_DurationStatistics</type>
@@ -628,7 +628,7 @@
         <argsstring>(TemporalGraphTest, TemporalStats_ToString_ContainsMetrics)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>TemporalStats_ToString_ContainsMetrics</type>
@@ -647,7 +647,7 @@
         <argsstring>(TemporalGraphTest, AggregateEdgePropertyInTimeRange_Count)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>AggregateEdgePropertyInTimeRange_Count</type>
@@ -666,7 +666,7 @@
         <argsstring>(TemporalGraphTest, AggregateEdgePropertyInTimeRange_Sum)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>AggregateEdgePropertyInTimeRange_Sum</type>
@@ -685,7 +685,7 @@
         <argsstring>(TemporalGraphTest, AggregateEdgePropertyInTimeRange_Avg)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>AggregateEdgePropertyInTimeRange_Avg</type>
@@ -704,7 +704,7 @@
         <argsstring>(TemporalGraphTest, AggregateEdgePropertyInTimeRange_MinMax)</argsstring>
         <name>TEST_F</name>
         <param>
-          <type><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref></type>
+          <type><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref></type>
         </param>
         <param>
           <type>AggregateEdgePropertyInTimeRange_MinMax</type>
@@ -733,41 +733,41 @@
 <codeline lineno="8"><highlight class="normal"></highlight></codeline>
 <codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
 <codeline lineno="10"><highlight class="normal"></highlight></codeline>
-<codeline lineno="11" refid="class_temporal_graph_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="11" refid="classTemporalGraphTest" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_temporal_graph_test_1aefb11c3ffbd571086713c040dda07b4a" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_graph_test_1aa15ae452bf43060dfd7c25dcb4872dac" kindref="member">test_db_path_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/themis_temporal_graph_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_temporal_graph_test_1aa15ae452bf43060dfd7c25dcb4872dac" kindref="member">test_db_path_</ref>);</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classTemporalGraphTest_1aefb11c3ffbd571086713c040dda07b4a" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classTemporalGraphTest_1aa15ae452bf43060dfd7c25dcb4872dac" kindref="member">test_db_path_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./data/themis_temporal_graph_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="classTemporalGraphTest_1aa15ae452bf43060dfd7c25dcb4872dac" kindref="member">test_db_path_</ref>);</highlight></codeline>
 <codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::RocksDBWrapper::Config<sp/>config;</highlight></codeline>
-<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.db_path<sp/>=<sp/><ref refid="class_temporal_graph_test_1aa15ae452bf43060dfd7c25dcb4872dac" kindref="member">test_db_path_</ref>;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.db_path<sp/>=<sp/><ref refid="classTemporalGraphTest_1aa15ae452bf43060dfd7c25dcb4872dac" kindref="member">test_db_path_</ref>;</highlight></codeline>
 <codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.memtable_size_mb<sp/>=<sp/>64;</highlight></codeline>
 <codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.block_cache_size_mb<sp/>=<sp/>256;</highlight></codeline>
 <codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.max_background_jobs<sp/>=<sp/>2;</highlight></codeline>
 <codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.compression_default<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lz4&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.compression_bottommost<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;zstd&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_graph_test_1a570f8ec1d7896720ad3af839f2b8c2d8" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;themis::RocksDBWrapper&gt;(config);</highlight></codeline>
-<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_temporal_graph_test_1a570f8ec1d7896720ad3af839f2b8c2d8" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
-<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_graph_test_1a4beb374931346b35adc12a22bac88e24" kindref="member">graph_mgr_</ref><sp/>=<sp/>std::make_unique&lt;themis::GraphIndexManager&gt;(*<ref refid="class_temporal_graph_test_1a570f8ec1d7896720ad3af839f2b8c2d8" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classTemporalGraphTest_1a570f8ec1d7896720ad3af839f2b8c2d8" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;themis::RocksDBWrapper&gt;(config);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="classTemporalGraphTest_1a570f8ec1d7896720ad3af839f2b8c2d8" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classTemporalGraphTest_1a4beb374931346b35adc12a22bac88e24" kindref="member">graph_mgr_</ref><sp/>=<sp/>std::make_unique&lt;themis::GraphIndexManager&gt;(*<ref refid="classTemporalGraphTest_1a570f8ec1d7896720ad3af839f2b8c2d8" kindref="member">db_</ref>);</highlight></codeline>
 <codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup<sp/>timeline:<sp/>Jan<sp/>2020<sp/>to<sp/>Jan<sp/>2025</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_graph_test_1abed9038f9a9f706b08f794fc75ca6b11" kindref="member">t_2020_jan</ref><sp/>=<sp/><ref refid="class_temporal_graph_test_1a225469749f67d2bc2bb58b3a3568a465" kindref="member">toTimestamp</ref>(2020,<sp/>1,<sp/>1);</highlight></codeline>
-<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_graph_test_1a773c955d6a31150e9be58ae427808ce5" kindref="member">t_2021_jan</ref><sp/>=<sp/><ref refid="class_temporal_graph_test_1a225469749f67d2bc2bb58b3a3568a465" kindref="member">toTimestamp</ref>(2021,<sp/>1,<sp/>1);</highlight></codeline>
-<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_graph_test_1a0461d9e87354e0ca966773aae91d487d" kindref="member">t_2022_jan</ref><sp/>=<sp/><ref refid="class_temporal_graph_test_1a225469749f67d2bc2bb58b3a3568a465" kindref="member">toTimestamp</ref>(2022,<sp/>1,<sp/>1);</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_graph_test_1aa4a91497081b0eef3d43949eb6c8e555" kindref="member">t_2023_jan</ref><sp/>=<sp/><ref refid="class_temporal_graph_test_1a225469749f67d2bc2bb58b3a3568a465" kindref="member">toTimestamp</ref>(2023,<sp/>1,<sp/>1);</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_graph_test_1a4da12697a8693f8bd2c6d7ad47431db7" kindref="member">t_2024_jan</ref><sp/>=<sp/><ref refid="class_temporal_graph_test_1a225469749f67d2bc2bb58b3a3568a465" kindref="member">toTimestamp</ref>(2024,<sp/>1,<sp/>1);</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_graph_test_1a75dd2746ab2e6c2b50a0e2fb3b76ef52" kindref="member">t_2025_jan</ref><sp/>=<sp/><ref refid="class_temporal_graph_test_1a225469749f67d2bc2bb58b3a3568a465" kindref="member">toTimestamp</ref>(2025,<sp/>1,<sp/>1);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classTemporalGraphTest_1abed9038f9a9f706b08f794fc75ca6b11" kindref="member">t_2020_jan</ref><sp/>=<sp/><ref refid="classTemporalGraphTest_1a225469749f67d2bc2bb58b3a3568a465" kindref="member">toTimestamp</ref>(2020,<sp/>1,<sp/>1);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classTemporalGraphTest_1a773c955d6a31150e9be58ae427808ce5" kindref="member">t_2021_jan</ref><sp/>=<sp/><ref refid="classTemporalGraphTest_1a225469749f67d2bc2bb58b3a3568a465" kindref="member">toTimestamp</ref>(2021,<sp/>1,<sp/>1);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classTemporalGraphTest_1a0461d9e87354e0ca966773aae91d487d" kindref="member">t_2022_jan</ref><sp/>=<sp/><ref refid="classTemporalGraphTest_1a225469749f67d2bc2bb58b3a3568a465" kindref="member">toTimestamp</ref>(2022,<sp/>1,<sp/>1);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classTemporalGraphTest_1aa4a91497081b0eef3d43949eb6c8e555" kindref="member">t_2023_jan</ref><sp/>=<sp/><ref refid="classTemporalGraphTest_1a225469749f67d2bc2bb58b3a3568a465" kindref="member">toTimestamp</ref>(2023,<sp/>1,<sp/>1);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classTemporalGraphTest_1a4da12697a8693f8bd2c6d7ad47431db7" kindref="member">t_2024_jan</ref><sp/>=<sp/><ref refid="classTemporalGraphTest_1a225469749f67d2bc2bb58b3a3568a465" kindref="member">toTimestamp</ref>(2024,<sp/>1,<sp/>1);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classTemporalGraphTest_1a75dd2746ab2e6c2b50a0e2fb3b76ef52" kindref="member">t_2025_jan</ref><sp/>=<sp/><ref refid="classTemporalGraphTest_1a225469749f67d2bc2bb58b3a3568a465" kindref="member">toTimestamp</ref>(2025,<sp/>1,<sp/>1);</highlight></codeline>
 <codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="37"><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_temporal_graph_test_1a7b0a8d0928cbdef5ae5e8256b8ae534a" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_graph_test_1a4beb374931346b35adc12a22bac88e24" kindref="member">graph_mgr_</ref>.reset();</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_temporal_graph_test_1a570f8ec1d7896720ad3af839f2b8c2d8" kindref="member">db_</ref>.reset();</highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_temporal_graph_test_1aa15ae452bf43060dfd7c25dcb4872dac" kindref="member">test_db_path_</ref>);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classTemporalGraphTest_1a7b0a8d0928cbdef5ae5e8256b8ae534a" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classTemporalGraphTest_1a4beb374931346b35adc12a22bac88e24" kindref="member">graph_mgr_</ref>.reset();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classTemporalGraphTest_1a570f8ec1d7896720ad3af839f2b8c2d8" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="classTemporalGraphTest_1aa15ae452bf43060dfd7c25dcb4872dac" kindref="member">test_db_path_</ref>);</highlight></codeline>
 <codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>Create<sp/>timestamp<sp/>in<sp/>milliseconds</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="class_temporal_graph_test_1a225469749f67d2bc2bb58b3a3568a465" kindref="member">toTimestamp</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>year,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>month,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>day)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classTemporalGraphTest_1a225469749f67d2bc2bb58b3a3568a465" kindref="member">toTimestamp</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>year,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>month,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>day)<sp/>{</highlight></codeline>
 <codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::tm<sp/>tm<sp/>=<sp/>{};</highlight></codeline>
 <codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tm.tm_year<sp/>=<sp/>year<sp/>-<sp/>1900;</highlight></codeline>
 <codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tm.tm_mon<sp/>=<sp/>month<sp/>-<sp/>1;</highlight></codeline>
@@ -777,7 +777,7 @@
 <codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>Create<sp/>temporal<sp/>edge</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::BaseEntity<sp/><ref refid="class_temporal_graph_test_1a73e2179a5f69ce2f7e7a0bd68111caee" kindref="member">createTemporalEdge</ref>(</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::BaseEntity<sp/><ref refid="classTemporalGraphTest_1a73e2179a5f69ce2f7e7a0bd68111caee" kindref="member">createTemporalEdge</ref>(</highlight></codeline>
 <codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
 <codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>from,</highlight></codeline>
 <codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>to,</highlight></codeline>
@@ -801,17 +801,17 @@
 <codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>edge;</highlight></codeline>
 <codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="78"><highlight class="normal"></highlight></codeline>
-<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_temporal_graph_test_1aa15ae452bf43060dfd7c25dcb4872dac" kindref="member">test_db_path_</ref>;</highlight></codeline>
-<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::RocksDBWrapper&gt;<sp/><ref refid="class_temporal_graph_test_1a570f8ec1d7896720ad3af839f2b8c2d8" kindref="member">db_</ref>;</highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::GraphIndexManager&gt;<sp/><ref refid="class_temporal_graph_test_1a4beb374931346b35adc12a22bac88e24" kindref="member">graph_mgr_</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classTemporalGraphTest_1aa15ae452bf43060dfd7c25dcb4872dac" kindref="member">test_db_path_</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::RocksDBWrapper&gt;<sp/><ref refid="classTemporalGraphTest_1a570f8ec1d7896720ad3af839f2b8c2d8" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::GraphIndexManager&gt;<sp/><ref refid="classTemporalGraphTest_1a4beb374931346b35adc12a22bac88e24" kindref="member">graph_mgr_</ref>;</highlight></codeline>
 <codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>timeline</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="class_temporal_graph_test_1abed9038f9a9f706b08f794fc75ca6b11" kindref="member">t_2020_jan</ref>,<sp/><ref refid="class_temporal_graph_test_1a773c955d6a31150e9be58ae427808ce5" kindref="member">t_2021_jan</ref>,<sp/><ref refid="class_temporal_graph_test_1a0461d9e87354e0ca966773aae91d487d" kindref="member">t_2022_jan</ref>,<sp/><ref refid="class_temporal_graph_test_1aa4a91497081b0eef3d43949eb6c8e555" kindref="member">t_2023_jan</ref>,<sp/><ref refid="class_temporal_graph_test_1a4da12697a8693f8bd2c6d7ad47431db7" kindref="member">t_2024_jan</ref>,<sp/><ref refid="class_temporal_graph_test_1a75dd2746ab2e6c2b50a0e2fb3b76ef52" kindref="member">t_2025_jan</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classTemporalGraphTest_1abed9038f9a9f706b08f794fc75ca6b11" kindref="member">t_2020_jan</ref>,<sp/><ref refid="classTemporalGraphTest_1a773c955d6a31150e9be58ae427808ce5" kindref="member">t_2021_jan</ref>,<sp/><ref refid="classTemporalGraphTest_1a0461d9e87354e0ca966773aae91d487d" kindref="member">t_2022_jan</ref>,<sp/><ref refid="classTemporalGraphTest_1aa4a91497081b0eef3d43949eb6c8e555" kindref="member">t_2023_jan</ref>,<sp/><ref refid="classTemporalGraphTest_1a4da12697a8693f8bd2c6d7ad47431db7" kindref="member">t_2024_jan</ref>,<sp/><ref refid="classTemporalGraphTest_1a75dd2746ab2e6c2b50a0e2fb3b76ef52" kindref="member">t_2025_jan</ref>;</highlight></codeline>
 <codeline lineno="85"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="86"><highlight class="normal"></highlight></codeline>
 <codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>TemporalFilter<sp/>Unit<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="88"><highlight class="normal"></highlight></codeline>
-<codeline lineno="89"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>TemporalFilter_NoFilter_AcceptsAll)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>TemporalFilter_NoFilter_AcceptsAll)<sp/>{</highlight></codeline>
 <codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::TemporalFilter<sp/>filter<sp/>=<sp/>themis::TemporalFilter::all();</highlight></codeline>
 <codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filter.isValid(std::nullopt,<sp/>std::nullopt));</highlight></codeline>
@@ -820,7 +820,7 @@
 <codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filter.isValid(t_2020_jan,<sp/>t_2025_jan));</highlight></codeline>
 <codeline lineno="96"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="97"><highlight class="normal"></highlight></codeline>
-<codeline lineno="98"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>TemporalFilter_WithTimestamp_FiltersCorrectly)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>TemporalFilter_WithTimestamp_FiltersCorrectly)<sp/>{</highlight></codeline>
 <codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::TemporalFilter<sp/>filter<sp/>=<sp/>themis::TemporalFilter::at(t_2023_jan);</highlight></codeline>
 <codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>valid<sp/>from<sp/>2020<sp/>to<sp/>2025:<sp/>should<sp/>pass</highlight><highlight class="normal"></highlight></codeline>
@@ -842,7 +842,7 @@
 <codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filter.isValid(std::nullopt,<sp/>std::nullopt));</highlight></codeline>
 <codeline lineno="118"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="119"><highlight class="normal"></highlight></codeline>
-<codeline lineno="120"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>TemporalFilter_BoundaryConditions)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>TemporalFilter_BoundaryConditions)<sp/>{</highlight></codeline>
 <codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::TemporalFilter<sp/>filter<sp/>=<sp/>themis::TemporalFilter::at(t_2023_jan);</highlight></codeline>
 <codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>valid<sp/>exactly<sp/>at<sp/>query<sp/>time<sp/>(start)</highlight><highlight class="normal"></highlight></codeline>
@@ -857,7 +857,7 @@
 <codeline lineno="132"><highlight class="normal"></highlight></codeline>
 <codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Simple<sp/>Temporal<sp/>Graph<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="134"><highlight class="normal"></highlight></codeline>
-<codeline lineno="135"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>BfsAtTime_NoTemporalEdges_ReturnsAllNeighbors)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>BfsAtTime_NoTemporalEdges_ReturnsAllNeighbors)<sp/>{</highlight></codeline>
 <codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>graph<sp/>without<sp/>temporal<sp/>constraints:</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>-&gt;<sp/>B<sp/>-&gt;<sp/>C</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e1<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
@@ -878,7 +878,7 @@
 <codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(bfsResult[2],<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="154"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="155"><highlight class="normal"></highlight></codeline>
-<codeline lineno="156"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>BfsAtTime_FiltersByValidFrom)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>BfsAtTime_FiltersByValidFrom)<sp/>{</highlight></codeline>
 <codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>e1:<sp/>A<sp/>-&gt;<sp/>B,<sp/>valid<sp/>from<sp/>2022<sp/>onwards</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>e2:<sp/>B<sp/>-&gt;<sp/>C,<sp/>no<sp/>temporal<sp/>constraint</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e1<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/>t_2022_jan,<sp/>std::nullopt);</highlight></codeline>
@@ -906,7 +906,7 @@
 <codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(bfs2023[2],<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="182"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="183"><highlight class="normal"></highlight></codeline>
-<codeline lineno="184"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>BfsAtTime_FiltersByValidTo)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>BfsAtTime_FiltersByValidTo)<sp/>{</highlight></codeline>
 <codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>e1:<sp/>A<sp/>-&gt;<sp/>B,<sp/>valid<sp/>until<sp/>2022</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>e2:<sp/>B<sp/>-&gt;<sp/>C,<sp/>no<sp/>temporal<sp/>constraint</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e1<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/>std::nullopt,<sp/>t_2022_jan);</highlight></codeline>
@@ -927,7 +927,7 @@
 <codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(bfs2023[0],<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="203"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="204"><highlight class="normal"></highlight></codeline>
-<codeline lineno="205"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>BfsAtTime_FiltersByValidRange)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>BfsAtTime_FiltersByValidRange)<sp/>{</highlight></codeline>
 <codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>e1:<sp/>A<sp/>-&gt;<sp/>B,<sp/>valid<sp/>from<sp/>2021<sp/>to<sp/>2023</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>e2:<sp/>B<sp/>-&gt;<sp/>C,<sp/>no<sp/>temporal<sp/>constraint</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e1<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/>t_2021_jan,<sp/>t_2023_jan);</highlight></codeline>
@@ -956,7 +956,7 @@
 <codeline lineno="231"><highlight class="normal"></highlight></codeline>
 <codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Complex<sp/>Temporal<sp/>Graph<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="233"><highlight class="normal"></highlight></codeline>
-<codeline lineno="234"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>BfsAtTime_MultiplePathsOverTime)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>BfsAtTime_MultiplePathsOverTime)<sp/>{</highlight></codeline>
 <codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>graph<sp/>with<sp/>evolving<sp/>relationships:</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Period<sp/>2020-2021:<sp/>A<sp/>-&gt;<sp/>B<sp/>-&gt;<sp/>D</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Period<sp/>2022-2023:<sp/>A<sp/>-&gt;<sp/>C<sp/>-&gt;<sp/>D</highlight><highlight class="normal"></highlight></codeline>
@@ -1002,7 +1002,7 @@
 <codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::find(r3.begin(),<sp/>r3.end(),<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>r3.end());</highlight></codeline>
 <codeline lineno="278"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="279"><highlight class="normal"></highlight></codeline>
-<codeline lineno="280"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>BfsAtTime_IsolatedNodeAfterExpiration)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>BfsAtTime_IsolatedNodeAfterExpiration)<sp/>{</highlight></codeline>
 <codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>-&gt;<sp/>B<sp/>(valid<sp/>2020-2022),<sp/>B<sp/>-&gt;<sp/>C<sp/>(valid<sp/>2020-2022)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>2022,<sp/>A<sp/>becomes<sp/>isolated<sp/>(no<sp/>outgoing<sp/>valid<sp/>edges)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e1<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/>t_2020_jan,<sp/>t_2022_jan);</highlight></codeline>
@@ -1025,7 +1025,7 @@
 <codeline lineno="300"><highlight class="normal"></highlight></codeline>
 <codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Dijkstra<sp/>Temporal<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="302"><highlight class="normal"></highlight></codeline>
-<codeline lineno="303"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>DijkstraAtTime_FindsShortestPathAtTime)<sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>DijkstraAtTime_FindsShortestPathAtTime)<sp/>{</highlight></codeline>
 <codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>weighted<sp/>graph:</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>--(weight=1,<sp/>valid<sp/>2020+)--&gt;<sp/>B<sp/>--(weight=1,<sp/>valid<sp/>2020+)--&gt;<sp/>D<sp/>(total:<sp/>2)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>--(weight=5,<sp/>valid<sp/>2020+)--&gt;<sp/>C<sp/>--(weight=1,<sp/>valid<sp/>2022+)--&gt;<sp/>D<sp/>(total:<sp/>6)</highlight><highlight class="normal"></highlight></codeline>
@@ -1058,7 +1058,7 @@
 <codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(path2.path[2],<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="334"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="335"><highlight class="normal"></highlight></codeline>
-<codeline lineno="336"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>DijkstraAtTime_PathChangesOverTime)<sp/>{</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>DijkstraAtTime_PathChangesOverTime)<sp/>{</highlight></codeline>
 <codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>--(weight=2,<sp/>valid<sp/>2020-2022)--&gt;<sp/>B<sp/>--(weight=1,<sp/>always)--&gt;<sp/>D<sp/>(total:<sp/>3,<sp/>only<sp/>2020-2022)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>--(weight=1,<sp/>valid<sp/>2023+)-------&gt;<sp/>C<sp/>--(weight=1,<sp/>always)--&gt;<sp/>D<sp/>(total:<sp/>2,<sp/>from<sp/>2023+)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
@@ -1085,7 +1085,7 @@
 <codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(path2.path[1],<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="361"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="362"><highlight class="normal"></highlight></codeline>
-<codeline lineno="363"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>DijkstraAtTime_NoPathAtTime)<sp/>{</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>DijkstraAtTime_NoPathAtTime)<sp/>{</highlight></codeline>
 <codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>-&gt;<sp/>B<sp/>(valid<sp/>2020-2022),<sp/>B<sp/>-&gt;<sp/>C<sp/>(valid<sp/>2020-2022)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>2022,<sp/>no<sp/>path<sp/>from<sp/>A<sp/>to<sp/>C</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e1<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/>t_2020_jan,<sp/>t_2022_jan);</highlight></codeline>
@@ -1107,19 +1107,19 @@
 <codeline lineno="382"><highlight class="normal"></highlight></codeline>
 <codeline lineno="383"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Edge<sp/>Cases<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="384"><highlight class="normal"></highlight></codeline>
-<codeline lineno="385"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>BfsAtTime_EmptyStartNode_ReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>BfsAtTime_EmptyStartNode_ReturnsError)<sp/>{</highlight></codeline>
 <codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>result]<sp/>=<sp/>graph_mgr_-&gt;bfsAtTime(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>t_2023_jan,<sp/>10);</highlight></codeline>
 <codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(status.ok);</highlight></codeline>
 <codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(status.message.find(</highlight><highlight class="stringliteral">&quot;leer&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
 <codeline lineno="389"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="390"><highlight class="normal"></highlight></codeline>
-<codeline lineno="391"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>BfsAtTime_NegativeDepth_ReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>BfsAtTime_NegativeDepth_ReturnsError)<sp/>{</highlight></codeline>
 <codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>result]<sp/>=<sp/>graph_mgr_-&gt;bfsAtTime(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>t_2023_jan,<sp/>-1);</highlight></codeline>
 <codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(status.ok);</highlight></codeline>
 <codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(status.message.find(</highlight><highlight class="stringliteral">&quot;maxDepth&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
 <codeline lineno="395"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="396"><highlight class="normal"></highlight></codeline>
-<codeline lineno="397"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>DijkstraAtTime_EmptyNodes_ReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>DijkstraAtTime_EmptyNodes_ReturnsError)<sp/>{</highlight></codeline>
 <codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status1,<sp/>path1]<sp/>=<sp/>graph_mgr_-&gt;dijkstraAtTime(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/>t_2023_jan);</highlight></codeline>
 <codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(status1.ok);</highlight></codeline>
 <codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
@@ -1127,7 +1127,7 @@
 <codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(status2.ok);</highlight></codeline>
 <codeline lineno="403"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="404"><highlight class="normal"></highlight></codeline>
-<codeline lineno="405"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>BfsAtTime_MaxDepthZero_ReturnsOnlyStart)<sp/>{</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>BfsAtTime_MaxDepthZero_ReturnsOnlyStart)<sp/>{</highlight></codeline>
 <codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e1<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(graph_mgr_-&gt;addEdge(e1).ok);</highlight></codeline>
 <codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
@@ -1139,7 +1139,7 @@
 <codeline lineno="414"><highlight class="normal"></highlight></codeline>
 <codeline lineno="415"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Real-World<sp/>Scenario<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="416"><highlight class="normal"></highlight></codeline>
-<codeline lineno="417"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>RealWorld_EmploymentHistory)<sp/>{</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>RealWorld_EmploymentHistory)<sp/>{</highlight></codeline>
 <codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Model<sp/>employment<sp/>relationships<sp/>over<sp/>time:</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Alice<sp/>worked<sp/>at<sp/>CompanyA<sp/>(2020-2022),<sp/>then<sp/>CompanyB<sp/>(2023+)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bob<sp/>worked<sp/>at<sp/>CompanyA<sp/>(2021-2024)</highlight><highlight class="normal"></highlight></codeline>
@@ -1168,7 +1168,7 @@
 <codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::find(r2.begin(),<sp/>r2.end(),<sp/></highlight><highlight class="stringliteral">&quot;CompanyA&quot;</highlight><highlight class="normal">)<sp/>==<sp/>r2.end());</highlight></codeline>
 <codeline lineno="444"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="445"><highlight class="normal"></highlight></codeline>
-<codeline lineno="446"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>RealWorld_KnowledgeGraphEvolution)<sp/>{</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>RealWorld_KnowledgeGraphEvolution)<sp/>{</highlight></codeline>
 <codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Model<sp/>evolving<sp/>knowledge:</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Document1<sp/>CITES<sp/>Document2<sp/>(2020-2022,<sp/>then<sp/>retracted)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Document1<sp/>CITES<sp/>Document3<sp/>(2023+,<sp/>new<sp/>citation)</highlight><highlight class="normal"></highlight></codeline>
@@ -1201,7 +1201,7 @@
 <codeline lineno="476"><highlight class="normal"></highlight></codeline>
 <codeline lineno="477"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>TimeRangeFilter<sp/>Unit<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="478"><highlight class="normal"></highlight></codeline>
-<codeline lineno="479"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>TimeRangeFilter_NoFilter_AcceptsAll)<sp/>{</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>TimeRangeFilter_NoFilter_AcceptsAll)<sp/>{</highlight></codeline>
 <codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::TimeRangeFilter<sp/>filter<sp/>=<sp/>themis::TimeRangeFilter::all();</highlight></codeline>
 <codeline lineno="481"><highlight class="normal"></highlight></codeline>
 <codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filter.hasOverlap(std::nullopt,<sp/>std::nullopt));</highlight></codeline>
@@ -1210,7 +1210,7 @@
 <codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(filter.hasOverlap(t_2020_jan,<sp/>t_2025_jan));</highlight></codeline>
 <codeline lineno="486"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="487"><highlight class="normal"></highlight></codeline>
-<codeline lineno="488"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>TimeRangeFilter_HasOverlap_DetectsOverlap)<sp/>{</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>TimeRangeFilter_HasOverlap_DetectsOverlap)<sp/>{</highlight></codeline>
 <codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::TimeRangeFilter<sp/>filter<sp/>=<sp/>themis::TimeRangeFilter::between(t_2021_jan,<sp/>t_2023_jan);</highlight></codeline>
 <codeline lineno="490"><highlight class="normal"></highlight></codeline>
 <codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>fully<sp/>within<sp/>range:<sp/>overlap</highlight><highlight class="normal"></highlight></codeline>
@@ -1232,7 +1232,7 @@
 <codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(filter.hasOverlap(t_2024_jan,<sp/>t_2025_jan));</highlight></codeline>
 <codeline lineno="508"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="509"><highlight class="normal"></highlight></codeline>
-<codeline lineno="510"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>TimeRangeFilter_HasOverlap_UnboundedEdge)<sp/>{</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>TimeRangeFilter_HasOverlap_UnboundedEdge)<sp/>{</highlight></codeline>
 <codeline lineno="511"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::TimeRangeFilter<sp/>filter<sp/>=<sp/>themis::TimeRangeFilter::between(t_2021_jan,<sp/>t_2023_jan);</highlight></codeline>
 <codeline lineno="512"><highlight class="normal"></highlight></codeline>
 <codeline lineno="513"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>valid<sp/>from<sp/>past<sp/>to<sp/>future:<sp/>overlap<sp/>with<sp/>any<sp/>range</highlight><highlight class="normal"></highlight></codeline>
@@ -1251,7 +1251,7 @@
 <codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(filter.hasOverlap(t_2024_jan,<sp/>std::nullopt));</highlight></codeline>
 <codeline lineno="527"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="528"><highlight class="normal"></highlight></codeline>
-<codeline lineno="529"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>TimeRangeFilter_FullyContains_DetectsContainment)<sp/>{</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>TimeRangeFilter_FullyContains_DetectsContainment)<sp/>{</highlight></codeline>
 <codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::TimeRangeFilter<sp/>filter<sp/>=<sp/>themis::TimeRangeFilter::between(t_2021_jan,<sp/>t_2023_jan);</highlight></codeline>
 <codeline lineno="531"><highlight class="normal"></highlight></codeline>
 <codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>fully<sp/>within<sp/>range:<sp/>contained</highlight><highlight class="normal"></highlight></codeline>
@@ -1269,7 +1269,7 @@
 <codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(filter.fullyContains(t_2022_jan,<sp/>std::nullopt));</highlight></codeline>
 <codeline lineno="545"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="546"><highlight class="normal"></highlight></codeline>
-<codeline lineno="547"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>TimeRangeFilter_Since_OneSidedBound)<sp/>{</highlight></codeline>
+<codeline lineno="547"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>TimeRangeFilter_Since_OneSidedBound)<sp/>{</highlight></codeline>
 <codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::TimeRangeFilter<sp/>filter<sp/>=<sp/>themis::TimeRangeFilter::since(t_2022_jan);</highlight></codeline>
 <codeline lineno="549"><highlight class="normal"></highlight></codeline>
 <codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>starting<sp/>after<sp/>lower<sp/>bound:<sp/>overlap</highlight><highlight class="normal"></highlight></codeline>
@@ -1279,7 +1279,7 @@
 <codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(filter.hasOverlap(t_2020_jan,<sp/>t_2021_jan));</highlight></codeline>
 <codeline lineno="555"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="556"><highlight class="normal"></highlight></codeline>
-<codeline lineno="557"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>TimeRangeFilter_Until_OneSidedBound)<sp/>{</highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>TimeRangeFilter_Until_OneSidedBound)<sp/>{</highlight></codeline>
 <codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::TimeRangeFilter<sp/>filter<sp/>=<sp/>themis::TimeRangeFilter::until(t_2022_jan);</highlight></codeline>
 <codeline lineno="559"><highlight class="normal"></highlight></codeline>
 <codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>starting<sp/>before<sp/>upper<sp/>bound:<sp/>overlap</highlight><highlight class="normal"></highlight></codeline>
@@ -1291,7 +1291,7 @@
 <codeline lineno="566"><highlight class="normal"></highlight></codeline>
 <codeline lineno="567"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Time-Range<sp/>Query<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="568"><highlight class="normal"></highlight></codeline>
-<codeline lineno="569"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>GetEdgesInTimeRange_ReturnsOverlappingEdges)<sp/>{</highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>GetEdgesInTimeRange_ReturnsOverlappingEdges)<sp/>{</highlight></codeline>
 <codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e1:<sp/>A-&gt;B<sp/>valid<sp/>[2021,<sp/>2023]</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="571"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e2:<sp/>B-&gt;C<sp/>valid<sp/>[2022,<sp/>2024]</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="572"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e3:<sp/>C-&gt;D<sp/>valid<sp/>[2020,<sp/>2020]<sp/>(before<sp/>query<sp/>range)</highlight><highlight class="normal"></highlight></codeline>
@@ -1318,7 +1318,7 @@
 <codeline lineno="593"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::find(ids.begin(),<sp/>ids.end(),<sp/></highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">),<sp/>ids.end());</highlight></codeline>
 <codeline lineno="594"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="595"><highlight class="normal"></highlight></codeline>
-<codeline lineno="596"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>GetEdgesInTimeRange_FullContainment)<sp/>{</highlight></codeline>
+<codeline lineno="596"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>GetEdgesInTimeRange_FullContainment)<sp/>{</highlight></codeline>
 <codeline lineno="597"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e1:<sp/>A-&gt;B<sp/>valid<sp/>[2021,<sp/>2023]<sp/>—<sp/>fully<sp/>contained<sp/>in<sp/>[2021,<sp/>2023]</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="598"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e2:<sp/>B-&gt;C<sp/>valid<sp/>[2020,<sp/>2024]<sp/>—<sp/>NOT<sp/>fully<sp/>contained<sp/>in<sp/>[2021,<sp/>2023]</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="599"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e1<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/>t_2021_jan,<sp/>t_2023_jan);</highlight></codeline>
@@ -1340,7 +1340,7 @@
 <codeline lineno="615"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::find(ids.begin(),<sp/>ids.end(),<sp/></highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">),<sp/>ids.end());</highlight></codeline>
 <codeline lineno="616"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="617"><highlight class="normal"></highlight></codeline>
-<codeline lineno="618"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>GetOutEdgesInTimeRange_FiltersFromNode)<sp/>{</highlight></codeline>
+<codeline lineno="618"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>GetOutEdgesInTimeRange_FiltersFromNode)<sp/>{</highlight></codeline>
 <codeline lineno="619"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A-&gt;B<sp/>valid<sp/>[2021,<sp/>2023],<sp/>A-&gt;C<sp/>valid<sp/>[2024,<sp/>2025],<sp/>B-&gt;D<sp/>valid<sp/>[2021,<sp/>2023]</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="620"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e1<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/>t_2021_jan,<sp/>t_2023_jan);</highlight></codeline>
 <codeline lineno="621"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e2<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/>t_2024_jan,<sp/>t_2025_jan);</highlight></codeline>
@@ -1365,12 +1365,12 @@
 <codeline lineno="640"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::find(ids.begin(),<sp/>ids.end(),<sp/></highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">),<sp/>ids.end());<sp/></highlight><highlight class="comment">//<sp/>from<sp/>B,<sp/>not<sp/>A</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="641"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="642"><highlight class="normal"></highlight></codeline>
-<codeline lineno="643"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>GetOutEdgesInTimeRange_EmptyNodeReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="643"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>GetOutEdgesInTimeRange_EmptyNodeReturnsError)<sp/>{</highlight></codeline>
 <codeline lineno="644"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>edges]<sp/>=<sp/>graph_mgr_-&gt;getOutEdgesInTimeRange(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>t_2021_jan,<sp/>t_2023_jan,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="645"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(status.ok);</highlight></codeline>
 <codeline lineno="646"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="647"><highlight class="normal"></highlight></codeline>
-<codeline lineno="648"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>GetTemporalStats_ReturnsCorrectCounts)<sp/>{</highlight></codeline>
+<codeline lineno="648"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>GetTemporalStats_ReturnsCorrectCounts)<sp/>{</highlight></codeline>
 <codeline lineno="649"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>3<sp/>edges:<sp/>2<sp/>overlap<sp/>range<sp/>[2021,2023],<sp/>1<sp/>is<sp/>fully<sp/>contained</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="650"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e1<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/>t_2021_jan,<sp/>t_2023_jan);<sp/></highlight><highlight class="comment">//<sp/>fully<sp/>contained</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="651"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e2<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/>t_2020_jan,<sp/>t_2024_jan);<sp/></highlight><highlight class="comment">//<sp/>overlap<sp/>only</highlight><highlight class="normal"></highlight></codeline>
@@ -1387,7 +1387,7 @@
 <codeline lineno="662"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.fully_contained_count,<sp/>1u);<sp/></highlight><highlight class="comment">//<sp/>only<sp/>e1<sp/>is<sp/>fully<sp/>contained</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="663"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="664"><highlight class="normal"></highlight></codeline>
-<codeline lineno="665"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>GetTemporalStats_DurationStatistics)<sp/>{</highlight></codeline>
+<codeline lineno="665"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>GetTemporalStats_DurationStatistics)<sp/>{</highlight></codeline>
 <codeline lineno="666"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e1:<sp/>A-&gt;B<sp/>valid<sp/>[2021,<sp/>2023]<sp/>—<sp/>duration<sp/>=<sp/>2<sp/>years</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="667"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e2:<sp/>B-&gt;C<sp/>valid<sp/>[2022,<sp/>2023]<sp/>—<sp/>duration<sp/>=<sp/>1<sp/>year</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="668"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e1<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/>t_2021_jan,<sp/>t_2023_jan);</highlight></codeline>
@@ -1407,7 +1407,7 @@
 <codeline lineno="682"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(*stats.min_duration_ms,<sp/>*stats.max_duration_ms);</highlight></codeline>
 <codeline lineno="683"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="684"><highlight class="normal"></highlight></codeline>
-<codeline lineno="685"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>TemporalStats_ToString_ContainsMetrics)<sp/>{</highlight></codeline>
+<codeline lineno="685"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>TemporalStats_ToString_ContainsMetrics)<sp/>{</highlight></codeline>
 <codeline lineno="686"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::TemporalStats<sp/>stats;</highlight></codeline>
 <codeline lineno="687"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.edge_count<sp/>=<sp/>5;</highlight></codeline>
 <codeline lineno="688"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.fully_contained_count<sp/>=<sp/>3;</highlight></codeline>
@@ -1425,7 +1425,7 @@
 <codeline lineno="700"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(output.find(</highlight><highlight class="stringliteral">&quot;1000&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>avg_duration_ms</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="701"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="702"><highlight class="normal"></highlight></codeline>
-<codeline lineno="703"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>AggregateEdgePropertyInTimeRange_Count)<sp/>{</highlight></codeline>
+<codeline lineno="703"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>AggregateEdgePropertyInTimeRange_Count)<sp/>{</highlight></codeline>
 <codeline lineno="704"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e1<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/>t_2021_jan,<sp/>t_2023_jan,<sp/>2.0);</highlight></codeline>
 <codeline lineno="705"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e2<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/>t_2022_jan,<sp/>t_2024_jan,<sp/>3.0);</highlight></codeline>
 <codeline lineno="706"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e3<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">,<sp/>t_2024_jan,<sp/>t_2025_jan,<sp/>5.0);</highlight></codeline>
@@ -1443,7 +1443,7 @@
 <codeline lineno="718"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.count,<sp/>2u);</highlight></codeline>
 <codeline lineno="719"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="720"><highlight class="normal"></highlight></codeline>
-<codeline lineno="721"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>AggregateEdgePropertyInTimeRange_Sum)<sp/>{</highlight></codeline>
+<codeline lineno="721"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>AggregateEdgePropertyInTimeRange_Sum)<sp/>{</highlight></codeline>
 <codeline lineno="722"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e1<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/>t_2021_jan,<sp/>t_2023_jan,<sp/>2.0);</highlight></codeline>
 <codeline lineno="723"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e2<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/>t_2022_jan,<sp/>t_2024_jan,<sp/>3.0);</highlight></codeline>
 <codeline lineno="724"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e3<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">,<sp/>t_2024_jan,<sp/>t_2025_jan,<sp/>5.0);</highlight></codeline>
@@ -1461,7 +1461,7 @@
 <codeline lineno="736"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(result.value,<sp/>5.0,<sp/>1e-9);</highlight></codeline>
 <codeline lineno="737"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="738"><highlight class="normal"></highlight></codeline>
-<codeline lineno="739"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>AggregateEdgePropertyInTimeRange_Avg)<sp/>{</highlight></codeline>
+<codeline lineno="739"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>AggregateEdgePropertyInTimeRange_Avg)<sp/>{</highlight></codeline>
 <codeline lineno="740"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e1<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/>t_2021_jan,<sp/>t_2023_jan,<sp/>2.0);</highlight></codeline>
 <codeline lineno="741"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e2<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/>t_2022_jan,<sp/>t_2024_jan,<sp/>4.0);</highlight></codeline>
 <codeline lineno="742"><highlight class="normal"></highlight></codeline>
@@ -1476,7 +1476,7 @@
 <codeline lineno="751"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(result.value,<sp/>3.0,<sp/>1e-9);<sp/></highlight><highlight class="comment">//<sp/>(2<sp/>+<sp/>4)<sp/>/<sp/>2</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="752"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="753"><highlight class="normal"></highlight></codeline>
-<codeline lineno="754"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="class_temporal_graph_test" kindref="compound">TemporalGraphTest</ref>,<sp/>AggregateEdgePropertyInTimeRange_MinMax)<sp/>{</highlight></codeline>
+<codeline lineno="754"><highlight class="normal"><ref refid="test__temporal__graph_8cpp_1a0e238a49cc4fd2e1a4e68e24c90e4d15" kindref="member">TEST_F</ref>(<ref refid="classTemporalGraphTest" kindref="compound">TemporalGraphTest</ref>,<sp/>AggregateEdgePropertyInTimeRange_MinMax)<sp/>{</highlight></codeline>
 <codeline lineno="755"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e1<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/>t_2021_jan,<sp/>t_2023_jan,<sp/>2.0);</highlight></codeline>
 <codeline lineno="756"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e2<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/>t_2022_jan,<sp/>t_2024_jan,<sp/>4.0);</highlight></codeline>
 <codeline lineno="757"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e3<sp/>=<sp/>createTemporalEdge(</highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">,<sp/>t_2021_jan,<sp/>t_2023_jan,<sp/>6.0);</highlight></codeline>

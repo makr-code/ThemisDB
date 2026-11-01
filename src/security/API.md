@@ -1,114 +1,99 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-19
-Last Updated: 2026-10-19
-Status: active
+Last Updated: 2026-10-31
+Status: review
 AI_Used: true
-AI_Models: MAI-Code-1.1-Flash
-AI_Contributor: unknown
-Human_Review: true
-Human_Author: ThemisDB Contributors
+AI_Models: unknown
+AI_Contributor: themisdb-doc-orchestrator
+Human_Review: false
+Human_Author: unknown
+Source_Level: level1
+SOT_Domain: api-contract
+Canonical_References:
+  - include/security/key_provider.h
+  - include/security/encryption.h
+  - include/security/rbac.h
+  - include/security/access_control.h
+  - include/security/access_control_manager.h
+  - include/security/zero_trust_policy_enforcer.h
+  - include/security/aql_injection_detector.h
+  - include/security/ai_operation_guard.h
+  - include/security/security_evidence_collector.h
+  - include/security/security_api_contract.h
+Related_Issue: "#7379"
+Related_Milestone: DOC-WEEKLY-2026-W44
 ---
+
+Exact model backend not verifiable from final document text alone.
 
 # Security Module API Reference
 
-AI provenance note: Exact model backend not verifiable from final document text alone.
+This page is a declaration-level index. Public names, namespaces, signatures, and
+configuration fields are defined by the linked headers; runtime enforcement must
+be verified in the corresponding implementation and tests.
 
+## Key management and encryption
 
-This page summarizes the public security API surface used by the security module and the code paths that enforce the contract in practice.
+- `include/security/key_provider.h` declares `themis::KeyProvider`,
+  `themis::KeyMetadata`, `themis::KeyStatus`, and `themis::KeyCache`.
+  `KeyProvider` derives from the base `IKeyProvider` interface but remains
+  abstract: provider-specific key retrieval, rotation, listing, metadata,
+  deletion, existence, and key-creation operations are pure virtual.
+  `KeyCache` is a separate cache utility, not a provider. The status
+  enumerators are `ACTIVE`, `ROTATING`, `DEPRECATED`, and `DELETED`.
+- `include/security/encryption.h` declares `themis::FieldEncryption`,
+  `EncryptedBlob`, and `EncryptedField<T>`. Its `encrypt` overloads take
+  `(plaintext, key_id)`. Decryption APIs include `decryptToString(blob)`,
+  `decryptToBytes(blob)`, and `decrypt(blob)`; key-version helpers include
+  `decryptAndReEncrypt(blob, key_id, updated_blob)` and
+  `needsReEncryption(blob, key_id)`. There is no `reEncrypt` method.
+- `include/security/vault_key_provider.h` declares `themis::VaultKeyProvider`
+  and its nested `Config`; configuration fields include the Vault address/token,
+  KV and Transit mount names, cache settings, request timeout, TLS verification,
+  and retry settings.
 
-## Public contracts
+## Access and request policy
 
-### 1. Key management
+- `include/security/rbac.h` declares `themis::security::Permission`, `Role`,
+  `RBACConfig`, `RBAC`, `User`, and `UserRoleStore`. Permission checks use
+  `RBAC::checkPermission(user_roles, resource, action)`. Role assignment is not
+  an `RBAC` method; separate assignment methods are declared on `UserRoleStore`,
+  `AccessControl`, and `AccessControlManager`.
+- `include/security/access_control_manager.h` declares
+  `themis::security::AccessControlManager`, `AccessControlConfig`,
+  `SecurityContext`, and `AccessDecision`; its public operations include
+  `authorize(context, resource, action)` and `assignRole(user_id, role)`.
+- `include/security/zero_trust_policy_enforcer.h` declares request context,
+  network-policy, verification-result, and trust-score fields. This reference
+  exposes `ZeroTrustPolicyEnforcer::verify(const ZeroTrustContext&)`. This
+  reference describes the declared API only; it does not assert a
+  deployment-specific score threshold or that every caller invokes the enforcer.
 
-Source: `include/security/key_provider.h`
+## Query checks, AI-operation decisions, and evidence
 
-Relevant concepts:
+- `include/security/aql_injection_detector.h` declares
+  `themis::security::AQLInjectionDetector::validateParameterizedQuery(
+  const std::string&, const std::vector<std::string>&)`,
+  `validateAQLAST(const std::string&)`,
+  `validateForReadOnlyContext(const std::string&)`, and
+  `validateUnboundedForLoops(const std::string&)`.
+- `include/security/ai_operation_guard.h` declares
+  `themis::security::AiOperationGuard::evaluate()` and response builders. The
+  header describes classification and decision data; it does not establish that
+  every AI tool-call path is wired to this class.
+- `include/security/security_evidence_collector.h` declares
+  `themis::security::SecurityEvidenceCollector` and structured evidence types,
+  including audit-log, metrics, key-rotation, access-control, network-control,
+  and change-management fields.
 
-- `KeyStatus` — `ACTIVE`, `ROTATING`, `DEPRECATED`, `DELETED`
-- `KeyMetadata` — logical key identifier, version, algorithm, creation time, expiry time, status
-- `KeyProvider` — key retrieval, rotation, metadata lookup, and deletion
-- `KeyCache` — in-memory caching for key material
-- `KeyNotFoundException` and `KeyOperationException` — explicit failure types
+## Contract and implementation boundary
 
-Key invariants:
+`include/security/security_api_contract.h` contains policy constants and
+normative contract text, including timeout and rotation-overlap values. Their
+presence in that header alone is not evidence that every implementation enforces
+them; consult implementation and test sources before making runtime claims.
 
-- key lookups must be version-aware
-- rotation must maintain an explicit status model
-- missing or revoked keys must not silently pass as valid
-
-### 2. Access control and policy enforcement
-
-Sources:
-
-- `include/security/access_control.h`
-- `include/security/rbac.h`
-- `include/security/zero_trust_policy_enforcer.h`
-
-Relevant concepts:
-
-- `AccessControl` — principal authentication, session management, authorization decisions
-- `ZeroTrustPolicyEnforcer` — identity + network policy + trust-score verification
-- `RBACConfig` and related role structures — role and permission mapping
-
-Core contract:
-
-- deny-by-default for missing or conflicting policy state
-- explicit `ALLOW` or `DENY` outcomes only
-- invalid identity and network policy rejections are treated as denial, not recovery
-
-### 3. Query and injection defense
-
-Source:
-
-- `include/security/aql_injection_detector.h`
-- `include/security/query_masking_policy.h`
-- `include/security/pii_redaction_policy.h`
-
-The design enforces that suspicious templates, dangerous AST nodes, and SQL-like payloads are rejected near the query boundary before execution.
-
-### 4. AI operation governance
-
-Source:
-
-- `include/security/ai_operation_guard.h`
-
-The `AiOperationGuard` API classifies destructive operations by class and environment. It builds blocked and approval-required responses so AI-initiated tool calls remain under explicit policy control.
-
-### 5. Evidence and audit
-
-Source:
-
-- `include/security/security_evidence_collector.h`
-
-The evidence model exposes structured audit bundles that contain:
-
-- audit log export records
-- security metrics snapshots
-- key-rotation records
-- access-control reports
-- network-control evidence
-- change-management evidence
-
-## Runtime semantics
-
-The module's public behavior is intentionally conservative:
-
-- invalid certificates and weak transport settings are rejected
-- rotation overlap windows are bounded and explicit
-- policy evaluation uses a hard timeout and fail-closed semantics
-- data encryption is bound to key metadata to prevent dangling or mismatched decrypts
-
-## API usage pattern
-
-A typical call path is:
-
-1. authenticate or verify a principal
-2. check a role or trust policy
-3. inspect or sanitize a query or payload
-4. encrypt or redact data when required
-5. record the decision in a security evidence bundle
-
-## Important compatibility note
-
-The contract in `security_api_contract.h` is the canonical baseline for the v1.x major line. This means compatibility is assumed to be additive and fail-closed rather than permissive. Any production behavior change that broadens trust or weakens denial should be treated as a release change requiring explicit lifecycle documentation.
+The headers under `include/security/` are the canonical API references. This
+summary intentionally omits usage examples, backend support claims, performance
+figures, and blanket fail-closed or compliance guarantees.

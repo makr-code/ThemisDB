@@ -1,13 +1,33 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "ThemisDB documentation orchestration assistant"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "retrieval.h"
+  - "dual_read_validator.h"
+  - "../../src/retrieval/CMakeLists.txt"
+  - "../../src/retrieval/include/lora_package.h"
+  - "../../src/retrieval/README.md"
+---
 
-# Retrieval Module — Public Headers
+Exact model backend not verifiable from final document text alone.
 
-**Module Path:** `include/retrieval/`
-**Implementation:** `../../src/retrieval/`
+# Retrieval public headers
 
-## Purpose
+`include/retrieval/` currently contains two headers:
 
-Public interfaces and declarations for ThemisDB's information retrieval and semantic search subsystem, providing unified retrieval orchestration across multiple backend strategies.
+- [`retrieval.h`](retrieval.h) is an umbrella placeholder. It contains no includes or declarations.
+- [`dual_read_validator.h`](dual_read_validator.h) declares `RetrievalResult`, `RetrievalMetrics`, and `DualReadValidator`.
+
+The LoRA artifact declarations are in `src/retrieval/include/lora_package.h`, not this directory. They are exposed through the public include directory of the `themis_retrieval` target. See the [module README](../../src/retrieval/README.md) for target details and limitations.
 
 ## Canonical Module Documentation
 
@@ -18,52 +38,14 @@ Public interfaces and declarations for ThemisDB's information retrieval and sema
 - [`../../src/retrieval/ROADMAP.md`](../../src/retrieval/ROADMAP.md)
 - [`../../src/retrieval/FUTURE_ENHANCEMENTS.md`](../../src/retrieval/FUTURE_ENHANCEMENTS.md)
 
-## Header Files
+## Include and build
 
-| Header | Primary Class / Interface |
-|--------|--------------------------|
-| `retrieval.h` | `Retriever` — core retrieval orchestration interface |
-| `retrieval_config.h` | `RetrievalConfig` — configuration and strategy selection |
-| `bm25_retriever.h` | `BM25Retriever` — BM25 ranking implementation |
-| `semantic_retriever.h` | `SemanticRetriever` — embedding-based semantic retrieval |
-| `hybrid_retriever.h` | `HybridRetriever` — combined lexical and semantic strategies |
-| `retrieval_metrics.h` | `RetrievalMetrics` — precision, recall, and ranking quality metrics |
-| `result_reranker.h` | `ResultReranker` — re-ranking and score normalization |
-| `cross_encoder_reranker.h` | `CrossEncoderReranker` — neural re-ranking interface |
-
-## Usage
-
-```cpp
-#include "retrieval/hybrid_retriever.h"
-
-auto retriever = themis::retrieval::createHybridRetriever({
-    .lexical_weight = 0.3,
-    .semantic_weight = 0.7,
-    .reranker_enabled = true
-});
-
-auto results = retriever->retrieve("query", 20);
-for (const auto& result : results) {
-    std::cout << result.document << " (score: " << result.score << ")" << std::endl;
-}
-```
-
-For full runtime usage examples (retrieval strategies, re-ranking, metrics), see [`../../src/retrieval/README.md`](../../src/retrieval/README.md).
-
-## Key Configuration Surface
-
-Important configuration entry points are declared in:
-
-- `retrieval.h` (`Retriever::Config` for strategy selection)
-- `retrieval_config.h` (backend-specific tuning parameters)
-- `hybrid_retriever.h` (`HybridRetriever::Config` for lexical/semantic weighting)
-- `result_reranker.h` (re-ranking and normalization configuration)
-
-## Build
-
-```cmake
-cmake --preset release && cmake --build build/release --target themis-retrieval
-```
+The only module build option is `THEMIS_BUILD_RETRIEVAL` (default `ON`); it
+controls the static `themis_retrieval` library. That target adds
+`src/retrieval/include` to its public include paths. The artifact header is
+included as `lora_package.h` with that target's include path, not as an
+`include/retrieval/` header. The dual-read validator is declared in this
+directory, but its implementation is not built into `themis_retrieval`.
 
 ## See Also
 
@@ -73,6 +55,9 @@ cmake --preset release && cmake --build build/release --target themis-retrieval
 
 ## Installation
 
-```cmake
-target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```sh
+cmake -S . -B build
+cmake --build build --target themis_retrieval
 ```
+
+There is no retrieval runtime configuration API in these headers.

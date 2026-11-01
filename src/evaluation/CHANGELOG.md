@@ -5,12 +5,20 @@
 
 # Changelog - Evaluation Module
 
+> **Update provenance (2026-10-31):** AI_Used: true; AI_Models: unknown;
+> AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB
+> Contributors. Exact model backend not verifiable from final document text alone.
+
 All notable changes to the evaluation module are documented here.
 The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
 ### Changed
+- Documentation-only synchronization for issue #7344: corrected module
+  source/target, include, test and benchmark descriptions to match the checked-in
+  headers, implementations and CMake registrations. No code or runtime behavior
+  changed.
 - Added root governance docs (`ARCHITECTURE`, `SECURITY`, `PERFORMANCE_EXPECTATIONS`, `FUTURE_ENHANCEMENTS`, `ROADMAP`, `AUDIT`) aligned to the shipped EPIC 2.5 planner state and current EPIC 2 mixed-stage delivery.
 - Kept roadmap/future planning and historical change tracking separated.
 - Added Phase 5 benchmark baselines in `benchmarks/epic2_evaluation/` for issue

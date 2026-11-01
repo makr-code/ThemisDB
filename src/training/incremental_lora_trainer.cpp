@@ -291,7 +291,10 @@ public:
      * @return Return value.
      * @details Calls: exchange(), TrainingResult(), THEMIS_ERROR(), std::chrono::steady_clock::now(), sanitizeTrainingPromptLikeText(), store(), reset(), generateVersionId().
      */
-    TrainingResult train(TrainingMode mode, TrainingCallback callback) {
+    TrainingResult train(
+        TrainingMode mode,
+        TrainingCallback callback,
+        const std::vector<std::string>* selected_sample_ids = nullptr) {
         // Fail-closed concurrency guard: train() is not thread-safe.
         // Reject any call that arrives while a training run is already in progress.
         if (training_active_.exchange(true)) {
@@ -304,6 +307,15 @@ public:
 
         TrainingResult result = TrainingResult();
         auto start_time = std::chrono::steady_clock::now();
+
+        if (selected_sample_ids != nullptr &&
+            (query_engine_ == nullptr || selected_sample_ids->empty())) {
+            result.error_message = query_engine_ == nullptr
+                ? "selected-sample training requires a live QueryEngine"
+                : "selected-sample training requires at least one selected sample ID";
+            training_active_.store(false);
+            return result;
+        }
 
         std::string sanitized_collection_name = {};
         std::string blocked_rule = {};
@@ -338,7 +350,8 @@ public:
 
             if (query_engine_ != nullptr) {
                 const auto data_load_start = std::chrono::steady_clock::now();
-                const bool loaded = loadTrainingDataFromDatabase(training_data, result.error_message);
+                const bool loaded = loadTrainingDataFromDatabase(
+                    training_data, result.error_message, selected_sample_ids);
                 result.data_load_time_seconds = std::chrono::duration<double>(
                     std::chrono::steady_clock::now() - data_load_start).count();
                 if (!loaded) {
@@ -1162,10 +1175,16 @@ public:
 
     bool loadTrainingDataFromDatabase(
         std::vector<std::pair<std::string, std::string>>& training_data,
-        std::string& error_message) const {
+        std::string& error_message,
+        const std::vector<std::string>* selected_sample_ids) const {
         const auto& collection = config_.training_data_collection;
         if (collection.empty() || config_.max_training_samples == 0) {
             error_message = "DB-backed LoRA training requires a collection and positive max_training_samples";
+            return false;
+        }
+        if (selected_sample_ids != nullptr &&
+            selected_sample_ids->size() > config_.max_training_samples) {
+            error_message = "selected sample count exceeds max_training_samples";
             return false;
         }
         const auto isIdentifierStart = [](unsigned char ch) {
@@ -1183,7 +1202,7 @@ public:
         const std::string aql =
             "FOR sample IN " + collection +
             " LIMIT " + std::to_string(config_.max_training_samples) +
-            " RETURN { input: sample.input, output: sample.output }";
+            " RETURN { _key: sample._key, input: sample.input, output: sample.output }";
         auto query_result = ::themis::executeAql(aql, *query_engine_);
         if (!query_result) {
             error_message = "DB-backed LoRA training query failed: " + query_result.error().message();
@@ -1203,9 +1222,19 @@ public:
         }
 
         training_data.reserve(std::min(rows->size(), config_.max_training_samples));
+        const std::unordered_set<std::string> selected_ids = selected_sample_ids == nullptr
+            ? std::unordered_set<std::string>{}
+            : std::unordered_set<std::string>(selected_sample_ids->begin(), selected_sample_ids->end());
+        size_t invalid_rows = 0;
         for (const auto& row : *rows) {
             if (!row.is_object() || !row.contains("input") || !row.contains("output") ||
                 !row["input"].is_string() || !row["output"].is_string()) {
+                ++invalid_rows;
+                continue;
+            }
+            if (selected_sample_ids != nullptr &&
+                (!row.contains("_key") || !row["_key"].is_string() ||
+                 !selected_ids.contains(row["_key"].get<std::string>()))) {
                 continue;
             }
             auto input = row["input"].get<std::string>();
@@ -1215,7 +1244,10 @@ public:
             }
         }
         if (training_data.empty()) {
-            error_message = "DB-backed LoRA training collection contained no valid input/output samples";
+            error_message = "DB-backed LoRA training collection contained no valid input/output samples (rows=" +
+                std::to_string(rows->size()) + ", invalid_rows=" + std::to_string(invalid_rows) +
+                ", selected_ids=" + std::to_string(selected_sample_ids == nullptr
+                    ? 0 : selected_sample_ids->size()) + ")";
             return false;
         }
         return true;
@@ -2091,6 +2123,13 @@ IncrementalLoRATrainer::~IncrementalLoRATrainer() = default;
 TrainingResult IncrementalLoRATrainer::train(TrainingMode mode,
                                             TrainingCallback callback) {
     return impl_->train(mode, callback);
+}
+
+TrainingResult IncrementalLoRATrainer::trainSelected(
+    TrainingMode mode,
+    const std::vector<std::string>& selected_sample_ids,
+    TrainingCallback callback) {
+    return impl_->train(mode, std::move(callback), &selected_sample_ids);
 }
 
 /**

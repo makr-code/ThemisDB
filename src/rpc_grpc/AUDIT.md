@@ -1,7 +1,27 @@
-# Audit Report - RPC gRPC Module
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
+> Exact model backend not verifiable from final document text alone.
+
+# RPC gRPC Audit Snapshot (2026-05-31)
+
+<!-- Status: historical snapshot; findings below are not current audit results -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+
+This snapshot has not been rerun against the current source. Its open findings
+and compliance statuses are historical evidence only. For current behavior,
+use the source-linked [architecture](ARCHITECTURE.md),
+[performance evidence](PERFORMANCE_EXPECTATIONS.md), and
+[roadmap limitations](ROADMAP.md).
 
 ## Summary
 

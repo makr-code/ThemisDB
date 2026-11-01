@@ -1,13 +1,13 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot coding agent"
 Human_Review: false
-Human_Author: "ThemisDB Contributors"
+Human_Author: "unknown"
 Source_Level: "level1"
 SOT_Domain: "module-behavior"
 Canonical_References:
@@ -22,7 +22,7 @@ Canonical_References:
   - "distributed_hybrid_search.cpp"
   - "layered_retrieval_orchestrator.cpp"
   - "llm_reranker.cpp"
-Related_Issue: "#7167 (closes #7091)"
+Related_Issue: "#7378"
 Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
 
@@ -38,7 +38,7 @@ Exact model backend not verifiable from final document text alone.
 
 | Component | Public interface | Source-backed responsibility |
 |---|---|---|
-| Local hybrid search | [`HybridSearch`](../../include/search/hybrid_search.h), [`SearchErrorCode`](../../include/search/search_error_codes.h) | Combine lexical/vector candidates and expose result/stat/error information. |
+| Local hybrid search | [`HybridSearch`](../../include/search/hybrid_search.h) | Combine lexical/vector candidates and populate backend status, partial-result, and count stats; error-code enum integration remains TODO. |
 | Distributed merge | [`DistributedHybridSearch`](../../include/search/distributed_hybrid_search.h) | Query local/remote shard paths and merge shard result sets. |
 | Layered retrieval | [`LayeredRetrievalOrchestrator`](../../include/search/layered_retrieval_orchestrator.h) | Coordinate optional ANN, tensor, graph, and LLM stages with per-layer outcomes. |
 | Ranking/utilities | [`LlmReranker`](../../include/search/llm_reranker.h), [`QueryExpander`](../../include/search/query_expander.h), [`FacetedSearch`](../../include/search/faceted_search.h) | Optional query expansion, reranking, facets, analytics, and related search operations. |
@@ -66,6 +66,10 @@ Evidence: [`hybrid_search.cpp`](hybrid_search.cpp), [`distributed_hybrid_search.
 - Creating embeddings or owning the LLM backend lifecycle.
 - Owning shard topology, transaction coordination, or query-language execution.
 - Claiming performance/SLA values without the corresponding current benchmark evidence.
+
+## Build and test evidence boundary
+
+`cmake/ModularBuild.cmake` lists a subset of search implementation sources in `THEMIS_QUERY_SOURCES`; it is not evidence that every file in `src/search/` is present in every binary. `tests/CMakeLists.txt` auto-discovers eligible module test CMake files and adds `tests/search/` when tests are configured; that file declares focused targets and labels. Actual target generation, compilation, and execution were not verified for this update. The test sources establish test definitions only; no runtime pass is claimed by this architecture page.
 
 ## Verified cross-module references
 

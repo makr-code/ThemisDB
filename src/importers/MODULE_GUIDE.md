@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -10,8 +10,8 @@ Human_Review: false
 Human_Author: "ThemisDB Team"
 Source_Level: "level1"
 SOT_Domain: "module-behavior"
-Canonical_References: "src/importers/README.md; include/importers/README.md; include/importers/importer_interface.h; include/importers/wikipedia_plugin.hpp; include/importers/huggingface_ingest_plugin.h; tests/importers/CMakeLists.txt"
-Related_Reference: "makr-code/ThemisDB#7124"
+Canonical_References: "src/importers/README.md; include/importers/README.md; include/importers/importer_interface.h; include/importers/wikipedia_plugin.hpp; include/importers/huggingface_ingest_plugin.h; tests/importers/CMakeLists.txt; cmake/CMakeLists.txt"
+Related_Reference: "makr-code/ThemisDB#7353"
 ---
 
 > Exact model backend not verifiable from final document text alone.
@@ -71,9 +71,10 @@ index or live embedding provider was updated.
 Keep connector-specific parsing in its connector implementation and shared
 policy in the shared interface/helpers. Add coverage for invalid source,
 partial rows, schema drift, conflict disposition, timeout/cancellation, and
-resume behavior as applicable. The focused suites and registration rules are
+resume behavior as applicable. The module-local focused test registration and its current exclusions are
 listed in [`tests/importers/CMakeLists.txt`](../../tests/importers/CMakeLists.txt)
-and summarized in the [research guide](./RESEARCH.md).
+and summarized in the [build/test status](./BUILD_STATUS.md). Registration is
+not the same as a successful build or test run.
 
 Related: [implementation](./IMPLEMENTATION.md),
 [operations](./OPERATIONS.md), [runbook](./RUNBOOK.md).

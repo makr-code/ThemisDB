@@ -1,59 +1,42 @@
-# Audit Report - Scraper Module
+# Scraper Source Review
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Source review date: 2026-10-31. This is not a build, test, or runtime audit. -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-## Summary
+**Author:** ThemisDB Contributors<br>
+**Created:** 2026-10-31<br>
+**Last Updated:** 2026-10-31<br>
+**Status:** review
 
-| Metric | Result |
-|---|---|
-| Build registration | pass |
-| Source set size | pass (module core files present) |
-| Focused test presence | pass |
-| Open hardening findings | yes |
-| Critical blockers | none identified |
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot; themisdb-doc-orchestrator
+**Human_Review:** false
+**Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
 
-## Verified Files
+## Review Scope
 
-- src/scraper/scraper_plugin.cpp
-- src/scraper/scraper_config.cpp
-- src/scraper/scraper_api_client.cpp
-- src/scraper/scraper_search_engine.cpp
-- src/scraper/scraper_js_renderer.cpp
-- src/scraper/scraper_llm_evaluator.cpp
-- src/scraper/scraper_metadata_writer.cpp
-- src/scraper/gov_source_catalog.cpp
+Reviewed scraper implementation and public headers, focused test/benchmark sources, and the module CMake files. No build, test, benchmark, or live-source run was performed for this documentation review.
 
-## Findings
+## Source and Registration Evidence
 
-### Open
+- `src/scraper/CMakeLists.txt` declares the C++17 static `scraper_plugin` target and optional YAML, pugixml, curl, JSON-header, and LLM integration.
+- `tests/scraper/CMakeLists.txt` globs `test_scraper_*.cpp` and registers a focused target and CTest entry per source.
+- `benchmarks/scraper/CMakeLists.txt` registers `bench_scraper_release_gates` and `bench_scraper_pipeline_depth` only when `THEMIS_BUILD_BENCHMARKS` is enabled.
+- Focused test and benchmark source presence was inspected; execution status is unknown.
 
-1. [SCR-AUD-01] malformed-content and burst-crawl edge hardening remains active.
-- Severity: medium
-- Evidence: roadmap/future retain active hardening for noisy input and burst workload paths.
-- Action: extend deterministic stress and malformed-input regression coverage.
+## Open Source-Level Limitations
 
-2. [SCR-AUD-02] crawler/evaluator/writer diagnostics need deeper consistency.
-- Severity: medium
-- Evidence: active follow-up work for cross-stage incident taxonomy alignment.
-- Action: unify diagnostics across fetch, extraction, scoring, and write failures.
+1. `respect_robots`, `same_domain_only`, crawl `max_depth`/`max_pages`, and parsed `ScraperConfig::api_options` are not applied by `ScraperPlugin`. `request_delay_ms` is used in the HTML search path, not API pagination.
+2. `scraper_diagnostics.h` and `scraper_run_summary.h` define standalone helpers; the plugin does not emit diagnostic events or feed the summary collector.
+3. `scraper_render_contract.h` classifies returned renderer results but is not called by the plugin. The subprocess adapter passes a timeout argument to the renderer command but has no independent process deadline.
+4. Module benchmark cases cover helper/type paths, not end-to-end fetch, parsing, evaluation, or persistence. Source-declared thresholds are not measurements.
+5. `tests/integration/test_scraper_ingestion_soak.cpp` uses in-process stubs and does not exercise `ScraperPlugin` or durable storage.
+6. URL allow/deny patterns are simple strings; redirects are followed by libcurl without a second `UrlPolicy` check. External egress controls remain necessary.
 
-3. [SCR-AUD-03] benchmark depth should broaden for scraper-native pipeline paths.
-- Severity: low
-- Evidence: current mapping is valid but still proxy-oriented to adjacent benchmark suites.
-- Action: add dedicated scraper pipeline benchmarks to reduce proxy dependence.
+## Follow-up
 
-### Closed
-
-- core scraper runtime surfaces are present and source-verified.
-- documentation set is synchronized to source-verifiable claims.
-- changelog/roadmap role separation is aligned to module governance pattern.
-
-## Compliance Snapshot
-
-| Requirement | Status |
-|---|---|
-| Source-verifiable behavior claims | pass |
-| Structured forward planning in roadmap/future | pass |
-| Historical completion tracked in changelog | pass |
-| Core module docs synchronized | pass |
+- TODO: connect runtime diagnostics and timeout/policy helpers to the orchestration path, with integration coverage.
+- TODO: add end-to-end benchmark and soak workloads before asserting scraper throughput or reliability baselines.
+- TODO: maintain the deployment-side controls described in [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md) and [TRUST.md](./TRUST.md).

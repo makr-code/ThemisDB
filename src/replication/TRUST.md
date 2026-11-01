@@ -1,81 +1,63 @@
 ---
-Author: "ThemisDB Contributors"
-Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Author: ThemisDB Contributors
+Created: 2026-10-21
+Last Updated: 2026-10-31
+Status: review
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
-Human_Author: "ThemisDB Contributors"
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: security
+Canonical_References:
+  - ../../include/replication/replication_manager.h
+  - ../../include/replication/async_wal_shipper.h
+  - ../../include/replication/replication_slot.h
+  - ../../include/replication/logical_replication.h
+  - ../../include/replication/geo_placement.h
+  - ../../src/replication/ARCHITECTURE.md
+Related_Issue: "#7373"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
 
 Exact model backend not verifiable from final document text alone.
 
-# Replication Trust and Security Boundaries
+# Replication trust boundaries and assumptions
 
-## Purpose
+This note maps trust-sensitive responsibilities to current APIs. It does not assert
+that a component is an authoritative security boundary or that a deployment enforces
+all documented safeguards.
 
-This document records the trust model for the replication subsystem so that developers and operators understand where valid cluster state originates, what is allowed to affect it, and which failure conditions must be rejected.
+## Trust-sensitive interfaces
 
-## Trust boundary
+- **Membership and role state:** `ReplicationManager` exposes replica and witness
+  management, quorum/health queries, and role transitions. **Assumption:** callers
+  provide authenticated, authorized membership changes. The module headers do not
+  prove this across all call sites.
+- **Placement:** `GeoReplicaPlacementManager` evaluates caller-provided replica
+  snapshots and returns a candidate; it does not perform promotion. Candidate data
+  freshness and promotion authorization remain caller responsibilities.
+- **WAL shipper:** `AsyncWalShipper` bounds its queue and reports enqueue failure, but
+  uses a supplied ship handler. The API does not establish authenticated transport,
+  at-least-once delivery, or remote durability.
+- **Logical slots:** slot APIs expose progress and persistence operations. Validate
+  restart, replay, and retention effects in implementation/tests before relying on
+  them for recovery.
+- **Conflict handling:** resolver interfaces expose named strategies; determinism and
+  merge semantics depend on the selected implementation and input.
 
-The replication module sits between durable local state and the wider cluster runtime. It decides whether a node is eligible to lead, whether a replica is healthy enough to accept reads or writes, and whether lag or placement constraints make a cluster state unsafe.
+## Explicit assumptions and TODOs
 
-Because of this, the module is part of ThemisDB's trust-critical path. It handles state that can materially affect correctness, failover, and operator perception of data freshness.
+- **Assumption:** node identities, endpoints, and topology input are validated by the
+  surrounding cluster/service layer.
+- **Assumption:** the caller handles false results, errors, lag alerts, and queue
+  saturation without silently treating them as success.
+- **TODO:** Identify the authentication/authorization boundary for each caller of
+  membership, promotion, slot, and transport APIs.
+- **TODO:** Verify transport security, integrity/replay defenses, and persistence
+  guarantees for each concrete deployment.
+- **TODO:** Confirm implementation and runtime wiring for declared APIs that have no
+  same-named implementation file under `src/replication/`.
 
-## Key trust boundaries
-
-### Leader election boundary
-
-`ReplicationManager` is the authority for cluster role transitions. It decides whether a node can become leader or remain follower. The main trust risk is accidentally trusting a stale or unhealthy node.
-
-### WAL and slot boundary
-
-`WALEntry`, `ReplicationSlot`, and the associated persistence logic define the durability boundary for writes that are considered replicated or recoverable. The risk here is silent loss of ordering or replay continuity.
-
-### Logical replication and CDC boundary
-
-`LogicalReplicationManager` translates low-level WAL state into consumer-facing logical changes. Trust risk appears when schema compatibility or filter semantics do not hold, because downstream consumers will act on the produced stream.
-
-### Transport and queue boundary
-
-`AsyncWalShipper` is the remote transport boundary. Its risk is queue saturation, stale shipping state, or silent dropped segments. It must therefore preserve explicit lag and drop accounting.
-
-## Controls explicitly present
-
-The implementation includes several trust controls:
-
-- explicit quorum checks,
-- health and lag thresholds,
-- fail-safe behavior when a replica fails or is unavailable,
-- placement policy validation,
-- slot state handling and persistence,
-- deterministic conflict resolution semantics,
-- metrics that make lag and queue behavior visible to operators.
-
-## Security and reliability assumptions
-
-The replication module assumes the following:
-
-- node identity and endpoint metadata are not spoofed without cluster-level validation,
-- the cluster topology is configured consistently,
-- the transport path is not silently allowed to continue when seat-of-availability is degraded,
-- failover decisions are not made by stale health data or policy mismatch,
-- logical and WAL state remain consistent with the source-of-truth ordering and slot metadata.
-
-## Incident handling
-
-If the replication subsystem appears unhealthy, the operator should classify the issue before acting:
-
-1. Is it a leader election problem or a replica health problem?
-2. Is the issue queue saturation, lag, failover condition, or slot divergence?
-3. Is the problem confined to a single replica or is it systemic across the cluster?
-4. Are there explicit metrics or alerts showing the failure mode?
-5. Is rollback or leader demotion required before rejoining a replica?
-
-The module's design expects clear operational classification rather than implicit recovery.
-
-## Summary
-
-The replication module is security-relevant because it determines whether a data path is still authoritative, recoverable, and safe. Its trust posture depends on explicit health checks, deterministic merge rules, fail-safe lag handling, and visible operational signals rather than permissive fallback behavior.
+For threat-reporting instructions, see the project-level [SECURITY.md](../../SECURITY.md).

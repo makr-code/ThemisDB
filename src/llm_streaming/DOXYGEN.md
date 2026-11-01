@@ -1,261 +1,59 @@
-# LLM_STREAMING DOXYGEN
+---
+Author: "ThemisDB Team"
+Created: "2026-09-20"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Exact model backend not verifiable from final document text alone.
 
-## Source
-- This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\llm_streaming\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\llm_streaming\doxygen-warnings.log`
+# LLM Streaming Scoped Inventory and Doxygen Status
 
-## Structure Metrics
-- C/C++ Files (scanned): 2
-- Compounds: 14
-- Classes/Structs: 7
-- Namespaces: 0
-- File Compounds: 2
+## Scoped module inventory (not generated Doxygen output)
 
-## Namespaces
-- none
+The current `src/llm_streaming/` scope contains 17 Markdown files and
+`.gitkeep`; it contains no C++ source or header. This page is a manually
+maintained scope/status note, not a Doxygen-generated API inventory.
 
-## Types
-### Classes
-- StubBackpressureBench
-- StubBackpressureStress
-- StubChunkAssemblerBench
-- StubChunkAssemblerStress
-- StubStreamSession
-- StubStreamSessionBench
-- StubTokenStreamBench
+The previous version referred to a machine-local Windows XML path and listed
+stub classes from stress/benchmark sources. Those counts and stub details are
+stale and are not the API of this directory.
 
-### Structs
-- none
+## External helper reference (not part of this directory's inventory)
 
-## Notes
-- This is a derived artifact. Do not manually edit semantic content.
-- Regenerate via scripts/generate_module_doxygen_xml.py --write-module-markdown.
+The separate public helper declaration is `themis::llm::StreamingHandler` in
+`include/llm/streaming_handler.h`, implemented by
+`src/llm/streaming_handler.cpp`. Its public methods are:
 
-## Detailed Function Documentation (Soll-Ist)
-- Functions extracted: 34
+- `formatSseEvent(token, request_id, index, done)`
+- `formatDoneEvent(request_id)`
+- `formatChunkedData(data)`
+- `makeStreamCallback(sink, request_id)`
 
-### StubBackpressureBench
+This external helper is documented in `API.md`; it is not Doxygen output for
+`src/llm_streaming/`. The `Stub*` types in
+`tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`,
+`tests/integration/test_llm_streaming_soak.cpp`, and
+`benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp` are local
+validation scaffolding, not public module classes.
+`tests/llm/test_streaming_handler.cpp` is the direct unit test for the helper
+API; it is not an end-to-end transport inventory.
 
-#### `StubBackpressureBench(std::size_t cap)`
-- Source: `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`:49
-- Brief: n/a
-- Parameters:
-  - `cap` (std::size_t): n/a
+## Generation status
 
-#### `bool pop(std::string &out)`
-- Source: `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`:56
-- Brief: n/a
-- Parameters:
-  - `out` (std::string &): n/a
+On 2026-10-31, `scripts/generate_module_doxygen_xml.py` completed for module
+`llm` with Doxygen 1.9.8 and `Doxyfile.audit`: status PASS, 555 C/C++ files,
+1,829 compounds, 1,072 classes/structs, and 175 namespaces. The XML index and
+warnings log were generated under `/tmp/themis-module-doxygen/artifacts/llm/`;
+the manifest and summary are under `/tmp/themis-module-doxygen/`. These are
+temporary generated artifacts and are not tracked in the repository.
 
-#### `bool push(const std::string &chunk)`
-- Source: `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`:50
-- Brief: n/a
-- Parameters:
-  - `chunk` (const std::string &): n/a
-
-### StubBackpressureStress
-
-#### `StubBackpressureStress(std::size_t capacity)`
-- Source: `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`:59
-- Brief: n/a
-- Parameters:
-  - `capacity` (std::size_t): n/a
-
-#### `uint64_t overflow() const noexcept`
-- Source: `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`:79
-- Brief: n/a
-- Parameters: none
-
-#### `bool pop(std::string &out)`
-- Source: `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`:71
-- Brief: n/a
-- Parameters:
-  - `out` (std::string &): n/a
-
-#### `bool push(const std::string &chunk)`
-- Source: `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`:61
-- Brief: n/a
-- Parameters:
-  - `chunk` (const std::string &): n/a
-
-### StubChunkAssemblerBench
-
-#### `uint64_t count() const noexcept`
-- Source: `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`:73
-- Brief: n/a
-- Parameters: none
-
-#### `void receive(uint64_t seq, const std::string &chunk)`
-- Source: `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`:69
-- Brief: n/a
-- Parameters:
-  - `seq` (uint64_t): n/a
-  - `chunk` (const std::string &): n/a
-
-### StubChunkAssemblerStress
-
-#### `uint64_t orderErrors() const noexcept`
-- Source: `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`:101
-- Brief: n/a
-- Parameters: none
-
-#### `void receiveChunk(uint64_t seq, const std::string &chunk)`
-- Source: `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`:90
-- Brief: n/a
-- Parameters:
-  - `seq` (uint64_t): n/a
-  - `chunk` (const std::string &): n/a
-
-#### `uint64_t received() const noexcept`
-- Source: `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`:100
-- Brief: n/a
-- Parameters: none
-
-### StubStreamSession
-
-#### `StubStreamSession(uint64_t id)`
-- Source: `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`:40
-- Brief: n/a
-- Parameters:
-  - `id` (uint64_t): n/a
-
-#### `void close()`
-- Source: `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`:46
-- Brief: n/a
-- Parameters: none
-
-#### `uint64_t id() const noexcept`
-- Source: `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`:49
-- Brief: n/a
-- Parameters: none
-
-#### `bool isClosed() const noexcept`
-- Source: `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`:47
-- Brief: n/a
-- Parameters: none
-
-#### `void sendToken(const std::string &token)`
-- Source: `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`:42
-- Brief: n/a
-- Parameters:
-  - `token` (const std::string &): n/a
-
-#### `uint64_t tokenCount() const noexcept`
-- Source: `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`:48
-- Brief: n/a
-- Parameters: none
-
-### StubStreamSessionBench
-
-#### `void close()`
-- Source: `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`:81
-- Brief: n/a
-- Parameters: none
-
-#### `void open(uint64_t id)`
-- Source: `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`:80
-- Brief: n/a
-- Parameters:
-  - `id` (uint64_t): n/a
-
-### StubTokenStreamBench
-
-#### `uint64_t count() const noexcept`
-- Source: `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`:42
-- Brief: n/a
-- Parameters: none
-
-#### `void sendToken(const std::string &token)`
-- Source: `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`:38
-- Brief: n/a
-- Parameters:
-  - `token` (const std::string &): n/a
-
-### bench_llm_streaming_dedicated_gates.cpp
-
-#### `BENCHMARK(LS_BM_01_Token_Send_Throughput) -> Repetitions(5) ->ReportAggregatesOnly(true)`
-- Source: `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`:99
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (LS_BM_01_Token_Send_Throughput): n/a
-
-#### `BENCHMARK(LS_BM_02_Backpressure_Push_Latency) -> Repetitions(5) ->ReportAggregatesOnly(true)`
-- Source: `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`:118
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (LS_BM_02_Backpressure_Push_Latency): n/a
-
-#### `BENCHMARK(LS_BM_03_ChunkAssembler_Receive_Throughput) -> Repetitions(5) ->ReportAggregatesOnly(true)`
-- Source: `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`:134
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (LS_BM_03_ChunkAssembler_Receive_Throughput): n/a
-
-#### `BENCHMARK(LS_BM_04_StreamSession_Create_Latency) -> Repetitions(5) ->ReportAggregatesOnly(true)`
-- Source: `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`:149
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (LS_BM_04_StreamSession_Create_Latency): n/a
-
-#### `BENCHMARK_MAIN()`
-- Source: `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`:151
-- Brief: n/a
-- Parameters: none
-
-#### `void LS_BM_01_Token_Send_Throughput(benchmark::State &state)`
-- Source: `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`:89
-- Brief: n/a
-- Parameters:
-  - `state` (benchmark::State &): n/a
-
-#### `void LS_BM_02_Backpressure_Push_Latency(benchmark::State &state)`
-- Source: `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`:104
-- Brief: n/a
-- Parameters:
-  - `state` (benchmark::State &): n/a
-
-#### `void LS_BM_03_ChunkAssembler_Receive_Throughput(benchmark::State &state)`
-- Source: `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`:123
-- Brief: n/a
-- Parameters:
-  - `state` (benchmark::State &): n/a
-
-#### `void LS_BM_04_StreamSession_Create_Latency(benchmark::State &state)`
-- Source: `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`:139
-- Brief: n/a
-- Parameters:
-  - `state` (benchmark::State &): n/a
-
-### test_llm_streaming_highcardinality_stress.cpp
-
-#### `TEST(ChunkAssemblyEdgeCaseStress, InOrderDelivery)`
-- Source: `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`:207
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (ChunkAssemblyEdgeCaseStress): n/a
-  - `<unnamed>` (InOrderDelivery): n/a
-- Details: TestChunkAssemblyEdgeCaseStress Sends 100 000 in-order chunks to the assembler from 8 threads (serialised via mutex) and verifies zero order violations.
-
-#### `TEST(ConcurrentBackpressureStress, MultiThreadedPushPop)`
-- Source: `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`:166
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (ConcurrentBackpressureStress): n/a
-  - `<unnamed>` (MultiThreadedPushPop): n/a
-- Details: TestConcurrentBackpressureStress Runs 8 concurrent producers against a single backpressure buffer and verifies no uncaught exceptions occur.
-
-#### `TEST(HighCardinalityStreamSession, ConcurrentSessions)`
-- Source: `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`:119
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (HighCardinalityStreamSession): n/a
-  - `<unnamed>` (ConcurrentSessions): n/a
-- Details: TestHighCardinalityStreamSession Creates 1 000 streaming sessions distributed across 8 threads, sends tokens into each session, and verifies all sessions close cleanly.
-
+The run covers `llm` source/header inputs, not `src/llm_streaming/` as a
+separate module; this directory has no C++ source or header. The generated
+`src/llm/DOXYGEN.md` summary is derived from that module-scoped run and should
+not be characterized as an inventory of this directory.

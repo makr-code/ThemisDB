@@ -1,34 +1,50 @@
-# PERFORMANCE_EXPECTATIONS — src/whisper
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-## Scope
-- Modul: `src/whisper`
-- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
-- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
+> Exact model backend not verifiable from final document text alone.
 
-## Benchmark-Bezug
-- Dieses Modul nutzt die Ziel-ID-Matrix des Parent-Moduls `voice` als Referenzpfad.
-- Relevante Benchmark-Dateien:
-  - `benchmarks/bench_voice_assistant.cpp`
-  - `benchmarks/bench_voice_wake_word_batch.cpp`
+# Whisper Performance Expectations
 
-## Spezifische Erwartungswerte
-| Ziel-ID | Erwartungswert | Benchmark-Fall |
+## Scope and evidence
+
+This page covers `benchmarks/whisper/bench_whisper_transcription.cpp`. No measured performance
+results are present in this repository documentation; the values below are workload labels or
+source-level budgets, not verified baselines.
+
+## Benchmark cases in source
+
+| Case | Workload | Evidence/limit |
 |---|---|---|
-| VOI-1 | Siehe Zielbeschreibung: STT Latenz P95 (5 s Audio) | `BM_VoiceCommandProcessing_MediumAudio` |
-| VOI-2 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_VoiceCommandProcessing_SmallAudio` |
-| VOI-3 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `WakeWordBenchFixture_ProcessChunk_Energy_100ms` |
-| VOI-4 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_TextCommandProcessing` |
-| VOI-5 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `WakeWordBenchFixture_ProcessChunk_Silent_100ms` |
-| VOI-6 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_MultipleSessionsParallel` |
-| VOI-7 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_SessionCreation` |
-| VOI-8 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_SessionContextUpdate` |
-| VOI-9 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `WakeWordBenchFixture_ChunkThroughput` |
-| VOI-10 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `WakeWordBenchFixture_RollingBuffer_1500ms` |
-| AC-1 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `n/a` |
-| AC-2 | >=1 test run documented | `BM_VoiceCommandProcessing_SmallAudio` |
-| AC-3 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `n/a` |
-| AC-4 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `n/a` |
+| `Transcribe_1s`, `Transcribe_5s`, `Transcribe_30s_CLIParity` | PCM buffers at 16 kHz | Stub mode measures dispatch overhead; a comment sets a real-model budget of less than 60 seconds for 30 seconds of audio on a 4-core CPU. This has not been measured here. |
+| `Transcribe_8kHz_1s` | 8 kHz, one-second buffer | API boundary case; no target latency is documented. |
+| `DetectLanguage` | One-second, 16 kHz buffer | No target latency is documented. |
+| `TranscribeFile_NonExistent` | Missing-file error path | Error-path overhead, not decode/transcription throughput. |
+| `StatsQuery` | Statistics read after warm-up | No target latency is documented. |
+| `BM_WhisperStub_Direct` | Direct stub transcriber | Dispatch-only path. |
+| `BM_Transcribe_BufferSize` | 100 ms through 30 s PCM | Buffer-size sweep; runs with the selected backend. |
+| `BM_WhisperRealModel_1min` | One-minute synthetic PCM | Compiled only when whisper.cpp and `THEMIS_BENCH_WHISPER_MODEL_PATH` are configured. |
 
-## Validierung
-- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
-- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
+The benchmark accepts `THEMIS_BENCH_WHISPER_MODEL_PATH` from the environment or compile-time
+definition. Without a usable model/backend, the default path is stub mode and does not measure
+recognition performance.
+
+## Build registration gap
+
+The source is present, but `benchmarks/CMakeLists.txt` guards target creation using
+`EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_whisper_transcription.cpp"`. The checked-in source is
+`benchmarks/whisper/bench_whisper_transcription.cpp`, and no root-level file with the guarded name
+exists. Therefore target registration is not established by the current CMake condition.
+
+- [ ] Correct the CMake existence guard and run the benchmark on named hardware/model before
+  publishing latency or throughput baselines (Target: TODO).
+- [ ] Record real-model p50/p95/p99, model digest, CPU/GPU, thread count, and build flags
+  (Target: TODO).

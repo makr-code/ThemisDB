@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -54,15 +54,13 @@ the storage restore implementation, or traffic-management infrastructure.
 ## Integration boundary and incomplete actions
 
 The current implementation does not execute every action implied by the
-orchestration names. Spare activation emits `SPARE_ACTIVATION_FAILED` when a
-spare manager is present, and its failure result is not used to abort the
-overall failover. Metadata update logs the old/new leader but performs no
-metadata write. Built-in disaster-recovery snapshot validation checks only ID
-presence; restore and traffic shift report success without invoking external
-adapters. Catch-up tests quorum, and verification checks health/quorum rather
-than restored contents or recovery-site identity. A successful result therefore
-does not prove those external effects occurred. See
-[IMPLEMENTATION.md](IMPLEMENTATION.md).
+orchestration names. Spare activation emits `SPARE_ACTIVATION_FAILED` and now
+blocks completion when a configured spare cannot be activated. Metadata
+persistence remains unavailable and returns failure. Non-dry-run DR snapshot
+validation, restore, replication-position catch-up, requested traffic shift,
+and recovered-state verification also fail closed without registered hooks.
+Configured hooks must perform and verify their external effects; the manager
+does not independently certify them. See [IMPLEMENTATION.md](IMPLEMENTATION.md).
 
 ## Observability boundary
 

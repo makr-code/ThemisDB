@@ -1,4 +1,24 @@
-# voice Module - Developer Gap Note
+---
+Author: "ThemisDB Team"
+Created: "2026-06-04"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> Historical scanner snapshot, generated 2026-06-04 from
+> `ai_working/gap_scan_results.json`. Findings/counts/line references are not
+> current analysis and are not confirmed defects. Do not use this file as
+> current code or security status; rerun the documented analysis workflow and
+> inspect present source before acting.
+
+# voice Module - Historical Developer Gap Scan
 
 > Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.

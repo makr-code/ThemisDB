@@ -1,4 +1,42 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-07"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Model_Attribution: "Exact model backend not verifiable from final document text alone."
+AI_Contributor: "themisdb-doc-orchestrator"
+Human_Review: false
+Human_Author: "unknown"
+---
+
 # Themis Module - Build and Test Evidence
+
+> **Current source inventory (2026-10-31; registration only, not execution evidence):**
+> `src/themis/` contains 11 `.cpp` implementation files. `tests/themis/CMakeLists.txt`
+> globs five `test_*.cpp` files and registers focused targets with the
+> `module_themis_<stem>_focused` naming pattern (unit tier, 120-second timeout,
+> `themis` label). `benchmarks/themis/CMakeLists.txt` conditionally registers
+> three benchmarks when `THEMIS_BUILD_BENCHMARKS` is enabled:
+> `bench_themis_core`, `bench_themis_release_gates`, and
+> `bench_themis_dedicated_gates`.
+>
+> Source registration was checked in `tests/themis/CMakeLists.txt`,
+> `benchmarks/themis/CMakeLists.txt`, `cmake/CMakeLists.txt`,
+> `cmake/ModularBuild.cmake`, and `cmake/MiscellaneousFeatures.cmake`.
+> Root `tests/CMakeLists.txt` discovers module test `CMakeLists.txt` files and
+> adds their directories, so the five focused targets are picked up through
+> that module-registration path when `THEMIS_BUILD_TESTS` is enabled.
+> The focused test files are `test_themis_contract_hardening_focused.cpp`,
+> `test_themis_core_grpc_service_bridge.cpp`,
+> `test_themis_highcardinality_stress.cpp`,
+> `test_themis_integration.cpp`, and
+> `test_themis_wire_protocol_server.cpp`.
+> No build, test, or benchmark execution was performed for this documentation
+> review. The detailed sections below are the dated 2026-08-07 historical
+> snapshot; their file sizes, source line counts, target counts, and readiness
+> conclusions are not current evidence.
 
 **Module**: themis  
 **Issue**: makr-code/ThemisDB#5675  

@@ -1,4 +1,27 @@
-> **Status:** 2026-06-01 – mit aktuellem Graph-Code (`path_constraints.cpp`) abgeglichen.
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: ThemisDB documentation orchestration specialist
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source level: level1
+SOT domain: module-behavior
+Canonical source references:
+  - SECURITY.md
+  - TRUST.md
+  - ../../include/graph/
+  - ../../include/server/graph_api_handler.h
+Related milestone: DOC-WEEKLY-2026-44
+AI_Model_Note: Exact model backend not verifiable from final document text alone.
+---
+
+> **Review status:** This is a deployment integration checklist, not proof that the graph module
+> implements the listed controls. Authorization, tenant isolation, startup validation, audit
+> logging, and environment policy must be verified by the owning service/deployment layer.
 
 # ThemisDB Graph Module - Production Requirements
 
@@ -14,11 +37,14 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Graph-Path
 - **`src/graph/ROADMAP.md`:** Lieferphasen, offene/abgeschlossene Features, Readiness-Planung.
 - **`src/graph/FUTURE_ENHANCEMENTS.md`:** mittelfristige/langfristige Erweiterungen und Forschungsfelder.
 
-## Verbindliche Produktionsanforderungen
+## Produktionsanforderungen zur Integration (nicht automatisch durch das Graph-Modul erzwungen)
 
-- **MUST:** Graph-Traversal-Tiefe (`path_constraints.cpp`) mit expliziten Limits konfiguriert; unbegrenzte Traversal nicht zulässig.
-- **MUST:** Graph-Query-Autorisierung aktiv; Tenant-Namespace-Isolation für Graph-Operationen erzwungen.
-- **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
+- **TODO / Caller:** Use explicit traversal bounds where the selected API exposes them; defaults,
+  enforcement, and available limits differ by operation.
+- **TODO / Service owner:** Graph-Query-Autorisierung and Tenant-Namespace-Isolation must be
+  verified at the server/API boundary; these controls are not established by graph constraints.
+- **TODO / Deployment owner:** Verify startup configuration validation and fail-closed behavior
+  in the owning deployment layer.
 - **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
 
 ## Verbindliche Sicherheitsanforderungen
@@ -40,7 +66,7 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Graph-Path
 - [ ] Ressourcen-Limits explizit konfiguriert (keine Unlimited-Defaults)
 - [ ] Audit-Logging aktiv
 - [ ] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
+- [ ] Production-mode setting confirmed by deployment owner (**TODO:** no graph source/configuration reference for the former environment-variable names was found.)
 
 ## Review / Sourcecode-Audit-Nachweis
 

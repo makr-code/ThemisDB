@@ -673,7 +673,8 @@ Result<void> MultiLevelEncryptedStorage::rotateKey(SecurityLevel level) {
             std::string("Key rotation failed – data copy error: ") + e.what());
     }
 
-    // Step 4: unmount both containers, then atomically swap directories
+    // Step 4: attempt to unmount both containers, then rename directories in
+    // sequence. Rollback is best-effort; this is not an atomic transaction.
     unmountLevel(cfg);
     backend->unmountContainer(new_mount_point);
 

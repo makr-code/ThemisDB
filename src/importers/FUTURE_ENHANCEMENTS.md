@@ -1,6 +1,30 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-02"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "include/importers/importer_interface.h; src/importers/README.md; src/importers/ROADMAP.md; tests/importers/CMakeLists.txt; benchmarks/importers/CMakeLists.txt"
+Related_Reference: "makr-code/ThemisDB#7353"
+---
+
+> Creation-date note: Original creation date is not recorded in the available checkout; the front-matter `Created` date is a metadata placeholder, not independently verified.
+
+> Exact model backend not verifiable from final document text alone.
+
 # Importers Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-08-02 | Alignment: ROADMAP.md confirmed -->
+> Planning notes below are not current delivery commitments or evidence of
+> implementation. Connector parity, stress coverage, and benchmark validation
+> remain TODOs unless supported by a current source/test/run reference.
+
+<!-- Historical planning metadata; no current delivery commitment is implied. -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope

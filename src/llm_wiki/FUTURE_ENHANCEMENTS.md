@@ -1,4 +1,28 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # LLM Wiki Future Enhancements
+
+## Current source state
+
+The repository already contains a draft
+[`knowledge-sphere JSON Schema`](schema/knowledge_spheres.schema.json),
+[`policy YAML`](process/knowledge_spheres_policy.yaml), and
+[`runtime JSON example`](runtime/knowledge_spheres.runtime.json). These are
+static design/configuration artifacts: the current plugin and
+`ProcessPolicyManager` do not load or enforce them. No registry, lifecycle
+validator, migration runner, or module tests consuming these files were found.
+The work below therefore concerns runtime integration and contract completion,
+not the initial creation of those files.
 
 ## Knowledge Spheres
 
@@ -114,7 +138,7 @@
 ## Future Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] Define `KnowledgeSphereDescriptor` schema and lifecycle enumerations
+- [ ] Review and complete the existing descriptor schema against the intended contract, including any required audit and lifecycle fields
 - [ ] Define the registry and migration interfaces
 - [ ] Specify owner, source-of-truth, and retention metadata contracts
 - [ ] Document default rules for canonical, derived, ingested, and protected domains
@@ -180,8 +204,9 @@
 ---
 
 ## Recommended Next Steps
-- [ ] Add a `KnowledgeSphereRegistry` implementation under the LLM wiki module
-- [ ] Add schema metadata to `llm_wiki_entity.schema.json`
-- [ ] Add policy metadata to `llm_wiki_process_policy.yaml`
-- [ ] Define deprecation and migration checks in the module roadmap
-- [ ] Add smoke tests for sphere lifecycle and policy-driven migrations
+- [ ] Reconcile the existing knowledge-sphere schema, policy, and runtime example with a documented, supported contract
+- [ ] Implement and wire registry/lifecycle validation and migration behavior if these artifacts are intended for runtime use
+- [ ] Define whether entity records reference a sphere before changing `llm_wiki_entity.schema.json`
+- [ ] Add focused tests for schema validation, lifecycle transitions, policy rejection, and migration behavior
+
+> Exact model backend not verifiable from final document text alone.

@@ -1,51 +1,59 @@
-> **Status:** 2026-06-01 – mit aktuellem Governance-Code (`opa_adapter.cpp`) abgeglichen.
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Related: "Issue #7349"
+---
 
-# ThemisDB Governance Module - Production Requirements
+Exact model backend not verifiable from final document text alone.
 
-## Zweck und Geltungsbereich
+# Governance Deployment Checks (Non-Normative)
 
-Dieses Dokument ist der **kanonische Referenzpunkt für produktive Mindestanforderungen** des Governance-Moduls.
-Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für OPA-Adapter, Cross-Tenant-Policy-Inheritance, Governance-Policy-Enforcement.
+This file is an operator checklist, not a normative production or compliance
+standard. The previous “MUST” statements, mandatory bundle requirement,
+`THEMIS_PRODUCTION_MODE` / `THEMIS_ENVIRONMENT` flags, and claims that all
+settings are validated at startup are not established by the current governance
+interfaces and are withdrawn.
 
-## Dokumentabgrenzung (Canonical Split)
+## Checks for deployments using these interfaces
 
-- **`src/governance/PRODUCTION_REQUIREMENTS.md` (dieses Dokument):** verpflichtende Produktionsanforderungen (MUST/MUST NOT), Sicherheitsannahmen, Betriebsgrenzen.
-- **`src/governance/README.md`:** Funktionsübersicht, Architekturkontext, API- und Nutzungsbeispiele.
-- **`src/governance/ROADMAP.md`:** Lieferphasen, offene/abgeschlossene Features, Readiness-Planung.
-- **`src/governance/FUTURE_ENHANCEMENTS.md`:** mittelfristige/langfristige Erweiterungen und Forschungsfelder.
+- Load the intended policy YAML using `PolicyEngine::loadFromYAML()` and check
+  its boolean result. The implementation recognizes `vs_classification`,
+  `enforcement.resource_mapping`, `enforcement.default_mode`, and
+  `data_masking.enabled` / `data_masking.rules`.
+- Establish request identity and classification context in the owning
+  authenticated request path. Do not treat caller-supplied headers as proof of
+  identity.
+- Confirm each caller enforces the returned decision and applies masking where
+  the output path requires it. A policy decision alone does not enforce the
+  downstream operation.
+- If OPA is used, verify endpoint, policy path, timeout, response shape, and
+  active mode. WASM mode requires an injected evaluator and otherwise returns
+  an enforced strict deny without switching to REST/native evaluation.
+- If lineage/audit forwarding is needed, configure and verify the corresponding
+  sink separately. In-memory records are not a durable retention guarantee.
+- Treat compliance reports as software output based on supplied configuration
+  and evidence, not as certification.
 
-## Verbindliche Produktionsanforderungen
+## Unverified deployment matters
 
-- **MUST:** OPA-Adapter mit konfiguriertem Policy-Bundle konfiguriert; leeres Policy-Bundle wird abgewiesen.
-- **MUST:** Cross-Tenant-Policy-Inheritance mit expliziten Tenant-Grenzen; keine implizite Policy-Eskalation.
-- **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
-- **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
+The governance module does not define a universal production mode switch,
+deployment-specific retry policy, external audit store, or a single startup
+validator covering all governance configuration. Key lifecycle, durable
+retention, caller authentication, and regulatory acceptance need independent
+deployment-level verification.
 
-## Verbindliche Sicherheitsanforderungen
+## Source references
 
-- Sicherheitsrelevante Operationen werden über dedizierte Kontroll-Surfaces geleitet.
-- Fehler in sicherheitskritischen Pfaden werden als explizite Fehlercodes propagiert; kein Silent-Permit.
-- Audit-Logging für sicherheitsrelevante Operationen aktiv in Produktionsdeployments.
-
-## Betriebsgrenzen
-
-- Konfigurationswerte müssen deployment-spezifisch gesetzt sein; Default-Werte gelten nicht als produktionssicher.
-- Ressourcen-Limits (Größen, Counts, Timeouts) müssen mit den Deployment-Anforderungen übereinstimmen.
-- Externe Abhängigkeiten müssen mit expliziten Verbindungs-Timeouts und Retry-Policies konfiguriert sein.
-
-## Minimaler Produktions-Check (Audit-fähig)
-
-- [ ] Modul-Konfiguration vollständig und beim Start validiert
-- [ ] Sicherheits- und Autorisierungs-Checks aktiv
-- [ ] Ressourcen-Limits explizit konfiguriert (keine Unlimited-Defaults)
-- [ ] Audit-Logging aktiv
-- [ ] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
-
-## Review / Sourcecode-Audit-Nachweis
-
-### Betroffene Dateien im Review
-
-- `src/governance/PRODUCTION_REQUIREMENTS.md`
-- `src/governance/opa_adapter.cpp`
-- `src/governance/cross_tenant_policy_inheritance.cpp`
+- [`policy_engine.h`](../../include/governance/policy_engine.h) and
+  [`policy_engine.cpp`](policy_engine.cpp)
+- [`opa_adapter.h`](../../include/governance/opa_adapter.h) and
+  [`opa_adapter.cpp`](opa_adapter.cpp)
+- [`cross_tenant_policy_inheritance.h`](../../include/governance/cross_tenant_policy_inheritance.h)
+- [Trust boundaries](TRUST.md) · [Module architecture](ARCHITECTURE.md)

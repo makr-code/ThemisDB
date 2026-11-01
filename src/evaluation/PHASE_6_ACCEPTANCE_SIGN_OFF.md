@@ -1,5 +1,17 @@
 # Evaluation Module - Phase 6 Acceptance Sign-Off
 
+> **Update provenance (2026-10-31):** AI_Used: true; AI_Models: unknown;
+> AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB
+> Contributors. Exact model backend not verifiable from final document text alone.
+
+> **Historical sign-off template (issue #5643, 2026-08-18):** This file remains
+> an uncompleted role-signature template and historical planning record. Its
+> status statements, proposed integration sketch, CMake targets and issue
+> closure text are not current implementation evidence or completed approvals.
+> They are preserved rather than rewritten. Verify current source and CMake
+> before relying on any technical statement; see
+> [ROADMAP.md](./ROADMAP.md) and [MODULE_EVIDENCE.md](./MODULE_EVIDENCE.md).
+
 <!-- Status: 2026-08-18 — Sign-off template for maintainer/reviewer approval -->
 <!-- Issue: #5643 (Development Status) -->
 <!-- Links: PHASE_6_ACCEPTANCE_CHECKLIST.md · MODULE_EVIDENCE.md · ROADMAP.md · PRODUCTION_REQUIREMENTS.md -->

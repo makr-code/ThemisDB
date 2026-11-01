@@ -23,8 +23,8 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 - Ziel: Onboarding- und Coding-relevantes Wissen fuer Entwickler-LLMs
 - Laufmodus: FULL_SYNC
-- Quellen gesamt: 9507
-- Quellen-Hash: `5dd3d8c27e9f28ca04bc7dd1207cd4714446750bf012907217cbeead06bd72e2`
+- Quellen gesamt: 9514
+- Quellen-Hash: `b03102e23aa8e0651adb453b6887c2a454e947e28ab6fe69da9cb8fdfed3e09d`
 
 ## Status And Source-of-Truth Governance
 
@@ -38,20 +38,24 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - [BUILD_TEST_CI_AND_OPERATIONS.md](BUILD_TEST_CI_AND_OPERATIONS.md)
 - [GOVERNANCE_AND_ROADMAP.md](GOVERNANCE_AND_ROADMAP.md)
 - [AQL module context](AQL.md) — assistance API boundaries, validation behavior, and test/benchmark registration.
+- [Graph module context](GRAPH.md) — graph execution boundaries, RotatE evidence, focused tests, and archived artifacts
 - [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary.
 - [IMPORTERS.md](IMPORTERS.md) — curated importer module context
 - [UPDATES.md](UPDATES.md) — curated updates module context
 - [DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md) — curated distributed tensor module context
 - [PROCESS.md](PROCESS.md) — curated Process module context
+- [TEMPORAL.md](TEMPORAL.md) — temporal runtime/API boundaries, test and benchmark evidence limits
+- [STORAGE.md](STORAGE.md) — curated storage API boundaries, test evidence, and contract gaps
+- [USER_STORAGE_ENCRYPTED.md](USER_STORAGE_ENCRYPTED.md) — encrypted user-storage architecture, configuration, and evidence boundaries
 - [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)
 - [WIKI_STATUS.json](WIKI_STATUS.json)
 - [WIKI_DELTA_REPORT.md](WIKI_DELTA_REPORT.md)
 
 ## Source Distribution
 
-- modules_and_api: 3820
+- modules_and_api: 3821
 - build_test_ci: 203
-- governance_and_docs: 5484
+- governance_and_docs: 5490
 - misc: 0
 
 ## Source-Priority / Konfliktregel

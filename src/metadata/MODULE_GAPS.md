@@ -1,12 +1,32 @@
-# metadata — MODULE_GAPS.md (Phase 5 Verified)
+# metadata — MODULE_GAPS.md (Historical Phase 5 Snapshot)
+
+**Author:** ThemisDB Contributors  
+**Created:** 2026-10-31  
+**Last Updated:** 2026-10-31  
+**Status:** archived  
+**AI_Used:** true  
+**AI_Models:** unknown  
+**AI_Contributor:** GitHub Copilot coding agent / ThemisDB documentation orchestrator  
+**Human_Review:** false  
+**Human_Author:** ThemisDB Contributors  
+**Source level:** level1 — module-local  
+**SOT domain:** module-behavior  
+**Canonical source references:** [metadata source tree](./), [module roadmap](./ROADMAP.md)  
+**Related issue / milestone:** [#7362](https://github.com/makr-code/ThemisDB/issues/7362) · DOC-WEEKLY-2026-W44
+
+> Exact model backend not verifiable from final document text alone.
+
+> Historical scanner output only. The scan date is not recorded, and its
+> counts/findings have not been verified against current source. Do not treat
+> this snapshot as a current gap report or severity assessment.
 
 This file documents all documentation and code quality gaps in the **metadata** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 
 ## Summary
 
 - **Total Gaps**: 999
-- **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
-- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
+- **Status**: Historical Phase 5 scan output (not revalidated)
+- **Scan date**: Not recorded in this artifact
 
 ### By Severity
 

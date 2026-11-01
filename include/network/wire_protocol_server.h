@@ -21,6 +21,7 @@
 #  include <boost/beast/http.hpp>
 #  include <boost/beast/websocket.hpp>
 #endif
+#include "network/network_audit_log.h"
 #include "network/qos_manager.h"
 #include <memory>
 #include <string>
@@ -399,6 +400,19 @@ public:
     };
     Stats getStats() const;
 
+    /**
+     * @brief Access this server's bounded network audit log.
+     *
+     * The server owns the returned log for its lifetime. It records accepted
+     * connection open/close events, authentication outcomes, and rate-limit
+     * rejections. An optional callback may forward events to an external sink;
+     * configure it before starting the server and keep it non-blocking.
+     *
+     * @return Mutable reference to this server's audit log; do not retain it
+     *         beyond the server lifetime.
+     */
+    NetworkAuditLog& getAuditLog() noexcept;
+
     // -------------------------------------------------------------------------
     // Per-tenant bandwidth quota management
     // -------------------------------------------------------------------------
@@ -490,6 +504,7 @@ private:
 
     // Configuration
     Config config_;
+    NetworkAuditLog audit_log_;
 
     // Database access (shared, thread-safe)
     std::shared_ptr<RocksDBWrapper> storage_;
@@ -676,6 +691,7 @@ private:
     // Authentication state
     std::atomic<bool> authenticated_{false};
     std::atomic<bool> closed_{false};
+    std::atomic<bool> audit_open_recorded_{false};
     std::string username_;
     std::string client_ip_;
 

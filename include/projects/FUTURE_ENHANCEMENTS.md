@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/projects/FUTURE_ENHANCEMENTS.md -->
 
 # Projects Module — Public Header Future Enhancements
@@ -15,6 +29,12 @@
 Planned enhancements to the **public header contract** in `include/projects/`. Runtime, algorithm, and benchmark work remains tracked in:
 
 → [`../../src/projects/FUTURE_ENHANCEMENTS.md`](../../src/projects/FUTURE_ENHANCEMENTS.md)
+
+The Q3 2026 target dates below have elapsed; completion is unverified and they
+are not current commitments. These remain proposals until owners and new target
+dates are assigned. The bundle
+interface and error-code comments are not evidence of implemented bundle or
+membership APIs.
 
 ---
 
@@ -37,11 +57,11 @@ Planned extensions follow the same namespace (`themis::projects`) and include-gu
 
 ## Planned Enhancements
 
-### Short-Term (Q3 2026)
+### Short-Term (previously targeted Q3 2026; target TBD)
 
-- [ ] Add `[[deprecated]]` annotations to any legacy entry points with migration notes
-- [ ] Add explicit `noexcept` specifications to query/read paths where safe
-- [ ] Add structured diagnostic types for all thrown exceptions
+- [!] Add `[[deprecated]]` annotations to any legacy entry points with migration notes (Target: TBD)
+- [!] Add explicit `noexcept` specifications to query/read paths where safe (Target: TBD)
+- [!] Add structured diagnostic types for all thrown exceptions (Target: TBD)
 
 ### Medium-Term (Q4 2026)
 

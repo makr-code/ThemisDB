@@ -1,4 +1,22 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-08"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+Source level: 1; SOT domain: module-behavior. Canonical references: `tests/transaction/CMakeLists.txt`, `benchmarks/transaction/CMakeLists.txt`, and `src/transaction/ROADMAP.md`. Related issue: #7390.
+
 # TRANSACTION MODULE - PHASE 5 COMPLETION REPORT
+
+> **Historical snapshot (2026-08-08):** This report preserves its original completion claims and is not current build/test/benchmark evidence. The 2026-10-31 source audit finds 70 declared Phase 1-3 test cases, 15 Wave A closure cases, and 8 cases in `bench_transaction_phase4.cpp`; it did not build or execute tests/benchmarks. Treat unverified performance, release-readiness, and completion claims below as historical/assumptive.
 **Date:** 2026-08-08
 **Phase:** 5 - Documentation and Release Readiness
 **Status:** FRAMEWORK COMPLETE (Build verification in progress)

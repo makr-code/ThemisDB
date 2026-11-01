@@ -1,32 +1,69 @@
 ---
-Author: "ThemisDB Team"
+Author: "ThemisDB Contributors"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
+Last Updated: "2026-10-31"
 Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "OpenAI ChatGPT"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
 ---
 
-# Evaluation in ThemisDB
+# Evaluation module capabilities
 
-## Ueberblick
-src/evaluation is the EPIC 2 surface for making retrieval decisions measurable, hardware-aware, and policy-governed. The hardware-profile component and the EPIC 2.5 hybrid query planner are implemented. Other EPIC 2 surfaces remain mixed-stage and continue to advance behind their own phase gates. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+AI provenance: Exact model backend not verifiable from final document text alone.
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **Primary planning docs**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+## Scope and reader
 
-Die zweite Kernfaehigkeit ist **docs/EPIC2_HARDWARE_PROFILES.md**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+This is a source-backed capability summary for developers evaluating the
+`src/evaluation` C++ component. It describes contracts in the checked-in headers
+and implementations; it does not claim that a target was built, a benchmark
+passed, or an end-to-end retrieval path is deployed.
 
-Die dritte Kernfaehigkeit ist **docs/EPIC2_BENCHMARK_FRAMEWORK.md**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+## Implemented code surfaces
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Evaluation Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
+- Retrieval metrics compute retrieval, evidence, provenance, compression, LLM
+  answer, distributed-efficiency and tensor-graph summary values from caller
+  inputs. They do not retrieve data or invoke an LLM judge.
+- `BenchmarkMatrix` stores results by scenario and dimension, and provides
+  lookup, invalidation, slicing and comparison helpers. It is not a benchmark
+  runner or a measurement store with persistence.
+- Hardware-profile contracts define profile, resource, tier and transition
+  data, with validation and lookup functions.
+- `AblationRunner` computes metrics over caller-supplied query fixtures and
+  configured variants.
+- `QueryPlanner` returns a typed path decision from eligibility, freshness and
+  configuration inputs; it does not execute the selected retrieval path.
+- Approximation rules evaluate a requested boundary and planned path against a
+  policy.
+- Artifact lifecycle APIs compute states from supplied metadata and policy and
+  return metadata for transitions; they do not run rebuild jobs.
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
+The `themis_evaluation` static library lists `benchmark_matrix.cc`,
+`hardware_profile.cc`, `retrieval_metrics.cc`, `ablation_framework.cc`, and
+`artifact_lifecycle.cc`. Query planning and approximation rules are separate
+conditional CMake targets. There is no `storage_strategy` implementation in the
+checked-in `src/evaluation` source/header inventory reviewed for this page.
 
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/evaluation/README.md](./../../docs/evaluation/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+## Value, target scenarios and limitations
+
+These APIs provide typed, testable calculation and decision contracts for
+callers comparing retrieval metrics, evaluating configured ablations, or
+selecting a policy-based query path. Inputs, labels, hardware signals and
+benchmark values remain caller-supplied; a returned metric or planner decision
+is not proof of representative retrieval quality or production readiness. The
+benchmark file under `benchmarks/evaluation/` uses stubs and is not a
+performance result for these implementations.
+
+## References
+
+- [Module overview](./README.md)
+- [Architecture and build boundaries](./ARCHITECTURE.md)
+- [API contracts](./API.md)
+- [Implementation map](./IMPLEMENTATION.md)
+- `src/evaluation/CMakeLists.txt`
+- `src/evaluation/include/`
+- `src/evaluation/src/`
+- `tests/evaluation/CMakeLists.txt`
+- `benchmarks/evaluation/CMakeLists.txt`

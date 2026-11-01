@@ -45,6 +45,10 @@ Report vulnerabilities through the project
   reveal and audit its use.
 - Utility thread safety is API-specific. Do not infer safety for shared
   mutable contexts from the existence of a thread-safe helper elsewhere.
+- `HKDFCache` currently includes the IKM bytes in its in-memory map key. Until
+  that implementation is changed, do not assume cached IKM is absent from
+  process memory or securely zeroized on eviction; avoid caching especially
+  sensitive material when that exposure is unacceptable.
 - Optional codecs and external dependencies can be unavailable. Callers must
   inspect the declared error/result rather than assuming a transparent,
   security-equivalent fallback.

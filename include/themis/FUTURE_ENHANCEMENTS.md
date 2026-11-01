@@ -1,6 +1,19 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Model_Attribution: "Exact model backend not verifiable from final document text alone."
+AI_Contributor: "themisdb-doc-orchestrator"
+Human_Review: false
+Human_Author: "unknown"
+---
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/themis/FUTURE_ENHANCEMENTS.md -->
 
 # Themis Core Identity Module — Public Header Future Enhancements
@@ -22,8 +35,8 @@ Planned enhancements to the **public header contract** in `include/themis/`. Run
 
 - `[x]` Public headers must not expose internal implementation types or arena/memory layout details to callers.
 - `[x]` Breaking changes to types in `include/themis/` require a MAJOR version bump per `VERSIONING.md`.
-- `[x]` New entry points should be additive; existing stable APIs remain source-compatible.
-- `[x]` Layer association (**Graph**) must be preserved in all header expansions.
+- Public API compatibility must be assessed against `VERSIONING.md`; header presence alone does not establish source or ABI stability.
+- A canonical layer association for `include/themis/` was not established by this review; do not treat the former "Graph" label as verified.
 
 ---
 
@@ -53,11 +66,13 @@ Planned extensions follow the same namespace (`themis`) and include-guard conven
 
 - [ ] Module-interface (C++20 modules) wrapper for `include/themis/` entry points
 - [ ] Header-only usage path for embedding scenarios (where feasible)
-- [ ] Extended layer-mapping documentation for Graph integration patterns
+- [ ] Document layer mapping after a canonical classification is established
 
 ---
 
 ## Alignment with Strategic Plan
 
-Enhancements align with `FUTURE_PLAN.md` layer **Graph**. For cross-layer integration planning see:
-→ [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
+These are proposals, not committed delivery dates or current implementation
+claims. Cross-module architectural policy belongs to the repository's
+architecture governance documents; no `FUTURE_PLAN.md` source was found at the
+previously implied path.

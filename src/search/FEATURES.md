@@ -1,11 +1,31 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "include/search/hybrid_search.h"
+  - "include/search/distributed_hybrid_search.h"
+  - "include/search/layered_retrieval_orchestrator.h"
+  - "src/search/README.md"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
 
+Exact model backend not verifiable from final document text alone.
+
 # Search in ThemisDB
+
+> Benefits such as improved recall, ranking quality, and latency are intended
+> use-case outcomes, not measured guarantees. **TODO:** attach a reproducible
+> evaluation before making comparative quality or performance claims.
 
 Search is the layer that turns a broad, noisy data corpus into a usable and ranked result set. In ThemisDB, the search module combines lexical retrieval, vector similarity, hybrid fusion, and result shaping so that a query can return the most relevant items under real latency and cost constraints. This is one of the main places where retrieval quality becomes a product experience rather than a raw algorithmic detail.
 
@@ -21,11 +41,11 @@ The third core capability is ranking, re-ranking, and result shaping. Search rel
 
 ```mermaid
 flowchart LR
-    A[Query] --> B[Candidate generation]
-    B --> C[Lexical + vector fusion]
-    C --> D[Filtering and ranking]
-    D --> E[Shard aggregation]
-    E --> F[Final result set]
+    A[Query] --> B[Local hybrid search or shard dispatch]
+    B --> C[Lexical/vector candidates per local or remote source]
+    C --> D[Local fusion or distributed shard merge]
+    D --> E[Optional result shaping and ranking utilities]
+    E --> F[Result set]
 ```
 
 For customers and operators, the practical value is significant: better recall, better ranking quality, and faster access to relevant information under mixed workload conditions. Search quality directly affects product usefulness, but it also affects operational efficiency because poorly ranked retrieval increases downstream compute, user frustration, and unnecessary model cost. In enterprise and AI-oriented workflows, that makes search a strategic capability rather than a basic utility.

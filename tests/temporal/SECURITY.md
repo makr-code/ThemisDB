@@ -1,22 +1,33 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
 
-# SECURITY
+Exact model backend not verifiable from final document text alone.
 
-## Scope
-- Modul/Ordner: `tests/temporal`
-- Sicherheitsrelevante Funktionen, Konfigurationen und Datenflüsse in diesem Verzeichnis.
+# Security boundary for temporal tests
 
-## Bedrohungsmodell (Kurz)
-- Unvalidierte Eingaben
-- Unzureichende Autorisierung/Authentisierung
-- Leakage sensibler Daten in Logs/Artefakten
-- Fehlkonfiguration bei Deployment/Runtime
+This directory contains test code; it is not a security control or deployment
+configuration surface. Passing temporal tests cannot establish authentication,
+authorization, encryption, audit policy, or release security approval.
 
-## Mindestanforderungen
-- Eingaben strikt validieren und Fehler explizit behandeln
-- Geheimnisse niemals im Klartext ablegen
-- Security-relevante Änderungen mit Tests absichern
-- Abhängigkeiten regelmäßig auf Schwachstellen prüfen
+Review tests that exercise filesystem-backed CDC/cold-store paths for safe
+temporary-directory handling and cleanup. Treat test fixtures, logs, and
+benchmark outputs as potentially containing record payloads. Do not add
+credentials or production data to fixtures.
 
-## Incident & Meldung
-- Sicherheitsfunde gemäß Root-`SECURITY.md` melden und behandeln.
+Temporal API authorization and persistent-data protections belong to the
+consuming service and its operations. Follow the project-level
+[`SECURITY.md`](../../SECURITY.md) for vulnerability reporting and the module
+[`../../src/temporal/SECURITY.md`](../../src/temporal/SECURITY.md) for API data
+boundaries.
+
+**TODO:** perform a separate test-harness security review before claiming that
+the test suite has passed a security audit. No such review is represented here.

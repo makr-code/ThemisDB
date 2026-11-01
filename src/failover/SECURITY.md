@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -30,7 +30,7 @@ authorization; the server/control-plane boundary must do so.
 | Promotion without quorum or valid fencing | Quorum check and non-zero epoch checks gate guarded promotion | Correctness depends on the injected replication and fencing managers. If split-brain prevention is disabled and no fencing manager is configured, the promotion path can proceed without that guard. |
 | Malformed or corrupted quorum-log records | Pipe characters are rejected on append; recovery skips malformed, unparseable, and CRC-mismatched records | CRC32 is not keyed or authenticated; a user who can write the log can forge a record. |
 | Invalid DR plan fields | Required plan and site IDs, plus non-dry-run snapshot ID, must be non-empty | The implementation does not authenticate site IDs or verify that the named snapshot exists. |
-| Partial recovery or failover | The first failing DR step returns an explicit failure and later steps do not run | Earlier side effects are not rolled back; built-in restore, traffic-shift, spare activation, and metadata handling do not perform the implied external actions. |
+| Partial recovery or failover | The first failing DR step returns an explicit failure and later steps do not run | Earlier side effects are not rolled back; production hook correctness is not independently verified by the manager, and metadata persistence/spare activation remain unavailable. |
 | Operational blind spots | State, statistics, callbacks, and `spdlog` messages are available | The current managers do not emit named Prometheus metrics or trace spans; external monitoring must not assume these exist. |
 
 ## Operational handling
