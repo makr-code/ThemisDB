@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 Source_Level: level 1
 SOT_Domain: module-behavior
@@ -52,7 +52,9 @@ Other `bench_*.cpp` files in this directory are not automatically registered by 
   ./build-community-debug/bin/bench_process_parser_gates --benchmark_list_tests=true
   ```
 
-- **Current thresholds, release enforcement, and measured results:** TODO — verify against active automation and reproducible raw output before documenting.
+- The Process performance comparator currently discovers zero expectation rows because `src/process/PERFORMANCE_EXPECTATIONS.md` has no `## Specific Expectations` section. The four PM-BM numeric targets in `bench_process_dedicated_gates.cpp` are comments over in-process stubs, not enforced performance thresholds.
+- The separate release coverage audit requires 95% CTest registration for non-critical modules. Process was mapped at 14/14 (100%) in both the latest audit report and the preceding successful workflow run; these are coverage results, not benchmark execution.
+- The tracked mining JSON is a 2026-04-15 historical sample, not a current baseline or performance pass. The latest visible weekly performance run failed during configure before benchmark execution. See [performance evidence](../../src/process/PERFORMANCE_EXPECTATIONS.md) for run links and scope.
 - The process source `process_light_retriever.cpp` currently leaves resource counters at zero and does not enforce the header-declared retrieval budgets; benchmark results must not be used to imply those guarantees.
 
 ## Related documentation

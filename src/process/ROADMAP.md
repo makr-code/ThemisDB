@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 Source_Level: level 1
 SOT_Domain: module-behavior
@@ -50,7 +50,7 @@ Current code includes process-model management and format handlers, linking and 
 - [ ] Add or identify focused tests for retrieval-budget enforcement and partial profile updates; record actual results (Target: TBD).
 
 ### Phase 5: Performance / Hardening
-- [ ] Reconcile benchmark cases with release thresholds and capture a reproducible baseline; the current gate count is unresolved (Target: TBD).
+- [ ] Map benchmark cases to explicit Process thresholds and capture a reproducible baseline; the four PM-BM source-comment targets are not enforced by the current comparator (Target: TBD).
 
 ### Phase 6: Documentation & Acceptance
 - [x] Audit the in-scope process Markdown against current source and CMake registration.
@@ -62,7 +62,7 @@ Current code includes process-model management and format handlers, linking and 
 |---|---|---|
 | Core API and behavior | [`API.md`](API.md), [`IMPLEMENTATION.md`](IMPLEMENTATION.md), public headers and implementation | Documented; no overall maturity claim |
 | Tests | [`tests/process/CMakeLists.txt`](../../tests/process/CMakeLists.txt) registers tests through source globs | Registration verified; build/pass status TODO |
-| Benchmarks | [`benchmarks/process/CMakeLists.txt`](../../benchmarks/process/CMakeLists.txt) registers selected benchmarks conditionally | Registration verified; result/baseline status TODO |
+| Benchmarks | [`benchmarks/process/CMakeLists.txt`](../../benchmarks/process/CMakeLists.txt), `src/process/PERFORMANCE_EXPECTATIONS.md`, and `benchmarks/compare_expectations.py` | 12 targets/88 macro declarations; zero Process performance expectation rows; separate release coverage audit 14/14; current performance baseline/pass status not established |
 | Federation, audit, telemetry | Contracts and implementation files exist; implementations contain explicit placeholders/simplifications | Feature-by-feature verification and maturity assessment TODO |
 | Security and operations | See [security notes](SECURITY.md), [trust boundaries](TRUST.md), and [runbook](RUNBOOK.md) | Deployment-specific controls and release evidence TODO |
 
@@ -80,7 +80,7 @@ Current code includes process-model management and format handlers, linking and 
 - Profile activation and rollback use multiple writes and provide no transaction guarantee.
 - Audit persistence/delta encoding and telemetry export are simplified; their design guarantees are not verified.
 - Federation source comments identify alpha/core implementation status; this does not establish production readiness.
-- The process benchmark gate count, enforced thresholds, and current passing status remain TODO.
+- The process benchmark target and macro-registration counts do not define a performance-gate total. The comparator currently has zero Process expectation rows; four numeric PM-BM source comments are not enforced. The release coverage audit's 14/14 result is not a performance pass. No current performance baseline or pass result is established; see [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md).
 
 ## Breaking Changes
 

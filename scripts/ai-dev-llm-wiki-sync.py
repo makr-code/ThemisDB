@@ -295,6 +295,7 @@ def render_index(entries: Sequence[SourceEntry], generated_at: str, full_sync: b
             "- [IMPORTERS.md](IMPORTERS.md) — curated importer module context",
             "- [UPDATES.md](UPDATES.md) — curated updates module context",
             "- [DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md) — curated distributed tensor module context",
+            "- [PROCESS.md](PROCESS.md) — curated Process module context",
             "- [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)",
             "- [WIKI_STATUS.json](WIKI_STATUS.json)",
             "- [WIKI_DELTA_REPORT.md](WIKI_DELTA_REPORT.md)",
@@ -372,6 +373,7 @@ def render_modules_and_apis(repo_root: Path, entries: Sequence[SourceEntry]) -> 
             "- [Importer module context](IMPORTERS.md) — shared contracts, connector boundaries, focused test evidence, and operational limits.",
             "- [Updates module context](UPDATES.md) — update lifecycle, rollout and patch contracts, diagnostic evidence, and operator boundaries.",
             "- [Distributed tensor module context](DISTRIBUTED_TENSOR.md) — tensor artifact contracts, planning boundaries, C++ requirements, and verified test/benchmark evidence.",
+            "- [Process module context](PROCESS.md) — process model lifecycle, retrieval boundaries, test registration, and benchmark evidence.",
             "",
             *lines[4:],
         ]

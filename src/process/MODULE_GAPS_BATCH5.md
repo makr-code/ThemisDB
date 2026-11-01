@@ -160,7 +160,7 @@ Human_Author: ThemisDB Team
 - **Source Truth:** `ai_working/gap_scanner_verified_process.json` (post-L0.5 classification)
 - **Wave Context:** Root `ROADMAP.md` § Wave A → Wave B → Wave C → Wave D
 - **Production Spec:** `src/process/PRODUCTION_REQUIREMENTS.md`
-- **Performance Gates:** This report asserted 42 gates at the time; that count is historical and unverified against current benchmark code. Current gate count remains unresolved; see `src/process/PERFORMANCE_EXPECTATIONS.md`.
+- **Performance Gates:** This historical report asserted 42 gates; that count is not a current source-backed total. The current comparator has zero Process expectation rows, while four PM-BM numeric targets are comments only; see [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md).
 - **Concurrency Contract:** `include/process/process_concurrency_contract.h`
 - **Test Suite:** `tests/test_process_*.cpp` (72 test cases)
 

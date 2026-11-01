@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 Source_Level: level 1
 SOT_Domain: module-behavior
@@ -57,7 +57,7 @@ Track implementation and verification work that is not proven complete by curren
 
 ### Performance Targets
 
-No current measured baseline, enforced threshold, or total benchmark-gate count is established by this document. The target count and pass/fail policy remain TODO pending reconciliation with benchmark code, release automation, and reproducible output.
+The performance comparator currently has zero Process expectation rows. Four numeric PM-BM targets appear in source comments, but they are not mapped to comparator inputs or enforced by the benchmark implementations. The separate release coverage audit reports 14/14 Process mappings, which is not a performance result. A current performance baseline or pass status is not established; see [performance evidence](PERFORMANCE_EXPECTATIONS.md). Future work should define a threshold-to-case mapping and capture reproducible output before claiming a performance gate or baseline.
 
 ### Security / Reliability
 

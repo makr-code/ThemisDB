@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 Source_Level: level 1
 SOT_Domain: module-behavior
@@ -52,7 +52,7 @@ Activation is implemented as separate writes to profile records and an active-do
 
 - The process module has explicit diagnostic types and result fields, but monitoring thresholds and platform-level observability must be verified in the consuming deployment.
 - The light-retriever header describes configurable resource budgets and graceful degradation; its current `retrieve()` implementation does not invoke those checks. Treat resource-budget enforcement through that API as an unresolved implementation gap.
-- `benchmarks/process/CMakeLists.txt` currently registers 12 benchmark targets; their 12 source files contain 88 Google Benchmark registration macro declarations (87 `BENCHMARK(...)` calls and one `BENCHMARK_REGISTER_F(...)` call). These are registration counts, not a verified gate count or pass status. Gate count, thresholds, and release enforcement remain unresolved; see [Performance expectations](PERFORMANCE_EXPECTATIONS.md) and do not infer readiness from historical reports.
+- `benchmarks/process/CMakeLists.txt` registers 12 targets with 88 source-level Google Benchmark registration macro declarations; these do not define a performance-gate total. The performance comparator currently finds zero Process expectation rows, and four PM-BM numeric targets are comments above in-process stubs. Separately, the release source-to-CMake-to-CTest coverage audit reports Process at 14/14 mappings; this checks registration, not benchmark execution. The latest weekly performance run failed during configure, and the tracked April 2026 mining JSON is not a current performance baseline or pass. See [Performance expectations](PERFORMANCE_EXPECTATIONS.md).
 - Stale process links require explicit remediation; no cascading delete is performed.
 
 ## Ownership and escalation

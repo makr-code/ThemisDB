@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-07-28
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -124,3 +124,10 @@ Zuletzt geprueft (Root-Sync): 2026-07-28
 - Aktion: Veraltete Release-/Modulstatus-Snapshots und Dopplungen aus `README.md` entfernt; Root- und Dokumentationsnavigation auf kanonische Einstiegsseiten ausgerichtet.
 - Aktion: Veraltete Version, Marketing-Metriken und nicht mehr gültige Wiki-Pfade aus `docs/Home.md` entfernt; sprachneutrale Weiterleitung auf gepflegte Indizes eingerichtet.
 - Relevanz fuer AI-Wiki: README und Docs-Home verweisen für Status und Release-Reife auf die kanonische Roadmap statt eigene Statuswahrheiten zu führen.
+
+## [2026-11-01] process-module-context | Process in Developer LLM Wiki verankert
+
+- Quellen: `include/process/`, `src/process/README.md`, `src/process/ARCHITECTURE.md`, `src/process/PERFORMANCE_EXPECTATIONS.md`, `tests/process/CMakeLists.txt`, `benchmarks/process/CMakeLists.txt`, `benchmarks/compare_expectations.py`.
+- Aktion: Source-grounded Modulkontext `ai_context/developer_llm_wiki/PROCESS.md` angelegt und in Wiki-Index sowie Modules-and-APIs-Navigation aufgenommen.
+- Benchmark-Evidenz: 12 CMake-Targets und 88 Makro-Registrierungen sind keine Performance-Gate-Zählung; der Comparator findet aktuell null Process-Erwartungswerte. Die Coverage-Audits melden 14/14 Process-Zuordnungen, nicht jedoch Laufzeitleistung. Die vier PM-BM-Zielwerte sind Kommentare über Stub-Benchmarks; das Mining-JSON ist ein historischer 2026-04-15-Snapshot.
+- Relevanz fuer AI-Wiki: Modulgrenzen, Tests und Performance-Evidenz sind auffindbar, ohne Registrierung oder historische Messungen als aktuelle Pass-/Readiness-Aussage zu behandeln.
