@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-06-01"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
 AI_Model_Attribution: "Exact model backend not verifiable from final document text alone."
-AI_Contributor: "themisdb-doc-orchestrator"
+AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "unknown"
 ---
@@ -84,11 +84,11 @@ std::cout << themis::build_info::formatBuildInfo(config) << std::endl;
 **Compile-time edition configuration and feature gating**
 
 `edition.h` declares five edition enum values and compile-time constants.
-Edition support is currently inconsistent across the CMake sources: the root
-edition defaults and checked-in presets include `MILITARY`, while
-`cmake/CMakeLists.txt` contains a four-edition validation that excludes it.
-Until that registration conflict is resolved, do not infer successful
-`MILITARY` configuration from the header or preset alone.
+`cmake/editions/EditionDefaults.cmake` selects and loads edition-specific
+settings; the shared edition validation in `cmake/CMakeLists.txt` accepts the
+same five values. `MILITARY` additionally requires an existing license file
+and applies its hardware and feature defaults through
+`cmake/editions/MILITARY.cmake`.
 
 **Editions:**
 - **MINIMAL**: Lightweight/embedded (0 GB GPU VRAM cap — CPU fallback, 1 node)
@@ -623,7 +623,7 @@ High-performance clients use the wire protocol:
 
 | Entry point | Purpose |
 |-------------|---------|
-| `themis/themis_api_contract.h` | Declares only `themis::engine::ThemisError` and `themis::engine::Edition` enums; its Doxygen prose describes methods not declared here |
+| `themis/themis_api_contract.h` | Declares only the `themis::engine::ThemisError` and `themis::engine::Edition` enums |
 | `themis/build_info.h` | Build/runtime metadata and reproducibility information |
 | `themis/edition.h` | Compile-time edition configuration and feature flags |
 | `themis/edition_manager.h` | Runtime feature-gate evaluation by edition/license state |
@@ -635,11 +635,9 @@ High-performance clients use the wire protocol:
 | `themis/network/wire_protocol_server.hpp` | Binary wire protocol server (v1) |
 | `themis/network/wire_protocol_v2.hpp` | Multiplexed wire protocol API (v2) |
 
-`themis_api_contract.h` currently declares no `BuildInfo` type, version or
-commit accessor, or capability-discovery function. Use `build_info.h`,
-`edition.h`, and `edition_manager.h` for those separately declared contracts;
-do not infer declarations from the broader comments in
-`themis_api_contract.h`.
+`themis_api_contract.h` contains only enum declarations; it does not provide
+runtime build-info or capability-discovery functions. Use `build_info.h`,
+`edition.h`, and `edition_manager.h` for those separate contracts.
 
 ## Dependencies
 

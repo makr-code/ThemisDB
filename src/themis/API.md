@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -23,10 +23,9 @@ behavior; this summary is not a substitute for their Doxygen comments.
 
 - [`themis_api_contract.h`](../../include/themis/themis_api_contract.h):
   declares only `themis::engine::ThemisError` and `themis::engine::Edition`
-  enums. Its file comment describes `BuildInfo`, version/commit accessors, and
-  capability discovery, but those declarations are not present in this header.
-  Use the separately declared APIs in `build_info.h`, `edition.h`, and
-  `edition_manager.h`; do not treat the comment as a complete contract.
+  enums. It defines error categories and edition identifiers, not runtime
+  build-info or capability-discovery behavior. Use the separately declared
+  APIs in `build_info.h`, `edition.h`, and `edition_manager.h`.
 - [`build_info.h`](../../include/themis/build_info.h): query build/module
   configuration, format a summary, and export or verify a build manifest.
   Manifest export creates or overwrites the destination; verification returns

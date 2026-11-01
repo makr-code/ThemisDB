@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-06-01"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
 AI_Model_Attribution: "Exact model backend not verifiable from final document text alone."
-AI_Contributor: "themisdb-doc-orchestrator"
+AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "unknown"
 ---
@@ -41,7 +41,7 @@ For runtime composition and implementation internals see:
 |--------|------------|---------|
 | `build_info.h` | `BuildConfiguration`, `ModuleInfo` | Build metadata and module availability |
 | `edition.h` | `EditionType`, `EditionInfo` | Compile-time edition identity, resource ceilings, and feature flags |
-| `themis_api_contract.h` | `themis::engine::ThemisError`, `themis::engine::Edition` | Error and edition enums only; its broader BuildInfo/Edition prose is not backed by declarations in this header |
+| `themis_api_contract.h` | `themis::engine::ThemisError`, `themis::engine::Edition` | Error-category and edition identifier enums; no runtime build-info or capability API |
 | `edition_manager.h` | `EditionManager` | Runtime edition detection and feature gates |
 | `license_info.h` | `LicenseData`, `LicenseClient`, `LicenseInfo` | License metadata, client validation, and grace-period view |
 | `runtime_license_gate.h` | `RuntimeLicenseGate` | Feature-gate enforcement at runtime |

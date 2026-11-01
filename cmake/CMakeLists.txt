@@ -886,19 +886,22 @@ if(THEMIS_EXTERNALIZE_TIMESERIES_PLUGIN)
 endif()
 
 # Multi-Edition Support (v1.3.5+)
-# THEMIS_EDITION: One of MINIMAL, COMMUNITY, ENTERPRISE, or HYPERSCALER (compile-time selection)
+# THEMIS_EDITION: One of MINIMAL, COMMUNITY, ENTERPRISE, MILITARY, or HYPERSCALER (compile-time selection)
 # This setting determines feature availability, licensing limits, and hardware constraints
-# MINIMAL: Core database only (embedded/IoT), COMMUNITY: Full features (default), ENTERPRISE: Scaling+HA, HYPERSCALER: Unlimited
-set(THEMIS_EDITION "COMMUNITY" CACHE STRING "Edition: MINIMAL, COMMUNITY, ENTERPRISE, or HYPERSCALER")
-set_property(CACHE THEMIS_EDITION PROPERTY STRINGS MINIMAL COMMUNITY ENTERPRISE HYPERSCALER)
+# MINIMAL: Core database only (embedded/IoT), COMMUNITY: Full features (default),
+# ENTERPRISE: Scaling+HA, MILITARY: Hardened/air-gapped, HYPERSCALER: Unlimited
+set(THEMIS_EDITION "COMMUNITY" CACHE STRING "Edition: MINIMAL, COMMUNITY, ENTERPRISE, MILITARY, or HYPERSCALER")
+set_property(CACHE THEMIS_EDITION PROPERTY STRINGS MINIMAL COMMUNITY ENTERPRISE MILITARY HYPERSCALER)
 
 # Validate edition selection
-if(NOT THEMIS_EDITION MATCHES "^(MINIMAL|COMMUNITY|ENTERPRISE|HYPERSCALER)$")
-    message(FATAL_ERROR "THEMIS_EDITION must be MINIMAL, COMMUNITY, ENTERPRISE, or HYPERSCALER (got: ${THEMIS_EDITION})")
+if(NOT THEMIS_EDITION MATCHES "^(MINIMAL|COMMUNITY|ENTERPRISE|MILITARY|HYPERSCALER)$")
+    message(FATAL_ERROR "THEMIS_EDITION must be MINIMAL, COMMUNITY, ENTERPRISE, MILITARY, or HYPERSCALER (got: ${THEMIS_EDITION})")
 endif()
 
 # Edition feature configuration (compile-time feature flags)
 # These determine which functionality is available at build time
+# MILITARY edition defaults and hardware limits are loaded by
+# cmake/editions/EditionDefaults.cmake before this directory is configured.
 
 # GPU Memory Limits: Edition-specific VRAM constraints
 # All limits reflect cumulative VRAM across all GPUs in a single system node.
