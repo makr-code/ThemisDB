@@ -21,9 +21,9 @@
 //   Phase 2 (COMMIT/ABORT): If all votes are COMMIT → broadcast COMMIT;
 //                            otherwise → broadcast ABORT.
 //
-// Durability: Coordinator writes its own WAL log (BEGIN_TX, PREPARE_SENT,
-// COMMIT_DECISION / ABORT_DECISION, COMPLETE) so that an in-doubt transaction
-// can be re-driven to completion after a coordinator restart.
+// Durability: When its WAL directory is configured, the coordinator writes its
+// own WAL log (BEGIN_TX, PREPARE_SENT, COMMIT_DECISION / ABORT_DECISION,
+// COMPLETE) so that an in-doubt transaction can be re-driven after restart.
 //
 // Participants are exposed via the ShardRPCServer::RequestHandler interface,
 // meaning both in-process (unit-test) and real gRPC-backed participants can
@@ -96,6 +96,7 @@ enum class CoordinatorTxnState {
 struct CoordinatorTxnRecord {
     std::string         transaction_id;
     CoordinatorTxnState state   = CoordinatorTxnState::ACTIVE;
+    bool                decision_commit = false; ///< Selected terminal decision for idempotent replies.
     std::chrono::steady_clock::time_point started_at;
 
     /// Ordered list of participant shard IDs used for Phase 2 replay after recovery.
@@ -229,7 +230,12 @@ public:
      *
      * @param transaction_id  Globally unique transaction identifier
      * @param ops_per_shard   Map from shard_id → JSON array of operations
-     * @return                Outcome with COMMITTED, ABORTED, or ERROR
+     * @return COMMITTED only after every participant acknowledges COMMIT;
+     *         ABORTED when prepare selects ABORT and phase two completes;
+     *         ERROR when validation, decision persistence, or a phase-two
+     *         acknowledgement fails. After a durable decision, ERROR leaves
+     *         that decision authoritative for recovery; COMMIT is never
+     *         changed to ABORT.
      */
     CoordinatorTxnOutcome commit(
         const std::string&                             transaction_id,
@@ -239,14 +245,15 @@ public:
     // ── Recovery ─────────────────────────────────────────────────────────────
 
     /**
-     * @brief Recover and re-drive in-doubt transactions from the WAL.
+     * @brief Re-drive in-doubt transactions from the WAL.
      *
-     * Must be called once after a crash/restart, before accepting new
-     * transactions.  Reads the coordinator WAL and re-sends the Phase 2
-     * decision (COMMIT or ABORT) to all participants that have not yet
-     * acknowledged.
+     * Call after a crash/restart, before accepting new transactions. Reads the
+     * coordinator WAL and re-sends a recorded Phase 2 decision to participants.
+     * If no decision was recorded, recovery conservatively selects ABORT.
+     * Repeated delivery is expected to be idempotent.
      *
-     * @return Number of in-doubt transactions resolved
+     * @return Number of transactions whose phase-two acknowledgements all
+     *         succeeded and whose completion record was written successfully.
      */
     [[nodiscard]] size_t recoverInDoubtTransactions() override;
 
@@ -318,7 +325,8 @@ private:
 
     /// Run Phase 2: broadcast COMMIT or ABORT to all participants.
     /// @param lock  Same as runPhase1 — released around each RPC, re-acquired.
-    void runPhase2(CoordinatorTxnRecord& rec, bool commit, std::unique_lock<std::timed_mutex>& lock);
+    /// @return True only when every registered participant acknowledges the decision.
+    bool runPhase2(CoordinatorTxnRecord& rec, bool commit, std::unique_lock<std::timed_mutex>& lock);
 
     /// Build the serialised payload for a single shard.
     /// @param ops JSON-Operationen fuer einen Teilnehmer.
@@ -329,7 +337,7 @@ private:
     /// @param type WAL-Eintragstyp.
     /// @param txn_id Betroffene Transaktions-ID.
     /// @param data Zusaetzliche WAL-Nutzdaten.
-    void logToWAL(WALEntryType type,
+    bool logToWAL(WALEntryType type,
                   const std::string& txn_id,
                   const nlohmann::json& data);
 };
