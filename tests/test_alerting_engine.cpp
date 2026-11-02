@@ -333,7 +333,7 @@ TEST(AlertingEngineSendTest, SendAlert_PopulatesActiveAlerts) {
     Alert a;
     a.alert_name = "TestAlert";
     a.alert_id   = "test-001";
-    a.severity   = AlertSeverity::ERROR;
+    a.severity   = AlertSeverity::FAILURE;
     a.status     = AlertStatus::FIRING;
     a.message    = "test message";
 

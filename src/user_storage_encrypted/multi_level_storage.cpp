@@ -209,7 +209,7 @@ void MultiLevelEncryptedStorage::reconcileStaleMounts(const std::string& base_pa
 
         if (!unmounted) {
             fprintf(stderr,
-                    "[ERROR] themis::user_storage: failed to unmount stale mount '%s', continuing.\n",
+                    "[FAILURE] themis::user_storage: failed to unmount stale mount '%s', continuing.\n",
                     mp.c_str());
         }
     }

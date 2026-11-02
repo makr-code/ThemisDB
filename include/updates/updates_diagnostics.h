@@ -90,7 +90,7 @@ enum class DiagnosticErrorCode : uint16_t {
 enum class DiagnosticSeverity {
     INFO,       ///< Normal operation progress; no action required
     WARN,       ///< Degraded path or retry in progress; monitor
-    ERROR,      ///< Operation failed but isolated to single node/operation
+    FAILURE,      ///< Operation failed but isolated to single node/operation
     CRITICAL    ///< Unrecoverable failure or data loss risk; immediate action required
 };
 
@@ -126,7 +126,7 @@ struct ErrorContext {
     DiagnosticErrorCode error_code = DiagnosticErrorCode::UNKNOWN_ERROR;
     
     /// Severity level
-    DiagnosticSeverity severity = DiagnosticSeverity::ERROR;
+    DiagnosticSeverity severity = DiagnosticSeverity::FAILURE;
     
     /// Root cause classification
     RootCauseClass root_cause = RootCauseClass::UNKNOWN;
@@ -167,12 +167,12 @@ inline DiagnosticSeverity severityForErrorCode(DiagnosticErrorCode code) {
     uint16_t c = static_cast<uint16_t>(code);
     
     if (c >= 7480 && c <= 7499) return DiagnosticSeverity::CRITICAL;  // Cascade/cascade
-    if (c >= 7460 && c <= 7479) return DiagnosticSeverity::ERROR;     // Network/coordination
+    if (c >= 7460 && c <= 7479) return DiagnosticSeverity::FAILURE;     // Network/coordination
     if (c >= 7440 && c <= 7459) return DiagnosticSeverity::WARN;      // Patch
     if (c >= 7420 && c <= 7439) return DiagnosticSeverity::WARN;      // Rollback
-    if (c >= 7400 && c <= 7419) return DiagnosticSeverity::ERROR;     // State machine
+    if (c >= 7400 && c <= 7419) return DiagnosticSeverity::FAILURE;     // State machine
     
-    return DiagnosticSeverity::ERROR;  // Default
+    return DiagnosticSeverity::FAILURE;  // Default
 }
 
 /**
@@ -217,7 +217,7 @@ inline std::string severityName(DiagnosticSeverity s) {
     switch (s) {
         case DiagnosticSeverity::INFO:     return "INFO";
         case DiagnosticSeverity::WARN:     return "WARN";
-        case DiagnosticSeverity::ERROR:    return "ERROR";
+        case DiagnosticSeverity::FAILURE:    return "FAILURE";
         case DiagnosticSeverity::CRITICAL: return "CRITICAL";
     }
     return "UNKNOWN";

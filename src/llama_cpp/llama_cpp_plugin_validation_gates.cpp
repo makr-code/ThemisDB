@@ -158,7 +158,7 @@ bool validateModelInitialization(
         return true;
     }
     
-    // Non-empty path but file doesn't exist → CRITICAL ERROR
+    // Non-empty path but file doesn't exist → CRITICAL FAILURE
     if (!std::filesystem::exists(model_path)) {
         error_msg = "Model file not found: " + model_path;
         THEMIS_ERROR("LlamaCppPlugin: {}", error_msg);

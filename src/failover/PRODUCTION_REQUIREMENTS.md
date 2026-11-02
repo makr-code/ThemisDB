@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-11-01"
+Last Updated: "2026-11-02"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -11,6 +11,11 @@ Human_Author: "ThemisDB Contributors"
 ---
 
 Exact model backend not verifiable from final document text alone.
+
+Source level: 1
+SOT domain: module-behavior
+Canonical references: `include/sharding/epoch_fencing.h`, `include/sharding/two_phase_commit_participant.h`, `include/sharding/shard_rpc_client.h`, `include/sharding/shard_rpc_client_adapter.h`, `include/sharding/two_phase_commit_coordinator.h`, `include/sharding/distributed_transaction.h`, `include/sharding/cross_shard_transaction.h`, `src/sharding/epoch_fencing.cpp`, `src/sharding/two_phase_commit_participant.cpp`, `src/sharding/two_phase_commit_coordinator.cpp`, `src/sharding/shard_rpc_client.cpp`, `src/sharding/distributed_transaction.cpp`, `src/sharding/cross_shard_transaction.cpp`, `tests/test_epoch_fencing.cpp`
+Related milestone: DOC-WEEKLY-2026-W45
 
 # Failover Operational Requirements and Implementation Boundaries
 
@@ -28,6 +33,15 @@ Exact model backend not verifiable from final document text alone.
 - When split-brain prevention is enabled, `preventSplitBrain()` fails closed if
   the fencing manager is missing or returns epoch 0. Replica selection also
   requests an epoch bump when a fencing manager is present.
+- Shard transaction write paths now enforce epoch fencing: only a nonzero token
+  for the configured shard with an exact current epoch and matching,
+  non-empty issuer string is accepted. `applyWithToken()` holds the epoch
+  transition shared guard through the storage callback, while `bumpEpoch()`
+  requires the exclusive guard. 2PC validates before prepare-time locking,
+  retains/persists the credential in participant state/WAL, and revalidates
+  atomically immediately before COMMIT apply. Distributed and cross-shard
+  PREPARE/SAGA writes fail closed without structurally valid target-scoped
+  tokens.
 - A configured `quorum_log_path` enables local append/recovery records. Write or
   flush failure blocks the corresponding quorum/promotion path. Startup logs the
   last valid record; it does not restore manager epoch or quorum state.
@@ -41,14 +55,37 @@ Exact model backend not verifiable from final document text alone.
 ## Integration gaps operators must account for
 
 - Non-dry-run snapshot validation, restore, replication-position catch-up,
-  requested traffic shift, and recovered-state verification fail closed when
-  their step hook/adapter is not configured. Quorum alone is not catch-up proof.
-- The manager does not validate the correctness of configured hooks; each hook
-  must perform the external operation and verify its result before returning true.
-- A configured spare manager causes `activateSpareIfNeeded()` to emit
-  `SPARE_ACTIVATION_FAILED` and return false; the main failover path now blocks
-  completion on that result. Metadata persistence remains unimplemented and
-  returns failure rather than success.
+  requested traffic shift, and recovered-state verification require an operation
+  adapter acknowledgement and a separate read-back proof. Checksums, required
+  LSN/term, and recovery-site identity are compared with the plan. Quorum alone
+  is not catch-up proof.
+- Non-dry-run DR additionally requires quorum, epoch fencing, and a writable
+  `metadata_log_path`; a checksummed completion record is appended before
+  success is returned and replayed on manager construction. An existing log
+  that cannot be read or contains a malformed or checksum-invalid record blocks
+  non-dry-run execution before external adapters run. The local log is not a
+  substitute for shared durable metadata in a multi-node deployment. A
+  persistent sibling lock serializes same-path processes, with lock acquisition
+  bounded by `metadata_lock_timeout` and the completed record flushed before
+  success. This requires filesystem support for the lock and sync operations;
+  every writer must use this lock protocol (mixed-version writers are not
+  covered); network-filesystem semantics and exactly-once external effects
+  across a crash before record append are not established.
+- Spare activation requires a configured runtime hook and independent
+  `HotSpareManager` state of `ACTIVE`. Missing or failed activation leaves the
+  orchestrator in `DEGRADED`, increments `degraded_failovers`, and emits the
+  `FAILOVER_DEGRADED` callback event.
+- Remote gRPC PREPARE resolves the authenticated X.509 auth-context
+  property/value through an explicit `ShardRPCServer::Config`
+  `coordinator_identity_bindings` entry before comparing the canonical shard ID
+  with the request coordinator ID. Unconfigured, ambiguous, or mismatched
+  identities are rejected; CN/SAN values are not implicitly normalized. This
+  does not add a standalone token signature, and direct in-process participant
+  calls remain inside the trusted process boundary. The mTLS binding integration
+  tests have not yet been executed.
+- Shared durable metadata for DR and genuine networked multi-process
+  failover/recovery E2E evidence remain open blockers; local same-path process
+  locking and shard transaction fencing do not close either gap.
 - A dry run skips built-in prechecks and operational steps. The
   `allow_dry_run_without_managers` configuration field does not change this
   behavior in the current implementation. Step hooks replace the built-in handler
@@ -86,5 +123,11 @@ These are deployment recommendations, not validations performed by the module:
 - `include/failover/quorum_log.h`
 - `src/failover/auto_failover_manager.cpp`
 - `src/failover/disaster_recovery_manager.cpp`
+- `include/sharding/epoch_fencing.h` and `src/sharding/epoch_fencing.cpp`
+- `include/sharding/two_phase_commit_participant.h` and `src/sharding/two_phase_commit_participant.cpp`
+- `include/sharding/two_phase_commit_coordinator.h` and `src/sharding/two_phase_commit_coordinator.cpp`
+- `include/sharding/shard_rpc_client.h` and `src/sharding/shard_rpc_client.cpp`
+- `include/sharding/distributed_transaction.h` and `src/sharding/distributed_transaction.cpp`
+- `include/sharding/cross_shard_transaction.h` and `src/sharding/cross_shard_transaction.cpp`
 - [`ARCHITECTURE.md`](ARCHITECTURE.md), [`API.md`](API.md),
   [`RUNBOOK.md`](RUNBOOK.md), and [`TRUST.md`](TRUST.md)

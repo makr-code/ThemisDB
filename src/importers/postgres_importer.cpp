@@ -23,10 +23,10 @@
 #include <unordered_set>
 #include <cinttypes>
 
-// Windows headers may define ERROR as a macro, which breaks enum accesses
-// like ConflictStrategy::ERROR and ImportErrorSeverity::ERROR.
-#ifdef ERROR
-#undef ERROR
+// Windows headers may define FAILURE as a macro, which breaks enum accesses
+// like ConflictStrategy::FAILURE and ImportErrorSeverity::FAILURE.
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 namespace themis {
@@ -2179,9 +2179,9 @@ bool PostgreSQLImporter::parseInsert(const std::string& sql, const ImportOptions
                     emitMetric(options, "importers_conflicts_total",
                                {{"table", table_name}, {"strategy", "merge"}, {"outcome", "merged"}}, 1.0);
                     break;
-                case ConflictStrategy::ERROR:
+                case ConflictStrategy::FAILURE:
                     addError(stats, ImportErrorCode::CONFLICT_ERROR,
-                             ImportErrorSeverity::ERROR,
+                             ImportErrorSeverity::FAILURE,
                              "Conflict detected for key '" + ckey + "' in table '" + table_name + "'",
                              "line " + std::to_string(line_number));
                     emitMetric(options, "importers_conflicts_total",
@@ -2296,7 +2296,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
             first_data_line = false;
             if (line.size() >= 6 && line.compare(0, 6, "PGCOPY") == 0) {
                 addError(stats, ImportErrorCode::BINARY_COPY_FORMAT,
-                         ImportErrorSeverity::ERROR,
+                         ImportErrorSeverity::FAILURE,
                          "Binary COPY format detected for table '" + table_name +
                          "'; only text-format COPY is supported. "
                          "Re-export the dump without --format=binary.",
@@ -2433,9 +2433,9 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
                         emitMetric(options, "importers_conflicts_total",
                                    {{"table", table_name}, {"strategy", "merge"}, {"outcome", "merged"}}, 1.0);
                         break;
-                    case ConflictStrategy::ERROR: {
+                    case ConflictStrategy::FAILURE: {
                         addError(stats, ImportErrorCode::CONFLICT_ERROR,
-                                 ImportErrorSeverity::ERROR,
+                                 ImportErrorSeverity::FAILURE,
                                  "Conflict detected for key '" + ckey + "' in table '" + table_name + "'",
                                  "table " + table_name + ", row " + std::to_string(row_num));
                         emitMetric(options, "importers_conflicts_total",
@@ -2764,7 +2764,7 @@ void PostgreSQLImporter::addError(ImportStats& stats, ImportErrorCode code,
     err.message  = message;
     err.location = location;
     stats.structured_errors.push_back(err);
-    if (severity == ImportErrorSeverity::ERROR || severity == ImportErrorSeverity::CRITICAL) {
+    if (severity == ImportErrorSeverity::FAILURE || severity == ImportErrorSeverity::CRITICAL) {
         stats.errors.push_back(message);
     }
 }

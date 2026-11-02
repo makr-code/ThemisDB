@@ -415,7 +415,7 @@ TEST_F(ResourceExhaustionTest, RecoveryBounded_NoInfiniteRetry) {
     for (int i = 0; i < MAX_RETRIES; ++i) {
         retry_count++;
         if (retry_count > MAX_RETRIES) {
-            recovery_log.log_failure("ERROR: Recovery exceeded max retries!");
+            recovery_log.log_failure("FAILURE: Recovery exceeded max retries!");
             break;
         }
         recovery_log.log_recovery("Retry " + std::to_string(retry_count));
@@ -540,7 +540,7 @@ TEST_F(FailureHandlingIntegrationTest, FullPipeline_FailureDetectionAndRecovery)
     recovery_log.log_failure("Operation exceeded timeout budget");
     
     // Step 2: Error logging
-    recovery_log.log_failure("ERROR: Timeout detected on " + backend_name);
+    recovery_log.log_failure("FAILURE: Timeout detected on " + backend_name);
     recovery_log.log_failure("Diagnostic: device may be hung or overloaded");
     
     // Step 3: Recovery decision

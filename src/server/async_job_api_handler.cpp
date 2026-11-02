@@ -22,8 +22,8 @@
 #endif
 
 // Windows macros undefine - MUST be before any includes
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 #include "server/async_job_api_handler.h"

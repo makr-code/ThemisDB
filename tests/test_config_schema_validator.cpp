@@ -643,7 +643,7 @@ TEST_F(ConfigSchemaValidatorTest, ValidationResultFormatErrors) {
     r.addWarning("field 'debug' is deprecated");
     EXPECT_FALSE(r.valid);
     std::string fmt = r.formatErrors();
-    EXPECT_NE(fmt.find("ERROR:"), std::string::npos);
+    EXPECT_NE(fmt.find("FAILURE:"), std::string::npos);
     EXPECT_NE(fmt.find("WARNING:"), std::string::npos);
 }
 

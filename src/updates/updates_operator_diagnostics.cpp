@@ -438,7 +438,7 @@ AlertingRule OperatorDiagnostics::getAlertingRule(FailureScenario scenario) cons
         case FailureScenario::PARTIAL_MIGRATION_FAILURE: {
             rule.rule_id = "UPD_OD_002";
             rule.rule_name = "Updates Partial Migration Failure";
-            rule.severity = "ERROR";
+            rule.severity = "FAILURE";
             rule.condition = "updates_migration_partial_failure_total > 0";
             rule.message_template = "Migration failed on {{failed_nodes}} nodes; inconsistent state";
             rule.recommended_action = RecoveryAction::FULL_CLUSTER_ROLLBACK;
@@ -447,7 +447,7 @@ AlertingRule OperatorDiagnostics::getAlertingRule(FailureScenario scenario) cons
         case FailureScenario::CANARY_TIMEOUT_CYCLE: {
             rule.rule_id = "UPD_OD_003";
             rule.rule_name = "Updates Canary Timeout Cycle";
-            rule.severity = "ERROR";
+            rule.severity = "FAILURE";
             rule.condition = "increase(updates_canary_timeout_total[10m]) > 3";
             rule.message_template = "Canary timeout cycles detected; {{timeout_count}} timeouts in 10m";
             rule.recommended_action = RecoveryAction::RESOURCE_CLEANUP;

@@ -49,7 +49,7 @@ enum class CallState {
     ON_HOLD,     ///< Call held (no media)
     TERMINATING, ///< BYE / close-offer sent
     TERMINATED,  ///< Call ended
-    ERROR,       ///< Unrecoverable error
+    FAILURE,       ///< Unrecoverable error
 };
 
 /**

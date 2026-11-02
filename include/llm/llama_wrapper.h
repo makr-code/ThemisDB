@@ -28,8 +28,8 @@
 #include <unordered_map>
 #include <memory>
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 // Forward declarations for ThemisDB storage classes
@@ -98,7 +98,7 @@ enum class WrapperState {
     UNINITIALIZED,   // Constructor called, not yet loading
     LOADING,         // Async model load in progress
     READY,           // Model loaded, context created, ready for inference
-    ERROR_STATE,     // Unrecoverable error (e.g., model load failed) - renamed from ERROR to avoid Windows macro conflict
+    ERROR_STATE,     // Unrecoverable error (e.g., model load failed) - renamed from FAILURE to avoid Windows macro conflict
     UNAVAILABLE      // Temporary unavailability (e.g., OOM, evicted)
 };
 

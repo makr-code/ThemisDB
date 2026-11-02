@@ -60,8 +60,8 @@ void emitIncident(const Incident& incident) noexcept {
                          incident.context.caller_tag);
             break;
 
-        case IncidentSeverity::ERROR:
-            THEMIS_ERROR("Timeseries ERROR incident: class={} severity={} http_status={} "
+        case IncidentSeverity::FAILURE:
+            THEMIS_ERROR("Timeseries FAILURE incident: class={} severity={} http_status={} "
                          "retries={} series={} hint={} tag={}",
                          static_cast<int>(incident.incident_class),
                          severityName(incident.severity),

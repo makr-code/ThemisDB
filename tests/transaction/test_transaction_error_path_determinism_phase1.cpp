@@ -183,7 +183,7 @@ TEST_F(TransactionErrorPathDeterminismPhase1Test, RollbackDeterminism_StatusMess
     EXPECT_TRUE(all_false) << "All second rollbacks should consistently return false";
 }
 
-// ===== ERROR PROPAGATION DETERMINISM =====
+// ===== FAILURE PROPAGATION DETERMINISM =====
 
 /// AC-2: Error propagation - concurrent error scenarios
 TEST_F(TransactionErrorPathDeterminismPhase1Test, ErrorPropagation_ConcurrentErrorScenarios) {

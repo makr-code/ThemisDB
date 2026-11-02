@@ -30,9 +30,9 @@
 #include <spdlog/spdlog.h>
 
 // Windows macros undefine - MUST be before any includes
-#ifdef ERROR
-#undef ERROR
-#endif // ERROR
+#ifdef FAILURE
+#undef FAILURE
+#endif // FAILURE
 
 // Include full definitions BEFORE http_server.h to avoid incomplete types
 #include "storage/rocksdb_wrapper.h"
@@ -5469,7 +5469,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                         const bool retryable =
                             msg.find("No default LLM plugin available") != std::string::npos ||
                             msg.find("UNINITIALIZED") != std::string::npos ||
-                            msg.find("Current state: ERROR") != std::string::npos;
+                            msg.find("Current state: FAILURE") != std::string::npos;
                         if (!retryable || !tryBootstrapDefaultModel()) {
                             throw;
                         }
@@ -5645,7 +5645,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                         const bool retryable =
                             msg.find("No default LLM plugin available") != std::string::npos ||
                             msg.find("UNINITIALIZED") != std::string::npos ||
-                            msg.find("Current state: ERROR") != std::string::npos;
+                            msg.find("Current state: FAILURE") != std::string::npos;
                         if (retryable && tryBootstrapDefaultModel()) {
                                 try {
                                     json body = executeRag();

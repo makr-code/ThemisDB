@@ -20,8 +20,8 @@
 // #include <hiredis/hiredis.h>
 #endif
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 namespace themis {
@@ -421,7 +421,7 @@ ImportStats RedisImporter::importData(
             err.code     = ImportErrorCode::UNKNOWN;
             err.message  = "RedisImporter: SCAN response parse error: " +
                            std::string(e.what());
-            err.severity = ImportErrorSeverity::ERROR;
+            err.severity = ImportErrorSeverity::FAILURE;
             stats.structured_errors.push_back(err);
             stats.errors.push_back(err.message);
             break;
@@ -450,7 +450,7 @@ ImportStats RedisImporter::importData(
                 ImportError err;
                 err.code     = ImportErrorCode::UNKNOWN;
                 err.message  = "RedisImporter: " + fetch_err;
-                err.severity = ImportErrorSeverity::ERROR;
+                err.severity = ImportErrorSeverity::FAILURE;
                 stats.structured_errors.push_back(err);
                 stats.errors.push_back(err.message);
                 ++stats.failed_records;

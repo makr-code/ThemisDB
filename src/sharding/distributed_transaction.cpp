@@ -1037,8 +1037,23 @@ bool DistributedTransactionCoordinator::sendPrepare(
             }
         }
         
-        // Send PREPARE request
-        bool vote_commit = client.prepare(txn_id, operations);
+        if (!config_.fencing_token_provider) {
+            THEMIS_ERROR("PREPARE rejected for shard {}: fencing token provider not configured",
+                         participant.shard_id);
+            participant.prepared = false;
+            return false;
+        }
+        auto fencing_token = config_.fencing_token_provider(participant.shard_id);
+        if (!fencing_token || fencing_token->epoch == 0 ||
+            fencing_token->shard_id != participant.shard_id ||
+            fencing_token->issuer.empty()) {
+            THEMIS_ERROR("PREPARE rejected for shard {}: fencing token unavailable or invalid",
+                         participant.shard_id);
+            participant.prepared = false;
+            return false;
+        }
+
+        bool vote_commit = client.prepare(txn_id, operations, *fencing_token);
         participant.prepared = vote_commit;
         
         THEMIS_DEBUG("PREPARE shard {}: vote={}", 

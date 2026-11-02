@@ -3,7 +3,7 @@
  * @brief Structured failure diagnostics for importer operations
  * @version 0.0.1
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note PHASE-3-ERROR-HANDLING: Unified diagnostics for all failure types
+ * @note PHASE-3-FAILURE-HANDLING: Unified diagnostics for all failure types
  * @date 2026-08-02
  *
  * This header defines the unified diagnostic system for Phase 3 error handling.

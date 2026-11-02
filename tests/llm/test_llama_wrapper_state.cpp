@@ -61,7 +61,7 @@ TEST_F(LlamaWrapperStateTest, LoadModelTransitionsToLoading) {
     auto history = wrapper.stateHistory();
     EXPECT_FALSE(history.empty());
     
-    // Should end in ERROR state since model doesn't exist
+    // Should end in FAILURE state since model doesn't exist
     EXPECT_EQ(wrapper.state(), WrapperState::ERROR_STATE);
 }
 
@@ -181,9 +181,9 @@ TEST_F(LlamaWrapperStateTest, StateToStringConversions) {
     // Test all state string representations
     EXPECT_EQ(wrapper.stateString(), "UNINITIALIZED");
     
-    // Try loading to get to ERROR state
+    // Try loading to get to FAILURE state
     wrapper.loadModel("non_existent.gguf");
-    EXPECT_EQ(wrapper.stateString(), "ERROR");
+    EXPECT_EQ(wrapper.stateString(), "FAILURE");
 }
 
 // ═══════════════════════════════════════════════════════════

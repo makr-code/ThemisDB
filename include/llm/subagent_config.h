@@ -156,7 +156,7 @@ enum class SubagentState {
     PAUSED = 3,
     UNLOADING = 4,
     TERMINATED = 5,
-    ERROR = 6,
+    FAILURE = 6,
 };
 
 /**
@@ -173,7 +173,7 @@ inline const char* subagentStateToString(SubagentState state) {
         case SubagentState::PAUSED:        return "PAUSED";
         case SubagentState::UNLOADING:     return "UNLOADING";
         case SubagentState::TERMINATED:    return "TERMINATED";
-        case SubagentState::ERROR:         return "ERROR";
+        case SubagentState::FAILURE:         return "FAILURE";
         default:                           return "UNKNOWN";
     }
 }

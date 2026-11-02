@@ -102,11 +102,22 @@ std::future<bool> RaftConsensus::propose(const std::string& command) {
         }
 
         auto& log = raft_state_.getLog();
+        if (!log.isPersistenceHealthy()) {
+            promise->set_value(false);
+            return future;
+        }
         index = log.getLastLogIndex() + 1;
         uint64_t term = raft_state_.getCurrentTerm();
 
         LogEntry entry(term, index, command);
-        log.append(entry);
+        try {
+            log.append(entry);
+        } catch (const std::exception& error) {
+            THEMIS_ERROR("[RaftConsensus] durable append failed: {}", error.what());
+            read_only_mode_.store(true);
+            promise->set_value(false);
+            return future;
+        }
     }
 
     // RAFT-2: Capture the callback and entry snapshot under the lock so that
@@ -151,14 +162,26 @@ std::future<bool> RaftConsensus::propose(const std::string& command) {
     {
         std::lock_guard<std::mutex> lock(replica_mutex_);
         if (success) {
-            raft_state_.getLog().setCommitIndex(captured_entry.index);
+            try {
+                raft_state_.getLog().setCommitIndex(captured_entry.index);
+            } catch (const std::exception& error) {
+                THEMIS_ERROR("[RaftConsensus] durable commit update failed: {}", error.what());
+                read_only_mode_.store(true);
+                success = false;
+            }
         } else {
             // RAFT-3: Quorum was not reached. Truncate the uncommitted entry
             // so that a future leader does not see an uncommitted tail.
             if (!raft_state_.isLeader()) {
                 // Already stepped down; the new leader will handle truncation.
             } else {
-                raft_state_.getLog().truncateFrom(captured_entry.index);
+                try {
+                    raft_state_.getLog().truncateFrom(captured_entry.index);
+                } catch (const std::exception& error) {
+                    THEMIS_ERROR("[RaftConsensus] failed to truncate uncommitted entry: {}",
+                                 error.what());
+                    read_only_mode_.store(true);
+                }
             }
         }
     }
@@ -244,8 +267,15 @@ void RaftConsensus::setHeartbeatCallback(HeartbeatCallback callback) {
 void RaftConsensus::receiveHeartbeat(const Heartbeat& heartbeat) {
     // Update leader info
     if (heartbeat.term >= raft_state_.getCurrentTerm()) {
-        if (raft_state_.getState() != RaftNodeState::FOLLOWER) {
-            raft_state_.becomeFollower(heartbeat.term);
+        if (heartbeat.term > raft_state_.getCurrentTerm() ||
+            raft_state_.getState() != RaftNodeState::FOLLOWER) {
+            try {
+                raft_state_.becomeFollower(heartbeat.term);
+            } catch (const std::exception& error) {
+                THEMIS_ERROR("[RaftConsensus] failed to persist heartbeat term: {}", error.what());
+                read_only_mode_.store(true);
+                return;
+            }
         }
         raft_state_.resetElectionTimeout();
         
@@ -301,7 +331,13 @@ void RaftConsensus::electionLoop() {
     while (running_) {
         if (raft_state_.isFollower() && raft_state_.isElectionTimeout()) {
             if (!isReadOnly()) {  // Don't start election if in minority partition
-                raft_state_.startElection();
+                try {
+                    raft_state_.startElection();
+                } catch (const std::exception& error) {
+                    THEMIS_ERROR("[RaftConsensus] failed to persist election state: {}",
+                                 error.what());
+                    read_only_mode_.store(true);
+                }
                 
                 // Send vote requests to peers (simplified - would use RPC in production)
                 // For now, rely on external mechanism to handle vote requests

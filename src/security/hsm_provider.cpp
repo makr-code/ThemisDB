@@ -330,7 +330,7 @@ bool HSMProvider::initialize() {
         last_error_ = "HSM stub provider cannot be used in production mode. "
                       "Build with -DTHEMIS_ENABLE_HSM_REAL=ON, or disable production mode "
                       "(THEMIS_PRODUCTION_MODE / THEMIS_ENVIRONMENT).";
-        THEMIS_ERROR("SECURITY ERROR: {}", last_error_);
+        THEMIS_ERROR("SECURITY FAILURE: {}", last_error_);
         return false;
     }
     
@@ -348,7 +348,7 @@ bool HSMProvider::initialize() {
         if (production_indicators) {
             last_error_ = "HSM stub provider detected production environment but THEMIS_ALLOW_HSM_STUB is not set. "
                           "Set THEMIS_ALLOW_HSM_STUB=1 to explicitly allow insecure stub, or use real HSM.";
-            THEMIS_ERROR("SECURITY ERROR: {}", last_error_);
+            THEMIS_ERROR("SECURITY FAILURE: {}", last_error_);
             return false;
         }
     }
@@ -763,7 +763,7 @@ void HSMProvider::periodicSecurityCheck() {
       return;
     }
     
-    // Log ERROR-level warning for production monitoring
+    // Log FAILURE-level warning for production monitoring
     THEMIS_ERROR("⚠️  HSM SECURITY WARNING: Using stub provider in production!");
     THEMIS_ERROR("Master keys are NOT hardware-protected. Configure proper HSM immediately.");
     THEMIS_ERROR("Compliance impact: NIST SP 800-53 SC-12, PCI DSS 3.6, GDPR Art. 32");

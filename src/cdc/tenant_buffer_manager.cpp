@@ -15,8 +15,8 @@
 
 #include "utils/logger.h"
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 #ifdef WARNING
 #undef WARNING
@@ -92,7 +92,7 @@ void TenantBufferManager::stop() {
  */
 Changefeed::ChangeEvent TenantBufferManager::recordEvent(const std::string &tenant_id, Changefeed::ChangeEvent event) {
     if (!running_) {
-        throw CDCException(ErrorCode::BUFFER_NOT_RUNNING, ErrorSeverity::ERROR, "TenantBufferManager not running",
+        throw CDCException(ErrorCode::BUFFER_NOT_RUNNING, ErrorSeverity::FAILURE, "TenantBufferManager not running",
                            "tenant_id=" + tenant_id);
     }
 
@@ -107,7 +107,7 @@ Changefeed::ChangeEvent TenantBufferManager::recordEvent(const std::string &tena
 
     // Check if tenant is enabled
     if (!state.enabled) {
-        throw CDCException(ErrorCode::TENANT_UNAUTHORIZED, ErrorSeverity::ERROR, "Tenant is disabled",
+        throw CDCException(ErrorCode::TENANT_UNAUTHORIZED, ErrorSeverity::FAILURE, "Tenant is disabled",
                            "tenant_id=" + tenant_id);
     }
 

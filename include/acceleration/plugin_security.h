@@ -404,7 +404,7 @@ struct PluginSecurityEvent {
     std::string pluginHash;             ///< SHA-256 hash of the plugin
     std::string message;                ///< Human-readable event description
     uint64_t timestamp;                 ///< Unix timestamp of event occurrence
-    std::string severity;               ///< Event severity level: "INFO", "WARNING", "ERROR", "CRITICAL"
+    std::string severity;               ///< Event severity level: "INFO", "WARNING", "FAILURE", "CRITICAL"
 };
 
 class PluginSecurityAuditor {

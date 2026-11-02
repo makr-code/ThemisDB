@@ -39,7 +39,7 @@ namespace performance {
  * @code
  * struct alignas(64) MyStruct { uint64_t x; };
  * static_assert(check_alignment<MyStruct, 64>());  // OK
- * static_assert(check_alignment<MyStruct, 32>());  // COMPILE ERROR
+ * static_assert(check_alignment<MyStruct, 32>());  // COMPILE FAILURE
  * @endcode
  */
 template<typename T, size_t RequiredAlignment>

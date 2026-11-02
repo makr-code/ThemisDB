@@ -25,7 +25,7 @@
 // ACK packet format (server → client, only when FLAGS_ACK_REQUESTED is set):
 //   [0-1]  Magic:  0x54 0x41 ("TA")
 //   [2]    Version: 0x01
-//   [3]    Status:  0x00 OK | 0x01 ERROR | 0x02 RATE_LIMITED | 0x03 DUPLICATE
+//   [3]    Status:  0x00 OK | 0x01 FAILURE | 0x02 RATE_LIMITED | 0x03 DUPLICATE
 //   [4-7]  SeqNum:  echoed from request (big-endian)
 //
 // Trade-offs:
@@ -94,8 +94,8 @@ constexpr uint8_t kUdpServerFlagAckRequested = 0x01;
 #ifdef EVENT
 #undef EVENT
 #endif
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 /// Write-oriented opcodes accepted by the UDP ingestion server.
@@ -110,7 +110,7 @@ enum class UdpServerOpCode : uint8_t {
 /// ACK status codes sent back to the client.
 enum class UdpServerStatus : uint8_t {
     OK           = 0x00,  ///< Packet accepted and queued
-    ERROR        = 0x01,  ///< Malformed payload or internal error
+    FAILURE        = 0x01,  ///< Malformed payload or internal error
     RATE_LIMITED = 0x02,  ///< Source IP exceeded its rate limit
     DUPLICATE    = 0x03,  ///< Sequence number already seen; silently dropped
 };

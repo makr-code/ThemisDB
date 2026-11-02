@@ -19,7 +19,7 @@ namespace aql {
 
 struct MigrationIssue {
     enum class Severity {
-        ERROR,   ///< Construct is unsupported and cannot be automatically migrated
+        FAILURE,   ///< Construct is unsupported and cannot be automatically migrated
         WARNING, ///< Construct was rewritten but manual review is recommended
         INFO     ///< Informational note about compatibility or style differences
     };

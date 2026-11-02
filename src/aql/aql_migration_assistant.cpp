@@ -33,7 +33,7 @@ std::string MigrationResult::summary() const {
 
     for (const auto &issue : issues) {
         switch (issue.severity) {
-            case MigrationIssue::Severity::ERROR:
+            case MigrationIssue::Severity::FAILURE:
                 ++errors;
                 break;
             case MigrationIssue::Severity::WARNING:
@@ -94,10 +94,10 @@ MigrationResult AQLMigrationAssistant::migrate(const std::string &arango_aql) co
 
     result.migrated_query = query;
 
-    // is_fully_automatable is false when any ERROR issue is present
+    // is_fully_automatable is false when any FAILURE issue is present
     result.is_fully_automatable = true;
     for (const auto &issue : result.issues) {
-        if (issue.severity == MigrationIssue::Severity::ERROR) {
+        if (issue.severity == MigrationIssue::Severity::FAILURE) {
             result.is_fully_automatable = false;
             break;
         }
@@ -640,7 +640,7 @@ void AQLMigrationAssistant::detectV8(const std::string &query, std::vector<Migra
         return;
     }
 
-    issues.push_back({MigrationIssue::Severity::ERROR, "V8() is not supported in ThemisDB AQL",
+    issues.push_back({MigrationIssue::Severity::FAILURE, "V8() is not supported in ThemisDB AQL",
                       "V8() embeds JavaScript expressions and is specific to ArangoDB. "
                       "Rewrite the expression using native ThemisDB AQL functions or LLM extensions."});
 }

@@ -298,14 +298,14 @@ TEST(TimeseriesQ4Hardening, TEH18_BufferAtCapacityRequiresFlush) {
  */
 TEST(TimeseriesQ4Hardening, TEH19_OperatorDiagnosticsRecordsIncidentCorrectly) {
     TsOperatorDiagnostics diag;
-    diag.recordIncident("TS-ECH-RW-TIMEOUT", TsIncidentSeverity::ERROR,
+    diag.recordIncident("TS-ECH-RW-TIMEOUT", TsIncidentSeverity::FAILURE,
                         "timeout after 5000 ms", "Check endpoint",
                         TimeseriesErrorCode::REMOTE_WRITE_RETRIES_EXHAUSTED);
     EXPECT_EQ(diag.totalIncidentCount(), 1u);
     auto recent = diag.recentIncidents(5);
     ASSERT_EQ(recent.size(), 1u);
     EXPECT_EQ(recent[0].incident_id, "TS-ECH-RW-TIMEOUT");
-    EXPECT_EQ(recent[0].severity, TsIncidentSeverity::ERROR);
+    EXPECT_EQ(recent[0].severity, TsIncidentSeverity::FAILURE);
     ASSERT_TRUE(recent[0].error_code.has_value());
     EXPECT_EQ(recent[0].error_code.value(), TimeseriesErrorCode::REMOTE_WRITE_RETRIES_EXHAUSTED);
 }

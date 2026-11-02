@@ -1438,7 +1438,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
             switch (severity) {
                 case observability::AlertSeverity::INFO: return "info";
                 case observability::AlertSeverity::WARNING: return "warning";
-                case observability::AlertSeverity::ERROR: return "error";
+                case observability::AlertSeverity::FAILURE: return "error";
                 case observability::AlertSeverity::CRITICAL: return "critical";
                 default: return "unknown";
             }

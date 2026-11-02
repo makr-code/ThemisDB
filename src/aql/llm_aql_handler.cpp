@@ -1885,7 +1885,7 @@ static std::pair<bool, std::string> validateAQLWithParser(
     if (vresult.hasErrors()) {
         auto err_it = std::find_if(vresult.issues.begin(), vresult.issues.end(),
                                    [](const ValidationIssue &i) {
-                                       return i.severity == ValidationIssue::Severity::ERROR;
+                                       return i.severity == ValidationIssue::Severity::FAILURE;
                                    });
         // Block 4.2: Prepend category tag for enriched error context
         std::string error_msg = "[VALIDATION:MalformedAQL] " +
@@ -2163,7 +2163,7 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(const std::string &nl_query
             auto vresult = aql_validator.validate(aql_query);
             if (vresult.hasErrors()) {
                 auto err_it = std::find_if(vresult.issues.begin(), vresult.issues.end(), [](const ValidationIssue &i) {
-                    return i.severity == ValidationIssue::Severity::ERROR;
+                    return i.severity == ValidationIssue::Severity::FAILURE;
                 });
                 validation_feedback = makeSafeValidationFeedback(
                     (err_it != vresult.issues.end()) ? err_it->message : "unknown validation error",
@@ -2452,7 +2452,7 @@ std::string LLMAQLHandler::translateNLToAQLWithExamples(const std::string &nl_qu
             auto vresult = aql_validator.validate(aql_query);
             if (vresult.hasErrors()) {
                 auto err_it = std::find_if(vresult.issues.begin(), vresult.issues.end(), [](const ValidationIssue &i) {
-                    return i.severity == ValidationIssue::Severity::ERROR;
+                    return i.severity == ValidationIssue::Severity::FAILURE;
                 });
                 validation_feedback = makeSafeValidationFeedback(
                     (err_it != vresult.issues.end()) ? err_it->message : "unknown validation error",

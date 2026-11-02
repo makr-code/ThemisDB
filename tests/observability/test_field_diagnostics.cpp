@@ -38,7 +38,7 @@ protected:
             .failure_category = DiagnosticFailureCategory::NLI_INFERENCE,
             .module_name = "rag",
             .error_message = "Model inference failed",
-            .severity_level = DiagnosticSeverity::ERROR,
+            .severity_level = DiagnosticSeverity::FAILURE,
             .deployment_environment = "production",
             .version = "1.5.0",
             .stacktrace_hash = "abc123def456"
@@ -50,7 +50,7 @@ TEST_F(DiagnosticEventTest, EventCreation) {
     auto evt = createSampleEvent();
     EXPECT_EQ(evt.module_name, "rag");
     EXPECT_EQ(evt.failure_category, DiagnosticFailureCategory::NLI_INFERENCE);
-    EXPECT_EQ(evt.severity_level, DiagnosticSeverity::ERROR);
+    EXPECT_EQ(evt.severity_level, DiagnosticSeverity::FAILURE);
 }
 
 TEST_F(DiagnosticEventTest, EventToString) {
@@ -58,7 +58,7 @@ TEST_F(DiagnosticEventTest, EventToString) {
     auto str = evt.toString();
     EXPECT_THAT(str, ::testing::HasSubstr("NLI_INFERENCE"));
     EXPECT_THAT(str, ::testing::HasSubstr("rag"));
-    EXPECT_THAT(str, ::testing::HasSubstr("ERROR"));
+    EXPECT_THAT(str, ::testing::HasSubstr("FAILURE"));
 }
 
 TEST_F(DiagnosticEventTest, EventToJSON) {
@@ -67,7 +67,7 @@ TEST_F(DiagnosticEventTest, EventToJSON) {
 
     EXPECT_EQ(j["module_name"], "rag");
     EXPECT_EQ(j["failure_category"], "NLI_INFERENCE");
-    EXPECT_EQ(j["severity_level"], "ERROR");
+    EXPECT_EQ(j["severity_level"], "FAILURE");
     EXPECT_EQ(j["version"], "1.5.0");
     EXPECT_TRUE(j.contains("timestamp"));
 }
@@ -97,7 +97,7 @@ TEST_F(DiagnosticEventTest, SeverityToString) {
     EXPECT_EQ(severityToString(DiagnosticSeverity::DEBUG), "DEBUG");
     EXPECT_EQ(severityToString(DiagnosticSeverity::INFO), "INFO");
     EXPECT_EQ(severityToString(DiagnosticSeverity::WARN), "WARN");
-    EXPECT_EQ(severityToString(DiagnosticSeverity::ERROR), "ERROR");
+    EXPECT_EQ(severityToString(DiagnosticSeverity::FAILURE), "FAILURE");
     EXPECT_EQ(severityToString(DiagnosticSeverity::CRITICAL), "CRITICAL");
 }
 
@@ -406,7 +406,7 @@ TEST_F(IntegrationTest, PrometheusMetricsEmission) {
     auto evt = createEvent();
     evt.failure_category = DiagnosticFailureCategory::NLI_INFERENCE;
     evt.module_name = "rag";
-    evt.severity_level = DiagnosticSeverity::ERROR;
+    evt.severity_level = DiagnosticSeverity::FAILURE;
 
     bool result = collector.emitDiagnosticEvent(evt);
     EXPECT_TRUE(result);

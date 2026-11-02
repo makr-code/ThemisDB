@@ -188,7 +188,7 @@ inline bool fixFile(const fs::path& file,
     // Read original content
     std::ifstream ifs(file, std::ios::binary);
     if (!ifs.is_open()) {
-        std::cerr << "[ERROR] Cannot read: " << file << '\n';
+        std::cerr << "[FAILURE] Cannot read: " << file << '\n';
         return false;
     }
     std::string content((std::istreambuf_iterator<char>(ifs)),
@@ -217,14 +217,14 @@ inline bool fixFile(const fs::path& file,
     std::error_code ec = {};
     fs::copy_file(file, backup, fs::copy_options::overwrite_existing, ec);
     if (ec) {
-        std::cerr << "[ERROR] Cannot create backup " << backup << ": " << ec.message() << '\n';
+        std::cerr << "[FAILURE] Cannot create backup " << backup << ": " << ec.message() << '\n';
         return false;
     }
 
     // Write updated content
     std::ofstream ofs(file, std::ios::binary | std::ios::trunc);
     if (!ofs.is_open()) {
-        std::cerr << "[ERROR] Cannot write: " << file << '\n';
+        std::cerr << "[FAILURE] Cannot write: " << file << '\n';
         return false;
     }
     ofs << updated;

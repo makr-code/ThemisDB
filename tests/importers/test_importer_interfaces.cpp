@@ -214,7 +214,7 @@ public:
 
     CursorStatus next(ImportBatch& batch) override {
         if (closed_) {
-          return CursorStatus::ERROR;
+          return CursorStatus::FAILURE;
         }
         if (cursor_ >= records_.size()) {
             batch = {};
@@ -565,13 +565,13 @@ TEST(IncrementalImportCursorTest, CloseReturnErrorOnNext) {
     VectorCursor cursor("t", {{{"x", 1}}});
     cursor.close();
     ImportBatch batch;
-    EXPECT_EQ(CursorStatus::ERROR, cursor.next(batch));
+    EXPECT_EQ(CursorStatus::FAILURE, cursor.next(batch));
 }
 
 TEST(IncrementalImportCursorTest, CursorStatusEnumValues) {
     EXPECT_NE(CursorStatus::OK, CursorStatus::END_OF_STREAM);
     EXPECT_NE(CursorStatus::OK, CursorStatus::CHECKPOINT_REQUIRED);
-    EXPECT_NE(CursorStatus::OK, CursorStatus::ERROR);
+    EXPECT_NE(CursorStatus::OK, CursorStatus::FAILURE);
 }
 
 TEST(IncrementalImportCursorTest, ImportBatchHelpers) {
@@ -784,8 +784,8 @@ TEST(ImportConfigConflictTest, CanSetStrategyMerge) {
 
 TEST(ImportConfigConflictTest, CanSetStrategyError) {
     ImportConfig cfg;
-    cfg.conflict_strategy = ConflictStrategy::ERROR;
-    EXPECT_EQ(ConflictStrategy::ERROR, cfg.conflict_strategy);
+    cfg.conflict_strategy = ConflictStrategy::FAILURE;
+    EXPECT_EQ(ConflictStrategy::FAILURE, cfg.conflict_strategy);
 }
 
 TEST(ImportConfigConflictTest, CanSetConflictKeyColumns) {

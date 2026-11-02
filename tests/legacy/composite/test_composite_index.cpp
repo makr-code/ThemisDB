@@ -474,25 +474,25 @@ TEST_F(CompositeIndexTest, IndexScanValidation) {
     
     // Insert logs at different levels
     BaseEntity e1("log1");
-    e1.setField("level", "ERROR");
+    e1.setField("level", "FAILURE");
     e1.setField("timestamp", "2024-01-01T10:00:00");
     st = idx_mgr_->put("logs", e1);
     ASSERT_TRUE(st.ok) << st.message;
     
     BaseEntity e2("log2");
-    e2.setField("level", "ERROR");
+    e2.setField("level", "FAILURE");
     e2.setField("timestamp", "2024-01-01T11:00:00");
     st = idx_mgr_->put("logs", e2);
     ASSERT_TRUE(st.ok) << st.message;
     
     BaseEntity e3("log3");
-    e3.setField("level", "ERROR");
+    e3.setField("level", "FAILURE");
     e3.setField("timestamp", "2024-01-01T12:00:00");
     st = idx_mgr_->put("logs", e3);
     ASSERT_TRUE(st.ok) << st.message;
     
-    // Scan should return all ERROR logs
-    std::vector<std::string> values = {"ERROR", "2024-01-01T11:00:00"};
+    // Scan should return all FAILURE logs
+    std::vector<std::string> values = {"FAILURE", "2024-01-01T11:00:00"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("logs", cols, values);
     ASSERT_TRUE(status.ok);
     EXPECT_EQ(keys.size(), 1u);

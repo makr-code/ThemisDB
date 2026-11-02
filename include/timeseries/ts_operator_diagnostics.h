@@ -47,7 +47,7 @@ namespace timeseries {
 enum class TsIncidentSeverity : uint8_t {
     INFO     = 0, ///< Informational; no operator action required
     WARNING  = 1, ///< Degraded operation; operator should investigate
-    ERROR    = 2, ///< Operation failed; automatic recovery attempted
+    FAILURE    = 2, ///< Operation failed; automatic recovery attempted
     CRITICAL = 3, ///< Unrecoverable; operator intervention required
 };
 
@@ -56,7 +56,7 @@ inline constexpr std::string_view tsSeverityName(TsIncidentSeverity s) noexcept 
     switch (s) {
         case TsIncidentSeverity::INFO:     return "INFO";
         case TsIncidentSeverity::WARNING:  return "WARNING";
-        case TsIncidentSeverity::ERROR:    return "ERROR";
+        case TsIncidentSeverity::FAILURE:    return "FAILURE";
         case TsIncidentSeverity::CRITICAL: return "CRITICAL";
         default:                           return "UNKNOWN";
     }
@@ -134,7 +134,7 @@ public:
      *
      * Infers severity from the incident_id suffix convention:
      *   - *-CRITICAL / *-PERSISTENT → CRITICAL
-     *   - *-TIMEOUT / *-ROTATION-INVALID → ERROR
+     *   - *-TIMEOUT / *-ROTATION-INVALID → FAILURE
      *   - *-UNAVAILABLE / *-FALLBACK → WARNING
      *   - other → INFO
      * @param[in] incident_id Input parameter.

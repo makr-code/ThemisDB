@@ -226,7 +226,7 @@ TEST_F(GraphErrorTaxonomyTest, ErrorContextDiagnosticFormatting) {
     
     auto diagnostic = ctx.formatDiagnostic();
     
-    EXPECT_NE(diagnostic.find("[GRAPH ERROR]"), std::string::npos);
+    EXPECT_NE(diagnostic.find("[GRAPH FAILURE]"), std::string::npos);
     EXPECT_NE(diagnostic.find("FALLBACK"), std::string::npos);
     EXPECT_NE(diagnostic.find("parallel_traversal"), std::string::npos);
     EXPECT_NE(diagnostic.find("GPU memory exhausted"), std::string::npos);

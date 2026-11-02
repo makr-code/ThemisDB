@@ -151,7 +151,7 @@ struct MockTracer {
 // ---------------------------------------------------------------------------
 // Mock Log
 // ---------------------------------------------------------------------------
-enum class LogLevel { DEBUG = 0, INFO = 1, WARN = 2, ERROR = 3 };
+enum class LogLevel { DEBUG = 0, INFO = 1, WARN = 2, FAILURE = 3 };
 
 struct MockLogEntry {
     LogLevel                         level;
@@ -376,14 +376,14 @@ TEST(ObservabilityContractHardeningOCH11, LogLevelFiltering) {
     MockLogEntry warn_entry;
     warn_entry.level  = LogLevel::WARN;  warn_entry.byte_size = 50;
     MockLogEntry error_entry;
-    error_entry.level = LogLevel::ERROR; error_entry.byte_size = 50;
+    error_entry.level = LogLevel::FAILURE; error_entry.byte_size = 50;
 
     EXPECT_EQ(logger.write(debug_entry), ObservabilityErrorCode::OK);
     EXPECT_EQ(logger.write(info_entry),  ObservabilityErrorCode::OK);
     EXPECT_EQ(logger.write(warn_entry),  ObservabilityErrorCode::OK);
     EXPECT_EQ(logger.write(error_entry), ObservabilityErrorCode::OK);
 
-    EXPECT_EQ(logger.entries.size(), 2u) << "Only WARN and ERROR should pass the filter";
+    EXPECT_EQ(logger.entries.size(), 2u) << "Only WARN and FAILURE should pass the filter";
 }
 
 // ===========================================================================

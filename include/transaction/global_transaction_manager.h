@@ -96,13 +96,13 @@ public:
 enum class GlobalTxnResult {
     COMMITTED,  ///< All regions committed
     ABORTED,    ///< At least one region voted ABORT (or an error occurred)
-    ERROR       ///< Internal error; transaction state uncertain
+    FAILURE       ///< Internal error; transaction state uncertain
 };
 
 struct GlobalTxnOutcome {
-    GlobalTxnResult result        = GlobalTxnResult::ERROR;
+    GlobalTxnResult result        = GlobalTxnResult::FAILURE;
     std::string     transaction_id;
-    std::string     reason;        ///< Populated on ABORTED / ERROR
+    std::string     reason;        ///< Populated on ABORTED / FAILURE
     int64_t         commit_timestamp_ns = 0; ///< TrueTime commit timestamp (0 if not committed)
 
     [[nodiscard]] bool committed() const {

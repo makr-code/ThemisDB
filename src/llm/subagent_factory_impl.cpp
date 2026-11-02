@@ -95,14 +95,14 @@ public:
 
         if (!plugin_) {
             std::unique_lock<std::shared_mutex> state_lock(state_mutex_);
-            state_ = SubagentState::ERROR;
+            state_ = SubagentState::FAILURE;
             last_error_ = "subagent_load_model_failed: no LLM plugin configured";
             return tl::make_unexpected(last_error_);
         }
 
         if (!plugin_->loadModel(config_.model_id, {})) {
             std::unique_lock<std::shared_mutex> state_lock(state_mutex_);
-            state_ = SubagentState::ERROR;
+            state_ = SubagentState::FAILURE;
             last_error_ = "subagent_load_model_failed: " + config_.model_id;
             return tl::make_unexpected(last_error_);
         }
@@ -176,7 +176,7 @@ public:
 
         if (!drained) {
             lock.lock();
-            state_ = SubagentState::ERROR;
+            state_ = SubagentState::FAILURE;
             last_error_ = "Unload timeout while waiting for in-flight requests";
             return tl::make_unexpected(last_error_);
         }

@@ -5,8 +5,8 @@
 #include <sstream>
 #include <iomanip>
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 namespace themis {
@@ -235,7 +235,7 @@ void ContentLogger::log(
         case utils::Logger::Level::WARN:
             utils::Logger::warn(log_message);
             break;
-        case utils::Logger::Level::ERROR:
+        case utils::Logger::Level::FAILURE:
             utils::Logger::error(log_message);
             break;
         case utils::Logger::Level::CRITICAL:
@@ -274,7 +274,7 @@ void ContentLogger::warn(const std::string& event, const std::string& message, c
  * @details Calls: log().
  */
 void ContentLogger::error(const std::string& event, const std::string& message, const json& metadata) {
-    log(utils::Logger::Level::ERROR, event, message, metadata);
+    log(utils::Logger::Level::FAILURE, event, message, metadata);
 }
 
 /**

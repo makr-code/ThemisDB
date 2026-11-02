@@ -44,7 +44,7 @@ namespace g003 {
 // ============================================================================
 
 /**
- * @brief Minimal in-process log sink that captures WARN/ERROR messages for
+ * @brief Minimal in-process log sink that captures WARN/FAILURE messages for
  *        test assertions without depending on the real spdlog stack.
  */
 class CapturingLogger {
@@ -55,7 +55,7 @@ public:
     }
     void error(const std::string& msg) {
         std::lock_guard<std::mutex> lk(mu_);
-        entries_.push_back("[ERROR] " + msg);
+        entries_.push_back("[FAILURE] " + msg);
     }
 
     bool anyContains(const std::string& substr) const {

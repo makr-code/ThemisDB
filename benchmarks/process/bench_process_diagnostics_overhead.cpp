@@ -44,7 +44,7 @@ struct DiagnosticEvent {
     std::string metric_name;
     double metric_value{0.0};
     std::string error_message;
-    int severity_level{0};  // 0=INFO, 1=WARNING, 2=ERROR
+    int severity_level{0};  // 0=INFO, 1=WARNING, 2=FAILURE
 };
 
 /**

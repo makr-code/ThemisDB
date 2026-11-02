@@ -135,8 +135,8 @@ TEST(QueryPlanVisualizerTest, BuildPlan_SelectivityLessThanOne_ForSelectiveFilte
     ConjunctiveQuery q;
     q.table = "logs";
     QueryOptimizer::Plan plan;
-    plan.orderedPredicates = {{"level", "ERROR"}, {"service", "api"}};
-    QueryOptimizer::Estimation e_sel; e_sel.pred = {"level", "ERROR"};  e_sel.estimatedCount = 5;
+    plan.orderedPredicates = {{"level", "FAILURE"}, {"service", "api"}};
+    QueryOptimizer::Estimation e_sel; e_sel.pred = {"level", "FAILURE"};  e_sel.estimatedCount = 5;
     QueryOptimizer::Estimation e_less; e_less.pred = {"service", "api"}; e_less.estimatedCount = 1000;
     plan.details = {e_sel, e_less};
 

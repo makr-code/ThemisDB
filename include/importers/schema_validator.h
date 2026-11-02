@@ -71,7 +71,7 @@ struct TypeCoercionConfig {
 };
 
 // ============================================================================
-// PHASE-3-ERROR-HANDLING: Schema Validation Levels & Reporting
+// PHASE-3-FAILURE-HANDLING: Schema Validation Levels & Reporting
 // ============================================================================
 
 enum class SchemaValidationLevel {
