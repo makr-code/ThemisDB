@@ -151,8 +151,14 @@ jobs:
               raise ValueError(f"Unsupported build type selector: {build_type}")
           if distribution not in allowed_distributions:
               raise ValueError(f"Unsupported distribution selector: {distribution}")
+          shard_grpc_flags = (
+              ""
+              if edition == "minimal"
+              else "-DTHEMIS_ENABLE_GRPC=ON -DTHEMIS_REQUIRE_SHARD_GRPC=ON "
+          )
           cmake_flags = (
               f"-DTHEMIS_EDITION={edition.upper()} -DCMAKE_BUILD_TYPE={build_type} "
+              f"{shard_grpc_flags}"
               "-DTHEMIS_DOCS_DB_MODE=BUILD -DTHEMIS_MODELS_MODE=PACKAGE "
               "-DTHEMIS_PACKAGE_INCLUDE_TINYLLAMA=ON -DTHEMIS_PACKAGE_INCLUDE_GEMMA=OFF"
           )

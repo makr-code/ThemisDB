@@ -39,6 +39,11 @@
 #define THEMIS_HAS_SHARD_GRPC 0
 #endif
 
+#if defined(THEMIS_REQUIRE_SHARD_GRPC) && THEMIS_REQUIRE_SHARD_GRPC && \
+    !THEMIS_HAS_SHARD_GRPC
+#error "THEMIS_REQUIRE_SHARD_GRPC requires the generated shard gRPC client stubs."
+#endif
+
 namespace themis::sharding {
 
 // Maximum delay between retry attempts (milliseconds).  Both sendRequestGrpc
@@ -96,6 +101,13 @@ struct ShardRPCClient::Impl {
     }
 
     explicit Impl(const Config& cfg) : config(cfg), circuit_breaker(makeCb(cfg)) {
+        if (themis::core::ProductionMode::isEnabled() &&
+            isExplicitInProcessEndpoint(config.endpoint)) {
+            throw std::runtime_error(
+                "ShardRPCClient: in-process endpoints are forbidden in production mode; "
+                "configure a real shard gRPC endpoint");
+        }
+
         // Production transports must use real RPC endpoints whenever gRPC support
         // is compiled in. In-process routing is reserved for explicit test-only
         // endpoints such as inproc://shard-a.
@@ -149,7 +161,9 @@ struct ShardRPCClient::Impl {
     }
 
     [[nodiscard]] bool isProductionSafeEndpoint() const {
-        return use_grpc || isExplicitInProcessEndpoint(config.endpoint);
+        return isExplicitInProcessEndpoint(config.endpoint)
+            ? !themis::core::ProductionMode::isEnabled()
+            : use_grpc;
     }
     
 #if THEMIS_HAS_SHARD_GRPC

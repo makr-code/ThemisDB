@@ -1,8 +1,56 @@
+#include <cstdlib>
+#include <optional>
+#include <stdexcept>
+#include <string>
+#include <utility>
+
 #include <gtest/gtest.h>
 #include "sharding/shard_rpc_client.h"
 #include "sharding/shard_rpc_server.h"
 
 using namespace themis::sharding;
+
+namespace {
+
+class ScopedEnvironmentVariable {
+public:
+    explicit ScopedEnvironmentVariable(std::string name)
+        : name_(std::move(name)) {
+        if (const char* value = std::getenv(name_.c_str())) {
+            original_value_ = value;
+        }
+    }
+
+    ~ScopedEnvironmentVariable() {
+        if (original_value_) {
+            set(*original_value_);
+        } else {
+            unset();
+        }
+    }
+
+    void set(const std::string& value) const {
+#ifdef _WIN32
+        _putenv_s(name_.c_str(), value.c_str());
+#else
+        ::setenv(name_.c_str(), value.c_str(), 1);
+#endif
+    }
+
+    void unset() const {
+#ifdef _WIN32
+        _putenv_s(name_.c_str(), "");
+#else
+        ::unsetenv(name_.c_str());
+#endif
+    }
+
+private:
+    std::string name_;
+    std::optional<std::string> original_value_;
+};
+
+} // namespace
 
 #if defined(THEMIS_ENABLE_GRPC) && __has_include("shard_rpc.grpc.pb.h")
 #define THEMIS_TEST_HAS_SHARD_GRPC 1
@@ -83,6 +131,32 @@ TEST(ShardRPCClientMTLSTest, ClientCreationWithMTLSConfig) {
         ShardRPCClient client(config);
     });
 #endif
+}
+
+TEST(ShardRPCClientMTLSTest, ProductionModeRejectsInProcessEndpoints) {
+    ScopedEnvironmentVariable production_mode("THEMIS_PRODUCTION_MODE");
+    ScopedEnvironmentVariable environment("THEMIS_ENVIRONMENT");
+    production_mode.set("1");
+    environment.set("development");
+
+    ShardRPCClient::Config config;
+    config.endpoint = "inproc://shard-a";
+
+    EXPECT_THROW(ShardRPCClient client(config), std::runtime_error);
+    config.endpoint = "loopback://shard-a";
+    EXPECT_THROW(ShardRPCClient client(config), std::runtime_error);
+}
+
+TEST(ShardRPCClientMTLSTest, DevelopmentModeAllowsInProcessEndpoints) {
+    ScopedEnvironmentVariable production_mode("THEMIS_PRODUCTION_MODE");
+    ScopedEnvironmentVariable environment("THEMIS_ENVIRONMENT");
+    production_mode.set("0");
+    environment.set("development");
+
+    ShardRPCClient::Config config;
+    config.endpoint = "inproc://shard-a";
+
+    EXPECT_NO_THROW(ShardRPCClient client(config));
 }
 
 // ============================================================================

@@ -106,15 +106,16 @@ All identified stub/simulation paths have been reviewed and improved with:
 
 #### 1. **gRPC Fallback Mode** (shard_rpc_client.cpp:127)
 - **Status**: ✅ IMPROVED
-- **Type**: Graceful fallback (test-only path)
-- **Change**: Added THEMIS_WARN log on initialization to warn operators that gRPC is disabled
-- **Production readiness**: Acceptable for test/single-node only; production requires THEMIS_HAS_SHARD_GRPC=1
+- **Type**: Explicit in-process transport for non-production endpoints
+- **Change**: Production mode rejects `inproc://` and `loopback://` endpoints at client construction; non-Minimal release builds require the real shard-gRPC dependencies at configure time.
+- **Production readiness**: Non-Minimal release artifacts require the real shard gRPC transport; explicit in-process endpoints are test/development only.
 
-#### 2. **In-Process RPC Handler** (shard_rpc_client.cpp:924)
+#### 2. **In-Process RPC Handler** (shard_rpc_client.cpp:1037)
 - **Status**: ✅ IMPROVED
 - **Type**: Simulation with injected response handler
 - **Changes**:
   - Added one-time warning log when simulation is first used
+  - Rejects in-process endpoints in production mode
   - Improved error message for unknown RPC methods
   - Added error logging with diagnostic hints
 - **Production readiness**: Acceptable for loopback/single-node only; multi-node requires gRPC
