@@ -32,6 +32,7 @@
 #include <filesystem>
 #include <map>
 #include <mutex>
+#include <optional>
 #include <set>
 #include <stdexcept>
 #include <string>
@@ -269,17 +270,26 @@ TEST(DistributedTxnManagerDurability, MissingWALDoesNotSendPhase2Commit) {
         << "Phase-2 ABORT must also wait for a confirmed durable decision";
 }
 
-TEST(DistributedTransactionRecovery, MissingParticipantStateRemainsInDoubt) {
-    MockParticipant participant;
+TEST(DistributedTransactionRecovery, MissingLegacyParticipantStateRemainsInDoubt) {
     const auto wal_dir = makeTempWalDir("in_doubt_restart");
+    const std::string txn_id = "legacy-txn-without-participants";
 
-    std::string txn_id;
     {
-        DistributedTxnManagerConfig cfg;
-        cfg.wal_directory = wal_dir;
-        DistributedTransactionManager mgr("restart-coord", cfg);
-        txn_id = mgr.beginDistributed({makeParticipant("n1", &participant)});
-        ASSERT_TRUE(mgr.prepareDistributed(txn_id).ok);
+        themis::sharding::WALManagerConfig wal_cfg;
+        wal_cfg.wal_directory = wal_dir;
+        themis::sharding::WALManager wal(wal_cfg);
+
+        themis::sharding::WALEntry begin;
+        begin.type = themis::sharding::WALEntryType::BEGIN_TX;
+        begin.transaction_id = txn_id;
+        begin.data = {{"detail", "participants=1"}};
+        wal.append(begin);
+
+        themis::sharding::WALEntry prepare;
+        prepare.type = themis::sharding::WALEntryType::PREPARE_TX;
+        prepare.transaction_id = txn_id;
+        wal.append(prepare);
+        ASSERT_TRUE(wal.flush());
     }
 
     {
@@ -287,13 +297,83 @@ TEST(DistributedTransactionRecovery, MissingParticipantStateRemainsInDoubt) {
         cfg.wal_directory = wal_dir;
         DistributedTransactionManager restarted("restart-coord", cfg);
         EXPECT_EQ(restarted.recoverInDoubtTransactions(), 0u)
-            << "Recovery without participant identities must not claim resolution";
+            << "Legacy WAL without participant descriptors must not claim resolution";
 
         const auto in_doubt = restarted.getRecoverableTransactions();
         ASSERT_EQ(in_doubt.size(), 1u);
         EXPECT_EQ(in_doubt.front().transaction_id, txn_id);
         EXPECT_EQ(in_doubt.front().state, RecoverableTwoPhaseState::PREPARED);
         EXPECT_FALSE(in_doubt.front().decision_recorded);
+    }
+
+    removeTempWalDir(wal_dir);
+}
+
+TEST(DistributedTransactionRecovery, PersistedParticipantsAreRedrivenAfterRestart) {
+    const auto wal_dir = makeTempWalDir("participant_restart");
+    std::string txn_id;
+
+    {
+        DistributedTxnManagerConfig cfg;
+        cfg.wal_directory = wal_dir;
+        cfg.remote_phase1_dispatch =
+            [](const std::string&, const std::string&, const std::string&,
+               const std::set<std::string>&) { return true; };
+        cfg.remote_phase2_dispatch =
+            [](const std::string&, const std::string&, const std::string&, bool) {
+                return false;
+            };
+        DistributedTransactionManager mgr("restart-coord", cfg);
+        Participant participant;
+        participant.node_id = "remote-node";
+        participant.endpoint = "127.0.0.1:8123";
+        participant.affected_keys = {"record-1"};
+        txn_id = mgr.beginDistributed({participant});
+        ASSERT_TRUE(mgr.prepareDistributed(txn_id).ok);
+        EXPECT_FALSE(mgr.commitDistributed(txn_id).ok);
+    }
+
+    {
+        DistributedTxnManagerConfig cfg;
+        cfg.wal_directory = wal_dir;
+        DistributedTransactionManager restarted("restart-coord", cfg);
+        const auto report =
+            GlobalTwoPhaseCommitRecoveryManager::recoverAll({&restarted});
+        EXPECT_FALSE(report.ready_for_service);
+        EXPECT_EQ(report.in_doubt_after, 1u);
+        const auto unresolved = restarted.getRecoverableTransactions();
+        ASSERT_EQ(unresolved.size(), 1u);
+        EXPECT_EQ(unresolved.front().transaction_id, txn_id);
+    }
+
+    {
+        std::atomic<bool> saw_commit{false};
+        std::atomic<bool> saw_endpoint{false};
+        DistributedTxnManagerConfig cfg;
+        cfg.wal_directory = wal_dir;
+        cfg.remote_phase2_dispatch =
+            [&saw_commit, &saw_endpoint](
+                const std::string&, const std::string& node_id,
+                const std::string& endpoint, bool do_commit) {
+                saw_commit = do_commit && node_id == "remote-node";
+                saw_endpoint = endpoint == "127.0.0.1:8123";
+                return saw_commit && saw_endpoint;
+            };
+        cfg.recovery_endpoint_resolver =
+            [](const std::string& node_id) -> std::optional<std::string> {
+                if (node_id == "remote-node") {
+                    return "127.0.0.1:8123";
+                }
+                return std::nullopt;
+            };
+        DistributedTransactionManager restarted("restart-coord", cfg);
+        const auto report =
+            GlobalTwoPhaseCommitRecoveryManager::recoverAll({&restarted});
+        EXPECT_TRUE(report.ready_for_service);
+        EXPECT_EQ(report.in_doubt_after, 0u);
+        EXPECT_TRUE(saw_commit.load());
+        EXPECT_TRUE(saw_endpoint.load());
+        EXPECT_TRUE(restarted.getRecoverableTransactions().empty());
     }
 
     removeTempWalDir(wal_dir);

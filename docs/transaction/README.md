@@ -38,22 +38,30 @@ There are five current implementers in source (`TwoPhaseCommitCoordinator`,
 `GlobalTransactionManager`, and `DistributedTransactionManager`). They retain
 independent execution APIs and WAL formats. The contract does not make one
 implementation canonical, make another implementation's WAL replayable, or
-drive server readiness. `GlobalTwoPhaseCommitRecoveryManager` aggregates one
-recovery call per supplied coordinator; a non-zero `in_doubt_after` means the
-reported pass remains unresolved, not ready.
+drive server readiness by itself. `GlobalTwoPhaseCommitRecoveryManager` returns
+`ready_for_service=false` if any supplied coordinator is null or has unresolved
+transactions after recovery. Runtime startup/readiness code must withhold
+traffic unless that result is true; no current server startup path registers the
+distributed coordinators with this manager.
 
 The canonical runtime coordinator and a complete coordinator/participant/
 replication startup-readiness integration remain open under
 [DIS-05/DIS-06](../../audit/ROADMAP.md#ws2--distributed-consistency--ha).
-DTM WAL records do not currently persist enough participant/acknowledgement
-state to establish restart-time re-delivery and completion for every decision;
-startup reconciliation must therefore not infer readiness from an empty
-in-memory transaction snapshot alone.
+DTM WAL records now persist stable participant node IDs with BEGIN, PREPARE,
+decision, and completion records. Endpoints, callback pointers, and affected
+keys are deliberately excluded; recovery must resolve each node ID through
+`recovery_endpoint_resolver`. Missing or malformed descriptors, unresolved
+endpoints, failed delivery, and failed completion flushes leave the transaction
+in-doubt. Legacy records without participant IDs are not guessed or silently
+discarded.
 
 ## Evidence boundary
 
-The focused transaction tests use in-process callbacks and WAL files. They are
-unit-level behavior checks, not process-crash or multi-node evidence. A genuine
-multi-process crash/network-chaos suite (at least three nodes), including
-readiness blocking and independently inspected durable outcomes, remains a
-follow-up release gate; no such evidence is claimed here.
+The focused transaction tests include a subprocess coordinator killed with
+`SIGKILL` before PREPARE completion, after PREPARE, after durable decision,
+during Phase 2, and after the commit ACK boundary. Recovery independently reads
+the persisted participant WAL and checks the final decision. The participant
+WAL is driven by an injected test transport inside the coordinator child, so
+this is not evidence of participant- or replica-process crashes or a multi-node
+network-chaos run. The Wave B workflow uploads its output when executed; a
+successful CI run and artifact remain required release evidence.

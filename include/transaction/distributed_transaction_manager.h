@@ -221,6 +221,16 @@ struct DistributedTxnManagerConfig {
         bool do_commit
     )> remote_phase2_dispatch;
 
+    /**
+     * @brief Resolve a participant endpoint after restart from its persisted node ID.
+     * @param node_id Stable participant identity recorded in the coordinator WAL.
+     * @return Current endpoint, or std::nullopt when the participant is unavailable.
+     * @note Endpoints and affected keys are intentionally not persisted in the WAL.
+     *       If this callback is absent or returns no endpoint, recovery remains in-doubt.
+     */
+    std::function<std::optional<std::string>(const std::string& node_id)>
+        recovery_endpoint_resolver;
+
     // ── Performance / PERF-D4 ────────────────────────────────────────────────
 
     std::chrono::milliseconds prepare_batch_window{0};
@@ -280,9 +290,15 @@ public:
 
 
     /**
-     * @brief Begin Distributed.
-     * @param[in] participants Input parameter.
-     * @return Return value.
+     * @brief Register a distributed transaction and durably record its participant identities.
+     * @param participants Non-empty participant descriptors with stable node IDs.
+     * @return A unique coordinator transaction ID.
+     * @throws std::invalid_argument if participants are empty or remote transport is
+     *         misconfigured.
+     * @throws std::runtime_error if the active-transaction limit is reached or the
+     *         configured WAL cannot durably persist the BEGIN record.
+     * @note Callback pointers, endpoints, and affected keys are not persisted.
+     *       Recovery resolves endpoints from node IDs using the configured resolver.
      */
     TransactionId beginDistributed(const std::vector<Participant>& participants);
 
@@ -340,6 +356,14 @@ public:
 
     // ── Recovery ─────────────────────────────────────────────────────────────
 
+    /**
+     * @brief Re-drive unresolved transactions from the coordinator WAL.
+     * @return Number of transactions whose decision delivery and completion record
+     *         were both confirmed durable.
+     * @note Legacy or malformed WAL records without valid participant identities,
+     *       missing endpoint resolution, transport failures, and WAL failures stay
+     *       unresolved and must keep service readiness false.
+     */
     size_t recoverInDoubtTransactions() override;
 
     [[nodiscard]] std::string recoveryCoordinatorName() const override;
@@ -464,7 +488,8 @@ private:
     bool logToWAL(
         themis::sharding::WALEntryType type,
         const std::string&             txn_id,
-        const std::string&             data = ""
+        const std::string&             data = "",
+        const std::vector<Participant>* participants = nullptr
     );
 
     /**

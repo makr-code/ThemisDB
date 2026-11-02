@@ -146,6 +146,7 @@ struct GlobalTwoPhaseCommitRecoveryReport {
     size_t in_doubt_before   = 0; ///< Aggregate non-final count before recovery.
     size_t resolved          = 0; ///< Aggregate transactions resolved.
     size_t in_doubt_after    = 0; ///< Aggregate non-final count after recovery.
+    bool ready_for_service   = false; ///< False if any supplied coordinator is missing or unresolved work remains.
 
     /// Per-coordinator breakdown.
     std::vector<RecoverableTwoPhaseCoordinatorReport> coordinators;
@@ -158,12 +159,11 @@ struct GlobalTwoPhaseCommitRecoveryReport {
 /**
  * @brief Run one normalized recovery pass across multiple 2PC coordinators.
  *
- * This is a stateless header-only orchestrator.  Call recoverAll() once
- * after a coordinator restart to drive every registered coordinator through
- * its recovery sequence and obtain a unified report. The report is diagnostic:
- * a non-zero in_doubt_after means recovery is incomplete. This class does not
- * establish process readiness, cross-coordinator WAL compatibility, or
- * multi-process recovery guarantees.
+ * This is a stateless header-only orchestrator. Call recoverAll() once after
+ * coordinator restart to drive every registered coordinator through its
+ * recovery sequence and obtain a unified report. Callers must withhold service
+ * readiness unless ready_for_service is true. This class does not establish
+ * cross-coordinator WAL compatibility or multi-process recovery guarantees.
  *
  * Example:
  * @code
@@ -184,7 +184,9 @@ public:
      * Null pointers in the list are silently skipped.
      *
      * @param coordinators Recovery-capable coordinators to visit exactly once.
-     * @return             Aggregated before/after counts and per-coordinator results.
+     * @return             Aggregated counts and per-coordinator results.
+     *                      ready_for_service is false when a supplied coordinator
+     *                      is null or any non-final transaction remains.
      */
     [[nodiscard]] static GlobalTwoPhaseCommitRecoveryReport recoverAll(
         const std::vector<IRecoverableTwoPhaseCoordinator*>& coordinators
@@ -192,12 +194,13 @@ public:
         GlobalTwoPhaseCommitRecoveryReport report;
         report.coordinator_count = coordinators.size();
         report.coordinators.reserve(coordinators.size());
+        bool all_coordinators_present = true;
 
         for (auto* coordinator : coordinators) {
             if (!coordinator) {
+                all_coordinators_present = false;
                 continue;
             }
-
             RecoverableTwoPhaseCoordinatorReport coordinator_report;
             coordinator_report.coordinator_name = coordinator->recoveryCoordinatorName();
             coordinator_report.backend_name     = coordinator->recoveryBackendName();
@@ -216,6 +219,8 @@ public:
             report.coordinators.push_back(std::move(coordinator_report));
         }
 
+        report.ready_for_service =
+            all_coordinators_present && report.in_doubt_after == 0;
         return report;
     }
 };

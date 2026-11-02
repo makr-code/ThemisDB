@@ -80,6 +80,47 @@ struct TransactionStateSnapshot {
 // ============================================================================
 
 namespace {
+using ParticipantDescriptorJson = nlohmann::json;
+
+ParticipantDescriptorJson serializeParticipants(
+    const std::vector<Participant>& participants
+) {
+    auto descriptors = ParticipantDescriptorJson::array();
+    for (const auto& participant : participants) {
+        descriptors.push_back({
+            {"node_id", participant.node_id}
+        });
+    }
+    return descriptors;
+}
+
+std::optional<std::vector<Participant>> deserializeParticipants(
+    const ParticipantDescriptorJson& data
+) {
+    if (!data.is_object() || !data.contains("participants") ||
+        !data.at("participants").is_array()) {
+        return std::nullopt;
+    }
+
+    std::vector<Participant> participants;
+    for (const auto& descriptor : data.at("participants")) {
+        if (!descriptor.is_object() ||
+            !descriptor.contains("node_id") ||
+            !descriptor.at("node_id").is_string()) {
+            return std::nullopt;
+        }
+
+        Participant participant;
+        participant.node_id = descriptor.at("node_id").get<std::string>();
+        participants.push_back(std::move(participant));
+    }
+
+    if (participants.empty()) {
+        return std::nullopt;
+    }
+    return participants;
+}
+
 DistributedTransactionManager::RpcPhase2Fn makeDefaultRpcPhase2Fn() {
     return [](
                const std::string& node_id,
@@ -433,9 +474,6 @@ DistributedTransactionManager::beginDistributed(
     rec.created_at   = std::chrono::system_clock::now();
     rec.timeout      = rec.created_at + config_.default_txn_timeout;
 
-    logToWAL(themis::sharding::WALEntryType::BEGIN_TX, txn_id,
-             "participants=" + std::to_string(participants.size()));
-
     {
         /**
          * @brief Lock.
@@ -453,6 +491,21 @@ DistributedTransactionManager::beginDistributed(
         if (active_transactions >= config_.max_active_transactions) {
             throw std::runtime_error(
                 "DistributedTransactionManager::beginDistributed: max_active_transactions limit reached");
+        }
+
+        if (wal_) {
+            try {
+                if (!logToWAL(themis::sharding::WALEntryType::BEGIN_TX, txn_id,
+                              "participants=" + std::to_string(participants.size()),
+                              &participants) ||
+                    !wal_->flush()) {
+                    throw std::runtime_error("BEGIN record was not confirmed durable");
+                }
+            } catch (const std::exception& ex) {
+                throw std::runtime_error(
+                    "DistributedTransactionManager::beginDistributed: could not persist "
+                    "participant descriptors: " + std::string(ex.what()));
+            }
         }
 
         // Sprint 8 Phase 1 (GAP A-1): Transaction ID (txn_id) is captured BEFORE move.
@@ -554,7 +607,8 @@ DistributedTransactionManager::prepareDistributed(const TransactionId& txn_id) {
         txn->state = DistributedTxnState::PREPARED;
         if (wal_) {
             try {
-                if (!logToWAL(themis::sharding::WALEntryType::PREPARE_TX, txn_id) ||
+                if (!logToWAL(themis::sharding::WALEntryType::PREPARE_TX, txn_id,
+                              "participants_prepared", &txn->participants) ||
                     !wal_->flush()) {
                     txn->error_detail = "PREPARE state was not confirmed durable";
                     return DistributedTxnStatus::Error(txn->error_detail);
@@ -604,7 +658,8 @@ DistributedTransactionManager::commitDistributed(const TransactionId& txn_id) {
     bool decision_durable = false;
     try {
         decision_durable =
-            logToWAL(themis::sharding::WALEntryType::COMMIT_TX, txn_id) &&
+            logToWAL(themis::sharding::WALEntryType::COMMIT_TX, txn_id,
+                     "decision", &txn->participants) &&
             wal_->flush();
     } catch (const std::exception& ex) {
         THEMIS_ERROR("DistributedTransactionManager [{}] could not persist COMMIT "
@@ -650,7 +705,7 @@ DistributedTransactionManager::commitDistributed(const TransactionId& txn_id) {
     lock.unlock();
     try {
         if (!logToWAL(themis::sharding::WALEntryType::COMMIT_TX, txn_id,
-                      "phase2_complete") ||
+                      "phase2_complete", &parts) ||
             !wal_->flush()) {
             lock.lock();
             txn = findTransaction(txn_id);
@@ -717,7 +772,8 @@ void DistributedTransactionManager::abortDistributed(const TransactionId& txn_id
     // Record and confirm the decision before notifying participants. If
     // persistence is unavailable or ambiguous, preserve ABORTING as in-doubt.
     try {
-        if (!logToWAL(themis::sharding::WALEntryType::ABORT_TX, txn_id) ||
+        if (!logToWAL(themis::sharding::WALEntryType::ABORT_TX, txn_id,
+                      "decision", &txn->participants) ||
             !wal_->flush()) {
             THEMIS_ERROR("DistributedTransactionManager [{}] could not confirm durable "
                          "ABORT decision for txn={}; recovery required",
@@ -761,7 +817,7 @@ void DistributedTransactionManager::abortDistributed(const TransactionId& txn_id
     lock.unlock();
     try {
         if (!logToWAL(themis::sharding::WALEntryType::ABORT_TX, txn_id,
-                      "phase2_complete") ||
+                      "phase2_complete", &parts) ||
             !wal_->flush()) {
             lock.lock();
             txn = findTransaction(txn_id);
@@ -892,7 +948,8 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
                     decision_durable = recovered_commit
                         ? wal_->flush()
                         : (logToWAL(themis::sharding::WALEntryType::ABORT_TX,
-                                    item.txn_id, "recovery=true") &&
+                                    item.txn_id, "recovery=true",
+                                    &item.participants) &&
                            wal_->flush());
                 }
             } catch (const std::exception& ex) {
@@ -925,7 +982,9 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
                         ? themis::sharding::WALEntryType::COMMIT_TX
                         : themis::sharding::WALEntryType::ABORT_TX;
                     completion_durable =
-                        logToWAL(type, item.txn_id, "phase2_complete") && wal_->flush();
+                        logToWAL(type, item.txn_id, "phase2_complete",
+                                 &item.participants) &&
+                        wal_->flush();
                 } catch (const std::exception& ex) {
                     THEMIS_ERROR("DistributedTransactionManager [{}] recovery could not persist "
                                  "completion for txn={}: {}",
@@ -999,13 +1058,23 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
 
     // Build a map of txn_id → last WAL decision.
     std::map<std::string, themis::sharding::WALEntryType> last_decision;
-    std::map<std::string, size_t>                         participant_counts;
+    std::map<std::string, std::vector<Participant>>       participant_descriptors;
+    std::set<std::string>                                 invalid_participant_descriptors;
     std::set<std::string>                                 completed_txns;
 
     for (const auto& entry : entries) {
         const std::string& tid = entry.transaction_id;
         if (tid.empty()) {
           continue;
+        }
+
+        if (entry.data.is_object() && entry.data.contains("participants")) {
+            const auto participants = deserializeParticipants(entry.data);
+            if (participants) {
+                participant_descriptors[tid] = *participants;
+            } else {
+                invalid_participant_descriptors.insert(tid);
+            }
         }
 
         switch (entry.type) {
@@ -1109,20 +1178,41 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
         THEMIS_WARN("DistributedTransactionManager [{}] recovery: txn={} is in-doubt",
                     coordinator_id_, tid);
 
-        // Collect the in-memory participant list. The current WAL does not
-        // persist enough participant state to safely redrive a transaction
-        // after restart when this list is absent.
         std::vector<Participant> parts;
         {
             std::lock_guard<std::mutex> lock(mutex_);
             auto* txn = findTransaction(tid);
             if (txn) {
-                txn->state = DistributedTxnState::ABORTING;
                 parts      = txn->participants;
+            } else if (!invalid_participant_descriptors.contains(tid)) {
+                const auto descriptors = participant_descriptors.find(tid);
+                if (descriptors != participant_descriptors.end()) {
+                    DistributedTransaction unresolved;
+                    unresolved.txn_id = tid;
+                    unresolved.participants = descriptors->second;
+                    switch (type) {
+                    case themis::sharding::WALEntryType::COMMIT_TX:
+                        unresolved.state = DistributedTxnState::COMMITTING;
+                        unresolved.decision_durable = true;
+                        break;
+                    case themis::sharding::WALEntryType::ABORT_TX:
+                        unresolved.state = DistributedTxnState::ABORTING;
+                        unresolved.decision_durable = true;
+                        break;
+                    case themis::sharding::WALEntryType::PREPARE_TX:
+                        unresolved.state = DistributedTxnState::PREPARED;
+                        break;
+                    default:
+                        unresolved.state = DistributedTxnState::PREPARING;
+                        break;
+                    }
+                    parts = unresolved.participants;
+                    transactions_.emplace(tid, std::move(unresolved));
+                }
             }
         }
 
-        if (parts.empty()) {
+        if (parts.empty() || invalid_participant_descriptors.contains(tid)) {
             {
                 std::lock_guard<std::mutex> lock(mutex_);
                 if (!findTransaction(tid)) {
@@ -1145,22 +1235,38 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
                         break;
                     }
                     unresolved.error_detail =
-                        "Participant state unavailable after restart; transaction remains in doubt";
+                        invalid_participant_descriptors.contains(tid)
+                            ? "Participant descriptors are malformed; transaction remains in doubt"
+                            : "Participant state unavailable after restart; transaction remains in doubt";
                     transactions_.emplace(tid, std::move(unresolved));
+                } else {
+                    auto* unresolved = findTransaction(tid);
+                    unresolved->error_detail =
+                        invalid_participant_descriptors.contains(tid)
+                            ? "Participant descriptors are malformed; transaction remains in doubt"
+                            : "Participant state unavailable after restart; transaction remains in doubt";
                 }
             }
             THEMIS_ERROR("DistributedTransactionManager [{}] cannot resolve in-doubt "
-                         "txn={} because participant state is unavailable; leaving it unresolved",
+                         "txn={} because participant descriptors are unavailable or invalid; "
+                         "leaving it unresolved",
                          coordinator_id_, tid);
             continue;
         }
 
-        THEMIS_INFO("DistributedTransactionManager [{}] recovery: broadcasting ABORT for "
-                    "in-doubt txn={} to {} in-memory participants",
-                    coordinator_id_, tid, static_cast<int>(parts.size()));
+        const bool recovered_commit =
+            type == themis::sharding::WALEntryType::COMMIT_TX;
+        THEMIS_INFO("DistributedTransactionManager [{}] recovery: broadcasting {} for "
+                    "in-doubt txn={} to {} persisted participants",
+                    coordinator_id_, recovered_commit ? "COMMIT" : "ABORT",
+                    tid, static_cast<int>(parts.size()));
 
-        if (finalizeRecovery(PendingRecovery{tid, std::move(parts), DistributedTxnState::ABORTING},
-                             /*recovered_commit=*/false)) {
+        if (finalizeRecovery(PendingRecovery{
+                                 tid,
+                                 std::move(parts),
+                                 recovered_commit ? DistributedTxnState::COMMITTING
+                                                  : DistributedTxnState::ABORTING},
+                             recovered_commit)) {
             ++resolved;
         } else {
             std::lock_guard<std::mutex> lock(mutex_);
@@ -1497,7 +1603,8 @@ std::string DistributedTransactionManager::generateTransactionId() {
 bool DistributedTransactionManager::logToWAL(
     themis::sharding::WALEntryType type,
     const std::string&             txn_id,
-    const std::string&             data
+    const std::string&             data,
+    const std::vector<Participant>* participants
 ) {
     if (!wal_) {
       return false;
@@ -1511,8 +1618,14 @@ bool DistributedTransactionManager::logToWAL(
             std::chrono::system_clock::now().time_since_epoch()
         ).count()
     );
-    if (!data.empty()) {
-        entry.data = {{"detail", data}};
+    if (!data.empty() || participants != nullptr) {
+        entry.data = nlohmann::json::object();
+        if (!data.empty()) {
+            entry.data["detail"] = data;
+        }
+        if (participants != nullptr) {
+            entry.data["participants"] = serializeParticipants(*participants);
+        }
     }
 
     try {
@@ -1766,15 +1879,29 @@ bool DistributedTransactionManager::runPhase2Unlocked(
             // Remote participant: deliver Phase-2 decision via one of the configured
             // bridges (new Phase2RpcFn, legacy static RpcPhase2Fn, or
             // remote_phase2_dispatch).
-            const std::string ep  = part.endpoint;
+            std::string ep = part.endpoint;
             const std::string nid = part.node_id;
             const std::string tid = txn_id;
             const std::string cid = coordinator_id_;
             const bool        dc  = do_commit;
 
+            if (ep.empty() && config_.recovery_endpoint_resolver) {
+                try {
+                    const auto resolved_endpoint =
+                        config_.recovery_endpoint_resolver(nid);
+                    if (resolved_endpoint) {
+                        ep = *resolved_endpoint;
+                    }
+                } catch (const std::exception& ex) {
+                    THEMIS_ERROR("DistributedTransactionManager [{}] could not resolve endpoint "
+                                 "for participant node={}: {}",
+                                 coordinator_id_, nid, ex.what());
+                }
+            }
+
             if (ep.empty()) {
                 THEMIS_ERROR("DistributedTransactionManager [{}] cannot deliver Phase-2 {} for "
-                             "remote participant node={} — empty endpoint",
+                             "remote participant node={} — endpoint unavailable",
                              coordinator_id_, do_commit ? "COMMIT" : "ABORT", part.node_id);
                 all_delivered = false;
                 continue;

@@ -178,6 +178,7 @@ jobs:
             test_transaction_saga_compensation_phase2 \
             test_transaction_fault_injection_phase3 \
             test_transaction_wave_a_closure \
+            test_transaction_process_crash_recovery \
             --parallel ${{ github.event.inputs.parallel_jobs || 4 }} \
             2>&1 | tee compile-${{ matrix.phase }}.log
           
@@ -211,7 +212,7 @@ jobs:
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev \
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
-            libcpp-httplib-dev
+            libcpp-httplib-dev libyaml-cpp-dev
 
       - name: "Cache sccache"
         uses: actions/cache@v5
@@ -290,7 +291,7 @@ jobs:
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev \
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
-            libcpp-httplib-dev
+            libcpp-httplib-dev libyaml-cpp-dev
 
       - name: "Cache sccache"
         uses: actions/cache@v5
@@ -318,7 +319,7 @@ jobs:
           cd "$BUILD_DIR"
           
           ctest \
-            -R "test_transaction_" \
+            -R "test_transaction_|TransactionProcessCrashRecoveryTests" \
             -V --output-on-failure \
             -j 4 \
             2>&1 | tee full-test-results.xml
@@ -391,7 +392,7 @@ jobs:
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev \
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
-            libcpp-httplib-dev
+            libcpp-httplib-dev libyaml-cpp-dev
 
       - name: "Cache sccache"
         uses: actions/cache@v5
@@ -429,7 +430,7 @@ jobs:
 
           cd "$BUILD_DIR"
           ctest \
-            --tests-regex "TransactionDistributedPhase2Tests|TransactionSAGACompensationPhase2Tests|TransactionFaultInjectionPhase3Tests|TransactionWaveAClosureTests" \
+            --tests-regex "TransactionDistributedPhase2Tests|TransactionSAGACompensationPhase2Tests|TransactionFaultInjectionPhase3Tests|TransactionWaveAClosureTests|TransactionProcessCrashRecoveryTests" \
             -V --output-on-failure -j 2 \
             2>&1 | tee transaction-chaos-evidence/chaos-recovery-results.txt
 
