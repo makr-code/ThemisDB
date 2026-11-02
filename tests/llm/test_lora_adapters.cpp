@@ -663,23 +663,40 @@ TEST_F(LoRAAdapterTest, MultiAdapter_SimultaneousManagement) {
 }
 
 /**
- * Test adapter priority management
+ * Test pinning and unpinning behavior during slot-limit eviction
  * Acceptance Criteria:
- * - Adapters can have priorities
- * - Priority affects eviction decisions
- * - High priority adapters protected
+ * - Pinned adapters are protected from automatic LRU eviction
+ * - Unpinned adapters become eligible for later eviction
  */
-TEST_F(LoRAAdapterTest, MultiAdapter_PriorityManagement) {
 #ifdef THEMIS_ENABLE_LLM
-    // Would test priority-based management
-    // Load adapters with different priorities
-    // Verify behavior during resource pressure
-    
-    GTEST_SKIP() << "Requires actual LoRA manager implementation";
-#else
-    GTEST_SKIP() << "LLM support not enabled";
-#endif
+TEST_F(LoRAAdapterTest, MultiAdapter_PinAndUnpinEvictionProtection) {
+    const auto pinned_path = createMockAdapter("pin_protected");
+    const auto first_eviction_path = createMockAdapter("first_eviction");
+    const auto second_eviction_path = createMockAdapter("second_eviction");
+    const auto manager = createManager(2);
+
+    ASSERT_TRUE(manager->loadLoRA(
+        "pin_protected", pinned_path, "base_model", 1.0f));
+    manager->pinLoRA("pin_protected");
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    ASSERT_TRUE(manager->loadLoRA(
+        "first_eviction", first_eviction_path, "base_model", 1.0f));
+
+    ASSERT_TRUE(manager->loadLoRA(
+        "second_eviction", second_eviction_path, "base_model", 1.0f));
+    EXPECT_TRUE(manager->isLoRALoaded("pin_protected"));
+    EXPECT_FALSE(manager->isLoRALoaded("first_eviction"));
+    EXPECT_TRUE(manager->isLoRALoaded("second_eviction"));
+
+    manager->unpinLoRA("pin_protected");
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    ASSERT_TRUE(manager->loadLoRA(
+        "first_eviction", first_eviction_path, "base_model", 1.0f));
+    EXPECT_FALSE(manager->isLoRALoaded("pin_protected"));
+    EXPECT_TRUE(manager->isLoRALoaded("first_eviction"));
+    EXPECT_EQ(manager->listLoRAs().size(), 2u);
 }
+#endif
 
 /**
  * Test least-recently-used eviction at the configured slot limit
