@@ -15,6 +15,7 @@
     "gtest",
     "benchmark",
     "cpp-httplib",
+    "boost",
     "simdjson",
     "tl-expected",
     "msgpack",

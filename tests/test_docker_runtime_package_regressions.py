@@ -109,6 +109,17 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
                 self.assertIn(f"lib{library}-dev", deps_packages)
                 self.assertNotIn(library, vcpkg_dependencies)
 
+    def test_community_manifest_includes_boost_required_by_cmake(self) -> None:
+        manifest = json.loads(
+            (REPO_ROOT / "docker" / "vcpkg-community.json").read_text(encoding="utf-8")
+        )
+        vcpkg_dependencies = {
+            dependency if isinstance(dependency, str) else dependency["name"]
+            for dependency in manifest["dependencies"]
+        }
+
+        self.assertIn("boost", vcpkg_dependencies)
+
     @unittest.skipUnless(Path("/bin/sh").is_file(), "Requires the Docker build's POSIX shell")
     def test_community_dependency_guard_rejects_mixed_logging_providers(self) -> None:
         deps_stage = extract_stage(self._dockerfile_text(), "deps", base_image="base")
