@@ -303,6 +303,19 @@ jobs:
               if not entry.get("enabled"):
                   continue
               lane_os = "linux" if entry["id"].startswith("linux") else ("windows" if entry["id"].startswith("windows") else "macos")
+              if lane_os == "macos":
+                  # Xcode 15.4's libc++ lacks jthread/stop_token; use LLVM's matching headers and runtime.
+                  entry["compiler"] = "homebrew-llvm"
+                  entry["setup_command"] += (
+                      '\nbrew install llvm\n'
+                      'LLVM_PREFIX="$(brew --prefix llvm)"\n'
+                      '{\n'
+                      '  echo "CC=${LLVM_PREFIX}/bin/clang"\n'
+                      '  echo "CXX=${LLVM_PREFIX}/bin/clang++"\n'
+                      '  echo "CXXFLAGS=-nostdinc++ -isystem ${LLVM_PREFIX}/include/c++/v1"\n'
+                      '  echo "LDFLAGS=-L${LLVM_PREFIX}/lib/c++ -Wl,-rpath,${LLVM_PREFIX}/lib/c++"\n'
+                      '} >> "$GITHUB_ENV"\n'
+                  )
               entry["setup_command"] += (
                   '\nMODEL_DIR="${GITHUB_WORKSPACE}/models" OUTPUT_NAME=tinyllama.gguf '
                   'bash scripts/download-tinyllama-hf.sh'
