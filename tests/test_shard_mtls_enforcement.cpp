@@ -222,6 +222,7 @@ TEST(ShardMtlsEnforcement, ProductionMode_RejectsInProcessClientTransport) {
 
     ShardRPCClient::Config cfg;
     cfg.endpoint = "inproc://shard-a";
+    cfg.allow_insecure = true;
 
     EXPECT_THROW(
         {
