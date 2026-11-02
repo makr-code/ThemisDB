@@ -30,8 +30,8 @@
 #include <algorithm>
 #include <cctype>
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 namespace themis {

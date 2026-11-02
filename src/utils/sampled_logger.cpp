@@ -79,7 +79,7 @@ bool SampledLogger::should_log(Logger::Level level, const char* file, int line) 
         case Logger::Level::DEBUG:    rate = cfg_.debug_sample_rate; break;
         case Logger::Level::INFO:     rate = cfg_.info_sample_rate;  break;
         case Logger::Level::WARN:     rate = cfg_.warn_sample_rate;  break;
-        case Logger::Level::ERROR:    rate = cfg_.error_sample_rate; break;
+        case Logger::Level::FAILURE:    rate = cfg_.error_sample_rate; break;
         case Logger::Level::CRITICAL: rate = 1.0;                   break;
     }
 
@@ -133,7 +133,7 @@ void SampledLogger::log(Logger::Level level, const std::string& msg,
         case Logger::Level::DEBUG:    Logger::debug("{}", msg);    break;
         case Logger::Level::INFO:     Logger::info("{}", msg);     break;
         case Logger::Level::WARN:     Logger::warn("{}", msg);     break;
-        case Logger::Level::ERROR:    Logger::error("{}", msg);    break;
+        case Logger::Level::FAILURE:    Logger::error("{}", msg);    break;
         case Logger::Level::CRITICAL: Logger::critical("{}", msg); break;
     }
 }

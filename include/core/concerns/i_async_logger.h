@@ -86,7 +86,7 @@ public:
      * @details Calls: logAsync().
      */
     virtual std::future<void> errorAsync(std::string_view message) {
-        return logAsync(Level::ERROR, message);
+        return logAsync(Level::FAILURE, message);
     }
 
     /**

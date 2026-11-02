@@ -12,13 +12,13 @@
  * ```
  * [CREATE] → [CONNECTED] → [STREAMING] → [CLOSED]
  *               ↓             ↓
- *           [ERROR] ←────────┘
+ *           [FAILURE] ←────────┘
  * ```
  *
  * - **CONNECTED**: Session created, ready to receive audio
  * - **STREAMING**: Audio frames flowing, STT active
  * - **CLOSED**: Session terminated gracefully
- * - **ERROR**: Unrecoverable error (see error codes)
+ * - **FAILURE**: Unrecoverable error (see error codes)
  *
  * ## Streaming Contract (Frozen)
  *

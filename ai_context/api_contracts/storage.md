@@ -59,6 +59,14 @@ weaken the C++ contract.
   replay, checkpoint, and flush API. `Config::fsync_on_write` defaults to
   `true` but is configurable. Its existence does not establish that every
   `StorageEngine` write passes through this WAL.
+  In the implementation, `flush()` succeeds when there is no active file
+  descriptor or `fsync` succeeds. If `fsync` fails, it returns
+  `ERR_STORAGE_DISK_FULL`; when that failed call has elapsed more than the
+  existing 30-second threshold, the error message specifically says durability
+  was not confirmed. The elapsed threshold is checked after `fsync` returns; it
+  does not establish that a hung call is interrupted at 30 seconds. This is
+  implementation behavior from
+  [`wal_storage.cpp`](../../src/storage/wal_storage.cpp), not new test evidence.
 - [`MVCCStore`](../../include/storage/mvcc_store.h) is a separate
   HLC-versioned store backed by a supplied, already-open `RocksDBWrapper`. It
   exposes version writes and timestamp-relative reads; this surface is not

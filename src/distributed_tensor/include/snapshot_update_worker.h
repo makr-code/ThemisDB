@@ -67,7 +67,7 @@ enum class UpdateWorkerState : uint8_t {
 
   PROCESSING = 2,
 
-  ERROR = 3,
+  FAILURE = 3,
 
   SHUTTING_DOWN = 4,
 };

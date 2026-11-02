@@ -10440,91 +10440,45 @@ else()
     message(STATUS "Plugin Health Monitor focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_health_monitor.cpp")
 endif()
 
-set(_themis_test_plugin_hot_plug_src "")
-if(EXISTS "${THEMIS_ROOT_DIR}/tests/plugins/test_plugin_hot_plug.cpp")
-    set(_themis_test_plugin_hot_plug_src "${THEMIS_ROOT_DIR}/tests/plugins/test_plugin_hot_plug.cpp")
-elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugins/test_plugin_hot_plug.cpp")
-    set(_themis_test_plugin_hot_plug_src plugins/test_plugin_hot_plug.cpp)
-elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_hot_plug.cpp")
-    set(_themis_test_plugin_hot_plug_src plugin/test_plugin_hot_plug.cpp)
-endif()
+macro(add_plugin_module_focused_test target src test_name labels timeout description)
+    get_filename_component(_plugin_test_stem "${src}" NAME_WE)
+    set(_plugin_module_target "module_plugins_${_plugin_test_stem}_focused")
+    if(NOT TARGET ${_plugin_module_target})
+        message(FATAL_ERROR
+            "Required plugin module target is missing: ${_plugin_module_target} "
+            "(source: tests/plugins/${src})"
+        )
+    endif()
+    if(TARGET ${target})
+        message(FATAL_ERROR "Legacy plugin target already exists: ${target}")
+    endif()
 
-if(_themis_test_plugin_hot_plug_src)
-    message(STATUS "Adding Plugin Hot-Plug Monitor focused tests")
-
-    add_executable(test_plugin_hot_plug_focused
-        ${_themis_test_plugin_hot_plug_src}
+    add_custom_target(${target} DEPENDS ${_plugin_module_target})
+    add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${_plugin_module_target}>)
+    set_tests_properties(${test_name} PROPERTIES
+        LABELS "${labels}"
+        TIMEOUT ${timeout}
     )
+    message(STATUS "  ${description}")
+endmacro()
 
-    target_include_directories(test_plugin_hot_plug_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
+add_plugin_module_focused_test(
+    test_plugin_hot_plug_focused
+    test_plugin_hot_plug.cpp
+    PluginHotPlugFocusedTests
+    "plugins;hot-plug;directory-watcher;reload;focused;unit"
+    60
+    "PluginHotPlug: directory watcher, new/updated plugin detection, reload trigger"
+)
 
-    target_link_libraries(test_plugin_hot_plug_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        Threads::Threads
-        ${CMAKE_DL_LIBS}
-    )
-
-    target_compile_definitions(test_plugin_hot_plug_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME PluginHotPlugFocusedTests COMMAND $<TARGET_FILE:test_plugin_hot_plug_focused>)
-
-    set_tests_properties(PluginHotPlugFocusedTests PROPERTIES
-        LABELS "plugins;hot-plug;directory-watcher;reload;focused;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  PluginHotPlug: directory watcher, new/updated plugin detection, reload trigger")
-else()
-    message(STATUS "Plugin Hot-Plug focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/plugins/test_plugin_hot_plug.cpp or ${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_hot_plug.cpp")
-endif()
-
-set(_themis_test_plugin_hot_reload_enhanced_src "")
-if(EXISTS "${THEMIS_ROOT_DIR}/tests/plugins/test_plugin_hot_reload_enhanced.cpp")
-    set(_themis_test_plugin_hot_reload_enhanced_src "${THEMIS_ROOT_DIR}/tests/plugins/test_plugin_hot_reload_enhanced.cpp")
-elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugins/test_plugin_hot_reload_enhanced.cpp")
-    set(_themis_test_plugin_hot_reload_enhanced_src plugins/test_plugin_hot_reload_enhanced.cpp)
-elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_hot_reload_enhanced.cpp")
-    set(_themis_test_plugin_hot_reload_enhanced_src plugin/test_plugin_hot_reload_enhanced.cpp)
-endif()
-
-if(_themis_test_plugin_hot_reload_enhanced_src)
-    message(STATUS "Adding Plugin Hot-Reload Enhanced focused tests")
-
-    add_executable(test_plugin_hot_reload_enhanced_focused
-        ${_themis_test_plugin_hot_reload_enhanced_src}
-    )
-
-    target_include_directories(test_plugin_hot_reload_enhanced_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_plugin_hot_reload_enhanced_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        Threads::Threads
-        ${CMAKE_DL_LIBS}
-    )
-
-    target_compile_definitions(test_plugin_hot_reload_enhanced_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME PluginHotReloadEnhancedFocusedTests COMMAND $<TARGET_FILE:test_plugin_hot_reload_enhanced_focused>)
-
-    set_tests_properties(PluginHotReloadEnhancedFocusedTests PROPERTIES
-        LABELS "plugins;hot-reload;toctou;state-preserve;rollback;focused;unit"
-        TIMEOUT 90
-    )
-
-    message(STATUS "  PluginHotReloadEnhanced: TOCTOU-safe 3-phase reload, state preservation, atomic swap, rollback")
-else()
-    message(STATUS "Plugin Hot-Reload Enhanced focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/plugins/test_plugin_hot_reload_enhanced.cpp or ${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_hot_reload_enhanced.cpp")
-endif()
+add_plugin_module_focused_test(
+    test_plugin_hot_reload_enhanced_focused
+    test_plugin_hot_reload_enhanced.cpp
+    PluginHotReloadEnhancedFocusedTests
+    "plugins;hot-reload;toctou;state-preserve;rollback;focused;unit"
+    90
+    "PluginHotReloadEnhanced: TOCTOU-safe 3-phase reload, state preservation, atomic swap, rollback"
+)
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_dependency_graph.cpp")
     message(STATUS "Adding Plugin Dependency Graph focused tests")
@@ -11742,48 +11696,55 @@ endif() # THEMIS_ENABLE_CONTENT
 # THEMIS_ENABLE_HTTP_SERVER is ON; add it explicitly when HTTP_SERVER is OFF)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_admin.cpp")
-    message(STATUS "Adding CDC Admin tests (Issue #1623, standalone binary)")
-
-    add_executable(test_cdc_admin
-        cdc/test_cdc_admin.cpp
-    )
-
-    # cdc_admin.cpp is compiled into themis_core only when THEMIS_ENABLE_HTTP_SERVER=ON.
-    # When HTTP_SERVER is OFF, add it as a direct source to avoid missing-symbol errors.
-    if(NOT THEMIS_ENABLE_HTTP_SERVER)
-        target_sources(test_cdc_admin PRIVATE
-            ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
-        )
+macro(add_cdc_focused_test target src test_name labels timeout description)
+    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${src}")
+        message(FATAL_ERROR "Required CDC focused test source is missing: ${CMAKE_CURRENT_SOURCE_DIR}/${src}")
     endif()
 
-    target_include_directories(test_cdc_admin PRIVATE
-        ${THEMIS_ROOT_DIR}/include
+    get_filename_component(_cdc_test_stem "${src}" NAME_WE)
+    set(_cdc_module_target "module_cdc_${_cdc_test_stem}_focused")
+    if(TARGET ${_cdc_module_target})
+        if(TARGET ${target})
+            message(FATAL_ERROR "Legacy CDC target already exists: ${target}")
+        endif()
+        add_custom_target(${target}
+            DEPENDS ${_cdc_module_target}
+        )
+        set(_cdc_test_target "${_cdc_module_target}")
+    else()
+        add_executable(${target} "${src}")
+        target_include_directories(${target} PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(${target} PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            nlohmann_json::nlohmann_json
+            ${ARGN}
+            Threads::Threads
+        )
+        target_compile_definitions(${target} PRIVATE THEMIS_TEST_BUILD=1)
+        set(_cdc_test_target "${target}")
+    endif()
+
+    add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${_cdc_test_target}>)
+    set_tests_properties(${test_name} PROPERTIES
+        LABELS "${labels}"
+        TIMEOUT ${timeout}
     )
+    message(STATUS "  ${description}")
+endmacro()
 
-    target_link_libraries(test_cdc_admin PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_admin PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CDCAdminFocusedTests COMMAND $<TARGET_FILE:test_cdc_admin>)
-
-    set_tests_properties(CDCAdminFocusedTests PROPERTIES
-        LABELS "cdc;admin;retention;compaction;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  CDCAdmin: CDCAdmin, purgeOlderThan, compactLog, retentionPolicy, subscriptionManagement")
-else()
-    message(STATUS "CDC Admin tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_admin.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_admin
+    cdc/test_cdc_admin.cpp
+    CDCAdminFocusedTests
+    "cdc;admin;retention;compaction;unit"
+    120
+    "CDCAdmin: CDCAdmin, purgeOlderThan, compactLog, retentionPolicy, subscriptionManagement"
+    nlohmann_json::nlohmann_json
+    RocksDB::rocksdb
+)
 
 # ============================================================================
 # Tenant Buffer Manager Tests (standalone - changefeed_buffer.cpp and
@@ -11830,48 +11791,16 @@ endif()
 # policies, background cleanup thread lifecycle, and RetentionStatus reporting)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_retention.cpp")
-    message(STATUS "Adding CDC Retention focused tests (runtime TTL + size-based retention)")
-
-    add_executable(test_cdc_retention
-        cdc/test_cdc_retention.cpp
-    )
-
-    # cdc_admin.cpp is compiled into themis_core only when THEMIS_ENABLE_HTTP_SERVER=ON.
-    # When HTTP_SERVER is OFF, add it as a direct source to avoid missing-symbol errors.
-    if(NOT THEMIS_ENABLE_HTTP_SERVER)
-        target_sources(test_cdc_retention PRIVATE
-            ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
-        )
-    endif()
-
-    target_include_directories(test_cdc_retention PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_retention PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_retention PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CDCRetentionFocusedTests COMMAND $<TARGET_FILE:test_cdc_retention>)
-
-    set_tests_properties(CDCRetentionFocusedTests PROPERTIES
-        LABELS "cdc;retention;ttl;background-thread;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  CDCRetention: runtime policy updates, background thread lifecycle, TTL/size/count enforcement, RetentionStatus")
-else()
-    message(STATUS "CDC Retention tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_retention.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_retention
+    cdc/test_cdc_retention.cpp
+    CDCRetentionFocusedTests
+    "cdc;retention;ttl;background-thread;unit"
+    120
+    "CDCRetention: runtime policy updates, background thread lifecycle, TTL/size/count enforcement, RetentionStatus"
+    nlohmann_json::nlohmann_json
+    RocksDB::rocksdb
+)
 
 # ============================================================================
 # CDC Changefeed Sequence Counter Tests (v1.8.0 - roadmap #160)
@@ -11879,85 +11808,31 @@ endif()
 # no-duplicate sequences under 8 threads, ~200K seq/s throughput.
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_changefeed_sequence_counter.cpp")
-    message(STATUS "Adding CDC Changefeed Sequence Counter focused tests (v1.8.0 roadmap:160)")
-
-    add_executable(test_cdc_changefeed_sequence_counter
-        cdc/test_cdc_changefeed_sequence_counter.cpp
-    )
-
-    target_include_directories(test_cdc_changefeed_sequence_counter PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_changefeed_sequence_counter PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_changefeed_sequence_counter PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    if(WIN32)
-        themis_sync_runtime_dlls_for_target(test_cdc_changefeed_sequence_counter)
-    endif()
-
-    add_test(NAME CDCChangefeedSequenceCounterTests
-             COMMAND $<TARGET_FILE:test_cdc_changefeed_sequence_counter>)
-
-    set_tests_properties(CDCChangefeedSequenceCounterTests PROPERTIES
-        LABELS "cdc;sequence;merge-operator;lock-free;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  CDCSequenceCounter: SequenceIncrementOperator, atomic counter, crash recovery, concurrent uniqueness, >=200K/s throughput")
-else()
-    message(STATUS "CDC Sequence Counter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_changefeed_sequence_counter.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_changefeed_sequence_counter
+    cdc/test_cdc_changefeed_sequence_counter.cpp
+    CDCChangefeedSequenceCounterTests
+    "cdc;sequence;merge-operator;lock-free;unit"
+    120
+    "CDCSequenceCounter: SequenceIncrementOperator, atomic counter, crash recovery, concurrent uniqueness, >=200K/s throughput"
+    nlohmann_json::nlohmann_json
+    RocksDB::rocksdb
+)
 
 # ============================================================================
 # ChangefeedCore Focused Tests (v1.8.0) - validates Changefeed subscriptions,
 # listEvents() upper-bound (to_sequence), JSON round-trips, watermarks, and
 # concurrent subscribe/record safety.
 # ============================================================================
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_changefeed_core.cpp")
-    message(STATUS "Adding ChangefeedCore focused tests (Issue #9, v1.8.0 stampede fix)")
-
-    add_executable(test_cdc_changefeed_core_focused
-        cdc/test_cdc_changefeed_core.cpp
-    )
-
-    target_include_directories(test_cdc_changefeed_core_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_changefeed_core_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_changefeed_core_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME ChangefeedCoreFocusedTests COMMAND $<TARGET_FILE:test_cdc_changefeed_core_focused>)
-
-    set_tests_properties(ChangefeedCoreFocusedTests PROPERTIES
-        LABELS "cdc;changefeed;to-sequence;upper-bound;stampede;v1.8.0;focused;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  ChangefeedCore: subscriptions, to_sequence upper-bound, JSON roundtrip, watermarks, concurrent safety")
-else()
-    message(STATUS "ChangefeedCore focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_changefeed_core.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_changefeed_core_focused
+    cdc/test_cdc_changefeed_core.cpp
+    ChangefeedCoreFocusedTests
+    "cdc;changefeed;to-sequence;upper-bound;stampede;v1.8.0;focused;unit"
+    120
+    "ChangefeedCore: subscriptions, to_sequence upper-bound, JSON roundtrip, watermarks, concurrent safety"
+    RocksDB::rocksdb
+)
 
 # ============================================================================
 # DiffEngine Focused Tests (v1.8.0) - validates cache-stampede prevention,
@@ -12006,100 +11881,32 @@ endif()
 # back-pressure metric cdc_ws_overflow_total, and pollEvents delivery)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_ws_handler.cpp")
-    message(STATUS "Adding CDC WebSocket handler focused tests (v1.7.0 roadmap:55)")
-
-    add_executable(test_cdc_ws_handler
-        cdc/test_cdc_ws_handler.cpp
-    )
-
-    # cdc_ws_handler.cpp and ws_transport.cpp are compiled into themis_core only
-    # when THEMIS_ENABLE_HTTP_SERVER=ON.  Add them explicitly to this test
-    # target when HTTP_SERVER is OFF to avoid missing-symbol linker errors.
-    # consumer_group.cpp is also needed for the v1.8.0 group-protocol tests.
-    if(NOT THEMIS_ENABLE_HTTP_SERVER)
-        target_sources(test_cdc_ws_handler PRIVATE
-            ${THEMIS_ROOT_DIR}/src/cdc/cdc_ws_handler.cpp
-            ${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp
-            ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
-        )
-    endif()
-
-    target_include_directories(test_cdc_ws_handler PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_ws_handler PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_ws_handler PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CdcWsHandlerFocusedTests COMMAND $<TARGET_FILE:test_cdc_ws_handler>)
-
-    set_tests_properties(CdcWsHandlerFocusedTests PROPERTIES
-        LABELS "cdc;websocket;streaming;subscription;backpressure;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  CdcWsHandler: subscribe/unsubscribe/ack frames, back-pressure (cdc_ws_overflow_total), pollEvents, checkRedelivery")
-else()
-    message(STATUS "CDC WebSocket handler tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_ws_handler.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_ws_handler
+    cdc/test_cdc_ws_handler.cpp
+    CdcWsHandlerFocusedTests
+    "cdc;websocket;streaming;subscription;backpressure;unit"
+    120
+    "CdcWsHandler: subscribe/unsubscribe/ack frames, back-pressure (cdc_ws_overflow_total), pollEvents, checkRedelivery"
+    nlohmann_json::nlohmann_json
+    RocksDB::rocksdb
+)
 
 # ============================================================================
 # CDC Consumer Group Focused Tests (v1.8.0 - consumer group semantics and
 # durable offset tracking via ConsumerGroupManager)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_consumer_group.cpp")
-    message(STATUS "Adding CDC Consumer Group focused tests (v1.8.0 roadmap:56)")
-
-    add_executable(test_cdc_consumer_group
-        cdc/test_cdc_consumer_group.cpp
-    )
-
-    # consumer_group.cpp is compiled into themis_core. When HTTP_SERVER is OFF
-    # it may not be linked; add it explicitly to avoid missing-symbol errors.
-    if(NOT THEMIS_ENABLE_HTTP_SERVER)
-        target_sources(test_cdc_consumer_group PRIVATE
-            ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
-        )
-    endif()
-
-    target_include_directories(test_cdc_consumer_group PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_consumer_group PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_consumer_group PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME ConsumerGroupFocusedTests COMMAND $<TARGET_FILE:test_cdc_consumer_group>)
-
-    set_tests_properties(ConsumerGroupFocusedTests PROPERTIES
-        LABELS "cdc;consumer-group;offset-tracking;partition;at-least-once;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  ConsumerGroup: createGroup/deleteGroup, commitOffset/getCommittedOffset, partitionForKey, fetchEvents, fetchEventsAtLeastOnce, acknowledgeEvents")
-else()
-    message(STATUS "CDC Consumer Group tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_consumer_group.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_consumer_group
+    cdc/test_cdc_consumer_group.cpp
+    ConsumerGroupFocusedTests
+    "cdc;consumer-group;offset-tracking;partition;at-least-once;unit"
+    120
+    "ConsumerGroup: createGroup/deleteGroup, commitOffset/getCommittedOffset, partitionForKey, fetchEvents, fetchEventsAtLeastOnce, acknowledgeEvents"
+    nlohmann_json::nlohmann_json
+    RocksDB::rocksdb
+)
 
 # ============================================================================
 # CDC Kafka Producer Focused Tests (v1.9.0 - KafkaCDCProducer / ICDCTransport;
@@ -12107,217 +11914,74 @@ endif()
 # Prometheus counter fields, Debezium format integration)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_kafka_producer.cpp")
-    message(STATUS "Adding CDC Kafka Producer focused tests (v1.9.0 roadmap:161)")
-
-    add_executable(test_cdc_kafka_producer
-        cdc/test_cdc_kafka_producer.cpp
-    )
-
-    # kafka_cdc_producer.cpp is compiled conditionally when THEMIS_ENABLE_KAFKA=ON.
-    # Add it explicitly here so the full implementation is exercised when the
-    # library is available; when OFF the no-op stub (inline in the header) is used.
-    if(THEMIS_ENABLE_KAFKA)
-        target_sources(test_cdc_kafka_producer PRIVATE
-            ${THEMIS_ROOT_DIR}/src/cdc/kafka_cdc_producer.cpp
-        )
-    endif()
-
-    target_include_directories(test_cdc_kafka_producer PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_kafka_producer PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    if(THEMIS_ENABLE_KAFKA AND TARGET RdKafka::rdkafka++)
-        target_link_libraries(test_cdc_kafka_producer PRIVATE
-            RdKafka::rdkafka
-            RdKafka::rdkafka++
-        )
-        target_compile_definitions(test_cdc_kafka_producer PRIVATE
-            THEMIS_ENABLE_KAFKA=1
-        )
-    endif()
-
-    target_compile_definitions(test_cdc_kafka_producer PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CDCKafkaProducerFocusedTests COMMAND $<TARGET_FILE:test_cdc_kafka_producer>)
-
-    set_tests_properties(CDCKafkaProducerFocusedTests PROPERTIES
-        LABELS "cdc;kafka;producer;transport;metrics;debezium;v1.9.0;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  CDCKafkaProducer: config defaults, no-op stub, ICDCTransport compliance, Prometheus counters (cdc_kafka_delivered_total/cdc_kafka_error_total), Debezium format")
-else()
-    message(STATUS "CDC Kafka Producer tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_kafka_producer.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_kafka_producer
+    cdc/test_cdc_kafka_producer.cpp
+    CDCKafkaProducerFocusedTests
+    "cdc;kafka;producer;transport;metrics;debezium;v1.9.0;unit"
+    60
+    "CDCKafkaProducer: config defaults, no-op stub, ICDCTransport compliance, Prometheus counters (cdc_kafka_delivered_total/cdc_kafka_error_total), Debezium format"
+    nlohmann_json::nlohmann_json
+    RocksDB::rocksdb
+)
 
 # ============================================================================
 # CDC Pause/Resume Control Focused Tests (v1.8.0 - ICDCPauseControl /
 # InMemoryPauseControl; header-only, no RocksDB dependency)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_pause_control.cpp")
-    message(STATUS "Adding CDC Pause Control focused tests")
-
-    add_executable(test_cdc_pause_control
-        cdc/test_cdc_pause_control.cpp
-    )
-
-    target_include_directories(test_cdc_pause_control PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_pause_control PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_pause_control PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CDCPauseControlFocusedTests COMMAND $<TARGET_FILE:test_cdc_pause_control>)
-
-    set_tests_properties(CDCPauseControlFocusedTests PROPERTIES
-        LABELS "cdc;pause-control;backpressure;schema-evolution;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  CDCPauseControl: pause/resume transitions, PauseReason, bufferEvent/drainBuffer, overflow, waitForResume, thread-safety")
-else()
-    message(STATUS "CDC Pause Control tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_pause_control.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_pause_control
+    cdc/test_cdc_pause_control.cpp
+    CDCPauseControlFocusedTests
+    "cdc;pause-control;backpressure;schema-evolution;unit"
+    60
+    "CDCPauseControl: pause/resume transitions, PauseReason, bufferEvent/drainBuffer, overflow, waitForResume, thread-safety"
+    RocksDB::rocksdb
+)
 
 # ============================================================================
 # CDC Backpressure Signal Focused Tests (v1.8.0 - ICDCBackpressureSignal /
 # InMemoryBackpressureSignal; header-only, no RocksDB dependency)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_backpressure_signal.cpp")
-    message(STATUS "Adding CDC Backpressure Signal focused tests")
-
-    add_executable(test_cdc_backpressure_signal
-        cdc/test_cdc_backpressure_signal.cpp
-    )
-
-    target_include_directories(test_cdc_backpressure_signal PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_backpressure_signal PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_backpressure_signal PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CDCBackpressureSignalFocusedTests COMMAND $<TARGET_FILE:test_cdc_backpressure_signal>)
-
-    set_tests_properties(CDCBackpressureSignalFocusedTests PROPERTIES
-        LABELS "cdc;backpressure;flow-control;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  CDCBackpressureSignal: signal/clear/currentLevel, level-change callback, setCallback, thread-safety")
-else()
-    message(STATUS "CDC Backpressure Signal tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_backpressure_signal.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_backpressure_signal
+    cdc/test_cdc_backpressure_signal.cpp
+    CDCBackpressureSignalFocusedTests
+    "cdc;backpressure;flow-control;unit"
+    60
+    "CDCBackpressureSignal: signal/clear/currentLevel, level-change callback, setCallback, thread-safety"
+)
 
 # ============================================================================
 # CDC Fan-In Focused Tests (v1.8.0 - ICDCFanIn / InMemoryFanIn;
 # requires RocksDB for Changefeed instances)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_fan_in.cpp")
-    message(STATUS "Adding CDC Fan-In focused tests")
-
-    add_executable(test_cdc_fan_in
-        cdc/test_cdc_fan_in.cpp
-    )
-
-    target_include_directories(test_cdc_fan_in PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_fan_in PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_fan_in PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CDCFanInFocusedTests COMMAND $<TARGET_FILE:test_cdc_fan_in>)
-
-    set_tests_properties(CDCFanInFocusedTests PROPERTIES
-        LABELS "cdc;fan-in;multi-source;merge-policy;ordering;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  CDCFanIn: addSource/removeSource/sourceIds, listEvents merge, cursor, limit, collection filter, custom merge policy, thread-safety")
-else()
-    message(STATUS "CDC Fan-In tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_fan_in.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_fan_in
+    cdc/test_cdc_fan_in.cpp
+    CDCFanInFocusedTests
+    "cdc;fan-in;multi-source;merge-policy;ordering;unit"
+    120
+    "CDCFanIn: addSource/removeSource/sourceIds, listEvents merge, cursor, limit, collection filter, custom merge policy, thread-safety"
+    RocksDB::rocksdb
+)
 
 # ============================================================================
 # CDC Event Schema Focused Tests (v1.8.0 - ICDCEventSchema /
 # InMemoryCDCEventSchema; header-only, no RocksDB dependency)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_event_schema.cpp")
-    message(STATUS "Adding CDC Event Schema focused tests")
-
-    add_executable(test_cdc_event_schema
-        cdc/test_cdc_event_schema.cpp
-    )
-
-    target_include_directories(test_cdc_event_schema PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_event_schema PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_event_schema PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CDCEventSchemaFocusedTests COMMAND $<TARGET_FILE:test_cdc_event_schema>)
-
-    set_tests_properties(CDCEventSchemaFocusedTests PROPERTIES
-        LABELS "cdc;schema;schema-evolution;avro;protobuf;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  CDCEventSchema: registerSchema/getSchema/currentVersion, triggerEvolution compatible/incompatible, callback replacement, thread-safety")
-else()
-    message(STATUS "CDC Event Schema tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_event_schema.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_event_schema
+    cdc/test_cdc_event_schema.cpp
+    CDCEventSchemaFocusedTests
+    "cdc;schema;schema-evolution;avro;protobuf;unit"
+    60
+    "CDCEventSchema: registerSchema/getSchema/currentVersion, triggerEvolution compatible/incompatible, callback replacement, thread-safety"
+)
 
 # ============================================================================
 # CDC Delivery Guarantee Config Focused Tests (v1.8.0 -
@@ -12325,40 +11989,14 @@ endif()
 # InMemoryIdempotentListener; header-only, no RocksDB dependency)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_delivery_guarantee_config.cpp")
-    message(STATUS "Adding CDC Delivery Guarantee Config focused tests")
-
-    add_executable(test_cdc_delivery_guarantee_config
-        cdc/test_cdc_delivery_guarantee_config.cpp
-    )
-
-    target_include_directories(test_cdc_delivery_guarantee_config PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_delivery_guarantee_config PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_delivery_guarantee_config PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CDCDeliveryGuaranteeConfigFocusedTests
-             COMMAND $<TARGET_FILE:test_cdc_delivery_guarantee_config>)
-
-    set_tests_properties(CDCDeliveryGuaranteeConfigFocusedTests PROPERTIES
-        LABELS "cdc;delivery;at-least-once;exactly-once;deduplication;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  CDCDeliveryGuaranteeConfig: DeliveryMode, ackTimeout, deduplicationWindow; InMemoryIdempotentListener: markProcessed/isDuplicate, FIFO eviction, thread-safety")
-else()
-    message(STATUS "CDC Delivery Guarantee Config tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_delivery_guarantee_config.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_delivery_guarantee_config
+    cdc/test_cdc_delivery_guarantee_config.cpp
+    CDCDeliveryGuaranteeConfigFocusedTests
+    "cdc;delivery;at-least-once;exactly-once;deduplication;unit"
+    60
+    "CDCDeliveryGuaranteeConfig: DeliveryMode, ackTimeout, deduplicationWindow; InMemoryIdempotentListener: markProcessed/isDuplicate, FIFO eviction, thread-safety"
+)
 
 # Config Module - Focused Standalone Test Targets
 # ============================================================================
@@ -13176,200 +12814,82 @@ set_tests_properties(ApiKeyAuthenticatorTests PROPERTIES
     TIMEOUT 60
 )
 
+macro(add_auth_focused_alias target canonical_target test_name labels timeout description)
+    if(NOT TARGET ${canonical_target})
+        message(FATAL_ERROR "Required auth module target is missing: ${canonical_target}")
+    endif()
+    if(TARGET ${target})
+        message(FATAL_ERROR "Legacy auth target already exists: ${target}")
+    endif()
+
+    add_custom_target(${target} DEPENDS ${canonical_target})
+    add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${canonical_target}>)
+    set_tests_properties(${test_name} PROPERTIES
+        LABELS "${labels}"
+        TIMEOUT ${timeout}
+    )
+    message(STATUS "  ${description}")
+endmacro()
+
 # Auth Anomaly Detection Tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_anomaly_detection.cpp")
-    message(STATUS "Adding Auth Anomaly Detection tests")
-
-    add_executable(test_auth_anomaly_detection
-        auth/test_auth_anomaly_detection.cpp
-    )
-
-    target_link_libraries(test_auth_anomaly_detection PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        OpenSSL::SSL
-        OpenSSL::Crypto
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_auth_anomaly_detection PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME AuthAnomalyDetectionTests COMMAND $<TARGET_FILE:test_auth_anomaly_detection>)
-
-    set_tests_properties(AuthAnomalyDetectionTests PROPERTIES
-        LABELS "auth;anomaly;brute-force;rate-limiting;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  Auth Anomaly Detection: brute-force detection, IP ban, concurrent attack simulation")
-else()
-    message(STATUS "Auth Anomaly Detection tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_anomaly_detection.cpp")
-endif()
+add_auth_focused_alias(
+    test_auth_anomaly_detection
+    module_auth_test_auth_anomaly_detection_focused
+    AuthAnomalyDetectionTests
+    "auth;anomaly;brute-force;rate-limiting;unit"
+    120
+    "Auth Anomaly Detection: brute-force detection, IP ban, concurrent attack simulation"
+)
 
 # Auth Audit Logger Tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_audit_logger.cpp")
-    message(STATUS "Adding Auth Audit Logger tests")
-
-    add_executable(test_auth_audit_logger
-        auth/test_auth_audit_logger.cpp
-    )
-
-    target_link_libraries(test_auth_audit_logger PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        OpenSSL::SSL
-        OpenSSL::Crypto
-$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
-        nlohmann_json::nlohmann_json
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_auth_audit_logger PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME AuthAuditLoggerTests COMMAND $<TARGET_FILE:test_auth_audit_logger>)
-
-    set_tests_properties(AuthAuditLoggerTests PROPERTIES
-        LABELS "auth;audit;logging;compliance;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  Auth Audit Logger: success/failure events, JWT/Kerberos/SAML/MFA audit trails")
-else()
-    message(STATUS "Auth Audit Logger tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_audit_logger.cpp")
-endif()
+add_auth_focused_alias(
+    test_auth_audit_logger
+    module_auth_test_auth_audit_logger_focused
+    AuthAuditLoggerTests
+    "auth;audit;logging;compliance;unit"
+    120
+    "Auth Audit Logger: success/failure events, JWT/Kerberos/SAML/MFA audit trails"
+)
 
 # Auth Error Tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_error.cpp")
-    message(STATUS "Adding Auth Error tests")
-
-    add_executable(test_auth_error
-        auth/test_auth_error.cpp
-    )
-
-    target_link_libraries(test_auth_error PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_auth_error PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME AuthErrorTests COMMAND $<TARGET_FILE:test_auth_error>)
-
-    set_tests_properties(AuthErrorTests PROPERTIES
-        LABELS "auth;error;exception;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  Auth Error: error codes, messages, JSON serialization, exception hierarchy")
-else()
-    message(STATUS "Auth Error tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_error.cpp")
-endif()
+add_auth_focused_alias(
+    test_auth_error
+    module_auth_test_auth_error_focused
+    AuthErrorTests
+    "auth;error;exception;unit"
+    60
+    "Auth Error: error codes, messages, JSON serialization, exception hierarchy"
+)
 
 # Auth Input Validation Tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_input_validation.cpp")
-    message(STATUS "Adding Auth Input Validation tests")
-
-    add_executable(test_auth_input_validation
-        auth/test_auth_input_validation.cpp
-    )
-
-    target_link_libraries(test_auth_input_validation PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        OpenSSL::SSL
-        OpenSSL::Crypto
-$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_auth_input_validation PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME AuthInputValidationTests COMMAND $<TARGET_FILE:test_auth_input_validation>)
-
-    set_tests_properties(AuthInputValidationTests PROPERTIES
-        LABELS "auth;input-validation;security;injection;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  Auth Input Validation: oversized tokens, null bytes, injection strings, boundary checks")
-else()
-    message(STATUS "Auth Input Validation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_input_validation.cpp")
-endif()
+add_auth_focused_alias(
+    test_auth_input_validation
+    module_auth_test_auth_input_validation_focused
+    AuthInputValidationTests
+    "auth;input-validation;security;injection;unit"
+    60
+    "Auth Input Validation: oversized tokens, null bytes, injection strings, boundary checks"
+)
 
 # Auth Metrics Tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_metrics.cpp")
-    message(STATUS "Adding Auth Metrics tests")
-
-    add_executable(test_auth_metrics
-        auth/test_auth_metrics.cpp
-    )
-
-    target_link_libraries(test_auth_metrics PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_auth_metrics PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME AuthMetricsTests COMMAND $<TARGET_FILE:test_auth_metrics>)
-
-    set_tests_properties(AuthMetricsTests PROPERTIES
-        LABELS "auth;metrics;counters;latency;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  Auth Metrics: success/failure counters, latency histograms, Prometheus export")
-else()
-    message(STATUS "Auth Metrics tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_metrics.cpp")
-endif()
+add_auth_focused_alias(
+    test_auth_metrics
+    module_auth_test_auth_metrics_focused
+    AuthMetricsTests
+    "auth;metrics;counters;latency;unit"
+    60
+    "Auth Metrics: success/failure counters, latency histograms, Prometheus export"
+)
 
 # Auth Rate Limiter Tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_rate_limiter.cpp")
-    message(STATUS "Adding Auth Rate Limiter tests")
-
-    add_executable(test_auth_rate_limiter
-        auth/test_auth_rate_limiter.cpp
-    )
-
-    target_link_libraries(test_auth_rate_limiter PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_auth_rate_limiter PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME AuthRateLimiterTests COMMAND $<TARGET_FILE:test_auth_rate_limiter>)
-
-    set_tests_properties(AuthRateLimiterTests PROPERTIES
-        LABELS "auth;rate-limiter;brute-force;sliding-window;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  Auth Rate Limiter: sliding window, per-IP, per-user, concurrent access, decay")
-else()
-    message(STATUS "Auth Rate Limiter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_rate_limiter.cpp")
-endif()
+add_auth_focused_alias(
+    test_auth_rate_limiter
+    module_auth_test_auth_rate_limiter_focused
+    AuthRateLimiterTests
+    "auth;rate-limiter;brute-force;sliding-window;unit"
+    120
+    "Auth Rate Limiter: sliding window, per-IP, per-user, concurrent access, decay"
+)
 
 # Auth Rate Limiter Distributed Tests (IRateLimiterBackend + shared InMemory backend)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_rate_limiter_distributed.cpp")
@@ -13414,39 +12934,14 @@ else()
 endif()
 
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_middleware.cpp")
-    message(STATUS "Adding Auth Middleware focused tests")
-
-    add_executable(test_auth_middleware
-        auth/test_auth_middleware.cpp
-    )
-
-    target_link_libraries(test_auth_middleware PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        OpenSSL::SSL
-        OpenSSL::Crypto
-$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
-        nlohmann_json::nlohmann_json
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_auth_middleware PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME AuthMiddlewareFocusedTests COMMAND $<TARGET_FILE:test_auth_middleware>)
-
-    set_tests_properties(AuthMiddlewareFocusedTests PROPERTIES
-        LABELS "auth;middleware;jwt;api-key;scope;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  Auth Middleware: JWT + API-key pipeline, scope enforcement, tenant isolation")
-else()
-    message(STATUS "Auth Middleware focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_middleware.cpp")
-endif()
+add_auth_focused_alias(
+    test_auth_middleware
+    module_auth_test_auth_middleware_focused
+    AuthMiddlewareFocusedTests
+    "auth;middleware;jwt;api-key;scope;unit"
+    120
+    "Auth Middleware: JWT + API-key pipeline, scope enforcement, tenant isolation"
+)
 
 # GSSAPI / Kerberos Authenticator Tests (requires THEMIS_ENABLE_KERBEROS)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/gssapi/test_gssapi_authenticator.cpp")
@@ -16835,32 +16330,45 @@ macro(add_network_focused_test target src test_name labels desc)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${src}")
         message(STATUS "Adding Network focused test: ${target}")
 
-        add_executable(${target} ${src})
-
-        if("${target}" STREQUAL "test_udp_server_focused")
-            target_sources(${target} PRIVATE
-                ${THEMIS_ROOT_DIR}/src/network/udp_server.cpp
-                ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+        get_filename_component(_network_test_stem "${src}" NAME_WE)
+        set(_network_module_target "module_network_${_network_test_stem}_focused")
+        if(TARGET ${_network_module_target})
+            if(TARGET ${target})
+                message(FATAL_ERROR "Legacy network target already exists: ${target}")
+            endif()
+            add_custom_target(${target}
+                DEPENDS ${_network_module_target}
             )
-            target_link_libraries(${target} PRIVATE spdlog::spdlog fmt::fmt)
+            set(_network_test_target "${_network_module_target}")
+        else()
+            add_executable(${target} ${src})
+
+            if("${target}" STREQUAL "test_udp_server_focused")
+                target_sources(${target} PRIVATE
+                    ${THEMIS_ROOT_DIR}/src/network/udp_server.cpp
+                    ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+                )
+                target_link_libraries(${target} PRIVATE spdlog::spdlog fmt::fmt)
+            endif()
+
+            target_include_directories(${target} PRIVATE
+                ${THEMIS_ROOT_DIR}/include
+                ${THEMIS_ROOT_DIR}/include
+            )
+
+            target_link_libraries(${target} PRIVATE
+                ${TEST_LIBS}
+                themis_core
+                Threads::Threads
+            )
+
+            target_compile_definitions(${target} PRIVATE
+                THEMIS_TEST_BUILD=1
+            )
+            set(_network_test_target "${target}")
         endif()
 
-        target_include_directories(${target} PRIVATE
-            ${THEMIS_ROOT_DIR}/include
-            ${THEMIS_ROOT_DIR}/include
-        )
-
-        target_link_libraries(${target} PRIVATE
-            ${TEST_LIBS}
-            themis_core
-            Threads::Threads
-        )
-
-        target_compile_definitions(${target} PRIVATE
-            THEMIS_TEST_BUILD=1
-        )
-
-        add_test(NAME ${test_name} COMMAND ${target})
+        add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${_network_test_target}>)
 
         set_tests_properties(${test_name} PROPERTIES
             LABELS "${labels}"
@@ -17058,26 +16566,37 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/network/test_wire_protocol_v2.cpp")
     message(STATUS "Adding Network focused test: test_wire_protocol_v2_focused")
 
-    add_executable(test_wire_protocol_v2_focused
-        network/test_wire_protocol_v2.cpp
-    )
+    if(TARGET module_network_test_wire_protocol_v2_focused)
+        if(TARGET test_wire_protocol_v2_focused)
+            message(FATAL_ERROR "Legacy network target already exists: test_wire_protocol_v2_focused")
+        endif()
+        add_custom_target(test_wire_protocol_v2_focused
+            DEPENDS module_network_test_wire_protocol_v2_focused
+        )
+        set(_wire_protocol_v2_focused_target module_network_test_wire_protocol_v2_focused)
+    else()
+        add_executable(test_wire_protocol_v2_focused
+            network/test_wire_protocol_v2.cpp
+        )
+        set(_wire_protocol_v2_focused_target test_wire_protocol_v2_focused)
 
-    target_include_directories(test_wire_protocol_v2_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/include
-    )
+        target_include_directories(test_wire_protocol_v2_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/include
+        )
 
-    target_link_libraries(test_wire_protocol_v2_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        Threads::Threads
-    )
+        target_link_libraries(test_wire_protocol_v2_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            Threads::Threads
+        )
 
-    target_compile_definitions(test_wire_protocol_v2_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
+        target_compile_definitions(test_wire_protocol_v2_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+    endif()
 
-    add_test(NAME WireProtocolV2FocusedTests COMMAND $<TARGET_FILE:test_wire_protocol_v2_focused>)
+    add_test(NAME WireProtocolV2FocusedTests COMMAND $<TARGET_FILE:${_wire_protocol_v2_focused_target}>)
 
     set_tests_properties(WireProtocolV2FocusedTests PROPERTIES
         LABELS "network;wire-protocol;v2;multiplexing;flow-control;server-push;focused;unit"
@@ -17094,31 +16613,42 @@ if(THEMIS_ENABLE_WEBSOCKET)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/network/test_wire_protocol_websocket.cpp")
         message(STATUS "Adding Network focused test: test_wire_protocol_websocket_focused")
 
-        add_executable(test_wire_protocol_websocket_focused
-            network/test_wire_protocol_websocket.cpp
-        )
+        if(TARGET module_network_test_wire_protocol_websocket_focused)
+            if(TARGET test_wire_protocol_websocket_focused)
+                message(FATAL_ERROR "Legacy network target already exists: test_wire_protocol_websocket_focused")
+            endif()
+            add_custom_target(test_wire_protocol_websocket_focused
+                DEPENDS module_network_test_wire_protocol_websocket_focused
+            )
+            set(_wire_protocol_websocket_focused_target module_network_test_wire_protocol_websocket_focused)
+        else()
+            add_executable(test_wire_protocol_websocket_focused
+                network/test_wire_protocol_websocket.cpp
+            )
+            set(_wire_protocol_websocket_focused_target test_wire_protocol_websocket_focused)
 
-        target_include_directories(test_wire_protocol_websocket_focused PRIVATE
-            ${THEMIS_ROOT_DIR}/include
-            ${THEMIS_ROOT_DIR}/include
-        )
+            target_include_directories(test_wire_protocol_websocket_focused PRIVATE
+                ${THEMIS_ROOT_DIR}/include
+                ${THEMIS_ROOT_DIR}/include
+            )
 
-        target_link_libraries(test_wire_protocol_websocket_focused PRIVATE
-            ${TEST_LIBS}
-            themis_core
-            Threads::Threads
-        )
+            target_link_libraries(test_wire_protocol_websocket_focused PRIVATE
+                ${TEST_LIBS}
+                themis_core
+                Threads::Threads
+            )
 
-        if(TARGET themis_network)
-            target_link_libraries(test_wire_protocol_websocket_focused PRIVATE themis_network)
+            if(TARGET themis_network)
+                target_link_libraries(test_wire_protocol_websocket_focused PRIVATE themis_network)
+            endif()
+
+            target_compile_definitions(test_wire_protocol_websocket_focused PRIVATE
+                THEMIS_TEST_BUILD=1
+                THEMIS_ENABLE_WEBSOCKET=1
+            )
         endif()
 
-        target_compile_definitions(test_wire_protocol_websocket_focused PRIVATE
-            THEMIS_TEST_BUILD=1
-            THEMIS_ENABLE_WEBSOCKET=1
-        )
-
-        add_test(NAME WireProtocolWebSocketFocusedTests COMMAND $<TARGET_FILE:test_wire_protocol_websocket_focused>)
+        add_test(NAME WireProtocolWebSocketFocusedTests COMMAND $<TARGET_FILE:${_wire_protocol_websocket_focused_target}>)
 
         set_tests_properties(WireProtocolWebSocketFocusedTests PROPERTIES
             LABELS "network;websocket;upgrade;protocol-detection;focused;unit"

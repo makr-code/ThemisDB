@@ -192,10 +192,10 @@ GeoIncidentSeverity GeoOperatorDiagnostics::severityFromId(
       return GeoIncidentSeverity::WARNING;
     }
     if (has_suffix("INVALID")) {
-      return GeoIncidentSeverity::ERROR;
+      return GeoIncidentSeverity::FAILURE;
     }
-    if (has_suffix("ERROR")) {
-      return GeoIncidentSeverity::ERROR;
+    if (has_suffix("FAILURE")) {
+      return GeoIncidentSeverity::FAILURE;
     }
     return GeoIncidentSeverity::INFO;
 }

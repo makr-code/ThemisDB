@@ -19,7 +19,7 @@
  *
  * Each incident has:
  *   - A unique incident ID (e.g. "GEO-ECH-FALLBACK")
- *   - A severity level (INFO, WARNING, ERROR, CRITICAL)
+ *   - A severity level (INFO, WARNING, FAILURE, CRITICAL)
  *   - A human-readable description
  *   - A remediation hint
  *   - A timestamp (nanoseconds since epoch)
@@ -54,7 +54,7 @@ namespace geo {
 enum class GeoIncidentSeverity : uint8_t {
     INFO     = 0, ///< Informational event, no operator action required
     WARNING  = 1, ///< Degraded operation, operator should investigate
-    ERROR    = 2, ///< Operation failed with automatic recovery
+    FAILURE    = 2, ///< Operation failed with automatic recovery
     CRITICAL = 3, ///< Unrecoverable failure, operator intervention required
 };
 
@@ -62,7 +62,7 @@ inline constexpr std::string_view severityName(GeoIncidentSeverity s) noexcept {
     switch (s) {
         case GeoIncidentSeverity::INFO:     return "INFO";
         case GeoIncidentSeverity::WARNING:  return "WARNING";
-        case GeoIncidentSeverity::ERROR:    return "ERROR";
+        case GeoIncidentSeverity::FAILURE:    return "FAILURE";
         case GeoIncidentSeverity::CRITICAL: return "CRITICAL";
         default:                            return "UNKNOWN";
     }

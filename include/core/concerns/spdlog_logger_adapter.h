@@ -63,7 +63,7 @@ public:
              * @param[in] message Input parameter.
              * @return Return value.
              */
-            case Level::ERROR: error(message); break;
+            case Level::FAILURE: error(message); break;
             /**
              * @brief Critical.
              * @param[in] message Input parameter.
@@ -189,7 +189,7 @@ public:
             case spdlog::level::debug: return Level::DEBUG;
             case spdlog::level::info: return Level::INFO;
             case spdlog::level::warn: return Level::WARN;
-            case spdlog::level::err: return Level::ERROR;
+            case spdlog::level::err: return Level::FAILURE;
             case spdlog::level::critical: return Level::CRITICAL;
             default: return Level::INFO;
         }
@@ -247,7 +247,7 @@ private:
             case Level::DEBUG: return spdlog::level::debug;
             case Level::INFO:  return spdlog::level::info;
             case Level::WARN:  return spdlog::level::warn;
-            case Level::ERROR: return spdlog::level::err;
+            case Level::FAILURE: return spdlog::level::err;
             case Level::CRITICAL: return spdlog::level::critical;
         }
         return spdlog::level::info;

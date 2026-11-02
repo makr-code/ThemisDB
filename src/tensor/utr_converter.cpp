@@ -9,6 +9,8 @@
  */
 
 #include "tensor/utr_converter.h"
+
+#include "core/production_mode.h"
 #include "storage/hierarchical_tucker_decomposer.h"
 #include "storage/tensor_train_decomposer.h"
 #include "tensor/hyper_index_builder.h"
@@ -687,6 +689,11 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
     // Resolve active encoder tier
     const bool use_text_encoder = text_encoder && text_encoder->isAvailable();
     const bool use_embed_fn     = !use_text_encoder && static_cast<bool>(embed_fn);
+    if (!use_text_encoder && !use_embed_fn &&
+        (cfg.require_embedding_provider || themis::core::ProductionMode::isEnabled())) {
+        throw std::runtime_error(
+            "UTRConverter::fromDocument requires an embedding provider; lexical fallback is disabled");
+    }
 
     std::vector<float> segment_matrix;
     segment_matrix.reserve(num_segs * embed_dim);
@@ -724,7 +731,44 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
     storage::HierarchicalTuckerDecomposer ht_decomposer(ht_cfg);
 
     auto decomposed = ht_decomposer.decompose(segment_matrix, {num_segs, embed_dim});
-    return std::move(decomposed.first);
+    auto encoded = std::move(decomposed.first);
+    if (use_text_encoder) {
+        switch (text_encoder->quality()) {
+        case EncoderQuality::SEMANTIC:
+            encoded.embedding_quality = "semantic";
+            break;
+        case EncoderQuality::LEXICAL:
+            encoded.embedding_quality = "lexical";
+            encoded.degraded = true;
+            encoded.degradation_reason = "lexical_fallback";
+            break;
+        case EncoderQuality::HASH:
+            encoded.embedding_quality = "hash";
+            encoded.degraded = true;
+            encoded.degradation_reason = "hash_fallback";
+            break;
+        default:
+            encoded.embedding_quality = "unknown";
+            encoded.degraded = true;
+            encoded.degradation_reason = "unknown_encoder_quality";
+            break;
+        }
+    } else if (use_embed_fn) {
+        encoded.embedding_quality = "custom";
+    } else {
+        encoded.embedding_quality = "lexical";
+        encoded.degraded = true;
+        encoded.degradation_reason = "lexical_fallback";
+    }
+    return encoded;
+}
+
+nlohmann::json UTRConverter::documentMetadata(const HTTrain& encoded) {
+    return {
+        {"embedding_quality", encoded.embedding_quality},
+        {"degraded", encoded.degraded},
+        {"degradation_reason", encoded.degradation_reason}
+    };
 }
 
 } // namespace tensor

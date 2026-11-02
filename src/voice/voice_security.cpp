@@ -250,10 +250,10 @@ void VoiceSecurityManager::logError(
     const std::string& user_id, const std::string& session_id, const std::string& error)
 {
     VoiceAuditEntry entry;
-    entry.event_type  = "ERROR";
+    entry.event_type  = "FAILURE";
     entry.user_id     = user_id;
     entry.session_id  = session_id;
-    entry.action      = "ERROR";
+    entry.action      = "FAILURE";
     entry.details     = error;
     entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();

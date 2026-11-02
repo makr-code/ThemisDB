@@ -1089,7 +1089,8 @@ TEST(ShardRpcInjectHandlerTest, InjectedAbortVoteFailsPrepare) {
             return {{"status", "ok"}};
         });
 
-    EXPECT_FALSE(client.prepare("txn-abort-1", nlohmann::json::array()));
+    EpochToken token{1, "coord", "shard-abort", std::chrono::system_clock::now()};
+    EXPECT_FALSE(client.prepare("txn-abort-1", nlohmann::json::array(), token));
 }
 
 TEST(ShardRpcInjectHandlerTest, ClearHandlerRestoresHardcodedFallback) {
@@ -1106,11 +1107,12 @@ TEST(ShardRpcInjectHandlerTest, ClearHandlerRestoresHardcodedFallback) {
         [](std::string, nlohmann::json) -> nlohmann::json {
             return {{"vote", "abort"}, {"status", "failed"}};
         });
-    EXPECT_FALSE(client.prepare("txn-clear-1", nlohmann::json::array()));
+    EpochToken token{1, "coord", "shard-clear", std::chrono::system_clock::now()};
+    EXPECT_FALSE(client.prepare("txn-clear-1", nlohmann::json::array(), token));
 
     // Clear — hardcoded success fallback should take over.
     client.setInProcessResponseHandler(nullptr);
-    EXPECT_TRUE(client.prepare("txn-clear-2", nlohmann::json::array()));
+    EXPECT_TRUE(client.prepare("txn-clear-2", nlohmann::json::array(), token));
 }
 
 // ============================================================================

@@ -23,8 +23,8 @@
 
 #include "aql/aql_query_builder.h"
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 namespace themis {
@@ -36,7 +36,7 @@ namespace aql {
 
 bool ValidationResult::hasErrors() const {
     return std::any_of(issues.begin(), issues.end(),
-                       [](const ValidationIssue &i) { return i.severity == ValidationIssue::Severity::ERROR; });
+                       [](const ValidationIssue &i) { return i.severity == ValidationIssue::Severity::FAILURE; });
 }
 
 bool ValidationResult::hasWarnings() const {
@@ -50,7 +50,7 @@ std::string ValidationResult::summary() const {
     int infos    = 0;
     for (const auto &issue : issues) {
         switch (issue.severity) {
-            case ValidationIssue::Severity::ERROR:
+            case ValidationIssue::Severity::FAILURE:
                 ++errors;
                 break;
             case ValidationIssue::Severity::WARNING:
@@ -182,7 +182,7 @@ void checkMissingReturn(const std::string &upper_query, ValidationResult &result
                    || containsKeyword(upper_query, "REMOVE") || containsKeyword(upper_query, "REPLACE")
                    || containsKeyword(upper_query, "UPSERT");
     if (!has_dml && !containsKeyword(upper_query, "RETURN")) {
-        result.issues.push_back({ValidationIssue::Severity::ERROR, "Query is missing a RETURN clause", "RETURN"});
+        result.issues.push_back({ValidationIssue::Severity::FAILURE, "Query is missing a RETURN clause", "RETURN"});
         result.is_valid = false;
     }
 }
@@ -205,7 +205,7 @@ void checkMissingFor(const std::string &upper_query, ValidationResult &result) {
                                  || containsKeyword(upper_query, "REMOVE") || containsKeyword(upper_query, "UPDATE")
                                  || containsKeyword(upper_query, "REPLACE"));
     if (!is_standalone_dml && !containsKeyword(upper_query, "FOR")) {
-        result.issues.push_back({ValidationIssue::Severity::ERROR, "Query is missing a FOR clause", "FOR"});
+        result.issues.push_back({ValidationIssue::Severity::FAILURE, "Query is missing a FOR clause", "FOR"});
         result.is_valid = false;
     }
 }
@@ -263,7 +263,7 @@ void checkTraversalDepthOrder(const std::string &query, ValidationResult &result
         int max_d = std::stoi((*it)[2].str());
         if (min_d > max_d) {
             result.is_valid = false;
-            result.issues.push_back({ValidationIssue::Severity::ERROR,
+            result.issues.push_back({ValidationIssue::Severity::FAILURE,
                                      "Graph traversal min_depth (" + std::to_string(min_d)
                                          + ") is greater than max_depth (" + std::to_string(max_d) + ")",
                                      "FOR"});
@@ -323,7 +323,7 @@ void checkNestedSubqueryDepth(const std::string &query, ValidationResult &result
                       max_depth, kMaxAllowedDepth);
         result.is_valid = false;
         result.issues.push_back(
-            {ValidationIssue::Severity::ERROR,
+            {ValidationIssue::Severity::FAILURE,
              "Nested subquery depth " + std::to_string(max_depth)
                  + " exceeds maximum allowed depth " + std::to_string(kMaxAllowedDepth),
              "FOR"});
@@ -355,7 +355,7 @@ void checkCollectionNameLength(const std::string &query, ValidationResult &resul
                               name.size(), kMaxCollectionNameLength);
                 result.is_valid = false;
                 result.issues.push_back(
-                    {ValidationIssue::Severity::ERROR,
+                    {ValidationIssue::Severity::FAILURE,
                      "Collection name '" + name.substr(0, 32) + "...' length "
                          + std::to_string(name.size())
                          + " exceeds maximum allowed length "
@@ -380,7 +380,7 @@ ValidationResult AQLQueryValidator::validate(const std::string &query) const {
 
     if (query.empty()) {
         result.is_valid = false;
-        result.issues.push_back({ValidationIssue::Severity::ERROR, "Query string is empty", ""});
+        result.issues.push_back({ValidationIssue::Severity::FAILURE, "Query string is empty", ""});
         return result;
     }
 
@@ -408,7 +408,7 @@ ValidationResult AQLQueryValidator::validate(const AQLQueryBuilder &builder) con
     // Leverage the builder's own state checks first
     if (!builder.isValid()) {
         result.is_valid = false;
-        result.issues.push_back({ValidationIssue::Severity::ERROR,
+        result.issues.push_back({ValidationIssue::Severity::FAILURE,
                                  "Builder state is invalid: clauses require a preceding FOR clause", "FOR"});
         return result;
     }

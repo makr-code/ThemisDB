@@ -126,7 +126,7 @@ TEST(ZeroCopyLoggerTest, ShouldLogReturnsTrue_AboveMinLevel) {
     auto [logger, oss] = makeStreamLogger();
     logger->setLevel(ILogger::Level::WARN);
     EXPECT_TRUE(logger->shouldLog(ILogger::Level::WARN));
-    EXPECT_TRUE(logger->shouldLog(ILogger::Level::ERROR));
+    EXPECT_TRUE(logger->shouldLog(ILogger::Level::FAILURE));
     EXPECT_TRUE(logger->shouldLog(ILogger::Level::CRITICAL));
 }
 
@@ -140,7 +140,7 @@ TEST(ZeroCopyLoggerTest, ShouldLogReturnsFalse_BelowMinLevel) {
 
 TEST(ZeroCopyLoggerTest, FilteredLevelProducesNoOutput) {
     auto [logger, oss] = makeStreamLogger();
-    logger->setLevel(ILogger::Level::ERROR);
+    logger->setLevel(ILogger::Level::FAILURE);
     logger->debugSV("should_be_filtered");
     logger->infoSV("also_filtered");
     logger->warnSV("warn_filtered");
@@ -317,7 +317,7 @@ TEST(ZeroCopyLoggerTest, ShutdownSilencesSubsequentLogs) {
     logger->shutdown();
     // After shutdown, calls should not crash (logger_ is null).
     EXPECT_NO_THROW(logger->infoSV("post_shutdown"));
-    EXPECT_NO_THROW(logger->logSV(ILogger::Level::ERROR, "post_shutdown_err"));
+    EXPECT_NO_THROW(logger->logSV(ILogger::Level::FAILURE, "post_shutdown_err"));
 }
 
 // =============================================================================

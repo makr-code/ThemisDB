@@ -30,8 +30,8 @@
 #include <algorithm>
 #include <fstream>
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 namespace themis {

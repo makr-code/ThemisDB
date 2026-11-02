@@ -23,13 +23,13 @@
 // Packet format (response):
 //   [0-1]  Magic:      0x54 0x52 ("TR")
 //   [2]    Version:    0x01
-//   [3]    Status:     0x00 OK | 0x01 ERROR | 0x02 NOT_FOUND | 0x03 RATE_LIMITED
+//   [3]    Status:     0x00 OK | 0x01 FAILURE | 0x02 NOT_FOUND | 0x03 RATE_LIMITED
 //   [4-7]  RequestID:  echoed from request
 //   [8-9]  PayloadLen: uint16_t (big-endian)
 //   [10+]  Payload:    JSON result or error message
 //
 // Only read-only opcodes are accepted.  Write opcodes are rejected with
-// status ERROR and an explanatory payload.
+// status FAILURE and an explanatory payload.
 
 #pragma once
 
@@ -83,10 +83,10 @@ enum class UdpOpCode : uint8_t {
 /// Response status codes.
 enum class UdpStatus : uint8_t {
     OK           = 0x00,
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
-    ERROR        = 0x01,
+    FAILURE        = 0x01,
     NOT_FOUND    = 0x02,
     RATE_LIMITED = 0x03,
 };

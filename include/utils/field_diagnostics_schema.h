@@ -114,7 +114,7 @@ enum class DiagnosticSeverity {
     DEBUG = 0,
     INFO = 1,
     WARN = 2,
-    ERROR = 3,
+    FAILURE = 3,
     CRITICAL = 4
 };
 
@@ -159,8 +159,8 @@ inline std::string severityToString(DiagnosticSeverity sev) {
             return "INFO";
         case DiagnosticSeverity::WARN:
             return "WARN";
-        case DiagnosticSeverity::ERROR:
-            return "ERROR";
+        case DiagnosticSeverity::FAILURE:
+            return "FAILURE";
         case DiagnosticSeverity::CRITICAL:
             return "CRITICAL";
         default:
@@ -181,7 +181,7 @@ inline std::string severityToString(DiagnosticSeverity sev) {
  *     .failure_category = DiagnosticFailureCategory::NLI_INFERENCE,
  *     .module_name = "rag",
  *     .error_message = "ONNX model inference failed",
- *     .severity_level = DiagnosticSeverity::ERROR,
+ *     .severity_level = DiagnosticSeverity::FAILURE,
  *     .deployment_environment = "production",
  *     .version = "1.5.0",
  *     .stacktrace_hash = "abc123def456"
@@ -420,7 +420,7 @@ struct adl_serializer<themis::observability::DiagnosticEvent> {
             }
             else if (sev == "INFO")     evt.severity_level = DiagnosticSeverity::INFO;
             else if (sev == "WARN")     evt.severity_level = DiagnosticSeverity::WARN;
-            else if (sev == "ERROR")    evt.severity_level = DiagnosticSeverity::ERROR;
+            else if (sev == "FAILURE")    evt.severity_level = DiagnosticSeverity::FAILURE;
             else if (sev == "CRITICAL") evt.severity_level = DiagnosticSeverity::CRITICAL;
             else                        evt.severity_level = DiagnosticSeverity::INFO;
         }

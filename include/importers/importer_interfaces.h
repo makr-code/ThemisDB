@@ -155,7 +155,7 @@ enum class CursorStatus {
     OK,                  ///< Batch populated successfully; more data may follow
     END_OF_STREAM,       ///< No more records; import is complete
     CHECKPOINT_REQUIRED, ///< Source requires an explicit commit before proceeding
-    ERROR                ///< Fatal error; stop processing
+    FAILURE                ///< Fatal error; stop processing
 };
 
 class CheckpointToken {

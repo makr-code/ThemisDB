@@ -96,7 +96,7 @@ int main() {
         return 0;
         
     } catch (const std::exception& e) {
-        std::cerr << "ERROR: " << e.what() << std::endl;
+        std::cerr << "FAILURE: " << e.what() << std::endl;
         return 1;
     }
 }

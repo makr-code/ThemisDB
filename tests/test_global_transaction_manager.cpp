@@ -294,7 +294,7 @@ TEST_F(GlobalTransactionManagerTest, CommitAbortedWhenParticipantThrows) {
 
 TEST_F(GlobalTransactionManagerTest, CommitUnknownTxnReturnsError) {
     const auto outcome = gtm_->commit("nonexistent-txn");
-    EXPECT_EQ(outcome.result, GlobalTxnResult::ERROR);
+    EXPECT_EQ(outcome.result, GlobalTxnResult::FAILURE);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

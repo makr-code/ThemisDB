@@ -266,7 +266,7 @@ SchemaMigrator& SchemaMigrator::partitionTable(const std::string& table,
 MigrationResult SchemaMigrator::migrate()
 {
     /**
-     * @brief observability scanner alert: this migration flow is instrumented with THEMIS/LOG INFO/WARN/ERROR calls at each phase transition and error path, so a separate trace-point finding here is a false positive.
+     * @brief observability scanner alert: this migration flow is instrumented with THEMIS/LOG INFO/WARN/FAILURE calls at each phase transition and error path, so a separate trace-point finding here is a false positive.
      * @param[in] mutex_ Input parameter.
      * @return Return value.
      */

@@ -219,7 +219,7 @@ GlobalTxnOutcome GlobalTransactionManager::commit(const std::string& txn_id) {
 
         auto it = transactions_.find(txn_id);
         if (it == transactions_.end()) {
-            outcome.result = GlobalTxnResult::ERROR;
+            outcome.result = GlobalTxnResult::FAILURE;
             outcome.reason = "transaction not found";
             total_errors_.fetch_add(1, std::memory_order_relaxed);
             return outcome;
@@ -240,7 +240,7 @@ GlobalTxnOutcome GlobalTransactionManager::commit(const std::string& txn_id) {
             return outcome;
         }
         if (rec.state != GlobalTxnState::ACTIVE) {
-            outcome.result = GlobalTxnResult::ERROR;
+            outcome.result = GlobalTxnResult::FAILURE;
             outcome.reason = "transaction already in progress or failed";
             total_errors_.fetch_add(1, std::memory_order_relaxed);
             return outcome;

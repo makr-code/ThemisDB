@@ -241,13 +241,6 @@ bool SnapshotManager::tagExists(const std::string& tag_name) const {
 
 // Get statistics
 SnapshotManager::SnapshotStats SnapshotManager::getStats() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
-    
     SnapshotStats stats;
     
     auto snapshots = listTags(0, "timestamp", true);

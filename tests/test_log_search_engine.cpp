@@ -68,7 +68,7 @@ TEST_F(LogSearchEngineTest, Search_NoFilters_ReturnsAll) {
     std::vector<LogEntry> entries = {
         makeEntry(Level::INFO,  "msg1"),
         makeEntry(Level::WARN,  "msg2"),
-        makeEntry(Level::ERROR, "msg3"),
+        makeEntry(Level::FAILURE, "msg3"),
     };
     LogSearchQuery q;
     auto result = engine_.search(entries, q);
@@ -85,7 +85,7 @@ TEST_F(LogSearchEngineTest, LevelFilter_ExcludesBelowMinLevel) {
         makeEntry(Level::DEBUG, "debug msg"),
         makeEntry(Level::INFO,  "info msg"),
         makeEntry(Level::WARN,  "warn msg"),
-        makeEntry(Level::ERROR, "error msg"),
+        makeEntry(Level::FAILURE, "error msg"),
     };
     LogSearchQuery q;
     q.min_level = Level::WARN;
@@ -343,7 +343,7 @@ TEST_F(LogSearchEngineTest, Count_MatchesSearchTotalMatched) {
     std::vector<LogEntry> entries = {
         makeEntry(Level::INFO,  "i"),
         makeEntry(Level::WARN,  "w"),
-        makeEntry(Level::ERROR, "e"),
+        makeEntry(Level::FAILURE, "e"),
     };
     LogSearchQuery q;
     q.min_level = Level::WARN;

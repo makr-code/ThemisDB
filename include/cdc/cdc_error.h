@@ -21,12 +21,12 @@
 
 #pragma once
 
-// Guard against the Windows SDK '#define ERROR 0' (and similar macros)
+// Guard against the Windows SDK '#define FAILURE 0' (and similar macros)
 // for the entire header. push_macro/undef/pop_macro is the MSVC-idiomatic
 // approach; it also applies to all inline factory functions below.
 #ifdef _WIN32
-#  pragma push_macro("ERROR")
-#  undef ERROR
+#  pragma push_macro("FAILURE")
+#  undef FAILURE
 #endif
 
 #include <string>
@@ -39,7 +39,7 @@ namespace cdc {
 enum class ErrorSeverity {
     INFO,      // Informational (e.g., normal operation logged)
     WARNING,   // Warning (e.g., compression failed, using fallback)
-    ERROR,     // Error (e.g., failed to record event, will retry)
+    FAILURE,     // Error (e.g., failed to record event, will retry)
     CRITICAL   // Critical (e.g., sequence generation failed, data loss risk)
 };
 
@@ -235,7 +235,7 @@ private:
         switch (severity) {
             case ErrorSeverity::INFO: return "INFO";
             case ErrorSeverity::WARNING: return "WARNING";
-            case ErrorSeverity::ERROR: return "ERROR";
+            case ErrorSeverity::FAILURE: return "FAILURE";
             case ErrorSeverity::CRITICAL: return "CRITICAL";
             default: return "UNKNOWN";
         }
@@ -264,7 +264,7 @@ namespace error {
      */
     inline CDCException eventRecordFailed(const std::string& details) {
         return CDCException(ErrorCode::EVENT_RECORD_FAILED,
-                           ErrorSeverity::ERROR,
+                           ErrorSeverity::FAILURE,
                            "Failed to record event",
                            details);
     }
@@ -305,7 +305,7 @@ namespace error {
      */
     inline CDCException decompressionFailed(const std::string& details) {
         return CDCException(ErrorCode::DECOMPRESSION_FAILED,
-                           ErrorSeverity::ERROR,
+                           ErrorSeverity::FAILURE,
                            "Decompression failed",
                            details);
     }
@@ -319,7 +319,7 @@ namespace error {
      */
     inline CDCException retryExhausted(int attempts, const std::string& lastError) {
         return CDCException(ErrorCode::RETRY_EXHAUSTED,
-                           ErrorSeverity::ERROR,
+                           ErrorSeverity::FAILURE,
                            "Retry attempts exhausted",
                            "attempts=" + std::to_string(attempts) + 
                            ", last_error=" + lastError);
@@ -349,7 +349,7 @@ namespace error {
      */
     inline CDCException dbOperationFailed(const std::string& operation, const std::string& details) {
         return CDCException(ErrorCode::DB_OPERATION_FAILED,
-                           ErrorSeverity::ERROR,
+                           ErrorSeverity::FAILURE,
                            "Database operation failed: " + operation,
                            details);
     }
@@ -363,7 +363,7 @@ namespace error {
      */
     inline CDCException invalidArgument(const std::string& argName, const std::string& reason) {
         return CDCException(ErrorCode::INVALID_ARGUMENT,
-                           ErrorSeverity::ERROR,
+                           ErrorSeverity::FAILURE,
                            "Invalid argument: " + argName,
                            reason);
     }
@@ -376,7 +376,7 @@ namespace error {
      */
     inline CDCException invalidArgument(const std::string& message) {
         return CDCException(ErrorCode::INVALID_ARGUMENT,
-                           ErrorSeverity::ERROR,
+                           ErrorSeverity::FAILURE,
                            message,
                            "");
     }
@@ -389,7 +389,7 @@ namespace error {
      */
     inline CDCException internalError(const std::string& message) {
         return CDCException(ErrorCode::INTERNAL_ERROR,
-                           ErrorSeverity::ERROR,
+                           ErrorSeverity::FAILURE,
                            message,
                            "");
     }
@@ -399,6 +399,6 @@ namespace error {
 } // namespace themis
 
 #ifdef _WIN32
-#  pragma pop_macro("ERROR")
+#  pragma pop_macro("FAILURE")
 #endif
 

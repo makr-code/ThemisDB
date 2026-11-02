@@ -25,7 +25,7 @@
  * ### DKD-09..11 — Convenience overloads
  *   DKD-09  emitMergeTimeout populates correct fields
  *   DKD-10  emitDedupCollision populates correct fields and metadata
- *   DKD-11  emitTrustGateReject populates correct fields with ERROR severity
+ *   DKD-11  emitTrustGateReject populates correct fields with FAILURE severity
  *   DKD-12  emitPartialShardMerge populates correct fields and metadata
  *   DKD-13  emitFederationRollback populates correct fields
  *
@@ -157,7 +157,7 @@ TEST(DKDiagnosticsEmitter, MultipleListenersAllReceiveEvent) {
 
     DKDiagnosticEvent ev;
     ev.type     = DKDiagnosticEventType::TRUST_GATE_REJECT;
-    ev.severity = DKDiagnosticSeverity::ERROR;
+    ev.severity = DKDiagnosticSeverity::FAILURE;
     ev.cause    = "untrusted domain";
     emitter.emit(ev);
 
@@ -250,7 +250,7 @@ TEST(DKDiagnosticsEmitter, EmitDedupCollisionPopulatesFieldsAndMetadata) {
 }
 
 /**
- * @test DKD-11: emitTrustGateReject sets severity to ERROR.
+ * @test DKD-11: emitTrustGateReject sets severity to FAILURE.
  */
 TEST(DKDiagnosticsEmitter, EmitTrustGateRejectHasErrorSeverity) {
     DistributedKnowledgeDiagnosticEmitter emitter;
@@ -261,7 +261,7 @@ TEST(DKDiagnosticsEmitter, EmitTrustGateRejectHasErrorSeverity) {
 
     ASSERT_EQ(rec->events.size(), 1u);
     EXPECT_EQ(rec->events[0].type,     DKDiagnosticEventType::TRUST_GATE_REJECT);
-    EXPECT_EQ(rec->events[0].severity, DKDiagnosticSeverity::ERROR);
+    EXPECT_EQ(rec->events[0].severity, DKDiagnosticSeverity::FAILURE);
     EXPECT_EQ(rec->events[0].shard_id, "shard-x");
 }
 
@@ -294,7 +294,7 @@ TEST(DKDiagnosticsEmitter, EmitFederationRollbackPopulatesFields) {
 
     ASSERT_EQ(rec->events.size(), 1u);
     EXPECT_EQ(rec->events[0].type,         DKDiagnosticEventType::FEDERATION_ROLLBACK);
-    EXPECT_EQ(rec->events[0].severity,     DKDiagnosticSeverity::ERROR);
+    EXPECT_EQ(rec->events[0].severity,     DKDiagnosticSeverity::FAILURE);
     EXPECT_EQ(rec->events[0].operation_id, "round-007");
     EXPECT_EQ(rec->events[0].cause,        "quorum lost");
 }

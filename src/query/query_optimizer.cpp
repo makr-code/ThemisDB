@@ -138,6 +138,7 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 	for (const auto& p : q.predicates) {
 		bool capped = false;
 		size_t cnt = secIdx_.estimateCountEqual(q.table, p.column, p.value, maxProbePerPred, &capped);
+		std::string provenance = capped ? "secondary_index_capped" : "secondary_index";
 
 		// If the secondary index has no data for this predicate, fall back to
 		// StatisticsCollector cardinality so the ordering remains meaningful.
@@ -145,11 +146,38 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 			auto it = table_stats_ptr->column_stats.find(p.column);
 			if (it != table_stats_ptr->column_stats.end() &&
 			    table_stats_ptr->row_count > 0) {
-				cnt = static_cast<size_t>(
-				    it->second.selectivity *
-				    static_cast<double>(table_stats_ptr->row_count));
+				const auto& column_stats = it->second;
+				double sample_estimate = 0.0;
+				if (column_stats.most_common_value == p.value &&
+				    column_stats.most_common_frequency > 0) {
+					sample_estimate =
+					    static_cast<double>(column_stats.most_common_frequency);
+				} else if (column_stats.distinct_count > 1 &&
+				           column_stats.most_common_frequency > 0 &&
+				           column_stats.total_count > column_stats.null_count &&
+				           column_stats.total_count - column_stats.null_count >
+				               column_stats.most_common_frequency) {
+					sample_estimate = static_cast<double>(
+					    (column_stats.total_count - column_stats.null_count -
+					     column_stats.most_common_frequency) /
+					    (column_stats.distinct_count - 1));
+				} else {
+					cnt = static_cast<size_t>(
+					    column_stats.selectivity *
+					    static_cast<double>(table_stats_ptr->row_count));
+				}
+				if (sample_estimate > 0.0 && column_stats.total_count > 0) {
+					const double scaled_estimate =
+					    sample_estimate *
+					    static_cast<double>(table_stats_ptr->row_count) /
+					    static_cast<double>(column_stats.total_count);
+					cnt = static_cast<size_t>(std::min(
+					    static_cast<double>(table_stats_ptr->row_count),
+					    std::round(scaled_estimate)));
+				}
 				used_planner_fallback = true;
 				fallback_reason = "statistics_selectivity";
+				provenance = "statistics_selectivity";
 			}
 		}
 
@@ -157,8 +185,11 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 			used_planner_fallback = true;
 			fallback_reason = "deterministic_zero_estimate";
 		}
+		if (cnt == 0 && !capped && provenance != "statistics_selectivity") {
+			provenance = "missing_statistics_fallback";
+		}
 
-		plan.details.push_back(Estimation{p, cnt, capped});
+		plan.details.push_back(Estimation{p, cnt, capped, std::move(provenance)});
 	}
 
 	// Sortiere Prädikate nach (capped? maxProbe : count) aufsteigend

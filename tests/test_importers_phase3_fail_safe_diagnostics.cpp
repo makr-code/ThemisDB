@@ -2,7 +2,7 @@
  * @file test_importers_phase3_fail_safe_diagnostics.cpp
  * @brief Phase 3 tests for error handling and unified diagnostics
  * @version 0.0.1
- * @note PHASE-3-ERROR-HANDLING: Comprehensive test suite for fail-safe behavior
+ * @note PHASE-3-FAILURE-HANDLING: Comprehensive test suite for fail-safe behavior
  * @date 2026-08-02
  *
  * Test cases:
@@ -39,7 +39,7 @@
 class Phase3ErrorHandlingTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // PHASE-3-ERROR-HANDLING: Deterministic seed for reproducible tests
+        // PHASE-3-FAILURE-HANDLING: Deterministic seed for reproducible tests
         test_seed_ = 42;
     }
 
@@ -51,7 +51,7 @@ protected:
 // ============================================================================
 
 TEST_F(Phase3ErrorHandlingTest, IMFH01_CapabilityCheckBasicImport) {
-    // PHASE-3-ERROR-HANDLING: All connectors support BASIC_IMPORT natively
+    // PHASE-3-FAILURE-HANDLING: All connectors support BASIC_IMPORT natively
     // Test that BASIC_IMPORT capability check always returns supported=true
     
     // Simulate connector capability check for BASIC_IMPORT
@@ -65,7 +65,7 @@ TEST_F(Phase3ErrorHandlingTest, IMFH01_CapabilityCheckBasicImport) {
 }
 
 TEST_F(Phase3ErrorHandlingTest, IMFH01_CapabilityCheckCDCSupport) {
-    // PHASE-3-ERROR-HANDLING: CDC support with fallback to polling
+    // PHASE-3-FAILURE-HANDLING: CDC support with fallback to polling
     // Test deterministic fallback path selection
     
     // Some connectors (e.g., PostgreSQL) support native CDC
@@ -88,7 +88,7 @@ TEST_F(Phase3ErrorHandlingTest, IMFH01_CapabilityCheckCDCSupport) {
 }
 
 TEST_F(Phase3ErrorHandlingTest, IMFH01_CapabilityCheckSchemaDeterminism) {
-    // PHASE-3-ERROR-HANDLING: Deterministic - same connector always same result
+    // PHASE-3-FAILURE-HANDLING: Deterministic - same connector always same result
     
     // Call capability check twice for same connector
     bool result1_supported = false;
@@ -107,7 +107,7 @@ TEST_F(Phase3ErrorHandlingTest, IMFH01_CapabilityCheckSchemaDeterminism) {
 // ============================================================================
 
 TEST_F(Phase3ErrorHandlingTest, IMFH02_CDCFallbackProducesValidOutput) {
-    // PHASE-3-ERROR-HANDLING: CDC fallback to polling still produces valid output
+    // PHASE-3-FAILURE-HANDLING: CDC fallback to polling still produces valid output
     
     // When CDC unavailable, fallback to polling should still import data
     std::vector<std::string> fallback_mode_output = {
@@ -128,7 +128,7 @@ TEST_F(Phase3ErrorHandlingTest, IMFH02_CDCFallbackProducesValidOutput) {
 }
 
 TEST_F(Phase3ErrorHandlingTest, IMFH02_SchemaInferenceFallbackToAllText) {
-    // PHASE-3-ERROR-HANDLING: Schema inference fallback to ALL_TEXT still valid
+    // PHASE-3-FAILURE-HANDLING: Schema inference fallback to ALL_TEXT still valid
     
     // When schema inference fails, fallback to ALL_TEXT schema
     std::map<std::string, std::string> all_text_schema = {
@@ -147,7 +147,7 @@ TEST_F(Phase3ErrorHandlingTest, IMFH02_SchemaInferenceFallbackToAllText) {
 }
 
 TEST_F(Phase3ErrorHandlingTest, IMFH02_TransactionFallbackCheckpointing) {
-    // PHASE-3-ERROR-HANDLING: Transaction fallback to checkpointing still works
+    // PHASE-3-FAILURE-HANDLING: Transaction fallback to checkpointing still works
     
     // When native transactions unavailable, use checkpointing
     uint64_t checkpoint_interval = 1000;  // Save checkpoint every 1000 rows
@@ -162,7 +162,7 @@ TEST_F(Phase3ErrorHandlingTest, IMFH02_TransactionFallbackCheckpointing) {
 // ============================================================================
 
 TEST_F(Phase3ErrorHandlingTest, IMFH03_StrictModeRejectsNullTableName) {
-    // PHASE-3-ERROR-HANDLING: STRICT validation rejects empty table name
+    // PHASE-3-FAILURE-HANDLING: STRICT validation rejects empty table name
     
     std::string table_name = "";  // NULL table name
     bool is_valid = false;  // Should be invalid
@@ -173,7 +173,7 @@ TEST_F(Phase3ErrorHandlingTest, IMFH03_StrictModeRejectsNullTableName) {
 }
 
 TEST_F(Phase3ErrorHandlingTest, IMFH03_StrictModeRejectsOversizedIdentifier) {
-    // PHASE-3-ERROR-HANDLING: STRICT validation rejects identifiers > 128 chars
+    // PHASE-3-FAILURE-HANDLING: STRICT validation rejects identifiers > 128 chars
     
     std::string long_column_name(200, 'a');  // 200 character name
     bool is_valid = false;  // Should be invalid in STRICT mode
@@ -183,7 +183,7 @@ TEST_F(Phase3ErrorHandlingTest, IMFH03_StrictModeRejectsOversizedIdentifier) {
 }
 
 TEST_F(Phase3ErrorHandlingTest, IMFH03_StrictModeRejectsCircularFK) {
-    // PHASE-3-ERROR-HANDLING: STRICT validation detects and rejects circular FKs
+    // PHASE-3-FAILURE-HANDLING: STRICT validation detects and rejects circular FKs
     
     // Schema with circular FK: A→B→C→A
     std::vector<std::string> circular_chain = {"A", "B", "C", "A"};
@@ -199,7 +199,7 @@ TEST_F(Phase3ErrorHandlingTest, IMFH03_StrictModeRejectsCircularFK) {
 // ============================================================================
 
 TEST_F(Phase3ErrorHandlingTest, IMFH04_LenientModeAllowsOversizedIdentifier) {
-    // PHASE-3-ERROR-HANDLING: LENIENT validation allows oversized with truncation
+    // PHASE-3-FAILURE-HANDLING: LENIENT validation allows oversized with truncation
     
     std::string long_name(200, 'a');
     std::string truncated = long_name.substr(0, 128);
@@ -210,7 +210,7 @@ TEST_F(Phase3ErrorHandlingTest, IMFH04_LenientModeAllowsOversizedIdentifier) {
 }
 
 TEST_F(Phase3ErrorHandlingTest, IMFH04_LenientModeAllowsNullTypes) {
-    // PHASE-3-ERROR-HANDLING: LENIENT validation accepts NULL types with warnings
+    // PHASE-3-FAILURE-HANDLING: LENIENT validation accepts NULL types with warnings
     
     std::vector<std::string> warnings;
     bool has_null_type = true;
@@ -224,7 +224,7 @@ TEST_F(Phase3ErrorHandlingTest, IMFH04_LenientModeAllowsNullTypes) {
 }
 
 TEST_F(Phase3ErrorHandlingTest, IMFH04_LenientModeWithSuggestions) {
-    // PHASE-3-ERROR-HANDLING: LENIENT mode provides remediation suggestions
+    // PHASE-3-FAILURE-HANDLING: LENIENT mode provides remediation suggestions
     
     std::vector<std::string> suggestions = {
         "Consider renaming columns to shorter identifiers",
@@ -241,7 +241,7 @@ TEST_F(Phase3ErrorHandlingTest, IMFH04_LenientModeWithSuggestions) {
 // ============================================================================
 
 TEST_F(Phase3ErrorHandlingTest, IMFH05_RollbackEventCapturesFullContext) {
-    // PHASE-3-ERROR-HANDLING: Rollback audit event contains all recovery info
+    // PHASE-3-FAILURE-HANDLING: Rollback audit event contains all recovery info
     
     // Simulate a rollback event
     uint64_t rows_attempted = 10000;
@@ -262,7 +262,7 @@ TEST_F(Phase3ErrorHandlingTest, IMFH05_RollbackEventCapturesFullContext) {
 }
 
 TEST_F(Phase3ErrorHandlingTest, IMFH05_RollbackEventReasonTracking) {
-    // PHASE-3-ERROR-HANDLING: Rollback events track reason for diagnostics
+    // PHASE-3-FAILURE-HANDLING: Rollback events track reason for diagnostics
     
     // Different rollback reasons should be captured
     std::string reason1 = "SCHEMA_VALIDATION_FAILED";
@@ -279,7 +279,7 @@ TEST_F(Phase3ErrorHandlingTest, IMFH05_RollbackEventReasonTracking) {
 // ============================================================================
 
 TEST_F(Phase3ErrorHandlingTest, IMFH06_RecoverySuggestionIsSpecific) {
-    // PHASE-3-ERROR-HANDLING: Recovery suggestions are actionable, not generic
+    // PHASE-3-FAILURE-HANDLING: Recovery suggestions are actionable, not generic
     
     // Good suggestion (actionable, specific)
     std::string good_suggestion = "Reconnect to PostgreSQL at 192.168.1.100:5432 "
@@ -296,7 +296,7 @@ TEST_F(Phase3ErrorHandlingTest, IMFH06_RecoverySuggestionIsSpecific) {
 }
 
 TEST_F(Phase3ErrorHandlingTest, IMFH06_RecoverySuggestionHasSteps) {
-    // PHASE-3-ERROR-HANDLING: Recovery suggestions include multiple steps
+    // PHASE-3-FAILURE-HANDLING: Recovery suggestions include multiple steps
     
     std::vector<std::string> recovery_steps = {
         "1. Verify source database credentials and connectivity",
@@ -318,7 +318,7 @@ TEST_F(Phase3ErrorHandlingTest, IMFH06_RecoverySuggestionHasSteps) {
 // ============================================================================
 
 TEST_F(Phase3ErrorHandlingTest, IMSH01_SchemaDiagnosticHasRootCause) {
-    // PHASE-3-ERROR-HANDLING: Schema diagnostics explain WHY failure occurred
+    // PHASE-3-FAILURE-HANDLING: Schema diagnostics explain WHY failure occurred
     
     std::string error_code = "IMPORT_SCHEMA_MISMATCH";
     std::map<std::string, std::string> context = {
@@ -335,7 +335,7 @@ TEST_F(Phase3ErrorHandlingTest, IMSH01_SchemaDiagnosticHasRootCause) {
 }
 
 TEST_F(Phase3ErrorHandlingTest, IMSH01_SchemaDiagnosticHasRemediation) {
-    // PHASE-3-ERROR-HANDLING: Schema diagnostics include actionable remediation
+    // PHASE-3-FAILURE-HANDLING: Schema diagnostics include actionable remediation
     
     std::vector<std::string> remediation_steps = {
         "1. Verify that no concurrent schema migrations are running on table 'users'",
@@ -361,7 +361,7 @@ TEST_F(Phase3ErrorHandlingTest, IMSH01_SchemaDiagnosticHasRemediation) {
 // ============================================================================
 
 TEST_F(Phase3ErrorHandlingTest, IMSH02_ConflictDiagnosticHasRowIDs) {
-    // PHASE-3-ERROR-HANDLING: Conflict diagnostics reference specific row IDs
+    // PHASE-3-FAILURE-HANDLING: Conflict diagnostics reference specific row IDs
     
     std::string row_id = "row_12345";
     std::string key_value = "user_id=999";
@@ -373,12 +373,12 @@ TEST_F(Phase3ErrorHandlingTest, IMSH02_ConflictDiagnosticHasRowIDs) {
 }
 
 TEST_F(Phase3ErrorHandlingTest, IMSH02_ConflictDiagnosticHasSuggestions) {
-    // PHASE-3-ERROR-HANDLING: Conflict diagnostics suggest resolution strategies
+    // PHASE-3-FAILURE-HANDLING: Conflict diagnostics suggest resolution strategies
     
     std::vector<std::string> remediation = {
         "1. Review conflicting record(s) with key value: user_id=999",
-        "2. Decide on resolution strategy (OVERWRITE, SKIP, MERGE, or ERROR)",
-        "3. If using ERROR strategy, change to OVERWRITE or SKIP and retry",
+        "2. Decide on resolution strategy (OVERWRITE, SKIP, MERGE, or FAILURE)",
+        "3. If using FAILURE strategy, change to OVERWRITE or SKIP and retry",
         "4. If using MERGE, review protected_fields configuration"
     };
     
@@ -399,7 +399,7 @@ TEST_F(Phase3ErrorHandlingTest, IMSH02_ConflictDiagnosticHasSuggestions) {
 // ============================================================================
 
 TEST_F(Phase3ErrorHandlingTest, IMSH03_ConnectorDiagnosticSuggestsReconnect) {
-    // PHASE-3-ERROR-HANDLING: Connector diagnostics guide reconnection
+    // PHASE-3-FAILURE-HANDLING: Connector diagnostics guide reconnection
     
     std::string connector_name = "PostgreSQL";
     std::string connection_string = "host=db.example.com port=5432";
@@ -415,7 +415,7 @@ TEST_F(Phase3ErrorHandlingTest, IMSH03_ConnectorDiagnosticSuggestsReconnect) {
 }
 
 TEST_F(Phase3ErrorHandlingTest, IMSH03_ConnectorDiagnosticSuggestsFallback) {
-    // PHASE-3-ERROR-HANDLING: Connector diagnostics suggest fallback options
+    // PHASE-3-FAILURE-HANDLING: Connector diagnostics suggest fallback options
     
     std::vector<std::string> remediation = {
         "6. Wait for any ongoing maintenance to complete and retry",
@@ -438,7 +438,7 @@ TEST_F(Phase3ErrorHandlingTest, IMSH03_ConnectorDiagnosticSuggestsFallback) {
 // ============================================================================
 
 TEST_F(Phase3ErrorHandlingTest, IMSH04_AggregationCountsByCategory) {
-    // PHASE-3-ERROR-HANDLING: Diagnostic aggregation counts failures by category
+    // PHASE-3-FAILURE-HANDLING: Diagnostic aggregation counts failures by category
     
     // Simulate various failures
     std::map<std::string, uint32_t> failures_by_category;
@@ -459,7 +459,7 @@ TEST_F(Phase3ErrorHandlingTest, IMSH04_AggregationCountsByCategory) {
 }
 
 TEST_F(Phase3ErrorHandlingTest, IMSH04_AggregationHandlesZeroFailures) {
-    // PHASE-3-ERROR-HANDLING: Aggregation handles successful imports (0 failures)
+    // PHASE-3-FAILURE-HANDLING: Aggregation handles successful imports (0 failures)
     
     std::map<std::string, uint32_t> failures_by_category;
     // No failures in this map
@@ -477,7 +477,7 @@ TEST_F(Phase3ErrorHandlingTest, IMSH04_AggregationHandlesZeroFailures) {
 // ============================================================================
 
 TEST_F(Phase3ErrorHandlingTest, IMSH05_ExtractsTop5RootCauses) {
-    // PHASE-3-ERROR-HANDLING: Diagnostic aggregation extracts and ranks top causes
+    // PHASE-3-FAILURE-HANDLING: Diagnostic aggregation extracts and ranks top causes
     
     // Simulate root cause frequencies
     std::vector<std::pair<std::string, uint32_t>> root_causes = {
@@ -500,7 +500,7 @@ TEST_F(Phase3ErrorHandlingTest, IMSH05_ExtractsTop5RootCauses) {
 }
 
 TEST_F(Phase3ErrorHandlingTest, IMSH05_RanksRootCausesByFrequency) {
-    // PHASE-3-ERROR-HANDLING: Root causes ranked by frequency (most common first)
+    // PHASE-3-FAILURE-HANDLING: Root causes ranked by frequency (most common first)
     
     std::vector<std::pair<std::string, uint32_t>> sorted_causes = {
         {"Cause A", 100},
@@ -521,7 +521,7 @@ TEST_F(Phase3ErrorHandlingTest, IMSH05_RanksRootCausesByFrequency) {
 // ============================================================================
 
 TEST_F(Phase3ErrorHandlingTest, IMSH06_RemediationDeduplication) {
-    // PHASE-3-ERROR-HANDLING: Remediation steps are deduplicated
+    // PHASE-3-FAILURE-HANDLING: Remediation steps are deduplicated
     
     // Simulate multiple diagnostics with overlapping remediation steps
     std::vector<std::string> all_steps = {
@@ -545,7 +545,7 @@ TEST_F(Phase3ErrorHandlingTest, IMSH06_RemediationDeduplication) {
 }
 
 TEST_F(Phase3ErrorHandlingTest, IMSH06_RemediationPrioritization) {
-    // PHASE-3-ERROR-HANDLING: Remediation steps prioritized by frequency
+    // PHASE-3-FAILURE-HANDLING: Remediation steps prioritized by frequency
     
     std::map<std::string, uint32_t> step_frequencies = {
         {"Check database connectivity", 45},
@@ -577,7 +577,7 @@ TEST_F(Phase3ErrorHandlingTest, IMSH06_RemediationPrioritization) {
 // ============================================================================
 
 TEST_F(Phase3ErrorHandlingTest, IntegrationCompleteFailureScenario) {
-    // PHASE-3-ERROR-HANDLING: Full failure scenario with diagnostics
+    // PHASE-3-FAILURE-HANDLING: Full failure scenario with diagnostics
     
     // Simulate a complete failure scenario
     std::string import_id = "import_001";
@@ -605,7 +605,7 @@ TEST_F(Phase3ErrorHandlingTest, IntegrationCompleteFailureScenario) {
 }
 
 TEST_F(Phase3ErrorHandlingTest, IntegrationSuccessfulImportWithWarnings) {
-    // PHASE-3-ERROR-HANDLING: Successful import with warnings (no failures)
+    // PHASE-3-FAILURE-HANDLING: Successful import with warnings (no failures)
     
     std::string import_id = "import_002";
     uint64_t failure_count = 0;

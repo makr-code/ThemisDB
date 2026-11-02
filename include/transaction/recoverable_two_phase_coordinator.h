@@ -142,6 +142,14 @@ struct GlobalTwoPhaseCommitRecoveryReport {
 
     /// Per-coordinator breakdown.
     std::vector<RecoverableTwoPhaseCoordinatorReport> coordinators;
+
+    /**
+     * @brief Whether startup must remain blocked pending transaction recovery.
+     * @return True when any transaction remains in doubt after the recovery pass.
+     */
+    [[nodiscard]] bool startupBlocked() const noexcept {
+        return in_doubt_after != 0;
+    }
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -174,7 +182,8 @@ public:
      * Null pointers in the list are silently skipped.
      *
      * @param coordinators Recovery-capable coordinators to visit exactly once.
-     * @return             Aggregated before/after counts and per-coordinator results.
+     * @return             Aggregated before/after counts and per-coordinator results;
+     *                     call `startupBlocked()` before allowing writes.
      */
     [[nodiscard]] static GlobalTwoPhaseCommitRecoveryReport recoverAll(
         const std::vector<IRecoverableTwoPhaseCoordinator*>& coordinators
@@ -196,7 +205,6 @@ public:
 
             coordinator_report.resolved =
                 coordinator->recoverInDoubtTransactions();
-
             coordinator_report.in_doubt_after =
                 coordinator->getRecoverableTransactions().size();
 

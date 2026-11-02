@@ -111,6 +111,13 @@ struct HTTrain {
     /// Frobenius norm of the original tensor.
     double original_norm = 0.0;
 
+    /// Encoder quality attached to document-derived embeddings, if applicable.
+    std::string embedding_quality;
+    /// True when embeddings were produced by a non-semantic fallback.
+    bool degraded = false;
+    /// Machine-readable explanation for degraded encoding, if applicable.
+    std::string degradation_reason;
+
     // ── TT-train memoization cache (stub #286) ─────────────────────────────────
     //
     // `tt_cache_mtx_` is a shared_ptr so the struct remains moveable: after a
@@ -172,6 +179,9 @@ struct HTTrain {
         , max_rank(other.max_rank)
         , achieved_eps(other.achieved_eps)
         , original_norm(other.original_norm)
+        , embedding_quality(std::move(other.embedding_quality))
+        , degraded(other.degraded)
+        , degradation_reason(std::move(other.degradation_reason))
         , tt_cache_mtx_(std::move(other.tt_cache_mtx_))
         , tt_cache_(std::move(other.tt_cache_))
     {}
@@ -184,6 +194,9 @@ struct HTTrain {
             max_rank     = other.max_rank;
             achieved_eps = other.achieved_eps;
             original_norm = other.original_norm;
+            embedding_quality = std::move(other.embedding_quality);
+            degraded = other.degraded;
+            degradation_reason = std::move(other.degradation_reason);
             tt_cache_mtx_ = std::move(other.tt_cache_mtx_);
             tt_cache_    = std::move(other.tt_cache_);
         }

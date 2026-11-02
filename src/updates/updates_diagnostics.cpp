@@ -76,13 +76,13 @@ std::optional<ErrorContext> ErrorContext::fromJson(const json& j) {
         ctx.error_code = static_cast<DiagnosticErrorCode>(code);
         
         // Parse severity
-        std::string sev = j.value("severity", "ERROR");
+        std::string sev = j.value("severity", "FAILURE");
         if (sev == "INFO") {
           ctx.severity = DiagnosticSeverity::INFO;
         }
         else if (sev == "WARN") ctx.severity = DiagnosticSeverity::WARN;
         else if (sev == "CRITICAL") ctx.severity = DiagnosticSeverity::CRITICAL;
-        else ctx.severity = DiagnosticSeverity::ERROR;
+        else ctx.severity = DiagnosticSeverity::FAILURE;
         
         // Parse root cause
         uint16_t cause = j.value("root_cause", 7);

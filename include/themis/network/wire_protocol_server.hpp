@@ -24,8 +24,8 @@
 #include <boost/asio.hpp>
 #include <google/protobuf/message.h>
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 #ifdef DELETE

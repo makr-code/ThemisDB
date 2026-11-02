@@ -29,8 +29,8 @@
 #include <cctype>
 #include <cstdio>
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 #ifdef DELETE

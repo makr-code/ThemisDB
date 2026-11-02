@@ -19,8 +19,8 @@
 #include <librdkafka/rdkafkacpp.h>
 #endif
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 namespace themis {
@@ -546,7 +546,7 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
                 err.code     = code;
                 err.message  = "DebeziumCDCImporter: consumer error: " +
                                msg->errstr();
-                err.severity = ImportErrorSeverity::ERROR;
+                err.severity = ImportErrorSeverity::FAILURE;
                 stats.structured_errors.push_back(err);
                 stats.errors.push_back(err.message);
                 break;

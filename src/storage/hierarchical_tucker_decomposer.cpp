@@ -120,6 +120,9 @@ HTTrain HTTrain::clone() const {
     c.max_rank      = max_rank;
     c.achieved_eps  = achieved_eps;
     c.original_norm = original_norm;
+    c.embedding_quality = embedding_quality;
+    c.degraded = degraded;
+    c.degradation_reason = degradation_reason;
     return c;
 }
 
@@ -246,7 +249,7 @@ storage::TTTrain HTTrain::toTTTrain() const {
 namespace {
 
 constexpr uint64_t kHTMagic = 0x5448544D49535442ULL;  // "HTMISTB" in little-endian view
-constexpr uint8_t  kHTVersion = 1;
+constexpr uint8_t  kHTVersion = 2;
 
 /**
  * @brief Write U64.
@@ -268,6 +271,11 @@ void writeU64(std::vector<uint8_t>& buf, uint64_t v) {
  */
 void writeU8(std::vector<uint8_t>& buf, uint8_t v) {
     buf.push_back(v);
+}
+
+void writeString(std::vector<uint8_t>& buf, const std::string& value) {
+    writeU64(buf, value.size());
+    buf.insert(buf.end(), value.begin(), value.end());
 }
 
 /**
@@ -341,6 +349,18 @@ struct Reader {
     bool readU8(uint8_t& v) {
         if (left < 1) { ok = false; return false; }
         v = *p++; left--; return true;
+    }
+    bool readString(std::string& value) {
+        uint64_t length = 0;
+        if (!readU64(length) || length > 4096 || length > left) {
+            ok = false;
+            return false;
+        }
+        value.assign(reinterpret_cast<const char*>(p),
+                     static_cast<std::size_t>(length));
+        p += length;
+        left -= static_cast<std::size_t>(length);
+        return true;
     }
     /**
      * @brief Read F64.
@@ -450,6 +470,9 @@ std::vector<uint8_t> HTTrain::serialize() const {
     writeU64(buf, static_cast<uint64_t>(max_rank));
     writeF64(buf, achieved_eps);
     writeF64(buf, original_norm);
+    writeU8(buf, degraded ? 1 : 0);
+    writeString(buf, embedding_quality);
+    writeString(buf, degradation_reason);
     serializeNode(buf, root.get());
     // Append CRC32 of the entire serialized content for integrity verification.
     appendCrc32(buf);
@@ -490,7 +513,7 @@ std::optional<HTTrain> HTTrain::deserialize(const std::vector<uint8_t>& bytes) {
       return std::nullopt;
     }
     uint8_t ver = 0;
-    if (!r.readU8(ver) || ver != kHTVersion) {
+    if (!r.readU8(ver) || (ver != 1 && ver != kHTVersion)) {
       return std::nullopt;
     }
 
@@ -518,6 +541,18 @@ std::optional<HTTrain> HTTrain::deserialize(const std::vector<uint8_t>& bytes) {
     }
     if (!r.readF64(ht.original_norm)) {
       return std::nullopt;
+    }
+    if (ver >= 2) {
+        uint8_t degraded = 0;
+        if (!r.readU8(degraded) || degraded > 1 ||
+            !r.readString(ht.embedding_quality) ||
+            !r.readString(ht.degradation_reason)) {
+            return std::nullopt;
+        }
+        ht.degraded = degraded != 0;
+        if (ht.degraded != !ht.degradation_reason.empty()) {
+            return std::nullopt;
+        }
     }
 
     ht.root = deserializeNode(r);

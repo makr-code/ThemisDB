@@ -212,7 +212,7 @@ inline constexpr uint32_t kMaxConsumerGroupsPerChangefeed = 256;
 /// the pending count for a consumer exceeds this value.
 inline constexpr std::size_t kConsumerLagWarningThreshold = 1'000;
 
-/// Maximum redelivery attempts before diagnostics escalate to ERROR severity.
+/// Maximum redelivery attempts before diagnostics escalate to FAILURE severity.
 inline constexpr uint32_t kRedeliveryEscalationThreshold = 3;
 
 } // namespace cdc

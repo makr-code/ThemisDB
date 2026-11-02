@@ -955,7 +955,7 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
         // UTF-8 validation
         if (options.enforce_utf8 && !isValidUtf8(line)) {
             addError(stats, ImportErrorCode::INVALID_UTF8,
-                     ImportErrorSeverity::ERROR,
+                     ImportErrorSeverity::FAILURE,
                      "Invalid UTF-8 in row",
                      "line " + std::to_string(line_number));
             stats.failed_records++;
@@ -1190,7 +1190,7 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
         // UTF-8 validation
         if (options.enforce_utf8 && !isValidUtf8(line)) {
             addError(stats, ImportErrorCode::INVALID_UTF8,
-                     ImportErrorSeverity::ERROR,
+                     ImportErrorSeverity::FAILURE,
                      "Invalid UTF-8 in row",
                      "line " + std::to_string(line_number));
             stats.failed_records++;
@@ -1205,7 +1205,7 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
             entity = json::parse(line);
         } catch (const std::exception& e) {
             addError(stats, ImportErrorCode::PARSE_INSERT,
-                     ImportErrorSeverity::ERROR,
+                     ImportErrorSeverity::FAILURE,
                      std::string("JSON parse error: ") + e.what(),
                      "line " + std::to_string(line_number));
             stats.errors.push_back("JSON parse error at line " +
@@ -1219,7 +1219,7 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
 
         if (!entity.is_object()) {
             addError(stats, ImportErrorCode::PARSE_INSERT,
-                     ImportErrorSeverity::ERROR,
+                     ImportErrorSeverity::FAILURE,
                      "JSONL line is not a JSON object",
                      "line " + std::to_string(line_number));
             stats.failed_records++;
@@ -1614,7 +1614,7 @@ void FlatFileImporter::addError(ImportStats& stats, ImportErrorCode code,
     err.message  = message;
     err.location = location;
     stats.structured_errors.push_back(err);
-    if (severity == ImportErrorSeverity::ERROR ||
+    if (severity == ImportErrorSeverity::FAILURE ||
         severity == ImportErrorSeverity::CRITICAL) {
         stats.errors.push_back(message);
     }

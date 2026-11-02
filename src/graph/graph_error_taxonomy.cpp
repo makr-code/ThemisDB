@@ -125,7 +125,7 @@ ErrorContext::getRecoveryRecommendation() const noexcept {
 [[nodiscard]] std::string
 ErrorContext::formatDiagnostic() const noexcept {
     std::ostringstream oss;
-    oss << "[GRAPH ERROR]\n"
+    oss << "[GRAPH FAILURE]\n"
         << "  Code: " << getErrorCodeHex(code) << "\n"
         << "  Category: ";
     

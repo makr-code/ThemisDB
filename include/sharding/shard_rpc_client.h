@@ -16,6 +16,7 @@
 #include <stdexcept>
 #include <functional>
 #include <nlohmann/json.hpp>
+#include "sharding/epoch_fencing.h"
 
 #ifdef THEMIS_ENABLE_GRPC
 #include <grpcpp/grpcpp.h>
@@ -132,12 +133,22 @@ public:
      * @brief Send PREPARE request (2PC Phase 1)
      * @param txn_id Transaction ID
      * @param operations Operations to prepare
+     * @param fencing_token Current credential scoped to this target shard
      * @return true if shard votes to commit
      */
     bool prepare(
         const std::string& txn_id,
-        const nlohmann::json& operations
+        const nlohmann::json& operations,
+        const EpochToken& fencing_token
     );
+
+    /**
+     * @brief Reject an unfenced PREPARE request.
+     * @param txn_id Transaction ID
+     * @param operations Operations that would have been prepared
+     * @return Always false because no fencing credential was supplied
+     */
+    bool prepare(const std::string& txn_id, const nlohmann::json& operations);
     
     /**
      * @brief Send COMMIT request (2PC Phase 2)
@@ -238,6 +249,9 @@ public:
      * The handler receives the RPC method name (e.g. "prepare", "commit") and
      * the full @p params JSON and must return a well-formed response JSON.
      * Pass @c nullptr to restore the built-in hardcoded fallback behaviour.
+     *
+     * The in-process transport is compiled for test-mode builds only; production
+     * and ordinary development builds require a real gRPC endpoint.
      *
      * Thread safety: the handler is stored under the impl mutex; it is safe to
      * call this method from any thread before or during RPC use.

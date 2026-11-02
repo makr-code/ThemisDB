@@ -12,7 +12,7 @@ namespace themis::sharding::detail {
 enum class TwoPhaseCommitExecutionResult {
     COMMITTED,
     ABORTED,
-    ERROR
+    FAILURE
 };
 
 /**
@@ -22,7 +22,7 @@ enum class TwoPhaseCommitExecutionResult {
  * decision-record callback must succeed before phase two is applied. Once
  * COMMIT is selected, a phase-two failure is an error/in-doubt result and must
  * never be converted into an ABORT. A prepare exception selects ABORT; decision
- * persistence or application exceptions return ERROR.
+ * persistence or application exceptions return FAILURE.
  *
  * @param prepare_all Invokes phase one and returns true only when every
  *        participant voted to commit.
@@ -36,9 +36,9 @@ enum class TwoPhaseCommitExecutionResult {
  * @tparam PersistDecision Callable that records the selected decision.
  * @tparam ApplyDecision Callable that broadcasts and applies the decision.
  * @return COMMITTED or ABORTED when the selected decision and phase two
- *         complete; ERROR when decision persistence or application fails or
+ *         complete; FAILURE when decision persistence or application fails or
  *         throws. A prepare exception selects ABORT and continues through the
- *         decision callbacks. An ERROR after a recorded decision means that
+ *         decision callbacks. An FAILURE after a recorded decision means that
  *         decision remains authoritative; durable replay is available only
  *         when the coordinator's persistence backend is configured.
  */
@@ -56,18 +56,18 @@ template <typename Prepare, typename PersistDecision, typename ApplyDecision>
 
     try {
         if (!persist_decision(prepared)) {
-            return TwoPhaseCommitExecutionResult::ERROR;
+            return TwoPhaseCommitExecutionResult::FAILURE;
         }
     } catch (...) {
-        return TwoPhaseCommitExecutionResult::ERROR;
+        return TwoPhaseCommitExecutionResult::FAILURE;
     }
 
     try {
         if (!apply_decision(prepared)) {
-            return TwoPhaseCommitExecutionResult::ERROR;
+            return TwoPhaseCommitExecutionResult::FAILURE;
         }
     } catch (...) {
-        return TwoPhaseCommitExecutionResult::ERROR;
+        return TwoPhaseCommitExecutionResult::FAILURE;
     }
 
     return prepared ? TwoPhaseCommitExecutionResult::COMMITTED

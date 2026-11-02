@@ -31,17 +31,18 @@
 
 #pragma once
 
-// Prevent Windows macro pollution for enum members named ERROR.
-#ifdef ERROR
-#undef ERROR
+// Prevent Windows macro pollution for enum members named FAILURE.
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 #include "sharding/shard_rpc_server.h"
 #include "sharding/shard_rpc_client.h"
+#include "sharding/epoch_fencing.h"
 #include "transaction/recoverable_two_phase_coordinator.h"
 #include "sharding/wal_manager.h"
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 #include <string>
 #include <map>
@@ -50,6 +51,7 @@
 #include <memory>
 #include <atomic>
 #include <chrono>
+#include <functional>
 #include <optional>
 #include <nlohmann/json.hpp>
 
@@ -63,14 +65,14 @@ namespace themis::sharding {
 enum class CoordinatorTxnResult {
     COMMITTED,  ///< All participants committed
     ABORTED,    ///< At least one participant voted ABORT (or error)
-    ERROR       ///< Internal error; transaction state unknown
+    FAILURE       ///< Internal error; transaction state unknown
 };
 
 /** @brief Detailed outcome returned by TwoPhaseCommitCoordinator::commit(). */
 struct CoordinatorTxnOutcome {
-    CoordinatorTxnResult result        = CoordinatorTxnResult::ERROR;
+    CoordinatorTxnResult result        = CoordinatorTxnResult::FAILURE;
     std::string          transaction_id;
-    std::string          reason;        ///< Populated on ABORTED / ERROR
+    std::string          reason;        ///< Populated on ABORTED / FAILURE
 
     /** @brief Return true when outcome is final COMMITTED. */
     [[nodiscard]] bool committed() const {
@@ -144,8 +146,12 @@ public:
         /// How long to wait for a participant's PREPARE vote before aborting
         std::chrono::milliseconds prepare_timeout{30000};
 
-        /// Flush WAL synchronously on every write
+        /// Sync non-mandatory WAL writes; BEGIN and decision records are always synced.
         bool sync_wal_writes = true;
+
+        /// Supplies a trusted current-epoch token scoped to each target shard.
+        /// Missing or invalid providers fail write transactions closed.
+        std::function<std::optional<EpochToken>(const std::string&)> fencing_token_provider;
     };
 
     /**
@@ -224,6 +230,10 @@ public:
      * This method drives both phases synchronously:
      * 1. Sends PREPARE to each shard listed in @p ops_per_shard.
      * 2. If all vote COMMIT → sends COMMIT to all; otherwise ABORT to all.
+     * When a coordinator WAL is configured, BEGIN and the final decision are
+     * synchronously persisted before any participant RPC in the corresponding
+     * phase. WAL-disabled operation remains volatile and has no crash-recovery
+     * guarantee.
      *
      * Only shards present in @p ops_per_shard participate.  Shards not
      * listed are not contacted.
@@ -232,8 +242,8 @@ public:
      * @param ops_per_shard   Map from shard_id → JSON array of operations
      * @return COMMITTED only after every participant acknowledges COMMIT;
      *         ABORTED when prepare selects ABORT and phase two completes;
-     *         ERROR when validation, decision persistence, or a phase-two
-     *         acknowledgement fails. After a durable decision, ERROR leaves
+     *         FAILURE when validation, decision persistence, or a phase-two
+     *         acknowledgement fails. After a durable decision, FAILURE leaves
      *         that decision authoritative for recovery; COMMIT is never
      *         changed to ABORT.
      */
@@ -330,16 +340,20 @@ private:
 
     /// Build the serialised payload for a single shard.
     /// @param ops JSON-Operationen fuer einen Teilnehmer.
+    /// @param token Current fencing credential scoped to that participant.
     /// @return Transportpayload fuer onPrepare().
-    static std::string buildPayload(const nlohmann::json& ops);
+    static std::string buildPayload(const nlohmann::json& ops, const EpochToken& token);
 
     /// Persist a coordinator WAL entry.
     /// @param type WAL-Eintragstyp.
     /// @param txn_id Betroffene Transaktions-ID.
     /// @param data Zusaetzliche WAL-Nutzdaten.
-    bool logToWAL(WALEntryType type,
-                  const std::string& txn_id,
-                  const nlohmann::json& data);
+    /// @param force_sync Require a successful flush regardless of configuration.
+    /// @return True when WAL is disabled or the requested append/flush succeeds.
+    [[nodiscard]] bool logToWAL(WALEntryType type,
+                                const std::string& txn_id,
+                                const nlohmann::json& data,
+                                bool force_sync = false);
 };
 
 } // namespace themis::sharding

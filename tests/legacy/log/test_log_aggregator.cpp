@@ -105,7 +105,7 @@ TEST(LogAggregatorTest, LevelFilterAcceptsAtOrAboveMinLevel) {
 }
 
 TEST(LogAggregatorTest, SetLevelDynamicChange) {
-    auto agg = makeAgg(Level::ERROR);
+    auto agg = makeAgg(Level::FAILURE);
     agg.info("dropped before setLevel");
     EXPECT_EQ(0u, agg.size());
 
@@ -229,7 +229,7 @@ TEST(LogAggregatorTest, EntriesAtLevelFiltersCorrectly) {
     agg.trace("t");
     agg.info("i");
     agg.error("e");
-    auto warn_and_above = agg.entriesAtLevel(Level::ERROR);
+    auto warn_and_above = agg.entriesAtLevel(Level::FAILURE);
     ASSERT_EQ(1u, warn_and_above.size());
     EXPECT_EQ("e", warn_and_above[0].message);
 }
@@ -245,14 +245,14 @@ TEST(LogAggregatorTest, StatsCountAcceptedEntries) {
     agg.error("c");
     auto s = agg.stats();
     EXPECT_EQ(3, s.total_entries);
-    // entries_by_level: INFO=1, WARN=1, ERROR=1
+    // entries_by_level: INFO=1, WARN=1, FAILURE=1
     EXPECT_EQ(1, s.entries_by_level[static_cast<int>(Level::INFO)]);
     EXPECT_EQ(1, s.entries_by_level[static_cast<int>(Level::WARN)]);
-    EXPECT_EQ(1, s.entries_by_level[static_cast<int>(Level::ERROR)]);
+    EXPECT_EQ(1, s.entries_by_level[static_cast<int>(Level::FAILURE)]);
 }
 
 TEST(LogAggregatorTest, StatsCountDroppedEntries) {
-    auto agg = makeAgg(Level::ERROR);
+    auto agg = makeAgg(Level::FAILURE);
     agg.trace("drop");
     agg.info("drop");
     auto s = agg.stats();
@@ -274,7 +274,7 @@ TEST(LogAggregatorTest, EntryCallbackInvokedForEachAcceptedEntry) {
 }
 
 TEST(LogAggregatorTest, EntryCallbackNotInvokedForDroppedEntries) {
-    auto agg = makeAgg(Level::ERROR);
+    auto agg = makeAgg(Level::FAILURE);
     int count = 0;
     agg.setEntryCallback([&count](const LogEntry&) { ++count; });
     agg.debug("dropped");

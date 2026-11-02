@@ -42,7 +42,7 @@ enum class LiveImportErrorCode : uint32_t {
     UNKNOWN              = 900
 };
 
-enum class LiveImportErrorSeverity { INFO, WARNING, ERROR, CRITICAL };
+enum class LiveImportErrorSeverity { INFO, WARNING, FAILURE, CRITICAL };
 
 struct LiveImportError {
     LiveImportErrorCode     code;

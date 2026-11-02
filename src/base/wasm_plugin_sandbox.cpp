@@ -399,7 +399,7 @@ bool WasmPluginSandbox::loadFromFile(const std::string &path) {
     std::ifstream file(path, std::ios::binary | std::ios::ate);
     if (!file.is_open()) {
         // GAP-FIX sensitive_data_logging: keep the full path in last_error_ for the
-        // caller but do not broadcast it to the log at ERROR level — file paths
+        // caller but do not broadcast it to the log at FAILURE level — file paths
         // are treated as sensitive per MODULE_GAPS.md.
         last_error_ = "Cannot open WASM file: " + path;
         spdlog::error("WasmPluginSandbox: cannot open WASM file (see lastError() for details)");

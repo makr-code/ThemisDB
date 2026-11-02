@@ -412,7 +412,7 @@ public:
         SUCCESS,
         BACKPRESSURE,       // Buffer nearly full
         DROPPED,            // Event dropped due to full buffer
-        ERROR
+        FAILURE
     };
     /**
      * @brief Push.

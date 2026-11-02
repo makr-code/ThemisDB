@@ -35,8 +35,8 @@
 
 #include "../test_performance_helpers.h"
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 using namespace themis::llm;
@@ -253,7 +253,7 @@ TEST_F(SchedulerBenchmark, RejectionLatency_QueueFull) {
 
     {
         // Keep rejection benchmarks focused on scheduler path, not log I/O costs.
-        const ScopedLogLevel quiet_logs(themis::utils::Logger::Level::ERROR);
+        const ScopedLogLevel quiet_logs(themis::utils::Logger::Level::FAILURE);
         for (size_t i = 0; i < REJECT_ITERS; ++i) {
             auto t0 = Clock::now();
             auto id = sched->submitRequest(makeRequest());
@@ -293,7 +293,7 @@ TEST_F(SchedulerBenchmark, QuotaRejectionThroughput) {
 
     {
         // Quota path emits warn-level rejections by design; suppress them during timing.
-        const ScopedLogLevel quiet_logs(themis::utils::Logger::Level::ERROR);
+        const ScopedLogLevel quiet_logs(themis::utils::Logger::Level::FAILURE);
         for (size_t i = 0; i < N; ++i) {
             InferenceRequest req = makeRequest(20, 10);
             req.request_id = "bench-user";  // used as quota key in scheduler

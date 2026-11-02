@@ -78,6 +78,7 @@ json ColumnStats::toJSON() const {
 
     if (most_common_value.has_value()) {
         j["most_common_value"] = *most_common_value;
+        j["most_common_frequency"] = most_common_frequency;
     }
     if (min_value.has_value()) {
         j["min_value"] = *min_value;
@@ -636,6 +637,7 @@ ColumnStats StatisticsCollector::buildColumnStats(
             freq_map.begin(), freq_map.end(),
             [](const auto& a, const auto& b) { return a.second < b.second; });
         cs.most_common_value = max_it->first;
+        cs.most_common_frequency = max_it->second;
     }
 
     // Numeric histogram (attempt conversion; silently skip non-numeric)
@@ -787,6 +789,8 @@ std::optional<TableStats> StatisticsCollector::loadStats(std::string_view table_
                 if (cj.contains("most_common_value") && cj["most_common_value"].is_string()) {
                     cs.most_common_value = cj["most_common_value"].get<std::string>();
                 }
+                cs.most_common_frequency =
+                    cj.value("most_common_frequency", size_t{0});
                 if (cj.contains("min_value") && cj["min_value"].is_number()) {
                     cs.min_value = cj["min_value"].get<double>();
                 }
@@ -892,4 +896,3 @@ std::optional<std::vector<IndexStats>> StatisticsCollector::loadIndexStats(
 }
 
 } // namespace themis
-

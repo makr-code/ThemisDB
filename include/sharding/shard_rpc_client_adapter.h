@@ -48,6 +48,8 @@ namespace themis::sharding {
  *
  * Thread-safe: the underlying ShardRPCClient handles its own locking.
  *
+ * @note Phase-2 results are acknowledged only when the remote participant
+ *       confirms the requested transition.
  * @note Phase-two acknowledgements are propagated. A failed remote ABORT
  *       returns false so the coordinator retains the decision as in-doubt.
  */
@@ -93,20 +95,31 @@ public:
      */
     bool onPrepare(
         const std::string& transaction_id,
-        const std::string& /*coordinator_shard_id*/,
+        const std::string& coordinator_shard_id,
         const std::string& transaction_data
     ) override {
         nlohmann::json ops = nlohmann::json::array();
+        EpochToken token;
         try {
             auto parsed = nlohmann::json::parse(transaction_data);
             ops = parsed.value("operations", nlohmann::json::array());
+            const auto& token_json = parsed.at("fencing_token");
+            token.epoch = token_json.at("epoch").get<EpochNumber>();
+            token.issuer = token_json.at("issuer").get<NodeId>();
+            token.shard_id = token_json.at("shard_id").get<std::string>();
+            const auto issued_at_ms = token_json.at("issued_at_ms").get<int64_t>();
+            token.issued_at = std::chrono::system_clock::time_point{
+                std::chrono::milliseconds{issued_at_ms}};
+            if (!ops.is_array() || token.issuer != coordinator_shard_id) {
+                return false;
+            }
         } catch (...) {
             // Malformed payload → vote ABORT
             return false;
         }
 
         try {
-            return client_.prepare(transaction_id, ops);
+            return client_.prepare(transaction_id, ops, token);
         } catch (...) {
             return false;
         }
@@ -133,6 +146,9 @@ public:
 
     /**
      * @brief Translate ABORT call to a ShardRPCClient::abort() RPC.
+     *
+     * Returns false when the remote participant does not acknowledge the
+     * abort; idempotency permits a later recovery retry.
      * @return true only when the remote shard acknowledges ABORT; false on a
      *         negative response or transport failure.
      * @note A false result keeps the coordinator's selected ABORT decision

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-11-01"
+Last Updated: "2026-11-02"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -35,7 +35,11 @@ the storage restore implementation, or traffic-management infrastructure.
 3. `DisasterRecoveryManager` validates required plan fields, rejects concurrent
    uncached executions, and runs its fixed ordered step pipeline. A failed step
    stops later steps; the manager does not compensate earlier steps.
-4. `QuorumLog` optionally appends local pipe-delimited records with CRC32.
+4. `DisasterRecoveryManager` requires operation acknowledgements and separate
+   read-back proof for each non-dry-run external step. It appends a checksummed
+   completion record to the configured local metadata log before returning
+   success and replays completed plan identities on construction.
+5. `QuorumLog` optionally appends local pipe-delimited records with CRC32.
    Startup logs the last valid record, but does not restore an epoch or quorum
    decision into the manager. `TopologySnapshot` copies failure counts and sorts
    node IDs for stable ordering; topology-change comparison checks node-set
@@ -48,19 +52,21 @@ the storage restore implementation, or traffic-management infrastructure.
 | Request queue | Capacity is bounded by configuration | Submission while stopped or at capacity returns `false`; a full request is counted as dropped |
 | Replication manager | Supplies quorum, replica health/roles, and the promotion request | Missing dependency, unavailable quorum, or failed promotion blocks or fails the operation |
 | Epoch fencing manager | Supplies a non-zero epoch before guarded promotion | Missing manager when required or epoch 0 fails closed |
-| DR plan | Required IDs are checked before step execution | Validation or step failure returns a failed result; completed steps are not rolled back |
+| DR plan and adapters | Non-dry-run operations require adapter acknowledgements and separate checksum/LSN-term/site proof | Missing adapter, failed ACK, stale proof, disabled safety gates, or failed metadata persistence returns a failed result; completed steps are not rolled back |
 | Optional quorum log | Appends decisions when configured | Append failure blocks the corresponding quorum/promotion path; CRC32 is not authentication |
 
 ## Integration boundary and incomplete actions
 
 The current implementation does not execute every action implied by the
-orchestration names. Spare activation emits `SPARE_ACTIVATION_FAILED` and now
-blocks completion when a configured spare cannot be activated. Metadata
-persistence remains unavailable and returns failure. Non-dry-run DR snapshot
-validation, restore, replication-position catch-up, requested traffic shift,
-and recovered-state verification also fail closed without registered hooks.
-Configured hooks must perform and verify their external effects; the manager
-does not independently certify them. See [IMPLEMENTATION.md](IMPLEMENTATION.md).
+orchestration names. Spare activation requires a runtime hook and independent
+`ACTIVE` state read-back; failure blocks completion and leaves `DEGRADED` state.
+The DR completion log serializes processes using the same metadata path through
+a persistent sibling lock and flushes completion records before success. It
+remains local-file metadata rather than a consensus-backed shared store; lock and
+durability behavior on network filesystems is not established. Shard write paths
+now enforce epoch-token checks, but there is still no multi-process
+failover/recovery E2E test. Shared durable metadata and networked E2E evidence
+remain release-blocking integration gaps. See [IMPLEMENTATION.md](IMPLEMENTATION.md).
 
 ## Observability boundary
 

@@ -47,13 +47,13 @@ namespace timeseries {
  *
  * Severity guides operational response:
  *   - CRITICAL: Immediate action required (e.g., data loss risk)
- *   - ERROR: Failure that degrades service (e.g., buffer overflow, key rotation)
+ *   - FAILURE: Failure that degrades service (e.g., buffer overflow, key rotation)
  *   - WARN: Degraded behavior but service continues (e.g., high backpressure)
  *   - INFO: Normal operational event (e.g., retention GC, flush completion)
  */
 enum class IncidentSeverity : int {
     CRITICAL  = 0,  ///< Requires immediate remediation (data loss, auth failure)
-    ERROR     = 1,  ///< Operation failed, service degraded
+    FAILURE     = 1,  ///< Operation failed, service degraded
     WARN      = 2,  ///< Unusual but recoverable condition
     INFO      = 3,  ///< Normal operational event
 };
@@ -64,7 +64,7 @@ enum class IncidentSeverity : int {
 [[nodiscard]] inline constexpr std::string_view severityName(IncidentSeverity sev) noexcept {
     switch (sev) {
         case IncidentSeverity::CRITICAL: return "CRITICAL";
-        case IncidentSeverity::ERROR:    return "ERROR";
+        case IncidentSeverity::FAILURE:    return "FAILURE";
         case IncidentSeverity::WARN:     return "WARN";
         case IncidentSeverity::INFO:     return "INFO";
     }
@@ -358,7 +358,7 @@ struct Incident {
         INTEGRATION = 3,
     } incident_class;
 
-    /// Severity of the incident (CRITICAL, ERROR, WARN, INFO).
+    /// Severity of the incident (CRITICAL, FAILURE, WARN, INFO).
     IncidentSeverity severity;
 
     /// Specific error code (mapped to incident class).
@@ -396,12 +396,12 @@ struct Incident {
         return inc;
     }
 
-    /// Constructs an ERROR ingest incident.
+    /// Constructs an FAILURE ingest incident.
     [[nodiscard]] static Incident errorIngest(IngestIncidentCode code,
                                               IncidentContext ctx = {}) noexcept {
         Incident inc;
         inc.incident_class = Class::INGEST;
-        inc.severity = IncidentSeverity::ERROR;
+        inc.severity = IncidentSeverity::FAILURE;
         inc.code.ingest_code = code;
         inc.when = IncidentTimestamp::now();
         inc.context = ctx;
@@ -444,12 +444,12 @@ struct Incident {
         return inc;
     }
 
-    /// Constructs an ERROR query incident.
+    /// Constructs an FAILURE query incident.
     [[nodiscard]] static Incident errorQuery(QueryIncidentCode code,
                                              IncidentContext ctx = {}) noexcept {
         Incident inc;
         inc.incident_class = Class::QUERY;
-        inc.severity = IncidentSeverity::ERROR;
+        inc.severity = IncidentSeverity::FAILURE;
         inc.code.query_code = code;
         inc.when = IncidentTimestamp::now();
         inc.context = ctx;
@@ -492,12 +492,12 @@ struct Incident {
         return inc;
     }
 
-    /// Constructs an ERROR lifecycle incident.
+    /// Constructs an FAILURE lifecycle incident.
     [[nodiscard]] static Incident errorLifecycle(LifecycleIncidentCode code,
                                                  IncidentContext ctx = {}) noexcept {
         Incident inc;
         inc.incident_class = Class::LIFECYCLE;
-        inc.severity = IncidentSeverity::ERROR;
+        inc.severity = IncidentSeverity::FAILURE;
         inc.code.lifecycle_code = code;
         inc.when = IncidentTimestamp::now();
         inc.context = ctx;
@@ -540,12 +540,12 @@ struct Incident {
         return inc;
     }
 
-    /// Constructs an ERROR integration incident.
+    /// Constructs an FAILURE integration incident.
     [[nodiscard]] static Incident errorIntegration(IntegrationIncidentCode code,
                                                    IncidentContext ctx = {}) noexcept {
         Incident inc;
         inc.incident_class = Class::INTEGRATION;
-        inc.severity = IncidentSeverity::ERROR;
+        inc.severity = IncidentSeverity::FAILURE;
         inc.code.integration_code = code;
         inc.when = IncidentTimestamp::now();
         inc.context = ctx;

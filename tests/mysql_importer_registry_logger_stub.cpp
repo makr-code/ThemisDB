@@ -16,8 +16,8 @@
 
 #include "utils/logger.h"
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 namespace themis {
@@ -77,7 +77,7 @@ Logger::Level Logger::levelFromString(const std::string& lvl) {
       return Level::WARN;
     }
     if (s == "error") {
-      return Level::ERROR;
+      return Level::FAILURE;
     }
     if (s == "critical") {
       return Level::CRITICAL;
@@ -91,7 +91,7 @@ const char* Logger::levelToString(Level lvl) {
     case Level::DEBUG:    return "debug";
     case Level::INFO:     return "info";
     case Level::WARN:     return "warn";
-    case Level::ERROR:    return "error";
+    case Level::FAILURE:    return "error";
     case Level::CRITICAL: return "critical";
     default:              return "info";
     }

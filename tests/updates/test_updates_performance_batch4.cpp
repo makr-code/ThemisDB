@@ -507,13 +507,13 @@ TEST(UpdatesPerformanceBatch4, UP_PER_21_ExceptionLoggingPattern) {
         throw std::runtime_error("test error message");
     } catch (const std::exception& e) {
         // Log the exception before catching all others
-        logged_error = std::string("ERROR: ") + e.what();
+        logged_error = std::string("FAILURE: ") + e.what();
     } catch (...) {
         // Fall back for non-std exceptions
-        logged_error = "ERROR: Unknown exception";
+        logged_error = "FAILURE: Unknown exception";
     }
     
-    EXPECT_EQ(logged_error, "ERROR: test error message");
+    EXPECT_EQ(logged_error, "FAILURE: test error message");
 }
 
 // ============================================================================

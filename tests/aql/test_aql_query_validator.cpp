@@ -32,7 +32,7 @@ TEST(ValidationResultTest, EmptyHasNoErrorsOrWarnings) {
 TEST(ValidationResultTest, SummaryOneError) {
     ValidationResult r;
     r.is_valid = false;
-    r.issues.push_back({ValidationIssue::Severity::ERROR, "Missing RETURN", "RETURN"});
+    r.issues.push_back({ValidationIssue::Severity::FAILURE, "Missing RETURN", "RETURN"});
     EXPECT_TRUE(r.hasErrors());
     EXPECT_FALSE(r.hasWarnings());
     EXPECT_EQ(r.summary(), "1 error");
@@ -41,7 +41,7 @@ TEST(ValidationResultTest, SummaryOneError) {
 TEST(ValidationResultTest, SummaryMultipleIssues) {
     ValidationResult r;
     r.is_valid = false;
-    r.issues.push_back({ValidationIssue::Severity::ERROR,   "err",  "FOR"});
+    r.issues.push_back({ValidationIssue::Severity::FAILURE,   "err",  "FOR"});
     r.issues.push_back({ValidationIssue::Severity::WARNING, "warn", "FILTER"});
     r.issues.push_back({ValidationIssue::Severity::INFO,    "hint", "LIMIT"});
     EXPECT_TRUE(r.hasErrors());
@@ -280,7 +280,7 @@ TEST_F(AQLQueryValidatorStringTest, TraversalValidDepthRange) {
     );
     bool has_depth_error = false;
     for (const auto& issue : result.issues) {
-        if (issue.clause == "FOR" && issue.severity == ValidationIssue::Severity::ERROR) {
+        if (issue.clause == "FOR" && issue.severity == ValidationIssue::Severity::FAILURE) {
             has_depth_error = true;
             break;
         }
@@ -297,7 +297,7 @@ TEST_F(AQLQueryValidatorStringTest, TraversalInvalidDepthRangeIsError) {
     EXPECT_TRUE(result.hasErrors());
     bool has_depth_error = false;
     for (const auto& issue : result.issues) {
-        if (issue.clause == "FOR" && issue.severity == ValidationIssue::Severity::ERROR) {
+        if (issue.clause == "FOR" && issue.severity == ValidationIssue::Severity::FAILURE) {
             has_depth_error = true;
             break;
         }

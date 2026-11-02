@@ -15,6 +15,7 @@
 
 #include "sharding/truetime.h"
 #include "sharding/wal_manager.h"
+#include "sharding/epoch_fencing.h"
 #include "transaction/recoverable_two_phase_coordinator.h"
 #include <string>
 #include <string_view>
@@ -24,6 +25,7 @@
 #include <memory>
 #include <optional>
 #include <chrono>
+#include <functional>
 #include <nlohmann/json.hpp>
 
 namespace themis::sharding {
@@ -113,6 +115,7 @@ public:
         bool enable_recovery_log = true;        ///< Enable WAL-based transaction recovery logging.
         std::string wal_directory = "./wal/coordinator"; ///< WAL directory used for decision/recovery persistence.
         std::string coordinator_id;             ///< Prometheus label value for coordinator metrics.
+        std::function<std::optional<EpochToken>(const std::string&)> fencing_token_provider; ///< Current target-shard write credential.
 
         /**
          * When true, transactions with isolation_level == SNAPSHOT_ISOLATION use

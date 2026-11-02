@@ -30,6 +30,15 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_sharding_core.cpp")
     message(STATUS "  ShardingCore: Raft consensus, shard routing, rebalancing")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_raft_persistence_focused.cpp")
+    message(STATUS "Adding Sharding: Raft persistence focused tests")
+    add_executable(test_raft_persistence_focused ../test_raft_persistence_focused.cpp)
+    target_include_directories(test_raft_persistence_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_raft_persistence_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_raft_persistence_focused PRIVATE THEMIS_TEST_BUILD=1)
+    themis_register_module_focused_test(MODULE sharding NAME RaftPersistenceFocusedTests TARGET test_raft_persistence_focused TIER unit TIMEOUT 60 LABELS raft persistence restart fail-closed)
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_replication_coordinator_focused.cpp")
     message(STATUS "Adding Sharding: ReplicationCoordinator focused tests (QW-28)")
     add_executable(test_replication_coordinator_focused ../test_replication_coordinator_focused.cpp)
@@ -78,6 +87,24 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_stream_protocol_focused.cpp")
     target_compile_definitions(test_stream_protocol_focused PRIVATE THEMIS_TEST_BUILD=1)
     themis_register_module_focused_test(MODULE sharding NAME StreamProtocolFocusedTests TARGET test_stream_protocol_focused TIER unit TIMEOUT 30 LABELS stream-protocol wal-applier chunk-metadata LSN-validation W2-S03)
     message(STATUS "  StreamProtocol: Chunk metadata & LSN validation hardening (W2-S03)")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_stream_session_transport_focused.cpp")
+    add_executable(test_stream_session_transport_focused
+        test_stream_session_transport_focused.cpp)
+    target_include_directories(test_stream_session_transport_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_stream_session_transport_focused PRIVATE
+        ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_stream_session_transport_focused PRIVATE
+        THEMIS_TEST_BUILD=1)
+    themis_register_module_focused_test(
+        MODULE sharding
+        NAME StreamSessionTransportFocusedTests
+        TARGET test_stream_session_transport_focused
+        TIER unit
+        TIMEOUT 30
+        LABELS stream-protocol transport fail-closed DIS-03)
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_cross_shard_transaction_focused.cpp")
