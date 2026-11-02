@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
-Created: unknown
-Last Updated: 2026-11-01
+Created: 2026-07-17
+Last Updated: 2026-11-02
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -23,7 +23,7 @@ Related_Issue: "#5373 (DIS-05)"
 Related_Milestone: DOC-WEEKLY-2026-W44
 ---
 
-Exact model backend not verifiable from final document text alone. The original creation date is not available in the repository history inspected for this update.
+Exact model backend not verifiable from final document text alone.
 
 # Transaction Coordinators — Architecture Reference
 
