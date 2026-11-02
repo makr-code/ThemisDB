@@ -11735,48 +11735,16 @@ macro(add_cdc_focused_test target src test_name labels timeout description)
     message(STATUS "  ${description}")
 endmacro()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_admin.cpp")
-    message(STATUS "Adding CDC Admin tests (Issue #1623, standalone binary)")
-
-    add_executable(test_cdc_admin
-        cdc/test_cdc_admin.cpp
-    )
-
-    # cdc_admin.cpp is compiled into themis_core only when THEMIS_ENABLE_HTTP_SERVER=ON.
-    # When HTTP_SERVER is OFF, add it as a direct source to avoid missing-symbol errors.
-    if(NOT THEMIS_ENABLE_HTTP_SERVER)
-        target_sources(test_cdc_admin PRIVATE
-            ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
-        )
-    endif()
-
-    target_include_directories(test_cdc_admin PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_admin PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_admin PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CDCAdminFocusedTests COMMAND $<TARGET_FILE:test_cdc_admin>)
-
-    set_tests_properties(CDCAdminFocusedTests PROPERTIES
-        LABELS "cdc;admin;retention;compaction;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  CDCAdmin: CDCAdmin, purgeOlderThan, compactLog, retentionPolicy, subscriptionManagement")
-else()
-    message(STATUS "CDC Admin tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_admin.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_admin
+    cdc/test_cdc_admin.cpp
+    CDCAdminFocusedTests
+    "cdc;admin;retention;compaction;unit"
+    120
+    "CDCAdmin: CDCAdmin, purgeOlderThan, compactLog, retentionPolicy, subscriptionManagement"
+    nlohmann_json::nlohmann_json
+    RocksDB::rocksdb
+)
 
 # ============================================================================
 # Tenant Buffer Manager Tests (standalone - changefeed_buffer.cpp and
@@ -11823,48 +11791,16 @@ endif()
 # policies, background cleanup thread lifecycle, and RetentionStatus reporting)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_retention.cpp")
-    message(STATUS "Adding CDC Retention focused tests (runtime TTL + size-based retention)")
-
-    add_executable(test_cdc_retention
-        cdc/test_cdc_retention.cpp
-    )
-
-    # cdc_admin.cpp is compiled into themis_core only when THEMIS_ENABLE_HTTP_SERVER=ON.
-    # When HTTP_SERVER is OFF, add it as a direct source to avoid missing-symbol errors.
-    if(NOT THEMIS_ENABLE_HTTP_SERVER)
-        target_sources(test_cdc_retention PRIVATE
-            ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
-        )
-    endif()
-
-    target_include_directories(test_cdc_retention PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_retention PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_retention PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CDCRetentionFocusedTests COMMAND $<TARGET_FILE:test_cdc_retention>)
-
-    set_tests_properties(CDCRetentionFocusedTests PROPERTIES
-        LABELS "cdc;retention;ttl;background-thread;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  CDCRetention: runtime policy updates, background thread lifecycle, TTL/size/count enforcement, RetentionStatus")
-else()
-    message(STATUS "CDC Retention tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_retention.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_retention
+    cdc/test_cdc_retention.cpp
+    CDCRetentionFocusedTests
+    "cdc;retention;ttl;background-thread;unit"
+    120
+    "CDCRetention: runtime policy updates, background thread lifecycle, TTL/size/count enforcement, RetentionStatus"
+    nlohmann_json::nlohmann_json
+    RocksDB::rocksdb
+)
 
 # ============================================================================
 # CDC Changefeed Sequence Counter Tests (v1.8.0 - roadmap #160)
@@ -11872,45 +11808,16 @@ endif()
 # no-duplicate sequences under 8 threads, ~200K seq/s throughput.
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_changefeed_sequence_counter.cpp")
-    message(STATUS "Adding CDC Changefeed Sequence Counter focused tests (v1.8.0 roadmap:160)")
-
-    add_executable(test_cdc_changefeed_sequence_counter
-        cdc/test_cdc_changefeed_sequence_counter.cpp
-    )
-
-    target_include_directories(test_cdc_changefeed_sequence_counter PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_changefeed_sequence_counter PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_changefeed_sequence_counter PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    if(WIN32)
-        themis_sync_runtime_dlls_for_target(test_cdc_changefeed_sequence_counter)
-    endif()
-
-    add_test(NAME CDCChangefeedSequenceCounterTests
-             COMMAND $<TARGET_FILE:test_cdc_changefeed_sequence_counter>)
-
-    set_tests_properties(CDCChangefeedSequenceCounterTests PROPERTIES
-        LABELS "cdc;sequence;merge-operator;lock-free;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  CDCSequenceCounter: SequenceIncrementOperator, atomic counter, crash recovery, concurrent uniqueness, >=200K/s throughput")
-else()
-    message(STATUS "CDC Sequence Counter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_changefeed_sequence_counter.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_changefeed_sequence_counter
+    cdc/test_cdc_changefeed_sequence_counter.cpp
+    CDCChangefeedSequenceCounterTests
+    "cdc;sequence;merge-operator;lock-free;unit"
+    120
+    "CDCSequenceCounter: SequenceIncrementOperator, atomic counter, crash recovery, concurrent uniqueness, >=200K/s throughput"
+    nlohmann_json::nlohmann_json
+    RocksDB::rocksdb
+)
 
 # ============================================================================
 # ChangefeedCore Focused Tests (v1.8.0) - validates Changefeed subscriptions,
@@ -11974,100 +11881,32 @@ endif()
 # back-pressure metric cdc_ws_overflow_total, and pollEvents delivery)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_ws_handler.cpp")
-    message(STATUS "Adding CDC WebSocket handler focused tests (v1.7.0 roadmap:55)")
-
-    add_executable(test_cdc_ws_handler
-        cdc/test_cdc_ws_handler.cpp
-    )
-
-    # cdc_ws_handler.cpp and ws_transport.cpp are compiled into themis_core only
-    # when THEMIS_ENABLE_HTTP_SERVER=ON.  Add them explicitly to this test
-    # target when HTTP_SERVER is OFF to avoid missing-symbol linker errors.
-    # consumer_group.cpp is also needed for the v1.8.0 group-protocol tests.
-    if(NOT THEMIS_ENABLE_HTTP_SERVER)
-        target_sources(test_cdc_ws_handler PRIVATE
-            ${THEMIS_ROOT_DIR}/src/cdc/cdc_ws_handler.cpp
-            ${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp
-            ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
-        )
-    endif()
-
-    target_include_directories(test_cdc_ws_handler PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_ws_handler PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_ws_handler PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CdcWsHandlerFocusedTests COMMAND $<TARGET_FILE:test_cdc_ws_handler>)
-
-    set_tests_properties(CdcWsHandlerFocusedTests PROPERTIES
-        LABELS "cdc;websocket;streaming;subscription;backpressure;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  CdcWsHandler: subscribe/unsubscribe/ack frames, back-pressure (cdc_ws_overflow_total), pollEvents, checkRedelivery")
-else()
-    message(STATUS "CDC WebSocket handler tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_ws_handler.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_ws_handler
+    cdc/test_cdc_ws_handler.cpp
+    CdcWsHandlerFocusedTests
+    "cdc;websocket;streaming;subscription;backpressure;unit"
+    120
+    "CdcWsHandler: subscribe/unsubscribe/ack frames, back-pressure (cdc_ws_overflow_total), pollEvents, checkRedelivery"
+    nlohmann_json::nlohmann_json
+    RocksDB::rocksdb
+)
 
 # ============================================================================
 # CDC Consumer Group Focused Tests (v1.8.0 - consumer group semantics and
 # durable offset tracking via ConsumerGroupManager)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_consumer_group.cpp")
-    message(STATUS "Adding CDC Consumer Group focused tests (v1.8.0 roadmap:56)")
-
-    add_executable(test_cdc_consumer_group
-        cdc/test_cdc_consumer_group.cpp
-    )
-
-    # consumer_group.cpp is compiled into themis_core. When HTTP_SERVER is OFF
-    # it may not be linked; add it explicitly to avoid missing-symbol errors.
-    if(NOT THEMIS_ENABLE_HTTP_SERVER)
-        target_sources(test_cdc_consumer_group PRIVATE
-            ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
-        )
-    endif()
-
-    target_include_directories(test_cdc_consumer_group PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_consumer_group PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_consumer_group PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME ConsumerGroupFocusedTests COMMAND $<TARGET_FILE:test_cdc_consumer_group>)
-
-    set_tests_properties(ConsumerGroupFocusedTests PROPERTIES
-        LABELS "cdc;consumer-group;offset-tracking;partition;at-least-once;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  ConsumerGroup: createGroup/deleteGroup, commitOffset/getCommittedOffset, partitionForKey, fetchEvents, fetchEventsAtLeastOnce, acknowledgeEvents")
-else()
-    message(STATUS "CDC Consumer Group tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_consumer_group.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_consumer_group
+    cdc/test_cdc_consumer_group.cpp
+    ConsumerGroupFocusedTests
+    "cdc;consumer-group;offset-tracking;partition;at-least-once;unit"
+    120
+    "ConsumerGroup: createGroup/deleteGroup, commitOffset/getCommittedOffset, partitionForKey, fetchEvents, fetchEventsAtLeastOnce, acknowledgeEvents"
+    nlohmann_json::nlohmann_json
+    RocksDB::rocksdb
+)
 
 # ============================================================================
 # CDC Kafka Producer Focused Tests (v1.9.0 - KafkaCDCProducer / ICDCTransport;
@@ -12075,59 +11914,16 @@ endif()
 # Prometheus counter fields, Debezium format integration)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_kafka_producer.cpp")
-    message(STATUS "Adding CDC Kafka Producer focused tests (v1.9.0 roadmap:161)")
-
-    add_executable(test_cdc_kafka_producer
-        cdc/test_cdc_kafka_producer.cpp
-    )
-
-    # kafka_cdc_producer.cpp is compiled conditionally when THEMIS_ENABLE_KAFKA=ON.
-    # Add it explicitly here so the full implementation is exercised when the
-    # library is available; when OFF the no-op stub (inline in the header) is used.
-    if(THEMIS_ENABLE_KAFKA)
-        target_sources(test_cdc_kafka_producer PRIVATE
-            ${THEMIS_ROOT_DIR}/src/cdc/kafka_cdc_producer.cpp
-        )
-    endif()
-
-    target_include_directories(test_cdc_kafka_producer PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_kafka_producer PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    if(THEMIS_ENABLE_KAFKA AND TARGET RdKafka::rdkafka++)
-        target_link_libraries(test_cdc_kafka_producer PRIVATE
-            RdKafka::rdkafka
-            RdKafka::rdkafka++
-        )
-        target_compile_definitions(test_cdc_kafka_producer PRIVATE
-            THEMIS_ENABLE_KAFKA=1
-        )
-    endif()
-
-    target_compile_definitions(test_cdc_kafka_producer PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CDCKafkaProducerFocusedTests COMMAND $<TARGET_FILE:test_cdc_kafka_producer>)
-
-    set_tests_properties(CDCKafkaProducerFocusedTests PROPERTIES
-        LABELS "cdc;kafka;producer;transport;metrics;debezium;v1.9.0;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  CDCKafkaProducer: config defaults, no-op stub, ICDCTransport compliance, Prometheus counters (cdc_kafka_delivered_total/cdc_kafka_error_total), Debezium format")
-else()
-    message(STATUS "CDC Kafka Producer tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_kafka_producer.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_kafka_producer
+    cdc/test_cdc_kafka_producer.cpp
+    CDCKafkaProducerFocusedTests
+    "cdc;kafka;producer;transport;metrics;debezium;v1.9.0;unit"
+    60
+    "CDCKafkaProducer: config defaults, no-op stub, ICDCTransport compliance, Prometheus counters (cdc_kafka_delivered_total/cdc_kafka_error_total), Debezium format"
+    nlohmann_json::nlohmann_json
+    RocksDB::rocksdb
+)
 
 # ============================================================================
 # CDC Pause/Resume Control Focused Tests (v1.8.0 - ICDCPauseControl /

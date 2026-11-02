@@ -442,7 +442,15 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
   - [x] 2026-11-02: Die Plugin-Hot-Plug- und Hot-Reload-Tests verwenden ihr kanonisches Plugin-Modul-Target;
     die Legacy-Buildtarget-Namen, CTest-Namen, Labels und Timeouts bleiben erhalten. Die explizite
     `CMAKE_DL_LIBS`-Abhängigkeit bleibt auf dem Modul-Target; das nicht-modulare Inventar sinkt von 293 auf 291.
-  - Offen: Das nicht-modulare Profil enthält weiterhin 291 Quellen mit mehreren Nicht-Aggregat-Testtargets.
+  - [x] 2026-11-02: Sechs weitere CDC-Tests (`admin`, `retention`, `changefeed_sequence_counter`,
+    `consumer_group`, `kafka_producer`, `ws_handler`) verwenden ihr kanonisches CDC-Modul-Target. Die
+    bedingten Produktionsquellen für HTTP-Server- und Kafka-Konfigurationen sowie nlohmann-json-/RocksDB-
+    Abhängigkeiten und Windows-Runtime-DLL-Synchronisierung wurden auf das Modulziel übertragen. Legacy-
+    Buildtarget-Namen und CTest-Namen, Labels und Timeouts bleiben erhalten. Beide Windows-Debug-Profile
+    konfigurieren; im nicht-modularen Profil haben alle sechs Quellen genau ein fokussiertes Target und
+    das Inventar sinkt von 291 auf 285. Der gezielte Build bleibt durch einen unabhängigen MSVC-Fehler im
+    generierten gRPC-Header vor Erreichen der CDC-Targets blockiert.
+  - Offen: Das nicht-modulare Profil enthält weiterhin 285 Quellen mit mehreren Nicht-Aggregat-Testtargets.
     Diese Mehrfachregistrierungen müssen einzeln auf doppelte Builds oder unterschiedliche Link-/Testverträge
     geprüft werden; nur `themis_tests` und `themis_tests_critical` gelten im Gate als Sammelziele.
   - Der gezielte Build der Ingestion-Targets, BaseEntity-/Base-Reload-Aliase sowie der GPU-Graph-Traversal-,
