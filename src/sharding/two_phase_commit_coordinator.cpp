@@ -163,17 +163,19 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         const auto it = transactions_.find(transaction_id);
         if (it != transactions_.end()) {
             if (it->second.state == CoordinatorTxnState::COMPLETED) {
-                outcome.result = CoordinatorTxnResult::COMMITTED;
+                outcome.result = it->second.decision_commit
+                    ? CoordinatorTxnResult::COMMITTED
+                    : CoordinatorTxnResult::ABORTED;
                 return outcome;
             }
-            outcome.result = CoordinatorTxnResult::ERROR;
+            outcome.result = CoordinatorTxnResult::FAILURE;
             outcome.reason = "transaction already in progress";
             return outcome;
         }
     }
 
     if (!config_.fencing_token_provider) {
-        outcome.result = CoordinatorTxnResult::ERROR;
+        outcome.result = CoordinatorTxnResult::FAILURE;
         outcome.reason = "fencing token provider not configured";
         ++total_errors_;
         return outcome;
@@ -185,14 +187,14 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
             auto token = config_.fencing_token_provider(shard_id);
             if (!token || token->epoch == 0 || token->issuer != coordinator_id_ ||
                 token->shard_id != shard_id) {
-                outcome.result = CoordinatorTxnResult::ERROR;
+                outcome.result = CoordinatorTxnResult::FAILURE;
                 outcome.reason = "invalid fencing token for shard: " + shard_id;
                 ++total_errors_;
                 return outcome;
             }
             fencing_tokens.emplace(shard_id, std::move(*token));
         } catch (const std::exception& e) {
-            outcome.result = CoordinatorTxnResult::ERROR;
+            outcome.result = CoordinatorTxnResult::FAILURE;
             outcome.reason = "fencing token provider failed for shard " + shard_id +
                              ": " + e.what();
             ++total_errors_;
@@ -263,12 +265,12 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
             }
             return v;
         }()}
-    })) {
+    }, /*force_sync=*/true)) {
         std::lock_guard<std::timed_mutex> lock(mutex_);
         transactions_.at(transaction_id).state = CoordinatorTxnState::FAILED;
-        outcome.result = CoordinatorTxnResult::FAILURE;
-        outcome.reason = "could not persist transaction begin record";
         total_errors_.fetch_add(1, std::memory_order_relaxed);
+        outcome.result = CoordinatorTxnResult::FAILURE;
+        outcome.reason = "failed to durably persist transaction BEGIN; no participants were prepared";
         return outcome;
     }
 
@@ -304,7 +306,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
                     {"coordinator_id", coordinator_id_},
                     {"phase", "decision"},
                     {"decision", do_commit ? "commit" : "abort"}
-                });
+                }, /*force_sync=*/true);
             phase2_started = std::chrono::steady_clock::now();
             if (!persisted) {
                 THEMIS_ERROR("2PC coordinator [{}] could not persist decision for txn {}",
@@ -316,14 +318,10 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         [this, &transaction_id](bool do_commit) {
             std::unique_lock<std::timed_mutex> lock(mutex_);
             auto& stored = transactions_.at(transaction_id);
-            const bool acknowledged = runPhase2(stored, do_commit, lock);
-            if (acknowledged) {
-                stored.state = CoordinatorTxnState::COMPLETED;
-            }
-            return acknowledged;
+            return runPhase2(stored, do_commit, lock);
         });
     const bool phase2_completed =
-        execution != detail::TwoPhaseCommitExecutionResult::ERROR;
+        execution != detail::TwoPhaseCommitExecutionResult::FAILURE;
 
     const double prepare_ms = std::chrono::duration<double, std::milli>(
         prepare_finished - t1).count();
@@ -358,15 +356,15 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
                      {"coordinator_id", coordinator_id_},
                      {"phase", "complete"}
                  })) {
-        std::lock_guard<std::timed_mutex> lock(mutex_);
-        auto it = transactions_.find(transaction_id);
-        if (it != transactions_.end()) {
-            it->second.state = CoordinatorTxnState::FAILED;
-        }
         outcome.result = CoordinatorTxnResult::FAILURE;
-        outcome.reason = "could not persist 2PC completion record";
+        outcome.reason = "failed to persist 2PC completion; transaction remains recoverable";
         total_errors_.fetch_add(1, std::memory_order_relaxed);
         return outcome;
+    }
+
+    {
+        std::lock_guard<std::timed_mutex> lock(mutex_);
+        transactions_.at(transaction_id).state = CoordinatorTxnState::COMPLETED;
     }
 
     if (all_prepared && phase2_completed) {
@@ -380,7 +378,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         THEMIS_INFO("2PC coordinator [{}] txn {} ABORTED", coordinator_id_, transaction_id);
     } else {
         total_errors_.fetch_add(1, std::memory_order_relaxed);
-        outcome.result = CoordinatorTxnResult::ERROR;
+        outcome.result = CoordinatorTxnResult::FAILURE;
         outcome.reason = "one or more participants did not acknowledge phase 2";
     }
 
@@ -445,6 +443,19 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
             recovered.emplace(txn_id, std::move(rec));
         }
 
+        if (!wal_->flushDurable()) {
+            THEMIS_ERROR("2PC coordinator [{}] cannot replay WAL decisions until "
+                         "the durability check succeeds", coordinator_id_);
+            std::lock_guard<std::timed_mutex> failed_recovery_lock(mutex_);
+            for (auto& [txn_id, rec] : recovered) {
+                if (rec.state != CoordinatorTxnState::COMPLETED) {
+                    rec.state = CoordinatorTxnState::FAILED;
+                    transactions_[txn_id] = std::move(rec);
+                }
+            }
+            return 0;
+        }
+
         // Re-drive transactions that have a Phase 2 decision but are not COMPLETED
         // 2PC-1: use unique_lock so runPhase2 can release it around each RPC.
         std::unique_lock<std::timed_mutex> lock(mutex_);
@@ -473,7 +484,7 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
                         {"decision", "abort"},
                         {"recovery", true},
                         {"reason", "no_decision_conservative_abort"}
-                    });
+                    }, /*force_sync=*/true);
                 if (!abort_decision_recorded) {
                     rec.state = CoordinatorTxnState::FAILED;
                     transactions_[txn_id] = rec;
@@ -806,24 +817,27 @@ std::string TwoPhaseCommitCoordinator::buildPayload(
 }
 
 /**
- * @brief Persist one coordinator WAL entry and report whether it was written.
- * @param[in] type WAL entry kind.
- * @param[in] txn_id Transaction identifier associated with the entry.
- * @param[in] data Additional WAL payload.
- * @return True when WAL is disabled or the entry was appended and flushed;
- *         false when the configured WAL write fails.
+ * @brief Log To WAL.
+ * @param[in] type Input parameter.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] data Input parameter.
+ * @param[in] force_sync Whether this protocol record must be synchronously flushed.
+ * @return True when WAL is disabled or the append/required flush succeeds.
+ * @details Calls: WALLoggingHelper::appendEntryWithResult().
  */
 bool TwoPhaseCommitCoordinator::logToWAL(
     WALEntryType          type,
     const std::string&    txn_id,
-    const nlohmann::json& data
+    const nlohmann::json& data,
+    bool                  force_sync
 ) {
     if (!wal_) {
         return true;
     }
+
     return WALLoggingHelper::appendEntryWithResult(
         wal_.get(), type, txn_id, data,
-        config_.sync_wal_writes,
+        force_sync || config_.sync_wal_writes,
         "coordinator", coordinator_id_
     ).has_value();
 }

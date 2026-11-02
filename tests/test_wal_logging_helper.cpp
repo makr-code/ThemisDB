@@ -162,6 +162,60 @@ TEST(WALLoggingHelperTest, AppendEntryWithResultReturnsAssignedLSN) {
     EXPECT_EQ(persisted->type, WALEntryType::COMMIT_TX);
 }
 
+TEST(WALLoggingHelperTest, HelperEntryCanBeReopenedWithManagerSyncDisabled) {
+    TmpWALDir dir;
+    LSN decision_lsn;
+    {
+        WALManagerConfig cfg;
+        cfg.wal_directory = dir.str();
+        cfg.sync_on_write = false;
+        WALManager wal(cfg);
+
+        const auto result = WALLoggingHelper::appendEntryWithResult(
+            &wal,
+            WALEntryType::COMMIT_TX,
+            "txn-forced-sync",
+            {{"phase", "decision"}, {"decision", "commit"}},
+            /*sync=*/true,
+            "coordinator",
+            "coord-forced-sync"
+        );
+
+        ASSERT_TRUE(result.has_value());
+        decision_lsn = *result;
+    }
+
+    WALManagerConfig reopen_cfg;
+    reopen_cfg.wal_directory = dir.str();
+    reopen_cfg.sync_on_write = false;
+    WALManager reopened(reopen_cfg);
+    const auto persisted = reopened.read(decision_lsn);
+    ASSERT_TRUE(persisted.has_value());
+    EXPECT_EQ(persisted->transaction_id, "txn-forced-sync");
+    EXPECT_EQ(persisted->data["phase"], "decision");
+}
+
+TEST(WALLoggingHelperTest, AppendEntryWithResultReportsSerializationFailure) {
+    TmpWALDir dir;
+    auto wal = makeTmpWAL(dir.str());
+    const nlohmann::json invalid_payload = {
+        {"invalid_utf8", std::string(1, static_cast<char>(0xFF))}
+    };
+
+    const auto result = WALLoggingHelper::appendEntryWithResult(
+        wal.get(),
+        WALEntryType::COMMIT_TX,
+        "txn-invalid-payload",
+        invalid_payload,
+        /*sync=*/true,
+        "coordinator",
+        "coord-invalid-payload"
+    );
+
+    EXPECT_FALSE(result.has_value());
+    EXPECT_TRUE(wal->readRange(LSN{0, 0}).empty());
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // WLH-09 – buildEntry() data field is stored unchanged for complex payloads
 // ─────────────────────────────────────────────────────────────────────────────

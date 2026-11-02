@@ -15,7 +15,7 @@
 // WAL-write pattern:
 //   1. Build a WALEntry with the current wall-clock timestamp.
 //   2. Append it to a WALManager and optionally return the assigned LSN.
-//   3. Optionally flush (sync_wal_writes).
+//   3. Optionally flush and report whether the flush succeeded.
 //   4. Swallow exceptions and emit an error log.
 //
 // This header centralises that pattern so neither class needs to duplicate it.
@@ -68,19 +68,19 @@ namespace WALLoggingHelper {
 /**
  * @brief Append a WAL entry, optionally flush, and return the assigned LSN.
  *
- * If @p wal is nullptr the function is a no-op.  Any exception thrown by
- * WALManager::append() or WALManager::flush() is caught and logged as an
+ * If @p wal is nullptr the function is a no-op. Any exception thrown by
+ * WALManager::append() is caught and logged as an
  * error using @p component_label and @p component_id so callers see a
  * consistent diagnostic message without crashing. The returned LSN can be used
  * by callers that need to emit additional success diagnostics; std::nullopt
- * indicates that nothing was persisted because the WAL was disabled or a write
- * failed.
+ * indicates that the WAL was disabled, the append failed, or requested
+ * durability could not be confirmed.
  *
  * @param wal             Target WAL manager (may be nullptr).
  * @param type            Logical operation type.
  * @param txn_id          Transaction identifier.
  * @param data            Additional JSON payload.
- * @param sync            When true, call wal->flush() after append.
+ * @param sync            When true, require wal->flushDurable() to succeed after append.
  * @param component_label Human-readable role label, e.g. "coordinator" or
  *                        "participant". Used in the error log message.
  * @param component_id    Instance identifier, e.g. coordinator_id_ or
@@ -103,8 +103,10 @@ namespace WALLoggingHelper {
     try {
         WALEntry entry = buildEntry(type, txn_id, data);
         const LSN lsn = wal->append(entry);
-        if (sync) {
-            wal->flush();
+        if (sync && !wal->flushDurable()) {
+            THEMIS_ERROR("2PC {} [{}] WAL flush failed for txn {}",
+                         component_label, component_id, txn_id);
+            return std::nullopt;
         }
         return lsn;
     } catch (const std::exception& e) {
@@ -125,7 +127,7 @@ namespace WALLoggingHelper {
  * @param type            Logical operation type.
  * @param txn_id          Transaction identifier.
  * @param data            Additional JSON payload.
- * @param sync            When true, call wal->flush() after append.
+ * @param sync            When true, require wal->flushDurable() to succeed after append.
  * @param component_label Human-readable role label, e.g. "coordinator" or
  *                        "participant". Used in the error log message.
  * @param component_id    Instance identifier, e.g. coordinator_id_ or

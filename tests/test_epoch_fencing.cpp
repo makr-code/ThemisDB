@@ -171,6 +171,20 @@ TEST(EpochFencingManagerTest, InvalidTokenRejected) {
     EXPECT_EQ(mgr.checkToken(bad, "n2"), FencingResult::INVALID_TOKEN);
 }
 
+TEST(EpochFencingManagerTest, TokenForDifferentShardRejected) {
+    EpochFencingManager mgr(makeConfig("s1", "n1", false));
+    auto token = mgr.makeToken();
+    token.shard_id = "s2";
+    EXPECT_EQ(mgr.checkToken(token, "n2"), FencingResult::INVALID_TOKEN);
+}
+
+TEST(EpochFencingManagerTest, TokenWithoutIssuerRejected) {
+    EpochFencingManager mgr(makeConfig("s1", "n1", false));
+    auto token = mgr.makeToken();
+    token.issuer.clear();
+    EXPECT_EQ(mgr.checkToken(token, "n2"), FencingResult::INVALID_TOKEN);
+}
+
 TEST(EpochFencingManagerTest, StaleTokenTriggersStonith) {
     auto stonith = std::make_shared<NullStonithProvider>();
     EpochFencingManager mgr(makeConfig("s1", "n1", true), stonith);
@@ -248,8 +262,8 @@ TEST(EpochFencingManagerTest, MetricsAccumulateCorrectly) {
 
     // 1 stale → STONITH
     EpochToken stale;
-    stale.epoch = 1;
-    stale.issuer = "old-writer";
+    stale.epoch    = 1;
+    stale.issuer   = "old-writer";
     stale.shard_id = "s1";
     auto stale_result = mgr.checkToken(stale, "old-writer");
     static_cast<void>(stale_result);

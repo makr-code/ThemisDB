@@ -6,8 +6,8 @@
  * @brief Wave A gate FO-Promote-04: fencing verification before promotion.
  *
  * Validates gap FO-IMPL-003: the auto-failover promotion path now verifies
- * epoch fencing regardless of the enable_split_brain_prevention flag when a
- * fencing manager is configured.
+ * epoch fencing before promotion regardless of the enable_split_brain_prevention
+ * flag, including when no fencing manager is configured.
  *
  * Test matrix:
  *   FO-Promote-04-NO-FENCE           : fencing_manager_=null, prevention=true
@@ -20,11 +20,10 @@
  *                                      → preventSplitBrain returns false,
  *                                        FAILOVER_CANCELLED (SPLIT_BRAIN_DETECTED)
  *                                        event emitted.
- *   FO-Promote-04-PREVENTION-DISABLED-NO-FENCE:
+ *   FO-Promote-04-PREVENTION-DISABLED-BLOCKED:
  *                                      prevention=false, fencing_manager_=null
- *                                      → processFailover does NOT invoke
- *                                        preventSplitBrain; no FAILOVER_CANCELLED
- *                                        (split-brain) event fired.
+ *                                      → processFailover blocks promotion and
+ *                                        reports a fencing-disabled diagnostic.
  *   FO-Promote-06-SPARE-ACTIVATION-READBACK:
  *                                      real HotSpareManager activation
  *                                      → ACTIVE state independently verified.
@@ -44,6 +43,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <filesystem>
 #include <cstdint>
 #include <memory>
 #include <optional>
@@ -233,10 +233,29 @@ TEST(WaveAFencing, FO_Promote_04_FENCE_INVALID_EPOCH) {
 TEST(WaveAFencing, FO_Promote_04_PREVENTION_DISABLED_BLOCKED) {
     AutoFailoverConfig cfg = makeFencingTestConfig();
     cfg.enable_split_brain_prevention = false;  // prevention explicitly disabled
+    cfg.quorum_timeout_ms             = 50ms;
 
-    // Test-only quorum override lets the request reach the fencing safety gate.
-    AutoFailoverManager mgr(cfg, nullptr, nullptr, nullptr, nullptr);
-    mgr.testSetQuorumOverride(true);
+    themisdb::replication::ReplicationConfig replication_config;
+    replication_config.wal_directory =
+        (std::filesystem::temp_directory_path() /
+         ("themisdb_failover_fencing_test_" +
+          std::to_string(std::chrono::steady_clock::now().time_since_epoch().count())))
+            .string();
+    std::filesystem::remove_all(replication_config.wal_directory);
+    auto replication_mgr =
+        std::make_shared<themisdb::replication::ReplicationManager>(replication_config);
+    ASSERT_TRUE(replication_mgr->initialize());
+    themisdb::replication::ReplicaInfo replica{};
+    replica.node_id = "replica-1";
+    replica.endpoint = "127.0.0.1:9000";
+    replica.role = themisdb::replication::ReplicationRole::FOLLOWER;
+    replica.is_voting_member = true;
+    replica.health_status = themisdb::replication::HealthStatus::HEALTHY;
+    replica.last_heartbeat = std::chrono::system_clock::now();
+    replication_mgr->addReplica(replica);
+
+    // Quorum exists, but fencing_manager is intentionally absent.
+    AutoFailoverManager mgr(cfg, replication_mgr, nullptr, nullptr, nullptr);
 
     std::atomic<int> split_brain_cancel_events{0};
     mgr.registerEventCallback(
@@ -258,6 +277,10 @@ TEST(WaveAFencing, FO_Promote_04_PREVENTION_DISABLED_BLOCKED) {
     const auto stats = mgr.getStatistics();
     EXPECT_EQ(stats.split_brain_preventions, 0u)
         << "split_brain_preventions counts actual fencing attempts only";
+
+    replication_mgr->shutdown();
+    std::error_code ec;
+    std::filesystem::remove_all(replication_config.wal_directory, ec);
 }
 
 TEST(WaveAFencing, FO_Promote_05_SPARE_FAILURE_LEAVES_DEGRADED_STATE) {
