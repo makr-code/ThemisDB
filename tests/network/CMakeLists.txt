@@ -33,6 +33,7 @@ foreach(_src IN LISTS NETWORK_MODULE_TEST_SOURCES)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/network/udp_server.cpp
         )
+        target_link_libraries(${_target} PRIVATE fmt::fmt)
     endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -44,9 +45,11 @@ foreach(_src IN LISTS NETWORK_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
-    if(_stem STREQUAL "test_wire_protocol_websocket" AND
-       THEMIS_ENABLE_WEBSOCKET AND TARGET themis_network)
-        target_link_libraries(${_target} PRIVATE themis_network)
+    if(_stem STREQUAL "test_wire_protocol_websocket" AND THEMIS_ENABLE_WEBSOCKET)
+        target_compile_definitions(${_target} PRIVATE THEMIS_ENABLE_WEBSOCKET=1)
+        if(TARGET themis_network)
+            target_link_libraries(${_target} PRIVATE themis_network)
+        endif()
     endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
