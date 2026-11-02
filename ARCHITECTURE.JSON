@@ -745,12 +745,12 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "56be4a7e69b48c05"
+      "sha256_prefix": "21c3b5507bc23ae6"
     },
     {
       "category": "governance",
       "path": "ROADMAP.md",
-      "sha256_prefix": "570fdfb7fda51434"
+      "sha256_prefix": "b2959878b7dab5af"
     },
     {
       "category": "governance",
@@ -775,7 +775,7 @@
     {
       "category": "governance",
       "path": "CHANGELOG.md",
-      "sha256_prefix": "e6284c5d6d47b436"
+      "sha256_prefix": "7c962379ce56b53c"
     },
     {
       "category": "governance",
@@ -1870,7 +1870,7 @@
     {
       "category": "docs",
       "path": "docs/architecture/transaction_coordinators.md",
-      "sha256_prefix": "6d9553d4278c548d"
+      "sha256_prefix": "c7b9bc6b6385d189"
     },
     {
       "category": "docs",
@@ -2500,7 +2500,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "b1cf6e3da23c1fc9"
+      "sha256_prefix": "a2d34cee00b02b04"
     },
     {
       "category": "docs",
@@ -3600,7 +3600,7 @@
     {
       "category": "docs",
       "path": "docs/governance/SHARDING_P6_RESIDUAL_RISK_ACCEPTANCE.md",
-      "sha256_prefix": "597d383072ab3e80"
+      "sha256_prefix": "d2be8bbec7819ba4"
     },
     {
       "category": "docs",
@@ -6440,7 +6440,7 @@
     {
       "category": "docs",
       "path": "docs/sharding/SHARDING_P6_SIGN_OFF.md",
-      "sha256_prefix": "9ea90b88fd84ec55"
+      "sha256_prefix": "cd93a9ee1d9e9077"
     },
     {
       "category": "docs",
@@ -7003,14 +7003,14 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-11-02T02:02:45.713944+00:00",
+  "generated_at": "2026-11-02T09:37:45.464848+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
-    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-11-01\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
+    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-11-02\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
     "module_api_count": 80,
-    "source_count": 9516,
-    "wiki_generated_at": "2026-11-01T09:52:28+00:00",
-    "wiki_source_hash": "7560acd9adf14df58c30dc5d8a5b69a3632d25faa02723b73c8868b9a813f02d"
+    "source_count": 8066,
+    "wiki_generated_at": "2026-11-02T03:02:55+00:00",
+    "wiki_source_hash": "1aed704e99d8448ba6e4d9e71e9a9234fddaaa6a57b42ea5c3f6df2447be7ae2"
   },
   "modules": [
     {
@@ -9002,15 +9002,15 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "56be4a7e69b48c05",
+    "ARCHITECTURE.md": "21c3b5507bc23ae6",
     "FUTURE_ENHANCEMENTS.md": "ab3cf42244d049f6",
-    "ROADMAP.md": "570fdfb7fda51434",
+    "ROADMAP.md": "b2959878b7dab5af",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
     "ai_context/api_contracts/": "5e5c50bf8a903852",
-    "ai_context/developer_llm_wiki/": "554090f6f1a6e133",
+    "ai_context/developer_llm_wiki/": "0843035442c9a482",
     "ai_working/": "52346260da576891",
-    "docs/": "52536c2345638c32"
+    "docs/": "d7b5e181cf3b449a"
   },
   "statistics": {
     "ai_working_artifact_count": 28,

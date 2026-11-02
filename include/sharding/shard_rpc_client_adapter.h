@@ -32,7 +32,9 @@
 #include "sharding/shard_rpc_server.h"
 #include <chrono>
 #include <memory>
+#include <stdexcept>
 #include <string>
+#include <utility>
 #include <nlohmann/json.hpp>
 
 namespace themis::sharding {
@@ -48,6 +50,8 @@ namespace themis::sharding {
  *
  * @note Phase-2 results are acknowledged only when the remote participant
  *       confirms the requested transition.
+ * @note Phase-two acknowledgements are propagated. A failed remote ABORT
+ *       returns false so the coordinator retains the decision as in-doubt.
  */
 class ShardRPCClientAdapter final : public ShardRPCServer::RequestHandler {
 public:
@@ -58,6 +62,22 @@ public:
     explicit ShardRPCClientAdapter(const ShardRPCClient::Config& config)
         : client_(config)
     {}
+
+    /**
+     * @brief Construct an adapter with a response handler for explicit
+     *        in-process endpoints.
+     * @param config ShardRPCClient configuration.
+     * @param handler Custom response handler for inproc:// or loopback://
+     *        endpoints.
+     * @throws std::invalid_argument if the endpoint uses neither in-process
+     *         scheme.
+     */
+    ShardRPCClientAdapter(
+        const ShardRPCClient::Config& config,
+        ShardRPCClient::InProcessResponseHandler handler)
+        : client_(requireInProcessEndpoint(config)) {
+        client_.setInProcessResponseHandler(std::move(handler));
+    }
 
     ~ShardRPCClientAdapter() override = default;
 
@@ -129,6 +149,10 @@ public:
      *
      * Returns false when the remote participant does not acknowledge the
      * abort; idempotency permits a later recovery retry.
+     * @return true only when the remote shard acknowledges ABORT; false on a
+     *         negative response or transport failure.
+     * @note A false result keeps the coordinator's selected ABORT decision
+     *       unresolved; retry/recovery policy remains coordinator-specific.
      */
     bool onAbort(const std::string& transaction_id) override {
         try {
@@ -152,6 +176,16 @@ public:
     }
 
 private:
+    static const ShardRPCClient::Config& requireInProcessEndpoint(
+        const ShardRPCClient::Config& config) {
+        if (config.endpoint.rfind("inproc://", 0) != 0 &&
+            config.endpoint.rfind("loopback://", 0) != 0) {
+            throw std::invalid_argument(
+                "In-process response handlers require an inproc:// or loopback:// endpoint");
+        }
+        return config;
+    }
+
     ShardRPCClient client_;
 };
 

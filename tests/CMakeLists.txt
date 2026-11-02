@@ -406,7 +406,8 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_knowledge_graph_retriever_rea
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_knowledge_graph_reasoner\\.cpp$")
 # test_ontology_aware_retriever uses deleted copy ctor on OntologyManager.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_ontology_aware_retriever\\.cpp$")
-# test_gpu_traversal is compiled as dedicated focused target test_gpu_traversal_focused.
+# test_gpu_traversal is compiled by the graph module target; keep this source
+# out of themis_tests to preserve its focused CTest discovery.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*graph/test_gpu_traversal\\.cpp$")
 # test_ai_safety_chaos and test_aql_safety_validator have ambiguous
 # AqlSafetyValidator::validate overload in unified context.
@@ -3538,51 +3539,23 @@ else()
 endif()
 
 # ============================================================================
-# GPU Graph Traversal Tests (standalone - CPU fallback, no GPU required)
+# GPU Graph Traversal legacy aliases (the canonical test is CPU-fallback safe)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/gpu/test_gpu_graph_traversal.cpp")
-    message(STATUS "Adding GPU Graph Traversal tests (CPU fallback)")
-
-    add_executable(test_gpu_graph_traversal
-        gpu/test_gpu_graph_traversal.cpp
-        ${THEMIS_ROOT_DIR}/src/graph/gpu_traversal.cpp
-        ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
-        ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
-        ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
-    )
-
-    target_link_libraries(test_gpu_graph_traversal PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        fmt::fmt
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_gpu_graph_traversal PRIVATE
-        THEMIS_TEST_BUILD=1
-        THEMIS_GRAPH_EXPORTS
-    )
-
-    if(WIN32)
-        themis_sync_runtime_dlls_for_target(test_gpu_graph_traversal)
-        add_dependencies(test_gpu_graph_traversal sync_test_runtime_dlls)
-    endif()
-
-    add_test(NAME GPUGraphTraversalTests COMMAND $<TARGET_FILE:test_gpu_graph_traversal>)
-
-    set_tests_properties(GPUGraphTraversalTests PROPERTIES
-        LABELS "graph;gpu;bfs;dfs;cpu-fallback;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  GPU Graph Traversal: CSR load, BFS/DFS correctness, CPU fallback, stats")
-else()
-    message(STATUS "GPU Graph Traversal tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/gpu/test_gpu_graph_traversal.cpp")
+set(_gpu_graph_traversal_target module_gpu_test_gpu_graph_traversal_focused)
+if(NOT TARGET ${_gpu_graph_traversal_target})
+    message(FATAL_ERROR "Canonical GPU graph traversal test target is missing: ${_gpu_graph_traversal_target}")
 endif()
+
+add_custom_target(test_gpu_graph_traversal DEPENDS ${_gpu_graph_traversal_target})
+if(WIN32)
+    add_dependencies(${_gpu_graph_traversal_target} sync_test_runtime_dlls)
+endif()
+add_test(NAME GPUGraphTraversalTests COMMAND $<TARGET_FILE:${_gpu_graph_traversal_target}>)
+set_tests_properties(GPUGraphTraversalTests PROPERTIES
+    LABELS "graph;gpu;bfs;dfs;cpu-fallback;unit"
+    TIMEOUT 120
+)
 
 # ============================================================================
 # Graph Analytics Tests (standalone)
@@ -5028,38 +5001,22 @@ else()
     message(STATUS "TracingMiddleware tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/tracing/test_tracing_middleware.cpp")
 endif()
 
-# ============================================================================
-# API Interfaces Tests (header-only types: IHttpHandler, CorrelationId, etc.)
-# ============================================================================
-
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/api/test_api_interfaces.cpp")
-    message(STATUS "Adding API interface header tests")
-
-    add_executable(test_api_interfaces
-        api/test_api_interfaces.cpp
-    )
-
-    target_link_libraries(test_api_interfaces PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_api_interfaces PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME ApiInterfacesTests COMMAND $<TARGET_FILE:test_api_interfaces>)
-
-    set_tests_properties(ApiInterfacesTests PROPERTIES
-        LABELS "api;interfaces;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  API Interfaces: IHttpHandler, CorrelationId, WebSocketCloseCode, VersionDescriptor, GRPCMetadata")
-else()
-    message(STATUS "API interface tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/api/test_api_interfaces.cpp")
+# API Interfaces legacy test aliases.
+set(_api_interfaces_target module_api_test_api_interfaces_focused)
+if(NOT TARGET ${_api_interfaces_target})
+    message(FATAL_ERROR "Canonical API interfaces test target is missing: ${_api_interfaces_target}")
 endif()
+
+add_custom_target(test_api_interfaces
+    DEPENDS ${_api_interfaces_target}
+)
+add_test(NAME ApiInterfacesTests
+    COMMAND $<TARGET_FILE:${_api_interfaces_target}>
+)
+set_tests_properties(ApiInterfacesTests PROPERTIES
+    LABELS "api;interfaces;unit"
+    TIMEOUT 60
+)
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graphql/test_graphql_error_masking.cpp")
     message(STATUS "Adding GraphQL error masking tests")
@@ -8268,37 +8225,22 @@ else()
     message(STATUS "Cloud Storage Backup comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cloud/test_cloud_storage_backup_comprehensive.cpp")
 endif()
 
-# Focused Streaming Window Tests (fast debug target)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_streaming_window.cpp")
-    message(STATUS "Adding focused streaming window tests")
-
-    add_executable(test_streaming_window_focused
-        analytics/test_streaming_window.cpp
-        ${THEMIS_ROOT_DIR}/src/analytics/streaming_window.cpp
-    )
-
-    target_include_directories(test_streaming_window_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_streaming_window_focused PRIVATE
-        ${TEST_LIBS}
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_streaming_window_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME StreamingWindowFocusedTests COMMAND $<TARGET_FILE:test_streaming_window_focused>)
-
-    set_tests_properties(StreamingWindowFocusedTests PROPERTIES
-        LABELS "analytics;streaming;window;focused;unit"
-        TIMEOUT 120
-    )
+# Streaming Window focused test legacy aliases.
+set(_streaming_window_target module_analytics_test_streaming_window_focused)
+if(NOT TARGET ${_streaming_window_target})
+    message(FATAL_ERROR "Canonical streaming window test target is missing: ${_streaming_window_target}")
 endif()
+
+add_custom_target(test_streaming_window_focused
+    DEPENDS ${_streaming_window_target}
+)
+add_test(NAME StreamingWindowFocusedTests
+    COMMAND $<TARGET_FILE:${_streaming_window_target}>
+)
+set_tests_properties(StreamingWindowFocusedTests PROPERTIES
+    LABELS "analytics;streaming;window;focused;unit"
+    TIMEOUT 120
+)
 
 # ============================================================================
 # Analytics Focused Test Targets
@@ -8306,110 +8248,56 @@ endif()
 # iteration without recompiling the full themis_core library.
 # ============================================================================
 
-# ExpertSystemEngine + KnowledgeBase focused tests (STUB #272 YAML bridge)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_expert_system_engine.cpp")
-    message(STATUS "Adding focused ExpertSystemEngine + KnowledgeBase tests")
-
-    add_executable(test_expert_system_focused
-        analytics/test_expert_system_engine.cpp
-        ${THEMIS_ROOT_DIR}/src/analytics/knowledge_base.cpp
-        ${THEMIS_ROOT_DIR}/src/analytics/expert_system_engine.cpp
-        ${THEMIS_ROOT_DIR}/src/analytics/model_serving.cpp
-        ${THEMIS_ROOT_DIR}/src/analytics/automl.cpp
-    )
-
-    target_include_directories(test_expert_system_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_expert_system_focused PRIVATE
-        ${TEST_LIBS}
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_expert_system_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME ExpertSystemFocusedTests COMMAND $<TARGET_FILE:test_expert_system_focused>)
-
-    set_tests_properties(ExpertSystemFocusedTests PROPERTIES
-        LABELS "analytics;expert-system;knowledge-base;yaml-bridge;stub272;focused;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  ExpertSystem: KB CRUD, YAML parser bridge injection (STUB #272), forward/backward chaining")
+# ExpertSystemEngine focused test legacy aliases.
+set(_expert_system_target module_analytics_test_expert_system_engine_focused)
+if(NOT TARGET ${_expert_system_target})
+    message(FATAL_ERROR "Canonical expert system test target is missing: ${_expert_system_target}")
 endif()
 
-# Anomaly Detection focused tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_anomaly_detection.cpp")
-    message(STATUS "Adding focused anomaly detection tests")
+add_custom_target(test_expert_system_focused
+    DEPENDS ${_expert_system_target}
+)
+add_test(NAME ExpertSystemFocusedTests
+    COMMAND $<TARGET_FILE:${_expert_system_target}>
+)
+set_tests_properties(ExpertSystemFocusedTests PROPERTIES
+    LABELS "analytics;expert-system;knowledge-base;yaml-bridge;stub272;focused;unit"
+    TIMEOUT 60
+)
 
-    add_executable(test_anomaly_detection_focused
-        analytics/test_anomaly_detection.cpp
-        ${THEMIS_ROOT_DIR}/src/analytics/anomaly_detection.cpp
-    )
-
-    target_include_directories(test_anomaly_detection_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_anomaly_detection_focused PRIVATE
-        ${TEST_LIBS}
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_anomaly_detection_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME AnomalyDetectionFocusedTests COMMAND $<TARGET_FILE:test_anomaly_detection_focused>)
-
-    set_tests_properties(AnomalyDetectionFocusedTests PROPERTIES
-        LABELS "analytics;anomaly;focused;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  AnomalyDetection: Z-Score, MAD, IQR, IsolationForest, LOF, Ensemble, streaming, serialize")
+# Anomaly Detection focused test legacy aliases.
+set(_anomaly_detection_target module_analytics_test_anomaly_detection_focused)
+if(NOT TARGET ${_anomaly_detection_target})
+    message(FATAL_ERROR "Canonical anomaly detection test target is missing: ${_anomaly_detection_target}")
 endif()
 
-# LLMProcessAnalyzer focused tests - O(1) LRU cache eviction (v1.8.0)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_llm_process_analyzer.cpp")
-    message(STATUS "Adding focused LLMProcessAnalyzer LRU cache tests")
+add_custom_target(test_anomaly_detection_focused
+    DEPENDS ${_anomaly_detection_target}
+)
+add_test(NAME AnomalyDetectionFocusedTests
+    COMMAND $<TARGET_FILE:${_anomaly_detection_target}>
+)
+set_tests_properties(AnomalyDetectionFocusedTests PROPERTIES
+    LABELS "analytics;anomaly;focused;unit"
+    TIMEOUT 120
+)
 
-    add_executable(test_llm_process_analyzer_focused
-        analytics/test_llm_process_analyzer.cpp
-        ${THEMIS_ROOT_DIR}/src/analytics/llm_process_analyzer.cpp
-    )
-
-    target_include_directories(test_llm_process_analyzer_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_llm_process_analyzer_focused PRIVATE
-        ${TEST_LIBS}
-        OpenSSL::Crypto
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_llm_process_analyzer_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME LLMProcessAnalyzerFocusedTests COMMAND $<TARGET_FILE:test_llm_process_analyzer_focused>)
-
-    set_tests_properties(LLMProcessAnalyzerFocusedTests PROPERTIES
-        LABELS "analytics;llm;lru-cache;focused;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  LLMProcessAnalyzer: O(1) LRU eviction, SHA256 cache key, max_cache_entries, LRU ordering")
+# LLMProcessAnalyzer focused test legacy aliases.
+set(_llm_process_analyzer_target module_analytics_test_llm_process_analyzer_focused)
+if(NOT TARGET ${_llm_process_analyzer_target})
+    message(FATAL_ERROR "Canonical LLM process analyzer test target is missing: ${_llm_process_analyzer_target}")
 endif()
+
+add_custom_target(test_llm_process_analyzer_focused
+    DEPENDS ${_llm_process_analyzer_target}
+)
+add_test(NAME LLMProcessAnalyzerFocusedTests
+    COMMAND $<TARGET_FILE:${_llm_process_analyzer_target}>
+)
+set_tests_properties(LLMProcessAnalyzerFocusedTests PROPERTIES
+    LABELS "analytics;llm;lru-cache;focused;unit"
+    TIMEOUT 120
+)
 
 # AutoML focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_automl.cpp")
@@ -8529,39 +8417,22 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_pattern_matcher.cp
     message(STATUS "  ProcessPatternMatcher: graph, vector, behavioral, hybrid similarity, conformance")
 endif()
 
-# Forecasting focused tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_forecasting.cpp")
-    message(STATUS "Adding focused forecasting tests")
-
-    add_executable(test_forecasting_focused
-        analytics/test_forecasting.cpp
-        ${THEMIS_ROOT_DIR}/src/analytics/forecasting.cpp
-    )
-
-    target_include_directories(test_forecasting_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_forecasting_focused PRIVATE
-        ${TEST_LIBS}
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_forecasting_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME ForecastingFocusedTests COMMAND $<TARGET_FILE:test_forecasting_focused>)
-
-    set_tests_properties(ForecastingFocusedTests PROPERTIES
-        LABELS "analytics;forecasting;timeseries;focused;unit"
-        TIMEOUT 180
-    )
-
-    message(STATUS "  Forecasting: LINEAR_REGRESSION, EXP_SMOOTHING, Holt-Winters, ARIMA, ENSEMBLE, serialize")
+# Forecasting focused test legacy aliases.
+set(_forecasting_target module_analytics_test_forecasting_focused)
+if(NOT TARGET ${_forecasting_target})
+    message(FATAL_ERROR "Canonical forecasting test target is missing: ${_forecasting_target}")
 endif()
+
+add_custom_target(test_forecasting_focused
+    DEPENDS ${_forecasting_target}
+)
+add_test(NAME ForecastingFocusedTests
+    COMMAND $<TARGET_FILE:${_forecasting_target}>
+)
+set_tests_properties(ForecastingFocusedTests PROPERTIES
+    LABELS "analytics;forecasting;timeseries;focused;unit"
+    TIMEOUT 180
+)
 
 # SARIMA + Prophet forecasting focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_forecasting_sarima_prophet.cpp")
@@ -8669,74 +8540,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_incremental_view.cpp")
     message(STATUS "  IncrementalView: delta maintenance, 10 aggregation functions, Welford STDDEV, COUNT_DISTINCT")
 endif()
 
-# Columnar Execution focused tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_columnar_execution.cpp")
-    message(STATUS "Adding focused columnar execution tests")
-
-    add_executable(test_columnar_execution_focused
-        analytics/test_columnar_execution.cpp
-        ${THEMIS_ROOT_DIR}/src/analytics/columnar_execution.cpp
-    )
-
-    target_include_directories(test_columnar_execution_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_columnar_execution_focused PRIVATE
-        ${TEST_LIBS}
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_columnar_execution_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME ColumnarExecutionFocusedTests COMMAND $<TARGET_FILE:test_columnar_execution_focused>)
-
-    set_tests_properties(ColumnarExecutionFocusedTests PROPERTIES
-        LABELS "analytics;columnar;vectorized;focused;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  ColumnarExecution: vectorized pipeline, SIMD aggregations, filter+project operators")
+# Columnar Execution focused test legacy aliases.
+set(_columnar_execution_target module_analytics_test_columnar_execution_focused)
+if(NOT TARGET ${_columnar_execution_target})
+    message(FATAL_ERROR "Canonical columnar execution test target is missing: ${_columnar_execution_target}")
 endif()
+
+add_custom_target(test_columnar_execution_focused
+    DEPENDS ${_columnar_execution_target}
+)
+add_test(NAME ColumnarExecutionFocusedTests
+    COMMAND $<TARGET_FILE:${_columnar_execution_target}>
+)
+set_tests_properties(ColumnarExecutionFocusedTests PROPERTIES
+    LABELS "analytics;columnar;vectorized;focused;unit"
+    TIMEOUT 120
+)
 
 # StreamingJoin focused tests (SJ-01 … SJ-15)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_streaming_join.cpp")
-    message(STATUS "Adding StreamingJoin focused tests")
-
-    add_executable(test_streaming_join_focused
-        analytics/test_streaming_join.cpp
-        ${THEMIS_ROOT_DIR}/src/analytics/streaming_join.cpp
-        ${THEMIS_ROOT_DIR}/src/analytics/columnar_execution.cpp
-    )
-
-    target_include_directories(test_streaming_join_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_streaming_join_focused PRIVATE
-        ${TEST_LIBS}
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_streaming_join_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME StreamingJoinFocusedTests COMMAND $<TARGET_FILE:test_streaming_join_focused>)
-
-    set_tests_properties(StreamingJoinFocusedTests PROPERTIES
-        LABELS "analytics;streaming;join;performance;focused;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  StreamingJoin: HashJoin + IntervalJoin, inner/left-outer, LRU pruning, SJ-01..SJ-15")
+set(_streaming_join_target module_analytics_test_streaming_join_focused)
+if(NOT TARGET ${_streaming_join_target})
+    message(FATAL_ERROR "Canonical streaming join test target is missing: ${_streaming_join_target}")
 endif()
+
+add_custom_target(test_streaming_join_focused
+    DEPENDS ${_streaming_join_target}
+)
+add_test(NAME StreamingJoinFocusedTests
+    COMMAND $<TARGET_FILE:${_streaming_join_target}>
+)
+set_tests_properties(StreamingJoinFocusedTests PROPERTIES
+    LABELS "analytics;streaming;join;performance;focused;unit"
+    TIMEOUT 120
+)
+
+message(STATUS "  StreamingJoin: HashJoin + IntervalJoin, inner/left-outer, LRU pruning, SJ-01..SJ-15")
 
 # JIT Aggregation focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_jit_aggregation.cpp")
@@ -8961,39 +8799,22 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_flight.cpp")
     message(STATUS "  ArrowFlight: in-process registry, FlightDescriptor, put/get, client round-trip")
 endif()
 
-# CEP Engine focused tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_cep_engine.cpp")
-    message(STATUS "Adding focused CEP engine tests")
-
-    add_executable(test_cep_engine_focused
-        analytics/test_cep_engine.cpp
-        ${THEMIS_ROOT_DIR}/src/analytics/cep_engine.cpp
-    )
-
-    target_include_directories(test_cep_engine_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_cep_engine_focused PRIVATE
-        ${TEST_LIBS}
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cep_engine_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CepEngineFocusedTests COMMAND $<TARGET_FILE:test_cep_engine_focused>)
-
-    set_tests_properties(CepEngineFocusedTests PROPERTIES
-        LABELS "analytics;cep;event-processing;focused;unit"
-        TIMEOUT 180
-    )
-
-    message(STATUS "  CEPEngine: NFA patterns, EPL parser, window+aggregation, alerts, checkpoint I/O")
+# CEP Engine focused test legacy aliases.
+set(_cep_engine_target module_analytics_test_cep_engine_focused)
+if(NOT TARGET ${_cep_engine_target})
+    message(FATAL_ERROR "Canonical CEP engine test target is missing: ${_cep_engine_target}")
 endif()
+
+add_custom_target(test_cep_engine_focused
+    DEPENDS ${_cep_engine_target}
+)
+add_test(NAME CepEngineFocusedTests
+    COMMAND $<TARGET_FILE:${_cep_engine_target}>
+)
+set_tests_properties(CepEngineFocusedTests PROPERTIES
+    LABELS "analytics;cep;event-processing;focused;unit"
+    TIMEOUT 180
+)
 
 # Analytics Memory Pool focused tests (AC-AMP-1..15)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_analytics_memory_pool.cpp")
@@ -9150,77 +8971,39 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_olap_lru_cache.cpp")
     message(STATUS "  OLAPLRUCache: cache hit, LRU eviction, TTL invalidation, key normalisation, background cleanup")
 endif()
 
-# Process Mining pattern-focused tests (file is analytics/test_process_mining_llm.cpp but exercises
-# process_pattern_matcher + process_mining only; has no actual LLM library dependency)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_mining_llm.cpp")
-    message(STATUS "Adding focused process mining pattern tests")
-
-    add_executable(test_process_mining_pattern_focused
-        analytics/test_process_mining_llm.cpp
-    )
-
-    target_include_directories(test_process_mining_pattern_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_process_mining_pattern_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_process_mining_pattern_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME ProcessMiningPatternFocusedTests COMMAND $<TARGET_FILE:test_process_mining_pattern_focused>)
-
-    set_tests_properties(ProcessMiningPatternFocusedTests PROPERTIES
-        LABELS "analytics;process-mining;pattern;conformance;focused;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  ProcessMiningPattern: conformance, compliance, fraud detection, activity prediction")
+# Process Mining pattern tests legacy aliases. The source has one canonical module target.
+set(_process_mining_pattern_target module_analytics_test_process_mining_llm_focused)
+if(NOT TARGET ${_process_mining_pattern_target})
+    message(FATAL_ERROR "Canonical process mining test target is missing: ${_process_mining_pattern_target}")
 endif()
 
-# Process Discovery & Conformance Checking focused tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_discovery_conformance.cpp")
-    message(STATUS "Adding focused process discovery and conformance checking tests")
+add_custom_target(test_process_mining_pattern_focused
+    DEPENDS ${_process_mining_pattern_target}
+)
+add_test(NAME ProcessMiningPatternFocusedTests
+    COMMAND $<TARGET_FILE:${_process_mining_pattern_target}>
+)
+set_tests_properties(ProcessMiningPatternFocusedTests PROPERTIES
+    LABELS "analytics;process-mining;pattern;conformance;focused;unit"
+    TIMEOUT 120
+)
 
-    add_executable(test_process_discovery_conformance_focused
-        analytics/test_process_discovery_conformance.cpp
-    )
-
-    target_include_directories(test_process_discovery_conformance_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_process_discovery_conformance_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_process_discovery_conformance_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME ProcessDiscoveryConformanceFocusedTests
-             COMMAND $<TARGET_FILE:test_process_discovery_conformance_focused>)
-
-    set_tests_properties(ProcessDiscoveryConformanceFocusedTests PROPERTIES
-        LABELS "analytics;process-mining;inductive-miner;conformance;focused;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  ProcessDiscoveryConformance: Inductive Miner, alignment conformance checking")
+# Process Discovery & Conformance Checking legacy aliases
+set(_process_discovery_conformance_target module_analytics_test_process_discovery_conformance_focused)
+if(NOT TARGET ${_process_discovery_conformance_target})
+    message(FATAL_ERROR "Canonical process discovery test target is missing: ${_process_discovery_conformance_target}")
 endif()
+
+add_custom_target(test_process_discovery_conformance_focused
+    DEPENDS ${_process_discovery_conformance_target}
+)
+add_test(NAME ProcessDiscoveryConformanceFocusedTests
+    COMMAND $<TARGET_FILE:${_process_discovery_conformance_target}>
+)
+set_tests_properties(ProcessDiscoveryConformanceFocusedTests PROPERTIES
+    LABELS "analytics;process-mining;inductive-miner;conformance;focused;unit"
+    TIMEOUT 120
+)
 
 # ============================================================================
 # Graph Module Focused Test Targets
@@ -13376,38 +13159,22 @@ else()
     message(STATUS "JWT Validation Hardening tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/jwt/test_jwt_validation_hardening.cpp")
 endif()
 
-# API Key Authenticator Tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/api/test_api_key_authenticator.cpp")
-    message(STATUS "Adding API Key Authenticator tests")
-
-    add_executable(test_api_key_authenticator
-        api/test_api_key_authenticator.cpp
-    )
-
-    target_link_libraries(test_api_key_authenticator PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        OpenSSL::SSL
-        OpenSSL::Crypto
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_api_key_authenticator PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME ApiKeyAuthenticatorTests COMMAND $<TARGET_FILE:test_api_key_authenticator>)
-
-    set_tests_properties(ApiKeyAuthenticatorTests PROPERTIES
-        LABELS "auth;api-key;static-token;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  API Key Authenticator: key creation, HMAC validation, expiry, revocation, scopes")
-else()
-    message(STATUS "API Key Authenticator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/api/test_api_key_authenticator.cpp")
+# API Key Authenticator legacy test aliases.
+set(_api_key_authenticator_target module_api_test_api_key_authenticator_focused)
+if(NOT TARGET ${_api_key_authenticator_target})
+    message(FATAL_ERROR "Canonical API key authenticator test target is missing: ${_api_key_authenticator_target}")
 endif()
+
+add_custom_target(test_api_key_authenticator
+    DEPENDS ${_api_key_authenticator_target}
+)
+add_test(NAME ApiKeyAuthenticatorTests
+    COMMAND $<TARGET_FILE:${_api_key_authenticator_target}>
+)
+set_tests_properties(ApiKeyAuthenticatorTests PROPERTIES
+    LABELS "auth;api-key;static-token;unit"
+    TIMEOUT 60
+)
 
 # Auth Anomaly Detection Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_anomaly_detection.cpp")
@@ -15040,37 +14807,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ts/test_ts_adaptive_flush.cpp")
     message(STATUS "  TSAdaptiveFlush: FlushController EWMA, backpressure, TSAutoBufferConfig, metrics integration")
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/adaptive/test_adaptive_flush_controller.cpp")
-    message(STATUS "Adding AdaptiveFlushController focused tests")
-
-    add_executable(test_adaptive_flush_controller_focused
-        adaptive/test_adaptive_flush_controller.cpp
-    )
-
-    target_include_directories(test_adaptive_flush_controller_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_adaptive_flush_controller_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_adaptive_flush_controller_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME AdaptiveFlushControllerFocusedTests COMMAND $<TARGET_FILE:test_adaptive_flush_controller_focused>)
-
-    set_tests_properties(AdaptiveFlushControllerFocusedTests PROPERTIES
-        LABELS "timeseries;adaptive-flush;backpressure;watermark;timeout;focused;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  AdaptiveFlushController: buffer, async flush, watermark/timeout triggers, backpressure, overdue alerting")
-endif()
+add_test(
+    NAME AdaptiveFlushControllerFocusedTests
+    COMMAND $<TARGET_FILE:module_adaptive_test_adaptive_flush_controller_focused>
+)
+set_tests_properties(AdaptiveFlushControllerFocusedTests PROPERTIES
+    LABELS "timeseries;adaptive-flush;backpressure;watermark;timeout;focused;unit"
+    TIMEOUT 60
+)
+message(STATUS "  AdaptiveFlushController: buffer, async flush, watermark/timeout triggers, backpressure, overdue alerting")
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/prometheus/test_prometheus_remote_write.cpp")
     message(STATUS "Adding Prometheus Remote Write focused tests")
@@ -16073,75 +15818,27 @@ add_chimera_focused_test(
 
 endif()
 
-# ============================================================================
-# Exporters Focused Test Targets
-# Each target compiles the full exporter source set and links themis_core
-# (when available) to resolve transitive dependencies (AQL parser, utils,
-# OpenSSL, zlib/zstd, Arrow/Parquet).
-# ============================================================================
-
-set(EXPORTER_CORE_SOURCES
-    ${THEMIS_ROOT_DIR}/src/exporters/jsonl_llm_exporter.cpp
-    ${THEMIS_ROOT_DIR}/src/exporters/format_template.cpp
-    ${THEMIS_ROOT_DIR}/src/exporters/exporter_metrics.cpp
-    ${THEMIS_ROOT_DIR}/src/exporters/pii_detector.cpp
-    ${THEMIS_ROOT_DIR}/src/exporters/stream_writer.cpp
-    ${THEMIS_ROOT_DIR}/src/exporters/parquet_exporter.cpp
-    ${THEMIS_ROOT_DIR}/src/exporters/streaming_exporter.cpp
-    ${THEMIS_ROOT_DIR}/src/exporters/aql_predicate_filter.cpp
-    ${THEMIS_ROOT_DIR}/src/exporters/arrow_ipc_exporter.cpp
-    ${THEMIS_ROOT_DIR}/src/exporters/incremental_exporter.cpp
-    ${THEMIS_ROOT_DIR}/src/exporters/export_encryption.cpp
-    ${THEMIS_ROOT_DIR}/src/exporters/huggingface_exporter.cpp
-    ${THEMIS_ROOT_DIR}/src/exporters/data_augmentation.cpp
-    ${THEMIS_ROOT_DIR}/src/exporters/export_format_registry.cpp
-    ${THEMIS_ROOT_DIR}/src/exporters/huggingface_hub_client.cpp
-    ${THEMIS_ROOT_DIR}/src/exporters/join_exporter.cpp
-    ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
-)
-
-# Helper function to create an exporters focused test executable.
+# Keep the legacy CTest/build names as aliases to the module-owned executables.
 function(add_exporter_focused_test target_name test_src test_name labels description)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
-        message(STATUS "Adding exporters focused test: ${target_name}")
-
-        add_executable(${target_name}
-            ${test_src}
-            ${EXPORTER_CORE_SOURCES}
-        )
-
-        target_include_directories(${target_name} PRIVATE
-            ${THEMIS_ROOT_DIR}/include
-            ${THEMIS_ROOT_DIR}/src
-        )
-
-        # Link themis_core when available to satisfy transitive deps
-        # (AQL parser/evaluator, utils, compression libraries, Arrow/Parquet).
-        set(_exporter_test_libs ${TEST_LIBS} spdlog::spdlog nlohmann_json::nlohmann_json Threads::Threads)
-        if(TARGET themis_core)
-            list(APPEND _exporter_test_libs themis_core)
-        endif()
-        if(TARGET OpenSSL::Crypto)
-            list(APPEND _exporter_test_libs OpenSSL::Crypto)
-        endif()
-
-        target_link_libraries(${target_name} PRIVATE ${_exporter_test_libs})
-
-        target_compile_definitions(${target_name} PRIVATE
-            THEMIS_TEST_BUILD=1
-        )
-
-        add_test(NAME ${test_name} COMMAND ${target_name})
-
-        set_tests_properties(${test_name} PROPERTIES
-            LABELS "${labels}"
-            TIMEOUT 120
-        )
-
-        message(STATUS "  ${description}")
-    else()
-        message(STATUS "Exporters focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+    set(_test_source "${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+    if(NOT EXISTS "${_test_source}")
+        message(FATAL_ERROR "Exporter focused test source is missing: ${_test_source}")
     endif()
+
+    get_filename_component(_test_stem "${test_src}" NAME_WE)
+    set(_canonical_target "module_exporters_${_test_stem}_focused")
+    if(NOT TARGET "${_canonical_target}")
+        message(FATAL_ERROR "Canonical exporter test target is missing: ${_canonical_target}")
+    endif()
+
+    add_custom_target(${target_name} DEPENDS ${_canonical_target})
+    add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${_canonical_target}>)
+    set_tests_properties(${test_name} PROPERTIES
+        LABELS "${labels}"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ${description} (alias: ${target_name} -> ${_canonical_target})")
 endfunction()
 
 add_exporter_focused_test(
@@ -16859,32 +16556,45 @@ macro(add_ingestion_focused_test TARGET_NAME TEST_SOURCE TEST_NAME LABELS DESCRI
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${TEST_SOURCE}")
         message(STATUS "Adding ingestion focused test: ${TARGET_NAME}")
 
-        add_executable(${TARGET_NAME}
-            ${TEST_SOURCE}
-        )
+        get_filename_component(_ingestion_test_stem "${TEST_SOURCE}" NAME_WE)
+        set(_ingestion_module_target "module_ingestion_${_ingestion_test_stem}_focused")
+        if(TARGET ${_ingestion_module_target})
+            if(TARGET ${TARGET_NAME})
+                message(FATAL_ERROR "Legacy ingestion target already exists: ${TARGET_NAME}")
+            endif()
+            add_custom_target(${TARGET_NAME}
+                DEPENDS ${_ingestion_module_target}
+            )
+            set(_ingestion_test_target "${_ingestion_module_target}")
+        else()
+            add_executable(${TARGET_NAME}
+                ${TEST_SOURCE}
+            )
 
-        # Ingestion sources are in themis_core; if building without themis_core
-        # (standalone), add them explicitly to avoid missing-symbol errors.
-        if(NOT TARGET themis_core)
-            target_sources(${TARGET_NAME} PRIVATE ${INGESTION_CORE_SOURCES})
+            # Ingestion sources are in themis_core; if building without themis_core
+            # (standalone), add them explicitly to avoid missing-symbol errors.
+            if(NOT TARGET themis_core)
+                target_sources(${TARGET_NAME} PRIVATE ${INGESTION_CORE_SOURCES})
+            endif()
+
+            target_include_directories(${TARGET_NAME} PRIVATE
+                ${THEMIS_ROOT_DIR}/include
+                ${THEMIS_ROOT_DIR}/src
+            )
+
+            target_link_libraries(${TARGET_NAME} PRIVATE
+                ${TEST_LIBS}
+                $<$<TARGET_EXISTS:themis_core>:themis_core>
+                Threads::Threads
+            )
+
+            target_compile_definitions(${TARGET_NAME} PRIVATE
+                THEMIS_TEST_BUILD=1
+            )
+            set(_ingestion_test_target "${TARGET_NAME}")
         endif()
 
-        target_include_directories(${TARGET_NAME} PRIVATE
-            ${THEMIS_ROOT_DIR}/include
-            ${THEMIS_ROOT_DIR}/src
-        )
-
-        target_link_libraries(${TARGET_NAME} PRIVATE
-            ${TEST_LIBS}
-            $<$<TARGET_EXISTS:themis_core>:themis_core>
-            Threads::Threads
-        )
-
-        target_compile_definitions(${TARGET_NAME} PRIVATE
-            THEMIS_TEST_BUILD=1
-        )
-
-        add_test(NAME ${TEST_NAME} COMMAND ${TARGET_NAME})
+        add_test(NAME ${TEST_NAME} COMMAND $<TARGET_FILE:${_ingestion_test_target}>)
 
         set_tests_properties(${TEST_NAME} PROPERTIES
             LABELS "${LABELS}"
@@ -19230,49 +18940,6 @@ else()
     message(STATUS "Blue/Green Deployment focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/blue/test_blue_green_deployment.cpp")
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp" AND NOT TARGET test_huggingface_exporter_focused)
-    message(STATUS "Adding HuggingFace Exporter focused tests (Issue #1729)")
-
-    add_executable(test_huggingface_exporter_focused
-        exporters/test_huggingface_exporter.cpp
-        ${THEMIS_ROOT_DIR}/src/exporters/huggingface_exporter.cpp
-        ${THEMIS_ROOT_DIR}/src/exporters/exporter_metrics.cpp
-        ${THEMIS_ROOT_DIR}/src/exporters/stream_writer.cpp
-        ${THEMIS_ROOT_DIR}/src/exporters/pii_detector.cpp
-    )
-
-    target_include_directories(test_huggingface_exporter_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_huggingface_exporter_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_huggingface_exporter_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME HuggingFaceExporterFocusedTests COMMAND $<TARGET_FILE:test_huggingface_exporter_focused>)
-
-    set_tests_properties(HuggingFaceExporterFocusedTests PROPERTIES
-        LABELS "exporter;huggingface;ml;focused;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  HuggingFaceExporter: Model export to HuggingFace Hub")
-else()
-    if(TARGET test_huggingface_exporter_focused)
-        message(STATUS "HuggingFace Exporter focused tests already registered: test_huggingface_exporter_focused")
-    else()
-        message(STATUS "HuggingFace Exporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp")
-    endif()
-endif()
-
 # VoiceCoverage focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_coverage.cpp" AND NOT TARGET test_voice_coverage_focused AND NOT THEMIS_BUILD_MODULAR)
     message(STATUS "Adding Voice Coverage focused tests")
@@ -19734,85 +19401,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_browser_streaming.cpp" A
     )
 
     add_test(NAME VoiceBrowserStreamingFocusedTests COMMAND $<TARGET_FILE:test_voice_browser_streaming_focused>)
-endif()
-
-# HuggingFace exporter focused tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp" AND NOT TARGET test_huggingface_exporter_focused)
-    message(STATUS "Adding HuggingFace Exporter focused tests (Issue #1729)")
-
-    add_executable(test_huggingface_exporter_focused
-        exporters/test_huggingface_exporter.cpp
-        ${THEMIS_ROOT_DIR}/src/exporters/huggingface_exporter.cpp
-        ${THEMIS_ROOT_DIR}/src/exporters/exporter_metrics.cpp
-        ${THEMIS_ROOT_DIR}/src/exporters/stream_writer.cpp
-        ${THEMIS_ROOT_DIR}/src/exporters/pii_detector.cpp
-    )
-
-    target_include_directories(test_huggingface_exporter_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_huggingface_exporter_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_huggingface_exporter_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME HuggingFaceExporterFocusedTests COMMAND $<TARGET_FILE:test_huggingface_exporter_focused>)
-endif()
-
-# Data augmentation focused tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp" AND NOT TARGET test_data_augmentation_focused)
-    message(STATUS "Adding Data Augmentation focused tests (Issue #1729)")
-
-    add_executable(test_data_augmentation_focused
-        exporters/test_data_augmentation.cpp
-        ${THEMIS_ROOT_DIR}/src/exporters/data_augmentation.cpp
-    )
-
-    target_include_directories(test_data_augmentation_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_data_augmentation_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_link_libraries(test_in_place_schema_migrator_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_data_augmentation_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME DataAugmentationFocusedTests COMMAND $<TARGET_FILE:test_data_augmentation_focused>)
-
-    set_tests_properties(DataAugmentationFocusedTests PROPERTIES
-        LABELS "exporters;data-augmentation;focused"
-        TIMEOUT 60
-    )
-else()
-    if(TARGET test_data_augmentation_focused)
-        message(STATUS "Data Augmentation focused tests already registered: test_data_augmentation_focused")
-    else()
-        message(STATUS "Data Augmentation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
-    endif()
 endif()
 
 # VoiceTelephony focused tests - covers SipCallSession, WebRtcCallSession,
@@ -20884,38 +20472,36 @@ endif()
 # Storage Module Focused Tests
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/base/test_base_entity_focused.cpp")
-    message(STATUS "Adding Storage: BaseEntity::setField fail-closed guard tests")
-    add_executable(test_base_entity_focused base/test_base_entity_focused.cpp)
-    target_include_directories(test_base_entity_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
-    target_link_libraries(test_base_entity_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
-    target_compile_definitions(test_base_entity_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME BaseEntitySetFieldFocusedTests COMMAND $<TARGET_FILE:test_base_entity_focused>)
-    set_tests_properties(BaseEntitySetFieldFocusedTests PROPERTIES LABELS "storage;entity;field;fail-closed;focused;unit" TIMEOUT 60)
-    message(STATUS "  BaseEntity::setField: empty field_name rejection, map corruption prevention")
+# BaseEntity and reload-regression focused test legacy aliases.
+set(_base_entity_target module_base_test_base_entity_focused_focused)
+if(NOT TARGET ${_base_entity_target})
+    message(FATAL_ERROR "Canonical BaseEntity test target is missing: ${_base_entity_target}")
 endif()
+add_custom_target(test_base_entity_focused
+    DEPENDS ${_base_entity_target}
+)
+add_test(NAME BaseEntitySetFieldFocusedTests
+    COMMAND $<TARGET_FILE:${_base_entity_target}>
+)
+set_tests_properties(BaseEntitySetFieldFocusedTests PROPERTIES
+    LABELS "storage;entity;field;fail-closed;focused;unit"
+    TIMEOUT 60
+)
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/base/test_base_reload_regression.cpp")
-    message(STATUS "Adding Base: HotReloadManager reload-race regression tests")
-    add_executable(test_base_reload_regression_focused base/test_base_reload_regression.cpp)
-    target_include_directories(test_base_reload_regression_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-    target_link_libraries(test_base_reload_regression_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
-    target_compile_definitions(test_base_reload_regression_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME BaseReloadRegressionFocusedTests COMMAND $<TARGET_FILE:test_base_reload_regression_focused>)
-    set_tests_properties(BaseReloadRegressionFocusedTests PROPERTIES
-        LABELS "base;hot-reload;regression;focused;unit"
-        TIMEOUT 120
-    )
-    message(STATUS "  HotReloadManager: rollback/reload edge cases, callback race scenarios, dependency conflict regressions")
+set(_base_reload_regression_target module_base_test_base_reload_regression_focused)
+if(NOT TARGET ${_base_reload_regression_target})
+    message(FATAL_ERROR "Canonical Base reload regression target is missing: ${_base_reload_regression_target}")
 endif()
+add_custom_target(test_base_reload_regression_focused
+    DEPENDS ${_base_reload_regression_target}
+)
+add_test(NAME BaseReloadRegressionFocusedTests
+    COMMAND $<TARGET_FILE:${_base_reload_regression_target}>
+)
+set_tests_properties(BaseReloadRegressionFocusedTests PROPERTIES
+    LABELS "base;hot-reload;regression;focused;unit"
+    TIMEOUT 120
+)
 
 # Replication Module Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/replication/test_replication_manager_addReplica_simple.cpp")
@@ -21553,33 +21139,16 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ingestion/test_ingestion_builtin_steps_v14.cpp")
     message(STATUS "Adding Ingestion v1.4.0 builtin step tests (ING-01..12)")
 
-    add_executable(test_ingestion_builtin_steps_v14_focused
-        ingestion/test_ingestion_builtin_steps_v14.cpp
-    )
-
-    target_include_directories(test_ingestion_builtin_steps_v14_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_ingestion_builtin_steps_v14_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_ingestion_builtin_steps_v14_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    set_target_properties(test_ingestion_builtin_steps_v14_focused PROPERTIES
-        CXX_STANDARD 17
-        CXX_STANDARD_REQUIRED ON
+    set(_ingestion_builtin_steps_target module_ingestion_test_ingestion_builtin_steps_v14_focused)
+    if(NOT TARGET ${_ingestion_builtin_steps_target})
+        message(FATAL_ERROR "Canonical ingestion builtin-steps target is missing: ${_ingestion_builtin_steps_target}")
+    endif()
+    add_custom_target(test_ingestion_builtin_steps_v14_focused
+        DEPENDS ${_ingestion_builtin_steps_target}
     )
 
     add_test(NAME IngestionBuiltinStepsV14Tests
-        COMMAND $<TARGET_FILE:test_ingestion_builtin_steps_v14_focused>)
+        COMMAND $<TARGET_FILE:${_ingestion_builtin_steps_target}>)
     set_tests_properties(IngestionBuiltinStepsV14Tests PROPERTIES
         LABELS "ingestion;builtin;decompress;legal_reference;chunk_embed;v140;focused;unit"
         TIMEOUT 60
@@ -21701,43 +21270,14 @@ endif()
 # Distributed Knowledge Session 3 - AdaptiveShardRouter domain routing tests
 # Tests: ASR-DOM-01..04 (4 new domain routing cases, plus existing suite)
 # ─────────────────────────────────────────────────────────────────────────────
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/adaptive/test_adaptive_shard_router.cpp")
-    message(STATUS "Adding Distributed Knowledge Session 3: AdaptiveShardRouter domain routing tests")
-
-    add_executable(test_adaptive_shard_router_focused
-        adaptive/test_adaptive_shard_router.cpp
-    )
-
-    target_include_directories(test_adaptive_shard_router_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_adaptive_shard_router_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_adaptive_shard_router_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    set_target_properties(test_adaptive_shard_router_focused PROPERTIES
-        CXX_STANDARD 17
-        CXX_STANDARD_REQUIRED ON
-    )
-
-    add_test(NAME AdaptiveShardRouterDomainTests
-        COMMAND $<TARGET_FILE:test_adaptive_shard_router_focused>
-                --gtest_filter=AdaptiveShardRouterTest.ASR_DOM_*)
-    set_tests_properties(AdaptiveShardRouterDomainTests PROPERTIES
-        LABELS "distributed_knowledge;sharding;adaptive_router;domain_routing;session3;focused;unit"
-        TIMEOUT 120
-    )
-    message(STATUS "  ASR-DOM-01..04: updateAdapterCapability+routeByDomain (best delta, fallback, overwrite, unknown)")
-endif()
+add_test(NAME AdaptiveShardRouterDomainTests
+    COMMAND $<TARGET_FILE:module_adaptive_test_adaptive_shard_router_focused>
+            --gtest_filter=AdaptiveShardRouterTest.ASR_DOM_*)
+set_tests_properties(AdaptiveShardRouterDomainTests PROPERTIES
+    LABELS "distributed_knowledge;sharding;adaptive_router;domain_routing;session3;focused;unit"
+    TIMEOUT 120
+)
+message(STATUS "  ASR-DOM-01..04: updateAdapterCapability+routeByDomain (best delta, fallback, overwrite, unknown)")
 
 # ── Chaos Network focused tests (Phase 4.3) ───────────────────────────────────
 if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/chaos/test_chaos_network.cpp")
@@ -23227,40 +22767,21 @@ endif()
 # ============================================================================
 # AdvancedCacheManager focused tests (v1.9.0, Issue #229)
 # ============================================================================
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/advanced/test_advanced_cache_manager.cpp")
-    message(STATUS "Adding AdvancedCacheManager focused tests (performance module, Issue #229)")
-
-    add_executable(test_advanced_cache_manager_focused
-        advanced/test_advanced_cache_manager.cpp
-        ${THEMIS_ROOT_DIR}/src/performance/advanced_cache_manager.cpp
-    )
-
-    target_include_directories(test_advanced_cache_manager_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_advanced_cache_manager_focused PRIVATE
-        ${TEST_LIBS}
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_advanced_cache_manager_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME AdvancedCacheManagerFocusedTests
-        COMMAND $<TARGET_FILE:test_advanced_cache_manager_focused>)
-
-    set_tests_properties(AdvancedCacheManagerFocusedTests PROPERTIES
-        LABELS "performance;cache;partitioning;bloom-filter;lru;compression;v1.9.0;focused;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  AdvancedCacheManager: partitions, get/put, bloom-filter, LRU eviction, stats, flush, thread-safety")
-else()
-    message(STATUS "AdvancedCacheManager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/advanced/test_advanced_cache_manager.cpp")
+set(_advanced_cache_manager_target module_advanced_test_advanced_cache_manager_focused)
+if(NOT TARGET ${_advanced_cache_manager_target})
+    message(FATAL_ERROR "Canonical AdvancedCacheManager test target is missing: ${_advanced_cache_manager_target}")
 endif()
+
+add_custom_target(test_advanced_cache_manager_focused
+    DEPENDS ${_advanced_cache_manager_target}
+)
+add_test(NAME AdvancedCacheManagerFocusedTests
+    COMMAND $<TARGET_FILE:${_advanced_cache_manager_target}>
+)
+set_tests_properties(AdvancedCacheManagerFocusedTests PROPERTIES
+    LABELS "performance;cache;partitioning;bloom-filter;lru;compression;v1.9.0;focused;unit"
+    TIMEOUT 60
+)
 
 # ============================================================================
 # WorkloadAdaptiveOptimizer focused tests (v1.9.0, Issue #230)
@@ -27884,22 +27405,6 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/ts/test_ts_auto_buffer_adaptive.cpp")
     )
 endif()
 
-if(EXISTS "${THEMIS_ROOT_DIR}/tests/adaptive/test_adaptive_flush_controller.cpp")
-    add_executable(test_adaptive_flush_controller
-        ${THEMIS_ROOT_DIR}/tests/adaptive/test_adaptive_flush_controller.cpp
-        ${THEMIS_ROOT_DIR}/src/timeseries/adaptive_flush_controller.cpp
-    )
-    target_link_libraries(test_adaptive_flush_controller
-        PRIVATE themis_core GTest::gtest GTest::gtest_main
-    )
-    gtest_discover_tests(test_adaptive_flush_controller
-        DISCOVERY_MODE POST_BUILD
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_flush_controller>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
-    )
-endif()
-
 if(EXISTS "${THEMIS_ROOT_DIR}/tests/chunk/test_chunk_level_encryption.cpp")
     add_executable(test_chunk_level_encryption
         ${THEMIS_ROOT_DIR}/tests/chunk/test_chunk_level_encryption.cpp
@@ -28305,23 +27810,10 @@ gtest_discover_tests(test_numa_topology
     EXTRA_ARGS --gtest_color=yes
 )
 
-# Advanced Cache Manager tests (Issue #229 – v1.9.0 partitioned cache with bloom filters)
-if(EXISTS "${THEMIS_ROOT_DIR}/tests/advanced/test_advanced_cache_manager.cpp")
-    add_executable(test_advanced_cache_manager
-        ${THEMIS_ROOT_DIR}/tests/advanced/test_advanced_cache_manager.cpp
-    )
-    target_link_libraries(test_advanced_cache_manager
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    gtest_discover_tests(test_advanced_cache_manager
-        DISCOVERY_MODE POST_BUILD
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_advanced_cache_manager>
-        EXTRA_ARGS --gtest_color=yes
-    )
-endif()
+# Advanced Cache Manager legacy build-target alias.
+add_custom_target(test_advanced_cache_manager
+    DEPENDS module_advanced_test_advanced_cache_manager_focused
+)
 
 # NUMA-aware memory manager tests (Issue #228 – v1.9.0)
 if(EXISTS "${THEMIS_ROOT_DIR}/tests/numa/test_numa_memory_manager.cpp")
@@ -28419,121 +27911,9 @@ if(THEMIS_ENABLE_IO_URING)
     )
 endif()
 
-# GPU Graph Cache, Query Accelerator, and Stream Manager Tests
-# (Issue: #1801 — CUDA graph capture for recurring query execution patterns)
-if(THEMIS_ENABLE_GPU)
-    add_executable(test_gpu_graph_cache
-        ${THEMIS_ROOT_DIR}/tests/gpu/test_gpu_graph_cache.cpp
-    )
-    target_link_libraries(test_gpu_graph_cache
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    gtest_discover_tests(test_gpu_graph_cache
-        DISCOVERY_MODE POST_BUILD
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_graph_cache>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
-    )
-
-    add_executable(test_gpu_query_accelerator
-        ${THEMIS_ROOT_DIR}/tests/gpu/test_gpu_query_accelerator.cpp
-    )
-    target_link_libraries(test_gpu_query_accelerator
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    gtest_discover_tests(test_gpu_query_accelerator
-        DISCOVERY_MODE POST_BUILD
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_query_accelerator>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
-    )
-
-    add_executable(test_gpu_stream_manager
-        ${THEMIS_ROOT_DIR}/tests/gpu/test_gpu_stream_manager.cpp
-    )
-    target_link_libraries(test_gpu_stream_manager
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    gtest_discover_tests(test_gpu_stream_manager
-        DISCOVERY_MODE POST_BUILD
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_stream_manager>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
-    )
-endif() # THEMIS_ENABLE_GPU
-
-# -----------------------------------------------------------------------
-# GPU Module Focused Test Targets
-# Each target exercises one GPU subsystem in isolation.  All paths use
-# CPU-side bookkeeping so no GPU hardware is required.
-# -----------------------------------------------------------------------
-if(THEMIS_ENABLE_GPU)
-    # Helper macro to reduce boilerplate
-    macro(_themis_gpu_test _name)
-        add_executable(${_name}
-            ${THEMIS_ROOT_DIR}/tests/gpu/${_name}.cpp
-        )
-        target_link_libraries(${_name}
-            PRIVATE
-                themis_core
-                GTest::gtest
-                GTest::gtest_main
-        )
-        gtest_discover_tests(${_name}
-            DISCOVERY_MODE POST_BUILD
-            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_name}>
-            EXTRA_ARGS --gtest_color=yes
-            CONFIGURATIONS Release Debug
-        )
-    endmacro()
-
-    _themis_gpu_test(test_gpu_admin_api)
-    _themis_gpu_test(test_gpu_alerts)
-    _themis_gpu_test(test_gpu_audit_log)
-    _themis_gpu_test(test_gpu_config)
-    _themis_gpu_test(test_gpu_device_discovery)
-    _themis_gpu_test(test_gpu_feature_flags)
-    _themis_gpu_test(test_gpu_kernel_validator)
-    _themis_gpu_test(test_gpu_launcher)
-    _themis_gpu_test(test_gpu_memory_management)
-    _themis_gpu_test(test_gpu_module)
-    _themis_gpu_test(test_gpu_olap_accelerator)
-    _themis_gpu_test(test_gpu_policy)
-    _themis_gpu_test(test_gpu_safe_fail)
-    _themis_gpu_test(test_gpu_safe_fail_module)
-    _themis_gpu_test(test_gpu_stubs_comprehensive)
-    _themis_gpu_test(test_gpu_tensor)
-    _themis_gpu_test(test_gpu_training_loop)
-    _themis_gpu_test(test_gpu_vram_allocation)
-endif() # THEMIS_ENABLE_GPU (focused GPU module targets)
-
 # GPU Vector Index Test
 if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
-    add_executable(test_gpu_vector_index
-        ${THEMIS_ROOT_DIR}/tests/gpu/test_gpu_vector_index.cpp
-    )
-    target_link_libraries(test_gpu_vector_index
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    gtest_discover_tests(test_gpu_vector_index
-        DISCOVERY_MODE POST_BUILD
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_vector_index>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
-    )
-    
+
     # Multi-GPU Vector Index Test
     if(EXISTS "${THEMIS_ROOT_DIR}/tests/multi/test_multi_gpu_vector_index.cpp")
         add_executable(test_multi_gpu_vector_index
@@ -28659,20 +28039,6 @@ endif()
 # =========================================================================
 # S-5 / DK-2: AdaptiveShardRouter domain routing tests
 # =========================================================================
-if(EXISTS "${THEMIS_ROOT_DIR}/tests/adaptive/test_adaptive_shard_router.cpp")
-    add_executable(test_adaptive_shard_router
-        ${THEMIS_ROOT_DIR}/tests/adaptive/test_adaptive_shard_router.cpp
-    )
-    target_link_libraries(test_adaptive_shard_router
-        PRIVATE themis_core GTest::gtest GTest::gtest_main
-    )
-    gtest_discover_tests(test_adaptive_shard_router
-        DISCOVERY_MODE POST_BUILD
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_shard_router>
-        EXTRA_ARGS --gtest_color=yes
-    )
-endif()
-
 # =========================================================================
 # S-6 / IMPL-B5: TransactionSemanticAdvisor tests
 # =========================================================================
@@ -29105,40 +28471,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_tensor_fingerprint_graph.cpp" 
 endif()
 
 # ============================================================================
-# Graph Phase 3: GPUGraphTraversal — CPU-fallback BFS/DFS (GPU-01..GPU-19)
+# Graph Phase 3: GPUGraphTraversal legacy build-target alias
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_gpu_traversal.cpp")
-    message(STATUS "Adding GPUGraphTraversal focused tests (GPU-01..GPU-19)")
-
-    add_executable(test_gpu_traversal_focused
-        graph/test_gpu_traversal.cpp
-        ${THEMIS_ROOT_DIR}/src/graph/gpu_traversal.cpp
+if(TARGET module_graph_test_gpu_traversal_focused)
+    add_custom_target(test_gpu_traversal_focused
+        DEPENDS module_graph_test_gpu_traversal_focused
     )
-
-    target_include_directories(test_gpu_traversal_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_gpu_traversal_focused PRIVATE
-        themis_core
-        GTest::gtest
-        GTest::gtest_main
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_gpu_traversal_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    gtest_discover_tests(test_gpu_traversal_focused
-        DISCOVERY_MODE POST_BUILD
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_traversal_focused>
-        EXTRA_ARGS --gtest_color=yes
-    )
-
-    message(STATUS "  GPUGraphTraversal: GPU-01..19 (BFS/DFS: load, distances, depth, forbidden, truncation, cycles, disconnected)")
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_category_b_parity_bfs.cpp")
