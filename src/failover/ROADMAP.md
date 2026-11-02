@@ -67,15 +67,20 @@ M2 readiness.
   a writable local completion log. The manager checks checksum, LSN/term, and
   recovery-site evidence before accepting each step. An existing unreadable or
   malformed/checksum-invalid completion log blocks execution before adapters.
-- DR metadata is local-file persistence, not shared multi-process storage;
-  concurrent multi-process writer safety and crash/power-loss durability are
-  not established.
+- DR metadata remains local-file persistence, not a consensus-backed shared
+  store. Processes using the same metadata path are serialized by a persistent
+  sibling lock when all writers use this implementation; completion records are
+  flushed before success, with POSIX file and containing-directory sync.
+  Filesystem-specific and power-loss guarantees beyond those platform calls are
+  not certified, mixed-version writers are not covered, and network-filesystem
+  lock behavior is not established.
 - Remote gRPC PREPARE binds the coordinator ID to the authenticated X.509 peer
   identity before checking the fencing-token issuer; standalone token signatures
   are not implemented, and direct in-process calls remain within the trusted
   process boundary. The binding test is source-level coverage until executed.
-- Shared durable metadata for DR and genuine multi-process failover/recovery E2E
-  evidence remain open release blockers.
+- Shared durable metadata for DR and genuine networked multi-process
+  failover/recovery E2E evidence remain open release blockers. Same-path
+  same-host process serialization does not close either blocker.
 - Current failover runtime does not export named Prometheus metrics or trace spans.
 - Existing benchmark source includes mock/simulated workloads and declares
   thresholds; source presence does not establish measured latency.

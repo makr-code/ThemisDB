@@ -64,7 +64,13 @@ Related milestone: DOC-WEEKLY-2026-W45
   success is returned and replayed on manager construction. An existing log
   that cannot be read or contains a malformed or checksum-invalid record blocks
   non-dry-run execution before external adapters run. The local log is not a
-  substitute for shared durable metadata in a multi-process deployment.
+  substitute for shared durable metadata in a multi-node deployment. A
+  persistent sibling lock serializes same-path processes, with lock acquisition
+  bounded by `metadata_lock_timeout` and the completed record flushed before
+  success. This requires filesystem support for the lock and sync operations;
+  every writer must use this lock protocol (mixed-version writers are not
+  covered); network-filesystem semantics and exactly-once external effects
+  across a crash before record append are not established.
 - Spare activation requires a configured runtime hook and independent
   `HotSpareManager` state of `ACTIVE`. Missing or failed activation leaves the
   orchestrator in `DEGRADED`, increments `degraded_failovers`, and emits the
@@ -75,9 +81,9 @@ Related milestone: DOC-WEEKLY-2026-W45
   not add a standalone token signature, and direct in-process participant calls
   remain inside the trusted process boundary. The mTLS binding integration test
   has not yet been executed.
-- Shared durable metadata for DR and genuine multi-process failover/recovery E2E
-  evidence remain open blockers; shard transaction fencing does not close either
-  gap.
+- Shared durable metadata for DR and genuine networked multi-process
+  failover/recovery E2E evidence remain open blockers; local same-path process
+  locking and shard transaction fencing do not close either gap.
 - A dry run skips built-in prechecks and operational steps. The
   `allow_dry_run_without_managers` configuration field does not change this
   behavior in the current implementation. Step hooks replace the built-in handler

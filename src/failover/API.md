@@ -71,10 +71,16 @@ epoch-fencing configuration plus a writable `metadata_log_path` are mandatory;
 the checksummed completion record is appended before a successful result is
 returned and replayed when the manager is constructed.
 
-The local metadata log is not a shared multi-process metadata service, and
-failover's shard-write path does not yet enforce epoch tokens. Deployments must
-not interpret these manager-level checks as a complete multi-process fencing
-guarantee.
+The local metadata log uses a persistent sibling `.lock` file to serialize
+non-dry-run executions that use the same path, with a bounded lock-acquisition
+wait and a durable record flush before success is returned. This coordinates
+processes only when every writer uses this protocol and their filesystem
+provides the required lock and sync semantics; mixed-version writers are not
+covered. It is not a consensus-backed shared metadata service and cannot make
+external adapter effects exactly-once across a crash between an effect and the
+completion record. The manager-level checks are not a complete distributed
+fencing guarantee, and networked multi-process failover/recovery remains
+unverified.
 
 ## Supporting types
 

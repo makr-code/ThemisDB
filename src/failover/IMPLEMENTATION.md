@@ -87,9 +87,13 @@ need external effects or evidence:
 Non-dry-run prechecks require quorum and fencing to remain enabled, actual
 quorum, an available fencing manager, and a writable metadata log. The manager
 compares returned proof fields against the plan, but production hooks remain
-responsible for truthful external read-back. The metadata log is local-file
-persistence, not shared multi-process storage; write-side epoch-token enforcement
-and multi-process failover/recovery E2E validation remain open.
+responsible for truthful external read-back. Processes using the same metadata
+path are serialized through a persistent sibling lock; lock acquisition is
+bounded by `metadata_lock_timeout`, and the completion record is flushed before
+success. This relies on filesystem locking/sync semantics and does not provide
+consensus-backed shared metadata or exactly-once external effects across a crash
+before the completion record. Shared metadata and multi-process
+failover/recovery E2E validation remain open.
 
 ## Quorum log format and failure behavior
 

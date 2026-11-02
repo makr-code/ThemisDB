@@ -19,7 +19,7 @@ Exact model backend not verifiable from final document text alone.
 
 Automatic failover orchestration and disaster-recovery plan coordination for ThemisDB. The module provides bounded queueing, health/failure tracking, quorum and configured fencing gates, replica-promotion requests, ordered recovery steps, and in-process results/events.
 
-**Implementation boundary:** non-dry-run DR steps require adapter acknowledgement and separate verification evidence; a local completion log is written before success. Quorum and epoch fencing are mandatory for DR. Spare activation requires a runtime hook plus `ACTIVE` read-back; failure leaves a degraded state and emits an event. Shard-write epoch-token enforcement and multi-process E2E evidence remain open release blockers. See [IMPLEMENTATION.md](IMPLEMENTATION.md).
+**Implementation boundary:** non-dry-run DR steps require adapter acknowledgement and separate verification evidence; a local completion log is flushed before success and same-path processes are serialized by a persistent sibling lock. Quorum and epoch fencing are mandatory for DR. Spare activation requires a runtime hook plus `ACTIVE` read-back; failure leaves a degraded state and emits an event. Shared durable metadata and networked multi-process E2E evidence remain open release blockers. See [IMPLEMENTATION.md](IMPLEMENTATION.md).
 
 ## Relevant Interfaces
 

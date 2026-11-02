@@ -41,9 +41,12 @@
 #include <initializer_list>
 #include <memory>
 #include <string>
+#include <thread>
 #include <vector>
 
 #if defined(__unix__) || defined(__APPLE__)
+#include <fcntl.h>
+#include <sys/file.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -66,6 +69,7 @@ DisasterRecoveryConfig makeTestConfig() {
     cfg.precheck_timeout        = std::chrono::milliseconds{100};
     cfg.catchup_timeout         = std::chrono::milliseconds{100};
     cfg.verification_timeout    = std::chrono::milliseconds{100};
+    cfg.metadata_lock_timeout   = std::chrono::milliseconds{1000};
     cfg.max_verification_retries = 1;
     return cfg;
 }
@@ -103,6 +107,9 @@ public:
     ~TemporaryMetadataLog() {
         std::error_code error;
         std::filesystem::remove(path, error);
+        auto lock_path = path;
+        lock_path += ".lock";
+        std::filesystem::remove(lock_path, error);
     }
 
     std::filesystem::path path;
@@ -141,6 +148,40 @@ void installAdapterHooks(DisasterRecoveryManager& manager,
             });
     }
 }
+
+#if defined(__unix__) || defined(__APPLE__)
+void installCountingAdapterHooks(DisasterRecoveryManager& manager,
+                                 const std::filesystem::path& operation_log) {
+    installAdapterHooks(manager, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+                                  DisasterRecoveryStep::RESTORE,
+                                  DisasterRecoveryStep::REPLICA_CATCHUP,
+                                  DisasterRecoveryStep::TRAFFIC_SHIFT,
+                                  DisasterRecoveryStep::VERIFICATION});
+    for (const auto step : {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+                            DisasterRecoveryStep::RESTORE,
+                            DisasterRecoveryStep::REPLICA_CATCHUP,
+                            DisasterRecoveryStep::TRAFFIC_SHIFT,
+                            DisasterRecoveryStep::VERIFICATION}) {
+        manager.setStepHook(step, [operation_log, step](
+                                      const DisasterRecoveryPlan&, std::string& detail) {
+            std::ofstream output(operation_log, std::ios::out | std::ios::app);
+            if (!output) {
+                detail = "cannot record test adapter invocation";
+                return false;
+            }
+            output << static_cast<unsigned int>(step) << '\n';
+            output.flush();
+            if (!output.good()) {
+                detail = "cannot flush test adapter invocation";
+                return false;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds{25});
+            detail = "counted test adapter acknowledged operation";
+            return true;
+        });
+    }
+}
+#endif
 
 }  // namespace
 
@@ -553,6 +594,9 @@ TEST(DisasterRecoveryEdgeDRE19, MetadataWriteFailureBlocksBeforeAdapters) {
     EXPECT_EQ(result.step_results.front().step, DisasterRecoveryStep::PRECHECKS);
     std::error_code error;
     std::filesystem::remove(metadata_directory, error);
+    auto metadata_lock = metadata_directory;
+    metadata_lock += ".lock";
+    std::filesystem::remove(metadata_lock, error);
 }
 
 TEST(DisasterRecoveryEdgeDRE23, CorruptMetadataBlocksBeforeAdapters) {
@@ -631,6 +675,31 @@ TEST(DisasterRecoveryEdgeDRE18, CompletedMetadataSurvivesManagerRestart) {
     EXPECT_EQ(conflict.error_code, DisasterRecoveryErrorCode::INVALID_PLAN);
 }
 
+TEST(DisasterRecoveryEdgeDRE26, MissingPreviouslyLoadedMetadataBlocksCachedSuccess) {
+    TemporaryMetadataLog metadata;
+    DisasterRecoveryManager manager(makeProductionConfig(metadata.path), nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    manager.testSetQuorumOverride(true);
+    installAdapterHooks(manager, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+                                  DisasterRecoveryStep::RESTORE,
+                                  DisasterRecoveryStep::REPLICA_CATCHUP,
+                                  DisasterRecoveryStep::TRAFFIC_SHIFT,
+                                  DisasterRecoveryStep::VERIFICATION});
+
+    const auto plan = makeMinimalProductionPlan();
+    ASSERT_TRUE(manager.executePlan(plan).success);
+    std::error_code error;
+    ASSERT_TRUE(std::filesystem::remove(metadata.path, error));
+    ASSERT_FALSE(error);
+
+    const auto result = manager.executePlan(plan);
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED);
+    ASSERT_EQ(result.step_results.size(), 1u);
+    EXPECT_EQ(result.step_results.front().step, DisasterRecoveryStep::PRECHECKS);
+}
+
 #if defined(__unix__) || defined(__APPLE__)
 TEST(DisasterRecoveryEdgeDRE22, CompletedMetadataReplaysAcrossProcesses) {
     TemporaryMetadataLog metadata;
@@ -663,5 +732,96 @@ TEST(DisasterRecoveryEdgeDRE22, CompletedMetadataReplaysAcrossProcesses) {
     EXPECT_TRUE(recovered.success);
     EXPECT_EQ(recovered.final_state, DisasterRecoveryState::COMPLETED);
     EXPECT_EQ(recovered.step_results.size(), 7u);
+}
+
+TEST(DisasterRecoveryEdgeDRE24, CompetingProcessesExecutePlanOnce) {
+    TemporaryMetadataLog metadata;
+    auto operation_log = metadata.path;
+    operation_log += ".operations";
+    const auto plan = makeMinimalProductionPlan();
+    int start_pipe[2] = {-1, -1};
+    ASSERT_EQ(::pipe(start_pipe), 0);
+
+    std::vector<pid_t> children;
+    for (int child_index = 0; child_index < 2; ++child_index) {
+        const pid_t child = ::fork();
+        ASSERT_NE(child, -1);
+        if (child == 0) {
+            ::close(start_pipe[1]);
+            char start_signal = 0;
+            const auto bytes_read = ::read(start_pipe[0], &start_signal, 1);
+            ::close(start_pipe[0]);
+            if (bytes_read != 1) {
+                ::_exit(2);
+            }
+
+            DisasterRecoveryManager manager(makeProductionConfig(metadata.path), nullptr,
+                std::make_shared<themis::sharding::EpochFencingManager>(
+                    themis::sharding::EpochFencingConfig{}));
+            manager.testSetQuorumOverride(true);
+            installCountingAdapterHooks(manager, operation_log);
+            const auto result = manager.executePlan(plan);
+            ::_exit(result.success ? 0 : 1);
+        }
+        children.push_back(child);
+    }
+
+    ::close(start_pipe[0]);
+    const char start_signals[2] = {'x', 'x'};
+    ASSERT_EQ(::write(start_pipe[1], start_signals, sizeof(start_signals)),
+              static_cast<ssize_t>(sizeof(start_signals)));
+    ::close(start_pipe[1]);
+
+    for (const auto child : children) {
+        int status = 0;
+        ASSERT_EQ(::waitpid(child, &status, 0), child);
+        ASSERT_TRUE(WIFEXITED(status));
+        EXPECT_EQ(WEXITSTATUS(status), 0)
+            << "both processes should observe a successful idempotent result";
+    }
+
+    std::ifstream operations(operation_log);
+    ASSERT_TRUE(operations.is_open());
+    std::size_t operation_count = 0;
+    std::string operation;
+    while (std::getline(operations, operation)) {
+        ++operation_count;
+    }
+    EXPECT_EQ(operation_count, 5u)
+        << "only the process holding the metadata lock may perform DR operations";
+
+    std::ifstream completion_records(metadata.path);
+    ASSERT_TRUE(completion_records.is_open());
+    std::size_t completion_count = 0;
+    std::string completion;
+    while (std::getline(completion_records, completion)) {
+        ++completion_count;
+    }
+    EXPECT_EQ(completion_count, 1u);
+    std::error_code error;
+    std::filesystem::remove(operation_log, error);
+}
+
+TEST(DisasterRecoveryEdgeDRE25, MetadataLockTimeoutFailsClosed) {
+    TemporaryMetadataLog metadata;
+    auto config = makeProductionConfig(metadata.path);
+    config.metadata_lock_timeout = std::chrono::milliseconds{25};
+
+    auto lock_path = metadata.path;
+    lock_path += ".lock";
+    const int lock_fd = ::open(lock_path.c_str(), O_CREAT | O_RDWR, 0600);
+    ASSERT_GE(lock_fd, 0);
+    ASSERT_EQ(::flock(lock_fd, LOCK_EX | LOCK_NB), 0);
+
+    DisasterRecoveryManager manager(config, nullptr, nullptr);
+    const auto result = manager.executePlan(makeMinimalProductionPlan());
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED);
+    EXPECT_NE(result.error_message.find("timed out"), std::string::npos);
+    EXPECT_TRUE(result.step_results.empty())
+        << "the manager must not begin recovery steps without the metadata lock";
+    ::flock(lock_fd, LOCK_UN);
+    ::close(lock_fd);
 }
 #endif

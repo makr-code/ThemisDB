@@ -13,19 +13,331 @@
 
 #include <algorithm>
 #include <array>
+#include <cerrno>
+#include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <limits>
 #include <numeric>
 #include <sstream>
+#include <system_error>
 #include <thread>
 
 #include "spdlog/spdlog.h"
 
+#ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#else
+#include <fcntl.h>
+#include <sys/file.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#endif
+
 namespace themis {
 namespace failover {
 namespace {
+
+class MetadataFileLock {
+public:
+    MetadataFileLock() = default;
+    MetadataFileLock(const MetadataFileLock&) = delete;
+    MetadataFileLock& operator=(const MetadataFileLock&) = delete;
+
+    ~MetadataFileLock() {
+#ifdef _WIN32
+        if (locked_) {
+            OVERLAPPED lock_state{};
+            UnlockFileEx(handle_, 0, 1, 0, &lock_state);
+        }
+        if (handle_ != INVALID_HANDLE_VALUE) {
+            CloseHandle(handle_);
+        }
+#else
+        if (fd_ >= 0) {
+            if (locked_) {
+                ::flock(fd_, LOCK_UN);
+            }
+            ::close(fd_);
+        }
+#endif
+    }
+
+    [[nodiscard]] bool acquire(const std::filesystem::path& metadata_path,
+                               std::chrono::milliseconds timeout,
+                               std::string& detail) {
+        auto lock_path = metadata_path;
+        lock_path += ".lock";
+        std::error_code filesystem_error;
+        if (!lock_path.parent_path().empty()) {
+            std::filesystem::create_directories(lock_path.parent_path(), filesystem_error);
+            if (filesystem_error) {
+                detail = "cannot create DR metadata lock directory: " +
+                         filesystem_error.message();
+                return false;
+            }
+        }
+
+#ifdef _WIN32
+        handle_ = CreateFileW(lock_path.c_str(),
+                              GENERIC_READ | GENERIC_WRITE,
+                              FILE_SHARE_READ | FILE_SHARE_WRITE,
+                              nullptr,
+                              OPEN_ALWAYS,
+                              FILE_ATTRIBUTE_NORMAL,
+                              nullptr);
+        if (handle_ == INVALID_HANDLE_VALUE) {
+            detail = "cannot open DR metadata lock file: " +
+                     std::error_code(static_cast<int>(GetLastError()),
+                                     std::system_category()).message();
+            return false;
+        }
+
+        const auto started_at = std::chrono::steady_clock::now();
+        const auto lock_timeout = std::max(timeout, std::chrono::milliseconds::zero());
+        do {
+            OVERLAPPED lock_state{};
+            if (LockFileEx(handle_,
+                           LOCKFILE_EXCLUSIVE_LOCK | LOCKFILE_FAIL_IMMEDIATELY,
+                           0,
+                           1,
+                           0,
+                           &lock_state)) {
+                locked_ = true;
+                return true;
+            }
+            const auto lock_error = GetLastError();
+            if (lock_error != ERROR_LOCK_VIOLATION && lock_error != ERROR_IO_PENDING) {
+                detail = "cannot acquire DR metadata lock: " +
+                         std::error_code(static_cast<int>(lock_error),
+                                         std::system_category()).message();
+                return false;
+            }
+            if (std::chrono::steady_clock::now() - started_at >= lock_timeout) {
+                detail = "timed out waiting for DR metadata lock";
+                return false;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds{5});
+        } while (true);
+#else
+        int flags = O_CREAT | O_RDWR;
+#ifdef O_CLOEXEC
+        flags |= O_CLOEXEC;
+#endif
+        fd_ = ::open(lock_path.c_str(), flags, 0600);
+        if (fd_ < 0) {
+            detail = "cannot open DR metadata lock file: " +
+                     std::error_code(errno, std::generic_category()).message();
+            return false;
+        }
+        struct stat lock_status {};
+        if (::fstat(fd_, &lock_status) != 0 || !S_ISREG(lock_status.st_mode)) {
+            detail = "DR metadata lock path is not a regular file";
+            return false;
+        }
+
+        const auto started_at = std::chrono::steady_clock::now();
+        const auto lock_timeout = std::max(timeout, std::chrono::milliseconds::zero());
+        do {
+            if (::flock(fd_, LOCK_EX | LOCK_NB) == 0) {
+                locked_ = true;
+                return true;
+            }
+            if (errno != EWOULDBLOCK && errno != EAGAIN && errno != EINTR) {
+                detail = "cannot acquire DR metadata lock: " +
+                         std::error_code(errno, std::generic_category()).message();
+                return false;
+            }
+            if (std::chrono::steady_clock::now() - started_at >= lock_timeout) {
+                detail = "timed out waiting for DR metadata lock";
+                return false;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds{5});
+        } while (true);
+#endif
+    }
+
+private:
+#ifdef _WIN32
+    HANDLE handle_{INVALID_HANDLE_VALUE};
+#else
+    int fd_{-1};
+#endif
+    bool locked_{false};
+};
+
+bool syncMetadataDirectory(const std::filesystem::path& metadata_path,
+                           std::string& detail) {
+#ifdef _WIN32
+    (void)metadata_path;
+    (void)detail;
+    return true;
+#else
+    auto directory = metadata_path.parent_path();
+    if (directory.empty()) {
+        directory = ".";
+    }
+    int flags = O_RDONLY;
+#ifdef O_CLOEXEC
+    flags |= O_CLOEXEC;
+#endif
+#ifdef O_DIRECTORY
+    flags |= O_DIRECTORY;
+#endif
+    const int directory_fd = ::open(directory.c_str(), flags);
+    if (directory_fd < 0) {
+        detail = "cannot open DR metadata directory for sync: " +
+                 std::error_code(errno, std::generic_category()).message();
+        return false;
+    }
+    const bool synced = ::fsync(directory_fd) == 0;
+    const int sync_error = errno;
+    const int close_result = ::close(directory_fd);
+    if (!synced) {
+        detail = "cannot sync DR metadata directory: " +
+                 std::error_code(sync_error, std::generic_category()).message();
+        return false;
+    }
+    if (close_result != 0) {
+        detail = "cannot close DR metadata directory after sync: " +
+                 std::error_code(errno, std::generic_category()).message();
+        return false;
+    }
+    return true;
+#endif
+}
+
+bool appendDurableMetadataRecord(const std::filesystem::path& metadata_path,
+                                 const std::string& record,
+                                 std::string& detail) {
+    std::error_code filesystem_error;
+    if (!metadata_path.parent_path().empty()) {
+        std::filesystem::create_directories(metadata_path.parent_path(), filesystem_error);
+        if (filesystem_error) {
+            detail = "cannot create DR metadata directory: " + filesystem_error.message();
+            return false;
+        }
+    }
+
+#ifdef _WIN32
+    HANDLE file = CreateFileW(metadata_path.c_str(),
+                              GENERIC_WRITE | FILE_APPEND_DATA,
+                              FILE_SHARE_READ | FILE_SHARE_WRITE,
+                              nullptr,
+                              OPEN_ALWAYS,
+                              FILE_ATTRIBUTE_NORMAL,
+                              nullptr);
+    if (file == INVALID_HANDLE_VALUE) {
+        detail = "cannot open DR metadata log for append: " +
+                 std::error_code(static_cast<int>(GetLastError()),
+                                 std::system_category()).message();
+        return false;
+    }
+    BY_HANDLE_FILE_INFORMATION file_info{};
+    if (!GetFileInformationByHandle(file, &file_info) ||
+        (file_info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0) {
+        detail = "DR metadata path is not a regular file";
+        CloseHandle(file);
+        return false;
+    }
+    LARGE_INTEGER end_of_file{};
+    if (!SetFilePointerEx(file, end_of_file, nullptr, FILE_END)) {
+        detail = "cannot seek to the end of the DR metadata log: " +
+                 std::error_code(static_cast<int>(GetLastError()),
+                                 std::system_category()).message();
+        CloseHandle(file);
+        return false;
+    }
+    std::size_t written = 0;
+    while (written < record.size()) {
+        const auto chunk_size = static_cast<DWORD>(
+            std::min<std::size_t>(record.size() - written, MAXDWORD));
+        DWORD chunk_written = 0;
+        if (!WriteFile(file, record.data() + written, chunk_size, &chunk_written, nullptr) ||
+            chunk_written == 0) {
+            detail = "failed to append DR metadata record: " +
+                     std::error_code(static_cast<int>(GetLastError()),
+                                     std::system_category()).message();
+            CloseHandle(file);
+            return false;
+        }
+        written += chunk_written;
+    }
+    if (!FlushFileBuffers(file)) {
+        detail = "failed to flush DR metadata record: " +
+                 std::error_code(static_cast<int>(GetLastError()),
+                                 std::system_category()).message();
+        CloseHandle(file);
+        return false;
+    }
+    if (!CloseHandle(file)) {
+        detail = "failed to close DR metadata log: " +
+                 std::error_code(static_cast<int>(GetLastError()),
+                                 std::system_category()).message();
+        return false;
+    }
+    return true;
+#else
+    int flags = O_WRONLY | O_APPEND | O_CREAT;
+#ifdef O_CLOEXEC
+    flags |= O_CLOEXEC;
+#endif
+    const int fd = ::open(metadata_path.c_str(), flags, 0600);
+    if (fd < 0) {
+        detail = "cannot open DR metadata log for append: " +
+                 std::error_code(errno, std::generic_category()).message();
+        return false;
+    }
+    struct stat file_status {};
+    if (::fstat(fd, &file_status) != 0 || !S_ISREG(file_status.st_mode)) {
+        detail = "DR metadata path is not a regular file";
+        ::close(fd);
+        return false;
+    }
+
+    std::size_t written = 0;
+    while (written < record.size()) {
+        const auto remaining = record.size() - written;
+        const auto write_size = std::min<std::size_t>(
+            remaining, static_cast<std::size_t>(std::numeric_limits<ssize_t>::max()));
+        const auto bytes_written = ::write(fd, record.data() + written, write_size);
+        if (bytes_written < 0) {
+            if (errno == EINTR) {
+                continue;
+            }
+            detail = "failed to append DR metadata record: " +
+                     std::error_code(errno, std::generic_category()).message();
+            ::close(fd);
+            return false;
+        }
+        if (bytes_written == 0) {
+            detail = "failed to append DR metadata record: write returned zero bytes";
+            ::close(fd);
+            return false;
+        }
+        written += static_cast<std::size_t>(bytes_written);
+    }
+    if (::fsync(fd) != 0) {
+        detail = "failed to sync DR metadata record: " +
+                 std::error_code(errno, std::generic_category()).message();
+        ::close(fd);
+        return false;
+    }
+    if (::close(fd) != 0) {
+        detail = "failed to close DR metadata log: " +
+                 std::error_code(errno, std::generic_category()).message();
+        return false;
+    }
+    if (!syncMetadataDirectory(metadata_path, detail)) {
+        return false;
+    }
+    return true;
+#endif
+}
 
 std::string encodeHex(const std::string& value) {
     std::ostringstream encoded;
@@ -185,13 +497,10 @@ DisasterRecoveryManager::DisasterRecoveryManager(
 DisasterRecoveryResult DisasterRecoveryManager::executePlan(const DisasterRecoveryPlan& plan) {
     const auto fingerprint = planFingerprint(plan);
     // FO-IMPL-007: Idempotent plan execution — return cached result for repeated plan_id
-    if (metadata_load_error_.empty() || plan.dry_run) {
+    if (plan.dry_run) {
         std::lock_guard<std::mutex> idem_lock(idempotency_mutex_);
         auto it = completed_plans_.find(plan.plan_id);
-        const bool may_return_cached_result =
-            metadata_load_error_.empty() || plan.dry_run ||
-            (it != completed_plans_.end() && !it->second.success);
-        if (it != completed_plans_.end() && may_return_cached_result) {
+        if (it != completed_plans_.end()) {
             const auto prior_fingerprint = completed_plan_fingerprints_.find(plan.plan_id);
             if (prior_fingerprint == completed_plan_fingerprints_.end() ||
                 prior_fingerprint->second != fingerprint) {
@@ -239,6 +548,56 @@ DisasterRecoveryResult DisasterRecoveryManager::executePlan(const DisasterRecove
             completed_plan_fingerprints_[plan.plan_id] = fingerprint;
         }
         return result;
+    }
+
+    MetadataFileLock metadata_lock;
+    if (!plan.dry_run && !config_.metadata_log_path.empty()) {
+        std::string lock_error;
+        if (!metadata_lock.acquire(config_.metadata_log_path,
+                                   config_.metadata_lock_timeout,
+                                   lock_error)) {
+            result.success = false;
+            result.final_state = DisasterRecoveryState::FAILED;
+            result.error_code = DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED;
+            result.error_message = std::move(lock_error);
+            result.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - started_at);
+            transitionState(DisasterRecoveryState::FAILED);
+            updateStatistics(result);
+            return result;
+        }
+
+        loadCompletedPlans(true);
+        if (!metadata_load_error_.empty()) {
+            std::lock_guard<std::mutex> idem_lock(idempotency_mutex_);
+            const auto it = completed_plans_.find(plan.plan_id);
+            const auto prior_fingerprint = completed_plan_fingerprints_.find(plan.plan_id);
+            if (it != completed_plans_.end() && !it->second.success &&
+                it->second.error_code == DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED &&
+                prior_fingerprint != completed_plan_fingerprints_.end() &&
+                prior_fingerprint->second == fingerprint) {
+                return it->second;
+            }
+        }
+        if (metadata_load_error_.empty()) {
+            std::lock_guard<std::mutex> idem_lock(idempotency_mutex_);
+            const auto it = completed_plans_.find(plan.plan_id);
+            if (it != completed_plans_.end()) {
+                const auto prior_fingerprint = completed_plan_fingerprints_.find(plan.plan_id);
+                if (prior_fingerprint == completed_plan_fingerprints_.end() ||
+                    prior_fingerprint->second != fingerprint) {
+                    result.success = false;
+                    result.final_state = DisasterRecoveryState::FAILED;
+                    result.error_code = DisasterRecoveryErrorCode::INVALID_PLAN;
+                    result.error_message =
+                        "plan_id was already used for a different recovery plan";
+                    return result;
+                }
+                spdlog::info("DisasterRecoveryManager::executePlan: returning persisted result "
+                             "for plan_id='{}' (idempotent)", plan.plan_id);
+                return it->second;
+            }
+        }
     }
 
     transitionState(DisasterRecoveryState::PRECHECKS);
@@ -330,6 +689,9 @@ DisasterRecoveryResult DisasterRecoveryManager::executePlan(const DisasterRecove
         std::lock_guard<std::mutex> idem_lock(idempotency_mutex_);
         completed_plans_[plan.plan_id] = result;
         completed_plan_fingerprints_[plan.plan_id] = fingerprint;
+        if (!plan.dry_run && result.success) {
+            persisted_plan_ids_.insert(plan.plan_id);
+        }
     }
 
     return result;
@@ -594,29 +956,42 @@ bool DisasterRecoveryManager::persistCompletedPlan(
                                 std::to_string(result.fenced_epoch) + "|" +
                                 std::to_string(result.duration.count()) + "|" +
                                 encodeStepResults(result.step_results);
-    std::ofstream output(metadata_path, std::ios::out | std::ios::app);
-    if (!output) {
-        detail = "cannot open DR metadata log for append";
-        return false;
-    }
-
-    output << payload << '|' << std::hex << metadataChecksum(payload) << '\n';
-    output.flush();
-    if (!output.good()) {
-        detail = "failed to persist completed DR metadata";
-        return false;
-    }
-    output.close();
-    if (output.fail()) {
-        detail = "failed to close completed DR metadata log";
-        return false;
-    }
-    return true;
+    std::ostringstream record;
+    record << payload << '|' << std::hex << metadataChecksum(payload) << '\n';
+    return appendDurableMetadataRecord(metadata_path, record.str(), detail);
 }
 
-void DisasterRecoveryManager::loadCompletedPlans() {
+void DisasterRecoveryManager::loadCompletedPlans(bool metadata_lock_held) {
+    metadata_load_error_.clear();
     if (config_.metadata_log_path.empty()) {
         return;
+    }
+
+    MetadataFileLock metadata_lock;
+    if (!metadata_lock_held) {
+        std::error_code filesystem_error;
+        const bool metadata_exists = std::filesystem::exists(
+            config_.metadata_log_path, filesystem_error);
+        if (filesystem_error) {
+            metadata_load_error_ = "cannot inspect DR metadata log: " +
+                                   filesystem_error.message();
+            return;
+        }
+        if (!metadata_exists) {
+            std::lock_guard<std::mutex> idem_lock(idempotency_mutex_);
+            if (!persisted_plan_ids_.empty()) {
+                metadata_load_error_ =
+                    "DR metadata log disappeared after completed plans were loaded";
+            }
+            return;
+        }
+        std::string lock_error;
+        if (!metadata_lock.acquire(config_.metadata_log_path,
+                                   config_.metadata_lock_timeout,
+                                   lock_error)) {
+            metadata_load_error_ = std::move(lock_error);
+            return;
+        }
     }
 
     std::error_code filesystem_error;
@@ -628,6 +1003,11 @@ void DisasterRecoveryManager::loadCompletedPlans() {
         return;
     }
     if (!metadata_exists) {
+        std::lock_guard<std::mutex> idem_lock(idempotency_mutex_);
+        if (!persisted_plan_ids_.empty()) {
+            metadata_load_error_ =
+                "DR metadata log disappeared after completed plans were loaded";
+        }
         return;
     }
 
@@ -637,6 +1017,8 @@ void DisasterRecoveryManager::loadCompletedPlans() {
         return;
     }
 
+    std::unordered_map<std::string, DisasterRecoveryResult> loaded_plans;
+    std::unordered_map<std::string, std::string> loaded_fingerprints;
     std::string line;
     while (std::getline(input, line)) {
         std::array<std::string, 6> fields;
@@ -698,12 +1080,43 @@ void DisasterRecoveryManager::loadCompletedPlans() {
         recovered.fenced_epoch = fenced_epoch;
         recovered.duration = std::chrono::milliseconds(duration_ms);
         recovered.step_results = std::move(step_results);
-        completed_plans_[plan_id] = std::move(recovered);
-        completed_plan_fingerprints_[plan_id] = fields[1];
+        const auto existing = loaded_fingerprints.find(plan_id);
+        if (existing != loaded_fingerprints.end() && existing->second != fields[1]) {
+            metadata_load_error_ =
+                "DR metadata log contains conflicting records for one plan_id";
+            break;
+        }
+        loaded_plans[plan_id] = std::move(recovered);
+        loaded_fingerprints[plan_id] = fields[1];
     }
 
     if (input.bad() && metadata_load_error_.empty()) {
         metadata_load_error_ = "failed while reading DR metadata log";
+    }
+    if (!metadata_load_error_.empty()) {
+        return;
+    }
+
+    {
+        std::lock_guard<std::mutex> idem_lock(idempotency_mutex_);
+        for (const auto& persisted_plan_id : persisted_plan_ids_) {
+            if (loaded_plans.find(persisted_plan_id) == loaded_plans.end()) {
+                metadata_load_error_ =
+                    "DR metadata log lost a previously loaded completion record";
+                return;
+            }
+        }
+
+        for (const auto& persisted_plan_id : persisted_plan_ids_) {
+            completed_plans_.erase(persisted_plan_id);
+            completed_plan_fingerprints_.erase(persisted_plan_id);
+        }
+        persisted_plan_ids_.clear();
+        for (auto& [plan_id, recovered] : loaded_plans) {
+            completed_plans_[plan_id] = std::move(recovered);
+            completed_plan_fingerprints_[plan_id] = std::move(loaded_fingerprints[plan_id]);
+            persisted_plan_ids_.insert(plan_id);
+        }
     }
 }
 
@@ -744,26 +1157,9 @@ bool DisasterRecoveryManager::runPrechecks(const DisasterRecoveryPlan& plan,
         return false;
     }
 
-    const std::filesystem::path metadata_path(config_.metadata_log_path);
-    std::error_code filesystem_error;
-    if (!metadata_path.parent_path().empty()) {
-        std::filesystem::create_directories(metadata_path.parent_path(), filesystem_error);
-        if (filesystem_error) {
-            detail = "cannot create DR metadata directory: " + filesystem_error.message();
-            error_code = DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED;
-            return false;
-        }
-    }
-    std::ofstream metadata_check(metadata_path, std::ios::out | std::ios::app);
-    if (!metadata_check) {
-        detail = "cannot open DR metadata log for append";
-        error_code = DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED;
-        return false;
-    }
-    metadata_check.flush();
-    metadata_check.close();
-    if (metadata_check.fail()) {
-        detail = "failed to verify DR metadata log";
+    std::string metadata_error;
+    if (!appendDurableMetadataRecord(config_.metadata_log_path, {}, metadata_error)) {
+        detail = std::move(metadata_error);
         error_code = DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED;
         return false;
     }

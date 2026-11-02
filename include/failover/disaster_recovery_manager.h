@@ -20,6 +20,7 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 #include "replication/replication_manager.h"
@@ -68,6 +69,12 @@ struct DisasterRecoveryConfig {
     std::chrono::milliseconds precheck_timeout{5000};
     std::chrono::milliseconds catchup_timeout{30000};
     std::chrono::milliseconds verification_timeout{10000};
+    /**
+     * @brief Maximum wait to acquire the cross-process DR metadata lock.
+     * @note Expiration blocks non-dry-run execution with a metadata-persistence
+     *       error; adapter hooks themselves are not bounded by this timeout.
+     */
+    std::chrono::milliseconds metadata_lock_timeout{5000};
     uint32_t max_verification_retries{5};
 
     bool require_quorum{true};
@@ -164,6 +171,10 @@ public:
      *         adapters fail the result; traffic shift is not required when disabled
      *         by the plan. Dry-run plans do not perform external side effects.
      * @note Steps completed before a failure are not compensated or rolled back.
+     * @note Non-dry-run execution serializes against processes using the same
+     *       metadata path and its persistent ".lock" sidecar. Lock acquisition
+     *       is bounded by metadata_lock_timeout; filesystem lock and durability
+     *       semantics must be supported by the configured filesystem.
      */
     DisasterRecoveryResult executePlan(const DisasterRecoveryPlan& plan);
 
@@ -226,6 +237,7 @@ public:
         std::lock_guard<std::mutex> lock(idempotency_mutex_);
         completed_plans_.clear();
         completed_plan_fingerprints_.clear();
+        persisted_plan_ids_.clear();
     }
 
     /** @brief Override quorum only in focused tests; unavailable in production builds. */
@@ -271,7 +283,7 @@ private:
         const DisasterRecoveryResult& result,
         std::string& detail);
 
-    void loadCompletedPlans();
+    void loadCompletedPlans(bool metadata_lock_held = false);
 
     /**
      * @brief Run Prechecks.
@@ -322,6 +334,7 @@ private:
     mutable std::mutex idempotency_mutex_;
     std::unordered_map<std::string, DisasterRecoveryResult> completed_plans_;
     std::unordered_map<std::string, std::string> completed_plan_fingerprints_;
+    std::unordered_set<std::string> persisted_plan_ids_;
     std::string metadata_load_error_;
 
     mutable std::mutex stats_mutex_;

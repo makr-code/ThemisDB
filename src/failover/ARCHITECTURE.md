@@ -60,10 +60,13 @@ the storage restore implementation, or traffic-management infrastructure.
 The current implementation does not execute every action implied by the
 orchestration names. Spare activation requires a runtime hook and independent
 `ACTIVE` state read-back; failure blocks completion and leaves `DEGRADED` state.
-The DR completion log is local to one process host and is not shared metadata.
-Most importantly, shard write RPCs do not yet validate epoch tokens, and there is
-no multi-process failover/recovery E2E test. These are release-blocking
-integration gaps. See [IMPLEMENTATION.md](IMPLEMENTATION.md).
+The DR completion log serializes processes using the same metadata path through
+a persistent sibling lock and flushes completion records before success. It
+remains local-file metadata rather than a consensus-backed shared store; lock and
+durability behavior on network filesystems is not established. Shard write paths
+now enforce epoch-token checks, but there is still no multi-process
+failover/recovery E2E test. Shared durable metadata and networked E2E evidence
+remain release-blocking integration gaps. See [IMPLEMENTATION.md](IMPLEMENTATION.md).
 
 ## Observability boundary
 
