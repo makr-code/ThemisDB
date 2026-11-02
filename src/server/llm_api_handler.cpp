@@ -21,6 +21,7 @@
 #include "llm/docs_assistant.h"
 #include "llm/feedback_store.h"
 #include "llm/openai_compat_adapter.h"
+#include "llm/inference_input_limits.h"
 #include "aql/llm_aql_handler.h"
 #include "aql/llm_error_codes.h"
 #include "llm/context_window_budget.h"
@@ -33,6 +34,7 @@
 #include <regex>
 #include <iostream>
 #include <chrono>
+#include <cmath>
 #include <exception>
 #include <limits>
 #include "utils/tracing.h"
@@ -375,6 +377,9 @@ http::response<http::string_body> LLMApiHandler::handleInference(
         
         if (body->contains("model")) {
             model_id = json_value_to<std::string>(body->at("model"));
+            if (model_id.empty()) {
+                return createErrorResponse(http::status::bad_request, "model must not be empty");
+            }
         }
         
         if (body->contains("lora_adapter")) {
@@ -395,12 +400,11 @@ http::response<http::string_body> LLMApiHandler::handleInference(
     // ── B2-INPUT-VALIDATION (2026-08-26 Wave-7 Security Hardening) ─────────
     // Validates all user-supplied fields before they reach the inference engine.
     {
-        static constexpr std::size_t kMaxPromptBytes = 1 * 1024 * 1024; // 1 MB
-        if (prompt.size() > kMaxPromptBytes) {
+        if (prompt.size() > llm::kMaxPromptBytes) {
             THEMIS_WARN("[SEC] Input validation failed: field=prompt reason=too_large size={}",prompt.size());
             return createErrorResponse(http::status::bad_request,
                 "prompt too large",
-                "prompt must be <= 1 MB");
+                "prompt must be <= 1 MiB (measured in bytes)");
         }
         // lora_id: alphanumeric, hyphens, underscores only
         if (!lora_id.empty()) {
@@ -412,15 +416,15 @@ http::response<http::string_body> LLMApiHandler::handleInference(
                     "lora_id must match [a-zA-Z0-9_-]+");
             }
         }
-        // max_tokens: 1–32768
-        if (max_tokens < 1 || max_tokens > 32768) {
+        // Keep generation work bounded independently of plugin defaults.
+        if (max_tokens < 1 || max_tokens > llm::kMaxInferenceTokens) {
             THEMIS_WARN("[SEC] Input validation failed: field=max_tokens reason=out_of_range value={}", max_tokens);
             return createErrorResponse(http::status::bad_request,
                 "max_tokens out of range",
-                "max_tokens must be between 1 and 32768");
+                "max_tokens must be between 1 and 4096");
         }
         // temperature: 0.0–2.0
-        if (temperature < 0.0 || temperature > 2.0) {
+        if (!std::isfinite(temperature) || temperature < 0.0 || temperature > 2.0) {
             THEMIS_WARN("[SEC] Input validation failed: field=temperature reason=out_of_range value={}", temperature);
             return createErrorResponse(http::status::bad_request,
                 "temperature out of range",
@@ -482,6 +486,11 @@ http::response<http::string_body> LLMApiHandler::handleInference(
         );
         
         return createJsonResponse(http::status::ok, response_body);
+    } catch (const llm::InferenceAdmissionRejected&) {
+        auto response = createErrorResponse(http::status::too_many_requests,
+            "Inference capacity reached", "Retry after active inference requests complete");
+        response.set("Retry-After", "1");
+        return response;
     } catch (const std::exception& e) {
         THEMIS_ERROR("LLMApiHandler::handleInference: {}", e.what());
         return createErrorResponse(
@@ -552,6 +561,9 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
 
         if (body->contains("model")) {
             model_id = json_value_to<std::string>(body->at("model"));
+            if (model_id.empty()) {
+                return createErrorResponse(http::status::bad_request, "model must not be empty");
+            }
         }
 
         if (body->contains("rag_mode")) {
@@ -581,12 +593,20 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         );
     }
 
-    if (max_context_tokens < 0) {
-        return createErrorResponse(http::status::bad_request, "max_context_tokens must be >= 0");
+    if (max_context_tokens < 0 ||
+        max_context_tokens > llm::kMaxContextWindowTokens) {
+        return createErrorResponse(
+            http::status::bad_request,
+            "max_context_tokens out of range",
+            "max_context_tokens must be between 0 and 32768 tokens");
     }
 
-    if (response_budget_tokens <= 0) {
-        return createErrorResponse(http::status::bad_request, "response_budget_tokens must be greater than 0");
+    if (response_budget_tokens <= 0 ||
+        response_budget_tokens > llm::kMaxInferenceTokens) {
+        return createErrorResponse(
+            http::status::bad_request,
+            "response_budget_tokens out of range",
+            "response_budget_tokens must be between 1 and 4096 tokens");
     }
 
     if (max_tokens <= 0) {
@@ -595,12 +615,11 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
 
     // ── B2-INPUT-VALIDATION (2026-08-26 Wave-7 Security Hardening) ─────────
     {
-        static constexpr std::size_t kMaxQueryBytes = 1 * 1024 * 1024; // 1 MB
-        if (query.size() > kMaxQueryBytes) {
+        if (query.size() > llm::kMaxPromptBytes) {
             THEMIS_WARN("[SEC] Input validation failed: field=query reason=too_large size={}",query.size());
             return createErrorResponse(http::status::bad_request,
-                "prompt too large",
-                "query must be <= 1 MB");
+                "query too large",
+                "query must be <= 1 MiB (measured in bytes)");
         }
         if (!lora_id.empty()) {
             static const std::regex kLoraIdRe{"^[a-zA-Z0-9_-]+$"};
@@ -612,13 +631,13 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
             }
         }
         // Tighten max_tokens upper bound (existing check only enforces > 0)
-        if (max_tokens > 32768) {
+        if (max_tokens < 1 || max_tokens > llm::kMaxInferenceTokens) {
             THEMIS_WARN("[SEC] Input validation failed: field=max_tokens reason=out_of_range value={}", max_tokens);
             return createErrorResponse(http::status::bad_request,
                 "max_tokens out of range",
-                "max_tokens must be between 1 and 32768");
+                "max_tokens must be between 1 and 4096");
         }
-        if (temperature < 0.0 || temperature > 2.0) {
+        if (!std::isfinite(temperature) || temperature < 0.0 || temperature > 2.0) {
             THEMIS_WARN("[SEC] Input validation failed: field=temperature reason=out_of_range value={}", temperature);
             return createErrorResponse(http::status::bad_request,
                 "temperature out of range",
@@ -634,6 +653,8 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         rag_context.query = query;
         rag_context.collection_name = collection;
         rag_context.top_k = top_k;
+        llm::InferenceRequest llm_request;
+        llm_request.prompt = query;
         const auto normalized_budget = llm::ContextWindowBudget::compute(
             static_cast<std::size_t>(max_context_tokens),
             std::string{},
@@ -642,11 +663,17 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         const int effective_response_budget_tokens =
             static_cast<int>(std::min<std::size_t>(
                 normalized_budget.reserved_response_tokens,
-                static_cast<std::size_t>(std::numeric_limits<int>::max())));
+                static_cast<std::size_t>(llm::kMaxInferenceTokens)));
         const int effective_generation_max_tokens =
             std::min(max_tokens, effective_response_budget_tokens);
         rag_context.max_context_tokens = static_cast<int>(normalized_budget.model_max_tokens);
         rag_context.response_budget_tokens = effective_response_budget_tokens;
+        if (!llm::detail::inferenceInputsWithinByteLimit(llm_request, rag_context)) {
+            return createErrorResponse(
+                http::status::bad_request,
+                "RAG request too large",
+                "prompt and RAG query must fit within the 1 MiB conservative byte limit");
+        }
 
         spdlog::info(
             "LLMApiHandler::handleRAG request: query_len={} collection='{}' top_k={} rag_mode='{}' model='{}' max_context_tokens={} response_budget_tokens={} request_max_tokens={}",
@@ -712,6 +739,13 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
                     document.metadata = result.entity;
                     document.content = *content_opt;
                     rag_context.documents.push_back(std::move(document));
+                    if (!llm::detail::inferenceInputsWithinByteLimit(llm_request, rag_context)) {
+                        return createErrorResponse(
+                            http::status::bad_request,
+                            "RAG request too large",
+                            "prompt and RAG query, template, retrieved document content/source, and metadata must fit "
+                            "within the 1 MiB conservative byte limit");
+                    }
                 }
 
                 if (rag_context.documents.empty()) {
@@ -743,8 +777,6 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
             rag_context.top_k);
         
         // Prepare inference request
-        llm::InferenceRequest llm_request;
-        llm_request.prompt = query;
         llm_request.model_id = model_id.empty() ? std::string("default") : model_id;
         llm_request.max_tokens = effective_generation_max_tokens;
         llm_request.temperature = static_cast<float>(temperature);
@@ -791,6 +823,11 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         );
 
         return createJsonResponse(response_data);
+    } catch (const llm::InferenceAdmissionRejected&) {
+        auto response = createErrorResponse(http::status::too_many_requests,
+            "Inference capacity reached", "Retry after active inference requests complete");
+        response.set("Retry-After", "1");
+        return response;
     } catch (const std::exception& e) {
         THEMIS_ERROR("LLMApiHandler::handleRAG: {}", e.what());
         return createErrorResponse(
@@ -2374,6 +2411,15 @@ http::response<http::string_body> LLMApiHandler::handleFeedbackStats(
 http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleOpenAIChatCompletions");
+    const auto overloadResponse = [this]() {
+        auto response = createJsonResponse(
+            llm::OpenAICompatAdapter::buildError(
+                "Inference capacity reached; retry after active requests complete",
+                "rate_limit_error"),
+            http::status::too_many_requests);
+        response.set("Retry-After", "1");
+        return response;
+    };
     try {
         auto body = parseRequestBody(req);
         if (!body) {
@@ -2457,6 +2503,8 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
             try {
                 auto& plugin_mgr = llm::LLMPluginManager::instance();
                 plugin_mgr.generate(llm_request);
+            } catch (const llm::InferenceAdmissionRejected&) {
+                return overloadResponse();
             } catch (const std::exception& e) {
                 spdlog::warn(
                     "LLMApiHandler::handleOpenAIChatCompletions stream failed: model='{}' error='{}'",
@@ -2505,6 +2553,8 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
             try {
                 auto& plugin_mgr = llm::LLMPluginManager::instance();
                 llm_response = plugin_mgr.generate(llm_request);
+            } catch (const llm::InferenceAdmissionRejected&) {
+                return overloadResponse();
             } catch (const std::exception& e) {
                 spdlog::warn(
                     "LLMApiHandler::handleOpenAIChatCompletions non-stream failed: model='{}' error='{}'",
@@ -2596,4 +2646,3 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIListModels(
 }
 
 } // namespace themis::server
-

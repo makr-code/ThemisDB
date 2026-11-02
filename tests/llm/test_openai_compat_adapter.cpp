@@ -18,9 +18,15 @@
 
 #include <gtest/gtest.h>
 #include <memory>
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <mutex>
 #include <sstream>
 #include <string>
+#include <thread>
 #include <variant>
+#include <vector>
 
 #include <nlohmann/json.hpp>
 #include <spdlog/sinks/ostream_sink.h>
@@ -29,6 +35,7 @@
 #include "llm/openai_compat_adapter.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/llm_plugin_manager.h"
+#include "llm/inference_input_limits.h"
 #include "governance/policy_engine.h"
 #include "server/llm_api_handler.h"
 
@@ -204,6 +211,61 @@ TEST_F(ParseRequestTest, MaxCompletionTokensAlias) {
 
     auto req = requireOk(OpenAICompatAdapter::parseRequest(body));
     EXPECT_EQ(req.max_tokens, 128);
+}
+
+TEST_F(ParseRequestTest, RejectsGenerationBudgetAboveManagedLimit) {
+    json body = {
+        {"messages", json::array({{{"role", "user"}, {"content", "x"}}})},
+        {"max_tokens", 4097}
+    };
+    EXPECT_NE(requireError(OpenAICompatAdapter::parseRequest(body)).find("4096"),
+              std::string::npos);
+}
+
+TEST_F(ParseRequestTest, RejectsInvalidSamplingBounds) {
+    json body = {
+        {"messages", json::array({{{"role", "user"}, {"content", "x"}}})},
+        {"temperature", 3.0}
+    };
+    EXPECT_NE(requireError(OpenAICompatAdapter::parseRequest(body)).find("temperature"),
+              std::string::npos);
+}
+
+TEST_F(ParseRequestTest, RejectsCombinedPromptAndSystemPromptByteLimit) {
+    json body = {
+        {"messages", json::array({
+            {{"role", "system"}, {"content", std::string(600u * 1024u, 's')}},
+            {{"role", "user"}, {"content", std::string(500u * 1024u, 'u')}}
+        })}
+    };
+    EXPECT_NE(requireError(OpenAICompatAdapter::parseRequest(body)).find("byte limit"),
+              std::string::npos);
+}
+
+TEST(InferenceInputLimitsTest, AppliesOneByteLimitAcrossPromptAndRagContext) {
+    themis::llm::InferenceRequest request;
+    request.prompt = std::string(500u * 1024u, 'p');
+
+    themis::llm::RAGContext context;
+    context.query = "query";
+    context.context_template = "document: {content}";
+    themis::llm::RAGContext::Document document;
+    document.content = "retrieved text";
+    document.source = "doc-1";
+    document.metadata = json{{"category", std::string(600u * 1024u, 'm')}};
+    context.documents.push_back(std::move(document));
+
+    EXPECT_TRUE(themis::llm::detail::promptWithinByteLimit(request));
+    EXPECT_FALSE(themis::llm::detail::inferenceInputsWithinByteLimit(request, context));
+}
+
+TEST_F(ParseRequestTest, RejectsExplicitEmptyModelInsteadOfUsingDefault) {
+    json body = {
+        {"model", ""},
+        {"messages", json::array({{{"role", "user"}, {"content", "x"}}})}
+    };
+    EXPECT_NE(requireError(OpenAICompatAdapter::parseRequest(body)).find("model"),
+              std::string::npos);
 }
 
 TEST_F(ParseRequestTest, ArrayContentParts) {
@@ -553,6 +615,77 @@ private:
     spdlog::level::level_enum previous_level_;
 };
 
+class AdmissionTestGate {
+public:
+    void hold() {
+        std::unique_lock<std::mutex> lock(mutex_);
+        ++entered_;
+        condition_.notify_all();
+        condition_.wait(lock, [this] { return released_; });
+    }
+
+    bool waitForEntered(std::size_t count) {
+        std::unique_lock<std::mutex> lock(mutex_);
+        return condition_.wait_for(lock, std::chrono::seconds(2),
+                                  [this, count] { return entered_ >= count; });
+    }
+
+    void release() {
+        std::lock_guard<std::mutex> lock(mutex_);
+        released_ = true;
+        condition_.notify_all();
+    }
+
+private:
+    std::mutex mutex_;
+    std::condition_variable condition_;
+    std::size_t entered_ = 0;
+    bool released_ = false;
+};
+
+class AdmissionTestPlugin final : public themis::llm::ILLMPlugin {
+public:
+    explicit AdmissionTestPlugin(std::shared_ptr<AdmissionTestGate> gate)
+        : gate_(std::move(gate)) {}
+
+    std::atomic<int> calls{0};
+    bool loadModel(const std::string&, const json&) override { return true; }
+    void unloadModel() override {}
+    std::optional<themis::llm::ModelInfo> getModelInfo() const override {
+        themis::llm::ModelInfo info;
+        info.model_id = "admission-test-model";
+        info.name = info.model_id;
+        info.is_loaded = true;
+        return info;
+    }
+    bool isModelLoaded() const override { return true; }
+    bool loadLoRA(const std::string&, const std::string&, float) override { return true; }
+    bool unloadLoRA(const std::string&) override { return true; }
+    std::vector<themis::llm::LoRAInfo> listLoRAs() const override { return {}; }
+    InferenceResponse generate(const InferenceRequest& request) override {
+        calls.fetch_add(1, std::memory_order_relaxed);
+        gate_->hold();
+        InferenceResponse response;
+        response.success = true;
+        response.model_id = "admission-test-model";
+        response.text = request.prompt;
+        return response;
+    }
+    InferenceResponse generateRAG(const themis::llm::RAGContext&,
+                                  const InferenceRequest& request) override {
+        return generate(request);
+    }
+    std::vector<float> embed(const std::string&) override { return {}; }
+    themis::llm::LLMCapabilities getCapabilities() const override { return {}; }
+    json getMemoryStats() const override { return json::object(); }
+    json getPerformanceStats() const override { return json::object(); }
+    std::vector<uint8_t> exportLoRA(const std::string&) override { return {}; }
+    bool importLoRA(const std::string&, const std::vector<uint8_t>&) override { return true; }
+
+private:
+    std::shared_ptr<AdmissionTestGate> gate_;
+};
+
 /// Helper: build a minimal Boost.Beast HTTP POST request for /v1/chat/completions.
 static http::request<http::string_body> makeChatRequest(
     const std::string& auth_header = "",
@@ -759,5 +892,67 @@ TEST_F(LLMApiHandlerPolicyTest, OpenAIChatStreaming_EmitsLifecycleLogs) {
     if (res.result_int() >= 500) {
         EXPECT_TRUE(has_failed || has_failed_unknown)
             << "Server-error path should include a streaming failure lifecycle log";
+    }
+}
+
+TEST_F(LLMApiHandlerPolicyTest, OverloadedOpenAIChatPathsReturn429AndDeltaRetryAfter) {
+    auto& manager = themis::llm::LLMPluginManager::instance();
+    std::string previous_default_name;
+    themis::llm::ILLMPlugin* const previous_default = manager.getDefaultPlugin();
+    if (previous_default) {
+        for (const auto& name : manager.listPlugins()) {
+            if (manager.getPlugin(name) == previous_default) {
+                previous_default_name = name;
+                break;
+            }
+        }
+    }
+    constexpr char kPluginName[] = "openai-admission-test";
+    manager.unregisterPlugin(kPluginName);
+    auto gate = std::make_shared<AdmissionTestGate>();
+    auto plugin = std::make_unique<AdmissionTestPlugin>(gate);
+    auto* plugin_ptr = plugin.get();
+    manager.registerPlugin(kPluginName, std::move(plugin));
+    manager.setDefaultPlugin(kPluginName);
+
+    std::vector<std::thread> active;
+    active.reserve(themis::llm::kMaxConcurrentInferenceRequests);
+    for (std::size_t i = 0; i < themis::llm::kMaxConcurrentInferenceRequests; ++i) {
+        active.emplace_back([&manager] {
+            InferenceRequest request;
+            request.model_id = "default";
+            request.prompt = "held";
+            try {
+                (void)manager.generate(request);
+            } catch (...) {
+            }
+        });
+    }
+
+    const bool saturated = gate->waitForEntered(
+        themis::llm::kMaxConcurrentInferenceRequests);
+    auto non_streaming = handler_->handleRequest(makeChatRequest(
+        "", R"({"model":"default","stream":false,"messages":[{"role":"user","content":"hi"}]})"));
+    auto streaming = handler_->handleRequest(makeChatRequest(
+        "", R"({"model":"default","stream":true,"messages":[{"role":"user","content":"hi"}]})"));
+
+    gate->release();
+    for (auto& request_thread : active) {
+        request_thread.join();
+    }
+    const int admitted_calls = plugin_ptr->calls.load(std::memory_order_relaxed);
+    manager.unregisterPlugin(kPluginName);
+    if (!previous_default_name.empty() && manager.hasPlugin(previous_default_name)) {
+        manager.setDefaultPlugin(previous_default_name);
+    }
+
+    EXPECT_TRUE(saturated);
+    EXPECT_EQ(admitted_calls,
+              static_cast<int>(themis::llm::kMaxConcurrentInferenceRequests));
+    for (const auto* response : {&non_streaming, &streaming}) {
+        EXPECT_EQ(response->result_int(), 429);
+        const auto retry_after = response->find("Retry-After");
+        ASSERT_NE(retry_after, response->end());
+        EXPECT_EQ(retry_after->value(), "1");
     }
 }

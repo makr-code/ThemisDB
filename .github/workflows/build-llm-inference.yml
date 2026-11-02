@@ -9,7 +9,8 @@ name: "Build: LLM Inferencing [TinyLlama + doku.db RAG + AdaLoRA]"
 #   llm_rag_doku     — RAG-01..07:   WikiRagSource + JsonWikiIndexReader + doku.db
 #   adalora_training — LORA-01..07:  AdaLoRAAdapter training pipeline
 #
-# Model acquisition: HuggingFace direct GGUF (primary) → Ollama export (fallback)
+# Model acquisition: HuggingFace direct GGUF (primary) → Ollama export (fallback);
+# both paths and restored cache entries must match the pinned SHA256.
 # Model: TinyLlama-1.1B-Chat-v1.0 Q4_K_M (≈636 MB, CPU-only)
 #
 # Knowledge base: doku.db built from repository markdown documentation
@@ -84,8 +85,10 @@ jobs:
           restore-keys: |
             tinyllama-gguf-q4km-${{ runner.os }}-
 
-      - name: Download TinyLlama GGUF (HuggingFace → Ollama fallback)
-        if: steps.cache-model.outputs.cache-hit != 'true' || inputs.force_model_download == true
+      - name: Test pinned model checksum rejection
+        run: bash tests/scripts/test_ci_download_tinyllama.sh
+
+      - name: Prepare and verify pinned TinyLlama GGUF
         env:
           MODEL_DIR: ${{ env.MODEL_DIR }}
           FORCE: ${{ inputs.force_model_download == true && '1' || '0' }}
@@ -272,13 +275,19 @@ jobs:
           THEMIS_TEST_MODEL_PATH: ${{ env.TINYLLAMA_GGUF }}
         run: |
           set -euo pipefail
+          CONSOLE_LOG="${{ env.CMAKE_BUILD_DIR }}/ctest-inference-console.log"
           ctest --test-dir "${{ env.CMAKE_BUILD_DIR }}" \
             --output-on-failure \
+            --verbose \
             -j1 \
             --timeout 120 \
             -L "llm_inference" \
             --output-log "${{ env.CMAKE_BUILD_DIR }}/ctest-inference.log" \
-            || CTEST_EXIT=$?
+            2>&1 | tee "${CONSOLE_LOG}" || CTEST_EXIT=$?
+          if grep -Fq '[  SKIPPED ]' "${CONSOLE_LOG}"; then
+            echo "::error::Real-model inference lane reported one or more skipped GoogleTests"
+            exit 1
+          fi
           echo "CTest exit: ${CTEST_EXIT:-0}"
           exit "${CTEST_EXIT:-0}"
 
@@ -290,6 +299,7 @@ jobs:
           path: |
             ${{ env.CMAKE_BUILD_DIR }}/Testing/
             ${{ env.CMAKE_BUILD_DIR }}/ctest-inference.log
+            ${{ env.CMAKE_BUILD_DIR }}/ctest-inference-console.log
           retention-days: 7
           if-no-files-found: ignore
 
@@ -324,13 +334,19 @@ jobs:
           THEMIS_DOKU_DB_PATH: ${{ env.DOKU_DB_DIR }}/doku.db.json
         run: |
           set -euo pipefail
+          CONSOLE_LOG="${{ env.CMAKE_BUILD_DIR }}/ctest-rag-console.log"
           ctest --test-dir "${{ env.CMAKE_BUILD_DIR }}" \
             --output-on-failure \
+            --verbose \
             -j1 \
             --timeout 180 \
             -L "llm_rag_doku" \
             --output-log "${{ env.CMAKE_BUILD_DIR }}/ctest-rag.log" \
-            || CTEST_EXIT=$?
+            2>&1 | tee "${CONSOLE_LOG}" || CTEST_EXIT=$?
+          if grep -Fq '[  SKIPPED ]' "${CONSOLE_LOG}"; then
+            echo "::error::Real-model RAG lane reported one or more skipped GoogleTests"
+            exit 1
+          fi
           echo "CTest exit: ${CTEST_EXIT:-0}"
           exit "${CTEST_EXIT:-0}"
 
@@ -342,6 +358,7 @@ jobs:
           path: |
             ${{ env.CMAKE_BUILD_DIR }}/Testing/
             ${{ env.CMAKE_BUILD_DIR }}/ctest-rag.log
+            ${{ env.CMAKE_BUILD_DIR }}/ctest-rag-console.log
           retention-days: 7
           if-no-files-found: ignore
 
@@ -376,13 +393,19 @@ jobs:
           THEMIS_DOKU_DB_PATH: ${{ env.DOKU_DB_DIR }}/doku.db.json
         run: |
           set -euo pipefail
+          CONSOLE_LOG="${{ env.CMAKE_BUILD_DIR }}/ctest-adalora-console.log"
           ctest --test-dir "${{ env.CMAKE_BUILD_DIR }}" \
             --output-on-failure \
+            --verbose \
             -j1 \
             --timeout 300 \
             -L "adalora_training" \
             --output-log "${{ env.CMAKE_BUILD_DIR }}/ctest-adalora.log" \
-            || CTEST_EXIT=$?
+            2>&1 | tee "${CONSOLE_LOG}" || CTEST_EXIT=$?
+          if grep -Fq '[  SKIPPED ]' "${CONSOLE_LOG}"; then
+            echo "::error::Real-model AdaLoRA lane reported one or more skipped GoogleTests"
+            exit 1
+          fi
           echo "CTest exit: ${CTEST_EXIT:-0}"
           exit "${CTEST_EXIT:-0}"
 
@@ -394,6 +417,7 @@ jobs:
           path: |
             ${{ env.CMAKE_BUILD_DIR }}/Testing/
             ${{ env.CMAKE_BUILD_DIR }}/ctest-adalora.log
+            ${{ env.CMAKE_BUILD_DIR }}/ctest-adalora-console.log
           retention-days: 7
           if-no-files-found: ignore
 

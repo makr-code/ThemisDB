@@ -301,18 +301,19 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
     Embedding, Generierung, LoRA, Vision, Whisper.
   - Exit: `GTEST_SKIP` in `tests/llm` von 258 auf ≤ 20, jeder verbleibende Skip mit Begründung und Ticket.
 - [ ] **P1 · AI-07/AI-09 – Zentrale Admission Control** (Target: M3 · 2027-04-30)
-  - Hartes `max_tokens`-Cap an der Request-Grenze (`src/llm/task_decomposer.cpp:982` nur Fallback); globales
-    Concurrency-Limit je Modell; GPU-Speicherbuchhaltung; Überlast → HTTP 429 mit `Retry-After`.
-  - Tests: Lasttest mit 2× Kapazität ohne OOM; Requests über Cap werden abgelehnt.
+  - Managed inference now has explicit model routing, a process-wide non-queueing cap of 8 active calls,
+    a 4096 generated-token limit, a combined 1 MiB input byte limit, and overload HTTP 429 with `Retry-After: 1`.
+    Per-model/GPU-memory-aware admission is not implemented; focused validation remains pending.
+  - Remaining evidence: validate overload and input-boundary behavior; do not infer real-model, TSan, or hardware results.
 - [ ] **P1 · SEC-10 – Stub-Backends im Produktionsmodus sperren** (Target: M1) – `src/whisper/whisper_plugin.cpp:18-29` und
   alle in `src/STUB_INVENTORY.md` gelisteten aktiven Stubs: Start im Produktionsmodus ohne echtes Backend schlägt fehl.
 - [ ] **P1 · Preview-Kennzeichnung** (Target: M1) – AI-Endpunkte liefern `X-Themis-Feature-Stage: preview`; Aktivierung
   nur über explizites Feature-Flag; Doku in API-Referenz.
 - [ ] **P2 · AI-10 – Vision-/LoRA-Skips beheben** (Target: M3) – `tests/llm/test_llm_vision_encoder.cpp:129`,
   `tests/llm/test_lora_adapters.cpp:319`; LoRA-Lifecycle unter TSan.
-- [ ] **P2 · AI-08 – Concurrency-Claim belegen oder entfernen** (Target: M0) – `src/llm/THREADING.md:493`.
-- [ ] **P2 · AI-12 – Timeout-Lücke abgleichen** (Target: M1) – `src/llm/TODO_CRITICAL_GAPS.md:107` vs. Produktions-Claims; Timeout-Integrationstest.
-- [ ] **P2 · AI-01 – Toten Code entfernen** (Target: M0) – `src/llm/ssm_stub_plugin.cpp` (vollständig `#if 0`).
+- [x] **P2 · AI-08 – Concurrency-Claim belegen oder entfernen** (Target: M0) – Unsupported 1024-request/hardware claim removed from `src/llm/THREADING.md`; process-wide cap documented without TSan or hardware evidence.
+- [ ] **P2 · AI-12 – Timeout-Lücke abgleichen** (Target: M1) – `src/llm/TODO_CRITICAL_GAPS.md:107`; docs now state that synchronous `ILLMPlugin::generate()` cannot guarantee a deadline for a non-cooperative backend; timeout integration evidence remains pending.
+- [x] **P2 · AI-01 – Toten Code entfernen** (Target: M0) – `SyntheticSSMStub` header/source and its benchmark removed; no SSM inference backend is provided.
 
 ### WS6 – CI Fail-Closed & Test-Evidenz
 

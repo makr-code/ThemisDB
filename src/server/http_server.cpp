@@ -5392,6 +5392,18 @@ http::response<http::string_body> HttpServer::routeRequest(
                     themis::llm::InferenceResponse llm_response;
                     try {
                         llm_response = plugin_mgr.generate(llm_request);
+                    } catch (const themis::llm::InferenceAdmissionRejected&) {
+                        auto response = makeErrorResponse(
+                            http::status::too_many_requests,
+                            "Inference capacity reached", req);
+                        response.set("Retry-After", "1");
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    } catch (const std::invalid_argument& e) {
+                        auto response = makeErrorResponse(
+                            http::status::bad_request, e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
                     } catch (const std::exception& e) {
                         const std::string msg = e.what();
                         const bool retryable =
@@ -5567,6 +5579,18 @@ http::response<http::string_body> HttpServer::routeRequest(
                         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
                         recordLatency(duration);
                         span.setStatus(true);
+                        return response;
+                    } catch (const themis::llm::InferenceAdmissionRejected&) {
+                        auto response = makeErrorResponse(
+                            http::status::too_many_requests,
+                            "Inference capacity reached", req);
+                        response.set("Retry-After", "1");
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    } catch (const std::invalid_argument& e) {
+                        auto response = makeErrorResponse(
+                            http::status::bad_request, e.what(), req);
+                        applyGovernanceHeaders(req, response);
                         return response;
                     } catch (const std::exception& e) {
                         const std::string msg = e.what();

@@ -5,6 +5,9 @@
 **Target:** `develop`  
 **Scope:** SSM backend plugin architecture for ThemisDB LLM stack  
 
+> Historical design proposal: the planned `SyntheticSSMStub` was removed and is
+> not available in the current tree. No SSM inference backend is provided.
+
 ---
 
 ## Purpose
@@ -310,4 +313,3 @@ Phase 1 will include `SyntheticSSMStub` (build flag `THEMIS_SSM_STUB_MODE=1`) fo
 2. **Gate Decisions:** Capture answers to Gates 1–4 above
 3. **Implementation:** Start P1-D01 header file creation once gates signed off
 4. **Parallel:** P1-D02 (SSMStateStore interface), P1-D03 (stub), P1-D04 (Infini CPU)
-

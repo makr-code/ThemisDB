@@ -12,12 +12,14 @@
 
 #include "llm/task_decomposer.h"
 #include "llm/workflow_definition.h"
+#include "llm/llm_api_contract.h"
 #include "llm/llm_plugin_interface.h"
 
 #include <nlohmann/json.hpp>
 
 #include <algorithm>
 #include <cctype>
+#include <cmath>
 #include <fstream>
 #include <mutex>
 #include <sstream>
@@ -979,8 +981,12 @@ TaskDecompositionResult TaskDecomposer::decompose(
         InferenceRequest req;
         req.prompt      = (attempt == 0) ? prompt
                                          : prompt + "\n\n[Retry: please return a valid JSON array]";
-        req.max_tokens  = cfg.max_tokens > 0 ? cfg.max_tokens : 512;
-        req.temperature = cfg.temperature >= 0.0f ? cfg.temperature : 0.2f;
+        req.max_tokens  = cfg.max_tokens > 0
+            ? std::min(cfg.max_tokens, kMaxInferenceTokens)
+            : 512;
+        req.temperature = std::isfinite(cfg.temperature)
+            ? std::clamp(cfg.temperature, 0.0f, 2.0f)
+            : 0.2f;
         req.system_prompt = std::string(
             "You are a structured planning assistant.  "
             "Always output valid JSON arrays as instructed.");

@@ -58,8 +58,21 @@ namespace llm {
 //     and the engine state remains consistent (strong guarantee).
 // ============================================================================
 
-/// Maximum input prompt length in bytes accepted by the inference engine.
+/// Maximum total managed inference input size, measured in bytes across the
+/// prompt/system prompt and, for RAG, query/template/document content/metadata.
+/// This is a byte bound, not a tokenizer-derived token count.
 inline constexpr std::size_t kMaxPromptBytes = 1u * 1024u * 1024u;  // 1 MiB
+
+/// Hard ceiling on a caller-supplied RAG context-window budget. This is a
+/// token-valued backend setting, independent of the conservative byte limits.
+inline constexpr int kMaxContextWindowTokens = 32768;
+
+/// Maximum generated tokens accepted by managed inference entry points.
+inline constexpr int kMaxInferenceTokens = 4096;
+
+/// Maximum in-flight managed inference calls process-wide across manager
+/// instances; excess calls are rejected immediately rather than queued.
+inline constexpr std::size_t kMaxConcurrentInferenceRequests = 8;
 
 /// Maximum batch size for generateBatch() / embedBatch().
 inline constexpr std::size_t kMaxBatchSize = 256;
@@ -67,10 +80,12 @@ inline constexpr std::size_t kMaxBatchSize = 256;
 /// Maximum time a stream callback may block the engine dispatch thread.
 inline constexpr std::chrono::milliseconds kStreamCallbackMaxBlockMs{100};
 
-/// Default inference timeout per request.
+/// Desired default inference timeout for cooperative backends. The synchronous
+/// ILLMPlugin interface cannot enforce a wall-clock deadline on a backend that
+/// does not observe cancellation; this constant alone is not a timeout guarantee.
 inline constexpr std::chrono::seconds kDefaultInferenceTimeout{120};
 
-/// Maximum allowed inference timeout (operator-configurable upper bound).
+/// Maximum desired timeout for cooperative backends; not a hard deadline.
 inline constexpr std::chrono::seconds kMaxInferenceTimeout{600};
 
 // ============================================================================

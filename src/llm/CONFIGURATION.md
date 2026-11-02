@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-02"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Exact model backend not verifiable from final document text alone.
 
 # LLM Module - Configuration Guide
 
-<!-- Status: complete | validated: 2026-08-17 -->
+<!-- Status: audit preview | managed inference limits are enforced independently -->
 <!-- Links: README.md · ARCHITECTURE.md · OPERATIONS.md -->
 
 Version: 1.0 (Phase 6)
@@ -64,15 +64,18 @@ export THEMIS_LLM_BATCH_SIZE=1024
 # Batch timeout in milliseconds (default: 100)
 export THEMIS_LLM_BATCH_TIMEOUT_MS=100
 
-# Default request timeout in milliseconds (default: 300000 = 5 min)
+# Desired default request timeout in milliseconds (default: 300000 = 5 min)
 export THEMIS_LLM_DEFAULT_TIMEOUT_MS=300000
 
-# Maximum concurrent requests (default: -1 = unlimited)
-export THEMIS_LLM_MAX_CONCURRENT_REQUESTS=1024
+# Managed inference admission is fixed at 8 active requests process-wide;
+# configuration cannot raise this cap.
 
 # Enable continuous batching (default: true)
 export THEMIS_LLM_CONTINUOUS_BATCHING=true
 ```
+
+The synchronous `ILLMPlugin::generate()` interface cannot guarantee a
+wall-clock timeout when a backend does not cooperate with cancellation.
 
 #### Cache Configuration
 
@@ -171,8 +174,8 @@ inference:
   num_workers: 8                  # -1 = auto
   batch_size: 1024                # tokens
   batch_timeout_ms: 100
-  default_timeout_ms: 300000      # 5 min
-  max_concurrent_requests: 1024   # -1 = unlimited
+  default_timeout_ms: 300000      # desired timeout; not a hard deadline for synchronous backends
+  max_concurrent_requests: 8      # does not override the process-wide managed limit
   continuous_batching: true
   # No streaming subsection is consumed by the runtime configuration parser.
   sampling:
@@ -282,8 +285,8 @@ auto config = LLMConfig{
     .num_workers = 8,
     .batch_size = 1024,
     .batch_timeout_ms = 100,
-    .default_timeout_ms = 300000,
-    .max_concurrent_requests = 1024,
+    .default_timeout_ms = 300000,  // desired timeout; not a hard deadline for synchronous backends
+    .max_concurrent_requests = 8,  // does not override the process-wide managed limit
     .continuous_batching = true,
     
     // Cache
@@ -429,7 +432,7 @@ cache:
 inference:
   batch_size: 1024    # Large batches
   batch_timeout_ms: 500  # Wait to fill batch
-  max_concurrent_requests: 1024
+  max_concurrent_requests: 8  # managed inference cap is process-wide, not per model
   
 gpu:
   memory_fraction: 0.9  # Use more VRAM for larger batches
@@ -501,7 +504,7 @@ inference:
   default_model: large-model
   batch_size: 2048
   batch_timeout_ms: 1000
-  max_concurrent_requests: 2048
+  max_concurrent_requests: 8  # managed inference cap is process-wide, not per model
   
 models:
   max_total_size_mb: 64000  # Large quota
@@ -584,5 +587,5 @@ systemctl restart themis-llm
 
 ---
 
-**Last Updated:** 2026-08-17 (Phase 6)
-**Status:** PRODUCTION (Wave 5 GA)
+**Last Updated:** 2026-11-02
+**Status:** AUDIT PREVIEW (not GA; no real-model, TSan, or hardware validation evidence asserted)
