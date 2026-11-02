@@ -322,6 +322,7 @@ private:
     mutable std::mutex idempotency_mutex_;
     std::unordered_map<std::string, DisasterRecoveryResult> completed_plans_;
     std::unordered_map<std::string, std::string> completed_plan_fingerprints_;
+    std::string metadata_load_error_;
 
     mutable std::mutex stats_mutex_;
     Statistics stats_;

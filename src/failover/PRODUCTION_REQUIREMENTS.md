@@ -61,8 +61,10 @@ Related milestone: DOC-WEEKLY-2026-W45
   is not catch-up proof.
 - Non-dry-run DR additionally requires quorum, epoch fencing, and a writable
   `metadata_log_path`; a checksummed completion record is appended before
-  success is returned and replayed on manager construction. The local log is
-  not a substitute for shared durable metadata in a multi-process deployment.
+  success is returned and replayed on manager construction. An existing log
+  that cannot be read or contains a malformed or checksum-invalid record blocks
+  non-dry-run execution before external adapters run. The local log is not a
+  substitute for shared durable metadata in a multi-process deployment.
 - Spare activation requires a configured runtime hook and independent
   `HotSpareManager` state of `ACTIVE`. Missing or failed activation leaves the
   orchestrator in `DEGRADED`, increments `degraded_failovers`, and emits the

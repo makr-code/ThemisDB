@@ -554,6 +554,42 @@ TEST(DisasterRecoveryEdgeDRE19, MetadataWriteFailureBlocksBeforeAdapters) {
     std::filesystem::remove(metadata_directory, error);
 }
 
+TEST(DisasterRecoveryEdgeDRE23, CorruptMetadataBlocksBeforeAdapters) {
+    TemporaryMetadataLog metadata;
+    {
+        DisasterRecoveryManager writer(makeProductionConfig(metadata.path), nullptr,
+            std::make_shared<themis::sharding::EpochFencingManager>(
+                themis::sharding::EpochFencingConfig{}));
+        writer.testSetQuorumOverride(true);
+        installAdapterHooks(writer, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+                                     DisasterRecoveryStep::RESTORE,
+                                     DisasterRecoveryStep::REPLICA_CATCHUP,
+                                     DisasterRecoveryStep::TRAFFIC_SHIFT,
+                                     DisasterRecoveryStep::VERIFICATION});
+        ASSERT_TRUE(writer.executePlan(makeMinimalProductionPlan()).success);
+    }
+    {
+        std::ofstream output(metadata.path, std::ios::out | std::ios::app);
+        ASSERT_TRUE(output.is_open());
+        output << "corrupt-completion-record\n";
+        ASSERT_TRUE(output.good());
+    }
+
+    DisasterRecoveryManager manager(makeProductionConfig(metadata.path), nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    manager.testSetQuorumOverride(true);
+
+    const auto result = manager.executePlan(makeMinimalProductionPlan());
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error_code,
+              DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED);
+    ASSERT_EQ(result.step_results.size(), 1u);
+    EXPECT_EQ(result.step_results.front().step, DisasterRecoveryStep::PRECHECKS);
+    EXPECT_NE(result.error_message.find("malformed"), std::string::npos);
+}
+
 TEST(DisasterRecoveryEdgeDRE18, CompletedMetadataSurvivesManagerRestart) {
     TemporaryMetadataLog metadata;
     const auto plan = makeMinimalProductionPlan();

@@ -63,7 +63,8 @@ M2 readiness.
   state; failure blocks completion and records the degraded state/event/counter.
 - Non-dry-run DR requires operation and verification hooks, quorum, fencing, and
   a writable local completion log. The manager checks checksum, LSN/term, and
-  recovery-site evidence before accepting each step.
+  recovery-site evidence before accepting each step. An existing unreadable or
+  malformed/checksum-invalid completion log blocks execution before adapters.
 - DR metadata is local-file persistence, not shared multi-process storage;
   concurrent multi-process writer safety and crash/power-loss durability are
   not established.

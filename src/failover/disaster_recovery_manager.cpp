@@ -185,7 +185,7 @@ DisasterRecoveryManager::DisasterRecoveryManager(
 DisasterRecoveryResult DisasterRecoveryManager::executePlan(const DisasterRecoveryPlan& plan) {
     const auto fingerprint = planFingerprint(plan);
     // FO-IMPL-007: Idempotent plan execution — return cached result for repeated plan_id
-    {
+    if (metadata_load_error_.empty() || plan.dry_run) {
         std::lock_guard<std::mutex> idem_lock(idempotency_mutex_);
         auto it = completed_plans_.find(plan.plan_id);
         if (it != completed_plans_.end()) {
@@ -616,12 +616,30 @@ void DisasterRecoveryManager::loadCompletedPlans() {
         return;
     }
 
+    std::error_code filesystem_error;
+    const bool metadata_exists = std::filesystem::exists(
+        config_.metadata_log_path, filesystem_error);
+    if (filesystem_error) {
+        metadata_load_error_ = "cannot inspect DR metadata log: " +
+                               filesystem_error.message();
+        return;
+    }
+    if (!metadata_exists) {
+        return;
+    }
+
     std::ifstream input(config_.metadata_log_path);
+    if (!input.is_open()) {
+        metadata_load_error_ = "cannot open existing DR metadata log for replay";
+        return;
+    }
+
     std::string line;
     while (std::getline(input, line)) {
         std::array<std::string, 6> fields;
         if (!splitMetadataRecord(line, fields)) {
-            continue;
+            metadata_load_error_ = "DR metadata log contains a malformed record";
+            break;
         }
 
         const std::string payload = fields[0] + "|" + fields[1] + "|" + fields[2] +
@@ -633,26 +651,31 @@ void DisasterRecoveryManager::loadCompletedPlans() {
             std::size_t checksum_chars = 0;
             stored_checksum = std::stoull(fields[5], &checksum_chars, 16);
             if (checksum_chars != fields[5].size()) {
-                continue;
+                metadata_load_error_ = "DR metadata log contains an invalid checksum";
+                break;
             }
             std::size_t epoch_chars = 0;
             fenced_epoch = std::stoull(fields[2], &epoch_chars);
             if (epoch_chars != fields[2].size()) {
-                continue;
+                metadata_load_error_ = "DR metadata log contains an invalid fencing epoch";
+                break;
             }
             std::size_t duration_chars = 0;
             duration_ms = std::stoull(fields[3], &duration_chars);
             if (duration_chars != fields[3].size() ||
                 duration_ms > static_cast<uint64_t>(
                     std::numeric_limits<std::chrono::milliseconds::rep>::max())) {
-                continue;
+                metadata_load_error_ = "DR metadata log contains an invalid duration";
+                break;
             }
         } catch (const std::exception&) {
-            continue;
+            metadata_load_error_ = "DR metadata log contains an invalid numeric field";
+            break;
         }
 
         if (stored_checksum != metadataChecksum(payload)) {
-            continue;
+            metadata_load_error_ = "DR metadata log checksum validation failed";
+            break;
         }
 
         std::string plan_id;
@@ -662,7 +685,8 @@ void DisasterRecoveryManager::loadCompletedPlans() {
             !decodeHex(fields[1], fingerprint) ||
             !decodeStepResults(fields[4], step_results) ||
             plan_id.empty() || fingerprint.empty()) {
-            continue;
+            metadata_load_error_ = "DR metadata log contains an invalid completion record";
+            break;
         }
 
         DisasterRecoveryResult recovered;
@@ -673,6 +697,10 @@ void DisasterRecoveryManager::loadCompletedPlans() {
         recovered.step_results = std::move(step_results);
         completed_plans_[plan_id] = std::move(recovered);
         completed_plan_fingerprints_[plan_id] = fields[1];
+    }
+
+    if (input.bad() && metadata_load_error_.empty()) {
+        metadata_load_error_ = "failed while reading DR metadata log";
     }
 }
 
@@ -689,6 +717,12 @@ bool DisasterRecoveryManager::runPrechecks(const DisasterRecoveryPlan& plan,
     if (plan.dry_run) {
         detail = "dry-run prechecks passed";
         return true;
+    }
+
+    if (!metadata_load_error_.empty()) {
+        detail = metadata_load_error_;
+        error_code = DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED;
+        return false;
     }
 
     if (!config_.require_quorum) {
