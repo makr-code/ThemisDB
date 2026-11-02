@@ -86,7 +86,13 @@ class TestRegistrationGuardTests(unittest.TestCase):
 
     def test_aggregate_and_one_focused_target_are_allowed(self) -> None:
         self.write_compilation_database(
-            [self.test_source, self.test_source], ["themis_tests", "sample_focused"]
+            [self.test_source] * 4,
+            [
+                "themis_tests",
+                "themis_tests_critical",
+                "sample_focused",
+                "sample_focused",
+            ],
         )
 
         self.assertEqual(
@@ -95,6 +101,16 @@ class TestRegistrationGuardTests(unittest.TestCase):
             ),
             {},
         )
+
+    def test_inventory_does_not_count_critical_aggregate_as_focused(self) -> None:
+        self.write_compilation_database(
+            [self.test_source, self.test_source],
+            ["module_sample_test_sample_focused", "themis_tests_critical"],
+        )
+
+        inventory = build_test_source_inventory(self.root, self.compilation_database)
+
+        self.assertEqual(inventory["summary"]["multiple_focused_target_sources"], 0)
 
     def test_missing_target_metadata_fails_closed(self) -> None:
         self.compilation_database.write_text(
@@ -107,6 +123,47 @@ class TestRegistrationGuardTests(unittest.TestCase):
                 self.root, self.compilation_database, self.changed_files
             ),
             {self.test_source: ["<unresolved CMake target>"]},
+        )
+
+    def test_shared_gtest_runner_is_allowed_in_multiple_focused_targets(self) -> None:
+        runner_source = self.root / "tests" / "test_gtest_main.cpp"
+        runner_source.parent.mkdir(parents=True, exist_ok=True)
+        runner_source.write_text("int main() { return 0; }", encoding="utf-8")
+        self.changed_files.write_text("tests/test_gtest_main.cpp\n", encoding="utf-8")
+        self.write_compilation_database(
+            [runner_source] * 6,
+            [
+                "module_network_test_transport_security_checker_focused",
+                "module_security_test_hsm_security_checker_focused",
+                "module_updates_test_updates_production_focused",
+                "test_auto_failover_recovery_focused",
+                "test_production_mode_security_focused",
+                "test_wal_storage_focused",
+            ],
+        )
+
+        self.assertEqual(
+            find_duplicate_target_sources(
+                self.root, self.compilation_database, self.changed_files
+            ),
+            {},
+        )
+
+    def test_shared_gtest_runner_still_requires_target_metadata(self) -> None:
+        runner_source = self.root / "tests" / "test_gtest_main.cpp"
+        runner_source.parent.mkdir(parents=True, exist_ok=True)
+        runner_source.write_text("int main() { return 0; }", encoding="utf-8")
+        self.changed_files.write_text("tests/test_gtest_main.cpp\n", encoding="utf-8")
+        self.compilation_database.write_text(
+            json.dumps([{"directory": str(self.root), "file": str(runner_source)}]),
+            encoding="utf-8",
+        )
+
+        self.assertEqual(
+            find_duplicate_target_sources(
+                self.root, self.compilation_database, self.changed_files
+            ),
+            {runner_source: ["<unresolved CMake target>"]},
         )
 
     def test_inventory_reports_profile_coverage_and_duplicate_targets(self) -> None:

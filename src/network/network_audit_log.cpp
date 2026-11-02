@@ -131,6 +131,11 @@ std::array<uint8_t, 32> sha256(const uint8_t* data, size_t len) {
 namespace themis {
 namespace network {
 
+NetworkAuditLog::NetworkAuditLog()
+    : NetworkAuditLog(Config{})
+{
+}
+
 NetworkAuditLog::NetworkAuditLog(const Config& config)
     : config_(config)
 {
