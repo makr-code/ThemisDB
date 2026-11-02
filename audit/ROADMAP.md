@@ -431,14 +431,41 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
     Ingestion-Moduls behalten ihre bisherigen eigenständigen Targets. Das Builtin-Steps-Target behält seine
     explizite `CXX_STANDARD 17`-Einstellung und nlohmann-json-Abhängigkeit. Das nicht-modulare Inventar sinkt
     von 340 auf 315 Mehrfachregistrierungen.
-  - Offen: Das nicht-modulare Profil enthält weiterhin 315 Quellen mit mehreren Nicht-Aggregat-Testtargets.
+  - [x] 2026-11-02: 16 Network-Testquellen mit identischen Test-/Produktionsquellen verwenden nur noch ihr
+    kanonisches Network-Modul-Target. Root-Build-Target-Namen, CTest-Namen, Labels und Timeouts bleiben erhalten;
+    `tests/network/test_websocket_cdc.cpp` bleibt wegen zusätzlicher Root-Produktionsquellen separat registriert.
+    Das nicht-modulare Inventar sinkt von 315 auf 299 Mehrfachregistrierungen.
+  - [x] 2026-11-02: Sechs CDC-Testquellen (`changefeed_core`, `pause_control`, `backpressure_signal`, `fan_in`,
+    `event_schema`, `delivery_guarantee_config`) verwenden nur noch ihr kanonisches Modul-Target. Root-Build-
+    Target-Namen, CTest-Namen, Labels, Timeouts sowie explizite nlohmann-json-/RocksDB-Abhängigkeiten bleiben
+    erhalten. Das nicht-modulare Inventar sinkt von 299 auf 293 Mehrfachregistrierungen.
+  - [x] 2026-11-02: Die Plugin-Hot-Plug- und Hot-Reload-Tests verwenden ihr kanonisches Plugin-Modul-Target;
+    die Legacy-Buildtarget-Namen, CTest-Namen, Labels und Timeouts bleiben erhalten. Die explizite
+    `CMAKE_DL_LIBS`-Abhängigkeit bleibt auf dem Modul-Target; das nicht-modulare Inventar sinkt von 293 auf 291.
+  - [x] 2026-11-02: Sechs weitere CDC-Tests (`admin`, `retention`, `changefeed_sequence_counter`,
+    `consumer_group`, `kafka_producer`, `ws_handler`) verwenden ihr kanonisches CDC-Modul-Target. Die
+    bedingten Produktionsquellen für HTTP-Server- und Kafka-Konfigurationen sowie nlohmann-json-/RocksDB-
+    Abhängigkeiten und Windows-Runtime-DLL-Synchronisierung wurden auf das Modulziel übertragen. Legacy-
+    Buildtarget-Namen und CTest-Namen, Labels und Timeouts bleiben erhalten. Beide Windows-Debug-Profile
+    konfigurieren; im nicht-modularen Profil haben alle sechs Quellen genau ein fokussiertes Target und
+    das Inventar sinkt von 291 auf 285. Der gezielte Build bleibt durch einen unabhängigen MSVC-Fehler im
+    generierten gRPC-Header vor Erreichen der CDC-Targets blockiert.
+  - [x] 2026-11-02: Sieben Auth-Tests (`anomaly_detection`, `audit_logger`, `error`, `input_validation`,
+    `metrics`, `middleware`, `rate_limiter`) verwenden ihr kanonisches Auth-Modul-Target. Die expliziten
+    OpenSSL-, optionale CURL- und nlohmann-json-Abhängigkeiten wurden auf die Modulziele übertragen;
+    Legacy-Buildtarget-Namen und CTest-Namen, Labels und Timeouts bleiben erhalten. Compilation-Databases
+    beider Windows-Debug-Profile bestätigen jeweils genau ein fokussiertes Target je geänderter Quelle;
+    das nicht-modulare Inventar sinkt von 285 auf 278. Der verteilte Rate-Limiter bleibt separat, weil sein
+    Legacy-Target zusätzlich `src/auth/rate_limiter_backend.cpp` kompiliert.
+  - Offen: Das nicht-modulare Profil enthält weiterhin 278 Quellen mit mehreren Nicht-Aggregat-Testtargets.
     Diese Mehrfachregistrierungen müssen einzeln auf doppelte Builds oder unterschiedliche Link-/Testverträge
     geprüft werden; nur `themis_tests` und `themis_tests_critical` gelten im Gate als Sammelziele.
-  - Der gezielte Build der Ingestion-Targets, BaseEntity-/Base-Reload-Aliase und des GPU-Graph-Traversal-Targets
-    ist nicht bestätigt: MSVC stoppt vor Erreichen der Testtargets beim Kompilieren von
-    `src/prompt_engineering/rewrite_engine.cpp`, `rewrite_rule_base.cpp` und `rewrite_rule_loader.cpp` mit
-    C2059-Syntaxfehlern. Diese Fehler liegen außerhalb der Testregistrierungsänderung; Compilation-Database und
-    CTest-Registrierung allein belegen keinen erfolgreichen Build oder Testlauf.
+  - Der gezielte Build der Ingestion-Targets, BaseEntity-/Base-Reload-Aliase sowie der GPU-Graph-Traversal-,
+    Network-, CDC-, Auth- und Plugin-Aliase ist nicht bestätigt: Der aktuelle MSVC-Versuch stoppt beim Kompilieren der
+    generierten gRPC-Quellen mit C2065/C3878 in `vcpkg_installed/x64-windows/include/grpcpp/impl/call_op_set.h:979`.
+    Ein früherer fokussierter Build erreichte `src/prompt_engineering/rewrite_engine.cpp`, `rewrite_rule_base.cpp`
+    und `rewrite_rule_loader.cpp` und stoppte dort mit C2059. Keiner dieser Fehler liegt in den Testregistrierungs-
+    änderungen; Compilation-Database und CTest-Registrierung allein belegen keinen erfolgreichen Build oder Testlauf.
   - Offen: Baseline bereinigen und begründete Ausschlussliste erstellen. Die 1.320 Quellen außerhalb beider
     Profile bestehen aus 1.016 Dateien unter `tests/legacy/`, 228 Root-Testdateien und 76 Quellen in sonstigen
     Testverzeichnissen. Keine dieser Gruppen gilt pauschal als freigegebener Ausschluss; Profil-Ausnahmen und
