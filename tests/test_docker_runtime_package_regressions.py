@@ -9,7 +9,9 @@ import unittest
 from pathlib import Path
 
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = Path(
+    os.environ.get("THEMIS_SOURCE_ROOT", Path(__file__).resolve().parent.parent)
+).resolve()
 DOCKERFILE = REPO_ROOT / "docker" / "Dockerfile.unified"
 
 EXPECTED_UBUNTU_2404_RUNTIME_PACKAGE_TOKENS = frozenset(
