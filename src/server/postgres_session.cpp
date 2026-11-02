@@ -263,7 +263,7 @@ void PostgresSession::armReadTimeout() {
             return;
         }
         try {
-            sendErrorResponse("ERROR", "57014", "Connection timed out while waiting for client message");
+            sendErrorResponse("FAILURE", "57014", "Connection timed out while waiting for client message");
             stop();
         } catch (...) {
             THEMIS_WARN("postgres_session: unhandled exception caught");
@@ -294,7 +294,7 @@ void PostgresSession::armWriteTimeout() {
             return;
         }
         try {
-            sendErrorResponse("ERROR", "57014", "Connection timed out while sending response");
+            sendErrorResponse("FAILURE", "57014", "Connection timed out while sending response");
             stop();
         } catch (...) {
             THEMIS_WARN("postgres_session: unhandled exception caught");
@@ -401,7 +401,7 @@ void PostgresSession::handleQuery(const std::string& query) {
     size_t start = query.find_first_not_of(" \t\n\r");
     if (start == std::string::npos) {
         // Query is all whitespace
-        sendErrorResponse("ERROR", "42601", "Syntax error: empty query");
+        sendErrorResponse("FAILURE", "42601", "Syntax error: empty query");
         sendReadyForQuery(currentTransactionStatus());
         return;
     }
@@ -538,7 +538,7 @@ void PostgresSession::handleQuery(const std::string& query) {
         // For protocol-only mode, return empty result
         sendCommandComplete("SELECT 0");
     } catch (const std::exception& e) {
-        sendErrorResponse("ERROR", "42601", std::string("Query translation failed: ") + e.what());
+        sendErrorResponse("FAILURE", "42601", std::string("Query translation failed: ") + e.what());
         if (transactionState_.load(std::memory_order_acquire) == TransactionState::IN_TRANSACTION) {
             transactionState_.store(TransactionState::FAILED, std::memory_order_release);
         }
@@ -566,7 +566,7 @@ void PostgresSession::handleParse(const std::string& stmt, const std::string& qu
         trimmedQuery.erase(trimmedQuery.find_last_not_of(" \t\n\r;") + 1);
         
         if (trimmedQuery.empty()) {
-            sendErrorResponse("ERROR", "42601", "Empty query string");
+            sendErrorResponse("FAILURE", "42601", "Empty query string");
             return;
         }
         
@@ -578,7 +578,7 @@ void PostgresSession::handleParse(const std::string& stmt, const std::string& qu
         sendParseComplete();
         
     } catch (const std::exception& e) {
-        sendErrorResponse("ERROR", "42601", std::string("Parse error: ") + e.what());
+        sendErrorResponse("FAILURE", "42601", std::string("Parse error: ") + e.what());
     }
 }
 
@@ -599,14 +599,14 @@ void PostgresSession::handleBind(const std::string& portal, const std::string& s
         std::lock_guard<std::mutex> lock(preparedStatementsMutex_);
         auto stmtIt = preparedStatements_.find(stmt);
         if (stmtIt == preparedStatements_.end()) {
-            sendErrorResponse("ERROR", "26000", "Prepared statement not found: " + stmt);
+            sendErrorResponse("FAILURE", "26000", "Prepared statement not found: " + stmt);
             return;
         }
         preparedStmt = stmtIt->second;
     }
     // Validate parameter count
     if (!preparedStmt.paramTypes.empty() && params.size() != preparedStmt.paramTypes.size()) {
-        sendErrorResponse("ERROR", "08P01", 
+        sendErrorResponse("FAILURE", "08P01", 
             "Parameter count mismatch: expected " + std::to_string(preparedStmt.paramTypes.size()) +
             ", got " + std::to_string(params.size()));
         return;
@@ -635,7 +635,7 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
         std::lock_guard<std::mutex> lock(portalsMutex_);
         auto portalIt = portals_.find(portal);
         if (portalIt == portals_.end()) {
-            sendErrorResponse("ERROR", "34000", "Portal not found: " + portal);
+            sendErrorResponse("FAILURE", "34000", "Portal not found: " + portal);
             return;
         }
         portalData = portalIt->second;
@@ -646,7 +646,7 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
         std::lock_guard<std::mutex> lock(preparedStatementsMutex_);
         auto stmtIt = preparedStatements_.find(portalData.statementName);
         if (stmtIt == preparedStatements_.end()) {
-            sendErrorResponse("ERROR", "26000", "Prepared statement not found");
+            sendErrorResponse("FAILURE", "26000", "Prepared statement not found");
             return;
         }
         preparedStmt = stmtIt->second;
@@ -814,7 +814,7 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
             }
             
             // No query engine available - return error
-            sendErrorResponse("ERROR", "XX000", 
+            sendErrorResponse("FAILURE", "XX000", 
                 "Query execution not available: QueryEngine not initialized. " 
                 "This is a protocol-only implementation.");
             portalData.resultsComplete = true;
@@ -856,7 +856,7 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
         }
         
     } catch (const std::exception& e) {
-        sendErrorResponse("ERROR", "XX000", std::string("Execute error: ") + e.what());
+        sendErrorResponse("FAILURE", "XX000", std::string("Execute error: ") + e.what());
     }
 }
 
@@ -877,7 +877,7 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
             std::lock_guard<std::mutex> lock(preparedStatementsMutex_);
             auto stmtIt = preparedStatements_.find(name);
             if (stmtIt == preparedStatements_.end()) {
-                sendErrorResponse("ERROR", "26000", "Prepared statement not found: " + name);
+                sendErrorResponse("FAILURE", "26000", "Prepared statement not found: " + name);
                 return;
             }
             stmt = stmtIt->second;
@@ -938,7 +938,7 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
             std::lock_guard<std::mutex> lock(portalsMutex_);
             auto portalIt = portals_.find(name);
             if (portalIt == portals_.end()) {
-                sendErrorResponse("ERROR", "34000", "Portal not found: " + name);
+                sendErrorResponse("FAILURE", "34000", "Portal not found: " + name);
                 return;
             }
             portal = portalIt->second;
@@ -948,7 +948,7 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
             std::lock_guard<std::mutex> lock(preparedStatementsMutex_);
             auto stmtIt = preparedStatements_.find(portal.statementName);
             if (stmtIt == preparedStatements_.end()) {
-                sendErrorResponse("ERROR", "26000", "Prepared statement not found");
+                sendErrorResponse("FAILURE", "26000", "Prepared statement not found");
                 return;
             }
             stmt = stmtIt->second;
@@ -1054,7 +1054,7 @@ void PostgresSession::handleCopyData(const std::vector<uint8_t>& data) {
     // Receives data rows during COPY IN operation
     
     if (!copyInProgress_.load(std::memory_order_acquire)) {
-        sendErrorResponse("ERROR", "57014", "COPY operation not in progress");
+        sendErrorResponse("FAILURE", "57014", "COPY operation not in progress");
         return;
     }
     
@@ -1082,7 +1082,7 @@ void PostgresSession::handleCopyDone() {
     // Signals end of COPY IN operation
     
     if (!copyInProgress_.load(std::memory_order_acquire)) {
-        sendErrorResponse("ERROR", "57014", "COPY operation not in progress");
+        sendErrorResponse("FAILURE", "57014", "COPY operation not in progress");
         return;
     }
     
@@ -1177,7 +1177,7 @@ void PostgresSession::handleCopyDone() {
         }
     } else {
         // No query engine - return error
-        sendErrorResponse("ERROR", "XX000", 
+        sendErrorResponse("FAILURE", "XX000", 
             "COPY operation not available: QueryEngine not initialized");
         copyInProgress_.store(false, std::memory_order_release);
         std::lock_guard<std::mutex> lock(copyMutex_);
@@ -1213,7 +1213,7 @@ void PostgresSession::handleCopyFail(const std::string& message) {
         copyBuffer_.clear();
         copyTableName_.clear();
     }
-    sendErrorResponse("ERROR", "57014", "COPY operation canceled: " + message);
+    sendErrorResponse("FAILURE", "57014", "COPY operation canceled: " + message);
 }
 
 // Send methods
@@ -1749,14 +1749,14 @@ void PostgresSession::doRead() {
                         // Guard: need at least 1 byte for portalName (the null terminator)
                         // and 4 bytes for maxRows after it.
                         if (offset >= bytes_transferred) {
-                            sendErrorResponse("ERROR", "08P01", "Malformed Execute message: missing portal name");
+                            sendErrorResponse("FAILURE", "08P01", "Malformed Execute message: missing portal name");
                             break;
                         }
                         std::string portalName(buffer_.data() + offset);
                         offset += portalName.size() + 1;
                         // Guard: need 4 bytes for the maxRows int32.
                         if (offset + 4 > bytes_transferred) {
-                            sendErrorResponse("ERROR", "08P01", "Malformed Execute message: missing maxRows field");
+                            sendErrorResponse("FAILURE", "08P01", "Malformed Execute message: missing maxRows field");
                             break;
                         }
                         int32_t maxRows = (static_cast<uint8_t>(buffer_[offset]) << 24)
@@ -1769,7 +1769,7 @@ void PostgresSession::doRead() {
                     case 'D': { // Describe
                         // Guard: need 1 byte for descType + at least 1 byte (null) for name.
                         if (offset + 2 > bytes_transferred) {
-                            sendErrorResponse("ERROR", "08P01", "Malformed Describe message");
+                            sendErrorResponse("FAILURE", "08P01", "Malformed Describe message");
                             break;
                         }
                         char descType = buffer_[offset];
@@ -1780,7 +1780,7 @@ void PostgresSession::doRead() {
                     case 'C': { // Close
                         // Guard: same layout as Describe.
                         if (offset + 2 > bytes_transferred) {
-                            sendErrorResponse("ERROR", "08P01", "Malformed Close message");
+                            sendErrorResponse("FAILURE", "08P01", "Malformed Close message");
                             break;
                         }
                         char closeType = buffer_[offset];
@@ -1814,10 +1814,10 @@ void PostgresSession::doRead() {
                 }
                 } catch (const std::exception& e) {
                     std::cerr << "[PostgresSession] Message handler error (type='" << messageType << "'): " << e.what() << "\n";
-                    sendErrorResponse("ERROR", "XX000", std::string("Internal error: ") + e.what());
+                    sendErrorResponse("FAILURE", "XX000", std::string("Internal error: ") + e.what());
                 } catch (...) {
                     std::cerr << "[PostgresSession] Message handler unknown error (type='" << messageType << "')\n";
-                    sendErrorResponse("ERROR", "XX000", "Internal error: unknown exception");
+                    sendErrorResponse("FAILURE", "XX000", "Internal error: unknown exception");
                 }
             }
             

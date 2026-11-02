@@ -589,7 +589,7 @@ TEST_F(TwoPhaseCommitCoordinatorTest, EmptyOpsMapReturnsAborted) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Unknown shard returns ERROR
+// Unknown shard returns FAILURE
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(TwoPhaseCommitCoordinatorTest, UnknownShardReturnsError) {
@@ -597,7 +597,7 @@ TEST_F(TwoPhaseCommitCoordinatorTest, UnknownShardReturnsError) {
     auto outcome = coord_->commit("coord-txn-unknown-shard", {
         {"shard-does-not-exist", ops}
     });
-    EXPECT_EQ(outcome.result, CoordinatorTxnResult::ERROR);
+    EXPECT_EQ(outcome.result, CoordinatorTxnResult::FAILURE);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -683,7 +683,7 @@ TEST(TwoPhaseCommitContractTest, DecisionPersistenceFailurePreventsPhaseTwo) {
             return true;
         });
 
-    EXPECT_EQ(result, themis::sharding::detail::TwoPhaseCommitExecutionResult::ERROR);
+    EXPECT_EQ(result, themis::sharding::detail::TwoPhaseCommitExecutionResult::FAILURE);
     EXPECT_FALSE(phase_two_called);
 }
 
@@ -703,7 +703,7 @@ TEST(TwoPhaseCommitContractTest, FailedCommitAcknowledgementNeverChangesDecision
             return false;
         });
 
-    EXPECT_EQ(result, themis::sharding::detail::TwoPhaseCommitExecutionResult::ERROR);
+    EXPECT_EQ(result, themis::sharding::detail::TwoPhaseCommitExecutionResult::FAILURE);
     EXPECT_EQ(events, (std::vector<std::string>{
         "prepare", "persist-commit", "commit"}));
 }
@@ -717,7 +717,7 @@ TEST_F(TwoPhaseCommitCoordinatorTest, FailedCommitAcknowledgementReturnsErrorWit
         {"shard-reject-commit", ops}
     });
 
-    EXPECT_EQ(result.result, CoordinatorTxnResult::ERROR);
+    EXPECT_EQ(result.result, CoordinatorTxnResult::FAILURE);
     EXPECT_EQ(participant.commit_calls, 1);
     EXPECT_EQ(participant.abort_calls, 0);
     EXPECT_EQ(coord_->getTransactionState("txn-phase-two-failure"),
@@ -737,7 +737,7 @@ TEST_F(TwoPhaseCommitCoordinatorTest, FailedAbortAcknowledgementReturnsError) {
         {"shard-reject-abort", ops}
     });
 
-    EXPECT_EQ(result.result, CoordinatorTxnResult::ERROR);
+    EXPECT_EQ(result.result, CoordinatorTxnResult::FAILURE);
     EXPECT_EQ(participant.commit_calls, 0);
     EXPECT_EQ(participant.abort_calls, 1);
     EXPECT_EQ(coord_->getTransactionState("txn-abort-ack-failure"),

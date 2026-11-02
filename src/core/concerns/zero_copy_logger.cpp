@@ -17,8 +17,8 @@
 #include <ctime>
 #include <spdlog/spdlog.h>
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 namespace themis {
@@ -231,7 +231,7 @@ ILogger::Level ZeroCopyLogger::getLevel() const {
         case spdlog::level::warn:
             return Level::WARN;
         case spdlog::level::err:
-            return Level::ERROR;
+            return Level::FAILURE;
         case spdlog::level::critical:
             return Level::CRITICAL;
         default:
@@ -288,7 +288,7 @@ spdlog::level::level_enum ZeroCopyLogger::toSpdlogLevel(Level level) noexcept {
             return spdlog::level::info;
         case Level::WARN:
             return spdlog::level::warn;
-        case Level::ERROR:
+        case Level::FAILURE:
             return spdlog::level::err;
         case Level::CRITICAL:
             return spdlog::level::critical;

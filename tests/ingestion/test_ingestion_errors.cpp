@@ -52,35 +52,35 @@ TEST(IngestionErrorTest, WarningNotFatal) {
 
 TEST(IngestionErrorTest, RetryableOnTimeout) {
     IngestionError err{IngestionErrorCode::HTTP_TIMEOUT,
-                       IngestionErrorSeverity::ERROR,
+                       IngestionErrorSeverity::FAILURE,
                        "timeout"};
     EXPECT_TRUE(err.isRetryable());
 }
 
 TEST(IngestionErrorTest, RetryableOnServerError) {
     IngestionError err{IngestionErrorCode::HTTP_SERVER_ERROR,
-                       IngestionErrorSeverity::ERROR,
+                       IngestionErrorSeverity::FAILURE,
                        "server error"};
     EXPECT_TRUE(err.isRetryable());
 }
 
 TEST(IngestionErrorTest, RetryableOnRateLimit) {
     IngestionError err{IngestionErrorCode::HTTP_RATE_LIMITED,
-                       IngestionErrorSeverity::ERROR,
+                       IngestionErrorSeverity::FAILURE,
                        "rate limited"};
     EXPECT_TRUE(err.isRetryable());
 }
 
 TEST(IngestionErrorTest, NotRetryableOnNotFound) {
     IngestionError err{IngestionErrorCode::SOURCE_NOT_FOUND,
-                       IngestionErrorSeverity::ERROR,
+                       IngestionErrorSeverity::FAILURE,
                        "not found"};
     EXPECT_FALSE(err.isRetryable());
 }
 
 TEST(IngestionErrorTest, NotRetryableOnUnauthorized) {
     IngestionError err{IngestionErrorCode::HTTP_UNAUTHORIZED,
-                       IngestionErrorSeverity::ERROR,
+                       IngestionErrorSeverity::FAILURE,
                        "unauthorized"};
     EXPECT_FALSE(err.isRetryable());
 }
@@ -96,7 +96,7 @@ TEST(IngestionStatsTest, AddErrorAccumulates) {
     EXPECT_TRUE(stats.error_message.empty());
 
     stats.addError(IngestionErrorCode::FILE_NOT_FOUND,
-                   IngestionErrorSeverity::ERROR,
+                   IngestionErrorSeverity::FAILURE,
                    "file not found", "src1", "details");
 
     EXPECT_EQ(stats.errors.size(), 1u);
@@ -113,7 +113,7 @@ TEST(IngestionStatsTest, AddMultipleErrors) {
     stats.addError(IngestionErrorCode::PROCESSING_FAILED,
                    IngestionErrorSeverity::WARNING, "warn2");
     stats.addError(IngestionErrorCode::INTERNAL_ERROR,
-                   IngestionErrorSeverity::ERROR, "err1");
+                   IngestionErrorSeverity::FAILURE, "err1");
 
     EXPECT_EQ(stats.errors.size(), 3u);
     EXPECT_EQ(stats.metrics.error_count, 3u);
@@ -127,12 +127,12 @@ TEST(IngestionStatsTest, ErrorMessageSetOnFirstSevereError) {
     EXPECT_TRUE(stats.error_message.empty());
 
     stats.addError(IngestionErrorCode::SOURCE_NOT_FOUND,
-                   IngestionErrorSeverity::ERROR, "real error");
+                   IngestionErrorSeverity::FAILURE, "real error");
     EXPECT_EQ(stats.error_message, "real error");
 
-    // Second ERROR should not overwrite
+    // Second FAILURE should not overwrite
     stats.addError(IngestionErrorCode::INTERNAL_ERROR,
-                   IngestionErrorSeverity::ERROR, "second error");
+                   IngestionErrorSeverity::FAILURE, "second error");
     EXPECT_EQ(stats.error_message, "real error");
 }
 
@@ -187,7 +187,7 @@ TEST(IngestionManagerErrorsTest, IngestSourceNotFound) {
     EXPECT_FALSE(stats.error_message.empty());
     ASSERT_FALSE(stats.errors.empty());
     EXPECT_EQ(stats.errors[0].code, IngestionErrorCode::SOURCE_NOT_FOUND);
-    EXPECT_EQ(stats.errors[0].severity, IngestionErrorSeverity::ERROR);
+    EXPECT_EQ(stats.errors[0].severity, IngestionErrorSeverity::FAILURE);
 }
 
 TEST(IngestionManagerErrorsTest, IngestSourceDisabled) {

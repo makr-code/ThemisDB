@@ -220,7 +220,7 @@ private:
 // ---------------------------------------------------------------------------
 
 struct DiagnosticEvent {
-    std::string level;   // "INFO", "WARN", "ERROR"
+    std::string level;   // "INFO", "WARN", "FAILURE"
     std::string module;
     std::string message;
     uint64_t    timestamp_us{0};
@@ -556,14 +556,14 @@ TEST_F(EnduranceStabilityTest, ESC07_DiagnosticOutputValidationStructuredErrorLo
     diag.Emit("INFO",  "index",   "index_ok");
 
     // Simulate an anomaly
-    diag.Emit("ERROR", "storage", "write_failed: checksum_mismatch");
+    diag.Emit("FAILURE", "storage", "write_failed: checksum_mismatch");
     diag.Emit("WARN",  "recovery", "retrying_after_write_failure");
 
     // Assertions on structured log
-    EXPECT_TRUE(diag.HasLevel("ERROR")) << "ERROR event must be present in diagnostic log";
+    EXPECT_TRUE(diag.HasLevel("FAILURE")) << "FAILURE event must be present in diagnostic log";
     EXPECT_TRUE(diag.HasLevel("WARN"))  << "WARN event must be present";
     EXPECT_EQ(diag.CountLevel("INFO"), 2U)  << "INFO event count mismatch";
-    EXPECT_EQ(diag.CountLevel("ERROR"), 1U) << "ERROR event count mismatch";
+    EXPECT_EQ(diag.CountLevel("FAILURE"), 1U) << "FAILURE event count mismatch";
 
     // All events must be well-formed (non-empty fields, non-zero timestamp)
     EXPECT_TRUE(diag.AllEventsWellFormed())
@@ -572,7 +572,7 @@ TEST_F(EnduranceStabilityTest, ESC07_DiagnosticOutputValidationStructuredErrorLo
     // Verify structured fields are present
     const auto snapshot = diag.Snapshot();
     ASSERT_EQ(snapshot.size(), 4U);
-    EXPECT_EQ(snapshot[2].level,   "ERROR");
+    EXPECT_EQ(snapshot[2].level,   "FAILURE");
     EXPECT_EQ(snapshot[2].module,  "storage");
     EXPECT_NE(snapshot[2].message.find("checksum_mismatch"), std::string::npos)
         << "diagnostic message must contain 'checksum_mismatch'";

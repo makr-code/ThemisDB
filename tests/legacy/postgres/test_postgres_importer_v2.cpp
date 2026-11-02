@@ -1398,7 +1398,7 @@ TEST(ColumnImportanceAnalyzer, EntropyIsNonNegative) {
     SampleData sd;
     sd.table_name  = "logs";
     sd.column_name = "level";
-    sd.values      = {"INFO", "WARN", "ERROR", "INFO", "INFO"};
+    sd.values      = {"INFO", "WARN", "FAILURE", "INFO", "INFO"};
 
     ColumnImportanceAnalyzer analyzer;
     auto result = analyzer.analyzeImportance({schema}, {sd});

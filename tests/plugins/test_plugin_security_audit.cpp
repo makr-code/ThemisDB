@@ -230,7 +230,7 @@ TEST_F(AuditorFilterTest, GetEventsForPluginReturnsOnlyMatchingEvents) {
     });
     PluginSecurityAuditor::instance().logEvent({
         PluginSecurityEvent::EventType::PLUGIN_LOAD_FAILED,
-        otherPlugin, "def", "failed", 2ULL, "ERROR"
+        otherPlugin, "def", "failed", 2ULL, "FAILURE"
     });
     PluginSecurityAuditor::instance().logEvent({
         PluginSecurityEvent::EventType::SIGNATURE_VERIFIED,

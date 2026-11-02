@@ -246,14 +246,14 @@ std::vector<AuditedImporter::AuditEvent> AuditedImporter::ImmutableAuditLog::get
 }
 
 /**
- * @brief ============================================================================ PHASE-3-ERROR-HANDLING: Rollback & Recovery Audit Trail ============================================================================
+ * @brief ============================================================================ PHASE-3-FAILURE-HANDLING: Rollback & Recovery Audit Trail ============================================================================
  * @param[in] reason Input parameter.
  * @return Return value.
  * @details Implements rollbackReasonToString without additional internal calls.
  */
 
 std::string rollbackReasonToString(RollbackReason reason) {
-    // PHASE-3-ERROR-HANDLING: Convert rollback reason to string
+    // PHASE-3-FAILURE-HANDLING: Convert rollback reason to string
     switch (reason) {
         case RollbackReason::USER_REQUESTED:
             return "USER_REQUESTED";
@@ -287,7 +287,7 @@ void AuditedImporter::ImmutableAuditLog::emitRollbackEvent(
     const RollbackAuditEvent& rollback_event,
     const std::string& import_id,
     const std::string& user_principal) {
-    // PHASE-3-ERROR-HANDLING: Emit rollback audit event with full context
+    // PHASE-3-FAILURE-HANDLING: Emit rollback audit event with full context
     
     AuditEvent event;
     event.type = EventType::IMPORT_COMPLETED;

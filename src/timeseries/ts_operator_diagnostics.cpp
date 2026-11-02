@@ -179,7 +179,7 @@ TsIncidentSeverity TsOperatorDiagnostics::severityFromId(std::string_view id) no
     if (has_suffix("CRITICAL") || contains_sub("PERSISTENT"))
         return TsIncidentSeverity::CRITICAL;
     if (contains_sub("ROTATION-INVALID") || contains_sub("TIMEOUT"))
-        return TsIncidentSeverity::ERROR;
+        return TsIncidentSeverity::FAILURE;
     if (contains_sub("UNAVAILABLE") || contains_sub("FALLBACK") ||
         contains_sub("ROTATION"))
         return TsIncidentSeverity::WARNING;

@@ -59,7 +59,7 @@ inline constexpr uint32_t LLM_AQL_HANDLER_API_VERSION = 100; // v1.0
 
 enum class TranslationValidationMode {
     WARN_ONLY,       ///< Log validation errors as warnings; return the query as-is (default)
-    REJECT_ON_ERROR, ///< Throw LLMException(INVALID_RESPONSE) when any ERROR-severity issue is found
+    REJECT_ON_ERROR, ///< Throw LLMException(INVALID_RESPONSE) when any FAILURE-severity issue is found
     RETRY_ON_ERROR,  ///< Re-invoke the LLM with error feedback; throw after all retries exhausted
 };
 

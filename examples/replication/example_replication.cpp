@@ -159,7 +159,7 @@ static void demo_replication_manager(const std::string& wal_dir) {
     ReplicationManager mgr(cfg);
 
     if (!mgr.initialize()) {
-        std::cerr << "  ERROR: Failed to initialize ReplicationManager\n";
+        std::cerr << "  FAILURE: Failed to initialize ReplicationManager\n";
         return;
     }
     std::cout << "  ReplicationManager initialized\n";
@@ -292,7 +292,7 @@ static void demo_bidirectional_replication() {
     BidirectionalReplicationManager bidi(cfg);
 
     if (!bidi.start()) {
-        std::cerr << "  ERROR: Failed to start BidirectionalReplicationManager\n";
+        std::cerr << "  FAILURE: Failed to start BidirectionalReplicationManager\n";
         return;
     }
     std::cout << "  BidirectionalReplicationManager started\n";

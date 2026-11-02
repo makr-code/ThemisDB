@@ -313,9 +313,9 @@ public:
      * @brief Perform partial rollback to the latest checkpoint
      *
      * This is the primary entry point for coordinated rollback scenarios.
-     * If no checkpoints exist, logs ERROR and returns false.
+     * If no checkpoints exist, logs FAILURE and returns false.
      *
-     * Emits diagnostic WARN or ERROR depending on success.
+     * Emits diagnostic WARN or FAILURE depending on success.
      *
      * @return true if rollback succeeded; false if no checkpoints or rollback failed
      * @since 1.8.1
@@ -364,7 +364,7 @@ public:
     /**
      * @brief Emit diagnostic message on rollback attempt
      *
-     * Called internally when a rollback is attempted. Logs at ERROR level
+     * Called internally when a rollback is attempted. Logs at FAILURE level
      * if rollback fails, WARN if it succeeds but with degradation.
      *
      * @param checkpoint_id The checkpoint being rolled back to

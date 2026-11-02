@@ -1,5 +1,5 @@
 // Tests for the import conflict resolution strategies:
-//   SKIP, OVERWRITE, MERGE (depth-1 and deep), ERROR
+//   SKIP, OVERWRITE, MERGE (depth-1 and deep), FAILURE
 //
 // Self-contained: all required types and logic are defined inline here so the
 // tests run without the full ThemisDB build chain.
@@ -24,7 +24,7 @@ enum class ConflictStrategy {
     OVERWRITE,
     SKIP,
     MERGE,
-    ERROR
+    FAILURE
 };
 
 enum class ImportErrorCode : uint32_t {
@@ -33,11 +33,11 @@ enum class ImportErrorCode : uint32_t {
     UNKNOWN        = 900
 };
 
-enum class ImportErrorSeverity { INFO, WARNING, ERROR, CRITICAL };
+enum class ImportErrorSeverity { INFO, WARNING, FAILURE, CRITICAL };
 
 struct ImportError {
     ImportErrorCode     code     = ImportErrorCode::UNKNOWN;
-    ImportErrorSeverity severity = ImportErrorSeverity::ERROR;
+    ImportErrorSeverity severity = ImportErrorSeverity::FAILURE;
     std::string         message;
     std::string         location;
 };
@@ -118,7 +118,7 @@ public:
                 existing = merged;
                 return merged;
             }
-            case ConflictStrategy::ERROR:
+            case ConflictStrategy::FAILURE:
                 return existing;
         }
         return entity;
@@ -217,10 +217,10 @@ static ImportResult runImport(const std::vector<json>& rows,
                     emit_metric("importers_conflicts_total",
                                 {{"table", table_name}, {"strategy", "merge"}, {"outcome", "merged"}}, 1.0);
                     break;
-                case ConflictStrategy::ERROR: {
+                case ConflictStrategy::FAILURE: {
                     ImportError err;
                     err.code     = ImportErrorCode::CONFLICT_ERROR;
-                    err.severity = ImportErrorSeverity::ERROR;
+                    err.severity = ImportErrorSeverity::FAILURE;
                     err.message  = "Conflict for key '" + ckey + "' in table '" + table_name + "'";
                     err.location = "row " + std::to_string(row_num);
                     result.stats.structured_errors.push_back(err);
@@ -433,7 +433,7 @@ TEST(ConflictResolverMergeDeep, DepthTwoLimitsRecursion) {
 }
 
 // ---------------------------------------------------------------------------
-// 5. ConflictStrategy::ERROR
+// 5. ConflictStrategy::FAILURE
 // ---------------------------------------------------------------------------
 
 TEST(ConflictResolverError, ConflictProducesStructuredError) {
@@ -441,7 +441,7 @@ TEST(ConflictResolverError, ConflictProducesStructuredError) {
     json row2 = {{"id", 1}, {"v", "b"}};
     ImportOptions opts;
     opts.conflict_key_columns = {"id"};
-    opts.conflict_strategy    = ConflictStrategy::ERROR;
+    opts.conflict_strategy    = ConflictStrategy::FAILURE;
     opts.continue_on_error    = true;
 
     auto res = runImport({row1, row2}, "t", opts);
@@ -456,7 +456,7 @@ TEST(ConflictResolverError, ContinueOnErrorFalseAbortsImport) {
     json row3 = {{"id", 2}, {"v", "c"}};  // would be imported if not aborted
     ImportOptions opts;
     opts.conflict_key_columns = {"id"};
-    opts.conflict_strategy    = ConflictStrategy::ERROR;
+    opts.conflict_strategy    = ConflictStrategy::FAILURE;
     opts.continue_on_error    = false;
 
     auto res = runImport({row1, row2, row3}, "t", opts);
@@ -472,7 +472,7 @@ TEST(ConflictResolverError, ContinueOnErrorTrueSkipsConflict) {
     json row3 = {{"id", 2}, {"v", "c"}};
     ImportOptions opts;
     opts.conflict_key_columns = {"id"};
-    opts.conflict_strategy    = ConflictStrategy::ERROR;
+    opts.conflict_strategy    = ConflictStrategy::FAILURE;
     opts.continue_on_error    = true;
 
     auto res = runImport({row1, row2, row3}, "t", opts);

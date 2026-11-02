@@ -29,7 +29,7 @@ public:
         std::string getErrorSummary() const {
             std::string summary = {};
             for (const auto& err : errors) {
-                summary += "ERROR: " + err + "\n";
+                summary += "FAILURE: " + err + "\n";
             }
             for (const auto& warn : warnings) {
                 summary += "WARNING: " + warn + "\n";

@@ -27,9 +27,9 @@
 #include <mutex>
 #include <cstdio>
 
-// Windows defines ERROR as a macro; undef it
-#ifdef ERROR
-#undef ERROR
+// Windows defines FAILURE as a macro; undef it
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 namespace themis {
@@ -78,7 +78,7 @@ spdlog::level::level_enum Logger::toSpdlogLevel(Level level) {
         case Level::DEBUG:    return spdlog::level::debug;
         case Level::INFO:     return spdlog::level::info;
         case Level::WARN:     return spdlog::level::warn;
-        case Level::ERROR:    return spdlog::level::err;
+        case Level::FAILURE:    return spdlog::level::err;
         case Level::CRITICAL: return spdlog::level::critical;
         default:              return spdlog::level::info;
     }
@@ -259,7 +259,7 @@ Logger::Level Logger::getLevel() {
         case spdlog::level::debug: return Level::DEBUG;
         case spdlog::level::info:  return Level::INFO;
         case spdlog::level::warn:  return Level::WARN;
-        case spdlog::level::err:   return Level::ERROR;
+        case spdlog::level::err:   return Level::FAILURE;
         case spdlog::level::critical: return Level::CRITICAL;
         default: return Level::INFO;
     }
@@ -358,7 +358,7 @@ Logger::Level Logger::levelFromString(const std::string& lvl) {
       return Level::WARN;
     }
     if (s == "error" || s == "err") {
-      return Level::ERROR;
+      return Level::FAILURE;
     }
     if (s == "critical" || s == "crit") {
       return Level::CRITICAL;
@@ -378,7 +378,7 @@ const char* Logger::levelToString(Level lvl) {
         case Level::DEBUG:    return "debug";
         case Level::INFO:     return "info";
         case Level::WARN:     return "warn";
-        case Level::ERROR:    return "error";
+        case Level::FAILURE:    return "error";
         case Level::CRITICAL: return "critical";
         default:              return "info";
     }

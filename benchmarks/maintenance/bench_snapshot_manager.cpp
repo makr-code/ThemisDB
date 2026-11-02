@@ -2,8 +2,11 @@
 #include "transaction/snapshot_manager.h"
 #include "cdc/changefeed.h"
 #include "storage/rocksdb_wrapper.h"
+#include "../benchmark_cleanup.h"
 #include <filesystem>
 #include <random>
+#include <cstdio>
+#include <stdexcept>
 
 using namespace themis;
 using namespace themis::transaction;
@@ -11,16 +14,20 @@ using namespace themis::transaction;
 class SnapshotManagerBenchmark : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
-        test_db_path_ = "./data/themis_snapshot_manager_bench";
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+        test_db_path_ = "./data/themis_snapshot_manager_bench_" +
+                        std::to_string(state.thread_index());
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(test_db_path_, cleanup_error)) {
+            throw std::runtime_error("Failed to clear snapshot manager benchmark DB: " + cleanup_error.message());
         }
         
         RocksDBWrapper::Config config;
         config.db_path = test_db_path_;
         config.enable_wal = true;
         db_ = std::make_unique<RocksDBWrapper>(config);
-        db_->open();
+        if (!db_->open()) {
+            throw std::runtime_error("Failed to open snapshot manager benchmark DB");
+        }
         
         auto txn_db = db_->getRawDB();
         changefeed_ = std::make_unique<Changefeed>(txn_db);
@@ -35,10 +42,15 @@ public:
     void TearDown(const ::benchmark::State& state) override {
         snapshot_manager_.reset();
         changefeed_.reset();
+        if (db_) {
+            db_->close();
+        }
         db_.reset();
         
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(test_db_path_, cleanup_error)) {
+            std::fprintf(stderr, "Snapshot manager benchmark DB cleanup failed: %s\n",
+                         cleanup_error.message().c_str());
         }
     }
     

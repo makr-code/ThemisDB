@@ -21,7 +21,7 @@
  *  AC-15 Baggage: removeBaggageItem removes single entry
  *  AC-16 Baggage: clearBaggage wipes all items
  *  AC-17 Baggage: extractBaggage populates from headers
- *  AC-18 recordException() sets exception.type, exception.message, status=ERROR
+ *  AC-18 recordException() sets exception.type, exception.message, status=FAILURE
  *  AC-19 recordMetrics() attaches all non-zero MetricSnapshot fields as span attrs
  *  AC-20 recordMetrics() does not attach zero-valued standard fields
  *  AC-21 recordMetrics() attaches custom metric entries under "db.metrics.custom."

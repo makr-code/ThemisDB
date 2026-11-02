@@ -224,8 +224,8 @@ TEST(LoggerProduction, GetLevelReflectsSetLevel) {
     Logger::setLevel(Logger::Level::WARN);
     EXPECT_EQ(Logger::getLevel(), Logger::Level::WARN);
 
-    Logger::setLevel(Logger::Level::ERROR);
-    EXPECT_EQ(Logger::getLevel(), Logger::Level::ERROR);
+    Logger::setLevel(Logger::Level::FAILURE);
+    EXPECT_EQ(Logger::getLevel(), Logger::Level::FAILURE);
 
     Logger::setLevel(Logger::Level::TRACE);
     EXPECT_EQ(Logger::getLevel(), Logger::Level::TRACE);
@@ -239,9 +239,9 @@ TEST(LoggerProduction, GetLevelReflectsSetLevel) {
 TEST(LoggerProduction, FilteredMessagesNotCounted) {
     Logger::shutdown();
     Logger::resetMetrics();
-    Logger::init(tmpPath("filtered.log"), Logger::Level::ERROR);
+    Logger::init(tmpPath("filtered.log"), Logger::Level::FAILURE);
 
-    // All messages below ERROR are filtered and must not increment counters
+    // All messages below FAILURE are filtered and must not increment counters
     Logger::trace("trace filtered");
     Logger::debug("debug filtered");
     Logger::info("info filtered");
@@ -253,7 +253,7 @@ TEST(LoggerProduction, FilteredMessagesNotCounted) {
     EXPECT_EQ(snap.info_count,  0u);
     EXPECT_EQ(snap.warn_count,  0u);
 
-    // ERROR and CRITICAL should still be counted
+    // FAILURE and CRITICAL should still be counted
     Logger::error("error counted");
     Logger::critical("critical counted");
 
@@ -356,8 +356,8 @@ TEST(LoggerProduction, LevelFromString) {
     EXPECT_EQ(Logger::levelFromString("Info"),     Logger::Level::INFO);
     EXPECT_EQ(Logger::levelFromString("warn"),     Logger::Level::WARN);
     EXPECT_EQ(Logger::levelFromString("warning"),  Logger::Level::WARN);
-    EXPECT_EQ(Logger::levelFromString("error"),    Logger::Level::ERROR);
-    EXPECT_EQ(Logger::levelFromString("err"),      Logger::Level::ERROR);
+    EXPECT_EQ(Logger::levelFromString("error"),    Logger::Level::FAILURE);
+    EXPECT_EQ(Logger::levelFromString("err"),      Logger::Level::FAILURE);
     EXPECT_EQ(Logger::levelFromString("critical"), Logger::Level::CRITICAL);
     EXPECT_EQ(Logger::levelFromString("crit"),     Logger::Level::CRITICAL);
     EXPECT_EQ(Logger::levelFromString("unknown"),  Logger::Level::INFO);
@@ -368,7 +368,7 @@ TEST(LoggerProduction, LevelToString) {
     EXPECT_STREQ(Logger::levelToString(Logger::Level::DEBUG),    "debug");
     EXPECT_STREQ(Logger::levelToString(Logger::Level::INFO),     "info");
     EXPECT_STREQ(Logger::levelToString(Logger::Level::WARN),     "warn");
-    EXPECT_STREQ(Logger::levelToString(Logger::Level::ERROR),    "error");
+    EXPECT_STREQ(Logger::levelToString(Logger::Level::FAILURE),    "error");
     EXPECT_STREQ(Logger::levelToString(Logger::Level::CRITICAL), "critical");
 }
 

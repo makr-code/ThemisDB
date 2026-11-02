@@ -18,8 +18,8 @@
 #include <functional>
 #include <fstream>
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 // HTTP requests are performed via libcurl (`curl_easy_perform`).
@@ -494,7 +494,7 @@ public:
 
                 if (response.status_code != 200) {
                     stats.addError(IngestionErrorCode::HTTP_REQUEST_FAILED,
-                                   IngestionErrorSeverity::ERROR,
+                                   IngestionErrorSeverity::FAILURE,
                                    "Page fetch failed at " +
                                    (pagination_mode_ == PaginationMode::CURSOR
                                         ? "cursor '" + current_cursor + "'"

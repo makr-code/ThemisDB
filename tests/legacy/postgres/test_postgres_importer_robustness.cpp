@@ -41,13 +41,13 @@ enum class ImportErrorCode : uint32_t {
 enum class ImportErrorSeverity {
     INFO,
     WARNING,
-    ERROR,
+    FAILURE,
     CRITICAL
 };
 
 struct ImportError {
     ImportErrorCode     code     = ImportErrorCode::UNKNOWN;
-    ImportErrorSeverity severity = ImportErrorSeverity::ERROR;
+    ImportErrorSeverity severity = ImportErrorSeverity::FAILURE;
     std::string         message;
     std::string         location = {};
 };
@@ -271,8 +271,8 @@ TEST(ImportErrorTest, StructuredErrorFields) {
 
 TEST(ImportErrorTest, SeverityLevels) {
     EXPECT_NE(ImportErrorSeverity::INFO,     ImportErrorSeverity::WARNING);
-    EXPECT_NE(ImportErrorSeverity::WARNING,  ImportErrorSeverity::ERROR);
-    EXPECT_NE(ImportErrorSeverity::ERROR,    ImportErrorSeverity::CRITICAL);
+    EXPECT_NE(ImportErrorSeverity::WARNING,  ImportErrorSeverity::FAILURE);
+    EXPECT_NE(ImportErrorSeverity::FAILURE,    ImportErrorSeverity::CRITICAL);
 }
 
 // ============================================================================

@@ -211,7 +211,7 @@ enum class SpanStatus : int32_t {
     /// Operation completed successfully
     OK = 6310,
     /// Operation failed with error
-    ERROR = 6311,
+    FAILURE = 6311,
     /// Operation cancelled or timed out
     CANCELLED = 6312,
 };

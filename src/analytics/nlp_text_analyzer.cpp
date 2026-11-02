@@ -52,7 +52,7 @@ NlpTextAnalyzer::NlpTextAnalyzer(const Config &config) : config_(config) {
         initializeLemmatizationData();
     } catch (const std::exception &e) {
         // Catch any exception during initialization to prevent crash
-        std::cerr << "ERROR: NlpTextAnalyzer initialization failed: " << e.what() << std::endl;
+        std::cerr << "FAILURE: NlpTextAnalyzer initialization failed: " << e.what() << std::endl;
         // Initialize with minimal defaults
         try {
             initializeStopWords();

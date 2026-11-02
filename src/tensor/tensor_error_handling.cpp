@@ -561,7 +561,7 @@ static void emitUnifiedDiagnostic(
         evt.failure_category = themis::observability::DiagnosticFailureCategory::RESOURCE_PRESSURE;
         evt.module_name = "tensor";
         evt.error_message = error_message;
-        evt.severity_level = themis::observability::DiagnosticSeverity::ERROR;
+        evt.severity_level = themis::observability::DiagnosticSeverity::FAILURE;
         evt.deployment_environment = "production";
         evt.context_data["error_code"] = error_code;
         evt.context_data["incident_class"] = incidentClassToString(incident_class);

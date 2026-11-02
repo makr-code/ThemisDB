@@ -1294,7 +1294,7 @@ TEST(ModuleLoader, AuditTrailIsolatedPerPlugin) {
         PluginSecurityEvent::EventType::PLUGIN_LOADED, pathA, "h1", "loaded A", 1ULL, "INFO"
     });
     PluginSecurityAuditor::instance().logEvent({
-        PluginSecurityEvent::EventType::PLUGIN_LOAD_FAILED, pathB, "h2", "failed B", 2ULL, "ERROR"
+        PluginSecurityEvent::EventType::PLUGIN_LOAD_FAILED, pathB, "h2", "failed B", 2ULL, "FAILURE"
     });
     PluginSecurityAuditor::instance().logEvent({
         PluginSecurityEvent::EventType::PLUGIN_UNLOADED, pathA, "h1", "unloaded A", 3ULL, "INFO"

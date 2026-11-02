@@ -227,7 +227,7 @@ public:
     /**
      * @brief Record an exception as a span event following OTel conventions.
      *
-     * Sets the span status to ERROR and attaches:
+     * Sets the span status to FAILURE and attaches:
      *   - `exception.type`    = typeid(ex).name()
      *   - `exception.message` = ex.what()
      *

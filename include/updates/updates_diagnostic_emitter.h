@@ -64,7 +64,7 @@ public:
  *   ctx.operation = "apply_patch";
  *   ctx.phase = "applying";
  *   ctx.error_code = DiagnosticErrorCode::PATCH_CHECKSUM_MISMATCH;
- *   ctx.severity = DiagnosticSeverity::ERROR;
+ *   ctx.severity = DiagnosticSeverity::FAILURE;
  *   ctx.message = "Checksum mismatch for bin/themis_server";
  *
  *   emitter.emitError(ctx);
@@ -118,7 +118,7 @@ public:
     /**
      * @brief Emit an error diagnostic event
      *
-     * Logs at ERROR level for severe issues (CRITICAL/ERROR severity),
+     * Logs at FAILURE level for severe issues (CRITICAL/FAILURE severity),
      * WARN for degraded paths (WARN severity), INFO otherwise.
      *
      * @param context Error context including code, message, and metadata

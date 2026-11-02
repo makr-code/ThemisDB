@@ -269,7 +269,7 @@ static int runImport(const Config& cfg) {
 
     std::ifstream file(cfg.source);
     if (!file) {
-        std::cerr << "ERROR: Cannot open source file: " << cfg.source << "\n";
+        std::cerr << "FAILURE: Cannot open source file: " << cfg.source << "\n";
         return 1;
     }
 
@@ -335,7 +335,7 @@ static int runImport(const Config& cfg) {
                 first = false;
                 if (data_line.size() >= 6 && data_line.compare(0, 6, "PGCOPY") == 0) {
                     std::string msg = "Binary COPY unsupported for table " + table_name;
-                    std::cerr << "ERROR: " << msg << "\n";
+                    std::cerr << "FAILURE: " << msg << "\n";
                     stats.errors.push_back(msg);
                     while (std::getline(file, data_line))
                         if (data_line == "\\." || data_line.rfind("\\.", 0) == 0) {
@@ -528,7 +528,7 @@ static int runImport(const Config& cfg) {
           std::cout << "  Mode:        data-only\n";
         }
         for (const auto& e : stats.errors)
-            std::cerr << "ERROR: " << e << "\n";
+            std::cerr << "FAILURE: " << e << "\n";
     }
 
     if (!stats.errors.empty()) {
@@ -591,7 +591,7 @@ int main(int argc, char* argv[]) {
         std::string arg = argv[i];
         auto nextArg = [&]() -> std::string {
             if (i + 1 >= argc) {
-                std::cerr << "ERROR: Missing argument for " << arg << "\n";
+                std::cerr << "FAILURE: Missing argument for " << arg << "\n";
                 std::exit(3);
             }
             return argv[++i];
@@ -622,19 +622,19 @@ int main(int argc, char* argv[]) {
             std::string pair = nextArg();
             auto eq = pair.find('=');
             if (eq == std::string::npos) {
-                std::cerr << "ERROR: --type-override requires format PG_TYPE=THEMIS_TYPE\n";
+                std::cerr << "FAILURE: --type-override requires format PG_TYPE=THEMIS_TYPE\n";
                 return 3;
             }
             cfg.type_overrides[pair.substr(0, eq)] = pair.substr(eq + 1);
         }
         else {
-            std::cerr << "ERROR: Unknown option: " << arg << "\n";
+            std::cerr << "FAILURE: Unknown option: " << arg << "\n";
             return 3;
         }
     }
 
     if (!has_source) {
-        std::cerr << "ERROR: --source is required\n";
+        std::cerr << "FAILURE: --source is required\n";
         printHelp(argv[0]);
         return 3;
     }

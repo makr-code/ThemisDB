@@ -55,8 +55,8 @@ TEST_F(AQLOptimizerAdvisorTest, SimpleQueryNoSuggestionsOrInfoOnly) {
     // A trivial query should not produce WARNING-level suggestions
     auto suggestions = advisor.suggest("FOR doc IN users RETURN doc");
     for (const auto& s : suggestions) {
-        EXPECT_NE(s.severity, ValidationIssue::Severity::ERROR)
-            << "Advisor must never produce ERROR issues";
+        EXPECT_NE(s.severity, ValidationIssue::Severity::FAILURE)
+            << "Advisor must never produce FAILURE issues";
         EXPECT_NE(s.severity, ValidationIssue::Severity::WARNING)
             << "Simple query should not trigger any WARNINGs";
     }
@@ -72,8 +72,8 @@ TEST_F(AQLOptimizerAdvisorTest, DoesNotProduceErrorIssues) {
     };
     for (const auto& q : queries) {
         for (const auto& s : advisor.suggest(q)) {
-            EXPECT_NE(s.severity, ValidationIssue::Severity::ERROR)
-                << "Advisor issued ERROR for: " << q;
+            EXPECT_NE(s.severity, ValidationIssue::Severity::FAILURE)
+                << "Advisor issued FAILURE for: " << q;
         }
     }
 }

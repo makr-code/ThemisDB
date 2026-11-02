@@ -683,7 +683,7 @@ TEST_F(STFunctionsTest, ST_Force2D_3DPolygon) {
 }
 
 // ============================================================================
-// ERROR HANDLING
+// FAILURE HANDLING
 // ============================================================================
 
 TEST_F(STFunctionsTest, ST_Point_MissingArguments) {

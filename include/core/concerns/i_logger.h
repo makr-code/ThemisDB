@@ -16,8 +16,8 @@
 #include <map>
 #include <utility>
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 namespace themis {
@@ -43,7 +43,7 @@ public:
         DEBUG,
         INFO,
         WARN,
-        ERROR,
+        FAILURE,
         CRITICAL
     };
 

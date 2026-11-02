@@ -11,8 +11,8 @@
 
 #pragma once
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 #include "themis_export.h"
@@ -79,7 +79,7 @@ struct LogMetrics {
 /** @brief Logger. */
 class THEMIS_BASE_API Logger {
 public:
-    enum class Level { TRACE, DEBUG, INFO, WARN, ERROR, CRITICAL };
+    enum class Level { TRACE, DEBUG, INFO, WARN, FAILURE, CRITICAL };
 
     /**
      * @brief Initialize logger with console + file sinks.

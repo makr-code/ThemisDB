@@ -18,8 +18,8 @@
 #include <sstream>
 #include <iomanip>
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 using json = nlohmann::json;
@@ -61,7 +61,7 @@ std::string severityStr(AlertSeverity severity) {
     switch (severity) {
         case AlertSeverity::INFO:     return "INFO";
         case AlertSeverity::WARNING:  return "WARNING";
-        case AlertSeverity::ERROR:    return "ERROR";
+        case AlertSeverity::FAILURE:    return "FAILURE";
         case AlertSeverity::CRITICAL: return "CRITICAL";
         default:                       return "UNKNOWN";
     }
@@ -131,7 +131,7 @@ Result<void> LogNotificationChannel::send(const Alert& alert) {
         case AlertSeverity::CRITICAL:
             THEMIS_CRITICAL("{}", prefix);
             break;
-        case AlertSeverity::ERROR:
+        case AlertSeverity::FAILURE:
             THEMIS_ERROR("{}", prefix);
             break;
         case AlertSeverity::WARNING:
@@ -219,7 +219,7 @@ SlackNotificationChannel::SlackNotificationChannel(SlackChannelConfig config)
 std::string SlackNotificationChannel::severityColor(AlertSeverity severity) {
     switch (severity) {
         case AlertSeverity::CRITICAL: return "#7b0000";
-        case AlertSeverity::ERROR:    return "#e01e5a";
+        case AlertSeverity::FAILURE:    return "#e01e5a";
         case AlertSeverity::WARNING:  return "#ff9900";
         default:                       return "#36a64f";
     }
@@ -386,7 +386,7 @@ void AlertingEngine::loadDefaultRules() {
             "themis_memory_usage_percent",
             AlertRuleOperator::GREATER_THAN,
             90.0,
-            AlertSeverity::ERROR,
+            AlertSeverity::FAILURE,
             "Memory utilization {value}% exceeds threshold 90% on metric {metric}"
         },
         {
@@ -404,7 +404,7 @@ void AlertingEngine::loadDefaultRules() {
             "themis_error_rate_percent",
             AlertRuleOperator::GREATER_THAN,
             5.0,
-            AlertSeverity::ERROR,
+            AlertSeverity::FAILURE,
             "Error rate {value}% exceeds 5% threshold on metric {metric}"
         },
         {

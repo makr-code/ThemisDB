@@ -43,7 +43,7 @@ constexpr uint32_t kChaosTestSeed = 42;
 
 enum class CircuitState { CLOSED, OPEN, HALF_OPEN };
 
-enum class SessionState { ACTIVE, TORN_DOWN, ERROR };
+enum class SessionState { ACTIVE, TORN_DOWN, FAILURE };
 
 enum class BackendKind { STT, LLM };
 
@@ -156,18 +156,18 @@ class VoiceSession {
 
   bool isActive() const { return state_ == SessionState::ACTIVE; }
 
-  /// Returns false and sets state=ERROR when backends are unavailable.
+  /// Returns false and sets state=FAILURE when backends are unavailable.
   bool process(const std::string& chunk) {
     if (state_ != SessionState::ACTIVE) {
       return false;
     }
 
     if (!stt_ || !stt_->call(chunk)) {
-      state_ = SessionState::ERROR;
+      state_ = SessionState::FAILURE;
       return false;
     }
     if (!llm_ || !llm_->call(chunk)) {
-      state_ = SessionState::ERROR;
+      state_ = SessionState::FAILURE;
       return false;
     }
     ++processed_;
@@ -176,7 +176,7 @@ class VoiceSession {
 
   /// Explicit teardown — must be idempotent.
   void teardown() {
-    if (state_ == SessionState::ACTIVE || state_ == SessionState::ERROR) {
+    if (state_ == SessionState::ACTIVE || state_ == SessionState::FAILURE) {
       state_ = SessionState::TORN_DOWN;
       ++teardown_count_;
     }
@@ -279,7 +279,7 @@ class VoiceWaveAChaosTest : public ::testing::Test {
 /**
  * @test VOICE-CHAOS-01
  * @brief When the STT backend goes down mid-session the session must
- *        transition to ERROR and teardown must complete cleanly (state ==
+ *        transition to FAILURE and teardown must complete cleanly (state ==
  *        TORN_DOWN, teardownCount == 1).
  */
 TEST_F(VoiceWaveAChaosTest, CHAOS_01_BackendFailure_SessionTeardownClean) {
@@ -292,8 +292,8 @@ TEST_F(VoiceWaveAChaosTest, CHAOS_01_BackendFailure_SessionTeardownClean) {
   stt_->setAvailable(false);
   EXPECT_FALSE(session.process("world"))
       << "VOICE-CHAOS-01: call after failure must return false";
-  EXPECT_EQ(session.state(), SessionState::ERROR)
-      << "VOICE-CHAOS-01: session must be in ERROR after backend failure";
+  EXPECT_EQ(session.state(), SessionState::FAILURE)
+      << "VOICE-CHAOS-01: session must be in FAILURE after backend failure";
 
   // Teardown must complete exactly once.
   session.teardown();
@@ -398,7 +398,7 @@ TEST_F(VoiceWaveAChaosTest, CHAOS_05_ConcurrentTeardowns_NoLeak) {
   for (int i = 0; i < kSessions; ++i) {
     sessions.push_back(
         std::make_unique<VoiceSession>(i, stt_.get(), llm_.get()));
-    sessions.back()->process("chunk");  // drives it into ERROR
+    sessions.back()->process("chunk");  // drives it into FAILURE
   }
 
   std::vector<std::thread> threads;
@@ -499,12 +499,12 @@ TEST_F(VoiceWaveAChaosTest, CHAOS_08_BackendUnavailable_StaleChallenge_FailsClos
 }
 
 // =============================================================================
-// VOICE-CHAOS-09: Multi-backend cascade (LLM fail → STT fail) → ERROR
+// VOICE-CHAOS-09: Multi-backend cascade (LLM fail → STT fail) → FAILURE
 // =============================================================================
 
 /**
  * @test VOICE-CHAOS-09
- * @brief When both STT and LLM fail the session must reach ERROR state after
+ * @brief When both STT and LLM fail the session must reach FAILURE state after
  *        the first failing call.
  */
 TEST_F(VoiceWaveAChaosTest, CHAOS_09_MultiBackendCascade_SessionDemotedToError) {
@@ -514,15 +514,15 @@ TEST_F(VoiceWaveAChaosTest, CHAOS_09_MultiBackendCascade_SessionDemotedToError) 
   VoiceSession session(1, stt_.get(), llm_.get());
   EXPECT_FALSE(session.process("test_chunk"))
       << "VOICE-CHAOS-09: process must fail when LLM is down";
-  EXPECT_EQ(session.state(), SessionState::ERROR)
-      << "VOICE-CHAOS-09: session must be in ERROR after LLM failure";
+  EXPECT_EQ(session.state(), SessionState::FAILURE)
+      << "VOICE-CHAOS-09: session must be in FAILURE after LLM failure";
 
   // Now STT also fails (cascading scenario).
   stt_->setAvailable(false);
 
-  // Session is already in ERROR — further calls must still return false.
+  // Session is already in FAILURE — further calls must still return false.
   EXPECT_FALSE(session.process("another_chunk"))
-      << "VOICE-CHAOS-09: ERROR session must reject further process calls";
+      << "VOICE-CHAOS-09: FAILURE session must reject further process calls";
 }
 
 // =============================================================================
@@ -538,7 +538,7 @@ TEST_F(VoiceWaveAChaosTest, CHAOS_10_AuditCallback_FiresDuringBackendFailureTear
   stt_->setAvailable(false);
 
   VoiceSession session(42, stt_.get(), llm_.get());
-  session.process("chunk");  // drives session to ERROR
+  session.process("chunk");  // drives session to FAILURE
 
   // Simulate audit callback via AuditLog.
   auto teardown_with_audit = [&]() {
@@ -577,8 +577,8 @@ TEST_F(VoiceWaveAChaosTest, CHAOS_11_NewSessionsBlocked_CircuitOpen) {
   VoiceSession session(99, stt_.get(), llm_.get());
   EXPECT_FALSE(session.process("new_work"))
       << "VOICE-CHAOS-11: new session must be blocked by open circuit";
-  EXPECT_EQ(session.state(), SessionState::ERROR)
-      << "VOICE-CHAOS-11: session must enter ERROR when circuit is OPEN";
+  EXPECT_EQ(session.state(), SessionState::FAILURE)
+      << "VOICE-CHAOS-11: session must enter FAILURE when circuit is OPEN";
 }
 
 // =============================================================================
@@ -600,7 +600,7 @@ TEST_F(VoiceWaveAChaosTest, CHAOS_12_FullLifecycle_StartFailTeardownReinit) {
   stt_->setAvailable(false);
   EXPECT_FALSE(session1.process("world"))
       << "VOICE-CHAOS-12: processing must fail after backend goes down";
-  EXPECT_EQ(session1.state(), SessionState::ERROR);
+  EXPECT_EQ(session1.state(), SessionState::FAILURE);
 
   // Phase 3 — teardown.
   session1.teardown();

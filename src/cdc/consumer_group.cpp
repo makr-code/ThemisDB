@@ -15,8 +15,8 @@
 
 #include "utils/logger.h"
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 namespace themis {
@@ -192,7 +192,7 @@ void ConsumerGroupManager::writeOffsetLocked(const std::string &group_id, uint64
     }
 
     if (!s.ok()) {
-        throw CDCException(ErrorCode::DB_WRITE_FAILED, ErrorSeverity::ERROR, "Failed to commit group offset",
+        throw CDCException(ErrorCode::DB_WRITE_FAILED, ErrorSeverity::FAILURE, "Failed to commit group offset",
                            s.ToString());
     }
 }

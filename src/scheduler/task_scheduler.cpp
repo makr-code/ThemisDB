@@ -37,8 +37,8 @@
 #include <sys/stat.h>
 #endif
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 // ⚠️ SECURITY WARNING: This implementation executes arbitrary AQL queries and functions.
@@ -3256,7 +3256,7 @@ void TaskScheduler::fireTaskFailureAlert(const ScheduledTask& task, const std::s
     observability::Alert alert;
     alert.alert_id   = alert_id;
     alert.alert_name = "TaskFailure";
-    alert.severity   = observability::AlertSeverity::ERROR;
+    alert.severity   = observability::AlertSeverity::FAILURE;
     alert.status     = observability::AlertStatus::FIRING;
     alert.message    = "Task \"" + task.name + "\" (id=" + task.id + ") failed: " + error;
 

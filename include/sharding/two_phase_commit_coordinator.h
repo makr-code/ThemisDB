@@ -31,17 +31,17 @@
 
 #pragma once
 
-// Prevent Windows macro pollution for enum members named ERROR.
-#ifdef ERROR
-#undef ERROR
+// Prevent Windows macro pollution for enum members named FAILURE.
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 #include "sharding/shard_rpc_server.h"
 #include "sharding/shard_rpc_client.h"
 #include "transaction/recoverable_two_phase_coordinator.h"
 #include "sharding/wal_manager.h"
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 #include <string>
 #include <map>
@@ -63,14 +63,14 @@ namespace themis::sharding {
 enum class CoordinatorTxnResult {
     COMMITTED,  ///< All participants committed
     ABORTED,    ///< At least one participant voted ABORT (or error)
-    ERROR       ///< Internal error; transaction state unknown
+    FAILURE       ///< Internal error; transaction state unknown
 };
 
 /** @brief Detailed outcome returned by TwoPhaseCommitCoordinator::commit(). */
 struct CoordinatorTxnOutcome {
-    CoordinatorTxnResult result        = CoordinatorTxnResult::ERROR;
+    CoordinatorTxnResult result        = CoordinatorTxnResult::FAILURE;
     std::string          transaction_id;
-    std::string          reason;        ///< Populated on ABORTED / ERROR
+    std::string          reason;        ///< Populated on ABORTED / FAILURE
 
     /** @brief Return true when outcome is final COMMITTED. */
     [[nodiscard]] bool committed() const {
@@ -232,8 +232,8 @@ public:
      * @param ops_per_shard   Map from shard_id → JSON array of operations
      * @return COMMITTED only after every participant acknowledges COMMIT;
      *         ABORTED when prepare selects ABORT and phase two completes;
-     *         ERROR when validation, decision persistence, or a phase-two
-     *         acknowledgement fails. After a durable decision, ERROR leaves
+     *         FAILURE when validation, decision persistence, or a phase-two
+     *         acknowledgement fails. After a durable decision, FAILURE leaves
      *         that decision authoritative for recovery; COMMIT is never
      *         changed to ABORT.
      */

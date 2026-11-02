@@ -298,7 +298,7 @@ static void BM_SchemaQueryTables(benchmark::State& state) {
 static void BM_ErrorResponse(benchmark::State& state) {
     for (auto _ : state) {
         // Build error response
-        std::string severity = "ERROR";
+        std::string severity = "FAILURE";
         std::string code = "42601"; // syntax_error
         std::string message = "Query parsing failed: invalid syntax";
         

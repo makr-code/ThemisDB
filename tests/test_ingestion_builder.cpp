@@ -147,7 +147,7 @@ TEST(IngestionMetricsExporterErrorCodeTest, ErrorCodeBreakdownEmitted) {
     stats.addError(IngestionErrorCode::HTTP_TIMEOUT,
                    IngestionErrorSeverity::WARNING, "timeout2");
     stats.addError(IngestionErrorCode::PROCESSING_FAILED,
-                   IngestionErrorSeverity::ERROR, "proc fail");
+                   IngestionErrorSeverity::FAILURE, "proc fail");
 
     std::string text = exp.exportText(stats, "src1");
 

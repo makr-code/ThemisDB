@@ -123,7 +123,7 @@ bool PluginLoader::loadPlugin(const std::string &libraryPath) {
         std::cerr << "  Reason: " << pathError << std::endl;
         auto &auditor = PluginSecurityAuditor::instance();
         auditor.logEvent({PluginSecurityEvent::EventType::POLICY_VIOLATION, libraryPath, "", pathError,
-                          static_cast<uint64_t>(std::time(nullptr)), "ERROR"});
+                          static_cast<uint64_t>(std::time(nullptr)), "FAILURE"});
         return false;
     }
 
@@ -138,7 +138,7 @@ bool PluginLoader::loadPlugin(const std::string &libraryPath) {
                 std::cerr << "SECURITY: " << reason << ": " << libraryPath << std::endl;
                 auto &auditor = PluginSecurityAuditor::instance();
                 auditor.logEvent({PluginSecurityEvent::EventType::POLICY_VIOLATION, libraryPath, "", reason,
-                                  static_cast<uint64_t>(std::time(nullptr)), "ERROR"});
+                                  static_cast<uint64_t>(std::time(nullptr)), "FAILURE"});
                 return false;
             }
             constexpr off_t kMaxPluginBytes = 128LL * 1024 * 1024; // 128 MB
@@ -147,7 +147,7 @@ bool PluginLoader::loadPlugin(const std::string &libraryPath) {
                 std::cerr << "SECURITY: " << reason << ": " << libraryPath << std::endl;
                 auto &auditor = PluginSecurityAuditor::instance();
                 auditor.logEvent({PluginSecurityEvent::EventType::POLICY_VIOLATION, libraryPath, "", reason,
-                                  static_cast<uint64_t>(std::time(nullptr)), "ERROR"});
+                                  static_cast<uint64_t>(std::time(nullptr)), "FAILURE"});
                 return false;
             }
         }
@@ -180,7 +180,7 @@ bool PluginLoader::loadPlugin(const std::string &libraryPath) {
         auto &auditor = PluginSecurityAuditor::instance();
         auditor.logEvent({PluginSecurityEvent::EventType::PLUGIN_LOAD_FAILED, libraryPath,
                           verifier.calculateFileHash(libraryPath), errorMessage,
-                          static_cast<uint64_t>(std::time(nullptr)), "ERROR"});
+                          static_cast<uint64_t>(std::time(nullptr)), "FAILURE"});
 
         return false;
     }

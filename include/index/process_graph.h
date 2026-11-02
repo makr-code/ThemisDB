@@ -185,7 +185,7 @@ enum class BPMNNodeType {
     BOUNDARY_EVENT,
     
     // Event Subtypes (via _subtype field)
-    // MESSAGE, TIMER, ERROR, CANCEL, COMPENSATION, SIGNAL, LINK, TERMINATE
+    // MESSAGE, TIMER, FAILURE, CANCEL, COMPENSATION, SIGNAL, LINK, TERMINATE
     
     // Activities
     TASK,                   // Atomic activity

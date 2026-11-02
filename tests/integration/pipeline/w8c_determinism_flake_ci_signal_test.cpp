@@ -549,9 +549,9 @@ TEST_F(DeterminismFlakeCiSignalTest,
     EXPECT_TRUE(sink.AllWellFormed())
         << "all emitted events must have non-empty source/message and non-zero timestamp";
 
-    // At least one ERROR event must be present
+    // At least one FAILURE event must be present
     EXPECT_TRUE(sink.HasSeverity(DiagSeverity::kError))
-        << "anomaly path must emit at least one ERROR-severity event";
+        << "anomaly path must emit at least one FAILURE-severity event";
 
     // Validate each event individually for precise CI diagnosis
     const auto events = sink.Snapshot();

@@ -184,7 +184,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
                     : CoordinatorTxnResult::ABORTED;
                 return outcome;
             }
-            outcome.result = CoordinatorTxnResult::ERROR;
+            outcome.result = CoordinatorTxnResult::FAILURE;
             outcome.reason = "transaction already in progress";
             return outcome;
         }
@@ -192,7 +192,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         // Validate all shards are registered
         for (const auto& [shard_id, _] : ops_per_shard) {
             if (participants_.find(shard_id) == participants_.end()) {
-                outcome.result = CoordinatorTxnResult::ERROR;
+                outcome.result = CoordinatorTxnResult::FAILURE;
                 outcome.reason = "unknown shard: " + shard_id;
                 THEMIS_ERROR("2PC coordinator [{}] txn {} – unknown shard {}",
                              coordinator_id_, transaction_id, shard_id);
@@ -224,7 +224,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
     })) {
         std::lock_guard<std::timed_mutex> lock(mutex_);
         transactions_.at(transaction_id).state = CoordinatorTxnState::FAILED;
-        outcome.result = CoordinatorTxnResult::ERROR;
+        outcome.result = CoordinatorTxnResult::FAILURE;
         outcome.reason = "could not persist transaction begin record";
         total_errors_.fetch_add(1, std::memory_order_relaxed);
         return outcome;
@@ -289,7 +289,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         m->record2PCPreparePhase(coordinator_id_, prepare_ms, all_prepared);
     }
 
-    if (execution == detail::TwoPhaseCommitExecutionResult::ERROR) {
+    if (execution == detail::TwoPhaseCommitExecutionResult::FAILURE) {
         std::lock_guard<std::timed_mutex> lock(mutex_);
         auto it = transactions_.find(transaction_id);
         if (it != transactions_.end() && it->second.state != CoordinatorTxnState::COMPLETED) {
@@ -302,7 +302,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
                     : CoordinatorTxnState::ABORT_DECIDED)
                 : CoordinatorTxnState::FAILED;
         }
-        outcome.result = CoordinatorTxnResult::ERROR;
+        outcome.result = CoordinatorTxnResult::FAILURE;
         outcome.reason = "2PC decision persistence or phase-two acknowledgement failed";
         total_errors_.fetch_add(1, std::memory_order_relaxed);
         return outcome;
@@ -319,7 +319,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         if (it != transactions_.end()) {
             it->second.state = CoordinatorTxnState::FAILED;
         }
-        outcome.result = CoordinatorTxnResult::ERROR;
+        outcome.result = CoordinatorTxnResult::FAILURE;
         outcome.reason = "could not persist 2PC completion record";
         total_errors_.fetch_add(1, std::memory_order_relaxed);
         return outcome;

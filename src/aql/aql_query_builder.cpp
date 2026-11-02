@@ -507,7 +507,7 @@ ValidationResult AQLQueryBuilder::validate() const {
     for (const auto &ft : impl_->for_traverse_clauses) {
         if (ft.min_depth > ft.max_depth) {
             result.is_valid = false;
-            result.issues.push_back({ValidationIssue::Severity::ERROR,
+            result.issues.push_back({ValidationIssue::Severity::FAILURE,
                                      "Graph traversal min_depth (" + std::to_string(ft.min_depth)
                                          + ") is greater than max_depth (" + std::to_string(ft.max_depth) + ")",
                                      "FOR"});

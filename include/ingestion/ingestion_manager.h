@@ -11,8 +11,8 @@
 
 #pragma once
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 #include <string>
@@ -119,7 +119,7 @@ enum class IngestionErrorCode {
 enum class IngestionErrorSeverity {
     INFO,       ///< Informational – not a failure
     WARNING,    ///< Degraded operation, non-fatal
-    ERROR,      ///< Single item/source failure
+    FAILURE,      ///< Single item/source failure
     FATAL       ///< Whole ingestion run aborted
 };
 
@@ -128,7 +128,7 @@ enum class IngestionErrorSeverity {
  */
 struct IngestionError {
     IngestionErrorCode   code     = IngestionErrorCode::OK;
-    IngestionErrorSeverity severity = IngestionErrorSeverity::ERROR;
+    IngestionErrorSeverity severity = IngestionErrorSeverity::FAILURE;
     std::string          message;         ///< Human-readable message
     std::string          source_id;       ///< Originating source (if known)
     std::string          details;         ///< Technical detail for logs
@@ -497,7 +497,7 @@ struct IngestionStats {
         IngestionError err{code, severity, message, source_id, details};
         errors.push_back(err);
         metrics.error_count++;
-        if (error_message.empty() && err.severity >= IngestionErrorSeverity::ERROR) {
+        if (error_message.empty() && err.severity >= IngestionErrorSeverity::FAILURE) {
             error_message = message;
         }
     }
