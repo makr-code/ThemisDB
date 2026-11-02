@@ -161,6 +161,12 @@ foreach(_src IN LISTS GPU_MODULE_TEST_SOURCES)
         LABELS ${_labels}
     )
 
+    if(_stem IN_LIST _gpu_legacy_discovery_stems)
+        if(NOT _stem STREQUAL "test_gpu_vector_index" OR THEMIS_ENABLE_VECTOR_SEARCH)
+            add_custom_target(${_stem} DEPENDS ${_target})
+        endif()
+    endif()
+
     if(NOT THEMIS_BUILD_MODULAR AND _stem IN_LIST _gpu_legacy_discovery_stems)
         gtest_discover_tests(${_target}
             DISCOVERY_MODE POST_BUILD

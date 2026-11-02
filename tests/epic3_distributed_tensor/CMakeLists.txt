@@ -329,6 +329,9 @@ foreach(_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES)
     set(_ctest "${_stem}_epic3_distributed_tensor_FocusedTests")
 
     if(_stem STREQUAL "test_tensor_shard_summary")
+        add_custom_target(${_target}
+            DEPENDS module_epic3_distributed_tensor_tensor_shard_summary_focused
+        )
         themis_register_module_focused_test(
             MODULE epic3_distributed_tensor
             NAME ${_ctest}
