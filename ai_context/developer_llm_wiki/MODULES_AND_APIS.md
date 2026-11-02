@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-01"
+Last Updated: "2026-11-02"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Modules and APIs
 
-Datum: 2026-11-01
+Datum: 2026-11-02
 Status: Active
 
 ## Curated module contexts

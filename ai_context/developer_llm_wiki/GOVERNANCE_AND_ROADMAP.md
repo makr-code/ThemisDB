@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-11-01
+Datum: 2026-11-02
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
@@ -23,7 +23,7 @@ Status: Active
 
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
-- Hash: `2bccfc56de48dbc2`
+- Hash: `e6284c5d6d47b436`
 - Titel: Changelog
 - Auszug:
   - All notable changes to ThemisDB will be documented in this file.
@@ -68,12 +68,12 @@ Status: Active
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `c872893d00e70d75`
+- Hash: `570fdfb7fda51434`
 - Titel: ThemisDB Project Roadmap
 - Auszug:
   - <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
   - **Version:** 2.4.0-alpha
-  - **Last Updated:** 2026-11-01 (audit-derived production-readiness roadmap pointer; RotatE target clarification; Wave C evidence status unchanged since 2026-10-30)
+  - **Last Updated:** 2026-11-01 (TST-03 Geo, Timeseries, Process, Temporal, Storage, Index, Transaction, Query, Security, Metadata, Sharding, Performance, RAG and 66 LLM duplicate targets consolidated; Windows Debug profile multiple focused registrations reduced from 71 to 5; baseline review remains open; audit-derived production-readiness roadmap pointer and RotatE target clarification; Wave C evidence status unchanged since 2026-10-30)
 
 ## VERSIONING.md
 - Kategorie: governance_and_docs
@@ -527,7 +527,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/UPDATES.md
 - Kategorie: governance_and_docs
-- Hash: `6e18be74f473e3df`
+- Hash: `78ab134dbfecd1cb`
 - Titel: Updates — Developer LLM Wiki
 - Auszug:
   - ---

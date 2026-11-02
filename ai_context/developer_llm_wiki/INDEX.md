@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-01"
+Last Updated: "2026-11-02"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Index
 
-Datum: 2026-11-01
+Datum: 2026-11-02
 Status: Active
 Bezug: CI-verwaltete Entwickler-Wissensbasis fuer Coder-LLMs
 Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_ENHANCEMENTS.md, ai_context/COPILOT_INSTRUCTIONS.md
@@ -22,9 +22,9 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 ## Scope
 
 - Ziel: Onboarding- und Coding-relevantes Wissen fuer Entwickler-LLMs
-- Laufmodus: FULL_SYNC
-- Quellen gesamt: 9516
-- Quellen-Hash: `7560acd9adf14df58c30dc5d8a5b69a3632d25faa02723b73c8868b9a813f02d`
+- Laufmodus: INCREMENTAL
+- Quellen gesamt: 8066
+- Quellen-Hash: `1aed704e99d8448ba6e4d9e71e9a9234fddaaa6a57b42ea5c3f6df2447be7ae2`
 
 ## Status And Source-of-Truth Governance
 
@@ -55,7 +55,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 ## Source Distribution
 
-- modules_and_api: 3821
+- modules_and_api: 2371
 - build_test_ci: 203
 - governance_and_docs: 5492
 - misc: 0
