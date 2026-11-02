@@ -4,8 +4,6 @@
  */
 #pragma once
 
-#include <functional>
-
 namespace themis::sharding::detail {
 
 /**
@@ -23,7 +21,8 @@ enum class TwoPhaseCommitExecutionResult {
  * A failed prepare selects ABORT; a successful prepare selects COMMIT. The
  * decision-record callback must succeed before phase two is applied. Once
  * COMMIT is selected, a phase-two failure is an error/in-doubt result and must
- * never be converted into an ABORT. Callback exceptions are treated as failures.
+ * never be converted into an ABORT. A prepare exception selects ABORT; decision
+ * persistence or application exceptions return ERROR.
  *
  * @param prepare_all Invokes phase one and returns true only when every
  *        participant voted to commit.
@@ -33,16 +32,21 @@ enum class TwoPhaseCommitExecutionResult {
  *        not provided by this callback.
  * @param apply_decision Broadcasts the selected COMMIT or ABORT and returns
  *        true only when all required participant acknowledgements succeed.
+ * @tparam Prepare Callable that runs phase one.
+ * @tparam PersistDecision Callable that records the selected decision.
+ * @tparam ApplyDecision Callable that broadcasts and applies the decision.
  * @return COMMITTED or ABORTED when the selected decision and phase two
- *         complete; ERROR when a callback fails or throws. An ERROR after a
- *         recorded decision means that decision remains authoritative; durable
- *         replay is available only when the coordinator's persistence backend
- *         is configured.
+ *         complete; ERROR when decision persistence or application fails or
+ *         throws. A prepare exception selects ABORT and continues through the
+ *         decision callbacks. An ERROR after a recorded decision means that
+ *         decision remains authoritative; durable replay is available only
+ *         when the coordinator's persistence backend is configured.
  */
+template <typename Prepare, typename PersistDecision, typename ApplyDecision>
 [[nodiscard]] inline TwoPhaseCommitExecutionResult executeTwoPhaseCommit(
-    const std::function<bool()>& prepare_all,
-    const std::function<bool(bool)>& persist_decision,
-    const std::function<bool(bool)>& apply_decision) {
+    Prepare&& prepare_all,
+    PersistDecision&& persist_decision,
+    ApplyDecision&& apply_decision) {
     bool prepared = false;
     try {
         prepared = prepare_all();

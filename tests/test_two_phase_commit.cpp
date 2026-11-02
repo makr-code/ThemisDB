@@ -25,6 +25,9 @@
 #include <mutex>
 #include <chrono>
 #include <filesystem>
+#include <random>
+#include <stdexcept>
+#include <system_error>
 
 using namespace themis::sharding;
 
@@ -34,6 +37,42 @@ static std::string opsToPayload(const nlohmann::json& ops) {
     j["operations"] = ops;
     return j.dump();
 }
+
+class TemporaryTransactionLog {
+public:
+    explicit TemporaryTransactionLog(const std::string& prefix) {
+        const auto temp_root = std::filesystem::temp_directory_path();
+        for (;;) {
+            const auto stamp = std::chrono::steady_clock::now().time_since_epoch().count();
+            const auto suffix = std::random_device{}();
+            directory_ = temp_root /
+                (prefix + "_" + std::to_string(stamp) + "_" + std::to_string(suffix));
+
+            std::error_code error;
+            if (std::filesystem::create_directory(directory_, error)) {
+                break;
+            }
+            if (error) {
+                throw std::filesystem::filesystem_error(
+                    "Unable to create temporary transaction log directory",
+                    directory_,
+                    error);
+            }
+        }
+    }
+
+    ~TemporaryTransactionLog() {
+        std::error_code error;
+        std::filesystem::remove_all(directory_, error);
+    }
+
+    [[nodiscard]] std::filesystem::path logPath() const {
+        return directory_ / "transactions.log";
+    }
+
+private:
+    std::filesystem::path directory_;
+};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Test Fixture
@@ -709,8 +748,9 @@ TEST_F(TwoPhaseCommitCoordinatorTest, FailedAbortAcknowledgementReturnsError) {
     EXPECT_FALSE(recoverable.front().decision_commit);
 }
 TEST(CrossShardTwoPhaseCommitContractTest, ExplicitPrepareCommitAndRepeatedCommitMatchCanonicalDecision) {
+    TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-contract");
     themisdb::sharding::CrossShardTransactionConfig config;
-    config.transaction_log_path = "/tmp/themis-cross-shard-2pc-contract.log";
+    config.transaction_log_path = transaction_log.logPath().string();
     config.prepare_timeout = std::chrono::milliseconds(20);
     config.commit_timeout = std::chrono::milliseconds(20);
     config.abort_timeout = std::chrono::milliseconds(20);
@@ -735,8 +775,9 @@ TEST(CrossShardTwoPhaseCommitContractTest, FailedCommitAcknowledgementRemainsUnk
     int prepare_calls = 0;
     int commit_calls = 0;
     int abort_calls = 0;
+    TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-phase-two-failure");
     themisdb::sharding::CrossShardTransactionConfig config;
-    config.transaction_log_path = "/tmp/themis-cross-shard-2pc-phase-two-failure.log";
+    config.transaction_log_path = transaction_log.logPath().string();
     config.commit_timeout = std::chrono::milliseconds(20);
     config.in_process_rpc_response_handler =
         [&prepare_calls, &commit_calls, &abort_calls](
@@ -777,8 +818,9 @@ TEST(CrossShardTwoPhaseCommitContractTest, FailedCommitAcknowledgementRemainsUnk
 
 TEST(CrossShardTwoPhaseCommitContractTest, FailedAbortAcknowledgementRemainsUnknown) {
     int abort_calls = 0;
+    TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-abort-ack-failure");
     themisdb::sharding::CrossShardTransactionConfig config;
-    config.transaction_log_path = "/tmp/themis-cross-shard-2pc-abort-ack-failure.log";
+    config.transaction_log_path = transaction_log.logPath().string();
     config.in_process_rpc_response_handler =
         [&abort_calls](std::string method, nlohmann::json) -> nlohmann::json {
             if (method == "prepare") {
@@ -808,8 +850,9 @@ TEST(CrossShardTwoPhaseCommitContractTest, FailedAbortAcknowledgementRemainsUnkn
 }
 
 TEST(CrossShardTwoPhaseCommitContractTest, EmptyPrepareFailureSelectsAbortAndIsIdempotent) {
+    TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-abort-contract");
     themisdb::sharding::CrossShardTransactionConfig config;
-    config.transaction_log_path = "/tmp/themis-cross-shard-2pc-abort-contract.log";
+    config.transaction_log_path = transaction_log.logPath().string();
     themisdb::sharding::CrossShardTransactionCoordinator coordinator(config, nullptr);
 
     ASSERT_TRUE(coordinator.beginTransaction(
@@ -822,8 +865,9 @@ TEST(CrossShardTwoPhaseCommitContractTest, EmptyPrepareFailureSelectsAbortAndIsI
 }
 
 TEST(CrossShardTwoPhaseCommitContractTest, ExplicitAbortBroadcastsAndCanBeRepeated) {
+    TemporaryTransactionLog transaction_log("themis-cross-shard-2pc-explicit-abort");
     themisdb::sharding::CrossShardTransactionConfig config;
-    config.transaction_log_path = "/tmp/themis-cross-shard-2pc-explicit-abort.log";
+    config.transaction_log_path = transaction_log.logPath().string();
     config.abort_timeout = std::chrono::milliseconds(20);
     themisdb::sharding::CrossShardTransactionCoordinator coordinator(config, nullptr);
 
@@ -1038,6 +1082,15 @@ TEST(ShardRPCClientAdapterTest, RemoteAbortRejectionIsNotReportedAsAcknowledged)
 
     EXPECT_FALSE(adapter.onAbort("txn-abort-rejected"));
     EXPECT_EQ(abort_calls, 1);
+}
+
+TEST(ShardRPCClientAdapterTest, InProcessHandlerRejectsRemoteEndpoint) {
+    ShardRPCClient::Config cfg;
+    cfg.endpoint = "shard-a:50051";
+
+    EXPECT_THROW(
+        ShardRPCClientAdapter adapter(cfg, {}),
+        std::invalid_argument);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

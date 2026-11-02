@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-01
+Last Updated: 2026-11-02
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -31,11 +31,11 @@ Related_Milestone: DOC-WEEKLY-2026-W44
 
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Module Purpose
+## Zweck
 
 The sharding module provides distributed partitioning, routing, consensus coordination, cross-shard transaction/repair/rebalancing behavior, and operational observability for ThemisDB.
 
-## Relevant Interfaces
+## API/CLI Einstieg
 
 | Interface / File | Role |
 |---|---|
@@ -80,7 +80,24 @@ Out of scope:
 - client-facing API contracts outside sharding module boundaries
 - non-sharding business-domain orchestration logic
 
-## Runtime Behavior and Limits
+## Integrationsueberblick
+
+The router and coordinators form the main request path. Transaction coordination
+records decisions through coordinator-specific WAL implementations; transport
+and recovery behavior remain specific to each coordinator.
+
+```mermaid
+flowchart LR
+    Request --> Router
+    Router --> Coordinator
+    Coordinator --> Shards
+    Coordinator --> WAL
+```
+
+Kurzinterpretation: Requests enter through routing; distributed coordination
+uses shard participants and records transaction state through its WAL path.
+
+## Known Limitations
 
 - routing/placement behavior depends on the selected topology and router configuration.
 - transaction, repair, rebalance, and migration classes expose component-specific results and
@@ -100,7 +117,7 @@ Do not infer that a quorum loss automatically blocks every write path, a failed 
 automatically switches to another, or a migration automatically triggers repair. Those effects
 depend on the specific coordinator/router/operation path.
 
-## Build and test hints
+## Quickstart (Build/Run)
 
 The `linux-release` preset defaults both tests and benchmarks off. To opt in for a focused local
 build, configure with:
@@ -121,6 +138,11 @@ Benchmarks are in `../../benchmarks/sharding/`. See `PERFORMANCE_EXPECTATIONS.md
 benchmark-to-source mapping and the boundary of the historical baseline.
 
 ---
+
+## Verweise
+
+- [Architecture](ARCHITECTURE.md) · [API notes](API.md) · [module roadmap](ROADMAP.md)
+- [2PC contract tests](../../tests/test_two_phase_commit.cpp)
 
 ## Source map checked for this document (2026-10-31)
 

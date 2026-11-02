@@ -32,6 +32,7 @@
 #include "sharding/shard_rpc_server.h"
 #include <chrono>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <nlohmann/json.hpp>
@@ -61,14 +62,18 @@ public:
     {}
 
     /**
-     * @brief Construct an adapter with a response handler for explicit inproc endpoints.
+     * @brief Construct an adapter with a response handler for explicit
+     *        in-process endpoints.
      * @param config ShardRPCClient configuration.
-     * @param handler Test/custom response handler; used only for inproc:// or loopback://.
+     * @param handler Custom response handler for inproc:// or loopback://
+     *        endpoints.
+     * @throws std::invalid_argument if the endpoint uses neither in-process
+     *         scheme.
      */
     ShardRPCClientAdapter(
         const ShardRPCClient::Config& config,
         ShardRPCClient::InProcessResponseHandler handler)
-        : client_(config) {
+        : client_(requireInProcessEndpoint(config)) {
         client_.setInProcessResponseHandler(std::move(handler));
     }
 
@@ -155,6 +160,16 @@ public:
     }
 
 private:
+    static const ShardRPCClient::Config& requireInProcessEndpoint(
+        const ShardRPCClient::Config& config) {
+        if (config.endpoint.rfind("inproc://", 0) != 0 &&
+            config.endpoint.rfind("loopback://", 0) != 0) {
+            throw std::invalid_argument(
+                "In-process response handlers require an inproc:// or loopback:// endpoint");
+        }
+        return config;
+    }
+
     ShardRPCClient client_;
 };
 
