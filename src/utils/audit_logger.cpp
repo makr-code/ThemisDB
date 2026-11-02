@@ -431,7 +431,7 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
                         // Log PKI failure with error context (Phase 2.3)
                         ErrorContext pki_err(
                             themis::utils::ErrorCode::AUDIT_SIGNATURE_FAILED,
-                            fmt::format("PKI signing failed: {}", e.what()),
+                            "PKI signing failed while preparing encrypted audit payload",
                             "AuditLogger::logEvent[encryption]"
                         );
                         pki_err.severity = ErrorSeverity::Warning;

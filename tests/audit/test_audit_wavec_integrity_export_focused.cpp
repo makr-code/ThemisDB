@@ -17,7 +17,10 @@
 
 #include <gtest/gtest.h>
 
+#include "security/encryption.h"
+#include "security/mock_key_provider.h"
 #include "utils/audit_logger.h"
+#include "utils/pki_client.h"
 
 #include <atomic>
 #include <chrono>
@@ -244,6 +247,39 @@ TEST_F(AuditWaveCProductionTest, ErrorContextRedactsFilesystemPaths) {
 
     EXPECT_NE(error_output.str().find("AUDIT_ERROR_CONTEXT_FAILED"), std::string::npos);
     EXPECT_EQ(error_output.str().find(blocking_file.string()), std::string::npos);
+}
+
+TEST_F(AuditWaveCProductionTest, EncryptedPkiDiagnosticRedactsExceptionPaths) {
+    auto key_provider = std::make_shared<themis::MockKeyProvider>();
+    key_provider->createKey("audit", 1);
+    auto encryption = std::make_shared<themis::FieldEncryption>(key_provider);
+
+    themis::utils::PKIConfig pki_config;
+    pki_config.service_id = "audit-redaction-test";
+    auto pki = std::make_shared<VCCPKIClient>(pki_config);
+
+    const auto private_path = (tmp_dir_ / "private" / "signing-key.pem").string();
+    VCCPKIClient::setSignHashFn([private_path](const std::vector<uint8_t>&) -> SignatureResult {
+        throw std::runtime_error("Unable to read signing key: " + private_path);
+    });
+    struct ResetSignHashCallback {
+        ~ResetSignHashCallback() { VCCPKIClient::setSignHashFn({}); }
+    } reset_callback;
+
+    auto config = makeConfig(log_path_, chain_state_path_);
+    config.encrypt_then_sign = true;
+    config.key_id = "audit";
+    AuditLogger logger(encryption, pki, std::move(config));
+    logger.logEvent(makeEvent("AUDIT_TEST", "tester", "resource", "read"));
+
+    std::ifstream log_file(log_path_);
+    ASSERT_TRUE(log_file.good());
+    const std::string contents((std::istreambuf_iterator<char>(log_file)),
+                               std::istreambuf_iterator<char>());
+    EXPECT_NE(contents.find("DIAGNOSTIC_ERROR"), std::string::npos);
+    EXPECT_EQ(contents.find(private_path), std::string::npos);
+    EXPECT_NE(contents.find("PKI signing failed while preparing encrypted audit payload"),
+              std::string::npos);
 }
 
 TEST_F(AuditWaveCProductionTest, TamperEvidenceChainRemainsIntactWithSingleWriter) {
