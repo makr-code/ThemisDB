@@ -62,7 +62,7 @@ jobs:
           for pattern in patterns:
               match = re.search(pattern, body, re.MULTILINE | re.IGNORECASE)
               if match:
-                  version = (match.group(1) or match.group(2) or "").strip()
+                  version = (match.group(1) or match.group(2) or "").strip().strip("`").strip()
                   if version:
                       break
 
@@ -81,9 +81,9 @@ jobs:
 
       - name: Validate Target Version format
         id: validate_format
+        env:
+          VERSION: ${{ steps.extract_version.outputs.target_version }}
         run: |
-          VERSION="${{ steps.extract_version.outputs.target_version }}"
-          
           # Valid formats:
           # - SemVer milestones: v2.4.0, v2.5.0-alpha1, v2.5.0-rc1
           # - Wave milestones: Q4 2026, Q1 2027
@@ -100,10 +100,10 @@ jobs:
 
       - name: Check if milestone exists (informational)
         id: check_milestone
+        env:
+          VERSION: ${{ steps.extract_version.outputs.target_version }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          VERSION="${{ steps.extract_version.outputs.target_version }}"
-          PR_NUMBER="${{ github.event.pull_request.number }}"
-          
           echo "ℹ️  Target Version: $VERSION"
           echo "ℹ️  PR #$PR_NUMBER"
           echo ""
@@ -111,9 +111,11 @@ jobs:
           echo "See docs/governance/PR_VERSION_TARGETING.md for more details."
 
       - name: Summary
+        env:
+          VERSION: ${{ steps.extract_version.outputs.target_version }}
         run: |
           echo "✓ PR version targeting validation passed"
-          echo "  Target Version: ${{ steps.extract_version.outputs.target_version }}"
+          echo "  Target Version: $VERSION"
           echo ""
           echo "Next steps for reviewers:"
           echo "  1. Verify the Target Version is correct for this PR's scope"

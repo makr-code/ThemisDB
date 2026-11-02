@@ -30,6 +30,12 @@ foreach(_src IN LISTS API_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(_stem STREQUAL "test_api_key_authenticator")
+        target_link_libraries(${_target} PRIVATE
+            OpenSSL::SSL
+            OpenSSL::Crypto
+        )
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     if(_stem STREQUAL "test_api_contracts" OR

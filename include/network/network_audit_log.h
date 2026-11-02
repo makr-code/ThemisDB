@@ -130,7 +130,18 @@ public:
     // Construction
     // -----------------------------------------------------------------------
 
-    explicit NetworkAuditLog(const Config& config = Config{});
+    /**
+     * @brief Construct an audit log with the default configuration.
+     */
+    NetworkAuditLog();
+
+    /**
+     * @brief Construct an audit log with a caller-provided configuration.
+     *
+     * @param config Configuration; max_entries must be at least one.
+     * @throws std::invalid_argument if max_entries is zero.
+     */
+    explicit NetworkAuditLog(const Config& config);
     ~NetworkAuditLog() = default;
 
     NetworkAuditLog(const NetworkAuditLog&)            = delete;

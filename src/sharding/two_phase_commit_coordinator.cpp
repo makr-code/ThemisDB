@@ -14,8 +14,8 @@
 //
 // Two-Phase Commit (2PC) Coordinator – cross-shard transaction driver
 //
-// CC-5: ThemisDB provides three transaction coordinator classes that share the
-// IRecoverableTwoPhaseCoordinator recovery contract and coordinator-specific APIs.
+// The coordinator shares phase ordering and decision outcomes with
+// CrossShardTransactionCoordinator through detail/two_phase_commit_contract.h.
 // WALLoggingHelper (include/sharding/wal_logging_helper.h) centralizes the
 // WAL-write pattern for WALManager-backed coordinators only; WAL formats remain
 // coordinator-specific and cross-coordinator recovery is not available.
@@ -23,6 +23,7 @@
 // → Architecture reference: docs/architecture/transaction_coordinators.md
 
 #include "sharding/two_phase_commit_coordinator.h"
+#include "sharding/detail/two_phase_commit_contract.h"
 #include "sharding/shard_rpc_client_adapter.h"
 #include "sharding/metrics_registry.h"
 #include "sharding/prometheus_metrics.h"
@@ -176,9 +177,11 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
             auto& existing = transactions_.at(transaction_id);
             if (existing.state == CoordinatorTxnState::COMPLETED) {
                 THEMIS_DEBUG("2PC coordinator [{}] duplicate commit for completed txn {} – "
-                             "returning idempotent COMMITTED",
+                             "returning its recorded decision",
                              coordinator_id_, transaction_id);
-                outcome.result = CoordinatorTxnResult::COMMITTED;
+                outcome.result = existing.decision_commit
+                    ? CoordinatorTxnResult::COMMITTED
+                    : CoordinatorTxnResult::ABORTED;
                 return outcome;
             }
             outcome.result = CoordinatorTxnResult::ERROR;
@@ -207,7 +210,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
     }
 
     // Persist BEGIN_TX
-    logToWAL(WALEntryType::BEGIN_TX, transaction_id, {
+    if (!logToWAL(WALEntryType::BEGIN_TX, transaction_id, {
         {"transaction_id", transaction_id},
         {"coordinator_id", coordinator_id_},
         {"shards",         [&]() {
@@ -218,72 +221,109 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
             }
             return v;
         }()}
-    });
+    })) {
+        std::lock_guard<std::timed_mutex> lock(mutex_);
+        transactions_.at(transaction_id).state = CoordinatorTxnState::FAILED;
+        outcome.result = CoordinatorTxnResult::ERROR;
+        outcome.reason = "could not persist transaction begin record";
+        total_errors_.fetch_add(1, std::memory_order_relaxed);
+        return outcome;
+    }
 
     total_transactions_.fetch_add(1, std::memory_order_relaxed);
 
-    // ── Phase 1: PREPARE ───────────────────────────────────────────────────
+    // Both sharding coordinator APIs use this shared phase-ordering and
+    // decision/failure contract. Participant transport and WAL encoding remain
+    // coordinator-specific.
     const auto t1 = std::chrono::steady_clock::now();
     bool all_prepared = false;
-    {
-        /**
-         * @brief 2PC-1: use unique_lock so runPhase1 can release it around each RPC.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
-        std::unique_lock<std::timed_mutex> lock(mutex_);
-        auto& stored = transactions_.at(transaction_id);
-        stored.state = CoordinatorTxnState::PREPARING;
-        all_prepared = runPhase1(stored, lock);
-        // lock is re-held here after runPhase1 returns
-        stored.state = all_prepared
-            ? CoordinatorTxnState::COMMIT_DECIDED
-            : CoordinatorTxnState::ABORT_DECIDED;
-    }
+    bool decision_recorded = false;
+    auto prepare_finished = t1;
+    auto phase2_started = t1;
+    const auto execution = detail::executeTwoPhaseCommit(
+        [this, &transaction_id, &all_prepared, &prepare_finished]() {
+            std::unique_lock<std::timed_mutex> lock(mutex_);
+            auto& stored = transactions_.at(transaction_id);
+            stored.state = CoordinatorTxnState::PREPARING;
+            all_prepared = runPhase1(stored, lock);
+            stored.state = all_prepared
+                ? CoordinatorTxnState::COMMIT_DECIDED
+                : CoordinatorTxnState::ABORT_DECIDED;
+            stored.decision_commit = all_prepared;
+            prepare_finished = std::chrono::steady_clock::now();
+            return all_prepared;
+        },
+        [this, &transaction_id, &phase2_started, &decision_recorded](bool do_commit) {
+            const bool persisted = logToWAL(
+                do_commit ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
+                transaction_id,
+                {
+                    {"transaction_id", transaction_id},
+                    {"coordinator_id", coordinator_id_},
+                    {"phase", "decision"},
+                    {"decision", do_commit ? "commit" : "abort"}
+                });
+            phase2_started = std::chrono::steady_clock::now();
+            if (!persisted) {
+                THEMIS_ERROR("2PC coordinator [{}] could not persist decision for txn {}",
+                            coordinator_id_, transaction_id);
+            }
+            decision_recorded = persisted;
+            return persisted;
+        },
+        [this, &transaction_id](bool do_commit) {
+            std::unique_lock<std::timed_mutex> lock(mutex_);
+            auto& stored = transactions_.at(transaction_id);
+            const bool acknowledged = runPhase2(stored, do_commit, lock);
+            if (acknowledged) {
+                stored.state = CoordinatorTxnState::COMPLETED;
+            }
+            return acknowledged;
+        });
 
     const double prepare_ms = std::chrono::duration<double, std::milli>(
-        std::chrono::steady_clock::now() - t1).count();
-
+        prepare_finished - t1).count();
+    const double phase2_ms = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - phase2_started).count();
     if (auto m = ShardingMetricsRegistry::instance().getMetrics()) {
         m->record2PCPreparePhase(coordinator_id_, prepare_ms, all_prepared);
     }
 
-    // Persist the Phase 2 decision
-    // 2PC-3: Tag this entry with phase="decision" so recovery can distinguish
-    // it from the completion entry written after Phase 2 finishes.
-    logToWAL(all_prepared ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
-             transaction_id,
-             {
-                {"transaction_id", transaction_id},
-                {"coordinator_id", coordinator_id_},
-                {"phase",          "decision"},
-                {"decision",       all_prepared ? "commit" : "abort"}
-             });
-
-    // ── Phase 2: COMMIT or ABORT ──────────────────────────────────────────
-    const auto t2 = std::chrono::steady_clock::now();
-    {
-        /**
-         * @brief 2PC-1: use unique_lock so runPhase2 can release it around each RPC.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
-        std::unique_lock<std::timed_mutex> lock(mutex_);
-        auto& stored = transactions_.at(transaction_id);
-        runPhase2(stored, all_prepared, lock);
-        // lock is re-held here after runPhase2 returns
-        stored.state = CoordinatorTxnState::COMPLETED;
+    if (execution == detail::TwoPhaseCommitExecutionResult::ERROR) {
+        std::lock_guard<std::timed_mutex> lock(mutex_);
+        auto it = transactions_.find(transaction_id);
+        if (it != transactions_.end() && it->second.state != CoordinatorTxnState::COMPLETED) {
+            // A successful decision-record callback with incomplete phase two
+            // remains in-doubt so getRecoverableTransactions() exposes the
+            // selected decision. Crash durability depends on WAL configuration.
+            it->second.state = decision_recorded
+                ? (all_prepared
+                    ? CoordinatorTxnState::COMMIT_DECIDED
+                    : CoordinatorTxnState::ABORT_DECIDED)
+                : CoordinatorTxnState::FAILED;
+        }
+        outcome.result = CoordinatorTxnResult::ERROR;
+        outcome.reason = "2PC decision persistence or phase-two acknowledgement failed";
+        total_errors_.fetch_add(1, std::memory_order_relaxed);
+        return outcome;
     }
 
-    const double phase2_ms = std::chrono::duration<double, std::milli>(
-        std::chrono::steady_clock::now() - t2).count();
-
-    logToWAL(all_prepared ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
-             transaction_id, {
-                 {"transaction_id", transaction_id},
-                 {"coordinator_id", coordinator_id_},
-                 {"phase",          "complete"}
-             });
+    if (!logToWAL(all_prepared ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
+                 transaction_id, {
+                     {"transaction_id", transaction_id},
+                     {"coordinator_id", coordinator_id_},
+                     {"phase", "complete"}
+                 })) {
+        std::lock_guard<std::timed_mutex> lock(mutex_);
+        auto it = transactions_.find(transaction_id);
+        if (it != transactions_.end()) {
+            it->second.state = CoordinatorTxnState::FAILED;
+        }
+        outcome.result = CoordinatorTxnResult::ERROR;
+        outcome.reason = "could not persist 2PC completion record";
+        total_errors_.fetch_add(1, std::memory_order_relaxed);
+        return outcome;
+    }
 
     if (all_prepared) {
         total_commits_.fetch_add(1, std::memory_order_relaxed);
@@ -341,6 +381,7 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
             rec.transaction_id     = txn_id;
             rec.started_at         = std::chrono::steady_clock::now();
             rec.participant_shards = replay_txn.participants;
+            rec.decision_commit = replay_txn.has_decision && replay_txn.decision_commit;
 
             if (replay_txn.completed) {
                 rec.state = CoordinatorTxnState::COMPLETED;
@@ -366,6 +407,7 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
 
             const bool has_decision = rec.state == CoordinatorTxnState::COMMIT_DECIDED ||
                                       rec.state == CoordinatorTxnState::ABORT_DECIDED;
+            bool do_commit = rec.state == CoordinatorTxnState::COMMIT_DECIDED;
             if (!has_decision) {
                 // No decision logged → abort conservatively and broadcast ABORT
                 // to release participants from PREPARED state (2PC-2 fix).
@@ -373,40 +415,69 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
                             "– aborting conservatively and broadcasting ABORT",
                             coordinator_id_, txn_id);
                 rec.state = CoordinatorTxnState::ABORT_DECIDED;
-                runPhase2(rec, false, lock);
-                // lock is re-held here after runPhase2 returns
-                rec.state = CoordinatorTxnState::COMPLETED;
-                transactions_[txn_id] = rec;
-                logToWAL(WALEntryType::ABORT_TX, txn_id, {
-                    {"transaction_id", txn_id},
-                    {"coordinator_id", coordinator_id_},
-                    {"phase",          "complete"},
-                    {"recovery",       true},
-                    {"reason",         "no_decision_conservative_abort"}
-                });
-                ++resolved;
-                continue;
+                do_commit = false;
+                const bool abort_decision_recorded = logToWAL(
+                    WALEntryType::ABORT_TX, txn_id, {
+                        {"transaction_id", txn_id},
+                        {"coordinator_id", coordinator_id_},
+                        {"phase", "decision"},
+                        {"decision", "abort"},
+                        {"recovery", true},
+                        {"reason", "no_decision_conservative_abort"}
+                    });
+                if (!abort_decision_recorded) {
+                    rec.state = CoordinatorTxnState::FAILED;
+                    transactions_[txn_id] = rec;
+                    THEMIS_ERROR("2PC coordinator [{}] could not persist conservative ABORT "
+                                 "decision for txn {}; phase two was not sent",
+                                 coordinator_id_, txn_id);
+                    continue;
+                }
+            } else {
+                THEMIS_WARN("2PC coordinator [{}] re-driving in-doubt txn {} with decision {}",
+                            coordinator_id_, txn_id, do_commit ? "COMMIT" : "ABORT");
             }
 
-            const bool do_commit = rec.state == CoordinatorTxnState::COMMIT_DECIDED;
+            const bool all_acknowledged = runPhase2(rec, do_commit, lock);
+            nlohmann::json completion_data = {
+                {"transaction_id", txn_id},
+                {"coordinator_id", coordinator_id_},
+                {"phase", "complete"},
+                {"recovery", true}
+            };
+            if (!has_decision) {
+                completion_data["reason"] = "no_decision_conservative_abort";
+            }
+            const bool completion_recorded = all_acknowledged &&
+                logToWAL(do_commit ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
+                         txn_id, completion_data);
 
-            THEMIS_WARN("2PC coordinator [{}] re-driving in-doubt txn {} with decision {}",
-                        coordinator_id_, txn_id, do_commit ? "COMMIT" : "ABORT");
+            rec.state = completion_recorded
+                ? CoordinatorTxnState::COMPLETED
+                : (do_commit
+                    ? CoordinatorTxnState::COMMIT_DECIDED
+                    : CoordinatorTxnState::ABORT_DECIDED);
 
-            runPhase2(rec, do_commit, lock);
-            // lock is re-held here after runPhase2 returns
-            rec.state = CoordinatorTxnState::COMPLETED;
+            // runPhase2 may return without reacquiring the coordinator lock
+            // after a lock timeout. Do not mark the transaction completed;
+            // retain the in-memory recovery view only if the lock is available.
+            if (!lock.owns_lock() && !lock.try_lock_for(config_.prepare_timeout)) {
+                THEMIS_ERROR("2PC coordinator [{}] could not reacquire its state lock "
+                             "after recovery RPCs for txn {}",
+                             coordinator_id_, txn_id);
+                break;
+            }
             transactions_[txn_id] = rec;
 
-            logToWAL(do_commit ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
-                     txn_id, {
-                         {"transaction_id", txn_id},
-                         {"coordinator_id", coordinator_id_},
-                         {"phase",          "complete"},
-                         {"recovery",       true}
-                     });
-
-            ++resolved;
+            if (completion_recorded) {
+                ++resolved;
+            } else {
+                THEMIS_WARN("2PC coordinator [{}] txn {} remains in-doubt after recovery "
+                            "(decision={}, acknowledgements={}, completion_recorded={})",
+                            coordinator_id_, txn_id,
+                            do_commit ? "COMMIT" : "ABORT",
+                            all_acknowledged, completion_recorded);
+            }
         }
 
     } catch (const std::exception& e) {
@@ -595,7 +666,7 @@ bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec,
  * @param[in,out] lock Input/output parameter.
  * @details Calls: empty(), reserve(), size(), push_back(), find(), end(), THEMIS_WARN(), unlock().
  */
-void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_commit,
+bool TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_commit,
                                           std::unique_lock<std::timed_mutex>& lock) {
     // 2PC-1: same pattern as runPhase1 — release lock around each blocking RPC.
     const auto shard_ids =
@@ -611,12 +682,14 @@ void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
               }()
             : rec.participant_shards;
 
+    bool all_acknowledged = true;
     for (const auto& shard_id : shard_ids) {
         auto pit = participants_.find(shard_id);  // safe: lock held
         if (pit == participants_.end()) {
             THEMIS_WARN("2PC coordinator [{}] Phase 2 – participant {} not found for txn {} "
                         "(shard may have been deregistered)",
                         coordinator_id_, shard_id, rec.transaction_id);
+            all_acknowledged = false;
             continue;
         }
 
@@ -624,31 +697,41 @@ void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
 
             lock.unlock();  // release mutex_ before blocking RPC
         try {
+            bool acknowledged = false;
             if (do_commit) {
-                participant->onCommit(rec.transaction_id);
+                acknowledged = participant->onCommit(rec.transaction_id);
             } else {
-                participant->onAbort(rec.transaction_id);
+                acknowledged = participant->onAbort(rec.transaction_id);
             }
             if (!lock.try_lock_for(config_.prepare_timeout)) {
                 THEMIS_ERROR("2PC coordinator [{}] Phase 2 – timed out re-acquiring mutex for txn {} after {}; continuing",
                              coordinator_id_, rec.transaction_id,
                              do_commit ? "COMMIT" : "ABORT");
-                continue;
+                return false;
             }
-            rec.phase2_acked.push_back(shard_id);
+            if (acknowledged) {
+                rec.phase2_acked.push_back(shard_id);
+            } else {
+                all_acknowledged = false;
+                THEMIS_ERROR("2PC coordinator [{}] Phase 2 – shard {} rejected {} for txn {}",
+                             coordinator_id_, shard_id,
+                             do_commit ? "COMMIT" : "ABORT", rec.transaction_id);
+            }
         } catch (const std::exception& e) {
             if (!lock.try_lock_for(config_.prepare_timeout)) {
                 THEMIS_ERROR("2PC coordinator [{}] Phase 2 – timed out re-acquiring mutex for txn {} on error path",
                              coordinator_id_, rec.transaction_id);
-                continue;
+                return false;
             }
             // Log and continue – idempotency allows retrying later
             THEMIS_ERROR("2PC coordinator [{}] Phase 2 – shard {} threw on {} for txn {}: {}",
                          coordinator_id_, shard_id,
                          do_commit ? "COMMIT" : "ABORT",
                          rec.transaction_id, e.what());
+            all_acknowledged = false;
         }
     }
+    return all_acknowledged;
 }
 
 /**
@@ -664,22 +747,26 @@ std::string TwoPhaseCommitCoordinator::buildPayload(const nlohmann::json& ops) {
 }
 
 /**
- * @brief Log To WAL.
- * @param[in] type Input parameter.
- * @param[in] txn_id Identifier of the txn.
- * @param[in] data Input parameter.
- * @details Calls: WALLoggingHelper::appendEntry(), get().
+ * @brief Persist one coordinator WAL entry and report whether it was written.
+ * @param[in] type WAL entry kind.
+ * @param[in] txn_id Transaction identifier associated with the entry.
+ * @param[in] data Additional WAL payload.
+ * @return True when WAL is disabled or the entry was appended and flushed;
+ *         false when the configured WAL write fails.
  */
-void TwoPhaseCommitCoordinator::logToWAL(
+bool TwoPhaseCommitCoordinator::logToWAL(
     WALEntryType          type,
     const std::string&    txn_id,
     const nlohmann::json& data
 ) {
-    WALLoggingHelper::appendEntry(
+    if (!wal_) {
+        return true;
+    }
+    return WALLoggingHelper::appendEntryWithResult(
         wal_.get(), type, txn_id, data,
         config_.sync_wal_writes,
         "coordinator", coordinator_id_
-    );
+    ).has_value();
 }
 
 } // namespace themis::sharding
