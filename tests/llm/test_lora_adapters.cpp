@@ -751,24 +751,35 @@ TEST_F(LoRAAdapterTest, Performance_LoadingLatency) {
 }
 
 /**
- * Test adapter switching performance
+ * Test manager switching statistics
  * Acceptance Criteria:
- * - Switching is fast (< 50ms)
- * - No significant overhead
- * - Consistent performance
+ * - Successful adapter applications increment the switching counter
+ * - Failed application callbacks do not increment the switching counter
  */
-TEST_F(LoRAAdapterTest, Performance_SwitchingLatency) {
 #ifdef THEMIS_ENABLE_LLM
-    test::LatencyMeasurement timer;
-    
-    // Would measure switching time
-    // Verify it's < 50ms
-    
-    GTEST_SKIP() << "Requires actual LoRA manager implementation";
-#else
-    GTEST_SKIP() << "LLM support not enabled";
-#endif
+TEST_F(LoRAAdapterTest, Switching_StatisticsTrackSuccessfulApplications) {
+    auto manager = createManager();
+    const auto adapter1_path = createMockAdapter("stats_adapter1");
+    const auto adapter2_path = createMockAdapter("stats_adapter2");
+    ASSERT_TRUE(manager->loadLoRA(
+        "stats_adapter1", adapter1_path, "base_model", 1.0f));
+    ASSERT_TRUE(manager->loadLoRA(
+        "stats_adapter2", adapter2_path, "base_model", 1.0f));
+
+    manager->setApplyAdapterFn([](const LoRASlot&) { return true; });
+    manager->setRemoveAdapterFn([](const LoRASlot&) { return true; });
+    const auto initial_switches = manager->getStatistics().switches;
+
+    ASSERT_TRUE(manager->applyLoRA("stats_adapter1", nullptr));
+    ASSERT_TRUE(manager->removeLoRA("stats_adapter1", nullptr));
+    ASSERT_TRUE(manager->applyLoRA("stats_adapter2", nullptr));
+    EXPECT_EQ(manager->getStatistics().switches, initial_switches + 2);
+
+    manager->setApplyAdapterFn([](const LoRASlot&) { return false; });
+    EXPECT_FALSE(manager->applyLoRA("stats_adapter2", nullptr));
+    EXPECT_EQ(manager->getStatistics().switches, initial_switches + 2);
 }
+#endif
 
 /**
  * Test manager-reported adapter VRAM accounting
