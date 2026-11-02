@@ -74,8 +74,9 @@ Out of scope:
   `ConsensusConfig::enable_persistence` and `data_dir`; acknowledged log and hard-state mutations
   are synced before in-memory state advances, and a second process cannot own the same journal.
 - This local Raft journal does not replicate DR metadata. Snapshot payload power-loss durability and
-  multi-process failover/recovery evidence remain unverified; do not infer M2 readiness from journal
-  recovery alone.
+  multi-process failover/recovery evidence remain unverified; snapshot files are synced before
+  compaction metadata is recorded, but filesystem and power-loss guarantees are uncertified. Do not
+  infer M2 readiness from journal recovery alone.
 
 ## Concurrency and failure behavior
 

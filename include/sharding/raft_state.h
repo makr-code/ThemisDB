@@ -60,7 +60,8 @@ enum class RaftNodeState {
 struct RaftConfig {
     std::string node_id;                        ///< Local node identifier.
     std::vector<std::string> cluster_members;   ///< Current cluster member IDs.
-    std::string persistence_path;                ///< Journal file path; empty selects volatile/test mode.
+    std::string persistence_path;                ///< Optional journal file path; empty selects volatile mode.
+                                                    ///< A configured corrupt or unavailable journal rejects initialization.
     uint32_t election_timeout_min_ms = 150;     ///< Lower bound for randomized election timeout.
     uint32_t election_timeout_max_ms = 300;     ///< Upper bound for randomized election timeout.
     uint32_t heartbeat_interval_ms = 50;        ///< Leader heartbeat interval.

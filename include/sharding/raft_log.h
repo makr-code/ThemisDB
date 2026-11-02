@@ -141,6 +141,7 @@ public:
      * All entries from index onward are deleted.
      * 
      * @param index The index from which to truncate (inclusive)
+     * @throws std::runtime_error In persistent mode for an invalid boundary, committed data, or journal sync failure.
      */
     void truncateFrom(uint64_t index);
     
@@ -151,6 +152,7 @@ public:
      * Committed entries are safe to apply to the state machine.
      * 
      * @param index The new commit index
+     * @throws std::runtime_error In persistent mode if the index is invalid, times out, or cannot be synced.
      */
     void setCommitIndex(uint64_t index);
     
@@ -209,9 +211,9 @@ public:
     void persistHardState(uint64_t term, const std::string& voted_for);
 
     /**
-     * @brief Clear the entire log (for testing)
-        *
-        * Resets commit index and snapshot anchor metadata to zero.
+     * @brief Clear an in-memory log for tests.
+     * @note Persistent journals reject this operation because clearing only memory would diverge from restart state.
+     * @throws std::runtime_error When persistence is configured.
      */
     void clear();
 
@@ -225,6 +227,7 @@ public:
      *
      * @param snapshot_index  Highest index covered by the snapshot
      * @param snapshot_term   Term of the entry at snapshot_index
+     * @throws std::runtime_error In persistent mode if the boundary is invalid or cannot be synced.
      */
     void compactUpTo(uint64_t snapshot_index, uint64_t snapshot_term);
 
@@ -236,6 +239,7 @@ public:
      *
      * @param index Snapshot index
      * @param term  Snapshot term
+     * @throws std::runtime_error In persistent mode if the boundary does not match committed log data or cannot be synced.
      */
     void setSnapshotMeta(uint64_t index, uint64_t term);
 
@@ -254,6 +258,7 @@ public:
 private:
     void appendDurableRecord(const std::string& payload);
     void replayJournal();
+    void compactJournal();
     void acquirePersistenceLock();
     void releasePersistenceLock() noexcept;
 
@@ -266,6 +271,7 @@ private:
     bool persistence_healthy_{true};
     uint64_t persisted_term_{0};
     std::string persisted_vote_;
+    bool persisted_hard_state_present_{false};
     int persistence_lock_fd_{-1};
     void* persistence_lock_handle_{nullptr};
 };

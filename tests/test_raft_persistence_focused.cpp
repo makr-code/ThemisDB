@@ -1,4 +1,4 @@
-#include "sharding/raft_state.h"
+#include "sharding/raft_consensus.h"
 #include <gtest/gtest.h>
 #include <chrono>
 #include <filesystem>
@@ -72,6 +72,28 @@ TEST_F(RaftPersistenceTest, HardStateRecoversBeforeVoteDecisions) {
     EXPECT_EQ(recovered.getVotedFor(), "node1");
 }
 
+TEST_F(RaftPersistenceTest, SuccessfulSingleNodeProposalRecoversCommittedAfterRestart) {
+    RaftConsensus::Config config;
+    config.raft_config.node_id = "node1";
+    config.raft_config.cluster_members = {"node1"};
+    config.raft_config.persistence_path = journal_path_.string();
+
+    {
+        RaftConsensus consensus(config);
+        auto& state = consensus.getRaftState();
+        state.becomeCandidate();
+        state.becomeLeader();
+        EXPECT_TRUE(consensus.propose("durable-operation").get());
+    }
+
+    RaftConsensus recovered(config);
+    EXPECT_EQ(recovered.getCurrentTerm(), 1u);
+    EXPECT_EQ(recovered.getRaftState().getLog().getCommitIndex(), 1u);
+    const auto entry = recovered.getRaftState().getLog().getEntry(1);
+    ASSERT_TRUE(entry.has_value());
+    EXPECT_EQ(entry->command, "durable-operation");
+}
+
 TEST_F(RaftPersistenceTest, SnapshotCompactionRecoversAnchorAndCommitIndex) {
     {
         RaftLog log(journal_path_.string());
@@ -89,6 +111,51 @@ TEST_F(RaftPersistenceTest, SnapshotCompactionRecoversAnchorAndCommitIndex) {
     EXPECT_TRUE(recovered.hasEntry(2, 1));
     EXPECT_FALSE(recovered.getEntry(1).has_value());
     EXPECT_TRUE(recovered.getEntry(3).has_value());
+}
+
+TEST_F(RaftPersistenceTest, SnapshotPayloadAndCompactedJournalRecoverTogether) {
+    RaftSnapshotManager::Config snapshot_config;
+    snapshot_config.snapshot_directory = (directory_ / "snapshots").string();
+    const std::vector<uint8_t> snapshot_payload{'s', 't', 'a', 't', 'e'};
+    {
+        RaftLog log(journal_path_.string());
+        log.append(LogEntry{1, 1, "entry-1", 1});
+        log.append(LogEntry{1, 2, std::string(4096, 'x'), 2});
+        log.setCommitIndex(2);
+        RaftSnapshotManager snapshots(snapshot_config);
+        ASSERT_TRUE(snapshots.createAndInstall(log, 1, 1, snapshot_payload));
+    }
+
+    RaftLog recovered(journal_path_.string());
+    EXPECT_EQ(recovered.getSnapshotIndex(), 1u);
+    EXPECT_EQ(recovered.getCommitIndex(), 2u);
+    EXPECT_FALSE(recovered.getEntry(1).has_value());
+    ASSERT_TRUE(recovered.getEntry(2).has_value());
+    EXPECT_EQ(recovered.getEntry(2)->command.size(), 4096u);
+
+    RaftSnapshotManager recovered_snapshots(snapshot_config);
+    const auto snapshot = recovered_snapshots.loadLatestSnapshot();
+    ASSERT_TRUE(snapshot.has_value());
+    EXPECT_EQ(snapshot->snapshot_index, 1u);
+    EXPECT_EQ(snapshot->uncompressed_size, snapshot_payload.size());
+    EXPECT_EQ(snapshot->checksum,
+              RaftSnapshotManager::computeChecksum(snapshot_payload.data(),
+                                                  snapshot_payload.size()));
+}
+
+TEST_F(RaftPersistenceTest, SnapshotMetadataDoesNotCompactUntilCompactionIsRequested) {
+    {
+        RaftLog log(journal_path_.string());
+        log.append(LogEntry{1, 1, "entry-1", 1});
+        log.append(LogEntry{1, 2, "entry-2", 2});
+        log.setCommitIndex(2);
+        log.setSnapshotMeta(1, 1);
+        ASSERT_TRUE(log.getEntry(1).has_value());
+    }
+
+    RaftLog recovered(journal_path_.string());
+    EXPECT_EQ(recovered.getSnapshotIndex(), 1u);
+    EXPECT_TRUE(recovered.getEntry(1).has_value());
 }
 
 TEST_F(RaftPersistenceTest, TruncationRecoversWithoutDiscardingCommittedEntries) {
@@ -118,6 +185,15 @@ TEST_F(RaftPersistenceTest, CorruptJournalFailsClosed) {
     {
         std::ofstream corrupt(journal_path_, std::ios::binary);
         corrupt << "E|1|1|0|636d64|0000\n";
+    }
+
+    EXPECT_THROW(RaftLog(journal_path_.string()), std::runtime_error);
+}
+
+TEST_F(RaftPersistenceTest, IncompleteFinalRecordFailsClosed) {
+    {
+        std::ofstream incomplete(journal_path_, std::ios::binary);
+        incomplete << "E|1|1|0|636d64";
     }
 
     EXPECT_THROW(RaftLog(journal_path_.string()), std::runtime_error);

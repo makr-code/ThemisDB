@@ -80,10 +80,11 @@ Related_Milestone: DOC-WEEKLY-2026-W45
 > exclusive process lock. `ConsensusConfig` wires its persistence directory to
 > this local journal; disabled persistence remains volatile. This source change
 > has not passed a build or focused test because CMake configuration is blocked
-> by the unavailable required `fmt` dependency. Snapshot payload persistence is
-> still a separate path and its power-loss durability is not established. A
-> local journal is not replicated consensus-backed DR metadata and does not
-> close the multi-process failover/recovery E2E blocker.
+> by the unavailable required `fmt` dependency. Snapshot payload files are synced
+> before their journal compaction boundary is recorded, but filesystem and
+> power-loss guarantees remain untested and uncertified. A local journal is not
+> replicated consensus-backed DR metadata and does not close the multi-process
+> failover/recovery E2E blocker.
 
 > The root aggregate [`../../ROADMAP.md`](../../ROADMAP.md) currently reports Wave A at
 > approximately 70%, with sharding materially advanced but transaction/GPU blockers and other
