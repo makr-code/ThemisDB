@@ -212,21 +212,27 @@ TEST_F(LoRAAdapterTest, Unloading_UnloadAll) {
 }
 
 /**
- * Test memory cleanup after unload
+ * Test manager-reported memory accounting after unload
  * Acceptance Criteria:
- * - Memory is freed when adapter unloaded
- * - Memory usage returns to baseline
- * - No leaks detected
+ * - Loading an adapter increases manager-reported VRAM usage
+ * - Unloading restores manager-reported usage to baseline
  */
-TEST_F(LoRAAdapterTest, Unloading_MemoryCleanup) {
-    test::MemoryUsageTracker memory;
-    double baseline = memory.getCurrentMemoryUsageMB();
-    static_cast<void>(baseline);
-    
+TEST_F(LoRAAdapterTest, Unloading_MemoryAccountingCleanup) {
 #ifdef THEMIS_ENABLE_LLM
-    // Would load adapter, measure memory, unload, verify cleanup
-    
-    GTEST_SKIP() << "Requires actual LoRA manager implementation";
+    auto manager = createManager();
+    const auto baseline_mb =
+        manager->getMemoryStats().at("vram_used_mb").get<size_t>();
+    const auto adapter_path = createMockAdapter("memory_cleanup", 1024);
+
+    ASSERT_TRUE(manager->loadLoRA(
+        "memory_cleanup", adapter_path, "base_model", 1.0f));
+    const auto loaded_mb =
+        manager->getMemoryStats().at("vram_used_mb").get<size_t>();
+    EXPECT_GT(loaded_mb, baseline_mb);
+
+    ASSERT_TRUE(manager->unloadLoRA("memory_cleanup"));
+    EXPECT_EQ(manager->getMemoryStats().at("vram_used_mb").get<size_t>(),
+              baseline_mb);
 #else
     GTEST_SKIP() << "LLM support not enabled";
 #endif
