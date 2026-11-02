@@ -93,10 +93,11 @@ The focused transaction tests include a subprocess coordinator killed with
 coordinator records the vote, after PREPARE, after durable decision, during
 Phase 2, and after the commit ACK boundary. Recovery independently reads the
 persisted participant WAL and checks the final decision. The participant WAL is
-driven by an injected test transport for those coordinator scenarios. A second
-subprocess test now crashes a participant after its durable PREPARE vote,
-restarts it from WAL, and redelivers COMMIT. It does not yet cross the
-coordinator and participant crashes in one end-to-end run, cover replica-process
-crashes, or constitute a multi-node network-chaos run. The Wave B workflow
-uploads its output when executed; a successful CI run and artifact remain
-required release evidence.
+driven by an injected test transport for those coordinator scenarios. Additional
+subprocess tests crash/restart the participant across prepare/apply/ack boundaries,
+exercise replica-WAL recovery at prepare/decision/commit boundaries, and combine
+coordinator, participant, and replica crashes in one scenario. These tests are
+source coverage only until successfully built and executed; they do not prove
+network replication or production storage-engine application. The Wave B workflow
+uploads its output when executed; a successful CI run and artifact remain required
+release evidence.

@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Team
 **Created:** 2026-10-31
-**Last Updated:** 2026-11-01
+**Last Updated:** 2026-11-02
 **Status:** review
 **AI_Used:** true
 **AI_Models:** unknown
@@ -138,7 +138,7 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
   - Performance: Replay-Durchsatz-Regression ≤ 5 % gegenüber Baseline (Benchmark vorher messen und einchecken).
   - Kompatibilität: Breaking Change (siehe [Breaking Changes](#breaking-changes)); Storage-README korrigieren (WS9).
 - [ ] **P0 · STO-07 – Prozess-Crash-Harness** (Target: M1 · 2027-01-31)
-  - [~] 2026-11-02: A focused coordinator subprocess harness kills the child before Phase 1, between participant PREPARE and coordinator vote persistence, and at post-PREPARE/decision/Phase-2/ACK boundaries. A separate participant subprocess test kills the process after durable PREPARE and verifies restart recovery plus COMMIT redelivery. Test execution and CI artifact publication are pending; replica-process crashes, combined coordinator/participant failures, RocksDB, backup/restore, and randomized storage fault points remain open.
+  - [~] 2026-11-02: The registered subprocess harness now covers coordinator decision boundaries, participant crashes before PREPARE/after durable PREPARE/during apply/after ACK, replica-WAL crashes across prepare/decision/commit boundaries, and a combined coordinator/participant/replica restart scenario. Build/test execution and CI artifact publication are pending; these WAL-process tests do not establish network replication, RocksDB, backup/restore, or randomized storage-fault coverage.
   - Kindprozess schreibt bestätigte Commits; Elternprozess beendet ihn per `SIGKILL`/`TerminateProcess` an zufälligen
     Punkten (inkl. während `fsync`, Segment-Rotation, Checkpoint, Backup). Danach Neustart und Prüfung:
     jeder bestätigte Commit sichtbar, kein unbestätigter Commit sichtbar, Indizes konsistent.
