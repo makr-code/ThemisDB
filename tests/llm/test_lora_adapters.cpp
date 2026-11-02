@@ -467,18 +467,62 @@ TEST_F(LoRAAdapterTest, Concurrent_LoadUnload) {
 }
 
 /**
- * Test thread-safe adapter registry
+ * Test thread-safe adapter registry reads during concurrent lifecycle changes
  * Acceptance Criteria:
- * - Registry is thread-safe
- * - Consistent state under concurrent access
- * - No lost updates
+ * - Registry queries remain consistent while adapters are loaded and unloaded
+ * - Loaded adapter metadata remains visible to concurrent readers
  */
 TEST_F(LoRAAdapterTest, Concurrent_RegistryThreadSafety) {
 #ifdef THEMIS_ENABLE_LLM
-    // Would test concurrent registry access
-    // Multiple threads adding/removing/querying adapters
-    
-    GTEST_SKIP() << "Requires actual LoRA manager implementation";
+    constexpr size_t num_adapters = 5;
+    constexpr int lifecycle_iterations = 10;
+    std::vector<std::string> adapter_ids;
+    std::vector<std::string> adapter_paths;
+    adapter_ids.reserve(num_adapters);
+    adapter_paths.reserve(num_adapters);
+
+    for (size_t i = 0; i < num_adapters; ++i) {
+        adapter_ids.push_back("registry_" + std::to_string(i));
+        adapter_paths.push_back(createMockAdapter(adapter_ids.back()));
+    }
+
+    auto manager = createManager(num_adapters);
+    std::atomic<int> completed_lifecycles{0};
+    std::vector<std::thread> threads;
+    threads.reserve(num_adapters);
+
+    for (size_t i = 0; i < num_adapters; ++i) {
+        threads.emplace_back([&, i]() {
+            for (int iteration = 0; iteration < lifecycle_iterations; ++iteration) {
+                if (!manager->loadLoRA(adapter_ids[i], adapter_paths[i],
+                                       "base_model", 1.0f)) {
+                    continue;
+                }
+
+                const auto info = manager->getLoRAInfo(adapter_ids[i]);
+                const auto listed = manager->listLoRAs("base_model");
+                const bool registry_consistent =
+                    manager->isLoRALoaded(adapter_ids[i]) &&
+                    info.has_value() &&
+                    info->id == adapter_ids[i] &&
+                    info->is_loaded &&
+                    !listed.empty();
+                const bool unloaded = manager->unloadLoRA(adapter_ids[i]);
+
+                if (registry_consistent && unloaded) {
+                    ++completed_lifecycles;
+                }
+            }
+        });
+    }
+
+    for (auto& thread : threads) {
+        thread.join();
+    }
+
+    EXPECT_EQ(completed_lifecycles.load(),
+              static_cast<int>(num_adapters) * lifecycle_iterations);
+    EXPECT_TRUE(manager->listLoRAs().empty());
 #else
     GTEST_SKIP() << "LLM support not enabled";
 #endif
@@ -547,18 +591,34 @@ TEST_F(LoRAAdapterTest, StateConsistency_MetadataIntegrity) {
 }
 
 /**
- * Test adapter reference counting
+ * Test adapter usage tracking
  * Acceptance Criteria:
- * - Reference counting is accurate
- * - Adapters not unloaded while in use
- * - Proper cleanup when ref count reaches zero
+ * - Adapter application attempts increment the recorded usage count
+ * - A failed application bridge does not change the active state
  */
-TEST_F(LoRAAdapterTest, StateConsistency_ReferenceCounting) {
+TEST_F(LoRAAdapterTest, StateConsistency_UsageTracking) {
 #ifdef THEMIS_ENABLE_LLM
-    // Would test reference counting
-    // Multiple references, verify unload only when safe
-    
-    GTEST_SKIP() << "Requires actual LoRA manager implementation";
+    auto manager = createManager();
+    const auto adapter_path = createMockAdapter("usage_tracking");
+    ASSERT_TRUE(manager->loadLoRA("usage_tracking", adapter_path, "base_model", 1.0f));
+    ASSERT_NE(manager->getLoRA("usage_tracking"), nullptr);
+    EXPECT_EQ(manager->getLoRA("usage_tracking")->use_count, 1u);
+
+    manager->setApplyAdapterFn([](const LoRASlot& slot) {
+        return slot.lora_id == "usage_tracking";
+    });
+
+    ASSERT_TRUE(manager->applyLoRA("usage_tracking", nullptr));
+    EXPECT_EQ(manager->getLoRA("usage_tracking")->use_count, 2u);
+    EXPECT_TRUE(manager->getLoRA("usage_tracking")->is_active);
+
+    ASSERT_TRUE(manager->applyLoRA("usage_tracking", nullptr));
+    EXPECT_EQ(manager->getLoRA("usage_tracking")->use_count, 3u);
+
+    manager->setApplyAdapterFn([](const LoRASlot&) { return false; });
+    EXPECT_FALSE(manager->applyLoRA("usage_tracking", nullptr));
+    EXPECT_EQ(manager->getLoRA("usage_tracking")->use_count, 4u);
+    EXPECT_TRUE(manager->getLoRA("usage_tracking")->is_active);
 #else
     GTEST_SKIP() << "LLM support not enabled";
 #endif
