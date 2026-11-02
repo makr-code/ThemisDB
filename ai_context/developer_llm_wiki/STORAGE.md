@@ -18,6 +18,8 @@ Canonical_References:
   - "include/storage/mvcc_store.h"
   - "src/storage/storage_engine.cpp"
   - "src/storage/wal_storage.cpp"
+  - "src/storage/streaming_ingest_manager.cpp"
+  - "src/storage/detail/streaming_ingest_retry.h"
   - "src/storage/mvcc_store.cpp"
   - "src/storage/README.md"
   - "src/storage/IMPLEMENTATION.md"
@@ -26,12 +28,13 @@ Canonical_References:
   - "tests/storage/test_storage_engine_prod.cpp"
   - "tests/storage/test_wal_process_crash.cpp"
   - "tests/storage/wal_crash_worker.cpp"
+  - "tests/storage/test_streaming_ingest_retry_queue.cpp"
   - "tests/storage/CMakeLists.txt"
   - "tests/test_mvcc_wal_integration.cpp"
   - "benchmarks/storage/bench_storage_release_gates.cpp"
   - "benchmarks/storage/CMakeLists.txt"
   - "src/storage/DOXYGEN.md"
-source: "include/storage/storage_api_contract.h; include/storage/storage_engine.h; include/storage/wal_storage.h; include/storage/mvcc_store.h; src/storage/storage_engine.cpp; src/storage/wal_storage.cpp; src/storage/mvcc_store.cpp; tests/storage/test_storage_contract_hardening_focused.cpp; tests/storage/test_storage_engine_prod.cpp; tests/storage/test_wal_process_crash.cpp; tests/storage/wal_crash_worker.cpp; tests/test_mvcc_wal_integration.cpp; tests/storage/CMakeLists.txt; benchmarks/storage/bench_storage_release_gates.cpp; benchmarks/storage/CMakeLists.txt; src/storage/DOXYGEN.md"
+source: "include/storage/storage_api_contract.h; include/storage/storage_engine.h; include/storage/wal_storage.h; include/storage/mvcc_store.h; src/storage/storage_engine.cpp; src/storage/streaming_ingest_manager.cpp; src/storage/detail/streaming_ingest_retry.h; src/storage/wal_storage.cpp; src/storage/mvcc_store.cpp; tests/storage/test_storage_contract_hardening_focused.cpp; tests/storage/test_storage_engine_prod.cpp; tests/storage/test_streaming_ingest_retry_queue.cpp; tests/storage/test_wal_process_crash.cpp; tests/storage/wal_crash_worker.cpp; tests/test_mvcc_wal_integration.cpp; tests/storage/CMakeLists.txt; benchmarks/storage/bench_storage_release_gates.cpp; benchmarks/storage/CMakeLists.txt; src/storage/DOXYGEN.md"
 source_class: "secondary"
 source_weight: 60
 Related_Milestone: "DOC-WEEKLY-2026-W44"
@@ -112,6 +115,12 @@ SIGKILLed after acknowledged writes at rotation or checkpoint boundaries. The
 test checks exact PUT replay after reopen. It does not kill inside an active
 write/fsync/rotation/checkpoint syscall and does not cover backup/restore or
 RocksDB index consistency; it has not been executed, so it is not run evidence.
+
+[`test_streaming_ingest_retry_queue.cpp`](../../tests/storage/test_streaming_ingest_retry_queue.cpp)
+checks that the internal requeue helper excludes a committed prefix and places
+the failed suffix before newer queued PUTs for a supplied later-chunk offset.
+It does not inject a failure into a real RocksDB WriteBatch; that failure path
+and test execution remain unverified.
 
 Focused suites under `tests/storage/` are registered by
 [`tests/storage/CMakeLists.txt`](../../tests/storage/CMakeLists.txt); that

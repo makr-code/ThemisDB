@@ -14,7 +14,7 @@ Exact model backend not verifiable from final document text alone.
 
 Source level: 1
 SOT domain: module-behavior
-Canonical references: `include/storage/storage_engine.h`, `include/storage/mvcc_store.h`, `include/storage/wal_storage.h`, `include/storage/streaming_ingest_manager.h`, `src/storage/storage_engine.cpp`, `src/storage/mvcc_store.cpp`, `src/storage/wal_storage.cpp`, `src/storage/streaming_ingest_manager.cpp`, `src/replication/replication_manager.cpp`, `tests/storage/test_storage_engine_prod.cpp`
+Canonical references: `include/storage/storage_engine.h`, `include/storage/mvcc_store.h`, `include/storage/wal_storage.h`, `include/storage/streaming_ingest_manager.h`, `src/storage/storage_engine.cpp`, `src/storage/mvcc_store.cpp`, `src/storage/wal_storage.cpp`, `src/storage/streaming_ingest_manager.cpp`, `src/storage/detail/streaming_ingest_retry.h`, `src/replication/replication_manager.cpp`, `tests/storage/test_storage_engine_prod.cpp`, `tests/storage/test_streaming_ingest_retry_queue.cpp`
 Related issues: #7093, #7167
 Related milestone: DOC-WEEKLY-2026-W45
 
@@ -47,6 +47,7 @@ For developers changing the storage engine, MVCC, or its WAL. `StorageEngine` im
 2. For changes to startup dependencies, test production-mode validation with `tests/storage/test_storage_engine_prod.cpp`.
 3. For engine contract changes, run `tests/storage/test_storage_engine_di.cpp` and the focused storage contract tests.
 4. For MVCC or WAL changes, add a focused test under `tests/storage/`; run the target registered in `tests/storage/CMakeLists.txt`.
+5. `test_streaming_ingest_retry_queue.cpp` verifies the retry-queue ordering helper only; a real later-chunk RocksDB fault-injection test and execution evidence remain required for STO-10.
 
 See `API.md`, `MODULE_GUIDE.md`, `SECURITY.md`, and `RUNBOOK.md` for adjacent contracts and operations.
 

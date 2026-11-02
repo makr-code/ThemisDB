@@ -37,17 +37,18 @@ TEST(StreamingIngestRetryQueue, LaterChunkFailureRetainsSuffixBeforeNewEvents) {
     EXPECT_EQ(pending[3].value, "v6");
 }
 
-TEST(StreamingIngestRetryQueue, FailureAtEndPreservesOnlyNewerEvents) {
+TEST(StreamingIngestRetryQueue, LastChunkFailureRetainsTheLastEvent) {
     std::vector<StreamingIngestManager::Event> failed_batch{
         {"committed-1", "v1"},
         {"committed-2", "v2"},
+        {"retry-3", "v3"},
     };
-    std::vector<StreamingIngestManager::Event> pending{{"newer", "v3"}};
+    std::vector<StreamingIngestManager::Event> pending;
 
-    requeueUnwrittenIngestEvents(pending, failed_batch, failed_batch.size());
+    requeueUnwrittenIngestEvents(pending, failed_batch, 2);
 
     ASSERT_EQ(pending.size(), 1u);
-    EXPECT_EQ(pending.front().key, "newer");
+    EXPECT_EQ(pending.front().key, "retry-3");
     EXPECT_EQ(pending.front().value, "v3");
 }
 
