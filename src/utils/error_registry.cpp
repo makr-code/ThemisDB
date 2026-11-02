@@ -961,6 +961,19 @@ void ErrorRegistry::registerDefaultErrors() {
     });
 
     registerError({
+        ErrorCode::ERR_QUERY_MEMORY_LIMIT_EXCEEDED,
+        "Query",
+        "Error",
+        "QueryMemoryLimitExceeded",
+        "The vectorized query working set exceeded its configured memory budget.",
+        "1. Reduce the query batch size or result cardinality\n"
+        "2. Increase max_memory_bytes if the workload requires it\n"
+        "3. Add a selective filter or LIMIT clause",
+        {"/docs/query/resource-limits.md"},
+        {"query", "memory", "limit", "exceeded", "QueryMemoryLimitExceeded"}
+    });
+
+    registerError({
         ErrorCode::ERR_QUERY_CANCELLED,
         "Query",
         "Warning",

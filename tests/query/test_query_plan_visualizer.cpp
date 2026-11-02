@@ -64,6 +64,7 @@ TEST(QueryPlanVisualizerTest, BuildPlan_EmptyPredicates) {
     EXPECT_EQ(root.type, PlanNodeType::Return);
     ASSERT_FALSE(root.children.empty());
     EXPECT_EQ(root.children.front()->type, PlanNodeType::SeqScan);
+    EXPECT_EQ(root.children.front()->estimate_provenance, "missing_statistics");
 }
 
 TEST(QueryPlanVisualizerTest, BuildPlan_WithPredicates_UsesIndexScan) {
@@ -79,6 +80,8 @@ TEST(QueryPlanVisualizerTest, BuildPlan_WithPredicates_UsesIndexScan) {
     plan.orderedPredicates = {{"age", "30"}, {"city", "Berlin"}};
     QueryOptimizer::Estimation e1; e1.pred = {"age", "30"};       e1.estimatedCount = 50;
     QueryOptimizer::Estimation e2; e2.pred = {"city", "Berlin"};  e2.estimatedCount = 200;
+    e1.provenance = "statistics_selectivity";
+    e2.provenance = "secondary_index";
     plan.details = {e1, e2};
 
     QueryPlanNode root = QueryPlanVisualizer::buildPlan(q, plan);
@@ -96,6 +99,15 @@ TEST(QueryPlanVisualizerTest, BuildPlan_WithPredicates_UsesIndexScan) {
     }
     EXPECT_EQ(node->type, PlanNodeType::IndexScan);
     EXPECT_TRUE(node->index_name.has_value());
+    EXPECT_EQ(node->estimate_provenance,
+              "predicate_count_proxy:secondary_index");
+
+    const auto json_plan = QueryPlanVisualizer::toJSON(root);
+    ASSERT_FALSE(json_plan["plan"]["children"].empty());
+    EXPECT_EQ(json_plan["plan"]["children"][0]["estimate_provenance"],
+              "secondary_index");
+    EXPECT_NE(QueryPlanVisualizer::toText(root).find("estimate_source="),
+              std::string::npos);
 }
 
 TEST(QueryPlanVisualizerTest, BuildPlan_MostSelectiveFilterDeepest) {

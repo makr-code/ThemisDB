@@ -12,6 +12,7 @@ if(TARGET bench_geospatial_phase2)
     target_link_libraries(bench_geospatial_phase2 PRIVATE GTest::gtest)
 endif()
 themis_add_standard_benchmark(bench_query_dedicated_gates bench_query_dedicated_gates.cpp)
+themis_add_standard_benchmark(bench_query_limit_scaling bench_query_limit_scaling.cpp)
 
 if(TARGET bench_phase4_performance)
     themis_register_benchmark_ctest(
@@ -34,5 +35,17 @@ if(TARGET bench_query_dedicated_gates)
         TIMEOUT      180
         MIN_TIME     "0.01s"
         EXTRA_LABELS wave_d benchmark not_release_critical query
+    )
+endif()
+
+if(TARGET bench_query_limit_scaling)
+    themis_register_benchmark_ctest(
+        NAME         "bench_query_limit_scaling_smoke"
+        TARGET       "bench_query_limit_scaling"
+        MODULE       "query"
+        KIND         "wave_d"
+        TIMEOUT      120
+        MIN_TIME     "0.01s"
+        EXTRA_LABELS query limit memory benchmark
     )
 endif()

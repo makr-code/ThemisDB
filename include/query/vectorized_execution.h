@@ -42,6 +42,7 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <optional>
 #include <string>
@@ -50,6 +51,7 @@
 #include <nlohmann/json.hpp>
 
 #include "analytics/columnar_execution.h"
+#include "query/query_canceller.h"
 #include "utils/expected.h"
 
 namespace themis {
@@ -217,10 +219,13 @@ private:
 
 class VectorizedExecutionEngine {
 public:
+    using RowBatchSource =
+        std::function<std::vector<nlohmann::json>(size_t offset, size_t count)>;
+
     struct Config {
         size_t batch_size       = themisdb::analytics::ColumnBatch::kDefaultBatchSize;
         bool   enable_simd      = true;
-        size_t max_memory_bytes = 512ULL * 1024 * 1024;  // 512 MB soft limit
+        size_t max_memory_bytes = 512ULL * 1024 * 1024;  // 512 MB execution working-set budget
     };
 
     VectorizedExecutionEngine();
@@ -233,14 +238,42 @@ public:
     ~VectorizedExecutionEngine() = default;
 
     /**
-     * @brief Execute.
-     * @param[in] rows Input parameter.
-     * @param[in] plan Input parameter.
-     * @return Return value.
+     * @brief Execute a vectorized plan in bounded batches.
+     * @param rows Materialized input rows; memory owned by the caller is not
+     *        charged to this engine's working-set budget.
+     * @param plan Ordered operators and an optional final LIMIT.
+     * @param cancellation Optional non-owning cancellation token, which must
+     *        remain alive until execution returns.
+     * @return Result rows, or a typed memory-limit/cancellation error.
+     * @note Unsorted LIMIT stops after enough rows survive the pipeline. A
+     *       final SORT + LIMIT keeps only the best K rows while scanning input.
      */
     Result<std::vector<nlohmann::json>> execute(
         const std::vector<nlohmann::json>& rows,
-        const VectorizedQueryPlan&         plan);
+        const VectorizedQueryPlan&         plan,
+        const QueryCancellationToken*      cancellation = nullptr);
+
+    /**
+     * @brief Execute using a bounded, pull-based row source.
+     * @param row_count Maximum number of source rows available.
+     * @param source Returns exactly the requested number of rows for an offset.
+     * @param plan Ordered operators and an optional final LIMIT.
+     * @param cancellation Optional non-owning token checked between batches.
+     *        A blocking source callback must implement its own cancellation.
+     * @return Result rows, or a typed memory-limit/cancellation/input error.
+     * @note Unsorted LIMIT does not request source rows beyond the limit when
+     *       every stage is row-preserving. Aggregates and sorts consume all
+     *       source rows before LIMIT is applied.
+     * @note The budget is based on estimated executor working memory after a
+     *       source batch is returned; the source callback must keep its own
+     *       allocation bounded. Allocation failure is translated to a typed
+     *       memory-limit error.
+     */
+    Result<std::vector<nlohmann::json>> execute(
+        size_t row_count,
+        const RowBatchSource&             source,
+        const VectorizedQueryPlan&         plan,
+        const QueryCancellationToken*      cancellation = nullptr);
 
     /**
      * @brief Filter.
@@ -286,6 +319,7 @@ public:
         size_t batches_processed = 0;
         size_t rows_in           = 0;
         size_t rows_out          = 0;
+        size_t peak_memory_bytes = 0;  ///< Estimated executor working set; excludes caller-owned input
         double elapsed_ms        = 0.0;
     };
 

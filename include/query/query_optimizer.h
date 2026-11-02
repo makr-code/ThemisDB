@@ -42,6 +42,7 @@ public:
         PredicateEq pred;
         size_t estimatedCount = 0; // bis maxProbe gezählt
         bool capped = false;       // true, wenn abgeschnitten (>= maxProbe)
+        std::string provenance = "unknown";
     };
 
     struct Plan {

@@ -44,11 +44,13 @@
 #include <array>
 #include <atomic>
 #include <algorithm>
+#include <cstdlib>
 #include <gtest/gtest.h>
 #include <cmath>
 #include <numeric>
 #include <optional>
 #include <stdexcept>
+#include <string>
 #include <vector>
 
 // ============================================================================
@@ -56,6 +58,48 @@
 // ============================================================================
 
 namespace {
+
+class ScopedEnvironment {
+public:
+    ScopedEnvironment(std::string name, std::string value)
+        : name_(std::move(name)) {
+        if (const char* previous = std::getenv(name_.c_str())) {
+            previous_ = previous;
+        }
+        set(value.c_str());
+    }
+
+    ~ScopedEnvironment() {
+        if (previous_.has_value()) {
+            set(previous_->c_str());
+        } else {
+            unset();
+        }
+    }
+
+    ScopedEnvironment(const ScopedEnvironment&) = delete;
+    ScopedEnvironment& operator=(const ScopedEnvironment&) = delete;
+
+private:
+    void set(const char* value) const {
+#if defined(_WIN32)
+        _putenv_s(name_.c_str(), value);
+#else
+        setenv(name_.c_str(), value, 1);
+#endif
+    }
+
+    void unset() const {
+#if defined(_WIN32)
+        _putenv_s(name_.c_str(), "");
+#else
+        unsetenv(name_.c_str());
+#endif
+    }
+
+    std::string name_;
+    std::optional<std::string> previous_;
+};
 
 themis::tensor::RasterGrid makeGrid4x4() {
     themis::tensor::RasterGrid g;
@@ -1058,4 +1102,71 @@ TEST(UTRConverter, TextEncoderTakesPriorityOverEmbedFn) {
     EXPECT_TRUE(encoder_called);
     EXPECT_FALSE(embed_fn_called);
     EXPECT_NE(ht.root, nullptr);
+}
+
+TEST(UTRConverter, LexicalFallbackMetadataSurvivesSerialization) {
+    using namespace themis::tensor;
+    UTRConverter::clearTextEncoder();
+    UTRConverter::clearEmbedFn();
+
+    UTRConfig cfg;
+    cfg.embed_dim = 8;
+    cfg.max_rank = 2;
+    const auto encoded = UTRConverter::fromDocument(
+        "First paragraph.\n\nSecond paragraph.",
+        DocumentStructureHint::PARAGRAPHS, cfg);
+
+    const auto metadata = UTRConverter::documentMetadata(encoded);
+    EXPECT_EQ(metadata["embedding_quality"], "lexical");
+    EXPECT_TRUE(metadata["degraded"]);
+    EXPECT_EQ(metadata["degradation_reason"], "lexical_fallback");
+    const auto serialized_metadata = nlohmann::json::parse(metadata.dump());
+    EXPECT_EQ(serialized_metadata["degradation_reason"], "lexical_fallback");
+
+    const auto restored = HTTrain::deserialize(encoded.serialize());
+    ASSERT_TRUE(restored.has_value());
+    EXPECT_EQ(restored->embedding_quality, "lexical");
+    EXPECT_TRUE(restored->degraded);
+    EXPECT_EQ(restored->degradation_reason, "lexical_fallback");
+
+    auto legacy_bytes = encoded.serialize();
+    legacy_bytes.resize(legacy_bytes.size() - 4);
+    const std::size_t root_offset =
+        8 + 1 + 8 + encoded.shape.size() * 8 + 8 + 8 + 8;
+    const std::size_t metadata_size =
+        1 + 8 + encoded.embedding_quality.size() +
+        8 + encoded.degradation_reason.size();
+    legacy_bytes.erase(
+        legacy_bytes.begin() + static_cast<std::ptrdiff_t>(root_offset),
+        legacy_bytes.begin() +
+            static_cast<std::ptrdiff_t>(root_offset + metadata_size));
+    legacy_bytes[8] = 1;
+    const auto restored_legacy = HTTrain::deserialize(legacy_bytes);
+    ASSERT_TRUE(restored_legacy.has_value());
+    EXPECT_TRUE(restored_legacy->embedding_quality.empty());
+    EXPECT_FALSE(restored_legacy->degraded);
+}
+
+TEST(UTRConverter, RequiredEmbeddingProviderRejectsMissingProvider) {
+    using namespace themis::tensor;
+    UTRConverter::clearTextEncoder();
+    UTRConverter::clearEmbedFn();
+    UTRConfig cfg;
+    cfg.require_embedding_provider = true;
+
+    EXPECT_THROW(
+        static_cast<void>(UTRConverter::fromDocument("Provider required.", {}, cfg)),
+        std::runtime_error);
+}
+
+TEST(UTRConverter, ProductionModeRejectsMissingEmbeddingProvider) {
+    using namespace themis::tensor;
+    UTRConverter::clearTextEncoder();
+    UTRConverter::clearEmbedFn();
+    ScopedEnvironment production_mode("THEMIS_PRODUCTION_MODE", "1");
+    ScopedEnvironment environment("THEMIS_ENVIRONMENT", "test");
+
+    EXPECT_THROW(
+        static_cast<void>(UTRConverter::fromDocument("Production must fail closed.")),
+        std::runtime_error);
 }

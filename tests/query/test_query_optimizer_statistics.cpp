@@ -249,6 +249,54 @@ TEST_F(QueryOptimizerStatisticsTest, PrometheusCountersIncrementOnPlanSelection)
         << "Expected 'query.optimizer.cost_estimate' histogram in Prometheus output";
 }
 
+TEST_F(QueryOptimizerStatisticsTest, EqualityEstimatesTrackSkewAndMissingStatistics) {
+    populateOrdersTable(1000, 20);
+    auto collected = stats_col_->collectStats("orders");
+    ASSERT_TRUE(collected.ok) << collected.error_message;
+
+    QueryOptimizer optimizer_with_stats(*sec_idx_, stats_col_.get(), nullptr);
+    ConjunctiveQuery rare_query;
+    rare_query.table = "orders";
+    rare_query.predicates.push_back({"category", "rare"});
+    const auto rare_plan = optimizer_with_stats.chooseOrderForAndQuery(rare_query);
+    ASSERT_EQ(rare_plan.details.size(), 1u);
+    EXPECT_EQ(rare_plan.details.front().estimatedCount, 20u);
+    EXPECT_EQ(rare_plan.details.front().provenance, "statistics_selectivity");
+
+    ConjunctiveQuery common_query;
+    common_query.table = "orders";
+    common_query.predicates.push_back({"category", "common"});
+    const auto common_plan = optimizer_with_stats.chooseOrderForAndQuery(common_query);
+    ASSERT_EQ(common_plan.details.size(), 1u);
+    EXPECT_EQ(common_plan.details.front().estimatedCount, 980u);
+
+    QueryOptimizer optimizer_without_stats(*sec_idx_, nullptr, nullptr);
+    const auto missing_plan =
+        optimizer_without_stats.chooseOrderForAndQuery(rare_query);
+    ASSERT_EQ(missing_plan.details.size(), 1u);
+    EXPECT_EQ(missing_plan.details.front().provenance,
+              "missing_statistics_fallback");
+}
+
+TEST_F(QueryOptimizerStatisticsTest, SampledSkewEstimatesScaleToTableCardinality) {
+    for (size_t i = 0; i < 1000; ++i) {
+        insertRow(*db_, "skew_orders", "row" + std::to_string(1000 + i),
+                  {{"category", i % 50 == 0 ? "rare" : "common"}});
+    }
+    auto collected = stats_col_->collectStats("skew_orders", 100);
+    ASSERT_TRUE(collected.ok) << collected.error_message;
+
+    QueryOptimizer optimizer(*sec_idx_, stats_col_.get(), nullptr);
+    ConjunctiveQuery rare_query;
+    rare_query.table = "skew_orders";
+    rare_query.predicates.push_back({"category", "rare"});
+    const auto plan = optimizer.chooseOrderForAndQuery(rare_query);
+
+    ASSERT_EQ(plan.details.size(), 1u);
+    EXPECT_NEAR(plan.details.front().estimatedCount, 20u, 1u);
+    EXPECT_EQ(plan.details.front().provenance, "statistics_selectivity");
+}
+
 // ---------------------------------------------------------------------------
 // Test 5: Counters increment once per call; multiple calls accumulate.
 // ---------------------------------------------------------------------------
