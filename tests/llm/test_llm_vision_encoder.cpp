@@ -122,16 +122,15 @@ TEST(VisionConfigTest, DefaultResourceLimitsHavePositiveCPUThreads) {
 // VisionEncoder — constructor rejects missing model file
 // ============================================================================
 
-TEST(VisionEncoderTest, DISABLED_ThrowsOnMissingModelFile) {
-    // Regardless of THEMIS_ENABLE_LLM, constructing with a missing path
-    // must throw (either "not found" or "LLM support not enabled").
-    // TODO: Fix ambiguous VisionEncoder constructor overload (C2668)
-    GTEST_SKIP() << "Skipped: VisionEncoder constructor overload ambiguity";
+TEST(VisionEncoderTest, LegacyConstructorThrowsOnMissingModelFile) {
+    EXPECT_THROW(
+        VisionEncoder(std::string{"missing-clip-model.gguf"}, 0),
+        std::runtime_error);
 }
 
-TEST(VisionEncoderTest, DISABLED_ThrowsOnMissingModelFileWithConfig) {
+TEST(VisionEncoderTest, ConfiguredConstructorThrowsOnMissingModelFile) {
     auto cfg = VisionConfig::getDefault();
-    // TODO: Fix ambiguous VisionEncoder constructor overload (C2668)
-    GTEST_SKIP() << "Skipped: VisionEncoder constructor overload ambiguity";
+    EXPECT_THROW(
+        VisionEncoder(std::string{"missing-clip-model.gguf"}, cfg, nullptr, 0),
+        std::runtime_error);
 }
-
