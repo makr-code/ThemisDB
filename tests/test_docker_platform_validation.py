@@ -39,7 +39,15 @@ class DockerPlatformValidationTests(unittest.TestCase):
     def test_relocated_validator_still_rejects_invalid_source(self) -> None:
         self._run_relocated_validator(invalid_runtime=True)
 
-    def _run_relocated_validator(self, invalid_runtime: bool) -> None:
+    def test_workflow_validates_older_checkout_without_validator(self) -> None:
+        self._run_relocated_validator(invalid_runtime=False, execute_workflow=True)
+
+    def test_workflow_rejects_invalid_older_checkout_without_validator(self) -> None:
+        self._run_relocated_validator(invalid_runtime=True, execute_workflow=True)
+
+    def _run_relocated_validator(
+        self, invalid_runtime: bool, execute_workflow: bool = False
+    ) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             source = root / "source"
@@ -55,13 +63,55 @@ class DockerPlatformValidationTests(unittest.TestCase):
             validator = root / "validator.py"
             shutil.copyfile(VALIDATOR, validator)
             self.assertFalse((source / "tests").exists())
+            command = ["python3", str(validator), "-v"]
+            env = {**os.environ, "THEMIS_SOURCE_ROOT": str(source)}
+            if execute_workflow:
+                def git(directory: Path, *args: str) -> str:
+                    return subprocess.run(
+                        ["git", "-C", str(directory), *args],
+                        check=True, capture_output=True, text=True,
+                    ).stdout.strip()
+
+                git(source, "init")
+                git(source, "config", "user.name", "Regression Test")
+                git(source, "config", "user.email", "test@example.invalid")
+                git(source, "add", "docker")
+                git(source, "commit", "-m", "Source without validator")
+                source_sha = git(source, "rev-parse", "HEAD")
+                (source / "tests").mkdir()
+                shutil.copyfile(VALIDATOR, source / "tests" / VALIDATOR.name)
+                git(source, "add", "tests")
+                git(source, "commit", "-m", "Workflow validator")
+                workflow_sha = git(source, "rev-parse", "HEAD")
+
+                checkout = root / "checkout"
+                checkout.mkdir()
+                git(checkout, "init")
+                git(checkout, "remote", "add", "origin", str(source))
+                git(checkout, "fetch", "--depth=1", "origin", source_sha)
+                git(checkout, "checkout", "--detach", "FETCH_HEAD")
+                self.assertFalse((checkout / "tests").exists())
+                workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+                validation = next(
+                    step for step in workflow["jobs"]["build"]["steps"]
+                    if step.get("name") == "Validate Docker dependency providers and runtime packages"
+                )
+                command = ["bash", "-c", validation["run"]]
+                env.update(
+                    WORKFLOW_SHA=workflow_sha,
+                    THEMIS_SOURCE_ROOT=str(checkout),
+                    RUNNER_TEMP=str(root),
+                )
             result = subprocess.run(
-                ["python3", str(validator), "-v"],
-                cwd=root,
-                env={**os.environ, "THEMIS_SOURCE_ROOT": str(source)},
+                command,
+                cwd=checkout if execute_workflow else root,
+                env=env,
                 capture_output=True,
                 text=True,
             )
+            if execute_workflow:
+                self.assertEqual(git(checkout, "rev-parse", "HEAD"), source_sha)
+                self.assertFalse((checkout / "tests").exists())
             if invalid_runtime:
                 self.assertNotEqual(result.returncode, 0)
                 self.assertIn("librocksdb7", result.stderr)
