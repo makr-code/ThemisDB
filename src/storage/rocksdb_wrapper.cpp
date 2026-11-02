@@ -150,6 +150,9 @@ public:
 
 RocksDBWrapper::RocksDBWrapper(const Config& config) : config_(config) {
     options_ = std::make_unique<rocksdb::Options>();
+    if (config_.env != nullptr) {
+        options_->env = config_.env;
+    }
     txn_db_options_ = std::make_unique<rocksdb::TransactionDBOptions>();
     txn_options_ = std::make_unique<rocksdb::TransactionOptions>();
     read_options_ = std::make_unique<rocksdb::ReadOptions>();

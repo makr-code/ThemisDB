@@ -55,6 +55,7 @@ namespace rocksdb {
     struct TransactionOptions;
     class Snapshot;
     class DB;
+    class Env;
     class ColumnFamilyHandle;
     class EventListener;
 #else
@@ -76,6 +77,8 @@ namespace rocksdb {
     class Snapshot {};
     /** @brief Db. */
     class DB {};
+    /** @brief Environment. */
+    class Env {};
     /** @brief Column family handle. */
     class ColumnFamilyHandle {};
     /** @brief Event event listener. */
@@ -280,6 +283,14 @@ public:
         // Number of threads used for parallel chunk encoding.
         // Each thread encodes (and optionally compresses) one chunk concurrently.
         int blob_streaming_threads = 4;
+
+        /**
+         * @brief Optional RocksDB environment for database file I/O.
+         * @note This pointer is borrowed. When non-null, the environment must
+         *       outlive this wrapper and every RocksDB handle it creates.
+         *       Null uses RocksDB's default environment.
+         */
+        rocksdb::Env* env = nullptr;
     };
 
     explicit RocksDBWrapper(const Config& config);
