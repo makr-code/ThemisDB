@@ -17,14 +17,21 @@
 
 #include <gtest/gtest.h>
 
+#include "security/encryption.h"
+#include "security/mock_key_provider.h"
 #include "utils/audit_logger.h"
+#include "utils/pki_client.h"
 
 #include <atomic>
 #include <chrono>
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
+#include <iostream>
+#include <iterator>
 #include <optional>
+#include <sstream>
+#include <stdexcept>
 #include <string>
 #include <string_view>
 #include <thread>
@@ -209,6 +216,71 @@ protected:
     fs::path log_path_;
     fs::path chain_state_path_;
 };
+
+TEST_F(AuditWaveCProductionTest, VerifierRedactsNonFilePathsFromErrors) {
+    const auto directory_path = tmp_dir_ / "not-a-log-file";
+    fs::create_directory(directory_path);
+
+    AuditLogVerifier verifier;
+    const auto result = verifier.verify_chain(directory_path.string());
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(result.error_message, "Cannot open audit log file");
+    EXPECT_EQ(result.error_message.find(directory_path.string()), std::string::npos);
+}
+
+TEST_F(AuditWaveCProductionTest, ErrorContextRedactsFilesystemPaths) {
+    const auto blocking_file = tmp_dir_ / "not-a-directory";
+    {
+        std::ofstream file(blocking_file);
+        ASSERT_TRUE(file.good());
+    }
+
+    auto config = makeConfig(blocking_file / "audit.jsonl", tmp_dir_ / "chain.json");
+    AuditLogger logger({}, {}, std::move(config));
+    const auto original_stderr = std::cerr.rdbuf();
+    std::ostringstream error_output;
+    std::cerr.rdbuf(error_output.rdbuf());
+    logger.logEvent(makeEvent("AUDIT_TEST", "tester", "resource", "read"));
+    std::cerr.rdbuf(original_stderr);
+
+    EXPECT_NE(error_output.str().find("Unexpected error in logEvent while persisting audit data"),
+              std::string::npos);
+    EXPECT_EQ(error_output.str().find(blocking_file.string()), std::string::npos);
+}
+
+TEST_F(AuditWaveCProductionTest, EncryptedPkiDiagnosticRedactsExceptionPaths) {
+    auto key_provider = std::make_shared<themis::MockKeyProvider>();
+    key_provider->createKey("audit", 1);
+    auto encryption = std::make_shared<themis::FieldEncryption>(key_provider);
+
+    themis::utils::PKIConfig pki_config;
+    pki_config.service_id = "audit-redaction-test";
+    auto pki = std::make_shared<VCCPKIClient>(pki_config);
+
+    const auto private_path = (tmp_dir_ / "private" / "signing-key.pem").string();
+    VCCPKIClient::setSignHashFn([private_path](const std::vector<uint8_t>&) -> SignatureResult {
+        throw std::runtime_error("Unable to read signing key: " + private_path);
+    });
+    struct ResetSignHashCallback {
+        ~ResetSignHashCallback() { VCCPKIClient::setSignHashFn({}); }
+    } reset_callback;
+
+    auto config = makeConfig(log_path_, chain_state_path_);
+    config.encrypt_then_sign = true;
+    config.key_id = "audit";
+    AuditLogger logger(encryption, pki, std::move(config));
+    logger.logEvent(makeEvent("AUDIT_TEST", "tester", "resource", "read"));
+
+    std::ifstream log_file(log_path_);
+    ASSERT_TRUE(log_file.good());
+    const std::string contents((std::istreambuf_iterator<char>(log_file)),
+                               std::istreambuf_iterator<char>());
+    EXPECT_NE(contents.find("DIAGNOSTIC_ERROR"), std::string::npos);
+    EXPECT_EQ(contents.find(private_path), std::string::npos);
+    EXPECT_NE(contents.find("PKI signing failed while preparing encrypted audit payload"),
+              std::string::npos);
+}
 
 TEST_F(AuditWaveCProductionTest, TamperEvidenceChainRemainsIntactWithSingleWriter) {
     auto logger = makeLogger(true);

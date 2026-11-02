@@ -260,12 +260,12 @@ public:
      * @error_contract
      * | Condition | ErrorCode | Severity | Logging | Recovery |
      * |-----------|-----------|----------|---------|----------|
-     * | Log file cannot be opened (backend unavailable) | AUDIT_PERSISTENCE_FAILED (9012) | Critical | path + OS error | Throw (fail-closed) |
-     * | Write to file fails (I/O error, disk full) | AUDIT_WRITE_FAILED (9011) | Critical | path + bytes attempted | Throw (fail-closed) |
+     * | Log file cannot be opened (backend unavailable) | AUDIT_PERSISTENCE_FAILED (9012) | Critical | basename + generic backend error | Safe diagnostic; reject event |
+     * | Write to file fails (I/O error, disk full) | AUDIT_WRITE_FAILED (9011) | Critical | basename + generic write error | Safe diagnostic; reject event |
      * | Encryption of event fails (key unavailable) | AUDIT_ENCRYPTION_FAILED (9015) | Critical | key_id | Throw (fail-closed) |
      * | Log rotation fails | AUDIT_ROTATION_FAILED (9013) | Error | log_path + rotated count | Continue, skip rotation |
      *
-     * @degradation fail-closed – backend unavailable propagates as exception; no silent drop
+     * @degradation fail-closed – persistence failures reject the event and emit a safe diagnostic
      * @bounded_resources
      * - Buffer capacity: cfg.max_buffer_size (default: 1GB)
      * - Event size: Individual events capped at 10MB

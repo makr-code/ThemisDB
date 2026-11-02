@@ -42,8 +42,8 @@ TEST_F(EnhancedPluginSecurityTest, Construction) {
     EXPECT_EQ(verifier.getPolicy().allowUnsigned, true);
 }
 
-// Test: Level 1 - Hash verification only
-TEST_F(EnhancedPluginSecurityTest, Level1_HashVerification) {
+// Test: Hash verification alone cannot authorize a plugin
+TEST_F(EnhancedPluginSecurityTest, Level1_HashOnlyRejected) {
     PluginSecurityPolicy policy;
     policy.allowUnsigned = true;
     policy.verifyFileHash = true;
@@ -55,10 +55,9 @@ TEST_F(EnhancedPluginSecurityTest, Level1_HashVerification) {
         EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_1_HASH_ONLY
     );
     
-    EXPECT_TRUE(result.passed) << "Hash verification should pass: " << result.error_message;
-    EXPECT_TRUE(result.hash_verified);
-    EXPECT_EQ(result.level_achieved, 
-              EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_1_HASH_ONLY);
+    EXPECT_FALSE(result.passed);
+    EXPECT_FALSE(result.hash_verified);
+    EXPECT_THAT(result.error_message, testing::HasSubstr("signer identity"));
 }
 
 // Test: Level 2 - Embedded signature (should fail without embedded cert)
@@ -79,8 +78,8 @@ TEST_F(EnhancedPluginSecurityTest, Level2_EmbeddedSignature_MissingCert) {
     EXPECT_THAT(result.error_message, testing::HasSubstr("embedded certificate"));
 }
 
-// Test: Level 2 - With unsigned policy should pass Level 1
-TEST_F(EnhancedPluginSecurityTest, Level2_EmbeddedSignature_AllowUnsigned) {
+// Test: Unsigned policy cannot bypass embedded signer verification
+TEST_F(EnhancedPluginSecurityTest, Level2_EmbeddedSignature_AllowUnsignedRejected) {
     PluginSecurityPolicy policy;
     policy.allowUnsigned = true;
     
@@ -91,9 +90,22 @@ TEST_F(EnhancedPluginSecurityTest, Level2_EmbeddedSignature_AllowUnsigned) {
         EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_2_EMBEDDED_SIGNATURE
     );
     
-    // In development mode (allowUnsigned), Level 2 requirement can fall back to Level 1
-    EXPECT_TRUE(result.passed);
+    EXPECT_FALSE(result.passed);
     EXPECT_TRUE(result.hash_verified);
+}
+
+TEST_F(EnhancedPluginSecurityTest, DisabledSignatureVerificationRejected) {
+    PluginSecurityPolicy policy;
+    policy.requireSignature = false;
+    policy.allowUnsigned = true;
+    EnhancedPluginSecurityVerifier verifier(policy);
+
+    const auto result = verifier.verifyPlugin(
+        test_plugin_path_.string(),
+        EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_2_EMBEDDED_SIGNATURE);
+
+    EXPECT_FALSE(result.passed);
+    EXPECT_EQ(result.error_message, "Plugin signature verification cannot be disabled");
 }
 
 // Test: Level 3 - Platform signature (should fail without platform signature)
@@ -113,8 +125,8 @@ TEST_F(EnhancedPluginSecurityTest, Level3_PlatformSignature_Missing) {
     EXPECT_FALSE(result.platform_signature_verified);
 }
 
-// Test: Level 3 - With unsigned policy should pass
-TEST_F(EnhancedPluginSecurityTest, Level3_PlatformSignature_AllowUnsigned) {
+// Test: Unsigned policy cannot bypass pinned signer verification
+TEST_F(EnhancedPluginSecurityTest, Level3_PlatformSignature_AllowUnsignedRejected) {
     PluginSecurityPolicy policy;
     policy.allowUnsigned = true;
     
@@ -125,8 +137,7 @@ TEST_F(EnhancedPluginSecurityTest, Level3_PlatformSignature_AllowUnsigned) {
         EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_3_PLATFORM_SIGNATURE
     );
     
-    // Should pass because unsigned is allowed
-    EXPECT_TRUE(result.passed);
+    EXPECT_FALSE(result.passed);
     EXPECT_TRUE(result.hash_verified);
 }
 
@@ -170,21 +181,20 @@ TEST_F(EnhancedPluginSecurityTest, VerificationLevelProgression) {
     
     EnhancedPluginSecurityVerifier verifier(policy);
     
-    // Level 1 should pass
+    // Hash-only verification is insufficient to authorize a plugin.
     auto result1 = verifier.verifyPlugin(
         test_plugin_path_.string(),
         EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_1_HASH_ONLY
     );
-    EXPECT_TRUE(result1.passed);
-    EXPECT_EQ(result1.level_achieved, 
-              EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_1_HASH_ONLY);
+    EXPECT_FALSE(result1.passed);
+    EXPECT_THAT(result1.error_message, testing::HasSubstr("signer identity"));
     
-    // With allowUnsigned enabled, Level 2 requirement can pass with Level 1 verification
+    // allowUnsigned cannot downgrade signature verification to hash-only.
     auto result2 = verifier.verifyPlugin(
         test_plugin_path_.string(),
         EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_2_EMBEDDED_SIGNATURE
     );
-    EXPECT_TRUE(result2.passed);
+    EXPECT_FALSE(result2.passed);
     EXPECT_TRUE(result2.hash_verified);
 }
 
@@ -204,5 +214,3 @@ TEST_F(EnhancedPluginSecurityTest, VerificationResultStructure) {
     EXPECT_TRUE(result.issuer.empty());
     EXPECT_TRUE(result.subject.empty());
 }
-
-

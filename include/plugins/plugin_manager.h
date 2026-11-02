@@ -152,6 +152,7 @@ private:
     std::unique_ptr<PluginHotPlugMonitor> hot_plug_monitor_;  // Hot-plug filesystem monitor
     std::vector<PluginReloadListener> reload_listeners_;  // Reload event listeners
     PluginHealthMonitor* health_monitor_ = nullptr;  // Optional health monitor (non-owning)
+    std::vector<std::string> trusted_signer_fingerprints_;
     mutable std::mutex mutex_;
     
     // Reuse existing platform-specific loading from acceleration/plugin_loader.cpp
@@ -393,7 +394,21 @@ private:
     std::unordered_map<std::string, PluginErrorState> error_states_;  ///< Track error state per plugin
      
 public:
-    PluginManager() = default;
+    /**
+     * @brief Construct a manager using THEMIS_PLUGIN_TRUSTED_SIGNER_FINGERPRINTS.
+     * @throws std::invalid_argument if a configured fingerprint is malformed.
+     * @note An unset or empty variable leaves the manager with no trusted signers.
+     */
+    PluginManager();
+    /**
+     * @brief Construct a manager with the signer certificates authorized for plugin loading.
+     * @param trusted_signer_fingerprints SHA-256 fingerprints of trusted X.509 signer
+     *        certificates. Values are case-normalized; an empty set rejects all plugins.
+     * @throws std::invalid_argument if a fingerprint is not 64 hexadecimal characters.
+     * @note Include both old and new fingerprints during a signer rotation; remove the
+     *       retired fingerprint after all artifacts have migrated.
+     */
+    explicit PluginManager(std::vector<std::string> trusted_signer_fingerprints);
     ~PluginManager();
     
     // Prevent copying

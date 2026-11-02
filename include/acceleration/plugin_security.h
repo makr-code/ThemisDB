@@ -51,18 +51,21 @@ struct PluginMetadata {
 };
 
 enum class PluginTrustLevel {
-    TRUSTED,        ///< Signed by a trusted certificate issuer
+    TRUSTED,        ///< Signed by a pinned signer certificate
     UNTRUSTED,      ///< Not signed or signature from unknown issuer
     BLOCKED         ///< On the security blacklist, should not be loaded
 };
 
 struct PluginSecurityPolicy {
+    /// Signature verification is mandatory; setting this false makes verification fail.
     bool requireSignature = true;
-    
+
+    /// Issuer names are descriptive only; signer authorization requires fingerprint pins.
     std::vector<std::string> trustedIssuers = {
         "CN=ThemisDB Official Plugins, O=ThemisDB, C=DE"
     };
     
+    /// Unsigned plugins are never accepted; this flag cannot override mandatory verification.
     bool allowUnsigned = false;
     
     bool verifyFileHash = true;
@@ -76,23 +79,45 @@ struct PluginSecurityPolicy {
     std::vector<std::string> blacklistedHashes;
     
     std::vector<std::string> whitelistedHashes;
+
+    /// SHA-256 fingerprints of trusted signer certificates, in lowercase hex.
+    /// A signed plugin is rejected unless its embedded signing certificate is
+    /// pinned here, even when the certificate signature itself is valid.
+    std::vector<std::string> trustedSignerFingerprints;
 };
+
+/**
+ * @brief Normalize and validate signer certificate fingerprints.
+ * @param fingerprints SHA-256 fingerprints in hexadecimal form.
+ * @return Unique lowercase fingerprints sorted for deterministic comparison.
+ * @throws std::invalid_argument if a fingerprint is not 64 hexadecimal characters.
+ */
+std::vector<std::string> normalizePluginSignerFingerprints(
+    std::vector<std::string> fingerprints);
+
+/**
+ * @brief Read signer pins configured for plugin loading.
+ * @return Pins from THEMIS_PLUGIN_TRUSTED_SIGNER_FINGERPRINTS, or an empty list.
+ * @throws std::invalid_argument if the variable contains an empty or malformed entry.
+ */
+std::vector<std::string> pluginSignerFingerprintsFromEnvironment();
 
 class PluginSecurityVerifier {
 public:
     /**
-     * @brief Plugin Security Verifier.
-     * @param[in] policy Input parameter.
-     * @return Return value.
+     * @brief Create a verifier with mandatory signer identity pins.
+     * @param[in] policy Policy supplying the authorized signer fingerprints.
+     * @throws std::invalid_argument if a fingerprint is malformed.
      */
     explicit PluginSecurityVerifier(const PluginSecurityPolicy& policy);
     ~PluginSecurityVerifier() = default;
     
     /**
-     * @brief Verify Plugin.
-     * @param[in] pluginPath Input parameter.
-     * @param[in,out] errorMessage Input/output parameter.
-     * @return True when the operation succeeds.
+     * @brief Verify a signed plugin against an authorized signer fingerprint.
+     * @param[in] pluginPath Path to the plugin binary.
+     * @param[out] errorMessage Redacted reason when verification fails.
+     * @return True only when the signature and pinned signer identity are valid.
+     * @note Missing signatures, unpinned signers, and disabled signature policy fail.
      */
     bool verifyPlugin(const std::string& pluginPath, std::string& errorMessage);
     
@@ -104,10 +129,11 @@ public:
     std::string calculateFileHash(const std::string& filePath);
     
     /**
-     * @brief Verify Signature.
-     * @param[in] filePath Input parameter.
-     * @param[in] signature Input parameter.
-     * @return True when the operation succeeds.
+     * @brief Verify the cryptographic signature over a plugin binary hash.
+     * @param[in] filePath Path to the plugin binary.
+     * @param[in] signature Signature and signer certificate metadata.
+     * @return True when the cryptographic signature is valid.
+     * @note This operation alone does not authorize an unpinned signer.
      */
     bool verifySignature(const std::string& filePath, const PluginSignature& signature);
     
@@ -187,7 +213,7 @@ private:
 class EnhancedPluginSecurityVerifier {
 public:
     enum class VerificationLevel {
-        LEVEL_1_HASH_ONLY,           ///< Only SHA-256 hash (fast)
+        LEVEL_1_HASH_ONLY,           ///< Hash only; rejected as insufficient plugin authorization
         LEVEL_2_EMBEDDED_SIGNATURE,  ///< Embedded signature check
         LEVEL_3_PLATFORM_SIGNATURE,  ///< Platform code-signing (PE/ELF/Mach-O)
         LEVEL_4_FULL_CHAIN           ///< Complete cert chain + CRL/OCSP
@@ -214,21 +240,30 @@ public:
     };
     
     /**
-     * @brief Enhanced Plugin Security Verifier.
-     * @param[in] policy Input parameter.
-     * @return Return value.
+     * @brief Create a verifier with mandatory signer identity pins.
+     * @param[in] policy Policy supplying the authorized signer fingerprints.
+     * @throws std::invalid_argument if a fingerprint is malformed.
      */
     explicit EnhancedPluginSecurityVerifier(const PluginSecurityPolicy& policy);
     ~EnhancedPluginSecurityVerifier() = default;
-    
+
+    /**
+     * @brief Verify a plugin with mandatory signature and pinned-signer checks.
+     * @param plugin_path Path to the plugin binary.
+     * @param required_level Minimum verification level; hash-only is insufficient
+     *        and returns a failed result.
+     * @return Verification results. Missing signatures, unpinned signers, and
+     *         disabled signature policy return `passed == false`.
+     */
     VerificationResult verifyPlugin(
         const std::string& plugin_path,
         VerificationLevel required_level = VerificationLevel::LEVEL_3_PLATFORM_SIGNATURE
     );
     
     /**
-     * @brief Update Policy.
-     * @param[in] policy Input parameter.
+     * @brief Replace the verification policy and normalize its signer pins.
+     * @param[in] policy Policy supplying the authorized signer fingerprints.
+     * @throws std::invalid_argument if a fingerprint is malformed.
      */
     void updatePolicy(const PluginSecurityPolicy& policy);
     
