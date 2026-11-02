@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-11-01"
+Last Updated: "2026-11-02"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -41,14 +41,20 @@ Exact model backend not verifiable from final document text alone.
 ## Integration gaps operators must account for
 
 - Non-dry-run snapshot validation, restore, replication-position catch-up,
-  requested traffic shift, and recovered-state verification fail closed when
-  their step hook/adapter is not configured. Quorum alone is not catch-up proof.
-- The manager does not validate the correctness of configured hooks; each hook
-  must perform the external operation and verify its result before returning true.
-- A configured spare manager causes `activateSpareIfNeeded()` to emit
-  `SPARE_ACTIVATION_FAILED` and return false; the main failover path now blocks
-  completion on that result. Metadata persistence remains unimplemented and
-  returns failure rather than success.
+  requested traffic shift, and recovered-state verification require an operation
+  adapter acknowledgement and a separate read-back proof. Checksums, required
+  LSN/term, and recovery-site identity are compared with the plan. Quorum alone
+  is not catch-up proof.
+- Non-dry-run DR additionally requires quorum, epoch fencing, and a writable
+  `metadata_log_path`; a checksummed completion record is appended before
+  success is returned and replayed on manager construction. The local log is
+  not a substitute for shared durable metadata in a multi-process deployment.
+- Spare activation requires a configured runtime hook and independent
+  `HotSpareManager` state of `ACTIVE`. Missing or failed activation leaves the
+  orchestrator in `DEGRADED`, increments `degraded_failovers`, and emits the
+  `FAILOVER_DEGRADED` callback event.
+- The epoch fencing manager is not yet checked on the shard write path, and
+  this module does not provide a multi-process failover/recovery E2E test.
 - A dry run skips built-in prechecks and operational steps. The
   `allow_dry_run_without_managers` configuration field does not change this
   behavior in the current implementation. Step hooks replace the built-in handler

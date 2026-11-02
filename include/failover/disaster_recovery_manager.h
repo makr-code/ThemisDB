@@ -13,6 +13,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <cstdint>
 #include <functional>
 #include <memory>
 #include <mutex>
@@ -51,6 +52,18 @@ enum class DisasterRecoveryStep {
     VERIFICATION,
 };
 
+enum class DisasterRecoveryErrorCode {
+    NONE,
+    INVALID_PLAN,
+    NOT_CONFIGURED,
+    ADAPTER_FAILURE,
+    VERIFICATION_FAILED,
+    STALE_REPLICATION_POSITION,
+    QUORUM_UNAVAILABLE,
+    FENCING_UNAVAILABLE,
+    METADATA_PERSISTENCE_FAILED,
+};
+
 struct DisasterRecoveryConfig {
     std::chrono::milliseconds precheck_timeout{5000};
     std::chrono::milliseconds catchup_timeout{30000};
@@ -62,6 +75,8 @@ struct DisasterRecoveryConfig {
     bool allow_dry_run_without_managers{true};
 
     std::chrono::milliseconds consensus_timeout_ms{30000};
+    /** @brief Append-only file used to persist completed DR plan identities. */
+    std::string metadata_log_path;
 };
 
 struct DisasterRecoveryPlan {
@@ -69,6 +84,11 @@ struct DisasterRecoveryPlan {
     std::string primary_site;
     std::string recovery_site;
     std::string snapshot_id;
+    /** @brief Expected content checksum verified after snapshot and restore. */
+    std::string snapshot_checksum;
+    /** @brief Minimum replication sequence and exact source term required at catch-up. */
+    uint64_t required_lsn{0};
+    uint64_t required_term{0};
 
     std::vector<std::string> critical_nodes;
 
@@ -80,6 +100,7 @@ struct DisasterRecoveryStepResult {
     DisasterRecoveryStep step;
     bool success{false};
     std::string message;
+    DisasterRecoveryErrorCode error_code{DisasterRecoveryErrorCode::NONE};
 };
 
 struct DisasterRecoveryResult {
@@ -88,8 +109,23 @@ struct DisasterRecoveryResult {
     std::chrono::milliseconds duration{0};
     std::string error_message;
     uint64_t fenced_epoch{0};
+    DisasterRecoveryErrorCode error_code{DisasterRecoveryErrorCode::NONE};
 
     std::vector<DisasterRecoveryStepResult> step_results;
+};
+
+/**
+ * @brief Independently observed evidence for a completed DR adapter operation.
+ *
+ * Snapshot and restore steps require a matching checksum; catch-up requires
+ * the requested term and at least the requested LSN; traffic shift requires
+ * the recovery-site identity. Empty evidence is never accepted.
+ */
+struct DisasterRecoveryVerificationProof {
+    std::string checksum;
+    uint64_t lsn{0};
+    uint64_t term{0};
+    std::string observed_site;
 };
 
 class DisasterRecoveryManager {
@@ -105,6 +141,8 @@ public:
      *       cancellation boundary on hook execution.
      */
     using StepHook = std::function<bool(const DisasterRecoveryPlan&, std::string&)>;
+    using VerificationHook = std::function<std::optional<DisasterRecoveryVerificationProof>(
+        const DisasterRecoveryPlan&, std::string&)>;
 
     /**
      * @brief Disaster Recovery Manager.
@@ -138,11 +176,21 @@ public:
     bool validatePlan(const DisasterRecoveryPlan& plan, std::string& error) const;
 
     /**
-     * @brief Set Step Hook.
-     * @param[in] step Input parameter.
-     * @param[in] hook Input parameter.
+     * @brief Configure the real operation adapter for a DR step.
+     * @param step External step to configure; internal prechecks/fencing cannot
+     *             be overridden.
+     * @param hook Adapter operation; true means the remote side acknowledged it.
+     * @note Acknowledgement alone is insufficient: a matching verification
+     *       hook is also required for non-dry-run execution.
      */
     void setStepHook(DisasterRecoveryStep step, StepHook hook);
+    /**
+     * @brief Configure independent read-back verification for a DR step.
+     * @param step External step whose result is independently observed.
+     * @param hook Returns checksum, replication-position, or site evidence;
+     *             nullopt or mismatched evidence fails the step.
+     */
+    void setVerificationHook(DisasterRecoveryStep step, VerificationHook hook);
     /**
      * @brief Clear Step Hooks.
      */
@@ -177,6 +225,12 @@ public:
     void clearIdempotencyCache() {
         std::lock_guard<std::mutex> lock(idempotency_mutex_);
         completed_plans_.clear();
+        completed_plan_fingerprints_.clear();
+    }
+
+    /** @brief Override quorum only in focused tests; unavailable in production builds. */
+    void testSetQuorumOverride(bool has_quorum) noexcept {
+        test_quorum_override_ = has_quorum;
     }
 #endif
 
@@ -203,7 +257,21 @@ private:
                  const DisasterRecoveryPlan& plan,
                  DisasterRecoveryResult& result,
                  std::string& error,
-                 uint64_t& fenced_epoch);
+                 uint64_t& fenced_epoch,
+                 DisasterRecoveryErrorCode& error_code);
+
+    [[nodiscard]] bool runAdapterStep(
+        DisasterRecoveryStep step,
+        const DisasterRecoveryPlan& plan,
+        std::string& detail,
+        DisasterRecoveryErrorCode& error_code);
+
+    [[nodiscard]] bool persistCompletedPlan(
+        const DisasterRecoveryPlan& plan,
+        const DisasterRecoveryResult& result,
+        std::string& detail);
+
+    void loadCompletedPlans();
 
     /**
      * @brief Run Prechecks.
@@ -211,14 +279,9 @@ private:
      * @param[in,out] detail Input/output parameter.
      * @return True when the operation succeeds.
      */
-    bool runPrechecks(const DisasterRecoveryPlan& plan, std::string& detail);
-    /**
-     * @brief Validate Snapshot.
-     * @param[in] plan Input parameter.
-     * @param[in,out] detail Input/output parameter.
-     * @return True when the operation succeeds.
-     */
-    bool validateSnapshot(const DisasterRecoveryPlan& plan, std::string& detail);
+    bool runPrechecks(const DisasterRecoveryPlan& plan,
+                      std::string& detail,
+                      DisasterRecoveryErrorCode& error_code);
     /**
      * @brief Apply Epoch Fencing.
      * @param[in] plan Input parameter.
@@ -226,35 +289,10 @@ private:
      * @param[in,out] fenced_epoch Input/output parameter.
      * @return True when the operation succeeds.
      */
-    bool applyEpochFencing(const DisasterRecoveryPlan& plan, std::string& detail, uint64_t& fenced_epoch);
-    /**
-     * @brief Run Restore.
-     * @param[in] plan Input parameter.
-     * @param[in,out] detail Input/output parameter.
-     * @return True when the operation succeeds.
-     */
-    bool runRestore(const DisasterRecoveryPlan& plan, std::string& detail);
-    /**
-     * @brief Wait For Catchup.
-     * @param[in] plan Input parameter.
-     * @param[in,out] detail Input/output parameter.
-     * @return True when the operation succeeds.
-     */
-    bool waitForCatchup(const DisasterRecoveryPlan& plan, std::string& detail);
-    /**
-     * @brief Shift Traffic.
-     * @param[in] plan Input parameter.
-     * @param[in,out] detail Input/output parameter.
-     * @return True when the operation succeeds.
-     */
-    bool shiftTraffic(const DisasterRecoveryPlan& plan, std::string& detail);
-    /**
-     * @brief Verify Recovered State.
-     * @param[in] plan Input parameter.
-     * @param[in,out] detail Input/output parameter.
-     * @return True when the operation succeeds.
-     */
-    bool verifyRecoveredState(const DisasterRecoveryPlan& plan, std::string& detail);
+    bool applyEpochFencing(const DisasterRecoveryPlan& plan,
+                          std::string& detail,
+                          uint64_t& fenced_epoch,
+                          DisasterRecoveryErrorCode& error_code);
 
     /**
      * @brief Transition State.
@@ -273,6 +311,7 @@ private:
     std::shared_ptr<sharding::EpochFencingManager> fencing_mgr_;
 
     std::unordered_map<DisasterRecoveryStep, StepHook, EnumHash> hooks_;
+    std::unordered_map<DisasterRecoveryStep, VerificationHook, EnumHash> verification_hooks_;
 
     mutable std::mutex state_mutex_;
     std::atomic<DisasterRecoveryState> state_{DisasterRecoveryState::IDLE};
@@ -282,10 +321,15 @@ private:
 
     mutable std::mutex idempotency_mutex_;
     std::unordered_map<std::string, DisasterRecoveryResult> completed_plans_;
+    std::unordered_map<std::string, std::string> completed_plan_fingerprints_;
 
     mutable std::mutex stats_mutex_;
     Statistics stats_;
     std::vector<std::chrono::milliseconds> durations_;
+
+#ifdef THEMIS_TEST_BUILD
+    std::optional<bool> test_quorum_override_;
+#endif
 };
 
 }  // namespace failover

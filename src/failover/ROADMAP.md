@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-11-01"
+Last Updated: "2026-11-02"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -25,7 +25,8 @@ Exact model backend not verifiable from final document text alone.
   checks, replica promotion requests, state/results, events, and statistics.
 - Optional local quorum log and deterministic topology snapshot helpers.
 - Disaster-recovery plan validation and fixed seven-step coordination with
-  step hooks and in-memory caching for named plans.
+  adapter acknowledgements, independent proof hooks, a local checksummed
+  completion log, and plan-ID replay across manager restart.
 - Focused test sources are registered through `tests/failover/CMakeLists.txt`
   with `failover` and `release_critical` labels. Three Google Benchmark
   executables are registered when benchmarks are enabled.
@@ -41,12 +42,16 @@ tests or benchmarks passed. See [`AUDIT.md`](AUDIT.md) for audit limitations.
   are skipped until that future completes.
 - `target_promote_id` is queued but ignored when selecting a promotion candidate.
 - Quorum-log recovery is logged, not applied as restored manager state.
-- Spare activation failure now blocks failover completion; metadata persistence
-  remains unavailable and the built-in path returns failure.
-- Non-dry-run DR snapshot validation, restore, catch-up, requested traffic shift,
-  and recovered-state verification fail closed until their production hooks are
-  configured. Hooks must verify real effects; their correctness is not certified
-  by the manager.
+- Spare activation requires a runtime hook and independently observed `ACTIVE`
+  state; failure blocks completion and records the degraded state/event/counter.
+- Non-dry-run DR requires operation and verification hooks, quorum, fencing, and
+  a writable local completion log. The manager checks checksum, LSN/term, and
+  recovery-site evidence before accepting each step.
+- DR metadata is local-file persistence, not shared multi-process storage;
+  concurrent multi-process writer safety and crash/power-loss durability are
+  not established.
+- Shard write-side epoch-token enforcement and multi-process failover/recovery
+  E2E evidence remain unimplemented release blockers.
 - Current failover runtime does not export named Prometheus metrics or trace spans.
 - Existing benchmark source includes mock/simulated workloads and declares
   thresholds; source presence does not establish measured latency.
@@ -55,9 +60,8 @@ tests or benchmarks passed. See [`AUDIT.md`](AUDIT.md) for audit limitations.
 
 - Decide whether `stop()` requires a genuinely bounded shutdown contract; if so,
   implement and test it before documenting a maximum wait.
-- Implement durable metadata persistence and real adapters for restore, traffic,
-  replication-position catch-up, spare activation, snapshot validation, and
-  recovered-state verification before treating results as completed operations.
+- Integrate shared durable metadata, shard-write fencing, and multi-process
+  failover/recovery E2E evidence before treating the DR rollout as ready.
 - Establish whether quorum-log replay should restore any manager state and define
   the persistence/consistency contract before making durability claims.
 - Validate performance targets on representative hardware and distinguish

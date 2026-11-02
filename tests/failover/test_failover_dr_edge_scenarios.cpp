@@ -31,9 +31,13 @@
 #include <gtest/gtest.h>
 
 #include "failover/disaster_recovery_manager.h"
+#include "sharding/epoch_fencing.h"
 
+#include <chrono>
 #include <cstdint>
+#include <filesystem>
 #include <initializer_list>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -74,7 +78,34 @@ DisasterRecoveryPlan makeMinimalProductionPlan() {
     auto plan = makeMinimalDryRunPlan();
     plan.dry_run = false;
     plan.snapshot_id = "snapshot-drtest";
+    plan.snapshot_checksum = "sha256:recovery-fixture";
+    plan.required_lsn = 42;
+    plan.required_term = 7;
     return plan;
+}
+
+class TemporaryMetadataLog {
+public:
+    TemporaryMetadataLog()
+        : path(std::filesystem::temp_directory_path() /
+               ("themis_dr_metadata_" +
+                std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()) +
+                ".log")) {}
+
+    ~TemporaryMetadataLog() {
+        std::error_code error;
+        std::filesystem::remove(path, error);
+    }
+
+    std::filesystem::path path;
+};
+
+DisasterRecoveryConfig makeProductionConfig(const std::filesystem::path& metadata_path) {
+    auto config = makeTestConfig();
+    config.require_quorum = true;
+    config.enforce_epoch_fencing = true;
+    config.metadata_log_path = metadata_path.string();
+    return config;
 }
 
 DisasterRecoveryManager::StepHook successfulAdapterHook() {
@@ -88,6 +119,18 @@ void installAdapterHooks(DisasterRecoveryManager& manager,
                          std::initializer_list<DisasterRecoveryStep> steps) {
     for (const auto step : steps) {
         manager.setStepHook(step, successfulAdapterHook());
+        manager.setVerificationHook(
+            step,
+            [](const DisasterRecoveryPlan& plan, std::string& detail)
+                -> std::optional<DisasterRecoveryVerificationProof> {
+                detail = "independent adapter read-back passed";
+                DisasterRecoveryVerificationProof proof;
+                proof.checksum = plan.snapshot_checksum;
+                proof.lsn = plan.required_lsn;
+                proof.term = plan.required_term;
+                proof.observed_site = plan.recovery_site;
+                return proof;
+            });
     }
 }
 
@@ -226,22 +269,20 @@ TEST(DisasterRecoveryEdgeDRE07, DryRunPlanCompletesSuccessfully) {
 // ===========================================================================
 
 TEST(DisasterRecoveryEdgeDRE08, StepHookFailureIsolatedAndStatisticsUpdated) {
-    DisasterRecoveryManager mgr(makeTestConfig(), nullptr, nullptr);
+    TemporaryMetadataLog metadata;
+    DisasterRecoveryManager mgr(makeProductionConfig(metadata.path), nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    mgr.testSetQuorumOverride(false);
 
-    // Inject a failure hook at PRECHECKS to simulate a dependency-degraded scenario.
-    mgr.setStepHook(DisasterRecoveryStep::PRECHECKS,
-        [](const DisasterRecoveryPlan&, std::string& detail) -> bool {
-            detail = "dependency-degraded: fencing unavailable";
-            return false;
-        });
-
-    const auto result = mgr.executePlan(makeMinimalDryRunPlan());
+    const auto result = mgr.executePlan(makeMinimalProductionPlan());
 
     EXPECT_FALSE(result.success);
     EXPECT_EQ(result.final_state, DisasterRecoveryState::FAILED);
     EXPECT_FALSE(result.error_message.empty());
+    EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::QUORUM_UNAVAILABLE);
 
-    // Only PRECHECKS should appear in step_results (execution stops at first failure)
+    // Missing quorum must stop the plan before any adapter is called.
     ASSERT_GE(result.step_results.size(), 1u);
     EXPECT_EQ(result.step_results[0].step, DisasterRecoveryStep::PRECHECKS);
     EXPECT_FALSE(result.step_results[0].success);
@@ -256,7 +297,11 @@ TEST(DisasterRecoveryEdgeDRE08, StepHookFailureIsolatedAndStatisticsUpdated) {
 }
 
 TEST(DisasterRecoveryEdgeDRE09, ProductionPlanRequiresSnapshotValidationAdapter) {
-    DisasterRecoveryManager mgr(makeTestConfig(), nullptr, nullptr);
+    TemporaryMetadataLog metadata;
+    DisasterRecoveryManager mgr(makeProductionConfig(metadata.path), nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    mgr.testSetQuorumOverride(true);
 
     const auto result = mgr.executePlan(makeMinimalProductionPlan());
 
@@ -264,12 +309,15 @@ TEST(DisasterRecoveryEdgeDRE09, ProductionPlanRequiresSnapshotValidationAdapter)
     ASSERT_EQ(result.step_results.size(), 2u);
     EXPECT_EQ(result.step_results.back().step,
               DisasterRecoveryStep::SNAPSHOT_VALIDATION);
-    EXPECT_NE(result.error_message.find("adapter is not configured"),
-              std::string::npos);
+    EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::NOT_CONFIGURED);
 }
 
 TEST(DisasterRecoveryEdgeDRE10, ProductionPlanRequiresRestoreAdapter) {
-    DisasterRecoveryManager mgr(makeTestConfig(), nullptr, nullptr);
+    TemporaryMetadataLog metadata;
+    DisasterRecoveryManager mgr(makeProductionConfig(metadata.path), nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    mgr.testSetQuorumOverride(true);
     installAdapterHooks(mgr, {DisasterRecoveryStep::SNAPSHOT_VALIDATION});
 
     const auto result = mgr.executePlan(makeMinimalProductionPlan());
@@ -277,12 +325,15 @@ TEST(DisasterRecoveryEdgeDRE10, ProductionPlanRequiresRestoreAdapter) {
     EXPECT_FALSE(result.success);
     ASSERT_EQ(result.step_results.size(), 4u);
     EXPECT_EQ(result.step_results.back().step, DisasterRecoveryStep::RESTORE);
-    EXPECT_NE(result.error_message.find("storage restore adapter"),
-              std::string::npos);
+    EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::NOT_CONFIGURED);
 }
 
 TEST(DisasterRecoveryEdgeDRE11, QuorumDoesNotSatisfyCatchupRequirement) {
-    DisasterRecoveryManager mgr(makeTestConfig(), nullptr, nullptr);
+    TemporaryMetadataLog metadata;
+    DisasterRecoveryManager mgr(makeProductionConfig(metadata.path), nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    mgr.testSetQuorumOverride(true);
     installAdapterHooks(mgr, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
                               DisasterRecoveryStep::RESTORE});
 
@@ -292,12 +343,15 @@ TEST(DisasterRecoveryEdgeDRE11, QuorumDoesNotSatisfyCatchupRequirement) {
     ASSERT_EQ(result.step_results.size(), 5u);
     EXPECT_EQ(result.step_results.back().step,
               DisasterRecoveryStep::REPLICA_CATCHUP);
-    EXPECT_NE(result.error_message.find("replication-position adapter"),
-              std::string::npos);
+    EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::NOT_CONFIGURED);
 }
 
 TEST(DisasterRecoveryEdgeDRE12, ProductionPlanRequiresTrafficShiftAdapter) {
-    DisasterRecoveryManager mgr(makeTestConfig(), nullptr, nullptr);
+    TemporaryMetadataLog metadata;
+    DisasterRecoveryManager mgr(makeProductionConfig(metadata.path), nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    mgr.testSetQuorumOverride(true);
     installAdapterHooks(mgr, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
                               DisasterRecoveryStep::RESTORE,
                               DisasterRecoveryStep::REPLICA_CATCHUP});
@@ -308,12 +362,15 @@ TEST(DisasterRecoveryEdgeDRE12, ProductionPlanRequiresTrafficShiftAdapter) {
     ASSERT_EQ(result.step_results.size(), 6u);
     EXPECT_EQ(result.step_results.back().step,
               DisasterRecoveryStep::TRAFFIC_SHIFT);
-    EXPECT_NE(result.error_message.find("traffic-shift adapter"),
-              std::string::npos);
+    EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::NOT_CONFIGURED);
 }
 
 TEST(DisasterRecoveryEdgeDRE13, ProductionPlanRequiresRecoveredStateVerification) {
-    DisasterRecoveryManager mgr(makeTestConfig(), nullptr, nullptr);
+    TemporaryMetadataLog metadata;
+    DisasterRecoveryManager mgr(makeProductionConfig(metadata.path), nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    mgr.testSetQuorumOverride(true);
     auto plan = makeMinimalProductionPlan();
     plan.shift_traffic = false;
     installAdapterHooks(mgr, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
@@ -326,6 +383,199 @@ TEST(DisasterRecoveryEdgeDRE13, ProductionPlanRequiresRecoveredStateVerification
     ASSERT_EQ(result.step_results.size(), 7u);
     EXPECT_EQ(result.step_results.back().step,
               DisasterRecoveryStep::VERIFICATION);
-    EXPECT_NE(result.error_message.find("verification adapter"),
-              std::string::npos);
+    EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::NOT_CONFIGURED);
+}
+
+TEST(DisasterRecoveryEdgeDRE14, AdapterAcknowledgementWithoutVerifierIsNotConfigured) {
+    TemporaryMetadataLog metadata;
+    DisasterRecoveryManager mgr(makeProductionConfig(metadata.path), nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    mgr.testSetQuorumOverride(true);
+    mgr.setStepHook(DisasterRecoveryStep::SNAPSHOT_VALIDATION, successfulAdapterHook());
+
+    const auto result = mgr.executePlan(makeMinimalProductionPlan());
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::NOT_CONFIGURED);
+    EXPECT_EQ(result.step_results.back().step,
+              DisasterRecoveryStep::SNAPSHOT_VALIDATION);
+}
+
+TEST(DisasterRecoveryEdgeDRE15, ChecksumMismatchFailsIndependentVerification) {
+    TemporaryMetadataLog metadata;
+    DisasterRecoveryManager mgr(makeProductionConfig(metadata.path), nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    mgr.testSetQuorumOverride(true);
+    mgr.setStepHook(DisasterRecoveryStep::SNAPSHOT_VALIDATION, successfulAdapterHook());
+    mgr.setVerificationHook(
+        DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+        [](const DisasterRecoveryPlan&, std::string& detail)
+            -> std::optional<DisasterRecoveryVerificationProof> {
+            detail = "snapshot checksum differs";
+            DisasterRecoveryVerificationProof proof;
+            proof.checksum = "sha256:wrong";
+            return proof;
+        });
+
+    const auto result = mgr.executePlan(makeMinimalProductionPlan());
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::VERIFICATION_FAILED);
+    EXPECT_EQ(result.step_results.back().step,
+              DisasterRecoveryStep::SNAPSHOT_VALIDATION);
+}
+
+TEST(DisasterRecoveryEdgeDRE20, AdapterNegativeAcknowledgementFailsStep) {
+    TemporaryMetadataLog metadata;
+    DisasterRecoveryManager mgr(makeProductionConfig(metadata.path), nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    mgr.testSetQuorumOverride(true);
+    mgr.setStepHook(
+        DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+        [](const DisasterRecoveryPlan&, std::string& detail) {
+            detail = "snapshot adapter rejected the operation";
+            return false;
+        });
+    mgr.setVerificationHook(
+        DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+        [](const DisasterRecoveryPlan& plan, std::string&)
+            -> std::optional<DisasterRecoveryVerificationProof> {
+            DisasterRecoveryVerificationProof proof;
+            proof.checksum = plan.snapshot_checksum;
+            return proof;
+        });
+
+    const auto result = mgr.executePlan(makeMinimalProductionPlan());
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::ADAPTER_FAILURE);
+    EXPECT_EQ(result.step_results.back().step,
+              DisasterRecoveryStep::SNAPSHOT_VALIDATION);
+}
+
+TEST(DisasterRecoveryEdgeDRE16, StaleReplicationPositionFailsCatchup) {
+    TemporaryMetadataLog metadata;
+    DisasterRecoveryManager mgr(makeProductionConfig(metadata.path), nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    mgr.testSetQuorumOverride(true);
+    installAdapterHooks(mgr, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+                              DisasterRecoveryStep::RESTORE,
+                              DisasterRecoveryStep::REPLICA_CATCHUP});
+    mgr.setVerificationHook(
+        DisasterRecoveryStep::REPLICA_CATCHUP,
+        [](const DisasterRecoveryPlan& plan, std::string& detail)
+            -> std::optional<DisasterRecoveryVerificationProof> {
+            detail = "replica is behind required WAL position";
+            DisasterRecoveryVerificationProof proof;
+            proof.term = plan.required_term;
+            proof.lsn = plan.required_lsn - 1;
+            return proof;
+        });
+
+    const auto result = mgr.executePlan(makeMinimalProductionPlan());
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error_code,
+              DisasterRecoveryErrorCode::STALE_REPLICATION_POSITION);
+    EXPECT_EQ(result.step_results.back().step,
+              DisasterRecoveryStep::REPLICA_CATCHUP);
+}
+
+TEST(DisasterRecoveryEdgeDRE21, TrafficShiftToWrongSiteFailsVerification) {
+    TemporaryMetadataLog metadata;
+    DisasterRecoveryManager mgr(makeProductionConfig(metadata.path), nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    mgr.testSetQuorumOverride(true);
+    installAdapterHooks(mgr, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+                              DisasterRecoveryStep::RESTORE,
+                              DisasterRecoveryStep::REPLICA_CATCHUP,
+                              DisasterRecoveryStep::TRAFFIC_SHIFT});
+    mgr.setVerificationHook(
+        DisasterRecoveryStep::TRAFFIC_SHIFT,
+        [](const DisasterRecoveryPlan&, std::string&)
+            -> std::optional<DisasterRecoveryVerificationProof> {
+            DisasterRecoveryVerificationProof proof;
+            proof.observed_site = "old-primary";
+            return proof;
+        });
+
+    const auto result = mgr.executePlan(makeMinimalProductionPlan());
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::VERIFICATION_FAILED);
+    EXPECT_EQ(result.step_results.back().step,
+              DisasterRecoveryStep::TRAFFIC_SHIFT);
+}
+
+TEST(DisasterRecoveryEdgeDRE17, MissingFencingManagerBlocksBeforeRestore) {
+    TemporaryMetadataLog metadata;
+    DisasterRecoveryManager mgr(makeProductionConfig(metadata.path), nullptr, nullptr);
+    mgr.testSetQuorumOverride(true);
+    installAdapterHooks(mgr, {DisasterRecoveryStep::SNAPSHOT_VALIDATION});
+
+    const auto result = mgr.executePlan(makeMinimalProductionPlan());
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error_code, DisasterRecoveryErrorCode::NOT_CONFIGURED);
+    EXPECT_EQ(result.step_results.back().step, DisasterRecoveryStep::EPOCH_FENCING);
+}
+
+TEST(DisasterRecoveryEdgeDRE19, MetadataWriteFailureBlocksBeforeAdapters) {
+    const auto metadata_directory = std::filesystem::temp_directory_path() /
+        ("themis_dr_metadata_directory_" +
+         std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
+    ASSERT_TRUE(std::filesystem::create_directory(metadata_directory));
+    auto config = makeProductionConfig(metadata_directory);
+    DisasterRecoveryManager mgr(config, nullptr,
+        std::make_shared<themis::sharding::EpochFencingManager>(
+            themis::sharding::EpochFencingConfig{}));
+    mgr.testSetQuorumOverride(true);
+
+    const auto result = mgr.executePlan(makeMinimalProductionPlan());
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error_code,
+              DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED);
+    ASSERT_EQ(result.step_results.size(), 1u);
+    EXPECT_EQ(result.step_results.front().step, DisasterRecoveryStep::PRECHECKS);
+    std::error_code error;
+    std::filesystem::remove(metadata_directory, error);
+}
+
+TEST(DisasterRecoveryEdgeDRE18, CompletedMetadataSurvivesManagerRestart) {
+    TemporaryMetadataLog metadata;
+    const auto plan = makeMinimalProductionPlan();
+    {
+        DisasterRecoveryManager mgr(makeProductionConfig(metadata.path), nullptr,
+            std::make_shared<themis::sharding::EpochFencingManager>(
+                themis::sharding::EpochFencingConfig{}));
+        mgr.testSetQuorumOverride(true);
+        installAdapterHooks(mgr, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+                                  DisasterRecoveryStep::RESTORE,
+                                  DisasterRecoveryStep::REPLICA_CATCHUP,
+                                  DisasterRecoveryStep::TRAFFIC_SHIFT,
+                                  DisasterRecoveryStep::VERIFICATION});
+
+        const auto result = mgr.executePlan(plan);
+        ASSERT_TRUE(result.success) << result.error_message;
+        EXPECT_TRUE(std::filesystem::exists(metadata.path));
+    }
+
+    DisasterRecoveryManager restarted(makeProductionConfig(metadata.path), nullptr, nullptr);
+    const auto recovered = restarted.executePlan(plan);
+    EXPECT_TRUE(recovered.success);
+    EXPECT_EQ(recovered.final_state, DisasterRecoveryState::COMPLETED);
+    EXPECT_EQ(recovered.step_results.size(), 7u);
+    EXPECT_FALSE(recovered.step_results.back().message.empty());
+
+    auto conflicting_plan = plan;
+    conflicting_plan.recovery_site = "different-site";
+    const auto conflict = restarted.executePlan(conflicting_plan);
+    EXPECT_FALSE(conflict.success);
+    EXPECT_EQ(conflict.error_code, DisasterRecoveryErrorCode::INVALID_PLAN);
 }

@@ -305,6 +305,11 @@ void AutoFailoverManager::registerEventCallback(FailoverEventCallback callback) 
     event_callbacks_.push_back(std::move(callback));
 }
 
+void AutoFailoverManager::setSpareActivationHook(SpareActivationHook hook) {
+    std::lock_guard<std::mutex> lock(spare_activation_mutex_);
+    spare_activation_hook_ = std::move(hook);
+}
+
 /**
  * @brief Monitoring Loop.
  * @details Calls: load(), performHealthChecks(), checkForNetworkPartitions(), detectNodeFailures(), std::this_thread::sleep_for(), spdlog::error(), what().
@@ -562,6 +567,11 @@ FailoverResult AutoFailoverManager::processFailover(const FailoverTask& task) {
     auto start_time = std::chrono::steady_clock::now();
     FailoverResult result;
     result.failed_node_id = task.failed_node_id;
+    const auto finish = [&]() {
+        result.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start_time);
+        return result;
+    };
 
     try {
         // Step 1: Verify failure still present
@@ -570,30 +580,30 @@ FailoverResult AutoFailoverManager::processFailover(const FailoverTask& task) {
 
         // Step 2: Check quorum
         transitionState(FailoverOrchestratorState::CHECKING_QUORUM);
-        emitEvent(FailoverEventType::QUORUM_CHECK_PASSED, task.failed_node_id, "");
-
         if (!checkAndWaitForQuorum()) {
             spdlog::error("Quorum check failed for node: {}", task.failed_node_id);
             emitEvent(FailoverEventType::QUORUM_CHECK_FAILED, task.failed_node_id, "No quorum");
             transitionState(FailoverOrchestratorState::FAILED);
             result.success = false;
-            return result;
+            return finish();
         }
+        emitEvent(FailoverEventType::QUORUM_CHECK_PASSED, task.failed_node_id, "");
 
         // Step 3: Split-brain prevention
-        // FO-IMPL-003: fencing is always attempted if a fencing manager is available,
-        // regardless of enable_split_brain_prevention. The flag only controls whether
-        // we BLOCK promotion when no fencing manager is configured.
-        if (config_.enable_split_brain_prevention) {
-            if (!preventSplitBrain(task.failed_node_id)) {
-                spdlog::error("Split-brain prevention failed; blocking promotion");
-                transitionState(FailoverOrchestratorState::FAILED);
-                result.success = false;
-                return result;
-            }
-        } else if (fencing_manager_) {
-            // Manager available but prevention disabled — still fence but don't block
-            preventSplitBrain(task.failed_node_id);
+        if (!config_.enable_split_brain_prevention) {
+            result.error_message = "fencing cannot be disabled for failover";
+            emitDiagnostic(FailoverErrorCode::SPLIT_BRAIN_DETECTED,
+                           task.failed_node_id,
+                           result.error_message);
+            transitionState(FailoverOrchestratorState::FAILED);
+            return finish();
+        }
+        if (!preventSplitBrain(task.failed_node_id)) {
+            spdlog::error("Split-brain prevention failed; blocking promotion");
+            transitionState(FailoverOrchestratorState::FAILED);
+            result.error_message = "quorum-backed epoch fencing is required";
+            result.success = false;
+            return finish();
         }
 
         // Step 4: Select and promote replica or spare
@@ -604,20 +614,27 @@ FailoverResult AutoFailoverManager::processFailover(const FailoverTask& task) {
             spdlog::error("Failed to select replica for promotion");
             transitionState(FailoverOrchestratorState::FAILED);
             result.success = false;
-            return result;
+            return finish();
         }
 
         result.promoted_node_id = promoted_id;
 
         // Step 5: Activate spare if needed
         if (config_.enable_spare_activation) {
-            if (!activateSpareIfNeeded(task.failed_node_id)) {
+            transitionState(FailoverOrchestratorState::ACTIVATING_SPARE);
+            std::string activated_spare_id;
+            if (!activateSpareIfNeeded(task.failed_node_id, activated_spare_id)) {
+                result.degraded = true;
+                result.error_message = "spare activation failed or could not be independently verified";
                 spdlog::error("Spare activation is not available; blocking failover completion");
-                transitionState(FailoverOrchestratorState::FAILED);
+                transitionState(FailoverOrchestratorState::DEGRADED);
+                emitDiagnostic(FailoverErrorCode::SPARE_ACTIVATION_FAILED,
+                               task.failed_node_id,
+                               result.error_message);
                 result.success = false;
-                result.error_message = "spare activation failed or is not configured";
-                return result;
+                return finish();
             }
+            result.spare_node_id = activated_spare_id;
         }
 
         // Step 6: Update metadata
@@ -627,7 +644,7 @@ FailoverResult AutoFailoverManager::processFailover(const FailoverTask& task) {
             transitionState(FailoverOrchestratorState::FAILED);
             result.success = false;
             result.error_message = "metadata persistence adapter is not configured";
-            return result;
+            return finish();
         }
 
         // Step 7: Verify completion
@@ -636,7 +653,7 @@ FailoverResult AutoFailoverManager::processFailover(const FailoverTask& task) {
             spdlog::error("Failed to verify failover completion");
             transitionState(FailoverOrchestratorState::FAILED);
             result.success = false;
-            return result;
+            return finish();
         }
 
         transitionState(FailoverOrchestratorState::IDLE);
@@ -650,11 +667,7 @@ FailoverResult AutoFailoverManager::processFailover(const FailoverTask& task) {
         transitionState(FailoverOrchestratorState::FAILED);
     }
 
-    auto end_time = std::chrono::steady_clock::now();
-    result.duration =
-        std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
-
-    return result;
+    return finish();
 }
 
 /**
@@ -663,6 +676,11 @@ FailoverResult AutoFailoverManager::processFailover(const FailoverTask& task) {
  * @details Calls: spdlog::warn(), getConfig(), std::chrono::steady_clock::now(), hasQuorum(), append(), spdlog::error(), emitDiagnostic(), std::this_thread::sleep_for().
  */
 bool AutoFailoverManager::checkAndWaitForQuorum() {
+#ifdef THEMIS_TEST_BUILD
+    if (test_quorum_override_) {
+        return *test_quorum_override_;
+    }
+#endif
     if (!replication_mgr_) {
         spdlog::warn("ReplicationManager not available");
         return false;
@@ -725,6 +743,11 @@ bool AutoFailoverManager::startLeaderElection(const std::string& failed_node_id)
  */
 bool AutoFailoverManager::selectAndPromoteReplica(const std::string& failed_node_id,
                                                   std::string& promoted_id) {
+#ifdef THEMIS_TEST_BUILD
+    if (test_promotion_override_) {
+        return test_promotion_override_(failed_node_id, promoted_id);
+    }
+#endif
     if (!replication_mgr_) {
         return false;
     }
@@ -805,20 +828,47 @@ bool AutoFailoverManager::selectAndPromoteReplica(const std::string& failed_node
  * @details Emits a failure event when a spare manager is present. The caller
  *          must block failover completion when this operation returns false.
  */
-bool AutoFailoverManager::activateSpareIfNeeded(const std::string& failed_node_id) {
+bool AutoFailoverManager::activateSpareIfNeeded(const std::string& failed_node_id,
+                                                std::string& activated_spare_id) {
     if (!spare_manager_) {
-        return true;  // Spare manager not configured
+        return false;
     }
 
-    spdlog::info("Activating spare for failed node: {}", failed_node_id);
+    const auto available_spares = spare_manager_->getAvailableSpares();
+    if (available_spares.empty()) {
+        return false;
+    }
 
-    // Activation requires ring/read/write/document handlers from sharding runtime.
-    // In orchestrator-only mode we signal intent and let sharding controller execute.
-    emitEvent(FailoverEventType::SPARE_ACTIVATION_FAILED,
-              failed_node_id,
-              "Spare activation requires sharding runtime context");
+    SpareActivationHook activation_hook;
+    {
+        std::lock_guard<std::mutex> lock(spare_activation_mutex_);
+        activation_hook = spare_activation_hook_;
+    }
+    if (!activation_hook) {
+        return false;
+    }
 
-    return false;
+    const auto& candidate_spare = available_spares.front();
+    try {
+        if (!activation_hook(failed_node_id, candidate_spare)) {
+            return false;
+        }
+    } catch (const std::exception& exception) {
+        spdlog::error("Spare activation adapter threw: {}", exception.what());
+        return false;
+    } catch (...) {
+        spdlog::error("Spare activation adapter threw an unknown exception");
+        return false;
+    }
+
+    const auto activated = spare_manager_->getSpareInfo(candidate_spare);
+    if (!activated || activated->state != sharding::SpareState::ACTIVE) {
+        return false;
+    }
+
+    activated_spare_id = candidate_spare;
+    emitEvent(FailoverEventType::SPARE_ACTIVATED, candidate_spare, failed_node_id);
+    return true;
 }
 
 /**
@@ -831,9 +881,23 @@ bool AutoFailoverManager::activateSpareIfNeeded(const std::string& failed_node_i
  */
 bool AutoFailoverManager::updateMetadata(const std::string& old_leader_id,
                                          const std::string& new_leader_id) {
-    spdlog::error("Cannot update metadata {} -> {}: metadata persistence adapter is not configured",
-                  old_leader_id, new_leader_id);
-    return false;
+    if (!quorum_log_ || !fencing_manager_) {
+        spdlog::error("Cannot persist failover metadata {} -> {}: metadata log or fencing is not configured",
+                      old_leader_id, new_leader_id);
+        return false;
+    }
+
+    const auto epoch = fencing_manager_->currentEpoch();
+    if (epoch == 0 ||
+        !quorum_log_->append(epoch, new_leader_id, "FAILOVER_METADATA_UPDATED")) {
+        return false;
+    }
+
+    const auto persisted = quorum_log_->recover();
+    return persisted.valid &&
+           persisted.last_epoch == epoch &&
+           persisted.last_promoted_node == new_leader_id &&
+           persisted.last_decision == "FAILOVER_METADATA_UPDATED";
 }
 
 /**
@@ -844,7 +908,15 @@ bool AutoFailoverManager::updateMetadata(const std::string& old_leader_id,
  */
 bool AutoFailoverManager::verifyFailoverCompletion(const FailoverTask& task) {
     spdlog::info("Verifying failover completion for: {}", task.failed_node_id);
-    return replication_mgr_ && replication_mgr_->hasQuorum();
+    if (!replication_mgr_ || !replication_mgr_->hasQuorum() ||
+        !fencing_manager_ || !quorum_log_) {
+        return false;
+    }
+    const auto persisted = quorum_log_->recover();
+    return persisted.valid &&
+           persisted.last_epoch == fencing_manager_->currentEpoch() &&
+           !persisted.last_promoted_node.empty() &&
+           persisted.last_decision == "FAILOVER_METADATA_UPDATED";
 }
 
 /**
@@ -1043,6 +1115,9 @@ bool AutoFailoverManager::canTransition(FailoverOrchestratorState from,
     if (to == FailoverOrchestratorState::FAILED) {
         return true;
     }
+    if (to == FailoverOrchestratorState::DEGRADED) {
+        return true;
+    }
 
     // Forward path:
     //   IDLE → VERIFYING_FAILURE → CHECKING_QUORUM →
@@ -1090,6 +1165,9 @@ bool AutoFailoverManager::canTransition(FailoverOrchestratorState from,
         case FailoverOrchestratorState::FAILED:
             // Reaches IDLE — already handled above.
             return false;
+
+        case FailoverOrchestratorState::DEGRADED:
+            return to == FailoverOrchestratorState::VERIFYING_FAILURE;
 
         default:
             return false;
@@ -1193,6 +1271,9 @@ void AutoFailoverManager::emitDiagnostic(FailoverErrorCode code,
             case FailoverErrorCode::NODE_REJOIN_FAILED:
                 event_type = FailoverEventType::NODE_REJOIN_FAILED;
                 break;
+            case FailoverErrorCode::SPARE_ACTIVATION_FAILED:
+                event_type = FailoverEventType::FAILOVER_DEGRADED;
+                break;
             default:
                 event_type = FailoverEventType::FAILOVER_CANCELLED;
                 break;
@@ -1250,6 +1331,9 @@ void AutoFailoverManager::updateStatistics(const FailoverResult& result) {
         stats_.successful_failovers++;
     } else {
         stats_.failed_failovers++;
+    }
+    if (result.degraded) {
+        stats_.degraded_failovers++;
     }
 
     failover_durations_.push_back(result.duration);

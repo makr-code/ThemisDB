@@ -55,6 +55,8 @@ enum class FailoverEventType {
     HEARTBEAT_MISSED,          // Emitted when a health-check call times out (maps from FailoverErrorCode::HEARTBEAT_MISSED)
     SPLIT_BRAIN_RISK_DETECTED, // Emitted when split-brain prevention fails (maps from SPLIT_BRAIN_DETECTED)
     NODE_REJOIN_FAILED,        // Emitted when a node exhausts recovery attempts (maps from FailoverErrorCode::NODE_REJOIN_FAILED)
+    /// Promotion progressed, but required spare activation did not complete.
+    FAILOVER_DEGRADED,
 };
 
 enum class FailoverOrchestratorState {
@@ -69,6 +71,8 @@ enum class FailoverOrchestratorState {
     UPDATING_METADATA,
     COMPLETING_FAILOVER,
     FAILED,
+    /// The promoted replica may be serving, but required spare recovery failed.
+    DEGRADED,
 };
 
 struct AutoFailoverConfig {
@@ -122,6 +126,8 @@ struct FailoverResult {
     std::string spare_node_id;
     std::chrono::milliseconds duration;
     std::string error_message;
+    /// True when a required recovery action failed after promotion.
+    bool degraded{false};
 };
 
 class AutoFailoverManager {
@@ -226,6 +232,8 @@ public:
 
         // Recovery telemetry
         uint64_t total_recovery_attempts{0};
+        /// Number of failovers blocked in DEGRADED state by spare activation.
+        uint64_t degraded_failovers{0};
     };
 
     /**
@@ -244,6 +252,17 @@ public:
         const std::string&,  // node_id
         const std::string&   // detail message
     )>;
+
+    /**
+     * @brief Inject the runtime operation that activates a selected spare.
+     * @param hook Performs the real shard-ring/handler transition for the pair
+     *        (failed shard, spare shard). An absent or failed hook blocks completion.
+     * @note Activation is accepted only when HotSpareManager independently reports
+     *       the spare as ACTIVE after the callback returns.
+     */
+    using SpareActivationHook =
+        std::function<bool(const std::string&, const std::string&)>;
+    void setSpareActivationHook(SpareActivationHook hook);
 
     /**
      * @brief Register Event Callback.
@@ -300,7 +319,11 @@ public:
         FailoverTask task;
         task.failed_node_id = failed_node_id;
         task.enqueued_at    = std::chrono::steady_clock::now();
-        return processFailover(task);
+        auto result = processFailover(task);
+        std::lock_guard<std::mutex> lock(stats_mutex_);
+        last_failover_result_ = result;
+        updateStatistics(result);
+        return result;
     }
     void testSetHealthCheckOverride(
         std::function<std::map<std::string, bool>()> fn) {
@@ -356,6 +379,13 @@ public:
     }
     void testSetRecoveryOverride(std::function<bool(const std::string&)> fn) {
         recovery_override_ = std::move(fn);
+    }
+    void testSetQuorumOverride(bool has_quorum) noexcept {
+        test_quorum_override_ = has_quorum;
+    }
+    void testSetPromotionOverride(
+        std::function<bool(const std::string&, std::string&)> hook) {
+        test_promotion_override_ = std::move(hook);
     }
 #endif
 
@@ -424,6 +454,8 @@ private:
     // Event callbacks
     mutable std::mutex callbacks_mutex_;
     std::vector<FailoverEventCallback> event_callbacks_;
+    mutable std::mutex spare_activation_mutex_;
+    SpareActivationHook spare_activation_hook_;
 
     /**
      * @brief Monitoring Loop.
@@ -502,7 +534,8 @@ private:
      * @param[in] failed_node_id Identifier of the failed node.
      * @return True when the operation succeeds.
      */
-    bool activateSpareIfNeeded(const std::string& failed_node_id);
+    bool activateSpareIfNeeded(const std::string& failed_node_id,
+                               std::string& activated_spare_id);
     /**
      * @brief Update Metadata.
      * @param[in] old_leader_id Identifier of the old leader.
@@ -596,6 +629,8 @@ private:
 #ifdef THEMIS_TEST_BUILD
     std::function<std::map<std::string, bool>()> health_check_override_;
     std::function<bool(const std::string&)> recovery_override_;
+    std::function<bool(const std::string&, std::string&)> test_promotion_override_;
+    std::optional<bool> test_quorum_override_;
 #endif
 };
 

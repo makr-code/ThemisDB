@@ -213,23 +213,18 @@ TEST(WaveAFencing, FO_Promote_04_FENCE_INVALID_EPOCH) {
 }
 
 // ===========================================================================
-// FO-Promote-04-PREVENTION-DISABLED-NO-FENCE
-// When enable_split_brain_prevention=false and fencing_manager_=null,
-// processFailover must NOT call preventSplitBrain, so no FAILOVER_CANCELLED
-// (split-brain) events are emitted.  The failover may still fail at the
-// quorum step (null replication_mgr) — that is expected and acceptable.
+// FO-Promote-04-PREVENTION-DISABLED-BLOCKED
+// Disabling fencing must never permit failover, even when quorum is present.
 // ===========================================================================
 
-TEST(WaveAFencing, FO_Promote_04_PREVENTION_DISABLED_NO_FENCE) {
+TEST(WaveAFencing, FO_Promote_04_PREVENTION_DISABLED_BLOCKED) {
     AutoFailoverConfig cfg = makeFencingTestConfig();
     cfg.enable_split_brain_prevention = false;  // prevention explicitly disabled
-    cfg.failover_timeout              = 0ms;    // quorum check times out immediately
 
-    // null fencing manager, null replication manager
+    // Test-only quorum override lets the request reach the fencing safety gate.
     AutoFailoverManager mgr(cfg, nullptr, nullptr, nullptr, nullptr);
+    mgr.testSetQuorumOverride(true);
 
-    // Track any FAILOVER_CANCELLED events — these indicate a split-brain diagnostic was
-    // emitted (SPLIT_BRAIN_DETECTED maps to FAILOVER_CANCELLED in emitDiagnostic).
     std::atomic<int> split_brain_cancel_events{0};
     mgr.registerEventCallback(
         [&](FailoverEventType type, const std::string&, const std::string&) {
@@ -238,23 +233,47 @@ TEST(WaveAFencing, FO_Promote_04_PREVENTION_DISABLED_NO_FENCE) {
             }
         });
 
-    // Drive processFailover directly; it will fail at quorum (null replication_mgr)
-    // but must NOT enter the split-brain prevention path.
     const auto result = mgr.testProcessFailover("node-down");
 
     EXPECT_FALSE(result.success)
-        << "Expected failure (quorum unavailable with null replication_mgr), not split-brain block";
+        << "Failover must fail when fencing is disabled";
+    EXPECT_EQ(result.error_message, "fencing cannot be disabled for failover");
 
-    // The critical invariant: split-brain prevention was never triggered.
-    EXPECT_EQ(split_brain_cancel_events.load(), 0)
-        << "No FAILOVER_CANCELLED (split-brain) event must be emitted when "
-           "enable_split_brain_prevention=false and fencing_manager_=null";
+    EXPECT_EQ(split_brain_cancel_events.load(), 1)
+        << "A fail-safe diagnostic must be emitted when fencing is disabled";
 
-    // Split-brain prevention stat must remain zero.
     const auto stats = mgr.getStatistics();
     EXPECT_EQ(stats.split_brain_preventions, 0u)
-        << "split_brain_preventions must stay zero when prevention is disabled and "
-           "no fencing manager is present";
+        << "split_brain_preventions counts actual fencing attempts only";
+}
+
+TEST(WaveAFencing, FO_Promote_05_SPARE_FAILURE_LEAVES_DEGRADED_STATE) {
+    auto config = makeFencingTestConfig();
+    config.enable_spare_activation = true;
+    auto fencing = std::make_shared<StubEpochFencingManager>(42);
+    AutoFailoverManager manager(config, nullptr, nullptr, nullptr, fencing);
+    manager.testSetQuorumOverride(true);
+    manager.testSetPromotionOverride(
+        [](const std::string&, std::string& promoted_id) {
+            promoted_id = "replica-1";
+            return true;
+        });
+
+    std::atomic<int> degraded_events{0};
+    manager.registerEventCallback(
+        [&](FailoverEventType type, const std::string&, const std::string&) {
+            if (type == FailoverEventType::FAILOVER_DEGRADED) {
+                ++degraded_events;
+            }
+        });
+
+    const auto result = manager.testProcessFailover("node-down");
+
+    EXPECT_FALSE(result.success);
+    EXPECT_TRUE(result.degraded);
+    EXPECT_EQ(manager.getState(), FailoverOrchestratorState::DEGRADED);
+    EXPECT_EQ(degraded_events.load(), 1);
+    EXPECT_EQ(manager.getStatistics().degraded_failovers, 1u);
 }
 
 #endif  // THEMIS_TEST_BUILD
