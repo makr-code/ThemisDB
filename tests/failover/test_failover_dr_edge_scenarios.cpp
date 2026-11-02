@@ -37,6 +37,7 @@
 #include <chrono>
 #include <cstdint>
 #include <filesystem>
+#include <fstream>
 #include <initializer_list>
 #include <memory>
 #include <string>
@@ -588,6 +589,13 @@ TEST(DisasterRecoveryEdgeDRE23, CorruptMetadataBlocksBeforeAdapters) {
     ASSERT_EQ(result.step_results.size(), 1u);
     EXPECT_EQ(result.step_results.front().step, DisasterRecoveryStep::PRECHECKS);
     EXPECT_NE(result.error_message.find("malformed"), std::string::npos);
+
+    const auto repeated = manager.executePlan(makeMinimalProductionPlan());
+    EXPECT_FALSE(repeated.success);
+    EXPECT_EQ(repeated.error_code,
+              DisasterRecoveryErrorCode::METADATA_PERSISTENCE_FAILED);
+    EXPECT_EQ(manager.getStatistics().total_runs, 1u)
+        << "the replay failure should be cached instead of re-running the plan";
 }
 
 TEST(DisasterRecoveryEdgeDRE18, CompletedMetadataSurvivesManagerRestart) {

@@ -188,7 +188,10 @@ DisasterRecoveryResult DisasterRecoveryManager::executePlan(const DisasterRecove
     if (metadata_load_error_.empty() || plan.dry_run) {
         std::lock_guard<std::mutex> idem_lock(idempotency_mutex_);
         auto it = completed_plans_.find(plan.plan_id);
-        if (it != completed_plans_.end()) {
+        const bool may_return_cached_result =
+            metadata_load_error_.empty() || plan.dry_run ||
+            (it != completed_plans_.end() && !it->second.success);
+        if (it != completed_plans_.end() && may_return_cached_result) {
             const auto prior_fingerprint = completed_plan_fingerprints_.find(plan.plan_id);
             if (prior_fingerprint == completed_plan_fingerprints_.end() ||
                 prior_fingerprint->second != fingerprint) {
