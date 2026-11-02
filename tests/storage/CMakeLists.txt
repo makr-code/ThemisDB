@@ -4,6 +4,20 @@ file(GLOB STORAGE_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
+if(UNIX)
+    add_executable(storage_wal_crash_worker
+        "${CMAKE_CURRENT_SOURCE_DIR}/wal_crash_worker.cpp"
+    )
+    target_include_directories(storage_wal_crash_worker PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+    target_link_libraries(storage_wal_crash_worker PRIVATE
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+endif()
+
 foreach(_src IN LISTS STORAGE_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_storage_${_stem}_focused")
@@ -40,7 +54,13 @@ foreach(_src IN LISTS STORAGE_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
-    if(_stem STREQUAL "test_storage_contract_hardening_focused")
+    if(_stem STREQUAL "test_wal_process_crash" AND UNIX)
+        add_dependencies(${_target} storage_wal_crash_worker)
+        target_compile_definitions(${_target} PRIVATE
+            THEMIS_STO07_WAL_CRASH_WORKER="$<TARGET_FILE:storage_wal_crash_worker>"
+        )
+        list(APPEND _labels storage crash_recovery process_kill)
+    elseif(_stem STREQUAL "test_storage_contract_hardening_focused")
         list(APPEND _labels storage contract hardening wave_a release_critical wave_a_flow_server_query_storage_transaction)
     elseif(_stem STREQUAL "test_storage_phase3_error_handling_focused")
         list(APPEND _labels storage error_handling phase3 wave_a release_critical wave_a_flow_server_query_storage_transaction)

@@ -154,11 +154,14 @@ public:
     /**
      * @brief Enqueue a batch of pre-built events.
      *
-     * More efficient than calling ingest() in a loop because the mutex is
-     * taken only once.  Events are appended in order.
+     * The batch is enqueued in order and all-or-nothing. Under BLOCK policy,
+     * a full buffer waits for room for the entire batch; timeout enqueues none.
+     * Under DROP policy, insufficient room drops the entire batch.
      *
-     * @return Number of events successfully enqueued.  If back-pressure
-     *         triggers, the returned count may be less than `events.size()`.
+     * @return The full batch size on acceptance, zero when DROP policy discards
+     *         the batch, or an error when the batch cannot be accepted.
+     * @note A batch larger than the configured buffer is rejected under BLOCK
+     *       policy and dropped under DROP policy.
      */
     Result<size_t> ingestBatch(std::vector<Event> events);
 
@@ -166,7 +169,10 @@ public:
      * @brief Immediately flush all buffered events to RocksDB.
      *
      * Blocks until the flush is complete.  Useful for testing and graceful
-     * shutdown scenarios.
+     * shutdown scenarios. Each RocksDB WriteBatch is atomic; if a batch write
+     * fails, its first failed offset is reported and that batch plus the
+     * remaining suffix is retained for retry. Earlier successful WriteBatches
+     * are committed and are not repeated.
      */
     Result<void> flush();
 

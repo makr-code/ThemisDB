@@ -589,7 +589,8 @@ FailoverResult AutoFailoverManager::processFailover(const FailoverTask& task) {
         }
         emitEvent(FailoverEventType::QUORUM_CHECK_PASSED, task.failed_node_id, "");
 
-        // Step 3: Split-brain prevention
+        // A write-side promotion always requires a valid epoch fence. The
+        // configuration flag cannot bypass this safety precondition.
         if (!config_.enable_split_brain_prevention) {
             result.error_message = "fencing cannot be disabled for failover";
             emitDiagnostic(FailoverErrorCode::SPLIT_BRAIN_DETECTED,

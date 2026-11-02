@@ -86,12 +86,11 @@ protected:
         ASSERT_FALSE(latest.empty());
         std::fstream f(latest, std::ios::in | std::ios::out | std::ios::binary);
         ASSERT_TRUE(f.is_open());
-        // Offset 8 is mid-entry: past the 4-byte magic but within the 8-byte
-        // sequence number, so the sequence field is corrupted.  Since the
-        // CRC check covers magic+seq+type+klen+vlen+key+value, corrupting
-        // any of these bytes causes replay to stop at this entry.
-        f.seekp(8);
-        char bad = '\xFF';
+        // The first record is 21-byte header + 6-byte key + 1-byte value + CRC.
+        // Corrupt the second record while a valid third record remains after it.
+        constexpr std::streamoff first_record_size = 21 + 6 + 1 + 4;
+        f.seekp(first_record_size);
+        const char bad = '\0';
         f.write(&bad, 1);
     }
 
@@ -133,7 +132,7 @@ TEST_F(WALChaosTest, NormalRecovery_AllEntriesReplayed) {
 // Truncated last segment (simulated crash)
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST_F(WALChaosTest, TruncatedLastEntry_RecoversPriorEntries) {
+TEST_F(WALChaosTest, IncompleteFinalRecord_TruncatesTailAndRecoversCompleteEntries) {
     {
         auto wal = WALStorage::open(makeConfig(wal_dir_));
         ASSERT_TRUE(wal.has_value());
@@ -143,18 +142,18 @@ TEST_F(WALChaosTest, TruncatedLastEntry_RecoversPriorEntries) {
         // Flush to ensure data is on disk before we truncate
         ASSERT_TRUE((*wal)->flush().has_value());
     }
-    // Truncate the last 4 bytes (corrupt the last entry's CRC)
+    // Remove the final checksum so the last record is physically incomplete.
     truncateLastSegment(4);
 
     int count = 0;
     WALStorage::RecoveryCallback cb = [&](const WALStorage::Entry&) {
         ++count; return true;
     };
-    auto wal2 = WALStorage::open(makeConfig(wal_dir_), cb);
+    WALStorage::RecoveryResult recovery_result;
+    auto wal2 = WALStorage::open(makeConfig(wal_dir_), cb, &recovery_result);
     ASSERT_TRUE(wal2.has_value());
-
-    // The final physical record is incomplete and is the only recoverable damage.
-    EXPECT_EQ(count, 4) << "Only the four complete records before the tail are recovered";
+    EXPECT_EQ(recovery_result.status, WALStorage::RecoveryStatus::TruncatedTail);
+    EXPECT_EQ(count, 4) << "Only the incomplete final record may be discarded";
 }
 
 TEST_F(WALChaosTest, EmptyLastSegment_RecoverySucceeds) {
@@ -180,10 +179,10 @@ TEST_F(WALChaosTest, EmptyLastSegment_RecoverySucceeds) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// CRC corruption is not an incomplete-tail recovery case and must fail closed
+// Mid-log corruption fails closed instead of silently stopping replay
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST_F(WALChaosTest, CRCCorruption_FailsClosed) {
+TEST_F(WALChaosTest, MidLogCorruption_FailsClosedAfterPriorEntries) {
     {
         auto wal = WALStorage::open(makeConfig(wal_dir_));
         ASSERT_TRUE(wal.has_value());
@@ -199,9 +198,12 @@ TEST_F(WALChaosTest, CRCCorruption_FailsClosed) {
     WALStorage::RecoveryCallback cb = [&](const WALStorage::Entry&) {
         ++count; return true;
     };
-    auto wal2 = WALStorage::open(makeConfig(wal_dir_), cb);
-    EXPECT_FALSE(wal2.has_value()) << "CRC corruption must prevent startup";
-    EXPECT_EQ(count, 0) << "The damaged first record must not be silently skipped";
+    WALStorage::RecoveryResult recovery_result;
+    auto wal2 = WALStorage::open(makeConfig(wal_dir_), cb, &recovery_result);
+    EXPECT_FALSE(wal2.has_value()) << "Mid-log corruption must fail recovery";
+    EXPECT_EQ(recovery_result.status, WALStorage::RecoveryStatus::Corrupted);
+    EXPECT_EQ(recovery_result.last_valid_lsn, 1u);
+    EXPECT_EQ(count, 1) << "Recovery must stop before replaying later records";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

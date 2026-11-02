@@ -152,6 +152,14 @@ struct GlobalTwoPhaseCommitRecoveryReport {
 
     /// False if any supplied coordinator is missing or unresolved work remains.
     bool ready_for_service = false;
+
+    /**
+    * @brief Whether startup must remain blocked after the recovery pass.
+    * @return True if any coordinator is missing or unresolved work remains.
+    */
+    [[nodiscard]] bool startupBlocked() const noexcept {
+        return !ready_for_service;
+    }
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -189,6 +197,7 @@ public:
      * @return             Aggregated counts and per-coordinator results.
      *                      ready_for_service is false when a supplied coordinator
      *                      is null or any non-final transaction remains.
+     *                     Use startupBlocked() to test readiness.
      */
     [[nodiscard]] static GlobalTwoPhaseCommitRecoveryReport recoverAll(
         const std::vector<IRecoverableTwoPhaseCoordinator*>& coordinators
@@ -211,7 +220,6 @@ public:
 
             coordinator_report.resolved =
                 coordinator->recoverInDoubtTransactions();
-
             coordinator_report.in_doubt_after =
                 coordinator->getRecoverableTransactions().size();
 

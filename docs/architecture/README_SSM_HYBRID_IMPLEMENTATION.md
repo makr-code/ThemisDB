@@ -7,9 +7,9 @@
 
 # SSM/Hybrid/Infini-attention Implementation — Quick Start
 
-**Status:** Phase 1 Complete ✅ | Phase 2 Ready 📋  
+**Status:** Historical Phase 1 snapshot; the SyntheticSSMStub implementation was removed and no SSM inference backend is provided.
 **Branch:** develop  
-**Last Updated:** 2026-07-22
+**Last Updated:** 2026-11-02
 
 ---
 
@@ -32,13 +32,17 @@
   - System-of-record principle
   - Security boundaries & multi-tenant isolation
 
-### Implementation (1,683 lines of production code)
+### Historical Implementation Snapshot
+
+The inventory below describes the earlier Phase 1 snapshot, not the current
+tree. In particular, `SyntheticSSMStub` has been removed from the production
+headers/source and its benchmark; state/interface coverage uses a test-local
+fixture. No SSM inference backend is provided.
 
 **Phase 1 Deliverables:**
 - ✅ `include/llm/ssm_state_store.h` (153 L) — State persistence interface
 - ✅ `src/llm/ssm_state_store.cpp` (132 L) — In-memory implementation
-- ✅ `include/llm/ssm_stub_plugin.h` (80 L) — Synthetic test plugin
-- ✅ `src/llm/ssm_stub_plugin.cpp` (140 L)
+- Removed: `include/llm/ssm_stub_plugin.h` and `src/llm/ssm_stub_plugin.cpp`
 - ✅ `include/llm/infini_attention_cpu.h` (136 L) — CPU fallback kernel
 - ✅ `src/llm/attention/infini_attention_cpu.cpp` (257 L)
 - ✅ `include/llm/ssm_drift_metrics.h` (79 L) — Observability metrics
@@ -160,14 +164,12 @@ docs/architecture/
 include/llm/
 ├── i_ssm_plugin.h ............................. Abstract interface
 ├── ssm_state_store.h .......................... State persistence
-├── ssm_stub_plugin.h .......................... Synthetic test impl
 ├── infini_attention_cpu.h ..................... CPU fallback
 ├── ssm_drift_metrics.h ........................ Prometheus metrics
 └── context_quality_metrics.h .................. Agentic Memory tracking
 
 src/llm/
 ├── ssm_state_store.cpp
-├── ssm_stub_plugin.cpp
 ├── ssm_drift_metrics.cpp
 └── attention/infini_attention_cpu.cpp
 

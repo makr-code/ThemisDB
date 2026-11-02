@@ -53,7 +53,8 @@ using NodeId = std::string;
  * @brief Immutable fencing token carried with every write RPC.
  *
  * A peer accepts requests only when the token epoch exactly matches its
- * current committed epoch. The token is cheaply copyable and serialisable.
+ * current committed epoch and the token is valid for its declared shard
+ * and source node. The token is cheaply copyable and serialisable.
  */
 struct EpochToken {
     EpochNumber epoch{0};
@@ -78,7 +79,7 @@ struct EpochToken {
 enum class FencingResult {
     ALLOWED,            ///< Token epoch matches; operation may proceed
     STALE_EPOCH,        ///< Token epoch is older than current; reject
-    INVALID_TOKEN,      ///< Token is structurally invalid (epoch==0)
+    INVALID_TOKEN,      ///< Zero epoch, empty issuer, wrong shard, or issuer/source mismatch
     FUTURE_EPOCH,       ///< Token epoch has not been committed locally
     STONITH_ISSUED,     ///< Stale node was fenced via STONITH
     STONITH_FAILED,     ///< STONITH attempt failed; manual intervention required
@@ -326,12 +327,19 @@ public:
      *
      * - ALLOWED        → proceed with the write
      * - STALE_EPOCH    → reject; if auto_stonith the STONITH call may follow
-     * - INVALID_TOKEN  → reject; structurally invalid token
+     * - INVALID_TOKEN  → reject; zero epoch, empty issuer, wrong shard, or issuer/source mismatch
+     * - FUTURE_EPOCH   → reject; token epoch is newer than the current committed epoch
      * - STONITH_ISSUED → stale token AND STONITH successfully issued
      * - STONITH_FAILED → stale token AND STONITH failed
      *
-     * @param token       Token attached to the incoming write RPC.
-     * @param source_node Node that sent the request (for STONITH targeting).
+     * @param token       Token attached to the incoming write RPC; its issuer must be
+     *                    non-empty, match source_node, and its shard_id must match
+     *                    this manager's shard.
+     * @param source_node Node that sent the request; must match the token issuer
+     *                    and is used for STONITH targeting.
+     * @return ALLOWED only for a valid current epoch, FUTURE_EPOCH for a newer
+     *         epoch, a stale-token result for an older epoch, or INVALID_TOKEN
+     *         for zero epoch, empty issuer, wrong shard, or issuer/source mismatch.
      */
     [[nodiscard]] FencingResult checkToken(const EpochToken& token,
                                            const NodeId& source_node);

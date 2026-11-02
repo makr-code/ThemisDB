@@ -371,7 +371,7 @@ TEST_F(WALStorageTest, AppendPut_PropagatesFsyncFailure) {
 // CRC32 corruption detection
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST_F(WALStorageTest, CorruptedEntry_FailsRecovery) {
+TEST_F(WALStorageTest, CorruptedEntry_FailsClosed) {
     // Write one valid entry.
     {
         auto wal = WALStorage::open(config());
@@ -389,12 +389,14 @@ TEST_F(WALStorageTest, CorruptedEntry_FailsRecovery) {
         f.write(&corrupt, 1);
     }
 
-    // Corruption is not an incomplete-tail recovery case: opening must fail.
+    // Strict recovery must reject a corrupted record instead of silently stopping.
     std::vector<WALStorage::Entry> entries;
+    WALStorage::RecoveryResult recovery_result;
     auto recovery = WALStorage::open(config(), [&](const WALStorage::Entry& e) {
         entries.push_back(e);
         return true;
-    });
+    }, &recovery_result);
     EXPECT_FALSE(recovery.has_value());
+    EXPECT_EQ(recovery_result.status, WALStorage::RecoveryStatus::Corrupted);
     EXPECT_EQ(entries.size(), 0u);
 }

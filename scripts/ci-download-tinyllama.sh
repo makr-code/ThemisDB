@@ -103,25 +103,15 @@ download_from_huggingface() {
     local tmp="${DEST}.tmp.$$"
 
     if download_with_retry "$HF_URL" "$tmp"; then
-        # Note: SHA256 of TheBloke GGUF may vary across HF cache mirror nodes.
-        # We verify the file is a valid GGUF (magic bytes GGUF = 0x47475546).
         local magic
         magic=$(xxd -l 4 -p "$tmp" 2>/dev/null || od -A n -N 4 -t x1 "$tmp" | tr -d ' \n' 2>/dev/null || echo "")
         if [[ "$magic" == "47475546" || "$magic" == "46554747" ]]; then
-            mv "$tmp" "$DEST"
-            log "GGUF magic bytes verified."
-            # Attempt SHA256 check (soft: warn only if known hash doesn't match,
-            # because TheBloke may update the file).
-            local actual
-            actual="$(sha256_of "$DEST")"
-            if [[ "$actual" != "$EXPECTED_SHA256" ]]; then
-                warn "SHA256 differs from pinned value (file may be a newer upload)."
-                warn "  pinned:  $EXPECTED_SHA256"
-                warn "  actual:  $actual"
-                warn "Continuing — update EXPECTED_SHA256 if you want a hard pin."
-            else
-                log "SHA256 pinned hash matches."
+            if ! verify_sha256 "$tmp" "$EXPECTED_SHA256"; then
+                rm -f "$tmp"
+                return 1
             fi
+            mv "$tmp" "$DEST"
+            log "GGUF magic bytes and pinned SHA256 verified."
             return 0
         else
             err "Downloaded file is not a valid GGUF (magic=$magic)"
@@ -177,6 +167,10 @@ download_from_ollama() {
 
     cp "$blob" "$DEST"
     log "Exported Ollama blob → $DEST ($(du -sh "$DEST" | cut -f1))"
+    if ! verify_sha256 "$DEST" "$EXPECTED_SHA256"; then
+        rm -f "$DEST"
+        return 1
+    fi
     return 0
 }
 
@@ -185,16 +179,15 @@ download_from_ollama() {
 main() {
     mkdir -p "$MODEL_DIR"
 
-    # Use cached file unless FORCE=1
+    # Reuse a cached model only when it matches the pinned artifact.
     if [[ "$FORCE" != "1" && -f "$DEST" ]]; then
         local size
         size=$(stat -c%s "$DEST" 2>/dev/null || stat -f%z "$DEST" 2>/dev/null || echo "0")
-        if (( size > 100000000 )); then  # > 100 MB → plausibly a real GGUF
-            log "Cached model found: $DEST ($(du -sh "$DEST" | cut -f1)) — skipping download."
-            log "Set FORCE=1 to force re-download."
+        if verify_sha256 "$DEST" "$EXPECTED_SHA256"; then
+            log "Cached model verified: $DEST ($(du -sh "$DEST" | cut -f1))."
             exit 0
         fi
-        warn "Cached file too small ($size bytes); re-downloading."
+        warn "Cached model failed the pinned SHA256 check (size=${size} bytes); re-downloading."
         rm -f "$DEST"
     fi
 
@@ -216,4 +209,6 @@ main() {
     exit 1
 }
 
-main "$@"
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+    main "$@"
+fi

@@ -14,10 +14,13 @@
 #include "llm/active_vram_allocator.h"
 #include "llm/grafana_metrics.h"
 #include "llm/llm_plugin_interface.h"
+#include "llm/llm_api_contract.h"
 #include "llm/ssm_state_store.h"
 
+#include <atomic>
 #include <memory>
 #include <mutex>
+#include <stdexcept>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -29,6 +32,14 @@ namespace rocksdb {
 
 namespace themis {
 namespace llm {
+
+/// @brief Indicates managed inference was rejected because process capacity is full.
+/// @note HTTP entry points map this condition to 429 with a `Retry-After` hint.
+class InferenceAdmissionRejected : public std::runtime_error {
+public:
+    InferenceAdmissionRejected()
+        : std::runtime_error("LLM inference capacity is full") {}
+};
 
 // Forward declaration
 class SSMStateRocksDBStore;
@@ -108,19 +119,22 @@ public:
      */
     static LLMPluginManager& instance();
     
-    /**
-     * @brief ═══════════════════════════════════════════════════════════ Convenience methods (delegate to default plugin) ═══════════════════════════════════════════════════════════
-     * @param[in] request Input parameter.
-     * @return Return value.
-     */
-    
+    /// @brief Route a managed generation request to its selected model plugin.
+    /// @param request Request whose prompt and generation budget are bounded.
+    /// @return The selected plugin's inference response.
+    /// @throws std::invalid_argument if inputs exceed managed limits.
+    /// @throws InferenceAdmissionRejected if the process-wide active-call cap is full.
+    /// @throws std::runtime_error if the requested model or default plugin is unavailable.
     InferenceResponse generate(const InferenceRequest& request);
     
     /**
-     * @brief Generate RAG.
-     * @param[in] rag_context Input parameter.
-     * @param[in] request Input parameter.
-     * @return Return value.
+     * @brief Route a managed retrieval-augmented generation request.
+     * @param rag_context Retrieved content and token budgets subject to managed limits.
+     * @param request Request whose prompt and generation budget are bounded.
+     * @return The selected plugin's RAG inference response.
+     * @throws std::invalid_argument if input bytes or token budgets exceed managed limits.
+     * @throws InferenceAdmissionRejected if the process-wide active-call cap is full.
+     * @throws std::runtime_error if the requested model or default plugin is unavailable.
      */
     InferenceResponse generateRAG(
         const RAGContext& rag_context,
@@ -369,7 +383,7 @@ public:
 private:
     struct PluginEntry {
         std::string name;
-        std::unique_ptr<ILLMPlugin> plugin;
+        std::shared_ptr<ILLMPlugin> plugin;
     };
     
     std::unordered_map<std::string, PluginEntry> plugins_;
@@ -381,7 +395,6 @@ private:
     // concurrent registrations from multiple threads yield an exact final count
     // (verified by test L7-TS-04 via 8-thread stress).
     std::atomic<uint64_t> plugin_operation_count_{0};
-
     ActiveVRAMAllocator vram_allocator_;
     
     // THREAD-SAFETY: Protects vram_allocator_ and vram_handles_ to ensure
@@ -409,6 +422,8 @@ private:
      * @return Pointer to the result.
      */
     ILLMPlugin* getDefaultPluginLocked() const;
+    std::shared_ptr<ILLMPlugin> getPluginHandleForModel(
+        const std::string& model_id) const;
 };
 
 bool createLlamaWrapper(

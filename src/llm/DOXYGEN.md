@@ -315,7 +315,7 @@ Status: active
 - StubInferenceEngine
 - StubLLMPlugin
 - StubPlugin
-- SyntheticSSMStubTest
+- SSMStateFixtureTest
 - TQMHardeningTest
 - ThrowingAdapterCandidateProvider
 - ThrowingEmbeddingProvider
@@ -510,7 +510,6 @@ Status: active
 - themis::llm::SubagentFactory
 - themis::llm::SubagentFactoryImpl
 - themis::llm::SubagentImpl
-- themis::llm::SyntheticSSMStub
 - themis::llm::TaskDecomposer
 - themis::llm::ThreadSafeCounter
 - themis::llm::TokenBufferGuard
@@ -4392,11 +4391,11 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
-### SyntheticSSMStubTest
+### SSMStateFixtureTest
 
 #### `void SetUp() override`
-- Source: `tests/llm/test_ssm_plugin_interface.cpp`:198
-- Brief: n/a
+- Source: `tests/llm/test_ssm_plugin_interface.cpp`
+- Brief: test-local state fixture setup
 - Parameters: none
 
 ### ThrowingAdapterCandidateProvider
@@ -18210,18 +18209,18 @@ Status: active
   - `<unnamed>` (SSMStateStoreTest): n/a
   - `<unnamed>` (ThreadSafety): n/a
 
-#### `TEST_F(SyntheticSSMStubTest, DeterministicBehavior)`
-- Source: `tests/llm/test_ssm_plugin_interface.cpp`:206
+#### `TEST_F(SSMStateFixtureTest, DeterministicBehavior)`
+- Source: `tests/llm/test_ssm_plugin_interface.cpp`:297
 - Brief: n/a
 - Parameters:
-  - `<unnamed>` (SyntheticSSMStubTest): n/a
+  - `<unnamed>` (SSMStateFixtureTest): n/a
   - `<unnamed>` (DeterministicBehavior): n/a
 
-#### `TEST_F(SyntheticSSMStubTest, StateRetentionDecay)`
-- Source: `tests/llm/test_ssm_plugin_interface.cpp`:222
+#### `TEST_F(SSMStateFixtureTest, StateRetentionDecay)`
+- Source: `tests/llm/test_ssm_plugin_interface.cpp`:313
 - Brief: n/a
 - Parameters:
-  - `<unnamed>` (SyntheticSSMStubTest): n/a
+  - `<unnamed>` (SSMStateFixtureTest): n/a
   - `<unnamed>` (StateRetentionDecay): n/a
 
 ### test_streaming_handler.cpp
@@ -38918,181 +38917,6 @@ Status: active
 - Source: `src/llm/subagent_factory_impl.cpp`:52
 - Brief: n/a
 - Parameters: none
-
-### themis::llm::SyntheticSSMStub
-
-#### `SyntheticSSMStub()`
-- Source: `include/llm/ssm_stub_plugin.h`:20
-- Brief: Synthetic SSMStub.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `bool deinitialize()`
-- Source: `include/llm/ssm_stub_plugin.h`:39
-- Brief: Deinitialize.
-- Parameters: none
-- Return: True when the operation succeeds.
-- Details: True when the operation succeeds.
-
-#### `std::vector< float > embed(const std::string &) override`
-- Source: `include/llm/ssm_stub_plugin.h`:54
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const std::string &): n/a
-
-#### `std::vector< uint8_t > exportLoRA(const std::string &) override`
-- Source: `include/llm/ssm_stub_plugin.h`:60
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const std::string &): n/a
-
-#### `InferenceResponse generate(const InferenceRequest &) override`
-- Source: `include/llm/ssm_stub_plugin.h`:52
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const InferenceRequest &): n/a
-
-#### `InferenceResponse generateRAG(const RAGContext &, const InferenceRequest &) override`
-- Source: `include/llm/ssm_stub_plugin.h`:53
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const RAGContext &): n/a
-  - `<unnamed>` (const InferenceRequest &): n/a
-
-#### `LLMCapabilities getCapabilities() const override`
-- Source: `include/llm/ssm_stub_plugin.h`:56
-- Brief: n/a
-- Parameters: none
-
-#### `std::string getDescription() const`
-- Source: `include/llm/ssm_stub_plugin.h`:26
-- Brief: n/a
-- Parameters: none
-
-#### `json getMemoryStats() const override`
-- Source: `include/llm/ssm_stub_plugin.h`:57
-- Brief: n/a
-- Parameters: none
-
-#### `std::optional< ModelInfo > getModelInfo() const override`
-- Source: `include/llm/ssm_stub_plugin.h`:45
-- Brief: n/a
-- Parameters: none
-
-#### `std::string getName() const`
-- Source: `include/llm/ssm_stub_plugin.h`:22
-- Brief: n/a
-- Parameters: none
-
-#### `json getPerformanceStats() const override`
-- Source: `include/llm/ssm_stub_plugin.h`:58
-- Brief: n/a
-- Parameters: none
-
-#### `std::string getStateFingerprint() const override`
-- Source: `include/llm/ssm_stub_plugin.h`:69
-- Brief: Get State Fingerprint.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `double getStateRetentionScore() const override`
-- Source: `include/llm/ssm_stub_plugin.h`:68
-- Brief: Get State Retention Score.
-- Parameters: none
-- Return: Return value.
-- Details: Return value.
-
-#### `SSMStateSnapshot getStateSnapshot(core::HLCTimestamp snapshot_ts) override`
-- Source: `include/llm/ssm_stub_plugin.h`:65
-- Brief: Get State Snapshot.
-- Parameters:
-  - `snapshot_ts` (core::HLCTimestamp): Input parameter.
-- Return: Return value.
-- Details: snapshot_ts Input parameter. Return value. Calls: resize().
-
-#### `std::string getVersion() const`
-- Source: `include/llm/ssm_stub_plugin.h`:24
-- Brief: n/a
-- Parameters: none
-
-#### `bool importLoRA(const std::string &, const std::vector< uint8_t > &) override`
-- Source: `include/llm/ssm_stub_plugin.h`:61
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const std::string &): n/a
-  - `<unnamed>` (const std::vector< uint8_t > &): n/a
-
-#### `bool initialize()`
-- Source: `include/llm/ssm_stub_plugin.h`:34
-- Brief: Initialize.
-- Parameters: none
-- Return: True when the operation succeeds.
-- Details: True when the operation succeeds. True when the operation succeeds. Calls: std::fill(), begin(), end().
-
-#### `bool isAvailable() const`
-- Source: `include/llm/ssm_stub_plugin.h`:40
-- Brief: n/a
-- Parameters: none
-
-#### `bool isModelLoaded() const override`
-- Source: `include/llm/ssm_stub_plugin.h`:46
-- Brief: n/a
-- Parameters: none
-
-#### `std::vector< LoRAInfo > listLoRAs() const override`
-- Source: `include/llm/ssm_stub_plugin.h`:50
-- Brief: n/a
-- Parameters: none
-
-#### `bool loadLoRA(const std::string &, const std::string &, float=1.0f) override`
-- Source: `include/llm/ssm_stub_plugin.h`:48
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const std::string &): n/a
-  - `<unnamed>` (const std::string &): n/a
-  - `<unnamed>` (float): n/a
-
-#### `bool loadModel(const std::string &, const json &={}) override`
-- Source: `include/llm/ssm_stub_plugin.h`:43
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const std::string &): n/a
-  - `<unnamed>` (const json &): n/a
-
-#### `void resetState() override`
-- Source: `include/llm/ssm_stub_plugin.h`:67
-- Brief: Reset State.
-- Parameters: none
-- Details: Calls: std::fill(), begin(), end().
-
-#### `bool restoreState(const SSMStateSnapshot &snapshot) override`
-- Source: `include/llm/ssm_stub_plugin.h`:66
-- Brief: Restore State.
-- Parameters:
-  - `snapshot` (const SSMStateSnapshot &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: snapshot Input parameter. True when the operation succeeds. Calls: size().
-
-#### `bool unloadLoRA(const std::string &) override`
-- Source: `include/llm/ssm_stub_plugin.h`:49
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (const std::string &): n/a
-
-#### `void unloadModel() override`
-- Source: `include/llm/ssm_stub_plugin.h`:44
-- Brief: Unload Model.
-- Parameters: none
-
-#### `bool updateState(const std::vector< int32_t > &tokens) override`
-- Source: `include/llm/ssm_stub_plugin.h`:64
-- Brief: Update State.
-- Parameters:
-  - `tokens` (const std::vector< int32_t > &): Input parameter.
-- Return: True when the operation succeeds.
-- Details: tokens Input parameter. True when the operation succeeds. Implements updateState without additional internal calls.
 
 ### themis::llm::TaskDecomposer
 

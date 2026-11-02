@@ -9,6 +9,9 @@
 - Stub (Phase 1): `src/llm/ssm_stub_plugin.cpp` (to be implemented)
 - State Store (Phase 1): `include/llm/ssm_state_store.h` (to be designed)
 
+> Historical design proposal: the planned SSM stub was removed and is not
+> available in the current tree. No SSM inference backend is provided.
+
 ---
 
 ## 1. Design Summary
@@ -231,4 +234,3 @@ Default: `enable_ssm_plugin = false` (safe fallback).
 - `include/llm/i_ssm_plugin.h` — Interface header
 - `include/llm/llm_plugin_interface.h` — Base class contract
 - `ai_working/P0_P1_P2_IMPLEMENTATION_STATUS.md` — Current status
-

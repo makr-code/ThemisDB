@@ -17,7 +17,7 @@ Human_Review: false
 Human_Author: ThemisDB Team
 Exact model backend not verifiable from final document text alone.
 -->
-### TST-03 Test Registration Consolidation (2026-11-01)
+### TST-03 Test Registration Consolidation (2026-11-02)
 
 - Reused canonical focused executables for AutoFocused CTest names across the affected modules, avoiding duplicate test-source compilation while preserving test names and labels.
 - Made missing canonical targets fail CMake configuration and deferred transaction aliases until all module targets are defined.
@@ -38,6 +38,11 @@ Exact model backend not verifiable from final document text alone.
 - Consolidated the API interface and API key authenticator sources on their API module executables. Preserved the legacy CTest names, labels, timeouts, and build-target names; API-key OpenSSL dependencies remain explicit. The non-modular inventory falls from 344 to 342 multi-target sources.
 - Consolidated the BaseEntity and Base reload-regression sources on their Base module executables. Preserved the legacy CTest names, labels, timeouts, and build-target names; the non-modular inventory falls from 342 to 340 multi-target sources.
 - Consolidated 25 ingestion test sources on their canonical module executables. Preserved legacy CTest names, labels, timeouts, and build-target names; standalone ingestion suites without a module target remain unchanged. The builtin-steps target retains its explicit `CXX_STANDARD 17` setting and nlohmann-json dependency. The non-modular inventory falls from 340 to 315 multi-target sources.
+- Consolidated 16 network focused test sources on their canonical module executables. Preserved legacy build-target names and CTest contracts; retained the separate WebSocket CDC target because its root registration compiles additional production sources. The non-modular inventory falls from 315 to 299 multi-target sources.
+- Consolidated six CDC focused test sources on their canonical module executables. Preserved legacy build-target names and CTest contracts, including explicit nlohmann-json and RocksDB link dependencies; the non-modular inventory falls from 299 to 293 multi-target sources.
+- Consolidated the Plugin Hot-Plug and Hot-Reload focused tests on their canonical module executables. Preserved legacy build-target names and CTest contracts, including the explicit `CMAKE_DL_LIBS` dependency; the non-modular inventory falls from 293 to 291 multi-target sources.
+- Consolidated six additional CDC focused tests on their canonical module executables. Preserved conditional HTTP/Kafka implementation sources, nlohmann-json/RocksDB dependencies, Windows runtime-DLL synchronization, and legacy build-target/CTest contracts. Both Windows Debug profiles configure and the non-modular duplicate-target count falls from 291 to 285; the focused build is blocked before reaching CDC by an independent generated-gRPC/MSVC error.
+- Consolidated seven Auth focused tests on their canonical module executables. Preserved explicit OpenSSL, optional CURL, and nlohmann-json link dependencies plus legacy build-target/CTest contracts. Both Windows Debug profiles configure and the non-modular duplicate-target count falls from 285 to 278; the distributed rate-limiter test remains separate because it compiles an additional production source.
 
 <!--
 AI_Used: true

@@ -250,6 +250,9 @@ public:
      * the full @p params JSON and must return a well-formed response JSON.
      * Pass @c nullptr to restore the built-in hardcoded fallback behaviour.
      *
+     * The in-process transport is compiled for test-mode builds only; production
+     * and ordinary development builds require a real gRPC endpoint.
+     *
      * Thread safety: the handler is stored under the impl mutex; it is safe to
      * call this method from any thread before or during RPC use.
      *

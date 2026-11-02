@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-02"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Exact model backend not verifiable from final document text alone.
 
 # LLM Module - API Reference
 
-<!-- Status: complete | validated: 2026-08-17 -->
+<!-- Status: audit preview | managed inference limits are enforced independently -->
 <!-- Links: README.md · ARCHITECTURE.md · THREADING.md -->
 
 Version: 1.0 (Phase 6)
@@ -254,8 +254,8 @@ struct LLMConfig {
     int32_t num_workers = -1;             // -1 = auto (CPU core count)
     int32_t batch_size = 1024;
     int32_t batch_timeout_ms = 100;
-    int64_t default_timeout_ms = 300000;  // 5 min
-    int32_t max_concurrent_requests = -1; // -1 = unlimited
+    int64_t default_timeout_ms = 300000;  // desired timeout, not a hard deadline for synchronous backends
+    int32_t max_concurrent_requests = -1; // scheduler setting; does not change the managed process-wide cap of 8
     
     // Cache
     int32_t response_cache_size_mb = 1024;
@@ -266,6 +266,23 @@ struct LLMConfig {
     bool metrics_enabled = true;
 };
 ```
+
+#### Managed Inference Bounds
+
+`LLMPluginManager` routes a non-default `model_id` to the matching registered
+plugin/model and rejects unknown IDs; it does not silently route them to the
+default plugin. Managed inference allows at most 8 active calls process-wide
+across manager instances and model IDs; excess calls are rejected immediately,
+not queued. This count limit is not GPU-memory-aware or per-model.
+
+The combined input byte limit is 1 MiB across prompt, system prompt, and (for
+RAG) query/template/document content and metadata. It is a byte limit, not a
+token estimate. Generated-token limits are at most 4096; the RAG context-window
+token ceiling is a separate backend token setting.
+
+The synchronous `ILLMPlugin::generate()` interface cannot enforce a wall-clock
+deadline for a backend that does not cooperate with cancellation. Timeout
+settings are therefore not hard-deadline guarantees.
 
 ### CompletionConfig
 
@@ -410,5 +427,5 @@ for (auto handle : handles) {
 
 ---
 
-**Last Updated:** 2026-08-17 (Phase 6)
-**Status:** PRODUCTION (Wave 5 GA)
+**Last Updated:** 2026-11-02
+**Status:** AUDIT PREVIEW (not GA; no real-model, TSan, or hardware validation evidence asserted)

@@ -7,6 +7,11 @@
 
 **Analyzed Files:** 10064
 **Average Maturity Score:** 96.8/100
+
+> Point-in-time inventory: entries for files removed after analysis are historical
+> evidence, not current source inventory. `SyntheticSSMStub` has been removed;
+> no SSM inference backend is provided by the current tree.
+
 ## 🧭 Repository Context
 
 **Repository:** makr-code/ThemisDB  

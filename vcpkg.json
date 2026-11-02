@@ -39,6 +39,7 @@
     "curl",
     "cpp-httplib",
     "boost",
+    "boost-uuid",
     "arrow",
     "hwloc",
     "faiss",

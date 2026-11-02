@@ -748,7 +748,7 @@ TEST(TwoPhaseCommitCoordinatorFencingTest, MissingTokenProviderFailsBeforePrepar
 
     nlohmann::json ops = nlohmann::json::array();
     const auto outcome = coord.commit("txn-no-provider", {{"shard-1", ops}});
-    EXPECT_EQ(outcome.result, CoordinatorTxnResult::ERROR);
+    EXPECT_EQ(outcome.result, CoordinatorTxnResult::FAILURE);
     EXPECT_FALSE(participant->getTransactionState("txn-no-provider").has_value());
 }
 
@@ -769,7 +769,7 @@ TEST(TwoPhaseCommitCoordinatorFencingTest, FailedParticipantCommitIsNotReportedA
 
     nlohmann::json ops = nlohmann::json::array();
     const auto outcome = coord.commit("txn-apply-fails", {{"shard-apply-fails", ops}});
-    EXPECT_EQ(outcome.result, CoordinatorTxnResult::ERROR);
+    EXPECT_EQ(outcome.result, CoordinatorTxnResult::FAILURE);
     EXPECT_EQ(coord.getTransactionState("txn-apply-fails"),
               CoordinatorTxnState::COMMIT_DECIDED);
 }
@@ -1572,6 +1572,55 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest,
     EXPECT_EQ(participant.abort_calls, 2);
 }
 
+TEST(TwoPhaseCommitCoordinatorRecoveryTest, PersistsDecisionBeforeCompletionWithSyncDisabled) {
+    const auto wal_dir = (std::filesystem::temp_directory_path() /
+                          ("2pc_coord_wal_order_" +
+                           std::to_string(::getpid()) + "_" +
+                           std::to_string(
+                               std::chrono::steady_clock::now()
+                                   .time_since_epoch()
+                                   .count())))
+                             .string();
+
+    struct WalDirGuard {
+        const std::string& path;
+        ~WalDirGuard() { std::filesystem::remove_all(path); }
+    } guard{wal_dir};
+
+    TwoPhaseCommitParticipant::Config participant_cfg;
+    participant_cfg.wal_directory = "";
+    participant_cfg.fencing_manager = testFencingManager("shard-wal-order");
+    auto participant =
+        std::make_unique<TwoPhaseCommitParticipant>("shard-wal-order", participant_cfg);
+
+    const std::string txn = "wal-txn-decision-order";
+    TwoPhaseCommitCoordinator::Config coordinator_cfg;
+    coordinator_cfg.wal_directory = wal_dir;
+    coordinator_cfg.sync_wal_writes = false;
+    coordinator_cfg.fencing_token_provider = testTokenProvider("coord-wal-order");
+    nlohmann::json ops = nlohmann::json::array();
+    ops.push_back({{"key", "value"}});
+    {
+        TwoPhaseCommitCoordinator coordinator("coord-wal-order", coordinator_cfg);
+        coordinator.registerParticipant("shard-wal-order", participant.get());
+
+        const auto outcome = coordinator.commit(txn, {{"shard-wal-order", ops}});
+        ASSERT_TRUE(outcome.committed());
+    }
+
+    WALManagerConfig replay_cfg;
+    replay_cfg.wal_directory = wal_dir;
+    replay_cfg.sync_on_write = false;
+    WALManager replay_wal(replay_cfg);
+    const auto entries = replay_wal.readRange(LSN{0, 0});
+    ASSERT_EQ(entries.size(), 3u);
+    EXPECT_EQ(entries[0].type, WALEntryType::BEGIN_TX);
+    EXPECT_EQ(entries[1].type, WALEntryType::COMMIT_TX);
+    EXPECT_EQ(entries[1].data["phase"], "decision");
+    EXPECT_EQ(entries[1].data["decision"], "commit");
+    EXPECT_EQ(entries[2].data["phase"], "complete");
+}
+
 namespace {
 
 class FakeRecoverableCoordinator
@@ -1590,6 +1639,7 @@ public:
 
     size_t recoverInDoubtTransactions() override {
         recovered_ = true;
+        ++recovery_calls_;
         return resolved_;
     }
 
@@ -1612,6 +1662,8 @@ public:
         return txns;
     }
 
+    size_t recoveryCalls() const { return recovery_calls_; }
+
 private:
     std::string name_;
     std::string backend_;
@@ -1619,6 +1671,7 @@ private:
     size_t resolved_;
     size_t after_;
     mutable bool recovered_{false};
+    size_t recovery_calls_{0};
 };
 
 } // namespace
@@ -1635,7 +1688,39 @@ TEST(GlobalTwoPhaseCommitRecoveryManagerTest, AggregatesCrossCoordinatorRecovery
     EXPECT_EQ(report.in_doubt_before, 5u);
     EXPECT_EQ(report.resolved, 3u);
     EXPECT_EQ(report.in_doubt_after, 2u);
+    EXPECT_TRUE(report.startupBlocked());
     ASSERT_EQ(report.coordinators.size(), 2u);
     EXPECT_EQ(report.coordinators[0].coordinator_name, "coord-a");
     EXPECT_EQ(report.coordinators[1].backend_name, "WAL/snapshot");
+}
+
+TEST(GlobalTwoPhaseCommitRecoveryManagerTest, EmptyRecoveryPassDoesNotBlockStartup) {
+    const auto report =
+        themis::transaction::GlobalTwoPhaseCommitRecoveryManager::recoverAll({});
+
+    EXPECT_FALSE(report.startupBlocked());
+}
+
+TEST(GlobalTwoPhaseCommitRecoveryManagerTest, MissingCoordinatorBlocksStartup) {
+    const auto report =
+        themis::transaction::GlobalTwoPhaseCommitRecoveryManager::recoverAll({nullptr});
+
+    EXPECT_FALSE(report.ready_for_service);
+    EXPECT_TRUE(report.startupBlocked());
+}
+
+TEST(GlobalTwoPhaseCommitRecoveryManagerTest, DisabledBackendWithUnresolvedTransactionsBlocksStartup) {
+    FakeRecoverableCoordinator coordinator("coord-memory-only", "disabled", 2, 0, 2);
+
+    const auto report =
+        themis::transaction::GlobalTwoPhaseCommitRecoveryManager::recoverAll(
+            {&coordinator});
+
+    ASSERT_EQ(report.coordinators.size(), 1u);
+    EXPECT_EQ(coordinator.recoveryCalls(), 1u);
+    EXPECT_EQ(report.coordinators.front().in_doubt_before, 2u);
+    EXPECT_EQ(report.coordinators.front().resolved, 0u);
+    EXPECT_EQ(report.coordinators.front().in_doubt_after, 2u);
+    EXPECT_EQ(report.in_doubt_after, 2u);
+    EXPECT_TRUE(report.startupBlocked());
 }

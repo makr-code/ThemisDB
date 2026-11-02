@@ -14,7 +14,10 @@
 
 #include <filesystem>
 #include <fstream>
+#include <iterator>
+#include <random>
 #include <string>
+#include <thread>
 #include <vector>
 
 namespace fs = std::filesystem;
@@ -298,21 +301,25 @@ TEST_F(WALStorageTest, MidLogCorruption_FailsClosed) {
         ASSERT_TRUE((*wal)->appendPut("last", "valid").has_value());
     }
 
-    // Corrupt the first entry's magic; replay must not report a successful open.
+    // Corrupt the second entry's magic while a valid record remains afterward.
     std::string seg_path = dir_ + "/" + WALStorage::segmentName(1);
     {
         std::fstream f(seg_path, std::ios::in | std::ios::out | std::ios::binary);
         ASSERT_TRUE(f.is_open());
-        f.seekp(0);
+        constexpr std::streamoff first_record_size = 21 + 5 + 5 + 4;
+        f.seekp(first_record_size);
         char corrupt = '\0';
         f.write(&corrupt, 1);
     }
 
+    WALStorage::RecoveryResult recovery_result;
     auto recovery = WALStorage::open(config(), [](const WALStorage::Entry&) {
         return true;
-    });
+    }, &recovery_result);
     EXPECT_FALSE(recovery.has_value())
         << "A mid-log magic mismatch must prevent startup";
+    EXPECT_EQ(recovery_result.status, WALStorage::RecoveryStatus::Corrupted);
+    EXPECT_EQ(recovery_result.last_valid_lsn, 1u);
 }
 
 TEST_F(WALStorageTest, ChecksumMismatch_FailsClosed) {
@@ -357,11 +364,14 @@ TEST_F(WALStorageTest, IncompleteTail_IsTruncatedBeforeAppend) {
     }
 
     std::vector<WALStorage::Entry> recovered;
+    WALStorage::RecoveryResult recovery_result;
     auto wal = WALStorage::open(config(), [&](const WALStorage::Entry& entry) {
         recovered.push_back(entry);
         return true;
-    });
+    }, &recovery_result);
     ASSERT_TRUE(wal.has_value());
+    EXPECT_EQ(recovery_result.status, WALStorage::RecoveryStatus::TruncatedTail);
+    EXPECT_EQ(recovery_result.skipped_bytes, 3u);
     ASSERT_EQ(recovered.size(), 1u);
     EXPECT_EQ(fs::file_size(seg_path), valid_size);
 
@@ -377,4 +387,134 @@ TEST_F(WALStorageTest, IncompleteTail_IsTruncatedBeforeAppend) {
     ASSERT_EQ(recovered.size(), 2u);
     EXPECT_EQ(recovered[0].key, "before-crash");
     EXPECT_EQ(recovered[1].key, "after-recovery");
+}
+
+TEST_F(WALStorageTest, RecoveryTimeout_FailsClosed) {
+    {
+        auto wal = WALStorage::open(config());
+        ASSERT_TRUE(wal.has_value());
+        ASSERT_TRUE((*wal)->appendPut("slow-callback", "value").has_value());
+    }
+
+    auto cfg = config();
+    cfg.recovery_timeout = std::chrono::milliseconds(1);
+    WALStorage::RecoveryResult recovery_result;
+    auto recovery = WALStorage::open(
+        cfg,
+        [](const WALStorage::Entry&) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(5));
+            return true;
+        },
+        &recovery_result);
+
+    EXPECT_FALSE(recovery.has_value());
+    EXPECT_EQ(recovery_result.status, WALStorage::RecoveryStatus::TimedOut);
+}
+
+TEST_F(WALStorageTest, InvalidPartialHeader_FailsClosedWithoutTruncation) {
+    {
+        auto wal = WALStorage::open(config());
+        ASSERT_TRUE(wal.has_value());
+        ASSERT_TRUE((*wal)->appendPut("before-corruption", "value").has_value());
+    }
+
+    const auto segment_path = fs::path(dir_) / WALStorage::segmentName(1);
+    {
+        std::ofstream output(segment_path, std::ios::binary | std::ios::app);
+        ASSERT_TRUE(output.is_open());
+        const char invalid_tail[] = {0x00, static_cast<char>(0xFF)};
+        output.write(invalid_tail, sizeof(invalid_tail));
+    }
+    const auto corrupted_size = fs::file_size(segment_path);
+
+    WALStorage::RecoveryResult recovery_result;
+    auto recovery = WALStorage::open(
+        config(),
+        [](const WALStorage::Entry&) { return true; },
+        &recovery_result);
+
+    EXPECT_FALSE(recovery.has_value());
+    EXPECT_EQ(recovery_result.status, WALStorage::RecoveryStatus::Corrupted);
+    EXPECT_EQ(fs::file_size(segment_path), corrupted_size);
+}
+
+TEST_F(WALStorageTest, SkipCorrupted_QuarantinesSegment) {
+    auto cfg = config(25);
+    {
+        auto wal = WALStorage::open(cfg);
+        ASSERT_TRUE(wal.has_value());
+        ASSERT_TRUE((*wal)->appendPut("first", "one").has_value());
+        ASSERT_TRUE((*wal)->appendPut("second", "two").has_value());
+        ASSERT_GT((*wal)->segmentCount(), 1u);
+    }
+
+    const auto corrupt_path = fs::path(dir_) / WALStorage::segmentName(1);
+    {
+        std::fstream f(corrupt_path, std::ios::in | std::ios::out | std::ios::binary);
+        ASSERT_TRUE(f.is_open());
+        f.seekp(0);
+        const char corrupt = '\0';
+        f.write(&corrupt, 1);
+    }
+
+    cfg.recovery_mode = WALStorage::RecoveryMode::SkipCorrupted;
+    WALStorage::RecoveryResult recovery_result;
+    std::vector<std::string> recovered_keys;
+    auto recovery = WALStorage::open(
+        cfg,
+        [&](const WALStorage::Entry& entry) {
+            recovered_keys.push_back(entry.key);
+            return true;
+        },
+        &recovery_result);
+
+    ASSERT_TRUE(recovery.has_value());
+    EXPECT_EQ(recovery_result.status, WALStorage::RecoveryStatus::Corrupted);
+    EXPECT_GT(recovery_result.skipped_bytes, 0u);
+    EXPECT_FALSE(fs::exists(corrupt_path));
+    EXPECT_TRUE(fs::exists(fs::path(dir_) / "quarantine" /
+                           WALStorage::segmentName(1)));
+    ASSERT_EQ(recovered_keys.size(), 1u);
+    EXPECT_EQ(recovered_keys.front(), "second");
+}
+
+TEST_F(WALStorageTest, DeterministicBitFlips_FailClosedForTenThousandCases) {
+    auto wal = WALStorage::open(config());
+    ASSERT_TRUE(wal.has_value());
+    ASSERT_TRUE((*wal)->appendPut(std::string(80, 'k'), std::string(80, 'v')).has_value());
+    wal->reset();
+
+    const auto segment_path = fs::path(dir_) / WALStorage::segmentName(1);
+    std::ifstream input(segment_path, std::ios::binary);
+    ASSERT_TRUE(input.is_open());
+    const std::vector<char> original(
+        std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>());
+    ASSERT_GT(original.size(), size_t{21});
+
+    std::mt19937 generator(0x5EEDu);
+    std::uniform_int_distribution<size_t> byte_distribution(21, original.size() - 1);
+    std::uniform_int_distribution<unsigned int> bit_distribution(0, 7);
+    auto cfg = config();
+
+    for (size_t case_index = 0; case_index < 10'000; ++case_index) {
+        auto damaged = original;
+        const size_t byte_index = byte_distribution(generator);
+        damaged[byte_index] ^= static_cast<char>(1u << bit_distribution(generator));
+
+        {
+            std::ofstream output(segment_path, std::ios::binary | std::ios::trunc);
+            ASSERT_TRUE(output.is_open());
+            output.write(damaged.data(), static_cast<std::streamsize>(damaged.size()));
+            ASSERT_TRUE(output.good());
+        }
+
+        WALStorage::RecoveryResult recovery_result;
+        auto recovery = WALStorage::open(
+            cfg,
+            [](const WALStorage::Entry&) { return true; },
+            &recovery_result);
+        EXPECT_FALSE(recovery.has_value()) << "bit-flip case " << case_index;
+        EXPECT_EQ(recovery_result.status, WALStorage::RecoveryStatus::Corrupted)
+            << "bit-flip case " << case_index << " at byte " << byte_index;
+    }
 }

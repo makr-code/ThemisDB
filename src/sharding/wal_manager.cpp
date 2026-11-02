@@ -176,7 +176,7 @@ WALManager::WALManager(const WALManagerConfig& config)
 
 WALManager::~WALManager() {
     std::lock_guard<std::mutex> lock(mutex_);
-    flush();
+    (void)flushUnlocked();
 }
 
 LSN WALManager::append(const WALEntry& entry) {
@@ -210,10 +210,8 @@ LSN WALManager::append(const WALEntry& entry) {
     total_entries_++;
     total_bytes_ += payload.size();
 
-    if (config_.sync_on_write) {
-        if (!flush()) {
-            throw std::runtime_error("WALManager synchronous flush failed");
-        }
+    if (config_.sync_on_write && !flushUnlocked()) {
+        throw std::runtime_error("WALManager synchronous append flush failed");
     }
 
     return entry_copy.lsn;
@@ -255,8 +253,19 @@ LSN WALManager::getOldestLSN() const {
     return oldest_lsn_;
 }
 
-bool WALManager::flush() {
+void WALManager::flush() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    (void)flushUnlocked();
+}
+
+bool WALManager::flushDurable() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return flushUnlocked();
+}
+
+bool WALManager::flushUnlocked() {
     if (!durability_wal_) {
+        THEMIS_WARN("Sharding WALManager flush failed: WAL storage is unavailable");
         return false;
     }
     auto flush_res = durability_wal_->flush();

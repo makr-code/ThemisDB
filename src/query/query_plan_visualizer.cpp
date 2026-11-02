@@ -70,6 +70,8 @@ QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
     return_node.description = "Return";
     return_node.estimated_rows = plan.details.empty() ? 0 : plan.details.front().estimatedCount;
     return_node.estimated_cost = 10.0;
+    return_node.estimate_provenance =
+        plan.details.empty() ? "no_predicate_statistics" : "predicate_estimates";
 
     // Build filter chain in REVERSE predicate order so that the most-selective
     // predicate (smallest estimatedCount, orderedPredicates[0]) ends up deepest
@@ -82,18 +84,32 @@ QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
     // parent of Scan).
     const size_t n = plan.orderedPredicates.size();
     // Use the least-selective predicate's count as a proxy for the scan size.
+    const auto scan_proxy_estimate = std::max_element(
+        plan.details.begin(), plan.details.end(),
+        [](const auto& lhs, const auto& rhs) {
+            return lhs.estimatedCount < rhs.estimatedCount;
+        });
     const size_t proxy_scan_rows =
-        plan.details.empty() ? 0 : plan.details.back().estimatedCount;
+        scan_proxy_estimate == plan.details.end()
+            ? 0
+            : scan_proxy_estimate->estimatedCount;
 
     QueryPlanNode* current_parent = &return_node;
 
     for (int i = static_cast<int>(n) - 1; i >= 0; --i) {
         const auto& pred = plan.orderedPredicates[static_cast<size_t>(i)];
+        const auto estimate = std::find_if(
+            plan.details.begin(), plan.details.end(),
+            [&pred](const auto& detail) {
+                return detail.pred.column == pred.column &&
+                       detail.pred.value == pred.value;
+            });
+        const bool has_estimate = estimate != plan.details.end();
 
         // Selectivity: fraction of proxy_scan_rows that pass this predicate.
         const double selectivity =
-            (proxy_scan_rows > 0 && i < plan.details.size())
-                ? std::min(1.0, static_cast<double>(plan.details[static_cast<size_t>(i)].estimatedCount) /
+            (proxy_scan_rows > 0 && has_estimate)
+                ? std::min(1.0, static_cast<double>(estimate->estimatedCount) /
                                     static_cast<double>(proxy_scan_rows))
                 : 1.0;
 
@@ -101,8 +117,9 @@ QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
         filter_node->type = PlanNodeType::Filter;
         filter_node->description = pred.column + " == " + pred.value;
         filter_node->selectivity = std::min(1.0, std::max(0.0, selectivity));
-        filter_node->estimated_rows = i < plan.details.size()
-            ? plan.details[static_cast<size_t>(i)].estimatedCount : 0;
+        filter_node->estimated_rows = has_estimate ? estimate->estimatedCount : 0;
+        filter_node->estimate_provenance =
+            has_estimate ? estimate->provenance : "unknown";
         // Heuristic: each filter contributes proportionally to total cost
         filter_node->estimated_cost = 50.0 + 10.0 * static_cast<double>(i);
         filter_node->attributes.push_back(pred.column);
@@ -124,7 +141,11 @@ QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
         scan_node->description = "SeqScan on " + query.table;
     }
     scan_node->estimated_rows = plan.details.empty() ? 0
-        : plan.details.front().estimatedCount;
+        : proxy_scan_rows;
+    scan_node->estimate_provenance =
+        scan_proxy_estimate == plan.details.end()
+            ? "missing_statistics"
+            : "predicate_count_proxy:" + scan_proxy_estimate->provenance;
     scan_node->estimated_cost = 200.0;
 
     current_parent->children.push_back(scan_node);
@@ -176,6 +197,7 @@ void QueryPlanVisualizer::toTextImpl(const QueryPlanNode& node, bool analyze,
     ann << std::fixed << std::setprecision(2);
     ann << "  (cost=" << node.estimated_cost
         << " rows=" << node.estimated_rows;
+    ann << " estimate_source=" << node.estimate_provenance;
 
     if (node.index_name.has_value()) {
         ann << " index=" << *node.index_name;
@@ -260,6 +282,7 @@ nlohmann::json QueryPlanVisualizer::toJSONImpl(const QueryPlanNode& node, bool a
     j["description"] = node.description;
     j["estimated_cost"] = node.estimated_cost;
     j["estimated_rows"] = node.estimated_rows;
+    j["estimate_provenance"] = node.estimate_provenance;
 
     if (node.index_name.has_value()) {
         j["index"] = *node.index_name;
@@ -414,4 +437,3 @@ std::string QueryPlanVisualizer::toDOT(const QueryPlanNode& root) {
 
 } // namespace query
 } // namespace themis
-

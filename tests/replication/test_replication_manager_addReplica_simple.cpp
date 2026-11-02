@@ -176,25 +176,21 @@ TEST_F(ReplicationManagerAddReplicaTest, FailClosedGuardsAreIndependent) {
     EXPECT_EQ(replicas[0].endpoint, "host-valid:5432");
 }
 
-TEST(ReplicationManagerWALRecovery, InvalidPayloadAbortsRecovery) {
+TEST(ReplicationManagerRecoveryTest, InvalidWalEntryAbortsRecovery) {
     const auto wal_dir = std::filesystem::temp_directory_path() /
-        ("themis_replication_invalid_wal_" +
+        ("themis_replication_invalid_wal_entry_" +
          std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
-    std::filesystem::create_directories(wal_dir);
+    std::filesystem::remove_all(wal_dir);
 
-    themis::WALStorage::Config storage_config;
-    storage_config.dir = wal_dir.string();
-    storage_config.fsync_on_write = false;
-    auto storage = themis::WALStorage::open(storage_config);
+    themis::WALStorage::Config wal_config;
+    wal_config.dir = wal_dir.string();
+    auto storage = themis::WALStorage::open(wal_config);
     ASSERT_TRUE(storage.has_value());
-    ASSERT_TRUE((*storage)->appendPut("replication_entry", "not-a-WALEntry").has_value());
+    ASSERT_TRUE((*storage)->appendPut("replication-entry", "invalid payload").has_value());
     storage->reset();
 
-    ReplicationConfig config;
-    config.wal_directory = wal_dir.string();
-    EXPECT_THROW(std::make_shared<ReplicationManager>(config), std::runtime_error);
-
-    std::error_code ec;
-    std::filesystem::remove_all(wal_dir, ec);
-    EXPECT_FALSE(ec) << ec.message();
+    ReplicationConfig replication_config;
+    replication_config.wal_directory = wal_dir.string();
+    EXPECT_THROW(WALManager manager(replication_config), std::runtime_error);
+    std::filesystem::remove_all(wal_dir);
 }

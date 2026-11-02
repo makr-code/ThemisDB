@@ -12,6 +12,7 @@
 #include "llm/llm_plugin_manager.h"
 #include "llm/grafana_metrics.h"
 #include "llm/context_window_budget.h"
+#include "llm/inference_input_limits.h"
 #include "llm/llama_wrapper.h"
 #include "llm/embedded_llm.h"
 #include "llm/ssm_state_rocksdb_store.h"
@@ -24,6 +25,8 @@
 #include <filesystem>
 #include <cstdlib>
 #include <algorithm>
+#include <atomic>
+#include <cmath>
 
 #if defined(THEMIS_ROCKSDB_AVAILABLE) || defined(THEMIS_ENABLE_ROCKSDB_TRANSACTIONS) || \
     (defined(__has_include) && __has_include(<rocksdb/db.h>))
@@ -35,10 +38,42 @@
 namespace themis {
 namespace llm {
 
+namespace {
+
+std::atomic<std::size_t>& activeManagedInferenceCalls() {
+    static std::atomic<std::size_t> active{0};
+    return active;
+}
+
+class InferenceAdmissionSlot {
+public:
+    InferenceAdmissionSlot() : active_(activeManagedInferenceCalls()) {
+        std::size_t active = active_.load(std::memory_order_relaxed);
+        do {
+            if (active >= kMaxConcurrentInferenceRequests) {
+                throw InferenceAdmissionRejected();
+            }
+        } while (!active_.compare_exchange_weak(
+            active, active + 1, std::memory_order_acq_rel, std::memory_order_relaxed));
+    }
+
+    ~InferenceAdmissionSlot() {
+        active_.fetch_sub(1, std::memory_order_release);
+    }
+
+    InferenceAdmissionSlot(const InferenceAdmissionSlot&) = delete;
+    InferenceAdmissionSlot& operator=(const InferenceAdmissionSlot&) = delete;
+
+private:
+    std::atomic<std::size_t>& active_;
+};
+
+} // namespace
+
 LLMPluginManager::LLMPluginManager() = default;
 
 LLMPluginManager::~LLMPluginManager() noexcept {
-    // exception_in_destructor: plugins_ holds unique_ptr<ILLMPlugin>; plugin
+    // exception_in_destructor: plugins_ holds shared_ptr<ILLMPlugin>; plugin
     // destructors must not throw but we defensively swallow any that do.
     try {
         /**
@@ -79,7 +114,7 @@ void LLMPluginManager::registerPlugin(
     
     PluginEntry entry;
     entry.name = name;
-    entry.plugin = std::move(plugin);
+    entry.plugin = std::shared_ptr<ILLMPlugin>(std::move(plugin));
     
     plugins_[name] = std::move(entry);
 
@@ -239,7 +274,7 @@ json LLMPluginManager::getAggregatedCapabilities() const {
     
     for (const auto& name : sorted_names) {
         const auto& entry = plugins_.at(name);
-        // null_dereference: entry.plugin is owned by unique_ptr and non-null
+        // null_dereference: entry.plugin is owned by shared_ptr and non-null
         // (registerPlugin rejects null plugins), but guard defensively.
         if (!entry.plugin) {
             spdlog::warn("getAggregatedCapabilities: plugin '{}' has null handle, skipping", name);
@@ -350,11 +385,28 @@ LLMPluginManager& LLMPluginManager::instance() {
  */
 
 InferenceResponse LLMPluginManager::generate(const InferenceRequest& request) {
-    auto* plugin = getDefaultPlugin();
-    if (!plugin) {
-        throw std::runtime_error("No default LLM plugin available");
+    if (!detail::promptWithinByteLimit(request)) {
+        throw std::invalid_argument("Combined prompt and system_prompt exceed the 1 MiB byte limit");
     }
-    
+    if (request.max_tokens < 1 || request.max_tokens > kMaxInferenceTokens) {
+        throw std::invalid_argument("max_tokens must be between 1 and 4096");
+    }
+    if (!std::isfinite(request.temperature) || request.temperature < 0.0f ||
+        request.temperature > 2.0f || !std::isfinite(request.top_p) ||
+        request.top_p < 0.0f || request.top_p > 1.0f || request.top_k < 1) {
+        throw std::invalid_argument("Invalid inference sampling parameters");
+    }
+
+    InferenceAdmissionSlot slot;
+
+    auto plugin = getPluginHandleForModel(request.model_id);
+    if (!plugin) {
+        if (request.model_id.empty() || request.model_id == "default") {
+            throw std::runtime_error("No default LLM plugin available");
+        }
+        throw std::runtime_error("Requested LLM model/plugin is not registered: " + request.model_id);
+    }
+
     return plugin->generate(request);
 }
 
@@ -370,6 +422,27 @@ InferenceResponse LLMPluginManager::generateRAG(
     const RAGContext& rag_context,
     const InferenceRequest& request
 ) {
+    if (!detail::inferenceInputsWithinByteLimit(request, rag_context)) {
+        throw std::invalid_argument(
+            "Combined prompt, system_prompt, and RAG context exceed the 1 MiB conservative byte limit");
+    }
+    if (rag_context.max_context_tokens < 0 ||
+        rag_context.max_context_tokens > kMaxContextWindowTokens ||
+        rag_context.response_budget_tokens < 1 ||
+        rag_context.response_budget_tokens > kMaxInferenceTokens) {
+        throw std::invalid_argument("RAG token budgets are outside managed inference limits");
+    }
+    if (request.max_tokens < 1 || request.max_tokens > kMaxInferenceTokens) {
+        throw std::invalid_argument("max_tokens must be between 1 and 4096");
+    }
+    if (!std::isfinite(request.temperature) || request.temperature < 0.0f ||
+        request.temperature > 2.0f || !std::isfinite(request.top_p) ||
+        request.top_p < 0.0f || request.top_p > 1.0f || request.top_k < 1) {
+        throw std::invalid_argument("Invalid inference sampling parameters");
+    }
+
+    InferenceAdmissionSlot slot;
+
     spdlog::info(
         "LLMPluginManager::generateRAG start: model='{}' docs={} top_k={} max_context_tokens={} response_budget_tokens={} request_max_tokens={}",
         request.model_id.empty() ? std::string{"default"} : request.model_id,
@@ -379,10 +452,13 @@ InferenceResponse LLMPluginManager::generateRAG(
         rag_context.response_budget_tokens,
         request.max_tokens);
 
-    auto* plugin = getDefaultPlugin();
+    auto plugin = getPluginHandleForModel(request.model_id);
     if (!plugin) {
-        spdlog::warn("LLMPluginManager::generateRAG failed: no default plugin available");
-        throw std::runtime_error("No default LLM plugin available");
+        spdlog::warn("LLMPluginManager::generateRAG failed: requested model unavailable");
+        if (request.model_id.empty() || request.model_id == "default") {
+            throw std::runtime_error("No default LLM plugin available");
+        }
+        throw std::runtime_error("Requested LLM model/plugin is not registered: " + request.model_id);
     }
 
     auto response = plugin->generateRAG(rag_context, request);
@@ -395,6 +471,41 @@ InferenceResponse LLMPluginManager::generateRAG(
         response.error_message.size());
 
     return response;
+}
+
+std::shared_ptr<ILLMPlugin> LLMPluginManager::getPluginHandleForModel(
+    const std::string& model_id) const {
+    std::vector<std::shared_ptr<ILLMPlugin>> candidates;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (model_id.empty() || model_id == "default") {
+            if (default_plugin_name_.empty()) {
+                return {};
+            }
+            const auto it = plugins_.find(default_plugin_name_);
+            return it == plugins_.end() ? std::shared_ptr<ILLMPlugin>{} : it->second.plugin;
+        }
+
+        const auto named = plugins_.find(model_id);
+        if (named != plugins_.end()) {
+            return named->second.plugin;
+        }
+        candidates.reserve(plugins_.size());
+        for (const auto& entry : plugins_) {
+            candidates.push_back(entry.second.plugin);
+        }
+    }
+
+    for (const auto& plugin : candidates) {
+        if (!plugin) {
+            continue;
+        }
+        const auto info = plugin->getModelInfo();
+        if (info && (info->model_id == model_id || info->name == model_id)) {
+            return plugin;
+        }
+    }
+    return {};
 }
 
 /**
@@ -674,12 +785,8 @@ std::vector<LoRAInfo> LLMPluginManager::listLoRAs() const {
  * @details Calls: getDefaultPlugin(), generate(), iss(), push_back().
  */
 std::vector<std::string> LLMPluginManager::generateStream(const InferenceRequest& request) {
-    auto* plugin = getDefaultPlugin();
-    if (!plugin) {
-        throw std::runtime_error("No default LLM plugin available");
-    }
     // If backend lacks streaming, degrade to single generate and split tokens
-    auto response = plugin->generate(request);
+    auto response = generate(request);
     std::vector<std::string> tokens;
     std::istringstream iss(response.text);
     std::string token = {};
