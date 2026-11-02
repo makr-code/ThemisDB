@@ -10440,91 +10440,45 @@ else()
     message(STATUS "Plugin Health Monitor focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_health_monitor.cpp")
 endif()
 
-set(_themis_test_plugin_hot_plug_src "")
-if(EXISTS "${THEMIS_ROOT_DIR}/tests/plugins/test_plugin_hot_plug.cpp")
-    set(_themis_test_plugin_hot_plug_src "${THEMIS_ROOT_DIR}/tests/plugins/test_plugin_hot_plug.cpp")
-elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugins/test_plugin_hot_plug.cpp")
-    set(_themis_test_plugin_hot_plug_src plugins/test_plugin_hot_plug.cpp)
-elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_hot_plug.cpp")
-    set(_themis_test_plugin_hot_plug_src plugin/test_plugin_hot_plug.cpp)
-endif()
+macro(add_plugin_module_focused_test target src test_name labels timeout description)
+    get_filename_component(_plugin_test_stem "${src}" NAME_WE)
+    set(_plugin_module_target "module_plugins_${_plugin_test_stem}_focused")
+    if(NOT TARGET ${_plugin_module_target})
+        message(FATAL_ERROR
+            "Required plugin module target is missing: ${_plugin_module_target} "
+            "(source: tests/plugins/${src})"
+        )
+    endif()
+    if(TARGET ${target})
+        message(FATAL_ERROR "Legacy plugin target already exists: ${target}")
+    endif()
 
-if(_themis_test_plugin_hot_plug_src)
-    message(STATUS "Adding Plugin Hot-Plug Monitor focused tests")
-
-    add_executable(test_plugin_hot_plug_focused
-        ${_themis_test_plugin_hot_plug_src}
+    add_custom_target(${target} DEPENDS ${_plugin_module_target})
+    add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${_plugin_module_target}>)
+    set_tests_properties(${test_name} PROPERTIES
+        LABELS "${labels}"
+        TIMEOUT ${timeout}
     )
+    message(STATUS "  ${description}")
+endmacro()
 
-    target_include_directories(test_plugin_hot_plug_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
+add_plugin_module_focused_test(
+    test_plugin_hot_plug_focused
+    test_plugin_hot_plug.cpp
+    PluginHotPlugFocusedTests
+    "plugins;hot-plug;directory-watcher;reload;focused;unit"
+    60
+    "PluginHotPlug: directory watcher, new/updated plugin detection, reload trigger"
+)
 
-    target_link_libraries(test_plugin_hot_plug_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        Threads::Threads
-        ${CMAKE_DL_LIBS}
-    )
-
-    target_compile_definitions(test_plugin_hot_plug_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME PluginHotPlugFocusedTests COMMAND $<TARGET_FILE:test_plugin_hot_plug_focused>)
-
-    set_tests_properties(PluginHotPlugFocusedTests PROPERTIES
-        LABELS "plugins;hot-plug;directory-watcher;reload;focused;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  PluginHotPlug: directory watcher, new/updated plugin detection, reload trigger")
-else()
-    message(STATUS "Plugin Hot-Plug focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/plugins/test_plugin_hot_plug.cpp or ${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_hot_plug.cpp")
-endif()
-
-set(_themis_test_plugin_hot_reload_enhanced_src "")
-if(EXISTS "${THEMIS_ROOT_DIR}/tests/plugins/test_plugin_hot_reload_enhanced.cpp")
-    set(_themis_test_plugin_hot_reload_enhanced_src "${THEMIS_ROOT_DIR}/tests/plugins/test_plugin_hot_reload_enhanced.cpp")
-elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugins/test_plugin_hot_reload_enhanced.cpp")
-    set(_themis_test_plugin_hot_reload_enhanced_src plugins/test_plugin_hot_reload_enhanced.cpp)
-elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_hot_reload_enhanced.cpp")
-    set(_themis_test_plugin_hot_reload_enhanced_src plugin/test_plugin_hot_reload_enhanced.cpp)
-endif()
-
-if(_themis_test_plugin_hot_reload_enhanced_src)
-    message(STATUS "Adding Plugin Hot-Reload Enhanced focused tests")
-
-    add_executable(test_plugin_hot_reload_enhanced_focused
-        ${_themis_test_plugin_hot_reload_enhanced_src}
-    )
-
-    target_include_directories(test_plugin_hot_reload_enhanced_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_plugin_hot_reload_enhanced_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        Threads::Threads
-        ${CMAKE_DL_LIBS}
-    )
-
-    target_compile_definitions(test_plugin_hot_reload_enhanced_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME PluginHotReloadEnhancedFocusedTests COMMAND $<TARGET_FILE:test_plugin_hot_reload_enhanced_focused>)
-
-    set_tests_properties(PluginHotReloadEnhancedFocusedTests PROPERTIES
-        LABELS "plugins;hot-reload;toctou;state-preserve;rollback;focused;unit"
-        TIMEOUT 90
-    )
-
-    message(STATUS "  PluginHotReloadEnhanced: TOCTOU-safe 3-phase reload, state preservation, atomic swap, rollback")
-else()
-    message(STATUS "Plugin Hot-Reload Enhanced focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/plugins/test_plugin_hot_reload_enhanced.cpp or ${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_hot_reload_enhanced.cpp")
-endif()
+add_plugin_module_focused_test(
+    test_plugin_hot_reload_enhanced_focused
+    test_plugin_hot_reload_enhanced.cpp
+    PluginHotReloadEnhancedFocusedTests
+    "plugins;hot-reload;toctou;state-preserve;rollback;focused;unit"
+    90
+    "PluginHotReloadEnhanced: TOCTOU-safe 3-phase reload, state preservation, atomic swap, rollback"
+)
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_dependency_graph.cpp")
     message(STATUS "Adding Plugin Dependency Graph focused tests")

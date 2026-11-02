@@ -53,6 +53,10 @@ foreach(_src IN LISTS PLUGINS_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if((_stem STREQUAL "test_plugin_hot_plug" OR
+        _stem STREQUAL "test_plugin_hot_reload_enhanced") AND CMAKE_DL_LIBS)
+        target_link_libraries(${_target} PRIVATE ${CMAKE_DL_LIBS})
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     if(_stem STREQUAL "test_plugin_boundary_enforcement_focused" OR
