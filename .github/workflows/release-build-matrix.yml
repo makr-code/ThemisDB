@@ -158,6 +158,7 @@ jobs:
           )
           cmake_flags = (
               f"-DTHEMIS_EDITION={edition.upper()} -DCMAKE_BUILD_TYPE={build_type} "
+              "-DTHEMIS_BUILD_TESTS=OFF "
               f"{shard_grpc_flags}"
               "-DTHEMIS_DOCS_DB_MODE=BUILD -DTHEMIS_MODELS_MODE=PACKAGE "
               "-DTHEMIS_PACKAGE_INCLUDE_TINYLLAMA=ON -DTHEMIS_PACKAGE_INCLUDE_GEMMA=OFF"
