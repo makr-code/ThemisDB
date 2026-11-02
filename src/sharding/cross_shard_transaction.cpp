@@ -1320,6 +1320,7 @@ bool CrossShardTransactionCoordinator::executeSaga(
             }
             
             std::string endpoint = participant_it->second.endpoint;
+            const std::string target_shard_id = participant_it->first;
             lock.unlock();
             
             // Create RPC client for this shard
@@ -1354,8 +1355,19 @@ bool CrossShardTransactionCoordinator::executeSaga(
                     }
                     
                     // Execute step (using prepare as proxy for step execution)
-                    success = rpc_client.prepare(transaction_id + "_step_" + std::to_string(i), 
-                                                operations);
+                    if (!config_.fencing_token_provider) {
+                        spdlog::error("SAGA step {} rejected: fencing token provider not configured", i);
+                        break;
+                    }
+                    auto fencing_token = config_.fencing_token_provider(target_shard_id);
+                    if (!fencing_token || fencing_token->epoch == 0 ||
+                        fencing_token->shard_id != target_shard_id ||
+                        fencing_token->issuer.empty()) {
+                        spdlog::error("SAGA step {} rejected: fencing token unavailable or invalid", i);
+                        break;
+                    }
+                    success = rpc_client.prepare(transaction_id + "_step_" + std::to_string(i),
+                                                 operations, *fencing_token);
                     
                     if (success) {
                         break;
@@ -2268,7 +2280,20 @@ bool CrossShardTransactionCoordinator::sendPrepare(
 
         while (retries <= rpc_config.max_retries) {
             try {
-                bool vote = rpc_client.prepare(transaction_id, operations);
+                if (!config_.fencing_token_provider) {
+                    spdlog::error("Prepare rejected for shard {}: fencing token provider not configured",
+                                  shard_id);
+                    return false;
+                }
+                auto fencing_token = config_.fencing_token_provider(shard_id);
+                if (!fencing_token || fencing_token->epoch == 0 ||
+                    fencing_token->shard_id != shard_id ||
+                    fencing_token->issuer.empty()) {
+                    spdlog::error("Prepare rejected for shard {}: fencing token unavailable or invalid",
+                                  shard_id);
+                    return false;
+                }
+                bool vote = rpc_client.prepare(transaction_id, operations, *fencing_token);
                 if (vote) {
                     spdlog::info("Shard {} voted COMMIT for transaction {}", 
                                shard_id, transaction_id);

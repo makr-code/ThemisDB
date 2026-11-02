@@ -191,6 +191,40 @@ TEST(EpochFencingManagerTest, FutureEpochTokenRejected) {
     EXPECT_EQ(mgr.checkToken(future_tok, "n1"), FencingResult::FUTURE_EPOCH);
 }
 
+TEST(EpochFencingManagerTest, EpochBumpWaitsForGuardedWrite) {
+    EpochFencingManager mgr(makeConfig("s1", "n1", false));
+    const auto token = mgr.makeToken();
+    std::atomic<bool> write_entered{false};
+    std::atomic<bool> release_write{false};
+    std::atomic<bool> bump_finished{false};
+    FencingResult result = FencingResult::INVALID_TOKEN;
+
+    std::thread writer([&] {
+        result = mgr.applyWithToken(token, "n1", [&] {
+            write_entered.store(true, std::memory_order_release);
+            while (!release_write.load(std::memory_order_acquire)) {
+                std::this_thread::yield();
+            }
+        });
+    });
+    while (!write_entered.load(std::memory_order_acquire)) {
+        std::this_thread::yield();
+    }
+
+    std::thread bumper([&] {
+        static_cast<void>(mgr.bumpEpoch("concurrent write test"));
+        bump_finished.store(true, std::memory_order_release);
+    });
+    std::this_thread::sleep_for(10ms);
+    EXPECT_FALSE(bump_finished.load(std::memory_order_acquire));
+
+    release_write.store(true, std::memory_order_release);
+    writer.join();
+    bumper.join();
+    EXPECT_EQ(result, FencingResult::ALLOWED);
+    EXPECT_TRUE(bump_finished.load(std::memory_order_acquire));
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // EpochFencingManager — metrics
 // ─────────────────────────────────────────────────────────────────────────────

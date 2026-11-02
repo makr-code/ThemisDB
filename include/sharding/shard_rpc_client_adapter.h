@@ -46,9 +46,8 @@ namespace themis::sharding {
  *
  * Thread-safe: the underlying ShardRPCClient handles its own locking.
  *
- * @note Abort is treated as best-effort (always returns true even if the
- *       remote shard reports a failure), consistent with the abort
- *       semantics in the rest of the sharding layer.
+ * @note Phase-2 results are acknowledged only when the remote participant
+ *       confirms the requested transition.
  */
 class ShardRPCClientAdapter final : public ShardRPCServer::RequestHandler {
 public:
@@ -128,17 +127,15 @@ public:
     /**
      * @brief Translate ABORT call to a ShardRPCClient::abort() RPC.
      *
-     * Abort is best-effort: network or participant failures are ignored
-     * (returns true regardless) because idempotency guarantees the shard
-     * can be re-aborted on recovery.
+     * Returns false when the remote participant does not acknowledge the
+     * abort; idempotency permits a later recovery retry.
      */
     bool onAbort(const std::string& transaction_id) override {
         try {
-            client_.abort(transaction_id);
+            return client_.abort(transaction_id);
         } catch (...) {
-            // Intentionally swallowed – abort is best-effort
+            return false;
         }
-        return true;
     }
 
     /**

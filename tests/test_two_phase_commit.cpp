@@ -183,7 +183,8 @@ TEST_F(TwoPhaseCommitParticipantTest, MissingFencingTokenVotesAbortBeforeLocking
 }
 
 TEST_F(TwoPhaseCommitParticipantTest, WrongShardFencingTokenVotesAbort) {
-    nlohmann::json ops = nlohmann::json::array({{{"key", "wrong-shard"}}});
+    nlohmann::json ops = nlohmann::json::array();
+    ops.push_back({{"key", "wrong-shard"}});
     EXPECT_FALSE(participant_->onPrepare(
         "txn-wrong-shard", "coord", makePayload(ops, false, "coord", "shard-2")));
 }
@@ -196,7 +197,8 @@ TEST_F(TwoPhaseCommitParticipantTest, FutureFencingTokenVotesAbort) {
 }
 
 TEST_F(TwoPhaseCommitParticipantTest, EpochBumpBetweenPrepareAndCommitBlocksApply) {
-    nlohmann::json ops = nlohmann::json::array({{{"key", "stale-after-prepare"}}});
+    nlohmann::json ops = nlohmann::json::array();
+    ops.push_back({{"key", "stale-after-prepare"}});
     ASSERT_TRUE(participant_->onPrepare(
         "txn-stale-after-prepare", "coord", makePayload(ops)));
 
@@ -638,6 +640,39 @@ TEST_F(TwoPhaseCommitCoordinatorTest, EmptyOpsMapReturnsAborted) {
     EXPECT_EQ(outcome.result, CoordinatorTxnResult::ABORTED);
 }
 
+TEST(TwoPhaseCommitCoordinatorFencingTest, MissingTokenProviderFailsBeforePrepare) {
+    TwoPhaseCommitCoordinator coord("coord-no-provider");
+    auto participant = makeParticipant("shard-1");
+    coord.registerParticipant("shard-1", participant.get());
+
+    nlohmann::json ops = nlohmann::json::array();
+    const auto outcome = coord.commit("txn-no-provider", {{"shard-1", ops}});
+    EXPECT_EQ(outcome.result, CoordinatorTxnResult::ERROR);
+    EXPECT_FALSE(participant->getTransactionState("txn-no-provider").has_value());
+}
+
+TEST(TwoPhaseCommitCoordinatorFencingTest, FailedParticipantCommitIsNotReportedAsSuccess) {
+    TwoPhaseCommitCoordinator::Config cfg;
+    cfg.wal_directory = "";
+    cfg.sync_wal_writes = false;
+    cfg.fencing_token_provider = testTokenProvider("coord-failed-apply");
+    TwoPhaseCommitCoordinator coord("coord-failed-apply", cfg);
+
+    TwoPhaseCommitParticipant::Config participant_cfg;
+    participant_cfg.wal_directory = "";
+    participant_cfg.fencing_manager = testFencingManager("shard-apply-fails");
+    TwoPhaseCommitParticipant participant(
+        "shard-apply-fails", participant_cfg, nullptr,
+        [](const std::string&, const nlohmann::json&, int64_t) { return false; });
+    coord.registerParticipant("shard-apply-fails", &participant);
+
+    nlohmann::json ops = nlohmann::json::array();
+    const auto outcome = coord.commit("txn-apply-fails", {{"shard-apply-fails", ops}});
+    EXPECT_EQ(outcome.result, CoordinatorTxnResult::ERROR);
+    EXPECT_EQ(coord.getTransactionState("txn-apply-fails"),
+              CoordinatorTxnState::COMMIT_DECIDED);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Unknown shard returns ERROR
 // ─────────────────────────────────────────────────────────────────────────────
@@ -836,6 +871,23 @@ TEST(ShardRPCClientAdapterTest, MalformedPayloadVotesAbort) {
     // Invalid JSON → must return false (ABORT vote) without crashing
     bool vote = adapter.onPrepare("txn-bad", "coord", "{not-valid-json!!!}");
     EXPECT_FALSE(vote);
+}
+
+TEST(ShardRPCClientAdapterTest, MissingOrMismatchedFencingTokenVotesAbort) {
+    ShardRPCClient::Config cfg;
+    cfg.endpoint = "localhost:0";
+    cfg.timeout_ms = 50;
+    cfg.max_retries = 0;
+    ShardRPCClientAdapter adapter(cfg);
+
+    const auto missing_token = nlohmann::json{
+        {"operations", nlohmann::json::array()}
+    }.dump();
+    EXPECT_FALSE(adapter.onPrepare("txn-no-token", "coord", missing_token));
+
+    auto mismatched = nlohmann::json::parse(
+        opsToPayload(nlohmann::json::array(), "shard-1", "other-coordinator"));
+    EXPECT_FALSE(adapter.onPrepare("txn-wrong-issuer", "coord", mismatched.dump()));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

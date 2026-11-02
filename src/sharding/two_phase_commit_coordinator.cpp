@@ -157,6 +157,20 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         return outcome;
     }
 
+    {
+        std::lock_guard<std::timed_mutex> lock(mutex_);
+        const auto it = transactions_.find(transaction_id);
+        if (it != transactions_.end()) {
+            if (it->second.state == CoordinatorTxnState::COMPLETED) {
+                outcome.result = CoordinatorTxnResult::COMMITTED;
+                return outcome;
+            }
+            outcome.result = CoordinatorTxnResult::ERROR;
+            outcome.reason = "transaction already in progress";
+            return outcome;
+        }
+    }
+
     if (!config_.fencing_token_provider) {
         outcome.result = CoordinatorTxnResult::ERROR;
         outcome.reason = "fencing token provider not configured";
@@ -624,6 +638,7 @@ bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec,
         if (!lock.try_lock_for(config_.prepare_timeout)) {
             THEMIS_ERROR("2PC coordinator [{}] Phase 1 – timed out re-acquiring mutex for txn {}; aborting",
                          coordinator_id_, rec.transaction_id);
+            lock.lock();
             return false;
         }
         if (!vote) {
@@ -678,9 +693,10 @@ bool TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
                 ? participant->onCommit(rec.transaction_id)
                 : participant->onAbort(rec.transaction_id);
             if (!lock.try_lock_for(config_.prepare_timeout)) {
-                THEMIS_ERROR("2PC coordinator [{}] Phase 2 – timed out re-acquiring mutex for txn {} after {}; continuing",
+                THEMIS_ERROR("2PC coordinator [{}] Phase 2 – timed out re-acquiring mutex for txn {} after {}; waiting to preserve coordinator state",
                              coordinator_id_, rec.transaction_id,
                              do_commit ? "COMMIT" : "ABORT");
+                lock.lock();
                 return false;
             }
             if (acknowledged) {
@@ -695,6 +711,7 @@ bool TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
             if (!lock.try_lock_for(config_.prepare_timeout)) {
                 THEMIS_ERROR("2PC coordinator [{}] Phase 2 – timed out re-acquiring mutex for txn {} on error path",
                              coordinator_id_, rec.transaction_id);
+                lock.lock();
                 return false;
             }
             // Log and continue – idempotency allows retrying later

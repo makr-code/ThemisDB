@@ -210,6 +210,8 @@ struct CrossShardTransactionConfig {
     // before constructing CrossShardTransactionCoordinator so that audit records
     // and snapshots carry the real node ID instead of a placeholder.
     std::string coordinator_id; ///< Actual coordinator node identifier.
+    std::function<std::optional<themis::sharding::EpochToken>(const std::string&)>
+        fencing_token_provider; ///< Current per-shard write credential; absent blocks writes.
 
     // Cluster-wide deadlock detection — shard endpoints to poll.
     // Map of shard_id -> gRPC endpoint (e.g. "shard1" -> "shard1:50051").
