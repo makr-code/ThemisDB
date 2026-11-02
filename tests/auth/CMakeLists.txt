@@ -24,6 +24,34 @@ foreach(_src IN LISTS AUTH_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(_stem STREQUAL "test_auth_anomaly_detection")
+        target_link_libraries(${_target} PRIVATE
+            OpenSSL::SSL
+            OpenSSL::Crypto
+        )
+    elseif(_stem STREQUAL "test_auth_audit_logger")
+        target_link_libraries(${_target} PRIVATE
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
+            nlohmann_json::nlohmann_json
+        )
+    elseif(_stem STREQUAL "test_auth_error")
+        target_link_libraries(${_target} PRIVATE nlohmann_json::nlohmann_json)
+    elseif(_stem STREQUAL "test_auth_input_validation")
+        target_link_libraries(${_target} PRIVATE
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
+        )
+    elseif(_stem STREQUAL "test_auth_middleware")
+        target_link_libraries(${_target} PRIVATE
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
+            nlohmann_json::nlohmann_json
+        )
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     themis_register_module_focused_test(

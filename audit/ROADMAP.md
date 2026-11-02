@@ -450,11 +450,18 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
     konfigurieren; im nicht-modularen Profil haben alle sechs Quellen genau ein fokussiertes Target und
     das Inventar sinkt von 291 auf 285. Der gezielte Build bleibt durch einen unabhängigen MSVC-Fehler im
     generierten gRPC-Header vor Erreichen der CDC-Targets blockiert.
-  - Offen: Das nicht-modulare Profil enthält weiterhin 285 Quellen mit mehreren Nicht-Aggregat-Testtargets.
+  - [x] 2026-11-02: Sieben Auth-Tests (`anomaly_detection`, `audit_logger`, `error`, `input_validation`,
+    `metrics`, `middleware`, `rate_limiter`) verwenden ihr kanonisches Auth-Modul-Target. Die expliziten
+    OpenSSL-, optionale CURL- und nlohmann-json-Abhängigkeiten wurden auf die Modulziele übertragen;
+    Legacy-Buildtarget-Namen und CTest-Namen, Labels und Timeouts bleiben erhalten. Compilation-Databases
+    beider Windows-Debug-Profile bestätigen jeweils genau ein fokussiertes Target je geänderter Quelle;
+    das nicht-modulare Inventar sinkt von 285 auf 278. Der verteilte Rate-Limiter bleibt separat, weil sein
+    Legacy-Target zusätzlich `src/auth/rate_limiter_backend.cpp` kompiliert.
+  - Offen: Das nicht-modulare Profil enthält weiterhin 278 Quellen mit mehreren Nicht-Aggregat-Testtargets.
     Diese Mehrfachregistrierungen müssen einzeln auf doppelte Builds oder unterschiedliche Link-/Testverträge
     geprüft werden; nur `themis_tests` und `themis_tests_critical` gelten im Gate als Sammelziele.
   - Der gezielte Build der Ingestion-Targets, BaseEntity-/Base-Reload-Aliase sowie der GPU-Graph-Traversal-,
-    Network-, CDC- und Plugin-Aliase ist nicht bestätigt: Der aktuelle MSVC-Versuch stoppt beim Kompilieren der
+    Network-, CDC-, Auth- und Plugin-Aliase ist nicht bestätigt: Der aktuelle MSVC-Versuch stoppt beim Kompilieren der
     generierten gRPC-Quellen mit C2065/C3878 in `vcpkg_installed/x64-windows/include/grpcpp/impl/call_op_set.h:979`.
     Ein früherer fokussierter Build erreichte `src/prompt_engineering/rewrite_engine.cpp`, `rewrite_rule_base.cpp`
     und `rewrite_rule_loader.cpp` und stoppte dort mit C2059. Keiner dieser Fehler liegt in den Testregistrierungs-

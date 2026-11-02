@@ -12814,200 +12814,82 @@ set_tests_properties(ApiKeyAuthenticatorTests PROPERTIES
     TIMEOUT 60
 )
 
+macro(add_auth_focused_alias target canonical_target test_name labels timeout description)
+    if(NOT TARGET ${canonical_target})
+        message(FATAL_ERROR "Required auth module target is missing: ${canonical_target}")
+    endif()
+    if(TARGET ${target})
+        message(FATAL_ERROR "Legacy auth target already exists: ${target}")
+    endif()
+
+    add_custom_target(${target} DEPENDS ${canonical_target})
+    add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${canonical_target}>)
+    set_tests_properties(${test_name} PROPERTIES
+        LABELS "${labels}"
+        TIMEOUT ${timeout}
+    )
+    message(STATUS "  ${description}")
+endmacro()
+
 # Auth Anomaly Detection Tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_anomaly_detection.cpp")
-    message(STATUS "Adding Auth Anomaly Detection tests")
-
-    add_executable(test_auth_anomaly_detection
-        auth/test_auth_anomaly_detection.cpp
-    )
-
-    target_link_libraries(test_auth_anomaly_detection PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        OpenSSL::SSL
-        OpenSSL::Crypto
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_auth_anomaly_detection PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME AuthAnomalyDetectionTests COMMAND $<TARGET_FILE:test_auth_anomaly_detection>)
-
-    set_tests_properties(AuthAnomalyDetectionTests PROPERTIES
-        LABELS "auth;anomaly;brute-force;rate-limiting;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  Auth Anomaly Detection: brute-force detection, IP ban, concurrent attack simulation")
-else()
-    message(STATUS "Auth Anomaly Detection tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_anomaly_detection.cpp")
-endif()
+add_auth_focused_alias(
+    test_auth_anomaly_detection
+    module_auth_test_auth_anomaly_detection_focused
+    AuthAnomalyDetectionTests
+    "auth;anomaly;brute-force;rate-limiting;unit"
+    120
+    "Auth Anomaly Detection: brute-force detection, IP ban, concurrent attack simulation"
+)
 
 # Auth Audit Logger Tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_audit_logger.cpp")
-    message(STATUS "Adding Auth Audit Logger tests")
-
-    add_executable(test_auth_audit_logger
-        auth/test_auth_audit_logger.cpp
-    )
-
-    target_link_libraries(test_auth_audit_logger PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        OpenSSL::SSL
-        OpenSSL::Crypto
-$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
-        nlohmann_json::nlohmann_json
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_auth_audit_logger PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME AuthAuditLoggerTests COMMAND $<TARGET_FILE:test_auth_audit_logger>)
-
-    set_tests_properties(AuthAuditLoggerTests PROPERTIES
-        LABELS "auth;audit;logging;compliance;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  Auth Audit Logger: success/failure events, JWT/Kerberos/SAML/MFA audit trails")
-else()
-    message(STATUS "Auth Audit Logger tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_audit_logger.cpp")
-endif()
+add_auth_focused_alias(
+    test_auth_audit_logger
+    module_auth_test_auth_audit_logger_focused
+    AuthAuditLoggerTests
+    "auth;audit;logging;compliance;unit"
+    120
+    "Auth Audit Logger: success/failure events, JWT/Kerberos/SAML/MFA audit trails"
+)
 
 # Auth Error Tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_error.cpp")
-    message(STATUS "Adding Auth Error tests")
-
-    add_executable(test_auth_error
-        auth/test_auth_error.cpp
-    )
-
-    target_link_libraries(test_auth_error PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_auth_error PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME AuthErrorTests COMMAND $<TARGET_FILE:test_auth_error>)
-
-    set_tests_properties(AuthErrorTests PROPERTIES
-        LABELS "auth;error;exception;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  Auth Error: error codes, messages, JSON serialization, exception hierarchy")
-else()
-    message(STATUS "Auth Error tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_error.cpp")
-endif()
+add_auth_focused_alias(
+    test_auth_error
+    module_auth_test_auth_error_focused
+    AuthErrorTests
+    "auth;error;exception;unit"
+    60
+    "Auth Error: error codes, messages, JSON serialization, exception hierarchy"
+)
 
 # Auth Input Validation Tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_input_validation.cpp")
-    message(STATUS "Adding Auth Input Validation tests")
-
-    add_executable(test_auth_input_validation
-        auth/test_auth_input_validation.cpp
-    )
-
-    target_link_libraries(test_auth_input_validation PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        OpenSSL::SSL
-        OpenSSL::Crypto
-$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_auth_input_validation PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME AuthInputValidationTests COMMAND $<TARGET_FILE:test_auth_input_validation>)
-
-    set_tests_properties(AuthInputValidationTests PROPERTIES
-        LABELS "auth;input-validation;security;injection;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  Auth Input Validation: oversized tokens, null bytes, injection strings, boundary checks")
-else()
-    message(STATUS "Auth Input Validation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_input_validation.cpp")
-endif()
+add_auth_focused_alias(
+    test_auth_input_validation
+    module_auth_test_auth_input_validation_focused
+    AuthInputValidationTests
+    "auth;input-validation;security;injection;unit"
+    60
+    "Auth Input Validation: oversized tokens, null bytes, injection strings, boundary checks"
+)
 
 # Auth Metrics Tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_metrics.cpp")
-    message(STATUS "Adding Auth Metrics tests")
-
-    add_executable(test_auth_metrics
-        auth/test_auth_metrics.cpp
-    )
-
-    target_link_libraries(test_auth_metrics PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_auth_metrics PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME AuthMetricsTests COMMAND $<TARGET_FILE:test_auth_metrics>)
-
-    set_tests_properties(AuthMetricsTests PROPERTIES
-        LABELS "auth;metrics;counters;latency;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  Auth Metrics: success/failure counters, latency histograms, Prometheus export")
-else()
-    message(STATUS "Auth Metrics tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_metrics.cpp")
-endif()
+add_auth_focused_alias(
+    test_auth_metrics
+    module_auth_test_auth_metrics_focused
+    AuthMetricsTests
+    "auth;metrics;counters;latency;unit"
+    60
+    "Auth Metrics: success/failure counters, latency histograms, Prometheus export"
+)
 
 # Auth Rate Limiter Tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_rate_limiter.cpp")
-    message(STATUS "Adding Auth Rate Limiter tests")
-
-    add_executable(test_auth_rate_limiter
-        auth/test_auth_rate_limiter.cpp
-    )
-
-    target_link_libraries(test_auth_rate_limiter PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_auth_rate_limiter PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME AuthRateLimiterTests COMMAND $<TARGET_FILE:test_auth_rate_limiter>)
-
-    set_tests_properties(AuthRateLimiterTests PROPERTIES
-        LABELS "auth;rate-limiter;brute-force;sliding-window;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  Auth Rate Limiter: sliding window, per-IP, per-user, concurrent access, decay")
-else()
-    message(STATUS "Auth Rate Limiter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_rate_limiter.cpp")
-endif()
+add_auth_focused_alias(
+    test_auth_rate_limiter
+    module_auth_test_auth_rate_limiter_focused
+    AuthRateLimiterTests
+    "auth;rate-limiter;brute-force;sliding-window;unit"
+    120
+    "Auth Rate Limiter: sliding window, per-IP, per-user, concurrent access, decay"
+)
 
 # Auth Rate Limiter Distributed Tests (IRateLimiterBackend + shared InMemory backend)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_rate_limiter_distributed.cpp")
@@ -13052,39 +12934,14 @@ else()
 endif()
 
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_middleware.cpp")
-    message(STATUS "Adding Auth Middleware focused tests")
-
-    add_executable(test_auth_middleware
-        auth/test_auth_middleware.cpp
-    )
-
-    target_link_libraries(test_auth_middleware PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        OpenSSL::SSL
-        OpenSSL::Crypto
-$<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
-        nlohmann_json::nlohmann_json
-        spdlog::spdlog
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_auth_middleware PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME AuthMiddlewareFocusedTests COMMAND $<TARGET_FILE:test_auth_middleware>)
-
-    set_tests_properties(AuthMiddlewareFocusedTests PROPERTIES
-        LABELS "auth;middleware;jwt;api-key;scope;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  Auth Middleware: JWT + API-key pipeline, scope enforcement, tenant isolation")
-else()
-    message(STATUS "Auth Middleware focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_middleware.cpp")
-endif()
+add_auth_focused_alias(
+    test_auth_middleware
+    module_auth_test_auth_middleware_focused
+    AuthMiddlewareFocusedTests
+    "auth;middleware;jwt;api-key;scope;unit"
+    120
+    "Auth Middleware: JWT + API-key pipeline, scope enforcement, tenant isolation"
+)
 
 # GSSAPI / Kerberos Authenticator Tests (requires THEMIS_ENABLE_KERBEROS)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/gssapi/test_gssapi_authenticator.cpp")

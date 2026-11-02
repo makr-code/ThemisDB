@@ -42,6 +42,7 @@ Exact model backend not verifiable from final document text alone.
 - Consolidated six CDC focused test sources on their canonical module executables. Preserved legacy build-target names and CTest contracts, including explicit nlohmann-json and RocksDB link dependencies; the non-modular inventory falls from 299 to 293 multi-target sources.
 - Consolidated the Plugin Hot-Plug and Hot-Reload focused tests on their canonical module executables. Preserved legacy build-target names and CTest contracts, including the explicit `CMAKE_DL_LIBS` dependency; the non-modular inventory falls from 293 to 291 multi-target sources.
 - Consolidated six additional CDC focused tests on their canonical module executables. Preserved conditional HTTP/Kafka implementation sources, nlohmann-json/RocksDB dependencies, Windows runtime-DLL synchronization, and legacy build-target/CTest contracts. Both Windows Debug profiles configure and the non-modular duplicate-target count falls from 291 to 285; the focused build is blocked before reaching CDC by an independent generated-gRPC/MSVC error.
+- Consolidated seven Auth focused tests on their canonical module executables. Preserved explicit OpenSSL, optional CURL, and nlohmann-json link dependencies plus legacy build-target/CTest contracts. Both Windows Debug profiles configure and the non-modular duplicate-target count falls from 285 to 278; the distributed rate-limiter test remains separate because it compiles an additional production source.
 
 <!--
 AI_Used: true
