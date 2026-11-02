@@ -100,8 +100,6 @@ TEST_F(LoRAAdapterTest, Loading_BasicLoad) {
     ASSERT_TRUE(manager->loadLoRA("test_adapter", adapter_path, "base_model", 1.0f));
     EXPECT_TRUE(manager->isLoRALoaded("test_adapter"));
     EXPECT_NE(manager->getLoRA("test_adapter"), nullptr);
-#else
-    GTEST_SKIP() << "LLM support not enabled";
 #endif
 }
 
@@ -134,8 +132,6 @@ TEST_F(LoRAAdapterTest, Loading_MultipleAdapters) {
     for (int i = 0; i < 5; ++i) {
         EXPECT_TRUE(manager->isLoRALoaded("adapter_" + std::to_string(i)));
     }
-#else
-    GTEST_SKIP() << "LLM support not enabled";
 #endif
 }
 
@@ -155,8 +151,6 @@ TEST_F(LoRAAdapterTest, Loading_InvalidPath) {
     auto manager = createManager();
     EXPECT_FALSE(manager->loadLoRA("invalid", invalid_path, "base_model", 1.0f));
     EXPECT_FALSE(manager->isLoRALoaded("invalid"));
-#else
-    GTEST_SKIP() << "LLM support not enabled";
 #endif
 }
 
@@ -179,8 +173,6 @@ TEST_F(LoRAAdapterTest, Unloading_BasicUnload) {
     ASSERT_TRUE(manager->loadLoRA("unload_test", adapter_path, "base_model", 1.0f));
     EXPECT_TRUE(manager->unloadLoRA("unload_test"));
     EXPECT_FALSE(manager->isLoRALoaded("unload_test"));
-#else
-    GTEST_SKIP() << "LLM support not enabled";
 #endif
 }
 
@@ -206,8 +198,6 @@ TEST_F(LoRAAdapterTest, Unloading_UnloadAll) {
         EXPECT_TRUE(manager->unloadLoRA(adapter.adapter_id));
     }
     EXPECT_TRUE(manager->listLoRAs().empty());
-#else
-    GTEST_SKIP() << "LLM support not enabled";
 #endif
 }
 
@@ -233,8 +223,6 @@ TEST_F(LoRAAdapterTest, Unloading_MemoryAccountingCleanup) {
     ASSERT_TRUE(manager->unloadLoRA("memory_cleanup"));
     EXPECT_EQ(manager->getMemoryStats().at("vram_used_mb").get<size_t>(),
               baseline_mb);
-#else
-    GTEST_SKIP() << "LLM support not enabled";
 #endif
 }
 
@@ -284,8 +272,6 @@ TEST_F(LoRAAdapterTest, Switching_BetweenAdapters) {
     EXPECT_TRUE(manager->getLoRA("adapter2")->is_active);
     EXPECT_EQ(apply_count.load(), 2);
     EXPECT_EQ(remove_count.load(), 1);
-#else
-    GTEST_SKIP() << "LLM support not enabled";
 #endif
 }
 
@@ -335,8 +321,6 @@ TEST_F(LoRAAdapterTest, Switching_RapidSwitching) {
 
     EXPECT_EQ(applied.load(), switches);
     EXPECT_EQ(removed.load(), switches - 1);
-#else
-    GTEST_SKIP() << "LLM support not enabled";
 #endif
 }
 
@@ -364,8 +348,6 @@ TEST_F(LoRAAdapterTest, Switching_VerifyActiveAdapter) {
     manager->setApplyAdapterFn([](const LoRASlot&) { return false; });
     EXPECT_FALSE(manager->applyLoRA("active_adapter", nullptr));
     EXPECT_TRUE(manager->getLoRA("active_adapter")->is_active);
-#else
-    GTEST_SKIP() << "LLM support not enabled";
 #endif
 }
 
@@ -415,8 +397,6 @@ TEST_F(LoRAAdapterTest, Concurrent_MultipleAccess) {
 
     EXPECT_EQ(access_count.load(), num_threads * accesses_per_thread);
     EXPECT_TRUE(manager.isLoRALoaded("concurrent_test"));
-#else
-    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM=OFF)";
 #endif
 }
 
@@ -467,8 +447,6 @@ TEST_F(LoRAAdapterTest, Concurrent_LoadUnload) {
     for (const auto& adapter : adapters) {
         EXPECT_FALSE(manager.isLoRALoaded(adapter));
     }
-#else
-    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM=OFF)";
 #endif
 }
 
@@ -529,8 +507,6 @@ TEST_F(LoRAAdapterTest, Concurrent_RegistryThreadSafety) {
     EXPECT_EQ(completed_lifecycles.load(),
               static_cast<int>(num_adapters) * lifecycle_iterations);
     EXPECT_TRUE(manager->listLoRAs().empty());
-#else
-    GTEST_SKIP() << "LLM support not enabled";
 #endif
 }
 
@@ -564,8 +540,6 @@ TEST_F(LoRAAdapterTest, StateConsistency_StatusTracking) {
     ASSERT_TRUE(manager->unloadLoRA("status_tracking"));
     EXPECT_FALSE(manager->isLoRALoaded("status_tracking"));
     EXPECT_TRUE(manager->listLoRAs().empty());
-#else
-    GTEST_SKIP() << "LLM support not enabled";
 #endif
 }
 
@@ -591,8 +565,6 @@ TEST_F(LoRAAdapterTest, StateConsistency_MetadataIntegrity) {
     EXPECT_FLOAT_EQ(info->scale, 0.625f);
     EXPECT_EQ(info->size_bytes, fs::file_size(adapter_path));
     EXPECT_TRUE(info->is_loaded);
-#else
-    GTEST_SKIP() << "LLM support not enabled";
 #endif
 }
 
@@ -625,8 +597,6 @@ TEST_F(LoRAAdapterTest, StateConsistency_UsageTracking) {
     EXPECT_FALSE(manager->applyLoRA("usage_tracking", nullptr));
     EXPECT_EQ(manager->getLoRA("usage_tracking")->use_count, 4u);
     EXPECT_TRUE(manager->getLoRA("usage_tracking")->is_active);
-#else
-    GTEST_SKIP() << "LLM support not enabled";
 #endif
 }
 
@@ -657,8 +627,6 @@ TEST_F(LoRAAdapterTest, MultiAdapter_SimultaneousManagement) {
     }
     EXPECT_EQ(manager->listLoRAs("base_model").size(),
               static_cast<size_t>(max_adapters));
-#else
-    GTEST_SKIP() << "LLM support not enabled";
 #endif
 }
 

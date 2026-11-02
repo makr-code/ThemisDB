@@ -63,6 +63,15 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
     set(_target "module_llm_${_stem}_focused")
     set(_ctest "${_stem}_LlmFocusedTests")
 
+    # These suites exercise LLM-only types and behavior. Do not create test
+    # cases that can only report GTEST_SKIP when the feature is disabled.
+    if(NOT THEMIS_ENABLE_LLM
+       AND (_stem STREQUAL "test_gpu_lora_integration"
+            OR _stem STREQUAL "test_lora_adapters"))
+        message(STATUS "Not registering ${_stem}: THEMIS_ENABLE_LLM is OFF")
+        continue()
+    endif()
+
     # Temporarily quarantine phase3 wiki focused suites with known API/syntax drift.
      if(_stem STREQUAL "test_llm_wiki_phase3_edge_cases_focused"
          OR _stem STREQUAL "test_llm_wiki_phase3_features_focused"
@@ -412,7 +421,9 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
-    if((_stem STREQUAL "test_lora_adapters" OR _stem STREQUAL "test_training_data_iterator")
+    if((_stem STREQUAL "test_lora_adapters"
+        OR _stem STREQUAL "test_training_data_iterator"
+        OR _stem STREQUAL "test_gpu_lora_integration")
        AND TARGET themis_llm)
         target_link_libraries(${_target} PRIVATE themis_llm)
     endif()
