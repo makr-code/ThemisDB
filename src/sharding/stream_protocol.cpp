@@ -1272,11 +1272,20 @@ void StreamPlan::addListener(std::shared_ptr<IStreamListener> listener) {
  * @details Calls: lock(), initialize(), load(), size(), start(), getState(), isActive(), store().
  */
 void StreamPlan::executorLoop() {
+    bool initialization_failed = false;
+    bool start_failed = false;
+
     // Initialize all sessions
     {
         std::lock_guard<std::mutex> lock(mutex_);
         for (auto& session : sessions_) {
-            session->initialize();
+            if (!session->initialize()) {
+                initialization_failed = true;
+                spdlog::error(
+                    "StreamPlan::executorLoop: session {} failed initialization (error {})",
+                    session->getSessionId(),
+                    static_cast<unsigned int>(session->getLastError()));
+            }
         }
     }
     
@@ -1291,14 +1300,18 @@ void StreamPlan::executorLoop() {
             // Start new sessions if we have capacity
             while (active_count < config_.max_concurrent_sessions && 
                    next_session < sessions_.size()) {
-                sessions_[next_session]->start();
+                auto& session = sessions_[next_session];
+                if (session->getState() == StreamSessionState::PREPARING &&
+                    !session->start()) {
+                    start_failed = true;
+                }
                 next_session++;
                 active_count++;
             }
             
             // Check session status
             bool all_complete = true;
-            bool any_failed = false;
+            bool any_failed = initialization_failed || start_failed;
             
             for (const auto& session : sessions_) {
                 auto state = session->getState();
