@@ -11742,6 +11742,45 @@ endif() # THEMIS_ENABLE_CONTENT
 # THEMIS_ENABLE_HTTP_SERVER is ON; add it explicitly when HTTP_SERVER is OFF)
 # ============================================================================
 
+macro(add_cdc_focused_test target src test_name labels timeout description)
+    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${src}")
+        message(FATAL_ERROR "Required CDC focused test source is missing: ${CMAKE_CURRENT_SOURCE_DIR}/${src}")
+    endif()
+
+    get_filename_component(_cdc_test_stem "${src}" NAME_WE)
+    set(_cdc_module_target "module_cdc_${_cdc_test_stem}_focused")
+    if(TARGET ${_cdc_module_target})
+        if(TARGET ${target})
+            message(FATAL_ERROR "Legacy CDC target already exists: ${target}")
+        endif()
+        add_custom_target(${target}
+            DEPENDS ${_cdc_module_target}
+        )
+        set(_cdc_test_target "${_cdc_module_target}")
+    else()
+        add_executable(${target} "${src}")
+        target_include_directories(${target} PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(${target} PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            nlohmann_json::nlohmann_json
+            ${ARGN}
+            Threads::Threads
+        )
+        target_compile_definitions(${target} PRIVATE THEMIS_TEST_BUILD=1)
+        set(_cdc_test_target "${target}")
+    endif()
+
+    add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${_cdc_test_target}>)
+    set_tests_properties(${test_name} PROPERTIES
+        LABELS "${labels}"
+        TIMEOUT ${timeout}
+    )
+    message(STATUS "  ${description}")
+endmacro()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_admin.cpp")
     message(STATUS "Adding CDC Admin tests (Issue #1623, standalone binary)")
 
@@ -11924,40 +11963,15 @@ endif()
 # listEvents() upper-bound (to_sequence), JSON round-trips, watermarks, and
 # concurrent subscribe/record safety.
 # ============================================================================
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_changefeed_core.cpp")
-    message(STATUS "Adding ChangefeedCore focused tests (Issue #9, v1.8.0 stampede fix)")
-
-    add_executable(test_cdc_changefeed_core_focused
-        cdc/test_cdc_changefeed_core.cpp
-    )
-
-    target_include_directories(test_cdc_changefeed_core_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_changefeed_core_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_changefeed_core_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME ChangefeedCoreFocusedTests COMMAND $<TARGET_FILE:test_cdc_changefeed_core_focused>)
-
-    set_tests_properties(ChangefeedCoreFocusedTests PROPERTIES
-        LABELS "cdc;changefeed;to-sequence;upper-bound;stampede;v1.8.0;focused;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  ChangefeedCore: subscriptions, to_sequence upper-bound, JSON roundtrip, watermarks, concurrent safety")
-else()
-    message(STATUS "ChangefeedCore focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_changefeed_core.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_changefeed_core_focused
+    cdc/test_cdc_changefeed_core.cpp
+    ChangefeedCoreFocusedTests
+    "cdc;changefeed;to-sequence;upper-bound;stampede;v1.8.0;focused;unit"
+    120
+    "ChangefeedCore: subscriptions, to_sequence upper-bound, JSON roundtrip, watermarks, concurrent safety"
+    RocksDB::rocksdb
+)
 
 # ============================================================================
 # DiffEngine Focused Tests (v1.8.0) - validates cache-stampede prevention,
@@ -12166,158 +12180,58 @@ endif()
 # InMemoryPauseControl; header-only, no RocksDB dependency)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_pause_control.cpp")
-    message(STATUS "Adding CDC Pause Control focused tests")
-
-    add_executable(test_cdc_pause_control
-        cdc/test_cdc_pause_control.cpp
-    )
-
-    target_include_directories(test_cdc_pause_control PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_pause_control PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_pause_control PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CDCPauseControlFocusedTests COMMAND $<TARGET_FILE:test_cdc_pause_control>)
-
-    set_tests_properties(CDCPauseControlFocusedTests PROPERTIES
-        LABELS "cdc;pause-control;backpressure;schema-evolution;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  CDCPauseControl: pause/resume transitions, PauseReason, bufferEvent/drainBuffer, overflow, waitForResume, thread-safety")
-else()
-    message(STATUS "CDC Pause Control tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_pause_control.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_pause_control
+    cdc/test_cdc_pause_control.cpp
+    CDCPauseControlFocusedTests
+    "cdc;pause-control;backpressure;schema-evolution;unit"
+    60
+    "CDCPauseControl: pause/resume transitions, PauseReason, bufferEvent/drainBuffer, overflow, waitForResume, thread-safety"
+    RocksDB::rocksdb
+)
 
 # ============================================================================
 # CDC Backpressure Signal Focused Tests (v1.8.0 - ICDCBackpressureSignal /
 # InMemoryBackpressureSignal; header-only, no RocksDB dependency)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_backpressure_signal.cpp")
-    message(STATUS "Adding CDC Backpressure Signal focused tests")
-
-    add_executable(test_cdc_backpressure_signal
-        cdc/test_cdc_backpressure_signal.cpp
-    )
-
-    target_include_directories(test_cdc_backpressure_signal PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_backpressure_signal PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_backpressure_signal PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CDCBackpressureSignalFocusedTests COMMAND $<TARGET_FILE:test_cdc_backpressure_signal>)
-
-    set_tests_properties(CDCBackpressureSignalFocusedTests PROPERTIES
-        LABELS "cdc;backpressure;flow-control;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  CDCBackpressureSignal: signal/clear/currentLevel, level-change callback, setCallback, thread-safety")
-else()
-    message(STATUS "CDC Backpressure Signal tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_backpressure_signal.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_backpressure_signal
+    cdc/test_cdc_backpressure_signal.cpp
+    CDCBackpressureSignalFocusedTests
+    "cdc;backpressure;flow-control;unit"
+    60
+    "CDCBackpressureSignal: signal/clear/currentLevel, level-change callback, setCallback, thread-safety"
+)
 
 # ============================================================================
 # CDC Fan-In Focused Tests (v1.8.0 - ICDCFanIn / InMemoryFanIn;
 # requires RocksDB for Changefeed instances)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_fan_in.cpp")
-    message(STATUS "Adding CDC Fan-In focused tests")
-
-    add_executable(test_cdc_fan_in
-        cdc/test_cdc_fan_in.cpp
-    )
-
-    target_include_directories(test_cdc_fan_in PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_fan_in PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        RocksDB::rocksdb
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_fan_in PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CDCFanInFocusedTests COMMAND $<TARGET_FILE:test_cdc_fan_in>)
-
-    set_tests_properties(CDCFanInFocusedTests PROPERTIES
-        LABELS "cdc;fan-in;multi-source;merge-policy;ordering;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  CDCFanIn: addSource/removeSource/sourceIds, listEvents merge, cursor, limit, collection filter, custom merge policy, thread-safety")
-else()
-    message(STATUS "CDC Fan-In tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_fan_in.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_fan_in
+    cdc/test_cdc_fan_in.cpp
+    CDCFanInFocusedTests
+    "cdc;fan-in;multi-source;merge-policy;ordering;unit"
+    120
+    "CDCFanIn: addSource/removeSource/sourceIds, listEvents merge, cursor, limit, collection filter, custom merge policy, thread-safety"
+    RocksDB::rocksdb
+)
 
 # ============================================================================
 # CDC Event Schema Focused Tests (v1.8.0 - ICDCEventSchema /
 # InMemoryCDCEventSchema; header-only, no RocksDB dependency)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_event_schema.cpp")
-    message(STATUS "Adding CDC Event Schema focused tests")
-
-    add_executable(test_cdc_event_schema
-        cdc/test_cdc_event_schema.cpp
-    )
-
-    target_include_directories(test_cdc_event_schema PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_event_schema PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_event_schema PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CDCEventSchemaFocusedTests COMMAND $<TARGET_FILE:test_cdc_event_schema>)
-
-    set_tests_properties(CDCEventSchemaFocusedTests PROPERTIES
-        LABELS "cdc;schema;schema-evolution;avro;protobuf;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  CDCEventSchema: registerSchema/getSchema/currentVersion, triggerEvolution compatible/incompatible, callback replacement, thread-safety")
-else()
-    message(STATUS "CDC Event Schema tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_event_schema.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_event_schema
+    cdc/test_cdc_event_schema.cpp
+    CDCEventSchemaFocusedTests
+    "cdc;schema;schema-evolution;avro;protobuf;unit"
+    60
+    "CDCEventSchema: registerSchema/getSchema/currentVersion, triggerEvolution compatible/incompatible, callback replacement, thread-safety"
+)
 
 # ============================================================================
 # CDC Delivery Guarantee Config Focused Tests (v1.8.0 -
@@ -12325,40 +12239,14 @@ endif()
 # InMemoryIdempotentListener; header-only, no RocksDB dependency)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_delivery_guarantee_config.cpp")
-    message(STATUS "Adding CDC Delivery Guarantee Config focused tests")
-
-    add_executable(test_cdc_delivery_guarantee_config
-        cdc/test_cdc_delivery_guarantee_config.cpp
-    )
-
-    target_include_directories(test_cdc_delivery_guarantee_config PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-    )
-
-    target_link_libraries(test_cdc_delivery_guarantee_config PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_cdc_delivery_guarantee_config PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME CDCDeliveryGuaranteeConfigFocusedTests
-             COMMAND $<TARGET_FILE:test_cdc_delivery_guarantee_config>)
-
-    set_tests_properties(CDCDeliveryGuaranteeConfigFocusedTests PROPERTIES
-        LABELS "cdc;delivery;at-least-once;exactly-once;deduplication;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  CDCDeliveryGuaranteeConfig: DeliveryMode, ackTimeout, deduplicationWindow; InMemoryIdempotentListener: markProcessed/isDuplicate, FIFO eviction, thread-safety")
-else()
-    message(STATUS "CDC Delivery Guarantee Config tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_delivery_guarantee_config.cpp")
-endif()
+add_cdc_focused_test(
+    test_cdc_delivery_guarantee_config
+    cdc/test_cdc_delivery_guarantee_config.cpp
+    CDCDeliveryGuaranteeConfigFocusedTests
+    "cdc;delivery;at-least-once;exactly-once;deduplication;unit"
+    60
+    "CDCDeliveryGuaranteeConfig: DeliveryMode, ackTimeout, deduplicationWindow; InMemoryIdempotentListener: markProcessed/isDuplicate, FIFO eviction, thread-safety"
+)
 
 # Config Module - Focused Standalone Test Targets
 # ============================================================================

@@ -39,6 +39,7 @@ Exact model backend not verifiable from final document text alone.
 - Consolidated the BaseEntity and Base reload-regression sources on their Base module executables. Preserved the legacy CTest names, labels, timeouts, and build-target names; the non-modular inventory falls from 342 to 340 multi-target sources.
 - Consolidated 25 ingestion test sources on their canonical module executables. Preserved legacy CTest names, labels, timeouts, and build-target names; standalone ingestion suites without a module target remain unchanged. The builtin-steps target retains its explicit `CXX_STANDARD 17` setting and nlohmann-json dependency. The non-modular inventory falls from 340 to 315 multi-target sources.
 - Consolidated 16 network focused test sources on their canonical module executables. Preserved legacy build-target names and CTest contracts; retained the separate WebSocket CDC target because its root registration compiles additional production sources. The non-modular inventory falls from 315 to 299 multi-target sources.
+- Consolidated six CDC focused test sources on their canonical module executables. Preserved legacy build-target names and CTest contracts, including explicit nlohmann-json and RocksDB link dependencies; the non-modular inventory falls from 299 to 293 multi-target sources.
 
 <!--
 AI_Used: true

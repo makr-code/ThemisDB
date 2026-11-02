@@ -435,11 +435,15 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
     kanonisches Network-Modul-Target. Root-Build-Target-Namen, CTest-Namen, Labels und Timeouts bleiben erhalten;
     `tests/network/test_websocket_cdc.cpp` bleibt wegen zusätzlicher Root-Produktionsquellen separat registriert.
     Das nicht-modulare Inventar sinkt von 315 auf 299 Mehrfachregistrierungen.
-  - Offen: Das nicht-modulare Profil enthält weiterhin 299 Quellen mit mehreren Nicht-Aggregat-Testtargets.
+  - [x] 2026-11-02: Sechs CDC-Testquellen (`changefeed_core`, `pause_control`, `backpressure_signal`, `fan_in`,
+    `event_schema`, `delivery_guarantee_config`) verwenden nur noch ihr kanonisches Modul-Target. Root-Build-
+    Target-Namen, CTest-Namen, Labels, Timeouts sowie explizite nlohmann-json-/RocksDB-Abhängigkeiten bleiben
+    erhalten. Das nicht-modulare Inventar sinkt von 299 auf 293 Mehrfachregistrierungen.
+  - Offen: Das nicht-modulare Profil enthält weiterhin 293 Quellen mit mehreren Nicht-Aggregat-Testtargets.
     Diese Mehrfachregistrierungen müssen einzeln auf doppelte Builds oder unterschiedliche Link-/Testverträge
     geprüft werden; nur `themis_tests` und `themis_tests_critical` gelten im Gate als Sammelziele.
-  - Der gezielte Build der Ingestion-Targets, BaseEntity-/Base-Reload-Aliase sowie der GPU-Graph-Traversal-
-    und Network-Aliase ist nicht bestätigt: MSVC stoppt vor Erreichen der Testtargets beim Kompilieren von
+  - Der gezielte Build der Ingestion-Targets, BaseEntity-/Base-Reload-Aliase sowie der GPU-Graph-Traversal-,
+    Network- und CDC-Aliase ist nicht bestätigt: MSVC stoppt vor Erreichen der Testtargets beim Kompilieren von
     `src/prompt_engineering/rewrite_engine.cpp`, `rewrite_rule_base.cpp` und `rewrite_rule_loader.cpp` mit
     C2059-Syntaxfehlern. Diese Fehler liegen außerhalb der Testregistrierungsänderung; Compilation-Database und
     CTest-Registrierung allein belegen keinen erfolgreichen Build oder Testlauf.
