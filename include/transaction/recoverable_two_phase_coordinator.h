@@ -142,6 +142,14 @@ struct GlobalTwoPhaseCommitRecoveryReport {
 
     /// Per-coordinator breakdown.
     std::vector<RecoverableTwoPhaseCoordinatorReport> coordinators;
+
+    /**
+     * @brief Whether startup must remain blocked pending transaction recovery.
+     * @return True when any transaction remains in doubt after the recovery pass.
+     */
+    [[nodiscard]] bool startupBlocked() const noexcept {
+        return in_doubt_after != 0;
+    }
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -173,14 +181,9 @@ public:
      * on each, and accumulates before/after counts and per-coordinator details.
      * Null pointers in the list are silently skipped.
      *
-     * A coordinator that reports in-doubt transactions but has a disabled
-     * recovery backend is not invoked: its transactions remain unresolved and
-     * are reflected in `in_doubt_after`. Callers must keep startup blocked
-     * while that count is non-zero.
-     *
      * @param coordinators Recovery-capable coordinators to visit exactly once.
      * @return             Aggregated before/after counts and per-coordinator results;
-     *                     non-zero `in_doubt_after` means recovery is incomplete.
+     *                     call `startupBlocked()` before allowing writes.
      */
     [[nodiscard]] static GlobalTwoPhaseCommitRecoveryReport recoverAll(
         const std::vector<IRecoverableTwoPhaseCoordinator*>& coordinators
@@ -200,16 +203,10 @@ public:
             coordinator_report.in_doubt_before  =
                 coordinator->getRecoverableTransactions().size();
 
-            if (coordinator_report.backend_name == "disabled" &&
-                coordinator_report.in_doubt_before > 0) {
-                coordinator_report.in_doubt_after =
-                    coordinator_report.in_doubt_before;
-            } else {
-                coordinator_report.resolved =
-                    coordinator->recoverInDoubtTransactions();
-                coordinator_report.in_doubt_after =
-                    coordinator->getRecoverableTransactions().size();
-            }
+            coordinator_report.resolved =
+                coordinator->recoverInDoubtTransactions();
+            coordinator_report.in_doubt_after =
+                coordinator->getRecoverableTransactions().size();
 
             report.in_doubt_before += coordinator_report.in_doubt_before;
             report.resolved        += coordinator_report.resolved;

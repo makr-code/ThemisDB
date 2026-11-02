@@ -1012,22 +1012,31 @@ TEST(GlobalTwoPhaseCommitRecoveryManagerTest, AggregatesCrossCoordinatorRecovery
     EXPECT_EQ(report.in_doubt_before, 5u);
     EXPECT_EQ(report.resolved, 3u);
     EXPECT_EQ(report.in_doubt_after, 2u);
+    EXPECT_TRUE(report.startupBlocked());
     ASSERT_EQ(report.coordinators.size(), 2u);
     EXPECT_EQ(report.coordinators[0].coordinator_name, "coord-a");
     EXPECT_EQ(report.coordinators[1].backend_name, "WAL/snapshot");
 }
 
-TEST(GlobalTwoPhaseCommitRecoveryManagerTest, DisabledBackendKeepsInDoubtTransactionsBlocked) {
-    FakeRecoverableCoordinator coordinator("coord-memory-only", "disabled", 2, 0, 0);
+TEST(GlobalTwoPhaseCommitRecoveryManagerTest, EmptyRecoveryPassDoesNotBlockStartup) {
+    const auto report =
+        themis::transaction::GlobalTwoPhaseCommitRecoveryManager::recoverAll({});
+
+    EXPECT_FALSE(report.startupBlocked());
+}
+
+TEST(GlobalTwoPhaseCommitRecoveryManagerTest, DisabledBackendWithUnresolvedTransactionsBlocksStartup) {
+    FakeRecoverableCoordinator coordinator("coord-memory-only", "disabled", 2, 0, 2);
 
     const auto report =
         themis::transaction::GlobalTwoPhaseCommitRecoveryManager::recoverAll(
             {&coordinator});
 
     ASSERT_EQ(report.coordinators.size(), 1u);
-    EXPECT_EQ(coordinator.recoveryCalls(), 0u);
+    EXPECT_EQ(coordinator.recoveryCalls(), 1u);
     EXPECT_EQ(report.coordinators.front().in_doubt_before, 2u);
     EXPECT_EQ(report.coordinators.front().resolved, 0u);
     EXPECT_EQ(report.coordinators.front().in_doubt_after, 2u);
     EXPECT_EQ(report.in_doubt_after, 2u);
+    EXPECT_TRUE(report.startupBlocked());
 }
