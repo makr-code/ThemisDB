@@ -1,9 +1,13 @@
 #include <gtest/gtest.h>
+#include <chrono>
+#include <filesystem>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
 #include "replication/replication_manager.h"
+#include "storage/wal_storage.h"
 
 /**
  * Simplified focused tests for ReplicationManager::addReplica fail-closed guard
@@ -170,4 +174,23 @@ TEST_F(ReplicationManagerAddReplicaTest, FailClosedGuardsAreIndependent) {
     EXPECT_EQ(replicas.size(), 1);
     EXPECT_EQ(replicas[0].node_id, "replica-valid");
     EXPECT_EQ(replicas[0].endpoint, "host-valid:5432");
+}
+
+TEST(ReplicationManagerRecoveryTest, InvalidWalEntryAbortsRecovery) {
+    const auto wal_dir = std::filesystem::temp_directory_path() /
+        ("themis_replication_invalid_wal_entry_" +
+         std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
+    std::filesystem::remove_all(wal_dir);
+
+    themis::WALStorage::Config wal_config;
+    wal_config.dir = wal_dir.string();
+    auto storage = themis::WALStorage::open(wal_config);
+    ASSERT_TRUE(storage.has_value());
+    ASSERT_TRUE((*storage)->appendPut("replication-entry", "invalid payload").has_value());
+    storage->reset();
+
+    ReplicationConfig replication_config;
+    replication_config.wal_directory = wal_dir.string();
+    EXPECT_THROW(WALManager manager(replication_config), std::runtime_error);
+    std::filesystem::remove_all(wal_dir);
 }

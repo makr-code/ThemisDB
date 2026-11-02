@@ -669,9 +669,9 @@ void WALManager::loadFromDisk() {
         std::vector<uint8_t> payload(recovered.value.begin(), recovered.value.end());
         auto wal_entry = WALEntry::deserialize(payload);
         if (!wal_entry) {
-            THEMIS_WARN("Skipping invalid replication WAL entry at sequence {}",
+            THEMIS_ERROR("Invalid replication WAL entry at sequence {}; aborting recovery",
                         recovered.sequence);
-            return true;
+            return false;
         }
 
         wal_entry->sequence_number = recovered.sequence;

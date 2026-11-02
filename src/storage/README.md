@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-18"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-02"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,13 +14,16 @@ Canonical_References:
   - "../../include/storage/storage_engine.h"
   - "../../include/storage/mvcc_store.h"
   - "../../include/storage/wal_storage.h"
+  - "../../include/storage/streaming_ingest_manager.h"
   - "../../include/storage/backup_manager.h"
   - "../../include/storage/tiered_storage.h"
   - "storage_engine.cpp"
   - "mvcc_store.cpp"
   - "wal_storage.cpp"
+  - "streaming_ingest_manager.cpp"
+  - "../replication/replication_manager.cpp"
   - "tests/storage/CMakeLists.txt"
-Related_Milestone: "DOC-WEEKLY-2026-W44"
+Related_Milestone: "DOC-WEEKLY-2026-W45"
 ---
 
 Exact model backend not verifiable from final document text alone.
@@ -44,6 +47,18 @@ claim; those depend on the component, configuration, backend, and caller.
 - `WALStorage` is a separate append/replay/checkpoint API. Its configured
   `fsync_on_write` policy affects sync behavior; this API must not be conflated
   with RocksDB's internal WAL or assumed to wrap every `StorageEngine` write.
+- `WALStorage::open()` can report `Complete`, `TruncatedTail`, `Corrupted`,
+  `TimedOut`, or `Failed` through its optional `RecoveryResult` output. Strict
+  recovery is the default; the configurable timeout is unlimited at zero and
+  rejects negative values. Explicit `SkipCorrupted` quarantines a corrupt
+  segment under `<wal_dir>/quarantine`; callback aborts and I/O errors fail
+  open. These source-level behaviors do not establish crash-harness or benchmark
+  evidence.
+- `StreamingIngestManager::ingestBatch()` admits all events or none: BLOCK
+  waits for full-batch capacity and times out without enqueueing; DROP returns
+  zero and drops the entire batch if capacity is insufficient. Flush uses
+  atomic RocksDB WriteBatch chunks; failed chunks and the remaining suffix are
+  retained ahead of newer events for ordered, PUT-idempotent retry.
 - Backup, PITR, blob, tiering, maintenance, integrity, and diagnostics
   components have their own interfaces and configuration. Their presence does
   not establish an end-to-end guarantee for every deployment.
@@ -70,6 +85,7 @@ claim; those depend on the component, configuration, backend, and caller.
 
 - [`API.md`](API.md) — caller-facing contracts
 - [`IMPLEMENTATION.md`](IMPLEMENTATION.md) — source boundaries and validation
+- [`OPERATIONS.md`](OPERATIONS.md) — operational signals and limitations
 - [`RUNBOOK.md`](RUNBOOK.md) — operational troubleshooting; verify recovery
   actions against the deployment
 - [`ROADMAP.md`](ROADMAP.md) — module planning and evidence status
