@@ -16,6 +16,7 @@
 #include <cerrno>
 #include <csignal>
 #include <cstring>
+#include <fcntl.h>
 #include <poll.h>
 #include <spawn.h>
 #include <sys/wait.h>
@@ -52,13 +53,23 @@ public:
             closePipe(child_to_parent);
             return false;
         }
+        if (!moveAboveStandardDescriptors(parent_to_child, error) ||
+            !moveAboveStandardDescriptors(child_to_parent, error)) {
+            closePipe(parent_to_child);
+            closePipe(child_to_parent);
+            return false;
+        }
 
         posix_spawn_file_actions_t actions;
         int spawn_error = ::posix_spawn_file_actions_init(&actions);
-        if (spawn_error == 0) {
-            spawn_error = ::posix_spawn_file_actions_adddup2(
-                &actions, parent_to_child[0], STDIN_FILENO);
+        if (spawn_error != 0) {
+            error = std::strerror(spawn_error);
+            closePipe(parent_to_child);
+            closePipe(child_to_parent);
+            return false;
         }
+        spawn_error = ::posix_spawn_file_actions_adddup2(
+            &actions, parent_to_child[0], STDIN_FILENO);
         if (spawn_error == 0) {
             spawn_error = ::posix_spawn_file_actions_adddup2(
                 &actions, child_to_parent[1], STDOUT_FILENO);
@@ -161,6 +172,23 @@ public:
     }
 
 private:
+    static bool moveAboveStandardDescriptors(int (&descriptors)[2],
+                                             std::string& error) {
+        for (int& descriptor : descriptors) {
+            if (descriptor > STDERR_FILENO) {
+                continue;
+            }
+            const int replacement = ::fcntl(descriptor, F_DUPFD, STDERR_FILENO + 1);
+            if (replacement < 0) {
+                error = std::strerror(errno);
+                return false;
+            }
+            ::close(descriptor);
+            descriptor = replacement;
+        }
+        return true;
+    }
+
     static void closePipe(int (&descriptors)[2]) {
         for (int& descriptor : descriptors) {
             if (descriptor >= 0) {

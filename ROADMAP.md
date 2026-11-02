@@ -43,7 +43,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ### Storage recovery and streaming-ingest follow-up (2026-11-02)
 
-- STO-01 and STO-10 are **partially implemented** in current committed source; their test and performance evidence gates remain open. STO-07 remains open: no process-kill harness or artifact evidence is recorded. No tests or benchmarks were executed for this documentation follow-up; see [audit/ROADMAP.md](audit/ROADMAP.md) for the diagnostic configure and Actions observations.
+- STO-01 and STO-10 are **partially implemented** in current committed source; their test and performance evidence gates remain open. STO-07 remains open: a focused POSIX WAL subprocess test now kills the worker after acknowledged appends, a rotation boundary, and a checkpoint boundary, then checks exact replay. The test has not been executed; kills inside syscalls, backup/restore and index consistency, required PR/nightly iteration artifacts, and the replay baseline remain open. No tests or benchmarks were executed for this follow-up; see [audit/ROADMAP.md](audit/ROADMAP.md) for the diagnostic configure and Actions observations.
 
 ## Source-Verified Reality Check (2026-09-09)
 

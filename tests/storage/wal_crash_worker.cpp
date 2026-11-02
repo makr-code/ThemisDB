@@ -3,6 +3,7 @@
 
 #include "storage/wal_storage.h"
 
+#include <cstdint>
 #include <iostream>
 #include <string>
 

@@ -117,8 +117,11 @@ Before release or after a storage change, verify:
 - compaction and tiering remain observable under load.
 
 The source behavior above is not execution evidence. STO-01/STO-10 focused
-test execution and the ≤5% WAL replay benchmark baseline are still pending;
-STO-07's process-kill harness and run artifacts are also open.
+test execution and the ≤5% WAL replay benchmark baseline are still pending.
+STO-07 has a focused POSIX subprocess test source that kills a WAL worker after
+acknowledged writes at rotation/checkpoint boundaries and checks replay, but it
+has not been executed. Kills inside active syscalls, backup/restore and index
+consistency, and the ≥50 PR/≥1,000 nightly artifact runs remain open.
 
 ## Escalation triggers
 

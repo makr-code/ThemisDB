@@ -24,12 +24,14 @@ Canonical_References:
   - "ai_context/api_contracts/storage.md"
   - "tests/storage/test_storage_contract_hardening_focused.cpp"
   - "tests/storage/test_storage_engine_prod.cpp"
-  - "tests/test_mvcc_wal_integration.cpp"
+  - "tests/storage/test_wal_process_crash.cpp"
+  - "tests/storage/wal_crash_worker.cpp"
   - "tests/storage/CMakeLists.txt"
+  - "tests/test_mvcc_wal_integration.cpp"
   - "benchmarks/storage/bench_storage_release_gates.cpp"
   - "benchmarks/storage/CMakeLists.txt"
   - "src/storage/DOXYGEN.md"
-source: "include/storage/storage_api_contract.h; include/storage/storage_engine.h; include/storage/wal_storage.h; include/storage/mvcc_store.h; src/storage/storage_engine.cpp; src/storage/wal_storage.cpp; src/storage/mvcc_store.cpp; tests/storage/test_storage_contract_hardening_focused.cpp; tests/storage/test_storage_engine_prod.cpp; tests/test_mvcc_wal_integration.cpp; tests/storage/CMakeLists.txt; benchmarks/storage/bench_storage_release_gates.cpp; benchmarks/storage/CMakeLists.txt; src/storage/DOXYGEN.md"
+source: "include/storage/storage_api_contract.h; include/storage/storage_engine.h; include/storage/wal_storage.h; include/storage/mvcc_store.h; src/storage/storage_engine.cpp; src/storage/wal_storage.cpp; src/storage/mvcc_store.cpp; tests/storage/test_storage_contract_hardening_focused.cpp; tests/storage/test_storage_engine_prod.cpp; tests/storage/test_wal_process_crash.cpp; tests/storage/wal_crash_worker.cpp; tests/test_mvcc_wal_integration.cpp; tests/storage/CMakeLists.txt; benchmarks/storage/bench_storage_release_gates.cpp; benchmarks/storage/CMakeLists.txt; src/storage/DOXYGEN.md"
 source_class: "secondary"
 source_weight: 60
 Related_Milestone: "DOC-WEEKLY-2026-W44"
@@ -102,6 +104,15 @@ WAL ACK ordering or PITR, or establish transaction-manager guarantees. Test
 source or CTest registration is not evidence that it ran or passed; no execution
 result for it is claimed here.
 
+[`test_wal_process_crash.cpp`](../../tests/storage/test_wal_process_crash.cpp)
+and its [`wal_crash_worker.cpp`](../../tests/storage/wal_crash_worker.cpp)
+helper add source-level POSIX process coverage for separate `WALStorage`: the
+worker fsyncs each PUT, waits for a parent permit between operations, and is
+SIGKILLed after acknowledged writes at rotation or checkpoint boundaries. The
+test checks exact PUT replay after reopen. It does not kill inside an active
+write/fsync/rotation/checkpoint syscall and does not cover backup/restore or
+RocksDB index consistency; it has not been executed, so it is not run evidence.
+
 Focused suites under `tests/storage/` are registered by
 [`tests/storage/CMakeLists.txt`](../../tests/storage/CMakeLists.txt); that
 registration does not establish that a target was built or passed.
@@ -141,5 +152,6 @@ normative intent; implementation and test evidence determine what is currently
 demonstrated. Root governance remains authoritative for release status.
 
 This page was manually curated and linked; the generated wiki source inventory
-and `WIKI_STATUS.json` were not regenerated for it. Their recorded generation
-snapshot is 2026-10-31, and this page does not claim a fresh full-source scan.
+was not regenerated for it. `WIKI_STATUS.json` records an incremental snapshot
+from 2026-11-02 with 1,450 removed and 26 changed sources, so it is not evidence
+of a fresh full-source scan. This page does not claim that broader validation.

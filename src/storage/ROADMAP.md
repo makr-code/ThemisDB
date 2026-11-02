@@ -38,9 +38,9 @@ The source tree contains the storage, MVCC, WAL, backup/PITR, blob/tiering, and 
 ### STO-01 / STO-07 / STO-10 follow-up (2026-11-02)
 
 - [~] **STO-01 — partially implemented:** `WALStorage::open()` exposes structured recovery status, strict-by-default recovery, configurable timeout (zero unlimited; negative rejected), final-tail handling, explicit corrupt-segment quarantine, and failure propagation for callback/I/O errors. Replication deserialization failure now aborts recovery. Process-crash, focused test-execution, and ≤5% replay-regression evidence remain open.
-- [ ] **STO-07 — open:** no process-kill harness or run artifacts are evidenced. Required coverage includes kills during write/fsync, rotation, checkpoint, and backup.
+- [~] **STO-07 — partial source coverage, not executed:** `tests/storage/test_wal_process_crash.cpp` starts a POSIX WAL worker with `fsync_on_write=true`, blocks it between operations, sends `SIGKILL` after acknowledged appends at rotation and checkpoint boundaries, then checks that recovery replays exactly the acknowledged PUTs. It does not kill inside an active write/fsync/rotation/checkpoint call and does not cover backup/restore or RocksDB index consistency. Test execution and all required run artifacts remain open.
 - [~] **STO-10 — partially implemented:** batch admission is all-or-nothing; WriteBatch chunks are atomic and failed chunks plus suffix are retained in order. Focused test-execution evidence remains open.
-- **Evidence gates:** ≥50 PR and ≥1,000 nightly process-kill artifact runs, the ≤5% replay benchmark against a recorded baseline, and actual test execution evidence are pending. The 2026-11-02 documentation follow-up did not run tests or benchmarks.
+- **Evidence gates:** ≥50 PR and ≥1,000 nightly process-kill artifact runs, in-syscall and backup/index coverage, the ≤5% replay benchmark against a recorded baseline, and actual test execution evidence are pending. The subprocess test source is registered but was not run during this follow-up.
 
 ## In Progress
 

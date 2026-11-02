@@ -149,8 +149,13 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
     jeder bestätigte Commit sichtbar, kein unbestätigter Commit sichtbar, Indizes konsistent.
   - Abdeckung: RocksDB-Primärspeicher, `WALStorage` (Sharding/Replikation), Backup/Restore.
   - Umfang: ≥ 50 Iterationen auf PRs mit Storage-Änderungen, ≥ 1.000 Iterationen nightly; Ergebnis als Artefakt.
-  - **Offen:** Harness und Artefaktläufe sind nicht vorhanden/nachgewiesen; geforderte Kill-Punkte write/fsync,
-    Segment-Rotation, Checkpoint und Backup bleiben unvalidiert.
+  - **Teilweise implementiert, nicht ausgeführt:** `tests/storage/test_wal_process_crash.cpp` startet einen separaten
+    WAL-Worker mit `fsync_on_write=true`, hält ihn zwischen Operationen an und sendet `SIGKILL` nach bestätigten
+    Appends an Rotations- und Checkpoint-Grenzen. Nach dem Neustart prüft der Test, dass genau die bestätigten PUTs
+    wiederhergestellt werden. Er beweist keine Kills innerhalb eines laufenden write/fsync/rotate/checkpoint-Aufrufs
+    und deckt weder Backup/Restore noch RocksDB-Indizes ab.
+  - **Offen:** Testausführung und Artefakte; in-syscall-Kill-Punkte, Backup/Restore, Indexkonsistenz sowie ≥ 50
+    PR- und ≥ 1.000 Nightly-Iterationen. Die geforderten STO-07-Gates bleiben bis zu diesen Nachweisen offen.
   - Bestehende In-Process-Tests (`tests/test_crash_recovery_direct.cpp`, `tests/test_wal_chaos.cpp`) bleiben als Unit-Ebene.
 - [ ] **P0 · STO-04 – Wartungs-Threads mit Lebenszyklus** (Target: M1 · 2027-01-31) – `std::thread(...).detach()` in
   `src/maintenance/database_maintenance_orchestrator.cpp:608-613` durch `std::jthread` mit `std::stop_token` ersetzen;
@@ -495,7 +500,7 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
 
 ### Phase 4 – Tests (2027-01-01 – 2027-05-31)
 
-- [ ] Prozess-Crash-Harness Single-Node (STO-07) (Target: 2027-01-31)
+- [~] POSIX WAL-Prozess-Crash-Test an ACK-/Rotations-/Checkpoint-Grenzen hinzugefügt; Ausführung und voller STO-07-Umfang offen (Target: 2027-01-31)
 - [ ] AuthZ-Routenmatrix (SEC-13), JWT-Sicherheitstests (SEC-12) (Target: 2027-02-28)
 - [ ] Sanitizer-PR-Lane (OPS-06) und Fuzz-Smoke (OPS-07) (Target: 2027-01-31)
 - [ ] Skip-/Assert-Budget und Testdichte (TST-01, TST-02), Coverage in CI (Target: 2027-03-31)
