@@ -16,6 +16,7 @@
 #include <ctime>
 #include <filesystem>
 #include <iostream>
+#include <utility>
 
 #include "acceleration/plugin_security.h"
 
@@ -71,6 +72,13 @@
 
 namespace themis {
 namespace acceleration {
+
+PluginLoader::PluginLoader()
+    : PluginLoader(pluginSignerFingerprintsFromEnvironment()) {}
+
+PluginLoader::PluginLoader(std::vector<std::string> trusted_signer_fingerprints)
+    : trusted_signer_fingerprints_(
+          normalizePluginSignerFingerprints(std::move(trusted_signer_fingerprints))) {}
 
 PluginLoader::~PluginLoader() {
     unloadAllPlugins();
@@ -156,18 +164,9 @@ bool PluginLoader::loadPlugin(const std::string &libraryPath) {
 
     // SECURITY: Verify plugin before loading
     PluginSecurityPolicy policy;
-    // Load policy from config if available
-    // For now, use default policy (requires signature in production)
-
-#ifdef NDEBUG
-    // Production: Require signature
     policy.requireSignature = true;
-    policy.allowUnsigned    = false;
-#else
-    // Development: Allow unsigned
-    policy.requireSignature = false;
-    policy.allowUnsigned    = true;
-#endif
+    policy.allowUnsigned = false;
+    policy.trustedSignerFingerprints = trusted_signer_fingerprints_;
 
     PluginSecurityVerifier verifier(policy);
     std::string errorMessage = {};

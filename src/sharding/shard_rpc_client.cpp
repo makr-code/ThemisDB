@@ -14,6 +14,7 @@
 
 #include "sharding/shard_rpc_client.h"
 #include "core/production_mode.h"
+#include "shard_rpc_tls_validation.h"
 #include "sharding/circuit_breaker.h"
 #include "sharding/mtls_connection_pool.h"
 #include "sharding/operational_metrics.h"
@@ -203,6 +204,12 @@ struct ShardRPCClient::Impl {
                     ssl_opts.pem_private_key.empty()) {
                     throw std::runtime_error(
                         "ShardRPCClient: mTLS enabled but one or more PEM credentials are missing");
+                }
+                if (!detail::containsPemCertificate(ssl_opts.pem_root_certs) ||
+                    !detail::containsMatchingPemKeyPair(
+                        ssl_opts.pem_cert_chain, ssl_opts.pem_private_key)) {
+                    throw std::runtime_error(
+                        "ShardRPCClient: mTLS PEM data is invalid or mismatched");
                 }
                 
                 credentials = grpc::SslCredentials(ssl_opts);

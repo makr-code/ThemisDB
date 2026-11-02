@@ -10,16 +10,22 @@
 
 
 #include "acceleration/plugin_security.h"
+#include <algorithm>
 #include <stdexcept>
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
 #include <iomanip>
 #include <chrono>
+#include <cctype>
+#include <cstdlib>
 #include <cstring>
 #include <filesystem>
 #include <fstream>
+#include <limits>
+#include <utility>
 #include <iomanip>
+#include <memory>
 #include <mutex>
 #include <nlohmann/json.hpp>
 #include <openssl/bn.h>
@@ -64,11 +70,122 @@ namespace acceleration {
 
 using json = nlohmann::json;
 
+std::vector<std::string> normalizePluginSignerFingerprints(
+    std::vector<std::string> fingerprints) {
+    for (auto& fingerprint : fingerprints) {
+        if (fingerprint.size() != 64 ||
+            !std::all_of(fingerprint.begin(), fingerprint.end(), [](unsigned char character) {
+                return std::isxdigit(character) != 0;
+            })) {
+            throw std::invalid_argument(
+                "Plugin signer fingerprints must be 64 hexadecimal characters");
+        }
+        std::transform(fingerprint.begin(), fingerprint.end(), fingerprint.begin(),
+                       [](unsigned char character) {
+                           return static_cast<char>(std::tolower(character));
+                       });
+    }
+    std::sort(fingerprints.begin(), fingerprints.end());
+    fingerprints.erase(std::unique(fingerprints.begin(), fingerprints.end()), fingerprints.end());
+    return fingerprints;
+}
+
+std::vector<std::string> pluginSignerFingerprintsFromEnvironment() {
+    const char* configured = std::getenv("THEMIS_PLUGIN_TRUSTED_SIGNER_FINGERPRINTS");
+    if (!configured || *configured == '\0') {
+        return {};
+    }
+
+    std::vector<std::string> fingerprints;
+    const std::string value(configured);
+    std::size_t start = 0;
+    while (start <= value.size()) {
+        const auto separator = value.find(',', start);
+        const auto end = separator == std::string::npos ? value.size() : separator;
+        auto fingerprint = value.substr(start, end - start);
+        const auto first = fingerprint.find_first_not_of(" \t\r\n");
+        const auto last = fingerprint.find_last_not_of(" \t\r\n");
+        if (first == std::string::npos) {
+            throw std::invalid_argument(
+                "THEMIS_PLUGIN_TRUSTED_SIGNER_FINGERPRINTS contains an empty entry");
+        }
+        fingerprints.push_back(fingerprint.substr(first, last - first + 1));
+        if (separator == std::string::npos) {
+            break;
+        }
+        start = separator + 1;
+    }
+    return normalizePluginSignerFingerprints(std::move(fingerprints));
+}
+
 // ============================================================================
 // Revocation Cache (module-level, thread-safe)
 // ============================================================================
 
 namespace {
+
+std::string certificateFingerprint(const std::string& certificate_pem) {
+    if (certificate_pem.size() >
+        static_cast<std::size_t>(std::numeric_limits<int>::max())) {
+        return {};
+    }
+
+    const auto bio_deleter = [](BIO* bio) {
+        if (bio) {
+            BIO_free(bio);
+        }
+    };
+    const auto certificate_deleter = [](X509* certificate) {
+        if (certificate) {
+            X509_free(certificate);
+        }
+    };
+    std::unique_ptr<BIO, decltype(bio_deleter)> bio(
+        BIO_new_mem_buf(certificate_pem.data(), static_cast<int>(certificate_pem.size())),
+        bio_deleter);
+    if (!bio) {
+        return {};
+    }
+
+    std::unique_ptr<X509, decltype(certificate_deleter)> certificate(
+        PEM_read_bio_X509(bio.get(), nullptr, nullptr, nullptr),
+        certificate_deleter);
+    if (!certificate) {
+        return {};
+    }
+
+    unsigned char digest[EVP_MAX_MD_SIZE]{};
+    unsigned int digest_length = 0;
+    if (X509_digest(certificate.get(), EVP_sha256(), digest, &digest_length) != 1) {
+        return {};
+    }
+
+    std::ostringstream fingerprint;
+    fingerprint << std::hex << std::setfill('0');
+    for (unsigned int index = 0; index < digest_length; ++index) {
+        fingerprint << std::setw(2) << static_cast<unsigned int>(digest[index]);
+    }
+    return fingerprint.str();
+}
+
+std::string certificateFingerprint(X509* certificate) {
+    if (!certificate) {
+        return {};
+    }
+
+    unsigned char digest[EVP_MAX_MD_SIZE]{};
+    unsigned int digest_length = 0;
+    if (X509_digest(certificate, EVP_sha256(), digest, &digest_length) != 1) {
+        return {};
+    }
+
+    std::ostringstream fingerprint;
+    fingerprint << std::hex << std::setfill('0');
+    for (unsigned int index = 0; index < digest_length; ++index) {
+        fingerprint << std::setw(2) << static_cast<unsigned int>(digest[index]);
+    }
+    return fingerprint.str();
+}
 
 struct RevocationCacheEntry {
     bool is_revoked = 0;
@@ -263,7 +380,10 @@ static bool decodeHexString(const std::string &hexStr, std::vector<uint8_t> &out
 // PluginSecurityVerifier Implementation
 // ============================================================================
 
-PluginSecurityVerifier::PluginSecurityVerifier(const PluginSecurityPolicy &policy) : policy_(policy) {}
+PluginSecurityVerifier::PluginSecurityVerifier(const PluginSecurityPolicy &policy) : policy_(policy) {
+    policy_.trustedSignerFingerprints =
+        normalizePluginSignerFingerprints(std::move(policy_.trustedSignerFingerprints));
+}
 
 /**
  * @brief Validate Plugin Path.
@@ -445,11 +565,6 @@ bool PluginSecurityVerifier::isWhitelisted(const std::string &fileHash) const {
  * @details Calls: isWhitelisted(), isBlacklisted(), find().
  */
 PluginTrustLevel PluginSecurityVerifier::getTrustLevel(const PluginMetadata &metadata) {
-    // Check whitelist first
-    if (isWhitelisted(metadata.signature.sha256Hash)) {
-        return PluginTrustLevel::TRUSTED;
-    }
-
     // Check blacklist
     if (isBlacklisted(metadata.signature.sha256Hash)) {
         return PluginTrustLevel::BLOCKED;
@@ -460,16 +575,11 @@ PluginTrustLevel PluginSecurityVerifier::getTrustLevel(const PluginMetadata &met
         return PluginTrustLevel::UNTRUSTED;
     }
 
-    // Check if issuer is trusted
-    bool trustedIssuer = false;
-    for (const auto &trustedIssuerDN : policy_.trustedIssuers) {
-        if (metadata.signature.issuer.find(trustedIssuerDN) != std::string::npos) {
-            trustedIssuer = true;
-            break;
-        }
-    }
-
-    if (!trustedIssuer) {
+    const std::string signer_fingerprint =
+        certificateFingerprint(metadata.signature.signingCertificate);
+    if (std::find(policy_.trustedSignerFingerprints.begin(),
+                  policy_.trustedSignerFingerprints.end(),
+                  signer_fingerprint) == policy_.trustedSignerFingerprints.end()) {
         return PluginTrustLevel::UNTRUSTED;
     }
 
@@ -485,6 +595,13 @@ PluginTrustLevel PluginSecurityVerifier::getTrustLevel(const PluginMetadata &met
  */
 bool PluginSecurityVerifier::verifyPlugin(const std::string &pluginPath, std::string &errorMessage) {
     auto &auditor = PluginSecurityAuditor::instance();
+
+    if (!policy_.requireSignature) {
+        errorMessage = "Plugin signature verification cannot be disabled";
+        auditor.logEvent({PluginSecurityEvent::EventType::POLICY_VIOLATION, pluginPath, "",
+                          errorMessage, static_cast<uint64_t>(std::time(nullptr)), "ERROR"});
+        return false;
+    }
 
     // Step 1: Check if file exists
     if (!std::filesystem::exists(pluginPath)) {
@@ -517,13 +634,20 @@ bool PluginSecurityVerifier::verifyPlugin(const std::string &pluginPath, std::st
     // Step 4: Load and verify metadata
     auto metadata = loadMetadata(pluginPath);
 
-    if (policy_.requireSignature && !metadata.has_value()) {
-        if (!policy_.allowUnsigned) {
-            errorMessage = "Plugin metadata not found (signature required)";
-            auditor.logEvent({PluginSecurityEvent::EventType::SIGNATURE_VERIFICATION_FAILED, pluginPath, fileHash,
-                              errorMessage, static_cast<uint64_t>(std::time(nullptr)), "ERROR"});
-            return false;
-        }
+    if (!metadata.has_value()) {
+        errorMessage = "Plugin metadata not found (signature required)";
+        auditor.logEvent({PluginSecurityEvent::EventType::SIGNATURE_VERIFICATION_FAILED, pluginPath, fileHash,
+                          errorMessage, static_cast<uint64_t>(std::time(nullptr)), "ERROR"});
+        return false;
+    }
+
+    if (metadata->signature.signature.empty() ||
+        metadata->signature.signingCertificate.empty()) {
+        errorMessage = "Plugin signature is required";
+        auditor.logEvent({PluginSecurityEvent::EventType::SIGNATURE_VERIFICATION_FAILED,
+                          pluginPath, fileHash, errorMessage,
+                          static_cast<uint64_t>(std::time(nullptr)), "ERROR"});
+        return false;
     }
 
     // Step 5: Verify hash matches metadata
@@ -547,6 +671,19 @@ bool PluginSecurityVerifier::verifyPlugin(const std::string &pluginPath, std::st
                 return false;
             }
         } else {
+            const std::string signer_fingerprint =
+                certificateFingerprint(metadata->signature.signingCertificate);
+            if (signer_fingerprint.empty() ||
+                std::find(policy_.trustedSignerFingerprints.begin(),
+                          policy_.trustedSignerFingerprints.end(),
+                          signer_fingerprint) == policy_.trustedSignerFingerprints.end()) {
+                errorMessage = "Plugin signer identity is not pinned";
+                auditor.logEvent({PluginSecurityEvent::EventType::SIGNATURE_VERIFICATION_FAILED,
+                                  pluginPath, fileHash, errorMessage,
+                                  static_cast<uint64_t>(std::time(nullptr)), "ERROR"});
+                return false;
+            }
+
             // Mark as verified in metadata
             const_cast<PluginMetadata &>(*metadata).signature.verified = true;
 
@@ -1347,11 +1484,31 @@ bool PluginSecurityAuditor::exportEvents(const std::string &outputPath) const {
 // EnhancedPluginSecurityVerifier Implementation
 // ============================================================================
 
-EnhancedPluginSecurityVerifier::EnhancedPluginSecurityVerifier(const PluginSecurityPolicy &policy) : policy_(policy) {}
+EnhancedPluginSecurityVerifier::EnhancedPluginSecurityVerifier(const PluginSecurityPolicy &policy)
+    : policy_(policy) {
+    policy_.trustedSignerFingerprints =
+        normalizePluginSignerFingerprints(std::move(policy_.trustedSignerFingerprints));
+}
 
 EnhancedPluginSecurityVerifier::VerificationResult
 EnhancedPluginSecurityVerifier::verifyPlugin(const std::string &plugin_path, VerificationLevel required_level) {
     VerificationResult result;
+
+    if (!policy_.requireSignature) {
+        result.error_message = "Plugin signature verification cannot be disabled";
+        return result;
+    }
+
+    if (required_level == VerificationLevel::LEVEL_1_HASH_ONLY) {
+        result.error_message = "Plugin signer identity verification is required";
+        return result;
+    }
+    if (required_level != VerificationLevel::LEVEL_2_EMBEDDED_SIGNATURE &&
+        required_level != VerificationLevel::LEVEL_3_PLATFORM_SIGNATURE &&
+        required_level != VerificationLevel::LEVEL_4_FULL_CHAIN) {
+        result.error_message = "Unsupported plugin verification level";
+        return result;
+    }
 
     // Level 1: Hash verification
     if (!verifyHash(plugin_path, result)) {
@@ -1359,12 +1516,6 @@ EnhancedPluginSecurityVerifier::verifyPlugin(const std::string &plugin_path, Ver
         return result;
     }
     result.level_achieved = VerificationLevel::LEVEL_1_HASH_ONLY;
-
-    // If only hash is required, we're done
-    if (required_level == VerificationLevel::LEVEL_1_HASH_ONLY) {
-        result.passed = true;
-        return result;
-    }
 
     // Level 2: Embedded signature verification
     if (verifyEmbeddedSignature(plugin_path, result)) {
@@ -1376,13 +1527,9 @@ EnhancedPluginSecurityVerifier::verifyPlugin(const std::string &plugin_path, Ver
             return result;
         }
     } else {
-        // If embedded signature required but failed
         if (required_level >= VerificationLevel::LEVEL_2_EMBEDDED_SIGNATURE) {
-            // In development mode (allowUnsigned), we can proceed with lower levels
-            if (!policy_.allowUnsigned) {
-                result.passed = false;
-                return result;
-            }
+            result.passed = false;
+            return result;
         }
     }
 
@@ -1396,13 +1543,9 @@ EnhancedPluginSecurityVerifier::verifyPlugin(const std::string &plugin_path, Ver
             return result;
         }
     } else {
-        // If platform signature required but failed
         if (required_level >= VerificationLevel::LEVEL_3_PLATFORM_SIGNATURE) {
-            // Only fail if we require platform signature AND it's not development mode
-            if (!policy_.allowUnsigned) {
-                result.passed = false;
-                return result;
-            }
+            result.passed = false;
+            return result;
         }
     }
 
@@ -1466,10 +1609,15 @@ bool EnhancedPluginSecurityVerifier::verifyEmbeddedSignature(const std::string &
         return false;
     }
 
-    // Verify certificate is official ThemisDB certificate
-    if (!isOfficialThemisDBCertificate(cert)) {
-        result.error_message = "Certificate is not official ThemisDB certificate";
-        result.issuer        = getCertificateIssuer(cert);
+    result.issuer = getCertificateIssuer(cert);
+    result.subject = getCertificateSubject(cert);
+    result.is_themisdb_official = isOfficialThemisDBCertificate(cert);
+
+    const auto signer_fingerprint = certificateFingerprint(cert);
+    if (std::find(policy_.trustedSignerFingerprints.begin(),
+                  policy_.trustedSignerFingerprints.end(),
+                  signer_fingerprint) == policy_.trustedSignerFingerprints.end()) {
+        result.error_message = "Embedded signer identity is not pinned";
         X509_free(cert);
         return false;
     }
@@ -1496,11 +1644,6 @@ bool EnhancedPluginSecurityVerifier::verifyEmbeddedSignature(const std::string &
     EVP_PKEY *pubkey     = X509_get_pubkey(cert);
     bool signature_valid = verifyRSASignature(dll_hash, *signature_data, pubkey);
     EVP_PKEY_free(pubkey);
-
-    // Get certificate info
-    result.issuer               = getCertificateIssuer(cert);
-    result.subject              = getCertificateSubject(cert);
-    result.is_themisdb_official = true;
 
     X509_free(cert);
 
@@ -1546,10 +1689,7 @@ bool EnhancedPluginSecurityVerifier::verifyFullChain(const std::string &plugin_p
 
     // Then verify platform signature
     if (!verifyPlatformSignature(plugin_path, result)) {
-        // Platform signature is optional for full chain in development mode
-        if (!policy_.allowUnsigned) {
-            return false;
-        }
+        return false;
     }
 
     // Verify certificate chain if we have certificate information
@@ -2518,6 +2658,8 @@ bool EnhancedPluginSecurityVerifier::isCertificateValid(X509 *cert) {
  */
 void EnhancedPluginSecurityVerifier::updatePolicy(const PluginSecurityPolicy &policy) {
     policy_ = policy;
+    policy_.trustedSignerFingerprints =
+        normalizePluginSignerFingerprints(std::move(policy_.trustedSignerFingerprints));
 }
 
 } // namespace acceleration

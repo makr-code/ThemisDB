@@ -24,7 +24,9 @@
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
+#include <iostream>
 #include <optional>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <thread>
@@ -209,6 +211,40 @@ protected:
     fs::path log_path_;
     fs::path chain_state_path_;
 };
+
+TEST_F(AuditWaveCProductionTest, VerifierRedactsNonFilePathsFromErrors) {
+    const auto directory_path = tmp_dir_ / "not-a-log-file";
+    fs::create_directory(directory_path);
+
+    AuditLogVerifier verifier;
+    const auto result = verifier.verify_chain(directory_path.string());
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(result.error_message, "Cannot open audit log file");
+    EXPECT_EQ(result.error_message.find(directory_path.string()), std::string::npos);
+}
+
+TEST_F(AuditWaveCProductionTest, ErrorContextRedactsFilesystemPaths) {
+    const auto blocking_file = tmp_dir_ / "not-a-directory";
+    {
+        std::ofstream file(blocking_file);
+        ASSERT_TRUE(file.good());
+    }
+
+    auto config = makeConfig(blocking_file / "audit.jsonl", tmp_dir_ / "chain.json");
+    AuditLogger logger({}, {}, std::move(config));
+    const auto original_stderr = std::cerr.rdbuf();
+    std::ostringstream error_output;
+    std::cerr.rdbuf(error_output.rdbuf());
+    logger.logErrorContext(ErrorContext(
+        ErrorCode::AUDIT_PERSISTENCE_FAILED,
+        "audit write failed",
+        "AuditWaveCProductionTest"));
+    std::cerr.rdbuf(original_stderr);
+
+    EXPECT_NE(error_output.str().find("AUDIT_ERROR_CONTEXT_FAILED"), std::string::npos);
+    EXPECT_EQ(error_output.str().find(blocking_file.string()), std::string::npos);
+}
 
 TEST_F(AuditWaveCProductionTest, TamperEvidenceChainRemainsIntactWithSingleWriter) {
     auto logger = makeLogger(true);
