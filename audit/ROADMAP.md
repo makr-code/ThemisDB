@@ -138,7 +138,7 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
   - Performance: Replay-Durchsatz-Regression ≤ 5 % gegenüber Baseline (Benchmark vorher messen und einchecken).
   - Kompatibilität: Breaking Change (siehe [Breaking Changes](#breaking-changes)); Storage-README korrigieren (WS9).
 - [ ] **P0 · STO-07 – Prozess-Crash-Harness** (Target: M1 · 2027-01-31)
-  - [~] 2026-11-02: A focused coordinator subprocess harness now kills the child at PREPARE/decision/Phase-2/ACK boundaries and inspects participant-WAL outcomes; test execution and CI artifact publication are pending. It does not yet cover independent participant/replica process crashes, RocksDB, backup/restore, or randomized storage fault points.
+  - [~] 2026-11-02: A focused coordinator subprocess harness now kills the child before Phase 1, between participant PREPARE and coordinator vote persistence, and at post-PREPARE/decision/Phase-2/ACK boundaries; test execution and CI artifact publication are pending. It does not yet cover independent participant/replica process crashes, RocksDB, backup/restore, or randomized storage fault points.
   - Kindprozess schreibt bestätigte Commits; Elternprozess beendet ihn per `SIGKILL`/`TerminateProcess` an zufälligen
     Punkten (inkl. während `fsync`, Segment-Rotation, Checkpoint, Backup). Danach Neustart und Prüfung:
     jeder bestätigte Commit sichtbar, kein unbestätigter Commit sichtbar, Indizes konsistent.

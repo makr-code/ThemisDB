@@ -89,7 +89,7 @@ int runCoordinatorChild(
             appendParticipantRecord(
                 participant_wal, transaction_id,
                 themis::sharding::WALEntryType::PREPARE_TX);
-            if (stage == "before_prepare") {
+            if (stage == "prepare_before_ack") {
                 notifyAndWait(control_fd, 'V');
             }
             return true;
@@ -122,6 +122,10 @@ int runCoordinatorChild(
     participant.endpoint = "process://participant-1";
     participant.affected_keys = {"record-1"};
     const auto transaction_id = coordinator.beginDistributed({participant});
+
+    if (stage == "before_prepare") {
+        notifyAndWait(control_fd, 'B');
+    }
 
     const auto prepared = coordinator.prepareDistributed(transaction_id);
     if (!prepared.ok) {
@@ -236,7 +240,8 @@ TEST(TransactionProcessCrashRecovery, RecoversDecisionBoundariesAcrossCoordinato
         bool expected_recovery;
     };
     const std::vector<Scenario> scenarios = {
-        {"before_prepare", 'V', false, true},
+        {"before_prepare", 'B', false, true},
+        {"prepare_before_ack", 'V', false, true},
         {"after_prepare", 'P', false, true},
         {"after_decision", 'D', true, true},
         {"during_commit", 'C', true, true},
@@ -259,9 +264,9 @@ TEST(TransactionProcessCrashRecovery, RecoversDecisionBoundariesAcrossCoordinato
         ASSERT_EQ(marker, scenario.marker);
         child.terminateAndReap();
 
-        const auto participant_entries = readWal(participant_wal);
-        ASSERT_FALSE(participant_entries.empty());
-        const auto transaction_id = participant_entries.front().transaction_id;
+        const auto coordinator_entries = readWal(coordinator_wal);
+        ASSERT_FALSE(coordinator_entries.empty());
+        const auto transaction_id = coordinator_entries.front().transaction_id;
         ASSERT_FALSE(transaction_id.empty());
 
         std::atomic<bool> replayed_expected_decision{false};

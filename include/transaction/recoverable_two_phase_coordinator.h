@@ -146,10 +146,12 @@ struct GlobalTwoPhaseCommitRecoveryReport {
     size_t in_doubt_before   = 0; ///< Aggregate non-final count before recovery.
     size_t resolved          = 0; ///< Aggregate transactions resolved.
     size_t in_doubt_after    = 0; ///< Aggregate non-final count after recovery.
-    bool ready_for_service   = false; ///< False if any supplied coordinator is missing or unresolved work remains.
 
     /// Per-coordinator breakdown.
     std::vector<RecoverableTwoPhaseCoordinatorReport> coordinators;
+
+    /// False if any supplied coordinator is missing or unresolved work remains.
+    bool ready_for_service = false;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

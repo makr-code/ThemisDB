@@ -58,10 +58,11 @@ discarded.
 ## Evidence boundary
 
 The focused transaction tests include a subprocess coordinator killed with
-`SIGKILL` before PREPARE completion, after PREPARE, after durable decision,
-during Phase 2, and after the commit ACK boundary. Recovery independently reads
-the persisted participant WAL and checks the final decision. The participant
-WAL is driven by an injected test transport inside the coordinator child, so
-this is not evidence of participant- or replica-process crashes or a multi-node
+`SIGKILL` before Phase 1 starts, after participant PREPARE but before the
+coordinator records the vote, after PREPARE, after durable decision, during
+Phase 2, and after the commit ACK boundary. Recovery independently reads the
+persisted participant WAL and checks the final decision. The participant WAL is
+driven by an injected test transport inside the coordinator child, so this is
+not evidence of participant- or replica-process crashes or a multi-node
 network-chaos run. The Wave B workflow uploads its output when executed; a
 successful CI run and artifact remain required release evidence.

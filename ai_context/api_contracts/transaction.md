@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-29"
+Last Updated: "2026-11-02"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Transaction Module Contract
 
 Datum: 2026-10-29
@@ -34,6 +48,23 @@ Datum: 2026-10-29
 | **Prepare** | Coordinator locks all involved keys; participants vote ready/abort | 30s | test_txn_2pc_prepare.cpp |
 | **Commit** | Coordinator broadcasts commit; all participants write + ack | 30s | test_txn_2pc_commit.cpp |
 | Recovery | On participant failure, coordinator retries or aborts; idempotent | N/A | test_txn_2pc_recovery.cpp |
+
+### Durable DTM Recovery
+
+`DistributedTransactionManager` persists stable participant node IDs in its
+BEGIN, PREPARE, decision, and completion WAL records. It deliberately omits
+transport endpoints, callback pointers, and affected keys. After restart,
+`recovery_endpoint_resolver` maps each persisted node ID to its current
+endpoint; if resolution or Phase-2 delivery fails, the transaction remains
+in-doubt. A durable COMMIT is replayed as COMMIT; a transaction without a
+durable COMMIT decision is resolved with ABORT. Completion is recorded only
+after all Phase-2 deliveries succeed and the completion record is flushed.
+
+`GlobalTwoPhaseCommitRecoveryReport::ready_for_service` is false when a
+coordinator is missing or any transaction remains unresolved. Callers must
+withhold service readiness unless the value is true. This report is not
+currently connected to server startup/health, and does not establish a
+canonical runtime coordinator or participant/replica process-crash coverage.
 
 ## SAGA (Distributed Transactions)
 

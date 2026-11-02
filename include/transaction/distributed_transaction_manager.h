@@ -221,16 +221,6 @@ struct DistributedTxnManagerConfig {
         bool do_commit
     )> remote_phase2_dispatch;
 
-    /**
-     * @brief Resolve a participant endpoint after restart from its persisted node ID.
-     * @param node_id Stable participant identity recorded in the coordinator WAL.
-     * @return Current endpoint, or std::nullopt when the participant is unavailable.
-     * @note Endpoints and affected keys are intentionally not persisted in the WAL.
-     *       If this callback is absent or returns no endpoint, recovery remains in-doubt.
-     */
-    std::function<std::optional<std::string>(const std::string& node_id)>
-        recovery_endpoint_resolver;
-
     // ── Performance / PERF-D4 ────────────────────────────────────────────────
 
     std::chrono::milliseconds prepare_batch_window{0};
@@ -256,6 +246,16 @@ struct DistributedTxnManagerConfig {
         const std::string& node_id
     )>;
     std::optional<LivenessCheckFn> liveness_check_fn;
+
+    /**
+     * @brief Resolve a participant endpoint after restart from its persisted node ID.
+     * @param node_id Stable participant identity recorded in the coordinator WAL.
+     * @return Current endpoint, or std::nullopt when the participant is unavailable.
+     * @note Endpoints and affected keys are intentionally not persisted in the WAL.
+     *       If this callback is absent or returns no endpoint, recovery remains in-doubt.
+     */
+    std::function<std::optional<std::string>(const std::string& node_id)>
+        recovery_endpoint_resolver;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

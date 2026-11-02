@@ -1,6 +1,17 @@
 name: "Build: Wave B Transaction"
 
 on:
+  pull_request:
+    branches:
+      - develop
+    paths:
+      - .github/workflows/build-wave-b-transaction.yml
+      - include/transaction/distributed_transaction_manager.h
+      - include/transaction/recoverable_two_phase_coordinator.h
+      - src/transaction/distributed_transaction_manager.cpp
+      - tests/transaction/CMakeLists.txt
+      - tests/transaction/test_transaction_distributed_2pc.cpp
+      - tests/transaction/test_transaction_process_crash_recovery.cpp
   schedule:
     - cron: '30 4 * * *'
   workflow_dispatch:
@@ -21,7 +32,7 @@ permissions:
 
 concurrency:
   group: build-wave-b-transaction-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
   CMAKE_BUILD_TYPE: Release
@@ -75,7 +86,7 @@ jobs:
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev \
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
-            libcpp-httplib-dev libyaml-cpp-dev
+            libcpp-httplib-dev libcurl4-openssl-dev libgtest-dev libyaml-cpp-dev
 
       - name: "Cache sccache"
         uses: actions/cache@v5
@@ -143,7 +154,7 @@ jobs:
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev \
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
-            libcpp-httplib-dev libyaml-cpp-dev
+            libcpp-httplib-dev libcurl4-openssl-dev libgtest-dev libyaml-cpp-dev
 
       - name: "Cache sccache"
         uses: actions/cache@v5
@@ -212,7 +223,7 @@ jobs:
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev \
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
-            libcpp-httplib-dev libyaml-cpp-dev
+            libcpp-httplib-dev libcurl4-openssl-dev libgtest-dev libyaml-cpp-dev
 
       - name: "Cache sccache"
         uses: actions/cache@v5
@@ -275,7 +286,7 @@ jobs:
     needs: [configure, compile-tests]
     runs-on: ubuntu-latest
     timeout-minutes: 45
-    if: github.event_name == 'push' || github.event.inputs.phase == 'all'
+    if: github.event_name == 'push' || github.event_name == 'pull_request' || github.event.inputs.phase == 'all'
     steps:
       - uses: actions/checkout@v5
         with:
@@ -291,7 +302,7 @@ jobs:
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev \
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
-            libcpp-httplib-dev libyaml-cpp-dev
+            libcpp-httplib-dev libcurl4-openssl-dev libgtest-dev libyaml-cpp-dev
 
       - name: "Cache sccache"
         uses: actions/cache@v5
@@ -377,7 +388,7 @@ jobs:
     needs: [configure, compile-tests]
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    if: github.event_name == 'push' || github.event.inputs.phase == 'all' || github.event.inputs.phase == 'wave-a'
+    if: github.event_name == 'push' || github.event_name == 'pull_request' || github.event.inputs.phase == 'all' || github.event.inputs.phase == 'wave-a'
     steps:
       - uses: actions/checkout@v5
         with:
@@ -392,7 +403,7 @@ jobs:
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev \
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
-            libcpp-httplib-dev libyaml-cpp-dev
+            libcpp-httplib-dev libcurl4-openssl-dev libgtest-dev libyaml-cpp-dev
 
       - name: "Cache sccache"
         uses: actions/cache@v5
