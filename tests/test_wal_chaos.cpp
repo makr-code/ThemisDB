@@ -142,7 +142,7 @@ TEST_F(WALChaosTest, IncompleteFinalRecord_TruncatesTailAndRecoversCompleteEntri
         // Flush to ensure data is on disk before we truncate
         ASSERT_TRUE((*wal)->flush().has_value());
     }
-    // Truncate the last 4 bytes (corrupt the last entry's CRC)
+    // Remove the final checksum so the last record is physically incomplete.
     truncateLastSegment(4);
 
     int count = 0;
