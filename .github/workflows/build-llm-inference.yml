@@ -275,13 +275,19 @@ jobs:
           THEMIS_TEST_MODEL_PATH: ${{ env.TINYLLAMA_GGUF }}
         run: |
           set -euo pipefail
+          CONSOLE_LOG="${{ env.CMAKE_BUILD_DIR }}/ctest-inference-console.log"
           ctest --test-dir "${{ env.CMAKE_BUILD_DIR }}" \
             --output-on-failure \
+            --verbose \
             -j1 \
             --timeout 120 \
             -L "llm_inference" \
             --output-log "${{ env.CMAKE_BUILD_DIR }}/ctest-inference.log" \
-            || CTEST_EXIT=$?
+            2>&1 | tee "${CONSOLE_LOG}" || CTEST_EXIT=$?
+          if grep -Fq '[  SKIPPED ]' "${CONSOLE_LOG}"; then
+            echo "::error::Real-model inference lane reported one or more skipped GoogleTests"
+            exit 1
+          fi
           echo "CTest exit: ${CTEST_EXIT:-0}"
           exit "${CTEST_EXIT:-0}"
 
@@ -293,6 +299,7 @@ jobs:
           path: |
             ${{ env.CMAKE_BUILD_DIR }}/Testing/
             ${{ env.CMAKE_BUILD_DIR }}/ctest-inference.log
+            ${{ env.CMAKE_BUILD_DIR }}/ctest-inference-console.log
           retention-days: 7
           if-no-files-found: ignore
 
@@ -327,13 +334,19 @@ jobs:
           THEMIS_DOKU_DB_PATH: ${{ env.DOKU_DB_DIR }}/doku.db.json
         run: |
           set -euo pipefail
+          CONSOLE_LOG="${{ env.CMAKE_BUILD_DIR }}/ctest-rag-console.log"
           ctest --test-dir "${{ env.CMAKE_BUILD_DIR }}" \
             --output-on-failure \
+            --verbose \
             -j1 \
             --timeout 180 \
             -L "llm_rag_doku" \
             --output-log "${{ env.CMAKE_BUILD_DIR }}/ctest-rag.log" \
-            || CTEST_EXIT=$?
+            2>&1 | tee "${CONSOLE_LOG}" || CTEST_EXIT=$?
+          if grep -Fq '[  SKIPPED ]' "${CONSOLE_LOG}"; then
+            echo "::error::Real-model RAG lane reported one or more skipped GoogleTests"
+            exit 1
+          fi
           echo "CTest exit: ${CTEST_EXIT:-0}"
           exit "${CTEST_EXIT:-0}"
 
@@ -345,6 +358,7 @@ jobs:
           path: |
             ${{ env.CMAKE_BUILD_DIR }}/Testing/
             ${{ env.CMAKE_BUILD_DIR }}/ctest-rag.log
+            ${{ env.CMAKE_BUILD_DIR }}/ctest-rag-console.log
           retention-days: 7
           if-no-files-found: ignore
 
@@ -379,13 +393,19 @@ jobs:
           THEMIS_DOKU_DB_PATH: ${{ env.DOKU_DB_DIR }}/doku.db.json
         run: |
           set -euo pipefail
+          CONSOLE_LOG="${{ env.CMAKE_BUILD_DIR }}/ctest-adalora-console.log"
           ctest --test-dir "${{ env.CMAKE_BUILD_DIR }}" \
             --output-on-failure \
+            --verbose \
             -j1 \
             --timeout 300 \
             -L "adalora_training" \
             --output-log "${{ env.CMAKE_BUILD_DIR }}/ctest-adalora.log" \
-            || CTEST_EXIT=$?
+            2>&1 | tee "${CONSOLE_LOG}" || CTEST_EXIT=$?
+          if grep -Fq '[  SKIPPED ]' "${CONSOLE_LOG}"; then
+            echo "::error::Real-model AdaLoRA lane reported one or more skipped GoogleTests"
+            exit 1
+          fi
           echo "CTest exit: ${CTEST_EXIT:-0}"
           exit "${CTEST_EXIT:-0}"
 
@@ -397,6 +417,7 @@ jobs:
           path: |
             ${{ env.CMAKE_BUILD_DIR }}/Testing/
             ${{ env.CMAKE_BUILD_DIR }}/ctest-adalora.log
+            ${{ env.CMAKE_BUILD_DIR }}/ctest-adalora-console.log
           retention-days: 7
           if-no-files-found: ignore
 
