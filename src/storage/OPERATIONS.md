@@ -1,13 +1,22 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-02"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "../../include/storage/wal_storage.h"
+  - "../../include/storage/streaming_ingest_manager.h"
+  - "wal_storage.cpp"
+  - "streaming_ingest_manager.cpp"
+  - "../replication/replication_manager.cpp"
+Related_Milestone: "DOC-WEEKLY-2026-W45"
 ---
 
 Exact model backend not verifiable from final document text alone.
@@ -53,6 +62,34 @@ Check for explicit errors from the storage engine and recovery handlers. A healt
 
 Ensure the WAL path remains available and continues to flush successfully. Any failure in the write or fsync path is a direct durability issue and should be treated as production critical.
 
+For standalone `WALStorage`, inspect both the `open()` result and its optional
+`RecoveryResult`. Strict mode is the default. `recovery_timeout` is configured
+through `WALStorage::Config`; zero means unlimited and negative values are
+rejected. A short final header is eligible for truncation only when its available bytes
+match the WAL magic prefix. A complete header whose declared frame extends
+beyond EOF is handled as a tail only when no subsequent complete record is
+found; an incomplete record before a later complete record is corruption and
+fails open. `SkipCorrupted` is an explicit
+policy that quarantines the corrupt segment under `<wal_dir>/quarantine` and
+can allow open to succeed with status `Corrupted`. It is not a default
+recommendation: preserve the affected segment and follow the deployment's
+approved incident procedure. Callback aborts and I/O errors fail open in either
+mode. Do not infer the existence of a separate readiness or Prometheus metric
+from `RecoveryResult`.
+
+For replication startup, an invalid `WALEntry::deserialize` now aborts recovery
+through the callback and fails startup; it is not a warning-and-skip path.
+
+### Streaming batch admission and flush errors
+
+`ingestBatch()` admits all events or none. BLOCK waits for room for the whole
+batch and times out without enqueueing; DROP returns zero and drops the entire
+batch when capacity is insufficient. A successful admission does not mean that
+the whole flush has committed atomically: each RocksDB WriteBatch chunk is
+atomic, and earlier chunks remain committed if a later chunk fails. The failed
+chunk and remaining suffix are retried in order ahead of newer events; inspect
+the error's `failed_offset` and `total`. This PUT retry behavior is idempotent.
+
 ### Review backup and PITR validation
 
 A valid backup is only a valid backup when its manifest and payloads validate cleanly. Scheduled backups should therefore be checked not only for completion but also for structural and integrity correctness.
@@ -78,6 +115,10 @@ Before release or after a storage change, verify:
 - backup and PITR logic remains manifest-validated,
 - WAL durability tests continue to pass,
 - compaction and tiering remain observable under load.
+
+The source behavior above is not execution evidence. STO-01/STO-10 focused
+test execution and the ≤5% WAL replay benchmark baseline are still pending;
+STO-07's process-kill harness and run artifacts are also open.
 
 ## Escalation triggers
 

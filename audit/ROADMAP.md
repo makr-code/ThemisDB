@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Team
 **Created:** 2026-10-31
-**Last Updated:** 2026-11-01
+**Last Updated:** 2026-11-02
 **Status:** review
 **AI_Used:** true
 **AI_Models:** unknown
@@ -10,6 +10,7 @@
 **Human_Review:** false
 **Human_Author:** ThemisDB Team
 **Quelle:** [FULL_DEEP_DIVE_AUDIT_2026-10-31.md](FULL_DEEP_DIVE_AUDIT_2026-10-31.md) (Findings-IDs in dieser Roadmap verweisen dorthin)
+**Related Milestone:** DOC-WEEKLY-2026-W45 (source follow-up; evidence gates remain open)
 **Zielbranch:** `develop` (Editions-Branches `community`, `enterprise`, `hyperscaler`, `military`, `minimal` erhalten Änderungen über den regulären Promotion-Flow gemäß [../BRANCHING_STRATEGY.md](../BRANCHING_STRATEGY.md))
 
 > **AI-Provenienz:** AI-assisted generation; model attribution is approximate and not guaranteed.
@@ -114,38 +115,56 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
 ### WS1 – Durability & Recovery
 
 - [~] **P0 · STO-01 – WAL-Recovery fail-closed** (Target: M1 · 2026-12-15)
-  - [~] 2026-11-01: Segment replay errors now fail `WALStorage::open`; corruption, checksum/type/sequence errors,
-    callback aborts, and timeouts are surfaced. A physically incomplete tail is truncated only after scanning for a
-    subsequent complete record header. Remaining: structured recovery status/metrics, configurable timeout and
-    override/quarantine policy, replication-deserialization errors, and broader corruption/property tests.
+  - [~] 2026-11-02 source follow-up: `WALStorage::open` exposes an optional `RecoveryResult` with
+    `Complete`, `TruncatedTail`, `Corrupted`, `TimedOut`, and `Failed` status values. Strict is the default;
+    `Config::recovery_timeout` is configurable, zero means unlimited, and negative values are rejected. An incomplete
+    final header is truncatable only when its available bytes match the WAL magic prefix; corruption in the middle of
+    a segment fails open. Explicit `SkipCorrupted` quarantines a corrupt segment under `<wal_dir>/quarantine` and can
+    succeed with status `Corrupted`. Callback aborts and I/O errors fail open. Replication returns false from its
+    recovery callback when `WALEntry::deserialize` fails, so startup fails.
+  - **Partial implementation only.** Remaining: process-kill and broader corruption/property-test evidence,
+    actual test execution, and replay-performance evidence. The ≤5% replay-regression benchmark against a recorded
+    baseline is still open; status reporting does not establish metrics or readiness wiring.
   - Dateien: `src/storage/wal_storage.cpp` (`replaySegment`, Z. 490-514), `include/storage/wal_storage.h`,
     Nutzer `src/sharding/wal_manager.cpp:147`, `src/replication/replication_manager.cpp:670-685`.
-  - Verhalten: Recovery liefert `RecoveryResult { status ∈ {Complete, TruncatedTail, Corrupted, TimedOut},
+  - Verhalten: Recovery liefert `RecoveryResult { status ∈ {Complete, TruncatedTail, Corrupted, TimedOut, Failed},
     last_valid_lsn, skipped_bytes, segment }`. `TruncatedTail` nur, wenn nach der defekten Stelle **kein** gültiger
     Record-Header mehr im Segment folgt; jede Korruption mit nachfolgenden gültigen Records ist `Corrupted`.
-  - Produktionsmodus: `Corrupted`/`TimedOut` → Start verweigert, `readiness=false`, Metrik
-    `themis_wal_recovery_status{status}` und Audit-Event. Override nur explizit über
-    `wal.recovery_mode=skip_corrupted` (Default `strict`) mit Quarantäne des Segments nach `<wal_dir>/quarantine/`.
-  - Timeout: `wal.recovery_timeout_seconds` (Default `0` = unbegrenzt) plus Fortschrittsmetrik; Ablauf = `TimedOut`.
-  - Replikation: nicht deserialisierbare Einträge (`replication_manager.cpp:670-674`) werden `Corrupted` statt WARN+Skip.
+  - Produktionsmodus/Observability offen: Die Quelle implementiert keine hier zugesagte `readiness`- oder
+    `themis_wal_recovery_status`-Metrik. `RecoveryMode::SkipCorrupted` und `Config::recovery_timeout` sind
+    `WALStorage`-API-Konfigurationen; es ist keine externe `wal.recovery_mode`- bzw. Sekunden-Config hier belegt.
+  - Replikation: nicht deserialisierbare Einträge (`replication_manager.cpp:670-674`) lassen den Recovery-Callback
+    jetzt `false` zurückgeben und schlagen beim Start fehl.
   - Fehlerfälle: Magic-Mismatch mitten im Log, CRC-Fehler, abgeschnittener Header, Länge > Segmentrest, I/O-Fehler, Timeout.
   - Tests: `CorruptedEntry_StopsReplay` (`tests/test_wal_storage.cpp:290-316`) ersetzen durch
     `MidLogCorruption_FailsClosed`, `TruncatedTail_IsAccepted`, `SkipCorrupted_QuarantinesSegment`,
     `RecoveryTimeout_FailsClosed`; Property-Test mit zufälligen Bit-Flips (≥ 10.000 Fälle, deterministischer Seed).
-  - Performance: Replay-Durchsatz-Regression ≤ 5 % gegenüber Baseline (Benchmark vorher messen und einchecken).
-  - Kompatibilität: Breaking Change (siehe [Breaking Changes](#breaking-changes)); Storage-README korrigieren (WS9).
+  - Performance-Gate offen: Replay-Durchsatz-Regression ≤ 5 % gegenüber einer gemessenen und eingecheckten Baseline
+    ist noch nicht nachgewiesen.
+  - Kompatibilität: Breaking Change (siehe [Breaking Changes](#breaking-changes)); Storage-README/API synchronisiert
+    2026-11-02, ohne die offenen Test- oder Performance-Gates als erledigt auszuweisen.
 - [ ] **P0 · STO-07 – Prozess-Crash-Harness** (Target: M1 · 2027-01-31)
   - Kindprozess schreibt bestätigte Commits; Elternprozess beendet ihn per `SIGKILL`/`TerminateProcess` an zufälligen
     Punkten (inkl. während `fsync`, Segment-Rotation, Checkpoint, Backup). Danach Neustart und Prüfung:
     jeder bestätigte Commit sichtbar, kein unbestätigter Commit sichtbar, Indizes konsistent.
   - Abdeckung: RocksDB-Primärspeicher, `WALStorage` (Sharding/Replikation), Backup/Restore.
   - Umfang: ≥ 50 Iterationen auf PRs mit Storage-Änderungen, ≥ 1.000 Iterationen nightly; Ergebnis als Artefakt.
+  - **Offen:** Harness und Artefaktläufe sind nicht vorhanden/nachgewiesen; geforderte Kill-Punkte write/fsync,
+    Segment-Rotation, Checkpoint und Backup bleiben unvalidiert.
   - Bestehende In-Process-Tests (`tests/test_crash_recovery_direct.cpp`, `tests/test_wal_chaos.cpp`) bleiben als Unit-Ebene.
 - [ ] **P0 · STO-04 – Wartungs-Threads mit Lebenszyklus** (Target: M1 · 2027-01-31) – `std::thread(...).detach()` in
   `src/maintenance/database_maintenance_orchestrator.cpp:608-613` durch `std::jthread` mit `std::stop_token` ersetzen;
   `stop()` joint mit Timeout; TSan-Test „Shutdown während laufender Wartung“.
-- [ ] **P1 · STO-10 – Teilbatch-Semantik Streaming-Ingest** (Target: M1 · 2027-02-28) – `src/storage/streaming_ingest_manager.cpp:320-326`:
-  entweder atomarer `WriteBatch` (alles oder nichts) oder Per-Record-Status im Ergebnis; Verhalten in API-Doku festlegen; Fehlerinjektions-Test.
+- [~] **P1 · STO-10 – Teilbatch-Semantik Streaming-Ingest** (Target: M1 · 2027-02-28) – `ingestBatch()` admits all
+  events or none: BLOCK waits for whole-batch capacity and times out with none enqueued; DROP returns zero and drops
+  all if capacity is insufficient. Each RocksDB WriteBatch chunk is atomic, not the entire input batch. A failed
+  chunk and remaining suffix are retained ahead of newer events; errors report `failed_offset`/`total`; prior
+  successful chunks remain committed and ordered retry is PUT-idempotent. Contract documentation is synchronized.
+  Focused test execution/evidence remains open.
+  - Validation note (2026-11-02): no tests or benchmarks were run for this documentation follow-up. Local diagnostic
+    configure was blocked by missing system `fmt`. Observed unrelated Actions Build Wave B Transaction run
+    `41389381448` failed CMake configure because `yaml-cpp` was missing; its test gate failed because jobs were
+    skipped. That run is not storage execution evidence.
 - [ ] **P1 · STO-05 – Changefeed-Sequenz fail-closed** (Target: M1 · 2026-12-15) – leere Catches in `src/cdc/changefeed.cpp:220-223`
   durch Fehlerstatus + Metrik ersetzen; korrupte Legacy-Sequenz darf nicht still auf Fallback zurückfallen.
 - [ ] **P1 · STO-06 – CDC-Outbox-Tests unter Windows** (Target: M1 · 2027-01-31) – Fixture-Crash (`tests/cdc/test_cdc_outbox.cpp:26`) beheben, Skip entfernen.
@@ -415,8 +434,8 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
   - `CHANGELOG.md:66-72`, `:382-386`, `SECURITY.md:26-27`, `RELEASE_STRATEGY.md:79` an `RELEASE_TYPE=alpha` angleichen
     („GA“/„production-ready“ nur als Ziel kennzeichnen).
   - CI-Check: Begriffe „GA Release“/„production-ready“ in Root-Dokumenten nur, wenn `RELEASE_TYPE=ga`.
-- [ ] **P0 · Storage-README korrigieren** (Target: M0) – `src/storage/README.md:67`, `:76`, `:122` bis zum Abschluss von STO-01
-  als „nicht erfüllt“ markieren und auf diese Roadmap verweisen.
+- [x] **P0 · Storage-README source-synchronisieren** (erledigt 2026-11-02) – `src/storage/README.md` beschreibt die
+  aktuellen WAL-Recovery- und Streaming-Ingest-Verträge; STO-01 bleibt partiell und die Evidence-Gates offen.
 - [ ] **P1 · DOC-08 – Eine reproduzierbare Fortschrittsmetrik** (Target: M0) – `ROADMAP.md:47-53`.
 - [x] **P1 · Compliance-Snapshot kennzeichnen** (Target: M0) – `audit/README.md`: Prozentwerte als Checklisten-Selbsteinschätzung, nicht als Zertifizierung (erledigt 2026-10-31).
 - [ ] **P1 · DOC-10 – `llm_l_wiki`** (Target: M1) – Pflicht-Docs ergänzen oder Modul entfernen.
@@ -445,7 +464,7 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
 
 ### Phase 1 – Design / API-Vertrag (2026-11-01 – 2026-12-15)
 
-- [ ] `RecoveryResult`-API und Recovery-Modi für `WALStorage` spezifizieren (STO-01) (Target: 2026-11-20)
+- [x] `RecoveryResult`-API und Recovery-Modi für `WALStorage` spezifiziert und mit der Quelle abgeglichen (STO-01, 2026-11-02); Implementierungs- und Evidenz-Gates bleiben teilweise offen.
 - [ ] ADR „Kanonischer 2PC-Koordinator“ inkl. Migrationsplan der Aufrufer (DIS-05) (Target: 2026-12-15)
 - [ ] Recovery-Vertrag Koordinator/Participant/Replikation als ein Dokument (DIS-06) (Target: 2026-12-15)
 - [ ] Produktionsmodus-Vertrag: kanonische Werteliste und Katalog aller Guards (SEC-14, SEC-01, DIS-01, DIS-02, SEC-10) (Target: 2026-11-20)
@@ -468,7 +487,8 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
 
 - [ ] Failover/DR-Handler fail-closed + echte Adapter (DIS-08), Spare-Auswertung (DIS-07), Fencing (DIS-15) (Target: 2027-02-28)
 - [ ] Readiness-Fehler für fehlende optionale Abhängigkeiten (STO-02, STO-03) (Target: 2027-01-31)
-- [ ] Changefeed (STO-05), Streaming-Ingest-Teilbatch (STO-10), Wartungs-Thread-Lebenszyklus (STO-04) (Target: 2027-01-31)
+- [ ] Changefeed (STO-05), Wartungs-Thread-Lebenszyklus (STO-04) (Target: 2027-01-31)
+- [~] Streaming-Ingest-Teilbatch (STO-10): admission-/Retry-Vertrag source-synchronisiert; Test- und Ausführungsevidenz offen.
 - [ ] Keystore-Ausfall vs. ungültiges Token (SEC-03), Zahlen-Parsing (QRY-02), Search-Deadlines (QRY-07) (Target: 2027-02-28)
 - [ ] Stub-Backends im Produktionsmodus sperren (SEC-10) und AI-Admission-Control (AI-07, AI-09) (Target: 2027-02-28)
 - [ ] Nicht-blockierender Retry-Backoff (DIS-14), persistenter Manifest-Store (DIS-13) (Target: 2027-02-28)
@@ -566,7 +586,7 @@ Bis zur Umsetzung der jeweiligen Items gilt für Betrieb und Evaluierung:
 
 | Änderung | Item | Auswirkung | Migration |
 |---|---|---|---|
-| WAL-Recovery standardmäßig `strict` (Start verweigert bei Korruption/Timeout) | STO-01 | Knoten mit defektem Tx-/Replikations-WAL starten nicht mehr still | Vor Upgrade WAL-Integritätsprüfung; bei Bedarf einmalig `wal.recovery_mode=skip_corrupted` mit Quarantäne |
+| WAL-Recovery standardmäßig `Strict` (Start verweigert bei Korruption/Timeout) | STO-01 | Knoten mit defektem Tx-/Replikations-WAL starten nicht mehr still | Vor Upgrade WAL-Integritätsprüfung; falls ausdrücklich freigegeben, `WALStorage::Config::recovery_mode=SkipCorrupted` quarantänisiert das betroffene Segment |
 | Test `CorruptedEntry_StopsReplay` wird ersetzt | STO-01 | Erwartetes Verhalten kehrt sich um | Testsuite-Update im selben PR |
 | Kanonische Produktionsmodus-Erkennung | SEC-14 | Werte wie `true`/`production` aktivieren künftig **alle** Guards; unbekannte Werte → Startfehler | Env-Variablen in Deployments prüfen |
 | mTLS-Zertifikatsfehler → Startfehler | SEC-14 | Kein Plaintext-Fallback mehr | Zertifikatspfade vor Rollout validieren |

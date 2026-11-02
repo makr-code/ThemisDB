@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-07-19"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-02"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -15,11 +15,12 @@ Canonical_References:
   - "../../include/storage/storage_engine.h"
   - "../../include/storage/tiered_storage.h"
   - "../../include/storage/wal_storage.h"
+  - "../../include/storage/streaming_ingest_manager.h"
   - "../../tests/storage/CMakeLists.txt"
   - "../../benchmarks/storage/CMakeLists.txt"
   - "../../benchmarks/storage/bench_storage_release_gates.cpp"
   - "../../benchmarks/storage/bench_storage_dedicated_gates.cpp"
-Related_Milestone: "DOC-WEEKLY-2026-W44"
+Related_Milestone: "DOC-WEEKLY-2026-W45"
 ---
 
 Exact model backend not verifiable from final document text alone.
@@ -33,6 +34,13 @@ Exact model backend not verifiable from final document text alone.
 ## Current Status
 
 The source tree contains the storage, MVCC, WAL, backup/PITR, blob/tiering, and integrity components listed below. Their presence does not establish a combined transaction path, deployment configuration, or blanket production-readiness claim. `StorageEngine` production-mode dependency checks are implemented in `storage_engine.cpp`; other status claims require matching current execution evidence.
+
+### STO-01 / STO-07 / STO-10 follow-up (2026-11-02)
+
+- [~] **STO-01 — partially implemented:** `WALStorage::open()` exposes structured recovery status, strict-by-default recovery, configurable timeout (zero unlimited; negative rejected), final-tail handling, explicit corrupt-segment quarantine, and failure propagation for callback/I/O errors. Replication deserialization failure now aborts recovery. Process-crash, focused test-execution, and ≤5% replay-regression evidence remain open.
+- [ ] **STO-07 — open:** no process-kill harness or run artifacts are evidenced. Required coverage includes kills during write/fsync, rotation, checkpoint, and backup.
+- [~] **STO-10 — partially implemented:** batch admission is all-or-nothing; WriteBatch chunks are atomic and failed chunks plus suffix are retained in order. Focused test-execution evidence remains open.
+- **Evidence gates:** ≥50 PR and ≥1,000 nightly process-kill artifact runs, the ≤5% replay benchmark against a recorded baseline, and actual test execution evidence are pending. The 2026-11-02 documentation follow-up did not run tests or benchmarks.
 
 ## In Progress
 
@@ -179,7 +187,7 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 
 ### Program-Level Success Criteria (contribution)
 - [~] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-  - Delivered: `benchmarks/storage/bench_storage_dedicated_gates.cpp` ST-BM-01..04
+- [~] Benchmark harness sources exist; benchmark-backed p95/p99 baselines on representative hardware are not evidenced (Target: Q1 2027)
+  - `benchmarks/storage/bench_storage_dedicated_gates.cpp` ST-BM-01..04 is a harness, not a result artifact. The STO-01 ≤5% replay-regression comparison against a recorded baseline remains open.
 - [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
   - Delivered: `docs/operability/RUNBOOK_STORAGE_ENGINE.md`
