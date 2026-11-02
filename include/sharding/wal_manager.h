@@ -214,8 +214,11 @@ public:
     /** @brief Return oldest retained LSN after segment retention cleanup. */
     LSN getOldestLSN() const;
     
-    /** @brief Flush buffered WAL bytes to active segment stream. */
-    void flush();
+    /**
+     * @brief Flush buffered WAL bytes to durable storage.
+     * @return true when the underlying WAL flush succeeds.
+     */
+    bool flush();
     
     /**
      * @brief Append checkpoint marker at current WAL tail.

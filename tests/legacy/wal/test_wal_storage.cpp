@@ -371,7 +371,7 @@ TEST_F(WALStorageTest, AppendPut_PropagatesFsyncFailure) {
 // CRC32 corruption detection
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST_F(WALStorageTest, CorruptedEntry_StopsReplay) {
+TEST_F(WALStorageTest, CorruptedEntry_FailsRecovery) {
     // Write one valid entry.
     {
         auto wal = WALStorage::open(config());
@@ -389,12 +389,12 @@ TEST_F(WALStorageTest, CorruptedEntry_StopsReplay) {
         f.write(&corrupt, 1);
     }
 
-    // Recovery should silently stop at the corrupted entry – not crash.
+    // Corruption is not an incomplete-tail recovery case: opening must fail.
     std::vector<WALStorage::Entry> entries;
-    WALStorage::open(config(), [&](const WALStorage::Entry& e) {
+    auto recovery = WALStorage::open(config(), [&](const WALStorage::Entry& e) {
         entries.push_back(e);
         return true;
     });
-    // The corrupted entry should not be recovered.
+    EXPECT_FALSE(recovery.has_value());
     EXPECT_EQ(entries.size(), 0u);
 }

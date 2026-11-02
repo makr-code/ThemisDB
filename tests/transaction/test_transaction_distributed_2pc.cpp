@@ -117,6 +117,17 @@ public:
     }
 };
 
+class CommitThrowingParticipant : public IDistributedParticipantCallback {
+public:
+    bool onPrepare(const std::string&, const std::set<std::string>&) override {
+        return true;
+    }
+    void onCommit(const std::string&) override {
+        throw std::runtime_error("commit delivery failed");
+    }
+    void onAbort(const std::string&) override {}
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
@@ -178,12 +189,19 @@ protected:
         cfg.prepare_timeout      = 2000ms;
         cfg.commit_timeout       = 2000ms;
         cfg.default_txn_timeout  = 60s;
-        // No WAL for most tests (keeps tests hermetic).
+        cfg.wal_directory        = makeTempWalDir("fixture");
+        wal_dir_ = cfg.wal_directory;
         mgr = std::make_unique<DistributedTransactionManager>("test-coord", cfg);
+    }
+
+    void TearDown() override {
+        mgr.reset();
+        removeTempWalDir(wal_dir_);
     }
 
     std::unique_ptr<MockParticipant>                 p1, p2, p3;
     std::unique_ptr<DistributedTransactionManager>   mgr;
+    std::string                                      wal_dir_;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -220,6 +238,93 @@ TEST_F(DistributedTxnManagerTest, PreparePhaseAllCommitVotes) {
 
     EXPECT_EQ(p1->prepareCount(), 1);
     EXPECT_EQ(p2->prepareCount(), 1);
+}
+
+TEST(DistributedTxnManagerDurability, MissingWALDoesNotSendPhase2Commit) {
+    MockParticipant participant;
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout = 2000ms;
+    DistributedTransactionManager mgr("no-wal-coord", cfg);
+
+    const auto txn_id = mgr.beginDistributed({makeParticipant("n1", &participant)});
+    ASSERT_TRUE(mgr.prepareDistributed(txn_id).ok);
+
+    const auto status = mgr.commitDistributed(txn_id);
+    EXPECT_FALSE(status.ok);
+    EXPECT_EQ(participant.commitCount(), 0)
+        << "Phase-2 COMMIT must not be sent without a confirmed durable decision";
+
+    const auto in_doubt = mgr.getRecoverableTransactions();
+    ASSERT_EQ(in_doubt.size(), 1u);
+    EXPECT_EQ(in_doubt.front().state, RecoverableTwoPhaseState::PREPARED);
+    EXPECT_FALSE(in_doubt.front().decision_recorded);
+
+    mgr.abortDistributed(txn_id);
+    const auto still_in_doubt = mgr.getRecoverableTransactions();
+    ASSERT_EQ(still_in_doubt.size(), 1u);
+    EXPECT_EQ(still_in_doubt.front().state, RecoverableTwoPhaseState::ABORTING);
+    EXPECT_FALSE(still_in_doubt.front().decision_recorded);
+    EXPECT_EQ(participant.abortCount(), 0)
+        << "Phase-2 ABORT must also wait for a confirmed durable decision";
+}
+
+TEST(DistributedTransactionRecovery, MissingParticipantStateRemainsInDoubt) {
+    MockParticipant participant;
+    const auto wal_dir = makeTempWalDir("in_doubt_restart");
+
+    std::string txn_id;
+    {
+        DistributedTxnManagerConfig cfg;
+        cfg.wal_directory = wal_dir;
+        DistributedTransactionManager mgr("restart-coord", cfg);
+        txn_id = mgr.beginDistributed({makeParticipant("n1", &participant)});
+        ASSERT_TRUE(mgr.prepareDistributed(txn_id).ok);
+    }
+
+    {
+        DistributedTxnManagerConfig cfg;
+        cfg.wal_directory = wal_dir;
+        DistributedTransactionManager restarted("restart-coord", cfg);
+        EXPECT_EQ(restarted.recoverInDoubtTransactions(), 0u)
+            << "Recovery without participant identities must not claim resolution";
+
+        const auto in_doubt = restarted.getRecoverableTransactions();
+        ASSERT_EQ(in_doubt.size(), 1u);
+        EXPECT_EQ(in_doubt.front().transaction_id, txn_id);
+        EXPECT_EQ(in_doubt.front().state, RecoverableTwoPhaseState::PREPARED);
+        EXPECT_FALSE(in_doubt.front().decision_recorded);
+    }
+
+    removeTempWalDir(wal_dir);
+}
+
+TEST(DistributedTransactionRecovery, DurableCommitWithoutCompletionRemainsInDoubt) {
+    CommitThrowingParticipant participant;
+    const auto wal_dir = makeTempWalDir("commit_in_doubt_restart");
+    std::string txn_id;
+    {
+        DistributedTxnManagerConfig cfg;
+        cfg.wal_directory = wal_dir;
+        DistributedTransactionManager mgr("restart-commit-coord", cfg);
+        txn_id = mgr.beginDistributed({makeParticipant("n1", &participant)});
+        ASSERT_TRUE(mgr.prepareDistributed(txn_id).ok);
+        EXPECT_FALSE(mgr.commitDistributed(txn_id).ok);
+    }
+
+    {
+        DistributedTxnManagerConfig cfg;
+        cfg.wal_directory = wal_dir;
+        DistributedTransactionManager restarted("restart-commit-coord", cfg);
+        EXPECT_EQ(restarted.recoverInDoubtTransactions(), 0u);
+        const auto in_doubt = restarted.getRecoverableTransactions();
+        ASSERT_EQ(in_doubt.size(), 1u);
+        EXPECT_EQ(in_doubt.front().transaction_id, txn_id);
+        EXPECT_EQ(in_doubt.front().state, RecoverableTwoPhaseState::COMMITTING);
+        EXPECT_TRUE(in_doubt.front().decision_recorded);
+    }
+
+    removeTempWalDir(wal_dir);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -404,7 +509,9 @@ TEST_F(DistributedTxnManagerTest, IsParticipantAliveReturnsTrueByDefault) {
 
 TEST_F(DistributedTxnManagerTest, RecoverInDoubtTransactionsWithoutWAL) {
     // With WAL disabled, recovery is a no-op.
-    const size_t resolved = mgr->recoverInDoubtTransactions();
+    DistributedTxnManagerConfig cfg;
+    DistributedTransactionManager no_wal_mgr("no-recovery-wal-coord", cfg);
+    const size_t resolved = no_wal_mgr.recoverInDoubtTransactions();
     EXPECT_EQ(resolved, 0u);
 }
 

@@ -1,14 +1,35 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-11-02"
+Last Updated: "2026-11-02"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
 # Transaction Coordinators — Architecture Reference
 
-<!-- Status: current | Issue: #5372 | Target: Q3 2026 (v2.0.0) -->
+<!-- Status: review | Issue: #7552 | Last Updated: 2026-11-02 -->
 <!-- SOT: docs/architecture/transaction_coordinators.md -->
 
 ## 1. Overview
 
-ThemisDB provides three concrete transaction coordinator classes, all implementing the
-`IRecoverableTwoPhaseCoordinator` recovery contract while exposing coordinator-specific APIs.
-`ITransactionCoordinator` remains the documented unification target for migration planning
+ThemisDB has multiple concrete transaction coordinators with independent execution APIs and
+WAL/recovery implementations. `IRecoverableTwoPhaseCoordinator` normalizes coordinator-local
+recovery snapshots; it does not select a canonical runtime coordinator, unify WAL formats, or
+provide a system readiness gate. `ITransactionCoordinator` remains a proposed unification target
+for migration planning
 ([`docs/ITRANSACTION_COORDINATOR.md`](../ITRANSACTION_COORDINATOR.md)).
+
+Source inspection currently finds five classes implementing this recovery interface:
+`TwoPhaseCommitCoordinator`, `CrossShardTransactionCoordinator`,
+`DistributedTransactionCoordinator`, `GlobalTransactionManager`, and
+`DistributedTransactionManager`. The table below compares only three of them and is not an
+exhaustive inventory. The canonical-coordinator decision remains open under
+[DIS-05](../../audit/ROADMAP.md#ws2--distributed-consistency--ha).
 
 | Class | Header | Namespace | Primary Protocol |
 |---|---|---|---|
@@ -16,8 +37,8 @@ ThemisDB provides three concrete transaction coordinator classes, all implementi
 | `CrossShardTransactionCoordinator` | `include/sharding/cross_shard_transaction.h` | `themisdb::sharding` | Multi-protocol (2PC / 3PC / SAGA / Percolator / Calvin) |
 | `DistributedTransactionCoordinator` | `include/sharding/distributed_transaction.h` | `themis::sharding` | 2PC (+ optional Percolator fast-path) |
 
-All three classes inherit from `themis::transaction::IRecoverableTwoPhaseCoordinator`, which
-in turn inherits from `themis::transaction::IInDoubtRecoveryCoordinator`.  The proposed
+The three classes in this comparison inherit from `themis::transaction::IRecoverableTwoPhaseCoordinator`, which
+in turn inherits from `themis::transaction::IInDoubtRecoveryCoordinator`. The proposed
 `ITransactionCoordinator` unification contract is documented at
 [`docs/ITRANSACTION_COORDINATOR.md`](../ITRANSACTION_COORDINATOR.md).
 
@@ -53,7 +74,7 @@ in turn inherits from `themis::transaction::IInDoubtRecoveryCoordinator`.  The p
 | Simple cross-shard 2PC in sharding module | `TwoPhaseCommitCoordinator` |
 | Multi-protocol orchestration (3PC non-blocking, SAGA long-running, Calvin deterministic) | `CrossShardTransactionCoordinator` |
 | Transaction-manager layer with `IDistributedParticipantCallback` injection | `DistributedTransactionManager` (`transaction/`) |
-| New code / greenfield | Prefer `CrossShardTransactionCoordinator` — it has the richest protocol set and WAL recovery |
+| New code / greenfield | No canonical default is selected; follow the active caller/module contract and track DIS-05 |
 
 ### 2.3 Known Limitations
 

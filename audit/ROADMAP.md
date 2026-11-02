@@ -117,7 +117,10 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
   - [~] 2026-11-01: Segment replay errors now fail `WALStorage::open`; corruption, checksum/type/sequence errors,
     callback aborts, and timeouts are surfaced. A physically incomplete tail is truncated only after scanning for a
     subsequent complete record header. Remaining: structured recovery status/metrics, configurable timeout and
-    override/quarantine policy, replication-deserialization errors, and broader corruption/property tests.
+    override/quarantine policy, and broader corruption/property tests.
+  - [~] 2026-11-02: Replication WAL deserialization now aborts replay instead of skipping malformed payloads; the
+    WAL-chaos test source distinguishes incomplete-tail recovery from fail-closed CRC corruption. Multi-process
+    evidence and broader recovery-timeout coverage remain open.
   - Dateien: `src/storage/wal_storage.cpp` (`replaySegment`, Z. 490-514), `include/storage/wal_storage.h`,
     Nutzer `src/sharding/wal_manager.cpp:147`, `src/replication/replication_manager.cpp:670-685`.
   - Verhalten: Recovery liefert `RecoveryResult { status ∈ {Complete, TruncatedTail, Corrupted, TimedOut},
@@ -163,6 +166,9 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
   - Ein Dokument plus Code-Durchsetzung: Decision-Log durable **vor** COMMIT-ACK; In-Doubt-Auflösung beim Start
     (blockierend, mit Metrik); Participant-WAL und Replikations-WAL nutzen den fail-closed Recovery-Status aus STO-01.
   - Test: Matrix {Koordinator, Participant, Replica} × {Crash vor Prepare, nach Prepare, nach Decision, während Commit}.
+  - [~] 2026-11-02: `DistributedTransactionManager` and `GlobalTransactionManager` check durable decisions before
+    Phase-2 delivery; participant PREPARE WAL failures suppress a YES vote, and incomplete delivery remains unresolved.
+    This does not yet provide a shared readiness gate, a canonical coordinator, or multi-process crash evidence.
 - [ ] **P0 · DIS-03 – Echter Stream-Transport für Shard-Transfer** (Target: M2 · 2027-03-31)
   - `src/sharding/stream_protocol.cpp:663-710`: Produktions-Caller verdrahtet `setPrepareTransferCallback()` mit dem
     gRPC-Transport; ohne Callback **und** mit realem Endpunkt → Fehler `TransportNotConfigured` statt In-Process-Simulation.

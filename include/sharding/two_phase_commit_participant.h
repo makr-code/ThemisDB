@@ -162,7 +162,9 @@ public:
      * @brief Handle PREPARE request (2PC Phase 1)
      *
      * Validates operations, acquires locks, writes PREPARE_TX to WAL,
-     * and returns VOTE_COMMIT (true) or VOTE_ABORT (false).
+     * and returns VOTE_COMMIT (true) or VOTE_ABORT (false). When WAL is
+     * configured, a failed durable PREPARE write releases acquired locks and
+     * returns VOTE_ABORT; with WAL disabled, the participant is memory-only.
      * Idempotent: a duplicate PREPARE for the same txn_id returns the
      * same vote as the original call without re-locking.
     * @param transaction_id Globale Transaktions-ID.
@@ -267,10 +269,14 @@ private:
 
     // ── Internal helpers ────────────────────────────────────────────────────
 
-    /** @brief Persist participant phase/state event to WAL if enabled. */
-    void logToWAL(WALEntryType type,
+    /**
+     * @brief Persist participant phase/state event to WAL if enabled.
+     * @return True when the append and requested flush succeed.
+     */
+    bool logToWAL(WALEntryType type,
                   const std::string& txn_id,
-                  const nlohmann::json& data);
+                  const nlohmann::json& data,
+                  bool force_sync = false);
 };
 
 } // namespace themis::sharding

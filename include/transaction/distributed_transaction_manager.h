@@ -146,6 +146,7 @@ struct DistributedTransaction {
     std::set<std::string> aborted_nodes;
 
     std::string error_detail;
+    bool decision_durable = false; ///< Coordinator WAL decision was flushed successfully.
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -288,20 +289,24 @@ public:
     /**
      * @brief Prepare Distributed.
      * @param[in] txn_id Identifier of the txn.
-     * @return Return value.
+     * @return Status; a configured WAL append/flush failure is an error and leaves
+     *         the transaction unresolved.
      */
     DistributedTxnStatus prepareDistributed(const TransactionId& txn_id);
 
     /**
      * @brief Commit Distributed.
      * @param[in] txn_id Identifier of the txn.
-     * @return Return value.
+     * @return Status; Phase-2 COMMIT is sent only after the decision is durably
+     *         flushed. Delivery or completion-record failure remains unresolved.
      */
     DistributedTxnStatus commitDistributed(const TransactionId& txn_id);
 
     /**
      * @brief Abort Distributed.
      * @param[in] txn_id Identifier of the txn.
+     * @details Phase-2 ABORT is sent only after the decision is durably flushed.
+     *          Persistence or delivery failures leave the transaction unresolved.
      */
     void abortDistributed(const TransactionId& txn_id);
 
@@ -456,7 +461,7 @@ private:
      */
     std::string generateTransactionId();
 
-    void logToWAL(
+    bool logToWAL(
         themis::sharding::WALEntryType type,
         const std::string&             txn_id,
         const std::string&             data = ""

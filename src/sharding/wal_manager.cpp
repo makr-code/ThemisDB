@@ -211,7 +211,9 @@ LSN WALManager::append(const WALEntry& entry) {
     total_bytes_ += payload.size();
 
     if (config_.sync_on_write) {
-        flush();
+        if (!flush()) {
+            throw std::runtime_error("WALManager synchronous flush failed");
+        }
     }
 
     return entry_copy.lsn;
@@ -253,14 +255,16 @@ LSN WALManager::getOldestLSN() const {
     return oldest_lsn_;
 }
 
-void WALManager::flush() {
+bool WALManager::flush() {
     if (!durability_wal_) {
-        return;
+        return false;
     }
     auto flush_res = durability_wal_->flush();
     if (!flush_res) {
         THEMIS_WARN("Sharding WALManager flush failed: {}", flush_res.error().context());
+        return false;
     }
+    return true;
 }
 
 LSN WALManager::checkpoint() {

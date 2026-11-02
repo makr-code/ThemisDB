@@ -121,13 +121,26 @@ bool TwoPhaseCommitParticipant::onPrepare(
     transactions_[transaction_id] = txn;
 
     // Log to WAL (must be durable before returning vote to coordinator)
-    logToWAL(WALEntryType::PREPARE_TX, transaction_id, {
+    const bool prepare_wal_written = logToWAL(WALEntryType::PREPARE_TX, transaction_id, {
         {"transaction_id",      transaction_id},
         {"coordinator_shard",   coordinator_shard_id},
         {"shard_id",            shard_id_},
         {"vote",                vote},
         {"operations",          transactions_[transaction_id].operations}
-    });
+    }, vote);
+    if (vote && wal_ && !prepare_wal_written) {
+        if (release_locks_) {
+            try { release_locks_(transaction_id); }
+            catch (const std::exception& e) {
+                THEMIS_WARN("2PC participant [{}] PREPARE {}: lock release failed after WAL error: {}",
+                            shard_id_, transaction_id, e.what());
+            }
+        }
+        auto& failed_txn = transactions_[transaction_id];
+        failed_txn.vote_committed = false;
+        failed_txn.state = ParticipantTxnState::ABORTED;
+        vote = false;
+    }
 
     total_prepares_.fetch_add(1, std::memory_order_relaxed);
 
@@ -249,6 +262,13 @@ bool TwoPhaseCommitParticipant::onAbort(const std::string& transaction_id) {
         return false;
     }
 
+    if (wal_ && !logToWAL(WALEntryType::ABORT_TX, transaction_id, {
+            {"transaction_id", transaction_id},
+            {"shard_id",       shard_id_}
+        }, true)) {
+        return false;
+    }
+
     // Release locks (if any were acquired in PREPARE)
     if (release_locks_) {
         try { release_locks_(transaction_id); }
@@ -270,11 +290,6 @@ bool TwoPhaseCommitParticipant::onAbort(const std::string& transaction_id) {
         txn.prepared_at    = std::chrono::steady_clock::now();
         transactions_[transaction_id] = std::move(txn);
     }
-
-    logToWAL(WALEntryType::ABORT_TX, transaction_id, {
-        {"transaction_id", transaction_id},
-        {"shard_id",       shard_id_}
-    });
 
     total_aborts_.fetch_add(1, std::memory_order_relaxed);
 
@@ -340,17 +355,20 @@ size_t TwoPhaseCommitParticipant::abortTimedOutTransactions() {
             THEMIS_WARN("2PC participant [{}] aborting timed-out prepared txn {}",
                         shard_id_, txn_id);
 
+            if (wal_ && !logToWAL(WALEntryType::ABORT_TX, txn_id, {
+                    {"transaction_id", txn_id},
+                    {"shard_id",       shard_id_},
+                    {"reason",         "prepare timeout"}
+                }, true)) {
+                continue;
+            }
+
             if (release_locks_) {
                 try { release_locks_(txn_id); }
                 catch (...) {}
             }
 
             txn.state = ParticipantTxnState::ABORTED;
-            logToWAL(WALEntryType::ABORT_TX, txn_id, {
-                {"transaction_id", txn_id},
-                {"shard_id",       shard_id_},
-                {"reason",         "prepare timeout"}
-            });
 
             total_aborts_.fetch_add(1, std::memory_order_relaxed);
             total_timeouts_.fetch_add(1, std::memory_order_relaxed);
@@ -493,17 +511,17 @@ nlohmann::json TwoPhaseCommitParticipant::getStatistics() const {
  * @param[in] data Input parameter.
  * @details Calls: WALLoggingHelper::appendEntry(), get().
  */
-void TwoPhaseCommitParticipant::logToWAL(
+bool TwoPhaseCommitParticipant::logToWAL(
     WALEntryType       type,
     const std::string& txn_id,
-    const nlohmann::json& data
+    const nlohmann::json& data,
+    bool force_sync
 ) {
-    WALLoggingHelper::appendEntry(
+    return WALLoggingHelper::appendEntryWithResult(
         wal_.get(), type, txn_id, data,
-        config_.sync_wal_writes,
+        config_.sync_wal_writes || force_sync,
         "participant", shard_id_
-    );
+    ).has_value();
 }
 
 } // namespace themis::sharding
-

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-09-09"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-02"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -26,6 +26,12 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 The source tree contains local transaction lifecycle, MVCC-backed operations, savepoints, distributed-coordination, saga, audit, and batching components. Release maturity/active-deployment claims are governed by the root roadmap and release evidence, not established by this source inventory.
 
 ## In Progress
+- [~] Issue #7552 — Fail closed on distributed decision durability and malformed replication WAL; coordinator/readiness contract and process-level evidence remain open (Target: WS1/WS2)
+  - DTM and GlobalTransactionManager confirm WAL append+flush before Phase-2 decision delivery; delivery/completion failures remain unresolved.
+  - A configured participant WAL failure prevents a YES vote; WAL fsync timeout is a recovery error, not degraded success.
+  - Replication replay aborts on invalid serialized entries; incomplete final tails remain the only recoverable malformed-record case at the shared storage layer.
+  - Unit tests use in-process callbacks and local WAL files; do not treat them as process-crash or multi-node evidence.
+  - [!] CI evidence blocker: Build: Wave B Transaction run `41389381448` failed configure in phase2 and wave-a because `yaml-cpp`'s CMake config package was absent; compilation/tests were skipped, Gate: Verify Test Results failed, and the evidence job uploaded no compile logs. The workflow now installs `libyaml-cpp-dev`; a successful rerun with artifacts is still required before publishing transaction evidence.
 - [~] Transaction hardening wave for distributed safety, timeout semantics, and recovery guarantees (Target: Q3 2026)
   - [x] `ITransactionCoordinator` interface declaration includes protocol identifiers (2PC, 3PC, SAGA, Percolator, Calvin); concrete implementation of every protocol is not implied — Issue #5374
   - [~] Complete remaining cross-shard failure-injection coverage for coordinator and participant transitions (Target: Q3 2026)

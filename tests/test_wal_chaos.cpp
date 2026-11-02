@@ -5,7 +5,7 @@
 //   - Normal recovery (all segments intact)
 //   - Recovery after last segment is truncated mid-entry
 //   - Recovery with completely empty last segment
-//   - Recovery stops at CRC-corrupted entry but keeps prior entries
+//   - CRC corruption fails closed
 //   - Multi-segment: entries from all segments recovered
 //   - Sequence numbers resume correctly after recovery
 //   - Concurrent writes followed by recovery
@@ -153,9 +153,8 @@ TEST_F(WALChaosTest, TruncatedLastEntry_RecoversPriorEntries) {
     auto wal2 = WALStorage::open(makeConfig(wal_dir_), cb);
     ASSERT_TRUE(wal2.has_value());
 
-    // We should get at least 4 complete entries (last one truncated = skipped)
-    EXPECT_GE(count, 4) << "At least 4 entries should survive truncation";
-    EXPECT_LE(count, 5) << "At most 5 entries (all might survive if truncation hit padding)";
+    // The final physical record is incomplete and is the only recoverable damage.
+    EXPECT_EQ(count, 4) << "Only the four complete records before the tail are recovered";
 }
 
 TEST_F(WALChaosTest, EmptyLastSegment_RecoverySucceeds) {
@@ -181,10 +180,10 @@ TEST_F(WALChaosTest, EmptyLastSegment_RecoverySucceeds) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// CRC corruption stops replay at the bad entry but keeps earlier entries
+// CRC corruption is not an incomplete-tail recovery case and must fail closed
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST_F(WALChaosTest, CRCCorruption_StopsAtBadEntry_PriorEntriesRecovered) {
+TEST_F(WALChaosTest, CRCCorruption_FailsClosed) {
     {
         auto wal = WALStorage::open(makeConfig(wal_dir_));
         ASSERT_TRUE(wal.has_value());
@@ -201,8 +200,8 @@ TEST_F(WALChaosTest, CRCCorruption_StopsAtBadEntry_PriorEntriesRecovered) {
         ++count; return true;
     };
     auto wal2 = WALStorage::open(makeConfig(wal_dir_), cb);
-    ASSERT_TRUE(wal2.has_value()) << "Recovery must not fail on CRC error, just truncate";
-    EXPECT_LE(count, 3) << "Cannot recover more entries than written";
+    EXPECT_FALSE(wal2.has_value()) << "CRC corruption must prevent startup";
+    EXPECT_EQ(count, 0) << "The damaged first record must not be silently skipped";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

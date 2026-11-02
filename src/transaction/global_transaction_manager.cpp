@@ -148,11 +148,16 @@ std::string GlobalTransactionManager::beginTransaction(
     transactions_[txn_id] = std::move(rec);
     total_transactions_.fetch_add(1, std::memory_order_relaxed);
 
-    logToWAL(themis::sharding::WALEntryType::BEGIN_TX, txn_id, {
+    const bool begin_persisted = logToWAL(themis::sharding::WALEntryType::BEGIN_TX, txn_id, {
         {"transaction_id", txn_id},
         {"coordinator_id", coordinator_id_},
         {"regions", region_ids}
-    });
+    }, true);
+    if (wal_ && !begin_persisted) {
+        transactions_.erase(txn_id);
+        total_transactions_.fetch_sub(1, std::memory_order_relaxed);
+        throw std::runtime_error("GlobalTransactionManager: BEGIN record was not durable");
+    }
 
     THEMIS_DEBUG("GlobalTransactionManager [{}] began txn {} across {} region(s)",
                  coordinator_id_, txn_id,region_ids.size());
@@ -246,6 +251,13 @@ GlobalTxnOutcome GlobalTransactionManager::commit(const std::string& txn_id) {
             return outcome;
         }
 
+        if (!wal_) {
+            outcome.result = GlobalTxnResult::ERROR;
+            outcome.reason = "durable WAL is required before preparing participants";
+            total_errors_.fetch_add(1, std::memory_order_relaxed);
+            return outcome;
+        }
+
         // ── Phase 1: PREPARE ────────────────────────────────────────────────
         rec.state    = GlobalTxnState::PREPARING;
         all_prepared = runPhase1(rec);
@@ -269,17 +281,27 @@ GlobalTxnOutcome GlobalTransactionManager::commit(const std::string& txn_id) {
     }
 
     // Log the Phase 2 decision outside the lock (WAL I/O may block)
-    logToWAL(
-        all_prepared ? themis::sharding::WALEntryType::COMMIT_TX
-                     : themis::sharding::WALEntryType::ABORT_TX,
+    const auto decision_type = all_prepared
+        ? themis::sharding::WALEntryType::COMMIT_TX
+        : themis::sharding::WALEntryType::ABORT_TX;
+    if (!logToWAL(
+        decision_type,
         txn_id,
         {
             {"transaction_id", txn_id},
             {"coordinator_id", coordinator_id_},
             {"decision",       all_prepared ? "commit" : "abort"},
             {"commit_timestamp_ns", commit_ts}
-        }
-    );
+        },
+        true) || !wal_->flush()) {
+        outcome.result = GlobalTxnResult::ERROR;
+        outcome.reason = "durable transaction decision could not be confirmed; participants remain unresolved";
+        total_errors_.fetch_add(1, std::memory_order_relaxed);
+        THEMIS_ERROR("GlobalTransactionManager [{}] txn {} decision was not confirmed durable; "
+                     "Phase-2 delivery suppressed",
+                     coordinator_id_, txn_id);
+        return outcome;
+    }
 
     // ── Phase 2: COMMIT or ABORT ─────────────────────────────────────────
     // Wave 4C T3: Snapshot the record under the lock, then release before
@@ -291,7 +313,34 @@ GlobalTxnOutcome GlobalTransactionManager::commit(const std::string& txn_id) {
         rec_snapshot = transactions_.at(txn_id);  // copy snapshot
     }
     // Deliver Phase-2 outside the global lock (no mutex held during RPC calls).
-    runPhase2(rec_snapshot, all_prepared);
+    if (!runPhase2(rec_snapshot, all_prepared)) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto& rec = transactions_.at(txn_id);
+        for (auto& [region_id, snap_rrec] : rec_snapshot.region_records) {
+            if (auto it = rec.region_records.find(region_id); it != rec.region_records.end()) {
+                it->second.phase2_acked = snap_rrec.phase2_acked;
+            }
+        }
+        rec.state = all_prepared
+            ? GlobalTxnState::COMMIT_DECIDED
+            : GlobalTxnState::ABORT_DECIDED;
+        outcome.result = GlobalTxnResult::ERROR;
+        outcome.reason = "Phase-2 delivery incomplete; transaction remains unresolved";
+        total_errors_.fetch_add(1, std::memory_order_relaxed);
+        return outcome;
+    }
+
+    if (!logToWAL(decision_type, txn_id, {
+            {"transaction_id", txn_id},
+            {"coordinator_id", coordinator_id_},
+            {"phase", "complete"}
+        }, true) || !wal_->flush()) {
+        outcome.result = GlobalTxnResult::ERROR;
+        outcome.reason = "Phase-2 completed but its completion record was not confirmed durable";
+        total_errors_.fetch_add(1, std::memory_order_relaxed);
+        return outcome;
+    }
+
     // Re-acquire to persist the COMPLETED state.
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -304,17 +353,6 @@ GlobalTxnOutcome GlobalTransactionManager::commit(const std::string& txn_id) {
         }
         rec.state = GlobalTxnState::COMPLETED;
     }
-
-    logToWAL(
-        all_prepared ? themis::sharding::WALEntryType::COMMIT_TX
-                     : themis::sharding::WALEntryType::ABORT_TX,
-        txn_id,
-        {
-            {"transaction_id", txn_id},
-            {"coordinator_id", coordinator_id_},
-            {"phase",          "complete"}
-        }
-    );
 
     const double total_ms = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - t0).count();
@@ -368,13 +406,49 @@ bool GlobalTransactionManager::abort(const std::string& txn_id) {
         rec_snapshot = rec;  // snapshot under lock
     }
 
+    if (original_state == GlobalTxnState::COMMIT_DECIDED) {
+        THEMIS_ERROR("GlobalTransactionManager [{}] refusing ABORT for txn {} after "
+                     "the COMMIT decision transition; recovery must preserve that decision",
+                     coordinator_id_, txn_id);
+        return false;
+    }
+
+    const bool phase2_needed =
+        original_state == GlobalTxnState::PREPARING ||
+        original_state == GlobalTxnState::COMMIT_DECIDED ||
+        original_state == GlobalTxnState::ABORT_DECIDED;
+    if (wal_ &&
+        (!logToWAL(themis::sharding::WALEntryType::ABORT_TX, txn_id,
+                   {{"decision", "abort"}}, true) || !wal_->flush())) {
+        THEMIS_ERROR("GlobalTransactionManager [{}] txn {} ABORT decision was not "
+                     "confirmed durable; Phase-2 delivery suppressed",
+                     coordinator_id_, txn_id);
+        return false;
+    }
+    if (!wal_ && phase2_needed) {
+        return false;
+    }
+    if (phase2_needed) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = transactions_.find(txn_id);
+        if (it != transactions_.end()) {
+            it->second.state = GlobalTxnState::ABORT_DECIDED;
+        }
+    }
+
     // Broadcast ABORT to all participants that may have PREPAREd
     // (outside the global lock — no mutex held during RPC calls).
-    if (original_state == GlobalTxnState::PREPARING ||
-        original_state == GlobalTxnState::COMMIT_DECIDED ||
-        original_state == GlobalTxnState::ABORT_DECIDED)
-    {
-        runPhase2(rec_snapshot, /*do_commit=*/false);
+    if (phase2_needed && !runPhase2(rec_snapshot, /*do_commit=*/false)) {
+        return false;
+    }
+
+    if (wal_ &&
+        (!logToWAL(themis::sharding::WALEntryType::ABORT_TX, txn_id, {
+            {"transaction_id", txn_id},
+            {"coordinator_id", coordinator_id_},
+            {"phase", "complete"}
+        }, true) || !wal_->flush())) {
+        return false;
     }
 
     // Re-acquire to persist the COMPLETED state.
@@ -400,12 +474,6 @@ bool GlobalTransactionManager::abort(const std::string& txn_id) {
     }
 
     total_aborts_.fetch_add(1, std::memory_order_relaxed);
-
-    logToWAL(themis::sharding::WALEntryType::ABORT_TX, txn_id, {
-        {"transaction_id", txn_id},
-        {"coordinator_id", coordinator_id_},
-        {"phase",          "complete"}
-    });
 
     THEMIS_INFO("GlobalTransactionManager [{}] txn {} explicitly ABORTED",
                 coordinator_id_, txn_id);
@@ -545,7 +613,17 @@ size_t GlobalTransactionManager::recoverInDoubtTransactions() {
             }
 
             // Deliver Phase-2 outside the lock
-            runPhase2(rec_snapshot, do_commit);
+            const bool phase2_ok = runPhase2(rec_snapshot, do_commit);
+            const auto completion_type = do_commit
+                ? themis::sharding::WALEntryType::COMMIT_TX
+                : themis::sharding::WALEntryType::ABORT_TX;
+            const bool completion_durable = phase2_ok &&
+                logToWAL(completion_type, tid, {
+                    {"transaction_id", tid},
+                    {"coordinator_id", coordinator_id_},
+                    {"phase", "complete"},
+                    {"recovery", true}
+                }, true) && wal_->flush();
 
             // Re-acquire to persist the COMPLETED state
             {
@@ -554,8 +632,14 @@ size_t GlobalTransactionManager::recoverInDoubtTransactions() {
                 if (it == transactions_.end()) {
                     continue;
                 }
-                
+
                 auto& rec = it->second;
+                if (!phase2_ok || !completion_durable) {
+                    rec.state = do_commit
+                        ? GlobalTxnState::COMMIT_DECIDED
+                        : GlobalTxnState::ABORT_DECIDED;
+                    continue;
+                }
                 // Double-check state hasn't been finalized by concurrent caller
                 if (rec.state == GlobalTxnState::COMPLETED) {
                     ++resolved;
@@ -570,18 +654,6 @@ size_t GlobalTransactionManager::recoverInDoubtTransactions() {
                 }
                 rec.state = GlobalTxnState::COMPLETED;
             }
-
-            logToWAL(
-                do_commit ? themis::sharding::WALEntryType::COMMIT_TX
-                          : themis::sharding::WALEntryType::ABORT_TX,
-                tid,
-                {
-                    {"transaction_id", tid},
-                    {"coordinator_id", coordinator_id_},
-                    {"phase",          "complete"},
-                    {"recovery",       true}
-                }
-            );
 
             ++resolved;
         }
@@ -753,15 +825,18 @@ bool GlobalTransactionManager::runPhase1(GlobalTxnRecord& rec) {
  * @brief Run Phase2.
  * @param[in,out] rec Input/output parameter.
  * @param[in] do_commit Input parameter.
+ * @return True only when every required region acknowledges Phase-2.
  * @details Calls: find(), end(), THEMIS_WARN(), commit(), abort(), THEMIS_ERROR(), what().
  */
-void GlobalTransactionManager::runPhase2(GlobalTxnRecord& rec, bool do_commit) {
+bool GlobalTransactionManager::runPhase2(GlobalTxnRecord& rec, bool do_commit) {
+    bool all_acked = true;
     for (auto& [region_id, rrec] : rec.region_records) {
         auto pit = regions_.find(region_id);
         if (pit == regions_.end()) {
             THEMIS_WARN("GlobalTransactionManager [{}] Phase 2 – region {} not found for txn {} "
                         "(region may have been unregistered)",
                         coordinator_id_, region_id, rec.transaction_id);
+            all_acked = false;
             continue;
         }
 
@@ -773,6 +848,7 @@ void GlobalTransactionManager::runPhase2(GlobalTxnRecord& rec, bool do_commit) {
             }
             rrec.phase2_acked = true;
         } catch (const std::exception& e) {
+            all_acked = false;
             THEMIS_ERROR("GlobalTransactionManager [{}] Phase 2 – region {} threw on {} "
                          "for txn {}: {}",
                          coordinator_id_, region_id,
@@ -780,6 +856,7 @@ void GlobalTransactionManager::runPhase2(GlobalTxnRecord& rec, bool do_commit) {
                          rec.transaction_id, e.what());
         }
     }
+    return all_acked;
 }
 
 /**
@@ -789,13 +866,14 @@ void GlobalTransactionManager::runPhase2(GlobalTxnRecord& rec, bool do_commit) {
  * @param[in] data Input parameter.
  * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), append(), flush(), THEMIS_ERROR(), what().
  */
-void GlobalTransactionManager::logToWAL(
+bool GlobalTransactionManager::logToWAL(
     themis::sharding::WALEntryType type,
     const std::string&             txn_id,
-    const nlohmann::json&          data
+    const nlohmann::json&          data,
+    bool                           force_sync
 ) {
     if (!wal_) {
-      return;
+      return false;
     }
 
     try {
@@ -810,12 +888,14 @@ void GlobalTransactionManager::logToWAL(
         entry.data = data;
 
         wal_->append(entry);
-        if (config_.sync_wal_writes) {
-            wal_->flush();
+        if ((config_.sync_wal_writes || force_sync) && !wal_->flush()) {
+            return false;
         }
+        return true;
     } catch (const std::exception& e) {
         THEMIS_ERROR("GlobalTransactionManager [{}] WAL write failed for txn {}: {}",
                      coordinator_id_, txn_id, e.what());
+        return false;
     }
 }
 

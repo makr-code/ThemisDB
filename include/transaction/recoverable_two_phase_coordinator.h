@@ -11,14 +11,16 @@
 //
 // Unified 2PC Recovery Interface — shared contract for all 2PC coordinators.
 //
-// Three independent coordinator implementations exist in ThemisDB:
+// Multiple independent coordinator implementations exist in ThemisDB:
 //   1. TwoPhaseCommitCoordinator      (sharding/two_phase_commit_coordinator.h)
-//   2. GlobalTransactionManager       (transaction/global_transaction_manager.h)
-//   3. DistributedTransactionManager  (transaction/distributed_transaction_manager.h)
+//   2. CrossShardTransactionCoordinator (sharding/cross_shard_transaction.h)
+//   3. DistributedTransactionCoordinator (sharding/distributed_transaction.h)
+//   4. GlobalTransactionManager       (transaction/global_transaction_manager.h)
+//   5. DistributedTransactionManager  (transaction/distributed_transaction_manager.h)
 //
 // This header provides:
 //   - IRecoverableTwoPhaseCoordinator — extended interface that every coordinator
-//     must implement to participate in global recovery passes.
+//     exposes coordinator-local recovery state to a global reporting pass.
 //   - GlobalTwoPhaseCommitRecoveryManager — header-only orchestrator that drives
 //     one recovery pass across all registered coordinators and returns a
 //     unified report.
@@ -83,10 +85,15 @@ struct RecoverableTwoPhaseTransaction {
  * recovery pass that reports normalized pre/post in-doubt counts while still
  * using their native WAL or snapshot backend internally.
  *
- * All three ThemisDB 2PC coordinator types must implement this interface:
+ * The following implementations currently expose this interface:
  * - TwoPhaseCommitCoordinator
+ * - CrossShardTransactionCoordinator
+ * - DistributedTransactionCoordinator
  * - GlobalTransactionManager
  * - DistributedTransactionManager
+ *
+ * This shared reporting interface does not select a canonical runtime
+ * coordinator, unify their WAL formats, or provide a system readiness gate.
  */
 class IRecoverableTwoPhaseCoordinator : public IInDoubtRecoveryCoordinator {
 public:
@@ -153,7 +160,10 @@ struct GlobalTwoPhaseCommitRecoveryReport {
  *
  * This is a stateless header-only orchestrator.  Call recoverAll() once
  * after a coordinator restart to drive every registered coordinator through
- * its recovery sequence and obtain a unified report.
+ * its recovery sequence and obtain a unified report. The report is diagnostic:
+ * a non-zero in_doubt_after means recovery is incomplete. This class does not
+ * establish process readiness, cross-coordinator WAL compatibility, or
+ * multi-process recovery guarantees.
  *
  * Example:
  * @code
