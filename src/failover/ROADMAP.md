@@ -40,7 +40,9 @@ Related milestone: DOC-WEEKLY-2026-W45
   acknowledgement; remote abort adapters return actual ACK status.
 - Focused test sources are registered through `tests/failover/CMakeLists.txt`
   with `failover` and `release_critical` labels. Three Google Benchmark
-  executables are registered when benchmarks are enabled.
+  executables are registered when benchmarks are enabled. The Wave A fencing
+  test source covers real hot-spare activation followed by independent `ACTIVE`
+  state read-back, and rejects adapter acknowledgement without that state.
 
 This inventory confirms code and CMake declarations only; it does not claim
 tests or benchmarks passed. See [`AUDIT.md`](AUDIT.md) for audit limitations.

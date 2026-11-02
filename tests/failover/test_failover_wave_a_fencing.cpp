@@ -25,8 +25,14 @@
  *                                      → processFailover does NOT invoke
  *                                        preventSplitBrain; no FAILOVER_CANCELLED
  *                                        (split-brain) event fired.
+ *   FO-Promote-06-SPARE-ACTIVATION-READBACK:
+ *                                      real HotSpareManager activation
+ *                                      → ACTIVE state independently verified.
+ *   FO-Promote-07-SPARE-ACK-WITHOUT-STATE:
+ *                                      adapter ACK with spare still AVAILABLE
+ *                                      → activation rejected.
  *
- * All tests are self-contained: no network I/O, no filesystem I/O.
+ * Tests use no network I/O; persistence-related test cases may use temporary files.
  * Test seed constant: kFencingTestSeed = 42.
  *
  * @see include/failover/auto_failover_manager.h
@@ -38,6 +44,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <cstdint>
 #include <memory>
 #include <optional>
 #include <string>
@@ -344,6 +351,30 @@ TEST(WaveAFencing, FO_Promote_07_SPARE_ACK_WITHOUT_ACTIVE_STATE_IS_REJECTED) {
     AutoFailoverManager manager(config, nullptr, nullptr, spare_manager, nullptr);
     manager.setSpareActivationHook(
         [](const std::string&, const std::string&) { return true; });
+
+    std::string activated_spare_id;
+    EXPECT_FALSE(manager.testActivateSpareIfNeeded("node-down", activated_spare_id));
+    EXPECT_TRUE(activated_spare_id.empty());
+    const auto spare_info = spare_manager->getSpareInfo("spare-1");
+    ASSERT_TRUE(spare_info.has_value());
+    EXPECT_EQ(spare_info->state, themis::sharding::SpareState::AVAILABLE);
+}
+
+TEST(WaveAFencing, FO_Promote_08_MISSING_SPARE_ADAPTER_IS_REJECTED) {
+    themis::sharding::RedundancyConfig redundancy_config;
+    themis::sharding::RedundancyStrategy redundancy_strategy(redundancy_config);
+    themis::sharding::ShardTopology topology;
+
+    themis::sharding::HotSpareConfig spare_config;
+    spare_config.enable = true;
+    spare_config.spare_shards = {"spare-1"};
+    spare_config.auto_rebuild = false;
+    auto spare_manager = std::make_shared<themis::sharding::HotSpareManager>(
+        spare_config, redundancy_strategy, topology);
+
+    auto config = makeFencingTestConfig();
+    config.enable_spare_activation = true;
+    AutoFailoverManager manager(config, nullptr, nullptr, spare_manager, nullptr);
 
     std::string activated_spare_id;
     EXPECT_FALSE(manager.testActivateSpareIfNeeded("node-down", activated_spare_id));
