@@ -387,6 +387,16 @@ public:
         std::function<bool(const std::string&, std::string&)> hook) {
         test_promotion_override_ = std::move(hook);
     }
+    /**
+     * @brief Exercise spare activation with its real adapter and state read-back.
+     * @param failed_node_id Failed shard identifier passed to the activation adapter.
+     * @param activated_spare_id Receives the spare ID only after ACTIVE read-back.
+     * @return True only when the adapter succeeds and HotSpareManager reports ACTIVE.
+     */
+    bool testActivateSpareIfNeeded(const std::string& failed_node_id,
+                                   std::string& activated_spare_id) {
+        return activateSpareIfNeeded(failed_node_id, activated_spare_id);
+    }
 #endif
 
 private:

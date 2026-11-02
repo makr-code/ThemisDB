@@ -39,13 +39,19 @@
 #include <atomic>
 #include <chrono>
 #include <memory>
+#include <optional>
 #include <string>
+#include <vector>
 
 #include <gtest/gtest.h>
 
 #include "failover/auto_failover_manager.h"
 #include "failover/failover_api_contract.h"
+#include "sharding/consistent_hash.h"
 #include "sharding/epoch_fencing.h"
+#include "sharding/hot_spare_manager.h"
+#include "sharding/redundancy_strategy.h"
+#include "sharding/shard_topology.h"
 
 using namespace std::chrono_literals;
 using namespace themis::failover;
@@ -274,6 +280,77 @@ TEST(WaveAFencing, FO_Promote_05_SPARE_FAILURE_LEAVES_DEGRADED_STATE) {
     EXPECT_EQ(manager.getState(), FailoverOrchestratorState::DEGRADED);
     EXPECT_EQ(degraded_events.load(), 1);
     EXPECT_EQ(manager.getStatistics().degraded_failovers, 1u);
+}
+
+TEST(WaveAFencing, FO_Promote_06_SPARE_ACTIVATION_REQUIRES_ACTIVE_READBACK) {
+    themis::sharding::RedundancyConfig redundancy_config;
+    themis::sharding::RedundancyStrategy redundancy_strategy(redundancy_config);
+    themis::sharding::ShardTopology topology;
+
+    themis::sharding::HotSpareConfig spare_config;
+    spare_config.enable = true;
+    spare_config.spare_shards = {"spare-1"};
+    spare_config.auto_rebuild = false;
+    auto spare_manager = std::make_shared<themis::sharding::HotSpareManager>(
+        spare_config, redundancy_strategy, topology);
+    themis::sharding::ConsistentHashRing ring;
+    ring.addShard("node-down");
+
+    auto config = makeFencingTestConfig();
+    config.enable_spare_activation = true;
+    AutoFailoverManager manager(config, nullptr, nullptr, spare_manager, nullptr);
+    std::atomic<int> activated_events{0};
+    manager.registerEventCallback(
+        [&](FailoverEventType type, const std::string&, const std::string&) {
+            if (type == FailoverEventType::SPARE_ACTIVATED) {
+                ++activated_events;
+            }
+        });
+
+    manager.setSpareActivationHook(
+        [&](const std::string& failed_shard, const std::string&) {
+            return spare_manager->activateSpare(
+                failed_shard, ring,
+                [](const std::string&, const std::string&)
+                    -> std::optional<std::vector<uint8_t>> { return std::nullopt; },
+                [](const std::string&, const std::string&,
+                   const std::vector<uint8_t>&) { return true; },
+                [](const std::string&) { return std::vector<std::string>{}; });
+        });
+
+    std::string activated_spare_id;
+    EXPECT_TRUE(manager.testActivateSpareIfNeeded("node-down", activated_spare_id));
+    EXPECT_EQ(activated_spare_id, "spare-1");
+    const auto spare_info = spare_manager->getSpareInfo(activated_spare_id);
+    ASSERT_TRUE(spare_info.has_value());
+    EXPECT_EQ(spare_info->state, themis::sharding::SpareState::ACTIVE);
+    EXPECT_EQ(activated_events.load(), 1);
+}
+
+TEST(WaveAFencing, FO_Promote_07_SPARE_ACK_WITHOUT_ACTIVE_STATE_IS_REJECTED) {
+    themis::sharding::RedundancyConfig redundancy_config;
+    themis::sharding::RedundancyStrategy redundancy_strategy(redundancy_config);
+    themis::sharding::ShardTopology topology;
+
+    themis::sharding::HotSpareConfig spare_config;
+    spare_config.enable = true;
+    spare_config.spare_shards = {"spare-1"};
+    spare_config.auto_rebuild = false;
+    auto spare_manager = std::make_shared<themis::sharding::HotSpareManager>(
+        spare_config, redundancy_strategy, topology);
+
+    auto config = makeFencingTestConfig();
+    config.enable_spare_activation = true;
+    AutoFailoverManager manager(config, nullptr, nullptr, spare_manager, nullptr);
+    manager.setSpareActivationHook(
+        [](const std::string&, const std::string&) { return true; });
+
+    std::string activated_spare_id;
+    EXPECT_FALSE(manager.testActivateSpareIfNeeded("node-down", activated_spare_id));
+    EXPECT_TRUE(activated_spare_id.empty());
+    const auto spare_info = spare_manager->getSpareInfo("spare-1");
+    ASSERT_TRUE(spare_info.has_value());
+    EXPECT_EQ(spare_info->state, themis::sharding::SpareState::AVAILABLE);
 }
 
 #endif  // THEMIS_TEST_BUILD
