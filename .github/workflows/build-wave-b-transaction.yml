@@ -8,10 +8,21 @@ on:
       - .github/workflows/build-wave-b-transaction.yml
       - include/transaction/distributed_transaction_manager.h
       - include/transaction/recoverable_two_phase_coordinator.h
+      - include/transaction/two_phase_commit_wal_recovery.h
+      - include/sharding/distributed_transaction.h
+      - include/server/http_server.h
+      - include/server/monitoring_api_handler.h
+      - include/sharding/two_phase_commit_participant.h
       - src/transaction/distributed_transaction_manager.cpp
+      - src/sharding/distributed_transaction.cpp
+      - src/sharding/two_phase_commit_participant.cpp
+      - src/server/http_server.cpp
+      - src/server/monitoring_api_handler.cpp
       - tests/transaction/CMakeLists.txt
       - tests/transaction/test_transaction_distributed_2pc.cpp
       - tests/transaction/test_transaction_process_crash_recovery.cpp
+      - tests/test_distributed_txn_api_handler.cpp
+      - tests/test_two_phase_commit.cpp
   schedule:
     - cron: '30 4 * * *'
   workflow_dispatch:
@@ -190,6 +201,7 @@ jobs:
             test_transaction_fault_injection_phase3 \
             test_transaction_wave_a_closure \
             test_transaction_process_crash_recovery \
+            test_distributed_txn_api_handler_focused \
             --parallel ${{ github.event.inputs.parallel_jobs || 4 }} \
             2>&1 | tee compile-${{ matrix.phase }}.log
           
@@ -330,7 +342,7 @@ jobs:
           cd "$BUILD_DIR"
           
           ctest \
-            -R "test_transaction_|TransactionProcessCrashRecoveryTests" \
+            -R "test_transaction_|TransactionProcessCrashRecoveryTests|DistributedTxnApiHandlerRecoveryTests" \
             -V --output-on-failure \
             -j 4 \
             2>&1 | tee full-test-results.xml
@@ -441,7 +453,7 @@ jobs:
 
           cd "$BUILD_DIR"
           ctest \
-            --tests-regex "TransactionDistributedPhase2Tests|TransactionSAGACompensationPhase2Tests|TransactionFaultInjectionPhase3Tests|TransactionWaveAClosureTests|TransactionProcessCrashRecoveryTests" \
+            --tests-regex "TransactionDistributedPhase2Tests|TransactionSAGACompensationPhase2Tests|TransactionFaultInjectionPhase3Tests|TransactionWaveAClosureTests|TransactionProcessCrashRecoveryTests|DistributedTxnApiHandlerRecoveryTests" \
             -V --output-on-failure -j 2 \
             2>&1 | tee transaction-chaos-evidence/chaos-recovery-results.txt
 

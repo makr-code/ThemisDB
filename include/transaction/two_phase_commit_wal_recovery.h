@@ -28,6 +28,7 @@
 #pragma once
 
 #include "sharding/wal_manager.h"
+#include <algorithm>
 #include <map>
 #include <optional>
 #include <string>
@@ -45,6 +46,7 @@ struct RecoveredTwoPhaseCommitTransaction {
     bool                     completed    = false; ///< True when a "complete" entry was seen.
     bool                     has_decision = false; ///< True when a durable COMMIT/ABORT decision was recorded.
     bool                     decision_commit = false; ///< Valid when has_decision is true.
+    bool                     participants_invalid = false; ///< Durable participant identity metadata is malformed.
 
     std::vector<std::string> participants;
 
@@ -80,6 +82,7 @@ public:
             case themis::sharding::WALEntryType::PREPARE_TX:
                 // DistributedTransactionManager style: PREPARE_TX marks in-doubt.
                 // No decision yet — has_decision stays false.
+                mergeParticipants(rec, entry.data, "participants");
                 rec.has_decision  = false;
                 rec.completed     = false;
                 break;
@@ -134,6 +137,8 @@ private:
         const nlohmann::json&               data,
         bool                                is_commit
     ) {
+        mergeParticipants(rec, data, "participants");
+
         // A "phase": "complete" entry supersedes decision entries.
         if (data.contains("phase") && data["phase"].is_string() &&
             data["phase"].get<std::string>() == "complete") {
@@ -179,16 +184,34 @@ private:
 
         const auto& arr = data[field_name];
         if (!arr.is_array()) {
+            rec.participants_invalid = true;
             return;
         }
 
         for (const auto& item : arr) {
+            std::string participant_id;
             if (item.is_string()) {
-                rec.participants.push_back(item.get<std::string>());
+                participant_id = item.get<std::string>();
             } else if (item.is_object() && item.contains("node_id") &&
                        item["node_id"].is_string()) {
                 // Accept structured participant objects from DTM-style BEGIN entries.
-                rec.participants.push_back(item["node_id"].get<std::string>());
+                participant_id = item["node_id"].get<std::string>();
+            } else if (item.is_object() && item.contains("shard_id") &&
+                       item["shard_id"].is_string()) {
+                // DistributedTransactionCoordinator persists shard IDs in its
+                // BEGIN/PREPARE/decision records.
+                participant_id = item["shard_id"].get<std::string>();
+            } else {
+                rec.participants_invalid = true;
+                continue;
+            }
+            if (participant_id.empty()) {
+                rec.participants_invalid = true;
+                continue;
+            }
+            if (std::find(rec.participants.begin(), rec.participants.end(), participant_id) ==
+                rec.participants.end()) {
+                rec.participants.push_back(std::move(participant_id));
             }
         }
     }

@@ -21,6 +21,7 @@
 #include "utils/logger.h"
 #include <chrono>
 #include <stdexcept>
+#include <vector>
 
 namespace themis::sharding {
 
@@ -71,6 +72,9 @@ bool TwoPhaseCommitParticipant::onPrepare(
 ) {
     const auto t0 = std::chrono::steady_clock::now();
     std::lock_guard<std::mutex> lock(mutex_);
+    if (durability_failed_) {
+        return false;
+    }
 
     // Idempotency: if we have already prepared (or decided), return stored vote
     auto it = transactions_.find(transaction_id);
@@ -127,8 +131,9 @@ bool TwoPhaseCommitParticipant::onPrepare(
         {"shard_id",            shard_id_},
         {"vote",                vote},
         {"operations",          transactions_[transaction_id].operations}
-    }, vote);
-    if (vote && wal_ && !prepare_wal_written) {
+    }, true);
+    if (wal_ && !prepare_wal_written) {
+        durability_failed_ = true;
         if (release_locks_) {
             try { release_locks_(transaction_id); }
             catch (const std::exception& e) {
@@ -174,6 +179,9 @@ bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
                      shard_id_, transaction_id);
         return true;
     }
+    if (durability_failed_) {
+        return false;
+    }
 
     // Cannot commit something we aborted or that we never prepared
     if (it == transactions_.end() || it->second.state == ParticipantTxnState::ABORTED) {
@@ -183,9 +191,11 @@ bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
     }
 
     auto& txn = it->second;
-    txn.commit_timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(
-        std::chrono::system_clock::now().time_since_epoch()
-    ).count();
+    if (txn.commit_timestamp == 0) {
+        txn.commit_timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(
+            std::chrono::system_clock::now().time_since_epoch()
+        ).count();
+    }
 
     // Apply buffered operations to the storage engine
     bool applied = true;
@@ -205,9 +215,21 @@ bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
         return false;
     }
 
+    // Durable commit record
+    if (wal_ && !logToWAL(WALEntryType::COMMIT_TX, transaction_id, {
+        {"transaction_id", transaction_id},
+        {"shard_id",       shard_id_},
+        {"commit_timestamp", txn.commit_timestamp}
+    }, true)) {
+        THEMIS_ERROR("2PC participant [{}] COMMIT {} could not be durably recorded",
+                     shard_id_, transaction_id);
+        durability_failed_ = true;
+        return false;
+    }
+
     txn.state = ParticipantTxnState::COMMITTED;
 
-    // Release locks
+    // Release locks only after the commit record is durable.
     if (release_locks_) {
         try { release_locks_(transaction_id); }
         catch (const std::exception& e) {
@@ -215,13 +237,6 @@ bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
                         shard_id_, transaction_id, e.what());
         }
     }
-
-    // Durable commit record
-    logToWAL(WALEntryType::COMMIT_TX, transaction_id, {
-        {"transaction_id", transaction_id},
-        {"shard_id",       shard_id_},
-        {"commit_timestamp", txn.commit_timestamp}
-    });
 
     total_commits_.fetch_add(1, std::memory_order_relaxed);
 
@@ -254,6 +269,9 @@ bool TwoPhaseCommitParticipant::onAbort(const std::string& transaction_id) {
                      shard_id_, transaction_id);
         return true;
     }
+    if (durability_failed_) {
+        return false;
+    }
 
     // If the transaction was committed, we cannot abort it
     if (it != transactions_.end() && it->second.state == ParticipantTxnState::COMMITTED) {
@@ -266,6 +284,7 @@ bool TwoPhaseCommitParticipant::onAbort(const std::string& transaction_id) {
             {"transaction_id", transaction_id},
             {"shard_id",       shard_id_}
         }, true)) {
+        durability_failed_ = true;
         return false;
     }
 
@@ -306,9 +325,10 @@ bool TwoPhaseCommitParticipant::onAbort(const std::string& transaction_id) {
 
 ShardRPCServer::HealthInfo
 TwoPhaseCommitParticipant::onHealthCheck() {
+    std::lock_guard<std::mutex> lock(mutex_);
     ShardRPCServer::HealthInfo info;
     const auto uptime = std::chrono::steady_clock::now() - start_time_;
-    info.is_healthy     = true;
+    info.is_healthy     = !durability_failed_;
     info.version        = "1.0";
     info.uptime_seconds = static_cast<uint64_t>(
         std::chrono::duration_cast<std::chrono::seconds>(uptime).count());
@@ -360,6 +380,7 @@ size_t TwoPhaseCommitParticipant::abortTimedOutTransactions() {
                     {"shard_id",       shard_id_},
                     {"reason",         "prepare timeout"}
                 }, true)) {
+                durability_failed_ = true;
                 continue;
             }
 
@@ -387,10 +408,12 @@ size_t TwoPhaseCommitParticipant::recoverFromWAL() {
     if (!wal_) {
       return 0;
     }
+    std::lock_guard<std::mutex> lock(mutex_);
 
     THEMIS_INFO("2PC participant [{}] recovering from WAL…", shard_id_);
 
     size_t in_doubt = 0;
+    std::vector<std::string> restored_transactions;
 
     try {
         LSN oldest = wal_->getOldestLSN();
@@ -416,16 +439,21 @@ size_t TwoPhaseCommitParticipant::recoverFromWAL() {
                 if (transactions_.find(txn_id) == transactions_.end()) {
                     ParticipantTransaction txn;
                     txn.transaction_id = txn_id;
-                    txn.state          = ParticipantTxnState::PREPARED;
                     txn.vote_committed = entry.data.value("vote", true);
+                    txn.state          = txn.vote_committed
+                        ? ParticipantTxnState::PREPARED
+                        : ParticipantTxnState::ABORTED;
                     txn.operations     = entry.data.value("operations", nlohmann::json::array());
                     txn.prepared_at    = std::chrono::steady_clock::now();
                     transactions_[txn_id] = std::move(txn);
+                    restored_transactions.push_back(txn_id);
                 }
             } else if (entry.type == WALEntryType::COMMIT_TX) {
                 auto it = transactions_.find(txn_id);
                 if (it != transactions_.end()) {
                     it->second.state = ParticipantTxnState::COMMITTED;
+                    it->second.commit_timestamp =
+                        entry.data.value("commit_timestamp", int64_t{0});
                 } else {
                     ParticipantTransaction txn;
                     txn.transaction_id = txn_id;
@@ -447,6 +475,19 @@ size_t TwoPhaseCommitParticipant::recoverFromWAL() {
             }
         }
 
+        for (const auto& txn_id : restored_transactions) {
+            const auto it = transactions_.find(txn_id);
+            if (it == transactions_.end() ||
+                it->second.state != ParticipantTxnState::PREPARED ||
+                !validate_and_lock_) {
+                continue;
+            }
+            if (!validate_and_lock_(txn_id, it->second.operations)) {
+                throw std::runtime_error(
+                    "could not restore participant locks for prepared transaction " + txn_id);
+            }
+        }
+
         // Count in-doubt transactions (prepared, no commit/abort)
         for (const auto& [txn_id, txn] : transactions_) {
             if (txn.state == ParticipantTxnState::PREPARED) {
@@ -457,7 +498,9 @@ size_t TwoPhaseCommitParticipant::recoverFromWAL() {
         }
 
     } catch (const std::exception& e) {
+        durability_failed_ = true;
         THEMIS_ERROR("2PC participant [{}] WAL recovery failed: {}", shard_id_, e.what());
+        throw;
     }
 
     THEMIS_INFO("2PC participant [{}] recovery complete – {} in-doubt transactions",

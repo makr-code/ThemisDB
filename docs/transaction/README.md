@@ -24,6 +24,16 @@ delivery is likewise held until the ABORT record is confirmed durable.
 and suppresses Phase-2 delivery when its decision append/flush is not confirmed.
 Successful DTM completion is recorded separately from the durable decision so
 restart recovery can distinguish a finished delivery from an unresolved one.
+The shard-side `TwoPhaseCommitParticipant` synchronously persists each PREPARE
+vote, including ABORT votes, before replying. COMMIT is acknowledged only after
+the participant COMMIT record is flushed; a failed write leaves the participant
+unavailable and the transaction unresolved. Participant recovery restores
+prepared operations and reacquires their locks before serving requests. The
+operation-application callback must be idempotent by transaction ID because a
+crash after applying operations but before the participant COMMIT record can
+cause the coordinator to redeliver its durable decision. The snapshot-isolation
+Percolator path likewise requires a durable coordinator WAL and records its
+decision before Phase 2.
 
 The replication WAL loader also aborts recovery on a payload that cannot be
 deserialized. At the shared `WALStorage` layer, only a physically incomplete
@@ -44,9 +54,30 @@ transactions after recovery. Runtime startup/readiness code must withhold
 traffic unless that result is true; no current server startup path registers the
 distributed coordinators with this manager.
 
-The canonical runtime coordinator and a complete coordinator/participant/
-replication startup-readiness integration remain open under
-[DIS-05/DIS-06](../../audit/ROADMAP.md#ws2--distributed-consistency--ha).
+The HTTP `/dtxn/*` API uses `DistributedTransactionCoordinator` with a durable
+WAL below the configured storage WAL directory (or database directory when no
+separate WAL directory is configured). Its constructor replays that WAL before
+the server is constructed; WAL replay errors propagate and prevent startup.
+`/health/ready` reports unavailable while that coordinator retains durable
+recovery blockers after a failed replay or incomplete phase delivery, or while
+its recovery snapshot cannot be read. Ordinary in-flight ACTIVE/PREPARING
+transactions do not suppress readiness. Recovery does not treat an absent
+participant ID or endpoint as a successful empty replay; the transaction
+remains unresolved until it can be re-driven.
+Readiness-triggered recovery retries only IDs already marked as unresolved, so
+an active transaction's durable BEGIN record is never mistaken for a crashed
+transaction and presumed-aborted during a live topology refresh.
+At HTTP-server startup and when shard topology changes, the runtime refreshes
+the coordinator's endpoint map from `ShardingManager` (`node_id` and
+`node_address`, including numeric and `shard<node_id>`/`shard-<node_id>`
+aliases) and periodically retries unresolved recovery from readiness checks.
+Malformed participant
+descriptors remain blocked rather than being dropped from the replay set.
+
+This closes the startup/readiness gap for the HTTP distributed-transaction
+coordinator only. The canonical coordinator across all internal APIs and a
+complete independent coordinator/participant/replica crash matrix remain open
+under [DIS-05/DIS-06](../../audit/ROADMAP.md#ws2--distributed-consistency--ha).
 DTM WAL records now persist stable participant node IDs with BEGIN, PREPARE,
 decision, and completion records. Endpoints, callback pointers, and affected
 keys are deliberately excluded; recovery must resolve each node ID through
@@ -62,7 +93,10 @@ The focused transaction tests include a subprocess coordinator killed with
 coordinator records the vote, after PREPARE, after durable decision, during
 Phase 2, and after the commit ACK boundary. Recovery independently reads the
 persisted participant WAL and checks the final decision. The participant WAL is
-driven by an injected test transport inside the coordinator child, so this is
-not evidence of participant- or replica-process crashes or a multi-node
-network-chaos run. The Wave B workflow uploads its output when executed; a
-successful CI run and artifact remain required release evidence.
+driven by an injected test transport for those coordinator scenarios. A second
+subprocess test now crashes a participant after its durable PREPARE vote,
+restarts it from WAL, and redelivers COMMIT. It does not yet cross the
+coordinator and participant crashes in one end-to-end run, cover replica-process
+crashes, or constitute a multi-node network-chaos run. The Wave B workflow
+uploads its output when executed; a successful CI run and artifact remain
+required release evidence.

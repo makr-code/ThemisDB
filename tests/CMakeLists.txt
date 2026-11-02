@@ -321,6 +321,7 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_lora_adapter_merger\\.cpp$")
 # themisctl test includes tools/themisctl.cpp directly (THEMISCTL_TEST_BUILD guard);
 # must be compiled as a focused target only, not merged into the unified themis_tests binary.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_themisctl\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_distributed_txn_api_handler\\.cpp$")
 # scraper/test_scraper_plugin.cpp is compiled in the dedicated
 # test_scraper_plugin_focused target with its plugin implementation sources.
 # Keep it out of the aggregated themis_tests target to avoid unresolved externals.

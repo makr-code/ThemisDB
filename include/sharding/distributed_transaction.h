@@ -23,6 +23,9 @@
 #include <unordered_map>
 #include <memory>
 #include <optional>
+#include <atomic>
+#include <mutex>
+#include <unordered_set>
 #include <chrono>
 #include <nlohmann/json.hpp>
 
@@ -232,6 +235,7 @@ public:
      * conservatively re-driven with ABORT.
      *
      * @return Number of transactions resolved to a final state by this pass.
+     * @throws std::exception If reading or reconstructing the configured WAL fails.
      */
     [[nodiscard]] size_t recoverInDoubtTransactions() override;
 
@@ -255,6 +259,12 @@ public:
     getRecoverableTransactions() const override;
 
     /**
+     * @brief Return the count of durable transactions blocking service readiness.
+     * @return Number of unresolved recovery transactions; ordinary in-flight work is excluded.
+     */
+    [[nodiscard]] size_t getRecoveryBlockerCount() const;
+
+    /**
      * @brief Register real gRPC endpoints for shard IDs.
      *
      * Injects a shard_id → network-address mapping so that
@@ -274,6 +284,10 @@ private:
     
     // Write-Ahead Log for transaction recovery
     std::unique_ptr<WALManager> wal_manager_; ///< Optional WAL manager for in-doubt recovery.
+    std::unordered_set<std::string> recovery_blockers_; ///< Durable unresolved work that blocks readiness.
+    mutable std::mutex recovery_timeout_mutex_;
+    std::unordered_set<std::string> recovery_timeout_blockers_;
+    std::atomic<bool> recovery_initialized_{false};
     
     // ======================================================================
     // DEADLOCK PREVENTION: Canonical Lock Acquisition Order
@@ -370,7 +384,9 @@ private:
      * @brief Log transaction state for recovery
      * @param txn Distributed transaction
      */
-    void logBeginStateForRecovery(const DistributedTransaction& txn);
+    [[nodiscard]] bool logBeginStateForRecovery(const DistributedTransaction& txn);
+    void markRecoveryTimeoutBlocker(const std::string& txn_id);
+    void clearRecoveryTimeoutBlocker(const std::string& txn_id);
 
     /**
      * @brief Log operation append event for transaction recovery replay.

@@ -204,6 +204,7 @@ class ConsistentHashRing;
 class ShardRepairEngine;
 class ShardTopology;
 class ShardingManager;
+class DistributedTransactionCoordinator;
 }
 
 namespace modules {
@@ -1746,6 +1747,8 @@ private:
     std::unique_ptr<themis::server::TransactionApiHandler> transaction_api_;
     
     // Distributed (cross-shard) Transaction API Handler
+    std::shared_ptr<themis::sharding::DistributedTransactionCoordinator>
+        distributed_txn_coordinator_;
     std::unique_ptr<themis::server::DistributedTxnApiHandler> distributed_txn_api_;
     
     // WAL API Handler

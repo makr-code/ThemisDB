@@ -61,10 +61,31 @@ durable COMMIT decision is resolved with ABORT. Completion is recorded only
 after all Phase-2 deliveries succeed and the completion record is flushed.
 
 `GlobalTwoPhaseCommitRecoveryReport::ready_for_service` is false when a
-coordinator is missing or any transaction remains unresolved. Callers must
-withhold service readiness unless the value is true. This report is not
-currently connected to server startup/health, and does not establish a
-canonical runtime coordinator or participant/replica process-crash coverage.
+coordinator is missing or any transaction remains unresolved. The HTTP
+`/dtxn/*` runtime persists its `DistributedTransactionCoordinator` WAL below the
+configured storage WAL directory (or database directory), replays it before
+server construction completes, and propagates WAL/replay errors to fail startup.
+`/health/ready` also reports unavailable while the runtime coordinator retains
+durable recovery blockers after failed replay/incomplete phase delivery, or its
+recovery snapshot fails. Ordinary in-flight transactions do not block
+readiness. The HTTP runtime refreshes its endpoint map from `ShardingManager`
+at startup and on topology changes, resolving exact node addresses, decimal
+node IDs, and `shard<node_id>`/`shard-<node_id>` aliases; it periodically
+retries unresolved recovery from readiness checks. Missing or malformed
+participant IDs/endpoints do not count as successful empty replay; retries are
+scoped to known recovery blockers and do not presume-abort a live transaction's
+BEGIN record.
+The shard-side `TwoPhaseCommitParticipant` flushes both PREPARE votes and COMMIT
+records before acknowledging them, restores prepared operations and locks during
+WAL recovery, and fails closed on WAL replay errors. Its operation-application
+callback must be idempotent by transaction ID to tolerate redelivery after a
+crash between applying operations and persisting the participant COMMIT record.
+The snapshot-isolation Percolator path is rejected unless a durable coordinator
+decision log is configured.
+This runtime integration does not make the global recovery report a universal
+gate for other coordinator implementations; canonical cross-module coordinator
+selection, a combined coordinator/participant crash matrix, replica-process
+crash coverage, and successful CI evidence remain open.
 
 ## SAGA (Distributed Transactions)
 

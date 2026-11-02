@@ -1,4 +1,5 @@
 #include "transaction/distributed_transaction_manager.h"
+#include "sharding/two_phase_commit_participant.h"
 
 #include <gtest/gtest.h>
 
@@ -148,6 +149,45 @@ int runCoordinatorChild(
     return 0;
 }
 
+int runParticipantChild(
+    const std::string& stage,
+    const std::string& participant_wal,
+    int control_fd
+) {
+    themis::sharding::TwoPhaseCommitParticipant::Config config;
+    config.wal_directory = participant_wal;
+    themis::sharding::TwoPhaseCommitParticipant participant(
+        "participant-process", config,
+        [](const std::string&, const nlohmann::json&) { return true; },
+        [](const std::string&, const nlohmann::json&, int64_t) { return true; });
+    const std::string transaction_id = "participant-process-recovery";
+
+    if (stage == "prepare") {
+        const auto payload =
+            R"({"operations":[{"type":"put","key":"participant-key","value":"durable"}]})";
+        if (!participant.onPrepare(transaction_id, "coordinator-process", payload)) {
+            return 10;
+        }
+        notifyAndWait(control_fd, 'P');
+        return 0;
+    }
+
+    if (stage == "recover_commit") {
+        if (participant.recoverFromWAL() != 1 ||
+            participant.getTransactionState(transaction_id) !=
+                themis::sharding::ParticipantTxnState::PREPARED ||
+            !participant.onCommit(transaction_id) ||
+            participant.getTransactionState(transaction_id) !=
+                themis::sharding::ParticipantTxnState::COMMITTED) {
+            return 11;
+        }
+        notifyAndWait(control_fd, 'C');
+        return 0;
+    }
+
+    return 12;
+}
+
 class ChildProcessGuard {
 public:
     ChildProcessGuard(pid_t pid, int read_fd) : pid_(pid), read_fd_(read_fd) {}
@@ -214,6 +254,46 @@ ChildProcessGuard startCoordinatorChild(
             const_cast<char*>("--dtm-crash-child"),
             const_cast<char*>(stage.c_str()),
             const_cast<char*>(coordinator_wal.c_str()),
+            const_cast<char*>(participant_wal.c_str()),
+            const_cast<char*>(fd.c_str()),
+            nullptr
+        };
+        ::execv(g_executable_path.c_str(), arguments);
+        ::_exit(127);
+    }
+
+    ::close(pipe_fds[1]);
+    return ChildProcessGuard(pid, pipe_fds[0]);
+}
+
+ChildProcessGuard startParticipantChild(
+    const std::string& stage,
+    const std::string& participant_wal
+) {
+    int pipe_fds[2];
+    if (::pipe(pipe_fds) != 0) {
+        throw std::runtime_error("could not create participant control pipe");
+    }
+    const int flags = ::fcntl(pipe_fds[1], F_GETFD);
+    if (flags < 0 || ::fcntl(pipe_fds[1], F_SETFD, flags & ~FD_CLOEXEC) < 0) {
+        ::close(pipe_fds[0]);
+        ::close(pipe_fds[1]);
+        throw std::runtime_error("could not preserve participant control pipe");
+    }
+
+    const pid_t pid = ::fork();
+    if (pid < 0) {
+        ::close(pipe_fds[0]);
+        ::close(pipe_fds[1]);
+        throw std::runtime_error("could not fork participant child");
+    }
+    if (pid == 0) {
+        ::close(pipe_fds[0]);
+        const auto fd = std::to_string(pipe_fds[1]);
+        char* const arguments[] = {
+            const_cast<char*>(g_executable_path.c_str()),
+            const_cast<char*>("--participant-crash-child"),
+            const_cast<char*>(stage.c_str()),
             const_cast<char*>(participant_wal.c_str()),
             const_cast<char*>(fd.c_str()),
             nullptr
@@ -324,6 +404,44 @@ TEST(TransactionProcessCrashRecovery, RecoversDecisionBoundariesAcrossCoordinato
 #endif
 }
 
+TEST(TransactionProcessCrashRecovery, ParticipantProcessRestartRecoversPreparedTransaction) {
+#if defined(_WIN32)
+    GTEST_SKIP() << "The subprocess crash harness currently requires POSIX process controls";
+#else
+    const auto root = makeTempDirectory("participant_restart");
+    const auto participant_wal = (std::filesystem::path(root) / "participant").string();
+    std::filesystem::create_directories(participant_wal);
+
+    auto crashed_participant = startParticipantChild("prepare", participant_wal);
+    char marker = '\0';
+    ASSERT_TRUE(crashed_participant.waitForMarker(marker));
+    ASSERT_EQ(marker, 'P');
+    crashed_participant.terminateAndReap();
+
+    auto restarted_participant =
+        startParticipantChild("recover_commit", participant_wal);
+    ASSERT_TRUE(restarted_participant.waitForMarker(marker));
+    EXPECT_EQ(marker, 'C');
+    restarted_participant.terminateAndReap();
+
+    const auto entries = readWal(participant_wal);
+    bool saw_prepare = false;
+    bool saw_commit = false;
+    for (const auto& entry : entries) {
+        if (entry.transaction_id != "participant-process-recovery") {
+            continue;
+        }
+        saw_prepare = saw_prepare ||
+            entry.type == themis::sharding::WALEntryType::PREPARE_TX;
+        saw_commit = saw_commit ||
+            entry.type == themis::sharding::WALEntryType::COMMIT_TX;
+    }
+    EXPECT_TRUE(saw_prepare);
+    EXPECT_TRUE(saw_commit);
+    std::filesystem::remove_all(root);
+#endif
+}
+
 int main(int argc, char** argv) {
 #if !defined(_WIN32)
     if (argc == 6 && std::string(argv[1]) == "--dtm-crash-child") {
@@ -332,6 +450,14 @@ int main(int argc, char** argv) {
                 argv[2], argv[3], argv[4], std::stoi(argv[5]));
         } catch (...) {
             return 5;
+        }
+    }
+    if (argc == 5 && std::string(argv[1]) == "--participant-crash-child") {
+        try {
+            return runParticipantChild(
+                argv[2], argv[3], std::stoi(argv[4]));
+        } catch (...) {
+            return 6;
         }
     }
 #endif

@@ -104,6 +104,9 @@ using ReleaseLockCallback = std::function<void(const std::string& txn_id)>;
  *
  * All state transitions are written to a WAL before the response is
  * sent, ensuring that a crash between phases can be recovered on restart.
+ * The apply callback must be idempotent by transaction ID because a crash
+ * after applying operations but before the durable COMMIT record can cause
+ * recovery to redeliver the coordinator's durable COMMIT decision.
  */
 class TwoPhaseCommitParticipant : public ShardRPCServer::RequestHandler {
 public:
@@ -181,8 +184,9 @@ public:
     /**
      * @brief Handle COMMIT request (2PC Phase 2)
      *
-     * Applies buffered operations using the MVCC commit timestamp,
-     * releases locks, and writes COMMIT_TX to WAL.
+     * Applies buffered operations using the MVCC commit timestamp, durably
+     * writes COMMIT_TX before acknowledging the request, and then releases locks.
+     * If the WAL write fails, returns false and retains the prepared state.
      * Idempotent: duplicate COMMIT messages return true immediately.
     * @param transaction_id Globale Transaktions-ID.
     * @return true bei erfolgreichem (oder idempotent bereits erfolgtem) COMMIT.
@@ -200,8 +204,8 @@ public:
     bool onAbort(const std::string& transaction_id) override;
 
     /**
-     * @brief Handle health-check request
-        * @return HealthInfo fuer ShardRPCServer-Liveness/Readiness.
+     * @brief Handle health-check request.
+     * @return Health information for shard liveness/readiness.
      */
     ShardRPCServer::HealthInfo onHealthCheck() override;
 
@@ -232,7 +236,9 @@ public:
      * In-doubt transactions (PREPARED with no COMMIT/ABORT decision) are
      * left in PREPARED state; the coordinator should re-resolve them.
      *
-     * @return Number of in-doubt transactions found
+     * @return Number of in-doubt transactions found.
+     * @throws std::exception when WAL reading or replay fails; callers must
+     *         keep the participant unavailable until recovery succeeds.
      */
     size_t recoverFromWAL();
 
@@ -254,6 +260,7 @@ private:
     // In-memory transaction state
     mutable std::mutex                         mutex_; ///< Schutz fuer Teilnehmerzustandsmap.
     std::map<std::string, ParticipantTransaction> transactions_; ///< In-Memory-Transaktionszustand.
+    bool durability_failed_ = false;
 
     // WAL for durable logging
     std::unique_ptr<WALManager> wal_; ///< Optionales WAL-Backend fuer Crash-Recovery.

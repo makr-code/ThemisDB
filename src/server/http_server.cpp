@@ -1252,14 +1252,86 @@ HttpServer::HttpServer(
         tt_cfg.base_uncertainty_us = 1000;
         auto truetime = std::make_shared<themis::sharding::TrueTime>(tt_cfg);
         themis::sharding::DistributedTransactionCoordinator::Config dtxn_cfg;
-        dtxn_cfg.enable_recovery_log = false; // WAL dir not configured at server init time;
-                                              // configure via DistributedTransactionCoordinator::Config
-                                              // to enable durable recovery logging in production
-        auto dtxn_coordinator = std::make_shared<
+        dtxn_cfg.enable_recovery_log = true;
+        if (storage_) {
+            const auto& storage_config = storage_->getConfig();
+            const auto& wal_base = storage_config.wal_dir.empty()
+                ? storage_config.db_path
+                : storage_config.wal_dir;
+            dtxn_cfg.wal_directory =
+                (std::filesystem::path(wal_base) / "distributed_transactions_2pc").string();
+        }
+        distributed_txn_coordinator_ = std::make_shared<
             themis::sharding::DistributedTransactionCoordinator>(truetime, dtxn_cfg);
+        const auto load_shard_endpoints = [] {
+            std::unordered_map<std::string, std::string> endpoints;
+            for (const auto& node : themis::sharding::ShardingManager::GetInstance().GetAllNodes()) {
+                if (node.node_address.empty()) {
+                    continue;
+                }
+                endpoints[node.node_address] = node.node_address;
+                const auto node_id = std::to_string(node.node_id);
+                endpoints[node_id] = node.node_address;
+                endpoints["shard" + node_id] = node.node_address;
+                endpoints["shard-" + node_id] = node.node_address;
+            }
+            return endpoints;
+        };
+        auto known_shard_endpoints =
+            std::make_shared<std::unordered_map<std::string, std::string>>(
+                load_shard_endpoints());
+        distributed_txn_coordinator_->setShardEndpointMap(*known_shard_endpoints);
+        if (!known_shard_endpoints->empty()) {
+            [[maybe_unused]] const auto recovered =
+                distributed_txn_coordinator_->recoverInDoubtTransactions();
+        }
         distributed_txn_api_ = std::make_unique<themis::server::DistributedTxnApiHandler>(
-            dtxn_coordinator
+            distributed_txn_coordinator_
         );
+        if (monitoring_api_) {
+            const std::weak_ptr<themis::sharding::DistributedTransactionCoordinator>
+                coordinator = distributed_txn_coordinator_;
+            const auto endpoints_mutex = std::make_shared<std::mutex>();
+            const auto last_recovery_attempt =
+                std::make_shared<std::optional<std::chrono::steady_clock::time_point>>();
+            monitoring_api_->setTransactionRecoveryBlockerCountProvider(
+                [coordinator, known_shard_endpoints, endpoints_mutex,
+                 last_recovery_attempt, load_shard_endpoints] {
+                const auto locked_coordinator = coordinator.lock();
+                if (!locked_coordinator) {
+                    throw std::runtime_error(
+                        "Distributed transaction recovery coordinator is unavailable");
+                }
+
+                std::unordered_map<std::string, std::string> current_endpoints;
+                const auto now = std::chrono::steady_clock::now();
+                const auto blocker_count =
+                    locked_coordinator->getRecoveryBlockerCount();
+                bool endpoints_changed = false;
+                bool retry_recovery = false;
+                {
+                    std::lock_guard<std::mutex> lock(*endpoints_mutex);
+                    current_endpoints = load_shard_endpoints();
+                    if (current_endpoints != *known_shard_endpoints) {
+                        locked_coordinator->setShardEndpointMap(current_endpoints);
+                        *known_shard_endpoints = current_endpoints;
+                        endpoints_changed = true;
+                    }
+                    if (endpoints_changed ||
+                        (blocker_count > 0 &&
+                         (!*last_recovery_attempt ||
+                          now - **last_recovery_attempt >= std::chrono::seconds(1)))) {
+                        retry_recovery = true;
+                        *last_recovery_attempt = std::optional{now};
+                    }
+                }
+                if (retry_recovery) {
+                    [[maybe_unused]] const auto recovered =
+                        locked_coordinator->recoverInDoubtTransactions();
+                }
+                return locked_coordinator->getRecoveryBlockerCount();
+            });
+        }
     }
     THEMIS_INFO("Distributed Transaction (2PC) API Handler initialized");
 

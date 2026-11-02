@@ -138,7 +138,7 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
   - Performance: Replay-Durchsatz-Regression ≤ 5 % gegenüber Baseline (Benchmark vorher messen und einchecken).
   - Kompatibilität: Breaking Change (siehe [Breaking Changes](#breaking-changes)); Storage-README korrigieren (WS9).
 - [ ] **P0 · STO-07 – Prozess-Crash-Harness** (Target: M1 · 2027-01-31)
-  - [~] 2026-11-02: A focused coordinator subprocess harness now kills the child before Phase 1, between participant PREPARE and coordinator vote persistence, and at post-PREPARE/decision/Phase-2/ACK boundaries; test execution and CI artifact publication are pending. It does not yet cover independent participant/replica process crashes, RocksDB, backup/restore, or randomized storage fault points.
+  - [~] 2026-11-02: A focused coordinator subprocess harness kills the child before Phase 1, between participant PREPARE and coordinator vote persistence, and at post-PREPARE/decision/Phase-2/ACK boundaries. A separate participant subprocess test kills the process after durable PREPARE and verifies restart recovery plus COMMIT redelivery. Test execution and CI artifact publication are pending; replica-process crashes, combined coordinator/participant failures, RocksDB, backup/restore, and randomized storage fault points remain open.
   - Kindprozess schreibt bestätigte Commits; Elternprozess beendet ihn per `SIGKILL`/`TerminateProcess` an zufälligen
     Punkten (inkl. während `fsync`, Segment-Rotation, Checkpoint, Backup). Danach Neustart und Prüfung:
     jeder bestätigte Commit sichtbar, kein unbestätigter Commit sichtbar, Indizes konsistent.
@@ -168,11 +168,16 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
     (blockierend, mit Metrik); Participant-WAL und Replikations-WAL nutzen den fail-closed Recovery-Status aus STO-01.
   - Test: Matrix {Koordinator, Participant, Replica} × {Crash vor Prepare, nach Prepare, nach Decision, während Commit}.
   - [~] 2026-11-02: `DistributedTransactionManager` and `GlobalTransactionManager` check durable decisions before
-    Phase-2 delivery; participant PREPARE WAL failures suppress a YES vote, and incomplete delivery remains unresolved.
-    DTM now journals participant node IDs and can reconstruct unresolved decisions using a configured endpoint resolver;
-    the shared recovery report exposes `ready_for_service`. That report is not yet wired to server startup/health, the
-    canonical runtime coordinator remains undecided, and the subprocess evidence does not yet crash participant/replica
-    processes independently. Focused test execution and a successful evidence-artifact workflow run remain pending.
+    Phase-2 delivery; participant PREPARE votes and COMMIT acknowledgments require durable WAL records, participant
+    recovery restores prepared locks and propagates WAL errors, and incomplete delivery remains unresolved.
+    DTM journals participant node IDs and reconstructs decisions through a configured endpoint resolver. The HTTP
+    `/dtxn/*` runtime now enables its coordinator WAL under the configured storage WAL/database directory, propagates
+    WAL replay errors as startup failures, resolves node addresses and IDs from `ShardingManager`, periodically retries
+    only known recovery blockers from readiness checks and topology changes, and makes `/health/ready` fail while durable recovery blockers remain (not
+    for ordinary in-flight requests).
+    Recovery also preserves in-doubt state when participant IDs/endpoints are missing instead of completing an empty
+    replay; malformed participant descriptors are also retained as unresolved. Global canonical-coordinator selection remains open, as do replica-process and combined coordinator/
+    participant crash coverage, focused test execution, and a successful evidence-artifact workflow run.
 - [ ] **P0 · DIS-03 – Echter Stream-Transport für Shard-Transfer** (Target: M2 · 2027-03-31)
   - `src/sharding/stream_protocol.cpp:663-710`: Produktions-Caller verdrahtet `setPrepareTransferCallback()` mit dem
     gRPC-Transport; ohne Callback **und** mit realem Endpunkt → Fehler `TransportNotConfigured` statt In-Process-Simulation.
