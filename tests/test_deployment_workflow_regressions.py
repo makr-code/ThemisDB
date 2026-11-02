@@ -36,6 +36,37 @@ def run_bash(script, directory, **environment):
 
 
 class DeploymentWorkflowTests(unittest.TestCase):
+    def test_macos_release_uses_matching_llvm_compiler_headers_and_runtime(self):
+        script = step("release-build-matrix.yml", "prepare-release-matrix", "plan")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            result, values = run_bash(
+                script, directory, BUILD_MATRIX="os", OS_SELECTOR="all",
+                ARCH_SELECTOR="all", EDITION="community", BUILD_TYPE="Release",
+                PACKAGING="auto", DISTRIBUTION="all", RUN_NUMBER="123",
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            entries = json.loads(values["matrix"])["include"]
+            macos = next(item for item in entries if item["id"] == "macos-arm64")
+            self.assertEqual(macos["runs_on"], "macos-14")
+            self.assertEqual(macos["compiler"], "homebrew-llvm")
+            setup = macos["setup_command"]
+            self.assertIn("\nbrew install llvm\n", setup)
+            self.assertIn('LLVM_PREFIX="$(brew --prefix llvm)"', setup)
+            for setting in [
+                "CC=${LLVM_PREFIX}/bin/clang",
+                "CXX=${LLVM_PREFIX}/bin/clang++",
+                "CXXFLAGS=-nostdinc++ -isystem ${LLVM_PREFIX}/include/c++/v1",
+                "LDFLAGS=-L${LLVM_PREFIX}/lib/c++ -Wl,-rpath,${LLVM_PREFIX}/lib/c++",
+            ]:
+                self.assertIn(f'echo "{setting}"', setup)
+            self.assertIn('} >> "$GITHUB_ENV"', setup)
+            self.assertLess(setup.index("brew install llvm"), setup.index('LLVM_PREFIX='))
+            for entry in entries:
+                if entry["id"] != "macos-arm64":
+                    self.assertNotIn("brew install llvm", entry["setup_command"])
+                    self.assertNotEqual(entry["compiler"], "homebrew-llvm")
+
     def make_source(self, directory, release_type="stable"):
         scripts = directory / ".github/scripts"
         scripts.mkdir(parents=True)
