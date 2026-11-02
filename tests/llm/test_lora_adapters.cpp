@@ -736,36 +736,32 @@ TEST_F(LoRAAdapterTest, MultiAdapter_LRUEviction) {
 // ═══════════════════════════════════════════════════════════
 
 /**
- * Test adapter loading performance
+ * Measure manager-side registration latency for a small synthetic adapter fixture
  * Acceptance Criteria:
- * - Loading completes in reasonable time
- * - Performance is measured
- * - Acceptable for production use
+ * - Manager registration is measured and completes within the coarse 1-second test budget
+ * - Registry metadata reflects the fixture size after registration
+ * - The measurement does not claim model parsing, GPU transfer, or inference latency
  */
-TEST_F(LoRAAdapterTest, Performance_LoadingLatency) {
-    auto adapter = createMockAdapter("perf_test", 10 * 1024); // 10KB
-    
-    test::LatencyMeasurement timer;
-    
-    // Simulate loading (read file)
-    std::ifstream file(adapter, std::ios::binary);
-    file.seekg(0, std::ios::end);
-    size_t file_size = file.tellg();
-    file.seekg(0, std::ios::beg);
-    
-    std::vector<char> buffer(file_size);
-    file.read(buffer.data(), file_size);
-    
-    double load_time = timer.elapsedMs();
-    
-    EXPECT_LT(load_time, 100.0) << "Loading took too long";
-    
-    std::cout << "Loaded " << file_size << " bytes in " << load_time << "ms" << std::endl;
-    
 #ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full test requires actual LoRA loading";
-#endif
+TEST_F(LoRAAdapterTest, Performance_ManagerFixtureRegistrationLatency) {
+    constexpr size_t fixture_size_bytes = 10 * 1024;
+    const auto adapter = createMockAdapter("perf_test", fixture_size_bytes);
+    auto manager = createManager();
+    test::LatencyMeasurement timer;
+
+    ASSERT_TRUE(manager->loadLoRA(
+        "perf_test", adapter, "base_model", 1.0f));
+    const auto registration_time_ms = timer.elapsedMs();
+    const auto info = manager->getLoRAInfo("perf_test");
+
+    ASSERT_TRUE(info.has_value());
+    EXPECT_EQ(info->size_bytes, fixture_size_bytes);
+    EXPECT_LT(registration_time_ms, 1000.0)
+        << "Synthetic fixture registration exceeded the coarse test budget";
+    std::cout << "Registered " << info->size_bytes << " synthetic adapter bytes in "
+              << registration_time_ms << "ms (manager-side setup only)" << std::endl;
 }
+#endif
 
 /**
  * Test manager switching statistics
