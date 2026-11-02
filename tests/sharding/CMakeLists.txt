@@ -80,6 +80,24 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_stream_protocol_focused.cpp")
     message(STATUS "  StreamProtocol: Chunk metadata & LSN validation hardening (W2-S03)")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_stream_session_transport_focused.cpp")
+    add_executable(test_stream_session_transport_focused
+        test_stream_session_transport_focused.cpp)
+    target_include_directories(test_stream_session_transport_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_stream_session_transport_focused PRIVATE
+        ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_stream_session_transport_focused PRIVATE
+        THEMIS_TEST_BUILD=1)
+    themis_register_module_focused_test(
+        MODULE sharding
+        NAME StreamSessionTransportFocusedTests
+        TARGET test_stream_session_transport_focused
+        TIER unit
+        TIMEOUT 30
+        LABELS stream-protocol transport fail-closed DIS-03)
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_cross_shard_transaction_focused.cpp")
     message(STATUS "Adding Sharding: CrossShardTransaction focused tests (W2-S04)")
     add_executable(test_cross_shard_transaction_focused ../test_cross_shard_transaction_focused.cpp)

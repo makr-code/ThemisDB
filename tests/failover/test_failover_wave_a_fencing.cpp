@@ -6,8 +6,8 @@
  * @brief Wave A gate FO-Promote-04: fencing verification before promotion.
  *
  * Validates gap FO-IMPL-003: the auto-failover promotion path now verifies
- * epoch fencing regardless of the enable_split_brain_prevention flag when a
- * fencing manager is configured.
+ * epoch fencing before promotion regardless of the enable_split_brain_prevention
+ * flag, including when no fencing manager is configured.
  *
  * Test matrix:
  *   FO-Promote-04-NO-FENCE           : fencing_manager_=null, prevention=true
@@ -22,11 +22,10 @@
  *                                        event emitted.
  *   FO-Promote-04-PREVENTION-DISABLED-NO-FENCE:
  *                                      prevention=false, fencing_manager_=null
- *                                      → processFailover does NOT invoke
- *                                        preventSplitBrain; no FAILOVER_CANCELLED
- *                                        (split-brain) event fired.
+ *                                      → processFailover blocks promotion and
+ *                                        reports a quorum/safety failure.
  *
- * All tests are self-contained: no network I/O, no filesystem I/O.
+ * Tests use no network I/O; the no-fence case uses a temporary WAL directory.
  * Test seed constant: kFencingTestSeed = 42.
  *
  * @see include/failover/auto_failover_manager.h
@@ -38,6 +37,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <filesystem>
 #include <memory>
 #include <string>
 
@@ -214,47 +214,69 @@ TEST(WaveAFencing, FO_Promote_04_FENCE_INVALID_EPOCH) {
 
 // ===========================================================================
 // FO-Promote-04-PREVENTION-DISABLED-NO-FENCE
-// When enable_split_brain_prevention=false and fencing_manager_=null,
-// processFailover must NOT call preventSplitBrain, so no FAILOVER_CANCELLED
-// (split-brain) events are emitted.  The failover may still fail at the
-// quorum step (null replication_mgr) — that is expected and acceptable.
+// Disabling optional split-brain detection cannot bypass fencing before a
+// write-side promotion.
 // ===========================================================================
 
 TEST(WaveAFencing, FO_Promote_04_PREVENTION_DISABLED_NO_FENCE) {
     AutoFailoverConfig cfg = makeFencingTestConfig();
     cfg.enable_split_brain_prevention = false;  // prevention explicitly disabled
-    cfg.failover_timeout              = 0ms;    // quorum check times out immediately
+    cfg.quorum_timeout_ms             = 50ms;
 
-    // null fencing manager, null replication manager
-    AutoFailoverManager mgr(cfg, nullptr, nullptr, nullptr, nullptr);
+    themisdb::replication::ReplicationConfig replication_config;
+    replication_config.wal_directory =
+        (std::filesystem::temp_directory_path() /
+         ("themisdb_failover_fencing_test_" +
+          std::to_string(std::chrono::steady_clock::now().time_since_epoch().count())))
+            .string();
+    std::filesystem::remove_all(replication_config.wal_directory);
+    auto replication_mgr =
+        std::make_shared<themisdb::replication::ReplicationManager>(replication_config);
+    ASSERT_TRUE(replication_mgr->initialize());
+    themisdb::replication::ReplicaInfo replica{};
+    replica.node_id = "replica-1";
+    replica.endpoint = "127.0.0.1:9000";
+    replica.role = themisdb::replication::ReplicationRole::FOLLOWER;
+    replica.is_voting_member = true;
+    replica.health_status = themisdb::replication::HealthStatus::HEALTHY;
+    replica.last_heartbeat = std::chrono::system_clock::now();
+    replication_mgr->addReplica(replica);
 
-    // Track any FAILOVER_CANCELLED events — these indicate a split-brain diagnostic was
-    // emitted (SPLIT_BRAIN_DETECTED maps to FAILOVER_CANCELLED in emitDiagnostic).
+    // Quorum exists, but fencing_manager is intentionally absent.
+    AutoFailoverManager mgr(cfg, replication_mgr, nullptr, nullptr, nullptr);
+
     std::atomic<int> split_brain_cancel_events{0};
+    std::atomic<int> quorum_failed_events{0};
     mgr.registerEventCallback(
         [&](FailoverEventType type, const std::string&, const std::string&) {
             if (type == FailoverEventType::FAILOVER_CANCELLED) {
                 split_brain_cancel_events.fetch_add(1, std::memory_order_relaxed);
             }
+            if (type == FailoverEventType::QUORUM_CHECK_FAILED) {
+                quorum_failed_events.fetch_add(1, std::memory_order_relaxed);
+            }
         });
 
-    // Drive processFailover directly; it will fail at quorum (null replication_mgr)
-    // but must NOT enter the split-brain prevention path.
+    // Drive processFailover directly; the missing fencing manager must block
+    // promotion even though the optional detection flag is disabled.
     const auto result = mgr.testProcessFailover("node-down");
 
     EXPECT_FALSE(result.success)
-        << "Expected failure (quorum unavailable with null replication_mgr), not split-brain block";
+        << "Expected fail-closed behavior when promotion lacks an epoch fence";
+    EXPECT_EQ(result.error_message, "epoch fencing is unavailable or invalid");
 
-    // The critical invariant: split-brain prevention was never triggered.
+    EXPECT_GE(quorum_failed_events.load(), 1)
+        << "Expected the missing-fencing diagnostic to be surfaced";
     EXPECT_EQ(split_brain_cancel_events.load(), 0)
-        << "No FAILOVER_CANCELLED (split-brain) event must be emitted when "
-           "enable_split_brain_prevention=false and fencing_manager_=null";
+        << "Missing fencing is a quorum/safety failure, not a split-brain detection";
 
-    // Split-brain prevention stat must remain zero.
     const auto stats = mgr.getStatistics();
     EXPECT_EQ(stats.split_brain_preventions, 0u)
-        << "split_brain_preventions must stay zero when prevention is disabled and "
-           "no fencing manager is present";
+        << "No successful fencing operation may be recorded without a fencing manager";
+
+    replication_mgr->shutdown();
+    std::error_code ec;
+    std::filesystem::remove_all(replication_config.wal_directory, ec);
 }
 
 #endif  // THEMIS_TEST_BUILD

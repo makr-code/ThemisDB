@@ -21,6 +21,7 @@
 #include <openssl/evp.h>
 #include <cstring>
 #include <algorithm>
+#include <exception>
 #include <sstream>
 #include <iomanip>
 #include <random>
@@ -658,56 +659,53 @@ StreamSession::~StreamSession() {
 /**
  * @brief Initialize.
  * @return True when the operation succeeds.
- * @details Calls: load(), transitionState(), empty(), bool(), lock(), prepare_callback(), spdlog::warn().
+ * @details Calls: load(), transitionState(), empty(), lock(), prepare_callback(), spdlog::error().
  */
 bool StreamSession::initialize() {
+    last_error_.store(StreamSessionErrorCode::NONE);
     if (state_.load() != StreamSessionState::INITIALIZED) {
+        last_error_.store(StreamSessionErrorCode::INVALID_STATE);
         return false;
     }
     
     transitionState(StreamSessionState::PREPARING);
 
-    // Validate that a remote endpoint is configured — without one, no
-    // PREPARE_REQUEST can ever be sent (even with a real transport).
     if (config_.remote_endpoint.empty()) {
+        last_error_.store(StreamSessionErrorCode::INVALID_REMOTE_ENDPOINT);
         transitionState(StreamSessionState::ABORTED);
         return false;
     }
 
-    // If a preparation callback has been injected (e.g. a real mTLS transport
-    // that exchanges PREPARE_REQUEST / PREPARE_ACK), delegate to it.
     std::function<bool()> prepare_callback;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         prepare_callback = prepare_callback_;
     }
-    if (prepare_callback) {
-        const bool prepared = prepare_callback();
-        if (!prepared) {
-            transitionState(StreamSessionState::ABORTED);
-        }
-        return prepared;
+
+    if (!prepare_callback) {
+        last_error_.store(StreamSessionErrorCode::TRANSPORT_NOT_CONFIGURED);
+        transitionState(StreamSessionState::ABORTED);
+        spdlog::error("StreamSession::initialize() cannot prepare remote endpoint {}: "
+                      "no transport callback is configured",
+                      config_.remote_endpoint);
+        return false;
     }
 
-    // No transport callback wired yet.
-    // NON-PRODUCTION PATH (Simulation/Stub/Mockup)
-    // Purpose: Allow the StreamSession state machine to advance past PREPARING
-    //          while the mTLS PREPARE_REQUEST/PREPARE_ACK exchange is not yet
-    //          wired up.  The remote endpoint is validated above to catch
-    //          misconfigured sessions early.
-    // Activation: `prepare_callback_` not set (no real transport injected).
-    // Production Delta: No actual connection is established; the remote side
-    //                   has no matching prepared session, so subsequent data
-    //                   transfers will fail on the remote end.
-    // Removal Plan: Inject a real mTLS preparation callback via
-    //               `setPrepareTransferCallback()` and remove this fallback.
-    //               See src/sharding/FUTURE_ENHANCEMENTS.md §Stream Protocol PrepareTransfer.
-    
-    spdlog::warn("StreamSession::initialize() using in-process simulation (no mTLS prepare callback). "
-                 "This is a test-only configuration. Remote endpoint: {}. "
-                 "Subsequent data transfers will fail unless a real transport callback is injected.",
-                 config_.remote_endpoint);
-    return true;
+    try {
+        if (prepare_callback()) {
+            return true;
+        }
+    } catch (const std::exception& e) {
+        spdlog::error("StreamSession::initialize() transport callback failed for {}: {}",
+                      config_.remote_endpoint, e.what());
+    } catch (...) {
+        spdlog::error("StreamSession::initialize() transport callback failed for {}",
+                      config_.remote_endpoint);
+    }
+
+    last_error_.store(StreamSessionErrorCode::PREPARE_FAILED);
+    transitionState(StreamSessionState::ABORTED);
+    return false;
 }
 
 /**
@@ -1049,23 +1047,11 @@ void StreamSession::transitionState(StreamSessionState new_state) {
  * @details Implements sendMessage without additional internal calls.
  */
 bool StreamSession::sendMessage(StreamMessageType type, const std::vector<uint8_t>& payload) {
-    // NON-PRODUCTION PATH (Simulation/Stub/Mockup)
-    // Purpose: Allow testing of the heartbeat mechanism when mTLS transport not wired.
-    // Activation: No real mTLS client injected.
-    // Production Delta: No actual message transmission over network; local stub always succeeds.
-    // Removal Plan: Replace with real mTLS client implementation (see FUTURE_ENHANCEMENTS.md).
-    
-    // In real implementation, this would send over the mTLS connection with retry logic:
-    // return retryWithBackoff([this, &type, &payload]() -> bool {
-    //     try {
-    //         auto result = mtls_client_->send(payload);
-    //         return result.ok();
-    //     } catch (const std::exception&) {
-    //         return false;  // Transient failure, retry
-    //     }
-    // }, 3, 100, 5000);
-    
-    return true;
+    (void)type;
+    (void)payload;
+    last_error_.store(StreamSessionErrorCode::TRANSPORT_NOT_CONFIGURED);
+    spdlog::error("StreamSession::sendMessage() rejected message: stream transport is not configured");
+    return false;
 }
 
 // ============================================================================
@@ -1980,4 +1966,3 @@ void StreamReceiveTask::requestRetry(uint32_t chunk_index) {
 
 } // namespace streaming
 } // namespace themisdb
-

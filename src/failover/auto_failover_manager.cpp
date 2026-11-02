@@ -580,20 +580,14 @@ FailoverResult AutoFailoverManager::processFailover(const FailoverTask& task) {
             return result;
         }
 
-        // Step 3: Split-brain prevention
-        // FO-IMPL-003: fencing is always attempted if a fencing manager is available,
-        // regardless of enable_split_brain_prevention. The flag only controls whether
-        // we BLOCK promotion when no fencing manager is configured.
-        if (config_.enable_split_brain_prevention) {
-            if (!preventSplitBrain(task.failed_node_id)) {
-                spdlog::error("Split-brain prevention failed; blocking promotion");
-                transitionState(FailoverOrchestratorState::FAILED);
-                result.success = false;
-                return result;
-            }
-        } else if (fencing_manager_) {
-            // Manager available but prevention disabled — still fence but don't block
-            preventSplitBrain(task.failed_node_id);
+        // A write-side promotion always requires a valid epoch fence. The
+        // configuration flag cannot bypass this safety precondition.
+        if (!preventSplitBrain(task.failed_node_id)) {
+            spdlog::error("Split-brain prevention failed; blocking promotion");
+            transitionState(FailoverOrchestratorState::FAILED);
+            result.success = false;
+            result.error_message = "epoch fencing is unavailable or invalid";
+            return result;
         }
 
         // Step 4: Select and promote replica or spare

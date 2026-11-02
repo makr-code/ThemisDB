@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-02
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -14,7 +14,7 @@ Canonical_References:
   - ../../include/sharding/sharding_api_contract.h
   - ../../tests/sharding/CMakeLists.txt
   - ../../benchmarks/sharding/CMakeLists.txt
-Related_Issue: "#7381"
+Related_Issue: "#7381, #7493"
 Related_Milestone: DOC-WEEKLY-2026-W44
 ---
 
@@ -119,11 +119,15 @@ All identified stub/simulation paths have been reviewed and improved with:
   - Added error logging with diagnostic hints
 - **Production readiness**: Acceptable for loopback/single-node only; multi-node requires gRPC
 
-#### 3. **mTLS Preparation Callback** (stream_protocol.cpp:635)
-- **Status**: ✅ IMPROVED
-- **Type**: In-process simulation (test-only path)
-- **Change**: Added THEMIS_WARN log with explicit diagnostic information
-- **Production readiness**: Test-only; production requires real mTLS transport callback injection
+#### 3. **Shard-Transfer Stream Transport** (`stream_protocol.cpp`)
+- **Status**: ⚠️ PARTIAL — fail-closed, production transport not wired
+- **Type**: Transport-injection seam; no production gRPC caller is connected
+- **Current behavior**: `initialize()` returns `TRANSPORT_NOT_CONFIGURED` when no
+  prepare callback exists and aborts when PREPARE is rejected or throws.
+  `sendMessage()` fails because this class has no message-send transport.
+- **Tests**: Focused tests cover missing, accepting, and rejecting PREPARE callbacks.
+- **Remaining work**: Wire the production shard-transfer caller to real gRPC PREPARE
+  and transfer operations, then validate cross-process transfer and recovery (DIS-03).
 
 #### 4. **Connection Factory** (mtls_connection_pool.cpp:232)
 - **Status**: ✅ COMPLETED (v2.0)
@@ -158,13 +162,16 @@ For operators deploying these modules in production:
 
 - [ ] **Single-node deployments**: All in-process/simulation paths are acceptable
 - [ ] **Multi-node deployments**: MUST enable THEMIS_HAS_SHARD_GRPC=1 and deploy real shard peers
-- [ ] **mTLS deployments**: MUST inject real transport callbacks via setPrepareTransferCallback()
+- [ ] **Multi-node deployments**: Production callers must inject real gRPC PREPARE and
+  transfer operations; the callback seam alone does not provide production transport.
 - [ ] **GPU systems**: MUST enable THEMIS_ENABLE_CUDA or THEMIS_ENABLE_HIP for resource-aware scheduling
 - [ ] **Failure prediction**: Current heuristic-based detector is conservative; upgrade to ONNX for improved accuracy
 
 ### Verification
 
-All changes maintain backward compatibility and do not alter API contracts. Diagnostic logging uses appropriate levels (WARN for issues, INFO for informational, DEBUG for deep diagnostics).
+The focused transport tests verify fail-closed behavior and the injected PREPARE callback
+outcome. They do not prove production caller wiring or real network transfer; DIS-03
+remains open until cross-process transport and recovery are validated.
 
 ### Next Steps
 
