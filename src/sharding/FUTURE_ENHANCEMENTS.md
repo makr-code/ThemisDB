@@ -106,19 +106,19 @@ All identified stub/simulation paths have been reviewed and improved with:
 
 #### 1. **gRPC Fallback Mode** (shard_rpc_client.cpp:127)
 - **Status**: ✅ IMPROVED
-- **Type**: Explicit in-process transport for non-production endpoints
-- **Change**: Production mode rejects `inproc://` and `loopback://` endpoints at client construction; non-Minimal release builds require the real shard-gRPC dependencies at configure time.
-- **Production readiness**: Non-Minimal release artifacts require the real shard gRPC transport; explicit in-process endpoints are test/development only.
+- **Type**: Explicit in-process transport for test-mode builds only
+- **Change**: Client construction rejects `inproc://` and `loopback://` endpoints outside `THEMIS_TEST_MODE`; production mode also rejects them. Non-Minimal release builds require the real shard-gRPC dependencies at configure time.
+- **Production readiness**: Non-Minimal release artifacts require the real shard gRPC transport; explicit in-process endpoints are available only in test-mode builds.
 
 #### 2. **In-Process RPC Handler** (shard_rpc_client.cpp:1037)
 - **Status**: ✅ IMPROVED
 - **Type**: Simulation with injected response handler
 - **Changes**:
   - Added one-time warning log when simulation is first used
-  - Rejects in-process endpoints in production mode
+  - Rejects in-process endpoints outside test-mode builds and in production mode
   - Improved error message for unknown RPC methods
   - Added error logging with diagnostic hints
-- **Production readiness**: Acceptable for loopback/single-node only; multi-node requires gRPC
+- **Production readiness**: Available only for test-mode endpoint simulations; multi-node requires gRPC
 
 #### 3. **Shard-Transfer Stream Transport** (`stream_protocol.cpp`)
 - **Status**: ⚠️ PARTIAL — fail-closed, production transport not wired
