@@ -49,11 +49,11 @@ ErrorRegistry::ErrorRegistry() {
     } catch (const std::exception& ex) {
         // Avoid throwing from constructor during static initialization
         // Log to stderr directly to avoid logger initialization issues
-        std::cerr << "ERROR: ErrorRegistry initialization failed: " << ex.what() << std::endl;
+        std::cerr << "FAILURE: ErrorRegistry initialization failed: " << ex.what() << std::endl;
     } catch (const std::string& ex) {
-        std::cerr << "ERROR: ErrorRegistry initialization failed: " << ex << std::endl;
+        std::cerr << "FAILURE: ErrorRegistry initialization failed: " << ex << std::endl;
     } catch (const char* ex) {
-        std::cerr << "ERROR: ErrorRegistry initialization failed: "
+        std::cerr << "FAILURE: ErrorRegistry initialization failed: "
                   << (ex ? ex : "<null>") << std::endl;
     }
 }
@@ -958,6 +958,19 @@ void ErrorRegistry::registerDefaultErrors() {
         "4. Add indexes to speed up execution and reduce scanned rows",
         {"/docs/query/resource-limits.md"},
         {"query", "resource", "limit", "exhausted", "timeout", "memory", "rows"}
+    });
+
+    registerError({
+        ErrorCode::ERR_QUERY_MEMORY_LIMIT_EXCEEDED,
+        "Query",
+        "Error",
+        "QueryMemoryLimitExceeded",
+        "The vectorized query working set exceeded its configured memory budget.",
+        "1. Reduce the query batch size or result cardinality\n"
+        "2. Increase max_memory_bytes if the workload requires it\n"
+        "3. Add a selective filter or LIMIT clause",
+        {"/docs/query/resource-limits.md"},
+        {"query", "memory", "limit", "exceeded", "QueryMemoryLimitExceeded"}
     });
 
     registerError({

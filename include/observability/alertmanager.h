@@ -30,8 +30,8 @@ namespace observability {
 #undef WARNING
 #endif
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 /**
@@ -40,7 +40,7 @@ namespace observability {
 enum class AlertSeverity {
     INFO,       // Informational alert
     WARNING,    // Warning - potential issue
-    ERROR,      // Error - requires attention
+    FAILURE,      // Error - requires attention
     CRITICAL    // Critical - requires immediate action
 };
 

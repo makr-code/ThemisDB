@@ -418,7 +418,7 @@ void WorkStealingPool::workerFn(size_t my_idx, ProgressCallback cb) {
             IngestionStats err_stats;
             err_stats.addError(
                 IngestionErrorCode::INTERNAL_ERROR,
-                IngestionErrorSeverity::ERROR,
+                IngestionErrorSeverity::FAILURE,
                 std::string("WorkStealingPool: worker threw: ") + ex.what());
             err_report.source_stats[src.source_id] = err_stats;
             std::lock_guard<std::mutex> lock(results_mtx_);
@@ -660,7 +660,7 @@ IngestionReport IngestionCoordinator::ingestAll(
         IngestionReport report;
         IngestionStats dummy;
         dummy.addError(IngestionErrorCode::SOURCE_UNAVAILABLE,
-                       IngestionErrorSeverity::ERROR,
+                       IngestionErrorSeverity::FAILURE,
                        "IngestionCoordinator: failed to acquire leader lease — "
                        "another node may be leading");
         report.source_stats["__coordinator__"] = dummy;

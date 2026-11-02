@@ -440,7 +440,7 @@ SchemaAutoDetector::validateStringCoercion(const std::string& value)
 }
 
 /**
- * @brief ============================================================================ PHASE-3-ERROR-HANDLING: Schema Validation with Report ============================================================================
+ * @brief ============================================================================ PHASE-3-FAILURE-HANDLING: Schema Validation with Report ============================================================================
  * @param[in] schema Input parameter.
  * @param[in] level Input parameter.
  * @return Return value.
@@ -450,7 +450,7 @@ SchemaAutoDetector::validateStringCoercion(const std::string& value)
 SchemaValidationReport validateSchemaWithReport(
     const DetectedSchema& schema,
     SchemaValidationLevel level) {
-    // PHASE-3-ERROR-HANDLING: Comprehensive schema validation with degradation paths
+    // PHASE-3-FAILURE-HANDLING: Comprehensive schema validation with degradation paths
     
     auto start_time = std::chrono::high_resolution_clock::now();
     

@@ -24,7 +24,7 @@ TEST(CDCErrorTest, ErrorSeverityLevels) {
     // Verify severity levels exist
     ErrorSeverity info = ErrorSeverity::INFO;
     ErrorSeverity warning = ErrorSeverity::WARNING;
-    ErrorSeverity error = ErrorSeverity::ERROR;
+    ErrorSeverity error = ErrorSeverity::FAILURE;
     ErrorSeverity critical = ErrorSeverity::CRITICAL;
     
     EXPECT_NE(info, warning);
@@ -37,13 +37,13 @@ TEST(CDCErrorTest, ErrorSeverityLevels) {
 TEST(CDCExceptionTest, BasicConstruction) {
     CDCException ex(
         ErrorCode::EVENT_RECORD_FAILED,
-        ErrorSeverity::ERROR,
+        ErrorSeverity::FAILURE,
         "Test error message",
         "Test context"
     );
     
     EXPECT_EQ(ex.code(), ErrorCode::EVENT_RECORD_FAILED);
-    EXPECT_EQ(ex.severity(), ErrorSeverity::ERROR);
+    EXPECT_EQ(ex.severity(), ErrorSeverity::FAILURE);
     EXPECT_EQ(ex.message(), "Test error message");
     EXPECT_EQ(ex.context(), "Test context");
 }
@@ -76,7 +76,7 @@ TEST(CDCExceptionTest, WhatMessage) {
 TEST(CDCExceptionTest, JsonSerialization) {
     CDCException ex(
         ErrorCode::RETRY_EXHAUSTED,
-        ErrorSeverity::ERROR,
+        ErrorSeverity::FAILURE,
         "All retries failed",
         "attempts=3"
     );
@@ -85,24 +85,24 @@ TEST(CDCExceptionTest, JsonSerialization) {
     
     EXPECT_EQ(json["code"], 500);
     EXPECT_EQ(json["code_name"], "RETRY_EXHAUSTED");
-    EXPECT_EQ(json["severity"], "ERROR");
+    EXPECT_EQ(json["severity"], "FAILURE");
     EXPECT_EQ(json["message"], "All retries failed");
     EXPECT_EQ(json["context"], "attempts=3");
 }
 
 TEST(CDCExceptionTest, IsRetryable) {
     // Retryable errors
-    CDCException retryable1(ErrorCode::DB_OPERATION_FAILED, ErrorSeverity::ERROR, "DB error");
+    CDCException retryable1(ErrorCode::DB_OPERATION_FAILED, ErrorSeverity::FAILURE, "DB error");
     EXPECT_TRUE(retryable1.isRetryable());
     
-    CDCException retryable2(ErrorCode::EVENT_RECORD_FAILED, ErrorSeverity::ERROR, "Record failed");
+    CDCException retryable2(ErrorCode::EVENT_RECORD_FAILED, ErrorSeverity::FAILURE, "Record failed");
     EXPECT_TRUE(retryable2.isRetryable());
     
     // Non-retryable errors
-    CDCException nonRetryable1(ErrorCode::EVENT_KEY_EMPTY, ErrorSeverity::ERROR, "Empty key");
+    CDCException nonRetryable1(ErrorCode::EVENT_KEY_EMPTY, ErrorSeverity::FAILURE, "Empty key");
     EXPECT_FALSE(nonRetryable1.isRetryable());
     
-    CDCException nonRetryable2(ErrorCode::INVALID_ARGUMENT, ErrorSeverity::ERROR, "Bad arg");
+    CDCException nonRetryable2(ErrorCode::INVALID_ARGUMENT, ErrorSeverity::FAILURE, "Bad arg");
     EXPECT_FALSE(nonRetryable2.isRetryable());
 }
 
@@ -111,7 +111,7 @@ TEST(CDCExceptionTest, IsDataLossRisk) {
     CDCException risk1(ErrorCode::SEQUENCE_GENERATION_FAILED, ErrorSeverity::CRITICAL, "Sequence failed");
     EXPECT_TRUE(risk1.isDataLossRisk());
     
-    CDCException risk2(ErrorCode::RETRY_EXHAUSTED, ErrorSeverity::ERROR, "No more retries");
+    CDCException risk2(ErrorCode::RETRY_EXHAUSTED, ErrorSeverity::FAILURE, "No more retries");
     EXPECT_TRUE(risk2.isDataLossRisk());
     
     CDCException risk3(ErrorCode::BUFFER_OVERFLOW, ErrorSeverity::CRITICAL, "Buffer full");
@@ -137,7 +137,7 @@ TEST(CDCErrorHelpersTest, EventRecordFailed) {
     auto ex = error::eventRecordFailed("Serialization error");
     
     EXPECT_EQ(ex.code(), ErrorCode::EVENT_RECORD_FAILED);
-    EXPECT_EQ(ex.severity(), ErrorSeverity::ERROR);
+    EXPECT_EQ(ex.severity(), ErrorSeverity::FAILURE);
     EXPECT_TRUE(ex.isRetryable());
 }
 
@@ -162,14 +162,14 @@ TEST(CDCErrorHelpersTest, DecompressionFailed) {
     auto ex = error::decompressionFailed("Corrupt data");
     
     EXPECT_EQ(ex.code(), ErrorCode::DECOMPRESSION_FAILED);
-    EXPECT_EQ(ex.severity(), ErrorSeverity::ERROR);
+    EXPECT_EQ(ex.severity(), ErrorSeverity::FAILURE);
 }
 
 TEST(CDCErrorHelpersTest, RetryExhausted) {
     auto ex = error::retryExhausted(3, "DB connection timeout");
     
     EXPECT_EQ(ex.code(), ErrorCode::RETRY_EXHAUSTED);
-    EXPECT_EQ(ex.severity(), ErrorSeverity::ERROR);
+    EXPECT_EQ(ex.severity(), ErrorSeverity::FAILURE);
     EXPECT_TRUE(ex.isDataLossRisk());
     EXPECT_NE(ex.context().find("attempts=3"), std::string::npos);
 }
@@ -187,7 +187,7 @@ TEST(CDCErrorHelpersTest, DBOperationFailed) {
     auto ex = error::dbOperationFailed("Put", "Status: IOError");
     
     EXPECT_EQ(ex.code(), ErrorCode::DB_OPERATION_FAILED);
-    EXPECT_EQ(ex.severity(), ErrorSeverity::ERROR);
+    EXPECT_EQ(ex.severity(), ErrorSeverity::FAILURE);
     EXPECT_TRUE(ex.isRetryable());
     EXPECT_NE(ex.message().find("Put"), std::string::npos);
 }
@@ -196,7 +196,7 @@ TEST(CDCErrorHelpersTest, InvalidArgument) {
     auto ex = error::invalidArgument("event.key", "Key cannot be empty");
     
     EXPECT_EQ(ex.code(), ErrorCode::INVALID_ARGUMENT);
-    EXPECT_EQ(ex.severity(), ErrorSeverity::ERROR);
+    EXPECT_EQ(ex.severity(), ErrorSeverity::FAILURE);
     EXPECT_FALSE(ex.isRetryable());
     EXPECT_NE(ex.message().find("event.key"), std::string::npos);
     EXPECT_NE(ex.context().find("Key cannot be empty"), std::string::npos);

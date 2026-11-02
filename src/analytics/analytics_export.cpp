@@ -366,7 +366,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
                 [[fallthrough]];
             case ExportFormat::FMT_ARROW_FEATHER:
                 spdlog::warn("Arrow format requested on JSONCSVExporter; use createExporter(format)");
-                return "# ERROR: Arrow/Parquet/Feather export is not supported by JSONCSVExporter. "
+                return "# FAILURE: Arrow/Parquet/Feather export is not supported by JSONCSVExporter. "
                        "Use ExporterFactory::createExporter(format) to obtain an Arrow exporter.";
             default: break;
         }
@@ -584,39 +584,39 @@ class ArrowIPCExporter : public IAnalyticsExporter {
             auto arrow_batch_result = convertToArrowRecordBatch(batch);
             if (!arrow_batch_result.ok()) {
                 spdlog::error("Failed to convert to Arrow RecordBatch for IPC string export");
-                return "# ERROR: Failed to convert to Arrow format";
+                return "# FAILURE: Failed to convert to Arrow format";
             }
             auto arrow_batch = arrow_batch_result.ValueOrDie();
 
             auto buffer_result = arrow::io::BufferOutputStream::Create();
             if (!buffer_result.ok()) {
-                return "# ERROR: Failed to create buffer";
+                return "# FAILURE: Failed to create buffer";
             }
             auto buffer = buffer_result.ValueOrDie();
 
             auto writer_result = arrow::ipc::MakeStreamWriter(buffer, arrow_batch->schema());
             if (!writer_result.ok()) {
-                return "# ERROR: Failed to create IPC writer";
+                return "# FAILURE: Failed to create IPC writer";
             }
             auto writer = writer_result.ValueOrDie();
 
             if (!writer->WriteRecordBatch(*arrow_batch).ok()) {
-                return "# ERROR: Failed to write IPC batch";
+                return "# FAILURE: Failed to write IPC batch";
             }
             if (!writer->Close().ok()) {
-                return "# ERROR: Failed to close IPC writer";
+                return "# FAILURE: Failed to close IPC writer";
             }
 
             auto result_buffer = buffer->Finish();
             if (!result_buffer.ok()) {
-                return "# ERROR: Failed to finalize buffer";
+                return "# FAILURE: Failed to finalize buffer";
             }
             auto data = result_buffer.ValueOrDie();
             return std::string(reinterpret_cast<const char *>(data->data()), data->size());
 
         } catch (const std::exception &e) {
             spdlog::error("Arrow IPC string export failed: {}", e.what());
-            return "# ERROR: " + std::string(e.what());
+            return "# FAILURE: " + std::string(e.what());
         }
     }
 
@@ -898,39 +898,39 @@ class FeatherExporter : public IAnalyticsExporter {
             auto arrow_batch_result = convertToArrowRecordBatch(batch);
             if (!arrow_batch_result.ok()) {
                 spdlog::error("Failed to convert to Arrow RecordBatch for Feather string export");
-                return "# ERROR: Failed to convert to Arrow format";
+                return "# FAILURE: Failed to convert to Arrow format";
             }
             auto arrow_batch = arrow_batch_result.ValueOrDie();
 
             auto buffer_result = arrow::io::BufferOutputStream::Create();
             if (!buffer_result.ok()) {
-                return "# ERROR: Failed to create buffer";
+                return "# FAILURE: Failed to create buffer";
             }
             auto buffer = buffer_result.ValueOrDie();
 
             auto writer_result = arrow::ipc::MakeFileWriter(buffer, arrow_batch->schema());
             if (!writer_result.ok()) {
-                return "# ERROR: Failed to create Feather writer";
+                return "# FAILURE: Failed to create Feather writer";
             }
             auto writer = writer_result.ValueOrDie();
 
             if (!writer->WriteRecordBatch(*arrow_batch).ok()) {
-                return "# ERROR: Failed to write Feather batch";
+                return "# FAILURE: Failed to write Feather batch";
             }
             if (!writer->Close().ok()) {
-                return "# ERROR: Failed to close Feather writer";
+                return "# FAILURE: Failed to close Feather writer";
             }
 
             auto result_buffer = buffer->Finish();
             if (!result_buffer.ok()) {
-                return "# ERROR: Failed to finalize buffer";
+                return "# FAILURE: Failed to finalize buffer";
             }
             auto data = result_buffer.ValueOrDie();
             return std::string(reinterpret_cast<const char *>(data->data()), data->size());
 
         } catch (const std::exception &e) {
             spdlog::error("Feather string export failed: {}", e.what());
-            return "# ERROR: " + std::string(e.what());
+            return "# FAILURE: " + std::string(e.what());
         }
     }
 

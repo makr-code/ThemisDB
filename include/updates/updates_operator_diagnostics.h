@@ -81,7 +81,7 @@ struct AlertingRule {
     /// Failure scenario this rule detects
     FailureScenario scenario;
     
-    /// Alert severity (INFO, WARN, ERROR, CRITICAL)
+    /// Alert severity (INFO, WARN, FAILURE, CRITICAL)
     std::string severity;
     
     /// Alert condition in Prometheus query language or equivalent

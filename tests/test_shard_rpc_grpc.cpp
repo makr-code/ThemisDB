@@ -73,7 +73,12 @@ TEST_F(ShardRPCTest, InProcessPrepare) {
     nlohmann::json operations = nlohmann::json::array();
     operations.push_back({{"type", "insert"}, {"key", "test"}});
     
-    bool result = client.prepare("txn-001", operations);
+    EpochToken token;
+    token.epoch = 1;
+    token.issuer = "coord";
+    token.shard_id = "shard-a";
+    token.issued_at = std::chrono::system_clock::now();
+    bool result = client.prepare("txn-001", operations, token);
     EXPECT_TRUE(result);
 }
 
@@ -284,7 +289,12 @@ TEST_F(ShardRPCTest, GrpcClientServerCommunication) {
         // Test prepare
         nlohmann::json operations = nlohmann::json::array();
         operations.push_back({{"type", "insert"}});
-        bool prepare_result = client.prepare("txn-grpc-001", operations);
+        EpochToken token;
+        token.epoch = 1;
+        token.issuer = "coord";
+        token.shard_id = "shard-a";
+        token.issued_at = std::chrono::system_clock::now();
+        bool prepare_result = client.prepare("txn-grpc-001", operations, token);
         EXPECT_TRUE(prepare_result);
         EXPECT_GT(handler.prepare_count, 0);
         

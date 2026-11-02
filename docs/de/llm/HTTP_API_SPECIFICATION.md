@@ -52,8 +52,16 @@ Execute LLM inference with a prompt.
 - `200 OK`: Successful inference
 - `400 Bad Request`: Invalid parameters
 - `404 Not Found`: Model or LoRA not found
-- `429 Too Many Requests`: Queue full (backpressure)
+- `429 Too Many Requests`: Managed inference capacity reached; requests are rejected without queueing. The shared process-wide limit is 8 active calls across models.
 - `500 Internal Server Error`: Inference failure
+
+Managed inference overload responses include `Retry-After: 1`. The header is a
+retry hint; it does not reserve capacity or guarantee that a request will
+complete by a particular deadline.
+
+Managed requests are limited to 4096 generated tokens and one combined 1 MiB
+of prompt, system-prompt, and RAG input bytes. The byte limit is not a token
+estimate.
 
 #### 1.2 RAG Inference
 

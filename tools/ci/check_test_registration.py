@@ -12,6 +12,10 @@ from pathlib import Path
 from typing import Iterable
 
 
+_AGGREGATE_TEST_TARGETS = {"themis_tests", "themis_tests_critical"}
+_SHARED_TEST_SUPPORT_SOURCES = {"tests/test_gtest_main.cpp"}
+
+
 def _normalized(path: Path) -> str:
     return os.path.normcase(str(path.resolve()))
 
@@ -115,7 +119,14 @@ def find_duplicate_target_sources(
         if not source_targets:
             duplicates[source] = ["<unresolved CMake target>"]
             continue
-        focused_targets = sorted(target for target in source_targets if target != "themis_tests")
+        if source.relative_to(root).as_posix() in _SHARED_TEST_SUPPORT_SOURCES:
+            # The shared GTest runner is intentionally compiled into each test executable.
+            continue
+        focused_targets = sorted(
+            target
+            for target in source_targets
+            if target not in _AGGREGATE_TEST_TARGETS
+        )
         if len(focused_targets) > 1:
             duplicates[source] = focused_targets
     return duplicates
@@ -148,7 +159,9 @@ def build_test_source_inventory(
             status = "compiled"
             if not targets:
                 unknown_target_sources += 1
-            focused_targets = [target for target in targets if target != "themis_tests"]
+            focused_targets = [
+                target for target in targets if target not in _AGGREGATE_TEST_TARGETS
+            ]
             if len(focused_targets) > 1:
                 multiple_focused_targets += 1
 

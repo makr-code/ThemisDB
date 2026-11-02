@@ -30,8 +30,8 @@
 #include <cctype>
 #include <cstring>
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 namespace themis {
@@ -506,7 +506,7 @@ public:
         IngestionStats stats = {};
         if (!initialized_) {
             stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
-                           IngestionErrorSeverity::ERROR,
+                           IngestionErrorSeverity::FAILURE,
                            "WebCrawlerConnector not initialized");
             return stats;
         }

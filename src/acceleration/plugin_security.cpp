@@ -607,7 +607,7 @@ bool PluginSecurityVerifier::verifyPlugin(const std::string &pluginPath, std::st
     if (!std::filesystem::exists(pluginPath)) {
         errorMessage = "Plugin file does not exist: " + pluginPath;
         auditor.logEvent({PluginSecurityEvent::EventType::PLUGIN_LOAD_FAILED, pluginPath, "", errorMessage,
-                          static_cast<uint64_t>(std::time(nullptr)), "ERROR"});
+                          static_cast<uint64_t>(std::time(nullptr)), "FAILURE"});
         return false;
     }
 
@@ -618,7 +618,7 @@ bool PluginSecurityVerifier::verifyPlugin(const std::string &pluginPath, std::st
         if (fileHash.empty()) {
             errorMessage = "Failed to calculate file hash";
             auditor.logEvent({PluginSecurityEvent::EventType::PLUGIN_LOAD_FAILED, pluginPath, "", errorMessage,
-                              static_cast<uint64_t>(std::time(nullptr)), "ERROR"});
+                              static_cast<uint64_t>(std::time(nullptr)), "FAILURE"});
             return false;
         }
     }
@@ -637,7 +637,7 @@ bool PluginSecurityVerifier::verifyPlugin(const std::string &pluginPath, std::st
     if (!metadata.has_value()) {
         errorMessage = "Plugin metadata not found (signature required)";
         auditor.logEvent({PluginSecurityEvent::EventType::SIGNATURE_VERIFICATION_FAILED, pluginPath, fileHash,
-                          errorMessage, static_cast<uint64_t>(std::time(nullptr)), "ERROR"});
+                          errorMessage, static_cast<uint64_t>(std::time(nullptr)), "FAILURE"});
         return false;
     }
 
@@ -646,7 +646,7 @@ bool PluginSecurityVerifier::verifyPlugin(const std::string &pluginPath, std::st
         errorMessage = "Plugin signature is required";
         auditor.logEvent({PluginSecurityEvent::EventType::SIGNATURE_VERIFICATION_FAILED,
                           pluginPath, fileHash, errorMessage,
-                          static_cast<uint64_t>(std::time(nullptr)), "ERROR"});
+                          static_cast<uint64_t>(std::time(nullptr)), "FAILURE"});
         return false;
     }
 
@@ -665,7 +665,7 @@ bool PluginSecurityVerifier::verifyPlugin(const std::string &pluginPath, std::st
         if (!verifySignature(pluginPath, metadata->signature)) {
             errorMessage = "Digital signature verification failed";
             auditor.logEvent({PluginSecurityEvent::EventType::SIGNATURE_VERIFICATION_FAILED, pluginPath, fileHash,
-                              errorMessage, static_cast<uint64_t>(std::time(nullptr)), "ERROR"});
+                              errorMessage, static_cast<uint64_t>(std::time(nullptr)), "FAILURE"});
 
             if (policy_.requireSignature) {
                 return false;
@@ -1333,7 +1333,7 @@ void PluginSecurityAuditor::logEvent(const PluginSecurityEvent &event) {
         = "[PluginSecurity] " + event.message + " | plugin=" + event.pluginPath + " | hash=" + event.pluginHash;
     if (event.severity == "CRITICAL") {
         THEMIS_CRITICAL("{}", msg);
-    } else if (event.severity == "ERROR") {
+    } else if (event.severity == "FAILURE") {
         THEMIS_ERROR("{}", msg);
     } else if (event.severity == "WARNING") {
         THEMIS_WARN("{}", msg);

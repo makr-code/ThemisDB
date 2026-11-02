@@ -21,9 +21,9 @@
 //   Phase 2 (COMMIT/ABORT): If all votes are COMMIT → broadcast COMMIT;
 //                            otherwise → broadcast ABORT.
 //
-// Durability: Coordinator writes its own WAL log (BEGIN_TX, PREPARE_SENT,
-// COMMIT_DECISION / ABORT_DECISION, COMPLETE) so that an in-doubt transaction
-// can be re-driven to completion after a coordinator restart.
+// Durability: When its WAL directory is configured, the coordinator writes its
+// own WAL log (BEGIN_TX, PREPARE_SENT, COMMIT_DECISION / ABORT_DECISION,
+// COMPLETE) so that an in-doubt transaction can be re-driven after restart.
 //
 // Participants are exposed via the ShardRPCServer::RequestHandler interface,
 // meaning both in-process (unit-test) and real gRPC-backed participants can
@@ -31,17 +31,18 @@
 
 #pragma once
 
-// Prevent Windows macro pollution for enum members named ERROR.
-#ifdef ERROR
-#undef ERROR
+// Prevent Windows macro pollution for enum members named FAILURE.
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 #include "sharding/shard_rpc_server.h"
 #include "sharding/shard_rpc_client.h"
+#include "sharding/epoch_fencing.h"
 #include "transaction/recoverable_two_phase_coordinator.h"
 #include "sharding/wal_manager.h"
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 #include <string>
 #include <map>
@@ -50,6 +51,7 @@
 #include <memory>
 #include <atomic>
 #include <chrono>
+#include <functional>
 #include <optional>
 #include <nlohmann/json.hpp>
 
@@ -63,14 +65,14 @@ namespace themis::sharding {
 enum class CoordinatorTxnResult {
     COMMITTED,  ///< All participants committed
     ABORTED,    ///< At least one participant voted ABORT (or error)
-    ERROR       ///< Internal error; transaction state unknown
+    FAILURE       ///< Internal error; transaction state unknown
 };
 
 /** @brief Detailed outcome returned by TwoPhaseCommitCoordinator::commit(). */
 struct CoordinatorTxnOutcome {
-    CoordinatorTxnResult result        = CoordinatorTxnResult::ERROR;
+    CoordinatorTxnResult result        = CoordinatorTxnResult::FAILURE;
     std::string          transaction_id;
-    std::string          reason;        ///< Populated on ABORTED / ERROR
+    std::string          reason;        ///< Populated on ABORTED / FAILURE
 
     /** @brief Return true when outcome is final COMMITTED. */
     [[nodiscard]] bool committed() const {
@@ -96,6 +98,7 @@ enum class CoordinatorTxnState {
 struct CoordinatorTxnRecord {
     std::string         transaction_id;
     CoordinatorTxnState state   = CoordinatorTxnState::ACTIVE;
+    bool                decision_commit = false; ///< Selected terminal decision for idempotent replies.
     std::chrono::steady_clock::time_point started_at;
 
     /// Ordered list of participant shard IDs used for Phase 2 replay after recovery.
@@ -143,8 +146,12 @@ public:
         /// How long to wait for a participant's PREPARE vote before aborting
         std::chrono::milliseconds prepare_timeout{30000};
 
-        /// Flush WAL synchronously on every write
+        /// Sync non-mandatory WAL writes; BEGIN and decision records are always synced.
         bool sync_wal_writes = true;
+
+        /// Supplies a trusted current-epoch token scoped to each target shard.
+        /// Missing or invalid providers fail write transactions closed.
+        std::function<std::optional<EpochToken>(const std::string&)> fencing_token_provider;
     };
 
     /**
@@ -223,13 +230,22 @@ public:
      * This method drives both phases synchronously:
      * 1. Sends PREPARE to each shard listed in @p ops_per_shard.
      * 2. If all vote COMMIT → sends COMMIT to all; otherwise ABORT to all.
+     * When a coordinator WAL is configured, BEGIN and the final decision are
+     * synchronously persisted before any participant RPC in the corresponding
+     * phase. WAL-disabled operation remains volatile and has no crash-recovery
+     * guarantee.
      *
      * Only shards present in @p ops_per_shard participate.  Shards not
      * listed are not contacted.
      *
      * @param transaction_id  Globally unique transaction identifier
      * @param ops_per_shard   Map from shard_id → JSON array of operations
-     * @return                Outcome with COMMITTED, ABORTED, or ERROR
+     * @return COMMITTED only after every participant acknowledges COMMIT;
+     *         ABORTED when prepare selects ABORT and phase two completes;
+     *         FAILURE when validation, decision persistence, or a phase-two
+     *         acknowledgement fails. After a durable decision, FAILURE leaves
+     *         that decision authoritative for recovery; COMMIT is never
+     *         changed to ABORT.
      */
     CoordinatorTxnOutcome commit(
         const std::string&                             transaction_id,
@@ -239,14 +255,15 @@ public:
     // ── Recovery ─────────────────────────────────────────────────────────────
 
     /**
-     * @brief Recover and re-drive in-doubt transactions from the WAL.
+     * @brief Re-drive in-doubt transactions from the WAL.
      *
-     * Must be called once after a crash/restart, before accepting new
-     * transactions.  Reads the coordinator WAL and re-sends the Phase 2
-     * decision (COMMIT or ABORT) to all participants that have not yet
-     * acknowledged.
+     * Call after a crash/restart, before accepting new transactions. Reads the
+     * coordinator WAL and re-sends a recorded Phase 2 decision to participants.
+     * If no decision was recorded, recovery conservatively selects ABORT.
+     * Repeated delivery is expected to be idempotent.
      *
-     * @return Number of in-doubt transactions resolved
+     * @return Number of transactions whose phase-two acknowledgements all
+     *         succeeded and whose completion record was written successfully.
      */
     [[nodiscard]] size_t recoverInDoubtTransactions() override;
 
@@ -318,20 +335,25 @@ private:
 
     /// Run Phase 2: broadcast COMMIT or ABORT to all participants.
     /// @param lock  Same as runPhase1 — released around each RPC, re-acquired.
-    void runPhase2(CoordinatorTxnRecord& rec, bool commit, std::unique_lock<std::timed_mutex>& lock);
+    /// @return True only when every registered participant acknowledges the decision.
+    bool runPhase2(CoordinatorTxnRecord& rec, bool commit, std::unique_lock<std::timed_mutex>& lock);
 
     /// Build the serialised payload for a single shard.
     /// @param ops JSON-Operationen fuer einen Teilnehmer.
+    /// @param token Current fencing credential scoped to that participant.
     /// @return Transportpayload fuer onPrepare().
-    static std::string buildPayload(const nlohmann::json& ops);
+    static std::string buildPayload(const nlohmann::json& ops, const EpochToken& token);
 
     /// Persist a coordinator WAL entry.
     /// @param type WAL-Eintragstyp.
     /// @param txn_id Betroffene Transaktions-ID.
     /// @param data Zusaetzliche WAL-Nutzdaten.
-    void logToWAL(WALEntryType type,
-                  const std::string& txn_id,
-                  const nlohmann::json& data);
+    /// @param force_sync Require a successful flush regardless of configuration.
+    /// @return True when WAL is disabled or the requested append/flush succeeds.
+    [[nodiscard]] bool logToWAL(WALEntryType type,
+                                const std::string& txn_id,
+                                const nlohmann::json& data,
+                                bool force_sync = false);
 };
 
 } // namespace themis::sharding

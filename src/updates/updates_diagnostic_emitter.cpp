@@ -96,7 +96,7 @@ void DiagnosticEmitter::emitError(const ErrorContext& context) {
         case DiagnosticSeverity::CRITICAL:
             LOG_ERROR("DiagnosticEmitter: {}", msg);
             break;
-        case DiagnosticSeverity::ERROR:
+        case DiagnosticSeverity::FAILURE:
             LOG_ERROR("DiagnosticEmitter: {}", msg);
             break;
         case DiagnosticSeverity::WARN:
@@ -241,7 +241,7 @@ void DiagnosticEmitter::emitPatchApply(const std::string& file_path,
     ctx.timestamp = std::chrono::system_clock::now();
     ctx.error_code = success ? DiagnosticErrorCode::UNKNOWN_ERROR 
                             : DiagnosticErrorCode::PATCH_APPLY_FAILED;
-    ctx.severity = success ? DiagnosticSeverity::INFO : DiagnosticSeverity::ERROR;
+    ctx.severity = success ? DiagnosticSeverity::INFO : DiagnosticSeverity::FAILURE;
     ctx.root_cause = success ? RootCauseClass::UNKNOWN : RootCauseClass::ARTIFACT;
     ctx.message = msg;
     ctx.operation = "apply_patch";
@@ -279,7 +279,7 @@ void DiagnosticEmitter::emitCoordinatedEvent(const std::string& operation,
     ctx.timestamp = std::chrono::system_clock::now();
     ctx.error_code = success ? DiagnosticErrorCode::UNKNOWN_ERROR 
                             : DiagnosticErrorCode::COORDINATION_PEER_FAILED;
-    ctx.severity = success ? DiagnosticSeverity::INFO : DiagnosticSeverity::ERROR;
+    ctx.severity = success ? DiagnosticSeverity::INFO : DiagnosticSeverity::FAILURE;
     ctx.root_cause = success ? RootCauseClass::UNKNOWN : RootCauseClass::NETWORK;
     ctx.message = msg;
     ctx.operation = operation;

@@ -84,7 +84,7 @@ public:
     void debug(const std::string& m) override    { log(Level::DEBUG, m); }
     void info(const std::string& m) override     { log(Level::INFO,  m); }
     void warn(const std::string& m) override     { log(Level::WARN,  m); }
-    void error(const std::string& m) override    { log(Level::ERROR, m); }
+    void error(const std::string& m) override    { log(Level::FAILURE, m); }
     void critical(const std::string& m) override { log(Level::CRITICAL, m); }
 
     void logStructured(Level l, const std::string& m, const Fields& f) override {
@@ -329,7 +329,7 @@ TEST(StructLogConcernsContextTest, DoesNotThrow) {
 TEST(StructLogConcernsContextTest, DoesNotThrowWithFields) {
     auto ctx = ConcernsContext::createNoOp();
     EXPECT_NO_THROW(
-        ctx->logWithTrace(ILogger::Level::ERROR, "db error",
+        ctx->logWithTrace(ILogger::Level::FAILURE, "db error",
                           {{"db.table", "users"}, {"rows", "0"}})
     );
 }

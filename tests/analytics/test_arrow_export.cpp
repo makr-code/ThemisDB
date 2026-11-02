@@ -453,8 +453,8 @@ TEST_F(ArrowExportTest, ExportPlaceholderArrowFormat) {
     std::string result = exporter->exportToString(batch, options);
 
     EXPECT_FALSE(result.empty());
-    // With Arrow, should get binary data (no ERROR prefix)
-    EXPECT_EQ(result.find("ERROR"), std::string::npos);
+    // With Arrow, should get binary data (no FAILURE prefix)
+    EXPECT_EQ(result.find("FAILURE"), std::string::npos);
 #else
     // Without Arrow, createExporter for Arrow formats must throw
     EXPECT_THROW(ExporterFactory::createExporter(ExportFormat::FMT_ARROW_IPC), std::runtime_error);
@@ -626,7 +626,7 @@ TEST_F(ArrowExportTest, ArrowStringExport) {
     std::string result = exporter->exportToString(batch, options);
 
     EXPECT_FALSE(result.empty());
-    EXPECT_EQ(result.find("ERROR"), std::string::npos);
+    EXPECT_EQ(result.find("FAILURE"), std::string::npos);
 #else
     EXPECT_THROW(ExporterFactory::createExporter(ExportFormat::FMT_ARROW_IPC), std::runtime_error);
 #endif

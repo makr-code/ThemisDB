@@ -244,7 +244,7 @@ TEST_F(StorageEngineMoveSemanticTest, CopyConstructor_IsDeleted) {
     auto engine = StorageEngine::createDefault();
     
     // The following would be a compile error:
-    // auto engine_copy = engine;  // ERROR: copy constructor is deleted
+    // auto engine_copy = engine;  // FAILURE: copy constructor is deleted
     // This is intentional to prevent accidental copying of injected dependencies
     
     // Verify the engine is move-constructible instead

@@ -24,7 +24,7 @@
  *     .failure_category = DiagnosticFailureCategory::NLI_INFERENCE,
  *     .module_name = "rag",
  *     .error_message = "Model inference failed",
- *     .severity_level = DiagnosticSeverity::ERROR,
+ *     .severity_level = DiagnosticSeverity::FAILURE,
  *     .deployment_environment = "production",
  *     .version = "1.5.0"
  * };

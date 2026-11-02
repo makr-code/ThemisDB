@@ -299,6 +299,10 @@ include(cmake/EditionMatrix.cmake)
 # 8. vcpkg Configuration (binary cache, feature dependencies)
 include(cmake/VcpkgConfiguration.cmake)
 
+option(THEMIS_REQUIRE_SHARD_GRPC
+    "Fail configuration unless the real shard gRPC transport can be built"
+    OFF)
+
 # Fallback include directory for environments where imported targets do not
 # propagate umbrella include paths reliably. This path is consumed by target-
 # scoped include declarations in module/core targets.
@@ -316,6 +320,18 @@ endif()
 
 # 9. Dependencies
 include(cmake/Dependencies.cmake)
+
+if(THEMIS_REQUIRE_SHARD_GRPC AND
+   (NOT THEMIS_ENABLE_GRPC OR NOT Protobuf_FOUND OR
+    NOT gRPC_FOUND OR NOT TARGET gRPC::grpc++))
+    message(FATAL_ERROR
+        "THEMIS_REQUIRE_SHARD_GRPC=ON requires THEMIS_ENABLE_GRPC, Protobuf, "
+        "and the gRPC C++ target; refusing to configure a multi-node artifact "
+        "without real shard RPC transport.")
+endif()
+if(THEMIS_REQUIRE_SHARD_GRPC)
+    add_compile_definitions(THEMIS_REQUIRE_SHARD_GRPC=1)
+endif()
 
 # 10. Validation layer
 include(cmake/validation/PlatformValidation.cmake)

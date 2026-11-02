@@ -2,7 +2,7 @@
  * @file diagnostics.cpp
  * @brief Implementation of structured failure diagnostics
  * @version 0.0.1
- * @note PHASE-3-ERROR-HANDLING: Unified diagnostics implementation
+ * @note PHASE-3-FAILURE-HANDLING: Unified diagnostics implementation
  * @date 2026-08-02
  */
 
@@ -26,7 +26,7 @@ namespace importers {
  * @details Implements failureCategoryToString without additional internal calls.
  */
 std::string failureCategoryToString(FailureCategory cat) {
-    // PHASE-3-ERROR-HANDLING: Convert enum to string for diagnostics
+    // PHASE-3-FAILURE-HANDLING: Convert enum to string for diagnostics
     switch (cat) {
         case FailureCategory::SCHEMA_FAILURE:
             return "SCHEMA_FAILURE";
@@ -62,7 +62,7 @@ static uint64_t getCurrentTimestampNs() {
 DiagnosticRecord produceSchemaDiagnostic(
     ImportErrorCode error_code,
     const std::map<std::string, std::string>& context) {
-    // PHASE-3-ERROR-HANDLING: Schema failure diagnosis
+    // PHASE-3-FAILURE-HANDLING: Schema failure diagnosis
     
     DiagnosticRecord diag;
     diag.category = FailureCategory::SCHEMA_FAILURE;
@@ -121,7 +121,7 @@ DiagnosticRecord produceSchemaDiagnostic(
             "4. Verify database user has access to create/modify tables if needed"
         };
         diag.logs = {
-            "ERROR: Table '" + table_name + "' not found in destination",
+            "FAILURE: Table '" + table_name + "' not found in destination",
             "DEBUG: " + error_detail
         };
     } else if (error_code == ImportErrorCode::SCHEMA_VALIDATION_FAILED) {
@@ -149,7 +149,7 @@ DiagnosticRecord produceSchemaDiagnostic(
             "3. Retry import with verbose logging enabled",
             "4. Contact support if issue persists"
         };
-        diag.logs = {"ERROR: " + error_detail};
+        diag.logs = {"FAILURE: " + error_detail};
     }
 
     return diag;
@@ -162,7 +162,7 @@ DiagnosticRecord produceSchemaDiagnostic(
 DiagnosticRecord produceConflictDiagnostic(
     const std::string& reason,
     const std::map<std::string, std::string>& context) {
-    // PHASE-3-ERROR-HANDLING: Conflict failure diagnosis
+    // PHASE-3-FAILURE-HANDLING: Conflict failure diagnosis
     
     DiagnosticRecord diag;
     diag.category = FailureCategory::CONFLICT_FAILURE;
@@ -187,8 +187,8 @@ DiagnosticRecord produceConflictDiagnostic(
 
     diag.remediation_steps = {
         "1. Review conflicting record(s) with key value: " + key_value,
-        "2. Decide on resolution strategy (OVERWRITE, SKIP, MERGE, or ERROR)",
-        "3. If using ERROR strategy, change to OVERWRITE or SKIP and retry",
+        "2. Decide on resolution strategy (OVERWRITE, SKIP, MERGE, or FAILURE)",
+        "3. If using FAILURE strategy, change to OVERWRITE or SKIP and retry",
         "4. If using MERGE, review protected_fields configuration",
         "5. Investigate root cause: is source data duplicated or schema key incorrect?",
         "6. For persistent conflicts, enable quality gate bypass (with audit trail)"
@@ -211,7 +211,7 @@ DiagnosticRecord produceConflictDiagnostic(
 DiagnosticRecord produceConnectorDiagnostic(
     ImportErrorCode error_code,
     const std::map<std::string, std::string>& context) {
-    // PHASE-3-ERROR-HANDLING: Connector failure diagnosis
+    // PHASE-3-FAILURE-HANDLING: Connector failure diagnosis
     
     DiagnosticRecord diag;
     diag.category = FailureCategory::CONNECTOR_FAILURE;
@@ -241,7 +241,7 @@ DiagnosticRecord produceConnectorDiagnostic(
             "7. If using CDC fallback, verify connector supports fallback mode"
         };
         diag.logs = {
-            "ERROR: Connector '" + connector_name + "' unavailable",
+            "FAILURE: Connector '" + connector_name + "' unavailable",
             "DEBUG: Connection string: " + connection_string,
             "DEBUG: " + error_detail
         };
@@ -258,7 +258,7 @@ DiagnosticRecord produceConnectorDiagnostic(
             "6. Try import during off-peak hours"
         };
         diag.logs = {
-            "ERROR: Timeout on connector '" + connector_name + "'",
+            "FAILURE: Timeout on connector '" + connector_name + "'",
             "DEBUG: " + error_detail
         };
     } else {
@@ -273,7 +273,7 @@ DiagnosticRecord produceConnectorDiagnostic(
             "5. Enable fallback mode if available for this connector"
         };
         diag.logs = {
-            "ERROR: Connector error: " + error_detail,
+            "FAILURE: Connector error: " + error_detail,
             "DEBUG: Connector: " + connector_name
         };
     }
@@ -290,7 +290,7 @@ DiagnosticRecord produceCapacityDiagnostic(
     uint64_t limit_value,
     uint64_t used_value,
     const std::map<std::string, std::string>& context) {
-    // PHASE-3-ERROR-HANDLING: Capacity failure diagnosis
+    // PHASE-3-FAILURE-HANDLING: Capacity failure diagnosis
     
     DiagnosticRecord diag;
     diag.category = FailureCategory::CAPACITY_FAILURE;
@@ -341,7 +341,7 @@ DiagnosticRecord produceCapacityDiagnostic(
     }
 
     diag.logs = {
-        "ERROR: Capacity limit exceeded: " + limit_name,
+        "FAILURE: Capacity limit exceeded: " + limit_name,
         "DEBUG: Used " + std::to_string(used_value) + " / " + 
                std::to_string(limit_value) + " (" + percent_str + "%)"
     };
@@ -356,7 +356,7 @@ DiagnosticRecord produceCapacityDiagnostic(
 DiagnosticRecord produceIntegrityDiagnostic(
     const std::string& violation_type,
     const std::map<std::string, std::string>& context) {
-    // PHASE-3-ERROR-HANDLING: Integrity failure diagnosis
+    // PHASE-3-FAILURE-HANDLING: Integrity failure diagnosis
     
     DiagnosticRecord diag;
     diag.category = FailureCategory::INTEGRITY_FAILURE;
@@ -425,7 +425,7 @@ DiagnosticRecord produceIntegrityDiagnostic(
     }
 
     diag.logs = {
-        "ERROR: Integrity violation in " + table_name + ", row " + row_id,
+        "FAILURE: Integrity violation in " + table_name + ", row " + row_id,
         "DEBUG: Violation type: " + violation_type,
         "DEBUG: Column: " + column_name + ", Value: " + value
     };
@@ -451,7 +451,7 @@ DiagnosticSummary aggregateDiagnostics(
     uint64_t import_duration_ms,
     uint64_t total_records_attempted,
     const std::vector<DiagnosticRecord>& all_diagnostics) {
-    // PHASE-3-ERROR-HANDLING: Aggregate diagnostics into summary
+    // PHASE-3-FAILURE-HANDLING: Aggregate diagnostics into summary
     
     DiagnosticSummary summary;
     summary.import_id = import_id;

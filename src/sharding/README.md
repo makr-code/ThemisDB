@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-02
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -13,9 +13,18 @@ SOT_Domain: module-behavior
 Canonical_References:
   - ../../include/sharding/sharding_api_contract.h
   - ../../include/sharding/shard_router.h
+  - ../../include/sharding/raft_log.h
+  - ../../include/sharding/raft_state.h
+  - ../../include/sharding/detail/two_phase_commit_contract.h
+  - ../../include/sharding/cross_shard_transaction.h
+  - ../../include/sharding/two_phase_commit_coordinator.h
+  - ../../include/sharding/distributed_transaction.h
+  - ../../tests/test_two_phase_commit.cpp
+  - ../../ROADMAP.md
   - ../../tests/sharding/CMakeLists.txt
+  - ../../tests/test_raft_persistence_focused.cpp
   - ../../benchmarks/sharding/CMakeLists.txt
-Related_Issue: "#7381"
+Related_Issue: "#7518; #7381; #5373 (DIS-05)"
 Related_Milestone: DOC-WEEKLY-2026-W44
 ---
 
@@ -25,11 +34,11 @@ Related_Milestone: DOC-WEEKLY-2026-W44
 
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Module Purpose
+## Zweck
 
 The sharding module provides distributed partitioning, routing, consensus coordination, cross-shard transaction/repair/rebalancing behavior, and operational observability for ThemisDB.
 
-## Relevant Interfaces
+## API/CLI Einstieg
 
 | Interface / File | Role |
 |---|---|
@@ -48,6 +57,20 @@ hardware paths are enabled in every build. The normative v1.x statements in
 `include/sharding/sharding_api_contract.h` are contracts; implementation conformance must be
 checked in the affected component and its tests.
 
+The DIS-05 named pair shares phase ordering, decision durability gating, and failure outcomes through
+`include/sharding/detail/two_phase_commit_contract.h`. Prepare failure chooses ABORT; after the
+configured decision-record callback succeeds, phase-two failure remains an error/in-doubt
+transaction and must not be rewritten as ABORT. Crash durability depends on enabling the
+coordinator's persistence backend. Their public lifecycle, transports, and coordinator-specific
+WAL/recovery paths remain separate: DIS-05 is closed, while the independent DIS-06 recovery boundary is not
+addressed here. `TwoPhaseCommitCoordinator` can re-drive WAL decisions when configured;
+`CrossShardTransactionCoordinator::recoverFromWAL()` only restores state and reports resume
+candidates, not automatic phase-two re-drive. This closure covers only the named pair, not
+repo-wide 2PC convergence.
+`DistributedTransactionCoordinator` (`include/sharding/distributed_transaction.h`) is a third
+2PC-capable public surface with separate transaction, endpoint, and recovery paths; it remains
+outside DIS-05.
+
 ## Scope
 
 In scope:
@@ -60,13 +83,37 @@ Out of scope:
 - client-facing API contracts outside sharding module boundaries
 - non-sharding business-domain orchestration logic
 
-## Runtime Behavior and Limits
+## Integrationsueberblick
+
+The router and coordinators form the main request path. Transaction coordination
+records decisions through coordinator-specific WAL implementations; transport
+and recovery behavior remain specific to each coordinator.
+
+```mermaid
+flowchart LR
+    Request --> Router
+    Router --> Coordinator
+    Coordinator --> Shards
+    Coordinator --> WAL
+```
+
+Kurzinterpretation: Requests enter through routing; distributed coordination
+uses shard participants and records transaction state through its WAL path.
+
+## Known Limitations
 
 - routing/placement behavior depends on the selected topology and router configuration.
 - transaction, repair, rebalance, and migration classes expose component-specific results and
   states; this summary does not assert one universal commit, rollback, or failover policy.
 - the public contract describes intended outcomes; verify the implementation and relevant test for
   each changed path.
+- Raft can use an optional per-node durable journal configured through
+  `ConsensusConfig::enable_persistence` and `data_dir`; acknowledged log and hard-state mutations
+  are synced before in-memory state advances, and a second process cannot own the same journal.
+- This local Raft journal does not replicate DR metadata. Snapshot payload power-loss durability and
+  multi-process failover/recovery evidence remain unverified; snapshot files are synced before
+  compaction metadata is recorded, but filesystem and power-loss guarantees are uncertified. Do not
+  infer M2 readiness from journal recovery alone.
 
 ## Concurrency and failure behavior
 
@@ -80,7 +127,7 @@ Do not infer that a quorum loss automatically blocks every write path, a failed 
 automatically switches to another, or a migration automatically triggers repair. Those effects
 depend on the specific coordinator/router/operation path.
 
-## Build and test hints
+## Quickstart (Build/Run)
 
 The `linux-release` preset defaults both tests and benchmarks off. To opt in for a focused local
 build, configure with:
@@ -101,6 +148,11 @@ Benchmarks are in `../../benchmarks/sharding/`. See `PERFORMANCE_EXPECTATIONS.md
 benchmark-to-source mapping and the boundary of the historical baseline.
 
 ---
+
+## Verweise
+
+- [Architecture](ARCHITECTURE.md) · [API notes](API.md) · [module roadmap](ROADMAP.md)
+- [2PC contract tests](../../tests/test_two_phase_commit.cpp)
 
 ## Source map checked for this document (2026-10-31)
 

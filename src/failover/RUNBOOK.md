@@ -32,6 +32,14 @@ traffic-shift, or recovered-state hooks are missing. Confirm that configured
 hooks perform and verify their external actions before relying on a successful
 manager result.
 
+For non-dry-run plans, configure `metadata_log_path` on a filesystem that
+supports the required cross-process locking and flush operations. The manager
+uses a persistent sibling path ending in `.lock`; do not delete or replace it
+while managers may be running. All writers must use this lock protocol; mixed
+versions are not covered. `metadata_lock_timeout` bounds only the wait to
+acquire that lock, not the synchronous adapter calls. This local mechanism does
+not provide cluster consensus or certify network-filesystem behavior.
+
 ## Incident procedures
 
 ### Failure detection or heartbeat alarms
@@ -70,7 +78,7 @@ The default configuration allows two pending failover requests and emits queue p
 2. For plan-validation errors, correct the plan fields and validate the recovery site and snapshot before execution.
 3. For an execution failure, inventory every completed step and any state it changed. Completed steps are not automatically rolled back.
 4. A built-in dry run validates plan fields but its precheck handler returns without querying quorum; the remaining built-in handlers report dry-run outcomes without validating snapshot existence, fencing, restoring data, checking catch-up, shifting traffic, or verifying recovered state. A passing dry run is not proof of a completed recovery. Registered step hooks replace built-in handlers, so confirm their behavior before running a dry run.
-5. After a failed execution, the result for a non-empty `plan_id` is cached. Reusing that ID returns the cached result; do not treat it as a retry. Assign a new plan ID only after reconciling partial state and obtaining recovery-owner approval.
+5. After a failed execution, the result for a non-empty `plan_id` is cached. A metadata-lock acquisition timeout is not cached, so retry only after confirming the prior process has completed or exited. Reusing a cached plan ID returns its result; do not treat it as a retry. Assign a new plan ID only after reconciling partial state and obtaining recovery-owner approval.
 
 ## Recovery verification
 

@@ -30,9 +30,9 @@
 #include <spdlog/spdlog.h>
 
 // Windows macros undefine - MUST be before any includes
-#ifdef ERROR
-#undef ERROR
-#endif // ERROR
+#ifdef FAILURE
+#undef FAILURE
+#endif // FAILURE
 
 // Include full definitions BEFORE http_server.h to avoid incomplete types
 #include "storage/rocksdb_wrapper.h"
@@ -5392,12 +5392,24 @@ http::response<http::string_body> HttpServer::routeRequest(
                     themis::llm::InferenceResponse llm_response;
                     try {
                         llm_response = plugin_mgr.generate(llm_request);
+                    } catch (const themis::llm::InferenceAdmissionRejected&) {
+                        auto response = makeErrorResponse(
+                            http::status::too_many_requests,
+                            "Inference capacity reached", req);
+                        response.set("Retry-After", "1");
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    } catch (const std::invalid_argument& e) {
+                        auto response = makeErrorResponse(
+                            http::status::bad_request, e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
                     } catch (const std::exception& e) {
                         const std::string msg = e.what();
                         const bool retryable =
                             msg.find("No default LLM plugin available") != std::string::npos ||
                             msg.find("UNINITIALIZED") != std::string::npos ||
-                            msg.find("Current state: ERROR") != std::string::npos;
+                            msg.find("Current state: FAILURE") != std::string::npos;
                         if (!retryable || !tryBootstrapDefaultModel()) {
                             throw;
                         }
@@ -5568,12 +5580,24 @@ http::response<http::string_body> HttpServer::routeRequest(
                         recordLatency(duration);
                         span.setStatus(true);
                         return response;
+                    } catch (const themis::llm::InferenceAdmissionRejected&) {
+                        auto response = makeErrorResponse(
+                            http::status::too_many_requests,
+                            "Inference capacity reached", req);
+                        response.set("Retry-After", "1");
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    } catch (const std::invalid_argument& e) {
+                        auto response = makeErrorResponse(
+                            http::status::bad_request, e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
                     } catch (const std::exception& e) {
                         const std::string msg = e.what();
                         const bool retryable =
                             msg.find("No default LLM plugin available") != std::string::npos ||
                             msg.find("UNINITIALIZED") != std::string::npos ||
-                            msg.find("Current state: ERROR") != std::string::npos;
+                            msg.find("Current state: FAILURE") != std::string::npos;
                         if (retryable && tryBootstrapDefaultModel()) {
                                 try {
                                     json body = executeRag();

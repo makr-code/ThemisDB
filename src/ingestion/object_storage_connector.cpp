@@ -39,8 +39,8 @@
 #include <thread>
 #include <algorithm>
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 namespace themis {

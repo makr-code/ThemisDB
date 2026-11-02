@@ -71,7 +71,7 @@ bool WikipediaIngestionPipeline::parseSourceStream(
             ++stats.failed_records;
             stats.structured_errors.push_back({
                 ImportErrorCode::PARSE_COPY_ROW,
-                config_.strict_mode ? ImportErrorSeverity::CRITICAL : ImportErrorSeverity::ERROR,
+                config_.strict_mode ? ImportErrorSeverity::CRITICAL : ImportErrorSeverity::FAILURE,
                 error,
                 source.source_path
             });

@@ -46,7 +46,7 @@ constexpr size_t kMaxAuditBufferSize = 100000;  ///< Maximum events per process
 std::string auditEventTypeToString(AuditEventType t);
 
 // ============================================================================
-// PHASE-3-ERROR-HANDLING: Rollback & Recovery Audit Trail
+// PHASE-3-FAILURE-HANDLING: Rollback & Recovery Audit Trail
 // ============================================================================
 
 enum class RollbackReason {

@@ -141,7 +141,7 @@ MutationExecutionPlan AqlMutationTranslator::translate(
         plan.mutation_type = ASTNodeType::Insert; // placeholder
         plan.collection    = "";
         plan.estimated_latency_ms = 0;
-        plan.steps.push_back(stepValidatePredicate("ERROR: null MutationNode provided"));
+        plan.steps.push_back(stepValidatePredicate("FAILURE: null MutationNode provided"));
         return plan;
     }
 
@@ -160,7 +160,7 @@ MutationExecutionPlan AqlMutationTranslator::translate(
             MutationExecutionPlan plan;
             plan.mutation_type = node->getType();
             plan.collection    = "";
-            plan.steps.push_back(stepValidatePredicate("ERROR: unsupported mutation type"));
+            plan.steps.push_back(stepValidatePredicate("FAILURE: unsupported mutation type"));
             return plan;
         }
     }

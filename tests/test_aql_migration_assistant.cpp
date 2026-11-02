@@ -63,7 +63,7 @@ TEST(MigrationResultTest, EmptySummaryIsOK) {
 
 TEST(MigrationResultTest, SummaryWithError) {
     MigrationResult r;
-    r.issues.push_back({MigrationIssue::Severity::ERROR, "e", ""});
+    r.issues.push_back({MigrationIssue::Severity::FAILURE, "e", ""});
     EXPECT_NE(r.summary().find("1 error"), std::string::npos);
 }
 
@@ -81,7 +81,7 @@ TEST(MigrationResultTest, SummaryWithInfo) {
 
 TEST(MigrationResultTest, SummaryMultipleIssues) {
     MigrationResult r;
-    r.issues.push_back({MigrationIssue::Severity::ERROR,   "e", ""});
+    r.issues.push_back({MigrationIssue::Severity::FAILURE,   "e", ""});
     r.issues.push_back({MigrationIssue::Severity::WARNING, "w", ""});
     r.issues.push_back({MigrationIssue::Severity::INFO,    "i", ""});
     std::string s = r.summary();
@@ -237,11 +237,11 @@ TEST_F(AQLMigrationAssistantTest, DocumentOneArgEmitsWarningAndKeepsQuery) {
 
     // Single-arg form: cannot fully rewrite; query kept as-is, warning issued
     EXPECT_TRUE(hasIssueWithSeverity(result.issues, MigrationIssue::Severity::WARNING));
-    // is_fully_automatable is true (no ERROR), but the query may still contain DOCUMENT
+    // is_fully_automatable is true (no FAILURE), but the query may still contain DOCUMENT
 }
 
 // ---------------------------------------------------------------------------
-// V8() → ERROR
+// V8() → FAILURE
 // ---------------------------------------------------------------------------
 
 TEST_F(AQLMigrationAssistantTest, V8DetectedAsError) {
@@ -249,7 +249,7 @@ TEST_F(AQLMigrationAssistantTest, V8DetectedAsError) {
     auto result = assistant.migrate(aql);
 
     EXPECT_FALSE(result.is_fully_automatable);
-    EXPECT_TRUE(hasIssueWithSeverity(result.issues, MigrationIssue::Severity::ERROR));
+    EXPECT_TRUE(hasIssueWithSeverity(result.issues, MigrationIssue::Severity::FAILURE));
     EXPECT_TRUE(hasIssueContaining(result.issues, "V8"));
 }
 
@@ -390,7 +390,7 @@ TEST_F(AQLMigrationAssistantTest, IdentifierWithV8SubstringNotTouched) {
     const std::string aql = "FOR d IN engines FILTER d.v8_engine == true RETURN d";
     auto result = assistant.migrate(aql);
     EXPECT_TRUE(result.is_fully_automatable);
-    EXPECT_FALSE(hasIssueWithSeverity(result.issues, MigrationIssue::Severity::ERROR));
+    EXPECT_FALSE(hasIssueWithSeverity(result.issues, MigrationIssue::Severity::FAILURE));
 }
 
 // ---------------------------------------------------------------------------

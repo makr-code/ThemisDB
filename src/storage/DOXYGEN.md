@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-11-01"
-Last Updated: "2026-11-01"
+Last Updated: "2026-11-02"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -904,13 +904,6 @@ Status: active
 - Parameters:
   - `state` (benchmark::State &): n/a
 - Details: SIMULATION NOTE (Stub Path): Purpose: Measure CPU Infini-attention synthetic latency and VRAM footprint during Phase 1 Activation: Benchmark execution; InfiniAttentionCpuFallback invoked Production Delta: Actual CUDA kernel measurements will replace these synthetic metrics in Phase 2 Removal Plan: Superseded by P2-D02 CUDA kernel benchmarks (Q4/2026)
-
-#### `void bench_ssm_stub_checkpoint_resume(benchmark::State &state)`
-- Source: `benchmarks/storage/bench_ssm_phase0_baseline.cpp`:123
-- Brief: n/a
-- Parameters:
-  - `state` (benchmark::State &): n/a
-- Details: SIMULATION NOTE (Stub Path): Purpose: Measure synthetic SSM state checkpoint/resume cycle during Phase 1 Activation: Benchmark execution; SyntheticSSMStub invoked Production Delta: Real Mamba SSM backend will have different latency/VRAM profile in Phase 2+ Removal Plan: Superseded by real Mamba plugin (P1-D03 replaced in P2-D03 with real model)
 
 ### bench_storage_dedicated_gates.cpp
 

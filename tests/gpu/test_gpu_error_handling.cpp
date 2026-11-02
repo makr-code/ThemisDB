@@ -224,7 +224,7 @@ TEST_F(UniqueGPUPtrTest, CopyConstructor_IsDeleted) {
   unique_gpu_ptr<float> ptr;
   
   // This should not compile:
-  // unique_gpu_ptr<float> copy = ptr;  // COMPILE ERROR
+  // unique_gpu_ptr<float> copy = ptr;  // COMPILE FAILURE
   
   // Test that we can move but not copy
   auto moved = std::move(ptr);

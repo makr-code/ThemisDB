@@ -76,20 +76,20 @@ int main(int argc, char* argv[]) {
         std::string arg = argv[i];
         if (arg == "--root") {
             if (++i >= argc) {
-                std::cerr << "[ERROR] --root requires an argument\n";
+                std::cerr << "[FAILURE] --root requires an argument\n";
                 printUsage(argv[0]);
                 return 2;
             }
             root = argv[i];
         } else if (arg == "--output") {
             if (++i >= argc) {
-                std::cerr << "[ERROR] --output requires an argument\n";
+                std::cerr << "[FAILURE] --output requires an argument\n";
                 printUsage(argv[0]);
                 return 2;
             }
             output_format = argv[i];
             if (output_format != "text" && output_format != "json" && output_format != "csv") {
-                std::cerr << "[ERROR] --output must be one of: text, json, csv\n";
+                std::cerr << "[FAILURE] --output must be one of: text, json, csv\n";
                 return 2;
             }
         } else if (arg == "--dry-run") {
@@ -100,7 +100,7 @@ int main(int argc, char* argv[]) {
             printUsage(argv[0]);
             return 0;
         } else {
-            std::cerr << "[ERROR] Unknown argument: " << arg << '\n';
+            std::cerr << "[FAILURE] Unknown argument: " << arg << '\n';
             printUsage(argv[0]);
             return 2;
         }
@@ -108,7 +108,7 @@ int main(int argc, char* argv[]) {
 
     std::error_code ec = {};
     if (!fs::is_directory(root, ec) || ec) {
-        std::cerr << "[ERROR] Root directory not found: " << root << '\n';
+        std::cerr << "[FAILURE] Root directory not found: " << root << '\n';
         return 2;
     }
 

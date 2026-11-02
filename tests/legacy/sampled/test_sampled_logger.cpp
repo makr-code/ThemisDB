@@ -34,7 +34,7 @@ TEST(SampledLogger, InitialSuppressionCountIsZero) {
 // ============================================================================
 
 TEST(SampledLogger, WarnAndErrorAreNeverSuppressed) {
-    // With a very small burst the first few WARN/ERROR calls should still pass.
+    // With a very small burst the first few WARN/FAILURE calls should still pass.
     SampledLoggerConfig cfg;
     cfg.warn_sample_rate  = 1.0;
     cfg.error_sample_rate = 1.0;

@@ -4,7 +4,6 @@
 #include <cmath>
 #include <memory>
 #include <vector>
-#include "llm/ssm_stub_plugin.h"
 #include "llm/infini_attention_cpu.h"
 #include "llm/ssm_drift_metrics.h"
 #include "llm/context_quality_metrics.h"
@@ -108,53 +107,6 @@ BENCHMARK(bench_infini_attention_cpu_baseline)
     ->Arg(8192)
     ->Unit(benchmark::kMillisecond)
     ->Iterations(10);
-
-// ============================================================================
-// Benchmark: SSM stub plugin state checkpoint/resume baseline
-// ============================================================================
-
-/**
- * SIMULATION NOTE (Stub Path):
- * Purpose: Measure synthetic SSM state checkpoint/resume cycle during Phase 1
- * Activation: Benchmark execution; SyntheticSSMStub invoked
- * Production Delta: Real Mamba SSM backend will have different latency/VRAM profile in Phase 2+
- * Removal Plan: Superseded by real Mamba plugin (P1-D03 replaced in P2-D03 with real model)
- */
-static void bench_ssm_stub_checkpoint_resume(benchmark::State& state) {
-    int num_sessions = state.range(0);
-    int state_size_kb = state.range(1);
-
-    // Create synthetic SSM stub plugin
-    auto ssm_stub = std::make_unique<SyntheticSSMStub>();
-
-    // Create in-memory state store
-    auto state_store = std::make_unique<InMemorySSMStateStore>();
-
-    // Benchmark: checkpoint + resume cycle
-    for (auto _ : state) {
-        for (int i = 0; i < num_sessions; ++i) {
-            // Simulate checkpoint: serialize state
-            std::vector<uint8_t> serialized(state_size_kb * 1024, 0xAB);
-            benchmark::DoNotOptimize(serialized);
-
-            // Simulate resume: deserialize state
-            std::vector<uint8_t> deserialized(state_size_kb * 1024, 0xCD);
-            benchmark::DoNotOptimize(deserialized);
-        }
-    }
-
-    state.counters["num_sessions"] = num_sessions;
-    state.counters["state_size_kb"] = state_size_kb;
-    state.counters["throughput_checkpoints_per_sec"] = num_sessions * 10.0 / 1000.0;  // synthetic
-}
-
-BENCHMARK(bench_ssm_stub_checkpoint_resume)
-    ->Args({1, 512})
-    ->Args({1, 2048})
-    ->Args({10, 512})
-    ->Args({10, 2048})
-    ->Unit(benchmark::kMillisecond)
-    ->Iterations(5);
 
 // ============================================================================
 // Benchmark: Context quality metric collection (Agentic Memory L1/L2/L3)

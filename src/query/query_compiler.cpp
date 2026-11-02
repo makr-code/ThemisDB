@@ -438,7 +438,7 @@ private:
             //   1. Mark this entry as failed (same as std::exception path above).
             //   2. Set the module-level jit_state_corrupted_ sentinel so that
             //      further specialisation attempts are suppressed.
-            //   3. Log at ERROR level (not WARN) because this is unexpected.
+            //   3. Log at FAILURE level (not WARN) because this is unexpected.
             //
             // Future callers check jit_state_corrupted_ before calling trySpecialise().
             entry.compile_failed = true;

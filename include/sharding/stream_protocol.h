@@ -28,6 +28,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <string>
 #include <vector>
 #include <memory>
@@ -85,7 +86,7 @@ enum class StreamMessageType : uint8_t {
     HEARTBEAT_ACK = 0x31,
     
     // Error
-    ERROR = 0xFF
+    FAILURE = 0xFF
 };
 
 /**
@@ -108,6 +109,15 @@ enum class StreamSessionState {
     COMPLETE,         // Successfully completed
     FAILED,           // Failed (retryable)
     ABORTED           // Aborted (non-retryable)
+};
+
+/** @brief Error reported by a stream session operation. */
+enum class StreamSessionErrorCode : uint8_t {
+    NONE,                       ///< No stream operation has failed.
+    INVALID_STATE,              ///< Initialization was called outside INITIALIZED.
+    INVALID_REMOTE_ENDPOINT,    ///< No remote endpoint is configured.
+    TRANSPORT_NOT_CONFIGURED,   ///< No transport callback is configured.
+    PREPARE_FAILED              ///< The transport rejected or failed PREPARE.
 };
 
 /**
@@ -564,8 +574,13 @@ public:
     /** @brief Destructor ensures session background threads are stopped. */
     ~StreamSession();
     
-    /** @brief Initialize protocol handshake and session metadata exchange. */
-    bool initialize();
+    /**
+     * @brief Initialize the protocol handshake and exchange session metadata.
+     * @return True when the configured transport accepts PREPARE; false on
+     *         invalid state, endpoint, or transport failure. Inspect
+     *         getLastError() to distinguish a missing transport.
+     */
+    [[nodiscard]] bool initialize();
     
     /** @brief Add one file descriptor to this session transfer queue. */
     void addFile(const StreamFileInfo& file);
@@ -591,6 +606,13 @@ public:
      * Get current state
      */
     StreamSessionState getState() const { return state_.load(); }
+
+    /**
+     * @brief Return the most recent initialization error.
+     * @return NONE when no session operation has failed, otherwise the most
+     *         recent failure reason. Safe to read concurrently.
+     */
+    [[nodiscard]] StreamSessionErrorCode getLastError() const { return last_error_.load(); }
     
     /**
      * Get progress
@@ -615,9 +637,9 @@ public:
      * `config_.remote_endpoint`, exchange PREPARE_REQUEST/PREPARE_ACK messages,
      * and return true on success.
      *
-     * Production code should inject a real transport handler here.  Tests may
-     * leave the callback unset (fallback: validate that `remote_endpoint` is
-     * non-empty and return true so the state machine can proceed).
+     * Production code must inject a real transport handler. An unset callback
+     * fails initialization with TRANSPORT_NOT_CONFIGURED; tests can inject an
+     * explicit callback to model either acceptance or rejection.
      *
      * @param cb Callable returning bool — true means prepared successfully
      */
@@ -630,6 +652,7 @@ private:
     StreamSessionConfig config_;
     uint32_t session_id_;
     std::atomic<StreamSessionState> state_{StreamSessionState::INITIALIZED};
+    std::atomic<StreamSessionErrorCode> last_error_{StreamSessionErrorCode::NONE};
     
     // Files to transfer
     std::vector<StreamFileInfo> files_;

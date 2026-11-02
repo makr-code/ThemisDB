@@ -84,7 +84,7 @@ enum class ImportErrorCode : uint32_t {
     UNKNOWN             = 900
 };
 
-enum class ImportErrorSeverity { INFO, WARNING, ERROR, CRITICAL };
+enum class ImportErrorSeverity { INFO, WARNING, FAILURE, CRITICAL };
 
 struct ImportError {
     ImportErrorCode     code;

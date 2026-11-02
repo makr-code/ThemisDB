@@ -3,7 +3,8 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4.0-alpha  
-**Last Updated:** 2026-11-01 (TST-03 Geo, Timeseries, Process, Temporal, Storage, Index, Transaction, Query, Security, Metadata, Sharding, Performance, RAG and 66 LLM duplicate targets consolidated; Windows Debug profile multiple focused registrations reduced from 71 to 5; baseline review remains open; audit-derived production-readiness roadmap pointer and RotatE target clarification; Wave C evidence status unchanged since 2026-10-30)
+**Last Updated:** 2026-11-02 (STO-01/STO-10 source-backed implementation status synchronized; STO-07 and storage evidence gates remain open; TST-03 Geo, Timeseries, Process, Temporal, Storage, Index, Transaction, Query, Security, Metadata, Sharding, Performance, RAG, 66 LLM registrations, three remaining LLM provider variants, tensor shard-summary aliases, adaptive targets, 22 GPU targets, 13 exporter targets, GPU graph traversal, process-discovery, AdvancedCacheManager, process-mining-pattern, anomaly-detection, CEP, columnar-execution, expert-system, forecasting, LLM-process-analyzer, streaming-join, streaming-window, API interface/API-key authenticator, BaseEntity, Base reload-regression, and 25 ingestion targets consolidated; Windows Debug profile multiple focused registrations reduced from 71 to 1 shared test runner; non-modular profile now has 315 multi-target sources and baseline review remains open; audit-derived production-readiness roadmap pointer and RotatE target clarification; Wave C evidence status unchanged since 2026-10-30)
+**Last Updated:** 2026-11-02 (TST-03 Geo, Timeseries, Process, Temporal, Storage, Index, Transaction, Query, Security, Metadata, Sharding, Performance, RAG, 66 LLM registrations, three remaining LLM provider variants, tensor shard-summary aliases, adaptive targets, 22 GPU targets, 13 exporter targets, GPU graph traversal, process-discovery, AdvancedCacheManager, process-mining-pattern, anomaly-detection, CEP, columnar-execution, expert-system, forecasting, LLM-process-analyzer, streaming-join, streaming-window, API interface/API-key authenticator, BaseEntity, Base reload-regression, 25 ingestion, 16 Network, 12 CDC, seven Auth targets, and two Plugin targets consolidated; Windows Debug profile multiple focused registrations reduced from 71 to 1 shared test runner; non-modular profile now has 278 multi-target sources and baseline review remains open; audit-derived production-readiness roadmap pointer and RotatE target clarification; Wave C evidence status unchanged since 2026-10-30)
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). Wave C (Security Production Validation) remains open: the latest tracked closure manifest (2026-10-01) records C1/C2 as successful, C3 sustained-load evidence as pending, and C4 compliance sign-off as in progress. Its linked validation artifact expired 2026-10-30; refresh the evidence before promoting these gates. GA promotion also remains gated by unresolved Wave-A/B evidence and final human sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. **Q3 2026 quarterly pentest complete (2026-09-28): 0 critical findings, 1 high finding (30-day remediation deadline), gate PASS. See `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`.**
 <!--
 AI_Used: true
@@ -40,6 +41,10 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - `ai_working/` contains historical execution snapshots and evidence records. These files are explicitly non-normative and must not be used as the basis for current GA or launch claims unless explicitly promoted by root governance documents.
 - Canonical read order for active status: `ROADMAP.md` -> module `src/<module>/ROADMAP.md` -> current governance/release docs -> `ai_context/` operational summaries -> `ai_working/` historical evidence.
 - Audit-derived production-readiness plan (non-normative for release status; items must be mirrored here or in module roadmaps before they count): [audit/ROADMAP.md](audit/ROADMAP.md), based on [audit/FULL_DEEP_DIVE_AUDIT_2026-10-31.md](audit/FULL_DEEP_DIVE_AUDIT_2026-10-31.md) (2 Critical / 22 High findings; verdict: not production-ready).
+
+### Storage recovery and streaming-ingest follow-up (2026-11-02)
+
+- STO-01 and STO-10 are **partially implemented** in current committed source; their test and performance evidence gates remain open. STO-07 remains open: a focused POSIX WAL subprocess test now kills the worker after acknowledged appends, a rotation boundary, and a checkpoint boundary, then checks exact replay. The test has not been executed; kills inside syscalls, backup/restore and index consistency, required PR/nightly iteration artifacts, and the replay baseline remain open. No tests or benchmarks were executed for this follow-up; see [audit/ROADMAP.md](audit/ROADMAP.md) for the diagnostic configure and Actions observations.
 
 ## Source-Verified Reality Check (2026-09-09)
 
@@ -532,7 +537,7 @@ This execution contract is the active implementation sequence to close hardening
 - [~] Re-run Wave 7 and archive evidence for all six PASS gates (Target: 2026-07)
 - [~] Remove open configure/CMake blockers affecting `linux-release` and `community-release` reproducibility — DEF-01 confirmed deferred, not blocking GA; SETUP.md troubleshooting documented (Target: 2026-07, deferred to post-GA)
 - [x] Treat the `release_critical` suite on `develop` as a non-optional release entry gate (Target: 2026-07)
-- [~] Enforce fail-closed C++ test registration in PRs: changed test sources must appear in the configured CMake build, new source-existence guards and CMake-only deregistrations must fail, and each changed source may have at most one focused target; full inventory and exact target mapping remain open in `audit/ROADMAP.md` (Target: 2026-11-20)
+- [~] Enforce fail-closed C++ test registration in PRs: changed test sources must appear in the configured CMake build, new source-existence guards and CMake-only deregistrations must fail, and each changed source may have at most one non-aggregate focused target; the modular Windows Debug profile maps all in-profile sources, but the non-modular profile still has 278 multi-target sources and the union leaves 1,320 sources outside both profiles for coverage/exclusion review before global enforcement (details in `audit/ROADMAP.md`) (Target: 2026-11-20)
 
 ### Phase 1 — Top-Risk Module Hardening
 - [x] `server`: close retry, timeout, graceful-shutdown, and fault-recovery gaps with documented error paths and recovery semantics — P5-S01 (wire-protocol retry + backoff) and P5-S02 (HTTP timeout + graceful shutdown) delivered; 28 WSR+HST tests PASS (`tests/server/test_server_phase5_hardening.cpp`) (Target: 2026-08)
@@ -637,16 +642,20 @@ This execution contract is the active implementation sequence to close hardening
 ## 🔴 Graph Module Completion (Q3 2026)
 ## Issue #5373 - Commit/Prepare/Abort/WAL/Recovery Inventory (`sharding/` + `replication/`)
 
-Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
+Status: [x] DIS-05 named-pair execution contract implemented; coordinator-specific WAL/recovery remain outside this closure
+Last Updated: 2026-11-01
+Canonical implementation: `include/sharding/detail/two_phase_commit_contract.h`
+Contract regression coverage: `tests/test_two_phase_commit.cpp`
 
 ### Component Inventory (current implementation paths)
 
 | Module | Component / File | Commit/Prepare/Abort/WAL/Recovery responsibility |
 |---|---|---|
-| sharding | `include/sharding/cross_shard_transaction.h`, `src/sharding/cross_shard_transaction.cpp` | Protocol dispatcher + core execution paths (`execute2PC`, `execute3PC`, `executePercolator`, `executeCalvin`, `executeSaga`), participant `prepare/commit/abort` RPC driving, WAL-backed `recoverFromWAL`. |
+| sharding | `include/sharding/cross_shard_transaction.h`, `src/sharding/cross_shard_transaction.cpp` | Protocol dispatcher + core execution paths (`execute2PC`, `execute3PC`, `executePercolator`, `executeCalvin`, `executeSaga`), participant `prepare/commit/abort` RPC driving, WAL-backed `recoverFromWAL`. Its 2PC path delegates phase ordering, configured decision-persistence gating, and failure outcomes to the shared contract in `include/sharding/detail/two_phase_commit_contract.h`. |
 | sharding | `include/sharding/transaction_wal.h`, `src/sharding/transaction_wal.cpp` | Canonical transaction WAL for `BEGIN/PREPARE/PREPARED/COMMIT/COMMITTED/ABORT/ABORTED/COMPENSATE`; protocol tagging for 2PC/3PC/SAGA/Percolator/Calvin. |
 | sharding | `include/sharding/transaction_snapshot.h`, `src/sharding/transaction_snapshot.cpp` | Snapshot manager used with transaction WAL for faster in-doubt recovery bootstrap. |
-| sharding | `include/sharding/two_phase_commit_coordinator.h`, `src/sharding/two_phase_commit_coordinator.cpp` | Standalone 2PC coordinator flow (phase-1 prepare vote collection, phase-2 commit/abort broadcast) + WAL re-drive of in-doubt txns. |
+| sharding | `include/sharding/two_phase_commit_coordinator.h`, `src/sharding/two_phase_commit_coordinator.cpp` | Canonical standalone 2PC API (phase-1 prepare vote collection, configured decision persistence, phase-2 commit/abort acknowledgements) + coordinator-specific WAL re-drive of in-doubt txns; uses the same shared execution contract as `CrossShardTransactionCoordinator`. |
+| sharding | `include/sharding/distributed_transaction.h`, `src/sharding/distributed_transaction.cpp` | Separate 2PC-capable `DistributedTransactionCoordinator` with its own transaction/endpoint and recovery paths; outside the DIS-05 named pair and shared contract. |
 | sharding | `include/sharding/two_phase_commit_participant.h`, `src/sharding/two_phase_commit_participant.cpp` | Participant-side PREPARE/COMMIT/ABORT state machine, idempotency handling, WAL persistence, participant-local `recoverFromWAL`. |
 | sharding | `include/sharding/shard_rpc_client.h`, `src/sharding/shard_rpc_client.cpp` | Transport layer for coordinator->participant PREPARE/COMMIT/ABORT RPC delivery (`handlePrepareGrpc`, `handleCommitGrpc`, `handleAbortGrpc`). |
 | sharding | `src/sharding/orphan_detector.cpp` | Percolator stale-lock cleanup path (abort/cleanup for orphaned distributed transactions after coordinator failure). |
@@ -660,7 +669,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 | Protocol | sharding | replication | Current flow summary |
 |---|---|---|---|
-| 2PC | ✅ | ❌ | Coordinator prepare fan-out -> vote collection -> commit/abort decision -> participant ack + WAL replay for in-doubt states. |
+| 2PC | ✅ | ❌ | The named DIS-05 pair shares coordinator-side decision/phase ordering and failure semantics. `TwoPhaseCommitCoordinator` re-drives its own WAL decision when configured; `CrossShardTransactionCoordinator::recoverFromWAL()` restores state/reports resume candidates and does not automatically re-drive phase two. `DistributedTransactionCoordinator` is a separate 2PC-capable surface outside DIS-05. |
 | 3PC | ✅ | ❌ | Prepare -> PreCommit callback phase -> final commit; missing PreCommit callback fails closed with abort logging. |
 | Percolator | ✅ | ❌ | Primary-lock optimistic flow with TrueTime commit-wait and WAL phase logging for takeover/recovery. |
 | Calvin | ✅ | ❌ | Deterministic pre-order execution path (`executeCalvin`) without classic vote round; uses coordinator transaction state + WAL durability hooks. |
@@ -669,15 +678,17 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 ### Short Flow Notes for Refactoring Planning
 
-- Sharding currently carries **two overlapping commit-orchestration surfaces**: `CrossShardTransactionCoordinator` and `TwoPhaseCommitCoordinator`.
-- Recovery in sharding is **WAL + snapshot-centric** (coordinator + participant re-drive semantics).
+- DIS-05 covers the named pair: `TwoPhaseCommitCoordinator` is the standalone 2PC API and `CrossShardTransactionCoordinator` delegates its 2PC decision/phase contract to the shared coordinator-side execution contract. Their transports (RequestHandler/adapter versus `ShardRPCClient` endpoints), transaction lifecycles, WAL formats, and recovery implementations remain coordinator-specific. A third public 2PC-capable surface, `DistributedTransactionCoordinator`, is not part of this closure.
+- The source review found no direct production instantiations of the two DIS-05 classes in `src/` or `include/`; their public APIs remain used/referenced by tests and documentation.
+- Recovery remains coordinator-specific: `TwoPhaseCommitCoordinator` re-drives recorded decisions from its WAL; `CrossShardTransactionCoordinator::recoverFromWAL()` restores state and reports resume candidates but does not automatically re-drive phase-two RPCs. A common cross-coordinator recovery format is not established by DIS-05.
 - Replication centers on **WAL streaming, quorum commit-index, and slot/membership state replay**, not on 2PC-style prepare/abort transaction protocols.
 
 ### Identified Risks / Redundancies
 
-- **2PC duplication risk:** Similar coordinator concerns exist in both `cross_shard_transaction.*` and `two_phase_commit_coordinator.*`, increasing divergence probability under fixes.
+- **2PC execution divergence (DIS-05):** Closed by sharing phase ordering, configured decision-persistence gating, and terminal failure semantics. Public APIs and coordinator-specific WAL/recovery remain separate; keep contract tests covering both paths.
+- **Recovery surface fragmentation (DIS-06):** Remains a separate boundary. This closure does not unify WAL encoding, recovery replay, snapshots, or coordinator handoff.
+- **Separate coordinator boundary:** `DistributedTransactionCoordinator` (`include/sharding/distributed_transaction.h`, `src/sharding/distributed_transaction.cpp`) also supports 2PC but is outside this named-pair contract. Its semantics require separate review; DIS-05 does not claim repo-wide 2PC convergence.
 - **Protocol asymmetry risk:** 2PC/3PC/Percolator/Calvin/SAGA exist only in sharding; replication has different commit semantics (quorum/WAL), so shared refactoring must preserve module-specific invariants.
-- **Recovery surface fragmentation:** Recovery responsibilities are split across coordinator WAL replay, participant WAL replay, logical slot-state reload, and Raft membership WAL replay without one cross-module recovery contract.
 - **Error-path consistency risk:** 3PC depends on injected PreCommit RPC callback and fail-closed behavior; misconfiguration handling differs from 2PC and from replication failover paths.
 - **Durability policy drift risk:** Multiple WAL layers (transaction WAL, sharding WAL manager, replication WAL manager, archival manager) increase chance of inconsistent fsync/retention/replay assumptions.
 

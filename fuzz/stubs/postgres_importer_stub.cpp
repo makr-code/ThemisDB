@@ -46,9 +46,9 @@
 #include <unordered_set>
 #include <vector>
 
-// Avoid Windows ERROR macro collision
-#ifdef ERROR
-#  undef ERROR
+// Avoid Windows FAILURE macro collision
+#ifdef FAILURE
+#  undef FAILURE
 #endif
 
 namespace themis {
@@ -543,13 +543,13 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file,
 
         if (!opts.continue_on_error && line.size() > row_limit) {
             addError(stats, ImportErrorCode::ROW_TOO_LARGE,
-                     ImportErrorSeverity::ERROR,
+                     ImportErrorSeverity::FAILURE,
                      "Row exceeds max_row_size_bytes limit");
             continue;
         }
         if (opts.enforce_utf8 && !isValidUtf8(line)) {
             addError(stats, ImportErrorCode::INVALID_UTF8,
-                     ImportErrorSeverity::ERROR,
+                     ImportErrorSeverity::FAILURE,
                      "Non-UTF-8 byte sequence in COPY row");
             ++stats.failed_records;
             continue;

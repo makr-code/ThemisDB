@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-11-01"
+Last Updated: "2026-11-02"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -47,7 +47,8 @@ counted; there is no automatic retry of a rejected manual enqueue. A queued
 `DisasterRecoveryResult`, including final state, error text, fenced epoch,
 duration, and per-step outcomes. `validatePlan()` requires a non-empty
 `plan_id`, `primary_site`, and `recovery_site`; non-dry-run plans also require a
-non-empty `snapshot_id`.
+non-empty `snapshot_id`, expected snapshot checksum, and required replication
+LSN/term.
 
 `executePlan()` runs prechecks, snapshot validation, epoch fencing, restore,
 replica catch-up, traffic shift, and verification in that order. Only one
@@ -62,12 +63,24 @@ side-effect-free test mocks. Protect hook registration from concurrent execution
 and ensure any hook used in a dry run explicitly preserves dry-run safety.
 
 For non-dry-run plans, snapshot validation, restore, replication-position
-catch-up, requested traffic shift, and recovered-state verification require
-registered step hooks that perform and verify the real operation. The built-in
-handlers fail with an explicit `adapter is not configured` error instead of
-reporting success without external effects. A disabled traffic shift is treated
-as an explicit plan choice. Hook implementations remain responsible for actual
-side effects and independent verification.
+catch-up, requested traffic shift, and recovered-state verification each require
+an operation hook plus a separate verification hook. Acknowledgement alone is
+insufficient: checksum, LSN/term, or recovery-site evidence must match the plan.
+A disabled traffic shift is treated as an explicit plan choice. Quorum and
+epoch-fencing configuration plus a writable `metadata_log_path` are mandatory;
+the checksummed completion record is appended before a successful result is
+returned and replayed when the manager is constructed.
+
+The local metadata log uses a persistent sibling `.lock` file to serialize
+non-dry-run executions that use the same path, with a bounded lock-acquisition
+wait and a durable record flush before success is returned. This coordinates
+processes only when every writer uses this protocol and their filesystem
+provides the required lock and sync semantics; mixed-version writers are not
+covered. It is not a consensus-backed shared metadata service and cannot make
+external adapter effects exactly-once across a crash between an effect and the
+completion record. The manager-level checks are not a complete distributed
+fencing guarantee, and networked multi-process failover/recovery remains
+unverified.
 
 ## Supporting types
 

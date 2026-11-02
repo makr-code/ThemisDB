@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Team
 **Created:** 2026-10-31
-**Last Updated:** 2026-11-01
+**Last Updated:** 2026-11-02
 **Status:** review
 **AI_Used:** true
 **AI_Models:** unknown
@@ -10,6 +10,7 @@
 **Human_Review:** false
 **Human_Author:** ThemisDB Team
 **Quelle:** [FULL_DEEP_DIVE_AUDIT_2026-10-31.md](FULL_DEEP_DIVE_AUDIT_2026-10-31.md) (Findings-IDs in dieser Roadmap verweisen dorthin)
+**Related Milestone:** DOC-WEEKLY-2026-W45 (source follow-up; evidence gates remain open)
 **Zielbranch:** `develop` (Editions-Branches `community`, `enterprise`, `hyperscaler`, `military`, `minimal` erhalten Änderungen über den regulären Promotion-Flow gemäß [../BRANCHING_STRATEGY.md](../BRANCHING_STRATEGY.md))
 
 > **AI-Provenienz:** AI-assisted generation; model attribution is approximate and not guaranteed.
@@ -114,38 +115,66 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
 ### WS1 – Durability & Recovery
 
 - [~] **P0 · STO-01 – WAL-Recovery fail-closed** (Target: M1 · 2026-12-15)
-  - [~] 2026-11-01: Segment replay errors now fail `WALStorage::open`; corruption, checksum/type/sequence errors,
-    callback aborts, and timeouts are surfaced. A physically incomplete tail is truncated only after scanning for a
-    subsequent complete record header. Remaining: structured recovery status/metrics, configurable timeout and
-    override/quarantine policy, replication-deserialization errors, and broader corruption/property tests.
+  - [~] 2026-11-02 source follow-up: `WALStorage::open` exposes an optional `RecoveryResult` with
+    `Complete`, `TruncatedTail`, `Corrupted`, `TimedOut`, and `Failed` status values. Strict is the default;
+    `Config::recovery_timeout` is configurable, zero means unlimited, and negative values are rejected. An incomplete
+    final header is truncatable only when its available bytes match the WAL magic prefix; corruption in the middle of
+    a segment fails open. Explicit `SkipCorrupted` quarantines a corrupt segment under `<wal_dir>/quarantine` and can
+    succeed with status `Corrupted`. Callback aborts and I/O errors fail open. Replication returns false from its
+    recovery callback when `WALEntry::deserialize` fails, so startup fails.
+  - **Partial implementation only.** Remaining: process-kill and broader corruption/property-test evidence,
+    actual test execution, and replay-performance evidence. The ≤5% replay-regression benchmark against a recorded
+    baseline is still open; status reporting does not establish metrics or readiness wiring.
   - Dateien: `src/storage/wal_storage.cpp` (`replaySegment`, Z. 490-514), `include/storage/wal_storage.h`,
     Nutzer `src/sharding/wal_manager.cpp:147`, `src/replication/replication_manager.cpp:670-685`.
-  - Verhalten: Recovery liefert `RecoveryResult { status ∈ {Complete, TruncatedTail, Corrupted, TimedOut},
+  - Verhalten: Recovery liefert `RecoveryResult { status ∈ {Complete, TruncatedTail, Corrupted, TimedOut, Failed},
     last_valid_lsn, skipped_bytes, segment }`. `TruncatedTail` nur, wenn nach der defekten Stelle **kein** gültiger
     Record-Header mehr im Segment folgt; jede Korruption mit nachfolgenden gültigen Records ist `Corrupted`.
-  - Produktionsmodus: `Corrupted`/`TimedOut` → Start verweigert, `readiness=false`, Metrik
-    `themis_wal_recovery_status{status}` und Audit-Event. Override nur explizit über
-    `wal.recovery_mode=skip_corrupted` (Default `strict`) mit Quarantäne des Segments nach `<wal_dir>/quarantine/`.
-  - Timeout: `wal.recovery_timeout_seconds` (Default `0` = unbegrenzt) plus Fortschrittsmetrik; Ablauf = `TimedOut`.
-  - Replikation: nicht deserialisierbare Einträge (`replication_manager.cpp:670-674`) werden `Corrupted` statt WARN+Skip.
+  - Produktionsmodus/Observability offen: Die Quelle implementiert keine hier zugesagte `readiness`- oder
+    `themis_wal_recovery_status`-Metrik. `RecoveryMode::SkipCorrupted` und `Config::recovery_timeout` sind
+    `WALStorage`-API-Konfigurationen; es ist keine externe `wal.recovery_mode`- bzw. Sekunden-Config hier belegt.
+  - Replikation: nicht deserialisierbare Einträge (`replication_manager.cpp:670-674`) lassen den Recovery-Callback
+    jetzt `false` zurückgeben und schlagen beim Start fehl.
   - Fehlerfälle: Magic-Mismatch mitten im Log, CRC-Fehler, abgeschnittener Header, Länge > Segmentrest, I/O-Fehler, Timeout.
   - Tests: `CorruptedEntry_StopsReplay` (`tests/test_wal_storage.cpp:290-316`) ersetzen durch
     `MidLogCorruption_FailsClosed`, `TruncatedTail_IsAccepted`, `SkipCorrupted_QuarantinesSegment`,
     `RecoveryTimeout_FailsClosed`; Property-Test mit zufälligen Bit-Flips (≥ 10.000 Fälle, deterministischer Seed).
-  - Performance: Replay-Durchsatz-Regression ≤ 5 % gegenüber Baseline (Benchmark vorher messen und einchecken).
-  - Kompatibilität: Breaking Change (siehe [Breaking Changes](#breaking-changes)); Storage-README korrigieren (WS9).
+  - Performance-Gate offen: Replay-Durchsatz-Regression ≤ 5 % gegenüber einer gemessenen und eingecheckten Baseline
+    ist noch nicht nachgewiesen.
+  - Kompatibilität: Breaking Change (siehe [Breaking Changes](#breaking-changes)); Storage-README/API synchronisiert
+    2026-11-02, ohne die offenen Test- oder Performance-Gates als erledigt auszuweisen.
 - [ ] **P0 · STO-07 – Prozess-Crash-Harness** (Target: M1 · 2027-01-31)
   - Kindprozess schreibt bestätigte Commits; Elternprozess beendet ihn per `SIGKILL`/`TerminateProcess` an zufälligen
     Punkten (inkl. während `fsync`, Segment-Rotation, Checkpoint, Backup). Danach Neustart und Prüfung:
     jeder bestätigte Commit sichtbar, kein unbestätigter Commit sichtbar, Indizes konsistent.
   - Abdeckung: RocksDB-Primärspeicher, `WALStorage` (Sharding/Replikation), Backup/Restore.
   - Umfang: ≥ 50 Iterationen auf PRs mit Storage-Änderungen, ≥ 1.000 Iterationen nightly; Ergebnis als Artefakt.
+  - **Teilweise implementiert, nicht ausgeführt:** `tests/storage/test_wal_process_crash.cpp` startet einen separaten
+    WAL-Worker mit `fsync_on_write=true`, hält ihn zwischen Operationen an und sendet `SIGKILL` nach bestätigten
+    Appends an Rotations- und Checkpoint-Grenzen. Nach dem Neustart prüft der Test, dass genau die bestätigten PUTs
+    wiederhergestellt werden. Er beweist keine Kills innerhalb eines laufenden write/fsync/rotate/checkpoint-Aufrufs
+    und deckt weder Backup/Restore noch RocksDB-Indizes ab.
+  - **Offen:** Testausführung und Artefakte; in-syscall-Kill-Punkte, Backup/Restore, Indexkonsistenz sowie ≥ 50
+    PR- und ≥ 1.000 Nightly-Iterationen. Die geforderten STO-07-Gates bleiben bis zu diesen Nachweisen offen.
   - Bestehende In-Process-Tests (`tests/test_crash_recovery_direct.cpp`, `tests/test_wal_chaos.cpp`) bleiben als Unit-Ebene.
 - [ ] **P0 · STO-04 – Wartungs-Threads mit Lebenszyklus** (Target: M1 · 2027-01-31) – `std::thread(...).detach()` in
   `src/maintenance/database_maintenance_orchestrator.cpp:608-613` durch `std::jthread` mit `std::stop_token` ersetzen;
   `stop()` joint mit Timeout; TSan-Test „Shutdown während laufender Wartung“.
-- [ ] **P1 · STO-10 – Teilbatch-Semantik Streaming-Ingest** (Target: M1 · 2027-02-28) – `src/storage/streaming_ingest_manager.cpp:320-326`:
-  entweder atomarer `WriteBatch` (alles oder nichts) oder Per-Record-Status im Ergebnis; Verhalten in API-Doku festlegen; Fehlerinjektions-Test.
+- [~] **P1 · STO-10 – Teilbatch-Semantik Streaming-Ingest** (Target: M1 · 2027-02-28) – `ingestBatch()` admits all
+  events or none: BLOCK waits for whole-batch capacity and times out with none enqueued; DROP returns zero and drops
+  all if capacity is insufficient. Each RocksDB WriteBatch chunk is atomic, not the entire input batch. A failed
+  chunk and remaining suffix are retained ahead of newer events; errors report `failed_offset`/`total`; prior
+  successful chunks remain committed and ordered retry is PUT-idempotent. Contract documentation is synchronized.
+  `tests/storage/test_streaming_ingest_retry_queue.cpp` covers the requeue helper with a later-chunk offset, ensuring
+  committed-prefix entries are excluded and the suffix precedes newer queued events. The new
+  `tests/storage/test_streaming_ingest_rocksdb_failure.cpp` wraps a real RocksDB `Env` and fails a later WAL-file
+  `Append`; it verifies `failed_offset`, that the committed prefix stays visible, that the failed suffix is retried
+  before a concurrently queued newer PUT, and that final values survive close/reopen. This is source coverage only
+  until the focused target is built and run; execution evidence remains open.
+  - Validation note (2026-11-02): no tests or benchmarks were run for this documentation follow-up. Local diagnostic
+    configure was blocked by missing system `fmt`. Observed unrelated Actions Build Wave B Transaction run
+    `41389381448` failed CMake configure because `yaml-cpp` was missing; its test gate failed because jobs were
+    skipped. That run is not storage execution evidence.
 - [ ] **P1 · STO-05 – Changefeed-Sequenz fail-closed** (Target: M1 · 2026-12-15) – leere Catches in `src/cdc/changefeed.cpp:220-223`
   durch Fehlerstatus + Metrik ersetzen; korrupte Legacy-Sequenz darf nicht still auf Fallback zurückfallen.
 - [ ] **P1 · STO-06 – CDC-Outbox-Tests unter Windows** (Target: M1 · 2027-01-31) – Fixture-Crash (`tests/cdc/test_cdc_outbox.cpp:26`) beheben, Skip entfernen.
@@ -272,18 +301,19 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
     Embedding, Generierung, LoRA, Vision, Whisper.
   - Exit: `GTEST_SKIP` in `tests/llm` von 258 auf ≤ 20, jeder verbleibende Skip mit Begründung und Ticket.
 - [ ] **P1 · AI-07/AI-09 – Zentrale Admission Control** (Target: M3 · 2027-04-30)
-  - Hartes `max_tokens`-Cap an der Request-Grenze (`src/llm/task_decomposer.cpp:982` nur Fallback); globales
-    Concurrency-Limit je Modell; GPU-Speicherbuchhaltung; Überlast → HTTP 429 mit `Retry-After`.
-  - Tests: Lasttest mit 2× Kapazität ohne OOM; Requests über Cap werden abgelehnt.
+  - Managed inference now has explicit model routing, a process-wide non-queueing cap of 8 active calls,
+    a 4096 generated-token limit, a combined 1 MiB input byte limit, and overload HTTP 429 with `Retry-After: 1`.
+    Per-model/GPU-memory-aware admission is not implemented; focused validation remains pending.
+  - Remaining evidence: validate overload and input-boundary behavior; do not infer real-model, TSan, or hardware results.
 - [ ] **P1 · SEC-10 – Stub-Backends im Produktionsmodus sperren** (Target: M1) – `src/whisper/whisper_plugin.cpp:18-29` und
   alle in `src/STUB_INVENTORY.md` gelisteten aktiven Stubs: Start im Produktionsmodus ohne echtes Backend schlägt fehl.
 - [ ] **P1 · Preview-Kennzeichnung** (Target: M1) – AI-Endpunkte liefern `X-Themis-Feature-Stage: preview`; Aktivierung
   nur über explizites Feature-Flag; Doku in API-Referenz.
 - [ ] **P2 · AI-10 – Vision-/LoRA-Skips beheben** (Target: M3) – `tests/llm/test_llm_vision_encoder.cpp:129`,
   `tests/llm/test_lora_adapters.cpp:319`; LoRA-Lifecycle unter TSan.
-- [ ] **P2 · AI-08 – Concurrency-Claim belegen oder entfernen** (Target: M0) – `src/llm/THREADING.md:493`.
-- [ ] **P2 · AI-12 – Timeout-Lücke abgleichen** (Target: M1) – `src/llm/TODO_CRITICAL_GAPS.md:107` vs. Produktions-Claims; Timeout-Integrationstest.
-- [ ] **P2 · AI-01 – Toten Code entfernen** (Target: M0) – `src/llm/ssm_stub_plugin.cpp` (vollständig `#if 0`).
+- [x] **P2 · AI-08 – Concurrency-Claim belegen oder entfernen** (Target: M0) – Unsupported 1024-request/hardware claim removed from `src/llm/THREADING.md`; process-wide cap documented without TSan or hardware evidence.
+- [ ] **P2 · AI-12 – Timeout-Lücke abgleichen** (Target: M1) – `src/llm/TODO_CRITICAL_GAPS.md:107`; docs now state that synchronous `ILLMPlugin::generate()` cannot guarantee a deadline for a non-cooperative backend; timeout integration evidence remains pending.
+- [x] **P2 · AI-01 – Toten Code entfernen** (Target: M0) – `SyntheticSSMStub` header/source and its benchmark removed; no SSM inference backend is provided.
 
 ### WS6 – CI Fail-Closed & Test-Evidenz
 
@@ -362,22 +392,117 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
   - [x] 2026-11-01: 39 RAG-Quellen verwenden nur noch ihr kanonisches fokussiertes Testtarget; für alle
     verglichenen Paare waren die kompilierten Quelldateien identisch. `AutoFocusedTests`-Namen und
     `rag`-/`autogen`-Labels bleiben erhalten; beide Adaptive-Retrieval-CTest-Einträge bestehen.
-  - [x] 2026-11-01: 66 LLM-Quellen verwenden für den zusätzlichen `AutoFocusedTests`-Namen ihr kanonisches
-    fokussiertes Target; die Namen und `llm`-/`autogen`-Labels bleiben erhalten. Im modularen Profil nutzt
-    der Alias das fokussierte Binary mit den LlamaCpp-Providerquellen. Drei LLM-Paare mit abweichenden
-    implementierungsspezifischen Quellmengen bleiben bis zur Einzelprüfung getrennt. Das fokussierte
-    API-Contract-Hardening-Target und beide zugehörigen CTest-Namen bestehen.
-  - [x] 2026-11-01: Nach der Neu-Konfiguration sank die Zahl mehrfach fokussiert kompilierter `test_*.cpp`-
-    Quellen im Windows-Debug-Profil von 71 auf 5. Der aktuelle Bestand umfasst 4.235 Testquellen, davon
-    2.823 kompiliert, 1.412 außerhalb des Profils und 0 Quellen ohne auflösbares Target.
-  - Offen: Baseline bereinigen und begründete Ausschlussliste erstellen. Das lokale Windows-Debug-Profil findet
-    weiterhin 1.412 Quellen außerhalb dieses Profils; Mehrfachregistrierungen müssen einzeln geprüft werden,
-    bevor ein globales Inventar-Gate fail-closed geschaltet wird. Die fünf verbleibenden Quellen sind drei
-    LLM-Tests mit abweichenden Providerquellen, `test_tensor_shard_summary.cpp` mit zwei unterschiedlichen
-    Implementierungssätzen sowie `test_gtest_main.cpp`, das als gemeinsamer Test-Runner in mehreren Targets
-    kompiliert wird.
-    Diese Profil-abhängigen Bestandslücken
-    und historische Guards (teils mit fehlenden Quellen) sind ebenfalls noch einzeln zu bewerten.
+  - [x] 2026-11-01: 66 LLM-Quellen und die drei zuvor getrennten LLM-Providerfälle verwenden für den
+    zusätzlichen `AutoFocusedTests`-Namen ihr kanonisches fokussiertes Target; Testnamen und Modul-Labels
+    bleiben erhalten. Die drei Provider-Sets waren zusätzliche Build-Abhängigkeiten, nicht unterschiedliche
+    Testquellen oder Testfälle.
+  - [x] 2026-11-01: Der Tensor-Shard-Summary-Autofocused-Name verwendet das vorhandene Phase-C-Testtarget;
+    beide CTest-Namen bleiben bestehen. Der dateibasierte `if(EXISTS ...)`-Guard für die Testquelle wurde
+    entfernt, sodass eine fehlende Datei die CMake-Konfiguration fehlschlagen lässt. Der gezielte Windows-
+    Debug-Build aller vier kanonischen Targets und alle fünf betroffenen CTest-Namen bestehen.
+  - [x] 2026-11-01: Das modulare Windows-Debug-Profil inventarisiert 4.228 Testquellen: 2.817 kompiliert,
+    1.411 außerhalb des Profils, 0 ohne auflösbares Target. Die einzige Mehrfachregistrierung ist der
+    gemeinsame Runner `test_gtest_main.cpp`, der absichtlich in separaten Test-Executables kompiliert wird.
+  - [x] 2026-11-01: Der Profilvergleich bestätigt 2.908 kompilierte Quellen im nicht-modularen
+    Windows-Debug-Profil, 1.320 außerhalb des Profils und 0 ohne auflösbares Target. Es ergänzt 91 Quellen
+    gegenüber dem modularen Profil; die modulare Abdeckung ist enthalten.
+  - [x] 2026-11-01: Die adaptiven Quellen `test_adaptive_flush_controller.cpp` und
+    `test_adaptive_shard_router.cpp` verwenden im nicht-modularen Profil jeweils nur ihr kanonisches Modul-
+    Target. Bestehende CTest-Aliase, Domain-Filter und GTest-Einzeltest-Discovery bleiben erhalten;
+    das Inventar sinkt von 394 auf 392 Mehrfachregistrierungen.
+  - [x] 2026-11-01: 22 GPU-Quellen verwenden im nicht-modularen Profil nur noch ihr kanonisches Modul-
+    Target. Die bestehenden GTest-Einzeltest-Discovery-Einträge werden dort am Target im Modulverzeichnis
+    erzeugt; das Inventar sinkt von 392 auf 370 Mehrfachregistrierungen.
+  - [x] 2026-11-01: 13 Exporter-Testquellen verwenden im nicht-modularen Profil nur noch ihr kanonisches
+    Modul-Target. Die bisherigen Root-Targets kompilieren dieselben 16 Exporter-Dateien und `logger.cpp` redundant,
+    obwohl sie bereits von `themis_core` gebaut werden; alte CTest-Namen, Labels und Build-Target-Namen
+    bleiben als Aliase erhalten. Das Inventar sinkt von 370 auf 357 Mehrfachregistrierungen.
+  - [x] 2026-11-01: `tests/gpu/test_gpu_graph_traversal.cpp` verwendet das kanonische GPU-Modulziel;
+    die vier zusätzlich vom Root-Target kompilierten Graph-Produktionsdateien liegen bereits in `themis_core`.
+    `GPUGraphTraversalTests` und `test_gpu_graph_traversal` bleiben als CTest- bzw. Build-Aliase erhalten.
+    Der CPU-Fallback-Test wird auch bei `THEMIS_ENABLE_GPU=OFF` registriert; beide GPU-Profile konfigurieren,
+    der Off-Modus wurde im vorhandenen nicht-modularen Build-Tree verifiziert. Das Inventar sinkt auf 356.
+  - [x] 2026-11-01: `tests/graph/test_gpu_traversal.cpp` wird nur noch durch das kanonische Graph-Modul-Target
+    kompiliert. GTest-Einzelfallnamen und das bisherige Build-Target `test_gpu_traversal_focused` bleiben erhalten;
+    das Inventar sinkt von 356 auf 355 Mehrfachregistrierungen.
+  - [x] 2026-11-01: `tests/analytics/test_process_discovery_conformance.cpp` wird nur noch durch das kanonische
+    Analytics-Modul-Target kompiliert. Der bisherige CTest-Name samt Labels und Timeout sowie das Build-Target
+    `test_process_discovery_conformance_focused` bleiben als Aliase erhalten; das Inventar sinkt von 355 auf 354.
+  - [x] 2026-11-01: `tests/advanced/test_advanced_cache_manager.cpp` wird nur noch durch das kanonische Advanced-
+    Modul-Target kompiliert. Der aggregierte CTest-Name samt Labels/Timeout, die bisherigen Einzeltestnamen und beide
+    Build-Targets (`test_advanced_cache_manager`, `test_advanced_cache_manager_focused`) bleiben erhalten;
+    `src/performance/advanced_cache_manager.cpp` stammt bereits aus `themis_core`. Das Inventar sinkt von 354 auf 353.
+  - [x] 2026-11-01: `tests/analytics/test_process_mining_llm.cpp` wird nur noch durch das kanonische Analytics-Modul-
+    Target kompiliert. `ProcessMiningPatternFocusedTests`, seine Labels/Timeout und das bisherige Build-Target
+    `test_process_mining_pattern_focused` bleiben als Aliase erhalten; die Quelldatei gehört laut CMake-Vertrag zum
+    Process-Mining-Pattern-Test und benötigt keine LLM-spezifischen Abhängigkeiten. Das Inventar sinkt von 353 auf 352.
+  - [x] 2026-11-01: `tests/analytics/test_anomaly_detection.cpp` und `test_cep_engine.cpp` verwenden jeweils nur noch
+    ihr kanonisches Analytics-Modul-Target. Die bisherigen Root-Build-Targets und CTest-Namen samt Labels/Timeouts
+    bleiben als Aliase erhalten; beide Quellpaare einschließlich ihrer Produktionsdatei waren identisch. Das
+    Inventar sinkt von 352 auf 350 Mehrfachregistrierungen.
+  - [x] 2026-11-01: `tests/analytics/test_columnar_execution.cpp` wird nur noch durch das kanonische Analytics-
+    Modul-Target kompiliert. Im nicht-modularen Profil bleiben `ColumnarExecutionFocusedTests` samt bisherigen
+    Labels/Timeout sowie `test_columnar_execution_focused` als Aliase erhalten; beide Targets hatten dieselbe Test-
+    und Produktionsquelle. Das Inventar sinkt von 350 auf 349 Mehrfachregistrierungen.
+  - [x] 2026-11-01: Die Analytics-Quellen für Expert-System-Engine, Forecasting, LLM-Process-Analyzer,
+    Streaming-Join und Streaming-Window verwenden nur noch ihr jeweiliges Modul-Target. Die bisherigen Root-
+    CTest-Namen samt Labels/Timeouts und Build-Target-Namen bleiben im nicht-modularen Profil erhalten; für alle
+    fünf Paare waren Test- und Produktionsquellen identisch. Das Inventar sinkt von 349 auf 344 Mehrfachregistrierungen.
+  - [x] 2026-11-01: `tests/api/test_api_interfaces.cpp` und `test_api_key_authenticator.cpp` verwenden je ein
+    kanonisches API-Modul-Target. Root-CTest-Namen samt Labels/Timeouts sowie Build-Target-Namen bleiben als Aliase
+    erhalten; die Quellmengen waren identisch. Die OpenSSL-Linkabhängigkeiten des API-Key-Tests bleiben explizit am
+    Modul-Target. Das nicht-modulare Inventar sinkt von 344 auf 342 Mehrfachregistrierungen.
+  - [x] 2026-11-01: `tests/base/test_base_entity_focused.cpp` und
+    `test_base_reload_regression.cpp` verwenden je ein kanonisches Base-Modul-Target. Die bisherigen Root-Build-
+    Targets sowie CTest-Namen, Labels und Timeouts bleiben als Aliase erhalten; beide Quellmengen waren identisch.
+    Das nicht-modulare Inventar sinkt von 342 auf 340 Mehrfachregistrierungen.
+  - [x] 2026-11-01: 25 Ingestion-Testquellen unter `tests/ingestion/` verwenden nur noch ihr kanonisches Modul-
+    Target. Root-Build-Target-Namen, CTest-Namen, Labels und Timeouts bleiben erhalten; Quellen außerhalb des
+    Ingestion-Moduls behalten ihre bisherigen eigenständigen Targets. Das Builtin-Steps-Target behält seine
+    explizite `CXX_STANDARD 17`-Einstellung und nlohmann-json-Abhängigkeit. Das nicht-modulare Inventar sinkt
+    von 340 auf 315 Mehrfachregistrierungen.
+  - [x] 2026-11-02: 16 Network-Testquellen mit identischen Test-/Produktionsquellen verwenden nur noch ihr
+    kanonisches Network-Modul-Target. Root-Build-Target-Namen, CTest-Namen, Labels und Timeouts bleiben erhalten;
+    `tests/network/test_websocket_cdc.cpp` bleibt wegen zusätzlicher Root-Produktionsquellen separat registriert.
+    Das nicht-modulare Inventar sinkt von 315 auf 299 Mehrfachregistrierungen.
+  - [x] 2026-11-02: Sechs CDC-Testquellen (`changefeed_core`, `pause_control`, `backpressure_signal`, `fan_in`,
+    `event_schema`, `delivery_guarantee_config`) verwenden nur noch ihr kanonisches Modul-Target. Root-Build-
+    Target-Namen, CTest-Namen, Labels, Timeouts sowie explizite nlohmann-json-/RocksDB-Abhängigkeiten bleiben
+    erhalten. Das nicht-modulare Inventar sinkt von 299 auf 293 Mehrfachregistrierungen.
+  - [x] 2026-11-02: Die Plugin-Hot-Plug- und Hot-Reload-Tests verwenden ihr kanonisches Plugin-Modul-Target;
+    die Legacy-Buildtarget-Namen, CTest-Namen, Labels und Timeouts bleiben erhalten. Die explizite
+    `CMAKE_DL_LIBS`-Abhängigkeit bleibt auf dem Modul-Target; das nicht-modulare Inventar sinkt von 293 auf 291.
+  - [x] 2026-11-02: Sechs weitere CDC-Tests (`admin`, `retention`, `changefeed_sequence_counter`,
+    `consumer_group`, `kafka_producer`, `ws_handler`) verwenden ihr kanonisches CDC-Modul-Target. Die
+    bedingten Produktionsquellen für HTTP-Server- und Kafka-Konfigurationen sowie nlohmann-json-/RocksDB-
+    Abhängigkeiten und Windows-Runtime-DLL-Synchronisierung wurden auf das Modulziel übertragen. Legacy-
+    Buildtarget-Namen und CTest-Namen, Labels und Timeouts bleiben erhalten. Beide Windows-Debug-Profile
+    konfigurieren; im nicht-modularen Profil haben alle sechs Quellen genau ein fokussiertes Target und
+    das Inventar sinkt von 291 auf 285. Der gezielte Build bleibt durch einen unabhängigen MSVC-Fehler im
+    generierten gRPC-Header vor Erreichen der CDC-Targets blockiert.
+  - [x] 2026-11-02: Sieben Auth-Tests (`anomaly_detection`, `audit_logger`, `error`, `input_validation`,
+    `metrics`, `middleware`, `rate_limiter`) verwenden ihr kanonisches Auth-Modul-Target. Die expliziten
+    OpenSSL-, optionale CURL- und nlohmann-json-Abhängigkeiten wurden auf die Modulziele übertragen;
+    Legacy-Buildtarget-Namen und CTest-Namen, Labels und Timeouts bleiben erhalten. Compilation-Databases
+    beider Windows-Debug-Profile bestätigen jeweils genau ein fokussiertes Target je geänderter Quelle;
+    das nicht-modulare Inventar sinkt von 285 auf 278. Der verteilte Rate-Limiter bleibt separat, weil sein
+    Legacy-Target zusätzlich `src/auth/rate_limiter_backend.cpp` kompiliert.
+  - Offen: Das nicht-modulare Profil enthält weiterhin 278 Quellen mit mehreren Nicht-Aggregat-Testtargets.
+    Diese Mehrfachregistrierungen müssen einzeln auf doppelte Builds oder unterschiedliche Link-/Testverträge
+    geprüft werden; nur `themis_tests` und `themis_tests_critical` gelten im Gate als Sammelziele.
+  - Der gezielte Build der Ingestion-Targets, BaseEntity-/Base-Reload-Aliase sowie der GPU-Graph-Traversal-,
+    Network-, CDC-, Auth- und Plugin-Aliase ist nicht bestätigt: Der aktuelle MSVC-Versuch stoppt beim Kompilieren der
+    generierten gRPC-Quellen mit C2065/C3878 in `vcpkg_installed/x64-windows/include/grpcpp/impl/call_op_set.h:979`.
+    Ein früherer fokussierter Build erreichte `src/prompt_engineering/rewrite_engine.cpp`, `rewrite_rule_base.cpp`
+    und `rewrite_rule_loader.cpp` und stoppte dort mit C2059. Keiner dieser Fehler liegt in den Testregistrierungs-
+    änderungen; Compilation-Database und CTest-Registrierung allein belegen keinen erfolgreichen Build oder Testlauf.
+  - Offen: Baseline bereinigen und begründete Ausschlussliste erstellen. Die 1.320 Quellen außerhalb beider
+    Profile bestehen aus 1.016 Dateien unter `tests/legacy/`, 228 Root-Testdateien und 76 Quellen in sonstigen
+    Testverzeichnissen. Keine dieser Gruppen gilt pauschal als freigegebener Ausschluss; Profil-Ausnahmen und
+    historische Guards (teils mit fehlenden Quellen) sind einzeln zu bewerten.
+  - Dokumentationslücke: Die Developer-LLM-Wiki enthält keinen kuratierten TST-03-/Testregistrierungs-Kontext.
+    Bis zur Aufnahme über den Wiki-Sync bleiben `tools/ci/check_test_registration.py` und dieser Audit die
+    maßgeblichen Implementierungs- und Evidenzquellen.
 - [ ] **P0 · OPS-07 – Fuzz-Smoke auf PRs** (Target: M1 · 2027-01-31) – 5 min je Parser-Fuzzer (AQL, HTTP, Wire-Protokoll, Importer)
   bei Änderungen in den jeweiligen Pfaden; Korpus-Pflege in `security-fuzzing.yml`.
 - [ ] **P1 · TST-01 – Skip-/Assert-Budget** (Target: M1 · 2027-03-31) – Skip-Budget je Modul (Ziel: −50 % der 2.965
@@ -415,8 +540,8 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
   - `CHANGELOG.md:66-72`, `:382-386`, `SECURITY.md:26-27`, `RELEASE_STRATEGY.md:79` an `RELEASE_TYPE=alpha` angleichen
     („GA“/„production-ready“ nur als Ziel kennzeichnen).
   - CI-Check: Begriffe „GA Release“/„production-ready“ in Root-Dokumenten nur, wenn `RELEASE_TYPE=ga`.
-- [ ] **P0 · Storage-README korrigieren** (Target: M0) – `src/storage/README.md:67`, `:76`, `:122` bis zum Abschluss von STO-01
-  als „nicht erfüllt“ markieren und auf diese Roadmap verweisen.
+- [x] **P0 · Storage-README source-synchronisieren** (erledigt 2026-11-02) – `src/storage/README.md` beschreibt die
+  aktuellen WAL-Recovery- und Streaming-Ingest-Verträge; STO-01 bleibt partiell und die Evidence-Gates offen.
 - [ ] **P1 · DOC-08 – Eine reproduzierbare Fortschrittsmetrik** (Target: M0) – `ROADMAP.md:47-53`.
 - [x] **P1 · Compliance-Snapshot kennzeichnen** (Target: M0) – `audit/README.md`: Prozentwerte als Checklisten-Selbsteinschätzung, nicht als Zertifizierung (erledigt 2026-10-31).
 - [ ] **P1 · DOC-10 – `llm_l_wiki`** (Target: M1) – Pflicht-Docs ergänzen oder Modul entfernen.
@@ -445,7 +570,7 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
 
 ### Phase 1 – Design / API-Vertrag (2026-11-01 – 2026-12-15)
 
-- [ ] `RecoveryResult`-API und Recovery-Modi für `WALStorage` spezifizieren (STO-01) (Target: 2026-11-20)
+- [x] `RecoveryResult`-API und Recovery-Modi für `WALStorage` spezifiziert und mit der Quelle abgeglichen (STO-01, 2026-11-02); Implementierungs- und Evidenz-Gates bleiben teilweise offen.
 - [ ] ADR „Kanonischer 2PC-Koordinator“ inkl. Migrationsplan der Aufrufer (DIS-05) (Target: 2026-12-15)
 - [ ] Recovery-Vertrag Koordinator/Participant/Replikation als ein Dokument (DIS-06) (Target: 2026-12-15)
 - [ ] Produktionsmodus-Vertrag: kanonische Werteliste und Katalog aller Guards (SEC-14, SEC-01, DIS-01, DIS-02, SEC-10) (Target: 2026-11-20)
@@ -468,14 +593,15 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
 
 - [ ] Failover/DR-Handler fail-closed + echte Adapter (DIS-08), Spare-Auswertung (DIS-07), Fencing (DIS-15) (Target: 2027-02-28)
 - [ ] Readiness-Fehler für fehlende optionale Abhängigkeiten (STO-02, STO-03) (Target: 2027-01-31)
-- [ ] Changefeed (STO-05), Streaming-Ingest-Teilbatch (STO-10), Wartungs-Thread-Lebenszyklus (STO-04) (Target: 2027-01-31)
+- [ ] Changefeed (STO-05), Wartungs-Thread-Lebenszyklus (STO-04) (Target: 2027-01-31)
+- [~] Streaming-Ingest-Teilbatch (STO-10): admission-/Retry-Vertrag source-synchronisiert; Test- und Ausführungsevidenz offen.
 - [ ] Keystore-Ausfall vs. ungültiges Token (SEC-03), Zahlen-Parsing (QRY-02), Search-Deadlines (QRY-07) (Target: 2027-02-28)
 - [ ] Stub-Backends im Produktionsmodus sperren (SEC-10) und AI-Admission-Control (AI-07, AI-09) (Target: 2027-02-28)
 - [ ] Nicht-blockierender Retry-Backoff (DIS-14), persistenter Manifest-Store (DIS-13) (Target: 2027-02-28)
 
 ### Phase 4 – Tests (2027-01-01 – 2027-05-31)
 
-- [ ] Prozess-Crash-Harness Single-Node (STO-07) (Target: 2027-01-31)
+- [~] POSIX WAL-Prozess-Crash-Test an ACK-/Rotations-/Checkpoint-Grenzen hinzugefügt; Ausführung und voller STO-07-Umfang offen (Target: 2027-01-31)
 - [ ] AuthZ-Routenmatrix (SEC-13), JWT-Sicherheitstests (SEC-12) (Target: 2027-02-28)
 - [ ] Sanitizer-PR-Lane (OPS-06) und Fuzz-Smoke (OPS-07) (Target: 2027-01-31)
 - [ ] Skip-/Assert-Budget und Testdichte (TST-01, TST-02), Coverage in CI (Target: 2027-03-31)
@@ -566,7 +692,7 @@ Bis zur Umsetzung der jeweiligen Items gilt für Betrieb und Evaluierung:
 
 | Änderung | Item | Auswirkung | Migration |
 |---|---|---|---|
-| WAL-Recovery standardmäßig `strict` (Start verweigert bei Korruption/Timeout) | STO-01 | Knoten mit defektem Tx-/Replikations-WAL starten nicht mehr still | Vor Upgrade WAL-Integritätsprüfung; bei Bedarf einmalig `wal.recovery_mode=skip_corrupted` mit Quarantäne |
+| WAL-Recovery standardmäßig `Strict` (Start verweigert bei Korruption/Timeout) | STO-01 | Knoten mit defektem Tx-/Replikations-WAL starten nicht mehr still | Vor Upgrade WAL-Integritätsprüfung; falls ausdrücklich freigegeben, `WALStorage::Config::recovery_mode=SkipCorrupted` quarantänisiert das betroffene Segment |
 | Test `CorruptedEntry_StopsReplay` wird ersetzt | STO-01 | Erwartetes Verhalten kehrt sich um | Testsuite-Update im selben PR |
 | Kanonische Produktionsmodus-Erkennung | SEC-14 | Werte wie `true`/`production` aktivieren künftig **alle** Guards; unbekannte Werte → Startfehler | Env-Variablen in Deployments prüfen |
 | mTLS-Zertifikatsfehler → Startfehler | SEC-14 | Kein Plaintext-Fallback mehr | Zertifikatspfade vor Rollout validieren |

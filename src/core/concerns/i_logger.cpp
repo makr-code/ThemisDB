@@ -41,7 +41,7 @@ ILogger::Level ILogger::levelFromString(const std::string &level) {
         return Level::WARN;
     }
     if (lower == "error") {
-        return Level::ERROR;
+        return Level::FAILURE;
     }
     if (lower == "critical" || lower == "fatal") {
         return Level::CRITICAL;
@@ -60,8 +60,8 @@ const char *ILogger::levelToString(Level level) {
             return "INFO";
         case Level::WARN:
             return "WARN";
-        case Level::ERROR:
-            return "ERROR";
+        case Level::FAILURE:
+            return "FAILURE";
         case Level::CRITICAL:
             return "CRITICAL";
         default:

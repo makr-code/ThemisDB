@@ -6,7 +6,7 @@
 
 ## Current Status
 
-The module provides production-grade LLM runtime surfaces across async inference, enhanced multi-model orchestration, adapter/plugin management, routing, streaming, and safety/policy controls.
+The module provides runtime surfaces across async inference, enhanced multi-model orchestration, adapter/plugin management, routing, streaming, and safety/policy controls. Maturity and validation are backend-specific; managed inference hardening remains in audit preview with focused validation pending.
 
 **Wave Alignment (see root ROADMAP.md § Program Execution Model):**
 - **Wave A (Q3–Q4 2026):** Distributed end-to-end optimization (SpeculativeDecoder + cross-node inference hardening)
@@ -87,7 +87,8 @@ The module provides production-grade LLM runtime surfaces across async inference
 ## In Progress
 
 - [~] Cross-node and shard-aware inference hardening (Target: Q3 2026) — COMPLETE 2026-08-16
-- [~] Runtime cancellation semantics and timeout behavior consistency across engine variants (Target: Q3 2026) — COMPLETE 2026-08-16
+- [~] Runtime cancellation semantics and timeout behavior consistency across engine variants (Target: Q3 2026) — cancellation remains backend-dependent; synchronous `ILLMPlugin::generate()` cannot guarantee a wall-clock deadline for a non-cooperative backend.
+- [~] Managed inference bounds: explicit model/plugin routing, fail-closed unknown-model handling, process-wide non-queueing limit of 8 active requests (HTTP overload response: 429 with `Retry-After: 1`), one combined 1 MiB input byte cap across prompt, system prompt, and RAG contents, 4096 generated/response-budget token limit, and 32768 RAG context-window token ceiling. The byte limit is not a token estimate; token-valued settings remain backend token budgets. GPU-memory-based admission is not implemented because plugins expose no enforceable per-model memory contract; focused validation remains pending.
 - [~] Runtime benchmark and regression gate alignment for RAID/RAG-heavy inference paths (Target: Q3 2026) — COMPLETE 2026-08-16
 - [x] Source-validated runtime gap closure follow-up (Target: Q4 2026)
   - [x] remove the remaining STUB #261 / STUB #263 draft-token fallback paths in `inference_engine_enhanced.cpp` so speculative decode no longer falls back to byte-modulo token IDs in production-style execution
@@ -135,7 +136,7 @@ The module provides production-grade LLM runtime surfaces across async inference
   - [x] Phase 3: Code Quality & Performance (150+ medium/low gaps) — Completed 2026-08-26
     - [x] Exception-safety patterns & tests — top-5 methods hardened (`~MLModelManager` noexcept, `deployModel`/`updateModel` rollback on exception, `loadModel` VRAM cleanup on throw); 20 tests in `tests/server/test_wave7_server_llm_hardening.cpp`
     - [x] Performance optimization (copy overhead) — `inferAsync` callback moved into lambda; `loadLoRA`/`unloadLoRA` gossip shard_id moved to announcement struct (eliminates second copy)
-    - [x] Security hardening (LLM input validation, injection prevention) — prompt/query 1 MB limit, lora_id alphanumeric regex, max_tokens 1–32768, temperature 0–2; `THEMIS_WARN("[SEC] ...")` on each rejection (`llm_api_handler.cpp` B2)
+    - [x] Security hardening (LLM input validation, injection prevention) — combined 1 MiB prompt/system/RAG input byte limit (not token estimation), lora_id alphanumeric regex, max_tokens 1–4096, temperature 0–2; `THEMIS_WARN("[SEC] ...")` on each rejection (`llm_api_handler.cpp` B2)
   - [x] Phase 4: Testing & Validation
     - [x] 40+ focused hardening tests (thread-safety, exception-safety, resource cleanup)
     - [x] Performance regression gates established
@@ -396,8 +397,9 @@ The module provides production-grade LLM runtime surfaces across async inference
   binary/protobuf serialization not yet implemented. Serialization is functionally
   correct but has higher storage overhead.
   Tracking comment added in source. Target Q2 2027.
-- [I] `ssm_stub_plugin.cpp` — `SyntheticSSMStub` STUB/SIMULATION NOTE block added
-  to constructor; stub retained for Phase 1 PoC dataflow validation only.
+- [x] Removed the unreachable SSM stub source/header and its synthetic benchmark.
+  State-store and drift-metrics production sources remain; state/interface
+  coverage uses a test-local fixture. No SSM inference backend is provided.
 - [I] `llm_plugin_manager.cpp:668` — `THEMIS_LLAMA_CPP_STUB_MODE` block documented
   with full STUB/SIMULATION NOTE template.
 

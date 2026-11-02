@@ -1,6 +1,6 @@
 # LLM Module - Thread-Safety & Concurrency Model
 
-<!-- Status: complete | validated: 2026-08-17 -->
+<!-- Status: audit preview | no real-model, TSan, or hardware validation evidence asserted -->
 <!-- Links: ARCHITECTURE.md · README.md · OPERATIONS.md -->
 
 Version: 1.0 (Phase 6)
@@ -11,14 +11,17 @@ Module Path: src/llm/
 
 ## Executive Summary
 
-The LLM module is **thread-safe** and designed for highly concurrent inference workloads. Key guarantees:
+This document describes concurrency behavior and synchronization patterns; it is
+not a race-freedom or production-readiness certification. Managed inference
+admits at most eight active calls process-wide. The following implementation
+properties do not imply TSan or hardware validation evidence:
 
 - ✅ **Concurrent Inference:** Multiple threads can submit inference requests simultaneously
 - ✅ **Safe Model Lifecycle:** Model load/unload/switch operations are serialized with reader-writer synchronization
 - ✅ **Adapter Hot-Swap:** LoRA adapters can be swapped without reloading the model
 - ✅ **Stream Isolation:** Each streaming request has isolated state; multiple streams run concurrently
 - ✅ **Cache Coherency:** Response and KV caches maintain consistency under concurrent access
-- ✅ **No Data Races:** All shared state is protected by explicit synchronization primitives
+- **Shared-state synchronization:** This document describes synchronization patterns; it does not assert race-freedom or a TSan result
 
 ---
 
@@ -448,7 +451,7 @@ cmake --build --preset debug-tsan
 ctest --preset debug-tsan -R llm -V
 ```
 
-**Expected Output:** Clean (no data race reports).
+**Evidence status:** This is a validation procedure only; no TSan result is asserted here.
 
 ### Lock Checking
 
@@ -489,10 +492,14 @@ if (!lock) {
 
 ### Scalability
 
-- **Inference Throughput:** Scales linearly with worker thread count up to hardware limit
-- **Concurrent Requests:** Tested up to 1024 concurrent requests on single GPU
-- **Model Switching:** No performance impact on query path until switch occurs
-- **Streaming:** Per-stream overhead ~5 μs; negligible compared to inference latency
+- **Concurrent Requests:** Managed inference admits at most 8 in-flight calls
+  process-wide across `LLMPluginManager` instances and all model IDs; excess
+  calls are rejected without queueing. This is a shared count limit, not
+  per-model GPU-memory admission, a wall-clock deadline, or a hardware
+  throughput claim. The plugin API has no enforceable per-model memory
+  requirement contract, so GPU-memory-based admission is not claimed.
+- Inference throughput, model-switching impact, and streaming overhead depend on
+  the backend and deployment hardware; no benchmark measurements are asserted here.
 
 ---
 
@@ -591,13 +598,13 @@ TEST(LLMThreadSafety, HotSwapUnderLoad) {
 
 ## Summary
 
-The LLM module is production-ready for concurrent workloads. Key principles:
+Managed inference remains in audit preview; this document is not a production-readiness or GA claim. Key implementation principles:
 
 1. **Isolation:** Each request/stream has isolated state
 2. **Serialization:** Model/adapter lifecycle operations serialize via RW-locks
 3. **Lock-Free:** Hot-path operations (cache lookup, quota check) use atomics
 4. **Fail-Safe:** Deadlock detection and lock ordering prevent circular waits
-5. **Observable:** Thread sanitizer and debug checks catch races early
+5. **Validation:** Thread sanitizer and debug checks can be used to investigate races; no validation result is asserted here
 
 For detailed contracts and implementation details, see:
 - [ARCHITECTURE.md § Concurrency Model](ARCHITECTURE.md#5-concurrency-model)
@@ -605,5 +612,5 @@ For detailed contracts and implementation details, see:
 
 ---
 
-**Last Updated:** 2026-08-17 (Phase 6)
-**Status:** PRODUCTION (Wave 5 GA)
+**Last Updated:** 2026-11-02
+**Status:** AUDIT PREVIEW (not GA; no real-model, TSan, or hardware validation evidence asserted)

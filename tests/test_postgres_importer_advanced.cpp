@@ -48,11 +48,11 @@ enum class ImportErrorCode : uint32_t {
     UNKNOWN              = 900
 };
 
-enum class ImportErrorSeverity { INFO, WARNING, ERROR, CRITICAL };
+enum class ImportErrorSeverity { INFO, WARNING, FAILURE, CRITICAL };
 
 struct ImportError {
     ImportErrorCode     code     = ImportErrorCode::UNKNOWN;
-    ImportErrorSeverity severity = ImportErrorSeverity::ERROR;
+    ImportErrorSeverity severity = ImportErrorSeverity::FAILURE;
     std::string         message;
     std::string         location;
 };
@@ -218,7 +218,7 @@ static ImportStats importContent(const std::string& content,
                     line[2]=='C' && line[3]=='O' && line[4]=='P' && line[5]=='Y') {
                     ImportError e;
                     e.code     = ImportErrorCode::BINARY_COPY_FORMAT;
-                    e.severity = ImportErrorSeverity::ERROR;
+                    e.severity = ImportErrorSeverity::FAILURE;
                     e.message  = "Binary COPY format detected for table '" + current_table + "'";
                     e.location = "table " + current_table;
                     stats.structured_errors.push_back(e);

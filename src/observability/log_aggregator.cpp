@@ -75,7 +75,7 @@ const char* levelName(core::concerns::ILogger::Level level) noexcept {
         case core::concerns::ILogger::Level::DEBUG:    return "debug";
         case core::concerns::ILogger::Level::INFO:     return "info";
         case core::concerns::ILogger::Level::WARN:     return "warn";
-        case core::concerns::ILogger::Level::ERROR:    return "error";
+        case core::concerns::ILogger::Level::FAILURE:    return "error";
         case core::concerns::ILogger::Level::CRITICAL: return "critical";
         default:                                        return "unknown";
     }
@@ -436,7 +436,7 @@ void LogAggregator::warn(const std::string& message) {
  * @details Calls: log().
  */
 void LogAggregator::error(const std::string& message) {
-    log(Level::ERROR, message);
+    log(Level::FAILURE, message);
 }
 
 /**

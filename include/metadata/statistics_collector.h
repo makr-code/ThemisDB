@@ -62,6 +62,7 @@ struct ColumnStats {
     double null_fraction = 0.0;                     ///< Fraction of NULL values
     std::optional<std::vector<HistogramBucket>> histogram;  ///< Value distribution histogram
     std::optional<std::string> most_common_value;   ///< Most frequently occurring value
+    size_t most_common_frequency = 0;                ///< Rows containing most_common_value
     std::optional<double> min_value;                ///< Minimum numeric value (if numeric)
     std::optional<double> max_value;                ///< Maximum numeric value (if numeric)
 

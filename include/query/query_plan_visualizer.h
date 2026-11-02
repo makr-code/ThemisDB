@@ -55,6 +55,7 @@ struct QueryPlanNode {
     // Cost estimates (always present)
     double estimated_cost = 0.0;
     size_t estimated_rows = 0;
+    std::string estimate_provenance = "unknown";
 
     // Runtime statistics (populated during EXPLAIN ANALYZE; -1 / 0 = not measured)
     double actual_time_ms = -1.0;

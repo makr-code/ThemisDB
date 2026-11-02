@@ -46,7 +46,7 @@ enum class CommandState {
     INTENT_DETECTED,
     EXECUTING,
     RESPONDED,
-    ERROR
+    FAILURE
 };
 
 struct CommandJourney {
@@ -118,7 +118,7 @@ public:
                     
                     if (!backend_available_) {
                         journey.error_count++;
-                        journey.state = CommandState::ERROR;
+                        journey.state = CommandState::FAILURE;
                         logAudit("command_failed", session_id, "backend_unavailable");
                         return false;
                     }

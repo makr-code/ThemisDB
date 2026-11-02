@@ -290,7 +290,7 @@ public:
 enum class DKDiagnosticSeverity : uint8_t {
     INFO    = 0, ///< Informational; no action required.
     WARNING = 1, ///< Degraded path taken; operator should investigate.
-    ERROR   = 2, ///< Operation failed; immediate attention recommended.
+    FAILURE   = 2, ///< Operation failed; immediate attention recommended.
     FATAL   = 3, ///< Unrecoverable failure; service restart may be required.
 };
 

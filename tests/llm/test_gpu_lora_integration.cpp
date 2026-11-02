@@ -77,8 +77,6 @@ TEST_F(GPULoRAIntegrationTest, BackendInitialization) {
     EXPECT_NO_THROW({
         llm::LazyModelLoader loader(config);
     });
-#else
-    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -110,8 +108,6 @@ TEST_F(GPULoRAIntegrationTest, GPULayerConfiguration) {
     EXPECT_NO_THROW({
         llm::LazyModelLoader loader(config);
     });
-#else
-    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -131,8 +127,6 @@ TEST_F(GPULoRAIntegrationTest, VRAMLimitConfiguration) {
     EXPECT_NO_THROW({
         llm::LazyModelLoader loader(config);
     });
-#else
-    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -161,8 +155,6 @@ TEST_F(GPULoRAIntegrationTest, LoRAAPIAvailability) {
             std::cout << "LoRA API is not available (expected if llama.cpp built without LLAMA_LORA=ON)" << std::endl;
         }
     });
-#else
-    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -188,8 +180,6 @@ TEST_F(GPULoRAIntegrationTest, MultiLoRAManagerGPUConfig) {
     EXPECT_NO_THROW({
         llm::MultiLoRAManager manager(config);
     });
-#else
-    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -214,8 +204,6 @@ TEST_F(GPULoRAIntegrationTest, LoRAInitializationMethod) {
     // (even with a valid-looking model handle)
     void* fake_model = reinterpret_cast<void*>(0x1234);
     EXPECT_FALSE(manager.initializeLoRAWithModel("nonexistent_lora", fake_model));
-#else
-    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -238,8 +226,6 @@ TEST_F(GPULoRAIntegrationTest, LlamaWrapperGPUConfig) {
     EXPECT_NO_THROW({
         llm::LlamaWrapper wrapper(config);
     });
-#else
-    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -264,8 +250,6 @@ TEST_F(GPULoRAIntegrationTest, LlamaWrapperLoRAConfig) {
     EXPECT_NO_THROW({
         llm::LlamaWrapper wrapper(config);
     });
-#else
-    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -320,8 +304,6 @@ TEST_F(GPULoRAIntegrationTest, CompleteGPULoRAConfiguration) {
         // Check actual runtime availability rather than assuming it's always true
         EXPECT_EQ(caps.supports_lora, themis_llama_lora_available());
     });
-#else
-    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 
@@ -345,8 +327,6 @@ TEST_F(GPULoRAIntegrationTest, ConfigurationLogging) {
     EXPECT_NO_THROW({
         llm::LlamaWrapper wrapper(config);
     });
-#else
-    GTEST_SKIP() << "capability:llm_support_enabled=false;reason=llm_support_not_enabled";
 #endif
 }
 

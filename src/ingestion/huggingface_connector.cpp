@@ -19,8 +19,8 @@
 #include <thread>
 #include <fstream>
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 namespace themis {
@@ -567,7 +567,7 @@ private:
             if (response.status_code != 200) {
                 // Non-retryable failure: record and abort streaming
                 stats.addError(IngestionErrorCode::HTTP_REQUEST_FAILED,
-                               IngestionErrorSeverity::ERROR,
+                               IngestionErrorSeverity::FAILURE,
                                "Streaming chunk failed at offset " +
                                std::to_string(processed));
                 stats.documents_failed += (total_docs - processed);
@@ -665,7 +665,7 @@ private:
             }
         } else {
             stats.addError(IngestionErrorCode::HTTP_REQUEST_FAILED,
-                           IngestionErrorSeverity::ERROR,
+                           IngestionErrorSeverity::FAILURE,
                            "Batch download failed with HTTP " +
                            std::to_string(response.status_code));
             stats.documents_failed = getDocumentCount();

@@ -26,7 +26,7 @@
  *        → UNLOADING (shutdown initiated)
  *        → TERMINATED (resources released)
  *
- * Any state → ERROR (on resource exhaustion or fatal error)
+ * Any state → FAILURE (on resource exhaustion or fatal error)
  * ```
  *
  * ## Thread Safety

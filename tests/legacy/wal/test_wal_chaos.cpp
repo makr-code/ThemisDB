@@ -181,10 +181,10 @@ TEST_F(WALChaosTest, EmptyLastSegment_RecoverySucceeds) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// CRC corruption stops replay at the bad entry but keeps earlier entries
+// Mid-log corruption fails closed instead of silently stopping replay
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST_F(WALChaosTest, CRCCorruption_StopsAtBadEntry_PriorEntriesRecovered) {
+TEST_F(WALChaosTest, MidLogCorruption_FailsClosedAfterPriorEntries) {
     {
         auto wal = WALStorage::open(makeConfig(wal_dir_));
         ASSERT_TRUE(wal.has_value());
@@ -200,9 +200,11 @@ TEST_F(WALChaosTest, CRCCorruption_StopsAtBadEntry_PriorEntriesRecovered) {
     WALStorage::RecoveryCallback cb = [&](const WALStorage::Entry&) {
         ++count; return true;
     };
-    auto wal2 = WALStorage::open(makeConfig(wal_dir_), cb);
-    ASSERT_TRUE(wal2.has_value()) << "Recovery must not fail on CRC error, just truncate";
-    EXPECT_LE(count, 3) << "Cannot recover more entries than written";
+    WALStorage::RecoveryResult recovery_result;
+    auto wal2 = WALStorage::open(makeConfig(wal_dir_), cb, &recovery_result);
+    EXPECT_FALSE(wal2.has_value()) << "Mid-log corruption must fail recovery";
+    EXPECT_EQ(recovery_result.status, WALStorage::RecoveryStatus::Corrupted);
+    EXPECT_EQ(count, 0) << "The corrupted first entry must not be replayed";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

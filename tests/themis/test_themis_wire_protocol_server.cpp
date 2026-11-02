@@ -611,7 +611,7 @@ TEST(WireProtocolServer, SingleThreadedIoContextPrunesSessionsAfterDisconnect) {
 // Correctness is covered by the async read pipeline integration test path:
 // when a frame with a correct CRC32 checksum is sent over the loopback
 // socket, the session accepts it; when the checksum is wrong, it sends back
-// an ERROR frame (0x03 "Checksum mismatch").
+// an FAILURE frame (0x03 "Checksum mismatch").
 //
 // The CHECKSUM_SIZE constant (4 bytes / CRC32) is verified below.
 

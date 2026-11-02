@@ -145,7 +145,7 @@ TEST_F(SpdlogAdapterJsonTest, TokenFieldIsRedacted) {
 
 TEST_F(SpdlogAdapterJsonTest, LogWithContextInjectsTraceAndRequestId) {
     TraceContext ctx{"trace-deadbeef", "req-cafebabe"};
-    adapter_->logWithContext(ILogger::Level::ERROR, "ctx-error", ctx,
+    adapter_->logWithContext(ILogger::Level::FAILURE, "ctx-error", ctx,
                               {{"shard", "shard-3"}});
     const std::string msg = stream_->str();
     EXPECT_NE(std::string::npos, msg.find("trace-deadbeef"));

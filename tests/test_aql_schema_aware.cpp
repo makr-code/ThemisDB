@@ -210,7 +210,7 @@ TEST_F(AQLBuilderSchemaTest, ValidateUnknownCollectionEmitsWarning) {
 }
 
 TEST_F(AQLBuilderSchemaTest, ValidateUnknownCollectionNotAnError) {
-    // An unknown collection is a WARNING, not an ERROR (the query may still run)
+    // An unknown collection is a WARNING, not an FAILURE (the query may still run)
     builder->setSchema(makeTestSchema());
     builder->forIn("x", "ghost_collection").ret("x");
 

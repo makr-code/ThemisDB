@@ -37,7 +37,7 @@ TEST_F(ConcernsContextTest, LoggerLevelConversion) {
     EXPECT_EQ(ILogger::Level::DEBUG, ILogger::levelFromString("debug"));
     EXPECT_EQ(ILogger::Level::INFO, ILogger::levelFromString("info"));
     EXPECT_EQ(ILogger::Level::WARN, ILogger::levelFromString("warn"));
-    EXPECT_EQ(ILogger::Level::ERROR, ILogger::levelFromString("error"));
+    EXPECT_EQ(ILogger::Level::FAILURE, ILogger::levelFromString("error"));
     EXPECT_EQ(ILogger::Level::CRITICAL, ILogger::levelFromString("critical"));
     EXPECT_EQ(ILogger::Level::INFO, ILogger::levelFromString("unknown")); // Default
 }
@@ -47,7 +47,7 @@ TEST_F(ConcernsContextTest, LoggerLevelToString) {
     EXPECT_STREQ("DEBUG", ILogger::levelToString(ILogger::Level::DEBUG));
     EXPECT_STREQ("INFO", ILogger::levelToString(ILogger::Level::INFO));
     EXPECT_STREQ("WARN", ILogger::levelToString(ILogger::Level::WARN));
-    EXPECT_STREQ("ERROR", ILogger::levelToString(ILogger::Level::ERROR));
+    EXPECT_STREQ("FAILURE", ILogger::levelToString(ILogger::Level::FAILURE));
     EXPECT_STREQ("CRITICAL", ILogger::levelToString(ILogger::Level::CRITICAL));
 }
 
@@ -888,7 +888,7 @@ TEST(IAsyncLoggerTest, DefaultAsyncImplCallsSyncMethod) {
         void debug(const std::string& m) override { log(Level::DEBUG, m); }
         void info(const std::string& m) override  { log(Level::INFO, m); }
         void warn(const std::string& m) override  { log(Level::WARN, m); }
-        void error(const std::string& m) override { log(Level::ERROR, m); }
+        void error(const std::string& m) override { log(Level::FAILURE, m); }
         void critical(const std::string& m) override { log(Level::CRITICAL, m); }
         void setLevel(Level) override {}
         Level getLevel() const override { return Level::INFO; }
@@ -1663,7 +1663,7 @@ TEST_F(ConcernsContextTest, SetLogLevelAllLevels) {
     auto ctx = ConcernsContext::createNoOp();
     for (auto level : {ILogger::Level::TRACE, ILogger::Level::DEBUG,
                        ILogger::Level::INFO,  ILogger::Level::WARN,
-                       ILogger::Level::ERROR, ILogger::Level::CRITICAL}) {
+                       ILogger::Level::FAILURE, ILogger::Level::CRITICAL}) {
         ctx->setLogLevel(level);
         EXPECT_EQ(level, ctx->getLogLevel());
     }
@@ -1671,7 +1671,7 @@ TEST_F(ConcernsContextTest, SetLogLevelAllLevels) {
 
 TEST_F(ConcernsContextTest, GetLogLevelMatchesLoggerDirectly) {
     auto ctx = ConcernsContext::createNoOp();
-    ctx->setLogLevel(ILogger::Level::ERROR);
+    ctx->setLogLevel(ILogger::Level::FAILURE);
     EXPECT_EQ(ctx->logger().getLevel(), ctx->getLogLevel());
 }
 

@@ -6,8 +6,8 @@
  * @brief Wave A gate FO-Promote-04: fencing verification before promotion.
  *
  * Validates gap FO-IMPL-003: the auto-failover promotion path now verifies
- * epoch fencing regardless of the enable_split_brain_prevention flag when a
- * fencing manager is configured.
+ * epoch fencing before promotion regardless of the enable_split_brain_prevention
+ * flag, including when no fencing manager is configured.
  *
  * Test matrix:
  *   FO-Promote-04-NO-FENCE           : fencing_manager_=null, prevention=true
@@ -20,13 +20,18 @@
  *                                      → preventSplitBrain returns false,
  *                                        FAILOVER_CANCELLED (SPLIT_BRAIN_DETECTED)
  *                                        event emitted.
- *   FO-Promote-04-PREVENTION-DISABLED-NO-FENCE:
+ *   FO-Promote-04-PREVENTION-DISABLED-BLOCKED:
  *                                      prevention=false, fencing_manager_=null
- *                                      → processFailover does NOT invoke
- *                                        preventSplitBrain; no FAILOVER_CANCELLED
- *                                        (split-brain) event fired.
+ *                                      → processFailover blocks promotion and
+ *                                        reports a fencing-disabled diagnostic.
+ *   FO-Promote-06-SPARE-ACTIVATION-READBACK:
+ *                                      real HotSpareManager activation
+ *                                      → ACTIVE state independently verified.
+ *   FO-Promote-07-SPARE-ACK-WITHOUT-STATE:
+ *                                      adapter ACK with spare still AVAILABLE
+ *                                      → activation rejected.
  *
- * All tests are self-contained: no network I/O, no filesystem I/O.
+ * Tests use no network I/O; persistence-related test cases may use temporary files.
  * Test seed constant: kFencingTestSeed = 42.
  *
  * @see include/failover/auto_failover_manager.h
@@ -38,14 +43,22 @@
 
 #include <atomic>
 #include <chrono>
+#include <filesystem>
+#include <cstdint>
 #include <memory>
+#include <optional>
 #include <string>
+#include <vector>
 
 #include <gtest/gtest.h>
 
 #include "failover/auto_failover_manager.h"
 #include "failover/failover_api_contract.h"
+#include "sharding/consistent_hash.h"
 #include "sharding/epoch_fencing.h"
+#include "sharding/hot_spare_manager.h"
+#include "sharding/redundancy_strategy.h"
+#include "sharding/shard_topology.h"
 
 using namespace std::chrono_literals;
 using namespace themis::failover;
@@ -213,23 +226,37 @@ TEST(WaveAFencing, FO_Promote_04_FENCE_INVALID_EPOCH) {
 }
 
 // ===========================================================================
-// FO-Promote-04-PREVENTION-DISABLED-NO-FENCE
-// When enable_split_brain_prevention=false and fencing_manager_=null,
-// processFailover must NOT call preventSplitBrain, so no FAILOVER_CANCELLED
-// (split-brain) events are emitted.  The failover may still fail at the
-// quorum step (null replication_mgr) — that is expected and acceptable.
+// FO-Promote-04-PREVENTION-DISABLED-BLOCKED
+// Disabling fencing must never permit failover, even when quorum is present.
 // ===========================================================================
 
-TEST(WaveAFencing, FO_Promote_04_PREVENTION_DISABLED_NO_FENCE) {
+TEST(WaveAFencing, FO_Promote_04_PREVENTION_DISABLED_BLOCKED) {
     AutoFailoverConfig cfg = makeFencingTestConfig();
     cfg.enable_split_brain_prevention = false;  // prevention explicitly disabled
-    cfg.failover_timeout              = 0ms;    // quorum check times out immediately
+    cfg.quorum_timeout_ms             = 50ms;
 
-    // null fencing manager, null replication manager
-    AutoFailoverManager mgr(cfg, nullptr, nullptr, nullptr, nullptr);
+    themisdb::replication::ReplicationConfig replication_config;
+    replication_config.wal_directory =
+        (std::filesystem::temp_directory_path() /
+         ("themisdb_failover_fencing_test_" +
+          std::to_string(std::chrono::steady_clock::now().time_since_epoch().count())))
+            .string();
+    std::filesystem::remove_all(replication_config.wal_directory);
+    auto replication_mgr =
+        std::make_shared<themisdb::replication::ReplicationManager>(replication_config);
+    ASSERT_TRUE(replication_mgr->initialize());
+    themisdb::replication::ReplicaInfo replica{};
+    replica.node_id = "replica-1";
+    replica.endpoint = "127.0.0.1:9000";
+    replica.role = themisdb::replication::ReplicationRole::FOLLOWER;
+    replica.is_voting_member = true;
+    replica.health_status = themisdb::replication::HealthStatus::HEALTHY;
+    replica.last_heartbeat = std::chrono::system_clock::now();
+    replication_mgr->addReplica(replica);
 
-    // Track any FAILOVER_CANCELLED events — these indicate a split-brain diagnostic was
-    // emitted (SPLIT_BRAIN_DETECTED maps to FAILOVER_CANCELLED in emitDiagnostic).
+    // Quorum exists, but fencing_manager is intentionally absent.
+    AutoFailoverManager mgr(cfg, replication_mgr, nullptr, nullptr, nullptr);
+
     std::atomic<int> split_brain_cancel_events{0};
     mgr.registerEventCallback(
         [&](FailoverEventType type, const std::string&, const std::string&) {
@@ -238,23 +265,146 @@ TEST(WaveAFencing, FO_Promote_04_PREVENTION_DISABLED_NO_FENCE) {
             }
         });
 
-    // Drive processFailover directly; it will fail at quorum (null replication_mgr)
-    // but must NOT enter the split-brain prevention path.
     const auto result = mgr.testProcessFailover("node-down");
 
     EXPECT_FALSE(result.success)
-        << "Expected failure (quorum unavailable with null replication_mgr), not split-brain block";
+        << "Failover must fail when fencing is disabled";
+    EXPECT_EQ(result.error_message, "fencing cannot be disabled for failover");
 
-    // The critical invariant: split-brain prevention was never triggered.
-    EXPECT_EQ(split_brain_cancel_events.load(), 0)
-        << "No FAILOVER_CANCELLED (split-brain) event must be emitted when "
-           "enable_split_brain_prevention=false and fencing_manager_=null";
+    EXPECT_EQ(split_brain_cancel_events.load(), 1)
+        << "A fail-safe diagnostic must be emitted when fencing is disabled";
 
-    // Split-brain prevention stat must remain zero.
     const auto stats = mgr.getStatistics();
     EXPECT_EQ(stats.split_brain_preventions, 0u)
-        << "split_brain_preventions must stay zero when prevention is disabled and "
-           "no fencing manager is present";
+        << "split_brain_preventions counts actual fencing attempts only";
+
+    replication_mgr->shutdown();
+    std::error_code ec;
+    std::filesystem::remove_all(replication_config.wal_directory, ec);
+}
+
+TEST(WaveAFencing, FO_Promote_05_SPARE_FAILURE_LEAVES_DEGRADED_STATE) {
+    auto config = makeFencingTestConfig();
+    config.enable_spare_activation = true;
+    auto fencing = std::make_shared<StubEpochFencingManager>(42);
+    AutoFailoverManager manager(config, nullptr, nullptr, nullptr, fencing);
+    manager.testSetQuorumOverride(true);
+    manager.testSetPromotionOverride(
+        [](const std::string&, std::string& promoted_id) {
+            promoted_id = "replica-1";
+            return true;
+        });
+
+    std::atomic<int> degraded_events{0};
+    manager.registerEventCallback(
+        [&](FailoverEventType type, const std::string&, const std::string&) {
+            if (type == FailoverEventType::FAILOVER_DEGRADED) {
+                ++degraded_events;
+            }
+        });
+
+    const auto result = manager.testProcessFailover("node-down");
+
+    EXPECT_FALSE(result.success);
+    EXPECT_TRUE(result.degraded);
+    EXPECT_EQ(manager.getState(), FailoverOrchestratorState::DEGRADED);
+    EXPECT_EQ(degraded_events.load(), 1);
+    EXPECT_EQ(manager.getStatistics().degraded_failovers, 1u);
+}
+
+TEST(WaveAFencing, FO_Promote_06_SPARE_ACTIVATION_REQUIRES_ACTIVE_READBACK) {
+    themis::sharding::RedundancyConfig redundancy_config;
+    themis::sharding::RedundancyStrategy redundancy_strategy(redundancy_config);
+    themis::sharding::ShardTopology topology;
+
+    themis::sharding::HotSpareConfig spare_config;
+    spare_config.enable = true;
+    spare_config.spare_shards = {"spare-1"};
+    spare_config.auto_rebuild = false;
+    auto spare_manager = std::make_shared<themis::sharding::HotSpareManager>(
+        spare_config, redundancy_strategy, topology);
+    themis::sharding::ConsistentHashRing ring;
+    ring.addShard("node-down");
+
+    auto config = makeFencingTestConfig();
+    config.enable_spare_activation = true;
+    AutoFailoverManager manager(config, nullptr, nullptr, spare_manager, nullptr);
+    std::atomic<int> activated_events{0};
+    manager.registerEventCallback(
+        [&](FailoverEventType type, const std::string&, const std::string&) {
+            if (type == FailoverEventType::SPARE_ACTIVATED) {
+                ++activated_events;
+            }
+        });
+
+    manager.setSpareActivationHook(
+        [&](const std::string& failed_shard, const std::string&) {
+            return spare_manager->activateSpare(
+                failed_shard, ring,
+                [](const std::string&, const std::string&)
+                    -> std::optional<std::vector<uint8_t>> { return std::nullopt; },
+                [](const std::string&, const std::string&,
+                   const std::vector<uint8_t>&) { return true; },
+                [](const std::string&) { return std::vector<std::string>{}; });
+        });
+
+    std::string activated_spare_id;
+    EXPECT_TRUE(manager.testActivateSpareIfNeeded("node-down", activated_spare_id));
+    EXPECT_EQ(activated_spare_id, "spare-1");
+    const auto spare_info = spare_manager->getSpareInfo(activated_spare_id);
+    ASSERT_TRUE(spare_info.has_value());
+    EXPECT_EQ(spare_info->state, themis::sharding::SpareState::ACTIVE);
+    EXPECT_EQ(activated_events.load(), 1);
+}
+
+TEST(WaveAFencing, FO_Promote_07_SPARE_ACK_WITHOUT_ACTIVE_STATE_IS_REJECTED) {
+    themis::sharding::RedundancyConfig redundancy_config;
+    themis::sharding::RedundancyStrategy redundancy_strategy(redundancy_config);
+    themis::sharding::ShardTopology topology;
+
+    themis::sharding::HotSpareConfig spare_config;
+    spare_config.enable = true;
+    spare_config.spare_shards = {"spare-1"};
+    spare_config.auto_rebuild = false;
+    auto spare_manager = std::make_shared<themis::sharding::HotSpareManager>(
+        spare_config, redundancy_strategy, topology);
+
+    auto config = makeFencingTestConfig();
+    config.enable_spare_activation = true;
+    AutoFailoverManager manager(config, nullptr, nullptr, spare_manager, nullptr);
+    manager.setSpareActivationHook(
+        [](const std::string&, const std::string&) { return true; });
+
+    std::string activated_spare_id;
+    EXPECT_FALSE(manager.testActivateSpareIfNeeded("node-down", activated_spare_id));
+    EXPECT_TRUE(activated_spare_id.empty());
+    const auto spare_info = spare_manager->getSpareInfo("spare-1");
+    ASSERT_TRUE(spare_info.has_value());
+    EXPECT_EQ(spare_info->state, themis::sharding::SpareState::AVAILABLE);
+}
+
+TEST(WaveAFencing, FO_Promote_08_MISSING_SPARE_ADAPTER_IS_REJECTED) {
+    themis::sharding::RedundancyConfig redundancy_config;
+    themis::sharding::RedundancyStrategy redundancy_strategy(redundancy_config);
+    themis::sharding::ShardTopology topology;
+
+    themis::sharding::HotSpareConfig spare_config;
+    spare_config.enable = true;
+    spare_config.spare_shards = {"spare-1"};
+    spare_config.auto_rebuild = false;
+    auto spare_manager = std::make_shared<themis::sharding::HotSpareManager>(
+        spare_config, redundancy_strategy, topology);
+
+    auto config = makeFencingTestConfig();
+    config.enable_spare_activation = true;
+    AutoFailoverManager manager(config, nullptr, nullptr, spare_manager, nullptr);
+
+    std::string activated_spare_id;
+    EXPECT_FALSE(manager.testActivateSpareIfNeeded("node-down", activated_spare_id));
+    EXPECT_TRUE(activated_spare_id.empty());
+    const auto spare_info = spare_manager->getSpareInfo("spare-1");
+    ASSERT_TRUE(spare_info.has_value());
+    EXPECT_EQ(spare_info->state, themis::sharding::SpareState::AVAILABLE);
 }
 
 #endif  // THEMIS_TEST_BUILD
