@@ -12,6 +12,11 @@ Human_Author: "ThemisDB Contributors"
 
 Exact model backend not verifiable from final document text alone.
 
+Source level: 1
+SOT domain: module-behavior
+Canonical references: `include/sharding/epoch_fencing.h`, `include/sharding/two_phase_commit_participant.h`, `include/sharding/shard_rpc_client.h`, `include/sharding/shard_rpc_client_adapter.h`, `include/sharding/two_phase_commit_coordinator.h`, `include/sharding/distributed_transaction.h`, `include/sharding/cross_shard_transaction.h`, `src/sharding/epoch_fencing.cpp`, `src/sharding/two_phase_commit_participant.cpp`, `src/sharding/two_phase_commit_coordinator.cpp`, `src/sharding/shard_rpc_client.cpp`, `src/sharding/distributed_transaction.cpp`, `src/sharding/cross_shard_transaction.cpp`, `tests/test_epoch_fencing.cpp`
+Related milestone: DOC-WEEKLY-2026-W45
+
 # Failover Operational Requirements and Implementation Boundaries
 
 > **Status:** Operator guidance, not an enforced production-readiness certification.
@@ -28,6 +33,15 @@ Exact model backend not verifiable from final document text alone.
 - When split-brain prevention is enabled, `preventSplitBrain()` fails closed if
   the fencing manager is missing or returns epoch 0. Replica selection also
   requests an epoch bump when a fencing manager is present.
+- Shard transaction write paths now enforce epoch fencing: only a nonzero token
+  for the configured shard with an exact current epoch and matching,
+  non-empty issuer string is accepted. `applyWithToken()` holds the epoch
+  transition shared guard through the storage callback, while `bumpEpoch()`
+  requires the exclusive guard. 2PC validates before prepare-time locking,
+  retains/persists the credential in participant state/WAL, and revalidates
+  atomically immediately before COMMIT apply. Distributed and cross-shard
+  PREPARE/SAGA writes fail closed without structurally valid target-scoped
+  tokens.
 - A configured `quorum_log_path` enables local append/recovery records. Write or
   flush failure blocks the corresponding quorum/promotion path. Startup logs the
   last valid record; it does not restore manager epoch or quorum state.
@@ -53,8 +67,10 @@ Exact model backend not verifiable from final document text alone.
   `HotSpareManager` state of `ACTIVE`. Missing or failed activation leaves the
   orchestrator in `DEGRADED`, increments `degraded_failovers`, and emits the
   `FAILOVER_DEGRADED` callback event.
-- The epoch fencing manager is not yet checked on the shard write path, and
-  this module does not provide a multi-process failover/recovery E2E test.
+- This does not bind the issuer string to a cryptographic signature or
+  authenticated principal. Shared durable metadata for DR and genuine
+  multi-process failover/recovery E2E evidence remain open blockers; shard
+  transaction fencing does not close either gap.
 - A dry run skips built-in prechecks and operational steps. The
   `allow_dry_run_without_managers` configuration field does not change this
   behavior in the current implementation. Step hooks replace the built-in handler
@@ -92,5 +108,11 @@ These are deployment recommendations, not validations performed by the module:
 - `include/failover/quorum_log.h`
 - `src/failover/auto_failover_manager.cpp`
 - `src/failover/disaster_recovery_manager.cpp`
+- `include/sharding/epoch_fencing.h` and `src/sharding/epoch_fencing.cpp`
+- `include/sharding/two_phase_commit_participant.h` and `src/sharding/two_phase_commit_participant.cpp`
+- `include/sharding/two_phase_commit_coordinator.h` and `src/sharding/two_phase_commit_coordinator.cpp`
+- `include/sharding/shard_rpc_client.h` and `src/sharding/shard_rpc_client.cpp`
+- `include/sharding/distributed_transaction.h` and `src/sharding/distributed_transaction.cpp`
+- `include/sharding/cross_shard_transaction.h` and `src/sharding/cross_shard_transaction.cpp`
 - [`ARCHITECTURE.md`](ARCHITECTURE.md), [`API.md`](API.md),
   [`RUNBOOK.md`](RUNBOOK.md), and [`TRUST.md`](TRUST.md)
