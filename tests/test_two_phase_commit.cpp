@@ -963,6 +963,7 @@ public:
 
     size_t recoverInDoubtTransactions() override {
         recovered_ = true;
+        ++recovery_calls_;
         return resolved_;
     }
 
@@ -985,6 +986,8 @@ public:
         return txns;
     }
 
+    size_t recoveryCalls() const { return recovery_calls_; }
+
 private:
     std::string name_;
     std::string backend_;
@@ -992,6 +995,7 @@ private:
     size_t resolved_;
     size_t after_;
     mutable bool recovered_{false};
+    size_t recovery_calls_{0};
 };
 
 } // namespace
@@ -1011,4 +1015,19 @@ TEST(GlobalTwoPhaseCommitRecoveryManagerTest, AggregatesCrossCoordinatorRecovery
     ASSERT_EQ(report.coordinators.size(), 2u);
     EXPECT_EQ(report.coordinators[0].coordinator_name, "coord-a");
     EXPECT_EQ(report.coordinators[1].backend_name, "WAL/snapshot");
+}
+
+TEST(GlobalTwoPhaseCommitRecoveryManagerTest, DisabledBackendKeepsInDoubtTransactionsBlocked) {
+    FakeRecoverableCoordinator coordinator("coord-memory-only", "disabled", 2, 0, 0);
+
+    const auto report =
+        themis::transaction::GlobalTwoPhaseCommitRecoveryManager::recoverAll(
+            {&coordinator});
+
+    ASSERT_EQ(report.coordinators.size(), 1u);
+    EXPECT_EQ(coordinator.recoveryCalls(), 0u);
+    EXPECT_EQ(report.coordinators.front().in_doubt_before, 2u);
+    EXPECT_EQ(report.coordinators.front().resolved, 0u);
+    EXPECT_EQ(report.coordinators.front().in_doubt_after, 2u);
+    EXPECT_EQ(report.in_doubt_after, 2u);
 }
