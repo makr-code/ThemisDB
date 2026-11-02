@@ -1,7 +1,34 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-07-17
+Last Updated: 2026-11-02
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level4
+SOT_Domain: architecture-governance
+Canonical_References:
+  - ../../ROADMAP.md
+  - ../../include/sharding/detail/two_phase_commit_contract.h
+  - ../../include/sharding/cross_shard_transaction.h
+  - ../../include/sharding/two_phase_commit_coordinator.h
+  - ../../include/sharding/distributed_transaction.h
+  - ../../src/sharding/cross_shard_transaction.cpp
+  - ../../src/sharding/two_phase_commit_coordinator.cpp
+  - ../../tests/test_two_phase_commit.cpp
+Related_Issue: "#5373 (DIS-05)"
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Transaction Coordinators — Architecture Reference
 
-<!-- Status: current | Issue: #5372 | Target: Q3 2026 (v2.0.0) -->
-<!-- SOT: docs/architecture/transaction_coordinators.md -->
+<!-- Status: review | Issue: #5372 (unification planning), #5373 (DIS-05) | Target: Q3 2026 (v2.0.0) -->
+<!-- SOT: coordinator implementation and contracts; this document is a level-4 explanatory derivative -->
 
 ## 1. Overview
 
@@ -24,9 +51,17 @@ in turn inherits from `themis::transaction::IInDoubtRecoveryCoordinator`.  The p
 > **Audit Note (CC-5):** Historically these coordinators evolved independently.  As of
 > issue #5372 (v2.0.0), they share the `IRecoverableTwoPhaseCoordinator` recovery contract.
 > `WALLoggingHelper` centralizes WAL write logic only for `WALManager`-backed coordinators;
-> WAL formats remain coordinator-specific.
+> WAL formats remain coordinator-specific. This recovery-interface sharing is distinct from
+> DIS-05's execution contract and does not imply repo-wide 2PC unification.
 > A transaction started with coordinator A can still only be fully recovered by coordinator A;
 > cross-coordinator recovery tooling is planned for v3.0.0 (see §7 below).
+
+> **DIS-05 status (2026-11-01):** `CrossShardTransactionCoordinator` and
+> `TwoPhaseCommitCoordinator` now share coordinator-side 2PC phase ordering and failure
+> semantics through `include/sharding/detail/two_phase_commit_contract.h`. This does not
+> unify their transports, transaction lifecycles, WAL formats, or recovery. `CrossShardTransactionCoordinator`'s
+> `recoverFromWAL()` restores state and reports resume candidates; it does not automatically
+> re-drive phase-two RPCs. The separate `DistributedTransactionCoordinator` is not covered.
 
 ---
 
@@ -37,8 +72,10 @@ in turn inherits from `themis::transaction::IInDoubtRecoveryCoordinator`.  The p
 | Feature | `TwoPhaseCommitCoordinator` | `CrossShardTransactionCoordinator` | `DistributedTransactionCoordinator` |
 |---|---|---|---|
 | **Protocols supported** | 2PC | 2PC · 3PC · SAGA · Percolator · Calvin | 2PC (+ optional Percolator fast-path) |
+| **2PC execution contract** | Shared with CrossShard under DIS-05 | Shared with standalone 2PC under DIS-05 | Outside DIS-05 |
 | **WAL backend** | `WALManager` via `WALLoggingHelper` | `TransactionWAL` (dedicated per-txn WAL) | `WALManager` via `WALLoggingHelper` |
-| **Snapshot recovery** | ✗ | ✅ (`TransactionSnapshotManager`) | ✗ |
+| **Snapshot/state restore** | WAL recovery | WAL + `TransactionSnapshotManager` restore | Own recovery entry point |
+| **Phase-two recovery behavior** | Re-drives WAL decision when WAL recovery is configured; resolves only after all acks and completion record | Restores state/reports resume candidates; does not automatically re-drive phase two | Separate coordinator-specific behavior |
 | **Deadlock detection** | ✗ (timeout only) | ✅ (distributed wait-for graph) | ✅ (timeout + cycle detection) |
 | **Distributed FK validation** | ✗ | ✅ (injected `CrossShardForeignKeyValidator`) | ✗ |
 | **Participant model** | `ShardRpcClientAdapter` | `CrossShardParticipant` (state machine per shard) | `TransactionParticipant` (`shard_id` + `endpoint`) |
@@ -48,12 +85,17 @@ in turn inherits from `themis::transaction::IInDoubtRecoveryCoordinator`.  The p
 
 ### 2.2 Use-Case Guide — When to Use Which Coordinator
 
+The two DIS-05 coordinators are not different 2PC semantic choices: both use the same
+prepare → configured decision record → phase-two contract. Choose between them based on
+the surrounding API, participant transport, and additional protocol/lifecycle capabilities.
+This shared contract does not include `DistributedTransactionCoordinator`.
+
 | Scenario | Recommended Coordinator |
 |---|---|
-| Simple cross-shard 2PC in sharding module | `TwoPhaseCommitCoordinator` |
-| Multi-protocol orchestration (3PC non-blocking, SAGA long-running, Calvin deterministic) | `CrossShardTransactionCoordinator` |
+| Standalone 2PC using the `RequestHandler` participant API / `ShardRPCClientAdapter` | `TwoPhaseCommitCoordinator` |
+| Multi-protocol orchestration (3PC non-blocking, SAGA long-running, Calvin deterministic), CrossShard lifecycle, SSI, or its endpoint transport | `CrossShardTransactionCoordinator` (its 2PC path uses the shared contract) |
 | Transaction-manager layer with `IDistributedParticipantCallback` injection | `DistributedTransactionManager` (`transaction/`) |
-| New code / greenfield | Prefer `CrossShardTransactionCoordinator` — it has the richest protocol set and WAL recovery |
+| New code / greenfield | Select by required API and lifecycle; do not assume common WAL or recovery behavior |
 
 ### 2.3 Known Limitations
 
@@ -88,9 +130,19 @@ stateDiagram-v2
     COMMITTING --> FAILED : coordinator crash (WAL recovery required)
 ```
 
-**Recovery path:** If the coordinator crashes after writing `PREPARE_TX` to WAL but before
-writing `COMMIT_TX`/`ABORT_TX`, the transaction is **in-doubt**.  On restart,
-`recoverInDoubtTransactions()` replays the WAL and re-issues the commit/abort decision.
+**Shared execution contract (DIS-05):** For both named coordinators, failed PREPARE selects ABORT;
+the configured decision-record callback must succeed before phase two; and a phase-two failure
+does not reverse the selected decision or report successful completion. A failed participant
+acknowledgement WAL write in CrossShard stops subsequent phase-two fan-out and leaves the decision
+unresolved. CrossShard exposes that outcome as `UNKNOWN`; the standalone coordinator returns
+`ERROR` and retains its decision in the recoverable transaction view.
+
+**Coordinator-specific recovery:** `TwoPhaseCommitCoordinator::recoverInDoubtTransactions()`
+replays its WAL and re-sends a recorded phase-two decision; if no decision exists it conservatively
+selects ABORT. It counts a transaction resolved only after participant acknowledgements and a
+completion record. `CrossShardTransactionCoordinator::recoverFromWAL()` restores state and reports
+resume candidates, but does not automatically re-issue PREPARE/COMMIT/ABORT RPCs. Its
+`TransactionWAL`/snapshot format and transport remain separate.
 
 ### 3.2 Three-Phase Commit (3PC)
 
@@ -267,6 +319,12 @@ payload embedded in `WALEntry::data` follows this schema:
 `WALManager`).  Its log entries are written to a segmented binary log under the configured
 WAL directory.  The protocol-specific fields extend the base schema:
 
+For 2PC, this distinct WAL format does not imply a distinct execution contract: CrossShard uses
+the same decision ordering and phase-two outcome rules as `TwoPhaseCommitCoordinator`. A failed
+participant acknowledgement record stops subsequent phase-two RPCs; the selected decision remains
+in-doubt. CrossShard WAL/snapshot recovery currently restores state and reports resume candidates
+only—it does not automatically replay that decision to participants.
+
 ```jsonc
 // 2PC commit entry written by CrossShardTransactionCoordinator
 {
@@ -318,7 +376,7 @@ Additionally, `persistTransactionState()` writes **JSONL** lines to a separate
 ```
 Start: I need distributed transaction support
 │
-├─► Do I need a protocol other than 2PC (SAGA, 3PC, Percolator, Calvin)?
+├─► Do I need a protocol other than 2PC, or CrossShard lifecycle/SSI features?
 │     YES → CrossShardTransactionCoordinator
 │     NO  ↓
 │
@@ -326,12 +384,10 @@ Start: I need distributed transaction support
 │     YES → DistributedTransactionManager
 │     NO  ↓
 │
-├─► Am I in the sharding module and need standalone 2PC with WALManager?
-│     YES → TwoPhaseCommitCoordinator
-│     NO  ↓
-│
-└─► Default / greenfield: CrossShardTransactionCoordinator
-    (richest protocol set, snapshot recovery, FK validation)
+└─► Choose the 2PC API that matches participant transport and lifecycle:
+      TwoPhaseCommitCoordinator (RequestHandler/adapter, WALManager recovery), or
+      CrossShardTransactionCoordinator (ShardRPCClient, TransactionWAL/snapshot restore)
+      Both named paths use the same 2PC execution contract; CrossShard does not auto-redrive.
 ```
 
 **Protocol selection within `CrossShardTransactionCoordinator`:**

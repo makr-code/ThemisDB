@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -22,6 +22,11 @@ Canonical_References:
   - "shard_router.cpp"
   - "cross_shard_transaction.cpp"
   - "wal_manager.cpp"
+  - "../../include/sharding/detail/two_phase_commit_contract.h"
+  - "../../include/sharding/two_phase_commit_coordinator.h"
+  - "../../include/sharding/distributed_transaction.h"
+  - "../../tests/test_two_phase_commit.cpp"
+  - "../../ROADMAP.md"
 Related_Issue: "#7167 (closes #7091)"
 Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
@@ -40,21 +45,36 @@ Exact model backend not verifiable from final document text alone.
 |---|---|---|
 | Topology and routing | [`ShardRouter`](../../include/sharding/shard_router.h), [`ShardTopology`](../../include/sharding/shard_topology.h), [`AdaptiveShardRouter`](../../include/sharding/adaptive_shard_router.h) | Select routing strategy and address requests against configured shard topology. |
 | Coordination | [`DistributedCoordinator`](../../include/sharding/distributed_coordinator.h), [`ConsensusFactory`](../../include/sharding/consensus_factory.h), [`QuorumManager`](../../include/sharding/quorum_manager.h) | Coordinate tasks and choose among the available consensus implementations. |
-| Cross-shard transactions | [`CrossShardTransactionCoordinator`](../../include/sharding/cross_shard_transaction.h), [`TwoPhaseCommitCoordinator`](../../include/sharding/two_phase_commit_coordinator.h) | Coordinate prepare/decision work across participants and expose transaction state. |
+| Cross-shard transactions | [`CrossShardTransactionCoordinator`](../../include/sharding/cross_shard_transaction.h), [`TwoPhaseCommitCoordinator`](../../include/sharding/two_phase_commit_coordinator.h) | Preserve both public APIs while sharing coordinator-side 2PC phase ordering, decision durability gating, and failure outcomes through [`two_phase_commit_contract.h`](../../include/sharding/detail/two_phase_commit_contract.h). |
 | Durability and operations | [`WALManager`](../../include/sharding/wal_manager.h), [`WALApplier`](../../include/sharding/wal_applier.h), [`AutoRebalancer`](../../include/sharding/auto_rebalancer.h), [`DataMigrator`](../../include/sharding/data_migrator.h) | Record/apply shard WAL state and manage rebalance/migration work. |
 
 The source contains multiple consensus adapters (including Raft, Paxos, and Gossip); this architecture does not treat one adapter as the only supported implementation.
 
-The public tree also exposes both `CrossShardTransactionCoordinator` and
-`TwoPhaseCommitCoordinator`. They are distinct public surfaces; the presence of both does not imply
-that one delegates to the other or that their protocols/recovery paths are interchangeable.
-**TODO:** document the concrete integration path for each deployed transaction flow.
+Both public APIs are retained. `TwoPhaseCommitCoordinator::commit()` is the standalone 2PC
+entry point; `CrossShardTransactionCoordinator` delegates its 2PC prepare/decision/phase-two
+ordering to the same internal execution contract while retaining its transaction lifecycle,
+transport, SSI, and multi-protocol responsibilities. A prepare failure selects ABORT. The
+configured decision-record callback must succeed before phase two; a phase-two acknowledgement
+failure returns an error/in-doubt state and never changes the selected decision.
+`CrossShardTransactionCoordinator` reports that state as `UNKNOWN`; the standalone coordinator
+reports `ERROR` while retaining the selected decision in its recoverable view (durable replay
+requires WAL to be configured). `TwoPhaseCommitCoordinator` can re-drive from its WAL when
+configured. `CrossShardTransactionCoordinator::recoverFromWAL()` restores state and reports
+resume candidates, but does not automatically re-drive phase-two RPCs; an `UNKNOWN` transaction
+therefore requires external reconciliation.
+
+The shared contract does **not** make the coordinators' WAL formats, snapshots, transaction-state
+representations, or recovery replay interchangeable. DIS-05 covers only this named pair; the
+separate DIS-06 recovery boundary remains open. `DistributedTransactionCoordinator`, declared in
+`distributed_transaction.h`, is a third 2PC-capable public surface with its own transaction,
+endpoint, and recovery paths; it is not part of this contract. No direct production instantiations
+of the named pair were found in `src/` or `include/` during the DIS-05 source review.
 
 ## Data and event flow
 
 1. A query/request is classified and routed using the current topology and routing policy.
 2. Remote execution and shard-local operations return results/status to the routing/coordinator path.
-3. Cross-shard transactions coordinate participant work; the sharding WAL records sharding/transaction state through its configured storage-backed path.
+3. Cross-shard transactions coordinate participant work; both DIS-05 2PC paths apply the shared prepare → configured decision record → phase-two contract, while each coordinator records its own WAL/state format. Standalone 2PC re-drives through its WAL when enabled; CrossShard recovery currently restores/reports resume candidates only.
 4. Rebalance, migration, and repair components act on topology/health information and report operation state to their callers.
 
 Evidence includes [`shard_router.cpp`](shard_router.cpp), [`cross_shard_transaction.cpp`](cross_shard_transaction.cpp), [`wal_manager.cpp`](wal_manager.cpp), and [`auto_rebalancer.cpp`](auto_rebalancer.cpp).

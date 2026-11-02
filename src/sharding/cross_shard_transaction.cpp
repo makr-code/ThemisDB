@@ -12,8 +12,8 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 //
-// CC-5: ThemisDB provides three transaction coordinator classes that share the
-// IRecoverableTwoPhaseCoordinator recovery contract and coordinator-specific APIs.
+// The cross-shard 2PC execution path shares phase ordering and decision outcomes
+// with TwoPhaseCommitCoordinator through detail/two_phase_commit_contract.h.
 // This coordinator uses TransactionWAL (not WALLoggingHelper), and WAL formats
 // remain coordinator-specific; a transaction begun with one coordinator cannot
 // be recovered by another.
@@ -21,6 +21,7 @@
 // → Architecture reference: docs/architecture/transaction_coordinators.md
 
 #include "sharding/cross_shard_transaction.h"
+#include "sharding/detail/two_phase_commit_contract.h"
 #include <stdexcept>
 #include "sharding/shard_rpc_client.h"
 #include "sharding/truetime.h"
@@ -1063,28 +1064,37 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
     // Re-look-up the entry after re-acquiring the lock; the entry may have been
     // erased by a concurrent operation while the lock was released.
     auto it2 = transactions_.find(transaction_id);
+    auto final_state = TransactionState::UNKNOWN;
+    const bool transaction_still_tracked = it2 != transactions_.end();
     if (it2 != transactions_.end()) {
         auto& live_txn = it2->second;
         if (success) {
-            live_txn.state = TransactionState::COMMITTED;
+            final_state = live_txn.state = TransactionState::COMMITTED;
             live_txn.end_time = std::chrono::system_clock::now();
             committed_transactions_++;
-            persistTransactionState(transaction_id, TransactionState::COMMITTED);
             spdlog::info("Transaction {} committed successfully", transaction_id);
+        } else if (txn.state == TransactionState::UNKNOWN) {
+            final_state = live_txn.state = TransactionState::UNKNOWN;
+            live_txn.end_time = std::chrono::system_clock::now();
+            spdlog::error(
+                "Transaction {} has an unresolved 2PC decision; current WAL recovery "
+                "reports resume candidates but does not re-drive phase two",
+                transaction_id);
         } else {
-            live_txn.state = TransactionState::ABORTED;
+            final_state = live_txn.state = TransactionState::ABORTED;
             live_txn.end_time = std::chrono::system_clock::now();
             aborted_transactions_++;
-            persistTransactionState(transaction_id, TransactionState::ABORTED);
             spdlog::error("Transaction {} commit failed, aborted", transaction_id);
         }
         clearDistributedWaitEdgesLocked(transaction_id);
     }
     lock.unlock();
+    if (transaction_still_tracked) {
+        static_cast<void>(persistTransactionState(transaction_id, final_state));
+    }
     
     // Replicate final state via consensus
     if (consensus_) {
-        auto final_state = success ? TransactionState::COMMITTED : TransactionState::ABORTED;
         static_cast<void>(consensus_->propose("FINALIZE_TRANSACTION", {
             {"transaction_id", transaction_id},
             {"state", static_cast<int>(final_state)}
@@ -1154,34 +1164,49 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     txn.state = TransactionState::ABORTING;
     it->second.state = TransactionState::ABORTING;
     lock.unlock();
-    persistTransactionState(transaction_id, TransactionState::ABORTING);
-    
-    // Phase 2.3.4: Log ABORT decision to WAL
-    if (transaction_wal_) {
-        try {
-            transaction_wal_->logAbort(txn.transaction_id, "coordinator_decision");
-            operations_since_snapshot_++;
-        } catch (const std::exception& e) {
-            spdlog::warn("Failed to log ABORT to WAL: {}", e.what());
-        }
-    }
-    
-    // Send abort requests to all participants using the local copy.
-    for (auto& [shard_id, participant] : txn.participants) {
-        static_cast<void>(sendAbort(shard_id, transaction_id));
-        participant.aborted = true;
-        
-        // Phase 2.3.4: Log ABORTED confirmation to WAL
-        if (transaction_wal_) {
-            try {
-                transaction_wal_->logAborted(transaction_id, shard_id);
-                operations_since_snapshot_++;
-            } catch (const std::exception& e) {
-                spdlog::warn("Failed to log ABORTED to WAL: {}", e.what());
+
+    const auto outcome = themis::sharding::detail::executeTwoPhaseCommit(
+        [] { return false; }, // This public call explicitly selects ABORT.
+        [this, &txn](bool do_commit) {
+            if (do_commit) {
+                return false;
             }
-        }
-    }
-    
+            try {
+                if (transaction_wal_) {
+                    transaction_wal_->logAbort(txn.transaction_id, "coordinator_decision");
+                    operations_since_snapshot_++;
+                }
+                return persistTransactionState(txn.transaction_id, TransactionState::ABORTING);
+            } catch (const std::exception& e) {
+                spdlog::error("Failed to persist ABORT decision for txn {}: {}",
+                              txn.transaction_id, e.what());
+                return false;
+            }
+        },
+        [this, &txn, &transaction_id](bool do_commit) {
+            if (do_commit) {
+                return false;
+            }
+            bool all_aborted = true;
+            for (auto& [shard_id, participant] : txn.participants) {
+                participant.aborted = sendAbort(shard_id, transaction_id);
+                all_aborted = participant.aborted && all_aborted;
+                if (transaction_wal_ && participant.aborted) {
+                    try {
+                        transaction_wal_->logAborted(transaction_id, shard_id);
+                        operations_since_snapshot_++;
+                    } catch (const std::exception& e) {
+                        spdlog::warn("Failed to log ABORTED acknowledgement for {}: {}",
+                                     shard_id, e.what());
+                        all_aborted = false;
+                    }
+                }
+            }
+            return all_aborted;
+        });
+    const bool all_aborted =
+        outcome == themis::sharding::detail::TwoPhaseCommitExecutionResult::ABORTED;
+
     if (!lock.try_lock_for(config_.lock_timeout)) {
         spdlog::error("Lock acquisition timeout updating abort state for transaction {}",
                       transaction_id);
@@ -1191,16 +1216,22 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     // Re-look-up after re-acquiring the lock so we update the live entry, not the copy.
     auto it2 = transactions_.find(transaction_id);
     if (it2 != transactions_.end()) {
-        it2->second.state = TransactionState::ABORTED;
+        it2->second.state = all_aborted
+            ? TransactionState::ABORTED
+            : TransactionState::UNKNOWN;
         it2->second.end_time = std::chrono::system_clock::now();
-        aborted_transactions_++;
+        if (all_aborted) {
+            aborted_transactions_++;
+        }
         clearDistributedWaitEdgesLocked(transaction_id);
         should_persist_aborted = true;
     }
     lock.unlock();
 
     if (should_persist_aborted) {
-        persistTransactionState(transaction_id, TransactionState::ABORTED);
+        persistTransactionState(
+            transaction_id,
+            all_aborted ? TransactionState::ABORTED : TransactionState::UNKNOWN);
     }
     
     // Phase 2.3.4: Check if snapshot needed
@@ -1209,13 +1240,24 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     }
     
     // Replicate abort state via consensus
-    if (consensus_) {
+    if (consensus_ && all_aborted) {
         static_cast<void>(consensus_->propose("ABORT_TRANSACTION", {
             {"transaction_id", transaction_id},
             {"state", static_cast<int>(TransactionState::ABORTED)}
         }));
     }
     
+    if (!all_aborted) {
+        spdlog::error(
+            "Transaction {} has an unresolved ABORT decision; current WAL recovery "
+            "reports resume candidates but does not re-drive phase two "
+            "(execution result={})",
+            transaction_id,
+            outcome == themis::sharding::detail::TwoPhaseCommitExecutionResult::ERROR
+                ? "ERROR"
+                : "UNKNOWN");
+        return false;
+    }
     spdlog::info("Transaction {} aborted", transaction_id);
 
     // Release SSI bookkeeping for this transaction.
@@ -1580,124 +1622,110 @@ void CrossShardTransactionCoordinator::setForeignKeyValidator(
 // Private methods
 
 /**
- * @brief Execute2 PC.
- * @param[in,out] txn Input/output parameter.
- * @return True when the operation succeeds.
- * @details Calls: prepare(), nlohmann::json::array(), push_back(), logCommit(), spdlog::error(), what(), logAbort(), std::string().
+ * @brief Execute 2PC using the shared prepare/decision/phase-two contract.
+ * @param[in,out] txn Snapshot of the transaction and its participant payloads.
+ * @return True only when the configured COMMIT decision record and every
+ *         participant COMMIT acknowledgement complete. Prepare failure
+ *         completes ABORT and returns false; unresolved decision/phase-two
+ *         failures set UNKNOWN. Crash durability depends on WAL configuration.
  */
 bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
-    // Phase 1: Prepare (already done)
-    if (txn.state != TransactionState::PREPARED) {
-        if (!prepare(txn.transaction_id)) {
-            return false;
-        }
-    }
-    
-    // Phase 2: Commit
-    txn.state = TransactionState::COMMITTING;
-    
-    // Phase 2.3.3: Log COMMIT decision to WAL
-    // CC-3: WAL write must succeed (or WAL be absent) before we send commit RPCs
-    // to participants; otherwise a coordinator crash could leave participants
-    // committed with no recovery record.
-    if (transaction_wal_) {
-        try {
-            nlohmann::json commit_data = {
-                {"protocol", "2PC"},
-                {"participants", nlohmann::json::array()}
-            };
-            for (const auto& [shard_id, participant] : txn.participants) {
-                commit_data["participants"].push_back(shard_id);
+    const auto outcome = themis::sharding::detail::executeTwoPhaseCommit(
+        [this, &txn]() {
+            return txn.state == TransactionState::PREPARED || prepare(txn.transaction_id);
+        },
+        [this, &txn](bool do_commit) {
+            txn.state = do_commit
+                ? TransactionState::COMMITTING
+                : TransactionState::ABORTING;
+            if (!transaction_wal_) {
+                return true;
             }
-            transaction_wal_->logCommit(txn.transaction_id, commit_data);
-            operations_since_snapshot_++;
-        } catch (const std::exception& e) {
-            spdlog::error("execute2PC [{}]: WAL COMMIT log failed: {} — aborting to preserve durability",
-                          txn.transaction_id, e.what());
-            return false;
-        }
-    }
-    
-    const auto failClosedAbortRemaining = [this, &txn](std::string_view reason) {
-        txn.state = TransactionState::ABORTING;
-
-        if (transaction_wal_) {
             try {
-                transaction_wal_->logAbort(txn.transaction_id, std::string(reason));
-                operations_since_snapshot_++;
-            } catch (const std::exception& e) {
-                spdlog::error("execute2PC [{}]: WAL ABORT log failed during fail-closed handling: {}",
-                             txn.transaction_id,
-                             e.what());
-            }
-        }
-
-        for (auto& [remaining_shard_id, remaining_participant] : txn.participants) {
-            if (remaining_participant.committed) {
-                continue;
-            }
-
-            const bool aborted = sendAbort(remaining_shard_id, txn.transaction_id);
-            remaining_participant.aborted = aborted;
-            if (!aborted) {
-                spdlog::error("execute2PC [{}]: fail-closed abort RPC failed for shard {}",
-                             txn.transaction_id,
-                             remaining_shard_id);
-            }
-
-            if (transaction_wal_ && aborted) {
-                try {
-                    transaction_wal_->logAborted(txn.transaction_id, remaining_shard_id);
-                    operations_since_snapshot_++;
-                } catch (const std::exception& e) {
-                    spdlog::error("execute2PC [{}]: WAL ABORTED log failed for shard {}: {}",
-                                 txn.transaction_id,
-                                 remaining_shard_id,
-                                 e.what());
+                if (do_commit) {
+                    nlohmann::json commit_data = {
+                        {"protocol", "2PC"},
+                        {"participants", nlohmann::json::array()}
+                    };
+                    for (const auto& [shard_id, participant] : txn.participants) {
+                        (void)participant;
+                        commit_data["participants"].push_back(shard_id);
+                    }
+                    transaction_wal_->logCommit(txn.transaction_id, commit_data);
+                } else {
+                    transaction_wal_->logAbort(
+                        txn.transaction_id, "prepare_vote_or_rpc_failure");
                 }
-            }
-        }
-    };
-
-    for (auto& [shard_id, participant] : txn.participants) {
-        bool committed = sendCommit(shard_id, txn.transaction_id);
-        participant.committed = committed;
-
-        if (!committed) {
-            spdlog::error("execute2PC [{}]: Commit failed for shard {} - failing closed",
-                         txn.transaction_id,
-                         shard_id);
-            failClosedAbortRemaining("phase2_commit_failed");
-            return false;
-        }
-
-        // Phase 2.3.3: Log COMMITTED response to WAL.
-        // Fail-closed: if the coordinator cannot durably record a participant
-        // commit acknowledgement, do not continue committing additional shards.
-        if (transaction_wal_) {
-            try {
-                transaction_wal_->logCommitted(txn.transaction_id, shard_id);
                 operations_since_snapshot_++;
+                return true;
             } catch (const std::exception& e) {
-                spdlog::error("execute2PC [{}]: WAL COMMITTED log failed for shard {}: {} - failing closed",
-                             txn.transaction_id,
-                             shard_id,
-                             e.what());
-                failClosedAbortRemaining("phase2_wal_ack_log_failed");
+                spdlog::error("execute2PC [{}]: WAL decision log failed: {}",
+                              txn.transaction_id, e.what());
                 return false;
             }
-        }
+        },
+        [this, &txn](bool do_commit) {
+            bool all_acknowledged = true;
+            for (auto& [shard_id, participant] : txn.participants) {
+                const bool acknowledged = do_commit
+                    ? sendCommit(shard_id, txn.transaction_id)
+                    : sendAbort(shard_id, txn.transaction_id);
+                if (do_commit) {
+                    participant.committed = acknowledged;
+                } else {
+                    participant.aborted = acknowledged;
+                }
+                all_acknowledged = acknowledged && all_acknowledged;
+                if (!acknowledged) {
+                    spdlog::error(
+                        "execute2PC [{}]: {} acknowledgement failed for shard {}",
+                        txn.transaction_id,
+                        do_commit ? "COMMIT" : "ABORT",
+                        shard_id);
+                    continue;
+                }
 
-        spdlog::info("Shard {} committed transaction {}",
-                         shard_id, txn.transaction_id);
+                if (transaction_wal_) {
+                    try {
+                        if (do_commit) {
+                            transaction_wal_->logCommitted(txn.transaction_id, shard_id);
+                        } else {
+                            transaction_wal_->logAborted(txn.transaction_id, shard_id);
+                        }
+                        operations_since_snapshot_++;
+                    } catch (const std::exception& e) {
+                        spdlog::error(
+                            "execute2PC [{}]: WAL phase-two acknowledgement log failed for shard {}: {}",
+                            txn.transaction_id, shard_id, e.what());
+                        all_acknowledged = false;
+                        // Keep the selected decision unresolved and stop fan-out:
+                        // do not send another phase-two RPC until this
+                        // acknowledgement's durability record has succeeded.
+                        break;
+                    }
+                }
+            }
+
+            if (transaction_wal_ &&
+                transaction_wal_->shouldCreateSnapshot(operations_since_snapshot_.load())) {
+                createPeriodicSnapshot();
+            }
+            return all_acknowledged;
+        });
+
+    switch (outcome) {
+        case themis::sharding::detail::TwoPhaseCommitExecutionResult::COMMITTED:
+            txn.state = TransactionState::COMMITTED;
+            return true;
+        case themis::sharding::detail::TwoPhaseCommitExecutionResult::ABORTED:
+            txn.state = TransactionState::ABORTED;
+            return false;
+        case themis::sharding::detail::TwoPhaseCommitExecutionResult::ERROR:
+            txn.state = TransactionState::UNKNOWN;
+            return false;
     }
-    
-    // Phase 2.3.3: Check if snapshot needed
-    if (transaction_wal_ && transaction_wal_->shouldCreateSnapshot(operations_since_snapshot_.load())) {
-        createPeriodicSnapshot();
-    }
-    
-    return true;
+    txn.state = TransactionState::UNKNOWN;
+    return false;
 }
 
 /**
@@ -2262,6 +2290,9 @@ bool CrossShardTransactionCoordinator::sendPrepare(
     // Lock released – all network + sleep work happens outside transactions_mutex_.
     try {
         themis::sharding::ShardRPCClient rpc_client(rpc_config);
+        if (config_.in_process_rpc_response_handler) {
+            rpc_client.setInProcessResponseHandler(config_.in_process_rpc_response_handler);
+        }
 
         int retries  = 0;
         int delay_ms = rpc_config.retry_delay_ms;
@@ -2352,6 +2383,9 @@ bool CrossShardTransactionCoordinator::sendCommit(
     // Lock released – all network + sleep work happens outside transactions_mutex_.
     try {
         themis::sharding::ShardRPCClient rpc_client(rpc_config);
+        if (config_.in_process_rpc_response_handler) {
+            rpc_client.setInProcessResponseHandler(config_.in_process_rpc_response_handler);
+        }
 
         int retries  = 0;
         int delay_ms = rpc_config.retry_delay_ms;
@@ -2432,6 +2466,9 @@ bool CrossShardTransactionCoordinator::sendAbort(
     // Lock released – all network + sleep work happens outside transactions_mutex_.
     try {
         themis::sharding::ShardRPCClient rpc_client(rpc_config);
+        if (config_.in_process_rpc_response_handler) {
+            rpc_client.setInProcessResponseHandler(config_.in_process_rpc_response_handler);
+        }
 
         int retries  = 0;
         int delay_ms = rpc_config.retry_delay_ms;
@@ -2446,7 +2483,7 @@ bool CrossShardTransactionCoordinator::sendAbort(
                 } else {
                     spdlog::warn("Shard {} reported abort failure for transaction {}", 
                                shard_id, transaction_id);
-                    return true; // best-effort
+                    return false;
                 }
             } catch (const std::exception& e) {
                 if (retries < rpc_config.max_retries) {
@@ -2459,18 +2496,16 @@ bool CrossShardTransactionCoordinator::sendAbort(
                 } else {
                     spdlog::error("Abort RPC to shard {} failed after {} retries: {}", 
                                 shard_id, rpc_config.max_retries, e.what());
-                    spdlog::warn("Abort considered successful despite failures (best-effort semantics)");
-                    return true;
+                    return false;
                 }
             }
         }
-        spdlog::warn("Unexpected exit from abort retry loop - treating as successful (best-effort)");
-        return true;
+        spdlog::warn("Unexpected exit from abort retry loop");
+        return false;
     } catch (const std::exception& e) {
         spdlog::error("Failed to create RPC client for shard {}: {}", 
                      shard_id, e.what());
-        spdlog::warn("Abort considered successful despite client creation failure (best-effort semantics)");
-        return true;
+        return false;
     }
 }
 
@@ -3204,8 +3239,7 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
         return false;
     }
     
-    // Step 3: Resume in-flight transactions based on their state
-    // Phase 2.3.4: Automatic transaction resumption with timeout handling
+    // Step 3: Classify in-flight transactions and report resume candidates.
     auto now = std::chrono::system_clock::now();
     std::vector<std::string> transactions_to_resume;
     std::vector<std::string> transactions_to_timeout;
@@ -3216,29 +3250,31 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
             // Check for timeout (default: 5 minutes)
             auto age = std::chrono::duration_cast<std::chrono::seconds>(now - txn.start_time);
             if (age.count() > 300) {  // 5 minutes
-                spdlog::warn("Transaction {} is stale (age: {}s), will abort", txn_id, age.count());
+                spdlog::warn("Transaction {} is stale (age: {}s); recording timeout handling "
+                             "candidate",
+                             txn_id, age.count());
                 transactions_to_timeout.push_back(txn_id);
                 continue;
             }
 
             switch (txn.state) {
                 case TransactionState::PREPARING:
-                    spdlog::info("Transaction {} recovered in PREPARING state - will resend prepare", 
+                    spdlog::info("Transaction {} recovered in PREPARING state; resume candidate only",
                                 txn_id);
                     transactions_to_resume.push_back(txn_id);
                     break;
                 case TransactionState::PREPARED:
-                    spdlog::info("Transaction {} recovered in PREPARED state - will make commit decision", 
+                    spdlog::info("Transaction {} recovered in PREPARED state; resume candidate only",
                                 txn_id);
                     transactions_to_resume.push_back(txn_id);
                     break;
                 case TransactionState::COMMITTING:
-                    spdlog::info("Transaction {} recovered in COMMITTING state - will complete commit", 
+                    spdlog::info("Transaction {} recovered in COMMITTING state; resume candidate only",
                                 txn_id);
                     transactions_to_resume.push_back(txn_id);
                     break;
                 case TransactionState::ABORTING:
-                    spdlog::info("Transaction {} recovered in ABORTING state - will complete abort", 
+                    spdlog::info("Transaction {} recovered in ABORTING state; resume candidate only",
                                 txn_id);
                     transactions_to_resume.push_back(txn_id);
                     break;
@@ -3284,14 +3320,11 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
     }
     
     if (!transactions_to_resume.empty()) {
-        spdlog::info("Will resume {} in-flight transactions",transactions_to_resume.size());
-        // Note: Actual resumption would happen in a background thread
-        // For now, we just log what needs to be done
-        // In production, you would:
-        // 1. For PREPARING: Call prepare(txn_id) again
-        // 2. For PREPARED: Check all votes and call commit() or abort()
-        // 3. For COMMITTING: Re-send commit to any non-committed participants
-        // 4. For ABORTING: Re-send abort to any non-aborted participants
+        spdlog::info("{} in-flight transactions require external protocol resumption; "
+                     "automatic phase-two re-drive is not implemented",
+                     transactions_to_resume.size());
+        // The current recovery backend only reports these candidates; it does
+        // not automatically restart the protocol or re-send phase-two RPCs.
     }
     
     if (stats) {

@@ -18,6 +18,7 @@
 #include "sharding/cross_shard_fk_validator.h"
 #include "sharding/cross_shard_ssi_manager.h"
 #include "sharding/distributed_transaction.h"
+#include "sharding/shard_rpc_client.h"
 #include "sharding/truetime.h"
 #include "sharding/wal_manager.h"  // For LSN type
 #include "transaction/recoverable_two_phase_coordinator.h"
@@ -227,6 +228,11 @@ struct CrossShardTransactionConfig {
         const std::string& endpoint
     )> polled_wait_for_edge_collector;
 
+    /// Optional response handler for explicit test-only inproc:// RPC endpoints.
+    /// Forwarded to ShardRPCClient; it has no effect on production transports.
+    themis::sharding::ShardRPCClient::InProcessResponseHandler
+        in_process_rpc_response_handler;
+
     // ── Distributed Serializable Snapshot Isolation (SSI) ────────────────────
 
     /// Configuration for cross-shard SSI predicate-lock tracking and
@@ -325,28 +331,37 @@ public:
     bool prepare(const std::string& transaction_id);
     
     /**
-     * @brief Commit transaction
-     * @param transaction_id Transaction ID
-     * @return true if committed successfully
+     * @brief Commit a transaction using the shared coordinator-side 2PC contract.
+     * @param transaction_id Existing transaction ID in ACTIVE or PREPARED state.
+     * @return True only after all participants acknowledge COMMIT. False when
+     *         prepare selects ABORT or when decision persistence/phase two fails.
+     * @note A phase-two failure after COMMIT selection leaves the transaction
+     *       UNKNOWN and is never converted into ABORT. The current WAL/snapshot
+     *       backend records resume candidates but does not automatically
+     *       re-drive phase two; unresolved decisions require external recovery.
      */
     bool commit(const std::string& transaction_id);
     
     /**
-     * @brief Abort transaction
-     * @param transaction_id Transaction ID
-     * @return true if aborted successfully
+     * @brief Select and broadcast an ABORT decision for an active transaction.
+     * @param transaction_id Existing transaction ID in ACTIVE, PREPARING, or PREPARED state.
+     * @return True when the ABORT decision and all participant acknowledgements complete.
+     *         False on an invalid state, timeout, persistence failure, or missing acknowledgement.
      */
     bool abort(const std::string& transaction_id);
 
     /**
-     * @brief Re-drive in-doubt transactions using the configured recovery backend.
+     * @brief Restore transaction state and report in-doubt resume candidates.
      *
-      * Uses WAL+snapshot recovery when the backend is available.
+     * Uses WAL+snapshot recovery when the backend is available. The current
+     * backend does not automatically re-send PREPARE, COMMIT, or ABORT RPCs.
      *
      * This method is intended for startup recovery before new transactions are
      * accepted. If called during live traffic, the returned value is best-effort.
      *
-     * @return Number of in-doubt transactions resolved by this invocation.
+     * @return Number of in-doubt transactions that transitioned to a terminal
+     *         state during this invocation; resume-candidate reporting alone
+     *         does not count as resolution.
      */
     [[nodiscard]] size_t recoverInDoubtTransactions() override;
 

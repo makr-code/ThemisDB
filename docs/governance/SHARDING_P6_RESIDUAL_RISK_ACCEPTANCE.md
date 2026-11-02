@@ -1,3 +1,27 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-08-01
+Last Updated: 2026-11-01
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level4
+SOT_Domain: architecture-governance
+Canonical_References:
+  - ../../ROADMAP.md
+  - ../architecture/transaction_coordinators.md
+  - ../sharding/SHARDING_P6_SIGN_OFF.md
+  - ../../include/sharding/detail/two_phase_commit_contract.h
+  - ../../tests/test_two_phase_commit.cpp
+Related_Issue: "#5373 (DIS-05)"
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Sharding Phase 6 (P6) — Residual Risk Acceptance Statement
 
 <!-- Status: v1.0 complete | generated: 2026-08-01 -->
@@ -30,6 +54,23 @@ and explicitly accepted by the platform release team.
 | **Approver Name** | Platform Release Lead |
 | **Approver Date** | 2026-08-01 |
 | **Conditions** | None — accepted as-is for v2.4.0 GA. No blocking items. |
+
+#### Status addendum — 2026-11-01 (DIS-05)
+
+This update supplements, and does not change, the 2026-08-01 v2.4.0 GA risk acceptance above.
+DIS-05 closes the execution-divergence finding for the named pair by sharing coordinator-side
+decision/phase ordering and failure semantics. It does not unify participant transports,
+transaction lifecycles, WAL formats, or recovery, and it does not claim repo-wide 2PC convergence.
+Phase-two acknowledgement failures remain unresolved (`UNKNOWN` for `CrossShardTransactionCoordinator`; the standalone
+coordinator retains `COMMIT_DECIDED`/`ABORT_DECIDED` for `getRecoverableTransactions()`), rather
+than being reported as completed. Regression cases for failed COMMIT and ABORT acknowledgements through both named public paths are
+present in `tests/test_two_phase_commit.cpp`. The prior verification note recorded that the affected
+C++ translation units compiled, while the focused CTest executable could not be built because the
+environment lacked `pugixml.hpp` (unrelated `src/security/xxe_safe_xml_parser.cpp` dependency); this
+documentation-only synchronization did not rerun a build or tests. `CrossShardTransactionCoordinator`
+recovery restores WAL/snapshot state and reports resume candidates, but does not automatically
+re-drive phase two. WAL durability/replay convergence and the separate
+`DistributedTransactionCoordinator` remain outside this closure.
 
 ---
 
@@ -72,6 +113,9 @@ and explicitly accepted by the platform release team.
 ---
 
 ## Summary of Accepted Risks
+
+The Risk 1 status and follow-up entries below preserve the original 2026-08-01 acceptance record.
+For the current DIS-05 scope and implementation boundary, see the dated addendum above.
 
 | Risk ID | Title | Severity | Approval | Condition |
 |---------|-------|----------|----------|-----------|

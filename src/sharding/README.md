@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -13,9 +13,15 @@ SOT_Domain: module-behavior
 Canonical_References:
   - ../../include/sharding/sharding_api_contract.h
   - ../../include/sharding/shard_router.h
+  - ../../include/sharding/detail/two_phase_commit_contract.h
+  - ../../include/sharding/cross_shard_transaction.h
+  - ../../include/sharding/two_phase_commit_coordinator.h
+  - ../../include/sharding/distributed_transaction.h
+  - ../../tests/test_two_phase_commit.cpp
+  - ../../ROADMAP.md
   - ../../tests/sharding/CMakeLists.txt
   - ../../benchmarks/sharding/CMakeLists.txt
-Related_Issue: "#7381"
+Related_Issue: "#7381; #5373 (DIS-05)"
 Related_Milestone: DOC-WEEKLY-2026-W44
 ---
 
@@ -47,6 +53,20 @@ These are source/header mappings, not claims that all adapters, transport backen
 hardware paths are enabled in every build. The normative v1.x statements in
 `include/sharding/sharding_api_contract.h` are contracts; implementation conformance must be
 checked in the affected component and its tests.
+
+The DIS-05 named pair shares phase ordering, decision durability gating, and failure outcomes through
+`include/sharding/detail/two_phase_commit_contract.h`. Prepare failure chooses ABORT; after the
+configured decision-record callback succeeds, phase-two failure remains an error/in-doubt
+transaction and must not be rewritten as ABORT. Crash durability depends on enabling the
+coordinator's persistence backend. Their public lifecycle, transports, and coordinator-specific
+WAL/recovery paths remain separate: DIS-05 is closed, while the independent DIS-06 recovery boundary is not
+addressed here. `TwoPhaseCommitCoordinator` can re-drive WAL decisions when configured;
+`CrossShardTransactionCoordinator::recoverFromWAL()` only restores state and reports resume
+candidates, not automatic phase-two re-drive. This closure covers only the named pair, not
+repo-wide 2PC convergence.
+`DistributedTransactionCoordinator` (`include/sharding/distributed_transaction.h`) is a third
+2PC-capable public surface with separate transaction, endpoint, and recovery paths; it remains
+outside DIS-05.
 
 ## Scope
 
