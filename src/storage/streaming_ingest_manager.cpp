@@ -79,6 +79,7 @@ StreamingIngestManager::~StreamingIngestManager() {
         // Best-effort drain on unexpected destruction.
         running_.store(false, std::memory_order_release);
         not_empty_.notify_all();
+        not_full_.notify_all();
         if (flush_thread_.joinable() &&
             !utils::joinThreadWithin(flush_thread_)) {
             THEMIS_WARN("StreamingIngestManager: flush thread exceeded shutdown timeout");
@@ -222,8 +223,10 @@ Result<size_t> StreamingIngestManager::ingestBatch(std::vector<Event> events) {
         const auto deadline = cfg_.backpressure_timeout.count() > 0
             ? std::chrono::steady_clock::now() + cfg_.backpressure_timeout
             : std::chrono::steady_clock::time_point::max();
-        const bool got_space = not_full_.wait_until(lock, deadline, has_batch_space);
-        if (!got_space) {
+        const bool got_space = not_full_.wait_until(lock, deadline, [this, &has_batch_space] {
+            return has_batch_space() || !running_.load(std::memory_order_relaxed);
+        });
+        if (!got_space || !has_batch_space()) {
             return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_LOG_FULL,
                                         "StreamingIngestManager: batch back-pressure timeout; "
                                         "no events were enqueued"));
