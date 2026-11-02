@@ -157,6 +157,34 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         return outcome;
     }
 
+    if (!config_.fencing_token_provider) {
+        outcome.result = CoordinatorTxnResult::ERROR;
+        outcome.reason = "fencing token provider not configured";
+        ++total_errors_;
+        return outcome;
+    }
+
+    std::map<std::string, EpochToken> fencing_tokens;
+    for (const auto& [shard_id, _] : ops_per_shard) {
+        try {
+            auto token = config_.fencing_token_provider(shard_id);
+            if (!token || token->epoch == 0 || token->issuer != coordinator_id_ ||
+                token->shard_id != shard_id) {
+                outcome.result = CoordinatorTxnResult::ERROR;
+                outcome.reason = "invalid fencing token for shard: " + shard_id;
+                ++total_errors_;
+                return outcome;
+            }
+            fencing_tokens.emplace(shard_id, std::move(*token));
+        } catch (const std::exception& e) {
+            outcome.result = CoordinatorTxnResult::ERROR;
+            outcome.reason = "fencing token provider failed for shard " + shard_id +
+                             ": " + e.what();
+            ++total_errors_;
+            return outcome;
+        }
+    }
+
     // ── Build the record ────────────────────────────────────────────────────
     CoordinatorTxnRecord rec;
     rec.transaction_id = transaction_id;
@@ -200,7 +228,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         // Build per-shard payloads
         for (const auto& [shard_id, ops] : ops_per_shard) {
             rec.participant_shards.push_back(shard_id);
-            rec.shard_payloads[shard_id] = buildPayload(ops);
+            rec.shard_payloads[shard_id] = buildPayload(ops, fencing_tokens.at(shard_id));
         }
 
         transactions_[transaction_id] = rec;
@@ -225,6 +253,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
     // ── Phase 1: PREPARE ───────────────────────────────────────────────────
     const auto t1 = std::chrono::steady_clock::now();
     bool all_prepared = false;
+    bool phase2_completed = false;
     {
         /**
          * @brief 2PC-1: use unique_lock so runPhase1 can release it around each RPC.
@@ -270,39 +299,49 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
          */
         std::unique_lock<std::timed_mutex> lock(mutex_);
         auto& stored = transactions_.at(transaction_id);
-        runPhase2(stored, all_prepared, lock);
+        phase2_completed = runPhase2(stored, all_prepared, lock);
         // lock is re-held here after runPhase2 returns
-        stored.state = CoordinatorTxnState::COMPLETED;
+        stored.state = phase2_completed
+            ? CoordinatorTxnState::COMPLETED
+            : (all_prepared ? CoordinatorTxnState::COMMIT_DECIDED
+                            : CoordinatorTxnState::ABORT_DECIDED);
     }
 
     const double phase2_ms = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - t2).count();
 
-    logToWAL(all_prepared ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
-             transaction_id, {
-                 {"transaction_id", transaction_id},
-                 {"coordinator_id", coordinator_id_},
-                 {"phase",          "complete"}
-             });
+    if (phase2_completed) {
+        logToWAL(all_prepared ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
+                 transaction_id, {
+                     {"transaction_id", transaction_id},
+                     {"coordinator_id", coordinator_id_},
+                     {"phase",          "complete"}
+                 });
+    }
 
-    if (all_prepared) {
+    if (all_prepared && phase2_completed) {
         total_commits_.fetch_add(1, std::memory_order_relaxed);
         outcome.result = CoordinatorTxnResult::COMMITTED;
         THEMIS_INFO("2PC coordinator [{}] txn {} COMMITTED", coordinator_id_, transaction_id);
-    } else {
+    } else if (!all_prepared && phase2_completed) {
         total_aborts_.fetch_add(1, std::memory_order_relaxed);
         outcome.result = CoordinatorTxnResult::ABORTED;
         outcome.reason = "one or more participants voted ABORT";
         THEMIS_INFO("2PC coordinator [{}] txn {} ABORTED", coordinator_id_, transaction_id);
+    } else {
+        total_errors_.fetch_add(1, std::memory_order_relaxed);
+        outcome.result = CoordinatorTxnResult::ERROR;
+        outcome.reason = "one or more participants did not acknowledge phase 2";
     }
 
     [[maybe_unused]] const double total_ms = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - t0).count();
 
     if (auto m = ShardingMetricsRegistry::instance().getMetrics()) {
-        m->record2PCCommitPhase(coordinator_id_, phase2_ms, all_prepared);
-        m->record2PCTransaction(coordinator_id_, all_prepared);
-        if (!all_prepared) {
+        const bool completed_commit = all_prepared && phase2_completed;
+        m->record2PCCommitPhase(coordinator_id_, phase2_ms, completed_commit);
+        m->record2PCTransaction(coordinator_id_, completed_commit);
+        if (!completed_commit) {
             m->record2PCAbort(coordinator_id_, outcome.reason);
         }
         // available for future histogram
@@ -373,7 +412,11 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
                             "– aborting conservatively and broadcasting ABORT",
                             coordinator_id_, txn_id);
                 rec.state = CoordinatorTxnState::ABORT_DECIDED;
-                runPhase2(rec, false, lock);
+                if (!runPhase2(rec, false, lock)) {
+                    rec.state = CoordinatorTxnState::ABORT_DECIDED;
+                    transactions_[txn_id] = rec;
+                    continue;
+                }
                 // lock is re-held here after runPhase2 returns
                 rec.state = CoordinatorTxnState::COMPLETED;
                 transactions_[txn_id] = rec;
@@ -393,7 +436,12 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
             THEMIS_WARN("2PC coordinator [{}] re-driving in-doubt txn {} with decision {}",
                         coordinator_id_, txn_id, do_commit ? "COMMIT" : "ABORT");
 
-            runPhase2(rec, do_commit, lock);
+            if (!runPhase2(rec, do_commit, lock)) {
+                rec.state = do_commit ? CoordinatorTxnState::COMMIT_DECIDED
+                                      : CoordinatorTxnState::ABORT_DECIDED;
+                transactions_[txn_id] = rec;
+                continue;
+            }
             // lock is re-held here after runPhase2 returns
             rec.state = CoordinatorTxnState::COMPLETED;
             transactions_[txn_id] = rec;
@@ -595,7 +643,7 @@ bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec,
  * @param[in,out] lock Input/output parameter.
  * @details Calls: empty(), reserve(), size(), push_back(), find(), end(), THEMIS_WARN(), unlock().
  */
-void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_commit,
+bool TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_commit,
                                           std::unique_lock<std::timed_mutex>& lock) {
     // 2PC-1: same pattern as runPhase1 — release lock around each blocking RPC.
     const auto shard_ids =
@@ -611,12 +659,14 @@ void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
               }()
             : rec.participant_shards;
 
+    bool all_acked = true;
     for (const auto& shard_id : shard_ids) {
         auto pit = participants_.find(shard_id);  // safe: lock held
         if (pit == participants_.end()) {
             THEMIS_WARN("2PC coordinator [{}] Phase 2 – participant {} not found for txn {} "
                         "(shard may have been deregistered)",
                         coordinator_id_, shard_id, rec.transaction_id);
+            all_acked = false;
             continue;
         }
 
@@ -624,31 +674,38 @@ void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
 
             lock.unlock();  // release mutex_ before blocking RPC
         try {
-            if (do_commit) {
-                participant->onCommit(rec.transaction_id);
-            } else {
-                participant->onAbort(rec.transaction_id);
-            }
+            const bool acknowledged = do_commit
+                ? participant->onCommit(rec.transaction_id)
+                : participant->onAbort(rec.transaction_id);
             if (!lock.try_lock_for(config_.prepare_timeout)) {
                 THEMIS_ERROR("2PC coordinator [{}] Phase 2 – timed out re-acquiring mutex for txn {} after {}; continuing",
                              coordinator_id_, rec.transaction_id,
                              do_commit ? "COMMIT" : "ABORT");
-                continue;
+                return false;
             }
-            rec.phase2_acked.push_back(shard_id);
+            if (acknowledged) {
+                rec.phase2_acked.push_back(shard_id);
+            } else {
+                all_acked = false;
+                THEMIS_ERROR("2PC coordinator [{}] Phase 2 – shard {} rejected {} for txn {}",
+                             coordinator_id_, shard_id,
+                             do_commit ? "COMMIT" : "ABORT", rec.transaction_id);
+            }
         } catch (const std::exception& e) {
             if (!lock.try_lock_for(config_.prepare_timeout)) {
                 THEMIS_ERROR("2PC coordinator [{}] Phase 2 – timed out re-acquiring mutex for txn {} on error path",
                              coordinator_id_, rec.transaction_id);
-                continue;
+                return false;
             }
             // Log and continue – idempotency allows retrying later
             THEMIS_ERROR("2PC coordinator [{}] Phase 2 – shard {} threw on {} for txn {}: {}",
                          coordinator_id_, shard_id,
                          do_commit ? "COMMIT" : "ABORT",
                          rec.transaction_id, e.what());
+            all_acked = false;
         }
     }
+    return all_acked;
 }
 
 /**
@@ -657,9 +714,18 @@ void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
  * @return Return value.
  * @details Calls: dump().
  */
-std::string TwoPhaseCommitCoordinator::buildPayload(const nlohmann::json& ops) {
+std::string TwoPhaseCommitCoordinator::buildPayload(
+    const nlohmann::json& ops,
+    const EpochToken& token) {
     nlohmann::json j;
     j["operations"] = ops;
+    j["fencing_token"] = {
+        {"epoch", token.epoch},
+        {"issuer", token.issuer},
+        {"shard_id", token.shard_id},
+        {"issued_at_ms", std::chrono::duration_cast<std::chrono::milliseconds>(
+            token.issued_at.time_since_epoch()).count()}
+    };
     return j.dump();
 }
 

@@ -70,9 +70,32 @@ bool TwoPhaseCommitParticipant::onPrepare(
     const std::string& transaction_data
 ) {
     const auto t0 = std::chrono::steady_clock::now();
-    std::lock_guard<std::mutex> lock(mutex_);
+    nlohmann::json parsed;
+    nlohmann::json ops;
+    EpochToken token;
+    bool payload_valid = true;
+    try {
+        parsed = nlohmann::json::parse(transaction_data);
+        ops = parsed.value("operations", nlohmann::json::array());
+        if (!ops.is_array() || !parsed.contains("fencing_token") ||
+            !parsed["fencing_token"].is_object()) {
+            payload_valid = false;
+        } else {
+            const auto& token_json = parsed["fencing_token"];
+            token.epoch = token_json.at("epoch").get<EpochNumber>();
+            token.issuer = token_json.at("issuer").get<NodeId>();
+            token.shard_id = token_json.at("shard_id").get<std::string>();
+            const auto issued_at_ms = token_json.at("issued_at_ms").get<int64_t>();
+            token.issued_at = std::chrono::system_clock::time_point{
+                std::chrono::milliseconds{issued_at_ms}};
+        }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("2PC participant [{}] PREPARE {}: failed to parse payload – aborting: {}",
+                    shard_id_, transaction_id, e.what());
+        payload_valid = false;
+    }
 
-    // Idempotency: if we have already prepared (or decided), return stored vote
+    std::unique_lock<std::mutex> lock(mutex_);
     auto it = transactions_.find(transaction_id);
     if (it != transactions_.end()) {
         THEMIS_DEBUG("2PC participant [{}] duplicate PREPARE for {} – returning stored vote {}",
@@ -80,26 +103,38 @@ bool TwoPhaseCommitParticipant::onPrepare(
         return it->second.vote_committed;
     }
 
-    // Parse operations from the serialised transaction data
-    nlohmann::json ops;
-    try {
-        auto parsed = nlohmann::json::parse(transaction_data);
-        ops = parsed.value("operations", nlohmann::json::array());
-    } catch (const std::exception& e) {
-        THEMIS_WARN("2PC participant [{}] PREPARE {}: failed to parse ops – aborting: {}",
-                    shard_id_, transaction_id, e.what());
-        // Record an abort vote so we remain consistent
+    lock.unlock();
+    FencingResult fencing_result = FencingResult::INVALID_TOKEN;
+    if (payload_valid && config_.fencing_manager &&
+        config_.fencing_manager->config().shard_id == shard_id_ &&
+        token.issuer == coordinator_shard_id) {
+        fencing_result = config_.fencing_manager->checkToken(token, coordinator_shard_id);
+    }
+    lock.lock();
+
+    it = transactions_.find(transaction_id);
+    if (it != transactions_.end()) {
+        return it->second.vote_committed;
+    }
+
+    if (fencing_result != FencingResult::ALLOWED) {
         ParticipantTransaction txn;
-        txn.transaction_id   = transaction_id;
-        txn.state            = ParticipantTxnState::ABORTED;
-        txn.vote_committed   = false;
-        txn.prepared_at      = std::chrono::steady_clock::now();
+        txn.transaction_id = transaction_id;
+        txn.state = ParticipantTxnState::ABORTED;
+        txn.vote_committed = false;
+        txn.prepared_at = std::chrono::steady_clock::now();
         transactions_[transaction_id] = std::move(txn);
+        logToWAL(WALEntryType::PREPARE_TX, transaction_id, {
+            {"transaction_id", transaction_id},
+            {"coordinator_shard", coordinator_shard_id},
+            {"shard_id", shard_id_},
+            {"vote", false},
+            {"fencing_result", toString(fencing_result)}
+        });
         return false;
     }
 
     bool vote = true;
-
     // Validate operations and acquire row locks
     if (validate_and_lock_) {
         try {
@@ -115,6 +150,7 @@ bool TwoPhaseCommitParticipant::onPrepare(
     ParticipantTransaction txn;
     txn.transaction_id = transaction_id;
     txn.operations     = std::move(ops);
+    txn.fencing_token  = token;
     txn.vote_committed = vote;
     txn.prepared_at    = std::chrono::steady_clock::now();
     txn.state          = vote ? ParticipantTxnState::PREPARED : ParticipantTxnState::ABORTED;
@@ -126,7 +162,14 @@ bool TwoPhaseCommitParticipant::onPrepare(
         {"coordinator_shard",   coordinator_shard_id},
         {"shard_id",            shard_id_},
         {"vote",                vote},
-        {"operations",          transactions_[transaction_id].operations}
+        {"operations",          transactions_[transaction_id].operations},
+        {"fencing_token", {
+            {"epoch", token.epoch},
+            {"issuer", token.issuer},
+            {"shard_id", token.shard_id},
+            {"issued_at_ms", std::chrono::duration_cast<std::chrono::milliseconds>(
+                token.issued_at.time_since_epoch()).count()}
+        }}
     });
 
     total_prepares_.fetch_add(1, std::memory_order_relaxed);
@@ -176,9 +219,17 @@ bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
 
     // Apply buffered operations to the storage engine
     bool applied = true;
-    if (apply_operations_) {
+    FencingResult fencing_result = FencingResult::INVALID_TOKEN;
+    if (config_.fencing_manager &&
+        config_.fencing_manager->config().shard_id == shard_id_) {
         try {
-            applied = apply_operations_(transaction_id, txn.operations, txn.commit_timestamp);
+            fencing_result = config_.fencing_manager->applyWithToken(
+                txn.fencing_token, txn.fencing_token.issuer, [&] {
+                    if (apply_operations_) {
+                        applied = apply_operations_(transaction_id, txn.operations,
+                                                    txn.commit_timestamp);
+                    }
+                });
         } catch (const std::exception& e) {
             THEMIS_ERROR("2PC participant [{}] COMMIT {}: apply error: {}",
                          shard_id_, transaction_id, e.what());
@@ -186,9 +237,9 @@ bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
         }
     }
 
-    if (!applied) {
-        THEMIS_ERROR("2PC participant [{}] COMMIT {} failed to apply operations",
-                     shard_id_, transaction_id);
+    if (fencing_result != FencingResult::ALLOWED || !applied) {
+        THEMIS_ERROR("2PC participant [{}] COMMIT {} rejected (fencing={}, applied={})",
+                     shard_id_, transaction_id, toString(fencing_result), applied);
         return false;
     }
 
@@ -401,6 +452,16 @@ size_t TwoPhaseCommitParticipant::recoverFromWAL() {
                     txn.state          = ParticipantTxnState::PREPARED;
                     txn.vote_committed = entry.data.value("vote", true);
                     txn.operations     = entry.data.value("operations", nlohmann::json::array());
+                    if (entry.data.contains("fencing_token") &&
+                        entry.data["fencing_token"].is_object()) {
+                        const auto& token_json = entry.data["fencing_token"];
+                        txn.fencing_token.epoch = token_json.value("epoch", EpochNumber{0});
+                        txn.fencing_token.issuer = token_json.value("issuer", NodeId{});
+                        txn.fencing_token.shard_id = token_json.value("shard_id", std::string{});
+                        const auto issued_at_ms = token_json.value("issued_at_ms", int64_t{0});
+                        txn.fencing_token.issued_at = std::chrono::system_clock::time_point{
+                            std::chrono::milliseconds{issued_at_ms}};
+                    }
                     txn.prepared_at    = std::chrono::steady_clock::now();
                     transactions_[txn_id] = std::move(txn);
                 }
@@ -506,4 +567,3 @@ void TwoPhaseCommitParticipant::logToWAL(
 }
 
 } // namespace themis::sharding
-

@@ -76,20 +76,31 @@ public:
      */
     bool onPrepare(
         const std::string& transaction_id,
-        const std::string& /*coordinator_shard_id*/,
+        const std::string& coordinator_shard_id,
         const std::string& transaction_data
     ) override {
         nlohmann::json ops = nlohmann::json::array();
+        EpochToken token;
         try {
             auto parsed = nlohmann::json::parse(transaction_data);
             ops = parsed.value("operations", nlohmann::json::array());
+            const auto& token_json = parsed.at("fencing_token");
+            token.epoch = token_json.at("epoch").get<EpochNumber>();
+            token.issuer = token_json.at("issuer").get<NodeId>();
+            token.shard_id = token_json.at("shard_id").get<std::string>();
+            const auto issued_at_ms = token_json.at("issued_at_ms").get<int64_t>();
+            token.issued_at = std::chrono::system_clock::time_point{
+                std::chrono::milliseconds{issued_at_ms}};
+            if (!ops.is_array() || token.issuer != coordinator_shard_id) {
+                return false;
+            }
         } catch (...) {
             // Malformed payload → vote ABORT
             return false;
         }
 
         try {
-            return client_.prepare(transaction_id, ops);
+            return client_.prepare(transaction_id, ops, token);
         } catch (...) {
             return false;
         }

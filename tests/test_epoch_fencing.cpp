@@ -93,10 +93,10 @@ TEST(EpochTokenTest, ValidTokenAccepted) {
     EXPECT_TRUE(tok.isValid(5));
 }
 
-TEST(EpochTokenTest, FutureEpochAccepted) {
+TEST(EpochTokenTest, FutureEpochRejected) {
     EpochToken tok;
     tok.epoch = 10;
-    EXPECT_TRUE(tok.isValid(5));
+    EXPECT_FALSE(tok.isValid(5));
 }
 
 TEST(EpochTokenTest, StaleEpochRejected) {
@@ -153,7 +153,7 @@ TEST(EpochFencingManagerTest, MakeTokenReturnsCurrentEpoch) {
 TEST(EpochFencingManagerTest, CurrentTokenAllowed) {
     EpochFencingManager mgr(makeConfig("s1", "n1", false));
     auto tok = mgr.makeToken();
-    EXPECT_EQ(mgr.checkToken(tok, "n2"), FencingResult::ALLOWED);
+    EXPECT_EQ(mgr.checkToken(tok, "n1"), FencingResult::ALLOWED);
 }
 
 TEST(EpochFencingManagerTest, StaleTokenRejectedWithoutStonith) {
@@ -161,7 +161,7 @@ TEST(EpochFencingManagerTest, StaleTokenRejectedWithoutStonith) {
     auto old_tok = mgr.makeToken();   // epoch==1
     auto bumped = mgr.bumpEpoch("bump"); // now epoch==2
     static_cast<void>(bumped);
-    EXPECT_EQ(mgr.checkToken(old_tok, "n2"), FencingResult::STALE_EPOCH);
+    EXPECT_EQ(mgr.checkToken(old_tok, "n1"), FencingResult::STALE_EPOCH);
 }
 
 TEST(EpochFencingManagerTest, InvalidTokenRejected) {
@@ -177,19 +177,18 @@ TEST(EpochFencingManagerTest, StaleTokenTriggersStonith) {
     auto old_tok = mgr.makeToken();
     auto bumped = mgr.bumpEpoch("bump");
     static_cast<void>(bumped);
-    auto result = mgr.checkToken(old_tok, "stale-node");
+    auto result = mgr.checkToken(old_tok, "n1");
     EXPECT_EQ(result, FencingResult::STONITH_ISSUED);
-    EXPECT_TRUE(stonith->isFenced("stale-node"));
+    EXPECT_TRUE(stonith->isFenced("n1"));
 }
 
-TEST(EpochFencingManagerTest, FutureEpochTokenAllowed) {
+TEST(EpochFencingManagerTest, FutureEpochTokenRejected) {
     EpochFencingManager mgr(makeConfig("s1", "n1", false));
     EpochToken future_tok;
     future_tok.epoch    = 999;
     future_tok.issuer   = "n1";
     future_tok.shard_id = "s1";
-    // Epoch 999 > current (1): should be ALLOWED
-    EXPECT_EQ(mgr.checkToken(future_tok, "n1"), FencingResult::ALLOWED);
+    EXPECT_EQ(mgr.checkToken(future_tok, "n1"), FencingResult::FUTURE_EPOCH);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -209,13 +208,15 @@ TEST(EpochFencingManagerTest, MetricsAccumulateCorrectly) {
     // 3 allowed writes
     auto cur = mgr.makeToken();
     for (int i = 0; i < 3; ++i) {
-        auto result = mgr.checkToken(cur, "writer");
+        auto result = mgr.checkToken(cur, "n1");
         static_cast<void>(result);
     }
 
     // 1 stale → STONITH
     EpochToken stale;
     stale.epoch = 1;
+    stale.issuer = "old-writer";
+    stale.shard_id = "s1";
     auto stale_result = mgr.checkToken(stale, "old-writer");
     static_cast<void>(stale_result);
 
