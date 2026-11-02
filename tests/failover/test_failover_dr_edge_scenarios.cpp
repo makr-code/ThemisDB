@@ -6,7 +6,8 @@
  * @brief Phase 3 / Phase 4 — Disaster recovery step isolation and edge scenario
  *        focused tests (DRE-01..DRE-08).
  *
- * Tests are fully self-contained: no network I/O, no filesystem I/O.
+ * Tests are fully self-contained: no network I/O; persistence cases use
+ * temporary filesystem paths.
  * External dependencies are avoided by using dry_run mode or step hooks.
  * Canonical PRNG seed: kDREdgeSeed = 42.
  *
@@ -40,6 +41,12 @@
 #include <memory>
 #include <string>
 #include <vector>
+
+#if defined(__unix__) || defined(__APPLE__)
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#endif
 
 using namespace themis::failover;
 
@@ -579,3 +586,38 @@ TEST(DisasterRecoveryEdgeDRE18, CompletedMetadataSurvivesManagerRestart) {
     EXPECT_FALSE(conflict.success);
     EXPECT_EQ(conflict.error_code, DisasterRecoveryErrorCode::INVALID_PLAN);
 }
+
+#if defined(__unix__) || defined(__APPLE__)
+TEST(DisasterRecoveryEdgeDRE22, CompletedMetadataReplaysAcrossProcesses) {
+    TemporaryMetadataLog metadata;
+    const auto plan = makeMinimalProductionPlan();
+
+    const pid_t child = ::fork();
+    ASSERT_NE(child, -1) << "fork failed";
+    if (child == 0) {
+        DisasterRecoveryManager manager(makeProductionConfig(metadata.path), nullptr,
+            std::make_shared<themis::sharding::EpochFencingManager>(
+                themis::sharding::EpochFencingConfig{}));
+        manager.testSetQuorumOverride(true);
+        installAdapterHooks(manager, {DisasterRecoveryStep::SNAPSHOT_VALIDATION,
+                                      DisasterRecoveryStep::RESTORE,
+                                      DisasterRecoveryStep::REPLICA_CATCHUP,
+                                      DisasterRecoveryStep::TRAFFIC_SHIFT,
+                                      DisasterRecoveryStep::VERIFICATION});
+        const auto result = manager.executePlan(plan);
+        ::_exit(result.success ? 0 : 1);
+    }
+
+    int status = 0;
+    ASSERT_EQ(::waitpid(child, &status, 0), child);
+    ASSERT_TRUE(WIFEXITED(status));
+    ASSERT_EQ(WEXITSTATUS(status), 0)
+        << "child process must persist a completed DR plan before exiting";
+
+    DisasterRecoveryManager restarted(makeProductionConfig(metadata.path), nullptr, nullptr);
+    const auto recovered = restarted.executePlan(plan);
+    EXPECT_TRUE(recovered.success);
+    EXPECT_EQ(recovered.final_state, DisasterRecoveryState::COMPLETED);
+    EXPECT_EQ(recovered.step_results.size(), 7u);
+}
+#endif
