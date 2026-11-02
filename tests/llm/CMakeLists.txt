@@ -412,7 +412,8 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
-    if(_stem STREQUAL "test_training_data_iterator" AND TARGET themis_llm)
+    if((_stem STREQUAL "test_lora_adapters" OR _stem STREQUAL "test_training_data_iterator")
+       AND TARGET themis_llm)
         target_link_libraries(${_target} PRIVATE themis_llm)
     endif()
     if(_stem STREQUAL "test_llm_federated_failure_envelopes")

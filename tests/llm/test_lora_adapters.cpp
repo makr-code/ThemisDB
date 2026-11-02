@@ -24,6 +24,7 @@
 #include <filesystem>
 #include <thread>
 #include <atomic>
+#include <chrono>
 #include <vector>
 #include <fstream>
 
@@ -295,28 +296,41 @@ TEST_F(LoRAAdapterTest, Switching_VerifyActiveAdapter) {
  */
 TEST_F(LoRAAdapterTest, Concurrent_MultipleAccess) {
     auto adapter = createMockAdapter("concurrent_test");
-    
+
+#ifdef THEMIS_ENABLE_LLM
+    MultiLoRAManager::Config config;
+    config.max_lora_slots = 16;
+    config.lora_base_dir = test_dir_.string();
+    config.lora_ttl = std::chrono::seconds(0);
+    MultiLoRAManager manager(config);
+
+    ASSERT_TRUE(manager.loadLoRA("concurrent_test", adapter, "base_model", 1.0f));
+
     const int num_threads = 10;
+    constexpr int accesses_per_thread = 20;
     std::atomic<int> access_count{0};
     std::vector<std::thread> threads;
-    
+
     for (int i = 0; i < num_threads; ++i) {
-        threads.emplace_back([&access_count, &adapter]() {
-            // Verify adapter exists
-            if (fs::exists(adapter)) {
-                access_count++;
+        threads.emplace_back([&manager, &access_count, &adapter, accesses_per_thread]() {
+            for (int access = 0; access < accesses_per_thread; ++access) {
+                if (manager.loadLoRA("concurrent_test", adapter, "base_model", 1.0f) &&
+                    manager.isLoRALoaded("concurrent_test") &&
+                    !manager.listLoRAs("base_model").empty()) {
+                    ++access_count;
+                }
             }
         });
     }
-    
+
     for (auto& thread : threads) {
         thread.join();
     }
-    
-    EXPECT_EQ(access_count.load(), num_threads);
-    
-#ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full test requires actual LoRA manager with concurrent access";
+
+    EXPECT_EQ(access_count.load(), num_threads * accesses_per_thread);
+    EXPECT_TRUE(manager.isLoRALoaded("concurrent_test"));
+#else
+    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM=OFF)";
 #endif
 }
 
@@ -328,19 +342,47 @@ TEST_F(LoRAAdapterTest, Concurrent_MultipleAccess) {
  * - State remains consistent
  */
 TEST_F(LoRAAdapterTest, Concurrent_LoadUnload) {
-    std::vector<std::string> adapters = {};
-
-    for (int i = 0; i < 5; ++i) {
-        adapters.push_back(createMockAdapter("concurrent_" + std::to_string(i)));
-    }
-    
 #ifdef THEMIS_ENABLE_LLM
-    // Would test concurrent load/unload
-    // Verify no deadlocks or corruption
-    
-    GTEST_SKIP() << "Requires actual LoRA manager implementation";
+    constexpr int num_adapters = 5;
+    constexpr int lifecycle_iterations = 10;
+    std::vector<std::string> adapters;
+    std::vector<std::string> adapter_paths;
+
+    for (int i = 0; i < num_adapters; ++i) {
+        adapters.push_back("concurrent_" + std::to_string(i));
+        adapter_paths.push_back(createMockAdapter(adapters.back()));
+    }
+
+    MultiLoRAManager::Config config;
+    config.max_lora_slots = num_adapters;
+    config.lora_base_dir = test_dir_.string();
+    config.lora_ttl = std::chrono::seconds(0);
+    MultiLoRAManager manager(config);
+
+    std::atomic<int> completed_lifecycles{0};
+    std::vector<std::thread> threads;
+    for (int i = 0; i < num_adapters; ++i) {
+        threads.emplace_back([&, i]() {
+            for (int iteration = 0; iteration < lifecycle_iterations; ++iteration) {
+                if (manager.loadLoRA(adapters[i], adapter_paths[i], "base_model", 1.0f) &&
+                    manager.isLoRALoaded(adapters[i]) &&
+                    manager.unloadLoRA(adapters[i])) {
+                    ++completed_lifecycles;
+                }
+            }
+        });
+    }
+
+    for (auto& thread : threads) {
+        thread.join();
+    }
+
+    EXPECT_EQ(completed_lifecycles.load(), num_adapters * lifecycle_iterations);
+    for (const auto& adapter : adapters) {
+        EXPECT_FALSE(manager.isLoRALoaded(adapter));
+    }
 #else
-    GTEST_SKIP() << "LLM support not enabled";
+    GTEST_SKIP() << "LLM support not enabled (THEMIS_ENABLE_LLM=OFF)";
 #endif
 }
 
