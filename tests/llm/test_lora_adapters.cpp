@@ -756,27 +756,46 @@ TEST_F(LoRAAdapterTest, Performance_SwitchingLatency) {
 }
 
 /**
- * Test adapter memory footprint
+ * Test manager-reported adapter VRAM accounting
  * Acceptance Criteria:
- * - Memory usage is reasonable
- * - Scales linearly with adapter count
- * - No memory leaks
+ * - Reported bytes equal the sum of loaded adapter size estimates
+ * - Loaded adapter count matches the manager registry
+ * - Unloading all fixtures restores the VRAM accounting baseline
  */
-TEST_F(LoRAAdapterTest, Performance_MemoryFootprint) {
-    test::MemoryUsageTracker memory;
-    
-    std::vector<std::string> adapters = {};
-
-    for (int i = 0; i < 5; ++i) {
-        adapters.push_back(createMockAdapter("mem_" + std::to_string(i), 5 * 1024));
-    }
-    
-    double memory_delta = memory.getDeltaMB();
-    
-    // Should be reasonable (< 10MB for 5 small adapters)
-    EXPECT_LT(memory_delta, 10.0) << "Memory usage too high: " << memory_delta << "MB";
-    
 #ifdef THEMIS_ENABLE_LLM
-    GTEST_SKIP() << "Full test requires actual LoRA manager implementation";
-#endif
+TEST_F(LoRAAdapterTest, Performance_AdapterVRAMAccounting) {
+    constexpr size_t adapter_count = 5;
+    constexpr size_t adapter_size_bytes = 5 * 1024;
+    std::vector<std::string> adapter_paths;
+    adapter_paths.reserve(adapter_count);
+    for (size_t i = 0; i < adapter_count; ++i) {
+        adapter_paths.push_back(
+            createMockAdapter("mem_" + std::to_string(i), adapter_size_bytes));
+    }
+
+    auto manager = createManager(adapter_count);
+    size_t expected_bytes = 0;
+    for (size_t i = 0; i < adapter_paths.size(); ++i) {
+        const auto id = "mem_" + std::to_string(i);
+        ASSERT_TRUE(manager->loadLoRA(id, adapter_paths[i], "base_model", 1.0f));
+        const auto info = manager->getLoRAInfo(id);
+        ASSERT_TRUE(info.has_value());
+        EXPECT_EQ(info->size_bytes, fs::file_size(adapter_paths[i]));
+        expected_bytes += info->size_bytes;
+    }
+
+    EXPECT_EQ(manager->getMemoryStats().at("loras_loaded").get<size_t>(),
+              adapter_count);
+    EXPECT_EQ(manager->getMemoryStats().at("vram_used_mb").get<size_t>(), 1u);
+    size_t reported_bytes = 0;
+    for (const auto& info : manager->listLoRAs()) {
+        reported_bytes += info.size_bytes;
+    }
+    EXPECT_EQ(reported_bytes, expected_bytes);
+
+    for (size_t i = 0; i < adapter_paths.size(); ++i) {
+        EXPECT_TRUE(manager->unloadLoRA("mem_" + std::to_string(i)));
+    }
+    EXPECT_EQ(manager->getMemoryStats().at("vram_used_mb").get<size_t>(), 0u);
 }
+#endif
