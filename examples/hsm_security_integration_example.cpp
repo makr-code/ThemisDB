@@ -184,7 +184,7 @@ int example_main(int argc, char* argv[]) {
  * 3. Production mode with stub (BLOCKED):
  *    $ export THEMIS_PRODUCTION_MODE=true
  *    $ ./themis_server --config config/development.yaml
- *    > CRITICAL ERROR - Server exits with code 1
+ *    > CRITICAL FAILURE - Server exits with code 1
  * 
  * 4. Production mode with stub override (NOT RECOMMENDED):
  *    $ export THEMIS_PRODUCTION_MODE=true

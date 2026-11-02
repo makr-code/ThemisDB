@@ -11,8 +11,8 @@
 
 #pragma once
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 #include <string>
@@ -37,7 +37,7 @@ using json = nlohmann::json;
 enum class ImportErrorSeverity {
     INFO,     ///< Informational (e.g., skipped duplicate)
     WARNING,  ///< Non-fatal issue (e.g., unknown type, using default)
-    ERROR,    ///< Row/record-level failure (import continues if continue_on_error)
+    FAILURE,    ///< Row/record-level failure (import continues if continue_on_error)
     CRITICAL  ///< Fatal failure that stops the import
 };
 
@@ -85,7 +85,7 @@ enum class ImportErrorCode : uint32_t {
     DEADLINE_EXCEEDED    = 110,  ///< Import operation exceeded configured import_timeout_ms
 
     // Conflict resolution errors (600-699)
-    CONFLICT_ERROR       = 600,  ///< ERROR strategy triggered on key conflict
+    CONFLICT_ERROR       = 600,  ///< FAILURE strategy triggered on key conflict
 
     // Generic errors (900-999)
     UNKNOWN              = 900
@@ -93,7 +93,7 @@ enum class ImportErrorCode : uint32_t {
 
 struct ImportError {
     ImportErrorCode   code     = ImportErrorCode::UNKNOWN;
-    ImportErrorSeverity severity = ImportErrorSeverity::ERROR;
+    ImportErrorSeverity severity = ImportErrorSeverity::FAILURE;
     std::string       message;
     std::string       location;  ///< e.g. "line 42" or "table users, row 7"
 
@@ -108,7 +108,7 @@ struct ImportError {
 };
 
 // ============================================================================
-// PHASE-3-ERROR-HANDLING: Connector Capability Fallback Chain
+// PHASE-3-FAILURE-HANDLING: Connector Capability Fallback Chain
 // ============================================================================
 
 enum class ConnectorCapability {
@@ -142,7 +142,7 @@ enum class ConflictStrategy {
     OVERWRITE,  ///< Replace existing entity with incoming (default)
     SKIP,       ///< Keep existing entity, discard incoming duplicate
     MERGE,      ///< Field-level merge; incoming wins unless field is protected
-    ERROR       ///< Abort the batch on the first conflict
+    FAILURE       ///< Abort the batch on the first conflict
 };
 
 // ============================================================================

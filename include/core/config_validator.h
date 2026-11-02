@@ -49,7 +49,7 @@ public:
         std::string formatErrors() const {
             std::string result = {};
             for (const auto& error : errors) {
-                result += "ERROR: " + error + "\n";
+                result += "FAILURE: " + error + "\n";
             }
             for (const auto& warning : warnings) {
                 result += "WARNING: " + warning + "\n";

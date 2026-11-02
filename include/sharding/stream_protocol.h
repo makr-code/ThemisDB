@@ -86,7 +86,7 @@ enum class StreamMessageType : uint8_t {
     HEARTBEAT_ACK = 0x31,
     
     // Error
-    ERROR = 0xFF
+    FAILURE = 0xFF
 };
 
 /**

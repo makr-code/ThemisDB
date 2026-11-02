@@ -124,7 +124,7 @@ TEST(UDPServer, StatusOk) {
 }
 
 TEST(UDPServer, StatusError) {
-    EXPECT_EQ(static_cast<uint8_t>(UdpServerStatus::ERROR), 0x01u);
+    EXPECT_EQ(static_cast<uint8_t>(UdpServerStatus::FAILURE), 0x01u);
 }
 
 TEST(UDPServer, StatusRateLimited) {
@@ -288,8 +288,8 @@ TEST(UDPServer, AckStatusOk) {
 }
 
 TEST(UDPServer, AckStatusError) {
-    auto ack = UDPServer::buildAck(1, UdpServerStatus::ERROR);
-    EXPECT_EQ(ack[3], static_cast<uint8_t>(UdpServerStatus::ERROR));
+    auto ack = UDPServer::buildAck(1, UdpServerStatus::FAILURE);
+    EXPECT_EQ(ack[3], static_cast<uint8_t>(UdpServerStatus::FAILURE));
 }
 
 TEST(UDPServer, AckStatusRateLimited) {

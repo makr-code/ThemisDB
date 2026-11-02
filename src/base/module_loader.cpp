@@ -592,7 +592,7 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
                 result.moduleHash,
                 result.errorMessage,
                 result.verificationTimestamp,
-                "ERROR"
+                "FAILURE"
             });
             recordFailure(modulePath, result.errorCode, result.errorMessage);
             updateMetrics(false, static_cast<uint64_t>(durationMs), result.errorCode);

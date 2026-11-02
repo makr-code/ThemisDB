@@ -312,7 +312,7 @@ TEST_F(TransactionLifecyclePhase1Test, IsolationLevel_MixedConcurrentLevels) {
     EXPECT_EQ(failure_count, 0) << "No failures expected";
 }
 
-// ===== ERROR PATH DETERMINISM =====
+// ===== FAILURE PATH DETERMINISM =====
 
 /// AC-2: Error path determinism - Timeout behavior
 TEST_F(TransactionLifecyclePhase1Test, ErrorPathDeterminism_TimeoutBehavior) {

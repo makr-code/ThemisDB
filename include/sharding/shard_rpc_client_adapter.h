@@ -32,7 +32,9 @@
 #include "sharding/shard_rpc_server.h"
 #include <chrono>
 #include <memory>
+#include <stdexcept>
 #include <string>
+#include <utility>
 #include <nlohmann/json.hpp>
 
 namespace themis::sharding {
@@ -46,9 +48,10 @@ namespace themis::sharding {
  *
  * Thread-safe: the underlying ShardRPCClient handles its own locking.
  *
- * @note Abort is treated as best-effort (always returns true even if the
- *       remote shard reports a failure), consistent with the abort
- *       semantics in the rest of the sharding layer.
+ * @note Phase-2 results are acknowledged only when the remote participant
+ *       confirms the requested transition.
+ * @note Phase-two acknowledgements are propagated. A failed remote ABORT
+ *       returns false so the coordinator retains the decision as in-doubt.
  */
 class ShardRPCClientAdapter final : public ShardRPCServer::RequestHandler {
 public:
@@ -59,6 +62,22 @@ public:
     explicit ShardRPCClientAdapter(const ShardRPCClient::Config& config)
         : client_(config)
     {}
+
+    /**
+     * @brief Construct an adapter with a response handler for explicit
+     *        in-process endpoints.
+     * @param config ShardRPCClient configuration.
+     * @param handler Custom response handler for inproc:// or loopback://
+     *        endpoints.
+     * @throws std::invalid_argument if the endpoint uses neither in-process
+     *         scheme.
+     */
+    ShardRPCClientAdapter(
+        const ShardRPCClient::Config& config,
+        ShardRPCClient::InProcessResponseHandler handler)
+        : client_(requireInProcessEndpoint(config)) {
+        client_.setInProcessResponseHandler(std::move(handler));
+    }
 
     ~ShardRPCClientAdapter() override = default;
 
@@ -76,20 +95,31 @@ public:
      */
     bool onPrepare(
         const std::string& transaction_id,
-        const std::string& /*coordinator_shard_id*/,
+        const std::string& coordinator_shard_id,
         const std::string& transaction_data
     ) override {
         nlohmann::json ops = nlohmann::json::array();
+        EpochToken token;
         try {
             auto parsed = nlohmann::json::parse(transaction_data);
             ops = parsed.value("operations", nlohmann::json::array());
+            const auto& token_json = parsed.at("fencing_token");
+            token.epoch = token_json.at("epoch").get<EpochNumber>();
+            token.issuer = token_json.at("issuer").get<NodeId>();
+            token.shard_id = token_json.at("shard_id").get<std::string>();
+            const auto issued_at_ms = token_json.at("issued_at_ms").get<int64_t>();
+            token.issued_at = std::chrono::system_clock::time_point{
+                std::chrono::milliseconds{issued_at_ms}};
+            if (!ops.is_array() || token.issuer != coordinator_shard_id) {
+                return false;
+            }
         } catch (...) {
             // Malformed payload → vote ABORT
             return false;
         }
 
         try {
-            return client_.prepare(transaction_id, ops);
+            return client_.prepare(transaction_id, ops, token);
         } catch (...) {
             return false;
         }
@@ -117,17 +147,19 @@ public:
     /**
      * @brief Translate ABORT call to a ShardRPCClient::abort() RPC.
      *
-     * Abort is best-effort: network or participant failures are ignored
-     * (returns true regardless) because idempotency guarantees the shard
-     * can be re-aborted on recovery.
+     * Returns false when the remote participant does not acknowledge the
+     * abort; idempotency permits a later recovery retry.
+     * @return true only when the remote shard acknowledges ABORT; false on a
+     *         negative response or transport failure.
+     * @note A false result keeps the coordinator's selected ABORT decision
+     *       unresolved; retry/recovery policy remains coordinator-specific.
      */
     bool onAbort(const std::string& transaction_id) override {
         try {
-            client_.abort(transaction_id);
+            return client_.abort(transaction_id);
         } catch (...) {
-            // Intentionally swallowed – abort is best-effort
+            return false;
         }
-        return true;
     }
 
     /**
@@ -144,6 +176,16 @@ public:
     }
 
 private:
+    static const ShardRPCClient::Config& requireInProcessEndpoint(
+        const ShardRPCClient::Config& config) {
+        if (config.endpoint.rfind("inproc://", 0) != 0 &&
+            config.endpoint.rfind("loopback://", 0) != 0) {
+            throw std::invalid_argument(
+                "In-process response handlers require an inproc:// or loopback:// endpoint");
+        }
+        return config;
+    }
+
     ShardRPCClient client_;
 };
 

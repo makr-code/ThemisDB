@@ -442,7 +442,7 @@ TEST_F(StreamingFixture, StateTransitions) {
         RECEIVING,
         CLOSING,
         CLOSED,
-        ERROR
+        FAILURE
     };
     
     StreamState state = StreamState::CONNECTING;

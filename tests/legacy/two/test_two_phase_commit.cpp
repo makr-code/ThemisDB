@@ -547,7 +547,7 @@ TEST_F(TwoPhaseCommitCoordinatorTest, EmptyOpsMapReturnsAborted) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Unknown shard returns ERROR
+// Unknown shard returns FAILURE
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(TwoPhaseCommitCoordinatorTest, UnknownShardReturnsError) {
@@ -555,7 +555,7 @@ TEST_F(TwoPhaseCommitCoordinatorTest, UnknownShardReturnsError) {
     auto outcome = coord_->commit("coord-txn-unknown-shard", {
         {"shard-does-not-exist", ops}
     });
-    EXPECT_EQ(outcome.result, CoordinatorTxnResult::ERROR);
+    EXPECT_EQ(outcome.result, CoordinatorTxnResult::FAILURE);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

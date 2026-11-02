@@ -77,7 +77,7 @@ static TimestampToken makeProductionError() {
         "TimestampAuthority stub is not permitted in production mode. "
         "Build with -DTHEMIS_USE_OPENSSL_TSA=ON (OpenSSL + libcurl required) "
         "or set THEMIS_ALLOW_TSA_STUB=1 to explicitly allow the insecure stub.";
-    THEMIS_ERROR("SECURITY ERROR: {}", tok.error_message);
+    THEMIS_ERROR("SECURITY FAILURE: {}", tok.error_message);
     return tok;
 }
 

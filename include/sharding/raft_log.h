@@ -21,6 +21,7 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <utility>
 
 namespace themisdb {
 namespace sharding {
@@ -91,9 +92,13 @@ struct AppendEntriesResponse {
  */
 class RaftLog {
 public:
-    /** @brief Construct empty Raft log with commit index 0. */
-    RaftLog();
-    ~RaftLog() = default;
+    /**
+     * @brief Construct an empty or recovered Raft log.
+     * @param persistence_path Optional journal path; empty selects volatile mode.
+     * @throws std::runtime_error If the journal is corrupt, inaccessible, or already owned.
+     */
+    explicit RaftLog(const std::string& persistence_path = {});
+    ~RaftLog();
     
     // Prevent copying
     RaftLog(const RaftLog&) = delete;
@@ -136,6 +141,7 @@ public:
      * All entries from index onward are deleted.
      * 
      * @param index The index from which to truncate (inclusive)
+     * @throws std::runtime_error In persistent mode for an invalid boundary, committed data, or journal sync failure.
      */
     void truncateFrom(uint64_t index);
     
@@ -146,6 +152,7 @@ public:
      * Committed entries are safe to apply to the state machine.
      * 
      * @param index The new commit index
+     * @throws std::runtime_error In persistent mode if the index is invalid, times out, or cannot be synced.
      */
     void setCommitIndex(uint64_t index);
     
@@ -184,9 +191,29 @@ public:
     size_t estimatedSizeBytes() const;
 
     /**
-     * @brief Clear the entire log (for testing)
-        *
-        * Resets commit index and snapshot anchor metadata to zero.
+     * @brief Report whether Raft log operations may continue.
+     * @return True for volatile mode or a healthy journal; false after a persistence error.
+     */
+    [[nodiscard]] bool isPersistenceHealthy() const;
+
+    /**
+     * @brief Read the most recently persisted Raft term and vote.
+     * @return Pair of current term and candidate voted for in that term.
+     */
+    [[nodiscard]] std::pair<uint64_t, std::string> getHardState() const;
+
+    /**
+     * @brief Persist a Raft term/vote update before exposing it to protocol callers.
+     * @param term New current term.
+     * @param voted_for Candidate ID, or empty when no vote has been cast.
+     * @throws std::runtime_error If the configured journal cannot be durably updated.
+     */
+    void persistHardState(uint64_t term, const std::string& voted_for);
+
+    /**
+     * @brief Clear an in-memory log for tests.
+     * @note Persistent journals reject this operation because clearing only memory would diverge from restart state.
+     * @throws std::runtime_error When persistence is configured.
      */
     void clear();
 
@@ -200,6 +227,7 @@ public:
      *
      * @param snapshot_index  Highest index covered by the snapshot
      * @param snapshot_term   Term of the entry at snapshot_index
+     * @throws std::runtime_error In persistent mode if the boundary is invalid or cannot be synced.
      */
     void compactUpTo(uint64_t snapshot_index, uint64_t snapshot_term);
 
@@ -211,6 +239,7 @@ public:
      *
      * @param index Snapshot index
      * @param term  Snapshot term
+     * @throws std::runtime_error In persistent mode if the boundary does not match committed log data or cannot be synced.
      */
     void setSnapshotMeta(uint64_t index, uint64_t term);
 
@@ -227,11 +256,24 @@ public:
     uint64_t getSnapshotTerm() const;
 
 private:
+    void appendDurableRecord(const std::string& payload);
+    void replayJournal();
+    void compactJournal();
+    void acquirePersistenceLock();
+    void releasePersistenceLock() noexcept;
+
     mutable std::timed_mutex mutex_;
     std::map<uint64_t, LogEntry> log_;  // Index -> LogEntry
     uint64_t commit_index_;         ///< Highest committed log index.
     uint64_t snapshot_index_{0};    ///< Index of the last installed snapshot.
     uint64_t snapshot_term_{0};     ///< Term of the last installed snapshot.
+    std::string persistence_path_;
+    bool persistence_healthy_{true};
+    uint64_t persisted_term_{0};
+    std::string persisted_vote_;
+    bool persisted_hard_state_present_{false};
+    int persistence_lock_fd_{-1};
+    void* persistence_lock_handle_{nullptr};
 };
 
 // ============================================================================

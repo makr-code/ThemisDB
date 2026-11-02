@@ -318,7 +318,7 @@ TEST(GeoQ4Hardening, GEH18_IncidentsBySeverityFiltersCorrectly) {
     GeoOperatorDiagnostics diag;
     diag.recordIncident("I1", GeoIncidentSeverity::INFO,    "info",    "r");
     diag.recordIncident("W1", GeoIncidentSeverity::WARNING, "warning", "r");
-    diag.recordIncident("E1", GeoIncidentSeverity::ERROR,   "error",   "r");
+    diag.recordIncident("E1", GeoIncidentSeverity::FAILURE,   "error",   "r");
 
     auto warnings_and_above = diag.incidentsBySeverity(GeoIncidentSeverity::WARNING);
     EXPECT_EQ(warnings_and_above.size(), 2u);

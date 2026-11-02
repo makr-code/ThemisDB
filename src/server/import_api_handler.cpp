@@ -30,8 +30,8 @@
 #include <chrono>
 #include "utils/tracing.h"
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 namespace themis {
@@ -751,7 +751,7 @@ void ImportApiHandler::handleValidateSchema(const httplib::Request& req,
             if (message.empty()) {
               continue;
             }
-            const int severity = entry.value("severity", static_cast<int>(importers::ImportErrorSeverity::ERROR));
+            const int severity = entry.value("severity", static_cast<int>(importers::ImportErrorSeverity::FAILURE));
             if (severity == static_cast<int>(importers::ImportErrorSeverity::WARNING)) {
                 warn_arr.push_back(message);
             } else {

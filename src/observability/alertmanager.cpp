@@ -22,8 +22,8 @@
 #include <thread>
 #include <chrono>
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 using json = nlohmann::json;
@@ -214,7 +214,7 @@ std::string Alertmanager::severityToString(AlertSeverity severity) {
     switch (severity) {
         case AlertSeverity::INFO:     return "INFO";
         case AlertSeverity::WARNING:  return "WARNING";
-        case AlertSeverity::ERROR:    return "ERROR";
+        case AlertSeverity::FAILURE:    return "FAILURE";
         case AlertSeverity::CRITICAL: return "CRITICAL";
         default:                       return "UNKNOWN";
     }
@@ -358,7 +358,7 @@ Result<void> DefaultAlertmanager::sendAlert(const Alert& alert) {
         case AlertSeverity::WARNING:
             THEMIS_WARN("{}", ss.str());
             break;
-        case AlertSeverity::ERROR:
+        case AlertSeverity::FAILURE:
         [[fallthrough]];
         case AlertSeverity::CRITICAL:
             THEMIS_ERROR("{}", ss.str());

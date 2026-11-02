@@ -51,7 +51,7 @@ public:
         std::string formatErrors() const {
             std::string result = {};
             for (const auto& e : errors) {
-                result += "ERROR: " + e + "\n";
+                result += "FAILURE: " + e + "\n";
             }
             for (const auto& w : warnings) {
                 result += "WARNING: " + w + "\n";

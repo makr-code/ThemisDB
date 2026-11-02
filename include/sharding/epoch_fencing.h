@@ -17,6 +17,7 @@
 #include <memory>
 #include <mutex>
 #include <optional>
+#include <shared_mutex>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -51,9 +52,9 @@ using NodeId = std::string;
 /**
  * @brief Immutable fencing token carried with every write RPC.
  *
- * A peer rejects any request whose epoch is strictly less than its own
- * current epoch, and tokens are valid only for their declared shard. The
- * token is cheaply copyable and trivially serialisable.
+ * A peer accepts requests only when the token epoch exactly matches its
+ * current committed epoch and the token is valid for its declared shard
+ * and source node. The token is cheaply copyable and serialisable.
  */
 struct EpochToken {
     EpochNumber epoch{0};
@@ -63,7 +64,7 @@ struct EpochToken {
 
     /// Returns true if this token is usable with the given current epoch.
     [[nodiscard]] bool isValid(EpochNumber current_epoch) const noexcept {
-        return epoch != 0 && epoch >= current_epoch;
+        return epoch != 0 && epoch == current_epoch;
     }
 
     bool operator==(const EpochToken& o) const noexcept {
@@ -78,7 +79,8 @@ struct EpochToken {
 enum class FencingResult {
     ALLOWED,            ///< Token epoch matches; operation may proceed
     STALE_EPOCH,        ///< Token epoch is older than current; reject
-    INVALID_TOKEN,      ///< Token has epoch zero, no issuer, or the wrong shard
+    INVALID_TOKEN,      ///< Zero epoch, empty issuer, wrong shard, or issuer/source mismatch
+    FUTURE_EPOCH,       ///< Token epoch has not been committed locally
     STONITH_ISSUED,     ///< Stale node was fenced via STONITH
     STONITH_FAILED,     ///< STONITH attempt failed; manual intervention required
 };
@@ -88,6 +90,7 @@ inline const char* toString(FencingResult r) noexcept {
         case FencingResult::ALLOWED:         return "ALLOWED";
         case FencingResult::STALE_EPOCH:     return "STALE_EPOCH";
         case FencingResult::INVALID_TOKEN:   return "INVALID_TOKEN";
+        case FencingResult::FUTURE_EPOCH:    return "FUTURE_EPOCH";
         case FencingResult::STONITH_ISSUED:  return "STONITH_ISSUED";
         case FencingResult::STONITH_FAILED:  return "STONITH_FAILED";
     }
@@ -324,18 +327,38 @@ public:
      *
      * - ALLOWED        → proceed with the write
      * - STALE_EPOCH    → reject; if auto_stonith the STONITH call may follow
-     * - INVALID_TOKEN  → reject; epoch is zero, issuer is empty, or shard scope differs
+     * - INVALID_TOKEN  → reject; zero epoch, empty issuer, wrong shard, or issuer/source mismatch
+     * - FUTURE_EPOCH   → reject; token epoch is newer than the current committed epoch
      * - STONITH_ISSUED → stale token AND STONITH successfully issued
      * - STONITH_FAILED → stale token AND STONITH failed
      *
      * @param token       Token attached to the incoming write RPC; its issuer must be
-     *                    non-empty and its shard_id must match this manager's shard.
-     * @param source_node Node that sent the request (for STONITH targeting).
-     * @return ALLOWED for a valid current-or-newer epoch, a stale-token result for
-     *         older epochs, or INVALID_TOKEN for invalid epoch/issuer/shard scope.
+     *                    non-empty, match source_node, and its shard_id must match
+     *                    this manager's shard.
+     * @param source_node Node that sent the request; must match the token issuer
+     *                    and is used for STONITH targeting.
+     * @return ALLOWED only for a valid current epoch, FUTURE_EPOCH for a newer
+     *         epoch, a stale-token result for an older epoch, or INVALID_TOKEN
+     *         for zero epoch, empty issuer, wrong shard, or issuer/source mismatch.
      */
     [[nodiscard]] FencingResult checkToken(const EpochToken& token,
                                            const NodeId& source_node);
+
+    /**
+     * @brief Run a write while preventing the local epoch from changing.
+     *
+     * The write callback runs only when the token is valid for this shard,
+     * its issuer matches @p source_node, and its epoch equals the current
+     * epoch. Epoch changes wait until the callback completes.
+     * @param token Token attached to the incoming write.
+     * @param source_node Authenticated/request source identity.
+     * @param write Operation that applies the write.
+     * @return Fencing outcome; the callback is not invoked unless ALLOWED.
+     */
+    [[nodiscard]] FencingResult applyWithToken(
+        const EpochToken& token,
+        const NodeId& source_node,
+        const std::function<void()>& write);
 
     // ── Metrics ─────────────────────────────────────────────────────────────
 
@@ -364,6 +387,7 @@ private:
     std::shared_ptr<IStonithProvider> stonith_;
     std::atomic<EpochNumber>          current_epoch_{1};   // Start at 1; 0 is invalid
 
+    mutable std::shared_mutex epoch_transition_mutex_;
     mutable std::mutex mutex_;
     Metrics            metrics_;
 

@@ -96,7 +96,7 @@ enum class HandshakeOpcode : uint8_t {
     SYNC_COMPLETE_ACK = 0x41,        // Acknowledge completion
     
     // Error
-    ERROR = 0xFF
+    FAILURE = 0xFF
 };
 
 /**
@@ -332,7 +332,7 @@ struct WALEntryHeader {
  * Handshake protocol message
  */
 struct HandshakeMessage {
-    HandshakeOpcode opcode = HandshakeOpcode::ERROR;
+    HandshakeOpcode opcode = HandshakeOpcode::FAILURE;
     uint32_t session_id = 0;
     uint64_t sequence_number = 0;
     uint32_t flags = 0;
@@ -610,7 +610,7 @@ public:
         THROTTLED,          // Sync will proceed at reduced rate
         DEFERRED,           // Sync was deferred (added to queue)
         REJECTED,           // Sync was rejected
-        ERROR               // Error occurred
+        FAILURE               // Error occurred
     };
     
     SyncResult requestSync(const SyncRequest& request);

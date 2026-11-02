@@ -1854,7 +1854,7 @@ TEST_F(TaskSchedulerAlertTest, FailureAlertFiredOnTaskFailure) {
     const auto& alert = mock_alertmanager_->sent_alerts[0];
     EXPECT_EQ(alert.alert_name, "TaskFailure");
     EXPECT_EQ(alert.status, themis::observability::AlertStatus::FIRING);
-    EXPECT_EQ(alert.severity, themis::observability::AlertSeverity::ERROR);
+    EXPECT_EQ(alert.severity, themis::observability::AlertSeverity::FAILURE);
     EXPECT_FALSE(alert.message.empty());
     EXPECT_EQ(alert.labels.at("task_id"), "alert_fail_task");
     EXPECT_EQ(alert.labels.at("component"), "scheduler");

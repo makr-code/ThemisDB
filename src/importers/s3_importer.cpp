@@ -827,7 +827,7 @@ void S3Importer::addError(ImportStats& stats,
     e.location = location;
     stats.structured_errors.push_back(e);
     stats.errors.push_back(message);
-    if (severity == ImportErrorSeverity::ERROR ||
+    if (severity == ImportErrorSeverity::FAILURE ||
         severity == ImportErrorSeverity::CRITICAL) {
         THEMIS_WARN("S3 import error [{}]: {} ({})", location, message,
                     static_cast<uint32_t>(code));

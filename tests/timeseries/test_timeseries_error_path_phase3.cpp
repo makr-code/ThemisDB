@@ -99,7 +99,7 @@ TEST_F(IncidentTaxonomyTest, IngestIncidentBufferOverflow) {
     emitIncident(incident);
     
     EXPECT_EQ(handler_call_count.load(std::memory_order_relaxed), 1);
-    EXPECT_EQ(lastIncident().severity, IncidentSeverity::ERROR);
+    EXPECT_EQ(lastIncident().severity, IncidentSeverity::FAILURE);
     EXPECT_EQ(lastIncident().code.ingest_code, IngestIncidentCode::BUFFER_OVERFLOW_IMMINENT);
     EXPECT_EQ(lastIncident().context.series_id, "metric_1");
 }
@@ -173,7 +173,7 @@ TEST_F(IncidentTaxonomyTest, QueryIncidentRangeInvalid) {
     emitIncident(incident);
     
     EXPECT_EQ(handler_call_count.load(std::memory_order_relaxed), 1);
-    EXPECT_EQ(lastIncident().severity, IncidentSeverity::ERROR);
+    EXPECT_EQ(lastIncident().severity, IncidentSeverity::FAILURE);
     EXPECT_EQ(lastIncident().code.query_code, QueryIncidentCode::RANGE_INVALID);
 }
 
@@ -194,7 +194,7 @@ TEST_F(IncidentTaxonomyTest, QueryIncidentTimeout) {
     emitIncident(incident);
     
     EXPECT_EQ(lastIncident().code.query_code, QueryIncidentCode::QUERY_TIMEOUT);
-    EXPECT_EQ(lastIncident().severity, IncidentSeverity::ERROR);
+    EXPECT_EQ(lastIncident().severity, IncidentSeverity::FAILURE);
 }
 
 TEST_F(IncidentTaxonomyTest, QueryIncidentRetentionBoundaryCrossed) {
@@ -481,7 +481,7 @@ TEST_F(IncidentTaxonomyTest, SeverityLevelCritical) {
 
 TEST_F(IncidentTaxonomyTest, SeverityLevelError) {
     auto incident = Incident::errorIngest(IngestIncidentCode::BUFFER_OVERFLOW_IMMINENT);
-    EXPECT_EQ(incident.severity, IncidentSeverity::ERROR);
+    EXPECT_EQ(incident.severity, IncidentSeverity::FAILURE);
 }
 
 TEST_F(IncidentTaxonomyTest, SeverityLevelWarn) {

@@ -206,8 +206,8 @@ TEST(UDPFastPath, BuildResponseStatusOk) {
 }
 
 TEST(UDPFastPath, BuildResponseStatusError) {
-    auto resp = UDPFastPath::buildResponse(1, UdpStatus::ERROR, R"({"error":"x"})");
-    EXPECT_EQ(resp[3], static_cast<uint8_t>(UdpStatus::ERROR));
+    auto resp = UDPFastPath::buildResponse(1, UdpStatus::FAILURE, R"({"error":"x"})");
+    EXPECT_EQ(resp[3], static_cast<uint8_t>(UdpStatus::FAILURE));
 }
 
 TEST(UDPFastPath, BuildResponseStatusNotFound) {
@@ -270,7 +270,7 @@ TEST(UDPFastPath, BuildResponseEmptyPayload) {
 TEST(UDPFastPath, BuildResponsePayloadIsValidJson) {
     // Payload must round-trip through a JSON parser without errors.
     const std::string payload = R"({"error":"some\u0022tricky\u0022 message"})";
-    auto resp = UDPFastPath::buildResponse(1, UdpStatus::ERROR, payload);
+    auto resp = UDPFastPath::buildResponse(1, UdpStatus::FAILURE, payload);
     ASSERT_GE(resp.size(), kUdpFastPathHeaderSize);
     // Payload bytes should exactly match what was passed in.
     std::string extracted(reinterpret_cast<const char*>(resp.data() + kUdpFastPathHeaderSize),

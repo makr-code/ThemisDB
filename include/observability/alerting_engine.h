@@ -63,7 +63,7 @@ public:
  * Severity mapping:
  *  - AlertSeverity::INFO     → THEMIS_INFO
  *  - AlertSeverity::WARNING  → THEMIS_WARN
- *  - AlertSeverity::ERROR    → THEMIS_ERROR
+ *  - AlertSeverity::FAILURE    → THEMIS_ERROR
  *  - AlertSeverity::CRITICAL → THEMIS_CRITICAL
  */
 class LogNotificationChannel : public INotificationChannel {
@@ -166,7 +166,7 @@ struct SlackChannelConfig {
  * Severity → attachment color mapping:
  *  - INFO     → "#36a64f" (green)
  *  - WARNING  → "#ff9900" (orange)
- *  - ERROR    → "#e01e5a" (red)
+ *  - FAILURE    → "#e01e5a" (red)
  *  - CRITICAL → "#7b0000" (dark red)
  */
 class SlackNotificationChannel : public INotificationChannel {

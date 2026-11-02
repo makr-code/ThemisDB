@@ -27,8 +27,8 @@
 #include <thread>
 #include <cstring>
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 namespace themis {

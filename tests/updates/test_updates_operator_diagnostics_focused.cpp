@@ -15,7 +15,7 @@ TEST(OperatorDiagnosticsFocused, DetectScenarioAndNameAreUsable) {
 
     ErrorContext ctx;
     ctx.error_code = DiagnosticErrorCode::NETWORK_PARTITION;
-    ctx.severity = DiagnosticSeverity::ERROR;
+    ctx.severity = DiagnosticSeverity::FAILURE;
     ctx.root_cause = RootCauseClass::NETWORK;
     ctx.operation = "apply_patch";
     ctx.phase = "deploying";

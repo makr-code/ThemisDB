@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-11-01"
+Last Updated: "2026-11-02"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -11,6 +11,11 @@ Human_Author: "ThemisDB Contributors"
 ---
 
 Exact model backend not verifiable from final document text alone.
+
+Source level: 1
+SOT domain: module-behavior
+Canonical references: `include/sharding/epoch_fencing.h`, `include/sharding/two_phase_commit_participant.h`, `include/sharding/two_phase_commit_coordinator.h`, `include/sharding/shard_rpc_client.h`, `include/sharding/shard_rpc_client_adapter.h`, `include/sharding/distributed_transaction.h`, `include/sharding/cross_shard_transaction.h`, `src/sharding/epoch_fencing.cpp`, `src/sharding/two_phase_commit_participant.cpp`, `src/sharding/two_phase_commit_coordinator.cpp`, `src/sharding/shard_rpc_client.cpp`, `src/sharding/distributed_transaction.cpp`, `src/sharding/cross_shard_transaction.cpp`, `tests/test_epoch_fencing.cpp`
+Related milestone: DOC-WEEKLY-2026-W45
 
 # Failover Module Roadmap
 
@@ -25,13 +30,28 @@ Exact model backend not verifiable from final document text alone.
   checks, replica promotion requests, state/results, events, and statistics.
 - Optional local quorum log and deterministic topology snapshot helpers.
 - Disaster-recovery plan validation and fixed seven-step coordination with
-  step hooks and in-memory caching for named plans.
+  adapter acknowledgements, independent proof hooks, a local checksummed
+  completion log, and plan-ID replay across manager restart.
+- Shard transaction write fencing: exact current-epoch and target-shard checks;
+  guarded storage apply; 2PC PREPARE credential serialization and participant
+  WAL retention; atomic credential revalidation before COMMIT apply. Missing or
+  invalid providers/tokens fail closed on distributed and cross-shard
+  PREPARE/SAGA write paths. Phase 2 failures remain unresolved until participant
+  acknowledgement; remote abort adapters return actual ACK status.
 - Focused test sources are registered through `tests/failover/CMakeLists.txt`
   with `failover` and `release_critical` labels. Three Google Benchmark
-  executables are registered when benchmarks are enabled.
+  executables are registered when benchmarks are enabled. The Wave A fencing
+  test source covers real hot-spare activation followed by independent `ACTIVE`
+  state read-back, and rejects adapter acknowledgement without that state.
 
 This inventory confirms code and CMake declarations only; it does not claim
 tests or benchmarks passed. See [`AUDIT.md`](AUDIT.md) for audit limitations.
+
+**Evidence note (2026-11-02):** source-based check coverage was added for the
+write-fencing synchronization but was not executed. A diagnostic CMake configure
+was attempted and could not complete because `fmt` is unavailable; apt
+installation was denied. This is not test-pass evidence and does not establish
+M2 readiness.
 
 ## Known implementation limits
 
@@ -41,12 +61,28 @@ tests or benchmarks passed. See [`AUDIT.md`](AUDIT.md) for audit limitations.
   are skipped until that future completes.
 - `target_promote_id` is queued but ignored when selecting a promotion candidate.
 - Quorum-log recovery is logged, not applied as restored manager state.
-- Spare activation failure now blocks failover completion; metadata persistence
-  remains unavailable and the built-in path returns failure.
-- Non-dry-run DR snapshot validation, restore, catch-up, requested traffic shift,
-  and recovered-state verification fail closed until their production hooks are
-  configured. Hooks must verify real effects; their correctness is not certified
-  by the manager.
+- Spare activation requires a runtime hook and independently observed `ACTIVE`
+  state; failure blocks completion and records the degraded state/event/counter.
+- Non-dry-run DR requires operation and verification hooks, quorum, fencing, and
+  a writable local completion log. The manager checks checksum, LSN/term, and
+  recovery-site evidence before accepting each step. An existing unreadable or
+  malformed/checksum-invalid completion log blocks execution before adapters.
+- DR metadata remains local-file persistence, not a consensus-backed shared
+  store. Processes using the same metadata path are serialized by a persistent
+  sibling lock when all writers use this implementation; completion records are
+  flushed before success, with POSIX file and containing-directory sync.
+  Filesystem-specific and power-loss guarantees beyond those platform calls are
+  not certified, mixed-version writers are not covered, and network-filesystem
+  lock behavior is not established.
+- Remote gRPC PREPARE resolves authenticated X.509 property/value identities
+  through explicit server-configured shard bindings before checking the
+  fencing-token issuer. Unconfigured, ambiguous, or mismatched identities fail
+  closed; standalone token signatures are not implemented, and direct
+  in-process calls remain within the trusted process boundary. The binding
+  integration tests are source-level coverage until executed.
+- Shared durable metadata for DR and genuine networked multi-process
+  failover/recovery E2E evidence remain open release blockers. Same-path
+  same-host process serialization does not close either blocker.
 - Current failover runtime does not export named Prometheus metrics or trace spans.
 - Existing benchmark source includes mock/simulated workloads and declares
   thresholds; source presence does not establish measured latency.
@@ -55,9 +91,10 @@ tests or benchmarks passed. See [`AUDIT.md`](AUDIT.md) for audit limitations.
 
 - Decide whether `stop()` requires a genuinely bounded shutdown contract; if so,
   implement and test it before documenting a maximum wait.
-- Implement durable metadata persistence and real adapters for restore, traffic,
-  replication-position catch-up, spare activation, snapshot validation, and
-  recovered-state verification before treating results as completed operations.
+- Integrate shared durable metadata and genuine multi-process failover/recovery
+  E2E evidence before treating the DR rollout as ready. Shard transaction
+  fencing is implemented on the documented paths, but does not close these
+  blockers or constitute M2 readiness.
 - Establish whether quorum-log replay should restore any manager state and define
   the persistence/consistency contract before making durability claims.
 - Validate performance targets on representative hardware and distinguish

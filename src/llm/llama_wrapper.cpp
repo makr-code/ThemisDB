@@ -703,7 +703,7 @@ bool LlamaWrapper::loadModel(
     if (!model) {
         errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
         
-        // Transition to ERROR state
+        // Transition to FAILURE state
         transitionToState(WrapperState::ERROR_STATE, "Model load failed: " + model_path);
         
         if (metrics_collector_) {
@@ -4238,7 +4238,7 @@ std::string LlamaWrapper::stateToString(WrapperState state) {
         case WrapperState::UNINITIALIZED: return "UNINITIALIZED";
         case WrapperState::LOADING:       return "LOADING";
         case WrapperState::READY:         return "READY";
-        case WrapperState::ERROR_STATE:   return "ERROR";
+        case WrapperState::ERROR_STATE:   return "FAILURE";
         case WrapperState::UNAVAILABLE:   return "UNAVAILABLE";
         default:                          return "UNKNOWN";
     }

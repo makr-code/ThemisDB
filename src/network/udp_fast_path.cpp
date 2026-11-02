@@ -216,7 +216,7 @@ void UDPFastPath::handleDatagram(const udp::endpoint&        sender,
         }
         THEMIS_WARN("[UDPFastPath] write opcode 0x{:02X} rejected from {}",
                     opcode, ip);
-        auto resp = buildResponse(request_id, UdpStatus::ERROR,
+        auto resp = buildResponse(request_id, UdpStatus::FAILURE,
                                   R"({"error":"write operations not allowed on UDP fast-path"})");
         boost::system::error_code send_ec;
         socket_->send_to(net::buffer(resp), sender, 0, send_ec);
@@ -239,7 +239,7 @@ void UDPFastPath::handleDatagram(const udp::endpoint&        sender,
             response = dispatchPing(request_id);
             break;
         default:
-            response = buildResponse(request_id, UdpStatus::ERROR,
+            response = buildResponse(request_id, UdpStatus::FAILURE,
                                      R"({"error":"unknown opcode"})");
             break;
     }
@@ -307,7 +307,7 @@ bool UDPFastPath::checkRateLimit(const std::string& ip) {
 std::vector<uint8_t> UDPFastPath::dispatchGet(uint32_t           request_id,
                                                const std::string& payload_json) {
     if (!storage_) {
-        return buildResponse(request_id, UdpStatus::ERROR,
+        return buildResponse(request_id, UdpStatus::FAILURE,
                              R"({"error":"storage not configured"})");
     }
 
@@ -318,11 +318,11 @@ std::vector<uint8_t> UDPFastPath::dispatchGet(uint32_t           request_id,
     } catch (const std::exception& ex) {
         json err;
         err["error"] = std::string("invalid payload: ") + ex.what();
-        return buildResponse(request_id, UdpStatus::ERROR, err.dump());
+        return buildResponse(request_id, UdpStatus::FAILURE, err.dump());
     }
 
     if (key.empty()) {
-        return buildResponse(request_id, UdpStatus::ERROR,
+        return buildResponse(request_id, UdpStatus::FAILURE,
                              R"({"error":"key must not be empty"})");
     }
 
@@ -352,7 +352,7 @@ std::vector<uint8_t> UDPFastPath::dispatchQuery(uint32_t           request_id,
     // complex queries should use the TCP wire protocol.  This returns a
     // structured "not available on UDP fast-path" response so clients can
     // gracefully fall back to TCP.
-    return buildResponse(request_id, UdpStatus::ERROR,
+    return buildResponse(request_id, UdpStatus::FAILURE,
                          R"({"error":"AQL queries not available on UDP fast-path; use TCP wire protocol"})");
 }
 
@@ -365,7 +365,7 @@ std::vector<uint8_t> UDPFastPath::dispatchQuery(uint32_t           request_id,
  */
 std::vector<uint8_t> UDPFastPath::dispatchVectorSearch(uint32_t           request_id,
                                                         const std::string& /*payload_json*/) {
-    return buildResponse(request_id, UdpStatus::ERROR,
+    return buildResponse(request_id, UdpStatus::FAILURE,
                          R"({"error":"vector search not available on UDP fast-path; use TCP wire protocol"})");
 }
 

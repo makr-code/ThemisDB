@@ -110,7 +110,7 @@ json ImportConflictResolver::resolve(const json &entity, const std::string &tabl
             return merged;
         }
 
-        case ConflictStrategy::ERROR:
+        case ConflictStrategy::FAILURE:
             // Signal error to caller; return existing entity unchanged
             return existing;
     }
@@ -310,8 +310,8 @@ json ImportConflictResolver::resolveWithMetadata(
             break;
         }
 
-        case ConflictStrategy::ERROR:
-            metadata.resolution_strategy = "ERROR";
+        case ConflictStrategy::FAILURE:
+            metadata.resolution_strategy = "FAILURE";
             resolved_entity = existing;
             break;
 

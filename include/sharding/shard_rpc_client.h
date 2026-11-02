@@ -16,6 +16,7 @@
 #include <stdexcept>
 #include <functional>
 #include <nlohmann/json.hpp>
+#include "sharding/epoch_fencing.h"
 
 #ifdef THEMIS_ENABLE_GRPC
 #include <grpcpp/grpcpp.h>
@@ -132,12 +133,22 @@ public:
      * @brief Send PREPARE request (2PC Phase 1)
      * @param txn_id Transaction ID
      * @param operations Operations to prepare
+     * @param fencing_token Current credential scoped to this target shard
      * @return true if shard votes to commit
      */
     bool prepare(
         const std::string& txn_id,
-        const nlohmann::json& operations
+        const nlohmann::json& operations,
+        const EpochToken& fencing_token
     );
+
+    /**
+     * @brief Reject an unfenced PREPARE request.
+     * @param txn_id Transaction ID
+     * @param operations Operations that would have been prepared
+     * @return Always false because no fencing credential was supplied
+     */
+    bool prepare(const std::string& txn_id, const nlohmann::json& operations);
     
     /**
      * @brief Send COMMIT request (2PC Phase 2)

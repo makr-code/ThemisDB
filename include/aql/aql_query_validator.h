@@ -27,7 +27,7 @@ class AQLQueryBuilder;
 
 struct ValidationIssue {
     enum class Severity {
-        ERROR,   ///< Query cannot be executed
+        FAILURE,   ///< Query cannot be executed
         WARNING, ///< Query may produce unexpected results
         INFO     ///< Stylistic or performance suggestion
     };

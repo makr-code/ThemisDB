@@ -185,7 +185,7 @@ public:
                              const std::string& cause) {
         DKDiagnosticEvent ev;
         ev.type         = DKDiagnosticEventType::TRUST_GATE_REJECT;
-        ev.severity     = DKDiagnosticSeverity::ERROR;
+        ev.severity     = DKDiagnosticSeverity::FAILURE;
         ev.shard_id     = shard_id;
         ev.operation_id = operation_id;
         ev.cause        = cause;
@@ -215,7 +215,7 @@ public:
 
     void emitFederationRollback(const std::string& operation_id,
                                 const std::string& cause,
-                                DKDiagnosticSeverity severity = DKDiagnosticSeverity::ERROR) {
+                                DKDiagnosticSeverity severity = DKDiagnosticSeverity::FAILURE) {
         DKDiagnosticEvent ev;
         ev.type         = DKDiagnosticEventType::FEDERATION_ROLLBACK;
         ev.severity     = severity;

@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-01
+Last Updated: 2026-11-02
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -12,10 +12,24 @@ Source_Level: level1
 SOT_Domain: module-behavior
 Canonical_References:
   - ../../include/sharding/sharding_api_contract.h
+  - ../../include/sharding/epoch_fencing.h
+  - ../../include/sharding/two_phase_commit_coordinator.h
+  - ../../include/sharding/two_phase_commit_participant.h
+  - ../../include/sharding/shard_rpc_client.h
+  - ../../include/sharding/shard_rpc_client_adapter.h
+  - ../../include/sharding/distributed_transaction.h
+  - ../../include/sharding/cross_shard_transaction.h
+  - ../../src/sharding/epoch_fencing.cpp
+  - ../../src/sharding/two_phase_commit_coordinator.cpp
+  - ../../src/sharding/two_phase_commit_participant.cpp
+  - ../../src/sharding/shard_rpc_client.cpp
+  - ../../src/sharding/distributed_transaction.cpp
+  - ../../src/sharding/cross_shard_transaction.cpp
+  - ../../tests/test_epoch_fencing.cpp
   - ../../tests/sharding/CMakeLists.txt
   - ../../benchmarks/sharding/CMakeLists.txt
 Related_Issue: "#7381"
-Related_Milestone: DOC-WEEKLY-2026-W44
+Related_Milestone: DOC-WEEKLY-2026-W45
 ---
 
 > Exact model backend not verifiable from final document text alone.
@@ -35,6 +49,42 @@ Related_Milestone: DOC-WEEKLY-2026-W44
 > deployment, runtime telemetry, cloud-provider path, or production/GA readiness was verified.
 > See [`AUDIT.md`](AUDIT.md), [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md), and
 > [`../../ROADMAP.md`](../../ROADMAP.md) before making a release decision.
+
+> **Write-fencing synchronization (2026-11-02):** source now enforces exact
+> current-epoch tokens with shard/issuer checks, holds an epoch-transition shared
+> guard through `applyWithToken()` storage callbacks, and serializes fencing
+> credentials through the 2PC PREPARE/WAL/COMMIT path. Distributed and
+> cross-shard PREPARE/SAGA write paths fail closed without structurally valid
+> target-scoped tokens; a missing 2PC provider returns `ERROR`. Phase 2
+> acknowledgement failure leaves the decision unresolved, and remote abort
+> adapters return actual acknowledgement status. These source-level changes and
+> added source-based check coverage were not executed as tests. A diagnostic
+> CMake configure was attempted but could not complete because `fmt` is
+> unavailable; installing it with apt was denied. This is not M2 readiness
+> evidence or a readiness sign-off.
+>
+> Remote gRPC PREPARE now resolves the authenticated X.509 auth-context
+> property/value through an explicit server-configured identity-to-shard binding
+> before participant fencing checks. Unconfigured, ambiguous, or mismatched
+> identities fail closed; CN and SAN values are not implicitly normalized to
+> shard IDs. Standalone token signatures are not implemented, and direct
+> in-process calls remain within the trusted process boundary. The mTLS binding
+> integration tests are source-level coverage until executed. Shared durable
+> metadata for DR and genuine multi-process failover/recovery E2E evidence remain
+> blockers; do not treat shard write fencing as completion of those items or of
+> M2 readiness.
+>
+> **Optional Raft journal (2026-11-02):** a configured per-node journal now
+> records log entries, commit/truncate/snapshot boundaries, and term/vote hard
+> state with checksummed records, sync-before-ack writes, restart replay, and an
+> exclusive process lock. `ConsensusConfig` wires its persistence directory to
+> this local journal; disabled persistence remains volatile. This source change
+> has not passed a build or focused test because CMake configuration is blocked
+> by the unavailable required `fmt` dependency. Snapshot payload files are synced
+> before their journal compaction boundary is recorded, but filesystem and
+> power-loss guarantees remain untested and uncertified. A local journal is not
+> replicated consensus-backed DR metadata and does not close the multi-process
+> failover/recovery E2E blocker.
 
 > The root aggregate [`../../ROADMAP.md`](../../ROADMAP.md) currently reports Wave A at
 > approximately 70%, with sharding materially advanced but transaction/GPU blockers and other

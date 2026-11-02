@@ -290,7 +290,7 @@ bool DistributedTransaction::commit() {
             } catch (const std::exception& ex) {
                 // The commit decision is irreversible once all Phase-1 votes were YES.
                 // Log the failure; the shard must recover via its own WAL replay.
-                // Operators should monitor ERROR logs for unacknowledged Phase-2 commits
+                // Operators should monitor FAILURE logs for unacknowledged Phase-2 commits
                 // and trigger shard-side WAL recovery to reach a consistent state.
                 THEMIS_ERROR("DistributedTransaction [{}]: shard '{}' commit threw: {}",
                              txn_id_, shard_id, ex.what());

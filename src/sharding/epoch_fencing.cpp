@@ -123,6 +123,7 @@ EpochFencingManager::~EpochFencingManager() = default;
  * @details Calls: fetch_add(), lk(), spdlog::info(), std::chrono::system_clock::now().
  */
 EpochToken EpochFencingManager::bumpEpoch(const std::string& reason) {
+    std::unique_lock<std::shared_mutex> epoch_lock(epoch_transition_mutex_);
     EpochNumber new_epoch = current_epoch_.fetch_add(1, std::memory_order_acq_rel) + 1;
 
     {
@@ -169,19 +170,24 @@ FencingResult EpochFencingManager::checkToken(const EpochToken& token,
                                               const NodeId& source_node) {
     // Structural validity
     if (token.epoch == 0 || token.issuer.empty() ||
-        token.shard_id != config_.shard_id) {
-        spdlog::warn(
-            "[EpochFencing] INVALID_TOKEN from '{}' (epoch={} issuer='{}' shard='{}' expected_shard='{}')",
-            source_node, token.epoch, token.issuer, token.shard_id, config_.shard_id);
+        token.shard_id != config_.shard_id || token.issuer != source_node) {
+        spdlog::warn("[EpochFencing] INVALID_TOKEN from '{}' (epoch, issuer, or shard scope invalid)",
+                     source_node);
         return FencingResult::INVALID_TOKEN;
     }
 
     EpochNumber cur = current_epoch_.load(std::memory_order_acquire);
 
-    if (token.epoch >= cur) {
+    if (token.epoch == cur) {
         std::lock_guard<std::mutex> lk(mutex_);
         ++metrics_.allowed_writes;
         return FencingResult::ALLOWED;
+    }
+
+    if (token.epoch > cur) {
+        spdlog::warn("[EpochFencing] FUTURE_EPOCH from='{}' token_epoch={} current={}",
+                     source_node, token.epoch, cur);
+        return FencingResult::FUTURE_EPOCH;
     }
 
     // Stale epoch
@@ -200,6 +206,22 @@ FencingResult EpochFencingManager::checkToken(const EpochToken& token,
         return issueStonith(source_node, "stale_epoch");
     }
     return FencingResult::STALE_EPOCH;
+}
+
+FencingResult EpochFencingManager::applyWithToken(
+    const EpochToken& token,
+    const NodeId& source_node,
+    const std::function<void()>& write) {
+    if (!write) {
+        return FencingResult::INVALID_TOKEN;
+    }
+
+    std::shared_lock<std::shared_mutex> epoch_lock(epoch_transition_mutex_);
+    const auto result = checkToken(token, source_node);
+    if (result == FencingResult::ALLOWED) {
+        write();
+    }
+    return result;
 }
 
 /**

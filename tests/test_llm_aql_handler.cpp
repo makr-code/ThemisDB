@@ -1413,12 +1413,12 @@ TEST_F(LLMAQLHandlerTest, ValidationMode_SetAndGet_WarnOnly) {
 // that the validator itself flags the error-level issue we rely on.
 TEST_F(LLMAQLHandlerTest, AQLQueryValidator_DetectsIncompleteForQuery) {
     // "FOR x" lacks both the IN clause and a RETURN clause — the validator must
-    // report at least one ERROR-severity issue.
+    // report at least one FAILURE-severity issue.
     AQLQueryValidator v;
     auto result = v.validate("FOR x");
     EXPECT_FALSE(result.is_valid);
     EXPECT_TRUE(result.hasErrors())
-        << "AQLQueryValidator should flag 'FOR x' as invalid (ERROR severity)";
+        << "AQLQueryValidator should flag 'FOR x' as invalid (FAILURE severity)";
 }
 
 TEST_F(LLMAQLHandlerTest, AQLQueryValidator_DetectsMissingReturnClause) {
@@ -1541,7 +1541,7 @@ makeMockExecutor(const std::string& fixed_response) {
 
 TEST_F(LLMAQLHandlerTest, MockLLM_RejectOnError_BrokenAQL_TranslateNLToAQL_Throws) {
     // Inject a mock that returns the structurally invalid query "FOR x"
-    // (no IN clause, no RETURN) — AQLQueryValidator must flag this as ERROR.
+    // (no IN clause, no RETURN) — AQLQueryValidator must flag this as FAILURE.
     handler->setChatExecutor(makeMockExecutor("FOR x"));
     handler->setValidationMode(TranslationValidationMode::REJECT_ON_ERROR);
 

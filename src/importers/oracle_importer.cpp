@@ -1418,7 +1418,7 @@ void OracleImporter::addError(ImportStats& stats, ImportErrorCode code,
     err.message  = message;
     err.location = location;
     stats.structured_errors.push_back(err);
-    if (severity == ImportErrorSeverity::ERROR || severity == ImportErrorSeverity::CRITICAL) {
+    if (severity == ImportErrorSeverity::FAILURE || severity == ImportErrorSeverity::CRITICAL) {
         stats.errors.push_back(message);
     }
     

@@ -691,7 +691,7 @@ public:
             auto it = sources_.find(source_id);
             if (it == sources_.end()) {
                 stats.addError(IngestionErrorCode::SOURCE_NOT_FOUND,
-                               IngestionErrorSeverity::ERROR,
+                               IngestionErrorSeverity::FAILURE,
                                "Source not found: " + source_id, source_id);
                 return stats;
             }
@@ -726,7 +726,7 @@ public:
         if (!dry_run_ && should_use_workflow && !workflow_engine &&
             optionEnabled(config.options, "workflow_engine_required", false)) {
             stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
-                           IngestionErrorSeverity::ERROR,
+                           IngestionErrorSeverity::FAILURE,
                            "Workflow engine is required but not configured",
                            source_id);
             return stats;
@@ -761,7 +761,7 @@ public:
                     }
                     if (!hf_connector->initialize(config)) {
                         stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
-                                       IngestionErrorSeverity::ERROR,
+                                       IngestionErrorSeverity::FAILURE,
                                        "Failed to initialize HuggingFace connector",
                                        source_id);
                         return stats;
@@ -774,7 +774,7 @@ public:
                     auto fs_ingester = std::make_unique<FileSystemIngester>();
                     if (!fs_ingester->initialize(config) && !dry_run_) {
                         stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
-                                       IngestionErrorSeverity::ERROR,
+                                       IngestionErrorSeverity::FAILURE,
                                        "Failed to initialize filesystem ingester",
                                        source_id);
                         return stats;
@@ -791,7 +791,7 @@ public:
                     }
                     if (!api_connector->initialize(config)) {
                         stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
-                                       IngestionErrorSeverity::ERROR,
+                                       IngestionErrorSeverity::FAILURE,
                                        "Failed to initialize API connector",
                                        source_id);
                         return stats;
@@ -818,7 +818,7 @@ public:
                     }
                     if (!kafka_connector->initialize(config)) {
                         stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
-                                       IngestionErrorSeverity::ERROR,
+                                       IngestionErrorSeverity::FAILURE,
                                        "Failed to initialize Kafka connector",
                                        source_id);
                         return stats;
@@ -852,7 +852,7 @@ public:
                         }
                         if (!s3_connector->initialize(config)) {
                             stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
-                                           IngestionErrorSeverity::ERROR,
+                                           IngestionErrorSeverity::FAILURE,
                                            "Failed to initialize S3 connector",
                                            source_id);
                             return stats;
@@ -863,7 +863,7 @@ public:
                         obj_connector->setRetryConfig(retry_config_);
                         if (!obj_connector->initialize(config)) {
                             stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
-                                           IngestionErrorSeverity::ERROR,
+                                           IngestionErrorSeverity::FAILURE,
                                            "Failed to initialize ObjectStorage connector",
                                            source_id);
                             return stats;
@@ -878,7 +878,7 @@ public:
                     db_connector->setRetryConfig(retry_config_);
                     if (!db_connector->initialize(config)) {
                         stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
-                                       IngestionErrorSeverity::ERROR,
+                                       IngestionErrorSeverity::FAILURE,
                                        "Failed to initialize Database connector",
                                        source_id);
                         return stats;
@@ -892,7 +892,7 @@ public:
                     crawler->setRetryConfig(retry_config_);
                     if (!crawler->initialize(config)) {
                         stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
-                                       IngestionErrorSeverity::ERROR,
+                                       IngestionErrorSeverity::FAILURE,
                                        "Failed to initialize WebCrawler connector",
                                        source_id);
                         return stats;
@@ -906,7 +906,7 @@ public:
                     cdc_connector->setRetryConfig(retry_config_);
                     if (!cdc_connector->initialize(config)) {
                         stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
-                                       IngestionErrorSeverity::ERROR,
+                                       IngestionErrorSeverity::FAILURE,
                                        "Failed to initialize CDC connector",
                                        source_id);
                         return stats;
@@ -919,7 +919,7 @@ public:
                     auto pit = config.options.find("plugin_name");
                     if (pit == config.options.end() || pit->second.empty()) {
                         stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
-                                       IngestionErrorSeverity::ERROR,
+                                       IngestionErrorSeverity::FAILURE,
                                        "Plugin source requires options[\"plugin_name\"] to be set",
                                        source_id);
                         return stats;
@@ -927,14 +927,14 @@ public:
                     auto plug = plugin_registry_.create(pit->second);
                     if (!plug) {
                         stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
-                                       IngestionErrorSeverity::ERROR,
+                                       IngestionErrorSeverity::FAILURE,
                                        "No connector plugin registered for name: " + pit->second,
                                        source_id);
                         return stats;
                     }
                     if (!plug->initialize(config)) {
                         stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
-                                       IngestionErrorSeverity::ERROR,
+                                       IngestionErrorSeverity::FAILURE,
                                        "Failed to initialize plugin connector: " + pit->second,
                                        source_id);
                         return stats;
@@ -945,7 +945,7 @@ public:
 
                 default:
                     stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
-                                   IngestionErrorSeverity::ERROR,
+                                   IngestionErrorSeverity::FAILURE,
                                    "Connector type not yet implemented: " +
                                    std::to_string(static_cast<int>(config.type)),
                                    source_id);
@@ -957,7 +957,7 @@ public:
             // requiring the backing source to be currently reachable.
             if (!dry_run_ && !connector->isAvailable()) {
                 stats.addError(IngestionErrorCode::SOURCE_UNAVAILABLE,
-                               IngestionErrorSeverity::ERROR,
+                               IngestionErrorSeverity::FAILURE,
                                "Source not available: " + source_id, source_id);
                 return stats;
             }
@@ -1833,7 +1833,7 @@ public:
         const std::filesystem::path source_path(config.location);
         if (!std::filesystem::exists(source_path)) {
             stats.addError(IngestionErrorCode::FILE_NOT_FOUND,
-                           IngestionErrorSeverity::ERROR,
+                           IngestionErrorSeverity::FAILURE,
                            "Source path not found: " + config.location,
                            config.source_id);
             return stats;
@@ -1859,7 +1859,7 @@ public:
             }
         } else {
             stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
-                           IngestionErrorSeverity::ERROR,
+                           IngestionErrorSeverity::FAILURE,
                            "Unsupported filesystem source type: " + config.location,
                            config.source_id);
             return stats;
@@ -1891,7 +1891,7 @@ public:
             if (!run_result) {
                 stats.documents_failed++;
                 stats.addError(IngestionErrorCode::PROCESSING_FAILED,
-                               IngestionErrorSeverity::ERROR,
+                               IngestionErrorSeverity::FAILURE,
                                run_result.error().message(),
                                config.source_id,
                                file.string());

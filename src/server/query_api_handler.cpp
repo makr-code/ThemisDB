@@ -23,8 +23,8 @@
 #endif
 
 // Windows macros undefine - MUST be before any includes
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 #include "server/query_api_handler.h"

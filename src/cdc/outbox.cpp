@@ -19,8 +19,8 @@
 
 #include "utils/logger.h"
 
-#ifdef ERROR
-#undef ERROR
+#ifdef FAILURE
+#undef FAILURE
 #endif
 
 namespace themis {
@@ -244,7 +244,7 @@ OutboxRecord &OutboxWriter::writeToOutbox(rocksdb::Transaction *txn, OutboxRecor
     }
 
     if (!s.ok()) {
-        throw CDCException(ErrorCode::DB_WRITE_FAILED, ErrorSeverity::ERROR,
+        throw CDCException(ErrorCode::DB_WRITE_FAILED, ErrorSeverity::FAILURE,
                            "OutboxWriter: failed to write outbox record", s.ToString());
     }
 
