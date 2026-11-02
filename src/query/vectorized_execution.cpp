@@ -45,6 +45,8 @@
 
 #include <algorithm>
 #include <chrono>
+#include <limits>
+#include <new>
 #include <stdexcept>
 #include <unordered_map>
 #include <unordered_set>
@@ -57,6 +59,57 @@ namespace themis {
 namespace query {
 
 using namespace themisdb::analytics;
+
+namespace {
+
+size_t saturatedAdd(size_t lhs, size_t rhs) noexcept {
+    const size_t max = std::numeric_limits<size_t>::max();
+    return rhs > max - lhs ? max : lhs + rhs;
+}
+
+size_t saturatedMultiply(size_t lhs, size_t rhs) noexcept {
+    const size_t max = std::numeric_limits<size_t>::max();
+    return lhs != 0 && rhs > max / lhs ? max : lhs * rhs;
+}
+
+size_t estimateJsonMemory(const nlohmann::json& value) noexcept {
+    size_t bytes = sizeof(nlohmann::json);
+    if (value.is_string()) {
+        return saturatedAdd(bytes, value.get_ref<const std::string&>().size());
+    }
+    if (value.is_array()) {
+        for (const auto& item : value) {
+            bytes = saturatedAdd(bytes, estimateJsonMemory(item));
+        }
+    } else if (value.is_object()) {
+        for (auto it = value.begin(); it != value.end(); ++it) {
+            bytes = saturatedAdd(bytes, it.key().size());
+            bytes = saturatedAdd(bytes, estimateJsonMemory(it.value()));
+        }
+    }
+    return bytes;
+}
+
+size_t estimateRowsMemory(const std::vector<nlohmann::json>& rows) noexcept {
+    size_t bytes = saturatedMultiply(rows.size(), sizeof(nlohmann::json));
+    for (const auto& row : rows) {
+        bytes = saturatedAdd(bytes, estimateJsonMemory(row));
+    }
+    return bytes;
+}
+
+bool hasUnsortedLimit(const VectorizedQueryPlan& plan) noexcept {
+    if (!plan.limit().has_value()) {
+        return false;
+    }
+    return std::none_of(plan.stages().begin(), plan.stages().end(),
+                        [](const auto& stage) {
+                            return stage.type == VectorizedQueryPlan::StageType::Sort ||
+                                   stage.type == VectorizedQueryPlan::StageType::Aggregate;
+                        });
+}
+
+}  // namespace
 
 
 /**
@@ -227,9 +280,36 @@ void VectorizedExecutionEngine::resetStats() noexcept {
  */
 Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::execute(
     const std::vector<nlohmann::json>& rows,
-    const VectorizedQueryPlan&         plan) {
+    const VectorizedQueryPlan&         plan,
+    const QueryCancellationToken*      cancellation) {
+    const RowBatchSource source = [&rows](
+        size_t offset, size_t count) {
+        return std::vector<nlohmann::json>(
+            rows.begin() + static_cast<std::ptrdiff_t>(offset),
+            rows.begin() + static_cast<std::ptrdiff_t>(offset + count));
+    };
+    return execute(rows.size(), source, plan, cancellation);
+}
 
-    if (rows.empty()) {
+Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::execute(
+    size_t row_count,
+    const RowBatchSource& source,
+    const VectorizedQueryPlan& plan,
+    const QueryCancellationToken* cancellation) try {
+    if (cancellation != nullptr && cancellation->isCancelled()) {
+        return Err<std::vector<nlohmann::json>>(
+            errors::ErrorCode::ERR_QUERY_CANCELLED,
+            "VectorizedExecutionEngine execution was cancelled");
+    }
+    if (row_count == 0) {
+        return std::vector<nlohmann::json>{};
+    }
+    if (!source) {
+        return Err<std::vector<nlohmann::json>>(
+            errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+            "VectorizedExecutionEngine row source must be callable");
+    }
+    if (plan.limit().has_value() && *plan.limit() == 0) {
         return std::vector<nlohmann::json>{};
     }
 
@@ -244,14 +324,79 @@ Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::execute(
             config_.enable_simd,
             config_.max_memory_bytes});
 
-    const size_t n = rows.size();
+    const size_t n = row_count;
+    const size_t batch_size = std::max<size_t>(1, config_.batch_size);
+    const auto limit = plan.limit();
+    const bool sorted_top_k =
+        limit.has_value() && !plan.stages().empty() &&
+        plan.stages().back().type == VectorizedQueryPlan::StageType::Sort;
+    const bool unsorted_limit = hasUnsortedLimit(plan);
+    const std::vector<VectorizedSortKey>* top_k_sort_keys =
+        sorted_top_k ? &plan.stages().back().sort.keys : nullptr;
+
+    const auto less_by_sort_keys = [top_k_sort_keys](
+        const nlohmann::json& lhs, const nlohmann::json& rhs) {
+        for (const auto& key : *top_k_sort_keys) {
+            const auto lhs_it = lhs.find(key.field);
+            const auto rhs_it = rhs.find(key.field);
+            const bool lhs_null = lhs_it == lhs.end() || lhs_it->is_null();
+            const bool rhs_null = rhs_it == rhs.end() || rhs_it->is_null();
+            if (lhs_null != rhs_null) {
+                return key.ascending ? rhs_null : lhs_null;
+            }
+            if (lhs_null) {
+                continue;
+            }
+            if (*lhs_it < *rhs_it) {
+                return key.ascending;
+            }
+            if (*rhs_it < *lhs_it) {
+                return !key.ascending;
+            }
+        }
+        return false;
+    };
+
     std::vector<nlohmann::json> result;
-    result.reserve(n);
+    size_t result_bytes = 0;
 
-    for (size_t offset = 0; offset < n; offset += config_.batch_size) {
-        const size_t count = std::min(config_.batch_size, n - offset);
+    for (size_t offset = 0; offset < n;) {
+        if (cancellation != nullptr && cancellation->isCancelled()) {
+            return Err<std::vector<nlohmann::json>>(
+                errors::ErrorCode::ERR_QUERY_CANCELLED,
+                "VectorizedExecutionEngine execution was cancelled");
+        }
 
-        ColumnBatch batch = jsonToColumnBatch(rows, offset, count);
+        size_t max_count = std::min(batch_size, n - offset);
+        if (unsorted_limit) {
+            max_count = std::min(max_count, *limit - result.size());
+        }
+
+        size_t count = max_count;
+        std::vector<nlohmann::json> input_batch = source(offset, count);
+        if (input_batch.size() != count) {
+            return Err<std::vector<nlohmann::json>>(
+                errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+                "VectorizedExecutionEngine row source returned an incomplete batch");
+        }
+        const size_t batch_input_bytes = estimateRowsMemory(input_batch);
+
+        const size_t batch_working_bytes = saturatedAdd(
+            saturatedMultiply(batch_input_bytes, 4),
+            saturatedMultiply(result_bytes, 2));
+        if (config_.max_memory_bytes > 0 &&
+            batch_working_bytes > config_.max_memory_bytes) {
+            return Err<std::vector<nlohmann::json>>(
+                errors::ErrorCode::ERR_QUERY_MEMORY_LIMIT_EXCEEDED,
+                "QueryMemoryLimitExceeded: estimated working set " +
+                    std::to_string(batch_working_bytes) +
+                    " bytes exceeds max_memory_bytes=" +
+                    std::to_string(config_.max_memory_bytes));
+        }
+        stats_.peak_memory_bytes =
+            std::max(stats_.peak_memory_bytes, batch_working_bytes);
+
+        ColumnBatch batch = jsonToColumnBatch(input_batch, 0, count);
         // [W9-10-FIX: unchecked_result — vectorized_execution.cpp:678]
         // ColumnarExecutionEngine::execute() returns ColumnBatch by value (not
         // Result<>); exceptions from pipeline stages propagate directly.  The
@@ -266,14 +411,36 @@ Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::execute(
         stats_.rows_in  += count;
         stats_.rows_out += batch_rows.size();
 
-        result.insert(result.end(),
-                      std::make_move_iterator(batch_rows.begin()),
-                      std::make_move_iterator(batch_rows.end()));
+        if (sorted_top_k) {
+            result.reserve(result.size() + batch_rows.size());
+            result.insert(result.end(),
+                          std::make_move_iterator(batch_rows.begin()),
+                          std::make_move_iterator(batch_rows.end()));
+            std::stable_sort(result.begin(), result.end(), less_by_sort_keys);
+            if (result.size() > *limit) {
+                result.resize(*limit);
+            }
+            result_bytes = estimateRowsMemory(result);
+        } else {
+            const size_t output_count =
+                unsorted_limit
+                    ? std::min(batch_rows.size(), *limit - result.size())
+                    : batch_rows.size();
+            for (size_t i = 0; i < output_count; ++i) {
+                result_bytes = saturatedAdd(
+                    result_bytes, estimateJsonMemory(batch_rows[i]));
+                result.push_back(std::move(batch_rows[i]));
+            }
+        }
+
+        offset += count;
+        if (unsorted_limit && result.size() >= *limit) {
+            break;
+        }
     }
 
-    // Apply limit last (after all operators have run)
-    if (plan.limit().has_value() && result.size() > *plan.limit()) {
-        result.resize(*plan.limit());
+    if (limit.has_value() && result.size() > *limit) {
+        result.resize(*limit);
     }
 
     const auto t1 = std::chrono::steady_clock::now();
@@ -289,6 +456,10 @@ Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::execute(
         stats_.elapsed_ms);
 
     return result;
+} catch (const std::bad_alloc&) {
+    return Err<std::vector<nlohmann::json>>(
+        errors::ErrorCode::ERR_QUERY_MEMORY_LIMIT_EXCEEDED,
+        "QueryMemoryLimitExceeded: allocation failed while executing the query");
 }
 
 /**

@@ -22,6 +22,8 @@
 #include <string>
 #include <vector>
 
+#include <nlohmann/json.hpp>
+
 namespace themis {
 namespace tensor {
 
@@ -67,6 +69,7 @@ struct UTRConfig {
     std::size_t embed_dim     = 64;    ///< Embedding dimension for document tokens
     std::size_t max_segments  = 16;    ///< Maximum text segments per document
     std::size_t bucket_count  = 8;     ///< Buckets per column for tabular data
+    bool require_embedding_provider = false; ///< Reject lexical fallback when semantic output is required
 };
 
 // ============================================================================
@@ -91,10 +94,10 @@ struct UTRConfig {
  *   in `fromImage()`.  The callable receives the flat HWC pixel buffer and the
  *   three dimensions plus the UTR config, and must return a valid `TTTrain`.
  *
- * Both bridges are stored in static `std::mutex`-guarded slots.  Call
+ * Both bridges are stored in static `std::mutex`-guarded slots. Call
  * `clearEmbedFn()` / `clearImageEmbedFn()` to revert to the built-in fallback.
- * The fallback is retained when no bridge is set (fail-open for encode quality,
- * not for correctness — structural invariants are always maintained).
+ * Document fallback results are explicitly marked as degraded, and document
+ * encoding fails closed when a provider is required or production mode is active.
  *
  * ### Encoder Object APIs (preferred over raw bridge functions)
  *
@@ -277,7 +280,7 @@ public:
      * 1. Registered `ITextEncoder` (if `isAvailable()`)
      * 2. Injected `EmbedFn` bridge (STUB #257)
      * 3. Built-in lexical encoder (unigram + bigram + char-trigram features,
-     *    L2-normalised) — degraded mode, `EncoderQuality::LEXICAL`
+     *    L2-normalised) — explicitly marked as degraded in result metadata.
      *
      * The resulting segment × embed_dim matrix is decomposed via HT-SVD into
      * an HTTrain.
@@ -289,12 +292,24 @@ public:
      *
      * @throws std::invalid_argument if text is empty or produces no segments.
      * @throws std::runtime_error if the active `EmbedFn` or `ITextEncoder`
-     *         returns a vector of the wrong size (fail-closed on mismatch).
+     *         returns a vector of the wrong size, or no provider is available
+     *         when `cfg.require_embedding_provider` is true or production mode
+     *         is enabled.
      */
     [[nodiscard]] static tensor::HTTrain
     fromDocument(const std::string&       text,
                  DocumentStructureHint    hint = DocumentStructureHint::PARAGRAPHS,
                  const UTRConfig&         cfg  = {});
+
+    /**
+     * @brief Serialize document-embedding quality as result metadata.
+     * @param encoded HT representation returned by fromDocument().
+     * @return JSON with embedding_quality, degraded, and degradation_reason.
+     *         Lexical fallback is reported as degraded with reason
+     *         "lexical_fallback"; other encoders are not described as semantic
+     *         unless they report semantic quality.
+     */
+    [[nodiscard]] static nlohmann::json documentMetadata(const HTTrain& encoded);
 };
 
 } // namespace tensor

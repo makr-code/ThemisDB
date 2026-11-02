@@ -148,6 +148,8 @@ grpc::StatusCode mapThemisErrorCodeToGrpcStatusCode(themis::errors::ErrorCode co
 
         case ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED:
         [[fallthrough]];
+        case ErrorCode::ERR_QUERY_MEMORY_LIMIT_EXCEEDED:
+        [[fallthrough]];
         case ErrorCode::ERR_API_RATE_LIMIT:
         [[fallthrough]];
         case ErrorCode::ERR_API_RESOURCE_EXHAUSTED:
