@@ -314,3 +314,22 @@ TEST_F(StreamingIngestManagerTest, SM12_FailedFlushRetainsBatchForRetry) {
     ASSERT_TRUE(db_->get("retry-2", value));
     EXPECT_EQ(value, "v2");
 }
+
+TEST_F(StreamingIngestManagerTest, SM13_FullUnstartedManagerRejectsBatchWithoutWaiting) {
+    StreamingIngestManager::Config cfg;
+    cfg.max_buffer_events = 2;
+    cfg.max_batch_size = 2;
+    cfg.backpressure_timeout = std::chrono::milliseconds::zero();
+    cfg.overflow_policy = StreamingIngestManager::OverflowPolicy::BLOCK;
+    cfg.sync_wal = false;
+    auto mgr = StreamingIngestManager::create(db_, std::move(cfg));
+
+    auto accepted = mgr->ingestBatch({{"buffered-1", "v1"}, {"buffered-2", "v2"}});
+    ASSERT_TRUE(accepted);
+    ASSERT_EQ(*accepted, 2u);
+
+    auto rejected = mgr->ingestBatch({{"rejected", "v"}});
+    EXPECT_FALSE(rejected);
+    EXPECT_EQ(mgr->stats().events_ingested, 2u);
+    ASSERT_TRUE(mgr->flush());
+}

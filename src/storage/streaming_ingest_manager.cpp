@@ -118,6 +118,7 @@ Result<void> StreamingIngestManager::stop() {
     }
     running_.store(false, std::memory_order_release);
     not_empty_.notify_all();
+    not_full_.notify_all();
     if (flush_thread_.joinable() &&
         !utils::joinThreadWithin(flush_thread_)) {
         THEMIS_WARN("StreamingIngestManager: flush thread exceeded shutdown timeout");
