@@ -5,6 +5,7 @@
 
 #include "storage/detail/streaming_ingest_retry.h"
 
+#include <cstddef>
 #include <string>
 #include <vector>
 
@@ -50,6 +51,42 @@ TEST(StreamingIngestRetryQueue, LastChunkFailureRetainsTheLastEvent) {
     ASSERT_EQ(pending.size(), 1u);
     EXPECT_EQ(pending.front().key, "retry-3");
     EXPECT_EQ(pending.front().value, "v3");
+}
+
+TEST(StreamingIngestRetryQueue, EveryFailureOffsetPreservesSuffixOrder) {
+    for (std::size_t batch_size = 1; batch_size <= 128; ++batch_size) {
+        for (std::size_t first_unwritten = 0;
+             first_unwritten < batch_size; ++first_unwritten) {
+            std::vector<StreamingIngestManager::Event> failed_batch;
+            failed_batch.reserve(batch_size);
+            for (std::size_t index = 0; index < batch_size; ++index) {
+                failed_batch.push_back(
+                    {"batch-" + std::to_string(index),
+                     "value-" + std::to_string(index)});
+            }
+
+            std::vector<StreamingIngestManager::Event> pending{
+                {"newer-1", "new-value-1"},
+                {"newer-2", "new-value-2"},
+            };
+            requeueUnwrittenIngestEvents(
+                pending, failed_batch, first_unwritten);
+
+            ASSERT_EQ(pending.size(),
+                      batch_size - first_unwritten + 2);
+            for (std::size_t index = first_unwritten;
+                 index < batch_size; ++index) {
+                const auto retry_index = index - first_unwritten;
+                EXPECT_EQ(pending[retry_index].key,
+                          "batch-" + std::to_string(index));
+                EXPECT_EQ(pending[retry_index].value,
+                          "value-" + std::to_string(index));
+            }
+            EXPECT_EQ(pending[batch_size - first_unwritten].key, "newer-1");
+            EXPECT_EQ(pending[batch_size - first_unwritten + 1].key,
+                      "newer-2");
+        }
+    }
 }
 
 }  // namespace
