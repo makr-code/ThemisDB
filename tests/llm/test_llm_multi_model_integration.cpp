@@ -23,8 +23,11 @@
 #include "llm/shared_worker_pool.h"
 #include "llm/inference_handle.h"
 #include "llm/llm_plugin_interface.h"
+#include "llm/llm_plugin_manager.h"
 #include <atomic>
 #include <chrono>
+#include <condition_variable>
+#include <mutex>
 #include <thread>
 #include <vector>
 #include <string>
@@ -36,11 +39,44 @@ using namespace themis::llm;
 // Mock LLM plugin for multi-model tests
 // ═══════════════════════════════════════════════════════════════════════════
 
+class InferenceCallGate {
+public:
+    void hold() {
+        std::unique_lock<std::mutex> lock(mutex_);
+        ++entered_;
+        condition_.notify_all();
+        condition_.wait(lock, [this] { return released_; });
+    }
+
+    bool waitForEntered(std::size_t count, std::chrono::milliseconds timeout) {
+        std::unique_lock<std::mutex> lock(mutex_);
+        return condition_.wait_for(lock, timeout, [this, count] { return entered_ >= count; });
+    }
+
+    std::size_t entered() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return entered_;
+    }
+
+    void release() {
+        std::lock_guard<std::mutex> lock(mutex_);
+        released_ = true;
+        condition_.notify_all();
+    }
+
+private:
+    mutable std::mutex mutex_;
+    std::condition_variable condition_;
+    std::size_t entered_ = 0;
+    bool released_ = false;
+};
+
 class MultiModelMockPlugin : public ILLMPlugin {
 public:
     explicit MultiModelMockPlugin(const std::string& model_id,
-                                   int latency_ms = 10)
-        : model_id_(model_id), latency_ms_(latency_ms) {}
+                                   int latency_ms = 10,
+                                   std::shared_ptr<InferenceCallGate> gate = {})
+        : model_id_(model_id), latency_ms_(latency_ms), gate_(std::move(gate)) {}
 
     std::atomic<int> call_count{0};
 
@@ -57,7 +93,9 @@ public:
 
     InferenceResponse generate(const InferenceRequest& request) override {
         call_count.fetch_add(1, std::memory_order_relaxed);
-        if (latency_ms_ > 0) {
+        if (gate_) {
+            gate_->hold();
+        } else if (latency_ms_ > 0) {
             std::this_thread::sleep_for(std::chrono::milliseconds(latency_ms_));
         }
         InferenceResponse resp;
@@ -91,6 +129,7 @@ public:
 private:
     std::string model_id_;
     int         latency_ms_;
+    std::shared_ptr<InferenceCallGate> gate_;
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -611,4 +650,165 @@ TEST_F(MultiModelIntegrationTest, DetailedMetricsAfterWorkload) {
     EXPECT_TRUE(detailed.is_object()) << "Detailed metrics should be a JSON object";
 
     engine.shutdown();
+}
+
+TEST(LLMPluginManagerRoutingTest, RequestedModelSelectsMatchingRegisteredPlugin) {
+    LLMPluginManager manager;
+    manager.registerPlugin("backend-a", std::make_unique<MultiModelMockPlugin>("model-a", 0));
+    manager.registerPlugin("backend-b", std::make_unique<MultiModelMockPlugin>("model-b", 0));
+
+    InferenceRequest request;
+    request.model_id = "model-b";
+    request.prompt = "hello";
+    request.max_tokens = 8;
+
+    const auto response = manager.generate(request);
+    EXPECT_EQ(response.model_id, "model-b");
+    EXPECT_EQ(response.text, "model-b:response:hello");
+}
+
+TEST(LLMPluginManagerRoutingTest, UnknownRequestedModelDoesNotFallBackToDefault) {
+    LLMPluginManager manager;
+    auto plugin = std::make_unique<MultiModelMockPlugin>("model-a", 0);
+    auto* plugin_ptr = plugin.get();
+    manager.registerPlugin("backend-a", std::move(plugin));
+
+    InferenceRequest request;
+    request.model_id = "missing-model";
+    request.max_tokens = 8;
+
+    EXPECT_THROW(manager.generate(request), std::runtime_error);
+    EXPECT_EQ(plugin_ptr->call_count.load(std::memory_order_relaxed), 0);
+}
+
+TEST(LLMPluginManagerRoutingTest, RejectsUnboundedGenerationBudgetBeforeDispatch) {
+    LLMPluginManager manager;
+    auto plugin = std::make_unique<MultiModelMockPlugin>("model-a", 0);
+    auto* plugin_ptr = plugin.get();
+    manager.registerPlugin("backend-a", std::move(plugin));
+
+    InferenceRequest request;
+    request.model_id = "default";
+    request.max_tokens = kMaxInferenceTokens + 1;
+
+    EXPECT_THROW(manager.generate(request), std::invalid_argument);
+    EXPECT_EQ(plugin_ptr->call_count.load(std::memory_order_relaxed), 0);
+}
+
+TEST(LLMPluginManagerRoutingTest, AppliesCombinedPromptByteLimitToSystemPrompt) {
+    LLMPluginManager manager;
+    auto plugin = std::make_unique<MultiModelMockPlugin>("model-a", 0);
+    auto* plugin_ptr = plugin.get();
+    manager.registerPlugin("backend-a", std::move(plugin));
+
+    InferenceRequest request;
+    request.model_id = "default";
+    request.prompt.assign(600u * 1024u, 'p');
+    request.system_prompt = std::string(500u * 1024u, 's');
+
+    EXPECT_THROW(manager.generate(request), std::invalid_argument);
+    EXPECT_EQ(plugin_ptr->call_count.load(std::memory_order_relaxed), 0);
+}
+
+TEST(LLMPluginManagerRoutingTest, RejectsRagDocumentContextBeyondByteLimitBeforeDispatch) {
+    LLMPluginManager manager;
+    auto plugin = std::make_unique<MultiModelMockPlugin>("model-a", 0);
+    auto* plugin_ptr = plugin.get();
+    manager.registerPlugin("backend-a", std::move(plugin));
+
+    InferenceRequest request;
+    request.model_id = "default";
+    request.prompt.assign(600u * 1024u, 'q');
+    request.max_tokens = 8;
+
+    RAGContext context;
+    context.query.assign(500u * 1024u, 'r');
+    RAGContext::Document document;
+    document.content = "retrieved document";
+    context.documents.push_back(std::move(document));
+
+    EXPECT_THROW(manager.generateRAG(context, request), std::invalid_argument);
+    EXPECT_EQ(plugin_ptr->call_count.load(std::memory_order_relaxed), 0);
+}
+
+TEST(LLMPluginManagerRoutingTest, RejectsRagContextWindowAboveManagedTokenCeiling) {
+    LLMPluginManager manager;
+    auto plugin = std::make_unique<MultiModelMockPlugin>("model-a", 0);
+    auto* plugin_ptr = plugin.get();
+    manager.registerPlugin("backend-a", std::move(plugin));
+
+    InferenceRequest request;
+    request.model_id = "default";
+    request.max_tokens = 8;
+    RAGContext context;
+    context.max_context_tokens = kMaxContextWindowTokens + 1;
+
+    EXPECT_THROW(manager.generateRAG(context, request), std::invalid_argument);
+    EXPECT_EQ(plugin_ptr->call_count.load(std::memory_order_relaxed), 0);
+}
+
+TEST(LLMPluginManagerRoutingTest, RejectsExcessConcurrentRequestsWithoutQueueing) {
+    LLMPluginManager manager;
+    LLMPluginManager second_manager;
+    auto gate = std::make_shared<InferenceCallGate>();
+    auto plugin = std::make_unique<MultiModelMockPlugin>("model-a", 0, gate);
+    auto* plugin_ptr = plugin.get();
+    manager.registerPlugin("backend-a", std::move(plugin));
+    auto second_plugin = std::make_unique<MultiModelMockPlugin>("model-b", 0, gate);
+    auto* second_plugin_ptr = second_plugin.get();
+    second_manager.registerPlugin("backend-b", std::move(second_plugin));
+
+    InferenceRequest request;
+    request.model_id = "default";
+    request.max_tokens = 8;
+
+    constexpr std::size_t kAttemptCount = 2 * kMaxConcurrentInferenceRequests;
+    std::atomic<bool> start{false};
+    std::atomic<std::size_t> rejected{0};
+    std::atomic<std::size_t> unexpected_failures{0};
+    std::vector<std::thread> requests;
+    requests.reserve(kAttemptCount);
+    for (std::size_t i = 0; i < kAttemptCount; ++i) {
+        requests.emplace_back([&, i] {
+            while (!start.load(std::memory_order_acquire)) {
+                std::this_thread::yield();
+            }
+            try {
+                (void)(i % 2 == 0 ? manager.generate(request) : second_manager.generate(request));
+            } catch (const InferenceAdmissionRejected&) {
+                rejected.fetch_add(1, std::memory_order_relaxed);
+            } catch (...) {
+                unexpected_failures.fetch_add(1, std::memory_order_relaxed);
+            }
+        });
+    }
+
+    start.store(true, std::memory_order_release);
+    const bool allCapacitySlotsHeld = gate->waitForEntered(
+        kMaxConcurrentInferenceRequests, std::chrono::seconds(2));
+    const auto rejectedDeadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    while (rejected.load(std::memory_order_relaxed) <
+               kAttemptCount - kMaxConcurrentInferenceRequests &&
+           std::chrono::steady_clock::now() < rejectedDeadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+
+    const auto admittedBeforeRelease =
+        plugin_ptr->call_count.load(std::memory_order_relaxed) +
+        second_plugin_ptr->call_count.load(std::memory_order_relaxed);
+    const auto rejectedBeforeRelease = rejected.load(std::memory_order_relaxed);
+    gate->release();
+    for (auto& request_thread : requests) {
+        request_thread.join();
+    }
+
+    EXPECT_TRUE(allCapacitySlotsHeld);
+    EXPECT_EQ(admittedBeforeRelease, static_cast<int>(kMaxConcurrentInferenceRequests));
+    EXPECT_EQ(rejectedBeforeRelease, kAttemptCount - kMaxConcurrentInferenceRequests);
+    EXPECT_EQ(plugin_ptr->call_count.load(std::memory_order_relaxed) +
+                  second_plugin_ptr->call_count.load(std::memory_order_relaxed),
+              static_cast<int>(kMaxConcurrentInferenceRequests));
+    EXPECT_EQ(rejected.load(std::memory_order_relaxed),
+              kAttemptCount - kMaxConcurrentInferenceRequests);
+    EXPECT_EQ(unexpected_failures.load(std::memory_order_relaxed), 0);
 }

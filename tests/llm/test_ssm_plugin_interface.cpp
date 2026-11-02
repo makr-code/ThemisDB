@@ -13,12 +13,103 @@
 #include "llm/infini_attention_cpu.h"
 #include "llm/ssm_drift_metrics.h"
 #include "llm/ssm_state_store.h"
-#include "llm/ssm_stub_plugin.h"
 
 #include <Eigen/Dense>
+#include <cmath>
 #include <thread>
 
 using namespace themis::llm;
+
+namespace {
+
+// State-only test fixture: deliberately lives in the test translation unit and
+// is not available as a production ILLMPlugin/backend.
+class SSMStateTestFixture final : public ISSMPlugin {
+public:
+    std::string getName() const { return "ssm-state-test-fixture"; }
+    std::string getVersion() const { return "test-only"; }
+    std::string getDescription() const { return "Test-only SSM state fixture"; }
+    bool initialize() { initialized_ = true; return true; }
+    bool deinitialize() { initialized_ = false; sequence_ = 0; state_.clear(); return true; }
+    bool isAvailable() const { return initialized_; }
+
+    bool loadModel(const std::string&, const json& = {}) override { return false; }
+    void unloadModel() override {}
+    std::optional<ModelInfo> getModelInfo() const override { return std::nullopt; }
+    bool isModelLoaded() const override { return false; }
+    bool loadLoRA(const std::string&, const std::string&, float = 1.0f) override { return false; }
+    bool unloadLoRA(const std::string&) override { return false; }
+    std::vector<LoRAInfo> listLoRAs() const override { return {}; }
+    InferenceResponse generate(const InferenceRequest&) override {
+        InferenceResponse response;
+        response.error_message = "Test-only state fixture does not support inference";
+        return response;
+    }
+    InferenceResponse generateRAG(const RAGContext&, const InferenceRequest&) override {
+        return generate(InferenceRequest{});
+    }
+    std::vector<float> embed(const std::string&) override { return {}; }
+    LLMCapabilities getCapabilities() const override { return {}; }
+    json getMemoryStats() const override { return json::object(); }
+    json getPerformanceStats() const override { return json::object(); }
+    std::vector<uint8_t> exportLoRA(const std::string&) override { return {}; }
+    bool importLoRA(const std::string&, const std::vector<uint8_t>&) override { return false; }
+
+    bool updateState(const std::vector<int32_t>& tokens) override {
+        if (!initialized_) {
+            return false;
+        }
+        for (const int32_t token : tokens) {
+            if (token < 0 || token > 32000) {
+                return false;
+            }
+        }
+        sequence_ += tokens.size();
+        state_.assign(sizeof(sequence_), 0);
+        for (std::size_t i = 0; i < state_.size(); ++i) {
+            state_[i] = static_cast<uint8_t>((sequence_ >> (i * 8)) & 0xff);
+        }
+        return true;
+    }
+
+    SSMStateSnapshot getStateSnapshot(core::HLCTimestamp timestamp) override {
+        SSMStateSnapshot snapshot;
+        snapshot.snapshot_ts = timestamp;
+        snapshot.state_data = state_;
+        snapshot.state_fingerprint = fingerprint_;
+        snapshot.sequence_counter = sequence_;
+        return snapshot;
+    }
+
+    bool restoreState(const SSMStateSnapshot& snapshot) override {
+        if (!initialized_ || snapshot.state_fingerprint != fingerprint_ ||
+            snapshot.state_data.size() != sizeof(sequence_)) {
+            return false;
+        }
+        state_ = snapshot.state_data;
+        sequence_ = snapshot.sequence_counter;
+        return true;
+    }
+
+    void resetState() override {
+        sequence_ = 0;
+        state_.assign(sizeof(sequence_), 0);
+    }
+    double getStateRetentionScore() const override {
+        return initialized_ && sequence_ != 0
+            ? std::exp(-static_cast<double>(sequence_) / 10000.0)
+            : 0.0;
+    }
+    std::string getStateFingerprint() const override { return fingerprint_; }
+
+private:
+    bool initialized_ = false;
+    uint64_t sequence_ = 0;
+    std::vector<uint8_t> state_ = std::vector<uint8_t>(sizeof(sequence_), 0);
+    const std::string fingerprint_ = "ssm-state-test-fixture-v1";
+};
+
+} // namespace
 
 // ============================================================================
 // P1-D01: ISSMPlugin Interface Tests
@@ -27,16 +118,16 @@ using namespace themis::llm;
 class ISSMPluginInterfaceTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        plugin_ = std::make_unique<SyntheticSSMStub>();
+        plugin_ = std::make_unique<SSMStateTestFixture>();
         ASSERT_TRUE(plugin_->initialize());
     }
 
-    std::unique_ptr<SyntheticSSMStub> plugin_;
+    std::unique_ptr<SSMStateTestFixture> plugin_;
 };
 
 TEST_F(ISSMPluginInterfaceTest, PluginMetadata) {
-    EXPECT_EQ(plugin_->getName(), "synthetic-ssm-stub");
-    EXPECT_EQ(plugin_->getVersion(), "0.1.0-alpha");
+    EXPECT_EQ(plugin_->getName(), "ssm-state-test-fixture");
+    EXPECT_EQ(plugin_->getVersion(), "test-only");
     EXPECT_TRUE(plugin_->isAvailable());
 }
 
@@ -190,21 +281,21 @@ TEST_F(SSMStateStoreTest, StoreStats) {
 }
 
 // ============================================================================
-// P1-D03: SyntheticSSMStub Tests
+// P1-D03: Test-local SSM state fixture coverage
 // ============================================================================
 
-class SyntheticSSMStubTest : public ::testing::Test {
+class SSMStateFixtureTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        stub_ = std::make_unique<SyntheticSSMStub>();
+        stub_ = std::make_unique<SSMStateTestFixture>();
         ASSERT_TRUE(stub_->initialize());
     }
 
-    std::unique_ptr<SyntheticSSMStub> stub_;
+    std::unique_ptr<SSMStateTestFixture> stub_;
 };
 
-TEST_F(SyntheticSSMStubTest, DeterministicBehavior) {
-    // Seed=42 should produce deterministic results
+TEST_F(SSMStateFixtureTest, DeterministicBehavior) {
+    // Replaying the same updates should produce the same state metric.
     std::vector<int32_t> tokens = {1, 2, 3, 4, 5};
     stub_->updateState(tokens);
 
@@ -215,11 +306,11 @@ TEST_F(SyntheticSSMStubTest, DeterministicBehavior) {
     stub_->updateState(tokens);
     double retention2 = stub_->getStateRetentionScore();
 
-    // Retention should be deterministic (same seed)
+    // Retention should be deterministic for an identical sequence.
     EXPECT_DOUBLE_EQ(retention1, retention2);
 }
 
-TEST_F(SyntheticSSMStubTest, StateRetentionDecay) {
+TEST_F(SSMStateFixtureTest, StateRetentionDecay) {
     // Retention should decay with token count
     std::vector<int32_t> batch1(100, 1);
     stub_->updateState(batch1);
@@ -231,6 +322,18 @@ TEST_F(SyntheticSSMStubTest, StateRetentionDecay) {
 
     // More tokens → lower retention
     EXPECT_GE(retention_100, retention_8100);
+}
+
+TEST_F(SSMStateFixtureTest, DoesNotPretendToLoadOrGenerateWithAnInferenceModel) {
+    EXPECT_FALSE(stub_->loadModel("unused-model-path"));
+    EXPECT_FALSE(stub_->isModelLoaded());
+
+    InferenceRequest request;
+    request.prompt = "must not be answered by a state fixture";
+    const auto response = stub_->generate(request);
+    EXPECT_FALSE(response.success);
+    EXPECT_TRUE(response.text.empty());
+    EXPECT_NE(response.error_message.find("does not support inference"), std::string::npos);
 }
 
 // ============================================================================
@@ -403,12 +506,12 @@ class Phase1IntegrationTest : public ::testing::Test {
 protected:
     void SetUp() override {
         store_ = std::make_unique<InMemorySSMStateStore>(5);
-        plugin_ = std::make_unique<SyntheticSSMStub>();
+        plugin_ = std::make_unique<SSMStateTestFixture>();
         plugin_->initialize();
     }
 
     std::unique_ptr<InMemorySSMStateStore> store_;
-    std::unique_ptr<SyntheticSSMStub> plugin_;
+    std::unique_ptr<SSMStateTestFixture> plugin_;
 };
 
 TEST_F(Phase1IntegrationTest, EndToEndStateLifecycle) {

@@ -293,6 +293,8 @@ struct RAGContext {
     
     // Context assembly parameters
     // NOTE: set from ModelInfo::context_length — do NOT hardcode.
+    // Backend token-budget setting; managed entry points additionally impose
+    // a conservative byte cap on the actual RAG context. Bytes are not tokens.
     int max_context_tokens = 0;    // 0 → falls back to kDefaultContextWindowTokens
     std::string context_template;  // How to format context
 

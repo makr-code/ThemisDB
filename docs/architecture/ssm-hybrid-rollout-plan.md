@@ -9,6 +9,9 @@
 **Ziel-Branch:** `develop`
 **Voraussetzung:** `ssm-hybrid-analysis.md` gelesen und Gap-Inventar bestätigt
 
+> Historical proposal: the planned `SyntheticSSMStub` has been removed; no SSM
+> inference backend is provided by the current tree.
+
 > **Assumptions-Marker:** Aussagen ohne Repository-Fundament sind mit `[ASSUMPTION]` markiert.
 > **Proposed-Marker:** Neue Dateipfade/Interfaces sind mit `[PROPOSED]` markiert.
 

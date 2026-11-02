@@ -8,9 +8,12 @@
 
 # SSM/Hybrid System Implementation Completion Index
 
-**Last Updated:** 2026-07-22T18:45:00Z  
+**Last Updated:** 2026-11-02
 **Branch:** develop  
-**Status:** ✅ Phase 0 & Phase 1 Complete | ⏳ Phase 2 Pending Human Approval
+**Status:** Historical Phase 0/1 snapshot; see current module roadmap for status
+
+> Historical implementation snapshot. `SyntheticSSMStub` and its benchmark
+> were removed; no SSM inference backend is provided by the current tree.
 
 ---
 
@@ -57,8 +60,7 @@ The SSM/Hybrid/Infini-attention/Agentic Memory integration for ThemisDB is **75%
 |------|------|--------|------|-------|------|
 | SSMStateStore Interface | `include/llm/ssm_state_store.h` | ✅ | 153 L | ✅ 6 tests | P1-GATE-02 ✅ |
 | SSMStateStore In-Memory | `src/llm/ssm_state_store.cpp` | ✅ | 132 L | ✅ 6 tests | P1-GATE-03 ✅ |
-| SyntheticSSM Plugin | `include/llm/ssm_stub_plugin.h` | ✅ | 80 L | ✅ 4 tests | P1-GATE-01 ✅ |
-| SyntheticSSM Plugin | `src/llm/ssm_stub_plugin.cpp` | ✅ | 140 L | ✅ 4 tests | P1-GATE-04 ✅ |
+| SyntheticSSM plugin | removed from production headers/source | Removed | — | State/interface coverage uses a test-local fixture | — |
 | Infini-attention CPU | `include/llm/infini_attention_cpu.h` | ✅ | 136 L | ✅ 5 tests | P1-GATE-04 ✅ |
 | Infini-attention CPU | `src/llm/attention/infini_attention_cpu.cpp` | ✅ | 257 L | ✅ 5 tests | P1-GATE-04 ✅ |
 | Drift Metrics | `include/llm/ssm_drift_metrics.h` | ✅ | 79 L | ✅ 3 tests | P1-GATE-05 ✅ |
@@ -145,11 +147,7 @@ Benchmark 1: CPU Infini-attention correctness
   - Metrics: latency_p99_ms, vram_mb, throughput_tokens_per_sec
   - Status: SIMULATION (synthetic latency model, Phase 2 replaces with CUDA)
 
-Benchmark 2: SSM stub checkpoint/resume cycle
-  - State sizes: 512 KB, 2048 KB
-  - Sessions: 1, 10
-  - Metrics: checkpoint_latency_ms, throughput_checkpoints_per_sec
-  - Status: SIMULATION (synthetic state generation, Phase 2+ replaces with real Mamba)
+Benchmark 2: SSM stub checkpoint/resume cycle — removed; no SSM backend or stub benchmark is present in the current tree.
 
 Benchmark 3: Context quality metrics computation
   - Samples: 100, 1000, 10000
@@ -310,14 +308,12 @@ docs/architecture/
 include/llm/
 ├── i_ssm_plugin.h — abstract interface
 ├── ssm_state_store.h (153 L) — state persistence interface
-├── ssm_stub_plugin.h (80 L) — synthetic test implementation
 ├── infini_attention_cpu.h (136 L) — CPU fallback kernel
 ├── ssm_drift_metrics.h (79 L) — observability
 └── context_quality_metrics.h (91 L) — Agentic Memory layer metrics
 
 src/llm/
 ├── ssm_state_store.cpp (132 L)
-├── ssm_stub_plugin.cpp (140 L)
 ├── ssm_drift_metrics.cpp (118 L)
 └── attention/infini_attention_cpu.cpp (257 L)
 ```

@@ -9,8 +9,10 @@
  */
 
 #include "llm/openai_compat_adapter.h"
+#include "llm/inference_input_limits.h"
 #include <nlohmann/json.hpp>
 #include <chrono>
+#include <cmath>
 #include <random>
 #include <sstream>
 #include <iomanip>
@@ -75,7 +77,10 @@ OpenAICompatAdapter::parseRequest(const json& body) {
     InferenceRequest req;
 
     // ── model ──────────────────────────────────────────────────────────────
-    if (body.contains("model") && body["model"].is_string()) {
+    if (body.contains("model")) {
+        if (!body["model"].is_string() || body["model"].get<std::string>().empty()) {
+            return std::string{"model must be a non-empty string when supplied"};
+        }
         req.model_id = body["model"].get<std::string>();
     }
 
@@ -100,32 +105,45 @@ OpenAICompatAdapter::parseRequest(const json& body) {
     // ── temperature ────────────────────────────────────────────────────────
     if (body.contains("temperature")) {
         const auto& t = body["temperature"];
-        if (t.is_number()) {
-            req.temperature = static_cast<float>(t.get<double>());
+        if (!t.is_number()) {
+            return std::string{"temperature must be numeric"};
         }
+        req.temperature = static_cast<float>(t.get<double>());
     }
 
     // ── max_tokens ─────────────────────────────────────────────────────────
     if (body.contains("max_tokens")) {
         const auto& m = body["max_tokens"];
-        if (m.is_number_integer()) {
-            req.max_tokens = m.get<int>();
+        if (!m.is_number_integer() || m < 1 || m > kMaxInferenceTokens) {
+            return std::string{"max_tokens must be between 1 and 4096"};
         }
+        req.max_tokens = m.get<int>();
     }
     // OpenAI spec also accepts max_completion_tokens (o1-series alias)
     if (body.contains("max_completion_tokens")) {
         const auto& m = body["max_completion_tokens"];
-        if (m.is_number_integer()) {
-            req.max_tokens = m.get<int>();
+        if (!m.is_number_integer() || m < 1 || m > kMaxInferenceTokens) {
+            return std::string{"max_completion_tokens must be between 1 and 4096"};
         }
+        req.max_tokens = m.get<int>();
+    }
+    if (!std::isfinite(req.temperature) || req.temperature < 0.0f || req.temperature > 2.0f) {
+        return std::string{"temperature must be between 0 and 2"};
     }
 
     // ── top_p ──────────────────────────────────────────────────────────────
     if (body.contains("top_p")) {
         const auto& v = body["top_p"];
-        if (v.is_number()) {
-            req.top_p = static_cast<float>(v.get<double>());
+        if (!v.is_number()) {
+            return std::string{"top_p must be numeric"};
         }
+        req.top_p = static_cast<float>(v.get<double>());
+    }
+    if (!std::isfinite(req.top_p) || req.top_p < 0.0f || req.top_p > 1.0f) {
+        return std::string{"top_p must be between 0 and 1"};
+    }
+    if (!detail::promptWithinByteLimit(req)) {
+        return std::string{"combined prompt and system_prompt exceed the 1 MiB byte limit"};
     }
 
     // ── stop ───────────────────────────────────────────────────────────────
@@ -463,4 +481,3 @@ std::string OpenAICompatAdapter::extractPrompts(
 
 } // namespace llm
 } // namespace themis
-
