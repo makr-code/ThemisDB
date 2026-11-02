@@ -362,22 +362,90 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
   - [x] 2026-11-01: 39 RAG-Quellen verwenden nur noch ihr kanonisches fokussiertes Testtarget; für alle
     verglichenen Paare waren die kompilierten Quelldateien identisch. `AutoFocusedTests`-Namen und
     `rag`-/`autogen`-Labels bleiben erhalten; beide Adaptive-Retrieval-CTest-Einträge bestehen.
-  - [x] 2026-11-01: 66 LLM-Quellen verwenden für den zusätzlichen `AutoFocusedTests`-Namen ihr kanonisches
-    fokussiertes Target; die Namen und `llm`-/`autogen`-Labels bleiben erhalten. Im modularen Profil nutzt
-    der Alias das fokussierte Binary mit den LlamaCpp-Providerquellen. Drei LLM-Paare mit abweichenden
-    implementierungsspezifischen Quellmengen bleiben bis zur Einzelprüfung getrennt. Das fokussierte
-    API-Contract-Hardening-Target und beide zugehörigen CTest-Namen bestehen.
-  - [x] 2026-11-01: Nach der Neu-Konfiguration sank die Zahl mehrfach fokussiert kompilierter `test_*.cpp`-
-    Quellen im Windows-Debug-Profil von 71 auf 5. Der aktuelle Bestand umfasst 4.235 Testquellen, davon
-    2.823 kompiliert, 1.412 außerhalb des Profils und 0 Quellen ohne auflösbares Target.
-  - Offen: Baseline bereinigen und begründete Ausschlussliste erstellen. Das lokale Windows-Debug-Profil findet
-    weiterhin 1.412 Quellen außerhalb dieses Profils; Mehrfachregistrierungen müssen einzeln geprüft werden,
-    bevor ein globales Inventar-Gate fail-closed geschaltet wird. Die fünf verbleibenden Quellen sind drei
-    LLM-Tests mit abweichenden Providerquellen, `test_tensor_shard_summary.cpp` mit zwei unterschiedlichen
-    Implementierungssätzen sowie `test_gtest_main.cpp`, das als gemeinsamer Test-Runner in mehreren Targets
-    kompiliert wird.
-    Diese Profil-abhängigen Bestandslücken
-    und historische Guards (teils mit fehlenden Quellen) sind ebenfalls noch einzeln zu bewerten.
+  - [x] 2026-11-01: 66 LLM-Quellen und die drei zuvor getrennten LLM-Providerfälle verwenden für den
+    zusätzlichen `AutoFocusedTests`-Namen ihr kanonisches fokussiertes Target; Testnamen und Modul-Labels
+    bleiben erhalten. Die drei Provider-Sets waren zusätzliche Build-Abhängigkeiten, nicht unterschiedliche
+    Testquellen oder Testfälle.
+  - [x] 2026-11-01: Der Tensor-Shard-Summary-Autofocused-Name verwendet das vorhandene Phase-C-Testtarget;
+    beide CTest-Namen bleiben bestehen. Der dateibasierte `if(EXISTS ...)`-Guard für die Testquelle wurde
+    entfernt, sodass eine fehlende Datei die CMake-Konfiguration fehlschlagen lässt. Der gezielte Windows-
+    Debug-Build aller vier kanonischen Targets und alle fünf betroffenen CTest-Namen bestehen.
+  - [x] 2026-11-01: Das modulare Windows-Debug-Profil inventarisiert 4.228 Testquellen: 2.817 kompiliert,
+    1.411 außerhalb des Profils, 0 ohne auflösbares Target. Die einzige Mehrfachregistrierung ist der
+    gemeinsame Runner `test_gtest_main.cpp`, der absichtlich in separaten Test-Executables kompiliert wird.
+  - [x] 2026-11-01: Der Profilvergleich bestätigt 2.908 kompilierte Quellen im nicht-modularen
+    Windows-Debug-Profil, 1.320 außerhalb des Profils und 0 ohne auflösbares Target. Es ergänzt 91 Quellen
+    gegenüber dem modularen Profil; die modulare Abdeckung ist enthalten.
+  - [x] 2026-11-01: Die adaptiven Quellen `test_adaptive_flush_controller.cpp` und
+    `test_adaptive_shard_router.cpp` verwenden im nicht-modularen Profil jeweils nur ihr kanonisches Modul-
+    Target. Bestehende CTest-Aliase, Domain-Filter und GTest-Einzeltest-Discovery bleiben erhalten;
+    das Inventar sinkt von 394 auf 392 Mehrfachregistrierungen.
+  - [x] 2026-11-01: 22 GPU-Quellen verwenden im nicht-modularen Profil nur noch ihr kanonisches Modul-
+    Target. Die bestehenden GTest-Einzeltest-Discovery-Einträge werden dort am Target im Modulverzeichnis
+    erzeugt; das Inventar sinkt von 392 auf 370 Mehrfachregistrierungen.
+  - [x] 2026-11-01: 13 Exporter-Testquellen verwenden im nicht-modularen Profil nur noch ihr kanonisches
+    Modul-Target. Die bisherigen Root-Targets kompilieren dieselben 16 Exporter-Dateien und `logger.cpp` redundant,
+    obwohl sie bereits von `themis_core` gebaut werden; alte CTest-Namen, Labels und Build-Target-Namen
+    bleiben als Aliase erhalten. Das Inventar sinkt von 370 auf 357 Mehrfachregistrierungen.
+  - [x] 2026-11-01: `tests/gpu/test_gpu_graph_traversal.cpp` verwendet das kanonische GPU-Modulziel;
+    die vier zusätzlich vom Root-Target kompilierten Graph-Produktionsdateien liegen bereits in `themis_core`.
+    `GPUGraphTraversalTests` und `test_gpu_graph_traversal` bleiben als CTest- bzw. Build-Aliase erhalten.
+    Der CPU-Fallback-Test wird auch bei `THEMIS_ENABLE_GPU=OFF` registriert; beide GPU-Profile konfigurieren,
+    der Off-Modus wurde im vorhandenen nicht-modularen Build-Tree verifiziert. Das Inventar sinkt auf 356.
+  - [x] 2026-11-01: `tests/graph/test_gpu_traversal.cpp` wird nur noch durch das kanonische Graph-Modul-Target
+    kompiliert. GTest-Einzelfallnamen und das bisherige Build-Target `test_gpu_traversal_focused` bleiben erhalten;
+    das Inventar sinkt von 356 auf 355 Mehrfachregistrierungen.
+  - [x] 2026-11-01: `tests/analytics/test_process_discovery_conformance.cpp` wird nur noch durch das kanonische
+    Analytics-Modul-Target kompiliert. Der bisherige CTest-Name samt Labels und Timeout sowie das Build-Target
+    `test_process_discovery_conformance_focused` bleiben als Aliase erhalten; das Inventar sinkt von 355 auf 354.
+  - [x] 2026-11-01: `tests/advanced/test_advanced_cache_manager.cpp` wird nur noch durch das kanonische Advanced-
+    Modul-Target kompiliert. Der aggregierte CTest-Name samt Labels/Timeout, die bisherigen Einzeltestnamen und beide
+    Build-Targets (`test_advanced_cache_manager`, `test_advanced_cache_manager_focused`) bleiben erhalten;
+    `src/performance/advanced_cache_manager.cpp` stammt bereits aus `themis_core`. Das Inventar sinkt von 354 auf 353.
+  - [x] 2026-11-01: `tests/analytics/test_process_mining_llm.cpp` wird nur noch durch das kanonische Analytics-Modul-
+    Target kompiliert. `ProcessMiningPatternFocusedTests`, seine Labels/Timeout und das bisherige Build-Target
+    `test_process_mining_pattern_focused` bleiben als Aliase erhalten; die Quelldatei gehört laut CMake-Vertrag zum
+    Process-Mining-Pattern-Test und benötigt keine LLM-spezifischen Abhängigkeiten. Das Inventar sinkt von 353 auf 352.
+  - [x] 2026-11-01: `tests/analytics/test_anomaly_detection.cpp` und `test_cep_engine.cpp` verwenden jeweils nur noch
+    ihr kanonisches Analytics-Modul-Target. Die bisherigen Root-Build-Targets und CTest-Namen samt Labels/Timeouts
+    bleiben als Aliase erhalten; beide Quellpaare einschließlich ihrer Produktionsdatei waren identisch. Das
+    Inventar sinkt von 352 auf 350 Mehrfachregistrierungen.
+  - [x] 2026-11-01: `tests/analytics/test_columnar_execution.cpp` wird nur noch durch das kanonische Analytics-
+    Modul-Target kompiliert. Im nicht-modularen Profil bleiben `ColumnarExecutionFocusedTests` samt bisherigen
+    Labels/Timeout sowie `test_columnar_execution_focused` als Aliase erhalten; beide Targets hatten dieselbe Test-
+    und Produktionsquelle. Das Inventar sinkt von 350 auf 349 Mehrfachregistrierungen.
+  - [x] 2026-11-01: Die Analytics-Quellen für Expert-System-Engine, Forecasting, LLM-Process-Analyzer,
+    Streaming-Join und Streaming-Window verwenden nur noch ihr jeweiliges Modul-Target. Die bisherigen Root-
+    CTest-Namen samt Labels/Timeouts und Build-Target-Namen bleiben im nicht-modularen Profil erhalten; für alle
+    fünf Paare waren Test- und Produktionsquellen identisch. Das Inventar sinkt von 349 auf 344 Mehrfachregistrierungen.
+  - [x] 2026-11-01: `tests/api/test_api_interfaces.cpp` und `test_api_key_authenticator.cpp` verwenden je ein
+    kanonisches API-Modul-Target. Root-CTest-Namen samt Labels/Timeouts sowie Build-Target-Namen bleiben als Aliase
+    erhalten; die Quellmengen waren identisch. Die OpenSSL-Linkabhängigkeiten des API-Key-Tests bleiben explizit am
+    Modul-Target. Das nicht-modulare Inventar sinkt von 344 auf 342 Mehrfachregistrierungen.
+  - [x] 2026-11-01: `tests/base/test_base_entity_focused.cpp` und
+    `test_base_reload_regression.cpp` verwenden je ein kanonisches Base-Modul-Target. Die bisherigen Root-Build-
+    Targets sowie CTest-Namen, Labels und Timeouts bleiben als Aliase erhalten; beide Quellmengen waren identisch.
+    Das nicht-modulare Inventar sinkt von 342 auf 340 Mehrfachregistrierungen.
+  - [x] 2026-11-01: 25 Ingestion-Testquellen unter `tests/ingestion/` verwenden nur noch ihr kanonisches Modul-
+    Target. Root-Build-Target-Namen, CTest-Namen, Labels und Timeouts bleiben erhalten; Quellen außerhalb des
+    Ingestion-Moduls behalten ihre bisherigen eigenständigen Targets. Das Builtin-Steps-Target behält seine
+    explizite `CXX_STANDARD 17`-Einstellung und nlohmann-json-Abhängigkeit. Das nicht-modulare Inventar sinkt
+    von 340 auf 315 Mehrfachregistrierungen.
+  - Offen: Das nicht-modulare Profil enthält weiterhin 315 Quellen mit mehreren Nicht-Aggregat-Testtargets.
+    Diese Mehrfachregistrierungen müssen einzeln auf doppelte Builds oder unterschiedliche Link-/Testverträge
+    geprüft werden; nur `themis_tests` und `themis_tests_critical` gelten im Gate als Sammelziele.
+  - Der gezielte Build der Ingestion-Targets, BaseEntity-/Base-Reload-Aliase und des GPU-Graph-Traversal-Targets
+    ist nicht bestätigt: MSVC stoppt vor Erreichen der Testtargets beim Kompilieren von
+    `src/prompt_engineering/rewrite_engine.cpp`, `rewrite_rule_base.cpp` und `rewrite_rule_loader.cpp` mit
+    C2059-Syntaxfehlern. Diese Fehler liegen außerhalb der Testregistrierungsänderung; Compilation-Database und
+    CTest-Registrierung allein belegen keinen erfolgreichen Build oder Testlauf.
+  - Offen: Baseline bereinigen und begründete Ausschlussliste erstellen. Die 1.320 Quellen außerhalb beider
+    Profile bestehen aus 1.016 Dateien unter `tests/legacy/`, 228 Root-Testdateien und 76 Quellen in sonstigen
+    Testverzeichnissen. Keine dieser Gruppen gilt pauschal als freigegebener Ausschluss; Profil-Ausnahmen und
+    historische Guards (teils mit fehlenden Quellen) sind einzeln zu bewerten.
+  - Dokumentationslücke: Die Developer-LLM-Wiki enthält keinen kuratierten TST-03-/Testregistrierungs-Kontext.
+    Bis zur Aufnahme über den Wiki-Sync bleiben `tools/ci/check_test_registration.py` und dieser Audit die
+    maßgeblichen Implementierungs- und Evidenzquellen.
 - [ ] **P0 · OPS-07 – Fuzz-Smoke auf PRs** (Target: M1 · 2027-01-31) – 5 min je Parser-Fuzzer (AQL, HTTP, Wire-Protokoll, Importer)
   bei Änderungen in den jeweiligen Pfaden; Korpus-Pflege in `security-fuzzing.yml`.
 - [ ] **P1 · TST-01 – Skip-/Assert-Budget** (Target: M1 · 2027-03-31) – Skip-Budget je Modul (Ziel: −50 % der 2.965

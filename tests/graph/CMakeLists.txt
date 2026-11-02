@@ -49,6 +49,14 @@ foreach(_src IN LISTS GRAPH_MODULE_TEST_SOURCES)
         TIER unit
         TIMEOUT 120
     )
+
+    if(_stem STREQUAL "test_gpu_traversal")
+        gtest_discover_tests(${_target}
+            DISCOVERY_MODE POST_BUILD
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
 endforeach()
 
 # AUTOGEN PREFIX BLOCK: graph
