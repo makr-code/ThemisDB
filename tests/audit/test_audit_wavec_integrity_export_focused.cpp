@@ -241,13 +241,11 @@ TEST_F(AuditWaveCProductionTest, ErrorContextRedactsFilesystemPaths) {
     const auto original_stderr = std::cerr.rdbuf();
     std::ostringstream error_output;
     std::cerr.rdbuf(error_output.rdbuf());
-    logger.logErrorContext(ErrorContext(
-        ErrorCode::AUDIT_PERSISTENCE_FAILED,
-        "audit write failed",
-        "AuditWaveCProductionTest"));
+    logger.logEvent(makeEvent("AUDIT_TEST", "tester", "resource", "read"));
     std::cerr.rdbuf(original_stderr);
 
-    EXPECT_NE(error_output.str().find("AUDIT_ERROR_CONTEXT_FAILED"), std::string::npos);
+    EXPECT_NE(error_output.str().find("Unexpected error in logEvent while persisting audit data"),
+              std::string::npos);
     EXPECT_EQ(error_output.str().find(blocking_file.string()), std::string::npos);
 }
 
