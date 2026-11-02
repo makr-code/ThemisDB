@@ -69,10 +69,15 @@ Related milestone: DOC-WEEKLY-2026-W45
   `HotSpareManager` state of `ACTIVE`. Missing or failed activation leaves the
   orchestrator in `DEGRADED`, increments `degraded_failovers`, and emits the
   `FAILOVER_DEGRADED` callback event.
-- This does not bind the issuer string to a cryptographic signature or
-  authenticated principal. Shared durable metadata for DR and genuine
-  multi-process failover/recovery E2E evidence remain open blockers; shard
-  transaction fencing does not close either gap.
+- Remote gRPC PREPARE now requires the claimed coordinator ID to equal the
+  authenticated X.509 peer identity before the participant checks the fencing
+  token issuer. This binds remote PREPARE requests to the mTLS principal; it does
+  not add a standalone token signature, and direct in-process participant calls
+  remain inside the trusted process boundary. The mTLS binding integration test
+  has not yet been executed.
+- Shared durable metadata for DR and genuine multi-process failover/recovery E2E
+  evidence remain open blockers; shard transaction fencing does not close either
+  gap.
 - A dry run skips built-in prechecks and operational steps. The
   `allow_dry_run_without_managers` configuration field does not change this
   behavior in the current implementation. Step hooks replace the built-in handler

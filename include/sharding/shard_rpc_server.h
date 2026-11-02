@@ -70,6 +70,9 @@ public:
          * @param coordinator_shard_id ID of the coordinator shard
          * @param transaction_data Serialized transaction data
          * @return true to vote commit, false to vote abort
+         * @note For gRPC requests, the server invokes this only after the authenticated
+         *       X.509 peer identity exactly matches @p coordinator_shard_id; requests
+         *       without a verified X.509 identity or with a mismatch are rejected.
          */
         virtual bool onPrepare(
             const std::string& transaction_id,

@@ -272,6 +272,17 @@ TEST_F(TwoPhaseCommitParticipantTest, DuplicatePrepareIsIdempotent) {
     EXPECT_EQ(participant_->getTransactionState(txn), ParticipantTxnState::PREPARED);
 }
 
+TEST_F(TwoPhaseCommitParticipantTest, DuplicatePrepareRejectsMismatchedTokenIssuer) {
+    const std::string txn = "txn-duplicate-issuer";
+    const nlohmann::json ops = nlohmann::json::array();
+
+    ASSERT_TRUE(participant_->onPrepare(txn, "coord", makePayload(ops)));
+
+    auto mismatched_payload = nlohmann::json::parse(makePayload(ops, false, "spoofed-coordinator"));
+    EXPECT_FALSE(participant_->onPrepare(txn, "coord", mismatched_payload.dump()));
+    EXPECT_EQ(participant_->getTransactionState(txn), ParticipantTxnState::PREPARED);
+}
+
 TEST_F(TwoPhaseCommitParticipantTest, DuplicateCommitIsIdempotent) {
     const std::string txn = "txn-005";
     nlohmann::json ops    = nlohmann::json::array();

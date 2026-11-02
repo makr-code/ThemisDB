@@ -70,9 +70,12 @@ M2 readiness.
 - DR metadata is local-file persistence, not shared multi-process storage;
   concurrent multi-process writer safety and crash/power-loss durability are
   not established.
-- The issuer is an identity string, without cryptographic signature or
-  authenticated-principal binding. Shared durable metadata for DR and genuine
-  multi-process failover/recovery E2E evidence remain open release blockers.
+- Remote gRPC PREPARE binds the coordinator ID to the authenticated X.509 peer
+  identity before checking the fencing-token issuer; standalone token signatures
+  are not implemented, and direct in-process calls remain within the trusted
+  process boundary. The binding test is source-level coverage until executed.
+- Shared durable metadata for DR and genuine multi-process failover/recovery E2E
+  evidence remain open release blockers.
 - Current failover runtime does not export named Prometheus metrics or trace spans.
 - Existing benchmark source includes mock/simulated workloads and declares
   thresholds; source presence does not establish measured latency.

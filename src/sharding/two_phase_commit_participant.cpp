@@ -98,6 +98,9 @@ bool TwoPhaseCommitParticipant::onPrepare(
     std::unique_lock<std::mutex> lock(mutex_);
     auto it = transactions_.find(transaction_id);
     if (it != transactions_.end()) {
+        if (!payload_valid || token.issuer != coordinator_shard_id) {
+            return false;
+        }
         THEMIS_DEBUG("2PC participant [{}] duplicate PREPARE for {} – returning stored vote {}",
                      shard_id_, transaction_id, it->second.vote_committed);
         return it->second.vote_committed;
@@ -114,6 +117,9 @@ bool TwoPhaseCommitParticipant::onPrepare(
 
     it = transactions_.find(transaction_id);
     if (it != transactions_.end()) {
+        if (!payload_valid || token.issuer != coordinator_shard_id) {
+            return false;
+        }
         return it->second.vote_committed;
     }
 

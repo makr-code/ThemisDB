@@ -16,6 +16,7 @@
 #include "core/production_mode.h"
 #include "utils/logger.h"
 #include "utils/file_utils.h"
+#include <optional>
 #include <stdexcept>
 
 #ifdef THEMIS_ENABLE_GRPC
@@ -35,6 +36,34 @@ namespace themis::sharding {
 
 
 #if THEMIS_HAS_SHARD_GRPC
+
+namespace {
+
+std::optional<std::string> getAuthenticatedPeerIdentity(grpc::ServerContext* context) {
+    if (!context) {
+        return std::nullopt;
+    }
+
+    const auto auth_context = context->auth_context();
+    if (!auth_context || !auth_context->IsPeerAuthenticated()) {
+        return std::nullopt;
+    }
+
+    const auto identity_property = auth_context->GetPeerIdentityPropertyName();
+    if (identity_property.rfind("x509_", 0) != 0) {
+        return std::nullopt;
+    }
+
+    const auto peer_identities = auth_context->GetPeerIdentity();
+    if (peer_identities.size() != 1 || peer_identities.front().empty()) {
+        return std::nullopt;
+    }
+
+    const auto& identity = peer_identities.front();
+    return std::string(identity.data(), identity.size());
+}
+
+} // namespace
 
 class ShardServiceImpl final : public themis::sharding::proto::ShardService::Service {
 public:
@@ -62,6 +91,23 @@ public:
     ) override {
         if (!handler_) {
             return grpc::Status(grpc::StatusCode::FAILED_PRECONDITION, "No request handler configured");
+        }
+
+        const auto peer_identity = getAuthenticatedPeerIdentity(context);
+        if (!peer_identity) {
+            return grpc::Status(
+                grpc::StatusCode::UNAUTHENTICATED,
+                "PREPARE requires an authenticated X.509 shard identity");
+        }
+        if (*peer_identity != request->coordinator_shard_id()) {
+            THEMIS_WARN(
+                "gRPC PrepareTransaction rejected coordinator identity mismatch: "
+                "peer={}, claimed={}",
+                *peer_identity,
+                request->coordinator_shard_id());
+            return grpc::Status(
+                grpc::StatusCode::PERMISSION_DENIED,
+                "coordinator identity does not match authenticated peer");
         }
         
         THEMIS_DEBUG("gRPC PrepareTransaction: txn_id={}", request->transaction_id());

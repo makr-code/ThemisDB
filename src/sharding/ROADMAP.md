@@ -63,10 +63,13 @@ Related_Milestone: DOC-WEEKLY-2026-W45
 > unavailable; installing it with apt was denied. This is not M2 readiness
 > evidence or a readiness sign-off.
 >
-> Remaining blockers include cryptographic signature/authenticated-principal
-> binding for the issuer string, shared durable metadata for DR, and genuine
-> multi-process failover/recovery E2E evidence. Do not treat shard write fencing
-> as completion of those items or of M2 readiness.
+> Remote gRPC PREPARE now binds the coordinator ID to the authenticated X.509
+> peer identity before participant fencing checks; standalone token signatures
+> are not implemented, and direct in-process calls remain within the trusted
+> process boundary. The mTLS binding integration test is source-level coverage
+> until executed. Shared durable metadata for DR and genuine multi-process
+> failover/recovery E2E evidence remain blockers; do not treat shard write
+> fencing as completion of those items or of M2 readiness.
 
 > The root aggregate [`../../ROADMAP.md`](../../ROADMAP.md) currently reports Wave A at
 > approximately 70%, with sharding materially advanced but transaction/GPU blockers and other
