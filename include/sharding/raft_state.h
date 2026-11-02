@@ -60,6 +60,7 @@ enum class RaftNodeState {
 struct RaftConfig {
     std::string node_id;                        ///< Local node identifier.
     std::vector<std::string> cluster_members;   ///< Current cluster member IDs.
+    std::string persistence_path;                ///< Journal file path; empty selects volatile/test mode.
     uint32_t election_timeout_min_ms = 150;     ///< Lower bound for randomized election timeout.
     uint32_t election_timeout_max_ms = 300;     ///< Upper bound for randomized election timeout.
     uint32_t heartbeat_interval_ms = 50;        ///< Leader heartbeat interval.
@@ -289,7 +290,7 @@ private:
     // Configuration
     RaftConfig config_;
 
-    // Persistent state (would be persisted to disk in production)
+    // Persistent state is recovered from the configured Raft journal.
     std::atomic<uint64_t> current_term_{0};     ///< Latest term observed by this node.
     std::string voted_for_;                     ///< Candidate ID voted for in current term.
     RaftLog log_;                               ///< Durable replicated log abstraction.

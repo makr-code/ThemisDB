@@ -73,6 +73,17 @@ Related_Milestone: DOC-WEEKLY-2026-W45
 > metadata for DR and genuine multi-process failover/recovery E2E evidence remain
 > blockers; do not treat shard write fencing as completion of those items or of
 > M2 readiness.
+>
+> **Optional Raft journal (2026-11-02):** a configured per-node journal now
+> records log entries, commit/truncate/snapshot boundaries, and term/vote hard
+> state with checksummed records, sync-before-ack writes, restart replay, and an
+> exclusive process lock. `ConsensusConfig` wires its persistence directory to
+> this local journal; disabled persistence remains volatile. This source change
+> has not passed a build or focused test because CMake configuration is blocked
+> by the unavailable required `fmt` dependency. Snapshot payload persistence is
+> still a separate path and its power-loss durability is not established. A
+> local journal is not replicated consensus-backed DR metadata and does not
+> close the multi-process failover/recovery E2E blocker.
 
 > The root aggregate [`../../ROADMAP.md`](../../ROADMAP.md) currently reports Wave A at
 > approximately 70%, with sharding materially advanced but transaction/GPU blockers and other

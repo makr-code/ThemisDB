@@ -16,6 +16,8 @@
 #include <stdexcept>
 #include "utils/zstd_codec.h"
 #include <algorithm>
+#include <array>
+#include <charconv>
 #include <chrono>
 #include <filesystem>
 #include <fstream>
@@ -24,7 +26,19 @@
 #include <openssl/sha.h>
 #include <spdlog/spdlog.h>
 #include <sstream>
+#include <string_view>
 #include <cstdlib>
+#include <limits>
+#include <system_error>
+#ifdef _WIN32
+#  include <windows.h>
+#else
+#  include <cerrno>
+#  include <fcntl.h>
+#  include <sys/file.h>
+#  include <sys/stat.h>
+#  include <unistd.h>
+#endif
 
 namespace themisdb {
 namespace sharding {
@@ -38,6 +52,198 @@ namespace sharding {
 // ============================================================================
 
 namespace {
+    std::string raftJournalChecksum(std::string_view payload) {
+        std::array<unsigned char, SHA256_DIGEST_LENGTH> hash{};
+        SHA256(reinterpret_cast<const unsigned char*>(payload.data()), payload.size(), hash.data());
+        std::ostringstream result;
+        result << std::hex << std::setfill('0');
+        for (const auto byte : hash) {
+            result << std::setw(2) << static_cast<unsigned int>(byte);
+        }
+        return result.str();
+    }
+
+    std::string encodeJournalField(std::string_view value) {
+        std::ostringstream encoded;
+        encoded << std::hex << std::setfill('0');
+        for (const unsigned char byte : value) {
+            encoded << std::setw(2) << static_cast<unsigned int>(byte);
+        }
+        return encoded.str();
+    }
+
+    std::string decodeJournalField(std::string_view value) {
+        if (value.size() % 2 != 0) {
+            throw std::runtime_error("Raft journal contains malformed hex data");
+        }
+        std::string decoded;
+        decoded.reserve(value.size() / 2);
+        for (std::size_t offset = 0; offset < value.size(); offset += 2) {
+            unsigned int byte = 0;
+            std::istringstream parser(std::string(value.substr(offset, 2)));
+            parser >> std::hex >> byte;
+            if (!parser || !parser.eof() || byte > 0xff) {
+                throw std::runtime_error("Raft journal contains malformed hex data");
+            }
+            decoded.push_back(static_cast<char>(byte));
+        }
+        return decoded;
+    }
+
+    std::vector<std::string_view> splitJournalFields(std::string_view record) {
+        std::vector<std::string_view> fields;
+        std::size_t begin = 0;
+        while (true) {
+            const auto delimiter = record.find('|', begin);
+            fields.emplace_back(record.substr(
+                begin, delimiter == std::string_view::npos ? delimiter : delimiter - begin));
+            if (delimiter == std::string_view::npos) {
+                break;
+            }
+            begin = delimiter + 1;
+        }
+        return fields;
+    }
+
+    uint64_t parseJournalInteger(std::string_view field) {
+        uint64_t value = 0;
+        const auto [end, error] = std::from_chars(field.data(), field.data() + field.size(), value);
+        if (error != std::errc{} || end != field.data() + field.size()) {
+            throw std::runtime_error("Raft journal contains an invalid integer");
+        }
+        return value;
+    }
+
+    bool appendAndSyncFile(const std::filesystem::path& path,
+                           std::string_view record,
+                           std::string& error) {
+        std::error_code filesystem_error;
+        if (!path.parent_path().empty()) {
+            std::filesystem::create_directories(path.parent_path(), filesystem_error);
+            if (filesystem_error) {
+                error = "cannot create Raft journal directory: " + filesystem_error.message();
+                return false;
+            }
+        }
+#ifdef _WIN32
+        HANDLE file = CreateFileW(path.c_str(), GENERIC_WRITE, FILE_SHARE_READ, nullptr,
+                                  OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+        if (file == INVALID_HANDLE_VALUE) {
+            error = "cannot open Raft journal: " +
+                    std::error_code(static_cast<int>(GetLastError()),
+                                    std::system_category()).message();
+            return false;
+        }
+        LARGE_INTEGER end{};
+        if (!SetFilePointerEx(file, end, nullptr, FILE_END)) {
+            error = "cannot seek Raft journal: " +
+                    std::error_code(static_cast<int>(GetLastError()),
+                                    std::system_category()).message();
+            CloseHandle(file);
+            return false;
+        }
+        std::size_t offset = 0;
+        while (offset < record.size()) {
+            const auto chunk = static_cast<DWORD>(
+                std::min<std::size_t>(record.size() - offset, MAXDWORD));
+            DWORD written = 0;
+            if (!WriteFile(file, record.data() + offset, chunk, &written, nullptr) ||
+                written == 0) {
+                error = "failed writing Raft journal: " +
+                        std::error_code(static_cast<int>(GetLastError()),
+                                        std::system_category()).message();
+                CloseHandle(file);
+                return false;
+            }
+            offset += written;
+        }
+        if (!FlushFileBuffers(file)) {
+            error = "failed flushing Raft journal: " +
+                    std::error_code(static_cast<int>(GetLastError()),
+                                    std::system_category()).message();
+            CloseHandle(file);
+            return false;
+        }
+        if (!CloseHandle(file)) {
+            error = "failed closing Raft journal: " +
+                    std::error_code(static_cast<int>(GetLastError()),
+                                    std::system_category()).message();
+            return false;
+        }
+#else
+        int flags = O_WRONLY | O_APPEND | O_CREAT;
+#ifdef O_CLOEXEC
+        flags |= O_CLOEXEC;
+#endif
+#ifdef O_NOFOLLOW
+        flags |= O_NOFOLLOW;
+#endif
+        const int file = ::open(path.c_str(), flags, 0600);
+        if (file < 0) {
+            error = "cannot open Raft journal: " +
+                    std::error_code(errno, std::generic_category()).message();
+            return false;
+        }
+        struct stat status {};
+        if (::fstat(file, &status) != 0 || !S_ISREG(status.st_mode)) {
+            error = "Raft journal path is not a regular file";
+            ::close(file);
+            return false;
+        }
+        std::size_t offset = 0;
+        while (offset < record.size()) {
+            const auto written = ::write(file, record.data() + offset, record.size() - offset);
+            if (written < 0) {
+                if (errno == EINTR) {
+                    continue;
+                }
+                error = "failed writing Raft journal: " +
+                        std::error_code(errno, std::generic_category()).message();
+                ::close(file);
+                return false;
+            }
+            if (written == 0) {
+                error = "failed writing Raft journal: write returned zero bytes";
+                ::close(file);
+                return false;
+            }
+            offset += static_cast<std::size_t>(written);
+        }
+        if (::fsync(file) != 0) {
+            error = "failed syncing Raft journal: " +
+                    std::error_code(errno, std::generic_category()).message();
+            ::close(file);
+            return false;
+        }
+        if (::close(file) != 0) {
+            error = "failed closing Raft journal: " +
+                    std::error_code(errno, std::generic_category()).message();
+            return false;
+        }
+        if (!path.parent_path().empty()) {
+            const int directory = ::open(path.parent_path().c_str(), O_RDONLY
+#ifdef O_DIRECTORY
+                                         | O_DIRECTORY
+#endif
+            );
+            if (directory < 0) {
+                error = "cannot open Raft journal directory for sync: " +
+                        std::error_code(errno, std::generic_category()).message();
+                return false;
+            }
+            const bool synced = ::fsync(directory) == 0;
+            const int sync_error = errno;
+            ::close(directory);
+            if (!synced) {
+                error = "failed syncing Raft journal directory: " +
+                        std::error_code(sync_error, std::generic_category()).message();
+                return false;
+            }
+        }
+#endif
+        return true;
+    }
+
     /**
      * @brief Get Consensus Timeout.
      * @return Return value.
@@ -59,7 +265,208 @@ namespace {
     }
 }
 
-RaftLog::RaftLog() : commit_index_(0) {}
+RaftLog::RaftLog(const std::string& persistence_path)
+    : commit_index_(0), persistence_path_(persistence_path) {
+    if (!persistence_path_.empty()) {
+        try {
+            acquirePersistenceLock();
+            replayJournal();
+        } catch (...) {
+            releasePersistenceLock();
+            throw;
+        }
+    }
+}
+
+RaftLog::~RaftLog() {
+    releasePersistenceLock();
+}
+
+void RaftLog::acquirePersistenceLock() {
+    const std::filesystem::path journal_path(persistence_path_);
+    std::error_code filesystem_error;
+    if (!journal_path.parent_path().empty()) {
+        std::filesystem::create_directories(journal_path.parent_path(), filesystem_error);
+        if (filesystem_error) {
+            throw std::runtime_error("cannot create Raft journal directory: " +
+                                     filesystem_error.message());
+        }
+    }
+    const auto lock_path = std::filesystem::path(persistence_path_ + ".lock");
+#ifdef _WIN32
+    HANDLE lock_file = CreateFileW(lock_path.c_str(), GENERIC_READ | GENERIC_WRITE, 0,
+                                   nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (lock_file == INVALID_HANDLE_VALUE) {
+        throw std::runtime_error("Raft journal is already owned or its lock cannot be opened");
+    }
+    persistence_lock_handle_ = lock_file;
+#else
+    int flags = O_CREAT | O_RDWR;
+#ifdef O_CLOEXEC
+    flags |= O_CLOEXEC;
+#endif
+#ifdef O_NOFOLLOW
+    flags |= O_NOFOLLOW;
+#endif
+    persistence_lock_fd_ = ::open(lock_path.c_str(), flags, 0600);
+    if (persistence_lock_fd_ < 0) {
+        throw std::runtime_error("cannot open Raft journal lock: " +
+                                 std::error_code(errno, std::generic_category()).message());
+    }
+    if (::flock(persistence_lock_fd_, LOCK_EX | LOCK_NB) != 0) {
+        const int lock_error = errno;
+        releasePersistenceLock();
+        throw std::runtime_error("Raft journal is already owned: " +
+                                 std::error_code(lock_error, std::generic_category()).message());
+    }
+#endif
+}
+
+void RaftLog::releasePersistenceLock() noexcept {
+#ifdef _WIN32
+    if (persistence_lock_handle_ != nullptr) {
+        CloseHandle(static_cast<HANDLE>(persistence_lock_handle_));
+        persistence_lock_handle_ = nullptr;
+    }
+#else
+    if (persistence_lock_fd_ >= 0) {
+        ::close(persistence_lock_fd_);
+        persistence_lock_fd_ = -1;
+    }
+#endif
+}
+
+void RaftLog::appendDurableRecord(const std::string& payload) {
+    if (persistence_path_.empty()) {
+        return;
+    }
+    if (!persistence_healthy_) {
+        throw std::runtime_error("Raft persistence is unhealthy");
+    }
+    const std::string record = payload + "|" + raftJournalChecksum(payload) + "\n";
+    std::string error;
+    if (!appendAndSyncFile(persistence_path_, record, error)) {
+        persistence_healthy_ = false;
+        throw std::runtime_error(error);
+    }
+}
+
+void RaftLog::replayJournal() {
+    std::ifstream input(persistence_path_, std::ios::binary);
+    if (!input) {
+        if (std::filesystem::exists(persistence_path_)) {
+            persistence_healthy_ = false;
+            throw std::runtime_error("cannot read existing Raft journal");
+        }
+        return;
+    }
+
+    std::string line;
+    while (std::getline(input, line)) {
+        if (input.eof()) {
+            persistence_healthy_ = false;
+            throw std::runtime_error("Raft journal ends with an incomplete record");
+        }
+        const auto checksum_separator = line.rfind('|');
+        if (checksum_separator == std::string::npos ||
+            line.substr(checksum_separator + 1) !=
+                raftJournalChecksum(std::string_view(line).substr(0, checksum_separator))) {
+            persistence_healthy_ = false;
+            throw std::runtime_error("Raft journal checksum validation failed");
+        }
+        const auto fields = splitJournalFields(
+            std::string_view(line).substr(0, checksum_separator));
+        if (fields.empty()) {
+            persistence_healthy_ = false;
+            throw std::runtime_error("Raft journal contains an empty record");
+        }
+
+        if (fields[0] == "E" && fields.size() == 5) {
+            LogEntry entry;
+            entry.term = parseJournalInteger(fields[1]);
+            entry.index = parseJournalInteger(fields[2]);
+            entry.timestamp_ns = parseJournalInteger(fields[3]);
+            entry.command = decodeJournalField(fields[4]);
+            const uint64_t last_index = log_.empty() ? snapshot_index_ : log_.rbegin()->first;
+            if (entry.index != last_index + 1) {
+                persistence_healthy_ = false;
+                throw std::runtime_error("Raft journal log indexes are not contiguous");
+            }
+            log_.emplace(entry.index, std::move(entry));
+        } else if (fields[0] == "T" && fields.size() == 2) {
+            const uint64_t index = parseJournalInteger(fields[1]);
+            log_.erase(log_.lower_bound(index), log_.end());
+            if (commit_index_ >= index) {
+                commit_index_ = index > 0 ? index - 1 : 0;
+            }
+        } else if (fields[0] == "C" && fields.size() == 2) {
+            const uint64_t index = parseJournalInteger(fields[1]);
+            const uint64_t last_index = log_.empty() ? snapshot_index_ : log_.rbegin()->first;
+            if (index < commit_index_ || index > last_index) {
+                persistence_healthy_ = false;
+                throw std::runtime_error("Raft journal commit index is invalid");
+            }
+            commit_index_ = index;
+        } else if (fields[0] == "S" && fields.size() == 3) {
+            const uint64_t index = parseJournalInteger(fields[1]);
+            const uint64_t term = parseJournalInteger(fields[2]);
+            if (index < snapshot_index_ || index > commit_index_) {
+                persistence_healthy_ = false;
+                throw std::runtime_error("Raft journal snapshot boundary is invalid");
+            }
+            snapshot_index_ = index;
+            snapshot_term_ = term;
+            log_.erase(log_.begin(), log_.upper_bound(index));
+        } else if (fields[0] == "H" && fields.size() == 3) {
+            const uint64_t term = parseJournalInteger(fields[1]);
+            const std::string vote = decodeJournalField(fields[2]);
+            if (term < persisted_term_) {
+                persistence_healthy_ = false;
+                throw std::runtime_error("Raft journal hard-state term regressed");
+            }
+            if (term == persisted_term_ && !persisted_vote_.empty() &&
+                vote != persisted_vote_) {
+                persistence_healthy_ = false;
+                throw std::runtime_error("Raft journal contains conflicting votes in one term");
+            }
+            persisted_term_ = term;
+            persisted_vote_ = vote;
+        } else {
+            persistence_healthy_ = false;
+            throw std::runtime_error("Raft journal contains an unknown record");
+        }
+    }
+    if (input.bad()) {
+        persistence_healthy_ = false;
+        throw std::runtime_error("failed while reading Raft journal");
+    }
+}
+
+bool RaftLog::isPersistenceHealthy() const {
+    std::lock_guard<std::timed_mutex> lock(mutex_);
+    return persistence_healthy_;
+}
+
+std::pair<uint64_t, std::string> RaftLog::getHardState() const {
+    std::lock_guard<std::timed_mutex> lock(mutex_);
+    return {persisted_term_, persisted_vote_};
+}
+
+void RaftLog::persistHardState(uint64_t term, const std::string& voted_for) {
+    std::lock_guard<std::timed_mutex> lock(mutex_);
+    if (term < persisted_term_) {
+        throw std::runtime_error("Raft hard-state term cannot regress");
+    }
+    if (term == persisted_term_ && !persisted_vote_.empty() &&
+        voted_for != persisted_vote_) {
+        throw std::runtime_error("Raft node cannot change its vote within one term");
+    }
+    if (!persistence_path_.empty()) {
+        appendDurableRecord("H|" + std::to_string(term) + "|" + encodeJournalField(voted_for));
+    }
+    persisted_term_ = term;
+    persisted_vote_ = voted_for;
+}
 
 /**
  * @brief Append.
@@ -82,6 +489,17 @@ uint64_t RaftLog::append(const LogEntry& entry) {
         throw std::runtime_error(error_msg);
     }
     
+    const uint64_t last_index = log_.empty() ? snapshot_index_ : log_.rbegin()->first;
+    if (!persistence_path_.empty() &&
+        (entry.index <= snapshot_index_ || entry.index != last_index + 1)) {
+        throw std::runtime_error("persistent Raft log append must extend the current tail");
+    }
+    if (!persistence_path_.empty()) {
+        appendDurableRecord("E|" + std::to_string(entry.term) + "|" +
+                            std::to_string(entry.index) + "|" +
+                            std::to_string(entry.timestamp_ns) + "|" +
+                            encodeJournalField(entry.command));
+    }
     log_[entry.index] = entry;
     return entry.index;
 }
@@ -198,10 +616,19 @@ void RaftLog::truncateFrom(uint64_t index) {
     if (!lock.try_lock_for(timeout)) {
         spdlog::error("RaftLog::truncateFrom timeout after {}ms truncating from index={}",
                      timeout.count(), index);
+        if (!persistence_path_.empty()) {
+            throw std::runtime_error("persistent Raft log truncation timed out");
+        }
         return;  // Log truncation timeout - caller should handle
     }
     
     // Erase all entries from index onward
+    if (!persistence_path_.empty()) {
+        if (index <= commit_index_) {
+            throw std::runtime_error("persistent Raft log cannot truncate committed entries");
+        }
+        appendDurableRecord("T|" + std::to_string(index));
+    }
     auto it = log_.lower_bound(index);
     log_.erase(it, log_.end());
     
@@ -224,6 +651,9 @@ void RaftLog::setCommitIndex(uint64_t index) {
     if (!lock.try_lock_for(timeout)) {
         spdlog::error("RaftLog::setCommitIndex timeout after {}ms setting index={}",
                      timeout.count(), index);
+        if (!persistence_path_.empty()) {
+            throw std::runtime_error("persistent Raft commit update timed out");
+        }
         return;
     }
     
@@ -231,13 +661,22 @@ void RaftLog::setCommitIndex(uint64_t index) {
     if (index < commit_index_) {
         spdlog::warn("RaftLog::setCommitIndex: rejecting regression from {} to {}",
                      commit_index_, index);
+        if (!persistence_path_.empty()) {
+            throw std::runtime_error("persistent Raft commit index cannot regress");
+        }
         return;
     }
     const uint64_t last = log_.empty() ? snapshot_index_ : log_.rbegin()->first;
     if (index > last) {
         spdlog::error("RaftLog::setCommitIndex: index {} exceeds last log entry {} – ignored",
                       index, last);
+        if (!persistence_path_.empty()) {
+            throw std::runtime_error("persistent Raft commit index exceeds the log tail");
+        }
         return;
+    }
+    if (!persistence_path_.empty()) {
+        appendDurableRecord("C|" + std::to_string(index));
     }
     commit_index_ = index;
 }
@@ -336,7 +775,18 @@ void RaftLog::compactUpTo(uint64_t snapshot_index, uint64_t snapshot_term) {
         spdlog::error("RaftLog::compactUpTo: snapshot_index ({}) > commit_index ({}) – "
                       "refusing to compact uncommitted entries",
                       snapshot_index, commit_index_);
+        if (!persistence_path_.empty()) {
+            throw std::runtime_error("persistent Raft snapshot exceeds the commit index");
+        }
         return;
+    }
+    if (!persistence_path_.empty() && snapshot_index < snapshot_index_) {
+        throw std::runtime_error("persistent Raft snapshot index cannot regress");
+    }
+
+    if (!persistence_path_.empty()) {
+        appendDurableRecord("S|" + std::to_string(snapshot_index) + "|" +
+                            std::to_string(snapshot_term));
     }
 
     // Erase all entries at or below snapshot_index
@@ -359,6 +809,14 @@ void RaftLog::compactUpTo(uint64_t snapshot_index, uint64_t snapshot_term) {
  */
 void RaftLog::setSnapshotMeta(uint64_t index, uint64_t term) {
     std::lock_guard<std::timed_mutex> lock(mutex_);
+    if (!persistence_path_.empty()) {
+        if (index < snapshot_index_ || index > commit_index_ ||
+            (index == snapshot_index_ && term != snapshot_term_)) {
+            throw std::runtime_error("persistent Raft snapshot boundary is invalid");
+        }
+        appendDurableRecord("S|" + std::to_string(index) + "|" +
+                            std::to_string(term));
+    }
     snapshot_index_ = index;
     snapshot_term_  = term;
 }

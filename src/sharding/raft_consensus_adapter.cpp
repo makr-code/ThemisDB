@@ -18,9 +18,25 @@
 #include <thread>
 #include <stdexcept>
 #include <chrono>
+#include <filesystem>
+#include <iomanip>
+#include <sstream>
 
 namespace themisdb {
 namespace sharding {
+
+namespace {
+
+std::string encodeRaftNodeId(const std::string& node_id) {
+    std::ostringstream encoded;
+    encoded << std::hex << std::setfill('0');
+    for (const unsigned char byte : node_id) {
+        encoded << std::setw(2) << static_cast<unsigned int>(byte);
+    }
+    return encoded.str();
+}
+
+} // namespace
 
 // ============================================================================
 // LOCK ORDERING ENFORCEMENT
@@ -72,6 +88,15 @@ bool RaftConsensusAdapter::initialize(
         static_cast<uint32_t>(config_.election_timeout_max.count());
     raft_config.raft_config.heartbeat_interval_ms = 
         static_cast<uint32_t>(config_.heartbeat_interval.count());
+    if (config_.enable_persistence) {
+        if (config_.data_dir.empty()) {
+            spdlog::error("Raft persistence is enabled but consensus data_dir is empty");
+            return false;
+        }
+        raft_config.raft_config.persistence_path =
+            (std::filesystem::path(config_.data_dir) / "raft" /
+             (encodeRaftNodeId(node_id) + ".wal")).string();
+    }
     
     raft_config.heartbeat_timeout = config_.heartbeat_interval;
     raft_config.enable_partition_detection = true;
@@ -784,5 +809,4 @@ ConsensusLogEntry RaftConsensusAdapter::convertLogEntry(const LogEntry& entry) {
 
 } // namespace sharding
 } // namespace themisdb
-
 

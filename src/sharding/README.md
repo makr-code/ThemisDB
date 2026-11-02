@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-02
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -13,9 +13,12 @@ SOT_Domain: module-behavior
 Canonical_References:
   - ../../include/sharding/sharding_api_contract.h
   - ../../include/sharding/shard_router.h
+  - ../../include/sharding/raft_log.h
+  - ../../include/sharding/raft_state.h
   - ../../tests/sharding/CMakeLists.txt
+  - ../../tests/test_raft_persistence_focused.cpp
   - ../../benchmarks/sharding/CMakeLists.txt
-Related_Issue: "#7381"
+Related_Issue: "#7518"
 Related_Milestone: DOC-WEEKLY-2026-W44
 ---
 
@@ -67,6 +70,12 @@ Out of scope:
   states; this summary does not assert one universal commit, rollback, or failover policy.
 - the public contract describes intended outcomes; verify the implementation and relevant test for
   each changed path.
+- Raft can use an optional per-node durable journal configured through
+  `ConsensusConfig::enable_persistence` and `data_dir`; acknowledged log and hard-state mutations
+  are synced before in-memory state advances, and a second process cannot own the same journal.
+- This local Raft journal does not replicate DR metadata. Snapshot payload power-loss durability and
+  multi-process failover/recovery evidence remain unverified; do not infer M2 readiness from journal
+  recovery alone.
 
 ## Concurrency and failure behavior
 
