@@ -207,7 +207,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
     }
 
     // Persist BEGIN_TX
-    logToWAL(WALEntryType::BEGIN_TX, transaction_id, {
+    if (!logToWAL(WALEntryType::BEGIN_TX, transaction_id, {
         {"transaction_id", transaction_id},
         {"coordinator_id", coordinator_id_},
         {"shards",         [&]() {
@@ -218,7 +218,14 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
             }
             return v;
         }()}
-    });
+    }, /*force_sync=*/true)) {
+        std::lock_guard<std::timed_mutex> lock(mutex_);
+        transactions_.at(transaction_id).state = CoordinatorTxnState::FAILED;
+        total_errors_.fetch_add(1, std::memory_order_relaxed);
+        outcome.result = CoordinatorTxnResult::ERROR;
+        outcome.reason = "failed to durably persist transaction BEGIN; no participants were prepared";
+        return outcome;
+    }
 
     total_transactions_.fetch_add(1, std::memory_order_relaxed);
 
@@ -251,14 +258,22 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
     // Persist the Phase 2 decision
     // 2PC-3: Tag this entry with phase="decision" so recovery can distinguish
     // it from the completion entry written after Phase 2 finishes.
-    logToWAL(all_prepared ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
-             transaction_id,
-             {
-                {"transaction_id", transaction_id},
-                {"coordinator_id", coordinator_id_},
-                {"phase",          "decision"},
-                {"decision",       all_prepared ? "commit" : "abort"}
-             });
+    if (!logToWAL(all_prepared ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
+                 transaction_id,
+                 {
+                     {"transaction_id", transaction_id},
+                     {"coordinator_id", coordinator_id_},
+                     {"phase",          "decision"},
+                     {"decision",       all_prepared ? "commit" : "abort"}
+                 },
+                 /*force_sync=*/true)) {
+        std::lock_guard<std::timed_mutex> lock(mutex_);
+        transactions_.at(transaction_id).state = CoordinatorTxnState::FAILED;
+        total_errors_.fetch_add(1, std::memory_order_relaxed);
+        outcome.result = CoordinatorTxnResult::ERROR;
+        outcome.reason = "failed to durably persist 2PC decision; Phase 2 was not sent";
+        return outcome;
+    }
 
     // ── Phase 2: COMMIT or ABORT ──────────────────────────────────────────
     const auto t2 = std::chrono::steady_clock::now();
@@ -271,19 +286,27 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         std::unique_lock<std::timed_mutex> lock(mutex_);
         auto& stored = transactions_.at(transaction_id);
         runPhase2(stored, all_prepared, lock);
-        // lock is re-held here after runPhase2 returns
-        stored.state = CoordinatorTxnState::COMPLETED;
     }
 
     const double phase2_ms = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - t2).count();
 
-    logToWAL(all_prepared ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
-             transaction_id, {
-                 {"transaction_id", transaction_id},
-                 {"coordinator_id", coordinator_id_},
-                 {"phase",          "complete"}
-             });
+    if (!logToWAL(all_prepared ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
+                  transaction_id, {
+                      {"transaction_id", transaction_id},
+                      {"coordinator_id", coordinator_id_},
+                      {"phase",          "complete"}
+                  })) {
+        total_errors_.fetch_add(1, std::memory_order_relaxed);
+        outcome.result = CoordinatorTxnResult::ERROR;
+        outcome.reason = "failed to persist 2PC completion; transaction remains recoverable";
+        return outcome;
+    }
+
+    {
+        std::lock_guard<std::timed_mutex> lock(mutex_);
+        transactions_.at(transaction_id).state = CoordinatorTxnState::COMPLETED;
+    }
 
     if (all_prepared) {
         total_commits_.fetch_add(1, std::memory_order_relaxed);
@@ -355,6 +378,19 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
             recovered.emplace(txn_id, std::move(rec));
         }
 
+        if (!wal_->flushDurable()) {
+            THEMIS_ERROR("2PC coordinator [{}] cannot replay WAL decisions until "
+                         "the durability check succeeds", coordinator_id_);
+            std::lock_guard<std::timed_mutex> failed_recovery_lock(mutex_);
+            for (auto& [txn_id, rec] : recovered) {
+                if (rec.state != CoordinatorTxnState::COMPLETED) {
+                    rec.state = CoordinatorTxnState::FAILED;
+                    transactions_[txn_id] = std::move(rec);
+                }
+            }
+            return 0;
+        }
+
         // Re-drive transactions that have a Phase 2 decision but are not COMPLETED
         // 2PC-1: use unique_lock so runPhase2 can release it around each RPC.
         std::unique_lock<std::timed_mutex> lock(mutex_);
@@ -373,17 +409,31 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
                             "– aborting conservatively and broadcasting ABORT",
                             coordinator_id_, txn_id);
                 rec.state = CoordinatorTxnState::ABORT_DECIDED;
+                if (!logToWAL(WALEntryType::ABORT_TX, txn_id, {
+                        {"transaction_id", txn_id},
+                        {"coordinator_id", coordinator_id_},
+                        {"phase",          "decision"},
+                        {"decision",       "abort"},
+                        {"recovery",       true}
+                    }, /*force_sync=*/true)) {
+                    rec.state = CoordinatorTxnState::FAILED;
+                    transactions_[txn_id] = rec;
+                    continue;
+                }
                 runPhase2(rec, false, lock);
                 // lock is re-held here after runPhase2 returns
-                rec.state = CoordinatorTxnState::COMPLETED;
-                transactions_[txn_id] = rec;
-                logToWAL(WALEntryType::ABORT_TX, txn_id, {
+                if (!logToWAL(WALEntryType::ABORT_TX, txn_id, {
                     {"transaction_id", txn_id},
                     {"coordinator_id", coordinator_id_},
                     {"phase",          "complete"},
                     {"recovery",       true},
                     {"reason",         "no_decision_conservative_abort"}
-                });
+                })) {
+                    transactions_[txn_id] = rec;
+                    continue;
+                }
+                rec.state = CoordinatorTxnState::COMPLETED;
+                transactions_[txn_id] = rec;
                 ++resolved;
                 continue;
             }
@@ -395,17 +445,19 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
 
             runPhase2(rec, do_commit, lock);
             // lock is re-held here after runPhase2 returns
-            rec.state = CoordinatorTxnState::COMPLETED;
-            transactions_[txn_id] = rec;
-
-            logToWAL(do_commit ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
-                     txn_id, {
+            if (!logToWAL(do_commit ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX,
+                          txn_id, {
                          {"transaction_id", txn_id},
                          {"coordinator_id", coordinator_id_},
                          {"phase",          "complete"},
                          {"recovery",       true}
-                     });
+                     })) {
+                transactions_[txn_id] = rec;
+                continue;
+            }
 
+            rec.state = CoordinatorTxnState::COMPLETED;
+            transactions_[txn_id] = rec;
             ++resolved;
         }
 
@@ -668,18 +720,25 @@ std::string TwoPhaseCommitCoordinator::buildPayload(const nlohmann::json& ops) {
  * @param[in] type Input parameter.
  * @param[in] txn_id Identifier of the txn.
  * @param[in] data Input parameter.
- * @details Calls: WALLoggingHelper::appendEntry(), get().
+ * @param[in] force_sync Whether this protocol record must be synchronously flushed.
+ * @return True when WAL is disabled or the append/required flush succeeds.
+ * @details Calls: WALLoggingHelper::appendEntryWithResult().
  */
-void TwoPhaseCommitCoordinator::logToWAL(
+bool TwoPhaseCommitCoordinator::logToWAL(
     WALEntryType          type,
     const std::string&    txn_id,
-    const nlohmann::json& data
+    const nlohmann::json& data,
+    bool                  force_sync
 ) {
-    WALLoggingHelper::appendEntry(
+    if (!wal_) {
+        return true;
+    }
+
+    return WALLoggingHelper::appendEntryWithResult(
         wal_.get(), type, txn_id, data,
-        config_.sync_wal_writes,
+        force_sync || config_.sync_wal_writes,
         "coordinator", coordinator_id_
-    );
+    ).has_value();
 }
 
 } // namespace themis::sharding

@@ -143,7 +143,7 @@ public:
         /// How long to wait for a participant's PREPARE vote before aborting
         std::chrono::milliseconds prepare_timeout{30000};
 
-        /// Flush WAL synchronously on every write
+        /// Sync non-mandatory WAL writes; BEGIN and decision records are always synced.
         bool sync_wal_writes = true;
     };
 
@@ -223,6 +223,10 @@ public:
      * This method drives both phases synchronously:
      * 1. Sends PREPARE to each shard listed in @p ops_per_shard.
      * 2. If all vote COMMIT → sends COMMIT to all; otherwise ABORT to all.
+     * When a coordinator WAL is configured, BEGIN and the final decision are
+     * synchronously persisted before any participant RPC in the corresponding
+     * phase. WAL-disabled operation remains volatile and has no crash-recovery
+     * guarantee.
      *
      * Only shards present in @p ops_per_shard participate.  Shards not
      * listed are not contacted.
@@ -329,9 +333,12 @@ private:
     /// @param type WAL-Eintragstyp.
     /// @param txn_id Betroffene Transaktions-ID.
     /// @param data Zusaetzliche WAL-Nutzdaten.
-    void logToWAL(WALEntryType type,
-                  const std::string& txn_id,
-                  const nlohmann::json& data);
+    /// @param force_sync Require a successful flush regardless of configuration.
+    /// @return True when WAL is disabled or the requested append/flush succeeds.
+    [[nodiscard]] bool logToWAL(WALEntryType type,
+                                const std::string& txn_id,
+                                const nlohmann::json& data,
+                                bool force_sync = false);
 };
 
 } // namespace themis::sharding

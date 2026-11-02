@@ -189,6 +189,8 @@ public:
      * @brief Append one entry to WAL and assign its LSN/timestamp.
      * @param entry Entry payload to persist.
      * @return Assigned LSN for the appended record.
+     * @throws std::runtime_error if the append fails or configured synchronous
+     *         flushing cannot confirm durability.
      */
     LSN append(const WALEntry& entry);
     
@@ -214,8 +216,21 @@ public:
     /** @brief Return oldest retained LSN after segment retention cleanup. */
     LSN getOldestLSN() const;
     
-    /** @brief Flush buffered WAL bytes to active segment stream. */
+    /**
+     * @brief Best-effort flush buffered WAL bytes to the active segment stream.
+     * @note Failures are logged but not returned; use flushDurable() when a
+     *       caller must gate protocol progress on confirmed persistence.
+     */
     void flush();
+
+    /**
+     * @brief Flush WAL bytes and report whether the flush reached stable storage.
+     * @return True when the underlying WAL flush succeeds; false when storage is
+     *         unavailable or reports a write/flush failure.
+     * @note This method is thread-safe. Use it when protocol progress depends on
+     *       a durable record; `flush()` remains the best-effort compatibility API.
+     */
+    [[nodiscard]] bool flushDurable();
     
     /**
      * @brief Append checkpoint marker at current WAL tail.
@@ -259,6 +274,9 @@ private:
 
     /** @brief Keep the in-memory replay buffer bounded as WAL history grows. */
     void trimInMemoryEntries();
+
+    /** @brief Flush while mutex_ is held; returns false on unavailable/failed WAL. */
+    [[nodiscard]] bool flushUnlocked();
 };
 
 /** @brief Snapshot counters and cursor positions for WAL manager state. */

@@ -945,6 +945,53 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, RecoverWithWALReplaysDurableCommitDe
     EXPECT_EQ(participant->getTransactionState(txn), ParticipantTxnState::COMMITTED);
 }
 
+TEST(TwoPhaseCommitCoordinatorRecoveryTest, PersistsDecisionBeforeCompletionWithSyncDisabled) {
+    const auto wal_dir = (std::filesystem::temp_directory_path() /
+                          ("2pc_coord_wal_order_" +
+                           std::to_string(::getpid()) + "_" +
+                           std::to_string(
+                               std::chrono::steady_clock::now()
+                                   .time_since_epoch()
+                                   .count())))
+                             .string();
+
+    struct WalDirGuard {
+        const std::string& path;
+        ~WalDirGuard() { std::filesystem::remove_all(path); }
+    } guard{wal_dir};
+
+    TwoPhaseCommitParticipant::Config participant_cfg;
+    participant_cfg.wal_directory = "";
+    auto participant =
+        std::make_unique<TwoPhaseCommitParticipant>("shard-wal-order", participant_cfg);
+
+    const std::string txn = "wal-txn-decision-order";
+    TwoPhaseCommitCoordinator::Config coordinator_cfg;
+    coordinator_cfg.wal_directory = wal_dir;
+    coordinator_cfg.sync_wal_writes = false;
+    nlohmann::json ops = nlohmann::json::array();
+    ops.push_back({{"key", "value"}});
+    {
+        TwoPhaseCommitCoordinator coordinator("coord-wal-order", coordinator_cfg);
+        coordinator.registerParticipant("shard-wal-order", participant.get());
+
+        const auto outcome = coordinator.commit(txn, {{"shard-wal-order", ops}});
+        ASSERT_TRUE(outcome.committed());
+    }
+
+    WALManagerConfig replay_cfg;
+    replay_cfg.wal_directory = wal_dir;
+    replay_cfg.sync_on_write = false;
+    WALManager replay_wal(replay_cfg);
+    const auto entries = replay_wal.readRange(LSN{0, 0});
+    ASSERT_EQ(entries.size(), 3u);
+    EXPECT_EQ(entries[0].type, WALEntryType::BEGIN_TX);
+    EXPECT_EQ(entries[1].type, WALEntryType::COMMIT_TX);
+    EXPECT_EQ(entries[1].data["phase"], "decision");
+    EXPECT_EQ(entries[1].data["decision"], "commit");
+    EXPECT_EQ(entries[2].data["phase"], "complete");
+}
+
 namespace {
 
 class FakeRecoverableCoordinator
