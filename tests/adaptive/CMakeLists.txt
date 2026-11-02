@@ -39,4 +39,25 @@ foreach(_src IN LISTS ADAPTIVE_MODULE_TEST_SOURCES)
         TIMEOUT 120
         LABELS adaptive
     )
+
+    if(NOT THEMIS_BUILD_MODULAR)
+        if(_stem STREQUAL "test_adaptive_flush_controller")
+            add_custom_target(test_adaptive_flush_controller DEPENDS ${_target})
+            add_custom_target(test_adaptive_flush_controller_focused DEPENDS ${_target})
+            gtest_discover_tests(${_target}
+                DISCOVERY_MODE POST_BUILD
+                WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+                EXTRA_ARGS --gtest_color=yes
+                CONFIGURATIONS Release Debug
+            )
+        elseif(_stem STREQUAL "test_adaptive_shard_router")
+            add_custom_target(test_adaptive_shard_router DEPENDS ${_target})
+            add_custom_target(test_adaptive_shard_router_focused DEPENDS ${_target})
+            gtest_discover_tests(${_target}
+                DISCOVERY_MODE POST_BUILD
+                WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+                EXTRA_ARGS --gtest_color=yes
+            )
+        endif()
+    endif()
 endforeach()

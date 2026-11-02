@@ -35,4 +35,12 @@ foreach(_src IN LISTS ADVANCED_MODULE_TEST_SOURCES)
         TIMEOUT 120
         LABELS advanced
     )
+
+    if(_stem STREQUAL "test_advanced_cache_manager")
+        gtest_discover_tests(${_target}
+            DISCOVERY_MODE POST_BUILD
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${_target}>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
 endforeach()
