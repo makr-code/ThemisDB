@@ -166,8 +166,11 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
   chunk and remaining suffix are retained ahead of newer events; errors report `failed_offset`/`total`; prior
   successful chunks remain committed and ordered retry is PUT-idempotent. Contract documentation is synchronized.
   `tests/storage/test_streaming_ingest_retry_queue.cpp` covers the requeue helper with a later-chunk offset, ensuring
-  committed-prefix entries are excluded and the suffix precedes newer queued events. This unit test does not inject a
-  later-chunk failure into RocksDB; focused test execution and real-write fault-injection evidence remain open.
+  committed-prefix entries are excluded and the suffix precedes newer queued events. The new
+  `tests/storage/test_streaming_ingest_rocksdb_failure.cpp` wraps a real RocksDB `Env` and fails a later WAL-file
+  `Append`; it verifies `failed_offset`, that the committed prefix stays visible, that the failed suffix is retried
+  before a concurrently queued newer PUT, and that final values survive close/reopen. This is source coverage only
+  until the focused target is built and run; execution evidence remains open.
   - Validation note (2026-11-02): no tests or benchmarks were run for this documentation follow-up. Local diagnostic
     configure was blocked by missing system `fmt`. Observed unrelated Actions Build Wave B Transaction run
     `41389381448` failed CMake configure because `yaml-cpp` was missing; its test gate failed because jobs were

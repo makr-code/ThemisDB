@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-11-01"
-Last Updated: "2026-11-01"
+Last Updated: "2026-11-02"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -15,6 +15,7 @@ Canonical_References:
   - "include/storage/storage_engine.h"
   - "include/themis/base/interfaces/storage_interface.h"
   - "include/storage/wal_storage.h"
+  - "include/storage/rocksdb_wrapper.h"
   - "include/storage/mvcc_store.h"
   - "src/storage/storage_engine.cpp"
   - "src/storage/wal_storage.cpp"
@@ -29,12 +30,13 @@ Canonical_References:
   - "tests/storage/test_wal_process_crash.cpp"
   - "tests/storage/wal_crash_worker.cpp"
   - "tests/storage/test_streaming_ingest_retry_queue.cpp"
+  - "tests/storage/test_streaming_ingest_rocksdb_failure.cpp"
   - "tests/storage/CMakeLists.txt"
   - "tests/test_mvcc_wal_integration.cpp"
   - "benchmarks/storage/bench_storage_release_gates.cpp"
   - "benchmarks/storage/CMakeLists.txt"
   - "src/storage/DOXYGEN.md"
-source: "include/storage/storage_api_contract.h; include/storage/storage_engine.h; include/storage/wal_storage.h; include/storage/mvcc_store.h; src/storage/storage_engine.cpp; src/storage/streaming_ingest_manager.cpp; src/storage/detail/streaming_ingest_retry.h; src/storage/wal_storage.cpp; src/storage/mvcc_store.cpp; tests/storage/test_storage_contract_hardening_focused.cpp; tests/storage/test_storage_engine_prod.cpp; tests/storage/test_streaming_ingest_retry_queue.cpp; tests/storage/test_wal_process_crash.cpp; tests/storage/wal_crash_worker.cpp; tests/test_mvcc_wal_integration.cpp; tests/storage/CMakeLists.txt; benchmarks/storage/bench_storage_release_gates.cpp; benchmarks/storage/CMakeLists.txt; src/storage/DOXYGEN.md"
+source: "include/storage/storage_api_contract.h; include/storage/storage_engine.h; include/storage/wal_storage.h; include/storage/rocksdb_wrapper.h; include/storage/mvcc_store.h; src/storage/storage_engine.cpp; src/storage/streaming_ingest_manager.cpp; src/storage/detail/streaming_ingest_retry.h; src/storage/wal_storage.cpp; src/storage/mvcc_store.cpp; tests/storage/test_storage_contract_hardening_focused.cpp; tests/storage/test_storage_engine_prod.cpp; tests/storage/test_streaming_ingest_retry_queue.cpp; tests/storage/test_streaming_ingest_rocksdb_failure.cpp; tests/storage/test_wal_process_crash.cpp; tests/storage/wal_crash_worker.cpp; tests/test_mvcc_wal_integration.cpp; tests/storage/CMakeLists.txt; benchmarks/storage/bench_storage_release_gates.cpp; benchmarks/storage/CMakeLists.txt; src/storage/DOXYGEN.md"
 source_class: "secondary"
 source_weight: 60
 Related_Milestone: "DOC-WEEKLY-2026-W44"
@@ -119,8 +121,12 @@ RocksDB index consistency; it has not been executed, so it is not run evidence.
 [`test_streaming_ingest_retry_queue.cpp`](../../tests/storage/test_streaming_ingest_retry_queue.cpp)
 checks that the internal requeue helper excludes a committed prefix and places
 the failed suffix before newer queued PUTs for a supplied later-chunk offset.
-It does not inject a failure into a real RocksDB WriteBatch; that failure path
-and test execution remain unverified.
+[`test_streaming_ingest_rocksdb_failure.cpp`](../../tests/storage/test_streaming_ingest_rocksdb_failure.cpp)
+now injects an error into a real later RocksDB WAL-file append and checks the
+failed offset, committed prefix, retry ordering with a concurrently queued PUT,
+and close/reopen values. This test source has not been built or run; it is not
+execution evidence. `RocksDBWrapper::Config::env` is a borrowed pointer and
+must outlive its wrapper and RocksDB handles.
 
 Focused suites under `tests/storage/` are registered by
 [`tests/storage/CMakeLists.txt`](../../tests/storage/CMakeLists.txt); that

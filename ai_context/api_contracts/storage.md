@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-11-01"
+Last Updated: "2026-11-02"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -15,12 +15,14 @@ Canonical_References:
   - "include/storage/storage_engine.h"
   - "include/themis/base/interfaces/storage_interface.h"
   - "include/storage/wal_storage.h"
+  - "include/storage/rocksdb_wrapper.h"
   - "include/storage/mvcc_store.h"
   - "src/storage/storage_engine.cpp"
   - "src/storage/wal_storage.cpp"
   - "src/storage/mvcc_store.cpp"
   - "tests/storage/test_storage_contract_hardening_focused.cpp"
   - "tests/storage/test_storage_engine_prod.cpp"
+  - "tests/storage/test_streaming_ingest_rocksdb_failure.cpp"
   - "tests/test_mvcc_wal_integration.cpp"
   - "tests/storage/CMakeLists.txt"
   - "benchmarks/storage/bench_storage_release_gates.cpp"
@@ -61,6 +63,11 @@ weaken the C++ contract.
   HLC-versioned store backed by a supplied, already-open `RocksDBWrapper`. It
   exposes version writes and timestamp-relative reads; this surface is not
   itself a general transaction manager.
+- [`RocksDBWrapper::Config`](../../include/storage/rocksdb_wrapper.h) accepts an
+  optional borrowed `rocksdb::Env*` for file I/O. Null selects RocksDB's default
+  environment; a supplied environment must outlive the wrapper and its RocksDB
+  handles. The field is appended to preserve existing aggregate-initializer
+  ordering, but consumers that depend on binary layout must rebuild.
 - `StorageErrorCode` and the inline classification helpers are declared in
   `themis::storage` by `storage_api_contract.h`. They are not the `Result`
   error codes returned by `StorageEngine`'s `IStorageEngine` methods.
@@ -90,8 +97,9 @@ for [`tests/test_mvcc_wal_integration.cpp`](../../tests/test_mvcc_wal_integratio
 covers RocksDB-backed MVCC timestamp reads, version enumeration, GC, and
 close/reopen persistence. Its RocksDB internal WAL is not the separate
 `WALStorage` API, and the source does not prove WAL ACK ordering or PITR.
-Source or registration presence is not execution evidence; no result for this
-test is claimed in this task.
+Source or registration presence is not execution evidence. The focused
+`test_streaming_ingest_rocksdb_failure.cpp` source injects an error into a real
+later RocksDB WAL append, but it has not yet been executed; no pass is claimed.
 
 ## Performance and limits
 
