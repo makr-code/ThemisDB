@@ -16835,32 +16835,45 @@ macro(add_network_focused_test target src test_name labels desc)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${src}")
         message(STATUS "Adding Network focused test: ${target}")
 
-        add_executable(${target} ${src})
-
-        if("${target}" STREQUAL "test_udp_server_focused")
-            target_sources(${target} PRIVATE
-                ${THEMIS_ROOT_DIR}/src/network/udp_server.cpp
-                ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+        get_filename_component(_network_test_stem "${src}" NAME_WE)
+        set(_network_module_target "module_network_${_network_test_stem}_focused")
+        if(TARGET ${_network_module_target})
+            if(TARGET ${target})
+                message(FATAL_ERROR "Legacy network target already exists: ${target}")
+            endif()
+            add_custom_target(${target}
+                DEPENDS ${_network_module_target}
             )
-            target_link_libraries(${target} PRIVATE spdlog::spdlog fmt::fmt)
+            set(_network_test_target "${_network_module_target}")
+        else()
+            add_executable(${target} ${src})
+
+            if("${target}" STREQUAL "test_udp_server_focused")
+                target_sources(${target} PRIVATE
+                    ${THEMIS_ROOT_DIR}/src/network/udp_server.cpp
+                    ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+                )
+                target_link_libraries(${target} PRIVATE spdlog::spdlog fmt::fmt)
+            endif()
+
+            target_include_directories(${target} PRIVATE
+                ${THEMIS_ROOT_DIR}/include
+                ${THEMIS_ROOT_DIR}/include
+            )
+
+            target_link_libraries(${target} PRIVATE
+                ${TEST_LIBS}
+                themis_core
+                Threads::Threads
+            )
+
+            target_compile_definitions(${target} PRIVATE
+                THEMIS_TEST_BUILD=1
+            )
+            set(_network_test_target "${target}")
         endif()
 
-        target_include_directories(${target} PRIVATE
-            ${THEMIS_ROOT_DIR}/include
-            ${THEMIS_ROOT_DIR}/include
-        )
-
-        target_link_libraries(${target} PRIVATE
-            ${TEST_LIBS}
-            themis_core
-            Threads::Threads
-        )
-
-        target_compile_definitions(${target} PRIVATE
-            THEMIS_TEST_BUILD=1
-        )
-
-        add_test(NAME ${test_name} COMMAND ${target})
+        add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${_network_test_target}>)
 
         set_tests_properties(${test_name} PROPERTIES
             LABELS "${labels}"
@@ -17058,26 +17071,37 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/network/test_wire_protocol_v2.cpp")
     message(STATUS "Adding Network focused test: test_wire_protocol_v2_focused")
 
-    add_executable(test_wire_protocol_v2_focused
-        network/test_wire_protocol_v2.cpp
-    )
+    if(TARGET module_network_test_wire_protocol_v2_focused)
+        if(TARGET test_wire_protocol_v2_focused)
+            message(FATAL_ERROR "Legacy network target already exists: test_wire_protocol_v2_focused")
+        endif()
+        add_custom_target(test_wire_protocol_v2_focused
+            DEPENDS module_network_test_wire_protocol_v2_focused
+        )
+        set(_wire_protocol_v2_focused_target module_network_test_wire_protocol_v2_focused)
+    else()
+        add_executable(test_wire_protocol_v2_focused
+            network/test_wire_protocol_v2.cpp
+        )
+        set(_wire_protocol_v2_focused_target test_wire_protocol_v2_focused)
 
-    target_include_directories(test_wire_protocol_v2_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/include
-    )
+        target_include_directories(test_wire_protocol_v2_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/include
+        )
 
-    target_link_libraries(test_wire_protocol_v2_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        Threads::Threads
-    )
+        target_link_libraries(test_wire_protocol_v2_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            Threads::Threads
+        )
 
-    target_compile_definitions(test_wire_protocol_v2_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
+        target_compile_definitions(test_wire_protocol_v2_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+    endif()
 
-    add_test(NAME WireProtocolV2FocusedTests COMMAND $<TARGET_FILE:test_wire_protocol_v2_focused>)
+    add_test(NAME WireProtocolV2FocusedTests COMMAND $<TARGET_FILE:${_wire_protocol_v2_focused_target}>)
 
     set_tests_properties(WireProtocolV2FocusedTests PROPERTIES
         LABELS "network;wire-protocol;v2;multiplexing;flow-control;server-push;focused;unit"
@@ -17094,31 +17118,42 @@ if(THEMIS_ENABLE_WEBSOCKET)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/network/test_wire_protocol_websocket.cpp")
         message(STATUS "Adding Network focused test: test_wire_protocol_websocket_focused")
 
-        add_executable(test_wire_protocol_websocket_focused
-            network/test_wire_protocol_websocket.cpp
-        )
+        if(TARGET module_network_test_wire_protocol_websocket_focused)
+            if(TARGET test_wire_protocol_websocket_focused)
+                message(FATAL_ERROR "Legacy network target already exists: test_wire_protocol_websocket_focused")
+            endif()
+            add_custom_target(test_wire_protocol_websocket_focused
+                DEPENDS module_network_test_wire_protocol_websocket_focused
+            )
+            set(_wire_protocol_websocket_focused_target module_network_test_wire_protocol_websocket_focused)
+        else()
+            add_executable(test_wire_protocol_websocket_focused
+                network/test_wire_protocol_websocket.cpp
+            )
+            set(_wire_protocol_websocket_focused_target test_wire_protocol_websocket_focused)
 
-        target_include_directories(test_wire_protocol_websocket_focused PRIVATE
-            ${THEMIS_ROOT_DIR}/include
-            ${THEMIS_ROOT_DIR}/include
-        )
+            target_include_directories(test_wire_protocol_websocket_focused PRIVATE
+                ${THEMIS_ROOT_DIR}/include
+                ${THEMIS_ROOT_DIR}/include
+            )
 
-        target_link_libraries(test_wire_protocol_websocket_focused PRIVATE
-            ${TEST_LIBS}
-            themis_core
-            Threads::Threads
-        )
+            target_link_libraries(test_wire_protocol_websocket_focused PRIVATE
+                ${TEST_LIBS}
+                themis_core
+                Threads::Threads
+            )
 
-        if(TARGET themis_network)
-            target_link_libraries(test_wire_protocol_websocket_focused PRIVATE themis_network)
+            if(TARGET themis_network)
+                target_link_libraries(test_wire_protocol_websocket_focused PRIVATE themis_network)
+            endif()
+
+            target_compile_definitions(test_wire_protocol_websocket_focused PRIVATE
+                THEMIS_TEST_BUILD=1
+                THEMIS_ENABLE_WEBSOCKET=1
+            )
         endif()
 
-        target_compile_definitions(test_wire_protocol_websocket_focused PRIVATE
-            THEMIS_TEST_BUILD=1
-            THEMIS_ENABLE_WEBSOCKET=1
-        )
-
-        add_test(NAME WireProtocolWebSocketFocusedTests COMMAND $<TARGET_FILE:test_wire_protocol_websocket_focused>)
+        add_test(NAME WireProtocolWebSocketFocusedTests COMMAND $<TARGET_FILE:${_wire_protocol_websocket_focused_target}>)
 
         set_tests_properties(WireProtocolWebSocketFocusedTests PROPERTIES
             LABELS "network;websocket;upgrade;protocol-detection;focused;unit"

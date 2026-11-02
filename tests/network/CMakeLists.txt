@@ -44,6 +44,10 @@ foreach(_src IN LISTS NETWORK_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(_stem STREQUAL "test_wire_protocol_websocket" AND
+       THEMIS_ENABLE_WEBSOCKET AND TARGET themis_network)
+        target_link_libraries(${_target} PRIVATE themis_network)
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     if(_stem STREQUAL "test_network_contract_hardening_focused" OR
