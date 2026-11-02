@@ -13,6 +13,7 @@
 // Licensed under MIT License
 
 #include "storage/streaming_ingest_manager.h"
+#include "storage/detail/streaming_ingest_retry.h"
 #include "utils/error_registry.h"
 #include "utils/logger.h"
 #include "utils/thread_join_utils.h"
@@ -341,15 +342,8 @@ Result<void> StreamingIngestManager::flushOnce(std::unique_lock<std::mutex>& loc
 
         const auto requeue_unwritten = [&](size_t first_unwritten) {
             lock.lock();
-            std::vector<Event> retry;
-            retry.reserve(total - first_unwritten + buffer_.size());
-            for (size_t i = first_unwritten; i < total; ++i) {
-                retry.push_back(std::move(batch[i]));
-            }
-            for (auto& event : buffer_) {
-                retry.push_back(std::move(event));
-            }
-            buffer_ = std::move(retry);
+            storage::detail::requeueUnwrittenIngestEvents(
+                buffer_, batch, first_unwritten);
             not_empty_.notify_one();
         };
 
