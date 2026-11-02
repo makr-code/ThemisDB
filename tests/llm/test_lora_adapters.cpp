@@ -65,6 +65,17 @@ protected:
         file.close();
         return path.string();
     }
+
+#ifdef THEMIS_ENABLE_LLM
+    std::unique_ptr<MultiLoRAManager> createManager(size_t max_slots = 16) const {
+        MultiLoRAManager::Config config;
+        config.max_lora_slots = max_slots;
+        config.lora_base_dir = test_dir_.string();
+        config.lora_ttl = std::chrono::seconds(0);
+        config.multi_gpu.enabled = false;
+        return std::make_unique<MultiLoRAManager>(config);
+    }
+#endif
     
     fs::path test_dir_;
 };
@@ -85,12 +96,10 @@ TEST_F(LoRAAdapterTest, Loading_BasicLoad) {
     ASSERT_TRUE(fs::exists(adapter_path));
     
 #ifdef THEMIS_ENABLE_LLM
-    // Would load actual adapter
-    // MultiLoRAManager manager;
-    // bool loaded = manager.loadLoRA("test_adapter", adapter_path, "base_model", 1.0f);
-    // EXPECT_TRUE(loaded);
-    
-    GTEST_SKIP() << "Requires actual LoRA manager implementation";
+    auto manager = createManager();
+    ASSERT_TRUE(manager->loadLoRA("test_adapter", adapter_path, "base_model", 1.0f));
+    EXPECT_TRUE(manager->isLoRALoaded("test_adapter"));
+    EXPECT_NE(manager->getLoRA("test_adapter"), nullptr);
 #else
     GTEST_SKIP() << "LLM support not enabled";
 #endif
@@ -115,10 +124,16 @@ TEST_F(LoRAAdapterTest, Loading_MultipleAdapters) {
     }
     
 #ifdef THEMIS_ENABLE_LLM
-    // Would load multiple adapters
-    // Verify all are loaded and tracked
-    
-    GTEST_SKIP() << "Requires actual LoRA manager implementation";
+    auto manager = createManager(adapters.size());
+    for (size_t i = 0; i < adapters.size(); ++i) {
+        ASSERT_TRUE(manager->loadLoRA("adapter_" + std::to_string(i),
+                                      adapters[i], "base_model", 1.0f));
+    }
+
+    EXPECT_EQ(manager->listLoRAs("base_model").size(), adapters.size());
+    for (int i = 0; i < 5; ++i) {
+        EXPECT_TRUE(manager->isLoRALoaded("adapter_" + std::to_string(i)));
+    }
 #else
     GTEST_SKIP() << "LLM support not enabled";
 #endif
@@ -137,12 +152,9 @@ TEST_F(LoRAAdapterTest, Loading_InvalidPath) {
     EXPECT_FALSE(fs::exists(invalid_path));
     
 #ifdef THEMIS_ENABLE_LLM
-    // Would attempt to load and verify failure
-    // MultiLoRAManager manager;
-    // bool loaded = manager.loadLoRA("invalid", invalid_path, "base_model", 1.0f);
-    // EXPECT_FALSE(loaded);
-    
-    GTEST_SKIP() << "Requires actual LoRA manager implementation";
+    auto manager = createManager();
+    EXPECT_FALSE(manager->loadLoRA("invalid", invalid_path, "base_model", 1.0f));
+    EXPECT_FALSE(manager->isLoRALoaded("invalid"));
 #else
     GTEST_SKIP() << "LLM support not enabled";
 #endif
@@ -163,13 +175,10 @@ TEST_F(LoRAAdapterTest, Unloading_BasicUnload) {
     auto adapter_path = createMockAdapter("unload_test");
     
 #ifdef THEMIS_ENABLE_LLM
-    // Would load and then unload
-    // MultiLoRAManager manager;
-    // manager.loadLoRA("unload_test", adapter_path, "base_model", 1.0f);
-    // bool unloaded = manager.unloadLoRA("unload_test");
-    // EXPECT_TRUE(unloaded);
-    
-    GTEST_SKIP() << "Requires actual LoRA manager implementation";
+    auto manager = createManager();
+    ASSERT_TRUE(manager->loadLoRA("unload_test", adapter_path, "base_model", 1.0f));
+    EXPECT_TRUE(manager->unloadLoRA("unload_test"));
+    EXPECT_FALSE(manager->isLoRALoaded("unload_test"));
 #else
     GTEST_SKIP() << "LLM support not enabled";
 #endif
@@ -184,10 +193,19 @@ TEST_F(LoRAAdapterTest, Unloading_BasicUnload) {
  */
 TEST_F(LoRAAdapterTest, Unloading_UnloadAll) {
 #ifdef THEMIS_ENABLE_LLM
-    // Would load multiple adapters then unload all
-    // Verify clean state
-    
-    GTEST_SKIP() << "Requires actual LoRA manager implementation";
+    auto manager = createManager(3);
+    for (int i = 0; i < 3; ++i) {
+        const auto id = "unload_all_" + std::to_string(i);
+        const auto path = createMockAdapter(id);
+        ASSERT_TRUE(manager->loadLoRA(id, path, "base_model", 1.0f));
+    }
+
+    const auto loaded_adapters = manager->listLoRAs();
+    ASSERT_EQ(loaded_adapters.size(), 3u);
+    for (const auto& adapter : loaded_adapters) {
+        EXPECT_TRUE(manager->unloadLoRA(adapter.adapter_id));
+    }
+    EXPECT_TRUE(manager->listLoRAs().empty());
 #else
     GTEST_SKIP() << "LLM support not enabled";
 #endif
@@ -417,10 +435,23 @@ TEST_F(LoRAAdapterTest, Concurrent_RegistryThreadSafety) {
  */
 TEST_F(LoRAAdapterTest, StateConsistency_StatusTracking) {
 #ifdef THEMIS_ENABLE_LLM
-    // Would verify adapter status tracking
-    // Load, use, unload - verify state at each step
-    
-    GTEST_SKIP() << "Requires actual LoRA manager implementation";
+    auto manager = createManager();
+    const auto adapter_path = createMockAdapter("status_tracking");
+
+    EXPECT_FALSE(manager->isLoRALoaded("status_tracking"));
+    EXPECT_TRUE(manager->listLoRAs().empty());
+    ASSERT_TRUE(manager->loadLoRA("status_tracking", adapter_path, "base_model", 1.0f));
+
+    EXPECT_TRUE(manager->isLoRALoaded("status_tracking"));
+    const auto* slot = manager->getLoRA("status_tracking");
+    ASSERT_NE(slot, nullptr);
+    EXPECT_EQ(slot->lora_id, "status_tracking");
+    EXPECT_EQ(slot->base_model_id, "base_model");
+    EXPECT_EQ(manager->listLoRAs("base_model").size(), 1u);
+
+    ASSERT_TRUE(manager->unloadLoRA("status_tracking"));
+    EXPECT_FALSE(manager->isLoRALoaded("status_tracking"));
+    EXPECT_TRUE(manager->listLoRAs().empty());
 #else
     GTEST_SKIP() << "LLM support not enabled";
 #endif
@@ -482,10 +513,13 @@ TEST_F(LoRAAdapterTest, MultiAdapter_SimultaneousManagement) {
     }
     
 #ifdef THEMIS_ENABLE_LLM
-    // Would load multiple adapters
-    // Verify all can coexist
-    
-    GTEST_SKIP() << "Requires actual LoRA manager implementation";
+    auto manager = createManager(adapters.size());
+    for (size_t i = 0; i < adapters.size(); ++i) {
+        ASSERT_TRUE(manager->loadLoRA("multi_" + std::to_string(i),
+                                      adapters[i], "base_model", 1.0f));
+    }
+    EXPECT_EQ(manager->listLoRAs("base_model").size(),
+              static_cast<size_t>(max_adapters));
 #else
     GTEST_SKIP() << "LLM support not enabled";
 #endif
