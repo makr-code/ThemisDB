@@ -43,6 +43,9 @@ Exact model backend not verifiable from final document text alone.
 - Establish and test an actually bounded shutdown contract if required.
 - Integrate and verify external adapters for restore, traffic movement, metadata,
   spare activation, and recovered-state validation.
+- Select and integrate a consensus-backed/shared durable DR metadata adapter;
+  the local checksummed log and same-path process lock do not establish
+  multi-node metadata durability or network-filesystem guarantees.
 - Define whether quorum-log replay should restore manager state.
 - Run workload and end-to-end benchmarks on representative hardware before
   promoting target thresholds to measured performance claims.

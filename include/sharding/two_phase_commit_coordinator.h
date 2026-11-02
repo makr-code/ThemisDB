@@ -38,6 +38,7 @@
 
 #include "sharding/shard_rpc_server.h"
 #include "sharding/shard_rpc_client.h"
+#include "sharding/epoch_fencing.h"
 #include "transaction/recoverable_two_phase_coordinator.h"
 #include "sharding/wal_manager.h"
 #ifdef FAILURE
@@ -50,6 +51,7 @@
 #include <memory>
 #include <atomic>
 #include <chrono>
+#include <functional>
 #include <optional>
 #include <nlohmann/json.hpp>
 
@@ -146,6 +148,10 @@ public:
 
         /// Flush WAL synchronously on every write
         bool sync_wal_writes = true;
+
+        /// Supplies a trusted current-epoch token scoped to each target shard.
+        /// Missing or invalid providers fail write transactions closed.
+        std::function<std::optional<EpochToken>(const std::string&)> fencing_token_provider;
     };
 
     /**
@@ -330,8 +336,9 @@ private:
 
     /// Build the serialised payload for a single shard.
     /// @param ops JSON-Operationen fuer einen Teilnehmer.
+    /// @param token Current fencing credential scoped to that participant.
     /// @return Transportpayload fuer onPrepare().
-    static std::string buildPayload(const nlohmann::json& ops);
+    static std::string buildPayload(const nlohmann::json& ops, const EpochToken& token);
 
     /// Persist a coordinator WAL entry.
     /// @param type WAL-Eintragstyp.

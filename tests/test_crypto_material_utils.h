@@ -7,11 +7,14 @@
 #include <openssl/pem.h>
 #include <openssl/rsa.h>
 #include <openssl/x509.h>
+#include <openssl/x509v3.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <stdexcept>
 #include <string>
 #include <string_view>
+#include <vector>
 
 namespace themis::tests {
 
@@ -77,7 +80,8 @@ struct PemMaterial {
 
 [[nodiscard]] inline PemMaterial generateSelfSignedPemMaterial(
     std::string_view serial_hex,
-    std::string_view common_name) {
+    std::string_view common_name,
+    const std::vector<std::string_view>& dns_subject_alt_names = {}) {
     PemMaterial material;
     material.cert_serial = std::string(serial_hex);
 
@@ -126,7 +130,10 @@ struct PemMaterial {
         }
 
         X509_NAME* subject = X509_get_subject_name(cert);
-        if (!subject ||
+        if (!subject) {
+            throw std::runtime_error("failed to configure certificate subject");
+        }
+        if (!common_name.empty() &&
             X509_NAME_add_entry_by_txt(
                 subject,
                 "CN",
@@ -134,9 +141,57 @@ struct PemMaterial {
                 reinterpret_cast<const unsigned char*>(common_name.data()),
                 static_cast<int>(common_name.size()),
                 -1,
-                0) != 1 ||
-            X509_set_issuer_name(cert, subject) != 1) {
-            throw std::runtime_error("failed to configure certificate subject");
+                0) != 1) {
+            throw std::runtime_error("failed to configure certificate common name");
+        }
+        if (common_name.empty() && !dns_subject_alt_names.empty()) {
+            static constexpr char kTestOrganization[] = "ThemisDB Tests";
+            if (X509_NAME_add_entry_by_txt(
+                    subject,
+                    "O",
+                    MBSTRING_ASC,
+                    reinterpret_cast<const unsigned char*>(kTestOrganization),
+                    sizeof(kTestOrganization) - 1,
+                    -1,
+                    0) != 1) {
+                throw std::runtime_error("failed to configure certificate organization");
+            }
+        }
+        if (X509_set_issuer_name(cert, subject) != 1) {
+            throw std::runtime_error("failed to configure certificate issuer");
+        }
+
+        if (!dns_subject_alt_names.empty()) {
+            std::string san_configuration;
+            for (const auto dns_name : dns_subject_alt_names) {
+                if (dns_name.empty() || dns_name.size() > 253 ||
+                    !std::all_of(dns_name.begin(), dns_name.end(), [](unsigned char ch) {
+                        return (ch >= 'a' && ch <= 'z') ||
+                               (ch >= 'A' && ch <= 'Z') ||
+                               (ch >= '0' && ch <= '9') || ch == '-' || ch == '.';
+                    })) {
+                    throw std::invalid_argument("invalid DNS subject alternative name");
+                }
+                if (!san_configuration.empty()) {
+                    san_configuration.push_back(',');
+                }
+                san_configuration.append("DNS:");
+                san_configuration.append(dns_name);
+            }
+
+            auto* extension = X509V3_EXT_conf_nid(
+                nullptr,
+                nullptr,
+                NID_subject_alt_name,
+                san_configuration.data());
+            if (!extension) {
+                throw std::runtime_error("failed to configure certificate subject alternative name");
+            }
+            const auto extension_added = X509_add_ext(cert, extension, -1) == 1;
+            X509_EXTENSION_free(extension);
+            if (!extension_added) {
+                throw std::runtime_error("failed to add certificate subject alternative name");
+            }
         }
 
         if (X509_sign(cert, pkey, EVP_sha256()) <= 0) {

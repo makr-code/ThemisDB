@@ -309,7 +309,8 @@ void ShardRPCClient::setInProcessResponseHandler(InProcessResponseHandler handle
  */
 bool ShardRPCClient::prepare(
     const std::string& txn_id,
-    const nlohmann::json& operations
+    const nlohmann::json& operations,
+    const EpochToken& fencing_token
 ) {
     THEMIS_DEBUG("RPC PREPARE to {}: txn={}, ops={}", 
                 impl_->config.endpoint, txn_id,operations.size());
@@ -317,7 +318,15 @@ bool ShardRPCClient::prepare(
     try {
         nlohmann::json params = {
             {"transaction_id", txn_id},
-            {"operations", operations}
+            {"coordinator_shard_id", fencing_token.issuer},
+            {"operations", operations},
+            {"fencing_token", {
+                {"epoch", fencing_token.epoch},
+                {"issuer", fencing_token.issuer},
+                {"shard_id", fencing_token.shard_id},
+                {"issued_at_ms", std::chrono::duration_cast<std::chrono::milliseconds>(
+                    fencing_token.issued_at.time_since_epoch()).count()}
+            }}
         };
         
         auto response = sendRequest("prepare", params);
@@ -334,6 +343,15 @@ bool ShardRPCClient::prepare(
         THEMIS_ERROR("RPC PREPARE exception: {}", e.what());
         return false;
     }
+}
+
+bool ShardRPCClient::prepare(
+    const std::string& txn_id,
+    const nlohmann::json& operations
+) {
+    THEMIS_WARN("RPC PREPARE rejected for txn {}: fencing token required ({} operations)",
+                txn_id, operations.size());
+    return false;
 }
 
 /**
@@ -725,11 +743,12 @@ nlohmann::json ShardRPCClient::handlePrepareGrpc(
     request.set_transaction_id(params.value("transaction_id", ""));
     request.set_coordinator_shard_id(params.value("coordinator_shard_id", ""));
     
-    // Serialize operations as JSON
-    if (params.contains("operations")) {
-        std::string ops_json = params["operations"].dump();
-        request.set_transaction_data(ops_json);
+    nlohmann::json payload;
+    payload["operations"] = params.value("operations", nlohmann::json::array());
+    if (params.contains("fencing_token")) {
+        payload["fencing_token"] = params["fencing_token"];
     }
+    request.set_transaction_data(payload.dump());
     
     themis::sharding::proto::PrepareResponse response;
     grpc::Status status = impl_->stub->PrepareTransaction(&context, request, &response);

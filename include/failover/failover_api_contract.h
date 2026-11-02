@@ -182,13 +182,17 @@ enum class FailoverErrorCode : int {
 
     /// Internal failover component error; always treated as fail-safe.
     INTERNAL_ERROR = 9,
+
+    /// Spare activation failed; capacity is degraded and failover must not complete.
+    SPARE_ACTIVATION_FAILED = 10,
 };
 
 /// Returns true for error codes that mandate a fail-safe (no-leader) outcome.
 [[nodiscard]] inline constexpr bool isFailSafeCode(FailoverErrorCode code) noexcept {
     return code == FailoverErrorCode::SPLIT_BRAIN_DETECTED
         || code == FailoverErrorCode::QUORUM_UNAVAILABLE
-        || code == FailoverErrorCode::INTERNAL_ERROR;
+        || code == FailoverErrorCode::INTERNAL_ERROR
+        || code == FailoverErrorCode::SPARE_ACTIVATION_FAILED;
 }
 
 /**

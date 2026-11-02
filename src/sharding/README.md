@@ -13,6 +13,8 @@ SOT_Domain: module-behavior
 Canonical_References:
   - ../../include/sharding/sharding_api_contract.h
   - ../../include/sharding/shard_router.h
+  - ../../include/sharding/raft_log.h
+  - ../../include/sharding/raft_state.h
   - ../../include/sharding/detail/two_phase_commit_contract.h
   - ../../include/sharding/cross_shard_transaction.h
   - ../../include/sharding/two_phase_commit_coordinator.h
@@ -20,8 +22,9 @@ Canonical_References:
   - ../../tests/test_two_phase_commit.cpp
   - ../../ROADMAP.md
   - ../../tests/sharding/CMakeLists.txt
+  - ../../tests/test_raft_persistence_focused.cpp
   - ../../benchmarks/sharding/CMakeLists.txt
-Related_Issue: "#7381; #5373 (DIS-05)"
+Related_Issue: "#7518; #7381; #5373 (DIS-05)"
 Related_Milestone: DOC-WEEKLY-2026-W44
 ---
 
@@ -104,6 +107,13 @@ uses shard participants and records transaction state through its WAL path.
   states; this summary does not assert one universal commit, rollback, or failover policy.
 - the public contract describes intended outcomes; verify the implementation and relevant test for
   each changed path.
+- Raft can use an optional per-node durable journal configured through
+  `ConsensusConfig::enable_persistence` and `data_dir`; acknowledged log and hard-state mutations
+  are synced before in-memory state advances, and a second process cannot own the same journal.
+- This local Raft journal does not replicate DR metadata. Snapshot payload power-loss durability and
+  multi-process failover/recovery evidence remain unverified; snapshot files are synced before
+  compaction metadata is recorded, but filesystem and power-loss guarantees are uncertified. Do not
+  infer M2 readiness from journal recovery alone.
 
 ## Concurrency and failure behavior
 

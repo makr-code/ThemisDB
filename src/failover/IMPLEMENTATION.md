@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-11-01"
+Last Updated: "2026-11-02"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -48,11 +48,12 @@ interfaces are in `include/failover/`; implementation ownership is in
 calculations in the source do not impose a timeout on `join()`, so there is no
 enforced maximum stop duration.
 
-Operational boundary: current spare handling does not activate a spare. If a
-spare manager is supplied, the method emits `SPARE_ACTIVATION_FAILED`, returns
-`false`, and now blocks failover completion. Metadata persistence is not
-implemented; the metadata step logs an explicit error and returns `false`, so
-the built-in failover path cannot report success without persisted metadata.
+Operational boundary: spare activation requires the configured runtime hook to
+perform the shard transition and then independently confirm `HotSpareManager`
+state `ACTIVE`. Missing or failed activation emits `FAILOVER_DEGRADED`, increments
+the degraded counter, and blocks failover completion. The built-in failover
+metadata step appends to the configured quorum log and verifies the last record;
+it fails closed when the log or fencing manager is unavailable.
 
 ## Disaster-recovery path
 
@@ -60,26 +61,39 @@ the built-in failover path cannot report success without persisted metadata.
 runs the seven steps in the order documented in [MODELING.md](MODELING.md).
 The first failed step sets the result error and stops the sequence. A non-empty
 plan ID caches both successful and failed results in memory; reuse returns the
-cached result. There is no automatic compensation for completed steps.
+cached result. Successful non-dry-run plans append a checksummed completion
+record containing the plan fingerprint, fencing epoch, duration, and step
+results before returning success. The manager replays these records at
+construction. There is no automatic compensation for completed steps.
 
 The built-in step implementations fail closed for non-dry-run operations that
 need external effects or evidence:
 
-- Snapshot validation fails unless a registered hook validates the snapshot
-  against the deployment's snapshot store.
-- Restore fails unless a registered hook performs the storage restore.
-- Catch-up fails unless a registered hook verifies the required replication
-  position; quorum alone is not treated as catch-up evidence.
-- Requested traffic shift fails unless a registered hook performs and verifies
-  the cutover. A plan that disables traffic shift skips that operation.
-- Recovered-state verification fails unless a registered hook checks the
-  recovery site and restored contents.
+- Snapshot validation fails unless an operation hook acknowledges and a separate
+  verification hook reports the expected checksum.
+- Restore fails unless an operation hook performs the storage restore and a
+  separate verification hook confirms the expected checksum.
+- Catch-up fails unless an operation hook acknowledges and a separate
+  verification hook reports at least the required LSN in the required term;
+  quorum alone is not catch-up evidence.
+- Requested traffic shift fails unless an operation hook acknowledges and a
+  separate verification hook confirms the recovery site. A plan that disables
+  traffic shift skips that operation.
+- Recovered-state verification fails unless separate hooks report matching
+  checksum evidence.
 - Built-in dry-run handlers skip their operation; prechecks return without
   querying quorum. Registered step hooks replace the corresponding handler.
 
-Production hooks must implement those effects and independently verify their
-results. A successful hook response is an integration assertion; the manager
-does not validate adapter correctness itself.
+Non-dry-run prechecks require quorum and fencing to remain enabled, actual
+quorum, an available fencing manager, and a writable metadata log. The manager
+compares returned proof fields against the plan, but production hooks remain
+responsible for truthful external read-back. Processes using the same metadata
+path are serialized through a persistent sibling lock; lock acquisition is
+bounded by `metadata_lock_timeout`, and the completion record is flushed before
+success. This relies on filesystem locking/sync semantics and does not provide
+consensus-backed shared metadata or exactly-once external effects across a crash
+before the completion record. Shared metadata and multi-process
+failover/recovery E2E validation remain open.
 
 ## Quorum log format and failure behavior
 

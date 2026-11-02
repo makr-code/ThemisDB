@@ -158,6 +158,48 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         return outcome;
     }
 
+    {
+        std::lock_guard<std::timed_mutex> lock(mutex_);
+        const auto it = transactions_.find(transaction_id);
+        if (it != transactions_.end()) {
+            if (it->second.state == CoordinatorTxnState::COMPLETED) {
+                outcome.result = CoordinatorTxnResult::COMMITTED;
+                return outcome;
+            }
+            outcome.result = CoordinatorTxnResult::ERROR;
+            outcome.reason = "transaction already in progress";
+            return outcome;
+        }
+    }
+
+    if (!config_.fencing_token_provider) {
+        outcome.result = CoordinatorTxnResult::ERROR;
+        outcome.reason = "fencing token provider not configured";
+        ++total_errors_;
+        return outcome;
+    }
+
+    std::map<std::string, EpochToken> fencing_tokens;
+    for (const auto& [shard_id, _] : ops_per_shard) {
+        try {
+            auto token = config_.fencing_token_provider(shard_id);
+            if (!token || token->epoch == 0 || token->issuer != coordinator_id_ ||
+                token->shard_id != shard_id) {
+                outcome.result = CoordinatorTxnResult::ERROR;
+                outcome.reason = "invalid fencing token for shard: " + shard_id;
+                ++total_errors_;
+                return outcome;
+            }
+            fencing_tokens.emplace(shard_id, std::move(*token));
+        } catch (const std::exception& e) {
+            outcome.result = CoordinatorTxnResult::ERROR;
+            outcome.reason = "fencing token provider failed for shard " + shard_id +
+                             ": " + e.what();
+            ++total_errors_;
+            return outcome;
+        }
+    }
+
     // ── Build the record ────────────────────────────────────────────────────
     CoordinatorTxnRecord rec;
     rec.transaction_id = transaction_id;
@@ -203,7 +245,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         // Build per-shard payloads
         for (const auto& [shard_id, ops] : ops_per_shard) {
             rec.participant_shards.push_back(shard_id);
-            rec.shard_payloads[shard_id] = buildPayload(ops);
+            rec.shard_payloads[shard_id] = buildPayload(ops, fencing_tokens.at(shard_id));
         }
 
         transactions_[transaction_id] = rec;
@@ -280,6 +322,8 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
             }
             return acknowledged;
         });
+    const bool phase2_completed =
+        execution != detail::TwoPhaseCommitExecutionResult::ERROR;
 
     const double prepare_ms = std::chrono::duration<double, std::milli>(
         prepare_finished - t1).count();
@@ -325,24 +369,29 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         return outcome;
     }
 
-    if (all_prepared) {
+    if (all_prepared && phase2_completed) {
         total_commits_.fetch_add(1, std::memory_order_relaxed);
         outcome.result = CoordinatorTxnResult::COMMITTED;
         THEMIS_INFO("2PC coordinator [{}] txn {} COMMITTED", coordinator_id_, transaction_id);
-    } else {
+    } else if (!all_prepared && phase2_completed) {
         total_aborts_.fetch_add(1, std::memory_order_relaxed);
         outcome.result = CoordinatorTxnResult::ABORTED;
         outcome.reason = "one or more participants voted ABORT";
         THEMIS_INFO("2PC coordinator [{}] txn {} ABORTED", coordinator_id_, transaction_id);
+    } else {
+        total_errors_.fetch_add(1, std::memory_order_relaxed);
+        outcome.result = CoordinatorTxnResult::ERROR;
+        outcome.reason = "one or more participants did not acknowledge phase 2";
     }
 
     [[maybe_unused]] const double total_ms = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - t0).count();
 
     if (auto m = ShardingMetricsRegistry::instance().getMetrics()) {
-        m->record2PCCommitPhase(coordinator_id_, phase2_ms, all_prepared);
-        m->record2PCTransaction(coordinator_id_, all_prepared);
-        if (!all_prepared) {
+        const bool completed_commit = all_prepared && phase2_completed;
+        m->record2PCCommitPhase(coordinator_id_, phase2_ms, completed_commit);
+        m->record2PCTransaction(coordinator_id_, completed_commit);
+        if (!completed_commit) {
             m->record2PCAbort(coordinator_id_, outcome.reason);
         }
         // available for future histogram
@@ -647,6 +696,7 @@ bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec,
         if (!lock.try_lock_for(config_.prepare_timeout)) {
             THEMIS_ERROR("2PC coordinator [{}] Phase 1 – timed out re-acquiring mutex for txn {}; aborting",
                          coordinator_id_, rec.transaction_id);
+            lock.lock();
             return false;
         }
         if (!vote) {
@@ -704,7 +754,7 @@ bool TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
                 acknowledged = participant->onAbort(rec.transaction_id);
             }
             if (!lock.try_lock_for(config_.prepare_timeout)) {
-                THEMIS_ERROR("2PC coordinator [{}] Phase 2 – timed out re-acquiring mutex for txn {} after {}; continuing",
+                THEMIS_ERROR("2PC coordinator [{}] Phase 2 – timed out re-acquiring mutex for txn {} after {}; returning without phase-two completion",
                              coordinator_id_, rec.transaction_id,
                              do_commit ? "COMMIT" : "ABORT");
                 return false;
@@ -740,9 +790,18 @@ bool TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
  * @return Return value.
  * @details Calls: dump().
  */
-std::string TwoPhaseCommitCoordinator::buildPayload(const nlohmann::json& ops) {
+std::string TwoPhaseCommitCoordinator::buildPayload(
+    const nlohmann::json& ops,
+    const EpochToken& token) {
     nlohmann::json j;
     j["operations"] = ops;
+    j["fencing_token"] = {
+        {"epoch", token.epoch},
+        {"issuer", token.issuer},
+        {"shard_id", token.shard_id},
+        {"issued_at_ms", std::chrono::duration_cast<std::chrono::milliseconds>(
+            token.issued_at.time_since_epoch()).count()}
+    };
     return j.dump();
 }
 

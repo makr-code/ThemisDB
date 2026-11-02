@@ -12,12 +12,18 @@
 #include "sharding/raft_state.h"
 #include <algorithm>
 #include <iostream>
+#include <stdexcept>
 
 namespace themisdb {
 namespace sharding {
 
 RaftState::RaftState(const RaftConfig& config)
-    : config_(config) {
+    : config_(config), log_(config.persistence_path) {
+    const auto [term, vote] = log_.getHardState();
+    current_term_ = term;
+    voted_for_ = vote;
+    snapshot_index_ = log_.getSnapshotIndex();
+    snapshot_term_ = log_.getSnapshotTerm();
     resetElectionTimeout();
     last_heartbeat_time_ = std::chrono::steady_clock::now();
 }
@@ -31,6 +37,7 @@ void RaftState::becomeFollower(uint64_t term) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     
     if (term > current_term_) {
+        log_.persistHardState(term, {});
         current_term_ = term;
         voted_for_.clear();
     }
@@ -47,9 +54,14 @@ void RaftState::becomeFollower(uint64_t term) {
 void RaftState::becomeCandidate() {
     std::lock_guard<std::mutex> lock(state_mutex_);
     
-    state_ = RaftNodeState::CANDIDATE;
-    current_term_++;
+    const uint64_t next_term = current_term_.load() + 1;
+    if (next_term == 0) {
+        throw std::overflow_error("Raft term exhausted");
+    }
+    log_.persistHardState(next_term, config_.node_id);
+    current_term_ = next_term;
     voted_for_ = config_.node_id;  // Vote for self
+    state_ = RaftNodeState::CANDIDATE;
     votes_received_.clear();
     votes_received_[config_.node_id] = true;  // Count own vote
     leader_id_.clear();
@@ -112,6 +124,13 @@ VoteResponse RaftState::handleVoteRequest(const VoteRequest& request) {
     
     // If request term is newer, update our term and become follower
     if (request.term > current_term_) {
+        try {
+            log_.persistHardState(request.term, {});
+        } catch (const std::exception& error) {
+            spdlog::error("Raft rejected vote request because hard state could not be persisted: {}",
+                          error.what());
+            return response;
+        }
         current_term_ = request.term;
         voted_for_.clear();
         state_ = RaftNodeState::FOLLOWER;
@@ -125,6 +144,13 @@ VoteResponse RaftState::handleVoteRequest(const VoteRequest& request) {
     bool can_vote = voted_for_.empty() || voted_for_ == request.candidate_id;
     
     if (can_vote) {
+        try {
+            log_.persistHardState(current_term_.load(), request.candidate_id);
+        } catch (const std::exception& error) {
+            spdlog::error("Raft rejected vote because it could not be persisted: {}", error.what());
+            response.term = current_term_.load();
+            return response;
+        }
         voted_for_ = request.candidate_id;
         response.vote_granted = true;
         resetElectionTimeout();  // Reset timeout when granting vote
@@ -326,6 +352,13 @@ AppendEntriesResponse RaftState::handleAppendEntries(const AppendEntriesRequest&
     // If RPC request or response contains term T > currentTerm:
     // set currentTerm = T, convert to follower
     if (request.term > current_term_) {
+        try {
+            log_.persistHardState(request.term, {});
+        } catch (const std::exception& error) {
+            spdlog::error("Raft rejected AppendEntries because hard state could not be persisted: {}",
+                          error.what());
+            return response;
+        }
         current_term_ = request.term;
         voted_for_.clear();
         state_ = RaftNodeState::FOLLOWER;
@@ -348,27 +381,33 @@ AppendEntriesResponse RaftState::handleAppendEntries(const AppendEntriesRequest&
         return response;
     }
     
-    // 3. If an existing entry conflicts with a new one (same index but different terms),
-    //    delete the existing entry and all that follow it
-    for (const auto& entry : request.entries) {
-        auto existing = log_.getEntry(entry.index);
-        if (existing.has_value() && existing->term != entry.term) {
-            log_.truncateFrom(entry.index);
-            break;
+    try {
+        // 3. If an existing entry conflicts with a new one (same index but different terms),
+        //    delete the existing entry and all that follow it
+        for (const auto& entry : request.entries) {
+            auto existing = log_.getEntry(entry.index);
+            if (existing.has_value() && existing->term != entry.term) {
+                log_.truncateFrom(entry.index);
+                break;
+            }
         }
-    }
     
-    // 4. Append any new entries not already in the log
-    for (const auto& entry : request.entries) {
-        if (!log_.getEntry(entry.index).has_value()) {
-            log_.append(entry);
+        // 4. Append any new entries not already in the log
+        for (const auto& entry : request.entries) {
+            if (!log_.getEntry(entry.index).has_value()) {
+                log_.append(entry);
+            }
         }
-    }
     
-    // 5. If leaderCommit > commitIndex, set commitIndex = min(leaderCommit, index of last new entry)
-    if (request.leader_commit > log_.getCommitIndex()) {
-        uint64_t new_commit = std::min(request.leader_commit, log_.getLastLogIndex());
-        log_.setCommitIndex(new_commit);
+        // 5. If leaderCommit > commitIndex, set commitIndex = min(leaderCommit, index of last new entry)
+        if (request.leader_commit > log_.getCommitIndex()) {
+            uint64_t new_commit = std::min(request.leader_commit, log_.getLastLogIndex());
+            log_.setCommitIndex(new_commit);
+        }
+    } catch (const std::exception& error) {
+        spdlog::error("Raft rejected AppendEntries because durable log update failed: {}",
+                      error.what());
+        return response;
     }
     
     response.success = true;
@@ -421,10 +460,9 @@ bool RaftState::hasQuorum() const {
  */
 void RaftState::setSnapshotMeta(uint64_t index, uint64_t term) {
     std::lock_guard<std::mutex> lock(state_mutex_);
+    log_.setSnapshotMeta(index, term);
     snapshot_index_ = index;
     snapshot_term_  = term;
-    // Keep the log's snapshot meta in sync so hasEntry() works after compaction
-    log_.setSnapshotMeta(index, term);
 }
 
 uint64_t RaftState::getSnapshotIndex() const {

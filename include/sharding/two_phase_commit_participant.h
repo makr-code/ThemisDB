@@ -30,6 +30,7 @@
 #pragma once
 
 #include "sharding/shard_rpc_server.h"
+#include "sharding/epoch_fencing.h"
 #include "sharding/wal_manager.h"
 #include <string>
 #include <map>
@@ -59,6 +60,7 @@ struct ParticipantTransaction {
     std::string             transaction_id; ///< Globale Transaktions-ID.
     ParticipantTxnState     state = ParticipantTxnState::PREPARED; ///< Aktueller Teilnehmerzustand.
     nlohmann::json          operations; ///< Gepufferte Operationen fuer spaeteres COMMIT.
+    EpochToken              fencing_token; ///< Epoch credential checked at PREPARE and COMMIT.
     std::chrono::steady_clock::time_point prepared_at;
     int64_t                 prepare_timestamp = 0; ///< Optionaler PREPARE-Zeitstempel vom Coordinator.
     int64_t                 commit_timestamp  = 0; ///< MVCC-COMMIT-Zeitstempel (auf COMMIT gesetzt).
@@ -114,13 +116,15 @@ public:
         std::string wal_directory; ///< WAL-Verzeichnis; leer deaktiviert WAL-Persistenz.
         std::chrono::milliseconds prepare_timeout{60000}; ///< Max. PREPARED-Wartezeit bis Auto-ABORT.
         bool sync_wal_writes = true; ///< Erzwingt synchrones WAL-Flush pro Eintrag.
+        std::shared_ptr<EpochFencingManager> fencing_manager; ///< Required for write authorization.
     };
 
     /**
      * @brief Construct a participant with optional storage callbacks
      *
      * If validate_and_lock / apply / release are left nullptr the participant
-     * will accept all operations (useful in tests).
+     * uses its test-friendly no-op callbacks, but writes still require a configured
+     * fencing manager and a valid per-shard token.
      *
      * @param shard_id   Identifier of this shard
      * @param validate   Callback to validate & lock ops in PREPARE phase
@@ -138,7 +142,8 @@ public:
      * @brief Construct a participant with optional storage callbacks
      *
      * If validate_and_lock / apply / release are left nullptr the participant
-     * will accept all operations (useful in tests).
+     * uses its test-friendly no-op callbacks, but writes still require a configured
+     * fencing manager and a valid per-shard token.
      *
      * @param shard_id   Identifier of this shard
      * @param config     Participant configuration
