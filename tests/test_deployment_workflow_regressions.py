@@ -36,6 +36,45 @@ def run_bash(script, directory, **environment):
 
 
 class DeploymentWorkflowTests(unittest.TestCase):
+    def test_all_release_lanes_stop_on_build_failure_before_packaging(self):
+        script = step("release-build-matrix.yml", "prepare-release-matrix", "plan")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            result, values = run_bash(
+                script, Path(temp), BUILD_MATRIX="all", OS_SELECTOR="all",
+                ARCH_SELECTOR="all", EDITION="community", BUILD_TYPE="Release",
+                PACKAGING="auto", DISTRIBUTION="all", RUN_NUMBER="123",
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        entries = json.loads(values["matrix"])["include"]
+        self.assertEqual(
+            {entry["id"] for entry in entries},
+            {"linux-amd64", "linux-arm64", "windows-amd64", "macos-arm64"},
+        )
+        for entry in entries:
+            with self.subTest(lane=entry["id"]):
+                self.assertFalse(entry.get("build_continue_on_error", False))
+                self.assertFalse(entry["validation_continue_on_error"])
+                self.assertIn("validate_runtime_payload.py", entry["validation_command"])
+
+        caller = workflow("release-build-matrix.yml")["jobs"]["release-platform-matrix"]
+        self.assertEqual(caller["uses"], "./.github/workflows/reusable-cmake-build.yml")
+        self.assertEqual(
+            caller["with"]["build_continue_on_error"],
+            "${{ matrix.build_continue_on_error || false }}",
+        )
+
+    def test_reusable_build_preserves_diagnostics_but_not_packages_after_failure(self):
+        steps = workflow("reusable-cmake-build.yml")["jobs"]["build"]["steps"]
+        diagnostics = next(item for item in steps if item["name"] == "Upload artifacts")
+        packages = next(item for item in steps if item["name"] == "Upload secondary artifacts")
+        self.assertEqual(
+            diagnostics["if"],
+            "${{ !cancelled() && inputs.artifact_name != '' && inputs.artifact_paths != '' }}",
+        )
+        self.assertNotIn("always()", packages["if"])
+        self.assertNotIn("!cancelled()", packages["if"])
+        self.assertEqual(diagnostics["with"]["if-no-files-found"], "ignore")
+
     def test_macos_release_uses_matching_llvm_compiler_headers_and_runtime(self):
         script = step("release-build-matrix.yml", "prepare-release-matrix", "plan")["run"]
         with tempfile.TemporaryDirectory() as temp:

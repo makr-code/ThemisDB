@@ -725,7 +725,7 @@ jobs:
           exit "$VALIDATION_EXIT"
 
       - name: Upload artifacts
-        if: inputs.artifact_name != '' && inputs.artifact_paths != ''
+        if: ${{ !cancelled() && inputs.artifact_name != '' && inputs.artifact_paths != '' }}
         uses: actions/upload-artifact@v5
         with:
           name: ${{ inputs.artifact_name }}
