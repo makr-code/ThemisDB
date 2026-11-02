@@ -52,7 +52,8 @@ using NodeId = std::string;
  * @brief Immutable fencing token carried with every write RPC.
  *
  * A peer rejects any request whose epoch is strictly less than its own
- * current epoch.  The token is cheaply copyable and trivially serialisable.
+ * current epoch, and tokens are valid only for their declared shard. The
+ * token is cheaply copyable and trivially serialisable.
  */
 struct EpochToken {
     EpochNumber epoch{0};
@@ -77,7 +78,7 @@ struct EpochToken {
 enum class FencingResult {
     ALLOWED,            ///< Token epoch matches; operation may proceed
     STALE_EPOCH,        ///< Token epoch is older than current; reject
-    INVALID_TOKEN,      ///< Token is structurally invalid (epoch==0)
+    INVALID_TOKEN,      ///< Token has epoch zero, no issuer, or the wrong shard
     STONITH_ISSUED,     ///< Stale node was fenced via STONITH
     STONITH_FAILED,     ///< STONITH attempt failed; manual intervention required
 };
@@ -323,12 +324,15 @@ public:
      *
      * - ALLOWED        → proceed with the write
      * - STALE_EPOCH    → reject; if auto_stonith the STONITH call may follow
-     * - INVALID_TOKEN  → reject; structurally invalid token
+     * - INVALID_TOKEN  → reject; epoch is zero, issuer is empty, or shard scope differs
      * - STONITH_ISSUED → stale token AND STONITH successfully issued
      * - STONITH_FAILED → stale token AND STONITH failed
      *
-     * @param token       Token attached to the incoming write RPC.
+     * @param token       Token attached to the incoming write RPC; its issuer must be
+     *                    non-empty and its shard_id must match this manager's shard.
      * @param source_node Node that sent the request (for STONITH targeting).
+     * @return ALLOWED for a valid current-or-newer epoch, a stale-token result for
+     *         older epochs, or INVALID_TOKEN for invalid epoch/issuer/shard scope.
      */
     [[nodiscard]] FencingResult checkToken(const EpochToken& token,
                                            const NodeId& source_node);

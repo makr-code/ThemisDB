@@ -168,8 +168,11 @@ EpochToken EpochFencingManager::makeToken() const {
 FencingResult EpochFencingManager::checkToken(const EpochToken& token,
                                               const NodeId& source_node) {
     // Structural validity
-    if (token.epoch == 0) {
-        spdlog::warn("[EpochFencing] INVALID_TOKEN from '{}' (epoch==0)", source_node);
+    if (token.epoch == 0 || token.issuer.empty() ||
+        token.shard_id != config_.shard_id) {
+        spdlog::warn(
+            "[EpochFencing] INVALID_TOKEN from '{}' (epoch={} issuer='{}' shard='{}' expected_shard='{}')",
+            source_node, token.epoch, token.issuer, token.shard_id, config_.shard_id);
         return FencingResult::INVALID_TOKEN;
     }
 
@@ -650,5 +653,4 @@ LeaseManager::Metrics LeaseManager::metrics() const noexcept {
 
 } // namespace sharding
 } // namespace themis
-
 
