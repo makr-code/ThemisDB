@@ -682,22 +682,37 @@ TEST_F(LoRAAdapterTest, MultiAdapter_PriorityManagement) {
 }
 
 /**
- * Test adapter LRU eviction
+ * Test least-recently-used eviction at the configured slot limit
  * Acceptance Criteria:
- * - Least recently used adapters evicted first
- * - Eviction frees resources
- * - System remains functional after eviction
+ * - Loading beyond capacity evicts the least recently used unpinned adapter
+ * - Recently accessed adapters remain registered
+ * - The manager remains usable after eviction
  */
-TEST_F(LoRAAdapterTest, MultiAdapter_LRUEviction) {
 #ifdef THEMIS_ENABLE_LLM
-    // Would test LRU eviction policy
-    // Load adapters, access in pattern, verify eviction order
-    
-    GTEST_SKIP() << "Requires actual LoRA manager implementation";
-#else
-    GTEST_SKIP() << "LLM support not enabled";
-#endif
+TEST_F(LoRAAdapterTest, MultiAdapter_LRUEviction) {
+    const auto oldest_path = createMockAdapter("lru_oldest");
+    const auto recent_path = createMockAdapter("lru_recent");
+    const auto incoming_path = createMockAdapter("lru_incoming");
+    auto manager = createManager(2);
+
+    ASSERT_TRUE(manager->loadLoRA(
+        "lru_oldest", oldest_path, "base_model", 1.0f));
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    ASSERT_TRUE(manager->loadLoRA(
+        "lru_recent", recent_path, "base_model", 1.0f));
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    ASSERT_TRUE(manager->loadLoRA(
+        "lru_oldest", oldest_path, "base_model", 1.0f));
+
+    ASSERT_TRUE(manager->loadLoRA(
+        "lru_incoming", incoming_path, "base_model", 1.0f));
+
+    EXPECT_FALSE(manager->isLoRALoaded("lru_recent"));
+    EXPECT_TRUE(manager->isLoRALoaded("lru_oldest"));
+    EXPECT_TRUE(manager->isLoRALoaded("lru_incoming"));
+    EXPECT_EQ(manager->listLoRAs().size(), 2u);
 }
+#endif
 
 // ═══════════════════════════════════════════════════════════
 // Performance Tests
