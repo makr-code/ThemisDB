@@ -817,13 +817,12 @@ std::string TwoPhaseCommitCoordinator::buildPayload(
 }
 
 /**
- * @brief Log To WAL.
- * @param[in] type Input parameter.
- * @param[in] txn_id Identifier of the txn.
- * @param[in] data Input parameter.
+ * @brief Persist one coordinator WAL entry and report whether it was written.
+ * @param[in] type WAL entry kind.
+ * @param[in] txn_id Transaction identifier associated with the entry.
+ * @param[in] data Additional WAL payload.
  * @param[in] force_sync Whether this protocol record must be synchronously flushed.
  * @return True when WAL is disabled or the append/required flush succeeds.
- * @details Calls: WALLoggingHelper::appendEntryWithResult().
  */
 bool TwoPhaseCommitCoordinator::logToWAL(
     WALEntryType          type,

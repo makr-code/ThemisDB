@@ -146,6 +146,7 @@ struct DistributedTransaction {
     std::set<std::string> aborted_nodes;
 
     std::string error_detail;
+    bool decision_durable = false; ///< Coordinator WAL decision was flushed successfully.
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -245,6 +246,16 @@ struct DistributedTxnManagerConfig {
         const std::string& node_id
     )>;
     std::optional<LivenessCheckFn> liveness_check_fn;
+
+    /**
+     * @brief Resolve a participant endpoint after restart from its persisted node ID.
+     * @param node_id Stable participant identity recorded in the coordinator WAL.
+     * @return Current endpoint, or std::nullopt when the participant is unavailable.
+     * @note Endpoints and affected keys are intentionally not persisted in the WAL.
+     *       If this callback is absent or returns no endpoint, recovery remains in-doubt.
+     */
+    std::function<std::optional<std::string>(const std::string& node_id)>
+        recovery_endpoint_resolver;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -279,29 +290,39 @@ public:
 
 
     /**
-     * @brief Begin Distributed.
-     * @param[in] participants Input parameter.
-     * @return Return value.
+     * @brief Register a distributed transaction and durably record its participant identities.
+     * @param participants Non-empty participant descriptors with stable node IDs.
+     * @return A unique coordinator transaction ID.
+     * @throws std::invalid_argument if participants are empty or remote transport is
+     *         misconfigured.
+     * @throws std::runtime_error if the active-transaction limit is reached or the
+     *         configured WAL cannot durably persist the BEGIN record.
+     * @note Callback pointers, endpoints, and affected keys are not persisted.
+     *       Recovery resolves endpoints from node IDs using the configured resolver.
      */
     TransactionId beginDistributed(const std::vector<Participant>& participants);
 
     /**
      * @brief Prepare Distributed.
      * @param[in] txn_id Identifier of the txn.
-     * @return Return value.
+     * @return Status; a configured WAL append/flush failure is an error and leaves
+     *         the transaction unresolved.
      */
     DistributedTxnStatus prepareDistributed(const TransactionId& txn_id);
 
     /**
      * @brief Commit Distributed.
      * @param[in] txn_id Identifier of the txn.
-     * @return Return value.
+     * @return Status; Phase-2 COMMIT is sent only after the decision is durably
+     *         flushed. Delivery or completion-record failure remains unresolved.
      */
     DistributedTxnStatus commitDistributed(const TransactionId& txn_id);
 
     /**
      * @brief Abort Distributed.
      * @param[in] txn_id Identifier of the txn.
+     * @details Phase-2 ABORT is sent only after the decision is durably flushed.
+     *          Persistence or delivery failures leave the transaction unresolved.
      */
     void abortDistributed(const TransactionId& txn_id);
 
@@ -335,6 +356,14 @@ public:
 
     // ── Recovery ─────────────────────────────────────────────────────────────
 
+    /**
+     * @brief Re-drive unresolved transactions from the coordinator WAL.
+     * @return Number of transactions whose decision delivery and completion record
+     *         were both confirmed durable.
+     * @note Legacy or malformed WAL records without valid participant identities,
+     *       missing endpoint resolution, transport failures, and WAL failures stay
+     *       unresolved and must keep service readiness false.
+     */
     size_t recoverInDoubtTransactions() override;
 
     [[nodiscard]] std::string recoveryCoordinatorName() const override;
@@ -456,10 +485,11 @@ private:
      */
     std::string generateTransactionId();
 
-    void logToWAL(
+    bool logToWAL(
         themis::sharding::WALEntryType type,
         const std::string&             txn_id,
-        const std::string&             data = ""
+        const std::string&             data = "",
+        const std::vector<Participant>* participants = nullptr
     );
 
     /**

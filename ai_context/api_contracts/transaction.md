@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-29"
+Last Updated: "2026-11-02"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Transaction Module Contract
 
 Datum: 2026-10-29
@@ -34,6 +48,44 @@ Datum: 2026-10-29
 | **Prepare** | Coordinator locks all involved keys; participants vote ready/abort | 30s | test_txn_2pc_prepare.cpp |
 | **Commit** | Coordinator broadcasts commit; all participants write + ack | 30s | test_txn_2pc_commit.cpp |
 | Recovery | On participant failure, coordinator retries or aborts; idempotent | N/A | test_txn_2pc_recovery.cpp |
+
+### Durable DTM Recovery
+
+`DistributedTransactionManager` persists stable participant node IDs in its
+BEGIN, PREPARE, decision, and completion WAL records. It deliberately omits
+transport endpoints, callback pointers, and affected keys. After restart,
+`recovery_endpoint_resolver` maps each persisted node ID to its current
+endpoint; if resolution or Phase-2 delivery fails, the transaction remains
+in-doubt. A durable COMMIT is replayed as COMMIT; a transaction without a
+durable COMMIT decision is resolved with ABORT. Completion is recorded only
+after all Phase-2 deliveries succeed and the completion record is flushed.
+
+`GlobalTwoPhaseCommitRecoveryReport::ready_for_service` is false when a
+coordinator is missing or any transaction remains unresolved. The HTTP
+`/dtxn/*` runtime persists its `DistributedTransactionCoordinator` WAL below the
+configured storage WAL directory (or database directory), replays it before
+server construction completes, and propagates WAL/replay errors to fail startup.
+`/health/ready` also reports unavailable while the runtime coordinator retains
+durable recovery blockers after failed replay/incomplete phase delivery, or its
+recovery snapshot fails. Ordinary in-flight transactions do not block
+readiness. The HTTP runtime refreshes its endpoint map from `ShardingManager`
+at startup and on topology changes, resolving exact node addresses, decimal
+node IDs, and `shard<node_id>`/`shard-<node_id>` aliases; it periodically
+retries unresolved recovery from readiness checks. Missing or malformed
+participant IDs/endpoints do not count as successful empty replay; retries are
+scoped to known recovery blockers and do not presume-abort a live transaction's
+BEGIN record.
+The shard-side `TwoPhaseCommitParticipant` flushes both PREPARE votes and COMMIT
+records before acknowledging them, restores prepared operations and locks during
+WAL recovery, and fails closed on WAL replay errors. Its operation-application
+callback must be idempotent by transaction ID to tolerate redelivery after a
+crash between applying operations and persisting the participant COMMIT record.
+The snapshot-isolation Percolator path is rejected unless a durable coordinator
+decision log is configured.
+This runtime integration does not make the global recovery report a universal
+gate for other coordinator implementations; canonical cross-module coordinator
+selection, a combined coordinator/participant crash matrix, replica-process
+crash coverage, and successful CI evidence remain open.
 
 ## SAGA (Distributed Transactions)
 

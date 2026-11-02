@@ -1176,8 +1176,9 @@ Result<void> WALStorage::flush() {
         auto elapsed = std::chrono::steady_clock::now() - start_time;
         const auto flush_error = std::string(std::strerror(errno));
         if (elapsed > FSYNC_TIMEOUT) {
-            THEMIS_WARN("WALStorage::flush: fsync failed after >{}ms; durability is unconfirmed",
-                       std::chrono::duration_cast<std::chrono::milliseconds>(FSYNC_TIMEOUT).count());
+            THEMIS_ERROR("WALStorage::flush: fsync timeout (>{}ms); durability is unconfirmed: {}",
+                       std::chrono::duration_cast<std::chrono::milliseconds>(FSYNC_TIMEOUT).count(),
+                       flush_error);
             return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
                            "WAL fsync timed out without confirming durability: " + flush_error);
         }

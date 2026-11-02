@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-09-09"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-02"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -26,6 +26,15 @@ Source level: 1; SOT domain: module-behavior. Canonical references: current tran
 The source tree contains local transaction lifecycle, MVCC-backed operations, savepoints, distributed-coordination, saga, audit, and batching components. Release maturity/active-deployment claims are governed by the root roadmap and release evidence, not established by this source inventory.
 
 ## In Progress
+- [~] Issue #7552 — Durable decisions and fail-closed recovery are implemented; HTTP distributed-transaction startup/readiness now consumes the runtime coordinator state, while the full coordinator/participant/replica crash matrix and CI evidence remain open (Target: WS1/WS2)
+  - DTM and GlobalTransactionManager confirm WAL append+flush before Phase-2 decision delivery; delivery/completion failures remain unresolved.
+  - DTM WAL now stores stable participant node IDs on BEGIN/PREPARE/decision/completion records; restart recovery requires a configured node-ID endpoint resolver and keeps legacy/malformed metadata unresolved.
+  - The HTTP `/dtxn/*` runtime enables coordinator WAL beneath the configured storage WAL/database directory; WAL recovery errors now fail server construction, and `/health/ready` blocks on durable recovery blockers or an unreadable recovery snapshot without treating normal in-flight transactions as blockers. The runtime resolves `node_address`, numeric `node_id`, and `shard<node_id>`/`shard-<node_id>` aliases from `ShardingManager`, then retries only known recovery blockers periodically from readiness checks and after topology changes.
+  - Missing or malformed participant IDs/endpoints remain in-doubt instead of being skipped and falsely marked complete; the shared recovery report is not a universal gate for other coordinator implementations.
+  - A configured participant WAL failure prevents a YES vote; WAL fsync timeout is a recovery error, not degraded success.
+  - Replication replay aborts on invalid serialized entries; incomplete final tails remain the only recoverable malformed-record case at the shared storage layer.
+  - The registered subprocess harness covers coordinator decision boundaries, participant crashes before PREPARE/after durable PREPARE/during apply/after ACK, replica-WAL crashes across prepare/decision/commit boundaries, and a combined coordinator/participant/replica restart scenario. The new tests remain unbuilt and unexecuted; they provide WAL-process evidence, not network replication or storage-engine application proof.
+  - [!] CI evidence blocker: Build: Wave B Transaction run `41389381448` failed configure in phase2 and wave-a because `yaml-cpp`'s CMake config package was absent; the workflow package lists now include `libyaml-cpp-dev` in compile, smoke, full-suite, and chaos jobs. A successful rerun with artifacts is still required before publishing transaction evidence.
 - [~] Transaction hardening wave for distributed safety, timeout semantics, and recovery guarantees (Target: Q3 2026)
   - [x] `ITransactionCoordinator` interface declaration includes protocol identifiers (2PC, 3PC, SAGA, Percolator, Calvin); concrete implementation of every protocol is not implied — Issue #5374
   - [~] Complete remaining cross-shard failure-injection coverage for coordinator and participant transitions (Target: Q3 2026)

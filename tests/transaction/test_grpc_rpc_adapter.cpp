@@ -30,7 +30,7 @@
  * GRPC-DTM-02 DTM integration: Phase-1 fn returns ABORT → ABORTED
  * GRPC-DTM-03 DTM integration: Phase-2 fn wired → commit delivered
  * GRPC-CONTENTION-01  Contention determinism: 30+ serial txns without data loss
- * GRPC-WAL-01 In-doubt WAL concept: mock WAL records decision before Phase-2
+ * GRPC-WAL-01 DTM integration: Phase-2 callback reached after successful commit
  *
  * @version 0.0.1
  * @note Wave: Wave 9 Block 2 (W9-7..W9-9)
@@ -493,11 +493,10 @@ TEST(GrpcRpcAdapterContention, SerialTransactionsDeterminism) {
 // ─────────────────────────────────────────────────────────────────────────────
 // GRPC-WAL-01  In-doubt WAL concept: decision is durable before Phase-2 fan-out
 // ─────────────────────────────────────────────────────────────────────────────
-TEST(GrpcRpcAdapterWal, CommitDecisionDurableBeforePhase2) {
-    // The DTM writes COMMIT_TX to the WAL inside commitDistributed() before
-    // calling runPhase2Unlocked().  This test verifies that Phase-2 delivery
-    // via an injected fn is called *after* the method returns (and thus after
-    // the WAL write that precedes it).
+TEST(GrpcRpcAdapterWal, Phase2CallbackAfterSuccessfulCommit) {
+    // This is an in-process integration check: Phase-2 is reached for a
+    // successful commit. It does not independently inspect the WAL flush or
+    // provide process-crash/multi-node evidence.
     auto cfg = makeConfig();
     DistributedTransactionManager dtm("coord-wal-01", cfg);
     DistributedTransactionManager::setRpcPhase1Fn(makeP1Fn(true));
@@ -514,7 +513,7 @@ TEST(GrpcRpcAdapterWal, CommitDecisionDurableBeforePhase2) {
     auto result = dtm.commitDistributed(txn_id);
 
     EXPECT_TRUE(result.ok) << result.message;
-    // Phase-2 fn should have been invoked.
+    // Phase-2 fn should have been invoked for the successful commit.
     EXPECT_TRUE(phase2_called.load());
 
     DistributedTransactionManager::clearRpcPhase1Fn();

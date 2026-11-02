@@ -5,7 +5,7 @@
 //   - Normal recovery (all segments intact)
 //   - Recovery after last segment is truncated mid-entry
 //   - Recovery with completely empty last segment
-//   - Recovery stops at CRC-corrupted entry but keeps prior entries
+//   - CRC corruption fails closed
 //   - Multi-segment: entries from all segments recovered
 //   - Sequence numbers resume correctly after recovery
 //   - Concurrent writes followed by recovery

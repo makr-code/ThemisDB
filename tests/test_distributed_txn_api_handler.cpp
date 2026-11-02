@@ -15,12 +15,16 @@
 
 #include <gtest/gtest.h>
 #include "server/distributed_txn_api_handler.h"
+#include "server/monitoring_api_handler.h"
 #include "sharding/distributed_transaction.h"
 #include "sharding/truetime.h"
+#include "transaction/two_phase_commit_wal_recovery.h"
+#include <atomic>
 #include <cstdlib>
 #include <chrono>
 #include <filesystem>
 #include <nlohmann/json.hpp>
+#include <stdexcept>
 #include <string>
 
 using namespace themis::server;
@@ -145,6 +149,25 @@ TEST_F(DistributedTxnApiHandlerTest, BeginWithSnapshotIsolation) {
                 body["isolation_level"] == "serializable");
 }
 
+TEST(DistributedTxnApiHandlerTest, PercolatorRequiresDurableCoordinatorLog) {
+    TrueTime::Config tt;
+    auto truetime = std::make_shared<TrueTime>(tt);
+
+    DistributedTransactionCoordinator::Config cfg;
+    cfg.enable_recovery_log = false;
+    cfg.use_percolator_for_snapshot = true;
+    auto coordinator =
+        std::make_shared<DistributedTransactionCoordinator>(truetime, cfg);
+
+    const auto transaction_id =
+        coordinator->beginTransaction({"shard1"}, DistributedIsolationLevel::SNAPSHOT_ISOLATION);
+    ASSERT_FALSE(transaction_id.empty());
+
+    EXPECT_FALSE(coordinator->commit(transaction_id));
+    EXPECT_EQ(coordinator->getTransactionState(transaction_id),
+              TransactionState::ACTIVE);
+}
+
 TEST_F(DistributedTxnApiHandlerTest, BeginWithSerializableIsolation) {
     auto req = makeReq(http::verb::post, "/dtxn/begin",
                        R"({"shards":["shard1"],"isolation_level":"serializable"})");
@@ -211,10 +234,9 @@ TEST_F(DistributedTxnApiHandlerTest, BeginEmptyShardsReturnsBadRequest) {
 }
 
 TEST(DistributedTransactionCoordinatorRecoveryTest,
-     ConstructorRecoveryReplaysDurableCommitDecisionFromWAL) {
+     ConstructorRecoveryKeepsCommitInDoubtWhenParticipantEndpointIsUnavailable) {
     const auto wal_dir = (std::filesystem::temp_directory_path() /
                           ("distributed_txn_wal_" +
-                           std::to_string(::getpid()) + "_" +
                            std::to_string(
                                std::chrono::steady_clock::now()
                                    .time_since_epoch()
@@ -284,9 +306,120 @@ TEST(DistributedTransactionCoordinatorRecoveryTest,
     cfg.wal_directory = wal_dir;
 
     DistributedTransactionCoordinator coordinator(truetime, cfg);
-    EXPECT_EQ(coordinator.getTransactionState(txn_id), TransactionState::COMMITTED);
-    EXPECT_TRUE(coordinator.getRecoverableTransactions().empty());
+    EXPECT_EQ(coordinator.getTransactionState(txn_id), TransactionState::COMMITTING);
+    ASSERT_EQ(coordinator.getRecoverableTransactions().size(), 1u);
+    EXPECT_EQ(coordinator.getRecoverableTransactions().front().transaction_id, txn_id);
+    EXPECT_EQ(coordinator.getRecoveryBlockerCount(), 1u);
     EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 0u);
+    EXPECT_EQ(coordinator.getTransactionState(txn_id), TransactionState::COMMITTING);
+    EXPECT_EQ(coordinator.getRecoveryBlockerCount(), 1u);
+
+    const auto report =
+        themis::transaction::GlobalTwoPhaseCommitRecoveryManager::recoverAll({&coordinator});
+    EXPECT_FALSE(report.ready_for_service);
+    EXPECT_EQ(report.in_doubt_after, 1u);
+}
+
+TEST(DistributedTransactionCoordinatorRecoveryTest,
+     WALReplayMarksMalformedParticipantMetadataUnresolved) {
+    WALEntry begin_entry;
+    begin_entry.type = WALEntryType::BEGIN_TX;
+    begin_entry.transaction_id = "malformed-participant-metadata";
+    begin_entry.data = {
+        {"participants", nlohmann::json::array({
+            {{"shard_id", "shard-a"}},
+            {{"endpoint", "shard://missing-id"}}
+        })}
+    };
+
+    const auto recovered =
+        themis::transaction::TwoPhaseCommitWALRecovery::reconstruct({begin_entry});
+    ASSERT_EQ(recovered.size(), 1u);
+    const auto& transaction = recovered.begin()->second;
+    EXPECT_TRUE(transaction.participants_invalid);
+    ASSERT_EQ(transaction.participants.size(), 1u);
+    EXPECT_EQ(transaction.participants.front(), "shard-a");
+}
+
+TEST(DistributedTransactionCoordinatorRecoveryTest,
+     ActiveRuntimeTransactionDoesNotBlockReadiness) {
+    TrueTime::Config tt;
+    tt.base_uncertainty_us = 1000;
+    auto truetime = std::make_shared<TrueTime>(tt);
+
+    DistributedTransactionCoordinator::Config cfg;
+    cfg.enable_recovery_log = false;
+    DistributedTransactionCoordinator coordinator(truetime, cfg);
+
+    ASSERT_FALSE(coordinator.beginTransaction({"shard-a"}).empty());
+    EXPECT_EQ(coordinator.getRecoveryBlockerCount(), 0u);
+}
+
+TEST(DistributedTransactionCoordinatorRecoveryTest,
+     RuntimeRecoveryRetryDoesNotAbortLiveTransaction) {
+    const auto wal_dir = (std::filesystem::temp_directory_path() /
+        ("distributed_txn_live_wal_" +
+         std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()))).string();
+    struct WalDirGuard {
+        const std::string& path;
+        ~WalDirGuard() { std::filesystem::remove_all(path); }
+    } guard{wal_dir};
+
+    TrueTime::Config tt;
+    auto truetime = std::make_shared<TrueTime>(tt);
+    DistributedTransactionCoordinator::Config cfg;
+    cfg.enable_recovery_log = true;
+    cfg.wal_directory = wal_dir;
+    DistributedTransactionCoordinator coordinator(truetime, cfg);
+
+    const auto transaction_id = coordinator.beginTransaction({"shard-a"});
+    ASSERT_FALSE(transaction_id.empty());
+    EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 0u);
+    EXPECT_EQ(coordinator.getTransactionState(transaction_id), TransactionState::ACTIVE);
+    EXPECT_EQ(coordinator.getRecoveryBlockerCount(), 0u);
+}
+
+TEST(MonitoringApiHandlerReadinessTest, BlocksWhileTransactionRecoveryIsUnresolved) {
+    std::atomic<uint64_t> request_count{0};
+    std::atomic<uint64_t> error_count{0};
+    const auto started_at = std::chrono::steady_clock::now();
+    MonitoringApiHandler handler(
+        nullptr, nullptr, &request_count, &error_count, &started_at, nullptr);
+    std::size_t recovery_blockers = 1;
+    handler.setTransactionRecoveryBlockerCountProvider(
+        [&recovery_blockers] { return recovery_blockers; });
+
+    auto req = makeReq(http::verb::get, "/health/ready");
+    auto response = handler.handleReadiness(req);
+    EXPECT_EQ(response.result(), http::status::service_unavailable);
+    auto body = parseBody(response);
+    EXPECT_EQ(body["status"], "not_ready");
+    EXPECT_FALSE(body["checks"]["transaction_recovery_ready"].get<bool>());
+    EXPECT_EQ(body["checks"]["transaction_recovery_blockers"], 1u);
+
+    recovery_blockers = 0;
+    response = handler.handleReadiness(req);
+    EXPECT_EQ(response.result(), http::status::ok);
+    body = parseBody(response);
+    EXPECT_TRUE(body["checks"]["transaction_recovery_ready"].get<bool>());
+    EXPECT_EQ(body["checks"]["transaction_recovery_blockers"], 0u);
+}
+
+TEST(MonitoringApiHandlerReadinessTest, FailsClosedWhenRecoveryReadinessProviderThrows) {
+    std::atomic<uint64_t> request_count{0};
+    std::atomic<uint64_t> error_count{0};
+    const auto started_at = std::chrono::steady_clock::now();
+    MonitoringApiHandler handler(
+        nullptr, nullptr, &request_count, &error_count, &started_at, nullptr);
+    handler.setTransactionRecoveryBlockerCountProvider([]() -> std::size_t {
+        throw std::runtime_error("recovery state unavailable");
+    });
+
+    auto req = makeReq(http::verb::get, "/health/ready");
+    const auto response = handler.handleReadiness(req);
+    EXPECT_EQ(response.result(), http::status::service_unavailable);
+    const auto body = parseBody(response);
+    EXPECT_FALSE(body["checks"]["transaction_recovery_ready"].get<bool>());
 }
 
 TEST_F(DistributedTxnApiHandlerTest, BeginInvalidShardIdReturnsBadRequest) {

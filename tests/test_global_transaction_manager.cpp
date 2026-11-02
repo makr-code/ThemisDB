@@ -7,6 +7,8 @@
 #include "transaction/global_transaction_manager.h"
 #include "sharding/truetime.h"
 #include <atomic>
+#include <chrono>
+#include <filesystem>
 #include <mutex>
 #include <stdexcept>
 #include <string>
@@ -90,6 +92,19 @@ private:
     std::string        last_abort_txn_;
 };
 
+class CommitFailingRegionParticipant : public IGlobalRegionParticipant {
+public:
+    bool prepare(const std::string&, const nlohmann::json&) override {
+        return true;
+    }
+
+    void commit(const std::string&, int64_t) override {
+        throw std::runtime_error("mock commit failure");
+    }
+
+    void abort(const std::string&) override {}
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Fixture
 // ─────────────────────────────────────────────────────────────────────────────
@@ -104,17 +119,24 @@ protected:
         truetime_ = std::make_shared<TrueTime>(tt_cfg);
 
         GlobalTransactionManager::Config cfg;
-        // No WAL directory → WAL disabled (keeps tests hermetic)
+        wal_directory_ = (std::filesystem::temp_directory_path() /
+            ("themis_global_txn_test_" + std::to_string(
+                std::chrono::steady_clock::now().time_since_epoch().count()))).string();
+        cfg.wal_directory = wal_directory_;
         gtm_ = std::make_unique<GlobalTransactionManager>("test-coord", truetime_, cfg);
     }
 
     void TearDown() override {
         gtm_.reset();
         truetime_.reset();
+        std::error_code ec;
+        std::filesystem::remove_all(wal_directory_, ec);
+        EXPECT_FALSE(ec) << ec.message();
     }
 
     std::shared_ptr<TrueTime>              truetime_;
     std::unique_ptr<GlobalTransactionManager> gtm_;
+    std::string wal_directory_;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -233,6 +255,32 @@ TEST_F(GlobalTransactionManagerTest, CommitSingleRegionSuccess) {
     EXPECT_EQ(p.lastPrepareTxn(), txn_id);
     EXPECT_EQ(p.lastCommitTxn(),  txn_id);
     EXPECT_EQ(p.lastCommitTs(),   outcome.commit_timestamp_ns);
+}
+
+TEST_F(GlobalTransactionManagerTest, MissingWALDoesNotPrepareParticipants) {
+    GlobalTransactionManager::Config config;
+    GlobalTransactionManager no_wal("no-wal-coord", truetime_, config);
+    MockRegionParticipant participant;
+    no_wal.registerRegion("region", &participant);
+    const auto txn_id = no_wal.beginTransaction({"region"});
+
+    const auto outcome = no_wal.commit(txn_id);
+
+    EXPECT_EQ(outcome.result, GlobalTxnResult::ERROR);
+    EXPECT_EQ(participant.prepareCount(), 0);
+    EXPECT_EQ(participant.commitCount(), 0);
+    EXPECT_EQ(participant.abortCount(), 0);
+}
+
+TEST_F(GlobalTransactionManagerTest, FailedPhase2DoesNotAcknowledgeCommit) {
+    CommitFailingRegionParticipant participant;
+    gtm_->registerRegion("region", &participant);
+    const auto txn_id = gtm_->beginTransaction({"region"});
+
+    const auto outcome = gtm_->commit(txn_id);
+
+    EXPECT_EQ(outcome.result, GlobalTxnResult::ERROR);
+    EXPECT_EQ(gtm_->getTransactionState(txn_id), GlobalTxnState::COMMIT_DECIDED);
 }
 
 TEST_F(GlobalTransactionManagerTest, CommitMultipleRegionsSuccess) {

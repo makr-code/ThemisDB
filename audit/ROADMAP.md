@@ -144,6 +144,7 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
   - Kompatibilität: Breaking Change (siehe [Breaking Changes](#breaking-changes)); Storage-README/API synchronisiert
     2026-11-02, ohne die offenen Test- oder Performance-Gates als erledigt auszuweisen.
 - [ ] **P0 · STO-07 – Prozess-Crash-Harness** (Target: M1 · 2027-01-31)
+  - [~] 2026-11-02: The registered subprocess harness now covers coordinator decision boundaries, participant crashes before PREPARE/after durable PREPARE/during apply/after ACK, replica-WAL crashes across prepare/decision/commit boundaries, and a combined coordinator/participant/replica restart scenario. Build/test execution and CI artifact publication are pending; these WAL-process tests do not establish network replication, RocksDB, backup/restore, or randomized storage-fault coverage.
   - Kindprozess schreibt bestätigte Commits; Elternprozess beendet ihn per `SIGKILL`/`TerminateProcess` an zufälligen
     Punkten (inkl. während `fsync`, Segment-Rotation, Checkpoint, Backup). Danach Neustart und Prüfung:
     jeder bestätigte Commit sichtbar, kein unbestätigter Commit sichtbar, Indizes konsistent.
@@ -192,6 +193,17 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
   - Ein Dokument plus Code-Durchsetzung: Decision-Log durable **vor** COMMIT-ACK; In-Doubt-Auflösung beim Start
     (blockierend, mit Metrik); Participant-WAL und Replikations-WAL nutzen den fail-closed Recovery-Status aus STO-01.
   - Test: Matrix {Koordinator, Participant, Replica} × {Crash vor Prepare, nach Prepare, nach Decision, während Commit}.
+  - [~] 2026-11-02: `DistributedTransactionManager` and `GlobalTransactionManager` check durable decisions before
+    Phase-2 delivery; participant PREPARE votes and COMMIT acknowledgments require durable WAL records, participant
+    recovery restores prepared locks and propagates WAL errors, and incomplete delivery remains unresolved.
+    DTM journals participant node IDs and reconstructs decisions through a configured endpoint resolver. The HTTP
+    `/dtxn/*` runtime now enables its coordinator WAL under the configured storage WAL/database directory, propagates
+    WAL replay errors as startup failures, resolves node addresses and IDs from `ShardingManager`, periodically retries
+    only known recovery blockers from readiness checks and topology changes, and makes `/health/ready` fail while durable recovery blockers remain (not
+    for ordinary in-flight requests).
+    Recovery also preserves in-doubt state when participant IDs/endpoints are missing instead of completing an empty
+    replay; malformed participant descriptors are also retained as unresolved. Global canonical-coordinator selection remains open, as do replica-process and combined coordinator/
+    participant crash coverage, focused test execution, and a successful evidence-artifact workflow run.
 - [ ] **P0 · DIS-03 – Echter Stream-Transport für Shard-Transfer** (Target: M2 · 2027-03-31)
   - `src/sharding/stream_protocol.cpp:663-710`: Produktions-Caller verdrahtet `setPrepareTransferCallback()` mit dem
     gRPC-Transport; ohne Callback **und** mit realem Endpunkt → Fehler `TransportNotConfigured` statt In-Process-Simulation.

@@ -11,14 +11,16 @@
 //
 // Unified 2PC Recovery Interface — shared contract for all 2PC coordinators.
 //
-// Three independent coordinator implementations exist in ThemisDB:
+// Multiple independent coordinator implementations exist in ThemisDB:
 //   1. TwoPhaseCommitCoordinator      (sharding/two_phase_commit_coordinator.h)
-//   2. GlobalTransactionManager       (transaction/global_transaction_manager.h)
-//   3. DistributedTransactionManager  (transaction/distributed_transaction_manager.h)
+//   2. CrossShardTransactionCoordinator (sharding/cross_shard_transaction.h)
+//   3. DistributedTransactionCoordinator (sharding/distributed_transaction.h)
+//   4. GlobalTransactionManager       (transaction/global_transaction_manager.h)
+//   5. DistributedTransactionManager  (transaction/distributed_transaction_manager.h)
 //
 // This header provides:
 //   - IRecoverableTwoPhaseCoordinator — extended interface that every coordinator
-//     must implement to participate in global recovery passes.
+//     exposes coordinator-local recovery state to a global reporting pass.
 //   - GlobalTwoPhaseCommitRecoveryManager — header-only orchestrator that drives
 //     one recovery pass across all registered coordinators and returns a
 //     unified report.
@@ -83,10 +85,15 @@ struct RecoverableTwoPhaseTransaction {
  * recovery pass that reports normalized pre/post in-doubt counts while still
  * using their native WAL or snapshot backend internally.
  *
- * All three ThemisDB 2PC coordinator types must implement this interface:
+ * The following implementations currently expose this interface:
  * - TwoPhaseCommitCoordinator
+ * - CrossShardTransactionCoordinator
+ * - DistributedTransactionCoordinator
  * - GlobalTransactionManager
  * - DistributedTransactionManager
+ *
+ * This shared reporting interface does not select a canonical runtime
+ * coordinator, unify their WAL formats, or provide a system readiness gate.
  */
 class IRecoverableTwoPhaseCoordinator : public IInDoubtRecoveryCoordinator {
 public:
@@ -143,12 +150,15 @@ struct GlobalTwoPhaseCommitRecoveryReport {
     /// Per-coordinator breakdown.
     std::vector<RecoverableTwoPhaseCoordinatorReport> coordinators;
 
+    /// False if any supplied coordinator is missing or unresolved work remains.
+    bool ready_for_service = false;
+
     /**
-     * @brief Whether startup must remain blocked pending transaction recovery.
-     * @return True when any transaction remains in doubt after the recovery pass.
-     */
+    * @brief Whether startup must remain blocked after the recovery pass.
+    * @return True if any coordinator is missing or unresolved work remains.
+    */
     [[nodiscard]] bool startupBlocked() const noexcept {
-        return in_doubt_after != 0;
+        return !ready_for_service;
     }
 };
 
@@ -159,9 +169,11 @@ struct GlobalTwoPhaseCommitRecoveryReport {
 /**
  * @brief Run one normalized recovery pass across multiple 2PC coordinators.
  *
- * This is a stateless header-only orchestrator.  Call recoverAll() once
- * after a coordinator restart to drive every registered coordinator through
- * its recovery sequence and obtain a unified report.
+ * This is a stateless header-only orchestrator. Call recoverAll() once after
+ * coordinator restart to drive every registered coordinator through its
+ * recovery sequence and obtain a unified report. Callers must withhold service
+ * readiness unless ready_for_service is true. This class does not establish
+ * cross-coordinator WAL compatibility or multi-process recovery guarantees.
  *
  * Example:
  * @code
@@ -182,8 +194,10 @@ public:
      * Null pointers in the list are silently skipped.
      *
      * @param coordinators Recovery-capable coordinators to visit exactly once.
-     * @return             Aggregated before/after counts and per-coordinator results;
-     *                     call `startupBlocked()` before allowing writes.
+     * @return             Aggregated counts and per-coordinator results.
+     *                      ready_for_service is false when a supplied coordinator
+     *                      is null or any non-final transaction remains.
+     *                     Use startupBlocked() to test readiness.
      */
     [[nodiscard]] static GlobalTwoPhaseCommitRecoveryReport recoverAll(
         const std::vector<IRecoverableTwoPhaseCoordinator*>& coordinators
@@ -191,12 +205,13 @@ public:
         GlobalTwoPhaseCommitRecoveryReport report;
         report.coordinator_count = coordinators.size();
         report.coordinators.reserve(coordinators.size());
+        bool all_coordinators_present = true;
 
         for (auto* coordinator : coordinators) {
             if (!coordinator) {
+                all_coordinators_present = false;
                 continue;
             }
-
             RecoverableTwoPhaseCoordinatorReport coordinator_report;
             coordinator_report.coordinator_name = coordinator->recoveryCoordinatorName();
             coordinator_report.backend_name     = coordinator->recoveryBackendName();
@@ -214,6 +229,8 @@ public:
             report.coordinators.push_back(std::move(coordinator_report));
         }
 
+        report.ready_for_service =
+            all_coordinators_present && report.in_doubt_after == 0;
         return report;
     }
 };

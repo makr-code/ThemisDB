@@ -745,12 +745,12 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "b5b54ea0e4888cf7"
+      "sha256_prefix": "25128ccda746d918"
     },
     {
       "category": "governance",
       "path": "ROADMAP.md",
-      "sha256_prefix": "b2959878b7dab5af"
+      "sha256_prefix": "d766510ee1e7a908"
     },
     {
       "category": "governance",
@@ -775,7 +775,7 @@
     {
       "category": "governance",
       "path": "CHANGELOG.md",
-      "sha256_prefix": "7c962379ce56b53c"
+      "sha256_prefix": "04c343dda2da57f1"
     },
     {
       "category": "governance",
@@ -895,7 +895,7 @@
     {
       "category": "docs",
       "path": "docs/DISTRIBUTED_TRANSACTIONS.md",
-      "sha256_prefix": "cc1f1bdfb52146e3"
+      "sha256_prefix": "420a5a1cfd80f693"
     },
     {
       "category": "docs",
@@ -1715,12 +1715,12 @@
     {
       "category": "docs",
       "path": "docs/architecture/P1D01_ISSMPLUGIN_DESIGN_REVIEW.md",
-      "sha256_prefix": "ab146d378b9f23c3"
+      "sha256_prefix": "624afe6958609dde"
     },
     {
       "category": "docs",
       "path": "docs/architecture/P1_D01_ISSMPLUGIN_DESIGN_REVIEW.md",
-      "sha256_prefix": "295a544619554e6d"
+      "sha256_prefix": "b3431ae231f6ffae"
     },
     {
       "category": "docs",
@@ -1730,7 +1730,7 @@
     {
       "category": "docs",
       "path": "docs/architecture/P1_P2_IMPLEMENTATION_COMPLETION_INDEX.md",
-      "sha256_prefix": "4e8adbf398746b3c"
+      "sha256_prefix": "3dc11a435a46b373"
     },
     {
       "category": "docs",
@@ -1775,7 +1775,7 @@
     {
       "category": "docs",
       "path": "docs/architecture/README_SSM_HYBRID_IMPLEMENTATION.md",
-      "sha256_prefix": "7af46fe662cf8569"
+      "sha256_prefix": "e4c34cd696a0f29d"
     },
     {
       "category": "docs",
@@ -1860,7 +1860,7 @@
     {
       "category": "docs",
       "path": "docs/architecture/ssm-hybrid-rollout-plan.md",
-      "sha256_prefix": "40ac48f8e87ab3f5"
+      "sha256_prefix": "2009e116bf2fabfd"
     },
     {
       "category": "docs",
@@ -1870,7 +1870,7 @@
     {
       "category": "docs",
       "path": "docs/architecture/transaction_coordinators.md",
-      "sha256_prefix": "c7b9bc6b6385d189"
+      "sha256_prefix": "483ea6a39e3baeee"
     },
     {
       "category": "docs",
@@ -2500,7 +2500,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "f297cfaf8ee91bfb"
+      "sha256_prefix": "571fcfb51f29e009"
     },
     {
       "category": "docs",
@@ -6585,12 +6585,12 @@
     {
       "category": "docs",
       "path": "docs/transaction/API.md",
-      "sha256_prefix": "8cfe8b70cb578bcf"
+      "sha256_prefix": "bf900096a0d784b1"
     },
     {
       "category": "docs",
       "path": "docs/transaction/README.md",
-      "sha256_prefix": "08e7c83734422693"
+      "sha256_prefix": "4fe864ebdb481efe"
     },
     {
       "category": "docs",
@@ -7003,7 +7003,7 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-11-02T17:15:08.373516+00:00",
+  "generated_at": "2026-11-02T17:44:29.683400+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-11-02\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
@@ -9002,15 +9002,15 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "b5b54ea0e4888cf7",
+    "ARCHITECTURE.md": "25128ccda746d918",
     "FUTURE_ENHANCEMENTS.md": "ab3cf42244d049f6",
-    "ROADMAP.md": "b2959878b7dab5af",
+    "ROADMAP.md": "d766510ee1e7a908",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
-    "ai_context/api_contracts/": "85c94f26d646b831",
-    "ai_context/developer_llm_wiki/": "0843035442c9a482",
+    "ai_context/api_contracts/": "389cdacfaaa6f0ca",
+    "ai_context/developer_llm_wiki/": "6ca3bf611f768cff",
     "ai_working/": "52346260da576891",
-    "docs/": "3cff67ad5bd77fcf"
+    "docs/": "fd8e981b9b4edbe5"
   },
   "statistics": {
     "ai_working_artifact_count": 28,

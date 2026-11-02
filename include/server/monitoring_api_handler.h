@@ -15,6 +15,8 @@
 #include <string>
 #include <atomic>
 #include <chrono>
+#include <cstddef>
+#include <functional>
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
 #include "core/concerns/concerns_context.h"
@@ -249,6 +251,15 @@ public:
     }
 
     /**
+     * @brief Register the number of transactions that still block service readiness.
+     * @param provider Thread-safe snapshot callback; zero means recovery is clear.
+     * @note Exceptions from the callback make this handler report not-ready.
+     */
+    void setTransactionRecoveryBlockerCountProvider(std::function<std::size_t()> provider) {
+        transaction_recovery_blocker_count_provider_ = std::move(provider);
+    }
+
+    /**
      * @brief Set Continuous Learning Orchestrator.
      * @param[in] orchestrator Input parameter.
      * @details Calls: std::move().
@@ -275,6 +286,7 @@ private:
     std::shared_ptr<observability::IProvenanceStore> provenance_store_;
     std::shared_ptr<themis::rag::learning::ContinuousLearningOrchestrator>
         continuous_learning_orchestrator_;
+    std::function<std::size_t()> transaction_recovery_blocker_count_provider_;
 
     /**
      * @brief Make Error Response.

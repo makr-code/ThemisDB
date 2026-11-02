@@ -215,6 +215,55 @@ TEST_F(TwoPhaseCommitParticipantTest, NormalCommitPath) {
     EXPECT_TRUE(released_txns_.count(txn) > 0);
 }
 
+TEST(TwoPhaseCommitParticipantRecoveryTest, DurableDecisionSurvivesParticipantRestart) {
+    const auto wal_directory = (std::filesystem::temp_directory_path() /
+        ("themis_participant_recovery_" +
+         std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()))).string();
+    const std::string transaction_id = "participant-restart-commit";
+    TwoPhaseCommitParticipant::Config config;
+    config.wal_directory = wal_directory;
+    config.fencing_manager = testFencingManager("shard-recovery");
+
+    {
+        TwoPhaseCommitParticipant participant("shard-recovery", config);
+        const auto payload = opsToPayload(nlohmann::json::array({
+            {{"type", "insert"}, {"key", "recovery-key"}, {"value", "recovery-value"}}
+        }), "shard-recovery", "coordinator");
+        ASSERT_TRUE(participant.onPrepare(transaction_id, "coordinator", payload));
+    }
+
+    std::atomic<int> applied_count{0};
+    std::atomic<int> restored_lock_count{0};
+    {
+        TwoPhaseCommitParticipant participant(
+            "shard-recovery", config, [&restored_lock_count](
+                const std::string&, const nlohmann::json&) {
+                restored_lock_count.fetch_add(1, std::memory_order_relaxed);
+                return true;
+            }, [&applied_count](
+                const std::string&, const nlohmann::json&, int64_t) {
+                applied_count.fetch_add(1, std::memory_order_relaxed);
+                return true;
+            });
+        EXPECT_EQ(participant.recoverFromWAL(), 1u);
+        EXPECT_EQ(participant.getTransactionState(transaction_id),
+                  ParticipantTxnState::PREPARED);
+        EXPECT_EQ(restored_lock_count.load(std::memory_order_relaxed), 1);
+        ASSERT_TRUE(participant.onCommit(transaction_id));
+        EXPECT_EQ(applied_count.load(std::memory_order_relaxed), 1);
+    }
+
+    {
+        TwoPhaseCommitParticipant participant("shard-recovery", config);
+        EXPECT_EQ(participant.recoverFromWAL(), 0u);
+        EXPECT_EQ(participant.getTransactionState(transaction_id),
+                  ParticipantTxnState::COMMITTED);
+        EXPECT_EQ(applied_count.load(std::memory_order_relaxed), 1);
+    }
+
+    std::filesystem::remove_all(wal_directory);
+}
+
 TEST_F(TwoPhaseCommitParticipantTest, MissingFencingTokenVotesAbortBeforeLocking) {
     const auto payload = nlohmann::json{{"operations", nlohmann::json::array()}}.dump();
     EXPECT_FALSE(participant_->onPrepare("txn-missing-token", "coord", payload));
@@ -251,7 +300,7 @@ TEST_F(TwoPhaseCommitParticipantTest, EpochBumpBetweenPrepareAndCommitBlocksAppl
 TEST(TwoPhaseCommitParticipantFencingTest, MissingFencingManagerVotesAbort) {
     TwoPhaseCommitParticipant::Config cfg;
     cfg.wal_directory = "";
-    cfg.fencing_manager = testFencingManager("shard-abort");
+    cfg.fencing_manager = nullptr;
     cfg.sync_wal_writes = false;
     TwoPhaseCommitParticipant participant("shard-1", cfg);
     nlohmann::json ops = nlohmann::json::array();
@@ -1650,6 +1699,14 @@ TEST(GlobalTwoPhaseCommitRecoveryManagerTest, EmptyRecoveryPassDoesNotBlockStart
         themis::transaction::GlobalTwoPhaseCommitRecoveryManager::recoverAll({});
 
     EXPECT_FALSE(report.startupBlocked());
+}
+
+TEST(GlobalTwoPhaseCommitRecoveryManagerTest, MissingCoordinatorBlocksStartup) {
+    const auto report =
+        themis::transaction::GlobalTwoPhaseCommitRecoveryManager::recoverAll({nullptr});
+
+    EXPECT_FALSE(report.ready_for_service);
+    EXPECT_TRUE(report.startupBlocked());
 }
 
 TEST(GlobalTwoPhaseCommitRecoveryManagerTest, DisabledBackendWithUnresolvedTransactionsBlocksStartup) {

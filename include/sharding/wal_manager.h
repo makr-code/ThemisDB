@@ -227,9 +227,9 @@ public:
      * @brief Flush WAL bytes and report whether the flush reached stable storage.
      * @return True when the underlying WAL flush succeeds; false when storage is
      *         unavailable or reports a write/flush failure.
-     * @note This method is thread-safe. Use it when protocol progress depends on
-     *       a durable record; `flush()` remains the best-effort compatibility API.
-     */
+    * @note This method is thread-safe. Use it when protocol progress depends on
+    *       a durable record; `flush()` remains the best-effort compatibility API.
+    */
     [[nodiscard]] bool flushDurable();
     
     /**
