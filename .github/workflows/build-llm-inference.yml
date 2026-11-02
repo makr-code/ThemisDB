@@ -9,7 +9,8 @@ name: "Build: LLM Inferencing [TinyLlama + doku.db RAG + AdaLoRA]"
 #   llm_rag_doku     — RAG-01..07:   WikiRagSource + JsonWikiIndexReader + doku.db
 #   adalora_training — LORA-01..07:  AdaLoRAAdapter training pipeline
 #
-# Model acquisition: HuggingFace direct GGUF (primary) → Ollama export (fallback)
+# Model acquisition: HuggingFace direct GGUF (primary) → Ollama export (fallback);
+# both paths and restored cache entries must match the pinned SHA256.
 # Model: TinyLlama-1.1B-Chat-v1.0 Q4_K_M (≈636 MB, CPU-only)
 #
 # Knowledge base: doku.db built from repository markdown documentation
@@ -84,8 +85,10 @@ jobs:
           restore-keys: |
             tinyllama-gguf-q4km-${{ runner.os }}-
 
-      - name: Download TinyLlama GGUF (HuggingFace → Ollama fallback)
-        if: steps.cache-model.outputs.cache-hit != 'true' || inputs.force_model_download == true
+      - name: Test pinned model checksum rejection
+        run: bash tests/scripts/test_ci_download_tinyllama.sh
+
+      - name: Prepare and verify pinned TinyLlama GGUF
         env:
           MODEL_DIR: ${{ env.MODEL_DIR }}
           FORCE: ${{ inputs.force_model_download == true && '1' || '0' }}
