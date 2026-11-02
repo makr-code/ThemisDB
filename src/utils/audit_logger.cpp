@@ -425,7 +425,7 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
                     try { 
                         sig = pki_->signHash(hash); 
                     }
-                    catch (const std::exception& e) {
+                    catch (const std::exception&) {
                         sig.ok = false;
                         
                         // Log PKI failure with error context (Phase 2.3)
