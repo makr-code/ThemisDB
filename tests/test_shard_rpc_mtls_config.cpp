@@ -82,9 +82,8 @@ public:
 /**
  * Test suite for mTLS configuration in ShardRPCClient and ShardRPCServer
  * 
- * These tests verify that mTLS configuration options are correctly
- * stored and accessible, but do not test actual TLS connections
- * (which would require valid certificates and a running server).
+ * These tests verify that mTLS configuration is stored correctly and that
+ * PREPARE is bound to an explicitly configured X.509 peer identity.
  */
 
 // ============================================================================
@@ -289,6 +288,8 @@ TEST(ShardRPCMTLSIntegrationTest, PrepareBindsCoordinatorToAuthenticatedPeer) {
         pem_files.write("server-key.pem", server_material.private_key_pem).string();
     server_config.tls_ca_cert_path =
         pem_files.write("client-ca.pem", client_material.certificate_pem).string();
+    server_config.coordinator_identity_bindings.push_back(
+        {"x509_common_name", "coordinator-A", "coordinator-A"});
 
     PeerBindingRequestHandler handler;
     ShardRPCServer server(server_config);
@@ -321,5 +322,54 @@ TEST(ShardRPCMTLSIntegrationTest, PrepareBindsCoordinatorToAuthenticatedPeer) {
     token.issuer = "spoofed-coordinator";
     EXPECT_FALSE(client.prepare("txn-spoofed-coordinator", operations, token));
     EXPECT_EQ(handler.prepare_count.load(), 1);
+}
+
+TEST(ShardRPCMTLSIntegrationTest, PrepareRejectsUnmappedAuthenticatedPeer) {
+    const auto server_material =
+        themis::tests::generateSelfSignedPemMaterial("7E570003", "localhost");
+    const auto client_material =
+        themis::tests::generateSelfSignedPemMaterial("7E570004", "coordinator-A");
+    TemporaryPemFiles pem_files;
+
+    ShardRPCServer::Config server_config;
+    server_config.listen_address = "127.0.0.1:50067";
+    server_config.enable_mtls = true;
+    server_config.tls_require_client_cert = true;
+    server_config.tls_cert_path =
+        pem_files.write("server-cert.pem", server_material.certificate_pem).string();
+    server_config.tls_key_path =
+        pem_files.write("server-key.pem", server_material.private_key_pem).string();
+    server_config.tls_ca_cert_path =
+        pem_files.write("client-ca.pem", client_material.certificate_pem).string();
+    server_config.coordinator_identity_bindings.push_back(
+        {"x509_common_name", "different-coordinator", "coordinator-A"});
+
+    PeerBindingRequestHandler handler;
+    ShardRPCServer server(server_config);
+    server.setRequestHandler(&handler);
+    ASSERT_TRUE(server.start());
+
+    ShardRPCClient::Config client_config;
+    client_config.endpoint = "localhost:50067";
+    client_config.enable_mtls = true;
+    client_config.tls_verify_server = true;
+    client_config.tls_cert_path =
+        pem_files.write("client-cert.pem", client_material.certificate_pem).string();
+    client_config.tls_key_path =
+        pem_files.write("client-key.pem", client_material.private_key_pem).string();
+    client_config.tls_ca_cert_path =
+        pem_files.write("server-ca.pem", server_material.certificate_pem).string();
+    ShardRPCClient client(client_config);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    const auto operations = nlohmann::json::array();
+    EpochToken token;
+    token.epoch = 1;
+    token.issuer = "coordinator-A";
+    token.shard_id = "shard-A";
+    token.issued_at = std::chrono::system_clock::now();
+
+    EXPECT_FALSE(client.prepare("txn-unmapped-coordinator", operations, token));
+    EXPECT_EQ(handler.prepare_count.load(), 0);
 }
 #endif

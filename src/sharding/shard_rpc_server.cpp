@@ -17,6 +17,7 @@
 #include "utils/logger.h"
 #include "utils/file_utils.h"
 #include <optional>
+#include <set>
 #include <stdexcept>
 
 #ifdef THEMIS_ENABLE_GRPC
@@ -39,7 +40,13 @@ namespace themis::sharding {
 
 namespace {
 
-std::optional<std::string> getAuthenticatedPeerIdentity(grpc::ServerContext* context) {
+struct AuthenticatedPeerIdentity {
+    std::string property_name;
+    std::vector<std::string> values;
+};
+
+std::optional<AuthenticatedPeerIdentity> getAuthenticatedPeerIdentity(
+    grpc::ServerContext* context) {
     if (!context) {
         return std::nullopt;
     }
@@ -55,12 +62,42 @@ std::optional<std::string> getAuthenticatedPeerIdentity(grpc::ServerContext* con
     }
 
     const auto peer_identities = auth_context->GetPeerIdentity();
-    if (peer_identities.size() != 1 || peer_identities.front().empty()) {
+    if (peer_identities.empty()) {
         return std::nullopt;
     }
 
-    const auto& identity = peer_identities.front();
-    return std::string(identity.data(), identity.size());
+    AuthenticatedPeerIdentity identity;
+    identity.property_name = identity_property;
+    identity.values.reserve(peer_identities.size());
+    for (const auto& peer_identity : peer_identities) {
+        if (peer_identity.empty()) {
+            return std::nullopt;
+        }
+        identity.values.emplace_back(peer_identity.data(), peer_identity.size());
+    }
+    return identity;
+}
+
+std::optional<std::string> resolveCoordinatorShardId(
+    const AuthenticatedPeerIdentity& peer_identity,
+    const std::vector<ShardRPCServer::CoordinatorIdentityBinding>& bindings) {
+    std::optional<std::string> resolved_shard_id;
+    for (const auto& binding : bindings) {
+        if (binding.property_name != peer_identity.property_name) {
+            continue;
+        }
+        for (const auto& value : peer_identity.values) {
+            if (binding.property_value != value) {
+                continue;
+            }
+            if (resolved_shard_id &&
+                *resolved_shard_id != binding.coordinator_shard_id) {
+                return std::nullopt;
+            }
+            resolved_shard_id = binding.coordinator_shard_id;
+        }
+    }
+    return resolved_shard_id;
 }
 
 } // namespace
@@ -72,8 +109,11 @@ public:
      * @param[in,out] handler Input/output parameter.
      * @return Return value.
      */
-    explicit ShardServiceImpl(ShardRPCServer::RequestHandler* handler)
-        : handler_(handler) {}
+    ShardServiceImpl(
+        ShardRPCServer::RequestHandler* handler,
+        std::vector<ShardRPCServer::CoordinatorIdentityBinding> identity_bindings)
+        : handler_(handler),
+          identity_bindings_(std::move(identity_bindings)) {}
 
     /**
      * @brief Called once Impl is constructed so we can serve shard identity.
@@ -99,11 +139,18 @@ public:
                 grpc::StatusCode::UNAUTHENTICATED,
                 "PREPARE requires an authenticated X.509 shard identity");
         }
-        if (*peer_identity != request->coordinator_shard_id()) {
+        const auto coordinator_shard_id =
+            resolveCoordinatorShardId(*peer_identity, identity_bindings_);
+        if (!coordinator_shard_id) {
+            return grpc::Status(
+                grpc::StatusCode::PERMISSION_DENIED,
+                "authenticated X.509 identity is not configured for shard coordination");
+        }
+        if (*coordinator_shard_id != request->coordinator_shard_id()) {
             THEMIS_WARN(
                 "gRPC PrepareTransaction rejected coordinator identity mismatch: "
-                "peer={}, claimed={}",
-                *peer_identity,
+                "authenticated={}, claimed={}",
+                *coordinator_shard_id,
                 request->coordinator_shard_id());
             return grpc::Status(
                 grpc::StatusCode::PERMISSION_DENIED,
@@ -270,6 +317,7 @@ public:
     
 private:
     ShardRPCServer::RequestHandler* handler_;
+    std::vector<ShardRPCServer::CoordinatorIdentityBinding> identity_bindings_;
     std::string listen_address_;
 };
 
@@ -333,7 +381,21 @@ bool ShardRPCServer::start() {
                 "ShardRPCServer: production mode requires mTLS and client certificate verification");
         }
 
-        impl_->service = std::make_unique<ShardServiceImpl>(impl_->handler);
+        std::set<std::pair<std::string, std::string>> configured_identities;
+        for (const auto& binding : impl_->config.coordinator_identity_bindings) {
+            if (binding.property_name.rfind("x509_", 0) != 0 ||
+                binding.property_value.empty() ||
+                binding.coordinator_shard_id.empty() ||
+                !configured_identities.emplace(binding.property_name,
+                                               binding.property_value).second) {
+                throw std::runtime_error(
+                    "ShardRPCServer: coordinator identity bindings must be unique, "
+                    "non-empty X.509 property/value mappings");
+            }
+        }
+
+        impl_->service = std::make_unique<ShardServiceImpl>(
+            impl_->handler, impl_->config.coordinator_identity_bindings);
         impl_->service->setImplRef(impl_->listen_address);
         
         grpc::ServerBuilder builder;

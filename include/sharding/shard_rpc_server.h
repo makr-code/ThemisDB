@@ -38,6 +38,21 @@ public:
         std::string version;
         uint64_t uptime_seconds = 0;
     };
+
+    /**
+     * @brief Maps one authenticated gRPC X.509 identity value to a shard ID.
+     * @param property_name Exact auth-context property name, such as
+     *        `x509_common_name` or `x509_subject_alternative_name`.
+     * @param property_value Exact value returned by gRPC for that property.
+     * @param coordinator_shard_id Canonical shard ID allowed to issue PREPARE.
+     * @note Bindings are explicit; subject/SAN values are not normalized or
+     *       treated as shard IDs unless configured here.
+     */
+    struct CoordinatorIdentityBinding {
+        std::string property_name;
+        std::string property_value;
+        std::string coordinator_shard_id;
+    };
     
     /**
      * @brief Configuration for the RPC server
@@ -53,6 +68,13 @@ public:
         std::string tls_key_path;       // Path to server private key (PEM format)
         std::string tls_ca_cert_path;   // Path to CA certificate for client verification (PEM format)
         bool tls_require_client_cert = true;
+        /**
+         * @brief Trusted X.509 identity-to-shard mappings for PREPARE RPCs.
+         * @note Multiple identity values may map to the same shard to support
+         *       certificate rotation. Unmapped or ambiguously mapped identities
+         *       are rejected before the request handler runs.
+         */
+        std::vector<CoordinatorIdentityBinding> coordinator_identity_bindings;
     };
     
     /**
@@ -71,8 +93,9 @@ public:
          * @param transaction_data Serialized transaction data
          * @return true to vote commit, false to vote abort
          * @note For gRPC requests, the server invokes this only after the authenticated
-         *       X.509 peer identity exactly matches @p coordinator_shard_id; requests
-         *       without a verified X.509 identity or with a mismatch are rejected.
+         *       an explicitly configured X.509 property/value binding resolves to
+         *       @p coordinator_shard_id; requests without a verified, configured,
+         *       unambiguous identity or with a mismatch are rejected.
          */
         virtual bool onPrepare(
             const std::string& transaction_id,

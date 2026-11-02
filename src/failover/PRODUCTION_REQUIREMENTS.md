@@ -75,12 +75,14 @@ Related milestone: DOC-WEEKLY-2026-W45
   `HotSpareManager` state of `ACTIVE`. Missing or failed activation leaves the
   orchestrator in `DEGRADED`, increments `degraded_failovers`, and emits the
   `FAILOVER_DEGRADED` callback event.
-- Remote gRPC PREPARE now requires the claimed coordinator ID to equal the
-  authenticated X.509 peer identity before the participant checks the fencing
-  token issuer. This binds remote PREPARE requests to the mTLS principal; it does
-  not add a standalone token signature, and direct in-process participant calls
-  remain inside the trusted process boundary. The mTLS binding integration test
-  has not yet been executed.
+- Remote gRPC PREPARE resolves the authenticated X.509 auth-context
+  property/value through an explicit `ShardRPCServer::Config`
+  `coordinator_identity_bindings` entry before comparing the canonical shard ID
+  with the request coordinator ID. Unconfigured, ambiguous, or mismatched
+  identities are rejected; CN/SAN values are not implicitly normalized. This
+  does not add a standalone token signature, and direct in-process participant
+  calls remain inside the trusted process boundary. The mTLS binding integration
+  tests have not yet been executed.
 - Shared durable metadata for DR and genuine networked multi-process
   failover/recovery E2E evidence remain open blockers; local same-path process
   locking and shard transaction fencing do not close either gap.

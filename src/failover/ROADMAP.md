@@ -74,10 +74,12 @@ M2 readiness.
   Filesystem-specific and power-loss guarantees beyond those platform calls are
   not certified, mixed-version writers are not covered, and network-filesystem
   lock behavior is not established.
-- Remote gRPC PREPARE binds the coordinator ID to the authenticated X.509 peer
-  identity before checking the fencing-token issuer; standalone token signatures
-  are not implemented, and direct in-process calls remain within the trusted
-  process boundary. The binding test is source-level coverage until executed.
+- Remote gRPC PREPARE resolves authenticated X.509 property/value identities
+  through explicit server-configured shard bindings before checking the
+  fencing-token issuer. Unconfigured, ambiguous, or mismatched identities fail
+  closed; standalone token signatures are not implemented, and direct
+  in-process calls remain within the trusted process boundary. The binding
+  integration tests are source-level coverage until executed.
 - Shared durable metadata for DR and genuine networked multi-process
   failover/recovery E2E evidence remain open release blockers. Same-path
   same-host process serialization does not close either blocker.
