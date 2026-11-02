@@ -483,6 +483,26 @@ TEST_F(SignedPluginRepositoryTest, MultipleKeysIndependentlyVerify) {
     EXPECT_FALSE(repo_.verifyEntry(tampered));
 }
 
+TEST_F(SignedPluginRepositoryTest, SignerRotationAcceptsOverlapThenRejectsRetiredKey) {
+    Ed25519KeyPair next_key = generateKeyPair();
+    const std::string next_fingerprint =
+        SignedPluginRepository::computeKeyFingerprint(next_key.public_key);
+    PinnedKey next_pin;
+    next_pin.fingerprint = next_fingerprint;
+    next_pin.public_key = next_key.public_key;
+    next_pin.label = "Rotated signer";
+    repo_.addPinnedKey(next_pin);
+
+    const auto old_entry = makeEntry(kp_, fp_, makeManifest("plugin_old"));
+    const auto next_entry = makeEntry(next_key, next_fingerprint, makeManifest("plugin_new"));
+    EXPECT_TRUE(repo_.verifyEntry(old_entry));
+    EXPECT_TRUE(repo_.verifyEntry(next_entry));
+
+    EXPECT_TRUE(repo_.removePinnedKey(fp_));
+    EXPECT_FALSE(repo_.verifyEntry(old_entry));
+    EXPECT_TRUE(repo_.verifyEntry(next_entry));
+}
+
 TEST_F(SignedPluginRepositoryTest, RemovingOneKeyDoesNotAffectOthers) {
     Ed25519KeyPair kp2  = generateKeyPair();
     std::string    fp2  = SignedPluginRepository::computeKeyFingerprint(kp2.public_key);

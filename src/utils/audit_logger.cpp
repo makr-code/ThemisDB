@@ -73,6 +73,18 @@ namespace utils {
 #endif
 static const char* THEMISDB_VERSION = THEMIS_VERSION_STRING;
 
+namespace {
+
+std::string auditFileLabel(const std::string& path) {
+    const auto separator = path.find_last_of("/\\");
+    const auto label = separator == std::string::npos
+                           ? path
+                           : path.substr(separator + 1);
+    return label.empty() ? "configured audit file" : label;
+}
+
+} // namespace
+
 /**
  * @brief Base64 encode local.
  * @param[in] data Input parameter.
@@ -206,7 +218,7 @@ void AuditLogger::appendJsonLine(const nlohmann::json& j) {
         auto ctx = themis::utils::makeErrorContext(
             themis::utils::ErrorCode::AUDIT_BUFFER_OVERFLOW,
             "Audit event queue at capacity (" + std::to_string(cfg_.max_queued_events) +
-            ") – event rejected (fail-closed); log_path=" + cfg_.log_path,
+            ") – event rejected (fail-closed); file=" + auditFileLabel(cfg_.log_path),
             "AuditLogger::appendJsonLine",
             themis::utils::ErrorSeverity::Critical,
             false);
@@ -228,26 +240,28 @@ void AuditLogger::appendJsonLine(const nlohmann::json& j) {
         if (!ofs) {
             auto ctx = themis::utils::makeErrorContext(
                 themis::utils::ErrorCode::AUDIT_PERSISTENCE_FAILED,
-                "Failed to open audit log file for append – backend unavailable; path=" + cfg_.log_path,
+                "Failed to open audit log file for append – backend unavailable; file=" +
+                    auditFileLabel(cfg_.log_path),
                 "AuditLogger::appendJsonLine",
                 themis::utils::ErrorSeverity::Critical,
                 false);
             themis::utils::logErrorWithContext(ctx);
             throw std::runtime_error(
-                "AuditLogger: cannot open log file '" + cfg_.log_path +
+                "AuditLogger: cannot open log file '" + auditFileLabel(cfg_.log_path) +
                 "' – audit backend unavailable");
         }
         ofs << line;
         if (!ofs) {
             auto ctx = themis::utils::makeErrorContext(
                 themis::utils::ErrorCode::AUDIT_WRITE_FAILED,
-                "Write to audit log file failed; path=" + cfg_.log_path,
+                "Write to audit log file failed; file=" + auditFileLabel(cfg_.log_path),
                 "AuditLogger::appendJsonLine",
                 themis::utils::ErrorSeverity::Critical,
                 false);
             themis::utils::logErrorWithContext(ctx);
             throw std::runtime_error(
-                "AuditLogger: write failure on log file '" + cfg_.log_path + "'");
+                "AuditLogger: write failure on log file '" +
+                auditFileLabel(cfg_.log_path) + "'");
         }
     }
 
@@ -343,7 +357,7 @@ void AuditLogger::rotateLogIfNeeded() {
         std::filesystem::remove(base, ec);
     }
 
-    THEMIS_INFO("Audit log rotated: {}", base);
+    THEMIS_INFO("Audit log rotated: {}", auditFileLabel(base));
 }
 
 /**
@@ -411,13 +425,13 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
                     try { 
                         sig = pki_->signHash(hash); 
                     }
-                    catch (const std::exception& e) {
+                    catch (const std::exception&) {
                         sig.ok = false;
                         
                         // Log PKI failure with error context (Phase 2.3)
                         ErrorContext pki_err(
                             themis::utils::ErrorCode::AUDIT_SIGNATURE_FAILED,
-                            fmt::format("PKI signing failed: {}", e.what()),
+                            "PKI signing failed while preparing encrypted audit payload",
                             "AuditLogger::logEvent[encryption]"
                         );
                         pki_err.severity = ErrorSeverity::Warning;
@@ -740,8 +754,14 @@ void AuditLogger::logSecurityEvent(
  */
 void AuditLogger::loadChainState() {
     std::lock_guard<std::mutex> lock(chain_mu_);
-    
-    if (!std::filesystem::exists(cfg_.chain_state_file)) {
+
+    std::error_code file_status_error;
+    const bool state_exists =
+        std::filesystem::exists(cfg_.chain_state_file, file_status_error);
+    if (file_status_error) {
+        throw std::runtime_error("Unable to inspect audit chain state file");
+    }
+    if (!state_exists) {
         // Initialize empty chain
         last_hash_ = std::string(64, '0'); // Genesis hash
         entry_count_ = 0;
@@ -765,8 +785,9 @@ void AuditLogger::loadChainState() {
         
         THEMIS_INFO("Loaded audit chain state: {} entries, last_hash={}...", 
             entry_count_, last_hash_.substr(0, 16));
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Failed to load chain state: {}", e.what());
+    } catch (const std::exception&) {
+        THEMIS_ERROR("Failed to load audit chain state file {}",
+                     auditFileLabel(cfg_.chain_state_file));
         // Reset to genesis
         last_hash_ = std::string(64, '0');
         entry_count_ = 0;
@@ -792,8 +813,9 @@ void AuditLogger::saveChainState() {
         
         std::ofstream ofs(cfg_.chain_state_file);
         ofs << state.dump(2);
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Failed to save chain state: {}", e.what());
+    } catch (const std::exception&) {
+        THEMIS_ERROR("Failed to save audit chain state file {}",
+                     auditFileLabel(cfg_.chain_state_file));
     }
 }
 
@@ -821,7 +843,13 @@ bool AuditLogger::verifyChainIntegrity() {
         return true; // Chain disabled, nothing to verify
     }
     
-    if (!std::filesystem::exists(cfg_.log_path)) {
+    std::error_code file_status_error;
+    if (!std::filesystem::exists(cfg_.log_path, file_status_error)) {
+        if (file_status_error) {
+            THEMIS_ERROR("Unable to inspect audit log file {}",
+                         auditFileLabel(cfg_.log_path));
+            return false;
+        }
         return true; // No log file yet, chain is valid
     }
     
@@ -867,8 +895,9 @@ bool AuditLogger::verifyChainIntegrity() {
             line_num, expected_prev_hash.substr(0, 16));
         return true;
         
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Chain verification failed: {}", e.what());
+    } catch (const std::exception&) {
+        THEMIS_ERROR("Audit chain verification failed for {}",
+                     auditFileLabel(cfg_.log_path));
         return false;
     }
 }
@@ -1056,15 +1085,14 @@ void AuditLogger::logErrorContext(const ErrorContext& ctx) {
     
     // Log diagnostically - use simplified path to avoid recursion
     try {
-        std::lock_guard<std::mutex> lock(file_mu_);
         // Append directly without full encryption/chain processing
-        // to prevent recursive failures during error logging
+        // to prevent recursive failures during error logging. appendJsonLine
+        // owns the file lock.
         appendJsonLine(error_event);
     }
-    catch (const std::exception &e) {
-        // Final fallback: write to stderr (Phase 2.8: Graceful Degradation)
-        std::cerr << "AUDIT_ERROR_CONTEXT_FAILED: " << e.what() 
-                  << " | " << ctx.toJSON() << std::endl;
+    catch (const std::exception &) {
+        std::cerr << "AUDIT_ERROR_CONTEXT_FAILED: audit backend unavailable; code="
+                  << static_cast<unsigned int>(ctx.code) << std::endl;
     }
 }
 
@@ -1072,7 +1100,12 @@ void AuditLogger::logErrorContext(const ErrorContext& ctx) {
 std::vector<AuditLogger::AuditLogEntry> AuditLogger::enumerateEntries() const {
     std::vector<AuditLogEntry> entries;
     
-    if (!std::filesystem::exists(cfg_.log_path)) {
+    std::error_code file_status_error;
+    if (!std::filesystem::exists(cfg_.log_path, file_status_error)) {
+        if (file_status_error) {
+            THEMIS_ERROR("Unable to inspect audit log file {}",
+                         auditFileLabel(cfg_.log_path));
+        }
         return entries;
     }
     
@@ -1111,10 +1144,12 @@ std::vector<AuditLogger::AuditLogEntry> AuditLogger::enumerateEntries() const {
             }
         }
         
-        THEMIS_INFO("Enumerated {} audit log entries from {}",entries.size(), cfg_.log_path);
+        THEMIS_INFO("Enumerated {} audit log entries from {}",
+                    entries.size(), auditFileLabel(cfg_.log_path));
         
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Failed to enumerate audit entries: {}", e.what());
+    } catch (const std::exception&) {
+        THEMIS_ERROR("Failed to enumerate audit entries from {}",
+                     auditFileLabel(cfg_.log_path));
     }
     
     return entries;
@@ -1131,7 +1166,12 @@ size_t AuditLogger::archiveOldEntries(std::chrono::system_clock::time_point olde
                                       const std::string& archive_path) {
     std::scoped_lock lock(file_mu_);
     
-    if (!std::filesystem::exists(cfg_.log_path)) {
+    std::error_code file_status_error;
+    if (!std::filesystem::exists(cfg_.log_path, file_status_error)) {
+        if (file_status_error) {
+            THEMIS_ERROR("Unable to inspect audit log file {}",
+                         auditFileLabel(cfg_.log_path));
+        }
         return 0;
     }
     
@@ -1196,7 +1236,8 @@ size_t AuditLogger::archiveOldEntries(std::chrono::system_clock::time_point olde
         
         std::ofstream archive_ofs(archive_path, std::ios::app);
         if (!archive_ofs.is_open() || !archive_ofs.good()) {
-            THEMIS_ERROR("Failed to open archive file for writing: {}", archive_path);
+            THEMIS_ERROR("Failed to open audit archive file for writing: {}",
+                         auditFileLabel(archive_path));
             return 0;
         }
         
@@ -1208,7 +1249,8 @@ size_t AuditLogger::archiveOldEntries(std::chrono::system_clock::time_point olde
         // Rewrite main log file with only kept entries
         std::ofstream main_ofs(cfg_.log_path, std::ios::trunc);
         if (!main_ofs.is_open() || !main_ofs.good()) {
-            THEMIS_ERROR("Failed to open main log file for rewriting: {}", cfg_.log_path);
+            THEMIS_ERROR("Failed to open main audit log file for rewriting: {}",
+                         auditFileLabel(cfg_.log_path));
             return 0;
         }
         
@@ -1217,13 +1259,14 @@ size_t AuditLogger::archiveOldEntries(std::chrono::system_clock::time_point olde
         }
         main_ofs.close();
         
-        THEMIS_INFO("Archived {} audit log entries to {} (kept {} entries)", 
-                    archived_entries.size(), archive_path,kept_entries.size());
+        THEMIS_INFO("Archived {} audit log entries to {} (kept {} entries)",
+                    archived_entries.size(), auditFileLabel(archive_path),kept_entries.size());
         
         return archived_entries.size();
         
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Failed to archive audit entries: {}", e.what());
+    } catch (const std::exception&) {
+        THEMIS_ERROR("Failed to archive audit entries from {}",
+                     auditFileLabel(cfg_.log_path));
         return 0;
     }
 }
@@ -1236,8 +1279,13 @@ size_t AuditLogger::archiveOldEntries(std::chrono::system_clock::time_point olde
  */
 size_t AuditLogger::purgeOldEntries(std::chrono::system_clock::time_point older_than) {
     std::scoped_lock lock(file_mu_);
-    
-    if (!std::filesystem::exists(cfg_.log_path)) {
+
+    std::error_code file_status_error;
+    if (!std::filesystem::exists(cfg_.log_path, file_status_error)) {
+        if (file_status_error) {
+            THEMIS_ERROR("Unable to inspect audit log file {}",
+                         auditFileLabel(cfg_.log_path));
+        }
         return 0;
     }
     
@@ -1300,7 +1348,8 @@ size_t AuditLogger::purgeOldEntries(std::chrono::system_clock::time_point older_
         // Rewrite main log file with only kept entries
         std::ofstream main_ofs(cfg_.log_path, std::ios::trunc);
         if (!main_ofs.is_open() || !main_ofs.good()) {
-            THEMIS_ERROR("Failed to open main log file for rewriting: {}", cfg_.log_path);
+            THEMIS_ERROR("Failed to open main audit log file for rewriting: {}",
+                         auditFileLabel(cfg_.log_path));
             return 0;
         }
         
@@ -1314,8 +1363,9 @@ size_t AuditLogger::purgeOldEntries(std::chrono::system_clock::time_point older_
         
         return purged_count;
         
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Failed to purge audit entries: {}", e.what());
+    } catch (const std::exception&) {
+        THEMIS_ERROR("Failed to purge audit entries from {}",
+                     auditFileLabel(cfg_.log_path));
         return 0;
     }
 }
@@ -1641,7 +1691,12 @@ std::vector<AuditLogger::AuditLogEntry> AuditLogger::searchEntries(
 
     std::vector<AuditLogEntry> results = {};
 
-    if (!std::filesystem::exists(cfg_.log_path)) {
+    std::error_code file_status_error;
+    if (!std::filesystem::exists(cfg_.log_path, file_status_error)) {
+        if (file_status_error) {
+            THEMIS_ERROR("Unable to inspect audit log file {}",
+                         auditFileLabel(cfg_.log_path));
+        }
         return results;
     }
 
@@ -1758,7 +1813,13 @@ AuditLogger::ComplianceReport AuditLogger::generateComplianceReport(
     nlohmann::json type_counts = nlohmann::json::object();
     nlohmann::json user_counts = nlohmann::json::object();
 
-    if (!std::filesystem::exists(cfg_.log_path)) {
+    std::error_code file_status_error;
+    if (!std::filesystem::exists(cfg_.log_path, file_status_error)) {
+        if (file_status_error) {
+            THEMIS_ERROR("Unable to inspect audit log file {}",
+                         auditFileLabel(cfg_.log_path));
+            report.chain_intact = false;
+        }
         return report;
     }
 
@@ -1886,7 +1947,12 @@ std::string HashChainAuditWriter::bytesToHex(const std::vector<uint8_t>& data) {
 void HashChainAuditWriter::loadOrInitChainHead(const std::string& chain_seed) {
     namespace fs = std::filesystem;
 
-    if (fs::exists(cfg_.chain_head_path)) {
+    std::error_code file_status_error;
+    const bool chain_head_exists = fs::exists(cfg_.chain_head_path, file_status_error);
+    if (file_status_error) {
+        throw std::runtime_error("Unable to inspect audit chain head file");
+    }
+    if (chain_head_exists) {
         try {
             std::ifstream ifs(cfg_.chain_head_path);
             std::string content((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
@@ -1957,9 +2023,9 @@ void HashChainAuditWriter::saveChainHead() {
             }
         }
 #endif
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("HashChainAuditWriter: failed to save chain head to {}: {}",
-                     cfg_.chain_head_path, e.what());
+    } catch (const std::exception&) {
+        THEMIS_ERROR("HashChainAuditWriter: failed to save chain head file {}",
+                     auditFileLabel(cfg_.chain_head_path));
     }
 }
 
@@ -1982,14 +2048,16 @@ HashChainAuditWriter::HashChainAuditWriter(HashChainAuditWriterConfig cfg,
     chain_head_stream_.open(cfg_.chain_head_path,
                             std::ios::in | std::ios::out | std::ios::binary | std::ios::trunc);
     if (!chain_head_stream_.is_open()) {
-        THEMIS_ERROR("HashChainAuditWriter: failed to open chain head file {}", cfg_.chain_head_path);
+        THEMIS_ERROR("HashChainAuditWriter: failed to open chain head file {}",
+                     auditFileLabel(cfg_.chain_head_path));
     } else {
         saveChainHead();
     }
 
     log_stream_.open(cfg_.log_path, std::ios::app | std::ios::binary);
     if (!log_stream_.is_open()) {
-        THEMIS_ERROR("HashChainAuditWriter: failed to open log file {}", cfg_.log_path);
+        THEMIS_ERROR("HashChainAuditWriter: failed to open audit log file {}",
+                     auditFileLabel(cfg_.log_path));
     }
 }
 
@@ -2023,7 +2091,8 @@ void HashChainAuditWriter::write(nlohmann::json record) {
         if (!log_stream_.is_open()) {
             logErrorWithContext(makeErrorContext(
                 ErrorCode::AUDIT_PERSISTENCE_FAILED,
-                fmt::format("log stream could not be opened: {}", cfg_.log_path),
+                fmt::format("audit log stream could not be opened: {}",
+                            auditFileLabel(cfg_.log_path)),
                 "HashChainAuditWriter::append",
                 ErrorSeverity::Error,
                 /*is_recoverable=*/true));
@@ -2033,15 +2102,16 @@ void HashChainAuditWriter::write(nlohmann::json record) {
         if (cfg_.fsync_on_write) {
             log_stream_.flush();
         }
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         logErrorWithContext(makeErrorContext(
             ErrorCode::AUDIT_WRITE_FAILED,
-            fmt::format("failed to append log to {}: {}", cfg_.log_path, e.what()),
+            fmt::format("failed to append audit log to {}",
+                        auditFileLabel(cfg_.log_path)),
             "HashChainAuditWriter::append",
             ErrorSeverity::Error,
             /*is_recoverable=*/true));
-        THEMIS_ERROR("HashChainAuditWriter: failed to append log to {}: {}",
-                     cfg_.log_path, e.what());
+        THEMIS_ERROR("HashChainAuditWriter: failed to append audit log to {}",
+                     auditFileLabel(cfg_.log_path));
     }
 
     // Persist chain head (fsync if configured).
@@ -2099,10 +2169,24 @@ std::string AuditLogVerifier::computeEntryHash(const std::string& prev_hash,
 AuditVerifyResult AuditLogVerifier::verify_chain(const std::string& log_path,
                                                   const std::string& genesis_hash) const {
     AuditVerifyResult result = {};
+    std::error_code file_status_error;
 
-    if (!std::filesystem::exists(log_path)) {
+    const bool log_exists = std::filesystem::exists(log_path, file_status_error);
+    if (file_status_error) {
+        result.ok = false;
+        result.error_message = "Cannot inspect audit log file";
+        return result;
+    }
+    if (!log_exists) {
         result.ok            = true;
         result.entries_total = 0;
+        return result;
+    }
+
+    if (!std::filesystem::is_regular_file(log_path, file_status_error) ||
+        file_status_error) {
+        result.ok = false;
+        result.error_message = "Cannot open audit log file";
         return result;
     }
 
@@ -2114,7 +2198,7 @@ AuditVerifyResult AuditLogVerifier::verify_chain(const std::string& log_path,
     std::ifstream ifs(log_path);
     if (!ifs) {
         result.ok            = false;
-        result.error_message = "Cannot open log file: " + log_path;
+        result.error_message = "Cannot open audit log file: " + auditFileLabel(log_path);
         return result;
     }
 

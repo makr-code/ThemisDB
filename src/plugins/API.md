@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-02"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -27,6 +27,12 @@ manifest-backed lifecycle and typed factory-registry APIs.
 `getCapabilities()`, `initialize(const char*)`, `shutdown()`, and
 `getInstance()`. `IStatefulPlugin` is optional and supplies `saveState()` and
 `restoreState()` for reload. `PluginManager` owns loaded instances and exposes:
+
+The default manager reads comma-separated SHA-256 fingerprints from
+`THEMIS_PLUGIN_TRUSTED_SIGNER_FINGERPRINTS`; an unset or empty variable means no
+signers are trusted and plugin loads are rejected. Alternatively, construct it
+with an explicit fingerprint list. A retired and replacement fingerprint may
+overlap during rotation; verification cannot be disabled.
 
 | Operation | Return | Failure/edge behavior |
 |---|---|---|

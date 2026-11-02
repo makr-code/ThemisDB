@@ -14,6 +14,7 @@
 
 #include "sharding/shard_rpc_server.h"
 #include "core/production_mode.h"
+#include "shard_rpc_tls_validation.h"
 #include "utils/logger.h"
 #include "utils/file_utils.h"
 #include <optional>
@@ -419,6 +420,11 @@ bool ShardRPCServer::start() {
                 throw std::runtime_error(
                     "ShardRPCServer: mTLS certificate and private key files must not be empty");
             }
+            if (!detail::containsMatchingPemKeyPair(
+                    key_cert_pair.cert_chain, key_cert_pair.private_key)) {
+                throw std::runtime_error(
+                    "ShardRPCServer: mTLS certificate and private key are invalid or mismatched");
+            }
             ssl_opts.pem_key_cert_pairs.push_back(key_cert_pair);
             THEMIS_INFO("Loaded server certificate from: {}", impl_->config.tls_cert_path);
 
@@ -432,6 +438,10 @@ bool ShardRPCServer::start() {
                 if (ssl_opts.pem_root_certs.empty()) {
                     throw std::runtime_error(
                         "ShardRPCServer: CA certificate file must not be empty");
+                }
+                if (!detail::containsPemCertificate(ssl_opts.pem_root_certs)) {
+                    throw std::runtime_error(
+                        "ShardRPCServer: CA certificate data is invalid");
                 }
                 ssl_opts.client_certificate_request =
                     GRPC_SSL_REQUEST_AND_REQUIRE_CLIENT_CERTIFICATE_AND_VERIFY;

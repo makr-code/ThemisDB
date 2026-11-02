@@ -15,6 +15,7 @@
 #include <string>
 #include <memory>
 #include <functional>
+#include <vector>
 
 namespace themis {
 namespace acceleration {
@@ -69,7 +70,19 @@ public:
 
 class PluginLoader {
 public:
-    PluginLoader() = default;
+    /**
+     * @brief Construct a loader using configured trusted signer fingerprints.
+     * @throws std::invalid_argument if a configured fingerprint is malformed.
+     */
+    PluginLoader();
+
+    /**
+     * @brief Construct a loader with explicit trusted signer fingerprints.
+     * @param trusted_signer_fingerprints SHA-256 fingerprints of trusted X.509
+     *        signer certificates. An empty set rejects all plugins.
+     * @throws std::invalid_argument if a fingerprint is malformed.
+     */
+    explicit PluginLoader(std::vector<std::string> trusted_signer_fingerprints);
     
     ~PluginLoader();
     
@@ -121,6 +134,7 @@ private:
     };
     
     std::vector<PluginHandle> plugins_;
+    std::vector<std::string> trusted_signer_fingerprints_;
     
     /**
      * @brief Load Library.

@@ -14,6 +14,7 @@
 
 #include "sharding/shard_rpc_client.h"
 #include "core/production_mode.h"
+#include "shard_rpc_tls_validation.h"
 #include "sharding/circuit_breaker.h"
 #include "sharding/mtls_connection_pool.h"
 #include "sharding/operational_metrics.h"
@@ -161,6 +162,12 @@ struct ShardRPCClient::Impl {
                     "This is a test-only configuration; production deployments must enable gRPC "
                     "via: cmake -DTHEMIS_ENABLE_GRPC=ON after generating proto files with protoc.");
 #endif
+
+        if (themis::core::ProductionMode::isEnabled() && !isProductionSafeEndpoint()) {
+            throw std::runtime_error(
+                "ShardRPCClient: production mode requires a real gRPC transport with "
+                "mTLS and server certificate verification");
+        }
     }
     
     bool isExplicitInProcessEndpoint(const std::string& endpoint) const {
@@ -168,9 +175,7 @@ struct ShardRPCClient::Impl {
     }
 
     [[nodiscard]] bool isProductionSafeEndpoint() const {
-        return isExplicitInProcessEndpoint(config.endpoint)
-            ? !themis::core::ProductionMode::isEnabled()
-            : use_grpc;
+        return use_grpc && config.enable_mtls && config.tls_verify_server;
     }
     
 #if THEMIS_HAS_SHARD_GRPC
@@ -224,6 +229,12 @@ struct ShardRPCClient::Impl {
                     ssl_opts.pem_private_key.empty()) {
                     throw std::runtime_error(
                         "ShardRPCClient: mTLS enabled but one or more PEM credentials are missing");
+                }
+                if (!detail::containsPemCertificate(ssl_opts.pem_root_certs) ||
+                    !detail::containsMatchingPemKeyPair(
+                        ssl_opts.pem_cert_chain, ssl_opts.pem_private_key)) {
+                    throw std::runtime_error(
+                        "ShardRPCClient: mTLS PEM data is invalid or mismatched");
                 }
                 
                 credentials = grpc::SslCredentials(ssl_opts);
@@ -301,6 +312,7 @@ struct ShardRPCClient::Impl {
         return channel->WaitForConnected(deadline);
     }
 #endif
+
 };
 
 ShardRPCClient::ShardRPCClient(const Config& config)

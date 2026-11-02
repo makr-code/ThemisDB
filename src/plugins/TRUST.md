@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-02"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -27,6 +27,7 @@ incident authority; this page does not certify the module as a sandbox.
 |---|---|---|
 | Manifest to manager | Malformed names, paths, edition claims, or capability requests influence loading. | Manifest-backed `loadPlugin(name)` validates required fields, restricts names to alphanumeric/underscore/hyphen, checks edition/license policy, and snapshots capabilities. `loadPluginFromPath()` and OCI loading bypass `plugin.json` and do not apply those manifest restrictions. No path makes a plugin implementation safe. |
 | Native library to server | A malicious or defective plugin can execute with the host process's privileges or crash/corrupt it. | Library and symbol validation gate activation; the native path has no process sandbox in this module. Use reviewed artifacts and service-level isolation. |
+| Binary signature to loader | A valid signature from an unknown signer could authorize attacker-controlled code. | `PluginManager`, acceleration `PluginLoader`, and `EnhancedPluginSecurityVerifier` require a valid binary signature and an exact SHA-256 pin of its X.509 signer certificate, including in debug builds. Configure pins with `THEMIS_PLUGIN_TRUSTED_SIGNER_FINGERPRINTS` or constructor injection; an empty set rejects loads. Overlap old/new pins during rotation. Issuer names do not authorize signers, and disabled or hash-only verification is rejected. |
 | Manifest `.sig` file to manager | A checksum may be mistaken for publisher authentication. | In `NDEBUG`, `verifyManifestSignature()` compares the first line of `<manifest>.sig` with the manifest SHA-256. That is a hash comparison, not a public-key signature. In development mode unsigned or mismatched manifests are allowed with warnings; `THEMIS_TEST_MODE` skips this check. |
 | Signed repository catalog | Untrusted catalogs or keys could introduce unauthorized entries. | `SignedPluginRepository` accepts entries only when the key fingerprint maps to an active pinned Ed25519 key and the signature verifies over canonical manifest JSON. This API is distinct from the manager's `.sig` check; do not assume it is automatically applied to every load path. |
 | OCI registry and cache | Registry substitution, credential exposure, interrupted downloads, or corrupt content. | The client enables TLS peer/host verification and verifies the plugin layer's SHA-256 digest before cache placement. Authentication configuration is optional at API level; a digest alone does not prove publisher identity. Protect tokens and cache-directory writes at deployment level. |
