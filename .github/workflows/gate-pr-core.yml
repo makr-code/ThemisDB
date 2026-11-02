@@ -231,7 +231,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
-          fetch-depth: 1
+          fetch-depth: 0
 
       - name: Restore release-critical build directory
         uses: actions/download-artifact@v5
