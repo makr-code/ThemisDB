@@ -197,42 +197,50 @@ Result<size_t> StreamingIngestManager::ingestBatch(std::vector<Event> events) {
 
     std::unique_lock<std::mutex> lock(mu_);
     const size_t max_buffer_events = static_cast<size_t>(cfg_.max_buffer_events);
-    size_t accepted = 0;
-
-    for (auto& ev : events) {
-        if (buffer_.size() >= max_buffer_events) {
-            if (cfg_.overflow_policy == OverflowPolicy::DROP) {
-                const size_t dropped = events.size() - accepted;
-                stat_dropped_.fetch_add(dropped, std::memory_order_relaxed);
-                THEMIS_WARN("StreamingIngestManager::ingestBatch: buffer full, dropping {} events", dropped);
-                break;
-            }
-            // Wait for space before accepting more from this batch.
-            ++stat_backpressure_;
-            auto deadline = cfg_.backpressure_timeout.count() > 0
-                ? std::chrono::steady_clock::now() + cfg_.backpressure_timeout
-                : std::chrono::steady_clock::time_point::max();
-
-            bool got_space = not_full_.wait_until(lock, deadline, [this, max_buffer_events] {
-                return buffer_.size() < max_buffer_events
-                    || !running_.load(std::memory_order_relaxed);
-            });
-            if (!got_space || buffer_.size() >= max_buffer_events) {
-                // Drop the rest of the batch.
-                const size_t dropped = events.size() - accepted;
-                stat_dropped_.fetch_add(dropped, std::memory_order_relaxed);
-                break;
-            }
+    if (events.size() > max_buffer_events) {
+        if (cfg_.overflow_policy == OverflowPolicy::DROP) {
+            stat_dropped_.fetch_add(events.size(), std::memory_order_relaxed);
+            return size_t{0};
         }
-        buffer_.push_back(std::move(ev));
-        ++accepted;
+        return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_LOG_FULL,
+                                    "StreamingIngestManager: batch exceeds buffer capacity"));
     }
 
-    stat_ingested_.fetch_add(accepted, std::memory_order_relaxed);
-    if (accepted > 0) {
-        not_empty_.notify_one();
+    const auto has_batch_space = [this, max_buffer_events, batch_size = events.size()] {
+        return buffer_.size() <= max_buffer_events &&
+            batch_size <= max_buffer_events - buffer_.size();
+    };
+    if (!has_batch_space()) {
+        if (cfg_.overflow_policy == OverflowPolicy::DROP) {
+            stat_dropped_.fetch_add(events.size(), std::memory_order_relaxed);
+            THEMIS_WARN("StreamingIngestManager::ingestBatch: buffer lacks room; dropping {} events",
+                        events.size());
+            return size_t{0};
+        }
+
+        ++stat_backpressure_;
+        const auto deadline = cfg_.backpressure_timeout.count() > 0
+            ? std::chrono::steady_clock::now() + cfg_.backpressure_timeout
+            : std::chrono::steady_clock::time_point::max();
+        const bool got_space = not_full_.wait_until(lock, deadline, has_batch_space);
+        if (!got_space) {
+            return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_LOG_FULL,
+                                        "StreamingIngestManager: batch back-pressure timeout; "
+                                        "no events were enqueued"));
+        }
     }
-    return accepted;
+
+    if (events.size() > buffer_.max_size() - buffer_.size()) {
+        return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_LOG_FULL,
+                                    "StreamingIngestManager: batch size exceeds buffer limits"));
+    }
+    buffer_.reserve(buffer_.size() + events.size());
+    for (auto& event : events) {
+        buffer_.push_back(std::move(event));
+    }
+    stat_ingested_.fetch_add(events.size(), std::memory_order_relaxed);
+    not_empty_.notify_one();
+    return events.size();
 }
 
 /**
@@ -277,9 +285,11 @@ void StreamingIngestManager::flushLoop() {
             continue;
         }
 
-        // Ignore individual batch errors from the background thread — they
-        // are logged but should not crash the flush loop.
-        (void)flushOnce(lock);
+        auto result = flushOnce(lock);
+        if (!result) {
+            THEMIS_ERROR("StreamingIngestManager: flush failed and pending events retained for retry: {}",
+                         result.error().context());
+        }
     }
 }
 
@@ -297,10 +307,11 @@ Result<void> StreamingIngestManager::flushOnce(std::unique_lock<std::mutex>& loc
 
     // Swap out the current buffer so the caller threads can fill a new one
     // while we write to RocksDB without holding the lock.
+    std::vector<Event> replacement_buffer;
+    replacement_buffer.reserve(std::min(cfg_.max_buffer_events, size_t{65536}));
     std::vector<Event> batch;
     batch.swap(buffer_);
-    // Re-reserve so future appends don't allocate from scratch.
-    buffer_.reserve(std::min(cfg_.max_buffer_events, size_t{65536}));
+    buffer_.swap(replacement_buffer);
 
     // Notify waiting producers that space is available.
     not_full_.notify_all();
@@ -312,6 +323,7 @@ Result<void> StreamingIngestManager::flushOnce(std::unique_lock<std::mutex>& loc
     const size_t total = batch.size();
 
     while (offset < total) {
+        const size_t chunk_begin = offset;
         rocksdb::WriteBatch wb;
         size_t count = 0;
 
@@ -323,15 +335,37 @@ Result<void> StreamingIngestManager::flushOnce(std::unique_lock<std::mutex>& loc
         rocksdb::WriteOptions wo;
         wo.sync = cfg_.sync_wal;
 
-        rocksdb::Status s = db_->getRawDB()->Write(wo, &wb);
-        if (!s.ok()) {
-            // no_timeout scanner alert: lock.lock() re-acquires a unique_lock
-            // that was explicitly unlocked for the RocksDB write; standard
-            // lock/unlock re-acquire pattern — false positive.
+        const auto requeue_unwritten = [&](size_t first_unwritten) {
             lock.lock();
+            std::vector<Event> retry;
+            retry.reserve(total - first_unwritten + buffer_.size());
+            for (size_t i = first_unwritten; i < total; ++i) {
+                retry.push_back(std::move(batch[i]));
+            }
+            for (auto& event : buffer_) {
+                retry.push_back(std::move(event));
+            }
+            buffer_ = std::move(retry);
+            not_empty_.notify_one();
+        };
+
+        auto* raw_db = db_ ? db_->getRawDB() : nullptr;
+        if (raw_db == nullptr) {
+            requeue_unwritten(chunk_begin);
+            return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                                        "StreamingIngestManager flush failed: database is closed; "
+                                        "failed_offset=" + std::to_string(chunk_begin) +
+                                        " total=" + std::to_string(total)));
+        }
+
+        rocksdb::Status s = raw_db->Write(wo, &wb);
+        if (!s.ok()) {
+            requeue_unwritten(chunk_begin);
             return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                                         "StreamingIngestManager flush failed: " +
-                                        s.ToString()));
+                                        s.ToString() + " failed_offset=" +
+                                        std::to_string(chunk_begin) +
+                                        " total=" + std::to_string(total)));
         }
 
         stat_flushed_.fetch_add(count, std::memory_order_relaxed);

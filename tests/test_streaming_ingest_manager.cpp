@@ -257,3 +257,60 @@ TEST_F(StreamingIngestManagerTest, SM10_DoubleStartReturnsError) {
     auto res = mgr.start();
     EXPECT_FALSE(res);
 }
+
+TEST_F(StreamingIngestManagerTest, SM11_IngestBatchIsAllOrNothingOnBackpressure) {
+    StreamingIngestManager::Config cfg;
+    cfg.flush_interval = std::chrono::seconds(2);
+    cfg.max_buffer_events = 3;
+    cfg.max_batch_size = 3;
+    cfg.backpressure_timeout = std::chrono::milliseconds(10);
+    cfg.overflow_policy = StreamingIngestManager::OverflowPolicy::BLOCK;
+    cfg.sync_wal = false;
+    auto mgr = StreamingIngestManager::create(db_, std::move(cfg));
+    ASSERT_TRUE(mgr->start());
+
+    auto accepted = mgr->ingestBatch({{"accepted-1", "v1"}, {"accepted-2", "v2"}});
+    ASSERT_TRUE(accepted);
+    EXPECT_EQ(*accepted, 2u);
+
+    auto timed_out = mgr->ingestBatch({{"rejected-1", "v1"}, {"rejected-2", "v2"}});
+    EXPECT_FALSE(timed_out);
+    EXPECT_NE(timed_out.error().context().find("no events were enqueued"),
+              std::string::npos);
+    EXPECT_EQ(mgr->stats().events_ingested, 2u);
+
+    ASSERT_TRUE(mgr->flush());
+    std::string value;
+    EXPECT_TRUE(db_->get("accepted-1", value));
+    EXPECT_FALSE(db_->get("rejected-1", value));
+    ASSERT_TRUE(mgr->stop());
+}
+
+TEST_F(StreamingIngestManagerTest, SM12_FailedFlushRetainsBatchForRetry) {
+    StreamingIngestManager::Config cfg;
+    cfg.flush_interval = std::chrono::seconds(2);
+    cfg.max_buffer_events = 8;
+    cfg.max_batch_size = 1;
+    cfg.sync_wal = false;
+    auto mgr = StreamingIngestManager::create(db_, std::move(cfg));
+
+    auto accepted = mgr->ingestBatch({{"retry-1", "v1"}, {"retry-2", "v2"}});
+    ASSERT_TRUE(accepted);
+    ASSERT_EQ(*accepted, 2u);
+
+    db_->close();
+    auto failed_flush = mgr->flush();
+    ASSERT_FALSE(failed_flush);
+    EXPECT_NE(failed_flush.error().context().find("failed_offset=0"),
+              std::string::npos);
+    EXPECT_EQ(mgr->stats().events_flushed, 0u);
+
+    ASSERT_TRUE(db_->open());
+    ASSERT_TRUE(mgr->flush());
+    EXPECT_EQ(mgr->stats().events_flushed, 2u);
+    std::string value;
+    ASSERT_TRUE(db_->get("retry-1", value));
+    EXPECT_EQ(value, "v1");
+    ASSERT_TRUE(db_->get("retry-2", value));
+    EXPECT_EQ(value, "v2");
+}

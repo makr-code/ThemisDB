@@ -15,6 +15,7 @@
 #pragma once
 
 #include "utils/expected.h"
+#include <chrono>
 #include <cstdint>
 #include <functional>
 #include <memory>
@@ -88,11 +89,41 @@ public:
         std::string value;   // empty for DEL / CHECKPOINT
     };
 
+    /** Recovery status reported by open(). */
+    enum class RecoveryStatus {
+        Complete,
+        TruncatedTail,
+        Corrupted,
+        TimedOut,
+        Failed,
+    };
+
+    /**
+     * @brief Structured outcome of scanning the WAL during open().
+     *
+     * @note In skip-corrupted mode, Corrupted can accompany a successful open;
+     *       the affected segment is quarantined and skipped_bytes reports its size.
+     */
+    struct RecoveryResult {
+        RecoveryStatus status = RecoveryStatus::Complete;
+        uint64_t last_valid_lsn = 0;
+        uint64_t skipped_bytes = 0;
+        std::string segment;
+    };
+
+    /** Policy for handling corrupt WAL segments. */
+    enum class RecoveryMode {
+        Strict,
+        SkipCorrupted,
+    };
+
     /** Configuration options. */
     struct Config {
         std::string dir;                              ///< Directory for WAL segment files
         uint64_t    rotation_threshold_bytes = 64 * 1024 * 1024; ///< Rotate at 64 MiB
         bool        fsync_on_write = true;            ///< fsync every individual entry (max durability)
+        RecoveryMode recovery_mode = RecoveryMode::Strict; ///< Strictly reject corruption unless explicitly overridden
+        std::chrono::milliseconds recovery_timeout{0}; ///< Zero means no recovery timeout
     };
 
     /**
@@ -122,17 +153,20 @@ public:
      * On first open, an empty WAL is created.
      * On subsequent opens, existing segments are replayed via @p on_recover.
      *
-     * @param config  WAL configuration (directory, rotation threshold, fsync).
+     * @param config  WAL configuration (directory, rotation, fsync, recovery policy).
      * @param on_recover  Callback invoked for each recovered entry; may be null.
+     * @param recovery_result Optional structured status, populated on success and failure.
      * @return Result<std::unique_ptr<WALStorage>> on success, Error on failure.
      *         Corrupt records, recovery timeouts, I/O errors, or a callback
      *         that aborts replay are reported as errors. A physically
      *         incomplete final record is truncated to the last complete record
-     *         before the segment is reopened for appends.
+     *         before the segment is reopened for appends. Corruption is skipped
+     *         only in SkipCorrupted mode, after the affected segment is quarantined.
      */
     static Result<std::unique_ptr<WALStorage>> open(
         const Config& config,
-        RecoveryCallback on_recover = nullptr
+        RecoveryCallback on_recover = nullptr,
+        RecoveryResult* recovery_result = nullptr
     );
 
     ~WALStorage();
@@ -263,8 +297,12 @@ public:
 private:
     explicit WALStorage(const Config& cfg);
 
-    Result<void> openOrCreate(RecoveryCallback& on_recover);
-    Result<void> replaySegment(const std::string& path, RecoveryCallback& cb);
+    Result<void> openOrCreate(RecoveryCallback& on_recover,
+                              RecoveryResult& recovery_result);
+    Result<void> replaySegment(const std::string& path,
+                               RecoveryCallback& cb,
+                               RecoveryResult& recovery_result,
+                               std::chrono::steady_clock::time_point recovery_started_at);
     Result<void> rotateIfNeeded();
     Result<void> openNewSegment(uint64_t segment_id);
     Result<uint64_t> appendEntry(EntryType type,
