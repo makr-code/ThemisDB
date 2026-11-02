@@ -143,6 +143,12 @@ struct ShardRPCClient::Impl {
                     "This is a test-only configuration; production deployments must enable gRPC "
                     "via: cmake -DTHEMIS_ENABLE_GRPC=ON after generating proto files with protoc.");
 #endif
+
+        if (themis::core::ProductionMode::isEnabled() && !isProductionSafeEndpoint()) {
+            throw std::runtime_error(
+                "ShardRPCClient: production mode requires a real gRPC transport with "
+                "mTLS and server certificate verification");
+        }
     }
     
     bool isExplicitInProcessEndpoint(const std::string& endpoint) const {
@@ -150,7 +156,7 @@ struct ShardRPCClient::Impl {
     }
 
     [[nodiscard]] bool isProductionSafeEndpoint() const {
-        return use_grpc || isExplicitInProcessEndpoint(config.endpoint);
+        return use_grpc && config.enable_mtls && config.tls_verify_server;
     }
     
 #if THEMIS_HAS_SHARD_GRPC
@@ -287,6 +293,7 @@ struct ShardRPCClient::Impl {
         return channel->WaitForConnected(deadline);
     }
 #endif
+
 };
 
 ShardRPCClient::ShardRPCClient(const Config& config)

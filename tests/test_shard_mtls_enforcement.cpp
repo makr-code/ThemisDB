@@ -216,6 +216,20 @@ TEST(ShardMtlsEnforcement, ProductionMode_ClientInsecureOverrideCannotMaskMissin
 #endif
 }
 
+TEST(ShardMtlsEnforcement, ProductionMode_RejectsInProcessClientTransport) {
+    ScopedEnv environment("THEMIS_ENVIRONMENT", "development");
+    ScopedEnv prod("THEMIS_PRODUCTION_MODE", "production");
+
+    ShardRPCClient::Config cfg;
+    cfg.endpoint = "inproc://shard-a";
+
+    EXPECT_THROW(
+        {
+            ShardRPCClient client(cfg);
+        },
+        std::runtime_error);
+}
+
 TEST(ShardMtlsEnforcement, ProductionMode_ClientRejectsDisabledMtlsAndVerification) {
 #if THEMIS_TEST_HAS_SHARD_GRPC
     ScopedEnv environment("THEMIS_ENVIRONMENT", "development");
