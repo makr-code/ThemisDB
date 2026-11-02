@@ -246,14 +246,38 @@ TEST_F(LoRAAdapterTest, Unloading_MemoryCleanup) {
 TEST_F(LoRAAdapterTest, Switching_BetweenAdapters) {
     auto adapter1 = createMockAdapter("adapter1");
     auto adapter2 = createMockAdapter("adapter2");
-    
-    test::LatencyMeasurement timer;
-    
+
 #ifdef THEMIS_ENABLE_LLM
-    // Would switch between adapters
-    // Measure switching time
-    
-    GTEST_SKIP() << "Requires actual LoRA manager implementation";
+    auto manager = createManager();
+    ASSERT_TRUE(manager->loadLoRA("adapter1", adapter1, "base_model", 1.0f));
+    ASSERT_TRUE(manager->loadLoRA("adapter2", adapter2, "base_model", 0.75f));
+
+    std::atomic<int> apply_count{0};
+    std::atomic<int> remove_count{0};
+    manager->setApplyAdapterFn([&apply_count](const LoRASlot& slot) {
+        if (slot.lora_id.empty()) {
+            return false;
+        }
+        ++apply_count;
+        return true;
+    });
+    manager->setRemoveAdapterFn([&remove_count](const LoRASlot& slot) {
+        if (slot.lora_id.empty()) {
+            return false;
+        }
+        ++remove_count;
+        return true;
+    });
+
+    ASSERT_TRUE(manager->applyLoRA("adapter1", nullptr));
+    ASSERT_TRUE(manager->getLoRA("adapter1")->is_active);
+    ASSERT_TRUE(manager->removeLoRA("adapter1", nullptr));
+    EXPECT_FALSE(manager->getLoRA("adapter1")->is_active);
+
+    ASSERT_TRUE(manager->applyLoRA("adapter2", nullptr));
+    EXPECT_TRUE(manager->getLoRA("adapter2")->is_active);
+    EXPECT_EQ(apply_count.load(), 2);
+    EXPECT_EQ(remove_count.load(), 1);
 #else
     GTEST_SKIP() << "LLM support not enabled";
 #endif
@@ -274,10 +298,37 @@ TEST_F(LoRAAdapterTest, Switching_RapidSwitching) {
     }
     
 #ifdef THEMIS_ENABLE_LLM
-    // Would perform rapid switching between adapters
-    // Verify stability
-    
-    GTEST_SKIP() << "Requires actual LoRA manager implementation";
+    auto manager = createManager(adapters.size());
+    for (size_t i = 0; i < adapters.size(); ++i) {
+        ASSERT_TRUE(manager->loadLoRA("rapid_" + std::to_string(i),
+                                      adapters[i], "base_model", 1.0f));
+    }
+
+    std::atomic<int> applied{0};
+    std::atomic<int> removed{0};
+    manager->setApplyAdapterFn([&applied](const LoRASlot&) {
+        ++applied;
+        return true;
+    });
+    manager->setRemoveAdapterFn([&removed](const LoRASlot&) {
+        ++removed;
+        return true;
+    });
+
+    constexpr int switches = 30;
+    for (int i = 0; i < switches; ++i) {
+        const auto current = "rapid_" + std::to_string(i % adapters.size());
+        const auto previous = "rapid_" + std::to_string((i + adapters.size() - 1) % adapters.size());
+        if (i > 0) {
+            ASSERT_TRUE(manager->removeLoRA(previous, nullptr));
+            EXPECT_FALSE(manager->getLoRA(previous)->is_active);
+        }
+        ASSERT_TRUE(manager->applyLoRA(current, nullptr));
+        EXPECT_TRUE(manager->getLoRA(current)->is_active);
+    }
+
+    EXPECT_EQ(applied.load(), switches);
+    EXPECT_EQ(removed.load(), switches - 1);
 #else
     GTEST_SKIP() << "LLM support not enabled";
 #endif
@@ -292,10 +343,21 @@ TEST_F(LoRAAdapterTest, Switching_RapidSwitching) {
  */
 TEST_F(LoRAAdapterTest, Switching_VerifyActiveAdapter) {
 #ifdef THEMIS_ENABLE_LLM
-    // Would verify active adapter after switches
-    // Check that getActiveAdapter() returns correct value
-    
-    GTEST_SKIP() << "Requires actual LoRA manager implementation";
+    auto manager = createManager();
+    const auto adapter_path = createMockAdapter("active_adapter");
+    ASSERT_TRUE(manager->loadLoRA("active_adapter", adapter_path, "base_model", 0.5f));
+    ASSERT_NE(manager->getLoRA("active_adapter"), nullptr);
+    EXPECT_FALSE(manager->getLoRA("active_adapter")->is_active);
+
+    manager->setApplyAdapterFn([](const LoRASlot& slot) {
+        return slot.lora_id == "active_adapter";
+    });
+    ASSERT_TRUE(manager->applyLoRA("active_adapter", nullptr));
+    EXPECT_TRUE(manager->getLoRA("active_adapter")->is_active);
+
+    manager->setApplyAdapterFn([](const LoRASlot&) { return false; });
+    EXPECT_FALSE(manager->applyLoRA("active_adapter", nullptr));
+    EXPECT_TRUE(manager->getLoRA("active_adapter")->is_active);
 #else
     GTEST_SKIP() << "LLM support not enabled";
 #endif
@@ -466,10 +528,19 @@ TEST_F(LoRAAdapterTest, StateConsistency_StatusTracking) {
  */
 TEST_F(LoRAAdapterTest, StateConsistency_MetadataIntegrity) {
 #ifdef THEMIS_ENABLE_LLM
-    // Would verify metadata integrity
-    // Load adapter with metadata, verify it's preserved
-    
-    GTEST_SKIP() << "Requires actual LoRA manager implementation";
+    auto manager = createManager();
+    const auto adapter_path = createMockAdapter("metadata_adapter", 2048);
+    ASSERT_TRUE(manager->loadLoRA("metadata_adapter", adapter_path, "base_model", 0.625f));
+
+    const auto info = manager->getLoRAInfo("metadata_adapter");
+    ASSERT_TRUE(info.has_value());
+    EXPECT_EQ(info->id, "metadata_adapter");
+    EXPECT_EQ(info->adapter_id, "metadata_adapter");
+    EXPECT_EQ(info->base_model_id, "base_model");
+    EXPECT_EQ(info->path, adapter_path);
+    EXPECT_FLOAT_EQ(info->scale, 0.625f);
+    EXPECT_EQ(info->size_bytes, fs::file_size(adapter_path));
+    EXPECT_TRUE(info->is_loaded);
 #else
     GTEST_SKIP() << "LLM support not enabled";
 #endif
