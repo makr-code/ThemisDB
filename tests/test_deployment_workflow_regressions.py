@@ -347,6 +347,38 @@ class DeploymentWorkflowTests(unittest.TestCase):
                     self.assertEqual(values["source_sha"], sha)
                     self.assertEqual(values["edition"], edition)
 
+    def test_packaging_dispatch_without_tag_defaults_to_dry_run(self):
+        workflow_text = (ROOT / ".github/workflows/release-mainline.yml").read_text()
+        self.assertIn(
+            "      dry_run:\n"
+            "        description: 'Dry-run for dispatch (build/package/validate only; skip publish/distribution)'\n"
+            "        required: false\n"
+            "        default: true\n"
+            "        type: boolean",
+            workflow_text,
+        )
+
+        script = step("release-mainline.yml", "preflight-release-policy", "identity")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.make_source(directory)
+            sha = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], cwd=directory, text=True
+            ).strip()
+            result, values = run_bash(
+                script,
+                directory,
+                TAG_INPUT="",
+                EDITION_INPUT="community",
+                EVENT_NAME="workflow_dispatch",
+                DRY_RUN="true",
+            )
+
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        self.assertEqual(values["tag"], "")
+        self.assertEqual(values["source_sha"], sha)
+        self.assertEqual(values["edition"], "community")
+
     def test_packaging_dispatch_can_stage_a_new_tag_from_selected_ref(self):
         script = step("release-mainline.yml", "preflight-release-policy", "identity")["run"]
         for event_name, should_pass in [("workflow_dispatch", True), ("release", False)]:
