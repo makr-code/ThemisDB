@@ -20,8 +20,8 @@ Status: Active
 Exact model backend not verifiable from final document text alone.
 
 - Sources: `.github/workflows/reusable-docker-image-platform.yml`, `docker/Dockerfile.unified`, `tests/test_docker_runtime_package_regressions.py`.
-- Platform builds require the pinned `bootstrap-vcpkg.sh`, which builds vcpkg natively on ARM64; the `vcpkg-glibc` release binary is x86-64-only.
-- Bootstrap architecture validation remains mandatory even when `override_docker_source_preflight` skips dependency/runtime source checks.
+- ARM64 platform builds require the pinned `bootstrap-vcpkg.sh`, which builds vcpkg natively on ARM64; the `vcpkg-glibc` release binary is x86-64-only.
+- The dedicated bootstrap architecture gate runs only for `linux/arm64` and remains mandatory even when `override_docker_source_preflight` skips dependency/runtime source checks. AMD64 does not run this ARM64-only gate; the default full source preflight and build/security/runtime gates are unchanged.
 - An obsolete release tag must be replaced by a **new release tag** containing the corrected Dockerfile. The workflow does not move tags or substitute newer source for the selected release commit.
 
 ## .github/workflows/benchmark-gate.yml
