@@ -533,6 +533,7 @@ jobs:
       tinyllama_force_download: ${{ needs.prepare-release-context.outputs.tinyllama_force_download == 'true' }}
       source_run_id: ${{ github.run_id }}
       source_sha: ${{ needs.prepare-release-context.outputs.source_sha }}
+      override_docker_source_preflight: ${{ inputs.override_docker_source_preflight }}
       edition: ${{ needs.prepare-release-context.outputs.edition }}
     secrets: inherit
 
