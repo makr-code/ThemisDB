@@ -193,6 +193,7 @@ jobs:
           fi
 
       - name: Validate Docker vcpkg bootstrap architecture
+        if: ${{ inputs.platform == 'linux/arm64' }}
         shell: bash
         env:
           WORKFLOW_SHA: ${{ github.sha }}

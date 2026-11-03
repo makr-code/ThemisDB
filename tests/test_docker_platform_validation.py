@@ -87,7 +87,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
         steps = build["steps"]
         for name, condition in (
             ("Validate Dockerfile model-case syntax", None),
-            ("Validate Docker vcpkg bootstrap architecture", None),
+            ("Validate Docker vcpkg bootstrap architecture", "${{ inputs.platform == 'linux/arm64' }}"),
             ("Enforce public edition boundary", None),
             ("Build platform image once for local scan and optional registry push", None),
             ("Trivy vulnerability scan", "inputs.push_to_registry"),
