@@ -52,6 +52,9 @@ def extract_stage(text: str, stage_name: str, base_image: str = "ubuntu:24.04") 
 
 def extract_installed_packages(stage_text: str, stage_name: str) -> set[str]:
     packages: set[str] = set()
+    if "xargs -r apt-get install" in stage_text:
+        manifest = REPO_ROOT / "scripts/release/runtime-dependencies-ubuntu-24.04.txt"
+        packages.update(manifest.read_text(encoding="utf-8").split())
     lines = stage_text.splitlines()
 
     for index, line in enumerate(lines):
@@ -161,6 +164,16 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
 
         for package_name in EXPECTED_UBUNTU_2404_RUNTIME_PACKAGE_TOKENS:
             self.assertIn(package_name, runtime_packages)
+
+    def test_runtime_checks_linker_and_rootless_loader_before_publishing(self) -> None:
+        stage = extract_stage(self._dockerfile_text(), "runtime")
+        for marker in ("ldd /app/themis_server", 'grep -q "not found"',
+                       "RUN /app/themis_server --version",
+                       'CMD ["--port", "8080", "--data-dir", "/app/data/themis_server"]'):
+            self.assertIn(marker, stage)
+        self.assertLess(stage.index("USER themis"), stage.index("RUN /app/themis_server --version"))
+        packages = extract_installed_packages(stage, "runtime")
+        self.assertTrue({"curl", "libfmt9", "libspdlog1.12"}.issubset(packages))
 
     def test_debug_stage_uses_ubuntu_2404_runtime_packages(self) -> None:
         debug_stage = extract_stage(self._dockerfile_text(), "debug")

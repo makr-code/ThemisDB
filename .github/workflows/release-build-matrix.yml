@@ -58,7 +58,7 @@ jobs:
   run-summary:
     name: "Validate: Run Summary"
     if: always()
-    needs: [linux-release, windows-release, prepare-release-matrix, release-platform-matrix]
+    needs: [linux-release, windows-release, prepare-release-matrix, release-platform-matrix, runtime-artifact-gate]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -342,6 +342,8 @@ jobs:
               entry["validation_continue_on_error"] = False
 
           selected = [entry for entry in entries if entry["enabled"]]
+          if not selected:
+              raise ValueError("Release matrix selected no platforms")
           print(f"matrix={json.dumps({'include': selected})}")
           PY
 
@@ -380,3 +382,63 @@ jobs:
       artifact_retention_days_secondary: ${{ matrix.artifact_retention_days_secondary }}
       summary_title: ${{ matrix.summary_title }}
       timeout_minutes: ${{ matrix.timeout_minutes || '360' }}
+
+  runtime-artifact-gate:
+    name: "Validate: Packaged Runtime (${{ matrix.id }})"
+    needs: [prepare-release-matrix, release-platform-matrix]
+    runs-on: ${{ matrix.runs_on }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare-release-matrix.outputs.matrix) }}
+    steps:
+      - name: Checkout runtime gate from workflow revision
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Download final platform packages
+        uses: actions/download-artifact@v5
+        with:
+          name: ${{ matrix.artifact_name_secondary }}
+          path: runtime-packages
+
+      - name: Validate Linux packages in clean Ubuntu runtime
+        if: startsWith(matrix.id, 'linux-')
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p runtime-evidence
+          docker run --rm \
+            -v "$PWD/runtime-packages:/packages:ro" \
+            -v "$PWD/scripts/release:/gate:ro" \
+            -v "$PWD/runtime-evidence:/evidence" \
+            ubuntu:24.04 /bin/sh -ec '
+              apt-get update -qq
+              apt-get install -y --no-install-recommends python3 libarchive-tools
+              xargs -r apt-get install -y --no-install-recommends < /gate/runtime-dependencies-ubuntu-24.04.txt
+              python3 /gate/runtime_smoke_gate.py --packages /packages --output /evidence/runtime-smoke.json
+            '
+
+      - name: Set up Python for native runtime gate
+        if: "!startsWith(matrix.id, 'linux-')"
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Validate Windows and macOS packages without build tools on PATH
+        if: "!startsWith(matrix.id, 'linux-')"
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/release/runtime_smoke_gate.py \
+            --packages runtime-packages --output runtime-evidence/runtime-smoke.json
+
+      - name: Upload packaged runtime dependency and startup evidence
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: packaged-runtime-smoke-${{ matrix.id }}-${{ github.run_number }}
+          path: runtime-evidence/
+          if-no-files-found: warn
+          retention-days: 30
