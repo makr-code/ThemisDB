@@ -1,7 +1,28 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-11-02"
+Last Updated: "2026-11-03"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # Developer LLM Wiki — Build/Test/CI/Operations
 
 Datum: 2026-11-02
 Status: Active
+
+## Docker ARM64 bootstrap preflight
+
+Exact model backend not verifiable from final document text alone.
+
+- Sources: `.github/workflows/reusable-docker-image-platform.yml`, `docker/Dockerfile.unified`, `tests/test_docker_runtime_package_regressions.py`.
+- Platform builds require the pinned `bootstrap-vcpkg.sh`, which builds vcpkg natively on ARM64; the `vcpkg-glibc` release binary is x86-64-only.
+- Bootstrap architecture validation remains mandatory even when `override_docker_source_preflight` skips dependency/runtime source checks.
+- An obsolete release tag must be replaced by a **new release tag** containing the corrected Dockerfile. The workflow does not move tags or substitute newer source for the selected release commit.
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
