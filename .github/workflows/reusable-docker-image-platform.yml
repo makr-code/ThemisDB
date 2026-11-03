@@ -192,6 +192,19 @@ jobs:
             exit 1
           fi
 
+      - name: Validate Docker vcpkg bootstrap architecture
+        shell: bash
+        env:
+          WORKFLOW_SHA: ${{ github.sha }}
+          THEMIS_SOURCE_ROOT: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$WORKFLOW_SHA"
+          VALIDATOR="$(mktemp "${RUNNER_TEMP}/docker-vcpkg-bootstrap-XXXXXX.py")"
+          trap 'rm -f "$VALIDATOR"' EXIT
+          git show "${WORKFLOW_SHA}:tests/test_docker_runtime_package_regressions.py" > "$VALIDATOR"
+          python3 "$VALIDATOR" DockerRuntimePackageRegressionTests.test_vcpkg_bootstrap_supports_native_arm64 -v
+
       - name: Validate Docker dependency providers and runtime packages
         if: ${{ !inputs.override_docker_source_preflight }}
         shell: bash
@@ -214,7 +227,7 @@ jobs:
           SOURCE_SHA: ${{ inputs.source_sha || github.sha }}
           PLATFORM: ${{ inputs.platform }}
         run: |
-          echo "::warning::Docker source regression checks were explicitly skipped for ${RELEASE_VERSION} (${SOURCE_SHA}) on ${PLATFORM}. This source may fail to build or produce a broken image on this platform; the selected source commit was not changed. Docker syntax, edition boundary, build, Trivy and final runtime smoke gates still apply."
+          echo "::warning::Docker source regression checks were explicitly skipped for ${RELEASE_VERSION} (${SOURCE_SHA}) on ${PLATFORM}. This source may fail to build or produce a broken image on this platform; the selected source commit was not changed. Docker syntax, vcpkg bootstrap architecture, edition boundary, build, Trivy and final runtime smoke gates still apply."
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1

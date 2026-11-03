@@ -87,6 +87,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
         steps = build["steps"]
         for name, condition in (
             ("Validate Dockerfile model-case syntax", None),
+            ("Validate Docker vcpkg bootstrap architecture", None),
             ("Enforce public edition boundary", None),
             ("Build platform image once for local scan and optional registry push", None),
             ("Trivy vulnerability scan", "inputs.push_to_registry"),
@@ -129,6 +130,14 @@ class DockerPlatformValidationTests(unittest.TestCase):
     def test_relocated_validator_still_rejects_invalid_source(self) -> None:
         self._run_relocated_validator(invalid_runtime=True)
 
+    def test_bootstrap_gate_accepts_native_bootstrap_in_older_checkout(self) -> None:
+        self._run_relocated_validator(False, execute_workflow=True, bootstrap_gate=True)
+
+    def test_bootstrap_gate_rejects_x86_binary_without_changing_source(self) -> None:
+        self._run_relocated_validator(
+            False, execute_workflow=True, bootstrap_gate=True, invalid_bootstrap=True,
+        )
+
     def test_workflow_validates_older_checkout_without_validator(self) -> None:
         self._run_relocated_validator(invalid_runtime=False, execute_workflow=True)
 
@@ -156,6 +165,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
     def _run_relocated_validator(
         self, invalid_runtime: bool, execute_workflow: bool = False,
         release_preflight: bool = False,
+        bootstrap_gate: bool = False, invalid_bootstrap: bool = False,
     ) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -166,6 +176,15 @@ class DockerPlatformValidationTests(unittest.TestCase):
             manifest = source / "scripts/release/runtime-dependencies-ubuntu-24.04.txt"
             manifest.parent.mkdir(parents=True)
             shutil.copyfile(REPO_ROOT / manifest.relative_to(source), manifest)
+            if invalid_bootstrap:
+                dockerfile = source / "docker" / "Dockerfile.unified"
+                dockerfile.write_text(
+                    dockerfile.read_text(encoding="utf-8").replace(
+                        "${VCPKG_ROOT}/bootstrap-vcpkg.sh -disableMetrics",
+                        "install -m 0755 /tmp/vcpkg-glibc ${VCPKG_ROOT}/vcpkg",
+                    ),
+                    encoding="utf-8",
+                )
             if invalid_runtime:
                 dockerfile = source / "docker" / "Dockerfile.unified"
                 dockerfile.write_text(
@@ -218,7 +237,10 @@ class DockerPlatformValidationTests(unittest.TestCase):
                 workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
                 validation = next(
                     step for step in workflow["jobs"]["build"]["steps"]
-                    if step.get("name") == "Validate Docker dependency providers and runtime packages"
+                    if step.get("name") == (
+                        "Validate Docker vcpkg bootstrap architecture" if bootstrap_gate
+                        else "Validate Docker dependency providers and runtime packages"
+                    )
                 )
                 if release_preflight:
                     release = yaml.safe_load(RELEASE_WORKFLOW.read_text(encoding="utf-8"))
@@ -251,7 +273,12 @@ class DockerPlatformValidationTests(unittest.TestCase):
                         git(checkout, "rev-parse", "v2.4.0-alpha^{commit}"), source_sha
                     )
                     self.assertFalse(list(root.glob("docker-release-source-*.py")))
-            if invalid_runtime:
+            if invalid_bootstrap:
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("builds vcpkg natively on ARM64", result.stderr)
+                self.assertIn("Publish a new release tag", result.stderr)
+                self.assertFalse(list(root.glob("docker-vcpkg-bootstrap-*.py")))
+            elif invalid_runtime:
                 self.assertNotEqual(result.returncode, 0)
                 self.assertIn("librocksdb7", result.stderr)
                 if release_preflight:

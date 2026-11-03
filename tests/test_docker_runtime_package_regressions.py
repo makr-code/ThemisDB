@@ -94,6 +94,18 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
     def _dockerfile_text() -> str:
         return DOCKERFILE.read_text(encoding="utf-8")
 
+    def test_vcpkg_bootstrap_supports_native_arm64(self) -> None:
+        base = extract_stage(self._dockerfile_text(), "base")
+        self.assertIn(
+            "${VCPKG_ROOT}/bootstrap-vcpkg.sh -disableMetrics", base,
+            "Use the pinned vcpkg bootstrap script: it builds vcpkg natively on ARM64. "
+            "Publish a new release tag containing the corrected Dockerfile.",
+        )
+        self.assertNotRegex(
+            base, r"(?m)^ADD\s+https://\S+/vcpkg-glibc\s",
+            "vcpkg-glibc is x86-64-only and fails with Exec format error on ARM64.",
+        )
+
     def test_community_logging_dependencies_use_system_packages(self) -> None:
         deps_packages = extract_installed_packages(
             extract_stage(self._dockerfile_text(), "deps", base_image="base"), "deps"
