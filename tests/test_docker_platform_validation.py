@@ -152,6 +152,11 @@ class DockerPlatformValidationTests(unittest.TestCase):
         self.assertLess(ids.index("docker-source-preflight"), ids.index("tags"))
         self.assertIn("prepare-release-context", jobs["build-platforms"]["needs"])
         preflight = next(step for step in steps if step.get("id") == "docker-source-preflight")
+        self.assertNotIn("if", preflight)
+        self.assertEqual(
+            preflight["env"]["OVERRIDE_SOURCE_PREFLIGHT"],
+            "${{ inputs.override_docker_source_preflight }}",
+        )
         self.assertEqual(preflight["env"]["WORKFLOW_SHA"], "${{ github.sha }}")
         self.assertEqual(preflight["env"]["THEMIS_SOURCE_ROOT"], "${{ github.workspace }}")
         subprocess.run(["bash", "-n", "-c", preflight["run"]], check=True)
@@ -161,6 +166,22 @@ class DockerPlatformValidationTests(unittest.TestCase):
 
     def test_release_preflight_rejects_obsolete_tag_without_changing_source(self) -> None:
         self._run_relocated_validator(True, execute_workflow=True, release_preflight=True)
+
+    def test_release_override_accepts_native_bootstrap(self) -> None:
+        self._run_relocated_validator(
+            False, execute_workflow=True, release_preflight=True, bootstrap_gate=True,
+        )
+
+    def test_release_override_rejects_x86_bootstrap_before_platform_dispatch(self) -> None:
+        self._run_relocated_validator(
+            False, execute_workflow=True, release_preflight=True,
+            bootstrap_gate=True, invalid_bootstrap=True,
+        )
+
+    def test_release_override_skips_only_dependency_and_runtime_checks(self) -> None:
+        self._run_relocated_validator(
+            True, execute_workflow=True, release_preflight=True, bootstrap_gate=True,
+        )
 
     def _run_relocated_validator(
         self, invalid_runtime: bool, execute_workflow: bool = False,
@@ -218,7 +239,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
                 git(source, "add", "tests")
                 git(source, "commit", "-m", "Workflow validator")
                 workflow_sha = git(source, "rev-parse", "HEAD")
-                if release_preflight and invalid_runtime:
+                if release_preflight and (invalid_runtime or invalid_bootstrap):
                     dockerfile = source / "docker" / "Dockerfile.unified"
                     shutil.copyfile(REPO_ROOT / "docker" / "Dockerfile.unified", dockerfile)
                     shutil.copyfile(REPO_ROOT / manifest.relative_to(source), manifest)
@@ -257,6 +278,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
                     RUNNER_TEMP=str(root),
                     RELEASE_VERSION="v2.4.0-alpha",
                     SOURCE_SHA=source_sha,
+                    OVERRIDE_SOURCE_PREFLIGHT="true" if bootstrap_gate else "false",
                 )
             result = subprocess.run(
                 command,
@@ -278,7 +300,10 @@ class DockerPlatformValidationTests(unittest.TestCase):
                 self.assertIn("builds vcpkg natively on ARM64", result.stderr)
                 self.assertIn("Publish a new release tag", result.stderr)
                 self.assertFalse(list(root.glob("docker-vcpkg-bootstrap-*.py")))
-            elif invalid_runtime:
+                if release_preflight:
+                    self.assertIn("Publish a new release tag", result.stdout)
+                    self.assertIn(source_sha, result.stdout)
+            elif invalid_runtime and not (release_preflight and bootstrap_gate):
                 self.assertNotEqual(result.returncode, 0)
                 self.assertIn("librocksdb7", result.stderr)
                 if release_preflight:
