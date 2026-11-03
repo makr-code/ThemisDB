@@ -252,7 +252,7 @@ GlobalTxnOutcome GlobalTransactionManager::commit(const std::string& txn_id) {
         }
 
         if (!wal_) {
-            outcome.result = GlobalTxnResult::ERROR;
+            outcome.result = GlobalTxnResult::FAILURE;
             outcome.reason = "durable WAL is required before preparing participants";
             total_errors_.fetch_add(1, std::memory_order_relaxed);
             return outcome;
@@ -293,8 +293,8 @@ GlobalTxnOutcome GlobalTransactionManager::commit(const std::string& txn_id) {
             {"decision",       all_prepared ? "commit" : "abort"},
             {"commit_timestamp_ns", commit_ts}
         },
-        true) || !wal_->flush()) {
-        outcome.result = GlobalTxnResult::ERROR;
+        true)) {
+        outcome.result = GlobalTxnResult::FAILURE;
         outcome.reason = "durable transaction decision could not be confirmed; participants remain unresolved";
         total_errors_.fetch_add(1, std::memory_order_relaxed);
         THEMIS_ERROR("GlobalTransactionManager [{}] txn {} decision was not confirmed durable; "
@@ -324,7 +324,7 @@ GlobalTxnOutcome GlobalTransactionManager::commit(const std::string& txn_id) {
         rec.state = all_prepared
             ? GlobalTxnState::COMMIT_DECIDED
             : GlobalTxnState::ABORT_DECIDED;
-        outcome.result = GlobalTxnResult::ERROR;
+        outcome.result = GlobalTxnResult::FAILURE;
         outcome.reason = "Phase-2 delivery incomplete; transaction remains unresolved";
         total_errors_.fetch_add(1, std::memory_order_relaxed);
         return outcome;
@@ -334,8 +334,8 @@ GlobalTxnOutcome GlobalTransactionManager::commit(const std::string& txn_id) {
             {"transaction_id", txn_id},
             {"coordinator_id", coordinator_id_},
             {"phase", "complete"}
-        }, true) || !wal_->flush()) {
-        outcome.result = GlobalTxnResult::ERROR;
+        }, true)) {
+        outcome.result = GlobalTxnResult::FAILURE;
         outcome.reason = "Phase-2 completed but its completion record was not confirmed durable";
         total_errors_.fetch_add(1, std::memory_order_relaxed);
         return outcome;
@@ -418,8 +418,8 @@ bool GlobalTransactionManager::abort(const std::string& txn_id) {
         original_state == GlobalTxnState::COMMIT_DECIDED ||
         original_state == GlobalTxnState::ABORT_DECIDED;
     if (wal_ &&
-        (!logToWAL(themis::sharding::WALEntryType::ABORT_TX, txn_id,
-                   {{"decision", "abort"}}, true) || !wal_->flush())) {
+        !logToWAL(themis::sharding::WALEntryType::ABORT_TX, txn_id,
+                  {{"decision", "abort"}}, true)) {
         THEMIS_ERROR("GlobalTransactionManager [{}] txn {} ABORT decision was not "
                      "confirmed durable; Phase-2 delivery suppressed",
                      coordinator_id_, txn_id);
@@ -443,11 +443,11 @@ bool GlobalTransactionManager::abort(const std::string& txn_id) {
     }
 
     if (wal_ &&
-        (!logToWAL(themis::sharding::WALEntryType::ABORT_TX, txn_id, {
+        !logToWAL(themis::sharding::WALEntryType::ABORT_TX, txn_id, {
             {"transaction_id", txn_id},
             {"coordinator_id", coordinator_id_},
             {"phase", "complete"}
-        }, true) || !wal_->flush())) {
+        }, true)) {
         return false;
     }
 
@@ -623,7 +623,7 @@ size_t GlobalTransactionManager::recoverInDoubtTransactions() {
                     {"coordinator_id", coordinator_id_},
                     {"phase", "complete"},
                     {"recovery", true}
-                }, true) && wal_->flush();
+                }, true);
 
             // Re-acquire to persist the COMPLETED state
             {
@@ -864,7 +864,7 @@ bool GlobalTransactionManager::runPhase2(GlobalTxnRecord& rec, bool do_commit) {
  * @param[in] type Input parameter.
  * @param[in] txn_id Identifier of the txn.
  * @param[in] data Input parameter.
- * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), append(), flush(), THEMIS_ERROR(), what().
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), append(), flushDurable(), THEMIS_ERROR(), what().
  */
 bool GlobalTransactionManager::logToWAL(
     themis::sharding::WALEntryType type,
@@ -888,7 +888,7 @@ bool GlobalTransactionManager::logToWAL(
         entry.data = data;
 
         wal_->append(entry);
-        if ((config_.sync_wal_writes || force_sync) && !wal_->flush()) {
+        if ((config_.sync_wal_writes || force_sync) && !wal_->flushDurable()) {
             return false;
         }
         return true;

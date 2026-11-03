@@ -266,7 +266,7 @@ TEST_F(GlobalTransactionManagerTest, MissingWALDoesNotPrepareParticipants) {
 
     const auto outcome = no_wal.commit(txn_id);
 
-    EXPECT_EQ(outcome.result, GlobalTxnResult::ERROR);
+    EXPECT_EQ(outcome.result, GlobalTxnResult::FAILURE);
     EXPECT_EQ(participant.prepareCount(), 0);
     EXPECT_EQ(participant.commitCount(), 0);
     EXPECT_EQ(participant.abortCount(), 0);
@@ -279,7 +279,7 @@ TEST_F(GlobalTransactionManagerTest, FailedPhase2DoesNotAcknowledgeCommit) {
 
     const auto outcome = gtm_->commit(txn_id);
 
-    EXPECT_EQ(outcome.result, GlobalTxnResult::ERROR);
+    EXPECT_EQ(outcome.result, GlobalTxnResult::FAILURE);
     EXPECT_EQ(gtm_->getTransactionState(txn_id), GlobalTxnState::COMMIT_DECIDED);
 }
 

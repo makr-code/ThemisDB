@@ -498,7 +498,7 @@ DistributedTransactionManager::beginDistributed(
                 if (!logToWAL(themis::sharding::WALEntryType::BEGIN_TX, txn_id,
                               "participants=" + std::to_string(participants.size()),
                               &participants) ||
-                    !wal_->flush()) {
+                    !wal_->flushDurable()) {
                     throw std::runtime_error("BEGIN record was not confirmed durable");
                 }
             } catch (const std::exception& ex) {
@@ -609,7 +609,7 @@ DistributedTransactionManager::prepareDistributed(const TransactionId& txn_id) {
             try {
                 if (!logToWAL(themis::sharding::WALEntryType::PREPARE_TX, txn_id,
                               "participants_prepared", &txn->participants) ||
-                    !wal_->flush()) {
+                    !wal_->flushDurable()) {
                     txn->error_detail = "PREPARE state was not confirmed durable";
                     return DistributedTxnStatus::Error(txn->error_detail);
                 }
@@ -660,7 +660,7 @@ DistributedTransactionManager::commitDistributed(const TransactionId& txn_id) {
         decision_durable =
             logToWAL(themis::sharding::WALEntryType::COMMIT_TX, txn_id,
                      "decision", &txn->participants) &&
-            wal_->flush();
+            wal_->flushDurable();
     } catch (const std::exception& ex) {
         THEMIS_ERROR("DistributedTransactionManager [{}] could not persist COMMIT "
                      "decision for txn={}: {}",
@@ -706,7 +706,7 @@ DistributedTransactionManager::commitDistributed(const TransactionId& txn_id) {
     try {
         if (!logToWAL(themis::sharding::WALEntryType::COMMIT_TX, txn_id,
                       "phase2_complete", &parts) ||
-            !wal_->flush()) {
+            !wal_->flushDurable()) {
             lock.lock();
             txn = findTransaction(txn_id);
             if (txn) {
@@ -742,7 +742,7 @@ DistributedTransactionManager::commitDistributed(const TransactionId& txn_id) {
 /**
  * @brief Abort Distributed.
  * @param[in] txn_id Identifier of the txn.
- * @details Calls: lock(), findTransaction(), THEMIS_DEBUG(), logToWAL(), flush(), unlock(), runPhase2Unlocked(), empty().
+ * @details Calls: lock(), findTransaction(), THEMIS_DEBUG(), logToWAL(), flushDurable(), unlock(), runPhase2Unlocked(), empty().
  */
 void DistributedTransactionManager::abortDistributed(const TransactionId& txn_id) {
     std::unique_lock<std::mutex> lock(mutex_);
@@ -774,7 +774,7 @@ void DistributedTransactionManager::abortDistributed(const TransactionId& txn_id
     try {
         if (!logToWAL(themis::sharding::WALEntryType::ABORT_TX, txn_id,
                       "decision", &txn->participants) ||
-            !wal_->flush()) {
+            !wal_->flushDurable()) {
             THEMIS_ERROR("DistributedTransactionManager [{}] could not confirm durable "
                          "ABORT decision for txn={}; recovery required",
                          coordinator_id_, txn_id);
@@ -818,7 +818,7 @@ void DistributedTransactionManager::abortDistributed(const TransactionId& txn_id
     try {
         if (!logToWAL(themis::sharding::WALEntryType::ABORT_TX, txn_id,
                       "phase2_complete", &parts) ||
-            !wal_->flush()) {
+            !wal_->flushDurable()) {
             lock.lock();
             txn = findTransaction(txn_id);
             if (txn) {
@@ -946,11 +946,11 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
             try {
                 if (wal_) {
                     decision_durable = recovered_commit
-                        ? wal_->flush()
+                        ? wal_->flushDurable()
                         : (logToWAL(themis::sharding::WALEntryType::ABORT_TX,
                                     item.txn_id, "recovery=true",
                                     &item.participants) &&
-                           wal_->flush());
+                           wal_->flushDurable());
                 }
             } catch (const std::exception& ex) {
                 THEMIS_ERROR("DistributedTransactionManager [{}] recovery could not persist "
@@ -984,7 +984,7 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
                     completion_durable =
                         logToWAL(type, item.txn_id, "phase2_complete",
                                  &item.participants) &&
-                        wal_->flush();
+                        wal_->flushDurable();
                 } catch (const std::exception& ex) {
                     THEMIS_ERROR("DistributedTransactionManager [{}] recovery could not persist "
                                  "completion for txn={}: {}",

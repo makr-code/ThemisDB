@@ -228,7 +228,7 @@ public:
     /**
      * @brief Commit.
      * @param[in] txn_id Identifier of the txn.
-     * @return Commit outcome; ERROR if no durable decision can be confirmed.
+     * @return Commit outcome; FAILURE if no durable decision can be confirmed.
      * @throws No exception is used to report WAL durability failures.
      */
     GlobalTxnOutcome commit(const std::string& txn_id);
