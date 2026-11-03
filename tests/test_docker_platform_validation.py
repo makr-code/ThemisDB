@@ -15,6 +15,95 @@ RELEASE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-docker-image.y
 
 
 class DockerPlatformValidationTests(unittest.TestCase):
+    def test_release_forwards_source_preflight_override_to_platforms(self) -> None:
+        jobs = yaml.safe_load(RELEASE_WORKFLOW.read_text(encoding="utf-8"))["jobs"]
+        build = jobs["build-platforms"]
+        self.assertEqual(
+            build["uses"], "./.github/workflows/reusable-docker-image-platform.yml"
+        )
+        self.assertEqual(
+            build["with"]["override_docker_source_preflight"],
+            "${{ inputs.override_docker_source_preflight }}",
+        )
+        self.assertEqual(
+            build["with"]["source_sha"],
+            "${{ needs.prepare-release-context.outputs.source_sha }}",
+        )
+
+    def test_platform_source_preflight_defaults_to_enabled(self) -> None:
+        workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        # PyYAML's YAML 1.1 loader parses the workflow's "on" key as True.
+        inputs = workflow[True]["workflow_call"]["inputs"]
+        override = inputs["override_docker_source_preflight"]
+        self.assertEqual(override["type"], "boolean")
+        self.assertIs(override["default"], False)
+        self.assertIs(override["required"], False)
+        steps = workflow["jobs"]["build"]["steps"]
+        validation = next(
+            step for step in steps
+            if step.get("name") == "Validate Docker dependency providers and runtime packages"
+        )
+        warning = next(
+            step for step in steps
+            if step.get("name") == "Report Docker source preflight override"
+        )
+        # Exact native boolean expressions: omitted/false validates; only true warns.
+        self.assertEqual(validation["if"], "${{ !inputs.override_docker_source_preflight }}")
+        self.assertEqual(warning["if"], "${{ inputs.override_docker_source_preflight }}")
+
+    def test_platform_override_warning_uses_environment_for_source_and_platform(self) -> None:
+        workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        warning = next(
+            step for step in workflow["jobs"]["build"]["steps"]
+            if step.get("name") == "Report Docker source preflight override"
+        )
+        self.assertEqual(warning["env"], {
+            "RELEASE_VERSION": "${{ inputs.version }}",
+            "SOURCE_SHA": "${{ inputs.source_sha || github.sha }}",
+            "PLATFORM": "${{ inputs.platform }}",
+        })
+        self.assertNotIn("${{", warning["run"])
+        subprocess.run(["bash", "-n", "-c", warning["run"]], check=True)
+        version = "v2.4.0-alpha'; $(exit 91)"
+        for platform in ("linux/amd64", "linux/arm64"):
+            with self.subTest(platform=platform):
+                result = subprocess.run(
+                    ["bash", "-euo", "pipefail", "-c", warning["run"]],
+                    env={**os.environ, "RELEASE_VERSION": version,
+                         "SOURCE_SHA": "old-source-sha", "PLATFORM": platform},
+                    check=True, capture_output=True, text=True,
+                )
+                self.assertIn("::warning::", result.stdout)
+                self.assertIn(version, result.stdout)
+                self.assertIn("old-source-sha", result.stdout)
+                self.assertIn(platform, result.stdout)
+                self.assertIn("broken image", result.stdout)
+                self.assertIn("selected source commit was not changed", result.stdout)
+
+    def test_platform_override_does_not_bypass_other_guards(self) -> None:
+        workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        build = workflow["jobs"]["build"]
+        self.assertNotIn("override_docker_source_preflight", build["if"])
+        steps = build["steps"]
+        for name, condition in (
+            ("Validate Dockerfile model-case syntax", None),
+            ("Enforce public edition boundary", None),
+            ("Build platform image once for local scan and optional registry push", None),
+            ("Trivy vulnerability scan", "inputs.push_to_registry"),
+            ("Validate final image runtime without build-host libraries", None),
+        ):
+            with self.subTest(step=name):
+                step = next(step for step in steps if step.get("name") == name)
+                self.assertEqual(step.get("if"), condition)
+        override_steps = [
+            step["name"] for step in steps
+            if "override_docker_source_preflight" in step.get("if", "")
+        ]
+        self.assertEqual(override_steps, [
+            "Validate Docker dependency providers and runtime packages",
+            "Report Docker source preflight override",
+        ])
+
     def test_workflow_uses_workflow_validator_without_changing_source_revision(self) -> None:
         workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
         steps = workflow["jobs"]["build"]["steps"]

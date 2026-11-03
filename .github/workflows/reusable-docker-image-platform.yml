@@ -66,6 +66,11 @@ on:
         required: false
         default: ""
         type: string
+      override_docker_source_preflight:
+        description: "Skip Docker source regression checks only after manually reviewing the selected source; build, security and runtime gates still apply"
+        required: false
+        default: false
+        type: boolean
     outputs:
       digest:
         description: "The pushed digest for this platform"
@@ -188,6 +193,7 @@ jobs:
           fi
 
       - name: Validate Docker dependency providers and runtime packages
+        if: ${{ !inputs.override_docker_source_preflight }}
         shell: bash
         env:
           WORKFLOW_SHA: ${{ github.sha }}
@@ -199,6 +205,16 @@ jobs:
           VALIDATOR="$(mktemp "${RUNNER_TEMP}/docker-runtime-packages-XXXXXX.py")"
           git show "${WORKFLOW_SHA}:tests/test_docker_runtime_package_regressions.py" > "$VALIDATOR"
           python3 "$VALIDATOR" -v
+
+      - name: Report Docker source preflight override
+        if: ${{ inputs.override_docker_source_preflight }}
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+          SOURCE_SHA: ${{ inputs.source_sha || github.sha }}
+          PLATFORM: ${{ inputs.platform }}
+        run: |
+          echo "::warning::Docker source regression checks were explicitly skipped for ${RELEASE_VERSION} (${SOURCE_SHA}) on ${PLATFORM}. This source may fail to build or produce a broken image on this platform; the selected source commit was not changed. Docker syntax, edition boundary, build, Trivy and final runtime smoke gates still apply."
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1

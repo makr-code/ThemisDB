@@ -355,8 +355,6 @@ jobs:
         id: meta
         run: |
           set -euo pipefail
-          VERSION="${{ needs.generate-metadata.outputs.version }}"
-          DATE=$(date +%Y%m%d)
           GH_REPO_LC=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
 
           TAGS="ghcr.io/${GH_REPO_LC}:runtime-candidate-${{ github.run_id }}-${{ matrix.arch }}"
