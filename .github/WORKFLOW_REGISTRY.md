@@ -228,7 +228,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | Workflow | Purpose | Stage |
 |----------|---------|-------|
 | `release-mainline.yml` | Release: Packaging (CPack orchestration, tag-triggered) | canonical |
-| `release-build-matrix.yml` | Release: Build Matrix (Multi-platform build coordination) | build |
+| `release-build-matrix.yml` | Release: Build Matrix (Multi-platform builds + isolated packaged runtime gate) | build |
 | `release-changelog.yml` | Release: Changelog (Release notes generation) | docs |
 | `release-docker-image.yml` | Release: Docker Image Consumer (Docker Hub publish) | distribution |
 | `release-docker-approval.yml` | Release: Docker Approval Gate (Docker release approval) | approval |
@@ -239,7 +239,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `release-linux-distribution.yml` | Release: Linux Distribution Consumer (Linux packages) | distribution |
 | `release-linux-distro-approval.yml` | Release: Linux Distro Approval Gate (Linux approval) | approval |
 | `release-mainline-approval.yml` | Release: GitHub Release Approval Gate (GitHub release approval) | approval |
-| `release-nightly.yml` | Release: Nightly (Daily snapshot builds) | automation |
+| `release-nightly.yml` | Release: Nightly (Daily snapshots + native Docker runtime validation before tag promotion) | automation |
 | `release-promote.yml` | Release: Promote (Semi-Automatic edition promotion) | automation |
 | `release-evidence-chain.yml` | Release: Evidence Chain (Hash-linked release evidence ledger + verification) | governance |
 | `release-rollback.yml` | Release: Rollback (Release rollback orchestration) | recovery |
@@ -306,7 +306,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `reusable-benchmark-build-run-report.yml` | Reusable: Benchmark Build/Run/Report (Thematic benchmark build/run/report pipeline) | benchmark-thematic-suites |
 | `reusable-docs-db-builder.yml` | Reusable: Docs-to-ThemisDB Database Builder (Docs DB generation) | maintenance-docs-db-build |
 | `reusable-status-flags-and-issues.yml` | Reusable: Status Flags and Issues (Status/issue automation) | maintenance, release |
-| `reusable-docker-image-platform.yml` | Reusable: Docker Image Platform Build (Per-platform Docker build + digest handoff) | release-docker-image |
+| `reusable-docker-image-platform.yml` | Reusable: Docker Image Platform Build (Per-platform build + runtime gate + validated digest handoff) | release-docker-image |
 | `reusable-llm-model-cache.yml` | Reusable: LLM Model Cache (Shared model-cache restore/save for LLM workflows) | reusable-docker-image-platform |
 | `reusable-pr-build-components-gate.yml` | Reusable: PR Build Components Gate (Release-critical + runtime API gate bundle for PRs) | gate-pr-core |
 | `reusable-rag-phase-gate.yml` | Reusable: RAG Phase Gate (Shared PR gate for RAG phase file/semantic/compile checks) | gate-pr-rag-phase7/8/9/10 |

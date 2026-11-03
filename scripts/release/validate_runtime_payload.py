@@ -3,10 +3,12 @@
 
 import argparse
 import os
+import shutil
 import subprocess
 import tarfile
 import tempfile
 import zipfile
+from collections.abc import Callable
 from pathlib import Path
 
 
@@ -42,21 +44,29 @@ def validate_extracted(root: Path) -> None:
         validate(current.parents[2])
 
 
-def validate_package(package: Path) -> None:
+def validate_package(
+    package: Path, *, payload_only: bool = True,
+    validator: Callable[[Path], None] | None = None,
+) -> None:
+    if validator is None:
+        validator = validate_extracted
     with tempfile.TemporaryDirectory(prefix="themis-payload-") as temporary:
         extracted = Path(temporary)
         if zipfile.is_zipfile(package):
             with zipfile.ZipFile(package) as archive:
                 for member in archive.infolist():
-                    if "/data/docs.db/" in "/" + member.filename or "/models/" in "/" + member.filename:
+                    if not payload_only or "/data/docs.db/" in "/" + member.filename or "/models/" in "/" + member.filename:
                         target = (extracted / member.filename).resolve()
                         if not target.is_relative_to(extracted.resolve()):
                             raise ValueError(f"Unsafe package path: {member.filename}")
                         archive.extract(member, extracted)
+                        mode = member.external_attr >> 16
+                        if not payload_only and mode:
+                            target.chmod(mode & 0o777)
         elif package.name.endswith((".tar.gz", ".tgz")):
             with tarfile.open(package) as archive:
                 members = [member for member in archive.getmembers()
-                           if "/data/docs.db/" in "/" + member.name or "/models/" in "/" + member.name]
+                           if not payload_only or "/data/docs.db/" in "/" + member.name or "/models/" in "/" + member.name]
                 archive.extractall(extracted, members=members, filter="data")
         elif package.suffix == ".deb":
             subprocess.run(["dpkg-deb", "-x", str(package), str(extracted)], check=True)
@@ -73,14 +83,20 @@ def validate_package(package: Path) -> None:
             subprocess.run(["hdiutil", "attach", str(package), "-readonly", "-nobrowse",
                             "-mountpoint", str(mount)], check=True, stdout=subprocess.DEVNULL)
             try:
-                validate_extracted(mount)
+                if payload_only:
+                    validator(mount)
+                else:
+                    installed = extracted / "installed"
+                    shutil.copytree(mount, installed, symlinks=True)
+                    validator(installed)
             finally:
                 subprocess.run(["hdiutil", "detach", str(mount)], check=True, stdout=subprocess.DEVNULL)
             return
         else:
             raise ValueError(f"Unsupported release package format: {package}")
-        validate_extracted(extracted)
-    print(f"Package payload verified: {package.name}")
+        validator(extracted)
+    kind = "payload" if payload_only else "runtime"
+    print(f"Package {kind} verified: {package.name}")
 
 
 def validate_packages(directory: Path) -> None:

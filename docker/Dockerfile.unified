@@ -503,7 +503,9 @@ ENV THEMIS_DEFAULT_GGUF_PATH=/models/default.gguf
 
 WORKDIR /app
 
-# Install minimal runtime dependencies (removed librocksdb-dev, kept only needed libs).
+COPY scripts/release/runtime-dependencies-ubuntu-24.04.txt /tmp/runtime-dependencies.txt
+
+# Install the same runtime baseline used by the isolated package gate.
 # Avoid `apt-get upgrade` here: it forces a full package refresh across every rebuild,
 # blows away the cache benefit, and adds unnecessary build time without improving the
 # runtime image contract. Ubuntu 24.04 ships versioned runtime packages such as
@@ -511,8 +513,7 @@ WORKDIR /app
 RUN --mount=type=cache,id=apt-cache-runtime-${TARGETARCH},target=/var/cache/apt,sharing=locked \
     --mount=type=cache,id=apt-lib-runtime-${TARGETARCH},target=/var/lib/apt,sharing=locked \
     apt-get update && \
-    apt-get install -y --no-install-recommends \
-        ca-certificates librocksdb8.9 libgrpc++1.51t64 libprotobuf32t64 libcurl4t64 && \
+    xargs -r apt-get install -y --no-install-recommends < /tmp/runtime-dependencies.txt && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy binary
@@ -525,7 +526,10 @@ COPY --from=llama /opt/llama.cpp/build/lib* /usr/local/lib/
 # Mandatory TinyLlama baseline, plus the explicitly selected model.
 COPY --from=llama /opt/bundled-models/ /models/
 
-RUN ldconfig
+RUN ldconfig && \
+    ldd /app/themis_server > /tmp/runtime-libraries.txt && \
+    cat /tmp/runtime-libraries.txt && \
+    ! grep -q "not found" /tmp/runtime-libraries.txt
 
 RUN set -eux; \
     if ! getent group themis >/dev/null; then \
@@ -534,15 +538,19 @@ RUN set -eux; \
     if ! id -u themis >/dev/null 2>&1; then \
         useradd -r -g themis -d /app -s /usr/sbin/nologin themis; \
     fi; \
-    chown -R themis:themis /app /models
+    mkdir -p /logs; \
+    chown -R themis:themis /app /models /logs
 
 USER themis
+
+RUN /app/themis_server --version
 
 EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8080/health || exit 1
 
 ENTRYPOINT ["/app/themis_server"]
+CMD ["--port", "8080", "--data-dir", "/app/data/themis_server"]
 
 # ============================================================================
 # Stage 6: debug - Development/debugging image (optimized, minimal extra tools)
@@ -558,11 +566,14 @@ ENV THEMIS_DEFAULT_GGUF_PATH=/models/default.gguf
 
 WORKDIR /app
 
+COPY scripts/release/runtime-dependencies-ubuntu-24.04.txt /tmp/runtime-dependencies.txt
+
 # Install debug tools with Ubuntu 24.04 runtime package names, added ca-certificates early
 RUN --mount=type=cache,id=apt-cache-debug-${TARGETARCH},target=/var/cache/apt,sharing=locked \
     --mount=type=cache,id=apt-lib-debug-${TARGETARCH},target=/var/lib/apt,sharing=locked \
-    apt-get update && apt-get install -y --no-install-recommends \
-        ca-certificates librocksdb8.9 libgrpc++1.51t64 libprotobuf32t64 libcurl4t64 \
+    apt-get update && \
+    xargs -r apt-get install -y --no-install-recommends < /tmp/runtime-dependencies.txt && \
+    apt-get install -y --no-install-recommends \
         gdb strace htop less nano git telnet netcat-openbsd && \
     rm -rf /var/lib/apt/lists/*
 
@@ -577,7 +588,12 @@ COPY --from=llama /opt/llama.cpp/build/lib* /usr/local/lib/
 # Mandatory TinyLlama baseline, plus the explicitly selected model.
 COPY --from=llama /opt/bundled-models/ /models/
 
-RUN ldconfig
+RUN ldconfig && \
+    ldd /app/themis_server > /tmp/runtime-libraries.txt && \
+    cat /tmp/runtime-libraries.txt && \
+    ! grep -q "not found" /tmp/runtime-libraries.txt && \
+    /app/themis_server --version
 
 EXPOSE 8080
 ENTRYPOINT ["/app/themis_server"]
+CMD ["--port", "8080", "--data-dir", "/app/data/themis_server"]

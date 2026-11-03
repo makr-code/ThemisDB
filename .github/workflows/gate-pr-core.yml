@@ -37,6 +37,14 @@ on:
       - tests/CMakeLists.txt
       - tests/**/CMakeLists.txt
       - tests/test_test_registration.py
+      - tests/test_runtime_smoke_gate.py
+      - tests/test_docker_runtime_package_regressions.py
+      - tests/test_docker_platform_validation.py
+      - tests/test_release_runtime_payload.py
+      - scripts/release/runtime_smoke_gate.py
+      - scripts/release/validate_runtime_payload.py
+      - scripts/release/runtime-dependencies-ubuntu-24.04.txt
+      - docker/Dockerfile.unified
       - .github/workflows/**/*.yml
       - .github/workflows/**/*.yaml
       - .github/actions/**/action.yml
@@ -62,6 +70,14 @@ on:
       - tests/CMakeLists.txt
       - tests/**/CMakeLists.txt
       - tests/test_test_registration.py
+      - tests/test_runtime_smoke_gate.py
+      - tests/test_docker_runtime_package_regressions.py
+      - tests/test_docker_platform_validation.py
+      - tests/test_release_runtime_payload.py
+      - scripts/release/runtime_smoke_gate.py
+      - scripts/release/validate_runtime_payload.py
+      - scripts/release/runtime-dependencies-ubuntu-24.04.txt
+      - docker/Dockerfile.unified
       - tools/ci/check_test_registration.py
       - .github/workflows/gate-pr-core.yml
       - .github/WORKFLOW_GUIDELINES.md
@@ -182,6 +198,12 @@ jobs:
 
       - name: Test test-registration guard
         run: python3 tests/test_test_registration.py
+
+      - name: Test deployment runtime and package guards
+        working-directory: tests
+        run: |
+          python3 -m unittest test_runtime_smoke_gate test_docker_runtime_package_regressions \
+            test_docker_platform_validation test_release_runtime_payload -q
 
   quality-test-build:
     name: "Build: PR Release-Critical Test Quality Line"

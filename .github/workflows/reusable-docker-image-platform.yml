@@ -403,6 +403,33 @@ jobs:
             --format table \
             --exit-code 1
 
+      - name: Validate final image runtime without build-host libraries
+        shell: bash
+        env:
+          WORKFLOW_SHA: ${{ github.sha }}
+          IMAGE_REF: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
+          IMAGE_DIGEST: ${{ steps.build-candidate.outputs.digest }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$WORKFLOW_SHA"
+          VALIDATOR="${RUNNER_TEMP}/runtime_smoke_gate.py"
+          git show "${WORKFLOW_SHA}:scripts/release/runtime_smoke_gate.py" > "$VALIDATOR"
+          git show "${WORKFLOW_SHA}:scripts/release/validate_runtime_payload.py" > "${RUNNER_TEMP}/validate_runtime_payload.py"
+          if [[ -n "$IMAGE_DIGEST" ]]; then
+            IMAGE_REF="${IMAGE_REF}@${IMAGE_DIGEST}"
+          fi
+          python3 "$VALIDATOR" --image "$IMAGE_REF" \
+            --output "${RUNNER_TEMP}/runtime-smoke-${{ steps.platform-tag.outputs.value }}.json"
+
+      - name: Upload runtime dependency and startup evidence
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: docker-runtime-smoke-${{ steps.platform-tag.outputs.value }}-${{ github.run_number }}
+          path: ${{ runner.temp }}/runtime-smoke-${{ steps.platform-tag.outputs.value }}.json
+          if-no-files-found: warn
+          retention-days: 30
+
       - name: Write digest artifact
         if: (inputs.push_to_registry == true || inputs.push_to_registry == 'true')
         shell: bash

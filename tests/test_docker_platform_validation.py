@@ -74,10 +74,17 @@ class DockerPlatformValidationTests(unittest.TestCase):
             (source / "docker").mkdir(parents=True)
             for name in ("Dockerfile.unified", "vcpkg-community.json"):
                 shutil.copyfile(REPO_ROOT / "docker" / name, source / "docker" / name)
+            manifest = source / "scripts/release/runtime-dependencies-ubuntu-24.04.txt"
+            manifest.parent.mkdir(parents=True)
+            shutil.copyfile(REPO_ROOT / manifest.relative_to(source), manifest)
             if invalid_runtime:
                 dockerfile = source / "docker" / "Dockerfile.unified"
                 dockerfile.write_text(
                     dockerfile.read_text(encoding="utf-8").replace("librocksdb8.9", "librocksdb7"),
+                    encoding="utf-8",
+                )
+                manifest.write_text(
+                    manifest.read_text(encoding="utf-8").replace("librocksdb8.9", "librocksdb7"),
                     encoding="utf-8",
                 )
             validator = root / "validator.py"
@@ -95,7 +102,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
                 git(source, "init")
                 git(source, "config", "user.name", "Regression Test")
                 git(source, "config", "user.email", "test@example.invalid")
-                git(source, "add", "docker")
+                git(source, "add", "docker", "scripts")
                 git(source, "commit", "-m", "Source without validator")
                 source_sha = git(source, "rev-parse", "HEAD")
                 (source / "tests").mkdir()
@@ -106,7 +113,8 @@ class DockerPlatformValidationTests(unittest.TestCase):
                 if release_preflight and invalid_runtime:
                     dockerfile = source / "docker" / "Dockerfile.unified"
                     shutil.copyfile(REPO_ROOT / "docker" / "Dockerfile.unified", dockerfile)
-                    git(source, "add", "docker")
+                    shutil.copyfile(REPO_ROOT / manifest.relative_to(source), manifest)
+                    git(source, "add", "docker", "scripts")
                     git(source, "commit", "-m", "Fix Docker packages after release")
                     workflow_sha = git(source, "rev-parse", "HEAD")
                 git(source, "tag", "v2.4.0-alpha", source_sha)
