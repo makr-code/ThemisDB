@@ -3,13 +3,65 @@
 #include "cdc/changefeed.h"
 #include "storage/rocksdb_wrapper.h"
 #include "../benchmark_cleanup.h"
+#include <atomic>
 #include <filesystem>
+#include <memory>
 #include <random>
+#include <string>
 #include <cstdio>
 #include <stdexcept>
 
 using namespace themis;
 using namespace themis::transaction;
+
+namespace {
+
+struct ConcurrentSnapshotManagerResources {
+    std::string db_path = "./data/themis_snapshot_manager_concurrent_bench";
+    std::unique_ptr<RocksDBWrapper> db;
+    std::unique_ptr<Changefeed> changefeed;
+    std::unique_ptr<SnapshotManager> snapshot_manager;
+
+    ConcurrentSnapshotManagerResources() {
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(db_path, cleanup_error)) {
+            throw std::runtime_error("Failed to clear concurrent snapshot benchmark DB: " + cleanup_error.message());
+        }
+
+        RocksDBWrapper::Config config;
+        config.db_path = db_path;
+        config.enable_wal = true;
+        db = std::make_unique<RocksDBWrapper>(config);
+        if (!db->open()) {
+            throw std::runtime_error("Failed to open concurrent snapshot benchmark DB");
+        }
+
+        changefeed = std::make_unique<Changefeed>(db->getRawDB());
+        snapshot_manager = std::make_unique<SnapshotManager>(*db, *changefeed);
+    }
+
+    ~ConcurrentSnapshotManagerResources() {
+        snapshot_manager.reset();
+        changefeed.reset();
+        if (db) {
+            db->close();
+        }
+        db.reset();
+
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(db_path, cleanup_error)) {
+            std::fprintf(stderr, "Concurrent snapshot benchmark DB cleanup failed: %s\n",
+                         cleanup_error.message().c_str());
+        }
+    }
+};
+
+ConcurrentSnapshotManagerResources& concurrentSnapshotManagerResources() {
+    static ConcurrentSnapshotManagerResources resources;
+    return resources;
+}
+
+}
 
 class SnapshotManagerBenchmark : public benchmark::Fixture {
 public:
@@ -220,13 +272,15 @@ BENCHMARK_DEFINE_F(SnapshotManagerBenchmark, GetSequenceForTag)(benchmark::State
 }
 
 // Benchmark: Concurrent tag creation
-BENCHMARK_DEFINE_F(SnapshotManagerBenchmark, ConcurrentCreateTag)(benchmark::State& state) {
-    std::atomic<int> counter{0};
+static void BM_ConcurrentCreateTag(benchmark::State& state) {
+    auto& resources = concurrentSnapshotManagerResources();
+    static std::atomic<int> counter{0};
     
     for (auto _ : state) {
         int id = counter.fetch_add(1);
-        std::string tag_name = "concurrent_tag_" + std::to_string(id);
-        auto snapshot = snapshot_manager_->createTag(tag_name, "Concurrent test", "benchmark");
+        std::string tag_name = "concurrent_tag_" + std::to_string(state.thread_index()) +
+                               "_" + std::to_string(id);
+        auto snapshot = resources.snapshot_manager->createTag(tag_name, "Concurrent test", "benchmark");
         benchmark::DoNotOptimize(snapshot);
     }
     
@@ -294,7 +348,7 @@ BENCHMARK_REGISTER_F(SnapshotManagerBenchmark, GetSequenceForTag)
     ->Unit(benchmark::kNanosecond)
     ->Iterations(10000);
 
-BENCHMARK_REGISTER_F(SnapshotManagerBenchmark, ConcurrentCreateTag)
+BENCHMARK(BM_ConcurrentCreateTag)
     ->Arg(0)
     ->Unit(benchmark::kMicrosecond)
     ->Threads(4)

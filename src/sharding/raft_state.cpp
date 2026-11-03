@@ -10,6 +10,7 @@
 
 
 #include "sharding/raft_state.h"
+#include <spdlog/spdlog.h>
 #include <algorithm>
 #include <iostream>
 #include <stdexcept>

@@ -15,6 +15,7 @@
 #include <nlohmann/json.hpp>
 #include <filesystem>
 #include <fstream>
+#include <memory>
 #include <vector>
 #include <random>
 
@@ -438,32 +439,17 @@ BENCHMARK(BM_BatchPluginQueries)->Arg(10)->Arg(50)->Arg(100);
 // ============================================================================
 
 static void BM_ManagerDestruction(benchmark::State& state) {
-    PluginBenchmarkFixture::setupOnce();
-    
-    const int num_plugins = state.range(0);
-    std::string cleanup_dir = "/tmp/themis_cleanup_bench";
-    fs::create_directories(cleanup_dir);
-    
-    for (int i = 0; i < num_plugins; i++) {
-        PluginBenchmarkFixture::createManifest(
-            "cleanup_plugin" + std::to_string(i),
-            PluginType::COMPUTE_BACKEND
-        );
-    }
-    
     for (auto _ : state) {
         state.PauseTiming();
-        PluginManager* manager = new PluginManager();
-        (void)manager->scanPluginDirectory(cleanup_dir);
+        auto manager = std::make_unique<PluginManager>();
         state.ResumeTiming();
-        
-        delete manager;
+
+        manager.reset();
     }
-    
-    fs::remove_all(cleanup_dir);
+
     state.SetItemsProcessed(state.iterations());
 }
-BENCHMARK(BM_ManagerDestruction)->Arg(10)->Arg(50)->Arg(100);
+BENCHMARK(BM_ManagerDestruction);
 
 // ============================================================================
 // Real-World Scenario Benchmarks

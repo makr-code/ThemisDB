@@ -263,9 +263,18 @@ static void BM_ReplicationManager_Initialize(benchmark::State& state) {
         std::filesystem::create_directories(wal_dir);
         state.ResumeTiming();
 
-        ReplicationManager mgr(makeConfig(wal_dir));
-        bool ok = mgr.initialize();
-        benchmark::DoNotOptimize(ok);
+        {
+                auto config = makeConfig(wal_dir);
+                config.election_timeout_min_ms = 3000;
+                config.election_timeout_max_ms = 5000;
+                ReplicationManager mgr(config);
+            bool ok = mgr.initialize();
+            benchmark::DoNotOptimize(ok);
+
+            state.PauseTiming();
+            mgr.shutdown();
+        }
+        state.ResumeTiming();
     }
 
     if (std::filesystem::exists(wal_dir)) {

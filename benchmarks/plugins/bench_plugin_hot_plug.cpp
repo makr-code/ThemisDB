@@ -163,7 +163,7 @@ BENCHMARK_F(HotPlugBenchmarkFixture, FileCreationDetectionLatency)(benchmark::St
     state.SetLabel("File creation detection + debounce");
 }
 
-BENCHMARK_F(HotPlugBenchmarkFixture, MultipleFileCreations)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(HotPlugBenchmarkFixture, MultipleFileCreations)(benchmark::State& state) {
     const int num_files = state.range(0);
     
     for (auto _ : state) {
@@ -205,7 +205,7 @@ BENCHMARK_REGISTER_F(HotPlugBenchmarkFixture, MultipleFileCreations)
 // Configuration Impact Benchmarks
 // ============================================================================
 
-BENCHMARK_F(HotPlugBenchmarkFixture, AutoLoadDisabledVsEnabled)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(HotPlugBenchmarkFixture, AutoLoadDisabledVsEnabled)(benchmark::State& state) {
     const bool auto_load = state.range(0);
     
     int iteration = 0;
@@ -283,7 +283,7 @@ BENCHMARK_F(HotPlugBenchmarkFixture, ConcurrentFileCreations)(benchmark::State& 
 // Memory Usage Benchmarks
 // ============================================================================
 
-BENCHMARK_F(HotPlugBenchmarkFixture, MonitorMemoryFootprint)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(HotPlugBenchmarkFixture, MonitorMemoryFootprint)(benchmark::State& state) {
     const int num_watches = state.range(0);
     
     for (auto _ : state) {

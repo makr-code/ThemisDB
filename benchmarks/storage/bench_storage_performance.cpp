@@ -301,7 +301,7 @@ static void BM_Memory_HugePages_Sequential(benchmark::State& state) {
     
     state.SetBytesProcessed(state.iterations() * size);
     state.SetLabel("huge_pages");
-    deallocate(mem);
+    deallocate_huge_pages(mem, size);
 }
 BENCHMARK(BM_Memory_HugePages_Sequential);
 
@@ -385,7 +385,7 @@ static void BM_Memory_HugePages_Random(benchmark::State& state) {
     
     state.SetItemsProcessed(state.iterations() * 10000);
     state.SetLabel("huge_pages_random");
-    deallocate(mem);
+    deallocate_huge_pages(mem, size);
 }
 BENCHMARK(BM_Memory_HugePages_Random);
 

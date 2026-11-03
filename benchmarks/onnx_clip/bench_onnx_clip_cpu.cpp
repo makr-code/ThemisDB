@@ -191,8 +191,9 @@ public:
     static constexpr size_t kBatchSizeMedium = 8;
     static constexpr size_t kBatchSizeLarge = 16;
 
-    void SetUp(::benchmark::State& state) override {
+    void SetUp(::benchmark::State& /*state*/) override {
         model_ = std::make_unique<MockOnnxClipModel>();
+        const int max_batch_size = static_cast<int>(kBatchSizeLarge);
         
         // Initialize model (outside warmup/measurement window)
         model_->initialize();
@@ -201,21 +202,19 @@ public:
         
         // Phase 1: Cold (initialize caches, malloc arenas)
         for (int i = 0; i < kWarmupIterationsCold; ++i) {
-            auto batch_size = static_cast<int>(state.range(0));
-            auto _ = model_->encodeBatch(batch_size);
+            auto _ = model_->encodeBatch(max_batch_size);
             (void)_;  // Suppress warning
         }
 
         // Phase 2: Warm (sequential access to warm caches)
         for (int i = 0; i < kWarmupIterationsWarm; ++i) {
-            auto batch_size = static_cast<int>(state.range(0));
-            auto _ = model_->encodeBatch(batch_size);
+            auto _ = model_->encodeBatch(max_batch_size);
             (void)_;
         }
 
         // Phase 3: Hot (random access to stabilize branch predictor)
         std::mt19937 rng(kCanonicalRngSeed);
-        std::uniform_int_distribution<> batch_dist(1, static_cast<int>(state.range(0)));
+        std::uniform_int_distribution<> batch_dist(1, max_batch_size);
         for (int i = 0; i < kWarmupIterationsHot; ++i) {
             int batch_size = batch_dist(rng);
             auto _ = model_->encodeBatch(batch_size);
@@ -318,7 +317,7 @@ using themis::bench::onnx_clip::MockOnnxClipModel;
  *
  * Gate threshold: p99 ≤ 150 ms
  */
-BENCHMARK_F(OnnxClipCpuWarmFixture, BM_SingleImageLatency_ViTB32_CPU)
+BENCHMARK_DEFINE_F(OnnxClipCpuWarmFixture, BM_SingleImageLatency_ViTB32_CPU)
     (benchmark::State& state) {
     model_->initialize();  // Ensure initialized
     
@@ -338,7 +337,7 @@ BENCHMARK_REGISTER_F(OnnxClipCpuWarmFixture, BM_SingleImageLatency_ViTB32_CPU)
  * Measures wall-clock latency for encoding a batch of 8 images
  * on CPU.
  */
-BENCHMARK_F(OnnxClipCpuWarmFixture, BM_BatchLatency_ViTB32_CPU_Batch8)
+BENCHMARK_DEFINE_F(OnnxClipCpuWarmFixture, BM_BatchLatency_ViTB32_CPU_Batch8)
     (benchmark::State& state) {
     model_->initialize();  // Ensure initialized
     
@@ -360,7 +359,7 @@ BENCHMARK_REGISTER_F(OnnxClipCpuWarmFixture, BM_BatchLatency_ViTB32_CPU_Batch8)
  *
  * Gate threshold: p99 ≤ 2.4 sec
  */
-BENCHMARK_F(OnnxClipCpuWarmFixture, BM_BatchLatency_ViTB32_CPU_Batch16)
+BENCHMARK_DEFINE_F(OnnxClipCpuWarmFixture, BM_BatchLatency_ViTB32_CPU_Batch16)
     (benchmark::State& state) {
     model_->initialize();  // Ensure initialized
     
@@ -382,7 +381,7 @@ BENCHMARK_REGISTER_F(OnnxClipCpuWarmFixture, BM_BatchLatency_ViTB32_CPU_Batch16)
  *
  * Gate threshold: p99 ≤ 5 ms
  */
-BENCHMARK_F(OnnxClipCpuWarmFixture, BM_TextEmbedding_Latency_CPU)
+BENCHMARK_DEFINE_F(OnnxClipCpuWarmFixture, BM_TextEmbedding_Latency_CPU)
     (benchmark::State& state) {
     model_->initialize();  // Ensure initialized
     
@@ -409,7 +408,7 @@ BENCHMARK_REGISTER_F(OnnxClipCpuWarmFixture, BM_TextEmbedding_Latency_CPU)
  *
  * Gate threshold: < 500 ms
  */
-BENCHMARK_F(OnnxClipCpuFixture, BM_Initialization_Latency_CPU)
+BENCHMARK_DEFINE_F(OnnxClipCpuFixture, BM_Initialization_Latency_CPU)
     (benchmark::State& state) {
     for (auto _ : state) {
         state.PauseTiming();
@@ -429,7 +428,7 @@ BENCHMARK_REGISTER_F(OnnxClipCpuFixture, BM_Initialization_Latency_CPU)
  * Measures overhead of model availability check.
  * Typically a pointer dereference + validity flag check.
  */
-BENCHMARK_F(OnnxClipCpuWarmFixture, BM_HealthCheck_Latency_CPU)
+BENCHMARK_DEFINE_F(OnnxClipCpuWarmFixture, BM_HealthCheck_Latency_CPU)
      (benchmark::State& state) {
     model_->initialize();  // Ensure initialized
     
@@ -457,7 +456,7 @@ BENCHMARK_REGISTER_F(OnnxClipCpuWarmFixture, BM_HealthCheck_Latency_CPU)
  * Acceptance: p99 ≤ 150 ms (FCP-01 gate)
  * Regression detection: > 10% above baseline blocks release
  */
-BENCHMARK_F(OnnxClipLatencyRegressionFixture, BM_Latency_Regression_SingleImage)
+BENCHMARK_DEFINE_F(OnnxClipLatencyRegressionFixture, BM_Latency_Regression_SingleImage)
      (benchmark::State& state) {
     model_->initialize();
     
@@ -508,7 +507,7 @@ BENCHMARK_REGISTER_F(OnnxClipLatencyRegressionFixture, BM_Latency_Regression_Sin
  * Acceptance: p99 ≤ 1.2 sec
  * Regression detection: > 10% above baseline
  */
-BENCHMARK_F(OnnxClipLatencyRegressionFixture, BM_Latency_Regression_Batch8)
+BENCHMARK_DEFINE_F(OnnxClipLatencyRegressionFixture, BM_Latency_Regression_Batch8)
      (benchmark::State& state) {
     model_->initialize();
     
@@ -557,7 +556,7 @@ BENCHMARK_REGISTER_F(OnnxClipLatencyRegressionFixture, BM_Latency_Regression_Bat
  * Acceptance: p99 ≤ 2.4 sec (FCP-02 gate)
  * Regression detection: > 10% above baseline
  */
-BENCHMARK_F(OnnxClipLatencyRegressionFixture, BM_Latency_Regression_Batch16)
+BENCHMARK_DEFINE_F(OnnxClipLatencyRegressionFixture, BM_Latency_Regression_Batch16)
      (benchmark::State& state) {
     model_->initialize();
     
@@ -609,7 +608,7 @@ BENCHMARK_REGISTER_F(OnnxClipLatencyRegressionFixture, BM_Latency_Regression_Bat
  * Captures time to load model from serialized form.
  * Includes file I/O and ONNX graph parsing.
  */
-BENCHMARK_F(OnnxClipInitializationProfiler, BM_InitTime_ModelLoad)
+BENCHMARK_DEFINE_F(OnnxClipInitializationProfiler, BM_InitTime_ModelLoad)
      (benchmark::State& state) {
     for (auto _ : state) {
         state.PauseTiming();
@@ -629,7 +628,7 @@ BENCHMARK_REGISTER_F(OnnxClipInitializationProfiler, BM_InitTime_ModelLoad)
  * Captures backend-specific setup (CUDA stream creation, etc.).
  * Executed after model load.
  */
-BENCHMARK_F(OnnxClipInitializationProfiler, BM_InitTime_SessionCreate)
+BENCHMARK_DEFINE_F(OnnxClipInitializationProfiler, BM_InitTime_SessionCreate)
      (benchmark::State& state) {
     model_ = std::make_unique<MockOnnxClipModel>();
     
@@ -652,7 +651,7 @@ BENCHMARK_REGISTER_F(OnnxClipInitializationProfiler, BM_InitTime_SessionCreate)
  * Captures overhead of initial inference and cache warming.
  * Typically 2-3 inferences to stabilize performance.
  */
-BENCHMARK_F(OnnxClipInitializationProfiler, BM_InitTime_Warmup)
+BENCHMARK_DEFINE_F(OnnxClipInitializationProfiler, BM_InitTime_Warmup)
      (benchmark::State& state) {
     model_ = std::make_unique<MockOnnxClipModel>();
     model_->initialize();
@@ -679,7 +678,7 @@ BENCHMARK_REGISTER_F(OnnxClipInitializationProfiler, BM_InitTime_Warmup)
  *
  * Acceptance: < 500 ms (FCP-04 gate)
  */
-BENCHMARK_F(OnnxClipInitializationProfiler, BM_InitTime_Total)
+BENCHMARK_DEFINE_F(OnnxClipInitializationProfiler, BM_InitTime_Total)
      (benchmark::State& state) {
     for (auto _ : state) {
         state.PauseTiming();
