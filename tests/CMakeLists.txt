@@ -10987,11 +10987,11 @@ endif()
 
 
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/global/test_global_transaction_manager.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
     message(STATUS "Adding Global Transaction Manager tests")
 
     add_executable(test_global_transaction_manager
-        global/test_global_transaction_manager.cpp
+        test_global_transaction_manager.cpp
     )
 
     target_link_libraries(test_global_transaction_manager PRIVATE
@@ -11015,7 +11015,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/global/test_global_transaction_manager.cp
 
     message(STATUS "  GlobalTransactionManager: 2PC across regions, TrueTime commit timestamp, recovery, statistics")
 else()
-    message(STATUS "Global Transaction Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/global/test_global_transaction_manager.cpp")
+    message(STATUS "Global Transaction Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
 endif()
 
 # ============================================================================
