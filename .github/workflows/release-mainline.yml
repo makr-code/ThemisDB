@@ -89,7 +89,7 @@ on:
       dry_run:
         description: 'Dry-run for dispatch (build/package/validate only; skip publish/distribution)'
         required: false
-        default: false
+        default: true
         type: boolean
       tag_name:
         description: 'Release tag for dispatch (created from the selected ref if missing)'
