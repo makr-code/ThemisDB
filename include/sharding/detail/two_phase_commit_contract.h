@@ -8,11 +8,12 @@ namespace themis::sharding::detail {
 
 /**
  * @brief Result of executing the common two-phase commit decision contract.
+ * @note EXECUTION_FAILED avoids the Windows SDK's FAILURE macro.
  */
 enum class TwoPhaseCommitExecutionResult {
     COMMITTED,
     ABORTED,
-    FAILURE
+    EXECUTION_FAILED
 };
 
 /**
@@ -22,7 +23,7 @@ enum class TwoPhaseCommitExecutionResult {
  * decision-record callback must succeed before phase two is applied. Once
  * COMMIT is selected, a phase-two failure is an error/in-doubt result and must
  * never be converted into an ABORT. A prepare exception selects ABORT; decision
- * persistence or application exceptions return FAILURE.
+ * persistence or application exceptions return EXECUTION_FAILED.
  *
  * @param prepare_all Invokes phase one and returns true only when every
  *        participant voted to commit.
@@ -36,11 +37,12 @@ enum class TwoPhaseCommitExecutionResult {
  * @tparam PersistDecision Callable that records the selected decision.
  * @tparam ApplyDecision Callable that broadcasts and applies the decision.
  * @return COMMITTED or ABORTED when the selected decision and phase two
- *         complete; FAILURE when decision persistence or application fails or
- *         throws. A prepare exception selects ABORT and continues through the
- *         decision callbacks. An FAILURE after a recorded decision means that
- *         decision remains authoritative; durable replay is available only
- *         when the coordinator's persistence backend is configured.
+ *         complete; EXECUTION_FAILED when decision persistence or application
+ *         fails or throws. A prepare exception selects ABORT and continues
+ *         through the decision callbacks. An EXECUTION_FAILED result after a
+ *         recorded decision means that decision remains authoritative; durable
+ *         replay is available only when the coordinator's persistence backend
+ *         is configured.
  */
 template <typename Prepare, typename PersistDecision, typename ApplyDecision>
 [[nodiscard]] inline TwoPhaseCommitExecutionResult executeTwoPhaseCommit(
@@ -56,18 +58,18 @@ template <typename Prepare, typename PersistDecision, typename ApplyDecision>
 
     try {
         if (!persist_decision(prepared)) {
-            return TwoPhaseCommitExecutionResult::FAILURE;
+            return TwoPhaseCommitExecutionResult::EXECUTION_FAILED;
         }
     } catch (...) {
-        return TwoPhaseCommitExecutionResult::FAILURE;
+        return TwoPhaseCommitExecutionResult::EXECUTION_FAILED;
     }
 
     try {
         if (!apply_decision(prepared)) {
-            return TwoPhaseCommitExecutionResult::FAILURE;
+            return TwoPhaseCommitExecutionResult::EXECUTION_FAILED;
         }
     } catch (...) {
-        return TwoPhaseCommitExecutionResult::FAILURE;
+        return TwoPhaseCommitExecutionResult::EXECUTION_FAILED;
     }
 
     return prepared ? TwoPhaseCommitExecutionResult::COMMITTED
