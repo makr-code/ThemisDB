@@ -869,7 +869,7 @@ TEST(TwoPhaseCommitContractTest, DecisionPersistenceFailurePreventsPhaseTwo) {
             return true;
         });
 
-    EXPECT_EQ(result, themis::sharding::detail::TwoPhaseCommitExecutionResult::FAILURE);
+    EXPECT_EQ(result, themis::sharding::detail::TwoPhaseCommitExecutionResult::EXECUTION_FAILED);
     EXPECT_FALSE(phase_two_called);
 }
 
@@ -889,7 +889,7 @@ TEST(TwoPhaseCommitContractTest, FailedCommitAcknowledgementNeverChangesDecision
             return false;
         });
 
-    EXPECT_EQ(result, themis::sharding::detail::TwoPhaseCommitExecutionResult::FAILURE);
+    EXPECT_EQ(result, themis::sharding::detail::TwoPhaseCommitExecutionResult::EXECUTION_FAILED);
     EXPECT_EQ(events, (std::vector<std::string>{
         "prepare", "persist-commit", "commit"}));
 }

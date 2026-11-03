@@ -321,7 +321,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
             return runPhase2(stored, do_commit, lock);
         });
     const bool phase2_completed =
-        execution != detail::TwoPhaseCommitExecutionResult::FAILURE;
+        execution != detail::TwoPhaseCommitExecutionResult::EXECUTION_FAILED;
 
     const double prepare_ms = std::chrono::duration<double, std::milli>(
         prepare_finished - t1).count();
@@ -331,7 +331,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
         m->record2PCPreparePhase(coordinator_id_, prepare_ms, all_prepared);
     }
 
-    if (execution == detail::TwoPhaseCommitExecutionResult::FAILURE) {
+    if (execution == detail::TwoPhaseCommitExecutionResult::EXECUTION_FAILED) {
         std::lock_guard<std::timed_mutex> lock(mutex_);
         auto it = transactions_.find(transaction_id);
         if (it != transactions_.end() && it->second.state != CoordinatorTxnState::COMPLETED) {
