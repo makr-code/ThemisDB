@@ -334,20 +334,24 @@ jobs:
 
       - name: Validate selected Docker release source
         id: docker-source-preflight
-        if: ${{ !inputs.override_docker_source_preflight }}
         shell: bash
         env:
           WORKFLOW_SHA: ${{ github.sha }}
           THEMIS_SOURCE_ROOT: ${{ github.workspace }}
           RELEASE_VERSION: ${{ steps.version.outputs.version }}
           SOURCE_SHA: ${{ steps.version.outputs.source_sha }}
+          OVERRIDE_SOURCE_PREFLIGHT: ${{ inputs.override_docker_source_preflight }}
         run: |
           set -euo pipefail
           VALIDATOR="$(mktemp "${RUNNER_TEMP}/docker-release-source-XXXXXX.py")"
           trap 'rm -f "$VALIDATOR"' EXIT
           git show "${WORKFLOW_SHA}:tests/test_docker_runtime_package_regressions.py" > "$VALIDATOR"
-          if ! python3 "$VALIDATOR" -v; then
-            echo "::error::Docker release source ${RELEASE_VERSION} (${SOURCE_SHA}) does not satisfy the current dependency-provider and runtime-package requirements. Publish a new release tag containing the Docker fixes, then select that tag with tag_name. Do not move an existing release tag or replace tagged source with workflow HEAD."
+          TESTS=()
+          if [[ "${OVERRIDE_SOURCE_PREFLIGHT}" == "true" ]]; then
+            TESTS=(DockerRuntimePackageRegressionTests.test_vcpkg_bootstrap_supports_native_arm64)
+          fi
+          if ! python3 "$VALIDATOR" "${TESTS[@]}" -v; then
+            echo "::error::Docker release source ${RELEASE_VERSION} (${SOURCE_SHA}) does not satisfy the mandatory ARM64 bootstrap or enabled dependency-provider and runtime-package requirements. Publish a new release tag containing the Docker fixes, then select that tag with tag_name. Do not move an existing release tag or replace tagged source with workflow HEAD."
             exit 1
           fi
 
@@ -358,7 +362,7 @@ jobs:
           RELEASE_VERSION: ${{ steps.version.outputs.version }}
           SOURCE_SHA: ${{ steps.version.outputs.source_sha }}
         run: |
-          echo "::warning::Docker source regression checks were explicitly skipped for ${RELEASE_VERSION} (${SOURCE_SHA}). This source may produce a broken image; the selected tag and source commit were not changed."
+          echo "::warning::Docker dependency-provider and runtime-package regression checks were explicitly skipped for ${RELEASE_VERSION} (${SOURCE_SHA}). Mandatory ARM64 bootstrap validation still applies. This source may produce a broken image; the selected tag and source commit were not changed."
 
       - name: Determine Docker tags
         id: tags
