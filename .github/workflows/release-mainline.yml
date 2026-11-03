@@ -92,7 +92,7 @@ on:
         default: false
         type: boolean
       tag_name:
-        description: 'Tag for image version (for dispatch)'
+        description: 'Release tag for dispatch (created from the selected ref if missing)'
         required: false
         type: string
   workflow_call:
@@ -192,8 +192,14 @@ jobs:
             if [[ -n "$EDITION_INPUT" && "$EDITION_INPUT" != "$edition" ]]; then
               echo "::error::Release tag does not match selected edition"; exit 1
             fi
-            sha="$(git rev-parse --verify "refs/tags/${tag}^{commit}")"
-            git checkout --detach "$sha"
+            if sha="$(git rev-parse --verify "refs/tags/${tag}^{commit}" 2>/dev/null)"; then
+              git checkout --detach "$sha"
+            elif [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+              sha="$(git rev-parse HEAD)"
+              echo "::notice::Release tag ${tag} does not exist; staging it from the selected workflow ref."
+            else
+              echo "::error::Release tag does not exist: ${tag}"; exit 1
+            fi
           else
             if [[ "$EVENT_NAME" == "workflow_dispatch" && "$DRY_RUN" != "true" ]]; then
               echo "::error::tag_name is required for a non-dry-run release"; exit 1

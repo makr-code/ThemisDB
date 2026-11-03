@@ -347,6 +347,44 @@ class DeploymentWorkflowTests(unittest.TestCase):
                     self.assertEqual(values["source_sha"], sha)
                     self.assertEqual(values["edition"], edition)
 
+    def test_packaging_dispatch_can_stage_a_new_tag_from_selected_ref(self):
+        script = step("release-mainline.yml", "preflight-release-policy", "identity")["run"]
+        for event_name, should_pass in [("workflow_dispatch", True), ("release", False)]:
+            with self.subTest(event_name=event_name), tempfile.TemporaryDirectory() as temp:
+                directory = Path(temp)
+                subprocess.run(["git", "init", "-q"], cwd=directory, check=True)
+                subprocess.run(["git", "config", "user.name", "Test"], cwd=directory, check=True)
+                subprocess.run(
+                    ["git", "config", "user.email", "test@example.invalid"],
+                    cwd=directory,
+                    check=True,
+                )
+                (directory / "source.txt").write_text("selected release source\n", encoding="utf-8")
+                subprocess.run(["git", "add", "."], cwd=directory, check=True)
+                subprocess.run(
+                    ["git", "commit", "-qm", "selected release source"],
+                    cwd=directory,
+                    check=True,
+                )
+                sha = subprocess.check_output(
+                    ["git", "rev-parse", "HEAD"], cwd=directory, text=True
+                ).strip()
+
+                result, values = run_bash(
+                    script,
+                    directory,
+                    TAG_INPUT="v2.4.0",
+                    EDITION_INPUT="community",
+                    EVENT_NAME=event_name,
+                    DRY_RUN="false",
+                )
+
+                self.assertEqual(result.returncode == 0, should_pass, result.stderr + result.stdout)
+                if should_pass:
+                    self.assertEqual(values["tag"], "v2.4.0")
+                    self.assertEqual(values["source_sha"], sha)
+                    self.assertEqual(values["edition"], "community")
+
     def test_packaging_tracker_reports_staging_failures_as_failures(self):
         script = step("release-mainline.yml", "finalize-release-status", "status")["run"]
         for result in ["success", "failure", "cancelled"]:
