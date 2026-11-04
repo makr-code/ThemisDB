@@ -38,7 +38,7 @@ on:
         default: ""
         type: string
       build_from_workflow_source:
-        description: "Build the selected workflow ref instead of the release tag; requires dry_run=true and never publishes"
+        description: "Build the selected workflow ref as a dry run; registry publication is disabled automatically"
         required: false
         default: false
         type: boolean
@@ -101,7 +101,7 @@ on:
         required: false
         type: string
       build_from_workflow_source:
-        description: "Build the selected workflow ref instead of the release tag; requires dry_run=true and never publishes"
+        description: "Build the selected workflow ref as a dry run; registry publication is disabled automatically"
         required: false
         default: false
         type: boolean
@@ -179,7 +179,7 @@ jobs:
     name: "Release: Mark Docker Status"
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    if: (github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call' || github.event_name == 'release' || github.event_name == 'push') && inputs.dry_run != true && inputs.dry_run != 'true'
+    if: (github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call' || github.event_name == 'release' || github.event_name == 'push') && inputs.dry_run != true && inputs.dry_run != 'true' && inputs.build_from_workflow_source != true && inputs.build_from_workflow_source != 'true'
     permissions:
       contents: read
       issues: write
@@ -256,16 +256,17 @@ jobs:
           set -euo pipefail
           DRY_RUN="${DRY_RUN:-false}"
           BUILD_FROM_WORKFLOW_SOURCE="${BUILD_FROM_WORKFLOW_SOURCE:-false}"
+          if [[ "${BUILD_FROM_WORKFLOW_SOURCE}" == "true" || "${BUILD_FROM_WORKFLOW_SOURCE}" == "True" ]]; then
+            DRY_RUN=true
+            PUSH_INPUT=false
+            echo "::notice::Workflow-source builds automatically enable dry-run mode and disable registry publication."
+          fi
           if [[ "${DRY_RUN}" == "true" || "${DRY_RUN}" == "True" ]]; then
             PUSH_INPUT=false
             echo "::notice::Dry-run enabled; validating the selected Docker source without requiring a published release tag."
           fi
           USE_WORKFLOW_SOURCE=false
           if [[ "${BUILD_FROM_WORKFLOW_SOURCE}" == "true" || "${BUILD_FROM_WORKFLOW_SOURCE}" == "True" ]]; then
-            if [[ "${DRY_RUN}" != "true" && "${DRY_RUN}" != "True" ]]; then
-              echo "::error::build_from_workflow_source is only allowed with dry_run=true; release publication must use the immutable release tag." >&2
-              exit 1
-            fi
             USE_WORKFLOW_SOURCE=true
           fi
           echo "──────────────────────────────────────────────"
@@ -374,7 +375,7 @@ jobs:
 
       - name: Validate selected Docker release source
         id: docker-source-preflight
-        if: ${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' || inputs.dry_run == true || inputs.dry_run == 'true' }}
+        if: ${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' || inputs.dry_run == true || inputs.dry_run == 'true' || inputs.build_from_workflow_source == true || inputs.build_from_workflow_source == 'true' }}
         shell: bash
         env:
           WORKFLOW_SHA: ${{ github.sha }}
@@ -397,7 +398,7 @@ jobs:
           fi
 
       - name: Report Docker source preflight override
-        if: ${{ (inputs.push_to_registry == true || inputs.push_to_registry == 'true' || inputs.dry_run == true || inputs.dry_run == 'true') && inputs.override_docker_source_preflight }}
+        if: ${{ (inputs.push_to_registry == true || inputs.push_to_registry == 'true' || inputs.dry_run == true || inputs.dry_run == 'true' || inputs.build_from_workflow_source == true || inputs.build_from_workflow_source == 'true') && inputs.override_docker_source_preflight }}
         shell: bash
         env:
           RELEASE_VERSION: ${{ steps.version.outputs.version }}
@@ -414,7 +415,7 @@ jobs:
           COMMIT_SHA: ${{ github.sha }}
           RUN_ID: ${{ github.run_id }}
           TARGET_REGISTRY_INPUT: ${{ inputs.registry || github.event.inputs.registry || '' }}
-          DRY_RUN: ${{ inputs.dry_run }}
+          DRY_RUN: ${{ inputs.dry_run || inputs.build_from_workflow_source }}
         run: |
           DRY_RUN="${DRY_RUN:-false}"
           VERSION="${{ steps.version.outputs.version }}"
@@ -528,6 +529,7 @@ jobs:
         env:
           PUSH_REQUESTED: ${{ inputs.push_to_registry }}
           DRY_RUN: ${{ inputs.dry_run }}
+          BUILD_FROM_WORKFLOW_SOURCE: ${{ inputs.build_from_workflow_source }}
           REGISTRY: ${{ inputs.registry }}
           INCLUDE_TINYLLAMA: ${{ inputs.include_tinyllama }}
           LLM_MODEL: ${{ inputs.llm_model }}
@@ -537,7 +539,7 @@ jobs:
         run: |
           set -euo pipefail
           normalized_dry_run=false
-          if [[ "${DRY_RUN}" == "true" || "${DRY_RUN}" == "True" ]]; then
+          if [[ "${DRY_RUN}" == "true" || "${DRY_RUN}" == "True" || "${BUILD_FROM_WORKFLOW_SOURCE}" == "true" || "${BUILD_FROM_WORKFLOW_SOURCE}" == "True" ]]; then
             normalized_dry_run=true
           fi
           effective_push="${PUSH_REQUESTED}"
@@ -721,7 +723,7 @@ jobs:
   finalize-release-status:
     name: "Release: Finalize Docker Status"
     needs: [mark-release-pending, prepare-release-context, build-platforms, merge-image-manifest]
-    if: always() && inputs.dry_run != true && inputs.dry_run != 'true'
+    if: always() && inputs.dry_run != true && inputs.dry_run != 'true' && inputs.build_from_workflow_source != true && inputs.build_from_workflow_source != 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
