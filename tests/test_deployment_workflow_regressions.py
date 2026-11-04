@@ -575,5 +575,97 @@ class DeploymentWorkflowTests(unittest.TestCase):
             self.assertIn("WinGet pull request creation failed", result.stderr)
 
 
+@unittest.skipUnless(
+    shutil.which("cmake") and (
+        (shutil.which("gcc") and shutil.which("g++")) or
+        (shutil.which("clang") and shutil.which("clang++"))
+    ),
+    "CMake and GNU or Clang C/C++ compilers required",
+)
+class GgmlErrnoWorkaroundTests(unittest.TestCase):
+    def configure(self, directory, apple, target=True, explicit_cerrno=False):
+        dependencies = (ROOT / "cmake/Dependencies.cmake").read_text()
+        after_fetch = dependencies.split("FetchContent_MakeAvailable(llama_cpp)", 1)[1]
+        start = "if(APPLE AND TARGET ggml-base)"
+        self.assertIn(start, after_fetch)
+        block = start + after_fetch.split(start, 1)[1].split("endif()", 1)[0] + "endif()"
+        header = "#include <cerrno>\n" if explicit_cerrno else ""
+        (directory / "gguf.cpp").write_text(
+            header + "#include <cstring>\nint gguf_errno() { return errno; }\n"
+        )
+        (directory / "helper.c").write_text("int helper(void) { return 0; }\n")
+        (directory / "consumer.cpp").write_text(
+            "#include <cerrno>\nint consumer_errno() { return errno; }\n"
+        )
+        targets = (
+            "add_library(ggml-base STATIC gguf.cpp helper.c)\n"
+            "add_library(consumer STATIC consumer.cpp)\n"
+            "target_link_libraries(consumer PRIVATE ggml-base)\n"
+        ) if target else ""
+        (directory / "CMakeLists.txt").write_text(
+            "cmake_minimum_required(VERSION 3.16)\nproject(errno_regression LANGUAGES C CXX)\n"
+            "set(CMAKE_EXPORT_COMPILE_COMMANDS ON)\n"
+            f"set(APPLE {'TRUE' if apple else 'FALSE'})\n" + targets + block + "\n"
+        )
+        cc, cxx = ("gcc", "g++") if shutil.which("gcc") and shutil.which("g++") else (
+            "clang", "clang++"
+        )
+        result = subprocess.run(
+            ["cmake", "-S", str(directory), "-B", str(directory / "build"),
+             "-G", "Unix Makefiles", f"-DCMAKE_C_COMPILER={shutil.which(cc)}",
+             f"-DCMAKE_CXX_COMPILER={shutil.which(cxx)}"],
+            capture_output=True, text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def build(self, directory):
+        return subprocess.run(
+            ["cmake", "--build", str(directory / "build")],
+            capture_output=True, text=True,
+        )
+
+    def test_apple_force_include_is_cxx_only_and_private(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.configure(directory, apple=True)
+            result = self.build(directory)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            commands = json.loads((directory / "build/compile_commands.json").read_text())
+            self.assertEqual({Path(item["file"]).name for item in commands},
+                             {"gguf.cpp", "helper.c", "consumer.cpp"})
+            for item in commands:
+                with self.subTest(source=Path(item["file"]).name):
+                    words = item["command"].split()
+                    if Path(item["file"]).name == "gguf.cpp":
+                        self.assertIn("-include", words)
+                        self.assertEqual(words[words.index("-include") + 1], "cerrno")
+                    else:
+                        self.assertNotIn("-include", words)
+                        self.assertNotIn("cerrno", words)
+
+    def test_nonapple_has_no_force_include(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.configure(directory, apple=False, explicit_cerrno=True)
+            result = self.build(directory)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            commands = json.loads((directory / "build/compile_commands.json").read_text())
+            for item in commands:
+                self.assertNotIn("-include", item["command"].split())
+                self.assertNotIn("cerrno", item["command"].split())
+
+    def test_apple_without_ggml_base_configures_safely(self):
+        with tempfile.TemporaryDirectory() as temp:
+            self.configure(Path(temp), apple=True, target=False)
+
+    def test_missing_cerrno_fails_without_workaround(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.configure(directory, apple=False)
+            result = self.build(directory)
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("errno", result.stdout + result.stderr)
+
+
 if __name__ == "__main__":
     unittest.main()

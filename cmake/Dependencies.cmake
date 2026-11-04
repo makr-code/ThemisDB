@@ -1658,6 +1658,12 @@ if(THEMIS_ENABLE_LLM)
     endif()
     
     FetchContent_MakeAvailable(llama_cpp)
+
+    # gguf.cpp lacks a direct errno include under LLVM libc++; keep the
+    # workaround private to ggml-base C++ sources, not C sources or consumers.
+    if(APPLE AND TARGET ggml-base)
+        target_compile_options(ggml-base PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:-include;cerrno>")
+    endif()
     
     # =========================================================================
     # APPLY MSVC CHAR8_T FIXES TO LLAMA TARGETS
