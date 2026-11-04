@@ -37,6 +37,11 @@ on:
         required: false
         default: ""
         type: string
+      build_from_workflow_source:
+        description: "Build the selected workflow ref instead of the release tag; requires dry_run=true and never publishes"
+        required: false
+        default: false
+        type: boolean
       override_docker_source_preflight:
         description: "Skip Docker source regression checks only after manually reviewing the selected source; may publish a broken image"
         required: false
@@ -95,6 +100,11 @@ on:
         description: "Optional release tag (e.g. v2.4.0-alpha); if omitted, VERSION and RELEASE_TYPE files are used"
         required: false
         type: string
+      build_from_workflow_source:
+        description: "Build the selected workflow ref instead of the release tag; requires dry_run=true and never publishes"
+        required: false
+        default: false
+        type: boolean
       override_docker_source_preflight:
         description: "Skip Docker source regression checks only after manually reviewing the selected source; may publish a broken image"
         required: false
@@ -241,12 +251,22 @@ jobs:
           TAG_INPUT: ${{ inputs.tag_name || github.event.inputs.tag_name || '' }}
           PUSH_INPUT: ${{ inputs.push_to_registry }}
           DRY_RUN: ${{ inputs.dry_run }}
+          BUILD_FROM_WORKFLOW_SOURCE: ${{ inputs.build_from_workflow_source }}
         run: |
           set -euo pipefail
           DRY_RUN="${DRY_RUN:-false}"
+          BUILD_FROM_WORKFLOW_SOURCE="${BUILD_FROM_WORKFLOW_SOURCE:-false}"
           if [[ "${DRY_RUN}" == "true" || "${DRY_RUN}" == "True" ]]; then
             PUSH_INPUT=false
             echo "::notice::Dry-run enabled; validating the selected Docker source without requiring a published release tag."
+          fi
+          USE_WORKFLOW_SOURCE=false
+          if [[ "${BUILD_FROM_WORKFLOW_SOURCE}" == "true" || "${BUILD_FROM_WORKFLOW_SOURCE}" == "True" ]]; then
+            if [[ "${DRY_RUN}" != "true" && "${DRY_RUN}" != "True" ]]; then
+              echo "::error::build_from_workflow_source is only allowed with dry_run=true; release publication must use the immutable release tag." >&2
+              exit 1
+            fi
+            USE_WORKFLOW_SOURCE=true
           fi
           echo "──────────────────────────────────────────────"
           echo "  Version detection"
@@ -321,7 +341,10 @@ jobs:
             v*) EDITION=COMMUNITY ;;
             *) echo "::error::Private-edition images require a provisioned private delivery pipeline."; exit 1 ;;
           esac
-          if [[ -n "${TAG_INPUT}" || "${GIT_REF}" == refs/tags/* || "${EVENT_NAME}" == "release" || "${PUSH_INPUT}" == "true" ]]; then
+          if [[ "${USE_WORKFLOW_SOURCE}" == "true" ]]; then
+            SOURCE_SHA="$(git rev-parse --verify HEAD)"
+            echo "::notice::Building workflow source ${SOURCE_SHA} for dry-run only; no release tag will be changed or published."
+          elif [[ -n "${TAG_INPUT}" || "${GIT_REF}" == refs/tags/* || "${EVENT_NAME}" == "release" || "${PUSH_INPUT}" == "true" ]]; then
             TAG_REF="refs/tags/${VERSION}"
             if ! git show-ref --verify --quiet "${TAG_REF}"; then
               echo "::error::Requested release tag '${VERSION}' does not exist in the checked-out repository; push the tag before starting Docker publication." >&2

@@ -22,8 +22,20 @@ class DockerPlatformValidationTests(unittest.TestCase):
                 dry_run = workflow[True][trigger]["inputs"]["dry_run"]
                 self.assertEqual(dry_run["type"], "boolean")
                 self.assertIs(dry_run["default"], False)
+                workflow_source = workflow[True][trigger]["inputs"]["build_from_workflow_source"]
+                self.assertEqual(workflow_source["type"], "boolean")
+                self.assertIs(workflow_source["default"], False)
 
         jobs = workflow["jobs"]
+        version_step = next(
+            step for step in jobs["prepare-release-context"]["steps"]
+            if step.get("id") == "version"
+        )
+        self.assertEqual(
+            version_step["env"]["BUILD_FROM_WORKFLOW_SOURCE"],
+            "${{ inputs.build_from_workflow_source }}",
+        )
+        self.assertIn("only allowed with dry_run=true", version_step["run"])
         build = jobs["build-platforms"]["with"]
         self.assertEqual(
             build["dry_run"],
