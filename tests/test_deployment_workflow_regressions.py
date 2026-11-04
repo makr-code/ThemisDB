@@ -214,6 +214,42 @@ class DeploymentWorkflowTests(unittest.TestCase):
             self.assertEqual(values["version"], "v9.9.9")
             self.assertEqual(values["source_sha"], sha)
 
+    def test_docker_dry_run_can_build_workflow_source_for_existing_release_tag(self):
+        script = step("release-docker-image.yml", "prepare-release-context", "version")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            tagged_sha = self.make_source(directory)
+            workflow_sha = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], cwd=directory, text=True
+            ).strip()
+            result, values = run_bash(
+                script, directory, EVENT_NAME="workflow_dispatch", GIT_REF="refs/heads/develop",
+                TAG_INPUT="v2.4.0", PUSH_INPUT="true", DRY_RUN="true",
+                BUILD_FROM_WORKFLOW_SOURCE="true", GITHUB_EVENT_PATH="/dev/null",
+            )
+            self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+            self.assertEqual(values["version"], "v2.4.0")
+            self.assertEqual(values["source_sha"], workflow_sha)
+            self.assertNotEqual(values["source_sha"], tagged_sha)
+            self.assertEqual(
+                subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=directory, text=True).strip(),
+                workflow_sha,
+            )
+            self.assertIn("dry-run only", result.stdout)
+
+    def test_docker_workflow_source_build_is_rejected_outside_dry_run(self):
+        script = step("release-docker-image.yml", "prepare-release-context", "version")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.make_source(directory)
+            result, _ = run_bash(
+                script, directory, EVENT_NAME="workflow_dispatch", GIT_REF="refs/heads/develop",
+                TAG_INPUT="v2.4.0", PUSH_INPUT="true", BUILD_FROM_WORKFLOW_SOURCE="true",
+                GITHUB_EVENT_PATH="/dev/null",
+            )
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("only allowed with dry_run=true", result.stderr)
+
     def test_docker_dry_run_forces_registry_push_off(self):
         script = step("release-docker-image.yml", "prepare-release-context", "push-policy")["run"]
         with tempfile.TemporaryDirectory() as temp:
