@@ -1,5 +1,40 @@
 # Transaction module test registration (pilot extraction from root tests/CMakeLists.txt)
 
+# The nonmodular registration remains in tests/CMakeLists.txt. In modular
+# builds, GlobalTransactionManager, TrueTime and WALManager belong to sharding.
+if(THEMIS_BUILD_MODULAR AND TARGET themis_sharding AND NOT TARGET test_global_transaction_manager)
+    add_executable(test_global_transaction_manager
+        ${THEMIS_ROOT_DIR}/tests/test_global_transaction_manager.cpp
+    )
+
+    target_include_directories(test_global_transaction_manager PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_global_transaction_manager PRIVATE
+        ${TEST_LIBS}
+        themis_sharding
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_global_transaction_manager PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_test(
+        MODULE transaction
+        NAME GlobalTransactionManagerTests
+        TARGET test_global_transaction_manager
+        TIER unit
+        KIND focused
+        TIMEOUT 120
+        LABELS transaction distributed multi-region acid
+    )
+endif()
+
 # Transaction Auditor Focused Tests (v1.8.0)
 # AC-1..25: enableAuditing, record, queryAuditLog (filters, limit, sort),
 #           size, clear, exportToKafka/S3, concurrent record()

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-11-02"
-Last Updated: "2026-11-03"
+Last Updated: "2026-11-04"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,6 +14,14 @@ Human_Author: "ThemisDB Team"
 
 Datum: 2026-11-02
 Status: Active
+
+## Global transaction durability regression coverage
+
+- Canonical sources: `tests/transaction/CMakeLists.txt`, `tests/CMakeLists.txt`, `tests/test_global_transaction_manager.cpp`, `src/transaction/global_transaction_manager.cpp`, `include/sharding/wal_manager.h`.
+- Modular builds must register the existing global transaction regression suite as well as non-modular builds. Enable `THEMIS_BUILD_TESTS` when configuring the focused validation build; release packaging configurations that disable tests do not provide this evidence.
+- The coordinator reports internal errors with `GlobalTxnResult::FAILURE` and checks `WALManager::flushDurable()` through its WAL helper. The void `flush()` API is not a durability success indicator.
+- Verify focused tests before accepting a new native ARM64 Release build and its packages. Re-running an older failed Actions run retains its original source commit; use a new Mainline dispatch on corrected `develop`.
+- Wiki health metadata was generated on 2026-11-02 and contains incomplete workflow summaries marked “binary or unreadable”; current source and Actions logs take precedence. No ARM64 build or packaging success is inferred from this documentation.
 
 ## Docker ARM64 bootstrap preflight
 
