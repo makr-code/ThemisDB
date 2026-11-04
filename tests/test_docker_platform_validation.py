@@ -87,7 +87,10 @@ class DockerPlatformValidationTests(unittest.TestCase):
         steps = build["steps"]
         for name, condition in (
             ("Validate Dockerfile model-case syntax", None),
-            ("Validate Docker vcpkg bootstrap architecture", "${{ inputs.platform == 'linux/arm64' }}"),
+            (
+                "Validate Docker vcpkg bootstrap architecture",
+                "${{ inputs.platform == 'linux/arm64' && inputs.push_to_registry }}",
+            ),
             ("Enforce public edition boundary", None),
             ("Build platform image once for local scan and optional registry push", None),
             ("Trivy vulnerability scan", "inputs.push_to_registry"),
@@ -152,7 +155,10 @@ class DockerPlatformValidationTests(unittest.TestCase):
         self.assertLess(ids.index("docker-source-preflight"), ids.index("tags"))
         self.assertIn("prepare-release-context", jobs["build-platforms"]["needs"])
         preflight = next(step for step in steps if step.get("id") == "docker-source-preflight")
-        self.assertNotIn("if", preflight)
+        self.assertEqual(
+            preflight["if"],
+            "${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' }}",
+        )
         self.assertEqual(
             preflight["env"]["OVERRIDE_SOURCE_PREFLIGHT"],
             "${{ inputs.override_docker_source_preflight }}",
