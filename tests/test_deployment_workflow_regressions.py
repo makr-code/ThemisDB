@@ -237,18 +237,38 @@ class DeploymentWorkflowTests(unittest.TestCase):
             )
             self.assertIn("dry-run only", result.stdout)
 
-    def test_docker_workflow_source_build_is_rejected_outside_dry_run(self):
+    def test_docker_workflow_source_build_automatically_uses_dry_run(self):
         script = step("release-docker-image.yml", "prepare-release-context", "version")["run"]
         with tempfile.TemporaryDirectory() as temp:
             directory = Path(temp)
-            self.make_source(directory)
-            result, _ = run_bash(
+            self.make_source(directory, release_type="alpha")
+            source_sha = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], cwd=directory, text=True
+            ).strip()
+            result, values = run_bash(
                 script, directory, EVENT_NAME="workflow_dispatch", GIT_REF="refs/heads/develop",
-                TAG_INPUT="v2.4.0", PUSH_INPUT="true", BUILD_FROM_WORKFLOW_SOURCE="true",
+                TAG_INPUT="v2.4.0-alpha", PUSH_INPUT="true",
+                BUILD_FROM_WORKFLOW_SOURCE="true",
                 GITHUB_EVENT_PATH="/dev/null",
             )
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn("only allowed with dry_run=true", result.stderr)
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        self.assertEqual(values["version"], "v2.4.0-alpha")
+        self.assertEqual(values["source_sha"], source_sha)
+        self.assertIn("automatically enable dry-run mode", result.stdout)
+
+    def test_docker_workflow_source_build_forces_registry_push_off(self):
+        script = step("release-docker-image.yml", "prepare-release-context", "push-policy")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            result, values = run_bash(
+                script, Path(temp), PUSH_REQUESTED="true", BUILD_FROM_WORKFLOW_SOURCE="true",
+                DRY_RUN="false", REGISTRY="ghcr.io", INCLUDE_TINYLLAMA="true",
+                LLM_MODEL="tinyllama", LLM_MODEL_URL="", LLM_MODEL_FILE="",
+                FORCE_DOWNLOAD="false",
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(values["push_requested"], "false")
+        self.assertEqual(values["dry_run"], "true")
+        self.assertIn("registry publication is disabled", result.stdout)
 
     def test_docker_dry_run_forces_registry_push_off(self):
         script = step("release-docker-image.yml", "prepare-release-context", "push-policy")["run"]

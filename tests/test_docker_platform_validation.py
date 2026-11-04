@@ -35,7 +35,19 @@ class DockerPlatformValidationTests(unittest.TestCase):
             version_step["env"]["BUILD_FROM_WORKFLOW_SOURCE"],
             "${{ inputs.build_from_workflow_source }}",
         )
-        self.assertIn("only allowed with dry_run=true", version_step["run"])
+        self.assertIn("automatically enable dry-run mode", version_step["run"])
+        push_policy = next(
+            step for step in jobs["prepare-release-context"]["steps"]
+            if step.get("id") == "push-policy"
+        )
+        self.assertEqual(
+            push_policy["env"]["DRY_RUN"],
+            "${{ inputs.dry_run }}",
+        )
+        self.assertEqual(
+            push_policy["env"]["BUILD_FROM_WORKFLOW_SOURCE"],
+            "${{ inputs.build_from_workflow_source }}",
+        )
         build = jobs["build-platforms"]["with"]
         self.assertEqual(
             build["dry_run"],
@@ -43,6 +55,8 @@ class DockerPlatformValidationTests(unittest.TestCase):
         )
         self.assertIn("inputs.dry_run != true", jobs["mark-release-pending"]["if"])
         self.assertIn("inputs.dry_run != true", jobs["finalize-release-status"]["if"])
+        self.assertIn("inputs.build_from_workflow_source != true", jobs["mark-release-pending"]["if"])
+        self.assertIn("inputs.build_from_workflow_source != true", jobs["finalize-release-status"]["if"])
         self.assertIn(
             "inputs.dry_run == true",
             jobs["prepare-release-context"]["steps"][
@@ -220,7 +234,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
         preflight = next(step for step in steps if step.get("id") == "docker-source-preflight")
         self.assertEqual(
             preflight["if"],
-            "${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' || inputs.dry_run == true || inputs.dry_run == 'true' }}",
+            "${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' || inputs.dry_run == true || inputs.dry_run == 'true' || inputs.build_from_workflow_source == true || inputs.build_from_workflow_source == 'true' }}",
         )
         self.assertEqual(
             preflight["env"]["OVERRIDE_SOURCE_PREFLIGHT"],
