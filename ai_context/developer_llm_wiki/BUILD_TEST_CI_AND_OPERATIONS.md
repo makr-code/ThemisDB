@@ -29,10 +29,10 @@ Exact model backend not verifiable from final document text alone.
 
 - Sources: `.github/workflows/reusable-docker-image-platform.yml`, `docker/Dockerfile.unified`, `tests/test_docker_runtime_package_regressions.py`.
 - ARM64 platform builds require the pinned `bootstrap-vcpkg.sh`, which builds vcpkg natively on ARM64; the `vcpkg-glibc` release binary is x86-64-only.
-- Release publication validates the selected Docker source before platform dispatch; the ARM64 bootstrap check runs for publication and explicit dry-run builds, including when `override_docker_source_preflight` skips dependency/runtime source checks. A dry-run without `tag_name` validates the workflow ref; with `tag_name`, it validates that exact immutable release tag.
-- Set `dry_run=true` in the Docker release workflow to run source preflight, both platform builds, Trivy vulnerability scans, and runtime smoke checks without logging into or publishing to Docker Hub or GHCR. It also avoids updating the Docker release-status tracker. Dry-run takes precedence over `push_to_registry`; the run summary and tags step identify that nothing is being published.
+- Stable release-tag publication validates the selected Docker source before platform dispatch; nightly and developer-track updates do not run this release-source preflight. The reusable platform workflow still performs applicable ARM64 bootstrap checks, image scans, and runtime validation. For stable releases, `override_docker_source_preflight` skips dependency/runtime source checks but not the ARM64 bootstrap check.
+- Set `dry_run=true` to build both platforms, run Trivy vulnerability scans, and execute runtime smoke checks without registry login/publication or release-status tracker updates. Stable release-tag dry-runs also run the source preflight; nightly/developer-track dry-runs do not. Dry-run takes precedence over `push_to_registry`.
 - The reusable platform workflow enforces the same dry-run no-push behavior, runs the ARM64 bootstrap check and Trivy against the locally loaded image, then executes runtime validation. Plain validation runs without `dry_run` keep their existing build/runtime behavior.
-- An obsolete release tag must be replaced by a **new release tag** containing the corrected Dockerfile. The workflow does not move tags or substitute newer source for the selected release commit.
+- If a stable release tag fails source preflight, publish a **new release tag** containing the corrected Dockerfile; the workflow does not move tags or substitute newer source for the selected release commit.
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci

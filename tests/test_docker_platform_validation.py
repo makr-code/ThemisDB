@@ -234,7 +234,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
         preflight = next(step for step in steps if step.get("id") == "docker-source-preflight")
         self.assertEqual(
             preflight["if"],
-            "${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' || inputs.dry_run == true || inputs.dry_run == 'true' || inputs.build_from_workflow_source == true || inputs.build_from_workflow_source == 'true' }}",
+            "${{ (inputs.push_to_registry == true || inputs.push_to_registry == 'true' || inputs.dry_run == true || inputs.dry_run == 'true' || inputs.build_from_workflow_source == true || inputs.build_from_workflow_source == 'true') && steps.version.outputs.release_type == 'stable' && (github.ref_type == 'tag' || inputs.tag_name != '' || github.event_name == 'release') }}",
         )
         self.assertEqual(
             preflight["env"]["OVERRIDE_SOURCE_PREFLIGHT"],
@@ -243,6 +243,22 @@ class DockerPlatformValidationTests(unittest.TestCase):
         self.assertEqual(preflight["env"]["WORKFLOW_SHA"], "${{ github.sha }}")
         self.assertEqual(preflight["env"]["THEMIS_SOURCE_ROOT"], "${{ github.workspace }}")
         subprocess.run(["bash", "-n", "-c", preflight["run"]], check=True)
+
+    def test_release_source_preflight_is_limited_to_stable_release_sources(self) -> None:
+        jobs = yaml.safe_load(RELEASE_WORKFLOW.read_text(encoding="utf-8"))["jobs"]
+        steps = jobs["prepare-release-context"]["steps"]
+        preflight = next(step for step in steps if step.get("id") == "docker-source-preflight")
+        warning = next(
+            step for step in steps
+            if step.get("name") == "Report Docker source preflight override"
+        )
+
+        for step in (preflight, warning):
+            with self.subTest(step=step.get("id", step.get("name"))):
+                self.assertIn("steps.version.outputs.release_type == 'stable'", step["if"])
+                self.assertIn("github.ref_type == 'tag'", step["if"])
+                self.assertIn("inputs.tag_name != ''", step["if"])
+                self.assertIn("github.event_name == 'release'", step["if"])
 
     def test_release_preflight_accepts_valid_tagged_source_without_validator(self) -> None:
         self._run_relocated_validator(False, execute_workflow=True, release_preflight=True)
