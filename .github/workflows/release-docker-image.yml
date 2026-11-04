@@ -334,6 +334,7 @@ jobs:
 
       - name: Validate selected Docker release source
         id: docker-source-preflight
+        if: ${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' }}
         shell: bash
         env:
           WORKFLOW_SHA: ${{ github.sha }}
@@ -356,7 +357,7 @@ jobs:
           fi
 
       - name: Report Docker source preflight override
-        if: ${{ inputs.override_docker_source_preflight }}
+        if: ${{ (inputs.push_to_registry == true || inputs.push_to_registry == 'true') && inputs.override_docker_source_preflight }}
         shell: bash
         env:
           RELEASE_VERSION: ${{ steps.version.outputs.version }}

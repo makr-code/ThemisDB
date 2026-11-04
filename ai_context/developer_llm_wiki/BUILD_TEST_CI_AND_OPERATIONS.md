@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-11-02"
-Last Updated: "2026-11-03"
+Last Updated: "2026-11-04"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -21,8 +21,8 @@ Exact model backend not verifiable from final document text alone.
 
 - Sources: `.github/workflows/reusable-docker-image-platform.yml`, `docker/Dockerfile.unified`, `tests/test_docker_runtime_package_regressions.py`.
 - ARM64 platform builds require the pinned `bootstrap-vcpkg.sh`, which builds vcpkg natively on ARM64; the `vcpkg-glibc` release binary is x86-64-only.
-- The dedicated bootstrap architecture gate runs only for `linux/arm64` and remains mandatory even when `override_docker_source_preflight` skips dependency/runtime source checks. AMD64 does not run this ARM64-only gate; the default full source preflight and build/security/runtime gates are unchanged.
-- The multi-platform release consumer also validates ARM64 bootstrap compatibility in `prepare-release-context`, before platform dispatch and model-cache preparation. With `override_docker_source_preflight=true`, this check still runs; only dependency-provider and runtime-package checks are skipped.
+- Release publication validates the selected Docker source before platform dispatch; the ARM64 bootstrap check runs only for registry-publishing builds, including when `override_docker_source_preflight` skips dependency/runtime source checks. Validation-only development runs do not enforce this release-tag gate.
+- The reusable platform workflow also checks ARM64 bootstrap compatibility for registry-publishing builds. Validation-only builds still run their Docker build and runtime checks; they do not get blocked by the release-only source/tag preflight.
 - An obsolete release tag must be replaced by a **new release tag** containing the corrected Dockerfile. The workflow does not move tags or substitute newer source for the selected release commit.
 
 ## .github/workflows/benchmark-gate.yml
