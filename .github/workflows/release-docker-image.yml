@@ -17,6 +17,11 @@ name: "Release: Docker Image Consumer"
 on:
   workflow_call:
     inputs:
+      dry_run:
+        description: "Build and validate without logging into or publishing to any registry"
+        required: false
+        default: false
+        type: boolean
       push_to_registry:
         description: "Push built images to Docker registry"
         required: false
@@ -64,6 +69,11 @@ on:
         type: boolean
   workflow_dispatch:
     inputs:
+      dry_run:
+        description: "Build and validate without logging into or publishing to any registry"
+        required: false
+        default: false
+        type: boolean
       push_to_registry:
         description: "Push built images to Docker registry"
         required: false
@@ -128,7 +138,7 @@ on:
           - "true"
 
 concurrency:
-  group: docker-image-${{ github.workflow }}-${{ github.ref_type || 'ref' }}-${{ github.ref_name || github.sha }}-${{ inputs.registry || github.event.inputs.registry || 'ghcr.io' }}-${{ inputs.push_to_registry || github.event.inputs.push_to_registry || 'false' }}
+  group: docker-image-${{ github.workflow }}-${{ github.ref_type || 'ref' }}-${{ github.ref_name || github.sha }}-${{ inputs.registry || github.event.inputs.registry || 'ghcr.io' }}-${{ inputs.push_to_registry || github.event.inputs.push_to_registry || 'false' }}-${{ inputs.dry_run || github.event.inputs.dry_run || 'false' }}
   cancel-in-progress: false
 
 permissions:
@@ -159,7 +169,7 @@ jobs:
     name: "Release: Mark Docker Status"
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call' || github.event_name == 'release' || github.event_name == 'push'
+    if: (github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call' || github.event_name == 'release' || github.event_name == 'push') && inputs.dry_run != true && inputs.dry_run != 'true'
     permissions:
       contents: read
       issues: write
@@ -200,6 +210,7 @@ jobs:
       source_sha: ${{ steps.version.outputs.source_sha }}
       edition: ${{ steps.version.outputs.edition }}
       release_type: ${{ steps.version.outputs.release_type }}
+      dry_run: ${{ steps.push-policy.outputs.dry_run }}
       tag_list: ${{ steps.tags.outputs.value }}
       push_requested: ${{ steps.push-policy.outputs.push_requested }}
       registry: ${{ steps.push-policy.outputs.registry }}
@@ -229,8 +240,14 @@ jobs:
           GIT_REF: ${{ github.ref }}
           TAG_INPUT: ${{ inputs.tag_name || github.event.inputs.tag_name || '' }}
           PUSH_INPUT: ${{ inputs.push_to_registry }}
+          DRY_RUN: ${{ inputs.dry_run }}
         run: |
           set -euo pipefail
+          DRY_RUN="${DRY_RUN:-false}"
+          if [[ "${DRY_RUN}" == "true" || "${DRY_RUN}" == "True" ]]; then
+            PUSH_INPUT=false
+            echo "::notice::Dry-run enabled; validating the selected Docker source without requiring a published release tag."
+          fi
           echo "──────────────────────────────────────────────"
           echo "  Version detection"
           RELEASE_TAG_NAME="$(jq -r '.release.tag_name // empty' "${GITHUB_EVENT_PATH}" 2>/dev/null || true)"
@@ -334,7 +351,7 @@ jobs:
 
       - name: Validate selected Docker release source
         id: docker-source-preflight
-        if: ${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' }}
+        if: ${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' || inputs.dry_run == true || inputs.dry_run == 'true' }}
         shell: bash
         env:
           WORKFLOW_SHA: ${{ github.sha }}
@@ -357,7 +374,7 @@ jobs:
           fi
 
       - name: Report Docker source preflight override
-        if: ${{ (inputs.push_to_registry == true || inputs.push_to_registry == 'true') && inputs.override_docker_source_preflight }}
+        if: ${{ (inputs.push_to_registry == true || inputs.push_to_registry == 'true' || inputs.dry_run == true || inputs.dry_run == 'true') && inputs.override_docker_source_preflight }}
         shell: bash
         env:
           RELEASE_VERSION: ${{ steps.version.outputs.version }}
@@ -374,7 +391,9 @@ jobs:
           COMMIT_SHA: ${{ github.sha }}
           RUN_ID: ${{ github.run_id }}
           TARGET_REGISTRY_INPUT: ${{ inputs.registry || github.event.inputs.registry || '' }}
+          DRY_RUN: ${{ inputs.dry_run }}
         run: |
+          DRY_RUN="${DRY_RUN:-false}"
           VERSION="${{ steps.version.outputs.version }}"
           TAGS=""
           RELEASE_TAG_REGEX='^(v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|enterprise-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|hyperscaler-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|military-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|minimal-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?)$'
@@ -474,13 +493,18 @@ jobs:
           fi
 
           echo "value=${TAGS}" >> "${GITHUB_OUTPUT}"
-          echo "Tags to be pushed: ${TAGS}"
+          if [[ "${DRY_RUN}" == "true" || "${DRY_RUN}" == "True" ]]; then
+            echo "Dry-run: tags that would be published: ${TAGS}"
+          else
+            echo "Tags to be pushed: ${TAGS}"
+          fi
 
       - name: Determine push policy
         id: push-policy
         shell: bash
         env:
           PUSH_REQUESTED: ${{ inputs.push_to_registry }}
+          DRY_RUN: ${{ inputs.dry_run }}
           REGISTRY: ${{ inputs.registry }}
           INCLUDE_TINYLLAMA: ${{ inputs.include_tinyllama }}
           LLM_MODEL: ${{ inputs.llm_model }}
@@ -489,12 +513,29 @@ jobs:
           FORCE_DOWNLOAD: ${{ inputs.tinyllama_force_download }}
         run: |
           set -euo pipefail
+          normalized_dry_run=false
+          if [[ "${DRY_RUN}" == "true" || "${DRY_RUN}" == "True" ]]; then
+            normalized_dry_run=true
+          fi
+          effective_push="${PUSH_REQUESTED}"
+          if [[ "${normalized_dry_run}" == "true" ]]; then
+            effective_push=false
+            echo "::notice::Dry-run enabled; registry publication is disabled."
+            {
+              echo "### Docker dry-run"
+              echo "Built and validated the selected source without logging into or publishing to any container registry."
+              echo ""
+              echo "- Registry push requested: \`${PUSH_REQUESTED}\`"
+              echo "- Effective registry push: \`false\`"
+            } >> "${GITHUB_STEP_SUMMARY}"
+          fi
           case "$REGISTRY" in
             ghcr.io|docker.io|both) ;;
             *) echo "::error::Unsupported registry: $REGISTRY"; exit 1 ;;
           esac
           {
-            echo "push_requested=${PUSH_REQUESTED}"
+            echo "push_requested=${effective_push}"
+            echo "dry_run=${normalized_dry_run}"
             echo "registry=${REGISTRY}"
             echo "include_tinyllama=${INCLUDE_TINYLLAMA}"
             echo "llm_model=${LLM_MODEL}"
@@ -538,6 +579,7 @@ jobs:
       tinyllama_force_download: ${{ needs.prepare-release-context.outputs.tinyllama_force_download == 'true' }}
       source_run_id: ${{ github.run_id }}
       source_sha: ${{ needs.prepare-release-context.outputs.source_sha }}
+      dry_run: ${{ needs.prepare-release-context.outputs.dry_run == 'true' }}
       override_docker_source_preflight: ${{ inputs.override_docker_source_preflight }}
       edition: ${{ needs.prepare-release-context.outputs.edition }}
     secrets: inherit
@@ -656,7 +698,7 @@ jobs:
   finalize-release-status:
     name: "Release: Finalize Docker Status"
     needs: [mark-release-pending, prepare-release-context, build-platforms, merge-image-manifest]
-    if: always()
+    if: always() && inputs.dry_run != true && inputs.dry_run != 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
