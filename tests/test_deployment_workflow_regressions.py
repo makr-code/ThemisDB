@@ -200,7 +200,7 @@ class DeploymentWorkflowTests(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("Requested release tag 'v2.4.99' does not exist", result.stderr)
 
-    def test_docker_unpublished_dry_run_can_use_workflow_source(self):
+    def test_docker_dry_run_can_use_workflow_source_without_release_tag(self):
         with tempfile.TemporaryDirectory() as temp:
             directory = Path(temp)
             self.make_source(directory)
@@ -208,11 +208,24 @@ class DeploymentWorkflowTests(unittest.TestCase):
             result, values = run_bash(
                 step("release-docker-image.yml", "prepare-release-context", "version")["run"],
                 directory, EVENT_NAME="workflow_dispatch", GIT_REF="refs/heads/develop",
-                TAG_INPUT="", PUSH_INPUT="false", GITHUB_EVENT_PATH="/dev/null",
+                TAG_INPUT="", PUSH_INPUT="true", DRY_RUN="true", GITHUB_EVENT_PATH="/dev/null",
             )
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertEqual(values["version"], "v9.9.9")
             self.assertEqual(values["source_sha"], sha)
+
+    def test_docker_dry_run_forces_registry_push_off(self):
+        script = step("release-docker-image.yml", "prepare-release-context", "push-policy")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            result, values = run_bash(
+                script, Path(temp), PUSH_REQUESTED="true", DRY_RUN="true",
+                REGISTRY="docker.io", INCLUDE_TINYLLAMA="true", LLM_MODEL="tinyllama",
+                LLM_MODEL_URL="", LLM_MODEL_FILE="", FORCE_DOWNLOAD="false",
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(values["push_requested"], "false")
+        self.assertEqual(values["dry_run"], "true")
+        self.assertIn("registry publication is disabled", result.stdout)
 
     def test_docker_without_tag_uses_canonical_version_and_release_type(self):
         script = step("release-docker-image.yml", "prepare-release-context", "version")["run"]

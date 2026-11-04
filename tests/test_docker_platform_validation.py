@@ -15,6 +15,57 @@ RELEASE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-docker-image.y
 
 
 class DockerPlatformValidationTests(unittest.TestCase):
+    def test_release_dry_run_is_available_for_dispatch_and_workflow_calls(self) -> None:
+        workflow = yaml.safe_load(RELEASE_WORKFLOW.read_text(encoding="utf-8"))
+        for trigger in ("workflow_dispatch", "workflow_call"):
+            with self.subTest(trigger=trigger):
+                dry_run = workflow[True][trigger]["inputs"]["dry_run"]
+                self.assertEqual(dry_run["type"], "boolean")
+                self.assertIs(dry_run["default"], False)
+
+        jobs = workflow["jobs"]
+        build = jobs["build-platforms"]["with"]
+        self.assertEqual(
+            build["dry_run"],
+            "${{ needs.prepare-release-context.outputs.dry_run == 'true' }}",
+        )
+        self.assertIn("inputs.dry_run != true", jobs["mark-release-pending"]["if"])
+        self.assertIn("inputs.dry_run != true", jobs["finalize-release-status"]["if"])
+        self.assertIn(
+            "inputs.dry_run == true",
+            jobs["prepare-release-context"]["steps"][
+                next(
+                    index for index, step in enumerate(jobs["prepare-release-context"]["steps"])
+                    if step.get("id") == "docker-source-preflight"
+                )
+            ]["if"],
+        )
+
+    def test_reusable_dry_run_builds_and_scans_without_registry_publication(self) -> None:
+        workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        inputs = workflow[True]["workflow_call"]["inputs"]
+        self.assertEqual(inputs["dry_run"]["type"], "boolean")
+        self.assertIs(inputs["dry_run"]["default"], False)
+
+        steps = workflow["jobs"]["build"]["steps"]
+        by_name = {step["name"]: step for step in steps}
+        self.assertIn("!inputs.dry_run", by_name["Log in to Docker Hub"]["if"])
+        self.assertEqual(
+            by_name["Log in to GitHub Container Registry (OIDC)"]["if"],
+            "inputs.push_to_registry && !inputs.dry_run",
+        )
+        build = by_name["Build platform image once for local scan and optional registry push"]["with"]
+        self.assertIn("!inputs.dry_run", build["push"])
+        self.assertIn("!inputs.dry_run", build["load"])
+        self.assertIn("!inputs.dry_run", build["provenance"])
+        self.assertEqual(by_name["Trivy vulnerability scan"]["if"], "inputs.push_to_registry || inputs.dry_run")
+        self.assertEqual(
+            by_name["Validate Docker vcpkg bootstrap architecture"]["if"],
+            "${{ inputs.platform == 'linux/arm64' && (inputs.push_to_registry || inputs.dry_run) }}",
+        )
+        self.assertIn("!inputs.dry_run", by_name["Write digest artifact"]["if"])
+        self.assertIn("!inputs.dry_run", by_name["Upload platform digest"]["if"])
+
     def test_release_forwards_source_preflight_override_to_platforms(self) -> None:
         jobs = yaml.safe_load(RELEASE_WORKFLOW.read_text(encoding="utf-8"))["jobs"]
         build = jobs["build-platforms"]
@@ -89,11 +140,11 @@ class DockerPlatformValidationTests(unittest.TestCase):
             ("Validate Dockerfile model-case syntax", None),
             (
                 "Validate Docker vcpkg bootstrap architecture",
-                "${{ inputs.platform == 'linux/arm64' && inputs.push_to_registry }}",
+                "${{ inputs.platform == 'linux/arm64' && (inputs.push_to_registry || inputs.dry_run) }}",
             ),
             ("Enforce public edition boundary", None),
             ("Build platform image once for local scan and optional registry push", None),
-            ("Trivy vulnerability scan", "inputs.push_to_registry"),
+            ("Trivy vulnerability scan", "inputs.push_to_registry || inputs.dry_run"),
             ("Validate final image runtime without build-host libraries", None),
         ):
             with self.subTest(step=name):
@@ -157,7 +208,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
         preflight = next(step for step in steps if step.get("id") == "docker-source-preflight")
         self.assertEqual(
             preflight["if"],
-            "${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' }}",
+            "${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' || inputs.dry_run == true || inputs.dry_run == 'true' }}",
         )
         self.assertEqual(
             preflight["env"]["OVERRIDE_SOURCE_PREFLIGHT"],
