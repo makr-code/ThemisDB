@@ -12,6 +12,7 @@
 #include "sharding/raft_state.h"
 #include <algorithm>
 #include <iostream>
+#include <spdlog/spdlog.h>
 #include <stdexcept>
 
 namespace themisdb {
