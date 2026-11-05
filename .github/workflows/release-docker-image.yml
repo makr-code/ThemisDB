@@ -342,6 +342,7 @@ jobs:
             v*) EDITION=COMMUNITY ;;
             *) echo "::error::Private-edition images require a provisioned private delivery pipeline."; exit 1 ;;
           esac
+          SOURCE_IS_TAG=false
           if [[ "${USE_WORKFLOW_SOURCE}" == "true" ]]; then
             SOURCE_SHA="$(git rev-parse --verify HEAD)"
             echo "::notice::Building workflow source ${SOURCE_SHA} for dry-run only; no release tag will be changed or published."
@@ -352,6 +353,7 @@ jobs:
               exit 1
             fi
             SOURCE_SHA="$(git rev-parse --verify "${TAG_REF}^{commit}")"
+            SOURCE_IS_TAG=true
             git checkout --detach "${SOURCE_SHA}"
           else
             SOURCE_SHA="$(git rev-parse HEAD)"
@@ -368,14 +370,14 @@ jobs:
               *-*) echo "::error::Unsupported prerelease channel: ${VERSION}"; exit 1 ;;
             esac
           fi
-          printf 'version=%s\nsource_sha=%s\nedition=%s\nrelease_type=%s\n' \
-            "${VERSION}" "${SOURCE_SHA}" "${EDITION}" "${RELEASE_TYPE}" >> "${GITHUB_OUTPUT}"
+          printf 'version=%s\nsource_sha=%s\nedition=%s\nrelease_type=%s\nsource_is_tag=%s\n' \
+            "${VERSION}" "${SOURCE_SHA}" "${EDITION}" "${RELEASE_TYPE}" "${SOURCE_IS_TAG}" >> "${GITHUB_OUTPUT}"
           echo "  Version  : ${VERSION}"
           echo "──────────────────────────────────────────────"
 
       - name: Validate selected Docker release source
         id: docker-source-preflight
-        if: ${{ (inputs.push_to_registry == true || inputs.push_to_registry == 'true' || inputs.dry_run == true || inputs.dry_run == 'true' || inputs.build_from_workflow_source == true || inputs.build_from_workflow_source == 'true') && steps.version.outputs.release_type == 'stable' && (github.ref_type == 'tag' || inputs.tag_name != '' || github.event_name == 'release') }}
+        if: ${{ github.ref_type == 'tag' || inputs.tag_name != '' || github.event_name == 'release' }}
         shell: bash
         env:
           WORKFLOW_SHA: ${{ github.sha }}
@@ -393,12 +395,12 @@ jobs:
             TESTS=(DockerRuntimePackageRegressionTests.test_vcpkg_bootstrap_supports_native_arm64)
           fi
           if ! python3 "$VALIDATOR" "${TESTS[@]}" -v; then
-            echo "::error::Docker release source ${RELEASE_VERSION} (${SOURCE_SHA}) does not satisfy the mandatory ARM64 bootstrap or enabled dependency-provider and runtime-package requirements. Publish a new release tag containing the Docker fixes, then select that tag with tag_name. Do not move an existing release tag or replace tagged source with workflow HEAD."
+            echo "::error::Docker release source ${RELEASE_VERSION} (${SOURCE_SHA}) does not satisfy the mandatory ARM64 bootstrap or enabled dependency-provider and runtime-package requirements. Publish a new release tag containing the Docker fixes, then select that tag with tag_name. To validate current workflow source without publishing, set build_from_workflow_source=true. Do not move an existing release tag or replace tagged source with workflow HEAD."
             exit 1
           fi
 
       - name: Report Docker source preflight override
-        if: ${{ (inputs.push_to_registry == true || inputs.push_to_registry == 'true' || inputs.dry_run == true || inputs.dry_run == 'true' || inputs.build_from_workflow_source == true || inputs.build_from_workflow_source == 'true') && inputs.override_docker_source_preflight && steps.version.outputs.release_type == 'stable' && (github.ref_type == 'tag' || inputs.tag_name != '' || github.event_name == 'release') }}
+        if: ${{ inputs.override_docker_source_preflight && (github.ref_type == 'tag' || inputs.tag_name != '' || github.event_name == 'release') }}
         shell: bash
         env:
           RELEASE_VERSION: ${{ steps.version.outputs.version }}
