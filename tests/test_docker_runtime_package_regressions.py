@@ -94,6 +94,46 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
     def _dockerfile_text() -> str:
         return DOCKERFILE.read_text(encoding="utf-8")
 
+    def test_build_configure_preset_exists(self) -> None:
+        build = extract_stage(self._dockerfile_text(), "build", base_image="deps")
+        invocations = re.findall(r"\bcmake --preset ([\w-]+)", build)
+        self.assertTrue(invocations, "Docker build must use a configure preset")
+        presets = json.loads(
+            (REPO_ROOT / "CMakePresets.json").read_text(encoding="utf-8")
+        )["configurePresets"]
+        available = {preset["name"] for preset in presets if not preset.get("hidden", False)}
+        for name in invocations:
+            with self.subTest(preset=name):
+                self.assertIn(
+                    name, available,
+                    f"Docker configure preset {name!r} does not exist in the selected source. "
+                    "Build a source revision containing the canonical Linux preset migration.",
+                )
+
+    def test_build_directory_matches_preset_and_image_copies(self) -> None:
+        text = self._dockerfile_text()
+        build = extract_stage(text, "build", base_image="deps")
+        invocation = re.search(r"\bcmake --preset ([\w-]+)", build)
+        self.assertIsNotNone(invocation)
+        presets = json.loads(
+            (REPO_ROOT / "CMakePresets.json").read_text(encoding="utf-8")
+        )["configurePresets"]
+        preset = next(
+            (preset for preset in presets if preset["name"] == invocation.group(1)), None
+        )
+        self.assertIsNotNone(preset, "Docker configure preset is missing from selected source")
+        directory = re.search(r"^ARG THEMIS_BUILD_DIR=(\S+)$", build, re.MULTILINE)
+        self.assertIsNotNone(directory)
+        self.assertEqual(preset["binaryDir"], "${sourceDir}/" + directory.group(1))
+        self.assertIn('cmake --build "${THEMIS_BUILD_DIR}"', build)
+        self.assertIn('cmake --install "${THEMIS_BUILD_DIR}"', build)
+        for stage_name in ("runtime", "debug"):
+            with self.subTest(stage=stage_name):
+                self.assertIn(
+                    f"COPY --from=build /src/{directory.group(1)}/bin/themis_server ",
+                    extract_stage(text, stage_name),
+                )
+
     def test_vcpkg_bootstrap_supports_native_arm64(self) -> None:
         base = extract_stage(self._dockerfile_text(), "base")
         self.assertIn(

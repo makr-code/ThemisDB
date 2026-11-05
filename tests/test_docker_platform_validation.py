@@ -210,6 +210,12 @@ class DockerPlatformValidationTests(unittest.TestCase):
     def test_relocated_validator_still_rejects_invalid_source(self) -> None:
         self._run_relocated_validator(invalid_runtime=True)
 
+    def test_relocated_validator_rejects_missing_docker_configure_preset(self) -> None:
+        self._run_relocated_validator(False, invalid_preset=True)
+
+    def test_workflow_rejects_missing_docker_configure_preset(self) -> None:
+        self._run_relocated_validator(False, invalid_preset=True, execute_workflow=True)
+
     def test_bootstrap_gate_accepts_native_bootstrap_in_older_checkout(self) -> None:
         self._run_relocated_validator(False, execute_workflow=True, bootstrap_gate=True)
 
@@ -310,6 +316,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
         self, invalid_runtime: bool, execute_workflow: bool = False,
         release_preflight: bool = False,
         bootstrap_gate: bool = False, invalid_bootstrap: bool = False,
+        invalid_preset: bool = False,
     ) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -317,6 +324,15 @@ class DockerPlatformValidationTests(unittest.TestCase):
             (source / "docker").mkdir(parents=True)
             for name in ("Dockerfile.unified", "vcpkg-community.json"):
                 shutil.copyfile(REPO_ROOT / "docker" / name, source / "docker" / name)
+            shutil.copyfile(REPO_ROOT / "CMakePresets.json", source / "CMakePresets.json")
+            if invalid_preset:
+                dockerfile = source / "docker" / "Dockerfile.unified"
+                dockerfile.write_text(
+                    dockerfile.read_text(encoding="utf-8").replace(
+                        "cmake --preset linux-release", "cmake --preset docker-release",
+                    ),
+                    encoding="utf-8",
+                )
             manifest = source / "scripts/release/runtime-dependencies-ubuntu-24.04.txt"
             manifest.parent.mkdir(parents=True)
             shutil.copyfile(REPO_ROOT / manifest.relative_to(source), manifest)
@@ -354,7 +370,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
                 git(source, "init")
                 git(source, "config", "user.name", "Regression Test")
                 git(source, "config", "user.email", "test@example.invalid")
-                git(source, "add", "docker", "scripts")
+                git(source, "add", "docker", "scripts", "CMakePresets.json")
                 git(source, "commit", "-m", "Source without validator")
                 source_sha = git(source, "rev-parse", "HEAD")
                 (source / "tests").mkdir()
@@ -418,7 +434,10 @@ class DockerPlatformValidationTests(unittest.TestCase):
                         git(checkout, "rev-parse", "v2.4.0-alpha^{commit}"), source_sha
                     )
                     self.assertFalse(list(root.glob("docker-release-source-*.py")))
-            if invalid_bootstrap:
+            if invalid_preset:
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("Docker configure preset 'docker-release' does not exist", result.stderr)
+            elif invalid_bootstrap:
                 self.assertNotEqual(result.returncode, 0)
                 self.assertIn("builds vcpkg natively on ARM64", result.stderr)
                 self.assertIn("Publish a new release tag", result.stderr)
