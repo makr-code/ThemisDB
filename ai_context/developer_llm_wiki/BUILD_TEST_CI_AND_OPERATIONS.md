@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-11-02"
-Last Updated: "2026-11-04"
+Last Updated: "2026-11-05"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -29,10 +29,11 @@ Exact model backend not verifiable from final document text alone.
 
 - Sources: `.github/workflows/reusable-docker-image-platform.yml`, `docker/Dockerfile.unified`, `tests/test_docker_runtime_package_regressions.py`.
 - ARM64 platform builds require the pinned `bootstrap-vcpkg.sh`, which builds vcpkg natively on ARM64; the `vcpkg-glibc` release binary is x86-64-only.
-- Stable release-tag publication validates the selected Docker source before platform dispatch; nightly and developer-track updates do not run this release-source preflight. The reusable platform workflow still performs applicable ARM64 bootstrap checks, image scans, and runtime validation. For stable releases, `override_docker_source_preflight` skips dependency/runtime source checks but not the ARM64 bootstrap check.
-- Set `dry_run=true` to build both platforms, run Trivy vulnerability scans, and execute runtime smoke checks without registry login/publication or release-status tracker updates. Stable release-tag dry-runs also run the source preflight; nightly/developer-track dry-runs do not. Dry-run takes precedence over `push_to_registry`.
+- Every explicitly selected release tag (including alpha, beta, rc, and nightly tags) is checked before platform dispatch, even when registry publication and dry-run are disabled. Untagged developer-track runs retain platform-level validation. `override_docker_source_preflight` skips dependency/runtime source checks but not the release-source ARM64 bootstrap check.
+- Set `dry_run=true` to build both platforms, run Trivy vulnerability scans, and execute runtime smoke checks without registry login/publication or release-status tracker updates. Tagged dry-runs also run the source preflight. Dry-run takes precedence over `push_to_registry`.
 - The reusable platform workflow enforces the same dry-run no-push behavior, runs the ARM64 bootstrap check and Trivy against the locally loaded image, then executes runtime validation. Plain validation runs without `dry_run` keep their existing build/runtime behavior.
-- If a stable release tag fails source preflight, publish a **new release tag** containing the corrected Dockerfile; the workflow does not move tags or substitute newer source for the selected release commit.
+- Run `41900183288`, AMD64 job `126830955426`, selected obsolete `v2.4.0-alpha` source (`3cfe59e6c5e7093cec8391291b5fc405dfdab246`) and failed all eight dependency/runtime source checks before Docker compilation. The stable-only caller condition had allowed the alpha tag to reach platform dispatch; tagged prereleases now receive the same early check.
+- If a release tag fails source preflight, publish a **new release tag** containing the corrected Dockerfile; the workflow does not move tags or substitute newer source for the selected release commit. To validate current workflow source instead, set `build_from_workflow_source=true`; this forces dry-run and disables registry publication.
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci

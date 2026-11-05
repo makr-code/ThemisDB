@@ -58,7 +58,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
         self.assertIn("inputs.build_from_workflow_source != true", jobs["mark-release-pending"]["if"])
         self.assertIn("inputs.build_from_workflow_source != true", jobs["finalize-release-status"]["if"])
         self.assertIn(
-            "inputs.dry_run == true",
+            "inputs.tag_name != ''",
             jobs["prepare-release-context"]["steps"][
                 next(
                     index for index, step in enumerate(jobs["prepare-release-context"]["steps"])
@@ -234,7 +234,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
         preflight = next(step for step in steps if step.get("id") == "docker-source-preflight")
         self.assertEqual(
             preflight["if"],
-            "${{ (inputs.push_to_registry == true || inputs.push_to_registry == 'true' || inputs.dry_run == true || inputs.dry_run == 'true' || inputs.build_from_workflow_source == true || inputs.build_from_workflow_source == 'true') && steps.version.outputs.release_type == 'stable' && (github.ref_type == 'tag' || inputs.tag_name != '' || github.event_name == 'release') }}",
+            "${{ github.ref_type == 'tag' || inputs.tag_name != '' || github.event_name == 'release' }}",
         )
         self.assertEqual(
             preflight["env"]["OVERRIDE_SOURCE_PREFLIGHT"],
@@ -244,7 +244,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
         self.assertEqual(preflight["env"]["THEMIS_SOURCE_ROOT"], "${{ github.workspace }}")
         subprocess.run(["bash", "-n", "-c", preflight["run"]], check=True)
 
-    def test_release_source_preflight_is_limited_to_stable_release_sources(self) -> None:
+    def test_release_source_preflight_covers_tagged_prereleases_without_publication(self) -> None:
         jobs = yaml.safe_load(RELEASE_WORKFLOW.read_text(encoding="utf-8"))["jobs"]
         steps = jobs["prepare-release-context"]["steps"]
         preflight = next(step for step in steps if step.get("id") == "docker-source-preflight")
@@ -255,10 +255,34 @@ class DockerPlatformValidationTests(unittest.TestCase):
 
         for step in (preflight, warning):
             with self.subTest(step=step.get("id", step.get("name"))):
-                self.assertIn("steps.version.outputs.release_type == 'stable'", step["if"])
+                self.assertNotIn("release_type", step["if"])
+                self.assertNotIn("push_to_registry", step["if"])
+                self.assertNotIn("dry_run", step["if"])
                 self.assertIn("github.ref_type == 'tag'", step["if"])
                 self.assertIn("inputs.tag_name != ''", step["if"])
                 self.assertIn("github.event_name == 'release'", step["if"])
+
+        condition = preflight["if"].removeprefix("${{ ").removesuffix(" }}")
+        condition = condition.replace("github.ref_type", '"$REF_TYPE"')
+        condition = condition.replace("inputs.tag_name", '"$TAG_NAME"')
+        condition = condition.replace("github.event_name", '"$EVENT_NAME"')
+        for channel in ("stable", "alpha", "beta", "rc", "nightly"):
+            tag = "v2.4.0" if channel == "stable" else f"v2.4.0-{channel}"
+            for ref_type, tag_name, event, expected in (
+                ("branch", tag, "workflow_dispatch", True),
+                ("tag", "", "workflow_dispatch", True),
+                ("branch", "", "release", True),
+                ("branch", "", "workflow_dispatch", False),
+                ("branch", "", "workflow_call", False),
+            ):
+                with self.subTest(channel=channel, ref_type=ref_type, tag=tag_name, event=event):
+                    result = subprocess.run(
+                        ["bash", "-c", f"[[ {condition} ]]"],
+                        env={**os.environ, "REF_TYPE": ref_type, "TAG_NAME": tag_name,
+                             "EVENT_NAME": event},
+                        capture_output=True, text=True,
+                    )
+                    self.assertEqual(result.returncode, 0 if expected else 1, result.stderr)
 
     def test_release_preflight_accepts_valid_tagged_source_without_validator(self) -> None:
         self._run_relocated_validator(False, execute_workflow=True, release_preflight=True)
@@ -402,6 +426,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
                 if release_preflight:
                     self.assertIn("Publish a new release tag", result.stdout)
                     self.assertIn(source_sha, result.stdout)
+                    self.assertIn("build_from_workflow_source=true", result.stdout)
             elif invalid_runtime and not (release_preflight and bootstrap_gate):
                 self.assertNotEqual(result.returncode, 0)
                 self.assertIn("librocksdb7", result.stderr)
