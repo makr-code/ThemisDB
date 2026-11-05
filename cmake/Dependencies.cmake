@@ -1664,7 +1664,26 @@ if(THEMIS_ENABLE_LLM)
     if(APPLE AND TARGET ggml-base)
         target_compile_options(ggml-base PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:-include;cerrno>")
     endif()
-    
+
+    # The pinned ggml-metal.cpp uses std::unique_ptr without including <memory>.
+    # Do not rely on transitive libc++ includes or affect C/Objective-C sources.
+    if(APPLE AND TARGET ggml-metal)
+        target_compile_options(ggml-metal PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:-include;memory>")
+    endif()
+
+    # Homebrew Clang diagnoses fixed-underlying-type enum declarations in the
+    # Xcode 15.4 Accelerate SDK headers included by ggml-cpu C++ sources.
+    # Probe the positive diagnostic form so unknown warning groups cannot pass
+    # silently, then demote only this diagnostic; retain all other -Werror checks.
+    if(APPLE AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND TARGET ggml-cpu)
+        include(CheckCXXCompilerFlag)
+        check_cxx_compiler_flag("-Werror=elaborated-enum-base" _THEMIS_HAVE_ELABORATED_ENUM_BASE)
+        if(_THEMIS_HAVE_ELABORATED_ENUM_BASE)
+            target_compile_options(ggml-cpu PRIVATE
+                "$<$<COMPILE_LANGUAGE:CXX>:-Wno-error=elaborated-enum-base>")
+        endif()
+    endif()
+
     # =========================================================================
     # APPLY MSVC CHAR8_T FIXES TO LLAMA TARGETS
     # =========================================================================

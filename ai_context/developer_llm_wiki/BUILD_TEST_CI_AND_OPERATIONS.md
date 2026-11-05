@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-11-02"
-Last Updated: "2026-11-04"
+Last Updated: "2026-11-05"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -22,6 +22,15 @@ Status: Active
 - The coordinator reports internal errors with `GlobalTxnResult::FAILURE` and checks `WALManager::flushDurable()` through its WAL helper. The void `flush()` API is not a durability success indicator.
 - Verify focused tests before accepting a new native ARM64 Release build and its packages. Re-running an older failed Actions run retains its original source commit; use a new Mainline dispatch on corrected `develop`.
 - Wiki health metadata was generated on 2026-11-02 and contains incomplete workflow summaries marked “binary or unreadable”; current source and Actions logs take precedence. No ARM64 build or packaging success is inferred from this documentation.
+
+## macOS pinned llama.cpp portability (2026-11-05)
+
+- Evidence: the [failed macOS CI job](https://github.com/makr-code/ThemisDB/actions/runs/42075920970/job/127417305713) and CMake-Agent handoff identify missing `<memory>` for `std::unique_ptr` in pinned `ggml-metal.cpp`, plus Homebrew Clang's fixed-enum diagnostic in Xcode 15.4 SDK Accelerate headers included by `ggml-cpu`.
+- Canonical implementation: [cmake/Dependencies.cmake](../../cmake/Dependencies.cmake) adds Apple-only, PRIVATE, C++-only `-include memory` to `ggml-metal`. For `ggml-cpu`, Apple plus upstream compiler ID `Clang` (not `AppleClang`) gates a capability probe using `-Werror=elaborated-enum-base`; only when supported is PRIVATE, C++-only `-Wno-error=elaborated-enum-base` applied.
+- Keep other warnings-as-errors intact: no global warning weakening, no Metal/Accelerate disable, and no compiler downgrade. Retain the current Homebrew compiler headers/runtime needed for `std::jthread`.
+- Regression sources: [fixture CMakeLists.txt](../../tests/cmake/ggml_portability/CMakeLists.txt) and [RunCase.cmake](../../tests/cmake/ggml_portability/RunCase.cmake) check target/language/platform/compiler guards, private options, missing targets, unsupported diagnostics, and negative controls retaining unrelated `-Werror` failures. They use synthetic sources, not a native Apple SDK build.
+- CMake-Agent reported Linux results: fixture **11/11**, [deployment workflow regressions](../../tests/test_deployment_workflow_regressions.py) **30/30**, and existing [Ninja discovery tests](../../tests/test_cmake_ninja_discovery.py) **2/2** passed. These results were not rerun for this documentation-only update.
+- Limitation: no native macOS build has validated the fix; a fresh macOS CI build is still required. Linux fixture success does not establish Metal/Accelerate compilation, linking, runtime, or packaging success.
 
 ## Docker ARM64 bootstrap preflight
 
