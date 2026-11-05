@@ -15,6 +15,13 @@ Human_Author: "ThemisDB Team"
 Datum: 2026-11-02
 Status: Active
 
+## macOS LLVM backend build requirements
+
+- Sources: `cmake/Dependencies.cmake`, `tests/test_deployment_workflow_regressions.py`; Actions run `41960105333`, job `127024660181`.
+- The existing Apple `ggml-base` C++ `<cerrno>` force-include resolves the earlier GGUF compilation failure. The newer run exposes a missing `<memory>` include in `ggml-metal.cpp` and `elaborated-enum-base` errors from the Xcode 15.4 SDK headers used by Accelerate.
+- Apple `ggml-metal` C++ compilation privately force-includes `<memory>`. For Apple builds using upstream/Homebrew Clang, a compiler-checked `-Wno-error=elaborated-enum-base` on `ggml-cpu` and `ggml-blas` C++ compilation retains the SDK warning without treating it as fatal. C/Objective-C sources and downstream consumers are unchanged; Metal and Accelerate remain enabled.
+- Focused host CMake/compiler regressions exercise missing-header failure, successful compilation, platform/compiler guards, missing targets, and private C++ flag scope. They do not replace a native macOS ARM64 build; native SDK and packaging validation remain pending.
+- Wiki health metadata dates from 2026-11-02 and workflow summaries are incomplete. Current source and concrete Actions logs take precedence.
 ## Windows release compiler-memory mitigation
 
 - Sources: `.github/workflows/release-build-matrix.yml`, `cmake/ModularBuild.cmake`, and [Actions run 41861219716, job 126684560606](https://github.com/makr-code/ThemisDB/actions/runs/41861219716/job/126684560606). The task-provided log evidence reports concurrent `policy_api_handler.cpp` and `monitoring_api_handler.cpp` failing with MSVC C1060 heap exhaustion using the x64 compiler; monitoring already has the low-memory `/Od` setting.
