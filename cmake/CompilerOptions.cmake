@@ -302,8 +302,11 @@ if(MSVC)
         WindowsSDKLibVersion
     )
     
-    # Release-specific options for SIMD optimization
-    if(CMAKE_BUILD_TYPE STREQUAL "Release" AND THEMIS_ENABLE_AVX2)
+    # CompilerOptions runs before PlatformDetection: use its target-processor
+    # aliases here, not the host architecture (cross-builds may target ARM).
+    # Release-specific options for x86 SIMD optimization
+    if(CMAKE_BUILD_TYPE STREQUAL "Release" AND THEMIS_ENABLE_AVX2
+       AND CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64|x64)$")
         add_compile_options(/arch:AVX2)
         add_compile_definitions(THEMIS_HAS_AVX2=1)
     endif()
@@ -364,11 +367,14 @@ else()
         add_compile_options(-funroll-loops)
     endif()
 
-    # Release-specific options for SIMD optimization
-    if(CMAKE_BUILD_TYPE STREQUAL "Release" AND THEMIS_ENABLE_AVX2)
+    # Use the target processor because PlatformDetection runs after this file.
+    # Release-specific options for x86 SIMD optimization
+    if(CMAKE_BUILD_TYPE STREQUAL "Release" AND THEMIS_ENABLE_AVX2
+       AND CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64|x64)$")
         add_compile_options(-mavx2 -mfma)
         add_compile_definitions(THEMIS_HAS_AVX2=1)
-    elseif(THEMIS_QNAP_BUILD)
+    elseif(THEMIS_QNAP_BUILD
+           AND CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64|x64)$")
         # QNAP: baseline x86-64 without AVX
         add_compile_options(-march=x86-64)
         add_compile_definitions(THEMIS_BASELINE_X64=1)

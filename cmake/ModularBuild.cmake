@@ -2723,7 +2723,8 @@ function(themis_build_modular)
             UNITY_BUILD OFF
         )
         # Files that must NOT enter a unity batch:
-        # - monitoring_api_handler / index_api_handler: /O2 on windows-latest
+        # - monitoring_api_handler / index_api_handler / prompt_api_handler:
+        #   /O2 on windows-latest
         #   can trigger cl.exe C1060 (out of heap space). The default low-memory
         #   option applies /Od outside Debug; benchmark hosts can opt out.
         #   Keep /bigobj and the global /Zm200 setting in both cases.
@@ -2734,6 +2735,7 @@ function(themis_build_modular)
         set_source_files_properties(
             ${CMAKE_SOURCE_DIR}/src/server/monitoring_api_handler.cpp
             ${CMAKE_SOURCE_DIR}/src/server/index_api_handler.cpp
+            ${CMAKE_SOURCE_DIR}/src/server/prompt_api_handler.cpp
             PROPERTIES
                 SKIP_UNITY_BUILD_INCLUSION ON
                 COMPILE_OPTIONS "/bigobj;$<$<AND:$<BOOL:${THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY}>,$<NOT:$<CONFIG:Debug>>>:/Od>"

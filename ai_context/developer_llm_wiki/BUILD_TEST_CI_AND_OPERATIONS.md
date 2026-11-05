@@ -51,6 +51,13 @@ Exact model backend not verifiable from final document text alone.
 - Run `41984551595`, ARM64 job `127107984594`, selected the same obsolete tag implicitly (`push_to_registry=true`, empty `tag_name`) and failed the native-bootstrap check. Checking only explicit tag inputs missed this path; the resolved-source flag closes it without changing the selected commit or bypassing ARM64 validation.
 - If a release tag fails source preflight, publish a **new release tag** containing the corrected Dockerfile; the workflow does not move tags or substitute newer source for the selected release commit. To validate current workflow source instead, set `build_from_workflow_source=true`; this forces dry-run and disables registry publication.
 
+## Windows compiler memory and ARM SIMD guard
+
+- Sources: `.github/workflows/release-build-matrix.yml`, `cmake/CompilerOptions.cmake`, `cmake/ModularBuild.cmake`, `cmake/README.md`, `tests/test_mainline_compiler_regressions.py`.
+- The Windows release matrix uses dependency/configure concurrency 1 and build `--parallel 1`: `C1060` occurred even with monitoring's `/Od` workaround. Monitoring, index and prompt handlers share `THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY` (default `ON`, `/Od` outside Debug); opting out retains `/bigobj` and unity exclusion.
+- `CompilerOptions.cmake` runs before platform detection. AVX2/FMA flags and `THEMIS_HAS_AVX2` require an x64 target processor, Release and AVX2 enabled; QNAP's x86 baseline is likewise target-guarded. An x64 host must not inject x86 flags into ARM64 targets.
+- Focused Python tests configure CMake policies without native compiler execution. They do not prove native Windows/ARM64 compilation or package success. Dispatch a new Mainline run containing the corrected source on `develop`; retrying the original failed run retains its original SHA.
+
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
 - Hash: `aca5342a1a4719e8`
