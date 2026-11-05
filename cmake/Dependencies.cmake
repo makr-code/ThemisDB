@@ -1664,6 +1664,28 @@ if(THEMIS_ENABLE_LLM)
     if(APPLE AND TARGET ggml-base)
         target_compile_options(ggml-base PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:-include;cerrno>")
     endif()
+
+    # ggml-metal.cpp uses std::unique_ptr without including <memory>.
+    if(APPLE AND TARGET ggml-metal)
+        target_compile_options(ggml-metal PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:-include;memory>")
+    endif()
+
+    # Homebrew Clang rejects Xcode 15.4 SDK enum forward-declaration macros
+    # included by the CPU/BLAS Accelerate backends. Downgrade only this
+    # diagnostic, retaining the warning and leaving C/ObjC and consumers alone.
+    if(APPLE AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        include(CheckCXXCompilerFlag)
+        check_cxx_compiler_flag("-Wno-error=elaborated-enum-base"
+            THEMIS_LLAMA_HAS_ELABORATED_ENUM_BASE)
+        if(THEMIS_LLAMA_HAS_ELABORATED_ENUM_BASE)
+            foreach(_ggml_sdk_target IN ITEMS ggml-cpu ggml-blas)
+                if(TARGET ${_ggml_sdk_target})
+                    target_compile_options(${_ggml_sdk_target} PRIVATE
+                        "$<$<COMPILE_LANGUAGE:CXX>:-Wno-error=elaborated-enum-base>")
+                endif()
+            endforeach()
+        endif()
+    endif()
     
     # =========================================================================
     # APPLY MSVC CHAR8_T FIXES TO LLAMA TARGETS
