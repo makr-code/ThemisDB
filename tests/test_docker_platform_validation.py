@@ -234,7 +234,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
         preflight = next(step for step in steps if step.get("id") == "docker-source-preflight")
         self.assertEqual(
             preflight["if"],
-            "${{ github.ref_type == 'tag' || inputs.tag_name != '' || github.event_name == 'release' }}",
+            "${{ steps.version.outputs.source_is_tag == 'true' || github.ref_type == 'tag' || inputs.tag_name != '' || github.event_name == 'release' }}",
         )
         self.assertEqual(
             preflight["env"]["OVERRIDE_SOURCE_PREFLIGHT"],
@@ -261,25 +261,30 @@ class DockerPlatformValidationTests(unittest.TestCase):
                 self.assertIn("github.ref_type == 'tag'", step["if"])
                 self.assertIn("inputs.tag_name != ''", step["if"])
                 self.assertIn("github.event_name == 'release'", step["if"])
+                self.assertIn("steps.version.outputs.source_is_tag == 'true'", step["if"])
 
         condition = preflight["if"].removeprefix("${{ ").removesuffix(" }}")
+        condition = condition.replace("steps.version.outputs.source_is_tag", '"$SOURCE_IS_TAG"')
         condition = condition.replace("github.ref_type", '"$REF_TYPE"')
         condition = condition.replace("inputs.tag_name", '"$TAG_NAME"')
         condition = condition.replace("github.event_name", '"$EVENT_NAME"')
         for channel in ("stable", "alpha", "beta", "rc", "nightly"):
             tag = "v2.4.0" if channel == "stable" else f"v2.4.0-{channel}"
-            for ref_type, tag_name, event, expected in (
-                ("branch", tag, "workflow_dispatch", True),
-                ("tag", "", "workflow_dispatch", True),
-                ("branch", "", "release", True),
-                ("branch", "", "workflow_dispatch", False),
-                ("branch", "", "workflow_call", False),
+            for ref_type, tag_name, event, source_is_tag, expected in (
+                ("branch", tag, "workflow_dispatch", "false", True),
+                ("tag", "", "workflow_dispatch", "true", True),
+                ("branch", "", "release", "true", True),
+                ("branch", "", "workflow_dispatch", "true", True),
+                ("branch", "", "workflow_call", "true", True),
+                ("branch", "", "workflow_dispatch", "false", False),
+                ("branch", "", "workflow_call", "false", False),
             ):
-                with self.subTest(channel=channel, ref_type=ref_type, tag=tag_name, event=event):
+                with self.subTest(channel=channel, ref_type=ref_type, tag=tag_name,
+                                  event=event, source_is_tag=source_is_tag):
                     result = subprocess.run(
                         ["bash", "-c", f"[[ {condition} ]]"],
                         env={**os.environ, "REF_TYPE": ref_type, "TAG_NAME": tag_name,
-                             "EVENT_NAME": event},
+                             "EVENT_NAME": event, "SOURCE_IS_TAG": source_is_tag},
                         capture_output=True, text=True,
                     )
                     self.assertEqual(result.returncode, 0 if expected else 1, result.stderr)
