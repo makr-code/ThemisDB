@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-11-02"
-Last Updated: "2026-11-04"
+Last Updated: "2026-11-05"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,6 +14,14 @@ Human_Author: "ThemisDB Team"
 
 Datum: 2026-11-02
 Status: Active
+
+## Windows release compiler-memory mitigation
+
+- Sources: `.github/workflows/release-build-matrix.yml`, `cmake/ModularBuild.cmake`, and [Actions run 41861219716, job 126684560606](https://github.com/makr-code/ThemisDB/actions/runs/41861219716/job/126684560606). The task-provided log evidence reports concurrent `policy_api_handler.cpp` and `monitoring_api_handler.cpp` failing with MSVC C1060 heap exhaustion using the x64 compiler; monitoring already has the low-memory `/Od` setting.
+- The companion workflow correction changes only the `windows-amd64` `build_command`: `CMAKE_BUILD_PARALLEL_LEVEL=1` and explicit `--parallel 1` (both previously `2`). Configure-time vcpkg concurrency stays at `2`; other platforms and production optimization settings remain unchanged. Sequential compilation avoids overlapping heavy translation units without establishing a successful Windows build.
+- `tests/test_windows_release_build_memory.py` executes matrix preparation and the generated build shell with stub `cmake` to verify concurrency and pipeline failure propagation through the logging pipe. Stub execution is not MSVC build evidence.
+- The Linux sandbox cannot run MSVC. A **new Actions run on corrected source** is required; retries retain the original source SHA. No Windows build success is claimed.
+- `WIKI_STATUS.json` was generated on 2026-11-02 with 8066 sources; workflow summaries marked “binary or unreadable” are incomplete. Current source and Actions logs take precedence over generated wiki metadata.
 
 ## Global transaction durability regression coverage
 
