@@ -729,7 +729,7 @@ class GgmlErrnoWorkaroundTests(unittest.TestCase):
 )
 class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
     def configure(self, directory, apple=True, targets=True, compiler_id="Clang",
-                  supported=True, explicit_memory=False):
+                  supported=True, explicit_memory=False, sdk_enum=False):
         dependencies = (ROOT / "cmake/Dependencies.cmake").read_text()
         block = dependencies.split(
             "    # ggml-metal.cpp uses std::unique_ptr without including <memory>.\n", 1
@@ -738,8 +738,12 @@ class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
         (directory / "metal.cpp").write_text(
             header + "int metal() { std::unique_ptr<int> p(new int(7)); return *p; }\n"
         )
-        (directory / "cpu.cpp").write_text("int cpu() { return 0; }\n")
-        (directory / "blas.cpp").write_text("int blas() { return 0; }\n")
+        sdk_header = (
+            "enum class SDKEnum : unsigned;\n"
+            "typedef enum SDKEnum : unsigned SDKEnum;\n"
+        ) if sdk_enum else ""
+        (directory / "cpu.cpp").write_text(sdk_header + "int cpu() { return 0; }\n")
+        (directory / "blas.cpp").write_text(sdk_header + "int blas() { return 0; }\n")
         (directory / "helper.c").write_text("int helper(void) { return 0; }\n")
         (directory / "consumer.cpp").write_text("int consumer() { return 0; }\n")
         target_definitions = (
@@ -809,6 +813,23 @@ class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
             result = self.build(directory)
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("unique_ptr", result.stdout + result.stderr)
+
+    def test_sdk_enum_error_becomes_warning_only_with_workaround(self):
+        for supported in (False, True):
+            with self.subTest(workaround=supported):
+                with tempfile.TemporaryDirectory() as temp:
+                    directory = Path(temp)
+                    self.configure(directory, supported=supported, sdk_enum=True)
+                    result = self.build(directory)
+                    output = result.stdout + result.stderr
+                    if supported:
+                        self.assertEqual(result.returncode, 0, output)
+                        self.assertIn("warning: non-defining declaration of enumeration", output)
+                        self.assertNotIn("error:", output)
+                    else:
+                        self.assertNotEqual(result.returncode, 0, output)
+                        self.assertIn("error: non-defining declaration of enumeration", output)
+                    self.assertIn("-Welaborated-enum-base", output)
 
     def test_missing_backend_targets_configure_safely(self):
         with tempfile.TemporaryDirectory() as temp:
