@@ -342,6 +342,7 @@ jobs:
             v*) EDITION=COMMUNITY ;;
             *) echo "::error::Private-edition images require a provisioned private delivery pipeline."; exit 1 ;;
           esac
+          SOURCE_IS_TAG=false
           if [[ "${USE_WORKFLOW_SOURCE}" == "true" ]]; then
             SOURCE_SHA="$(git rev-parse --verify HEAD)"
             echo "::notice::Building workflow source ${SOURCE_SHA} for dry-run only; no release tag will be changed or published."
@@ -352,6 +353,7 @@ jobs:
               exit 1
             fi
             SOURCE_SHA="$(git rev-parse --verify "${TAG_REF}^{commit}")"
+            SOURCE_IS_TAG=true
             git checkout --detach "${SOURCE_SHA}"
           else
             SOURCE_SHA="$(git rev-parse HEAD)"
@@ -368,8 +370,8 @@ jobs:
               *-*) echo "::error::Unsupported prerelease channel: ${VERSION}"; exit 1 ;;
             esac
           fi
-          printf 'version=%s\nsource_sha=%s\nedition=%s\nrelease_type=%s\n' \
-            "${VERSION}" "${SOURCE_SHA}" "${EDITION}" "${RELEASE_TYPE}" >> "${GITHUB_OUTPUT}"
+          printf 'version=%s\nsource_sha=%s\nedition=%s\nrelease_type=%s\nsource_is_tag=%s\n' \
+            "${VERSION}" "${SOURCE_SHA}" "${EDITION}" "${RELEASE_TYPE}" "${SOURCE_IS_TAG}" >> "${GITHUB_OUTPUT}"
           echo "  Version  : ${VERSION}"
           echo "──────────────────────────────────────────────"
 
