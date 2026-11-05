@@ -57,15 +57,6 @@ class DockerPlatformValidationTests(unittest.TestCase):
         self.assertIn("inputs.dry_run != true", jobs["finalize-release-status"]["if"])
         self.assertIn("inputs.build_from_workflow_source != true", jobs["mark-release-pending"]["if"])
         self.assertIn("inputs.build_from_workflow_source != true", jobs["finalize-release-status"]["if"])
-        self.assertIn(
-            "inputs.dry_run == true",
-            jobs["prepare-release-context"]["steps"][
-                next(
-                    index for index, step in enumerate(jobs["prepare-release-context"]["steps"])
-                    if step.get("id") == "docker-source-preflight"
-                )
-            ]["if"],
-        )
 
     def test_reusable_dry_run_builds_and_scans_without_registry_publication(self) -> None:
         workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
@@ -234,7 +225,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
         preflight = next(step for step in steps if step.get("id") == "docker-source-preflight")
         self.assertEqual(
             preflight["if"],
-            "${{ (inputs.push_to_registry == true || inputs.push_to_registry == 'true' || inputs.dry_run == true || inputs.dry_run == 'true' || inputs.build_from_workflow_source == true || inputs.build_from_workflow_source == 'true') && steps.version.outputs.release_type == 'stable' && (github.ref_type == 'tag' || inputs.tag_name != '' || github.event_name == 'release') }}",
+            "${{ steps.version.outputs.source_is_tag == 'true' }}",
         )
         self.assertEqual(
             preflight["env"]["OVERRIDE_SOURCE_PREFLIGHT"],
@@ -244,7 +235,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
         self.assertEqual(preflight["env"]["THEMIS_SOURCE_ROOT"], "${{ github.workspace }}")
         subprocess.run(["bash", "-n", "-c", preflight["run"]], check=True)
 
-    def test_release_source_preflight_is_limited_to_stable_release_sources(self) -> None:
+    def test_release_source_preflight_and_override_follow_selected_tag(self) -> None:
         jobs = yaml.safe_load(RELEASE_WORKFLOW.read_text(encoding="utf-8"))["jobs"]
         steps = jobs["prepare-release-context"]["steps"]
         preflight = next(step for step in steps if step.get("id") == "docker-source-preflight")
@@ -253,12 +244,68 @@ class DockerPlatformValidationTests(unittest.TestCase):
             if step.get("name") == "Report Docker source preflight override"
         )
 
-        for step in (preflight, warning):
-            with self.subTest(step=step.get("id", step.get("name"))):
-                self.assertIn("steps.version.outputs.release_type == 'stable'", step["if"])
-                self.assertIn("github.ref_type == 'tag'", step["if"])
-                self.assertIn("inputs.tag_name != ''", step["if"])
-                self.assertIn("github.event_name == 'release'", step["if"])
+        self.assertEqual(preflight["if"], "${{ steps.version.outputs.source_is_tag == 'true' }}")
+        self.assertEqual(
+            warning["if"],
+            "${{ steps.version.outputs.source_is_tag == 'true' && inputs.override_docker_source_preflight }}",
+        )
+
+    def test_source_selection_marks_explicit_and_inferred_tags_for_preflight(self) -> None:
+        jobs = yaml.safe_load(RELEASE_WORKFLOW.read_text(encoding="utf-8"))["jobs"]
+        version = next(
+            step for step in jobs["prepare-release-context"]["steps"]
+            if step.get("id") == "version"
+        )
+        script = version["run"][version["run"].index("SOURCE_IS_TAG=false"):]
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            subprocess.run(["git", "init", str(root)], check=True, capture_output=True)
+            subprocess.run(
+                ["git", "-c", "user.name=Regression Test",
+                 "-c", "user.email=test@example.invalid", "commit", "--allow-empty", "-m", "Source"],
+                cwd=root, check=True, capture_output=True,
+            )
+            source_sha = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], cwd=root, text=True,
+            ).strip()
+            for channel in ("stable", "alpha", "beta", "rc", "nightly"):
+                tag = "v2.4.0" + (f"-{channel}" if channel != "stable" else "")
+                subprocess.run(["git", "tag", tag], cwd=root, check=True)
+                for selection in ("explicit", "inferred-push", "tag-ref", "release",
+                                  "workflow-source", "branch"):
+                    with self.subTest(channel=channel, selection=selection):
+                        output = root / "outputs"
+                        output.write_text("", encoding="utf-8")
+                        result = subprocess.run(
+                            ["bash", "-euo", "pipefail", "-c", script],
+                            cwd=root, check=True, capture_output=True, text=True,
+                            env={
+                                **os.environ,
+                                "USE_WORKFLOW_SOURCE": "true" if selection == "workflow-source" else "false",
+                                "TAG_INPUT": tag if selection in ("explicit", "workflow-source") else "",
+                                "GIT_REF": f"refs/tags/{tag}" if selection == "tag-ref" else "refs/heads/develop",
+                                "EVENT_NAME": "release" if selection == "release" else "workflow_dispatch",
+                                "PUSH_INPUT": "true" if selection in ("inferred-push", "workflow-source") else "false",
+                                "VERSION": tag,
+                                "EDITION": "COMMUNITY",
+                                "CANONICAL_RELEASE_TYPE": "",
+                                "GITHUB_OUTPUT": str(output),
+                            },
+                        )
+                        values = dict(line.split("=", 1) for line in output.read_text().splitlines())
+                        self.assertEqual(
+                            values["source_is_tag"],
+                            "false" if selection in ("workflow-source", "branch") else "true",
+                            result.stdout,
+                        )
+                        self.assertEqual(values["source_sha"], source_sha)
+                        self.assertEqual(values["release_type"], channel)
+                        self.assertEqual(
+                            subprocess.check_output(
+                                ["git", "rev-parse", f"{tag}^{{commit}}"], cwd=root, text=True,
+                            ).strip(),
+                            source_sha,
+                        )
 
     def test_release_preflight_accepts_valid_tagged_source_without_validator(self) -> None:
         self._run_relocated_validator(False, execute_workflow=True, release_preflight=True)
