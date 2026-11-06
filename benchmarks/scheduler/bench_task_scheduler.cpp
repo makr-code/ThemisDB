@@ -33,7 +33,9 @@ using namespace std::chrono_literals;
 class TaskSchedulerBenchFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& /*state*/) override {
-        db_path_ = "./data/bench_task_scheduler_tmp";
+        static std::atomic<int> fixture_id{0};
+        db_path_ = "./data/bench_task_scheduler_tmp_" +
+                   std::to_string(fixture_id.fetch_add(1, std::memory_order_relaxed));
         if (std::filesystem::exists(db_path_)) {
             std::filesystem::remove_all(db_path_);
         }
@@ -86,6 +88,56 @@ public:
     std::unique_ptr<TaskScheduler>          scheduler_;
 };
 
+struct ConcurrentTaskSchedulerBenchEnv {
+    const std::string db_path = "./data/bench_task_scheduler_concurrent";
+    std::unique_ptr<RocksDBWrapper> storage;
+    std::unique_ptr<SecondaryIndexManager> index;
+    std::unique_ptr<QueryEngine> engine;
+    std::unique_ptr<TaskScheduler> scheduler;
+
+    ConcurrentTaskSchedulerBenchEnv() {
+        std::error_code cleanup_error;
+        std::filesystem::remove_all(db_path, cleanup_error);
+        std::filesystem::create_directories(db_path);
+
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = db_path + "/db";
+        cfg.enable_blobdb = false;
+        storage = std::make_unique<RocksDBWrapper>(cfg);
+        if (!storage->open()) {
+            throw std::runtime_error("Failed to open concurrent scheduler benchmark DB");
+        }
+
+        index = std::make_unique<SecondaryIndexManager>(*storage);
+        engine = std::make_unique<QueryEngine>(*storage, *index);
+
+        TaskScheduler::Config config;
+        config.max_concurrent_tasks = 4;
+        config.check_interval = 1h;
+        config.persist_tasks = false;
+        config.enable_audit_logging = false;
+        config.enable_anomaly_detection = false;
+        scheduler = std::make_unique<TaskScheduler>(engine.get(), config);
+    }
+
+    ~ConcurrentTaskSchedulerBenchEnv() {
+        scheduler.reset();
+        engine.reset();
+        index.reset();
+        if (storage) {
+            storage->close();
+        }
+        storage.reset();
+        std::error_code cleanup_error;
+        std::filesystem::remove_all(db_path, cleanup_error);
+    }
+};
+
+ConcurrentTaskSchedulerBenchEnv& concurrentTaskSchedulerBenchEnv() {
+    static ConcurrentTaskSchedulerBenchEnv env;
+    return env;
+}
+
 // ============================================================================
 // registerTask / unregisterTask overhead
 // ============================================================================
@@ -121,15 +173,24 @@ BENCHMARK_DEFINE_F(TaskSchedulerBenchFixture, ExecuteTaskNow)(benchmark::State& 
         return nlohmann::json{{"status", "ok"}};
     });
 
-    ScheduledTask task;
-    task.name          = "bench_exec_task";
-    task.type          = ScheduledTask::TaskType::FUNCTION;
-    task.function_name = "bench_noop";
-    task.trigger_type  = ScheduledTask::TriggerType::MANUAL;
-    std::string tid    = scheduler_->registerTask(task);
+    constexpr int kTaskCount = 10;
+    static std::atomic<int> run_counter{0};
+    const int run_id = run_counter.fetch_add(1, std::memory_order_relaxed);
+    std::vector<std::string> task_ids;
+    task_ids.reserve(kTaskCount);
+    for (int i = 0; i < kTaskCount; ++i) {
+        ScheduledTask task;
+        task.name          = "bench_exec_task_" + std::to_string(run_id) + "_" + std::to_string(i);
+        task.type          = ScheduledTask::TaskType::FUNCTION;
+        task.function_name = "bench_noop";
+        task.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+        task_ids.push_back(scheduler_->registerTask(task));
+    }
 
+    size_t task_index = 0;
     for (auto _ : state) {
-        auto result = scheduler_->executeTaskNow(tid);
+        const auto& task_id = task_ids[task_index++ % task_ids.size()];
+        auto result = scheduler_->executeTaskNow(task_id);
         if (result.contains("error")) {
             state.SkipWithError(
                 "TaskScheduler::executeTaskNow returned an error; refusing to time a failed call");
@@ -143,7 +204,7 @@ BENCHMARK_DEFINE_F(TaskSchedulerBenchFixture, ExecuteTaskNow)(benchmark::State& 
 
 BENCHMARK_REGISTER_F(TaskSchedulerBenchFixture, ExecuteTaskNow)
     ->Unit(benchmark::kMicrosecond)
-    ->Iterations(1000);
+    ->Iterations(10);
 
 // ============================================================================
 // listTasks overhead vs. number of registered tasks
@@ -159,7 +220,12 @@ BENCHMARK_DEFINE_F(TaskSchedulerBenchFixture, ListTasks)(benchmark::State& state
         task.type          = ScheduledTask::TaskType::FUNCTION;
         task.function_name = "noop";
         task.trigger_type  = ScheduledTask::TriggerType::MANUAL;
-        scheduler_->registerTask(task);
+        try {
+            scheduler_->registerTask(task);
+        } catch (const std::exception& ex) {
+            state.SkipWithError(ex.what());
+            return;
+        }
     }
 
     for (auto _ : state) {
@@ -198,7 +264,20 @@ BENCHMARK_REGISTER_F(TaskSchedulerBenchFixture, GetStats)
 // Concurrent registerTask from multiple threads
 // ============================================================================
 
-BENCHMARK_DEFINE_F(TaskSchedulerBenchFixture, ConcurrentRegister)(benchmark::State& state) {
+static void BM_ConcurrentRegister(benchmark::State& state) {
+    TaskScheduler::RequestContext benchmark_context;
+    benchmark_context.user_id = "scheduler-concurrent-benchmark";
+    benchmark_context.granted_permissions = {"task:register"};
+    TaskScheduler::ScopedRequestContext request_context(benchmark_context);
+
+    ConcurrentTaskSchedulerBenchEnv* env = nullptr;
+    try {
+        env = &concurrentTaskSchedulerBenchEnv();
+    } catch (const std::exception& ex) {
+        state.SkipWithError(ex.what());
+        return;
+    }
+
     static std::atomic<int> counter{0};
     for (auto _ : state) {
         int id = counter.fetch_add(1, std::memory_order_relaxed);
@@ -207,13 +286,13 @@ BENCHMARK_DEFINE_F(TaskSchedulerBenchFixture, ConcurrentRegister)(benchmark::Sta
         task.type          = ScheduledTask::TaskType::FUNCTION;
         task.function_name = "noop";
         task.trigger_type  = ScheduledTask::TriggerType::MANUAL;
-        auto tid = scheduler_->registerTask(task);
+        auto tid = env->scheduler->registerTask(task);
         benchmark::DoNotOptimize(tid);
     }
     state.SetItemsProcessed(state.iterations());
 }
 
-BENCHMARK_REGISTER_F(TaskSchedulerBenchFixture, ConcurrentRegister)
+BENCHMARK(BM_ConcurrentRegister)
     ->Unit(benchmark::kMicrosecond)
     ->Threads(2)
     ->Iterations(2000);

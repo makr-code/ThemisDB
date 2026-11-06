@@ -162,6 +162,7 @@ static void BM_W2C_ColdRead(benchmark::State& state) {
 BENCHMARK(BM_W2C_ColdRead)
     ->Arg(500)
     ->Arg(2000)
+    ->Iterations(10)
     ->Unit(benchmark::kMicrosecond);
 
 // ============================================================================

@@ -2799,14 +2799,12 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 		query_metrics_.cursor_anchor_hits_total.fetch_add(1, std::memory_order_relaxed);
 
 		std::vector<std::string> out;
-		out.reserve(limit);
 
 		// 1) Innerhalb des gleichen Wertes selektieren
 		//    Für asc: PKs > anchorPk, für desc: PKs < anchorPk
 		{
 			std::string prefix = makeRangeIndexPrefix(table, column, anchorValue);
 			std::vector<std::string> sameValuePks;
-			sameValuePks.reserve(limit);
 			db_.scanPrefix(prefix, [&sameValuePks](std::string_view key, [[maybe_unused]] std::string_view val){
 				size_t lastColon = key.rfind(':');
 				if (lastColon != std::string_view::npos) {

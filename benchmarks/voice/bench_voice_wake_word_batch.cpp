@@ -185,7 +185,7 @@ BENCHMARK_F(BatchProcessorScalingFixture, SingleItem)(benchmark::State& state) {
 // Expects near-linear throughput growth with thread count.
 // Accept ≥ 0.7x linear efficiency (superscalar effects vary by hardware).
 
-BENCHMARK_F(BatchProcessorScalingFixture, BatchThroughput_ThreadScaling)(
+BENCHMARK_DEFINE_F(BatchProcessorScalingFixture, BatchThroughput_ThreadScaling)(
     benchmark::State& state) {
     const int kThreads = static_cast<int>(state.range(0));
     const int kItems   = kThreads * 8;  // Keep CPU busy
@@ -223,7 +223,7 @@ BENCHMARK_REGISTER_F(BatchProcessorScalingFixture, BatchThroughput_ThreadScaling
 
 // ─── 7. runLoadTest() overhead ────────────────────────────────────────────────
 
-BENCHMARK_F(BatchProcessorScalingFixture, LoadTestHelper)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(BatchProcessorScalingFixture, LoadTestHelper)(benchmark::State& state) {
     const size_t kConcurrent = static_cast<size_t>(state.range(0));
 
     BatchProcessorConfig cfg;

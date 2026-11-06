@@ -122,9 +122,8 @@ BENCHMARK_DEFINE_F(FingerprintInsertFixture, BM_FingerprintInsert)(
         benchmark::Counter::kIsRate);
 }
 
-// Range: mode counts {1,2,4,8}
+// Range: valid tensor-train mode counts {2,4,8}
 BENCHMARK_REGISTER_F(FingerprintInsertFixture, BM_FingerprintInsert)
-    ->Arg(1)
     ->Arg(2)
     ->Arg(4)
     ->Arg(8)

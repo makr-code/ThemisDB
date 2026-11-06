@@ -112,6 +112,13 @@ public:
             access(key);
             return;
         }
+
+        // Reuse a retained non-resident stack entry instead of duplicating its key.
+        auto ghost_it = ghost_stack_.find(key);
+        if (ghost_it != ghost_stack_.end()) {
+            stack_.erase(ghost_it->second);
+            ghost_stack_.erase(ghost_it);
+        }
         
         // New entry
         if (map_.size() >= capacity_) {
@@ -195,6 +202,7 @@ public:
         std::unique_lock<std::shared_mutex> lock(mutex_);
         map_.clear();
         stack_.clear();
+        ghost_stack_.clear();
         hir_list_.clear();
         lir_count_ = 0;
         hits_ = 0;
@@ -301,8 +309,12 @@ private:
     void demote_lir_to_hir() {
         // Find bottom LIR in stack
         for (auto it = stack_.rbegin(); it != stack_.rend(); ++it) {
-            const Key& key = *it;
-            auto& entry = map_[key];
+            const Key key = *it;
+            auto entry_it = map_.find(key);
+            if (entry_it == map_.end()) {
+                continue;
+            }
+            auto& entry = entry_it->second;
             
             if (entry.is_lir) {
                 // Demote this LIR to HIR
@@ -327,11 +339,16 @@ private:
      */
     void prune_stack() {
         while (!stack_.empty()) {
-            const Key& bottom_key = stack_.back();
+            const Key bottom_key = stack_.back();
             auto it = map_.find(bottom_key);
             
-            if (it == map_.end() || it->second.is_lir) {
-                break;  // Bottom is LIR or empty
+            if (it == map_.end()) {
+                ghost_stack_.erase(bottom_key);
+                stack_.pop_back();
+                continue;
+            }
+            if (it->second.is_lir) {
+                break;
             }
             
             // Bottom is HIR: Remove from stack
@@ -347,19 +364,34 @@ private:
     void evict() {
         // Evict from HIR list (tail = least recently used HIR)
         if (!hir_list_.empty()) {
-            const Key& victim = hir_list_.back();
-            map_.erase(victim);
+            const Key victim = hir_list_.back();
+            auto entry_it = map_.find(victim);
+            if (entry_it != map_.end()) {
+                if (entry_it->second.in_stack) {
+                    ghost_stack_.insert_or_assign(victim, entry_it->second.stack_iter);
+                }
+                map_.erase(entry_it);
+            }
             hir_list_.pop_back();
         } else {
             // No HIR entries, evict bottom LIR (shouldn't happen normally)
-            if (!stack_.empty()) {
-                const Key& victim = stack_.back();
-                auto& entry = map_[victim];
-                if (entry.is_lir) {
-                    lir_count_--;
+            while (!stack_.empty()) {
+                const Key victim = stack_.back();
+                auto entry_it = map_.find(victim);
+                if (entry_it == map_.end()) {
+                    ghost_stack_.erase(victim);
+                    stack_.pop_back();
+                    continue;
                 }
-                map_.erase(victim);
+
+                if (entry_it->second.is_lir) {
+                    lir_count_--;
+                } else {
+                    hir_list_.erase(entry_it->second.hir_iter);
+                }
+                map_.erase(entry_it);
                 stack_.pop_back();
+                break;
             }
         }
     }
@@ -371,6 +403,7 @@ private:
     
     std::unordered_map<Key, Entry> map_;  // Key -> Entry
     std::list<Key> stack_;                // LIRS stack (top = most recent)
+    std::unordered_map<Key, typename std::list<Key>::iterator> ghost_stack_;
     std::list<Key> hir_list_;             // HIR list (top = most recent)
     
     mutable std::shared_mutex mutex_; // Thread safety: shared for reads, exclusive for writes

@@ -130,6 +130,23 @@ TEST_F(LIRSCacheTest, ScanResistance) {
     EXPECT_GT(hot_present, 0) << "Hot entries should survive sequential scan";
 }
 
+TEST_F(LIRSCacheTest, MixedReadWriteChurn) {
+    LIRSCache<int, std::string> churn(100, 0.9);
+    std::string value;
+
+    for (int i = 0; i < 20000; ++i) {
+        const int key = (i * 37) % 1000;
+        if (i % 5 == 0) {
+            churn.put(key, std::to_string(i));
+        } else {
+            churn.get(key, value);
+        }
+    }
+
+    EXPECT_EQ(churn.size(), churn.capacity());
+    EXPECT_EQ(churn.get_hits() + churn.get_misses(), 16000U);
+}
+
 TEST_F(LIRSCacheTest, HitRateTracking) {
     EXPECT_EQ(cache->get_hits(), 0);
     EXPECT_EQ(cache->get_misses(), 0);

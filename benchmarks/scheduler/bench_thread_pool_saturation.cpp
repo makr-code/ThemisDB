@@ -128,32 +128,36 @@ BENCHMARK_F(ThreadPoolSaturationFixture, SaturatedQueue_DropRate)(benchmark::Sta
 
 // ─── 4. Priority ordering under load ─────────────────────────────────────────
 
-BENCHMARK_F(ThreadPoolSaturationFixture, PriorityOrdering_UnderLoad)(benchmark::State& state) {
-    std::atomic<uint64_t> critical_count{0};
-    std::atomic<uint64_t> low_count{0};
+BENCHMARK_DEFINE_F(ThreadPoolSaturationFixture, PriorityOrdering_UnderLoad)(benchmark::State& state) {
+    auto critical_count = std::make_shared<std::atomic<uint64_t>>(0);
+    auto low_count = std::make_shared<std::atomic<uint64_t>>(0);
 
     for (auto _ : state) {
         // Submit 8 LOW tasks then 1 CRITICAL task; CRITICAL should drain first.
         for (int i = 0; i < 8; ++i) {
             mgr->submitTask(
                 ThreadPoolManager::PoolType::CPU,
-                [&low_count]() { low_count.fetch_add(1, std::memory_order_relaxed); },
+                [low_count]() { low_count->fetch_add(1, std::memory_order_relaxed); },
                 "low", Task::Priority::LOW);
         }
         mgr->submitTask(
             ThreadPoolManager::PoolType::CPU,
-            [&critical_count]() { critical_count.fetch_add(1, std::memory_order_relaxed); },
+            [critical_count]() { critical_count->fetch_add(1, std::memory_order_relaxed); },
             "critical", Task::Priority::CRITICAL);
 
-        benchmark::DoNotOptimize(critical_count.load());
+        benchmark::DoNotOptimize(critical_count->load());
     }
 
+    mgr->shutdown();
     state.SetLabel("8xLOW + 1xCRITICAL per iteration");
 }
 
+BENCHMARK_REGISTER_F(ThreadPoolSaturationFixture, PriorityOrdering_UnderLoad)
+    ->Iterations(10);
+
 // ─── 5. Concurrent producers ─────────────────────────────────────────────────
 
-BENCHMARK_F(ThreadPoolSaturationFixture, ConcurrentProducers)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(ThreadPoolSaturationFixture, ConcurrentProducers)(benchmark::State& state) {
     const int kProducers      = static_cast<int>(state.range(0));
     const int kTasksPerProducer = 32;
 
@@ -186,6 +190,7 @@ BENCHMARK_F(ThreadPoolSaturationFixture, ConcurrentProducers)(benchmark::State& 
 }
 BENCHMARK_REGISTER_F(ThreadPoolSaturationFixture, ConcurrentProducers)
     ->Arg(1)->Arg(2)->Arg(4)->Arg(8)->Arg(16)
+    ->Iterations(10)
     ->UseRealTime();
 
 // ─── 6. Statistics overhead ───────────────────────────────────────────────────
