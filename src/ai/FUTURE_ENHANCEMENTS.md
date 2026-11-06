@@ -1,13 +1,39 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-11-06"
+Last Updated: "2026-11-06"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # AI Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-07-19 -->
+<!-- Status: current | source-checked: 2026-11-06 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+
+## Roadmap ownership and scope
+
+Issue #7399's release-separated plan is maintained in
+[`ROADMAP.md`](./ROADMAP.md); this file records supporting constraints and
+validation requirements. The inspected AI implementation is limited to plugin
+generation and CAI/ethics integration in `src/ai/` and `include/ai/`.
+Self-RAG, RotatE, Multi-Task LoRA, federated training, and graph phase-gate
+orchestration are cross-module work, not evidence of AI-module implementation.
+The historical Wave B/C sections below are retained for traceability only and
+must not be treated as current `ai` release acceptance or module-owned status.
 
 ## Scope
 
 - Hardening of endpoint safety, payload validation, and error observability for AI plugin generation.
 - Introduction of dedicated performance coverage for the AI generation path.
-- Future integration of external sandbox/static-analysis policy engines on top of the built-in artifact materialization gate.
+- Isolated build, test, and security verification for generated artifacts; current artifact materialization and read-back verification do not provide operating-system isolation.
+- Provider-backed quality and performance evaluation, kept distinct from callback-only orchestration benchmarks.
 
 ## Design Constraints
 
@@ -20,41 +46,40 @@
 
 | Interface | Requirement |
 |---|---|
-| `validatePrompt` | extend checks for `required_capabilities` and `dependencies` consistency |
-| `generatePlugin` | preserve validation-first execution and fail-closed return semantics |
-| `AIPluginGenerator::Config` | expose explicit safety knobs (allow-list, payload limit, retry policy) |
-| benchmark integration | maintain dedicated ai generation benchmark target and release mapping |
+| `validatePrompt` | preserve bounded, deterministic validation of description, capability, and dependency fields |
+| `generatePlugin` | preserve validation-first execution and fail-closed behavior; independently verify generated artifacts before promotion |
+| `AIPluginGenerator::Config` | retain documented endpoint allow-list, timeout, size limits, and optional gates; fixed retry count/backoff are not currently configurable |
+| benchmark integration | keep callback-based orchestration measurements separate from provider-backed latency, quality, and cost results |
 
 ## Implementation Notes
 
-- Add response schema validation with explicit required and optional fields.
-- Add bounded retry/backoff only for transient transport failures.
-- Add response-size hard limit before parse to prevent memory pressure.
-- Field-level validation for `required_capabilities`/`dependencies`, configurable endpoint allow-list, request/response size limits, dedicated benchmark coverage, and built-in sandbox artifact materialization are implemented in the runtime path; remaining hardening focuses on external sandbox/static-analysis policy engines.
-- Standardize error classes for validation, transport, HTTP status, parse, and payload shape failures.
+- Field-level validation for `required_capabilities`/`dependencies`, configurable endpoint allow-list, request/response size limits, bounded transient retries, dedicated callback benchmark coverage, and sandbox artifact materialization are implemented in the runtime path.
+- Remaining work is scoped in `ROADMAP.md`: verify error/counter contracts, add real isolation and artifact verification, then establish provider-backed quality/performance evidence.
+- Do not equate an optional verification callback or artifact read-back with a sandbox or proof of code safety.
 
 ## Test Strategy
 
 - Unit tests for new validation rules and schema failure cases.
-- Integration tests with deterministic endpoint fixtures (success, non-2xx, malformed JSON, oversized payload).
+- Integration tests with deterministic endpoint fixtures (success, non-2xx, malformed JSON, oversized payload) plus negative tests for isolation and verifier failure.
 - Regression tests for existing structured error contracts.
-- Benchmark regression tracking in release profile for mapped AI targets.
+- Callback benchmark regression tracking in release profile, plus a separate versioned provider evaluation protocol.
 
 ## Performance Targets
 
-- Prompt validation path p99 remains within low-single-digit milliseconds.
-- Endpoint orchestration overhead remains stable versus current release baseline.
-- Proxy benchmark regressions stay within configured release threshold until dedicated benchmark is introduced.
+- No live-provider performance target is currently evidenced. Establish and retain p50/p95/p99 baselines separately for local validation/orchestration and provider inference.
+- Proposed release gate: same-build p99 orchestration regression no greater than 10% against the recorded baseline; see Wave 1 in `ROADMAP.md`.
+- Provider-backed output quality and cost must be measured on a versioned acceptance set before release thresholds are ratified.
 
 ## Security / Reliability
 
 - Enforce endpoint allow-list checks before outbound calls (implemented).
 - Enforce maximum request and response size limits (implemented).
-- Materialize generated source bundles into sandbox/output directories with fail-closed read-back verification before optional callback policy execution (implemented).
+- Materialize generated source bundles into configured directories with fail-closed read-back verification before optional callback policy execution (implemented; this is not OS-level isolation).
 - Keep fail-closed behavior for malformed/untrusted responses.
 - Ensure logs remain redacted and bounded for sensitive fields.
+- Require isolated build/test/security verification and auditable artifact provenance before generated code is promoted; details and negative tests are in `ROADMAP.md`.
 
-## Wave C — Strategic ML Enhancements (Q3 2027+)
+## Historical Wave C — Strategic ML Enhancements (cross-module references)
 
 Long-term strategic AI/ML features for enhanced safety, privacy, and governance. Lower urgency but high strategic value.
 
@@ -174,7 +199,7 @@ advancement.  Resolves C3 gap-tracking requirement from issue #6287.
 `src/graph/graph_phase_gate_orchestrator.cpp`,
 `tests/graph/test_graph_phase_gate_orchestration.cpp`
 
-## Wave C Dependencies and Risk Mitigation
+## Historical Wave C Dependencies and Risk Mitigation (cross-module references)
 
 ### Blockers / Dependencies
 
@@ -209,7 +234,7 @@ advancement.  Resolves C3 gap-tracking requirement from issue #6287.
 - Wave A Issue: `#5038`
 - Wave B Issue: `#5039`
 - Wave B ML Enhancements exit-gate sign-off: `#6286` ✅ SIGNED OFF 2026-09-09
-## Wave B: High-Value ML Enhancements (Q1–Q2 2027)
+## Historical Wave B: High-Value ML Enhancements (cross-module references)
 
 ### Scope
 
