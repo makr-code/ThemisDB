@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-06"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -26,6 +26,14 @@ Human_Author: "unknown"
 - Runtime resilience controls around adapter dependencies (circuit breaker + fallback policy)
 - Dynamic adapter reconfiguration and distributed cache integration without process restarts
 - Unified observability wiring for logging, tracing, and metrics through the DI context
+
+## Release-Aligned Priorities
+
+The active, evidence-backed plan is [`ROADMAP.md`](ROADMAP.md#v250-v300-research-and-wave-plan). It supersedes the older v1.7–v1.9 target labels and illustrative thresholds in this backlog; those entries are unscheduled candidates, not current release commitments.
+
+- **v2.5.0:** Direct Core performance baselines; concurrency and trace-context contract validation; explicit plugin trust policy and bounded-cardinality tests; production-path fault recovery and soak evidence.
+- **v3.0.0:** Versioned concern/API contracts with migration guidance; signed plugin provenance and trust-root lifecycle; measured bottleneck optimization; release-grade resilience and governance evidence.
+- Wave dependencies, proposed effort, risks, validation, and measurable exit criteria are maintained only in the module roadmap to avoid a second schedule source.
 
 ## 2026-07-28 Sync Snapshot (Issue #5638)
 
@@ -74,6 +82,8 @@ types exist in the current Core API.
 ---
 
 ## Planned Features
+
+> The version labels below are historical backlog targets; use the release-aligned wave plan above and in `ROADMAP.md` before scheduling or implementing any candidate.
 
 ### Dynamic Adapter Reconfiguration
 **Priority:** High
