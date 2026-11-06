@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-08-02"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-06"
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -228,3 +228,336 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
 - [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
   - **Evidence**: `docs/operability/RUNBOOK_INDEX_ENGINE.md` with 5 scenarios, log patterns, escalation table
+
+## Research and Gap Analysis — v2.5.0 / v3.0.0 (Issue #7427)
+
+### Research evidence and applicability
+
+The research supports measurement and explicit trade-offs; it does not establish
+that a named strategy is implemented or validated in this repository.
+
+| Research finding | Relevance to `index` | Evidence boundary |
+|---|---|---|
+| HNSW uses a hierarchical proximity graph and tunable search effort to trade query cost against recall. | Evaluate recall, latency, memory, and build cost together when tuning the HNSW path; a single throughput number is insufficient. | The paper's results are algorithm and workload specific, not ThemisDB performance targets. [Malkov & Yashunin, HNSW](https://arxiv.org/abs/1603.09320). |
+| DiskANN demonstrates SSD-backed graph search at billion-point scale under a specific hardware and dataset configuration. | Cold-tier/disk-backed routing is a meaningful scale option only after the backend, storage costs, and quality are measured on supported hardware. | The published result cannot be transferred to this module by setting `diskann_available`; the configured flag is not proof of an installed backend. [Subramanya et al., DiskANN, NeurIPS 2019](https://papers.nips.cc/paper_files/paper/2019/hash/09853c7fb1d3f8ee67a61b6bf4a7f8e6-Abstract.html). |
+| ANN-Benchmarks evaluates algorithms using a common interface, datasets, parameter sweeps, and quality/performance measures. | Release comparisons should fix corpus, metric, query set, parameters, hardware, and build, and report recall with latency/throughput. | A benchmark method is not itself a representative workload or an enforced CI gate. [Aumüller et al., ANN-Benchmarks](https://arxiv.org/abs/1807.05614). |
+| Recent graph-index work identifies deletion/update churn and recall stability as distinct problems from static search. | Measure recall and recovery across sustained insert/update/delete workloads before considering an incremental graph-index design. | The 2025 IP-DiskANN result is a research candidate, not an implementation recommendation or a demonstrated fit for ThemisDB. [Xu et al., IP-DiskANN](https://arxiv.org/abs/2502.13826). |
+
+### Source-backed current state and gaps
+
+- **Performance and scale:** `include/index/ann_frontdoor.h` declares HNSW,
+  ScaNN, DiskANN, distributed, and flat strategies, with dataset-size defaults
+  and a `diskann_available` switch. `src/index/ann_frontdoor.cpp` uses fixed
+  shard-cost/quality metadata in routing, while `recallEstimate()` returns
+  informational constants. These are not measurements. `benchmarks/index/`
+  currently contains the secondary-index rebuild benchmark, not an ANN
+  search/recall benchmark. The rebuild fixture uses 100,000 generated entities
+  and seven secondary-index types; its random data and environment-specific
+  output are not a reproducible ANN baseline.
+- **Usability and routing:** `AnnFrontdoor::planRetrieval()` describes a route;
+  it does not prove that the declared backend is present. The frontdoor's
+  `bruteForceSearch()` currently returns no candidates when no usable
+  storage/backend path is available. Tests in
+  `tests/index/test_ann_frontdoor.cpp` and
+  `tests/index/test_ann_cpu_parity.cpp` verify deterministic routing and
+  fixtures, but stubs do not demonstrate production backend quality.
+- **Security and resilience:** the frontdoor bounds top-k cardinality and
+  removes negative/NaN distances, but positive infinity is not rejected.
+  Distributed behavior can return partial results or fail closed according to
+  configuration. Tenant-qualified names and filters are not authorization;
+  callers must enforce access control. These boundaries are documented in
+  `src/index/API.md` and `src/index/SECURITY.md`.
+- **Governance and lifecycle:** `IndexManifestV1` records schema/embedding
+  metadata, history, and reindex status, and
+  `tests/index/test_index_manifest_v1.cpp` covers serialization/history
+  behavior. The API notes that the manifest is not itself a persistence or
+  rollback engine and is not thread-safe. Migration, compatibility, and
+  recovery guarantees therefore need end-to-end evidence, not only schema
+  round trips.
+- **Architecture and operations:** the module has explicit routing metadata,
+  fallback reason codes, index tests, a rebuild benchmark, and operator
+  documentation. However, benchmark thresholds in
+  `src/index/PERFORMANCE_EXPECTATIONS.md` are explicitly not proven to be CI
+  gates, and representative CUDA/HIP/Vulkan parity remains a hardware-only
+  open gate. `tests/index/CMakeLists.txt` also excludes several focused test
+  sources; source presence alone is not registration or passing evidence.
+
+**Maturity assessment:** substantial, multi-family production implementation
+with useful contracts and deterministic CPU/test-fixture coverage; not yet
+release-grade for ANN quality/performance claims across real backends, hardware,
+and update/recovery workloads. This is a source review, not a current test,
+benchmark, security-audit, or hardware-validation result.
+
+### Release interpretation and success KPIs
+
+- **v2.5.0:** the next planned minor target in `VERSIONING.md` and
+  `RELEASE_STRATEGY.md`; this module plan proposes work but does not promise a
+  release date or override the root release gates.
+- **v3.0.0:** strategic and conditional only. No v3.0.0 release commitment,
+  date, approved breaking API, or migration policy was found in the current
+  root release/version sources. Do not treat this plan as approval to break
+  compatibility.
+- Report each benchmark's dataset/corpus, metric, query count, `k`, index
+  parameters, backend/build flags, hardware, and baseline commit alongside
+  p50/p95/p99 latency, throughput, recall@k, build/rebuild time, and memory.
+  Compare only like-for-like runs. Existing documented `<=10%` regression
+  expectation remains a proposed release threshold until its baseline and
+  enforcement are verified.
+- For the existing deterministic CPU fixture, retain recall@10 `>=0.90` and
+  CPU/flat result parity at distance tolerance `<=1e-6`; these small-fixture
+  checks are necessary regression guards, not production SLOs. Hardware gates
+  must report measured results rather than inferred estimates.
+
+### v2.5.0 — evidence and reliability waves
+
+Estimates are engineering person-weeks for one engineer familiar with the
+module, excluding external hardware/CI provisioning and release approval.
+They are planning ranges, not schedule commitments.
+
+#### Wave 2.5-A — Reproducible baseline and benchmark coverage (Priority: P0)
+
+- **Goal:** establish comparable quality, latency, throughput, rebuild, and
+  resource measurements before changing routing or tuning defaults.
+- **Tasks:**
+  - [ ] Add deterministic ANN search/recall and mixed-operation benchmark cases
+    with fixed seeds and explicit workload/parameter metadata; retain the
+    current secondary-index rebuild cases (Target: v2.5.0).
+  - [ ] Define a per-backend benchmark manifest and report p50/p95/p99,
+    throughput, recall@k against an exact baseline, build/rebuild duration, and
+    memory where measurable (Target: v2.5.0).
+  - [ ] Map every release-gated case to an enabled CMake/CI registration and
+    record unsupported hardware as “not run,” not PASS (Target: v2.5.0).
+- **Dependencies:** benchmark runner/preset and benchmark target registration;
+  deterministic datasets and exact-search oracle.
+- **Risk / trade-off:** reproducible fixtures can under-represent production
+  skew; broad hardware matrices increase runtime and maintenance cost. Keep
+  synthetic fixtures for regressions and require representative datasets for
+  release claims.
+- **Effort:** 2–3 person-weeks.
+- **Success metrics:** 100% of mapped index release cases emit the required
+  workload/backend metadata; CPU recall@10 is at least 0.90 on the existing
+  fixed-seed 2,000-vector/64-dimension fixture; every performance result has a
+  same-host/build comparison or is explicitly baseline-only.
+- **Validation:** run registered focused CPU tests and benchmarks; verify exact
+  top-k comparison and repeatability across independent runs; execute and
+  archive the mapped release benchmark suite on each supported representative
+  device before declaring hardware coverage.
+
+#### Wave 2.5-B — Routing, fallback, and result-contract correctness (Priority: P0)
+
+- **Goal:** make the selected route, actual backend execution, and degraded
+  outcome agree and be observable.
+- **Tasks:**
+  - [ ] Test every strategy against backend availability and fail-closed /
+    configured fallback behavior; prevent an unavailable strategy from being
+    reported as executed (Target: v2.5.0).
+  - [ ] Specify and test behavior for empty backends, missing scopes, partial
+    shard failures, invalid dimensions, invalid `k`, and non-finite result
+    distances, including positive infinity (Target: v2.5.0).
+  - [ ] Replace fixed shard quality/cost inputs and unmeasured recall constants
+    with explicit unknown/default semantics or measured inputs; do not present
+    estimates as SLOs (Target: v2.5.0).
+- **Dependencies:** Wave 2.5-A oracle/benchmark baseline; current contracts in
+  `include/index/ann_frontdoor.h` and consumer expectations.
+- **Risk / trade-off:** stricter validation or fail-closed defaults may reduce
+  result availability; legacy consumers may rely on current metadata. Preserve
+  the v2 API contract and document any behavior change.
+- **Effort:** 3–5 person-weeks.
+- **Success metrics:** 100% of route-availability and failure-matrix cases
+  report actual backend/fallback status correctly; no invalid distance reaches
+  callers; existing CPU/flat parity remains within `1e-6`.
+- **Validation:** deterministic unit/integration tests for each route and
+  failure branch; fault-injected distributed tests; release benchmark confirms
+  recall/latency effects for any changed selection rule.
+
+#### Wave 2.5-C — Manifest compatibility and rebuild recovery (Priority: P1)
+
+- **Goal:** establish verifiable index-version and rebuild behavior without an
+  incompatible v2 schema/API change.
+- **Tasks:**
+  - [ ] Validate manifests on write/read against the canonical schema and add
+    malformed, incomplete, unknown-field, and older-version fixtures (Target:
+    v2.5.0).
+  - [ ] Exercise restart/retry/rollback behavior around interrupted rebuilds
+    and make status transitions and retention behavior observable (Target:
+    v2.5.0).
+  - [ ] Document which metadata is required to decide that an index needs
+    reindexing; do not imply that embedding generation is owned by `index`
+    (Target: v2.5.0).
+- **Dependencies:** Wave 2.5-A benchmark/replay fixtures; storage transaction
+  and durability contracts; existing `IndexManifestV1` behavior.
+- **Risk / trade-off:** stricter validation can reject historical manifests;
+  compatibility must be explicit, bounded, and tested rather than implemented
+  as an undocumented fallback.
+- **Effort:** 3–5 person-weeks.
+- **Success metrics:** all supported manifest fixtures round-trip without
+  information loss; unsupported/corrupt versions fail with a diagnosable error;
+  interrupted rebuild tests preserve the last committed usable version or
+  expose an explicit unavailable state.
+- **Validation:** manifest unit tests plus storage-backed restart/fault
+  integration tests; schema validation; recovery and retention evidence
+  attached to release artifacts.
+
+#### Wave 2.5-D — Release hardening and operational evidence (Priority: P0)
+
+- **Goal:** make v2.5 index claims traceable to passing tests, reproducible
+  benchmark runs, and representative hardware evidence.
+- **Tasks:**
+  - [ ] Reconcile the index test inventory with enabled CMake registrations;
+    remove quarantine only when the relevant contract is current and tests
+    pass (Target: v2.5.0).
+  - [ ] Run sustained concurrent insert/search/rebuild and distributed failure
+    tests under sanitizers where supported; record hardware-only GPU parity
+    separately (Target: v2.5.0).
+  - [ ] Link each claimed KPI to a named test, benchmark case, configuration,
+    and retained result artifact (Target: v2.5.0).
+- **Dependencies:** Waves 2.5-A through 2.5-C; green `release_critical` CI and
+  available representative CPU/GPU runners.
+- **Risk / trade-off:** missing devices or expensive long runs can delay
+  sign-off; do not downgrade “not run” to PASS or infer GPU parity from CPU
+  results.
+- **Effort:** 2–4 person-weeks plus runner time.
+- **Success metrics:** all index release-critical focused tests pass; no
+  sanitizer finding attributable to the tested index paths; every mapped
+  benchmark is run or explicitly marked blocked; p95/p99 and recall are
+  reported for representative hardware with no unexplained regression over
+  10% against a like-for-like baseline.
+- **Validation:** focused CTest, sanitizer/soak jobs, benchmark suite, hardware
+  parity matrix, and release/governance review. These are proposed module
+  gates, subject to root release policy.
+
+### v3.0.0 — Strategic capability and lifecycle waves (conditional)
+
+The waves below require a human-approved v3 scope and release target before
+they become commitments. Any public API, serialized format, or migration
+breaking change requires an approved breaking-change issue, compatibility
+review, migration guide, and changelog entry under `VERSIONING.md`.
+
+#### Wave 3.0-A — Capability-based backend contract (Priority: P0, conditional)
+
+- **Goal:** define a stable, machine-checkable contract for backend capability,
+  metric, filters, durability, and resource limitations so routing cannot infer
+  support from a strategy name or static size cutoff.
+- **Tasks:**
+  - [ ] Specify a versioned backend capability contract and a migration path
+    from current `IAnnIndex` registrations (Target: v3.0.0, pending approval).
+  - [ ] Require route decisions to use advertised and runtime-verified
+    capabilities, and expose the reason plus fallback outcome (Target: v3.0.0,
+    pending approval).
+  - [ ] Define compatibility rules for backend upgrades and unsupported
+    capabilities before changing public headers (Target: v3.0.0, pending
+    approval).
+- **Dependencies:** v2.5 routing evidence; approved API/ABI scope; integration
+  owner sign-off.
+- **Risk / trade-off:** a richer contract increases implementation burden and
+  may require a major migration; keep adapters out unless explicitly approved
+  with a removal target.
+- **Effort:** 2–4 person-weeks for specification/prototype; implementation
+  estimate requires the approved scope.
+- **Success metrics:** every route is justified by a verified backend
+  capability; unsupported routes fail closed or use an explicitly configured
+  fallback; all v2-to-v3 migration fixtures have deterministic outcomes.
+- **Validation:** contract/API review, conformance tests for each backend,
+  compile checks for public headers, migration tests, and security review.
+
+#### Wave 3.0-B — Workload- and cost-aware retrieval (Priority: P1, conditional)
+
+- **Goal:** choose retrieval paths from measured recall/latency/resource trade
+  offs for hot/cold and distributed workloads rather than uncalibrated
+  estimates.
+- **Tasks:**
+  - [ ] Evaluate in-memory HNSW and storage-aware alternatives against the same
+    fixed datasets, exact oracle, update pattern, and hardware manifest
+    (Target: v3.0.0, pending approval).
+  - [ ] Design a bounded routing policy using measured backend capability,
+    tier, query constraints, and cost/quality budgets; preserve deterministic
+    route explanations (Target: v3.0.0, pending approval).
+  - [ ] Include filtered and multi-tenant workloads without treating index
+    filters as authorization controls (Target: v3.0.0, pending approval).
+- **Dependencies:** Waves 2.5-A/B and 3.0-A; representative corpus and
+  storage/device benchmarks.
+- **Risk / trade-off:** adaptive routing can oscillate, consume telemetry
+  resources, or trade quality for latency unexpectedly. Require bounded
+  parameters, stable defaults, and an operator-visible override.
+- **Effort:** 4–6 person-weeks, excluding hardware qualification.
+- **Success metrics:** at least 0.95 recall@10 on the approved quality workload
+  while meeting a latency/resource budget fixed before tuning; report p50/p95/
+  p99 and bytes/vector; no unsupported route or unreported fallback.
+- **Validation:** offline parameter sweeps, held-out workload validation,
+  deterministic route tests, same-host performance comparison, and
+  representative-device qualification. Thresholds must be revised if the
+  approved workload cannot meet both quality and resource constraints.
+
+#### Wave 3.0-C — High-churn index lifecycle and recovery (Priority: P1, conditional)
+
+- **Goal:** define safe, measurable behavior for sustained insert/update/delete,
+  compaction/rebuild, snapshot replacement, and recovery at scale.
+- **Tasks:**
+  - [ ] Compare periodic rebuild/consolidation with candidate incremental graph
+    update approaches under the same churn and recall-stability workload
+    (Target: v3.0.0, pending approval).
+  - [ ] Specify atomic publication, retention, recovery, and rollback semantics
+    for versioned index snapshots (Target: v3.0.0, pending approval).
+  - [ ] Add crash/fault tests at acknowledged-write, compaction, and snapshot
+    swap boundaries (Target: v3.0.0, pending approval).
+- **Dependencies:** Wave 2.5-C manifest/recovery evidence; storage durability
+  guarantees; approved retention and recovery objectives.
+- **Risk / trade-off:** incremental update algorithms can degrade recall or
+  increase write amplification; maintaining old and new snapshots consumes
+  extra storage. Do not adopt a research design without measured benefit and
+  explicit resource budgets.
+- **Effort:** 4–8 person-weeks for evaluation/prototype; production scope to be
+  estimated after results.
+- **Success metrics:** recall@10 remains at least 0.95 on the approved churn
+  workload; every acknowledged mutation survives the defined crash boundary;
+  recovery time and temporary/permanent storage overhead meet pre-approved
+  budgets.
+- **Validation:** fixed-seed churn benchmark, exact-baseline recall at
+  checkpoints, crash/restart fault injection, sanitizer runs, and storage
+  recovery review.
+
+#### Wave 3.0-D — Governance, security, and operability sign-off (Priority: P0, conditional)
+
+- **Goal:** make index migrations, backend changes, data isolation boundaries,
+  and performance claims reviewable and operable for a major release.
+- **Tasks:**
+  - [ ] Publish compatibility/migration guidance for approved public and
+    persisted-format changes, including rollback limits (Target: v3.0.0,
+    pending approval).
+  - [ ] Verify authorization remains enforced by callers, tenant boundaries
+    survive route/fallback changes, and diagnostics do not disclose vector or
+    tenant data (Target: v3.0.0, pending approval).
+  - [ ] Require current runbooks, benchmark artifacts, test evidence, and
+    human sign-off before promoting module readiness (Target: v3.0.0, pending
+    approval).
+- **Dependencies:** completion of approved v3 waves; root release gates;
+  security, storage, and operations owners.
+- **Risk / trade-off:** broad compatibility matrices and long-duration
+  qualification increase release cost; scope must prioritize supported
+  migrations and real deployment profiles.
+- **Effort:** 2–4 person-weeks plus review and qualification time.
+- **Success metrics:** 100% of supported migration fixtures pass; no unresolved
+  high/critical index security findings; every release KPI links to current
+  evidence and every operator-critical failure mode has a tested remediation
+  path.
+- **Validation:** migration/rollback rehearsal, focused security review,
+  resilience/chaos tests, benchmark evidence review, runbook exercise, and
+  mandatory human release approval.
+
+### Open assumptions and knowledge gaps
+
+- v2.5.0 remains the next planned minor per root version policy, but its module
+  schedule and final scope are not established here. v3.0.0 is uncommitted.
+- No benchmark results were run for this roadmap update. Hardware models,
+  production data distributions, filter selectivity, query concurrency,
+  latency budgets, and memory budgets must be supplied by maintainers/operators
+  before performance thresholds become release gates.
+- Current `AnnFrontdoor` strategy labels and recall estimates are not proof of
+  usable backend implementations or observed quality; verify each backend and
+  build configuration before planning route-specific guarantees.
+- Research comparisons use different corpora, hardware, workloads, and quality
+  metrics. They motivate controlled local experiments but cannot establish
+  ThemisDB targets or superiority.
+- Issue #7427's supplied description is the acceptance source for this plan;
+  no additional issue comments or maintainer-approved v3 constraints were
+  available during this review.
