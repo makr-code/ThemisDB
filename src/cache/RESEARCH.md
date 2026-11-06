@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-06"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -19,6 +19,28 @@ Exact model backend not verifiable from final document text alone.
 This note records the measurable questions and evidence sources for engineering work on `src/cache`. It is for cache maintainers evaluating cache policy, query reuse, embedding reuse, warmup, and distributed invalidation. It reports no performance or retrieval-quality result by itself.
 
 The implementation evidence is in [`adaptive_query_cache.cpp`](adaptive_query_cache.cpp), [`embedding_cache.cpp`](embedding_cache.cpp), [`semantic_cache.cpp`](semantic_cache.cpp), and the public declarations under [`include/cache`](../../include/cache). Test evidence is in [`tests/cache`](../../tests/cache); release performance evidence is defined by [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) and the [cache benchmark runbook](../../benchmarks/cache/CACHE_BENCHMARK_RUNBOOK.md). The binding v1.x invariants are in [`cache_contract.h`](../../include/cache/cache_contract.h).
+
+## External research and standards
+
+These sources motivate evaluation questions; they are not evidence of ThemisDB cache performance, correctness, or release scope.
+
+| Source | Finding relevant to the roadmap | Applicability limit |
+|---|---|---|
+| Megiddo and Modha, [“ARC: A Self-Tuning, Low Overhead Replacement Cache”](https://www.usenix.org/conference/fast-03/presentation/arc-self-tuning-low-overhead-replacement-cache), FAST 2003. | ARC adapts its recency/frequency balance and is designed to resist scan pollution; compare it with simpler policies under changing workloads. | Published trace results do not predict ThemisDB's hit ratio or runtime cost. |
+| Einziger, Friedman, and Manes, [“TinyLFU: A Highly Efficient Cache Admission Policy”](https://doi.org/10.1145/3149371), ACM Transactions on Storage 13(4), 2017. | Approximate recent-frequency estimates can inform whether a new entry should displace an existing one; admission and eviction can be evaluated together. | Do not assume a TinyLFU implementation exists or performs better in this codebase; verify the implementation and compare against project workloads. |
+| Cooper et al., [“Benchmarking Cloud Serving Systems with YCSB”](https://doi.org/10.1145/1807128.1807152), SoCC 2010. | A configurable workload suite supports repeatable comparisons across serving workloads instead of a single synthetic throughput case. | Adapt its read/write distributions to cache-specific capacity, warmup, hit/miss, and policy-overhead measurements; YCSB is not a cache gate by itself. |
+| Fielding, Nottingham, and Reschke, [RFC 9111: HTTP Caching](https://www.rfc-editor.org/rfc/rfc9111.html), IETF, 2022. | Freshness, validation, and invalidation are distinct reuse controls and should be stated explicitly. | It standardizes HTTP cache behavior, not ThemisDB's internal cache consistency contract. |
+| Misra et al., [“Lightweight Inter-transaction Caching with Precise Clocks and Dynamic Self-invalidation”](https://arxiv.org/abs/2003.04150), 2020. | KAIROS illustrates a lease/self-invalidation design with transaction validation, making the hit-rate versus stale-read/validation-cost trade-off explicit. | It is a transaction-cache design study, not a drop-in protocol recommendation for this module. |
+| [OWASP Web Cache Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Web_Cache_Security_Cheat_Sheet.html). | Cache-key design, authorization context, sensitive-response reuse, and stale security state are security boundaries, not only performance choices. | Apply only the relevant guidance to ThemisDB's application-cache threat model; caller authorization remains outside the cache implementation. |
+| Nishtala et al., [“Scaling Memcache at Facebook”](https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala), NSDI 2013. | Large-scale cache deployments must reason about coordination, failure, stale sets, and request/miss amplification in addition to steady-state hit latency. | This production case study describes a different architecture and does not establish a required ThemisDB consistency model. |
+| Zhang et al., [“Cross-Tenant Side-Channel Attacks in PaaS Clouds”](https://doi.org/10.1145/2660267.2660356), ACM CCS 2014. | Shared hardware caches can create cross-tenant side channels in some cloud threat models. | This is distinct from application-level cache key isolation; whether it is in scope requires a deployment threat-model decision. |
+
+### Research-to-roadmap mapping
+
+- Admission/replacement studies motivate Wave 4 policy comparisons; use measured hit ratio, latency, throughput, and memory on the same recorded workloads.
+- Workload-benchmark methodology motivates Wave 1 reproducible runs; the current cache suite and manifest remain the local measurement authority after the multi-output validator gap is closed.
+- Freshness, invalidation, and security sources motivate Waves 2, 3, 5, and 6; they do not justify serving stale or approximate results without explicit data-owner approval.
+- Distributed-cache case studies motivate testing failure and miss-amplification paths, but project owners must choose the consistency and availability trade-offs.
 
 ## Questions and assumptions
 
