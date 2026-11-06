@@ -33,7 +33,7 @@ class WindowsReleaseBuildMemoryTests(unittest.TestCase):
             for lane in json.loads(process.stdout.split("matrix=", 1)[1])["include"]
         }
 
-    def run_windows_build(self, exit_code):
+    def run_windows_command(self, exit_code, command="build"):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             cmake = root / "cmake"
@@ -46,27 +46,42 @@ class WindowsReleaseBuildMemoryTests(unittest.TestCase):
             )
             cmake.chmod(0o755)
             result = subprocess.run(
-                ["bash", "-c", self.lanes["windows-amd64"]["build_command"]],
+                ["bash", "-c", self.lanes["windows-amd64"][f"{command}_command"]],
                 cwd=root, capture_output=True, text=True,
                 env={**os.environ, "PATH": f"{root}{os.pathsep}{os.environ['PATH']}",
                      "CMAKE_BUILD_PARALLEL_LEVEL": "8",
+                     "VCPKG_MAX_CONCURRENCY": "8",
                      "TEST_BUILD_EXIT_CODE": str(exit_code)},
             )
-            log = (root / "build-windows-release.log").read_text()
+            log = (root / f"{command}-windows-release.log").read_text()
             return result, log
 
     def test_windows_build_serializes_compilers_even_with_inherited_parallelism(self):
-        result, log = self.run_windows_build(0)
+        result, log = self.run_windows_command(0)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(log, result.stdout)
         self.assertEqual(
             log.splitlines(),
-            ["parallel=1", "vcpkg=2", "arg=--build", "arg=--preset",
+            ["parallel=1", "vcpkg=1", "arg=--build", "arg=--preset",
              "arg=windows-release", "arg=--parallel", "arg=1"],
         )
 
+    def test_windows_configure_serializes_dependency_builds(self):
+        result, log = self.run_windows_command(0, command="configure")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(log, result.stdout)
+        self.assertEqual(
+            log.splitlines()[:4],
+            ["parallel=1", "vcpkg=1", "arg=--preset", "arg=windows-release"],
+        )
+
     def test_compiler_failure_is_not_hidden_by_tee(self):
-        result, log = self.run_windows_build(23)
+        result, log = self.run_windows_command(23)
+        self.assertEqual(result.returncode, 23)
+        self.assertEqual(log, result.stdout)
+
+    def test_configure_failure_is_not_hidden_by_tee(self):
+        result, log = self.run_windows_command(23, command="configure")
         self.assertEqual(result.returncode, 23)
         self.assertEqual(log, result.stdout)
 
