@@ -1,9 +1,17 @@
 # GPU Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Source-reviewed: 2026-10-31; roadmap statuses and runtime evidence not revalidated -->
+<!-- Source-reviewed: 2026-11-06 for the release-plan section; no runtime validation performed -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · PRODUCTION_REQUIREMENTS.md · PERFORMANCE_EXPECTATIONS.md · SECURITY.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phase D), §7 (risk) -->
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+Exact model backend not verifiable from final document text alone.
+-->
 
 ## Current Status
 
@@ -185,3 +193,267 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - Wave B performance consolidation depends on Wave A gate closure.
 - Wave C security validation depends on stable Wave A runtime behavior.
 - Wave D operability hardening depends on all prior waves being gate-complete.
+
+## Research-based Release Roadmap: v2.5.0 and v3.0.0
+
+This plan is a proposal, not a release commitment. It distinguishes the current
+program Waves A–D above from these release-specific steps. The source tree has
+broad GPU functionality (CUDA, ROCm/HIP, and Vulkan adapters; resource
+governance; query/training paths; tests and benchmark cases), but current
+release readiness is **implementation present, evidence and integration
+hardening incomplete**. It is not justified to call every backend, fallback,
+or security boundary production-ready.
+
+### Research findings and code gaps
+
+| Finding | Current evidence and gap | Roadmap consequence |
+|---|---|---|
+| GPU speedup is workload- and data-movement-dependent; kernel-only timings can hide query setup, transfer, synchronization, and result materialization costs. | [`RESEARCH.md`](RESEARCH.md) requires CPU comparison and transfer disclosure. [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) maps benchmark sources but declares no universal p99 threshold. | Capture cold and warm end-to-end plus operator timings, with transfer-inclusive and resident-data cases; qualify every speedup by workload and device. |
+| Users need clear workload eligibility and backend behavior, not an opaque “GPU enabled” switch. | Existing benchmark cases cover query acceleration, vector search, training, erasure encoding, transfer, and backend comparison; their target availability depends on build configuration. | Publish workload/backend support and break-even guidance so callers can predict supported operations and select CPU/GPU paths. |
+| Multi-backend source code does not establish feature or performance parity. | CUDA, ROCm, and Vulkan paths are represented in [`ARCHITECTURE.md`](ARCHITECTURE.md), while enabled features depend on build and device capabilities. | Publish an operation-by-backend capability matrix; unsupported operations must return a typed result or use a verified workload-specific CPU implementation. |
+| Test presence or CTest registration is not execution evidence. | [`tests/gpu/CMakeLists.txt`](../../tests/gpu/CMakeLists.txt) currently skips six suites that use a superseded API, including `test_gpu_resource_exhaustion`; CPU/stub tests do not establish device behavior. | Restore coverage by updating or replacing obsolete tests, then record actual CPU and hardware runs separately. Do not merely remove quarantine conditions. |
+| Fallback status is not equivalent to correct CPU computation. | [`include/gpu/GPU_CONTRACT.md`](../../include/gpu/GPU_CONTRACT.md) documents that `GPUModule::submitWork` can report fallback success without running the submitted work on CPU. | Verify each workload’s output and error contract; otherwise return an explicit failure and keep acceleration disabled for that operation. |
+| Existing isolation controls do not establish a sandbox for hostile kernels or tenant separation across all consumers. | [`wasm_kernel_sandbox.cpp`](wasm_kernel_sandbox.cpp) currently follows a CPU simulation path even with `THEMIS_ENABLE_WASM`; selected LLM/LoRA accounting call sites do not pass tenant IDs (see [`ARCHITECTURE.md`](ARCHITECTURE.md)). | Do not advertise arbitrary-kernel isolation or complete tenant quota enforcement until runtime and cross-tenant tests prove those properties. |
+| Historical CUDA-call reduction statements conflict and lack a current reproducible audit. | The root [`ROADMAP.md`](../../ROADMAP.md) records an estimated ~30% reduction, while [`GPU_CUDA_REDUCTION_TRACKING.md`](GPU_CUDA_REDUCTION_TRACKING.md) reports 75% in a historical snapshot but also says formal quantification is pending. | Re-audit the current tree against a reproducible baseline; do not use either percentage as a release result. |
+
+### v2.5.0 — correctness, safety, and reproducible evidence
+
+Scope: close current release blockers without expanding the public API or
+claiming unsupported hardware coverage. GPU acceleration remains optional where
+required hardware evidence is unavailable.
+
+#### Wave 1 — executable correctness and recovery gates (P0)
+
+**Goal:** Turn existing GPU test sources into executable, trustworthy release evidence.
+
+- [ ] Update obsolete failure/exhaustion suites for the current error API and register the intended `release_critical` cases; keep a suite quarantined until its assertions and linkage are valid (Target: v2.5.0).
+- [ ] Exercise workload-specific CPU/GPU output parity, cancellation/timeout, allocation failure, and device-unavailable behavior; distinguish “fallback executed” from “fallback unavailable” (Target: v2.5.0).
+- [ ] Re-run the CUDA-call and RAII ownership audit on current `src/gpu/` and `include/gpu/` sources; compare with the exact baseline revision and the root roadmap’s ≥40% Wave A reduction gate (Target: v2.5.0).
+
+**Dependencies:** Current public error and dispatch contracts; working CPU CI; a
+CUDA runner for hardware-only cases.<br>
+**Risk:** Old suites may encode superseded APIs or assert policy classification
+without executing a workload. Fix the tests and contracts rather than treating
+source presence as coverage.<br>
+**Effort:** 3–5 person-weeks, excluding runner provisioning.<br>
+**Success metrics:** 100% of in-scope release-critical tests build, are
+registered, and have a recorded execution result; zero quarantined release
+gates; the current-source CUDA audit either demonstrates the ≥40% reduction
+against the same baseline or records a release blocker for human disposition;
+every enabled workload either returns a parity-checked result or an
+explicit error; zero release claims based only on a CPU stub.<br>
+**Validation:** Focused GPU CTest on CPU-only and supported CUDA configurations;
+fault injection for timeout, quota/OOM, backend loss, and invalid capability;
+sanitizer runs where supported; archive configuration, device/runtime, command,
+and results.
+
+#### Wave 2 — tenant, kernel, and failure-boundary review (P0)
+
+**Goal:** Ensure the enabled execution and accounting paths enforce the declared tenant and trust boundaries.
+
+- [ ] Trace tenant identity through each enabled allocation/accounting path and add concurrent cross-tenant quota and cleanup regressions (Target: v2.5.0).
+- [ ] Define the supported trust boundary for kernel inputs; keep third-party/untrusted kernel execution disabled unless a real isolated runtime and its limits are implemented and independently reviewed (Target: v2.5.0).
+- [ ] Verify that each diagnostic, audit, quota-denial, and backend-degradation path reports a truthful result without converting an unexecuted fallback into success (Target: v2.5.0).
+
+**Dependencies:** Wave 1 test harness; deployment threat model and edition
+policy owners.<br>
+**Risk:** The current WASM-named implementation is not a WASM isolation runtime;
+claiming otherwise would create a false security boundary. Fixing tenant
+propagation may expose existing accounting assumptions in downstream modules.<br>
+**Effort:** 3–5 person-weeks.<br>
+**Success metrics:** Zero cross-tenant quota bypasses in concurrent tests; 100%
+of enabled allocation consumers either account against the correct tenant or
+are explicitly documented as non-tenant-scoped; no untrusted-kernel execution
+claim without an isolated runtime and reviewed threat model; no silent-success
+fallback outcomes.<br>
+**Validation:** Adversarial quota and device-loss tests, static review of
+ownership/error paths, and security review of enabled execution boundaries.
+
+#### Wave 3 — representative performance baselines (P1)
+
+**Goal:** Establish workload-specific GPU value and regression budgets from reproducible, representative measurements.
+
+- [ ] Run the mapped GPU benchmark set against the same CPU reference inputs; report cold-start and warm/steady-state cases, transfer inclusion, batch/concurrency, device/driver/runtime, build flags, and output validation (Target: v2.5.0).
+- [ ] Establish approved per-case p95/p99 and throughput budgets from representative hardware; retain raw results and profiler artifacts rather than importing historical estimates (Target: v2.5.0).
+- [ ] Keep a GPU route disabled or CPU-selected when it fails its measured break-even gate; for Category A distance/Top-K candidates, validate the existing proposed ≥1.5× speedup gate before enabling (Target: v2.5.0).
+
+**Dependencies:** Wave 1 correctness; representative CUDA hardware and
+configured CI runner; benchmark targets in root<br>
+`benchmarks/CMakeLists.txt`.<br>
+**Risk:** GPU runner scarcity, thermal/driver variance, and cold-cache effects
+can make results incomparable. No numeric universal p99 limit is currently
+declared by the module.<br>
+**Effort:** 2–4 person-weeks plus hardware scheduling.<br>
+**Success metrics:** 100% of release-mapped benchmark cases have a result or an
+explicit hardware-blocked status; each result includes p50/p95/p99, throughput,
+memory use, CPU comparison, and full environment metadata; Category A routes
+meet ≥1.5× or remain disabled; no >10% regression against an approved
+per-case baseline without an explicit waiver.<br>
+**Validation:** Repeated runs with fixed inputs and warm-up; compare
+transfer-inclusive end-to-end latency and kernel-only time; verify result
+parity. The 10% target is a proposed per-case guard, not a universal p99
+contract. Separately report the declared control-plane targets (device
+selection ≤100 µs, allocation ≤1 ms, quota check ≤10 µs, diagnostics ≤100 µs)
+as measured or unverified; contract declarations alone are not results.
+
+#### Wave 4 — v2.5.0 release handoff (P0)
+
+**Goal:** Make every v2.5.0 GPU readiness claim reproducible, reviewable, and reversible.
+
+- [ ] Publish a signed evidence manifest linking source revision, enabled backend, test results, benchmark artifacts, threat-model review, and known limitations (Target: v2.5.0).
+- [ ] Keep each optional backend behind its existing capability/feature gates until its corresponding build, focused tests, and hardware evidence pass; update GPU runbook and release notes from the verified results (Target: v2.5.0).
+
+**Dependencies:** Waves 1–3; platform/release and security reviewers.<br>
+**Risk:** Missing hardware or owner sign-off can delay the GPU release claim;
+the safe outcome is to defer that backend’s readiness, not to infer a pass.<br>
+**Effort:** 1–2 person-weeks.<br>
+**Success metrics:** Every v2.5.0 GPU readiness statement resolves to current,
+reviewed evidence; all release-critical checks pass or have an explicit
+blocker/waiver; rollback is a tested feature-gate/configuration change.<br>
+**Validation:** Release-candidate CI on the declared backend matrix, artifact
+and link audit, rollback drill, and human sign-off.
+
+### v3.0.0 — portable, multi-tenant, and operable acceleration
+
+Scope: strategic architecture work after v2.5.0 correctness contracts and
+representative baselines exist. v3.0.0 must not assume CUDA, HIP, and Vulkan are
+interchangeable or that process/container sharing is a hostile-tenant security
+boundary.
+
+#### Wave 5 — backend capability and parity contract (P1)
+
+**Goal:** Make cross-backend support explicit and preserve workload correctness despite backend-specific features.
+
+- [ ] Define the common operation/capability contract and explicit CUDA, ROCm/HIP, and Vulkan feature matrix; expose unsupported, disabled, and degraded states distinctly (Target: v3.0.0).
+- [ ] Implement cross-backend conformance tests for each operation advertised by that backend and document numerical tolerances and deterministic ordering requirements (Target: v3.0.0).
+
+**Dependencies:** v2.5.0 Waves 1 and 3; backend owners and supported-device
+inventory.<br>
+**Risk:** A lowest-common-denominator API can reduce backend-specific
+performance, while separate behavior can fragment caller semantics.<br>
+**Effort:** 6–10 person-weeks.<br>
+**Success metrics:** 100% of advertised backend/operation pairs have a passing
+conformance result on declared hardware; exact operators match exactly and
+floating-point/vector outputs meet documented per-operation tolerances (the
+existing vector-search proposal is relative error <1e-3); unsupported pairs
+fail explicitly or use verified CPU execution.<br>
+**Validation:** Backend CI matrix, deterministic parity corpus, numerical
+edge cases, and transfer-inclusive benchmark comparison.
+
+#### Wave 6 — topology-aware multi-GPU scheduling (P1)
+
+**Goal:** Improve scaling only where measured end-to-end benefit exceeds data-movement and coordination overhead.
+
+- [ ] Measure partitioning, peer transfer, queueing, and synchronization costs; use workload shape and measured break-even thresholds to select CPU, one GPU, or multiple GPUs (Target: v3.0.0).
+- [ ] Add deterministic recovery tests for device loss, stale topology, partial completion, and retry safety; retry only operations whose semantics permit it (Target: v3.0.0).
+
+**Dependencies:** Wave 5 contracts; representative 1/2/N-device systems and
+topology telemetry.<br>
+**Risk:** Interconnect and workload imbalance can erase nominal compute scaling;
+blind retries can duplicate non-idempotent work.<br>
+**Effort:** 6–10 person-weeks.<br>
+**Success metrics:** Report end-to-end scaling for 1, 2, and available N-device
+cases; for workloads classified as data-parallel, target ≥1.5× end-to-end
+speedup at two devices (confirm or revise after a Wave 5 pilot); zero duplicate
+commits/results in injected-failure tests; all scheduler choices have
+observable reasons.<br>
+**Validation:** Same-input scaling benchmarks including transfer and
+coordination; seeded fault injection; compare against single-device and CPU
+results.
+
+#### Wave 7 — explicit tenant isolation and trusted execution policy (P1; gate before enabling untrusted execution)
+
+**Goal:** Prevent accidental claims of isolation and make tenant resource ownership auditable across supported paths.
+
+- [ ] Separate trusted built-in kernels from tenant-supplied code in policy and API contracts; keep untrusted execution denied until an actual sandbox/isolation design has passed an independent security review (Target: v3.0.0).
+- [ ] Enforce tenant identity, quotas, memory lifetime, admission, and audit attribution end-to-end across every enabled backend and consumer (Target: v3.0.0).
+- [ ] Evaluate hardware partitioning (for supported NVIDIA MIG configurations) as an optional deployment control, not a portable or sufficient software sandbox (Target: v3.0.0).
+
+**Dependencies:** Wave 2 threat model and tenant tests; backend capability
+contract; security architecture approval.<br>
+**Risk:** Hardware partitioning is vendor-/device-specific; a WASM runtime,
+MIG, MPS, process isolation, or container boundary alone must not be presented
+as universal protection from malicious kernels or side channels. See NVIDIA’s
+[MPS documentation](https://docs.nvidia.com/deploy/mps/latest/index.html) for
+its multi-process sharing model.<br>
+**Effort:** 6–12 person-weeks, plus external review and hardware access.<br>
+**Success metrics:** Zero cross-tenant data or quota leakage in stress and
+fault-injection tests; all resource usage and denials attributable to a tenant;
+untrusted execution either remains disabled or passes a documented isolation,
+memory-limit, time-limit, and escape-test suite; zero unresolved critical/high
+findings at the release gate.<br>
+**Validation:** Threat-model review, hostile-input/kernel tests where enabled,
+quota fuzzing, sanitizer/driver diagnostics, independent security review, and
+deployment-specific MIG validation when used.
+
+#### Wave 8 — operations, governance, and v3.0.0 acceptance (P1)
+
+**Goal:** Make GPU behavior observable and the release support promise reproducible for operators.
+
+- [ ] Correlate query-level latency, transfer bytes, queue wait, fallback/error reason, memory pressure, and backend health with vendor device telemetry (Target: v3.0.0).
+- [ ] Publish a reproducible backend support matrix, dependency/license inventory, operator runbooks, SLOs, upgrade/rollback procedure, and signed evidence bundle (Target: v3.0.0).
+
+**Dependencies:** Waves 5–7; observability, packaging, security, and release
+owners.<br>
+**Risk:** Vendor telemetry can be unavailable or non-comparable; never make
+release acceptance depend on a metric that the supported backend cannot emit
+without documenting an equivalent.<br>
+**Effort:** 3–6 person-weeks.<br>
+**Success metrics:** 100% of supported deployment profiles expose the declared
+minimum health/error/fallback signals; all advertised backend profiles have a
+reproducible test/benchmark record and rollback path; required supply-chain,
+security, and human approvals are present.<br>
+**Validation:** Failure/soak drills, telemetry completeness checks, fresh
+environment reproduction, artifact/license audit, and release sign-off.
+
+### Open assumptions and trade-offs
+
+- Release dates, target device families, supported driver/runtime ranges, and
+  the availability of dedicated CUDA/ROCm/Vulkan hardware are not established
+  by this plan; effort is person-weeks and excludes infrastructure lead time.
+- No current, comparable GPU benchmark result or numeric universal p99 budget
+  is established by the reviewed module docs. Budgets must be approved per
+  workload and hardware profile before performance gates are enforced.
+- The ≥1.5× Category A break-even target and <1e-3 vector-search error are
+  existing proposals in module benchmark/future-enhancement sources; they are
+  not reported as measured results.
+- Isolation requirements depend on the deployment threat model. The plan makes
+  no compliance certification claim and treats vendor hardware partitioning as
+  an optional control with separate validation.
+- The generated developer wiki was last refreshed 2026-11-02 and reports a
+  large source delta; it is context only. Current module sources and the
+  2026-11-06 root roadmap take precedence until wiki synchronization is
+  refreshed.
+
+### Research references
+
+1. Williams, Waterman & Patterson, “Roofline: An Insightful Visual Performance
+   Model for Multicore Architectures,” CACM 52(4), 2009,
+   [doi:10.1145/1498765.1498785](https://doi.org/10.1145/1498765.1498785).
+   Use as a compute/bandwidth ceiling model; adapt it for query planning,
+   launch, synchronization, and transfer costs.
+2. Amdahl, “Validity of the Single Processor Approach to Achieving Large Scale
+   Computing Capabilities,” AFIPS, 1967,
+   [IEEE record](https://ieeexplore.ieee.org/abstract/document/4785615).
+   Accelerating one operator cannot remove serial/host/transfer fractions.
+3. Shanbhag et al., “Revisiting Query Performance in GPU Database Systems,”
+   2023, [arXiv:2302.00734](https://arxiv.org/abs/2302.00734). The examined
+   systems show that setup and data movement can dominate some query cases;
+   this is a motivation to measure, not a universal overhead estimate.
+4. NVIDIA, [CUDA C++ Best Practices Guide 13.0](https://docs.nvidia.com/cuda/archive/13.0.2/pdf/CUDA_C_Best_Practices_Guide.pdf),
+   2025; recommends profiling and minimizing host/device transfers.
+5. Mattson et al., “MLPerf Inference Benchmark,” 2019,
+   [arXiv:1911.02549](https://arxiv.org/abs/1911.02549). Its disciplined,
+   scenario-specific system measurement is a methodology precedent, not a
+   database workload benchmark.
+6. AMD, [HIP Porting Guide](https://rocm.docs.amd.com/projects/HIP/en/develop/how-to/hip_porting_guide.html);
+   Khronos, [Vulkan Portability Subset](https://docs.vulkan.org/refpages/latest/refpages/source/VkPhysicalDevicePortabilitySubsetFeaturesKHR.html).
+   Porting and feature support require per-backend capability validation.
+7. NVIDIA, [Multi-Instance GPU User Guide](https://docs.nvidia.com/datacenter/tesla/mig-user-guide/latest/introduction.html);
+   Sridhara et al., “AcAi: Protecting Accelerator Execution with Arm
+   Confidential Computing Architecture,” USENIX Security 2024,
+   [paper](https://www.usenix.org/system/files/usenixsecurity24-sridhara.pdf).
+   These describe specific isolation approaches, not a universal GPU sandbox.
+8. NVIDIA, [DCGM](https://developer.nvidia.com/dcgm); AMD,
+   [AMD SMI](https://rocm.docs.amd.com/projects/amdsmi/en/develop/how-to/amdsmi-cli-tool.html).
+   Device health telemetry should complement database-level workload metrics.
