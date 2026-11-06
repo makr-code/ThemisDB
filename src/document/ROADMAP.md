@@ -127,6 +127,7 @@ This section records proposed investigation and delivery measures, not approved 
 
 ### Maturity snapshot
 
+- **Current maturity assessment:** Functional reference layer with source-level feature and focused-test coverage; production durability, deployment security, and executed representative-hardware validation are not established. This qualitative assessment is not a generated maturity score.
 - **Implemented boundary:** `README.md` and the public headers in `../../include/document/` describe predominantly in-memory/reference implementations for store/manager, lifecycle, schema checks, diff/merge, XDOMEA, diagnostics, and encrypted-entity helpers. `src/document/round_trip_editor.cpp` wires round-trip snapshots to a supplied store. `IDocumentStore` is an interface; its existence does not imply a durable backend.
 - **Validation and exchange boundary:** `InMemoryDocumentSchemaEvolution` currently checks configured required fields and JSON types; it is not a general JSON Schema validator. Round-trip persistence does not itself call schema validation. The in-memory XDOMEA parser is not XSD validation.
 - **Encryption boundary:** `InMemoryDocumentManager::createEncrypted()` stores the JSON supplied by the caller as-is, and `InMemoryEncryptedEntity::reencrypt()` updates key-ID state but does not re-cipher stored document bytes. These helpers are not a production encryption/key-rotation path.
