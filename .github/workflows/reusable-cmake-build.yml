@@ -599,7 +599,7 @@ jobs:
           set -o pipefail
           set -e
           if [ "$status" -ne 0 ] && {
-            grep -q "Download timed out" "$configure_output_log" ||
+            grep -Eq 'Download timed out|error: curl operation failed with error code 35 \(SSL connect error\)' "$configure_output_log" ||
               { [ "${RUNNER_ARCH:-}" = "ARM64" ] && grep -Eq "building .* failed with: BUILD_FAILED" "$configure_output_log"; }
           }; then
             echo "::warning::Transient vcpkg download failure detected during configure; retrying once."
