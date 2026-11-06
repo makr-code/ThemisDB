@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-06"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -58,11 +58,48 @@ measure of factual correctness.
 - `tests/ai/test_ai_generation_soak_60min.cpp` exercises sustained behavior
   with controlled endpoint scenarios; it is not evidence of throughput or
   quality for a live provider.
+- `tests/ai/test_ai_highcardinality_stress.cpp` exercises in-process
+  simulations, not concurrent production AI or model-serving components.
 - `benchmarks/ai/bench_ai_plugin_generator.cpp` injects a callback returning
   canned JSON. Its validation, mapping, and malformed-response results exclude
   real model inference latency and output quality.
 - `src/ai/cai_ethics_integration.cpp` is a separate evaluation path; results
   depend on the configured principles, weights, and supplied response/query.
+
+## Research findings and scoped gaps
+
+The literature and guidance below support evaluation methods and risk controls;
+they do not establish that the current module meets a quality or security
+threshold.
+
+| Focus | Research/technical finding | Gap in the inspected AI-module scope |
+|---|---|---|
+| Performance and scale | LLM serving throughput and latency depend on serving-engine scheduling and KV-cache management, not only request parsing or JSON mapping. | The AI benchmark injects canned endpoint responses. It measures the wrapper/orchestration path, not provider latency, queueing, token throughput, memory, or cost. Record these separately in provider-backed runs. |
+| Usefulness and quality | Code-generation evaluation should exercise generated artifacts against executable task tests and report repeatability, rather than treating a model's self-reported status as correctness. | The generator requires non-empty implementation code and bounds fields, but the inspected AI tests do not compile or execute generated artifacts or establish a representative functional-quality baseline. |
+| Security and resilience | Generated code is untrusted output. Prompt injection, unsafe output handling, sensitive-data disclosure, and excessive permissions apply to a generation pipeline even when the response is valid JSON. | Endpoint allow-listing, size bounds, parsing, optional policy callbacks, and file read-back checks are present. File materialization is not OS-level isolation; independent build, test, and security verification is still required. |
+| Governance and maintenance | Generative-AI risk guidance emphasizes explicit risk inventory, evaluation, monitoring, documentation, and human governance across the lifecycle. | The CAI score is a configured policy signal, not independently calibrated factual correctness or universal safety evidence. Human/provider evaluation provenance is not in the callback benchmark. |
+
+These findings inform the version-separated proposal in
+[`ROADMAP.md`](./ROADMAP.md): v2.5.0 focuses on measurable operation,
+isolated verification, and provider-backed evaluation; v3.0.0 proposes a
+versioned provider contract and governed artifact lifecycle. Release gates and
+targets remain proposals until reviewed by maintainers.
+
+## Research references
+
+- Chen et al., “Evaluating Large Language Models Trained on Code,” 2021,
+  [arXiv:2107.03374](https://arxiv.org/abs/2107.03374). Supports execution-based
+  code-task evaluation; benchmark scores do not prove security.
+- Kwon et al., “Efficient Memory Management for Large Language Model Serving
+  with PagedAttention,” SOSP 2023,
+  [arXiv:2309.06180](https://arxiv.org/abs/2309.06180). Serving-engine
+  scheduling and KV-cache effects are outside this module's callback benchmark.
+- NIST, “Artificial Intelligence Risk Management Framework: Generative
+  Artificial Intelligence Profile,” NIST AI 600-1, 2024,
+  [DOI:10.6028/NIST.AI.600-1](https://doi.org/10.6028/NIST.AI.600-1).
+- OWASP, [Top 10 for Large Language Model Applications (2025)](https://genai.owasp.org/llm-top-10/),
+  including prompt injection, improper output handling, sensitive information
+  disclosure, and excessive agency.
 
 ## Reproducibility and limits
 
@@ -82,6 +119,7 @@ independent build, test, and security review before deployment.
 
 ## References
 
+- [AI module roadmap](./ROADMAP.md) — proposed v2.5.0/v3.0.0 waves and gates
 - [Modeling notes](./MODELING.md)
 - [AI module architecture](./ARCHITECTURE.md)
 - `include/ai/ai_plugin_generator.h`
