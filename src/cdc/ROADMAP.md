@@ -1,48 +1,151 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-11-06"
+Last Updated: "2026-11-06"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # CDC Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-27 -->
+<!-- Status: current | validated: 2026-11-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-Production CDC runtime exists for change capture, buffering, replay, delivery tracking, transport integration, and operations/admin surfaces.
+CDC is an established, feature-rich module, but its source interfaces and unit tests do not amount to an end-to-end, transaction-integrated CDC guarantee. The implementation provides a RocksDB-backed changefeed, sequence-based listing/replay, consumer groups, at-least-once delivery tracking, bounded backpressure contracts, outbox/DLQ, optional Kafka/WebSocket transports, schema interfaces, retention, redaction, and administrative diagnostics.
+
+The maturity gap is primarily consistency across process failure, source integration, multi-tenant operation, and representative workload evidence:
+
+| Area | Source-backed baseline | Gap / consequence |
+|---|---|---|
+| Capture and use cases | Hosts call `Changefeed::recordEvent`; separate push, poll, replay, group, transport, and admin surfaces. See [`ARCHITECTURE.md`](./ARCHITECTURE.md), [`changefeed.h`](../../include/cdc/changefeed.h). | No universal storage commit hook is established; applications must arrange capture. Snapshot/bootstrap and live-stream handoff are not provided as a CDC contract. |
+| Delivery and recovery | The contract promises at-least-once delivery, bounded pending work, explicit ack and fail-closed transport classification. | Group offsets persist but in-flight delivery is process-local; an outbox relay appends to the feed and marks the outbox record in separate operations. Restart/crash windows therefore need stronger idempotency/recovery evidence, not an exactly-once claim. |
+| Security and governance | Redaction, retention, auth tests, failure taxonomy, and admin audit surfaces exist. | These do not prove tenant isolation across every adapter, retention/redaction propagation to downstream copies, or a complete compliance evidence trail. |
+| Performance and scale | CDC-specific pipeline and delivery-gate benchmarks exist. | A declared threshold is not a measured release baseline. Full event-record/list benchmark coverage and concurrent-consumer/load-shape evidence need reconciliation and representative-hardware runs. |
+| Operations and maintenance | Metrics, health checks, diagnostics and a runbook exist. | Long-duration, restart, degradation, alert/actionability, and deployment-profile evidence remain open; optional transport headers do not guarantee that a build enables the backend. |
+
+**Maturity assessment:** strong core/API and deterministic unit-test foundation; intermediate integration/recovery maturity; release-grade performance and operational maturity are unverified. This assessment is based on the source references in this table and is not a production-readiness certification.
 
 ## In Progress
 
-- [~] hardening transport and replay consistency under degraded backend conditions (Target: Q3 2026)
-- [~] benchmark stabilization for capture/delivery latency and replication-lag pathways (Target: Q3 2026)
-- [~] diagnostics consistency improvements for DLQ/outbox/consumer-group edge behavior (Target: Q3 2026)
+- [~] validate transport/replay and outbox recovery semantics under process failure (Target: v2.5.0)
+- [~] establish representative CDC benchmark baselines; do not treat source thresholds as run results (Target: v2.5.0)
+- [~] specify transaction-integrated capture and consistent snapshot/live-stream handoff for the next major contract (Target: v3.0.0)
 
 ## Planned Features
 
-### Short-term (3-6 months)
-- [ ] tighten deterministic behavior for partial transport outages and failover transitions (Target: Q4 2026)
-  - Subsystems: `changefeed_transport*`, `cdc_replay_*`, `cdc_delivery_tracker*`, `cdc_consumer_group*`
-  - Runtime behavior: preserve ordered replay and idempotent acknowledgement when one transport path degrades.
-  - Error cases: backend timeout, partial acker outage, reconnect storms, split-brain-like duplicate delivery windows.
-  - Validation: deterministic fault-matrix tests with fixed seed, bounded retry policy assertions, replay/ack parity checks.
-- [ ] expand regression coverage for replay, acknowledgement, and delivery-timeout edge permutations (Target: Q4 2026)
-  - Subsystems: replay controller, DLQ/outbox transitions, delivery timeout policy.
-  - Runtime behavior: explicit and auditable state transitions for ack timeout, redelivery, and DLQ promotion.
-  - Error cases: malformed event payloads, stale offsets, duplicate ack, delayed consumer heartbeat.
-  - Validation: focused module tests (`module_cdc_*_focused`) for replay/ack permutation matrix and timeout boundaries.
-- [ ] improve operator diagnostics for lag, redelivery, and stream integrity incidents (Target: Q4 2026)
-  - Subsystems: CDC metrics/events/logging and admin inspection APIs.
-  - Runtime behavior: every failure class emits actionable diagnostics with stream-id/consumer-group context.
-  - Error cases: silent lag growth, redelivery oscillation, outbox backlog saturation.
-  - Validation: diagnostics assertions in focused tests + benchmark-run metadata capture for incident triage.
+### v2.5.0 — compatible reliability and evidence release
 
-### Mid-term (6-12 months)
-- [ ] re-baseline CDC p95/p99 and throughput envelopes for release profiles (Target: Q1 2027)
-  - Performance goal: re-derive p95/p99 latency and throughput envelopes from CDC-dedicated release-profile runs.
-  - Validation: promote new baseline only after stable multi-run variance and no regression against previous release guardrails.
-- [ ] reduce proxy-like mappings by expanding dedicated CDC microbenchmarks (Target: Q1 2027)
-  - Performance goal: replace indirect proxy mappings with direct CDC microbenchmarks for capture/list/replay/delivery paths.
-  - Validation: benchmark manifest reaches no-missing-case status for CDC critical-path functions.
-- [ ] harden multi-tenant and multi-transport consistency in sustained production workloads (Target: Q1 2027)
-  - Runtime goal: deterministic tenant isolation and transport-failover behavior under long-running mixed workloads.
-  - Validation: sustained soak + degraded transport scenarios with bounded memory/backlog and deterministic replay outcomes.
+Scope: harden the current at-least-once contract without silently changing public delivery semantics. Estimates are engineering effort, not calendar commitments; total 8–12 person-weeks.
+
+#### Wave 1 — Recovery and contract closure (P0; 3–4 person-weeks)
+- **Goal:** prove bounded, non-silent recovery semantics for the current feed, consumer-group, DLQ, and outbox behavior.
+- **Tasks:**
+  - [ ] Specify crash windows for relay append/state update, ack persistence, retry, and DLQ promotion (Target: v2.5.0 Wave 1).
+  - [ ] Make relay retries detect/reconcile an already-published record or explicitly document detectable duplicates (Target: v2.5.0 Wave 1).
+  - [ ] Test restart/reopen and failed database writes; document the at-least-once and application/sink-idempotency requirements (Target: v2.5.0 Wave 1).
+- **Dependencies:** `cdc_delivery_contract.h`; current outbox, delivery tracker, replay, and degradation tests.
+- **Risk / trade-off:** durable deduplication can add storage and write amplification; avoid claiming exactly-once effects across independently committed systems.
+- **Success metric:** every injected crash point yields no silent committed-outbox loss; any duplicate has a stable correlation identity and is observable; no ack advances before its offset is durable.
+- **Validation:** deterministic fault-injection/reopen tests for `test_cdc_outbox`, `test_cdc_replay_ack_hardening`, `test_cdc_transport_degradation`, and `test_cdc_delivery_tracker`; verify all focused CDC CTest cases.
+
+#### Wave 2 — Bounded scale, tenant isolation, and operator usability (P1; 2–3 person-weeks)
+- **Goal:** demonstrate predictable resource use and tenant/consumer isolation under mixed streams and degraded transports.
+- **Tasks:**
+  - [ ] Add long-running mixed-tenant tests for buffer limits, pending delivery, retention/redaction, consumer churn, reconnect, and DLQ saturation (Target: v2.5.0 Wave 2).
+  - [ ] Expose lag, sequence watermarks, retry count, and backlog remediation through admin/metrics/runbook surfaces (Target: v2.5.0 Wave 2).
+  - [ ] Document deployment and feature-flag prerequisites (Target: v2.5.0 Wave 2).
+- **Dependencies:** Wave 1 recovery invariants; existing tenant buffer, admin, metrics, auth, retention, redaction, and runbook surfaces.
+- **Risk / trade-off:** more dimensions in labels/metrics can raise cardinality and memory cost; set bounded label policy and test it.
+- **Success metric:** zero cross-tenant event/ack visibility in the test matrix; backlog and memory remain within configured bounds through a 24-hour soak; each injected failure maps to a documented diagnostic and operator action.
+- **Validation:** seeded tenant isolation/fault tests, 24-hour soak with bounded-memory assertions, restart and degradation matrix, security review of authorization and redaction paths.
+
+#### Wave 3 — Release-profile benchmark and acceptance gate (P1; 3–5 person-weeks)
+- **Goal:** replace benchmark-presence claims with reproducible release evidence for capture, listing, delivery, replay, and fan-out.
+- **Tasks:**
+  - [ ] Run all three registered CDC benchmark targets and record build/run success separately (Target: v2.5.0 Wave 3).
+  - [ ] Add missing record/list cases if needed and a true concurrent-consumer case (Target: v2.5.0 Wave 3).
+  - [ ] Report workload size, payload, hardware, RocksDB configuration, build profile, repetitions, p50/p95/p99, throughput, and variance; freeze the baseline only after repeatable runs (Target: v2.5.0 Wave 3).
+- **Dependencies:** Wave 1–2 semantics are stable; `THEMIS_BUILD_BENCHMARKS=ON`; representative runner and retained benchmark artifacts.
+- **Risk / trade-off:** host and RocksDB variance can obscure regressions; use same-runner comparisons and do not promote absolute thresholds as universal SLOs.
+- **Success metric:** all required CDC cases have artifacts; existing GATE-CDC-01..06 thresholds are met on the designated runner and repeated-run coefficient of variation is ≤5%; no >10% regression versus the accepted baseline.
+- **Validation:** `bench_cdc_pipeline`, `bench_cdc_delivery_gates`, and `bench_changefeed_throughput`; compare at least five runs on the same release profile; CI artifact and manifest review. Thresholds remain expectations until this evidence exists.
+
+### v3.0.0 — integrated capture and scalable CDC contract
+
+Scope: strategic major-version work. Breaking API/format changes are allowed only with an approved migration plan. Estimates total 18–28 person-weeks, excluding cross-module storage/transaction integration and production qualification.
+
+#### Wave 4 — Commit-integrated capture and snapshot/live handoff (P0; 6–9 person-weeks)
+- **Goal:** provide a supported way to couple committed database mutations to CDC and bootstrap/rebuild consumers without a gap between snapshot and live events.
+- **Tasks:**
+  - [ ] Design a storage/transaction commit integration contract (Target: v3.0.0 Wave 4).
+  - [ ] Define source position, transaction boundary, and event identity (Target: v3.0.0 Wave 4).
+  - [ ] Implement bounded chunked snapshot plus log/live interleaving with explicit watermarks (Target: v3.0.0 Wave 4).
+  - [ ] Specify retention-expiry and restart/resume behavior (Target: v3.0.0 Wave 4).
+- **Dependencies:** transaction/storage owners approve hook and ownership boundaries; Wave 1 defines duplicate/recovery semantics.
+- **Risk / trade-off:** storage engine coupling and snapshot read load; a generic hook may not cover all mutation paths. Keep app-driven recording explicit where atomic integration is unavailable.
+- **Success metric:** across randomized concurrent write/snapshot/restart tests, every committed mutation is represented and no stale snapshot row overwrites a newer change; measured source write-latency impact remains within an agreed, documented budget.
+- **Validation:** model-check the watermark/offset state machine (TLA+/equivalent), property-based interleaving tests, kill/restart tests, snapshot load and write-latency benchmarks.
+
+#### Wave 5 — Versioned event/schema and transport protocol (P1; 5–8 person-weeks)
+- **Goal:** make event schema, source position, partition/order scope, tenant identity, and transport capabilities explicit and evolvable.
+- **Tasks:**
+  - [ ] Define a versioned event envelope and compatibility rules (Target: v3.0.0 Wave 5).
+  - [ ] Connect schema registry/evolution interfaces to publish/consume paths (Target: v3.0.0 Wave 5).
+  - [ ] Specify partition key and ordering scope; version public contracts and transport capability negotiation (Target: v3.0.0 Wave 5).
+  - [ ] Provide v2.x-to-v3.0 migration/conversion guidance (Target: v3.0.0 Wave 5).
+- **Dependencies:** Wave 4 event identity and source position; Kafka/WebSocket adapter owners and schema governance.
+- **Risk / trade-off:** richer envelopes increase serialized bytes and can fracture consumer compatibility; preserve a documented compatibility reader or provide a one-time migration path, not an indefinite hidden legacy fallback.
+- **Success metric:** producer/consumer compatibility matrix passes for all supported schema transitions; malformed, unknown-version, and unauthorized tenant events fail closed; event-envelope overhead and p99 remain within approved Wave 3 baseline budgets.
+- **Validation:** cross-version contract tests, schema evolution/rollback tests, transport parity tests with optional adapters both enabled and disabled, security/privacy review.
+
+#### Wave 6 — Distributed operations, compliance, and production qualification (P1; 7–11 person-weeks)
+- **Goal:** qualify CDC for sustained multi-tenant, multi-transport deployments with auditable recovery and operator controls.
+- **Tasks:**
+  - [ ] Define supported failover/partition behavior and durable consumer ownership (Target: v3.0.0 Wave 6).
+  - [ ] Add end-to-end idempotent consumer/ack integration (Target: v3.0.0 Wave 6).
+  - [ ] Make retention and erasure propagation boundaries explicit for source, feed, DLQ, and downstream copies (Target: v3.0.0 Wave 6).
+  - [ ] Add tracing/lag SLOs, alert thresholds, remediation runbooks, and chaos/soak suites (Target: v3.0.0 Wave 6).
+- **Dependencies:** Waves 4–5; deployment-level identity/authorization, telemetry, and compliance owners.
+- **Risk / trade-off:** distributed coordination increases latency and operational complexity; guarantee only scoped ordering/atomicity, not global exactly-once outcomes without a transactional sink.
+- **Success metric:** 72-hour mixed-load soak and fault campaign completes with zero silent event loss, zero cross-tenant access, bounded backlog/memory, and successful resume within the agreed recovery-time objective; all alerts map to runbook actions.
+- **Validation:** multi-node failover/network partition and process-kill tests, sink idempotency tests, privacy/retention evidence review, 72-hour soak, representative-hardware p95/p99/throughput and capacity reports, release/security sign-off.
+
+## Research and Gap Analysis
+
+The following work informs design choices; it does not demonstrate that the cited capabilities are implemented in ThemisDB:
+
+| Finding | Current CDC evidence | Roadmap implication |
+|---|---|---|
+| Log-based CDC lowers dual-write coupling, but initial state and ongoing log capture need a consistent handoff. DBLog uses watermarks to interleave chunked reads with log events. | ThemisDB has sequence-based feed and replay but no source-integrated snapshot/live handoff contract. | Wave 4 introduces explicit source positions, chunk/watermark handoff, restart semantics, and model-checked state transitions. |
+| The outbox pattern atomically records intent with application data, while downstream publication still requires retries and idempotent handling. | `OutboxWriter` accepts the caller's RocksDB transaction; `OutboxRelay` forwards to `Changefeed` and updates the outbox record separately. | Wave 1 addresses publish/state crash windows; delivery remains at-least-once unless an end-to-end transactional sink is present. |
+| Delivery guarantees are boundary-specific: Kafka idempotence/transactions do not make an arbitrary external sink exactly-once. | `cdc_delivery_contract.h` states at-least-once delivery and explicit ack; application-level side effects are outside that contract. | Keep exactly-once effect claims out of v2.5. Define scope, event identity, and sink idempotency in v3.0. |
+| A CDC service is useful for downstream synchronization, caches/search/indexes, analytics and event-driven services, but deployment integration and operational controls determine usability. | Current APIs cover record/list, replay, groups, optional transports, outbox, schema interfaces, admin and redaction. Host applications currently initiate event recording. | Wave 2 improves operator and tenant usability; Waves 4–6 close source-integration, protocol, and operations gaps. |
+| Performance comparisons require fixed workload and environment metadata, repeated runs, and tail-latency distributions; a benchmark source or threshold is not performance evidence. | Three CDC benchmark sources exist; only measured run artifacts can prove gate status. | Wave 3 captures reproducible release-profile results before adopting or changing thresholds. |
+
+### Research references
+
+1. Andreakis & Papapanagiotou, [“DBLog: A Watermark Based Change-Data-Capture Framework”](https://arxiv.org/abs/2010.12597), 2020. Research basis for Wave 4's chunked snapshot/log watermark handoff.
+2. Andreakis, [“A Theoretical Study of DBLog: Certified Virtual Cuts for a Snapshot-Equivalent Replay of Live Databases”](https://arxiv.org/abs/2605.31475), 2026 preprint. Formal treatment of snapshot/log interleaving; use as design input, not as proof of this module's correctness.
+3. [Debezium Outbox Event Router documentation](https://debezium.io/documentation/reference/stable/transformations/outbox-event-router.html). Engineering reference for transactional outbox event routing and schema/payload conventions.
+4. [Apache Kafka delivery semantics](https://kafka.apache.org/documentation/#semantics). Boundary-specific at-most-once, at-least-once, and transactional processing guidance; does not establish exactly-once effects in arbitrary external systems.
+5. Kleppmann, *Designing Data-Intensive Applications*, 2017, chapters 11–12; already catalogued for `src/cdc/` in [`research/implementation_influence/README.md`](../../research/implementation_influence/README.md). Background on log-derived data integration and distributed processing trade-offs.
+
+## Open Assumptions and Evidence Gaps
+
+- Release dates and approved feature scope for v2.5.0 and v3.0.0 are not specified; the person-week estimates are planning ranges, not commitments.
+- No current representative-hardware CDC benchmark run artifact or production workload profile was verified for this review. Existing p99 thresholds are declared gates only.
+- The scope of transaction/storage integration, available commit hooks, and host mutation coverage must be confirmed with those module owners before Wave 4 is scheduled.
+- It is unknown whether deployments rely on relay duplicates, exact ordering across transports, or retention/redaction of already-exported events; migration and compliance requirements need operator input.
+- Kafka and WebSocket are optional build features; CI must test both enabled and disabled configurations where supported.
 
 ## Implementation Phases
 

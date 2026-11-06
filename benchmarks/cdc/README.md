@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-06"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -23,10 +23,13 @@ gates, and changefeed throughput:
 |---|---|---|
 | `bench_cdc_pipeline.cpp` | `bench_cdc_pipeline` | Group lifecycle, fetching, acknowledgement, concurrent fetch |
 | `bench_cdc_delivery_gates.cpp` | `bench_cdc_delivery_gates` | Delivery tracking, acknowledgements, group operations, replay gates CDG-01..06 |
-| `bench_changefeed_throughput.cpp` | Not registered in `benchmarks/CMakeLists.txt` | Event-type mix, burst writes, replication lag, event record/list latency |
+| `bench_changefeed_throughput.cpp` | `bench_changefeed_throughput` | Event-type mix, burst writes, replication lag, event record/list latency |
 
-The first two targets are registered conditionally in
-[`../CMakeLists.txt`](../CMakeLists.txt) when the corresponding source exists.
+All three targets are registered in [`../CMakeLists.txt`](../CMakeLists.txt)
+when `THEMIS_BUILD_BENCHMARKS=ON` and Google Benchmark is available. The
+`bench_cdc_pipeline` and `bench_cdc_delivery_gates` targets are added when their
+source files exist; `bench_changefeed_throughput` uses the standard benchmark
+registration helper.
 Configure a supported repository preset with `THEMIS_BUILD_BENCHMARKS=ON`,
 then build the desired target from that preset's binary directory. Presets
 that set the option to `OFF` must be overridden at configure time.
