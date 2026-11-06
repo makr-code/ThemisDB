@@ -1,10 +1,10 @@
 # Distributed Tensor Module Roadmap
 
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-06
 **Source level:** Level 1 — module implementation
 **SOT domain:** module-behavior
 **Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `cmake/CMakeLists.txt`, `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
-**Related:** Issue #7341
+**Related:** Issues #7341, #7414
 
 <!--
 AI_Used: true
@@ -247,6 +247,156 @@ revalidated in this source-only review.
   dependencies were not verified in this source review.
 - Advisory artifact handling is specified in the relevant public headers; its
   enforcement across all consumers was not validated in this review.
+
+## Research-Based Release Roadmap (Issue #7414)
+
+### Short assessment
+
+**Maturity: component prototype; not yet a production distributed-tensor runtime.**
+The module has public contracts for manifests, placement, retrieval planning,
+integrity, and recovery, but the reviewed code does not establish a complete
+networked execution path or production performance.
+The plausible current use is caller-managed placement and advisory retrieval of
+derived tensor artifacts; general remote shard fetching and distributed training
+are not established module capabilities.
+
+| Area | Source evidence | Gap and consequence |
+|---|---|---|
+| Application and API | `include/distributed_tensor/distributed_planner.h` exposes summary-first planning and an injectable `IFragmentFetcher`; `executeFragmentLoads()` fails when no fetcher is configured. `TensorTrainingCoordinator` invokes worker callbacks in-process (`tensor_training_coordinator.cc`). | The module can plan/delegate work but does not itself fetch remote shards or coordinate distributed training. No end-to-end user workflow is established by these interfaces. |
+| Integrity and security | The active target includes `src/distributed_tensor/integrity_verification.cc`, where `simple_sha256_hash()` is FNV-1a demonstration code; the separately present nested SHA implementation is not in the target source list. See `CMakeLists.txt` and `SECURITY.md`. | Hash enum names and Merkle-shaped receipts are not cryptographic evidence. Do not rely on them for tamper resistance or production trust decisions. |
+| Recovery and resilience | `recovery_manager.cc` creates in-memory jobs with timestamp-based IDs and heuristic recovery-time estimates; `recovery_manager.h` describes retries and degraded modes. | Durable job state, real shard transfer/reconstruction, idempotency, and observed recovery objectives are not established by this module source. |
+| Tests | `tests/distributed_tensor/CMakeLists.txt` registers allocation, operations, and performance tests; a separate EPIC 3 suite is registered from `tests/epic3_distributed_tensor/`. | Registration is not execution evidence. The latest recorded configure attempt in `TEST_EVIDENCE_COLLECTION.md` stopped before generating targets because `fmt` was unavailable; current pass status is unverified. |
+| Performance and operations | `benchmarks/distributed_tensor/bench_distributed_tensor_dedicated_gates.cpp` benchmarks in-process stubs. Separate EPIC 3 benchmark sources are configured independently. | Stub thresholds are not network/GPU measurements. No representative-hardware p95/p99 baseline, SLO, or production runbook validation is established. |
+
+### Research basis and design implications
+
+Research results motivate experiments; they are not ThemisDB results or
+guaranteed speedups. Any performance target below is a proposed acceptance
+criterion to be checked against a recorded baseline.
+
+| Research / technical source | Finding relevant to this module | Design implication |
+|---|---|---|
+| Kandadi et al., [*NCCL M2N: A Layout- and Topology-Aware Collective for Distributed Tensor Resharding*](https://arxiv.org/abs/2610.07516) (2026) | Describes avoiding replica-multiplied network traffic through layout-aware transfer scheduling and hierarchical topology routes; reports workload-specific speedups on a 256-GPU system. | Measure bytes moved and latency by topology; compare against an explicitly defined baseline. Do not transfer the paper’s speedup to ThemisDB or assume GPU/NCCL availability. |
+| Lian et al., [*Universal Checkpointing: Efficient and Flexible Checkpointing for Large Scale Distributed Training*](https://arxiv.org/abs/2406.18820) (arXiv:2406.18820, revised 2025) | Separates distributed checkpoint saving from representation used to load/restart under a different parallelism configuration. | Version checkpoint metadata and test restore compatibility across worker counts and layouts before promising elastic recovery. |
+| Gandhi and Kozyrakis, [*Sparse Checkpointing for Fast and Reliable MoE Training*](https://arxiv.org/abs/2412.15411) (MoEvement; NSDI 2026) | Evaluates incremental checkpointing and localized recovery, reporting trade-offs and gains for its MoE workloads. | Evaluate checkpoint cost, recovery scope, and consistency together; use results only to select experiments, not as module acceptance results. |
+| NIST [FIPS 180-4, *Secure Hash Standard*](https://doi.org/10.6028/NIST.FIPS.180-4) | Specifies secure hash algorithms whose digests detect message changes; a digest alone does not authenticate its producer. | Use a vetted cryptographic implementation and known-answer tests for integrity. Design authentication/key ownership separately; do not describe an unauthenticated digest as proof of origin. |
+
+### Release boundary and estimates
+
+- **v2.5.0:** make the existing component contracts safe to evaluate and
+  integrate; close cryptographic-integrity and bounded-failure gaps; produce
+  repeatable integration and performance evidence. This milestone does not
+  imply a built-in distributed training service.
+- **v3.0.0:** add topology-aware distributed execution and portable recovery
+  only after a concrete transport/ownership boundary is agreed and v2.5.0
+  evidence is available.
+- Estimates are engineering weeks (five working days per engineer-week), exclude
+  review and external hardware/cluster provisioning, and are planning ranges,
+  not commitments.
+
+### v2.5.0 — Component hardening and evidence
+
+#### Wave 1 — Evidence and contract closure (P0; 1–2 engineering weeks)
+
+- **Goal:** establish one verified contract and baseline for every implemented
+  path before expanding the API.
+- **Dependencies:** none.
+- **Tasks:**
+  - [ ] Reconcile the active CMake target, public headers, and registered local/EPIC 3 test and benchmark targets; label source registration separately from executed evidence (Target: v2.5.0).
+  - [ ] Specify manifest/receipt versioning, shard identity and ordering, freshness, graph-truth fallback, and failure semantics in the module contracts (Target: v2.5.0).
+  - [ ] Select and record the owning transport and durable-job-state interfaces with the relevant module maintainers; if ownership is unresolved, keep network execution out of scope (Target: v2.5.0).
+- **Risk / trade-off:** premature API commitments can create compatibility debt; limit changes to additive/versioned contracts and record unresolved integration ownership.
+- **Exit metrics:** 100% of public distributed operations have a documented owner, input/validation rule, failure outcome, and test target; every current performance claim is either linked to a raw result or marked as a target/unverified.
+- **Validation:** review CMake inventories and call paths; run focused tests after the required dependencies are available; retain exact configure/build/CTest output and mark unavailable runs as blocked, not passed.
+
+#### Wave 2 — Cryptographic integrity and manifest compatibility (P0; 2–4 engineering weeks)
+
+- **Goal:** remove the active demonstration-hash ambiguity and make receipts
+  verifiable across supported builds and manifest versions.
+- **Dependencies:** Wave 1; selection of an already-approved cryptographic implementation available in the repository’s supported build matrix.
+- **Tasks:**
+  - [ ] Route the active `themis_distributed_tensor` target through a vetted SHA-256 implementation (or another explicitly supported secure hash), reject unsupported algorithm identifiers, and remove misleading success semantics (Target: v2.5.0).
+  - [ ] Define canonical, unambiguous digest inputs including manifest version, artifact identity, and deterministically ordered shard IDs/content hashes; document that hashing alone does not authenticate a producer (Target: v2.5.0).
+  - [ ] Add known-answer, empty/malformed input, missing-shard-hash, reordered-shard, bit-flip, and old/new manifest compatibility tests to the configured focused suite (Target: v2.5.0).
+- **Risk / trade-off:** a secure hash costs more CPU than the demonstration hash and changing digest inputs invalidates old receipts; version receipts and require explicit re-verification/migration rather than silently accepting old digests.
+- **Exit metrics:** all selected standard known-answer vectors pass; every tested content or identity mutation is rejected; unsupported algorithms never produce a verified receipt; record hashing throughput by payload size and compare it to the pre-change baseline.
+- **Validation:** focused unit tests, sanitizer-enabled integrity tests where available, and a dependency/license/security review; do not claim cryptographic security from source names or test registration alone.
+
+#### Wave 3 — Bounded execution and recovery contracts (P0; 3–5 engineering weeks)
+
+- **Goal:** make delegated fetch and recovery behavior observable, bounded, and
+  safe under partial failure without introducing an implicit transport.
+- **Dependencies:** Wave 1 interface ownership; Wave 2 integrity verification; an approved transport and persistence owner before production adapter work.
+- **Tasks:**
+  - [ ] Define the adapter contract for deadlines, cancellation, maximum response size, shard/artifact identity checks, and structured failure results around `IFragmentFetcher` (Target: v2.5.0).
+  - [ ] Bound retries by both count and elapsed time, make retry eligibility/idempotency explicit, and prevent incomplete or unverified shards from becoming successful results (Target: v2.5.0).
+  - [ ] Define persistence and restart semantics for recovery jobs; keep the in-memory `DefaultRecoveryManager` explicitly non-durable until a compatible persistence backend is selected (Target: v2.5.0).
+  - [ ] Add contract tests for missing fetcher, timeout, cancellation, duplicate/unknown shard, partial response, corruption, exhausted retries, and primary-artifact degraded-mode rejection (Target: v2.5.0).
+- **Risk / trade-off:** retries and degraded reads can amplify load or weaken correctness; default to bounded fail-closed behavior for primary/ground-truth artifacts and make any advisory path explicit.
+- **Exit metrics:** 100% of injected failure cases terminate within the configured deadline plus documented test tolerance; retry count never exceeds the configured cap; zero incomplete, wrong-identity, or invalid-integrity results are accepted as success.
+- **Validation:** deterministic fault-injection tests; concurrency/race checks for recovery state; integration tests against the selected real adapter (not the in-process benchmark stubs); verify cancellation and resource cleanup.
+
+#### Wave 4 — v2.5.0 integration and performance evidence (P0; 2–4 engineering weeks)
+
+- **Goal:** establish release evidence for correctness, latency, throughput, and
+  recovery on an explicitly described deployment profile.
+- **Dependencies:** Waves 1–3 and a provisioned representative multi-process or multi-node environment.
+- **Tasks:**
+  - [ ] Add end-to-end tests that exercise placement → fetch → integrity check → fallback/recovery with the selected adapter, including a failed node and stale summary (Target: v2.5.0).
+  - [ ] Replace any release decision based on DT-BM-01..04 stub thresholds with measurements from the real execution path; retain the stubs only as isolated microbenchmarks (Target: v2.5.0).
+  - [ ] Capture p50/p95/p99 latency, throughput, bytes transferred, resource use, and recovery time for 1/2/4-node profiles and 1 MiB/64 MiB/1 GiB artifacts; run each profile at least three times and archive raw outputs with topology/build metadata (Target: v2.5.0).
+- **Risk / trade-off:** representative hardware and network variability may block or dominate results; publish environment and variance, and do not generalize a single topology’s result.
+- **Exit metrics:** all defined profiles have reproducible raw evidence; zero silent corruption or unsafe fallback across the failure matrix; p95/p99 thresholds are declared before the gate run and pass on the target profile. No throughput uplift is claimed without a measured baseline.
+- **Validation:** focused tests plus end-to-end fault runs; benchmark rerun for any failed gate; release review checks source, test, security, and benchmark evidence together.
+
+### v3.0.0 — Distributed execution and elastic operation
+
+#### Wave 5 — Topology-aware placement and resharding (P1; 4–6 engineering weeks)
+
+- **Goal:** reduce avoidable network movement for validated tensor layouts while
+  retaining deterministic placement and correctness.
+- **Dependencies:** v2.5.0 gates; selected transport; topology metadata and workload ownership supplied by the relevant cluster/accelerator modules.
+- **Tasks:**
+  - [ ] Extend placement and retrieval cost models to include source/destination layout, topology tiers, link bandwidth/latency, replication, and data volume (Target: v3.0.0).
+  - [ ] Implement a deterministic transfer schedule that avoids duplicate inter-domain egress where replicas can be created locally; expose plan rationale and estimated versus observed cost (Target: v3.0.0).
+  - [ ] Compare the schedule against the current supported baseline for at least three disclosed topology shapes and include exact-result parity tests (Target: v3.0.0).
+- **Risk / trade-off:** topology-aware planning adds metadata and schedule complexity and may overfit a single fabric; retain a deterministic baseline strategy and avoid unconditional GPU/NCCL dependencies.
+- **Exit metrics:** on preselected eligible reshard workloads, reduce median network bytes by at least 15% versus the recorded baseline with no correctness failures; p95 latency must not regress by more than 10% on any declared topology. Revisit these proposed thresholds if Wave 4 baselines show they are infeasible.
+- **Validation:** deterministic planner/property tests, randomized layout parity, and representative-hardware benchmarks; report bytes, latency, throughput, and variance separately.
+
+#### Wave 6 — Portable checkpoint and restart (P1; 5–8 engineering weeks)
+
+- **Goal:** restore a consistent artifact after worker loss or topology changes
+  without relying on process-local recovery state.
+- **Dependencies:** versioned manifests and integrity from Wave 2; durable recovery ownership from Wave 3; topology-aware placement from Wave 5.
+- **Tasks:**
+  - [ ] Define a versioned checkpoint format separating shard payload representation from the metadata needed to map shards onto a new worker layout (Target: v3.0.0).
+  - [ ] Implement checkpoint publication as an atomic, integrity-verified state transition; incomplete checkpoints must remain unavailable for restore (Target: v3.0.0).
+  - [ ] Test restart after process/node loss and restore across at least two worker counts and two supported topology classes, including interrupted writes and incompatible versions (Target: v3.0.0).
+- **Risk / trade-off:** layout-independent restore can increase metadata or conversion cost; benchmark save and restore separately and retain explicit compatibility windows.
+- **Exit metrics:** restore succeeds for every supported matrix case; RPO is no greater than the configured checkpoint interval; p99 restore time is no greater than 2× the measured clean-restart baseline; corrupted or incomplete checkpoints are rejected.
+- **Validation:** crash/fault injection at each publication boundary, compatibility tests across format versions, and repeated save/restore benchmarks with raw artifact and resource measurements.
+
+#### Wave 7 — Operational, security, and governance readiness (P1; 3–5 engineering weeks)
+
+- **Goal:** make distributed tensor behavior operable and auditable without
+  overstating regulatory certification.
+- **Dependencies:** Waves 4–6 and integration contracts for authorization, key management, metrics, and audit ownership.
+- **Tasks:**
+  - [ ] Define authorization checks for artifact/tenant access and authenticated provenance for manifests/receipts using the repository’s approved security services (Target: v3.0.0).
+  - [ ] Emit bounded-cardinality metrics and structured audit events for plan, fetch, integrity, fallback, retry, checkpoint, and recovery outcomes; redact payloads and secrets (Target: v3.0.0).
+  - [ ] Add operator guidance for degraded mode, capacity exhaustion, integrity failure, restore, rollback, and evidence retention; document supported deployment profiles (Target: v3.0.0).
+  - [ ] Run threat-model review, dependency/license review, sustained-load and chaos tests, and record human security/operations sign-off (Target: v3.0.0).
+- **Risk / trade-off:** signatures and audit retention add key-management and storage burden; delegate key custody and retention to approved shared services, and fail closed when trust cannot be established.
+- **Exit metrics:** every external artifact operation is authorized before data release; all security/fault scenarios have an explicit test and outcome; all required metrics and audit fields are present without payload/secret leakage; no open critical/high finding is accepted without the repository’s formal exception process.
+- **Validation:** security review and focused authorization/integrity tests; sustained-load and node-failure drills; audit redaction tests; runbook exercise and named human sign-off. Passing these checks is not a compliance certification.
+
+### Open assumptions and decision points
+
+- The root roadmap currently identifies v2.4.0-alpha as the current release; v2.5.0 and v3.0.0 are planning targets in this issue, not release dates or approved compatibility commitments.
+- A production transport, durable recovery store, authorization/key-management owner, and representative cluster are not established by the module sources reviewed here. Waves depending on these remain blocked until their owners and contracts are named.
+- The target hash library, receipt migration policy, supported topology matrix, workload mix, and deployment SLOs require maintainer decisions. Numeric performance targets above are proposed gates, not measured baselines.
+- Research papers report results for their own systems and hardware. Reproduce relevant comparisons using ThemisDB’s real execution path before adopting algorithmic or performance claims.
 
 ## Breaking Changes
 
