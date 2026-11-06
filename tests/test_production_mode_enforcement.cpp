@@ -4,6 +4,7 @@
 #include "core/config_validator.h"
 #include "core/concerns/concerns_context.h"
 #include <cstdlib>
+#include <string>
 
 #ifdef _WIN32
 static int setenv(const char* name, const char* value, int overwrite) {
@@ -80,41 +81,63 @@ TEST_F(ProductionModeTest, DetectsProductionFromEnvironmentVar) {
     EXPECT_TRUE(ProductionMode::isEnabled());
 }
 
-TEST_F(ProductionModeTest, DetectsDocumentedProductionValuesCaseInsensitively) {
-    for (const char* value : {"1", "TRUE", "Yes", "On", "Production"}) {
-        EnvGuard guard("THEMIS_PRODUCTION_MODE", value);
-        EXPECT_TRUE(ProductionMode::isEnabled()) << value;
+struct ProductionModeValueCase {
+    const char* variable;
+    const char* value;
+    bool expected;
+    bool invalid = false;
+};
+
+class ProductionModeValueTest : public ::testing::TestWithParam<ProductionModeValueCase> {
+protected:
+    void SetUp() override {
+        unsetenv("THEMIS_PRODUCTION_MODE");
+        unsetenv("THEMIS_ENVIRONMENT");
     }
 
-    for (const char* value : {"PRODUCTION", "Prod"}) {
-        EnvGuard guard("THEMIS_ENVIRONMENT", value);
-        EXPECT_TRUE(ProductionMode::isEnabled()) << value;
+    void TearDown() override {
+        unsetenv("THEMIS_PRODUCTION_MODE");
+        unsetenv("THEMIS_ENVIRONMENT");
+    }
+};
+
+TEST_P(ProductionModeValueTest, AppliesCanonicalCaseInsensitivePolicy) {
+    const auto& test_case = GetParam();
+    EnvGuard guard(test_case.variable, test_case.value);
+    if (test_case.invalid) {
+        EXPECT_THROW(ProductionMode::isEnabled(), std::runtime_error)
+            << test_case.variable << "=" << test_case.value;
+    } else {
+        EXPECT_EQ(ProductionMode::isEnabled(), test_case.expected)
+            << test_case.variable << "=" << test_case.value;
     }
 }
 
-TEST_F(ProductionModeTest, AcceptsDocumentedNonProductionValues) {
-    for (const char* value : {"0", "false", "NO", "Off"}) {
-        EnvGuard guard("THEMIS_PRODUCTION_MODE", value);
-        EXPECT_FALSE(ProductionMode::isEnabled()) << value;
-    }
-
-    for (const char* value : {
-             "development", "Dev", "test", "Testing", "staging", "Stage", "CI", "local"}) {
-        EnvGuard guard("THEMIS_ENVIRONMENT", value);
-        EXPECT_FALSE(ProductionMode::isEnabled()) << value;
-    }
-}
-
-TEST_F(ProductionModeTest, RejectsUnknownModeAndEnvironmentValues) {
-    {
-        EnvGuard guard("THEMIS_PRODUCTION_MODE", "sometimes");
-        EXPECT_THROW(ProductionMode::isEnabled(), std::runtime_error);
-    }
-    {
-        EnvGuard guard("THEMIS_ENVIRONMENT", "preprod");
-        EXPECT_THROW(ProductionMode::isEnabled(), std::runtime_error);
-    }
-}
+INSTANTIATE_TEST_SUITE_P(
+    CanonicalValues,
+    ProductionModeValueTest,
+    ::testing::Values(
+        ProductionModeValueCase{"THEMIS_PRODUCTION_MODE", "1", true},
+        ProductionModeValueCase{"THEMIS_PRODUCTION_MODE", "TRUE", true},
+        ProductionModeValueCase{"THEMIS_PRODUCTION_MODE", "Yes", true},
+        ProductionModeValueCase{"THEMIS_PRODUCTION_MODE", "On", true},
+        ProductionModeValueCase{"THEMIS_PRODUCTION_MODE", "Production", true},
+        ProductionModeValueCase{"THEMIS_PRODUCTION_MODE", "0", false},
+        ProductionModeValueCase{"THEMIS_PRODUCTION_MODE", "false", false},
+        ProductionModeValueCase{"THEMIS_PRODUCTION_MODE", "NO", false},
+        ProductionModeValueCase{"THEMIS_PRODUCTION_MODE", "Off", false},
+        ProductionModeValueCase{"THEMIS_ENVIRONMENT", "PRODUCTION", true},
+        ProductionModeValueCase{"THEMIS_ENVIRONMENT", "Prod", true},
+        ProductionModeValueCase{"THEMIS_ENVIRONMENT", "development", false},
+        ProductionModeValueCase{"THEMIS_ENVIRONMENT", "Dev", false},
+        ProductionModeValueCase{"THEMIS_ENVIRONMENT", "test", false},
+        ProductionModeValueCase{"THEMIS_ENVIRONMENT", "Testing", false},
+        ProductionModeValueCase{"THEMIS_ENVIRONMENT", "staging", false},
+        ProductionModeValueCase{"THEMIS_ENVIRONMENT", "Stage", false},
+        ProductionModeValueCase{"THEMIS_ENVIRONMENT", "CI", false},
+        ProductionModeValueCase{"THEMIS_ENVIRONMENT", "local", false},
+        ProductionModeValueCase{"THEMIS_PRODUCTION_MODE", "sometimes", false, true},
+        ProductionModeValueCase{"THEMIS_ENVIRONMENT", "preprod", false, true}));
 
 TEST_F(ProductionModeTest, RejectsUnknownEnvironmentEvenWhenProductionIsEnabled) {
     EnvGuard production("THEMIS_PRODUCTION_MODE", "1");

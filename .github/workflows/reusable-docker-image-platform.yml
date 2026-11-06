@@ -31,6 +31,11 @@ on:
         required: false
         default: true
         type: boolean
+      dry_run:
+        description: "Build and validate without logging into or publishing to any registry"
+        required: false
+        default: false
+        type: boolean
       include_tinyllama:
         description: "Whether an LLM model should be included in the Docker image"
         required: false
@@ -66,6 +71,11 @@ on:
         required: false
         default: ""
         type: string
+      override_docker_source_preflight:
+        description: "Skip Docker source regression checks only after manually reviewing the selected source; build, security and runtime gates still apply"
+        required: false
+        default: false
+        type: boolean
     outputs:
       digest:
         description: "The pushed digest for this platform"
@@ -114,7 +124,7 @@ jobs:
       cache_key_suffix: ${{ github.ref_name || github.sha }}
 
   build:
-    environment: ${{ inputs.push_to_registry && 'docker-production' || 'docker-validation' }}
+    environment: ${{ inputs.push_to_registry && !inputs.dry_run && 'docker-production' || 'docker-validation' }}
     needs: [prepare-llm-model-cache]
     if: >-
       always() && (
@@ -187,7 +197,22 @@ jobs:
             exit 1
           fi
 
+      - name: Validate Docker vcpkg bootstrap architecture
+        if: ${{ inputs.platform == 'linux/arm64' && (inputs.push_to_registry || inputs.dry_run) }}
+        shell: bash
+        env:
+          WORKFLOW_SHA: ${{ github.sha }}
+          THEMIS_SOURCE_ROOT: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$WORKFLOW_SHA"
+          VALIDATOR="$(mktemp "${RUNNER_TEMP}/docker-vcpkg-bootstrap-XXXXXX.py")"
+          trap 'rm -f "$VALIDATOR"' EXIT
+          git show "${WORKFLOW_SHA}:tests/test_docker_runtime_package_regressions.py" > "$VALIDATOR"
+          python3 "$VALIDATOR" DockerRuntimePackageRegressionTests.test_vcpkg_bootstrap_supports_native_arm64 -v
+
       - name: Validate Docker dependency providers and runtime packages
+        if: ${{ !inputs.override_docker_source_preflight }}
         shell: bash
         env:
           WORKFLOW_SHA: ${{ github.sha }}
@@ -200,12 +225,22 @@ jobs:
           git show "${WORKFLOW_SHA}:tests/test_docker_runtime_package_regressions.py" > "$VALIDATOR"
           python3 "$VALIDATOR" -v
 
+      - name: Report Docker source preflight override
+        if: ${{ inputs.override_docker_source_preflight }}
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+          SOURCE_SHA: ${{ inputs.source_sha || github.sha }}
+          PLATFORM: ${{ inputs.platform }}
+        run: |
+          echo "::warning::Docker source regression checks were explicitly skipped for ${RELEASE_VERSION} (${SOURCE_SHA}) on ${PLATFORM}. This source may fail to build or produce a broken image on this platform; the selected source commit was not changed. Docker syntax, vcpkg bootstrap architecture, edition boundary, build, Trivy and final runtime smoke gates still apply."
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1
 
       - name: Log in to Docker Hub
         if: |
-          (inputs.push_to_registry == true || inputs.push_to_registry == 'true') && (
+          (inputs.push_to_registry == true || inputs.push_to_registry == 'true') && !inputs.dry_run && (
             github.event_name == 'release' ||
             (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'docker.io') ||
             (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'both') ||
@@ -217,7 +252,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Log in to GitHub Container Registry (OIDC)
-        if: inputs.push_to_registry
+        if: inputs.push_to_registry && !inputs.dry_run
         uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
         with:
           registry: ghcr.io
@@ -336,11 +371,11 @@ jobs:
           pull: false
           secret-files: |
             extra_ca_bundle=${{ steps.host-ca.outputs.path }}
-          load: ${{ ! (inputs.push_to_registry == true || inputs.push_to_registry == 'true') }}
-          push: ${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' }}
+          load: ${{ ! ((inputs.push_to_registry == true || inputs.push_to_registry == 'true') && !inputs.dry_run) }}
+          push: ${{ (inputs.push_to_registry == true || inputs.push_to_registry == 'true') && !inputs.dry_run }}
           platforms: ${{ inputs.platform }}
-          provenance: ${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' }}
-          sbom: ${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' }}
+          provenance: ${{ (inputs.push_to_registry == true || inputs.push_to_registry == 'true') && !inputs.dry_run }}
+          sbom: ${{ (inputs.push_to_registry == true || inputs.push_to_registry == 'true') && !inputs.dry_run }}
           tags: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
           build-args: |
             THEMIS_EDITION=${{ inputs.edition }}
@@ -359,7 +394,7 @@ jobs:
             type=gha,mode=max,scope=${{ steps.cache-scope.outputs.lane }}
 
       - name: Pull pushed image locally for release-gate scan
-        if: inputs.push_to_registry
+        if: inputs.push_to_registry && !inputs.dry_run
         shell: bash
         env:
           REGISTRY_TAG: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
@@ -372,7 +407,7 @@ jobs:
           }
 
       - name: Trivy vulnerability scan
-        if: inputs.push_to_registry
+        if: inputs.push_to_registry || inputs.dry_run
         shell: bash
         env:
           IMAGE_REF: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
@@ -403,8 +438,35 @@ jobs:
             --format table \
             --exit-code 1
 
+      - name: Validate final image runtime without build-host libraries
+        shell: bash
+        env:
+          WORKFLOW_SHA: ${{ github.sha }}
+          IMAGE_REF: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
+          IMAGE_DIGEST: ${{ steps.build-candidate.outputs.digest }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$WORKFLOW_SHA"
+          VALIDATOR="${RUNNER_TEMP}/runtime_smoke_gate.py"
+          git show "${WORKFLOW_SHA}:scripts/release/runtime_smoke_gate.py" > "$VALIDATOR"
+          git show "${WORKFLOW_SHA}:scripts/release/validate_runtime_payload.py" > "${RUNNER_TEMP}/validate_runtime_payload.py"
+          if [[ -n "$IMAGE_DIGEST" ]]; then
+            IMAGE_REF="${IMAGE_REF}@${IMAGE_DIGEST}"
+          fi
+          python3 "$VALIDATOR" --image "$IMAGE_REF" \
+            --output "${RUNNER_TEMP}/runtime-smoke-${{ steps.platform-tag.outputs.value }}.json"
+
+      - name: Upload runtime dependency and startup evidence
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: docker-runtime-smoke-${{ steps.platform-tag.outputs.value }}-${{ github.run_number }}
+          path: ${{ runner.temp }}/runtime-smoke-${{ steps.platform-tag.outputs.value }}.json
+          if-no-files-found: warn
+          retention-days: 30
+
       - name: Write digest artifact
-        if: (inputs.push_to_registry == true || inputs.push_to_registry == 'true')
+        if: (inputs.push_to_registry == true || inputs.push_to_registry == 'true') && !inputs.dry_run
         shell: bash
         run: |
           set -euo pipefail
@@ -414,7 +476,7 @@ jobs:
           echo "Platform digest ref: ${IMAGE_REF}"
 
       - name: Upload platform digest
-        if: (inputs.push_to_registry == true || inputs.push_to_registry == 'true')
+        if: (inputs.push_to_registry == true || inputs.push_to_registry == 'true') && !inputs.dry_run
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: docker-digest-${{ steps.platform-tag.outputs.value }}

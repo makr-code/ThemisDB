@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-11-02"
+Last Updated: "2026-11-02"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Distributed Transaction Coordinator with 2PC
 
 ## Overview
@@ -494,6 +508,13 @@ Transaction lifecycle events are logged:
 > ⚠️ `snapshot_isolation` kann Write-Skew- und Phantom-Read-Anomalien zulassen.
 > Der Server-Default kann per Environment-Variable
 > `THEMIS_DTXN_DEFAULT_ISOLATION` auf `snapshot_isolation` oder `serializable` gesetzt werden.
+
+For the HTTP API, each shard must be registered with `ShardingManager`. The
+runtime resolves the exact `node_address`, decimal `node_id`, `shard<node_id>`,
+or `shard-<node_id>` to its RPC endpoint. Thus the example IDs `shard1` and
+`shard2` refer to registered node IDs 1 and 2. An unregistered ID has no
+participant endpoint; commit fails closed rather than treating it as a
+successful local transaction.
 
 **Example — multi-shard transfer:**
 

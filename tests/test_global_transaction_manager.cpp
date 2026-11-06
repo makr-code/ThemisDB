@@ -2,12 +2,17 @@
 // Licensed under MIT License
 //
 // Unit tests for GlobalTransactionManager (multi-region ACID guarantees)
+// AI-assisted durability regression coverage (2026-11-03); human review pending.
 
 #include <gtest/gtest.h>
 #include "transaction/global_transaction_manager.h"
 #include "sharding/truetime.h"
 #include <atomic>
+#include <chrono>
+#include <cstdlib>
+#include <filesystem>
 #include <mutex>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -90,6 +95,19 @@ private:
     std::string        last_abort_txn_;
 };
 
+class CommitFailingRegionParticipant : public IGlobalRegionParticipant {
+public:
+    bool prepare(const std::string&, const nlohmann::json&) override {
+        return true;
+    }
+
+    void commit(const std::string&, int64_t) override {
+        throw std::runtime_error("mock commit failure");
+    }
+
+    void abort(const std::string&) override {}
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Fixture
 // ─────────────────────────────────────────────────────────────────────────────
@@ -104,18 +122,64 @@ protected:
         truetime_ = std::make_shared<TrueTime>(tt_cfg);
 
         GlobalTransactionManager::Config cfg;
-        // No WAL directory → WAL disabled (keeps tests hermetic)
+        wal_directory_ = (std::filesystem::temp_directory_path() /
+            ("themis_global_txn_test_" + std::to_string(
+                std::chrono::steady_clock::now().time_since_epoch().count()))).string();
+        cfg.wal_directory = wal_directory_;
         gtm_ = std::make_unique<GlobalTransactionManager>("test-coord", truetime_, cfg);
     }
 
     void TearDown() override {
         gtm_.reset();
         truetime_.reset();
+        std::error_code ec;
+        std::filesystem::remove_all(wal_directory_, ec);
+        EXPECT_FALSE(ec) << ec.message();
+    }
+
+    void useAsyncWAL() {
+        gtm_.reset();
+        GlobalTransactionManager::Config config;
+        config.wal_directory = wal_directory_;
+        config.sync_wal_writes = false;
+        gtm_ = std::make_unique<GlobalTransactionManager>("async-coord", truetime_, config);
     }
 
     std::shared_ptr<TrueTime>              truetime_;
     std::unique_ptr<GlobalTransactionManager> gtm_;
+    std::string wal_directory_;
 };
+
+#ifndef _WIN32
+// Reuse WALStorage's existing one-shot fsync failure hook; never leave it armed
+// for another test or for fixture teardown.
+class ScopedWALFsyncFailure {
+public:
+    ScopedWALFsyncFailure() {
+        const char* previous = std::getenv("THEMIS_TEST_WAL_FSYNC_FAIL_ONCE");
+        if (previous) {
+            previous_ = previous;
+        }
+        if (::setenv("THEMIS_TEST_WAL_FSYNC_FAIL_ONCE", "1", 1) != 0) {
+            throw std::runtime_error("cannot arm WAL fsync failure");
+        }
+    }
+
+    ~ScopedWALFsyncFailure() {
+        if (previous_) {
+            ::setenv("THEMIS_TEST_WAL_FSYNC_FAIL_ONCE", previous_->c_str(), 1);
+        } else {
+            ::unsetenv("THEMIS_TEST_WAL_FSYNC_FAIL_ONCE");
+        }
+    }
+
+    ScopedWALFsyncFailure(const ScopedWALFsyncFailure&) = delete;
+    ScopedWALFsyncFailure& operator=(const ScopedWALFsyncFailure&) = delete;
+
+private:
+    std::optional<std::string> previous_;
+};
+#endif
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Tests: region management
@@ -234,6 +298,113 @@ TEST_F(GlobalTransactionManagerTest, CommitSingleRegionSuccess) {
     EXPECT_EQ(p.lastCommitTxn(),  txn_id);
     EXPECT_EQ(p.lastCommitTs(),   outcome.commit_timestamp_ns);
 }
+
+TEST_F(GlobalTransactionManagerTest, MissingWALDoesNotPrepareParticipants) {
+    GlobalTransactionManager::Config config;
+    GlobalTransactionManager no_wal("no-wal-coord", truetime_, config);
+    MockRegionParticipant participant;
+    no_wal.registerRegion("region", &participant);
+    const auto txn_id = no_wal.beginTransaction({"region"});
+
+    const auto outcome = no_wal.commit(txn_id);
+
+    EXPECT_EQ(outcome.result, GlobalTxnResult::FAILURE);
+    EXPECT_EQ(participant.prepareCount(), 0);
+    EXPECT_EQ(participant.commitCount(), 0);
+    EXPECT_EQ(participant.abortCount(), 0);
+}
+
+TEST_F(GlobalTransactionManagerTest, FailedPhase2DoesNotAcknowledgeCommit) {
+    CommitFailingRegionParticipant participant;
+    gtm_->registerRegion("region", &participant);
+    const auto txn_id = gtm_->beginTransaction({"region"});
+
+    const auto outcome = gtm_->commit(txn_id);
+
+    EXPECT_EQ(outcome.result, GlobalTxnResult::FAILURE);
+    EXPECT_EQ(gtm_->getTransactionState(txn_id), GlobalTxnState::COMMIT_DECIDED);
+}
+
+TEST_F(GlobalTransactionManagerTest, AsyncWALPersistsDecisionAndCompletionAcrossRestart) {
+    gtm_.reset();
+    GlobalTransactionManager::Config config;
+    config.wal_directory = wal_directory_;
+    config.sync_wal_writes = false;
+    gtm_ = std::make_unique<GlobalTransactionManager>("async-coord", truetime_, config);
+    MockRegionParticipant participant;
+    gtm_->registerRegion("region", &participant);
+    const auto txn_id = gtm_->beginTransaction({"region"});
+    const auto outcome = gtm_->commit(txn_id);
+    ASSERT_EQ(outcome.result, GlobalTxnResult::COMMITTED);
+
+    gtm_.reset();
+    WALManagerConfig wal_config;
+    wal_config.wal_directory = wal_directory_;
+    {
+        WALManager wal(wal_config);
+        const auto entries = wal.readRange(wal.getOldestLSN());
+        ASSERT_EQ(entries.size(), 3u);
+        EXPECT_EQ(entries[0].type, WALEntryType::BEGIN_TX);
+        EXPECT_EQ(entries[1].type, WALEntryType::COMMIT_TX);
+        EXPECT_EQ(entries[1].data.at("decision"), "commit");
+        EXPECT_EQ(entries[1].data.at("commit_timestamp_ns"), outcome.commit_timestamp_ns);
+        EXPECT_EQ(entries[2].data.at("phase"), "complete");
+        for (const auto& entry : entries) {
+            EXPECT_EQ(entry.transaction_id, txn_id);
+        }
+    }
+    gtm_ = std::make_unique<GlobalTransactionManager>("async-coord", truetime_, config);
+    gtm_->registerRegion("region", &participant);
+    EXPECT_EQ(gtm_->recoverInDoubtTransactions(), 0u);
+    EXPECT_EQ(gtm_->getTransactionState(txn_id), GlobalTxnState::COMPLETED);
+    EXPECT_EQ(participant.commitCount(), 1);
+}
+
+#ifndef _WIN32
+TEST_F(GlobalTransactionManagerTest, AsyncWALBeginFlushFailureDoesNotCreateTransaction) {
+    useAsyncWAL();
+    MockRegionParticipant participant;
+    gtm_->registerRegion("region", &participant);
+
+    ScopedWALFsyncFailure failure;
+    EXPECT_THROW(gtm_->beginTransaction({"region"}), std::runtime_error);
+    EXPECT_TRUE(gtm_->getRecoverableTransactions().empty());
+    EXPECT_EQ(gtm_->getStatistics().at("total_transactions"), 0);
+    EXPECT_EQ(participant.prepareCount(), 0);
+}
+
+TEST_F(GlobalTransactionManagerTest, AsyncWALDecisionFlushFailureSuppressesPhase2) {
+    useAsyncWAL();
+    MockRegionParticipant participant;
+    gtm_->registerRegion("region", &participant);
+    const auto txn_id = gtm_->beginTransaction({"region"});
+
+    ScopedWALFsyncFailure failure;
+    const auto outcome = gtm_->commit(txn_id);
+    EXPECT_EQ(outcome.result, GlobalTxnResult::FAILURE);
+    EXPECT_FALSE(outcome.reason.empty());
+    EXPECT_EQ(participant.prepareCount(), 1);
+    EXPECT_EQ(participant.commitCount(), 0);
+    EXPECT_EQ(participant.abortCount(), 0);
+    EXPECT_EQ(gtm_->getTransactionState(txn_id), GlobalTxnState::COMMIT_DECIDED);
+    EXPECT_EQ(gtm_->getStatistics().at("total_errors"), 1);
+    EXPECT_FALSE(gtm_->abort(txn_id)); // Never reverse an uncertain COMMIT.
+}
+
+TEST_F(GlobalTransactionManagerTest, AbortFlushFailureDoesNotMarkCompleted) {
+    useAsyncWAL();
+    MockRegionParticipant participant;
+    gtm_->registerRegion("region", &participant);
+    const auto txn_id = gtm_->beginTransaction({"region"});
+
+    ScopedWALFsyncFailure failure;
+    EXPECT_FALSE(gtm_->abort(txn_id));
+    EXPECT_EQ(gtm_->getTransactionState(txn_id), GlobalTxnState::ACTIVE);
+    EXPECT_EQ(participant.abortCount(), 0);
+    EXPECT_EQ(gtm_->getStatistics().at("total_aborts"), 0);
+}
+
+#endif
 
 TEST_F(GlobalTransactionManagerTest, CommitMultipleRegionsSuccess) {
     MockRegionParticipant p1, p2, p3;

@@ -13,6 +13,7 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <iostream>
+#include <spdlog/spdlog.h>
 #include <stdexcept>
 
 namespace themisdb {

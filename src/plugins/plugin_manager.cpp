@@ -252,16 +252,9 @@ bool PluginManager::verifyPlugin(const std::string& path, std::string& error_mes
     using namespace themis::acceleration;
     
     PluginSecurityPolicy policy;
-    
-#ifdef NDEBUG
-    // Production: Require signature
     policy.requireSignature = true;
     policy.allowUnsigned = false;
-#else
-    // Development: Allow unsigned
-    policy.requireSignature = false;
-    policy.allowUnsigned = true;
-#endif
+    policy.trustedSignerFingerprints = trusted_signer_fingerprints_;
     
     PluginSecurityVerifier verifier(policy);
     return verifier.verifyPlugin(path, error_message);
@@ -1882,6 +1875,14 @@ PluginNegotiationResult PluginManager::negotiateCapabilities(
     return result;
 }
 
+PluginManager::PluginManager()
+    : PluginManager(acceleration::pluginSignerFingerprintsFromEnvironment()) {}
+
+PluginManager::PluginManager(std::vector<std::string> trusted_signer_fingerprints)
+    : trusted_signer_fingerprints_(
+          acceleration::normalizePluginSignerFingerprints(
+              std::move(trusted_signer_fingerprints))) {}
+
 PluginManager::~PluginManager() {
     (void)unloadAllPlugins();
 }
@@ -2753,4 +2754,3 @@ std::string PluginManager::formatDiagnosticMessage(
 
 } // namespace plugins
 } // namespace themis
-

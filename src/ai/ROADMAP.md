@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-06"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -15,22 +15,183 @@ Human_Author: "ThemisDB Team"
 AI provenance note: Exact model backend not verifiable from final document text alone.
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-09-16 -->
+<!-- Status: current | source-checked: 2026-11-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
-<!-- Wave Status: A ✅ COMPLETE · B ✅ SIGNED OFF 2026-09-09 · C ✅ COMPLETE · D 🟡 IN PROGRESS (D1✅ D3~) Q1 2027 -->
+<!-- Historical Waves: A runtime controls implemented · B/C include cross-module work · D operability evidence incomplete. See the proposed v2.5.0/v3.0.0 waves below. -->
 
 ## Current Status
 
-Production runtime exists for prompt validation, endpoint invocation, JSON mapping, and structured fail-closed error handling.
+The in-scope production implementation is a controlled plugin-generation path and
+its CAI/ethics adapter. This is hardened input/output orchestration, not a model
+serving engine, a general AI/ML framework, or an isolated code-execution sandbox.
 
-**Wave Summary (2026-09-16):**
+| Scope | Source-verified state | Evidence limit |
+|---|---|---|
+| Runtime | Prompt validation, configurable endpoint transport, bounded request/response sizes, endpoint allow-listing, retry/backoff, structured errors, output mapping, optional safety/telemetry callbacks, and artifact materialization are present. | Materializing files and reading them back does not isolate or execute generated code. |
+| Public API | `AIPluginGenerator` exposes prompt/result/configuration types, limits, endpoint callbacks, optional gates, and seven outcome counters. | The API documents that concurrent `generatePlugin()` calls on one instance are not thread-safe. |
+| Tests | `test_ai_plugin_generator.cpp` covers deterministic transport, validation, parsing, limits, allow-listing, gates, and counters. | The endpoint callbacks do not exercise a live provider. |
+| Soak/stress | AI generation soak and high-cardinality stress test sources exist. | These use in-process stubs/simulations; they are not production-path, provider, or throughput evidence. |
+| Benchmark | `bench_ai_plugin_generator.cpp` measures validation, orchestration, and malformed-response handling using canned JSON. | It excludes model inference, provider queueing, output quality, and provider cost. |
 
-| Wave | Scope | Status | Evidence |
-|---|---|---|---|
-| **A** | Runtime reliability: validation, retry, fail-closed error handling, output-field validation | ✅ COMPLETE | `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md` |
-| **B** | ML enhancements: Self-RAG (B1), RotatE KGC (B2), Multi-Task LoRA (B3) | ✅ SIGNED OFF 2026-09-09 (#6286) | `WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md` |
-| **C** | AI safety: CAI safety module (C1), federated learning (C2), graph phase gate (C3) | ✅ COMPLETE | `WAVE_C_CLOSURE_EVIDENCE_BUNDLE.md` |
-| **D** | Operability: runbook, observability, soak tests, distributed tracing, hardware baselines | 🟡 IN PROGRESS — D1✅ D3~ | `WAVE_D_ROADMAP.md` |
+**Evidence maturity:** hardened component; module release readiness remains
+unproven until the proposed validation waves below have current test,
+representative-environment, and security evidence. Existing historical wave
+closure records are not substitutes for those gates.
+
+**Historical wave scope:** Wave A describes implemented in-scope generator
+controls. Wave B's Self-RAG, RotatE, and Multi-Task LoRA work is owned by other
+modules (`rag`, `graph`, and `training`). Wave C includes the in-scope
+`CAIEthicsIntegration` adapter, but federated learning and graph phase gates are
+cross-module work. Wave D's soak/stress sources are simulations; representative
+hardware and provider-backed evidence remain open. Do not count cross-module
+items or simulated tests as AI-module release sign-off.
+
+**Files checked for issue #7399:** `src/ai/ai_plugin_generator.cpp`,
+`src/ai/cai_ethics_integration.cpp`, `include/ai/ai_plugin_generator.h`,
+`include/ai/cai_ethics_integration.h`, all `tests/ai/test_*.cpp`, and
+`benchmarks/ai/bench_ai_plugin_generator.cpp`. The corresponding limits and
+research references are recorded in [`RESEARCH.md`](./RESEARCH.md).
+
+## v2.5.0 and v3.0.0 Research Roadmap
+
+This is the proposed module plan for issue #7399, not a release commitment. `v2.5.0` is treated as
+the next backward-compatible MINOR target; `v3.0.0` is a strategic MAJOR target.
+Confirm active GitHub milestones before assigning implementation PRs. Effort
+estimates are engineering person-weeks and exclude shared platform work and
+human review time.
+
+### v2.5.0 — Bounded, measurable, secure generation
+
+#### Wave 1 — Operational and contract evidence (P0, 2–3 person-weeks)
+
+- **Goal:** Close the gap between existing callbacks/counters/traces and
+  reproducible operational evidence without changing the public API.
+- **Tasks:**
+  - [ ] Reconcile the documented error taxonomy and counters with every
+    `generatePlugin()` return path; add focused regression cases for each class.
+  - [ ] Capture source-compatible p50/p95/p99 latency and error-rate baselines
+    for validation, parsing, and orchestration separately from provider time.
+  - [ ] Verify the documented timeout, retry, redaction, and thread-safety
+    behavior against the implementation and runbook.
+- **Dependencies:** Existing focused AI test registration; runbook and tracing
+  infrastructure. Reuse shared OpenTelemetry conventions rather than adding a
+  second telemetry system.
+- **Risk / trade-off:** More instrumentation can add latency or expose sensitive
+  data; retain bounded, redacted attributes and measure instrumentation overhead.
+- **Success metrics:** All seven outcome counters have a tested success/error
+  mapping; 100% of registered benchmark cases emit versioned results; p99
+  orchestration regression is at most 10% against the same-build baseline.
+- **Validation:** `module_ai_test_ai_plugin_generator_focused`, error-path unit
+  tests, benchmark result comparison, trace-attribute/redaction checks.
+
+#### Wave 2 — Isolated artifact verification (P0, 4–6 person-weeks)
+
+- **Goal:** Prevent generated artifacts from being treated as safe solely
+  because parsing, callback policy, or file round-trip checks passed.
+- **Tasks:**
+  - [ ] Design a least-privilege, disposable build/test environment with network
+    access disabled, resource/time limits, and a non-privileged identity.
+  - [ ] Run generated artifacts through compile, generated tests, and configured
+    static/security checks before any promotion or installation.
+  - [ ] Record artifact hashes and scanner/build outcomes; reject missing,
+    inconclusive, or failed verification results.
+  - [ ] Add adversarial tests for traversal, oversized artifacts, malformed
+    manifests, build timeouts, tool failures, and cleanup after interruption.
+- **Dependencies:** A supported sandbox/runner and plugin build/security tooling;
+  no production-code execution is enabled by this plan until those controls are
+  available.
+- **Risk / trade-off:** Strong isolation increases build latency and operational
+  complexity; fail closed if isolation or cleanup cannot be verified.
+- **Success metrics:** 100% of artifacts promoted by the gated path have a
+  recorded hash and successful isolated build/test/security result; zero
+  promotion on verifier failure; zero unresolved critical/high findings in the
+  acceptance corpus.
+- **Validation:** Deterministic integration fixtures, negative/fault-injection
+  tests, sandbox boundary tests, secret/dependency scanning, and human security
+  review.
+
+#### Wave 3 — Provider-backed quality and performance baseline (P1, 3–5 person-weeks)
+
+- **Goal:** Measure model-dependent quality and end-to-end costs separately from
+  the callback benchmark.
+- **Tasks:**
+  - [ ] Create a versioned acceptance set of at least 50 representative plugin
+    tasks; capture provider/model, prompt version, decoding settings, limits,
+    and output hashes for every run.
+  - [ ] Measure compile/test pass rate, security findings, human-reviewed
+    functional quality, rejection rate, latency p50/p95/p99, and cost per
+    accepted artifact; report provider and local orchestration separately.
+  - [ ] Repeat each case at least three times and publish uncertainty and known
+    dataset/model coverage limits before setting additional quality thresholds.
+- **Dependencies:** Wave 1 baseline, Wave 2 isolated verification, approved
+  provider credentials and an approved dataset.
+- **Risk / trade-off:** Provider/model changes and stochastic output reduce
+  comparability; pin identifiers/configuration and do not compare unlike runs.
+- **Success metrics:** 100% of evaluation outputs have complete provenance and
+  verification results; at least 90% of the fixed acceptance set passes
+  compile-and-test checks, with zero critical security findings. This is a
+  proposed release gate requiring maintainer ratification, not a current result.
+- **Validation:** Reproducible provider run, independent artifact test/security
+  checks, human review of a stratified sample, and comparison to the recorded
+  baseline.
+
+### v3.0.0 — Versioned generation contract and governed lifecycle
+
+#### Wave 4 — Provider-neutral, versioned generation contract (P1, 4–6 person-weeks)
+
+- **Goal:** Define a stable, explicit contract for provider capabilities,
+  structured generation results, cancellation/timeouts, and verification state.
+- **Tasks:**
+  - [ ] Specify a versioned request/result schema and provider contract tests,
+    including unsupported capability and partial-response behavior.
+  - [ ] Decide whether a breaking API change is necessary; if so, document the
+    migration and remove obsolete API only under the major-version policy.
+  - [ ] Add contract fixtures for every supported provider adapter and make
+    fail-closed behavior uniform.
+- **Dependencies:** v2.5.0 Waves 1–3 evidence and human API design approval.
+- **Risk / trade-off:** Abstraction may hide provider-specific limits or increase
+  the public API surface; keep provider extensions explicit and avoid silent
+  compatibility fallbacks.
+- **Success metrics:** 100% of supported adapters pass the same contract suite;
+  all invalid/partial responses fail closed; every breaking change has a
+  migration note and compatibility test.
+- **Validation:** Schema/contract tests, adapter conformance tests, API review,
+  and migration tests on representative clients.
+
+#### Wave 5 — Artifact provenance, policy, and lifecycle governance (P1, 5–8 person-weeks)
+
+- **Goal:** Make generated artifacts reviewable, attributable, revocable, and
+  reproducible through the plugin lifecycle.
+- **Tasks:**
+  - [ ] Bind each artifact to model/provider and prompt/schema versions, policy
+    results, dependency inventory, build/test results, and immutable hash.
+  - [ ] Define retention, redaction, human approval, rollback, and revocation
+    procedures for generated artifacts.
+  - [ ] Add red-team regression cases for prompt injection, improper output
+    handling, sensitive-data disclosure, and excessive permissions.
+- **Dependencies:** Wave 2 isolation and Wave 4 schema; shared plugin registry,
+  security, and audit contracts.
+- **Risk / trade-off:** Provenance improves auditability but can expose
+  confidential prompts or provider metadata; apply least-data retention and
+  access control.
+- **Success metrics:** 100% of released artifacts have complete provenance and
+  human approval; zero release on failed policy or missing provenance; zero
+  known high-severity regression in the red-team corpus.
+- **Validation:** Reproducibility/rollback drills, adversarial regression suite,
+  audit-log review, and security/governance sign-off.
+
+### Open assumptions and decision gates
+
+- The scope here is limited to `src/ai/`, `include/ai/`, `tests/ai/`, and
+  `benchmarks/ai/`. RAG, graph completion, federated training, and general
+  inference serving remain owned by their implementation modules.
+- No live-provider performance or generation-quality measurements were available
+  in the inspected artifacts. The provider-backed acceptance gate is proposed
+  work, not a claim about current quality.
+- The 90% compile/test target and effort ranges are planning assumptions and
+  require maintainer review before becoming release gates.
+- A dedicated OS/container isolation facility, accepted provider/data policy,
+  and active release milestones were not verified in this source review.
 
 ## Module Documentation Enhancements (2026-07-19)
 
@@ -60,17 +221,12 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Add dedicated benchmark target for AI plugin generation path (Target: Q1 2027)
 - [x] Expand observability counters for error classes and endpoint quality signals (Target: Q1 2027)
 
-### Long-term (Q3 2027+)
-- [x] Wave C C1: Constitutional AI (CAI) safety module with 21 built-in principles, critic-revision loop, EthicsEvaluator integration, and CAI-01..15 + CAI-BENCH-01 coverage — `include/ai/cai_ethics_integration.h`, `tests/test_cai_safety_module.cpp`
-- [x] Wave C C2: Federated learning coordinator with secure aggregation, Byzantine-robust averaging, DP tuning, and FEDERATED-01..15 + FEDERATED-BENCH-01 coverage — `tests/test_federated_privacy_training.cpp`
-- [x] Wave C C3: Graph phase gate orchestrator — DAG-based ML pipeline phase tracking with gate criteria, gap reporting, acyclic registration enforcement, and GRAPH_PHASE_GATE-01..15 + GRAPH_PHASE_GATE-BENCH-01 coverage — `include/graph/graph_phase_gate_orchestrator.h`, `tests/graph/test_graph_phase_gate_orchestration.cpp` (issue #6287)
-- [x] Human safety benchmark program for C1 (500 samples, 3 annotators) and convergence benchmark for C2 (10-node setup) — `tests/test_cai_safety_module.cpp` (CAI-BENCH-01), `tests/test_federated_privacy_training.cpp` (FEDERATED-BENCH-01)
-- [x] Integrate optional sandbox verification gate for generated code artifacts (Target: Q1 2027)
-- [x] Add dedicated benchmark target for AI plugin generation path (Target: Q1 2027)
-- [x] Expand observability counters for error classes and endpoint quality signals (Target: Q1 2027)
-- [x] Wave B B1: Self-RAG design/implementation/benchmark package (Target: Q1–Q2 2027) — core impl + IEE integration + ALCE acceptance-gate coverage done
-- [x] Wave B B2: RotatE knowledge-graph completion integration package (Target: Q1–Q2 2027) — core impl + KGC-01..15 tests + TransE-baseline acceptance coverage done
-- [x] Wave B B3: Multi-task LoRA fine-tuning package (Target: Q1–Q2 2027) — core impl + ablation/benchmark + acceptance-gate coverage done
+### Historical cross-module ML work (not AI-module roadmap scope)
+- CAI/ethics integration is present in `src/ai/cai_ethics_integration.cpp`; CAI evaluation suites and benchmark claims cited in the historical Wave C records are outside `tests/ai/` and are not verified by this roadmap.
+- Federated learning and graph phase-gate orchestration belong to other modules; their implementation and acceptance tests are not AI-module deliverables.
+- Self-RAG, RotatE, and Multi-Task LoRA are owned by `rag`, `graph`, and `training`; their historical completion states do not establish AI-module implementation or release readiness.
+- The optional artifact materialization/callback gate and dedicated callback benchmark are implemented; neither is an operating-system sandbox or provider-backed quality benchmark.
+- Existing counters and trace hooks are part of the baseline; representative-hardware and provider-backed measurements remain open in the v2.5.0 plan.
 
 ## Implementation Phases
 
@@ -105,13 +261,25 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Proxy benchmark mapping documented in performance expectations
 - [x] Dedicated benchmark target registered
 - [x] Hardening follow-ups closed for endpoint safety controls
+- [ ] Generated artifacts verified in an isolated build/test/security environment
+- [ ] Provider-backed quality, latency, and cost baseline recorded
+- [ ] Representative-environment soak and security evidence reviewed
 
-## Known Issues and Limitations
+## References
 
-- Wave C C1/C2 production-runtime integration now covers `AIPluginGenerator` and `LLMAQLHandler` (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`) via opt-in safety-gate and telemetry hooks.
+- [Future enhancements](./FUTURE_ENHANCEMENTS.md)
+- [Research notes and external references](./RESEARCH.md)
+- [Public API roadmap](../../include/ai/ROADMAP.md)
+- [Performance expectations](./PERFORMANCE_EXPECTATIONS.md)
+
+## Known Issues & Limitations
+
+- `AIPluginGenerator` provides opt-in C1/C2 callbacks; `LLMAQLHandler` inference, streaming, RAG, and chat paths belong to the `llm` module and are not evidence of in-scope `ai` runtime coverage.
+- Artifact materialization and read-back verification do not provide OS-level isolation or execute generated code.
+- The AI benchmark and sustained-load tests use callbacks/stubs; no provider-backed quality or representative-hardware performance results were verified.
 - Schema-level validation for all LLM output fields is enforced: code fields ≤ 1 MiB, `security_report` ≤ 64 KiB, `version` ≤ 64 chars (defaults to `0.1.0`), `manifest.description` truncated at 8192 bytes, oversized `build_dependencies` entries silently dropped.
 
-## Wave C Timeline and Dependencies
+## Historical Wave C Timeline and Dependencies (cross-module)
 
 - Start: Q3 2027 (early July)
 - Target: End Q4 2027 (mid-December)
@@ -142,14 +310,14 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - `#5038` (Wave A Issue)
 - `#5039` (Wave B Issue)
 
-## Wave C Research Publication Opportunity
+## Historical Wave C Research Publication Opportunity
 
 - Joint paper: ThemisDB Integration of Research-Backed ML Features
 - Target venue window: MLSys 2028 / FAccT 2028
-- Dedicated benchmark coverage exists via `benchmarks/bench_ai_plugin_generator.cpp` / `benchmarks/ai/bench_ai_plugin_generator.cpp`.
-- Advanced field-level prompt validation remains incomplete.
-- Sandbox artifact materialization and optional callback verification are enforced when `enable_sandbox_gate` is enabled; external sandbox engines remain deployment-specific.
-- Wave B ML enhancement implementation and acceptance-gate coverage are complete; production promotion remains gated on Wave A deployment completion and latency prerequisites.
+- The dedicated benchmark at `benchmarks/ai/bench_ai_plugin_generator.cpp` measures callback-backed validation and orchestration, not live inference or output quality.
+- Field-level prompt validation is implemented; generated artifact security still requires independent verification and operating-system isolation.
+- Sandbox artifact materialization and optional callback verification are enforced when `enable_sandbox_gate` is enabled; neither constitutes a sandbox.
+- Wave B features are cross-module work and remain governed by their owning module roadmaps.
 
 ## Wave A — Runtime Reliability ✅ COMPLETE
 
@@ -199,7 +367,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 
 ---
 
-## Wave B (Q1–Q2 2027) Tracking
+## Historical Wave B Tracking (cross-module)
 
 ### B1: Self-RAG (Self-Retrieving, Auto-Critique)
 - [x] Retrieval controller (binary classify: retrieve now?)
@@ -269,14 +437,14 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Output: `docs/operability/RUNBOOK_AI_GENERATION.md`
 
 ### D2: Observability Expansion
-- [ ] Extend `AIPluginGenerator::Stats` with per-error-class counters (Target: 2026-11)
+- [x] `AIPluginGenerator::Stats` exposes seven outcome counters with focused test coverage
 - [ ] CAI safety gate per-call latency histogram (p50/p95/p99) (Target: 2026-11)
-- [ ] Federated aggregation round-latency counter (Target: 2026-12)
+- [ ] Federated aggregation round-latency counter — owned by the federated-learning module (Target: 2026-12)
 - [x] OpenTelemetry span propagation in `generatePlugin` (Target: Q1 2027)
-- [x] Span propagation in LLMAQLHandler CAI/federated gate paths (Target: Q1 2027)
+- [x] Span propagation in LLMAQLHandler CAI/federated gate paths — cross-module `llm` evidence
 
 ### D3: Soak Tests (Sustained Load)
-- [x] `tests/ai/test_ai_generation_soak_60min.cpp` — 60-min endpoint-stress + retry-budget-exhaustion (Target: 2026-12)
+- [x] `tests/ai/test_ai_generation_soak_60min.cpp` source exists; it simulates the pipeline and does not invoke `AIPluginGenerator` (Target: 2026-12)
 - [ ] CAI 10-min sustained evaluation test — 500 evaluations/min (Target: 2026-12)
 - [ ] Federated 30-min round-stability test (Target: Q1 2027)
 - [ ] Execute full soak suite on representative hardware (Target: Q1 2027)
@@ -288,9 +456,9 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 
 ### Wave D Exit Criteria
 - [x] AI generation runbook published (`docs/operability/RUNBOOK_AI_GENERATION.md`)
-- [ ] Observability expansion complete (extended Stats + CAI/federated latency histograms)
-- [x] OpenTelemetry span propagation in `generatePlugin` and LLMAQLHandler AI paths
-- [~] 60-min soak test created and green on representative hardware (test created 2026-09-16; full run hardware-blocked)
+- [ ] Observability expansion complete (CAI latency histogram remains open; federated latency is cross-module)
+- [x] OpenTelemetry span propagation in `generatePlugin`; LLMAQLHandler paths are cross-module
+- [~] Soak test source created; it uses an in-process stub and is not representative-hardware or production-path evidence (full soak run pending)
 - [ ] Representative-hardware p95/p99 baselines captured for AI generation + CAI gate
 - [ ] Wave D sign-off: human approval at `docs/operability/WAVE_D_SIGN_OFF.md`
 

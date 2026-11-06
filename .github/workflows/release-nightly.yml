@@ -6,7 +6,7 @@ name: "Release: Nightly"
 #
 # Pipeline stages:
 #   check-changes → set-release-type → build-matrix → generate-metadata
-#   → publish-release → publish-docker → notify
+#   → publish-release + publish-docker → publish-docker-manifest → notify
 #
 # Produces:
 #   GitHub Release: v<version>-nightly.<date>[.<run>]
@@ -51,7 +51,7 @@ jobs:
   run-summary:
     name: "Validate: Run Summary"
     if: always()
-    needs: [mark-release-pending, check-changes, set-release-type, build-matrix, generate-metadata, publish-release, publish-docker, finalize-release-status, notify]
+    needs: [mark-release-pending, check-changes, set-release-type, build-matrix, generate-metadata, publish-release, publish-docker, publish-docker-manifest, finalize-release-status, notify]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -313,9 +313,17 @@ jobs:
             release-artifacts/**/*
 
   publish-docker:
-    name: "Publish: Docker Images"
+    name: "Validate: Nightly Docker Runtime (${{ matrix.arch }})"
     needs: generate-metadata
-    runs-on: ubuntu-24.04
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
     # Multi-arch Docker builds on cold cache (especially arm64 dependency builds)
     # can exceed 4h; 420m matches release-docker-image.yml to avoid premature timeout.
     timeout-minutes: 420
@@ -326,12 +334,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
-        with:
-          name: build-community-release-${{ github.run_number }}
-          path: ./build-artifacts
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069  # v4.4.1
@@ -353,16 +355,9 @@ jobs:
         id: meta
         run: |
           set -euo pipefail
-          VERSION="${{ needs.generate-metadata.outputs.version }}"
-          DATE=$(date +%Y%m%d)
           GH_REPO_LC=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
 
-          # Tags: themisdb:nightly, themisdb:nightly-YYYYMMDD, themisdb:X.Y.Z-nightly-YYYYMMDD
-          TAGS="themisdb/themisdb:nightly"
-          TAGS="${TAGS},themisdb/themisdb:nightly-${DATE}"
-          TAGS="${TAGS},themisdb/themisdb:${VERSION}-nightly-${DATE}"
-          TAGS="${TAGS},ghcr.io/${GH_REPO_LC}:nightly"
-          TAGS="${TAGS},ghcr.io/${GH_REPO_LC}:nightly-${DATE}"
+          TAGS="ghcr.io/${GH_REPO_LC}:runtime-candidate-${{ github.run_id }}-${{ matrix.arch }}"
           
           echo "tags=$TAGS" >> "$GITHUB_OUTPUT"
           echo "::notice::Docker tags: $TAGS"
@@ -390,7 +385,8 @@ jobs:
             exit 1
           fi
 
-      - name: Build and push Docker images
+      - name: Build staged Docker runtime candidate
+        id: build-candidate
         # Keep step timeout below the job timeout so failures surface at step level first.
         timeout-minutes: 400
         uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a  # v7.3.0
@@ -400,16 +396,92 @@ jobs:
           target: runtime
           pull: true
           push: true
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/${{ matrix.arch }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ needs.generate-metadata.outputs.docker-labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           no-cache-filters: runtime
 
+      - name: Validate default container startup before publication
+        env:
+          IMAGE_REF: ${{ steps.meta.outputs.tags }}
+          IMAGE_DIGEST: ${{ steps.build-candidate.outputs.digest }}
+        run: |
+          set -euo pipefail
+          [[ "$IMAGE_DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]] || {
+            echo "::error::Missing or invalid Docker candidate digest"; exit 1;
+          }
+          IMAGE_REF="${IMAGE_REF}@${IMAGE_DIGEST}"
+          docker pull "$IMAGE_REF"
+          python3 scripts/release/runtime_smoke_gate.py --image "$IMAGE_REF" \
+            --output "${RUNNER_TEMP}/nightly-runtime-smoke.json"
+          printf '%s\n' "$IMAGE_REF" > "${RUNNER_TEMP}/nightly-docker-digest-${{ matrix.arch }}.txt"
+
+      - name: Upload nightly runtime dependency and startup evidence
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: nightly-docker-runtime-${{ matrix.arch }}-${{ github.run_number }}
+          path: |
+            ${{ runner.temp }}/nightly-runtime-smoke.json
+            ${{ runner.temp }}/nightly-docker-digest-${{ matrix.arch }}.txt
+          if-no-files-found: warn
+          retention-days: 30
+
+  publish-docker-manifest:
+    name: "Publish: Validated Nightly Docker Manifests"
+    needs: [generate-metadata, publish-docker]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Download validated platform digest evidence
+        uses: actions/download-artifact@v5
+        with:
+          pattern: nightly-docker-runtime-*-${{ github.run_number }}
+          path: nightly-docker-evidence
+      - name: Log in to Docker Hub
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069
+      - name: Promote only runtime-validated platform images
+        env:
+          VERSION: ${{ needs.generate-metadata.outputs.version }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          DATE=$(date +%Y%m%d)
+          GH_REPO_LC=$(echo "$REPOSITORY" | tr '[:upper:]' '[:lower:]')
+          refs=()
+          for arch in amd64 arm64; do
+            digest_file="nightly-docker-evidence/nightly-docker-runtime-${arch}-${{ github.run_number }}/nightly-docker-digest-${arch}.txt"
+            [[ -s "$digest_file" ]] || { echo "::error::Missing validated digest for ${arch}"; exit 1; }
+            ref=$(tr -d '\r\n' < "$digest_file")
+            [[ "$ref" =~ @sha256:[0-9a-f]{64}$ ]] || { echo "::error::Invalid validated digest"; exit 1; }
+            refs+=("$ref")
+          done
+          docker buildx imagetools create \
+            --tag themisdb/themisdb:nightly \
+            --tag "themisdb/themisdb:nightly-${DATE}" \
+            --tag "themisdb/themisdb:${VERSION}-nightly-${DATE}" \
+            --tag "ghcr.io/${GH_REPO_LC}:nightly" \
+            --tag "ghcr.io/${GH_REPO_LC}:nightly-${DATE}" \
+            "${refs[@]}"
+
   finalize-release-status:
     name: "Release: Finalize Nightly Status"
-    needs: [check-changes, build-matrix, generate-metadata, publish-release, publish-docker]
+    needs: [check-changes, build-matrix, generate-metadata, publish-release, publish-docker, publish-docker-manifest]
     if: always()
     runs-on: ubuntu-latest
     permissions:
@@ -427,7 +499,7 @@ jobs:
           BUILD_RESULT: ${{ needs.build-matrix.result }}
           METADATA_RESULT: ${{ needs.generate-metadata.result }}
           RELEASE_RESULT: ${{ needs.publish-release.result }}
-          DOCKER_RESULT: ${{ needs.publish-docker.result }}
+          DOCKER_RESULT: ${{ needs.publish-docker-manifest.result }}
         run: |
           set -euo pipefail
           if [ "${CHANGE_RESULT}" = "success" ] || [ "${CHANGE_RESULT}" = "skipped" ]; then
@@ -519,7 +591,7 @@ jobs:
 
   notify:
     name: "Automation: Notify Build Completion"
-    needs: [generate-metadata, publish-release, publish-docker]
+    needs: [generate-metadata, publish-release, publish-docker-manifest]
     runs-on: ubuntu-latest
     if: always()
     steps:

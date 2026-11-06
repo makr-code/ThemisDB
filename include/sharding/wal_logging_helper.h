@@ -69,12 +69,13 @@ namespace WALLoggingHelper {
  * @brief Append a WAL entry, optionally flush, and return the assigned LSN.
  *
  * If @p wal is nullptr the function is a no-op. Any exception thrown by
- * WALManager::append() is caught and logged as an
+ * WALManager::append(), or a failed WALManager::flushDurable(), is reported as an
  * error using @p component_label and @p component_id so callers see a
  * consistent diagnostic message without crashing. The returned LSN can be used
  * by callers that need to emit additional success diagnostics; std::nullopt
- * indicates that the WAL was disabled, the append failed, or requested
- * durability could not be confirmed.
+ * indicates that no durability confirmation was obtained because the WAL was
+ * disabled or a write/flush failed. An append may have occurred before a flush
+ * failure and must be treated as ambiguous.
  *
  * @param wal             Target WAL manager (may be nullptr).
  * @param type            Logical operation type.

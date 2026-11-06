@@ -5,7 +5,8 @@
  * Phase 2 validates distributed transaction coordinator behavior under failures,
  * focusing on 2PC protocol correctness, timeout semantics, retry behavior,
  * and in-doubt transaction recovery using the real DistributedTransactionManager
- * API with in-process mock participants.
+ * API with in-process mock participants. These tests are not multi-process or
+ * network-chaos evidence.
  *
  * Acceptance Criteria Validated:
  * - AC-4: Distributed Coordinator Failure Handling (participant aborts, timeouts)
@@ -25,6 +26,7 @@
 #include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <filesystem>
 #include <mutex>
 #include <set>
 #include <stdexcept>
@@ -99,6 +101,9 @@ static DistributedTxnManagerConfig makeDefaultConfig() {
     cfg.prepare_timeout     = 2000ms;
     cfg.commit_timeout      = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.wal_directory = (std::filesystem::temp_directory_path() /
+        ("themis_phase2_wal_" + std::to_string(
+            std::chrono::steady_clock::now().time_since_epoch().count()))).string();
     return cfg;
 }
 
@@ -113,17 +118,23 @@ protected:
         p2 = std::make_unique<Phase2MockParticipant>();
         p3 = std::make_unique<Phase2MockParticipant>();
 
+        auto config = makeDefaultConfig();
+        wal_directory_ = config.wal_directory;
         mgr = std::make_unique<DistributedTransactionManager>(
-            "phase2-test-coord", makeDefaultConfig());
+            "phase2-test-coord", config);
     }
 
     void TearDown() override {
         mgr.reset();
         p3.reset(); p2.reset(); p1.reset();
+        std::error_code ec;
+        std::filesystem::remove_all(wal_directory_, ec);
+        EXPECT_FALSE(ec) << ec.message();
     }
 
     std::unique_ptr<Phase2MockParticipant> p1, p2, p3;
     std::unique_ptr<DistributedTransactionManager> mgr;
+    std::string wal_directory_;
 };
 
 // ============================================================================

@@ -208,6 +208,7 @@ public:
      * @brief Begin Transaction.
      * @param[in] region_ids Input parameter.
      * @return Return value.
+     * @throws std::runtime_error when a configured WAL cannot persist BEGIN.
      */
     std::string beginTransaction(const std::vector<std::string>& region_ids);
 
@@ -227,7 +228,8 @@ public:
     /**
      * @brief Commit.
      * @param[in] txn_id Identifier of the txn.
-     * @return Return value.
+     * @return Commit outcome; FAILURE if no durable decision can be confirmed.
+     * @throws No exception is used to report WAL durability failures.
      */
     GlobalTxnOutcome commit(const std::string& txn_id);
 
@@ -301,18 +303,21 @@ private:
      * @param[in,out] rec Input/output parameter.
      * @param[in] do_commit Input parameter.
      */
-    void runPhase2(GlobalTxnRecord& rec, bool do_commit);
+    bool runPhase2(GlobalTxnRecord& rec, bool do_commit);
 
     /**
      * @brief Log To WAL.
      * @param[in] type Input parameter.
      * @param[in] txn_id Identifier of the txn.
      * @param[in] data Input parameter.
+     * @param force_sync Flush even when asynchronous writes are configured.
+     * @return True when the append and any requested flush succeed.
      */
-    void logToWAL(
+    bool logToWAL(
         themis::sharding::WALEntryType type,
         const std::string&             txn_id,
-        const nlohmann::json&          data
+        const nlohmann::json&          data,
+        bool                           force_sync = false
     );
 
     /**

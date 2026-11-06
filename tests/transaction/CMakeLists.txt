@@ -1,5 +1,40 @@
 # Transaction module test registration (pilot extraction from root tests/CMakeLists.txt)
 
+# The nonmodular registration remains in tests/CMakeLists.txt. In modular
+# builds, GlobalTransactionManager, TrueTime and WALManager belong to sharding.
+if(THEMIS_BUILD_MODULAR AND TARGET themis_sharding AND NOT TARGET test_global_transaction_manager)
+    add_executable(test_global_transaction_manager
+        ${THEMIS_ROOT_DIR}/tests/test_global_transaction_manager.cpp
+    )
+
+    target_include_directories(test_global_transaction_manager PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_global_transaction_manager PRIVATE
+        ${TEST_LIBS}
+        themis_sharding
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_global_transaction_manager PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_test(
+        MODULE transaction
+        NAME GlobalTransactionManagerTests
+        TARGET test_global_transaction_manager
+        TIER unit
+        KIND focused
+        TIMEOUT 120
+        LABELS transaction distributed multi-region acid
+    )
+endif()
+
 # Transaction Auditor Focused Tests (v1.8.0)
 # AC-1..25: enableAuditing, record, queryAuditLog (filters, limit, sort),
 #           size, clear, exportToKafka/S3, concurrent record()
@@ -209,6 +244,88 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_distributed_2pc.cpp")
 else()
     message(STATUS "Distributed Transaction Coordinator (2PC) tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_transaction_distributed_2pc.cpp")
 endif()
+
+# Process-level coordinator crash/recovery evidence
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_process_crash_recovery.cpp")
+    add_executable(test_transaction_process_crash_recovery
+        test_transaction_process_crash_recovery.cpp
+        ${THEMIS_ROOT_DIR}/src/transaction/distributed_transaction_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/wal_manager.cpp
+    )
+    if(NOT TARGET themis_sharding)
+        target_sources(test_transaction_process_crash_recovery PRIVATE
+            ${THEMIS_ROOT_DIR}/src/sharding/two_phase_commit_participant.cpp
+        )
+    endif()
+
+    target_include_directories(test_transaction_process_crash_recovery PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_transaction_process_crash_recovery PRIVATE
+        ${TEST_LIBS}
+        GTest::gtest
+        themis_base
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+    if(TARGET themis_sharding)
+        target_link_libraries(test_transaction_process_crash_recovery PRIVATE themis_sharding)
+    endif()
+
+    target_compile_definitions(test_transaction_process_crash_recovery PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_test(
+        MODULE transaction
+        NAME TransactionProcessCrashRecoveryTests
+        TARGET test_transaction_process_crash_recovery
+        TIER integration
+        KIND focused
+        TIMEOUT 90
+        LABELS distributed recovery process-crash evidence
+    )
+endif()
+
+# HTTP distributed-transaction API and recovery/readiness contract
+add_executable(test_distributed_txn_api_handler_focused
+    ${THEMIS_ROOT_DIR}/tests/test_distributed_txn_api_handler.cpp
+)
+
+target_include_directories(test_distributed_txn_api_handler_focused PRIVATE
+    ${THEMIS_ROOT_DIR}/include
+    ${THEMIS_ROOT_DIR}/src
+)
+
+target_link_libraries(test_distributed_txn_api_handler_focused PRIVATE
+    ${TEST_LIBS}
+    GTest::gtest
+    GTest::gtest_main
+    themis_core
+    RocksDB::rocksdb
+    spdlog::spdlog
+    Threads::Threads
+)
+if(TARGET themis_sharding)
+    target_link_libraries(test_distributed_txn_api_handler_focused PRIVATE themis_sharding)
+endif()
+
+target_compile_definitions(test_distributed_txn_api_handler_focused PRIVATE
+    THEMIS_TEST_BUILD=1
+)
+
+themis_register_module_test(
+    MODULE transaction
+    NAME DistributedTxnApiHandlerRecoveryTests
+    TARGET test_distributed_txn_api_handler_focused
+    TIER integration
+    KIND focused
+    TIMEOUT 120
+    LABELS distributed recovery readiness 2pc
+)
 
 # Transaction Isolation Levels Focused Tests
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_isolation_levels.cpp")

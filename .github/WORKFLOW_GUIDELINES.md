@@ -2,7 +2,7 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-01
+> Last Updated: 2026-11-03
 > Status: active
 > AI_Used: true
 > AI_Models: unknown
@@ -91,6 +91,12 @@ flowchart TD
 
 ### Lokale Summary-Actions und Fehlerdiagnose
 
+- Release-Artefakte brauchen einen blockierenden Loader-/Starttest nach dem Build:
+  `release-build-matrix.yml` prueft jedes Paket in einem separaten Runtime-Job,
+  Docker- und Nightly-Lanes pruefen Kandidaten vor dem Export finaler Digests/Tags.
+  Die Ubuntu-Laufzeitbasis ist `scripts/release/runtime-dependencies-ubuntu-24.04.txt`;
+  Build-Caches, vcpkg-Pfade und nachinstallierte Development-Libraries duerfen
+  fehlende Paketabhaengigkeiten nicht verdecken. Details: `docs/deployment/RUNTIME_DEPENDENCIES.md`.
 - Jeder Job mit `./.github/actions/write-run-summary` braucht zuvor einen eigenen,
   bedingungslosen Checkout ins Standard-Workspace; ein Checkout in einem anderen Job reicht nicht.
   Summary-Checkouts verwenden `persist-credentials: false` und `contents: read`.

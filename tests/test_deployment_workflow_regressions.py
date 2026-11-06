@@ -36,6 +36,45 @@ def run_bash(script, directory, **environment):
 
 
 class DeploymentWorkflowTests(unittest.TestCase):
+    def test_all_release_lanes_stop_on_build_failure_before_packaging(self):
+        script = step("release-build-matrix.yml", "prepare-release-matrix", "plan")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            result, values = run_bash(
+                script, Path(temp), BUILD_MATRIX="all", OS_SELECTOR="all",
+                ARCH_SELECTOR="all", EDITION="community", BUILD_TYPE="Release",
+                PACKAGING="auto", DISTRIBUTION="all", RUN_NUMBER="123",
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        entries = json.loads(values["matrix"])["include"]
+        self.assertEqual(
+            {entry["id"] for entry in entries},
+            {"linux-amd64", "linux-arm64", "windows-amd64", "macos-arm64"},
+        )
+        for entry in entries:
+            with self.subTest(lane=entry["id"]):
+                self.assertFalse(entry.get("build_continue_on_error", False))
+                self.assertFalse(entry["validation_continue_on_error"])
+                self.assertIn("validate_runtime_payload.py", entry["validation_command"])
+
+        caller = workflow("release-build-matrix.yml")["jobs"]["release-platform-matrix"]
+        self.assertEqual(caller["uses"], "./.github/workflows/reusable-cmake-build.yml")
+        self.assertEqual(
+            caller["with"]["build_continue_on_error"],
+            "${{ matrix.build_continue_on_error || false }}",
+        )
+
+    def test_reusable_build_preserves_diagnostics_but_not_packages_after_failure(self):
+        steps = workflow("reusable-cmake-build.yml")["jobs"]["build"]["steps"]
+        diagnostics = next(item for item in steps if item["name"] == "Upload artifacts")
+        packages = next(item for item in steps if item["name"] == "Upload secondary artifacts")
+        self.assertEqual(
+            diagnostics["if"],
+            "${{ !cancelled() && inputs.artifact_name != '' && inputs.artifact_paths != '' }}",
+        )
+        self.assertNotIn("always()", packages["if"])
+        self.assertNotIn("!cancelled()", packages["if"])
+        self.assertEqual(diagnostics["with"]["if-no-files-found"], "ignore")
+
     def test_macos_release_uses_matching_llvm_compiler_headers_and_runtime(self):
         script = step("release-build-matrix.yml", "prepare-release-matrix", "plan")["run"]
         with tempfile.TemporaryDirectory() as temp:
@@ -161,7 +200,7 @@ class DeploymentWorkflowTests(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("Requested release tag 'v2.4.99' does not exist", result.stderr)
 
-    def test_docker_unpublished_dry_run_can_use_workflow_source(self):
+    def test_docker_dry_run_can_use_workflow_source_without_release_tag(self):
         with tempfile.TemporaryDirectory() as temp:
             directory = Path(temp)
             self.make_source(directory)
@@ -169,11 +208,80 @@ class DeploymentWorkflowTests(unittest.TestCase):
             result, values = run_bash(
                 step("release-docker-image.yml", "prepare-release-context", "version")["run"],
                 directory, EVENT_NAME="workflow_dispatch", GIT_REF="refs/heads/develop",
-                TAG_INPUT="", PUSH_INPUT="false", GITHUB_EVENT_PATH="/dev/null",
+                TAG_INPUT="", PUSH_INPUT="true", DRY_RUN="true", GITHUB_EVENT_PATH="/dev/null",
             )
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertEqual(values["version"], "v9.9.9")
             self.assertEqual(values["source_sha"], sha)
+
+    def test_docker_dry_run_can_build_workflow_source_for_existing_release_tag(self):
+        script = step("release-docker-image.yml", "prepare-release-context", "version")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            tagged_sha = self.make_source(directory)
+            workflow_sha = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], cwd=directory, text=True
+            ).strip()
+            result, values = run_bash(
+                script, directory, EVENT_NAME="workflow_dispatch", GIT_REF="refs/heads/develop",
+                TAG_INPUT="v2.4.0", PUSH_INPUT="true", DRY_RUN="true",
+                BUILD_FROM_WORKFLOW_SOURCE="true", GITHUB_EVENT_PATH="/dev/null",
+            )
+            self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+            self.assertEqual(values["version"], "v2.4.0")
+            self.assertEqual(values["source_sha"], workflow_sha)
+            self.assertNotEqual(values["source_sha"], tagged_sha)
+            self.assertEqual(
+                subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=directory, text=True).strip(),
+                workflow_sha,
+            )
+            self.assertIn("dry-run only", result.stdout)
+
+    def test_docker_workflow_source_build_automatically_uses_dry_run(self):
+        script = step("release-docker-image.yml", "prepare-release-context", "version")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.make_source(directory, release_type="alpha")
+            source_sha = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], cwd=directory, text=True
+            ).strip()
+            result, values = run_bash(
+                script, directory, EVENT_NAME="workflow_dispatch", GIT_REF="refs/heads/develop",
+                TAG_INPUT="v2.4.0-alpha", PUSH_INPUT="true",
+                BUILD_FROM_WORKFLOW_SOURCE="true",
+                GITHUB_EVENT_PATH="/dev/null",
+            )
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        self.assertEqual(values["version"], "v2.4.0-alpha")
+        self.assertEqual(values["source_sha"], source_sha)
+        self.assertIn("automatically enable dry-run mode", result.stdout)
+
+    def test_docker_workflow_source_build_forces_registry_push_off(self):
+        script = step("release-docker-image.yml", "prepare-release-context", "push-policy")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            result, values = run_bash(
+                script, Path(temp), PUSH_REQUESTED="true", BUILD_FROM_WORKFLOW_SOURCE="true",
+                DRY_RUN="false", REGISTRY="ghcr.io", INCLUDE_TINYLLAMA="true",
+                LLM_MODEL="tinyllama", LLM_MODEL_URL="", LLM_MODEL_FILE="",
+                FORCE_DOWNLOAD="false",
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(values["push_requested"], "false")
+        self.assertEqual(values["dry_run"], "true")
+        self.assertIn("registry publication is disabled", result.stdout)
+
+    def test_docker_dry_run_forces_registry_push_off(self):
+        script = step("release-docker-image.yml", "prepare-release-context", "push-policy")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            result, values = run_bash(
+                script, Path(temp), PUSH_REQUESTED="true", DRY_RUN="true",
+                REGISTRY="docker.io", INCLUDE_TINYLLAMA="true", LLM_MODEL="tinyllama",
+                LLM_MODEL_URL="", LLM_MODEL_FILE="", FORCE_DOWNLOAD="false",
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(values["push_requested"], "false")
+        self.assertEqual(values["dry_run"], "true")
+        self.assertIn("registry publication is disabled", result.stdout)
 
     def test_docker_without_tag_uses_canonical_version_and_release_type(self):
         script = step("release-docker-image.yml", "prepare-release-context", "version")["run"]
@@ -307,6 +415,76 @@ class DeploymentWorkflowTests(unittest.TestCase):
                 if should_pass:
                     self.assertEqual(values["source_sha"], sha)
                     self.assertEqual(values["edition"], edition)
+
+    def test_packaging_dispatch_without_tag_defaults_to_dry_run(self):
+        workflow_text = (ROOT / ".github/workflows/release-mainline.yml").read_text()
+        self.assertIn(
+            "      dry_run:\n"
+            "        description: 'Dry-run for dispatch (build/package/validate only; skip publish/distribution)'\n"
+            "        required: false\n"
+            "        default: true\n"
+            "        type: boolean",
+            workflow_text,
+        )
+
+        script = step("release-mainline.yml", "preflight-release-policy", "identity")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.make_source(directory)
+            sha = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], cwd=directory, text=True
+            ).strip()
+            result, values = run_bash(
+                script,
+                directory,
+                TAG_INPUT="",
+                EDITION_INPUT="community",
+                EVENT_NAME="workflow_dispatch",
+                DRY_RUN="true",
+            )
+
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        self.assertEqual(values["tag"], "")
+        self.assertEqual(values["source_sha"], sha)
+        self.assertEqual(values["edition"], "community")
+
+    def test_packaging_dispatch_can_stage_a_new_tag_from_selected_ref(self):
+        script = step("release-mainline.yml", "preflight-release-policy", "identity")["run"]
+        for event_name, should_pass in [("workflow_dispatch", True), ("release", False)]:
+            with self.subTest(event_name=event_name), tempfile.TemporaryDirectory() as temp:
+                directory = Path(temp)
+                subprocess.run(["git", "init", "-q"], cwd=directory, check=True)
+                subprocess.run(["git", "config", "user.name", "Test"], cwd=directory, check=True)
+                subprocess.run(
+                    ["git", "config", "user.email", "test@example.invalid"],
+                    cwd=directory,
+                    check=True,
+                )
+                (directory / "source.txt").write_text("selected release source\n", encoding="utf-8")
+                subprocess.run(["git", "add", "."], cwd=directory, check=True)
+                subprocess.run(
+                    ["git", "commit", "-qm", "selected release source"],
+                    cwd=directory,
+                    check=True,
+                )
+                sha = subprocess.check_output(
+                    ["git", "rev-parse", "HEAD"], cwd=directory, text=True
+                ).strip()
+
+                result, values = run_bash(
+                    script,
+                    directory,
+                    TAG_INPUT="v2.4.0",
+                    EDITION_INPUT="community",
+                    EVENT_NAME=event_name,
+                    DRY_RUN="false",
+                )
+
+                self.assertEqual(result.returncode == 0, should_pass, result.stderr + result.stdout)
+                if should_pass:
+                    self.assertEqual(values["tag"], "v2.4.0")
+                    self.assertEqual(values["source_sha"], sha)
+                    self.assertEqual(values["edition"], "community")
 
     def test_packaging_tracker_reports_staging_failures_as_failures(self):
         script = step("release-mainline.yml", "finalize-release-status", "status")["run"]
@@ -451,6 +629,223 @@ class DeploymentWorkflowTests(unittest.TestCase):
             )
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("WinGet pull request creation failed", result.stderr)
+
+
+@unittest.skipUnless(
+    shutil.which("cmake") and (
+        (shutil.which("gcc") and shutil.which("g++")) or
+        (shutil.which("clang") and shutil.which("clang++"))
+    ),
+    "CMake and GNU or Clang C/C++ compilers required",
+)
+class GgmlErrnoWorkaroundTests(unittest.TestCase):
+    def configure(self, directory, apple, target=True, explicit_cerrno=False):
+        dependencies = (ROOT / "cmake/Dependencies.cmake").read_text()
+        after_fetch = dependencies.split("FetchContent_MakeAvailable(llama_cpp)", 1)[1]
+        start = "if(APPLE AND TARGET ggml-base)"
+        self.assertIn(start, after_fetch)
+        block = start + after_fetch.split(start, 1)[1].split("endif()", 1)[0] + "endif()"
+        header = "#include <cerrno>\n" if explicit_cerrno else ""
+        (directory / "gguf.cpp").write_text(
+            header + "#include <cstring>\nint gguf_errno() { return errno; }\n"
+        )
+        (directory / "helper.c").write_text("int helper(void) { return 0; }\n")
+        (directory / "consumer.cpp").write_text(
+            "#include <cerrno>\nint consumer_errno() { return errno; }\n"
+        )
+        targets = (
+            "add_library(ggml-base STATIC gguf.cpp helper.c)\n"
+            "add_library(consumer STATIC consumer.cpp)\n"
+            "target_link_libraries(consumer PRIVATE ggml-base)\n"
+        ) if target else ""
+        (directory / "CMakeLists.txt").write_text(
+            "cmake_minimum_required(VERSION 3.16)\nproject(errno_regression LANGUAGES C CXX)\n"
+            "set(CMAKE_EXPORT_COMPILE_COMMANDS ON)\n"
+            f"set(APPLE {'TRUE' if apple else 'FALSE'})\n" + targets + block + "\n"
+        )
+        cc, cxx = ("gcc", "g++") if shutil.which("gcc") and shutil.which("g++") else (
+            "clang", "clang++"
+        )
+        result = subprocess.run(
+            ["cmake", "-S", str(directory), "-B", str(directory / "build"),
+             "-G", "Unix Makefiles", f"-DCMAKE_C_COMPILER={shutil.which(cc)}",
+             f"-DCMAKE_CXX_COMPILER={shutil.which(cxx)}"],
+            capture_output=True, text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def build(self, directory):
+        return subprocess.run(
+            ["cmake", "--build", str(directory / "build")],
+            capture_output=True, text=True,
+        )
+
+    def test_apple_force_include_is_cxx_only_and_private(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.configure(directory, apple=True)
+            result = self.build(directory)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            commands = json.loads((directory / "build/compile_commands.json").read_text())
+            self.assertEqual({Path(item["file"]).name for item in commands},
+                             {"gguf.cpp", "helper.c", "consumer.cpp"})
+            for item in commands:
+                with self.subTest(source=Path(item["file"]).name):
+                    words = item["command"].split()
+                    if Path(item["file"]).name == "gguf.cpp":
+                        self.assertIn("-include", words)
+                        self.assertEqual(words[words.index("-include") + 1], "cerrno")
+                    else:
+                        self.assertNotIn("-include", words)
+                        self.assertNotIn("cerrno", words)
+
+    def test_nonapple_has_no_force_include(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.configure(directory, apple=False, explicit_cerrno=True)
+            result = self.build(directory)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            commands = json.loads((directory / "build/compile_commands.json").read_text())
+            for item in commands:
+                self.assertNotIn("-include", item["command"].split())
+                self.assertNotIn("cerrno", item["command"].split())
+
+    def test_apple_without_ggml_base_configures_safely(self):
+        with tempfile.TemporaryDirectory() as temp:
+            self.configure(Path(temp), apple=True, target=False)
+
+    def test_missing_cerrno_fails_without_workaround(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.configure(directory, apple=False)
+            result = self.build(directory)
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("errno", result.stdout + result.stderr)
+
+
+@unittest.skipUnless(
+    shutil.which("cmake") and shutil.which("clang") and shutil.which("clang++"),
+    "CMake and Clang C/C++ compilers required",
+)
+class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
+    def configure(self, directory, apple=True, targets=True, compiler_id="Clang",
+                  supported=True, explicit_memory=False, sdk_enum=False):
+        dependencies = (ROOT / "cmake/Dependencies.cmake").read_text()
+        block = dependencies.split(
+            "    # ggml-metal.cpp uses std::unique_ptr without including <memory>.\n", 1
+        )[1].split("    # =========================================================================", 1)[0]
+        header = "#include <memory>\n" if explicit_memory else ""
+        (directory / "metal.cpp").write_text(
+            header + "int metal() { std::unique_ptr<int> p(new int(7)); return *p; }\n"
+        )
+        sdk_header = (
+            "enum class SDKEnum : unsigned;\n"
+            "typedef enum SDKEnum : unsigned SDKEnum;\n"
+        ) if sdk_enum else ""
+        (directory / "cpu.cpp").write_text(sdk_header + "int cpu() { return 0; }\n")
+        (directory / "blas.cpp").write_text(sdk_header + "int blas() { return 0; }\n")
+        (directory / "helper.c").write_text("int helper(void) { return 0; }\n")
+        (directory / "consumer.cpp").write_text("int consumer() { return 0; }\n")
+        target_definitions = (
+            "add_library(ggml-metal STATIC metal.cpp helper.c)\n"
+            "add_library(ggml-cpu STATIC cpu.cpp helper.c)\n"
+            "add_library(ggml-blas STATIC blas.cpp helper.c)\n"
+            "add_library(consumer STATIC consumer.cpp)\n"
+            "target_link_libraries(consumer PRIVATE ggml-metal ggml-cpu ggml-blas)\n"
+        ) if targets else ""
+        (directory / "CMakeLists.txt").write_text(
+            "cmake_minimum_required(VERSION 3.16)\n"
+            "project(apple_backends LANGUAGES C CXX)\n"
+            "set(CMAKE_EXPORT_COMPILE_COMMANDS ON)\n"
+            f"set(APPLE {'TRUE' if apple else 'FALSE'})\n"
+            f'set(CMAKE_CXX_COMPILER_ID "{compiler_id}")\n'
+            f"set(THEMIS_LLAMA_HAS_ELABORATED_ENUM_BASE {'TRUE' if supported else 'FALSE'})\n"
+            + target_definitions + block
+        )
+        result = subprocess.run(
+            ["cmake", "-S", str(directory), "-B", str(directory / "build"),
+             "-G", "Unix Makefiles", f"-DCMAKE_C_COMPILER={shutil.which('clang')}",
+             f"-DCMAKE_CXX_COMPILER={shutil.which('clang++')}"],
+            capture_output=True, text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def build(self, directory):
+        return subprocess.run(
+            ["cmake", "--build", str(directory / "build")],
+            capture_output=True, text=True,
+        )
+
+    def test_apple_backend_flags_are_private_and_cxx_only(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.configure(directory)
+            result = self.build(directory)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            commands = json.loads((directory / "build/compile_commands.json").read_text())
+            for item in commands:
+                source = Path(item["file"]).name
+                words = item["command"].split()
+                with self.subTest(source=source):
+                    self.assertEqual("-include" in words, source == "metal.cpp")
+                    if source == "metal.cpp":
+                        self.assertEqual(words[words.index("-include") + 1], "memory")
+                    self.assertEqual(
+                        "-Wno-error=elaborated-enum-base" in words,
+                        source in {"cpu.cpp", "blas.cpp"},
+                    )
+
+    def test_nonapple_build_has_no_workaround_flags(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.configure(directory, apple=False, explicit_memory=True)
+            result = self.build(directory)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            commands = json.loads((directory / "build/compile_commands.json").read_text())
+            for item in commands:
+                self.assertNotIn("-include", item["command"].split())
+                self.assertNotIn("-Wno-error=elaborated-enum-base", item["command"].split())
+
+    def test_missing_memory_fails_without_workaround(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.configure(directory, apple=False)
+            result = self.build(directory)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("unique_ptr", result.stdout + result.stderr)
+
+    def test_sdk_enum_error_becomes_warning_only_with_workaround(self):
+        for supported in (False, True):
+            with self.subTest(workaround=supported):
+                with tempfile.TemporaryDirectory() as temp:
+                    directory = Path(temp)
+                    self.configure(directory, supported=supported, sdk_enum=True)
+                    result = self.build(directory)
+                    output = result.stdout + result.stderr
+                    if supported:
+                        self.assertEqual(result.returncode, 0, output)
+                        self.assertIn("warning: non-defining declaration of enumeration", output)
+                        self.assertNotIn("error:", output)
+                    else:
+                        self.assertNotEqual(result.returncode, 0, output)
+                        self.assertIn("error: non-defining declaration of enumeration", output)
+                    self.assertIn("-Welaborated-enum-base", output)
+
+    def test_missing_backend_targets_configure_safely(self):
+        with tempfile.TemporaryDirectory() as temp:
+            self.configure(Path(temp), targets=False)
+
+    def test_sdk_flag_requires_supported_homebrew_clang(self):
+        for compiler_id, supported in (("AppleClang", True), ("GNU", True), ("Clang", False)):
+            with self.subTest(compiler=compiler_id, supported=supported):
+                with tempfile.TemporaryDirectory() as temp:
+                    directory = Path(temp)
+                    self.configure(directory, compiler_id=compiler_id, supported=supported)
+                    commands = json.loads((directory / "build/compile_commands.json").read_text())
+                    for item in commands:
+                        self.assertNotIn(
+                            "-Wno-error=elaborated-enum-base", item["command"].split()
+                        )
 
 
 if __name__ == "__main__":

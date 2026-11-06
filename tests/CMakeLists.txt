@@ -321,6 +321,7 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_lora_adapter_merger\\.cpp$")
 # themisctl test includes tools/themisctl.cpp directly (THEMISCTL_TEST_BUILD guard);
 # must be compiled as a focused target only, not merged into the unified themis_tests binary.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_themisctl\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_distributed_txn_api_handler\\.cpp$")
 # scraper/test_scraper_plugin.cpp is compiled in the dedicated
 # test_scraper_plugin_focused target with its plugin implementation sources.
 # Keep it out of the aggregated themis_tests target to avoid unresolved externals.
@@ -10986,11 +10987,11 @@ endif()
 
 
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/global/test_global_transaction_manager.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
     message(STATUS "Adding Global Transaction Manager tests")
 
     add_executable(test_global_transaction_manager
-        global/test_global_transaction_manager.cpp
+        test_global_transaction_manager.cpp
     )
 
     target_link_libraries(test_global_transaction_manager PRIVATE
@@ -11014,7 +11015,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/global/test_global_transaction_manager.cp
 
     message(STATUS "  GlobalTransactionManager: 2PC across regions, TrueTime commit timestamp, recovery, statistics")
 else()
-    message(STATUS "Global Transaction Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/global/test_global_transaction_manager.cpp")
+    message(STATUS "Global Transaction Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
 endif()
 
 # ============================================================================

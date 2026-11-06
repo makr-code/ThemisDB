@@ -12,6 +12,8 @@
 #include "sharding/shard_rpc_server.h"
 
 #include <cstdlib>
+#include <filesystem>
+#include <fstream>
 #include <stdexcept>
 #include <string>
 
@@ -126,6 +128,74 @@ TEST(ShardMtlsEnforcement, ProductionMode_MissingServerCredentialsFailClosed) {
 #endif
 }
 
+TEST(ShardMtlsEnforcement, ProductionMode_InvalidPemCredentialsFailClosed) {
+#if THEMIS_TEST_HAS_SHARD_GRPC
+    ScopedEnv environment("THEMIS_ENVIRONMENT", "development");
+    ScopedEnv prod("THEMIS_PRODUCTION_MODE", "1");
+
+    const auto test_dir = std::filesystem::temp_directory_path() /
+                          "themis_invalid_shard_mtls_credentials";
+    std::filesystem::remove_all(test_dir);
+    std::filesystem::create_directories(test_dir);
+    const auto cert_path = test_dir / "server.pem";
+    const auto key_path = test_dir / "server-key.pem";
+    const auto ca_path = test_dir / "ca.pem";
+    for (const auto& path : {cert_path, key_path, ca_path}) {
+        std::ofstream(path) << "not a PEM credential";
+    }
+
+    ShardRPCServer::Config cfg;
+    cfg.enable_mtls = true;
+    cfg.listen_address = "127.0.0.1:0";
+    cfg.tls_cert_path = cert_path.string();
+    cfg.tls_key_path = key_path.string();
+    cfg.tls_ca_cert_path = ca_path.string();
+    cfg.tls_require_client_cert = true;
+
+    ShardRPCServer server(cfg);
+    EXPECT_FALSE(server.start())
+        << "Invalid certificate, key, or CA data must not start a plaintext listener";
+    std::filesystem::remove_all(test_dir);
+#else
+    GTEST_SKIP() << "Shard gRPC support is not available";
+#endif
+}
+
+TEST(ShardMtlsEnforcement, ProductionMode_ClientInvalidPemCannotUseInsecureOverride) {
+#if THEMIS_TEST_HAS_SHARD_GRPC
+    ScopedEnv environment("THEMIS_ENVIRONMENT", "development");
+    ScopedEnv prod("THEMIS_PRODUCTION_MODE", "1");
+
+    const auto test_dir = std::filesystem::temp_directory_path() /
+                          "themis_invalid_shard_mtls_client_credentials";
+    std::filesystem::remove_all(test_dir);
+    std::filesystem::create_directories(test_dir);
+    const auto cert_path = test_dir / "client.pem";
+    const auto key_path = test_dir / "client-key.pem";
+    const auto ca_path = test_dir / "ca.pem";
+    for (const auto& path : {cert_path, key_path, ca_path}) {
+        std::ofstream(path) << "not a PEM credential";
+    }
+
+    ShardRPCClient::Config cfg;
+    cfg.endpoint = "127.0.0.1:1";
+    cfg.enable_mtls = true;
+    cfg.allow_insecure = true;
+    cfg.tls_cert_path = cert_path.string();
+    cfg.tls_key_path = key_path.string();
+    cfg.tls_ca_cert_path = ca_path.string();
+
+    EXPECT_THROW(
+        {
+            ShardRPCClient client(cfg);
+        },
+        std::runtime_error);
+    std::filesystem::remove_all(test_dir);
+#else
+    GTEST_SKIP() << "gRPC not available — skipping client PEM validation test";
+#endif
+}
+
 TEST(ShardMtlsEnforcement, ProductionMode_ClientInsecureOverrideCannotMaskMissingCredentials) {
 #if THEMIS_TEST_HAS_SHARD_GRPC
     ScopedEnv environment("THEMIS_ENVIRONMENT", "development");
@@ -144,6 +214,21 @@ TEST(ShardMtlsEnforcement, ProductionMode_ClientInsecureOverrideCannotMaskMissin
 #else
     GTEST_SKIP() << "Shard gRPC support is not available";
 #endif
+}
+
+TEST(ShardMtlsEnforcement, ProductionMode_RejectsInProcessClientTransport) {
+    ScopedEnv environment("THEMIS_ENVIRONMENT", "development");
+    ScopedEnv prod("THEMIS_PRODUCTION_MODE", "production");
+
+    ShardRPCClient::Config cfg;
+    cfg.endpoint = "inproc://shard-a";
+    cfg.allow_insecure = true;
+
+    EXPECT_THROW(
+        {
+            ShardRPCClient client(cfg);
+        },
+        std::runtime_error);
 }
 
 TEST(ShardMtlsEnforcement, ProductionMode_ClientRejectsDisabledMtlsAndVerification) {

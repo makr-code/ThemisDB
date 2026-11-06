@@ -58,7 +58,7 @@ jobs:
   run-summary:
     name: "Validate: Run Summary"
     if: always()
-    needs: [linux-release, windows-release, prepare-release-matrix, release-platform-matrix]
+    needs: [linux-release, windows-release, prepare-release-matrix, release-platform-matrix, runtime-artifact-gate]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -268,8 +268,8 @@ jobs:
                   "compiler": "msvc",
                   "triplet": "x64-windows",
                   "setup_command": "set -euo pipefail\nchoco install -y sccache || echo \"::warning::sccache install via choco failed; continuing without sccache cache.\"\ngit submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true\ngit submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF\ntest -f vcpkg/scripts/buildsystems/vcpkg.cmake || {\n  echo \"::error::vcpkg submodule/toolchain missing before bootstrap\"\n  exit 1\n}\n./vcpkg/bootstrap-vcpkg.bat -disableMetrics",
-                  "configure_command": "set -euo pipefail\nexport VCPKG_MAX_CONCURRENCY=2\nexport CMAKE_BUILD_PARALLEL_LEVEL=2\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --preset windows-release ${CMAKE_FLAGS} 2>&1 | tee configure-windows-release.log",
-                  "build_command": "set -euo pipefail\nexport VCPKG_MAX_CONCURRENCY=2\nexport CMAKE_BUILD_PARALLEL_LEVEL=2\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --build --preset windows-release --parallel 2 2>&1 | tee build-windows-release.log",
+                  "configure_command": "set -euo pipefail\nexport VCPKG_MAX_CONCURRENCY=1\nexport CMAKE_BUILD_PARALLEL_LEVEL=1\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --preset windows-release ${CMAKE_FLAGS} 2>&1 | tee configure-windows-release.log",
+                  "build_command": "set -euo pipefail\nexport VCPKG_MAX_CONCURRENCY=1\nexport CMAKE_BUILD_PARALLEL_LEVEL=1\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --build --preset windows-release --parallel 1 2>&1 | tee build-windows-release.log",
                   "validation_command": "set -euo pipefail\nctest --preset windows-release --output-on-failure -j 1 --timeout 60 2>&1 | tee test-windows-release.log\n\ncmake --install build-msvc-windows-release --prefix build-msvc-windows-release/install 2>&1 | tee install-windows-release.log\n\nBUILD_DIR=\"${GITHUB_WORKSPACE}/build-msvc-windows-release\"\nPACKAGES_DIR=\"${GITHUB_WORKSPACE}/packages\"\nrm -rf \"${PACKAGES_DIR}\"\nmkdir -p \"${PACKAGES_DIR}\"\n\nfor GEN in ${PACKAGE_GENERATORS}; do\n  if ! command -v candle &>/dev/null 2>&1 && [ \"${GEN}\" = \"WIX\" ]; then\n    echo \"::notice::WiX (candle) not found - MSI generator skipped.\"\n    continue\n  fi\n  echo \"--- Running CPack generator: ${GEN} ---\"\n  cpack --config \"${BUILD_DIR}/CPackConfig.cmake\" \\\n    -B \"${PACKAGES_DIR}\" \\\n    -G \"${GEN}\" 2>&1 | tee \"${GITHUB_WORKSPACE}/cpack-${GEN}-windows-release.log\" || \\\n    echo \"::warning::CPack generator ${GEN} failed - continuing.\"\ndone\n\nif ! find \"${PACKAGES_DIR}\" -maxdepth 1 \( -name '*.zip' -o -name '*.msi' -o -name '*.exe' \) -print -quit | grep -q .; then\n  echo \"::error::No Windows package artifacts were produced in ${PACKAGES_DIR}\"\n  exit 1\nelse\n  echo \"Packages produced:\"\nls -lh \"${PACKAGES_DIR}\" || true\nfi",
                   "build_directory": "build-msvc-windows-release",
                   "artifact_name": f"build-windows-amd64-release-{run_number}",
@@ -293,8 +293,6 @@ jobs:
                   "configure_command": "set -euo pipefail\nif command -v sccache >/dev/null 2>&1 && [ \"${SCCACHE_GHA_ENABLED:-true}\" != \"false\" ]; then\n  export CMAKE_C_COMPILER_LAUNCHER=sccache\n  export CMAKE_CXX_COMPILER_LAUNCHER=sccache\nfi\ncmake --preset macos-arm64-release ${CMAKE_FLAGS} 2>&1 | tee configure-macos-release.log",
                   "build_command": "set -euo pipefail\nif command -v sccache >/dev/null 2>&1 && [ \"${SCCACHE_GHA_ENABLED:-true}\" != \"false\" ]; then\n  export CMAKE_C_COMPILER_LAUNCHER=sccache\n  export CMAKE_CXX_COMPILER_LAUNCHER=sccache\nfi\ncmake --build --preset macos-arm64-release --parallel 8 2>&1 | tee build-macos-release.log",
                   "validation_command": "set -euo pipefail\nctest --preset macos-arm64-release --output-on-failure -j 1 --timeout 60 2>&1 | tee test-macos-release.log || true\n\nBUILD_DIR=\"${GITHUB_WORKSPACE}/build-macos-arm64-release\"\nPACKAGES_DIR=\"${GITHUB_WORKSPACE}/packages\"\nrm -rf \"${PACKAGES_DIR}\"\nmkdir -p \"${PACKAGES_DIR}\"\n\ncmake --install \"${BUILD_DIR}\" --prefix \"${BUILD_DIR}/install\" 2>&1 | tee install-macos-release.log || \\\n  echo \"::warning::Install step failed on macOS experimental lane.\"\n\nfor GEN in ${PACKAGE_GENERATORS}; do\n  echo \"--- Running CPack generator: ${GEN} ---\"\n  cpack --config \"${BUILD_DIR}/CPackConfig.cmake\" \\\n    -B \"${PACKAGES_DIR}\" \\\n    -G \"${GEN}\" 2>&1 | tee \"${GITHUB_WORKSPACE}/cpack-${GEN}-macos-release.log\" || \\\n    echo \"::warning::CPack generator ${GEN} failed on macOS experimental lane.\"\ndone\n\nif ! find \"${PACKAGES_DIR}\" -maxdepth 1 \( -name '*.tar.gz' -o -name '*.tgz' -o -name '*.dmg' \) -print -quit | grep -q .; then\n  echo \"::notice::No macOS package artifact produced in experimental lane.\"\nfi\n\necho \"Packages produced (if any):\"\nls -lh \"${PACKAGES_DIR}\" || true",
-                  "build_continue_on_error": True,
-                  "validation_continue_on_error": True,
                   "build_directory": "build-macos-arm64-release",
                   "artifact_name": f"build-macos-arm64-release-{run_number}",
                   "artifact_paths": "build-macos-arm64-release/themisdb*\nbuild-macos-arm64-release/*.dylib\nconfigure-macos-release.log\nbuild-macos-release.log\ntest-macos-release.log\ninstall-macos-release.log\ncpack-*-macos-release.log",
@@ -344,6 +342,8 @@ jobs:
               entry["validation_continue_on_error"] = False
 
           selected = [entry for entry in entries if entry["enabled"]]
+          if not selected:
+              raise ValueError("Release matrix selected no platforms")
           print(f"matrix={json.dumps({'include': selected})}")
           PY
 
@@ -382,3 +382,63 @@ jobs:
       artifact_retention_days_secondary: ${{ matrix.artifact_retention_days_secondary }}
       summary_title: ${{ matrix.summary_title }}
       timeout_minutes: ${{ matrix.timeout_minutes || '360' }}
+
+  runtime-artifact-gate:
+    name: "Validate: Packaged Runtime (${{ matrix.id }})"
+    needs: [prepare-release-matrix, release-platform-matrix]
+    runs-on: ${{ matrix.runs_on }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare-release-matrix.outputs.matrix) }}
+    steps:
+      - name: Checkout runtime gate from workflow revision
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Download final platform packages
+        uses: actions/download-artifact@v5
+        with:
+          name: ${{ matrix.artifact_name_secondary }}
+          path: runtime-packages
+
+      - name: Validate Linux packages in clean Ubuntu runtime
+        if: startsWith(matrix.id, 'linux-')
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p runtime-evidence
+          docker run --rm \
+            -v "$PWD/runtime-packages:/packages:ro" \
+            -v "$PWD/scripts/release:/gate:ro" \
+            -v "$PWD/runtime-evidence:/evidence" \
+            ubuntu:24.04 /bin/sh -ec '
+              apt-get update -qq
+              apt-get install -y --no-install-recommends python3 libarchive-tools
+              xargs -r apt-get install -y --no-install-recommends < /gate/runtime-dependencies-ubuntu-24.04.txt
+              python3 /gate/runtime_smoke_gate.py --packages /packages --output /evidence/runtime-smoke.json
+            '
+
+      - name: Set up Python for native runtime gate
+        if: "!startsWith(matrix.id, 'linux-')"
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Validate Windows and macOS packages without build tools on PATH
+        if: "!startsWith(matrix.id, 'linux-')"
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/release/runtime_smoke_gate.py \
+            --packages runtime-packages --output runtime-evidence/runtime-smoke.json
+
+      - name: Upload packaged runtime dependency and startup evidence
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: packaged-runtime-smoke-${{ matrix.id }}-${{ github.run_number }}
+          path: runtime-evidence/
+          if-no-files-found: warn
+          retention-days: 30

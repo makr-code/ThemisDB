@@ -7,6 +7,8 @@
 #include "transaction/global_transaction_manager.h"
 #include "sharding/truetime.h"
 #include <atomic>
+#include <chrono>
+#include <filesystem>
 #include <mutex>
 #include <stdexcept>
 #include <string>
@@ -104,17 +106,24 @@ protected:
         truetime_ = std::make_shared<TrueTime>(tt_cfg);
 
         GlobalTransactionManager::Config cfg;
-        // No WAL directory → WAL disabled (keeps tests hermetic)
+        wal_directory_ = (std::filesystem::temp_directory_path() /
+            ("themis_legacy_global_txn_test_" + std::to_string(
+                std::chrono::steady_clock::now().time_since_epoch().count()))).string();
+        cfg.wal_directory = wal_directory_;
         gtm_ = std::make_unique<GlobalTransactionManager>("test-coord", truetime_, cfg);
     }
 
     void TearDown() override {
         gtm_.reset();
         truetime_.reset();
+        std::error_code ec;
+        std::filesystem::remove_all(wal_directory_, ec);
+        EXPECT_FALSE(ec) << ec.message();
     }
 
     std::shared_ptr<TrueTime>              truetime_;
     std::unique_ptr<GlobalTransactionManager> gtm_;
+    std::string wal_directory_;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

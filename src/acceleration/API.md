@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-02"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -34,6 +34,8 @@ Most operation methods return results directly. Callers must validate the inputs
 - `BackendRegistry::instance()` provides the singleton registry. `registerBackend()` takes ownership of a `std::unique_ptr<IComputeBackend>`.
 - `getBest*Backend()` returns a non-owning pointer or `nullptr` if no interface is available. `select*BackendFor()` additionally applies `CapabilityRequirements`.
 - `getAvailableBackends()` and `getFallbackOrder()` expose registered types and the fixed preference sequence. `initializeRuntime()` initializes discovery and selection; `shutdownAll()` shuts down registered backends.
+- `PluginLoader` always requires signed backend plugins from pinned X.509 signer certificates. The default loader reads comma-separated fingerprints from `THEMIS_PLUGIN_TRUSTED_SIGNER_FINGERPRINTS`; an empty setting rejects all plugin loads. Callers may instead inject fingerprints into its constructor.
+- `EnhancedPluginSecurityVerifier` rejects hash-only authorization and requires pinned signer identity at signature verification levels; `allowUnsigned` cannot bypass the policy.
 - `DeviceManager::probeDevices()` returns a cached vector of `DeviceCapabilityInfo`; `refresh()` performs immediate re-enumeration. `getBestDevice()` chooses the healthy accelerator with the most reported free VRAM, otherwise CPU fallback. Its cache TTL is 60 seconds.
 
 ## AI dispatcher API

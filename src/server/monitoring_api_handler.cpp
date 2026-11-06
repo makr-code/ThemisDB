@@ -155,7 +155,7 @@ http::response<http::string_body> MonitoringApiHandler::handleLiveness(
  * @brief Handle Readiness.
  * @param[in] req Input parameter.
  * @return Return value.
- * @details Calls: Tracer::startSpan(), load(), getRawDB(), what(), getrusage(), empty(), readinessCheck(), buildConcernsJson().
+ * @details Calls: Tracer::startSpan(), load(), getRawDB(), getrusage(), readinessCheck(), buildConcernsJson(), transaction recovery provider.
  */
 http::response<http::string_body> MonitoringApiHandler::handleReadiness(
     const http::request<http::string_body>& req
@@ -186,6 +186,20 @@ http::response<http::string_body> MonitoringApiHandler::handleReadiness(
     uint64_t req_count = active_requests_
         ? active_requests_->load(std::memory_order_relaxed) : 0;
 
+    // Distributed transaction recovery; unresolved work blocks service readiness.
+    bool transaction_recovery_check_ok = true;
+    std::size_t transaction_recovery_blockers = 0;
+    if (transaction_recovery_blocker_count_provider_) {
+        try {
+            transaction_recovery_blockers =
+                transaction_recovery_blocker_count_provider_();
+        } catch (const std::exception&) {
+            transaction_recovery_check_ok = false;
+        } catch (...) {
+            transaction_recovery_check_ok = false;
+        }
+    }
+
     // --- Layer 3: Memory (RSS) via getrusage (Linux/macOS only) ---
     int64_t rss_bytes = -1;
 #ifndef _WIN32
@@ -201,11 +215,15 @@ http::response<http::string_body> MonitoringApiHandler::handleReadiness(
     }
 #endif
 
-    bool ready = server_running && storage_ok;
+    bool ready = server_running && storage_ok && transaction_recovery_check_ok &&
+                 transaction_recovery_blockers == 0;
 
     json checks = {
         {"server_running", server_running},
         {"storage_available", storage_ok},
+        {"transaction_recovery_ready",
+         transaction_recovery_check_ok && transaction_recovery_blockers == 0},
+        {"transaction_recovery_blockers", transaction_recovery_blockers},
         {"active_connections", conn_count},
         {"active_requests", req_count}
     };
@@ -2578,4 +2596,3 @@ void MonitoringApiHandler::registerRoutes() {
 
 } // namespace server
 } // namespace themis
-

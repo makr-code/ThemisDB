@@ -52,6 +52,9 @@ def extract_stage(text: str, stage_name: str, base_image: str = "ubuntu:24.04") 
 
 def extract_installed_packages(stage_text: str, stage_name: str) -> set[str]:
     packages: set[str] = set()
+    if "xargs -r apt-get install" in stage_text:
+        manifest = REPO_ROOT / "scripts/release/runtime-dependencies-ubuntu-24.04.txt"
+        packages.update(manifest.read_text(encoding="utf-8").split())
     lines = stage_text.splitlines()
 
     for index, line in enumerate(lines):
@@ -90,6 +93,58 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
     @staticmethod
     def _dockerfile_text() -> str:
         return DOCKERFILE.read_text(encoding="utf-8")
+
+    def test_build_configure_preset_exists(self) -> None:
+        build = extract_stage(self._dockerfile_text(), "build", base_image="deps")
+        invocations = re.findall(r"\bcmake --preset ([\w-]+)", build)
+        self.assertTrue(invocations, "Docker build must use a configure preset")
+        presets = json.loads(
+            (REPO_ROOT / "CMakePresets.json").read_text(encoding="utf-8")
+        )["configurePresets"]
+        available = {preset["name"] for preset in presets if not preset.get("hidden", False)}
+        for name in invocations:
+            with self.subTest(preset=name):
+                self.assertIn(
+                    name, available,
+                    f"Docker configure preset {name!r} does not exist in the selected source. "
+                    "Build a source revision containing the canonical Linux preset migration.",
+                )
+
+    def test_build_directory_matches_preset_and_image_copies(self) -> None:
+        text = self._dockerfile_text()
+        build = extract_stage(text, "build", base_image="deps")
+        invocation = re.search(r"\bcmake --preset ([\w-]+)", build)
+        self.assertIsNotNone(invocation)
+        presets = json.loads(
+            (REPO_ROOT / "CMakePresets.json").read_text(encoding="utf-8")
+        )["configurePresets"]
+        preset = next(
+            (preset for preset in presets if preset["name"] == invocation.group(1)), None
+        )
+        self.assertIsNotNone(preset, "Docker configure preset is missing from selected source")
+        directory = re.search(r"^ARG THEMIS_BUILD_DIR=(\S+)$", build, re.MULTILINE)
+        self.assertIsNotNone(directory)
+        self.assertEqual(preset["binaryDir"], "${sourceDir}/" + directory.group(1))
+        self.assertIn('cmake --build "${THEMIS_BUILD_DIR}"', build)
+        self.assertIn('cmake --install "${THEMIS_BUILD_DIR}"', build)
+        for stage_name in ("runtime", "debug"):
+            with self.subTest(stage=stage_name):
+                self.assertIn(
+                    f"COPY --from=build /src/{directory.group(1)}/bin/themis_server ",
+                    extract_stage(text, stage_name),
+                )
+
+    def test_vcpkg_bootstrap_supports_native_arm64(self) -> None:
+        base = extract_stage(self._dockerfile_text(), "base")
+        self.assertIn(
+            "${VCPKG_ROOT}/bootstrap-vcpkg.sh -disableMetrics", base,
+            "Use the pinned vcpkg bootstrap script: it builds vcpkg natively on ARM64. "
+            "Publish a new release tag containing the corrected Dockerfile.",
+        )
+        self.assertNotRegex(
+            base, r"(?m)^ADD\s+https://\S+/vcpkg-glibc\s",
+            "vcpkg-glibc is x86-64-only and fails with Exec format error on ARM64.",
+        )
 
     def test_community_logging_dependencies_use_system_packages(self) -> None:
         deps_packages = extract_installed_packages(
@@ -161,6 +216,16 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
 
         for package_name in EXPECTED_UBUNTU_2404_RUNTIME_PACKAGE_TOKENS:
             self.assertIn(package_name, runtime_packages)
+
+    def test_runtime_checks_linker_and_rootless_loader_before_publishing(self) -> None:
+        stage = extract_stage(self._dockerfile_text(), "runtime")
+        for marker in ("ldd /app/themis_server", 'grep -q "not found"',
+                       "RUN /app/themis_server --version",
+                       'CMD ["--port", "8080", "--data-dir", "/app/data/themis_server"]'):
+            self.assertIn(marker, stage)
+        self.assertLess(stage.index("USER themis"), stage.index("RUN /app/themis_server --version"))
+        packages = extract_installed_packages(stage, "runtime")
+        self.assertTrue({"curl", "libfmt9", "libspdlog1.12"}.issubset(packages))
 
     def test_debug_stage_uses_ubuntu_2404_runtime_packages(self) -> None:
         debug_stage = extract_stage(self._dockerfile_text(), "debug")

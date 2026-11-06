@@ -1,13 +1,13 @@
 ---
-Author: ThemisDB Contributors
-Created: 2026-07-17
-Last Updated: 2026-11-02
-Status: review
+Author: "ThemisDB Contributors"
+Created: "2026-07-17"
+Last Updated: "2026-11-02"
+Status: "review"
 AI_Used: true
-AI_Models: unknown
-AI_Contributor: GitHub Copilot
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
 Human_Review: false
-Human_Author: ThemisDB Contributors
+Human_Author: "ThemisDB Contributors"
 Source_Level: level4
 SOT_Domain: architecture-governance
 Canonical_References:
@@ -19,7 +19,7 @@ Canonical_References:
   - ../../src/sharding/cross_shard_transaction.cpp
   - ../../src/sharding/two_phase_commit_coordinator.cpp
   - ../../tests/test_two_phase_commit.cpp
-Related_Issue: "#5373 (DIS-05)"
+Related_Issue: "#5372 (unification planning), #5373 (DIS-05), #7552"
 Related_Milestone: DOC-WEEKLY-2026-W44
 ---
 
@@ -27,15 +27,24 @@ Exact model backend not verifiable from final document text alone.
 
 # Transaction Coordinators — Architecture Reference
 
-<!-- Status: review | Issue: #5372 (unification planning), #5373 (DIS-05) | Target: Q3 2026 (v2.0.0) -->
+<!-- Status: review | Issues: #5372 (unification planning), #5373 (DIS-05), #7552 | Target: Q3 2026 (v2.0.0) -->
 <!-- SOT: coordinator implementation and contracts; this document is a level-4 explanatory derivative -->
 
 ## 1. Overview
 
-ThemisDB provides three concrete transaction coordinator classes, all implementing the
-`IRecoverableTwoPhaseCoordinator` recovery contract while exposing coordinator-specific APIs.
-`ITransactionCoordinator` remains the documented unification target for migration planning
+ThemisDB has multiple concrete transaction coordinators with independent execution APIs and
+WAL/recovery implementations. `IRecoverableTwoPhaseCoordinator` normalizes coordinator-local
+recovery snapshots; it does not select a canonical runtime coordinator, unify WAL formats, or
+provide a system readiness gate. `ITransactionCoordinator` remains a proposed unification target
+for migration planning
 ([`docs/ITRANSACTION_COORDINATOR.md`](../ITRANSACTION_COORDINATOR.md)).
+
+Source inspection currently finds five classes implementing this recovery interface:
+`TwoPhaseCommitCoordinator`, `CrossShardTransactionCoordinator`,
+`DistributedTransactionCoordinator`, `GlobalTransactionManager`, and
+`DistributedTransactionManager`. The table below compares only three of them and is not an
+exhaustive inventory. The canonical-coordinator decision remains open under
+[DIS-05](../../audit/ROADMAP.md#ws2--distributed-consistency--ha).
 
 | Class | Header | Namespace | Primary Protocol |
 |---|---|---|---|
@@ -43,8 +52,8 @@ ThemisDB provides three concrete transaction coordinator classes, all implementi
 | `CrossShardTransactionCoordinator` | `include/sharding/cross_shard_transaction.h` | `themisdb::sharding` | Multi-protocol (2PC / 3PC / SAGA / Percolator / Calvin) |
 | `DistributedTransactionCoordinator` | `include/sharding/distributed_transaction.h` | `themis::sharding` | 2PC (+ optional Percolator fast-path) |
 
-All three classes inherit from `themis::transaction::IRecoverableTwoPhaseCoordinator`, which
-in turn inherits from `themis::transaction::IInDoubtRecoveryCoordinator`.  The proposed
+The three classes in this comparison inherit from `themis::transaction::IRecoverableTwoPhaseCoordinator`, which
+in turn inherits from `themis::transaction::IInDoubtRecoveryCoordinator`. The proposed
 `ITransactionCoordinator` unification contract is documented at
 [`docs/ITRANSACTION_COORDINATOR.md`](../ITRANSACTION_COORDINATOR.md).
 
@@ -95,7 +104,7 @@ This shared contract does not include `DistributedTransactionCoordinator`.
 | Standalone 2PC using the `RequestHandler` participant API / `ShardRPCClientAdapter` | `TwoPhaseCommitCoordinator` |
 | Multi-protocol orchestration (3PC non-blocking, SAGA long-running, Calvin deterministic), CrossShard lifecycle, SSI, or its endpoint transport | `CrossShardTransactionCoordinator` (its 2PC path uses the shared contract) |
 | Transaction-manager layer with `IDistributedParticipantCallback` injection | `DistributedTransactionManager` (`transaction/`) |
-| New code / greenfield | Select by required API and lifecycle; do not assume common WAL or recovery behavior |
+| New code / greenfield | No canonical default is selected; choose by required API and lifecycle, follow the active caller/module contract, do not assume common WAL or recovery behavior, and track DIS-05 |
 
 ### 2.3 Known Limitations
 

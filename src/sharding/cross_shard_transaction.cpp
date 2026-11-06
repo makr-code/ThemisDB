@@ -1253,7 +1253,7 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
             "reports resume candidates but does not re-drive phase two "
             "(execution result={})",
             transaction_id,
-            outcome == themis::sharding::detail::TwoPhaseCommitExecutionResult::FAILURE
+            outcome == themis::sharding::detail::TwoPhaseCommitExecutionResult::EXECUTION_FAILED
                 ? "FAILURE"
                 : "UNKNOWN");
         return false;
@@ -1732,7 +1732,7 @@ bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
         case themis::sharding::detail::TwoPhaseCommitExecutionResult::ABORTED:
             txn.state = TransactionState::ABORTED;
             return false;
-        case themis::sharding::detail::TwoPhaseCommitExecutionResult::FAILURE:
+        case themis::sharding::detail::TwoPhaseCommitExecutionResult::EXECUTION_FAILED:
             txn.state = TransactionState::UNKNOWN;
             return false;
     }
