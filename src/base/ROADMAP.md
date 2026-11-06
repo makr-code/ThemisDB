@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-07-27"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-06"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -118,3 +118,242 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - [x] **Wave C (concurrency/runtime correctness pass)**: `hot_reload_manager.cpp` stale-slot/null-loader reload/rollback hardening completed (batch D).
 - [~] **Wave D (operability + long-duration confidence)**: remaining observability/runbook soak tasks continue under existing Q1 2027 items above.
 - [x] **Wave D CLOSED (2026-09-16)**: distributed tracing (ScopedSpan in hot_reload_manager), exporter reliability counters (retry_exhausted_count/timeout_count + ObservabilityHook in remote_registry_client), high-cardinality stress tests, long-duration soak tests, operator runbook, and benchmark baseline file all delivered. Benchmark p95/p99 hardware sign-off pending — see ROADMAP.md Program-Level Success Criteria.
+
+## Proposed v2.5.0 → v3.0.0 Base Evolution Targets
+
+> **Planning proposal only:** these are proposed engineering targets, not release
+> commitments, approved scope, or completed work. Release inclusion remains
+> subject to issue/milestone planning, implementation evidence, and the manual
+> release-manager gates in [`RELEASE_STRATEGY.md`](../../RELEASE_STRATEGY.md).
+> Bracketed tasks below are open proposals, not status updates to the historical
+> checklist above. Root [`FUTURE_ENHANCEMENTS.md`](../../FUTURE_ENHANCEMENTS.md)
+> describes the evidence-first v2.5.0 → v3.0.0 rollout.
+
+### Current maturity assessment (qualitative, source-verified)
+
+Base has **implemented runtime foundations with meaningful unit/regression test
+and benchmark-source coverage, but incomplete operational/performance sign-off
+and several contract gaps**. Loader, registry, dependency analysis, optional
+sandbox/WASM, reload/rollback, and resource-pool APIs exist. Existing tests
+include reload/regression, future-enhancement, Wave D, soak, and resource-pool
+suites; CMake registration is evidence of discoverability, not that those tests
+were built or passed. Benchmark sources and thresholds exist, but
+GATE-BASE-01..12 representative-hardware results and human sign-off remain
+pending. No measured performance result is asserted here.
+
+Maturity is conditional, not a blanket security/readiness claim: the canonical
+loader is [`src/themis/module_loader.cpp`](../themis/module_loader.cpp), not the
+deprecated `src/base/module_loader.cpp`; sandboxing is optional and
+platform-dependent; HTTP is accepted by the registry with a warning; and the
+reload sequence has an availability gap with best-effort restoration.
+
+Supporting module evidence: [architecture](ARCHITECTURE.md),
+[research notes](RESEARCH.md), [security notes](SECURITY.md),
+[performance expectations](PERFORMANCE_EXPECTATIONS.md),
+[future enhancements](FUTURE_ENHANCEMENTS.md), and [API contract](API.md).
+These documents describe source-backed behavior and validation definitions;
+they do not establish that tests passed or that benchmark targets were measured.
+
+### Gap-to-code map and ordering rationale
+
+| Priority | Evidence-backed gap | Relevant code / existing evidence | Proposed treatment |
+|---|---|---|---|
+| P0 — release evidence | GATE-BASE-01..12 have definitions and thresholds, but representative-hardware measurements and human sign-off are pending. Thresholds are not results. | [`bench_base_hot_paths.cpp`](../../benchmarks/base/bench_base_hot_paths.cpp), [`bench_base_wasm_sandbox.cpp`](../../benchmarks/base/bench_base_wasm_sandbox.cpp), [`wave_d_baselines.json`](../../benchmarks/baselines/base/wave_d_baselines.json) | Collect reproducible data and sign off before using the gates as performance claims. |
+| P1 — lifecycle/security contracts | Reload unloads the old and temporary modules before loading under the canonical key; there is an availability gap and restoration is best-effort. `HotReloadManager::Config::verifySignature` is declared but unused; loader policy controls verification. | [`hot_reload_manager.cpp`](hot_reload_manager.cpp), [`hot_reload_manager.h`](../../include/themis/base/hot_reload_manager.h), [reload regression tests](../../tests/base/test_base_reload_regression.cpp), [`src/themis/module_loader.cpp`](../themis/module_loader.cpp) | Make trust-policy ownership explicit and test reload failure states before considering replacement/rollback design changes. |
+| P1 — intake and isolation | Registry accepts both HTTP and HTTPS; sandbox controls depend on configuration/platform support, and WASM execution needs an injected runtime. | [`remote_registry_client.cpp`](remote_registry_client.cpp), [`module_sandbox.cpp`](module_sandbox.cpp), [`wasm_plugin_sandbox.cpp`](wasm_plugin_sandbox.cpp), [`wasm_runtime_injector.cpp`](wasm_runtime_injector.cpp) | Define explicit deployment policy and validate supported/degraded paths; do not claim universal transport protection or isolation. |
+| P2 — resource-pool contract | `ResourcePoolManager::Config::leak_timeout` is unused; this class does not implement borrow reclamation or own thread pools. Its existing pool benchmarks are not included in the two base benchmark targets. | [`resource_pool_manager.cpp`](resource_pool_manager.cpp), [`resource_pool_manager.h`](../../include/base/resource_pool_manager.h), [resource-pool tests](../../tests/base/test_resource_pools.cpp) | Decide whether to implement a safe, scoped reclamation contract or remove/deprecate the misleading configuration; establish measurements before optimization claims. |
+| Strategic — component boundary | Current WASM adapter/runtime injection is not evidence that the WebAssembly Component Model is implemented. | [`wasm_runtime_injector.h`](../../include/themis/base/wasm_runtime_injector.h), [`wasm_plugin_sandbox.h`](../../include/themis/base/wasm_plugin_sandbox.h) | Evaluate a versioned component/interface boundary behind an opt-in adapter; preserve native and existing runtime compatibility unless evidence supports migration. |
+
+### Proposed Wave 1 — Evidence and v2.5.0 release-readiness
+
+- **Goal:** close the highest-priority evidence gap without changing runtime
+  behavior or presenting benchmark definitions as measurements.
+- **Proposed tasks:**
+  - [ ] Run GATE-BASE-01..12 on named representative hardware; record binary,
+    compiler/build configuration, host/OS, run commands, repetitions, results,
+    and variance in the baseline artifact (Target: v2.5.0).
+  - [ ] Audit benchmark fixtures and metric semantics, especially p99
+    collection, failed-load fixture paths, and applicable pool coverage; amend
+    definitions where the metric does not measure its stated gate (Target:
+    v2.5.0).
+  - [ ] Obtain human review/sign-off for every threshold and record any
+    unsupported or nonrepresentative platform instead of treating it as a pass
+    (Target: v2.5.0).
+- **Dependencies:** access to representative hardware and a reproducible
+  release-profile build; existing benchmark target definitions; human owner for
+  sign-off. No runtime change is a prerequisite.
+- **Effort estimate:** 2–4 person-weeks (measurement, benchmark audit, and
+  review; hardware scheduling excluded).
+- **Risks / trade-offs:** host noise and platform diversity may make a single
+  result misleading; strict gates can reject useful changes if thresholds lack
+  validated context. Report per-host data and do not silently pool unlike
+  machines.
+- **Numerical success KPIs (proposed acceptance criteria, not current results):**
+  1. 12/12 gates have an attributable measurement record and explicit
+     pass/fail/not-applicable disposition.
+  2. At least 10 repeated samples per gate on each declared representative
+     host, with median, dispersion, and host context recorded.
+  3. 100% of thresholds with a human sign-off record; zero gates represented as
+     passed solely because a source label or threshold exists.
+- **Validation strategy:** execute both benchmark binaries in the documented
+  release build; repeat runs and use randomized interleaving where supported to
+  expose run-order effects; review variance and machine context using the
+  [Google Benchmark guide](https://google.github.io/benchmark/user_guide.html).
+  Validate checked-in results against target definitions; confirm normal unit
+  and release-critical CI independently. A measurement is not a security test.
+
+### Proposed Wave 2 — v2.5.0 lifecycle, trust-policy, and pool contracts
+
+- **Goal:** resolve concrete correctness/security ambiguity and close
+  source-backed contract gaps while retaining current public behavior unless a
+  separately reviewed compatibility decision is made.
+- **Proposed tasks:**
+  - [ ] Define one authoritative signature/trust-policy path for reload
+    candidates; either wire `verifySignature` to that policy with explicit
+    semantics or deprecate/remove it through the normal compatibility process.
+    Add tests proving configured rejection and permissive modes, without
+    assuming signature verification is globally enabled (Target: v2.5.0).
+  - [ ] Extend reload regression coverage for failures at each reload phase,
+    failed best-effort restoration, state callback failures, and concurrent
+    observation; specify caller-visible state and recovery guidance. Do not
+    claim uninterrupted service unless an implementation and test prove it
+    (Target: v2.5.0).
+  - [ ] Decide whether `leak_timeout` means supported reclamation or should be
+    deprecated/removed; document ownership/lifetime rules and add boundary and
+    concurrency tests for the selected contract (Target: v2.5.0).
+  - [ ] Define a configurable registry transport policy (including how HTTP is
+    handled) and test both policy outcomes; retain explicit documentation that
+    TLS/configuration is not universal until callers and defaults establish
+    otherwise (Target: v2.5.0).
+- **Dependencies:** Wave 1 measurement audit for benchmark-sensitive changes;
+  API/compatibility review for public configuration; threat-model and platform
+  review for transport/sandbox behavior.
+- **Effort estimate:** 6–10 person-weeks (implementation, compatibility
+  decisions, tests, and review).
+- **Risks / trade-offs:** stricter policy may break existing deployments;
+  signature-option changes can create API compatibility issues; resource
+  reclamation risks invalidating live borrowers; the unload/reload availability
+  gap may remain until a safe replacement design is validated.
+- **Numerical success KPIs (proposed):**
+  1. 100% of configured reload phases have at least one deterministic
+     success/failure regression case, including a failed restoration case.
+  2. 100% of public trust/transport configuration options have a test for each
+     documented policy outcome; zero claims of universal enforcement.
+  3. 100% of `leak_timeout` references either point to tested implemented
+     behavior or are explicitly deprecated/removed with a migration note.
+  4. Zero newly introduced sanitizer findings in the exercised base unit and
+     reload-regression suites.
+- **Validation strategy:** focused base unit/integration tests, reload and
+  resource-pool concurrency tests, ASan/UBSan and TSan where supported, security
+  review of trust/transport failure paths, API compatibility checks, and
+  release-profile benchmarks for affected paths. Confirm sandbox/WASM tests
+  separately on supported platforms; registration alone is insufficient.
+
+### Proposed Wave 3 — v3.0.0 strategic lifecycle and isolation boundary
+
+- **Goal:** decide and, only if justified, implement a versioned module
+  replacement/isolation architecture with explicit compatibility and
+  fail-safe behavior.
+- **Proposed tasks:**
+  - [ ] Specify and prototype reload transition alternatives (including
+    availability, ABI constraints, state transfer, rollback, and failure
+    containment); compare against the existing unload/reload behavior before
+    choosing an approach (Target: v3.0.0).
+  - [ ] Evaluate a WebAssembly Component Model adapter with explicit
+    component/interface model contracts and a supported runtime matrix; keep it
+    experimental until runtime and compatibility tests pass (Target: v3.0.0).
+  - [ ] Define staged rollout and automatic stop/rollback criteria for module
+    runtime changes; make rollout partial and time-limited, with an evaluation
+    period before promotion (Target: v3.0.0).
+  - [ ] Produce build provenance for release module artifacts at the selected
+    [SLSA v1.1 level](https://slsa.dev/spec/v1.1/levels), subject to release
+    pipeline feasibility; state clearly that provenance records how an artifact
+    was built and **does not establish that its code is safe** (Target:
+    v3.0.0).
+- **Dependencies:** Wave 2 trust-policy contract; supported platform/runtime
+  inventory; v3 API/ABI and migration policy; release engineering and security
+  review. The [WebAssembly Component Model documentation](https://component-model.bytecodealliance.org/)
+  is an evaluation reference, not evidence of present implementation.
+- **Effort estimate:** 10–18 person-weeks (architecture, prototype, integration,
+  compatibility, security review; external runtime/vendor work excluded).
+- **Risks / trade-offs:** an atomic/overlap replacement may not be safe for all
+  native modules or ABIs; component runtimes add operational dependencies;
+  provenance may increase build/release complexity without proving artifact
+  behavior; rollout can expose mixed-version compatibility defects.
+- **Numerical success KPIs (proposed):**
+  1. 100% of supported module transition states and recovery outcomes have
+     documented contracts and automated tests before general availability.
+  2. 0 unhandled partial-activation states across at least 1,000 injected
+     reload-failure iterations per supported test platform.
+  3. 100% of v3 release module artifacts in the selected scope have verifiable
+     provenance metadata; provenance is never used as a substitute for
+     signature/trust or code review.
+  4. For any canary-enabled rollout, expose no more than 10% of eligible
+     instances initially, evaluate for at least 30 minutes, and promote only
+     after predeclared health checks pass; stop/rollback on any critical
+     security or correctness regression.
+- **Validation strategy:** fault-injection and ABI-compatibility tests, repeated
+  reload/rollback stress and soak, platform-specific sandbox/runtime security
+  tests, provenance verification, and time-bounded partial-rollout exercises.
+  Apply the [Google SRE canarying guidance](https://sre.google/workbook/canarying-releases/)
+  for partial rollout with explicit evaluation; limits above are proposed
+  acceptance values and require operational review.
+
+### Proposed Wave 4 — v3.0.0 resource and performance maturity
+
+- **Goal:** establish measured resource-pool behavior and only then decide
+  whether to implement reclamation, extend coverage, or keep the smaller
+  existing contract.
+- **Proposed tasks:**
+  - [ ] Add workload benchmarks for buffer and connection-slot acquisition,
+    release, contention, timeout, and saturation; publish workload and host
+    context separately from results (Target: v3.0.0).
+  - [ ] Implement the Wave 2 pool-contract decision (safe reclamation or
+    explicit no-reclamation contract) and verify shutdown, borrower lifetime,
+    and saturation accounting under concurrency (Target: v3.0.0).
+  - [ ] Establish regression thresholds only after representative-hardware
+    baselines and variance review; integrate comparison into the agreed release
+    validation path (Target: v3.0.0).
+- **Dependencies:** Wave 1 measurement process; Wave 2 public contract decision;
+  representative host access and benchmark CI/release-owner agreement.
+- **Effort estimate:** 5–9 person-weeks (benchmarks, design/implementation, and
+  validation).
+- **Risks / trade-offs:** reclamation policy can conflict with borrower
+  ownership; contention results depend on workload and hardware; threshold
+  enforcement can create noisy failures if variance and host classes are not
+  accounted for.
+- **Numerical success KPIs (proposed):**
+  1. At least 6 named pool workloads (acquire/release, contention, timeout,
+     saturation, shutdown, and buffer-size classes) have benchmark cases.
+  2. 100% of documented pool lifecycle and shutdown invariants have automated
+     tests; zero leaked or double-released handles in the exercised sanitizer
+     runs.
+  3. 100% of enforced pool performance thresholds have a representative-hardware
+     baseline, variance record, and owner-approved comparison policy.
+- **Validation strategy:** focused resource-pool unit and concurrency tests,
+  stress/soak with sanitizers, repeated Google Benchmark runs with host and
+  variance context, and deterministic baseline comparison. Do not infer pool
+  performance from the existing loader/WASM benchmarks.
+
+### Assumptions and knowledge gaps
+
+- Release labels v2.5.0 and v3.0.0 are planning horizons only. The root
+  [`RELEASE_STRATEGY.md`](../../RELEASE_STRATEGY.md) identifies `develop` as
+  the working branch and releases as manually gated; this proposal does not
+  assign dates or promise inclusion.
+- Person-week estimates are planning ranges, exclude external-runtime/vendor
+  work, and require engineering-owner review.
+- This proposal does not establish recent test pass rates, current benchmark
+  measurements, production adoption, supported-platform completeness, or
+  security certification. Those require fresh CI, representative-hardware, and
+  security evidence.
+- It is unclear which representative hardware, compiler/build profiles, and
+  performance variance policy will be authoritative for base gates; Wave 1
+  must resolve these before a pass/fail maturity claim.
+- It is unclear whether reload needs zero-downtime replacement for all module
+  types, whether the unused signature option should be retained for API
+  compatibility, and whether `leak_timeout` has callers relying on its current
+  no-op behavior. These are decision items, not assumed requirements.
+- The feasibility and selected conformance level for SLSA provenance, a
+  Component Model runtime, and canary control-plane integration are unverified.
+  Provenance is supply-chain traceability, not proof that code is safe.
