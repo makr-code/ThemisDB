@@ -16,11 +16,11 @@ Not applicable. The `ai_working` module is a documentation-only artifact contain
 
 ## Future Benchmark Scope
 
-If utility code is introduced in a future roadmap phase (e.g., artifact indexing), define performance expectations and a reproducible measurement before implementation.
+There is no current benchmark target or measured baseline. If the planned artifact index or other utility is approved, measure the governance check and compactor against fixed 1,000- and 10,000-artifact corpora. Record corpus file sizes and total bytes, runner, 20 repeated runs, p50/p95 elapsed time, and peak memory before setting an absolute latency budget.
 
-| Placeholder Target | Expectation | Benchmark Case |
+| Target | Expectation | Benchmark Case |
 |---|---|---|
-| Archival script execution | Proposed, unmeasured: < 10 seconds for a typical repository checkout | No benchmark or timing evidence currently exists |
+| Compaction and artifact discovery | Proposed v3.0.0 gate: p95 elapsed time no more than 15% above the same-runner baseline; not yet measured | Fixed 1,000- and 10,000-artifact corpora; publish environment and raw results |
 
 ## Module Hard Gates
 
@@ -28,4 +28,4 @@ None. No benchmark regression gates apply to this module.
 
 ## Validation
 
-No module benchmark target exists, so no benchmark run is currently available. The <10-second script target is a proposal, not a measured result or gate.
+No module benchmark target exists, so no benchmark run is currently available. The proposed relative regression threshold is not a measured result or gate until a reproducible baseline has been captured and reviewed. See `ROADMAP.md` for the staged benchmark plan.
