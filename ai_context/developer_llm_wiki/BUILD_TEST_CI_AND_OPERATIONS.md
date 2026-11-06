@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-11-02"
-Last Updated: "2026-11-05"
+Last Updated: "2026-11-06"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -24,8 +24,9 @@ Status: Active
 - Wiki health metadata dates from 2026-11-02 and workflow summaries are incomplete. Current source and concrete Actions logs take precedence.
 ## Windows release compiler-memory mitigation
 
-- Sources: `.github/workflows/release-build-matrix.yml`, `cmake/ModularBuild.cmake`, and [Actions run 41861219716, job 126684560606](https://github.com/makr-code/ThemisDB/actions/runs/41861219716/job/126684560606). The task-provided log evidence reports concurrent `policy_api_handler.cpp` and `monitoring_api_handler.cpp` failing with MSVC C1060 heap exhaustion using the x64 compiler; monitoring already has the low-memory `/Od` setting.
-- The companion workflow correction changes only the `windows-amd64` `build_command`: `CMAKE_BUILD_PARALLEL_LEVEL=1` and explicit `--parallel 1` (both previously `2`). Configure-time vcpkg concurrency stays at `2`; other platforms and production optimization settings remain unchanged. Sequential compilation avoids overlapping heavy translation units without establishing a successful Windows build.
+- Sources: `.github/workflows/release-build-matrix.yml`, `cmake/ModularBuild.cmake`, `cmake/README.md`, and latest [Actions run 42155076805, job 127687580213](https://github.com/makr-code/ThemisDB/actions/runs/42155076805/job/127687580213). The task-provided log evidence reports MSVC C1060 heap exhaustion despite serial compilation and the handler `/Od` override.
+- The `windows-amd64` configure and build commands currently set `VCPKG_MAX_CONCURRENCY=1` and `CMAKE_BUILD_PARALLEL_LEVEL=1`, with explicit build `--parallel 1`. Serial compilation alone did not resolve the latest failure.
+- The scoped correction adds explicit `/Ob0` alongside `/Od` for monitoring, index and prompt handlers under the same non-Debug `THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY` guard (default `ON`). `/Ob0` overrides inherited `/Ob2` inlining. Setting the option to `OFF` removes both overrides, restoring normal optimization and inherited inlining; `/bigobj`, unity exclusion and global `/Zm200` remain. Other translation units are unchanged.
 - `tests/test_windows_release_build_memory.py` executes matrix preparation and the generated build shell with stub `cmake` to verify concurrency and pipeline failure propagation through the logging pipe. Stub execution is not MSVC build evidence.
 - The Linux sandbox cannot run MSVC. A **new Actions run on corrected source** is required; retries retain the original source SHA. No Windows build success is claimed.
 - `WIKI_STATUS.json` was generated on 2026-11-02 with 8066 sources; workflow summaries marked “binary or unreadable” are incomplete. Current source and Actions logs take precedence over generated wiki metadata.
@@ -63,7 +64,7 @@ Exact model backend not verifiable from final document text alone.
 ## Windows compiler memory and ARM SIMD guard
 
 - Sources: `.github/workflows/release-build-matrix.yml`, `cmake/CompilerOptions.cmake`, `cmake/ModularBuild.cmake`, `cmake/README.md`, `tests/test_mainline_compiler_regressions.py`.
-- The Windows release matrix uses dependency/configure concurrency 1 and build `--parallel 1`: `C1060` occurred even with monitoring's `/Od` workaround. Monitoring, index and prompt handlers share `THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY` (default `ON`, `/Od` outside Debug); opting out retains `/bigobj` and unity exclusion.
+- The Windows release matrix uses dependency/configure concurrency 1 and build `--parallel 1`; latest run `42155076805`, job `127687580213`, still hit `C1060` with `/Od`. Monitoring, index and prompt handlers now share `/Od` plus explicit `/Ob0` (overriding inherited `/Ob2`) under `THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY` (default `ON`, outside Debug). Opting out removes both overrides while retaining `/bigobj` and unity exclusion; native validation remains pending.
 - `CompilerOptions.cmake` runs before platform detection. AVX2/FMA flags and `THEMIS_HAS_AVX2` require an x64 target processor, Release and AVX2 enabled; QNAP's x86 baseline is likewise target-guarded. An x64 host must not inject x86 flags into ARM64 targets.
 - Focused Python tests configure CMake policies without native compiler execution. They do not prove native Windows/ARM64 compilation or package success. Dispatch a new Mainline run containing the corrected source on `develop`; retrying the original failed run retains its original SHA.
 

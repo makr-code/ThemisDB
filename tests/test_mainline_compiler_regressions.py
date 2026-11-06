@@ -140,22 +140,24 @@ class MainlineCompilerConfigurationTests(unittest.TestCase):
         return self.configure(body, build_type, **variables)
 
     def test_all_three_handlers_default_to_low_memory_outside_debug(self) -> None:
-        for build_type in ("Release", "Debug", "RelWithDebInfo"):
+        for build_type in ("Release", "Debug", "RelWithDebInfo", "MinSizeRel"):
             with self.subTest(build_type=build_type):
                 report = self.handler_options(build_type)
                 for handler in HANDLERS:
                     self.assertIn("/bigobj", report[handler], msg=handler)
                     self.assertIn("ON", report[handler], msg=f"{handler}: unity exclusion")
                     self.assertEqual("/Od" in report[handler], build_type != "Debug", msg=handler)
+                    self.assertEqual("/Ob0" in report[handler], "/Od" in report[handler], msg=handler)
 
     def test_handler_low_memory_opt_out_retains_bigobj_and_unity_exclusion(self) -> None:
-        for build_type in ("Release", "Debug", "RelWithDebInfo"):
+        for build_type in ("Release", "Debug", "RelWithDebInfo", "MinSizeRel"):
             with self.subTest(build_type=build_type):
                 report = self.handler_options(build_type, low_memory="OFF")
                 for handler in HANDLERS:
                     self.assertIn("/bigobj", report[handler], msg=handler)
                     self.assertIn("ON", report[handler], msg=handler)
                     self.assertNotIn("/Od", report[handler], msg=handler)
+                    self.assertNotIn("/Ob0", report[handler], msg=handler)
 
 
 class MainlineWindowsMatrixTests(unittest.TestCase):
