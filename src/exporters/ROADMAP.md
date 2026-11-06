@@ -1,20 +1,43 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-07-29"
+Last Updated: "2026-11-06"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Exporters Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-29 -->
-<!-- Issue: #5644 (Development Status 2026-07-18) -->
+<!-- Status: review | source checked: 2026-11-06 -->
+<!-- Issues: #5644 (historical sync); #7419 (v2.5.0/v3.0.0 research and wave plan) -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-Production exporter runtime exists across format-specific pipelines
-(JSONL/Parquet/Arrow/HuggingFace), streaming/incremental/join orchestration,
-and policy/security controls.
+The module has production implementations for JSONL, Parquet, Arrow IPC, and
+Hugging Face dataset output; streaming, watermark-based incremental, and
+in-memory join orchestration; and policy, filtering, PII, encryption, metrics,
+and Hub-upload controls. Streaming and incremental inputs are caller-provided
+(a cursor for streaming, a vector for incremental); `max_buffer_bytes` is a
+flush trigger, not a process-wide memory bound. These distinctions limit claims
+of end-to-end bounded or source-consistent exports
+([ARCHITECTURE.md](./ARCHITECTURE.md), [README.md](./README.md)).
 
-Issue #5644 sync pass confirms roadmap priorities and future-enhancement focus
-remain aligned with current module documentation. Closure evidence is still
-partial because current-cycle focused test execution is blocked in this
-environment by a missing RocksDB dependency during configure.
+**Maturity assessment:** functional maturity is high for the existing local
+formats and orchestration paths; release-evidence maturity is medium. There is
+focused contract coverage and a range of benchmarks, but the inspected
+benchmark set mixes exporter-path workloads with synthetic/mock microbenchmarks,
+and this review found no recorded representative-hardware baseline or end-to-end
+scale result. Treat performance gates as testable hypotheses until runs,
+hardware, corpus, and configuration are recorded. The prior #5644 configure
+blocker is historical evidence, not a result of this roadmap review.
 
 ## In Progress
 
@@ -30,17 +53,228 @@ environment by a missing RocksDB dependency during configure.
 - [x] Join exporter now applies additional `ExportOptions::filter_expression` parity on merged records (`src/exporters/join_exporter.cpp`; `tests/exporters/test_join_exporter.cpp`).
 - [x] Streaming exporter encryption path is now deterministic: `encryption_config` takes precedence and legacy + v2 double-encryption ambiguity is removed (`src/exporters/streaming_exporter.cpp`).
 
-## Planned Features
+## Research and Gap Analysis
 
-### Short-term (3-6 months)
-- [~] tighten deterministic behavior for mixed-format and mixed-policy export permutations (Target: Q4 2026)
-- [~] expand regressions for join/stream/incremental checkpoint edge scenarios (Target: Q4 2026)
-- [x] improve operator-facing observability for hub upload and redaction incidents (Target: Q4 2026) — evidence: docs/operability/RUNBOOK_EXPORTERS.md
+The assessment compares the current source, contract, focused tests, and
+benchmark entry points with published format and security guidance:
 
-### Mid-term (6-12 months)
-- [~] re-baseline p95/p99 and throughput envelopes for major exporter paths (Target: Q1 2027)
-- [~] broaden benchmark depth for join/predicate and template-heavy workflows (Target: Q1 2027)
-- [~] harden long-running reliability under sustained large-export workloads (Target: Q1 2027)
+| Focus | Evidence in this module | Gap and implication |
+|---|---|---|
+| Performance and scale | `bench_exporters.cpp` exercises batch, template, streaming, incremental, Parquet, and CSV-labelled cases; `bench_exporters_release_gates.cpp` has six gates. | Several release gates use mock/in-memory operations rather than full exporter I/O. There is no checked-in capture of hardware, corpus, RSS, or p95/p99 for representative end-to-end runs. Capture reproducible baselines before setting absolute SLOs. |
+| Use cases and interoperability | JSONL/LLM, Parquet, Arrow IPC, Hub upload, filtering, stream, delta, and join paths have separate APIs and tests. The contract says same-platform determinism, not cross-platform byte identity. | `filter_expression` is not evaluated by Arrow IPC; incremental export consumes a supplied vector and join materializes the right side in memory. Document and test the format/feature matrix before expanding claims of parity or scale. |
+| Security and resilience | Configured policy checks, PII helpers, encryption, typed errors, checkpoint/watermark persistence, and hub retry controls are present. | Pattern-based PII detection is not proof of de-identification. Resume correctness under process/output failure, key lifecycle, incomplete artifact handling, and remote upload fault behavior need explicit fault-injection evidence. CSV formula-injection guidance applies if a production spreadsheet-facing CSV path is supported; current CSV-labelled contract/benchmark cases alone do not prove such a path exists. |
+| Governance and maintainability | Export statistics, metrics, error codes, focused tests, module runbook, and API docs exist. | No common export manifest/versioned provenance contract is established across formats. Audit metadata must avoid recording credentials or row-level sensitive values and must not be presented as a compliance certification. |
+| Architecture and operations | The module separates serialization, orchestration, safety, and integrations. Hub upload is optional at build/runtime; format availability depends on build support. | The API does not own source snapshot/query consistency; `max_buffer_bytes` is not a total-memory limit. Operator guarantees must state caller, build-feature, and storage assumptions. |
+
+### Research basis and local evidence
+
+- Apache Arrow describes a language-independent in-memory columnar format and
+  interoperability mechanisms; Apache Parquet publishes a versioned
+  column-oriented file-format specification. These support prioritizing explicit
+  schema/null/encoding compatibility tests and measuring actual conversion and
+  I/O, not assuming format names guarantee parity:
+  [Arrow documentation](https://arrow.apache.org/docs/),
+  [Parquet documentation](https://parquet.apache.org/docs/).
+- OWASP documents spreadsheet formula injection from untrusted CSV cells,
+  including quoting/separator edge cases. Any future spreadsheet-facing CSV
+  feature needs an explicit safe-export policy and tests; CSV quoting alone is
+  not a security control:
+  [OWASP CSV Injection](https://owasp.org/www-community/attacks/CSV_Injection).
+- NIST SP 800-53 Rev. 5 includes audit/accountability and information-integrity
+  control families. It motivates auditable export metadata and integrity tests,
+  but is not evidence that this module or product is certified compliant:
+  [NIST SP 800-53 Rev. 5](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final).
+- Local primary evidence: `include/exporters/exporters_api_contract.h`,
+  `include/exporters/exporter_interface.h`, `include/exporters/arrow_ipc_exporter.h`,
+  `src/exporters/ARCHITECTURE.md`, `src/exporters/RESEARCH.md`,
+  `tests/exporters/CMakeLists.txt`, and
+  `benchmarks/exporters/README.md`. The tests directory auto-registers focused
+  tests; benchmark registration does not prove a benchmark was built or run.
+
+### Assumptions and open questions
+
+- The root release policy treats 2.5.0 as a minor release and 3.0.0 as a major
+  release; this module plan is a proposal, not a committed release date or
+  project-wide release gate. API breaks belong only in the 3.0.0 review.
+- Storage/source snapshot ownership remains upstream of exporters unless the
+  3.0.0 API review explicitly assigns it to this module.
+- Representative data sizes, formats, hardware, compliance regimes, and numeric
+  production SLOs have not been supplied. Wave 1 records these before thresholds
+  are fixed; the percentage gates below are proposed regression limits.
+- No production CSV exporter was verified in the scoped source inventory.
+  Spreadsheet-safe CSV must remain out of scope until a supported implementation
+  and security contract are confirmed.
+- The generated developer wiki was last refreshed 2026-11-02 and has no
+  `EXPORTERS.md` context page. It is an operational summary, not a source of
+  exporters status; this roadmap follows the module code/docs and root
+  governance precedence.
+
+## Release Roadmap and Wave Plan
+
+Effort estimates are engineering person-weeks (five workdays each), exclude
+cross-module storage work and release-approval time, and need owner confirmation.
+Each wave is conditional on its dependencies and measured evidence.
+
+### v2.5.0 — compatible hardening and evidence
+
+#### Wave 2.5-1: Contract matrix and baseline (P0; 2–3 person-weeks)
+- **Goal:** make current format and option behavior measurable without changing
+  the 2.x public contract.
+- **Tasks:**
+  - [ ] Build a tested matrix for JSONL, Parquet, Arrow IPC, and Hugging Face
+    paths covering null/missing fields, projection, filters, schema errors,
+    determinism, build-feature availability, and failure-before-output
+    (Target: v2.5.0).
+  - [ ] Resolve Arrow filter behavior by implementing parity or documenting a
+    typed unsupported-operation result; do not silently ignore the filter
+    (Target: v2.5.0).
+  - [ ] Capture repeatable end-to-end throughput, p95/p99 latency, output bytes,
+    and peak RSS for representative batch, template, stream, incremental, and
+    join workloads; record hardware, build flags, fixture shape, and baseline
+    artifacts (Target: v2.5.0).
+- **Dependencies:** current API contract and benchmark mapping; maintainer
+  selection of representative hardware and non-sensitive fixtures.
+- **Risks / trade-offs:** closing format gaps can expose previously silent
+  behavior; baseline capture may show workload-dependent regressions.
+- **Success metrics:** every supported format/option combination is either
+  covered or explicitly marked unsupported; every mapped benchmark has a
+  reproducible result and baseline metadata; no unexplained output difference
+  across repeated same-platform deterministic cases.
+- **Validation:** focused `tests/exporters` matrix; build with Arrow enabled and
+  disabled where supported; run end-to-end benchmarks at least five repetitions
+  on the same host/configuration.
+
+#### Wave 2.5-2: Safe recovery and egress controls (P0; 3–5 person-weeks)
+- **Goal:** demonstrate that a failed or resumed export cannot be reported as a
+  complete artifact or advance progress beyond successfully written records.
+- **Tasks:**
+  - [ ] Add process/write-failure and restart tests around streaming checkpoints,
+    incremental watermarks, and partial output; define operator action for an
+    incomplete artifact (Target: v2.5.0).
+  - [ ] Verify configured policy denial produces no output activity, encrypted
+    artifact tampering is rejected, and secrets/PII test canaries do not appear
+    in audit or error logs (Target: v2.5.0).
+  - [ ] Document key ownership/rotation expectations and the limits of
+    pattern-based PII detection; do not claim de-identification from a clean
+    detector result (Target: v2.5.0).
+  - [ ] If a production CSV path is confirmed, specify spreadsheet-safe export
+    semantics separately from CSV quoting and add OWASP-derived formula and
+    delimiter-injection cases (Target: v2.5.0; otherwise defer).
+- **Dependencies:** Wave 2.5-1 fixture and behavior matrix; security-owner review
+  of encryption, audit, and CSV scope.
+- **Risks / trade-offs:** stricter failures may reject exports that previously
+  produced partial files; sanitization changes can alter consumer-visible data.
+- **Success metrics:** zero lost or duplicate records in the defined restart
+  matrix; no progress state beyond acknowledged writes; policy-denied runs write
+  zero artifact bytes; tamper tests fail closed; no secret/canary leakage in
+  captured diagnostics.
+- **Validation:** deterministic fault injection at write, flush, checkpoint,
+  watermark, and upload boundaries; focused security tests; verify cleanup and
+  recovery with temporary filesystems and mocked network responses.
+
+#### Wave 2.5-3: Performance gates and operations (P1; 2–3 person-weeks)
+- **Goal:** turn current microbenchmarks and operational hooks into reproducible
+  release evidence.
+- **Tasks:**
+  - [ ] Separate mock microbenchmark gates from true exporter-path measurements
+    in reports and attach benchmark manifests for all mapped cases (Target:
+    v2.5.0).
+  - [ ] Add sustained mixed-format, large-record, high-cardinality, and Hub
+    throttling/failure scenarios; report throughput, p95/p99, RSS, error rate,
+    and recovery time (Target: v2.5.0).
+  - [ ] Establish a same-host regression gate of no more than 10% throughput or
+    p99 regression against the Wave 2.5-1 baseline, with explicit noise
+    tolerance and a documented waiver process (Target: v2.5.0).
+- **Dependencies:** Waves 2.5-1 and 2.5-2; release-profile benchmark environment
+  and operator/runbook ownership.
+- **Risks / trade-offs:** fixed thresholds can be noisy across hardware; use
+  pinned runners and compare only like-for-like runs.
+- **Success metrics:** 100% mapped benchmark manifest completeness; at least
+  five measured repetitions per release case; no unexplained regression above
+  10%; runbook contains recovery steps for each new failure scenario.
+- **Validation:** benchmark-enabled release build, archived result manifest,
+  focused exporter tests, and operator review of dashboards/runbook.
+
+### v3.0.0 — versioned contracts and scalable export architecture
+
+#### Wave 3-1: Breaking-contract design and migration proposal (P0; 2–3 person-weeks)
+- **Goal:** define a coherent, versioned export contract before changing public
+  interfaces.
+- **Tasks:**
+  - [ ] Design a versioned manifest covering format/schema fingerprint,
+    deterministic config identity, row/byte counts, artifact checksum, source
+    snapshot/cursor identity, completion state, and non-sensitive audit
+    provenance (Target: v3.0.0).
+  - [ ] Specify cancellation, retry, checkpoint acknowledgement, output
+    finalization, and idempotent replay semantics; distinguish source snapshot
+    guarantees from exporter guarantees (Target: v3.0.0).
+  - [ ] Propose a canonical cursor/sink contract for streaming and incremental
+    exports and publish 2.x-to-3.0 migration examples and deprecation decisions
+    (Target: v3.0.0).
+- **Dependencies:** v2.5.0 fault and performance evidence; API-owner, storage,
+  security, and downstream `server`/`llm` review.
+- **Risks / trade-offs:** a general contract may widen module scope or constrain
+  upstream APIs; do not promise exactly-once source semantics without snapshot
+  and sink support.
+- **Success metrics:** design review signs off every field and state transition;
+  migration matrix covers all current public entry points and in-tree consumers;
+  no credential or row-level PII fields in manifest schema.
+- **Validation:** API compatibility inventory, threat model, sequence/state
+  diagrams, and review against Arrow/Parquet schema and version behavior.
+
+#### Wave 3-2: Bounded, resumable core (P0; 6–10 person-weeks)
+- **Goal:** implement the approved contract so large exports can resume safely
+  without requiring caller-owned full input vectors.
+- **Tasks:**
+  - [ ] Add a cursor-based incremental path with stable ordering/snapshot
+    identity, acknowledged checkpoints, and configuration/schema mismatch
+    rejection (Target: v3.0.0).
+  - [ ] Add bounded backpressure and output finalization semantics; preserve
+    ordered deterministic chunks and make replay safe at the documented sink
+    boundary (Target: v3.0.0).
+  - [ ] Add versioned manifest generation and format capability negotiation;
+    keep optional format backends explicit at build and runtime (Target:
+    v3.0.0).
+  - [ ] Preserve the existing policy-before-egress invariant for every format,
+    sink, and retry path (Target: v3.0.0).
+- **Dependencies:** approved Wave 3-1 contract; upstream cursor/snapshot API;
+  encrypted temporary artifact and sink design.
+- **Risks / trade-offs:** durable state and extra integrity checks add I/O and
+  latency; snapshot semantics may require work outside exporters.
+- **Success metrics:** peak RSS remains within the documented configured
+  working-set budget and grows no more than 10% when input cardinality doubles
+  at fixed page/buffer/sink settings (excluding explicitly upstream-owned
+  memory); injected restarts produce no missing/duplicate acknowledged records;
+  changed source/config fingerprints reject resume; no policy bypass in the
+  format/sink test matrix.
+- **Validation:** property tests over chunk sizes and interruption points,
+  multi-million-record soak, RSS profiling, compatibility tests for each format,
+  and fault-injected local/remote sinks.
+
+#### Wave 3-3: Compliance, interoperability, and release acceptance (P1; 3–5 person-weeks)
+- **Goal:** establish supportable auditability and 3.0 migration/release evidence
+  without implying external certification.
+- **Tasks:**
+  - [ ] Add manifest integrity and audit-event tests, retention/redaction rules,
+    and explicit operator ownership for signing keys and export artifacts
+    (Target: v3.0.0).
+  - [ ] Validate emitted artifacts with independent Arrow/Parquet readers and
+    schema/null/encoding fixtures; define spreadsheet-safe behavior only if
+    CSV is approved as a supported format (Target: v3.0.0).
+  - [ ] Publish the 2.x migration/deprecation guide, security threat model,
+    release benchmark report, and recovery runbook; obtain API and security
+    sign-off (Target: v3.0.0).
+- **Dependencies:** Wave 3-2 feature complete; independent readers and pinned
+  release hardware available.
+- **Risks / trade-offs:** external-reader differences may require compatibility
+  constraints; audit retention and signed manifests add operational overhead.
+- **Success metrics:** all supported formats pass independent-reader fixtures;
+  all manifest and audit integrity cases pass; no unresolved high-severity
+  exporter security finding; measured throughput/p99 remain within the approved
+  Wave 2.5 baseline budget or have a reviewed waiver.
+- **Validation:** full exporters test label, cross-format interoperability
+  suite, security review, performance comparison, documentation/link check, and
+  downstream consumer migration sign-off.
 
 ## Implementation Phases
 
