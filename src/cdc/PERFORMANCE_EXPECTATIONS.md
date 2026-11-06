@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-06"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -28,10 +28,12 @@ evidence that a benchmark was run or that a release baseline passed.
 | [`benchmarks/cdc/bench_cdc_delivery_gates.cpp`](../../benchmarks/cdc/bench_cdc_delivery_gates.cpp) | `DeliveryTracker`, `ConsumerGroupManager`, and replay gates CDG-01..06 |
 | [`benchmarks/replication/bench_replication_throughput.cpp`](../../benchmarks/replication/bench_replication_throughput.cpp) | Related WAL serialization, replication-manager, conflict-detection, and merge cases; these are replication benchmarks, not CDC benchmarks |
 
-`benchmarks/CMakeLists.txt` registers `bench_cdc_pipeline` and
-`bench_cdc_delivery_gates` when their source files are present. It does not
-register `bench_changefeed_throughput.cpp` as a CMake target in this checkout;
-do not infer a runnable target from the source file alone.
+`benchmarks/CMakeLists.txt` registers `bench_changefeed_throughput` through the
+standard benchmark helper and conditionally registers `bench_cdc_pipeline` and
+`bench_cdc_delivery_gates` when their source files are present. These targets
+are available only when `THEMIS_BUILD_BENCHMARKS=ON` and Google Benchmark is
+found. Registration does not prove that the targets built or that their
+benchmarks ran successfully.
 
 ## Expectations
 
@@ -50,8 +52,9 @@ SLO or a verified pass without run evidence.
 
 ## Validation
 
-- Use the `bench_cdc_pipeline` and `bench_cdc_delivery_gates` targets in a build
-  configured with benchmarks enabled.
+- Use the `bench_changefeed_throughput`, `bench_cdc_pipeline`, and
+  `bench_cdc_delivery_gates` targets in a build configured with benchmarks
+  enabled.
 - Record the build profile, hardware, sample count, run variance, and baseline
   used for comparisons.
 - Track proxy mappings and missing CDC-specific cases as follow-up work rather
