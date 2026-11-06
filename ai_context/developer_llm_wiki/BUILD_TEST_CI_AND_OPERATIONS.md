@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-11-02"
-Last Updated: "2026-11-05"
+Last Updated: "2026-11-06"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -29,6 +29,13 @@ Status: Active
 - `tests/test_windows_release_build_memory.py` executes matrix preparation and the generated build shell with stub `cmake` to verify concurrency and pipeline failure propagation through the logging pipe. Stub execution is not MSVC build evidence.
 - The Linux sandbox cannot run MSVC. A **new Actions run on corrected source** is required; retries retain the original source SHA. No Windows build success is claimed.
 - `WIKI_STATUS.json` was generated on 2026-11-02 with 8066 sources; workflow summaries marked “binary or unreadable” are incomplete. Current source and Actions logs take precedence over generated wiki metadata.
+
+## Configure-time source download recovery
+
+- Sources: `.github/workflows/reusable-cmake-build.yml`, `tests/test_deployment_workflow_regressions.py`, and [Actions run 42174218456, job 127750342277](https://github.com/makr-code/ThemisDB/actions/runs/42174218456/job/127750342277).
+- Windows AMD64 configuration failed when vcpkg exhausted three download attempts for the Arrow 25.0.1 archive from `archive.apache.org`. The later missing Ninja/compiler diagnostics followed the aborted dependency install; vcpkg had already detected MSVC successfully.
+- The existing one-time configure retry now handles `Download timed out` on every runner architecture, retaining downloaded dependencies and the original vcpkg version/checksum verification. Existing ARM64 `BUILD_FAILED` recovery is unchanged. Successful configuration and unrelated Windows build failures are not retried; a failed retry propagates its exit status.
+- Focused shell regressions cover recovery, retry bounds, final failure propagation, non-network failures, and ARM64 behavior. They do not establish native Windows build or packaging success; a fresh Actions run containing the fix remains required.
 
 ## Global transaction durability regression coverage
 
