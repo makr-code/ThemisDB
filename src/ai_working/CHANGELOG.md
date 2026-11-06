@@ -11,6 +11,8 @@ The format follows Keep a Changelog conventions.
 ## [Unreleased]
 
 ### Changed
+- Added a research-backed, release-separated v2.5.0/v3.0.0 roadmap with explicit waves, dependencies, risks, effort estimates, and measurable validation targets (2026-11-06).
+- Aligned future enhancements and performance expectations to the roadmap; documented that proposed discovery and performance gates are not measured results (2026-11-06).
 - Validated module documentation against the current source, build scaffold, archival helper, and maintenance workflow (2026-10-31).
 - Clarified that the freshness command checks required-file presence and minimum content, not whether claims or dates are current.
 - Documented that `--archive-stale` archives all non-protected top-level Markdown files in `src/ai_working/`, without determining semantic staleness.
