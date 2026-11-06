@@ -1,11 +1,11 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-06
 Status: review
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: ThemisDB documentation orchestration specialist
+AI_Contributor: GitHub Copilot
 Human_Review: false
 Human_Author: ThemisDB Contributors
 Source level: level1
@@ -14,7 +14,7 @@ Canonical source references:
   - ../../include/graph/
   - ../../src/graph/
   - ../../tests/graph/test_rotate_completion_acceptance.cpp
-Related milestone: DOC-WEEKLY-2026-44
+Related issue: #7424 (research and wave-plan proposal)
 AI_Model_Note: Exact model backend not verifiable from final document text alone.
 ---
 
@@ -30,16 +30,26 @@ AI_Model_Note: Exact model backend not verifiable from final document text alone
 
 ## Scope
 
-- hardening and refinement of graph planning/traversal/semantic execution behavior
-- expansion of deterministic reliability under mixed local/parallel/distributed/GPU workloads
-- stronger benchmark-backed guardrails for graph hot paths
+- **v2.5.0 proposal:** compatible hardening of planning, bounded traversal, distributed correctness,
+  failure diagnostics, and evidence-backed performance gates.
+- **v3.0.0 proposal:** evaluate interoperable query contracts, workload-specific sparse analytics,
+  and distributed operational guarantees after v2.5.0 evidence is available.
+- The versioned wave objectives, dependencies, estimates, risks, metrics, and validation gates are
+  specified in [`ROADMAP.md`](ROADMAP.md#proposed-release-roadmap-v250-and-v300-issue-7424).
+  They are proposals, not approved release commitments.
 
 ## Design Constraints
 
-- graph contracts remain backward compatible within major release line.
-- traversal and planning constraints remain explicit and enforceable.
-- advanced execution degradation behavior remains bounded and deterministic.
-- semantic reasoning remains explainable and observable.
+- Keep v2.5.0 public graph contracts compatible; do not silently change traversal or fallback
+  semantics.
+- Treat v3.0.0 API or persisted-format changes as a separate approved design with migration and
+  deprecation notes.
+- Keep constraints explicit and execution bounded; expose truncation, timeout, and fallback rather
+  than implying a complete result.
+- Graph-level constraints do not replace authentication, authorization, or tenant isolation owned
+  by server/query integrations.
+- Measure alternatives on documented dynamic and static graph workloads before adopting a storage
+  representation or acceleration path.
 
 ## Required Interfaces
 
@@ -49,13 +59,20 @@ AI_Model_Note: Exact model backend not verifiable from final document text alone
 | traversal interfaces | bounded local/parallel/distributed execution behavior |
 | semantic interfaces | explicit ontology/reasoning constraints and outcomes |
 | tensor utility interfaces | deterministic fingerprint/dedup behavior |
+| query interoperability | evaluated mapping to the selected ISO/IEC 39075:2024 GQL scope; no current conformance claim |
+| distributed operation | explicit consistency, timeout, partial-failure, and recovery outcomes |
 
 ## Implementation Notes
 
-- tighten parity and edge handling across local, distributed, and GPU traversal paths.
-- standardize diagnostics for constraint denials, fallback, and reasoning conflicts.
-- expand resilience tests for prolonged graph load and high fan-out patterns.
-- broaden benchmark depth for optimizer, traversal, and semantic/tensor utility flows.
+- Follow the versioned wave sequence in `ROADMAP.md`: v2.5.0 Waves 1–3 establish baselines,
+  bounded behavior, and partitioned correctness; v3.0.0 Waves 4–6 evaluate contract, sparse
+  analytics, and distributed operations.
+- Extend distributed fixtures from replicated toy graphs to deterministic, genuinely partitioned
+  fixtures and compare results to a single-node oracle.
+- Replace source-only benchmark threshold messages with reproducible result manifests and
+  machine-detectable release gates before treating them as passed.
+- Keep GQL, GraphBLAS/CSR, and distributed-analytics work as evaluated options; adopt only scoped,
+  approved capabilities that meet recorded compatibility and performance criteria.
 
 ### Wave B B2: Knowledge Graph Completion (RotatE)
 **Priority:** High
@@ -70,23 +87,36 @@ AI_Model_Note: Exact model backend not verifiable from final document text alone
 
 ## Test Strategy
 
-- unit and integration suites for optimizer, traversal, constraints, rewrite, and explain surfaces.
-- regressions for fallback/degradation and semantic conflict scenarios.
-- deterministic stress runs for high-volume graph workloads.
-- release-profile benchmark runs for mapped graph targets.
+- retain focused unit coverage for optimizer, traversal, constraints, rewrite, explain, and
+  semantic behavior in `tests/graph/`.
+- add partitioned-result, single-node-oracle, shard-failure, timeout, and recovery checks for
+  distributed execution.
+- run bounded high-fan-out and concurrent workloads through the real graph execution path;
+  in-process stress fixtures remain complementary, not production-scale evidence.
+- run the mapped release-profile benchmark set with workload/configuration manifests, per-query
+  p50/p95/p99, throughput, timeout/error rates, and repeatability checks.
+- keep benchmark thresholds separate from results; record raw output and hardware/software context.
 
 ## Performance Targets
 
-- optimizer and traversal control paths remain inside regression budgets.
-- graph hot paths remain stable at p95/p99 envelopes.
-- mapped benchmark manifests reach no-missing-case status for release gating.
+- capture a same-hardware release baseline before enforcing regression budgets; proposed maximum
+  regression is 10% unless an approved exception is recorded.
+- report p50/p95/p99 and throughput by query class and scale; do not infer production latency from
+  the current 64-node synthetic gates.
+- require 100% mapped-case manifest coverage for a release benchmark run.
+- retain the existing four-shard depth-3 BFS ≥50% of single-shard throughput and distributed BC
+  thresholds only as unverified acceptance proposals until reproduced on a declared testbed.
 
 ## Security / Reliability
 
-- maintain strict constraint gating before costly traversal execution.
-- preserve explicit fallback signaling for degraded advanced execution routes.
-- enforce bounded semantic reasoning behavior under malformed/conflicting input.
-- keep diagnostics actionable for production graph incidents.
+- validate depth, result, time, cancellation, and fan-out bounds per public execution route.
+- preserve explicit and observable outcomes for denial, truncation, timeout, and CPU/GPU or
+  distributed fallback.
+- test malformed/conflicting semantic input and injected shard/device failure under load.
+- test caller authorization and tenant isolation at the owning server/query boundary; graph
+  constraints alone are not authorization.
+- define and verify distributed consistency/recovery expectations before making availability or
+  durability claims.
 
 ## Wave B Acceptance Gates (B2)
 
@@ -105,6 +135,11 @@ until a separate evaluation is recorded.
 
 ## Related Documents
 
+- Versioned graph wave plan: [`ROADMAP.md`](ROADMAP.md#proposed-release-roadmap-v250-and-v300-issue-7424)
+- Research: [LDBC SNB Interactive](https://ldbcouncil.org/benchmarks/snb/interactive/),
+  [ISO/IEC 39075:2024](https://www.iso.org/standard/76120.html),
+  [GraphBLAS C API v2.1](https://graphblas.org/docs/GraphBLAS_API_C_v2.1.0.pdf),
+  and [Jepsen methodology](https://github.com/jepsen-io/jepsen)
 - AI wave tracker: `../ai/ROADMAP.md`
 - bibliography: `../../docs/research/ml_enhancements_bibliography.md`
 - issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
