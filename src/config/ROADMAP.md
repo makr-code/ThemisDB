@@ -92,15 +92,16 @@ baseline work. Keep changes compatible with the v1.x public contract unless a
 breaking change is approved and versioned under the root
 [`../../VERSIONING.md`](../../VERSIONING.md) policy.
 
-1. Enforce or formally retire the declared resource bounds; add boundary tests.
-2. Specify supported schema keywords, combinations, formats, and unsupported
-   behavior; test them as a contract.
-3. Verify watcher delivery, debounce, stop/start, and error behavior on supported
-   platforms; keep reload/apply owned by consumers.
-4. Build and run the actual focused tests and benchmarks, correct misleading
-   benchmark cases, and retain representative baselines.
-5. Keep key-bearing snapshot handling and the non-durable audit boundary explicit
-   in API and operator-facing docs.
+- [ ] Enforce or formally retire the declared resource bounds; add boundary
+  tests (Target: v2.5.0).
+- [ ] Specify supported schema keywords, combinations, formats, and
+  unsupported behavior; test them as a contract (Target: v2.5.0).
+- [ ] Verify watcher delivery, debounce, stop/start, and error behavior on
+  supported platforms; keep reload/apply owned by consumers (Target: v2.5.0).
+- [ ] Build and run focused tests and benchmarks, correct misleading benchmark
+  cases, and retain representative baselines (Target: v2.5.0).
+- [ ] Keep key-bearing snapshot handling and the non-durable audit boundary
+  explicit in API and operator-facing docs (Target: v2.5.0).
 
 ### v3.0.0 — evolve configuration into a verifiable adoption contract
 
@@ -108,17 +109,20 @@ Strategic work is conditional on confirmed consumer requirements and a reviewed
 design. It may change public API or persisted formats and therefore requires
 explicit compatibility/migration decisions before implementation.
 
-1. Specify immutable, versioned snapshots and atomic consumer adoption, including
-   validation failure, concurrent readers, last-known-good policy, and rollback.
-2. Decide whether persisted secret-bearing values need an external key-provider
-   boundary; define key rotation, snapshot migration, access control, and failure
-   behavior without promising a particular KMS integration prematurely.
-3. Define versioned schema migration and deprecation behavior for real consumers.
-4. Integrate with owner-provided durable audit and staged rollout systems only
-   where consumers require them; do not duplicate deployment or compliance
-   systems inside `config`.
-5. Re-run representative-scale and concurrency workloads against the v2.5.0
-   baseline and publish compatibility and operations evidence.
+- [ ] Specify immutable, versioned snapshots and atomic consumer adoption,
+  including validation failure, concurrent readers, last-known-good policy, and
+  rollback (Target: v3.0.0).
+- [ ] Decide whether persisted secret-bearing values need an external
+  key-provider boundary; define key rotation, snapshot migration, access control,
+  and failure behavior without promising a particular KMS integration
+  prematurely (Target: v3.0.0).
+- [ ] Define versioned schema migration and deprecation behavior for real
+  consumers (Target: v3.0.0).
+- [ ] Integrate with owner-provided durable audit and staged rollout systems only
+  where consumers require them; do not duplicate deployment or compliance
+  systems inside `config` (Target: v3.0.0).
+- [ ] Re-run representative-scale and concurrency workloads against the v2.5.0
+  baseline and publish compatibility and operations evidence (Target: v3.0.0).
 
 ## Wave Plan
 
@@ -132,10 +136,15 @@ KPIs are proposed acceptance gates, not current results.
 #### Wave 1 — Contract and input-boundary closure (P0; 2–3 person-weeks)
 
 - **Goal:** make declared input and schema behavior precise and enforced.
-- **Tasks:** map every policy constant to an implementation and test; enforce or
-  remove unsupported limits; test just-below/at/above boundaries and malformed
-  inputs; define supported schema keywords, combinations, formats, local
-  `$ref`, and unsupported-keyword behavior; align public contract comments.
+- **Tasks:**
+  - [ ] Map every policy constant to implementation and test evidence (Target:
+    v2.5.0).
+  - [ ] Enforce or formally retire unsupported limits and test just-below, at,
+    and above each retained boundary (Target: v2.5.0).
+  - [ ] Define supported schema keywords, combinations, formats, local `$ref`,
+    unsupported-keyword behavior, and sibling evaluation (Target: v2.5.0).
+  - [ ] Align public contract comments with the verified behavior (Target:
+    v2.5.0).
 - **Dependencies:** none beyond the current contract and source/test inventory.
 - **Risk / trade-off:** enforcement may reject configurations previously
   accepted or consume less input; provide actionable errors and document
@@ -152,10 +161,15 @@ KPIs are proposed acceptance gates, not current results.
 
 - **Goal:** verify the actual notification and secret-state boundaries without
   expanding module ownership.
-- **Tasks:** test event delivery for create/change/rename/delete and atomic-file
-  replacement; verify debounce, repeated start/stop, shutdown and callback
-  failures per supported platform; document that callbacks do not reload/apply;
-  review serialization callers and ensure snapshots are treated as key material.
+- **Tasks:**
+  - [ ] Test event delivery for create/change/rename/delete and atomic-file
+    replacement (Target: v2.5.0).
+  - [ ] Verify debounce, repeated start/stop, shutdown, and callback failures
+    per supported platform (Target: v2.5.0).
+  - [ ] Document that watcher callbacks do not reload or apply settings
+    (Target: v2.5.0).
+  - [ ] Review serialization callers and ensure snapshots are treated as key
+    material (Target: v2.5.0).
 - **Dependencies:** Wave 1's error/bounds contract; supported OS CI runners and
   consumer-owner review for reload expectations.
 - **Risk / trade-off:** filesystem event semantics vary by OS and can coalesce;
@@ -172,11 +186,15 @@ KPIs are proposed acceptance gates, not current results.
 #### Wave 3 — Reproducible performance and release evidence (P1; 1–2 person-weeks)
 
 - **Goal:** replace source labels with measured, repeatable evidence.
-- **Tasks:** build the registered resolver, migration-scanner, and release-gate
-  targets; fix or remove watcher-constant and metrics-placeholder cases; measure
-  cache hit/miss, schema validation, encrypted-store get/set, watcher delivery,
-  and 1K/10K scan workloads; record baseline, compiler/build profile, CPU/OS,
-  dataset, repetitions, and distribution.
+- **Tasks:**
+  - [ ] Build the registered resolver, migration-scanner, and release-gate
+    targets (Target: v2.5.0).
+  - [ ] Fix or remove watcher-constant and metrics-placeholder cases (Target:
+    v2.5.0).
+  - [ ] Measure cache hit/miss, schema validation, encrypted-store get/set,
+    watcher delivery, and 1K/10K scan workloads (Target: v2.5.0).
+  - [ ] Record baseline, compiler/build profile, CPU/OS, dataset, repetitions,
+    and distribution (Target: v2.5.0).
 - **Dependencies:** Wave 1 and 2 semantics; benchmark and module dependencies
   available in CI or a documented representative environment.
 - **Risk / trade-off:** filesystem, compiler, and hardware variance make a single
@@ -196,10 +214,13 @@ KPIs are proposed acceptance gates, not current results.
 
 - **Goal:** define atomic, observable configuration adoption for services that
   need it while preserving ownership boundaries.
-- **Tasks:** inventory real consumers and reload requirements; design immutable
-  versioned snapshots, validation-before-publication, atomic swap, concurrent
-  reader behavior, bounded last-known-good policy, and rollback; define API and
-  migration contract before implementation.
+- **Tasks:**
+  - [ ] Inventory real consumers and reload requirements (Target: v3.0.0).
+  - [ ] Design immutable versioned snapshots, validation-before-publication,
+    atomic swap, and concurrent-reader behavior (Target: v3.0.0).
+  - [ ] Define bounded last-known-good and rollback policy (Target: v3.0.0).
+  - [ ] Define API and migration contract before implementation (Target:
+    v3.0.0).
 - **Dependencies:** v2.5.0 contract closure and benchmark baseline; named
   consuming-service owners; architecture and API compatibility review.
 - **Risk / trade-off:** cross-service rollout semantics can over-couple the
@@ -217,11 +238,15 @@ KPIs are proposed acceptance gates, not current results.
 
 - **Goal:** prevent key-bearing serialized state from being mistaken for secure
   ciphertext backup and establish an approved key lifecycle.
-- **Tasks:** document data classification and current snapshot consumers; choose
-  between prohibiting persistence and a reviewed versioned envelope/key-provider
-  design; specify key identifiers, rotation, recovery, authorization, error
-  behavior, and migration from existing snapshots; threat-model and review the
-  design before coding.
+- **Tasks:**
+  - [ ] Document data classification and current snapshot consumers (Target:
+    v3.0.0).
+  - [ ] Choose between prohibiting persistence and a reviewed versioned
+    envelope/key-provider design (Target: v3.0.0).
+  - [ ] Specify key identifiers, rotation, recovery, authorization, error
+    behavior, and migration from existing snapshots (Target: v3.0.0).
+  - [ ] Complete threat modeling and security review before implementation
+    (Target: v3.0.0).
 - **Dependencies:** security-owner approval, inventory of snapshot users, and
   Wave 4 state/versioning design where snapshots include configuration state.
 - **Risk / trade-off:** external key services add availability and operational
@@ -241,10 +266,14 @@ KPIs are proposed acceptance gates, not current results.
 - **Goal:** demonstrate operational behavior and compliance integration at
   representative scale without claiming that the module itself provides
   compliance certification.
-- **Tasks:** agree audit/event ownership with consuming services; define
-  redaction, attribution, retention, and export boundaries; benchmark concurrent
-  readers and reload/adoption paths; document failure response, safe rollback,
-  compatibility/deprecation, and supported-platform matrix.
+- **Tasks:**
+  - [ ] Agree audit/event ownership with consuming services (Target: v3.0.0).
+  - [ ] Define redaction, attribution, retention, and export boundaries
+    (Target: v3.0.0).
+  - [ ] Benchmark concurrent readers and reload/adoption paths (Target:
+    v3.0.0).
+  - [ ] Document failure response, safe rollback, compatibility/deprecation,
+    and supported-platform matrix (Target: v3.0.0).
 - **Dependencies:** Waves 4–5 decisions and participating service/security/
   operations owners.
 - **Risk / trade-off:** durable audit, rollout, and policy engines may already
@@ -334,11 +363,34 @@ KPIs are proposed acceptance gates, not current results.
   removed and 26 changed sources; treat its synthesis as stale until refreshed
   against current module sources.
 
+## Open Assumptions & Knowledge Gaps
+
+- The exact consuming services and their reload, rollout, and snapshot-persistence
+  requirements have not been inventoried for this roadmap; Waves 4–6 require
+  service-owner confirmation.
+- Supported operating-system/version lanes for the watcher were not confirmed
+  from executed CI evidence; Wave 2 must establish the matrix before its KPI can
+  be closed.
+- No benchmark run profile, representative hardware, raw result set, or stable
+  baseline was verified; performance thresholds remain proposals until Wave 3.
+- No compliance framework, audit-retention requirement, or in-module KMS
+  requirement was verified. Do not equate this roadmap with a compliance claim
+  or add an external service dependency without owner approval.
+- Person-week estimates exclude cross-service implementation, waiting on CI
+  runners, security review, and release governance; re-estimate after the
+  dependency owners are identified.
+- The Developer LLM Wiki freshness signal is not current enough to establish
+  synchronized module context; refresh its generated status after this source
+  roadmap is accepted.
+
 ## Breaking Changes
 
-No breaking change is committed by this roadmap. v2.5.0 should remain compatible
-with the active API contract; any incompatible behavior requires explicit
-versioning and migration analysis. Versioned snapshots, a changed encrypted
+No breaking change is committed by this roadmap. v2.5.0 should preserve the
+current public API where feasible; any incompatible behavior requires explicit
+versioning and migration analysis. The contract header describes its policy as
+stable within v1.x even though the root product is on the v2.4.0-alpha line; that
+module/product version relationship needs owner clarification before relying on
+the header's version label. Versioned snapshots, a changed encrypted
 store format, or revised public adoption APIs are v3.0.0 candidates only after
 consumer/security approval, compatibility review, and migration tests. Follow
 the root [`../../VERSIONING.md`](../../VERSIONING.md) and
