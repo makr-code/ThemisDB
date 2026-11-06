@@ -723,5 +723,130 @@ class GgmlErrnoWorkaroundTests(unittest.TestCase):
             self.assertIn("errno", result.stdout + result.stderr)
 
 
+@unittest.skipUnless(
+    shutil.which("cmake") and shutil.which("clang") and shutil.which("clang++"),
+    "CMake and Clang C/C++ compilers required",
+)
+class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
+    def configure(self, directory, apple=True, targets=True, compiler_id="Clang",
+                  supported=True, explicit_memory=False, sdk_enum=False):
+        dependencies = (ROOT / "cmake/Dependencies.cmake").read_text()
+        block = dependencies.split(
+            "    # ggml-metal.cpp uses std::unique_ptr without including <memory>.\n", 1
+        )[1].split("    # =========================================================================", 1)[0]
+        header = "#include <memory>\n" if explicit_memory else ""
+        (directory / "metal.cpp").write_text(
+            header + "int metal() { std::unique_ptr<int> p(new int(7)); return *p; }\n"
+        )
+        sdk_header = (
+            "enum class SDKEnum : unsigned;\n"
+            "typedef enum SDKEnum : unsigned SDKEnum;\n"
+        ) if sdk_enum else ""
+        (directory / "cpu.cpp").write_text(sdk_header + "int cpu() { return 0; }\n")
+        (directory / "blas.cpp").write_text(sdk_header + "int blas() { return 0; }\n")
+        (directory / "helper.c").write_text("int helper(void) { return 0; }\n")
+        (directory / "consumer.cpp").write_text("int consumer() { return 0; }\n")
+        target_definitions = (
+            "add_library(ggml-metal STATIC metal.cpp helper.c)\n"
+            "add_library(ggml-cpu STATIC cpu.cpp helper.c)\n"
+            "add_library(ggml-blas STATIC blas.cpp helper.c)\n"
+            "add_library(consumer STATIC consumer.cpp)\n"
+            "target_link_libraries(consumer PRIVATE ggml-metal ggml-cpu ggml-blas)\n"
+        ) if targets else ""
+        (directory / "CMakeLists.txt").write_text(
+            "cmake_minimum_required(VERSION 3.16)\n"
+            "project(apple_backends LANGUAGES C CXX)\n"
+            "set(CMAKE_EXPORT_COMPILE_COMMANDS ON)\n"
+            f"set(APPLE {'TRUE' if apple else 'FALSE'})\n"
+            f'set(CMAKE_CXX_COMPILER_ID "{compiler_id}")\n'
+            f"set(THEMIS_LLAMA_HAS_ELABORATED_ENUM_BASE {'TRUE' if supported else 'FALSE'})\n"
+            + target_definitions + block
+        )
+        result = subprocess.run(
+            ["cmake", "-S", str(directory), "-B", str(directory / "build"),
+             "-G", "Unix Makefiles", f"-DCMAKE_C_COMPILER={shutil.which('clang')}",
+             f"-DCMAKE_CXX_COMPILER={shutil.which('clang++')}"],
+            capture_output=True, text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def build(self, directory):
+        return subprocess.run(
+            ["cmake", "--build", str(directory / "build")],
+            capture_output=True, text=True,
+        )
+
+    def test_apple_backend_flags_are_private_and_cxx_only(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.configure(directory)
+            result = self.build(directory)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            commands = json.loads((directory / "build/compile_commands.json").read_text())
+            for item in commands:
+                source = Path(item["file"]).name
+                words = item["command"].split()
+                with self.subTest(source=source):
+                    self.assertEqual("-include" in words, source == "metal.cpp")
+                    if source == "metal.cpp":
+                        self.assertEqual(words[words.index("-include") + 1], "memory")
+                    self.assertEqual(
+                        "-Wno-error=elaborated-enum-base" in words,
+                        source in {"cpu.cpp", "blas.cpp"},
+                    )
+
+    def test_nonapple_build_has_no_workaround_flags(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.configure(directory, apple=False, explicit_memory=True)
+            result = self.build(directory)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            commands = json.loads((directory / "build/compile_commands.json").read_text())
+            for item in commands:
+                self.assertNotIn("-include", item["command"].split())
+                self.assertNotIn("-Wno-error=elaborated-enum-base", item["command"].split())
+
+    def test_missing_memory_fails_without_workaround(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.configure(directory, apple=False)
+            result = self.build(directory)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("unique_ptr", result.stdout + result.stderr)
+
+    def test_sdk_enum_error_becomes_warning_only_with_workaround(self):
+        for supported in (False, True):
+            with self.subTest(workaround=supported):
+                with tempfile.TemporaryDirectory() as temp:
+                    directory = Path(temp)
+                    self.configure(directory, supported=supported, sdk_enum=True)
+                    result = self.build(directory)
+                    output = result.stdout + result.stderr
+                    if supported:
+                        self.assertEqual(result.returncode, 0, output)
+                        self.assertIn("warning: non-defining declaration of enumeration", output)
+                        self.assertNotIn("error:", output)
+                    else:
+                        self.assertNotEqual(result.returncode, 0, output)
+                        self.assertIn("error: non-defining declaration of enumeration", output)
+                    self.assertIn("-Welaborated-enum-base", output)
+
+    def test_missing_backend_targets_configure_safely(self):
+        with tempfile.TemporaryDirectory() as temp:
+            self.configure(Path(temp), targets=False)
+
+    def test_sdk_flag_requires_supported_homebrew_clang(self):
+        for compiler_id, supported in (("AppleClang", True), ("GNU", True), ("Clang", False)):
+            with self.subTest(compiler=compiler_id, supported=supported):
+                with tempfile.TemporaryDirectory() as temp:
+                    directory = Path(temp)
+                    self.configure(directory, compiler_id=compiler_id, supported=supported)
+                    commands = json.loads((directory / "build/compile_commands.json").read_text())
+                    for item in commands:
+                        self.assertNotIn(
+                            "-Wno-error=elaborated-enum-base", item["command"].split()
+                        )
+
+
 if __name__ == "__main__":
     unittest.main()

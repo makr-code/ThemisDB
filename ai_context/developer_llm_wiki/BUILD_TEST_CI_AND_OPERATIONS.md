@@ -15,6 +15,21 @@ Human_Author: "ThemisDB Team"
 Datum: 2026-11-02
 Status: Active
 
+## macOS LLVM backend build requirements
+
+- Sources: `cmake/Dependencies.cmake`, `tests/test_deployment_workflow_regressions.py`; Actions run `41960105333`, job `127024660181`.
+- The existing Apple `ggml-base` C++ `<cerrno>` force-include resolves the earlier GGUF compilation failure. The newer run exposes a missing `<memory>` include in `ggml-metal.cpp` and `elaborated-enum-base` errors from the Xcode 15.4 SDK headers used by Accelerate.
+- Apple `ggml-metal` C++ compilation privately force-includes `<memory>`. For Apple builds using upstream/Homebrew Clang, a compiler-checked `-Wno-error=elaborated-enum-base` on `ggml-cpu` and `ggml-blas` C++ compilation retains the SDK warning without treating it as fatal. C/Objective-C sources and downstream consumers are unchanged; Metal and Accelerate remain enabled.
+- Focused host CMake/compiler regressions exercise missing-header failure, successful compilation, platform/compiler guards, missing targets, and private C++ flag scope. They do not replace a native macOS ARM64 build; native SDK and packaging validation remain pending.
+- Wiki health metadata dates from 2026-11-02 and workflow summaries are incomplete. Current source and concrete Actions logs take precedence.
+## Windows release compiler-memory mitigation
+
+- Sources: `.github/workflows/release-build-matrix.yml`, `cmake/ModularBuild.cmake`, and [Actions run 41861219716, job 126684560606](https://github.com/makr-code/ThemisDB/actions/runs/41861219716/job/126684560606). The task-provided log evidence reports concurrent `policy_api_handler.cpp` and `monitoring_api_handler.cpp` failing with MSVC C1060 heap exhaustion using the x64 compiler; monitoring already has the low-memory `/Od` setting.
+- The companion workflow correction changes only the `windows-amd64` `build_command`: `CMAKE_BUILD_PARALLEL_LEVEL=1` and explicit `--parallel 1` (both previously `2`). Configure-time vcpkg concurrency stays at `2`; other platforms and production optimization settings remain unchanged. Sequential compilation avoids overlapping heavy translation units without establishing a successful Windows build.
+- `tests/test_windows_release_build_memory.py` executes matrix preparation and the generated build shell with stub `cmake` to verify concurrency and pipeline failure propagation through the logging pipe. Stub execution is not MSVC build evidence.
+- The Linux sandbox cannot run MSVC. A **new Actions run on corrected source** is required; retries retain the original source SHA. No Windows build success is claimed.
+- `WIKI_STATUS.json` was generated on 2026-11-02 with 8066 sources; workflow summaries marked “binary or unreadable” are incomplete. Current source and Actions logs take precedence over generated wiki metadata.
+
 ## Global transaction durability regression coverage
 
 - Canonical sources: `tests/transaction/CMakeLists.txt`, `tests/CMakeLists.txt`, `tests/test_global_transaction_manager.cpp`, `src/transaction/global_transaction_manager.cpp`, `include/sharding/wal_manager.h`.
@@ -38,10 +53,19 @@ Exact model backend not verifiable from final document text alone.
 
 - Sources: `.github/workflows/reusable-docker-image-platform.yml`, `docker/Dockerfile.unified`, `tests/test_docker_runtime_package_regressions.py`.
 - ARM64 platform builds require the pinned `bootstrap-vcpkg.sh`, which builds vcpkg natively on ARM64; the `vcpkg-glibc` release binary is x86-64-only.
-- Stable release-tag publication validates the selected Docker source before platform dispatch; nightly and developer-track updates do not run this release-source preflight. The reusable platform workflow still performs applicable ARM64 bootstrap checks, image scans, and runtime validation. For stable releases, `override_docker_source_preflight` skips dependency/runtime source checks but not the ARM64 bootstrap check.
-- Set `dry_run=true` to build both platforms, run Trivy vulnerability scans, and execute runtime smoke checks without registry login/publication or release-status tracker updates. Stable release-tag dry-runs also run the source preflight; nightly/developer-track dry-runs do not. Dry-run takes precedence over `push_to_registry`.
+- Every selected release tag (including alpha, beta, rc, and nightly tags) is checked before platform dispatch, even when registry publication and dry-run are disabled. This includes tags resolved implicitly from the version files for publication: the parent preflight and override notice also check `steps.version.outputs.source_is_tag`. Untagged developer-track runs retain platform-level validation. `override_docker_source_preflight` skips dependency/runtime source checks but not the release-source ARM64 bootstrap check.
+- Set `dry_run=true` to build both platforms, run Trivy vulnerability scans, and execute runtime smoke checks without registry login/publication or release-status tracker updates. Tagged dry-runs also run the source preflight. Dry-run takes precedence over `push_to_registry`.
 - The reusable platform workflow enforces the same dry-run no-push behavior, runs the ARM64 bootstrap check and Trivy against the locally loaded image, then executes runtime validation. Plain validation runs without `dry_run` keep their existing build/runtime behavior.
-- If a stable release tag fails source preflight, publish a **new release tag** containing the corrected Dockerfile; the workflow does not move tags or substitute newer source for the selected release commit.
+- Run `41900183288`, AMD64 job `126830955426`, selected obsolete `v2.4.0-alpha` source (`3cfe59e6c5e7093cec8391291b5fc405dfdab246`) and failed all eight dependency/runtime source checks before Docker compilation. The stable-only caller condition had allowed the alpha tag to reach platform dispatch; tagged prereleases now receive the same early check.
+- Run `41984551595`, ARM64 job `127107984594`, selected the same obsolete tag implicitly (`push_to_registry=true`, empty `tag_name`) and failed the native-bootstrap check. Checking only explicit tag inputs missed this path; the resolved-source flag closes it without changing the selected commit or bypassing ARM64 validation.
+- If a release tag fails source preflight, publish a **new release tag** containing the corrected Dockerfile; the workflow does not move tags or substitute newer source for the selected release commit. To validate current workflow source instead, set `build_from_workflow_source=true`; this forces dry-run and disables registry publication.
+
+## Windows compiler memory and ARM SIMD guard
+
+- Sources: `.github/workflows/release-build-matrix.yml`, `cmake/CompilerOptions.cmake`, `cmake/ModularBuild.cmake`, `cmake/README.md`, `tests/test_mainline_compiler_regressions.py`.
+- The Windows release matrix uses dependency/configure concurrency 1 and build `--parallel 1`: `C1060` occurred even with monitoring's `/Od` workaround. Monitoring, index and prompt handlers share `THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY` (default `ON`, `/Od` outside Debug); opting out retains `/bigobj` and unity exclusion.
+- `CompilerOptions.cmake` runs before platform detection. AVX2/FMA flags and `THEMIS_HAS_AVX2` require an x64 target processor, Release and AVX2 enabled; QNAP's x86 baseline is likewise target-guarded. An x64 host must not inject x86 flags into ARM64 targets.
+- Focused Python tests configure CMake policies without native compiler execution. They do not prove native Windows/ARM64 compilation or package success. Dispatch a new Mainline run containing the corrected source on `develop`; retrying the original failed run retains its original SHA.
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
