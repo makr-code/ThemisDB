@@ -1,7 +1,10 @@
 # LLM Module Roadmap
 
+<!-- Last Updated: 2026-11-06 -->
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
+<!-- Exact model backend not verifiable from final document text alone. -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-10 -->
+<!-- Status: current | research plan updated: 2026-11-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -13,6 +16,113 @@ The module provides runtime surfaces across async inference, enhanced multi-mode
 - **Wave B (Q3–Q4 2026):** Wiki Phase B (RocksDB retrieval, cache hit-rate, query-latency gates)
 - **Wave A Exit Criteria:** Deterministic chaos evidence + fail-closed verification + release-critical CI GREEN
 - **Wave B Exit Criteria:** Full 4-layer retrieval chain with stable p95/p99 on representative hardware
+
+## v2.5.0 / v3.0.0 Research and Wave Plan (proposed 2026-11-06)
+
+This plan is a research-backed proposal, not a release commitment. It separates existing component capability from demonstrated end-to-end quality: source presence and unit tests do not establish production throughput, latency, or safety SLOs.
+
+### Module assessment and code-to-research gap
+
+| Area | Current evidence in this repository | Assessment / remaining gap |
+|---|---|---|
+| Performance and scaling | `ContinuousBatchScheduler` supports priority scheduling, chunked prefill, queue backpressure, and paged-cache integration (`include/llm/continuous_batch_scheduler.h`); metrics include first-token, per-token, end-to-end latency and token counts (`include/llm/grafana_metrics.h`). | Strong component coverage; representative model-backed throughput, TTFT/TPOT, queueing and memory results across supported hardware are not established by source alone. Scheduler token budgets currently use a fixed characters-per-token heuristic (`src/llm/continuous_batch_scheduler.cpp`), which is not an authoritative tokenizer count. |
+| Cache and inference efficiency | Paged cache, prefix sharing, speculative decoding and KV-quantization types are present (`include/llm/paged_kv_cache.h`, `include/llm/speculative_decoder.h`). Runtime KV quantization is disabled by default in the cache config. | Measure integrated behavior and quality for each supported backend/model/device; enum/configuration presence is not evidence that quantization is production-enabled or beneficial. |
+| Application usability | Streaming, OpenAI-compatible adaptation, model routing, plugins and RAG-facing tests exist (`include/llm/streaming_handler.h`, `include/llm/openai_compat_adapter.h`, `tests/llm/`). | Verify consistent error, timeout, cancellation and capability behavior across actual plugin variants; tests should exercise user-visible flows as well as components. |
+| Retrieval quality | `test_wiki_rag_quality.cpp` checks Recall@5 ≥ 80% on five synthetic probes and a 100-chunk latency fixture. | This is a useful regression fixture, not evidence of answer faithfulness, answer relevance or production-corpus quality. Add a versioned, human-reviewed evaluation set. |
+| Security and resilience | Queue rejection, KV exhaustion handling, prompt policy, model-integrity checks, cancellation/resilience tests, and an audit logger exist (`src/llm/continuous_batch_scheduler.cpp`, `src/llm/llm_model_audit_logger.cpp`, `tests/llm/test_llm_resilience.cpp`). | Close end-to-end fault and policy-path coverage; explicitly test that telemetry/audit output does not disclose prompt or secret content. |
+| Governance and maintainability | API contracts, metrics, and module tests are present. Root roadmap records unresolved `llm` coupling to `server` and `query` as a barrier to independent compilation. | Publish versioned benchmark/evaluation artifacts and dependency/capability contracts; define a supported-backend matrix and data-retention/privacy rules. |
+
+**Benchmark evidence boundary:** `tests/llm/bench_continuous_batch_scheduler.cpp` explicitly runs without a loaded model or GPU; `benchmarks/llm/bench_llm_hotpaths.cpp` labels its inference/plugin/embed paths as stubs; and `bench_phase1_flash_attention.cpp` contains simulated timing. These are valid component or harness checks, not model-serving results. `benchmarks/llm/bench_llm_real_models.cpp` provides a real-model path, but results count toward release evidence only when the model, hardware, runtime, workload and output artifact are recorded. Do not promote paper results or synthetic measurements to ThemisDB SLO evidence.
+
+### Research findings and engineering implications
+
+- **Serving systems:** Orca's iteration-level scheduling motivates measuring request-level latency as well as aggregate throughput; PagedAttention motivates measuring KV-cache utilization and fragmentation alongside scheduler performance. KIVI demonstrates that low-bit KV-cache methods can be effective in its evaluated settings, but its reported gains are not transferable guarantees for ThemisDB. [Orca (OSDI 2022)](https://www.usenix.org/conference/osdi22/presentation/yu), [PagedAttention (SOSP 2023)](https://arxiv.org/abs/2309.06180), [KIVI (2024)](https://arxiv.org/abs/2402.02750).
+- **Interactive performance:** MLPerf Inference v5.0's interactive LLM track treats TTFT and time-per-output-token as responsiveness measures. Adopt TTFT, TPOT, end-to-end latency, queue wait and output-token throughput together; a tokens/second-only result can hide poor interactive latency. [MLPerf Inference v5.0 (2025)](https://mlcommons.org/2025/04/mlperf-inference-v5-0-results/).
+- **RAG evaluation:** ARES evaluates context relevance, answer faithfulness and answer relevance, and calibrates automated judges using human labels. Retrieval Recall@k alone does not demonstrate grounded answer quality. [ARES (NAACL 2024)](https://aclanthology.org/2024.naacl-long.20/); [CRAG (2024)](https://arxiv.org/abs/2406.04744).
+- **Risk and observability:** OWASP's LLM application risks and NIST's GenAI Profile provide risk-control taxonomies, not certifications. OpenTelemetry GenAI semantic conventions are marked Development; pin the adopted version and expect schema evolution. [OWASP LLM/GenAI Top 10](https://genai.owasp.org/initiatives/top-10-for-llm-and-genai/), [NIST AI 600-1](https://doi.org/10.6028/NIST.AI.600-1), [OpenTelemetry GenAI conventions](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/client-inference.md).
+
+### v2.5.0 — establish dependable serving and evaluation evidence
+
+**Release intent:** preserve current public inference interfaces; focus on repeatable evidence, bounded operation and measurable quality rather than adding unvalidated optimization paths.
+
+#### Wave 1 — Reproducible performance baseline (P0; estimate: 2–3 engineer-weeks)
+
+- **Goal:** define a reproducible model-backed baseline for each supported model/backend/hardware profile.
+- **Tasks:**
+  - [ ] Add a release benchmark manifest covering model and tokenizer fingerprints, quantization, hardware/driver, backend, prompt/output-length distribution, concurrency, seed and build profile (Target: v2.5.0).
+  - [ ] Run real-model benchmark repetitions and publish p50/p95/p99 TTFT, TPOT, end-to-end latency, output tokens/s, queue wait, KV memory/occupancy, cache hit rate, OOM and error/rejection rates (Target: v2.5.0).
+  - [ ] Keep stub and synthetic benchmark results in a separate component tier; compare each release only against the same supported hardware/model profile (Target: v2.5.0).
+- **Dependencies:** pinned/downloadable benchmark model artifacts; benchmark runner and artifact retention on representative CI or release hardware.
+- **Risk / trade-off:** hardware drift and model changes can invalidate comparisons; requiring representative hardware may slow PR feedback. Retain fast component tests and gate release claims on the slower measured tier.
+- **Success metric / validation:** 100% of declared supported profiles have complete provenance and at least five measured repetitions; all latency/throughput percentiles are reported; any >5% regression against the same-profile baseline is investigated, consistent with the existing `llm_bench.cpp` criterion. No absolute SLO is considered measured until captured on target hardware.
+
+#### Wave 2 — Admission, quota and failure-path consistency (P0; estimate: 3–5 engineer-weeks)
+
+- **Goal:** ensure request limits and recovery behavior remain bounded and consistent under load across supported backends.
+- **Tasks:**
+  - [ ] Replace or explicitly bound character-based token estimation for supported tokenizer-aware paths; define fail-closed behavior where exact tokenization is unavailable before quota/admission decisions (Target: v2.5.0).
+  - [ ] Exercise queue saturation, KV exhaustion, timeout, cancellation storms, model-load failure, backend loss and recovery through the real request path, including streaming completion/error behavior (Target: v2.5.0).
+  - [ ] Verify quota and cache isolation under concurrent tenant/adapter churn and document overload/retry semantics for callers (Target: v2.5.0).
+- **Dependencies:** Wave 1 workload profile; plugin capability reporting and existing focused resilience/cancellation tests.
+- **Risk / trade-off:** conservative admission may reject work earlier and exact tokenization adds cost; backend timeout cooperation differs. Avoid silent fallback and report capability-specific limits.
+- **Success metric / validation:** zero token-policy decisions based solely on the fixed character heuristic for tokenizer-aware profiles; 100% of overload/failure cases produce the documented error or cancellation outcome; queue depth remains within configured bounds; no sanitizer-detected leak/race in the focused stress suite.
+
+#### Wave 3 — Grounded-answer quality, security and operations (P1; estimate: 3–4 engineer-weeks)
+
+- **Goal:** move RAG and safety claims from retrieval-only fixtures to versioned, auditable application-level evidence.
+- **Tasks:**
+  - [ ] Create a versioned query/evidence/gold-answer set spanning supported application scenarios, and report Recall@k/nDCG, context relevance, answer faithfulness, answer relevance and abstention behavior (Target: v2.5.0).
+  - [ ] Calibrate automated evaluation against a human-reviewed sample; extend tests to prompt injection, sensitive-data disclosure, untrusted retrieved content and resource-exhaustion cases across streaming and non-streaming routes (Target: v2.5.0).
+  - [ ] Define allowlisted audit/trace fields, retention and access controls; verify model/prompt-policy/version provenance without recording prompt contents or test secrets (Target: v2.5.0).
+- **Dependencies:** Wave 1 fixed runtime profiles; a maintainer-approved corpus and human evaluation set; security/privacy review.
+- **Risk / trade-off:** judge scores can drift and application corpora may be sensitive; retain test-set versions, human calibration and access-controlled artifacts.
+- **Success metric / validation:** preserve the existing ≥80% Recall@5 fixture gate and report expanded-set confidence intervals; no regression greater than 2 percentage points in human-reviewed faithfulness/relevance versus the approved baseline; zero seeded secret/prompt-content matches in emitted audit/trace artifacts; publish all test-set and judge versions.
+
+### v3.0.0 — versioned capabilities, scalable operation and governance
+
+**Strategic intent:** consider public contract changes only after v2.5 evidence identifies a need. No v3 release date or API break is committed by this module plan.
+
+#### Wave 4 — Versioned backend and model capability contracts (P0; estimate: 4–6 engineer-weeks)
+
+- **Goal:** make backend differences explicit and make model/plugin compatibility testable.
+- **Tasks:**
+  - [ ] Specify versioned capability and model manifests for tokenizer, streaming, cancellation/deadlines, context limits, embeddings, KV-cache modes and supported quantization; map every maintained plugin to the contract (Target: v3.0.0).
+  - [ ] Define compatibility, deprecation and migration rules for any breaking inference/plugin API changes; keep old and new paths from silently diverging (Target: v3.0.0).
+  - [ ] Add contract conformance tests for success, unsupported capability, malformed metadata and backend failure across supported plugins (Target: v3.0.0).
+- **Dependencies:** v2.5.0 Wave 2 behavior and supported-backend inventory; explicit maintainer approval for any breaking change.
+- **Risk / trade-off:** a stricter contract may expose unsupported backends and require caller migrations; prefer capability-gated behavior over universal assumptions.
+- **Success metric / validation:** 100% of supported plugins pass the same contract suite; unsupported operations fail explicitly; migration examples and compatibility results are published before API freeze.
+
+#### Wave 5 — Quality-gated scheduling and memory efficiency (P1; estimate: 6–10 engineer-weeks)
+
+- **Goal:** improve useful throughput and memory capacity without violating latency or answer-quality limits.
+- **Tasks:**
+  - [ ] Evaluate continuous-batching/preemption policies, prefix reuse and supported KV-cache precision modes against the Wave 1 workload and quality sets; ship only capability-supported configurations (Target: v3.0.0).
+  - [ ] Benchmark at least two representative hardware classes and mixed prompt/output lengths under concurrency; report TTFT/TPOT, output tokens/s, peak KV memory, OOM and quality deltas (Target: v3.0.0).
+  - [ ] Add distributed/tenant saturation and recovery tests before enabling cross-node policy changes by default (Target: v3.0.0).
+- **Dependencies:** Waves 1, 2 and 4; working representative hardware and model artifacts.
+- **Risk / trade-off:** quantization may reduce memory while changing model quality; preemption may increase tail latency; GPU-specific tuning can fragment support.
+- **Success metric / validation:** proposed target of ≥20% aggregate output-token throughput gain at matched concurrency with p99 TTFT/TPOT within the approved SLO and ≤0.5 percentage-point change on human-reviewed quality metrics; otherwise retain the baseline. Re-run the same-profile benchmark, quality, fault-injection and sanitizer suites.
+
+#### Wave 6 — Auditable operation and release qualification (P1; estimate: 4–6 engineer-weeks)
+
+- **Goal:** make deployment, monitoring and model lifecycle reproducible across editions and supported backends.
+- **Tasks:**
+  - [ ] Version and document trace/metric schemas, model and adapter provenance, policy configuration, audit access/retention, and incident-response ownership (Target: v3.0.0).
+  - [ ] Add release artifacts linking benchmark/evaluation outputs to source revision, model/tokenizer fingerprints, configuration and supported backend matrix (Target: v3.0.0).
+  - [ ] Validate least-privilege model loading, tenant isolation, data deletion/retention and fail-closed behavior in release qualification (Target: v3.0.0).
+- **Dependencies:** Waves 3 and 4; governance, security and operations owner sign-off.
+- **Risk / trade-off:** observability and provenance increase storage/operational burden; minimize collected content and make retention configurable.
+- **Success metric / validation:** every release candidate has a complete, immutable evidence bundle; all tenant-isolation and policy-negative tests pass; no prompt or secret content is present in telemetry artifacts; required security/governance sign-offs are recorded.
+
+### Risks, trade-offs and open assumptions
+
+- The effort figures are preliminary engineer-week estimates, not schedule commitments; they exclude upstream backend work and hardware procurement.
+- The v2.5.0 scope is aligned with the repository's next planned minor version. v3.0.0 remains strategic; release timing and whether public APIs break require maintainer approval under the root release/versioning process.
+- The target hardware/model matrix and release SLOs are not fixed by this research task. Establish them in Wave 1 before treating any proposed threshold as a release gate.
+- Research-paper gains are workload-, model- and hardware-specific. In particular, do not assume KIVI/PagedAttention/Orca results transfer directly to llama.cpp, current plugin implementations or supported accelerators.
+- The five-probe synthetic RAG fixture is too small to support broad quality claims. Dataset licensing, privacy, representative languages and human-review capacity remain open.
+- Current scheduler quotas use `request_id` as the available user key in `continuous_batch_scheduler.cpp`; tenant identity and authenticated principal propagation must be agreed before treating quota isolation as a production control.
 
 ### Module Evidence Summary (2026-07-19)
 
