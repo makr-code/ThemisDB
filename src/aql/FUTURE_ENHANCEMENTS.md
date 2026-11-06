@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-07-19"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-06"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -22,8 +22,10 @@ Exact model backend not verifiable from final document text alone.
 The checkmarks and status language in this section record a 2026-07-19 planning
 snapshot; they are not current production-readiness or test-pass evidence.
 Current behavior must be checked against implementation, headers, and tests.
-**TODO:** Reconcile remaining backlog items and completion states with the
-current module roadmap before using this file as an active delivery plan.
+The historical entries above remain unverified snapshots. The active v2.5.0
+and v3.0.0 delivery plan, acceptance measures, and assumptions are maintained in
+[`ROADMAP.md`](ROADMAP.md); do not infer current completion from the historical
+checkmarks in this section.
 
 ### Items reported as implemented in the historical snapshot
 
@@ -110,13 +112,15 @@ current module roadmap before using this file as an active delivery plan.
 - hardening and refinement of NL-to-AQL and command-assistance flows
 - expansion of quality controls across validation/scoring/context/tooling surfaces
 - stronger performance and reliability guarantees for high-volume assistance usage
+- the `aql` assistance module only; core parsing, planning, execution, and runtime authorization remain owned by `query` and host applications
 
 ## Design Constraints
 
 - assistance contracts remain backward compatible within major release line.
-- generated-query flows remain fail-closed on invalid or unsupported states.
+- strict generated-query deployments reject invalid results; the current `WARN_ONLY` default and weaker string-level fallback must not be represented as fail-closed guarantees.
 - context and helper components remain bounded under sustained usage.
 - optional integrations degrade safely with explicit diagnostics.
+- versioned evaluation data must use approved synthetic or otherwise privacy-reviewed material and retain held-out partitions.
 
 ## Required Interfaces
 
@@ -129,27 +133,34 @@ current module roadmap before using this file as an active delivery plan.
 
 ## Implementation Notes
 
-- continue tightening post-generation validation policy handling.
-- standardize diagnostics across translation, scoring, and bridge paths.
-- expand deterministic concurrency coverage for conversation and agent workflows.
-- reduce benchmark ambiguity by adding focused path-specific performance cases.
+- v2.5.0 Wave 1 establishes a reviewed, synthetic, held-out NL-to-AQL corpus and deterministic evaluator for syntax, intent, policy, retry, token, failure, and latency measures.
+- v2.5.0 Wave 2 makes parser-backed acceptance and the selected validation mode explicit, tests authorization at host/tool boundaries, and adds adversarial and bounded-resource regressions without silently changing the public default.
+- v2.5.0 Wave 3 separates mock/local component measurements from provider latency and publishes reproducible hardware/configuration run manifests.
+- v3.0.0 Waves 4–6 evaluate a versioned typed result contract, capability-gated constrained generation, calibrated advisory scores, privacy controls, and provider-drift governance; see the module roadmap for dependencies and acceptance gates.
 
 ## Test Strategy
 
-- unit and integration tests for translation, validation, and bridge edges.
-- adversarial-input and degraded-mode regression suites.
-- concurrency and bounded-context regression coverage.
-- release-profile benchmark validation for mapped targets.
+- unit tests cover parser-present and parser-disabled behavior, all validation modes, malformed/empty/over-limit inputs, retries, and final-versus-partial streaming results.
+- integration tests cover held-out schema/domain partitions, separate syntax/intent/policy outcomes, and positive/negative host authorization for every execution and tool route.
+- adversarial and reliability tests cover prompt injection, malformed provider output, outage, timeout, cancellation, circuit-breaker recovery, concurrency, and bounded context/resources.
+- benchmark runs distinguish local parser/helper overhead from live-provider latency and quality; each recorded run includes source revision, configuration, hardware/provider profile, repetitions, and raw output.
 
 ## Performance Targets
 
-- translation-assistance hot paths remain within release regression budgets.
-- highlighter/scorer/few-shot paths retain stable p95/p99 profiles versus baseline.
-- benchmark manifest completeness reaches no-missing-case status for mapped AQL targets.
+- establish a reproducible release-profile p50/p95/p99 baseline in v2.5.0; investigate local component regressions greater than 10% against that baseline.
+- keep provider latency and translation quality separate from mock/local component measurements; report provider sample count and uncertainty.
+- for v3.0.0 constrained-generation adoption, require at least a 5-percentage-point held-out parser-validity improvement over the v2.5.0 baseline without reduced intent fidelity and with no more than 10% additional local p95 validation overhead.
 
 ## Security / Reliability
 
-- preserve strict input-handling and fail-closed generated-query safety controls.
+- treat prompts, schema context, and provider output as untrusted; parser acceptance and confidence are not authorization or proof of intent.
+- require a strict validation profile for deployments that need rejection guarantees; make weaker fallback behavior explicit and observable.
 - maintain bounded context and tool/bridge behavior under load.
 - enforce explicit capability checks for optional provider integrations.
-- keep diagnostics actionable for production triage and review workflows.
+- verify authorization at each host execution/tool boundary and redact prompts and query values from default telemetry.
+- require security/privacy review, human-reviewed held-out data, and an auditable release report before promoting v3.0.0 quality gates.
+
+## Milestone Links
+
+- [AQL v2.5.0/v3.0.0 research and wave plan](ROADMAP.md#research-and-gap-analysis)
+- [AQL research and evaluation evidence](RESEARCH.md)

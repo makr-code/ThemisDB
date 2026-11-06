@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-06"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -40,6 +40,9 @@ Start with the module
 [`ARCHITECTURE.md`](../../src/aql/ARCHITECTURE.md), public header map
 [`include/aql/ARCHITECTURE.md`](../../include/aql/ARCHITECTURE.md), and the
 [`API.md`](../../src/aql/API.md) integration notes.
+The active v2.5.0/v3.0.0 research and wave plan is
+[`src/aql/ROADMAP.md`](../../src/aql/ROADMAP.md); its targets are proposals and
+do not override root release status.
 
 ## Translation behavior to preserve
 
