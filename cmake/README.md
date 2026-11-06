@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-04-17
-Last Updated: 2026-11-05
+Last Updated: 2026-11-06
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -39,12 +39,15 @@ Dieser Ordner enthält 4 Unterordner und 42 Dateien und bildet einen abgegrenzte
 workaround in the modular MSVC network build. Its default is `ON`: non-Debug
 compilation of `monitoring_api_handler.cpp`, `index_api_handler.cpp` and
 `prompt_api_handler.cpp` receives
-`/Od` to avoid compiler heap exhaustion (`C1060`) on constrained CI workers.
+`/Od` plus explicit `/Ob0` to reduce compiler heap pressure (`C1060`) on
+constrained CI workers. `/Ob0` overrides inherited `/Ob2` inlining, which
+`/Od` alone does not explicitly disable.
 `/bigobj`, unity exclusion and the global `/Zm200` setting are retained.
 
 The local `vscode-windows-release` configure preset sets the option to `OFF`.
-Release therefore uses its normal `/O2` optimization for these three files,
-without the per-file `/Od` override. The workspace tasks named
+Release therefore uses its normal `/O2` optimization and inherited inlining
+for these three files, without either per-file `/Od` or `/Ob0` override.
+The workspace tasks named
 `CMake: Configure (windows-release)` and `CMake: Build (windows-release)` use
 this local preset. Build directory and edition remain
 `build-msvc-windows-release` and `COMMUNITY`.
@@ -56,11 +59,12 @@ There is no automatic retry with disabled optimization if `/O2` fails.
 
 The Windows lane in `.github/workflows/release-build-matrix.yml` serializes
 dependency/configure and build work (`VCPKG_MAX_CONCURRENCY=1`,
-`CMAKE_BUILD_PARALLEL_LEVEL=1`, build `--parallel 1`). CI encountered `C1060`
-even with the monitoring handler's `/Od` override; per-file mitigation alone
-does not establish sufficient memory headroom for concurrent compilation.
-The prompt handler now shares the existing opt-out policy. This change is not
-evidence of a successful native Windows build.
+`CMAKE_BUILD_PARALLEL_LEVEL=1`, build `--parallel 1`). The latest
+[Windows run 42155076805, job 127687580213](https://github.com/makr-code/ThemisDB/actions/runs/42155076805/job/127687580213)
+still encountered `C1060` despite serial compilation and `/Od`. The scoped
+correction adds `/Ob0` under the same non-Debug, low-memory guard for all three
+handlers; other translation units are unchanged. A fresh native Windows run
+is required to validate this correction; no native success is claimed for it.
 
 Validation on 2026-10-29: both generated compile commands contain `/O2` and
 `/bigobj`, without `/Od`; the local Release build completed without `C1060` or

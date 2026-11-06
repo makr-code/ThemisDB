@@ -2726,7 +2726,8 @@ function(themis_build_modular)
         # - monitoring_api_handler / index_api_handler / prompt_api_handler:
         #   /O2 on windows-latest
         #   can trigger cl.exe C1060 (out of heap space). The default low-memory
-        #   option applies /Od outside Debug; benchmark hosts can opt out.
+        #   option applies /Od /Ob0 outside Debug, overriding inherited inlining;
+        #   benchmark hosts can opt out.
         #   Keep /bigobj and the global /Zm200 setting in both cases.
         #   A larger per-file /Zm override has proven unstable in CI.
         # - distributed_flame_graph: defines 'parseFolded' in anonymous namespace
@@ -2738,7 +2739,7 @@ function(themis_build_modular)
             ${CMAKE_SOURCE_DIR}/src/server/prompt_api_handler.cpp
             PROPERTIES
                 SKIP_UNITY_BUILD_INCLUSION ON
-                COMPILE_OPTIONS "/bigobj;$<$<AND:$<BOOL:${THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY}>,$<NOT:$<CONFIG:Debug>>>:/Od>"
+                COMPILE_OPTIONS "/bigobj;$<$<AND:$<BOOL:${THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY}>,$<NOT:$<CONFIG:Debug>>>:/Od>;$<$<AND:$<BOOL:${THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY}>,$<NOT:$<CONFIG:Debug>>>:/Ob0>"
         )
         set_source_files_properties(
             ${CMAKE_SOURCE_DIR}/src/observability/distributed_flame_graph.cpp
