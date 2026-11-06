@@ -1,6 +1,6 @@
 **Author:** ThemisDB Contributors
 **Created:** 2026-09-21
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-06
 **Status:** active
 **AI_Used:** true
 **AI_Models:** unknown
@@ -153,6 +153,19 @@ production runtime code (see [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATI
 2. The thread pool uses a shared dispatch queue only; the reserved per-thread queue objects are not populated by `submit()` yet.
 3. `idle_timeout_ms` acts as the worker wait interval before re-checking the queue, not as an idle-thread retirement mechanism.
 4. Runtime metrics are in-memory snapshots only; there is no built-in exporter, tracing hook, or persistence layer in this module.
+
+## Wissenschaftliche Grundlagen & Einflüsse
+
+These sources inform the proposed research and validation plan only; they do
+not imply that their algorithms or benchmark results are implemented in
+ThemisDB.
+
+| Category | Source | Status | Links |
+|---|---|---|---|
+| Paper | [Work-stealing scheduling](../../research/papers/blumofe_leiserson_work_stealing_1999.md) | Proposed v3.0.0 evaluation; no algorithm adopted | [Influence index](../../research/implementation_influence/README.md) |
+| Paper | [Concurrent-query scheduling](../../research/papers/wu_concurrent_query_scheduling_2025.md) | Proposed workload evaluation; no predictor adopted | [Influence index](../../research/implementation_influence/README.md) |
+| Benchmark methodology | [TPC-H workload methodology](../../research/best_practices/tpc_h_benchmark_methodology.md) | Reference only; no TPC-H result claimed | [Influence index](../../research/implementation_influence/README.md) |
+| Reliability practice | [Explicit overload handling](../../research/best_practices/sre_handling_overload.md) | Reference only; no complete practice adoption claimed | [Influence index](../../research/implementation_influence/README.md) |
 
 ## Verweise
 
