@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4.0-alpha  
-**Last Updated:** 2026-11-02 (STO-01/STO-10 source-backed implementation status synchronized; STO-07 and storage evidence gates remain open; TST-03 Geo, Timeseries, Process, Temporal, Storage, Index, Transaction, Query, Security, Metadata, Sharding, Performance, RAG, 66 LLM registrations, three remaining LLM provider variants, tensor shard-summary aliases, adaptive targets, 22 GPU targets, 13 exporter targets, GPU graph traversal, process-discovery, AdvancedCacheManager, process-mining-pattern, anomaly-detection, CEP, columnar-execution, expert-system, forecasting, LLM-process-analyzer, streaming-join, streaming-window, API interface/API-key authenticator, BaseEntity, Base reload-regression, 25 ingestion, 16 Network, 12 CDC, seven Auth targets, and two Plugin targets consolidated; Windows Debug profile multiple focused registrations reduced from 71 to 1 shared test runner; non-modular profile now has 278 multi-target sources and baseline review remains open; audit-derived production-readiness roadmap pointer and RotatE target clarification; Wave C evidence status unchanged since 2026-10-30)
+**Last Updated:** 2026-11-06 (STO-01/STO-10 source-backed implementation status synchronized; STO-07 and storage evidence gates remain open; TST-03 Geo, Timeseries, Process, Temporal, Storage, Index, Transaction, Query, Security, Metadata, Sharding, Performance, RAG, 66 LLM registrations, three remaining LLM provider variants, tensor shard-summary aliases, adaptive targets, 22 GPU targets, 13 exporter targets, GPU graph traversal, process-discovery, AdvancedCacheManager, process-mining-pattern, anomaly-detection, CEP, columnar-execution, expert-system, forecasting, LLM-process-analyzer, streaming-join, streaming-window, API interface/API-key authenticator, BaseEntity, Base reload-regression, 25 ingestion, 16 Network, 12 CDC, seven Auth targets, and two Plugin targets consolidated; Windows Debug profile multiple focused registrations reduced from 71 to 1 shared test runner; non-modular profile now has 278 multi-target sources and baseline review remains open; audit-derived production-readiness roadmap pointer and RotatE target clarification; Wave C evidence status unchanged since 2026-10-30; access_model Wave B and readiness claims reconciled to current source evidence)
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). Wave C (Security Production Validation) remains open: the latest tracked closure manifest (2026-10-01) records C1/C2 as successful, C3 sustained-load evidence as pending, and C4 compliance sign-off as in progress. Its linked validation artifact expired 2026-10-30; refresh the evidence before promoting these gates. GA promotion also remains gated by unresolved Wave-A/B evidence and final human sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. **Q3 2026 quarterly pentest complete (2026-09-28): 0 critical findings, 1 high finding (30-day remediation deadline), gate PASS. See `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`.**
 <!--
 AI_Used: true
@@ -72,7 +72,7 @@ This roadmap is now aligned to a source-backed reality check instead of optimist
 | Wave | Source-verified status | Notes |
 |---|---:|---|
 | **Wave A** | ~70% | Transaction and GPU remain the main blockers; sharding/replication/voice are materially advanced |
-| **Wave B** | ~80% | Search, access model, and LLM wiki are substantially implemented; representative-hardware evidence still incomplete |
+| **Wave B** | ~80% | Search and LLM Wiki are substantially implemented; access_model implementation and test sources are present, but benchmark-gate revalidation is pending; representative-hardware evidence remains incomplete |
 | **Wave C** | ~75% | Latest tracked manifest (2026-10-01): C1/C2 success, C3 pending, C4 in progress; linked validation artifact expired 2026-10-30, so refreshed evidence is required before closure |
 | **Wave D** | ~10–20% | Mostly planning and operability work; implementation is still in early stage |
 
@@ -126,7 +126,7 @@ The repository is clearly not a blank or mock project. It contains a substantial
 | RAG / LLM Wiki | Phases A+B COMPLETE | REMEDIATED 2026-08-26 | BM25+, RRF, persistent cache, RocksDB backend wiring, real `LLMJudgeIntegration` path all implemented per `src/llm_wiki/WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md`; remaining: Recall@k sign-off, Wikipedia ABI wiring, representative-hardware p95/p99 validation |
 | GPU/CUDA | CUDA Audit COMPLETE | Source gaps ~70% resolved | CUDA-call audit complete 2026-08-24, RAII guards created (`include/gpu/cuda_raii.h`), 340→~100 unchecked calls remaining per `src/gpu/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`; Phase C/D: representative-hardware baselines, break-even benchmarks, and resource exhaustion tests pending Q4 2026 |
 | storage | Phases 1-5 COMPLETE | REMEDIATED 2026-08-03+ | Fail-closed restore hardening, ggml bridge TT registration, `SecuritySignatureManager` null-backend, remote S3/GCS/Azure manifest transport all delivered per `src/storage/ROADMAP.md` Phase 3-5; remaining: ggml allocator/prefetch production wiring and representative-hardware p95/p99 baselines (Target: Q1 2027) |
-| access_model | Phase 5-6 COMPLETE | DOC sync complete 2026-09-16 | Source shows Phase 5-6 observability, e2e/concurrency tests, GATE-ACM-01..06 all complete per `src/access_model/ROADMAP.md` + `PHASE_5_6_ACCEPTANCE_REPORT.md`; Wave B entry gate updated to `[~]` reflecting actual CI status (Transaction/GPU hardware pending); Wave D runbook cross-links delivered |
+| access_model | Implementation present; validation incomplete | Current source review 2026-11-06 | Phase 5-6 observability and focused test sources are present, but current source does not substantiate the historical GATE-ACM-01..06, p99/RSS, or end-to-end benchmark-pass assertions. Benchmark gate closure and runtime/build/hardware verification require revalidation; the historically referenced `PHASE_5_6_ACCEPTANCE_REPORT.md` is absent. See [`src/access_model/ROADMAP.md`](src/access_model/ROADMAP.md), [`src/access_model/PERFORMANCE_EXPECTATIONS.md`](src/access_model/PERFORMANCE_EXPECTATIONS.md), [`src/access_model/WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md`](src/access_model/WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md), [`benchmarks/access_model/bench_access_coordinator_gates.cpp`](benchmarks/access_model/bench_access_coordinator_gates.cpp), and [`tests/access_model/`](tests/access_model/) |
 | **ai** | **Wave A–C COMPLETE, Wave D PLANNED** | **REMEDIATED 2026-09-16** | Wave A (runtime reliability: validation, retry, fail-closed, output-field validation) ✅; Wave B (Self-RAG/RotatE KGC/Multi-Task LoRA) ✅ SIGNED OFF 2026-09-09 (#6286); Wave C (CAI safety/federated learning/graph phase gate) ✅; Wave D (operability: runbook, observability, soak tests, hardware baselines) 🟡 planned Q1 2027 — see `src/ai/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`, `src/ai/WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md`, `src/ai/WAVE_C_CLOSURE_EVIDENCE_BUNDLE.md`, `src/ai/WAVE_D_ROADMAP.md` |
 
 ## Release Hardening Program (current canonical version: v2.4.0-alpha)
@@ -167,7 +167,7 @@ This month-end audit refresh is intentionally conservative: it treats source cod
 ### Current status (source-validated, 2026-09-30)
 
 - [x] Wave A/B execution is materially advanced on `develop`, with dedicated transaction and GPU lanes restored and the high-risk backlog materially reduced.
-- [x] Search, access model, LLM wiki, auth, process, and security hardening remain source-backed and materially complete in the current tree.
+- [x] At the 2026-09-30 review, Search, access model, LLM wiki, auth, process, and security hardening were reported as source-backed and materially complete; for access_model, that historical implementation summary did not establish current runtime or benchmark-gate validation.
 - [~] Final release readiness remains gated by representative-hardware evidence, audit integration proof, and human sign-off for GA/program promotion.
 - [x] The canonical ethics-AI plugin integration remains `makr-code/themisdb_ethic_ai` → `plugins/themisdb_ethic_ai/`; the parent `plugins/ethics_ai/` directory acts as a compatibility, manifest, and documentation layer only. Private or enterprise-only variants must not be treated as the public repository implementation path.
 
@@ -254,7 +254,7 @@ This execution contract is the active implementation sequence to close hardening
 
 ### Wave B — Performance Consolidation (Q3–Q4 2026)
 - [x] Search: complete real 4-layer `LayeredRetrievalOrchestrator` integration (ANN/Tensor/Graph/LLM) and lock p95/p99 + memory gates for the full chain (Target: Q3–Q4 2026, COMPLETE 2026-08-17/18 per `src/search/ROADMAP.md` + `src/search/WAVE_B_DOCUMENTATION_CLOSURE.md`)
-- [x] Access Model: complete Phase 5–6 observability, concurrency/e2e tests, and benchmark closure for GATE-ACM-01..06 (Target: Q3–Q4 2026, COMPLETE 2026-08-17 per `src/access_model/ROADMAP.md`)
+- [~] Access Model: Phase 5–6 implementation and test sources are present; GATE-ACM-01..06 benchmark closure requires corrected coverage and reproducible evidence (Target: Q3–Q4 2026; revalidation pending). See [`src/access_model/ROADMAP.md`](src/access_model/ROADMAP.md) and [`src/access_model/WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md`](src/access_model/WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md)
 - [x] LLM Wiki Phase A+B: ✅ COMPLETE 2026-08-26 — Phase A (BM25+HNSW+RRF) and Phase B (RocksDB backend) both delivered; in-memory fallback retained for test environments; persistence round-trip verified; representative-hardware p95/p99 evidence pending Q4 2026. See `src/llm_wiki/WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md`
 - [x] Analytics: federated query coordinator per-shard retry (AN1, exponential backoff + jitter) + forecasting model CRC-32 integrity check (AN2) — ✅ COMPLETE 2026-08-26 (8 tests; see `src/analytics/ROADMAP.md`)
 
@@ -268,7 +268,7 @@ This execution contract is the active implementation sequence to close hardening
 
 ### Wave B Exit Criteria (Gate to Wave C)
 - [x] Full 4-layer retrieval chain has stable p95/p99 and bounded memory on representative hardware (Target: Q4 2026) — Search Wave-B closure evidence recorded
-- [x] Access Model benchmark and observability gates are closed with reproducible evidence (Target: Q4 2026) — GATE-ACM-01..06 closed
+- [~] Access Model benchmark and observability gates require reproducible evidence (Target: Q4 2026) — GATE-ACM-01..06 pending revalidation; current benchmark source does not exercise or enforce all declared gate assertions. See [`benchmarks/access_model/bench_access_coordinator_gates.cpp`](benchmarks/access_model/bench_access_coordinator_gates.cpp) and [`src/access_model/PERFORMANCE_EXPECTATIONS.md`](src/access_model/PERFORMANCE_EXPECTATIONS.md)
 - [x] Wave B ML Enhancements (B1 Self-RAG, B2 RotatE KGC, B3 Multi-Task LoRA) exit-gate signed off — ALCE-01..05 + KGC-01..15 + MTL acceptance tests implemented and passing; CI evidence archival complete (2026-09-09, Issue #6286). For B2, this sign-off does not establish the higher MRR/Hits@10 targets stated as unverified in the item above. See `src/ai/ROADMAP.md`, `src/ai/FUTURE_ENHANCEMENTS.md`.
 - [~] Release decisions are based on representative hardware baselines, not module-local-only scaffolding benchmarks (Target: Q4 2026) — partial closure; remaining modules (LLM Wiki Phase B, GPU, Transaction, Voice) require representative-hardware CI validation
 
@@ -318,12 +318,13 @@ This execution contract is the active implementation sequence to close hardening
 | **Base** | Phases 1-6 complete | ✅ All phase code delivered 2026-07-27; benchmark gates (GATE-BASE-07..12) implemented | ✅ All unit/focused tests PASS; ⚠️ CI benchmark comparison step not yet wired into workflow | 🟢 GREEN | Add benchmark comparison gate to CI (Q1 2027 work; non-blocking for GA) |
 | **Core** | Phases 1-6 complete | ✅ Adapter registry + plugin loading delivered | ✅ Focused tests implemented; ⚠️ CI green evidence not documented | 🟢 GREEN | Capture CI green evidence for documentation (non-blocking) |
 | **LLM Wiki** | Phases 3-4 complete; Wave D follow-up | ✅ RocksDB backend + persistent cache + query embedding caching COMPLETE 2026-08-26; 49 tests implemented | ✅ All Phase 3-4 tests PASS (2026-08-24); ⚠️ Security/routing phases (Wave D) not started | 🟢 GREEN | Phase 3-4 complete; Wave D (security/routing) deferred to Q1 2027 per plan (non-blocking for Wave B GA) |
-| **Access Model** | Phases 1-6 complete; Wave B ready | ✅ All phase code COMPLETE 2026-08-17; E2E + concurrency tests (15+12 cases) complete; 6 benchmarks complete | ✅ All tests + benchmarks PASS on `develop` 2026-08-17 | 🟢 GREEN | No action required; explicitly PRODUCTION READY for Wave B GA |
+| **Access Model** | Runtime implementation present; validation incomplete; Wave B evidence pending | ✅ Implementation and focused test sources are present; this does not establish passing build/runtime or release-gate results | ⚠️ Current benchmark source does not support the historical gate/p99/RSS/end-to-end assertions; runtime, build, and representative-hardware verification require revalidation | 🟡 EVIDENCE INCOMPLETE | Revalidate test and benchmark paths with corrected policy/transfer coverage, percentile and RSS measurement, and reproducible threshold enforcement; not explicitly production-ready. See [`src/access_model/ROADMAP.md`](src/access_model/ROADMAP.md) and [`src/access_model/WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md`](src/access_model/WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md) |
 
 **Summary:** 
 - **🔴 CRITICAL blockers (CI execution missing):** 3 (GPU Phase 2-3 tests, Transaction Phase 1-3 tests, Query FTS executor not started)
 - **🟡 HIGH-priority hardening (CI execution pending):** 3 (Auth benchmarks, Server Wave 4-A, LLM Phase 2-5)
-- **🟢 GREEN (CI execution complete or N/A):** 5 (Storage, Base, Core, LLM Wiki, Access Model)
+- **🟡 EVIDENCE INCOMPLETE (runtime/performance validation pending):** 1 (Access Model)
+- **🟢 GREEN (CI execution complete or N/A):** 4 (Storage, Base, Core, LLM Wiki)
 
 ### Program-Level Success Criteria
 - [ ] All distributed and acceleration paths fail closed (Target: Q1 2027)
@@ -1494,7 +1495,7 @@ Plan: `src/MODULE_GAP_ANALYSIS_WAVE2.md` (Wave 2 + Wave 3 konsolidiert).
 | Module | Status | Evidence Snapshot |
 |--------|--------|-------------------|
 | **acceleration** | HARDENING | LOC=26894, Stub/KLOC=7,7, Tests=332, TestRefs=119 |
-| **access_model** | PRODUCTION_CANDIDATE | Phase 5-6 complete (2026-08-17), observability + E2E + benchmark gates delivered (`src/access_model/ROADMAP.md`) |
+| **access_model** | IMPLEMENTED / EVIDENCE INCOMPLETE | Phase 5-6 implementation and test sources are present; GATE-ACM-01..06, runtime, and representative-hardware evidence require revalidation (`src/access_model/ROADMAP.md`, `src/access_model/PERFORMANCE_EXPECTATIONS.md`, `src/access_model/WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md`) |
 | **ai** | HARDENING | LOC=1060, Stub/KLOC=6,6, Tests=47, TestRefs=4 |
 | **ai_working** | THIN/PLACEHOLDER | LOC=0, Stub/KLOC=0, Tests=0, TestRefs=0 |
 | **analytics** | PRODUCTION_CANDIDATE | LOC=34524, Stub/KLOC=3,42, Tests=872, TestRefs=63 |
