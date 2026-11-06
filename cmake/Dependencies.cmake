@@ -1665,28 +1665,25 @@ if(THEMIS_ENABLE_LLM)
         target_compile_options(ggml-base PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:-include;cerrno>")
     endif()
 
-    # ggml-metal.cpp uses std::unique_ptr without including <memory>.
+    # The pinned ggml-metal.cpp uses std::unique_ptr without including <memory>.
+    # Do not rely on transitive libc++ includes or affect C/Objective-C sources.
     if(APPLE AND TARGET ggml-metal)
         target_compile_options(ggml-metal PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:-include;memory>")
     endif()
 
-    # Homebrew Clang rejects Xcode 15.4 SDK enum forward-declaration macros
-    # included by the CPU/BLAS Accelerate backends. Downgrade only this
-    # diagnostic, retaining the warning and leaving C/ObjC and consumers alone.
-    if(APPLE AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    # Homebrew Clang diagnoses fixed-underlying-type enum declarations in the
+    # Xcode 15.4 Accelerate SDK headers included by ggml-cpu C++ sources.
+    # Probe the positive diagnostic form so unknown warning groups cannot pass
+    # silently, then demote only this diagnostic; retain all other -Werror checks.
+    if(APPLE AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND TARGET ggml-cpu)
         include(CheckCXXCompilerFlag)
-        check_cxx_compiler_flag("-Wno-error=elaborated-enum-base"
-            THEMIS_LLAMA_HAS_ELABORATED_ENUM_BASE)
-        if(THEMIS_LLAMA_HAS_ELABORATED_ENUM_BASE)
-            foreach(_ggml_sdk_target IN ITEMS ggml-cpu ggml-blas)
-                if(TARGET ${_ggml_sdk_target})
-                    target_compile_options(${_ggml_sdk_target} PRIVATE
-                        "$<$<COMPILE_LANGUAGE:CXX>:-Wno-error=elaborated-enum-base>")
-                endif()
-            endforeach()
+        check_cxx_compiler_flag("-Werror=elaborated-enum-base" _THEMIS_HAVE_ELABORATED_ENUM_BASE)
+        if(_THEMIS_HAVE_ELABORATED_ENUM_BASE)
+            target_compile_options(ggml-cpu PRIVATE
+                "$<$<COMPILE_LANGUAGE:CXX>:-Wno-error=elaborated-enum-base>")
         endif()
     endif()
-    
+
     # =========================================================================
     # APPLY MSVC CHAR8_T FIXES TO LLAMA TARGETS
     # =========================================================================
