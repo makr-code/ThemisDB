@@ -1,7 +1,11 @@
 ---
+Author: "ThemisDB Team"
+Created: "2026-08-06"
+Last Updated: "2026-11-07"
+Status: "active"
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: "ThemisDB documentation orchestrator"
+AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
@@ -733,9 +737,317 @@ benchmark execution, or release acceptance.
 - Shared bibliography: `../../docs/research/ml_enhancements_bibliography.md`
 - Issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
 
+## Research-Based Version Roadmap: v2.5.0 and v3.0.0
+
+This is a proposed module plan, not a release commitment. `VERSIONING.md`
+identifies v2.5.0 as the next planned MINOR target; no canonical v3.0.0 release
+date or scope was found in the root release documents on 2026-11-07. Root
+`ROADMAP.md` and release governance remain authoritative.
+
+### Current assessment and evidence-based gaps
+
+**Maturity:** RAG has substantial implemented components and focused regression
+coverage, but its integrated quality, authorization, and operational readiness
+are not yet demonstrated by reproducible, representative release evidence.
+Treat the module as **feature-rich, release-readiness conditional**, not as
+validated production-ready end to end. Status labels and component presence are
+not acceptance evidence.
+
+| Area | In-repository evidence and limitation | Research implication |
+|---|---|---|
+| Retrieval and scaling | `HybridRetriever` fuses supplied BM25/vector candidates. `retrieveWithVectorizer()` encodes the query and BM25 candidates; it does not itself query a corpus-wide dense index. `src/rag/RESEARCH.md` records that the cross-encoder scorer remains heuristic even when a model is marked loaded. | Keep BM25 and dense-only baselines, measure hybrid fusion and real reranking as separate ablations on multiple domains; do not infer generalization from a single fixture. |
+| Evaluation and usability | Each checked-in v1 dataset is a four-record synthetic smoke fixture; `baselines_v1.json` has null measured metrics. The evaluation workflow validates artifacts and conditionally checks Recall@10 only when results are supplied; it does not collect the complete contract. | Separate retrieval, context, and answer quality; add human-checked representative judgments and uncertainty estimates before using automated judges as release gates. |
+| Security and resilience | `prompt_injection_detector.cpp` provides pattern-based scanning. `ROADMAP.md` records that the retrieval-policy workflow validates a specification, not request-path enforcement. | Treat retrieved content and ingested corpora as untrusted. Enforce authorization before context assembly; test indirect injection, corpus poisoning, cross-tenant access, and resource exhaustion. |
+| Governance and operations | The module roadmap records local-only OTEL span serialization, in-memory cost attribution, and placeholder cost-model drift/retraining behavior. | Track index, corpus, policy, and model versions; emit safe per-stage diagnostics; test fallback, rollback, and data-retention controls. |
+
+These observations are limited to the inspected checkout and cited artifacts.
+The benchmark declarations and contract targets below are not measured results.
+
+### v2.5.0 — evidence closure and backward-compatible hardening
+
+**Objective:** make existing RAG behavior measurable, safer, and operable without
+changing established public contracts. Proposed priority is P0 for Waves 1 and
+3, P1 for Wave 2. Estimates are engineering person-weeks (one person-week is
+five focused engineering days); they exclude cross-team review and data
+procurement.
+
+#### Wave 2.5-1 — representative evaluation and release evidence (P0)
+
+- **Goal:** make the RAG Evaluation Contract executable and reproducible.
+- [ ] Choose and version representative general, code, multi-hop, and
+  multilingual query sets with provenance, usage rights, relevance labels, and
+  an explicit smoke-vs-release distinction. (Target: v2.5.0, Wave 1)
+- [ ] Implement a runner recording Recall@10, nDCG@10, MRR@10, faithfulness,
+  relevance, p95/p99, cost/query, run configuration, and git/model/index
+  identifiers. (Target: v2.5.0, Wave 1)
+- [ ] Retain result artifacts and compare them against a human-approved
+  baseline. (Target: v2.5.0, Wave 1)
+- [ ] Make `release_critical` fail closed when required datasets or metric
+  results are absent; fixture validation alone must not pass evaluation.
+  (Target: v2.5.0, Wave 1)
+- **Dependencies:** RAG/LLM/query owners, dataset licensing and privacy review,
+  `EVALUATION_CONTRACT_V1.md`, `benchmarks/rag/`, and CI artifact retention.
+- **Effort:** 4–6 person-weeks.
+- **Risk / trade-off:** human labels and datasets take time; judge metrics can
+  drift or hide subgroup regressions. Use blinded human spot-checks, dataset
+  versioning, and per-domain results; do not automatically re-baseline.
+- **Success metrics:** every required release run emits all contract metrics
+  and a complete manifest; no missing results pass the gate; regression checks
+  apply the thresholds in `EVALUATION_CONTRACT_V1.md` to measured results only.
+  The contract's absolute targets remain targets until representative runs
+  establish their suitability.
+- **Validation:** unit tests for metric calculations and artifact validation;
+  end-to-end runner tests on smoke fixtures; representative benchmark runs with
+  paired query-level confidence intervals and a human-reviewed sample; workflow
+  tests for missing, malformed, and regressed results; provenance/license and
+  privacy review.
+
+#### Wave 2.5-2 — retrieval quality, ranking, and budgets (P1)
+
+- **Goal:** ensure retrieval and reranking quality gains are real and fit
+  measured latency and cost budgets.
+- [ ] Compare BM25-only, dense-only, current RRF, and configured linear fusion;
+  test candidate depth, fusion constant, and deterministic ties.
+  (Target: v2.5.0, Wave 2)
+- [ ] Connect dense retrieval to a corpus candidate source rather than only
+  rescoring BM25 candidates. (Target: v2.5.0, Wave 2)
+- [ ] Implement and validate actual cross-encoder inference, or report the
+  heuristic scorer as such and avoid `used_model` implying model inference.
+  (Target: v2.5.0, Wave 2)
+- [ ] Record embedding/model/index versions and make unavailable-model fallback
+  explicit. (Target: v2.5.0, Wave 2)
+- [ ] Tune reranking triggers against quality–latency–cost curves.
+  (Target: v2.5.0, Wave 2)
+- **Dependencies:** Wave 2.5-1 datasets and runner, the vector/index owners,
+  supported ONNX/runtime configurations, and embedding/index version metadata.
+- **Effort:** 5–8 person-weeks.
+- **Risk / trade-off:** reranking can improve ranking while increasing tail
+  latency, memory, or model-operational burden; dense and lexical results may
+  differ across domains. Keep BM25 as a baseline and make optional model
+  paths observable and explicitly degradable.
+- **Success metrics:** on the approved held-out datasets, target at least 5%
+  relative nDCG@10 improvement over the selected baseline with no more than 10%
+  p95 latency increase, consistent with the existing module enhancement target;
+  report Recall@10/MRR@10, p99, and cost/query alongside it. Accept only with
+  confidence intervals and no contract-threshold regression. These are proposed
+  targets, not current measurements.
+- **Validation:** fusion and tie-break unit/property tests; ONNX-enabled and
+  unavailable-runtime integration tests; retrieval ablations and representative
+  corpus benchmarks at declared sizes/concurrency; compare p50/p95/p99, quality,
+  memory, and cost against the Wave 2.5-1 baseline.
+
+#### Wave 2.5-3 — retrieval authorization, safety, and operations (P0)
+
+- **Goal:** make security policy and degraded-mode behavior effective on the
+  actual request path and observable to operators.
+- [ ] Enforce tenant/document authorization before retrieved content is
+  assembled into a generation context; deny when identity or policy is
+  unavailable or expired. (Target: v2.5.0, Wave 3)
+- [ ] Test hostile retrieved instructions and poisoned-ingestion cases in
+  addition to detector-pattern unit tests. (Target: v2.5.0, Wave 3)
+- [ ] Attach stable source IDs and policy/index/model versions to audit records,
+  redacting prompt/document contents by default. (Target: v2.5.0, Wave 3)
+- [ ] Define timeout, partial-result, retry, and fallback semantics.
+  (Target: v2.5.0, Wave 3)
+- [ ] Document persistence and OTLP transport limitations and close or
+  explicitly gate them before relying on those capabilities.
+  (Target: v2.5.0, Wave 3)
+- **Dependencies:** Wave 2.5-1 traceable test data, identity/security policy
+  owners, index metadata, and the observability/runtime owners.
+- **Effort:** 4–6 person-weeks.
+- **Risk / trade-off:** fail-closed authorization may reduce availability during
+  policy outages; logging can leak sensitive content if it captures raw
+  passages. Prefer explicit unavailable responses, bounded retries, and
+  metadata-only traces with access and retention controls.
+- **Success metrics:** zero unauthorized document/context disclosures in
+  cross-tenant and missing/expired-policy tests; every allow/deny outcome has
+  attributable policy and index versions; no raw query or retrieved text is
+  emitted by default; publish measured guardrail latency and resource overhead
+  under the Wave 2.5-1 workloads.
+- **Validation:** negative integration tests across all public RAG entry paths;
+  adversarial retrieval and ingestion tests; outage/timeout/partial-failure and
+  soak tests; audit completeness, redaction, retention, and security review.
+
+#### v2.5.0 exit and release validation
+
+- All three waves pass their stated validation and have reviewed evidence
+  artifacts; no specification-only or smoke-only result is promoted as a
+  production measurement.
+- Run focused `tests/rag/` regressions, representative evaluation, benchmark
+  profiles, security/privacy checks, and release-profile integration tests.
+- Require RAG, security, and operations sign-off. Root release gates and human
+  approval still control release readiness.
+
+### v3.0.0 — strategic retrieval platform evolution
+
+**Objective:** enable a versioned, policy-aware and topology-independent RAG
+contract for larger and more diverse deployments. These are candidate directions
+only: the root versioning/release documents do not yet define v3.0.0 timing or
+scope. Start only after v2.5.0 evidence is available and the root roadmap
+approves the scope. Proposed priority is P1; estimates exclude migration of
+customer data and cross-module delivery.
+
+#### Wave 3.0-1 — versioned retrieval and provenance contract (P1)
+
+- **Goal:** provide a stable, explicit contract for retrieval identity,
+  provenance, authorization, and freshness across API boundaries.
+- [ ] Define versioned typed retrieval/citation metadata.
+  (Target: v3.0.0, Wave 1)
+- [ ] Make tenant and document-policy filters explicit retrieval inputs.
+  (Target: v3.0.0, Wave 1)
+- [ ] Define consistent freshness, duplicate-ID, and partial-result semantics.
+  (Target: v3.0.0, Wave 1)
+- [ ] Publish index and embedding schema/version transitions and a
+  migration/rollback plan. (Target: v3.0.0, Wave 1)
+- [ ] Document any public API break before implementation.
+  (Target: v3.0.0, Wave 1)
+- **Dependencies:** accepted v2.5.0 contracts and security findings; API,
+  storage/index, ingestion, and identity owners; approved major-version RFC.
+- **Effort:** 4–7 person-weeks.
+- **Risk / trade-off:** a stronger contract may require a public API/schema
+  change and client migration. Prefer additive/versioned evolution unless the
+  RFC demonstrates that a break is necessary; do not add an unapproved legacy
+  fallback.
+- **Success metrics:** all public retrieval results carry stable source and
+  version identifiers; authorization is applied consistently before context
+  assembly; migration tests prove deterministic upgrade, rollback, and
+  unchanged read semantics for supported data.
+- **Validation:** API contract and compatibility tests; migration/rollback
+  integration tests over versioned fixtures; policy boundary tests; review of
+  API, storage, and migration documentation.
+
+#### Wave 3.0-2 — distributed retrieval and bounded orchestration (P1)
+
+- **Goal:** scale hybrid retrieval across shards and workloads while preserving
+  quality, freshness, and predictable resource limits.
+- [ ] Define bounded candidate fan-out and merge behavior.
+  (Target: v3.0.0, Wave 2)
+- [ ] Add topology-aware routing and explicit partial-shard/freshness signals.
+  (Target: v3.0.0, Wave 2)
+- [ ] Enforce request-wide latency, token, and compute budgets across retrieval,
+  reranking, and generation. (Target: v3.0.0, Wave 2)
+- [ ] Benchmark online updates alongside concurrent queries.
+  (Target: v3.0.0, Wave 2)
+- [ ] Implement deterministic degradation and recovery.
+  (Target: v3.0.0, Wave 2)
+- **Dependencies:** Wave 3.0-1 metadata contract, sharding/index capabilities,
+  distributed observability, and representative hardware/topologies.
+- **Effort:** 6–10 person-weeks.
+- **Risk / trade-off:** fan-out increases tail latency and resource use; stale or
+  missing shards can silently harm recall. Bound fan-out, surface partial
+  results, and compare distributed results with a single-node oracle.
+- **Success metrics:** at a declared 10× corpus/shard workload, Recall@10 is
+  within 2 percentage points of the single-node oracle; p95/p99, throughput,
+  memory, and freshness remain inside per-profile limits established from
+  representative baselines; resource queues remain bounded under overload.
+- **Validation:** shard-level recall and merge tests; fault-injection for timeout,
+  partition, stale replica, and recovery; concurrent ingest/query soak tests;
+  scale-out and overload benchmarks with per-stage and end-to-end metrics.
+
+#### Wave 3.0-3 — lifecycle governance and auditable operation (P1)
+
+- **Goal:** make corpus, embedding, index, policy, and model changes
+  reproducible, reviewable, and reversible over their full lifecycle.
+- [ ] Establish a versioned lineage manifest for source corpus,
+  preprocessing/chunking, embedding model, index schema, retrieval policy, and
+  evaluation set. (Target: v3.0.0, Wave 3)
+- [ ] Provide shadow/canary comparison and human-approved promotion/rollback.
+  (Target: v3.0.0, Wave 3)
+- [ ] Specify retention, deletion, and access controls for evaluation and
+  telemetry data. (Target: v3.0.0, Wave 3)
+- [ ] Link quality and operational alerts to runbooks and owners.
+  (Target: v3.0.0, Wave 3)
+- **Dependencies:** Waves 3.0-1 and 3.0-2, governance/security owners, durable
+  storage, and production telemetry.
+- **Effort:** 4–8 person-weeks.
+- **Risk / trade-off:** richer lineage and audit can add storage, operations, and
+  privacy costs; preserve only necessary metadata and document retention.
+- **Success metrics:** every release evaluation and production decision is
+  traceable to immutable corpus/index/model/policy versions; canary rollback
+  restores the prior version without data loss; all defined critical alerts
+  have an owner and tested runbook; retention and deletion checks pass.
+- **Validation:** reproducibility checks from manifests; canary/rollback and
+  recovery drills; access, retention, and deletion tests; audit sampling and
+  operational sign-off.
+
+### Research basis, trade-offs, and open assumptions
+
+The research supports measuring retrieval and generation separately and
+comparing alternatives on heterogeneous, task-representative workloads. It does
+not guarantee that a published method or reported gain transfers to ThemisDB.
+RRF is a useful score-independent fusion baseline, not a universally optimal
+choice; reranking quality must be weighed against latency and compute. Automated
+judges need human calibration and uncertainty reporting. Retrieved content and
+the corpus are security boundaries: pattern detection alone is not authorization
+or a complete injection defense. These findings motivate the waves above; they
+are not claims of a current defect beyond the code and workflow evidence listed
+in the assessment table.
+
+Open assumptions and knowledge gaps to resolve before commitment:
+
+- The four synthetic fixtures are plumbing tests, not representative datasets;
+  dataset ownership, licensing, privacy constraints, and production query
+  distributions are unknown.
+- Supported corpus sizes, concurrency, hardware profiles, SLA tiers, and cost
+  accounting inputs have not been established by the inspected module evidence.
+- The identity/policy enforcement point for every production RAG entry path
+  needs confirmation with security and server owners.
+- ONNX availability, supported reranker models, tokenizer compatibility, and
+  model redistribution rights need an explicit support matrix.
+- The developer LLM wiki has no curated RAG module page in the consulted
+  `MODULES_AND_APIS.md`; the wiki status was generated 2026-11-02. Keep module
+  source documents as evidence and track a separate wiki synchronization when
+  that curated context is next maintained.
+- Effort estimates are engineering planning ranges, not staffing commitments.
+  v3.0.0 scope, release date, and any breaking change require root governance
+  approval.
+
+#### Selected research references
+
+1. N. Thakur et al., “BEIR: A Heterogeneous Benchmark for Zero-shot Evaluation
+   of Information Retrieval Models” (2021), [arXiv:2104.08663](https://arxiv.org/abs/2104.08663).
+   Supports heterogeneous evaluation and retaining lexical baselines; it does
+   not predict ThemisDB's corpus-specific results.
+2. G. V. Cormack, C. L. A. Clarke, and S. Büttcher, “Reciprocal Rank Fusion
+   outperforms Condorcet and Individual Rank Learning Methods” (2009),
+   [DOI:10.1145/1571941.1572114](https://doi.org/10.1145/1571941.1572114).
+   Motivates RRF as a fusion baseline, not as a universal winner.
+3. J. Saad-Falcon et al., “ARES: An Automated Evaluation Framework for
+   Retrieval-Augmented Generation Systems” (2024),
+   [arXiv:2311.09476](https://arxiv.org/abs/2311.09476). Supports separating
+   context relevance, answer faithfulness, and answer relevance and calibrating
+   automated evaluation with human labels and uncertainty.
+4. D. Ru et al., “RAGChecker: A Fine-grained Framework for Diagnosing
+   Retrieval-Augmented Generation” (2024),
+   [arXiv:2408.08067](https://arxiv.org/abs/2408.08067). Motivates stage-level
+   diagnostics; metrics still need local validation.
+5. K. Greshake et al., “Not What You've Signed Up For: Compromising Real-World
+   LLM-Integrated Applications with Indirect Prompt Injection” (2023),
+   [arXiv:2302.12173](https://arxiv.org/abs/2302.12173), and W. Zou et al.,
+   “PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation
+   of Large Language Models” (2024),
+   [arXiv:2402.07867](https://arxiv.org/abs/2402.07867). Motivate untrusted
+   retrieval inputs, corpus provenance, and adversarial tests; neither paper
+   validates a particular defense for this module.
+6. OWASP GenAI Security Project, [Top 10 for LLM Applications 2025](https://genai.owasp.org/llm-top-10/).
+   Identifies prompt injection, poisoning, vector/embedding weaknesses, and
+   unbounded consumption as practitioner risks; it is guidance, not a
+   certification.
+7. NIST, [AI Risk Management Framework: Generative Artificial Intelligence
+   Profile, AI 600-1 (2024)](https://doi.org/10.6028/NIST.AI.600-1). Provides
+   lifecycle governance framing (Govern, Map, Measure, Manage), not RAG-specific
+   thresholds.
+8. OpenTelemetry, [Generative AI semantic conventions](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-spans.md).
+   Useful for per-stage tracing; conventions are evolving and should be pinned
+   and versioned before being treated as an interoperability contract.
+
 ## Breaking Changes
 
-- No roadmap-level breaking change planned; any required contract break must be versioned and documented in changelog and migration notes before merge.
+- v2.5.0: no roadmap-level public API break is planned.
+- v3.0.0: a versioned retrieval/provenance contract change is a candidate only;
+  it is not approved or committed. Any break requires a reviewed RFC, explicit
+  root release-governance approval, migration/rollback documentation, and
+  changelog entry before implementation.
 
 ## Wave D Contribution for `rag` (Q1 2027)
 
