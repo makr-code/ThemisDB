@@ -651,7 +651,7 @@ jobs:
         run: |
           set -euo pipefail
           cd "${{ inputs.working_directory }}"
-          python "${GITHUB_WORKSPACE}/${THEMIS_CACHE_TOOLS_PREFIX}scripts/prepare-windows-dependencies.py" --log "$RUNNER_TEMP/cmake-build-configure-output.log"
+          python "${GITHUB_WORKSPACE}/${THEMIS_CACHE_TOOLS_PREFIX}scripts/prepare-windows-dependencies.py" --bash "$(cygpath -w "$BASH")" --log "$RUNNER_TEMP/cmake-build-configure-output.log"
 
       - name: Save dependency snapshot before ThemisDB compile
         id: dependency_save

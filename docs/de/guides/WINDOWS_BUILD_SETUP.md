@@ -33,6 +33,9 @@ einem Windows-Vorbereitungsfehler weiter.
   Restore und Setup). Beim kontrollierten Timeout beendet er unter Windows mit
   `taskkill.exe /PID <pid> /T /F` den Prozessbaum und liefert Exit-Code **124**.
   Fehlercodes normaler Installationsfehler werden unverändert weitergegeben.
+  Der Workflow übergibt den nativen Pfad seiner aktiven Git-Bash an den Supervisor;
+  eine `bash`-Suche über Windows-PATH könnte stattdessen WSL ohne Distribution starten
+  (Run 42396942036, Job 128476529660).
 - Anschließend wird auch bei Installationsfehlern oder kontrolliertem Timeout
   ein neuer partieller Cache-Snapshot gespeichert (Upload-Budget **30 Minuten**).
   Der 360-Minuten-Job lässt damit Zeit für Beendigung und Upload; ein `always()`
