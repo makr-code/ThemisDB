@@ -45,6 +45,11 @@ on:
         required: false
         default: all
         type: string
+      windows_dependency_concurrency:
+        description: Modest vcpkg parallelism, independent of serial ThemisDB MSVC
+        required: false
+        default: '2'
+        type: string
 
 permissions:
   contents: read
@@ -58,7 +63,7 @@ jobs:
   run-summary:
     name: "Validate: Run Summary"
     if: always()
-    needs: [linux-release, windows-release, prepare-release-matrix, release-platform-matrix, runtime-artifact-gate]
+    needs: [linux-release, windows-release, prepare-release-matrix, windows-dependencies, release-platform-matrix, runtime-artifact-gate]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -106,6 +111,8 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       matrix: ${{ steps.plan.outputs.matrix }}
+      windows_lane: ${{ steps.plan.outputs.windows_lane }}
+      windows_enabled: ${{ steps.plan.outputs.windows_enabled }}
     steps:
       - name: Plan selected build matrix entries
         id: plan
@@ -119,6 +126,7 @@ jobs:
           PACKAGING: ${{ inputs.packaging }}
           DISTRIBUTION: ${{ inputs.distribution }}
           RUN_NUMBER: ${{ github.run_number }}
+          WINDOWS_DEPENDENCY_CONCURRENCY: ${{ inputs.windows_dependency_concurrency }}
         run: |
           set -euo pipefail
           python3 - <<'PY' >> "$GITHUB_OUTPUT"
@@ -133,6 +141,9 @@ jobs:
           packaging = os.environ["PACKAGING"].strip()
           distribution = os.environ["DISTRIBUTION"].strip().lower()
           run_number = os.environ["RUN_NUMBER"]
+          dependency_concurrency = os.environ.get("WINDOWS_DEPENDENCY_CONCURRENCY", "2")
+          if dependency_concurrency not in {"1", "2", "3", "4"}:
+              raise ValueError("Windows dependency concurrency must be between 1 and 4")
           allowed_editions = {"minimal", "community", "enterprise", "hyperscaler", "military"}
           allowed_build_types = {"Release", "Debug"}
           packaging_token_normalization = {
@@ -268,7 +279,7 @@ jobs:
                   "compiler": "msvc",
                   "triplet": "x64-windows",
                   "setup_command": "set -euo pipefail\nchoco install -y sccache || echo \"::warning::sccache install via choco failed; continuing without sccache cache.\"\ngit submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true\ngit submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF\ntest -f vcpkg/scripts/buildsystems/vcpkg.cmake || {\n  echo \"::error::vcpkg submodule/toolchain missing before bootstrap\"\n  exit 1\n}\n./vcpkg/bootstrap-vcpkg.bat -disableMetrics",
-                  "configure_command": "set -euo pipefail\nexport VCPKG_MAX_CONCURRENCY=1\nexport CMAKE_BUILD_PARALLEL_LEVEL=1\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --preset windows-release ${CMAKE_FLAGS} 2>&1 | tee configure-windows-release.log",
+                  "configure_command": f"set -euo pipefail\nexport VCPKG_MAX_CONCURRENCY={dependency_concurrency}\nexport CMAKE_BUILD_PARALLEL_LEVEL={dependency_concurrency}\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --preset windows-release ${{CMAKE_FLAGS}} -DVCPKG_HOST_TRIPLET=x64-windows ${{THEMIS_WINDOWS_DEPENDENCY_FLAGS:-}} 2>&1 | tee configure-windows-release.log",
                   "build_command": "set -euo pipefail\nexport VCPKG_MAX_CONCURRENCY=1\nexport CMAKE_BUILD_PARALLEL_LEVEL=1\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --build --preset windows-release --parallel 1 2>&1 | tee build-windows-release.log",
                   "validation_command": "set -euo pipefail\nctest --preset windows-release --output-on-failure -j 1 --timeout 60 2>&1 | tee test-windows-release.log\n\ncmake --install build-msvc-windows-release --prefix build-msvc-windows-release/install 2>&1 | tee install-windows-release.log\n\nBUILD_DIR=\"${GITHUB_WORKSPACE}/build-msvc-windows-release\"\nPACKAGES_DIR=\"${GITHUB_WORKSPACE}/packages\"\nrm -rf \"${PACKAGES_DIR}\"\nmkdir -p \"${PACKAGES_DIR}\"\n\nfor GEN in ${PACKAGE_GENERATORS}; do\n  if ! command -v candle &>/dev/null 2>&1 && [ \"${GEN}\" = \"WIX\" ]; then\n    echo \"::notice::WiX (candle) not found - MSI generator skipped.\"\n    continue\n  fi\n  echo \"--- Running CPack generator: ${GEN} ---\"\n  cpack --config \"${BUILD_DIR}/CPackConfig.cmake\" \\\n    -B \"${PACKAGES_DIR}\" \\\n    -G \"${GEN}\" 2>&1 | tee \"${GITHUB_WORKSPACE}/cpack-${GEN}-windows-release.log\" || \\\n    echo \"::warning::CPack generator ${GEN} failed - continuing.\"\ndone\n\nif ! find \"${PACKAGES_DIR}\" -maxdepth 1 \( -name '*.zip' -o -name '*.msi' -o -name '*.exe' \) -print -quit | grep -q .; then\n  echo \"::error::No Windows package artifacts were produced in ${PACKAGES_DIR}\"\n  exit 1\nelse\n  echo \"Packages produced:\"\nls -lh \"${PACKAGES_DIR}\" || true\nfi",
                   "build_directory": "build-msvc-windows-release",
@@ -344,12 +355,37 @@ jobs:
           selected = [entry for entry in entries if entry["enabled"]]
           if not selected:
               raise ValueError("Release matrix selected no platforms")
+          windows_lane = next(entry for entry in entries if entry["id"] == "windows-amd64")
+          print(f"windows_lane={json.dumps(windows_lane)}")
+          print(f"windows_enabled={str(windows_lane['enabled']).lower()}")
           print(f"matrix={json.dumps({'include': selected})}")
           PY
 
+  windows-dependencies:
+    name: "Prepare: Windows Release Dependencies"
+    needs: prepare-release-matrix
+    if: needs.prepare-release-matrix.outputs.windows_enabled == 'true'
+    uses: ./.github/workflows/reusable-cmake-build.yml
+    with:
+      windows_dependency_mode: prepare
+      enable_sccache_gha: true
+      runs_on: windows-latest
+      cache_arch: x64
+      cache_compiler: msvc
+      vcpkg_triplet: x64-windows
+      source_sha: ${{ inputs.source_sha || github.sha }}
+      setup_command: ${{ fromJSON(needs.prepare-release-matrix.outputs.windows_lane).setup_command }}
+      configure_command: ${{ fromJSON(needs.prepare-release-matrix.outputs.windows_lane).configure_command }}
+      build_directory: ${{ fromJSON(needs.prepare-release-matrix.outputs.windows_lane).build_directory }}
+      summary_title: Windows Dependency Preparation
+      timeout_minutes: '360'
+
   release-platform-matrix:
     name: "Build: ${{ matrix.summary_title }}"
-    needs: prepare-release-matrix
+    needs: [prepare-release-matrix, windows-dependencies]
+    # Non-Windows lanes still run when Windows preparation fails or is disabled.
+    # Windows consume mode fails closed before setup/compile if no snapshot exists.
+    if: ${{ !cancelled() && needs.prepare-release-matrix.result == 'success' }}
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.prepare-release-matrix.outputs.matrix) }}
@@ -359,6 +395,8 @@ jobs:
 
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
+      windows_dependency_mode: ${{ matrix.id == 'windows-amd64' && 'consume' || 'off' }}
+      dependency_cache_key: ${{ matrix.id == 'windows-amd64' && needs.windows-dependencies.outputs.dependency-cache-key || '' }}
       enable_sccache_gha: ${{ matrix.enable_sccache_gha }}
       runs_on: ${{ matrix.runs_on }}
       cache_arch: ${{ matrix.arch }}
@@ -366,7 +404,7 @@ jobs:
       vcpkg_triplet: ${{ matrix.triplet }}
       shell: bash
       fetch_depth: '0'
-      source_sha: ${{ inputs.source_sha }}
+      source_sha: ${{ inputs.source_sha || github.sha }}
       setup_command: ${{ matrix.setup_command }}
       configure_command: ${{ matrix.configure_command }}
       build_directory: ${{ matrix.build_directory }}
