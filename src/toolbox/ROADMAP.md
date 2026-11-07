@@ -38,7 +38,9 @@ Human_Author: "ThemisDB Team"
 3. FastCDC research improves content-defined chunking for data deduplication, but that objective is not equivalent to semantic or token-based document chunking. Keep `TextChunker` aligned with the RAG splitter unless a measured use case justifies another strategy and establishes retrieval-quality parity. ([Xia et al., USENIX ATC 2016](https://www.usenix.org/conference/atc16/technical-sessions/presentation/xia))
 4. Microbenchmark output must not be mistaken for service-tail latency. Use repeated, controlled runs for helper comparisons, and a request-level integration harness for p95/p99 bridge/extraction latency. Record build, host, input corpus, repetitions, and raw output; Google Benchmark documents repetitions and random interleaving as tools for reducing run variability, not as proof of production performance. ([Google Benchmark User Guide](https://google.github.io/benchmark/user_guide.html))
 
-## Priorities by Release
+## Planned Features
+
+### Priorities by Release
 
 ### v2.5.0 — compatible evidence and hardening
 
