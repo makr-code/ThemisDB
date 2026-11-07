@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "unknown (pre-existing document; creation date not recorded)"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-07"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -22,7 +22,7 @@ Human_Author: "ThemisDB Contributors"
 # Network Module Roadmap
 
 ## Current Status
-Transport and protocol implementation surfaces include TCP wire protocol, WebSocket, UDP, optional QUIC/HTTP3, and gRPC. Build flags, runtime wiring, and production-readiness evidence vary by transport.
+Transport and protocol implementation surfaces include TCP wire protocol, WebSocket, UDP, optional QUIC/HTTP3, and gRPC. The public contract and focused tests cover frame/session guards, bounded lifecycle behavior, retries, and routing. However, optional build flags and runtime wiring vary by transport, most resilience tests use deterministic stand-ins, and the protocol-path benchmarks are stubs; these do not establish live-network capacity or production tail latency. Current maturity is therefore **feature-rich, contract-tested, but not yet performance- or deployment-validated across transports**.
 
 ## In Progress
 - [~] Network hardening wave for protocol safety, transport resilience, and predictable latency behavior (Target: Q3 2026)
@@ -32,15 +32,13 @@ Transport and protocol implementation surfaces include TCP wire protocol, WebSoc
 
 ## Planned Features
 
-### Short-term (3-6 months)
-- [x] Expand transport-level regression coverage for mixed TCP/WS/UDP/QUIC deployments (Target: Q4 2026) — NTR-08 in tests/network/test_network_transport_resilience_focused.cpp
-- [x] Strengthen distributed routing and failover diagnostics for operator triage (Target: Q4 2026) — NRH-06..NRH-07 in tests/network/test_network_routing_hardening_focused.cpp
-- [x] Harden connection lifecycle guardrails (limits, backpressure, timeout interplay) under peak load (Target: Q4 2026) — NLG-01..NLG-08 in tests/network/test_network_lifecycle_guardrails_focused.cpp
+### v2.5.0 — backward-compatible evidence and operations
+- [ ] Complete Waves 1–3 below: establish live-transport performance baselines, validate enabled transports under faults, and close operator-visible telemetry gaps (Target: v2.5.0)
+- [ ] Preserve the frozen v1.x wire/API contract; add only backward-compatible APIs or behavior, with `release_critical` green on `develop` before promotion (Target: v2.5.0)
 
-### Mid-term (6-12 months)
-- [~] Improve protocol-path performance consistency with benchmark-backed promotion gates (Target: Q1 2027) — NRG-P1..NRG-P4 stub benchmarks created in benchmarks/network/bench_network_protocol_path.cpp; hardware baselines pending Wave D sign-off
-- [~] Expand resilience validation for mesh/topology-aware routing under partial failures (Target: Q1 2027) — stress coverage delivered via HighConcurrencyConnectionStress + MixedFrameTypeHighCardinality in tests/network/test_network_highcardinality_stress.cpp; full mesh/topology benchmarks pending
-- [~] Advance transport observability and security telemetry fidelity across all network front doors (Target: Q1 2027) — operator runbook and D1 trace span cross-links delivered in docs/operability/RUNBOOK_NETWORK_TRANSPORT.md; instrumentation targets listed for Phase 2A
+### v3.0.0 — strategic protocol and control-plane evolution
+- [ ] Complete Waves 4–6 below: specify explicit wire capability/version negotiation, harden service-mesh control-plane security, and validate bounded behavior at multi-node scale (Target: v3.0.0)
+- [ ] Any intentional wire/API incompatibility requires an approved migration plan, compatibility matrix, and release-note coverage before implementation (Target: v3.0.0)
 
 ### Distributed Maturity Phase 3 — Track 2 Items (Q3–Q4 2026)
 
@@ -84,11 +82,14 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 - [~] Measure protocol throughput and tail-latency envelopes across representative production mixes (Target: Q1 2027) — representative hardware baselines remain pending
 - [~] Measure compression/batching/zero-copy overhead under high concurrency (Target: Q1 2027)
 
-### Phase 5: Documentation and Release Readiness
+### Phase 5: Performance and Hardening
 - [x] Define regression thresholds for in-process network helper gates: NRG-01..NRG-06 in benchmarks/network/bench_network_release_gates.cpp (TCP dispatch p99≤200µs, auth check p99≤100µs, rate-limit p99≤50µs, WS dispatch p99≤300µs, mock accept p99≤1ms, serialize p99≤100µs) (Target: Q3 2026)
 - [x] Extended routing/CB/lifecycle benchmark gates: NRG-07..NRG-12 in benchmarks/network/bench_network_routing_gates.cpp (topology select, LB forward, CB shouldAllow, connection limit, queue gate, session guard) (Target: Q4 2026)
-- [x] Keep network docs source-aligned with explicit sourcecode verification evidence per cycle (Target: ongoing)
-- [x] Keep completed roadmap items exclusively in changelog (Target: ongoing)
+- [ ] Replace or clearly separate stub-only NRG-P1..NRG-P4 cases from promotion gates by adding real transport-path measurements (Target: v2.5.0)
+
+### Phase 6: Documentation and Release Acceptance
+- [ ] Keep roadmap status, test/benchmark evidence, and transport enablement claims aligned with current source; do not treat helper/stub results as production evidence (Target: ongoing)
+- [ ] Keep completed work in the changelog and obtain human release sign-off against the applicable v2.5.0 or v3.0.0 wave gates (Target: each release)
 
 ## Production Readiness Checklist
 - [x] Tracking in progress
@@ -113,6 +114,50 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 - Some cross-transport fault combinations still need broader evidence under long-duration stress.
 - Certain route/mesh/topology scenarios require additional benchmark and resilience validation.
 - Operator-facing diagnostics for complex multi-transport incidents continue to be refined.
+
+## Research-Based Release Plan — v2.5.0 and v3.0.0
+
+### Research and evidence basis
+
+IETF QUIC standards define a secure multiplexed transport with flow control, migration, TLS integration, loss recovery, and congestion control; HTTP/3 maps HTTP semantics onto QUIC rather than making every QUIC transport an HTTP/3 implementation ([RFC 9000](https://www.rfc-editor.org/rfc/rfc9000), [RFC 9001](https://www.rfc-editor.org/rfc/rfc9001), [RFC 9002](https://www.rfc-editor.org/rfc/rfc9002), [RFC 9114](https://www.rfc-editor.org/rfc/rfc9114)). They motivate testing loss, migration, flow-control, handshake, and congestion behavior on real enabled paths rather than inferring transport readiness from helper tests. In particular, QUIC 0-RTT early data has replay considerations; mutating operations must not be accepted unless the application provides replay-safe semantics.
+
+TailBench's peer-reviewed latency-critical workload methodology demonstrates why service performance needs realistic workload arrivals and tail-percentile reporting, not only isolated operation timing ([Kasture and Sanchez, IISWC 2016](https://dspace.mit.edu/handle/1721.1/112803)). For this module, keep open-loop/offered-load behavior, achieved throughput, p50/p95/p99 latency, errors, CPU, and memory in each live-load result. Fix and report machine, compiler, flags, transport configuration, workload, and run length; compare against a recorded same-hardware baseline.
+
+### Code-to-evidence gap analysis
+
+| Area | Source-grounded current state | Gap and consequence |
+|---|---|---|
+| Contracts and safety | `include/network/network_api_contract.h` specifies frame/auth/session checks, limits, lifecycle, errors, and fail-closed behavior; focused contract suites exist under `tests/network/`. | Contract tests establish local invariants, not independent client interoperability or behavior over a live listener under load. |
+| Transports and use | TCP wire protocol, WebSocket, UDP, optional QUIC, and gRPC surfaces exist; feature enablement varies by build. `include/network/quic_transport.h` describes a QUIC binary wire transport, distinct from HTTP/3 semantics in RFC 9114. | Feature presence and configuration tests do not prove the transport is enabled, interoperable, or operationally supported in a target deployment. |
+| Application scenarios | `src/network/ARCHITECTURE.md` identifies native client and node-to-node traffic; WebSocket and UDP provide distinct realtime/datagram paths. | There is no documented representative client/workload matrix tying application scenarios to supported transports, delivery semantics, deployment settings, and fallback behavior. |
+| Performance and scale | NRG-01..NRG-12 cover in-process helper gates. `bench_network_protocol_path.cpp` explicitly labels NRG-P1..NRG-P4 as stubs with no live sockets. | No representative live-transport throughput/tail-latency baseline or demonstrated capacity envelope is currently established. |
+| Resilience and security | NTR/NLG/NQP suites cover deterministic retry, backpressure, lifecycle, and QUIC readiness conditions; `src/network/SECURITY.md` records configuration-dependent controls and limitations. | The transport-resilience suite has no live sockets, and modeled QUIC migration/0-RTT cases do not prove packet-loss recovery, TLS behavior, or replay safety on a deployed listener. |
+| Governance and operations | `network_api_contract.h` is frozen for the active v1.x line; `NetworkAuditLog` is bounded/in-memory with callback export, and `docs/operability/RUNBOOK_NETWORK_TRANSPORT.md` exists. | Evidence does not show durable audit delivery across every transport, fleet-level cardinality/resource bounds, or a network-specific compliance certification. No certification claim is made here. |
+| Control plane | `src/network/ARCHITECTURE.md` §8 documents Envoy xDS REST polling over plain TCP, callback execution while a mutex is held, and the absence of exponential backoff and ACK/NACK. | Authenticated control-plane transport, bounded retry behavior, callback lifecycle, and applied-update evidence need explicit design and tests before broad service-mesh use. |
+
+### v2.5.0 waves — backward-compatible delivery
+
+| Wave | Priority / effort | Goal and concrete tasks | Dependencies | Risks / trade-offs | Success measures | Validation |
+|---|---|---|---|---|---|---|
+| **1 — Live-path baselines** | P0; M (3–5 engineer-weeks) | - [ ] Add real listener/client benchmark cases for each target-build transport; label NRG helper gates helper-only; record offered/achieved load, p50/p95/p99, errors, CPU/memory, and environment (Target: v2.5.0). | Agree on representative hardware, supported build matrix, and reproducible workload before recording baselines. | Real network runs are more variable and costly than in-process microbenchmarks; an unrepresentative client or host can bias results. | Publish reproducible baselines for every in-scope transport; no >10% regression in p99 or achieved throughput versus the same-build baseline unless a reviewed trade-off is recorded. Do not claim an absolute capacity target until these baselines exist. | Unit/contract regressions plus live loopback and representative-host load runs; repeat each fixed case at least five times, publish distributions and failures, and use an open-loop arrival model or disclose its absence. |
+| **2 — Transport failure and 0-RTT safety** | P0; L (6–10 engineer-weeks) | - [ ] Exercise enabled TCP/WS/UDP/QUIC/gRPC paths with socket fault injection, bounded queue/timeout behavior, TLS failure cases, QUIC migration/loss, and reconnect/fallback; reject or deduplicate replayable mutations before enabling their 0-RTT processing (Target: v2.5.0). | Wave 1 transport/build inventory; stable test certificates and a fault-injection environment. | Fault simulation may not represent WAN loss; disabling early data can increase reconnect latency. | Every enabled transport passes its documented failure matrix; no silent data loss; queue/connection/memory bounds remain within configured limits; no mutating operation is replayed through 0-RTT. Measure 0-RTT latency against the full-handshake baseline rather than treating the existing modeled 50 ms gate as achieved. | Focused `tests/network/` contract tests, live integration tests, packet-loss/reconnect scenarios, security review of early-data policy, and bounded soak with captured error/recovery results. |
+| **3 — Observability and release operations** | P1; M (3–5 engineer-weeks) | - [ ] Define transport-neutral connection, error, retry, backpressure, queue, and fallback metrics; bound label cardinality and audit-export failure behavior; connect alerts/runbooks to live-path signals (Target: v2.5.0). | Wave 1 metric definitions; Wave 2 failure taxonomy and transport instrumentation. | High-cardinality labels or synchronous export can add latency, memory growth, or dropped events. | For each enabled front door, demonstrate its agreed counters/histograms and operator diagnosis path; prove metric label cardinality and local buffering stay bounded under the Wave 2 soak; `release_critical` remains green on `develop`. | Metric schema review, bounded-cardinality stress, exporter outage/failure injection, runbook exercise, security/governance review, and full `release_critical` gate. |
+
+### v3.0.0 waves — major-version evolution
+
+| Wave | Priority / effort | Goal and concrete tasks | Dependencies | Risks / trade-offs | Success measures | Validation |
+|---|---|---|---|---|---|---|
+| **4 — Wire capability and version negotiation** | P0; L (6–10 engineer-weeks) | - [ ] Specify version/capability negotiation, unsupported-version errors, and a client/server compatibility matrix; decide and document any framing/API break before code changes (Target: v3.0.0). | v2.5.0 contract and client inventory; maintainer approval of the v3 compatibility and migration policy. | Negotiation can increase handshake complexity and create downgrade or split-version failure modes. | Every supported client/server pair has a deterministic negotiated result; unknown or unsafe versions fail closed; migration and rollback instructions are reviewed before release. | Cross-version client/server integration matrix, malformed/downgrade negotiation tests, protocol fuzzing, API/architecture review, and release-note/migration review. |
+| **5 — Secure service-mesh control plane** | P1; L (6–10 engineer-weeks) | - [ ] Design authenticated/encrypted xDS transport, bounded backoff/timeouts, callback invocation outside internal locks, and observable update outcomes; reject invalid updates (Target: v3.0.0). | Wave 3 observability; selected xDS protocol/client requirements and credential lifecycle decisions. | More robust control-plane semantics add state and dependency complexity; certificate rotation or control-plane outage can stall updates. | Control-plane credentials are verified; invalid/stale updates are rejected and diagnosed; stop/reconfigure cannot deadlock; reconnect work and in-memory state remain bounded under control-plane outage. | Local TLS/xDS integration tests, invalid credential and malformed-response tests, outage/rotation/restart fault injection, thread-safety stress, and security review. |
+| **6 — Multi-node scale and operational sign-off** | P1; L (6–10 engineer-weeks) | - [ ] Validate routing, QoS, connection pools, failover, and overload on representative multi-node topologies; publish capacity/recovery envelopes, deployment profiles, and rollback/runbook steps (Target: v3.0.0). | Waves 1–5; stable representative cluster and workload; refreshed `release_critical` evidence. | Results may not transfer across hardware, network paths, or tenant mixes; stronger isolation can reduce peak throughput. | At the published offered-load envelope, p99/error/recovery and resource bounds meet thresholds set from Wave 1 service objectives; no unbounded connection, queue, metric, or retry growth; release gates and operator sign-off pass. | Repeatable multi-node load/soak, topology/failure injection, recovery and rollback drill, benchmark review on representative hardware, and security/governance sign-off. |
+
+### Assumptions, conflicts, and decision gates
+
+- Effort estimates are engineering-week ranges for planning, not committed schedules; they assume an available representative multi-node test environment and transport-specific maintainers.
+- Absolute throughput and latency SLOs remain open until Wave 1 records representative workloads and baselines. Existing NRG thresholds are helper-level regression gates, not service SLOs.
+- Root `ROADMAP.md` §3.5 currently marks HTTP/3 QUIC production enablement complete, while this module roadmap and in-scope evidence describe optional QUIC surfaces and modeled readiness tests without live deployment/performance validation. Documentation precedence makes root governance authoritative; reconcile that status and obtain maintainer sign-off before treating QUIC as a release-ready production capability.
+- The developer wiki health snapshot (`ai_context/developer_llm_wiki/WIKI_STATUS.json`) was generated 2026-11-02 and reports a 1,450-source removal delta. It is context only; the current code, tests, and canonical module/root roadmaps above take precedence.
+- No module-specific compliance certification, fleet capacity result, or universal transport availability is assumed. Release/edition support must be verified against actual build options, deployment configuration, and `release_critical` evidence.
 
 ## Breaking Changes
 - Network public APIs and protocol evolution in active major lines remain additive-first.
