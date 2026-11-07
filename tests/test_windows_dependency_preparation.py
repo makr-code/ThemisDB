@@ -109,11 +109,41 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
             with self.subTest(remaining=remaining), patch.object(helper.time, "time", return_value=1000), \
                  patch.dict(os.environ, {"THEMIS_DEPENDENCY_DEADLINE": str(1000 + remaining),
                                          "CONFIGURE_COMMAND": "exit 37"}), \
-                 patch.object(sys, "argv", ["prepare", "--log", "test.log"]), \
+                 patch.object(sys, "argv", ["prepare", "--bash", "/git bash/bash", "--log", "test.log"]), \
                  patch.object(helper, "run", return_value=37) as run:
                 self.assertEqual(helper.main(), 37)
                 self.assertEqual(run.call_args.args[2], expected)
-                self.assertEqual(run.call_args.args[0], ["bash", "-euo", "pipefail", "-c", "exit 37"])
+                self.assertEqual(run.call_args.args[0], ["/git bash/bash", "-euo", "pipefail", "-c", "exit 37"])
+
+    @unittest.skipIf(os.name == "nt", "uses a POSIX bash and symlink")
+    def test_configure_uses_explicit_bash_instead_of_path(self):
+        with tempfile.TemporaryDirectory(prefix="git bash ") as temp:
+            directory = Path(temp)
+            bash = directory / "git bash"
+            bash.symlink_to("/bin/bash")
+            wrong_bash = directory / "bash"
+            wrong_bash.write_text("#!/bin/sh\nexit 91\n")
+            wrong_bash.chmod(0o755)
+            result = subprocess.run(
+                [sys.executable, str(ROOT / "scripts/prepare-windows-dependencies.py"),
+                 "--bash", str(bash), "--log", str(directory / "log")],
+                env={**os.environ, "PATH": str(directory),
+                     "THEMIS_DEPENDENCY_DEADLINE": str(time.time() + 10),
+                     "CONFIGURE_COMMAND": "printf 'configured\\n'"},
+                text=True, capture_output=True,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("configured", result.stdout)
+            self.assertIn('--bash "$(cygpath -w "$BASH")"',
+                          self.named("Prepare Windows dependencies with bounded configure")["run"])
+
+    def test_configure_requires_explicit_bash(self):
+        with patch.object(sys, "argv", ["prepare", "--log", "test.log"]), \
+             contextlib.redirect_stderr(io.StringIO()) as errors:
+            with self.assertRaises(SystemExit) as failure:
+                helper.main()
+        self.assertEqual(failure.exception.code, 2)
+        self.assertIn("configure requires --bash", errors.getvalue())
 
     def test_partial_snapshot_saved_after_success_failure_or_controlled_timeout_before_build(self):
         prepare = self.named("Prepare Windows dependencies with bounded configure")
