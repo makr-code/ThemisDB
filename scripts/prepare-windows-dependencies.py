@@ -78,6 +78,7 @@ def report(log, cache):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--log", type=Path, required=True)
+    parser.add_argument("--bash", help="Native path to the Git Bash executable")
     parser.add_argument("--metrics-only", action="store_true")
     parser.add_argument("--cache", type=Path)
     args = parser.parse_args()
@@ -86,12 +87,14 @@ def main():
             parser.error("--metrics-only requires --cache")
         report(args.log, args.cache)
         return 0
+    if not args.bash:
+        parser.error("configure requires --bash")
     # The job starts a 300-minute deadline before checkout/cache/setup. Never
     # spend more than 270 minutes in configure, leaving >=60 minutes of the
     # 360-minute job for termination, inventory, cache upload and diagnostics.
     remaining = float(os.environ["THEMIS_DEPENDENCY_DEADLINE"]) - time.time()
     return run(
-        ["bash", "-euo", "pipefail", "-c", os.environ["CONFIGURE_COMMAND"]],
+        [args.bash, "-euo", "pipefail", "-c", os.environ["CONFIGURE_COMMAND"]],
         args.log, min(270 * 60, remaining),
     )
 
