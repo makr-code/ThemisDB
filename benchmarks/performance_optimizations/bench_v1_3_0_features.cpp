@@ -1,4 +1,9 @@
 #include <benchmark/benchmark.h>
+#include <atomic>
+#include <chrono>
+#include <filesystem>
+#include <memory>
+#include <string>
 #include "cache/embedding_cache.h"
 #include "search/hybrid_search.h"
 #include "query/cte_subquery.h"
@@ -8,6 +13,37 @@
 #include <vector>
 
 using namespace themis;
+
+namespace {
+
+struct DistributedTxnBenchEnv {
+    std::string wal_directory;
+    std::shared_ptr<sharding::TrueTime> truetime;
+    std::unique_ptr<sharding::DistributedTransactionCoordinator> coordinator;
+
+    DistributedTxnBenchEnv() {
+        static std::atomic<uint64_t> sequence{0};
+        const auto timestamp = std::chrono::steady_clock::now().time_since_epoch().count();
+        wal_directory = (std::filesystem::temp_directory_path() /
+            ("themis_v1_3_0_txn_" + std::to_string(timestamp) + "_" +
+             std::to_string(sequence.fetch_add(1, std::memory_order_relaxed)))).string();
+
+        truetime = std::make_shared<sharding::TrueTime>(
+            sharding::TrueTime::Config{});
+        sharding::DistributedTransactionCoordinator::Config config;
+        config.wal_directory = wal_directory;
+        coordinator = std::make_unique<sharding::DistributedTransactionCoordinator>(
+            truetime, config);
+    }
+
+    ~DistributedTxnBenchEnv() {
+        coordinator.reset();
+        std::error_code cleanup_error;
+        std::filesystem::remove_all(wal_directory, cleanup_error);
+    }
+};
+
+} // namespace
 
 // ============================================================================
 // Embedding Cache Benchmarks
@@ -301,10 +337,8 @@ BENCHMARK(BM_Subquery_EXISTS_WithoutLIMIT1)->Arg(100)->Arg(1000)->Arg(10000)->Ar
 // ============================================================================
 
 static void BM_DistributedTxn_2PC_Latency(benchmark::State& state) {
-    themis::sharding::TrueTime::Config tt_cfg;
-    auto truetime = std::make_shared<themis::sharding::TrueTime>(tt_cfg);
-    themis::sharding::DistributedTransactionCoordinator::Config ccfg;
-    sharding::DistributedTransactionCoordinator coordinator(truetime, ccfg);
+    DistributedTxnBenchEnv env;
+    auto& coordinator = *env.coordinator;
     
     const int num_shards = state.range(0);
     std::vector<std::string> shards = {};
@@ -315,14 +349,25 @@ static void BM_DistributedTxn_2PC_Latency(benchmark::State& state) {
     
     for (auto _ : state) {
         auto txn_id = coordinator.beginTransaction(shards);
+        if (txn_id.empty()) {
+            state.SkipWithError("Distributed transaction coordinator failed to begin transaction");
+            return;
+        }
         
         for (const auto& shard : shards) {
             nlohmann::json op;
             op["type"] = "insert";
-            coordinator.addOperation(txn_id, shard, op);
+            if (!coordinator.addOperation(txn_id, shard, op)) {
+                state.SkipWithError(("2PC operation rejected for shard " + shard).c_str());
+                return;
+            }
         }
         
-        coordinator.commit(txn_id); // 2PC
+        if (!coordinator.commit(txn_id)) {
+            state.SkipWithError(
+                "2PC commit failed; configure reachable shard endpoints for this benchmark");
+            return;
+        }
     }
     
     state.counters["NumShards"] = num_shards;
@@ -331,10 +376,8 @@ static void BM_DistributedTxn_2PC_Latency(benchmark::State& state) {
 BENCHMARK(BM_DistributedTxn_2PC_Latency)->Arg(2)->Arg(4)->Arg(8)->Arg(16);
 
 static void BM_DistributedTxn_Throughput(benchmark::State& state) {
-    themis::sharding::TrueTime::Config tt_cfg;
-    auto truetime = std::make_shared<themis::sharding::TrueTime>(tt_cfg);
-    themis::sharding::DistributedTransactionCoordinator::Config ccfg;
-    sharding::DistributedTransactionCoordinator coordinator(truetime, ccfg);
+    DistributedTxnBenchEnv env;
+    auto& coordinator = *env.coordinator;
     
     std::vector<std::string> shards = {"shard1", "shard2"};
     
@@ -354,10 +397,8 @@ static void BM_DistributedTxn_Throughput(benchmark::State& state) {
 BENCHMARK(BM_DistributedTxn_Throughput);
 
 static void BM_DistributedTxn_SnapshotRead(benchmark::State& state) {
-    themis::sharding::TrueTime::Config tt_cfg;
-    auto truetime = std::make_shared<themis::sharding::TrueTime>(tt_cfg);
-    themis::sharding::DistributedTransactionCoordinator::Config ccfg;
-    sharding::DistributedTransactionCoordinator coordinator(truetime, ccfg);
+    DistributedTxnBenchEnv env;
+    auto& coordinator = *env.coordinator;
     
     const int num_shards = state.range(0);
     std::vector<std::string> shards = {};

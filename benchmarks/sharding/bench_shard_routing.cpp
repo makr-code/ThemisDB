@@ -69,7 +69,8 @@ public:
         std::mt19937 rng(42);
         std::uniform_int_distribution<int> dist(1, 1000000);
         
-        for (int i = 0; i < 10000; i++) {
+        constexpr size_t kLocalUrnCount = 256;
+        while (test_urns_.size() < kLocalUrnCount) {
             // Build a valid URN: urn:themis:{model}:{namespace}:{collection}:{uuid}
             // Generate a pseudo UUID v4-like string
             auto to_hex = [](uint32_t x) {
@@ -85,7 +86,9 @@ public:
             std::string uuid = to_hex(a).substr(0,8) + "-" + to_hex(b).substr(0,4) + "-" + to_hex(c).substr(0,4) + "-" + to_hex(d).substr(0,4) + "-" + to_hex(a^b^c^d);
 
             URN u{"document", "bench", "users", uuid};
-            test_urns_.push_back(u);
+            if (hash_ring_->getShardForURN(u) == local_shard_id_) {
+                test_urns_.push_back(std::move(u));
+            }
         }
     }
     

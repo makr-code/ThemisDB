@@ -211,7 +211,7 @@ BENCHMARK_F(SessionLifecycleFixture, VoiceSession_DeleteSession)(benchmark::Stat
  * Assert: < 500MB
  * GATE_SESSION_MEMORY_100 <= 500MB
  */
-BENCHMARK_F(SessionLifecycleFixture, VoiceSession_ScalingTo100Sessions)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(SessionLifecycleFixture, VoiceSession_ScalingTo100Sessions)(benchmark::State& state) {
     MockSessionManager manager;
 
     for (auto _ : state) {
@@ -245,20 +245,21 @@ BENCHMARK_F(SessionLifecycleFixture, VoiceSession_ScalingTo100Sessions)(benchmar
     state.SetLabel("Session ScalingTo100Sessions: < 500MB memory");
 }
 
+BENCHMARK_REGISTER_F(SessionLifecycleFixture, VoiceSession_ScalingTo100Sessions)
+    ->Iterations(1);
+
 /**
  * @test BENCHMARK(VoiceSession, ScalingTo1000Sessions)
  * Measure: peak memory with 1000 concurrent sessions
  * Assert: < 2GB
  * GATE_SESSION_MEMORY_1000 <= 2GB
  */
-BENCHMARK_F(SessionLifecycleFixture, VoiceSession_ScalingTo1000Sessions)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(SessionLifecycleFixture, VoiceSession_ScalingTo1000Sessions)(benchmark::State& state) {
     MockSessionManager manager;
+    constexpr int kNumSessions = 1000;
 
     for (auto _ : state) {
-        // Create 1000 sessions (limit iterations to avoid timeout)
-        int num_sessions = std::min(1000, static_cast<int>(state.max_iterations / 10 + 1));
-
-        for (int i = 0; i < num_sessions; ++i) {
+        for (int i = 0; i < kNumSessions; ++i) {
             std::string session_id = generateSessionId();
             auto session = manager.createSession(session_id);
             
@@ -279,7 +280,7 @@ BENCHMARK_F(SessionLifecycleFixture, VoiceSession_ScalingTo1000Sessions)(benchma
                         "GATE_SESSION_MEMORY_1000");
 
         state.counters["peak_memory_mb"] = peak_memory / (1024.0 * 1024.0);
-        state.counters["num_sessions"] = benchmark::Counter(num_sessions, benchmark::Counter::kAvgThreads);
+        state.counters["num_sessions"] = benchmark::Counter(kNumSessions, benchmark::Counter::kAvgThreads);
 
         manager.clearAll();
 
@@ -290,13 +291,16 @@ BENCHMARK_F(SessionLifecycleFixture, VoiceSession_ScalingTo1000Sessions)(benchma
     state.SetLabel("Session ScalingTo1000Sessions: < 2GB memory");
 }
 
+BENCHMARK_REGISTER_F(SessionLifecycleFixture, VoiceSession_ScalingTo1000Sessions)
+    ->Iterations(1);
+
 /**
  * @test BENCHMARK(VoiceSession, ResourceCleanupNoLeak)
  * Measure: peak - baseline after 1000 create/delete cycles
  * Assert: leak < 10MB
  * GATE_SESSION_CLEANUP_LEAK <= 10MB
  */
-BENCHMARK_F(SessionLifecycleFixture, VoiceSession_ResourceCleanupNoLeak)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(SessionLifecycleFixture, VoiceSession_ResourceCleanupNoLeak)(benchmark::State& state) {
     MockSessionManager manager;
 
     for (auto _ : state) {
@@ -336,5 +340,8 @@ BENCHMARK_F(SessionLifecycleFixture, VoiceSession_ResourceCleanupNoLeak)(benchma
 
     state.SetLabel("Session ResourceCleanupNoLeak: < 10MB leak per 1000 cycles");
 }
+
+BENCHMARK_REGISTER_F(SessionLifecycleFixture, VoiceSession_ResourceCleanupNoLeak)
+    ->Iterations(1);
 
 BENCHMARK_MAIN();

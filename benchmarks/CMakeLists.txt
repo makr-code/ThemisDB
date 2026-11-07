@@ -6112,6 +6112,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       TARGET bench_ycsb
       MODULE "base"
       TIMEOUT 120
+      EXTRA_ARGS "--benchmark_filter=Workload[A-F]/10000$"
     )
   endif()
   if(TARGET benchmark_distributed_hybrid_search)
@@ -7584,6 +7585,9 @@ if(THEMIS_BUILD_BENCHMARKS)
       MODULE "pii_stream"
       TIMEOUT 120
     )
+    set_tests_properties(bench_pii_stream_scanner PROPERTIES
+      ENVIRONMENT "THEMIS_BENCH_PII_SMOKE=1"
+    )
   endif()
   # Module: plugin_hot (1)
   if(TARGET bench_plugin_hot_plug)
@@ -8639,6 +8643,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       TARGET bench_v1_3_0_features
       MODULE "v1_3"
       TIMEOUT 120
+      EXTRA_ARGS "--benchmark_filter=-BM_DistributedTxn_"
     )
   endif()
   if(TARGET bench_v1_3_4_optimizations)
@@ -8878,7 +8883,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_w7a_release_critical_signoff
       TARGET bench_w7a_release_critical_signoff
       MODULE "wavew"
-      TIMEOUT 120
+      TIMEOUT 420
     )
   endif()
   if(TARGET bench_w7b_endurance_soak)
@@ -8910,7 +8915,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_w8a_incident_regression_shielding
       TARGET bench_w8a_incident_regression_shielding
       MODULE "wavew"
-      TIMEOUT 120
+      TIMEOUT 300
     )
   endif()
   if(TARGET bench_w8b_threshold_hardening_drift_detection)

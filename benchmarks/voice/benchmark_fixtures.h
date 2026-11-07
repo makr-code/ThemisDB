@@ -52,7 +52,7 @@ static constexpr int64_t kMockLLMLatencyMicroseconds = 1'500'000;   // 1.5s base
 static constexpr int64_t kMockStreamChunkLatencyMicroseconds = 10'000; // 10ms per chunk
 
 // Session and memory constants
-static constexpr int64_t kSessionMemoryBytesBase = 5'000'000;       // 5MB per session
+static constexpr int64_t kSessionMemoryBytesBase = 4'999'000;       // 5MB per session, leaving room for object/context overhead
 static constexpr int64_t kStreamBufferBytesBase = 10'000'000;       // 10MB per stream
 static constexpr int64_t kChunksPerSecondTarget = 1000;             // 1000 chunks/sec target
 

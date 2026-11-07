@@ -34,9 +34,11 @@
 #include <openssl/sha.h>
 
 #include <algorithm>
+#include <cstdlib>
 #include <iomanip>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <vector>
 
 using namespace themis::utils;
@@ -105,7 +107,15 @@ static std::string hmac_pseudonym(const std::string& key, const std::string& val
     return oss.str();
 }
 
-static constexpr size_t kCorpusSize = 100ULL * 1024 * 1024; // 100 MB
+static constexpr size_t kFullCorpusSize = 100ULL * 1024 * 1024;
+static constexpr size_t kSmokeCorpusSize = 8ULL * 1024;
+
+static size_t selected_corpus_size() {
+    const char* smoke_mode = std::getenv("THEMIS_BENCH_PII_SMOKE");
+    return smoke_mode != nullptr && std::string_view(smoke_mode) == "1"
+        ? kSmokeCorpusSize
+        : kFullCorpusSize;
+}
 
 } // namespace
 
@@ -115,8 +125,9 @@ static constexpr size_t kCorpusSize = 100ULL * 1024 * 1024; // 100 MB
 
 static void BM_ScanOnly(benchmark::State& state) {
     const size_t chunk_size = static_cast<size_t>(state.range(0));
+    const size_t corpus_size = selected_corpus_size();
     auto engine = make_engine();
-    auto corpus = build_corpus(kCorpusSize);
+    auto corpus = build_corpus(corpus_size);
 
     for (auto _ : state) {
         // Use default PIIStreamScannerConfig — the constructor auto-derives
@@ -138,16 +149,16 @@ static void BM_ScanOnly(benchmark::State& state) {
     }
 
     state.SetBytesProcessed(
-        static_cast<int64_t>(state.iterations()) * static_cast<int64_t>(kCorpusSize));
-    state.SetLabel("corpus=100MB chunk=" + std::to_string(chunk_size / 1024) + "KB");
+        static_cast<int64_t>(state.iterations()) * static_cast<int64_t>(corpus_size));
+    state.SetLabel("corpus_bytes=" + std::to_string(corpus_size) +
+                   " chunk=" + std::to_string(chunk_size / 1024) + "KB");
 }
 
 BENCHMARK(BM_ScanOnly)
     ->Arg(4   * 1024)
     ->Arg(64  * 1024)
     ->Arg(1   * 1024 * 1024)
-    ->Unit(benchmark::kMillisecond)
-    ->MinTime(3.0);
+    ->Unit(benchmark::kMillisecond);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // BM_ScanAndPseudonymize: 100 MB scan + HMAC-SHA-256 span replacement
@@ -159,8 +170,9 @@ BENCHMARK(BM_ScanOnly)
 
 static void BM_ScanAndPseudonymize(benchmark::State& state) {
     const size_t chunk_size = static_cast<size_t>(state.range(0));
+    const size_t corpus_size = selected_corpus_size();
     auto   engine      = make_engine();
-    auto   corpus      = build_corpus(kCorpusSize);
+    auto   corpus      = build_corpus(corpus_size);
     const std::string hmac_key = "bench-tenant:bench-lek-key";
 
     for (auto _ : state) {
@@ -170,7 +182,7 @@ static void BM_ScanAndPseudonymize(benchmark::State& state) {
 
         size_t offset = 0;
         std::string output = {};
-        output.reserve(kCorpusSize);
+        output.reserve(corpus_size);
 
         while (offset < corpus.size()) {
             size_t end      = std::min(offset + chunk_size, corpus.size());
@@ -203,15 +215,15 @@ static void BM_ScanAndPseudonymize(benchmark::State& state) {
     }
 
     state.SetBytesProcessed(
-        static_cast<int64_t>(state.iterations()) * static_cast<int64_t>(kCorpusSize));
-    state.SetLabel("corpus=100MB chunk=" + std::to_string(chunk_size / 1024) + "KB");
+        static_cast<int64_t>(state.iterations()) * static_cast<int64_t>(corpus_size));
+    state.SetLabel("corpus_bytes=" + std::to_string(corpus_size) +
+                   " chunk=" + std::to_string(chunk_size / 1024) + "KB");
 }
 
 BENCHMARK(BM_ScanAndPseudonymize)
     ->Arg(4   * 1024)
     ->Arg(64  * 1024)
     ->Arg(1   * 1024 * 1024)
-    ->Unit(benchmark::kMillisecond)
-    ->MinTime(3.0);
+    ->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();

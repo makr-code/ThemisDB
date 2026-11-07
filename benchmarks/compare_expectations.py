@@ -125,8 +125,11 @@ def _split_benchmark_cases(raw: str) -> list[str]:
     """
     # Normalise BENCHMARK_F(Fixture, Case) → Fixture/Case
     def _normalise_macro(token: str) -> str:
-        # BENCHMARK_F(Fixture, CaseName) or BENCHMARK_DEFINE_F(...)
-        m = re.match(r"BENCHMARK(?:_DEFINE)?_F\(\s*(\w+)\s*,\s*(\w+)\s*\)", token)
+        # BENCHMARK_F(Fixture, CaseName), BENCHMARK_DEFINE_F(...), or REGISTER_F(...)
+        m = re.match(
+            r"BENCHMARK(?:_DEFINE|_REGISTER)?_F\(\s*(\w+)\s*,\s*(\w+)\s*\)",
+            token,
+        )
         if m:
             return f"{m.group(1)}/{m.group(2)}"
         # BENCHMARK(FuncName)
@@ -135,7 +138,24 @@ def _split_benchmark_cases(raw: str) -> list[str]:
             return m.group(1)
         return token
 
-    parts = [p.strip().strip("`") for p in re.split(r"[,\n]+", raw) if p.strip()]
+    parts: list[str] = []
+    start = 0
+    depth = 0
+    for index, character in enumerate(raw):
+        if character == "(":
+            depth += 1
+        elif character == ")" and depth > 0:
+            depth -= 1
+        elif character in ",\n" and depth == 0:
+            part = raw[start:index].strip().strip("`")
+            if part:
+                parts.append(part)
+            start = index + 1
+
+    trailing = raw[start:].strip().strip("`")
+    if trailing:
+        parts.append(trailing)
+
     result: list[str] = []
     for p in parts:
         # Normalise macro notation before any further splitting

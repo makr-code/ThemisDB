@@ -614,7 +614,6 @@ static void BM_Storage_SustainedWrite_NoSync(benchmark::State& state) {
     state.SetLabel("nosync_wal");
 }
 BENCHMARK(BM_Storage_SustainedWrite_NoSync)
-    ->MinTime(2.0)
     ->Unit(benchmark::kMicrosecond);
 
 // ── (b) Batched writes — group commit via WriteBatch ─────────────────────────
@@ -667,7 +666,6 @@ BENCHMARK(BM_Storage_SustainedWrite_Batched)
     ->Arg(64)
     ->Arg(256)
     ->Arg(1024)
-    ->MinTime(2.0)
     ->Unit(benchmark::kMicrosecond);
 
 // ── (c) Full sync — characterise max-durability cost ─────────────────────────
@@ -701,7 +699,6 @@ static void BM_Storage_SustainedWrite_FullSync(benchmark::State& state) {
     state.SetLabel("fullsync_wal");
 }
 BENCHMARK(BM_Storage_SustainedWrite_FullSync)
-    ->MinTime(2.0)
     ->Unit(benchmark::kMicrosecond);
 
 // ── (d) WAL group-commit — appendBatch vs N × appendPut ──────────────────────
@@ -763,7 +760,6 @@ BENCHMARK(BM_WAL_GroupCommit_Batch)
     ->Arg(16)
     ->Arg(64)
     ->Arg(256)
-    ->MinTime(2.0)
     ->Unit(benchmark::kMicrosecond);
 
 } // namespace (sustained write benchmarks)

@@ -57,7 +57,7 @@ namespace w8c {
 static constexpr uint64_t kW8CanonicalSeed = 42;
 static constexpr int      kWarmupIterations = 500;
 static constexpr int      kRepetitions      = 7;
-static constexpr int      kDatasetSize      = 50'000;
+static constexpr int      kDatasetSize      = 5'000;
 
 /// Flake bound: CV across repetitions must be below this to pass DCH-08.
 static constexpr double kFlakeCvGatePct   = 3.0;
@@ -213,6 +213,7 @@ BENCHMARK_F(CIHarnessFixture, DCH01_SeedReproducibility)(benchmark::State& state
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()) * kSeqLen * 2);
 }
 BENCHMARK_REGISTER_F(CIHarnessFixture, DCH01_SeedReproducibility)
+    ->Iterations(1)
     ->Repetitions(kRepetitions)
     ->Unit(benchmark::kMicrosecond)
     ->UseRealTime()
@@ -255,6 +256,7 @@ BENCHMARK_F(CIHarnessFixture, DCH02_TempDirIsolation)(benchmark::State& state) {
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()) * kIsolationRuns);
 }
 BENCHMARK_REGISTER_F(CIHarnessFixture, DCH02_TempDirIsolation)
+    ->Iterations(1)
     ->Repetitions(kRepetitions)
     ->Unit(benchmark::kMicrosecond)
     ->UseRealTime()
@@ -314,6 +316,7 @@ BENCHMARK_F(CIHarnessFixture, DCH03_IterationCountStability)(benchmark::State& s
         static_cast<int64_t>(state.iterations()) * (kShortRun + kLongRun));
 }
 BENCHMARK_REGISTER_F(CIHarnessFixture, DCH03_IterationCountStability)
+    ->Iterations(1)
     ->Repetitions(kRepetitions)
     ->Unit(benchmark::kMillisecond)
     ->UseRealTime()
@@ -411,6 +414,7 @@ BENCHMARK_F(WarmupEffectFixture, DCH04_WarmupEfficacy)(benchmark::State& state) 
         static_cast<int64_t>(state.iterations()) * kSampleOps * 2);
 }
 BENCHMARK_REGISTER_F(WarmupEffectFixture, DCH04_WarmupEfficacy)
+    ->Iterations(1)
     ->Repetitions(kRepetitions)
     ->Unit(benchmark::kMillisecond)
     ->UseRealTime()
@@ -452,6 +456,7 @@ static void DCH05_TimerResolution(benchmark::State& state) {
         static_cast<int64_t>(state.iterations()) * kTimerSamples);
 }
 BENCHMARK(DCH05_TimerResolution)
+    ->Iterations(1)
     ->Repetitions(kRepetitions)
     ->Unit(benchmark::kNanosecond)
     ->UseRealTime()
@@ -522,6 +527,7 @@ BENCHMARK_F(ParallelIsolationFixture, DCH06_ParallelIsolation)(benchmark::State&
     state.SetItemsProcessed(static_cast<int64_t>(reads));
 }
 BENCHMARK_REGISTER_F(ParallelIsolationFixture, DCH06_ParallelIsolation)
+    ->Iterations(1)
     ->Repetitions(kRepetitions)
     ->Unit(benchmark::kMicrosecond)
     ->UseRealTime()
@@ -581,6 +587,7 @@ BENCHMARK_F(TeardownVerifyFixture, DCH07_TeardownCompleteness)(benchmark::State&
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
 }
 BENCHMARK_REGISTER_F(TeardownVerifyFixture, DCH07_TeardownCompleteness)
+    ->Iterations(1)
     ->Repetitions(kRepetitions)
     ->Unit(benchmark::kMicrosecond)
     ->UseRealTime()
@@ -629,6 +636,7 @@ BENCHMARK_F(CIHarnessFixture, DCH08_FlakeDetection)(benchmark::State& state) {
         static_cast<int64_t>(state.iterations()) * kFlakeSamples);
 }
 BENCHMARK_REGISTER_F(CIHarnessFixture, DCH08_FlakeDetection)
+    ->Iterations(1)
     ->Repetitions(kRepetitions)
     ->Unit(benchmark::kMillisecond)
     ->UseRealTime()

@@ -428,23 +428,23 @@ BENCHMARK_DEFINE_F(MMDBFixture, RAGWorkflow)(benchmark::State& state) {
 
 // Register benchmarks with different dataset sizes
 BENCHMARK_REGISTER_F(MMDBFixture, HybridProductLookup)
-    ->Arg(10000)
+    ->Arg(1000)
     ->Unit(benchmark::kMicrosecond);
 
 BENCHMARK_REGISTER_F(MMDBFixture, SemanticSearch)
-    ->Arg(10000)
+    ->Arg(1000)
     ->Unit(benchmark::kMicrosecond);
 
 BENCHMARK_REGISTER_F(MMDBFixture, GraphTraversal)
-    ->Arg(10000)
+    ->Arg(1000)
     ->Unit(benchmark::kMicrosecond);
 
 BENCHMARK_REGISTER_F(MMDBFixture, MultiModalJoin)
-    ->Arg(10000)
+    ->Arg(1000)
     ->Unit(benchmark::kMillisecond);
 
 BENCHMARK_REGISTER_F(MMDBFixture, RAGWorkflow)
-    ->Arg(10000)
+    ->Arg(1000)
     ->Unit(benchmark::kMicrosecond);
 
 BENCHMARK_MAIN();

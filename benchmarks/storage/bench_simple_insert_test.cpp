@@ -63,6 +63,7 @@ static void BM_SimpleInsert(benchmark::State& state) {
             }
 
             indexMgr.erase("users", "test_user_1");
+            break;
         }
     }
     

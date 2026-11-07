@@ -155,7 +155,8 @@ public:
         idx_.reset();
         db_->close();
         db_.reset();
-        fs::remove_all(dbPath_);
+        std::error_code cleanup_error;
+        fs::remove_all(dbPath_, cleanup_error);
     }
 
 protected:
@@ -172,7 +173,7 @@ protected:
  * Measured: insert + secondaryIndex.insert + secondaryIndex.lookup
  */
 BENCHMARK_DEFINE_F(W2A_SecondaryPipelineFixture, IngestIndexLookup)(benchmark::State& state) {
-    std::mt19937 rng(99 + static_cast<uint32_t>(state.thread_index()));
+     std::mt19937 rng(99 + static_cast<uint32_t>(state.thread_index()));
     std::uniform_int_distribution<int> catDist(0, 9);
 
     for (auto _ : state) {
@@ -246,11 +247,15 @@ public:
         nextId_.store(kWarmupVectors, std::memory_order_relaxed);
     }
 
-    void TearDown(::benchmark::State& /*state*/) override {
+    void TearDown(::benchmark::State& state) override {
         vix_.reset();
         db_->close();
         db_.reset();
-        fs::remove_all(dbPath_);
+        std::error_code cleanup_error;
+        fs::remove_all(dbPath_, cleanup_error);
+        if (cleanup_error) {
+            state.counters["cleanup_failed"] = 1.0;
+        }
     }
 
 protected:

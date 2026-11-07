@@ -64,7 +64,7 @@
   db_write_buffer_size=0
   flush_verify_memtable_count=true
   track_and_verify_wals=false
-  info_log_level=DEBUG_LEVEL
+  info_log_level=INFO_LEVEL
   verify_sst_unique_id_in_manifest=true
   read_io_executor_threads=1
   enable_pipelined_write=false

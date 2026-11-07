@@ -216,11 +216,18 @@ struct ServerEnv {
     ~ServerEnv() {
         if (server) {
             server->stop();
+            server.reset();
         }
+        tx_manager.reset();
+        vector_index.reset();
+        graph_index.reset();
+        secondary_index.reset();
         if (storage) {
             storage->close();
+            storage.reset();
         }
-        std::filesystem::remove_all(kBenchDb);
+        std::error_code cleanup_error;
+        std::filesystem::remove_all(kBenchDb, cleanup_error);
     }
 };
 

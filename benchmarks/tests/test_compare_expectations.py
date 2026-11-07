@@ -11,10 +11,18 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from compare_expectations import _load_all_results, main
+from compare_expectations import _load_all_results, _split_benchmark_cases, main
 
 
 class BenchmarkResultAggregationTests(unittest.TestCase):
+    def test_benchmark_registration_macros_keep_internal_commas(self):
+        cases = _split_benchmark_cases(
+            "BENCHMARK_REGISTER_F(Fixture, First), "
+            "BENCHMARK_REGISTER_F(Fixture, Second)"
+        )
+
+        self.assertEqual(cases, ["Fixture/First", "Fixture/Second"])
+
     def test_duplicate_cases_keep_the_result_with_more_iterations(self):
         with tempfile.TemporaryDirectory() as temporary_directory:
             results_directory = Path(temporary_directory)

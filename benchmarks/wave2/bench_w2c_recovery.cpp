@@ -118,7 +118,12 @@ std::vector<float> randomVec(int dim, std::mt19937& rng) {
 static void BM_W2C_ColdRead(benchmark::State& state) {
     const int numKeys = static_cast<int>(state.range(0));
     const std::string dbPath = uniqueDbPath("cold");
-    fs::remove_all(dbPath);
+    std::error_code cleanup_error;
+    fs::remove_all(dbPath, cleanup_error);
+    if (cleanup_error) {
+        state.SkipWithError(("W2C initial cold DB cleanup failed: " + cleanup_error.message()).c_str());
+        return;
+    }
 
     // Populate data (not timed)
     {
@@ -156,7 +161,11 @@ static void BM_W2C_ColdRead(benchmark::State& state) {
         benchmark::Counter::kIsRate | benchmark::Counter::kInvert,
         benchmark::Counter::OneK::kIs1000);
 
-    fs::remove_all(dbPath);
+    cleanup_error.clear();
+    fs::remove_all(dbPath, cleanup_error);
+    if (cleanup_error) {
+        state.SkipWithError(("W2C final cold DB cleanup failed: " + cleanup_error.message()).c_str());
+    }
 }
 
 BENCHMARK(BM_W2C_ColdRead)
@@ -231,6 +240,7 @@ BENCHMARK_DEFINE_F(W2C_WarmReadFixture, WarmRead)(benchmark::State& state) {
 }
 
 BENCHMARK_REGISTER_F(W2C_WarmReadFixture, WarmRead)
+    ->Iterations(10)
     ->Unit(benchmark::kMicrosecond);
 
 // ============================================================================
@@ -246,7 +256,12 @@ BENCHMARK_REGISTER_F(W2C_WarmReadFixture, WarmRead)
 static void BM_W2C_ReopenLatency_NoWAL(benchmark::State& state) {
     const int numKeys = static_cast<int>(state.range(0));
     const std::string dbPath = uniqueDbPath("reopen_nowal");
-    fs::remove_all(dbPath);
+    std::error_code cleanup_error;
+    fs::remove_all(dbPath, cleanup_error);
+    if (cleanup_error) {
+        state.SkipWithError(("W2C initial DB cleanup failed: " + cleanup_error.message()).c_str());
+        return;
+    }
 
     // Populate data outside timed loop
     {
@@ -267,7 +282,11 @@ static void BM_W2C_ReopenLatency_NoWAL(benchmark::State& state) {
     }
 
     if (db) { db->close(); db.reset(); }
-    fs::remove_all(dbPath);
+    cleanup_error.clear();
+    fs::remove_all(dbPath, cleanup_error);
+    if (cleanup_error) {
+        state.counters["cleanup_failed"] = 1.0;
+    }
 }
 
 BENCHMARK(BM_W2C_ReopenLatency_NoWAL)
@@ -291,12 +310,11 @@ BENCHMARK(BM_W2C_ReopenLatency_NoWAL)
  */
 static void BM_W2C_WalReplayRead(benchmark::State& state) {
     const int numKeys = static_cast<int>(state.range(0));
-    const std::string dbPath = uniqueDbPath("wal_replay");
 
     for (auto _ : state) {
         // Setup: write with WAL outside timed section
         state.PauseTiming();
-        fs::remove_all(dbPath);
+        const std::string dbPath = uniqueDbPath("wal_replay");
         {
             auto db = openDb(dbPath, /*wal=*/true);
             for (int i = 0; i < numKeys; ++i) {
@@ -315,13 +333,17 @@ static void BM_W2C_WalReplayRead(benchmark::State& state) {
 
         state.PauseTiming();
         db->close();
+        db.reset();
+        std::error_code cleanup_error;
+        fs::remove_all(dbPath, cleanup_error);
+        if (cleanup_error) {
+            state.counters["cleanup_failed"] = 1.0;
+        }
         state.ResumeTiming();
     }
 
     state.SetItemsProcessed(state.iterations());
     state.counters["wal_keys_written"] = static_cast<double>(numKeys);
-
-    fs::remove_all(dbPath);
 }
 
 BENCHMARK(BM_W2C_WalReplayRead)
@@ -373,7 +395,11 @@ static void BM_W2C_AnnSearch_Cold(benchmark::State& state) {
         vix.reset();
         db->close();
         db.reset();
-        fs::remove_all(dbPath);
+        std::error_code cleanup_error;
+        fs::remove_all(dbPath, cleanup_error);
+        if (cleanup_error) {
+            state.counters["cleanup_failed"] = 1.0;
+        }
         state.ResumeTiming();
     }
 
@@ -425,7 +451,8 @@ public:
         vix_.reset();
         db_->close();
         db_.reset();
-        fs::remove_all(dbPath_);
+        std::error_code cleanup_error;
+        fs::remove_all(dbPath_, cleanup_error);
     }
 
 protected:
