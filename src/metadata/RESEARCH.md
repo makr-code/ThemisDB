@@ -143,6 +143,14 @@ ThemisDB conformance or a requirement to adopt another project's data model.
    Documents repeated runs and aggregate statistics. Relevant to benchmark
    reproducibility; repetition count alone does not remove hardware or workload
    bias.
+5. Siddhartha Parimi, [“A Comparative Performance & Metadata Study of Open Table
+   Formats: Iceberg vs Delta vs Hudi at Scale,” Journal of Computer Science and
+   Technology Studies 7(12), 513–520 (2025)](https://doi.org/10.32996/jcsts.2025.7.12.56).
+   The study reports comparative benchmarking of metadata scalability,
+   concurrency, and transaction behavior across open table formats. Its
+   architecture and workload are not directly comparable to ThemisDB, and its
+   reported results have not been independently reproduced here; it motivates
+   measuring workload dimensions rather than supplying ThemisDB thresholds.
 
 ### Open assumptions and knowledge gaps
 
