@@ -58,13 +58,13 @@ representative evidence and closing integration/reliability gaps.
 - **Priority / estimate:** P0; S (1–2 person-weeks), excluding shared hardware/CI wait.
 - **Goal:** produce a reproducible baseline and a source-to-test-to-benchmark map before selecting optimizations.
 - **Tasks:**
-  - [ ] Define representative metadata workloads and scale points for table count, entity count, schema churn, concurrent readers/writers, and export volume; record hardware, build profile, seed, and database state (Target: v2.5.0 alpha).
+  - [ ] Define representative metadata workloads and scale points for table count (initial candidates: 100, 1,000, and 10,000), entity count, schema churn, concurrent readers/writers, and export volume; finalize against production workload evidence and record hardware, build profile, seed, and database state (Target: v2.5.0 alpha).
   - [ ] Extend the release benchmark manifest to cover actual `SchemaManager` cold/warm access, refresh/churn, consistency scan, lineage traversal, and exporter outcomes; label helper-only and stub-only cases as such (Target: v2.5.0 alpha).
   - [ ] Record repeated-run p50/p95/p99, throughput, and memory results against the same workload; set the absolute p99 gate only after maintainers approve a measured SLO (Target: v2.5.0 beta).
   - [ ] Inventory public metadata contracts and classify the stale `metadata_api_contract.h` as retained/frozen, corrected, or deprecated before any API change (Target: v2.5.0 beta).
 - **Dependencies:** representative release hardware and benchmark runner; release-owner decision for workload and p99 SLO.
 - **Risk / trade-off:** hardware and workload variability can produce misleading thresholds; extra benchmark coverage increases CI/runtime cost. Do not treat initial runs as universal limits.
-- **Success metric / validation:** every required benchmark case appears in a machine-readable run manifest; at least five recorded repetitions per benchmark with p50/p95/p99 and memory context; run-to-run variance and environment metadata are reported; no performance pass is claimed until the approved threshold and baseline are present. Validate using the registered targets in [`benchmarks/metadata/CMakeLists.txt`](../../benchmarks/metadata/CMakeLists.txt) and compare results with [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md).
+- **Success metric / validation:** every required benchmark case appears in a machine-readable run manifest; at least five independent process-level repetitions per benchmark, with p50/p95/p99 derived from per-operation samples or another approved statistical method and memory context; run-to-run variance and environment metadata are reported; no performance pass is claimed until the approved threshold and baseline are present. Validate using the registered targets in [`benchmarks/metadata/CMakeLists.txt`](../../benchmarks/metadata/CMakeLists.txt) and compare results with [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md).
 
 #### Wave 2.5-B — Runtime security and reliability evidence
 
