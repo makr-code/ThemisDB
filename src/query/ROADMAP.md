@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-07"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -15,9 +15,9 @@ Human_Author: "unknown"
 
 Source level: 1
 SOT domain: module-behavior
-Canonical references: `../../ROADMAP.md`, `ROADMAP.md`, `AQL_CONSOLIDATION_INDEX.md`
-Related issue: #7371
-Related milestone: `DOC-WEEKLY-2026-44`
+Canonical references: `../../ROADMAP.md`, `../../RELEASE_STRATEGY.md`, `ROADMAP.md`, `ARCHITECTURE.md`, `FUTURE_ENHANCEMENTS.md`, `PERFORMANCE_EXPECTATIONS.md`, `../../include/query/optimizer_cost_model.h`, `../../include/query/query_resource_limits.h`, `../../include/query/query_federation.h`, `../../tests/query/CMakeLists.txt`
+Related issue: #7444
+Related milestone: `v2.5.0 → v3.0.0 module rollout`
 
 > **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks ueberfuehren. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
 
@@ -344,6 +344,151 @@ Performance and scalability optimization with measurable, gated performance impr
 - Query public APIs and language compatibility paths remain additive-first in active major lines.
 - Any future behavioral change requiring client migration must be versioned and documented in changelog/migration notes.
 
+## Release Roadmap — v2.5.0 Near-term and v3.0.0 Strategic (Issue #7444)
+
+This is a planning proposal, not a release commitment. Root release/version authority remains [`../../ROADMAP.md`](../../ROADMAP.md) and [`../../RELEASE_STRATEGY.md`](../../RELEASE_STRATEGY.md); v2.5.0 is the upcoming minor line there. No release date is inferred here. Planning windows are relative to approval, and owner assignment, milestone timing, and scope approval remain open.
+
+The P-labels below are proposed relative priorities for release readiness, not approved commitments or capacity assignments. Within each release line, P1 precedes P2; the v2.5.0 work is near-term and the v3.0.0 work is strategic.
+
+### Maturity assessment and evidence boundary
+
+- **Assessment:** Query has substantial implemented breadth across parsing, planning/optimization, execution coordination, limits/cancellation, and optional federation. It is not evidence that every path is production-validated: optimizer quality under changing distributions, bounded failure behavior, and representative end-to-end performance remain material gaps. This roadmap does not assign a new maturity score.
+- **Ownership boundary:** [`ARCHITECTURE.md`](ARCHITECTURE.md) defines query as owning parsing/planning/execution coordination, not storage/index implementation or network ingress. The work below stays within that boundary.
+- **Source evidence:** [`../../include/query/optimizer_cost_model.h`](../../include/query/optimizer_cost_model.h) exposes scan/join/selectivity estimates and table/column/index statistics, including stale-state information. [`../../include/query/query_resource_limits.h`](../../include/query/query_resource_limits.h) has row, memory, and timeout limits; [`../../include/query/query_federation.h`](../../include/query/query_federation.h) defines shard fan-out, result-byte, and timeout defaults.
+- **Test evidence:** [`../../tests/query/CMakeLists.txt`](../../tests/query/CMakeLists.txt) registers focused core tests including `QueryEngine` with `release_critical` labeling and selected query test modules. Source coverage includes parser edge cases, [`../../tests/query/test_query_resource_limits.cpp`](../../tests/query/test_query_resource_limits.cpp), [`../../tests/query/test_query_cancellation.cpp`](../../tests/query/test_query_cancellation.cpp), optimizer statistics/thread-safety, [`../../tests/query/test_query_jit_equivalence.cpp`](../../tests/query/test_query_jit_equivalence.cpp), federation hardness/routing, and continuous-query hardening. Presence and registration do **not** prove the current CI/runtime result; require run artifacts before calling a gate passed.
+- **Benchmark evidence and limitation:** [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) records QG-1..4 and generic NG targets, while representative-hardware p95/p99 refresh remains outstanding. [`../../benchmarks/query/bench_query_dedicated_gates.cpp`](../../benchmarks/query/bench_query_dedicated_gates.cpp) explicitly uses in-process parser/planner/executor stubs: it is harness evidence, **not real-engine performance evidence**. [`../../benchmarks/query/bench_query_limit_scaling.cpp`](../../benchmarks/query/bench_query_limit_scaling.cpp) invokes `VectorizedExecutionEngine` with a synthetic row source; it is useful for that scoped limit-scaling path, not a production storage/backend workload.
+
+| Research dimension | Repository evidence | Remaining gap / planned response |
+|---|---|---|
+| Performance / scalability | [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`FEATURES.md`](FEATURES.md) document multi-model query/execution paths; the [cost-model interfaces](../../include/query/optimizer_cost_model.h) cover estimates and stale statistics. The dedicated gate uses stubs; limit-scaling uses a synthetic source. | Representative-hardware refresh remains open. Wave 2.5-B adds reproducible, non-stub measurements; Wave 3.0-A evaluates adaptive plans against fixed baselines. |
+| Application scenarios / usability | The same module docs describe document, graph, vector, geospatial, and timeseries paths and the query flow. | Repository documentation is not validation of representative user/application scenarios. Wave 2.5-B defines workload cases; Wave 3.0-B covers sustained and federated operation and completion semantics. |
+| Security / resilience | [Resource-limit](../../include/query/query_resource_limits.h), [cancellation](../../include/query/query_canceller.h), and [federation](../../include/query/query_federation.h) interfaces expose controls; focused tests exist and are selectively registered in [`tests/query/CMakeLists.txt`](../../tests/query/CMakeLists.txt). | End-to-end bounds, input-boundary review, and deterministic failure evidence remain to be established. Wave 2.5-A closes focused safety gaps; Wave 3.0-B addresses slow, failed, and recovering peers. |
+| Governance / compliance / maintainability | [`ARCHITECTURE.md`](ARCHITECTURE.md) states ownership boundaries; test registration includes selected focused suites, including `QueryEngine` labeled `release_critical`. | Registration is not a CI result or compliance finding. Wave 2.5-A records focused safety evidence and input-boundary review; Wave 3.0-B reviews module boundaries and migration compatibility. |
+| Architecture / operational maturity | The documented module boundary excludes storage/index ownership and network ingress; query execution and federation are represented by module docs and interfaces. Research cited below is context only and does not validate ThemisDB. | Sustained-run behavior and representative operational evidence remain open. Wave 3.0-A retains guarded planning fallback; Wave 3.0-B covers sustained/federated behavior, metrics, and representative-duration evidence. |
+
+### Research grounding (context, not ThemisDB validation)
+
+- Leis et al., [“How Good Are Query Optimizers, Really?” (VLDB 2016)](https://www.vldb.org/pvldb/vol9/p204-leis.pdf), motivates measuring optimizer plan quality against execution outcomes rather than assuming cost-model estimates imply good plans. Its benchmark systems, operators, and workloads are not ThemisDB evidence.
+- Mu et al., [“Systematic Evaluation of Plan-based Adaptive Query Processing” (arXiv:2511.16455)](https://arxiv.org/abs/2511.16455), is a recent reference for evaluating adaptive, plan-based query processing systematically. Its evaluated designs and experimental conditions do not establish which adaptation policy is best for ThemisDB.
+- Begoli et al., [Apache Calcite (SIGMOD 2018)](https://arxiv.org/abs/1802.10233), describes an extensible query-processing framework; its modularity is useful design context, not a performance result or a requirement to adopt Calcite.
+- The [official TPC-H benchmark overview](https://www.tpc.org/tpch/) is a reference for standardized decision-support workload evaluation. Any use here must state dataset, query set, scale, and execution conditions; no TPC-H compliance or result is claimed.
+- The [OWASP SQL Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html) provides defensive guidance for untrusted query inputs and parameterization. It is not proof of ThemisDB injection resistance, and applicability must be checked per frontend/API rather than assuming SQL semantics for AQL.
+- The 2024 [reproducibility article](https://link.springer.com/article/10.1007/s10586-024-04533-0) is general context for reproducible computational evaluation. It does not validate any ThemisDB experiment; record environment, inputs, repetitions, and raw results for our own claims.
+
+These references motivate hypotheses and evaluation discipline only. Results from other database systems, query languages, workloads, and hardware must not be presented as validated ThemisDB outcomes.
+
+### v2.5.0 — near-term release hardening
+
+Scope: close bounded-safety and evidence gaps without broad query-language or public-API redesign. Target is v2.5.0; schedule and accountable owners require maintainer/release-manager approval. Planning effort is an estimate, not committed capacity.
+
+#### Wave 2.5-A — safety and deterministic behavior (P1 — highest v2.5.0 release-readiness priority)
+
+- **Goal:** Demonstrate predictable resource, cancellation, and federated failure behavior on focused query paths before expanding performance claims.
+- **Concrete tasks:**
+  - [ ] Audit execute entry points against row/memory/timeout enforcement; close any uncovered paths and add boundary regressions for configured limits (Target: v2.5.0).
+  - [ ] Run and, where needed, extend parser edge-case and cancellation tests; require evidence for malformed input, cancellation, and timeout outcomes (Target: v2.5.0).
+  - [ ] Exercise federation fan-out/result-byte/timeout bounds and define deterministic partial-failure outcomes; document any deliberately unsupported retry/partial-result behavior (Target: v2.5.0).
+  - [ ] Review external-query input boundaries against OWASP guidance, without treating that guidance as a substitute for frontend-specific tests (Target: v2.5.0).
+- **Dependencies:** Existing APIs and focused tests above; CI/build availability; shard-router and executor test doubles for failure injection. Any storage or ingress change must be owned and reviewed by its canonical module.
+- **Risks / trade-offs:** Enforcing limits consistently can change behavior for callers relying on effectively unbounded execution; retries/partial results can amplify load or obscure incomplete answers. Prefer explicit defaults and compatibility review over silent semantic changes.
+- **Effort estimate:** 2–4 engineering-weeks, excluding cross-module changes and release sign-off.
+- **Measurable success metrics:** All focused safety tests registered for the intended profile and passing in recorded CI runs; boundary cases cover below/at/above each configured limit; timeout/cancel completes within the test’s bounded deadline; federation tests assert fan-out and result-byte ceilings and explicit failure outcomes. No claim of zero security defects without a scoped review.
+- **Validation strategy:** Build/run the focused registered tests on `develop`, record CI identifiers and failures, then rerun the `release_critical` profile. Use fault injection for timeout, cancellation, and peer failure; inspect results for truncation/partial-success ambiguity. Do not infer pass status from source presence.
+
+#### Wave 2.5-B — optimizer and performance evidence (P2 — next v2.5.0 release-readiness priority)
+
+- **Goal:** Replace proxy/stub performance assertions with repeatable, representative engine-path measurements and regression evidence.
+- **Concrete tasks:**
+  - [ ] Add or designate a non-stub parse/plan/execute benchmark path and clearly label mocks, synthetic sources, and real backends in reports (Target: v2.5.0).
+  - [ ] Build a reproducible workload pack spanning simple filters, joins, pagination, skew/statistics drift, and vectorized limit scaling; document data generation, warm-up, repetitions, and environment (Target: v2.5.0).
+  - [ ] Compare estimated versus observed cardinalities and plan outcomes under fresh, missing, stale, and skewed statistics; retain stable fallback behavior where evidence is insufficient (Target: v2.5.0).
+  - [ ] Refresh QG-1..4 and p95/p99 baselines on agreed representative hardware; report variance and regressions against the prior comparable baseline (Target: v2.5.0).
+- **Dependencies:** Wave 2.5-A safety gate; benchmark-capable build/runner; representative hardware and dataset; release owner approval of workload and baseline policy.
+- **Risks / trade-offs:** Hardware, cache state, and workload drift can make comparisons misleading; more statistics/adaptation may increase planning latency or memory. Preserve raw runs and disclose environment rather than tuning to one score.
+- **Effort estimate:** 2–5 engineering-weeks, plus runner/hardware scheduling and repeated measurement time.
+- **Measurable success metrics:** 100% of reported cases identify engine/stub status, dataset, hardware, and run configuration; QG-1..4 have repeatable measured outcomes or an explicitly tracked blocked/proxy status; p95/p99 refresh is attached to representative-hardware runs; regression is reported against the existing QG-4 policy (<=8%) without silently redefining gates.
+- **Validation strategy:** Run repeated benchmark trials on the same recorded environment and compare distributions, not one-off best values. Review variance and raw artifacts; separately verify `bench_query_limit_scaling.cpp` as vectorized-engine/synthetic-source evidence. TPC-H may inform workload design only if its actual inputs/protocol are identified; do not claim official benchmark compliance absent that process.
+
+### v3.0.0 — strategic query evolution
+
+Scope: major-line opportunities that require measured safety/quality gains and explicit compatibility review; not a promise to ship every candidate. Any public language/API change needs versioned migration documentation. Sequencing and release date remain unapproved.
+
+#### Wave 3.0-A — adaptive planning with guarded fallback (P1 — first v3.0.0 priority)
+
+- **Goal:** Improve plan robustness across changing and skewed workloads while preserving explainable, bounded fallback behavior.
+- **Concrete tasks:**
+  - [ ] Define a workload-backed evaluation matrix for cardinality-estimation error, stale-statistics detection, plan quality, and planning overhead; publish reproducible cases and thresholds (Target: v3.0.0).
+  - [ ] Evaluate adaptive re-optimization triggers against fixed-plan baselines; require deterministic fallback when statistics or runtime signals are missing or unreliable (Target: v3.0.0).
+  - [ ] Extend semantic-equivalence and concurrency tests for rewrites, adaptive plan switches, and JIT/interpreter execution; make any unsupported operator/path explicit (Target: v3.0.0).
+  - [ ] Promote only optimizations that improve pre-agreed workload metrics without violating correctness, resource budgets, or planning-latency limits (Target: v3.0.0).
+- **Dependencies:** Wave 2.5-B reproducible baselines; optimizer/runtime instrumentation; maintainers approve metric definitions and compatibility policy.
+- **Risks / trade-offs:** Adaptive decisions can cause plan instability, nondeterminism, planning overhead, or regressions on workloads unlike the evaluation set. Guard with bounded retries, observable decisions, and opt-out/fallback policy where appropriate.
+- **Effort estimate:** 4–8 engineering-weeks for evaluation and implementation, with additional workload-specific tuning subject to evidence.
+- **Measurable success metrics:** Every accepted adaptive path has a deterministic fallback and equivalence regression; evaluation reports estimate error and planning/execution latency for each workload class; improvement threshold is agreed before tuning and no correctness/resource gate regresses.
+- **Validation strategy:** Compare adaptive and fixed plans on identical data and environment, include skew/drift and missing-statistics cases, repeat trials, and retain raw traces. Independent reproduction/review is required before generalizing findings; research results are not a substitute.
+
+#### Wave 3.0-B — sustained and federated query operability (P2 — after v3.0-A)
+
+- **Goal:** Extend safe long-running and distributed query operation only where boundedness and user-visible completion semantics can be demonstrated.
+- **Concrete tasks:**
+  - [ ] Specify and test federation cancellation, deadlines, bounded result accumulation, and partial-result/error contracts under slow, failed, and recovering peers (Target: v3.0.0).
+  - [ ] Validate continuous-query backpressure, queue/memory bounds, and recovery behavior under sustained and burst workloads; document persistence guarantees separately from query-module ownership (Target: v3.0.0).
+  - [ ] Add representative-duration federation/continuous-query benchmarks and operational metrics, separating synthetic test sources from production-backed runs (Target: v3.0.0).
+  - [ ] Review any proposed API or language changes for major-version compatibility and update canonical migration/release documents before adoption (Target: v3.0.0).
+- **Dependencies:** Wave 2.5-A bounded-failure evidence; federation/router test environments; continuous-query stream and persistence owners; observability support.
+- **Risks / trade-offs:** Backpressure and stricter bounds may reduce throughput or expose previously hidden partial results; retries and long retention increase resource cost. Persistence and network-ingress guarantees belong to their respective modules.
+- **Effort estimate:** 4–8 engineering-weeks, excluding cross-module persistence/ingress work and sustained-run wall time.
+- **Measurable success metrics:** Fault matrix covers slow/failing/recovering peers and asserts bounded fan-out/result bytes/deadline; sustained tests report memory/queue high-water marks and no unbounded growth; completion or partial-failure status is unambiguous in every tested case; release-critical tests remain green.
+- **Validation strategy:** Execute focused fault-injection tests plus sustained runs with recorded configuration, artifacts, and resource samples; repeat on agreed representative hardware for performance claims. Review module boundaries and migration compatibility before release sign-off.
+
+### Implementation-phase mapping
+
+The phase tasks below map the existing wave work to the repository implementation phases; they do not add scope beyond those wave tasks.
+
+#### Phase 1 — Design/API contract
+
+- [ ] Define the workload-backed evaluation matrix, measures, and thresholds for cardinality error, plan quality, and planning overhead (Wave 3.0-A; Target: v3.0.0).
+- [ ] Specify federation cancellation, deadlines, bounded result accumulation, and partial-result/error contracts, and review proposed API or language changes for major-version compatibility (Wave 3.0-B; Target: v3.0.0).
+
+#### Phase 2 — Core implementation
+
+- [ ] Close uncovered execute paths for row, memory, and timeout enforcement (Wave 2.5-A; Target: v2.5.0).
+- [ ] Implement adaptive re-optimization only for evaluation-backed triggers, retaining the fixed-plan fallback (Wave 3.0-A; Target: v3.0.0).
+- [ ] Validate continuous-query backpressure, queue/memory bounds, and recovery behavior under sustained and burst workloads (Wave 3.0-B; Target: v3.0.0).
+
+#### Phase 3 — Error handling & edge cases
+
+- [ ] Define deterministic federation partial-failure outcomes and exercise fan-out, result-byte, and timeout bounds (Wave 2.5-A; Target: v2.5.0).
+- [ ] Add deterministic adaptive-plan fallback for missing or unreliable statistics and cover slow, failed, and recovering federation peers (Waves 3.0-A and 3.0-B; Target: v3.0.0).
+
+#### Phase 4 — Tests
+
+- [ ] Run and extend parser edge-case and cancellation tests for malformed input, cancellation, and timeout outcomes (Wave 2.5-A; Target: v2.5.0).
+- [ ] Extend semantic-equivalence and concurrency tests for rewrites, adaptive plan switches, and JIT/interpreter execution (Wave 3.0-A; Target: v3.0.0).
+- [ ] Test federation fault cases and sustained continuous-query behavior, including bounded resources and unambiguous completion/failure (Wave 3.0-B; Target: v3.0.0).
+
+#### Phase 5 — Performance/hardening
+
+- [ ] Add or designate a non-stub parse/plan/execute benchmark path and build the reproducible workload pack (Wave 2.5-B; Target: v2.5.0).
+- [ ] Refresh QG-1..4 and p95/p99 baselines on agreed representative hardware, reporting variance and comparable regressions (Wave 2.5-B; Target: v2.5.0).
+- [ ] Compare adaptive and fixed plans on identical data, including skew, drift, and missing-statistics cases (Wave 3.0-A; Target: v3.0.0).
+- [ ] Add representative-duration federation/continuous-query benchmarks and operational metrics, separating synthetic sources from production-backed runs (Wave 3.0-B; Target: v3.0.0).
+
+#### Phase 6 — Documentation & acceptance
+
+- [ ] Document deliberately unsupported retry/partial-result behavior and record focused safety-test CI evidence against the wave success metrics (Wave 2.5-A; Target: v2.5.0).
+- [ ] Record benchmark environment, run configuration, variance, and raw artifacts; assess QG-1..4 and p95/p99 outcomes against the existing policy (Wave 2.5-B; Target: v2.5.0).
+- [ ] Publish reproducible adaptive-planning evaluation results and retain traces for independent review before generalizing findings (Wave 3.0-A; Target: v3.0.0).
+- [ ] Update canonical migration/release documents for any adopted API or language changes, and review module boundaries before release sign-off (Wave 3.0-B; Target: v3.0.0).
+
+### Assumptions and open gaps
+
+- Planning targets name release lines, not dates. Maintainers must approve ownership, capacity, milestone windows, acceptance thresholds, and whether each wave belongs in the corresponding release.
+- Existing source/tests are evidence of implementation and intended coverage only. No tests, benchmarks, security review, or TPC-H runs were executed for this roadmap update; runtime/CI status must be attached by the owning implementation work.
+- Representative hardware, production-like datasets, baseline artifacts, and a reproducible real-engine parse/plan/execute benchmark remain open evidence needs. The dedicated stub benchmark is not an acceptable substitute.
+- Public API compatibility, federation partial-result semantics, cross-module dependencies, and the precise v3.0.0 feature boundary require design/owner review before implementation commitments.
+- Query receives storage/index and ingress dependencies; this plan does not assign query ownership for persistence, index maintenance, or network admission.
+
 ## Program Execution Model — Wave Context
 
 This module is a **contributing module** in the program-level Wave A → B → C → D execution model.
@@ -363,5 +508,5 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 
 ### Program-Level Success Criteria (contribution)
 - [x] This module's distributed/acceleration paths fail closed — existing error handling confirmed; `[QUERY:PlannerOOM]`, `[QUERY:ExecutorDeadlock]`, `[QUERY:JoinExplosion]` runbook paths documented (Delivered: 2026-09-16)
-- [x] Benchmark-backed p95/p99 baselines exist on representative hardware — `benchmarks/query/bench_query_dedicated_gates.cpp` (QE-BM-01..04: parse p95, plan p95, execute p95, concurrent throughput) delivered (Delivered: 2026-09-16)
+- [ ] Benchmark-backed p95/p99 baselines on representative hardware — open; `benchmarks/query/bench_query_dedicated_gates.cpp` (QE-BM-01..04) uses in-process stubs and is not engine-performance evidence. Refresh with a real-engine path (Target: Q1 2027)
 - [x] Operator-critical paths have diagnostics, alerts, and runbooks — `docs/operability/RUNBOOK_QUERY_ENGINE.md` with 5 scenarios, log patterns, and remediation tables (Delivered: 2026-09-16)

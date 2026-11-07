@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-11-06"
+Last Updated: "2026-11-06"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Best Practices Index
 
 This directory documents engineering best practices — from open-source projects, industry standards, and internal ThemisDB learnings — that influence the codebase.
@@ -25,6 +39,8 @@ When a design or implementation pattern is adopted from an established external 
 | [Secure Key Zeroing](secure_key_zeroing.md) | `plugins/user_storage_encrypted/`, `src/user_storage_encrypted/` | v0.1.0+ | ✅ Fully Adopted |
 | [std::shared_mutex Read-Write Locks](shared_mutex_read_write_locks.md) | `src/config/`, `src/cache/`, `src/server/` | v1.8.0+ | ✅ Fully Adopted |
 | [Boost.Asio Proactor Async I/O](boost_asio_async_io.md) | `src/server/` | v1.0.0+ | ✅ Fully Adopted |
+| [TPC-H Decision-Support Workload Methodology](tpc_h_benchmark_methodology.md) | `src/execution/` | proposed v2.5.0 | ⏳ Identified |
+| [Explicit Overload Handling and Bounded Work](sre_handling_overload.md) | `src/execution/` | proposed v2.5.0 | ⏳ Identified |
 
 ## Adding a New Best Practice
 

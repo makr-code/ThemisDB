@@ -66,13 +66,13 @@ class WindowsReleaseBuildMemoryTests(unittest.TestCase):
              "arg=windows-release", "arg=--parallel", "arg=1"],
         )
 
-    def test_windows_configure_serializes_dependency_builds(self):
+    def test_windows_configure_uses_modest_independent_dependency_parallelism(self):
         result, log = self.run_windows_command(0, command="configure")
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(log, result.stdout)
         self.assertEqual(
             log.splitlines()[:4],
-            ["parallel=1", "vcpkg=1", "arg=--preset", "arg=windows-release"],
+            ["parallel=2", "vcpkg=2", "arg=--preset", "arg=windows-release"],
         )
 
     def test_compiler_failure_is_not_hidden_by_tee(self):

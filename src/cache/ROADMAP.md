@@ -1,15 +1,16 @@
 # Cache Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-09-16 -->
+<!-- Status: current | validated: 2026-11-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- AI_Used: true | AI_Models: unknown | AI_Contributor: GitHub Copilot Coding Agent | Human_Review: false | Human_Author: ThemisDB Team
 Exact model backend not verifiable from final document text alone. -->
 
 ## Current Status
 
-Production cache runtime exists across adaptive query cache, semantic/embedding cache surfaces, warmup and predictive paths, plus distributed coordination and replication components.
-The last documented validation refresh for issue `#5632` (2026-09-16) kept these priorities; that session reported its build evidence blocked by the RocksDB system dependency. Build/tests were not rerun for this documentation-only issue `#7333` update.
+The source contains adaptive L1/L2/L3 query caching, exact-key semantic caching, embedding similarity caching, warmup/prefetch, tenant-aware paths, and asynchronous distributed coordination/replication. `EmbeddingCache` initializes `VectorIndexManager` when configured; if index initialization is unavailable, query falls back to a linear in-memory scan. Tenant isolation is opt-in in `AdaptiveQueryCache::Config`, while authorization, freshness, and write/invalidation ordering remain caller responsibilities.
+
+Implementation and focused test coverage are substantial, but release-validation maturity is incomplete: the cache benchmark runbook documents a gap in aggregating three benchmark outputs and mapping all manifest metrics, and the manifest's claim that the embedding index is a stub is not supported by the current implementation. No cache tests or benchmarks were run for issue `#7406`; the latest module roadmap evidence still records a RocksDB configure dependency block. Treat performance gates as unverified until the planned evidence is captured.
 
 ## In Progress
 
@@ -104,6 +105,85 @@ The last documented validation refresh for issue `#5632` (2026-09-16) kept these
 - [x] roadmap/future acceptance context revalidated for issue #5632 sync pass
 - [x] frozen contract header created (`include/cache/cache_contract.h` v1.0.0, §1–§7)
 - [x] release-gate benchmark manifest stabilized (`benchmarks/cache/release_gate_manifest_cache.json`)
+
+## v2.5.0 / v3.0.0 Research and Wave Plan
+
+### Module assessment and evidence-based gaps
+
+**Maturity:** functional implementation is advanced; release-grade performance, distributed-consistency, and workload-specific semantic-reuse evidence is not complete. This is not a cache release sign-off.
+
+| Area | Source-backed state | Gap / consequence |
+|---|---|---|
+| Performance and scale | Bounded L1/L2 and optional RocksDB L3; configurable LRU/LFU/ARC policy surfaces; concurrent and high-cardinality tests exist. Three benchmark sources and a 24-case manifest are documented. | No verified cache-aware report aggregates all three benchmark outputs and manifest metrics. No current representative-hardware baseline proves the manifest thresholds. Embedding lookup falls back to an O(N) scan when the vector index is unavailable. |
+| Use and integration | Query, server, LLM, sharding, and content integrations are identified in `ARCHITECTURE.md`; warmup, prefetch, exact semantic caching, and embedding similarity are separate paths. | No evidence establishes which policy or feature benefits each production workload. Similarity threshold `0.95` is a default, not an application-level equivalence guarantee. |
+| Security and resilience | `cache_contract.h` bounds key/value/tenant input and defines failure classes; tests cover tenant isolation and coordinator degradation. Remote replication is asynchronous and may be partial. | Isolation is opt-in for adaptive caching; cache hits do not authorize callers or guarantee freshness. Delivery, invalidation ordering, and degraded-mode behavior need fault-injection and integration evidence. |
+| Governance and operations | The module has an API contract, focused tests, benchmark manifest/runbook, operations documentation, and a SLO monitor. | The embedding-index limitation in the manifest is stale/unverified, and operator-facing release evidence cannot yet demonstrate all configured gates. Current cache-specific Developer LLM Wiki context is not curated in the generated module index; module source docs remain authoritative. |
+
+Research evidence and applicability limits are recorded in [`RESEARCH.md`](RESEARCH.md). In brief, ARC and TinyLFU motivate comparing adaptive replacement and admission policies rather than assuming one wins; YCSB motivates a repeatable workload mix; RFC 9111 and KAIROS inform freshness/invalidation trade-offs but do not define ThemisDB cache consistency; OWASP and production distributed-cache studies motivate tenant-boundary and failure testing. None substitutes for ThemisDB workload measurements.
+
+### v2.5.0 — compatibility-preserving validation and hardening
+
+The v2.5.0 plan prioritizes proving existing behavior and closing evidence/operability gaps. Do not silently change the v1.x cache contract or make tenant isolation globally default-on in this release line.
+
+#### Wave 1 — Reproducible performance gate (P0; estimate: 1–2 person-weeks)
+- [ ] Implement and unit-test a cache-aware report/aggregation path for the three benchmark JSON outputs and every metric in `release_gate_manifest_cache.json`; mark environment-dependent skips explicitly, never as passes (Target: v2.5.0).
+- [ ] Capture a release-profile baseline on recorded representative hardware, compiler, configuration, workload, and revision; reconcile the vector-index gate description against `embedding_cache.cpp` and actual index behavior (Target: v2.5.0).
+- **Dependencies:** Google Benchmark build, available RocksDB for L3 cases, and a pinned benchmark host; Redis cases require a reachable test service.
+- **Risk / trade-off:** shared-runner variance and optional dependencies can create false regressions or hide missing coverage; keep skipped cases visible and do not lower thresholds to obtain a pass.
+- **Success metrics:** 100% of the manifest's 24 benchmark IDs are either measured or explicitly skipped with a reason; 100% of declared metrics are evaluated; no measured hard gate exceeds its manifest threshold or regresses more than 10% against the frozen same-profile baseline.
+- **Validation:** run all three benchmark executables with five repetitions; unit-test aggregation with missing, duplicate, skipped, malformed, and threshold-boundary inputs; compare the report to raw JSON and manifest entries.
+
+#### Wave 2 — Tenant-safe integration and freshness contract (P1; estimate: 2–3 person-weeks)
+- [ ] Trace tenant context through supported query/server/LLM cache call paths; document where isolation is enabled, unsupported, or caller-enforced, and reject unsafe missing-context use on paths that require isolation (Target: v2.5.0).
+- [ ] Extend the focused test matrix across tenant-scoped get/put/invalidation, expiry, and L1/L2/L3 availability; retain the current public default unless a separately reviewed compatibility decision changes it (Target: v2.5.0).
+- [ ] Record the source-data owner's freshness and invalidation-ordering responsibility at each integration boundary; test cache state after a successful write and failed/partial invalidation (Target: v2.5.0).
+- **Dependencies:** Wave 1 test/build environment and downstream integration owners for `query`, `server`, and `llm`.
+- **Risk / trade-off:** enforcing tenant context may expose integrations that intentionally use the global namespace; separate those explicitly from sensitive data paths rather than weakening checks.
+- **Success metrics:** zero cross-tenant hits in the enabled-isolation negative-path matrix; every integration path is classified as tenant-scoped or explicitly global; all invalidation outcomes distinguish local completion from remote delivery.
+- **Validation:** focused tenant-isolation, contract-hardening, and integration tests; repeat with optional L3 disabled/enabled where RocksDB is available; security review of key construction and cache-hit authorization boundaries.
+
+#### Wave 3 — Bounded distributed degradation (P1; estimate: 2–4 person-weeks)
+- [ ] Add deterministic integration/fault-injection coverage for delayed, duplicate, reordered, dropped, and partially acknowledged invalidation/replication events, including restart/reconnect (Target: v2.5.0).
+- [ ] Verify configured retry, queue, timeout, and failure-class behavior against the contract; surface local success and remote partial/failure outcomes separately in metrics and runbooks (Target: v2.5.0).
+- **Dependencies:** Waves 1–2; Redis/gRPC test services or deterministic test peers; `release_critical` CI on `develop`.
+- **Risk / trade-off:** stronger delivery guarantees increase write latency, queue/storage use, and operational complexity; retain bounded asynchronous delivery unless workload owners approve stronger semantics.
+- **Success metrics:** every injected event ends in acknowledged delivery or an explicit bounded failure/partial-delivery diagnostic; no retry or queue grows without configured bound; measured propagation stays within the existing 30-second contract where that guarantee applies.
+- **Validation:** focused coordinator/replication tests plus multi-node fault-injection and recovery runs; inspect per-peer counters and operator runbook outcomes; run sanitizers on changed concurrency paths.
+
+### v3.0.0 — policy, semantic correctness, and explicit distributed guarantees
+
+The v3.0.0 strategy may introduce incompatible contract changes only with an approved migration plan. It remains conditional on workload-owner requirements and evidence from v2.5.0; research sources do not mandate a particular policy or consistency model.
+
+#### Wave 4 — Workload-driven admission and tier policy (P1; estimate: 3–5 person-weeks)
+- [ ] Compare existing LRU/LFU/ARC and candidate admission policies (including TinyLFU only if its implementation and contract are first verified) under scan-heavy, skewed, read-heavy, mixed, and shifted workloads at fixed memory budgets (Target: v3.0.0).
+- [ ] Report hit ratio, p50/p95/p99 latency, throughput, CPU, and resident memory by tier; retain the current default until an approved workload suite demonstrates a repeatable benefit (Target: v3.0.0).
+- **Dependencies:** Wave 1 benchmark aggregator and approved, privacy-safe workload traces; policy implementation review.
+- **Risk / trade-off:** traces may not represent production, and improved hit ratio can cost CPU/memory or increase stale-data exposure.
+- **Success metrics:** publish per-workload comparison and confidence intervals; candidate adoption requires a workload-owner-approved improvement threshold with no >10% p99 or memory-budget regression in any designated critical profile.
+- **Validation:** deterministic trace replay with warm/cold and workload-shift segments, repeated runs, same hardware/configuration, and benchmark artifacts suitable for independent reproduction.
+
+#### Wave 5 — Safe approximate embedding reuse (P1; estimate: 3–5 person-weeks)
+- [ ] Define model/version, dimension, similarity metric, threshold, freshness, and invalidation identity for embedding entries; require application owners to label equivalent and non-equivalent query pairs before tuning reuse behavior (Target: v3.0.0).
+- [ ] Evaluate index-enabled, index-unavailable, and eviction paths against labeled corpora; keep approximate reuse opt-in for workloads without an approved false-reuse budget (Target: v3.0.0).
+- **Dependencies:** Wave 1 measurement path, Wave 2 freshness ownership, model/corpus owners, and a verified vector-index backend.
+- **Risk / trade-off:** false semantic reuse can return incorrect or unauthorized results; a stricter threshold lowers risk but may erase cache benefit. The current default threshold is not a safety guarantee.
+- **Success metrics:** report hit rate, recall, false-reuse rate, confidence intervals, and p99 for each model/corpus/threshold; the application owner must approve the maximum false-reuse risk before any production default changes.
+- **Validation:** held-out, labeled positive/negative pairs; model/version mismatch, invalid dimensions, expiry, and unavailable-index tests; review any false-reuse case before acceptance.
+
+#### Wave 6 — Versioned distributed cache semantics (P2; estimate: 4–6 person-weeks)
+- [ ] Specify and version the intended invalidation, replication, restart/recovery, and stale-read guarantees for supported coordinator backends; define migration behavior before changing public contract semantics (Target: v3.0.0).
+- [ ] Add long-duration, multi-node tests for write/invalidation races, peer churn, partitions, reconnect, queue saturation, and recovery; document whether each outcome is strong, eventual, or explicitly partial (Target: v3.0.0).
+- **Dependencies:** Wave 3 fault model and operations evidence; product decisions on consistency/freshness; compatibility review under `VERSIONING.md`.
+- **Risk / trade-off:** stronger consistency can reduce availability and increase tail latency; eventual semantics require consumers to tolerate bounded staleness and observe incomplete delivery.
+- **Success metrics:** all failure-injection cases converge to the declared state or report a bounded, actionable failure; p99 propagation and recovery targets are approved per deployment profile and reported with the test artifacts.
+- **Validation:** multi-node fault injection, soak and restart recovery, contract compatibility tests, operational runbook review, and signed human approval of the v3 behavior/migration note.
+
+### Open assumptions and decision gates
+
+- No representative production cache traces, tenant-count distribution, freshness SLO, or application-approved embedding false-reuse budget were present in the inspected cache artifacts; obtain these before selecting policy or semantic thresholds.
+- The manifest's index-stub note conflicts with the inspected HNSW initialization path; verify actual build flags/backend and benchmark results before removing the caveat or treating indexed performance as available.
+- The current Developer LLM Wiki status is generated 2026-11-02 and reports substantial source removals; it does not provide curated cache-module context. Rebuild/synchronize that wiki separately rather than treating it as cache SOT.
+- The person-week estimates are planning ranges, not committed delivery dates; they assume existing test infrastructure and access to the named backends and hardware.
 
 ## Production Readiness Checklist
 

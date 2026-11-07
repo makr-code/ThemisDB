@@ -1,4 +1,97 @@
+[docs](../../README.md) > [de](../README.md) > [guides](README.md)
+
+**Datum:** 2026-11-07
+
+**Status:** review
+
+**Primary (Quelle der Wahrheit):** [Release-Matrix](../../../.github/workflows/release-build-matrix.yml), [Build-Pipeline](../../../.github/workflows/reusable-cmake-build.yml), [Dependency-Supervisor](../../../scripts/prepare-windows-dependencies.py), [Presets](../../../CMakePresets.json)
+
+**Bezug / Reference:** Windows dependency timeout, Actions run 42278019978 / job 128119148701.
+
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: OpenAI API assistant
+Human_Review: false
+Human_Author: ThemisDB Contributors
+-->
+
 # Windows Build Setup - Kritische Konfigurationsanforderungen
+
+## Release-CI: Dependencies vor dem ThemisDB-Build sichern
+
+Die Release-Matrix führt für eine aktivierte Windows-Lane zuerst den separaten
+Job `windows-dependencies` aus. Er konfiguriert denselben gepinnten `source_sha`
+mit demselben Preset, Manifest, Feature-Flags, Toolchain sowie Target-/Host-Triplet
+`x64-windows`, kompiliert aber **nicht ThemisDB**. Bewusst wird die echte
+Projektkonfiguration verwendet: keine zweite, manuell gepflegte Feature-Liste.
+Deaktivierte Windows-Lanes überspringen diesen Job; Linux/macOS laufen auch bei
+einem Windows-Vorbereitungsfehler weiter.
+
+- Der Supervisor begrenzt Configure auf höchstens **270 Minuten**, zusätzlich auf
+  die verbleibende Zeit bis zur **300-Minuten-Deadline ab Jobbeginn** (vor Checkout,
+  Restore und Setup). Beim kontrollierten Timeout beendet er unter Windows mit
+  `taskkill.exe /PID <pid> /T /F` den Prozessbaum und liefert Exit-Code **124**.
+  Fehlercodes normaler Installationsfehler werden unverändert weitergegeben.
+- Anschließend wird auch bei Installationsfehlern oder kontrolliertem Timeout
+  ein neuer partieller Cache-Snapshot gespeichert (Upload-Budget **30 Minuten**).
+  Der 360-Minuten-Job lässt damit Zeit für Beendigung und Upload; ein `always()`
+  oder `!cancelled()` nach Ablauf des harten Joblimits allein würde nicht reichen.
+  Manuelle Cancellation oder Runner-Ausfall können weiterhin den Upload verhindern.
+- Erst erfolgreiche Vorbereitung plus Cache-Save veröffentlichen den Snapshot-Key.
+  Der eigentliche Windows-Build verlangt dessen **exakten Restore** und installiert
+  mit `VCPKG_INSTALL_OPTIONS=--only-binarycaching`. Fehlende Archive, ABI-Abweichungen
+  oder ein fehlgeschlagener Prerequisite blockieren Configure/Compile; es gibt keinen
+  unbeschränkten Source-Build-Fallback. Ein Cache-Service-Fehler wird spätestens am
+  exakten Restore sichtbar. Ein späterer MSVC-Fehler verliert die vorbereiteten ZIPs
+  nicht mehr.
+- `windows_dependency_concurrency` ist auf **2** voreingestellt, zulässig sind
+  **1–4**. `VCPKG_MAX_CONCURRENCY` steuert vcpkg unabhängig vom ThemisDB-Build:
+  dieser behält `CMAKE_BUILD_PARALLEL_LEVEL=1` und explizit `--parallel 1` wegen C1060.
+  Preset-Environment kann Umgebungswerte überschreiben; entscheidend sind vcpkgs
+  eigener Concurrency-Wert und das explizite MSVC-Build-Argument.
+- Die opt-in Modi `prepare`/`consume` der wiederverwendbaren Pipeline nutzen den
+  separaten Namespace `release-deps-v2`. OS, Architektur, Compiler, Triplet,
+  Manifest-/Overlay-Hash, Configure-Signatur, vcpkg-Revision, MSVC-Version und Source-SHA segmentieren
+  Snapshot-Keys; Run-ID/Attempt machen sie absichtlich eindeutig. Prefix-Restore
+  erlaubt inkrementelle Vorbereitung aus älteren partiellen Snapshots, während
+  vcpkg die Paket-ABI prüft. Cross-OS-Archive und Build-Tree-Restore sind für diese
+  Modi deaktiviert; native Windows-Cache-Pfade werden mit `cygpath -m` normalisiert.
+  Andere Aufrufer behalten den Standardmodus `off`.
+
+### Dual-Konfiguration und Diagnose
+
+Die Lane behält **Debug und Release** des unveränderten `x64-windows`-Triplets.
+Die Release-Matrix unterstützt auch `build_type=Debug`, und Target-/Host-Pakete
+müssen dieselbe Triplet-/ABI-Konfiguration verwenden. `VCPKG_BUILD_TYPE=release`
+als Umgebungsvariable ist kein sicherer Triplet-Ersatz. Release-only würde ein
+eigenes, konsistent für Target und Host eingesetztes Overlay-Triplet samt
+ABI-/Linkage- und nativer Port-Validierung benötigen; das wird hier nicht ohne
+diese Kompatibilitätsevidenz eingeführt.
+
+Cache-Diagnose unterscheidet `exact-match`, `prefix-restored` und `no-cache`,
+zeigt den gematchten Key und zählt nur binäre `*.zip`-Archive. `cache-hit=false`
+ist bei eindeutigen Snapshot-Keys **kein Beweis für fehlenden Restore**.
+Die Install-Ausgabe `Restored N package(s)` belegt tatsächliche ABI-validierte
+Wiederverwendung; ohne solche Ausgabe lautet die Diagnose „not reported“, nicht
+„0 Treffer“. Vorhandene `package ABI:`-Zeilen werden ebenfalls angezeigt.
+**Zero sccache requests sind keine Cache-Misses**: im beobachteten Lauf begann
+der ThemisDB-Build nach sechs Stunden Configure überhaupt nicht.
+
+Lokale Regressionen:
+
+```bash
+python -m unittest discover -s tests -p 'test_windows_dependency_preparation.py' -v
+python -m unittest discover -s tests -p 'test_windows_release_build_memory.py' -v
+PYTHONPATH=tests python -m unittest test_deployment_workflow_regressions.DeploymentWorkflowTests -v
+```
+
+Die Tests prüfen Supervisor, Prozessbaum-Timeout auf Linux, Windows-PID-Aufruf,
+Fehlerweitergabe, Save-Reihenfolge, Gating, Quell-/Feature-Parität, Cache-Diagnose
+und Parallelismus. Sie ersetzen **keinen nativen Windows/MSVC/vcpkg-Lauf**.
+Ein neuer CI-Run auf korrigierter Source ist zur Validierung von Windows-Tree-Kill,
+partiellem Cache-Upload, ABI-Restore und Packaging erforderlich; ein Retry des
+alten Runs nutzt dessen alte Source-SHA.
 
 ## Übersicht
 

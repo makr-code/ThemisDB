@@ -65,6 +65,28 @@ central-dispatch implementation. They do not establish fairness under
 arbitrary mixed workloads, per-worker stealing, elastic scaling, cancellation,
 or production observability.
 
+## External research and applicability
+
+The following sources inform design choices; none is evidence that this
+implementation already meets their results or guarantees.
+
+| Source | Finding relevant to execution | Applicability and limitation |
+|---|---|---|
+| Blumofe and Leiserson, “Scheduling Multithreaded Computations by Work Stealing,” *Journal of the ACM* 46(5), 1999, [DOI: 10.1145/324133.324234](https://doi.org/10.1145/324133.324234) ([research record](../../research/papers/blumofe_leiserson_work_stealing_1999.md)) | Work stealing has provable expected-time bounds for fully strict, dependency-structured computations and can reduce scheduling overhead compared with work sharing in that model. | A database task queue is not automatically a fully strict computation. This supports evaluating stealing under skewed task distributions, not assuming a speedup or importing the theorem as a runtime guarantee. |
+| Wu et al., “Improving DBMS Scheduling Decisions with Fine-grained Performance Prediction on Concurrent Queries,” 2025 preprint, [arXiv:2501.16256](https://arxiv.org/abs/2501.16256) ([research record](../../research/papers/wu_concurrent_query_scheduling_2025.md)) | Concurrent-query scheduling decisions can benefit from accounting for runtime variation across system states and query mixes; reported end-to-end improvements are specific to their evaluated PostgreSQL and Redshift workloads. | This module has no execution-time predictor, query-mix model, or integrated request path. Treat the work as motivation to measure representative mixes and tail latency before considering adaptive policies; do not transfer the reported percentages as targets. |
+| Transaction Processing Performance Council, [TPC-H](https://www.tpc.org/tpch/) and [current specifications](https://www.tpc.org/tpc_documents_current_versions/current_specifications5.asp?mode=TPC-MEMBER) ([research record](../../research/best_practices/tpc_h_benchmark_methodology.md)) | A decision-support workload should exercise complex queries, varied data volumes, and both single-stream response and concurrent throughput. The current TPC-H specification is 3.0.1. | Use representative workload shapes and concurrency as test-design inputs. An execution-primitive microbenchmark is not a TPC-H result and must not be presented as one. |
+| Google, *Site Reliability Engineering*, [Handling Overload](https://sre.google/sre-book/handling-overload/) ([research record](../../research/best_practices/sre_handling_overload.md)) | Reliable services make overload behavior explicit, bound work, and use appropriate shedding/throttling rather than allowing overload to cascade. | The module has bounded queues, timeout rejection, and LOW shedding, but no host-level feedback or export surface. Service integration and retry behavior remain caller responsibilities. |
+
+### Source-to-module gap analysis
+
+| Area | Current source evidence | Gap and planned response |
+|---|---|---|
+| Performance and scale | `QueryScheduler` uses a mutex-protected deadline priority queue; the pool uses one bounded shared dispatch queue. The dedicated benchmark models different local queues. | No production-runtime latency/throughput baseline, realistic mixed workload, or verified steal-path data. v2.5.0 establishes runtime baselines; v3.0.0 evaluates stealing and scaling against those baselines. |
+| Use and integration | `README.md` documents the scheduler and pool as composable primitives; the server constructs and tears them down but does not route requests through them. | End-to-end user benefit and caller retry/backpressure behavior are unproven. Keep v2.5.0 focused on measurable contracts; gate v3.0.0 integration on an approved consumer and service-level tests. |
+| Security and resilience | Queue capacities and admission timeouts are bounded; shutdown rejects new submissions and task exceptions are counted. There is no queued-work cancellation, expiry, or interruption of running callables. | Validate saturation, shutdown, task failure, and bounded resource use before adding features. Define any cancellation/expiry contract explicitly; never imply that an SLA deadline interrupts or expires work. |
+| Governance and maintainability | Public headers document current behavior and reserved fields; module tests cover scheduler behavior and pool integration. | The `WorkStealingThreadPool` name and unused runtime-scaling configuration can mislead consumers. Resolve the contract before enabling the reserved behavior; retain source-to-test and documentation checks per wave. |
+| Architecture and operations | The module exposes in-memory snapshots; no built-in telemetry exporter or active request-path integration exists. | No operator-visible queue-wait, rejection, or dispatch signals. Establish the metric contract in v2.5.0 and implement a host-owned export/integration only after ownership and lifecycle are agreed. |
+
 ## Reproducible validation
 
 From the repository root, run the three registered focused execution CTest
@@ -76,11 +98,17 @@ configuration, hardware, runtime test result, and production benchmark baseline
 together; do not compare results across different configurations as if they
 were equivalent.
 
+External retrieval note: web-search metadata for the cited works was available
+for this review, but direct web-page retrieval was blocked in the execution
+environment. Verify bibliographic details and current benchmark specification
+before using this note as a formal literature review.
+
 ## Related contracts
 
 - [MODELING.md](MODELING.md) describes the queue and deadline model.
 - [IMPLEMENTATION.md](IMPLEMENTATION.md) maps that model to source.
 - [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md) names the benchmark
   gates and their current interpretation.
+- [ROADMAP.md](ROADMAP.md) defines the proposed versioned waves and acceptance KPIs.
 
 Exact model backend not verifiable from final document text alone.

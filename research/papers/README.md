@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-11-06"
+Last Updated: "2026-11-06"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Scientific Papers Index
 
 This directory contains documentation of all scientific papers that have influenced ThemisDB's implementation.
@@ -39,6 +53,13 @@ Each paper that serves as a foundation for a ThemisDB algorithm, data structure,
 |-------|-----------|---------|--------|
 | [Bao: Learned Query Optimization — Marcus et al. (2021)](marcus_bao_learned_query_opt_2021.md) | `src/query/adaptive_optimizer.cpp`, `src/query/runtime_reoptimizer.cpp` | planned v2.0.0 | 🔄 In Progress |
 | [AI Meets Database (AI4DB) — Zhou et al. (2022)](zhou_ai4db_survey_2022.md) | `src/query/`, `src/storage/index_analyzer.cpp`, `src/cache/` | v2.0.0+ framework | 🔄 In Progress |
+
+**Execution & Scheduling:**
+
+| Paper | Module(s) | Version | Status |
+|-------|-----------|---------|--------|
+| [Work-stealing scheduling — Blumofe & Leiserson (1999)](blumofe_leiserson_work_stealing_1999.md) | `src/execution/` | proposed v3.0.0 | ⏳ Evaluation only |
+| [Concurrent-query scheduling — Wu et al. (2025)](wu_concurrent_query_scheduling_2025.md) | `src/execution/` | proposed v2.5.0 / v3.0.0 | ⏳ Evaluation only |
 
 **Streaming & Continuous Queries:**
 

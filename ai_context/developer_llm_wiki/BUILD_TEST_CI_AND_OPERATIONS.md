@@ -1,11 +1,11 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-11-02"
-Last Updated: "2026-11-05"
+Last Updated: "2026-11-07"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot; OpenAI API assistant"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
@@ -14,6 +14,74 @@ Human_Author: "ThemisDB Team"
 
 Datum: 2026-11-02
 Status: Active
+
+## Linux AMD64 release CPU portability (2026-11-07)
+
+- Run `42346575119`, job `128325782592`, compiled successfully but failed validation
+  when `import_docs_rocksdb` terminated with `Illegal instruction` before producing
+  the documentation database. Configure selected ThemisDB and GGML `-march=native`;
+  the lane restores compiler objects across hosted runners without CPU identity.
+- The Linux AMD64 release matrix now passes `THEMIS_ENABLE_AVX2=OFF` and
+  `GGML_NATIVE=OFF`, selecting ThemisDB's baseline `-march=x86-64`. GGML's default
+  SSE4.2, AVX, AVX2, BMI2, FMA and F16C options are explicitly disabled as well.
+  This removes runner-specific instruction requirements
+  without bypassing the mandatory documentation/model payload or packaging gates.
+  Other platforms and developer presets are unchanged.
+- Sources: [release matrix](../../.github/workflows/release-build-matrix.yml),
+  [architecture policy](../../cmake/platforms/ArchitectureOptimizations.cmake),
+  [regression tests](../../tests/test_release_runtime_payload.py).
+  Tests exercise matrix generation and the real CMake architecture policy.
+- The crash log contains no instruction address or core backtrace; a fresh Actions
+  run on corrected source must confirm importer execution and package validation.
+  Wiki freshness remains November 2 / 8066 sources; this entry is a focused source sync.
+
+## Windows dependency preparation before release compile (2026-11-07)
+
+- Acceptance plan: isolate the enabled Windows release prerequisite; bound its
+  configure process tree, save completed/partial binary archives before compile,
+  fail closed on incomplete preparation, retain serial MSVC, and test/document
+  cache diagnostics and source/feature parity.
+- Sources: `.github/workflows/release-build-matrix.yml`,
+  `.github/workflows/reusable-cmake-build.yml`,
+  `scripts/prepare-windows-dependencies.py`,
+  `tests/test_windows_dependency_preparation.py`, and
+  [Windows operations guide](../../docs/de/guides/WINDOWS_BUILD_SETUP.md).
+  Task-provided evidence: run `42278019978`, job `128119148701` spent six hours
+  configuring (vcpkg gRPC 203/220; Debug ~84 minutes and Release >=84 minutes),
+  was cancelled before ThemisDB compilation, and skipped the late cache-save guard.
+- The selected Windows lane now has a separate `windows-dependencies` job using
+  the same pinned source and exact configure command as the consumer. It performs
+  real project configuration for manifest/default-feature parity, but no ThemisDB
+  compile. Disabled Windows preparation is skipped; Linux/macOS still execute
+  after a Windows preparation failure.
+- Budget starts before checkout: a 300-minute job-relative deadline and at most
+  270 minutes in dependency configure, PID-tree termination (`taskkill /T /F` on
+  Windows), then cache save with a 30-minute upload limit inside the 360-minute
+  job. Controlled timeout returns 124; ordinary errors retain their exit codes.
+  Failure/timeout still schedules partial snapshot save, but does not authorize
+  compilation. Hard cancellation/runner loss remains outside this guarantee.
+- Preparation publishes a cache key only after successful configure and save.
+  Windows compile requires exact snapshot restore and vcpkg binary-only installation;
+  ABI drift, missing ZIPs or cache-service failure stops before compile rather than
+  rebuilding dependencies without a bound. Prepared archives survive later MSVC
+  failure. The opt-in `release-deps-v2` namespace is platform/toolchain/triplet
+  separated, records manifest/overlay and configure hashes, vcpkg/MSVC versions and source SHA,
+  and disables old build-tree restore. Windows paths are native-normalized.
+- Snapshot keys remain unique per run/attempt. Prefix restore during preparation
+  is reported separately from exact hits and no-cache, with matched key and ZIP
+  count. Install `Restored N package(s)` output, not archive inventory, establishes
+  ABI reuse. Missing output is “not reported”; zero sccache requests are not misses.
+- Dependency parallelism defaults to 2 (input `windows_dependency_concurrency`,
+  validated range 1–4). Actual ThemisDB MSVC remains `--parallel 1`. Unchanged
+  `x64-windows` dual Debug/Release packages retain target/host linkage and ABI
+  compatibility, including supported Debug release-matrix dispatches. No global
+  release-only environment hack or unvalidated overlay triplet is introduced.
+- Host regressions do not establish native Windows CI success. A new corrected-source
+  dispatch must verify taskkill tree cleanup, partial upload, binary-only ABI restore,
+  MSVC and packaging. Existing Apple-backend Python tests currently have unrelated
+  source-extraction errors; they were not removed or modified for this change.
+- Wiki status remains generated 2026-11-02 / 8066 sources with incomplete workflow
+  summaries; source and concrete run logs take precedence.
 
 ## macOS LLVM backend build requirements
 
@@ -24,11 +92,19 @@ Status: Active
 - Wiki health metadata dates from 2026-11-02 and workflow summaries are incomplete. Current source and concrete Actions logs take precedence.
 ## Windows release compiler-memory mitigation
 
-- Sources: `.github/workflows/release-build-matrix.yml`, `cmake/ModularBuild.cmake`, and [Actions run 41861219716, job 126684560606](https://github.com/makr-code/ThemisDB/actions/runs/41861219716/job/126684560606). The task-provided log evidence reports concurrent `policy_api_handler.cpp` and `monitoring_api_handler.cpp` failing with MSVC C1060 heap exhaustion using the x64 compiler; monitoring already has the low-memory `/Od` setting.
-- The companion workflow correction changes only the `windows-amd64` `build_command`: `CMAKE_BUILD_PARALLEL_LEVEL=1` and explicit `--parallel 1` (both previously `2`). Configure-time vcpkg concurrency stays at `2`; other platforms and production optimization settings remain unchanged. Sequential compilation avoids overlapping heavy translation units without establishing a successful Windows build.
+- Sources: `.github/workflows/release-build-matrix.yml`, `cmake/ModularBuild.cmake`, `cmake/README.md`, and latest [Actions run 42155076805, job 127687580213](https://github.com/makr-code/ThemisDB/actions/runs/42155076805/job/127687580213). The task-provided log evidence reports MSVC C1060 heap exhaustion despite serial compilation and the handler `/Od` override.
+- The `windows-amd64` ThemisDB build still sets `VCPKG_MAX_CONCURRENCY=1` and `CMAKE_BUILD_PARALLEL_LEVEL=1`, with explicit build `--parallel 1`. Dependency configure now has separate modest parallelism (see prerequisite section above). Serial compilation alone did not resolve the earlier C1060 failure.
+- The scoped correction adds explicit `/Ob0` alongside `/Od` for monitoring, index and prompt handlers under the same non-Debug `THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY` guard (default `ON`). `/Ob0` overrides inherited `/Ob2` inlining. Setting the option to `OFF` removes both overrides, restoring normal optimization and inherited inlining; `/bigobj`, unity exclusion and global `/Zm200` remain. Other translation units are unchanged.
 - `tests/test_windows_release_build_memory.py` executes matrix preparation and the generated build shell with stub `cmake` to verify concurrency and pipeline failure propagation through the logging pipe. Stub execution is not MSVC build evidence.
 - The Linux sandbox cannot run MSVC. A **new Actions run on corrected source** is required; retries retain the original source SHA. No Windows build success is claimed.
 - `WIKI_STATUS.json` was generated on 2026-11-02 with 8066 sources; workflow summaries marked “binary or unreadable” are incomplete. Current source and Actions logs take precedence over generated wiki metadata.
+
+## Configure-time source download recovery
+
+- Sources: `.github/workflows/reusable-cmake-build.yml`, `tests/test_deployment_workflow_regressions.py`, and [Actions run 42174218456, job 127750342277](https://github.com/makr-code/ThemisDB/actions/runs/42174218456/job/127750342277).
+- Windows AMD64 configuration failed when vcpkg exhausted three download attempts for the Arrow 25.0.1 archive from `archive.apache.org`. The later missing Ninja/compiler diagnostics followed the aborted dependency install; vcpkg had already detected MSVC successfully.
+- The existing one-time configure retry now handles `Download timed out` on every runner architecture, retaining downloaded dependencies and the original vcpkg version/checksum verification. Existing ARM64 `BUILD_FAILED` recovery is unchanged. Successful configuration and unrelated Windows build failures are not retried; a failed retry propagates its exit status.
+- Focused shell regressions cover recovery, retry bounds, final failure propagation, non-network failures, and ARM64 behavior. They do not establish native Windows build or packaging success; a fresh Actions run containing the fix remains required.
 
 ## Global transaction durability regression coverage
 
@@ -63,7 +139,7 @@ Exact model backend not verifiable from final document text alone.
 ## Windows compiler memory and ARM SIMD guard
 
 - Sources: `.github/workflows/release-build-matrix.yml`, `cmake/CompilerOptions.cmake`, `cmake/ModularBuild.cmake`, `cmake/README.md`, `tests/test_mainline_compiler_regressions.py`.
-- The Windows release matrix uses dependency/configure concurrency 1 and build `--parallel 1`: `C1060` occurred even with monitoring's `/Od` workaround. Monitoring, index and prompt handlers share `THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY` (default `ON`, `/Od` outside Debug); opting out retains `/bigobj` and unity exclusion.
+- The Windows release matrix uses dependency/configure concurrency 1 and build `--parallel 1`; latest run `42155076805`, job `127687580213`, still hit `C1060` with `/Od`. Monitoring, index and prompt handlers now share `/Od` plus explicit `/Ob0` (overriding inherited `/Ob2`) under `THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY` (default `ON`, outside Debug). Opting out removes both overrides while retaining `/bigobj` and unity exclusion; native validation remains pending.
 - `CompilerOptions.cmake` runs before platform detection. AVX2/FMA flags and `THEMIS_HAS_AVX2` require an x64 target processor, Release and AVX2 enabled; QNAP's x86 baseline is likewise target-guarded. An x64 host must not inject x86 flags into ARM64 targets.
 - Focused Python tests configure CMake policies without native compiler execution. They do not prove native Windows/ARM64 compilation or package success. Dispatch a new Mainline run containing the corrected source on `develop`; retrying the original failed run retains its original SHA.
 

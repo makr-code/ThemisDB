@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-06"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -91,6 +91,17 @@ dependency; consult the current
 [`CMakeLists.txt`](../../benchmarks/graph/CMakeLists.txt) for registration and
 commands. A benchmark source, configured target, or threshold does not prove a
 run or representative-hardware result.
+
+## Version roadmap proposal
+
+The module roadmap now contains a research-backed proposal separating compatible v2.5.0 hardening
+from strategic v3.0.0 evaluation:
+[`src/graph/ROADMAP.md`](../../src/graph/ROADMAP.md#proposed-release-roadmap-v250-and-v300-issue-7424).
+These waves are not release commitments or evidence of completed work. In particular, the
+four-shard throughput and distributed betweenness criteria remain proposed acceptance targets;
+benchmark outputs, representative hardware, and a v3.0.0 release commitment were not verified.
+Use the module roadmap and root `ROADMAP.md` for current status; do not infer performance from
+registered test/benchmark targets or research sources.
 
 ## Historical evidence
 

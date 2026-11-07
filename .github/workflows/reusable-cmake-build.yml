@@ -5,7 +5,7 @@ name: "Reusable: CMake Build Pipeline"
 # Timeout note: 360 minutes to accommodate Windows vcpkg builds.
 # Performance optimizations applied:
 #   - sccache compiler caching (30-50% speedup): enabled via enable_sccache_gha input
-#   - Parallel build jobs: --parallel 16 for Windows, tuned via platform-specific settings
+#   - Windows release dependency preparation is opt-in; ThemisDB MSVC stays serial.
 #   - vcpkg binary caching: GHA cache layer + vcpkg archives directory to skip redundant deps
 #   - CMAKE_BUILD_PARALLEL_LEVEL environment variable honors platform constraints
 # Combined expected improvement: 30-50% reduction in Windows build time vs baseline.
@@ -13,6 +13,16 @@ name: "Reusable: CMake Build Pipeline"
 on:
   workflow_call:
     inputs:
+      windows_dependency_mode:
+        description: "Opt-in Windows release lane: off, prepare (configure only), or consume (binary-only install)"
+        required: false
+        default: 'off'
+        type: string
+      dependency_cache_key:
+        description: Exact completed prerequisite snapshot for consume mode
+        required: false
+        default: ''
+        type: string
       source_sha:
         description: Optional pinned source commit
         required: false
@@ -153,6 +163,9 @@ on:
       THEMIS_BUILD_SIG:
         required: false
     outputs:
+      dependency-cache-key:
+        description: Persisted preparation snapshot (only emitted after successful configure and save)
+        value: ${{ jobs.build.outputs.dependency-cache-key }}
       configure-outcome:
         description: Outcome of Configure step (success|failure|skipped)
         value: ${{ jobs.build.outputs.configure-outcome }}
@@ -179,11 +192,31 @@ jobs:
       SCCACHE_GHA_ENABLED: ${{ inputs.enable_sccache_gha }}
       THEMIS_CACHE_TOOLS_PREFIX: ${{ inputs.source_sha != '' && '.ci-cache-tools/' || '' }}
     outputs:
+      dependency-cache-key: ${{ steps.dependency_complete.outputs.cache_key }}
       configure-outcome: ${{ steps.configure.outcome }}
       build-outcome: ${{ steps.build.outcome }}
       validation-outcome: ${{ steps.validation.outcome || 'skipped' }}
 
     steps:
+      - name: Validate dependency mode and start job budget
+        shell: bash
+        env:
+          DEPENDENCY_MODE: ${{ inputs.windows_dependency_mode }}
+          DEPENDENCY_CACHE_KEY: ${{ inputs.dependency_cache_key }}
+        run: |
+          set -euo pipefail
+          case "$DEPENDENCY_MODE" in
+            off) ;;
+            prepare|consume)
+              test "$RUNNER_OS" = Windows
+              if [ "$DEPENDENCY_MODE" = consume ]; then
+                test -n "$DEPENDENCY_CACHE_KEY" || { echo "::error::Windows dependency prerequisite incomplete"; exit 1; }
+              fi
+              python -c 'import os,time; print("THEMIS_DEPENDENCY_DEADLINE="+str(time.time()+300*60))' >> "$GITHUB_ENV"
+              ;;
+            *) echo "::error::Unsupported Windows dependency mode"; exit 1 ;;
+          esac
+
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
@@ -199,7 +232,9 @@ jobs:
           path: .ci-cache-tools
           fetch-depth: 1
           persist-credentials: false
-          sparse-checkout: .github/scripts/cache-directory-fingerprint.sh
+          sparse-checkout: |
+            .github/scripts/cache-directory-fingerprint.sh
+            scripts/prepare-windows-dependencies.py
           sparse-checkout-cone-mode: false
 
       - name: Setup MSVC environment (Windows only)
@@ -213,6 +248,8 @@ jobs:
         # and manifest/config hash so Windows/Linux/ARM/Docker lanes cannot silently reuse each
         # other's VCPKG and compiler artifacts.
         shell: bash
+        env:
+          DEPENDENCY_CONFIGURE_SIGNATURE: ${{ inputs.build_mode }}-${{ inputs.preset }}-${{ inputs.configure_flags }}-${{ inputs.configure_command }}
         run: |
           set -euo pipefail
           sanitize() {
@@ -243,6 +280,12 @@ jobs:
           fi
           cache_tag="$(sanitize "${{ runner.os }}-${runner_arch}-${toolchain_name}-${triplet_name}")"
           cache_scope="$(sanitize "${{ runner.os }}-${runner_arch}-${toolchain_name}-${triplet_name}")"
+          if [ "${{ inputs.windows_dependency_mode }}" != off ]; then
+            # Do not restore older build-tree/compiler snapshots into this lane.
+            cache_tag="${cache_tag}-release-deps-v2"
+            dependency_configure_hash="$(printf '%s' "$DEPENDENCY_CONFIGURE_SIGNATURE" | sha256sum | cut -d' ' -f1)"
+            echo "THEMIS_DEPENDENCY_SOURCE=-$(git rev-parse HEAD)-${dependency_configure_hash}" >> "$GITHUB_ENV"
+          fi
           sccache_dir="${GITHUB_WORKSPACE}/.cache/sccache-${cache_tag}"
           vcpkg_cache_dir="${GITHUB_WORKSPACE}/.cache/vcpkg-binary/${cache_tag}"
           vcpkg_downloads_dir="${GITHUB_WORKSPACE}/.cache/vcpkg-downloads/${cache_tag}"
@@ -279,6 +322,12 @@ jobs:
           mkdir -p "${sccache_dir}"
           mkdir -p "${vcpkg_downloads_dir}"
           mkdir -p "${vcpkg_cache_dir}"
+          if [ "${{ runner.os }}" = Windows ] && [ "${{ inputs.windows_dependency_mode }}" != off ]; then
+            # vcpkg is a native executable, not an MSYS program.
+            sccache_dir="$(cygpath -m "$sccache_dir")"
+            vcpkg_cache_dir="$(cygpath -m "$vcpkg_cache_dir")"
+            vcpkg_downloads_dir="$(cygpath -m "$vcpkg_downloads_dir")"
+          fi
           vcpkg_binary_sources="clear;files,${vcpkg_cache_dir},readwrite"
           {
             echo "THEMIS_CACHE_TAG=${cache_tag}"
@@ -300,15 +349,16 @@ jobs:
 
       - name: Restore CMake build caches
         id: restore_cmake_cache
+        timeout-minutes: ${{ inputs.windows_dependency_mode != 'off' && 15 || 360 }}
         uses: actions/cache/restore@v5
         with:
           path: |
             ${{ env.THEMIS_SCCACHE_DIR }}
             ${{ env.THEMIS_VCPKG_DOWNLOADS_DIR }}
             ${{ env.THEMIS_VCPKG_CACHE_DIR }}
-          key: cmake-cache-${{ runner.os }}-${{ env.THEMIS_CACHE_TAG }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'ports/**', 'triplets/**') }}-${{ env.THEMIS_VCPKG_REVISION }}-${{ env.THEMIS_COMPILER_VERSION }}-snapshot-${{ github.run_id }}-${{ github.run_attempt }}
+          key: ${{ inputs.dependency_cache_key || format('cmake-cache-{0}-{1}-{2}-{3}-{4}{5}-snapshot-{6}-{7}{8}', runner.os, env.THEMIS_CACHE_TAG, hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'ports/**', 'triplets/**'), env.THEMIS_VCPKG_REVISION, env.THEMIS_COMPILER_VERSION, env.THEMIS_DEPENDENCY_SOURCE, github.run_id, github.run_attempt, inputs.windows_dependency_mode != 'off' && '-prepare' || '') }}
           restore-keys: |
-            cmake-cache-${{ runner.os }}-${{ env.THEMIS_CACHE_TAG }}-
+            ${{ inputs.windows_dependency_mode != 'consume' && format('cmake-cache-{0}-{1}-', runner.os, env.THEMIS_CACHE_TAG) || '' }}
           enableCrossOsArchive: false
 
       - name: Record restored cache inventory
@@ -320,10 +370,28 @@ jobs:
 
       - name: Print initial cache hit state
         shell: bash
+        env:
+          CACHE_HIT: ${{ steps.restore_cmake_cache.outputs.cache-hit }}
+          CACHE_MATCHED_KEY: ${{ steps.restore_cmake_cache.outputs.cache-matched-key }}
+          CACHE_EXPECTED_PREFIX: ${{ format('cmake-cache-{0}-{1}-{2}-{3}-{4}{5}-snapshot-', runner.os, env.THEMIS_CACHE_TAG, hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'ports/**', 'triplets/**'), env.THEMIS_VCPKG_REVISION, env.THEMIS_COMPILER_VERSION, env.THEMIS_DEPENDENCY_SOURCE) }}
         run: |
           set -euo pipefail
-          echo "dependency cache hit: ${{ steps.restore_cmake_cache.outputs.cache-hit || 'unknown' }}"
-          echo "dependency cache matched key: ${{ steps.restore_cmake_cache.outputs.cache-matched-key }}"
+          if [ "$CACHE_HIT" = true ]; then
+            echo "dependency cache state: exact-match"
+          elif [ -n "$CACHE_MATCHED_KEY" ]; then
+            echo "dependency cache state: prefix-restored"
+          else
+            echo "dependency cache state: no-cache"
+          fi
+          echo "dependency cache matched key: $CACHE_MATCHED_KEY"
+          if [ "${{ inputs.windows_dependency_mode }}" = consume ]; then
+            test "$CACHE_HIT" = true || { echo "::error::Completed dependency snapshot unavailable"; exit 1; }
+            case "$CACHE_MATCHED_KEY" in
+              "$CACHE_EXPECTED_PREFIX"*) ;;
+              *) echo "::error::Dependency snapshot source/configure/toolchain identity mismatch"; exit 1 ;;
+            esac
+            echo "THEMIS_WINDOWS_DEPENDENCY_FLAGS=-DVCPKG_INSTALL_OPTIONS=--only-binarycaching" >> "$GITHUB_ENV"
+          fi
 
       - name: Print vcpkg cache resolution
         shell: bash
@@ -332,7 +400,7 @@ jobs:
           echo "vcpkg binary cache: ${VCPKG_DEFAULT_BINARY_CACHE:-<unset>}"
           echo "vcpkg binary sources: ${VCPKG_BINARY_SOURCES:-<unset>}"
           echo "vcpkg downloads: ${VCPKG_DOWNLOADS:-<unset>}"
-          archive_count="$(find "${VCPKG_DEFAULT_BINARY_CACHE}" -type f 2>/dev/null | wc -l)"
+          archive_count="$(find "${VCPKG_DEFAULT_BINARY_CACHE}" -type f -iname '*.zip' 2>/dev/null | wc -l)"
           echo "vcpkg binary archives restored: ${archive_count}"
           du -sh "${VCPKG_DEFAULT_BINARY_CACHE}" "${VCPKG_DOWNLOADS}" 2>/dev/null || true
 
@@ -354,6 +422,7 @@ jobs:
 
       - name: Setup
         if: inputs.setup_command != ''
+        timeout-minutes: ${{ inputs.windows_dependency_mode != 'off' && 20 || 360 }}
         shell: bash
         env:
           WORKING_DIRECTORY: ${{ inputs.working_directory }}
@@ -545,7 +614,7 @@ jobs:
 
       - name: Restore CMake build directory cache
         id: restore_build_dir_cache
-        if: ${{ steps.resolve_mode.outputs.resolved_build_dir != '' }}
+        if: ${{ inputs.windows_dependency_mode == 'off' && steps.resolve_mode.outputs.resolved_build_dir != '' }}
         uses: actions/cache@v5
         with:
           path: |
@@ -570,8 +639,43 @@ jobs:
           echo "No matching build-tree/dependency cache hit; retaining the vcpkg binary archive cache for dependency restore."
           mkdir -p "${GITHUB_WORKSPACE}/.cache/vcpkg-binary" "${GITHUB_WORKSPACE}/.cache/vcpkg-downloads"
 
+      - name: Prepare Windows dependencies with bounded configure
+        id: dependency_prepare
+        if: inputs.windows_dependency_mode == 'prepare'
+        timeout-minutes: 305
+        shell: bash
+        env:
+          CONFIGURE_COMMAND: ${{ steps.resolve_mode.outputs.resolved_configure_command }}
+          THEMIS_HYPERSCALER_LICENSE_B64: ${{ secrets.THEMIS_HYPERSCALER_LICENSE_B64 }}
+          THEMIS_BUILD_SIG: ${{ secrets.THEMIS_BUILD_SIG }}
+        run: |
+          set -euo pipefail
+          cd "${{ inputs.working_directory }}"
+          python "${GITHUB_WORKSPACE}/${THEMIS_CACHE_TOOLS_PREFIX}scripts/prepare-windows-dependencies.py" --log "$RUNNER_TEMP/cmake-build-configure-output.log"
+
+      - name: Save dependency snapshot before ThemisDB compile
+        id: dependency_save
+        if: ${{ !cancelled() && inputs.windows_dependency_mode == 'prepare' && (steps.dependency_prepare.outcome == 'success' || steps.dependency_prepare.outcome == 'failure') }}
+        timeout-minutes: 30
+        uses: actions/cache/save@v5
+        with:
+          path: |
+            ${{ env.THEMIS_SCCACHE_DIR }}
+            ${{ env.THEMIS_VCPKG_DOWNLOADS_DIR }}
+            ${{ env.THEMIS_VCPKG_CACHE_DIR }}
+          key: ${{ steps.restore_cmake_cache.outputs.cache-primary-key }}
+          enableCrossOsArchive: false
+
+      - name: Confirm completed dependency snapshot
+        id: dependency_complete
+        if: inputs.windows_dependency_mode == 'prepare' && steps.dependency_prepare.outcome == 'success' && steps.dependency_save.outcome == 'success'
+        shell: bash
+        run: |
+          echo "cache_key=${{ steps.restore_cmake_cache.outputs.cache-primary-key }}" >> "$GITHUB_OUTPUT"
+
       - name: Configure
         id: configure
+        if: inputs.windows_dependency_mode != 'prepare'
         shell: bash
         env:
           WORKING_DIRECTORY: ${{ inputs.working_directory }}
@@ -598,8 +702,11 @@ jobs:
           status=${PIPESTATUS[0]}
           set -o pipefail
           set -e
-          if [ "$status" -ne 0 ] && [ "${RUNNER_ARCH:-}" = "ARM64" ] && grep -Eq "Download timed out|building .* failed with: BUILD_FAILED" "$configure_output_log"; then
-            echo "::warning::Transient vcpkg download failure detected on ARM64 during configure; retrying once."
+          if [ "$status" -ne 0 ] && {
+            grep -Eq 'Download timed out|error: curl operation failed with error code 35 \(SSL connect error\)' "$configure_output_log" ||
+              { [ "${RUNNER_ARCH:-}" = "ARM64" ] && grep -Eq "building .* failed with: BUILD_FAILED" "$configure_output_log"; }
+          }; then
+            echo "::warning::Transient vcpkg download failure detected during configure; retrying once."
             set +e
             set +o pipefail
             bash "$script_path" 2>&1 | tee -a "$configure_output_log"
@@ -639,8 +746,15 @@ jobs:
           fi
           exit "$status"
 
+      - name: Report Windows dependency cache reuse
+        if: ${{ !cancelled() && inputs.windows_dependency_mode != 'off' && (steps.dependency_prepare.outcome == 'success' || steps.dependency_prepare.outcome == 'failure' || steps.configure.outcome == 'success' || steps.configure.outcome == 'failure') }}
+        shell: bash
+        run: |
+          python "${GITHUB_WORKSPACE}/${THEMIS_CACHE_TOOLS_PREFIX}scripts/prepare-windows-dependencies.py" --metrics-only --log "$RUNNER_TEMP/cmake-build-configure-output.log" --cache "$THEMIS_VCPKG_CACHE_DIR"
+
       - name: Build
         id: build
+        if: inputs.windows_dependency_mode != 'prepare'
         continue-on-error: ${{ inputs.build_continue_on_error }}
         shell: bash
         env:
@@ -684,7 +798,7 @@ jobs:
 
       - name: Record updated cache inventory
         id: cache_after
-        if: ${{ !cancelled() && steps.cache_before.outcome == 'success' && (steps.configure.outcome == 'success' || steps.configure.outcome == 'failure') }}
+        if: ${{ !cancelled() && inputs.windows_dependency_mode == 'off' && steps.cache_before.outcome == 'success' && (steps.configure.outcome == 'success' || steps.configure.outcome == 'failure') }}
         shell: bash
         run: |
           fingerprint="$(bash "${THEMIS_CACHE_TOOLS_PREFIX}.github/scripts/cache-directory-fingerprint.sh" "$THEMIS_SCCACHE_DIR" "$THEMIS_VCPKG_DOWNLOADS_DIR" "$THEMIS_VCPKG_CACHE_DIR")"
@@ -703,7 +817,7 @@ jobs:
 
       - name: Validation
         id: validation
-        if: steps.resolve_mode.outputs.resolved_validation_command != ''
+        if: inputs.windows_dependency_mode != 'prepare' && steps.resolve_mode.outputs.resolved_validation_command != ''
         continue-on-error: ${{ inputs.validation_continue_on_error }}
         shell: bash
         env:

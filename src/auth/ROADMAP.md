@@ -12,7 +12,7 @@ Exact model backend not verifiable from final document text alone.
 > passed. CI status and hardware measurements are not inferred from source.
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-10-31 -->
+<!-- Status: current | validated: 2026-11-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -287,3 +287,154 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
   - Source thresholds are defined for GATE-AHP-01..06; hardware-measured baselines are not recorded in `PERFORMANCE_EXPECTATIONS.md`.
 - [~] Operator diagnostics and runbook coverage (Target: Q1 2027)
   - `src/auth/RUNBOOK.md` documents source-backed JWT/JWKS, blacklist, session, provider, and rate-limiter triage limits. The auth source does not establish a universal metrics/alert schema or admin CLI.
+
+## Research-Based Release Plan: v2.5.0 and v3.0.0
+
+This is a module-level proposal, not a release commitment. Root release governance
+and `VERSIONING.md` remain authoritative: v2.5.0 work must preserve compatible
+contracts; any incompatible API or wire-protocol change belongs behind the v3.0.0
+major-version migration process. Effort estimates are engineering-weeks (EW),
+exclude external-provider and representative-hardware wait time, and have roughly
+±50% uncertainty until Wave 1 inventories deployment profiles.
+
+### Research basis and current-state assessment
+
+This is a qualitative assessment, not a certification or standardized maturity
+score.
+
+| Area | Evidence-based assessment |
+|---|---|
+| Authentication coverage and application fit | Broad runtime coverage exists for JWT/OIDC, OAuth, SAML, LDAP, Kerberos, API keys, mTLS, MFA/passkeys, sessions, federation, and policy checks. Provider configuration and deployment remain caller-specific; source coverage does not prove interoperability with every IdP. |
+| Security and resilience | Bounded inputs, failure classes, fail-closed rules, session limits, replay controls, provider timeouts, audit, and rate limiting are represented in the [principal contract](../../include/auth/auth_principal_contract.h) and tests. The [distributed blacklist implementation](distributed_token_blacklist.cpp) is best-effort replication: the local node-ID leader choice, periodic full-entry sync, and overwrite-on-apply behavior do not establish quorum, conflict ordering, or a cluster-wide convergence bound. |
+| Performance and scale | [`bench_auth_hotpaths.cpp`](../../benchmarks/auth/bench_auth_hotpaths.cpp) registers AHP-02..11 and defines six gates for AHP-02..07; AHP-01 is described but not registered. LDAP AHP-09 is explicitly a simulation, and AHP-08/10/11 do not establish provider-network performance. [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) records target thresholds but no measured hardware baseline. Therefore release performance and scaling claims remain unverified. |
+| Tests, governance, and operations | Focused auth tests are registered in [`tests/auth/CMakeLists.txt`](../../tests/auth/CMakeLists.txt), including the [protocol-matrix suite](../../tests/auth/test_auth_protocol_matrix_regression.cpp), [high-cardinality stress suite](../../tests/auth/test_auth_highcardinality_stress.cpp), and [soak suite](../../tests/auth/test_auth_soak.cpp). The high-cardinality stress tests use in-process stubs, and the soak suite defaults to three seconds; neither is production-provider or sustained-load evidence. The [auth runbook](RUNBOOK.md) and structured audit/metrics surfaces exist, but there is no source-backed universal auth SLO or compliance attestation. |
+
+Use the following primary technical references to build a traceable requirements
+matrix; they inform test design but do not imply that ThemisDB conforms to them:
+
+- NIST SP 800-63B-4 (final, July 2025), *Digital Identity Guidelines: Authentication
+  and Authenticator Management*: [NIST publication](https://csrc.nist.gov/pubs/sp/800/63/b/4/final).
+  Apply only the requirements relevant to the product's chosen assurance profile.
+- IETF RFC 9700 (January 2025), *Best Current Practice for OAuth 2.0 Security*:
+  [RFC 9700](https://www.rfc-editor.org/rfc/rfc9700.html). Use its threat and flow
+  requirements to assess the OAuth/OIDC client paths, including redirect handling
+  and protections against code/token misuse.
+- W3C Web Authentication Level 3 (Recommendation, 2026-08-25):
+  [WebAuthn Level 3](https://www.w3.org/TR/2026/REC-webauthn-3-20260825/).
+  Use the stable specification and its implementation report to select
+  interoperability cases for passkey/WebAuthn paths.
+- OWASP [Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html):
+  use as implementation guidance for MFA, automated-attack throttling, and
+  authentication failure handling, not as a compliance standard.
+
+#### v2.5.0 — measurable hardening without breaking contracts
+
+**Release constraint:** Keep public API and wire compatibility. Prioritize closing
+evidence gaps and operationally validating existing controls before adding
+protocol surface.
+
+##### Wave 1 — Requirements and reproducible baseline (Priority: P0; Estimate: 1–2 EW)
+
+- **Goal:** Replace source-defined performance targets and broad protocol claims with traceable, repeatable evidence.
+- **Tasks:**
+  - [ ] Map each applicable NIST/RFC/W3C control to an auth component, owner, test, and evidence artifact; record non-applicability with rationale (Target: v2.5.0).
+  - [ ] Capture release-profile p50/p95/p99 and throughput for every registered AHP case on representative hardware; correct the AHP-01 inventory mismatch and label simulation-only cases (Target: v2.5.0).
+- **Dependencies:** Auth test/benchmark targets and benchmark-capable hardware; security owner confirms the applicable product assurance profile.
+- **Risk / trade-off:** Measurements can expose regressions or require tighter target definitions; single-machine results must not be generalized to all deployment classes.
+- **KPIs:** 100% of applicable requirements have a code/test/evidence mapping; all six existing AHP gates have recorded measured results; zero missing or misidentified registered benchmark cases.
+- **Validation:** Run focused auth tests and `bench_auth_hotpaths` in the release profile; archive machine, compiler, configuration, and raw JSON results; review the mapping against the cited primary standards.
+
+##### Wave 2 — Protocol and abuse-control conformance (Priority: P1; Estimate: 2–4 EW)
+
+- **Goal:** Close only the OAuth/OIDC, WebAuthn, login-throttling, and error-handling gaps confirmed by Wave 1.
+- **Tasks:**
+  - [ ] Add regression cases for applicable RFC 9700 redirect/flow protections, credential replay, and provider failure behavior without weakening existing fail-closed rules (Target: v2.5.0).
+  - [ ] Add W3C WebAuthn interoperability vectors for supported credential algorithms, RP/origin validation, challenge lifecycle, and authenticator counter behavior; document unsupported profiles (Target: v2.5.0).
+  - [ ] Verify throttling, generic externally visible failures, and audit redaction across enabled authentication methods against the selected NIST/OWASP profile (Target: v2.5.0).
+- **Dependencies:** Wave 1 applicability matrix; existing `tests/auth/test_auth_protocol_matrix_regression.cpp`, passkey-focused tests, rate-limiter tests, and audit tests.
+- **Risk / trade-off:** Stricter validation may reject previously tolerated but invalid provider configuration; do not change defaults or public contracts without migration review.
+- **KPIs:** 100% of applicable high-risk matrix cases have automated regressions; zero accepted malformed/replayed credentials in the targeted suite; zero credential or token values in tested audit/log output.
+- **Validation:** Run the focused protocol, passkey, input-validation, rate-limit, and sensitive-data-redaction suites; security review any changed validation decision.
+
+##### Wave 3 — Revocation and provider-degradation evidence (Priority: P1; Estimate: 3–5 EW)
+
+- **Goal:** Demonstrate bounded, fail-closed behavior across multi-node revocation and degraded identity providers.
+- **Tasks:**
+  - [ ] Add multi-node tests for restart/rejoin, duplicate and reordered updates, partition/recovery, unreachable peers, and simultaneous revocations; document current TBLK/v1 limits (Target: v2.5.0).
+  - [ ] Measure revocation propagation under a defined healthy three-node profile and set an approved operational bound; retain fail-closed behavior when the configured freshness bound is exceeded (Target: v2.5.0).
+  - [ ] Exercise provider timeouts, retries, pool exhaustion, and recovery through production adapter code rather than simulation-only fixtures (Target: v2.5.0).
+- **Dependencies:** Wave 1 hardware/configuration profile; a three-node test environment or deterministic network fault fixture; Wave 2 regression coverage.
+- **Risk / trade-off:** Replication semantics may reveal that the current best-effort protocol cannot meet the desired bound; a redesign must be escalated to v3 rather than hidden behind a v2.5 behavior change.
+- **KPIs:** Zero authorization when a mandatory revocation check is indeterminate; p99 propagation at or below 2× the configured sync interval in the healthy test profile (candidate target, to be approved in Wave 1); 100% deterministic outcomes for the documented fault matrix.
+- **Validation:** Run distributed-blacklist and provider integration tests with repeatable fault injection; publish propagation distributions, timeout/recovery outcomes, and restart/rejoin results.
+
+##### Wave 4 — Release gates and operator readiness (Priority: P1; Estimate: 2–3 EW)
+
+- **Goal:** Make auth release readiness auditable without implying certification or universal deployment behavior.
+- **Tasks:**
+  - [ ] Convert the accepted Wave 1 baselines into release-profile regression gates; keep simulated benchmark/test results explicitly separate from production-path evidence (Target: v2.5.0).
+  - [ ] Define auth-specific operator indicators and runbook actions for provider degradation, revocation lag, key rollover, rate limiting, and audit-sink failure (Target: v2.5.0).
+  - [ ] Record security review outcomes, unresolved applicability questions, and compatibility/migration status in the release evidence bundle (Target: v2.5.0).
+- **Dependencies:** Waves 1–3; root `release_critical` gate and release evidence workflow.
+- **Risk / trade-off:** New alerting and gates may expose deployment configuration gaps or add CI/runtime cost; establish thresholds from measured behavior rather than guesses.
+- **KPIs:** All auth `release_critical` checks pass on the release candidate; no mapped benchmark regresses more than 10% against its accepted baseline; every high-severity operator scenario has an actionable runbook and owner.
+- **Validation:** Run auth `release_critical`, focused soak and distributed-failure suites, benchmark regression checks, documentation/link checks, and security sign-off; retain the exact artifacts used for approval.
+
+#### v3.0.0 — versioned contracts and stronger distributed guarantees
+
+**Release constraint:** Use the major release only for explicitly approved incompatible
+contracts or wire changes. Preserve a documented migration path from v2.5.0; do not
+assume that this roadmap itself approves a breaking change.
+
+##### Wave 1 — Identity and authorization contract redesign (Priority: P0; Estimate: 3–5 EW)
+
+- **Goal:** Decide whether to consolidate provider results, principal claims, policy decisions, and failure semantics into a versioned cross-provider contract.
+- **Tasks:**
+  - [ ] Specify principal/claim normalization, issuer/audience boundaries, authorization context, error mapping, and ownership/lifetime rules across all supported adapters (Target: v3.0.0).
+  - [ ] Identify each incompatible API/configuration change, its v2.5.0 compatibility behavior, deprecation period, and migration example before implementation (Target: v3.0.0).
+- **Dependencies:** v2.5.0 requirements matrix and production-path test results; architecture and security-owner approval.
+- **Risk / trade-off:** A normalized contract can simplify callers but may erase provider-specific semantics; retain explicit capability and failure information rather than silently coercing it.
+- **KPIs:** 100% of supported adapters represented in the contract matrix; every proposed breaking change has an approved migration test and owner; no unreviewed compatibility shim.
+- **Validation:** API/compatibility review, threat-model review, generated/public API documentation audit, and migration tests against representative v2.5.0 clients.
+
+##### Wave 2 — Revocation protocol consistency and recovery (Priority: P0; Estimate: 5–8 EW)
+
+- **Goal:** Determine and, if approved, implement explicit distributed revocation consistency, peer-authentication, and recovery semantics beyond best-effort TBLK/v1 replication.
+- **Tasks:**
+  - [ ] Select and document the consistency model, conflict ordering, peer trust/authentication, replay protection, bounded message handling, and partition behavior before changing the wire protocol (Target: v3.0.0).
+  - [ ] If the approved design requires incompatible wire behavior, implement a versioned protocol and an explicit v2-to-v3 migration/rollout procedure (Target: v3.0.0).
+  - [ ] Add repeatable multi-node chaos tests covering partition, clock skew, restart, data restoration, and peer rejoin (Target: v3.0.0).
+- **Dependencies:** Wave 1 contract decisions; threat model, supported topology, and operator availability objectives; a multi-node fault-injection environment.
+- **Risk / trade-off:** Stronger consistency can increase latency or reduce availability during partitions; the system must state which trade-off applies and deny when a required security decision cannot be established.
+- **KPIs:** Zero revoked-token resurrection in 100 repeated restart/rejoin scenarios; p99 propagation within the approved healthy-cluster SLO; 100% of partition tests produce the documented fail-closed or explicitly approved result.
+- **Validation:** Protocol conformance and negative tests, 3+ node fault-injection runs, restart/recovery verification, load tests, and independent security review of peer trust and wire parsing.
+
+##### Wave 3 — Lifecycle and federation interoperability (Priority: P1; Estimate: 4–6 EW)
+
+- **Goal:** Make credential enrollment, renewal, revocation, and recovery predictable across supported passkey and federated-provider deployments.
+- **Tasks:**
+  - [ ] Define supported WebAuthn Level 3 and OAuth/OIDC profiles, provider metadata/key rollover behavior, and account-recovery boundaries (Target: v3.0.0).
+  - [ ] Implement only profile gaps confirmed by conformance/interoperability testing; publish operator and client migration guidance for changed defaults (Target: v3.0.0).
+- **Dependencies:** Wave 1 public-contract decisions; Wave 2 revocation lifecycle semantics; representative external test providers/authenticators.
+- **Risk / trade-off:** Ecosystem implementations may differ in optional features; explicitly scope supported profiles and avoid claiming universal interoperability.
+- **KPIs:** 100% pass rate for the declared profile's mandatory conformance vectors; zero lost or resurrected credentials in lifecycle/recovery regressions; every changed default has migration and rollback guidance.
+- **Validation:** Run conformance vectors and interoperability tests against at least two independent implementations per selected profile; test key rollover, credential revocation, and recovery end-to-end.
+
+##### Wave 4 — Assurance, operability, and major-release acceptance (Priority: P1; Estimate: 3–5 EW)
+
+- **Goal:** Establish evidence and ownership for operating the v3 auth contract at its declared security and availability profile.
+- **Tasks:**
+  - [ ] Complete an applicability/evidence map for the selected NIST profile and relevant OAuth/WebAuthn standards; record exceptions and evidence owners without asserting certification (Target: v3.0.0).
+  - [ ] Define SLOs, alert thresholds, audit retention/redaction rules, recovery procedures, and support boundaries for each supported deployment topology (Target: v3.0.0).
+  - [ ] Complete migration, rollback, security review, and release sign-off for every approved breaking API or wire change (Target: v3.0.0).
+- **Dependencies:** Waves 1–3; organization-selected assurance/compliance scope; operations and security sign-off.
+- **Risk / trade-off:** Compliance scope, retention rules, or topology requirements may remain undecided; do not advertise compliance or production guarantees until evidence and accountable approval exist.
+- **KPIs:** 100% of applicable controls have current evidence or an approved exception; zero unowned critical/high security findings at release approval; all supported topologies have tested recovery and rollback instructions.
+- **Validation:** Independent security assessment, release-critical suite, benchmark and chaos evidence review, documentation/governance audit, and recorded human release approval.
+
+### Open assumptions and decision gates
+
+- The product's target assurance level, regulatory scope, supported cluster size, provider matrix, and availability SLO have not been established by the inspected auth sources; Wave 1 must obtain owners and decisions.
+- The v2.5.0 propagation threshold is a proposed test target, not a current guarantee. Approve or replace it using measured deployment data before making it a release gate.
+- The current source establishes auth components and test registrations, not successful execution of every test, performance gate, standards conformance, or production deployment.
+- Root roadmap entries still track auth fail-closed/protocol-matrix and benchmark evidence as program gates. Keep their release status and this module plan aligned when test-run artifacts become available.

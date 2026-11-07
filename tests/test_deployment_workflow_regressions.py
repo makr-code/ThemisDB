@@ -36,6 +36,90 @@ def run_bash(script, directory, **environment):
 
 
 class DeploymentWorkflowTests(unittest.TestCase):
+    def run_configure_recovery(self, directory, arch="X64", runner_os="Windows",
+                               message="error: Download timed out.", retry_status=0,
+                               initial_status=23):
+        script = step("reusable-cmake-build.yml", "build", "configure")["run"]
+        script = script.replace("${{ steps.resolve_mode.outputs.resolved_build_dir }}", "build")
+        command = (
+            'if [ ! -f configure-attempted ]; then\n'
+            '  touch configure-attempted\n'
+            '  echo "$TEST_CONFIGURE_MESSAGE"\n'
+            '  exit "$TEST_INITIAL_STATUS"\n'
+            'fi\n'
+            'echo retried >> configure-retries\n'
+            'exit "$TEST_RETRY_STATUS"\n'
+        )
+        return run_bash(
+            script, directory, WORKING_DIRECTORY=str(directory),
+            RUNNER_TEMP=str(directory), RUNNER_ARCH=arch, RUNNER_OS=runner_os,
+            CONFIGURE_COMMAND=command, TEST_CONFIGURE_MESSAGE=message,
+            TEST_INITIAL_STATUS=str(initial_status), TEST_RETRY_STATUS=str(retry_status),
+        )[0]
+
+    def test_configure_retries_download_timeouts_on_all_release_platforms(self):
+        for arch, runner_os in [
+            ("X64", "Windows"), ("X64", "Linux"),
+            ("ARM64", "Linux"), ("ARM64", "macOS"),
+        ]:
+            with self.subTest(arch=arch, runner_os=runner_os), tempfile.TemporaryDirectory() as temp:
+                directory = Path(temp)
+                result = self.run_configure_recovery(directory, arch, runner_os)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertEqual((directory / "configure-retries").read_text(), "retried\n")
+                self.assertIn("retrying once", result.stdout)
+                self.assertIn(
+                    "Download timed out",
+                    (directory / "cmake-build-configure-output.log").read_text(),
+                )
+
+    def test_configure_timeout_retry_is_bounded_and_preserves_final_failure(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            result = self.run_configure_recovery(directory, retry_status=37)
+            self.assertEqual(result.returncode, 37, result.stderr)
+            self.assertEqual((directory / "configure-retries").read_text(), "retried\n")
+
+    def test_configure_retries_vcpkg_ssl_connect_error_once(self):
+        message = "error: curl operation failed with error code 35 (SSL connect error)."
+        for arch, runner_os, retry_status in [
+            ("X64", "Linux", 0), ("X64", "Windows", 37), ("ARM64", "macOS", 0),
+        ]:
+            with self.subTest(arch=arch, runner_os=runner_os), tempfile.TemporaryDirectory() as temp:
+                directory = Path(temp)
+                result = self.run_configure_recovery(
+                    directory, arch, runner_os, message=message, retry_status=retry_status,
+                )
+                self.assertEqual(result.returncode, retry_status, result.stderr)
+                self.assertEqual((directory / "configure-retries").read_text(), "retried\n")
+                self.assertIn(message, (directory / "cmake-build-configure-output.log").read_text())
+
+    def test_configure_does_not_retry_success_or_unrelated_windows_failures(self):
+        for initial_status, message in [
+            (0, "Download timed out"),
+            (0, "error: curl operation failed with error code 35 (SSL connect error)."),
+            (23, "CMake Error: invalid configuration"),
+            (23, "error: curl operation failed with error code 60 (SSL peer certificate cannot be authenticated)."),
+            (23, "error: building arrow:x64-windows failed with: BUILD_FAILED"),
+        ]:
+            with self.subTest(status=initial_status, message=message), tempfile.TemporaryDirectory() as temp:
+                directory = Path(temp)
+                result = self.run_configure_recovery(
+                    directory, message=message, initial_status=initial_status,
+                )
+                self.assertEqual(result.returncode, initial_status, result.stderr)
+                self.assertFalse((directory / "configure-retries").exists())
+
+    def test_configure_retains_arm64_vcpkg_build_failure_recovery(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            result = self.run_configure_recovery(
+                directory, arch="ARM64", runner_os="Linux",
+                message="error: building arrow:arm64-linux failed with: BUILD_FAILED",
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual((directory / "configure-retries").read_text(), "retried\n")
+
     def test_all_release_lanes_stop_on_build_failure_before_packaging(self):
         script = step("release-build-matrix.yml", "prepare-release-matrix", "plan")["run"]
         with tempfile.TemporaryDirectory() as temp:
