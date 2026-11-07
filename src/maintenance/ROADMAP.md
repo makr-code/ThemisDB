@@ -119,7 +119,10 @@ the module and exclude work owned by delegated task handlers.
 #### Wave 1 — Close production contract and test gaps (P0; 2–3 person-weeks)
 
 - **Goal:** Make the documented lifecycle, persistence, dispatch, and recovery behavior verifiable on production orchestrator/store paths.
-- **Tasks:** Add integration cases for storage scan/write/remove failures, partial corrupt-record reload, lock contention/acquisition failure, handler failure and missing handler, cancellation/stop behavior, and already-completed task effects. Reconcile focused mock expectations with actual production semantics. Specify and test how persistence failures appear in operator-visible outcomes.
+- **Tasks:**
+- [ ] Add production-path integration cases for storage scan/write/remove failures, partial corrupt-record reload, lock contention/acquisition failure, handler failure/missing handler, cancellation/stop behavior, and already-completed task effects (Target: v2.5.0).
+- [ ] Reconcile focused mock expectations with production semantics and document any intentional differences (Target: v2.5.0).
+- [ ] Specify and test how persistence failures appear in operator-visible outcomes (Target: v2.5.0).
 - **Dependencies:** Existing orchestrator/store APIs and the production regression fixture in `tests/database/test_database_maintenance_orchestrator.cpp`.
 - **Risk / trade-off:** Tests may expose behavior that requires a compatibility decision; do not silently change partial recovery or task-side-effect semantics.
 - **Success metrics:** All listed failure cases have production-path regression coverage; zero conflicting mock-versus-runtime assertions remain undocumented; persistence failure is either represented in the production outcome stream or explicitly documented as an API/log-only failure.
@@ -128,7 +131,10 @@ the module and exclude work owned by delegated task handlers.
 #### Wave 2 — Establish production performance baselines (P0; 2–4 person-weeks)
 
 - **Goal:** Replace proxy-only release evidence with reproducible measurements of schedule CRUD/list/load and dispatch under contention.
-- **Tasks:** Add benchmarks around the production orchestrator and schedule store; cover 1, 100, and 1,000 schedules, single and concurrent callers, warm/cold reload, and local versus injected distributed-lock paths. Capture per-operation p50/p95/p99, throughput, workload, compiler, host profile, and raw output. Retain the existing helper microbenchmarks only as helper-level measurements.
+- **Tasks:**
+- [ ] Add production orchestrator/store benchmarks for 1, 100, and 1,000 schedules; single/concurrent callers; warm/cold reload; local/injected-lock paths (Target: v2.5.0).
+- [ ] Capture per-operation p50/p95/p99, throughput, workload, compiler, host profile, and raw output in the release evidence (Target: v2.5.0).
+- [ ] Keep helper microbenchmarks scoped as helper-level measurements and map selected production cases to release gates (Target: v2.5.0).
 - **Dependencies:** Wave 1 runtime semantics; a named, repeatable release benchmark host/profile.
 - **Risk / trade-off:** Hardware and storage variance can make absolute thresholds misleading; normalize comparisons to the same pinned profile and do not convert proxy targets into production claims.
 - **Success metrics:** Every selected production workload emits p50/p95/p99 and throughput in five repeat runs; selected gates have a recorded baseline and an agreed regression budget (initial proposal: no more than 10% p99 regression on the same profile); no selected gate is marked PASS without retained run evidence.
@@ -137,10 +143,13 @@ the module and exclude work owned by delegated task handlers.
 #### Wave 3 — Failure-injection and operator readiness (P1; 2–4 person-weeks)
 
 - **Goal:** Demonstrate bounded, diagnosable behavior through restart, persistence faults, dispatch failure, and prolonged operation.
-- **Tasks:** Exercise restart during/after schedule mutation, corrupt and unavailable storage, lock contention/expiry, handler timeout/failure, and partial multi-task completion. Promote production-orchestrator endurance coverage into a registered test/soak path. Document operator actions and example alert conditions for stale health, failed tasks, unexpected skips, and duration-budget violations.
+- **Tasks:**
+- [ ] Exercise restart during/after schedule mutation, corrupt/unavailable storage, lock contention/expiry, handler timeout/failure, and partial multi-task completion (Target: v2.5.0).
+- [ ] Promote production-orchestrator endurance coverage into a registered test/soak path (Target: v2.5.0).
+- [ ] Document operator actions and example alert conditions for stale health, failed tasks, unexpected skips, and duration-budget violations (Target: v2.5.0).
 - **Dependencies:** Wave 1 failure contracts; Wave 2 workload profile for duration budgets; deployment owners for alert thresholds.
 - **Risk / trade-off:** Module-level tests cannot prove the delegated handler's side effects are transactional; retries must not be added until idempotency is established.
-- **Success metrics:** Every injected failure is surfaced in job state, outcome, error, or documented startup log; zero silent schedule loss in restart/reload tests; a 24-hour representative soak has no unbounded growth in retained jobs, diagnostics, or schedule state.
+- **Success metrics:** Every injected failure is surfaced in job state, outcome, error, or documented startup log; zero silent schedule loss in restart/reload tests; during a 24-hour representative soak, completed-job retention returns to its configured bound, diagnostics stay within configured capacity, and a 1,000-schedule lifecycle run has no leak or loss.
 - **Validation:** Production-path fault-injection tests, registered soak/CTest evidence, review of runbook procedures, and alert checks against synthetic failures; preserve the distinction between module evidence and handler-owned guarantees.
 
 ### v3.0.0 — distributed correctness and policy-driven maintenance
@@ -152,7 +161,10 @@ must follow `VERSIONING.md` and the existing breaking-change process.
 #### Wave 4 — Fenced distributed execution and explicit recovery (P0; 4–8 person-weeks)
 
 - **Goal:** Prevent stale lock holders from committing correctness-sensitive work and define safe restart/retry behavior for partially completed jobs.
-- **Tasks:** Specify a lock ownership epoch/fencing-token contract and enforce it at the protected state-mutation boundary; define lock-loss handling, task idempotency/replay declarations, checkpointing or explicit non-retryable outcomes, and durable job execution state. Do not promise exactly-once task effects unless the handler/resource contract can enforce them.
+- **Tasks:**
+- [ ] Specify a lock ownership epoch/fencing-token contract and enforce it at the protected state-mutation boundary (Target: v3.0.0).
+- [ ] Define lock-loss handling, task idempotency/replay declarations, checkpoints or explicit non-retryable outcomes, and durable job execution state (Target: v3.0.0).
+- [ ] State task delivery guarantees without promising exactly-once effects unless the handler/resource contract can enforce them (Target: v3.0.0).
 - **Dependencies:** Wave 1 error/lifecycle semantics; a distributed-lock backend capable of monotonic fencing tokens; handler-owner agreement on idempotency and recovery.
 - **Risk / trade-off:** Fencing is ineffective if the resource that commits side effects does not validate the token; durable execution state adds write cost and migration complexity.
 - **Success metrics:** In deterministic stale-owner fault tests, zero stale-epoch writes are accepted; every interrupted task is classified as resumable, safely replayable, or operator-intervention-required; no unqualified exactly-once claim.
@@ -161,7 +173,9 @@ must follow `VERSIONING.md` and the existing breaking-change process.
 #### Wave 5 — Bounded workload-aware scheduling (P1; 3–6 person-weeks)
 
 - **Goal:** Protect foreground service objectives while scaling background maintenance fairly across tenants and workload classes.
-- **Tasks:** Define deterministic per-tenant and global concurrency/resource budgets, queue/backpressure behavior, starvation bounds, and operator overrides. Use measured load/maintenance signals to defer or throttle work; keep scheduling policy separate from the task handler's storage algorithm.
+- **Tasks:**
+- [ ] Define deterministic per-tenant/global concurrency and resource budgets, queue/backpressure behavior, starvation bounds, and operator overrides (Target: v3.0.0).
+- [ ] Use measured workload signals to defer or throttle work while keeping scheduling policy separate from task-handler storage algorithms (Target: v3.0.0).
 - **Dependencies:** Wave 2 production SLO baselines; Wave 4 durable ownership/execution semantics where work can move across nodes; deployment SLO and resource-budget inputs.
 - **Risk / trade-off:** More conservative throttling can delay required maintenance and increase storage debt; adaptive policy complexity must remain inspectable and overrideable.
 - **Success metrics:** 100% of dispatched work respects configured concurrency/resource budgets; no tenant exceeds its declared quota in stress tests; p99 foreground latency remains within the agreed same-profile regression budget while maintenance completes within its configured deadline.
@@ -170,7 +184,10 @@ must follow `VERSIONING.md` and the existing breaking-change process.
 #### Wave 6 — Auditable, supportable maintenance lifecycle (P1; 2–4 person-weeks)
 
 - **Goal:** Make administrative schedule and execution decisions traceable and supportable without imposing an unspecified regulatory regime.
-- **Tasks:** Define stable audit fields for actor/tenant, schedule/job, requested action, decision, and outcome; define retention/redaction boundaries and access checks for sensitive history; publish SLO/alert examples and recovery procedures for partial restore, stale ownership, and replay-required jobs.
+- **Tasks:**
+- [ ] Define stable audit fields for actor/tenant, schedule/job, requested action, decision, and outcome (Target: v3.0.0).
+- [ ] Define retention/redaction boundaries and access checks for sensitive history (Target: v3.0.0).
+- [ ] Publish SLO/alert examples and recovery procedures for partial restore, stale ownership, and replay-required jobs (Target: v3.0.0).
 - **Dependencies:** Wave 4 durable job state; Wave 5 tenant/policy model; security and operations owner review of data retention and actor identity sources.
 - **Risk / trade-off:** Durable audit/history increases storage and may retain sensitive metadata; actual retention periods and compliance obligations are deployment-specific and require owner input.
 - **Success metrics:** 100% of privileged schedule CRUD, forced runs, and recovery decisions produce correlated actor/action/outcome audit records; retention and redaction tests pass; every documented high-severity scenario has an actionable runbook procedure.
