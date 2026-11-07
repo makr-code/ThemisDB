@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-07"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -18,6 +18,17 @@ Exact model backend not verifiable from final document text alone.
 <!-- Links: README.md · PRODUCTION_REQUIREMENTS.md · ROADMAP.md · ARCHITECTURE.md -->
 
 # Future Enhancements — ONNX CLIP Plugin
+
+---
+
+## Planning and evidence status
+
+This file is a proposal catalog; release sequencing and acceptance gates are
+defined in [`ROADMAP.md`](./ROADMAP.md). The numeric latency, throughput, memory,
+and speedup values below are unvalidated hypotheses from mock benchmark plans,
+not observed results or release gates. Reassess them only after a production-plugin
+benchmark records a pinned model, runtime/provider, hardware, and retrieval
+quality baseline. A `CUDA` case name or target does not establish CUDA execution.
 
 ---
 
