@@ -15,6 +15,26 @@ Human_Author: "ThemisDB Team"
 Datum: 2026-11-02
 Status: Active
 
+## Linux AMD64 release CPU portability (2026-11-07)
+
+- Run `42346575119`, job `128325782592`, compiled successfully but failed validation
+  when `import_docs_rocksdb` terminated with `Illegal instruction` before producing
+  the documentation database. Configure selected ThemisDB and GGML `-march=native`;
+  the lane restores compiler objects across hosted runners without CPU identity.
+- The Linux AMD64 release matrix now passes `THEMIS_ENABLE_AVX2=OFF` and
+  `GGML_NATIVE=OFF`, selecting ThemisDB's baseline `-march=x86-64`. GGML's default
+  SSE4.2, AVX, AVX2, BMI2, FMA and F16C options are explicitly disabled as well.
+  This removes runner-specific instruction requirements
+  without bypassing the mandatory documentation/model payload or packaging gates.
+  Other platforms and developer presets are unchanged.
+- Sources: [release matrix](../../.github/workflows/release-build-matrix.yml),
+  [architecture policy](../../cmake/platforms/ArchitectureOptimizations.cmake),
+  [regression tests](../../tests/test_release_runtime_payload.py).
+  Tests exercise matrix generation and the real CMake architecture policy.
+- The crash log contains no instruction address or core backtrace; a fresh Actions
+  run on corrected source must confirm importer execution and package validation.
+  Wiki freshness remains November 2 / 8066 sources; this entry is a focused source sync.
+
 ## Windows dependency preparation before release compile (2026-11-07)
 
 - Acceptance plan: isolate the enabled Windows release prerequisite; bound its
