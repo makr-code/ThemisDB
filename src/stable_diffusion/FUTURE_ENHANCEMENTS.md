@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-07"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -22,8 +22,10 @@ Human_Author: "ThemisDB Team"
 
 ## Scope
 
-Planned enhancements beyond v2.0.0. Core implementation in `src/stable_diffusion/sd_plugin.cpp`,
-`src/stable_diffusion/sd_prompt_sanitizer.cpp`, `src/stable_diffusion/sd_config.cpp`.
+Planned enhancements beyond v2.0.0. Version targets and wave acceptance criteria are maintained
+in the canonical [module roadmap](ROADMAP.md). Core implementation in
+`src/stable_diffusion/sd_plugin.cpp`, `src/stable_diffusion/sd_prompt_sanitizer.cpp`,
+`src/stable_diffusion/sd_config.cpp`.
 
 ---
 
@@ -66,9 +68,10 @@ Planned enhancements beyond v2.0.0. Core implementation in `src/stable_diffusion
 
 ## Planned Features
 
-### 1. Performance/Hardening Follow-ups (Target: Q3–Q4 2026)
+### 1. Performance/Hardening Follow-ups (Target: v2.5.0)
 
-**Problem:** Roadmap Phase 5 contains open hardening items.
+**Problem:** Roadmap Phase 5 contains open hardening items; the detailed benchmark, reliability,
+and security gates are tracked in the canonical module roadmap.
 
 **Solution:** Keep benchmark and concurrency-audit deliverables:
 - benchmark target added: `bench_stable_diffusion_release_gates` for time-to-PNG (stub + in-memory proxy); publish real-model baseline next
@@ -78,14 +81,15 @@ Planned enhancements beyond v2.0.0. Core implementation in `src/stable_diffusion
 
 ---
 
-### 2. Real-backend E2E verification
+### 2. Real-backend E2E verification (Target: v2.5.0)
 
 **Current state:** The opt-in `SDPluginRealBackendE2ETests` target exists and includes
 text2img/img2img and parallel-generate cases. This document does not establish CI wiring or
 an executed run with a configured model/runtime.
 
-**Follow-up:** **TODO:** verify whether CI invokes this target; if not, wire it in and publish
-execution evidence using `THEMIS_ENABLE_STABLE_DIFFUSION=ON` and a test model path.
+**Follow-up:** verify whether CI invokes this target; if not, wire it in and publish execution
+evidence using `THEMIS_ENABLE_STABLE_DIFFUSION=ON` and a pinned test model path, following the
+canonical module roadmap.
 
 **Tests:** the source currently contains text2img/img2img and parallel-generation cases; target
 execution remains opt-in.
