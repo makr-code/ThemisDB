@@ -1,7 +1,21 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-11-07"
+Last Updated: "2026-11-07"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot; OpenAI API assistant"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Utils Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-17 -->
+<!-- Status: review | validated: 2026-11-07 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · IMPLEMENTATION_PLAN_PHASES_2_4.md -->
 
 ## Current Status
@@ -175,3 +189,247 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
 - [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
 - [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+
+## Research-Based Release Evolution: v2.5.0 and v3.0.0
+
+This plan is a module-level proposal, not a release commitment.
+[`VERSIONING.md`](../../VERSIONING.md) identifies v2.5.0 as the next planned
+minor version; release dates, staffing, and the v3.0.0 schedule remain subject
+to project-level approval. Waves 1–6 below are utils release sub-waves and are
+separate from the project-wide Wave A–D model above.
+
+### Current maturity and evidence-based gaps
+
+**Assessment:** utils is functionally broad and has meaningful security,
+concurrency, and edge-case hardening. Its implementation and focused test
+coverage are more mature than its release-grade performance evidence and
+consumer/API compatibility inventory. Treat the module as operationally useful,
+but not yet performance-qualified across its high-fan-out paths.
+
+- `include/utils/` and `src/utils/` cover observability, privacy, key handling,
+  compression/serialization, concurrency, and general helpers. Existing
+  focused tests exercise privacy fail-closed behavior, Unicode, malformed
+  inputs, serialization bounds, and concurrency stress; see
+  [`tests/utils/CMakeLists.txt`](../../tests/utils/CMakeLists.txt) and
+  [`tests/utils/test_utils_privacy_hardening.cpp`](../../tests/utils/test_utils_privacy_hardening.cpp).
+- Only `bench_utils_release_gates` is registered in
+  [`benchmarks/utils/CMakeLists.txt`](../../benchmarks/utils/CMakeLists.txt).
+  Its cases measure configuration construction/copy and small error dispatch,
+  not production scanner, compression, crypto, or concurrent-runtime paths.
+  `BENCHMARK_BASELINE.md` explicitly classifies the older Phase A.3 results as
+  simulated historical data, not a release baseline.
+- [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) records that
+  current utils benchmarks do not establish p95/p99 for those subsystems.
+  Therefore no absolute performance target or claimed release regression
+  threshold is currently evidence-backed.
+- Regex/NER and streaming privacy helpers have bounds and failure tests, but
+  the module's own research note identifies accuracy, representative
+  performance, and data-set limitations. In particular, embedding-based PII
+  detection is not currently instantiable; see
+  [`EMBEDDING.md`](EMBEDDING.md). It is not assumed as a release capability in
+  this plan.
+- The Phase 4.2 completion list names
+  `test_utils_pii_stream_scanner_stress_parallel.cpp`, which is not present in
+  the current `tests/utils/` file inventory. Confirm whether it was renamed or
+  omitted before counting that listed suite as release evidence.
+- The Developer LLM Wiki has no curated utils-specific module page, and its
+  generated health snapshot is dated 2026-11-02 with a large source delta.
+  Current source, tests, and module documentation were used as the evidence
+  baseline; the wiki remains an explicit synchronization gap.
+
+### Research findings and implications
+
+1. Google Benchmark supports repeated runs, aggregate statistics, JSON output,
+   and randomized interleaving. Its variance guidance identifies CPU-frequency
+   changes, scheduling contention, affinity, and NUMA as sources of noise.
+   **Implication:** record host/compiler/build context, use repetitions and
+   stable runners, and retain raw results. Google Benchmark's repetition
+   aggregates are not by themselves request-latency p95/p99; collect those from
+   representative operation-level samples where percentile budgets are needed.
+2. OWASP's Denial of Service Cheat Sheet recommends inventorying application
+   resource-exhaustion risks, applying cheap validation early, and designing
+   graceful degradation. **Implication:** test bounded input, queue, timeout,
+   memory, and dependency-failure behavior across the shared utilities rather
+   than treating unit success as overload evidence.
+3. The in-repository utils research and performance notes require labeled
+   fixtures for detection behavior and production-path measurements for
+   performance claims. **Implication:** keep correctness/false-negative
+   validation separate from throughput claims and do not infer performance
+   from historical simulations or narrow configuration microbenchmarks.
+
+Research references:
+
+- [Google Benchmark User Guide](https://github.com/google/benchmark/blob/main/docs/user_guide.md)
+- [Google Benchmark: Reducing Variance](https://github.com/google/benchmark/blob/main/docs/reducing_variance.md)
+- [OWASP Denial of Service Cheat Sheet](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Denial_of_Service_Cheat_Sheet.md)
+- Local evidence: [`RESEARCH.md`](RESEARCH.md), [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md), [`SECURITY.md`](SECURITY.md), and [`BENCHMARK_BASELINE.md`](../../benchmarks/utils/BENCHMARK_BASELINE.md).
+
+### v2.5.0 — compatible evidence and hardening
+
+The v2.5.0 scope is additive and backward-compatible within the v2 major line.
+Prioritize evidence and bounded behavior before optimization; do not introduce
+compatibility shims or claim a release gate before its production baseline is
+measured.
+
+#### Wave 1 (P1) — Representative performance baseline (estimate: 2–3 person-weeks)
+
+- **Goal:** Replace synthetic/narrow-only evidence with reproducible measurements
+  of selected production utility paths.
+**Tasks:**
+- [ ] Register production-path benchmark cases for the PII stream scanner, compression/serialization, and one runtime contention path (Target: TBD)
+- [ ] Define representative input sizes, warm/cold state, concurrency, and machine-readable output (Target: TBD)
+- [ ] Record CPU, OS, compiler, build mode, dependency versions, and benchmark revision; add operation-sample latency reporting for p95/p99 budgets (Target: TBD)
+- **Dependencies:** Dedicated or otherwise controlled representative hardware;
+  module owners select workload distributions before the first baseline is
+  accepted.
+- **Risks / trade-offs:** Shared CI hosts add noise; realistic workloads cost
+  runtime and may expose environment-specific results. Do not trade correctness
+  or safe bounds for a microbenchmark win.
+- **Success metrics:** 100% of selected cases call production implementations;
+  each case emits machine-readable results and environment metadata; five
+  repetitions produce a coefficient of variation at or below 5% on the
+  controlled runner, or the case is marked noisy and not gated. Establish
+  regression thresholds only after the baseline is reviewed.
+- **Validation:** Run the benchmark target in release mode with repetitions and
+  randomized interleaving; inspect raw JSON, rerun on the same host, and compare
+  output to the checked-in baseline. Keep percentile measurement separate from
+  Google Benchmark mean/standard-deviation aggregates.
+
+#### Wave 2 (P1) — Security and overload proof (estimate: 2–4 person-weeks)
+
+- **Goal:** Verify that high-fan-out utilities remain bounded and report
+  incomplete/degraded results explicitly under malformed input, overload, and
+  dependency loss.
+**Tasks:**
+- [ ] Add accepted/rejected boundary tests for regex, stream chunking, serialization, and compression limits (Target: TBD)
+- [ ] Add deterministic queue saturation/shutdown, rate-limiter timeout, audit-write failure, and PKI pinning/configuration tests (Target: TBD)
+- [ ] Add fault-injection and sustained-concurrency cases using existing test harnesses (Target: TBD)
+- **Dependencies:** Wave 1 selects tested workload sizes; security and utility
+  owners agree on safe resource/time limits for each API.
+- **Risks / trade-offs:** Limits that are too strict can reject legitimate
+  workloads; flaky timing-based tests can hide real failures. Prefer injected
+  clocks/faults and deterministic assertions over wall-clock-only tests.
+- **Success metrics:** Every selected boundary has a test for both accepted and
+  rejected/failure behavior; no unbounded wait or silent partial-success result
+  remains undocumented; zero findings in the applicable ASan/UBSan/TSan runs.
+- **Validation:** Run the focused utils test targets, applicable sanitizers,
+  repeated stress tests, and failure-injection tests; verify each failure has
+  an explicit result/error contract and bounded cleanup.
+
+#### Wave 3 (P1) — Consumer/API and operator readiness (estimate: 1–3 person-weeks)
+
+- **Goal:** Make compatibility risk and operational handling reviewable before
+  the v2.5.0 release candidate.
+**Tasks:**
+- [ ] Inventory public utility entry points and high-fan-out consumers (Target: TBD)
+- [ ] Link each critical contract to tests and failure semantics (Target: TBD)
+- [ ] Review runbook coverage for audit, privacy, key, tracing, compression, and pool incidents; correct unsupported fallback or performance claims (Target: TBD)
+- **Dependencies:** Wave 2 establishes validated failure behavior; module
+  maintainers identify consumers and operator-owned scenarios.
+- **Risks / trade-offs:** Broad helper usage makes exhaustive consumer inventory
+  expensive; scope the first pass to public headers and release-critical
+  surfaces, then track the remainder as an explicit gap.
+- **Success metrics:** 100% of identified release-critical public surfaces have
+  an owner, documented failure/compatibility contract, and at least one linked
+  focused test; every operator-critical scenario has a runbook or a named
+  follow-up.
+- **Validation:** Review header/API docs against implementation and tests; run
+  public-header compile checks where available; verify internal links and
+  release checklist evidence before v2.5.0 RC.
+
+### v3.0.0 — deliberate contract and architecture evolution
+
+The v3.0.0 scope is strategic and may include approved source/API breaks. It
+must not be treated as permission to add hidden legacy paths: any migration
+must use the canonical v3 contract, with explicit human approval for any
+compatibility bridge and a documented removal milestone.
+
+#### Wave 4 (P2) — API domains and compatibility design (estimate: 2–4 person-weeks)
+
+- **Goal:** Define a smaller, clearer contract boundary for the broad shared
+  utility surface without prematurely splitting the implementation target.
+**Tasks:**
+- [ ] Classify every public header by observability, privacy/key, compression/serialization, concurrency, or general support (Target: TBD)
+- [ ] Map direct dependencies and consumer fan-out; define ownership, thread-safety, errors, resource limits, and platform/compiler support (Target: TBD)
+- [ ] Publish a v2-to-v3 migration table for proposed breaking changes (Target: TBD)
+- **Dependencies:** Wave 3's consumer inventory and v2.5.0 failure contracts.
+- **Risks / trade-offs:** Over-segmentation can create coupling and maintenance
+  overhead; retain shared implementation where measurement and ownership do
+  not justify a separate target.
+- **Success metrics:** Every public header has one documented owner/domain and
+  compatibility status; every proposed break has a replacement, migration
+  example, affected-consumer list, and test plan before implementation begins.
+- **Validation:** API/architecture review with downstream module owners;
+  compatibility builds against representative consumers and supported
+  toolchain/platform matrix.
+
+#### Wave 5 (P2) — Measured usability and performance improvements (estimate: 3–6 person-weeks)
+
+- **Goal:** Improve only utility paths shown by Wave 1 data to constrain real
+  workloads, while preserving detection and failure semantics.
+**Tasks:**
+- [ ] Select the highest-value measured bottlenecks and evaluate scanner, codec, or runtime-service changes against the approved contract (Target: TBD)
+- [ ] Publish labeled PII evaluation methodology and precision/recall or false-negative results before proposing detector expansion (Target: TBD)
+- [ ] Reassess embedding detection only through a separate design with implementation, trust/resource contract, dataset, and measurable evaluation (Target: TBD)
+- **Dependencies:** Stable Wave 1 baseline, Wave 2 correctness/security
+  coverage, and Wave 4 approved v3 contract.
+- **Risks / trade-offs:** Hardware-specific wins may regress other targets;
+  detector recall cannot be traded for throughput without explicit product
+  approval. If no bottleneck meets the evidence bar, defer optimization.
+- **Success metrics:** For each selected hot path, achieve at least 20%
+  improvement in its predeclared primary workload metric on reference hardware,
+  with no correctness/security regression and no more than 5% regression in
+  other declared workloads; otherwise document the measured result and do not
+  claim improvement.
+- **Validation:** Run parity/property tests and sanitizer/fault suites, repeat
+  Wave 1 benchmarks on identical hardware/configuration, and report raw
+  results, variance, workload, memory use, and any cross-platform regression.
+
+#### Wave 6 (P2) — v3 release operations and sustained resilience (estimate: 2–4 person-weeks)
+
+- **Goal:** Demonstrate the new contracts are operable and stable under
+  sustained load before v3.0.0 GA.
+**Tasks:**
+- [ ] Align diagnostics and resource limits with the approved contracts (Target: TBD)
+- [ ] Exercise restart, dependency-loss, saturation, and recovery paths (Target: TBD)
+- [ ] Update runbooks, migration notes, dependency/security review, and release evidence (Target: TBD)
+- **Dependencies:** Waves 4–5 complete; supported platform matrix and v3 release
+  candidate are available.
+- **Risks / trade-offs:** Soak tests are resource-intensive and cannot replace
+  production telemetry; platform availability may delay final evidence.
+- **Success metrics:** A 24-hour representative soak completes with no
+  unbounded queue growth, deadlock, sanitizer finding, unexplained error, or
+  resource leak; all v3 breaking changes have migration and rollback guidance;
+  all release-critical benchmarks remain within approved budgets.
+- **Validation:** Run focused and integration suites, sanitizers, fault
+  injection, 24-hour soak, public API/consumer builds, and release checklist
+  review on supported platforms.
+
+### Cross-wave KPIs, risks, and open assumptions
+
+| Area | KPI / acceptance threshold | Evidence source |
+|---|---|---|
+| Performance | All selected release cases execute production paths; controlled-runner CV ≤5%; p95/p99 reported from operation samples where gated | Benchmark JSON, host/compiler metadata, locked baseline |
+| Correctness and security | All selected bounds/failure cases asserted; zero applicable sanitizer findings; no silent partial result | Focused tests, fault-injection and sanitizer logs |
+| Compatibility | All critical v2 public APIs classified before v3 changes; all breaks have consumer list and migration test | Header/consumer inventory and compatibility builds |
+| Operations | Critical utility failures have actionable diagnostics, bounded cleanup, and a runbook or tracked owner | Failure tests, runbooks, release evidence |
+| Governance | No performance/security claim without reproducible source/test/benchmark evidence; no unapproved legacy paths | PR evidence and module-owner review |
+
+**Primary trade-off:** prioritize evidence and predictable bounds over broad
+feature expansion. The v2.5.0 line preserves consumer contracts; v3.0.0 may
+restructure contracts only after consumer mapping and migration proof.
+
+**Open assumptions / knowledge gaps:**
+
+- Representative reference hardware, workload distributions, and release
+  benchmark runners have not been nominated; thresholds are provisional until
+  owners approve them.
+- Consumer fan-out is described as broad but has not been exhaustively counted.
+- No versioned, labeled PII evaluation corpus or cross-language quality target
+  is identified in current module docs.
+- Supported compiler/platform compatibility for every public helper needs
+  confirmation against current release configurations.
+- Person-week estimates exclude cross-module owner review, CI queue time, and
+  hardware procurement; release scheduling and staffing are not confirmed.
+- The Developer LLM Wiki's utils-specific curation and freshness remain open;
+  synchronize it after the evidence baseline is approved.
