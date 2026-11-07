@@ -1,5 +1,26 @@
 # Chapter 19: Monitoring & Observability
 
+[docs](../../README.md) > [compendium](../README.md) > [chapters](./README.md)
+
+- **Datum:** 2026-11-07
+- **Author:** ThemisDB Team
+- **Created:** 2026-11-07
+- **Last Updated:** 2026-11-07
+- **Status:** review
+- **Primary (Quelle der Wahrheit):** [ROADMAP.md](../../../ROADMAP.md), [FUTURE_ENHANCEMENTS.md](../../../FUTURE_ENHANCEMENTS.md)
+- **Bezug / Reference:** Issue #7189 — v2.4.0-alpha compendium sync
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
+
+## SRE and release posture
+
+SRE readiness is not implied by the presence of metrics, tracing, or dashboards. The current roadmap places Wave D at roughly 10–20%, with most operability work still early-stage; SLO/SLA attainment and production readiness require current evidence and human sign-off.
+
 ## v2.4.0-alpha roadmap alignment
 
 The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: observability, tracing, OpenTelemetry, SRE, alerting. 
@@ -1802,4 +1823,3 @@ ThemisDB bietet ein **Production-Ready Observability-Stack** mit:
 - [Prometheus Documentation](https://prometheus.io/docs/)
 - [OpenTelemetry Documentation](https://opentelemetry.io/docs/)
 - [Grafana Documentation](https://grafana.com/docs/)
-

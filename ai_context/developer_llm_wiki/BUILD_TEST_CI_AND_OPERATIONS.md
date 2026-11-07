@@ -80,6 +80,9 @@ Status: Active
   dispatch must verify taskkill tree cleanup, partial upload, binary-only ABI restore,
   MSVC and packaging. Existing Apple-backend Python tests currently have unrelated
   source-extraction errors; they were not removed or modified for this change.
+- Run `42396942036`, job `128476529660`, failed before configure because Python's
+  `bash` lookup launched WSL instead of Git Bash. The workflow now passes its active
+  Git Bash executable as a native Windows path to the dependency supervisor.
 - Wiki status remains generated 2026-11-02 / 8066 sources with incomplete workflow
   summaries; source and concrete run logs take precedence.
 

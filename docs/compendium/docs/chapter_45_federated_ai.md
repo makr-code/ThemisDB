@@ -1,5 +1,26 @@
 # Kapitel 45: Federated Learning & AI Governance
 
+[docs](../../README.md) > [compendium](../README.md) > [chapters](./README.md)
+
+- **Datum:** 2026-11-07
+- **Author:** ThemisDB Team
+- **Created:** 2026-11-07
+- **Last Updated:** 2026-11-07
+- **Status:** review
+- **Primary (Quelle der Wahrheit):** [ROADMAP.md](../../../ROADMAP.md), [ai/ROADMAP.md](../../../src/ai/ROADMAP.md), [FUTURE_ENHANCEMENTS.md](../../../FUTURE_ENHANCEMENTS.md)
+- **Bezug / Reference:** Issue #7189 — v2.4.0-alpha compendium sync
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
+
+## CAI safety and federated AI scope
+
+The AI module roadmap limits its in-scope production implementation to controlled plugin generation and the CAI ethics adapter. Federated learning and graph phase gates are cross-module work; historical Wave C records must not be presented as current AI-module release sign-off or as blanket AI safety certification.
+
 ## v2.4.0-alpha roadmap alignment
 
 The current release baseline is v2.4.0-alpha. This chapter covers the active roadmap topics: federated learning, federated, CAI safety, AI safety, responsible AI.

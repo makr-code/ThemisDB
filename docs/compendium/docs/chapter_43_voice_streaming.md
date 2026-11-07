@@ -1,3 +1,19 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-11-07"
+Last Updated: "2026-11-07"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+[docs](../../README.md) > [compendium](../README.md) > [chapters](./README.md)
+
+> Exact model backend not verifiable from final document text alone.
+
 # Kapitel 43: Voice & Streaming Interface
 
 ## v2.4.0-alpha roadmap alignment
@@ -14,6 +30,17 @@ ThemisDB v2.4.0-alpha continues to evolve around a source-validated release hard
 - The architecture and hardening plan are tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md.
 - Wave A/B/C/D gate evidence remains the authoritative release criterion for GA progression.
 - Feature status is explicitly source-backed rather than documentation-only.
+
+## Voice security, anti-spoof and liveness status
+
+The root roadmap describes voice as materially advanced within Wave A, while representative-hardware baselines remain outstanding. The [voice module roadmap](../../../src/voice/ROADMAP.md) records stream validation, fail-closed input checks, session cleanup, and adversarial test sources, but source registration is not evidence of a passing current run or calibrated protection.
+
+- Anti-spoof evaluation has no published held-out attack-set results or calibrated false-accept/false-reject rates.
+- Speaker features and liveness checks are heuristic and uncalibrated; they do not establish identity assurance or application authorization.
+- Voice authentication is disabled by default. Durable audit, cryptographic audio protection, consent, retention, and key management remain deployment responsibilities.
+- Browser streaming uses placeholder transcript and TTS behavior when real callbacks are not supplied. No production speech backend or representative-hardware p95/p99 baseline is established.
+
+These limits keep the v2.4.0-alpha chapter from presenting the voice surface as production-ready. See the [root roadmap](../../../ROADMAP.md) for aggregate Wave status and release blockers.
 
 ## Key capability areas
 
