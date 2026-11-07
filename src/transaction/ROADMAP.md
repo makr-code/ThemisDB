@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-09-09"
-Last Updated: "2026-11-02"
+Last Updated: "2026-11-07"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -12,7 +12,7 @@ Human_Author: "ThemisDB Contributors"
 
 Exact model backend not verifiable from final document text alone.
 
-Source level: 1; SOT domain: module-behavior. Canonical references: current transaction headers/source, `tests/transaction/CMakeLists.txt`, and `benchmarks/transaction/CMakeLists.txt`. Related issue: #7390.
+Source level: 1; SOT domain: module-behavior. Canonical references: current transaction headers/source, `tests/transaction/CMakeLists.txt`, `benchmarks/transaction/CMakeLists.txt`, and the research references in this roadmap. Related issues: #7390, #7463.
 
 > **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks ueberfuehren. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
 >
@@ -96,6 +96,144 @@ The source tree contains local transaction lifecycle, MVCC-backed operations, sa
 - [~] Advance distributed transaction throughput hardening without weakening safety invariants (Target: Q1 2027) — product feature engineering
 - [~] Extend OCC and serializable conflict telemetry to improve operator tuning loops (Target: Q1 2027) — product feature engineering
 - [~] Expand audit/export integration hardening for large retention windows (Target: Q1 2027) — product feature engineering
+
+## Research-Based Release Plan (Proposed)
+
+The v2.5.0 and v3.0.0 targets below are module-planning proposals, not release commitments or changes to the product version. Root `ROADMAP.md`, `VERSIONING.md`, and release governance remain authoritative. Estimates are engineering person-weeks (PW), assume one or two engineers familiar with the module, and exclude CI queue time and procurement/deployment of representative hardware; early estimates have at least ±50% uncertainty.
+
+### Current maturity assessment
+
+**Assessment: substantial implementation breadth; correctness, operational, and performance evidence is incomplete.** The source includes local transaction lifecycle/isolation, locking, audit and batching, distributed 2PC/WAL recovery, and saga components. This is a source inventory, not a production-readiness rating. The current module roadmap itself records outstanding build/run and recovery evidence; test declarations or passing unit tests alone do not prove networked durability or storage-engine application.
+
+| Area | In-repository evidence | Gap and consequence |
+|---|---|---|
+| Local isolation | `include/transaction/transaction_manager.h`; SSI scenarios in `tests/transaction/test_transaction_ssi.cpp` include write-skew and predicate conflict checks. | `test_transaction_isolation_contention_phase1.cpp`'s named high-concurrent-write case starts and ends transactions without writes; it does not establish behavior under conflicting data mutations. |
+| Performance and scale | `benchmarks/transaction/bench_transaction_phase4.cpp` exercises RocksDB-backed local transactions; benchmark targets are registered in `benchmarks/transaction/CMakeLists.txt`. | `bench_transaction_throughput.cpp` labels an empty loop as reads and registers its read/write/mixed cases with one thread. Phase-4 distributed transactions use in-process mock participants; `bench_transaction_dedicated_gates.cpp` explicitly benchmarks stubs. These do not establish end-to-end distributed, contended, or representative-hardware performance. |
+| Recovery and resilience | `include/transaction/distributed_transaction_manager.h`, `src/transaction/distributed_transaction_manager.cpp`, and registered crash/fault tests under `tests/transaction/`. | The current roadmap records recovery/CI evidence as pending and explicitly distinguishes process/WAL harness evidence from network replication or storage-engine application proof. |
+| Operations and governance | `src/transaction/OPERATIONS.md`, `src/transaction/SECURITY.md`, and `src/transaction/ROADMAP.md`. | Component metric APIs do not prove deployment-level export or alerting; no current benchmark result or compliance certification is claimed here. |
+
+### v2.5.0 — compatible hardening and evidence closure
+
+Priority is **P0 correctness/evidence**, then **P1 performance and operations**. Preserve existing public APIs and default isolation/commit semantics; any discovered compatibility requirement is a gate, not permission to add an unapproved legacy path.
+
+#### Wave 1 — trustworthy workload and baseline (P0, estimate 2–3 PW)
+
+- **Goal:** Measure actual local transaction work and expose contention costs before making performance claims.
+- **Tasks:**
+  - [ ] Replace the no-op read case with actual reads and make mixed workloads perform read-modify-write against stored values; count committed, aborted, and retried transactions separately (Target: v2.5.0 / Wave 1).
+  - [ ] Add deterministic uniform, skewed/hot-key, and disjoint-key workloads at 1, 8, and 32 workers; report throughput and p50/p95/p99 latency for local commit, abort, and lock wait (Target: v2.5.0 / Wave 1).
+  - [ ] Record benchmark command, build options, CPU/storage profile, dataset size, warm-up, repetitions, and raw JSON; derive release regression budgets from a reviewed baseline rather than inventing an absolute SLO (Target: v2.5.0 / Wave 1).
+- **Dependencies:** Existing Google Benchmark registration and a reproducible representative test host.
+- **Risk / trade-off:** RocksDB cache, filesystem, hardware, and workload skew can dominate results; stable per-profile baselines are more useful than cross-host raw comparisons.
+- **Success metric:** Every named read/write workload performs the operation it claims to measure; each profile exports throughput, p50/p95/p99, abort/retry counts and reproducibility metadata. No performance gate is reported as passed without raw output and host/build provenance.
+- **Validation:** Run the focused transaction benchmark CTest targets on the same host for baseline and candidate; inspect JSON for expected counters and compare repeated runs. TPC-C is a workload-design reference, not a claim of TPC-C compliance.
+
+#### Wave 2 — data-bearing isolation and contention correctness (P0, estimate 3–5 PW)
+
+- **Goal:** Demonstrate the documented isolation contract with concurrent histories that mutate data.
+- **Tasks:**
+  - [ ] Extend the contention suite with overlapping read/write transactions on hot and disjoint keys, asserting final invariants, committed/aborted counts, and lock cleanup (Target: v2.5.0 / Wave 2).
+  - [ ] Add seeded generated transaction histories and check serializability/anomaly outcomes for `SERIALIZABLE`; retain deterministic regression cases for write skew, predicate conflicts, timeout, and retry (Target: v2.5.0 / Wave 2).
+  - [ ] Measure serialization abort and retry rates by isolation level and contention profile; document bounded retry behavior and caller-visible failure outcomes (Target: v2.5.0 / Wave 2).
+- **Dependencies:** Wave 1 workload harness; unchanged local transaction/isolation contracts.
+- **Risk / trade-off:** Stronger conflict detection can increase abort rates; tests must distinguish a correct serialization failure from silent invariant violation.
+- **Success metric:** Zero serializability violations across at least 100 seeded/repeated generated histories per supported profile; every run ends with all locks released and a counted terminal outcome. Record throughput and abort-rate change against Wave 1.
+- **Validation:** Run focused SSI, isolation, timeout, retry, and contention tests under thread sanitizer where supported; preserve failing seeds and verify each against the reference history checker. SSI's dependency-based detection is grounded in the SSI literature and PostgreSQL's documented serialization-failure contract.
+
+#### Wave 3 — distributed recovery and saga replay evidence (P0, estimate 4–6 PW)
+
+- **Goal:** Prove externally visible outcomes across coordinator/participant crashes and make compensation replay safety observable.
+- **Tasks:**
+  - [ ] Execute fault-injection scenarios at each durable prepare/decision/apply/ack boundary, including coordinator restart, participant loss, and network partition; assert committed state is applied, aborted work is absent, and unresolved work remains explicitly in-doubt (Target: v2.5.0 / Wave 3).
+  - [ ] Exercise coordinator plus participant restart with 100 in-flight transactions; retain WAL, recovery report, and applied-state assertions as CI artifacts (Target: v2.5.0 / Wave 3).
+  - [ ] Test saga compensation against a stateful side effect under duplicate delivery, retry, and restart; verify idempotency by resulting state, not only callback counts (Target: v2.5.0 / Wave 3).
+- **Dependencies:** Wave 2 deterministic test fixtures; configured coordinator/participant WAL and the transport-enabled CI environment.
+- **Risk / trade-off:** A simulated transport does not represent real network behavior; unavailable participants may legitimately leave transactions in-doubt and must not be reported as completed.
+- **Success metric:** Zero lost committed or visible aborted mutations in 100 repeated fault-matrix runs; no transaction is marked terminal before participant outcome is confirmed. Recovery of the 100-transaction fixture completes within the existing proposed 5-second target or produces a measured, documented replacement target.
+- **Validation:** Run registered process-crash and distributed recovery suites with the real transport path; capture CI artifacts and verify replay idempotency and participant state. Run saga failure/replay cases independently. The 5-second target is an acceptance proposal, not a measured result.
+
+#### Wave 4 — operational/security gate and release evidence (P1, estimate 2–3 PW)
+
+- **Goal:** Make failure state actionable for operators and assemble auditable v2.5.0 evidence.
+- **Tasks:**
+  - [ ] Verify which transaction, lock, audit, and recovery signals reach deployment exporters; add only missing bounded-cardinality signals for in-doubt age, recovery outcomes, serialization aborts, and compensation failures (Target: v2.5.0 / Wave 4).
+  - [ ] Review transaction audit access, retention/export failure behavior, transport authentication/TLS configuration, timeout/resource bounds, and log redaction against the actual deployment threat model (Target: v2.5.0 / Wave 4).
+  - [ ] Attach passing focused test/chaos output and representative benchmark JSON; keep any unavailable security/compliance review explicitly open (Target: v2.5.0 / Wave 4).
+- **Dependencies:** Wave 1–3 evidence and deployment owners for exporter, retention, and transport settings.
+- **Risk / trade-off:** Additional telemetry and audit retention consume CPU, storage, and sensitive-data budget; avoid high-cardinality labels and claim no certification without independent sign-off.
+- **Success metric:** Every injected unresolved transaction and compensation failure is discoverable via documented operator signals/runbook; audit/export failures are visible; all required release-critical transaction checks pass on `develop`, with no unreviewed compatibility break.
+- **Validation:** Exercise alerts/runbook with injected failure, test audit/export error paths, inspect security configuration and retention boundaries, and verify CI links/raw artifacts before release governance review.
+
+### v3.0.0 — strategic transaction architecture (conditional proposal)
+
+v3.0 work is conditional on v2.5 evidence and approved requirements. It is not a decision to replace 2PC or change wire formats. A major-version change is only justified if the reviewed contract requires an incompatible API or protocol change under `VERSIONING.md`.
+
+#### Wave 5 — failure model, API contract, and architecture decision (P0, estimate 3–4 PW)
+
+- **Goal:** Decide which guarantees and deployment failure model a next-generation coordinator must provide before implementation.
+- **Tasks:**
+  - [ ] Specify atomicity boundaries, participant identity/lifecycle, durability points, retry/idempotency contract, timeout/cancellation behavior, and behavior under coordinator/majority/region loss (Target: v3.0.0 / Wave 5).
+  - [ ] Compare current 2PC, consensus-backed commit (including Paxos Commit/Raft integration options), and application-level saga semantics for availability, latency, message/storage cost, and operational complexity (Target: v3.0.0 / Wave 5).
+  - [ ] Publish an API/wire compatibility matrix and migration/rollback plan; obtain architecture and product-owner approval before opening an implementation gate (Target: v3.0.0 / Wave 5).
+- **Dependencies:** v2.5.0 Waves 1–4 results, representative deployment topology, and product SLO/consistency requirements.
+- **Risk / trade-off:** Consensus can improve progress under a defined quorum failure model but costs messages, durable state, and operational complexity; sagas provide compensation, not atomic rollback of external side effects.
+- **Success metric:** Reviewed decision record contains an explicit fault model, quantitative latency/availability targets, failure semantics, operational cost comparison, and compatibility approval; otherwise implementation remains unstarted.
+- **Validation:** Model-check or enumerate protocol state transitions and review against SSI, transaction-commit, saga, and versioning sources; conduct architecture/security review before merge.
+
+#### Wave 6 — selected coordinator/recovery design (P1, estimate 8–12 PW; option-dependent)
+
+- **Goal:** Implement only the approved coordinator evolution behind a versioned contract, preserving fail-closed recovery.
+- **Tasks:**
+  - [ ] Prototype the selected quorum/replication or recovery mechanism against the agreed participant model; retain durable decisions before delivery and make retry/deduplication behavior explicit (Target: v3.0.0 / Wave 6).
+  - [ ] Add bounded resource/queue limits, authenticated transport, recovery diagnostics, and deterministic restart behavior for the selected protocol (Target: v3.0.0 / Wave 6).
+  - [ ] Keep old/new wire or API behavior mutually exclusive by negotiated protocol version; do not introduce a silent fallback or dual-write compatibility shim (Target: v3.0.0 / Wave 6).
+- **Dependencies:** Approved Wave 5 design, protocol schema/API review, and a multi-node fault-test environment.
+- **Risk / trade-off:** New coordination can reduce availability during quorum loss and add tail latency; migration complexity and partial rollout can outweigh benefits if target workloads do not need the guarantee.
+- **Success metric:** Meets Wave 5 availability/latency targets under the declared fault model; zero lost/duplicated committed effects across at least 100 restart/partition runs; resource use and recovery time stay within approved budgets.
+- **Validation:** Multi-node process/network fault injection, state-machine/property tests, wire-version compatibility tests, and representative-hardware p95/p99 benchmark comparison against the v2.5 baseline.
+
+#### Wave 7 — durable long-running workflows and upgrade proof (P1, estimate 6–9 PW)
+
+- **Goal:** Make long-running saga progress recoverable and safely operable if the approved product requirements demand it.
+- **Tasks:**
+  - [ ] Design versioned durable saga checkpoints with step identity, idempotency keys, compensation progress, retention, and operator intervention states (Target: v3.0.0 / Wave 7).
+  - [ ] Implement pause/resume and replay only after each side-effect boundary is recoverable; define behavior for expired or unavailable compensation handlers (Target: v3.0.0 / Wave 7).
+  - [ ] Specify forward upgrade, rollback, and data-format compatibility for transaction/WAL/checkpoint state (Target: v3.0.0 / Wave 7).
+- **Dependencies:** Approved use cases from Wave 5, selected coordinator state model from Wave 6, and a migration/retention policy.
+- **Risk / trade-off:** Durable checkpoints increase write amplification and retention obligations; compensation remains application-defined and cannot guarantee reversal of irreversible effects.
+- **Success metric:** Restart at every saga step boundary yields one valid terminal or operator-action state, with no duplicate effect in replay tests; upgrade/rollback preserves all committed decisions and identifies unsupported records without silently discarding them.
+- **Validation:** Stateful side-effect integration tests, crash/restart replay matrix, versioned-record migration tests, security/privacy review of retained payloads, and documented operator recovery exercise.
+
+#### Wave 8 — strategic release qualification (P0, estimate 4–6 PW)
+
+- **Goal:** Demonstrate the selected v3 protocol's correctness and operational value over v2.5 before declaring it ready.
+- **Tasks:**
+  - [ ] Run isolation-history, coordinator fault, saga-replay, rolling-upgrade, resource-exhaustion, and security suites against the release candidate (Target: v3.0.0 / Wave 8).
+  - [ ] Compare p50/p95/p99 latency, throughput, abort/retry rate, recovery time, and storage/network overhead against Wave 1 baselines on the same hardware/workload profile (Target: v3.0.0 / Wave 8).
+  - [ ] Complete public API/wire migration notes, operator runbooks, independent security/compliance review as required, and explicit release sign-off (Target: v3.0.0 / Wave 8).
+- **Dependencies:** Waves 5–7 implementation and available representative hardware, multi-node CI, and human governance sign-off.
+- **Risk / trade-off:** A strategic protocol can be correct yet fail real workload or operability requirements; do not promote based on synthetic-only evidence.
+- **Success metric:** No history violations or lost/duplicated effects in the agreed fault matrix; all v2.5 regression budgets and Wave 5 SLOs met; remaining exceptions accepted by named human owners before release.
+- **Validation:** Reproducible benchmark artifacts, sustained multi-node chaos run, security review, migration rehearsal, and root release-gate review.
+
+### Cross-wave risks, assumptions, and open questions
+
+- **Workload/SLO gap:** No customer workload mix, deployment topology, or approved transaction latency/availability SLO was available for this assessment. Wave 1 must establish representative profiles; absolute performance targets remain open until then.
+- **Evidence gap:** This roadmap review inspected sources and registration only; no transaction build, test, chaos run, or benchmark was executed for issue #7463. Historical run references in this file are not current CI status.
+- **Recovery boundary:** Clarify which indexes/services are covered by local ACID commit and which require distributed coordination or compensation; do not imply arbitrary external side effects are atomic.
+- **Compliance/security gap:** Audit retention, data classification, operator roles, and required certifications depend on deployment policy and require owner confirmation; API presence is not deployment compliance evidence.
+- **Architecture gap:** The intended v3.0 failure model, quorum topology, upgrade strategy, and demand for durable saga checkpoints are not yet approved. These are Wave 5 decisions, not assumed features.
+- **Trade-off:** v2.5 prioritizes backward-compatible correctness, measurement, and evidence over new protocol surface. v3.0 may improve defined availability/operability goals, but accepts greater coordination, migration, and resource complexity only when Wave 5 demonstrates the need.
+
+### Research references
+
+1. M. J. Cahill, U. Röhm, A. D. Fekete, “Serializable Isolation for Snapshot Databases,” SIGMOD 2008, [DOI: 10.1145/1376616.1376690](https://doi.org/10.1145/1376616.1376690). Basis for dependency-based SSI validation and serializability anomaly testing.
+2. J. Gray, L. Lamport, “Consensus on Transaction Commit,” ACM TODS 31(1), 2006, [DOI: 10.1145/1132863.1132867](https://doi.org/10.1145/1132863.1132867). Basis for comparing blocking 2PC with consensus-backed commit under explicit failure assumptions.
+3. H. García-Molina, K. Salem, “SAGAS,” SIGMOD 1987, [DOI: 10.1145/38713.38742](https://doi.org/10.1145/38713.38742). Basis for treating compensation as long-running workflow recovery rather than atomic rollback.
+4. Transaction Processing Performance Council, [TPC Benchmark C Specification v5.11](https://www.tpc.org/tpc_documents_current_versions/pdf/tpc-c_v5.11.0.pdf). Reference for mixed update-heavy OLTP workload design; no TPC-C compliance is claimed.
+5. K. Kingsbury, P. Alvaro, “Elle: Inferring Isolation Anomalies from Experimental Observations,” PVLDB 14(3), 2021, [DOI: 10.14778/3430915.3430918](https://doi.org/10.14778/3430915.3430918). Basis for checking observed histories and reporting isolation anomalies.
+6. X. Yu et al., “Staring into the Abyss: An Evaluation of Concurrency Control with One Thousand Cores,” PVLDB 8(3), 2014, [DOI: 10.14778/2735508.2735511](https://doi.org/10.14778/2735508.2735511). Supports evaluating concurrency control across contention and hardware profiles rather than extrapolating from single-thread microbenchmarks.
+7. Google Benchmark, [User Guide](https://github.com/google/benchmark/blob/main/docs/user_guide.md). Reference for repeated runs, warm-up, and benchmark result reporting.
 
 ## Implementation Phases
 
