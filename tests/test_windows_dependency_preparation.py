@@ -108,12 +108,45 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
         for remaining, expected in [(60, 60), (100000, 270 * 60), (-1, -1)]:
             with self.subTest(remaining=remaining), patch.object(helper.time, "time", return_value=1000), \
                  patch.dict(os.environ, {"THEMIS_DEPENDENCY_DEADLINE": str(1000 + remaining),
-                                         "CONFIGURE_COMMAND": "exit 37"}), \
+                                         "CONFIGURE_COMMAND": "exit 37",
+                                         "THEMIS_DEPENDENCY_BASH": "/git path/bash.exe"}), \
                  patch.object(sys, "argv", ["prepare", "--log", "test.log"]), \
                  patch.object(helper, "run", return_value=37) as run:
                 self.assertEqual(helper.main(), 37)
                 self.assertEqual(run.call_args.args[2], expected)
-                self.assertEqual(run.call_args.args[0], ["bash", "-euo", "pipefail", "-c", "exit 37"])
+                self.assertEqual(run.call_args.args[0], ["/git path/bash.exe", "-euo", "pipefail", "-c", "exit 37"])
+
+    def test_prepare_step_passes_selected_bash_to_python(self):
+        step = self.named("Prepare Windows dependencies with bounded configure")
+        with tempfile.TemporaryDirectory(prefix="git bash ") as temp:
+            directory = Path(temp)
+            bash = directory / "git bash"
+            bash.symlink_to("/bin/bash")
+            tools = directory / "tools"
+            tools.mkdir()
+            wrong_bash = tools / "bash"
+            wrong_bash.write_text('#!/bin/sh\nexit 43\n')
+            wrong_bash.chmod(0o755)
+            cygpath = tools / "cygpath"
+            cygpath.write_text('#!/bin/sh\nprintf "%s\\n" "$2"\n')
+            cygpath.chmod(0o755)
+            python = tools / "python"
+            python.write_text(
+                f'#!/bin/sh\n[ "$THEMIS_DEPENDENCY_BASH" = "$EXPECTED_BASH" ] || exit 42\n'
+                f'exec "{sys.executable}" "$@"\n'
+            )
+            python.chmod(0o755)
+            result = subprocess.run(
+                [str(bash), "-euo", "pipefail", "-c",
+                 step["run"].replace("${{ inputs.working_directory }}", str(ROOT))],
+                env={**os.environ, "PATH": f"{tools}{os.pathsep}{os.environ['PATH']}",
+                     "GITHUB_WORKSPACE": str(ROOT), "THEMIS_CACHE_TOOLS_PREFIX": "",
+                     "RUNNER_TEMP": temp, "THEMIS_DEPENDENCY_DEADLINE": str(time.time() + 30),
+                     "CONFIGURE_COMMAND": "printf 'configure ran\\n'", "EXPECTED_BASH": str(bash)},
+                text=True, capture_output=True,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("configure ran", result.stdout)
 
     def test_partial_snapshot_saved_after_success_failure_or_controlled_timeout_before_build(self):
         prepare = self.named("Prepare Windows dependencies with bounded configure")
