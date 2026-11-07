@@ -165,6 +165,18 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
                 self.assertEqual("-DTHEMIS_ENABLE_GRPC=ON" in lane["configure_command"], edition != "minimal")
                 self.assertNotIn("VCPKG_BUILD_TYPE", lane["configure_command"])
 
+    def test_windows_configure_placeholders_are_not_github_expressions(self):
+        script = self.release["jobs"]["prepare-release-matrix"]["steps"][0]["run"]
+        self.assertNotIn("${{CMAKE_FLAGS}}", script)
+        self.assertNotIn("${{THEMIS_WINDOWS_DEPENDENCY_FLAGS:-}}", script)
+        result, values = self.plan("windows-amd64-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        command = json.loads(values["windows_lane"])["configure_command"]
+        self.assertNotIn("${CMAKE_FLAGS}", command)
+        self.assertIn("-DTHEMIS_EDITION=COMMUNITY", command)
+        self.assertIn("${THEMIS_WINDOWS_DEPENDENCY_FLAGS:-}", command)
+        self.assertIn("-DVCPKG_HOST_TRIPLET=x64-windows", command)
+
     def test_dependency_parallelism_is_configurable_without_changing_build_parallelism(self):
         for concurrency in ["1", "2", "4"]:
             result, values = self.plan("windows-amd64-only", concurrency=concurrency)
