@@ -1,5 +1,26 @@
 # Appendix E: Incident Response Runbooks
 
+[docs](../../README.md) > [compendium](../README.md) > [chapters](./README.md)
+
+- **Datum:** 2026-11-07
+- **Author:** ThemisDB Team
+- **Created:** 2026-11-07
+- **Last Updated:** 2026-11-07
+- **Status:** review
+- **Primary (Quelle der Wahrheit):** [ROADMAP.md](../../../ROADMAP.md), [FUTURE_ENHANCEMENTS.md](../../../FUTURE_ENHANCEMENTS.md)
+- **Bezug / Reference:** Issue #7189 — v2.4.0-alpha compendium sync
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
+
+## SRE and Wave D runbook status
+
+Runbook files and SRE procedures are source artifacts, not evidence that incident exercises have passed. Wave D remains approximately 10–20% complete and early-stage; recovery, chaos, and operator-readiness evidence must be verified before making release or SLA claims.
+
 ## v2.4.0-alpha roadmap alignment
 
 The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: incident, runbook, recovery, SRE, Wave D. 

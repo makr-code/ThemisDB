@@ -1,5 +1,26 @@
 # Kapitel 3: Multi-Model verstehen
 
+[docs](../../README.md) > [compendium](../README.md) > [chapters](./README.md)
+
+- **Datum:** 2026-11-07
+- **Author:** ThemisDB Team
+- **Created:** 2026-11-07
+- **Last Updated:** 2026-11-07
+- **Status:** review
+- **Primary (Quelle der Wahrheit):** [ROADMAP.md](../../../ROADMAP.md), [FUTURE_ENHANCEMENTS.md](../../../FUTURE_ENHANCEMENTS.md), [timeseries/ROADMAP.md](../../../src/timeseries/ROADMAP.md)
+- **Bezug / Reference:** Issue #7189 — v2.4.0-alpha compendium sync
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
+
+## Time-series status in v2.4.0-alpha
+
+The time-series model is part of the multi-model surface. Its module roadmap records completed contract, stress, and runbook work, while adaptive-flush hardening and broader representative-hardware p95/p99 benchmark refresh remain in progress.
+
 ## v2.4.0-alpha roadmap alignment
 
 The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: multi-model, relational, graph, document, vector, time-series. 

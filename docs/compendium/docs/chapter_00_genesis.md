@@ -1,4 +1,26 @@
 # Kapitel 0: Genese und Entwicklungsgeschichte von ThemisDB
+
+[docs](../../README.md) > [compendium](../README.md) > [chapters](./README.md)
+
+- **Datum:** 2026-11-07
+- **Author:** ThemisDB Team
+- **Created:** 2026-11-07
+- **Last Updated:** 2026-11-07
+- **Status:** review
+- **Primary (Quelle der Wahrheit):** [ROADMAP.md](../../../ROADMAP.md), [FUTURE_ENHANCEMENTS.md](../../../FUTURE_ENHANCEMENTS.md)
+- **Bezug / Reference:** Issue #7189 — v2.4.0-alpha compendium sync
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
+
+## Current release overview
+
+The current release is v2.4.0-alpha, not a GA announcement. The root roadmap reports approximately 72% source-verified implementation and leaves Wave A/B evidence, refreshed Wave C evidence, and final human sign-off open; this overview presents the project vision separately from release readiness.
+
 > *"Innovation entsteht nicht durch Beschaffung, sondern durch Notwendigkeit."*
 
 ## v2.4.0-alpha roadmap alignment
