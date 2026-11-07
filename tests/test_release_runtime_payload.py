@@ -1,6 +1,7 @@
 import importlib.util
 import json
 import os
+import shlex
 import shutil
 import subprocess
 import tarfile
@@ -125,7 +126,8 @@ class ReleaseRuntimePayloadTests(unittest.TestCase):
             )
             executable = root / "importer"
             subprocess.run(
-                ["g++", "-std=c++17", str(root / "data/import_docs_rocksdb.cpp"),
+                ["g++", "-std=c++17", "-O3",
+                 str(root / "data/import_docs_rocksdb.cpp"),
                  "-o", str(executable), "-lrocksdb"],
                 check=True, capture_output=True,
             )
@@ -157,6 +159,33 @@ class ReleaseRuntimePayloadTests(unittest.TestCase):
                 self.assertFalse(lane["validation_continue_on_error"])
                 self.assertLess(lane["validation_command"].index("--target docs_database"),
                                 lane["validation_command"].index("cpack --config"))
+                for option in ["THEMIS_ENABLE_AVX2", "GGML_NATIVE", "GGML_SSE42",
+                               "GGML_AVX", "GGML_AVX2", "GGML_BMI2", "GGML_FMA", "GGML_F16C"]:
+                    if lane["id"] == "linux-amd64":
+                        self.assertIn(f"-D{option}=OFF", lane["configure_command"])
+                    else:
+                        self.assertNotIn(f"-D{option}=OFF", lane["configure_command"])
+
+        amd64 = next(lane for lane in matrix if lane["id"] == "linux-amd64")
+        flags = [arg for arg in shlex.split(amd64["configure_command"]) if arg.startswith("-D")]
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "CMakeLists.txt").write_text(
+                "cmake_minimum_required(VERSION 3.20)\n"
+                "project(ReleaseCpuPolicy LANGUAGES CXX)\n"
+                "set(THEMIS_PLATFORM_DETECTED TRUE)\n"
+                "set(THEMIS_TARGET_ARCH x86_64)\n"
+                f'include("{ROOT}/cmake/platforms/ArchitectureOptimizations.cmake")\n'
+                "get_directory_property(flags COMPILE_OPTIONS)\n"
+                'file(WRITE "${CMAKE_BINARY_DIR}/cpu-flags.txt" "${flags}")\n'
+            )
+            subprocess.run(
+                ["cmake", "-S", str(root), "-B", str(root / "build"), *flags],
+                check=True, capture_output=True, text=True,
+            )
+            cpu_flags = (root / "build/cpu-flags.txt").read_text().split(";")
+            self.assertIn("-march=x86-64", cpu_flags)
+            self.assertNotIn("-march=native", cpu_flags)
 
     def test_docker_copies_models_out_of_cache_mount_and_includes_database_in_both_images(self):
         dockerfile = (ROOT / "docker/Dockerfile.unified").read_text()

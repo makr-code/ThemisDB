@@ -338,7 +338,15 @@ jobs:
               )
               if lane_os == "linux":
                   entry["setup_command"] += "\nsudo apt-get install -y --no-install-recommends libarchive-tools"
-              entry["configure_command"] = entry["configure_command"].replace("${CMAKE_FLAGS}", cmake_flags)
+              lane_flags = cmake_flags
+              if entry["id"] == "linux-amd64":
+                  # Release binaries and cached objects must not require the build runner's CPU.
+                  lane_flags += (
+                      " -DTHEMIS_ENABLE_AVX2=OFF -DGGML_NATIVE=OFF"
+                      " -DGGML_SSE42=OFF -DGGML_AVX=OFF -DGGML_AVX2=OFF"
+                      " -DGGML_BMI2=OFF -DGGML_FMA=OFF -DGGML_F16C=OFF"
+                  )
+              entry["configure_command"] = entry["configure_command"].replace("${CMAKE_FLAGS}", lane_flags)
               payload_gate = (
                   f'cmake --build "{entry["build_directory"]}" --target docs_database --config {build_type}\n'
                   f'cmake --install "{entry["build_directory"]}" --config {build_type} '
