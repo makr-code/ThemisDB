@@ -1,5 +1,26 @@
 # Chapter 8: Storage Layer Deep-Dive
 
+[docs](../../README.md) > [compendium](../README.md) > [chapters](./README.md)
+
+- **Datum:** 2026-11-07
+- **Author:** ThemisDB Team
+- **Created:** 2026-11-07
+- **Last Updated:** 2026-11-07
+- **Status:** review
+- **Primary (Quelle der Wahrheit):** [ROADMAP.md](../../../ROADMAP.md), [storage/ROADMAP.md](../../../src/storage/ROADMAP.md)
+- **Bezug / Reference:** Issue #7189 — v2.4.0-alpha compendium sync
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
+
+## Current storage evidence
+
+Columnar execution is tracked separately in the root roadmap and does not close the storage recovery gates. As of the current roadmap, STO-01 and STO-10 are partially implemented, STO-07's process-crash test source has not been executed, and replay-regression and recovery evidence remain open.
+
 ## v2.4.0-alpha roadmap alignment
 
 The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: storage, RocksDB, columnar, WAL, LSM, compression. 

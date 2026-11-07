@@ -1,5 +1,26 @@
 # Kapitel 47: Multi-Tenancy & Isolation
 
+[docs](../../README.md) > [compendium](../README.md) > [chapters](./README.md)
+
+- **Datum:** 2026-11-07
+- **Author:** ThemisDB Team
+- **Created:** 2026-11-07
+- **Last Updated:** 2026-11-07
+- **Status:** review
+- **Primary (Quelle der Wahrheit):** [ROADMAP.md](../../../ROADMAP.md), [llm/ROADMAP.md](../../../src/llm/ROADMAP.md), [FUTURE_ENHANCEMENTS.md](../../../FUTURE_ENHANCEMENTS.md)
+- **Bezug / Reference:** Issue #7189 — v2.4.0-alpha compendium sync
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
+
+## Tenant isolation and quota status
+
+The LLM roadmap still lists multi-tenant isolation, including quota/cache isolation under concurrent tenant churn, as hardening work. Treat tenant isolation and per-tenant quota enforcement as module-specific gaps rather than a blanket v2.4.0-alpha guarantee for every subsystem.
+
 ## v2.4.0-alpha roadmap alignment
 
 The current release baseline is v2.4.0-alpha. This chapter covers the active roadmap topics: multi-tenant, tenant isolation, namespace isolation, tenant, quota.

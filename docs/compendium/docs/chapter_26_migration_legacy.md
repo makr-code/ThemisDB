@@ -1,5 +1,26 @@
 # Kapitel 26: Migration & Legacy System Integration
 
+[docs](../../README.md) > [compendium](../README.md) > [chapters](./README.md)
+
+- **Datum:** 2026-11-07
+- **Author:** ThemisDB Team
+- **Created:** 2026-11-07
+- **Last Updated:** 2026-11-07
+- **Status:** review
+- **Primary (Quelle der Wahrheit):** [ROADMAP.md](../../../ROADMAP.md), [CHANGELOG.md](../../../CHANGELOG.md)
+- **Bezug / Reference:** Issue #7189 — v2.4.0-alpha compendium sync
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
+
+## Upgrade status
+
+The roadmap records a schema-migration dry run with impact analysis and blue-green support for zero-downtime major upgrades as delivered. These items do not imply that every legacy integration has an automatic upgrade path; verify version-specific behavior and rollback requirements against the changelog.
+
 ## v2.4.0-alpha roadmap alignment
 
 The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: migration, upgrade, legacy, backward compatibility. 

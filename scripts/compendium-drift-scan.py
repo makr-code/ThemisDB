@@ -71,8 +71,13 @@ PRIORITY_ORDER = {"high": 0, "medium": 1, "low": 2}
 
 # Patterns that indicate a chapter was written for an older release
 _OLD_VERSION_RE = re.compile(
-    r"(?:Version|Stand|version)\s*[:=]\s*"
+    r"(?<![A-Za-z0-9_])(?:Version|Stand|version)\s*[:=]\s*"
     r"(?P<ver>[0-9]+\.[0-9]+[\w.\-]*)"
+)
+_ALIGNMENT_SECTION_RE = re.compile(
+    r"^## v2\.4\.0-alpha roadmap alignment\s*\n.*?"
+    r"(?=^#{1,6}\s|^---\s*$|\Z)",
+    re.IGNORECASE | re.MULTILINE | re.DOTALL,
 )
 
 # Markers inside chapter text that hint at missing v2.4.0 content
@@ -141,14 +146,18 @@ def _build_sot_cache(
     return cache
 
 
-def _sot_mentions_topics(
+def _missing_sot_topics(
     sot_cache: dict[str, str],
     sot_paths: list[str],
     topics: list[str],
+    chapter_text: str,
 ) -> list[str]:
-    """Return topics that appear in at least one SOT file."""
+    """Return SOT topics absent from substantive chapter text."""
+    chapter_content = _ALIGNMENT_SECTION_RE.sub("", chapter_text).lower()
     found: list[str] = []
     for topic in topics:
+        if topic.lower() in chapter_content:
+            continue
         for rel in sot_paths:
             text = sot_cache.get(rel, "")
             if topic.lower() in text.lower():
@@ -204,10 +213,11 @@ def scan_chapter(
     result["has_target_version_signal"] = _chapter_has_v24_signals(text)
 
     # Check SOT topic presence
-    result["active_sot_topics"] = _sot_mentions_topics(
+    result["active_sot_topics"] = _missing_sot_topics(
         sot_cache,
         entry.get("sot_paths", []),
         entry.get("roadmap_topics", []),
+        text,
     )
 
     # Derive verdict
