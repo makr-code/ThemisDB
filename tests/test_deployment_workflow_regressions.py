@@ -94,12 +94,23 @@ class DeploymentWorkflowTests(unittest.TestCase):
                 self.assertEqual((directory / "configure-retries").read_text(), "retried\n")
                 self.assertIn(message, (directory / "cmake-build-configure-output.log").read_text())
 
+    def test_configure_retries_vcpkg_http_server_errors_once(self):
+        for response_code in (502, 503, 504):
+            message = f"error: curl operation failed with response code {response_code}."
+            with self.subTest(response_code=response_code), tempfile.TemporaryDirectory() as temp:
+                directory = Path(temp)
+                result = self.run_configure_recovery(directory, message=message)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertEqual((directory / "configure-retries").read_text(), "retried\n")
+                self.assertIn(message, (directory / "cmake-build-configure-output.log").read_text())
+
     def test_configure_does_not_retry_success_or_unrelated_windows_failures(self):
         for initial_status, message in [
             (0, "Download timed out"),
             (0, "error: curl operation failed with error code 35 (SSL connect error)."),
             (23, "CMake Error: invalid configuration"),
             (23, "error: curl operation failed with error code 60 (SSL peer certificate cannot be authenticated)."),
+            (23, "error: curl operation failed with response code 404."),
             (23, "error: building arrow:x64-windows failed with: BUILD_FAILED"),
         ]:
             with self.subTest(status=initial_status, message=message), tempfile.TemporaryDirectory() as temp:
