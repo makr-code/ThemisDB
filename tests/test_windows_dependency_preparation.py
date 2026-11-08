@@ -108,9 +108,9 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
         for remaining, expected in [(60, 60), (100000, 270 * 60), (-1, -1)]:
             with self.subTest(remaining=remaining), patch.object(helper.time, "time", return_value=1000), \
                  patch.dict(os.environ, {"THEMIS_DEPENDENCY_DEADLINE": str(1000 + remaining),
-                                         "CONFIGURE_COMMAND": "exit 37"}), \
-                 patch.object(sys, "argv", ["prepare", "--log", "test.log",
-                                            "--bash", "/git path/bash.exe"]), \
+                                         "CONFIGURE_COMMAND": "exit 37",
+                                         "THEMIS_DEPENDENCY_BASH": "/git path/bash.exe"}), \
+                 patch.object(sys, "argv", ["prepare", "--log", "test.log"]), \
                  patch.object(helper, "run", return_value=37) as run:
                 self.assertEqual(helper.main(), 37)
                 self.assertEqual(run.call_args.args[2], expected)
@@ -161,6 +161,16 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
                 self.assertEqual(exit.exception.code, 2)
                 self.assertIn("configure requires THEMIS_DEPENDENCY_BASH", error.getvalue())
                 run.assert_not_called()
+
+    def test_metrics_only_does_not_require_bash_or_start_configure(self):
+        with patch.dict(os.environ, {}, clear=True), \
+             patch.object(sys, "argv", ["prepare", "--metrics-only", "--log", "test.log",
+                                        "--cache", "cache"]), \
+             patch.object(helper, "report") as report, \
+             patch.object(helper, "run") as run:
+            self.assertEqual(helper.main(), 0)
+            report.assert_called_once_with(Path("test.log"), Path("cache"))
+            run.assert_not_called()
 
     def test_partial_snapshot_saved_after_success_failure_or_controlled_timeout_before_build(self):
         prepare = self.named("Prepare Windows dependencies with bounded configure")
