@@ -235,6 +235,7 @@ jobs:
           sparse-checkout: |
             .github/scripts/cache-directory-fingerprint.sh
             scripts/prepare-windows-dependencies.py
+            triplets/x64-windows.cmake
           sparse-checkout-cone-mode: false
 
       - name: Setup MSVC environment (Windows only)
