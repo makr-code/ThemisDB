@@ -17,6 +17,27 @@ Human_Author: "ThemisDB Team"
 Datum: 2026-11-02
 Status: Active
 
+## Windows release bootstrap download resilience (2026-11-08)
+
+- [Actions run `42468930551`, prerequisite job `128698502769`](https://github.com/makr-code/ThemisDB/actions/runs/42468930551/job/128698502769)
+  failed during setup: the pinned vcpkg bootstrap download returned HTTP 504.
+  Consequently, [consumer job `128699093355`](https://github.com/makr-code/ThemisDB/actions/runs/42468930551/job/128699093355)
+  received no completed dependency cache key and correctly stopped before configure.
+- The canonical [release matrix](../../.github/workflows/release-build-matrix.yml)
+  retries the unchanged Windows `bootstrap-vcpkg.bat -disableMetrics` command up to
+  three times, waiting 10 and 20 seconds between failures. Both preparation and
+  consumption use this generated setup command. Exhaustion preserves the final
+  nonzero exit code and stops setup; no alternate executable, version, or download
+  source is introduced. Successful preparation and exact binary-cache restore
+  remain mandatory before compilation.
+- [Regression tests](../../tests/test_windows_dependency_preparation.py) execute
+  the generated retry block with controlled command outcomes, covering immediate
+  success, second/third-attempt recovery, bounded delays, and exhausted failure.
+  These host tests do not prove native Windows build or packaging success; a fresh
+  Actions run on corrected source is required. Persistent download failures still
+  fail closed. Wiki generation remains November 2 / 8066 sources; this is a focused
+  operational sync, not a regenerated snapshot.
+
 ## Docker Python configure prerequisites (2026-11-08)
 
 - [Actions run `42457016399`, job `128661153265`](https://github.com/makr-code/ThemisDB/actions/runs/42457016399/job/128661153265)
