@@ -202,6 +202,62 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
         self.assertEqual(jobs["windows-dependencies"]["with"]["windows_dependency_mode"], "prepare")
         self.assertIn("matrix.id == 'windows-amd64'", jobs["release-platform-matrix"]["with"]["windows_dependency_mode"])
 
+    def test_windows_bootstrap_retries_are_bounded_and_preserve_failure_status(self):
+        result, values = self.plan("windows-amd64-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        setup = json.loads(values["windows_lane"])["setup_command"]
+        for failures, attempts, waits, status in [
+            (0, 1, [], 0),
+            (1, 2, ["15"], 0),
+            (2, 3, ["15", "30"], 0),
+            (3, 3, ["15", "30"], 37),
+        ]:
+            with self.subTest(failures=failures), tempfile.TemporaryDirectory(prefix="bootstrap space ") as temp:
+                directory = Path(temp)
+                tools = directory / "tools"
+                tools.mkdir()
+                for name in ["git", "choco"]:
+                    (tools / name).symlink_to("/bin/true")
+                sleep = tools / "sleep"
+                sleep.write_text('#!/bin/sh\nprintf "%s\\n" "$1" >> "$WAIT_LOG"\n')
+                sleep.chmod(0o755)
+                toolchain = directory / "vcpkg/scripts/buildsystems/vcpkg.cmake"
+                toolchain.parent.mkdir(parents=True)
+                toolchain.touch()
+                bootstrap = directory / "vcpkg/bootstrap-vcpkg.bat"
+                bootstrap.write_text(
+                    '#!/bin/bash\nset -euo pipefail\n'
+                    '[ "$#" -eq 1 ] && [ "$1" = "-disableMetrics" ] || exit 42\n'
+                    'attempt=0\n'
+                    '[ ! -f "$ATTEMPT_LOG" ] || read -r attempt < "$ATTEMPT_LOG"\n'
+                    'attempt=$((attempt + 1))\n'
+                    'printf "%s\\n" "$attempt" > "$ATTEMPT_LOG"\n'
+                    'if [ "$attempt" -le "$FAILURES" ]; then\n'
+                    '  echo "Download failed, server returned HTTP status: 504"\n'
+                    '  exit 37\n'
+                    'fi\n'
+                )
+                bootstrap.chmod(0o755)
+                downloader = directory / "scripts/download-tinyllama-hf.sh"
+                downloader.parent.mkdir()
+                downloader.write_text('touch "$GITHUB_WORKSPACE/model-step-ran"\n')
+                attempt_log = directory / "attempts"
+                wait_log = directory / "waits"
+                result = subprocess.run(
+                    ["bash", "-euo", "pipefail", "-c", setup],
+                    cwd=directory,
+                    env={**os.environ, "PATH": f"{tools}{os.pathsep}{os.environ['PATH']}",
+                         "FAILURES": str(failures), "ATTEMPT_LOG": str(attempt_log),
+                         "WAIT_LOG": str(wait_log), "GITHUB_WORKSPACE": str(directory)},
+                    text=True, capture_output=True, timeout=10,
+                )
+                self.assertEqual(result.returncode, status, result.stderr)
+                self.assertEqual(int(attempt_log.read_text()), attempts)
+                self.assertEqual(wait_log.read_text().splitlines() if wait_log.exists() else [], waits)
+                self.assertEqual((directory / "model-step-ran").exists(), status == 0)
+                if status:
+                    self.assertIn("::error::vcpkg bootstrap failed after 3 attempts", result.stdout)
+
     def test_prepare_consume_use_same_pinned_source_configure_features_and_triplet(self):
         jobs = self.release["jobs"]
         prerequisite = jobs["windows-dependencies"]["with"]

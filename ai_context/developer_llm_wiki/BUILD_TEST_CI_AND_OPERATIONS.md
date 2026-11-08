@@ -159,6 +159,17 @@ Status: Active
   corrected-source Actions run is required.
 - Wiki status remains generated 2026-11-02 / 8066 sources with incomplete workflow
   summaries; source and concrete run logs take precedence.
+- [Run `42468930551`, job `128698502769`](https://github.com/makr-code/ThemisDB/actions/runs/42468930551/job/128698502769)
+  failed during setup, before configure: the pinned vcpkg executable download
+  returned HTTP 504. The sccache Chocolatey download also returned 504 but was non-fatal.
+  The Windows setup command in [the release matrix](../../.github/workflows/release-build-matrix.yml)
+  now retries only the unchanged vcpkg bootstrap command up to three times, waiting
+  15 and 30 seconds between failures. Exhaustion propagates the last bootstrap exit
+  status; pinned sources, bootstrap verification, and preparation/consumer gates
+  remain unchanged. The [regression suite](../../tests/test_windows_dependency_preparation.py)
+  exercises immediate success, recovery on attempts two/three, and persistent failure.
+  This host-side coverage does not establish native Windows success; a fresh Actions
+  run on corrected source is required.
 
 ## macOS LLVM backend build requirements
 
