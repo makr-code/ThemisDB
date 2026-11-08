@@ -94,6 +94,23 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
     def _dockerfile_text() -> str:
         return DOCKERFILE.read_text(encoding="utf-8")
 
+    def test_documentation_payload_sources_are_in_build_context(self) -> None:
+        rules = [
+            line.strip()
+            for line in (REPO_ROOT / ".dockerignore").read_text(encoding="utf-8").splitlines()
+            if line.strip() and not line.lstrip().startswith("#")
+        ]
+        self.assertEqual(rules[0], "*", "Keep the build context deny-by-default")
+        build = extract_stage(self._dockerfile_text(), "build", base_image="deps")
+        for directory in ("docs", "ai_context"):
+            with self.subTest(directory=directory):
+                self.assertTrue((REPO_ROOT / directory).is_dir())
+                self.assertIn(f"COPY {directory} ./{directory}", build)
+                self.assertIn(f"!{directory}/", rules)
+                self.assertIn(f"!{directory}/**", rules)
+                self.assertNotIn(f"{directory}/", rules)
+                self.assertNotIn(f"{directory}/**", rules)
+
     def test_build_configure_preset_exists(self) -> None:
         build = extract_stage(self._dockerfile_text(), "build", base_image="deps")
         invocations = re.findall(r"\bcmake --preset ([\w-]+)", build)
