@@ -20,14 +20,17 @@ class WindowsReleaseBuildMemoryTests(unittest.TestCase):
         )
         script = workflow["jobs"]["prepare-release-matrix"]["steps"][0]["run"]
         script = script.replace(' >> "$GITHUB_OUTPUT"', "")
+        env = {**os.environ, "BUILD_MATRIX": "all", "OS_SELECTOR": "all",
+               "ARCH_SELECTOR": "all", "EDITION": "community",
+               "BUILD_TYPE": "Release", "PACKAGING": "auto",
+               "DISTRIBUTION": "all", "RUN_NUMBER": "1"}
+        env.pop("WINDOWS_DEPENDENCY_CONCURRENCY", None)
         process = subprocess.run(
             ["bash", "-euo", "pipefail", "-c", script],
             check=True, capture_output=True, text=True,
-            env={**os.environ, "BUILD_MATRIX": "all", "OS_SELECTOR": "all",
-                 "ARCH_SELECTOR": "all", "EDITION": "community",
-                 "BUILD_TYPE": "Release", "PACKAGING": "auto",
-                 "DISTRIBUTION": "all", "RUN_NUMBER": "1"},
+            env=env,
         )
+        cls.workflow = workflow
         cls.lanes = {
             lane["id"]: lane
             for lane in json.loads(process.stdout.split("matrix=", 1)[1])["include"]
@@ -67,12 +70,16 @@ class WindowsReleaseBuildMemoryTests(unittest.TestCase):
         )
 
     def test_windows_configure_uses_modest_independent_dependency_parallelism(self):
+        self.assertEqual(
+            self.workflow[True]["workflow_call"]["inputs"]["windows_dependency_concurrency"]["default"],
+            "4",
+        )
         result, log = self.run_windows_command(0, command="configure")
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(log, result.stdout)
         self.assertEqual(
             log.splitlines()[:4],
-            ["parallel=2", "vcpkg=2", "arg=--preset", "arg=windows-release"],
+            ["parallel=4", "vcpkg=4", "arg=--preset", "arg=windows-release"],
         )
 
     def test_compiler_failure_is_not_hidden_by_tee(self):

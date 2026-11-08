@@ -17,6 +17,18 @@ Human_Author: "ThemisDB Team"
 Datum: 2026-11-02
 Status: Active
 
+## Windows dependency preparation cold-cache timeout (2026-11-08)
+
+- [Actions run `42468930551`, job `128720336009`](https://github.com/makr-code/ThemisDB/actions/runs/42468930551/job/128720336009)
+  restored zero packages and exhausted the 270-minute configure budget while
+  building RocksDB (209/220); gRPC had taken about 97 minutes. A partial
+  snapshot was saved, but no completed snapshot was published.
+- The [release matrix](../../.github/workflows/release-build-matrix.yml) now
+  defaults to four vcpkg workers (still configurable from one to four), while
+  the ThemisDB MSVC build remains serial. The timeout and fail-closed cache
+  gates remain unchanged. A fresh Windows run is needed to verify runtime and
+  memory use; this change does not guarantee cold-cache completion.
+
 ## Windows dependency preparation sccache setup (2026-11-08)
 
 - [Actions run `42468902826`, job `128698163902`](https://github.com/makr-code/ThemisDB/actions/runs/42468902826/job/128698163902)
@@ -152,7 +164,7 @@ Status: Active
   is reported separately from exact hits and no-cache, with matched key and ZIP
   count. Install `Restored N package(s)` output, not archive inventory, establishes
   ABI reuse. Missing output is “not reported”; zero sccache requests are not misses.
-- Dependency parallelism defaults to 2 (input `windows_dependency_concurrency`,
+- Dependency parallelism defaults to 4 (input `windows_dependency_concurrency`,
   validated range 1–4). Actual ThemisDB MSVC remains `--parallel 1`. Unchanged
   `x64-windows` dual Debug/Release packages retain target/host linkage and ABI
   compatibility, including supported Debug release-matrix dispatches. No global

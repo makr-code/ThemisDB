@@ -48,11 +48,14 @@ einem Windows-Vorbereitungsfehler weiter.
   unbeschränkten Source-Build-Fallback. Ein Cache-Service-Fehler wird spätestens am
   exakten Restore sichtbar. Ein späterer MSVC-Fehler verliert die vorbereiteten ZIPs
   nicht mehr.
-- `windows_dependency_concurrency` ist auf **2** voreingestellt, zulässig sind
+- `windows_dependency_concurrency` ist auf **4** voreingestellt, zulässig sind
   **1–4**. `VCPKG_MAX_CONCURRENCY` steuert vcpkg unabhängig vom ThemisDB-Build:
   dieser behält `CMAKE_BUILD_PARALLEL_LEVEL=1` und explizit `--parallel 1` wegen C1060.
   Preset-Environment kann Umgebungswerte überschreiben; entscheidend sind vcpkgs
-  eigener Concurrency-Wert und das explizite MSVC-Build-Argument.
+  eigener Concurrency-Wert und das explizite MSVC-Build-Argument. Run 42468930551,
+  Job 128720336009, erreichte mit leerem Cache und zwei Workern das 270-Minuten-Limit
+  während RocksDB (209/220); vier Worker sollen kalte Vorbereitung beschleunigen.
+  Speicherverbrauch und Laufzeit müssen im nativen Windows-Lauf geprüft werden.
 - Die opt-in Modi `prepare`/`consume` der wiederverwendbaren Pipeline nutzen den
   separaten Namespace `release-deps-v2`. OS, Architektur, Compiler, Triplet,
   Manifest-/Overlay-Hash, Configure-Signatur, vcpkg-Revision, MSVC-Version und Source-SHA segmentieren

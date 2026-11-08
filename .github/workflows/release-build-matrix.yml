@@ -48,7 +48,7 @@ on:
       windows_dependency_concurrency:
         description: Modest vcpkg parallelism, independent of serial ThemisDB MSVC
         required: false
-        default: '2'
+        default: '4'
         type: string
 
 permissions:
@@ -141,7 +141,7 @@ jobs:
           packaging = os.environ["PACKAGING"].strip()
           distribution = os.environ["DISTRIBUTION"].strip().lower()
           run_number = os.environ["RUN_NUMBER"]
-          dependency_concurrency = os.environ.get("WINDOWS_DEPENDENCY_CONCURRENCY", "2")
+          dependency_concurrency = os.environ.get("WINDOWS_DEPENDENCY_CONCURRENCY", "4")
           if dependency_concurrency not in {"1", "2", "3", "4"}:
               raise ValueError("Windows dependency concurrency must be between 1 and 4")
           allowed_editions = {"minimal", "community", "enterprise", "hyperscaler", "military"}
