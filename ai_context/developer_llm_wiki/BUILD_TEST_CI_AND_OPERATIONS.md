@@ -17,6 +17,30 @@ Human_Author: "ThemisDB Team"
 Datum: 2026-11-02
 Status: Active
 
+## Docker documentation build context (2026-11-08)
+
+- Task-provided evidence: [Actions run `42406530936`, job `128507711178`](https://github.com/makr-code/ThemisDB/actions/runs/42406530936/job/128507711178)
+  failed before compilation at `COPY docs ./docs` and `COPY ai_context ./ai_context`;
+  BuildKit could not find the checksum sources. Root [`.dockerignore`](../../.dockerignore)
+  used deny-by-default `*` without exceptions for these directories.
+- The corrected allowlist retains `*` and adds `!docs/`, `!docs/**`,
+  `!ai_context/`, and `!ai_context/**`. Canonical [Dockerfile](../../docker/Dockerfile.unified)
+  still requires both source trees, `THEMIS_DOCS_DB_MODE=BUILD`, the `docs_database`
+  target, documentation installation, and runtime payload validation. Keep the
+  documentation/model payload mandatory; do not substitute empty placeholder
+  directories or bypass payload gates.
+- Canonical [regression source](../../tests/test_docker_runtime_package_regressions.py):
+  `test_documentation_payload_sources_are_in_build_context` checks deny-by-default,
+  source directory existence, both COPY instructions, and directory/content
+  exceptions without explicit re-exclusions. This is source coverage, not full
+  Docker build evidence; validation is handled by the parent task.
+- A **fresh Actions run on corrected source** is required. Retrying the old SHA
+  does not apply the fix; no full build or packaging success is claimed.
+  [Wiki status](WIKI_STATUS.json) remains generated 2026-11-02 / 8066 sources with
+  incomplete workflow summaries; current canonical source and concrete run logs
+  take precedence. This is a level2 build-test sync (`DOC-WEEKLY-2026-45`), not
+  a wiki regeneration.
+
 ## Linux AMD64 release CPU portability (2026-11-07)
 
 - Run `42346575119`, job `128325782592`, compiled successfully but failed validation
