@@ -40,13 +40,8 @@ ENV VCPKG_ENABLE_ONLINE=${VCPKG_ENABLE_ONLINE}
 ENV VCPKG_KEEP_ENV_VARS=HTTP_PROXY,HTTPS_PROXY,ALL_PROXY,NO_PROXY,VCPKG_ENABLE_ONLINE
 ENV CMAKE_POLICY_VERSION_MINIMUM=3.5
 
-# Fetch pinned vcpkg source archive at Docker build time to avoid
-# a full in-container clone. A synthetic git commit is created from the
-# extracted tarball so that vcpkg can resolve the builtin-baseline locally
-# without requiring network access to the upstream vcpkg git repository.
-ADD https://github.com/microsoft/vcpkg/archive/${VCPKG_COMMIT}.tar.gz /tmp/vcpkg.tar.gz
-
-# Install build essentials (combined layer for efficiency)
+# Install build essentials and fetch the pinned vcpkg snapshot with retries.
+# A synthetic commit lets vcpkg resolve the baseline without remote git history.
 RUN --mount=type=cache,id=apt-cache-base-${TARGETARCH},target=/var/cache/apt,sharing=locked \
     --mount=type=cache,id=apt-lib-base-${TARGETARCH},target=/var/lib/apt,sharing=locked \
     --mount=type=secret,id=extra_ca_bundle,required=false,target=/tmp/themis-host-ca.crt \
@@ -67,6 +62,9 @@ RUN --mount=type=cache,id=apt-cache-base-${TARGETARCH},target=/var/cache/apt,sha
         export SSL_CERT_FILE="${THEMIS_CA_BUNDLE}" CURL_CA_BUNDLE="${THEMIS_CA_BUNDLE}" GIT_SSL_CAINFO="${THEMIS_CA_BUNDLE}"; \
     fi && \
     rm -rf /var/lib/apt/lists/* && \
+    curl -fsSL --retry 5 --retry-delay 3 --connect-timeout 30 --max-time 120 \
+        "https://github.com/microsoft/vcpkg/archive/${VCPKG_COMMIT}.tar.gz" \
+        -o /tmp/vcpkg.tar.gz && \
     tar -xzf /tmp/vcpkg.tar.gz -C /opt && \
     mv /opt/vcpkg-${VCPKG_COMMIT} ${VCPKG_ROOT} && \
     git -C ${VCPKG_ROOT} init && \
