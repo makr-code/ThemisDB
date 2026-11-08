@@ -653,7 +653,7 @@ jobs:
           cd "${{ inputs.working_directory }}"
           THEMIS_DEPENDENCY_BASH="$(cygpath -w "$BASH")"
           export THEMIS_DEPENDENCY_BASH
-          python "${GITHUB_WORKSPACE}/${THEMIS_CACHE_TOOLS_PREFIX}scripts/prepare-windows-dependencies.py" --log "$RUNNER_TEMP/cmake-build-configure-output.log"
+          python "${GITHUB_WORKSPACE}/${THEMIS_CACHE_TOOLS_PREFIX}scripts/prepare-windows-dependencies.py" --log "$RUNNER_TEMP/cmake-build-configure-output.log" --bash "$THEMIS_DEPENDENCY_BASH"
 
       - name: Save dependency snapshot before ThemisDB compile
         id: dependency_save

@@ -108,9 +108,9 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
         for remaining, expected in [(60, 60), (100000, 270 * 60), (-1, -1)]:
             with self.subTest(remaining=remaining), patch.object(helper.time, "time", return_value=1000), \
                  patch.dict(os.environ, {"THEMIS_DEPENDENCY_DEADLINE": str(1000 + remaining),
-                                         "CONFIGURE_COMMAND": "exit 37",
-                                         "THEMIS_DEPENDENCY_BASH": "/git path/bash.exe"}), \
-                 patch.object(sys, "argv", ["prepare", "--log", "test.log"]), \
+                                         "CONFIGURE_COMMAND": "exit 37"}), \
+                 patch.object(sys, "argv", ["prepare", "--log", "test.log",
+                                            "--bash", "/git path/bash.exe"]), \
                  patch.object(helper, "run", return_value=37) as run:
                 self.assertEqual(helper.main(), 37)
                 self.assertEqual(run.call_args.args[2], expected)
