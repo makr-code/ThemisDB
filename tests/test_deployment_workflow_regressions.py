@@ -36,6 +36,83 @@ def run_bash(script, directory, **environment):
 
 
 class DeploymentWorkflowTests(unittest.TestCase):
+    def test_linux_bootstrap_retries_only_http_server_errors_and_fails_closed(self):
+        script = step("release-build-matrix.yml", "prepare-release-matrix", "plan")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            result, values = run_bash(
+                script, Path(temp), BUILD_MATRIX="all", OS_SELECTOR="all",
+                ARCH_SELECTOR="all", EDITION="community", BUILD_TYPE="Release",
+                PACKAGING="auto", DISTRIBUTION="all", RUN_NUMBER="123",
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        entries = json.loads(values["matrix"])["include"]
+        cases = [
+            ([], 1, [], 0),
+            (["curl: (22) The requested URL returned error: 502"], 2, ["5"], 0),
+            (["curl: (22) The requested URL returned error: 503"], 2, ["5"], 0),
+            (["curl: (22) The requested URL returned error: 504"] * 2, 3, ["5", "10"], 0),
+            (["curl: (22) The requested URL returned error: 504"] * 3, 3, ["5", "10"], 37),
+            (["curl: (22) The requested URL returned error: 404"], 1, [], 37),
+            (["curl: (60) SSL peer certificate cannot be authenticated"], 1, [], 37),
+            (["vcpkg bootstrap failed: missing compiler"], 1, [], 37),
+            (["curl: (22) The requested URL returned error: 504", "checksum mismatch"],
+             2, ["5"], 37),
+        ]
+        for entry in entries:
+            if not entry["id"].startswith("linux"):
+                continue
+            for errors, attempts, waits, status in cases:
+                with self.subTest(lane=entry["id"], errors=errors), \
+                        tempfile.TemporaryDirectory(prefix="bootstrap space ") as temp:
+                    directory = Path(temp)
+                    tools = directory / "tools"
+                    tools.mkdir()
+                    for name in ["git", "sudo"]:
+                        (tools / name).symlink_to("/bin/true")
+                    sleep = tools / "sleep"
+                    sleep.write_text('#!/bin/sh\nprintf "%s\\n" "$1" >> "$WAIT_LOG"\n')
+                    sleep.chmod(0o755)
+                    toolchain = directory / "vcpkg/scripts/buildsystems/vcpkg.cmake"
+                    toolchain.parent.mkdir(parents=True)
+                    toolchain.touch()
+                    bootstrap = directory / "vcpkg/bootstrap-vcpkg.sh"
+                    bootstrap.write_text(
+                        '#!/bin/bash\nset -euo pipefail\n'
+                        '[ "$#" -eq 1 ] && [ "$1" = "-disableMetrics" ] || exit 42\n'
+                        'attempt=0\n'
+                        '[ ! -f "$ATTEMPT_LOG" ] || read -r attempt < "$ATTEMPT_LOG"\n'
+                        'attempt=$((attempt + 1))\n'
+                        'printf "%s\\n" "$attempt" > "$ATTEMPT_LOG"\n'
+                        'if [ "$attempt" -le "$FAILURES" ]; then\n'
+                        '  sed -n "${attempt}p" "$ERROR_LOG" >&2\n'
+                        '  exit 37\n'
+                        'fi\n'
+                    )
+                    bootstrap.chmod(0o755)
+                    downloader = directory / "scripts/download-tinyllama-hf.sh"
+                    downloader.parent.mkdir()
+                    downloader.write_text('touch "$GITHUB_WORKSPACE/model-step-ran"\n')
+                    error_log = directory / "errors"
+                    error_log.write_text("\n".join(errors) + "\n")
+                    attempt_log = directory / "attempts"
+                    wait_log = directory / "waits"
+                    result, _ = run_bash(
+                        entry["setup_command"], directory,
+                        PATH=f"{tools}{os.pathsep}{os.environ['PATH']}",
+                        GITHUB_WORKSPACE=str(directory), RUNNER_TEMP=str(directory),
+                        FAILURES=str(len(errors)), ERROR_LOG=str(error_log),
+                        ATTEMPT_LOG=str(attempt_log), WAIT_LOG=str(wait_log),
+                    )
+                    self.assertEqual(result.returncode, status, result.stderr)
+                    self.assertEqual(int(attempt_log.read_text()), attempts)
+                    self.assertEqual(wait_log.read_text().splitlines() if wait_log.exists() else [], waits)
+                    self.assertEqual((directory / "model-step-ran").exists(), status == 0)
+                    self.assertEqual(result.stdout.count("::warning::Transient vcpkg bootstrap"), len(waits))
+                    for attempt, error in enumerate(errors[:attempts], 1):
+                        bootstrap_log = directory / f"vcpkg-bootstrap-{attempt}.log"
+                        self.assertTrue(bootstrap_log.is_file())
+                        self.assertIn(error, bootstrap_log.read_text())
+
     def run_configure_recovery(self, directory, arch="X64", runner_os="Windows",
                                message="error: Download timed out.", retry_status=0,
                                initial_status=23):
