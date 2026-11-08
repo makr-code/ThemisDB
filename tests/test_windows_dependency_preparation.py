@@ -148,6 +148,20 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertIn("configure ran", result.stdout)
 
+    def test_configure_requires_explicit_bash_without_path_fallback(self):
+        for bash in [None, ""]:
+            with self.subTest(bash=bash), patch.dict(os.environ, {}, clear=True), \
+                 patch.object(sys, "argv", ["prepare", "--log", "test.log"]), \
+                 patch.object(helper, "run") as run, \
+                 contextlib.redirect_stderr(io.StringIO()) as error:
+                if bash is not None:
+                    os.environ["THEMIS_DEPENDENCY_BASH"] = bash
+                with self.assertRaises(SystemExit) as exit:
+                    helper.main()
+                self.assertEqual(exit.exception.code, 2)
+                self.assertIn("configure requires THEMIS_DEPENDENCY_BASH", error.getvalue())
+                run.assert_not_called()
+
     def test_partial_snapshot_saved_after_success_failure_or_controlled_timeout_before_build(self):
         prepare = self.named("Prepare Windows dependencies with bounded configure")
         save = self.named("Save dependency snapshot before ThemisDB compile")
