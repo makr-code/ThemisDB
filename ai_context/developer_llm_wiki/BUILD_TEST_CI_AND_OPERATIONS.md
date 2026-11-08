@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-11-02"
-Last Updated: "2026-11-07"
+Last Updated: "2026-11-08"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -11,6 +11,8 @@ Human_Author: "ThemisDB Team"
 ---
 
 # Developer LLM Wiki — Build/Test/CI/Operations
+
+> Exact model backend not verifiable from final document text alone.
 
 Datum: 2026-11-02
 Status: Active
@@ -82,7 +84,11 @@ Status: Active
   source-extraction errors; they were not removed or modified for this change.
 - Run `42396942036`, job `128476529660`, failed before configure because Python's
   `bash` lookup launched WSL instead of Git Bash. The workflow now passes its active
-  Git Bash executable as a native Windows path to the dependency supervisor.
+  Git Bash executable as a native Windows path in `THEMIS_DEPENDENCY_BASH` to the
+  dependency supervisor. The helper validates this environment contract, not an
+  unused `--bash` argument, and rejects missing/empty paths without a PATH fallback.
+  The consumer job `128477281514` failed with an empty dependency cache key because
+  preparation failed; its fail-closed prerequisite gate remains unchanged.
 - Wiki status remains generated 2026-11-02 / 8066 sources with incomplete workflow
   summaries; source and concrete run logs take precedence.
 
