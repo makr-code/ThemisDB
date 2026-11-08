@@ -258,6 +258,50 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("prerequisite incomplete", result.stdout)
 
+    def test_windows_bootstrap_retries_are_bounded_and_fail_closed(self):
+        result, values = self.plan("windows-amd64-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        setup = json.loads(values["windows_lane"])["setup_command"]
+        prerequisite = self.release["jobs"]["windows-dependencies"]["with"]
+        self.assertIn(".setup_command", prerequisite["setup_command"])
+        self.assertEqual(
+            self.release["jobs"]["release-platform-matrix"]["with"]["setup_command"],
+            "${{ matrix.setup_command }}",
+        )
+        bootstrap = "for attempt in" + setup.split("for attempt in", 1)[1].split("\nMODEL_DIR=", 1)[0]
+        bootstrap = bootstrap.replace("./vcpkg/bootstrap-vcpkg.bat", "bootstrap")
+        for failures, attempts, delays, status in [
+            (0, 1, [], 0), (1, 2, [10], 0), (2, 3, [10, 20], 0),
+            (3, 3, [10, 20], 37),
+        ]:
+            with self.subTest(failures=failures):
+                command = """
+                    count=0
+                    bootstrap() {
+                      count=$((count + 1))
+                      printf 'bootstrap:%s:%s\\n' "$count" "$*"
+                      if [ "$count" -le "$FAILURES" ]; then return 37; fi
+                    }
+                    sleep() { printf 'sleep:%s\\n' "$1"; }
+                """ + bootstrap + "\nprintf 'setup continued\\n'\n"
+                result = subprocess.run(
+                    ["bash", "-euo", "pipefail", "-c", command],
+                    env={**os.environ, "FAILURES": str(failures)},
+                    text=True, capture_output=True,
+                )
+                self.assertEqual(result.returncode, status, result.stderr)
+                lines = result.stdout.splitlines()
+                self.assertEqual(
+                    [line for line in lines if line.startswith("bootstrap:")],
+                    [f"bootstrap:{attempt}:-disableMetrics" for attempt in range(1, attempts + 1)],
+                )
+                self.assertEqual(
+                    [line for line in lines if line.startswith("sleep:")],
+                    [f"sleep:{delay}" for delay in delays],
+                )
+                self.assertEqual("setup continued" in lines, status == 0)
+                self.assertEqual("failed after 3 attempts" in result.stdout, status != 0)
+
     def test_cache_diagnostics_distinguish_exact_prefix_and_none_and_enforce_exact_consume(self):
         script = self.named("Print initial cache hit state")["run"]
         with tempfile.TemporaryDirectory() as temp:
