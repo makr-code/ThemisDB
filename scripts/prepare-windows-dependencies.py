@@ -93,7 +93,7 @@ def main():
     # 360-minute job for termination, inventory, cache upload and diagnostics.
     remaining = float(os.environ["THEMIS_DEPENDENCY_DEADLINE"]) - time.time()
     return run(
-        [args.bash, "-euo", "pipefail", "-c", os.environ["CONFIGURE_COMMAND"]],
+        [os.environ["THEMIS_DEPENDENCY_BASH"], "-euo", "pipefail", "-c", os.environ["CONFIGURE_COMMAND"]],
         args.log, min(270 * 60, remaining),
     )
 
