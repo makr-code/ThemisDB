@@ -162,6 +162,16 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
                 self.assertIn("configure requires THEMIS_DEPENDENCY_BASH", error.getvalue())
                 run.assert_not_called()
 
+    def test_metrics_only_does_not_require_bash_or_start_configure(self):
+        with patch.dict(os.environ, {}, clear=True), \
+             patch.object(sys, "argv", ["prepare", "--metrics-only", "--log", "test.log",
+                                        "--cache", "cache"]), \
+             patch.object(helper, "report") as report, \
+             patch.object(helper, "run") as run:
+            self.assertEqual(helper.main(), 0)
+            report.assert_called_once_with(Path("test.log"), Path("cache"))
+            run.assert_not_called()
+
     def test_partial_snapshot_saved_after_success_failure_or_controlled_timeout_before_build(self):
         prepare = self.named("Prepare Windows dependencies with bounded configure")
         save = self.named("Save dependency snapshot before ThemisDB compile")
