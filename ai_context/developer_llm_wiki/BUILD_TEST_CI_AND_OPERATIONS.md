@@ -17,6 +17,20 @@ Human_Author: "ThemisDB Team"
 Datum: 2026-11-02
 Status: Active
 
+## Docker Python configure prerequisites (2026-11-08)
+
+- [Actions run `42457016399`, job `128661153265`](https://github.com/makr-code/ThemisDB/actions/runs/42457016399/job/128661153265)
+  failed in the dependency stage while vcpkg ran `autoreconf -vfi` for Python
+  3.11.10, before ThemisDB compilation. The pinned Python port requires
+  `autoconf-archive` for `AX_C_FLOAT_WORDS_BIGENDIAN`; Autoconf alone does not
+  provide that macro.
+- The shared `base` stage in the canonical [Dockerfile](../../docker/Dockerfile.unified)
+  now installs `autoconf-archive` alongside the existing Autoconf, Automake,
+  Libtool and pkg-config tools. Runtime packages and dependency versions are unchanged.
+- The existing [Docker regression suite](../../tests/test_docker_runtime_package_regressions.py)
+  checks the Python configure prerequisites in the base stage. A fresh Actions
+  build on corrected source is still required to establish full image build success.
+
 ## Docker documentation build context (2026-11-08)
 
 - Task-provided evidence: [Actions run `42406530936`, job `128507711178`](https://github.com/makr-code/ThemisDB/actions/runs/42406530936/job/128507711178)

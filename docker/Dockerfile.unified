@@ -53,7 +53,7 @@ RUN --mount=type=cache,id=apt-cache-base-${TARGETARCH},target=/var/cache/apt,sha
     apt-get update && apt-get install -y --no-install-recommends \
         build-essential cmake ninja-build git curl ca-certificates pkg-config \
         zip unzip tar wget flex bison aria2 ccache python3 perl nasm autoconf \
-        automake libtool && \
+        automake libtool autoconf-archive && \
     THEMIS_CA_BUNDLE="" && \
     if [ -s /tmp/themis-host-ca.crt ]; then \
         THEMIS_CA_BUNDLE=/tmp/themis-host-ca.crt; \

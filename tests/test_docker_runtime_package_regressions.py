@@ -163,6 +163,18 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
             "vcpkg-glibc is x86-64-only and fails with Exec format error on ARM64.",
         )
 
+    def test_base_installs_python_autoreconf_prerequisites(self) -> None:
+        packages = extract_installed_packages(
+            extract_stage(self._dockerfile_text(), "base"), "base"
+        )
+        for package in ("autoconf", "automake", "autoconf-archive", "pkg-config"):
+            with self.subTest(package=package):
+                self.assertIn(
+                    package, packages,
+                    "vcpkg Python configure regeneration requires Autoconf Archive "
+                    "macros, including AX_C_FLOAT_WORDS_BIGENDIAN.",
+                )
+
     def test_community_logging_dependencies_use_system_packages(self) -> None:
         deps_packages = extract_installed_packages(
             extract_stage(self._dockerfile_text(), "deps", base_image="base"), "deps"
