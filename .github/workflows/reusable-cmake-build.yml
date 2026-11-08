@@ -416,7 +416,7 @@ jobs:
           } >> "$GITHUB_ENV"
 
       - name: Install sccache
-        if: inputs.enable_sccache_gha
+        if: inputs.enable_sccache_gha && !(runner.os == 'Windows' && inputs.windows_dependency_mode != 'off')
         continue-on-error: true
         uses: mozilla-actions/sccache-action@v0.0.6
 

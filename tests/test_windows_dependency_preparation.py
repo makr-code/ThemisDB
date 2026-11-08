@@ -202,6 +202,64 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
         self.assertEqual(jobs["windows-dependencies"]["with"]["windows_dependency_mode"], "prepare")
         self.assertIn("matrix.id == 'windows-amd64'", jobs["release-platform-matrix"]["with"]["windows_dependency_mode"])
 
+    def test_windows_dependency_jobs_do_not_register_sccache_action_cleanup(self):
+        step = self.named("Install sccache")
+        self.assertEqual(
+            step["if"],
+            "inputs.enable_sccache_gha && !(runner.os == 'Windows' && inputs.windows_dependency_mode != 'off')",
+        )
+        self.assertEqual(step["uses"], "mozilla-actions/sccache-action@v0.0.6")
+
+    def test_windows_sccache_installation_retries_and_requires_a_working_binary(self):
+        result, values = self.plan("windows-amd64-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        setup = json.loads(values["windows_lane"])["setup_command"]
+        install = setup.split("git submodule", 1)[0]
+        for installed, failures, unusable, attempts, waits, status in [
+            (True, 0, False, 0, [], 0),
+            (False, 0, False, 1, [], 0),
+            (False, 1, False, 2, ["15"], 0),
+            (False, 2, False, 3, ["15", "30"], 0),
+            (False, 3, False, 3, ["15", "30"], 37),
+            (False, 0, True, 3, ["15", "30"], 42),
+        ]:
+            with self.subTest(installed=installed, failures=failures, unusable=unusable):
+                command = """
+                    count=0
+                    sccache() {
+                      [ "$*" = "--version" ] || return 99
+                      [ "$UNUSABLE" = "false" ] || return 42
+                      [ "$INSTALLED" = "true" ] || return 127
+                    }
+                    choco() {
+                      [ "$*" = "install -y sccache --no-progress" ] || return 99
+                      count=$((count + 1))
+                      printf 'install:%s\\n' "$count"
+                      [ "$count" -gt "$FAILURES" ] || return 37
+                      INSTALLED=true
+                    }
+                    sleep() { printf 'sleep:%s\\n' "$1"; }
+                """ + install + "\nprintf 'setup continued\\n'\n"
+                result = subprocess.run(
+                    ["bash", "-euo", "pipefail", "-c", command],
+                    env={**os.environ, "INSTALLED": str(installed).lower(),
+                         "FAILURES": str(failures), "UNUSABLE": str(unusable).lower()},
+                    text=True, capture_output=True, timeout=10,
+                )
+                self.assertEqual(result.returncode, status, result.stderr)
+                lines = result.stdout.splitlines()
+                self.assertEqual(
+                    [line for line in lines if line.startswith("install:")],
+                    [f"install:{attempt}" for attempt in range(1, attempts + 1)],
+                )
+                self.assertEqual(
+                    [line for line in lines if line.startswith("sleep:")],
+                    [f"sleep:{wait}" for wait in waits],
+                )
+                self.assertEqual("setup continued" in lines, status == 0)
+                if status:
+                    self.assertIn("::error::sccache installation failed after 3 attempts", lines)
+
     def test_windows_bootstrap_retries_are_bounded_and_preserve_failure_status(self):
         result, values = self.plan("windows-amd64-only")
         self.assertEqual(result.returncode, 0, result.stderr)
@@ -216,7 +274,7 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
                 directory = Path(temp)
                 tools = directory / "tools"
                 tools.mkdir()
-                for name in ["git", "choco"]:
+                for name in ["git", "choco", "sccache"]:
                     (tools / name).symlink_to("/bin/true")
                 sleep = tools / "sleep"
                 sleep.write_text('#!/bin/sh\nprintf "%s\\n" "$1" >> "$WAIT_LOG"\n')
@@ -324,11 +382,11 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
             self.release["jobs"]["release-platform-matrix"]["with"]["setup_command"],
             "${{ matrix.setup_command }}",
         )
-        bootstrap = "for attempt in" + setup.split("for attempt in", 1)[1].split("\nMODEL_DIR=", 1)[0]
+        bootstrap = "for attempt in" + setup.rsplit("for attempt in", 1)[1].split("\nMODEL_DIR=", 1)[0]
         bootstrap = bootstrap.replace("./vcpkg/bootstrap-vcpkg.bat", "bootstrap")
         for failures, attempts, delays, status in [
-            (0, 1, [], 0), (1, 2, [10], 0), (2, 3, [10, 20], 0),
-            (3, 3, [10, 20], 37),
+            (0, 1, [], 0), (1, 2, [15], 0), (2, 3, [15, 30], 0),
+            (3, 3, [15, 30], 37),
         ]:
             with self.subTest(failures=failures):
                 command = """
