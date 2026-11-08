@@ -339,6 +339,25 @@ jobs:
               if not entry.get("enabled"):
                   continue
               lane_os = "linux" if entry["id"].startswith("linux") else ("windows" if entry["id"].startswith("windows") else "macos")
+              if lane_os == "linux":
+                  entry["setup_command"] = entry["setup_command"].replace(
+                      "./vcpkg/bootstrap-vcpkg.sh -disableMetrics",
+                      """for attempt in 1 2 3; do
+          bootstrap_log="${RUNNER_TEMP:-/tmp}/vcpkg-bootstrap-${attempt}.log"
+          set +e
+          ./vcpkg/bootstrap-vcpkg.sh -disableMetrics 2>&1 | tee "$bootstrap_log"
+          bootstrap_status=${PIPESTATUS[0]}
+          set -e
+          if [ "$bootstrap_status" -eq 0 ]; then
+            break
+          fi
+          if [ "$attempt" -eq 3 ] || ! grep -Eq 'curl: \\(22\\).*error: 5[0-9][0-9]' "$bootstrap_log"; then
+            exit "$bootstrap_status"
+          fi
+          echo "::warning::Transient vcpkg bootstrap HTTP 5xx failure; retrying (attempt $((attempt + 1))/3)."
+          sleep $((attempt * 5))
+          done""",
+                  )
               if lane_os == "macos":
                   # Xcode 15.4's libc++ lacks jthread/stop_token; use LLVM's matching headers and runtime.
                   entry["compiler"] = "homebrew-llvm"
