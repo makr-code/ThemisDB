@@ -335,6 +335,39 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
                 self.assertEqual(lane["triplet"], prerequisite["vcpkg_triplet"])
                 self.assertEqual("-DTHEMIS_ENABLE_GRPC=ON" in lane["configure_command"], edition != "minimal")
                 self.assertNotIn("VCPKG_BUILD_TYPE", lane["configure_command"])
+                self.assertEqual("VCPKG_OVERLAY_TRIPLETS" in lane["configure_command"], config == "Release")
+
+    def test_release_triplet_is_available_for_pinned_sources(self):
+        triplet = (ROOT / "triplets/x64-windows.cmake").read_text()
+        for setting in [
+            "set(VCPKG_TARGET_ARCHITECTURE x64)",
+            "set(VCPKG_CRT_LINKAGE dynamic)",
+            "set(VCPKG_LIBRARY_LINKAGE dynamic)",
+            "set(VCPKG_BUILD_TYPE release)",
+        ]:
+            self.assertIn(setting, triplet)
+        checkout = self.named("Checkout cache tooling for pinned release sources")
+        self.assertIn("triplets/x64-windows.cmake", checkout["with"]["sparse-checkout"])
+        result, values = self.plan("windows-amd64-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        command = json.loads(values["windows_lane"])["configure_command"]
+        self.assertIn('${GITHUB_WORKSPACE}/${THEMIS_CACHE_TOOLS_PREFIX}triplets', command)
+        self.assertIn('"-DVCPKG_OVERLAY_TRIPLETS=${VCPKG_RELEASE_TRIPLETS}"', command)
+        for prefix in ["", ".ci-cache-tools/"]:
+            with self.subTest(prefix=prefix):
+                result = subprocess.run(
+                    ["bash", "-euo", "pipefail", "-c",
+                     'cygpath() { printf "%s\\n" "$2"; }\n'
+                     'cmake() { printf "<%s>\\n" "$@"; }\n'
+                     'tee() { cat; }\n' + command],
+                    env={**os.environ, "GITHUB_WORKSPACE": "/workspace with spaces",
+                         "THEMIS_CACHE_TOOLS_PREFIX": prefix,
+                         "THEMIS_WINDOWS_DEPENDENCY_FLAGS": "-DVCPKG_INSTALL_OPTIONS=--only-binarycaching"},
+                    text=True, capture_output=True,
+                )
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertIn(f"<-DVCPKG_OVERLAY_TRIPLETS=/workspace with spaces/{prefix}triplets>", result.stdout)
+                self.assertIn("<-DVCPKG_INSTALL_OPTIONS=--only-binarycaching>", result.stdout)
 
     def test_windows_configure_placeholders_are_not_github_expressions(self):
         script = self.release["jobs"]["prepare-release-matrix"]["steps"][0]["run"]
