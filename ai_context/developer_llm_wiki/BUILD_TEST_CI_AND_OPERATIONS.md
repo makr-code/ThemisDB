@@ -107,12 +107,21 @@ Status: Active
   MSVC and packaging. Existing Apple-backend Python tests currently have unrelated
   source-extraction errors; they were not removed or modified for this change.
 - Run `42396942036`, job `128476529660`, failed before configure because Python's
-  `bash` lookup launched WSL instead of Git Bash. The workflow now passes its active
-  Git Bash executable as a native Windows path in `THEMIS_DEPENDENCY_BASH` to the
-  dependency supervisor. The helper validates this environment contract, not an
-  unused `--bash` argument, and rejects missing/empty paths without a PATH fallback.
-  The consumer job `128477281514` failed with an empty dependency cache key because
+  `bash` lookup launched WSL instead of Git Bash. Task-provided evidence:
+  [run `42454420088`, job `128651357172`](https://github.com/makr-code/ThemisDB/actions/runs/42454420088/job/128651357172)
+  exported `THEMIS_DEPENDENCY_BASH`, but the helper still required `--bash` and
+  exited 2 before configure. The corrected [workflow](../../.github/workflows/reusable-cmake-build.yml)
+  exports its active Git Bash executable as a native Windows path and invokes the
+  [helper](../../scripts/prepare-windows-dependencies.py) without `--bash`.
+  The helper validates and uses `os.environ["THEMIS_DEPENDENCY_BASH"]`, rejecting
+  missing/empty paths without a PATH fallback.
+  The earlier consumer job `128477281514` failed with an empty dependency cache key because
   preparation failed; its fail-closed prerequisite gate remains unchanged.
+- Task-reported [regressions](../../tests/test_windows_dependency_preparation.py):
+  **17 passed**, including the real workflow step with a space-containing Bash
+  path and poisoned PATH, and missing/empty path rejection. Not rerun for this
+  documentation update; no native Windows success is established. A fresh
+  corrected-source Actions run is required.
 - Wiki status remains generated 2026-11-02 / 8066 sources with incomplete workflow
   summaries; source and concrete run logs take precedence.
 
