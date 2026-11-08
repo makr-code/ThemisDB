@@ -151,6 +151,7 @@ Status: Active
 - Sources: `.github/workflows/reusable-cmake-build.yml`, `tests/test_deployment_workflow_regressions.py`, and [Actions run 42174218456, job 127750342277](https://github.com/makr-code/ThemisDB/actions/runs/42174218456/job/127750342277).
 - Windows AMD64 configuration failed when vcpkg exhausted three download attempts for the Arrow 25.0.1 archive from `archive.apache.org`. The later missing Ninja/compiler diagnostics followed the aborted dependency install; vcpkg had already detected MSVC successfully.
 - The existing one-time configure retry now handles `Download timed out` on every runner architecture, retaining downloaded dependencies and the original vcpkg version/checksum verification. Existing ARM64 `BUILD_FAILED` recovery is unchanged. Successful configuration and unrelated Windows build failures are not retried; a failed retry propagates its exit status.
+- Run [42457047962, job 128660718401](https://github.com/makr-code/ThemisDB/actions/runs/42457047962/job/128660718401) failed during fmt dependency configuration when GitHub returned HTTP 504 for its pinned patch download. The same bounded retry now recognizes vcpkg curl HTTP 5xx responses; regression tests cover 502/503/504 and confirm HTTP 404 is not retried.
 - Focused shell regressions cover recovery, retry bounds, final failure propagation, non-network failures, and ARM64 behavior. They do not establish native Windows build or packaging success; a fresh Actions run containing the fix remains required.
 
 ## Global transaction durability regression coverage
