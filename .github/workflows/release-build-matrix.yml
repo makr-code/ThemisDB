@@ -278,7 +278,22 @@ jobs:
                   "arch": "x64",
                   "compiler": "msvc",
                   "triplet": "x64-windows",
-                  "setup_command": "set -euo pipefail\nchoco install -y sccache || echo \"::warning::sccache install via choco failed; continuing without sccache cache.\"\ngit submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true\ngit submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF\ntest -f vcpkg/scripts/buildsystems/vcpkg.cmake || {\n  echo \"::error::vcpkg submodule/toolchain missing before bootstrap\"\n  exit 1\n}\n./vcpkg/bootstrap-vcpkg.bat -disableMetrics",
+                  "setup_command": (
+                      "set -euo pipefail\nchoco install -y sccache || echo \"::warning::sccache install via choco failed; continuing without sccache cache.\"\ngit submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true\ngit submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF\ntest -f vcpkg/scripts/buildsystems/vcpkg.cmake || {\n  echo \"::error::vcpkg submodule/toolchain missing before bootstrap\"\n  exit 1\n}\n"
+                      "for attempt in 1 2 3; do\n"
+                      "  if ./vcpkg/bootstrap-vcpkg.bat -disableMetrics; then\n"
+                      "    break\n"
+                      "  else\n"
+                      "    bootstrap_status=$?\n"
+                      "  fi\n"
+                      "  if [ \"$attempt\" -eq 3 ]; then\n"
+                      "    echo \"::error::vcpkg bootstrap failed after 3 attempts\"\n"
+                      "    exit \"$bootstrap_status\"\n"
+                      "  fi\n"
+                      "  echo \"::warning::vcpkg bootstrap attempt $attempt failed; retrying\"\n"
+                      "  sleep \"$((15 * attempt))\"\n"
+                      "done"
+                  ),
                   "configure_command": (
                       f"set -euo pipefail\nexport VCPKG_MAX_CONCURRENCY={dependency_concurrency}\n"
                       f"export CMAKE_BUILD_PARALLEL_LEVEL={dependency_concurrency}\n"
