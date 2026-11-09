@@ -1,3 +1,18 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-11-09"
+Last Updated: "2026-11-09"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "OpenAI ChatGPT (documentation agent)"
+Human_Review: false
+Human_Author: "unknown"
+Milestone: "DOC-MONTHLY-2026-11"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Multi-Edition Docker Builds
 
 ## Übersicht
@@ -270,6 +285,14 @@ docker buildx ls
 ```
 
 ## Troubleshooting
+
+### Intermittent APT fetch failures in Docker CI
+
+For repeated HTTP 504 responses during the shared base stage's APT fetch, distinguish a transient repository/network failure from a missing build dependency. The current [`docker/Dockerfile.unified`](../../../docker/Dockerfile.unified) writes `Acquire::Retries "3";` to `/etc/apt/apt.conf.d/80-retries` before its first `apt-get update`. Descendant stages inherit this base configuration; retries do not guarantee success while the repository remains unavailable.
+
+The base stage also installs `autoconf-archive` before vcpkg bootstrap. The [Docker package regression tests](../../../tests/test_docker_runtime_package_regressions.py) check both that ordering and the APT retry configuration.
+
+In [Actions run 42457016399, attempt 7](https://github.com/ThemisDB/ThemisDB/actions/runs/42457016399/attempts/7), linux/amd64 repeatedly failed fetching packages with HTTP 504 responses. The linux/arm64 leg used source SHA `50d6c9b`, which predates the already-merged `autoconf-archive` package fix, so that leg does not validate the current package fix. The focused Python test module passed 13 tests; this evidence does **not** establish that a complete Docker image build succeeded.
 
 ### QEMU für ARM auf AMD64 (falls benötigt)
 ```bash

@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-09T08:29:05+00:00",
+  "generated_at": "2026-11-09T09:52:40+00:00",
   "source_count": 8070,
   "sources": [
     {
@@ -9,7 +9,7 @@
       "category": "build_test_ci",
       "size": 6679,
       "sha256": "59518d7978eca388647261d24ad7806e4cb4b5745f9cc67279e51a82f00fb684",
-      "modified_utc": "2026-11-09T08:13:19+00:00"
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/benchmark-performance-gate.yml",
@@ -58,7 +58,7 @@
       "category": "build_test_ci",
       "size": 33039,
       "sha256": "9aaef349e879d01171d33c8cff01add9e367824639246124ba66a03b664e1c9d",
-      "modified_utc": "2026-11-09T08:26:19+00:00"
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/build-ollama-router.yml",
@@ -114,7 +114,7 @@
       "category": "build_test_ci",
       "size": 54072,
       "sha256": "3243c6e9fa0ee91044fb8d73b967712bef395052fa1dbfd15a0aa5e76f72ad04",
-      "modified_utc": "2026-11-09T08:10:03+00:00"
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/compliance-supply-chain.yml",
@@ -170,7 +170,7 @@
       "category": "build_test_ci",
       "size": 12768,
       "sha256": "718cedef92c2320a8394b64152c3f6ef62456826379f725115368481abaad3ac",
-      "modified_utc": "2026-11-09T08:10:03+00:00"
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-benchmark-ctest.yml",
@@ -184,14 +184,14 @@
       "category": "build_test_ci",
       "size": 15390,
       "sha256": "fa3a0808c501eddaaed0b3f33bcbff5902be519c5996916a7fa8beb0b46fad67",
-      "modified_utc": "2026-11-09T08:16:22+00:00"
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-core.yml",
       "category": "build_test_ci",
       "size": 55641,
       "sha256": "3f2c61ecfe6d0cd37a25b0ceee8cf9bdba142b7da91e1653becb6f91e7a93164",
-      "modified_utc": "2026-11-09T08:18:07+00:00"
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-doc-metadata.yml",
@@ -205,21 +205,21 @@
       "category": "build_test_ci",
       "size": 15615,
       "sha256": "b52dcb9ed052e38dcadbccb24d22b3445f0cca4bce05122ea2b64e7db4a2f09e",
-      "modified_utc": "2026-11-09T08:10:03+00:00"
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-edition-license.yml",
       "category": "build_test_ci",
       "size": 10983,
       "sha256": "32768597ff46e0b5fc9fb3f2a1fb37ed13383f64dc7968a0c91937a45fff94ea",
-      "modified_utc": "2026-11-09T08:16:22+00:00"
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-final-runtime-api.yml",
       "category": "build_test_ci",
       "size": 9840,
       "sha256": "73b9ab0ee7d7d04d6264be71af0057dc8663f88e5c6e56c5e1c4ebf8ab5f6a28",
-      "modified_utc": "2026-11-09T08:10:03+00:00"
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-hash-sbom.yml",
@@ -247,7 +247,7 @@
       "category": "build_test_ci",
       "size": 10253,
       "sha256": "728026c1c4ca87a56b9a92968d88b19e6bb4e9d5064bb35a58dd06459708abcc",
-      "modified_utc": "2026-11-09T08:16:22+00:00"
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-primary-doc-structure.yml",
@@ -296,14 +296,14 @@
       "category": "build_test_ci",
       "size": 12932,
       "sha256": "83f551a5b4b3efb0318b91c77be29a4f213b421801a99718665f020a61b4c150",
-      "modified_utc": "2026-11-09T08:11:35+00:00"
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-rag-version.yml",
       "category": "build_test_ci",
       "size": 11411,
       "sha256": "21c36c69e408cb9047012077fb43fa3bcc3de2d01258b7fc9cfd64818e326752",
-      "modified_utc": "2026-11-09T08:10:03+00:00"
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-version-targeting.yml",
@@ -317,7 +317,7 @@
       "category": "build_test_ci",
       "size": 18464,
       "sha256": "22dd32a4b2caa773af253225f8c46ff2a7da2b59de6a175c14dfcc55684fc0eb",
-      "modified_utc": "2026-11-09T08:10:03+00:00"
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-wave-closure.yml",
@@ -443,7 +443,7 @@
       "category": "build_test_ci",
       "size": 38897,
       "sha256": "d26d94005b21de87c501e236a8028f15914b5a66476b61b6388d196ace3cdc93",
-      "modified_utc": "2026-11-09T08:28:19+00:00"
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/release-changelog.yml",
@@ -471,7 +471,7 @@
       "category": "build_test_ci",
       "size": 15920,
       "sha256": "9c9004226a95deb3ee8dc8da0a6bc37301f75b923ed5af9a421cf14a95aaf0cf",
-      "modified_utc": "2026-11-09T08:28:19+00:00"
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/release-linux-distribution.yml",
@@ -574,9 +574,9 @@
     {
       "path": ".github/workflows/reusable-cmake-build.yml",
       "category": "build_test_ci",
-      "size": 42522,
-      "sha256": "c3ac1f34dd28cdce634fc0b753e99eeba179d6eae68c4aa0a976666859c2cbde",
-      "modified_utc": "2026-11-09T08:21:44+00:00"
+      "size": 42775,
+      "sha256": "fb7a8cfd1a3ef1f0152c045907518f14506c5f3114d4e878f2bd21d4ecba740c",
+      "modified_utc": "2026-11-09T09:52:08+00:00"
     },
     {
       "path": ".github/workflows/reusable-docker-image-platform.yml",
@@ -688,7 +688,7 @@
       "category": "build_test_ci",
       "size": 10032,
       "sha256": "e2fc62303295481b50e8baf916146b4f63afa322e5cb9b469f525119047ba093",
-      "modified_utc": "2026-11-09T08:10:03+00:00"
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/wiki-publish-from-issue.yml",
@@ -20869,7 +20869,7 @@
       "category": "governance_and_docs",
       "size": 2304497,
       "sha256": "e0949a5621956b6dbe9d22985b4a6f9458df3f3ec14fabda3ea3424b2d8da601",
-      "modified_utc": "2026-11-09T08:00:47+00:00"
+      "modified_utc": "2026-11-09T08:41:42+00:00"
     },
     {
       "path": "docs/community/Supporters.md",
@@ -30408,9 +30408,9 @@
     {
       "path": "docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md",
       "category": "governance_and_docs",
-      "size": 7922,
-      "sha256": "de05690844d0033582ca47c3e2bc487b92ad7010afc4ee5e2eb782a3b830a936",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 9489,
+      "sha256": "1216c04a743b5842b5316204662bd2b8aa6ff67b96a3a42a6a1953fd1452df98",
+      "modified_utc": "2026-11-09T08:45:41+00:00"
     },
     {
       "path": "docs/en/deployment/DOCKER_SECURITY_AUDIT.md",
@@ -54168,7 +54168,7 @@
       "category": "build_test_ci",
       "size": 26659,
       "sha256": "a7fb3d9234c7a5aa099eded7f33493b409199e1cfea0f97e1ad156bb04b67c79",
-      "modified_utc": "2026-11-09T08:24:58+00:00"
+      "modified_utc": "2026-11-09T09:51:25+00:00"
     },
     {
       "path": "scripts/ai-working-compact.py",
@@ -54621,9 +54621,9 @@
     {
       "path": "scripts/prepare-windows-dependencies.py",
       "category": "build_test_ci",
-      "size": 4167,
-      "sha256": "1ae7a862756e3eb001ed18491113174c0a94a9bee64c876c6d36cd7ba6df2d83",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "size": 4288,
+      "sha256": "02d698c6e35d850373512441f74b59c9009a20af67d5bd4e39419d9efaea025c",
+      "modified_utc": "2026-11-09T09:52:08+00:00"
     },
     {
       "path": "scripts/prepare_doc_file_issues.py",
