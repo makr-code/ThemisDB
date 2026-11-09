@@ -2559,8 +2559,9 @@ std::vector<std::string> PostgreSQLImporter::parseInsertValues(const std::string
         } else {
             // Unquoted token (number, NULL, true, false, etc.)
             size_t start = i;
-                        while (i < n && values_clause[i] != ',' && values_clause[i] != ')') {
-                            ++i;
+            // parseInsert() already removes the enclosing tuple parentheses.
+            while (i < n && values_clause[i] != ',') {
+                ++i;
             }
             std::string token = values_clause.substr(start, i - start);
             // Trim trailing whitespace
@@ -3143,5 +3144,4 @@ extern "C" {
         delete plugin;
     }
 }
-
 

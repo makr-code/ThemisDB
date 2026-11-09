@@ -18,6 +18,7 @@ import yaml
 WORKFLOWS_DIR = Path(".github/workflows")
 ALLOWLIST_PATH = Path("tools/ci/workflow_fail_open_allowlist.json")
 GATE_WORKFLOW_NAMES = {
+    "build-wave-b-transaction.yml",
     "compliance-governance-gates.yml",
     "release-evidence-chain.yml",
     "wiki-pr-gate.yml",

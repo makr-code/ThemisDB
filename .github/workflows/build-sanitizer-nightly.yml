@@ -171,7 +171,7 @@ jobs:
     with:
       runs_on: ubuntu-latest
       shell: bash
-      enable_sccache_gha: true
+      enable_sccache_gha: false
       fetch_depth: '0'
       submodules: false
       working_directory: .
@@ -181,7 +181,7 @@ jobs:
         sudo apt-get install -y --no-install-recommends \
           clang lld cmake ninja-build
         sudo apt-get install -y --no-install-recommends \
-          pkg-config sccache librocksdb-dev libgtest-dev libgmock-dev \
+          pkg-config librocksdb-dev libgtest-dev libgmock-dev \
           libbenchmark-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev \
           libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev \
           libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc \
@@ -191,6 +191,8 @@ jobs:
       build_directory: build-sanitizer
       configure_command: |
         set -euo pipefail
+        export SCCACHE_DISABLE=1
+        echo "SCCACHE_DISABLE=1" >> "$GITHUB_ENV"
         SAN_MODE="${{ inputs.sanitizer_mode || 'asan-ubsan' }}"
         if [ "$SAN_MODE" = "asan-only" ]; then
           SAN_FLAGS="-fsanitize=address -fno-omit-frame-pointer"
@@ -201,6 +203,9 @@ jobs:
           -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=clang \
           -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_FLAGS="$SAN_FLAGS" \
           -DCMAKE_CXX_FLAGS="$SAN_FLAGS" -DTHEMIS_BUILD_BENCHMARKS=OFF \
+          -DTHEMIS_ENABLE_COMPILER_CACHE=OFF \
+          -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER= \
+          -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_AUTO_BOOTSTRAP_DEPS=OFF \
           -DTHEMIS_BUILD_TESTS=ON
       build_command: |
         set -euo pipefail
@@ -264,6 +269,7 @@ jobs:
     with:
       runs_on: ubuntu-latest
       shell: bash
+      enable_sccache_gha: false
       fetch_depth: '0'
       working_directory: .
       setup_command: |
@@ -280,11 +286,16 @@ jobs:
       build_directory: build-tsan
       configure_command: |
         set -euo pipefail
+        export SCCACHE_DISABLE=1
+        echo "SCCACHE_DISABLE=1" >> "$GITHUB_ENV"
         cmake -S . -B build-tsan -G Ninja \
           -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_C_COMPILER=clang \
           -DCMAKE_CXX_COMPILER=clang++ \
           -DCMAKE_C_FLAGS="-fsanitize=thread -fno-omit-frame-pointer" \
           -DCMAKE_CXX_FLAGS="-fsanitize=thread -fno-omit-frame-pointer" \
+          -DTHEMIS_ENABLE_COMPILER_CACHE=OFF \
+          -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER= \
+          -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_AUTO_BOOTSTRAP_DEPS=OFF \
           -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_BUILD_TESTS=ON
       build_command: |
         cmake --build build-tsan --target \

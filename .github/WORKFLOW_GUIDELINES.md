@@ -193,14 +193,46 @@ jobs:
 - Der Sanitizer-Run-Beleg enthält URL, getesteten SHA, Ziele, Laufzeit und rohes
   Job-Ergebnis. Fehlgeschlagene oder abgebrochene Läufe sind kein PASS; mögliche
   Runner-/Infrastrukturfehler müssen anhand der Logs separat klassifiziert werden.
+- Sanitizer-Lanes bauen ohne Compiler-Cache und mit explizit leeren CMake-Launchern.
+  Ein nicht erreichbares sccache-Backend darf den instrumentierten Build nicht
+  ersetzen oder einen Toolchain-Wechsel im Retry ausloesen. Die initiale
+  Konfiguration waehlt explizit Systempakete ohne vcpkg-Toolchain; ein geerbtes
+  `VCPKG_ROOT` darf keinen fehlenden Toolchain-Pfad im Cache hinterlassen.
 - AQL-, HTTP-, Wire-Protocol- und Importer-Parseränderungen wählen nur die
   betroffenen deterministischen Corpus-Smoke-Ziele. Jeder einzelne Parserlauf
   hat ein hartes 300-Sekunden-Limit. Fehlendes Harness, fehlende Pflicht-Seeds,
   Crash oder ASan/UBSan-Diagnose muss fehlschlagen. Corpus-Smoke verwendet keine
   AFL-Ausgabecache; die eingecheckten Pflicht-Seeds sind der minimale Corpus-Vertrag.
+- Der Importer-Harness verlinkt den Produktparser mitsamt Logger/Error-Contracts.
+  Der `release_critical`-Regressionstest `test_postgres_insert_token_progress`
+  prueft dessen Vorwaertsschritt an schliessenden Klammern sowie unveraenderte
+  String-/Quote-Tokenisierung, ohne nachgebaute Parserlogik.
 - Für Änderungen an diesen Gates lokal ausführen:
   `python3 -m unittest tools.tests.test_fuzz_smoke tools.tests.test_sanitizer_targets -v` und
   `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode lint`.
+
+### Transaction-Evidence-Gate
+- `build-wave-b-transaction.yml` ermittelt Build-Targets und Binaerpfade aus den
+  registrierten CTest-Kommandos. Smoke-, Full- und Chaos-Jobs bauen ihre Auswahl
+  auf demselben Runner vor der Ausfuehrung; On-Demand-Builds sind deaktiviert.
+- Die Pflicht-Suites muessen aktiviert vorhanden sein. Die Full-Auswahl umfasst
+  zusaetzlich alle aktivierten `module:transaction`-Registrierungen. Fehlende
+  Binaerdateien, leere GTest-Suites, GTest-Skips sowie fehlende, fehlgeschlagene
+  oder uebersprungene JUnit-Testfaelle lassen den Gate fehlschlagen.
+- Bash-Pipelines verwenden `pipefail`. Der Ergebnis-Gate verlangt erfolgreiche
+  Configuration-, Compile-, Smoke-, Full-, Chaos- und Artefakt-/Report-Jobs;
+  Pflicht-Jobs mit `skipped` oder `cancelled` sind kein PASS.
+- Alle Dispatch-Phasen laufen mindestens durch die verpflichtenden Test-Jobs.
+  `all`, `phase4` und Zeitplan fuehren zusaetzlich die Benchmark-Baseline aus.
+  PRs und andere Phasen liefern ohne Baseline nur partiellen Nachweis; das
+  Closure-Paket bleibt `open`. Hosted-Runner-Messungen ersetzen weder
+  Repraesentativ-Hardware-Abnahme noch Release-Sign-off.
+- Rohlogs, ausgewaehltes Inventar, echtes JUnit und SHA-/Run-verknuepfte
+  Zusammenfassungen werden 90 Tage aufbewahrt. Erfolgreiche Upstream-Jobs ohne
+  ihre Pflichtartefakte duerfen kein vollstaendiges Paket erzeugen.
+- Lokal pruefen:
+  `python3 -m unittest discover -s tools/tests -p test_transaction_evidence.py -v`.
+  Die CMake/CTest-Fixture testet die Gate-Mechanik, nicht die Produkt-Suites.
 
 ## Quick Acceptance Criteria (Workflow-/Guideline-PRs)
 - Die Verantwortung ist im Actions-UI klar lesbar (Build vs Validate ohne Mischbegriffe).

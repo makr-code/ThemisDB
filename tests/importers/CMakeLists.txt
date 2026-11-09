@@ -43,8 +43,12 @@ foreach(_src IN LISTS IMPORTERS_MODULE_TEST_SOURCES)
 
     if(_stem STREQUAL "test_importers_contract_hardening_focused" OR
        _stem STREQUAL "test_importers_new_connectors_focused" OR
-       _stem STREQUAL "test_phase4_importer_hardening")
+       _stem STREQUAL "test_phase4_importer_hardening" OR
+       _stem STREQUAL "test_postgres_insert_token_progress")
         list(APPEND _labels wave_b wave_b_boundary_content_io)
+    endif()
+    if(_stem STREQUAL "test_postgres_insert_token_progress")
+        list(APPEND _labels release_critical)
     endif()
 
     themis_register_module_focused_test(
