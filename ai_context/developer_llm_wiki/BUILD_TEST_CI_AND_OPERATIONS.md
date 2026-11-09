@@ -348,7 +348,7 @@ AI-assisted update; exact model backend not verifiable from final document text 
 
 ## .github/workflows/release-docker-image.yml
 - Kategorie: build_test_ci
-- Hash: `4477ab089a3c8999`
+- Hash: `c56f976d65b951c9`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-evidence-chain.yml

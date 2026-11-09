@@ -7,7 +7,7 @@ Status: Active
 
 - Added: 0
 - Removed: 0
-- Changed: 2
+- Changed: 9
 
 ## Added
 
@@ -19,5 +19,12 @@ Status: Active
 
 ## Changed
 
+- .github/workflows/release-docker-image.yml
+- .github/workflows/reusable-cmake-build.yml
+- .github/workflows/reusable-docker-image-platform.yml
+- ROADMAP.md
 - docs/code_maturity_report.md
 - docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md
+- docs/governance/GA_PROMOTION_SIGN_OFF.md
+- include/auth/jwt_validator.h
+- scripts/prepare-windows-dependencies.py
