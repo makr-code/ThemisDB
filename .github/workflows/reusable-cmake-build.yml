@@ -695,28 +695,31 @@ jobs:
           fi
           script_path="$RUNNER_TEMP/cmake-build-configure.sh"
           configure_output_log="$RUNNER_TEMP/cmake-build-configure-output.log"
+          configure_attempt_log="$RUNNER_TEMP/cmake-build-configure-attempt.log"
           configure_started="$RUNNER_TEMP/cmake-build-configure-start"
           printf '%s\n' "$CONFIGURE_COMMAND" > "$script_path"
           : > "$configure_output_log"
           touch "$configure_started"
-          set +e
-          set +o pipefail
-          bash "$script_path" 2>&1 | tee -a "$configure_output_log"
-          status=${PIPESTATUS[0]}
-          set -o pipefail
-          set -e
-          if [ "$status" -ne 0 ] && {
-            grep -Eq 'Download timed out|error: curl operation failed with error code 35 \(SSL connect error\)|error: curl operation failed with response code 5[0-9][0-9]' "$configure_output_log" ||
-              { [ "${RUNNER_ARCH:-}" = "ARM64" ] && grep -Eq "building .* failed with: BUILD_FAILED" "$configure_output_log"; }
-          }; then
-            echo "::warning::Transient vcpkg download failure detected during configure; retrying once."
+          for delay in 10 30 60 0; do
+            : > "$configure_attempt_log"
             set +e
             set +o pipefail
-            bash "$script_path" 2>&1 | tee -a "$configure_output_log"
+            bash "$script_path" 2>&1 | tee -a "$configure_output_log" "$configure_attempt_log"
             status=${PIPESTATUS[0]}
             set -o pipefail
             set -e
-          fi
+            if [ "$status" -eq 0 ] || [ "$delay" -eq 0 ]; then
+              break
+            fi
+            if grep -Eq 'Download timed out|error: curl operation failed with error code 35 \(SSL connect error\)|error: curl operation failed with response code 5[0-9][0-9]' "$configure_attempt_log"; then
+              echo "::warning::Transient vcpkg download failure detected during configure; retrying in ${delay}s."
+              sleep "$delay"
+            elif [ "$delay" -eq 10 ] && [ "${RUNNER_ARCH:-}" = "ARM64" ] && grep -Eq "building .* failed with: BUILD_FAILED" "$configure_attempt_log"; then
+              echo "::warning::vcpkg build failure detected on ARM64; retrying once."
+            else
+              break
+            fi
+          done
           if [ "$status" -ne 0 ] && [ -d vcpkg/buildtrees/detect_compiler ]; then
             # vcpkg reports log paths, not the nested compiler error needed by recovery.
             while IFS= read -r -d '' log; do
