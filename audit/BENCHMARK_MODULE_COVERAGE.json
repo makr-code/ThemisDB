@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.1.0",
-  "generated_at": "2026-11-09T18:15:58+00:00",
+  "schema_version": "1.2.0",
+  "generated_at": "2026-11-09T18:42:43+00:00",
   "source_snapshot": {
     "revision": "c21f7bba0cb44d58e5ad49f64781a76703b3ee56",
     "branch": "develop",
@@ -9,7 +9,7 @@
   },
   "tooling": {
     "audit_tool": "tools/ci/audit_benchmark_coverage.py",
-    "audit_tool_version": "3",
+    "audit_tool_version": "4",
     "python_version": "3.12.3",
     "git_version": "git version 2.56.0",
     "cmake_version": "not invoked by this static inventory",
@@ -478,6 +478,7 @@
         "status": "gap",
         "owner_issue": 7828,
         "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "owner_issue_rationale": null,
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/acceleration/PERFORMANCE_EXPECTATIONS.md",
@@ -925,6 +926,7 @@
         "status": "gap",
         "owner_issue": 7500,
         "owner_issue_scope": "module workload/evidence follow-up",
+        "owner_issue_rationale": "Issue #7500 requires a reproducible benchmark artifact and successful exit status for performance claims.",
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/analytics/PERFORMANCE_EXPECTATIONS.md",
@@ -2752,6 +2754,7 @@
         "status": "gap",
         "owner_issue": 7828,
         "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "owner_issue_rationale": null,
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/distributed_tensor/PERFORMANCE_EXPECTATIONS.md",
@@ -3576,6 +3579,7 @@
         "status": "gap",
         "owner_issue": 7828,
         "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "owner_issue_rationale": null,
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/geo/PERFORMANCE_EXPECTATIONS.md",
@@ -4626,6 +4630,7 @@
         "status": "gap",
         "owner_issue": 7492,
         "owner_issue_scope": "module workload/evidence follow-up",
+        "owner_issue_rationale": "Issue #7492 requires GPU benchmark artifacts with hardware metadata and valid exit status.",
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/gpu/PERFORMANCE_EXPECTATIONS.md",
@@ -4866,6 +4871,7 @@
         "status": "gap",
         "owner_issue": 7828,
         "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "owner_issue_rationale": null,
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/graph/PERFORMANCE_EXPECTATIONS.md",
@@ -5427,6 +5433,7 @@
         "status": "gap",
         "owner_issue": 7828,
         "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "owner_issue_rationale": null,
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/llama_cpp/PERFORMANCE_EXPECTATIONS.md",
@@ -6071,6 +6078,7 @@
         "status": "gap",
         "owner_issue": 7828,
         "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "owner_issue_rationale": null,
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/llm/PERFORMANCE_EXPECTATIONS.md",
@@ -6259,6 +6267,7 @@
         "status": "gap",
         "owner_issue": 7828,
         "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "owner_issue_rationale": null,
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/llm_streaming/ROADMAP.md",
@@ -6353,6 +6362,7 @@
         "status": "gap",
         "owner_issue": 7828,
         "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "owner_issue_rationale": null,
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/llm_wiki/PERFORMANCE_EXPECTATIONS.md",
@@ -7212,6 +7222,7 @@
         "status": "gap",
         "owner_issue": 7534,
         "owner_issue_scope": "module workload/evidence follow-up",
+        "owner_issue_rationale": "Issue #7534 requires measurable performance gates backed by reproducible evidence.",
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/performance/PERFORMANCE_EXPECTATIONS.md",
@@ -7765,6 +7776,7 @@
         "status": "gap",
         "owner_issue": 7828,
         "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "owner_issue_rationale": null,
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/process/PERFORMANCE_EXPECTATIONS.md",
@@ -7922,6 +7934,7 @@
         "status": "gap",
         "owner_issue": 7538,
         "owner_issue_scope": "module workload/evidence follow-up",
+        "owner_issue_rationale": "Issue #7538 requires reproducible artifacts for performance or quality metrics cited by module docs.",
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/prompt_engineering/PERFORMANCE_EXPECTATIONS.md",
@@ -8292,6 +8305,7 @@
         "status": "gap",
         "owner_issue": 7488,
         "owner_issue_scope": "module workload/evidence follow-up",
+        "owner_issue_rationale": "Issue #7488 requires LIMIT 10 latency and peak-memory results at 100K and 10M rows.",
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/query/PERFORMANCE_EXPECTATIONS.md",
@@ -8747,6 +8761,7 @@
         "status": "gap",
         "owner_issue": 7828,
         "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "owner_issue_rationale": null,
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/replication/PERFORMANCE_EXPECTATIONS.md",
@@ -9116,6 +9131,7 @@
         "status": "gap",
         "owner_issue": 7541,
         "owner_issue_scope": "module workload/evidence follow-up",
+        "owner_issue_rationale": "Issue #7541 requires benchmark setup, exit status, and result artifacts for latency/capacity claims.",
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/scheduler/PERFORMANCE_EXPECTATIONS.md",
@@ -9589,6 +9605,7 @@
         "status": "gap",
         "owner_issue": 7828,
         "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "owner_issue_rationale": null,
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/search/PERFORMANCE_EXPECTATIONS.md",
@@ -9957,6 +9974,7 @@
         "status": "gap",
         "owner_issue": 7828,
         "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "owner_issue_rationale": null,
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/security/PERFORMANCE_EXPECTATIONS.md",
@@ -10377,6 +10395,7 @@
         "status": "gap",
         "owner_issue": 7828,
         "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "owner_issue_rationale": null,
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/server/PERFORMANCE_EXPECTATIONS.md",
@@ -10653,6 +10672,7 @@
         "status": "gap",
         "owner_issue": 7810,
         "owner_issue_scope": "module workload/evidence follow-up",
+        "owner_issue_rationale": "Issue #7810 requires representative-hardware p95/p99 and throughput evidence for the Wave A lanes.",
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/sharding/PERFORMANCE_EXPECTATIONS.md",
@@ -11188,6 +11208,7 @@
         "status": "gap",
         "owner_issue": 7828,
         "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "owner_issue_rationale": null,
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/storage/PERFORMANCE_EXPECTATIONS.md",
@@ -11603,6 +11624,7 @@
         "status": "gap",
         "owner_issue": 7828,
         "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "owner_issue_rationale": null,
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/tensor/PERFORMANCE_EXPECTATIONS.md",
@@ -11870,6 +11892,7 @@
         "status": "gap",
         "owner_issue": 7549,
         "owner_issue_scope": "module workload/evidence follow-up",
+        "owner_issue_rationale": "Issue #7549 requires a reproducible baseline and artifact for performance claims.",
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/timeseries/PERFORMANCE_EXPECTATIONS.md",
@@ -12336,6 +12359,7 @@
         "status": "gap",
         "owner_issue": 7810,
         "owner_issue_scope": "module workload/evidence follow-up",
+        "owner_issue_rationale": "Issue #7810 requires representative-hardware p95/p99 and throughput evidence for the Wave A lanes.",
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/transaction/PERFORMANCE_EXPECTATIONS.md",
@@ -12769,6 +12793,7 @@
         "status": "gap",
         "owner_issue": 7828,
         "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "owner_issue_rationale": null,
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/user_storage_encrypted/PERFORMANCE_EXPECTATIONS.md",
@@ -13273,8 +13298,9 @@
       },
       "claim_inventory_review": {
         "status": "gap",
-        "owner_issue": 7558,
-        "owner_issue_scope": "module workload/evidence follow-up",
+        "owner_issue": 7828,
+        "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "owner_issue_rationale": null,
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": [
           "src/whisper/PERFORMANCE_EXPECTATIONS.md",
