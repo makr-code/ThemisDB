@@ -8,6 +8,7 @@ import json
 import os
 import subprocess
 import sys
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -23,6 +24,19 @@ HISTORICAL_SCAN_ROOT = "docs/ARCHIVED/ai-working-history/"
 ROOT_BENCHMARK_FILES = {
     "bench_access_coordinator_gates.exe.json",
     "bench_access_coordinator_gates.json",
+}
+TRANSIENT_OUTPUT_FILES = {
+    "archive/moved_files.txt",
+    "archive/compile_commands.json",
+    "ai_working/gs3_scan_current.json",
+    "ai_working/gs3_scan_current.md",
+    "include/tensor/tensor_error_handling.h.pch",
+    "artifacts/embedded_llm_stub.i",
+    "docs/reports/search_vcpkg_pin.txt",
+    "docs/reports/temp_sym.txt",
+    "docs/ARCHIVED/ai-working-history/logs/root_cleanup/ninja_build_themis_graph.txt",
+    "gh/gh_2.87.2_windows_amd64.msi",
+    "tools/bin/actionlint",
 }
 
 
@@ -126,8 +140,41 @@ def check_added_files(
 
 def _tree_ref(root: Path, ref: str) -> str:
     if ref != "INDEX":
-        return ref
+        return _git(root, "rev-parse", f"{ref}^{{tree}}").stdout.decode().strip()
     return _git(root, "write-tree").stdout.decode().strip()
+
+
+def _tree_without_paths(root: Path, tree_ref: str, excluded_paths: set[str]) -> str:
+    if not excluded_paths:
+        return tree_ref
+
+    with tempfile.TemporaryDirectory(prefix="repo-artifact-inventory-") as temp_dir:
+        index_path = Path(temp_dir) / "index"
+        env = os.environ.copy()
+        env["GIT_INDEX_FILE"] = str(index_path)
+        subprocess.run(
+            ["git", "-C", str(root), "read-tree", tree_ref],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            env=env,
+        )
+        for path in sorted(excluded_paths):
+            subprocess.run(
+                ["git", "-C", str(root), "update-index", "--force-remove", "--", path],
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                env=env,
+            )
+        result = subprocess.run(
+            ["git", "-C", str(root), "write-tree"],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            env=env,
+        )
+        return result.stdout.decode().strip()
 
 
 def _tree_entries(root: Path, ref: str) -> dict[str, int]:
@@ -173,13 +220,22 @@ def _classify(path: str) -> dict[str, str]:
                 "artifacts (30-day retention)."
             ),
         }
+    if path.startswith("benchmarks/benchmark_results/"):
+        return {
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "proposed_disposition": (
+                "Retain currently linked historical results; publish new runs as 30-day CI artifacts "
+                "and migrate old links only when durable replacements exist."
+            ),
+        }
     if path == "archive/moved_files.txt":
         return {
             "classification": "generated file-move report",
             "owner": "Repository hygiene maintainers",
             "proposed_disposition": "Remove; no active consumer reference was found.",
         }
-    if path == "ai_working/gs3_scan_current.json":
+    if path in {"ai_working/gs3_scan_current.json", "ai_working/gs3_scan_current.md"}:
         return {
             "classification": "generated GS3 scan result",
             "owner": "GS3/quality maintainers",
@@ -187,6 +243,12 @@ def _classify(path: str) -> dict[str, str]:
                 "Remove the stale working-tree copy; fresh scans are uploaded by "
                 "maintenance-issues.yml with 30-day retention."
             ),
+        }
+    if path == "archive/compile_commands.json":
+        return {
+            "classification": "generated CMake compilation database",
+            "owner": "Build maintainers",
+            "proposed_disposition": "Remove; regenerate in the local build directory with CMAKE_EXPORT_COMPILE_COMMANDS.",
         }
     if path.endswith(".pch"):
         return {
@@ -205,6 +267,18 @@ def _classify(path: str) -> dict[str, str]:
             "classification": "generated search report",
             "owner": "Dependency maintenance",
             "proposed_disposition": "Remove; regenerate the local search report when needed.",
+        }
+    if path == "docs/reports/temp_sym.txt":
+        return {
+            "classification": "temporary generated symbol dump",
+            "owner": "Developer tooling maintainers",
+            "proposed_disposition": "Remove; regenerate locally when needed.",
+        }
+    if path == "docs/ARCHIVED/ai-working-history/logs/root_cleanup/ninja_build_themis_graph.txt":
+        return {
+            "classification": "generated build log",
+            "owner": "Build maintainers",
+            "proposed_disposition": "Remove the raw build log; retain curated historical summaries only.",
         }
     if path.endswith(".msi"):
         return {
@@ -231,7 +305,7 @@ def _classify(path: str) -> dict[str, str]:
     }
 
 
-def _generated_groups(entries: dict[str, int]) -> list[dict[str, Any]]:
+def _generated_groups(entries: dict[str, int], tree_ref: str) -> list[dict[str, Any]]:
     group_specs = (
         (
             "doxygen_outputs",
@@ -240,6 +314,8 @@ def _generated_groups(entries: dict[str, int]) -> list[dict[str, Any]]:
             and Path(path).suffix.lower() != ".md",
             "Developer documentation maintainers",
             "Generate in CI and publish module-doxygen-xml artifacts with 21-day retention.",
+            "ai_context/developer_llm_wiki/module_doxygen_artifacts{,_batches}/** (excluding Markdown)",
+            False,
         ),
         (
             "archived_scan_reports",
@@ -248,6 +324,8 @@ def _generated_groups(entries: dict[str, int]) -> list[dict[str, Any]]:
             and Path(path).suffix.lower() in {".json", ".xml"},
             "AI working-history maintainers",
             "Remove raw generated reports from the active tree; preserve Git history without rewriting it.",
+            "docs/ARCHIVED/ai-working-history/**/*.{json,xml}",
+            True,
         ),
         (
             "root_benchmark_outputs",
@@ -255,25 +333,55 @@ def _generated_groups(entries: dict[str, int]) -> list[dict[str, Any]]:
             lambda path: path in ROOT_BENCHMARK_FILES,
             "Benchmark maintainers",
             "Publish fresh benchmark runs through existing CI artifacts with 30-day retention.",
+            "bench_access_coordinator_gates{.exe}.json",
+            True,
+        ),
+        (
+            "referenced_historical_benchmark_results",
+            "referenced historical benchmark result",
+            lambda path: path.startswith("benchmarks/benchmark_results/"),
+            "Benchmark maintainers",
+            "Retain existing linked results; future runs use 30-day CI artifacts.",
+            "benchmarks/benchmark_results/**",
+            True,
+        ),
+        (
+            "transient_build_and_scan_outputs",
+            "generated build, scan, and developer-tool outputs",
+            lambda path: path in TRANSIENT_OUTPUT_FILES,
+            "Build, GS3/quality, and developer-tool maintainers (per-file owner below)",
+            "Remove from source; regenerate locally or publish current scan outputs through CI artifacts.",
+            "Exact paths recorded in tools/ci/repo_artifact_policy.py",
+            True,
         ),
     )
 
     groups: list[dict[str, Any]] = []
-    for group_id, classification, matches, owner, disposition in group_specs:
+    for group_id, classification, matches, owner, disposition, path_pattern, include_files in group_specs:
         files = [(path, size) for path, size in entries.items() if matches(path)]
         if not files:
             continue
-        groups.append(
-            {
-                "id": group_id,
-                "classification": classification,
-                "owner": owner,
-                "proposed_disposition": disposition,
-                "file_count": len(files),
-                "blob_bytes": sum(size for _, size in files),
-                "sample_paths": sorted(path for path, _ in files)[:5],
-            }
-        )
+        group = {
+            "id": group_id,
+            "classification": classification,
+            "owner": owner,
+            "proposed_disposition": disposition,
+            "path_pattern": path_pattern,
+            "file_count": len(files),
+            "blob_bytes": sum(size for _, size in files),
+            "sample_paths": sorted(path for path, _ in files)[:5],
+        }
+        if include_files:
+            group["files"] = [
+                {
+                    "path": path,
+                    "blob_bytes": size,
+                    "tree_ref": tree_ref,
+                    **_classify(path),
+                }
+                for path, size in sorted(files)
+            ]
+        groups.append(group)
     return groups
 
 
@@ -284,8 +392,9 @@ def _git_directory_bytes(root: Path) -> int:
     return sum(path.stat().st_size for path in git_dir.rglob("*") if path.is_file())
 
 
-def _snapshot(root: Path, ref: str) -> dict[str, Any]:
+def _snapshot(root: Path, ref: str, excluded_paths: set[str] | None = None) -> dict[str, Any]:
     tree_ref = _tree_ref(root, ref)
+    tree_ref = _tree_without_paths(root, tree_ref, excluded_paths or set())
     entries = _tree_entries(root, tree_ref)
     oversized = []
     for path, size in sorted(entries.items()):
@@ -295,6 +404,7 @@ def _snapshot(root: Path, ref: str) -> dict[str, Any]:
             {
                 "path": path,
                 "blob_bytes": size,
+                "tree_ref": tree_ref,
                 **_classify(path),
             }
         )
@@ -304,14 +414,21 @@ def _snapshot(root: Path, ref: str) -> dict[str, Any]:
         "tracked_blob_bytes": sum(entries.values()),
         "files_over_5_mib": len(oversized),
         "oversized_files": oversized,
-        "generated_output_groups": _generated_groups(entries),
+        "generated_output_groups": _generated_groups(entries, tree_ref),
     }
 
 
 def write_inventory(root: Path, before_ref: str, after_ref: str, output: Path) -> int:
+    output_path = output if output.is_absolute() else root / output
+    try:
+        excluded_output_path = output_path.resolve().relative_to(root.resolve()).as_posix()
+    except ValueError:
+        excluded_output_path = None
+    excluded_paths = {excluded_output_path} if excluded_output_path else set()
+
     try:
         before = _snapshot(root, before_ref)
-        after = _snapshot(root, after_ref)
+        after = _snapshot(root, after_ref, excluded_paths)
         baseline_sha = _git(root, "rev-parse", before_ref).stdout.decode().strip()
         head_sha = _git(root, "rev-parse", "HEAD").stdout.decode().strip()
     except subprocess.CalledProcessError as exc:
@@ -349,22 +466,23 @@ def write_inventory(root: Path, before_ref: str, after_ref: str, output: Path) -
         "baseline_commit_sha": baseline_sha,
         "head_commit_sha_at_capture": head_sha,
         "after_tree_ref": after["tree"],
+        "excluded_output_path": excluded_output_path,
         "git_directory_bytes_at_capture": _git_directory_bytes(root),
         "reproduction": (
             "python3 tools/ci/repo_artifact_policy.py inventory "
             "--before-ref HEAD --after-ref INDEX --output <path>"
         ),
         "inventory_note": (
-            "The after tree is measured from the staged index before this inventory is written, "
-            "so this JSON report itself is excluded from after-tree counts and bytes. Git history "
-            "is not rewritten; deleting files from the current tree does not remove historical blobs."
+            "The after tree is measured from the staged index with the output path excluded from "
+            "counts and bytes. This keeps reruns stable when the inventory file is already tracked. "
+            "Git history is not rewritten; deleting files from the current tree does not remove historical blobs."
         ),
         "historical_examples": historical_examples,
         "before": before,
         "after": after,
     }
-    output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(
         f"Inventory written to {output}: {before['tracked_entries']} -> "
         f"{after['tracked_entries']} tracked entries; "

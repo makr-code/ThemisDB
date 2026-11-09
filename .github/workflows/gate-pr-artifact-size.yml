@@ -36,3 +36,52 @@ jobs:
 
       - name: Test large-file policy
         run: python3 -m unittest tools.tests.test_repo_artifact_policy
+
+      - name: Write run summary
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          {
+            echo "## PR Artifact Size"
+            echo ""
+            echo "- Result: ${JOB_STATUS}"
+            echo "- Policy: newly added Git blobs must be at most 5 MiB unless exact-path allowlisted."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  gate-feedback:
+    name: "Gate: Artifact Size Feedback"
+    needs: [artifact-size]
+    if: failure() && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Label and explain failed gate
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v9.0.0
+        with:
+          script: |
+            const issueNumber = context.payload.pull_request?.number;
+            if (!issueNumber) {
+              core.warning('No pull request number is available for gate feedback.');
+              return;
+            }
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            try {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                labels: ['ci/failure'],
+              });
+            } catch (error) {
+              core.warning(`Unable to apply ci/failure label: ${error.message}`);
+            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: `The PR artifact-size gate failed. Newly added files over 5 MiB require an exact-path reviewed exception. See the [workflow run](${runUrl}).`,
+            });

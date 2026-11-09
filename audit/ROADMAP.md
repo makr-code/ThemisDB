@@ -563,10 +563,12 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
 
 ### WS10 – Repo-Hygiene
 
-- [ ] **P1 · HYG-01 – Generierte Artefakte aus dem VCS** (Target: M1 · 2027-01-31)
-  - Generiertes Doxygen-XML und Dateien > 5 MB (u. a. `docs/ARCHIVED/ai-working-history/scan_tests.json`,
-    `archive/moved_files.txt`, Root-Bench-JSONs) nicht mehr tracken; Ablage als Release-/CI-Artefakt; `.gitignore`.
-  - PR-Gate: neue Dateien > 5 MB werden abgelehnt (Allowlist für Testfixtures).
+- [x] **P1 · HYG-01 – Generierte Artefakte aus dem VCS** (Target: M1 · 2027-01-31)
+  - Current inventory, classifications, owners, dispositions, and before/after evidence:
+    [HYG-01 inventory](evidence/repo-hygiene/HYG-01-inventory-2026-11-09.md).
+  - Generated Doxygen and confirmed transient outputs were removed without rewriting history;
+    new raw benchmark and scan outputs are ignored and published through retained CI artifacts.
+  - The PR-wide 5 MiB gate and exact-path fixture allowlist are implemented and covered by focused tests.
   - Keine History-Umschreibung ohne gesonderten Human-Entscheid.
 
 ### WS11 – Evidence & GA-Gates
@@ -626,7 +628,7 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
 - [ ] LLM-Lasttest mit 2× Kapazität ohne OOM (AI-07, AI-09) (Target: 2027-04-30)
 - [ ] Helm-HA-Profil, NetworkPolicy, ServiceMonitor/Alerts (OPS-09, OPS-08, OPS-16) (Target: 2027-03-31)
 - [ ] Base-Image-Digest-Pins (OPS-11), Plugin-Signer-Pinning (SEC-02), SAML-CSPRNG (SEC-09) (Target: 2027-02-28)
-- [ ] Repo-Hygiene und Dateigrößen-Gate (HYG-01) (Target: 2027-01-31)
+- [x] Repo-Hygiene und Dateigrößen-Gate (HYG-01) (Target: 2027-01-31)
 - [ ] Externer Pentest-Retest (Target: 2027-05-31)
 
 ### Phase 6 – Dokumentation & Abnahme (2027-03-01 – 2027-06-30)

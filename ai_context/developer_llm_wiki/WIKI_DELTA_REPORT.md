@@ -19,13 +19,13 @@ Status: Active
 
 ## Summary
 
-- Added: 0
+- Added: 1
 - Removed: 0
-- Changed: 17
+- Changed: 5
 
 ## Added
 
-- none
+- .github/workflows/gate-pr-artifact-size.yml
 
 ## Removed
 
@@ -33,20 +33,8 @@ Status: Active
 
 ## Changed
 
-- docs/code_maturity_report.md
-- docs/de/security/security_hsm.md
-- docs/governance/GA_PROMOTION_SIGN_OFF.md
-- docs/operability/PHASE2A_DISTRIBUTED_TRACING_VERIFICATION.md
-- docs/operability/PHASE2B_METRICS_COLLECTION_VERIFICATION.md
-- docs/operability/PHASE2C_EXPORTER_RELIABILITY_VERIFICATION.md
-- docs/operability/PHASE4_SOAK_TEST_RESULTS.md
-- docs/operability/WAVE_D_ACCEPTANCE_CHECKLIST.md
-- docs/operability/WAVE_D_ROADMAP.md
-- docs/operability/WAVE_D_SIGN_OFF.md
-- docs/production/README.md
-- docs/production/RUNBOOKS/FAILOVER_RUNBOOK.md
-- docs/production/RUNBOOKS/RESTORE_RUNBOOK.md
-- include/security/encryption.h
-- include/security/hsm_provider.h
-- include/security/hsm_security_metrics.h
-- include/security/timestamp_authority.h
+- .github/workflows/maintenance-soll-ist-gap-issues.yml
+- ai_context/developer_llm_wiki/TEMPORAL.md
+- docs/governance/SRC_MODULE_DOCUMENTATION_COMPLIANCE_2026-09-20.md
+- scripts/check_module_direct_doxygen.py
+- scripts/sync_soll_ist_gaps.py

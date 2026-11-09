@@ -61,6 +61,50 @@ class RepoArtifactPolicyTests(unittest.TestCase):
             check=False,
         )
 
+    def test_inventory_records_revision_and_blob_sizes(self) -> None:
+        output = self.repo / "artifact-inventory.json"
+        command = [
+                sys.executable,
+                str(POLICY_SCRIPT),
+                "inventory",
+                "--repo-root",
+                str(self.repo),
+                "--before-ref",
+                self.base_ref,
+                "--after-ref",
+                "INDEX",
+                "--output",
+                str(output),
+            ]
+        result = subprocess.run(
+            command,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        report = json.loads(output.read_text(encoding="utf-8"))
+        self.assertEqual(report["baseline_commit_sha"], self.base_ref)
+        self.assertEqual(report["before"]["tracked_entries"], 1)
+        self.assertEqual(report["before"]["tracked_blob_bytes"], len(b"baseline\n"))
+        self.assertEqual(report["after"]["tracked_blob_bytes"], len(b"baseline\n"))
+        self.assertEqual(report["threshold"]["bytes"], MAX_FILE_BYTES)
+        self.assertEqual(report["excluded_output_path"], "artifact-inventory.json")
+
+        self._git("add", "artifact-inventory.json")
+        repeated_result = subprocess.run(
+            command,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(repeated_result.returncode, 0, repeated_result.stderr)
+        repeated = json.loads(output.read_text(encoding="utf-8"))
+        self.assertEqual(repeated["after_tree_ref"], report["after_tree_ref"])
+        self.assertEqual(repeated["after"]["tracked_entries"], 1)
+        self.assertEqual(repeated["after"]["tracked_blob_bytes"], len(b"baseline\n"))
+
     def _commit_file(self, path: str, size: int) -> None:
         file_path = self.repo / path
         file_path.parent.mkdir(parents=True, exist_ok=True)

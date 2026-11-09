@@ -17,12 +17,6 @@ Human_Author: "ThemisDB Team"
 Datum: 2026-11-09
 Status: Active
 
-## Docker Python autoreconf prerequisite gate
-
-The [release consumer](../../.github/workflows/release-docker-image.yml) and [platform workflow](../../.github/workflows/reusable-docker-image-platform.yml) enforce `test_base_installs_python_autoreconf_prerequisites` even with the source-preflight override enabled. The current [Dockerfile](../../docker/Dockerfile.unified) already installs `autoconf-archive`; older selected source revisions can still fail while building vcpkg's Python dependency. Use a new release tag containing the fix, or a fresh `build_from_workflow_source=true` dry run; re-running an old workflow does not update its source. See the [operational guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting) for the failed-job evidence.
-
-AI-assisted update; exact model backend not verifiable from final document text alone.
-
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
 - Hash: `59518d7978eca388`
@@ -141,6 +135,11 @@ AI-assisted update; exact model backend not verifiable from final document text 
 ## .github/workflows/gate-distributed-knowledge.yml
 - Kategorie: build_test_ci
 - Hash: `718cedef92c2320a`
+- Titel: (binary or unreadable)
+
+## .github/workflows/gate-pr-artifact-size.yml
+- Kategorie: build_test_ci
+- Hash: `9fbb81a4b77620ce`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-benchmark-ctest.yml
@@ -310,7 +309,7 @@ AI-assisted update; exact model backend not verifiable from final document text 
 
 ## .github/workflows/maintenance-soll-ist-gap-issues.yml
 - Kategorie: build_test_ci
-- Hash: `82ad329604e11db4`
+- Hash: `8168a229bd2575e0`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-workflow-guardrails-observe.yml
@@ -416,9 +415,4 @@ AI-assisted update; exact model backend not verifiable from final document text 
 ## .github/workflows/release-wordpress-press.yml
 - Kategorie: build_test_ci
 - Hash: `641b3d6490580dca`
-- Titel: (binary or unreadable)
-
-## .github/workflows/reusable-benchmark-build-run-report.yml
-- Kategorie: build_test_ci
-- Hash: `fb6c9e997f8c0092`
 - Titel: (binary or unreadable)

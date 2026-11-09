@@ -538,7 +538,24 @@ a.out
 
 # CI-generated benchmark results (never commit raw run data)
 benchmark_results/
+/benchmarks/benchmark_results/
 *.gch
+*.pch
+/bench_access_coordinator_gates*.json
+/ai_working/gs3_scan_current.json
+/ai_working/gs3_scan_current.md
+/archive/moved_files.txt
+/archive/compile_commands.json
+/artifacts/embedded_llm_stub.i
+/docs/reports/search_vcpkg_pin.txt
+/docs/reports/temp_sym.txt
+/docs/ARCHIVED/ai-working-history/**/*.json
+/docs/ARCHIVED/ai-working-history/**/*.xml
+/docs/ARCHIVED/ai-working-history/logs/root_cleanup/ninja_build_themis_graph.txt
+/gh/*.msi
+/tools/bin/actionlint
+/ai_context/developer_llm_wiki/module_doxygen_artifacts/**/xml/
+/ai_context/developer_llm_wiki/module_doxygen_artifacts_batches/**/xml/
 
 # Temporary alternative build directories created during testing/CI
 build2/

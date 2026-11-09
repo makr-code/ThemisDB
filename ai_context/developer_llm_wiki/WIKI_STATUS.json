@@ -1,36 +1,26 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-09T16:14:41+00:00",
+  "generated_at": "2026-11-09T18:14:09+00:00",
   "mode": "incremental",
-  "source_count": 8070,
-  "source_hash": "56bd12cbddb3ee3ee4c6dc368720d38b72f6b0f0395c51b1306f6c4521609939",
+  "source_count": 8071,
+  "source_hash": "86a4ab354058df1776475cf783356038025a0220584f8eeaf07a099843305f07",
   "delta": {
-    "added_count": 0,
+    "added_count": 1,
     "removed_count": 0,
-    "changed_count": 17,
-    "added_preview": [],
+    "changed_count": 5,
+    "added_preview": [
+      ".github/workflows/gate-pr-artifact-size.yml"
+    ],
     "removed_preview": [],
     "changed_preview": [
-      "docs/code_maturity_report.md",
-      "docs/de/security/security_hsm.md",
-      "docs/governance/GA_PROMOTION_SIGN_OFF.md",
-      "docs/operability/PHASE2A_DISTRIBUTED_TRACING_VERIFICATION.md",
-      "docs/operability/PHASE2B_METRICS_COLLECTION_VERIFICATION.md",
-      "docs/operability/PHASE2C_EXPORTER_RELIABILITY_VERIFICATION.md",
-      "docs/operability/PHASE4_SOAK_TEST_RESULTS.md",
-      "docs/operability/WAVE_D_ACCEPTANCE_CHECKLIST.md",
-      "docs/operability/WAVE_D_ROADMAP.md",
-      "docs/operability/WAVE_D_SIGN_OFF.md",
-      "docs/production/README.md",
-      "docs/production/RUNBOOKS/FAILOVER_RUNBOOK.md",
-      "docs/production/RUNBOOKS/RESTORE_RUNBOOK.md",
-      "include/security/encryption.h",
-      "include/security/hsm_provider.h",
-      "include/security/hsm_security_metrics.h",
-      "include/security/timestamp_authority.h"
+      ".github/workflows/maintenance-soll-ist-gap-issues.yml",
+      "ai_context/developer_llm_wiki/TEMPORAL.md",
+      "docs/governance/SRC_MODULE_DOCUMENTATION_COMPLIANCE_2026-09-20.md",
+      "scripts/check_module_direct_doxygen.py",
+      "scripts/sync_soll_ist_gaps.py"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "3b3de3a9856d0465a5c3745f651af42514d8ce32cf9742892e8252bd33be6c33"
+  "manifest_sha256": "5e68d54a972a853fd17e321c92e79ac1a259c5e6c36953b4d10a43d202ddb2b8"
 }

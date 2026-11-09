@@ -155,18 +155,6 @@
       "sha256_prefix": "0a5e2a5a5641d28b",
       "size_bytes": "13820",
       "type": "report"
-    },
-    {
-      "name": "gs3_scan_current.json",
-      "sha256_prefix": "19fdac91fe7903da",
-      "size_bytes": "23722655",
-      "type": "json"
-    },
-    {
-      "name": "gs3_scan_current.md",
-      "sha256_prefix": "d984e1f9e6776ce4",
-      "size_bytes": "3194469",
-      "type": "report"
     }
   ],
   "analysis": {

@@ -235,6 +235,13 @@ Diese Dateien sollen die menschlich lesbaren Governance-Regeln und CI-Policies e
 - Jeder Workflow muss minimale `permissions` setzen und darf keine impliziten Default-Rechte nutzen.
 - Reaktivierungen oder neue Workflow-Dateien muessen den `Workflow Boundary Guard` passieren, bevor sie aktiv bleiben duerfen.
 
+## Repository artifact-size policy
+- `gate-pr-artifact-size.yml` runs on every pull request because any path may introduce an oversized tracked file; a path filter would create a bypass.
+- Added Git blobs strictly larger than 5 MiB (5,242,880 bytes) fail. Existing files are not retroactively rejected, and Git history is not rewritten.
+- Exceptions require a reviewed exact repository-relative path and a non-empty rationale in `tools/ci/large_file_allowlist.json`; globs and directory-wide entries are rejected. Keep the allowlist empty unless an intentional fixture is approved.
+- Generate Doxygen XML, scan reports, and benchmark run outputs in temporary/build locations and publish them as workflow artifacts. Current retention is workflow-specific: Doxygen XML 21 days, GS3 scan output 30 days, benchmark results 30 days, and Soll-Ist issue reports 14 days. The producing workflow and artifact name are recorded in `audit/evidence/repo-hygiene/HYG-01-inventory-2026-11-09.md`.
+- The reproducible inventory command is `python3 tools/ci/repo_artifact_policy.py inventory`; it records Git blob sizes and the measured Git-directory footprint. Current tree deletion does not prune historical Git blobs.
+
 ## Reaktivierungs-Checkliste
 - Der fachliche Nutzen ist branch-gate-relevant, release-relevant oder compliance-pflichtig.
 - Die Logik passt nicht sinnvoll als Job in einen bestehenden aktiven Workflow.

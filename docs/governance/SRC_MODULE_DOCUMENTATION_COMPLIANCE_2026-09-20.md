@@ -2,8 +2,15 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
+Last Updated: 2026-11-09
 Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+
+Exact model backend not verifiable from final document text alone.
 
 ## Scope
 - Scope: src/*/*.md (nur direkte Modul-Docs, keine tieferen Unterordner)
@@ -123,7 +130,7 @@ Status: active
 	- Falls der Graph lokal nicht vorhanden ist, wird fuer den Abgleich auf direkte Doxygen-Marker im Quelltext (`/**`, `///`) als Fallback gewechselt.
 - Doxygen-Evidenz:
 	- `ai_context/developer_llm_wiki/MODULE_DOXYGEN_BASELINE.json`
-	- `ai_context/developer_llm_wiki/module_doxygen_artifacts_batches/<batch>/<module>/xml/index.xml`
+	- CI artifact `module-doxygen-xml-<run>` from `.github/workflows/gate-pr-module-doxygen-xml.yml` (21-day retention)
 	- `src/<module>/DOXYGEN.md`
 - Abgleichswerkzeuge:
 	- `scripts/generate_module_doxygen_xml.py` (Erzeugung)

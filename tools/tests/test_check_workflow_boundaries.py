@@ -104,6 +104,41 @@ jobs:
     assert any("too broad" in violation for violation in violations)
 
 
+def test_repository_artifact_size_gate_may_run_without_path_filter():
+    workflow = Path(".github/workflows/gate-pr-artifact-size.yml")
+
+    violations = guard.validate_workflow_file(workflow)
+
+    assert not any("must define paths" in violation for violation in violations)
+
+
+def test_other_pull_request_workflows_still_require_path_filters(tmp_path: Path):
+    workflow = tmp_path / ".github" / "workflows" / "unfiltered.yml"
+    _write_workflow(
+        workflow,
+        """
+name: Unfiltered workflow
+on:
+  pull_request:
+    branches: [develop]
+permissions:
+  contents: read
+concurrency:
+  group: unfiltered-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ok
+""",
+    )
+
+    violations = guard.validate_workflow_file(workflow)
+
+    assert any("must define paths" in violation for violation in violations)
+
+
 def test_pull_request_concurrency_group_must_not_use_run_id(tmp_path: Path):
     workflow = tmp_path / ".github" / "workflows" / "guard.yml"
     _write_workflow(
