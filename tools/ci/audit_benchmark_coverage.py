@@ -821,7 +821,7 @@ def generate_module_matrix(
     ctest_entry_count = sum(len(target.ctest_entries) for target in targets.values())
     target_count = sum(1 for target in targets.values() if target.source_file)
     return {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "source_snapshot": {
             "revision": revision,
@@ -831,7 +831,7 @@ def generate_module_matrix(
         },
         "tooling": {
             "audit_tool": "tools/ci/audit_benchmark_coverage.py",
-            "audit_tool_version": "2",
+            "audit_tool_version": "3",
             "python_version": platform.python_version(),
             "git_version": (
                 subprocess.run(

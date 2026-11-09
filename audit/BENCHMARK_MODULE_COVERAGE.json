@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.0.0",
-  "generated_at": "2026-11-09T17:20:21+00:00",
+  "schema_version": "1.1.0",
+  "generated_at": "2026-11-09T18:15:58+00:00",
   "source_snapshot": {
     "revision": "c21f7bba0cb44d58e5ad49f64781a76703b3ee56",
     "branch": "develop",
@@ -9,7 +9,7 @@
   },
   "tooling": {
     "audit_tool": "tools/ci/audit_benchmark_coverage.py",
-    "audit_tool_version": "2",
+    "audit_tool_version": "3",
     "python_version": "3.12.3",
     "git_version": "git version 2.56.0",
     "cmake_version": "not invoked by this static inventory",
@@ -474,6 +474,27 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
       },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7828,
+        "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/acceleration/PERFORMANCE_EXPECTATIONS.md",
+          "src/acceleration/ROADMAP.md",
+          "src/acceleration/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [],
+        "benchmark_source_candidates": [
+          "benchmarks/acceleration/bench_acceleration_cuda_gates.cpp",
+          "benchmarks/acceleration/bench_acceleration_dedicated_gates.cpp",
+          "benchmarks/acceleration/bench_acceleration_dispatch.cpp",
+          "benchmarks/acceleration/bench_category_b_gpu_cpu_parity.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
+      },
       "claim_ids": [],
       "status": "blocked"
     },
@@ -522,6 +543,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -570,6 +592,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -588,6 +611,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "gap"
     },
@@ -897,6 +921,124 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
       },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7500,
+        "owner_issue_scope": "module workload/evidence follow-up",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/analytics/PERFORMANCE_EXPECTATIONS.md",
+          "src/analytics/ROADMAP.md",
+          "src/analytics/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [
+          {
+            "target_id": "AN-1",
+            "label": "Streaming Aggregation Memory",
+            "benchmark_file": "bench_olap_performance.cpp",
+            "primary_case": "BM_OLAP_Count",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "AN-10",
+            "label": "ARM NEON Aggregation",
+            "benchmark_file": "bench_arm_simd.cpp",
+            "primary_case": "BM_ARM_DotProduct_NEON",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "AN-2",
+            "label": "IVM Delta-Application",
+            "benchmark_file": "bench_update_pipeline.cpp",
+            "primary_case": "BM_UpdateStateMachine_Transition",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "AN-3",
+            "label": "Parquet Export 1M Rows",
+            "benchmark_file": "bench_parquet_export.cpp",
+            "primary_case": "BM_ParquetExport_1M",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "AN-4",
+            "label": "CSV Export 1M Rows",
+            "benchmark_file": "bench_csv_export.cpp",
+            "primary_case": "BM_CsvExport_1M",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "AN-5",
+            "label": "CEPEngine::stop()",
+            "benchmark_file": "bench_update_pipeline.cpp",
+            "primary_case": "BM_UpdateStateMachine_RollbackPath",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "AN-7",
+            "label": "IsolationForest Training",
+            "benchmark_file": "bench_olap_performance.cpp",
+            "primary_case": "BM_OLAP_GroupBy_SingleDim",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "AN-8",
+            "label": "predictBatch()",
+            "benchmark_file": "bench_olap_performance.cpp",
+            "primary_case": "BM_OLAP_GroupBy_TwoDim",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "AN-9",
+            "label": "Auto-Tune Grid",
+            "benchmark_file": "bench_olap_performance.cpp",
+            "primary_case": "BM_OLAP_ComplexQuery",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          }
+        ],
+        "benchmark_source_candidates": [
+          "benchmarks/analytics/bench_analytics_critical_paths_focused.cpp",
+          "benchmarks/analytics/bench_analytics_dedicated_gates.cpp",
+          "benchmarks/analytics/bench_analytics_distributed_coordinator.cpp",
+          "benchmarks/analytics/bench_analytics_gap_closure.cpp",
+          "benchmarks/analytics/bench_analytics_operability_paths.cpp",
+          "benchmarks/analytics/bench_analytics_release_gates.cpp",
+          "benchmarks/analytics/bench_diff_engine.cpp",
+          "benchmarks/analytics/bench_olap_analytics.cpp",
+          "benchmarks/analytics/bench_olap_performance.cpp",
+          "benchmarks/analytics/bench_streaming_window.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
+      },
       "claim_ids": [],
       "status": "blocked"
     },
@@ -974,6 +1116,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -1225,6 +1368,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -1273,6 +1417,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -1785,6 +1930,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -1862,6 +2008,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -1968,6 +2115,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -2074,6 +2222,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -2151,6 +2300,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -2257,6 +2407,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -2392,6 +2543,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -2440,6 +2592,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -2546,6 +2699,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -2593,6 +2747,24 @@
         ],
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
+      },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7828,
+        "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/distributed_tensor/PERFORMANCE_EXPECTATIONS.md",
+          "src/distributed_tensor/ROADMAP.md",
+          "src/distributed_tensor/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [],
+        "benchmark_source_candidates": [
+          "benchmarks/distributed_tensor/bench_distributed_tensor_dedicated_gates.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
       },
       "claim_ids": [],
       "status": "blocked"
@@ -2729,6 +2901,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -2806,6 +2979,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -2854,6 +3028,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -2902,6 +3077,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -3066,6 +3242,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -3172,6 +3349,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -3394,6 +3572,121 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
       },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7828,
+        "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/geo/PERFORMANCE_EXPECTATIONS.md",
+          "src/geo/ROADMAP.md",
+          "src/geo/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [
+          {
+            "target_id": "GEO-1",
+            "label": "Haversine Distance Throughput (100K Paare) >= 20 M/s",
+            "benchmark_file": "bench_hybrid_vector_geo.cpp",
+            "primary_case": "BM_GeoDistance_Haversine",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "GEO-2",
+            "label": "Point-in-Polygon Throughput (100K Punkte) >= 30 M/s",
+            "benchmark_file": "bench_spatial_index.cpp",
+            "primary_case": "BM_RTree_Contains",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "GEO-3",
+            "label": "intersects-Query P99 (1M Punkte) <= 5 ms (R-Tree)",
+            "benchmark_file": "bench_spatial_index.cpp",
+            "primary_case": "BM_RTree_Intersects",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "GEO-4",
+            "label": "R-Tree Bulk-Load (1M Geometrien) <= 3 s",
+            "benchmark_file": "bench_spatial_index.cpp",
+            "primary_case": "BM_RTree_BulkLoad",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "GEO-5",
+            "label": "Buffer 10K Punkte @ 500 m <= 200 ms/Core",
+            "benchmark_file": "bench_geo_cpu_gpu.cpp",
+            "primary_case": "BM_GeoCPUExact_StBuffer",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "GEO-6",
+            "label": "Spatial JOIN (2x100K Punkte, 1 km) erste 1K Ergebnisse <= 500 ms",
+            "benchmark_file": "bench_spatial_join.cpp",
+            "primary_case": "BM_SpatialJoin_First1000",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "GEO-7",
+            "label": "GeoJSON Parse (100K MultiPolygon) <= 2 s",
+            "benchmark_file": "bench_geojson_parse.cpp",
+            "primary_case": "BM_GeoJSONParse_MultiPolygon_100k",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "GEO-8",
+            "label": "GPU Contains (1M Punkte, A10G) <= 50 ms",
+            "benchmark_file": "bench_geo_cpu_gpu.cpp",
+            "primary_case": "BM_GeoGPU_BatchIntersects",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "GEO-9",
+            "label": "DBSCAN GPU Speedup (100K Punkte) > 100x vs. CPU",
+            "benchmark_file": "bench_geo_dbscan.cpp",
+            "primary_case": "BM_GeoDBSCAN_GPU",
+            "fallback_file": "bench_geo_dbscan.cpp",
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          }
+        ],
+        "benchmark_source_candidates": [
+          "benchmarks/geo/bench_geo_cpu_gpu.cpp",
+          "benchmarks/geo/bench_geo_cuda_kernel_gating.cpp",
+          "benchmarks/geo/bench_geo_dbscan.cpp",
+          "benchmarks/geo/bench_geo_release_gates.cpp",
+          "benchmarks/geo/bench_geojson_parse.cpp",
+          "benchmarks/geo/bench_spatial_index.cpp",
+          "benchmarks/geo/bench_spatial_join.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
+      },
       "claim_ids": [],
       "status": "blocked"
     },
@@ -3529,6 +3822,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -4328,6 +4622,50 @@
           "gpu-capability-fallback"
         ]
       },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7492,
+        "owner_issue_scope": "module workload/evidence follow-up",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/gpu/PERFORMANCE_EXPECTATIONS.md",
+          "src/gpu/ROADMAP.md",
+          "src/gpu/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [],
+        "benchmark_source_candidates": [
+          "benchmarks/gpu/bench_active_vram_allocator.cpp",
+          "benchmarks/gpu/bench_backend_comparison.cpp",
+          "benchmarks/gpu/bench_cuda_vs_cpu.cpp",
+          "benchmarks/gpu/bench_data_transfer.cpp",
+          "benchmarks/gpu/bench_fused_kernels.cpp",
+          "benchmarks/gpu/bench_fused_lora_kernels.cpp",
+          "benchmarks/gpu/bench_gpu_a8_baselines.cpp",
+          "benchmarks/gpu/bench_gpu_backends.cpp",
+          "benchmarks/gpu/bench_gpu_cpu_breakeven_category_a.cpp",
+          "benchmarks/gpu/bench_gpu_cpu_breakeven_category_b.cpp",
+          "benchmarks/gpu/bench_gpu_dedicated_gates.cpp",
+          "benchmarks/gpu/bench_gpu_erasure.cpp",
+          "benchmarks/gpu/bench_gpu_hardware_capability.cpp",
+          "benchmarks/gpu/bench_gpu_module.cpp",
+          "benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp",
+          "benchmarks/gpu/bench_gpu_phase_c_gates.cpp",
+          "benchmarks/gpu/bench_gpu_training_cycle.cpp",
+          "benchmarks/gpu/bench_gpu_vector_index.cpp",
+          "benchmarks/gpu/bench_gpu_vram_allocation.cpp",
+          "benchmarks/gpu/bench_lora_gpu.cpp",
+          "benchmarks/gpu/bench_mixed_precision_perf.cpp",
+          "benchmarks/gpu/bench_multi_gpu_lora_advanced.cpp",
+          "benchmarks/gpu/bench_multi_gpu_scaling.cpp",
+          "benchmarks/gpu/bench_qlora_gpu_kernels.cpp",
+          "benchmarks/gpu/bench_tensor_cpu_gpu_dispatch.cpp",
+          "benchmarks/gpu/bench_vulkan_lora.cpp",
+          "benchmarks/gpu/kernel_block_size_bench.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
+      },
       "claim_ids": [
         "wave-a-representative-hardware",
         "gpu-capability-fallback"
@@ -4524,6 +4862,120 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
       },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7828,
+        "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/graph/PERFORMANCE_EXPECTATIONS.md",
+          "src/graph/ROADMAP.md",
+          "src/graph/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [
+          {
+            "target_id": "GR-BFS",
+            "label": "Graph BFS Traversal (Depth-3)",
+            "benchmark_file": "bench_graph_traversal.cpp",
+            "primary_case": "GraphTraversalBenchmarkFixture_BFSTraversal",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "GR-DenseNeighbor",
+            "label": "Dense Graph Neighbor Query",
+            "benchmark_file": "bench_graph_traversal.cpp",
+            "primary_case": "GraphTraversalBenchmarkFixture_DenseNeighborQuery",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "GR-SparseEdge",
+            "label": "Sparse Graph Edge Addition",
+            "benchmark_file": "bench_graph_traversal.cpp",
+            "primary_case": "GraphTraversalBenchmarkFixture_SparseEdgeAddition",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TDM-1",
+            "label": "TensorDeduplication Snapshot/Restore Integritaet",
+            "benchmark_file": "bench_tensor_deduplication_manager.cpp",
+            "primary_case": "BM_TDM_SnapshotRestoreRoundTrip",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TDM-2",
+            "label": "TensorDeduplication Journal-Replay/Kompaktion",
+            "benchmark_file": "bench_tensor_deduplication_manager.cpp",
+            "primary_case": "BM_TDM_JournalReplayThroughput",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TFG-1",
+            "label": "TFG Insert-Latenz",
+            "benchmark_file": "bench_tensor_fingerprint_graph.cpp",
+            "primary_case": "BM_TFG_Insert_SingleNode",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TFG-2",
+            "label": "TFG Similarity Query",
+            "benchmark_file": "bench_tensor_fingerprint_graph.cpp",
+            "primary_case": "BM_TFG_FindSimilar",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TFG-3",
+            "label": "TFG Neighbour Lookup",
+            "benchmark_file": "bench_tensor_fingerprint_graph.cpp",
+            "primary_case": "BM_TFG_Neighbours",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TFG-4",
+            "label": "TFG Persisted Export",
+            "benchmark_file": "bench_tensor_fingerprint_graph.cpp",
+            "primary_case": "BM_TFG_ExportPersistedGraph",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          }
+        ],
+        "benchmark_source_candidates": [
+          "benchmarks/graph/bench_gnn_embeddings.cpp",
+          "benchmarks/graph/bench_graph_dedicated_gates.cpp",
+          "benchmarks/graph/bench_graph_query_optimizer.cpp",
+          "benchmarks/graph/bench_graph_release_gates.cpp",
+          "benchmarks/graph/bench_graph_traversal.cpp",
+          "benchmarks/graph/bench_pagerank.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
+      },
       "claim_ids": [],
       "status": "blocked"
     },
@@ -4630,6 +5082,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -4707,6 +5160,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -4755,6 +5209,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -4919,6 +5374,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -4966,6 +5422,24 @@
         ],
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
+      },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7828,
+        "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/llama_cpp/PERFORMANCE_EXPECTATIONS.md",
+          "src/llama_cpp/ROADMAP.md",
+          "src/llama_cpp/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [],
+        "benchmark_source_candidates": [
+          "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
       },
       "claim_ids": [],
       "status": "blocked"
@@ -5593,6 +6067,125 @@
           "llm-1024-concurrency-claim"
         ]
       },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7828,
+        "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/llm/PERFORMANCE_EXPECTATIONS.md",
+          "src/llm/ROADMAP.md",
+          "src/llm/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [
+          {
+            "target_id": "L-1",
+            "label": "Time-to-First-Token (512-Token, A10G)",
+            "benchmark_file": "bench_llm_real_models.cpp",
+            "primary_case": "RealLLMBench_RealModel_TextGeneration_50Tokens",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "L-2",
+            "label": "Streaming Overhead",
+            "benchmark_file": "bench_llm_real_models.cpp",
+            "primary_case": "RealLLMBench_RealModel_TextEmbedding_Generation",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "L-3",
+            "label": "LoRA Adapter Hot-Load (7B, Rank 64)",
+            "benchmark_file": "bench_lora_framework.cpp",
+            "primary_case": "BM_Storage_LoadMetadata",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "L-4",
+            "label": "Adapter Serialisierung",
+            "benchmark_file": "bench_lora_framework.cpp",
+            "primary_case": "BM_Storage_SaveAdapter_64KB",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "L-5",
+            "label": "Work-Stealing Dispatch P99",
+            "benchmark_file": "bench_lora_framework.cpp",
+            "primary_case": "BM_Orchestrator_HealthCheck",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "L-6",
+            "label": "Speculative Decoding Overhead",
+            "benchmark_file": "bench_llm_real_models.cpp",
+            "primary_case": "RealLLMBench_RealModel_ContextScaling",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "L-7",
+            "label": "GPU Utilization (Mixed Workloads)",
+            "benchmark_file": "bench_llm_real_models.cpp",
+            "primary_case": "RealLLMBench_RealModel_BatchEmbedding_100Docs",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "L-8",
+            "label": "Speculative Decoding Throughput",
+            "benchmark_file": "bench_llm_real_models.cpp",
+            "primary_case": "RealLLMBench_RealModel_ContextScaling",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          }
+        ],
+        "benchmark_source_candidates": [
+          "benchmarks/llm/bench_embedded_llm.cpp",
+          "benchmarks/llm/bench_extended_context.cpp",
+          "benchmarks/llm/bench_flash_attention.cpp",
+          "benchmarks/llm/bench_legal_lora_pipeline.cpp",
+          "benchmarks/llm/bench_llm_hotpaths.cpp",
+          "benchmarks/llm/bench_llm_inference_performance.cpp",
+          "benchmarks/llm/bench_llm_infrastructure.cpp",
+          "benchmarks/llm/bench_llm_judge_integration.cpp",
+          "benchmarks/llm/bench_llm_raid_pipeline.cpp",
+          "benchmarks/llm/bench_llm_real_models.cpp",
+          "benchmarks/llm/bench_llm_response_cache.cpp",
+          "benchmarks/llm/bench_lora_auto_binding.cpp",
+          "benchmarks/llm/bench_lora_framework.cpp",
+          "benchmarks/llm/bench_lora_inline.cpp",
+          "benchmarks/llm/bench_lora_training.cpp",
+          "benchmarks/llm/bench_multi_lora_fusion.cpp",
+          "benchmarks/llm/bench_multitask_lora_training.cpp",
+          "benchmarks/llm/bench_phase1_flash_attention.cpp",
+          "benchmarks/llm/bench_raid_lora.cpp",
+          "benchmarks/llm/bench_rotary_embeddings.cpp",
+          "benchmarks/llm/llm_bench.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
+      },
       "claim_ids": [
         "llm-1024-concurrency-claim"
       ],
@@ -5613,6 +6206,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "gap"
     },
@@ -5660,6 +6254,23 @@
         ],
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
+      },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7828,
+        "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/llm_streaming/ROADMAP.md",
+          "src/llm_streaming/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [],
+        "benchmark_source_candidates": [
+          "benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
       },
       "claim_ids": [],
       "status": "blocked"
@@ -5737,6 +6348,25 @@
         ],
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
+      },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7828,
+        "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/llm_wiki/PERFORMANCE_EXPECTATIONS.md",
+          "src/llm_wiki/ROADMAP.md",
+          "src/llm_wiki/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [],
+        "benchmark_source_candidates": [
+          "benchmarks/llm_wiki/bench_llm_wiki_dedicated_gates.cpp",
+          "benchmarks/llm_wiki/bench_wikipedia_throughput.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
       },
       "claim_ids": [],
       "status": "blocked"
@@ -6047,6 +6677,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -6153,6 +6784,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -6259,6 +6891,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -6423,6 +7056,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -6500,6 +7134,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -6572,6 +7207,25 @@
         "claim_ids": [
           "performance-regression-gates"
         ]
+      },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7534,
+        "owner_issue_scope": "module workload/evidence follow-up",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/performance/PERFORMANCE_EXPECTATIONS.md",
+          "src/performance/ROADMAP.md",
+          "src/performance/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [],
+        "benchmark_source_candidates": [
+          "benchmarks/performance/bench_performance_release_gates.cpp",
+          "benchmarks/performance/bench_random_access_prefetch.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
       },
       "claim_ids": [
         "performance-regression-gates"
@@ -6681,6 +7335,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -7106,6 +7761,37 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
       },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7828,
+        "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/process/PERFORMANCE_EXPECTATIONS.md",
+          "src/process/ROADMAP.md",
+          "src/process/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [],
+        "benchmark_source_candidates": [
+          "benchmarks/process/bench_cross_functional_end_to_end.cpp",
+          "benchmarks/process/bench_process_advanced_workflows.cpp",
+          "benchmarks/process/bench_process_concurrency_gates.cpp",
+          "benchmarks/process/bench_process_dedicated_gates.cpp",
+          "benchmarks/process/bench_process_determinism_gates.cpp",
+          "benchmarks/process/bench_process_diagnostics_overhead.cpp",
+          "benchmarks/process/bench_process_import_retrieval.cpp",
+          "benchmarks/process/bench_process_linker_gates.cpp",
+          "benchmarks/process/bench_process_mining.cpp",
+          "benchmarks/process/bench_process_parser_gates.cpp",
+          "benchmarks/process/bench_process_release_gates.cpp",
+          "benchmarks/process/bench_process_retrieval.cpp",
+          "benchmarks/process/bench_process_retriever_gates.cpp",
+          "benchmarks/process/bench_video_processor.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
+      },
       "claim_ids": [],
       "status": "blocked"
     },
@@ -7154,6 +7840,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -7230,6 +7917,96 @@
         ],
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
+      },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7538,
+        "owner_issue_scope": "module workload/evidence follow-up",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/prompt_engineering/PERFORMANCE_EXPECTATIONS.md",
+          "src/prompt_engineering/ROADMAP.md",
+          "src/prompt_engineering/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [
+          {
+            "target_id": "PE-1",
+            "label": "Prompt Construction P99",
+            "benchmark_file": "bench_prompt_engineering.cpp",
+            "primary_case": "BM_PromptManager_InjectContext",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "PE-2",
+            "label": "Template Compilation (4 KB)",
+            "benchmark_file": "bench_prompt_engineering.cpp",
+            "primary_case": "BM_PromptManager_CreateTemplate",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "PE-3",
+            "label": "Compiled Template Render P99 (2 KB)",
+            "benchmark_file": "bench_prompt_engineering.cpp",
+            "primary_case": "BM_PromptManager_GetTemplate_Hit",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "PE-4",
+            "label": "CoT Tracing Overhead/Step",
+            "benchmark_file": "bench_prompt_engineering.cpp",
+            "primary_case": "BM_PromptManager_ValidateTemplate_Valid",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "PE-5",
+            "label": "Full 3-Iteration Reflection (kein LLM)",
+            "benchmark_file": "bench_prompt_engineering.cpp",
+            "primary_case": "BM_PromptManager_GetTemplate_Miss",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "PE-6",
+            "label": "render() Latenz (String \u2192 Compiled)",
+            "benchmark_file": "bench_prompt_engineering.cpp",
+            "primary_case": "BM_PromptManager_GetTemplate_Hit",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "PE-7",
+            "label": "End-to-End RAG Assembly",
+            "benchmark_file": "bench_prompt_engineering.cpp",
+            "primary_case": "BM_PromptManager_InjectContext",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          }
+        ],
+        "benchmark_source_candidates": [
+          "benchmarks/prompt_engineering/bench_prompt_engineering.cpp",
+          "benchmarks/prompt_engineering/bench_rewrite_engine.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
       },
       "claim_ids": [],
       "status": "blocked"
@@ -7511,6 +8288,103 @@
           "query-limit-scale"
         ]
       },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7488,
+        "owner_issue_scope": "module workload/evidence follow-up",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/query/PERFORMANCE_EXPECTATIONS.md",
+          "src/query/ROADMAP.md",
+          "src/query/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [
+          {
+            "target_id": "CQ-PERF-01",
+            "label": "Continuous Query Throughput (\u2265 500 k tuples/s)",
+            "benchmark_file": "bench_continuous_query.cpp",
+            "primary_case": "BM_ContinuousQuery_Throughput",
+            "fallback_file": null,
+            "fallback_case": "BM_ContinuousQuery_TupleLatency",
+            "declared_target": "\u2265 500 000 tuples/s; p99 per-tuple latency \u2264 5 ms",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "CQ-PERF-02",
+            "label": "Continuous Query Empty-Window Tick Overhead (\u2264 1 \u00b5s)",
+            "benchmark_file": "bench_continuous_query.cpp",
+            "primary_case": "BM_ContinuousQuery_WindowTick",
+            "fallback_file": null,
+            "fallback_case": "BM_ContinuousQuery_WindowTick_1k",
+            "declared_target": "\u2264 1 \u00b5s per empty-window tick",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "Q-ComplexWhere",
+            "label": "Complex WHERE P99",
+            "benchmark_file": "bench_query.cpp",
+            "primary_case": "BM_ComplexWhere",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "Q-JoinUsersPosts",
+            "label": "JOIN (Users-Posts) P99",
+            "benchmark_file": "bench_query.cpp",
+            "primary_case": "BM_JoinUsersPosts",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "Q-Pagination-Cursor",
+            "label": "Pagination Cursor P99",
+            "benchmark_file": "bench_query.cpp",
+            "primary_case": "BM_Pagination_Cursor",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "Q-Pagination-Offset",
+            "label": "Pagination Offset P99",
+            "benchmark_file": "bench_query.cpp",
+            "primary_case": "BM_Pagination_Offset",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "Q-SimpleWhere",
+            "label": "Simple AQL WHERE P99",
+            "benchmark_file": "bench_query.cpp",
+            "primary_case": "BM_SimpleWhere",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          }
+        ],
+        "benchmark_source_candidates": [
+          "benchmarks/query/bench_adaptive_query_cache.cpp",
+          "benchmarks/query/bench_adaptive_query_compilation.cpp",
+          "benchmarks/query/bench_continuous_query.cpp",
+          "benchmarks/query/bench_geospatial_phase2.cpp",
+          "benchmarks/query/bench_phase4_performance.cpp",
+          "benchmarks/query/bench_query.cpp",
+          "benchmarks/query/bench_query_dedicated_gates.cpp",
+          "benchmarks/query/bench_query_lazy_eval.cpp",
+          "benchmarks/query/bench_query_limit_scaling.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
+      },
       "claim_ids": [
         "query-limit-scale"
       ],
@@ -7708,6 +8582,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -7868,6 +8743,109 @@
           "wave-a-representative-hardware"
         ]
       },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7828,
+        "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/replication/PERFORMANCE_EXPECTATIONS.md",
+          "src/replication/ROADMAP.md",
+          "src/replication/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [
+          {
+            "target_id": "R-1",
+            "label": "Replikations-Lag P99 (SEMI_SYNC)",
+            "benchmark_file": "bench_changefeed_throughput.cpp",
+            "primary_case": "BM_ReplicationLag",
+            "fallback_file": "bench_replication_throughput.cpp",
+            "fallback_case": "WalBenchFixture_Append",
+            "declared_target": "\u2264 50 ms @ 10k Writes/s (LAN)",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "R-2",
+            "label": "WAL-Shipping Throughput (Zstd L3)",
+            "benchmark_file": "bench_replication_throughput.cpp",
+            "primary_case": "WalBenchFixture_ReadFrom",
+            "fallback_file": null,
+            "fallback_case": "WalBenchFixture_Append",
+            "declared_target": "\u2265 500 MB/s/Follower (10 GbE)",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "R-3",
+            "label": "Leader-Failover",
+            "benchmark_file": "bench_replication_throughput.cpp",
+            "primary_case": "BM_ReplicationManager_PromoteToLeader",
+            "fallback_file": null,
+            "fallback_case": "BM_ReplicationManager_Initialize",
+            "declared_target": "\u2264 10 s",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "R-4",
+            "label": "HLC Conflict Detection",
+            "benchmark_file": "bench_replication_throughput.cpp",
+            "primary_case": "BM_HLCConflictDetection",
+            "fallback_file": null,
+            "fallback_case": "BM_WALEntry_Serialize",
+            "declared_target": "< 5 \u00b5s/Write",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "R-5",
+            "label": "CRDT Merge",
+            "benchmark_file": "bench_replication_throughput.cpp",
+            "primary_case": "BM_CRDTMerge",
+            "fallback_file": null,
+            "fallback_case": "BM_WALEntry_Deserialize",
+            "declared_target": "\u2264 1 \u00b5s/Merge",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "R-6",
+            "label": "WAL Replay (PITR, 100 GB)",
+            "benchmark_file": "bench_replication_throughput.cpp",
+            "primary_case": "WalBenchFixture_ReadFrom",
+            "fallback_file": null,
+            "fallback_case": "WalBenchFixture_Append",
+            "declared_target": "\u2265 200 MB/s; \u2264 10 min",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "R-7",
+            "label": "CDC Event P99",
+            "benchmark_file": "bench_changefeed_throughput.cpp",
+            "primary_case": "ChangefeedBenchmarkFixture_EventRecordingThroughput",
+            "fallback_file": null,
+            "fallback_case": "BM_RecordEventLatency",
+            "declared_target": "\u2264 1 ms (Commit \u2192 CDC Queue)",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "R-8",
+            "label": "Cross-DC Lag ASYNC",
+            "benchmark_file": "bench_changefeed_throughput.cpp",
+            "primary_case": "BM_ReplicationLagWAN",
+            "fallback_file": null,
+            "fallback_case": "BM_ReplicationLag",
+            "declared_target": "\u2264 200 ms P99 (50 ms RTT WAN)",
+            "mapping_status": "mapped"
+          }
+        ],
+        "benchmark_source_candidates": [
+          "benchmarks/replication/bench_geo_placement_wal_shipping.cpp",
+          "benchmarks/replication/bench_replication_dedicated_gates.cpp",
+          "benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp",
+          "benchmarks/replication/bench_replication_release_gates.cpp",
+          "benchmarks/replication/bench_replication_throughput.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
+      },
       "claim_ids": [
         "wave-a-representative-hardware"
       ],
@@ -7918,6 +8896,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -7995,6 +8974,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -8132,6 +9112,88 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
       },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7541,
+        "owner_issue_scope": "module workload/evidence follow-up",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/scheduler/PERFORMANCE_EXPECTATIONS.md",
+          "src/scheduler/ROADMAP.md",
+          "src/scheduler/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [
+          {
+            "target_id": "SCH-1",
+            "label": "Scheduler Loop Tick P99",
+            "benchmark_file": "bench_task_scheduler.cpp",
+            "primary_case": "TaskSchedulerBenchFixture_ListTasks",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SCH-2",
+            "label": "Task Dispatch P99",
+            "benchmark_file": "bench_task_scheduler.cpp",
+            "primary_case": "TaskSchedulerBenchFixture_ExecuteTaskNow",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SCH-3",
+            "label": "Cron next_execution",
+            "benchmark_file": "bench_task_scheduler.cpp",
+            "primary_case": "TaskSchedulerBenchFixture_GetStats",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SCH-4",
+            "label": "Leader Election Konvergenz",
+            "benchmark_file": "bench_task_scheduler.cpp",
+            "primary_case": "TaskSchedulerBenchFixture_ConcurrentRegister",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SCH-5",
+            "label": "DAG Topological Sort",
+            "benchmark_file": "bench_task_scheduler.cpp",
+            "primary_case": "TaskSchedulerBenchFixture_RegisterUnregister",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SCH-6",
+            "label": "Throughput",
+            "benchmark_file": "bench_task_scheduler.cpp",
+            "primary_case": "TaskSchedulerBenchFixture_ExecuteTaskNow",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          }
+        ],
+        "benchmark_source_candidates": [
+          "benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp",
+          "benchmarks/scheduler/bench_scheduler_release_gates.cpp",
+          "benchmarks/scheduler/bench_task_scheduler.cpp",
+          "benchmarks/scheduler/bench_thread_pool_saturation.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
+      },
       "claim_ids": [],
       "status": "blocked"
     },
@@ -8209,6 +9271,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -8522,6 +9585,94 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
       },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7828,
+        "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/search/PERFORMANCE_EXPECTATIONS.md",
+          "src/search/ROADMAP.md",
+          "src/search/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [
+          {
+            "target_id": "SE-1",
+            "label": "Hybrid Search P99 (10M-Doc-Index)",
+            "benchmark_file": "bench_rag_hybrid_retriever.cpp",
+            "primary_case": "BM_RRF_Balanced",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SE-2",
+            "label": "SPLADE Index Memory",
+            "benchmark_file": "bench_rag_hybrid_retriever.cpp",
+            "primary_case": "BM_RRF_BM25Only",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SE-3",
+            "label": "Facet Counting (1k distinct, 100k Docs)",
+            "benchmark_file": "bench_rag_hybrid_retriever.cpp",
+            "primary_case": "BM_RRF_VectorOnly",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SE-4",
+            "label": "LTR Re-Ranking (Top-100)",
+            "benchmark_file": "bench_rag_hybrid_retriever.cpp",
+            "primary_case": "BM_Linear_Balanced",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SE-5",
+            "label": "Autocomplete P99 (1M-Term-Dict)",
+            "benchmark_file": "bench_rag_hybrid_retriever.cpp",
+            "primary_case": "BM_ConfigConstruction",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SE-6",
+            "label": "LLM Query Rewriter Timeout",
+            "benchmark_file": "bench_rag_hybrid_retriever.cpp",
+            "primary_case": "BM_RRF_Disjoint",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          }
+        ],
+        "benchmark_source_candidates": [
+          "benchmarks/search/bench_advanced_scenarios.cpp",
+          "benchmarks/search/bench_approximate_radius_search.cpp",
+          "benchmarks/search/bench_distributed_merge_gates.cpp",
+          "benchmarks/search/bench_hybrid_fusion_gates.cpp",
+          "benchmarks/search/bench_layered_retrieval_phase5.cpp",
+          "benchmarks/search/bench_search_dedicated_gates.cpp",
+          "benchmarks/search/bench_search_release_gates.cpp",
+          "benchmarks/search/bench_vector_search_gates.cpp",
+          "benchmarks/search/benchmark_distributed_hybrid_search.cpp",
+          "benchmarks/search/benchmark_hybrid_search.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
+      },
       "claim_ids": [],
       "status": "blocked"
     },
@@ -8801,6 +9952,113 @@
         ],
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
+      },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7828,
+        "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/security/PERFORMANCE_EXPECTATIONS.md",
+          "src/security/ROADMAP.md",
+          "src/security/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [
+          {
+            "target_id": "SEC-1",
+            "label": "AES-256-GCM (AES-NI)",
+            "benchmark_file": "bench_security.cpp",
+            "primary_case": "BM_AES256GCM_Encrypt_1MB",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SEC-2",
+            "label": "RSA-4096 Signaturpr\u00fcfung P99",
+            "benchmark_file": "bench_security.cpp",
+            "primary_case": "BM_RBAC_PermissionCheck_ManyRoles",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SEC-3",
+            "label": "Kyber-1024 Key Encapsulation",
+            "benchmark_file": "bench_security.cpp",
+            "primary_case": "BM_PostQuantum_KyberKeyGen_1024",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SEC-4",
+            "label": "Dilithium-5 Signing",
+            "benchmark_file": "bench_security.cpp",
+            "primary_case": "BM_RBAC_RoleHierarchyValidation",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SEC-5",
+            "label": "TLS 1.3 Handshake P99",
+            "benchmark_file": "bench_security.cpp",
+            "primary_case": "BM_AES256GCM_Encrypt_64KB",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SEC-6",
+            "label": "RBAC Policy Eval (100 Rollen) P99",
+            "benchmark_file": "bench_security.cpp",
+            "primary_case": "BM_RBAC_PermissionCheck_ManyRoles",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SEC-7",
+            "label": "HSM-Backed RSA-2048 Sign P99",
+            "benchmark_file": "bench_security.cpp",
+            "primary_case": "BM_RBAC_PermissionCheck_SingleRole",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SEC-8",
+            "label": "Audit Log Write P99",
+            "benchmark_file": "bench_security.cpp",
+            "primary_case": "BM_FieldEncryption_SmallDocument",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          }
+        ],
+        "benchmark_source_candidates": [
+          "benchmarks/security/bench_audit_export_gates.cpp",
+          "benchmarks/security/bench_compliance_security_governance.cpp",
+          "benchmarks/security/bench_encryption.cpp",
+          "benchmarks/security/bench_hsm_provider.cpp",
+          "benchmarks/security/bench_sbom_verification_gates.cpp",
+          "benchmarks/security/bench_security.cpp",
+          "benchmarks/security/bench_security_phase2_crypto_gates.cpp",
+          "benchmarks/security/bench_security_phase3_policy_gates.cpp",
+          "benchmarks/security/bench_security_release_gates.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
       },
       "claim_ids": [],
       "status": "blocked"
@@ -9115,6 +10373,33 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
       },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7828,
+        "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/server/PERFORMANCE_EXPECTATIONS.md",
+          "src/server/ROADMAP.md",
+          "src/server/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [],
+        "benchmark_source_candidates": [
+          "benchmarks/server/bench_api_endpoints.cpp",
+          "benchmarks/server/bench_auth_token_validation.cpp",
+          "benchmarks/server/bench_postgres_e2e.cpp",
+          "benchmarks/server/bench_postgres_protocol.cpp",
+          "benchmarks/server/bench_postgres_transactions.cpp",
+          "benchmarks/server/bench_server_dedicated_gates.cpp",
+          "benchmarks/server/bench_server_hotpaths.cpp",
+          "benchmarks/server/bench_server_http3_gates.cpp",
+          "benchmarks/server/bench_stream_protocol.cpp",
+          "benchmarks/server/bench_wal_apply_grpc.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
+      },
       "claim_ids": [],
       "status": "blocked"
     },
@@ -9364,6 +10649,152 @@
           "wave-a-representative-hardware"
         ]
       },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7810,
+        "owner_issue_scope": "module workload/evidence follow-up",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/sharding/PERFORMANCE_EXPECTATIONS.md",
+          "src/sharding/ROADMAP.md",
+          "src/sharding/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [
+          {
+            "target_id": "SH-1",
+            "label": "Cross-Shard RPC P99 (LAN)",
+            "benchmark_file": "bench_sharding_performance.cpp",
+            "primary_case": "ScatterGatherFixture_ScatterGatherLatency",
+            "fallback_file": "bench_shard_routing.cpp",
+            "fallback_case": "ShardRoutingFixture_SingleShardLookup",
+            "declared_target": "< 5 ms",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SH-10",
+            "label": "Snapshot Kompressionsrate",
+            "benchmark_file": "bench_sharding_performance.cpp",
+            "primary_case": "RebalancingFixture_SnapshotCompressionRatioZstdL3",
+            "fallback_file": null,
+            "fallback_case": "CrossShardJoinFixture_CoLocatedJoinSimulation",
+            "declared_target": "< 35 % unkomprimiert (ZSTD L3)",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SH-11",
+            "label": "Replica Catch-up",
+            "benchmark_file": "bench_sharding_performance.cpp",
+            "primary_case": "RebalancingFixture_ReplicaCatchupThroughput",
+            "fallback_file": "bench_shard_routing.cpp",
+            "fallback_case": "ShardRoutingFixture_ConsistentHashPerformance",
+            "declared_target": "> 200 MB/s (10 GbE LAN)",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SH-12",
+            "label": "Topology Change Propagation",
+            "benchmark_file": "bench_sharding_performance.cpp",
+            "primary_case": "GossipOverheadFixture_TopologyPropagation100Nodes",
+            "fallback_file": null,
+            "fallback_case": "GossipOverheadFixture_MessageSerialization",
+            "declared_target": "< 500 ms (100 Nodes, Gossip)",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SH-2",
+            "label": "Connection-Pool Hit-Rate",
+            "benchmark_file": "bench_shard_routing.cpp",
+            "primary_case": "BM_ConnectionPoolHitRate",
+            "fallback_file": null,
+            "fallback_case": "ShardRoutingFixture_BatchRouting",
+            "declared_target": "> 95 % @ 10k RPS",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SH-3",
+            "label": "Percolator Commit P99 (10 Shards)",
+            "benchmark_file": "bench_sharding_performance.cpp",
+            "primary_case": "BM_PercolatorCommitLatency",
+            "fallback_file": null,
+            "fallback_case": "CrossShardJoinFixture_CoLocatedJoinSimulation",
+            "declared_target": "< 20 ms",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SH-4",
+            "label": "Shard-Split Migration Downtime",
+            "benchmark_file": "bench_sharding_performance.cpp",
+            "primary_case": "ShardSplitDowntimeFixture_ZeroDowntimeReadAvailability",
+            "fallback_file": null,
+            "fallback_case": "RebalancingFixture_BatchDeserializationThroughput",
+            "declared_target": "0 ms Read-Unavailability",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SH-5",
+            "label": "Write-Latenz w\u00e4hrend Migration",
+            "benchmark_file": "bench_sharding_performance.cpp",
+            "primary_case": "RebalancingFixture_WriteLatencyDuringMigration",
+            "fallback_file": "bench_shard_routing.cpp",
+            "fallback_case": "ShardRoutingFixture_BatchRouting",
+            "declared_target": "< 20 % over Baseline P99",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SH-6",
+            "label": "Rebalancer Decision Cycle",
+            "benchmark_file": "bench_sharding_performance.cpp",
+            "primary_case": "RebalancingFixture_RebalancerDecisionCycle",
+            "fallback_file": null,
+            "fallback_case": "GossipOverheadFixture_VersionVectorMerge",
+            "declared_target": "< 10 s",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SH-7",
+            "label": "Anti-Entropy Scan Throughput",
+            "benchmark_file": "bench_sharding_performance.cpp",
+            "primary_case": "RebalancingFixture_AntiEntropyScanThroughput",
+            "fallback_file": null,
+            "fallback_case": "RebalancingFixture_BatchSerializationThroughput",
+            "declared_target": "> 1 GB/s (NVMe, 8 Worker)",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SH-8",
+            "label": "GPU Reed-Solomon",
+            "benchmark_file": "bench_sharding_performance.cpp",
+            "primary_case": "RebalancingFixture_GpuReedSolomonThroughput",
+            "fallback_file": null,
+            "fallback_case": "RebalancingFixture_AntiEntropyScanThroughput",
+            "declared_target": "> 4 GB/s (NVIDIA A10)",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "SH-9",
+            "label": "Snapshot (1 GB Raft-State)",
+            "benchmark_file": "bench_sharding_performance.cpp",
+            "primary_case": "RebalancingFixture_SnapshotTransfer1GB",
+            "fallback_file": null,
+            "fallback_case": "RebalancingFixture_BatchSerializationThroughput",
+            "declared_target": "< 10 s",
+            "mapping_status": "mapped"
+          }
+        ],
+        "benchmark_source_candidates": [
+          "benchmarks/sharding/bench_distributed_coordinator.cpp",
+          "benchmarks/sharding/bench_gossip_config.cpp",
+          "benchmarks/sharding/bench_locality_aware_router.cpp",
+          "benchmarks/sharding/bench_shard_resource_manager.cpp",
+          "benchmarks/sharding/bench_shard_routing.cpp",
+          "benchmarks/sharding/bench_sharding_dedicated_gates.cpp",
+          "benchmarks/sharding/bench_sharding_performance.cpp",
+          "benchmarks/sharding/bench_sharding_release_gates.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
+      },
       "claim_ids": [
         "wave-a-representative-hardware"
       ],
@@ -9414,6 +10845,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -9752,6 +11184,34 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
       },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7828,
+        "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/storage/PERFORMANCE_EXPECTATIONS.md",
+          "src/storage/ROADMAP.md",
+          "src/storage/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [],
+        "benchmark_source_candidates": [
+          "benchmarks/storage/bench_batch_insert.cpp",
+          "benchmarks/storage/bench_blob_zstd.cpp",
+          "benchmarks/storage/bench_crud.cpp",
+          "benchmarks/storage/bench_insert_profiling.cpp",
+          "benchmarks/storage/bench_mvcc.cpp",
+          "benchmarks/storage/bench_simple_insert_test.cpp",
+          "benchmarks/storage/bench_ssm_phase0_baseline.cpp",
+          "benchmarks/storage/bench_storage_dedicated_gates.cpp",
+          "benchmarks/storage/bench_storage_performance.cpp",
+          "benchmarks/storage/bench_storage_release_gates.cpp",
+          "benchmarks/storage/bench_wal_stress.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
+      },
       "claim_ids": [],
       "status": "blocked"
     },
@@ -9887,6 +11347,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -10138,6 +11599,31 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
       },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7828,
+        "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/tensor/PERFORMANCE_EXPECTATIONS.md",
+          "src/tensor/ROADMAP.md",
+          "src/tensor/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [],
+        "benchmark_source_candidates": [
+          "benchmarks/tensor/bench_tensor_compression_routing.cpp",
+          "benchmarks/tensor/bench_tensor_dedicated_gates.cpp",
+          "benchmarks/tensor/bench_tensor_deduplication_manager.cpp",
+          "benchmarks/tensor/bench_tensor_dynamic_update.cpp",
+          "benchmarks/tensor/bench_tensor_fingerprint.cpp",
+          "benchmarks/tensor/bench_tensor_fingerprint_graph.cpp",
+          "benchmarks/tensor/bench_tensor_integration_baseline.cpp",
+          "benchmarks/tensor/bench_tensor_release_gates.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
+      },
       "claim_ids": [],
       "status": "blocked"
     },
@@ -10244,6 +11730,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -10379,6 +11866,129 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
       },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7549,
+        "owner_issue_scope": "module workload/evidence follow-up",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/timeseries/PERFORMANCE_EXPECTATIONS.md",
+          "src/timeseries/PERFORMANCE_BASELINE.md",
+          "src/timeseries/ROADMAP.md",
+          "src/timeseries/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [
+          {
+            "target_id": "TS-1",
+            "label": "Write Throughput per Node",
+            "benchmark_file": "bench_timeseries_adaptive_flush.cpp",
+            "primary_case": "AdaptiveFlushFixture_SingleThreaded",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TS-10",
+            "label": "Gorilla Insert P99",
+            "benchmark_file": "bench_timeseries_ingestion.cpp",
+            "primary_case": "TimeseriesBenchmarkFixture_BatchIngestion",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TS-11",
+            "label": "AES-256-GCM Throughput",
+            "benchmark_file": "bench_security.cpp",
+            "primary_case": "BM_AES256GCM_Encrypt_1MB",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TS-2",
+            "label": "Gorilla Decode Throughput",
+            "benchmark_file": "bench_gorilla_codec.cpp",
+            "primary_case": "BM_GorillaDecode_Sine",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TS-3",
+            "label": "Range Scan P99 (1M pts)",
+            "benchmark_file": "bench_timeseries_ingestion.cpp",
+            "primary_case": "TimeseriesBenchmarkFixture_TimeRangeQuery",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TS-4",
+            "label": "Continuous Aggregate Refresh",
+            "benchmark_file": "bench_timeseries_adaptive_flush.cpp",
+            "primary_case": "AdaptiveFlushFixture_BatchWatermark",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TS-5",
+            "label": "Write Amplification",
+            "benchmark_file": "bench_timeseries_adaptive_flush.cpp",
+            "primary_case": "AdaptiveFlushFixture_MultiThreaded",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TS-6",
+            "label": "Downsampling Throughput",
+            "benchmark_file": "bench_timeseries_ingestion.cpp",
+            "primary_case": "TimeseriesBenchmarkFixture_RawDataIngestion",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TS-7",
+            "label": "Storage Reduction",
+            "benchmark_file": "bench_gorilla_codec.cpp",
+            "primary_case": "BM_GorillaCompressionRatio",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TS-9",
+            "label": "Buffer-to-Storage Flush P99",
+            "benchmark_file": "bench_timeseries_adaptive_flush.cpp",
+            "primary_case": "AdaptiveFlushFixture_P99Latency",
+            "fallback_file": null,
+            "fallback_case": null,
+            "declared_target": null,
+            "mapping_status": "mapped"
+          }
+        ],
+        "benchmark_source_candidates": [
+          "benchmarks/timeseries/bench_timeseries_adaptive_flush.cpp",
+          "benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp",
+          "benchmarks/timeseries/bench_timeseries_ingestion.cpp",
+          "benchmarks/timeseries/bench_timeseries_release_gates.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
+      },
       "claim_ids": [],
       "status": "blocked"
     },
@@ -10485,6 +12095,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -10585,6 +12196,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "gap"
     },
@@ -10719,6 +12331,108 @@
         "claim_ids": [
           "wave-a-representative-hardware"
         ]
+      },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7810,
+        "owner_issue_scope": "module workload/evidence follow-up",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/transaction/PERFORMANCE_EXPECTATIONS.md",
+          "src/transaction/ROADMAP.md",
+          "src/transaction/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [
+          {
+            "target_id": "TX-1",
+            "label": "OCC Commit P50",
+            "benchmark_file": "bench_transaction_throughput.cpp",
+            "primary_case": "TransactionBenchmarkFixture_CommitLatency",
+            "fallback_file": null,
+            "fallback_case": "TransactionBenchmarkFixture_OccOptimisticPut",
+            "declared_target": "\u2264 100 \u00b5s",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TX-2",
+            "label": "OCC Commit P99",
+            "benchmark_file": "bench_transaction_throughput.cpp",
+            "primary_case": "TransactionBenchmarkFixture_CommitLatency",
+            "fallback_file": null,
+            "fallback_case": "TransactionBenchmarkFixture_OccReadVersionAndUpdate",
+            "declared_target": "\u2264 5 ms",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TX-3",
+            "label": "2PC Throughput",
+            "benchmark_file": "bench_transaction_throughput.cpp",
+            "primary_case": "TransactionBenchmarkFixture_WriteOnlyTransaction",
+            "fallback_file": null,
+            "fallback_case": "BM_TransactionContention",
+            "declared_target": "> 6 k/s",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TX-4",
+            "label": "2PC Latenz (5 Shards)",
+            "benchmark_file": "bench_transaction_throughput.cpp",
+            "primary_case": "TwoPhaseCommitFixture_TwoPhaseCommitLatency",
+            "fallback_file": null,
+            "fallback_case": "TransactionBenchmarkFixture_MixedTransaction",
+            "declared_target": "\u2264 5 ms",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TX-5",
+            "label": "SAGA Compensation Time",
+            "benchmark_file": "bench_saga_compensation.cpp",
+            "primary_case": "SagaBenchmarkFixture_DatabaseWriteCompensation",
+            "fallback_file": null,
+            "fallback_case": "SagaBenchmarkFixture_SimpleCompensation",
+            "declared_target": "\u2264 20 ms",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TX-6",
+            "label": "Deadlock Detection Overhead",
+            "benchmark_file": "bench_transaction_throughput.cpp",
+            "primary_case": "DeadlockDetectionFixture_DeadlockDetectionOverhead_Predict",
+            "fallback_file": null,
+            "fallback_case": "DeadlockDetectionFixture_DeadlockDetectionOverhead_LockOrder",
+            "declared_target": "\u2264 1 % overhead (vs. 5 % baseline)",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TX-7",
+            "label": "False Positive Rate",
+            "benchmark_file": "bench_transaction_throughput.cpp",
+            "primary_case": "TransactionBenchmarkFixture_OccReadVersionAndUpdate",
+            "fallback_file": null,
+            "fallback_case": "TransactionBenchmarkFixture_AbortTransaction",
+            "declared_target": "< 5 %",
+            "mapping_status": "mapped"
+          },
+          {
+            "target_id": "TX-8",
+            "label": "Low-Contention Success Rate",
+            "benchmark_file": "bench_transaction_throughput.cpp",
+            "primary_case": "TransactionBenchmarkFixture_OccOptimisticPut",
+            "fallback_file": null,
+            "fallback_case": "TransactionBenchmarkFixture_ReadOnlyTransaction",
+            "declared_target": "> 90 %",
+            "mapping_status": "mapped"
+          }
+        ],
+        "benchmark_source_candidates": [
+          "benchmarks/transaction/bench_branch_manager.cpp",
+          "benchmarks/transaction/bench_transaction_dedicated_gates.cpp",
+          "benchmarks/transaction/bench_transaction_phase4.cpp",
+          "benchmarks/transaction/bench_transaction_throughput.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
       },
       "claim_ids": [
         "wave-a-representative-hardware"
@@ -10915,6 +12629,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -11050,6 +12765,27 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
       },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7828,
+        "owner_issue_scope": "portfolio claim-triage owner; no workload-specific benchmark issue was verified",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/user_storage_encrypted/PERFORMANCE_EXPECTATIONS.md",
+          "src/user_storage_encrypted/ROADMAP.md",
+          "src/user_storage_encrypted/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [],
+        "benchmark_source_candidates": [
+          "benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp",
+          "benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp",
+          "benchmarks/user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp",
+          "benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
+      },
       "claim_ids": [],
       "status": "blocked"
     },
@@ -11156,6 +12892,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -11206,6 +12943,7 @@
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review applicability and documented performance claims; record a specific rationale before marking this module not applicable."
       },
+      "claim_inventory_review": null,
       "claim_ids": [],
       "status": "blocked"
     },
@@ -11482,6 +13220,7 @@
           "wave-a-representative-hardware"
         ]
       },
+      "claim_inventory_review": null,
       "claim_ids": [
         "wave-a-representative-hardware"
       ],
@@ -11531,6 +13270,24 @@
         ],
         "target": "v2.5.0 M1 by 2027-03-31",
         "follow_up": "Review this module's documented and roadmap performance claims; link each claim to an evidence workload and a named module owner issue, or record a source-backed withdrawal/non-applicability rationale."
+      },
+      "claim_inventory_review": {
+        "status": "gap",
+        "owner_issue": 7558,
+        "owner_issue_scope": "module workload/evidence follow-up",
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": [
+          "src/whisper/PERFORMANCE_EXPECTATIONS.md",
+          "src/whisper/ROADMAP.md",
+          "src/whisper/FUTURE_ENHANCEMENTS.md"
+        ],
+        "target_mapping_source": "benchmarks/benchmark_target_mapping.json",
+        "mapping_completeness": "Declared target mappings are a partial index, not proof that every roadmap or documented claim is inventoried.",
+        "mapped_performance_targets": [],
+        "benchmark_source_candidates": [
+          "benchmarks/whisper/bench_whisper_transcription.cpp"
+        ],
+        "follow_up": "Reconcile every documented and roadmap performance claim with one primary workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, correctness checks, metrics, CI trigger, retained raw result, run URL, and source SHA. Keep this gap open until each claim has a named workload owner and reproducible evidence or a reviewed withdrawal/non-applicability rationale."
       },
       "claim_ids": [],
       "status": "blocked"
