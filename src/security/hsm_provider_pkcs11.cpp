@@ -1446,7 +1446,7 @@ bool HSMProvider::isReady() const {
 std::string HSMProvider::getTokenInfo() const {
     if (!impl_->real_ready &&
         (production_mode_failed_ || productionModeRequiresRealHsm())) {
-      return "PKCS11 not ready (production initialization failed)";
+      return "PKCS11 not ready (real HSM required in production mode)";
     }
     if (!impl_->real_ready) {
       return "PKCS11 fallback stub";
