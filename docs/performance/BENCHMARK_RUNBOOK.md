@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-02-02"
+Last Updated: "2026-11-09"
+Status: "review"
+AI_Used: true
+AI_Models: "GitHub Copilot (exact model backend not recorded)"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # 📊 ThemisDB Benchmark-Dokumentation & Test-Runbook
 
 **Version:** 2.0.0  
@@ -95,7 +109,7 @@ benchmarks/bench_crud.cpp                     # CRUD mit allen Indextypen
 benchmarks/bench_graph_traversal.cpp          # Graph-Algorithmen
 benchmarks/bench_compression.cpp              # Komprimierung
 benchmarks/bench_transaction_throughput.cpp   # ACID Transaktionen
-benchmarks/bench_llm_inference_performance.cpp # LLM Inferenz
+benchmarks/llm/bench_llm_real_models.cpp        # model-backed LLM Inferenz
 benchmarks/bench_lora_inline.cpp              # LoRA Adapter
 benchmarks/bench_sharding_performance.cpp     # Distributed Sharding
 benchmarks/bench_graph_query_optimizer.cpp    # Query Optimization
@@ -556,7 +570,7 @@ perf report --stdio > tx_profile.txt
 **Ziel**: Validierung der LLM-Inferenz und LoRA Adapter Performance.
 
 **Benchmark**: 
-- `benchmarks/bench_llm_inference_performance.cpp`
+- `benchmarks/llm/bench_llm_real_models.cpp` (CMake target: `bench_llm_inference_performance`)
 - `benchmarks/bench_lora_inline.cpp`
 - `benchmarks/bench_lora_auto_binding.cpp`
 
@@ -3377,20 +3391,7 @@ cp Meta-Llama-3-8B-Instruct.Q4_K_M.gguf "${THEMIS_MODEL_DIR}/gguf/"
 | Variable | Default | Beschreibung |
 |----------|---------|--------------|
 | `THEMIS_MODEL_DIR` | `~/.local/share/themis/models` | Basis-Verzeichnis für Modell-Artefakte |
-| `THEMIS_LLM_STUB_MODELS` | `OFF` | `ON` = Stub-Modus (CI); `OFF` = echte Modelle erwarten |
-
----
-
-### CMake-Integration
-
-```cmake
-# CMakeLists.txt – LLM-Stub-Modus für CI aktivieren
-option(THEMIS_LLM_STUB_MODELS "Use minimal stub models for LLM benchmarks (CI mode)" ON)
-
-if(THEMIS_LLM_STUB_MODELS)
-    target_compile_definitions(bench_llm_inference_performance PRIVATE THEMIS_LLM_STUB_MODELS=1)
-endif()
-```
+| `THEMIS_LLM_MODEL_PATH` | nicht gesetzt | Pfad zum Modellartefakt; ohne Modell wird keine Inferenzmessung ausgegeben |
 
 ---
 
@@ -3653,4 +3654,3 @@ done
 **🎉 Ende der Benchmark-Dokumentation**
 
 *Dieses Dokument wird kontinuierlich aktualisiert. Pull Requests willkommen!*
-

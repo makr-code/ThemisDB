@@ -25,24 +25,37 @@ counts. The current inventory maps benchmark-named sources to most `src/`
 directories, but source registration is not evidence that the benchmark calls
 the production path, validates results, or has a current performance baseline.
 
+## Implementation status (2026-11-09)
+
+- `bench_mmdb` now benchmarks persisted RocksDB-backed indexed product reads,
+  category/document joins, one-hop edge lookup, and context assembly through
+  `SecondaryIndexManager`. Each path validates operation status and expected
+  result counts. The benchmark uses a fixed 1K-record fixture and is a
+  component-level measurement; ANN, vector recall, YCSB mixes, 100K/1M profiles,
+  concurrency, and end-to-end server paths remain unimplemented.
+- The `bench_llm_inference_performance` target now builds the model-backed
+  `LLMPluginManager` benchmark source. It checks embedding and generation
+  results. The fabricated-context LoRA and simulated token-generation cases
+  were removed. Request-level TTFT/TPOT percentiles, model hashing/runtime
+  manifests, larger prompt/output/batch/concurrency profiles, and output-quality
+  evaluation remain open.
+- The Process in-process spawn/signal stub target and its CTest registration
+  were removed. Process-model imports and persistence remain covered by their
+  module benchmarks, but retrieval/RAG correctness, concurrency profiles, and
+  any separate real OS-process measurement remain open.
+- `compare_expectations.py` excludes Google Benchmark JSON entries whose label
+  is exactly `synthetic`; a regression test covers this reporting filter.
+  Synthetic fixture data is still permitted when the measured operation calls
+  a production API.
+
 Known examples to remediate:
 
-- `benchmarks/mmdb/bench_mmdb.cpp` labels simplified in-memory map operations,
-  brute-force vector scans, text-encoded embeddings, and a simulated RAG
-  generation phase as multi-model database work.
-- `benchmarks/llm/bench_llm_inference_performance.cpp` contains simulated token
-  generation and synthetic context pointers; those cases must not be reported
-  as model inference. “Reported” here means any published benchmark results
-  surface (e.g., CI benchmark summary output and any benchmark dashboard/release
-  notes), and it is enforced by tagging such cases explicitly as `synthetic`
-  (or an equivalent dedicated benchmark/CTest label) and filtering them out in
-  the result reporter/publisher.
-- Process retrieval benchmarks use local synthetic stores, while the
-  Process-specific expectation comparator currently has no configured
-  expectation rows. Stubbed process-manager cases must not be reported as OS
-  process performance. “Reported” and enforcement are as above: mark these
-  cases `synthetic` (or with a dedicated label) and exclude them from published
-  result summaries/dashboards via the reporter/publisher filter.
+- Existing Process retrieval benchmarks still use local fixtures in some
+  cases; those workloads need source-level validation before being used as
+  production-path evidence.
+- The Process-specific expectation comparator has no configured expectation
+  rows. No Process numeric thresholds are active until mapped cases have
+  verified production paths and reproducible baselines.
 - The stored module coverage matrix is tied to a source revision different
   from the current `develop` HEAD and must be regenerated before it is treated
   as current evidence.
@@ -161,4 +174,3 @@ processes, not as Process module performance.
 - Adding per-module benchmark targets where no meaningful performance claim
   or production workload exists.
 - Making unmeasured performance estimates release-blocking.
-

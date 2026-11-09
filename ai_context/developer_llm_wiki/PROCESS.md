@@ -1,10 +1,10 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-11-01"
-Last Updated: "2026-11-01"
+Last Updated: "2026-11-09"
 Status: "review"
 AI_Used: true
-AI_Models: "unknown"
+AI_Models: "GitHub Copilot (exact model backend not recorded)"
 AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "ThemisDB Team"
@@ -68,17 +68,16 @@ the guarded autofocused registration. Registration is not evidence that a
 target built or passed.
 
 [`benchmarks/process/CMakeLists.txt`](../../benchmarks/process/CMakeLists.txt)
-registers 12 executable targets containing 88 source-level Google Benchmark
+registers 11 executable targets containing 84 source-level Google Benchmark
 macro declarations. These counts do not define performance gates. The
 [expectation comparator](../../benchmarks/compare_expectations.py) reads rows
 from a `## Specific Expectations` section; the Process performance page has no
 such section, so the current comparator discovers zero Process expectation
 targets.
 
-`bench_process_dedicated_gates.cpp` comments list four numeric PM-BM targets.
-They are not wired into the comparator or asserted by the benchmark code; the
-benchmarks use in-process stub manager and signal-bus types, not OS process
-operations. The tracked
+The former `bench_process_dedicated_gates.cpp` used in-process stubs rather
+than OS process operations or Process module APIs; its target was withdrawn,
+and its numeric targets are not active. The tracked
 [mining JSON](../../artifacts/nightly/bench_process_mining.json) is a
 2026-04-15 sample with 22 results, not a current baseline or threshold pass.
 The separate release coverage audit reports 14/14 Process source/CMake/CTest

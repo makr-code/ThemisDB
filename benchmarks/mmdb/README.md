@@ -1,23 +1,30 @@
-> **Build:** `cmake --preset nightly-bench-sweep && cmake --build --preset nightly-bench-sweep`
+---
+Author: "ThemisDB Team"
+Created: "2026-11-09"
+Last Updated: "2026-11-09"
+Status: "review"
+AI_Used: true
+AI_Models: "GitHub Copilot (exact model backend not recorded)"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
 
 # MMDB Benchmarks (`benchmarks/mmdb/`)
 
-Bereichsdokumentation für multimodale/mehrdimensionale Datenbank-Benchmarks.
+This suite measures indexed storage operations over persisted benchmark records.
+Fixture data is deterministic; it is not an external benchmark dataset.
 
 ## Scope
 
-- Workloads mit kombiniertem Query-, Vektor- und Kontextbezug
-- Messung von Latenz, Durchsatz und Ressourcennutzung für multimodale Pfade
-- Referenzrahmen für zusammengesetzte Retrieval-/Analyse-Szenarien
-
-## Layer Mapping (Zielarchitektur)
-
-| Layer | Relevanz | Begründung |
-|---|---|---|
-| ANN Frontdoor | Mittel | Retrieval-/Similarity-Aspekte können Bestandteil sein |
-| Tensor Mid-Layer | Mittel | Tensornahe Verarbeitung kann multimodale Pfade prägen |
-| Graph Truth Layer | Mittel | Struktur-/Beziehungsinformationen ergänzen Auswertung |
-| LLM/LoRA Final Layer | Mittel | Downstream-Generierung profitiert von multimodalem Kontext |
+- `SecondaryIndexManager::scanEntitiesEqual` over RocksDB-backed product,
+  document, and edge tables.
+- Indexed product reads, category/document joins, one-hop graph lookup, and
+  multi-model context assembly.
+- These are component-level measurements, not end-to-end ANN, RAG, or external
+  database comparison results.
 
 ## Installation
 
@@ -28,8 +35,10 @@ cmake --build --preset nightly-bench-sweep
 
 ## Usage
 
-- MMDB-spezifische Benchmarks als Ergänzung zu ANN-, Graph- und LLM-nahen Messungen betrachten
-- Ergebnisse zusammen mit den Root-Benchmarkreports dokumentieren
+The CTest smoke is `bench_mmdb` (registered as module `base`). It seeds one
+thousand records and checks query results before recording each operation.
+Vector ANN and generation workloads are excluded until they can call their
+production APIs and validate quality against ground truth.
 
 ## Bezug
 

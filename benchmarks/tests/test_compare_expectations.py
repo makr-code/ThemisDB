@@ -54,6 +54,23 @@ class BenchmarkResultAggregationTests(unittest.TestCase):
 
         self.assertNotIn("BM_ModelTraining", results)
 
+    def test_synthetic_cases_are_excluded_from_performance_results(self):
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            results_directory = Path(temporary_directory)
+            (results_directory / "mixed.json").write_text(json.dumps({
+                "benchmarks": [
+                    {"name": "BM_Synthetic", "label": "synthetic",
+                     "iterations": 100, "real_time": 1.0, "time_unit": "us"},
+                    {"name": "BM_Production", "label": "component",
+                     "iterations": 100, "real_time": 1.0, "time_unit": "us"},
+                ]
+            }), encoding="utf-8")
+
+            results = _load_all_results(results_directory)
+
+        self.assertNotIn("BM_Synthetic", results)
+        self.assertIn("BM_Production", results)
+
     def test_megascale_ops_per_second_uses_items_per_second(self):
         with tempfile.TemporaryDirectory() as temporary_directory:
             root = Path(temporary_directory)

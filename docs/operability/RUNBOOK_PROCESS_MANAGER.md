@@ -213,4 +213,4 @@ Always escalate — signal handler crashes indicate a code defect.  P1 SLA.
 | Architecture | `src/process/ARCHITECTURE.md` |
 | Wave D soak test | `tests/integration/test_process_manager_soak.cpp` |
 | Stress tests | `tests/process/test_process_highcardinality_stress.cpp` |
-| Benchmark gates | `benchmarks/process/bench_process_dedicated_gates.cpp` |
+| Process-model benchmark | `benchmarks/process/bench_process_import_retrieval.cpp` (not an OS process spawn benchmark) |
