@@ -1,6 +1,6 @@
 # LLM Module Roadmap
 
-<!-- Last Updated: 2026-11-06 -->
+<!-- Last Updated: 2026-11-09 -->
 <!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
 <!-- Exact model backend not verifiable from final document text alone. -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
@@ -233,7 +233,7 @@ This plan is a research-backed proposal, not a release commitment. It separates 
   - [x] **Phase D**: Comprehensive hardening tests SO-01..SO-48 (`tests/llm/test_subagent_orchestration_focused.cpp`)
     - Evidence: Added focused runtime/negative-path coverage for subagent lifecycle and coordinator partial-failure merge behavior (`tests/llm/test_subagent_orchestration_focused.cpp`)
   - [~] **Phase E**: Operational deployment guide + ROADMAP updates (in progress)
-  - [~] Runtime closure: `SubagentImpl::infer()` now executes real plugin inference and fails closed on missing plugin/failed generation instead of returning synthetic mock output (Target: Q4 2026)
+  - [x] Runtime closure: `SubagentImpl::infer()` now executes real plugin inference and fails closed on missing plugin/failed generation instead of returning synthetic mock output (Target: Q4 2026)
 - [~] **MODULE_GAPS.md Closure** (Target: 2026-08-31, Parallel Execution)
   - [~] Phase 1: Critical Structural Fixes (braces, thread-safety, RAII) → 4 parallel sub-agents
     - [~] Braces imbalance in 37 files (Sub-Agent: llm-braces-critical-fixes)

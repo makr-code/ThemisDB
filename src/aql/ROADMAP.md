@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-05-31"
-Last Updated: "2026-11-06"
+Last Updated: "2026-11-09"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -309,7 +309,7 @@ covered by the active waves above.
 
 ## Historical v1.6.0 / Q3 2026 Milestone Record
 
-- [~] **Phase 4: Error Handling and Edge Cases** (Target: Q3 2026) — Blocks 4.1–4.4 COMPLETED
+- [x] **Phase 4: Error Handling and Edge Cases** (Target: Q3 2026) — Blocks 4.1–4.4 COMPLETED
   - [x] Block 4.1: Error Taxonomy Definition (aql_error_types.h, ERROR_RECOVERY_MATRIX.md)
   - [x] Block 4.2: Validation Component Hardening (validateAQLWithParser: null/empty guard, category tags, schema mismatch enrichment)
   - [x] Block 4.3: Translation Pipeline Error Handling (translateNLToAQL: [TRANSLATION:GenerationFailed], [TRANSLATION:ProviderUnavailable] log tags)
