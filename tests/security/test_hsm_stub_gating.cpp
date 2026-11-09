@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "security/hsm_provider.h"
+#include "security/hsm_security_metrics.h"
 #include <cstdlib>
 
 using namespace themis::security;
@@ -84,7 +85,7 @@ protected:
         });
 
         EXPECT_FALSE(hsm.isReady());
-        EXPECT_FALSE(hsm.isStubProvider());
+        EXPECT_TRUE(hsm.isStubProvider());
         EXPECT_NE(hsm.getTokenInfo().find("not ready"), std::string::npos);
         EXPECT_FALSE(hsm.generateKeyPair("test"));
         EXPECT_FALSE(hsm.importCertificate("test", "certificate"));
@@ -94,7 +95,7 @@ protected:
 
         EXPECT_FALSE(hsm.initialize());
         EXPECT_FALSE(hsm.isReady());
-        EXPECT_FALSE(hsm.isStubProvider());
+        EXPECT_TRUE(hsm.isStubProvider());
         EXPECT_NE(hsm.getTokenInfo().find("not ready"), std::string::npos);
         EXPECT_NE(hsm.getLastError().find("production mode"), std::string::npos);
         EXPECT_FALSE(hsm.signHash({1}).success);
@@ -150,7 +151,7 @@ TEST_F(HSMStubGatingTest, FailsInProductionModeWithoutOptIn) {
     
     // Should fail in production mode
     EXPECT_FALSE(hsm.initialize());
-    EXPECT_FALSE(hsm.isStubProvider());
+    EXPECT_TRUE(hsm.isStubProvider());
     EXPECT_FALSE(hsm.isReady());
  #ifndef THEMIS_ENABLE_HSM_REAL
     EXPECT_NE(hsm.getTokenInfo().find("ProductionMode"), std::string::npos);
@@ -159,6 +160,35 @@ TEST_F(HSMStubGatingTest, FailsInProductionModeWithoutOptIn) {
     // Check error message
     std::string error = hsm.getLastError();
     EXPECT_NE(error.find("production mode"), std::string::npos);
+}
+
+TEST_F(HSMStubGatingTest, ProductionModeKeepsStubIdentitySeparateFromAvailability) {
+    setEnv("THEMIS_ALLOW_HSM_STUB", "1");
+
+    HSMConfig config;
+    config.library_path = "/nonexistent/stub.so";
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+    ASSERT_TRUE(hsm.isStubProvider());
+    ASSERT_TRUE(hsm.isReady());
+
+    setEnv("THEMIS_PRODUCTION_MODE", "1");
+    EXPECT_TRUE(hsm.isStubProvider());
+    EXPECT_FALSE(hsm.isReady());
+
+    const auto metrics = HSMSecurityMetrics::exportMetrics(hsm);
+    EXPECT_NE(metrics.find("hsm_security_stub_active 0"), std::string::npos);
+    EXPECT_NE(metrics.find("themis_hsm_insecure_config 1"), std::string::npos);
+    EXPECT_NE(metrics.find("hsm_provider_ready 0"), std::string::npos);
+    EXPECT_NE(metrics.find(
+        "hsm_compliance_status{standard=\"nist_sp_800_53_sc_12\"} 0"),
+        std::string::npos);
+
+    const auto json = HSMSecurityMetrics::exportJSON(hsm);
+    EXPECT_NE(json.find("\"stub_active\": false"), std::string::npos);
+    EXPECT_NE(json.find("\"provider_type\": \"stub\""), std::string::npos);
+    EXPECT_NE(json.find("\"ready\": false"), std::string::npos);
+    EXPECT_NE(json.find("\"nist_sp_800_53_sc_12\": false"), std::string::npos);
 }
 
 TEST_F(HSMStubGatingTest, FailsInProductionModeEvenWithOptIn) {
@@ -172,6 +202,7 @@ TEST_F(HSMStubGatingTest, FailsInProductionModeEvenWithOptIn) {
     
     // Production mode takes precedence - should still fail
     EXPECT_FALSE(hsm.initialize());
+    EXPECT_TRUE(hsm.isStubProvider());
     EXPECT_FALSE(hsm.isReady());
 }
 
@@ -231,7 +262,7 @@ TEST_F(HSMStubGatingTest, ProductionModeRejectsSoftwareFallbackRoutesAfterDevelo
     setEnv("THEMIS_PRODUCTION_MODE", "1");
 
     EXPECT_FALSE(hsm.isReady());
-    EXPECT_FALSE(hsm.isStubProvider());
+    EXPECT_TRUE(hsm.isStubProvider());
     EXPECT_NE(hsm.getTokenInfo().find("ProductionMode"), std::string::npos);
     EXPECT_FALSE(hsm.signHash({1, 2, 3}).success);
     EXPECT_FALSE(hsm.verify({1, 2, 3}, "hex:010203"));

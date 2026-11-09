@@ -1485,9 +1485,7 @@ void HSMProvider::resetStats() {
 }
 
 bool HSMProvider::isStubProvider() const {
-    // False if real HSM is active, true if fallback stub
-    return !impl_->real_ready && !production_mode_failed_ &&
-           !productionModeRequiresRealHsm();
+    return !impl_->real_ready;
 }
 
 /**

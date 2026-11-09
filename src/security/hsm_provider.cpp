@@ -800,7 +800,7 @@ void HSMProvider::resetStats() {
 }
 
 bool HSMProvider::isStubProvider() const {
-    return !production_mode_blocks_software_hsm();
+    return true;
 }
 
 /**

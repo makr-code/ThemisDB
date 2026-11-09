@@ -302,8 +302,10 @@ public:
     void resetStats();
 
     /**
-     * @brief Is Stub Provider.
-     * @return True when the software provider is usable outside ProductionMode.
+     * @brief Reports whether this provider is using the software stub/fallback implementation.
+     * @return True when no operational real HSM is backing this provider, regardless of whether
+     *         policy currently allows fallback operations.
+     * @note Use isReady() separately to determine whether operations are currently available.
      */
     bool isStubProvider() const;
 
