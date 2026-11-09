@@ -164,15 +164,19 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
         )
 
     def test_base_installs_python_autoreconf_prerequisites(self) -> None:
+        base = extract_stage(self._dockerfile_text(), "base")
+        bootstrap = base.index("${VCPKG_ROOT}/bootstrap-vcpkg.sh")
         packages = extract_installed_packages(
-            extract_stage(self._dockerfile_text(), "base"), "base"
+            base[:bootstrap], "base"
         )
         for package in ("autoconf", "automake", "autoconf-archive", "pkg-config"):
             with self.subTest(package=package):
                 self.assertIn(
                     package, packages,
-                    "vcpkg Python configure regeneration requires Autoconf Archive "
-                    "macros, including AX_C_FLOAT_WORDS_BIGENDIAN.",
+                    "Install Python autoreconf prerequisites before vcpkg bootstrap. "
+                    "Without autoconf-archive, CPython 3.11 configure.ac cannot expand "
+                    "AX_C_FLOAT_WORDS_BIGENDIAN and autoreconf exits with status 1. "
+                    "Build a source revision containing this package fix.",
                 )
 
     def test_community_logging_dependencies_use_system_packages(self) -> None:
