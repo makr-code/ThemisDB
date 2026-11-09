@@ -109,6 +109,10 @@ class BenchmarkModuleMatrixTests(unittest.TestCase):
         self.assertEqual(query["claim_review"]["status"], "gap")
         self.assertEqual(query["claim_inventory_review"]["status"], "gap")
         self.assertEqual(query["claim_inventory_review"]["owner_issue"], 7488)
+        self.assertIn(
+            "100K and 10M rows",
+            query["claim_inventory_review"]["owner_issue_rationale"],
+        )
         self.assertEqual(
             query["claim_inventory_review"]["mapped_performance_targets"][0],
             {
@@ -152,6 +156,7 @@ class BenchmarkModuleMatrixTests(unittest.TestCase):
         review = server["claim_inventory_review"]
         self.assertEqual(review["status"], "gap")
         self.assertEqual(review["owner_issue"], 7828)
+        self.assertIsNone(review["owner_issue_rationale"])
         self.assertEqual(review["source_documents"], [
             "src/server/PERFORMANCE_EXPECTATIONS.md"
         ])
@@ -160,6 +165,26 @@ class BenchmarkModuleMatrixTests(unittest.TestCase):
             "benchmarks/server/bench_server_hotpaths.cpp"
         ])
         self.assertIn("retained raw result", review["follow_up"])
+
+    def test_preview_validation_issue_is_not_treated_as_benchmark_owner(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir)
+            (repo / "src" / "whisper").mkdir(parents=True)
+            (repo / "src" / "whisper" / "PERFORMANCE_EXPECTATIONS.md").write_text(
+                "# Whisper performance expectations\n"
+            )
+
+            matrix = audit_benchmark_coverage.generate_module_matrix(
+                repo,
+                source_revision="develop-test-sha",
+            )
+
+        whisper = next(module for module in matrix["modules"] if module["module"] == "whisper")
+        review = whisper["claim_inventory_review"]
+        self.assertEqual(review["status"], "gap")
+        self.assertEqual(review["owner_issue"], 7828)
+        self.assertIn("no workload-specific", review["owner_issue_scope"])
+        self.assertIsNone(review["owner_issue_rationale"])
 
 
 if __name__ == "__main__":

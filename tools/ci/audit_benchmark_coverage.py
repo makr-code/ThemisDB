@@ -37,7 +37,17 @@ MODULE_BENCHMARK_OWNER_ISSUES = {
     "sharding": 7810,
     "timeseries": 7549,
     "transaction": 7810,
-    "whisper": 7558,
+}
+MODULE_BENCHMARK_OWNER_RATIONALES = {
+    "analytics": "Issue #7500 requires a reproducible benchmark artifact and successful exit status for performance claims.",
+    "gpu": "Issue #7492 requires GPU benchmark artifacts with hardware metadata and valid exit status.",
+    "performance": "Issue #7534 requires measurable performance gates backed by reproducible evidence.",
+    "prompt_engineering": "Issue #7538 requires reproducible artifacts for performance or quality metrics cited by module docs.",
+    "query": "Issue #7488 requires LIMIT 10 latency and peak-memory results at 100K and 10M rows.",
+    "scheduler": "Issue #7541 requires benchmark setup, exit status, and result artifacts for latency/capacity claims.",
+    "sharding": "Issue #7810 requires representative-hardware p95/p99 and throughput evidence for the Wave A lanes.",
+    "timeseries": "Issue #7549 requires a reproducible baseline and artifact for performance claims.",
+    "transaction": "Issue #7810 requires representative-hardware p95/p99 and throughput evidence for the Wave A lanes.",
 }
 BENCHMARK_CI_WORKFLOWS = [
     {
@@ -638,15 +648,15 @@ def _performance_claim_inventory(repo_root: Path, module: str, benchmark_rows: L
             mapped_targets = []
 
     owner_issue = MODULE_BENCHMARK_OWNER_ISSUES.get(module, 7828)
-    owner_scope = (
-        "module workload/evidence follow-up"
-        if owner_issue != 7828
-        else "portfolio claim-triage owner; no workload-specific benchmark issue was verified"
+    owner_rationale = MODULE_BENCHMARK_OWNER_RATIONALES.get(module)
+    owner_scope = "module workload/evidence follow-up" if owner_rationale else (
+        "portfolio claim-triage owner; no workload-specific benchmark issue was verified"
     )
     return {
         "status": "gap",
         "owner_issue": owner_issue,
         "owner_issue_scope": owner_scope,
+        "owner_issue_rationale": owner_rationale,
         "target": "v2.5.0 M1 by 2027-03-31",
         "source_documents": source_documents,
         "target_mapping_source": (
