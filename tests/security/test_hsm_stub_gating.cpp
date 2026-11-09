@@ -44,6 +44,71 @@ protected:
             setenv(name, value, 1);
         #endif
     }
+
+#ifdef THEMIS_ENABLE_HSM_REAL
+    void expectProductionInitializationFailure(const std::string& library_path) {
+        setEnv("THEMIS_PRODUCTION_MODE", "1");
+        setEnv("THEMIS_ALLOW_HSM_STUB", "1");
+
+        HSMConfig config;
+        config.library_path = library_path;
+        HSMProvider hsm(config);
+        bool bridge_called = false;
+        HSMProvider::setSignHashFn([&](const auto&, const auto&) {
+            bridge_called = true;
+            HSMSignatureResult result;
+            result.success = true;
+            return result;
+        });
+        HSMProvider::setVerifyFn([&](const auto&, const auto&, const auto&) {
+            bridge_called = true;
+            return true;
+        });
+        HSMProvider::setEncryptDataFn([&](const auto&, const auto&) {
+            bridge_called = true;
+            return std::vector<uint8_t>{1};
+        });
+        HSMProvider::setDecryptDataFn([&](const auto&, const auto&) {
+            bridge_called = true;
+            return std::vector<uint8_t>{1};
+        });
+        HSMProvider::setGenerateKeyPairFn([&](const auto&, auto, auto) {
+            bridge_called = true;
+            return true;
+        });
+        HSMProvider::setImportCertificateFn([&](const auto&, const auto&) {
+            bridge_called = true;
+            return true;
+        });
+        HSMProvider::setGetCertificateFn([&](const auto&) -> std::optional<std::string> {
+            bridge_called = true;
+            return "stub certificate";
+        });
+
+        EXPECT_FALSE(hsm.initialize());
+        EXPECT_FALSE(hsm.isReady());
+        EXPECT_FALSE(hsm.isStubProvider());
+        EXPECT_NE(hsm.getTokenInfo().find("not ready"), std::string::npos);
+        EXPECT_NE(hsm.getLastError().find("production mode"), std::string::npos);
+        EXPECT_FALSE(hsm.signHash({1}).success);
+        EXPECT_FALSE(hsm.verify({1}, "signature"));
+        EXPECT_TRUE(hsm.encryptData({1}).empty());
+        EXPECT_TRUE(hsm.decryptData({1}).empty());
+        EXPECT_FALSE(hsm.generateKeyPair("test"));
+        EXPECT_FALSE(hsm.importCertificate("test", "certificate"));
+        EXPECT_FALSE(hsm.getCertificate("test").has_value());
+        EXPECT_TRUE(hsm.listKeys().empty());
+        EXPECT_FALSE(bridge_called);
+
+        HSMProvider::setSignHashFn({});
+        HSMProvider::setVerifyFn({});
+        HSMProvider::setEncryptDataFn({});
+        HSMProvider::setDecryptDataFn({});
+        HSMProvider::setGenerateKeyPairFn({});
+        HSMProvider::setImportCertificateFn({});
+        HSMProvider::setGetCertificateFn({});
+    }
+#endif
 };
 
 TEST_F(HSMStubGatingTest, AllowsStubInDevelopmentWithOptIn) {
@@ -196,8 +261,12 @@ TEST_F(HSMStubGatingTest, ErrorMessageIncludesGuidance) {
     EXPECT_FALSE(hsm.initialize());
     
     std::string error = hsm.getLastError();
+#ifdef THEMIS_ENABLE_HSM_REAL
+    EXPECT_NE(error.find("production mode"), std::string::npos);
+#else
     // Should mention how to build with real HSM
     EXPECT_NE(error.find("THEMIS_ENABLE_HSM_REAL"), std::string::npos);
+#endif
 }
 
 // THEMIS_ENVIRONMENT=production is a hard failure that cannot be overridden
@@ -240,3 +309,13 @@ TEST_F(HSMStubGatingTest, FailsWithProductionModeTrueString) {
     EXPECT_FALSE(hsm.initialize());
     EXPECT_FALSE(hsm.isReady());
 }
+
+#ifdef THEMIS_ENABLE_HSM_REAL
+TEST_F(HSMStubGatingTest, RealProviderFailsClosedForMissingPkcs11ConfigurationInProduction) {
+    expectProductionInitializationFailure("");
+}
+
+TEST_F(HSMStubGatingTest, RealProviderFailsClosedForInvalidPkcs11LibraryInProduction) {
+    expectProductionInitializationFailure("/nonexistent/pkcs11-module.so");
+}
+#endif

@@ -305,6 +305,7 @@ private:
     std::unique_ptr<Impl> impl_;
     HSMConfig config_;
     bool initialized_ = false;
+    bool production_mode_failed_ = false;
     std::string last_error_;
 
     // PKCS#11 helper discovery functions (only active when THEMIS_ENABLE_HSM_REAL)

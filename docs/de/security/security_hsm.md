@@ -251,8 +251,8 @@ config.pin = "1234";
 |---------------------|---------|-------------------|
 | `CKR_OK` | Login successful | Proceed to key discovery |
 | `CKR_USER_ALREADY_LOGGED_IN` | Session already authenticated | Silently continue (normal for shared sessions) |
-| `CKR_PIN_INCORRECT` | Wrong PIN | Skip session; fall back to stub; set `getLastError()` |
-| Any other error | Unexpected login failure | Skip session; fall back to stub; set `getLastError()` |
+| `CKR_PIN_INCORRECT` | Wrong PIN | Skip session and set `getLastError()`; production initialization fails closed |
+| Any other error | Unexpected login failure | Skip session and set `getLastError()`; production initialization fails closed |
 
 When no PIN is configured, `C_Login` is skipped. HSMs that require authentication will
 then reject key operations.
@@ -292,13 +292,18 @@ config.key_label    = "themis-signing-key";
 
 ### Diagnosing Initialization Failures
 
-`HSMProvider::initialize()` always succeeds (returns `true`) but falls back to an
-insecure software stub when the real PKCS#11 session could not be established.
-Use `isStubProvider()` and `getLastError()` to detect this:
+When the real PKCS#11 session cannot be established, `HSMProvider::initialize()`
+fails in `ProductionMode` and leaves the provider not ready, even if
+`THEMIS_ALLOW_HSM_STUB=1` is set. Outside production mode the existing developer
+fallback remains available. Use the initialization result, `isReady()`,
+`isStubProvider()`, and `getLastError()` to inspect the outcome:
 
 ```cpp
 auto hsm = std::make_unique<HSMProvider>(config);
-hsm->initialize();
+if (!hsm->initialize()) {
+    std::cerr << "[SECURITY] HSM initialization failed: "
+              << hsm->getLastError() << std::endl;
+}
 
 if (hsm->isStubProvider()) {
     std::cerr << "[SECURITY] HSM fallback active: "
