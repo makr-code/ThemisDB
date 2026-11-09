@@ -1,5 +1,5 @@
-# Default values for ThemisDB Helm chart
-# This is a YAML-formatted file.
+# Development defaults for ThemisDB Helm chart.
+# Production availability and isolation are opt-in via values-production.yaml.
 
 replicaCount: 1
 
@@ -100,6 +100,12 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+topologySpreadConstraints: []
+
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 1
 
 # Autoscaling configuration
 autoscaling:
@@ -239,15 +245,26 @@ vpa:
 # When enabled, restricts ingress/egress to the minimum required surface.
 networkPolicy:
   enabled: false
+  # API requests are allowed from pods in the release namespace. Add entries
+  # here for ingress controllers or clients in other namespaces.
+  additionalIngressPeers: []
   # Allow Prometheus scrape from this namespace (must have label
   # kubernetes.io/metadata.name matching the value below).
   prometheusNamespace: "monitoring"
   # When true, HTTP API ingress is unrestricted (no podSelector from-filter).
   allowAllIngress: false
-  # Additional TCP ports to allow in egress (e.g. replication, WAL gRPC).
+  # DNS server selectors. Override for clusters that use different labels.
+  dnsNamespaceSelector:
+    matchLabels:
+      kubernetes.io/metadata.name: kube-system
+  dnsPodSelector:
+    matchLabels:
+      k8s-app: kube-dns
+  # TCP and UDP peer ports allowed between pods in this release.
   storageEgressPorts:
-    - 8766   # WAL gRPC
-    - 8769   # UDP fast-path (excluded from Istio)
+    - 8766
+  storageUdpEgressPorts:
+    - 8769
   # Allow HTTPS egress (port 443) — needed if model weights are fetched at runtime.
   allowHttpsEgress: false
 

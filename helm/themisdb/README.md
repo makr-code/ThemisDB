@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-09"
+Last Updated: "2026-11-09"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Helm Chart
 
 A Helm chart for deploying ThemisDB - Multi-Model Database with ACID Transactions on Kubernetes.
@@ -50,6 +64,9 @@ See `values.yaml` for the full list of configurable parameters.
 | `persistence.size` | PVC size | `10Gi` |
 | `resources.limits.memory` | Memory limit | `2Gi` |
 | `resources.limits.cpu` | CPU limit | `1000m` |
+| `podDisruptionBudget.enabled` | Create a PodDisruptionBudget | `false` |
+| `podDisruptionBudget.minAvailable` | Minimum pods available during a voluntary disruption | `1` |
+| `topologySpreadConstraints` | Spread replicas across configured topology domains | `[]` |
 
 ### Autoscaling (HPA)
 
@@ -89,7 +106,10 @@ See `values.yaml` for the full list of configurable parameters.
 | `networkPolicy.enabled` | Enable NetworkPolicy | `false` |
 | `networkPolicy.prometheusNamespace` | Namespace allowed to scrape metrics | `"monitoring"` |
 | `networkPolicy.allowAllIngress` | Allow all ingress (no podSelector filter) | `false` |
-| `networkPolicy.storageEgressPorts` | TCP ports allowed in egress | `[8766, 8769]` |
+| `networkPolicy.storageEgressPorts` | TCP peer ports allowed in egress | `[8766]` |
+| `networkPolicy.storageUdpEgressPorts` | UDP peer ports allowed in egress | `[8769]` |
+| `networkPolicy.additionalIngressPeers` | Additional NetworkPolicy peers for API ingress | `[]` |
+| `networkPolicy.dnsNamespaceSelector` / `dnsPodSelector` | Cluster DNS destination selectors | `kube-system` / `k8s-app=kube-dns` |
 | `networkPolicy.allowHttpsEgress` | Allow HTTPS (443) egress | `false` |
 
 ### Grafana Dashboard ConfigMaps
@@ -129,49 +149,37 @@ image:
   tag: latest
 ```
 
-## Example: Production values
+## Production availability and network policy profile
 
-```yaml
-replicaCount: 3
-
-resources:
-  limits:
-    cpu: 2000m
-    memory: 4Gi
-  requests:
-    cpu: 500m
-    memory: 1Gi
-
-persistence:
-  enabled: true
-  size: 50Gi
-  storageClass: "fast-ssd"
-
-metrics:
-  serviceMonitor:
-    enabled: true
-    namespace: monitoring
-
-grafana:
-  dashboards:
-    enabled: true
-    namespace: monitoring
-
-networkPolicy:
-  enabled: true
-  prometheusNamespace: monitoring
-
-autoscaling:
-  enabled: true
-  minReplicas: 2
-  maxReplicas: 10
-```
-
-Install with custom values:
+The chart defaults remain suitable for development: one replica, no disruption
+budget or scheduling constraints, and NetworkPolicy disabled. To opt in to the
+production HA/network baseline, use the separate profile:
 
 ```bash
-helm install themisdb themisdb/themisdb -f custom-values.yaml
+helm install themisdb ./helm/themisdb \
+  --namespace production --create-namespace \
+  --values ./helm/themisdb/values-production.yaml
 ```
+
+The profile sets three replicas, `minAvailable: 2`, preferred pod anti-affinity,
+and hostname topology spread. The enabled NetworkPolicy permits API traffic
+from pods in the release namespace, metrics traffic from the configured
+monitoring namespace, and health probes on the health port. Add
+`networkPolicy.additionalIngressPeers` for ingress controllers or clients in
+other namespaces. Egress is limited to cluster DNS on TCP/UDP 53 and the
+configured TCP/UDP ports to pods in this release; HTTPS is denied unless
+explicitly enabled. NetworkPolicy selects the ThemisDB pods for both ingress
+and egress, so other ingress and egress traffic is denied by default. The
+health-probe rule is port-scoped because node-originated probe identity varies
+by CNI. Verify the DNS selector labels and required replication ports against
+the target cluster and CNI before rollout.
+
+The profile intentionally does not enable ServiceMonitor or PrometheusRule;
+monitoring resources are tracked separately in
+[makr-code/ThemisDB#7532](https://github.com/makr-code/ThemisDB/issues/7532).
+The chart's single `Deployment` storage volume is not converted into per-pod
+storage by this profile. Production operators must provision and validate a
+storage/replication design suitable for multiple replicas before rollout.
 
 ## Upgrading
 
@@ -189,6 +197,23 @@ helm upgrade themisdb themisdb/themisdb
   Ensure `metrics.serviceMonitor.enabled=true` and the Prometheus Operator is installed.
 - New optional resources: `NetworkPolicy`, `VPA`, Grafana `ConfigMaps`.
   All are disabled by default — no action needed on upgrade.
+
+### Production profile upgrade and rollback
+
+Applying `values-production.yaml` to an existing release changes the Deployment
+to three replicas and creates a PDB and NetworkPolicy. Confirm that at least
+three suitable nodes are available, configure `additionalIngressPeers` and DNS
+selectors for the cluster, and ensure the data volume supports the planned
+replica/replication model before upgrading. Existing clients outside the
+release namespace may lose API access until explicitly allowlisted. The PDB
+can block voluntary node drains when fewer than two pods are healthy; resolve
+readiness issues before maintenance rather than bypassing the budget.
+
+Rollback with the previous values file or `helm rollback <release> <revision>`.
+Helm removes the profile's PDB and NetworkPolicy when rolling back to values
+that disable them; network isolation is therefore relaxed and replica count
+returns to the selected prior value. Confirm the application and client paths
+after rollback. Do not treat Helm rollback as a data rollback.
 
 ## Uninstalling
 
@@ -215,4 +240,3 @@ This chart has no hard Helm dependencies, but the following operators unlock opt
 ## License
 
 Apache License 2.0 - See [LICENSE](../../LICENSE) for details.
-
