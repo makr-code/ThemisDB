@@ -1,3 +1,17 @@
+---
+Author: "GitHub Copilot coding agent"
+Created: "2026-11-09"
+Last Updated: "2026-11-09"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # HSM (Hardware Security Module) Integration Guide
 
 **Status:** ✅ Implemented (PKCS#11 Interface)  
@@ -298,17 +312,28 @@ fails in `ProductionMode` and leaves the provider not ready, even if
 fallback remains available. Use the initialization result, `isReady()`,
 `isStubProvider()`, and `getLastError()` to inspect the outcome:
 
+In the software-only build, every fallback operation and representation is
+unavailable in canonical `ProductionMode`, including after a provider was
+initialized while running in development mode. This includes signing,
+verification, encryption/decryption, key generation/import, certificate lookup,
+and stub-key listing; injected callbacks are not consulted. Readiness reports
+false, and token information reports the provider unavailable. The stub opt-in
+does not bypass these checks. Outside `ProductionMode`, the existing development
+fallback behavior remains unchanged; this does not establish approval of that
+fallback for production use.
+
 ```cpp
 auto hsm = std::make_unique<HSMProvider>(config);
 if (!hsm->initialize()) {
     std::cerr << "[SECURITY] HSM initialization failed: "
               << hsm->getLastError() << std::endl;
+    return;
 }
 
 if (hsm->isStubProvider()) {
     std::cerr << "[SECURITY] HSM fallback active: "
               << hsm->getLastError() << std::endl;
-    // In production: abort – never proceed with stub in production!
+    // Continue only in an explicitly permitted non-production environment.
 }
 
 std::cout << "Token info: " << hsm->getTokenInfo() << std::endl;

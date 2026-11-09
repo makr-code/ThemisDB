@@ -17,19 +17,12 @@
 // Real PKCS#11 Implementierung in hsm_provider_pkcs11.cpp
 #else
 
-// PERMANENT FALLBACK NOTE:
-// Purpose: Software-only AES-256-GCM fallback for HSMProvider when no real HSM hardware
-//          is present. Provides deterministic key-wrap/unwrap for developer and CI use.
-//          Production mode is explicitly blocked unless THEMIS_ALLOW_HSM_STUB=1 env var
-//          is set, or the --allow-stub-hsm server flag is passed.
-// Activation: Compiled when THEMIS_ENABLE_HSM_REAL is NOT defined (default in dev builds).
-//             Build with -DTHEMIS_ENABLE_HSM_REAL=ON (Wave-2 CMake guard) to activate the
-//             real PKCS#11 implementation in hsm_provider_pkcs11.cpp instead.
-// Production Delta: Uses a randomly-generated in-memory KEK (not persisted across restarts,
-//                   not protected by HSM hardware). All crypto is software-only OpenSSL.
-//                   Not suitable for production key management.
-// This fallback path is PERMANENT for no-HSM builds; it is a compile-time safety net.
-// No v1.x production deployment ships without a real HSM backend.
+// Existing software-only fallback for builds without THEMIS_ENABLE_HSM_REAL.
+// It uses a randomly generated in-memory KEK and is not suitable for production
+// key management. Canonical ProductionMode rejects initialization regardless of
+// THEMIS_ALLOW_HSM_STUB or other stub opt-ins. Existing non-production behavior is
+// retained; its policy and human-approval/G4 evidence remain unresolved. No approval
+// is asserted here.
 // Roadmap ref: src/security/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
 
 #include "security/hsm_provider.h"
@@ -163,6 +156,14 @@ static std::string to_hex(const std::vector<uint8_t>& data) {
  */
 static std::string pseudo_b64(const std::vector<uint8_t>& data) {
     return std::string("hex:") + to_hex(data);
+}
+
+[[nodiscard]] static bool production_mode_blocks_software_hsm() noexcept {
+    try {
+        return core::ProductionMode::isEnabled();
+    } catch (...) {
+        return true;
+    }
 }
 
 /**
@@ -432,8 +433,12 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
         return r;
     }
 
-    // initialize() already enforces the stub production-mode restrictions before
-    // `initialized_` becomes true, so an injected bridge cannot bypass them.
+    if (production_mode_blocks_software_hsm()) {
+        r.error_message = "HSM software provider is unavailable in production mode";
+        impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
+        return r;
+    }
+
     SignHashFn fn;
     {
         std::lock_guard<std::mutex> lk(HSMProvider::signHashFnMutex());
@@ -483,10 +488,24 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
  * @param[in] signature_b64 Input parameter.
  * @param[in] key_label Input parameter.
  * @return Verification result.
- * @details Calls: std::chrono::high_resolution_clock::now(), lk(), HSMProvider::verifyFnMutex(), HSMProvider::verifyFnStorage(), fn(), empty(), pseudo_b64(), THEMIS_DEBUG().
+ * @details Refuses verification before initialization or in canonical ProductionMode before
+ *          consulting injected callbacks or pseudo-signature fallback behavior.
  */
 bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& signature_b64, const std::string& key_label) {
     auto startTime = std::chrono::high_resolution_clock::now();
+    const auto reject_verification = [this]() {
+        if (impl_) {
+            impl_->verify_errors.fetch_add(1, std::memory_order_relaxed);
+        }
+        return false;
+    };
+    if (!initialized_ || !impl_) {
+        return reject_verification();
+    }
+    if (production_mode_blocks_software_hsm()) {
+        return reject_verification();
+    }
+
     VerifyFn fn;
     {
         std::lock_guard<std::mutex> lk(HSMProvider::verifyFnMutex());
@@ -522,6 +541,10 @@ bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& si
  * @details Implements listKeys without additional internal calls.
  */
 std::vector<HSMKeyInfo> HSMProvider::listKeys() {
+    if (production_mode_blocks_software_hsm()) {
+        last_error_ = "HSM software provider is unavailable in production mode";
+        return {};
+    }
     HSMKeyInfo info;
     info.label = config_.key_label;
     info.id = "stub-id";
@@ -542,6 +565,10 @@ std::vector<HSMKeyInfo> HSMProvider::listKeys() {
  */
 std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, const std::string& key_label) {
     if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
+    if (production_mode_blocks_software_hsm()) {
+        last_error_ = "HSM software provider is unavailable in production mode";
+        return {};
+    }
     if (data.empty()) { last_error_ = "Cannot encrypt empty data"; return {}; }
     EncryptDataFn fn;
     {
@@ -577,6 +604,10 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
  */
 std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, const std::string& key_label) {
     if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
+    if (production_mode_blocks_software_hsm()) {
+        last_error_ = "HSM software provider is unavailable in production mode";
+        return {};
+    }
     if (encrypted.empty()) { last_error_ = "Cannot decrypt empty data"; return {}; }
     DecryptDataFn fn;
     {
@@ -604,14 +635,20 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
 }
 
 /**
- * @brief PERMANENT FALLBACK NOTE (generateKeyPair / importCertificate / getCertificate): Purpose: Satisfy the HSMProvider public interface in the software-only fallback build so callers do not need conditional compilation.
+ * @brief Software-only implementations of generateKeyPair / importCertificate / getCertificate.
  * @param[in] label Input parameter.
  * @param[in] key_size Input parameter.
  * @param[in] extractable Input parameter.
  * @return True when the operation succeeds.
- * @details Activation: Inside `#ifndef THEMIS_ENABLE_HSM_REAL` (same activation as the overall HSM fallback class documented at the top of this file). Production Delta: generateKeyPair always returns false and does NOT generate any key material — the real PKCS#11 path creates an asymmetric key pair on the HSM token. importCertificate returns false without storing anything. getCertificate returns a hardcoded dummy PEM string instead of a real device certificate. These are PERMANENT FALLBACK implementations; enable -DTHEMIS_ENABLE_HSM_REAL=ON to replace them with real PKCS#11 operations from hsm_provider_pkcs11.cpp. See src/security/FUTURE_ENHANCEMENTS.md §"HSM Key Management". Calls: lk(), HSMProvider::generateKeyPairFnMutex(), HSMProvider::generateKeyPairFnStorage(), fn(), std::string(), what(), THEMIS_ERROR(), THEMIS_WARN().
+ * @details Development-mode callback/fallback behavior is retained. Every operation is rejected
+ *          in ProductionMode before callbacks or dummy certificate data are used. Build with
+ *          -DTHEMIS_ENABLE_HSM_REAL=ON for PKCS#11 operations from hsm_provider_pkcs11.cpp.
  */
 bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, bool extractable) {
+    if (production_mode_blocks_software_hsm()) {
+        last_error_ = "HSM software provider is unavailable in production mode";
+        return false;
+    }
     GenerateKeyPairFn fn;
     {
         std::lock_guard<std::mutex> lk(HSMProvider::generateKeyPairFnMutex());
@@ -643,6 +680,10 @@ bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, b
  * @details Calls: lk(), HSMProvider::importCertificateFnMutex(), HSMProvider::importCertificateFnStorage(), fn(), std::string(), what(), THEMIS_ERROR(), THEMIS_WARN().
  */
 bool HSMProvider::importCertificate(const std::string& key_label, const std::string& cert_pem) {
+    if (production_mode_blocks_software_hsm()) {
+        last_error_ = "HSM software provider is unavailable in production mode";
+        return false;
+    }
     ImportCertificateFn fn;
     {
         std::lock_guard<std::mutex> lk(HSMProvider::importCertificateFnMutex());
@@ -673,6 +714,10 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
  * @details Calls: lk(), HSMProvider::getCertificateFnMutex(), HSMProvider::getCertificateFnStorage(), fn(), std::string(), what(), THEMIS_ERROR(), std::getenv().
  */
 std::optional<std::string> HSMProvider::getCertificate(const std::string& key_label) {
+    if (production_mode_blocks_software_hsm()) {
+        last_error_ = "HSM software provider is unavailable in production mode";
+        return std::nullopt;
+    }
     GetCertificateFn fn;
     {
         std::lock_guard<std::mutex> lk(HSMProvider::getCertificateFnMutex());
@@ -711,9 +756,14 @@ std::optional<std::string> HSMProvider::getCertificate(const std::string& key_la
     return std::string("-----BEGIN CERTIFICATE-----\nSTUB\n-----END CERTIFICATE-----\n");
 }
 
-bool HSMProvider::isReady() const { return initialized_; }
+bool HSMProvider::isReady() const {
+    return initialized_ && !production_mode_blocks_software_hsm();
+}
 
 std::string HSMProvider::getTokenInfo() const {
+    if (production_mode_blocks_software_hsm()) {
+        return "HSM software provider unavailable in ProductionMode";
+    }
     std::ostringstream oss; oss << "HSM stub/fallback label=" << config_.key_label << " ready=" << (initialized_?"true":"false");
     return oss.str();
 }
@@ -750,8 +800,7 @@ void HSMProvider::resetStats() {
 }
 
 bool HSMProvider::isStubProvider() const {
-    // Always true for stub implementation
-    return true;
+    return !production_mode_blocks_software_hsm();
 }
 
 /**
@@ -761,6 +810,11 @@ bool HSMProvider::isStubProvider() const {
 void HSMProvider::periodicSecurityCheck() {
     if (!initialized_) {
       return;
+    }
+
+    if (production_mode_blocks_software_hsm()) {
+        THEMIS_ERROR("HSM software provider is unavailable in ProductionMode");
+        return;
     }
     
     // Log FAILURE-level warning for production monitoring
@@ -811,4 +865,3 @@ bool HSMPKIClient::isReady() const { return hsm_->isReady(); }
 } } // namespace themis::security
 
 #endif // !THEMIS_ENABLE_HSM_REAL
-

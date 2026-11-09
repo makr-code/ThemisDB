@@ -115,9 +115,21 @@ public:
     HSMSignatureResult sign(const std::vector<uint8_t>& data, 
                             const std::string& key_label = "");
 
+    /**
+     * @brief Sign a hash using the configured HSM/provider.
+     * @return Failed result when unavailable, including ProductionMode in a software-only build.
+     */
     HSMSignatureResult signHash(const std::vector<uint8_t>& hash,
                                 const std::string& key_label = "");
 
+    /**
+     * @brief Verify a signature using the configured HSM or initialized non-production provider.
+     * @param[in] data Signed data.
+     * @param[in] signature_b64 Base64 or provider-specific encoded signature.
+     * @param[in] key_label Key label; an empty value uses the configured default.
+     * @return True only when verification succeeds; false if the provider is uninitialized,
+     *         production mode has no ready real HSM, or verification fails.
+     */
     bool verify(const std::vector<uint8_t>& data,
                 const std::string& signature_b64,
                 const std::string& key_label = "");
@@ -175,10 +187,15 @@ public:
 
     /**
      * @brief List Keys.
-     * @return Return value.
+     * @return Key representations; empty in ProductionMode when only the software
+     *         provider is available.
      */
     std::vector<HSMKeyInfo> listKeys();
 
+    /**
+     * @brief Generate a key pair.
+     * @return False in ProductionMode when only the software provider is available.
+     */
     bool generateKeyPair(const std::string& label, 
                          uint32_t key_size = 2048,
                          bool extractable = false);
@@ -187,7 +204,8 @@ public:
      * @brief Import Certificate.
      * @param[in] key_label Input parameter.
      * @param[in] cert_pem Input parameter.
-     * @return True when the operation succeeds.
+     * @return True when the operation succeeds; false in ProductionMode when only
+     *         the software provider is available.
      */
     bool importCertificate(const std::string& key_label,
                            const std::string& cert_pem);
@@ -195,7 +213,8 @@ public:
     /**
      * @brief Get Certificate.
      * @param[in] key_label Input parameter.
-     * @return Return value.
+     * @return Certificate PEM, or no value in ProductionMode when only the software
+     *         provider is available.
      */
     std::optional<std::string> getCertificate(const std::string& key_label);
 
@@ -237,21 +256,31 @@ public:
         getCertificateFnStorage() = std::move(fn);
     }
 
+    /**
+     * @brief Encrypt data using the configured HSM/provider.
+     * @return Empty when unavailable, including ProductionMode in a software-only build.
+     */
     std::vector<uint8_t> encryptData(const std::vector<uint8_t>& data,
                                      const std::string& key_label = "");
 
+    /**
+     * @brief Decrypt data using the configured HSM/provider.
+     * @return Empty when unavailable, including ProductionMode in a software-only build.
+     */
     std::vector<uint8_t> decryptData(const std::vector<uint8_t>& encrypted,
                                      const std::string& key_label = "");
 
     /**
      * @brief Is Ready.
-     * @return True when the operation succeeds.
+     * @return True only when the provider is available; false in ProductionMode for
+     *         the software-only implementation.
      */
     bool isReady() const;
 
     /**
      * @brief Get Token Info.
-     * @return Return value.
+     * @return Provider information; reports unavailable in ProductionMode when only
+     *         the software provider is available.
      */
     std::string getTokenInfo() const;
 
@@ -274,7 +303,7 @@ public:
 
     /**
      * @brief Is Stub Provider.
-     * @return True when the operation succeeds.
+     * @return True when the software provider is usable outside ProductionMode.
      */
     bool isStubProvider() const;
 

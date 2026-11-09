@@ -15,6 +15,7 @@
 
 #include "security/encryption.h"
 #include <stdexcept>
+#include "core/production_mode.h"
 #include "security/mock_key_provider.h"
 #include "themis/runtime_license_gate.h"
 #include <openssl/evp.h>
@@ -343,39 +344,30 @@ FieldEncryption::~FieldEncryption() = default;
  * @brief Create Default.
  * @return Return value.
  * @throws std::runtime_error if an error occurs.
- * @details Calls: std::getenv(), std::string_view(), THEMIS_WARN().
+ * @details Refuses canonical ProductionMode before reading the explicit opt-in; invalid
+ *          production-mode settings also fail closed.
  */
 std::shared_ptr<FieldEncryption> FieldEncryption::createDefault() {
-    // PERMANENT FALLBACK NOTE (FieldEncryption createDefault() — MockKeyProvider):
-    // Purpose: Provides a zero-dependency factory for unit tests and demo code
-    //          that have no external key-management infrastructure available.
-    // Activation: Called by code paths that do not supply an explicit KeyProvider
-    //             (e.g. test harnesses, demo_encryption.cpp, some legacy startup paths).
-    // Production Delta: MockKeyProvider stores AES-256 keys in plain process memory
-    //                   with NO persistence, NO HSM protection, and NO key rotation
-    //                   enforcement.  Any restart silently loses all keys.  Ciphertext
-    //                   produced by this factory cannot be decrypted after restart.
-    // Note: Production callers must inject a real KeyProvider (VaultKeyProvider,
-    //               HsmKeyProviderAdapter, or similar) via the constructor.
-    //               This factory should only be invoked through explicit test/demo paths.
+    // This existing mock factory has unresolved non-production policy and G4 approval
+    // evidence; no approval is asserted here. Canonical ProductionMode always rejects it,
+    // even when a test-build macro or explicit mock opt-in is present.
+    if (core::ProductionMode::isEnabled()) {
+        throw std::runtime_error(
+            "FieldEncryption::createDefault() cannot use MockKeyProvider in production mode. "
+            "Inject a real KeyProvider instead.");
+    }
 
-    // [E-4] Runtime guard: refuse to use MockKeyProvider unless explicitly opted in.
-    // Set THEMIS_ALLOW_MOCK_KEY_PROVIDER=1 only in test/demo environments.
+    // Non-production use requires the runtime opt-in in every build configuration.
     const char* allow_env = std::getenv("THEMIS_ALLOW_MOCK_KEY_PROVIDER");
     const bool allow_mock = (allow_env != nullptr) &&
                             (std::string_view(allow_env) == "1" ||
                              std::string_view(allow_env) == "true");
-#if defined(THEMIS_UNIT_TEST) || defined(THEMIS_TEST_BUILD)
-    const bool allow_test_default = true;
-#else
-    const bool allow_test_default = false;
-#endif
-    if (!allow_mock && !allow_test_default) {
+    if (!allow_mock) {
         throw std::runtime_error(
             "FieldEncryption::createDefault() uses MockKeyProvider which is unsafe in "
-            "production (keys are in-memory only and will NOT survive restarts). "
+            "persistent environments (keys are in-memory only and will NOT survive restarts). "
             "Inject a real KeyProvider via the constructor. "
-            "To explicitly opt in for testing, set THEMIS_ALLOW_MOCK_KEY_PROVIDER=1.");
+            "For non-production tests, explicitly set THEMIS_ALLOW_MOCK_KEY_PROVIDER=1.");
     }
 
     THEMIS_WARN("FieldEncryption::createDefault() is using MockKeyProvider — "

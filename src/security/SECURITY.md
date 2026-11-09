@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-11-09"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -42,7 +42,7 @@ Exact model backend not verifiable from final document text alone.
 
 - Security posture depends on configured providers, runtime flags, and deployment controls. This page is not a module-readiness or product-certification decision; consult the active roadmap, gap tracker, and release evidence.
 - `SecretManager` keeps secret versions in process memory; a process dump or debugger with sufficient access can expose them.
-- `FieldEncryption::createDefault()` is a test/demo mock provider, not durable production key management. In non-test builds it requires explicit `THEMIS_ALLOW_MOCK_KEY_PROVIDER` opt-in.
+- `FieldEncryption::createDefault()` is a test/demo mock provider, not durable production key management. Every build requires explicit `THEMIS_ALLOW_MOCK_KEY_PROVIDER=1` outside canonical `ProductionMode`; that opt-in never overrides production mode.
 - The HSM software stub is not equivalent to hardware protection. Keep `THEMIS_ALLOW_HSM_STUB` and `--allow-stub-hsm` disabled in production.
 
 ## Permission and Secret Handling

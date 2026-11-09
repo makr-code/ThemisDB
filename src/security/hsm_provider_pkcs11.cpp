@@ -79,19 +79,14 @@ bool productionModeRequiresRealHsm() noexcept {
 
 } // anonymous namespace
 
-// Real PKCS#11 implementation with an opt-in developer fallback.
-
-// PERMANENT FALLBACK NOTE (fallback path only):
-// Purpose: When PKCS#11 hardware/library is unavailable (slot discovery fails, PIN error,
-//          device absent), HSMProvider::Impl::stub_kek is used as a software AES-256-GCM
-//          fallback so that developer and CI environments remain functional.
-// Activation: Activated at runtime when real_ready == false (PKCS#11 init fails), outside
-//             ProductionMode. Explicitly controlled by THEMIS_ALLOW_HSM_STUB for stub
-//             signing and certificate operations.
-// Production Delta: Fallback KEK is randomly generated in-memory, not HSM-protected.
-//                   Key material is not backed by hardware; wrap/unwrap is software-only.
-// ProductionMode rejects failed PKCS#11 initialization before this fallback is initialized.
-// A loud WARN log is emitted on every call that hits this path.
+// Real PKCS#11 implementation with existing non-production fallback behavior.
+//
+// The fallback's human-approval/G4 status is unresolved; this comment does not assert
+// approval. Outside canonical ProductionMode, existing behavior is retained. The opt-in
+// THEMIS_ALLOW_HSM_STUB gate applies to the stub signing and certificate paths; wrap/unwrap
+// retain their existing non-production fallback behavior without that opt-in. In canonical
+// ProductionMode, failed real-HSM initialization and all !real_ready fallback operations are
+// rejected.
 // Roadmap ref: src/security/ROADMAP.md § "Phase 2: ABAC & HSM Direct Integration"
 
 class PKCS11Loader {
