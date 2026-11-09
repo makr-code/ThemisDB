@@ -36,25 +36,113 @@ def run_bash(script, directory, **environment):
 
 
 class DeploymentWorkflowTests(unittest.TestCase):
+    def test_linux_bootstrap_retries_only_http_server_errors_and_fails_closed(self):
+        script = step("release-build-matrix.yml", "prepare-release-matrix", "plan")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            result, values = run_bash(
+                script, Path(temp), BUILD_MATRIX="all", OS_SELECTOR="all",
+                ARCH_SELECTOR="all", EDITION="community", BUILD_TYPE="Release",
+                PACKAGING="auto", DISTRIBUTION="all", RUN_NUMBER="123",
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        entries = json.loads(values["matrix"])["include"]
+        cases = [
+            ([], 1, [], 0),
+            (["curl: (22) The requested URL returned error: 502"], 2, ["5"], 0),
+            (["curl: (22) The requested URL returned error: 503"], 2, ["5"], 0),
+            (["curl: (22) The requested URL returned error: 504"] * 2, 3, ["5", "10"], 0),
+            (["curl: (22) The requested URL returned error: 504"] * 3, 3, ["5", "10"], 37),
+            (["curl: (22) The requested URL returned error: 404"], 1, [], 37),
+            (["curl: (60) SSL peer certificate cannot be authenticated"], 1, [], 37),
+            (["vcpkg bootstrap failed: missing compiler"], 1, [], 37),
+            (["curl: (22) The requested URL returned error: 504", "checksum mismatch"],
+             2, ["5"], 37),
+        ]
+        for entry in entries:
+            if not entry["id"].startswith("linux"):
+                continue
+            for errors, attempts, waits, status in cases:
+                with self.subTest(lane=entry["id"], errors=errors), \
+                        tempfile.TemporaryDirectory(prefix="bootstrap space ") as temp:
+                    directory = Path(temp)
+                    tools = directory / "tools"
+                    tools.mkdir()
+                    for name in ["git", "sudo"]:
+                        (tools / name).symlink_to("/bin/true")
+                    sleep = tools / "sleep"
+                    sleep.write_text('#!/bin/sh\nprintf "%s\\n" "$1" >> "$WAIT_LOG"\n')
+                    sleep.chmod(0o755)
+                    toolchain = directory / "vcpkg/scripts/buildsystems/vcpkg.cmake"
+                    toolchain.parent.mkdir(parents=True)
+                    toolchain.touch()
+                    bootstrap = directory / "vcpkg/bootstrap-vcpkg.sh"
+                    bootstrap.write_text(
+                        '#!/bin/bash\nset -euo pipefail\n'
+                        '[ "$#" -eq 1 ] && [ "$1" = "-disableMetrics" ] || exit 42\n'
+                        'attempt=0\n'
+                        '[ ! -f "$ATTEMPT_LOG" ] || read -r attempt < "$ATTEMPT_LOG"\n'
+                        'attempt=$((attempt + 1))\n'
+                        'printf "%s\\n" "$attempt" > "$ATTEMPT_LOG"\n'
+                        'if [ "$attempt" -le "$FAILURES" ]; then\n'
+                        '  sed -n "${attempt}p" "$ERROR_LOG" >&2\n'
+                        '  exit 37\n'
+                        'fi\n'
+                    )
+                    bootstrap.chmod(0o755)
+                    downloader = directory / "scripts/download-tinyllama-hf.sh"
+                    downloader.parent.mkdir()
+                    downloader.write_text('touch "$GITHUB_WORKSPACE/model-step-ran"\n')
+                    error_log = directory / "errors"
+                    error_log.write_text("\n".join(errors) + "\n")
+                    attempt_log = directory / "attempts"
+                    wait_log = directory / "waits"
+                    result, _ = run_bash(
+                        entry["setup_command"], directory,
+                        PATH=f"{tools}{os.pathsep}{os.environ['PATH']}",
+                        GITHUB_WORKSPACE=str(directory), RUNNER_TEMP=str(directory),
+                        FAILURES=str(len(errors)), ERROR_LOG=str(error_log),
+                        ATTEMPT_LOG=str(attempt_log), WAIT_LOG=str(wait_log),
+                    )
+                    self.assertEqual(result.returncode, status, result.stderr)
+                    self.assertEqual(int(attempt_log.read_text()), attempts)
+                    self.assertEqual(wait_log.read_text().splitlines() if wait_log.exists() else [], waits)
+                    self.assertEqual((directory / "model-step-ran").exists(), status == 0)
+                    self.assertEqual(result.stdout.count("::warning::Transient vcpkg bootstrap"), len(waits))
+                    for attempt, error in enumerate(errors[:attempts], 1):
+                        bootstrap_log = directory / f"vcpkg-bootstrap-{attempt}.log"
+                        self.assertTrue(bootstrap_log.is_file())
+                        self.assertIn(error, bootstrap_log.read_text())
+
     def run_configure_recovery(self, directory, arch="X64", runner_os="Windows",
                                message="error: Download timed out.", retry_status=0,
-                               initial_status=23):
+                               initial_status=23, attempts=None):
         script = step("reusable-cmake-build.yml", "build", "configure")["run"]
         script = script.replace("${{ steps.resolve_mode.outputs.resolved_build_dir }}", "build")
+        attempts = attempts or [(message, initial_status), ("", retry_status)]
+        (directory / "messages").write_text("\n".join(item[0] for item in attempts) + "\n")
+        (directory / "statuses").write_text("\n".join(str(item[1]) for item in attempts) + "\n")
+        tools = directory / "configure-tools"
+        tools.mkdir()
+        sleep = tools / "sleep"
+        sleep.write_text('#!/bin/sh\nprintf "%s\\n" "$1" >> "$WAIT_LOG"\n')
+        sleep.chmod(0o755)
         command = (
-            'if [ ! -f configure-attempted ]; then\n'
-            '  touch configure-attempted\n'
-            '  echo "$TEST_CONFIGURE_MESSAGE"\n'
-            '  exit "$TEST_INITIAL_STATUS"\n'
+            'attempt=0\n'
+            '[ ! -f configure-attempted ] || read -r attempt < configure-attempted\n'
+            'attempt=$((attempt + 1))\n'
+            'printf "%s\\n" "$attempt" > configure-attempted\n'
+            'if [ "$attempt" -gt 1 ]; then\n'
+            '  echo retried >> configure-retries\n'
             'fi\n'
-            'echo retried >> configure-retries\n'
-            'exit "$TEST_RETRY_STATUS"\n'
+            'sed -n "${attempt}p" messages\n'
+            'status=$(sed -n "${attempt}p" statuses)\n'
+            'exit "${status:-99}"\n'
         )
         return run_bash(
             script, directory, WORKING_DIRECTORY=str(directory),
             RUNNER_TEMP=str(directory), RUNNER_ARCH=arch, RUNNER_OS=runner_os,
-            CONFIGURE_COMMAND=command, TEST_CONFIGURE_MESSAGE=message,
-            TEST_INITIAL_STATUS=str(initial_status), TEST_RETRY_STATUS=str(retry_status),
+            CONFIGURE_COMMAND=command, PATH=f"{tools}{os.pathsep}{os.environ['PATH']}",
+            WAIT_LOG=str(directory / "waits"),
         )[0]
 
     def test_configure_retries_download_timeouts_on_all_release_platforms(self):
@@ -67,7 +155,8 @@ class DeploymentWorkflowTests(unittest.TestCase):
                 result = self.run_configure_recovery(directory, arch, runner_os)
                 self.assertEqual(result.returncode, 0, result.stderr)
                 self.assertEqual((directory / "configure-retries").read_text(), "retried\n")
-                self.assertIn("retrying once", result.stdout)
+                self.assertIn("retrying in 10s", result.stdout)
+                self.assertEqual((directory / "waits").read_text(), "10\n")
                 self.assertIn(
                     "Download timed out",
                     (directory / "cmake-build-configure-output.log").read_text(),
@@ -76,9 +165,24 @@ class DeploymentWorkflowTests(unittest.TestCase):
     def test_configure_timeout_retry_is_bounded_and_preserves_final_failure(self):
         with tempfile.TemporaryDirectory() as temp:
             directory = Path(temp)
-            result = self.run_configure_recovery(directory, retry_status=37)
+            result = self.run_configure_recovery(
+                directory, attempts=[("Download timed out", 37)] * 4,
+            )
             self.assertEqual(result.returncode, 37, result.stderr)
-            self.assertEqual((directory / "configure-retries").read_text(), "retried\n")
+            self.assertEqual((directory / "configure-retries").read_text(), "retried\n" * 3)
+            self.assertEqual((directory / "waits").read_text().splitlines(), ["10", "30", "60"])
+
+    def test_configure_backoff_stops_on_recovery_or_nontransient_failure(self):
+        error = "error: curl operation failed with response code 504."
+        for last_message, last_status in [("", 0), ("CMake Error: invalid configuration", 37)]:
+            with self.subTest(last_status=last_status), tempfile.TemporaryDirectory() as temp:
+                directory = Path(temp)
+                result = self.run_configure_recovery(
+                    directory, attempts=[(error, 23), (error, 23), (last_message, last_status)],
+                )
+                self.assertEqual(result.returncode, last_status, result.stderr)
+                self.assertEqual((directory / "configure-retries").read_text(), "retried\n" * 2)
+                self.assertEqual((directory / "waits").read_text().splitlines(), ["10", "30"])
 
     def test_configure_retries_vcpkg_ssl_connect_error_once(self):
         message = "error: curl operation failed with error code 35 (SSL connect error)."
@@ -94,12 +198,23 @@ class DeploymentWorkflowTests(unittest.TestCase):
                 self.assertEqual((directory / "configure-retries").read_text(), "retried\n")
                 self.assertIn(message, (directory / "cmake-build-configure-output.log").read_text())
 
+    def test_configure_retries_vcpkg_http_server_errors_once(self):
+        for response_code in (502, 503, 504):
+            message = f"error: curl operation failed with response code {response_code}."
+            with self.subTest(response_code=response_code), tempfile.TemporaryDirectory() as temp:
+                directory = Path(temp)
+                result = self.run_configure_recovery(directory, message=message)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertEqual((directory / "configure-retries").read_text(), "retried\n")
+                self.assertIn(message, (directory / "cmake-build-configure-output.log").read_text())
+
     def test_configure_does_not_retry_success_or_unrelated_windows_failures(self):
         for initial_status, message in [
             (0, "Download timed out"),
             (0, "error: curl operation failed with error code 35 (SSL connect error)."),
             (23, "CMake Error: invalid configuration"),
             (23, "error: curl operation failed with error code 60 (SSL peer certificate cannot be authenticated)."),
+            (23, "error: curl operation failed with response code 404."),
             (23, "error: building arrow:x64-windows failed with: BUILD_FAILED"),
         ]:
             with self.subTest(status=initial_status, message=message), tempfile.TemporaryDirectory() as temp:
@@ -153,11 +268,14 @@ class DeploymentWorkflowTests(unittest.TestCase):
         packages = next(item for item in steps if item["name"] == "Upload secondary artifacts")
         self.assertEqual(
             diagnostics["if"],
-            "${{ !cancelled() && inputs.artifact_name != '' && inputs.artifact_paths != '' }}",
+            "${{ always() && !cancelled() && inputs.artifact_name != '' && inputs.artifact_paths != '' }}",
         )
         self.assertNotIn("always()", packages["if"])
         self.assertNotIn("!cancelled()", packages["if"])
-        self.assertEqual(diagnostics["with"]["if-no-files-found"], "ignore")
+        self.assertEqual(
+            diagnostics["with"]["if-no-files-found"],
+            "${{ inputs.ctest_junit_path != '' && 'error' || 'ignore' }}",
+        )
 
     def test_macos_release_uses_matching_llvm_compiler_headers_and_runtime(self):
         script = step("release-build-matrix.yml", "prepare-release-matrix", "plan")["run"]

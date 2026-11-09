@@ -1,5 +1,26 @@
 # Kapitel 36: Security Hardening Playbook {#chapter_36_security-hardening-playbook}
 
+[docs](../../README.md) > [compendium](../README.md) > [chapters](./README.md)
+
+- **Datum:** 2026-11-07
+- **Author:** ThemisDB Team
+- **Created:** 2026-11-07
+- **Last Updated:** 2026-11-07
+- **Status:** review
+- **Primary (Quelle der Wahrheit):** [ROADMAP.md](../../../ROADMAP.md), [security/ROADMAP.md](../../../src/security/ROADMAP.md)
+- **Bezug / Reference:** Issue #7189 — v2.4.0-alpha compendium sync
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
+
+## Current pentest and Wave C posture
+
+The latest tracked pentest reports zero critical findings and one high finding with a 30-day remediation deadline. Wave C is not closed: C1/C2 are recorded successful, C3 sustained-load evidence is pending, and C4 compliance sign-off remains in progress; the linked validation artifact must be refreshed before promoting these gates.
+
 ## v2.4.0-alpha roadmap alignment
 
 The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: security, hardening, pentest, CVE, WAF, audit, Wave C. 

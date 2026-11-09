@@ -125,8 +125,11 @@ jobs:
             -DCMAKE_C_COMPILER=gcc-12 \
             -DCMAKE_CXX_COMPILER=g++-12 .
           sudo make -j"$(nproc)"
-          sudo cp lib/*.a /usr/lib/ 2>/dev/null || \
-          sudo cp *.a /usr/lib/ 2>/dev/null || true
+          test -n "$(find . -maxdepth 2 -type f -name '*.a' -print -quit)" || {
+            echo "::error::GoogleTest static libraries were not produced"
+            exit 1
+          }
+          find . -maxdepth 2 -type f -name '*.a' -exec sudo cp {} /usr/lib/ \;
         fi
       preset: community-release
       configure_flags: -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON
@@ -244,7 +247,7 @@ jobs:
           python tools/gap_scanner.py \
             --repo . \
             --module distributed_knowledge \
-            --output "${SCAN_OUTPUT_DIR}" || true
+            --output "${SCAN_OUTPUT_DIR}"
 
           SCAN_FILE="${SCAN_OUTPUT_DIR}/gap_scan_distributed_knowledge.json"
           if [ ! -f "${SCAN_FILE}" ]; then

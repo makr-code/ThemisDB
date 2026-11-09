@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-02"
+Last Updated: "2026-11-09"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Modules and APIs
 
-Datum: 2026-11-02
+Datum: 2026-11-09
 Status: Active
 
 ## Curated module contexts
@@ -160,12 +160,12 @@ Status: Active
 
 ## include/acceleration/plugin_loader.h
 - Kategorie: modules_and_api
-- Hash: `531dcd441dc81ba4`
+- Hash: `8d21c5b6d7d0baa2`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/plugin_security.h
 - Kategorie: modules_and_api
-- Hash: `30c7de877d539214`
+- Hash: `4d826abe959e5ef4`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/quantized_backend.h
@@ -315,7 +315,7 @@ Status: Active
 
 ## include/analytics/cep_engine.h
 - Kategorie: modules_and_api
-- Hash: `508b2cc14741fbda`
+- Hash: `de9fac3c60e491c0`
 - Titel: (binary or unreadable)
 
 ## include/analytics/columnar_execution.h

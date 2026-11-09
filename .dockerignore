@@ -12,6 +12,10 @@
 # Required directories and their contents
 !cmake/
 !cmake/**
+!docs/
+!docs/**
+!ai_context/
+!ai_context/**
 !docker/
 !docker/**
 !include/

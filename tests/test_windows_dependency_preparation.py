@@ -76,6 +76,47 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
             ), 37)
             self.assertIn("BUILD_FAILED", log.read_text())
 
+    def test_unicode_configure_output_is_safe_on_windows_console_encoding(self):
+        with tempfile.TemporaryDirectory() as temp:
+            output = io.BytesIO()
+            stream = io.TextIOWrapper(output, encoding="cp1252")
+            with patch.object(helper.sys, "stdout", stream):
+                result = helper.run(
+                    [sys.executable, "-c", "print('configure: 🧪',flush=True)"],
+                    Path(temp) / "log", 5,
+                )
+            self.assertEqual(result, 0)
+            self.assertIn("configure: 🧪", output.getvalue().decode("utf-8"))
+
+    def test_workflow_python_encoding_handles_unicode_configure_and_metrics(self):
+        with tempfile.TemporaryDirectory() as temp:
+            log = Path(temp) / "configure.log"
+            command = [
+                sys.executable, str(ROOT / "scripts/prepare-windows-dependencies.py"),
+                "--log", str(log),
+            ]
+            env = {
+                **os.environ, "PYTHONIOENCODING": "cp1252",
+                **self.pipeline["jobs"]["build"]["env"],
+                "THEMIS_DEPENDENCY_BASH": "/bin/bash",
+                "THEMIS_DEPENDENCY_DEADLINE": str(time.time() + 30),
+                "CONFIGURE_COMMAND": (
+                    f'"{sys.executable}" -c '
+                    '"print(\'Restored 1 package(s): \\U0001f9ea\', flush=True);'
+                    ' raise SystemExit(37)"'
+                ),
+            }
+            result = subprocess.run(command, env=env, capture_output=True)
+            self.assertEqual(result.returncode, 37, result.stderr)
+            self.assertIn("Restored 1 package(s): 🧪", result.stdout.decode("utf-8"))
+            self.assertIn("Restored 1 package(s): 🧪", log.read_text(encoding="utf-8"))
+            result = subprocess.run(
+                [*command, "--metrics-only", "--cache", temp],
+                env=env, capture_output=True,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("Restored 1 package(s): 🧪", result.stdout.decode("utf-8"))
+
     def test_exhausted_job_deadline_does_not_start_install(self):
         with tempfile.TemporaryDirectory() as temp:
             marker = Path(temp) / "started"
@@ -108,12 +149,69 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
         for remaining, expected in [(60, 60), (100000, 270 * 60), (-1, -1)]:
             with self.subTest(remaining=remaining), patch.object(helper.time, "time", return_value=1000), \
                  patch.dict(os.environ, {"THEMIS_DEPENDENCY_DEADLINE": str(1000 + remaining),
+                                         "THEMIS_DEPENDENCY_BASH": "/git path/bash.exe",
                                          "CONFIGURE_COMMAND": "exit 37"}), \
                  patch.object(sys, "argv", ["prepare", "--log", "test.log"]), \
                  patch.object(helper, "run", return_value=37) as run:
                 self.assertEqual(helper.main(), 37)
                 self.assertEqual(run.call_args.args[2], expected)
-                self.assertEqual(run.call_args.args[0], ["bash", "-euo", "pipefail", "-c", "exit 37"])
+                self.assertEqual(run.call_args.args[0], ["/git path/bash.exe", "-euo", "pipefail", "-c", "exit 37"])
+
+    def test_prepare_step_passes_selected_bash_to_python(self):
+        step = self.named("Prepare Windows dependencies with bounded configure")
+        with tempfile.TemporaryDirectory(prefix="git bash ") as temp:
+            directory = Path(temp)
+            bash = directory / "git bash"
+            bash.symlink_to("/bin/bash")
+            tools = directory / "tools"
+            tools.mkdir()
+            wrong_bash = tools / "bash"
+            wrong_bash.write_text('#!/bin/sh\nexit 43\n')
+            wrong_bash.chmod(0o755)
+            cygpath = tools / "cygpath"
+            cygpath.write_text('#!/bin/sh\nprintf "%s\\n" "$2"\n')
+            cygpath.chmod(0o755)
+            python = tools / "python"
+            python.write_text(
+                f'#!/bin/sh\n[ "$THEMIS_DEPENDENCY_BASH" = "$EXPECTED_BASH" ] || exit 42\n'
+                f'exec "{sys.executable}" "$@"\n'
+            )
+            python.chmod(0o755)
+            result = subprocess.run(
+                [str(bash), "-euo", "pipefail", "-c",
+                 step["run"].replace("${{ inputs.working_directory }}", str(ROOT))],
+                env={**os.environ, "PATH": f"{tools}{os.pathsep}{os.environ['PATH']}",
+                     "GITHUB_WORKSPACE": str(ROOT), "THEMIS_CACHE_TOOLS_PREFIX": "",
+                     "RUNNER_TEMP": temp, "THEMIS_DEPENDENCY_DEADLINE": str(time.time() + 30),
+                     "CONFIGURE_COMMAND": "printf 'configure ran\\n'", "EXPECTED_BASH": str(bash)},
+                text=True, capture_output=True,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("configure ran", result.stdout)
+
+    def test_configure_requires_explicit_bash_without_path_fallback(self):
+        for bash in [None, ""]:
+            with self.subTest(bash=bash), patch.dict(os.environ, {}, clear=True), \
+                 patch.object(sys, "argv", ["prepare", "--log", "test.log"]), \
+                 patch.object(helper, "run") as run, \
+                 contextlib.redirect_stderr(io.StringIO()) as error:
+                if bash is not None:
+                    os.environ["THEMIS_DEPENDENCY_BASH"] = bash
+                with self.assertRaises(SystemExit) as exit:
+                    helper.main()
+                self.assertEqual(exit.exception.code, 2)
+                self.assertIn("configure requires THEMIS_DEPENDENCY_BASH", error.getvalue())
+                run.assert_not_called()
+
+    def test_metrics_only_does_not_require_bash_or_start_configure(self):
+        with patch.dict(os.environ, {}, clear=True), \
+             patch.object(sys, "argv", ["prepare", "--metrics-only", "--log", "test.log",
+                                        "--cache", "cache"]), \
+             patch.object(helper, "report") as report, \
+             patch.object(helper, "run") as run:
+            self.assertEqual(helper.main(), 0)
+            report.assert_called_once_with(Path("test.log"), Path("cache"))
+            run.assert_not_called()
 
     def test_partial_snapshot_saved_after_success_failure_or_controlled_timeout_before_build(self):
         prepare = self.named("Prepare Windows dependencies with bounded configure")
@@ -145,6 +243,120 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
         self.assertEqual(jobs["windows-dependencies"]["with"]["windows_dependency_mode"], "prepare")
         self.assertIn("matrix.id == 'windows-amd64'", jobs["release-platform-matrix"]["with"]["windows_dependency_mode"])
 
+    def test_windows_dependency_jobs_do_not_register_sccache_action_cleanup(self):
+        step = self.named("Install sccache")
+        self.assertEqual(
+            step["if"],
+            "inputs.enable_sccache_gha && !(runner.os == 'Windows' && inputs.windows_dependency_mode != 'off')",
+        )
+        self.assertEqual(step["uses"], "mozilla-actions/sccache-action@v0.0.6")
+
+    def test_windows_sccache_installation_retries_and_requires_a_working_binary(self):
+        result, values = self.plan("windows-amd64-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        setup = json.loads(values["windows_lane"])["setup_command"]
+        install = setup.split("git submodule", 1)[0]
+        for installed, failures, unusable, attempts, waits, status in [
+            (True, 0, False, 0, [], 0),
+            (False, 0, False, 1, [], 0),
+            (False, 1, False, 2, ["15"], 0),
+            (False, 2, False, 3, ["15", "30"], 0),
+            (False, 3, False, 3, ["15", "30"], 37),
+            (False, 0, True, 3, ["15", "30"], 42),
+        ]:
+            with self.subTest(installed=installed, failures=failures, unusable=unusable):
+                command = """
+                    count=0
+                    sccache() {
+                      [ "$*" = "--version" ] || return 99
+                      [ "$UNUSABLE" = "false" ] || return 42
+                      [ "$INSTALLED" = "true" ] || return 127
+                    }
+                    choco() {
+                      [ "$*" = "install -y sccache --no-progress" ] || return 99
+                      count=$((count + 1))
+                      printf 'install:%s\\n' "$count"
+                      [ "$count" -gt "$FAILURES" ] || return 37
+                      INSTALLED=true
+                    }
+                    sleep() { printf 'sleep:%s\\n' "$1"; }
+                """ + install + "\nprintf 'setup continued\\n'\n"
+                result = subprocess.run(
+                    ["bash", "-euo", "pipefail", "-c", command],
+                    env={**os.environ, "INSTALLED": str(installed).lower(),
+                         "FAILURES": str(failures), "UNUSABLE": str(unusable).lower()},
+                    text=True, capture_output=True, timeout=10,
+                )
+                self.assertEqual(result.returncode, status, result.stderr)
+                lines = result.stdout.splitlines()
+                self.assertEqual(
+                    [line for line in lines if line.startswith("install:")],
+                    [f"install:{attempt}" for attempt in range(1, attempts + 1)],
+                )
+                self.assertEqual(
+                    [line for line in lines if line.startswith("sleep:")],
+                    [f"sleep:{wait}" for wait in waits],
+                )
+                self.assertEqual("setup continued" in lines, status == 0)
+                if status:
+                    self.assertIn("::error::sccache installation failed after 3 attempts", lines)
+
+    def test_windows_bootstrap_retries_are_bounded_and_preserve_failure_status(self):
+        result, values = self.plan("windows-amd64-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        setup = json.loads(values["windows_lane"])["setup_command"]
+        for failures, attempts, waits, status in [
+            (0, 1, [], 0),
+            (1, 2, ["15"], 0),
+            (2, 3, ["15", "30"], 0),
+            (3, 3, ["15", "30"], 37),
+        ]:
+            with self.subTest(failures=failures), tempfile.TemporaryDirectory(prefix="bootstrap space ") as temp:
+                directory = Path(temp)
+                tools = directory / "tools"
+                tools.mkdir()
+                for name in ["git", "choco", "sccache"]:
+                    (tools / name).symlink_to("/bin/true")
+                sleep = tools / "sleep"
+                sleep.write_text('#!/bin/sh\nprintf "%s\\n" "$1" >> "$WAIT_LOG"\n')
+                sleep.chmod(0o755)
+                toolchain = directory / "vcpkg/scripts/buildsystems/vcpkg.cmake"
+                toolchain.parent.mkdir(parents=True)
+                toolchain.touch()
+                bootstrap = directory / "vcpkg/bootstrap-vcpkg.bat"
+                bootstrap.write_text(
+                    '#!/bin/bash\nset -euo pipefail\n'
+                    '[ "$#" -eq 1 ] && [ "$1" = "-disableMetrics" ] || exit 42\n'
+                    'attempt=0\n'
+                    '[ ! -f "$ATTEMPT_LOG" ] || read -r attempt < "$ATTEMPT_LOG"\n'
+                    'attempt=$((attempt + 1))\n'
+                    'printf "%s\\n" "$attempt" > "$ATTEMPT_LOG"\n'
+                    'if [ "$attempt" -le "$FAILURES" ]; then\n'
+                    '  echo "Download failed, server returned HTTP status: 504"\n'
+                    '  exit 37\n'
+                    'fi\n'
+                )
+                bootstrap.chmod(0o755)
+                downloader = directory / "scripts/download-tinyllama-hf.sh"
+                downloader.parent.mkdir()
+                downloader.write_text('touch "$GITHUB_WORKSPACE/model-step-ran"\n')
+                attempt_log = directory / "attempts"
+                wait_log = directory / "waits"
+                result = subprocess.run(
+                    ["bash", "-euo", "pipefail", "-c", setup],
+                    cwd=directory,
+                    env={**os.environ, "PATH": f"{tools}{os.pathsep}{os.environ['PATH']}",
+                         "FAILURES": str(failures), "ATTEMPT_LOG": str(attempt_log),
+                         "WAIT_LOG": str(wait_log), "GITHUB_WORKSPACE": str(directory)},
+                    text=True, capture_output=True, timeout=10,
+                )
+                self.assertEqual(result.returncode, status, result.stderr)
+                self.assertEqual(int(attempt_log.read_text()), attempts)
+                self.assertEqual(wait_log.read_text().splitlines() if wait_log.exists() else [], waits)
+                self.assertEqual((directory / "model-step-ran").exists(), status == 0)
+                if status:
+                    self.assertIn("::error::vcpkg bootstrap failed after 3 attempts", result.stdout)
+
     def test_prepare_consume_use_same_pinned_source_configure_features_and_triplet(self):
         jobs = self.release["jobs"]
         prerequisite = jobs["windows-dependencies"]["with"]
@@ -164,6 +376,84 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
                 self.assertEqual(lane["triplet"], prerequisite["vcpkg_triplet"])
                 self.assertEqual("-DTHEMIS_ENABLE_GRPC=ON" in lane["configure_command"], edition != "minimal")
                 self.assertNotIn("VCPKG_BUILD_TYPE", lane["configure_command"])
+                self.assertEqual("VCPKG_OVERLAY_TRIPLETS" in lane["configure_command"], config == "Release")
+
+    def test_release_triplet_is_available_for_pinned_sources(self):
+        triplet = (ROOT / "triplets/x64-windows.cmake").read_text()
+        for setting in [
+            "set(VCPKG_TARGET_ARCHITECTURE x64)",
+            "set(VCPKG_CRT_LINKAGE dynamic)",
+            "set(VCPKG_LIBRARY_LINKAGE dynamic)",
+            "set(VCPKG_BUILD_TYPE release)",
+        ]:
+            self.assertIn(setting, triplet)
+        checkout = self.named("Checkout cache tooling for pinned release sources")
+        self.assertIn("triplets/x64-windows.cmake", checkout["with"]["sparse-checkout"])
+        result, values = self.plan("windows-amd64-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        command = json.loads(values["windows_lane"])["configure_command"]
+        self.assertIn('${GITHUB_WORKSPACE}/${THEMIS_CACHE_TOOLS_PREFIX}triplets', command)
+        self.assertIn('"-DVCPKG_OVERLAY_TRIPLETS=${VCPKG_RELEASE_TRIPLETS}"', command)
+        for prefix in ["", ".ci-cache-tools/"]:
+            with self.subTest(prefix=prefix):
+                result = subprocess.run(
+                    ["bash", "-euo", "pipefail", "-c",
+                     'cygpath() { printf "%s\\n" "$2"; }\n'
+                     'cmake() { printf "<%s>\\n" "$@"; }\n'
+                     'tee() { cat; }\n' + command],
+                    env={**os.environ, "GITHUB_WORKSPACE": "/workspace with spaces",
+                         "THEMIS_CACHE_TOOLS_PREFIX": prefix,
+                         "THEMIS_WINDOWS_DEPENDENCY_FLAGS": "-DVCPKG_INSTALL_OPTIONS=--only-binarycaching"},
+                    text=True, capture_output=True,
+                )
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertIn(f"<-DVCPKG_OVERLAY_TRIPLETS=/workspace with spaces/{prefix}triplets>", result.stdout)
+                self.assertIn("<-DVCPKG_INSTALL_OPTIONS=--only-binarycaching>", result.stdout)
+
+    def test_release_configure_evaluates_release_only_triplet_for_pinned_sources(self):
+        result, values = self.plan("windows-amd64-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        command = json.loads(values["windows_lane"])["configure_command"]
+        triplet = (ROOT / "triplets/x64-windows.cmake").read_text()
+        with tempfile.TemporaryDirectory(prefix="release triplet ") as temp:
+            directory = Path(temp)
+            probe = directory / "probe.cmake"
+            probe.write_text(
+                'include("${VCPKG_OVERLAY_TRIPLETS}/${VCPKG_HOST_TRIPLET}.cmake")\n'
+                'if(NOT VCPKG_BUILD_TYPE STREQUAL "release")\n'
+                '  message(FATAL_ERROR "Debug dependencies would exhaust the release budget")\n'
+                'endif()\n'
+                'if(NOT VCPKG_TARGET_ARCHITECTURE STREQUAL "x64" OR\n'
+                '   NOT VCPKG_CRT_LINKAGE STREQUAL "dynamic" OR\n'
+                '   NOT VCPKG_LIBRARY_LINKAGE STREQUAL "dynamic")\n'
+                '  message(FATAL_ERROR "Release dependency ABI changed")\n'
+                'endif()\n'
+                'message(STATUS "Release-only dependency triplet loaded")\n'
+            )
+            for prefix in ["", ".ci-cache-tools/"]:
+                with self.subTest(prefix=prefix):
+                    source_triplets = directory / "triplets"
+                    source_triplets.mkdir(exist_ok=True)
+                    (source_triplets / "x64-windows.cmake").write_text(
+                        "set(VCPKG_TARGET_ARCHITECTURE x64)\n"
+                    )
+                    selected_triplets = directory / prefix / "triplets"
+                    selected_triplets.mkdir(parents=True, exist_ok=True)
+                    (selected_triplets / "x64-windows.cmake").write_text(triplet)
+                    result = subprocess.run(
+                        ["bash", "-euo", "pipefail", "-c",
+                         'cygpath() { printf "%s\\n" "$2"; }\n'
+                         + command.replace("cmake --preset windows-release", "cmake")
+                         .replace("2>&1 | tee configure-windows-release.log",
+                                  '-P "$TRIPLET_PROBE" 2>&1')],
+                        cwd=directory,
+                        env={**os.environ, "GITHUB_WORKSPACE": temp,
+                             "THEMIS_CACHE_TOOLS_PREFIX": prefix,
+                             "THEMIS_WINDOWS_DEPENDENCY_FLAGS": "", "TRIPLET_PROBE": str(probe)},
+                        text=True, capture_output=True,
+                    )
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                    self.assertIn("Release-only dependency triplet loaded", result.stdout)
 
     def test_windows_configure_placeholders_are_not_github_expressions(self):
         script = self.release["jobs"]["prepare-release-matrix"]["steps"][0]["run"]
@@ -200,6 +490,50 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
             )
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("prerequisite incomplete", result.stdout)
+
+    def test_windows_bootstrap_retries_are_bounded_and_fail_closed(self):
+        result, values = self.plan("windows-amd64-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        setup = json.loads(values["windows_lane"])["setup_command"]
+        prerequisite = self.release["jobs"]["windows-dependencies"]["with"]
+        self.assertIn(".setup_command", prerequisite["setup_command"])
+        self.assertEqual(
+            self.release["jobs"]["release-platform-matrix"]["with"]["setup_command"],
+            "${{ matrix.setup_command }}",
+        )
+        bootstrap = "for attempt in" + setup.rsplit("for attempt in", 1)[1].split("\nMODEL_DIR=", 1)[0]
+        bootstrap = bootstrap.replace("./vcpkg/bootstrap-vcpkg.bat", "bootstrap")
+        for failures, attempts, delays, status in [
+            (0, 1, [], 0), (1, 2, [15], 0), (2, 3, [15, 30], 0),
+            (3, 3, [15, 30], 37),
+        ]:
+            with self.subTest(failures=failures):
+                command = """
+                    count=0
+                    bootstrap() {
+                      count=$((count + 1))
+                      printf 'bootstrap:%s:%s\\n' "$count" "$*"
+                      if [ "$count" -le "$FAILURES" ]; then return 37; fi
+                    }
+                    sleep() { printf 'sleep:%s\\n' "$1"; }
+                """ + bootstrap + "\nprintf 'setup continued\\n'\n"
+                result = subprocess.run(
+                    ["bash", "-euo", "pipefail", "-c", command],
+                    env={**os.environ, "FAILURES": str(failures)},
+                    text=True, capture_output=True,
+                )
+                self.assertEqual(result.returncode, status, result.stderr)
+                lines = result.stdout.splitlines()
+                self.assertEqual(
+                    [line for line in lines if line.startswith("bootstrap:")],
+                    [f"bootstrap:{attempt}:-disableMetrics" for attempt in range(1, attempts + 1)],
+                )
+                self.assertEqual(
+                    [line for line in lines if line.startswith("sleep:")],
+                    [f"sleep:{delay}" for delay in delays],
+                )
+                self.assertEqual("setup continued" in lines, status == 0)
+                self.assertEqual("failed after 3 attempts" in result.stdout, status != 0)
 
     def test_cache_diagnostics_distinguish_exact_prefix_and_none_and_enforce_exact_consume(self):
         script = self.named("Print initial cache hit state")["run"]

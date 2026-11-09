@@ -113,6 +113,26 @@ on:
         required: false
         default: ''
         type: string
+      ctest_build_directory:
+        description: CMake binary directory whose complete CTest inventory is reported
+        required: false
+        default: ''
+        type: string
+      ctest_junit_path:
+        description: CTest JUnit output path for required full-run evidence
+        required: false
+        default: ''
+        type: string
+      ctest_summary_path:
+        description: Path for the validated commit-linked CTest summary
+        required: false
+        default: ''
+        type: string
+      ctest_preset:
+        description: Optional CTest preset used to define the complete evidence test inventory
+        required: false
+        default: ''
+        type: string
       benchmark_filter:
         required: false
         default: ''
@@ -189,6 +209,7 @@ jobs:
     runs-on: ${{ inputs.runs_on }}
     timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
     env:
+      PYTHONIOENCODING: utf-8
       SCCACHE_GHA_ENABLED: ${{ inputs.enable_sccache_gha }}
       THEMIS_CACHE_TOOLS_PREFIX: ${{ inputs.source_sha != '' && '.ci-cache-tools/' || '' }}
     outputs:
@@ -235,6 +256,7 @@ jobs:
           sparse-checkout: |
             .github/scripts/cache-directory-fingerprint.sh
             scripts/prepare-windows-dependencies.py
+            triplets/x64-windows.cmake
           sparse-checkout-cone-mode: false
 
       - name: Setup MSVC environment (Windows only)
@@ -416,7 +438,7 @@ jobs:
           } >> "$GITHUB_ENV"
 
       - name: Install sccache
-        if: inputs.enable_sccache_gha
+        if: inputs.enable_sccache_gha && !(runner.os == 'Windows' && inputs.windows_dependency_mode != 'off')
         continue-on-error: true
         uses: mozilla-actions/sccache-action@v0.0.6
 
@@ -651,6 +673,8 @@ jobs:
         run: |
           set -euo pipefail
           cd "${{ inputs.working_directory }}"
+          THEMIS_DEPENDENCY_BASH="$(cygpath -w "$BASH")"
+          export THEMIS_DEPENDENCY_BASH
           python "${GITHUB_WORKSPACE}/${THEMIS_CACHE_TOOLS_PREFIX}scripts/prepare-windows-dependencies.py" --log "$RUNNER_TEMP/cmake-build-configure-output.log"
 
       - name: Save dependency snapshot before ThemisDB compile
@@ -692,28 +716,31 @@ jobs:
           fi
           script_path="$RUNNER_TEMP/cmake-build-configure.sh"
           configure_output_log="$RUNNER_TEMP/cmake-build-configure-output.log"
+          configure_attempt_log="$RUNNER_TEMP/cmake-build-configure-attempt.log"
           configure_started="$RUNNER_TEMP/cmake-build-configure-start"
           printf '%s\n' "$CONFIGURE_COMMAND" > "$script_path"
           : > "$configure_output_log"
           touch "$configure_started"
-          set +e
-          set +o pipefail
-          bash "$script_path" 2>&1 | tee -a "$configure_output_log"
-          status=${PIPESTATUS[0]}
-          set -o pipefail
-          set -e
-          if [ "$status" -ne 0 ] && {
-            grep -Eq 'Download timed out|error: curl operation failed with error code 35 \(SSL connect error\)' "$configure_output_log" ||
-              { [ "${RUNNER_ARCH:-}" = "ARM64" ] && grep -Eq "building .* failed with: BUILD_FAILED" "$configure_output_log"; }
-          }; then
-            echo "::warning::Transient vcpkg download failure detected during configure; retrying once."
+          for delay in 10 30 60 0; do
+            : > "$configure_attempt_log"
             set +e
             set +o pipefail
-            bash "$script_path" 2>&1 | tee -a "$configure_output_log"
+            bash "$script_path" 2>&1 | tee -a "$configure_output_log" "$configure_attempt_log"
             status=${PIPESTATUS[0]}
             set -o pipefail
             set -e
-          fi
+            if [ "$status" -eq 0 ] || [ "$delay" -eq 0 ]; then
+              break
+            fi
+            if grep -Eq 'Download timed out|error: curl operation failed with error code 35 \(SSL connect error\)|error: curl operation failed with response code 5[0-9][0-9]' "$configure_attempt_log"; then
+              echo "::warning::Transient vcpkg download failure detected during configure; retrying in ${delay}s."
+              sleep "$delay"
+            elif [ "$delay" -eq 10 ] && [ "${RUNNER_ARCH:-}" = "ARM64" ] && grep -Eq "building .* failed with: BUILD_FAILED" "$configure_attempt_log"; then
+              echo "::warning::vcpkg build failure detected on ARM64; retrying once."
+            else
+              break
+            fi
+          done
           if [ "$status" -ne 0 ] && [ -d vcpkg/buildtrees/detect_compiler ]; then
             # vcpkg reports log paths, not the nested compiler error needed by recovery.
             while IFS= read -r -d '' log; do
@@ -838,14 +865,37 @@ jobs:
           echo "validation_exit=${VALIDATION_EXIT}" >> "$GITHUB_OUTPUT"
           exit "$VALIDATION_EXIT"
 
+      - name: Validate and summarize full CTest evidence
+        if: always() && inputs.ctest_junit_path != ''
+        shell: bash
+        env:
+          CTEST_BUILD_DIR: ${{ inputs.ctest_build_directory }}
+          CTEST_JUNIT_PATH: ${{ inputs.ctest_junit_path }}
+          CTEST_SUMMARY_PATH: ${{ inputs.ctest_summary_path }}
+          CTEST_PLATFORM: ${{ inputs.summary_title }}
+          CTEST_COMMIT_SHA: ${{ github.sha }}
+          CTEST_WORKFLOW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          CTEST_PRESET: ${{ inputs.ctest_preset }}
+        run: |
+          set -euo pipefail
+          python3 tools/ci/summarize_ctest_evidence.py \
+            --build-dir "${CTEST_BUILD_DIR}" \
+            --junit "${CTEST_JUNIT_PATH}" \
+            --output "${CTEST_SUMMARY_PATH}" \
+            --platform "${CTEST_PLATFORM}" \
+            --commit-sha "${CTEST_COMMIT_SHA}" \
+            --workflow-run-url "${CTEST_WORKFLOW_RUN_URL}" \
+            --ctest-preset "${CTEST_PRESET}"
+          cat "${CTEST_SUMMARY_PATH}" >> "$GITHUB_STEP_SUMMARY"
+
       - name: Upload artifacts
-        if: ${{ !cancelled() && inputs.artifact_name != '' && inputs.artifact_paths != '' }}
+        if: ${{ always() && !cancelled() && inputs.artifact_name != '' && inputs.artifact_paths != '' }}
         uses: actions/upload-artifact@v5
         with:
           name: ${{ inputs.artifact_name }}
           path: ${{ inputs.artifact_paths }}
           retention-days: ${{ inputs.artifact_retention_days }}
-          if-no-files-found: ignore
+          if-no-files-found: ${{ inputs.ctest_junit_path != '' && 'error' || 'ignore' }}
 
       - name: Upload secondary artifacts
         if: inputs.artifact_name_secondary != '' && inputs.artifact_paths_secondary != ''

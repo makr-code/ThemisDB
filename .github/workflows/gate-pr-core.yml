@@ -41,6 +41,7 @@ on:
       - tests/test_docker_runtime_package_regressions.py
       - tests/test_docker_platform_validation.py
       - tests/test_release_runtime_payload.py
+      - tests/cmake/RunRegisteredTest.cmake
       - scripts/release/runtime_smoke_gate.py
       - scripts/release/validate_runtime_payload.py
       - scripts/release/runtime-dependencies-ubuntu-24.04.txt
@@ -56,6 +57,7 @@ on:
       - .github/WORKFLOW_REGISTRY.md
       - tools/ci/**/*.py
       - tools/ci/**/*.sh
+      - tools/ci/workflow_fail_open_allowlist.json
       - tools/tests/**/*.py
   push:
     branches: [develop]
@@ -74,11 +76,21 @@ on:
       - tests/test_docker_runtime_package_regressions.py
       - tests/test_docker_platform_validation.py
       - tests/test_release_runtime_payload.py
+      - tests/cmake/RunRegisteredTest.cmake
       - scripts/release/runtime_smoke_gate.py
       - scripts/release/validate_runtime_payload.py
       - scripts/release/runtime-dependencies-ubuntu-24.04.txt
       - docker/Dockerfile.unified
       - tools/ci/check_test_registration.py
+      - tools/ci/workflow_fail_open_allowlist.json
+      - tools/ci/check_workflow_fail_open.py
+      - tools/ci/check_workflow_boundaries.py
+      - tools/ci/summarize_ctest_evidence.py
+      - tools/tests/test_check_workflow_boundaries.py
+      - tools/tests/test_ctest_evidence.py
+      - tools/tests/test_workflow_fail_open.py
+      - .github/workflows/**/*.yml
+      - .github/workflows/**/*.yaml
       - .github/workflows/gate-pr-core.yml
       - .github/WORKFLOW_GUIDELINES.md
   workflow_dispatch:
@@ -603,7 +615,7 @@ jobs:
         run: |
           python3 tools/gap_scanner.py \
             --output ai_working/gap_scan_v3_aggregate.json \
-            --format json || true
+            --format json
 
       - name: Compute scanner delta
         run: |
@@ -729,6 +741,15 @@ jobs:
       - name: Run workflow boundary unit tests
         run: python -m pytest tools/tests/test_check_workflow_boundaries.py -q
 
+      - name: Run CTest evidence and gate exception tests
+        run: |
+          python3 -m unittest \
+            tests.test_test_registration.TestRegistrationGuardTests.test_ctest_evidence_mode_rejects_missing_executable_without_building \
+            tools.tests.test_ctest_evidence \
+            tools.tests.test_workflow_fail_open \
+            -v
+          python3 tools/ci/check_workflow_fail_open.py
+
       - name: Enforce workflow boundaries on changed files
         run: |
           python3 tools/ci/check_workflow_boundaries.py \
@@ -811,7 +832,7 @@ jobs:
       - name: Collect changed manifest files
         run: |
           git fetch origin "${{ github.base_ref }}" --depth=1
-          git diff --name-only "origin/${{ github.base_ref }}...HEAD" | grep -E "plugin\.json|manifest.*\.json" > changed_manifests.txt || true
+          git diff --name-only "origin/${{ github.base_ref }}...HEAD" | awk '/plugin\.json|manifest.*\.json/' > changed_manifests.txt
           echo "Manifest files changed: $(wc -l < changed_manifests.txt)"
 
       - name: Validate plugin manifests against schema and fail-closed gates

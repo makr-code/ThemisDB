@@ -52,8 +52,7 @@ jobs:
           restore-keys: |
             tinyllama-gguf-q4km-${{ runner.os }}-
 
-      - name: Download TinyLlama GGUF
-        if: steps.cache-model.outputs.cache-hit != 'true'
+      - name: Prepare and verify pinned TinyLlama GGUF
         run: |
           set -euo pipefail
           chmod +x scripts/ci-download-tinyllama.sh
@@ -194,7 +193,12 @@ jobs:
             sleep 2
           done
           if [ "${ready}" -ne 1 ]; then
-            docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" logs --tail=200 themis | tee /tmp/final-runtime-api-gate-container.log || true
+            container_ids="$(docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" ps -a -q themis)"
+            if [ -n "${container_ids}" ]; then
+              docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" logs --tail=200 themis | tee /tmp/final-runtime-api-gate-container.log
+            else
+              echo "No ThemisDB container was created; there are no container logs to collect."
+            fi
             echo "::error::ThemisDB did not become ready at ${THEMIS_ADMIN_ENDPOINT}/api/health"
             exit 1
           fi

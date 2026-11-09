@@ -1,151 +1,29 @@
 ---
 Author: "ThemisDB Team"
-Created: "2026-11-02"
-Last Updated: "2026-11-07"
+Created: "2026-11-09"
+Last Updated: "2026-11-09"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot; OpenAI API assistant"
+AI_Contributor: "GitHub Copilot"
 Human_Review: false
-Human_Author: "ThemisDB Team"
+Human_Author: "unknown"
 ---
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-02
+Datum: 2026-11-09
 Status: Active
 
-## Linux AMD64 release CPU portability (2026-11-07)
+## Docker Python autoreconf prerequisite gate
 
-- Run `42346575119`, job `128325782592`, compiled successfully but failed validation
-  when `import_docs_rocksdb` terminated with `Illegal instruction` before producing
-  the documentation database. Configure selected ThemisDB and GGML `-march=native`;
-  the lane restores compiler objects across hosted runners without CPU identity.
-- The Linux AMD64 release matrix now passes `THEMIS_ENABLE_AVX2=OFF` and
-  `GGML_NATIVE=OFF`, selecting ThemisDB's baseline `-march=x86-64`. GGML's default
-  SSE4.2, AVX, AVX2, BMI2, FMA and F16C options are explicitly disabled as well.
-  This removes runner-specific instruction requirements
-  without bypassing the mandatory documentation/model payload or packaging gates.
-  Other platforms and developer presets are unchanged.
-- Sources: [release matrix](../../.github/workflows/release-build-matrix.yml),
-  [architecture policy](../../cmake/platforms/ArchitectureOptimizations.cmake),
-  [regression tests](../../tests/test_release_runtime_payload.py).
-  Tests exercise matrix generation and the real CMake architecture policy.
-- The crash log contains no instruction address or core backtrace; a fresh Actions
-  run on corrected source must confirm importer execution and package validation.
-  Wiki freshness remains November 2 / 8066 sources; this entry is a focused source sync.
+The [release consumer](../../.github/workflows/release-docker-image.yml) and [platform workflow](../../.github/workflows/reusable-docker-image-platform.yml) enforce `test_base_installs_python_autoreconf_prerequisites` even with the source-preflight override enabled. The current [Dockerfile](../../docker/Dockerfile.unified) already installs `autoconf-archive`; older selected source revisions can still fail while building vcpkg's Python dependency. Use a new release tag containing the fix, or a fresh `build_from_workflow_source=true` dry run; re-running an old workflow does not update its source. See the [operational guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting) for the failed-job evidence.
 
-## Windows dependency preparation before release compile (2026-11-07)
-
-- Acceptance plan: isolate the enabled Windows release prerequisite; bound its
-  configure process tree, save completed/partial binary archives before compile,
-  fail closed on incomplete preparation, retain serial MSVC, and test/document
-  cache diagnostics and source/feature parity.
-- Sources: `.github/workflows/release-build-matrix.yml`,
-  `.github/workflows/reusable-cmake-build.yml`,
-  `scripts/prepare-windows-dependencies.py`,
-  `tests/test_windows_dependency_preparation.py`, and
-  [Windows operations guide](../../docs/de/guides/WINDOWS_BUILD_SETUP.md).
-  Task-provided evidence: run `42278019978`, job `128119148701` spent six hours
-  configuring (vcpkg gRPC 203/220; Debug ~84 minutes and Release >=84 minutes),
-  was cancelled before ThemisDB compilation, and skipped the late cache-save guard.
-- The selected Windows lane now has a separate `windows-dependencies` job using
-  the same pinned source and exact configure command as the consumer. It performs
-  real project configuration for manifest/default-feature parity, but no ThemisDB
-  compile. Disabled Windows preparation is skipped; Linux/macOS still execute
-  after a Windows preparation failure.
-- Budget starts before checkout: a 300-minute job-relative deadline and at most
-  270 minutes in dependency configure, PID-tree termination (`taskkill /T /F` on
-  Windows), then cache save with a 30-minute upload limit inside the 360-minute
-  job. Controlled timeout returns 124; ordinary errors retain their exit codes.
-  Failure/timeout still schedules partial snapshot save, but does not authorize
-  compilation. Hard cancellation/runner loss remains outside this guarantee.
-- Preparation publishes a cache key only after successful configure and save.
-  Windows compile requires exact snapshot restore and vcpkg binary-only installation;
-  ABI drift, missing ZIPs or cache-service failure stops before compile rather than
-  rebuilding dependencies without a bound. Prepared archives survive later MSVC
-  failure. The opt-in `release-deps-v2` namespace is platform/toolchain/triplet
-  separated, records manifest/overlay and configure hashes, vcpkg/MSVC versions and source SHA,
-  and disables old build-tree restore. Windows paths are native-normalized.
-- Snapshot keys remain unique per run/attempt. Prefix restore during preparation
-  is reported separately from exact hits and no-cache, with matched key and ZIP
-  count. Install `Restored N package(s)` output, not archive inventory, establishes
-  ABI reuse. Missing output is “not reported”; zero sccache requests are not misses.
-- Dependency parallelism defaults to 2 (input `windows_dependency_concurrency`,
-  validated range 1–4). Actual ThemisDB MSVC remains `--parallel 1`. Unchanged
-  `x64-windows` dual Debug/Release packages retain target/host linkage and ABI
-  compatibility, including supported Debug release-matrix dispatches. No global
-  release-only environment hack or unvalidated overlay triplet is introduced.
-- Host regressions do not establish native Windows CI success. A new corrected-source
-  dispatch must verify taskkill tree cleanup, partial upload, binary-only ABI restore,
-  MSVC and packaging. Existing Apple-backend Python tests currently have unrelated
-  source-extraction errors; they were not removed or modified for this change.
-- Wiki status remains generated 2026-11-02 / 8066 sources with incomplete workflow
-  summaries; source and concrete run logs take precedence.
-
-## macOS LLVM backend build requirements
-
-- Sources: `cmake/Dependencies.cmake`, `tests/test_deployment_workflow_regressions.py`; Actions run `41960105333`, job `127024660181`.
-- The existing Apple `ggml-base` C++ `<cerrno>` force-include resolves the earlier GGUF compilation failure. The newer run exposes a missing `<memory>` include in `ggml-metal.cpp` and `elaborated-enum-base` errors from the Xcode 15.4 SDK headers used by Accelerate.
-- Apple `ggml-metal` C++ compilation privately force-includes `<memory>`. For Apple builds using upstream/Homebrew Clang, a compiler-checked `-Wno-error=elaborated-enum-base` on `ggml-cpu` and `ggml-blas` C++ compilation retains the SDK warning without treating it as fatal. C/Objective-C sources and downstream consumers are unchanged; Metal and Accelerate remain enabled.
-- Focused host CMake/compiler regressions exercise missing-header failure, successful compilation, platform/compiler guards, missing targets, and private C++ flag scope. They do not replace a native macOS ARM64 build; native SDK and packaging validation remain pending.
-- Wiki health metadata dates from 2026-11-02 and workflow summaries are incomplete. Current source and concrete Actions logs take precedence.
-## Windows release compiler-memory mitigation
-
-- Sources: `.github/workflows/release-build-matrix.yml`, `cmake/ModularBuild.cmake`, `cmake/README.md`, and latest [Actions run 42155076805, job 127687580213](https://github.com/makr-code/ThemisDB/actions/runs/42155076805/job/127687580213). The task-provided log evidence reports MSVC C1060 heap exhaustion despite serial compilation and the handler `/Od` override.
-- The `windows-amd64` ThemisDB build still sets `VCPKG_MAX_CONCURRENCY=1` and `CMAKE_BUILD_PARALLEL_LEVEL=1`, with explicit build `--parallel 1`. Dependency configure now has separate modest parallelism (see prerequisite section above). Serial compilation alone did not resolve the earlier C1060 failure.
-- The scoped correction adds explicit `/Ob0` alongside `/Od` for monitoring, index and prompt handlers under the same non-Debug `THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY` guard (default `ON`). `/Ob0` overrides inherited `/Ob2` inlining. Setting the option to `OFF` removes both overrides, restoring normal optimization and inherited inlining; `/bigobj`, unity exclusion and global `/Zm200` remain. Other translation units are unchanged.
-- `tests/test_windows_release_build_memory.py` executes matrix preparation and the generated build shell with stub `cmake` to verify concurrency and pipeline failure propagation through the logging pipe. Stub execution is not MSVC build evidence.
-- The Linux sandbox cannot run MSVC. A **new Actions run on corrected source** is required; retries retain the original source SHA. No Windows build success is claimed.
-- `WIKI_STATUS.json` was generated on 2026-11-02 with 8066 sources; workflow summaries marked “binary or unreadable” are incomplete. Current source and Actions logs take precedence over generated wiki metadata.
-
-## Configure-time source download recovery
-
-- Sources: `.github/workflows/reusable-cmake-build.yml`, `tests/test_deployment_workflow_regressions.py`, and [Actions run 42174218456, job 127750342277](https://github.com/makr-code/ThemisDB/actions/runs/42174218456/job/127750342277).
-- Windows AMD64 configuration failed when vcpkg exhausted three download attempts for the Arrow 25.0.1 archive from `archive.apache.org`. The later missing Ninja/compiler diagnostics followed the aborted dependency install; vcpkg had already detected MSVC successfully.
-- The existing one-time configure retry now handles `Download timed out` on every runner architecture, retaining downloaded dependencies and the original vcpkg version/checksum verification. Existing ARM64 `BUILD_FAILED` recovery is unchanged. Successful configuration and unrelated Windows build failures are not retried; a failed retry propagates its exit status.
-- Focused shell regressions cover recovery, retry bounds, final failure propagation, non-network failures, and ARM64 behavior. They do not establish native Windows build or packaging success; a fresh Actions run containing the fix remains required.
-
-## Global transaction durability regression coverage
-
-- Canonical sources: `tests/transaction/CMakeLists.txt`, `tests/CMakeLists.txt`, `tests/test_global_transaction_manager.cpp`, `src/transaction/global_transaction_manager.cpp`, `include/sharding/wal_manager.h`.
-- Modular builds must register the existing global transaction regression suite as well as non-modular builds. Enable `THEMIS_BUILD_TESTS` when configuring the focused validation build; release packaging configurations that disable tests do not provide this evidence.
-- The coordinator reports internal errors with `GlobalTxnResult::FAILURE` and checks `WALManager::flushDurable()` through its WAL helper. The void `flush()` API is not a durability success indicator.
-- Verify focused tests before accepting a new native ARM64 Release build and its packages. Re-running an older failed Actions run retains its original source commit; use a new Mainline dispatch on corrected `develop`.
-- Wiki health metadata was generated on 2026-11-02 and contains incomplete workflow summaries marked “binary or unreadable”; current source and Actions logs take precedence. No ARM64 build or packaging success is inferred from this documentation.
-
-## macOS pinned llama.cpp portability (2026-11-05)
-
-- Evidence: the [failed macOS CI job](https://github.com/makr-code/ThemisDB/actions/runs/42075920970/job/127417305713) and CMake-Agent handoff identify missing `<memory>` for `std::unique_ptr` in pinned `ggml-metal.cpp`, plus Homebrew Clang's fixed-enum diagnostic in Xcode 15.4 SDK Accelerate headers included by `ggml-cpu`.
-- Canonical implementation: [cmake/Dependencies.cmake](../../cmake/Dependencies.cmake) adds Apple-only, PRIVATE, C++-only `-include memory` to `ggml-metal`. For `ggml-cpu`, Apple plus upstream compiler ID `Clang` (not `AppleClang`) gates a capability probe using `-Werror=elaborated-enum-base`; only when supported is PRIVATE, C++-only `-Wno-error=elaborated-enum-base` applied.
-- Keep other warnings-as-errors intact: no global warning weakening, no Metal/Accelerate disable, and no compiler downgrade. Retain the current Homebrew compiler headers/runtime needed for `std::jthread`.
-- Regression sources: [fixture CMakeLists.txt](../../tests/cmake/ggml_portability/CMakeLists.txt) and [RunCase.cmake](../../tests/cmake/ggml_portability/RunCase.cmake) check target/language/platform/compiler guards, private options, missing targets, unsupported diagnostics, and negative controls retaining unrelated `-Werror` failures. They use synthetic sources, not a native Apple SDK build.
-- CMake-Agent reported Linux results: fixture **11/11**, [deployment workflow regressions](../../tests/test_deployment_workflow_regressions.py) **30/30**, and existing [Ninja discovery tests](../../tests/test_cmake_ninja_discovery.py) **2/2** passed. These results were not rerun for this documentation-only update.
-- Limitation: no native macOS build has validated the fix; a fresh macOS CI build is still required. Linux fixture success does not establish Metal/Accelerate compilation, linking, runtime, or packaging success.
-
-## Docker ARM64 bootstrap preflight
-
-Exact model backend not verifiable from final document text alone.
-
-- Sources: `.github/workflows/reusable-docker-image-platform.yml`, `docker/Dockerfile.unified`, `tests/test_docker_runtime_package_regressions.py`.
-- ARM64 platform builds require the pinned `bootstrap-vcpkg.sh`, which builds vcpkg natively on ARM64; the `vcpkg-glibc` release binary is x86-64-only.
-- Every selected release tag (including alpha, beta, rc, and nightly tags) is checked before platform dispatch, even when registry publication and dry-run are disabled. This includes tags resolved implicitly from the version files for publication: the parent preflight and override notice also check `steps.version.outputs.source_is_tag`. Untagged developer-track runs retain platform-level validation. `override_docker_source_preflight` skips dependency/runtime source checks but not the release-source ARM64 bootstrap check.
-- Set `dry_run=true` to build both platforms, run Trivy vulnerability scans, and execute runtime smoke checks without registry login/publication or release-status tracker updates. Tagged dry-runs also run the source preflight. Dry-run takes precedence over `push_to_registry`.
-- The reusable platform workflow enforces the same dry-run no-push behavior, runs the ARM64 bootstrap check and Trivy against the locally loaded image, then executes runtime validation. Plain validation runs without `dry_run` keep their existing build/runtime behavior.
-- Run `41900183288`, AMD64 job `126830955426`, selected obsolete `v2.4.0-alpha` source (`3cfe59e6c5e7093cec8391291b5fc405dfdab246`) and failed all eight dependency/runtime source checks before Docker compilation. The stable-only caller condition had allowed the alpha tag to reach platform dispatch; tagged prereleases now receive the same early check.
-- Run `41984551595`, ARM64 job `127107984594`, selected the same obsolete tag implicitly (`push_to_registry=true`, empty `tag_name`) and failed the native-bootstrap check. Checking only explicit tag inputs missed this path; the resolved-source flag closes it without changing the selected commit or bypassing ARM64 validation.
-- If a release tag fails source preflight, publish a **new release tag** containing the corrected Dockerfile; the workflow does not move tags or substitute newer source for the selected release commit. To validate current workflow source instead, set `build_from_workflow_source=true`; this forces dry-run and disables registry publication.
-
-## Windows compiler memory and ARM SIMD guard
-
-- Sources: `.github/workflows/release-build-matrix.yml`, `cmake/CompilerOptions.cmake`, `cmake/ModularBuild.cmake`, `cmake/README.md`, `tests/test_mainline_compiler_regressions.py`.
-- The Windows release matrix uses dependency/configure concurrency 1 and build `--parallel 1`; latest run `42155076805`, job `127687580213`, still hit `C1060` with `/Od`. Monitoring, index and prompt handlers now share `/Od` plus explicit `/Ob0` (overriding inherited `/Ob2`) under `THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY` (default `ON`, outside Debug). Opting out removes both overrides while retaining `/bigobj` and unity exclusion; native validation remains pending.
-- `CompilerOptions.cmake` runs before platform detection. AVX2/FMA flags and `THEMIS_HAS_AVX2` require an x64 target processor, Release and AVX2 enabled; QNAP's x86 baseline is likewise target-guarded. An x64 host must not inject x86 flags into ARM64 targets.
-- Focused Python tests configure CMake policies without native compiler execution. They do not prove native Windows/ARM64 compilation or package success. Dispatch a new Mainline run containing the corrected source on `develop`; retrying the original failed run retains its original SHA.
+AI-assisted update; exact model backend not verifiable from final document text alone.
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
-- Hash: `aca5342a1a4719e8`
+- Hash: `59518d7978eca388`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/benchmark-performance-gate.yml
@@ -175,12 +53,12 @@ Exact model backend not verifiable from final document text alone.
 
 ## .github/workflows/build-llm-inference.yml
 - Kategorie: build_test_ci
-- Hash: `cdbebf0d599d8288`
+- Hash: `4321cbd09bad4a80`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-mainline.yml
 - Kategorie: build_test_ci
-- Hash: `19f575aa854103d9`
+- Hash: `9aaef349e879d011`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-ollama-router.yml
@@ -205,7 +83,7 @@ Exact model backend not verifiable from final document text alone.
 
 ## .github/workflows/build-wave-b-transaction.yml
 - Kategorie: build_test_ci
-- Hash: `c0bd97312e911678`
+- Hash: `f579060afd0e175b`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-widget.yml
@@ -220,7 +98,7 @@ Exact model backend not verifiable from final document text alone.
 
 ## .github/workflows/compliance-governance-gates.yml
 - Kategorie: build_test_ci
-- Hash: `5fbaf5d0c69ad1b8`
+- Hash: `3243c6e9fa0ee910`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/compliance-supply-chain.yml
@@ -260,7 +138,7 @@ Exact model backend not verifiable from final document text alone.
 
 ## .github/workflows/gate-distributed-knowledge.yml
 - Kategorie: build_test_ci
-- Hash: `8cd46108cf2bbc01`
+- Hash: `718cedef92c2320a`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-benchmark-ctest.yml
@@ -270,12 +148,12 @@ Exact model backend not verifiable from final document text alone.
 
 ## .github/workflows/gate-pr-community-failclosed.yml
 - Kategorie: build_test_ci
-- Hash: `a2ab1944bb366743`
+- Hash: `fa3a0808c501edda`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-core.yml
 - Kategorie: build_test_ci
-- Hash: `564a9b0c3ee3a8ef`
+- Hash: `3f2c61ecfe6d0cd3`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-doc-metadata.yml
@@ -285,17 +163,17 @@ Exact model backend not verifiable from final document text alone.
 
 ## .github/workflows/gate-pr-doxygen-governance.yml
 - Kategorie: build_test_ci
-- Hash: `54b2aa7fb8588485`
+- Hash: `b52dcb9ed052e38d`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-edition-license.yml
 - Kategorie: build_test_ci
-- Hash: `90502118f5c9afd8`
+- Hash: `32768597ff46e0b5`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-final-runtime-api.yml
 - Kategorie: build_test_ci
-- Hash: `4c068252ac381b33`
+- Hash: `73b9ab0ee7d7d04d`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-hash-sbom.yml
@@ -315,7 +193,7 @@ Exact model backend not verifiable from final document text alone.
 
 ## .github/workflows/gate-pr-plugin-boundary.yml
 - Kategorie: build_test_ci
-- Hash: `a6ea80c1053c5585`
+- Hash: `728026c1c4ca87a5`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-primary-doc-structure.yml
@@ -350,22 +228,22 @@ Exact model backend not verifiable from final document text alone.
 
 ## .github/workflows/gate-pr-rag-security.yml
 - Kategorie: build_test_ci
-- Hash: `2c3a03877b8a4233`
+- Hash: `83f551a5b4b3efb0`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-rag-version.yml
 - Kategorie: build_test_ci
-- Hash: `c6460c02ca88e685`
+- Hash: `21c36c69e408cb90`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-version-targeting.yml
 - Kategorie: build_test_ci
-- Hash: `fca23062af58da44`
+- Hash: `718d81eb7f5493ec`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-release-benchmark-validation.yml
 - Kategorie: build_test_ci
-- Hash: `20c69f30312f2c38`
+- Hash: `22dd32a4b2caa773`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-wave-closure.yml
@@ -455,7 +333,7 @@ Exact model backend not verifiable from final document text alone.
 
 ## .github/workflows/release-build-matrix.yml
 - Kategorie: build_test_ci
-- Hash: `eeee4a037355adac`
+- Hash: `d26d94005b21de87`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-changelog.yml
@@ -470,12 +348,12 @@ Exact model backend not verifiable from final document text alone.
 
 ## .github/workflows/release-docker-image.yml
 - Kategorie: build_test_ci
-- Hash: `f381b8463cbb9f58`
+- Hash: `4477ab089a3c8999`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-evidence-chain.yml
 - Kategorie: build_test_ci
-- Hash: `7f277b8a7015e3df`
+- Hash: `9c9004226a95deb3`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-linux-distribution.yml
@@ -495,12 +373,12 @@ Exact model backend not verifiable from final document text alone.
 
 ## .github/workflows/release-mainline.yml
 - Kategorie: build_test_ci
-- Hash: `ae6d60e49c09472e`
+- Hash: `08cd8d8e015259b9`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-nightly.yml
 - Kategorie: build_test_ci
-- Hash: `d30426adfb7a8ed0`
+- Hash: `d23dc4fe23760444`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-promote.yml

@@ -1,5 +1,26 @@
 # Kapitel 42: Dokumentations-Assistent – Verwendung für Admin, Superuser und User
 
+[docs](../../README.md) > [compendium](../README.md) > [chapters](./README.md)
+
+- **Datum:** 2026-11-07
+- **Author:** ThemisDB Team
+- **Created:** 2026-11-07
+- **Last Updated:** 2026-11-07
+- **Status:** review
+- **Primary (Quelle der Wahrheit):** [ROADMAP.md](../../../ROADMAP.md), [AI_WIKI_INTEGRATION_PLAYBOOK.md](../../../AI_WIKI_INTEGRATION_PLAYBOOK.md), [Developer Wiki index](../../../ai_context/developer_llm_wiki/INDEX.md)
+- **Bezug / Reference:** Issue #7189 — v2.4.0-alpha compendium sync
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
+
+## Copilot and wiki source precedence
+
+Copilot's Developer LLM wiki is operational context, not a release-status authority. Its index directs agents to prefer root governance and module sources when claims conflict; the wiki status was generated on 2026-11-02 and should be treated as a freshness signal, not as the current roadmap.
+
 ## v2.4.0-alpha roadmap alignment
 
 The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: AI assistant, Copilot, documentation, LLM, wiki. 

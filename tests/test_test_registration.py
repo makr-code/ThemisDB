@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -34,6 +36,29 @@ class TestRegistrationGuardTests(unittest.TestCase):
 
     def tearDown(self) -> None:
         self.temporary_directory.cleanup()
+
+    def test_ctest_evidence_mode_rejects_missing_executable_without_building(self) -> None:
+        missing_target = self.root / "missing-test-runner"
+        environment = os.environ.copy()
+        environment["THEMIS_CTEST_DISABLE_ON_DEMAND_BUILD"] = "1"
+
+        result = subprocess.run(
+            [
+                "cmake",
+                f"-DTARGET_NAME=missing_test_runner",
+                f"-DTARGET_FILE={missing_target}",
+                f"-DBUILD_DIR={self.root}",
+                "-P",
+                str(REPOSITORY_ROOT / "tests" / "cmake" / "RunRegisteredTest.cmake"),
+            ],
+            capture_output=True,
+            text=True,
+            env=environment,
+            check=False,
+        )
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("On-demand builds are disabled", result.stderr)
 
     def write_compilation_database(
         self, sources: list[Path], targets: list[str] | None = None

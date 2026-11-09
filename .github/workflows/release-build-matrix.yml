@@ -48,7 +48,7 @@ on:
       windows_dependency_concurrency:
         description: Modest vcpkg parallelism, independent of serial ThemisDB MSVC
         required: false
-        default: '2'
+        default: '4'
         type: string
 
 permissions:
@@ -126,6 +126,7 @@ jobs:
           PACKAGING: ${{ inputs.packaging }}
           DISTRIBUTION: ${{ inputs.distribution }}
           RUN_NUMBER: ${{ github.run_number }}
+          SOURCE_SHA: ${{ inputs.source_sha }}
           WINDOWS_DEPENDENCY_CONCURRENCY: ${{ inputs.windows_dependency_concurrency }}
         run: |
           set -euo pipefail
@@ -141,7 +142,7 @@ jobs:
           packaging = os.environ["PACKAGING"].strip()
           distribution = os.environ["DISTRIBUTION"].strip().lower()
           run_number = os.environ["RUN_NUMBER"]
-          dependency_concurrency = os.environ.get("WINDOWS_DEPENDENCY_CONCURRENCY", "2")
+          dependency_concurrency = os.environ.get("WINDOWS_DEPENDENCY_CONCURRENCY", "4")
           if dependency_concurrency not in {"1", "2", "3", "4"}:
               raise ValueError("Windows dependency concurrency must be between 1 and 4")
           allowed_editions = {"minimal", "community", "enterprise", "hyperscaler", "military"}
@@ -278,12 +279,48 @@ jobs:
                   "arch": "x64",
                   "compiler": "msvc",
                   "triplet": "x64-windows",
-                  "setup_command": "set -euo pipefail\nchoco install -y sccache || echo \"::warning::sccache install via choco failed; continuing without sccache cache.\"\ngit submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true\ngit submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF\ntest -f vcpkg/scripts/buildsystems/vcpkg.cmake || {\n  echo \"::error::vcpkg submodule/toolchain missing before bootstrap\"\n  exit 1\n}\n./vcpkg/bootstrap-vcpkg.bat -disableMetrics",
+                  "setup_command": (
+                      "set -euo pipefail\n"
+                      "for attempt in 1 2 3; do\n"
+                      "  if sccache --version; then\n"
+                      "    break\n"
+                      "  fi\n"
+                      "  if choco install -y sccache --no-progress && sccache --version; then\n"
+                      "    break\n"
+                      "  else\n"
+                      "    sccache_status=$?\n"
+                      "  fi\n"
+                      "  if [ \"$attempt\" -eq 3 ]; then\n"
+                      "    echo \"::error::sccache installation failed after 3 attempts\"\n"
+                      "    exit \"$sccache_status\"\n"
+                      "  fi\n"
+                      "  echo \"::warning::sccache installation attempt $attempt failed; retrying\"\n"
+                      "  sleep \"$((attempt * 15))\"\n"
+                      "done\n"
+                      "git submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true\ngit submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF\ntest -f vcpkg/scripts/buildsystems/vcpkg.cmake || {\n  echo \"::error::vcpkg submodule/toolchain missing before bootstrap\"\n  exit 1\n}\n"
+                      "for attempt in 1 2 3; do\n"
+                      "  if ./vcpkg/bootstrap-vcpkg.bat -disableMetrics; then\n"
+                      "    break\n"
+                      "  else\n"
+                      "    bootstrap_status=$?\n"
+                      "  fi\n"
+                      "  if [ \"$attempt\" -eq 3 ]; then\n"
+                      "    echo \"::error::vcpkg bootstrap failed after 3 attempts\"\n"
+                      "    exit \"$bootstrap_status\"\n"
+                      "  fi\n"
+                      "  echo \"::warning::vcpkg bootstrap attempt $attempt failed; retrying\"\n"
+                      "  sleep \"$((15 * attempt))\"\n"
+                      "done"
+                  ),
                   "configure_command": (
                       f"set -euo pipefail\nexport VCPKG_MAX_CONCURRENCY={dependency_concurrency}\n"
                       f"export CMAKE_BUILD_PARALLEL_LEVEL={dependency_concurrency}\n"
                       "export CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\n"
-                      "cmake --preset windows-release ${CMAKE_FLAGS} -DVCPKG_HOST_TRIPLET=x64-windows ${THEMIS_WINDOWS_DEPENDENCY_FLAGS:-} 2>&1 | tee configure-windows-release.log"
+                      + ('VCPKG_RELEASE_TRIPLETS="$(cygpath -m "${GITHUB_WORKSPACE}/${THEMIS_CACHE_TOOLS_PREFIX}triplets")"\n'
+                         if build_type == "Release" else "")
+                      + "cmake --preset windows-release ${CMAKE_FLAGS} -DVCPKG_HOST_TRIPLET=x64-windows "
+                      + ('"-DVCPKG_OVERLAY_TRIPLETS=${VCPKG_RELEASE_TRIPLETS}" ' if build_type == "Release" else "")
+                      + "${THEMIS_WINDOWS_DEPENDENCY_FLAGS:-} 2>&1 | tee configure-windows-release.log"
                   ),
                   "build_command": "set -euo pipefail\nexport VCPKG_MAX_CONCURRENCY=1\nexport CMAKE_BUILD_PARALLEL_LEVEL=1\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --build --preset windows-release --parallel 1 2>&1 | tee build-windows-release.log",
                   "validation_command": "set -euo pipefail\nctest --preset windows-release --output-on-failure -j 1 --timeout 60 2>&1 | tee test-windows-release.log\n\ncmake --install build-msvc-windows-release --prefix build-msvc-windows-release/install 2>&1 | tee install-windows-release.log\n\nBUILD_DIR=\"${GITHUB_WORKSPACE}/build-msvc-windows-release\"\nPACKAGES_DIR=\"${GITHUB_WORKSPACE}/packages\"\nrm -rf \"${PACKAGES_DIR}\"\nmkdir -p \"${PACKAGES_DIR}\"\n\nfor GEN in ${PACKAGE_GENERATORS}; do\n  if ! command -v candle &>/dev/null 2>&1 && [ \"${GEN}\" = \"WIX\" ]; then\n    echo \"::notice::WiX (candle) not found - MSI generator skipped.\"\n    continue\n  fi\n  echo \"--- Running CPack generator: ${GEN} ---\"\n  cpack --config \"${BUILD_DIR}/CPackConfig.cmake\" \\\n    -B \"${PACKAGES_DIR}\" \\\n    -G \"${GEN}\" 2>&1 | tee \"${GITHUB_WORKSPACE}/cpack-${GEN}-windows-release.log\" || \\\n    echo \"::warning::CPack generator ${GEN} failed - continuing.\"\ndone\n\nif ! find \"${PACKAGES_DIR}\" -maxdepth 1 \( -name '*.zip' -o -name '*.msi' -o -name '*.exe' \) -print -quit | grep -q .; then\n  echo \"::error::No Windows package artifacts were produced in ${PACKAGES_DIR}\"\n  exit 1\nelse\n  echo \"Packages produced:\"\nls -lh \"${PACKAGES_DIR}\" || true\nfi",
@@ -324,6 +361,25 @@ jobs:
               if not entry.get("enabled"):
                   continue
               lane_os = "linux" if entry["id"].startswith("linux") else ("windows" if entry["id"].startswith("windows") else "macos")
+              if lane_os == "linux":
+                  entry["setup_command"] = entry["setup_command"].replace(
+                      "./vcpkg/bootstrap-vcpkg.sh -disableMetrics",
+                      """for attempt in 1 2 3; do
+          bootstrap_log="${RUNNER_TEMP:-/tmp}/vcpkg-bootstrap-${attempt}.log"
+          set +e
+          ./vcpkg/bootstrap-vcpkg.sh -disableMetrics 2>&1 | tee "$bootstrap_log"
+          bootstrap_status=${PIPESTATUS[0]}
+          set -e
+          if [ "$bootstrap_status" -eq 0 ]; then
+            break
+          fi
+          if [ "$attempt" -eq 3 ] || ! grep -Eq 'curl: \\(22\\).*error: 5[0-9][0-9]' "$bootstrap_log"; then
+            exit "$bootstrap_status"
+          fi
+          echo "::warning::Transient vcpkg bootstrap HTTP 5xx failure; retrying (attempt $((attempt + 1))/3)."
+          sleep $((attempt * 5))
+          done""",
+                  )
               if lane_os == "macos":
                   # Xcode 15.4's libc++ lacks jthread/stop_token; use LLVM's matching headers and runtime.
                   entry["compiler"] = "homebrew-llvm"
@@ -364,6 +420,33 @@ jobs:
               entry["validation_command"] = entry["validation_command"].replace("${PACKAGE_GENERATORS}", generators_for(lane_os))
               entry["validation_command"] += '\npython3 scripts/release/validate_runtime_payload.py "${PACKAGES_DIR}" --packages'
               entry["validation_continue_on_error"] = False
+              if (
+                  entry["id"] == "windows-amd64"
+                  and not os.environ.get("SOURCE_SHA", "").strip()
+                  and os.environ.get("GITHUB_REF") == "refs/heads/develop"
+              ):
+                  entry["artifact_name"] = (
+                      f"ctest-evidence-windows-{os.environ['GITHUB_SHA']}-{os.environ['GITHUB_RUN_ID']}"
+                  )
+                  entry["configure_command"] = entry["configure_command"].replace(
+                      "cmake --preset windows-release ${CMAKE_FLAGS}",
+                      "cmake --preset windows-release ${CMAKE_FLAGS} -DTHEMIS_BUILD_TESTS=ON",
+                  )
+                  entry["validation_command"] = entry["validation_command"].replace(
+                      "ctest --preset windows-release --output-on-failure -j 1 --timeout 60",
+                      "THEMIS_CTEST_DISABLE_ON_DEMAND_BUILD=1 ctest --preset windows-release "
+                      "--output-on-failure -j 1 --timeout 60 --no-tests=error "
+                      '--output-junit "${GITHUB_WORKSPACE}/build-msvc-windows-release/test-windows-release.xml"',
+                  )
+                  entry["artifact_paths"] += (
+                      "\nbuild-msvc-windows-release/test-windows-release.xml"
+                      "\nbuild-msvc-windows-release/test-windows-release-summary.md"
+                  )
+                  entry["artifact_retention_days"] = "90"
+                  entry["ctest_build_directory"] = "build-msvc-windows-release"
+                  entry["ctest_junit_path"] = "build-msvc-windows-release/test-windows-release.xml"
+                  entry["ctest_summary_path"] = "build-msvc-windows-release/test-windows-release-summary.md"
+                  entry["ctest_preset"] = "windows-release"
 
           selected = [entry for entry in entries if entry["enabled"]]
           if not selected:
@@ -432,6 +515,10 @@ jobs:
       artifact_retention_days: ${{ matrix.artifact_retention_days }}
       artifact_retention_days_secondary: ${{ matrix.artifact_retention_days_secondary }}
       summary_title: ${{ matrix.summary_title }}
+      ctest_build_directory: ${{ matrix.ctest_build_directory || '' }}
+      ctest_junit_path: ${{ matrix.ctest_junit_path || '' }}
+      ctest_summary_path: ${{ matrix.ctest_summary_path || '' }}
+      ctest_preset: ${{ matrix.ctest_preset || '' }}
       timeout_minutes: ${{ matrix.timeout_minutes || '360' }}
 
   runtime-artifact-gate:

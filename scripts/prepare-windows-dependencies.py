@@ -12,6 +12,7 @@ from pathlib import Path
 import re
 import signal
 import subprocess
+import sys
 import time
 
 
@@ -33,6 +34,8 @@ def run(command, log, budget_seconds):
     if budget_seconds <= 0:
         print("::error::Dependency budget exhausted before configure", flush=True)
         return 124
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     started = time.monotonic()
     # Regular files avoid a pipe reader blocking on descendants after timeout.
     with log.open("wb") as output, log.open("rb") as reader:
@@ -86,12 +89,14 @@ def main():
             parser.error("--metrics-only requires --cache")
         report(args.log, args.cache)
         return 0
+    if not os.environ.get("THEMIS_DEPENDENCY_BASH"):
+        parser.error("configure requires THEMIS_DEPENDENCY_BASH")
     # The job starts a 300-minute deadline before checkout/cache/setup. Never
     # spend more than 270 minutes in configure, leaving >=60 minutes of the
     # 360-minute job for termination, inventory, cache upload and diagnostics.
     remaining = float(os.environ["THEMIS_DEPENDENCY_DEADLINE"]) - time.time()
     return run(
-        ["bash", "-euo", "pipefail", "-c", os.environ["CONFIGURE_COMMAND"]],
+        [os.environ["THEMIS_DEPENDENCY_BASH"], "-euo", "pipefail", "-c", os.environ["CONFIGURE_COMMAND"]],
         args.log, min(270 * 60, remaining),
     )
 

@@ -5,6 +5,7 @@ import argparse
 import re
 import sys
 from pathlib import Path
+from typing import Any
 
 import yaml
 
@@ -150,6 +151,79 @@ def _validate_summary_checkout(data: dict, workflow_path: str, violations: list[
                 )
 
 
+def _validate_pull_request_target_safety(data: dict, workflow_path: str, violations: list[str]) -> None:
+    on_config = _workflow_on(data)
+    if not _has_event(on_config, "pull_request_target"):
+        return
+
+    pr_head_reference = re.compile(
+        r"(?:github\.event\.pull_request\.head\b|github\.head_ref\b|refs/pull/[^/\s]+/head)",
+        re.IGNORECASE,
+    )
+    base_ref_contexts = (
+        "github.sha",
+        "github.ref",
+        "github.ref_name",
+        "github.base_ref",
+        "github.event.pull_request.base.sha",
+        "github.event.pull_request.base.ref",
+    )
+
+    def is_base_only_ref(ref: str) -> bool:
+        expressions = re.findall(r"\$\{\{\s*(.*?)\s*\}\}", ref)
+        if not expressions:
+            return "${{" not in ref
+        if ref.count("${{") != len(expressions):
+            return False
+        for expression in expressions:
+            remainder = expression
+            for context in sorted(base_ref_contexts, key=len, reverse=True):
+                remainder = remainder.replace(context, "")
+            remainder = re.sub(r"\s+|\|\||&&|==|!=|[!()'\"]", "", remainder)
+            if remainder:
+                return False
+        return True
+
+    def contains_pr_head(value: Any) -> bool:
+        if isinstance(value, str):
+            return bool(pr_head_reference.search(value))
+        if isinstance(value, dict):
+            return any(contains_pr_head(item) for item in value.values())
+        if isinstance(value, list):
+            return any(contains_pr_head(item) for item in value)
+        return False
+
+    workflow_metadata = {
+        key: value for key, value in data.items() if key not in {"on", True, "jobs"}
+    }
+    if contains_pr_head(workflow_metadata):
+        violations.append(
+            f"{workflow_path}: pull_request_target workflow references PR-head data outside its trigger"
+        )
+
+    for job_name, job in (data.get("jobs") or {}).items():
+        if not isinstance(job, dict):
+            continue
+        if contains_pr_head(job):
+            violations.append(
+                f"{workflow_path}: pull_request_target job {job_name} references PR-head data"
+            )
+        for step in job.get("steps", []):
+            if not isinstance(step, dict):
+                continue
+            uses = step.get("uses", "")
+            options = step.get("with") or {}
+            if isinstance(uses, str) and uses.startswith("actions/checkout@"):
+                ref = options.get("ref", "")
+                dynamic_ref = isinstance(ref, str) and "${{" in ref
+                base_only_ref = isinstance(ref, str) and is_base_only_ref(ref)
+                unsafe_ref = isinstance(ref, str) and dynamic_ref and not base_only_ref
+                if unsafe_ref or contains_pr_head(options):
+                    violations.append(
+                        f"{workflow_path}: pull_request_target job {job_name} checks out PR-head or untrusted dynamic code"
+                    )
+
+
 def validate_workflow_file(path: Path) -> list[str]:
     workflow_path = _normalize(str(path))
     try:
@@ -164,6 +238,7 @@ def validate_workflow_file(path: Path) -> list[str]:
 
     _validate_permissions(data, workflow_path, violations)
     _validate_summary_checkout(data, workflow_path, violations)
+    _validate_pull_request_target_safety(data, workflow_path, violations)
 
     if _has_event(on_config, "pull_request"):
         pull_request = _event_config(on_config, "pull_request")

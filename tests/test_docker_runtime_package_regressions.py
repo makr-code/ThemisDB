@@ -94,6 +94,23 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
     def _dockerfile_text() -> str:
         return DOCKERFILE.read_text(encoding="utf-8")
 
+    def test_documentation_payload_sources_are_in_build_context(self) -> None:
+        rules = [
+            line.strip()
+            for line in (REPO_ROOT / ".dockerignore").read_text(encoding="utf-8").splitlines()
+            if line.strip() and not line.lstrip().startswith("#")
+        ]
+        self.assertEqual(rules[0], "*", "Keep the build context deny-by-default")
+        build = extract_stage(self._dockerfile_text(), "build", base_image="deps")
+        for directory in ("docs", "ai_context"):
+            with self.subTest(directory=directory):
+                self.assertTrue((REPO_ROOT / directory).is_dir())
+                self.assertIn(f"COPY {directory} ./{directory}", build)
+                self.assertIn(f"!{directory}/", rules)
+                self.assertIn(f"!{directory}/**", rules)
+                self.assertNotIn(f"{directory}/", rules)
+                self.assertNotIn(f"{directory}/**", rules)
+
     def test_build_configure_preset_exists(self) -> None:
         build = extract_stage(self._dockerfile_text(), "build", base_image="deps")
         invocations = re.findall(r"\bcmake --preset ([\w-]+)", build)
@@ -145,6 +162,28 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
             base, r"(?m)^ADD\s+https://\S+/vcpkg-glibc\s",
             "vcpkg-glibc is x86-64-only and fails with Exec format error on ARM64.",
         )
+
+    def test_base_installs_python_autoreconf_prerequisites(self) -> None:
+        base = extract_stage(self._dockerfile_text(), "base")
+        bootstrap = base.index("${VCPKG_ROOT}/bootstrap-vcpkg.sh")
+        packages = extract_installed_packages(
+            base[:bootstrap], "base"
+        )
+        for package in ("autoconf", "automake", "autoconf-archive", "pkg-config"):
+            with self.subTest(package=package):
+                self.assertIn(
+                    package, packages,
+                    "Install Python autoreconf prerequisites before vcpkg bootstrap. "
+                    "Without autoconf-archive, CPython 3.11 configure.ac cannot expand "
+                    "AX_C_FLOAT_WORDS_BIGENDIAN and autoreconf exits with status 1. "
+                    "Build a source revision containing this package fix.",
+                )
+
+    def test_base_configures_bounded_apt_retries_before_update(self) -> None:
+        base = extract_stage(self._dockerfile_text(), "base")
+        retry_config = r"""printf '%s\n' 'Acquire::Retries "3";' > /etc/apt/apt.conf.d/80-retries"""
+        self.assertIn(retry_config, base)
+        self.assertLess(base.index(retry_config), base.index("apt-get update"))
 
     def test_community_logging_dependencies_use_system_packages(self) -> None:
         deps_packages = extract_installed_packages(

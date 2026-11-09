@@ -1,0 +1,70 @@
+{
+  "exceptions": [
+    {
+      "workflow": ".github/workflows/gate-pr-doc-metadata.yml",
+      "job": "doc-metadata-gate",
+      "step": "Open tracker issue on metadata FAIL",
+      "kind": "continue-on-error",
+      "match": "True",
+      "count": 1,
+      "rationale": "Tracker issue creation is a notification side effect; the metadata validation result remains blocking.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
+    },
+    {
+      "workflow": ".github/workflows/gate-pr-doc-metadata.yml",
+      "job": "doc-metadata-gate",
+      "step": "Update tracker issue on metadata PASS",
+      "kind": "continue-on-error",
+      "match": "True",
+      "count": 1,
+      "rationale": "Tracker issue updates are notification side effects; the metadata validation result remains blocking.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
+    },
+    {
+      "workflow": ".github/workflows/gate-pr-doc-metadata.yml",
+      "job": "doc-metadata-gate",
+      "step": "Clear stale metadata failure labels on PASS",
+      "kind": "continue-on-error",
+      "match": "True",
+      "count": 1,
+      "rationale": "Removing a stale tracker label is a notification side effect and does not change the metadata gate result.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
+    },
+    {
+      "workflow": ".github/workflows/gate-pr-rag-security.yml",
+      "job": "security_guardrails_validation",
+      "step": "Apply Gate Label",
+      "kind": "continue-on-error",
+      "match": "True",
+      "count": 1,
+      "rationale": "Applying tracker labels is a notification side effect after validation has passed.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
+    },
+    {
+      "workflow": ".github/workflows/gate-pr-rag-security.yml",
+      "job": "security_guardrails_validation",
+      "step": "Comment Gate Status",
+      "kind": "continue-on-error",
+      "match": "True",
+      "count": 1,
+      "rationale": "Posting the report comment is a notification side effect; the validation steps remain blocking.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
+    },
+    {
+      "workflow": ".github/workflows/benchmark-performance-gate.yml",
+      "job": "report",
+      "step": "Download benchmark artifact",
+      "kind": "continue-on-error",
+      "match": "True",
+      "count": 1,
+      "rationale": "A missing benchmark artifact is checked by the following required validation step, which fails the gate.",
+      "owner": "ThemisDB CI Maintainers",
+      "expires": "2027-03-31"
+    }
+  ]
+}

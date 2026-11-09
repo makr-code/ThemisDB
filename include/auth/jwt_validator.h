@@ -137,15 +137,25 @@ public:
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
     /**
-     * @brief Revoke Kid.
-     * @param[in] kid Input parameter.
+     * @brief Add a key identifier to the runtime JWT denylist.
+     * @param[in] kid Key identifier to reject in subsequent validation checks.
+     *              Values are stored as supplied; validation checks non-empty
+     *              KIDs.
+     * @throws std::bad_alloc if allocation fails.
+     * @throws std::length_error if the denylist exceeds its maximum size.
+     * @note Concurrent validation and revocation are supported. A validation
+     *       already past its revocation check may complete using the state
+     *       observed at that check.
      */
     void revokeKid(const std::string& kid);
     
     /**
-     * @brief Is Kid Revoked.
-     * @param[in] kid Input parameter.
-     * @return True when the operation succeeds.
+     * @brief Check whether a key identifier is denied by configured or runtime
+     * state.
+     * @param[in] kid Key identifier to check.
+     * @return True when the key is revoked; false otherwise.
+     * @note Thread-safe with concurrent calls to revokeKid(). Runtime denylist
+     *       updates are observed atomically.
      */
     bool isKidRevoked(const std::string& kid) const;
 
@@ -250,6 +260,8 @@ private:
     mutable std::shared_mutex jwks_cache_mutex_;
     nlohmann::json jwks_cache_;
     std::chrono::system_clock::time_point jwks_cache_time_;
+    // Protects all access to the runtime KID denylist.
+    mutable std::shared_mutex revoked_kids_mutex_;
     std::vector<std::string> revoked_kids_runtime_;  // Runtime revocation list
     TokenBlacklist* token_blacklist_ = nullptr;      // Optional JTI-based revocation
     utils::AuditLogger* audit_logger_ = nullptr;     // Optional audit logger (non-owning)

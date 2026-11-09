@@ -1,9 +1,14 @@
 #include <chrono>
+#include <atomic>
+#include <barrier>
+#include <cstdint>
 #include <gtest/gtest.h>
 #include <memory>
 #include <nlohmann/json.hpp>
 #include <unordered_set>
 #include <string>
+#include <string_view>
+#include <thread>
 #include <vector>
 
 #include "auth/auth_error.h"
@@ -313,6 +318,103 @@ TEST_F(JWTKIDRevocationTest, EmptyKIDRevocation) {
         validator_.revokeKid("");
         // Should not crash, but behavior with empty string is implementation-defined
     });
+}
+
+/**
+ * @brief Concurrent LLM-path JWT validation sees complete runtime revocation
+ * state.
+ *
+ * A pre-revoked KID ensures parseAndValidate() stops at the revocation gate and
+ * never performs network access. Concurrent additions force runtime denylist
+ * growth while the inference validation path and direct checks read it.
+ */
+TEST_F(JWTKIDRevocationTest, ConcurrentValidationAndKeyRevocation) {
+    constexpr int kReaderCount = 4;
+    constexpr int kWriterCount = 4;
+    constexpr int kOperationsPerThread = 512;
+    constexpr int kThreadCount = kReaderCount + kWriterCount;
+    const std::string revoked_kid = "kid-concurrent-validation";
+    validator_.revokeKid(revoked_kid);
+    validator_.setJWKSForTesting(json{{"keys", json::array()}});
+
+    const auto base64url = [](std::string_view input) {
+        static constexpr std::string_view alphabet =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+        std::string output;
+        output.reserve((input.size() * 4 + 2) / 3);
+        std::uint32_t buffer = 0;
+        int bits = -6;
+        for (const unsigned char byte : input) {
+            buffer = (buffer << 8) | byte;
+            bits += 8;
+            while (bits >= 0) {
+                output.push_back(alphabet[(buffer >> bits) & 0x3f]);
+                bits -= 6;
+            }
+        }
+        if (bits > -6) {
+            output.push_back(alphabet[((buffer << 8) >> (bits + 8)) & 0x3f]);
+        }
+        return output;
+    };
+    const std::string token =
+        base64url(R"({"alg":"RS256","kid":"kid-concurrent-validation"})") +
+        "." + base64url(R"({"sub":"user"})") + ".AA";
+
+    std::barrier start_gate(kThreadCount);
+    std::atomic<int> unexpected_validation_results{0};
+    std::vector<std::thread> threads;
+    threads.reserve(kThreadCount);
+
+    for (int reader = 0; reader < kReaderCount; ++reader) {
+        threads.emplace_back([&, reader] {
+            start_gate.arrive_and_wait();
+            for (int i = 0; i < kOperationsPerThread; ++i) {
+                try {
+                    (void)validator_.parseAndValidate(token);
+                    ++unexpected_validation_results;
+                } catch (const std::exception &error) {
+                    if (std::string_view(error.what())
+                            .find("Token signed with revoked key") ==
+                        std::string_view::npos) {
+                        ++unexpected_validation_results;
+                    }
+                } catch (...) {
+                    ++unexpected_validation_results;
+                }
+                const auto rotating_kid =
+                    "kid-rotation-" +
+                    std::to_string((i + reader) %
+                                   (kWriterCount * kOperationsPerThread));
+                (void)validator_.isKidRevoked(rotating_kid);
+            }
+        });
+    }
+
+    for (int writer = 0; writer < kWriterCount; ++writer) {
+        threads.emplace_back([&, writer] {
+            start_gate.arrive_and_wait();
+            for (int i = 0; i < kOperationsPerThread; ++i) {
+                validator_.revokeKid(
+                    "kid-rotation-" +
+                    std::to_string(writer * kOperationsPerThread + i));
+            }
+        });
+    }
+
+    for (auto &thread : threads) {
+        thread.join();
+    }
+
+    EXPECT_EQ(unexpected_validation_results.load(), 0)
+        << "Concurrent validation must reject the revoked KID at the "
+           "revocation "
+           "gate";
+    EXPECT_TRUE(validator_.isKidRevoked(revoked_kid));
+    for (int writer = 0; writer < kWriterCount; ++writer) {
+        EXPECT_TRUE(validator_.isKidRevoked(
+            "kid-rotation-" + std::to_string(writer * kOperationsPerThread)));
+    }
 }
 
 // ============================================================================

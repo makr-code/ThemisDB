@@ -96,7 +96,7 @@ jobs:
           for lic_file in $LICENSE_FILES; do
             if [ ! -f "$lic_file" ]; then
               echo "::warning::Missing $lic_file in repository root"
-              ((MISSING_LICENSES++)) || true
+              MISSING_LICENSES=$((MISSING_LICENSES + 1))
             fi
           done
           
@@ -124,16 +124,26 @@ jobs:
           TELEMETRY_PATTERNS="send_telemetry|phoning_home|analytics_endpoint|tracking_beacon|usage_stats"
           UNGUARDED_TELEMETRY=0
           
-          SUSPECT_FILES=$(grep -r "$TELEMETRY_PATTERNS" src --include="*.cpp" --include="*.h" 2>/dev/null || echo "")
+          : > /tmp/community-telemetry-suspect-files.txt
+          if grep -r "$TELEMETRY_PATTERNS" src --include="*.cpp" --include="*.h" \
+              > /tmp/community-telemetry-suspect-files.txt; then
+            :
+          else
+            grep_status=$?
+            if [ "${grep_status}" -ne 1 ]; then
+              exit "${grep_status}"
+            fi
+          fi
+          SUSPECT_FILES="$(cat /tmp/community-telemetry-suspect-files.txt)"
           
           while IFS= read -r line; do
             [ -z "$line" ] && continue
             FILE=$(echo "$line" | cut -d: -f1)
             LINE_NUM=$(echo "$line" | cut -d: -f2)
-            CONTEXT=$(sed -n "$((LINE_NUM-5)),$((LINE_NUM+5))p" "$FILE" 2>/dev/null || echo "")
+            CONTEXT=$(sed -n "$((LINE_NUM-5)),$((LINE_NUM+5))p" "$FILE")
             if ! echo "$CONTEXT" | grep -q "#ifdef THEMIS_ENABLE_TELEMETRY\|ifdef THEMIS_TELEMETRY"; then
               echo "::warning::Potential unguarded telemetry in $FILE:$LINE_NUM"
-              ((UNGUARDED_TELEMETRY++)) || true
+              UNGUARDED_TELEMETRY=$((UNGUARDED_TELEMETRY + 1))
             fi
           done <<< "$SUSPECT_FILES"
           
@@ -174,11 +184,12 @@ jobs:
             HEAD_REF="${{ github.sha }}"
           fi
 
+          git diff --name-only "$BASE_REF" "$HEAD_REF" -- \
+            src include cmake plugins CMakeLists.txt CMakePresets.json \
+            > /tmp/community-scope-changed-files.txt
           mapfile -t scoped_files < <(
-            git diff --name-only "$BASE_REF" "$HEAD_REF" -- \
-              src include cmake plugins CMakeLists.txt CMakePresets.json \
-              | grep -E '\.(c|cc|cpp|cxx|h|hh|hpp|hxx|cmake|json|ya?ml)$|(^|/)CMakeLists\.txt$|(^|/)CMakePresets\.json$' \
-              || true
+            awk '/\.(c|cc|cpp|cxx|h|hh|hpp|hxx|cmake|json|yml|yaml)$/ || /(^|\/)CMakeLists\.txt$/ || /(^|\/)CMakePresets\.json$/' \
+              /tmp/community-scope-changed-files.txt
           )
 
           if [ "${#scoped_files[@]}" -eq 0 ]; then
