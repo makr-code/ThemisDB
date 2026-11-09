@@ -85,7 +85,7 @@ historical summary is not a current readiness assessment.
 
 ## In Progress
 
-- [x] **Phase 1 API Contract Freeze** (2026-08-01): ✅ COMPLETE
+- [~] **Phase 1 API Contract Freeze** (2026-08-01): ✅ COMPLETE
   - [x] Error taxonomy frozen (44 error codes, 3 categories: DENIAL/FALLBACK/REASONING_CONFLICT)
   - [x] API contracts documented for all 4 major component layers
   - [x] Error context diagnostics framework implemented
