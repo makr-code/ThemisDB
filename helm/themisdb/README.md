@@ -174,6 +174,17 @@ health-probe rule is port-scoped because node-originated probe identity varies
 by CNI. Verify the DNS selector labels and required replication ports against
 the target cluster and CNI before rollout.
 
+Run the chart checks with:
+
+```bash
+helm lint helm/themisdb
+helm lint helm/themisdb -f helm/themisdb/values-production.yaml
+python3 -m unittest discover -s helm/themisdb/tests -v
+```
+
+The NetworkPolicy tests verify the rendered allow/deny rules; validate actual
+packet enforcement with the CNI used by the target cluster.
+
 The profile intentionally does not enable ServiceMonitor or PrometheusRule;
 monitoring resources are tracked separately in
 [makr-code/ThemisDB#7532](https://github.com/makr-code/ThemisDB/issues/7532).
