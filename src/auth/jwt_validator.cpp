@@ -1102,7 +1102,10 @@ void JWTValidator::setTokenBlacklist(TokenBlacklist *bl) {
  * @details Calls: push_back(), utils::Logger::info().
  */
 void JWTValidator::revokeKid(const std::string &kid) {
-    revoked_kids_runtime_.push_back(kid);
+    {
+        std::unique_lock<std::shared_mutex> lock(revoked_kids_mutex_);
+        revoked_kids_runtime_.push_back(kid);
+    }
     utils::Logger::info("JWT kid revoked: " + kid);
 }
 
@@ -1114,6 +1117,7 @@ bool JWTValidator::isKidRevoked(const std::string &kid) const {
         }
     }
     // Check runtime denylist
+    std::shared_lock<std::shared_mutex> lock(revoked_kids_mutex_);
     for (const auto &revoked : revoked_kids_runtime_) {
         if (revoked == kid) {
             return true;

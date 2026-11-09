@@ -209,6 +209,7 @@ jobs:
     runs-on: ${{ inputs.runs_on }}
     timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
     env:
+      PYTHONIOENCODING: utf-8
       SCCACHE_GHA_ENABLED: ${{ inputs.enable_sccache_gha }}
       THEMIS_CACHE_TOOLS_PREFIX: ${{ inputs.source_sha != '' && '.ci-cache-tools/' || '' }}
     outputs:

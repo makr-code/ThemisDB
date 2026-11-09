@@ -1,21 +1,25 @@
 ---
 Author: "ThemisDB Team"
-Created: "2026-10-31"
+Created: "2026-11-09"
 Last Updated: "2026-11-09"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
 Human_Review: false
-Human_Author: "ThemisDB Team"
+Human_Author: "unknown"
 ---
-
-> Exact model backend not verifiable from final document text alone.
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
 Datum: 2026-11-09
 Status: Active
+
+## Docker Python autoreconf prerequisite gate
+
+The [release consumer](../../.github/workflows/release-docker-image.yml) and [platform workflow](../../.github/workflows/reusable-docker-image-platform.yml) enforce `test_base_installs_python_autoreconf_prerequisites` even with the source-preflight override enabled. The current [Dockerfile](../../docker/Dockerfile.unified) already installs `autoconf-archive`; older selected source revisions can still fail while building vcpkg's Python dependency. Use a new release tag containing the fix, or a fresh `build_from_workflow_source=true` dry run; re-running an old workflow does not update its source. See the [operational guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting) for the failed-job evidence.
+
+AI-assisted update; exact model backend not verifiable from final document text alone.
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
