@@ -9,15 +9,131 @@ from __future__ import annotations
 
 import argparse
 import json
+import platform
 import re
+import subprocess
 import sys
 from dataclasses import dataclass, asdict, field
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Set, List
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 BENCHMARKS_DIR = REPO_ROOT / "benchmarks"
+MODULE_BENCHMARK_PRIORITY = {
+    "server", "distributed_tensor", "prompt_engineering", "timeseries",
+    "scheduler", "whisper", "llama_cpp", "analytics", "gpu", "llm",
+    "query", "storage", "transaction", "sharding", "geo", "process",
+    "performance",
+}
+BENCHMARK_CI_WORKFLOWS = [
+    {
+        "path": ".github/workflows/benchmark-performance-gate.yml",
+        "purpose": "Weekly benchmark build/run and comparison; schedule and manual dispatch",
+        "trigger": "schedule: Monday 02:00 UTC; workflow_dispatch",
+        "build_profile": "benchmark-quality preset; THEMIS_BUILD_BENCHMARKS=ON; THEMIS_BUILD_TESTS=OFF",
+        "artifact_retention_days": 14,
+    },
+    {
+        "path": ".github/workflows/gate-pr-benchmark-ctest.yml",
+        "purpose": "PR benchmark source/CTest registration audit; does not execute benchmark workloads",
+        "trigger": "pull_request on benchmark source/CMake paths; workflow_dispatch",
+        "build_profile": None,
+        "artifact_retention_days": None,
+    },
+]
+RELEASE_CLAIM_EVIDENCE = [
+    {
+        "id": "query-limit-scale",
+        "module": "query",
+        "claim": "LIMIT 10 at 100,000 and 10,000,000 rows must bound latency and peak memory.",
+        "source": "audit/FULL_DEEP_DIVE_AUDIT_2026-10-31.md#qry-01",
+        "benchmark_source": "benchmarks/query/bench_query_limit_scaling.cpp",
+        "owner_issue": 7488,
+        "status": "gap",
+        "evidence_url": "https://github.com/makr-code/ThemisDB/pull/7804",
+        "evidence_sha": "f2f5a84fac9745407ac5b4ed172282ad8fc1a190",
+        "evidence_note": (
+            "The merged PR reports synthetic pull-source measurements, not a storage scan, "
+            "and does not attach a retained raw result artifact."
+        ),
+        "follow_up": (
+            "Run the 100K/10M workload against the production scan path; retain raw JSON, "
+            "latency, peak-memory, configuration, and correctness evidence."
+        ),
+    },
+    {
+        "id": "performance-regression-gates",
+        "module": "performance",
+        "claim": "Performance instrumentation and regression thresholds are reproducible and noise-aware.",
+        "source": "src/performance/PERFORMANCE_EXPECTATIONS.md",
+        "benchmark_source": "benchmarks/performance/bench_performance_release_gates.cpp",
+        "owner_issue": 7534,
+        "status": "gap",
+        "evidence_url": None,
+        "evidence_sha": None,
+        "evidence_note": "The owner issue remains open; no current run/result evidence was verified.",
+        "follow_up": (
+            "Close the issue's methodology and baseline tasks, including an explicit noise "
+            "policy and maintainer-approved thresholds."
+        ),
+    },
+    {
+        "id": "wave-a-representative-hardware",
+        "module": "transaction",
+        "claim": "Wave A release-critical hardware baselines include reproducible workload and p95/p99 evidence.",
+        "source": "audit/evidence/waves/manifests/",
+        "benchmark_source": "benchmarks/wave8/",
+        "owner_issue": 7810,
+        "status": "blocked",
+        "evidence_url": "https://github.com/makr-code/ThemisDB/pull/8012",
+        "evidence_sha": "ee94d5c6028d5ddc80288cf5d91d6269d660408e",
+        "evidence_note": (
+            "The merged refresh explicitly leaves transaction, GPU, voice, sharding, and "
+            "replication measurements pending; its latest baseline job was skipped and the "
+            "referenced artifact is absent."
+        ),
+        "follow_up": (
+            "Run the existing Wave A lanes on representative hardware and attach run URL, "
+            "source SHA, configuration, raw result, and summary before promotion."
+        ),
+    },
+    {
+        "id": "gpu-capability-fallback",
+        "module": "gpu",
+        "claim": "GPU capability and fallback behavior is measured on supported hardware and distinguishes CPU degradation.",
+        "source": "src/gpu/ROADMAP.md",
+        "benchmark_source": "benchmarks/gpu/",
+        "owner_issue": 7492,
+        "status": "blocked",
+        "evidence_url": "https://github.com/makr-code/ThemisDB/issues/7492",
+        "evidence_sha": None,
+        "evidence_note": "The GPU-specific capability/fallback evidence issue remains open; hardware evidence is not available.",
+        "follow_up": (
+            "Capture CPU-only and GPU-capable lane results with hardware metadata, fallback mode, "
+            "and valid benchmark exit status."
+        ),
+    },
+    {
+        "id": "llm-1024-concurrency-claim",
+        "module": "llm",
+        "claim": "“1,024 concurrent requests on a single GPU”",
+        "source": "src/llm/THREADING.md",
+        "benchmark_source": None,
+        "owner_issue": 7490,
+        "status": "covered",
+        "claim_disposition": "withdrawn",
+        "benchmark_applicability": "not applicable",
+        "evidence_url": "https://github.com/makr-code/ThemisDB/pull/7805",
+        "evidence_sha": "59aed9c5f7011f54c825bb78587a3f5dad6d30d5",
+        "evidence_note": (
+            "The merged PR removes the unsupported concurrency claim; no hardware result is "
+            "claimed, so a benchmark is not applicable to the withdrawn statement."
+        ),
+        "follow_up": None,
+    },
+]
 
 # Intentionally excluded from default benchmark registration
 INTENTIONAL_EXCLUSIONS = {
@@ -75,14 +191,19 @@ def is_benchmark_source(path: Path) -> bool:
     )
 
 
-def normalize_cpp_token(token: str, cmake_dir: Path) -> str | None:
+def normalize_cpp_token(
+    token: str,
+    cmake_dir: Path,
+    repo_root: Path = REPO_ROOT,
+) -> str | None:
     """Normalize a C++ file path to benchmarks-relative form."""
+    benchmarks_dir = repo_root / "benchmarks"
     token = token.strip().strip('"').strip("'")
     if not token.endswith(".cpp"):
         return None
 
     token = token.replace("${CMAKE_CURRENT_SOURCE_DIR}", str(cmake_dir))
-    token = token.replace("${CMAKE_SOURCE_DIR}", str(REPO_ROOT))
+    token = token.replace("${CMAKE_SOURCE_DIR}", str(repo_root))
 
     resolved = Path(token)
     if not resolved.is_absolute():
@@ -91,18 +212,19 @@ def normalize_cpp_token(token: str, cmake_dir: Path) -> str | None:
         resolved = resolved.resolve()
 
     try:
-        return str(resolved.relative_to(BENCHMARKS_DIR)).replace("\\", "/")
+        return str(resolved.relative_to(benchmarks_dir.resolve())).replace("\\", "/")
     except ValueError:
         return None
 
 
-def collect_benchmark_sources() -> Dict[str, BenchmarkSource]:
+def collect_benchmark_sources(repo_root: Path = REPO_ROOT) -> Dict[str, BenchmarkSource]:
     """Discover all benchmark .cpp files."""
+    benchmarks_dir = repo_root / "benchmarks"
     sources: Dict[str, BenchmarkSource] = {}
     
-    for path in BENCHMARKS_DIR.rglob("*.cpp"):
+    for path in benchmarks_dir.rglob("*.cpp"):
         if is_benchmark_source(path):
-            rel_path = str(path.relative_to(BENCHMARKS_DIR)).replace("\\", "/")
+            rel_path = str(path.relative_to(benchmarks_dir)).replace("\\", "/")
             sources[rel_path] = BenchmarkSource(
                 path=rel_path,
                 is_excluded=rel_path in INTENTIONAL_EXCLUSIONS
@@ -111,11 +233,12 @@ def collect_benchmark_sources() -> Dict[str, BenchmarkSource]:
     return sources
 
 
-def collect_cmake_targets() -> Dict[str, BenchmarkTarget]:
+def collect_cmake_targets(repo_root: Path = REPO_ROOT) -> Dict[str, BenchmarkTarget]:
     """Discover all benchmark CMake targets and their source mappings."""
+    benchmarks_dir = repo_root / "benchmarks"
     targets: Dict[str, BenchmarkTarget] = {}
     
-    for cmake_file in BENCHMARKS_DIR.rglob("CMakeLists.txt"):
+    for cmake_file in benchmarks_dir.rglob("CMakeLists.txt"):
         cmake_dir = cmake_file.parent.resolve()
         text = cmake_file.read_text(encoding="utf-8", errors="ignore")
         
@@ -126,7 +249,7 @@ def collect_cmake_targets() -> Dict[str, BenchmarkTarget]:
         ):
             target_name = match.group(1).strip()
             source_token = match.group(2).strip()
-            source_path = normalize_cpp_token(source_token, cmake_dir)
+            source_path = normalize_cpp_token(source_token, cmake_dir, repo_root)
             
             if target_name not in targets:
                 targets[target_name] = BenchmarkTarget(name=target_name)
@@ -139,7 +262,7 @@ def collect_cmake_targets() -> Dict[str, BenchmarkTarget]:
         ):
             target_name = match.group(1).strip()
             source_token = match.group(2).strip()
-            source_path = normalize_cpp_token(source_token, cmake_dir)
+            source_path = normalize_cpp_token(source_token, cmake_dir, repo_root)
             
             if target_name not in targets:
                 targets[target_name] = BenchmarkTarget(name=target_name)
@@ -152,7 +275,7 @@ def collect_cmake_targets() -> Dict[str, BenchmarkTarget]:
         ):
             target_name = match.group(1).strip()
             source_token = match.group(2).strip()
-            source_path = normalize_cpp_token(source_token, cmake_dir)
+            source_path = normalize_cpp_token(source_token, cmake_dir, repo_root)
             
             if target_name not in targets:
                 targets[target_name] = BenchmarkTarget(name=target_name)
@@ -170,7 +293,7 @@ def collect_cmake_targets() -> Dict[str, BenchmarkTarget]:
             
             body = match.group(2)
             for token in re.findall(r"([A-Za-z0-9_./${}-]+\.cpp)", body):
-                source_path = normalize_cpp_token(token, cmake_dir)
+                source_path = normalize_cpp_token(token, cmake_dir, repo_root)
                 if source_path and is_benchmark_source(Path(source_path)):
                     if target_name not in targets:
                         targets[target_name] = BenchmarkTarget(name=target_name)
@@ -205,11 +328,11 @@ def extract_module_from_path(path: str) -> str | None:
     return None
 
 
-def audit_coverage() -> tuple[List[AuditFinding], Dict[str, any]]:
+def audit_coverage(repo_root: Path = REPO_ROOT) -> tuple[List[AuditFinding], Dict[str, any]]:
     """Run the three-state audit and generate findings."""
     
-    sources = collect_benchmark_sources()
-    cmake_targets = collect_cmake_targets()
+    sources = collect_benchmark_sources(repo_root)
+    cmake_targets = collect_cmake_targets(repo_root)
     
     findings: List[AuditFinding] = []
     stats = {
@@ -287,7 +410,7 @@ def audit_coverage() -> tuple[List[AuditFinding], Dict[str, any]]:
     broken_targets = []
     for target_name, target in cmake_targets.items():
         if target.source_file:
-            source_disk_path = BENCHMARKS_DIR / target.source_file
+            source_disk_path = repo_root / "benchmarks" / target.source_file
             if not source_disk_path.exists():
                 broken_targets.append({
                     "target": target_name,
@@ -350,10 +473,10 @@ def audit_coverage() -> tuple[List[AuditFinding], Dict[str, any]]:
     return findings_with_modules, stats, targets_by_module
 
 
-def generate_target_mapping() -> Dict[str, Dict]:
+def generate_target_mapping(repo_root: Path = REPO_ROOT) -> Dict[str, Dict]:
     """Generate benchmark_target_mapping.json (like test_target_mapping.json)."""
-    cmake_targets = collect_cmake_targets()
-    sources = collect_benchmark_sources()
+    cmake_targets = collect_cmake_targets(repo_root)
+    sources = collect_benchmark_sources(repo_root)
     
     mapping = {}
     
@@ -376,9 +499,236 @@ def generate_target_mapping() -> Dict[str, Dict]:
     return mapping
 
 
+def _status_for_benchmark(targets: List[BenchmarkTarget], latest_attempt: Dict | None) -> str:
+    if not targets or any(not target.source_file for target in targets):
+        return "gap"
+    if not any(target.is_registered_in_ctest() for target in targets):
+        return "gap"
+    if not latest_attempt or latest_attempt.get("result") != "success":
+        return "blocked"
+    if not latest_attempt.get("benchmark_results_available", False):
+        return "blocked"
+    if latest_attempt.get("result_sha") is None or latest_attempt.get("run_url") is None:
+        return "blocked"
+    if not latest_attempt.get("workload_metadata_complete", False):
+        return "gap"
+    return "covered"
+
+
+def _latest_source_revision(repo_root: Path) -> tuple[str | None, str | None]:
+    try:
+        revision = subprocess.run(
+            ["git", "-C", str(repo_root), "rev-parse", "HEAD"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        branch = subprocess.run(
+            ["git", "-C", str(repo_root), "branch", "--show-current"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        return revision, branch or None
+    except (OSError, subprocess.CalledProcessError):
+        return None, None
+
+
+def generate_module_matrix(
+    repo_root: Path = REPO_ROOT,
+    source_revision: str | None = None,
+    source_branch: str | None = None,
+    latest_attempt: Dict | None = None,
+) -> Dict:
+    """Build the evidence-oriented benchmark matrix for every source module."""
+    modules_dir = repo_root / "src"
+    modules = sorted(path.name for path in modules_dir.iterdir() if path.is_dir())
+    sources = collect_benchmark_sources(repo_root)
+    targets = collect_cmake_targets(repo_root)
+    source_targets: Dict[str, List[BenchmarkTarget]] = {}
+    for target in targets.values():
+        if target.source_file:
+            source_targets.setdefault(target.source_file, []).append(target)
+
+    assigned: Dict[str, List[str]] = {module: [] for module in modules}
+    unassigned: List[str] = []
+    for source in sorted(sources):
+        module = source.split("/", 1)[0]
+        if module in assigned:
+            assigned[module].append(source)
+        else:
+            unassigned.append(source)
+
+    known_claims: Dict[str, List[Dict]] = {}
+    for claim in RELEASE_CLAIM_EVIDENCE:
+        known_claims.setdefault(claim["module"], []).append(claim)
+
+    module_rows = []
+    for module in modules:
+        benchmark_rows = []
+        for source in assigned[module]:
+            source_targets_for_file = source_targets.get(source, [])
+            ctest_entries = sorted({
+                entry
+                for target in source_targets_for_file
+                for entry in target.ctest_entries
+            })
+            status = _status_for_benchmark(source_targets_for_file, latest_attempt)
+            benchmark_rows.append({
+                "source": f"benchmarks/{source}",
+                "targets": sorted(target.name for target in source_targets_for_file),
+                "ctest_entries": ctest_entries,
+                "target_declared": bool(source_targets_for_file),
+                "ctest_registered": bool(ctest_entries),
+                "build_profile": (
+                    "benchmark-quality preset; per-target eligibility not verified"
+                ),
+                "ci_workflows": [workflow["path"] for workflow in BENCHMARK_CI_WORKFLOWS],
+                "workload": {
+                    "input_scale_and_distribution": None,
+                    "warmup_and_repetition_policy": None,
+                    "hardware_runtime_configuration": None,
+                    "correctness_checks": None,
+                    "metrics": None,
+                },
+                "output_artifacts": [
+                    f"${{CMAKE_BINARY_DIR}}/bench_results/current/{entry}.json"
+                    for entry in ctest_entries
+                ],
+                "latest_evidence_ref": "latest_ci_attempt",
+                "status": status,
+            })
+
+        statuses = [benchmark["status"] for benchmark in benchmark_rows]
+        if not benchmark_rows:
+            status = "gap"
+        elif "gap" in statuses:
+            status = "gap"
+        elif "blocked" in statuses:
+            status = "blocked"
+        else:
+            status = "covered"
+
+        claims = known_claims.get(module, [])
+        if module in MODULE_BENCHMARK_PRIORITY and not claims:
+            claim_review = {
+                "status": "gap",
+                "owner_issue": 7828,
+                "target": "v2.5.0 M1 by 2027-03-31",
+                "follow_up": (
+                    "Review this module's documented and roadmap performance claims; link each "
+                    "claim to an evidence workload and a named module owner issue, or record "
+                    "a source-backed withdrawal/non-applicability rationale."
+                ),
+            }
+        elif claims:
+            claim_review = {
+                "status": (
+                    "gap" if any(claim["status"] == "gap" for claim in claims)
+                    else "blocked" if any(claim["status"] == "blocked" for claim in claims)
+                    else "covered"
+                ),
+                "claim_ids": [claim["id"] for claim in claims],
+            }
+        else:
+            claim_review = {
+                "status": "gap",
+                "owner_issue": 7828,
+                "target": "v2.5.0 M1 by 2027-03-31",
+                "follow_up": (
+                    "Review applicability and documented performance claims; record a specific "
+                    "rationale before marking this module not applicable."
+                ),
+            }
+
+        module_rows.append({
+            "module": module,
+            "priority": "high-risk" if module in MODULE_BENCHMARK_PRIORITY else "standard",
+            "benchmark_source_count": len(benchmark_rows),
+            "benchmarks": benchmark_rows,
+            "claim_review": claim_review,
+            "claim_ids": [claim["id"] for claim in claims],
+            "status": status,
+        })
+
+    discovered_revision, branch = _latest_source_revision(repo_root)
+    revision = source_revision or discovered_revision
+    ctest_target_count = sum(
+        1 for target in targets.values()
+        if target.source_file and target.is_registered_in_ctest()
+    )
+    ctest_entry_count = sum(len(target.ctest_entries) for target in targets.values())
+    target_count = sum(1 for target in targets.values() if target.source_file)
+    return {
+        "schema_version": "1.0.0",
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "source_snapshot": {
+            "revision": revision,
+            "branch": source_branch or branch,
+            "modules_root": "src/",
+            "benchmark_root": "benchmarks/",
+        },
+        "tooling": {
+            "audit_tool": "tools/ci/audit_benchmark_coverage.py",
+            "audit_tool_version": "2",
+            "python_version": platform.python_version(),
+            "git_version": (
+                subprocess.run(
+                    ["git", "--version"],
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                ).stdout.strip()
+            ),
+            "cmake_version": "not invoked by this static inventory",
+            "source_selection": (
+                "Recursive benchmarks/**/*.cpp whose basename starts with bench or "
+                "benchmark_, equals llm_bench.cpp, or ends with _bench.cpp."
+            ),
+            "module_assignment": (
+                "The first benchmark-relative path component must match an immediate "
+                "directory under src/; all other benchmark sources are listed as unassigned."
+            ),
+            "intentional_exclusions": sorted(INTENTIONAL_EXCLUSIONS),
+        },
+        "summary": {
+            "source_module_count": len(modules),
+            "module_associated_benchmark_sources": sum(map(len, assigned.values())),
+            "all_discovered_benchmark_sources": len(sources),
+            "unassigned_benchmark_sources": len(unassigned),
+            "cmake_targets_with_source": target_count,
+            "ctest_registered_targets_with_source": ctest_target_count,
+            "ctest_entry_count": ctest_entry_count,
+            "module_status_counts": {
+                status: sum(1 for row in module_rows if row["status"] == status)
+                for status in ("covered", "gap", "not applicable", "blocked")
+            },
+        },
+        "ci_workflows": BENCHMARK_CI_WORKFLOWS,
+        "latest_ci_attempt": latest_attempt,
+        "status_legend": {
+            "covered": "A retained, successful benchmark result and required workload metadata are present.",
+            "gap": "Source/target/CTest mapping or claim applicability/evidence is missing.",
+            "not applicable": "A specific, source-backed non-applicability rationale has been reviewed.",
+            "blocked": "Execution/evidence cannot be established because a required run or external condition is blocked.",
+        },
+        "release_claims": RELEASE_CLAIM_EVIDENCE,
+        "unassigned_benchmark_sources": [
+            f"benchmarks/{source}" for source in unassigned
+        ],
+        "modules": module_rows,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Enhanced benchmark coverage audit (3-state: source -> CMake -> CTest)"
+    )
+    parser.add_argument(
+        "--repo-root",
+        type=Path,
+        default=REPO_ROOT,
+        help="Repository snapshot to audit (defaults to the current checkout)",
     )
     parser.add_argument(
         "--output",
@@ -391,6 +741,53 @@ def main() -> int:
         type=Path,
         default=None,
         help="JSON output file for benchmark_target_mapping.json"
+    )
+    parser.add_argument(
+        "--module-matrix",
+        type=Path,
+        default=None,
+        help="Machine-readable 73-module benchmark evidence matrix output",
+    )
+    parser.add_argument(
+        "--source-revision",
+        default=None,
+        help="Explicit revision for the audited source snapshot",
+    )
+    parser.add_argument(
+        "--source-branch",
+        default=None,
+        help="Explicit branch name for the audited source snapshot",
+    )
+    parser.add_argument(
+        "--latest-run-url",
+        default=None,
+        help="URL of the latest benchmark CI attempt (not necessarily benchmark evidence)",
+    )
+    parser.add_argument(
+        "--latest-run-sha",
+        default=None,
+        help="Commit SHA for the latest benchmark CI attempt",
+    )
+    parser.add_argument(
+        "--latest-run-result",
+        choices=("success", "failure", "skipped"),
+        default=None,
+        help="Conclusion of the latest benchmark CI attempt",
+    )
+    parser.add_argument(
+        "--latest-run-note",
+        default=None,
+        help="Short explanation of the latest benchmark CI attempt outcome",
+    )
+    parser.add_argument(
+        "--benchmark-results-available",
+        action="store_true",
+        help="Assert that the latest run retained machine-readable benchmark results",
+    )
+    parser.add_argument(
+        "--workload-metadata-complete",
+        action="store_true",
+        help="Assert that the run documents scale, policy, environment, correctness, and metrics",
     )
     parser.add_argument(
         "--fail-on-warning",
@@ -406,7 +803,7 @@ def main() -> int:
     args = parser.parse_args()
     
     # Run audit
-    findings, stats, targets_by_module = audit_coverage()
+    findings, stats, targets_by_module = audit_coverage(args.repo_root)
     
     # Print summary
     print("=" * 80)
@@ -469,9 +866,37 @@ def main() -> int:
     
     # Save target mapping
     if args.target_mapping:
-        mapping = generate_target_mapping()
+        mapping = generate_target_mapping(args.repo_root)
         args.target_mapping.write_text(json.dumps(mapping, indent=2))
         print(f"Target mapping saved to: {args.target_mapping}")
+
+    if args.module_matrix:
+        latest_attempt = None
+        if any((
+            args.latest_run_url,
+            args.latest_run_sha,
+            args.latest_run_result,
+            args.latest_run_note,
+            args.benchmark_results_available,
+            args.workload_metadata_complete,
+        )):
+            latest_attempt = {
+                "run_url": args.latest_run_url,
+                "result_sha": args.latest_run_sha,
+                "result": args.latest_run_result,
+                "note": args.latest_run_note,
+                "benchmark_results_available": args.benchmark_results_available,
+                "workload_metadata_complete": args.workload_metadata_complete,
+            }
+        matrix = generate_module_matrix(
+            args.repo_root,
+            source_revision=args.source_revision,
+            source_branch=args.source_branch,
+            latest_attempt=latest_attempt,
+        )
+        args.module_matrix.parent.mkdir(parents=True, exist_ok=True)
+        args.module_matrix.write_text(json.dumps(matrix, indent=2) + "\n", encoding="utf-8")
+        print(f"Module benchmark matrix saved to: {args.module_matrix}")
     
     # Determine exit code
     has_errors = stats["errors"] > 0
