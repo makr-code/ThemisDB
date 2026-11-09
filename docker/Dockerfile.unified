@@ -45,6 +45,7 @@ ENV CMAKE_POLICY_VERSION_MINIMUM=3.5
 RUN --mount=type=cache,id=apt-cache-base-${TARGETARCH},target=/var/cache/apt,sharing=locked \
     --mount=type=cache,id=apt-lib-base-${TARGETARCH},target=/var/lib/apt,sharing=locked \
     --mount=type=secret,id=extra_ca_bundle,required=false,target=/tmp/themis-host-ca.crt \
+    printf '%s\n' 'Acquire::Retries "3";' > /etc/apt/apt.conf.d/80-retries && \
     apt-get update && apt-get install -y --no-install-recommends \
         build-essential cmake ninja-build git curl ca-certificates pkg-config \
         zip unzip tar wget flex bison aria2 ccache python3 perl nasm autoconf \
