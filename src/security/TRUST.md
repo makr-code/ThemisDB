@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-19
-Last Updated: 2026-10-30
+Last Updated: 2026-11-09
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -67,7 +67,7 @@ These are explicitly contrary to the contract and the implementation style.
 
 Secret values are also not protected from a privileged process reader: `SecretManager` retains versions in memory, and a Vault token is held in provider configuration. Use host-level access controls and an external secret-management lifecycle; do not treat in-process storage as encrypted-at-rest protection.
 
-`FieldEncryption::createDefault()` uses an in-memory mock key provider only for test/demo use and is guarded in non-test builds. A software HSM stub can also be explicitly enabled; that stub does not provide hardware isolation or persistent hardware-backed key protection.
+`FieldEncryption::createDefault()` uses an in-memory mock key provider and requires explicit `THEMIS_ALLOW_MOCK_KEY_PROVIDER=1` opt-in in every build; canonical `ProductionMode` always rejects it. This documents runtime behavior only and does not establish human approval or G4 closure. A software HSM stub can also be explicitly enabled; that stub does not provide hardware isolation or persistent hardware-backed key protection.
 
 ## Incident handling
 

@@ -2,11 +2,20 @@
 
 **Author:** ThemisDB Contributors
 **Created:** 2026-09-13
-**Last Updated:** 2026-10-01
+**Last Updated:** 2026-11-09
 **Status:** active
 **Repository Metadata:** `VERSION=2.4.0-alpha`
 **Evidence Snapshot:** v2.4.0-rc1 GA-hardening trail on `develop` *(audit-evidence snapshot; distinct from current repo `VERSION=2.4.0-alpha`)*
 **Scope:** Root audit summary across current module, compliance, and release-readiness evidence
+
+<!--
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Exact model backend not verifiable from final document text alone.
+-->
 
 > **BASELINE SYNC (2026-09-30):** This undated canonical document is refreshed to align with `IMPLEMENTATION_AUDIT_2026-09-30.md` and the latest source-verified audit baseline.
 > **ROADMAP Evidence Rule (2026-08-31):** ROADMAP checkbox states are planning/documentation signals only; audit or release evidence requires source-verified traces (code paths, tests, benchmarks, or runbooks).
@@ -26,7 +35,7 @@
 This document is the **root-level security and compliance audit record** for ThemisDB. It aggregates:
 
 1. **Security hardening milestones** per release (Waves 1-9 complete)
-2. **Known vulnerabilities and remediation status** (no active critical finding is documented in the current root audit stack)
+2. **Known vulnerabilities and remediation status** (Wave AB source triage identified a production-mode TSA stub override; remediation and full marker triage remain open)
 3. **Compliance coverage matrix** (GDPR 98%, ISO 27001 95%, BSI C5 92%, **EU AI Act 65%** [NEW], NIS2 94%, SOC 2 90%)
 4. **Static analysis results** (CodeQL, Sanitizers, Pentest evidence bundles)
 5. **Per-module audit status** across all 70 modules (Core, Optional, Private Plugins)
@@ -40,13 +49,15 @@ The production audit stack is materially present in source code and is not merel
 - The Wave-C focused harness in `tests/audit/test_audit_wavec_integrity_export_focused.cpp` now runs against the production `themis::utils::AuditLogger` path, including the JSONL sink and persisted chain-state file. It is therefore stronger source-backed evidence than the earlier mock-only harness, while broader release certification still depends on governance sign-off.
 - Current source-backed assessment: the audit subsystem is implemented and structurally strong, but the strongest Wave-C “all gates pass” wording remains provisional unless backed by an integration run against the real production sink and persistence path.
 
-### Delta refresh notice (2026-09-30)
+### Delta refresh notice (2026-11-09)
 
 - Current implementation-sync baseline: `IMPLEMENTATION_AUDIT_2026-09-30.md`
-- Current marker evidence baseline: `MARKER_LOCATIONS_2026-10-01.md` and `MARKER_GAP_CLASSIFICATION_2026-10-01.md`
-- Current TODO reality-check baseline: `ACTIONABLE_TODOS_2026-10-01.md` (remaining TODOs concentrated in `src/rag/`)
+- Current marker evidence baseline: `MARKER_LOCATIONS_2026-11-09.md` and `MARKER_GAP_CLASSIFICATION_2026-11-09.md`
+- The 2026-11-09 commit-pinned scan found 131 raw marker lines (128 `STUB`, 3 `MOCK`) and no `TODO`/`FIXME` hits in its stated scope. This is not a gap count; candidate-level classification remains in progress.
+- `MARKER_LOCATIONS_2026-10-01.md`, `MARKER_GAP_CLASSIFICATION_2026-10-01.md`, and `ACTIONABLE_TODOS_2026-10-01.md` are historical snapshots, not current counts.
 - Current Wave-C integrated chain baseline: `audit/evidence/waves/manifests/security_wave_c_integrated_evidence_chain_2026-10-01.md` (sustained-load artifact gap remains open)
-- Historical marker evidence warning: treat `MARKER_LOCATIONS_2026-08-31.md` and `MARKER_GAP_CLASSIFICATION_2026-08-31.md` as dated snapshots, not as the current raw marker count for `src/`
+- Source-verified security follow-up: `src/security/timestamp_authority.cpp` previously allowed the explicit stub flag to bypass production-mode rejection; see the current Wave AB classification and manifest. Do not treat the finding as closed until focused regression evidence is recorded.
+- Historical marker evidence warning: treat 2026-08-31, 2026-09-30, and 2026-10-01 marker reports as dated snapshots, not as current raw marker counts for `src/`.
 - Module snapshot warning: the `v2.4.0-rc1` table below remains useful as a historical maturity view, but multiple rows lag the current source-backed implementation delta documented in `IMPLEMENTATION_AUDIT_2026-09-30.md`
 
 ### Current Release Gate Status

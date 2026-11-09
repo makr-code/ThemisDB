@@ -854,10 +854,10 @@ def test_custom_cmake_callers_declare_binary_directories():
     expected = {
         "build-mainline.yml": {"build-fast", "build"},
         "build-clang-fast.yml": {"build-clang-fast"},
-        "build-sanitizer-nightly.yml": {"build-sanitizer"},
+        "build-sanitizer-nightly.yml": {"build-sanitizer", "build-tsan"},
         "edition-hyperscaler-ci.yml": {"build-hyperscaler"},
         "gate-pr-rag-eval.yml": {"/tmp/rag-build"},
-        "security-fuzzing.yml": {"build-fuzz"},
+        "security-fuzzing.yml": {"build-afl", "build-fuzz"},
     }
     for name, directories in expected.items():
         jobs = yaml.safe_load((workflows / name).read_text(encoding="utf-8"))["jobs"]

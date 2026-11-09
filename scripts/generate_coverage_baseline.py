@@ -127,12 +127,9 @@ class CoverageParser:
         """
         Add coverage metrics for a single file to the appropriate module
         """
-        # Extract module name from file path
-        # e.g., src/server/query_engine.cpp -> server
-        # tests/storage/test_index.cpp -> storage
-        # include/auth/auth_handler.h -> auth
-        
         module_name = self._extract_module_name(file_path)
+        if module_name is None:
+            return
         if module_name not in self.modules:
             self.modules[module_name] = ModuleCoverage(
                 name=module_name,
@@ -152,27 +149,18 @@ class CoverageParser:
         m.branches_covered += branches_hit
     
     @staticmethod
-    def _extract_module_name(file_path: str) -> str:
+    def _extract_module_name(file_path: str) -> str | None:
         """
         Extract module name from file path
         Examples:
           src/server/query_engine.cpp -> server
-          tests/auth/test_token.cpp -> auth
           include/storage/db.h -> storage
-          benchmarks/bench_server.cpp -> server
         """
-        
-        # Try direct pattern match: src/<module>/ or tests/<module>/
-        match = re.search(r'(src|tests|include|benchmarks)/([^/]+)/', file_path)
+        normalized_path = file_path.replace('\\', '/')
+        match = re.search(r'(?:^|/)(?:src|include)/([^/]+)/', normalized_path)
         if match:
-            return match.group(2)
-        
-        # Fallback: use first directory component
-        parts = file_path.split('/')
-        if len(parts) > 1 and parts[0] != '.':
-            return parts[1]
-        
-        return 'unknown'
+            return match.group(1)
+        return None
 
 
 def write_baseline_file(modules: dict, output_path: str):

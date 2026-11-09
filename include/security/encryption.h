@@ -109,8 +109,10 @@ public:
     ~FieldEncryption();
     
     /**
-     * @brief Create Default.
-     * @return Return value.
+     * @brief Create a test/demo FieldEncryption instance backed by MockKeyProvider.
+     * @return The instance when non-production mock use is explicitly opted in.
+     * @throws std::runtime_error if canonical ProductionMode is active or
+     *         THEMIS_ALLOW_MOCK_KEY_PROVIDER is not set to an accepted value.
      */
     static std::shared_ptr<FieldEncryption> createDefault();
     

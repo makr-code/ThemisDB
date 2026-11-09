@@ -17,7 +17,7 @@
 // Purpose: Software-only deterministic TSA fallback for development and CI environments
 //          where OpenSSL TSA (libcurl + openssl TSA protocol) is not available.
 //          Issues locally-generated timestamps without RFC 3161 compliance.
-//          Production mode is explicitly blocked unless THEMIS_ALLOW_TSA_STUB=1 is set.
+//          Production mode always blocks this fallback, regardless of opt-in.
 // Activation: Compiled when THEMIS_USE_OPENSSL_TSA is NOT defined (default dev build).
 //             Build with -DTHEMIS_USE_OPENSSL_TSA=ON (Wave-2 guard, requires OpenSSL TS_*
 //             + libcurl) to activate the RFC 3161-compliant implementation in
@@ -75,8 +75,7 @@ static TimestampToken makeProductionError() {
     tok.success = false;
     tok.error_message =
         "TimestampAuthority stub is not permitted in production mode. "
-        "Build with -DTHEMIS_USE_OPENSSL_TSA=ON (OpenSSL + libcurl required) "
-        "or set THEMIS_ALLOW_TSA_STUB=1 to explicitly allow the insecure stub.";
+        "Build with -DTHEMIS_USE_OPENSSL_TSA=ON (OpenSSL + libcurl required).";
     THEMIS_ERROR("SECURITY FAILURE: {}", tok.error_message);
     return tok;
 }
@@ -136,9 +135,14 @@ TimestampAuthority& TimestampAuthority::operator=(TimestampAuthority&&) noexcept
  * @brief Get Timestamp.
  * @param[in] data Input parameter.
  * @return Return value.
- * @details Calls: empty(), THEMIS_ERROR(), isProductionMode(), isStubAllowed(), makeProductionError(), THEMIS_WARN(), getTimestampForHash(), computeHash().
+ * @details Calls: isProductionMode(), makeProductionError(), empty(), THEMIS_ERROR(), THEMIS_WARN(), getTimestampForHash(), computeHash().
  */
 TimestampToken TimestampAuthority::getTimestamp(const std::vector<uint8_t>& data) {
+    // The local fallback is never an acceptable timestamp source in production.
+    if (isProductionMode()) {
+        return makeProductionError();
+    }
+
     // Input validation: reject empty data
     if (data.empty()) {
         TimestampToken tok;
@@ -149,10 +153,6 @@ TimestampToken TimestampAuthority::getTimestamp(const std::vector<uint8_t>& data
     
     // SECURITY HARDENING: refuse to issue stub tokens in production environments.
     // Production deployments must build with -DTHEMIS_USE_OPENSSL_TSA=ON.
-    if (isProductionMode() && !isStubAllowed()) {
-        return makeProductionError();
-    }
-
     // WARNING: This is a STUB implementation for development only
     // For production, build with -DTHEMIS_USE_OPENSSL_TSA=ON
     // This stub does NOT provide cryptographic timestamps!
@@ -165,9 +165,15 @@ TimestampToken TimestampAuthority::getTimestamp(const std::vector<uint8_t>& data
  * @brief Get Timestamp For Hash.
  * @param[in] hash Input parameter.
  * @return Return value.
- * @details Calls: empty(), THEMIS_ERROR(), isProductionMode(), isStubAllowed(), makeProductionError(), lk(), TimestampAuthority::getTimestampForHashFnMutex(), TimestampAuthority::getTimestampForHashFnStorage().
+ * @details Calls: isProductionMode(), makeProductionError(), empty(), THEMIS_ERROR(), lk(), TimestampAuthority::getTimestampForHashFnMutex(), TimestampAuthority::getTimestampForHashFnStorage().
  */
 TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t>& hash) {
+    // Check before validation and callback dispatch: injected bridges do not turn
+    // the no-OpenSSL fallback into the production TSA implementation.
+    if (isProductionMode()) {
+        return makeProductionError();
+    }
+
     // Input validation: reject empty hash
     if (hash.empty()) {
         TimestampToken tok;
@@ -178,9 +184,6 @@ TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t
     
     // Bridge path: when a callback is registered, delegate stamping to the
     // injected implementation. When unset, retain the deterministic local stub.
-    if (isProductionMode() && !isStubAllowed()) {
-        return makeProductionError();
-    }
     // Production-mode gating applies before any injected bridge runs so that a
     // callback cannot silently bypass the non-production restriction.
     GetTimestampForHashFn fn;
@@ -251,6 +254,11 @@ bool TimestampAuthority::verifyTimestamp(const std::vector<uint8_t>& data, const
  * @details Calls: empty(), THEMIS_ERROR(), lk(), TimestampAuthority::verifyTimestampForHashFnMutex(), TimestampAuthority::verifyTimestampForHashFnStorage(), fn(), what(), std::string().
  */
 bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash, const TimestampToken& token) {
+    if (isProductionMode()) {
+        THEMIS_ERROR("Cannot verify timestamp using the fallback in production mode");
+        return false;
+    }
+
     if (hash.empty()) {
         THEMIS_ERROR("Cannot verify timestamp for empty hash");
         return false;
@@ -283,6 +291,10 @@ bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash
  */
 TimestampToken TimestampAuthority::parseToken(const std::vector<uint8_t>& token_data) {
     TimestampToken tok = {};
+    if (isProductionMode()) {
+        tok.error_message = "Cannot parse timestamp tokens using the fallback in production mode";
+        return tok;
+    }
     if (token_data.empty()) {
         tok.error_message = "Cannot parse empty token data";
         THEMIS_WARN("parseToken: {}", tok.error_message);
@@ -303,6 +315,10 @@ TimestampToken TimestampAuthority::parseToken(const std::vector<uint8_t>& token_
  */
 TimestampToken TimestampAuthority::parseToken(const std::string& token_b64) {
     TimestampToken tok = {};
+    if (isProductionMode()) {
+        tok.error_message = "Cannot parse timestamp tokens using the fallback in production mode";
+        return tok;
+    }
     if (token_b64.empty()) {
         tok.error_message = "Cannot parse empty token string";
         THEMIS_WARN("parseToken: {}", tok.error_message);
@@ -317,16 +333,17 @@ TimestampToken TimestampAuthority::parseToken(const std::string& token_b64) {
 /**
  * @brief Get TSACertificate.
  * @return Return value.
- * @details Calls: lk(), isProductionMode(), isStubAllowed(), THEMIS_ERROR(), std::string().
+ * @details Calls: isProductionMode(), THEMIS_ERROR(), lk(), std::string().
  */
 std::optional<std::string> TimestampAuthority::getTSACertificate() {
+    // Check before consulting the cache so a development-cached stub certificate
+    // cannot be exposed after the process enters production mode.
+    if (isProductionMode()) {
+        THEMIS_ERROR("Cannot return stub TSA certificate in production mode");
+        return std::nullopt;
+    }
     std::lock_guard<std::mutex> lk(impl_->state_mutex);
     if (!impl_->cached_tsa_cert_pem) {
-        // Return a stub certificate for development; production must use real TSA
-        if (isProductionMode() && !isStubAllowed()) {
-            THEMIS_ERROR("Cannot return stub TSA certificate in production mode");
-            return std::nullopt;
-        }
         impl_->cached_tsa_cert_pem =
             std::string("-----BEGIN CERTIFICATE-----\nSTUB-TSA\n-----END CERTIFICATE-----\n");
     }
@@ -335,9 +352,10 @@ std::optional<std::string> TimestampAuthority::getTSACertificate() {
 /**
  * @brief Is Available.
  * @return True when the operation succeeds.
- * @details Implements isAvailable without additional internal calls.
+ * @details Returns false in production mode because this fallback cannot provide
+ *          an RFC 3161 service.
  */
-bool TimestampAuthority::isAvailable() { return true; }
+bool TimestampAuthority::isAvailable() { return !isProductionMode(); }
 std::string TimestampAuthority::getLastError() const { return last_error_; }
 
 // Private helpers (stubs)
@@ -355,7 +373,15 @@ std::vector<uint8_t> TimestampAuthority::createTSPRequest(const std::vector<uint
  * @return Return value.
  * @details Implements parseTSPResponse without additional internal calls.
  */
-TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>&) { TimestampToken t; t.success = true; return t; }
+TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>&) {
+    TimestampToken t;
+    if (isProductionMode()) {
+        t.error_message = "Cannot parse TSP responses using the fallback in production mode";
+        return t;
+    }
+    t.success = true;
+    return t;
+}
 /**
  * @brief Send TSPRequest.
  * @param[in] param Input parameter.
@@ -412,10 +438,10 @@ std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>&
 //             TimestampAuthority fallback above).  Production builds with
 //             -DTHEMIS_USE_OPENSSL_TSA=ON (Wave-2 CMake guard) compile the real
 //             implementation which performs full ASN.1 chain validation.
-// Production Delta (validateeIDASTimestamp): Without an injected ValidateFn,
-//             accepts any token whose `success` flag is true only when the
-//             explicit stub override is enabled; no RFC3161 signature validation.
-//             Optional ValidateFn injection allows external validation logic.
+// Production Delta (validateeIDASTimestamp): In non-production mode, an opt-in
+//             fallback accepts successful tokens without RFC3161 signature
+//             validation; injected callbacks are also available only outside
+//             production. Production mode always fails closed.
 // Production Delta (isQualifiedTSA): Without an injected QualifiedTSAFn,
 //             always returns false + pushes an error message; cannot validate
 //             QTSP certificates without OpenSSL.
@@ -435,6 +461,14 @@ bool eIDASTimestampValidator::validateeIDASTimestamp(
     const std::vector<std::string>& trust_anchors) {
     
     validation_errors_.clear();
+
+    // Reject before invoking user-provided validation code; a callback cannot
+    // bypass the production-mode restriction of this fallback.
+    if (isProductionMode()) {
+        validation_errors_.push_back(
+            "eIDAS timestamp validation fallback is not available in production mode");
+        return false;
+    }
 
     eIDASTimestampValidator::ValidateFn fn;
     {
@@ -480,6 +514,12 @@ bool eIDASTimestampValidator::validateeIDASTimestamp(
  */
 bool eIDASTimestampValidator::validateAge(const TimestampToken& token, int max_age_days) {
     validation_errors_.clear();
+
+    if (isProductionMode()) {
+        validation_errors_.push_back(
+            "eIDAS timestamp age validation fallback is not available in production mode");
+        return false;
+    }
     
     if (token.timestamp_unix_ms == 0) {
         validation_errors_.push_back("Token has no timestamp");
@@ -535,6 +575,14 @@ bool eIDASTimestampValidator::isQualifiedTSA(
     const std::vector<std::string>& qtsp_list) {
     
     validation_errors_.clear();
+
+    // Do not let an injected helper claim a fallback certificate is qualified
+    // in production; full QTSP validation requires the OpenSSL implementation.
+    if (isProductionMode()) {
+        validation_errors_.push_back(
+            "QTSP validation fallback is not available in production mode");
+        return false;
+    }
 
     eIDASTimestampValidator::QualifiedTSAFn fn;
     {

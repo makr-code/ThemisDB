@@ -141,6 +141,8 @@ struct TimestampToken {
  * Timestamp Authority Client
  * 
  * Implements RFC 3161 Time-Stamp Protocol for obtaining cryptographic timestamps.
+ * The no-OpenSSL fallback is unavailable in production mode, regardless of
+ * THEMIS_ALLOW_TSA_STUB or registered fallback callbacks.
  */
 class TimestampAuthority {
 public:
@@ -227,7 +229,8 @@ public:
 
     /**
      * Check if TSA is reachable
-     * @return true if TSA responds, false otherwise
+     * @return true if TSA responds, false otherwise; the no-OpenSSL fallback
+     *         always returns false in production mode.
      * @brief Is Available.
      */
     bool isAvailable();
@@ -340,6 +343,8 @@ private:
  * 
  * Validates timestamps according to eIDAS requirements.
  * Implements long-term validation (LTV) for archived timestamps.
+ * The no-OpenSSL fallback rejects production-mode calls before invoking
+ * registered validation callbacks.
  */
 class eIDASTimestampValidator {
 public:

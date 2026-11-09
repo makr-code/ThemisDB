@@ -184,6 +184,24 @@ jobs:
 - [ ] **Comment commands documented**: Für Workflows mit PR-Kommentar-Interaktion muss ein kanonischer Befehl und eine Help-Referenz (`/gate-help` / `/approve-with-waiver ...`) dokumentiert sein.
 - [ ] **Lokale Vorprüfung dokumentiert**: mindestens `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode lint`.
 
+### Sanitizer- und Parser-Fuzz-Gates
+- `build-sanitizer-nightly.yml` führt bei Änderungen in den Storage-, Transaction-,
+  Query/AQL-, Server-, Auth-, Network- und Sharding-Modulen nur die betroffenen
+  fokussierten ASan+UBSan-Tests aus (Jobbudget höchstens 45 Minuten). Änderungen
+  an der Root-CMake-Konfiguration wählen die volle Testsuite; Zeitplan/Dispatch
+  führen die volle ASan+UBSan-Suite sowie TSan für Transaction, Sharding und LLM aus.
+- Der Sanitizer-Run-Beleg enthält URL, getesteten SHA, Ziele, Laufzeit und rohes
+  Job-Ergebnis. Fehlgeschlagene oder abgebrochene Läufe sind kein PASS; mögliche
+  Runner-/Infrastrukturfehler müssen anhand der Logs separat klassifiziert werden.
+- AQL-, HTTP-, Wire-Protocol- und Importer-Parseränderungen wählen nur die
+  betroffenen deterministischen Corpus-Smoke-Ziele. Jeder einzelne Parserlauf
+  hat ein hartes 300-Sekunden-Limit. Fehlendes Harness, fehlende Pflicht-Seeds,
+  Crash oder ASan/UBSan-Diagnose muss fehlschlagen. Corpus-Smoke verwendet keine
+  AFL-Ausgabecache; die eingecheckten Pflicht-Seeds sind der minimale Corpus-Vertrag.
+- Für Änderungen an diesen Gates lokal ausführen:
+  `python3 -m unittest tools.tests.test_fuzz_smoke tools.tests.test_sanitizer_targets -v` und
+  `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode lint`.
+
 ## Quick Acceptance Criteria (Workflow-/Guideline-PRs)
 - Die Verantwortung ist im Actions-UI klar lesbar (Build vs Validate ohne Mischbegriffe).
 - Keine unbeabsichtigte Trigger-Ausweitung (keine zusätzlichen Branch-/Path-Flächen ohne Begründung).

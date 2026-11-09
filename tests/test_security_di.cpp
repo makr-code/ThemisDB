@@ -6,6 +6,7 @@
 #include "core/security_initialization.h"
 #include "themis/base/interfaces/security_interface.h"
 #include "security/mock_key_provider.h"
+#include "utils/scoped_env_var.h"
 
 using namespace themis;
 using namespace testing;
@@ -77,6 +78,9 @@ TEST_F(FieldEncryptionDITest, ShouldEncryptReturnsTrueWhenNoConfigSet) {
 }
 
 TEST_F(FieldEncryptionDITest, CreateDefaultFactoryWorks) {
+    themis::test::ScopedEnvVar production_mode("THEMIS_PRODUCTION_MODE", "0");
+    themis::test::ScopedEnvVar environment("THEMIS_ENVIRONMENT", "testing");
+    themis::test::ScopedEnvVar allow_mock("THEMIS_ALLOW_MOCK_KEY_PROVIDER", "1");
     auto enc = FieldEncryption::createDefault();
     EXPECT_NE(enc, nullptr);
     EXPECT_NE(enc->getKeyProvider(), nullptr);
@@ -247,5 +251,3 @@ TEST(SecurityLayerIntegrationTest, FullSecurityLayerWorks) {
     // Test JWT validator
     EXPECT_NE(layer.jwt, nullptr);
 }
-
-

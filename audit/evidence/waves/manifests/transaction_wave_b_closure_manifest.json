@@ -1,30 +1,51 @@
 {
-  "generated_at": "2026-09-14T15:15:00Z",
+  "generated_at": "2026-11-09T14:47:00Z",
   "wave": "Wave B",
   "module": "transaction",
   "workflow": "build-wave-b-transaction.yml",
-  "run_id": "34313051247",
-  "overall_status": "evidence-captured",
+  "run_id": "42562739998",
+  "overall_status": "open",
   "gates": {
-    "B1_chaos_recovery": "success",
-    "B2_fail_closed": "success",
-    "B3_release_critical": "success",
-    "B4_phase4_baseline": "success"
+    "B1_chaos_recovery": "skipped",
+    "B2_fail_closed": "pending",
+    "B3_release_critical": "skipped",
+    "B4_phase4_baseline": "skipped"
   },
   "evidence_references": {
     "closure_package_artifact": "transaction-wave-b-closure-package",
     "artifacts_archive": "transaction-ci-results.zip",
     "ci_report": "CI-Report",
     "representative_baseline": "benchmarks/wave8/TRANSACTION_BASELINES_LATEST.json",
-    "representative_baseline_artifact": "transaction-baseline-evidence",
-    "latest_attempt_run_url": "https://github.com/makr-code/ThemisDB/actions/runs/34875897264",
-    "latest_attempt_artifacts": "transaction-ci-results,transaction-chaos-recovery-evidence,transaction-test-results,smoke-test-results,transaction-baseline-evidence,cmake-configuration-log"
+    "representative_baseline_status": "missing; latest Phase-4 baseline job was skipped and the referenced file is absent from the checkout",
+    "latest_attempt_run_url": "https://github.com/makr-code/ThemisDB/actions/runs/42562739998",
+    "latest_attempt_commit_sha": "b3634fc907b6fdfe29b163112b01f577162010ec",
+    "latest_attempt_conclusion": "success",
+    "observed_develop_head_sha": "b55c75f19d48c830c298933b734ff5bec71213d5",
+    "latest_attempt_fresh_for_develop_head": false,
+    "latest_attempt_runner": "GitHub-hosted ubuntu-latest",
+    "latest_attempt_skipped_jobs": [
+      "Benchmark: Phase 4 Baseline",
+      "Validate: Full Transaction Test Suite (86 tests)",
+      "Validate: Chaos and Recovery Evidence"
+    ],
+    "latest_attempt_artifacts": [
+      {
+        "name": "transaction-ci-results",
+        "artifact_id": "13650690054",
+        "digest": "sha256:742b91feb1e75b2d6f910adc55bd6f47303f1cdac850ba4d905a6ad6378e6bc4"
+      },
+      {
+        "name": "transaction-wave-b-closure-package",
+        "artifact_id": "13650053458",
+        "digest": "sha256:d74548b8d69961871f0a157a6bb8aa9c085f5bab14b2577eb57fb1b680676a2e"
+      }
+    ]
   },
   "source_validation": {
     "code": true,
-    "tests": true,
+    "tests": false,
     "ci": true,
-    "benchmarks": true
+    "benchmarks": false
   },
-  "notes": "Dedicated transaction lane has source-backed artifacts and the representative-hardware Phase-4 baseline was captured, closing the Wave-B evidence gap for release-critical transaction validation."
+  "notes": "The latest available transaction run 42562739998 at b3634fc907b6fdfe29b163112b01f577162010ec is behind observed develop HEAD b55c75f19d48c830c298933b734ff5bec71213d5. It compiled transaction phases and passed smoke tests, but skipped the full suite, chaos/recovery evidence, and Phase-4 baseline. The canonical representative-baseline file is absent from the checkout and no baseline artifact was uploaded; do not treat the historical evidence-captured state as current."
 }

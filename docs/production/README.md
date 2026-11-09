@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Operations"
+Created: "2026-11-09"
+Last Updated: "2026-11-09"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Production Operations Documentation
 
 This directory contains comprehensive operational documentation for running ThemisDB in production environments.
@@ -17,8 +31,8 @@ This directory contains comprehensive operational documentation for running Them
 - **Detailed Runbooks:**
   - [CORE_MODULE_RUNBOOK.md](RUNBOOKS/CORE_MODULE_RUNBOOK.md) - Required environment variables, failure modes, mitigations
   - [UPGRADE_RUNBOOK.md](RUNBOOKS/UPGRADE_RUNBOOK.md) - Zero-downtime upgrade procedures (Rolling, Blue-Green, Canary)
-  - [RESTORE_RUNBOOK.md](RUNBOOKS/RESTORE_RUNBOOK.md) - Backup restoration and PITR
-  - [FAILOVER_RUNBOOK.md](RUNBOOKS/FAILOVER_RUNBOOK.md) - Failover and recovery procedures
+  - [RESTORE_RUNBOOK.md](RUNBOOKS/RESTORE_RUNBOOK.md) - Backup restoration and PITR; v2.5.0 RC readiness review, drill pending
+  - [FAILOVER_RUNBOOK.md](RUNBOOKS/FAILOVER_RUNBOOK.md) - Failover and recovery procedures; v2.5.0 RC readiness review, drill pending
   - [SCALING_RUNBOOK.md](RUNBOOKS/SCALING_RUNBOOK.md) - Horizontal/vertical scaling and HPA
 
 ### Disaster Recovery

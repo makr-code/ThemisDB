@@ -1,5 +1,7 @@
 # Wave D Phase 4: Soak Test Results Template
 
+> **Evidence status (2026-11-09):** No soak scenario has been executed or accepted. The checked-in benchmark sources contain simulated or placeholder operations and must not be treated as evidence for the 24/48-hour acceptance gates. See [Wave D execution blockers](../../audit/evidence/waves/operability_wave_d_execution_blockers.md). Keep all result fields below pending until production-representative workload, measurements, artifacts, and reviews are attached.
+
 **Status:** [~] In Progress (scheduled Q1 2027)  
 **Target Gates:** W9-SOAK-TELEMETRY-01, REPLICATION-01, SHARDING-01, ACCELERATION-01  
 **Execution Timeline:** Weeks 7-12

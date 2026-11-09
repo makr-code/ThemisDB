@@ -16,6 +16,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "cdc/changefeed.h"
 #include "query/query_engine.h"
+#include "utils/scoped_env_var.h"
 
 using namespace themis;
 using namespace themis::utils;
@@ -75,6 +76,9 @@ protected:
         // query_engine_ = std::make_unique<QueryEngine>(db_wrapper_.get());
         
         // Initialize encryption (mock implementation for testing)
+        themis::test::ScopedEnvVar production_mode("THEMIS_PRODUCTION_MODE", "0");
+        themis::test::ScopedEnvVar environment("THEMIS_ENVIRONMENT", "testing");
+        themis::test::ScopedEnvVar allow_mock("THEMIS_ALLOW_MOCK_KEY_PROVIDER", "1");
         encryption_ = FieldEncryption::createDefault();
         
         // Initialize PKI client (mock)

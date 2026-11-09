@@ -1,38 +1,18 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-09T09:52:40+00:00",
+  "generated_at": "2026-11-09T17:58:34+00:00",
   "mode": "incremental",
   "source_count": 8070,
-  "source_hash": "ba1f66e143026eef8bee5b1f804a06a32a3152e06f9a9a9e38e8b56c0e1240e4",
+  "source_hash": "52b0a00d9611f99c4b376b68b6a122295612ce3256cfc98d0c5ac2b3d4e73c21",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
-    "changed_count": 19,
+    "changed_count": 0,
     "added_preview": [],
     "removed_preview": [],
-    "changed_preview": [
-      ".github/workflows/benchmark-gate.yml",
-      ".github/workflows/build-mainline.yml",
-      ".github/workflows/compliance-governance-gates.yml",
-      ".github/workflows/gate-distributed-knowledge.yml",
-      ".github/workflows/gate-pr-community-failclosed.yml",
-      ".github/workflows/gate-pr-core.yml",
-      ".github/workflows/gate-pr-doxygen-governance.yml",
-      ".github/workflows/gate-pr-edition-license.yml",
-      ".github/workflows/gate-pr-final-runtime-api.yml",
-      ".github/workflows/gate-pr-plugin-boundary.yml",
-      ".github/workflows/gate-pr-rag-security.yml",
-      ".github/workflows/gate-pr-rag-version.yml",
-      ".github/workflows/gate-release-benchmark-validation.yml",
-      ".github/workflows/release-build-matrix.yml",
-      ".github/workflows/release-evidence-chain.yml",
-      ".github/workflows/reusable-cmake-build.yml",
-      ".github/workflows/wiki-pr-gate.yml",
-      "scripts/ai-dev-llm-wiki-sync.py",
-      "scripts/prepare-windows-dependencies.py"
-    ]
+    "changed_preview": []
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "63c205abd7cb1eae2c7b1a57ac60ae3bceac55c82be568ffdd6b393157ee4fac"
+  "manifest_sha256": "e734d18a51fc00072de8180dc9ff941406f941b74851e7c1152d6926207a6c60"
 }

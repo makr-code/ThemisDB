@@ -1,5 +1,7 @@
 # Wave D Operability Hardening — Soak Test Runbook
 
+> **Execution blocker (reviewed 2026-11-09):** The listed benchmark source files currently use placeholder or simulated operations (including a telemetry rate below the requested 1000 spans/sec and simulated replication, sharding, and GPU work). Their reported PASS strings are not valid Wave D evidence. Do not execute or accept these sources as closure runs until their workloads and gate assertions are replaced with production-representative implementations and reviewed. See [Wave D execution blockers](../../audit/evidence/waves/operability_wave_d_execution_blockers.md).
+
 **Document Type:** Wave D Soak Test Execution & Analysis Guide  
 **Target:** Q1 2027 (v2.5.0-rc1)  
 **Last Updated:** 2026-08-17  
