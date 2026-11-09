@@ -179,6 +179,12 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
                     "Build a source revision containing this package fix.",
                 )
 
+    def test_base_configures_bounded_apt_retries_before_update(self) -> None:
+        base = extract_stage(self._dockerfile_text(), "base")
+        retry_config = r"""printf '%s\n' 'Acquire::Retries "3";' > /etc/apt/apt.conf.d/80-retries"""
+        self.assertIn(retry_config, base)
+        self.assertLess(base.index(retry_config), base.index("apt-get update"))
+
     def test_community_logging_dependencies_use_system_packages(self) -> None:
         deps_packages = extract_installed_packages(
             extract_stage(self._dockerfile_text(), "deps", base_image="base"), "deps"

@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-09T03:03:03+00:00",
+  "generated_at": "2026-11-09T08:46:02+00:00",
   "source_count": 8070,
   "sources": [
     {
@@ -20867,9 +20867,9 @@
     {
       "path": "docs/code_maturity_report.md",
       "category": "governance_and_docs",
-      "size": 2304496,
-      "sha256": "23745a655e8f7f7b8eec51d1bebf9e48c71bcab40f896189fb54665c27425fde",
-      "modified_utc": "2026-11-09T03:03:01+00:00"
+      "size": 2304497,
+      "sha256": "e0949a5621956b6dbe9d22985b4a6f9458df3f3ec14fabda3ea3424b2d8da601",
+      "modified_utc": "2026-11-09T08:41:42+00:00"
     },
     {
       "path": "docs/community/Supporters.md",
@@ -30408,9 +30408,9 @@
     {
       "path": "docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md",
       "category": "governance_and_docs",
-      "size": 7922,
-      "sha256": "de05690844d0033582ca47c3e2bc487b92ad7010afc4ee5e2eb782a3b830a936",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 9489,
+      "sha256": "1216c04a743b5842b5316204662bd2b8aa6ff67b96a3a42a6a1953fd1452df98",
+      "modified_utc": "2026-11-09T08:45:41+00:00"
     },
     {
       "path": "docs/en/deployment/DOCKER_SECURITY_AUDIT.md",
