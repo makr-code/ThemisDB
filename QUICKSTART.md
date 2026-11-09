@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-11-02"
-Last Updated: "2026-11-02"
+Last Updated: "2026-11-09"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -252,6 +252,7 @@ curl -X POST http://localhost:8765/v2/search/vector \
 | Configuration | [config/](config/) |
 | Security hardening | [SECURITY.md](SECURITY.md) |
 | Production deployment | [docs/de/guides/guides_deployment.md](docs/de/guides/guides_deployment.md) |
+| Production restore/failover operations | [docs/production/README.md](docs/production/README.md#operational-procedures) — v2.5.0 RC drill and RPO/RTO approval pending |
 | Performance tuning | [docs/performance/PERFORMANCE_EXPECTATIONS.md](docs/performance/PERFORMANCE_EXPECTATIONS.md) |
 | Examples | [examples/](examples/) |
 | Full documentation | [docs/README.md](docs/README.md) |
