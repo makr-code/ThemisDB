@@ -2,12 +2,12 @@
 
 **Author:** ThemisDB Platform Team  
 **Created:** 2026-08-24  
-**Last Updated:** 2026-09-16  
+**Last Updated:** 2026-11-09  
 **Status:** active  
 **Document Type:** Wave D Program Roadmap  
 **Target Release:** Q1 2027 (v2.4.x GA + v2.5.0-rc1)  
 **Scope:** Distributed tracing, operator runbooks, long-duration soak testing  
-**Execution Status:** 🟡 Phase 1-2 In Progress (updated 2026-08-24)  
+**Execution Status:** OPEN — no accepted current D2/soak execution evidence or human sign-off (reviewed 2026-11-09)  
 **Branch:** develop  
 
 `Status` describes document lifecycle metadata; `Execution Status` describes Wave D implementation progress.
@@ -19,15 +19,17 @@
 Wave D focuses on hardening operational capabilities across distributed and accelerated modules. Unlike Wave A (runtime reliability), Wave B (performance), and Wave C (security), Wave D emphasizes **operator visibility, runbook completeness, and sustained-load resilience**.
 
 ### Wave D Exit Criteria
-- [~] Wave A-C exit criteria confirmed on `develop` (Wave C ✅ complete; Wave A/B partial — hardware baselines pending Q4 2026)
+- [~] Wave A-C exit criteria confirmed on `develop` (current canonical [root ROADMAP](../../ROADMAP.md) keeps Wave C OPEN; Wave A/B evidence also has unresolved prerequisites)
 - [ ] Distributed tracing SDK pattern deployed across transaction/sharding/replication
 - [ ] High-cardinality metrics collection (shard-level, replication lag quantiles) operational
 - [ ] OpenTelemetry exporter reliability suite green (sustained 1000s events/sec stress)
 - [x] 5 operator runbooks published (access-model, replication, sharding, voice, GPU) ✅
 - [x] D1 Trace Span cross-link sections added to all 5 runbooks (2026-09-16) ✅
-- [~] Soak test suite executing: 3 test files created; full 60-minute runs pending representative hardware
+- [ ] Soak test suite: the four 24/48-hour acceptance scenarios are NOT EXECUTED; checked-in benchmark sources include placeholders and simulated operations and are not valid closure evidence
 - [ ] Observability integration verified against Wave 7-9 benchmark gates
 - [ ] Wave D sign-off document complete with human approval
+
+> Current evidence gaps and source-level blockers are tracked in [Wave D execution blockers](../../audit/evidence/waves/operability_wave_d_execution_blockers.md). Do not promote Wave D while Waves A–C are unresolved or until the production-representative tests have been executed and reviewed.
 
 ---
 

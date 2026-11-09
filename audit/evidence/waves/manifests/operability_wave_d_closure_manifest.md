@@ -11,7 +11,7 @@ Human_Author: ThemisDB Team
 ---
 # Wave D Closure Package — operability
 
-- Timestamp: 2026-11-09T14:51:00Z
+- Timestamp: 2026-11-09T15:50:00Z
 - Workflow: `no current Wave D execution`
 - Run ID: `not-executed`
 - Overall status: `open`
@@ -21,7 +21,7 @@ Human_Author: ThemisDB Team
 | Gate | Status |
 | --- | --- |
 | `D1_runbooks` | in_progress |
-| `D2_observability_gates` | in_progress |
+| `D2_observability_gates` | pending |
 | `D3_soak_recovery` | pending |
 | `D4_operator_signoff` | pending |
 
@@ -48,6 +48,7 @@ Human_Author: ThemisDB Team
 | `d2_metrics_verification` | `docs/operability/PHASE2B_METRICS_COLLECTION_VERIFICATION.md` |
 | `d2_exporter_verification` | `docs/operability/PHASE2C_EXPORTER_RELIABILITY_VERIFICATION.md` |
 | `d3_soak_results` | `docs/operability/PHASE4_SOAK_TEST_RESULTS.md` |
+| `execution_blockers` | `audit/evidence/waves/operability_wave_d_execution_blockers.md` |
 | `codeql_python_risk` | `audit/evidence/waves/WAVE_CODEQL_PYTHON_RISK.md` |
 
 ## Source validation
@@ -61,4 +62,4 @@ Human_Author: ThemisDB Team
 
 ## Notes
 
-Status refreshed 2026-11-09. Wave D remains open; this manifest is not a closure or release approval. The previous run ID 34805894351 is historical only. D1 remains in progress pending RUN-01 operator approval and executed drill evidence. D2 execution evidence on the current target revision is not attached. D3 four 24/48-hour soak scenarios have not been executed or evidenced here. D4 requires recorded operations, architecture, and authorized release sign-off. RUN-01 RPO/RTO targets remain proposals pending explicit maintainer approval. Source/artifact presence flags do not prove current target execution or successful results.
+Status refreshed 2026-11-09. Wave D remains open; this manifest is not a closure or release approval. The previous run ID 34805894351 is historical only. D1 remains in progress pending RUN-01 operator approval and executed drill evidence. D2 is pending: current-revision execution evidence is absent, and checked-in test limitations are documented in the execution-blockers record. D3 four 24/48-hour soak scenarios have not been executed; checked-in benchmark sources are not valid acceptance evidence. D4 requires recorded operations, architecture, and authorized release sign-off. RUN-01 RPO/RTO targets remain proposals pending explicit maintainer approval. Source/artifact presence flags do not prove current target execution or successful results.

@@ -1,12 +1,14 @@
 # Wave D Phase 2A: Distributed Tracing Verification Report
 
-**Status:** [~] In Progress (scheduled Q1 2027)  
+**Status:** PENDING — no current target-revision execution evidence attached (reviewed 2026-11-09)  
 **Target Gate:** W4A-TRACE-01  
 **Acceptance Criterion:** Trace overhead ≤2% vs Wave 7 baseline
 
 ## Overview
 
 Phase 2A implements distributed tracing span framework with W3C context propagation and validates trace overhead against production baseline.
+
+> **Evidence status:** This document is a verification plan, not an execution report. Values below identified as baseline context are not current measurements; `TBD` entries remain unmeasured. No current-revision run URL, artifact, hardware profile, or reviewer approval is attached. See [Wave D execution blockers](../../audit/evidence/waves/operability_wave_d_execution_blockers.md).
 
 ### Scope
 

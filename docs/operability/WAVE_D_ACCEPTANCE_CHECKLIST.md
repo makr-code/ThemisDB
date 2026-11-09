@@ -16,6 +16,8 @@
 
 `Status` describes document lifecycle metadata; `Execution Status` describes Wave D implementation progress.
 
+**Evidence note:** D2 remains pending and the four 24/48-hour soak runs are not executed. Source-level blockers and the minimum evidence required are recorded in [Wave D execution blockers](../../audit/evidence/waves/operability_wave_d_execution_blockers.md); plans, estimates, and placeholder tests do not satisfy these gates.
+
 ---
 
 ## RUN-01: Production Restore/Failover Readiness (v2.5.0 RC)
@@ -141,14 +143,14 @@
   - [ ] Operator interpretation guide documented
 
 ### 2C: OpenTelemetry Exporter Reliability Test Suite
-- [ ] `tests/observability/test_otel_exporter_stress.cpp` created
+- [ ] `tests/observability/test_otel_exporter_stress.cpp` acceptance implementation and current-revision evidence complete (source exists but has simulation/measurement gaps; see execution blockers)
   - [ ] Test 1: 1000 spans/sec × 60 sec, zero drops verified
   - [ ] Test 2: Network failure + recovery, buffering verified
   - [ ] Test 3: Cardinality explosion (10k metric dimensions), memory bounded
   - [ ] Test 4: Concurrent exporters, no duplicates verified
   - [ ] Test 5: Graceful shutdown, zero data loss verified
   - [ ] Wired into `release_critical;observability` label
-- [ ] `tests/observability/test_high_cardinality_metrics_stress.cpp` created
+- [ ] `tests/observability/test_high_cardinality_metrics_stress.cpp` acceptance implementation and current-revision evidence complete (source coverage does not demonstrate 50k unique dimensions; see execution blockers)
   - [ ] Test 1: 50k metric dimensions/2 min, aggregation verified
   - [ ] Test 2: Metric scrape under lock contention, p99 latency measured
   - [ ] Test 3: Metric rotation during active emission, continuity verified
@@ -241,7 +243,7 @@
 ## Phase 4: Soak Test Suite & Long-Duration Validation (Target: 2026-11-15)
 
 ### 4.1: Telemetry Exporter Resilience (24-hour)
-- [x] `benchmarks/wave9/test_wave9_otel_24h_soak.cpp` skeleton created
+- [x] `benchmarks/wave9/test_wave9_otel_24h_soak.cpp` skeleton created; not acceptance evidence (default rate below target and recovery placeholder)
 - [ ] Implementation complete:
   - [ ] Continuous metric/trace emission at realistic rates
   - [ ] Network disruption injection (random intervals)
@@ -251,7 +253,7 @@
   - [ ] Wired into Wave 9 benchmark suite with configurable duration
 
 ### 4.2: Replication WAL Shipping & Lag Tracking (48-hour)
-- [x] `benchmarks/wave9/test_wave9_replication_48h_soak.cpp` skeleton created
+- [x] `benchmarks/wave9/test_wave9_replication_48h_soak.cpp` skeleton created; not acceptance evidence (simulated WAL/failover behavior)
 - [ ] Implementation complete:
   - [ ] Multi-region WAL shipping simulation
   - [ ] Periodic topology changes (failover injections)
@@ -261,7 +263,7 @@
   - [ ] Evidence: lag baselines, recovery times
 
 ### 4.3: Distributed Multi-Shard Writes with Topology Changes
-- [x] `benchmarks/wave9/test_wave9_sharding_topology_soak.cpp` skeleton created
+- [x] `benchmarks/wave9/test_wave9_sharding_topology_soak.cpp` skeleton created; not acceptance evidence (placeholder write/topology/exactness behavior)
 - [ ] Implementation complete:
   - [ ] Sustained writes across 8+ shards
   - [ ] Topology change injection (every 30 minutes)
@@ -271,7 +273,7 @@
   - [ ] Streaming results collection
 
 ### 4.4: Mixed Acceleration Workloads (GPU + CPU)
-- [x] `benchmarks/wave9/test_wave9_mixed_acceleration_soak.cpp` skeleton created
+- [x] `benchmarks/wave9/test_wave9_mixed_acceleration_soak.cpp` skeleton created; not acceptance evidence (placeholder GPU/fallback behavior)
 - [ ] Implementation complete:
   - [ ] Sustained GPU workloads with fallback injections
   - [ ] Fallback recovery latency measurement

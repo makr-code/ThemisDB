@@ -1,12 +1,14 @@
 # Wave D Phase 2C: OTel Exporter Reliability Verification
 
-**Status:** [~] In Progress (scheduled Q1 2027)  
+**Status:** PENDING — no current target-revision execution evidence attached (reviewed 2026-11-09)  
 **Target Gates:** W4A-EXPORTER-01..05 (5 stress scenarios)  
 **Acceptance Criterion:** All scenarios PASS, zero data loss under failure injection
 
 ## Overview
 
 Phase 2C validates OTel exporter reliability under 5 stress scenarios: sustained throughput, network failure recovery, cardinality explosion, concurrent exporters, and graceful shutdown.
+
+> **Evidence status:** This document is a verification plan, not an execution report. The checked-in stress test source currently exercises span construction and simulated delays rather than a real exporter/network failure/flush path. Its presence does not establish any W4A-EXPORTER gate. No current-revision run URL, artifact, or reviewer approval is attached. See [Wave D execution blockers](../../audit/evidence/waves/operability_wave_d_execution_blockers.md).
 
 ### Scope
 
@@ -110,11 +112,11 @@ Phase 2C validates OTel exporter reliability under 5 stress scenarios: sustained
 
 | Gate | Scenario | Unit Tests | Benchmark | Status |
 |------|----------|-----------|-----------|--------|
-| W4A-EXPORTER-01 | Sustained throughput | [~] 1/1 | [~] Yes | [~] In Progress |
-| W4A-EXPORTER-02 | Network recovery | [~] 1/1 | [~] Yes | [~] In Progress |
-| W4A-EXPORTER-03 | Cardinality explosion | [~] 1/1 | [~] Yes | [~] In Progress |
-| W4A-EXPORTER-04 | Concurrent exporters | [~] 1/1 | [~] Yes | [~] In Progress |
-| W4A-EXPORTER-05 | Graceful shutdown | [~] 1/1 | [~] Yes | [~] In Progress |
+| W4A-EXPORTER-01 | Sustained throughput | Source present; gate test invalid for export-rate evidence | No accepted run | Pending |
+| W4A-EXPORTER-02 | Network recovery | Source simulates a delay; no network/export recovery measured | No accepted run | Pending |
+| W4A-EXPORTER-03 | Cardinality explosion | Source does not exercise 50k exporter dimensions | No accepted run | Pending |
+| W4A-EXPORTER-04 | Concurrent exporters | Source constructs spans concurrently; no exporter coordination measured | No accepted run | Pending |
+| W4A-EXPORTER-05 | Graceful shutdown | Source clears span objects; no exporter flush/result checked | No accepted run | Pending |
 
 ## Acceptance Checklist
 
