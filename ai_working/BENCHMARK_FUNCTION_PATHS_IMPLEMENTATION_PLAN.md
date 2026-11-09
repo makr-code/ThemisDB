@@ -4,10 +4,10 @@ Created: "2026-11-09"
 Last Updated: "2026-11-09"
 Status: "review"
 AI_Used: true
-AI_Models: "unknown"
+AI_Models: "GitHub Copilot (exact model backend not recorded)"
 AI_Contributor: "GitHub Copilot"
-Human_Review: false
-Human_Author: "unknown"
+Human_Review: true
+Human_Author: "ThemisDB Team"
 ---
 
 > Exact model backend not verifiable from final document text alone.
