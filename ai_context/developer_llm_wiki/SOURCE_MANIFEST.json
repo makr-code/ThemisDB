@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-09T15:42:58+00:00",
+  "generated_at": "2026-11-09T16:14:41+00:00",
   "source_count": 8070,
   "sources": [
     {
@@ -20867,9 +20867,9 @@
     {
       "path": "docs/code_maturity_report.md",
       "category": "governance_and_docs",
-      "size": 2304595,
-      "sha256": "d39fb12aa0b198684c6910eb6e99220c25045b572a3c1e79814a267194a3a001",
-      "modified_utc": "2026-11-09T15:42:07+00:00"
+      "size": 2305150,
+      "sha256": "215e0d18ba191bee20e83d84759e2ade3ee9be518cef1a87c22d849182fb7e35",
+      "modified_utc": "2026-11-09T16:13:48+00:00"
     },
     {
       "path": "docs/community/Supporters.md",
@@ -29043,9 +29043,9 @@
     {
       "path": "docs/de/security/security_hsm.md",
       "category": "governance_and_docs",
-      "size": 20550,
-      "sha256": "7af92db0138bd8ff71cfffab0f6f38632a54df30ade4be662bb775e2f083c931",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 21833,
+      "sha256": "b035109ec5c0fd3e6c8bb722fec640453b0125105177ff9df0dd6a1d2af2c7ff",
+      "modified_utc": "2026-11-09T16:13:48+00:00"
     },
     {
       "path": "docs/de/security/security_implementation.md",
@@ -32781,9 +32781,9 @@
     {
       "path": "docs/governance/GA_PROMOTION_SIGN_OFF.md",
       "category": "governance_and_docs",
-      "size": 31454,
-      "sha256": "936306c27f08522a828e7df3805867907579d1e1c530aae86e7b722df7fc8fe9",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 33986,
+      "sha256": "6a4d897521f7f8fe32f98a9990e9eaf29b7097886784c69bff7df2d0accc3a55",
+      "modified_utc": "2026-11-09T16:12:40+00:00"
     },
     {
       "path": "docs/governance/GITHUB_MILESTONES_SETUP.md",
@@ -35721,30 +35721,30 @@
     {
       "path": "docs/operability/PHASE2A_DISTRIBUTED_TRACING_VERIFICATION.md",
       "category": "governance_and_docs",
-      "size": 4022,
-      "sha256": "2fda60ad847484ce078ca4eb93dbb0e680cae574c1096e482a059ad353ffefa9",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 4460,
+      "sha256": "f4104601b879bd65d9fd4c070e6bbb590b7a4ca64fe1c491b2a8719d36af4202",
+      "modified_utc": "2026-11-09T16:13:48+00:00"
     },
     {
       "path": "docs/operability/PHASE2B_METRICS_COLLECTION_VERIFICATION.md",
       "category": "governance_and_docs",
-      "size": 4681,
-      "sha256": "bf40b5b2d8aea95fd73ea4e82cfa450254056cbdd9ddc46e0bc9c76cae64d89e",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 5231,
+      "sha256": "bd575970ec489ab124a080b16fa4e9f8d52410b21d93051ce1b40a0e451bae86",
+      "modified_utc": "2026-11-09T16:13:48+00:00"
     },
     {
       "path": "docs/operability/PHASE2C_EXPORTER_RELIABILITY_VERIFICATION.md",
       "category": "governance_and_docs",
-      "size": 5336,
-      "sha256": "369c65cfe9ce1f190d6b0092dd1499c94be02f0416e0f7c44a97670ef7f656e4",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 6116,
+      "sha256": "fd03b64721ea4f9d0dd97e644b033cb88883404d25ac876de7f5a8ce79b997bf",
+      "modified_utc": "2026-11-09T16:13:48+00:00"
     },
     {
       "path": "docs/operability/PHASE4_SOAK_TEST_RESULTS.md",
       "category": "governance_and_docs",
-      "size": 8093,
-      "sha256": "5491431673fe2d56e22e18debbc8fe9bac5f1e1f59bcf87da17bead885a79dab",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 8560,
+      "sha256": "728151a784547663c7c120931fb4fbdfb0589e538ccde04b8e860e315f1ddc38",
+      "modified_utc": "2026-11-09T16:13:48+00:00"
     },
     {
       "path": "docs/operability/README.md",
@@ -36141,23 +36141,23 @@
     {
       "path": "docs/operability/WAVE_D_ACCEPTANCE_CHECKLIST.md",
       "category": "governance_and_docs",
-      "size": 18180,
-      "sha256": "055180df3f9c4f4fd089a699332f9918bc487b2395019c5b13d95fc72a012e5f",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 20575,
+      "sha256": "7cd274ac7328555d4a302ba9adfb656eb2b8370e826828d507d5a43d3d7ec497",
+      "modified_utc": "2026-11-09T16:13:48+00:00"
     },
     {
       "path": "docs/operability/WAVE_D_ROADMAP.md",
       "category": "governance_and_docs",
-      "size": 18149,
-      "sha256": "76cc36b297755f031b506b19fc7dde17ca301135c3fdc11b957db6c6720a745c",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 18620,
+      "sha256": "6bd3a8537af41ac639b4b8e87f9d56289de248f1c429222b27e1a3f698202b1d",
+      "modified_utc": "2026-11-09T16:13:48+00:00"
     },
     {
       "path": "docs/operability/WAVE_D_SIGN_OFF.md",
       "category": "governance_and_docs",
-      "size": 9282,
-      "sha256": "ede4163ceb1bc84f767e2fe27ca5c78a71d3df3bfc4f46701b9f5e33127a6731",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 10834,
+      "sha256": "b636f336df59717467918e195af61e528abbee9cc01d1e4683564fddbc8506eb",
+      "modified_utc": "2026-11-09T16:13:48+00:00"
     },
     {
       "path": "docs/operability/content_runbook.md",
@@ -36883,9 +36883,9 @@
     {
       "path": "docs/production/README.md",
       "category": "governance_and_docs",
-      "size": 6865,
-      "sha256": "9702b9ff0f1c608244afd75c6503bdd98c8add2a942d662d946cd301f8383168",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 7244,
+      "sha256": "bb78b6d16e4be35a177f11aa999ecfd01b1109b6ccbf906c1b63c3104b3ab5e0",
+      "modified_utc": "2026-11-09T16:13:48+00:00"
     },
     {
       "path": "docs/production/RUNBOOKS.md",
@@ -36904,16 +36904,16 @@
     {
       "path": "docs/production/RUNBOOKS/FAILOVER_RUNBOOK.md",
       "category": "governance_and_docs",
-      "size": 9079,
-      "sha256": "5ff45bda8bc6404283597fc569ac92820bb1a7b5a953763fe274358656872b47",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 9800,
+      "sha256": "3f2fd4c98c0b9f1f8748c5871d8f1314882e890e582248f61d6eb8fbb339c048",
+      "modified_utc": "2026-11-09T16:13:48+00:00"
     },
     {
       "path": "docs/production/RUNBOOKS/RESTORE_RUNBOOK.md",
       "category": "governance_and_docs",
-      "size": 6174,
-      "sha256": "5edb3b8def493d45595f5253d77ad238b23d02cc57ecf5e0e0f6a7c7ad4b6d95",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 6895,
+      "sha256": "758c5e7cabd9abbb833da51dedce56433f96937a77421bff8533cdef51918fd7",
+      "modified_utc": "2026-11-09T16:13:48+00:00"
     },
     {
       "path": "docs/production/RUNBOOKS/SCALING_RUNBOOK.md",
@@ -49140,9 +49140,9 @@
     {
       "path": "include/security/encryption.h",
       "category": "modules_and_api",
-      "size": 11605,
-      "sha256": "0df46613909250a9dae93ee585488b019dc255eab03caf3366c5535c2cc7d42d",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 11866,
+      "sha256": "47f2030448697e61688edf706df09240a5efc54780e51b89b0f41b37eb8c9ac9",
+      "modified_utc": "2026-11-09T16:13:48+00:00"
     },
     {
       "path": "include/security/fips_crypto_mode.h",
@@ -49161,9 +49161,9 @@
     {
       "path": "include/security/hsm_provider.h",
       "category": "modules_and_api",
-      "size": 12075,
-      "sha256": "2bcf97fe2b50935399f507e2c44cdb839a569b41b036a650b01d44991c90497d",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 14278,
+      "sha256": "001c298fe2e82c840012ecc6131d56af3f40467182484321adc47231eb2948ae",
+      "modified_utc": "2026-11-09T16:13:48+00:00"
     },
     {
       "path": "include/security/hsm_security_checker.h",
@@ -49175,9 +49175,9 @@
     {
       "path": "include/security/hsm_security_metrics.h",
       "category": "modules_and_api",
-      "size": 8044,
-      "sha256": "84a73dbed5d91a81cbff893d34a3b508808f5e43c8c6632d9ffc47b4b0be8383",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 8432,
+      "sha256": "b41685ae1b429a0af9b2c6e407851b5a94b1bcce86dbee6da8b6290ba99cad3d",
+      "modified_utc": "2026-11-09T16:13:48+00:00"
     },
     {
       "path": "include/security/hsm_startup_policy.h",
@@ -49385,9 +49385,9 @@
     {
       "path": "include/security/timestamp_authority.h",
       "category": "modules_and_api",
-      "size": 15135,
-      "sha256": "b8f2da49222052a36e6cc807df87054a3856b8de78f7a8955a48583aa0a13a30",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 15460,
+      "sha256": "086fb30605dcd1a2cd2c2afbdf0123a27236137d46be5482e3cd25886a758a6a",
+      "modified_utc": "2026-11-09T16:13:48+00:00"
     },
     {
       "path": "include/security/transport_security_checker.h",

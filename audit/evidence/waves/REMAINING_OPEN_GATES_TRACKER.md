@@ -19,7 +19,22 @@ Scope: `develop`
 Last Updated: 2026-11-09
 Purpose: track unresolved benchmark/closure evidence that remains explicitly open in manifests.
 
-## Resolved since last update (2026-09-15)
+## Wave A revalidation (2026-11-09)
+
+Observed `develop` HEAD: `b55c75f19d48c830c298933b734ff5bec71213d5`. Available lane runs below are older than that HEAD and are recorded as attempts, not passes. The Wave A exit manifest contains the full machine-readable lane details.
+
+| Lane / gate | Current state | Latest available run and commit | Revalidation blocker |
+|---|---|---|---|
+| `A_exit_release_critical_green` | `pending` | [Current run 42638110351](https://github.com/makr-code/ThemisDB/actions/runs/42638110351), `b55c75f19d48c830c298933b734ff5bec71213d5` — queued | Latest completed predecessor [42635125188](https://github.com/makr-code/ThemisDB/actions/runs/42635125188), `fc1dbd540541fd4616786b923621a6fe37644e9c`, failed and skipped the release-critical test job |
+| Transaction | `pending` | [42562739998](https://github.com/makr-code/ThemisDB/actions/runs/42562739998), `b3634fc907b6fdfe29b163112b01f577162010ec` — workflow success | Phase-4 baseline, full suite, and chaos jobs skipped; `benchmarks/wave8/TRANSACTION_BASELINES_LATEST.json` absent |
+| GPU `A4_representative_hardware` | `skipped` | [42559714050](https://github.com/makr-code/ThemisDB/actions/runs/42559714050), `8550ebc98499db562aa975e176c19d12745540af` — workflow failure | GPU test compilation failed; manual-only representative job was not enabled, so runner availability is unverified |
+| Voice | `pending` | [42441375803](https://github.com/makr-code/ThemisDB/actions/runs/42441375803), `74f899e4d44f44bae43b07f7c799a19580debe9d` — workflow failure; voice job succeeded | Hosted CPU benchmark only; no representative-hardware p95/p99 artifact |
+| Sharding | `pending` | [42441375803](https://github.com/makr-code/ThemisDB/actions/runs/42441375803), `74f899e4d44f44bae43b07f7c799a19580debe9d` — workflow failure | Wave A flow failed before benchmarks; release-gate job skipped |
+| Replication | `pending` | [42441375803](https://github.com/makr-code/ThemisDB/actions/runs/42441375803), `74f899e4d44f44bae43b07f7c799a19580debe9d` — workflow failure | No replication-specific representative run or current artifact; shared sharding/transaction flow failed |
+
+No fresh representative-hardware metrics or CPU-fallback comparison were produced. Keep every missing lane pending/skipped, and do not promote root-roadmap status until fresh evidence and the Wave A validator pass.
+
+## Historical status changes (last recorded 2026-09-15)
 
 | Manifest | Gate | Previous status | Resolution |
 |---|---|---|---|
@@ -27,7 +42,7 @@ Purpose: track unresolved benchmark/closure evidence that remains explicitly ope
 | `manifests/wave_b_module_hardening_closure_manifest.json` | `B_modules_updates` | `pending` | ✅ → `success` — v1.1.0 GA; UPDP-4..7 PASS; src/updates/MODULE_EVIDENCE.md source-backed |
 | `manifests/security_wave_c_closure_manifest.json` | `C2_fail_closed_boundary` | `in_progress` | ✅ → `success` — Vault/HSM/PKI fail-closed matrix tests PASS 2026-08-17; HSM stub opt-in enforced |
 | `manifests/operability_wave_d_closure_manifest.json` | `D1_runbooks` | `in_progress` | ✅ → `success` — 5 runbooks delivered; GA D-1 PASS 2026-08-04 |
-| `manifests/transaction_wave_b_closure_manifest.json` | `B4_phase4_baseline` | `skipped` | ✅ → `success` — representative Phase-4 baseline artifact captured at `benchmarks/wave8/TRANSACTION_BASELINES_LATEST.json` and linked to `transaction-baseline-evidence` |
+| `manifests/transaction_wave_b_closure_manifest.json` | `B4_phase4_baseline` | `skipped` | Previously reported `success`; reopened 2026-11-09 because the latest Phase-4 baseline job was skipped, the referenced file is absent, and no baseline artifact was uploaded |
 
 ## Advanced since last update (2026-09-15)
 
@@ -43,9 +58,9 @@ Purpose: track unresolved benchmark/closure evidence that remains explicitly ope
 
 | Manifest | Gate | Current status | Missing evidence / action |
 |---|---|---|---|
-| `manifests/gpu_wave_a_closure_manifest.json` | `A4_representative_hardware` | `skipped` | Representative GPU hardware benchmark artifacts (p95/p99) — requires self-hosted GPU runner |
-| `manifests/wave_a_exit_closure_manifest.json` | `A_exit_rep_hardware_p95_p99` | `pending` | Aggregate p95/p99 closure for transaction/gpu/voice/sharding/replication |
-| `manifests/wave_a_exit_closure_manifest.json` | `A_exit_transaction_gpu_artifacts` | `in_progress` | Promote to success only after both Wave-A GPU + transaction evidence sets are complete |
+| `manifests/gpu_wave_a_closure_manifest.json` | `A4_representative_hardware` | `skipped` | Run 42559714050 skipped the manual-only `self-hosted,gpu-cuda` job because its input was not enabled; runner availability is unverified; no p95/p99 artifact |
+| `manifests/wave_a_exit_closure_manifest.json` | `A_exit_rep_hardware_p95_p99` | `pending` | Transaction, GPU, voice, sharding, and replication lane references and individual blockers are recorded in the exit manifest; no lane has current representative-hardware metrics |
+| `manifests/wave_a_exit_closure_manifest.json` | `A_exit_transaction_gpu_artifacts` | `in_progress` | Transaction Phase-4 baseline and GPU representative hardware evidence are missing; latest lane run references are behind observed `develop` HEAD |
 | `manifests/wave_b_module_hardening_closure_manifest.json` | `B_modules_query` | `in_progress` | Representative-hardware baseline + cross-feature integration tests |
 | `manifests/wave_b_module_hardening_closure_manifest.json` | `B_modules_llm_wiki` | `in_progress` | Wiki routing cost-signal, security/governance runtime gates, policy-loader evidence |
 | `manifests/wave_b_module_hardening_closure_manifest.json` | `B_modules_llm` | `in_progress` | Distributed collectives, multi-tenant isolation, speculative/TARG cross-module wiring |

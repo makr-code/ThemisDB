@@ -1,28 +1,36 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-09T15:42:58+00:00",
+  "generated_at": "2026-11-09T16:14:41+00:00",
   "mode": "incremental",
   "source_count": 8070,
-  "source_hash": "ae158ccaf650a2efa75df66c07eacf3d4f339b6bc97b4874dd09978735e1e3f8",
+  "source_hash": "56bd12cbddb3ee3ee4c6dc368720d38b72f6b0f0395c51b1306f6c4521609939",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
-    "changed_count": 9,
+    "changed_count": 17,
     "added_preview": [],
     "removed_preview": [],
     "changed_preview": [
-      ".github/workflows/gate-pr-final-runtime-api.yml",
-      ".github/workflows/gate-pr-rag-security.yml",
-      ".github/workflows/release-docker-image.yml",
-      ".github/workflows/reusable-cmake-build.yml",
-      ".github/workflows/reusable-docker-image-platform.yml",
-      "ROADMAP.md",
       "docs/code_maturity_report.md",
-      "docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md",
-      "include/auth/jwt_validator.h"
+      "docs/de/security/security_hsm.md",
+      "docs/governance/GA_PROMOTION_SIGN_OFF.md",
+      "docs/operability/PHASE2A_DISTRIBUTED_TRACING_VERIFICATION.md",
+      "docs/operability/PHASE2B_METRICS_COLLECTION_VERIFICATION.md",
+      "docs/operability/PHASE2C_EXPORTER_RELIABILITY_VERIFICATION.md",
+      "docs/operability/PHASE4_SOAK_TEST_RESULTS.md",
+      "docs/operability/WAVE_D_ACCEPTANCE_CHECKLIST.md",
+      "docs/operability/WAVE_D_ROADMAP.md",
+      "docs/operability/WAVE_D_SIGN_OFF.md",
+      "docs/production/README.md",
+      "docs/production/RUNBOOKS/FAILOVER_RUNBOOK.md",
+      "docs/production/RUNBOOKS/RESTORE_RUNBOOK.md",
+      "include/security/encryption.h",
+      "include/security/hsm_provider.h",
+      "include/security/hsm_security_metrics.h",
+      "include/security/timestamp_authority.h"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "f9f04978177afbe4c5d98e2807abcb7dc03ab50d297be87811f8e31210af24f1"
+  "manifest_sha256": "3b3de3a9856d0465a5c3745f651af42514d8ce32cf9742892e8252bd33be6c33"
 }

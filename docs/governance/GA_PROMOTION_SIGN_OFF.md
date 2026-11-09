@@ -1,8 +1,13 @@
 ---
 Author: platform-release@themisdb
 Created: 2026-07-20
-Last Updated: 2026-09-28
+Last Updated: 2026-11-09
 Status: review
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
 ---
 
 # ThemisDB GA Promotion — Final Governance Sign-Off
@@ -13,6 +18,26 @@ Status: review
 **Last Updated:** 2026-09-28  
 **Promotion Status:** BATCH E COMPLETE — All technical gates D-1..D-10 + E-1..E-5 PASS (2026-08-07); Module Phase 5-6 closure complete; Wave D D4-00 CI fixes shipped 2026-08-18 (libfmt-dev + benchmark CI unblocked); Wave-B Transaction & Wave-A GPU tracker issues created 2026-09-23; Section 9 human sign-off required for final promotion
 **Owner:** platform-release@themisdb
+
+---
+
+## Wave A representative-hardware evidence revalidation (2026-11-09)
+
+**Status: OPEN — no promotion.** The current observed `develop` HEAD is `b55c75f19d48c830c298933b734ff5bec71213d5`. The current `release_critical` run [42638110351](https://github.com/makr-code/ThemisDB/actions/runs/42638110351) is queued. Its latest completed predecessor [42635125188](https://github.com/makr-code/ThemisDB/actions/runs/42635125188) failed before the release-critical test job, which was skipped.
+
+The canonical [Wave A exit manifest](../../audit/evidence/waves/manifests/wave_a_exit_closure_manifest.json) and [remaining-gates tracker](../../audit/evidence/waves/REMAINING_OPEN_GATES_TRACKER.md) contain the lane-level run URLs, commit SHAs, runner identities, artifact references, and blockers:
+
+| Lane | State | Latest available evidence / blocker |
+|---|---|---|
+| Transaction | `pending` | [Run 42562739998](https://github.com/makr-code/ThemisDB/actions/runs/42562739998), `b3634fc907b6fdfe29b163112b01f577162010ec`; Phase-4 baseline, full suite, and chaos jobs skipped. Referenced baseline file is absent. |
+| GPU | `skipped` | [Run 42559714050](https://github.com/makr-code/ThemisDB/actions/runs/42559714050), `8550ebc98499db562aa975e176c19d12745540af`; representative job is manual-only and was not enabled. Runner availability is unverified; [GPU baseline JSON](../../benchmarks/wave8/GPU_BASELINES_2026_Q4.json) remains a template with no metrics. |
+| Voice | `pending` | [Run 42441375803](https://github.com/makr-code/ThemisDB/actions/runs/42441375803), `74f899e4d44f44bae43b07f7c799a19580debe9d`; hosted CPU job succeeded, but no representative-hardware p95/p99 artifact exists. |
+| Sharding | `pending` | Run 42441375803 at `74f899e4d44f44bae43b07f7c799a19580debe9d`; shared Wave A flow failed and the release-gate job was skipped. |
+| Replication | `pending` | Run 42441375803 at `74f899e4d44f44bae43b07f7c799a19580debe9d` is shared-flow evidence only; no replication-specific representative run or current artifact was found. |
+
+These attempts are older than the observed `develop` HEAD and are not represented as passes. No p50/p95/p99, throughput, or GPU/CPU-fallback comparison was captured. Keep Wave A and root-roadmap status open until fresh runs on `develop`, real representative-hardware artifacts, and the closure validator pass.
+
+> Exact model backend not verifiable from final document text alone.
 
 ---
 

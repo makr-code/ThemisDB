@@ -7,7 +7,21 @@
     "wave": "Wave A",
     "target_hardware": "NVIDIA A100/H100 (A8-class)",
     "cuda_version": "12.x",
-    "note": "This is a template document. Actual measurements require execution on representative GPU hardware."
+    "revalidated_at": "2026-11-09T14:47:00Z",
+    "latest_attempt": {
+      "run_url": "https://github.com/makr-code/ThemisDB/actions/runs/42559714050",
+      "run_id": "42559714050",
+      "commit_sha": "8550ebc98499db562aa975e176c19d12745540af",
+      "observed_develop_head_sha": "b55c75f19d48c830c298933b734ff5bec71213d5",
+      "fresh_for_develop_head": false,
+      "conclusion": "failure",
+      "ci_runner": "GitHub-hosted ubuntu-latest",
+      "representative_runner_labels": ["self-hosted", "gpu-cuda"],
+      "representative_runner_status": "skipped",
+      "hardware_identity": null,
+      "blocker": "The scheduled run skipped the manual-only representative job because run_representative_hardware was not enabled; runner availability is unverified. Baseline GPU test compilation failed."
+    },
+    "note": "Template only; all measurements remain pending until execution on representative GPU hardware."
   },
   "baseline_metadata": {
     "execution_date": "PENDING",

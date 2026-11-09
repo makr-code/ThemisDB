@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-09-14T19:35:00Z",
+  "generated_at": "2026-11-09T14:47:00Z",
   "wave": "Wave A",
   "module": "wave-a-exit",
   "workflow": "gate-pr-core.yml",
-  "run_id": "34875897139",
+  "run_id": "42638110351",
   "overall_status": "open",
   "gates": {
-    "A_exit_release_critical_green": "success",
+    "A_exit_release_critical_green": "pending",
     "A_exit_rep_hardware_p95_p99": "pending",
     "A_exit_transaction_gpu_artifacts": "in_progress"
   },
@@ -14,15 +14,113 @@
     "roadmap_contract": "ROADMAP.md#wave-a-exit-criteria-gate-to-wave-b",
     "transaction_manifest": "audit/evidence/waves/manifests/transaction_wave_b_closure_manifest.json",
     "gpu_manifest": "audit/evidence/waves/manifests/gpu_wave_a_closure_manifest.json",
-    "release_critical_run_url": "https://github.com/makr-code/ThemisDB/actions/runs/34875897139",
-    "gpu_wave_run_id": "34875896686",
-    "transaction_wave_run_id": "34875897264"
+    "observed_develop_head_sha": "b55c75f19d48c830c298933b734ff5bec71213d5",
+    "release_critical_current_run": {
+      "run_id": "42638110351",
+      "run_url": "https://github.com/makr-code/ThemisDB/actions/runs/42638110351",
+      "commit_sha": "b55c75f19d48c830c298933b734ff5bec71213d5",
+      "status": "queued"
+    },
+    "release_critical_latest_completed_run": {
+      "run_id": "42635125188",
+      "run_url": "https://github.com/makr-code/ThemisDB/actions/runs/42635125188",
+      "commit_sha": "fc1dbd540541fd4616786b923621a6fe37644e9c",
+      "conclusion": "failure",
+      "release_critical_test_job": "skipped"
+    },
+    "representative_hardware_lanes": {
+      "transaction": {
+        "status": "pending",
+        "run_url": "https://github.com/makr-code/ThemisDB/actions/runs/42562739998",
+        "commit_sha": "b3634fc907b6fdfe29b163112b01f577162010ec",
+        "run_conclusion": "success",
+        "fresh_for_develop_head": false,
+        "runner_identity": "GitHub-hosted ubuntu-latest",
+        "workload": "Transaction Phase-4 baseline",
+        "baseline_job": "skipped",
+        "p50": null,
+        "p95": null,
+        "p99": null,
+        "throughput": null,
+        "artifact": null,
+        "blocker": "The Phase-4 baseline, full transaction suite, and chaos/recovery jobs were skipped; benchmarks/wave8/TRANSACTION_BASELINES_LATEST.json is absent."
+      },
+      "gpu": {
+        "status": "pending",
+        "run_url": "https://github.com/makr-code/ThemisDB/actions/runs/42559714050",
+        "commit_sha": "8550ebc98499db562aa975e176c19d12745540af",
+        "run_conclusion": "failure",
+        "fresh_for_develop_head": false,
+        "runner_identity": "GitHub-hosted ubuntu-latest; representative job requires self-hosted,gpu-cuda",
+        "representative_runner_status": "skipped because the manual-only run_representative_hardware input was not enabled",
+        "representative_runner_availability": "not verified",
+        "workload": "GPU kernel/vector-similarity baseline and CPU-fallback comparison",
+        "p50": null,
+        "p95": null,
+        "p99": null,
+        "throughput": null,
+        "cpu_fallback_comparison": "pending",
+        "artifact": "benchmarks/wave8/GPU_BASELINES_2026_Q4.json (template only)",
+        "blocker": "The scheduled run skipped the manual-only representative job because run_representative_hardware was not enabled; runner availability is unverified. Baseline GPU test compilation failed."
+      },
+      "voice": {
+        "status": "pending",
+        "run_url": "https://github.com/makr-code/ThemisDB/actions/runs/42441375803",
+        "commit_sha": "74f899e4d44f44bae43b07f7c799a19580debe9d",
+        "run_conclusion": "failure",
+        "lane_job": "Benchmark: Voice (ubuntu-latest), success",
+        "fresh_for_develop_head": false,
+        "runner_identity": "GitHub-hosted ubuntu-latest",
+        "workload": "bench_voice_assistant",
+        "p50": null,
+        "p95": null,
+        "p99": null,
+        "throughput": null,
+        "artifact": null,
+        "blocker": "The successful voice job used a hosted CPU runner; no representative-hardware p95/p99 artifact is available."
+      },
+      "sharding": {
+        "status": "pending",
+        "run_url": "https://github.com/makr-code/ThemisDB/actions/runs/42441375803",
+        "commit_sha": "74f899e4d44f44bae43b07f7c799a19580debe9d",
+        "run_conclusion": "failure",
+        "lane_job": "Wave A Flow Gates (sharding-transaction), failure; Sharding Release-Gate Benchmarks, skipped",
+        "fresh_for_develop_head": false,
+        "runner_identity": "GitHub-hosted ubuntu-latest",
+        "workload": "Sharding release gates SRG-01..06",
+        "p50": null,
+        "p95": null,
+        "p99": null,
+        "throughput": null,
+        "artifact": "benchmarks/sharding/WAVE_A_BASELINE_METRICS.json (2026-08-17; not current representative-hardware evidence)",
+        "blocker": "Current available flow failed before benchmark execution and the sharding release-gate job was skipped."
+      },
+      "replication": {
+        "status": "pending",
+        "run_url": "https://github.com/makr-code/ThemisDB/actions/runs/42441375803",
+        "commit_sha": "74f899e4d44f44bae43b07f7c799a19580debe9d",
+        "run_conclusion": "failure",
+        "lane_specific_run": false,
+        "fresh_for_develop_head": false,
+        "runner_identity": "No replication-specific representative-hardware runner/run verified",
+        "workload": "Replication throughput, lag, and recovery",
+        "p50": null,
+        "p95": null,
+        "p99": null,
+        "throughput": null,
+        "artifact": "benchmarks/baselines/distributed/bench_replication_v190_baseline.json (historical mapped/null-valued baseline)",
+        "blocker": "No current replication-specific run or representative-hardware artifact was found; the available shared sharding/transaction flow failed."
+      }
+    },
+    "gpu_wave_run_id": "42559714050",
+    "transaction_wave_run_id": "42562739998",
+    "benchmark_workflow_run_url": "https://github.com/makr-code/ThemisDB/actions/runs/42441375803"
   },
   "source_validation": {
     "code": true,
-    "tests": true,
-    "ci": true,
+    "tests": false,
+    "ci": false,
     "benchmarks": false
   },
-  "notes": "Wave-A evidence-fill cycle started with real release_critical run ID and linked GPU/Transaction run IDs; representative-hardware p95/p99 remains pending and blocks promotion."
+  "notes": "Revalidated against observed develop HEAD b55c75f19d48c830c298933b734ff5bec71213d5. The current release-critical run is queued; its latest completed predecessor failed and skipped the release-critical test job. All five representative-hardware lanes remain pending with explicit run references and blockers. Do not promote Wave A or root-roadmap status until fresh lane evidence and the closure validator pass."
 }
