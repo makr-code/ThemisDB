@@ -223,7 +223,7 @@ BENCHMARK_REGISTER_F(DegradationBaseFixture, DFR02_PartialWriteFailure)
 // DFR-03: Saturation point – throughput at increasing concurrency
 // ---------------------------------------------------------------------------
 
-BENCHMARK_F(DegradationBaseFixture, DFR03_SaturationConcurrency)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(DegradationBaseFixture, DFR03_SaturationConcurrency)(benchmark::State& state) {
     // Arg(0) controls thread count
     const int num_threads = static_cast<int>(state.range(0));
     const int ops_per_thread = 2'000;

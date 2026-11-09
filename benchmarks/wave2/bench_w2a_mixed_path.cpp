@@ -48,6 +48,7 @@
 #include <string>
 #include <vector>
 
+#include "../benchmark_cleanup.h"
 #include "index/secondary_index.h"
 #include "index/vector_index.h"
 #include "storage/base_entity.h"
@@ -89,7 +90,10 @@ std::vector<float> randomVec(std::size_t dim, std::mt19937& rng) {
 
 /// @brief Open a RocksDB instance at @p path optimised for benchmark use.
 std::unique_ptr<RocksDBWrapper> openBenchDb(const std::string& path) {
-    fs::remove_all(path);
+    std::error_code cleanup_error;
+    if (!themis::bench::removeBenchmarkDirectory(path, cleanup_error)) {
+        throw std::runtime_error("W2A: failed to clear RocksDB path: " + cleanup_error.message());
+    }
     fs::create_directories(path);
 
     RocksDBWrapper::Config cfg;
@@ -156,7 +160,9 @@ public:
         db_->close();
         db_.reset();
         std::error_code cleanup_error;
-        fs::remove_all(dbPath_, cleanup_error);
+        if (!themis::bench::removeBenchmarkDirectory(dbPath_, cleanup_error)) {
+            state.SkipWithError(("W2A secondary cleanup failed: " + cleanup_error.message()).c_str());
+        }
     }
 
 protected:
@@ -252,9 +258,9 @@ public:
         db_->close();
         db_.reset();
         std::error_code cleanup_error;
-        fs::remove_all(dbPath_, cleanup_error);
-        if (cleanup_error) {
+        if (!themis::bench::removeBenchmarkDirectory(dbPath_, cleanup_error)) {
             state.counters["cleanup_failed"] = 1.0;
+            state.SkipWithError(("W2A vector cleanup failed: " + cleanup_error.message()).c_str());
         }
     }
 
@@ -384,7 +390,10 @@ static void BM_W2A_BatchIngestIndexQuery(benchmark::State& state) {
     vix.reset();
     db->close();
     db.reset();
-    fs::remove_all(dbPath);
+    std::error_code cleanup_error;
+    if (!themis::bench::removeBenchmarkDirectory(dbPath, cleanup_error)) {
+        state.SkipWithError(("W2A batch cleanup failed: " + cleanup_error.message()).c_str());
+    }
 }
 
 BENCHMARK(BM_W2A_BatchIngestIndexQuery)

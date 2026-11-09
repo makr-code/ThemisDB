@@ -4,13 +4,16 @@
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 #include "../benchmark_cleanup.h"
+#include <chrono>
 #include <filesystem>
 #include <iostream>
 
 using namespace themis;
 
 static void BM_SimpleInsert(benchmark::State& state) {
-    const std::string DB_PATH = "simple_test_db";
+    const auto timestamp = std::chrono::steady_clock::now().time_since_epoch().count();
+    const std::string DB_PATH = (std::filesystem::temp_directory_path() /
+        ("themisdb_bench_simple_insert_" + std::to_string(timestamp))).string();
     
     std::error_code cleanup_error;
     if (!themis::bench::removeBenchmarkDirectory(DB_PATH, cleanup_error)) {
@@ -63,7 +66,6 @@ static void BM_SimpleInsert(benchmark::State& state) {
             }
 
             indexMgr.erase("users", "test_user_1");
-            break;
         }
     }
     

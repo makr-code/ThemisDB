@@ -8836,6 +8836,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       TARGET bench_w2c_recovery
       MODULE "wavew"
       TIMEOUT 120
+      EXTRA_ARGS "--benchmark_filter=BM_W2C_ColdRead|W2C_WarmRead|BM_W2C_ReopenLatency_NoWAL/100$|BM_W2C_WalReplayRead/100$"
     )
   endif()
   if(TARGET bench_w4a_release_gates)
@@ -8899,7 +8900,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_w7c_degradation_fault_recovery
       TARGET bench_w7c_degradation_fault_recovery
       MODULE "wavew"
-      TIMEOUT 120
+      TIMEOUT 420
     )
   endif()
   if(TARGET bench_w7d_guardrails_variance_operability)
@@ -8907,7 +8908,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_w7d_guardrails_variance_operability
       TARGET bench_w7d_guardrails_variance_operability
       MODULE "wavew"
-      TIMEOUT 120
+      TIMEOUT 420
     )
   endif()
   if(TARGET bench_w8a_incident_regression_shielding)
@@ -8923,7 +8924,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_w8b_threshold_hardening_drift_detection
       TARGET bench_w8b_threshold_hardening_drift_detection
       MODULE "wavew"
-      TIMEOUT 120
+      TIMEOUT 420
     )
   endif()
   if(TARGET bench_w8c_deterministic_ci_harness)

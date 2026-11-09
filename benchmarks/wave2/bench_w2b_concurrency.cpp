@@ -53,6 +53,7 @@
 #include <thread>
 #include <vector>
 
+#include "../benchmark_cleanup.h"
 #include "index/vector_index.h"
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
@@ -73,13 +74,16 @@ std::string uniqueDbPath(const char* tag) {
 }
 
 std::unique_ptr<RocksDBWrapper> openBenchDb(const std::string& path) {
-    fs::remove_all(path);
+    std::error_code cleanup_error;
+    if (!themis::bench::removeBenchmarkDirectory(path, cleanup_error)) {
+        throw std::runtime_error("W2B: failed to clear RocksDB path: " + cleanup_error.message());
+    }
     fs::create_directories(path);
 
     RocksDBWrapper::Config cfg;
     cfg.db_path                   = path;
-    cfg.enable_wal                = false;
-    cfg.disable_wal_for_benchmark = true;
+    cfg.enable_wal                = true;
+    cfg.disable_wal_for_benchmark = false;
     cfg.memtable_size_mb          = 64;
     cfg.block_cache_size_mb       = 128;
     cfg.allow_concurrent_memtable_write = true;
@@ -142,7 +146,10 @@ public:
         }
         db_->close();
         db_.reset();
-        fs::remove_all(dbPath_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(dbPath_, cleanup_error)) {
+            state.SkipWithError(("W2B KV cleanup failed: " + cleanup_error.message()).c_str());
+        }
     }
 
 protected:
@@ -306,7 +313,10 @@ public:
         vix_.reset();
         db_->close();
         db_.reset();
-        fs::remove_all(dbPath_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(dbPath_, cleanup_error)) {
+            state.SkipWithError(("W2B vector cleanup failed: " + cleanup_error.message()).c_str());
+        }
     }
 
 protected:
@@ -426,7 +436,10 @@ static void BM_W2B_ReaderWriterFanout(benchmark::State& state) {
 
     db->close();
     db.reset();
-    fs::remove_all(dbPath);
+    std::error_code cleanup_error;
+    if (!themis::bench::removeBenchmarkDirectory(dbPath, cleanup_error)) {
+        state.SkipWithError(("W2B reader-writer cleanup failed: " + cleanup_error.message()).c_str());
+    }
 }
 
 BENCHMARK(BM_W2B_ReaderWriterFanout)
