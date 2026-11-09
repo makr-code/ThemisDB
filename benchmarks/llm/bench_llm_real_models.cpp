@@ -267,7 +267,7 @@ BENCHMARK_F(RealLLMBench, RealModel_ContextScaling)(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
-    state.SetLabel("ctx_tokens=" + std::to_string(context_tokens));
+    state.SetLabel("end_to_end;ctx_tokens=" + std::to_string(context_tokens));
 }
 
 BENCHMARK_REGISTER_F(RealLLMBench, RealModel_ContextScaling)

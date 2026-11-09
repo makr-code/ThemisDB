@@ -68,6 +68,7 @@ cmake --build --preset community-debug --target bench_process_parser_gates
 ```
 
 - The in-process process-manager stub benchmark was withdrawn; it did not exercise OS processes or Process module APIs. No PM-BM thresholds are active.
+- `bench_process_retrieval` and `bench_process_retriever_gates` exercise local simulated implementations, not Process production APIs. Their cases are labeled `synthetic` and excluded by `compare_expectations.py` from performance results until replaced with production-path workloads.
 - The Process performance comparator currently discovers zero expectation rows because `src/process/PERFORMANCE_EXPECTATIONS.md` has no `## Specific Expectations` section. No Process-specific numeric threshold is active until a production path and reproducible baseline are verified.
 - No canonical aggregate Process performance-gate count is defined; the registration and coverage counts below are separate measurements.
 - The separate release coverage audit requires 95% CTest registration for non-critical modules. Process was mapped at 14/14 (100%) in both the latest audit report and the preceding successful workflow run; these are coverage results, not benchmark execution.

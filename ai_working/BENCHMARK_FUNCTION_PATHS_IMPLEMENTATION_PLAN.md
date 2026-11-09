@@ -50,9 +50,10 @@ the production path, validates results, or has a current performance baseline.
 
 Known examples to remediate:
 
-- Existing Process retrieval benchmarks still use local fixtures in some
-  cases; those workloads need source-level validation before being used as
-  production-path evidence.
+- The existing Process retrieval targets still use local simulated
+  implementations. Their results are now labeled `synthetic` and excluded from
+  performance comparisons; production API retrieval and RAG workloads remain
+  open.
 - The Process-specific expectation comparator has no configured expectation
   rows. No Process numeric thresholds are active until mapped cases have
   verified production paths and reproducible baselines.

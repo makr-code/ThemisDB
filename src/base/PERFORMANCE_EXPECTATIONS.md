@@ -1,11 +1,11 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-05-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-09"
 Status: "review"
 AI_Used: true
-AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot coding agent"
+AI_Models: "GitHub Copilot (exact model backend not recorded)"
+AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
@@ -23,9 +23,24 @@ The base benchmark sources are in `benchmarks/base/` and are registered from
 |---|---|---|
 | `bench_base_hot_paths` | `bench_base_hot_paths.cpp` | GATE-BASE-01..06: `ModuleLoader` query/metrics, `HotReloadManager` registered modules and rollback availability, 100-node `PluginDependencyGraph` construction, and reload fast-fail. |
 | `bench_base_wasm_sandbox` | `bench_base_wasm_sandbox.cpp` | GATE-BASE-07..12: WASM valid/invalid loading, `AbiChecker`, taxonomy functions, and inactive `ModuleSandbox` statistics; additional sandbox/graph microbenchmarks are present. |
+| `bench_mmdb` | `benchmarks/mmdb/bench_mmdb.cpp` | Persisted indexed product lookup, category/document join, one-hop edge lookup, and multi-model context assembly with result checks. |
 
-These are benchmarked lifecycle/WASM surfaces. The buffer-pool and resource
-pool implementations are not part of these two benchmark targets.
+## Specific Expectations
+
+| Target ID | Expectation | Benchmark case |
+|---|---|---|
+| MMDB-1 | Indexed lookup returns exactly one product with the requested key; numeric performance threshold pending a representative baseline | MMDBFixture/IndexedProductLookup |
+| MMDB-2 | Category lookup returns matching products and one matching document per product; numeric performance threshold pending a representative baseline | MMDBFixture/CategoryDocumentJoin |
+| MMDB-3 | One-hop edge lookup returns the configured fanout with matching source IDs; numeric performance threshold pending a representative baseline | MMDBFixture/GraphOneHop |
+| MMDB-4 | Product, document, and edge reads succeed with expected record counts before context assembly; numeric performance threshold pending a representative baseline | MMDBFixture/MultiModelContextAssembly |
+
+The MMDB rows map executable cases to their in-benchmark correctness checks.
+They intentionally define no numeric release gate until a representative
+hardware baseline is recorded and approved.
+
+The two `benchmarks/base/` targets measure lifecycle/WASM surfaces. The
+buffer-pool and resource-pool implementations are not part of those two
+targets.
 
 ## Interpretation and limits
 
