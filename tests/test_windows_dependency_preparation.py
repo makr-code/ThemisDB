@@ -335,6 +335,84 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
                 self.assertEqual(lane["triplet"], prerequisite["vcpkg_triplet"])
                 self.assertEqual("-DTHEMIS_ENABLE_GRPC=ON" in lane["configure_command"], edition != "minimal")
                 self.assertNotIn("VCPKG_BUILD_TYPE", lane["configure_command"])
+                self.assertEqual("VCPKG_OVERLAY_TRIPLETS" in lane["configure_command"], config == "Release")
+
+    def test_release_triplet_is_available_for_pinned_sources(self):
+        triplet = (ROOT / "triplets/x64-windows.cmake").read_text()
+        for setting in [
+            "set(VCPKG_TARGET_ARCHITECTURE x64)",
+            "set(VCPKG_CRT_LINKAGE dynamic)",
+            "set(VCPKG_LIBRARY_LINKAGE dynamic)",
+            "set(VCPKG_BUILD_TYPE release)",
+        ]:
+            self.assertIn(setting, triplet)
+        checkout = self.named("Checkout cache tooling for pinned release sources")
+        self.assertIn("triplets/x64-windows.cmake", checkout["with"]["sparse-checkout"])
+        result, values = self.plan("windows-amd64-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        command = json.loads(values["windows_lane"])["configure_command"]
+        self.assertIn('${GITHUB_WORKSPACE}/${THEMIS_CACHE_TOOLS_PREFIX}triplets', command)
+        self.assertIn('"-DVCPKG_OVERLAY_TRIPLETS=${VCPKG_RELEASE_TRIPLETS}"', command)
+        for prefix in ["", ".ci-cache-tools/"]:
+            with self.subTest(prefix=prefix):
+                result = subprocess.run(
+                    ["bash", "-euo", "pipefail", "-c",
+                     'cygpath() { printf "%s\\n" "$2"; }\n'
+                     'cmake() { printf "<%s>\\n" "$@"; }\n'
+                     'tee() { cat; }\n' + command],
+                    env={**os.environ, "GITHUB_WORKSPACE": "/workspace with spaces",
+                         "THEMIS_CACHE_TOOLS_PREFIX": prefix,
+                         "THEMIS_WINDOWS_DEPENDENCY_FLAGS": "-DVCPKG_INSTALL_OPTIONS=--only-binarycaching"},
+                    text=True, capture_output=True,
+                )
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertIn(f"<-DVCPKG_OVERLAY_TRIPLETS=/workspace with spaces/{prefix}triplets>", result.stdout)
+                self.assertIn("<-DVCPKG_INSTALL_OPTIONS=--only-binarycaching>", result.stdout)
+
+    def test_release_configure_evaluates_release_only_triplet_for_pinned_sources(self):
+        result, values = self.plan("windows-amd64-only")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        command = json.loads(values["windows_lane"])["configure_command"]
+        triplet = (ROOT / "triplets/x64-windows.cmake").read_text()
+        with tempfile.TemporaryDirectory(prefix="release triplet ") as temp:
+            directory = Path(temp)
+            probe = directory / "probe.cmake"
+            probe.write_text(
+                'include("${VCPKG_OVERLAY_TRIPLETS}/${VCPKG_HOST_TRIPLET}.cmake")\n'
+                'if(NOT VCPKG_BUILD_TYPE STREQUAL "release")\n'
+                '  message(FATAL_ERROR "Debug dependencies would exhaust the release budget")\n'
+                'endif()\n'
+                'if(NOT VCPKG_TARGET_ARCHITECTURE STREQUAL "x64" OR\n'
+                '   NOT VCPKG_CRT_LINKAGE STREQUAL "dynamic" OR\n'
+                '   NOT VCPKG_LIBRARY_LINKAGE STREQUAL "dynamic")\n'
+                '  message(FATAL_ERROR "Release dependency ABI changed")\n'
+                'endif()\n'
+                'message(STATUS "Release-only dependency triplet loaded")\n'
+            )
+            for prefix in ["", ".ci-cache-tools/"]:
+                with self.subTest(prefix=prefix):
+                    source_triplets = directory / "triplets"
+                    source_triplets.mkdir(exist_ok=True)
+                    (source_triplets / "x64-windows.cmake").write_text(
+                        "set(VCPKG_TARGET_ARCHITECTURE x64)\n"
+                    )
+                    selected_triplets = directory / prefix / "triplets"
+                    selected_triplets.mkdir(parents=True, exist_ok=True)
+                    (selected_triplets / "x64-windows.cmake").write_text(triplet)
+                    result = subprocess.run(
+                        ["bash", "-euo", "pipefail", "-c",
+                         'cygpath() { printf "%s\\n" "$2"; }\n'
+                         + command.replace("cmake --preset windows-release", "cmake")
+                         .replace("2>&1 | tee configure-windows-release.log",
+                                  '-P "$TRIPLET_PROBE" 2>&1')],
+                        cwd=directory,
+                        env={**os.environ, "GITHUB_WORKSPACE": temp,
+                             "THEMIS_CACHE_TOOLS_PREFIX": prefix,
+                             "THEMIS_WINDOWS_DEPENDENCY_FLAGS": "", "TRIPLET_PROBE": str(probe)},
+                        text=True, capture_output=True,
+                    )
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                    self.assertIn("Release-only dependency triplet loaded", result.stdout)
 
     def test_windows_configure_placeholders_are_not_github_expressions(self):
         script = self.release["jobs"]["prepare-release-matrix"]["steps"][0]["run"]
