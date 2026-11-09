@@ -52,8 +52,7 @@ jobs:
           restore-keys: |
             tinyllama-gguf-q4km-${{ runner.os }}-
 
-      - name: Download TinyLlama GGUF
-        if: steps.cache-model.outputs.cache-hit != 'true'
+      - name: Prepare and verify pinned TinyLlama GGUF
         run: |
           set -euo pipefail
           chmod +x scripts/ci-download-tinyllama.sh
