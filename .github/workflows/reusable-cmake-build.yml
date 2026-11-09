@@ -113,6 +113,26 @@ on:
         required: false
         default: ''
         type: string
+      ctest_build_directory:
+        description: CMake binary directory whose complete CTest inventory is reported
+        required: false
+        default: ''
+        type: string
+      ctest_junit_path:
+        description: CTest JUnit output path for required full-run evidence
+        required: false
+        default: ''
+        type: string
+      ctest_summary_path:
+        description: Path for the validated commit-linked CTest summary
+        required: false
+        default: ''
+        type: string
+      ctest_preset:
+        description: Optional CTest preset used to define the complete evidence test inventory
+        required: false
+        default: ''
+        type: string
       benchmark_filter:
         required: false
         default: ''
@@ -189,6 +209,7 @@ jobs:
     runs-on: ${{ inputs.runs_on }}
     timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
     env:
+      PYTHONIOENCODING: utf-8
       SCCACHE_GHA_ENABLED: ${{ inputs.enable_sccache_gha }}
       THEMIS_CACHE_TOOLS_PREFIX: ${{ inputs.source_sha != '' && '.ci-cache-tools/' || '' }}
     outputs:
@@ -844,14 +865,37 @@ jobs:
           echo "validation_exit=${VALIDATION_EXIT}" >> "$GITHUB_OUTPUT"
           exit "$VALIDATION_EXIT"
 
+      - name: Validate and summarize full CTest evidence
+        if: always() && inputs.ctest_junit_path != ''
+        shell: bash
+        env:
+          CTEST_BUILD_DIR: ${{ inputs.ctest_build_directory }}
+          CTEST_JUNIT_PATH: ${{ inputs.ctest_junit_path }}
+          CTEST_SUMMARY_PATH: ${{ inputs.ctest_summary_path }}
+          CTEST_PLATFORM: ${{ inputs.summary_title }}
+          CTEST_COMMIT_SHA: ${{ github.sha }}
+          CTEST_WORKFLOW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          CTEST_PRESET: ${{ inputs.ctest_preset }}
+        run: |
+          set -euo pipefail
+          python3 tools/ci/summarize_ctest_evidence.py \
+            --build-dir "${CTEST_BUILD_DIR}" \
+            --junit "${CTEST_JUNIT_PATH}" \
+            --output "${CTEST_SUMMARY_PATH}" \
+            --platform "${CTEST_PLATFORM}" \
+            --commit-sha "${CTEST_COMMIT_SHA}" \
+            --workflow-run-url "${CTEST_WORKFLOW_RUN_URL}" \
+            --ctest-preset "${CTEST_PRESET}"
+          cat "${CTEST_SUMMARY_PATH}" >> "$GITHUB_STEP_SUMMARY"
+
       - name: Upload artifacts
-        if: ${{ !cancelled() && inputs.artifact_name != '' && inputs.artifact_paths != '' }}
+        if: ${{ always() && !cancelled() && inputs.artifact_name != '' && inputs.artifact_paths != '' }}
         uses: actions/upload-artifact@v5
         with:
           name: ${{ inputs.artifact_name }}
           path: ${{ inputs.artifact_paths }}
           retention-days: ${{ inputs.artifact_retention_days }}
-          if-no-files-found: ignore
+          if-no-files-found: ${{ inputs.ctest_junit_path != '' && 'error' || 'ignore' }}
 
       - name: Upload secondary artifacts
         if: inputs.artifact_name_secondary != '' && inputs.artifact_paths_secondary != ''

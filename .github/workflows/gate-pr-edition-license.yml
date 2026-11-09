@@ -82,17 +82,24 @@ jobs:
           echo "Allowed editions for $TARGET_BRANCH: $ALLOWED_EDITIONS"
           
           INVALID_EDITIONS=0
-          MANIFEST_FILES=$(find plugins -name "plugin.toml" -o -name "plugin.json" 2>/dev/null || echo "")
+          MANIFEST_FILES=$(find plugins \( -name "plugin.toml" -o -name "plugin.json" \))
           
           while IFS= read -r manifest_file; do
             [ -z "$manifest_file" ] && continue
-            DECLARED_EDITIONS=$(grep -oP 'allowed_editions\s*=\s*"?\K[^"]*' "$manifest_file" || echo "")
-            [ -z "$DECLARED_EDITIONS" ] && continue
+            if DECLARED_EDITIONS=$(grep -oP 'allowed_editions\s*=\s*"?\K[^"]*' "$manifest_file"); then
+              :
+            else
+              grep_status=$?
+              if [ "${grep_status}" -eq 1 ]; then
+                continue
+              fi
+              exit "${grep_status}"
+            fi
             for edition in $(echo "$DECLARED_EDITIONS" | tr ',' '\n'); do
               edition=$(echo "$edition" | xargs)
               if ! echo "$ALLOWED_EDITIONS" | grep -q "$edition"; then
                 echo "::error::$manifest_file declares edition '$edition' not allowed on branch '$TARGET_BRANCH'"
-                ((INVALID_EDITIONS++)) || true
+                INVALID_EDITIONS=$((INVALID_EDITIONS + 1))
               fi
             done
           done <<< "$MANIFEST_FILES"
@@ -115,13 +122,13 @@ jobs:
           
           if [[ "$TARGET_BRANCH" == "community" ]] || [[ "$TARGET_BRANCH" == "minimal" ]]; then
             INVALID_LICENSES=0
-            MANIFEST_FILES=$(find plugins -name "plugin.toml" -o -name "plugin.json" 2>/dev/null || echo "")
+            MANIFEST_FILES=$(find plugins \( -name "plugin.toml" -o -name "plugin.json" \))
             
             while IFS= read -r manifest_file; do
               [ -z "$manifest_file" ] && continue
               if grep -qE 'license_feature.*=.*"(ENTERPRISE|HYPERSCALER|MILITARY)"' "$manifest_file"; then
                 echo "::error::$manifest_file declares enterprise license feature in community-targetable plugin"
-                ((INVALID_LICENSES++)) || true
+                INVALID_LICENSES=$((INVALID_LICENSES + 1))
               fi
             done <<< "$MANIFEST_FILES"
             

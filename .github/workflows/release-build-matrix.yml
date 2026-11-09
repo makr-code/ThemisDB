@@ -126,6 +126,7 @@ jobs:
           PACKAGING: ${{ inputs.packaging }}
           DISTRIBUTION: ${{ inputs.distribution }}
           RUN_NUMBER: ${{ github.run_number }}
+          SOURCE_SHA: ${{ inputs.source_sha }}
           WINDOWS_DEPENDENCY_CONCURRENCY: ${{ inputs.windows_dependency_concurrency }}
         run: |
           set -euo pipefail
@@ -419,6 +420,33 @@ jobs:
               entry["validation_command"] = entry["validation_command"].replace("${PACKAGE_GENERATORS}", generators_for(lane_os))
               entry["validation_command"] += '\npython3 scripts/release/validate_runtime_payload.py "${PACKAGES_DIR}" --packages'
               entry["validation_continue_on_error"] = False
+              if (
+                  entry["id"] == "windows-amd64"
+                  and not os.environ.get("SOURCE_SHA", "").strip()
+                  and os.environ.get("GITHUB_REF") == "refs/heads/develop"
+              ):
+                  entry["artifact_name"] = (
+                      f"ctest-evidence-windows-{os.environ['GITHUB_SHA']}-{os.environ['GITHUB_RUN_ID']}"
+                  )
+                  entry["configure_command"] = entry["configure_command"].replace(
+                      "cmake --preset windows-release ${CMAKE_FLAGS}",
+                      "cmake --preset windows-release ${CMAKE_FLAGS} -DTHEMIS_BUILD_TESTS=ON",
+                  )
+                  entry["validation_command"] = entry["validation_command"].replace(
+                      "ctest --preset windows-release --output-on-failure -j 1 --timeout 60",
+                      "THEMIS_CTEST_DISABLE_ON_DEMAND_BUILD=1 ctest --preset windows-release "
+                      "--output-on-failure -j 1 --timeout 60 --no-tests=error "
+                      '--output-junit "${GITHUB_WORKSPACE}/build-msvc-windows-release/test-windows-release.xml"',
+                  )
+                  entry["artifact_paths"] += (
+                      "\nbuild-msvc-windows-release/test-windows-release.xml"
+                      "\nbuild-msvc-windows-release/test-windows-release-summary.md"
+                  )
+                  entry["artifact_retention_days"] = "90"
+                  entry["ctest_build_directory"] = "build-msvc-windows-release"
+                  entry["ctest_junit_path"] = "build-msvc-windows-release/test-windows-release.xml"
+                  entry["ctest_summary_path"] = "build-msvc-windows-release/test-windows-release-summary.md"
+                  entry["ctest_preset"] = "windows-release"
 
           selected = [entry for entry in entries if entry["enabled"]]
           if not selected:
@@ -487,6 +515,10 @@ jobs:
       artifact_retention_days: ${{ matrix.artifact_retention_days }}
       artifact_retention_days_secondary: ${{ matrix.artifact_retention_days_secondary }}
       summary_title: ${{ matrix.summary_title }}
+      ctest_build_directory: ${{ matrix.ctest_build_directory || '' }}
+      ctest_junit_path: ${{ matrix.ctest_junit_path || '' }}
+      ctest_summary_path: ${{ matrix.ctest_summary_path || '' }}
+      ctest_preset: ${{ matrix.ctest_preset || '' }}
       timeout_minutes: ${{ matrix.timeout_minutes || '360' }}
 
   runtime-artifact-gate:

@@ -132,6 +132,12 @@ if((NOT DEFINED ENV{LIBPATH} OR "$ENV{LIBPATH}" STREQUAL "") AND _fallback_libra
 endif()
 
 if(NOT EXISTS "${TARGET_FILE}")
+    if("$ENV{THEMIS_CTEST_DISABLE_ON_DEMAND_BUILD}" STREQUAL "1")
+        message(FATAL_ERROR
+            "[ctest-policy] Missing executable for test target '${TARGET_NAME}' at '${TARGET_FILE}'. "
+            "On-demand builds are disabled; build the target before running CTest.")
+    endif()
+
     message(STATUS "[ctest-policy] Missing executable for test target '${TARGET_NAME}', building on demand")
 
     set(_build_cmd ${CMAKE_COMMAND} --build "${BUILD_DIR}" --target "${TARGET_NAME}")

@@ -80,7 +80,6 @@ jobs:
 
       - name: Build wiki staging
         id: build
-        continue-on-error: true
         env:
           _RAW_SOURCE_BRANCH: ${{ github.event.inputs.source_branch }}
           _RAW_HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}

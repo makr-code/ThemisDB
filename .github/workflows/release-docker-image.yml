@@ -392,10 +392,13 @@ jobs:
           git show "${WORKFLOW_SHA}:tests/test_docker_runtime_package_regressions.py" > "$VALIDATOR"
           TESTS=()
           if [[ "${OVERRIDE_SOURCE_PREFLIGHT}" == "true" ]]; then
-            TESTS=(DockerRuntimePackageRegressionTests.test_vcpkg_bootstrap_supports_native_arm64)
+            TESTS=(
+              DockerRuntimePackageRegressionTests.test_vcpkg_bootstrap_supports_native_arm64
+              DockerRuntimePackageRegressionTests.test_base_installs_python_autoreconf_prerequisites
+            )
           fi
           if ! python3 "$VALIDATOR" "${TESTS[@]}" -v; then
-            echo "::error::Docker release source ${RELEASE_VERSION} (${SOURCE_SHA}) does not satisfy the mandatory ARM64 bootstrap or enabled dependency-provider and runtime-package requirements. Publish a new release tag containing the Docker fixes, then select that tag with tag_name. To validate current workflow source without publishing, set build_from_workflow_source=true. Do not move an existing release tag or replace tagged source with workflow HEAD."
+            echo "::error::Docker release source ${RELEASE_VERSION} (${SOURCE_SHA}) does not satisfy the mandatory ARM64 bootstrap, Python autoreconf prerequisites, or enabled dependency-provider and runtime-package requirements. Publish a new release tag containing the Docker fixes, then select that tag with tag_name. To validate current workflow source without publishing, set build_from_workflow_source=true. Do not move an existing release tag or replace tagged source with workflow HEAD."
             exit 1
           fi
 
@@ -406,7 +409,7 @@ jobs:
           RELEASE_VERSION: ${{ steps.version.outputs.version }}
           SOURCE_SHA: ${{ steps.version.outputs.source_sha }}
         run: |
-          echo "::warning::Docker dependency-provider and runtime-package regression checks were explicitly skipped for ${RELEASE_VERSION} (${SOURCE_SHA}). Mandatory ARM64 bootstrap validation still applies. This source may produce a broken image; the selected tag and source commit were not changed."
+          echo "::warning::Docker dependency-provider and runtime-package regression checks were explicitly skipped for ${RELEASE_VERSION} (${SOURCE_SHA}). Mandatory ARM64 bootstrap and Python autoreconf prerequisite validation still applies. This source may produce a broken image; the selected tag and source commit were not changed."
 
       - name: Determine Docker tags
         id: tags

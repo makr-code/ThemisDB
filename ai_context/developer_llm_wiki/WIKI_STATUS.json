@@ -1,18 +1,28 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-09T14:55:59+00:00",
+  "generated_at": "2026-11-09T15:42:58+00:00",
   "mode": "incremental",
   "source_count": 8070,
-  "source_hash": "af688d8b7bf333a062baf63d0e918672d5f3a86abf37d53da5b1ce8d1805af36",
+  "source_hash": "ae158ccaf650a2efa75df66c07eacf3d4f339b6bc97b4874dd09978735e1e3f8",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
-    "changed_count": 0,
+    "changed_count": 9,
     "added_preview": [],
     "removed_preview": [],
-    "changed_preview": []
+    "changed_preview": [
+      ".github/workflows/gate-pr-final-runtime-api.yml",
+      ".github/workflows/gate-pr-rag-security.yml",
+      ".github/workflows/release-docker-image.yml",
+      ".github/workflows/reusable-cmake-build.yml",
+      ".github/workflows/reusable-docker-image-platform.yml",
+      "ROADMAP.md",
+      "docs/code_maturity_report.md",
+      "docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md",
+      "include/auth/jwt_validator.h"
+    ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "5caa7933ba7ea0b118ddc9d0900a6554b61452e67369dbe53ccb3c8c4fd57bfa"
+  "manifest_sha256": "f9f04978177afbe4c5d98e2807abcb7dc03ab50d297be87811f8e31210af24f1"
 }

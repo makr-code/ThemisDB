@@ -26,6 +26,15 @@ def _write_workflow(path: Path, content: str) -> None:
     path.write_text(content.strip() + "\n", encoding="utf-8")
 
 
+def _read_output_json(path: Path, name: str):
+    outputs = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        key, separator, value = line.partition("=")
+        if separator:
+            outputs[key] = value
+    return json.loads(outputs[name])
+
+
 def test_reactivated_workflow_requires_docs_updates(tmp_path: Path):
     _write_workflow(
         tmp_path / ".github" / "workflows" / "09-pr-gates_test.yml",
@@ -285,6 +294,81 @@ def test_repository_summary_jobs_check_out_local_action():
     assert violations == []
 
 
+@pytest.mark.parametrize(
+    "step",
+    [
+        {
+            "uses": "actions/checkout@v5",
+            "with": {"ref": "${{ github.event.pull_request.head.sha }}"},
+        },
+        {
+            "run": "git fetch origin ${{ github.event.pull_request.head.sha }}",
+        },
+        {
+            "uses": "actions/checkout@v5",
+            "with": {"ref": "${{ inputs.source_ref }}"},
+        },
+        {
+            "uses": "actions/checkout@v5",
+            "with": {"ref": "${{ github.base_ref || inputs.source_ref }}"},
+        },
+        {
+            "uses": "example/action@v1",
+            "with": {"source": "${{ github.event.pull_request.head.repo.clone_url }}"},
+        },
+        {
+            "name": "Use untrusted PR head in environment",
+            "env": {"SOURCE_REF": "${{ github.event.pull_request.head.ref }}"},
+            "run": "git checkout \"$SOURCE_REF\"",
+        },
+    ],
+)
+def test_pull_request_target_rejects_pr_head_checkout_or_execution(tmp_path: Path, step):
+    workflow = tmp_path / "unsafe.yml"
+    workflow.write_text(
+        yaml.safe_dump(
+            {
+                "name": "Unsafe target workflow",
+                "on": {"pull_request_target": {"branches": ["develop"]}},
+                "permissions": {"contents": "read"},
+                "jobs": {"scan": {"steps": [step]}},
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    violations = guard.validate_workflow_file(workflow)
+    assert any("pull_request_target" in violation and "PR-head" in violation for violation in violations)
+
+
+def test_pull_request_target_allows_base_ref_only_checkout(tmp_path: Path):
+    workflow = tmp_path / "safe.yml"
+    workflow.write_text(
+        yaml.safe_dump(
+            {
+                "name": "Safe target workflow",
+                "on": {"pull_request_target": {"branches": ["develop"]}},
+                "permissions": {"contents": "read"},
+                "jobs": {
+                    "scan": {
+                        "steps": [
+                            {
+                                "uses": "actions/checkout@v5",
+                                "with": {"ref": "refs/heads/${{ github.event.pull_request.base.ref }}"},
+                            },
+                            {"run": "git diff ${{ github.event.pull_request.base.sha }}"},
+                        ]
+                    }
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    violations = guard.validate_workflow_file(workflow)
+    assert violations == []
+
+
 def test_core_gate_delegates_issue_permissions_to_build_components():
     workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
     core = yaml.safe_load((workflows / "gate-pr-core.yml").read_text(encoding="utf-8"))
@@ -533,7 +617,11 @@ def test_pinned_release_sources_use_workflow_revision_cache_tooling():
     assert checkout["with"]["ref"] == "${{ github.workflow_sha }}"
     assert checkout["with"]["path"] == ".ci-cache-tools"
     assert checkout["with"]["persist-credentials"] is False
-    assert checkout["with"]["sparse-checkout"] == ".github/scripts/cache-directory-fingerprint.sh"
+    assert set(checkout["with"]["sparse-checkout"].splitlines()) == {
+        ".github/scripts/cache-directory-fingerprint.sh",
+        "scripts/prepare-windows-dependencies.py",
+        "triplets/x64-windows.cmake",
+    }
     assert "inputs.source_sha != ''" in job["env"]["THEMIS_CACHE_TOOLS_PREFIX"]
     for name in ("cache_before", "cache_after"):
         inventory = next(step for step in job["steps"] if step.get("id") == name)
@@ -559,6 +647,7 @@ def test_cache_identity_uses_selected_compiler(tmp_path, runner_os, compiler, ex
         "inputs.cache_compiler": compiler, "inputs.vcpkg_triplet": "test-triplet",
         "runner.os": runner_os, "inputs.build_mode": "default",
         "inputs.preset": "", "inputs.configure_flags": "",
+        "inputs.windows_dependency_mode": "off",
     }
     script = initialize["run"]
     for key, value in values.items():
@@ -610,7 +699,9 @@ def test_cache_snapshots_save_only_growth_before_downstream_failures(
     restore = next(step for step in steps if step.get("id") == restore_id)
     save = next(step for step in steps if step.get("name") == save_name)
     assert restore["uses"] == "actions/cache/restore@v5"
-    assert "${{ github.run_id }}-${{ github.run_attempt }}" in restore["with"]["key"]
+    assert "github.run_id" in restore["with"]["key"]
+    assert "github.run_attempt" in restore["with"]["key"]
+    assert "-snapshot-" in restore["with"]["key"]
     assert save["uses"] == "actions/cache/save@v5"
     assert save["with"]["path"] == restore["with"]["path"]
     assert save["with"]["key"] == "${{ steps." + restore_id + ".outputs.cache-primary-key }}"
@@ -651,7 +742,7 @@ def test_windows_release_keeps_github_sccache_backend_enabled(tmp_path: Path):
         "GITHUB_OUTPUT": str(output),
     }
     subprocess.run(["bash", "-c", plan["run"]], env=env, check=True, capture_output=True)
-    lane = json.loads(output.read_text(encoding="utf-8").removeprefix("matrix="))["include"][0]
+    lane = _read_output_json(output, "windows_lane")
 
     assert lane["id"] == "windows-amd64"
     assert lane["enable_sccache_gha"] is True
@@ -712,7 +803,7 @@ def test_linux_release_commands_keep_local_sccache_backend(
         "GITHUB_OUTPUT": str(output),
     }
     subprocess.run(["bash", "-c", plan["run"]], env=env, check=True, capture_output=True)
-    lanes = json.loads(output.read_text(encoding="utf-8").removeprefix("matrix="))["include"]
+    lanes = _read_output_json(output, "matrix")["include"]
     assert len(lanes) == 1
     lane = lanes[0]
     assert lane["id"] == lane_id
@@ -723,9 +814,15 @@ def test_linux_release_commands_keep_local_sccache_backend(
     reusable = yaml.safe_load((workflows / "reusable-cmake-build.yml").read_text(encoding="utf-8"))
     job = reusable["jobs"]["build"]
     assert job["env"]["SCCACHE_GHA_ENABLED"] == "${{ inputs.enable_sccache_gha }}"
-    for name in ("Configure sccache environment", "Install sccache"):
-        step = next(step for step in job["steps"] if step.get("name") == name)
-        assert step["if"] == "inputs.enable_sccache_gha"
+    configure_sccache = next(
+        step for step in job["steps"] if step.get("name") == "Configure sccache environment"
+    )
+    install_sccache = next(step for step in job["steps"] if step.get("name") == "Install sccache")
+    assert configure_sccache["if"] == "inputs.enable_sccache_gha"
+    assert install_sccache["if"] == (
+        "inputs.enable_sccache_gha && !(runner.os == 'Windows' "
+        "&& inputs.windows_dependency_mode != 'off')"
+    )
 
     bin_dir = tmp_path / "bin"
     bin_dir.mkdir()
@@ -757,10 +854,10 @@ def test_custom_cmake_callers_declare_binary_directories():
     expected = {
         "build-mainline.yml": {"build-fast", "build"},
         "build-clang-fast.yml": {"build-clang-fast"},
-        "build-sanitizer-nightly.yml": {"build-sanitizer"},
+        "build-sanitizer-nightly.yml": {"build-sanitizer", "build-tsan"},
         "edition-hyperscaler-ci.yml": {"build-hyperscaler"},
         "gate-pr-rag-eval.yml": {"/tmp/rag-build"},
-        "security-fuzzing.yml": {"build-fuzz"},
+        "security-fuzzing.yml": {"build-afl", "build-fuzz"},
     }
     for name, directories in expected.items():
         jobs = yaml.safe_load((workflows / name).read_text(encoding="utf-8"))["jobs"]
@@ -813,9 +910,9 @@ def test_docker_local_export_avoids_attestation_manifest_and_uses_native_runners
     build = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]["build"]
     assert build["runs-on"] == "${{ inputs.platform == 'linux/arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}"
     candidate = next(step for step in build["steps"] if step.get("id") == "build-candidate")["with"]
-    push = "${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' }}"
+    push = "${{ (inputs.push_to_registry == true || inputs.push_to_registry == 'true') && !inputs.dry_run }}"
     assert candidate["push"] == candidate["provenance"] == candidate["sbom"] == push
-    assert candidate["load"] == "${{ ! (inputs.push_to_registry == true || inputs.push_to_registry == 'true') }}"
+    assert candidate["load"] == "${{ ! ((inputs.push_to_registry == true || inputs.push_to_registry == 'true') && !inputs.dry_run) }}"
     assert candidate["target"] == "runtime"
 
 

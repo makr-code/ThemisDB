@@ -176,13 +176,17 @@ jobs:
           exit "${BUILD_EXIT}";
         fi
       validation_command: >-
-        ctest --test-dir build --output-on-failure -j 1 --timeout 60
-      artifact_name: ctest-results-${{ github.run_number }}
+        THEMIS_CTEST_DISABLE_ON_DEMAND_BUILD=1 ctest --test-dir build --output-on-failure -j 1 --timeout 60 --no-tests=error --output-junit "${GITHUB_WORKSPACE}/build/ctest-results.xml"
+      artifact_name: ctest-evidence-linux-${{ github.sha }}-${{ github.run_id }}
       artifact_paths: |
         build/Testing
         build/ctest-results.xml
+        build/ctest-summary.md
         build/ctest-output.txt
-      artifact_retention_days: '7'
+      artifact_retention_days: '90'
+      ctest_build_directory: build
+      ctest_junit_path: build/ctest-results.xml
+      ctest_summary_path: build/ctest-summary.md
       summary_title: "Build: Mainline"
 
   # ── macOS kqueue path validation ──────────────────────────────────────────

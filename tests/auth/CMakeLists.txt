@@ -54,14 +54,26 @@ foreach(_src IN LISTS AUTH_MODULE_TEST_SOURCES)
     endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
-    themis_register_module_focused_test(
-        MODULE auth
-        NAME ${_ctest}
-        TARGET ${_target}
-        TIER unit
-        TIMEOUT 120
-        LABELS auth
-    )
+    if(_stem STREQUAL "test_jwt_validator_focused")
+        themis_register_module_test(
+            MODULE auth
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            KIND unit
+            TIMEOUT 120
+            LABELS auth llm security release_critical
+        )
+    else()
+        themis_register_module_focused_test(
+            MODULE auth
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS auth
+        )
+    endif()
 endforeach()
 
 # ---------------------------------------------------------------------------

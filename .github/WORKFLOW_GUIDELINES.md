@@ -276,6 +276,13 @@ Kurzbeispiele:
   Mehrere täglich laufende Crons in einem Workflow sind nicht zulässig; Konsolidierung auf wöchentliche Granularität erzwingen.
 - **Schedule-Staffelung**: Schedules müssen über das 24h-Fenster gestaffelt sein, um Runner-Contention zu vermeiden.
   Referenz-Staffelung: Nightly 01:00 (wiki), 02:20 (sanitizer), 03:00 (llm/release-mainline), 04:00 (release-nightly), 05:30 (maintenance).
+
+### Fail-Closed Gates und CTest-Evidenz
+- Gate-Workflows duerfen Fehler nicht mit `continue-on-error` oder `|| true` verbergen. Jede verbleibende Ausnahme muss in `tools/ci/workflow_fail_open_allowlist.json` exakt nach Workflow/Job/Step und Muster mit Begruendung, Owner und Ablaufdatum klassifiziert sein.
+- `tools/ci/check_workflow_fail_open.py` prueft den vollstaendigen Gate-Workflow-Bestand; neue, abgelaufene, geaenderte oder veraltete Ausnahmen blockieren den Workflow.
+- `pull_request_target` darf weder PR-Head-Code auschecken noch PR-Head-Daten an ausfuehrbare Schritte oder Actions weitergeben. Der Workflow Boundary Guard erlaubt explizite Base-Ref-Checkouts.
+- Der Develop-Volllauf in `Build: Mainline` baut die registrierten Testziele vor CTest. `THEMIS_CTEST_DISABLE_ON_DEMAND_BUILD=1` macht fehlende Executables zu einem eindeutigen Fehler statt zu einem parallelen Build.
+- Der CTest-Evidenzbericht muss die JUnit-Testmenge mit dem registrierten CTest-Inventar abgleichen; fehlende, fehlgeschlagene oder uebersprungene Tests sind kein Pass. Linux- und Windows-JUnit samt Modulsummary bleiben 90 Tage erhalten und werden in die Release-Evidenzkette aufgenommen.
 - **Push-vs-PR-Doppelfeuer vermeiden**: Wenn ein Workflow sowohl `push:` (auf Branches) als auch `pull_request:` hat,
   feuert er doppelt für denselben Commit. Entweder `push:` oder `pull_request:` verwenden, nicht beide für Branch-Events.
 - **Concurrency-Pflicht (Sprint 9)**: Jeder Workflow MUSS einen `concurrency:`-Block haben.
