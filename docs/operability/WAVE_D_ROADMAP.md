@@ -2,12 +2,12 @@
 
 **Author:** ThemisDB Platform Team  
 **Created:** 2026-08-24  
-**Last Updated:** 2026-11-09  
+**Last Updated:** 2026-11-09
 **Status:** active  
 **Document Type:** Wave D Program Roadmap  
 **Target Release:** Q1 2027 (v2.4.x GA + v2.5.0-rc1)  
 **Scope:** Distributed tracing, operator runbooks, long-duration soak testing  
-**Execution Status:** OPEN — no accepted current D2/soak execution evidence or human sign-off (reviewed 2026-11-09)  
+**Execution Status:** OPEN — no accepted current D2/soak execution evidence or human sign-off (reviewed 2026-11-09)
 **Branch:** develop  
 
 `Status` describes document lifecycle metadata; `Execution Status` describes Wave D implementation progress.

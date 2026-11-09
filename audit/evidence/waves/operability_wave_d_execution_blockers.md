@@ -12,8 +12,8 @@ Human_Author: "ThemisDB Team"
 
 # Wave D Execution Evidence Blockers
 
-**Review date:** 2026-11-09  
-**Source revision reviewed:** `74945e87`  
+**Review date:** 2026-11-09
+**Source revision reviewed:** `74945e87`
 **Disposition:** No qualifying current-revision D2 or soak execution evidence was available. This record documents blockers; it is not test evidence or a gate pass.
 
 ## D2 observability

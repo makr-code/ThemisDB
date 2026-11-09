@@ -1,6 +1,6 @@
 # Wave D Phase 2B: High-Cardinality Metrics Collection Verification
 
-**Status:** PENDING — no current target-revision execution evidence attached (reviewed 2026-11-09)  
+**Status:** PENDING — no current target-revision execution evidence attached (reviewed 2026-11-09)
 **Target Gate:** W4A-METRICS-01  
 **Acceptance Criterion:** Memory bounded, no OOM at 50k dimensions, throughput ≥1000 events/sec
 

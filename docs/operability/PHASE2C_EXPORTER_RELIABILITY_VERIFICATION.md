@@ -1,6 +1,6 @@
 # Wave D Phase 2C: OTel Exporter Reliability Verification
 
-**Status:** PENDING — no current target-revision execution evidence attached (reviewed 2026-11-09)  
+**Status:** PENDING — no current target-revision execution evidence attached (reviewed 2026-11-09)
 **Target Gates:** W4A-EXPORTER-01..05 (5 stress scenarios)  
 **Acceptance Criterion:** All scenarios PASS, zero data loss under failure injection
 

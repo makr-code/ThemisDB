@@ -1,6 +1,6 @@
 # Wave D Phase 2A: Distributed Tracing Verification Report
 
-**Status:** PENDING — no current target-revision execution evidence attached (reviewed 2026-11-09)  
+**Status:** PENDING — no current target-revision execution evidence attached (reviewed 2026-11-09)
 **Target Gate:** W4A-TRACE-01  
 **Acceptance Criterion:** Trace overhead ≤2% vs Wave 7 baseline
 
