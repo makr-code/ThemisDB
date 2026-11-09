@@ -27,7 +27,9 @@ class BenchmarkModuleMatrixTests(unittest.TestCase):
             )
             (benchmark_dir / "CMakeLists.txt").write_text(
                 "themis_add_standard_benchmark(alpha_target bench_alpha.cpp)\n"
-                "themis_register_benchmark_ctest(NAME alpha_smoke TARGET alpha_target)\n"
+                "themis_register_benchmark_ctest("
+                "NAME \"alpha_smoke\" TARGET \"alpha_target\" "
+                "EXTRA_LABELS release_critical)\n"
             )
 
             matrix = audit_benchmark_coverage.generate_module_matrix(
@@ -36,10 +38,9 @@ class BenchmarkModuleMatrixTests(unittest.TestCase):
                 source_branch="develop",
                 latest_attempt={
                     "run_url": "https://example.invalid/run/1",
-                    "result_sha": "run-sha",
-                    "result": "failure",
+                    "run_sha": "run-sha",
+                    "run_conclusion": "failure",
                     "benchmark_results_available": False,
-                    "workload_metadata_complete": False,
                 },
             )
 
@@ -55,6 +56,8 @@ class BenchmarkModuleMatrixTests(unittest.TestCase):
         self.assertEqual(alpha["benchmark_source_count"], 1)
         self.assertEqual(alpha["benchmarks"][0]["targets"], ["alpha_target"])
         self.assertEqual(alpha["benchmarks"][0]["ctest_entries"], ["alpha_smoke"])
+        self.assertTrue(alpha["benchmarks"][0]["release_critical"])
+        self.assertEqual(alpha["priority"], "high-risk")
         self.assertEqual(alpha["benchmarks"][0]["status"], "blocked")
         self.assertEqual(beta["benchmark_source_count"], 0)
         self.assertEqual(beta["status"], "gap")
@@ -81,10 +84,9 @@ class BenchmarkModuleMatrixTests(unittest.TestCase):
                 source_revision="develop-test-sha",
                 latest_attempt={
                     "run_url": "https://example.invalid/run/2",
-                    "result_sha": "run-sha",
-                    "result": "success",
+                    "run_sha": "run-sha",
+                    "run_conclusion": "success",
                     "benchmark_results_available": True,
-                    "workload_metadata_complete": False,
                 },
             )
 
@@ -97,6 +99,7 @@ class BenchmarkModuleMatrixTests(unittest.TestCase):
         self.assertEqual(query["benchmarks"][0]["status"], "gap")
         self.assertEqual(query["claim_review"]["status"], "gap")
         self.assertEqual(withdrawn_llm_claim["claim_disposition"], "withdrawn")
+        self.assertEqual(withdrawn_llm_claim["status"], "not applicable")
         self.assertEqual(withdrawn_llm_claim["benchmark_applicability"], "not applicable")
 
 

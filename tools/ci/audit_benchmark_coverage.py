@@ -39,6 +39,8 @@ BENCHMARK_CI_WORKFLOWS = [
         "path": ".github/workflows/gate-pr-benchmark-ctest.yml",
         "purpose": "PR benchmark source/CTest registration audit; does not execute benchmark workloads",
         "trigger": "pull_request on benchmark source/CMake paths; workflow_dispatch",
+        "branches": ["develop", "community", "enterprise", "hyperscaler", "military", "minimal"],
+        "pull_request_types": ["opened", "synchronize", "reopened", "ready_for_review"],
         "build_profile": None,
         "artifact_retention_days": None,
     },
@@ -51,9 +53,24 @@ RELEASE_CLAIM_EVIDENCE = [
         "source": "audit/FULL_DEEP_DIVE_AUDIT_2026-10-31.md#qry-01",
         "benchmark_source": "benchmarks/query/bench_query_limit_scaling.cpp",
         "owner_issue": 7488,
+        "issue_assignees": ["makr-code", "Copilot"],
+        "target": "v2.5.0 M1 by 2027-03-31",
         "status": "gap",
         "evidence_url": "https://github.com/makr-code/ThemisDB/pull/7804",
         "evidence_sha": "f2f5a84fac9745407ac5b4ed172282ad8fc1a190",
+        "reported_measurements": [
+            {"input_rows": 100000, "latency_ns": 10078, "maximum_rss_kb": 4736},
+            {"input_rows": 10000000, "latency_ns": 10438, "maximum_rss_kb": 4912},
+        ],
+        "measurement_scope": "Synthetic pull-source only; not a storage scan or retained raw result.",
+        "required_workload": {
+            "input_rows": [100000, 10000000],
+            "input_distribution": None,
+            "warmup_and_repetitions": None,
+            "hardware_runtime_build": None,
+            "correctness_checks": "Verify LIMIT 10 returns the expected ten rows.",
+            "metrics": ["latency", "peak memory"],
+        },
         "evidence_note": (
             "The merged PR reports synthetic pull-source measurements, not a storage scan, "
             "and does not attach a retained raw result artifact."
@@ -67,10 +84,19 @@ RELEASE_CLAIM_EVIDENCE = [
         "id": "performance-regression-gates",
         "module": "performance",
         "claim": "Performance instrumentation and regression thresholds are reproducible and noise-aware.",
-        "source": "src/performance/PERFORMANCE_EXPECTATIONS.md",
+        "source": "docs/performance/PERFORMANCE_EXPECTATIONS.md",
         "benchmark_source": "benchmarks/performance/bench_performance_release_gates.cpp",
         "owner_issue": 7534,
+        "issue_assignees": [],
+        "target": "v2.5.0 M1 by 2027-03-31",
         "status": "gap",
+        "required_workload": {
+            "input_scale_and_distribution": None,
+            "warmup_and_repetitions": None,
+            "hardware_runtime_build": None,
+            "correctness_checks": None,
+            "metrics": ["throughput", "p50/p95/p99 latency", "resource use as applicable"],
+        },
         "evidence_url": None,
         "evidence_sha": None,
         "evidence_note": "The owner issue remains open; no current run/result evidence was verified.",
@@ -86,7 +112,17 @@ RELEASE_CLAIM_EVIDENCE = [
         "source": "audit/evidence/waves/manifests/",
         "benchmark_source": "benchmarks/wave8/",
         "owner_issue": 7810,
+        "issue_assignees": ["makr-code", "Copilot"],
+        "target": "v2.5.0 M0 / Wave A exit criteria",
         "status": "blocked",
+        "modules": ["transaction", "gpu", "voice", "sharding", "replication"],
+        "required_workload": {
+            "input_scale_and_distribution": None,
+            "warmup_and_repetitions": None,
+            "hardware_runtime_build": None,
+            "correctness_checks": None,
+            "metrics": ["throughput", "p95/p99 latency", "CPU fallback behavior as applicable"],
+        },
         "evidence_url": "https://github.com/makr-code/ThemisDB/pull/8012",
         "evidence_sha": "ee94d5c6028d5ddc80288cf5d91d6269d660408e",
         "evidence_note": (
@@ -106,7 +142,16 @@ RELEASE_CLAIM_EVIDENCE = [
         "source": "src/gpu/ROADMAP.md",
         "benchmark_source": "benchmarks/gpu/",
         "owner_issue": 7492,
+        "issue_assignees": [],
+        "target": "v2.5.0 M1 by 2027-03-31",
         "status": "blocked",
+        "required_workload": {
+            "input_scale_and_distribution": None,
+            "warmup_and_repetitions": None,
+            "hardware_runtime_build": None,
+            "correctness_checks": "Exercise GPU success, unavailable-device fallback, and forced failure.",
+            "metrics": ["latency", "resource use", "CPU fallback/degraded mode"],
+        },
         "evidence_url": "https://github.com/makr-code/ThemisDB/issues/7492",
         "evidence_sha": None,
         "evidence_note": "The GPU-specific capability/fallback evidence issue remains open; hardware evidence is not available.",
@@ -122,7 +167,9 @@ RELEASE_CLAIM_EVIDENCE = [
         "source": "src/llm/THREADING.md",
         "benchmark_source": None,
         "owner_issue": 7490,
-        "status": "covered",
+        "issue_assignees": ["makr-code", "Copilot"],
+        "target": "v2.5.0 preview hardening; withdrawn claim",
+        "status": "not applicable",
         "claim_disposition": "withdrawn",
         "benchmark_applicability": "not applicable",
         "evidence_url": "https://github.com/makr-code/ThemisDB/pull/7805",
@@ -302,15 +349,22 @@ def collect_cmake_targets(repo_root: Path = REPO_ROOT) -> Dict[str, BenchmarkTar
         
         # Pattern 5: themis_register_benchmark_ctest(NAME ... TARGET ...)
         for match in re.finditer(
-            r"themis_register_benchmark_ctest\(\s*NAME\s+([^\s]+)\s+TARGET\s+([^\s\)]+)",
-            text
+            r"themis_register_benchmark_ctest\(\s*NAME\s+([^\s]+)\s+TARGET\s+([^\s\)]+)(.*?)\)",
+            text,
+            re.S,
         ):
             ctest_name = match.group(1).strip()
             target_name = match.group(2).strip()
+            ctest_options = match.group(3)
             
+            ctest_name = ctest_name.strip('"').strip("'")
+            target_name = target_name.strip('"').strip("'")
+
             if target_name not in targets:
                 targets[target_name] = BenchmarkTarget(name=target_name)
             targets[target_name].ctest_entries.append(ctest_name)
+            if "release_critical" in ctest_options:
+                targets[target_name].labels.append("release_critical")
     
     return targets
 
@@ -499,18 +553,22 @@ def generate_target_mapping(repo_root: Path = REPO_ROOT) -> Dict[str, Dict]:
     return mapping
 
 
-def _status_for_benchmark(targets: List[BenchmarkTarget], latest_attempt: Dict | None) -> str:
+def _status_for_benchmark(
+    targets: List[BenchmarkTarget],
+    latest_attempt: Dict | None,
+    workload: Dict,
+) -> str:
     if not targets or any(not target.source_file for target in targets):
         return "gap"
     if not any(target.is_registered_in_ctest() for target in targets):
         return "gap"
-    if not latest_attempt or latest_attempt.get("result") != "success":
+    if not latest_attempt or latest_attempt.get("run_conclusion") != "success":
         return "blocked"
     if not latest_attempt.get("benchmark_results_available", False):
         return "blocked"
-    if latest_attempt.get("result_sha") is None or latest_attempt.get("run_url") is None:
+    if latest_attempt.get("run_sha") is None or latest_attempt.get("run_url") is None:
         return "blocked"
-    if not latest_attempt.get("workload_metadata_complete", False):
+    if any(value is None for value in workload.values()):
         return "gap"
     return "covered"
 
@@ -545,6 +603,7 @@ def generate_module_matrix(
     modules = sorted(path.name for path in modules_dir.iterdir() if path.is_dir())
     sources = collect_benchmark_sources(repo_root)
     targets = collect_cmake_targets(repo_root)
+    findings, registration_stats, _ = audit_coverage(repo_root)
     source_targets: Dict[str, List[BenchmarkTarget]] = {}
     for target in targets.values():
         if target.source_file:
@@ -561,7 +620,8 @@ def generate_module_matrix(
 
     known_claims: Dict[str, List[Dict]] = {}
     for claim in RELEASE_CLAIM_EVIDENCE:
-        known_claims.setdefault(claim["module"], []).append(claim)
+        for module in claim.get("modules", [claim["module"]]):
+            known_claims.setdefault(module, []).append(claim)
 
     module_rows = []
     for module in modules:
@@ -573,24 +633,31 @@ def generate_module_matrix(
                 for target in source_targets_for_file
                 for entry in target.ctest_entries
             })
-            status = _status_for_benchmark(source_targets_for_file, latest_attempt)
+            workload = {
+                "input_scale_and_distribution": None,
+                "warmup_and_repetition_policy": None,
+                "hardware_runtime_configuration": None,
+                "correctness_checks": None,
+                "metrics": None,
+            }
+            status = _status_for_benchmark(
+                source_targets_for_file, latest_attempt, workload
+            )
             benchmark_rows.append({
                 "source": f"benchmarks/{source}",
                 "targets": sorted(target.name for target in source_targets_for_file),
                 "ctest_entries": ctest_entries,
+                "release_critical": any(
+                    "release_critical" in target.labels
+                    for target in source_targets_for_file
+                ),
                 "target_declared": bool(source_targets_for_file),
                 "ctest_registered": bool(ctest_entries),
                 "build_profile": (
                     "benchmark-quality preset; per-target eligibility not verified"
                 ),
                 "ci_workflows": [workflow["path"] for workflow in BENCHMARK_CI_WORKFLOWS],
-                "workload": {
-                    "input_scale_and_distribution": None,
-                    "warmup_and_repetition_policy": None,
-                    "hardware_runtime_configuration": None,
-                    "correctness_checks": None,
-                    "metrics": None,
-                },
+                "workload": workload,
                 "output_artifacts": [
                     f"${{CMAKE_BINARY_DIR}}/bench_results/current/{entry}.json"
                     for entry in ctest_entries
@@ -610,10 +677,17 @@ def generate_module_matrix(
             status = "covered"
 
         claims = known_claims.get(module, [])
-        if module in MODULE_BENCHMARK_PRIORITY and not claims:
+        module_release_critical = any(
+            "release_critical" in target.labels
+            for source in assigned[module]
+            for target in source_targets.get(source, [])
+        )
+        high_risk = module in MODULE_BENCHMARK_PRIORITY or module_release_critical
+        if high_risk and not claims:
             claim_review = {
                 "status": "gap",
                 "owner_issue": 7828,
+                "triage_owner": ["makr-code", "Copilot"],
                 "target": "v2.5.0 M1 by 2027-03-31",
                 "follow_up": (
                     "Review this module's documented and roadmap performance claims; link each "
@@ -622,10 +696,12 @@ def generate_module_matrix(
                 ),
             }
         elif claims:
+            claim_statuses = {claim["status"] for claim in claims}
             claim_review = {
                 "status": (
                     "gap" if any(claim["status"] == "gap" for claim in claims)
                     else "blocked" if any(claim["status"] == "blocked" for claim in claims)
+                    else "not applicable" if claim_statuses == {"not applicable"}
                     else "covered"
                 ),
                 "claim_ids": [claim["id"] for claim in claims],
@@ -634,6 +710,7 @@ def generate_module_matrix(
             claim_review = {
                 "status": "gap",
                 "owner_issue": 7828,
+                "triage_owner": ["makr-code", "Copilot"],
                 "target": "v2.5.0 M1 by 2027-03-31",
                 "follow_up": (
                     "Review applicability and documented performance claims; record a specific "
@@ -643,7 +720,7 @@ def generate_module_matrix(
 
         module_rows.append({
             "module": module,
-            "priority": "high-risk" if module in MODULE_BENCHMARK_PRIORITY else "standard",
+            "priority": "high-risk" if high_risk else "standard",
             "benchmark_source_count": len(benchmark_rows),
             "benchmarks": benchmark_rows,
             "claim_review": claim_review,
@@ -703,6 +780,10 @@ def generate_module_matrix(
                 status: sum(1 for row in module_rows if row["status"] == status)
                 for status in ("covered", "gap", "not applicable", "blocked")
             },
+        },
+        "registration_audit": {
+            "summary": registration_stats,
+            "findings": [asdict(finding) for finding in findings],
         },
         "ci_workflows": BENCHMARK_CI_WORKFLOWS,
         "latest_ci_attempt": latest_attempt,
@@ -780,14 +861,14 @@ def main() -> int:
         help="Short explanation of the latest benchmark CI attempt outcome",
     )
     parser.add_argument(
+        "--latest-run-config-json",
+        default=None,
+        help="JSON object describing the latest benchmark CI runner/build configuration",
+    )
+    parser.add_argument(
         "--benchmark-results-available",
         action="store_true",
         help="Assert that the latest run retained machine-readable benchmark results",
-    )
-    parser.add_argument(
-        "--workload-metadata-complete",
-        action="store_true",
-        help="Assert that the run documents scale, policy, environment, correctness, and metrics",
     )
     parser.add_argument(
         "--fail-on-warning",
@@ -877,16 +958,19 @@ def main() -> int:
             args.latest_run_sha,
             args.latest_run_result,
             args.latest_run_note,
+            args.latest_run_config_json,
             args.benchmark_results_available,
-            args.workload_metadata_complete,
         )):
             latest_attempt = {
                 "run_url": args.latest_run_url,
-                "result_sha": args.latest_run_sha,
-                "result": args.latest_run_result,
+                "run_sha": args.latest_run_sha,
+                "run_conclusion": args.latest_run_result,
                 "note": args.latest_run_note,
+                "configuration": (
+                    json.loads(args.latest_run_config_json)
+                    if args.latest_run_config_json else None
+                ),
                 "benchmark_results_available": args.benchmark_results_available,
-                "workload_metadata_complete": args.workload_metadata_complete,
             }
         matrix = generate_module_matrix(
             args.repo_root,
