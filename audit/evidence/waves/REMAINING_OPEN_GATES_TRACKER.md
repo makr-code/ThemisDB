@@ -1,9 +1,17 @@
 ---
 Author: ThemisDB Maintainers
 Created: 2026-09-15
-Last Updated: 2026-09-15
+Last Updated: 2026-11-09
 Status: active
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Remaining Open Gates Tracker (Wave A→D)
 
 Status: active
@@ -46,9 +54,9 @@ Purpose: track unresolved benchmark/closure evidence that remains explicitly ope
 | `manifests/wave_b_integration_closure_manifest.json` | `B_integration_query_index_storage` | `in_progress` | Cross-module Query↔Index↔Storage integration evidence package |
 | `manifests/wave_b_integration_closure_manifest.json` | `B_integration_llm_rag_llm_wiki` | `in_progress` | Cross-chain integration test execution + representative-hardware baseline |
 | `manifests/wave_b_integration_closure_manifest.json` | `B_integration_rep_hardware_refresh` | `pending` | Representative-hardware baseline refresh for both integration chains |
-| `manifests/wave_ab_gap_closure_manifest.json` | `G2_security_critical_real_gaps` | `in_progress` | Close remaining 41 real security gaps (audit/MARKER_GAP_CLASSIFICATION_2026-08-31.md) |
-| `manifests/wave_ab_gap_closure_manifest.json` | `G3_runtime_critical_real_gaps` | `in_progress` | Close chimera(38), llama_cpp(26), tensor(25) real runtime-critical gaps |
-| `manifests/wave_ab_gap_closure_manifest.json` | `G4_unapproved_stub_mock_sim_blockers` | `in_progress` | Complete audit of remaining unapproved non-production paths |
+| `manifests/wave_ab_gap_closure_manifest.json` | `G2_security_critical_real_gaps` | `in_progress` | The 41-gap count is a stale 2026-08-31 snapshot; current security triage is in `audit/MARKER_GAP_CLASSIFICATION_2026-11-09.md`, including the TSA production-mode stub override tracked under #7814 |
+| `manifests/wave_ab_gap_closure_manifest.json` | `G3_runtime_critical_real_gaps` | `in_progress` | The chimera(38), llama_cpp(26), tensor(25) counts are historical only; revalidate current runtime/build paths and owner issues under #7814 |
+| `manifests/wave_ab_gap_closure_manifest.json` | `G4_unapproved_stub_mock_sim_blockers` | `in_progress` | Current inventory is `audit/MARKER_LOCATIONS_2026-11-09.md`; candidate-by-candidate activation, approval, and fail-closed review remains open |
 | `manifests/security_wave_c_closure_manifest.json` | `C3_sustained_load_evidence` | `pending` | Sustained-load security evidence on representative scope |
 | `manifests/security_wave_c_closure_manifest.json` | `C4_compliance_signoff_bundle` | `in_progress` | Final compliance sign-off bundle assembly + §9 human sign-off |
 | `manifests/operability_wave_d_closure_manifest.json` | `D2_observability_gates` | `in_progress` | Observability gate sign-off from final execution evidence (Phase 2A/2B/2C) |

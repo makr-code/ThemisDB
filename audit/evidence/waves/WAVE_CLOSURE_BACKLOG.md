@@ -1,9 +1,17 @@
 ---
 Author: ThemisDB Maintainers
 Created: 2026-09-15
-Last Updated: 2026-09-15
+Last Updated: 2026-11-09
 Status: active
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Wave Closure Backlog (A → B → C → D)
 
 Status: active
@@ -75,6 +83,7 @@ Source basis: `ROADMAP.md`, `src/*/ROADMAP.md`, `src/*/FUTURE_ENHANCEMENTS.md`, 
 ## Mockup / Gap Closure Program (parallel A/B)
 
 - Marker policy source: `audit/MARKER_GAP_CLASSIFICATION_2026-08-31.md`
+- Current raw inventory and triage checkpoint: `audit/MARKER_LOCATIONS_2026-11-09.md` and `audit/MARKER_GAP_CLASSIFICATION_2026-11-09.md`. The refreshed inventory is not a candidate-level closure result; keep G2/G3/G4 open until source/test evidence supports each disposition.
 - Enforced split:
   - **Doku-Leaks** (auto-generated `@note Gap Summary` lines)
   - **reale Gaps** (actual code/comment/runtime path gaps)
