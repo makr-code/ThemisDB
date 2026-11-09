@@ -99,8 +99,11 @@ public:
     HSMProvider& operator=(HSMProvider&&) noexcept;
 
     /**
-     * @brief Initialize.
-     * @return True when the operation succeeds.
+     * @brief Initialize the provider and establish the configured HSM connection.
+     * @return True when initialization succeeds; false when PKCS#11 setup fails in production
+     *         mode or provider setup otherwise cannot complete.
+     * @note Production mode requires a ready real PKCS#11 provider. The stub opt-in does not
+     *       override this requirement.
      */
     bool initialize();
 

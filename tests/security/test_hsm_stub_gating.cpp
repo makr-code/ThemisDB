@@ -85,6 +85,15 @@ protected:
             return "stub certificate";
         });
 
+        EXPECT_FALSE(hsm.isReady());
+        EXPECT_FALSE(hsm.isStubProvider());
+        EXPECT_NE(hsm.getTokenInfo().find("not ready"), std::string::npos);
+        EXPECT_FALSE(hsm.generateKeyPair("test"));
+        EXPECT_FALSE(hsm.importCertificate("test", "certificate"));
+        EXPECT_FALSE(hsm.getCertificate("test").has_value());
+        EXPECT_TRUE(hsm.listKeys().empty());
+        EXPECT_FALSE(bridge_called);
+
         EXPECT_FALSE(hsm.initialize());
         EXPECT_FALSE(hsm.isReady());
         EXPECT_FALSE(hsm.isStubProvider());
@@ -98,6 +107,11 @@ protected:
         EXPECT_FALSE(hsm.importCertificate("test", "certificate"));
         EXPECT_FALSE(hsm.getCertificate("test").has_value());
         EXPECT_TRUE(hsm.listKeys().empty());
+        EXPECT_FALSE(bridge_called);
+
+        hsm.finalize();
+        EXPECT_FALSE(hsm.generateKeyPair("test"));
+        EXPECT_FALSE(hsm.getCertificate("test").has_value());
         EXPECT_FALSE(bridge_called);
 
         HSMProvider::setSignHashFn({});
@@ -135,7 +149,11 @@ TEST_F(HSMStubGatingTest, FailsInProductionModeWithoutOptIn) {
     
     // Should fail in production mode
     EXPECT_FALSE(hsm.initialize());
+#ifdef THEMIS_ENABLE_HSM_REAL
+    EXPECT_FALSE(hsm.isStubProvider());
+#else
     EXPECT_TRUE(hsm.isStubProvider());
+#endif
     EXPECT_FALSE(hsm.isReady());
     
     // Check error message
@@ -157,6 +175,7 @@ TEST_F(HSMStubGatingTest, FailsInProductionModeEvenWithOptIn) {
     EXPECT_FALSE(hsm.isReady());
 }
 
+#ifndef THEMIS_ENABLE_HSM_REAL
 TEST_F(HSMStubGatingTest, DetectsProductionEnvironment) {
     // Set production environment indicator
     setEnv("ENVIRONMENT", "production");
@@ -185,6 +204,7 @@ TEST_F(HSMStubGatingTest, DetectsNodeEnvProduction) {
     EXPECT_FALSE(hsm.initialize());
     EXPECT_FALSE(hsm.isReady());
 }
+#endif
 
 TEST_F(HSMStubGatingTest, AllowsProductionEnvironmentWithOptIn) {
     // Set production environment but with explicit opt-in

@@ -69,6 +69,14 @@ using HSM_P11_X509_ptr = std::unique_ptr<X509, HSM_PKCS11_X509_Deleter>;
 using HSM_P11_BIO_ptr = std::unique_ptr<BIO, HSM_PKCS11_BIO_Deleter>;
 using HSM_P11_BIGNUM_ptr = std::unique_ptr<BIGNUM, HSM_PKCS11_BIGNUM_Deleter>;
 
+bool productionModeRequiresRealHsm() noexcept {
+    try {
+        return core::ProductionMode::isEnabled();
+    } catch (...) {
+        return true;
+    }
+}
+
 } // anonymous namespace
 
 // Real PKCS#11 implementation with an opt-in developer fallback.
@@ -565,6 +573,7 @@ bool HSMProvider::initialize(){
         if (RAND_bytes(impl_->stub_kek.data(), 32) != 1) {
             THEMIS_ERROR("HSMProvider: failed to generate stub KEK - aborting initialization");
             initialized_ = false;
+            impl_->cleanup();
             return false;
         }
     }
@@ -600,7 +609,6 @@ void HSMProvider::finalize(){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     impl_->cleanup();
     initialized_ = false;
-    production_mode_failed_ = false;
 }
 
 /**
@@ -813,6 +821,11 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
         return r; 
     }
     if(!impl_->real_ready){
+        if (production_mode_failed_ || productionModeRequiresRealHsm()) {
+            r.error_message = "Real PKCS#11 HSM is required in production mode";
+            impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
+            return r;
+        }
         auto bridge = SignHashFn{};
         {
             std::lock_guard<std::mutex> bridge_lock(signHashFnMutex());
@@ -933,6 +946,10 @@ bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& si
         return false;
     }
     if(!impl_->real_ready){
+        if (production_mode_failed_ || productionModeRequiresRealHsm()) {
+            impl_->verify_errors.fetch_add(1, std::memory_order_relaxed);
+            return false;
+        }
         auto bridge = VerifyFn{};
         {
             std::lock_guard<std::mutex> bridge_lock(verifyFnMutex());
@@ -1005,7 +1022,10 @@ bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& si
  */
 std::vector<HSMKeyInfo> HSMProvider::listKeys(){
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    if (production_mode_failed_) return {};
+    if (production_mode_failed_ ||
+        (!impl_->real_ready && productionModeRequiresRealHsm())) {
+        return {};
+    }
     HSMKeyInfo info; info.label = config_.key_label; info.id = impl_->real_ready?"real-id":"stub-id"; info.algorithm = config_.signature_algorithm; info.can_sign = true; info.can_verify = true; info.extractable = false; info.key_size = impl_->real_ready?2048:0; return {info};
 }
 
@@ -1020,6 +1040,10 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if (!initialized_) { last_error_ = "Not initialized"; return {}; }
     if (!impl_->real_ready || !impl_->loader.api()) {
+        if (production_mode_failed_ || productionModeRequiresRealHsm()) {
+            last_error_ = "Real PKCS#11 HSM is required in production mode";
+            return {};
+        }
         auto bridge = EncryptDataFn{};
         {
             std::lock_guard<std::mutex> bridge_lock(encryptDataFnMutex());
@@ -1079,6 +1103,10 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if (!initialized_) { last_error_ = "Not initialized"; return {}; }
     if (!impl_->real_ready || !impl_->loader.api()) {
+        if (production_mode_failed_ || productionModeRequiresRealHsm()) {
+            last_error_ = "Real PKCS#11 HSM is required in production mode";
+            return {};
+        }
         auto bridge = DecryptDataFn{};
         {
             std::lock_guard<std::mutex> bridge_lock(decryptDataFnMutex());
@@ -1136,8 +1164,8 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
  */
 bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, bool extractable){
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    if (production_mode_failed_) return false;
     if(!impl_->real_ready){ 
+        if (production_mode_failed_ || productionModeRequiresRealHsm()) return false;
         auto bridge = GenerateKeyPairFn{};
         {
             std::lock_guard<std::mutex> bridge_lock(generateKeyPairFnMutex());
@@ -1230,8 +1258,8 @@ bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, b
  */
 bool HSMProvider::importCertificate(const std::string& key_label, const std::string& cert_pem){
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    if (production_mode_failed_) return false;
     if(!impl_->real_ready){ 
+        if (production_mode_failed_ || productionModeRequiresRealHsm()) return false;
         auto bridge = ImportCertificateFn{};
         {
             std::lock_guard<std::mutex> bridge_lock(importCertificateFnMutex());
@@ -1354,8 +1382,10 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
  */
 std::optional<std::string> HSMProvider::getCertificate(const std::string& key_label){
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    if (production_mode_failed_) return std::nullopt;
     if(!impl_->real_ready) {
+        if (production_mode_failed_ || productionModeRequiresRealHsm()) {
+            return std::nullopt;
+        }
         auto bridge = GetCertificateFn{};
         {
             std::lock_guard<std::mutex> bridge_lock(getCertificateFnMutex());
@@ -1408,10 +1438,14 @@ std::optional<std::string> HSMProvider::getCertificate(const std::string& key_la
     return pem;
 }
 
-bool HSMProvider::isReady() const { return impl_->real_ready || initialized_; }
+bool HSMProvider::isReady() const {
+    return impl_->real_ready ||
+           (initialized_ && !production_mode_failed_ && !productionModeRequiresRealHsm());
+}
 
 std::string HSMProvider::getTokenInfo() const {
-    if (production_mode_failed_) {
+    if (!impl_->real_ready &&
+        (production_mode_failed_ || productionModeRequiresRealHsm())) {
       return "PKCS11 not ready (production initialization failed)";
     }
     if (!impl_->real_ready) {
@@ -1457,7 +1491,8 @@ void HSMProvider::resetStats() {
 
 bool HSMProvider::isStubProvider() const {
     // False if real HSM is active, true if fallback stub
-    return !production_mode_failed_ && !impl_->real_ready;
+    return !impl_->real_ready && !production_mode_failed_ &&
+           !productionModeRequiresRealHsm();
 }
 
 /**
@@ -1473,6 +1508,10 @@ void HSMProvider::periodicSecurityCheck() {
     
     // If using stub fallback (no real HSM), log security warning
     if (!impl_->real_ready) {
+        if (production_mode_failed_ || productionModeRequiresRealHsm()) {
+            THEMIS_ERROR("HSM provider is not ready: a real PKCS#11 HSM is required in production mode");
+            return;
+        }
         THEMIS_ERROR("⚠️  HSM SECURITY WARNING: PKCS#11 fallback stub active!");
         THEMIS_ERROR("Real HSM connection failed. Keys are NOT hardware-protected.");
         THEMIS_ERROR("Compliance impact: NIST SP 800-53 SC-12, PCI DSS 3.6, GDPR Art. 32");
