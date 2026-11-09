@@ -154,7 +154,13 @@ jobs:
           echo "✓ Checking test specification..."
           
           # Verify 13 test cases documented (per spec)
-          TEST_COUNT=$(grep -Ec "TEST(_F)?\\(" src/security/RETRIEVAL_POLICY_ENFORCEMENT.md || true)
+          TEST_COUNT=$(python3 - <<'PY'
+          import re
+          from pathlib import Path
+          text = Path("src/security/RETRIEVAL_POLICY_ENFORCEMENT.md").read_text(encoding="utf-8")
+          print(len(re.findall(r"TEST(?:_F)?\(", text)))
+          PY
+          )
           if [ "$TEST_COUNT" -lt 10 ]; then
             echo "⚠ WARNING: Only $TEST_COUNT test cases found (expected ≥13)"
           fi

@@ -3,6 +3,7 @@ name: "Governance: Release Evidence Chain"
 on:
   workflow_run:
     workflows:
+      - "Build: Mainline"
       - "Release: Packaging"
       - "Release: GitHub Release Approval Gate"
       - "Release: Docker Approval Gate"
@@ -78,7 +79,10 @@ jobs:
       actions: write
     if: |
       github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       (github.event.workflow_run.name != 'Build: Mainline' ||
+        github.event.workflow_run.head_branch == 'develop'))
     steps:
       - name: Checkout repository
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
@@ -101,8 +105,7 @@ jobs:
           PREV_RUN_ID="$(
             gh api \
               "repos/${GITHUB_REPOSITORY}/actions/workflows/release-evidence-chain.yml/runs?per_page=25" \
-              --jq '.workflow_runs[] | select(.id != '"${GITHUB_RUN_ID}"' and .conclusion == "success") | .id' \
-              | head -n1 || true
+              --jq '([.workflow_runs[] | select(.id != '"${GITHUB_RUN_ID}"' and .conclusion == "success") | .id][0] // "")'
           )"
 
           if [ -n "${PREV_RUN_ID}" ]; then
@@ -110,7 +113,7 @@ jobs:
             gh run download "${PREV_RUN_ID}" \
               -R "${GITHUB_REPOSITORY}" \
               -n release-evidence-chain-ledger \
-              -D /tmp/release-evidence-chain/previous || true
+              -D /tmp/release-evidence-chain/previous
             if [ -f /tmp/release-evidence-chain/previous/ledger.jsonl ]; then
               cp /tmp/release-evidence-chain/previous/ledger.jsonl /tmp/release-evidence-chain/current/ledger.jsonl
             fi
@@ -124,6 +127,9 @@ jobs:
           infer_mapping() {
             local source="$1"
             case "$source" in
+              "Build: Mainline")
+                echo "full_ctest_evidence|ci_owner|ci|develop-ctest-full"
+                ;;
               "Release: GitHub Release Approval Gate")
                 echo "release_published|release_owner|release|community-release"
                 ;;
@@ -162,7 +168,16 @@ jobs:
 
           extract_tag_from_text() {
             local text="$1"
-            echo "${text}" | grep -oE '(enterprise-|hyperscaler-|military-|minimal-)?v[0-9]+\.[0-9]+\.[0-9]+([-.][A-Za-z0-9.]+)?' | head -n1 || true
+            local tag
+            if tag="$(printf '%s\n' "${text}" | grep -oE '(enterprise-|hyperscaler-|military-|minimal-)?v[0-9]+\.[0-9]+\.[0-9]+([-.][A-Za-z0-9.]+)?' | sed -n '1p')"; then
+              printf '%s\n' "${tag}"
+            else
+              local status=$?
+              if [ "${status}" -ne 1 ]; then
+                return "${status}"
+              fi
+              printf '\n'
+            fi
           }
 
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
@@ -211,7 +226,7 @@ jobs:
             if [ -z "${tag}" ]; then
               tag="unknown"
             fi
-            version="$(echo "${tag}" | sed -E 's/.*v([0-9]+\.[0-9]+\.[0-9]+([-.][A-Za-z0-9.]+)?).*/\1/' || true)"
+            version="$(echo "${tag}" | sed -E 's/.*v([0-9]+\.[0-9]+\.[0-9]+([-.][A-Za-z0-9.]+)?).*/\1/')"
             if [ -z "${version}" ] || [ "${version}" = "${tag}" ]; then
               version="unknown"
             fi
@@ -256,14 +271,25 @@ jobs:
             gh api \
               "repos/${GITHUB_REPOSITORY}/actions/runs/${source_run_id}/artifacts?per_page=100" \
               --jq '.artifacts[] | select(.expired==false) | [.id,.name] | @tsv' \
-              > /tmp/release-evidence-chain/source-artifacts/artifacts.tsv || true
+              > /tmp/release-evidence-chain/source-artifacts/artifacts.tsv
+
+            if [ "${{ steps.attrs.outputs.source_workflow }}" = "Build: Mainline" ]; then
+              for platform in linux windows; do
+                expected_artifact="ctest-evidence-${platform}-${{ steps.attrs.outputs.commit_sha }}-${source_run_id}"
+                if ! awk -F '\t' -v expected="${expected_artifact}" '$2 == expected { found=1 } END { exit !found }' \
+                    /tmp/release-evidence-chain/source-artifacts/artifacts.tsv; then
+                  echo "::error::Missing required ${platform} CTest evidence artifact ${expected_artifact}"
+                  exit 1
+                fi
+              done
+            fi
 
             if [ -s /tmp/release-evidence-chain/source-artifacts/artifacts.tsv ]; then
               while IFS=$'\t' read -r artifact_id _; do
                 [ -z "${artifact_id}" ] && continue
                 gh api \
                   "repos/${GITHUB_REPOSITORY}/actions/artifacts/${artifact_id}/zip" \
-                  > "/tmp/release-evidence-chain/source-artifacts/${artifact_id}.zip" || true
+                  > "/tmp/release-evidence-chain/source-artifacts/${artifact_id}.zip"
               done < /tmp/release-evidence-chain/source-artifacts/artifacts.tsv
 
               python3 scripts/extract_artifact_digests.py \

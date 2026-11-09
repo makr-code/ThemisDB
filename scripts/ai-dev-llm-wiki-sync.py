@@ -411,7 +411,26 @@ def render_modules_and_apis(repo_root: Path, entries: Sequence[SourceEntry]) -> 
 
 def render_ops(repo_root: Path, entries: Sequence[SourceEntry]) -> str:
     lines = _render_section(repo_root, entries, "Developer LLM Wiki — Build/Test/CI/Operations", "build_test_ci")
-    return "\n".join(lines)
+    generated_at = datetime.now(UTC).strftime("%Y-%m-%d")
+    return "\n".join(
+        [
+            "---",
+            'Author: "ThemisDB Team"',
+            'Created: "2026-10-31"',
+            f'Last Updated: "{generated_at}"',
+            'Status: "active"',
+            "AI_Used: true",
+            'AI_Models: "unknown"',
+            'AI_Contributor: "GitHub Copilot"',
+            "Human_Review: false",
+            'Human_Author: "ThemisDB Team"',
+            "---",
+            "",
+            "> Exact model backend not verifiable from final document text alone.",
+            "",
+            *lines,
+        ]
+    )
 
 
 def render_governance(repo_root: Path, entries: Sequence[SourceEntry]) -> str:
@@ -431,6 +450,20 @@ def _render_limited_list(items: Sequence[str], limit: int = 200) -> List[str]:
 def render_delta_md(generated_at: str, delta: Dict[str, List[str]]) -> str:
     return "\n".join(
         [
+            "---",
+            'Author: "ThemisDB Team"',
+            'Created: "2026-10-31"',
+            f'Last Updated: "{generated_at[:10]}"',
+            'Status: "active"',
+            "AI_Used: true",
+            'AI_Models: "unknown"',
+            'AI_Contributor: "GitHub Copilot"',
+            "Human_Review: false",
+            'Human_Author: "ThemisDB Team"',
+            "---",
+            "",
+            "> Exact model backend not verifiable from final document text alone.",
+            "",
             "# Developer LLM Wiki — Delta Report",
             "",
             f"Datum: {generated_at[:10]}",

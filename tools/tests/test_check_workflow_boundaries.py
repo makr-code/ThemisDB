@@ -285,6 +285,81 @@ def test_repository_summary_jobs_check_out_local_action():
     assert violations == []
 
 
+@pytest.mark.parametrize(
+    "step",
+    [
+        {
+            "uses": "actions/checkout@v5",
+            "with": {"ref": "${{ github.event.pull_request.head.sha }}"},
+        },
+        {
+            "run": "git fetch origin ${{ github.event.pull_request.head.sha }}",
+        },
+        {
+            "uses": "actions/checkout@v5",
+            "with": {"ref": "${{ inputs.source_ref }}"},
+        },
+        {
+            "uses": "actions/checkout@v5",
+            "with": {"ref": "${{ github.base_ref || inputs.source_ref }}"},
+        },
+        {
+            "uses": "example/action@v1",
+            "with": {"source": "${{ github.event.pull_request.head.repo.clone_url }}"},
+        },
+        {
+            "name": "Use untrusted PR head in environment",
+            "env": {"SOURCE_REF": "${{ github.event.pull_request.head.ref }}"},
+            "run": "git checkout \"$SOURCE_REF\"",
+        },
+    ],
+)
+def test_pull_request_target_rejects_pr_head_checkout_or_execution(tmp_path: Path, step):
+    workflow = tmp_path / "unsafe.yml"
+    workflow.write_text(
+        yaml.safe_dump(
+            {
+                "name": "Unsafe target workflow",
+                "on": {"pull_request_target": {"branches": ["develop"]}},
+                "permissions": {"contents": "read"},
+                "jobs": {"scan": {"steps": [step]}},
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    violations = guard.validate_workflow_file(workflow)
+    assert any("pull_request_target" in violation and "PR-head" in violation for violation in violations)
+
+
+def test_pull_request_target_allows_base_ref_only_checkout(tmp_path: Path):
+    workflow = tmp_path / "safe.yml"
+    workflow.write_text(
+        yaml.safe_dump(
+            {
+                "name": "Safe target workflow",
+                "on": {"pull_request_target": {"branches": ["develop"]}},
+                "permissions": {"contents": "read"},
+                "jobs": {
+                    "scan": {
+                        "steps": [
+                            {
+                                "uses": "actions/checkout@v5",
+                                "with": {"ref": "refs/heads/${{ github.event.pull_request.base.ref }}"},
+                            },
+                            {"run": "git diff ${{ github.event.pull_request.base.sha }}"},
+                        ]
+                    }
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    violations = guard.validate_workflow_file(workflow)
+    assert violations == []
+
+
 def test_core_gate_delegates_issue_permissions_to_build_components():
     workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
     core = yaml.safe_load((workflows / "gate-pr-core.yml").read_text(encoding="utf-8"))

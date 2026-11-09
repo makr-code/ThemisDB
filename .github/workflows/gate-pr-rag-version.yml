@@ -116,7 +116,17 @@ jobs:
           fi
           
           # Count triggers (should be 4: model change, dim change, chunking change, schema major version)
-          TRIGGER_COUNT=$(grep -c "embedding_model_id ≠\|embedding_dim ≠\|chunking_profile_id ≠\|major_version" src/ingestion/EMBEDDING_VERSION_GOVERNANCE.md || true)
+          TRIGGER_COUNT=$(python3 - <<'PY'
+          from pathlib import Path
+          text = Path("src/ingestion/EMBEDDING_VERSION_GOVERNANCE.md").read_text(encoding="utf-8")
+          print(sum(token in text for token in (
+              "embedding_model_id ≠",
+              "embedding_dim ≠",
+              "chunking_profile_id ≠",
+              "major_version",
+          )))
+          PY
+          )
           if [ "$TRIGGER_COUNT" -lt 3 ]; then
             echo "❌ FAIL: Not all reindex triggers documented (found $TRIGGER_COUNT, expected ≥3)"
             exit 1
