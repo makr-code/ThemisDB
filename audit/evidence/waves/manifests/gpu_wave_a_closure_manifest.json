@@ -1,28 +1,53 @@
 {
-  "generated_at": "2026-09-14T15:15:00Z",
+  "generated_at": "2026-11-09T14:47:00Z",
   "wave": "Wave A",
   "module": "gpu",
   "workflow": "build-wave-a-gpu.yml",
-  "run_id": "34313042741",
+  "run_id": "42559714050",
   "overall_status": "open",
   "gates": {
     "A1_cuda_audit": "success",
-    "A2_fallback_timeout_tests": "success",
-    "A3_release_critical": "success",
+    "A2_fallback_timeout_tests": "failure",
+    "A3_release_critical": "skipped",
     "A4_representative_hardware": "skipped"
   },
   "evidence_references": {
     "closure_package_artifact": "gpu-wave-a-closure-package",
     "artifacts_archive": "gpu-ci-results.zip",
     "ci_report": "GPU-CI-Report",
-    "latest_attempt_run_url": "https://github.com/makr-code/ThemisDB/actions/runs/34875896686",
-    "latest_attempt_artifacts": "gpu-ci-results,cuda-audit-report,gpu-test-results,gpu-cmake-configuration-log"
+    "latest_attempt_run_url": "https://github.com/makr-code/ThemisDB/actions/runs/42559714050",
+    "latest_attempt_commit_sha": "8550ebc98499db562aa975e176c19d12745540af",
+    "latest_attempt_conclusion": "failure",
+    "observed_develop_head_sha": "b55c75f19d48c830c298933b734ff5bec71213d5",
+    "latest_attempt_fresh_for_develop_head": false,
+    "latest_attempt_runner": "GitHub-hosted ubuntu-latest",
+    "representative_hardware_job": {
+      "name": "Benchmark: Representative GPU Hardware Baselines",
+      "status": "skipped",
+      "skip_condition": "Workflow input run_representative_hardware was not true; the scheduled run does not enable this manual-only job.",
+      "runner_labels": ["self-hosted", "gpu-cuda"],
+      "runner_availability": "not verified",
+      "hardware_identity": null
+    },
+    "representative_baseline_template": "benchmarks/wave8/GPU_BASELINES_2026_Q4.json",
+    "latest_attempt_artifacts": [
+      {
+        "name": "gpu-ci-results",
+        "artifact_id": "13649415952",
+        "digest": "sha256:cf52758346155ca2a7c2c61a66b5ea5314a8d931dce744494539949ea446451e"
+      },
+      {
+        "name": "GPU-CI-Report",
+        "artifact_id": "13649151275",
+        "digest": "sha256:fcca952f1c9eaa0ecfe8fb852e498733835769fa9a8de34573ae7b8b0e561958"
+      }
+    ]
   },
   "source_validation": {
     "code": true,
-    "tests": true,
-    "ci": true,
+    "tests": false,
+    "ci": false,
     "benchmarks": false
   },
-  "notes": "Dedicated Wave-A GPU lane has source-backed artifacts; representative-hardware capture (A4) remains skipped and keeps overall status open."
+  "notes": "Latest available GPU run 42559714050 at 8550ebc98499db562aa975e176c19d12745540af is behind observed develop HEAD b55c75f19d48c830c298933b734ff5bec71213d5 and failed: baseline GPU test compilation failed, release-critical coverage was skipped, and the self-hosted gpu-cuda representative-hardware job was skipped because its manual-only input was not enabled. Runner availability was not verified. No hardware measurements were produced; A4 remains open."
 }
