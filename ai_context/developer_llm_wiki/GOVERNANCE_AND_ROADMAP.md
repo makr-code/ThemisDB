@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-11-02
+Datum: 2026-11-09
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
@@ -23,7 +23,7 @@ Status: Active
 
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
-- Hash: `e6284c5d6d47b436`
+- Hash: `04c343dda2da57f1`
 - Titel: Changelog
 - Auszug:
   - All notable changes to ThemisDB will be documented in this file.
@@ -68,12 +68,12 @@ Status: Active
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `570fdfb7fda51434`
+- Hash: `9b1c519a1fb0a7a1`
 - Titel: ThemisDB Project Roadmap
 - Auszug:
   - <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
   - **Version:** 2.4.0-alpha
-  - **Last Updated:** 2026-11-01 (TST-03 Geo, Timeseries, Process, Temporal, Storage, Index, Transaction, Query, Security, Metadata, Sharding, Performance, RAG and 66 LLM duplicate targets consolidated; Windows Debug profile multiple focused registrations reduced from 71 to 5; baseline review remains open; audit-derived production-readiness roadmap pointer and RotatE target clarification; Wave C evidence status unchanged since 2026-10-30)
+  - **Last Updated:** 2026-11-06 (STO-01/STO-10 source-backed implementation status synchronized; STO-07 and storage evidence gates remain open; TST-03 Geo, Timeseries, Process, Temporal, Storage, Index, Transaction, Query, Security, Metadata, Sharding, Performance, RAG, 66 LLM registrations, three remaining LLM provider variants, tensor shard-summary aliases, adaptive targets, 22 GPU targets, 13 exporter targets, GPU graph traversal, process-discovery, AdvancedCacheManager, process-mining-pattern, anomaly-detection, CEP, columnar-execution, expert-system, forecasting, LLM-process-analyzer, streaming-join, streaming-window, API interface/API-key authenticator, BaseEntity, Base reload-regression, 25 ingestion, 16 Network, 12 CDC, seven Auth targets, and two Plugin targets consolidated; Windows Debug profile multiple focused registrations reduced from 71 to 1 shared test runner; non-modular profile now has 278 multi-target sources and baseline review remains open; audit-derived production-readiness roadmap pointer and RotatE target clarification; Wave C evidence status unchanged since 2026-10-30; access_model Wave B and readiness claims reconciled to current source evidence)
 
 ## VERSIONING.md
 - Kategorie: governance_and_docs
@@ -347,7 +347,7 @@ Status: Active
 
 ## ai_context/api_contracts/storage.md
 - Kategorie: governance_and_docs
-- Hash: `87978907cd6f5b0a`
+- Hash: `f2048ef75de33288`
 - Titel: Storage API contract and conformance evidence
 - Auszug:
   - ---
@@ -356,12 +356,12 @@ Status: Active
 
 ## ai_context/api_contracts/transaction.md
 - Kategorie: governance_and_docs
-- Hash: `f0757ec7673afb92`
+- Hash: `90249237cdf9f7e5`
 - Titel: Transaction Module Contract
 - Auszug:
-  - Datum: 2026-10-29
-  - **Status:** Active
-  - **Module:** transaction (Coordinator, 2PC/3PC/SAGA patterns)
+  - ---
+  - Author: "ThemisDB Contributors"
+  - Created: "2026-10-29"
 
 ## ai_context/developer_llm_wiki/AI_METADATA_AND_PROVENANCE.md
 - Kategorie: governance_and_docs
@@ -374,7 +374,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/AQL.md
 - Kategorie: governance_and_docs
-- Hash: `e1b02c1672ef56d3`
+- Hash: `be8a21894dad0a23`
 - Titel: AQL — Developer LLM Wiki
 - Auszug:
   - ---
@@ -401,7 +401,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/GRAPH.md
 - Kategorie: governance_and_docs
-- Hash: `3979911b787f7dd3`
+- Hash: `03b7c914fbba252f`
 - Titel: Graph — Developer LLM Wiki
 - Auszug:
   - ---
@@ -509,7 +509,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/STORAGE.md
 - Kategorie: governance_and_docs
-- Hash: `4204a326f3c0f9a2`
+- Hash: `d6117be4e8e41142`
 - Titel: Storage — Developer LLM Wiki
 - Auszug:
   - ---

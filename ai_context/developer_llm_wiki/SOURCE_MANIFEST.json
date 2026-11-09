@@ -1,8 +1,8 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-02T03:02:55+00:00",
-  "source_count": 8066,
+  "generated_at": "2026-11-09T03:03:03+00:00",
+  "source_count": 8070,
   "sources": [
     {
       "path": ".github/workflows/benchmark-gate.yml",
@@ -49,9 +49,9 @@
     {
       "path": ".github/workflows/build-llm-inference.yml",
       "category": "build_test_ci",
-      "size": 23981,
-      "sha256": "cdbebf0d599d82885adaf71e066ce9087a0ea5bd2c04164af6720d20981756ab",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 25183,
+      "sha256": "4321cbd09bad4a80440f3745b429ba7499e23e2b812c3dc65452daa290fa579a",
+      "modified_utc": "2026-11-09T03:02:55+00:00"
     },
     {
       "path": ".github/workflows/build-mainline.yml",
@@ -91,9 +91,9 @@
     {
       "path": ".github/workflows/build-wave-b-transaction.yml",
       "category": "build_test_ci",
-      "size": 30286,
-      "sha256": "c0bd97312e911678c510e681b5580db6d2d3627349f7be4b447839616695d4cf",
-      "modified_utc": "2026-11-02T03:02:48+00:00"
+      "size": 31984,
+      "sha256": "f579060afd0e175bc0e326a0ee151d93bc119c1525b5efc6024c33bdc04e943f",
+      "modified_utc": "2026-11-09T03:02:55+00:00"
     },
     {
       "path": ".github/workflows/build-widget.yml",
@@ -189,9 +189,9 @@
     {
       "path": ".github/workflows/gate-pr-core.yml",
       "category": "build_test_ci",
-      "size": 53655,
-      "sha256": "564a9b0c3ee3a8ef3189765ec6df32a07d34c3b3d2f27532a871c9c1a729f120",
-      "modified_utc": "2026-11-02T03:02:48+00:00"
+      "size": 54707,
+      "sha256": "24d0e390e2aa4048b8a1d8202c26de5b48781f999a7b03a380315f51e9964925",
+      "modified_utc": "2026-11-09T03:02:55+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-doc-metadata.yml",
@@ -301,16 +301,16 @@
     {
       "path": ".github/workflows/gate-pr-rag-version.yml",
       "category": "build_test_ci",
-      "size": 11156,
-      "sha256": "c6460c02ca88e685a7e4d36430be83f7753b27e2a18fa8d571d18ab5245e7d10",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 11172,
+      "sha256": "5aae3af3c725d203839814811f8f8bfed60818e295f35f93ab70d325101ea638",
+      "modified_utc": "2026-11-09T03:02:55+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-version-targeting.yml",
       "category": "build_test_ci",
-      "size": 6610,
-      "sha256": "fca23062af58da44af3a6d655c80575739fb595ecde16de74b83965245350a6a",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 6671,
+      "sha256": "718d81eb7f5493ec8c4161c1f83e5d73bb015688d049e48f520d121554a72396",
+      "modified_utc": "2026-11-09T03:02:55+00:00"
     },
     {
       "path": ".github/workflows/gate-release-benchmark-validation.yml",
@@ -441,9 +441,9 @@
     {
       "path": ".github/workflows/release-build-matrix.yml",
       "category": "build_test_ci",
-      "size": 27851,
-      "sha256": "eeee4a037355adac24be2999877fe128f4658f5a6e29068f4422a113a262cdd1",
-      "modified_utc": "2026-11-02T03:02:48+00:00"
+      "size": 36809,
+      "sha256": "be3a3d57cc287dea6df9f3fba5ce086e7cda6046d5aa37d764f46d82b5180610",
+      "modified_utc": "2026-11-09T03:02:55+00:00"
     },
     {
       "path": ".github/workflows/release-changelog.yml",
@@ -462,9 +462,9 @@
     {
       "path": ".github/workflows/release-docker-image.yml",
       "category": "build_test_ci",
-      "size": 30596,
-      "sha256": "f381b8463cbb9f5895eae0df45c59bc48788752cc98ccce7880b9108d385d1e9",
-      "modified_utc": "2026-11-02T03:02:48+00:00"
+      "size": 37410,
+      "sha256": "4477ab089a3c89994d71bd24b71ad2a75d499b0ed4223a588bbbcbd652298911",
+      "modified_utc": "2026-11-09T03:02:55+00:00"
     },
     {
       "path": ".github/workflows/release-evidence-chain.yml",
@@ -497,16 +497,16 @@
     {
       "path": ".github/workflows/release-mainline.yml",
       "category": "build_test_ci",
-      "size": 39308,
-      "sha256": "ae6d60e49c09472e9d4a6377b8f8e6457f19634744360458c2117a177a9c1f06",
-      "modified_utc": "2026-11-02T03:02:48+00:00"
+      "size": 39683,
+      "sha256": "08cd8d8e015259b9250dc68e04846628ef3c06804bb367c7cb4670aaec71d2b9",
+      "modified_utc": "2026-11-09T03:02:55+00:00"
     },
     {
       "path": ".github/workflows/release-nightly.yml",
       "category": "build_test_ci",
-      "size": 20393,
-      "sha256": "d30426adfb7a8ed0ac33f5048be677daf4fa3bafa00a8e9ba384173727cdaa31",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 23539,
+      "sha256": "d23dc4fe237604446c5be0741508ed825fbab852f18b4c0859f5d9b24d2b9153",
+      "modified_utc": "2026-11-09T03:02:55+00:00"
     },
     {
       "path": ".github/workflows/release-promote.yml",
@@ -574,16 +574,16 @@
     {
       "path": ".github/workflows/reusable-cmake-build.yml",
       "category": "build_test_ci",
-      "size": 33673,
-      "sha256": "ece8a20f6a85102e000625be6a1fc7ec9722f4b7a775e3ef6372d2fe2121570b",
-      "modified_utc": "2026-11-02T03:02:48+00:00"
+      "size": 40639,
+      "sha256": "17a19fd047b6068dfcfb954913842aaeaaffe38d60e5575a5257e33e5852bbe8",
+      "modified_utc": "2026-11-09T03:02:55+00:00"
     },
     {
       "path": ".github/workflows/reusable-docker-image-platform.yml",
       "category": "build_test_ci",
-      "size": 18524,
-      "sha256": "ff77daf38a7edd9534f805722c1fd8b8708ee673818ec2e1728eee93a319211d",
-      "modified_utc": "2026-11-02T03:02:48+00:00"
+      "size": 22487,
+      "sha256": "8f9f1963bb889ee85fd0e46640000fba672e1f87472369e1973b8918c1bb9417",
+      "modified_utc": "2026-11-09T03:02:55+00:00"
     },
     {
       "path": ".github/workflows/reusable-docs-db-builder.yml",
@@ -714,9 +714,9 @@
     {
       "path": "CHANGELOG.md",
       "category": "governance_and_docs",
-      "size": 102072,
-      "sha256": "e6284c5d6d47b436a4686fe99add693d8aff1738b674060b3e56d6aa046fb76f",
-      "modified_utc": "2026-11-02T03:02:48+00:00"
+      "size": 109066,
+      "sha256": "04c343dda2da57f127765c942867b5841cfd3ce2ada167d363a1c7ebadb8d0af",
+      "modified_utc": "2026-11-09T03:02:55+00:00"
     },
     {
       "path": "DOCUMENTATION_GOVERNANCE.md",
@@ -749,9 +749,9 @@
     {
       "path": "ROADMAP.md",
       "category": "governance_and_docs",
-      "size": 235292,
-      "sha256": "570fdfb7fda5143488f22ae21a486944fe805b478f489cea73774416e59a8e97",
-      "modified_utc": "2026-11-02T03:02:48+00:00"
+      "size": 241126,
+      "sha256": "9b1c519a1fb0a7a15a03997f041049bea48a17d0dc64f2b60b1d97c4f3c485ab",
+      "modified_utc": "2026-11-09T03:02:55+00:00"
     },
     {
       "path": "VERSIONING.md",
@@ -966,16 +966,16 @@
     {
       "path": "ai_context/api_contracts/storage.md",
       "category": "governance_and_docs",
-      "size": 9185,
-      "sha256": "87978907cd6f5b0afb122b1bd5237648de57fd5e21c64c203e69adbebe2ecc6f",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 10354,
+      "sha256": "f2048ef75de33288a0b19ea2710b92aad8e692bb42ea422cf0701b4b20297b63",
+      "modified_utc": "2026-11-09T03:02:55+00:00"
     },
     {
       "path": "ai_context/api_contracts/transaction.md",
       "category": "governance_and_docs",
-      "size": 6861,
-      "sha256": "f0757ec7673afb92c3d5fdf06f8a8b181c2e0ef52056f2c0bba0861ccf483d4a",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 9666,
+      "sha256": "90249237cdf9f7e5d2db6a7595f0a359b64c147a89abb73e24e96e86b81ffc9c",
+      "modified_utc": "2026-11-09T03:02:55+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/AI_METADATA_AND_PROVENANCE.md",
@@ -987,9 +987,9 @@
     {
       "path": "ai_context/developer_llm_wiki/AQL.md",
       "category": "governance_and_docs",
-      "size": 4455,
-      "sha256": "e1b02c1672ef56d3d1d4bf18453a24a6c5c5a13cb57e37b1f5b1b9be2c68ba0e",
-      "modified_utc": "2026-11-01T09:32:51+00:00"
+      "size": 4623,
+      "sha256": "be8a21894dad0a23eb9496d5ba594ffd3de05b5597af01aaefc745c56ed5418c",
+      "modified_utc": "2026-11-09T03:02:55+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md",
@@ -1008,9 +1008,9 @@
     {
       "path": "ai_context/developer_llm_wiki/GRAPH.md",
       "category": "governance_and_docs",
-      "size": 5731,
-      "sha256": "3979911b787f7dd3dc1647d268961c91451d8a495e7f970525733ffba92e27d4",
-      "modified_utc": "2026-11-01T09:32:51+00:00"
+      "size": 6427,
+      "sha256": "03b7c914fbba252f28b0043356ef142c5aa60e9fbe750571e061be96edf8d5ac",
+      "modified_utc": "2026-11-09T03:02:55+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/IMPORTERS.md",
@@ -1092,9 +1092,9 @@
     {
       "path": "ai_context/developer_llm_wiki/STORAGE.md",
       "category": "governance_and_docs",
-      "size": 7277,
-      "sha256": "4204a326f3c0f9a2ef66b488687838e9e318a11a22c6a42610f92fef98476e0d",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 9363,
+      "sha256": "d6117be4e8e4114292b0c7a8b61490426b982c8a728a6fcfbe44e2db0f1cd646",
+      "modified_utc": "2026-11-09T03:02:55+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/TEMPORAL.md",
@@ -16590,9 +16590,9 @@
     {
       "path": "docs/DISTRIBUTED_TRANSACTIONS.md",
       "category": "governance_and_docs",
-      "size": 22078,
-      "sha256": "cc1f1bdfb52146e3a2ca5a3703bc62dc5a3baf8696a4b0f8f7ef9ecc57c991c0",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 22786,
+      "sha256": "420a5a1cfd80f693e2e053149878ad84e43aab7e9e2720b010bfb6639f7b0646",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/DOCUMENTATION_ARCHIVAL_PROCESS.md",
@@ -17738,16 +17738,16 @@
     {
       "path": "docs/architecture/P1D01_ISSMPLUGIN_DESIGN_REVIEW.md",
       "category": "governance_and_docs",
-      "size": 10755,
-      "sha256": "ab146d378b9f23c39d395bcd7762fdb1d363cb628d4b83d15b783f7c78cf654a",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 10910,
+      "sha256": "624afe6958609dde34355c66455dd0621829ef13ad6e494934e4fd8a33cf6ab6",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/architecture/P1_D01_ISSMPLUGIN_DESIGN_REVIEW.md",
       "category": "governance_and_docs",
-      "size": 8723,
-      "sha256": "295a544619554e6decdcbb2b1d1d2430b07ebfee35d7f03a1cd36353f949ccf5",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 8868,
+      "sha256": "b3431ae231f6ffae26697a3b37bcad6f32d80ca2f8cc148a02555a729398b302",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/architecture/P1_D08_MAMBA_GOVERNANCE_CONTRACT.md",
@@ -17759,9 +17759,9 @@
     {
       "path": "docs/architecture/P1_P2_IMPLEMENTATION_COMPLETION_INDEX.md",
       "category": "governance_and_docs",
-      "size": 14521,
-      "sha256": "4e8adbf398746b3cc782696e287d460395365ccfd8ae2c7bf2454c400a9babfb",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 14361,
+      "sha256": "3dc11a435a46b373da0e1870ac96469e2783015f655b319f50236dd740ce718c",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/architecture/PHASE0_COMPLETION_ASSESSMENT.md",
@@ -17822,9 +17822,9 @@
     {
       "path": "docs/architecture/README_SSM_HYBRID_IMPLEMENTATION.md",
       "category": "governance_and_docs",
-      "size": 7290,
-      "sha256": "7af46fe662cf856973feb3f0b1814d7edb52cf790193038e12a9f92d344df67b",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 7487,
+      "sha256": "e4c34cd696a0f29db9386b7bf9e4f090126548f4e62dc0978e69314863742135",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/architecture/REFACTORING_SUMMARY.md",
@@ -17941,9 +17941,9 @@
     {
       "path": "docs/architecture/ssm-hybrid-rollout-plan.md",
       "category": "governance_and_docs",
-      "size": 25603,
-      "sha256": "40ac48f8e87ab3f50f8b8c912ba1f719b67b5a0978c6058afc2666213c05cc7a",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 25736,
+      "sha256": "2009e116bf2fabfd4f4af419a87786920330427c976f32c2b2dbb966dfae177f",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/architecture/ssm-plugin-interface-design-review.md",
@@ -17955,9 +17955,9 @@
     {
       "path": "docs/architecture/transaction_coordinators.md",
       "category": "governance_and_docs",
-      "size": 16739,
-      "sha256": "6d9553d4278c548d0f82764eebe4112939049b93d2384435ce17358a0cc29cc8",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 21368,
+      "sha256": "483ea6a39e3baeeeb5eb3451abb65bb039cd6f9692649b32cc22fc65b7a7629f",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/architecture/wiki_secondary_index.md",
@@ -20867,9 +20867,9 @@
     {
       "path": "docs/code_maturity_report.md",
       "category": "governance_and_docs",
-      "size": 2301906,
-      "sha256": "b1cf6e3da23c1fc994ba02262ecac6f9797a31b71e8cd90bf5693e3152ba8562",
-      "modified_utc": "2026-11-02T03:02:53+00:00"
+      "size": 2304496,
+      "sha256": "23745a655e8f7f7b8eec51d1bebf9e48c71bcab40f896189fb54665c27425fde",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/community/Supporters.md",
@@ -21231,16 +21231,16 @@
     {
       "path": "docs/compendium/docs/appendix_d_feature_status.md",
       "category": "governance_and_docs",
-      "size": 102640,
-      "sha256": "162db247f25c69985f0b866949be0cf4f7deaf52b2d930eb374e2331745dbfa2",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 103654,
+      "sha256": "69a4383e1ec90ae9d6679af1d75d9392fde634f8a2174779f58de68fb7967a69",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/appendix_e_incident_runbooks.md",
       "category": "governance_and_docs",
-      "size": 13176,
-      "sha256": "d21cb86c4fa5c428c1b64169c6d37abb08fc63d4e9c78bbea23e3c8f4645f5a4",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 14106,
+      "sha256": "14d397eed54ce7966d58f6274e26bf11a2406679cd32489281cef07885072cba",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/appendix_f_aql_cheatsheet.md",
@@ -21280,30 +21280,30 @@
     {
       "path": "docs/compendium/docs/chapter_00_genesis.md",
       "category": "governance_and_docs",
-      "size": 28784,
-      "sha256": "c00f14f6da65ee01575a131132e24b926dd319a8a9ccca70efc70dd651de71e5",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 29737,
+      "sha256": "de5a46f4c492de3922b111fceb14316a14f11d64508a16c52ae72c8063f3f34e",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_01_introduction.md",
       "category": "governance_and_docs",
-      "size": 24423,
-      "sha256": "5539927bc6b5efe1e9bd67f91ac2f67fc36ec5d75dfed751a40b274fe6c2d795",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 25340,
+      "sha256": "00d2ebd29a5864af2911c2f9c7dc504b08e7755f21bab4eee73c6b0ba07609d9",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_02_architecture.md",
       "category": "governance_and_docs",
-      "size": 55096,
-      "sha256": "2c07d02e8573a38d9d886c3ffdd6921522f87517020a38aac3a9d55d48f98525",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 56149,
+      "sha256": "fc169e9e330ed602508ebdd05558f355a9e96fc5d18668783e7982a6b3ace829",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_03_multimodel.md",
       "category": "governance_and_docs",
-      "size": 24775,
-      "sha256": "e49f461f7eff9c23122bb85f5e1e91b7d47b93c134b3f842cc28588080d3ea42",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 25743,
+      "sha256": "6a4be5bed65eb59695c455dc23a29dab7fb5791893853b774a56e714bddf3fd7",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_04_installation.md",
@@ -21315,9 +21315,9 @@
     {
       "path": "docs/compendium/docs/chapter_05_relational.md",
       "category": "governance_and_docs",
-      "size": 45898,
-      "sha256": "e0f0ae052e58da133236b658725f4ba0fe49b428ad94201a4458cf40f391bd27",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 46897,
+      "sha256": "954badad4af094803958ac7d6e2aebe292512a294bcbe9ccb0a9679cbc119c2b",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_06_graph.md",
@@ -21336,9 +21336,9 @@
     {
       "path": "docs/compendium/docs/chapter_08_storage_layer.md",
       "category": "governance_and_docs",
-      "size": 36345,
-      "sha256": "5aa0ac525410bfbefe65891d275dbd9132346ca1c3349de0591a821b62922317",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 37289,
+      "sha256": "91aba82c592efb7a39a988d96699a68dfa632f55663eb5c23d2c5104c133aed6",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_08_vector.md",
@@ -21420,9 +21420,9 @@
     {
       "path": "docs/compendium/docs/chapter_17_scaling.md",
       "category": "governance_and_docs",
-      "size": 28446,
-      "sha256": "2c719797ae3bdd7164b69ca250516eea1555fc6c89136f07bbd2e4ef506bbc74",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 29332,
+      "sha256": "b76efb9188719db6f96d8170b892d5afb3e5063ac140767e0b1704f4870156b5",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_18_ha.md",
@@ -21448,9 +21448,9 @@
     {
       "path": "docs/compendium/docs/chapter_19_monitoring_observability.md",
       "category": "governance_and_docs",
-      "size": 53460,
-      "sha256": "354bdfa260c76bdb6d4ee8d4a277d1ca39ad53bc8c7b5b0a79ad34cc5594d745",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 54382,
+      "sha256": "c1778e023360ee40bb2003d5bc9db863a25c631d7c3e815ed5d07a4e82919768",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_20_backup.md",
@@ -21462,9 +21462,9 @@
     {
       "path": "docs/compendium/docs/chapter_20_performance.md",
       "category": "governance_and_docs",
-      "size": 8860,
-      "sha256": "e60542fe4b75fe32cbfb04c95c7f1f83891e4dcbfac5f858fcd4d521adf8cd2d",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 9810,
+      "sha256": "2f52af5a2984155dd68fc9aa7472a3f8f929f250edc1cfefd81a36c30083a324",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_21_auth.md",
@@ -21497,9 +21497,9 @@
     {
       "path": "docs/compendium/docs/chapter_23_testing_qa.md",
       "category": "governance_and_docs",
-      "size": 101912,
-      "sha256": "d7c84c1518cda952848e6aa1d9f635f47315495f7f989b1338981a7fbc05db35",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 102892,
+      "sha256": "2b53aae5918ef4ac4869034e65827cf6e68b58486bd97b8b71941fd1f21c39f3",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_24_ai_ethics.md",
@@ -21518,9 +21518,9 @@
     {
       "path": "docs/compendium/docs/chapter_26_migration_legacy.md",
       "category": "governance_and_docs",
-      "size": 96108,
-      "sha256": "2fdb04f2b39fe206bb75f8be812e4217d2aa57bd6c921eb795131d8b34afdeb9",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 97037,
+      "sha256": "7f0145b3b6f7951ba2893b92d26b79c081db27ff711426480c516204db8e7d06",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_27_troubleshooting.md",
@@ -21546,9 +21546,9 @@
     {
       "path": "docs/compendium/docs/chapter_30_deployment_operations.md",
       "category": "governance_and_docs",
-      "size": 97660,
-      "sha256": "baba0984c13495e8c09ae71ff044269810b9aad881a6dc31c37050c6610cb1bd",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 98543,
+      "sha256": "f7539cc78ed833dc06069c3074564f121e83d4579368a786d9dcb4ac0b7a621b",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_31_api_protocols.md",
@@ -21574,16 +21574,16 @@
     {
       "path": "docs/compendium/docs/chapter_33_best_practices.md",
       "category": "governance_and_docs",
-      "size": 51489,
-      "sha256": "009d5492851ea872fcf3cb245f82026a9969cb3e089836be1e8285772176e79b",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 52438,
+      "sha256": "abf55893b8dd4e7cd724030ffe2920ae46c7a62d04c2c6e5e759f3cff0c6c1fe",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_34_query_optimization.md",
       "category": "governance_and_docs",
-      "size": 73642,
-      "sha256": "24c87e73475d74455038c55db4574ac12651155e709ef7bcd4d5e406dd00244b",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 74635,
+      "sha256": "974e400f8be445785449ea2b8d35dcb0b910d4255d1de8417b15835531e0034a",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_35_data_modeling_patterns.md",
@@ -21595,9 +21595,9 @@
     {
       "path": "docs/compendium/docs/chapter_36_security_hardening.md",
       "category": "governance_and_docs",
-      "size": 225870,
-      "sha256": "8e589f57a4ad53963d320d6d00915438a5d0eb399240f317199d18f9c5323c6b",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 226865,
+      "sha256": "d2849e4661a0b710ada8e66f3dea27810ef4a2bd72409f0f1ce2d5a13dcaa212",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_37_ecosystem_integration.md",
@@ -21609,9 +21609,9 @@
     {
       "path": "docs/compendium/docs/chapter_38_observability_sre.md",
       "category": "governance_and_docs",
-      "size": 75478,
-      "sha256": "7f868dac759f5c1c1ae72a8bd43ecebfe736430d83ab4393fe93e9747b9fd89e",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 76371,
+      "sha256": "53e3a6e9bf7219350bbd0a4d1ef53b59f9cee2bee432d21b548626f1f602c929",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_39_performance_tuning_cookbook.md",
@@ -21637,16 +21637,16 @@
     {
       "path": "docs/compendium/docs/chapter_42_docs_assistant_usage.md",
       "category": "governance_and_docs",
-      "size": 68599,
-      "sha256": "ef38fb7d6b842c14bd0b12082224832cbc8f4e879e6410f527e4762c5a19b98e",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 69647,
+      "sha256": "9755a73fc75d5b7b962a314e430ee0aa53261638f5ca131412b123fb9adf11d1",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_43_voice_streaming.md",
       "category": "governance_and_docs",
-      "size": 1818,
-      "sha256": "38a1c3c159138a6625f6564914d3cabc1723598ab20282245b0bc88e464de27b",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 3428,
+      "sha256": "9896e038c18f8659afccc189f4890192c414d421fe2ff4c443159ddfde7e2834",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_44_plugin_sdk.md",
@@ -21658,9 +21658,9 @@
     {
       "path": "docs/compendium/docs/chapter_45_federated_ai.md",
       "category": "governance_and_docs",
-      "size": 1847,
-      "sha256": "4ff1bea25c9ee55fe3f99639db21ea1b0a89bd7867755d08e269cd3935c17ce6",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 2871,
+      "sha256": "c3ae5d6c9e09cd57ea6d4b3f976b2106ccf9d01d8e8cc48c778545f83d9c71fd",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_46_wasm_sandbox.md",
@@ -21672,16 +21672,16 @@
     {
       "path": "docs/compendium/docs/chapter_47_multitenancy.md",
       "category": "governance_and_docs",
-      "size": 1827,
-      "sha256": "b70116343b4559cac76f876ac3d579ad20f9b64e1795f8f23f4c04b7ccda4685",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 2816,
+      "sha256": "94b378df826aa99e0fa2a2d29010a9561dbed00dab2ffe0bedfe2333d7b2d4c2",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/chapter_mvcc_hlc.md",
       "category": "governance_and_docs",
-      "size": 20761,
-      "sha256": "93abd7402c3fd50a0b8caecb0f672159169aec2051b6547e9caa79c2547111e6",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 21734,
+      "sha256": "1f1e73af05bfc1d2214a13d76ed63c4f0aca885dbad16dc4b42ab8f807382a87",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/compendium/docs/cover.md",
@@ -25571,9 +25571,9 @@
     {
       "path": "docs/de/guides/WINDOWS_BUILD_SETUP.md",
       "category": "governance_and_docs",
-      "size": 10933,
-      "sha256": "f116c0f62e94d3f19a3678c07dd2db53ad9712db971f878e5eb050b8aed7d5a4",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 16956,
+      "sha256": "d0902f22ad28f96d0cf84c45c125507750f3b8f3d0a2d33bbe2656c66b07ac78",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/de/guides/disaster_recovery.md",
@@ -26131,9 +26131,9 @@
     {
       "path": "docs/de/llm/HTTP_API_SPECIFICATION.md",
       "category": "governance_and_docs",
-      "size": 14597,
-      "sha256": "651de82bca0d33733f6835048c0643c06cf1a4209c14fbc30c4030bd1e7c0565",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 15064,
+      "sha256": "ca4b5c821f3624a851def05180afe061eb6d30e7b769d460ce2ee1a63fb363d4",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/de/llm/INFERENCE_ENGINE_COMPARISON.md",
@@ -29832,6 +29832,13 @@
       "modified_utc": "2026-11-01T06:39:19+00:00"
     },
     {
+      "path": "docs/deployment/RUNTIME_DEPENDENCIES.md",
+      "category": "governance_and_docs",
+      "size": 4026,
+      "sha256": "dbf99a57669f137b7b0ea17ebec10f41333502ec65c3d62a90e76c02264bbc20",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
+    },
+    {
       "path": "docs/development/CMAKE_VSCODE_SETUP.md",
       "category": "governance_and_docs",
       "size": 610,
@@ -32998,9 +33005,9 @@
     {
       "path": "docs/governance/SHARDING_P6_RESIDUAL_RISK_ACCEPTANCE.md",
       "category": "governance_and_docs",
-      "size": 7023,
-      "sha256": "597d383072ab3e8083b596828a8cd1879b5b015179c7ce3c95be3722b6c3d2b3",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 9264,
+      "sha256": "d2be8bbec7819ba4f62b4d586969f7e5d226dfd82ee4a149d13198d5e82e95da",
+      "modified_utc": "2026-11-09T03:03:01+00:00"
     },
     {
       "path": "docs/governance/SOURCECODE_COMPLIANCE_GOVERNANCE.md",
@@ -38185,9 +38192,9 @@
     {
       "path": "docs/sharding/SHARDING_P6_SIGN_OFF.md",
       "category": "governance_and_docs",
-      "size": 7437,
-      "sha256": "9ea90b88fd84ec55c2c14152a0e919633b5b62fedd97bedc1a720de79dd86976",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 10546,
+      "sha256": "cd93a9ee1d9e907780dc8436808f174a38e143c995d9055d4a73e1d0b1b10e80",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "docs/sharding/shard_rpc_client_multinode.md",
@@ -38521,16 +38528,16 @@
     {
       "path": "docs/transaction/API.md",
       "category": "governance_and_docs",
-      "size": 80,
-      "sha256": "8cfe8b70cb578bcf09f561c7c6f9cddab89ab8356bc84cc6ce1239c9df5745f4",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 1417,
+      "sha256": "bf900096a0d784b16671fe5f231840524b255fcc9059092eb859a33c89d44353",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "docs/transaction/README.md",
       "category": "governance_and_docs",
-      "size": 83,
-      "sha256": "08e7c8373442269395b0ab0ebc8bb12181626ed575c97de60ac0dd976bd91a24",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 6064,
+      "sha256": "4fe864ebdb481efe96f2b6bfac492ac17724cf62b7cbd4fa73437fd7b82e8fcc",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "docs/transaction/ROADMAP.md",
@@ -39319,16 +39326,16 @@
     {
       "path": "include/acceleration/plugin_loader.h",
       "category": "modules_and_api",
-      "size": 4242,
-      "sha256": "531dcd441dc81ba438f362df55cb4c58b2bea2b7986d38b2ef452d789a709ab8",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 4874,
+      "sha256": "8d21c5b6d7d0baa28c25c16e6f65ebd6f3a079e8da038b09b10b08e706824a24",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/acceleration/plugin_security.h",
       "category": "modules_and_api",
-      "size": 15488,
-      "sha256": "30c7de877d53921460d2baa52f790a57a24e96c6f7b1e397ece766d55d9c8347",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 17921,
+      "sha256": "4d826abe959e5ef4c2addaa8aacc07fe25701116f380984c6e56264c8dc618b8",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/acceleration/quantized_backend.h",
@@ -39536,9 +39543,9 @@
     {
       "path": "include/analytics/cep_engine.h",
       "category": "modules_and_api",
-      "size": 37104,
-      "sha256": "508b2cc14741fbda1d3b252949f5f1b3b2915488768c2d3de7731d9dacd4b319",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 37106,
+      "sha256": "de9fac3c60e491c01237edfdcc0ed2320b2d0245615c1df41dc87d060f900da5",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/analytics/columnar_execution.h",
@@ -39977,9 +39984,9 @@
     {
       "path": "include/aql/aql_migration_assistant.h",
       "category": "modules_and_api",
-      "size": 4538,
-      "sha256": "b98bca9fcf39a8b212357c2785da57c966551038a0501601707c1d65b3814236",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 4540,
+      "sha256": "de081f32c9d7dd50de589eb4768eac6238c0cc935e363386f3317ae735a5197c",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/aql/aql_model_router.h",
@@ -40019,9 +40026,9 @@
     {
       "path": "include/aql/aql_query_validator.h",
       "category": "modules_and_api",
-      "size": 3593,
-      "sha256": "3e56a06b38eefa34315141cdc05ec010354500d6588a4b4052d6f91b19741057",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 3595,
+      "sha256": "332816b5b3d53ab4b9533c3c79943de21b5644042dc92294566725cfb101a60f",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/aql/aql_rollback_suggester.h",
@@ -40089,9 +40096,9 @@
     {
       "path": "include/aql/llm_aql_handler.h",
       "category": "modules_and_api",
-      "size": 18991,
-      "sha256": "6bef45f7d5de786d9105c7184e87c64aafae7af53561a0128112cd3dc1201bb1",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 18993,
+      "sha256": "1b15c0f1ab23a0dbd15a788db616264b013e5e9f73fe69377fecbd8aa3c5b4f2",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/aql/llm_error_codes.h",
@@ -40271,9 +40278,9 @@
     {
       "path": "include/auth/jwks_validator.h",
       "category": "modules_and_api",
-      "size": 4536,
-      "sha256": "086ced5738ce1e0c0091fd940b132470089f32ebbfe59e2b1563e591ec354e76",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 4538,
+      "sha256": "4f82bb4bdf57eba35d3c1baf94d52813a3efa0a2362562a91e12f4dc21a775df",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/auth/jwt_key_rotation_manager.h",
@@ -40698,16 +40705,16 @@
     {
       "path": "include/cdc/cdc_delivery_contract.h",
       "category": "modules_and_api",
-      "size": 9968,
-      "sha256": "a0ace5dc775f2131d6fee20120df248669ba86b1f2e946a3a4b39e6d9d204aa3",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 9970,
+      "sha256": "928b507a38309cfe73dc3c81e8e14fa4d3a4942a5eee51906d37c6fee29e60eb",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/cdc/cdc_error.h",
       "category": "modules_and_api",
-      "size": 14689,
-      "sha256": "1bf24896c44704c95c7a2e666d4aaf66eb0b6b384ad063a67df2652bb79d8339",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 14717,
+      "sha256": "3bcf6c8c8bef28da9609f2297c4078efb4a2917f0d0deb5ec064304eeb52aa3d",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/cdc/cdc_materialized_view.h",
@@ -40999,9 +41006,9 @@
     {
       "path": "include/config/config_migration_scanner_impl.h",
       "category": "modules_and_api",
-      "size": 12450,
-      "sha256": "fbb6513f9b4afd2067881d4679f07397e2cb580768c81dcae99cacf9e03c4e80",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 12456,
+      "sha256": "079e2a00f50bf47be1ade42c0ddb0a6c953772143c841320c9a22e5208a5ead7",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/config/config_path_resolver.h",
@@ -41013,9 +41020,9 @@
     {
       "path": "include/config/config_schema_validator.h",
       "category": "modules_and_api",
-      "size": 11247,
-      "sha256": "b2eec90e844251e14d44ae500c5f70062a5620968a376f7c84febca3c7754fe4",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 11249,
+      "sha256": "e9b9c6852874e539ed5fa123103f40348179727f6e15d7bb907635ba35e82527",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/config/lru_cache.h",
@@ -41391,9 +41398,9 @@
     {
       "path": "include/core/concerns/i_async_logger.h",
       "category": "modules_and_api",
-      "size": 5355,
-      "sha256": "f5174368a15841a5bcdca6852308bea9f301ebb9432f0852c1e8c0d4ca7f9a9d",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 5357,
+      "sha256": "c3d18bc2356ffa831432669d179f2cb1f9c276484a4550129843cd07aa304eef",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/core/concerns/i_audit_log.h",
@@ -41433,9 +41440,9 @@
     {
       "path": "include/core/concerns/i_logger.h",
       "category": "modules_and_api",
-      "size": 4691,
-      "sha256": "61f814dbdd800da8aa7276eb2dc93924d2db1b09149daaa4fbaa5b3559eebcfb",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 4697,
+      "sha256": "0e083610cbb5504686fad26f8c0c11557f3d9fd8fb5366bc62ec983613c68edf",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/core/concerns/i_metrics.h",
@@ -41538,9 +41545,9 @@
     {
       "path": "include/core/concerns/spdlog_logger_adapter.h",
       "category": "modules_and_api",
-      "size": 10656,
-      "sha256": "ea2164b3cf44bb980e43eac77f5e09f732c37dbcaf38868fe3c6686d915dcf63",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 10662,
+      "sha256": "afac09f66ced18be2486507940d1e71ce0ac419a08ad67ae545f75bf512f8603",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/core/concerns/strategic_cache_impl.h",
@@ -41580,9 +41587,9 @@
     {
       "path": "include/core/config_validator.h",
       "category": "modules_and_api",
-      "size": 10947,
-      "sha256": "1e182329da4566d7aa3e598ee35ec338cd5db9fa55703de8fd691fd415ee529c",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 10949,
+      "sha256": "453493a341d47e3a9d0dc8d2ec4b0b1c61ae012794f0790b613e77245a283808",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/core/health_probe.h",
@@ -41650,16 +41657,16 @@
     {
       "path": "include/distributed_knowledge/distributed_knowledge_api_contract.h",
       "category": "modules_and_api",
-      "size": 11761,
-      "sha256": "25411dfeab87f08f776a0876d023c95a59de03eefa1299f40a7bafc286e50ecc",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 11763,
+      "sha256": "d25c8822e2c6ad6ae572dc3d37ce586c8378ffdd4f00eb94d933d5c943da58e7",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/distributed_knowledge/dk_diagnostic_emitter.h",
       "category": "modules_and_api",
-      "size": 8894,
-      "sha256": "0f640274d8f76fbc7cd9fc62e7b5e246253a4a77fbea1c63862f902c824a53d7",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 8898,
+      "sha256": "0ba863e780845248c94c53e5f07b09329a8ad45cbf7cd945ed17b0d88ffefa77",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/distributed_knowledge/federated_distillation_coordinator.h",
@@ -42077,23 +42084,23 @@
     {
       "path": "include/failover/auto_failover_manager.h",
       "category": "modules_and_api",
-      "size": 20195,
-      "sha256": "24e88c3ce58c62ed01e4807044d402128f76e5c2c1de4b26fd7dfcba032bf533",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 22470,
+      "sha256": "b803c2b99e66e26a42f397c03c66ce247a2e29e886d5ec5e2293b1939b1f2e03",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/failover/disaster_recovery_manager.h",
       "category": "modules_and_api",
-      "size": 9101,
-      "sha256": "8829f73cd8be838df01dba140f5c17f1ffa74892e5caf06c4439d362e46295ad",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 11788,
+      "sha256": "0b7b4679dbda77fe0402e16d43b4c675e92c060a291d576b9ff634bd7604daa2",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/failover/failover_api_contract.h",
       "category": "modules_and_api",
-      "size": 9710,
-      "sha256": "0c43d1e5d6c874c92526d77d97861aa498e1d3dbc5493c9710d0105c421752fb",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 9893,
+      "sha256": "21dc83a1ffbe53db666c93aea36d61c81dfe395aabf146f76454c053f8ea6f47",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/failover/quorum_log.h",
@@ -42168,9 +42175,9 @@
     {
       "path": "include/geo/geo_operator_diagnostics.h",
       "category": "modules_and_api",
-      "size": 6261,
-      "sha256": "20e77cdbe0dfde3cb72c505737b66d3af515e8312ebfd48966fe701539e765e0",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 6269,
+      "sha256": "8741ced8966e5990d85dbac8da9319f8f5060a5c8aa4d85cd7415b030c361189",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/geo/geo_ops_ext.h",
@@ -42812,9 +42819,9 @@
     {
       "path": "include/importers/audit_trail.h",
       "category": "modules_and_api",
-      "size": 7252,
-      "sha256": "36d583bdd82a7715314c71c9afe9b63d5374b4c4ef0de29f1fe74e0c582254cd",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 7254,
+      "sha256": "757c835e2a1de331f041f839547884a19d3b93a1fd612c7c4498eb55295f48a5",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/importers/blockchain_integrity.h",
@@ -42868,9 +42875,9 @@
     {
       "path": "include/importers/diagnostics.h",
       "category": "modules_and_api",
-      "size": 5321,
-      "sha256": "6fcf7a65b241a7e855d11e1c072efe386a7a0e7c0df8fd8061e679068122a1db",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 5323,
+      "sha256": "e7a834d3e589de4ed7c767df8b0de45b42b135a50b53065ec3b35c139a2818ee",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/importers/elasticsearch_importer.h",
@@ -42938,16 +42945,16 @@
     {
       "path": "include/importers/importer_interface.h",
       "category": "modules_and_api",
-      "size": 25350,
-      "sha256": "b6d9c9921cd63fc48ca8037775550ff66637de641bc61609fd3bc331eb8d4412",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 25364,
+      "sha256": "67feb349d748ee2d60f75e8d455898e438a5def1012e9f54028c1328f97ac6b7",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/importers/importer_interfaces.h",
       "category": "modules_and_api",
-      "size": 12958,
-      "sha256": "c775c2af522ed3a116d5d22c6446c1e3870fd53a80a3a5de00ac8b68c2057316",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 12960,
+      "sha256": "30a52bc39ed9e0dbf9a50bf1b63209e0766c6283993ec73077f3ae043be124d1",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/importers/importer_plugin.h",
@@ -43085,9 +43092,9 @@
     {
       "path": "include/importers/schema_validator.h",
       "category": "modules_and_api",
-      "size": 8999,
-      "sha256": "18cf2908da8d084c3bb8eeb198ea12eb0372941ffa6b5f9193b25052ec97239e",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 9001,
+      "sha256": "9447ed4db3781d9a9d8e138f6f2a8c23d0ee99d28201079af5e04f02ebd59e70",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/importers/sqlite_importer.h",
@@ -43400,9 +43407,9 @@
     {
       "path": "include/index/process_graph.h",
       "category": "modules_and_api",
-      "size": 32710,
-      "sha256": "83f8fb724899c36f9e0382b6268d891fd887625d44e7c5c0ecf7bad0e212ef08",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 32712,
+      "sha256": "d9ec82bc60ab27169d905d3b5fdac5aef277da9a862577e8d1a04faee2519c9a",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/index/product_quantizer.h",
@@ -43666,9 +43673,9 @@
     {
       "path": "include/ingestion/ingestion_manager.h",
       "category": "modules_and_api",
-      "size": 80983,
-      "sha256": "c75bcdc19e25423a25d76386dd3a8dbd3fa9d4ecfaba8466cfba4e5b7ab443f2",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 80993,
+      "sha256": "ee26a099dc55f2d53e94fc10a65043a576a628c62ddc72d01e89d19c39ea1dea",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/ingestion/ingestion_quality_judge.h",
@@ -44168,6 +44175,13 @@
       "modified_utc": "2026-11-01T06:39:20+00:00"
     },
     {
+      "path": "include/llm/inference_input_limits.h",
+      "category": "modules_and_api",
+      "size": 4940,
+      "sha256": "3961194885e66e1ecddbaf9b347b1890be29773bf9c12f95a651d1b2daee8a2b",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
+    },
+    {
       "path": "include/llm/infini_attention_cpu.h",
       "category": "modules_and_api",
       "size": 9880,
@@ -44233,9 +44247,9 @@
     {
       "path": "include/llm/llama_wrapper.h",
       "category": "modules_and_api",
-      "size": 26307,
-      "sha256": "87db416b0af06eeab2fd353ffccd1458c5d2c4699bca7e68874424a9ca097d4b",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 26313,
+      "sha256": "800317340a7913a49347e31e2a3a00e2e0fb72e6db7c05efeb22957b3ad7c98c",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/llm/llamacpp_inference_engine.h",
@@ -44254,9 +44268,9 @@
     {
       "path": "include/llm/llm_api_contract.h",
       "category": "modules_and_api",
-      "size": 11121,
-      "sha256": "db18ce90c86ceebb49bd69c47db9e8ed55fe4d36e0a2096b037a0ee6e345f9b7",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 12013,
+      "sha256": "879d15a7db0bac14225fa09769cdbe7fe8e548e1f1f93323a8de4f2dbb4d8c0e",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/llm/llm_client.h",
@@ -44317,16 +44331,16 @@
     {
       "path": "include/llm/llm_plugin_interface.h",
       "category": "modules_and_api",
-      "size": 21456,
-      "sha256": "26898bc973e01d92a5e44f19d98398706245d904bc312a07cb6e1272024fb8f4",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 21614,
+      "sha256": "77610243cc528f31b8336827544fac540aa43573fb43fa4882f4c0bd342903fd",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/llm/llm_plugin_manager.h",
       "category": "modules_and_api",
-      "size": 12828,
-      "sha256": "bbc2b4cff84d9d850f11121544dcae3f1f1504e191b66253acd72312019c7c49",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 13719,
+      "sha256": "e1012dad2463e4e2b2be3e0323be39b8a636c56f0a059a84983505d68ca4feaa",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/llm/llm_prefix_cache.h",
@@ -45169,13 +45183,6 @@
       "modified_utc": "2026-11-01T06:39:20+00:00"
     },
     {
-      "path": "include/llm/ssm_stub_plugin.h",
-      "category": "modules_and_api",
-      "size": 6005,
-      "sha256": "3a1e51477d3a6e77ebb250678fc6b5b0e02d6d7195a8f1db061bffb5f719f0d7",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
-    },
-    {
       "path": "include/llm/streaming_handler.h",
       "category": "modules_and_api",
       "size": 1229,
@@ -45185,16 +45192,16 @@
     {
       "path": "include/llm/subagent.h",
       "category": "modules_and_api",
-      "size": 5468,
-      "sha256": "be217e6378d9e7b826eaac35ba02af9175fc14c12684ace764dfabed02110338",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 5470,
+      "sha256": "46a9968d2824a78d24952b1b7c8d5507b54e4bde4c15557089545bf3d265d180",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/llm/subagent_config.h",
       "category": "modules_and_api",
-      "size": 6006,
-      "sha256": "214ee391f7c871573dae65f110f36d515575e6445d71492485e0a10ef49f30b8",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 6012,
+      "sha256": "2e7a00c43693f9daba732c44eefbd649dbd0e622a8932284e4a757b9999fe8e2",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/llm/subagent_coordinator.h",
@@ -45521,9 +45528,9 @@
     {
       "path": "include/metadata/statistics_collector.h",
       "category": "modules_and_api",
-      "size": 16085,
-      "sha256": "da835e7b2814a122e22bf84a1fb15bf6769175fdbb5b3f2dd32b23f8c07213ef",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 16177,
+      "sha256": "8b19cf37f061ee0fc4df32e0e34c0ac7ed3c384dbbceded8a887f7846d1dbab6",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/network/adaptive_circuit_breaker.h",
@@ -45605,9 +45612,9 @@
     {
       "path": "include/network/network_audit_log.h",
       "category": "modules_and_api",
-      "size": 10133,
-      "sha256": "6b828b5f10595377cc26330c1c916c3ce65e48cb4cbf86e3c234169dba1b6403",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 10460,
+      "sha256": "e619a63e80044846495056f2cbedcefaa78836c15857a5d556c5d0ddc40bdf35",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/network/network_observability.h",
@@ -45661,16 +45668,16 @@
     {
       "path": "include/network/udp_fast_path.h",
       "category": "modules_and_api",
-      "size": 9591,
-      "sha256": "321afcd31c91a6cf858cb5eb61bf42875f2994e5d91e6f16da9bb4db92a83c51",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 9601,
+      "sha256": "ceb7a43ab382b28509fc2c159006e1031dcebbad1435992c5875533fb0ed05cf",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/network/udp_server.h",
       "category": "modules_and_api",
-      "size": 13560,
-      "sha256": "ac2b8a875db23a2486bd9d3e96aa42ddd16bf24ed037cb62a077aa6b545ed2b2",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 13568,
+      "sha256": "7d96db1acb317bd713815cc19e7ee5223f94fb2e5005becc3b0846a4af817de3",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/network/wire_bootstrap_validation.h",
@@ -45759,16 +45766,16 @@
     {
       "path": "include/observability/alerting_engine.h",
       "category": "modules_and_api",
-      "size": 11593,
-      "sha256": "730173b1eb1727ce0e8ba49299bd07a0320b53ba601039cedbbbec4cea4b337f",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 11597,
+      "sha256": "d752adfa1bd7ba8825b2bfba98397517d9d52cd0350cf712148afcb1c79353b3",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/observability/alertmanager.h",
       "category": "modules_and_api",
-      "size": 12583,
-      "sha256": "873a80fda344dccc4c239157dc5b116099eeb8e317fafa9cf6dc758fb678748c",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 12589,
+      "sha256": "01a2f7a79e219be35206d707c97f410e68656f8d73ef8223b37d4300e8b1d568",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/observability/continuous_profiler.h",
@@ -45815,9 +45822,9 @@
     {
       "path": "include/observability/field_diagnostics_collector.h",
       "category": "modules_and_api",
-      "size": 7699,
-      "sha256": "813430cb50ed92ae38875f0061fce2c5aca767ce5f9a9926841e05147e657031",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 7701,
+      "sha256": "7462f5f235c6dbe10b9c83553c08a4b5f5a5726ca229fecbd1056af7cbec7321",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/observability/high_cardinality_metrics.h",
@@ -45892,9 +45899,9 @@
     {
       "path": "include/observability/opentelemetry_tracer.h",
       "category": "modules_and_api",
-      "size": 12512,
-      "sha256": "95d9a77e47cdbb20abbe3bfb790dca19a638449e993f6d45c41bed96a018574b",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 12514,
+      "sha256": "251ae222901a6bf42882eaa237144ee9e23a8a9fb491241d4c41811abeadd1a8",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/observability/operator_remediation_engine.h",
@@ -46025,9 +46032,9 @@
     {
       "path": "include/performance/alignment_helpers.h",
       "category": "modules_and_api",
-      "size": 6025,
-      "sha256": "364d7a10e5fef166038e95db0776c5d0f829a51aec617625b027b51d4b85ca82",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 6027,
+      "sha256": "87f8357ef97ba875aacef42a1702bdf2affc9abbd55aebaf330861b931760b4e",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/performance/allocator.h",
@@ -46116,9 +46123,9 @@
     {
       "path": "include/performance/lirs_cache.h",
       "category": "modules_and_api",
-      "size": 10802,
-      "sha256": "78e15f6b93c9302ef1670a907dd3e74369597eeaaef8ce8d79a1519a507c6327",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 12007,
+      "sha256": "1358995f5f6b837a2d59f5ccc2e5c9d6f98ca1af6bee6e35384d48e26fc1ef91",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/performance/lockfree_histogram.h",
@@ -46410,9 +46417,9 @@
     {
       "path": "include/plugins/plugin_manager.h",
       "category": "modules_and_api",
-      "size": 28220,
-      "sha256": "63159712d70ec5f8836b9c59e557952066b154ed8d38cb38e6688f119230d520",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 29144,
+      "sha256": "7a4b5a025744da807ba37b2d6542bf88b06df35c1f65d4304fa9d1c1aae5882e",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/plugins/plugin_metrics.h",
@@ -46536,9 +46543,9 @@
     {
       "path": "include/process/federated_span_contract.h",
       "category": "modules_and_api",
-      "size": 20060,
-      "sha256": "bd7f45dd2a4bc029c3d87b6cd86471850819607e2472e894a62cf0360461e017",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 20062,
+      "sha256": "0c00a7ba820300ab4ed55f6e38d2f2f82a5cba63e0567a95b11b845300f245d9",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/process/federation_consensus_manager.h",
@@ -47677,16 +47684,16 @@
     {
       "path": "include/query/query_optimizer.h",
       "category": "modules_and_api",
-      "size": 17334,
-      "sha256": "8c34ac14da6d4830e3bd442bcc80d55fe2f8ad8ead320918d56403df52a7de45",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 17378,
+      "sha256": "bca7a7353dcfe2dcc9b9544cab74c6a03cd21ca4e0de5cc0c567fccfb74e684c",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/query/query_plan_visualizer.h",
       "category": "modules_and_api",
-      "size": 5529,
-      "sha256": "7c7e7fe1925a5e93cdc0c3f310aeab5cac119f0727b4b53f7c607be4fdeadb11",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 5578,
+      "sha256": "4b3786d7540f883ab6a4a0985a1eaaf6a4927f6f498f641f63abc3ab31e03a91",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/query/query_profiler.h",
@@ -47803,9 +47810,9 @@
     {
       "path": "include/query/vectorized_execution.h",
       "category": "modules_and_api",
-      "size": 11314,
-      "sha256": "63e1ad47c33a9e0b09ede6cb7cd3bb0548157befb7c69ef260a581ccaff1c46e",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 13397,
+      "sha256": "5b41e66898ce0c5d647a66d54301a6ab5f8edd4f052d58253c54ef231db924bc",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/query/window_evaluator.h",
@@ -49791,9 +49798,9 @@
     {
       "path": "include/server/http_server.h",
       "category": "modules_and_api",
-      "size": 76524,
-      "sha256": "1d24b5fb6eb13ad807342b39464dbfb89d2de34e5bbd1ddd9c396843c667886a",
-      "modified_utc": "2026-11-02T03:02:54+00:00"
+      "size": 76676,
+      "sha256": "b4f03d9f6c61461f34149164d2655603f5ad4b7cf2f5dc8f42605588d8491678",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/server/http_shutdown_manager.h",
@@ -49896,9 +49903,9 @@
     {
       "path": "include/server/monitoring_api_handler.h",
       "category": "modules_and_api",
-      "size": 9913,
-      "sha256": "25f9a8dc1299f05382e20cc4524c19b69c8fa982286287c6aefcf1c6e34685e2",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 10473,
+      "sha256": "2b2df4927feb8b910f9236f3d14d72df484fcad783f2fa1d53640b0f947ebe36",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/server/mqtt_client_service.h",
@@ -50421,9 +50428,9 @@
     {
       "path": "include/sharding/backpressure_protocol.h",
       "category": "modules_and_api",
-      "size": 24096,
-      "sha256": "49bed1601a9e3d076bf38f2b54c3d02511e5c6a7a58e3423ad09f5e8473fb09b",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 24102,
+      "sha256": "06f46dbb74396246e28e3876c7702e0d44f969e910328c2e07985f1bed157e2f",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/sharding/capability_matcher.h",
@@ -50519,9 +50526,9 @@
     {
       "path": "include/sharding/cross_shard_transaction.h",
       "category": "modules_and_api",
-      "size": 37812,
-      "sha256": "c5156a61a241cc13e2773bb8fee9f2983d9c6c74d6024847f5e3f0d781dc1816",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 39270,
+      "sha256": "82be770dd07d7098ca90642d76f8abafebd66d277771acb92719cba8c0a17ed6",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/sharding/data_migrator.h",
@@ -50529,6 +50536,13 @@
       "size": 12590,
       "sha256": "01bc24d0c7dd40b3a064f0db3d5881fd074f8aef70cc01d7da0de02aae32cb5d",
       "modified_utc": "2026-11-01T06:39:20+00:00"
+    },
+    {
+      "path": "include/sharding/detail/two_phase_commit_contract.h",
+      "category": "modules_and_api",
+      "size": 3098,
+      "sha256": "5f7a778b49b9f03e63ded89ac68925ee6e67bf71c6fa11faf82a01cfed03e577",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/sharding/distributed_coordinator.h",
@@ -50547,9 +50561,9 @@
     {
       "path": "include/sharding/distributed_transaction.h",
       "category": "modules_and_api",
-      "size": 17139,
-      "sha256": "79dac839b9ac0d2d975fb7bc2b5db0b245b1474fab382e0986667a878ed5404e",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 18148,
+      "sha256": "65432e3c72e100ef2ee6e8f99a35186b402e024db3a7328d7d383ba6f72edf3f",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/sharding/dual_consensus_orchestrator.h",
@@ -50561,9 +50575,9 @@
     {
       "path": "include/sharding/epoch_fencing.h",
       "category": "modules_and_api",
-      "size": 24910,
-      "sha256": "ac31053d6ca62519455d5d53295c364ecd944a22dd7badeeddb19c9798519ad5",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 26533,
+      "sha256": "0738ae918f203468485e95139a33635ae8d0b2b6481da9f11198ad84e0b5482b",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/sharding/global_secondary_index.h",
@@ -50813,9 +50827,9 @@
     {
       "path": "include/sharding/raft_log.h",
       "category": "modules_and_api",
-      "size": 14398,
-      "sha256": "6590347f92caebb5419cc7ad4c332bcefe5962a99cc0834364b8945f1b8015a1",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 16485,
+      "sha256": "95c30fa3474fcdcfd580019dad0a592277dd89cb50d4b7a0de5f5759c0a3dea1",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/sharding/raft_shard_manager.h",
@@ -50827,9 +50841,9 @@
     {
       "path": "include/sharding/raft_state.h",
       "category": "modules_and_api",
-      "size": 9291,
-      "sha256": "a22abe65e408c891b7e99faa606efe4115260a2988218fc931c7b1c0a2420495",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 9531,
+      "sha256": "a4748b79ba58437dc539ace5f351026a30b0866e6da541203b4c70efd86afc24",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/sharding/raft_wal_integration.h",
@@ -50967,23 +50981,23 @@
     {
       "path": "include/sharding/shard_rpc_client.h",
       "category": "modules_and_api",
-      "size": 11685,
-      "sha256": "cbe8dfe60b73854a39086e7efddc3087dab0c36bad7bb92b658d7abf55e2111b",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 12314,
+      "sha256": "12495777b329417e1a406f4187a9ac34387ded320d9ff623abb0f91b6b2bc480",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/sharding/shard_rpc_client_adapter.h",
       "category": "modules_and_api",
-      "size": 4889,
-      "sha256": "83c7fa2e7d6a95725bdec6d3e0be11e6fc0bc85b086d75cb4a629284c523d553",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 6857,
+      "sha256": "fd5e99d8fbe62de63562c001a542335bdc4611b758f18932cbd1fd99d0958de7",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/sharding/shard_rpc_server.h",
       "category": "modules_and_api",
-      "size": 5698,
-      "sha256": "6ca590a6f703cfe12e0d5635fb164ccc95265d98b169da4f3b3e2191fd2066e1",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 7113,
+      "sha256": "648a8c25172e08f0adb9447ca2e491e99bcaef61cb9f231c905a62e0ef86c444",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/sharding/shard_topology.h",
@@ -51044,9 +51058,9 @@
     {
       "path": "include/sharding/stream_protocol.h",
       "category": "modules_and_api",
-      "size": 24724,
-      "sha256": "64ccade66e9f21802ea6b453aa0d4272df9e37c36deb182bb76577e9a2e001f7",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 25867,
+      "sha256": "f175f381f806160658870b554a9cdeb3e12ee2f1b4b6a02935affb856760e17e",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/sharding/transaction_snapshot.h",
@@ -51072,16 +51086,16 @@
     {
       "path": "include/sharding/two_phase_commit_coordinator.h",
       "category": "modules_and_api",
-      "size": 14363,
-      "sha256": "cf01e4fa624fb7217ca2abd1d4c7d6396c6f8ad2fa58c941fcc233b3922e80ef",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 16027,
+      "sha256": "36266ba665cacc77eee036e98333cd076f7d3b9deb9623bbf93fb97eb84913d1",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/sharding/two_phase_commit_participant.h",
       "category": "modules_and_api",
-      "size": 11171,
-      "sha256": "2e11f249b9ed8ca3ae2ed4a184b82d7d9f6ede753c8e39ada79cd44312752702",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 12379,
+      "sha256": "9cd514e2e07cf36cecd5a390647d7c8645de46119e80471cf5659255652ea8f9",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/sharding/urn.h",
@@ -51107,16 +51121,16 @@
     {
       "path": "include/sharding/wal_logging_helper.h",
       "category": "modules_and_api",
-      "size": 5330,
-      "sha256": "0344b1039919b8637d3a431670101af3fdbce296c19f1c9d9f52d32bed6e8de9",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 5677,
+      "sha256": "fee07b7743f939f943609cc150a030df3e1b54e782b241c8e0b56c2097a7f72a",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/sharding/wal_manager.h",
       "category": "modules_and_api",
-      "size": 9011,
-      "sha256": "ba9e12b612f9b00924d44e582099b837dfbf136ed38d497b2c9a3adcb5043d10",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 9894,
+      "sha256": "dc7c3c70be2a6b08f712083c949fc94479a9af262bb6a848aff08acde8d290ab",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/sharding/wal_shipper.h",
@@ -51457,9 +51471,9 @@
     {
       "path": "include/storage/rocksdb_wrapper.h",
       "category": "modules_and_api",
-      "size": 36398,
-      "sha256": "255f049ea9f944c2ee105fd6019769b4b344ebeb5e5af2410a3928a780c7dac8",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 36806,
+      "sha256": "5196f060095a4df0c6e24e2b1615ec459406565338575284bb6d951a992a62dd",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/storage/schema_dead_weight_detector.h",
@@ -51555,9 +51569,9 @@
     {
       "path": "include/storage/streaming_ingest_manager.h",
       "category": "modules_and_api",
-      "size": 7697,
-      "sha256": "32180a91b7e0cd30da4f885143cc57251f083a3cebcbcf550e90d88ca1a4717c",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 8175,
+      "sha256": "83c4a222bcb10f998955fb3f3db5f690858e953678057f33a9665ef9a4b85a65",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/storage/tensor_compaction_filter.h",
@@ -51618,9 +51632,9 @@
     {
       "path": "include/storage/wal_storage.h",
       "category": "modules_and_api",
-      "size": 12033,
-      "sha256": "fa617e8af1430bceb2f243626ec25c3b00882d4b725ab808f5426069f07b8df2",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 13531,
+      "sha256": "60f73917031fa6ef68d35372669202c2d46efda8a98bbbc5e87acf3f1f255f62",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/storage/wom_tree.h",
@@ -51807,9 +51821,9 @@
     {
       "path": "include/tensor/ht_train.h",
       "category": "modules_and_api",
-      "size": 10503,
-      "sha256": "a92a5c960cf710eaf6c58d5359591c06ab9fc75bda559eadb32fb9ff3b3f9027",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 11170,
+      "sha256": "fff7f13064f0c1426948f8d7b98fefba701e6a2b333c1bde2a68ce6879f30e16",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/tensor/hyper_index_builder.h",
@@ -51954,9 +51968,9 @@
     {
       "path": "include/tensor/utr_converter.h",
       "category": "modules_and_api",
-      "size": 12925,
-      "sha256": "af1842330e7c77e3dc1120afcb927b13ea3d453a6d8cb0a04a7cf0ed4f31003f",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 13701,
+      "sha256": "4113823d9114dddb3433937351fe48c2e3a896361b426371dc60e00b9d27e82c",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/themis/base/ab_test_manager.h",
@@ -52416,9 +52430,9 @@
     {
       "path": "include/themis/network/wire_protocol_server.hpp",
       "category": "modules_and_api",
-      "size": 24883,
-      "sha256": "1d19ae26073de20da759f670c78eaba17de1ab0d980ae3c3e7038852fb6c4792",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 24887,
+      "sha256": "cfee8442d83ae9eaa0691e3ce2902b85a4c3712e7b0d9d683ee4f8c5b4d7011e",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/themis/network/wire_protocol_v2.hpp",
@@ -52633,9 +52647,9 @@
     {
       "path": "include/timeseries/timeseries_incident_taxonomy.h",
       "category": "modules_and_api",
-      "size": 22853,
-      "sha256": "959a8bbffeeb5effcb6df346d372f501a79ebc74e912a8b187ea55ecefb30521",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 22879,
+      "sha256": "80d83d3ce7c394753df632849399b05f063fbc8c289c5fd71dfe224696a046a7",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/timeseries/timeseries_metrics.h",
@@ -52675,9 +52689,9 @@
     {
       "path": "include/timeseries/ts_operator_diagnostics.h",
       "category": "modules_and_api",
-      "size": 7971,
-      "sha256": "1e253181f7513ef4fb5079453be300cc092f88997a4f95e838c722c54df017d3",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 7979,
+      "sha256": "42bafe6afa5da6dd603586776ea33371edc7e04ca66ecf61cffa3ce04fa9a5dd",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/timeseries/ts_stream_cursor.h",
@@ -52969,16 +52983,16 @@
     {
       "path": "include/transaction/distributed_transaction_manager.h",
       "category": "modules_and_api",
-      "size": 21872,
-      "sha256": "7ac04fd41c10b2b7156d66731928e8c8b00454a5bd4c179b19b5fc77c24eb12a",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 23988,
+      "sha256": "1ce4d861ed26f0749590ab260e27d668851a5acca60685f88246f63e82e1ee4b",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/transaction/global_transaction_manager.h",
       "category": "modules_and_api",
-      "size": 11054,
-      "sha256": "e7fe5e8f9774767465e22f9c88e510b6a8c9915cfa4a2441d30727b954b535fa",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 11465,
+      "sha256": "6cf1d63dc57dca01ff3c8e717070d47abdd3c08103e21284ab4fb11a77e29091",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/transaction/grpc_rpc_adapter.h",
@@ -53018,9 +53032,9 @@
     {
       "path": "include/transaction/recoverable_two_phase_coordinator.h",
       "category": "modules_and_api",
-      "size": 10505,
-      "sha256": "6917b68ce73c3ff1f13a2c5bc10f150f3315328b2c74bc26546b777e93147170",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 11868,
+      "sha256": "a5191258046a28fb410aaf203e79de0bc3b5ec12992e8158b9532d519c8cd6e9",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/transaction/saga.h",
@@ -53088,9 +53102,9 @@
     {
       "path": "include/transaction/two_phase_commit_wal_recovery.h",
       "category": "modules_and_api",
-      "size": 7956,
-      "sha256": "79932465ae0d42db38961568c7145d8c139731d9798f8ae42c6e3ac09698d037",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 9055,
+      "sha256": "407b47fdc585d17d7b809fe10c6a58e0b6e00dc672b418d7caee2f075bb67903",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/updates/batch5_safety_helpers.h",
@@ -53235,9 +53249,9 @@
     {
       "path": "include/updates/update_state_machine.h",
       "category": "modules_and_api",
-      "size": 18411,
-      "sha256": "45c5eb7368972c089868b070e65f88f664e2956b363860b8cf0fd62c2671b123",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 18417,
+      "sha256": "5eff299d906dc15af07f08695174eaca326e8c30b8fa6bc63546c5567e89a5d4",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/updates/updates_api_contract.h",
@@ -53256,16 +53270,16 @@
     {
       "path": "include/updates/updates_diagnostic_emitter.h",
       "category": "modules_and_api",
-      "size": 7472,
-      "sha256": "222ab154635d469609649af25e5f397706828d8fe7f43e92fd5f6d2c905a308d",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 7478,
+      "sha256": "05b6722ffa64c9c38b4cff652fcfadc7dab67758ea730cd3f1808273d8cd0452",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/updates/updates_diagnostics.h",
       "category": "modules_and_api",
-      "size": 17795,
-      "sha256": "15d366e973ff1ba21178212212ab1102590b21a18c0c491872e01553608ebab3",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 17809,
+      "sha256": "6ba78e1682d2020c63ffb6cdfaa3b933f91ed90976976a63b81b56108ee30077",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/updates/updates_edge_case_handler.h",
@@ -53277,9 +53291,9 @@
     {
       "path": "include/updates/updates_operator_diagnostics.h",
       "category": "modules_and_api",
-      "size": 12271,
-      "sha256": "0a7817ae58673da2a49d031155a35b811f153350b7b55064c47e4ed92bb79ac2",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 12273,
+      "sha256": "4180ed726ea0a8eac0975aeb56648fce72757057dce1620df8d4dc2451db70dd",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/user_storage_encrypted/command_timeout_manager.hpp",
@@ -53375,9 +53389,9 @@
     {
       "path": "include/utils/audit_logger.h",
       "category": "modules_and_api",
-      "size": 26224,
-      "sha256": "22ebc7eaf44f67fd89f8260c90e4d0c87f4823e86dfd644474c64daf2835e6c3",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 26274,
+      "sha256": "2b767f0ad712578561f048d8cff93e0d1cb527ce7ebf5aebe08f86a2c2f21dfb",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/utils/batch_operation_manager.h",
@@ -53466,9 +53480,9 @@
     {
       "path": "include/utils/error_registry.h",
       "category": "modules_and_api",
-      "size": 25034,
-      "sha256": "396bb7c11f35231985d0376babfab2da7cc5cb5c917169c6845e0d3cc8bbf329",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 25139,
+      "sha256": "63a0a9f93a3a70df241c8b89409f25f731468f03391845100f25ebe9fab045fb",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/utils/expected.h",
@@ -53480,9 +53494,9 @@
     {
       "path": "include/utils/field_diagnostics_schema.h",
       "category": "modules_and_api",
-      "size": 15658,
-      "sha256": "efe9800aea661a0fa5b7a3fd05e642ba2b6188c4379427c3efe625df8c92b7eb",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 15670,
+      "sha256": "475408eee638c9ad19429f1c9efd2b572b74e87a0e8e9c78ec32a60d97e1f936",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/utils/file_utils.h",
@@ -53578,9 +53592,9 @@
     {
       "path": "include/utils/logger.h",
       "category": "modules_and_api",
-      "size": 9524,
-      "sha256": "edad4e4aed636c6d20178a9e5219d9984b4c39f91e350dbcd355cf4e8cfb3d2f",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 9530,
+      "sha256": "ee0ed737f2ea19f96d3d881336878227cc7e42685f1f0fad117ab3098430461e",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/utils/logger_impl.h",
@@ -53977,9 +53991,9 @@
     {
       "path": "include/voice/voice_browser_streaming.h",
       "category": "modules_and_api",
-      "size": 14984,
-      "sha256": "4e888fb378f709a426c15e003334a654b76eef713b2ba6d9e5d7ca94d95bd4d9",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 14988,
+      "sha256": "3af02ded5da5624c54bd353b205fc31bdbb1f0b2e134c94fac9a6a942aeace92",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/voice/voice_error_handler.h",
@@ -54054,9 +54068,9 @@
     {
       "path": "include/voice/voice_telephony.h",
       "category": "modules_and_api",
-      "size": 27461,
-      "sha256": "705decdeb35871d24349069884ca598e72d6ce51fdd51943b39b9fe1f79b0511",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 27463,
+      "sha256": "24d1bace7d8761e141b0687e0335c34092f0a506fb4100675b364eb8f8a3f4b5",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "include/voice/voice_tts_customizer.h",
@@ -54250,9 +54264,9 @@
     {
       "path": "scripts/compendium-drift-scan.py",
       "category": "build_test_ci",
-      "size": 20502,
-      "sha256": "376ff660706bd3b26b73c8d3cbd0745553e14ee269134157b407a8ff7e214088",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 20868,
+      "sha256": "1d70e812daa7f6b0ac278afd3756b69b26de9277ec460a085f832a1fa19f0465",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "scripts/compute_model_fingerprint.py",
@@ -54605,6 +54619,13 @@
       "modified_utc": "2026-11-01T06:39:20+00:00"
     },
     {
+      "path": "scripts/prepare-windows-dependencies.py",
+      "category": "build_test_ci",
+      "size": 4167,
+      "sha256": "1ae7a862756e3eb001ed18491113174c0a94a9bee64c876c6d36cd7ba6df2d83",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
+    },
+    {
       "path": "scripts/prepare_doc_file_issues.py",
       "category": "build_test_ci",
       "size": 8023,
@@ -54915,16 +54936,16 @@
     {
       "path": "src/access_model/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 12782,
-      "sha256": "e1e496ed6b34b66a349bd2324dcdd348f19e1c93a6e7d5b9feedecd11e3b817f",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 26244,
+      "sha256": "54eca6dd098ac3280ccd1000a71a1acc47e4a1348cb0fa36c26c492f0b577777",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/ai/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 13594,
-      "sha256": "e8d4fccdf9e3632613496d64ec51f321a596da1271e27c86565e6db3491155a1",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 15335,
+      "sha256": "b024faa906a16d257f014eaa7e4fd329812f5c98ed745efc6b36cec31bec114b",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/ai/README.md",
@@ -54936,16 +54957,16 @@
     {
       "path": "src/ai/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 20955,
-      "sha256": "d852bc5eab7c0209eb64f5194c54d1549a20077bb50108b4019c8cb77e36057e",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 31170,
+      "sha256": "9185e8ef4cabcb3717fbe96fa24796a14a5d3c9220ff3a08f9b7ecae5f40654f",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/ai_working/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 2927,
-      "sha256": "3a4eab0206568f6c4aa60377e604f2a7e129e8eaa73eab0faf93e59e09619835",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 5493,
+      "sha256": "eb7f637baf4a2013ac7fe112b5fbdd24dc7d9f6d4286089abeee8064683afbb0",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/ai_working/README.md",
@@ -54957,9 +54978,9 @@
     {
       "path": "src/ai_working/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 3889,
-      "sha256": "ccd280706ada9f1f22702785e9595a1f1b4632d9fbf3b5e942d156d86acae2bf",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 14846,
+      "sha256": "3d1026d050b5ded0eb657a61596b848749a8fb5914a6eee0abd13e315dd34133",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/analytics/FUTURE_ENHANCEMENTS.md",
@@ -54978,9 +54999,9 @@
     {
       "path": "src/analytics/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 22607,
-      "sha256": "53b0ba9f8d311f80b37789021baea09d2ba1c08fe5ff82aa633a8c1f77fdb09f",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 46517,
+      "sha256": "76f78b0c59a8543a84b094e1b11ed0e76e7c64a2e44c02983dcc279222a44781",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/api/FUTURE_ENHANCEMENTS.md",
@@ -54999,16 +55020,16 @@
     {
       "path": "src/api/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 10666,
-      "sha256": "6a77cb47a179cf31f77f20f34b305ac1628f9f3771aefb0cab3d8e87d70324e1",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 28096,
+      "sha256": "c7fffaf0cc92a05fd2737bd638bdfd63d46f756d29ace1e5554d59d71a57eb45",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/aql/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 8533,
-      "sha256": "e247fe20fb0bfde707a25bac7eea2b1a4d04eff391aa563bdb9191bba4142a86",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 10864,
+      "sha256": "895c3a403bd48bcdf92bd2c9cebf35eb5f1a49169be7e0cb00e35dc7b0296fbd",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/aql/README.md",
@@ -55020,9 +55041,9 @@
     {
       "path": "src/aql/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 23975,
-      "sha256": "5bc5a729a54ca98606e05f81b0712224e83f0429503a2a5a84192aecb530edae",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 43135,
+      "sha256": "6b5eaf8f125c553cbc19291b3db44e82e6569a3c0c3ed9fbeb6fe4c45435e4a7",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/auth/FUTURE_ENHANCEMENTS.md",
@@ -55041,9 +55062,9 @@
     {
       "path": "src/auth/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 25756,
-      "sha256": "38c94432105b8eed584512cabe6c021c0ec6f47323e571dcefe4eada6493c2df",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 42848,
+      "sha256": "8f0d83407c64aca8218965ded3a94273b47bfd5d50582f008355246dab5b1425",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/base/FUTURE_ENHANCEMENTS.md",
@@ -55062,9 +55083,9 @@
     {
       "path": "src/base/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 11573,
-      "sha256": "a6fbe088b50a0c7aa5280ec2bbc67e33b25850e0dae0c5a6122009c469e49d6b",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 28916,
+      "sha256": "8bda7bd7b42ad04889dace883626a9232fc2c4a6604f2fe125d3f3a974ee9e03",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/cache/FUTURE_ENHANCEMENTS.md",
@@ -55083,9 +55104,9 @@
     {
       "path": "src/cache/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 24960,
-      "sha256": "8ac9688be79109c7cde29bdbbac8d58e28aad1e1594020159ee9a7c8d1d9ed8f",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 37894,
+      "sha256": "e73b6ef68c14be05dcc40b46c62d5cbc6ad7fdccc335dbe777e4456177f2bc88",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/cdc/FUTURE_ENHANCEMENTS.md",
@@ -55104,9 +55125,9 @@
     {
       "path": "src/cdc/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 12507,
-      "sha256": "7ffc84d9633857dd1564dae91ee0fbf00e3d993da4c0656616760d3b423a71b7",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 26126,
+      "sha256": "658c93b43456391fb323f4b329af0691c4128821e37bb2a3a95b7d66a819bb44",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/chaos/FUTURE_ENHANCEMENTS.md",
@@ -55125,9 +55146,9 @@
     {
       "path": "src/chaos/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 10286,
-      "sha256": "27b1da8d5cfc8df2688a93147c6a6688a322d6702cad6e0baed79c1648949b99",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 15077,
+      "sha256": "bce2be9fd7ddbdd416f876bab73706986af9d904406b42c6106c717dd37dcfa6",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/chimera/FUTURE_ENHANCEMENTS.md",
@@ -55146,9 +55167,9 @@
     {
       "path": "src/chimera/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 2993,
-      "sha256": "2bdc306fcd14ef6d11771cb0ffd433e0aa964cf5fac3ce828315f2c9e795f49a",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 26301,
+      "sha256": "fcdfe14b6df0eb061ed7574303f75498c9221565964c75ec1c9d586bd075265f",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/config/FUTURE_ENHANCEMENTS.md",
@@ -55167,9 +55188,9 @@
     {
       "path": "src/config/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 4153,
-      "sha256": "bbe2531cedb05b98776dc3cf7bc153efe1258ed50ccfc1cab726e3cf019480d9",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 24004,
+      "sha256": "a408b93186e099ca8f828cfa1ac36c89c89b1613e8b3516fbbd5045c3bd651dd",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/content/FUTURE_ENHANCEMENTS.md",
@@ -55188,9 +55209,9 @@
     {
       "path": "src/content/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 11812,
-      "sha256": "7c4b13598cfa3c56fea386d6a090321e5c284a47344ca947690938bc989fa592",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 26392,
+      "sha256": "1ff2f16d232cd340a7be980f9d858d5b1b0a14e7e3a163d9c6f1354c2fb2edec",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/content/pipeline/README.md",
@@ -55202,9 +55223,9 @@
     {
       "path": "src/core/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 19516,
-      "sha256": "293a3ea0a7174a23cf734c96bc7f765bf8e8366f2e8f69d8f872a24975275d3d",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 20564,
+      "sha256": "c1b30127658d2f371209a1c3ebb747853982eb238d76e9544fa50b65986bc926",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/core/README.md",
@@ -55216,9 +55237,9 @@
     {
       "path": "src/core/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 8535,
-      "sha256": "f262b771ef49e5244afb599e514a8453c17b00c921e58b255a56d2a8fea70e25",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 23347,
+      "sha256": "0fd8f9fb967e0a72ce3f7e9cbb0e4799e1a1c9a083b69c9cccec0056a6514145",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/distributed_knowledge/FUTURE_ENHANCEMENTS.md",
@@ -55258,9 +55279,9 @@
     {
       "path": "src/distributed_tensor/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 20197,
-      "sha256": "2e50b7b19816931f66eb61194a6ee9e1502915dbf2f11af377d261c414e682eb",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 38422,
+      "sha256": "68f807db80e6d4a82680c3d97ca0af279c7b80c387d8477dcc8366fefbada697",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/distributed_tensor/include/README.md",
@@ -55293,9 +55314,9 @@
     {
       "path": "src/document/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 7266,
-      "sha256": "32369f48ee934c4c64dca2154f794f96df0e1b707fb639db858850974ff77b45",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 30024,
+      "sha256": "db34f46c32199efbe782e686cc69c5d847073b79569f9b664ea0d6024e762025",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/ethics_ai/FUTURE_ENHANCEMENTS.md",
@@ -55314,9 +55335,9 @@
     {
       "path": "src/ethics_ai/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 26433,
-      "sha256": "faf02b6cd5d82d6578d83c93d608747043857bf0dd04fb73796df382fe49b9d7",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 45206,
+      "sha256": "4fa2dcb89c2dc3bf60ed3d5beeb0a12587f3a5e21d46ae47e365f731b0314ff2",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/evaluation/FUTURE_ENHANCEMENTS.md",
@@ -55335,9 +55356,9 @@
     {
       "path": "src/evaluation/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 9103,
-      "sha256": "7a341fa2ef1a45dc024319ab020a9f5a4448704f8a02e448a3bbbb4fd2310088",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 27970,
+      "sha256": "cf0afa7ccfb3144536dcfa074d07673fbb4e8187b290a5c7d3f1a3fe0353d081",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/evaluation/include/README.md",
@@ -55363,16 +55384,16 @@
     {
       "path": "src/execution/README.md",
       "category": "modules_and_api",
-      "size": 9970,
-      "sha256": "de553df058ad94eb95d9621b9bd5042fdad4eb6738d52b8eb2366d2dc5b91bc8",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 11157,
+      "sha256": "c6081509c7326b6195e5a2d9133b32cb674c24af6c89789dd1db2a6e86fa2abb",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/execution/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 6633,
-      "sha256": "9f81dcdf6ab4c0f3f8872730fa834e498aad205f425483d89ae05072fa9fa364",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 18522,
+      "sha256": "f4103ff4bbdb5c6dc9d558d3c55f20c94af6017312408f33529360058fcd8408",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/exporters/FUTURE_ENHANCEMENTS.md",
@@ -55391,30 +55412,30 @@
     {
       "path": "src/exporters/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 11491,
-      "sha256": "d616b048c757152f26d4185ae022e2c57137d658755969b7ddb3ce8bc9d000bd",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 26973,
+      "sha256": "3dec9a5bcf31e72b834a1b8d771a45f4530ced6fee0ed02e09257f581c91aeaf",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/failover/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 2841,
-      "sha256": "165ab4ad4280e2d787622017f61f3a9bfd28e93983748e214a4fec71fe1f9e14",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 3058,
+      "sha256": "108fe9eda1c35d5e3796e40ff067d9c56a5bd95c3e7975fde236abf101b89cab",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/failover/README.md",
       "category": "modules_and_api",
-      "size": 4048,
-      "sha256": "3a99afed5b878832dcafb740a1f9752037d2e4bcbb2f8e8d15f1af59b1318450",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 4264,
+      "sha256": "dd5e8cae2015b6bea7b748511b64a67af24d8df8fad8e74986b1c78306e7aa7b",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/failover/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 3440,
-      "sha256": "49c15e1b535c5590224a9db30da181e953928d0e61eb7b9853583cd649b258cd",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 19762,
+      "sha256": "fe39ca231dbbd06f94facc6c13cd9e1ad78c725f3f4d9ae854a27f7ddc62d5c1",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/geo/FUTURE_ENHANCEMENTS.md",
@@ -55433,16 +55454,16 @@
     {
       "path": "src/geo/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 11961,
-      "sha256": "b5c427fee9daf8b9113aeaff6793a4d94d7eaa4f7ff0e2ec557c8730466a8a26",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 32302,
+      "sha256": "3c2ffe6c3c8dbfc0ffe8ae9a71d2a1a3680b516462d60def26588a6c6f9e5794",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/governance/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 4789,
-      "sha256": "7a563d8b98ca7d4b6cb1dffd8f2b77a4ac01b507e20260e4c305c20038a140dc",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 6550,
+      "sha256": "0a6e2a8bee11ab948b35b0e8feaafb169f7ddd0cecea4b437e62933ab90af936",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/governance/README.md",
@@ -55454,9 +55475,9 @@
     {
       "path": "src/governance/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 4311,
-      "sha256": "5b2233f47aeb9413c6d37a37eaee8c0c1daa0d5dad0d626e77ba0ed93e2b4e8c",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 22163,
+      "sha256": "60daad970801d33f38606447e3d752240dc16721d6a73910f462f168c1dec5c8",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/gpu/FUTURE_ENHANCEMENTS.md",
@@ -55475,16 +55496,16 @@
     {
       "path": "src/gpu/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 16848,
-      "sha256": "a3f311a148d04286f443b904720cfc445eafe17a857ab5b0756e48e37bbafdf2",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 37330,
+      "sha256": "62815fc8444f0928366e5e39740fa41fb769813628c631f3587277662b0e112d",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/graph/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 4885,
-      "sha256": "9938016263ab1d30faed0c4548e9c69eb7ad51f7fe33a4ec2449851532849628",
-      "modified_utc": "2026-11-01T09:32:51+00:00"
+      "size": 7592,
+      "sha256": "f09a621fbbac3d7370c0a10bbf9ef88c4b94866e6653f70310b7c31c6d7604bf",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/graph/README.md",
@@ -55496,9 +55517,9 @@
     {
       "path": "src/graph/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 13366,
-      "sha256": "007a4c9a8b0d72ff102bdcaa1ae1ceb1c0b49b13eb31fc44e0014b1126adcc39",
-      "modified_utc": "2026-11-01T09:32:51+00:00"
+      "size": 28706,
+      "sha256": "d303786379baa1c179c6de6bf2a3c626f58ff9cbad24c759e4fe0572f0feea9e",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/image_analysis/FUTURE_ENHANCEMENTS.md",
@@ -55517,16 +55538,16 @@
     {
       "path": "src/image_analysis/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 8151,
-      "sha256": "82b6385df26d4636bb658290c2aa0a335d05dcc36505bfd28c3b9c79347447ec",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 28472,
+      "sha256": "1b12dee16f6956d14a9ef3d363ad7ee53aae13ce6136e30649145fe1568e00d1",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/importers/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 3284,
-      "sha256": "7b33d858e0f01e9e297f298db8ef631d1ed4e6f7d9c7741add1f1663c3f28fb8",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 7491,
+      "sha256": "5a7090276ddacfe51e2588e03907556fff106f438f38aef247dac1c60a95a2c8",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/importers/README.md",
@@ -55538,9 +55559,9 @@
     {
       "path": "src/importers/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 10966,
-      "sha256": "2291e6ac3ea2452476e24812614d0fb494f0b9e3fe15c775a507246143735599",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 37269,
+      "sha256": "a0f53f360afce6755ed535bc106781d1573af1b9f91bf0d8b4467b9fcf4f8cb9",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/index/FUTURE_ENHANCEMENTS.md",
@@ -55559,16 +55580,16 @@
     {
       "path": "src/index/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 18024,
-      "sha256": "e06da72e6f8a417d6de06af839bf40f1f40de384895533c99bb6a00873273ac4",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 38947,
+      "sha256": "5c60697f5dbe2a5e0c80b5f90ed8858b1afb341843a7b8346b4cc86ddb49ad6a",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/ingestion/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 3989,
-      "sha256": "5943854318f5d1ee98aa960d207fa1ca48655f666bb6dfe7d869fd7651e4ddc8",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 11159,
+      "sha256": "1a10f5656f35dc7c0baa66a9c1fe691bce6079151af6b2e2f48b4a2c673fbe07",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/ingestion/README.md",
@@ -55580,9 +55601,9 @@
     {
       "path": "src/ingestion/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 10057,
-      "sha256": "d0d0722de1d580b135261479e256d67428f1fad52ec477d0c03dcd856db69012",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 26189,
+      "sha256": "234450e6debfcd6c158f0aa355200aaa08348874d56ba63e442ee38cea665c37",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/llama_cpp/FUTURE_ENHANCEMENTS.md",
@@ -55601,9 +55622,9 @@
     {
       "path": "src/llama_cpp/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 5471,
-      "sha256": "92370a9fb98563286032a95196768f42543895577273488a7efe36e563d8a3c5",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 24083,
+      "sha256": "b8aec0d895451a7949388fbc25701b84a484900703ef7980d23bf09a9cf20791",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/llm/FUTURE_ENHANCEMENTS.md",
@@ -55622,9 +55643,9 @@
     {
       "path": "src/llm/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 39242,
-      "sha256": "36b26810944554d22dfd89f308bf0f5fdf176b06c75c61b44ab1968a5a94590e",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 56285,
+      "sha256": "77abb2cfc92e7d6567906f3a3e9206f9d3718e2f1afa5a24235f859f42a99675",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/llm/grammars/README.md",
@@ -55632,6 +55653,13 @@
       "size": 3469,
       "sha256": "eaaf935f505518e168335cefdd4547eefa6928da7e946dc6af4b3332f3799ed4",
       "modified_utc": "2026-11-01T06:39:20+00:00"
+    },
+    {
+      "path": "src/llm_l_wiki/ROADMAP.md",
+      "category": "modules_and_api",
+      "size": 15933,
+      "sha256": "22ad63ce3396b659a62e3bd3d1aa3846f12e31fce6c2439097782be3fb652e07",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/llm_streaming/FUTURE_ENHANCEMENTS.md",
@@ -55650,9 +55678,9 @@
     {
       "path": "src/llm_streaming/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 7066,
-      "sha256": "aa1c5ff04327e2dfb83e719d1eae320a5dabed778cd24989e643ef0c48fc952a",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 30342,
+      "sha256": "476490f2de8a5d32a7f2dd3a96ffe08bc7980580a054b8cc3ed2539f7f6d1d84",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/llm_wiki/FUTURE_ENHANCEMENTS.md",
@@ -55671,9 +55699,9 @@
     {
       "path": "src/llm_wiki/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 6088,
-      "sha256": "7c132abd593c128692f2ef9804b7333059b420173ba9eced3593bd41df03d159",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 22963,
+      "sha256": "8c77a39b115e9468cda23f06370acc3de5787e1629a0fc7f8e13a718cc4c16b7",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/maintenance/FUTURE_ENHANCEMENTS.md",
@@ -55692,9 +55720,9 @@
     {
       "path": "src/maintenance/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 9457,
-      "sha256": "2c135581c099f67787468d1fea3dd1ca8c5b76afd331243febdb402bd24617e8",
-      "modified_utc": "2026-11-01T09:32:02+00:00"
+      "size": 25114,
+      "sha256": "aef73459d152a7967bb43d652ed808b2633f112c260dd54263dd8b43b0342179",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/metadata/FUTURE_ENHANCEMENTS.md",
@@ -55713,9 +55741,9 @@
     {
       "path": "src/metadata/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 8042,
-      "sha256": "363c449968e1361949be7ab0bc06476d7c5a1462d5cd16dc494dbf5b91fae4d5",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 19399,
+      "sha256": "ac3f8a6f96c6c0baa5b31aa0a01a8fe8a5431f665adc33d3a0553f7150d343e4",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/network/FUTURE_ENHANCEMENTS.md",
@@ -55734,9 +55762,9 @@
     {
       "path": "src/network/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 15071,
-      "sha256": "08f1cd308448b141726d0c65bd0980d8c62dcbe4cc082933062919352b9a8e35",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 26737,
+      "sha256": "74e7bb9c8ac114c978773d48b5803cfee8e52d7909f899a346ef2abd5e025eb8",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/observability/FUTURE_ENHANCEMENTS.md",
@@ -55755,16 +55783,16 @@
     {
       "path": "src/observability/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 12606,
-      "sha256": "79700e03dac0d7fe4679dd5358520d527feca86d766e39da7fe46e9be259a33f",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 28012,
+      "sha256": "2ba419b55e93bb9abc142d7d45e5567c1acc7ed2a61126e6bbca5501f8c5df00",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/onnx_clip/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 4747,
-      "sha256": "736fa4bc2764fdcd72f395215c90b0275e53115c368d40b9f83a16504c72b176",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 5266,
+      "sha256": "dec1430512a7fc36a15af7fffa093451e86f1a8796151f15053c6f99bc38ae31",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/onnx_clip/README.md",
@@ -55776,9 +55804,9 @@
     {
       "path": "src/onnx_clip/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 6339,
-      "sha256": "555394c5086e52d886c45a3252b01e4b0f51d48cd751acbbf8227c689cb6e064",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 20851,
+      "sha256": "1561fec00a6af9eaf59678704b215026d4485016e7963a1dc276fdc05ef85093",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/performance/FUTURE_ENHANCEMENTS.md",
@@ -55797,9 +55825,9 @@
     {
       "path": "src/performance/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 3566,
-      "sha256": "43cd8a1b3ddd362abebc43cc6a30707e42748dc9fb82e8611537feb554e6e4dd",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 21767,
+      "sha256": "9521a59709529a3e7108af4587926b367ec1ec6de7f0f0d3c33631ecd8512722",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/plugins/FUTURE_ENHANCEMENTS.md",
@@ -55818,9 +55846,9 @@
     {
       "path": "src/plugins/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 4378,
-      "sha256": "6a43e7d4aa9e4720a32eb6dbd637f75e5c69b8d4b268e19b955b762065ce6714",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 23095,
+      "sha256": "654189f891ca04cf0d367e54fe21ce3ff0f36ef9240bf4711d3d7febf9d2ad61",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/process/FUTURE_ENHANCEMENTS.md",
@@ -55839,9 +55867,9 @@
     {
       "path": "src/process/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 6136,
-      "sha256": "2ef3a34b53789b10c63b9b46f9bbfe4a3db8548976eb1ab75e7f46f547b957ef",
-      "modified_utc": "2026-11-01T09:50:56+00:00"
+      "size": 22139,
+      "sha256": "4fe6330b252511d497213c10e13856c47dac4ba5ecd49d5e7efa530d984b90b1",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/projects/FUTURE_ENHANCEMENTS.md",
@@ -55860,9 +55888,9 @@
     {
       "path": "src/projects/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 5879,
-      "sha256": "9e6d792ce6c76cab44e63c0bc92d34d4d4d959df977c392dfff4e49368bc4c8d",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 27188,
+      "sha256": "0a0343444c34f11984409d499ff07d75126afb19fa37b86f0c9606dc963a0314",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/prompt_engineering/FUTURE_ENHANCEMENTS.md",
@@ -55881,9 +55909,9 @@
     {
       "path": "src/prompt_engineering/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 5924,
-      "sha256": "0f6b6d250a4f1bd8654aa72c51b940b1a741ed9a01f09a4fa48076708237303c",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 20528,
+      "sha256": "2ea383212bfd927658be5853fec3aa53c875e1cbd11269814046747ffb6597ca",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/query/FUTURE_ENHANCEMENTS.md",
@@ -55902,9 +55930,9 @@
     {
       "path": "src/query/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 24441,
-      "sha256": "619caf3f8c5a58ef5a817abdf8a32368bd7ada610f661c61ff4e76ae0868efed",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 46520,
+      "sha256": "72033aa208c390b69f3fa2953761023de424158e1cf1b0285394920c96135313",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/rag/FUTURE_ENHANCEMENTS.md",
@@ -55923,9 +55951,9 @@
     {
       "path": "src/rag/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 57617,
-      "sha256": "469d655b1d49b61fb8d2b7103cac883962004c114b26d5995966e9a02396e323",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 77209,
+      "sha256": "3c2ee7007f3a5a406ff087cb73fccc8854e3fa62a70d146f2b26294415a636b2",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/rag/examples/README.md",
@@ -55951,9 +55979,9 @@
     {
       "path": "src/replication/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 14399,
-      "sha256": "a573fb213494d08990bfec60767bf6c3b59543542467cccf9fac53617ad9d422",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 22489,
+      "sha256": "be945175b9f604b2096c449e02dca76d2349cef41e0cfe94941e48132f64de1d",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/retrieval/FUTURE_ENHANCEMENTS.md",
@@ -55972,9 +56000,9 @@
     {
       "path": "src/retrieval/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 15075,
-      "sha256": "e343bdc2d77e37dc31bb7c2824fe9f71e496f245d8a613f5e61b76c8eab67d6e",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 25574,
+      "sha256": "f99ba62ada08501c3b6b40f858725a2c139fec709185a85fb0b7ae66f5f299aa",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/retrieval/include/README.md",
@@ -55993,9 +56021,9 @@
     {
       "path": "src/rpc_grpc/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 2463,
-      "sha256": "621a5d2060dec5bdc3e4f1b29ef7502dbf430b4593aec2884d280056325adb5c",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 6163,
+      "sha256": "04e24ddfef1e7e1663554e9464060ea0e60bed03b7b43022f3ce4a92e2678874",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/rpc_grpc/README.md",
@@ -56007,16 +56035,16 @@
     {
       "path": "src/rpc_grpc/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 5083,
-      "sha256": "0113cb8ccb4d450e46af4a453762d9930c17431a9e15001032be081e4c3218f5",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 17876,
+      "sha256": "340d42daf8347c7b7b0706c03f57554e47246894fd9fd37348c02608e9430098",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/scheduler/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 1615,
-      "sha256": "6e3d5cc5fcdcb2d6ef5c6a73f99ee1c8e8965f858cce40db1f1d7b6a9855a5bc",
-      "modified_utc": "2026-11-01T09:32:51+00:00"
+      "size": 3614,
+      "sha256": "6bbc16e69e8d6a31a237882541f58c806a1d9a30b13589e0208aeaf4bb734a94",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/scheduler/README.md",
@@ -56028,9 +56056,9 @@
     {
       "path": "src/scheduler/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 3190,
-      "sha256": "0c7641a908c195182d4ebfaf4c218080332cd1076af9497744836effa7b1a2a7",
-      "modified_utc": "2026-11-01T09:32:51+00:00"
+      "size": 17352,
+      "sha256": "209a11fa0af7852a5c38a177346e2a7a0bd9ef56609a18af71f0370a66a12379",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/scraper/FUTURE_ENHANCEMENTS.md",
@@ -56049,9 +56077,9 @@
     {
       "path": "src/scraper/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 8432,
-      "sha256": "3caea234a0407b97f2eb9c5cd185bf3932c0af2ef30a11f93bacb1d9afd3877f",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 29040,
+      "sha256": "0f70c90c0fe3f5714eff4024c106e741d1bce47b8b1e06ced38ae665871003fd",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/search/FUTURE_ENHANCEMENTS.md",
@@ -56126,30 +56154,30 @@
     {
       "path": "src/sharding/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 9031,
-      "sha256": "4832ac17c0836499313fa68203c8b5a2e17c266223f8ade09234ffb32561e084",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 9872,
+      "sha256": "f6185b4fe0b66f6dc1ce42664491fecca77340d4674d71edf4e63c9ade477a3c",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/sharding/README.md",
       "category": "modules_and_api",
-      "size": 5889,
-      "sha256": "d8f66c87a2a12e6302882873475a7abc7bf41f91427a683fde0cc1ae2770d5cd",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 8700,
+      "sha256": "33ea2ebaa6ea1bc28bb252668d0da7165e72fee1a60263aca3170ce936ee548e",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/sharding/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 18784,
-      "sha256": "9d4c41791e53c4ee5c5f31b2325f77a9a282055b13006ab616136c4e3831b7c1",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 21901,
+      "sha256": "3dbeaefa119cb4024dd6c7cf89088de0185ae683f4020e5a4abad0063a5dba30",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/stable_diffusion/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 4481,
-      "sha256": "c41d1062952ee2f9fff7ba6a2bc78fb53d78f1465cd742334f87f169f1e20502",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 4737,
+      "sha256": "5da78e2bd7fc51355946814499a4a30e2699f2a60333a4c6b39ab5c9bc6b6b96",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/stable_diffusion/README.md",
@@ -56161,9 +56189,9 @@
     {
       "path": "src/stable_diffusion/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 10177,
-      "sha256": "44f7c84ca227d51d04f7597f2f32421c8598bb88eb9fdadf318b2a0aeb8a2106",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 26280,
+      "sha256": "c478c1dafa1aae62a6263a23ffbf16b8c05b227bc0dd1db75eefb8ce02eab12b",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/storage/FUTURE_ENHANCEMENTS.md",
@@ -56175,16 +56203,16 @@
     {
       "path": "src/storage/README.md",
       "category": "modules_and_api",
-      "size": 3328,
-      "sha256": "a22ae637d97e6c32403486ca3ea816868b2f8a9f81eed19fd6c191059fdf8b67",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 4388,
+      "sha256": "15a55a9d5328bcde5a4577ca363a83ed7af703204797d5ce0c4a4abc1f818b84",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/storage/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 14280,
-      "sha256": "9de6991165fcf295107c670cef94bd6884ef41734b2344813b5cd5279f9906ab",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 30508,
+      "sha256": "0e4c2bbaf14a90cee8c0cba7a1340975f66ec2eeddac7cb5d62e8b214af0e099",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/temporal/FUTURE_ENHANCEMENTS.md",
@@ -56203,9 +56231,9 @@
     {
       "path": "src/temporal/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 7737,
-      "sha256": "c6f8ca93ba565e2ce26c7f6ed7d0c5b9c1ad2b2928236f676e37a7ef915155bc",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 28120,
+      "sha256": "b9890fb7db31e499d9bc211fde508c2e9a8ae5c581f3d760ad4d1801b1b0129c",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/tensor/FUTURE_ENHANCEMENTS.md",
@@ -56224,9 +56252,9 @@
     {
       "path": "src/tensor/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 16357,
-      "sha256": "990b5a2a032bdae0db2876ed88524bc3a5b66c6234d86917bbd241d316486a1a",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 28439,
+      "sha256": "329ea5646bb3cded5abdc41f9a4da69d8a3b831f7e407fe9db88e58b0352ad0a",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/themis/FUTURE_ENHANCEMENTS.md",
@@ -56245,9 +56273,9 @@
     {
       "path": "src/themis/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 7200,
-      "sha256": "cba8de94ed9fb3e3ef541ab2d1bcbfb78d09b283072bbe5fe4a2a3f17bae0f71",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 22274,
+      "sha256": "4a191f77973ac28e90e550ce91c87850c98e708103a2575e440bb337fb6ba6b7",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/timeseries/FUTURE_ENHANCEMENTS.md",
@@ -56287,9 +56315,9 @@
     {
       "path": "src/toolbox/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 21173,
-      "sha256": "cd412388e10ccd18f80b86fc5d8fedc308af2627aba071ffbd6e5e5c6e04be7f",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 21080,
+      "sha256": "68032e4c83e38e8626110331ea118b7beb69efc3e6f6bf39508e7339901b23e6",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/training/FUTURE_ENHANCEMENTS.md",
@@ -56308,9 +56336,9 @@
     {
       "path": "src/training/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 7659,
-      "sha256": "58a22bab625be8bc69c1845203ce2f33e214797956ca883477e5bfe7ae2a2dd6",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 29638,
+      "sha256": "59a9d8ac573e034a7ba66713206dd81a877f69b9568091528b25c8f8f7031a03",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/training/examples/README.md",
@@ -56336,9 +56364,9 @@
     {
       "path": "src/transaction/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 30062,
-      "sha256": "8d40d5415bd7ae1f1fb7590cefc626ce3987af45972ed2fec11d1131b7de89b4",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 52382,
+      "sha256": "4917659803f19baf7274a240f45b55913947cb2f8b493dad90141b18dae1efa1",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/updates/FUTURE_ENHANCEMENTS.md",
@@ -56357,9 +56385,9 @@
     {
       "path": "src/updates/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 6906,
-      "sha256": "c7520ee7860881d39b1ca12a196f20b8d22f3176b5602dfce38fe25592308479",
-      "modified_utc": "2026-11-02T03:02:54+00:00"
+      "size": 26014,
+      "sha256": "1747c597cbb0f5c7cbd5a02f827eaacab1ae5662e7ab3484f138cb2b34736a3a",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/user_storage_encrypted/FUTURE_ENHANCEMENTS.md",
@@ -56378,9 +56406,9 @@
     {
       "path": "src/user_storage_encrypted/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 3068,
-      "sha256": "25da4ed29a1c92f80d34fb438373a08bf770f3ee0bc0852870e95e3b47329b0e",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 34435,
+      "sha256": "381a6220d72db3ee1d824c09e7dd9ea248e4b4bbf7b4c5de495c4be194338aca",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/utils/FUTURE_ENHANCEMENTS.md",
@@ -56399,9 +56427,9 @@
     {
       "path": "src/utils/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 13366,
-      "sha256": "4741030c1bf815a89b7ac10b737041e4b3f8370e7a0605c37617f58c0b59f333",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 29768,
+      "sha256": "bfcf4ba127bd1c6a668163c05a164cb93155cbdc21f4bc72c3726626cb7c55e5",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/vector_search/FUTURE_ENHANCEMENTS.md",
@@ -56420,9 +56448,9 @@
     {
       "path": "src/vector_search/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 5709,
-      "sha256": "747b61e98bbecf10a1d6fc9180dcacd7616b6c3e6d71a09b59f5e2d49f90dfb3",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 26094,
+      "sha256": "de6385fad25c2ffb2f3c27c2cc8e9a5d44b32aee0b5a025384a5351083cfb02c",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/voice/FUTURE_ENHANCEMENTS.md",
@@ -56441,9 +56469,9 @@
     {
       "path": "src/voice/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 2332,
-      "sha256": "b8b1108f8a69b8d75ceb01a624bdf149bce6ad496f992a11f2750f9f60b3b900",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 24315,
+      "sha256": "f97ecd94d51564031d3decafce8278a56f2a2fa7f3ebf28c9ba0e1d6f905e3e1",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     },
     {
       "path": "src/whisper/FUTURE_ENHANCEMENTS.md",
@@ -56462,9 +56490,9 @@
     {
       "path": "src/whisper/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 11585,
-      "sha256": "e812a07be104dc4518135d1c1c0963beb2329efb2ac290bf830db94386cb50ee",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 25734,
+      "sha256": "e89e40e6de0119f98842a5ad1607f80727ed30acfd205c574b1a5ee9488e9192",
+      "modified_utc": "2026-11-09T03:03:02+00:00"
     }
   ]
 }

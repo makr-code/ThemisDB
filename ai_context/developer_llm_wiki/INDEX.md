@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-02"
+Last Updated: "2026-11-09"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Index
 
-Datum: 2026-11-02
+Datum: 2026-11-09
 Status: Active
 Bezug: CI-verwaltete Entwickler-Wissensbasis fuer Coder-LLMs
 Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_ENHANCEMENTS.md, ai_context/COPILOT_INSTRUCTIONS.md
@@ -23,8 +23,8 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 - Ziel: Onboarding- und Coding-relevantes Wissen fuer Entwickler-LLMs
 - Laufmodus: INCREMENTAL
-- Quellen gesamt: 8066
-- Quellen-Hash: `1aed704e99d8448ba6e4d9e71e9a9234fddaaa6a57b42ea5c3f6df2447be7ae2`
+- Quellen gesamt: 8070
+- Quellen-Hash: `a76a070e12d8a75ba59c7c51fc0b1d95498c9a00924ad5cd8b8fa7473d9a0baa`
 
 ## Status And Source-of-Truth Governance
 
@@ -55,9 +55,9 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 ## Source Distribution
 
-- modules_and_api: 2371
-- build_test_ci: 203
-- governance_and_docs: 5492
+- modules_and_api: 2373
+- build_test_ci: 204
+- governance_and_docs: 5493
 - misc: 0
 
 ## Source-Priority / Konfliktregel
