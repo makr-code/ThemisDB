@@ -183,6 +183,9 @@ python3 -m unittest discover -s helm/themisdb/tests -v
 helm/themisdb/tests/smoke-kind.sh
 ```
 
+These checks run in the `Gate: Helm Chart` workflow for chart changes on
+supported branches.
+
 The NetworkPolicy tests verify the rendered allow/deny rules; validate actual
 packet enforcement with the CNI used by the target cluster. The Kind smoke test
 checks API-server admission and installed resources; the default Kind CNI does
