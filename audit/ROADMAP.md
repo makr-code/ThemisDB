@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Team
 **Created:** 2026-10-31
-**Last Updated:** 2026-11-02
+**Last Updated:** 2026-11-09
 **Status:** review
 **AI_Used:** true
 **AI_Models:** unknown
@@ -10,7 +10,7 @@
 **Human_Review:** false
 **Human_Author:** ThemisDB Team
 **Quelle:** [FULL_DEEP_DIVE_AUDIT_2026-10-31.md](FULL_DEEP_DIVE_AUDIT_2026-10-31.md) (Findings-IDs in dieser Roadmap verweisen dorthin)
-**Related Milestone:** DOC-WEEKLY-2026-W45 (source follow-up; evidence gates remain open)
+**Related Milestone:** DOC-WEEKLY-2026-W46 (source follow-up; evidence and module acceptance gates remain open)
 **Zielbranch:** `develop` (Editions-Branches `community`, `enterprise`, `hyperscaler`, `military`, `minimal` erhalten Änderungen über den regulären Promotion-Flow gemäß [../BRANCHING_STRATEGY.md](../BRANCHING_STRATEGY.md))
 
 > **AI-Provenienz:** AI-assisted generation; model attribution is approximate and not guaranteed.
@@ -508,8 +508,9 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
     Ein früherer fokussierter Build erreichte `src/prompt_engineering/rewrite_engine.cpp`, `rewrite_rule_base.cpp`
     und `rewrite_rule_loader.cpp` und stoppte dort mit C2059. Keiner dieser Fehler liegt in den Testregistrierungs-
     änderungen; Compilation-Database und CTest-Registrierung allein belegen keinen erfolgreichen Build oder Testlauf.
-  - Offen: Baseline bereinigen und begründete Ausschlussliste erstellen. Die 1.320 Quellen außerhalb beider
-    Profile bestehen aus 1.016 Dateien unter `tests/legacy/`, 228 Root-Testdateien und 76 Quellen in sonstigen
+  - Offen: Baseline bereinigen und begründete Ausschlussliste erstellen. Die 1.322 Quellen außerhalb beider
+    Profile bestehen aus 1.018 C++-Quellen unter `tests/legacy/` (einschließlich Helper-/Support-Dateien wie
+    `tests/legacy/binary/mock_signing_service.cpp` und `tests/legacy/plugin/runtime_test_plugin.cpp`), 228 Root-Testdateien und 76 Quellen in sonstigen
     Testverzeichnissen. Keine dieser Gruppen gilt pauschal als freigegebener Ausschluss; Profil-Ausnahmen und
     historische Guards (teils mit fehlenden Quellen) sind einzeln zu bewerten.
   - Dokumentationslücke: Die Developer-LLM-Wiki enthält keinen kuratierten TST-03-/Testregistrierungs-Kontext.
@@ -517,11 +518,23 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
     maßgeblichen Implementierungs- und Evidenzquellen.
 - [ ] **P0 · OPS-07 – Fuzz-Smoke auf PRs** (Target: M1 · 2027-01-31) – 5 min je Parser-Fuzzer (AQL, HTTP, Wire-Protokoll, Importer)
   bei Änderungen in den jeweiligen Pfaden; Korpus-Pflege in `security-fuzzing.yml`.
-- [ ] **P1 · TST-01 – Skip-/Assert-Budget** (Target: M1 · 2027-03-31) – Skip-Budget je Modul (Ziel: −50 % der 2.965
-  `GTEST_SKIP` bis M1); 1.020 triviale Asserts ersetzen oder Tests löschen; 1.018 Legacy-Testdateien portieren oder entfernen.
-- [ ] **P1 · TST-02 – Testdichte Hochrisikomodule** (Target: M1) – `server` (Routenmatrix aus SEC-13), `distributed_tensor`,
-  `prompt_engineering`, `timeseries`, `scheduler`, `llama_cpp`: Mindestens Fehlerpfad- und Nebenläufigkeitstests je öffentlicher API.
-- [ ] **P1 · Coverage-Messung in CI** (Target: M1) – Zeilen-/Branch-Coverage je Modul nightly; Stufe-1-Module ≥ 70 % Zeilen-Coverage als GA-Gate (Vorschlag, Human-Entscheid).
+- [ ] **P1 · TST-01 – Skip-/Assert-Budget** (Target: v2.5.0 M1 · 2027-03-31) – Baseline v1: 2.871 `GTEST_SKIP`, 976
+  ohne same-statement Literal-Grund, 346
+  konservative lexikalische Assertions-Kandidaten (manuelle Prüfung), 1.018 C++-Quellen unter `tests/legacy/` ohne Einzel-Disposition
+  (einschließlich Helper-/Support-Dateien unabhängig vom `test_`-Namenspräfix).
+  M1-Cap je Modul: floor(aktuelle Modul-Skips / 2); bei einem Baseline-Skip ist das Ziel 0, außer mit maintainer-genehmigter Ausnahme.
+  Summe der Modul-Caps höchstens 1.418 (aggregierte Obergrenze: floor(2.871 / 2) = 1.435).
+  Grundlose Inline-Skips bleiben offen.
+  Metrikdefinitionen und Baseline: [TEST_QUALITY_INVENTORY.md](TEST_QUALITY_INVENTORY.md) und
+  [test_quality_baseline_v1.json](test_quality_baseline_v1.json).
+- [ ] **P1 · TST-02 – Testdichte Hochrisikomodule** (Target: v2.5.0 M1 · 2027-03-31) – frische LOC-/Datei-/Fallzahlen,
+  modulbezogene Eigentümer und vorhandene fokussierte CTest-Registrierungen stehen in
+  [TEST_QUALITY_INVENTORY.md](TEST_QUALITY_INVENTORY.md). Fehlerpfad- und Nebenläufigkeitstests je öffentlicher API
+  bleiben Follow-up; Registrierungen belegen keine erfolgreiche Ausführung.
+- [ ] **P1 · Coverage-Messung in CI** (Target: v2.5.0 M1 · 2027-03-31) – Coverage in Baseline v1 nicht verfügbar.
+  ≥ 70 % Zeilen- und ≥ 60 % Branch-Coverage sind nur vorgeschlagene Schwellen, pending maintainer approval; derzeit
+  nicht enforced. Die Modul-Coverage-Gates bleiben für v3.0.0 M3 sign-off offen. Siehe
+  [TEST_QUALITY_INVENTORY.md](TEST_QUALITY_INVENTORY.md).
 - [ ] **P2 · CI-04 – `pull_request_target`-Guard** (Target: M1) – Lint-Regel: kein Checkout von PR-Head unter `pull_request_target`.
 
 ### WS7 – Kubernetes & Packaging
@@ -616,7 +629,8 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
 - [~] POSIX WAL-Prozess-Crash-Test an ACK-/Rotations-/Checkpoint-Grenzen hinzugefügt; Ausführung und voller STO-07-Umfang offen (Target: 2027-01-31)
 - [ ] AuthZ-Routenmatrix (SEC-13), JWT-Sicherheitstests (SEC-12) (Target: 2027-02-28)
 - [ ] Sanitizer-PR-Lane (OPS-06) und Fuzz-Smoke (OPS-07) (Target: 2027-01-31)
-- [ ] Skip-/Assert-Budget und Testdichte (TST-01, TST-02), Coverage in CI (Target: 2027-03-31)
+- [ ] Skip-/Assert-Budget und Testdichte (TST-01, TST-02), Coverage in CI (Target: 2027-03-31; Baseline:
+  [TEST_QUALITY_INVENTORY.md](TEST_QUALITY_INVENTORY.md))
 - [ ] Multi-Prozess-Chaos-Suite mit History-Checker (DIS-10, DIS-11) (Target: 2027-05-31)
 - [ ] Real-Model-CI-Lane (AI-03) und AI-Skip-Abbau (AI-10) (Target: 2027-04-30)
 
@@ -648,7 +662,8 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
 - [ ] AuthZ-Routenmatrix grün für alle öffentlichen Schnittstellen
 - [ ] Jede externe Anfrage mit Timeout, Speicherbudget und Admission Control
 - [ ] Gültiger CTest-Volllauf (Linux + Windows) ≤ 7 Tage alt; Sanitizer- und Fuzz-Smoke auf PRs aktiv
-- [ ] Skip-Budget eingehalten; Coverage-Ziel für Stufe-1-Module erreicht
+- [ ] Skip-Budget eingehalten; Coverage-Ziel für Stufe-1-Module erreicht (Baseline/Status:
+  [TEST_QUALITY_INVENTORY.md](TEST_QUALITY_INVENTORY.md); M3 coverage gates remain open)
 - [ ] Restore-Übung mit gemessener RPO/RTO innerhalb der Zielwerte; Upgrade N-1 → N getestet
 - [ ] Root-Dokumente konsistent mit `RELEASE_TYPE`; keine unbelegten Produktions-Claims in Modul-Docs
 - [ ] Pentest-Retest: 0 Critical, 0 High offen

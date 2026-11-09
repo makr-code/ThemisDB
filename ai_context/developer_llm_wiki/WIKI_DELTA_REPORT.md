@@ -21,7 +21,7 @@ Status: Active
 
 - Added: 0
 - Removed: 0
-- Changed: 17
+- Changed: 0
 
 ## Added
 
@@ -33,20 +33,4 @@ Status: Active
 
 ## Changed
 
-- docs/code_maturity_report.md
-- docs/de/security/security_hsm.md
-- docs/governance/GA_PROMOTION_SIGN_OFF.md
-- docs/operability/PHASE2A_DISTRIBUTED_TRACING_VERIFICATION.md
-- docs/operability/PHASE2B_METRICS_COLLECTION_VERIFICATION.md
-- docs/operability/PHASE2C_EXPORTER_RELIABILITY_VERIFICATION.md
-- docs/operability/PHASE4_SOAK_TEST_RESULTS.md
-- docs/operability/WAVE_D_ACCEPTANCE_CHECKLIST.md
-- docs/operability/WAVE_D_ROADMAP.md
-- docs/operability/WAVE_D_SIGN_OFF.md
-- docs/production/README.md
-- docs/production/RUNBOOKS/FAILOVER_RUNBOOK.md
-- docs/production/RUNBOOKS/RESTORE_RUNBOOK.md
-- include/security/encryption.h
-- include/security/hsm_provider.h
-- include/security/hsm_security_metrics.h
-- include/security/timestamp_authority.h
+- none
