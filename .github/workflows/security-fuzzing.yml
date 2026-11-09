@@ -50,6 +50,7 @@ on:
       - 'fuzz/CMakeLists.txt'
       - 'cmake/CMakeLists.txt'
       - 'cmake/ModularBuild.cmake'
+      - 'CMakeLists.txt'
       - '.github/workflows/security-fuzzing.yml'
   schedule:
     - cron: '0 0 * * 0'
@@ -292,6 +293,7 @@ jobs:
       artifact_name: fuzz-smoke-logs-${{ github.run_number }}
       artifact_paths: |
         build-fuzz/Testing
+        build-fuzz/fuzz-smoke-results.log
         fuzz/corpus
       artifact_retention_days: '30'
       summary_title: "Validate: Deterministic Parser Fuzz-Smoke"

@@ -45,6 +45,7 @@ def affected_targets(paths: list[str]) -> list[str]:
             normalized = normalized[2:]
         if normalized in (
             "fuzz/CMakeLists.txt",
+            "CMakeLists.txt",
             "cmake/CMakeLists.txt",
             "cmake/ModularBuild.cmake",
             "tools/ci/fuzz_smoke.py",
@@ -100,51 +101,110 @@ def affected_targets(paths: list[str]) -> list[str]:
 
 
 def run_smoke(targets: list[str]) -> int:
-    for target in targets:
-        corpus = ROOT / "fuzz" / "corpus" / TARGET_CORPORA[target]
-        binary = ROOT / "build-fuzz" / "fuzz" / "bin" / f"{target}_harness"
-        if not binary.is_file():
-            print(f"ERROR: selected harness missing: {binary}", file=sys.stderr)
-            return 1
-        if not corpus.is_dir():
-            print(f"ERROR: selected corpus missing: {corpus}", file=sys.stderr)
-            return 1
-        seeds = sorted(path for path in corpus.iterdir() if path.is_file())
-        missing = REQUIRED_SEEDS[target] - {seed.name for seed in seeds}
-        if missing:
-            print(f"ERROR: required corpus seeds missing for {target}: {sorted(missing)}", file=sys.stderr)
-            return 1
-        if not seeds:
-            print(f"ERROR: empty corpus for {target}: {corpus}", file=sys.stderr)
-            return 1
+    log_path = ROOT / "build-fuzz" / "fuzz-smoke-results.log"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
 
-        print(f"Smoke-testing {target}: {len(seeds)} tracked/current seed(s), parser budget=300s")
-        deadline = time.monotonic() + 300
-        for seed in seeds:
-            remaining = deadline - time.monotonic()
-            if remaining <= 0:
-                print(f"ERROR: {target} exceeded its 300-second parser budget", file=sys.stderr)
+    with log_path.open("w", encoding="utf-8") as log:
+        def record(message: str, *, error: bool = False) -> None:
+            print(message, file=sys.stderr if error else sys.stdout)
+            log.write(message + "\n")
+            log.flush()
+
+        record(f"Selected parser targets: {', '.join(targets)}")
+        for target in targets:
+            corpus = ROOT / "fuzz" / "corpus" / TARGET_CORPORA[target]
+            binary = ROOT / "build-fuzz" / "fuzz" / "bin" / f"{target}_harness"
+            if not binary.is_file():
+                record(f"ERROR: selected harness missing: {binary}", error=True)
                 return 1
-            try:
-                result = subprocess.run(
-                    [str(binary), str(seed)],
-                    cwd=ROOT,
-                    capture_output=True,
-                    text=True,
-                    timeout=remaining,
-                    check=False,
+            if not corpus.is_dir():
+                record(f"ERROR: selected corpus missing: {corpus}", error=True)
+                return 1
+            seeds = sorted(path for path in corpus.iterdir() if path.is_file())
+            missing = REQUIRED_SEEDS[target] - {seed.name for seed in seeds}
+            if missing:
+                record(
+                    f"ERROR: required corpus seeds missing for {target}: "
+                    f"{sorted(missing)}",
+                    error=True,
                 )
-            except subprocess.TimeoutExpired:
-                print(f"ERROR: {target} timed out on corpus seed {seed.name}", file=sys.stderr)
                 return 1
-            output = result.stdout + result.stderr
-            if result.returncode != 0:
-                print(f"ERROR: {target} failed on {seed.name} (exit {result.returncode})\n{output}", file=sys.stderr)
+            if not seeds:
+                record(f"ERROR: empty corpus for {target}: {corpus}", error=True)
                 return 1
-            if "AddressSanitizer" in output or "UndefinedBehaviorSanitizer" in output or "runtime error:" in output:
-                print(f"ERROR: sanitizer diagnostic from {target} on {seed.name}\n{output}", file=sys.stderr)
-                return 1
-    print(f"PASS: deterministic parser smoke completed for {', '.join(targets)}")
+
+            record(
+                f"START {target}: {len(seeds)} seed(s), parser budget=300s"
+            )
+            deadline = time.monotonic() + 300
+            for seed in seeds:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    record(
+                        f"FAIL {target}: exceeded its 300-second parser budget",
+                        error=True,
+                    )
+                    return 1
+                try:
+                    result = subprocess.run(
+                        [str(binary), str(seed)],
+                        cwd=ROOT,
+                        capture_output=True,
+                        text=True,
+                        errors="replace",
+                        timeout=remaining,
+                        check=False,
+                    )
+                except subprocess.TimeoutExpired as exc:
+                    partial_output = ""
+                    for captured in (exc.stdout, exc.stderr):
+                        if isinstance(captured, bytes):
+                            partial_output += captured.decode(
+                                "utf-8", errors="replace"
+                            )
+                        elif captured:
+                            partial_output += captured
+                    if partial_output:
+                        record(f"OUTPUT before timeout {target}/{seed.name}:")
+                        record(partial_output.rstrip())
+                    record(
+                        f"FAIL {target}/{seed.name}: timed out",
+                        error=True,
+                    )
+                    return 1
+                except OSError as exc:
+                    record(
+                        f"FAIL {target}/{seed.name}: unable to execute harness: "
+                        f"{exc}",
+                        error=True,
+                    )
+                    return 1
+                output = result.stdout + result.stderr
+                if output:
+                    record(f"OUTPUT {target}/{seed.name}:")
+                    record(output.rstrip())
+                if result.returncode != 0:
+                    record(
+                        f"FAIL {target}/{seed.name}: exit {result.returncode}",
+                        error=True,
+                    )
+                    return 1
+                if (
+                    "AddressSanitizer" in output
+                    or "UndefinedBehaviorSanitizer" in output
+                    or "runtime error:" in output
+                ):
+                    record(
+                        f"FAIL {target}/{seed.name}: sanitizer diagnostic",
+                        error=True,
+                    )
+                    return 1
+                record(f"PASS {target}/{seed.name}")
+            record(f"PASS target {target}")
+        record(
+            "PASS: deterministic parser smoke completed for "
+            + ", ".join(targets)
+        )
     return 0
 
 

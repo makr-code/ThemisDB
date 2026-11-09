@@ -137,7 +137,8 @@ TCP packet parser or a copied test implementation.
   this file-mode subset are explicitly skipped and the evidence is marked
   `PARTIAL (not PASS)`; build errors for selected targets remain failures.
 - **Manual trigger:** `workflow_dispatch` with a parser `target` input
-- **Artifacts:** Build/CTest logs and the corpus are retained for 30 days
+- **Artifacts:** Build/CTest logs, `build-fuzz/fuzz-smoke-results.log`, and
+  the corpus are retained for 30 days
 
 ## Crash Analysis
 

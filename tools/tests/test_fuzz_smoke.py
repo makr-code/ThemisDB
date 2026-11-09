@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
+from tools.ci import fuzz_smoke
 from tools.ci.fuzz_smoke import affected_targets
 
 
@@ -55,9 +58,17 @@ class FuzzSmokeScopeTests(unittest.TestCase):
         for path in (
             ".github/workflows/security-fuzzing.yml",
             "cmake/ModularBuild.cmake",
+            "CMakeLists.txt",
         ):
             with self.subTest(path=path):
                 self.assertEqual(affected_targets([path]), expected)
+        for workflow_path in (
+            ".github/workflows/build-sanitizer-nightly.yml",
+            ".github/workflows/security-fuzzing.yml",
+        ):
+            with self.subTest(workflow=workflow_path):
+                workflow = (ROOT / workflow_path).read_text(encoding="utf-8")
+                self.assertIn("- 'CMakeLists.txt'", workflow)
 
     def test_unrelated_paths_select_no_fuzz_targets(self):
         for path in (
@@ -104,6 +115,42 @@ class FuzzSmokeScopeTests(unittest.TestCase):
         self.assertIn(parser_call, wire_harness)
         self.assertIn(parser_call, ws_session)
 
+    def test_smoke_results_are_persisted_for_the_artifact(self):
+        workflow = (ROOT / ".github/workflows/security-fuzzing.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("build-fuzz/fuzz-smoke-results.log", workflow)
+
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            temporary_root = Path(temporary_directory)
+            corpus = temporary_root / "fuzz/corpus/aql"
+            corpus.mkdir(parents=True)
+            seed = corpus / "seed_select.aql"
+            seed.write_text("FOR doc IN docs RETURN doc\n", encoding="utf-8")
+
+            binary = (
+                temporary_root
+                / "build-fuzz/fuzz/bin/aql_parser_harness"
+            )
+            binary.parent.mkdir(parents=True)
+            binary.write_text(
+                "#!/usr/bin/env python3\n"
+                "print('harness output captured')\n",
+                encoding="utf-8",
+            )
+            binary.chmod(0o755)
+
+            with patch.object(fuzz_smoke, "ROOT", temporary_root):
+                self.assertEqual(fuzz_smoke.run_smoke(["aql_parser"]), 0)
+
+            results = (
+                temporary_root / "build-fuzz/fuzz-smoke-results.log"
+            ).read_text(encoding="utf-8")
+            self.assertIn("Selected parser targets: aql_parser", results)
+            self.assertIn("OUTPUT aql_parser/seed_select.aql", results)
+            self.assertIn("harness output captured", results)
+            self.assertIn("PASS aql_parser/seed_select.aql", results)
+
     def test_sanitizer_lane_has_narrow_pr_scope_and_tsan_targets(self):
         workflow = (ROOT / ".github/workflows/build-sanitizer-nightly.yml").read_text(encoding="utf-8")
         self.assertIn("  pull_request:", workflow)
@@ -133,6 +180,7 @@ class FuzzSmokeScopeTests(unittest.TestCase):
             "module_server_test_server_phase2_focused_focused",
             "module_auth_test_wave8_auth_hardening_focused",
             "module_network_test_network_contract_hardening_focused_focused",
+            "module_network_test_wire_protocol_v2_focused",
             "test_transaction_auditor_focused",
             "test_shard_router_focused",
             "module_llm_test_llm_phase1_hardening_focused",
@@ -145,6 +193,13 @@ class FuzzSmokeScopeTests(unittest.TestCase):
             'set(_target "module_network_${_stem}_focused")',
             network_tests,
         )
+        self.assertIn('set(_ctest "${_stem}_network_FocusedTests")', network_tests)
+        self.assertTrue((ROOT / "tests/network/test_wire_protocol_v2.cpp").is_file())
+        self.assertIn(
+            "test_wire_protocol_v2_network_FocusedTests",
+            workflow,
+        )
+        self.assertNotIn("WireProtocolV2FocusedTests", workflow)
         self.assertIn("FAIL/CANCELLED (not PASS", workflow)
         self.assertIn("actions/runs/${GITHUB_RUN_ID}", workflow)
         self.assertIn('-R "$TEST_REGEX"', workflow)
