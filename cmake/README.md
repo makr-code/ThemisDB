@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-04-17
-Last Updated: 2026-11-06
+Last Updated: 2026-11-09
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -37,7 +37,7 @@ Dieser Ordner enthält 4 Unterordner und 42 Dateien und bildet einen abgegrenzte
 
 `THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY` controls an existing compiler-memory
 workaround in the modular MSVC network build. Its default is `ON`: non-Debug
-compilation of `monitoring_api_handler.cpp`, `index_api_handler.cpp` and
+compilation of `monitoring_api_handler.cpp`, `monitoring_api_routes.cpp`, `index_api_handler.cpp` and
 `prompt_api_handler.cpp` receives
 `/Od` plus explicit `/Ob0` to reduce compiler heap pressure (`C1060`) on
 constrained CI workers. `/Ob0` overrides inherited `/Ob2` inlining, which
@@ -46,7 +46,7 @@ constrained CI workers. `/Ob0` overrides inherited `/Ob2` inlining, which
 
 The local `vscode-windows-release` configure preset sets the option to `OFF`.
 Release therefore uses its normal `/O2` optimization and inherited inlining
-for these three files, without either per-file `/Od` or `/Ob0` override.
+for these four files, without either per-file `/Od` or `/Ob0` override.
 The workspace tasks named
 `CMake: Configure (windows-release)` and `CMake: Build (windows-release)` use
 this local preset. Build directory and edition remain
@@ -57,14 +57,28 @@ switching to another preset using the same build directory does not reset it.
 To restore the workaround locally, set the local override to `ON` and reconfigure.
 There is no automatic retry with disabled optimization if `/O2` fails.
 
-The Windows lane in `.github/workflows/release-build-matrix.yml` serializes
-dependency/configure and build work (`VCPKG_MAX_CONCURRENCY=1`,
-`CMAKE_BUILD_PARALLEL_LEVEL=1`, build `--parallel 1`). The latest
+Historically, the Windows lane in `.github/workflows/release-build-matrix.yml`
+serialized dependency/configure and build work (`VCPKG_MAX_CONCURRENCY=1`,
+`CMAKE_BUILD_PARALLEL_LEVEL=1`, build `--parallel 1`).
 [Windows run 42155076805, job 127687580213](https://github.com/makr-code/ThemisDB/actions/runs/42155076805/job/127687580213)
-still encountered `C1060` despite serial compilation and `/Od`. The scoped
-correction adds `/Ob0` under the same non-Debug, low-memory guard for all three
-handlers; other translation units are unchanged. A fresh native Windows run
-is required to validate this correction; no native success is claimed for it.
+still encountered `C1060` despite serial compilation and `/Od`. The correction
+at that time added `/Ob0` under the same non-Debug, low-memory guard for all three
+handlers; other translation units were unchanged. That correction required a
+fresh native Windows run; no native success is claimed for it.
+
+On 2026-11-09, [run 42638257654, job 129343673144](https://github.com/makr-code/ThemisDB/actions/runs/42638257654/job/129343673144)
+still failed with `C1060` at `monitoring_api_handler.cpp(2246)` inside
+`MonitoringApiHandler::registerRoutes()` on VS18 MSVC 14.51 Hostx64/x64, despite
+serial compilation and `/Od /Ob0 /GL- /bigobj /Zm200`. The scoped fix moves only
+that method, unchanged with all 47 routes, into `monitoring_api_routes.cpp`,
+including only the handler and route-registry headers. The original handler
+retains the registry include for `handleOpenApi()`. Both modular and monolithic
+source lists and MSVC property lists include the new translation unit alongside
+the handler: modular low-memory default/non-Debug/opt-out semantics and
+monolithic `/bigobj` and unity exclusions are unchanged. No flags are changed.
+Current dependency/configure concurrency defaults to 4 independently of the
+serial build; the historical serial-configure evidence above is not a statement
+of the current default. Native Windows validation of this split remains pending.
 
 Validation on 2026-10-29: both generated compile commands contain `/O2` and
 `/bigobj`, without `/Od`; the local Release build completed without `C1060` or

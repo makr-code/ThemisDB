@@ -21,6 +21,18 @@ Status: Active
 
 The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap. Release-source preflight and the reusable platform workflow enforce `test_base_installs_python_autoreconf_prerequisites`, including when the source-preflight override is enabled. An older selected source without this package can fail during `autoreconf`; rerunning that workflow does not change its source. Use a new release tag containing the fix, or set `build_from_workflow_source=true` for non-publishing validation. See the [canonical deployment guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting).
 
+## MSVC monitoring route translation-unit split
+
+Run `42638257654`, job `129343673144` failed with VS18 MSVC 14.51 `C1060` at
+`monitoring_api_handler.cpp(2246)` despite serial compilation and
+`/Od /Ob0 /GL- /bigobj /Zm200`. Only `MonitoringApiHandler::registerRoutes()`
+(all 47 routes unchanged) is moved to `src/server/monitoring_api_routes.cpp`,
+registered in both build layouts with the handler's existing MSVC properties.
+No API or flag changes; modular non-Debug low-memory defaults and opt-out are
+preserved. Native Windows validation remains pending. See
+[MSVC Handler Optimization](../../cmake/README.md#msvc-handler-optimization)
+for current policy and preserved historical evidence.
+
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
 - Hash: `59518d7978eca388`
