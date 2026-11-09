@@ -65,8 +65,10 @@ Known examples to remediate:
 
 ### Phase 1 — Correct the multi-model database workload
 
-Replace or rename the misleading `bench_mmdb` cases. Use the real ThemisDB
-query, storage, vector-index, and graph APIs. Cover:
+Replace or rename `bench_mmdb` cases that use synthetic / non-production-path
+workloads; relabel them as synthetic and exclude them from production
+performance reporting until they call real ThemisDB query, storage,
+vector-index, and graph APIs. Cover:
 
 - A seeded YCSB-inspired A/B/C/F read/update mix over typed records.
 - Filtered document queries and a combined document + vector + graph result
