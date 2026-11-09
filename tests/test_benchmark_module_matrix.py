@@ -78,6 +78,15 @@ class BenchmarkModuleMatrixTests(unittest.TestCase):
                 "themis_add_standard_benchmark(query_limit bench_query_limit_scaling.cpp)\n"
                 "themis_register_benchmark_ctest(NAME query_limit_smoke TARGET query_limit)\n"
             )
+            (repo / "src" / "query" / "PERFORMANCE_EXPECTATIONS.md").write_text(
+                "# Query performance expectations\n"
+            )
+            (repo / "benchmarks" / "benchmark_target_mapping.json").write_text(
+                '{"modules":{"query":{"Q-Limit":{"label":"LIMIT scan scale",'
+                '"file":"bench_query_limit_scaling.cpp",'
+                '"primary_case":"BM_QueryLimit_10_10M",'
+                '"slo_target":"10M rows","status":"mapped"}}}}'
+            )
 
             matrix = audit_benchmark_coverage.generate_module_matrix(
                 repo,
@@ -98,9 +107,59 @@ class BenchmarkModuleMatrixTests(unittest.TestCase):
 
         self.assertEqual(query["benchmarks"][0]["status"], "gap")
         self.assertEqual(query["claim_review"]["status"], "gap")
+        self.assertEqual(query["claim_inventory_review"]["status"], "gap")
+        self.assertEqual(query["claim_inventory_review"]["owner_issue"], 7488)
+        self.assertEqual(
+            query["claim_inventory_review"]["mapped_performance_targets"][0],
+            {
+                "target_id": "Q-Limit",
+                "label": "LIMIT scan scale",
+                "benchmark_file": "bench_query_limit_scaling.cpp",
+                "primary_case": "BM_QueryLimit_10_10M",
+                "fallback_file": None,
+                "fallback_case": None,
+                "declared_target": "10M rows",
+                "mapping_status": "mapped",
+            },
+        )
+        self.assertIn(
+            "partial index",
+            query["claim_inventory_review"]["mapping_completeness"],
+        )
         self.assertEqual(withdrawn_llm_claim["claim_disposition"], "withdrawn")
         self.assertEqual(withdrawn_llm_claim["status"], "not applicable")
         self.assertEqual(withdrawn_llm_claim["benchmark_applicability"], "not applicable")
+
+    def test_unmapped_high_risk_claims_keep_portfolio_owner_and_gap(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo = Path(temp_dir)
+            (repo / "src" / "server").mkdir(parents=True)
+            (repo / "src" / "server" / "PERFORMANCE_EXPECTATIONS.md").write_text(
+                "# Server performance expectations\n"
+            )
+            benchmark_dir = repo / "benchmarks" / "server"
+            benchmark_dir.mkdir(parents=True)
+            (benchmark_dir / "bench_server_hotpaths.cpp").write_text(
+                "int main() { return 0; }\n"
+            )
+
+            matrix = audit_benchmark_coverage.generate_module_matrix(
+                repo,
+                source_revision="develop-test-sha",
+            )
+
+        server = next(module for module in matrix["modules"] if module["module"] == "server")
+        review = server["claim_inventory_review"]
+        self.assertEqual(review["status"], "gap")
+        self.assertEqual(review["owner_issue"], 7828)
+        self.assertEqual(review["source_documents"], [
+            "src/server/PERFORMANCE_EXPECTATIONS.md"
+        ])
+        self.assertEqual(review["mapped_performance_targets"], [])
+        self.assertEqual(review["benchmark_source_candidates"], [
+            "benchmarks/server/bench_server_hotpaths.cpp"
+        ])
+        self.assertIn("retained raw result", review["follow_up"])
 
 
 if __name__ == "__main__":

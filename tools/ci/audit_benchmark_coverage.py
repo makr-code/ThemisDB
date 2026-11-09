@@ -27,6 +27,18 @@ MODULE_BENCHMARK_PRIORITY = {
     "query", "storage", "transaction", "sharding", "geo", "process",
     "performance",
 }
+MODULE_BENCHMARK_OWNER_ISSUES = {
+    "analytics": 7500,
+    "gpu": 7492,
+    "performance": 7534,
+    "prompt_engineering": 7538,
+    "query": 7488,
+    "scheduler": 7541,
+    "sharding": 7810,
+    "timeseries": 7549,
+    "transaction": 7810,
+    "whisper": 7558,
+}
 BENCHMARK_CI_WORKFLOWS = [
     {
         "path": ".github/workflows/benchmark-performance-gate.yml",
@@ -592,6 +604,74 @@ def _latest_source_revision(repo_root: Path) -> tuple[str | None, str | None]:
         return None, None
 
 
+def _performance_claim_inventory(repo_root: Path, module: str, benchmark_rows: List[Dict]) -> Dict:
+    """Link module performance documents and declared target mappings without implying evidence."""
+    source_documents = [
+        f"src/{module}/{name}"
+        for name in (
+            "PERFORMANCE_EXPECTATIONS.md",
+            "PERFORMANCE_BASELINE.md",
+            "ROADMAP.md",
+            "FUTURE_ENHANCEMENTS.md",
+        )
+        if (repo_root / "src" / module / name).is_file()
+    ]
+    target_mapping_path = repo_root / "benchmarks" / "benchmark_target_mapping.json"
+    mapped_targets = []
+    if target_mapping_path.is_file():
+        try:
+            target_mapping = json.loads(target_mapping_path.read_text(encoding="utf-8"))
+            module_targets = target_mapping.get("modules", {}).get(module, {})
+            for target_id, target in sorted(module_targets.items()):
+                mapped_targets.append({
+                    "target_id": target_id,
+                    "label": target.get("label"),
+                    "benchmark_file": target.get("file"),
+                    "primary_case": target.get("primary_case")
+                    or target.get("primary_benchmark"),
+                    "fallback_file": target.get("fallback_file"),
+                    "fallback_case": target.get("fallback_case"),
+                    "declared_target": target.get("slo_target") or target.get("slo"),
+                    "mapping_status": target.get("status"),
+                })
+        except (OSError, ValueError, AttributeError):
+            mapped_targets = []
+
+    owner_issue = MODULE_BENCHMARK_OWNER_ISSUES.get(module, 7828)
+    owner_scope = (
+        "module workload/evidence follow-up"
+        if owner_issue != 7828
+        else "portfolio claim-triage owner; no workload-specific benchmark issue was verified"
+    )
+    return {
+        "status": "gap",
+        "owner_issue": owner_issue,
+        "owner_issue_scope": owner_scope,
+        "target": "v2.5.0 M1 by 2027-03-31",
+        "source_documents": source_documents,
+        "target_mapping_source": (
+            "benchmarks/benchmark_target_mapping.json"
+            if target_mapping_path.is_file()
+            else None
+        ),
+        "mapping_completeness": (
+            "Declared target mappings are a partial index, not proof that every roadmap or "
+            "documented claim is inventoried."
+        ),
+        "mapped_performance_targets": mapped_targets,
+        "benchmark_source_candidates": [
+            benchmark["source"] for benchmark in benchmark_rows
+        ],
+        "follow_up": (
+            "Reconcile every documented and roadmap performance claim with one primary "
+            "workload; record scale/distribution, warmup/repetitions, hardware/runtime/build, "
+            "correctness checks, metrics, CI trigger, retained raw result, run URL, and source "
+            "SHA. Keep this gap open until each claim has a named workload owner and reproducible "
+            "evidence or a reviewed withdrawal/non-applicability rationale."
+        ),
+    }
+
+
 def generate_module_matrix(
     repo_root: Path = REPO_ROOT,
     source_revision: str | None = None,
@@ -724,6 +804,10 @@ def generate_module_matrix(
             "benchmark_source_count": len(benchmark_rows),
             "benchmarks": benchmark_rows,
             "claim_review": claim_review,
+            "claim_inventory_review": (
+                _performance_claim_inventory(repo_root, module, benchmark_rows)
+                if high_risk else None
+            ),
             "claim_ids": [claim["id"] for claim in claims],
             "status": status,
         })
