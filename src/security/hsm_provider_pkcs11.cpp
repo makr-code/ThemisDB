@@ -12,6 +12,7 @@
 #ifdef THEMIS_ENABLE_HSM_REAL
 #include "security/hsm_provider.h"
 #include "security/pkcs11_minimal.h"
+#include "core/production_mode.h"
 #include "utils/logger.h"
 #include <string>
 #include <vector>
@@ -68,27 +69,30 @@ using HSM_P11_X509_ptr = std::unique_ptr<X509, HSM_PKCS11_X509_Deleter>;
 using HSM_P11_BIO_ptr = std::unique_ptr<BIO, HSM_PKCS11_BIO_Deleter>;
 using HSM_P11_BIGNUM_ptr = std::unique_ptr<BIGNUM, HSM_PKCS11_BIGNUM_Deleter>;
 
+bool productionModeRequiresRealHsm() noexcept {
+    try {
+        return core::ProductionMode::isEnabled();
+    } catch (...) {
+        return true;
+    }
+}
+
 } // anonymous namespace
 
-// Real PKCS#11 implementation with graceful developer fallback.
-// If any critical step fails (lib load, slot, login, key discovery),
-// operations transparently revert to deterministic stub behaviour.
-
-// PERMANENT FALLBACK NOTE (fallback path only):
-// Purpose: When PKCS#11 hardware/library is unavailable (slot discovery fails, PIN error,
-//          device absent), HSMProvider::Impl::stub_kek is used as a software AES-256-GCM
-//          fallback so that developer and CI environments remain functional.
-// Activation: Automatically activated at runtime when real_ready == false (PKCS#11 init
-//             fails). Controlled by THEMIS_ALLOW_HSM_STUB env var in production mode.
-// Production Delta: Fallback KEK is randomly generated in-memory, not HSM-protected.
-//                   Key material is not backed by hardware; wrap/unwrap is software-only.
-// This fallback is PERMANENT and intentional – it is a runtime safety net. Real HSM usage
-// is enforced in production mode (THEMIS_PRODUCTION_MODE=1) unless explicitly overridden.
-// A loud WARN log is emitted on every call that hits this path.
+// Real PKCS#11 implementation with existing non-production fallback behavior.
+//
+// The fallback's human-approval/G4 status is unresolved; this comment does not assert
+// approval. Outside canonical ProductionMode, existing behavior is retained. The opt-in
+// THEMIS_ALLOW_HSM_STUB gate applies to the stub signing and certificate paths; wrap/unwrap
+// retain their existing non-production fallback behavior without that opt-in. In canonical
+// ProductionMode, failed real-HSM initialization and all !real_ready fallback operations are
+// rejected.
 // Roadmap ref: src/security/ROADMAP.md § "Phase 2: ABAC & HSM Direct Integration"
 
 class PKCS11Loader {
 public:
+    ~PKCS11Loader() { unload(); }
+
     /**
      * @brief Load.
      * @param[in] path Input parameter.
@@ -96,36 +100,37 @@ public:
      * @details Calls: defined(), LoadLibraryA(), c_str(), GetProcAddress(), getFn(), C_Initialize(), dlopen(), dlsym().
      */
     bool load(const std::string& path) {
+        unload();
 #if defined(_WIN32)
         lib_ = LoadLibraryA(path.c_str());
         if(!lib_) {
           return false;
         }
         auto getFn = (CK_C_GetFunctionList)GetProcAddress((HMODULE)lib_, "C_GetFunctionList");
-        if(!getFn) {
-          return false;
-        }
-        CK_RV rv = getFn(&funcs_);
-        return rv == CKR_OK && funcs_ && funcs_->C_Initialize(nullptr) == CKR_OK;
 #else
         lib_ = dlopen(path.c_str(), RTLD_NOW);
         if(!lib_) {
           return false;
         }
         auto getFn = (CK_C_GetFunctionList)dlsym(lib_, "C_GetFunctionList");
-        if(!getFn) {
+#endif
+        if(!getFn || getFn(&funcs_) != CKR_OK || !funcs_ || !funcs_->C_Initialize) {
+          unload();
           return false;
         }
-        CK_RV rv = getFn(&funcs_);
-        return rv == CKR_OK && funcs_ && funcs_->C_Initialize(nullptr) == CKR_OK;
-#endif
+        if(funcs_->C_Initialize(nullptr) != CKR_OK) {
+          unload();
+          return false;
+        }
+        initialized_ = true;
+        return true;
     }
     /**
      * @brief Unload.
      * @details Calls: C_Finalize(), defined(), FreeLibrary(), dlclose().
      */
     void unload() {
-        if(funcs_) {
+        if(initialized_ && funcs_ && funcs_->C_Finalize) {
           funcs_->C_Finalize(nullptr);
         }
 #if defined(_WIN32)
@@ -137,12 +142,15 @@ public:
           dlclose(lib_);
         }
 #endif
-        lib_ = nullptr; funcs_ = nullptr;
+        lib_ = nullptr;
+        funcs_ = nullptr;
+        initialized_ = false;
     }
     CK_FUNCTION_LIST_PTR api() const { return funcs_; }
 private:
     void* lib_ = nullptr;
     CK_FUNCTION_LIST_PTR funcs_ = nullptr;
+    bool initialized_ = false;
 };
 
 /**
@@ -280,6 +288,25 @@ public:
     std::atomic<uint32_t> next_session_idx; // Lock-free round-robin counter
     std::vector<uint8_t> stub_kek; // Fallback AES-256 KEK when real HSM unavailable
 
+    void cleanup() {
+        auto api = loader.api();
+        if (api && api->C_CloseSession) {
+            for (auto& entry : pool) {
+                if (entry.handle) {
+                    if (api->C_CloseSession(entry.handle) != CKR_OK) {
+                        THEMIS_WARN("PKCS11 C_CloseSession failed during cleanup");
+                    }
+                    entry.handle = 0;
+                }
+            }
+        }
+        pool.clear();
+        session = 0;
+        real_ready = false;
+        stub_kek.clear();
+        loader.unload();
+    }
+
     // Performance metrics
     std::atomic<uint64_t> sign_count{0};
     std::atomic<uint64_t> verify_count{0};
@@ -396,6 +423,8 @@ bool HSMProvider::initialize(){
     if(initialized_) {
       return true;
     }
+    production_mode_failed_ = false;
+    last_error_.clear();
     // Attempt real PKCS#11
     if(!config_.library_path.empty() && impl_->loader.load(config_.library_path)){
         auto api = impl_->loader.api();
@@ -508,6 +537,28 @@ bool HSMProvider::initialize(){
             : "Failed to load PKCS#11 library: " + config_.library_path;
         impl_->fallbackLogOnce(last_error_);
     }
+    bool production_mode = false;
+    try {
+        production_mode = core::ProductionMode::isEnabled();
+    } catch (const std::exception& ex) {
+        production_mode_failed_ = true;
+        last_error_ = std::string("Unable to determine production mode: ") + ex.what();
+        impl_->cleanup();
+        THEMIS_ERROR("SECURITY FAILURE: {}", last_error_);
+        return false;
+    }
+    if (!impl_->real_ready && production_mode) {
+        production_mode_failed_ = true;
+        const std::string initialization_error = last_error_;
+        last_error_ = "Real PKCS#11 HSM is required in production mode";
+        if (!initialization_error.empty()) {
+            last_error_ += ": " + initialization_error;
+        }
+        impl_->cleanup();
+        THEMIS_ERROR("SECURITY FAILURE: {}", last_error_);
+        return false;
+    }
+
     initialized_ = true;
     THEMIS_INFO("HSMProvider init (real_ready={})", impl_->real_ready?"true":"false");
     
@@ -517,6 +568,7 @@ bool HSMProvider::initialize(){
         if (RAND_bytes(impl_->stub_kek.data(), 32) != 1) {
             THEMIS_ERROR("HSMProvider: failed to generate stub KEK - aborting initialization");
             initialized_ = false;
+            impl_->cleanup();
             return false;
         }
     }
@@ -550,30 +602,7 @@ bool HSMProvider::initialize(){
  */
 void HSMProvider::finalize(){
     std::lock_guard<std::mutex> lock(impl_->mtx);
-    if(!initialized_) {
-      return;
-    }
-    if(impl_->real_ready && impl_->loader.api()){
-        auto api = impl_->loader.api();
-        // Close all sessions in the pool
-        for(auto& s : impl_->pool) {
-            if(s.handle) {
-                CK_RV rv = api->C_Logout(s.handle);
-                if(rv != CKR_OK && rv != CKR_USER_NOT_LOGGED_IN){
-                    THEMIS_WARN("PKCS11 C_Logout failed for session: {}", mapError(rv));
-                }
-                rv = api->C_CloseSession(s.handle);
-                if(rv != CKR_OK){
-                    THEMIS_WARN("PKCS11 C_CloseSession failed for session: {}", mapError(rv));
-                }
-                s.handle = 0;
-            }
-        }
-        impl_->pool.clear();
-        impl_->loader.unload();
-    }
-    impl_->pool.clear();
-    impl_->real_ready = false;
+    impl_->cleanup();
     initialized_ = false;
 }
 
@@ -787,6 +816,11 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
         return r; 
     }
     if(!impl_->real_ready){
+        if (production_mode_failed_ || productionModeRequiresRealHsm()) {
+            r.error_message = "Real PKCS#11 HSM is required in production mode";
+            impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
+            return r;
+        }
         auto bridge = SignHashFn{};
         {
             std::lock_guard<std::mutex> bridge_lock(signHashFnMutex());
@@ -907,6 +941,10 @@ bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& si
         return false;
     }
     if(!impl_->real_ready){
+        if (production_mode_failed_ || productionModeRequiresRealHsm()) {
+            impl_->verify_errors.fetch_add(1, std::memory_order_relaxed);
+            return false;
+        }
         auto bridge = VerifyFn{};
         {
             std::lock_guard<std::mutex> bridge_lock(verifyFnMutex());
@@ -979,6 +1017,10 @@ bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& si
  */
 std::vector<HSMKeyInfo> HSMProvider::listKeys(){
     std::lock_guard<std::mutex> lock(impl_->mtx);
+    if (production_mode_failed_ ||
+        (!impl_->real_ready && productionModeRequiresRealHsm())) {
+        return {};
+    }
     HSMKeyInfo info; info.label = config_.key_label; info.id = impl_->real_ready?"real-id":"stub-id"; info.algorithm = config_.signature_algorithm; info.can_sign = true; info.can_verify = true; info.extractable = false; info.key_size = impl_->real_ready?2048:0; return {info};
 }
 
@@ -993,6 +1035,10 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if (!initialized_) { last_error_ = "Not initialized"; return {}; }
     if (!impl_->real_ready || !impl_->loader.api()) {
+        if (production_mode_failed_ || productionModeRequiresRealHsm()) {
+            last_error_ = "Real PKCS#11 HSM is required in production mode";
+            return {};
+        }
         auto bridge = EncryptDataFn{};
         {
             std::lock_guard<std::mutex> bridge_lock(encryptDataFnMutex());
@@ -1052,6 +1098,10 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if (!initialized_) { last_error_ = "Not initialized"; return {}; }
     if (!impl_->real_ready || !impl_->loader.api()) {
+        if (production_mode_failed_ || productionModeRequiresRealHsm()) {
+            last_error_ = "Real PKCS#11 HSM is required in production mode";
+            return {};
+        }
         auto bridge = DecryptDataFn{};
         {
             std::lock_guard<std::mutex> bridge_lock(decryptDataFnMutex());
@@ -1110,6 +1160,7 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
 bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, bool extractable){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if(!impl_->real_ready){ 
+        if (production_mode_failed_ || productionModeRequiresRealHsm()) return false;
         auto bridge = GenerateKeyPairFn{};
         {
             std::lock_guard<std::mutex> bridge_lock(generateKeyPairFnMutex());
@@ -1203,6 +1254,7 @@ bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, b
 bool HSMProvider::importCertificate(const std::string& key_label, const std::string& cert_pem){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if(!impl_->real_ready){ 
+        if (production_mode_failed_ || productionModeRequiresRealHsm()) return false;
         auto bridge = ImportCertificateFn{};
         {
             std::lock_guard<std::mutex> bridge_lock(importCertificateFnMutex());
@@ -1326,6 +1378,9 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
 std::optional<std::string> HSMProvider::getCertificate(const std::string& key_label){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if(!impl_->real_ready) {
+        if (production_mode_failed_ || productionModeRequiresRealHsm()) {
+            return std::nullopt;
+        }
         auto bridge = GetCertificateFn{};
         {
             std::lock_guard<std::mutex> bridge_lock(getCertificateFnMutex());
@@ -1378,9 +1433,16 @@ std::optional<std::string> HSMProvider::getCertificate(const std::string& key_la
     return pem;
 }
 
-bool HSMProvider::isReady() const { return impl_->real_ready || initialized_; }
+bool HSMProvider::isReady() const {
+    return impl_->real_ready ||
+           (initialized_ && !production_mode_failed_ && !productionModeRequiresRealHsm());
+}
 
 std::string HSMProvider::getTokenInfo() const {
+    if (!impl_->real_ready &&
+        (production_mode_failed_ || productionModeRequiresRealHsm())) {
+      return "PKCS11 not ready (real HSM required in production mode)";
+    }
     if (!impl_->real_ready) {
       return "PKCS11 fallback stub";
     }
@@ -1423,7 +1485,6 @@ void HSMProvider::resetStats() {
 }
 
 bool HSMProvider::isStubProvider() const {
-    // False if real HSM is active, true if fallback stub
     return !impl_->real_ready;
 }
 
@@ -1440,6 +1501,10 @@ void HSMProvider::periodicSecurityCheck() {
     
     // If using stub fallback (no real HSM), log security warning
     if (!impl_->real_ready) {
+        if (production_mode_failed_ || productionModeRequiresRealHsm()) {
+            THEMIS_ERROR("HSM provider is not ready: a real PKCS#11 HSM is required in production mode");
+            return;
+        }
         THEMIS_ERROR("⚠️  HSM SECURITY WARNING: PKCS#11 fallback stub active!");
         THEMIS_ERROR("Real HSM connection failed. Keys are NOT hardware-protected.");
         THEMIS_ERROR("Compliance impact: NIST SP 800-53 SC-12, PCI DSS 3.6, GDPR Art. 32");

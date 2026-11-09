@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "security/hsm_provider.h"
+#include "security/hsm_security_metrics.h"
 #include <cstdlib>
 
 using namespace themis::security;
@@ -7,10 +8,8 @@ using namespace themis::security;
 /**
  * HSM Stub Gating Tests
  * 
- * Tests that the HSM stub provider properly enforces security gating:
- * - Requires explicit opt-in via THEMIS_ALLOW_HSM_STUB
- * - Fails in production mode without opt-in
- * - Detects production environment indicators
+ * Exercises fallback opt-in and production-mode behavior without asserting
+ * human approval or closure of the non-production fallback policy.
  */
 
 class HSMStubGatingTest : public ::testing::Test {
@@ -44,6 +43,85 @@ protected:
             setenv(name, value, 1);
         #endif
     }
+
+#ifdef THEMIS_ENABLE_HSM_REAL
+    void expectProductionInitializationFailure(const std::string& library_path) {
+        setEnv("THEMIS_PRODUCTION_MODE", "1");
+        setEnv("THEMIS_ALLOW_HSM_STUB", "1");
+
+        HSMConfig config;
+        config.library_path = library_path;
+        HSMProvider hsm(config);
+        bool bridge_called = false;
+        HSMProvider::setSignHashFn([&](const auto&, const auto&) {
+            bridge_called = true;
+            HSMSignatureResult result;
+            result.success = true;
+            return result;
+        });
+        HSMProvider::setVerifyFn([&](const auto&, const auto&, const auto&) {
+            bridge_called = true;
+            return true;
+        });
+        HSMProvider::setEncryptDataFn([&](const auto&, const auto&) {
+            bridge_called = true;
+            return std::vector<uint8_t>{1};
+        });
+        HSMProvider::setDecryptDataFn([&](const auto&, const auto&) {
+            bridge_called = true;
+            return std::vector<uint8_t>{1};
+        });
+        HSMProvider::setGenerateKeyPairFn([&](const auto&, auto, auto) {
+            bridge_called = true;
+            return true;
+        });
+        HSMProvider::setImportCertificateFn([&](const auto&, const auto&) {
+            bridge_called = true;
+            return true;
+        });
+        HSMProvider::setGetCertificateFn([&](const auto&) -> std::optional<std::string> {
+            bridge_called = true;
+            return "stub certificate";
+        });
+
+        EXPECT_FALSE(hsm.isReady());
+        EXPECT_TRUE(hsm.isStubProvider());
+        EXPECT_NE(hsm.getTokenInfo().find("not ready"), std::string::npos);
+        EXPECT_FALSE(hsm.generateKeyPair("test"));
+        EXPECT_FALSE(hsm.importCertificate("test", "certificate"));
+        EXPECT_FALSE(hsm.getCertificate("test").has_value());
+        EXPECT_TRUE(hsm.listKeys().empty());
+        EXPECT_FALSE(bridge_called);
+
+        EXPECT_FALSE(hsm.initialize());
+        EXPECT_FALSE(hsm.isReady());
+        EXPECT_TRUE(hsm.isStubProvider());
+        EXPECT_NE(hsm.getTokenInfo().find("not ready"), std::string::npos);
+        EXPECT_NE(hsm.getLastError().find("production mode"), std::string::npos);
+        EXPECT_FALSE(hsm.signHash({1}).success);
+        EXPECT_FALSE(hsm.verify({1}, "signature"));
+        EXPECT_TRUE(hsm.encryptData({1}).empty());
+        EXPECT_TRUE(hsm.decryptData({1}).empty());
+        EXPECT_FALSE(hsm.generateKeyPair("test"));
+        EXPECT_FALSE(hsm.importCertificate("test", "certificate"));
+        EXPECT_FALSE(hsm.getCertificate("test").has_value());
+        EXPECT_TRUE(hsm.listKeys().empty());
+        EXPECT_FALSE(bridge_called);
+
+        hsm.finalize();
+        EXPECT_FALSE(hsm.generateKeyPair("test"));
+        EXPECT_FALSE(hsm.getCertificate("test").has_value());
+        EXPECT_FALSE(bridge_called);
+
+        HSMProvider::setSignHashFn({});
+        HSMProvider::setVerifyFn({});
+        HSMProvider::setEncryptDataFn({});
+        HSMProvider::setDecryptDataFn({});
+        HSMProvider::setGenerateKeyPairFn({});
+        HSMProvider::setImportCertificateFn({});
+        HSMProvider::setGetCertificateFn({});
+    }
+#endif
 };
 
 TEST_F(HSMStubGatingTest, AllowsStubInDevelopmentWithOptIn) {
@@ -58,6 +136,9 @@ TEST_F(HSMStubGatingTest, AllowsStubInDevelopmentWithOptIn) {
     EXPECT_TRUE(hsm.initialize());
     EXPECT_TRUE(hsm.isStubProvider());
     EXPECT_TRUE(hsm.isReady());
+#ifndef THEMIS_ENABLE_HSM_REAL
+    EXPECT_TRUE(hsm.verify({1, 2, 3}, "hex:010203"));
+#endif
 }
 
 TEST_F(HSMStubGatingTest, FailsInProductionModeWithoutOptIn) {
@@ -72,10 +153,42 @@ TEST_F(HSMStubGatingTest, FailsInProductionModeWithoutOptIn) {
     EXPECT_FALSE(hsm.initialize());
     EXPECT_TRUE(hsm.isStubProvider());
     EXPECT_FALSE(hsm.isReady());
+ #ifndef THEMIS_ENABLE_HSM_REAL
+    EXPECT_NE(hsm.getTokenInfo().find("ProductionMode"), std::string::npos);
+ #endif
     
     // Check error message
     std::string error = hsm.getLastError();
     EXPECT_NE(error.find("production mode"), std::string::npos);
+}
+
+TEST_F(HSMStubGatingTest, ProductionModeKeepsStubIdentitySeparateFromAvailability) {
+    setEnv("THEMIS_ALLOW_HSM_STUB", "1");
+
+    HSMConfig config;
+    config.library_path = "/nonexistent/stub.so";
+    HSMProvider hsm(config);
+    ASSERT_TRUE(hsm.initialize());
+    ASSERT_TRUE(hsm.isStubProvider());
+    ASSERT_TRUE(hsm.isReady());
+
+    setEnv("THEMIS_PRODUCTION_MODE", "1");
+    EXPECT_TRUE(hsm.isStubProvider());
+    EXPECT_FALSE(hsm.isReady());
+
+    const auto metrics = HSMSecurityMetrics::exportMetrics(hsm);
+    EXPECT_NE(metrics.find("hsm_security_stub_active 0"), std::string::npos);
+    EXPECT_NE(metrics.find("themis_hsm_insecure_config 1"), std::string::npos);
+    EXPECT_NE(metrics.find("hsm_provider_ready 0"), std::string::npos);
+    EXPECT_NE(metrics.find(
+        "hsm_compliance_status{standard=\"nist_sp_800_53_sc_12\"} 0"),
+        std::string::npos);
+
+    const auto json = HSMSecurityMetrics::exportJSON(hsm);
+    EXPECT_NE(json.find("\"stub_active\": false"), std::string::npos);
+    EXPECT_NE(json.find("\"provider_type\": \"stub\""), std::string::npos);
+    EXPECT_NE(json.find("\"ready\": false"), std::string::npos);
+    EXPECT_NE(json.find("\"nist_sp_800_53_sc_12\": false"), std::string::npos);
 }
 
 TEST_F(HSMStubGatingTest, FailsInProductionModeEvenWithOptIn) {
@@ -89,7 +202,136 @@ TEST_F(HSMStubGatingTest, FailsInProductionModeEvenWithOptIn) {
     
     // Production mode takes precedence - should still fail
     EXPECT_FALSE(hsm.initialize());
+    EXPECT_TRUE(hsm.isStubProvider());
     EXPECT_FALSE(hsm.isReady());
+}
+
+#ifndef THEMIS_ENABLE_HSM_REAL
+TEST_F(HSMStubGatingTest, UninitializedProviderRejectsPseudoSignatureAndVerifierCallback) {
+    HSMProvider hsm(HSMConfig{});
+    const std::vector<uint8_t> data{1, 2, 3};
+
+    EXPECT_FALSE(hsm.verify(data, "hex:010203"));
+
+    bool callback_called = false;
+    HSMProvider::setVerifyFn([&](const auto&, const auto&, const auto&) {
+        callback_called = true;
+        return true;
+    });
+    EXPECT_FALSE(hsm.verify(data, "hex:010203"));
+    EXPECT_FALSE(callback_called);
+    HSMProvider::setVerifyFn({});
+}
+
+TEST_F(HSMStubGatingTest, ProductionModeRejectsSoftwareFallbackRoutesAfterDevelopmentInitialization) {
+    HSMProvider hsm(HSMConfig{});
+    ASSERT_TRUE(hsm.initialize());
+    setEnv("THEMIS_ALLOW_HSM_STUB", "1");
+
+    bool callback_called = false;
+    HSMProvider::setSignHashFn([&](const auto&, const auto&) {
+        callback_called = true;
+        HSMSignatureResult result;
+        result.success = true;
+        return result;
+    });
+    HSMProvider::setVerifyFn([&](const auto&, const auto&, const auto&) {
+        callback_called = true;
+        return true;
+    });
+    HSMProvider::setEncryptDataFn([&](const auto&, const auto&) {
+        callback_called = true;
+        return std::vector<uint8_t>{1};
+    });
+    HSMProvider::setDecryptDataFn([&](const auto&, const auto&) {
+        callback_called = true;
+        return std::vector<uint8_t>{1};
+    });
+    HSMProvider::setGenerateKeyPairFn([&](const auto&, auto, auto) {
+        callback_called = true;
+        return true;
+    });
+    HSMProvider::setImportCertificateFn([&](const auto&, const auto&) {
+        callback_called = true;
+        return true;
+    });
+    HSMProvider::setGetCertificateFn([&](const auto&) -> std::optional<std::string> {
+        callback_called = true;
+        return "stub certificate";
+    });
+    setEnv("THEMIS_PRODUCTION_MODE", "1");
+
+    EXPECT_FALSE(hsm.isReady());
+    EXPECT_TRUE(hsm.isStubProvider());
+    EXPECT_NE(hsm.getTokenInfo().find("ProductionMode"), std::string::npos);
+    EXPECT_FALSE(hsm.signHash({1, 2, 3}).success);
+    EXPECT_FALSE(hsm.verify({1, 2, 3}, "hex:010203"));
+    EXPECT_TRUE(hsm.encryptData({1, 2, 3}).empty());
+    EXPECT_TRUE(hsm.decryptData({1, 2, 3}).empty());
+    EXPECT_FALSE(hsm.generateKeyPair("test"));
+    EXPECT_FALSE(hsm.importCertificate("test", "certificate"));
+    EXPECT_FALSE(hsm.getCertificate("test").has_value());
+    EXPECT_TRUE(hsm.listKeys().empty());
+    EXPECT_FALSE(callback_called);
+
+    HSMProvider::setSignHashFn({});
+    HSMProvider::setVerifyFn({});
+    HSMProvider::setEncryptDataFn({});
+    HSMProvider::setDecryptDataFn({});
+    HSMProvider::setGenerateKeyPairFn({});
+    HSMProvider::setImportCertificateFn({});
+    HSMProvider::setGetCertificateFn({});
+    EXPECT_FALSE(hsm.signHash({1, 2, 3}).success);
+    EXPECT_FALSE(hsm.verify({1, 2, 3}, "hex:010203"));
+    EXPECT_TRUE(hsm.encryptData({1, 2, 3}).empty());
+    EXPECT_TRUE(hsm.decryptData({1, 2, 3}).empty());
+    EXPECT_FALSE(hsm.getCertificate("test").has_value());
+    EXPECT_TRUE(hsm.listKeys().empty());
+}
+
+TEST_F(HSMStubGatingTest, RejectsValidStubSignatureAfterProductionInitializationFails) {
+    setEnv("THEMIS_PRODUCTION_MODE", "1");
+    setEnv("THEMIS_ALLOW_HSM_STUB", "1");
+
+    HSMConfig config;
+    config.library_path = "/nonexistent/stub.so";
+    HSMProvider hsm(config);
+
+    ASSERT_FALSE(hsm.initialize());
+    EXPECT_FALSE(hsm.isReady());
+    EXPECT_FALSE(hsm.verify({1, 2, 3}, "hex:010203"));
+
+    bool callback_called = false;
+    HSMProvider::setVerifyFn([&](const auto&, const auto&, const auto&) {
+        callback_called = true;
+        return true;
+    });
+    EXPECT_FALSE(hsm.verify({1, 2, 3}, "callback-signature"));
+    EXPECT_FALSE(callback_called);
+    HSMProvider::setVerifyFn({});
+
+    HSMProvider::setGenerateKeyPairFn([&](const auto&, auto, auto) {
+        callback_called = true;
+        return true;
+    });
+    HSMProvider::setImportCertificateFn([&](const auto&, const auto&) {
+        callback_called = true;
+        return true;
+    });
+    HSMProvider::setGetCertificateFn([&](const auto&) -> std::optional<std::string> {
+        callback_called = true;
+        return "stub certificate";
+    });
+    EXPECT_FALSE(hsm.generateKeyPair("test"));
+    EXPECT_FALSE(hsm.importCertificate("test", "certificate"));
+    EXPECT_FALSE(hsm.getCertificate("test").has_value());
+    EXPECT_TRUE(hsm.listKeys().empty());
+    EXPECT_FALSE(callback_called);
+
+    HSMProvider::setGenerateKeyPairFn({});
+    HSMProvider::setImportCertificateFn({});
+    HSMProvider::setGetCertificateFn({});
+    EXPECT_FALSE(hsm.getCertificate("test").has_value());
 }
 
 TEST_F(HSMStubGatingTest, DetectsProductionEnvironment) {
@@ -120,6 +362,7 @@ TEST_F(HSMStubGatingTest, DetectsNodeEnvProduction) {
     EXPECT_FALSE(hsm.initialize());
     EXPECT_FALSE(hsm.isReady());
 }
+#endif
 
 TEST_F(HSMStubGatingTest, AllowsProductionEnvironmentWithOptIn) {
     // Set production environment but with explicit opt-in
@@ -196,8 +439,12 @@ TEST_F(HSMStubGatingTest, ErrorMessageIncludesGuidance) {
     EXPECT_FALSE(hsm.initialize());
     
     std::string error = hsm.getLastError();
+#ifdef THEMIS_ENABLE_HSM_REAL
+    EXPECT_NE(error.find("production mode"), std::string::npos);
+#else
     // Should mention how to build with real HSM
     EXPECT_NE(error.find("THEMIS_ENABLE_HSM_REAL"), std::string::npos);
+#endif
 }
 
 // THEMIS_ENVIRONMENT=production is a hard failure that cannot be overridden
@@ -240,3 +487,13 @@ TEST_F(HSMStubGatingTest, FailsWithProductionModeTrueString) {
     EXPECT_FALSE(hsm.initialize());
     EXPECT_FALSE(hsm.isReady());
 }
+
+#ifdef THEMIS_ENABLE_HSM_REAL
+TEST_F(HSMStubGatingTest, RealProviderFailsClosedForMissingPkcs11ConfigurationInProduction) {
+    expectProductionInitializationFailure("");
+}
+
+TEST_F(HSMStubGatingTest, RealProviderFailsClosedForInvalidPkcs11LibraryInProduction) {
+    expectProductionInitializationFailure("/nonexistent/pkcs11-module.so");
+}
+#endif

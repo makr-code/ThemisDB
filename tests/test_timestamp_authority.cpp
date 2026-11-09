@@ -587,8 +587,8 @@ TEST_F(TimestampAuthorityTest, StubRefusesForHashInProductionMode) {
     EXPECT_FALSE(token.error_message.empty());
 }
 
-TEST_F(TimestampAuthorityTest, StubAllowedWhenExplicitlyPermitted) {
-    // Production mode ON but explicit override also set
+TEST_F(TimestampAuthorityTest, StubOptInDoesNotOverrideProductionMode) {
+    // Production mode must take precedence over the non-production opt-in.
     EnvGuard prod_guard("THEMIS_PRODUCTION_MODE", "1");
     EnvGuard stub_guard("THEMIS_ALLOW_TSA_STUB", "1");
 
@@ -598,9 +598,8 @@ TEST_F(TimestampAuthorityTest, StubAllowedWhenExplicitlyPermitted) {
     std::vector<uint8_t> data = {'A', 'l', 'l', 'o', 'w', 'e', 'd'};
     auto token = tsa.getTimestamp(data);
 
-    // With THEMIS_ALLOW_TSA_STUB=1 the stub should succeed even in production mode
-    EXPECT_TRUE(token.success) << "Stub must work when THEMIS_ALLOW_TSA_STUB=1";
-    EXPECT_EQ(token.serial_number, "STUB-SERIAL");
+    EXPECT_FALSE(token.success) << "Stub must fail closed even when opt-in is set";
+    EXPECT_FALSE(token.error_message.empty());
 }
 
 TEST_F(TimestampAuthorityTest, eIDASValidatorRefusesWithoutExplicitStubOptIn) {

@@ -2,11 +2,20 @@
 
 **Author:** ThemisDB Contributors
 **Created:** 2026-09-13
-**Last Updated:** 2026-10-31
+**Last Updated:** 2026-11-09
 **Status:** active
 **Repository Metadata:** `VERSION=2.4.0-alpha`
 **Canonical Rule:** `/audit/**` is the audit source of truth; `/docs/**` is downstream publication/legacy mirror unless explicitly marked otherwise.
 **Source-verified status:** The production audit logger exists in source, but design-level Wave-C pass claims remain provisional until validated against the real production sink and persistence path.
+
+<!--
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Exact model backend not verifiable from final document text alone.
+-->
 
 > **Baseline rule (2026-09-07):** Root audit documents without direct date reference in filename (`AUDIT.md`, `README.md`, `WAVE_C_AUDIT_EVIDENCE.md`) are synchronized to the latest consolidated baseline report and source-verified implementation status.
 
@@ -31,11 +40,13 @@
 | `AUDIT.md` | Central security/compliance/release audit summary |
 | `MATURITY_REPORT_2026-08.md` | Monthly maturity and gate posture |
 | `IMPLEMENTATION_AUDIT_2026-09-30.md` | Current implementation sync report |
-| `ACTIONABLE_TODOS_2026-10-01.md` | Current TODO reality-check (source-verified actionable backlog) |
-| `MARKER_LOCATIONS_2026-10-01.md` | Current raw marker snapshot (`src/`, reproducible scan) |
-| `MARKER_GAP_CLASSIFICATION_2026-10-01.md` | Current marker classification (TODO reality check + non-TODO triage split) |
-| `MARKER_LOCATIONS_2026-09-30.md` | Current raw marker snapshot (`src/`, reproducible scan) |
-| `MARKER_GAP_CLASSIFICATION_2026-09-30.md` | Current marker classification status (historical decoupling + module distribution) |
+| `MARKER_LOCATIONS_2026-11-09.md` | Current commit-pinned raw marker inventory (`src/`, reproducible Git scan) |
+| `MARKER_GAP_CLASSIFICATION_2026-11-09.md` | Current source-triage checkpoint; candidate-by-candidate review remains open |
+| `ACTIONABLE_TODOS_2026-10-01.md` | Historical TODO reality-check; refresh before using its counts |
+| `MARKER_LOCATIONS_2026-10-01.md` | Historical raw marker snapshot |
+| `MARKER_GAP_CLASSIFICATION_2026-10-01.md` | Historical marker classification and non-TODO split |
+| `MARKER_LOCATIONS_2026-09-30.md` | Historical raw marker snapshot |
+| `MARKER_GAP_CLASSIFICATION_2026-09-30.md` | Historical marker classification status |
 | `IMPLEMENTATION_AUDIT_2026-09-14.md` | Prior implementation sync report |
 | `IMPLEMENTATION_AUDIT_2026-09-13.md` | Prior implementation sync report |
 | `IMPLEMENTATION_AUDIT_2026-08-26.md` | Earlier implementation sync report |
@@ -76,6 +87,8 @@
 - `MATURITY_REPORT_2026-08.md`
 - `IMPLEMENTATION_AUDIT_2026-09-30.md`
 - `ACTIONABLE_TODOS_2026-10-01.md`
+- `MARKER_LOCATIONS_2026-11-09.md`
+- `MARKER_GAP_CLASSIFICATION_2026-11-09.md`
 - `MARKER_LOCATIONS_2026-10-01.md`
 - `MARKER_GAP_CLASSIFICATION_2026-10-01.md`
 - `MARKER_LOCATIONS_2026-09-30.md`

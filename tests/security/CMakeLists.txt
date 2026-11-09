@@ -35,6 +35,9 @@ foreach(_src IN LISTS SECURITY_MODULE_TEST_SOURCES)
         Threads::Threads
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+    if(_stem STREQUAL "test_hsm_stub_gating" AND THEMIS_ENABLE_HSM_REAL)
+        target_compile_definitions(${_target} PRIVATE THEMIS_ENABLE_HSM_REAL=1)
+    endif()
 
     if(_stem STREQUAL "test_aql_safety_validator")
         target_sources(${_target} PRIVATE
