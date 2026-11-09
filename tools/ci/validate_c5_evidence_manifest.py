@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -86,8 +87,11 @@ def main() -> int:
     parser.add_argument("--report-json", type=Path)
     args = parser.parse_args()
 
+    manifest_sha256 = None
     try:
-        manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
+        manifest_bytes = args.manifest.read_bytes()
+        manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
+        manifest = json.loads(manifest_bytes)
     except (OSError, json.JSONDecodeError) as exc:
         errors = [f"unable to read manifest: {exc}"]
         manifest = None
@@ -97,6 +101,7 @@ def main() -> int:
     report = {
         "validated_at": datetime.now(timezone.utc).isoformat(),
         "manifest": args.manifest.name,
+        "manifest_sha256": manifest_sha256,
         "pass": not errors,
         "errors": errors,
         "scope": "schema and cross-field consistency only; evidence authenticity, signatures, runtime results, and human approval are not verified",

@@ -5,9 +5,9 @@ Last Updated: 2026-11-09
 Status: active
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: themisdb-doc-orchestrator
+AI_Contributor: GitHub Copilot
 Human_Review: false
-Human_Author: unknown
+Human_Author: ThemisDB Team
 Exact model backend not verifiable from final document text alone.
 ---
 # Wave C Closure Package — security-governance
@@ -50,6 +50,10 @@ Exact model backend not verifiable from final document text alone.
 | `c4_sanitizer_evidence` | `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` |
 | `c4_pentest_evidence` | `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md` |
 | `c4_sign_off_doc` | `docs/governance/GA_PROMOTION_SIGN_OFF.md` |
+| BSI C5 v2.5.0 candidate manifest | `audit/evidence/c5/v2.5.0-rc-candidate/manifest.json` |
+| BSI C5 manifest validation report | `audit/evidence/c5/v2.5.0-rc-candidate/manifest_validation.json` (schema and reference consistency only) |
+| BSI C5 quarterly review | `audit/BSI_C5_2026_THEMISDB_AUDIT.md` |
+| BSI C5 remediation | [#7817](https://github.com/makr-code/ThemisDB/issues/7817) (open) |
 | `codeql_python_risk` | `audit/evidence/waves/WAVE_CODEQL_PYTHON_RISK.md` |
 | Sanitizer evidence scope | `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` is a v1.9.0 bundle dated 2026-07-20, not fresh v2.5.0 Wave C proof |
 
@@ -70,5 +74,6 @@ Existing values are retained; this review did not reverify them.
 - Original `generated_at`, workflow, and run ID remain historical provenance. The current validator run and artifact demonstrate structural manifest validation only; they do not establish C3/C4 completion.
 - **C3_sustained_load_evidence** remains `pending`: no dedicated authoritative sustained-load Wave-C artifact bundle is linked.
 - **C4_compliance_signoff_bundle** remains `in_progress`: CodeQL Analyze jobs were skipped (including no Python analysis); quarterly pentest automation produced simulated results only; PENTEST-Q3-001/002/003/004 remain open without a verified disposition; the tracked child issues remain open; the sanitizer bundle is older v1.9.0 evidence; and the human signature required by `GA_PROMOTION_SIGN_OFF.md` §9 is blank.
+- **C5 release-candidate evidence** is linked but remains partial: the candidate manifest uses the actual develop run 42321944686 and its SBOM artifact IDs, not a v2.5.0 tag run. That run failed overall, skipped C5 packaging and tag-only signing/provenance, and provides no incident, six-event, or deployment-model runtime traces. `BCM-03` remains partial. The linked report is structural validation only; the manifest does not establish certification or close C4.
 - **Source-validation limitation:** canonical package policy names `code`, `tests`, `ci`, and `benchmarks` and requires booleans for evidence-captured promotion, but does not define criteria to interpret these observations for each flag. Existing flag values are therefore preserved without inference.
 - `overall_status` remains `open`; no GA promotion is implied.

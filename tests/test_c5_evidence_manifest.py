@@ -1,6 +1,13 @@
+import hashlib
 import importlib.util
+import io
+import json
+import sys
+import tempfile
 import unittest
+from contextlib import redirect_stdout
 from pathlib import Path
+from unittest.mock import patch
 
 
 SCRIPT_PATH = (
@@ -64,6 +71,32 @@ class C5EvidenceManifestValidationTests(unittest.TestCase):
 
         self.assertIn("missing required field: scope", errors)
         self.assertIn("generated_at must include a timezone", errors)
+
+    def test_validation_report_binds_result_to_manifest_digest(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            manifest_path = Path(tmp) / "manifest.json"
+            report_path = Path(tmp) / "report.json"
+            manifest_path.write_text(json.dumps(valid_manifest()), encoding="utf-8")
+
+            with patch.object(
+                sys,
+                "argv",
+                [
+                    "validate_c5_evidence_manifest.py",
+                    str(manifest_path),
+                    "--report-json",
+                    str(report_path),
+                ],
+            ), redirect_stdout(io.StringIO()):
+                result = VALIDATOR.main()
+
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            self.assertEqual(result, 0)
+            self.assertTrue(report["pass"])
+            self.assertEqual(
+                report["manifest_sha256"],
+                hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
+            )
 
 
 if __name__ == "__main__":

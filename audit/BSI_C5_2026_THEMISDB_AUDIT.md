@@ -1,9 +1,17 @@
 ---
 Author: ThemisDB Maintainers
 Created: 2026-08-31
-Last Updated: 2026-09-21
+Last Updated: 2026-11-09
 Status: active
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
+
+> Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Audit Update — BSI C5 (Stand 2026)
 
 **Datum:** 2026-04-21  
@@ -45,6 +53,14 @@ ThemisDB bleibt auf einer **tragfähigen BSI-C5-Basis**, benötigt für den 2026
 - [~] Signierte SBOM- und Build-Provenance-Referenzen in den Audit-Report aufnehmen (C5-Manifest referenziert SBOM-/Workflow-Artefakte; tag-basierte Provenance-Nachweise weiter ausführen)
 - [~] Incident-Drill- und Restore-Test-Evidenz in quartalsweise Audits integrieren (`audit/evidence/c5/INCIDENT_DRILL_EVIDENCE_INDEX.md` als kanonischer Index angelegt; Befüllung offen)
 - [~] Audit-Events für Key-Lifecycle-Prozesse systematisch vervollständigen (`audit/evidence/c5/KEY_LIFECYCLE_AUDIT_EVENTS.md` als Event-Kanon angelegt; Test/Runtime-Mapping offen)
+
+### Q4 2026 release-candidate evidence review (2026-11-09)
+
+- Candidate bundle: [`audit/evidence/c5/v2.5.0-rc-candidate/manifest.json`](evidence/c5/v2.5.0-rc-candidate/manifest.json); schema/run-reference report: [`manifest_validation.json`](evidence/c5/v2.5.0-rc-candidate/manifest_validation.json). Validation passed structural checks only; it is not evidence verification or certification.
+- Source run: [Compliance: Supply Chain run 42321944686](https://github.com/makr-code/ThemisDB/actions/runs/42321944686), commit `5f8b44bacd78cfb940f5c1bf40456d6617d0284a`. The run failed during SOC 2 evidence-container setup. Its SBOM job succeeded, but signing and tag-only provenance steps were skipped on `develop`; the C5 manifest packaging job was skipped.
+- `BCM-03` remains **partial** because no current incident/restore drill run, artifact, and dated result were identified. The September 21, 2026 drill-index rows are historical source/test mappings, not fresh runtime evidence.
+- No matching successful key-lifecycle CI trace or persisted release audit record is linked in the candidate package. The shared-responsibility matrix has no model-specific deployment evidence. Target-release SBOM/provenance signatures and authorized human compliance review are not recorded.
+- Wave C remains open. These records do not claim independent certification; follow-up is tracked by [#7817](https://github.com/makr-code/ThemisDB/issues/7817).
 
 ---
 

@@ -1,0 +1,35 @@
+{
+  "generated_at": "2026-11-09T17:38:17.661957+00:00",
+  "release_id": "v2.5.0-rc-candidate",
+  "workflow": "compliance-supply-chain.yml",
+  "run_id": "42321944686",
+  "ref": "refs/heads/develop",
+  "scope": "bsi-c5-2026-delta/v2.5.0-rc-candidate",
+  "control_status": {
+    "OPS-04": "partial",
+    "SEC-01": "partial",
+    "IAM-02": "partial",
+    "BCM-03": "partial",
+    "LGM-01": "partial",
+    "SCM-01": "partial"
+  },
+  "evidence_references": {
+    "workflow_run": "https://github.com/makr-code/ThemisDB/actions/runs/42321944686",
+    "workflow_run_commit": "5f8b44bacd78cfb940f5c1bf40456d6617d0284a",
+    "workflow_run_result": "overall failure; SOC2 evidence export container setup failed, SBOM job succeeded, C5 packaging skipped",
+    "sbom_artifact": "https://github.com/makr-code/ThemisDB/actions/runs/42321944686/artifacts/13553885640 (sbom-42321944686; sha256:c5a31a5d240eaf7a88a33ee6d7215f207dca5f0685a25fdbc67e20a2fee4cb73)",
+    "cyclonedx_artifact": "https://github.com/makr-code/ThemisDB/actions/runs/42321944686/artifacts/13553855703 (sha256:abcaefaf430ae54f2a5083ec0733688490b47e9c9c895c4cf073b75c8553ab4a)",
+    "spdx_artifact": "https://github.com/makr-code/ThemisDB/actions/runs/42321944686/artifacts/13553162780 (sha256:e78033b26d1b9e6c27b5bdb53adb1eaa1addf594da5df8e66a4d1ee60facad61)",
+    "sbom_signature": "not generated: signature step skipped for refs/heads/develop",
+    "build_provenance": "not generated: tag-only attestation step skipped",
+    "c5_manifest_artifact": "not created: C5 packaging job 128248707597 skipped",
+    "human_compliance_review": "not recorded; required before C4 promotion",
+    "key_lifecycle_events": "audit/evidence/c5/KEY_LIFECYCLE_AUDIT_EVENTS.md",
+    "incident_drill_index": "audit/evidence/c5/INCIDENT_DRILL_EVIDENCE_INDEX.md",
+    "shared_responsibility": "audit/evidence/c5/SHARED_RESPONSIBILITY_MATRIX.md",
+    "event_control_mapping": "audit/docs/C5_LOG_EVENT_MAPPING.md",
+    "manifest_validation_report": "audit/evidence/c5/v2.5.0-rc-candidate/manifest_validation.json",
+    "remediation_issue": "https://github.com/makr-code/ThemisDB/issues/7817"
+  },
+  "notes": "Candidate assembly on 2026-11-09 from actual develop run 42321944686 (commit 5f8b44bacd78cfb940f5c1bf40456d6617d0284a); this is not a v2.5.0 tag/release run. Overall workflow failed during SOC 2 evidence-container setup; SBOM generation succeeded, but tag-only signing and provenance were skipped, and C5 manifest packaging was skipped. No release-specific incident/restore drills or six-event CI traces were verified. All listed controls remain partial. Schema validation is not evidence authenticity, signature verification, runtime proof, human approval, or independent certification."
+}
