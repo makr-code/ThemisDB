@@ -112,7 +112,6 @@ jobs:
 
       - name: Run Doxygen governance gate
         id: gate
-        continue-on-error: true
         run: |
           mkdir -p /tmp/doxygen-gate
           python3 scripts/doxygen_governance_gate.py \

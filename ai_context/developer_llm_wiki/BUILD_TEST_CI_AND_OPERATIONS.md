@@ -23,7 +23,7 @@ AI-assisted update; exact model backend not verifiable from final document text 
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
-- Hash: `aca5342a1a4719e8`
+- Hash: `59518d7978eca388`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/benchmark-performance-gate.yml
@@ -58,7 +58,7 @@ AI-assisted update; exact model backend not verifiable from final document text 
 
 ## .github/workflows/build-mainline.yml
 - Kategorie: build_test_ci
-- Hash: `19f575aa854103d9`
+- Hash: `9aaef349e879d011`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-ollama-router.yml
@@ -98,7 +98,7 @@ AI-assisted update; exact model backend not verifiable from final document text 
 
 ## .github/workflows/compliance-governance-gates.yml
 - Kategorie: build_test_ci
-- Hash: `5fbaf5d0c69ad1b8`
+- Hash: `3243c6e9fa0ee910`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/compliance-supply-chain.yml
@@ -138,7 +138,7 @@ AI-assisted update; exact model backend not verifiable from final document text 
 
 ## .github/workflows/gate-distributed-knowledge.yml
 - Kategorie: build_test_ci
-- Hash: `8cd46108cf2bbc01`
+- Hash: `718cedef92c2320a`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-benchmark-ctest.yml
@@ -148,12 +148,12 @@ AI-assisted update; exact model backend not verifiable from final document text 
 
 ## .github/workflows/gate-pr-community-failclosed.yml
 - Kategorie: build_test_ci
-- Hash: `a2ab1944bb366743`
+- Hash: `fa3a0808c501edda`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-core.yml
 - Kategorie: build_test_ci
-- Hash: `24d0e390e2aa4048`
+- Hash: `3f2c61ecfe6d0cd3`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-doc-metadata.yml
@@ -163,17 +163,17 @@ AI-assisted update; exact model backend not verifiable from final document text 
 
 ## .github/workflows/gate-pr-doxygen-governance.yml
 - Kategorie: build_test_ci
-- Hash: `54b2aa7fb8588485`
+- Hash: `b52dcb9ed052e38d`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-edition-license.yml
 - Kategorie: build_test_ci
-- Hash: `90502118f5c9afd8`
+- Hash: `32768597ff46e0b5`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-final-runtime-api.yml
 - Kategorie: build_test_ci
-- Hash: `4c068252ac381b33`
+- Hash: `73b9ab0ee7d7d04d`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-hash-sbom.yml
@@ -193,7 +193,7 @@ AI-assisted update; exact model backend not verifiable from final document text 
 
 ## .github/workflows/gate-pr-plugin-boundary.yml
 - Kategorie: build_test_ci
-- Hash: `a6ea80c1053c5585`
+- Hash: `728026c1c4ca87a5`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-primary-doc-structure.yml
@@ -228,12 +228,12 @@ AI-assisted update; exact model backend not verifiable from final document text 
 
 ## .github/workflows/gate-pr-rag-security.yml
 - Kategorie: build_test_ci
-- Hash: `2c3a03877b8a4233`
+- Hash: `83f551a5b4b3efb0`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-rag-version.yml
 - Kategorie: build_test_ci
-- Hash: `5aae3af3c725d203`
+- Hash: `21c36c69e408cb90`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-version-targeting.yml
@@ -243,7 +243,7 @@ AI-assisted update; exact model backend not verifiable from final document text 
 
 ## .github/workflows/gate-release-benchmark-validation.yml
 - Kategorie: build_test_ci
-- Hash: `20c69f30312f2c38`
+- Hash: `22dd32a4b2caa773`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-wave-closure.yml
@@ -333,7 +333,7 @@ AI-assisted update; exact model backend not verifiable from final document text 
 
 ## .github/workflows/release-build-matrix.yml
 - Kategorie: build_test_ci
-- Hash: `be3a3d57cc287dea`
+- Hash: `d26d94005b21de87`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-changelog.yml
@@ -353,7 +353,7 @@ AI-assisted update; exact model backend not verifiable from final document text 
 
 ## .github/workflows/release-evidence-chain.yml
 - Kategorie: build_test_ci
-- Hash: `7f277b8a7015e3df`
+- Hash: `9c9004226a95deb3`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-linux-distribution.yml

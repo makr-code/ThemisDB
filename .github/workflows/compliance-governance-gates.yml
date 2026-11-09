@@ -151,10 +151,9 @@ jobs:
         run: |
           python3 .github/scripts/verify_maturity_gates.py \
             --manifest docs/governance/MATURITY_EVIDENCE_MANIFEST.json \
-            --output /tmp/maturity_report.json || true
+            --output /tmp/maturity_report.json
 
       - name: Check hard maturity exit criteria
-        continue-on-error: true
         run: |
           python3 scripts/verification/check_maturity_exit_criteria.py \
             --repo-root="${GITHUB_WORKSPACE}" \
@@ -226,7 +225,7 @@ jobs:
         id: modules
         run: |
           git fetch origin "${{ github.base_ref }}" --depth=1
-          CHANGED_ROADMAPS=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" | grep 'src/.*/ROADMAP\.md' || true)
+          CHANGED_ROADMAPS=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" | awk '/^src\/[^/]+\/ROADMAP\.md$/')
           {
             echo "changed_roadmaps<<EOF"
             echo "${CHANGED_ROADMAPS}"
@@ -242,7 +241,7 @@ jobs:
             echo "Validating phase closure for module: ${module}"
             python3 .github/scripts/validate_module_phase_gate.py \
               --roadmap "${roadmap}" \
-              --module "${module}" || true
+              --module "${module}"
           done
 
   # 3. Merge Gate Enforcer (approved PR review)
@@ -267,7 +266,7 @@ jobs:
         run: |
           python3 .github/scripts/merge_gate_validator.py \
             --tier 0 \
-            --output /tmp/gate_result.json || true
+            --output /tmp/gate_result.json
 
           if [ -f /tmp/gate_result.json ]; then
             STATUS=$(python3 -c "import json; d=json.loads(open('/tmp/gate_result.json').read()); print(d.get('status','unknown'))")
@@ -830,10 +829,10 @@ jobs:
         run: |
           python3 .github/scripts/waiver_validator.py \
             --check-expiration \
-            --output /tmp/expiring_waivers.json || true
+            --output /tmp/expiring_waivers.json
 
           if [ -f /tmp/expiring_waivers.json ]; then
-            COUNT=$(python3 -c "import json; print(json.load(open('/tmp/expiring_waivers.json')).get('total', 0))" 2>/dev/null || echo "0")
+            COUNT=$(python3 -c "import json; print(json.load(open('/tmp/expiring_waivers.json')).get('total', 0))")
             echo "expiring_count=${COUNT}" >> "$GITHUB_OUTPUT"
           else
             echo "expiring_count=0" >> "$GITHUB_OUTPUT"

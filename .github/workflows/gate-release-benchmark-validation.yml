@@ -107,8 +107,8 @@ jobs:
       - name: Run benchmark coverage audit
         id: audit
         run: |
-          set -uo pipefail  # Don't exit on non-zero, we handle gracefully
-          python3 tools/ci/audit_benchmark_coverage.py --output /tmp/audit_report.json || true
+          set -euo pipefail
+          python3 tools/ci/audit_benchmark_coverage.py --output /tmp/audit_report.json
           # Export report JSON for gate logic
           if [ -f /tmp/audit_report.json ]; then
               {
@@ -251,8 +251,16 @@ jobs:
         if: always()
         run: |
           mkdir -p "${{ runner.temp }}/artifacts"
-          cp /tmp/gate_report.json "${{ runner.temp }}/artifacts/gate_report.json" || true
-          cp /tmp/audit_report.json "${{ runner.temp }}/artifacts/audit_report.json" || true
+          if [ -f /tmp/gate_report.json ]; then
+            cp /tmp/gate_report.json "${{ runner.temp }}/artifacts/gate_report.json"
+          else
+            echo "::warning::Gate report was not produced."
+          fi
+          if [ -f /tmp/audit_report.json ]; then
+            cp /tmp/audit_report.json "${{ runner.temp }}/artifacts/audit_report.json"
+          else
+            echo "::warning::Benchmark audit report was not produced."
+          fi
 
   release_gate_decision:
     name: "Gate: Release Readiness Decision"

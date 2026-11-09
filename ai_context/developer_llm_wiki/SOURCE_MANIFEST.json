@@ -1,15 +1,15 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-09T08:46:02+00:00",
+  "generated_at": "2026-11-09T09:52:40+00:00",
   "source_count": 8070,
   "sources": [
     {
       "path": ".github/workflows/benchmark-gate.yml",
       "category": "build_test_ci",
-      "size": 6687,
-      "sha256": "aca5342a1a4719e82fc16f1831cf314b4b43907735a35c762ae8fac55809bd8d",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 6679,
+      "sha256": "59518d7978eca388647261d24ad7806e4cb4b5745f9cc67279e51a82f00fb684",
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/benchmark-performance-gate.yml",
@@ -56,9 +56,9 @@
     {
       "path": ".github/workflows/build-mainline.yml",
       "category": "build_test_ci",
-      "size": 32737,
-      "sha256": "19f575aa854103d9a345db481d5c9f833b6f27efa1ce2eb2eb18ee11d08d0a43",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 33039,
+      "sha256": "9aaef349e879d01171d33c8cff01add9e367824639246124ba66a03b664e1c9d",
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/build-ollama-router.yml",
@@ -112,9 +112,9 @@
     {
       "path": ".github/workflows/compliance-governance-gates.yml",
       "category": "build_test_ci",
-      "size": 54160,
-      "sha256": "5fbaf5d0c69ad1b8450b7f34f9cddccc68e09c1590a0b55fa1530565c2de244f",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 54072,
+      "sha256": "3243c6e9fa0ee91044fb8d73b967712bef395052fa1dbfd15a0aa5e76f72ad04",
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/compliance-supply-chain.yml",
@@ -168,9 +168,9 @@
     {
       "path": ".github/workflows/gate-distributed-knowledge.yml",
       "category": "build_test_ci",
-      "size": 12617,
-      "sha256": "8cd46108cf2bbc01d2d22c60d476af4c7a1ecb62e1e8e9882a5c347d7464a0ca",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 12768,
+      "sha256": "718cedef92c2320a8394b64152c3f6ef62456826379f725115368481abaad3ac",
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-benchmark-ctest.yml",
@@ -182,16 +182,16 @@
     {
       "path": ".github/workflows/gate-pr-community-failclosed.yml",
       "category": "build_test_ci",
-      "size": 14966,
-      "sha256": "a2ab1944bb366743ce2aa508743c9189e4972da12e7ef6dc345b08e8451ebe1d",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 15390,
+      "sha256": "fa3a0808c501eddaaed0b3f33bcbff5902be519c5996916a7fa8beb0b46fad67",
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-core.yml",
       "category": "build_test_ci",
-      "size": 54707,
-      "sha256": "24d0e390e2aa4048b8a1d8202c26de5b48781f999a7b03a380315f51e9964925",
-      "modified_utc": "2026-11-09T03:02:55+00:00"
+      "size": 55641,
+      "sha256": "3f2c61ecfe6d0cd37a25b0ceee8cf9bdba142b7da91e1653becb6f91e7a93164",
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-doc-metadata.yml",
@@ -203,23 +203,23 @@
     {
       "path": ".github/workflows/gate-pr-doxygen-governance.yml",
       "category": "build_test_ci",
-      "size": 15647,
-      "sha256": "54b2aa7fb8588485a2cbadab093e19219fc18986c5878d896e4fbace39e6a352",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 15615,
+      "sha256": "b52dcb9ed052e38dcadbccb24d22b3445f0cca4bce05122ea2b64e7db4a2f09e",
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-edition-license.yml",
       "category": "build_test_ci",
-      "size": 10842,
-      "sha256": "90502118f5c9afd8a05213936d3b614866d44db0720a95a254ddef1f3b8a15cd",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 10983,
+      "sha256": "32768597ff46e0b5fc9fb3f2a1fb37ed13383f64dc7968a0c91937a45fff94ea",
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-final-runtime-api.yml",
       "category": "build_test_ci",
-      "size": 9523,
-      "sha256": "4c068252ac381b33cd40fd5544154f4da176cc8336910ef2ec99a54353fca746",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 9840,
+      "sha256": "73b9ab0ee7d7d04d6264be71af0057dc8663f88e5c6e56c5e1c4ebf8ab5f6a28",
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-hash-sbom.yml",
@@ -245,9 +245,9 @@
     {
       "path": ".github/workflows/gate-pr-plugin-boundary.yml",
       "category": "build_test_ci",
-      "size": 9939,
-      "sha256": "a6ea80c1053c5585bd9ca06aaff1b84a6718055de648bf6c7f3e4281b4b8635b",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 10253,
+      "sha256": "728026c1c4ca87a56b9a92968d88b19e6bb4e9d5064bb35a58dd06459708abcc",
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-primary-doc-structure.yml",
@@ -294,16 +294,16 @@
     {
       "path": ".github/workflows/gate-pr-rag-security.yml",
       "category": "build_test_ci",
-      "size": 12758,
-      "sha256": "2c3a03877b8a4233201daf9691651945386554d0c9002a37c8d39e906cfdc21e",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 12932,
+      "sha256": "83f551a5b4b3efb0318b91c77be29a4f213b421801a99718665f020a61b4c150",
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-rag-version.yml",
       "category": "build_test_ci",
-      "size": 11172,
-      "sha256": "5aae3af3c725d203839814811f8f8bfed60818e295f35f93ab70d325101ea638",
-      "modified_utc": "2026-11-09T03:02:55+00:00"
+      "size": 11411,
+      "sha256": "21c36c69e408cb9047012077fb43fa3bcc3de2d01258b7fc9cfd64818e326752",
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-version-targeting.yml",
@@ -315,9 +315,9 @@
     {
       "path": ".github/workflows/gate-release-benchmark-validation.yml",
       "category": "build_test_ci",
-      "size": 18247,
-      "sha256": "20c69f30312f2c38f5a617debb687351d72d84740fc8d1e57aa8b97379b7e4de",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 18464,
+      "sha256": "22dd32a4b2caa773af253225f8c46ff2a7da2b59de6a175c14dfcc55684fc0eb",
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/gate-wave-closure.yml",
@@ -441,9 +441,9 @@
     {
       "path": ".github/workflows/release-build-matrix.yml",
       "category": "build_test_ci",
-      "size": 36809,
-      "sha256": "be3a3d57cc287dea6df9f3fba5ce086e7cda6046d5aa37d764f46d82b5180610",
-      "modified_utc": "2026-11-09T03:02:55+00:00"
+      "size": 38897,
+      "sha256": "d26d94005b21de87c501e236a8028f15914b5a66476b61b6388d196ace3cdc93",
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/release-changelog.yml",
@@ -469,9 +469,9 @@
     {
       "path": ".github/workflows/release-evidence-chain.yml",
       "category": "build_test_ci",
-      "size": 14776,
-      "sha256": "7f277b8a7015e3dfbc02b84dbb58336764b25090ee22d76965e2b1a77b448c54",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 15920,
+      "sha256": "9c9004226a95deb3ee8dc8da0a6bc37301f75b923ed5af9a421cf14a95aaf0cf",
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/release-linux-distribution.yml",
@@ -574,9 +574,9 @@
     {
       "path": ".github/workflows/reusable-cmake-build.yml",
       "category": "build_test_ci",
-      "size": 40639,
-      "sha256": "17a19fd047b6068dfcfb954913842aaeaaffe38d60e5575a5257e33e5852bbe8",
-      "modified_utc": "2026-11-09T03:02:55+00:00"
+      "size": 42775,
+      "sha256": "fb7a8cfd1a3ef1f0152c045907518f14506c5f3114d4e878f2bd21d4ecba740c",
+      "modified_utc": "2026-11-09T09:52:08+00:00"
     },
     {
       "path": ".github/workflows/reusable-docker-image-platform.yml",
@@ -686,9 +686,9 @@
     {
       "path": ".github/workflows/wiki-pr-gate.yml",
       "category": "build_test_ci",
-      "size": 10064,
-      "sha256": "80d7a9bb1c243a1addfc67dc111e4d52af03996e10948b81dd711b8cd87df037",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 10032,
+      "sha256": "e2fc62303295481b50e8baf916146b4f63afa322e5cb9b469f525119047ba093",
+      "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
       "path": ".github/workflows/wiki-publish-from-issue.yml",
@@ -54166,9 +54166,9 @@
     {
       "path": "scripts/ai-dev-llm-wiki-sync.py",
       "category": "build_test_ci",
-      "size": 25552,
-      "sha256": "689e1d0ec722bdce6dff73eab860f78c8d3f20358af3c3158b150c5dfbd49e00",
-      "modified_utc": "2026-11-01T09:51:59+00:00"
+      "size": 26659,
+      "sha256": "a7fb3d9234c7a5aa099eded7f33493b409199e1cfea0f97e1ad156bb04b67c79",
+      "modified_utc": "2026-11-09T09:51:25+00:00"
     },
     {
       "path": "scripts/ai-working-compact.py",
@@ -54621,9 +54621,9 @@
     {
       "path": "scripts/prepare-windows-dependencies.py",
       "category": "build_test_ci",
-      "size": 4167,
-      "sha256": "1ae7a862756e3eb001ed18491113174c0a94a9bee64c876c6d36cd7ba6df2d83",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "size": 4288,
+      "sha256": "02d698c6e35d850373512441f74b59c9009a20af67d5bd4e39419d9efaea025c",
+      "modified_utc": "2026-11-09T09:52:08+00:00"
     },
     {
       "path": "scripts/prepare_doc_file_issues.py",

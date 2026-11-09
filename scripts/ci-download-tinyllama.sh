@@ -25,11 +25,11 @@ set -euo pipefail
 # ── Configuration ─────────────────────────────────────────────────────────────
 
 # HuggingFace GGUF URL — TinyLlama-1.1B-Chat-v1.0 Q4_K_M (~636 MB)
-HF_URL="https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
+HF_URL="https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/c1d7cb837a660d93ba28f936efb148591bfba3e9/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
 
-# Known SHA256 for this GGUF file (TheBloke Q4_K_M release, 2024-01-10).
-# Verified against: https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF
-EXPECTED_SHA256="5cb1cc9e64c9b7d1d1ec7a5e8e35a84aaae9266c0b8e2278be8f1ad4568c0f2c"
+# SHA256 from the GGUF's Git LFS pointer at the pinned release commit.
+# Source: https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/commit/c1d7cb837a660d93ba28f936efb148591bfba3e9
+EXPECTED_SHA256="9fecc3b3cd76bba89d504f29b616eedf7da85b96540e490ca5824d3f7d2776a0"
 
 # Ollama model tag (fallback source)
 OLLAMA_MODEL="tinyllama:1.1b-chat-v1.0-q4_K_M"
