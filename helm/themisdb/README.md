@@ -180,10 +180,13 @@ Run the chart checks with:
 helm lint helm/themisdb
 helm lint helm/themisdb -f helm/themisdb/values-production.yaml
 python3 -m unittest discover -s helm/themisdb/tests -v
+helm/themisdb/tests/smoke-kind.sh
 ```
 
 The NetworkPolicy tests verify the rendered allow/deny rules; validate actual
-packet enforcement with the CNI used by the target cluster.
+packet enforcement with the CNI used by the target cluster. The Kind smoke test
+checks API-server admission and installed resources; the default Kind CNI does
+not verify NetworkPolicy packet enforcement.
 
 The profile intentionally does not enable ServiceMonitor or PrometheusRule;
 monitoring resources are tracked separately in
