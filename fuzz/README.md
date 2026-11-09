@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-11-09"
+Last Updated: "2026-11-09"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Fuzzing Infrastructure
 
 This directory contains the AFL++ fuzzing infrastructure for ThemisDB.
@@ -17,7 +31,8 @@ fuzz/
 │   ├── pii_redaction_harness.cpp
 │   ├── postgres_importer_harness.cpp
 │   ├── security_input_validator_harness.cpp
-│   └── security_policy_engine_harness.cpp
+│   ├── security_policy_engine_harness.cpp
+│   └── wire_protocol_parser_harness.cpp
 ├── corpus/                     # Seed input corpora
 │   ├── aql/                   # AQL query seeds
 │   ├── crypto/                # Crypto test vectors
@@ -94,21 +109,35 @@ afl-fuzz -S sec1  -i fuzz/corpus/aql -o fuzz/output/aql -- ./build-fuzz/fuzz/bin
 | `aql_parser` | `corpus/aql` | `aql.dict` | High |
 | `gguf_loader` | `corpus/llm/gguf` | — | High |
 | `grammar` | `corpus/llm/grammar` | — | Medium |
-| `http_parser` | — | `http.dict` | High |
+| `http_parser` | `corpus/http` | `http.dict` | High |
 | `jwt_rbac_config` | `corpus/jwt` | `jwt.dict` + `rbac.dict` | Critical |
 | `ldap_dn` | `corpus/ldap_dn` | `ldap_dn.dict` | High |
 | `pii_redaction` | `corpus/pii` | `pii.dict` | Critical |
 | `postgres_importer` | `corpus/importer` | `importer.dict` | High |
+| `wire_protocol_parser` | `corpus/wire_protocol` | — | High |
 | `security_input_validator` | `corpus/input_validator` | — | Critical |
 | `security_policy_engine` | `corpus/policy_engine` | `policy_engine.dict` | Critical |
 
 ## CI/CD Integration
 
-GitHub Actions workflow: `.github/workflows/fuzzing.yml`
+GitHub Actions workflow: `.github/workflows/security-fuzzing.yml`
 
-- **Schedule:** Every Sunday at 00:00 UTC
-- **Manual trigger:** `workflow_dispatch` with `target` input
-- **Artifacts:** Crashes and hangs uploaded with 30-day retention
+`.github/workflows/security-fuzzing.yml` additionally runs affected-parser PR
+smoke tests using the AQL, HTTP, wire-protocol, and importer corpora. These runs
+use sanitizer-instrumented standalone harnesses and execute every seed with a
+300-second total budget per parser. The checked-in required seed inventory
+detects corpus loss; no AFL findings/cache directory is restored or modified by
+this deterministic smoke lane. Missing harnesses/seeds and sanitizer reports
+fail the lane. The wire-protocol harness calls the pure frame parser used by
+`WireProtocolWebSocketSession::processBinaryFrame`, rather than the separate
+TCP packet parser or a copied test implementation.
+
+- **Schedule:** Every Sunday at 00:00 UTC, AFL++ builds/runs the selected
+  standalone AQL, importer, and wire-protocol harnesses. Legacy targets not in
+  this file-mode subset are explicitly skipped and the evidence is marked
+  `PARTIAL (not PASS)`; build errors for selected targets remain failures.
+- **Manual trigger:** `workflow_dispatch` with a parser `target` input
+- **Artifacts:** Build/CTest logs and the corpus are retained for 30 days
 
 ## Crash Analysis
 

@@ -2,8 +2,8 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-01
-> Update Note: Documented vcpkg cache paths, Windows sccache backend and cache measurement limits; workflow inventory unchanged
+> Last Updated: 2026-11-09
+> Update Note: Added bounded PR ASan/UBSan module coverage, nightly TSan transaction/sharding/LLM coverage, and fail-closed deterministic parser fuzz-smoke lanes
 > Status: active
 > Total Workflows: 99 (verified 2026-10-29)
 > AI_Used: true
@@ -182,7 +182,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `build-mainline.yml` | Build: Mainline (All platforms, multi-matrix) | active |
 | `build-clang-fast.yml` | Build: Clang Fast (Quick clang-only validation) | active |
 | `build-benchmarks.yml` | Build: Benchmarks (Performance regression suite, 64-matrix) | active |
-| `build-sanitizer-nightly.yml` | Build: Sanitizer Nightly (AddressSanitizer + UBSan) | active |
+| `build-sanitizer-nightly.yml` | Build: Sanitizer Nightly (bounded PR ASan+UBSan module coverage; nightly TSan transaction/sharding/LLM; run evidence) | active |
 | `build-wave-a-gpu.yml` | Build: Wave A GPU (CUDA/GPU feature validation) | active |
 | `build-wave-b-transaction.yml` | Build: Wave B Transaction (Transactional subsystem) | active |
 | `build-wave-b-llm-benchmarks.yml` | Build: Wave B LLM Benchmarks (LLM inference performance) | active |
@@ -286,7 +286,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `security-consolidated.yml` | Security: Consolidated Scans (Multi-tool security aggregation) | scheduled |
 | `security-dast-zap.yml` | Security: OWASP ZAP DAST (Dynamic application security testing) | scheduled |
 | `security-fortify.yml` | Security: Fortify AST Scan [Scheduled] (Fortify static analysis) | scheduled |
-| `security-fuzzing.yml` | Security: Fuzzing (Fuzz testing suite) | scheduled |
+| `security-fuzzing.yml` | Security: Fuzzing (affected-parser deterministic corpus smoke on PR; scheduled/manual parser suite) | PR + scheduled/manual |
 | `security-pentest-quarterly.yml` | Security: Quarterly Pentest Cadence (Quarterly penetration testing) | quarterly |
 
 ### 5b. SECURITY (ADDITIONAL SCANNERS, DOCUMENTED)

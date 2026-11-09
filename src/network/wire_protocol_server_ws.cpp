@@ -16,6 +16,7 @@
 #ifdef THEMIS_ENABLE_WEBSOCKET
 
 #include "network/wire_protocol_websocket.h"
+#include "websocket_binary_frame_parser.h"
 #include <stdexcept>
 #include "network/wire_protocol_server.h"
 #include "network/wire_protocol_helpers.h"
@@ -36,14 +37,14 @@ namespace network {
 namespace {
 
 // Wire-frame constants
-static constexpr size_t   kWireHeaderSize       = 12;
-static constexpr uint8_t  kWireMagic[4]         = {0x54, 0x4D, 0x44, 0x42};  // "TMDB"
-static constexpr uint16_t kWireSkipChecksumFlag = 0x0004;
-static constexpr uint32_t kWireMaxPayloadBytes  = 64 * 1024 * 1024;  // 64 MB
+static constexpr size_t kWireHeaderSize = detail::kWebSocketWireHeaderSize;
+static constexpr const auto& kWireMagic = detail::kWebSocketWireMagic;
+static constexpr uint16_t kWireSkipChecksumFlag =
+    detail::kWebSocketSkipChecksumFlag;
 
 // CRC-32 (ISO-HDLC) – same polynomial as wire_protocol_server.cpp.
 // Used to verify the integrity of incoming binary wire-protocol frames.
-static const uint32_t kWsCrc32Table[256] = {
+[[maybe_unused]] static const uint32_t kWsCrc32Table[256] = {
     0x00000000, 0x77073096, 0xEE0E612C, 0x990951BA, 0x076DC419, 0x706AF48F,
     0xE963A535, 0x9E6495A3, 0x0EDB8832, 0x79DCB8A4, 0xE0D5E91E, 0x97D2D988,
     0x09B64C2B, 0x7EB17CBD, 0xE7B82D07, 0x90BF1D91, 0x1DB71064, 0x6AB020F2,
@@ -97,7 +98,7 @@ static const uint32_t kWsCrc32Table[256] = {
  * @return Return value.
  * @details Implements wsCrc32Update without additional internal calls.
  */
-uint32_t wsCrc32Update(uint32_t crc, const uint8_t* data, size_t len) {
+[[maybe_unused]] uint32_t wsCrc32Update(uint32_t crc, const uint8_t* data, size_t len) {
     crc = ~crc;
     for (size_t i = 0; i < len; ++i)
         crc = kWsCrc32Table[(crc ^ data[i]) & 0xFF] ^ (crc >> 8);
@@ -594,59 +595,14 @@ void WireProtocolWebSocketSession::handleBinaryDelete(const uint8_t* payload_dat
  */
 void WireProtocolWebSocketSession::processBinaryFrame(const std::vector<uint8_t>& data)
 {
-    if (data.size() < kWireHeaderSize) {
-        sendBinaryError(0x0008u, "Binary frame too short (minimum 12-byte header required)");
+    const auto parsed = detail::parseWebSocketBinaryFrame(data);
+    if (!parsed.valid) {
+        sendBinaryError(parsed.error_code, parsed.error_message);
         return;
-    }
-
-    if (data[0] != kWireMagic[0] || data[1] != kWireMagic[1] ||
-        data[2] != kWireMagic[2] || data[3] != kWireMagic[3]) {
-        sendBinaryError(0x0009u, "Invalid magic bytes: expected TMDB");
-        return;
-    }
-
-    const uint8_t opcode = data[5];
-    const uint16_t flags = (static_cast<uint16_t>(data[6]) << 8) | data[7];
-    const uint32_t payload_size =
-        (static_cast<uint32_t>(data[8]) << 24) |
-        (static_cast<uint32_t>(data[9]) << 16) |
-        (static_cast<uint32_t>(data[10]) << 8) |
-         static_cast<uint32_t>(data[11]);
-
-    if (payload_size > kWireMaxPayloadBytes) {
-        sendBinaryError(0x0001u, "Payload size exceeds maximum allowed");
-        return;
-    }
-
-    const bool has_checksum = !(flags & kWireSkipChecksumFlag);
-    const size_t expected_size = kWireHeaderSize + payload_size + (has_checksum ? 4 : 0);
-    if (data.size() < expected_size) {
-        sendBinaryError(0x000Au, "Binary frame incomplete");
-        return;
-    }
-
-    if (has_checksum) {
-        const size_t crc_offset = kWireHeaderSize + payload_size;
-        const uint32_t expected_crc =
-            (static_cast<uint32_t>(data[crc_offset]) << 24) |
-            (static_cast<uint32_t>(data[crc_offset + 1]) << 16) |
-            (static_cast<uint32_t>(data[crc_offset + 2]) << 8) |
-             static_cast<uint32_t>(data[crc_offset + 3]);
-
-        uint32_t computed_crc = wsCrc32Update(0, data.data(), kWireHeaderSize);
-        if (payload_size > 0) {
-            computed_crc = wsCrc32Update(computed_crc,
-                                         data.data() + kWireHeaderSize,
-                                         payload_size);
-        }
-        if (computed_crc != expected_crc) {
-            sendBinaryError(0x000Fu, "Checksum mismatch");
-            return;
-        }
     }
 
     const uint8_t* payload_ptr = data.data() + kWireHeaderSize;
-    switch (opcode) {
+    switch (parsed.frame.opcode) {
         case 0xFEu:
             handleBinaryPing();
             break;
@@ -654,13 +610,13 @@ void WireProtocolWebSocketSession::processBinaryFrame(const std::vector<uint8_t>
             close();
             break;
         case 0x10u:
-            handleBinaryGet(payload_ptr, payload_size);
+            handleBinaryGet(payload_ptr, parsed.frame.payload_size);
             break;
         case 0x11u:
-            handleBinaryPut(payload_ptr, payload_size);
+            handleBinaryPut(payload_ptr, parsed.frame.payload_size);
             break;
         case 0x12u:
-            handleBinaryDelete(payload_ptr, payload_size);
+            handleBinaryDelete(payload_ptr, parsed.frame.payload_size);
             break;
         default:
             sendBinaryError(0x0002u, "Unsupported opcode");

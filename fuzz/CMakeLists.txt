@@ -10,8 +10,24 @@ set(_THEMIS_STANDALONE_FUZZ_HARNESSES
     security_policy_engine
 )
 
+add_executable(wire_protocol_parser_harness
+    "harnesses/wire_protocol_parser_harness.cpp"
+    "${THEMIS_ROOT_DIR}/src/network/websocket_binary_frame_parser.cpp"
+)
+target_include_directories(wire_protocol_parser_harness PRIVATE
+    "${THEMIS_ROOT_DIR}/src/network"
+)
+set_target_properties(wire_protocol_parser_harness PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${_THEMIS_FUZZ_OUTPUT_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${_THEMIS_FUZZ_OUTPUT_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${_THEMIS_FUZZ_OUTPUT_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${_THEMIS_FUZZ_OUTPUT_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${_THEMIS_FUZZ_OUTPUT_DIR}"
+)
+
 include(CheckIncludeFileCXX)
 check_include_file_cxx("boost/beast/core.hpp" THEMIS_HAS_BOOST_BEAST)
+find_package(fmt CONFIG REQUIRED)
 if(THEMIS_HAS_BOOST_BEAST)
     list(APPEND _THEMIS_STANDALONE_FUZZ_HARNESSES http_parser)
 else()
@@ -19,10 +35,17 @@ else()
 endif()
 
 add_custom_target(fuzz_targets)
+add_dependencies(fuzz_targets wire_protocol_parser_harness)
 
 foreach(_themis_harness IN LISTS _THEMIS_STANDALONE_FUZZ_HARNESSES)
     set(_themis_target "${_themis_harness}_harness")
     add_executable(${_themis_target} "harnesses/${_themis_target}.cpp")
+    if(_themis_harness STREQUAL "aql_parser")
+        target_sources(${_themis_target} PRIVATE
+            "${THEMIS_ROOT_DIR}/src/query/aql_parser.cpp"
+        )
+        target_link_libraries(${_themis_target} PRIVATE fmt::fmt)
+    endif()
     target_include_directories(${_themis_target} PRIVATE "${THEMIS_ROOT_DIR}/include")
     set_target_properties(${_themis_target} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${_THEMIS_FUZZ_OUTPUT_DIR}"
@@ -37,14 +60,9 @@ endforeach()
 # ─────────────────────────────────────────────────────────────────────────────
 # Project-linked harnesses
 #
-# These three harnesses include real project headers (llm/gguf_loader.h,
-# llm/grammar.h, importers/postgres_importer.h) rather than inline mocks.
-# They are compiled against lightweight fuzz stubs in fuzz/stubs/ that provide
-# the required class implementations without external dependencies (spdlog,
-# RocksDB) so that the targets build standalone under ENABLE_FUZZING=ON.
-#
-# postgres_importer additionally requires nlohmann_json (transitively included
-# by the header chain) and is only built when nlohmann_json is found.
+# The GGUF and grammar harnesses use their existing lightweight stubs.
+# PostgreSQL importer smoke links the real implementation so corpus inputs
+# exercise the production parser.
 # ─────────────────────────────────────────────────────────────────────────────
 
 # ── gguf_loader ──────────────────────────────────────────────────────────────
@@ -87,21 +105,22 @@ find_package(nlohmann_json CONFIG QUIET)
 if(NOT nlohmann_json_FOUND)
     find_package(nlohmann_json MODULE QUIET)
 endif()
+find_package(spdlog CONFIG QUIET)
 
-if(nlohmann_json_FOUND)
+if(nlohmann_json_FOUND AND spdlog_FOUND)
     add_executable(postgres_importer_harness
         "harnesses/postgres_importer_harness.cpp"
-        "stubs/postgres_importer_stub.cpp"
-        # conflict_resolver.cpp has no external deps beyond nlohmann_json and
-        # is compiled directly to satisfy the ImportConflictResolver link dep.
+        "${THEMIS_ROOT_DIR}/src/importers/postgres_importer.cpp"
         "${THEMIS_ROOT_DIR}/src/importers/conflict_resolver.cpp"
     )
     target_include_directories(postgres_importer_harness PRIVATE
         "${THEMIS_ROOT_DIR}/include"
         "${THEMIS_ROOT_DIR}/src"
     )
-    target_compile_definitions(postgres_importer_harness PRIVATE THEMIS_FUZZ_STUBS=1)
-    target_link_libraries(postgres_importer_harness PRIVATE nlohmann_json::nlohmann_json)
+    target_link_libraries(postgres_importer_harness PRIVATE
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+    )
     set_target_properties(postgres_importer_harness PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY                "${_THEMIS_FUZZ_OUTPUT_DIR}"
         RUNTIME_OUTPUT_DIRECTORY_DEBUG          "${_THEMIS_FUZZ_OUTPUT_DIR}"
@@ -110,9 +129,7 @@ if(nlohmann_json_FOUND)
         RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL     "${_THEMIS_FUZZ_OUTPUT_DIR}"
     )
     add_dependencies(fuzz_targets postgres_importer_harness)
-    message(STATUS "Fuzz harness configured: postgres_importer_harness (stub build, nlohmann_json found)")
+    message(STATUS "Fuzz harness configured: postgres_importer_harness (production parser)")
 else()
-    message(STATUS "Skipping postgres_importer_harness: nlohmann_json not found "
-                   "(install via: vcpkg install nlohmann-json  OR  "
-                   "apt-get install nlohmann-json3-dev)")
+    message(STATUS "Skipping postgres_importer_harness: requires nlohmann_json and spdlog")
 endif()
