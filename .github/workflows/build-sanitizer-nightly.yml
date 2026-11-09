@@ -1,3 +1,4 @@
+---
 name: "Build: Sanitizer Nightly"
 
 # Rechenaufwand-Score: R=6 (K=6, L=6, N=6) | last-calibrated: 2026-08-26
@@ -5,6 +6,46 @@ name: "Build: Sanitizer Nightly"
 # Nightly sanitizer lane (ASan/UBSan by default) on selected critical targets.
 
 on:
+  pull_request:
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
+    paths:
+      - 'src/storage/**'
+      - 'include/storage/**'
+      - 'tests/storage/**'
+      - 'src/transaction/**'
+      - 'include/transaction/**'
+      - 'tests/transaction/**'
+      - 'src/query/**'
+      - 'include/query/**'
+      - 'tests/query/**'
+      - 'src/aql/**'
+      - 'include/aql/**'
+      - 'tests/aql/**'
+      - 'src/server/**'
+      - 'include/server/**'
+      - 'tests/server/**'
+      - 'src/auth/**'
+      - 'include/auth/**'
+      - 'tests/auth/**'
+      - 'src/network/**'
+      - 'include/network/**'
+      - 'tests/network/**'
+      - 'src/sharding/**'
+      - 'include/sharding/**'
+      - 'tests/sharding/**'
+      - 'tests/themis/test_themis_wire_protocol*'
+      - 'tests/test_transaction_auditor.cpp'
+      - 'tests/test_shard_router_focused.cpp'
+      - 'tests/test_query_engine.cpp'
+      - 'tests/test_themis_wire_protocol_server.cpp'
+      - 'CMakeLists.txt'
+      - '.github/workflows/build-sanitizer-nightly.yml'
   schedule:
     - cron: '20 2 * * *'
   workflow_dispatch:
@@ -24,24 +65,102 @@ permissions:
 
 concurrency:
   group: ci-sanitizer-nightly-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   run-summary:
     name: "Validate: Run Summary"
     if: always()
-    needs: [sanitizer-build]
+    needs: [sanitizer-build, tsan-build]
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      actions: read
     steps:
       - uses: actions/checkout@v5
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "Nightly sanitizer build"
+          scope: "PR and nightly sanitizer coverage"
           job-results: ${{ toJSON(needs) }}
+      - name: Record sanitizer evidence
+        env:
+          JOB_RESULTS: ${{ toJSON(needs) }}
+          EVENT_NAME: ${{ github.event_name }}
+          TESTED_SHA: ${{ github.sha }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          RUN_STARTED_AT="$(gh api \
+            "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
+            --jq .run_started_at)"
+          selection_args=()
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            base_sha="${{ github.event.pull_request.base.sha }}"
+            changed_output="$(git diff --name-only "${base_sha}...$GITHUB_SHA")"
+            changed_files=()
+            mapfile -t changed_files <<< "$changed_output"
+            selection_args=(--changed-files "${changed_files[@]}")
+          else
+            selection_args=(--all)
+          fi
+          SANITIZER_TARGETS="$(python3 tools/ci/sanitizer_targets.py \
+            --mode modules "${selection_args[@]}")"
+          if [[ -z "$SANITIZER_TARGETS" ]]; then
+            echo "::error::Sanitizer evidence has no selected target."
+            exit 1
+          fi
+          export RUN_STARTED_AT
+          export RUN_URL
+          export SANITIZER_TARGETS
+          python3 - <<'PY'
+          import json
+          import os
+          from datetime import datetime, timezone
+          jobs = json.loads(os.environ["JOB_RESULTS"])
+          started = datetime.fromisoformat(
+              os.environ["RUN_STARTED_AT"].replace("Z", "+00:00")
+          )
+          duration = int((datetime.now(timezone.utc) - started).total_seconds())
+          details = ", ".join(
+              f"{name}={item['result']}" for name, item in jobs.items()
+          )
+          expected = ["sanitizer-build"]
+          if os.environ["EVENT_NAME"] in ("schedule", "workflow_dispatch"):
+              expected.append("tsan-build")
+          passed = all(jobs[name]["result"] == "success" for name in expected)
+          status = "PASS" if passed else (
+              "FAIL/CANCELLED (not PASS; inspect runner/job logs "
+              "for infrastructure blockers)"
+          )
+          report = (
+              "## Sanitizer evidence\n"
+              f"- Run URL: {os.environ['RUN_URL']}\n"
+              f"- Tested commit SHA: `{os.environ['TESTED_SHA']}`\n"
+              f"- ASan+UBSan targets: {os.environ['SANITIZER_TARGETS']}\n"
+              "- TSan targets (nightly): transaction, sharding, LLM\n"
+              f"- Workflow elapsed duration: {duration}s\n"
+              f"- Outcome: **{status}** ({details})\n"
+          )
+          with open(
+              os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8"
+          ) as summary:
+              summary.write(report)
+          with open(
+              "sanitizer-evidence.md", "w", encoding="utf-8"
+          ) as evidence:
+              evidence.write(report)
+          PY
+      - uses: actions/upload-artifact@v5
+        if: always()
+        with:
+          name: sanitizer-evidence-${{ github.run_number }}
+          path: sanitizer-evidence.md
+          if-no-files-found: error
+          retention-days: 30
 
   sanitizer-build:
     permissions:
@@ -52,21 +171,136 @@ jobs:
     with:
       runs_on: ubuntu-latest
       shell: bash
+      enable_sccache_gha: true
       fetch_depth: '0'
       submodules: false
       working_directory: .
-      setup_command: >-
-        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends clang lld cmake ninja-build pkg-config sccache librocksdb-dev libgtest-dev libgmock-dev libbenchmark-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+      setup_command: |
+        set -euo pipefail
+        sudo apt-get update -qq
+        sudo apt-get install -y --no-install-recommends \
+          clang lld cmake ninja-build
+        sudo apt-get install -y --no-install-recommends \
+          pkg-config sccache librocksdb-dev libgtest-dev libgmock-dev \
+          libbenchmark-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev \
+          libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev \
+          libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc \
+          libcpp-httplib-dev libboost-dev libboost-system-dev \
+          libboost-filesystem-dev libgrpc++-dev libprotobuf-dev \
+          protobuf-compiler-grpc libpugixml-dev
       build_directory: build-sanitizer
-      configure_command: >-
-        set -euo pipefail; SAN_MODE="${{ inputs.sanitizer_mode || 'asan-ubsan' }}"; if [ "$SAN_MODE" = "asan-only" ]; then SAN_FLAGS="-fsanitize=address -fno-omit-frame-pointer"; else SAN_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"; fi; cmake -S . -B build-sanitizer -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_FLAGS="$SAN_FLAGS" -DCMAKE_CXX_FLAGS="$SAN_FLAGS" -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_BUILD_TESTS=ON
-      build_command: >-
-        cmake --build build-sanitizer --target themis_base module_epic3_distributed_tensor_tensor_shard_summary_focused module_llm_test_llm_phase1_hardening_focused --parallel 8
-      validation_command: >-
-        ctest --test-dir build-sanitizer --output-on-failure -R "TensorShardSummaryPhaseCTests|module_llm_test_llm_phase1_hardening_focused" -j 1 --timeout 90
+      configure_command: |
+        set -euo pipefail
+        SAN_MODE="${{ inputs.sanitizer_mode || 'asan-ubsan' }}"
+        if [ "$SAN_MODE" = "asan-only" ]; then
+          SAN_FLAGS="-fsanitize=address -fno-omit-frame-pointer"
+        else
+          SAN_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"
+        fi
+        cmake -S . -B build-sanitizer -G Ninja \
+          -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=clang \
+          -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_FLAGS="$SAN_FLAGS" \
+          -DCMAKE_CXX_FLAGS="$SAN_FLAGS" -DTHEMIS_BUILD_BENCHMARKS=OFF \
+          -DTHEMIS_BUILD_TESTS=ON
+      build_command: |
+        set -euo pipefail
+        selection_args=()
+        if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+          base_sha="${{ github.event.pull_request.base.sha }}"
+          changed_output="$(git diff --name-only "${base_sha}...$GITHUB_SHA")"
+          changed_files=()
+          mapfile -t changed_files <<< "$changed_output"
+          selection_args=(--changed-files "${changed_files[@]}")
+        else
+          selection_args=(--all)
+        fi
+        mapfile -t targets < <(
+          python3 tools/ci/sanitizer_targets.py \
+            --mode build "${selection_args[@]}"
+        )
+        if ((${#targets[@]} == 0)); then
+          echo "::error::Sanitizer path filter matched with no test target."
+          exit 1
+        fi
+        cmake --build build-sanitizer --target "${targets[@]}" --parallel 8
+      validation_command: |
+        set -euo pipefail
+        selection_args=()
+        if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+          base_sha="${{ github.event.pull_request.base.sha }}"
+          changed_output="$(git diff --name-only "${base_sha}...$GITHUB_SHA")"
+          changed_files=()
+          mapfile -t changed_files <<< "$changed_output"
+          selection_args=(--changed-files "${changed_files[@]}")
+        else
+          selection_args=(--all)
+        fi
+        TEST_REGEX="$(python3 tools/ci/sanitizer_targets.py \
+          --mode regex "${selection_args[@]}")"
+        if [[ -z "$TEST_REGEX" ]]; then
+          echo "::error::Sanitizer path filter matched with no test selection."
+          exit 1
+        fi
+        ctest --test-dir build-sanitizer --output-on-failure --no-tests=error \
+          -R "$TEST_REGEX" \
+          -j 1 --timeout 90
       artifact_name: sanitizer-nightly-logs-${{ github.run_number }}
       artifact_paths: |
         build-sanitizer/Testing
         build-sanitizer/CMakeCache.txt
       artifact_retention_days: '10'
       summary_title: "Build: Sanitizer Nightly — Critical Path Validation"
+      timeout_minutes: '45'
+
+  tsan-build:
+    if: >-
+      github.event_name == 'schedule' ||
+      github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: read
+      actions: read
+      issues: write
+    uses: ./.github/workflows/reusable-cmake-build.yml
+    with:
+      runs_on: ubuntu-latest
+      shell: bash
+      fetch_depth: '0'
+      working_directory: .
+      setup_command: |
+        set -euo pipefail
+        sudo apt-get update -qq
+        sudo apt-get install -y --no-install-recommends \
+          clang lld cmake ninja-build pkg-config librocksdb-dev \
+          libgtest-dev libgmock-dev libbenchmark-dev libssl-dev \
+          zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev \
+          nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev \
+          libcurl4-openssl-dev libvulkan-dev glslc libboost-dev \
+          libboost-system-dev libboost-filesystem-dev libgrpc++-dev \
+          libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+      build_directory: build-tsan
+      configure_command: |
+        set -euo pipefail
+        cmake -S . -B build-tsan -G Ninja \
+          -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_C_COMPILER=clang \
+          -DCMAKE_CXX_COMPILER=clang++ \
+          -DCMAKE_C_FLAGS="-fsanitize=thread -fno-omit-frame-pointer" \
+          -DCMAKE_CXX_FLAGS="-fsanitize=thread -fno-omit-frame-pointer" \
+          -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_BUILD_TESTS=ON
+      build_command: |
+        cmake --build build-tsan --target \
+          test_transaction_auditor_focused test_shard_router_focused \
+          module_llm_test_llm_phase1_hardening_focused --parallel 8
+      validation_command: |
+        TEST_REGEX="TransactionAuditorFocusedTests|"
+        TEST_REGEX+="ShardRouterFocusedTests|"
+        TEST_REGEX+="test_llm_phase1_hardening_LlmFocusedTests"
+        ctest --test-dir build-tsan --output-on-failure --no-tests=error \
+          -R "$TEST_REGEX" \
+          -j 1 --timeout 90
+      artifact_name: tsan-nightly-logs-${{ github.run_number }}
+      artifact_paths: |
+        build-tsan/Testing
+        build-tsan/CMakeCache.txt
+      artifact_retention_days: '30'
+      summary_title: "Validate: TSan Nightly — Transaction, Sharding, LLM"
+      timeout_minutes: '45'

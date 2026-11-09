@@ -21,7 +21,7 @@ Status: Active
 
 - Added: 0
 - Removed: 0
-- Changed: 19
+- Changed: 9
 
 ## Added
 
@@ -33,22 +33,12 @@ Status: Active
 
 ## Changed
 
-- .github/workflows/benchmark-gate.yml
-- .github/workflows/build-mainline.yml
-- .github/workflows/compliance-governance-gates.yml
-- .github/workflows/gate-distributed-knowledge.yml
-- .github/workflows/gate-pr-community-failclosed.yml
-- .github/workflows/gate-pr-core.yml
-- .github/workflows/gate-pr-doxygen-governance.yml
-- .github/workflows/gate-pr-edition-license.yml
 - .github/workflows/gate-pr-final-runtime-api.yml
-- .github/workflows/gate-pr-plugin-boundary.yml
 - .github/workflows/gate-pr-rag-security.yml
-- .github/workflows/gate-pr-rag-version.yml
-- .github/workflows/gate-release-benchmark-validation.yml
-- .github/workflows/release-build-matrix.yml
-- .github/workflows/release-evidence-chain.yml
+- .github/workflows/release-docker-image.yml
 - .github/workflows/reusable-cmake-build.yml
-- .github/workflows/wiki-pr-gate.yml
-- scripts/ai-dev-llm-wiki-sync.py
-- scripts/prepare-windows-dependencies.py
+- .github/workflows/reusable-docker-image-platform.yml
+- ROADMAP.md
+- docs/code_maturity_report.md
+- docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md
+- include/auth/jwt_validator.h

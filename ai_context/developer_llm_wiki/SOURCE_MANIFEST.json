@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-09T09:52:40+00:00",
+  "generated_at": "2026-11-09T15:42:58+00:00",
   "source_count": 8070,
   "sources": [
     {
@@ -70,9 +70,9 @@
     {
       "path": ".github/workflows/build-sanitizer-nightly.yml",
       "category": "build_test_ci",
-      "size": 3162,
-      "sha256": "18496274c11a21a3dcf01208aae5d99a90290bb61b29ceac13f58af8dc6907ea",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 11477,
+      "sha256": "7470a71221beba83fc7a0fceaa0006b9f5b8c8f37e1962a44ae64a1597ff1fe3",
+      "modified_utc": "2026-11-09T14:54:59+00:00"
     },
     {
       "path": ".github/workflows/build-wave-a-gpu.yml",
@@ -217,9 +217,9 @@
     {
       "path": ".github/workflows/gate-pr-final-runtime-api.yml",
       "category": "build_test_ci",
-      "size": 9840,
-      "sha256": "73b9ab0ee7d7d04d6264be71af0057dc8663f88e5c6e56c5e1c4ebf8ab5f6a28",
-      "modified_utc": "2026-11-09T09:51:18+00:00"
+      "size": 9799,
+      "sha256": "78afa91f757fb6ebb8c26bde71a944267c29ca8b1daa3c2efe9c200f621f665b",
+      "modified_utc": "2026-11-09T15:42:07+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-hash-sbom.yml",
@@ -294,9 +294,9 @@
     {
       "path": ".github/workflows/gate-pr-rag-security.yml",
       "category": "build_test_ci",
-      "size": 12932,
-      "sha256": "83f551a5b4b3efb0318b91c77be29a4f213b421801a99718665f020a61b4c150",
-      "modified_utc": "2026-11-09T09:51:18+00:00"
+      "size": 12948,
+      "sha256": "e5b4384d507be894bdb53a2504573fef7fad23cb20d4be57bc7f9aabf212b180",
+      "modified_utc": "2026-11-09T15:42:07+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-rag-version.yml",
@@ -462,9 +462,9 @@
     {
       "path": ".github/workflows/release-docker-image.yml",
       "category": "build_test_ci",
-      "size": 37410,
-      "sha256": "4477ab089a3c89994d71bd24b71ad2a75d499b0ed4223a588bbbcbd652298911",
-      "modified_utc": "2026-11-09T03:02:55+00:00"
+      "size": 37608,
+      "sha256": "c56f976d65b951c9c3d8274f41a4a22b89f0e1f99310797ef1715befc8949e97",
+      "modified_utc": "2026-11-09T15:42:07+00:00"
     },
     {
       "path": ".github/workflows/release-evidence-chain.yml",
@@ -574,16 +574,16 @@
     {
       "path": ".github/workflows/reusable-cmake-build.yml",
       "category": "build_test_ci",
-      "size": 42775,
-      "sha256": "fb7a8cfd1a3ef1f0152c045907518f14506c5f3114d4e878f2bd21d4ecba740c",
-      "modified_utc": "2026-11-09T09:52:08+00:00"
+      "size": 42777,
+      "sha256": "d23326adee04283b220e10826ac1ab3fa68abd3ec91c1f3032bd67d4687f874e",
+      "modified_utc": "2026-11-09T15:42:07+00:00"
     },
     {
       "path": ".github/workflows/reusable-docker-image-platform.yml",
       "category": "build_test_ci",
-      "size": 22487,
-      "sha256": "8f9f1963bb889ee85fd0e46640000fba672e1f87472369e1973b8918c1bb9417",
-      "modified_utc": "2026-11-09T03:02:55+00:00"
+      "size": 23471,
+      "sha256": "d17addd31d505986eec2903bab6fc89341139b0b37047522a14a9211328b0e20",
+      "modified_utc": "2026-11-09T15:42:07+00:00"
     },
     {
       "path": ".github/workflows/reusable-docs-db-builder.yml",
@@ -658,9 +658,9 @@
     {
       "path": ".github/workflows/security-fuzzing.yml",
       "category": "build_test_ci",
-      "size": 4979,
-      "sha256": "3153fb62d1d90ba69da61aca07a9433670a6f741a7ee9653e9f0ec88bbaabb62",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 15221,
+      "sha256": "662385433fe0a1eaacf40d4f77020dceb31bc6bebf378a903813df5d29a5f31d",
+      "modified_utc": "2026-11-09T14:54:59+00:00"
     },
     {
       "path": ".github/workflows/security-pentest-quarterly.yml",
@@ -749,9 +749,9 @@
     {
       "path": "ROADMAP.md",
       "category": "governance_and_docs",
-      "size": 241126,
-      "sha256": "9b1c519a1fb0a7a15a03997f041049bea48a17d0dc64f2b60b1d97c4f3c485ab",
-      "modified_utc": "2026-11-09T03:02:55+00:00"
+      "size": 241977,
+      "sha256": "795ddb3c16003468bbeed7fd199ed193127a77aabe39316039c556fb91e3d916",
+      "modified_utc": "2026-11-09T15:42:07+00:00"
     },
     {
       "path": "VERSIONING.md",
@@ -20867,9 +20867,9 @@
     {
       "path": "docs/code_maturity_report.md",
       "category": "governance_and_docs",
-      "size": 2304497,
-      "sha256": "e0949a5621956b6dbe9d22985b4a6f9458df3f3ec14fabda3ea3424b2d8da601",
-      "modified_utc": "2026-11-09T08:41:42+00:00"
+      "size": 2304595,
+      "sha256": "d39fb12aa0b198684c6910eb6e99220c25045b572a3c1e79814a267194a3a001",
+      "modified_utc": "2026-11-09T15:42:07+00:00"
     },
     {
       "path": "docs/community/Supporters.md",
@@ -30408,9 +30408,9 @@
     {
       "path": "docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md",
       "category": "governance_and_docs",
-      "size": 9489,
-      "sha256": "1216c04a743b5842b5316204662bd2b8aa6ff67b96a3a42a6a1953fd1452df98",
-      "modified_utc": "2026-11-09T08:45:41+00:00"
+      "size": 10168,
+      "sha256": "97202dbb64ec94817ff88ba6d159e676adf4c0197e9ed139d856169ad0e5eca4",
+      "modified_utc": "2026-11-09T15:42:07+00:00"
     },
     {
       "path": "docs/en/deployment/DOCKER_SECURITY_AUDIT.md",
@@ -40292,9 +40292,9 @@
     {
       "path": "include/auth/jwt_validator.h",
       "category": "modules_and_api",
-      "size": 9303,
-      "sha256": "025bdaccb66176bb096ca361ae46ff1e000d3db9aeb9c9721912338aff5f9b15",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 10122,
+      "sha256": "fb05001c1e7397de1465bb248c622b3ccc2ccf9402e6059d8f96d4cd88cd828b",
+      "modified_utc": "2026-11-09T15:42:07+00:00"
     },
     {
       "path": "include/auth/kerberos_security.h",
