@@ -1,0 +1,38 @@
+name: "Gate: PR Artifact Size"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-pr-artifact-size-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  artifact-size:
+    name: "Validate: Added File Sizes"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Check newly added tracked files
+        run: |
+          python3 tools/ci/repo_artifact_policy.py check \
+            --base-ref "${{ github.event.pull_request.base.sha }}" \
+            --head-ref "${{ github.event.pull_request.head.sha }}"
+
+      - name: Test large-file policy
+        run: python3 -m unittest tools.tests.test_repo_artifact_policy
