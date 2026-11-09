@@ -7,7 +7,7 @@ Status: Active
 
 - Added: 0
 - Removed: 0
-- Changed: 4
+- Changed: 0
 
 ## Added
 
@@ -19,7 +19,4 @@ Status: Active
 
 ## Changed
 
-- .github/workflows/build-sanitizer-nightly.yml
-- .github/workflows/reusable-cmake-build.yml
-- .github/workflows/security-fuzzing.yml
-- scripts/prepare-windows-dependencies.py
+- none

@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-09T12:45:18+00:00",
+  "generated_at": "2026-11-09T14:55:59+00:00",
   "source_count": 8070,
   "sources": [
     {
@@ -70,9 +70,9 @@
     {
       "path": ".github/workflows/build-sanitizer-nightly.yml",
       "category": "build_test_ci",
-      "size": 10189,
-      "sha256": "69d4a41a00c939a9f58339b70a49da09296885fd744e8770729bd0d018e883b5",
-      "modified_utc": "2026-11-09T12:42:44+00:00"
+      "size": 11477,
+      "sha256": "7470a71221beba83fc7a0fceaa0006b9f5b8c8f37e1962a44ae64a1597ff1fe3",
+      "modified_utc": "2026-11-09T14:54:59+00:00"
     },
     {
       "path": ".github/workflows/build-wave-a-gpu.yml",
@@ -658,9 +658,9 @@
     {
       "path": ".github/workflows/security-fuzzing.yml",
       "category": "build_test_ci",
-      "size": 15184,
-      "sha256": "d793dec50cd208e8ddf9ee46c86fe177c5d6d1e286877e0edd052afe747cda4b",
-      "modified_utc": "2026-11-09T12:42:44+00:00"
+      "size": 15221,
+      "sha256": "662385433fe0a1eaacf40d4f77020dceb31bc6bebf378a903813df5d29a5f31d",
+      "modified_utc": "2026-11-09T14:54:59+00:00"
     },
     {
       "path": ".github/workflows/security-pentest-quarterly.yml",

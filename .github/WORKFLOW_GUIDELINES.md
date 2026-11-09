@@ -186,9 +186,10 @@ jobs:
 
 ### Sanitizer- und Parser-Fuzz-Gates
 - `build-sanitizer-nightly.yml` führt bei Änderungen in den Storage-, Transaction-,
-  Query/AQL-, Server-, Auth-, Network- und Sharding-Modulen einen begrenzten
-  ASan+UBSan-Lauf aus (Jobbudget höchstens 45 Minuten). Der Zeitplan/Dispatch
-  führt zusätzlich TSan-Tests für Transaction, Sharding und LLM aus.
+  Query/AQL-, Server-, Auth-, Network- und Sharding-Modulen nur die betroffenen
+  fokussierten ASan+UBSan-Tests aus (Jobbudget höchstens 45 Minuten). Änderungen
+  an der Root-CMake-Konfiguration wählen die volle Testsuite; Zeitplan/Dispatch
+  führen die volle ASan+UBSan-Suite sowie TSan für Transaction, Sharding und LLM aus.
 - Der Sanitizer-Run-Beleg enthält URL, getesteten SHA, Ziele, Laufzeit und rohes
   Job-Ergebnis. Fehlgeschlagene oder abgebrochene Läufe sind kein PASS; mögliche
   Runner-/Infrastrukturfehler müssen anhand der Logs separat klassifiziert werden.
@@ -198,7 +199,7 @@ jobs:
   Crash oder ASan/UBSan-Diagnose muss fehlschlagen. Corpus-Smoke verwendet keine
   AFL-Ausgabecache; die eingecheckten Pflicht-Seeds sind der minimale Corpus-Vertrag.
 - Für Änderungen an diesen Gates lokal ausführen:
-  `python3 -m unittest tools.tests.test_fuzz_smoke -v` und
+  `python3 -m unittest tools.tests.test_fuzz_smoke tools.tests.test_sanitizer_targets -v` und
   `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode lint`.
 
 ## Quick Acceptance Criteria (Workflow-/Guideline-PRs)

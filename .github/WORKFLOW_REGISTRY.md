@@ -182,7 +182,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `build-mainline.yml` | Build: Mainline (All platforms, multi-matrix) | active |
 | `build-clang-fast.yml` | Build: Clang Fast (Quick clang-only validation) | active |
 | `build-benchmarks.yml` | Build: Benchmarks (Performance regression suite, 64-matrix) | active |
-| `build-sanitizer-nightly.yml` | Build: Sanitizer Nightly (bounded PR ASan+UBSan module coverage; nightly TSan transaction/sharding/LLM; run evidence) | active |
+| `build-sanitizer-nightly.yml` | Build: Sanitizer Nightly (changed-module PR ASan+UBSan tests under 45 minutes; full scheduled suite and TSan transaction/sharding/LLM; run evidence) | active |
 | `build-wave-a-gpu.yml` | Build: Wave A GPU (CUDA/GPU feature validation) | active |
 | `build-wave-b-transaction.yml` | Build: Wave B Transaction (Transactional subsystem) | active |
 | `build-wave-b-llm-benchmarks.yml` | Build: Wave B LLM Benchmarks (LLM inference performance) | active |

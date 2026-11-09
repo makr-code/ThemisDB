@@ -1,23 +1,18 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-09T12:45:18+00:00",
+  "generated_at": "2026-11-09T14:55:59+00:00",
   "mode": "incremental",
   "source_count": 8070,
-  "source_hash": "ddcd9b44f78ea785f08d67c6bf552cb85b7fd7a367f03051dde125fe2b79f802",
+  "source_hash": "af688d8b7bf333a062baf63d0e918672d5f3a86abf37d53da5b1ce8d1805af36",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
-    "changed_count": 4,
+    "changed_count": 0,
     "added_preview": [],
     "removed_preview": [],
-    "changed_preview": [
-      ".github/workflows/build-sanitizer-nightly.yml",
-      ".github/workflows/reusable-cmake-build.yml",
-      ".github/workflows/security-fuzzing.yml",
-      "scripts/prepare-windows-dependencies.py"
-    ]
+    "changed_preview": []
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "2e59006ad75c4e1ff3b8768ad1a26030df67a07b81975c8aedde7bf4fd123df2"
+  "manifest_sha256": "5caa7933ba7ea0b118ddc9d0900a6554b61452e67369dbe53ccb3c8c4fd57bfa"
 }

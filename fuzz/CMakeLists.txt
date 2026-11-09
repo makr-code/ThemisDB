@@ -28,6 +28,7 @@ set_target_properties(wire_protocol_parser_harness PROPERTIES
 include(CheckIncludeFileCXX)
 check_include_file_cxx("boost/beast/core.hpp" THEMIS_HAS_BOOST_BEAST)
 find_package(fmt CONFIG REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
 if(THEMIS_HAS_BOOST_BEAST)
     list(APPEND _THEMIS_STANDALONE_FUZZ_HARNESSES http_parser)
 else()
@@ -43,8 +44,12 @@ foreach(_themis_harness IN LISTS _THEMIS_STANDALONE_FUZZ_HARNESSES)
     if(_themis_harness STREQUAL "aql_parser")
         target_sources(${_themis_target} PRIVATE
             "${THEMIS_ROOT_DIR}/src/query/aql_parser.cpp"
+            "${THEMIS_ROOT_DIR}/src/query/aql_parser_json.cpp"
+            "${THEMIS_ROOT_DIR}/src/utils/error_registry.cpp"
+            "${THEMIS_ROOT_DIR}/src/utils/error_contracts.cpp"
+            "${THEMIS_ROOT_DIR}/src/utils/logger.cpp"
         )
-        target_link_libraries(${_themis_target} PRIVATE fmt::fmt)
+        target_link_libraries(${_themis_target} PRIVATE fmt::fmt spdlog::spdlog)
     endif()
     target_include_directories(${_themis_target} PRIVATE "${THEMIS_ROOT_DIR}/include")
     set_target_properties(${_themis_target} PROPERTIES
@@ -105,7 +110,6 @@ find_package(nlohmann_json CONFIG QUIET)
 if(NOT nlohmann_json_FOUND)
     find_package(nlohmann_json MODULE QUIET)
 endif()
-find_package(spdlog CONFIG QUIET)
 
 if(nlohmann_json_FOUND AND spdlog_FOUND)
     add_executable(postgres_importer_harness

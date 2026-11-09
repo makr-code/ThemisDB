@@ -39,7 +39,7 @@ on:
       - 'src/sharding/**'
       - 'include/sharding/**'
       - 'tests/sharding/**'
-      - 'tests/themis/**'
+      - 'tests/themis/test_themis_wire_protocol*'
       - 'tests/test_transaction_auditor.cpp'
       - 'tests/test_shard_router_focused.cpp'
       - 'tests/test_query_engine.cpp'
@@ -65,7 +65,7 @@ permissions:
 
 concurrency:
   group: ci-sanitizer-nightly-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   run-summary:
@@ -79,6 +79,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
@@ -91,12 +92,30 @@ jobs:
           TESTED_SHA: ${{ github.sha }}
           GH_TOKEN: ${{ github.token }}
         run: |
+          set -euo pipefail
           RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
           RUN_STARTED_AT="$(gh api \
             "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
             --jq .run_started_at)"
+          selection_args=()
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            base_sha="${{ github.event.pull_request.base.sha }}"
+            changed_output="$(git diff --name-only "${base_sha}...$GITHUB_SHA")"
+            changed_files=()
+            mapfile -t changed_files <<< "$changed_output"
+            selection_args=(--changed-files "${changed_files[@]}")
+          else
+            selection_args=(--all)
+          fi
+          SANITIZER_TARGETS="$(python3 tools/ci/sanitizer_targets.py \
+            --mode modules "${selection_args[@]}")"
+          if [[ -z "$SANITIZER_TARGETS" ]]; then
+            echo "::error::Sanitizer evidence has no selected target."
+            exit 1
+          fi
           export RUN_STARTED_AT
           export RUN_URL
+          export SANITIZER_TARGETS
           python3 - <<'PY'
           import json
           import os
@@ -121,9 +140,8 @@ jobs:
               "## Sanitizer evidence\n"
               f"- Run URL: {os.environ['RUN_URL']}\n"
               f"- Tested commit SHA: `{os.environ['TESTED_SHA']}`\n"
-              "- Sanitizer targets: ASan+UBSan PR: storage, transaction, "
-              "query, AQL, server, auth, network, sharding; TSan: "
-              "transaction, sharding, LLM\n"
+              f"- ASan+UBSan targets: {os.environ['SANITIZER_TARGETS']}\n"
+              "- TSan targets (nightly): transaction, sharding, LLM\n"
               f"- Workflow elapsed duration: {duration}s\n"
               f"- Outcome: **{status}** ({details})\n"
           )
@@ -153,6 +171,7 @@ jobs:
     with:
       runs_on: ubuntu-latest
       shell: bash
+      enable_sccache_gha: true
       fetch_depth: '0'
       submodules: false
       working_directory: .
@@ -179,29 +198,49 @@ jobs:
           SAN_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"
         fi
         cmake -S . -B build-sanitizer -G Ninja \
-          -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_C_COMPILER=clang \
+          -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=clang \
           -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_FLAGS="$SAN_FLAGS" \
           -DCMAKE_CXX_FLAGS="$SAN_FLAGS" -DTHEMIS_BUILD_BENCHMARKS=OFF \
           -DTHEMIS_BUILD_TESTS=ON
       build_command: |
-        cmake --build build-sanitizer --target \
-          themis_base \
-          module_storage_test_storage_contract_hardening_focused_focused \
-          test_query_engine_focused \
-          module_aql_test_aql_query_validator_focused \
-          module_server_test_server_phase2_focused_focused \
-          module_auth_test_wave8_auth_hardening_focused \
-          module_network_test_network_contract_hardening_focused_focused \
-          test_transaction_auditor_focused test_shard_router_focused \
-          module_network_test_wire_protocol_v2_focused --parallel 8
+        set -euo pipefail
+        selection_args=()
+        if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+          base_sha="${{ github.event.pull_request.base.sha }}"
+          changed_output="$(git diff --name-only "${base_sha}...$GITHUB_SHA")"
+          changed_files=()
+          mapfile -t changed_files <<< "$changed_output"
+          selection_args=(--changed-files "${changed_files[@]}")
+        else
+          selection_args=(--all)
+        fi
+        mapfile -t targets < <(
+          python3 tools/ci/sanitizer_targets.py \
+            --mode build "${selection_args[@]}"
+        )
+        if ((${#targets[@]} == 0)); then
+          echo "::error::Sanitizer path filter matched with no test target."
+          exit 1
+        fi
+        cmake --build build-sanitizer --target "${targets[@]}" --parallel 8
       validation_command: |
-        TEST_REGEX="test_storage_contract_hardening_focused_StorageFocusedTests|"
-        TEST_REGEX+="QueryEngineFocusedTests|test_aql_query_validator_AqlFocusedTests|"
-        TEST_REGEX+="test_server_phase2_focused_server_FocusedTests|"
-        TEST_REGEX+="test_wave8_auth_hardening_auth_FocusedTests|"
-        TEST_REGEX+="test_network_contract_hardening_focused_network_FocusedTests|"
-        TEST_REGEX+="TransactionAuditorFocusedTests|ShardRouterFocusedTests|"
-        TEST_REGEX+="test_wire_protocol_v2_network_FocusedTests"
+        set -euo pipefail
+        selection_args=()
+        if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+          base_sha="${{ github.event.pull_request.base.sha }}"
+          changed_output="$(git diff --name-only "${base_sha}...$GITHUB_SHA")"
+          changed_files=()
+          mapfile -t changed_files <<< "$changed_output"
+          selection_args=(--changed-files "${changed_files[@]}")
+        else
+          selection_args=(--all)
+        fi
+        TEST_REGEX="$(python3 tools/ci/sanitizer_targets.py \
+          --mode regex "${selection_args[@]}")"
+        if [[ -z "$TEST_REGEX" ]]; then
+          echo "::error::Sanitizer path filter matched with no test selection."
+          exit 1
+        fi
         ctest --test-dir build-sanitizer --output-on-failure --no-tests=error \
           -R "$TEST_REGEX" \
           -j 1 --timeout 90

@@ -27,6 +27,10 @@ class FuzzSmokeScopeTests(unittest.TestCase):
             ".github/workflows/security-fuzzing.yml",
         ):
             workflow = (ROOT / name).read_text(encoding="utf-8")
+            self.assertIn(
+                "cancel-in-progress: ${{ github.event_name == 'pull_request' }}",
+                workflow,
+            )
             pull_request = workflow.split("  pull_request:", 1)[1].split(
                 "\n  schedule:", 1
             )[0]
@@ -100,6 +104,11 @@ class FuzzSmokeScopeTests(unittest.TestCase):
         self.assertIn("REQUIRED_SEEDS", smoke)
         fuzz_cmake = (ROOT / "fuzz/CMakeLists.txt").read_text(encoding="utf-8")
         self.assertIn("src/query/aql_parser.cpp", fuzz_cmake)
+        self.assertIn("src/query/aql_parser_json.cpp", fuzz_cmake)
+        self.assertIn("src/utils/error_registry.cpp", fuzz_cmake)
+        self.assertIn("src/utils/error_contracts.cpp", fuzz_cmake)
+        self.assertIn("src/utils/logger.cpp", fuzz_cmake)
+        self.assertIn("spdlog::spdlog", fuzz_cmake)
         self.assertIn("src/importers/postgres_importer.cpp", fuzz_cmake)
         self.assertNotIn('"stubs/postgres_importer_stub.cpp"', fuzz_cmake)
         aql_harness = (ROOT / "fuzz/harnesses/aql_parser_harness.cpp").read_text(encoding="utf-8")
@@ -156,6 +165,9 @@ class FuzzSmokeScopeTests(unittest.TestCase):
         self.assertIn("  pull_request:", workflow)
         self.assertIn("- 'src/storage/**'", workflow)
         self.assertIn("- 'include/sharding/**'", workflow)
+        self.assertIn("enable_sccache_gha: true", workflow)
+        self.assertIn("CMAKE_BUILD_TYPE=Debug", workflow)
+        self.assertIn("tools/ci/sanitizer_targets.py", workflow)
         self.assertIn('SAN_FLAGS="-fsanitize=address,undefined', workflow)
         for module in ("storage", "transaction", "query", "aql", "server", "auth", "network", "sharding"):
             self.assertIn(f"- 'src/{module}/**'", workflow)
@@ -185,7 +197,13 @@ class FuzzSmokeScopeTests(unittest.TestCase):
             "test_shard_router_focused",
             "module_llm_test_llm_phase1_hardening_focused",
         ):
-            self.assertIn(target, workflow)
+            self.assertIn(
+                target,
+                (ROOT / "tools/ci/sanitizer_targets.py").read_text(
+                    encoding="utf-8"
+                )
+                + workflow,
+            )
         network_tests = (ROOT / "tests/network/CMakeLists.txt").read_text(
             encoding="utf-8"
         )
@@ -195,9 +213,12 @@ class FuzzSmokeScopeTests(unittest.TestCase):
         )
         self.assertIn('set(_ctest "${_stem}_network_FocusedTests")', network_tests)
         self.assertTrue((ROOT / "tests/network/test_wire_protocol_v2.cpp").is_file())
+        sanitizer_targets = (
+            ROOT / "tools/ci/sanitizer_targets.py"
+        ).read_text(encoding="utf-8")
         self.assertIn(
             "test_wire_protocol_v2_network_FocusedTests",
-            workflow,
+            sanitizer_targets,
         )
         self.assertNotIn("WireProtocolV2FocusedTests", workflow)
         self.assertIn("FAIL/CANCELLED (not PASS", workflow)
@@ -217,7 +238,7 @@ class FuzzSmokeScopeTests(unittest.TestCase):
         for field in (
             "Run URL:",
             "Tested commit SHA:",
-            "Sanitizer targets:",
+            "ASan+UBSan targets:",
             "Workflow elapsed duration:",
             "Outcome:",
             "FAIL/CANCELLED (not PASS",
