@@ -35,6 +35,7 @@ Exact model backend not verifiable from final document text alone.
 | Document | Purpose |
 |---|---|
 | `FULL_DEEP_DIVE_AUDIT_2026-10-31.md` | Full deep-dive audit of source and docs (73 modules, 79 calibrated findings, doc-vs-code drift matrix) |
+| `BENCHMARK_MODULE_COVERAGE.json` | Source/CMake/CTest and evidence-status inventory for all 73 source modules |
 | `ROADMAP.md` | Audit-derived production-readiness roadmap (WS1–WS11, milestones M0–M4, traceability matrix); non-normative for release status |
 | `TEST_QUALITY_INVENTORY.md` | Baseline v1 test-quality inventory (snapshot 2026-11-09) for issue #7820; generated from `develop` at `c21f7bba0cb44d58e5ad49f64781a76703b3ee56`, with metrics sourced from `test_quality_baseline_v1.json` (4,258 test sources; all 1,018 C++ files under `tests/legacy/` pending per-file disposition) |
 | `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md` | Consolidated source-verified audit, maturity, security, and monetary update |
@@ -120,6 +121,30 @@ Exact model backend not verifiable from final document text alone.
 - The Wave-C proof file `tests/audit/test_audit_wavec_integrity_export_focused.cpp` is a mock-based design validation harness, not a direct proof of the real production backend.
 - For current implementation drift handling, use `IMPLEMENTATION_AUDIT_2026-09-30.md` first.
 - The dated marker artifacts `MARKER_LOCATIONS_2026-08-31.md` and `MARKER_GAP_CLASSIFICATION_2026-08-31.md` are historical snapshots; use `ACTIONABLE_TODOS_2026-10-01.md`, `MARKER_LOCATIONS_2026-10-01.md`, `MARKER_GAP_CLASSIFICATION_2026-10-01.md`, and `IMPLEMENTATION_AUDIT_2026-09-30.md` for current-state assessment.
+
+### Benchmark density and release-claim evidence (2026-11-09)
+
+The [machine-readable benchmark module matrix](BENCHMARK_MODULE_COVERAGE.json) was generated from `develop` at `c21f7bba0cb44d58e5ad49f64781a76703b3ee56`. It enumerates 73 `src/` modules, finds 390 named C++ benchmark-source candidates, maps 338 to module directories, and lists the other 52 sources that do not map to a `src/` module path separately. The historical 339-file total in the 2026-10-31 audit is retained as a dated figure, not reused as a current coverage measure. These counts establish source presence only; they do not prove execution, representativeness, or performance.
+
+The matrix records target/CTest registration, build profile, CI triggers, expected result paths, missing workload metadata, and the latest benchmark CI attempt. The static registration scan maps 388 candidate sources to benchmark targets and CTest registrations; it also reports one unregistered source and eight CTest entries without a statically mapped source target. Of the 73 modules, 26 are marked high-risk by the audit hotspot list or `release_critical` CTest labels; 21 still lack workload-specific release-claim records. Their `claim_inventory_review` rows now link available source docs, partial declared-target mappings, benchmark candidates, and an accountable issue, but do not claim a complete claim-to-workload crosswalk. Three modules remain `gap`; 70 are `blocked` because the latest weekly attempt did not execute workloads; none is marked `covered` or `not applicable`. CMake conditionals are not evaluated by the source scanner, so registrations that cannot be mapped statically remain unverified. The weekly performance workflow retains artifacts for 14 days; its latest run [42548800031](https://github.com/makr-code/ThemisDB/actions/runs/42548800031) failed during CMake configuration because RocksDB was unavailable. Benchmark build/run and report jobs were skipped, so no benchmark result artifact or PASS evidence exists. The PR CTest workflow checks registration structure and does not execute workloads. No module is marked `not applicable` without a specific reviewed rationale.
+
+Claim disposition follows the existing owners rather than duplicating their implementation:
+
+- Query `LIMIT 10` at 100K/10M rows remains a **gap** under [#7488](https://github.com/makr-code/ThemisDB/issues/7488): merged PR #7804 reports synthetic pull-source measurements but no retained raw result from a storage scan.
+- `src/performance/` regression methodology remains a **gap** under [#7534](https://github.com/makr-code/ThemisDB/issues/7534); noise policy and maintainer-approved thresholds are not recorded here.
+- Wave A representative-hardware results remain **blocked** under [#7810](https://github.com/makr-code/ThemisDB/issues/7810); merged PR #8012 refreshed manifests but states that required measurements are pending and the referenced baseline artifact is absent. GPU capability/fallback evidence remains with [#7492](https://github.com/makr-code/ThemisDB/issues/7492).
+- The unsupported 1,024-request LLM statement is **withdrawn** by merged PR #7805 under [#7490](https://github.com/makr-code/ThemisDB/issues/7490); no hardware benchmark is claimed for it.
+
+For every high-risk module, `claim_inventory_review` in the matrix now lists the available performance/roadmap source documents, any declared target-to-benchmark mappings from `benchmarks/benchmark_target_mapping.json`, candidate benchmark sources, an owner issue, and a concrete evidence follow-up. Existing module issues are linked only where their acceptance criteria require benchmark or metric evidence; otherwise #7828 owns portfolio triage until a workload-specific issue is verified. The target-mapping file is explicitly treated as a partial index, not a complete claim inventory or proof of execution, so unresolved modules remain `gap`.
+
+Regenerate on the intended source branch with:
+
+```bash
+python3 tools/ci/audit_benchmark_coverage.py \
+  --module-matrix audit/BENCHMARK_MODULE_COVERAGE.json
+```
+
+Provide `--latest-run-url`, `--latest-run-sha`, `--latest-run-result`, and `--latest-run-note` to record a CI attempt. A run counts as benchmark evidence only when it succeeds, retains machine-readable results, and documents workload metadata; missing values stay `gap`/`blocked`. The release-claim details, evidence references, scanner exclusions, and exact source revision are in the JSON matrix.
 
 ### Source-Verified Reality Check (2026-09-07)
 
