@@ -230,7 +230,9 @@ BENCHMARK_DEFINE_F(TaskSchedulerBenchFixture, ListTasks)(benchmark::State& state
 
     for (auto _ : state) {
         auto tasks = scheduler_->listTasks();
-        benchmark::DoNotOptimize(tasks);
+        const auto task_count = tasks.size();
+        benchmark::DoNotOptimize(tasks.data());
+        benchmark::DoNotOptimize(task_count);
     }
 
     state.SetItemsProcessed(state.iterations() * n);

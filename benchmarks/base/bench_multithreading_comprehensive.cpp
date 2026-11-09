@@ -15,6 +15,7 @@
 #include <thread>
 #include <atomic>
 #include <mutex>
+#include <rocksdb/utilities/transaction_db.h>
 
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -122,11 +123,18 @@ public:
 
     DeterministicRNG& getRNG() { return rng_; }
 
-    ~MultiThreadBenchEnv() {
+    void shutdown() {
         db_.reset();
         if (!db_path_.empty()) {
-            std::filesystem::remove_all(db_path_);
+            std::error_code cleanup_error;
+            std::filesystem::remove_all(db_path_, cleanup_error);
+            db_path_.clear();
         }
+        initialized_ = false;
+    }
+
+    ~MultiThreadBenchEnv() {
+        shutdown();
     }
 };
 
@@ -410,26 +418,58 @@ BENCHMARK(BM_BatchInsert_MultiThread)
 static void BM_MaxThreadStress(benchmark::State& state) {
     auto& env = MultiThreadBenchEnv::instance();
     auto db = env.getDB();
+    auto* raw_db = db->getRawDB();
+    if (!raw_db) {
+        state.SkipWithError("RocksDBWrapper returned a null raw TransactionDB");
+        return;
+    }
+
     auto hc = std::thread::hardware_concurrency();
     const int num_threads = (hc == 0) ? 1 : static_cast<int>(hc);
+    rocksdb::WriteOptions write_options;
+    write_options.disableWAL = true;
+    rocksdb::TransactionOptions transaction_options;
 
     for (auto _ : state) {
         std::vector<std::thread> threads;
         std::atomic<int> total_ops{0};
+        std::atomic<bool> transaction_failed{false};
 
         for (int t = 0; t < num_threads; ++t) {
             threads.emplace_back([&, t]() {
                 DeterministicRNG thread_rng(42 + t);
-                int ops = 0;
+                std::unique_ptr<rocksdb::Transaction> transaction(
+                    raw_db->BeginTransaction(write_options, transaction_options));
+                if (!transaction) {
+                    transaction_failed.store(true, std::memory_order_relaxed);
+                    return;
+                }
+
                 for (int i = 0; i < 50; ++i) {
                     std::string key = "stress_" + std::to_string(t) + "_" + std::to_string(i);
                     BaseEntity entity(key, BaseEntity::FieldMap{
                         {"value", thread_rng.generateInt(0, 1000000)},
                         {"data", thread_rng.generateString(200)}
                     });
-                    db->put("entity:" + key, entity.serialize());
-                    ops++;
+                    const auto value = entity.serialize();
+                    const std::string entity_key = "entity:" + key;
+                    const auto put_status = transaction->Put(
+                        rocksdb::Slice(entity_key),
+                        rocksdb::Slice(reinterpret_cast<const char*>(value.data()), value.size()));
+                    if (!put_status.ok()) {
+                        transaction->Rollback();
+                        transaction_failed.store(true, std::memory_order_relaxed);
+                        return;
+                    }
+                }
 
+                if (!transaction->Commit().ok()) {
+                    transaction_failed.store(true, std::memory_order_relaxed);
+                    return;
+                }
+
+                int ops = 50;
+                for (int i = 0; i < 50; ++i) {
                     // Read some data
                     int warmup_id = thread_rng.generateInt(0, 9999);
                     auto value = db->get("entity:warmup_" + std::to_string(warmup_id));
@@ -445,9 +485,15 @@ static void BM_MaxThreadStress(benchmark::State& state) {
         }
 
         benchmark::DoNotOptimize(total_ops.load());
+        if (transaction_failed.load(std::memory_order_relaxed)) {
+            state.SkipWithError("Raw RocksDB stress transaction failed");
+            break;
+        }
     }
 
     state.SetItemsProcessed(state.iterations() * num_threads * 100);
+    // Close RocksDB after the final stress case, before static teardown.
+    env.shutdown();
 }
 BENCHMARK(BM_MaxThreadStress)
     ->Unit(benchmark::kMillisecond)
