@@ -115,23 +115,34 @@ class DeploymentWorkflowTests(unittest.TestCase):
 
     def run_configure_recovery(self, directory, arch="X64", runner_os="Windows",
                                message="error: Download timed out.", retry_status=0,
-                               initial_status=23):
+                               initial_status=23, attempts=None):
         script = step("reusable-cmake-build.yml", "build", "configure")["run"]
         script = script.replace("${{ steps.resolve_mode.outputs.resolved_build_dir }}", "build")
+        attempts = attempts or [(message, initial_status), ("", retry_status)]
+        (directory / "messages").write_text("\n".join(item[0] for item in attempts) + "\n")
+        (directory / "statuses").write_text("\n".join(str(item[1]) for item in attempts) + "\n")
+        tools = directory / "configure-tools"
+        tools.mkdir()
+        sleep = tools / "sleep"
+        sleep.write_text('#!/bin/sh\nprintf "%s\\n" "$1" >> "$WAIT_LOG"\n')
+        sleep.chmod(0o755)
         command = (
-            'if [ ! -f configure-attempted ]; then\n'
-            '  touch configure-attempted\n'
-            '  echo "$TEST_CONFIGURE_MESSAGE"\n'
-            '  exit "$TEST_INITIAL_STATUS"\n'
+            'attempt=0\n'
+            '[ ! -f configure-attempted ] || read -r attempt < configure-attempted\n'
+            'attempt=$((attempt + 1))\n'
+            'printf "%s\\n" "$attempt" > configure-attempted\n'
+            'if [ "$attempt" -gt 1 ]; then\n'
+            '  echo retried >> configure-retries\n'
             'fi\n'
-            'echo retried >> configure-retries\n'
-            'exit "$TEST_RETRY_STATUS"\n'
+            'sed -n "${attempt}p" messages\n'
+            'status=$(sed -n "${attempt}p" statuses)\n'
+            'exit "${status:-99}"\n'
         )
         return run_bash(
             script, directory, WORKING_DIRECTORY=str(directory),
             RUNNER_TEMP=str(directory), RUNNER_ARCH=arch, RUNNER_OS=runner_os,
-            CONFIGURE_COMMAND=command, TEST_CONFIGURE_MESSAGE=message,
-            TEST_INITIAL_STATUS=str(initial_status), TEST_RETRY_STATUS=str(retry_status),
+            CONFIGURE_COMMAND=command, PATH=f"{tools}{os.pathsep}{os.environ['PATH']}",
+            WAIT_LOG=str(directory / "waits"),
         )[0]
 
     def test_configure_retries_download_timeouts_on_all_release_platforms(self):
@@ -144,7 +155,8 @@ class DeploymentWorkflowTests(unittest.TestCase):
                 result = self.run_configure_recovery(directory, arch, runner_os)
                 self.assertEqual(result.returncode, 0, result.stderr)
                 self.assertEqual((directory / "configure-retries").read_text(), "retried\n")
-                self.assertIn("retrying once", result.stdout)
+                self.assertIn("retrying in 10s", result.stdout)
+                self.assertEqual((directory / "waits").read_text(), "10\n")
                 self.assertIn(
                     "Download timed out",
                     (directory / "cmake-build-configure-output.log").read_text(),
@@ -153,9 +165,24 @@ class DeploymentWorkflowTests(unittest.TestCase):
     def test_configure_timeout_retry_is_bounded_and_preserves_final_failure(self):
         with tempfile.TemporaryDirectory() as temp:
             directory = Path(temp)
-            result = self.run_configure_recovery(directory, retry_status=37)
+            result = self.run_configure_recovery(
+                directory, attempts=[("Download timed out", 37)] * 4,
+            )
             self.assertEqual(result.returncode, 37, result.stderr)
-            self.assertEqual((directory / "configure-retries").read_text(), "retried\n")
+            self.assertEqual((directory / "configure-retries").read_text(), "retried\n" * 3)
+            self.assertEqual((directory / "waits").read_text().splitlines(), ["10", "30", "60"])
+
+    def test_configure_backoff_stops_on_recovery_or_nontransient_failure(self):
+        error = "error: curl operation failed with response code 504."
+        for last_message, last_status in [("", 0), ("CMake Error: invalid configuration", 37)]:
+            with self.subTest(last_status=last_status), tempfile.TemporaryDirectory() as temp:
+                directory = Path(temp)
+                result = self.run_configure_recovery(
+                    directory, attempts=[(error, 23), (error, 23), (last_message, last_status)],
+                )
+                self.assertEqual(result.returncode, last_status, result.stderr)
+                self.assertEqual((directory / "configure-retries").read_text(), "retried\n" * 2)
+                self.assertEqual((directory / "waits").read_text().splitlines(), ["10", "30"])
 
     def test_configure_retries_vcpkg_ssl_connect_error_once(self):
         message = "error: curl operation failed with error code 35 (SSL connect error)."
