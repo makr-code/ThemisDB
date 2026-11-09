@@ -23,7 +23,13 @@
     "sbom_signature": "not generated: signature step skipped for refs/heads/develop",
     "build_provenance": "not generated: tag-only attestation step skipped",
     "c5_manifest_artifact": "not created: C5 packaging job 128248707597 skipped",
-    "human_compliance_review": "not recorded; required before C4 promotion",
+    "release_record_status": "candidate assembly only; not a v2.5.0 release record",
+    "release_specific_incident_drills": "none recorded for this candidate",
+    "six_event_runtime_traces": "none recorded for the six required key lifecycle event classes",
+    "persisted_audit_records": "none linked for the six required key lifecycle event classes",
+    "deployment_model_evidence": "none recorded for self-hosted, managed, or hybrid deployments",
+    "human_compliance_review": "no authorized human review recorded; required before C4 promotion",
+    "certification_claim": "none; this candidate bundle does not claim certification",
     "key_lifecycle_events": "audit/evidence/c5/KEY_LIFECYCLE_AUDIT_EVENTS.md",
     "incident_drill_index": "audit/evidence/c5/INCIDENT_DRILL_EVIDENCE_INDEX.md",
     "shared_responsibility": "audit/evidence/c5/SHARED_RESPONSIBILITY_MATRIX.md",
@@ -31,5 +37,5 @@
     "manifest_validation_report": "audit/evidence/c5/v2.5.0-rc-candidate/manifest_validation.json",
     "remediation_issue": "https://github.com/makr-code/ThemisDB/issues/7817"
   },
-  "notes": "Candidate assembly on 2026-11-09 from actual develop run 42321944686 (commit 5f8b44bacd78cfb940f5c1bf40456d6617d0284a); this is not a v2.5.0 tag/release run. Overall workflow failed during SOC 2 evidence-container setup; SBOM generation succeeded, but tag-only signing and provenance were skipped, and C5 manifest packaging was skipped. No release-specific incident/restore drills or six-event CI traces were verified. All listed controls remain partial. Schema validation is not evidence authenticity, signature verification, runtime proof, human approval, or independent certification."
+  "notes": "Candidate assembly on 2026-11-09 from actual develop run 42321944686 (commit 5f8b44bacd78cfb940f5c1bf40456d6617d0284a); this is not a v2.5.0 tag/release run or release record. Overall workflow failed during SOC 2 evidence-container setup; SBOM generation succeeded, but tag-only signing and provenance were skipped, and C5 manifest packaging was skipped. No release-specific incident/restore drills, six-event runtime traces, persisted audit records, deployment-model evidence, or authorized human review are recorded. All listed controls remain partial. This candidate bundle makes no certification claim. Schema validation is not evidence authenticity, signature verification, runtime proof, human approval, or independent certification."
 }
