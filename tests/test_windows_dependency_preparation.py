@@ -76,6 +76,18 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
             ), 37)
             self.assertIn("BUILD_FAILED", log.read_text())
 
+    def test_unicode_configure_output_is_safe_on_windows_console_encoding(self):
+        with tempfile.TemporaryDirectory() as temp:
+            output = io.BytesIO()
+            stream = io.TextIOWrapper(output, encoding="cp1252")
+            with patch.object(helper.sys, "stdout", stream):
+                result = helper.run(
+                    [sys.executable, "-c", "print('configure: 🧪',flush=True)"],
+                    Path(temp) / "log", 5,
+                )
+            self.assertEqual(result, 0)
+            self.assertIn("configure: 🧪", output.getvalue().decode("utf-8"))
+
     def test_exhausted_job_deadline_does_not_start_install(self):
         with tempfile.TemporaryDirectory() as temp:
             marker = Path(temp) / "started"

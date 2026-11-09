@@ -12,6 +12,7 @@ from pathlib import Path
 import re
 import signal
 import subprocess
+import sys
 import time
 
 
@@ -33,6 +34,8 @@ def run(command, log, budget_seconds):
     if budget_seconds <= 0:
         print("::error::Dependency budget exhausted before configure", flush=True)
         return 124
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     started = time.monotonic()
     # Regular files avoid a pipe reader blocking on descendants after timeout.
     with log.open("wb") as output, log.open("rb") as reader:
