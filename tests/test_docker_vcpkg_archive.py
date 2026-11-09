@@ -17,6 +17,51 @@ DOCKERFILE = ROOT / "docker" / "Dockerfile.unified"
 
 
 class DockerVcpkgArchiveTests(unittest.TestCase):
+    def test_bootstrap_retries_are_bounded_and_fail_closed(self) -> None:
+        base = DOCKERFILE.read_text(encoding="utf-8").split("FROM base AS deps", 1)[0]
+        match = re.search(r"BOOTSTRAP_ATTEMPT=1 && \\\n.*?\bdone", base, re.DOTALL)
+        self.assertIsNotNone(match)
+        command = match.group().replace("\\\n", "\n")
+        self.assertIn("${VCPKG_ROOT}/bootstrap-vcpkg.sh -disableMetrics", command)
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            bootstrap = root / "bootstrap-vcpkg.sh"
+            bootstrap.write_text(
+                '#!/bin/sh\n'
+                '[ "$1" = "-disableMetrics" ] || exit 2\n'
+                'count=$(cat "$VCPKG_ROOT/attempts" 2>/dev/null || echo 0)\n'
+                'count=$((count + 1))\n'
+                'echo "$count" > "$VCPKG_ROOT/attempts"\n'
+                '[ "$count" -gt "$FAILURES" ]\n',
+                encoding="utf-8",
+            )
+            bootstrap.chmod(0o755)
+            for failures, expected_code, expected_attempts in (
+                (0, 0, 1),
+                (2, 0, 3),
+                (5, 1, 5),
+            ):
+                with self.subTest(failures=failures):
+                    (root / "attempts").unlink(missing_ok=True)
+                    (root / "delays").unlink(missing_ok=True)
+                    (root / "complete").unlink(missing_ok=True)
+                    result = subprocess.run(
+                        ["/bin/sh", "-c",
+                         'sleep() { echo "$1" >> "$VCPKG_ROOT/delays"; }\n'
+                         + command + ' && touch "$VCPKG_ROOT/complete"\n'],
+                        capture_output=True, text=True, timeout=10,
+                        env={**os.environ, "VCPKG_ROOT": directory,
+                             "FAILURES": str(failures)},
+                    )
+                    self.assertEqual(result.returncode, expected_code, result.stderr)
+                    self.assertEqual((root / "complete").exists(), expected_code == 0)
+                    self.assertEqual(int((root / "attempts").read_text()), expected_attempts)
+                    delays = (root / "delays").read_text().splitlines() if (root / "delays").exists() else []
+                    self.assertEqual(delays, ["15"] * (expected_attempts - 1))
+                    if expected_code:
+                        self.assertIn("ERROR: vcpkg bootstrap failed after 5 attempts", result.stderr)
+
     def test_pinned_archive_download_retries_transient_errors(self) -> None:
         text = DOCKERFILE.read_text(encoding="utf-8")
         base = text.split("FROM base AS deps", 1)[0]
