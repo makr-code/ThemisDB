@@ -354,6 +354,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
             (source / "docker").mkdir(parents=True)
             for name in ("Dockerfile.unified", "vcpkg-community.json"):
                 shutil.copyfile(REPO_ROOT / "docker" / name, source / "docker" / name)
+            shutil.copyfile(REPO_ROOT / ".dockerignore", source / ".dockerignore")
             shutil.copyfile(REPO_ROOT / "CMakePresets.json", source / "CMakePresets.json")
             shutil.copyfile(REPO_ROOT / ".dockerignore", source / ".dockerignore")
             for directory in ("docs", "ai_context"):

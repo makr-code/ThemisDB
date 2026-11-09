@@ -1,3 +1,17 @@
+---
+Author: "GitHub Copilot coding agent"
+Created: "2026-11-09"
+Last Updated: "2026-11-09"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # HSM (Hardware Security Module) Integration Guide
 
 **Status:** ✅ Implemented (PKCS#11 Interface)  
@@ -251,8 +265,8 @@ config.pin = "1234";
 |---------------------|---------|-------------------|
 | `CKR_OK` | Login successful | Proceed to key discovery |
 | `CKR_USER_ALREADY_LOGGED_IN` | Session already authenticated | Silently continue (normal for shared sessions) |
-| `CKR_PIN_INCORRECT` | Wrong PIN | Skip session; fall back to stub; set `getLastError()` |
-| Any other error | Unexpected login failure | Skip session; fall back to stub; set `getLastError()` |
+| `CKR_PIN_INCORRECT` | Wrong PIN | Skip session and set `getLastError()`; production initialization fails closed |
+| Any other error | Unexpected login failure | Skip session and set `getLastError()`; production initialization fails closed |
 
 When no PIN is configured, `C_Login` is skipped. HSMs that require authentication will
 then reject key operations.
@@ -292,18 +306,34 @@ config.key_label    = "themis-signing-key";
 
 ### Diagnosing Initialization Failures
 
-`HSMProvider::initialize()` always succeeds (returns `true`) but falls back to an
-insecure software stub when the real PKCS#11 session could not be established.
-Use `isStubProvider()` and `getLastError()` to detect this:
+When the real PKCS#11 session cannot be established, `HSMProvider::initialize()`
+fails in `ProductionMode` and leaves the provider not ready, even if
+`THEMIS_ALLOW_HSM_STUB=1` is set. Outside production mode the existing developer
+fallback remains available. Use the initialization result, `isReady()`,
+`isStubProvider()`, and `getLastError()` to inspect the outcome:
+
+In the software-only build, every fallback operation and representation is
+unavailable in canonical `ProductionMode`, including after a provider was
+initialized while running in development mode. This includes signing,
+verification, encryption/decryption, key generation/import, certificate lookup,
+and stub-key listing; injected callbacks are not consulted. Readiness reports
+false, and token information reports the provider unavailable. The stub opt-in
+does not bypass these checks. Outside `ProductionMode`, the existing development
+fallback behavior remains unchanged; this does not establish approval of that
+fallback for production use.
 
 ```cpp
 auto hsm = std::make_unique<HSMProvider>(config);
-hsm->initialize();
+if (!hsm->initialize()) {
+    std::cerr << "[SECURITY] HSM initialization failed: "
+              << hsm->getLastError() << std::endl;
+    return;
+}
 
 if (hsm->isStubProvider()) {
     std::cerr << "[SECURITY] HSM fallback active: "
               << hsm->getLastError() << std::endl;
-    // In production: abort – never proceed with stub in production!
+    // Continue only in an explicitly permitted non-production environment.
 }
 
 std::cout << "Token info: " << hsm->getTokenInfo() << std::endl;

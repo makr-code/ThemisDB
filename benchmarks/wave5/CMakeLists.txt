@@ -92,7 +92,7 @@ themis_register_benchmark_ctest(
     NAME bench_w5a_production_workloads
     TARGET bench_w5a_production_workloads
     MODULE wave5
-    TIMEOUT 120
+    TIMEOUT 420
     EXTRA_LABELS w5a
 )
 

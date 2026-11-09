@@ -50,6 +50,7 @@
 #include <string>
 #include <vector>
 
+#include "../benchmark_cleanup.h"
 #include "index/vector_index.h"
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
@@ -335,11 +336,14 @@ static void BM_W2C_WalReplayRead(benchmark::State& state) {
         db->close();
         db.reset();
         std::error_code cleanup_error;
-        fs::remove_all(dbPath, cleanup_error);
-        if (cleanup_error) {
+        if (!themis::bench::removeBenchmarkDirectory(dbPath, cleanup_error)) {
             state.counters["cleanup_failed"] = 1.0;
+            state.SkipWithError(("W2C WAL replay cleanup failed: " + cleanup_error.message()).c_str());
         }
         state.ResumeTiming();
+        if (cleanup_error) {
+            break;
+        }
     }
 
     state.SetItemsProcessed(state.iterations());

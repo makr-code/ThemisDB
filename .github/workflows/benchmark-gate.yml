@@ -129,7 +129,7 @@ jobs:
           autoconf-archive \
           automake \
           libtool
-        git submodule sync -- vcpkg || true
+        git submodule sync -- vcpkg
         git submodule update --init --depth 1 vcpkg
         test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
           echo "::error::vcpkg toolchain missing after submodule initialization"

@@ -268,11 +268,14 @@ class DeploymentWorkflowTests(unittest.TestCase):
         packages = next(item for item in steps if item["name"] == "Upload secondary artifacts")
         self.assertEqual(
             diagnostics["if"],
-            "${{ !cancelled() && inputs.artifact_name != '' && inputs.artifact_paths != '' }}",
+            "${{ always() && !cancelled() && inputs.artifact_name != '' && inputs.artifact_paths != '' }}",
         )
         self.assertNotIn("always()", packages["if"])
         self.assertNotIn("!cancelled()", packages["if"])
-        self.assertEqual(diagnostics["with"]["if-no-files-found"], "ignore")
+        self.assertEqual(
+            diagnostics["with"]["if-no-files-found"],
+            "${{ inputs.ctest_junit_path != '' && 'error' || 'ignore' }}",
+        )
 
     def test_macos_release_uses_matching_llvm_compiler_headers_and_runtime(self):
         script = step("release-build-matrix.yml", "prepare-release-matrix", "plan")["run"]

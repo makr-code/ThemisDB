@@ -2,14 +2,33 @@
 
 **Author:** ThemisDB Contributors
 **Created:** 2026-09-16
-**Last Updated:** 2026-09-16
+**Last Updated:** 2026-11-09
 **Status:** active
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
 
 **Document Type:** Wave D Exit Gate Checklist  
 **Target Completion:** Q1 2027 (v2.4.x / v2.5.0-rc1)  
-**Execution Status:** 🟡 Phase 1 In Progress (updated 2026-08-24)
+**Execution Status:** OPEN — current execution evidence and operator sign-off pending (reviewed 2026-11-09)
 
 `Status` describes document lifecycle metadata; `Execution Status` describes Wave D implementation progress.
+
+**Evidence note:** D2 remains pending and the four 24/48-hour soak runs are not executed. Source-level blockers and the minimum evidence required are recorded in [Wave D execution blockers](../../audit/evidence/waves/operability_wave_d_execution_blockers.md); plans, estimates, and placeholder tests do not satisfy these gates.
+
+---
+
+## RUN-01: Production Restore/Failover Readiness (v2.5.0 RC)
+
+- [x] Refresh and link the production [restore runbook](../../docs/production/RUNBOOKS/RESTORE_RUNBOOK.md) and [failover runbook](../../docs/production/RUNBOOKS/FAILOVER_RUNBOOK.md) for v2.5.0 RC review.
+- [ ] Operations review and approval of both runbooks.
+- [ ] Authorized maintainer approval of the RPO/RTO objectives before using them as acceptance gates. The WS8 values in `audit/ROADMAP.md` are proposals, not approved gates.
+- [ ] Execute a representative restore/failover drill and archive its record under `audit/evidence/`, including workload and data size, configuration/hardware, target commit SHA, run URL/ID, timestamps and duration, measured RPO/RTO, injected failure, logs/metrics, and recovery/data-consistency verification.
+- [ ] Record explicit operations, architecture, and release approver decisions; do not infer acceptance from the drill result.
+
+**RUN-01 status:** PENDING — no current executed drill record or approved RPO/RTO decision is available. See [RUN-01 drill evidence status](../../audit/evidence/waves/operability_wave_d_run01_drill_status.md). This checklist does not authorize release promotion.
 
 ---
 
@@ -30,7 +49,7 @@
   - [x] Access Model: Phase 5-6 observability, concurrency/e2e tests, GATE-ACM-01..06 closed ✅ COMPLETE 2026-08-17
   - [~] LLM Wiki: Integration tests delivered (LWP-INT-01..05, 16 tests); `WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md` created 2026-08-24; RocksDB hardware evidence pending Q4 2026
 
-- [x] **Wave C Exit Criteria** — Security integration, Audit reliability, CI policy gates ✅ ALL PASS 2026-08-18
+- [~] **Wave C Exit Criteria** — Current status in the canonical [root roadmap](../../ROADMAP.md) is OPEN; refreshed C3 evidence and C4 closure remain prerequisites. The historical 2026-08-18 component checks below do not establish current Wave C closure.
   - [x] Security module: Vault/HSM/PKI integration validation complete ✅
   - [x] Audit module: Integrity + high-volume export reliability under sustained load ✅
   - [x] CI policy gates: Private/public boundaries, edition/license checks, SBOM, fail-closed community builds ✅
@@ -124,14 +143,14 @@
   - [ ] Operator interpretation guide documented
 
 ### 2C: OpenTelemetry Exporter Reliability Test Suite
-- [ ] `tests/observability/test_otel_exporter_stress.cpp` created
+- [ ] `tests/observability/test_otel_exporter_stress.cpp` acceptance implementation and current-revision evidence complete (source exists but has simulation/measurement gaps; see execution blockers)
   - [ ] Test 1: 1000 spans/sec × 60 sec, zero drops verified
   - [ ] Test 2: Network failure + recovery, buffering verified
   - [ ] Test 3: Cardinality explosion (10k metric dimensions), memory bounded
   - [ ] Test 4: Concurrent exporters, no duplicates verified
   - [ ] Test 5: Graceful shutdown, zero data loss verified
   - [ ] Wired into `release_critical;observability` label
-- [ ] `tests/observability/test_high_cardinality_metrics_stress.cpp` created
+- [ ] `tests/observability/test_high_cardinality_metrics_stress.cpp` acceptance implementation and current-revision evidence complete (source coverage does not demonstrate 50k unique dimensions; see execution blockers)
   - [ ] Test 1: 50k metric dimensions/2 min, aggregation verified
   - [ ] Test 2: Metric scrape under lock contention, p99 latency measured
   - [ ] Test 3: Metric rotation during active emission, continuity verified
@@ -224,7 +243,7 @@
 ## Phase 4: Soak Test Suite & Long-Duration Validation (Target: 2026-11-15)
 
 ### 4.1: Telemetry Exporter Resilience (24-hour)
-- [x] `benchmarks/wave9/test_wave9_otel_24h_soak.cpp` skeleton created
+- [x] `benchmarks/wave9/test_wave9_otel_24h_soak.cpp` skeleton created; not acceptance evidence (default rate below target and recovery placeholder)
 - [ ] Implementation complete:
   - [ ] Continuous metric/trace emission at realistic rates
   - [ ] Network disruption injection (random intervals)
@@ -234,7 +253,7 @@
   - [ ] Wired into Wave 9 benchmark suite with configurable duration
 
 ### 4.2: Replication WAL Shipping & Lag Tracking (48-hour)
-- [x] `benchmarks/wave9/test_wave9_replication_48h_soak.cpp` skeleton created
+- [x] `benchmarks/wave9/test_wave9_replication_48h_soak.cpp` skeleton created; not acceptance evidence (simulated WAL/failover behavior)
 - [ ] Implementation complete:
   - [ ] Multi-region WAL shipping simulation
   - [ ] Periodic topology changes (failover injections)
@@ -244,7 +263,7 @@
   - [ ] Evidence: lag baselines, recovery times
 
 ### 4.3: Distributed Multi-Shard Writes with Topology Changes
-- [x] `benchmarks/wave9/test_wave9_sharding_topology_soak.cpp` skeleton created
+- [x] `benchmarks/wave9/test_wave9_sharding_topology_soak.cpp` skeleton created; not acceptance evidence (placeholder write/topology/exactness behavior)
 - [ ] Implementation complete:
   - [ ] Sustained writes across 8+ shards
   - [ ] Topology change injection (every 30 minutes)
@@ -254,7 +273,7 @@
   - [ ] Streaming results collection
 
 ### 4.4: Mixed Acceleration Workloads (GPU + CPU)
-- [x] `benchmarks/wave9/test_wave9_mixed_acceleration_soak.cpp` skeleton created
+- [x] `benchmarks/wave9/test_wave9_mixed_acceleration_soak.cpp` skeleton created; not acceptance evidence (placeholder GPU/fallback behavior)
 - [ ] Implementation complete:
   - [ ] Sustained GPU workloads with fallback injections
   - [ ] Fallback recovery latency measurement

@@ -250,6 +250,7 @@ static void BM_W4D_03_PipelineHealthCheck(benchmark::State& state) {
     // reachable via outNeighbors without needing a separate getNode() API.
     {
         themis::BaseEntity sentinel("health_sentinel");
+        sentinel.setField("id", sentinel.getPrimaryKey());
         sentinel.setField("_from", "health_node");
         sentinel.setField("_to",   "health_node");
         sentinel.setField("_graph", "health_graph");
@@ -395,6 +396,7 @@ static void BM_W4D_05_ConsolidatedWorkloadProfile(benchmark::State& state) {
         }
         std::string eid = "w_" + std::to_string(edge_counter++);
         themis::BaseEntity e(eid);
+        e.setField("id", e.getPrimaryKey());
         e.setField("_from", rng.genKey(4));
         e.setField("_to",   rng.genKey(4));
         e.setField("_graph", "profile_graph");
@@ -429,6 +431,7 @@ static void BM_W4D_05_ConsolidatedWorkloadProfile(benchmark::State& state) {
         {
             auto t0 = std::chrono::steady_clock::now();
             themis::BaseEntity e(eid);
+            e.setField("id", e.getPrimaryKey());
             e.setField("_from", gk);
             e.setField("_to",   rng.genKey(8));
             e.setField("_graph", "profile_graph");

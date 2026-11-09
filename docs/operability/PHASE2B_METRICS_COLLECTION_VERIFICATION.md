@@ -1,12 +1,14 @@
 # Wave D Phase 2B: High-Cardinality Metrics Collection Verification
 
-**Status:** [~] In Progress (scheduled Q1 2027)  
+**Status:** PENDING — no current target-revision execution evidence attached (reviewed 2026-11-09)
 **Target Gate:** W4A-METRICS-01  
 **Acceptance Criterion:** Memory bounded, no OOM at 50k dimensions, throughput ≥1000 events/sec
 
 ## Overview
 
 Phase 2B extends MetricsCollector with shard-level histograms, replication lag quantiles, and retry counters. Validates cardinality bounds and memory efficiency under peak load.
+
+> **Evidence status:** This document is a verification plan, not an execution report. The following memory and throughput values are unverified estimates, not measurements or gate results. No current-revision run URL, artifact, hardware profile, or reviewer approval is attached. See [Wave D execution blockers](../../audit/evidence/waves/operability_wave_d_execution_blockers.md).
 
 ### Scope
 
@@ -63,7 +65,7 @@ Phase 2B extends MetricsCollector with shard-level histograms, replication lag q
 
 ## Test Evidence
 
-### Memory Usage (Estimated)
+### Memory Usage (Unverified Planning Estimates — Not Gate Evidence)
 
 | Cardinality | Memory (MB) | Growth | Status |
 |-------------|------------|--------|--------|
@@ -72,7 +74,7 @@ Phase 2B extends MetricsCollector with shard-level histograms, replication lag q
 | 10,000 | ~200 | 4.0× | [~] In Progress |
 | 50,000 | ~512 | 2.6× | [~] In Progress |
 
-### Throughput (Estimated)
+### Throughput (Unverified Planning Estimates — Not Gate Evidence)
 
 | Cardinality | Throughput (events/sec) | Degradation | Status |
 |-------------|------------------------|-------------|--------|
@@ -80,7 +82,7 @@ Phase 2B extends MetricsCollector with shard-level histograms, replication lag q
 | 10,000 | ~1,500 | 25% | [~] In Progress |
 | 50,000 | ~1,000 | 50% | [~] In Progress |
 
-Target: ≥1000 events/sec at 50k cardinality → PASS
+The figures above are unverified estimates and must not be interpreted as a gate PASS.
 
 ### Coverage
 

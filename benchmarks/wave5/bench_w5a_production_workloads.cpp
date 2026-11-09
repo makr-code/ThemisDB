@@ -126,7 +126,10 @@ private:
  */
 class W5aCrudFixture : public benchmark::Fixture {
 public:
-    void SetUp(::benchmark::State& /*state*/) override {
+    void SetUp(::benchmark::State& state) override {
+        if (state.thread_index() != 0) {
+            return;
+        }
         dbPath_ = w5a::makeTempPath("w5a_crud");
         fs::create_directories(dbPath_);
 
@@ -164,7 +167,10 @@ public:
         writeCounter_.store(kDefaultRecords + kWarmupRecords);
     }
 
-    void TearDown(::benchmark::State& /*state*/) override {
+    void TearDown(::benchmark::State& state) override {
+        if (state.thread_index() != 0) {
+            return;
+        }
         idx_.reset();
         db_->close();
         db_.reset();

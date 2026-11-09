@@ -77,6 +77,15 @@ static MMWriteEntry makeMMEntry(uint64_t physical,
     return e;
 }
 
+static std::string uniqueWalDirectory(const std::string& scenario) {
+    static std::atomic<uint64_t> sequence{0};
+    const auto timestamp = std::chrono::steady_clock::now().time_since_epoch().count();
+    const auto suffix = sequence.fetch_add(1, std::memory_order_relaxed);
+    const auto name = "themisdb_replication_" + scenario + "_" +
+                      std::to_string(timestamp) + "_" + std::to_string(suffix);
+    return (std::filesystem::temp_directory_path() / name).string();
+}
+
 } // anonymous namespace
 
 // ============================================================================
@@ -253,13 +262,9 @@ BENCHMARK(BM_CRDTMerge)
 // ============================================================================
 
 static void BM_ReplicationManager_Initialize(benchmark::State& state) {
-    const std::string wal_dir = "./data/bench_repl_mgr_init_tmp";
-
     for (auto _ : state) {
         state.PauseTiming();
-        if (std::filesystem::exists(wal_dir)) {
-            std::filesystem::remove_all(wal_dir);
-        }
+        const std::string wal_dir = uniqueWalDirectory("init");
         std::filesystem::create_directories(wal_dir);
         state.ResumeTiming();
 
@@ -275,10 +280,15 @@ static void BM_ReplicationManager_Initialize(benchmark::State& state) {
             mgr.shutdown();
         }
         state.ResumeTiming();
-    }
 
-    if (std::filesystem::exists(wal_dir)) {
-        std::filesystem::remove_all(wal_dir);
+        state.PauseTiming();
+        std::error_code cleanup_error;
+        std::filesystem::remove_all(wal_dir, cleanup_error);
+        state.ResumeTiming();
+        if (cleanup_error) {
+            state.SkipWithError(("Failed to remove WAL directory: " + cleanup_error.message()).c_str());
+            break;
+        }
     }
 }
 
@@ -291,37 +301,42 @@ BENCHMARK(BM_ReplicationManager_Initialize)
 // ============================================================================
 
 static void BM_ReplicationManager_PromoteToLeader(benchmark::State& state) {
-    const std::string wal_dir = "./data/bench_repl_mgr_failover_tmp";
     std::size_t success_count = 0;
 
     for (auto _ : state) {
         state.PauseTiming();
-        if (std::filesystem::exists(wal_dir)) {
-            std::filesystem::remove_all(wal_dir);
-        }
+        const std::string wal_dir = uniqueWalDirectory("failover");
         std::filesystem::create_directories(wal_dir);
 
-        ReplicationManager mgr(makeConfig(wal_dir));
-        bool init_ok = mgr.initialize();
+        {
+            ReplicationManager mgr(makeConfig(wal_dir));
+            bool init_ok = mgr.initialize();
+
+            state.ResumeTiming();
+
+            bool promote_ok = false;
+            if (init_ok) {
+                promote_ok = mgr.promoteToLeader();
+            }
+            benchmark::DoNotOptimize(promote_ok);
+            if (promote_ok) {
+                ++success_count;
+            }
+
+            state.PauseTiming();
+            mgr.shutdown();
+        }
 
         state.ResumeTiming();
-
-        bool promote_ok = false;
-        if (init_ok) {
-            promote_ok = mgr.promoteToLeader();
-        }
-        benchmark::DoNotOptimize(promote_ok);
-        if (promote_ok) {
-            ++success_count;
-        }
 
         state.PauseTiming();
-        mgr.shutdown();
+        std::error_code cleanup_error;
+        std::filesystem::remove_all(wal_dir, cleanup_error);
         state.ResumeTiming();
-    }
-
-    if (std::filesystem::exists(wal_dir)) {
-        std::filesystem::remove_all(wal_dir);
+        if (cleanup_error) {
+            state.SkipWithError(("Failed to remove WAL directory: " + cleanup_error.message()).c_str());
+            break;
+        }
     }
 
     const double success_rate = state.iterations() == 0

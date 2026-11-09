@@ -2046,6 +2046,7 @@ set(THEMIS_NETWORK_SOURCES
     ../src/network/multipath_tcp.cpp
     ../src/network/bbr_congestion_control.cpp
     ../src/network/network_observability.cpp
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/websocket_binary_frame_parser.cpp>
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/service_mesh.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
