@@ -88,6 +88,35 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
             self.assertEqual(result, 0)
             self.assertIn("configure: 🧪", output.getvalue().decode("utf-8"))
 
+    def test_workflow_python_encoding_handles_unicode_configure_and_metrics(self):
+        with tempfile.TemporaryDirectory() as temp:
+            log = Path(temp) / "configure.log"
+            command = [
+                sys.executable, str(ROOT / "scripts/prepare-windows-dependencies.py"),
+                "--log", str(log),
+            ]
+            env = {
+                **os.environ, "PYTHONIOENCODING": "cp1252",
+                **self.pipeline["jobs"]["build"]["env"],
+                "THEMIS_DEPENDENCY_BASH": "/bin/bash",
+                "THEMIS_DEPENDENCY_DEADLINE": str(time.time() + 30),
+                "CONFIGURE_COMMAND": (
+                    f'"{sys.executable}" -c '
+                    '"print(\'Restored 1 package(s): \\U0001f9ea\', flush=True);'
+                    ' raise SystemExit(37)"'
+                ),
+            }
+            result = subprocess.run(command, env=env, capture_output=True)
+            self.assertEqual(result.returncode, 37, result.stderr)
+            self.assertIn("Restored 1 package(s): 🧪", result.stdout.decode("utf-8"))
+            self.assertIn("Restored 1 package(s): 🧪", log.read_text(encoding="utf-8"))
+            result = subprocess.run(
+                [*command, "--metrics-only", "--cache", temp],
+                env=env, capture_output=True,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("Restored 1 package(s): 🧪", result.stdout.decode("utf-8"))
+
     def test_exhausted_job_deadline_does_not_start_install(self):
         with tempfile.TemporaryDirectory() as temp:
             marker = Path(temp) / "started"
