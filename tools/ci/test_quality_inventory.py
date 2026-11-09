@@ -4,8 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
-import math
 import os
 import re
 import shlex
@@ -31,7 +31,7 @@ TRIVIAL_ASSERTION_PATTERNS = (
         r"nullptr|NULL|true|false)\s*,\s*\1\s*\)"
     ),
 )
-CMK_TARGET_PATTERN = re.compile(
+CMAKE_TARGET_PATTERN = re.compile(
     r"(?:^|[/\\])CMakeFiles[/\\]([^/\\]+)\.dir(?:[/\\]|$)"
 )
 
@@ -66,11 +66,16 @@ HOTSPOT_EVIDENCE = {
         "owner_issue": 7512,
         "tests": [
             "tests/distributed_tensor/test_tensor_operations.cpp",
-            "tests/distributed_tensor/test_distributed_tensor_highcardinality_stress.cpp",
+            "tests/distributed_tensor/test_tensor_allocation.cpp",
+            "tests/distributed_tensor/test_tensor_performance.cpp",
         ],
         "focused_ctest": [
             "test_tensor_operations_distributed_tensor_FocusedTests",
-            "test_distributed_tensor_highcardinality_stress_distributed_tensor_FocusedTests",
+            "test_tensor_allocation_distributed_tensor_FocusedTests",
+            "test_tensor_performance_distributed_tensor_FocusedTests",
+        ],
+        "unregistered_tests": [
+            "tests/distributed_tensor/test_distributed_tensor_highcardinality_stress.cpp"
         ],
         "follow_up": "Add persistence/restart/concurrency evidence; retain the owner issue for module implementation.",
         "target": "v2.5.0 M1 (2027-03-31)",
@@ -134,14 +139,14 @@ HOTSPOT_EVIDENCE = {
     "llama_cpp": {
         "owner_issue": 7526,
         "tests": [
-            "src/llama_cpp/tests/test_llama_cpp_model_loading.cpp",
-            "src/llama_cpp/tests/test_llama_cpp_inference_execution.cpp",
-            "tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp",
+            "src/llama_cpp/tests/test_llama_cpp_plugin_lifecycle_focused.cpp",
+            "src/llama_cpp/tests/test_llama_cpp_validation_gates_focused.cpp",
+            "tests/llama_cpp/test_model_loading.cpp",
         ],
         "focused_ctest": [
-            "test_llama_cpp_model_loading_llamacpp_FocusedTests",
-            "test_llama_cpp_inference_execution_llamacpp_FocusedTests",
-            "test_llama_cpp_highcardinality_stress_llamacpp_FocusedTests",
+            "test_llama_cpp_plugin_lifecycle_focused_llamacpp_FocusedTests",
+            "test_llama_cpp_validation_gates_focused_llamacpp_FocusedTests",
+            "test_model_loading_llamacpp_FocusedTests",
         ],
         "follow_up": "Validate model/runtime lifecycle against the real backend; stub-mode and stress tests do not establish that evidence.",
         "target": "v2.5.0 M1 (2027-03-31)",
@@ -197,6 +202,50 @@ def _line_count(path: Path) -> int:
         return sum(1 for _ in source)
 
 
+def _strip_cpp_comments(source: str) -> str:
+    masked = list(source)
+    state = "code"
+    quote = ""
+    index = 0
+    while index < len(source):
+        current = source[index]
+        following = source[index + 1] if index + 1 < len(source) else ""
+        if state in {"string", "character"}:
+            if current == "\\":
+                index += 2
+                continue
+            if current == quote:
+                state = "code"
+        elif state == "line_comment":
+            if current == "\n":
+                state = "code"
+            else:
+                masked[index] = " "
+        elif state == "block_comment":
+            if current == "*" and following == "/":
+                masked[index] = masked[index + 1] = " "
+                index += 2
+                state = "code"
+                continue
+            if current != "\n":
+                masked[index] = " "
+        elif current == "/" and following == "/":
+            masked[index] = masked[index + 1] = " "
+            index += 2
+            state = "line_comment"
+            continue
+        elif current == "/" and following == "*":
+            masked[index] = masked[index + 1] = " "
+            index += 2
+            state = "block_comment"
+            continue
+        elif current in {'"', "'"}:
+            quote = current
+            state = "string" if current == '"' else "character"
+        index += 1
+    return "".join(masked)
+
+
 def _source_counts(root: Path) -> dict[str, dict[str, int]]:
     counts: dict[str, dict[str, int]] = defaultdict(lambda: {"files": 0, "loc": 0})
     source_root = root / "src"
@@ -204,7 +253,11 @@ def _source_counts(root: Path) -> dict[str, dict[str, int]]:
         return counts
     for path in source_root.rglob("*"):
         module = _source_module(path, root) if path.is_file() else None
-        if module is None or path.suffix.lower() not in SOURCE_EXTENSIONS:
+        if (
+            module is None
+            or path.suffix.lower() not in SOURCE_EXTENSIONS
+            or "tests" in path.relative_to(source_root).parts[:-1]
+        ):
             continue
         counts[module]["files"] += 1
         counts[module]["loc"] += _line_count(path)
@@ -212,7 +265,16 @@ def _source_counts(root: Path) -> dict[str, dict[str, int]]:
 
 
 def _test_sources(root: Path) -> list[Path]:
-    candidates = list((root / "tests").rglob("test_*")) + list((root / "src").glob("*/tests/test_*"))
+    tests_root = root / "tests"
+    candidates = list(tests_root.rglob("test_*"))
+    legacy_root = tests_root / "legacy"
+    if legacy_root.is_dir():
+        candidates.extend(
+            path
+            for path in legacy_root.rglob("*")
+            if path.suffix.lower() in {".c", ".cc", ".cpp", ".cxx"}
+        )
+    candidates.extend((root / "src").glob("*/tests/test_*"))
     return sorted(
         {
             path
@@ -237,7 +299,7 @@ def _compile_database(path: Path, root: Path) -> dict[str, set[str]]:
             if not directory.is_absolute():
                 directory = root / directory
             source = directory / source
-        match = CMK_TARGET_PATTERN.search(
+        match = CMAKE_TARGET_PATTERN.search(
             str(entry.get("output", "")) + " " + str(entry.get("command", ""))
         )
         if match:
@@ -264,13 +326,14 @@ def _ctest_targets(path: Path) -> dict[str, list[str]]:
 
 def _skip_findings(source: str, text: str, issue: int) -> list[dict[str, object]]:
     findings = []
-    for match in SKIP_PATTERN.finditer(text):
-        statement_end = text.find(";", match.end())
+    clean_text = _strip_cpp_comments(text)
+    for match in SKIP_PATTERN.finditer(clean_text):
+        statement_end = clean_text.find(";", match.end())
         if statement_end < 0:
-            statement_end = text.find("\n", match.end())
+            statement_end = clean_text.find("\n", match.end())
         if statement_end < 0:
-            statement_end = len(text)
-        statement = text[match.end() : statement_end]
+            statement_end = len(clean_text)
+        statement = clean_text[match.end() : statement_end]
         reason_match = re.search(r'"((?:\\.|[^"\\])*)"', statement)
         reason = reason_match.group(1) if reason_match else None
         findings.append(
@@ -288,7 +351,7 @@ def _skip_findings(source: str, text: str, issue: int) -> list[dict[str, object]
 
 def _assertion_findings(source: str, text: str) -> list[dict[str, object]]:
     findings = []
-    for line_number, line in enumerate(text.splitlines(), start=1):
+    for line_number, line in enumerate(_strip_cpp_comments(text).splitlines(), start=1):
         for pattern in TRIVIAL_ASSERTION_PATTERNS:
             for match in pattern.finditer(line):
                 findings.append(
@@ -328,6 +391,7 @@ def build_inventory(
     ctest_json: Path | None = None,
     coverage_json: Path | None = None,
     source_commit: str | None = None,
+    source_branch: str | None = None,
     command_line: str | None = None,
 ) -> dict[str, object]:
     root = root.resolve()
@@ -365,7 +429,8 @@ def build_inventory(
         module, is_legacy = _test_module(path, root)
         relative = _relative(path, root)
         text = _read_text(path)
-        case_count = len(TEST_CASE_PATTERN.findall(text))
+        clean_text = _strip_cpp_comments(text)
+        case_count = len(TEST_CASE_PATTERN.findall(clean_text))
         issue = MODULE_ISSUES.get(module, 7820)
         skips = _skip_findings(relative, text, issue)
         assertions = _assertion_findings(relative, text)
@@ -396,6 +461,11 @@ def build_inventory(
             "ctest_cases": ctest_cases,
             "legacy_disposition": disposition,
             "legacy_follow_up_issue": 7820 if is_legacy else None,
+            "legacy_follow_up_issue_url": (
+                "https://github.com/makr-code/ThemisDB/issues/7820"
+                if is_legacy
+                else None
+            ),
             "legacy_follow_up_target": "v2.5.0 M1 (2027-03-31)" if is_legacy else None,
         }
         test_files.append(file_record)
@@ -436,15 +506,28 @@ def build_inventory(
         }
         item["skip_budget"] = {
             "baseline": item["tests"]["skips"],
-            "m1_maximum": math.ceil(item["tests"]["skips"] / 2),
+            "m1_maximum": item["tests"]["skips"] // 2,
             "issue": MODULE_ISSUES.get(module, 7820),
+            "issue_url": (
+                f"https://github.com/makr-code/ThemisDB/issues/"
+                f"{MODULE_ISSUES.get(module, 7820)}"
+            ),
             "reduction_goal": "at least 50% from this versioned baseline by v2.5.0 M1",
         }
         item["coverage"] = coverage.get(module) if coverage is not None else None
         item["coverage_status"] = (
             "measured" if item["coverage"] is not None else "not_available"
         )
-        item["hotspot_evidence"] = HOTSPOT_EVIDENCE.get(module)
+        evidence = HOTSPOT_EVIDENCE.get(module)
+        if evidence is not None:
+            evidence = {
+                **evidence,
+                "owner_issue_url": (
+                    "https://github.com/makr-code/ThemisDB/issues/"
+                    f"{evidence['owner_issue']}"
+                ),
+            }
+        item["hotspot_evidence"] = evidence
         module_rows.append(item)
 
     total_skips = sum(item["tests"]["skips"] for item in module_rows)
@@ -455,8 +538,13 @@ def build_inventory(
         "schema_version": SCHEMA_VERSION,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "source_commit": source_commit or _git_value(root, "rev-parse", "HEAD"),
-        "branch": _git_value(root, "branch", "--show-current"),
+        "branch": source_branch or _git_value(root, "branch", "--show-current"),
         "command": command_line,
+        "inventory_tool": {
+            "schema_version": SCHEMA_VERSION,
+            "path": "tools/ci/test_quality_inventory.py",
+            "sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        },
         "tool_versions": {
             "python": sys.version.split()[0],
             "cmake": _tool_version(["cmake", "--version"]),
@@ -467,7 +555,7 @@ def build_inventory(
             ),
         },
         "methodology": {
-            "source_loc": "Physical lines in C/C++ source/header files under src/<module>/, including blank and comment lines.",
+            "source_loc": "Physical lines in C/C++ source/header files under src/<module>/, excluding nested tests/ trees and including blank and comment lines.",
             "test_case_count": "Lexical count of TEST, TEST_F, TEST_P, TYPED_TEST, and TYPED_TEST_P declarations; parameterized runtime instances are not expanded.",
             "skip_reason": "First string literal after GTEST_SKIP() on the same C++ statement; missing literals are reported for manual disposition.",
             "assertion_quality": "Lexical vacuous-assertion candidates only; findings require manual review and are not an automatic deletion instruction.",
@@ -487,6 +575,11 @@ def build_inventory(
                 item["tests"]["cases"] for item in module_rows
             ),
             "gtest_skip_calls": total_skips,
+            "gtest_skips_missing_literal_reason": total_skips
+            - sum(item["tests"]["skips_with_reason"] for item in module_rows),
+            "m1_skip_budget_maximum": sum(
+                item["skip_budget"]["m1_maximum"] for item in module_rows
+            ),
             "skip_calls_with_literal_reason": sum(
                 item["tests"]["skips_with_reason"] for item in module_rows
             ),
@@ -526,6 +619,7 @@ def main(argv: Iterable[str] | None = None) -> int:
         help="optional per-module JSON from generate_coverage_baseline.py",
     )
     parser.add_argument("--source-commit", help="commit SHA represented by this scan")
+    parser.add_argument("--source-branch", help="branch represented by this scan")
     parser.add_argument(
         "--output",
         type=Path,
@@ -541,7 +635,8 @@ def main(argv: Iterable[str] | None = None) -> int:
             ctest_json=args.ctest_json,
             coverage_json=args.coverage_json,
             source_commit=args.source_commit,
-            command_line=shlex.join(sys.argv),
+            source_branch=args.source_branch,
+            command_line=shlex.join([sys.executable, *sys.argv]),
         )
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

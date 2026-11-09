@@ -19,9 +19,7 @@ Status: Active
 
 ## Docker Python autoreconf prerequisite gate
 
-The [release consumer](../../.github/workflows/release-docker-image.yml) and [platform workflow](../../.github/workflows/reusable-docker-image-platform.yml) enforce `test_base_installs_python_autoreconf_prerequisites` even with the source-preflight override enabled. The current [Dockerfile](../../docker/Dockerfile.unified) already installs `autoconf-archive`; older selected source revisions can still fail while building vcpkg's Python dependency. Use a new release tag containing the fix, or a fresh `build_from_workflow_source=true` dry run; re-running an old workflow does not update its source. See the [operational guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting) for the failed-job evidence.
-
-AI-assisted update; exact model backend not verifiable from final document text alone.
+The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap. Release-source preflight and the reusable platform workflow enforce `test_base_installs_python_autoreconf_prerequisites`, including when the source-preflight override is enabled. An older selected source without this package can fail during `autoreconf`; rerunning that workflow does not change its source. Use a new release tag containing the fix, or set `build_from_workflow_source=true` for non-publishing validation. See the [canonical deployment guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting).
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
@@ -115,7 +113,7 @@ AI-assisted update; exact model backend not verifiable from final document text 
 
 ## .github/workflows/coverage-report-nightly.yml
 - Kategorie: build_test_ci
-- Hash: `7e846289258c5dc7`
+- Hash: `6ff0ecaf03a8a226`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/crda.yml
