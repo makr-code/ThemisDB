@@ -2,10 +2,15 @@
 
 **Author:** ThemisDB Platform Team  
 **Created:** 2026-08-24  
-**Last Updated:** 2026-09-16  
+**Last Updated:** 2026-11-09
 **Status:** review  
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
 **Target:** Q1 2027
-**Prerequisite:** Wave C Security Production Validation complete (Vault/HSM/PKI, audit hardening, CI policy gates)
+**Prerequisite:** Wave A–C closure evidence and current [root-roadmap status](../../ROADMAP.md); Wave C is currently OPEN, so Wave D cannot be promoted.
 
 ---
 
@@ -15,6 +20,20 @@
 > AI agents cannot self-approve this sign-off.
 > A human maintainer must review and approve all evidence below before this
 > gate is considered closed.
+
+---
+
+## RUN-01 — Production Restore/Failover Drill (v2.5.0 RC)
+
+**Status:** 🔲 Pending — runbooks refreshed for review; no executed drill or target approval recorded.
+
+**Evidence required:**
+- [ ] Operations review of the [restore runbook](../../docs/production/RUNBOOKS/RESTORE_RUNBOOK.md) and [failover runbook](../../docs/production/RUNBOOKS/FAILOVER_RUNBOOK.md).
+- [ ] Authorized maintainer approval of RPO/RTO objectives. The WS8 numbers in `audit/ROADMAP.md` are proposed values and are not acceptance gates until that approval is linked.
+- [ ] Executed, representative restore/failover drill record with workload and data size, hardware/configuration, target commit SHA, run URL/ID, start/end timestamps and duration, measured RPO/RTO, failure injection, archived logs/metrics, and recovery plus data-consistency verification.
+- [ ] Operations and architecture review, plus authorized release sign-off. Test results alone do not constitute approval.
+
+**Current blocker:** [RUN-01 drill evidence status](../../audit/evidence/waves/operability_wave_d_run01_drill_status.md) records that this package has no current drill evidence or approved RPO/RTO decision. Do not close this gate or promote Wave D until the evidence and approvals are attached.
 
 ---
 
@@ -175,6 +194,7 @@ verification steps, rollback procedure, troubleshooting table, and evidence/logg
 **Status:** 🔲 Open — pending Batches D1–D4, D5, D6 completion and human sign-off
 
 **Gate closure checklist:**
+- [ ] RUN-01 restore/failover runbooks reviewed, approved RPO/RTO objectives linked, and executed drill evidence accepted
 - [ ] Batch D1 approved (see above)
 - [ ] Batch D2 approved (see above)
 - [ ] Batch D3 runbook cross-links added

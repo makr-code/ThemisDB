@@ -2,14 +2,31 @@
 
 **Author:** ThemisDB Contributors
 **Created:** 2026-09-16
-**Last Updated:** 2026-09-16
+**Last Updated:** 2026-11-09
 **Status:** active
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
 
 **Document Type:** Wave D Exit Gate Checklist  
 **Target Completion:** Q1 2027 (v2.4.x / v2.5.0-rc1)  
-**Execution Status:** 🟡 Phase 1 In Progress (updated 2026-08-24)
+**Execution Status:** OPEN — current execution evidence and operator sign-off pending (reviewed 2026-11-09)
 
 `Status` describes document lifecycle metadata; `Execution Status` describes Wave D implementation progress.
+
+---
+
+## RUN-01: Production Restore/Failover Readiness (v2.5.0 RC)
+
+- [x] Refresh and link the production [restore runbook](../../docs/production/RUNBOOKS/RESTORE_RUNBOOK.md) and [failover runbook](../../docs/production/RUNBOOKS/FAILOVER_RUNBOOK.md) for v2.5.0 RC review.
+- [ ] Operations review and approval of both runbooks.
+- [ ] Authorized maintainer approval of the RPO/RTO objectives before using them as acceptance gates. The WS8 values in `audit/ROADMAP.md` are proposals, not approved gates.
+- [ ] Execute a representative restore/failover drill and archive its record under `audit/evidence/`, including workload and data size, configuration/hardware, target commit SHA, run URL/ID, timestamps and duration, measured RPO/RTO, injected failure, logs/metrics, and recovery/data-consistency verification.
+- [ ] Record explicit operations, architecture, and release approver decisions; do not infer acceptance from the drill result.
+
+**RUN-01 status:** PENDING — no current executed drill record or approved RPO/RTO decision is available. See [RUN-01 drill evidence status](../../audit/evidence/waves/operability_wave_d_run01_drill_status.md). This checklist does not authorize release promotion.
 
 ---
 
@@ -30,7 +47,7 @@
   - [x] Access Model: Phase 5-6 observability, concurrency/e2e tests, GATE-ACM-01..06 closed ✅ COMPLETE 2026-08-17
   - [~] LLM Wiki: Integration tests delivered (LWP-INT-01..05, 16 tests); `WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md` created 2026-08-24; RocksDB hardware evidence pending Q4 2026
 
-- [x] **Wave C Exit Criteria** — Security integration, Audit reliability, CI policy gates ✅ ALL PASS 2026-08-18
+- [~] **Wave C Exit Criteria** — Current status in the canonical [root roadmap](../../ROADMAP.md) is OPEN; refreshed C3 evidence and C4 closure remain prerequisites. The historical 2026-08-18 component checks below do not establish current Wave C closure.
   - [x] Security module: Vault/HSM/PKI integration validation complete ✅
   - [x] Audit module: Integrity + high-volume export reliability under sustained load ✅
   - [x] CI policy gates: Private/public boundaries, edition/license checks, SBOM, fail-closed community builds ✅

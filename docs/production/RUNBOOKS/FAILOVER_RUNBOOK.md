@@ -1,8 +1,28 @@
+---
+Author: "ThemisDB Operations"
+Created: "2026-11-09"
+Last Updated: "2026-11-09"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Failover Runbook
 
-**Version:** 1.0  
-**Last Updated:** April 2026  
+**Version:** 1.1 (v2.5.0 RC readiness review; operator approval pending)
+**Last Updated:** 2026-11-09
 **Target Audience:** Operations Teams, SREs
+
+> **Readiness status:** Review only. The procedures and RPO/RTO figures below have
+> not been validated in a current production-like drill. Treat the figures as
+> planning references, not v2.5.0 RC acceptance gates, until an authorized
+> maintainer approves the objectives. RUN-01 remains open pending an executed
+> restore/failover drill and recorded recovery verification.
 
 ---
 
