@@ -329,7 +329,14 @@ class DockerPlatformValidationTests(unittest.TestCase):
             (source / "docker").mkdir(parents=True)
             for name in ("Dockerfile.unified", "vcpkg-community.json"):
                 shutil.copyfile(REPO_ROOT / "docker" / name, source / "docker" / name)
+            shutil.copyfile(REPO_ROOT / ".dockerignore", source / ".dockerignore")
             shutil.copyfile(REPO_ROOT / "CMakePresets.json", source / "CMakePresets.json")
+            for directory in ("docs", "ai_context"):
+                (source / directory).mkdir()
+                shutil.copyfile(
+                    REPO_ROOT / directory / "README.md",
+                    source / directory / "README.md",
+                )
             if invalid_preset:
                 dockerfile = source / "docker" / "Dockerfile.unified"
                 dockerfile.write_text(
@@ -375,7 +382,10 @@ class DockerPlatformValidationTests(unittest.TestCase):
                 git(source, "init")
                 git(source, "config", "user.name", "Regression Test")
                 git(source, "config", "user.email", "test@example.invalid")
-                git(source, "add", "docker", "scripts", "CMakePresets.json")
+                git(
+                    source, "add", ".dockerignore", "ai_context", "docker", "docs", "scripts",
+                    "CMakePresets.json",
+                )
                 git(source, "commit", "-m", "Source without validator")
                 source_sha = git(source, "rev-parse", "HEAD")
                 (source / "tests").mkdir()

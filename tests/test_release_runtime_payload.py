@@ -163,6 +163,15 @@ class ReleaseRuntimePayloadTests(unittest.TestCase):
                     self.assertIn(
                         r"curl: \(22\).*error: 5[0-9][0-9]", lane["setup_command"]
                     )
+                elif lane["id"].startswith("windows-"):
+                    self.assertEqual(
+                        lane["setup_command"].count("for attempt in 1 2 3; do"), 2
+                    )
+                    self.assertIn("choco install -y sccache", lane["setup_command"])
+                    self.assertIn(
+                        "./vcpkg/bootstrap-vcpkg.bat -disableMetrics",
+                        lane["setup_command"],
+                    )
                 else:
                     self.assertNotIn("for attempt in 1 2 3; do", lane["setup_command"])
                 self.assertLess(lane["validation_command"].index("--target docs_database"),
