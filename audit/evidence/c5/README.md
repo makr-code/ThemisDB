@@ -25,7 +25,7 @@ This directory is the canonical location for release/run-level C5 evidence manif
 
 ## Current release candidate
 
-The [v2.5.0 release-candidate manifest](v2.5.0-rc-candidate/manifest.json) is an evidence index assembled from actual workflow run `42321944686` and its available SBOM artifacts. The source run is on `develop`, failed overall, and skipped C5 manifest packaging; the manifest is not a v2.5.0 release record. Its [validation report](v2.5.0-rc-candidate/manifest_validation.json) confirms schema and cross-field consistency only. All controls remain partial pending release-specific runtime evidence, signatures, and human review.
+The [v2.5.0 release-candidate manifest](v2.5.0-rc-candidate/manifest.json) is an evidence index assembled from actual workflow run `42321944686` and its available SBOM artifacts. The source run is on `develop`, failed overall, and skipped C5 manifest packaging; the manifest is not a v2.5.0 release record. The SOC 2 evidence-export job failed while building the container: vcpkg's `python3:x64-linux` build stopped when `autoreconf -vfi` exited 1. The job log does not identify the underlying cause. The [validation report](v2.5.0-rc-candidate/manifest_validation.json) confirms schema and cross-field consistency only. All controls remain partial pending release-specific runtime evidence, signatures, and human review.
 
 The [v2.4.0 manifest](v2.4.0/manifest.json) remains historical baseline evidence and must not be copied as current release evidence.
 
