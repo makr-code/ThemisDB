@@ -7,7 +7,7 @@ Status: Active
 
 - Added: 0
 - Removed: 0
-- Changed: 2
+- Changed: 4
 
 ## Added
 
@@ -19,5 +19,7 @@ Status: Active
 
 ## Changed
 
-- docs/code_maturity_report.md
-- docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md
+- .github/workflows/build-sanitizer-nightly.yml
+- .github/workflows/reusable-cmake-build.yml
+- .github/workflows/security-fuzzing.yml
+- scripts/prepare-windows-dependencies.py

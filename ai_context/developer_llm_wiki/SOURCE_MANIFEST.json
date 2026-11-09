@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-09T08:46:02+00:00",
+  "generated_at": "2026-11-09T12:45:18+00:00",
   "source_count": 8070,
   "sources": [
     {
@@ -70,9 +70,9 @@
     {
       "path": ".github/workflows/build-sanitizer-nightly.yml",
       "category": "build_test_ci",
-      "size": 3162,
-      "sha256": "18496274c11a21a3dcf01208aae5d99a90290bb61b29ceac13f58af8dc6907ea",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 10189,
+      "sha256": "69d4a41a00c939a9f58339b70a49da09296885fd744e8770729bd0d018e883b5",
+      "modified_utc": "2026-11-09T12:42:44+00:00"
     },
     {
       "path": ".github/workflows/build-wave-a-gpu.yml",
@@ -574,9 +574,9 @@
     {
       "path": ".github/workflows/reusable-cmake-build.yml",
       "category": "build_test_ci",
-      "size": 40639,
-      "sha256": "17a19fd047b6068dfcfb954913842aaeaaffe38d60e5575a5257e33e5852bbe8",
-      "modified_utc": "2026-11-09T03:02:55+00:00"
+      "size": 40892,
+      "sha256": "72bb454baa1d53d5194f45c39d48d33abed08660dd46b29d9d8b019d746a8aaa",
+      "modified_utc": "2026-11-09T12:42:44+00:00"
     },
     {
       "path": ".github/workflows/reusable-docker-image-platform.yml",
@@ -658,9 +658,9 @@
     {
       "path": ".github/workflows/security-fuzzing.yml",
       "category": "build_test_ci",
-      "size": 4979,
-      "sha256": "3153fb62d1d90ba69da61aca07a9433670a6f741a7ee9653e9f0ec88bbaabb62",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 15184,
+      "sha256": "d793dec50cd208e8ddf9ee46c86fe177c5d6d1e286877e0edd052afe747cda4b",
+      "modified_utc": "2026-11-09T12:42:44+00:00"
     },
     {
       "path": ".github/workflows/security-pentest-quarterly.yml",
@@ -54621,9 +54621,9 @@
     {
       "path": "scripts/prepare-windows-dependencies.py",
       "category": "build_test_ci",
-      "size": 4167,
-      "sha256": "1ae7a862756e3eb001ed18491113174c0a94a9bee64c876c6d36cd7ba6df2d83",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "size": 4288,
+      "sha256": "02d698c6e35d850373512441f74b59c9009a20af67d5bd4e39419d9efaea025c",
+      "modified_utc": "2026-11-09T12:42:50+00:00"
     },
     {
       "path": "scripts/prepare_doc_file_issues.py",

@@ -50,7 +50,7 @@ Status: Active
 
 ## .github/workflows/build-sanitizer-nightly.yml
 - Kategorie: build_test_ci
-- Hash: `18496274c11a21a3`
+- Hash: `69d4a41a00c939a9`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-wave-a-gpu.yml

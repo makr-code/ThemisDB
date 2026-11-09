@@ -1,21 +1,23 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-09T08:46:02+00:00",
+  "generated_at": "2026-11-09T12:45:18+00:00",
   "mode": "incremental",
   "source_count": 8070,
-  "source_hash": "a859e03bb6403e1e11313353298197ec0b7b3717f72bebdc1b4c986a278de633",
+  "source_hash": "ddcd9b44f78ea785f08d67c6bf552cb85b7fd7a367f03051dde125fe2b79f802",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
-    "changed_count": 2,
+    "changed_count": 4,
     "added_preview": [],
     "removed_preview": [],
     "changed_preview": [
-      "docs/code_maturity_report.md",
-      "docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md"
+      ".github/workflows/build-sanitizer-nightly.yml",
+      ".github/workflows/reusable-cmake-build.yml",
+      ".github/workflows/security-fuzzing.yml",
+      "scripts/prepare-windows-dependencies.py"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "01a80f07ebffce8f527413481d20bac9cf8969848ed5b0c9525ce4d26ad5baaf"
+  "manifest_sha256": "2e59006ad75c4e1ff3b8768ad1a26030df67a07b81975c8aedde7bf4fd123df2"
 }
