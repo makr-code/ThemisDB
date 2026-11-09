@@ -5,7 +5,7 @@ Last Updated: "2026-11-09"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "OpenAI ChatGPT (documentation agent)"
+AI_Contributor: "OpenAI ChatGPT (documentation agent), GitHub Copilot"
 Human_Review: false
 Human_Author: "unknown"
 Milestone: "DOC-MONTHLY-2026-11"
@@ -291,6 +291,8 @@ docker buildx ls
 For repeated HTTP 504 responses during the shared base stage's APT fetch, distinguish a transient repository/network failure from a missing build dependency. The current [`docker/Dockerfile.unified`](../../../docker/Dockerfile.unified) writes `Acquire::Retries "3";` to `/etc/apt/apt.conf.d/80-retries` before its first `apt-get update`. Descendant stages inherit this base configuration; retries do not guarantee success while the repository remains unavailable.
 
 The base stage also installs `autoconf-archive` before vcpkg bootstrap. The [Docker package regression tests](../../../tests/test_docker_runtime_package_regressions.py) check both that ordering and the APT retry configuration.
+
+For [job 129067806130 (attempt 8)](https://github.com/makr-code/ThemisDB/actions/runs/42457016399/job/129067806130), linux/amd64 used the older source `50d6c9b` without `autoconf-archive`; vcpkg's Python 3.11 dependency failed at `autoreconf -vfi`. The release-source preflight and reusable platform workflow now require the Python autoreconf prerequisite check even when `override_docker_source_preflight=true`. Publish a new release tag containing the existing package fix, or dispatch a new run with `build_from_workflow_source=true` for non-publishing validation. Re-running the old workflow retains its original source; do not move an existing release tag.
 
 In [Actions run 42457016399, attempt 7](https://github.com/ThemisDB/ThemisDB/actions/runs/42457016399/attempts/7), linux/amd64 repeatedly failed fetching packages with HTTP 504 responses. The linux/arm64 leg used source SHA `50d6c9b`, which predates the already-merged `autoconf-archive` package fix, so that leg does not validate the current package fix. The focused Python test module passed 13 tests; this evidence does **not** establish that a complete Docker image build succeeded.
 

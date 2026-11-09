@@ -164,6 +164,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
         steps = build["steps"]
         for name, condition in (
             ("Validate Dockerfile model-case syntax", None),
+            ("Validate Docker Python autoreconf prerequisites", None),
             (
                 "Validate Docker vcpkg bootstrap architecture",
                 "${{ inputs.platform == 'linux/arm64' && (inputs.push_to_registry || inputs.dry_run) }}",
@@ -223,6 +224,23 @@ class DockerPlatformValidationTests(unittest.TestCase):
         self._run_relocated_validator(
             False, execute_workflow=True, bootstrap_gate=True, invalid_bootstrap=True,
         )
+
+    def test_autoreconf_gate_accepts_required_packages_in_older_checkout(self) -> None:
+        self._run_relocated_validator(False, execute_workflow=True, autoreconf_gate=True)
+
+    def test_autoreconf_gate_rejects_missing_archive_without_changing_source(self) -> None:
+        self._run_relocated_validator(
+            False, execute_workflow=True, autoreconf_gate=True, invalid_autoreconf=True,
+        )
+
+    def test_autoreconf_gate_runs_before_buildx_without_override_condition(self) -> None:
+        steps = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))["jobs"]["build"]["steps"]
+        names = [step.get("name") for step in steps]
+        gate = steps[names.index("Validate Docker Python autoreconf prerequisites")]
+        self.assertNotIn("if", gate)
+        self.assertLess(names.index(gate["name"]), names.index("Set up Docker Buildx"))
+        self.assertEqual(gate["env"]["WORKFLOW_SHA"], "${{ github.sha }}")
+        self.assertEqual(gate["env"]["THEMIS_SOURCE_ROOT"], "${{ github.workspace }}")
 
     def test_workflow_validates_older_checkout_without_validator(self) -> None:
         self._run_relocated_validator(invalid_runtime=False, execute_workflow=True)
@@ -317,11 +335,18 @@ class DockerPlatformValidationTests(unittest.TestCase):
             True, execute_workflow=True, release_preflight=True, bootstrap_gate=True,
         )
 
+    def test_release_override_rejects_missing_python_autoreconf_prerequisites(self) -> None:
+        self._run_relocated_validator(
+            False, execute_workflow=True, release_preflight=True,
+            bootstrap_gate=True, invalid_autoreconf=True,
+        )
+
     def _run_relocated_validator(
         self, invalid_runtime: bool, execute_workflow: bool = False,
         release_preflight: bool = False,
         bootstrap_gate: bool = False, invalid_bootstrap: bool = False,
         invalid_preset: bool = False,
+        autoreconf_gate: bool = False, invalid_autoreconf: bool = False,
     ) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -330,6 +355,16 @@ class DockerPlatformValidationTests(unittest.TestCase):
             for name in ("Dockerfile.unified", "vcpkg-community.json"):
                 shutil.copyfile(REPO_ROOT / "docker" / name, source / "docker" / name)
             shutil.copyfile(REPO_ROOT / "CMakePresets.json", source / "CMakePresets.json")
+            shutil.copyfile(REPO_ROOT / ".dockerignore", source / ".dockerignore")
+            for directory in ("docs", "ai_context"):
+                (source / directory).mkdir()
+                (source / directory / ".gitkeep").touch()
+            if invalid_autoreconf:
+                dockerfile = source / "docker" / "Dockerfile.unified"
+                dockerfile.write_text(
+                    dockerfile.read_text(encoding="utf-8").replace(" autoconf-archive", ""),
+                    encoding="utf-8",
+                )
             if invalid_preset:
                 dockerfile = source / "docker" / "Dockerfile.unified"
                 dockerfile.write_text(
@@ -375,7 +410,8 @@ class DockerPlatformValidationTests(unittest.TestCase):
                 git(source, "init")
                 git(source, "config", "user.name", "Regression Test")
                 git(source, "config", "user.email", "test@example.invalid")
-                git(source, "add", "docker", "scripts", "CMakePresets.json")
+                git(source, "add", "docker", "scripts", "CMakePresets.json",
+                    ".dockerignore", "docs", "ai_context")
                 git(source, "commit", "-m", "Source without validator")
                 source_sha = git(source, "rev-parse", "HEAD")
                 (source / "tests").mkdir()
@@ -383,7 +419,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
                 git(source, "add", "tests")
                 git(source, "commit", "-m", "Workflow validator")
                 workflow_sha = git(source, "rev-parse", "HEAD")
-                if release_preflight and (invalid_runtime or invalid_bootstrap):
+                if release_preflight and (invalid_runtime or invalid_bootstrap or invalid_autoreconf):
                     dockerfile = source / "docker" / "Dockerfile.unified"
                     shutil.copyfile(REPO_ROOT / "docker" / "Dockerfile.unified", dockerfile)
                     shutil.copyfile(REPO_ROOT / manifest.relative_to(source), manifest)
@@ -403,7 +439,8 @@ class DockerPlatformValidationTests(unittest.TestCase):
                 validation = next(
                     step for step in workflow["jobs"]["build"]["steps"]
                     if step.get("name") == (
-                        "Validate Docker vcpkg bootstrap architecture" if bootstrap_gate
+                        "Validate Docker Python autoreconf prerequisites" if autoreconf_gate
+                        else "Validate Docker vcpkg bootstrap architecture" if bootstrap_gate
                         else "Validate Docker dependency providers and runtime packages"
                     )
                 )
@@ -439,7 +476,15 @@ class DockerPlatformValidationTests(unittest.TestCase):
                         git(checkout, "rev-parse", "v2.4.0-alpha^{commit}"), source_sha
                     )
                     self.assertFalse(list(root.glob("docker-release-source-*.py")))
-            if invalid_preset:
+            if autoreconf_gate:
+                self.assertFalse(list(root.glob("docker-autoreconf-*.py")))
+            if invalid_autoreconf:
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("autoconf-archive", result.stderr)
+                self.assertIn("Publish a new release tag", result.stdout)
+                if release_preflight:
+                    self.assertIn(source_sha, result.stdout)
+            elif invalid_preset:
                 self.assertNotEqual(result.returncode, 0)
                 self.assertIn("Docker configure preset 'docker-release' does not exist", result.stderr)
             elif invalid_bootstrap:

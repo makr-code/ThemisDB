@@ -225,6 +225,22 @@ jobs:
           git show "${WORKFLOW_SHA}:tests/test_docker_runtime_package_regressions.py" > "$VALIDATOR"
           python3 "$VALIDATOR" -v
 
+      - name: Validate Docker Python autoreconf prerequisites
+        shell: bash
+        env:
+          WORKFLOW_SHA: ${{ github.sha }}
+          THEMIS_SOURCE_ROOT: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$WORKFLOW_SHA"
+          VALIDATOR="$(mktemp "${RUNNER_TEMP}/docker-autoreconf-XXXXXX.py")"
+          trap 'rm -f "$VALIDATOR"' EXIT
+          git show "${WORKFLOW_SHA}:tests/test_docker_runtime_package_regressions.py" > "$VALIDATOR"
+          if ! python3 "$VALIDATOR" DockerRuntimePackageRegressionTests.test_base_installs_python_autoreconf_prerequisites -v; then
+            echo "::error::Selected Docker source lacks Python autoreconf prerequisites. Publish a new release tag containing the autoconf-archive fix, or set build_from_workflow_source=true for a non-publishing validation. Re-running an old workflow does not update its source."
+            exit 1
+          fi
+
       - name: Report Docker source preflight override
         if: ${{ inputs.override_docker_source_preflight }}
         shell: bash
@@ -233,7 +249,7 @@ jobs:
           SOURCE_SHA: ${{ inputs.source_sha || github.sha }}
           PLATFORM: ${{ inputs.platform }}
         run: |
-          echo "::warning::Docker source regression checks were explicitly skipped for ${RELEASE_VERSION} (${SOURCE_SHA}) on ${PLATFORM}. This source may fail to build or produce a broken image on this platform; the selected source commit was not changed. Docker syntax, vcpkg bootstrap architecture, edition boundary, build, Trivy and final runtime smoke gates still apply."
+          echo "::warning::Docker source regression checks were explicitly skipped for ${RELEASE_VERSION} (${SOURCE_SHA}) on ${PLATFORM}. This source may fail to build or produce a broken image on this platform; the selected source commit was not changed. Docker syntax, Python autoreconf prerequisites, vcpkg bootstrap architecture, edition boundary, build, Trivy and final runtime smoke gates still apply."
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1
