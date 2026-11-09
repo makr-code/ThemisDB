@@ -76,7 +76,16 @@ RUN --mount=type=cache,id=apt-cache-base-${TARGETARCH},target=/var/cache/apt,sha
     git -C ${VCPKG_ROOT} commit -m "vcpkg baseline from tarball at ${VCPKG_COMMIT}" --quiet && \
     git -C ${VCPKG_ROOT} rev-parse HEAD > /opt/vcpkg-baseline-sha.txt && \
     echo "Synthetic vcpkg baseline SHA: $(cat /opt/vcpkg-baseline-sha.txt)" && \
-    ${VCPKG_ROOT}/bootstrap-vcpkg.sh -disableMetrics && \
+    BOOTSTRAP_ATTEMPT=1 && \
+    until ${VCPKG_ROOT}/bootstrap-vcpkg.sh -disableMetrics; do \
+        if [ "${BOOTSTRAP_ATTEMPT}" -ge 5 ]; then \
+            echo "ERROR: vcpkg bootstrap failed after ${BOOTSTRAP_ATTEMPT} attempts" >&2; \
+            exit 1; \
+        fi; \
+        echo "Retrying vcpkg bootstrap in 15 seconds (attempt ${BOOTSTRAP_ATTEMPT}/5)"; \
+        sleep 15; \
+        BOOTSTRAP_ATTEMPT=$((BOOTSTRAP_ATTEMPT + 1)); \
+    done && \
     touch ${VCPKG_ROOT}/vcpkg.disable-metrics && \
     rm -f /tmp/vcpkg.tar.gz && \
     ${VCPKG_ROOT}/vcpkg version --disable-metrics
