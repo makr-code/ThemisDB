@@ -32,11 +32,17 @@ Known examples to remediate:
   generation phase as multi-model database work.
 - `benchmarks/llm/bench_llm_inference_performance.cpp` contains simulated token
   generation and synthetic context pointers; those cases must not be reported
-  as model inference.
+  as model inference. “Reported” here means any published benchmark results
+  surface (e.g., CI benchmark summary output and any benchmark dashboard/release
+  notes), and it is enforced by tagging such cases explicitly as `synthetic`
+  (or an equivalent dedicated benchmark/CTest label) and filtering them out in
+  the result reporter/publisher.
 - Process retrieval benchmarks use local synthetic stores, while the
   Process-specific expectation comparator currently has no configured
   expectation rows. Stubbed process-manager cases must not be reported as OS
-  process performance.
+  process performance. “Reported” and enforcement are as above: mark these
+  cases `synthetic` (or with a dedicated label) and exclude them from published
+  result summaries/dashboards via the reporter/publisher filter.
 - The stored module coverage matrix is tied to a source revision different
   from the current `develop` HEAD and must be regenerated before it is treated
   as current evidence.
