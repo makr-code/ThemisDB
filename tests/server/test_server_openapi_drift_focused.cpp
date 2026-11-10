@@ -24,6 +24,7 @@
 
 #include <gtest/gtest.h>
 
+#include "server/monitoring_api_handler.h"
 #include "server/openapi_route_registry.h"
 
 #include <atomic>
@@ -272,4 +273,35 @@ TEST_F(OpenApiDriftTest, SOD08_SpecRoundtripSnapshotEquality) {
     std::string snap2 = registry().captureSpecSnapshot();
     EXPECT_EQ(snap, snap2)
         << "captureSpecSnapshot must be deterministic for an unchanged registry";
+}
+
+TEST_F(OpenApiDriftTest, MonitoringRegistrationBatchesPreserveRoutesAndAreRepeatable) {
+    registry().registerRoute(makeEntry("/custom", "get", "customOperation"));
+    MonitoringApiHandler::registerRoutes();
+    const auto entries = registry().entries();
+    ASSERT_EQ(entries.size(), 48u);
+    EXPECT_EQ(entries.front().path, "/custom");
+    EXPECT_EQ(entries[1].path, "/health");
+    EXPECT_EQ(entries.back().path, "/ui/tasks");
+
+    const auto spec = registry().buildOpenApiSpec("test");
+    const auto& paths = spec.at("paths");
+    for (const auto* path : {
+             "/health", "/metrics/html", "/api/v1/observability/provenance",
+             "/api/v1/license/status", "/entities/{key}", "/api/v1/query/udfs",
+             "/v2/query/stream", "/api/v1/functions/{id}/versions", "/ui/tasks"}) {
+        EXPECT_TRUE(paths.contains(path)) << path;
+    }
+    const auto& license_properties = paths.at("/api/v1/license/status").at("get")
+        .at("responses").at("200").at("content").at("application/json")
+        .at("schema").at("properties");
+    EXPECT_EQ(license_properties.size(), 9u);
+    EXPECT_EQ(license_properties.at("status").at("example"), "active");
+    EXPECT_EQ(license_properties.at("days_until_expiry").at("type"), "integer");
+
+    const auto snapshot = registry().captureSpecSnapshot();
+    MonitoringApiHandler::registerRoutes();
+    EXPECT_EQ(registry().entries().size(), 48u);
+    EXPECT_EQ(registry().captureSpecSnapshot(), snapshot);
+    EXPECT_EQ(registry().buildOpenApiSpec("test"), spec);
 }
