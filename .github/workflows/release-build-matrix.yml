@@ -493,6 +493,7 @@ jobs:
     with:
       windows_dependency_mode: ${{ matrix.id == 'windows-amd64' && 'consume' || 'off' }}
       dependency_cache_key: ${{ matrix.id == 'windows-amd64' && needs.windows-dependencies.outputs.dependency-cache-key || '' }}
+      dependency_artifact_id: ${{ matrix.id == 'windows-amd64' && needs.windows-dependencies.outputs.dependency-artifact-id || '' }}
       enable_sccache_gha: ${{ matrix.enable_sccache_gha }}
       runs_on: ${{ matrix.runs_on }}
       cache_arch: ${{ matrix.arch }}

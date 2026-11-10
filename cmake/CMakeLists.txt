@@ -2356,6 +2356,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/spatial_api_handler.cpp
     ../src/server/openapi_route_registry.cpp
     ../src/server/monitoring_api_handler.cpp
+    ../src/server/monitoring_api_routes.cpp
     ../src/server/query_api_handler.cpp
     ../src/server/udf_api_handler.cpp
     ../src/server/policy_api_handler.cpp
@@ -4127,6 +4128,7 @@ if(MSVC)
         ../src/sharding/hot_spare_manager.cpp
         ../src/sharding/signed_request.cpp
         ../src/server/monitoring_api_handler.cpp
+        ../src/server/monitoring_api_routes.cpp
         ../src/server/index_api_handler.cpp
         ../src/governance/policy_validation.cpp
         ../src/governance/policy_validator.cpp
@@ -4160,6 +4162,7 @@ if(MSVC)
     )
     set_source_files_properties(
         ../src/server/monitoring_api_handler.cpp
+        ../src/server/monitoring_api_routes.cpp
         ../src/server/index_api_handler.cpp
         PROPERTIES COMPILE_OPTIONS "/bigobj"
     )

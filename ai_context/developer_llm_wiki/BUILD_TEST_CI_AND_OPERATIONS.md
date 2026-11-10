@@ -17,6 +17,37 @@ Human_Author: "ThemisDB Team"
 Datum: 2026-11-10
 Status: Active
 
+## Docker Python autoreconf prerequisite gate
+
+The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap. Release-source preflight and the reusable platform workflow enforce `test_base_installs_python_autoreconf_prerequisites`, including when the source-preflight override is enabled. An older selected source without this package can fail during `autoreconf`; rerunning that workflow does not change its source. Use a new release tag containing the fix, or set `build_from_workflow_source=true` for non-publishing validation. See the [canonical deployment guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting).
+
+## Windows dependency snapshot handoff
+
+Run `42638257654`, job `129657233420` failed before compilation because the
+completed dependency cache saved by preparation was no longer available on a
+failed-job rerun, despite an identical key. The canonical
+`.github/workflows/reusable-cmake-build.yml` now uploads the completed snapshot
+as a 30-day run artifact; `release-build-matrix.yml` passes its immutable artifact
+ID and source/configure/toolchain identity to the consumer. Consumption requires
+that artifact and retains binary-only vcpkg installation and identity validation.
+Caches accelerate preparation only; partial preparation snapshots are never
+published as completed artifacts. Failed-job reruns reuse the original producer's
+artifact ID, not the current attempt number. If the artifact expires, rerun
+preparation too. Older workflow revisions require a new run containing this fix.
+Focused coverage: `tests/test_windows_dependency_preparation.py`.
+
+## MSVC monitoring route translation-unit split
+
+Run `42638257654`, job `129343673144` failed with VS18 MSVC 14.51 `C1060` at
+`monitoring_api_handler.cpp(2246)` despite serial compilation and
+`/Od /Ob0 /GL- /bigobj /Zm200`. Only `MonitoringApiHandler::registerRoutes()`
+(all 47 routes unchanged) is moved to `src/server/monitoring_api_routes.cpp`,
+registered in both build layouts with the handler's existing MSVC properties.
+No API or flag changes; modular non-Debug low-memory defaults and opt-out are
+preserved. Native Windows validation remains pending. See
+[MSVC Handler Optimization](../../cmake/README.md#msvc-handler-optimization)
+for current policy and preserved historical evidence.
+
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
 - Hash: `59518d7978eca388`
