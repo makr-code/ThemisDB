@@ -70,6 +70,12 @@ public:
     bool healthCheck() const override;
     json getStatistics() const override;
     
+    /**
+     * @brief Transcribes a WAV audio buffer using the configured backend.
+     * @param audio_blob WAV-encoded audio data.
+     * @param options Optional JSON object; null or non-object values use defaults.
+     * @return The transcription result, including a failure result when the processor is not initialized.
+     */
     TranscriptionResult transcribe(
         const std::vector<uint8_t>& audio_blob,
         const json& options = {}
@@ -86,6 +92,12 @@ public:
         int max_speakers = 0
     );
     
+    /**
+     * @brief Generates a meeting protocol from WAV audio.
+     * @param audio_blob WAV-encoded meeting audio.
+     * @param options Optional JSON object; null or non-object values use defaults.
+     * @return A JSON protocol or an error object when transcription fails.
+     */
     json generateMeetingProtocol(
         const std::vector<uint8_t>& audio_blob,
         const json& options = {}

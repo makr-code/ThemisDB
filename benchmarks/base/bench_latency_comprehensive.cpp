@@ -379,7 +379,7 @@ BENCHMARK_F(LatencyBenchFixture, RandomReadLatency)(benchmark::State& state) {
 // Batch Operation Latency
 // ============================================================================
 
-BENCHMARK_F(LatencyBenchFixture, BatchWriteLatency)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(LatencyBenchFixture, BatchWriteLatency)(benchmark::State& state) {
     const int batch_size = state.range(0);
     int counter = 0;
 

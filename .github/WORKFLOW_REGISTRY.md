@@ -205,6 +205,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `gate-pr-hash-sbom.yml` | Gate: PR Core [Hash & SBOM Integrity] (Supply chain security) | compliance |
 | `gate-pr-plugin-boundary.yml` | Gate: PR Core [Plugin Boundary] (Plugin boundary enforcement) | compliance |
 | `gate-pr-primary-doc-structure.yml` | Gate: PR Primary Doc Structure (README/ARCHITECTURE validation) | docs |
+| `test-helm-chart.yml` | Gate: Helm Chart (lint, rendered profile tests, and Kind smoke) | deployment |
 | `gate-pr-doc-metadata.yml` | Gate: PR Doc Metadata (Markdown metadata & governance) | docs |
 | `gate-pr-doxygen-governance.yml` | Gate: PR Doxygen Governance (C++ API doc validation) | docs |
 | `gate-pr-module-doxygen-xml.yml` | Gate: PR Module Doxygen XML (Module-level Doxygen generation) | docs |

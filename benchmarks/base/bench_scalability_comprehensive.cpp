@@ -107,7 +107,7 @@ protected:
 // Data Size Scaling Benchmarks
 // ============================================================================
 
-BENCHMARK_F(ScalabilityBenchFixture, RandomRead_ScalingDataSize)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(ScalabilityBenchFixture, RandomRead_ScalingDataSize)(benchmark::State& state) {
     DeterministicRNG rng(42);
 
     for (auto _ : state) {
@@ -124,7 +124,7 @@ BENCHMARK_REGISTER_F(ScalabilityBenchFixture, RandomRead_ScalingDataSize)
     ->Unit(benchmark::kMicrosecond)
     ->Arg(1000)->Arg(10000)->Arg(100000);
 
-BENCHMARK_F(ScalabilityBenchFixture, SequentialRead_ScalingDataSize)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(ScalabilityBenchFixture, SequentialRead_ScalingDataSize)(benchmark::State& state) {
     size_t counter = 0;
 
     for (auto _ : state) {
@@ -141,7 +141,7 @@ BENCHMARK_REGISTER_F(ScalabilityBenchFixture, SequentialRead_ScalingDataSize)
     ->Unit(benchmark::kMicrosecond)
     ->Arg(1000)->Arg(10000)->Arg(100000);
 
-BENCHMARK_F(ScalabilityBenchFixture, RangeScan_ScalingDataSize)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(ScalabilityBenchFixture, RangeScan_ScalingDataSize)(benchmark::State& state) {
     DeterministicRNG rng(42);
     const size_t scan_size = 100;
 
@@ -172,7 +172,7 @@ BENCHMARK_REGISTER_F(ScalabilityBenchFixture, RangeScan_ScalingDataSize)
 // Write Scaling Benchmarks
 // ============================================================================
 
-BENCHMARK_F(ScalabilityBenchFixture, AppendWrite_ScalingDataSize)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(ScalabilityBenchFixture, AppendWrite_ScalingDataSize)(benchmark::State& state) {
     DeterministicRNG rng(42);
     size_t write_counter = dataset_size_;
 
@@ -192,7 +192,7 @@ BENCHMARK_REGISTER_F(ScalabilityBenchFixture, AppendWrite_ScalingDataSize)
     ->Unit(benchmark::kMicrosecond)
     ->Arg(1000)->Arg(10000)->Arg(100000);
 
-BENCHMARK_F(ScalabilityBenchFixture, UpdateWrite_ScalingDataSize)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(ScalabilityBenchFixture, UpdateWrite_ScalingDataSize)(benchmark::State& state) {
     DeterministicRNG rng(42);
 
     for (auto _ : state) {
@@ -229,27 +229,29 @@ static void BM_LargeRecordInsertion(benchmark::State& state) {
     cfg.block_cache_size_mb = 512;
     cfg.disable_wal_for_benchmark = true;
 
-    RocksDBWrapper db(cfg);
-    if (!db.open()) {
-        state.SkipWithError("Failed to open database");
-        return;
+    {
+        RocksDBWrapper db(cfg);
+        if (!db.open()) {
+            state.SkipWithError("Failed to open database");
+            return;
+        }
+
+        const size_t record_size = state.range(0);
+        DeterministicRNG rng(42);
+        int counter = 0;
+
+        for (auto _ : state) {
+            std::string key = "large_" + std::to_string(counter++);
+            BaseEntity entity(key, BaseEntity::FieldMap{
+                {"data", rng.generateString(record_size)}
+            });
+            db.put("entity:" + key, entity.serialize());
+        }
+
+        state.SetItemsProcessed(state.iterations());
+        state.SetBytesProcessed(state.iterations() * record_size);
+        state.counters["RecordSize"] = record_size;
     }
-
-    const size_t record_size = state.range(0);
-    DeterministicRNG rng(42);
-    int counter = 0;
-
-    for (auto _ : state) {
-        std::string key = "large_" + std::to_string(counter++);
-        BaseEntity entity(key, BaseEntity::FieldMap{
-            {"data", rng.generateString(record_size)}
-        });
-        db.put("entity:" + key, entity.serialize());
-    }
-
-    state.SetItemsProcessed(state.iterations());
-    state.SetBytesProcessed(state.iterations() * record_size);
-    state.counters["RecordSize"] = record_size;
 
     std::filesystem::remove_all(db_path);
 }
@@ -273,28 +275,30 @@ static void BM_BatchSizeScaling(benchmark::State& state) {
     cfg.db_path = db_path.string();
     cfg.disable_wal_for_benchmark = true;
 
-    RocksDBWrapper db(cfg);
-    if (!db.open()) {
-        state.SkipWithError("Failed to open database");
-        return;
-    }
-
-    const int batch_size = state.range(0);
-    DeterministicRNG rng(42);
-    int counter = 0;
-
-    for (auto _ : state) {
-        for (int i = 0; i < batch_size; ++i) {
-            std::string key = "batch_" + std::to_string(counter++);
-            BaseEntity entity(key, BaseEntity::FieldMap{
-                {"value", rng.generateInt(0, 1000000)}
-            });
-            db.put("entity:" + key, entity.serialize());
+    {
+        RocksDBWrapper db(cfg);
+        if (!db.open()) {
+            state.SkipWithError("Failed to open database");
+            return;
         }
-    }
 
-    state.SetItemsProcessed(state.iterations() * batch_size);
-    state.counters["BatchSize"] = batch_size;
+        const int batch_size = state.range(0);
+        DeterministicRNG rng(42);
+        int counter = 0;
+
+        for (auto _ : state) {
+            for (int i = 0; i < batch_size; ++i) {
+                std::string key = "batch_" + std::to_string(counter++);
+                BaseEntity entity(key, BaseEntity::FieldMap{
+                    {"value", rng.generateInt(0, 1000000)}
+                });
+                db.put("entity:" + key, entity.serialize());
+            }
+        }
+
+        state.SetItemsProcessed(state.iterations() * batch_size);
+        state.counters["BatchSize"] = batch_size;
+    }
 
     std::filesystem::remove_all(db_path);
 }
@@ -315,36 +319,38 @@ static void BM_FullScanScaling(benchmark::State& state) {
     cfg.db_path = db_path.string();
     cfg.disable_wal_for_benchmark = true;
 
-    RocksDBWrapper db(cfg);
-    if (!db.open()) {
-        state.SkipWithError("Failed to open database");
-        return;
-    }
-
-    // Populate with specified number of records
-    const size_t dataset_size = state.range(0);
-    DeterministicRNG rng(42);
-    for (size_t i = 0; i < dataset_size; ++i) {
-        BaseEntity entity("scan_" + std::to_string(i), BaseEntity::FieldMap{
-            {"value", rng.generateInt(0, 1000000)}
-        });
-        db.put("entity:" + entity.getPrimaryKey(), entity.serialize());
-    }
-
-    for (auto _ : state) {
-        size_t count = 0;
-        // Simulate full scan by reading all keys
-        for (size_t i = 0; i < dataset_size; ++i) {
-            auto value = db.get("entity:scan_" + std::to_string(i));
-            if (value.has_value()) {
-              count++;
-            }
+    {
+        RocksDBWrapper db(cfg);
+        if (!db.open()) {
+            state.SkipWithError("Failed to open database");
+            return;
         }
-        benchmark::DoNotOptimize(count);
-    }
 
-    state.SetItemsProcessed(state.iterations() * dataset_size);
-    state.counters["DatasetSize"] = dataset_size;
+        // Populate with specified number of records
+        const size_t dataset_size = state.range(0);
+        DeterministicRNG rng(42);
+        for (size_t i = 0; i < dataset_size; ++i) {
+            BaseEntity entity("scan_" + std::to_string(i), BaseEntity::FieldMap{
+                {"value", rng.generateInt(0, 1000000)}
+            });
+            db.put("entity:" + entity.getPrimaryKey(), entity.serialize());
+        }
+
+        for (auto _ : state) {
+            size_t count = 0;
+            // Simulate full scan by reading all keys
+            for (size_t i = 0; i < dataset_size; ++i) {
+                auto value = db.get("entity:scan_" + std::to_string(i));
+                if (value.has_value()) {
+                    count++;
+                }
+            }
+            benchmark::DoNotOptimize(count);
+        }
+
+        state.SetItemsProcessed(state.iterations() * dataset_size);
+        state.counters["DatasetSize"] = dataset_size;
+    }
 
     std::filesystem::remove_all(db_path);
 }
@@ -368,43 +374,45 @@ static void BM_MemoryPressure(benchmark::State& state) {
     cfg.block_cache_size_mb = 32;  // Small cache
     cfg.disable_wal_for_benchmark = true;
 
-    RocksDBWrapper db(cfg);
-    if (!db.open()) {
-        state.SkipWithError("Failed to open database");
-        return;
-    }
+    {
+        RocksDBWrapper db(cfg);
+        if (!db.open()) {
+            state.SkipWithError("Failed to open database");
+            return;
+        }
 
-    DeterministicRNG rng(42);
-    int counter = 0;
+        DeterministicRNG rng(42);
+        int counter = 0;
 
-    // Pre-fill to create memory pressure
-    for (int i = 0; i < 10000; ++i) {
-        BaseEntity entity("prefill_" + std::to_string(i), BaseEntity::FieldMap{
-            {"data", rng.generateString(1000)}
-        });
-        db.put("entity:" + entity.getPrimaryKey(), entity.serialize());
-    }
+        // Pre-fill to create memory pressure
+        for (int i = 0; i < 10000; ++i) {
+            BaseEntity entity("prefill_" + std::to_string(i), BaseEntity::FieldMap{
+                {"data", rng.generateString(1000)}
+            });
+            db.put("entity:" + entity.getPrimaryKey(), entity.serialize());
+        }
 
-    for (auto _ : state) {
-        // Mixed workload under memory pressure
-        for (int i = 0; i < 100; ++i) {
-            if (i % 3 == 0) {
-                // Write
-                std::string key = "pressure_" + std::to_string(counter++);
-                BaseEntity entity(key, BaseEntity::FieldMap{
-                    {"data", rng.generateString(1000)}
-                });
-                db.put("entity:" + key, entity.serialize());
-            } else {
-                // Read
-                int id = rng.generateInt(0, 9999);
-                auto value = db.get("entity:prefill_" + std::to_string(id));
-                benchmark::DoNotOptimize(value);
+        for (auto _ : state) {
+            // Mixed workload under memory pressure
+            for (int i = 0; i < 100; ++i) {
+                if (i % 3 == 0) {
+                    // Write
+                    std::string key = "pressure_" + std::to_string(counter++);
+                    BaseEntity entity(key, BaseEntity::FieldMap{
+                        {"data", rng.generateString(1000)}
+                    });
+                    db.put("entity:" + key, entity.serialize());
+                } else {
+                    // Read
+                    int id = rng.generateInt(0, 9999);
+                    auto value = db.get("entity:prefill_" + std::to_string(id));
+                    benchmark::DoNotOptimize(value);
+                }
             }
         }
-    }
 
-    state.SetItemsProcessed(state.iterations() * 100);
+        state.SetItemsProcessed(state.iterations() * 100);
+    }
 
     std::filesystem::remove_all(db_path);
 }
@@ -424,38 +432,40 @@ static void BM_ContinuousGrowth(benchmark::State& state) {
     cfg.db_path = db_path.string();
     cfg.disable_wal_for_benchmark = true;
 
-    RocksDBWrapper db(cfg);
-    if (!db.open()) {
-        state.SkipWithError("Failed to open database");
-        return;
-    }
-
-    DeterministicRNG rng(42);
-    size_t total_records = 0;
-
-    for (auto _ : state) {
-        // Insert 1000 new records per iteration
-        for (int i = 0; i < 1000; ++i) {
-            std::string key = "growth_" + std::to_string(total_records++);
-            BaseEntity entity(key, BaseEntity::FieldMap{
-                {"value", rng.generateInt(0, 1000000)},
-                {"data", rng.generateString(100)}
-            });
-            db.put("entity:" + key, entity.serialize());
+    {
+        RocksDBWrapper db(cfg);
+        if (!db.open()) {
+            state.SkipWithError("Failed to open database");
+            return;
         }
 
-        // Perform some reads to simulate real workload
-        for (int i = 0; i < 100; ++i) {
-            if (total_records > 0) {
-                size_t id = rng.generateInt(0, total_records - 1);
-                auto value = db.get("entity:growth_" + std::to_string(id));
-                benchmark::DoNotOptimize(value);
+        DeterministicRNG rng(42);
+        size_t total_records = 0;
+
+        for (auto _ : state) {
+            // Insert 1000 new records per iteration
+            for (int i = 0; i < 1000; ++i) {
+                std::string key = "growth_" + std::to_string(total_records++);
+                BaseEntity entity(key, BaseEntity::FieldMap{
+                    {"value", rng.generateInt(0, 1000000)},
+                    {"data", rng.generateString(100)}
+                });
+                db.put("entity:" + key, entity.serialize());
+            }
+
+            // Perform some reads to simulate real workload
+            for (int i = 0; i < 100; ++i) {
+                if (total_records > 0) {
+                    size_t id = rng.generateInt(0, total_records - 1);
+                    auto value = db.get("entity:growth_" + std::to_string(id));
+                    benchmark::DoNotOptimize(value);
+                }
             }
         }
-    }
 
-    state.SetItemsProcessed(state.iterations() * 1100);
-    state.counters["TotalRecords"] = total_records;
+        state.SetItemsProcessed(state.iterations() * 1100);
+        state.counters["TotalRecords"] = total_records;
+    }
 
     std::filesystem::remove_all(db_path);
 }

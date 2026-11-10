@@ -347,10 +347,13 @@ TranscriptionResult STTProcessor::transcribe(const std::vector<uint8_t> &audio_b
         return result;
     }
 
+    const json empty_options = json::object();
+    const json& effective_options = options.is_object() ? options : empty_options;
+
     auto wav_data = convertToWav16kHz(audio_blob);
     auto pcm_data = extractPCMData(wav_data);
 
-    return transcribeInternal(pcm_data, options);
+    return transcribeInternal(pcm_data, effective_options);
 }
 
 bool STTProcessor::streamTranscribe(const std::vector<uint8_t> &audio_stream,
@@ -430,10 +433,12 @@ bool STTProcessor::streamTranscribe(const std::vector<uint8_t> &audio_stream,
  * @details Calls: value(), transcribe(), formatAsProtocol().
  */
 json STTProcessor::generateMeetingProtocol(const std::vector<uint8_t> &audio_blob, const json &options) {
+    const json empty_options = json::object();
+    const json& effective_options = options.is_object() ? options : empty_options;
     json protocol_options;
-    protocol_options["language"]            = options.value("language", default_language_);
+    protocol_options["language"]            = effective_options.value("language", default_language_);
     protocol_options["timestamps"]          = true;
-    protocol_options["speaker_diarization"] = options.value("speaker_diarization", true);
+    protocol_options["speaker_diarization"] = effective_options.value("speaker_diarization", true);
 
     auto transcription = transcribe(audio_blob, protocol_options);
 
@@ -444,7 +449,7 @@ json STTProcessor::generateMeetingProtocol(const std::vector<uint8_t> &audio_blo
         return error_result;
     }
 
-    return formatAsProtocol(transcription, options);
+    return formatAsProtocol(transcription, effective_options);
 }
 
 // Private implementation methods

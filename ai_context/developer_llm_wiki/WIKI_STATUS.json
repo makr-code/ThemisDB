@@ -1,13 +1,21 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
+<<<<<<< HEAD
   "generated_at": "2026-11-09T18:14:09+00:00",
   "mode": "incremental",
   "source_count": 8071,
   "source_hash": "86a4ab354058df1776475cf783356038025a0220584f8eeaf07a099843305f07",
+=======
+  "generated_at": "2026-11-09T17:58:34+00:00",
+  "mode": "incremental",
+  "source_count": 8070,
+  "source_hash": "52b0a00d9611f99c4b376b68b6a122295612ce3256cfc98d0c5ac2b3d4e73c21",
+>>>>>>> origin/develop
   "delta": {
     "added_count": 1,
     "removed_count": 0,
+<<<<<<< HEAD
     "changed_count": 5,
     "added_preview": [
       ".github/workflows/gate-pr-artifact-size.yml"
@@ -23,4 +31,13 @@
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
   "manifest_sha256": "5e68d54a972a853fd17e321c92e79ac1a259c5e6c36953b4d10a43d202ddb2b8"
+=======
+    "changed_count": 0,
+    "added_preview": [],
+    "removed_preview": [],
+    "changed_preview": []
+  },
+  "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
+  "manifest_sha256": "e734d18a51fc00072de8180dc9ff941406f941b74851e7c1152d6926207a6c60"
+>>>>>>> origin/develop
 }

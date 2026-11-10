@@ -21,7 +21,11 @@ Status: Active
 
 - Added: 1
 - Removed: 0
+<<<<<<< HEAD
 - Changed: 5
+=======
+- Changed: 0
+>>>>>>> origin/develop
 
 ## Added
 
@@ -33,8 +37,12 @@ Status: Active
 
 ## Changed
 
+<<<<<<< HEAD
 - .github/workflows/maintenance-soll-ist-gap-issues.yml
 - ai_context/developer_llm_wiki/TEMPORAL.md
 - docs/governance/SRC_MODULE_DOCUMENTATION_COMPLIANCE_2026-09-20.md
 - scripts/check_module_direct_doxygen.py
 - scripts/sync_soll_ist_gaps.py
+=======
+- none
+>>>>>>> origin/develop

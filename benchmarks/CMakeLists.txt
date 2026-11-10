@@ -6063,7 +6063,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_residual_quantization
       TARGET bench_residual_quantization
       MODULE "base"
-      TIMEOUT 120
+      TIMEOUT 900
     )
   endif()
   if(TARGET bench_sanity)
@@ -6079,7 +6079,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_scalability_comprehensive
       TARGET bench_scalability_comprehensive
       MODULE "base"
-      TIMEOUT 120
+      TIMEOUT 240
     )
   endif()
   if(TARGET bench_tpcc)

@@ -94,6 +94,10 @@ static ProcessModelRecord makeRecord(int idx, int node_count = 5) {
     rec.state            = ProcessModelState::ACTIVE;
     rec.version          = "1." + std::to_string(idx) + ".0";
     rec.raw_payload      = makeBpmnXml(idx, node_count);
+    rec.normalized       = {
+        {"nodes", nlohmann::json::array()},
+        {"edges", nlohmann::json::array()}
+    };
     rec.compliance_tags  = {"DSGVO", "VwVfG", "§34 BauO"};
     return rec;
 }
@@ -215,7 +219,7 @@ BENCHMARK_F(ProcessManagerFixture, Save_Throughput)(::benchmark::State& state) {
     state.SetLabel("save() throughput (sequential)");
 }
 
-BENCHMARK_F(ProcessManagerFixture, List_Scan)(::benchmark::State& state) {
+BENCHMARK_DEFINE_F(ProcessManagerFixture, List_Scan)(::benchmark::State& state) {
     const int kModels = static_cast<int>(state.range(0));
 
     // Pre-populate
