@@ -16,23 +16,49 @@ Human_Author: ThemisDB Team
 
 # ThemisDB Process Module
 
-**Purpose:** Source-based overview of the process-modeling module. Public declarations live under [`include/process/`](../../include/process/); implementations are in this directory.
+## Zweck
+
+Source-based overview of the process-modeling module. Public declarations live
+under [`include/process/`](../../include/process/); implementations are in this
+directory.
 
 **AI provenance:** Exact model backend not verifiable from final document text alone.
 
-## Scope and boundaries
+## Scope
 
 The module contains process-model record lifecycle and format import/export, graph-based process context retrieval, process-object/process-process linking, process-related serializers/importers, analytics helpers, and integration surfaces for external orchestration profiles. `ProcessModelManager::deployToEngine()` bridges model records to `ProcessGraphManager`; this is not evidence that the process module owns a general workflow orchestration service.
 
 The source tree also includes federation, audit, diagnostics, and telemetry components. Their existence is not a maturity or deployment guarantee. Some sources explicitly describe alpha/core or simplified behavior; verify each implementation and its tests before relying on design-contract claims.
 
-## Developer quickstart
+## Quickstart (Build/Run)
 
 1. Start with the [API guide](API.md) and the relevant declaration under [`include/process/`](../../include/process/).
 2. Confirm behavior in the matching implementation and inspect the closest existing test before changing a contract.
 3. Use the focused build/test examples below; successful CMake registration alone does not establish a passing result.
 
-## Key documented behavior and caveats
+## API/CLI Einstieg
+
+The primary C++ entry points are [`ProcessGraphRag`](../../include/process/process_graph_rag.h),
+[`ProcessLightRetriever`](../../include/process/process_light_retriever.h), and
+[`ProcessModelManager`](../../include/process/process_model_manager.h). The module
+does not define a standalone command-line interface; use the [API guide](API.md)
+for contracts and the [runbook](RUNBOOK.md) for operator procedures.
+
+## Integrationsueberblick
+
+```mermaid
+flowchart LR
+    Models[Process models] --> GraphRAG[ProcessGraphRag]
+    Instances[Process instances] --> GraphRAG
+    Communities[Community reports] --> Light[ProcessLightRetriever]
+    GraphRAG --> Light
+    Light --> Caller[Calling service]
+```
+
+Kurzinterpretation: the façade selects graph retrieval or persisted community
+reports and returns context to its caller; it does not execute a workflow.
+
+## Known Limitations
 
 - `ProcessLightRetriever` supports LOCAL/GLOBAL/AUTO selection; AUTO is keyword-based and GLOBAL falls back to LOCAL if no persisted communities are usable. It caps returned context bytes, GLOBAL report count, LOCAL prompt lines, and LOCAL traversal depth, and reports elapsed time and returned bytes. Timeout is detected only after synchronous dependencies return; it does not cancel them or guarantee a hard deadline.
 - `ProcessOrchestrationRegistry` requires a profile ID/domain and enforces `internal_rag_stage=true`; activation and rollback use separate writes and do not promise a transaction.
@@ -66,7 +92,7 @@ cmake --build --preset community-debug --target bench_process_parser_gates
 
 The focused test target/name and benchmark target come from the module CMake files; a successful registration or build is not a test or benchmark result.
 
-## Developer documentation
+## Verweise
 
 - [API guide](API.md) · [Implementation notes](IMPLEMENTATION.md) · [Developer guide](MODULE_GUIDE.md)
 - [Architecture](ARCHITECTURE.md) · [Modeling](MODELING.md) · [Embedding integration](EMBEDDING.md)

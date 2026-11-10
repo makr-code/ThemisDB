@@ -838,6 +838,14 @@ if(THEMIS_LLM_INFERENCE_TESTS)
     target_sources(module_llm_test_llm_tinyllama_inference_focused PRIVATE
         ${THEMIS_ROOT_DIR}/src/llm/lora_framework/llama_tokenizer.cpp
     )
+    if(TARGET llama)
+        target_link_libraries(module_llm_test_llm_tinyllama_inference_focused PRIVATE llama)
+    endif()
+    if(DEFINED LLAMA_SRC_DIR AND EXISTS "${LLAMA_SRC_DIR}/include/llama.h")
+        target_include_directories(module_llm_test_llm_tinyllama_inference_focused PRIVATE
+            "${LLAMA_SRC_DIR}/include"
+        )
+    endif()
 
     # ── RAG-01..12: doku.db RAG tests ────────────────────────────────────
     _add_llm_inference_ci_target(

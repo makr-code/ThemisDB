@@ -1,6 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-09-16"
+Last Updated: "2026-11-10"
+Status: "active"
+AI_Used: true
+AI_Models: "GitHub Copilot (exact model backend not recorded)"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # Runbook: Process Manager — Operator Remediation Guide
 
-<!-- Status: current | Created: 2026-09-16 | Wave D delivery -->
 <!-- Links: src/process/ROADMAP.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
