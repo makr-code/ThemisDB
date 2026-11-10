@@ -19,14 +19,13 @@ Status: Active
 
 ## Summary
 
-- Added: 2
+- Added: 0
 - Removed: 0
-- Changed: 6
+- Changed: 0
 
 ## Added
 
-- .github/workflows/test-helm-chart.yml
-- docs/reports/BENCHMARK_PERFORMANCE_EVALUATION_2026-11-09.md
+- none
 
 ## Removed
 
@@ -34,9 +33,4 @@ Status: Active
 
 ## Changed
 
-- .github/workflows/coverage-report-nightly.yml
-- ROADMAP.md
-- docs/code_maturity_report.md
-- docs/governance/MATURITY_EVIDENCE_REGISTRY.md
-- include/content/stt_processor.h
-- scripts/generate_coverage_baseline.py
+- none

@@ -150,11 +150,14 @@ documented restricted-evidence reference. Only the generic summary rows in the c
 are available. No further finding details or remediation are established in this registry.
 **Pending Security Lead actions:** validate both records and supply sanitized, access-approved
 details or a documented restricted-evidence reference; then record verified dispositions. Until
-then both findings remain **OPEN** and tracking issue #7816 remains open. Administrative
-closure of issue #7812 is not evidence of disposition.
+then both findings remain **OPEN**. Issue [#7816](https://github.com/makr-code/ThemisDB/issues/7816)
+was closed after documenting the evidence gap; this is not a finding disposition. The separate C5
+evidence trace is tracked by [#7817](https://github.com/makr-code/ThemisDB/issues/7817).
+Administrative closure of issue #7812 is not evidence of disposition.
 
 Neither administrative closure of issue #7812 nor the historical Q3 no-critical **PASS** is C4
-compliance sign-off. **C4 remains gated until both findings have verified dispositions.**
+compliance sign-off. **C4 remains gated until both findings have verified dispositions, the
+release-scoped C5 evidence is linked, and authorized sign-off is recorded.**
 
 ### 2.2 Sanitizer Evidence (ASan/UBSan/TSan)
 

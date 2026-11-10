@@ -68,7 +68,7 @@ Status: Active
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `1da56706418e0852`
+- Hash: `ccccd02fbb5493c5`
 - Titel: ThemisDB Project Roadmap
 - Auszug:
   - <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->

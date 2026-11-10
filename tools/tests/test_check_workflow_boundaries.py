@@ -79,8 +79,8 @@ jobs:
 def test_pull_request_paths_must_not_be_repo_wide(tmp_path: Path):
     workflow = tmp_path / ".github" / "workflows" / "guard.yml"
     _write_workflow(
-        workflow,
-        """
+       workflow,
+       """
 name: Broad Guard
 on:
   pull_request:
@@ -104,30 +104,31 @@ jobs:
     assert any("too broad" in violation for violation in violations)
 
 
-def test_repository_artifact_size_gate_may_run_without_path_filter():
-    workflow = Path(".github/workflows/gate-pr-artifact-size.yml")
+def test_repository_size_gates_may_run_without_path_filter():
+    for path in (
+        ".github/workflows/gate-pr-artifact-size.yml",
+        ".github/workflows/gate-pr-file-size.yml",
+    ):
+        violations = guard.validate_workflow_file(Path(path))
+        assert not any("must define paths" in violation for violation in violations)
 
-    violations = guard.validate_workflow_file(workflow)
 
-    assert not any("must define paths" in violation for violation in violations)
-
-
-def test_other_pull_request_workflows_still_require_path_filters(tmp_path: Path):
-    workflow = tmp_path / ".github" / "workflows" / "unfiltered.yml"
+def test_other_pull_request_workflows_still_require_paths(tmp_path: Path):
+    workflow = tmp_path / ".github" / "workflows" / "guard.yml"
     _write_workflow(
         workflow,
         """
-name: Unfiltered workflow
+name: Other Gate
 on:
   pull_request:
     branches: [develop]
 permissions:
   contents: read
 concurrency:
-  group: unfiltered-${{ github.ref }}
+  group: other-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  check:
+  guard:
     runs-on: ubuntu-latest
     steps:
       - run: echo ok
@@ -135,7 +136,6 @@ jobs:
     )
 
     violations = guard.validate_workflow_file(workflow)
-
     assert any("must define paths" in violation for violation in violations)
 
 

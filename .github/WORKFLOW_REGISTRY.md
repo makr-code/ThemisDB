@@ -2,10 +2,10 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-09
-> Update Note: Added bounded PR ASan/UBSan module coverage, nightly TSan transaction/sharding/LLM coverage, and fail-closed deterministic parser fuzz-smoke lanes
+> Last Updated: 2026-11-10
+> Update Note: Added all-path PR file-size gates with exact-path allowlists and boundary tests
 > Status: active
-> Total Workflows: 100 (verified 2026-11-09)
+> Total Workflows: 102 (verified 2026-11-10)
 > AI_Used: true
 > AI_Models: "GitHub Copilot agent; exact model backend not verifiable from final document text alone"
 > AI_Contributor: "GitHub Copilot"
@@ -194,12 +194,13 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `wave-a-gpu-ci-execution.yml` | Wave A GPU CI Execution (GPU + CPU Fallback matrix) | active |
 | `wave-a-gpu-phase3-baseline-execution.yml` | Wave A GPU Phase 3: Baseline Capture & Measurement | active |
 
-### 2. GATES: PR VALIDATION (24 Workflows)
+### 2. GATES: PR VALIDATION (26 Workflows)
 
 | Workflow | Purpose | Gate Type |
 |----------|---------|-----------|
 | `gate-pr-core.yml` | Gate: PR Core (Primary PR gate: tests, boundaries, policies) | fast-path |
 | `gate-pr-artifact-size.yml` | Gate: PR Artifact Size (rejects added files over 5 MiB unless exact-path allowlisted) | repository-hygiene |
+| `gate-pr-file-size.yml` | Gate: PR File Size (Rejects newly introduced or enlarged files above 5 MiB) | repository-hygiene |
 | `gate-pr-community-failclosed.yml` | Gate: PR Core [Community Fail-Closed] (Community-specific gate) | fail-closed |
 | `gate-pr-edition-license.yml` | Gate: PR Core [Edition & License] (Edition compliance) | compliance |
 | `gate-pr-hash-sbom.yml` | Gate: PR Core [Hash & SBOM Integrity] (Supply chain security) | compliance |

@@ -1100,7 +1100,10 @@ jobs:
         with:
           script: |
             const CANONICAL = ['develop', 'minimal', 'community', 'enterprise', 'hyperscaler', 'military'];
-            const REQUIRED_CHECKS = ['release-critical-tests'];
+            const REQUIRED_CHECKS = [
+              'release-critical-tests',
+              'Gate: PR File Size / Validate: Changed file size',
+            ];
             const drifted = [];
 
             console.log('──────────────────────────────────────────────────────');

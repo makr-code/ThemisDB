@@ -40,6 +40,15 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - `ai_working/` contains historical execution snapshots and evidence records. These files are explicitly non-normative and must not be used as the basis for current GA or launch claims unless explicitly promoted by root governance documents.
 - Canonical read order for active status: `ROADMAP.md` -> module `src/<module>/ROADMAP.md` -> current governance/release docs -> `ai_context/` operational summaries -> `ai_working/` historical evidence.
 - Audit-derived production-readiness plan (non-normative for release status; items must be mirrored here or in module roadmaps before they count): [audit/ROADMAP.md](audit/ROADMAP.md), based on [audit/FULL_DEEP_DIVE_AUDIT_2026-10-31.md](audit/FULL_DEEP_DIVE_AUDIT_2026-10-31.md) (2 Critical / 22 High findings; verdict: not production-ready).
+- The dated issue-owner and evidence crosswalk for the v2.5.0 → v3.0.0 rollout is maintained in [audit/ROADMAP.md](audit/ROADMAP.md#cross-cutting-rollout-evidence-ownership-2026-11-09); this root roadmap remains the release-status authority.
+
+## v2.5.0 → v3.0.0 Rollout Evidence Status
+
+The rollout gates are M0 evidence/status reset by **2026-11-20**, v2.5.0 M1 Single-Node RC by **2027-03-31**, v3.0.0 M2 Multi-Node Beta by **2027-06-30**, and M3 GA Single-Node by **2027-06-30 subject to human sign-off**. Their owners, measurable exits, and evidence links are tracked in the [audit roadmap crosswalk](audit/ROADMAP.md#cross-cutting-rollout-evidence-ownership-2026-11-09).
+
+- Current Wave A, Wave AB, Wave C, and Wave D closure manifests remain **open**. Issue closure or documentation updates do not promote these gates; only fresh, validated evidence can do so.
+- The test-quality baseline is a dated static inventory; coverage remains unavailable. The benchmark matrix is a dated inventory, not performance evidence: its latest recorded CI attempt failed during CMake configuration because RocksDB was unavailable, so benchmarks did not build or run.
+- Q3 pentest findings remain open in the evidence bundle. [#7813](https://github.com/makr-code/ThemisDB/issues/7813) tracks Q3-001, [#7491](https://github.com/makr-code/ThemisDB/issues/7491) owns the distinct RAG Q3-002 upload path, and [#7816](https://github.com/makr-code/ThemisDB/issues/7816) records Q3-003/004 triage without closing either finding. [#7817](https://github.com/makr-code/ThemisDB/issues/7817) separately tracks release-scoped BSI C5 evidence; Wave C/C4 remains gated.
 
 ### Storage recovery and streaming-ingest follow-up (2026-11-02)
 

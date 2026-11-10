@@ -1,9 +1,23 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-09-21
+Last Updated: 2026-11-09
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # BSI C5 2026 — Log-Event Mapping
 
 **Author:** ThemisDB Contributors
 **Created:** 2026-09-21
 **Status:** active
-**Closes:** C5-03 (Logging & Monitoring — Kein Mapping von Log-Events auf C5-Kontrollfamilien)
+**Addresses:** C5-03 source-level log-event mapping (not release-scoped evidence closure; see [#7817](https://github.com/makr-code/ThemisDB/issues/7817))
 
 ## Scope
 
@@ -49,6 +63,7 @@ CEF and Syslog output formats are automatically applied. See `include/utils/audi
 
 ## Gap Status
 
-- All 7 C5 control families have at least one mapped event type in ThemisDB's `SecurityEventType` enum.
-- Full per-event CI trace evidence (live run logs → C5 control ID) is part of the quarterly C5 evidence review cycle.
+- The source-level mapping covers all 7 listed C5 control families; this is not release-scoped control-to-test/run evidence or a certification claim.
+- Per-event test/run evidence, BCM-03 incident/restore records, and signed SBOM/provenance linkage remain tracked by [#7817](https://github.com/makr-code/ThemisDB/issues/7817), under Wave C [#7812](https://github.com/makr-code/ThemisDB/issues/7812).
+- Keep C4 open until the release-specific evidence is linked and authorized review is recorded.
 - Next quarterly review: Q4 2026.
