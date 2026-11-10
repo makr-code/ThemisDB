@@ -48,6 +48,18 @@ directory exists. The round-trip regression models a Windows-form workspace and
 executes real archive/extract commands with spaced paths, while retaining
 identity-mismatch and missing-artifact rejection.
 
+Attempt 2 of the same run, [job `129791530083`](https://github.com/makr-code/ThemisDB/actions/runs/42768142107/job/129791530083),
+repeated this failure: artifact download succeeded, but the executed workflow
+still passed `"$GITHUB_WORKSPACE/.cache"` directly to `tar -C`, which exited with
+code 2 (`Cannot open: No such file or directory`). Configuration, compilation,
+and CTest were skipped; the subsequent missing CTest evidence is a consequence,
+not the root cause. The current workflow already normalizes the workspace and
+creates the extraction directory. All 28 Windows dependency preparation tests
+passed locally on 2026-11-10, including the archive round trip. Start a new
+mainline run from a revision containing the corrected reusable workflow; another
+failed-job rerun of this old run does not pick up that workflow fix. Native
+Windows validation of the corrected workflow remains pending.
+
 ## MSVC monitoring route translation-unit split
 
 Run `42638257654`, job `129343673144` failed with VS18 MSVC 14.51 `C1060` at
