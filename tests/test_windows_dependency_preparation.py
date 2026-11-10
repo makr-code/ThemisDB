@@ -223,11 +223,12 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
         self.assertNotIn("fingerprint", save["if"], "even unchanged restores need a new complete key")
         self.assertEqual(save["uses"], "actions/cache/save@v5")
         self.assertEqual(save["timeout-minutes"], 30)
+        self.assertTrue(save["continue-on-error"], "optional cache publication must not block artifact handoff")
         self.assertEqual(prepare["timeout-minutes"], 305)
         self.assertFalse(save["with"]["enableCrossOsArchive"])
         complete = self.named("Confirm completed dependency snapshot")
         self.assertIn("steps.dependency_prepare.outcome == 'success'", complete["if"])
-        self.assertIn("steps.dependency_save.outcome == 'success'", complete["if"])
+        self.assertIn("steps.dependency_upload.outcome == 'success'", complete["if"])
         for name in ["Configure", "Build", "Validation"]:
             self.assertIn("inputs.windows_dependency_mode != 'prepare'", self.named(name)["if"])
 
@@ -482,14 +483,96 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
     def test_consume_fails_closed_without_successful_prerequisite(self):
         gate = self.named("Validate dependency mode and start job budget")
         with tempfile.TemporaryDirectory() as temp:
+            for key, artifact, error in [
+                ("", "", "prerequisite incomplete"),
+                ("completed-key", "", "artifact unavailable"),
+            ]:
+                with self.subTest(key=key, artifact=artifact):
+                    result = subprocess.run(
+                        ["bash", "-euo", "pipefail", "-c", gate["run"]],
+                        env={**os.environ, "DEPENDENCY_MODE": "consume", "DEPENDENCY_CACHE_KEY": key,
+                             "DEPENDENCY_ARTIFACT_ID": artifact,
+                             "RUNNER_OS": "Windows", "GITHUB_ENV": str(Path(temp) / "env")},
+                        text=True, capture_output=True,
+                    )
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertIn(error, result.stdout)
+
+    def test_completed_snapshot_uses_artifact_id_across_failed_job_reruns(self):
+        upload = self.named("Upload completed Windows dependency snapshot")
+        download = self.named("Download completed Windows dependency snapshot")
+        complete = self.named("Confirm completed dependency snapshot")
+        self.assertEqual(upload["uses"], "actions/upload-artifact@v5")
+        self.assertEqual(upload["with"]["if-no-files-found"], "error")
+        self.assertEqual(upload["with"]["compression-level"], 0)
+        self.assertEqual(upload["with"]["retention-days"], 30)
+        self.assertIn("github.run_attempt", upload["with"]["name"])
+        self.assertIn("steps.dependency_prepare.outcome == 'success'", upload["if"])
+        self.assertLess(self.steps.index(upload), self.steps.index(complete))
+        outputs = self.pipeline["jobs"]["build"]["outputs"]
+        self.assertEqual(outputs["dependency-artifact-id"], "${{ steps.dependency_upload.outputs.artifact-id }}")
+        self.assertEqual(download["uses"], "actions/download-artifact@v5")
+        self.assertEqual(download["with"]["artifact-ids"], "${{ inputs.dependency_artifact_id }}")
+        self.assertTrue(download["with"]["merge-multiple"])
+        self.assertNotIn("github.run_attempt", str(download))
+        self.assertNotIn("continue-on-error", download)
+        self.assertEqual(self.named("Restore CMake build caches")["if"], "inputs.windows_dependency_mode != 'consume'")
+        consumer = self.release["jobs"]["release-platform-matrix"]
+        self.assertIn("windows-dependencies", consumer["needs"])
+        self.assertIn("needs.windows-dependencies.outputs.dependency-artifact-id",
+                      consumer["with"]["dependency_artifact_id"])
+
+    def test_completed_snapshot_round_trip_without_actions_cache(self):
+        archive = self.named("Archive completed Windows dependency snapshot")
+        restore = self.named("Restore completed Windows dependency snapshot")
+        with tempfile.TemporaryDirectory(prefix="dependency artifact ") as temp:
+            directory = Path(temp)
+            producer = directory / "producer"
+            consumer = directory / "consumer"
+            download = directory / "windows-dependencies"
+            download.mkdir()
+            tag = "Windows-x64-msvc-x64-windows-release-deps-v2"
+            files = {
+                f"sccache-{tag}/.hidden": b"compiler cache",
+                f"vcpkg-downloads/{tag}/source archive.tar.gz": b"source download",
+                f"vcpkg-binary/{tag}/package.zip": b"completed binary",
+            }
+            for name, content in files.items():
+                path = producer / ".cache" / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(content)
+            (consumer / ".cache").mkdir(parents=True)
+            env = {**os.environ, "RUNNER_TEMP": temp, "THEMIS_CACHE_TAG": tag,
+                   "GITHUB_ENV": str(directory / "env"), "CACHE_HIT": "",
+                   "CACHE_MATCHED_KEY": "", "CACHE_EXPECTED_PREFIX": "identity-snapshot-",
+                   "DEPENDENCY_CACHE_KEY": "identity-snapshot-run-1-prepare"}
             result = subprocess.run(
-                ["bash", "-euo", "pipefail", "-c", gate["run"]],
-                env={**os.environ, "DEPENDENCY_MODE": "consume", "DEPENDENCY_CACHE_KEY": "",
-                     "RUNNER_OS": "Windows", "GITHUB_ENV": str(Path(temp) / "env")},
-                text=True, capture_output=True,
+                ["bash", "-euo", "pipefail", "-c", archive["run"]],
+                env={**env, "GITHUB_WORKSPACE": str(producer)}, text=True, capture_output=True,
             )
-            self.assertNotEqual(result.returncode, 0)
-            self.assertIn("prerequisite incomplete", result.stdout)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            (directory / "windows-dependencies.tar").rename(download / "windows-dependencies.tar")
+            for identity, available, success in [
+                ("wrong-toolchain-snapshot-run-1-prepare", True, False),
+                ("identity-snapshot-run-1-prepare", False, False),
+                ("identity-snapshot-run-1-prepare", True, True),
+            ]:
+                with self.subTest(identity=identity, available=available):
+                    artifact = download / "windows-dependencies.tar"
+                    if not available:
+                        artifact.rename(download / "missing.tar")
+                    result = subprocess.run(
+                        ["bash", "-euo", "pipefail", "-c", restore["run"]],
+                        env={**env, "GITHUB_WORKSPACE": str(consumer),
+                             "DEPENDENCY_CACHE_KEY": identity}, text=True, capture_output=True,
+                    )
+                    self.assertEqual(result.returncode == 0, success, result.stderr)
+                    self.assertEqual((directory / "env").exists(), success)
+                    if not available:
+                        (download / "missing.tar").rename(artifact)
+            for name, content in files.items():
+                self.assertEqual((consumer / ".cache" / name).read_bytes(), content)
+            self.assertIn("--only-binarycaching", (directory / "env").read_text())
 
     def test_windows_bootstrap_retries_are_bounded_and_fail_closed(self):
         result, values = self.plan("windows-amd64-only")
@@ -535,29 +618,24 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
                 self.assertEqual("setup continued" in lines, status == 0)
                 self.assertEqual("failed after 3 attempts" in result.stdout, status != 0)
 
-    def test_cache_diagnostics_distinguish_exact_prefix_and_none_and_enforce_exact_consume(self):
+    def test_cache_diagnostics_distinguish_exact_prefix_and_none(self):
         script = self.named("Print initial cache hit state")["run"]
         with tempfile.TemporaryDirectory() as temp:
-            for mode, hit, matched, state, status in [
-                ("prepare", "true", "key", "exact-match", 0),
-                ("prepare", "false", "older", "prefix-restored", 0),
-                ("prepare", "", "", "no-cache", 0),
-                ("consume", "false", "older", "prefix-restored", 1),
-                ("consume", "true", "key", "exact-match", 0),
-                ("consume", "true", "wrong-source", "exact-match", 1),
+            for hit, matched, state in [
+                ("true", "key", "exact-match"),
+                ("false", "older", "prefix-restored"),
+                ("", "", "no-cache"),
             ]:
-                with self.subTest(mode=mode, state=state):
+                with self.subTest(state=state):
                     result = subprocess.run(
-                        ["bash", "-c", script.replace("${{ inputs.windows_dependency_mode }}", mode)],
+                        ["bash", "-c", script],
                         env={**os.environ, "CACHE_HIT": hit, "CACHE_MATCHED_KEY": matched,
-                             "CACHE_EXPECTED_PREFIX": "key",
                              "GITHUB_ENV": str(Path(temp) / "env")},
                         text=True, capture_output=True,
                     )
-                    self.assertEqual(result.returncode, status, result.stderr)
+                    self.assertEqual(result.returncode, 0, result.stderr)
                     self.assertIn(state, result.stdout)
                     self.assertIn(f"matched key: {matched}", result.stdout)
-            self.assertIn("--only-binarycaching", (Path(temp) / "env").read_text())
 
     def test_cache_identity_paths_and_build_tree_are_isolated_and_native_safe(self):
         init = self.named("Initialize compiler and dependency cache environment")["run"]
