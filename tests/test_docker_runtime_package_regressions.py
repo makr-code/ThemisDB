@@ -179,6 +179,23 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
                     "Build a source revision containing this package fix.",
                 )
 
+    def test_compose_base_installs_python_autoreconf_prerequisites(self) -> None:
+        compose = (REPO_ROOT / "docker-compose.yml").read_text(encoding="utf-8")
+        self.assertIn("dockerfile: Dockerfile", compose)
+
+        dockerfile = (REPO_ROOT / "Dockerfile").read_text(encoding="utf-8")
+        base = extract_stage(dockerfile, "base")
+        bootstrap = base.index("${VCPKG_ROOT}/bootstrap-vcpkg.sh")
+        packages = extract_installed_packages(base[:bootstrap], "base")
+        for package in ("autoconf", "automake", "autoconf-archive", "pkg-config"):
+            with self.subTest(package=package):
+                self.assertIn(
+                    package,
+                    packages,
+                    "The Compose build must install Python autoreconf prerequisites "
+                    "before vcpkg bootstrap.",
+                )
+
     def test_base_configures_bounded_apt_retries_before_update(self) -> None:
         base = extract_stage(self._dockerfile_text(), "base")
         retry_config = r"""printf '%s\n' 'Acquire::Retries "3";' > /etc/apt/apt.conf.d/80-retries"""
