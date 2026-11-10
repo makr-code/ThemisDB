@@ -285,6 +285,23 @@ public:
         float learning_rate,
         float max_gradient_norm = 1.0f);
 
+    /**
+     * @brief Train the same causal-LM objective with per-token sample weights.
+     * @param sample_weights One positive finite weight per token row.
+     * @param batch_size Number of token positions.
+     * @return Weighted mean next-token cross-entropy and pre-clipping gradient norm.
+     * @throws std::invalid_argument if sample_weights does not match batch_size or contains
+     *         a non-positive/non-finite value; all other constraints match trainCausalLmBatch().
+     */
+    [[nodiscard]] AdaLoRATrainStepResult trainCausalLmBatch(
+        const std::vector<float>& input,
+        const std::vector<float>& base_logits,
+        const std::vector<size_t>& target_token_ids,
+        const std::vector<float>& sample_weights,
+        size_t batch_size,
+        float learning_rate,
+        float max_gradient_norm = 1.0f);
+
     // -------------------------------------------------------------------------
     // Configuration
     // -------------------------------------------------------------------------

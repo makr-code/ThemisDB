@@ -22,6 +22,13 @@
 #include <system_error>
 #include <vector>
 
+#ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#endif
+
 namespace themis::training {
 namespace {
 
@@ -33,6 +40,25 @@ struct PreparedSample {
     std::vector<int> target_tokens;
     float weight = 1.0f;
 };
+
+void atomicallyReplaceFile(const std::filesystem::path& temporary,
+                           const std::filesystem::path& destination) {
+#ifdef _WIN32
+    const BOOL replaced = std::filesystem::exists(destination)
+        ? ReplaceFileW(destination.c_str(), temporary.c_str(), nullptr, REPLACEFILE_WRITE_THROUGH, nullptr, nullptr)
+        : MoveFileExW(temporary.c_str(), destination.c_str(), MOVEFILE_WRITE_THROUGH);
+    if (!replaced) {
+        throw std::runtime_error("Failed to atomically publish checkpoint: " +
+                                 std::to_string(GetLastError()));
+    }
+#else
+    std::error_code error;
+    std::filesystem::rename(temporary, destination, error);
+    if (error) {
+        throw std::runtime_error("Failed to atomically publish checkpoint: " + error.message());
+    }
+#endif
+}
 
 std::string makePrompt(const llm::TrainingDataIterator::TrainingSample& sample) {
     std::string prompt = sample.instruction;
@@ -87,15 +113,14 @@ void writeAdapterGGUF(const AdaLoRAAdapter& adapter,
     size_t vocabulary_offset = 0;
     for (const auto& layer_stats : stats) {
         const auto [b_internal, a_internal] = adapter.getWeights(layer_stats.layer_name);
-        if (b_internal.size() != hidden_size * layer_stats.max_rank ||
-            a_internal.size() != layer_stats.max_rank * layer_stats.max_rank /* replaced below */) {
-            const size_t expected_a = layer_stats.max_rank * (vocabulary_size / stats.size());
-            if (b_internal.size() != hidden_size * layer_stats.max_rank || a_internal.size() < expected_a) {
-                throw std::runtime_error("AdaLoRA output-shard weight shape does not match model dimensions");
-            }
+        if (layer_stats.max_rank == 0 ||
+            b_internal.size() != hidden_size * layer_stats.max_rank ||
+            a_internal.size() % layer_stats.max_rank != 0) {
+            throw std::runtime_error("AdaLoRA output-shard weight shape does not match model dimensions");
         }
         const size_t shard_vocabulary = a_internal.size() / layer_stats.max_rank;
-        if (shard_vocabulary == 0 || vocabulary_offset > vocabulary_size - shard_vocabulary) {
+        if (shard_vocabulary == 0 || shard_vocabulary > vocabulary_size ||
+            vocabulary_offset > vocabulary_size - shard_vocabulary) {
             throw std::runtime_error("AdaLoRA output shard is outside the model vocabulary");
         }
         for (size_t component = 0; component < layer_stats.active_rank; ++component) {
@@ -302,6 +327,10 @@ AdaLoRATrainingResult AdaLoRATrainingPipeline::train(
                 throw std::runtime_error("AdaLoRA checkpoint shard count does not match current model");
             }
         }
+        const auto initial_allocation = adapter.reallocateRanks(config.rank_budget);
+        if (!initial_allocation.success || initial_allocation.total_active_rank != config.rank_budget) {
+            throw std::runtime_error("Could not apply the configured initial AdaLoRA rank budget");
+        }
 
         float loss_sum = 0.0f;
         size_t reallocation_step = 0;
@@ -327,8 +356,9 @@ AdaLoRATrainingResult AdaLoRATrainingPipeline::train(
                     targets[row] = static_cast<size_t>(tokens[target_begin + row]);
                 }
                 const auto step = adapter.trainCausalLmBatch(
-                    features, base_logits, targets, target_rows,
-                    config.learning_rate * sample.weight, config.max_gradient_norm);
+                    features, base_logits, targets,
+                    std::vector<float>(target_rows, sample.weight), target_rows,
+                    config.learning_rate, config.max_gradient_norm);
                 loss_sum += step.loss * static_cast<float>(target_rows);
                 result.target_tokens_trained += target_rows;
                 ++result.samples_trained;
@@ -341,11 +371,15 @@ AdaLoRATrainingResult AdaLoRATrainingPipeline::train(
                 }
             }
             if (!config.checkpoint_path.empty()) {
-                const auto checkpoint_parent = std::filesystem::path(config.checkpoint_path).parent_path();
+                const std::filesystem::path checkpoint_path(config.checkpoint_path);
+                const auto checkpoint_parent = checkpoint_path.parent_path();
                 if (!checkpoint_parent.empty()) {
                     std::filesystem::create_directories(checkpoint_parent);
                 }
-                adapter.saveToFile(config.checkpoint_path, result.model_fingerprint);
+                auto temporary_checkpoint = checkpoint_path;
+                temporary_checkpoint += ".tmp";
+                adapter.saveToFile(temporary_checkpoint.string(), result.model_fingerprint);
+                atomicallyReplaceFile(temporary_checkpoint, checkpoint_path);
             }
         }
         if (result.target_tokens_trained == 0) {

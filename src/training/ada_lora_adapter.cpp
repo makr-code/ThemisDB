@@ -495,6 +495,7 @@ public:
         const std::vector<float>& input,
         const std::vector<float>& base_logits,
         const std::vector<size_t>& target_token_ids,
+        const std::vector<float>& sample_weights,
         size_t batch_size,
         float learning_rate,
         float max_gradient_norm) {
@@ -520,7 +521,8 @@ public:
             batch_size > std::numeric_limits<size_t>::max() / vocabulary_size ||
             input.size() != batch_size * input_dim ||
             base_logits.size() != batch_size * vocabulary_size ||
-            target_token_ids.size() != batch_size) {
+            target_token_ids.size() != batch_size ||
+            (!sample_weights.empty() && sample_weights.size() != batch_size)) {
             throw std::invalid_argument("AdaLoRAAdapter::trainCausalLmBatch: batch shape mismatch");
         }
         const auto all_finite = [](const std::vector<float>& values) {
@@ -535,6 +537,17 @@ public:
                         [vocabulary_size](size_t token) { return token >= vocabulary_size; })) {
             throw std::invalid_argument("AdaLoRAAdapter::trainCausalLmBatch: target token is outside vocabulary");
         }
+        double weight_sum = 0.0;
+        if (sample_weights.empty()) {
+            weight_sum = static_cast<double>(batch_size);
+        } else {
+            for (const float weight : sample_weights) {
+                if (!std::isfinite(weight) || weight <= 0.0f) {
+                    throw std::invalid_argument("AdaLoRAAdapter::trainCausalLmBatch: sample weights must be positive and finite");
+                }
+                weight_sum += weight;
+            }
+        }
 
         std::vector<std::vector<float>> grad_a;
         std::vector<std::vector<float>> grad_b;
@@ -548,7 +561,6 @@ public:
 
         AdaLoRATrainStepResult result;
         result.sample_count = batch_size;
-        const float batch_scale = 1.0f / static_cast<float>(batch_size);
         std::vector<float> logits(vocabulary_size);
         std::vector<std::vector<float>> hidden(insertion_order_.size());
         std::vector<size_t> shard_offsets(insertion_order_.size());
@@ -583,6 +595,8 @@ public:
             }
 
             const float max_logit = *std::max_element(logits.begin(), logits.end());
+            const float row_weight = sample_weights.empty() ? 1.0f : sample_weights[row];
+            const float batch_scale = static_cast<float>(static_cast<double>(row_weight) / weight_sum);
             double exp_sum = 0.0;
             for (const float logit : logits) {
                 exp_sum += std::exp(static_cast<double>(logit - max_logit));
@@ -840,7 +854,20 @@ AdaLoRATrainStepResult AdaLoRAAdapter::trainCausalLmBatch(
     float learning_rate,
     float max_gradient_norm) {
     return impl_->trainCausalLmBatch(
-        input, base_logits, target_token_ids, batch_size, learning_rate, max_gradient_norm);
+        input, base_logits, target_token_ids, {}, batch_size, learning_rate, max_gradient_norm);
+}
+
+AdaLoRATrainStepResult AdaLoRAAdapter::trainCausalLmBatch(
+    const std::vector<float>& input,
+    const std::vector<float>& base_logits,
+    const std::vector<size_t>& target_token_ids,
+    const std::vector<float>& sample_weights,
+    size_t batch_size,
+    float learning_rate,
+    float max_gradient_norm) {
+    return impl_->trainCausalLmBatch(
+        input, base_logits, target_token_ids, sample_weights,
+        batch_size, learning_rate, max_gradient_norm);
 }
 
 size_t AdaLoRAAdapter::rankBudget() const {
