@@ -25,6 +25,12 @@ namespace themis::llm {
 
 namespace {
 
+/// Stable error code reported when a pipeline reaches the generation step but
+/// no ILLMPlugin has been attached via AIOrchestrator::setLLMPlugin().
+constexpr const char* kLlmNotConfiguredError =
+    "llm_not_configured: no LLM generator plugin attached "
+    "(call AIOrchestrator::setLLMPlugin())";
+
 [[nodiscard]] std::string classifyAdapterApplyError(const std::string& error_code) {
     if (error_code == "none") {
         return "none";
@@ -1015,10 +1021,12 @@ OrchestratorResult AIOrchestrator::runAsk(const OrchestratorContext& ctx,
     auto t_start = std::chrono::steady_clock::now();
 
     if (!impl_->plugin) {
-        // No plugin: return query echoed (useful for testing)
-        result.success           = true;
-        result.text              = "[LLM not configured] Query received: " + ctx.query;
+        // No generator attached: report an explicit failure instead of a
+        // fabricated answer so callers never mistake it for model output.
+        result.success           = false;
+        result.error             = kLlmNotConfiguredError;
         result.metadata.tokens_generated = 0;
+        result.metadata.extra["generation_status"] = "llm_not_configured";
 
         auto t_end = std::chrono::steady_clock::now();
         result.metadata.latency.llm_ms =
@@ -1491,9 +1499,11 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
 
     // Step 2: LLM generation with assembled context
     if (!impl_->plugin) {
-        result.success = true;
-        result.text    = "[LLM not configured] RAG pipeline: retrieved " +
-                         std::to_string(docs.size()) + " doc(s) for: " + ctx.query;
+        // Retrieval/adapter metadata above stays populated for diagnostics, but
+        // no answer text is produced without a real generator.
+        result.success = false;
+        result.error   = kLlmNotConfiguredError;
+        result.metadata.extra["generation_status"] = "llm_not_configured";
 
         auto t_end = std::chrono::steady_clock::now();
         result.metadata.latency.total_ms =

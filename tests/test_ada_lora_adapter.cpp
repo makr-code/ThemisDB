@@ -303,6 +303,78 @@ TEST(AdaLoRAAdapterTest, ForwardUnknownLayerThrows) {
     EXPECT_THROW(ada.forward("nope", {1.0f}, 1), std::out_of_range);
 }
 
+TEST(AdaLoRAAdapterTest, TrainBatchReducesSupervisedResidualLoss) {
+    AdaLoRAAdapter adapter(1, 1.0f, 1);
+    adapter.addLayer("projection", 1, 1, 1, 1.0f);
+    adapter.setWeights("projection", {1.0f}, {0.0f});
+
+    const std::vector<float> activations = {1.0f, 2.0f, 3.0f};
+    const std::vector<float> targets = {2.0f, 4.0f, 6.0f};
+    const auto initial = adapter.trainBatch("projection", activations, targets, 3, 0.01f);
+
+    auto latest = initial;
+    for (size_t step = 0; step < 200; ++step) {
+        latest = adapter.trainBatch("projection", activations, targets, 3, 0.01f);
+    }
+
+    EXPECT_EQ(initial.sample_count, 3u);
+    EXPECT_GT(initial.gradient_norm, 0.0f);
+    EXPECT_LT(latest.loss, initial.loss);
+    EXPECT_GT(adapter.getImportance("projection"), 0.0f);
+}
+
+TEST(AdaLoRAAdapterTest, TrainBatchRejectsInvalidShapesAndLearningRate) {
+    AdaLoRAAdapter adapter(1, 1.0f, 1);
+    adapter.addLayer("projection", 1, 1, 1, 1.0f);
+
+    EXPECT_THROW(static_cast<void>(adapter.trainBatch("projection", {1.0f}, {1.0f}, 0, 0.01f)),
+                 std::invalid_argument);
+    EXPECT_THROW(static_cast<void>(adapter.trainBatch("projection", {1.0f, 2.0f}, {1.0f}, 1, 0.01f)),
+                 std::invalid_argument);
+    EXPECT_THROW(static_cast<void>(adapter.trainBatch("projection", {1.0f}, {1.0f}, 1, 0.0f)),
+                 std::invalid_argument);
+}
+
+TEST(AdaLoRAAdapterTest, CausalLmBatchReducesCrossEntropyAndReallocatesRanks) {
+    AdaLoRAAdapter adapter(2, 2.0f, 4);
+    adapter.addLayer("output_shard_0", 1, 1, 2, 2.0f);
+    adapter.addLayer("output_shard_1", 1, 1, 2, 2.0f);
+
+    const std::vector<float> hidden_states = {1.0f, 1.0f, -1.0f, -1.0f};
+    const std::vector<float> base_logits(8, 0.0f);
+    const std::vector<size_t> targets = {0, 0, 1, 1};
+    const auto initial = adapter.trainCausalLmBatch(
+        hidden_states, base_logits, targets, 4, 0.05f);
+
+    auto latest = initial;
+    for (size_t step = 0; step < 300; ++step) {
+        latest = adapter.trainCausalLmBatch(
+            hidden_states, base_logits, targets, 4, 0.05f);
+    }
+
+    EXPECT_NEAR(initial.loss, std::log(2.0f), 1e-5f);
+    EXPECT_GT(initial.gradient_norm, 0.0f);
+    EXPECT_LT(latest.loss, initial.loss);
+    EXPECT_GT(adapter.getImportance("output_shard_0"), 0.0f);
+    EXPECT_GT(adapter.getImportance("output_shard_1"), 0.0f);
+
+    const auto allocation = adapter.reallocateRanks(3);
+    EXPECT_TRUE(allocation.success);
+    EXPECT_EQ(allocation.total_active_rank, 3u);
+}
+
+TEST(AdaLoRAAdapterTest, CausalLmBatchRejectsInvalidTargetsAndNonFiniteInputs) {
+    AdaLoRAAdapter adapter(1, 1.0f, 1);
+    adapter.addLayer("output_shard", 1, 2, 1, 1.0f);
+
+    EXPECT_THROW(static_cast<void>(adapter.trainCausalLmBatch(
+                     {1.0f}, {0.0f, 0.0f}, {2}, 1, 0.01f)),
+                 std::invalid_argument);
+    EXPECT_THROW(static_cast<void>(adapter.trainCausalLmBatch(
+                     {std::numeric_limits<float>::quiet_NaN()}, {0.0f, 0.0f}, {0}, 1, 0.01f)),
+                 std::invalid_argument);
+}
+
 // ============================================================================
 // Layer stats and parameter count
 // ============================================================================

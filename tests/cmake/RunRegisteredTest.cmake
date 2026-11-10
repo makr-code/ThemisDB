@@ -238,6 +238,15 @@ if(NOT _test_rc EQUAL 0)
     )
 endif()
 
+if("$ENV{THEMIS_CTEST_STRICT_EVIDENCE}" STREQUAL "1")
+    string(REGEX MATCH "\\[[ ]*SKIPPED[ ]*\\]" _skipped_test_match "${_test_output}")
+    if(_zero_test_match OR _skipped_test_match)
+        message(FATAL_ERROR
+            "[ctest-policy] Strict evidence rejects empty or skipped test cases for '${TARGET_NAME}'.\n"
+            "Output:\n${_test_output}")
+    endif()
+endif()
+
 if(_zero_test_match)
     message(STATUS
         "[ctest-policy] Test target '${TARGET_NAME}' completed successfully but registered no test cases; treating as a skipped placeholder target.\n"

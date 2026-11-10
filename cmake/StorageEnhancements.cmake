@@ -61,6 +61,7 @@ list(APPEND THEMIS_CORE_SOURCES
     # MVCC versioning and HLC timestamping (required for history/conflict layer)
     ../src/storage/hlc.cpp
     ../src/storage/mvcc_store.cpp
+    ../src/storage/mvcc_snapshot_pins.cpp
 
     # Atomic history and conflict layer
     ../src/storage/history_manager.cpp

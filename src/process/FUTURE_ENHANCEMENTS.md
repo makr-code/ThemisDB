@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-01
+Last Updated: 2026-11-10
 Status: review
 Source_Level: level 1
 SOT_Domain: module-behavior
@@ -41,7 +41,7 @@ Track implementation and verification work that is not proven complete by curren
 
 ### Implementation Notes
 
-1. **Retrieval budgets:** Wire and test enforcement for `ProcessLightRetriever::ResourceLimits`; its current `retrieve()` path does not call the budget helpers.
+1. **Retrieval budgets:** `ProcessLightRetriever::retrieve()` now caps returned context bytes, GLOBAL report count, LOCAL prompt lines, and LOCAL traversal depth and reports elapsed time/returned bytes. The synchronous timeout check is post-operation and cannot cancel dependencies. Run the new production-class budget tests in a configured build before closing this item.
 2. **Orchestration state safety:** Decide whether activation/rollback need transactional semantics; current registry writes profile and active-domain state separately.
 3. **Audit correctness and durability:** Replace or verify simplified in-memory persistence and placeholder delta encoding before relying on audit history, integrity, or temporal reconstruction.
 4. **Telemetry interoperability:** Verify trace-context parsing/serialization and collector transport. Current export is simplified and logs the endpoint rather than demonstrating a real exporter.
@@ -51,7 +51,7 @@ Track implementation and verification work that is not proven complete by curren
 
 ### Test Strategy
 
-- Use `tests/process/test_process_light_retriever.cpp` for mode and fallback behavior; add focused cases for budget enforcement when implemented.
+- Use `tests/process/test_process_light_retriever.cpp` for mode/fallback behavior, byte/result/depth caps, metrics, and best-effort timeout reporting; retain the configured test result.
 - Use `tests/process/test_process_orchestration_registry.cpp` for profile transitions and invariants; add failure-injection coverage if atomic/recovery behavior changes.
 - Confirm each test target and actual result from the configured build; registration is not a pass.
 
@@ -61,7 +61,7 @@ The performance comparator currently has zero Process expectation rows. Four num
 
 ### Security / Reliability
 
-Do not treat the current simplified audit persistence, telemetry export, federation implementations, or unenforced retrieval budgets as guarantees. Verify authorization, privacy, transport security, and recovery in the owning deployment components.
+Do not treat the current simplified audit persistence, telemetry export, federation implementations, or retrieval timeout as guarantees of durability, external delivery, federation safety, or hard return latency. Verify authorization, privacy, transport security, and recovery in the owning deployment components.
 
 ## Source inventory note
 

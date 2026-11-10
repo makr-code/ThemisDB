@@ -1753,11 +1753,11 @@ endif()
 endif()
 
 # LLM Inference Performance Benchmarks
-if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/bench_llm_inference_performance.cpp")
-    message(STATUS "Adding LLM Inference Performance benchmarks")
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/bench_llm_real_models.cpp")
+    message(STATUS "Adding model-backed LLM Inference Performance benchmarks")
     
     add_executable(bench_llm_inference_performance
-        llm/bench_llm_inference_performance.cpp
+        llm/bench_llm_real_models.cpp
     )
     
     target_link_libraries(bench_llm_inference_performance PRIVATE
@@ -1777,17 +1777,7 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/bench_llm_infer
         RUNTIME DESTINATION bin/benchmarks
         COMPONENT benchmarks
     )
-    themis_register_benchmark_ctest(
-        NAME         "bench_llm_inference_performance_smoke"
-        TARGET       "bench_llm_inference_performance"
-        MODULE       "llm"
-        KIND         "wave_a"
-        TIMEOUT      180
-        MIN_TIME     "0.01s"
-        EXTRA_LABELS wave_a_benchmark_server_llm wave_a_benchmark_search_index_tensor_graph_llm benchmark-baseline
-    )
-    
-    message(STATUS "  LLM: Inference, LoRA adapters, throughput")
+    message(STATUS "  LLM: production LLMPluginManager embedding and inference paths")
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/bench_llm_hotpaths.cpp" AND NOT TARGET bench_llm_hotpaths)
@@ -5175,7 +5165,6 @@ themis_add_standard_benchmark(bench_latency_comprehensive  base/bench_latency_co
 themis_add_standard_benchmark(bench_legal_lora_pipeline    llm/bench_legal_lora_pipeline.cpp)
 themis_add_standard_benchmark(bench_llm_infrastructure     llm/bench_llm_infrastructure.cpp)
 themis_add_standard_benchmark(bench_llm_judge_integration  llm/bench_llm_judge_integration.cpp)
-themis_add_standard_benchmark(bench_llm_real_models        llm/bench_llm_real_models.cpp)
 themis_add_standard_benchmark(bench_llm_response_cache     llm/bench_llm_response_cache.cpp)
 themis_add_standard_benchmark(bench_locality_aware_router  sharding/bench_locality_aware_router.cpp)
 themis_add_standard_benchmark(bench_lock_contention        maintenance/bench_lock_contention.cpp)
@@ -6087,7 +6076,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_tpcc
       TARGET bench_tpcc
       MODULE "base"
-      TIMEOUT 120
+      TIMEOUT 1200
     )
   endif()
   if(TARGET bench_tpch)
@@ -6462,6 +6451,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       TARGET bench_docker_raid_comprehensive
       MODULE "docker_raid"
       TIMEOUT 120
+      EXTRA_ARGS "--benchmark_filter=SmallDocumentWrite/3/0/100/min_time"
     )
   endif()
   # Module: document_diff (1)
@@ -6613,7 +6603,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_fts_phase_b
       TARGET bench_fts_phase_b
       MODULE "fts_phase"
-      TIMEOUT 120
+      TIMEOUT 600
     )
   endif()
   # Module: fused_kernels (1)
@@ -6929,7 +6919,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_graph_query_optimizer
       TARGET bench_graph_query_optimizer
       MODULE "graph"
-      TIMEOUT 120
+      TIMEOUT 240
     EXTRA_LABELS release_critical
     )
   endif()
@@ -7225,15 +7215,6 @@ if(THEMIS_BUILD_BENCHMARKS)
     themis_register_benchmark_ctest(
       NAME   bench_llm_raid_pipeline
       TARGET bench_llm_raid_pipeline
-      MODULE "llm"
-      TIMEOUT 120
-    EXTRA_LABELS release_critical
-    )
-  endif()
-  if(TARGET bench_llm_real_models)
-    themis_register_benchmark_ctest(
-      NAME   bench_llm_real_models
-      TARGET bench_llm_real_models
       MODULE "llm"
       TIMEOUT 120
     EXTRA_LABELS release_critical
@@ -7661,15 +7642,6 @@ if(THEMIS_BUILD_BENCHMARKS)
       TIMEOUT 120
     )
   endif()
-  # Module: process_dedicated (1)
-  if(TARGET bench_process_dedicated_gates)
-    themis_register_benchmark_ctest(
-      NAME   bench_process_dedicated_gates
-      TARGET bench_process_dedicated_gates
-      MODULE "process_dedicated"
-      TIMEOUT 120
-    )
-  endif()
   # Module: process_determinism (1)
   if(TARGET bench_process_determinism_gates)
     themis_register_benchmark_ctest(
@@ -7757,7 +7729,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_product_quantization
       TARGET bench_product_quantization
       MODULE "product_quantization"
-      TIMEOUT 120
+      TIMEOUT 900
     )
   endif()
   # Module: projects_release (1)

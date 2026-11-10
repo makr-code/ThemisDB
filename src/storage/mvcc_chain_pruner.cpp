@@ -14,11 +14,13 @@
 //
 
 #include "storage/mvcc_chain_pruner.h"
+#include "storage/mvcc_snapshot_pins.h"
 #include "temporal/temporal_types.h"
 
 #include <algorithm>
 #include <cstdint>
 #include <iomanip>
+#include <shared_mutex>
 #include <sstream>
 #include <vector>
 
@@ -56,6 +58,17 @@ MVCCChainPruner::PruneStats MVCCChainPruner::pruneKey(
     PruneStats stats;
     stats.keys_scanned = 1;
 
+    // Snapshot-pin interlock: hold the pin registry's GC guard (shared) for
+    // the whole select → migrate → delete sequence of this key so that a
+    // concurrently acquired snapshot pin cannot be bypassed.
+    auto pins = mvcc_->snapshotPinRegistry();
+    std::shared_lock<std::shared_mutex> pin_guard;
+    std::vector<HLCTimestamp> pinned;
+    if (pins) {
+        pin_guard = pins->gcGuard();
+        pinned = pins->pinnedTimestamps();
+    }
+
     // 1. Collect all MVCC versions for this key in ascending timestamp order.
     struct RawVersion {
         HLCTimestamp         ts;
@@ -75,42 +88,36 @@ MVCCChainPruner::PruneStats MVCCChainPruner::pruneKey(
         return stats;
     }
 
-    // 2. Determine how many versions may be pruned.
-    //    Candidates: ts < gc_horizon AND not among the newest min_versions_to_keep.
+    // 2. Determine which versions may be pruned: ts < gc_horizon, not among
+    //    the newest min_versions_to_keep, and not visible at any pinned
+    //    snapshot timestamp (shared rule: MVCCStore::selectGcVictims).
     const uint32_t min_keep =
         (config.min_versions_to_keep > 0) ? config.min_versions_to_keep : 1;
-    const uint64_t max_deletable =
-        (total > min_keep) ? static_cast<uint64_t>(total - min_keep) : 0;
-
-    // Count how many versions are strictly below the horizon.
-    uint64_t eligible = 0;
+    std::vector<HLCTimestamp> chain_ts;
+    chain_ts.reserve(total);
     for (const auto& v : all_versions) {
-        if (v.ts < gc_horizon) {
-            ++eligible;
-        }
+        chain_ts.push_back(v.ts);
     }
-
-    // We can prune at most max_deletable, and at most eligible.
-    const uint64_t num_to_prune = std::min(eligible, max_deletable);
-    if (num_to_prune == 0) {
+    const auto victims = MVCCStore::selectGcVictims(chain_ts, gc_horizon, min_keep, pinned);
+    if (victims.empty()) {
         return stats;
     }
 
-    // 3. Migrate the pruneable versions into the TemporalTierManager, then
-    //    delete them from the MVCC store.
+    // 3. Migrate exactly the victim versions into the TemporalTierManager,
+    //    then delete exactly those from the MVCC store.
     //
     //    sys_time.start = this version's timestamp
-    //    sys_time.end   = next version's timestamp (open interval: the moment
-    //                     this version was superseded)
-    //                   = kMaxTimestamp for the very last version if it stays
-    //                     in MVCC (but that case is excluded by num_to_prune ≤
-    //                     max_deletable, so we always have a successor).
+    //    sys_time.end   = next version's timestamp (the moment this version
+    //                     was superseded).  Victims never include the last
+    //                     version (min_keep ≥ 1), so a successor always exists.
 
     std::string key_str(key);
+    std::vector<HLCTimestamp> victim_ts;
+    victim_ts.reserve(victims.size());
 
-    for (uint64_t i = 0; i < num_to_prune; ++i) {
+    for (size_t i : victims) {
         const auto& cur  = all_versions[i];
-        const auto& next = all_versions[i + 1];  // always safe: i < num_to_prune ≤ max_deletable ≤ total-1
+        const auto& next = all_versions[i + 1];  // safe: i < total - min_keep
 
         using namespace themisdb::temporal;
 
@@ -123,14 +130,11 @@ MVCCChainPruner::PruneStats MVCCChainPruner::pruneKey(
 
         tier_manager_->insert(config.table_name, doc);
         ++stats.versions_migrated;
+        victim_ts.push_back(cur.ts);
     }
 
-    // 4. Batch-delete the migrated versions from MVCC store in a single pass.
-    //    gcVersionsBefore honours min_versions_to_keep so at most num_to_prune
-    //    entries are removed.
-    MVCCStore::GCOptions gc_opts;
-    gc_opts.min_versions_to_keep = min_keep;
-    const uint64_t deleted = mvcc_->gcVersionsBefore(key, gc_horizon, gc_opts);
+    // 4. Delete the migrated versions (and only those) from the MVCC store.
+    const uint64_t deleted = mvcc_->deleteVersions(key, victim_ts);
     stats.versions_deleted = deleted;
 
     if (deleted > 0) {

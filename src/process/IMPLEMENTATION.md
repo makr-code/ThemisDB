@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-10
 Status: review
 Source_Level: level 1
 SOT_Domain: module-behavior
@@ -39,7 +39,7 @@ Human_Author: ThemisDB Team
 - Keep orchestration profile state separate from model lifecycle state. Preserve the requirement that persisted external profiles have `internal_rag_stage=true`.
 - Do not describe profile activation or rollback as transactional: activation persists profile state and active pointer through separate database writes, while `rollbackDomain()` calls `activateProfile()`.
 - Preserve explicit retrieval mode in returned results. GLOBAL can resolve to LOCAL when there is no usable community report.
-- Treat the `ProcessLightRetriever` resource-limit declarations carefully. Its header exposes limits and degradation-result helpers, but the current `retrieve()` implementation does not call the budget checks or `createDegradedResult()` and returns zero resource counters. The header's stated enforcement behavior is therefore not verified by that implementation.
+- `ProcessLightRetriever` measures elapsed time with a monotonic clock and reports the returned context's byte size. It caps context bytes on a UTF-8 boundary, caps GLOBAL reports and LOCAL prompt lines, and clamps LOCAL traversal depth. Timeout is only detected after synchronous dependencies return; it does not cancel them or guarantee a hard deadline.
 - Keep optional embedding generation and indexing optional. The model manager uses a caller-supplied embedder/index; do not add backend assumptions to the descriptor contract.
 
 ## Validation path
@@ -48,6 +48,7 @@ Use the closest existing tests for the changed seam:
 
 - Registry lifecycle and `internal_rag_stage`: [`test_process_orchestration_registry.cpp`](../../tests/process/test_process_orchestration_registry.cpp).
 - Retrieval mode/fallback: [`test_process_light_retriever.cpp`](../../tests/process/test_process_light_retriever.cpp).
+- Retrieval budgets: the same production-class test covers GLOBAL report/byte caps, UTF-8-safe truncation, LOCAL depth/line caps, metrics, and best-effort timeout reporting.
 - Retrieval edge scenarios: [`test_process_retriever_edge_focused.cpp`](../../tests/process/test_process_retriever_edge_focused.cpp). These tests use mock behavior for some resource cases and are not proof that `ProcessLightRetriever::retrieve()` enforces those budgets.
 - Model concurrency/determinism/diagnostics: [`test_process_concurrency_churn_focused.cpp`](../../tests/process/test_process_concurrency_churn_focused.cpp), [`test_process_determinism_conflict_focused.cpp`](../../tests/process/test_process_determinism_conflict_focused.cpp), and [`test_process_diagnostics_incident_focused.cpp`](../../tests/process/test_process_diagnostics_incident_focused.cpp).
 

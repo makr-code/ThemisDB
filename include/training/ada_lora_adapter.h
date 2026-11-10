@@ -23,41 +23,66 @@ namespace training {
  * @brief Per-layer rank allocation and importance score snapshot.
  */
 struct AdaLoRALayerStats {
-    std::string layer_name;     ///< Layer identifier
-    size_t      max_rank   = 0; ///< Maximum allowed rank for this layer
-    size_t      active_rank = 0;///< Currently active (unpruned) rank
-    float       importance = 0.0f; ///< Estimated importance score (higher = more important)
+    std::string layer_name;         ///< Layer identifier
+    size_t      max_rank    = 0;    ///< Maximum allowed rank for this layer
+    size_t      active_rank = 0;    ///< Currently active (unpruned) rank
+    float       importance  = 0.0f; ///< Mean triplet score over all max_rank triplets
+    float       alpha       = 0.0f; ///< LoRA alpha (scaling = alpha / max_rank)
 };
 
 /**
  * @brief Result of a rank-reallocation pass.
+ *
+ * Invalid budgets are reported via exceptions, so a returned result always
+ * has @c success == true.
  */
 struct ReallocResult {
-    bool success = true;           ///< Legacy compatibility flag
-    size_t total_active_rank = 0;   ///< Sum of active ranks after reallocation
+    bool success = true;            ///< Always true for a returned result
+    size_t total_active_rank = 0;   ///< Sum of active ranks after reallocation (== budget)
     size_t layers_pruned     = 0;   ///< Layers whose rank was reduced
     size_t layers_expanded   = 0;   ///< Layers whose rank was increased
 };
 
+/** @brief Result of one supervised AdaLoRA adapter update. */
+struct AdaLoRATrainStepResult {
+    float loss = 0.0f;          ///< Mean half-squared error before the update
+    float gradient_norm = 0.0f; ///< L2 norm of the active A/B gradients
+    size_t sample_count = 0;    ///< Number of feature rows processed
+};
+
 /**
- * @brief AdaLoRA adapter with importance-based rank pruning.
+ * @brief AdaLoRA adapter with importance-based rank allocation
+ *        (Zhang et al., ICLR 2023, arXiv:2303.10512).
+ *
+ * Each layer stores ΔW = B · A with B (in_dim × max_rank) and A
+ * (max_rank × out_dim).  Rank component i (column B[:,i], row A[i,:]) is one
+ * AdaLoRA triplet with P = B and Q = A.  The class does not hold a separate
+ * diagonal Λ (it is folded into the factors), therefore the triplet score is
+ *   S_i = mean_j s(B[j,i]) + mean_j s(A[i,j]),
+ * where s(w) = Ī(w) · Ū(w) is the smoothed sensitivity times its uncertainty,
+ * maintained by updateImportanceFromGradients().
+ *
+ * reallocateRanks() ranks all triplets globally, keeps exactly @c budget of
+ * them (at least one per layer), and reorders the rank components within
+ * each layer so that the active set is always the prefix [0, active_rank).
+ * The full-rank product B · A is invariant under this reordering.
  *
  * Usage:
  * @code
- * AdaLoRAAdapter ada(4, 8.0f, 128);  // default_rank=4, scale=8.0, total_rank_budget=128
+ * AdaLoRAAdapter ada(4, 8.0f, 128);
  * ada.addLayer("q_proj", 768, 768, 8);
  * ada.addLayer("v_proj", 768, 768, 8);
- * ada.addLayer("k_proj", 768, 768, 4);
+ * ada.setBudgetSchedule(16, 8, 100, 200);   // b(0)=16, b(T)=8, t_i=100, t_f=200
  *
- * // After a training step, update importance and reallocate:
- * ada.updateImportance("q_proj");
- * ada.updateImportance("v_proj");
- * ada.updateImportance("k_proj");
- * ada.reallocateRanks(20);  // total budget of 20
- *
- * // Forward pass using active rank only:
- * auto out = ada.forward("q_proj", input, batch_size);
+ * // Training loop, after backward() and before the optimiser step:
+ * ada.updateImportanceFromGradients("q_proj", grad_B_q, grad_A_q);
+ * ada.updateImportanceFromGradients("v_proj", grad_B_v, grad_A_v);
+ * ada.reallocateRanks(ada.budgetAt(step, total_steps));
+ * double reg = ada.orthogonalityPenalty("q_proj");   // R(P,Q)
  * @endcode
+ *
+ * Not thread-safe: an instance must not be shared between threads without
+ * external synchronisation.
  */
 class AdaLoRAAdapter {
 public:
@@ -121,11 +146,13 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Recompute the importance score for a layer.
+     * @brief Weight-magnitude fallback score (no gradients available).
      *
-     * Importance is estimated as the mean squared Frobenius norm of the rank-
-     * component contributions: sum_i( ||B[:,i]||^2 * ||A[i,:]||^2 ) / active_rank.
-     * This approximates the singular-value importance without a full SVD.
+     * Sets triplet score S_i = ||B[:,i]||² · ||A[i,:]||² for every one of the
+     * max_rank triplets.  This is a magnitude heuristic, NOT the AdaLoRA
+     * sensitivity score; use updateImportanceFromGradients() during training.
+     * Any previously accumulated sensitivity EMA state of the layer is kept
+     * but no longer used for ranking until the next gradient update.
      *
      * @param layer_name  Target layer
      * @throws std::out_of_range if the layer does not exist
@@ -133,27 +160,127 @@ public:
     void updateImportance(const std::string& layer_name);
 
     /**
-     * @brief Update importance for all registered layers.
+     * @brief Apply the magnitude fallback updateImportance() to all layers.
      */
     void updateAllImportances();
 
     /**
-     * @brief Reallocate rank budget across layers based on current importance scores.
+     * @brief AdaLoRA sensitivity-based importance update for one layer.
      *
-     * Distributes @p total_budget rank slots proportionally to each layer's
-     * normalised importance score, subject to [1, max_rank] per-layer bounds.
-     * Layers with zero importance receive rank 1 (minimum).
+     * For every element w of B and A (using the currently stored weights and
+     * the gradients of the loss w.r.t. them at the same step):
+     *   I(t) = |w · ∂L/∂w|
+     *   Ī(t) = β1 · Ī(t-1) + (1-β1) · I(t)
+     *   Ū(t) = β2 · Ū(t-1) + (1-β2) · |I(t) - Ī(t)|
+     *   s    = Ī(t) · Ū(t)
+     * and the triplet score becomes S_i = mean_j s(B[j,i]) + mean_j s(A[i,j]).
+     * Ī and Ū start at zero.  Call before the optimiser updates the weights.
      *
-     * @param total_budget  Global rank budget to distribute (> 0)
-     * @return ReallocResult describing the changes made
-     * @throws std::invalid_argument if total_budget is zero
+     * @param layer_name  Target layer
+     * @param grad_B      ∂L/∂B, same layout as B (in_dim × max_rank, row-major)
+     * @param grad_A      ∂L/∂A, same layout as A (max_rank × out_dim, row-major)
+     * @throws std::out_of_range     if the layer does not exist
+     * @throws std::invalid_argument on size mismatch or non-finite gradients
+     */
+    void updateImportanceFromGradients(const std::string&        layer_name,
+                                       const std::vector<float>& grad_B,
+                                       const std::vector<float>& grad_A);
+
+    /**
+     * @brief Configure the EMA coefficients for sensitivity smoothing.
+     * @param beta1  Sensitivity EMA coefficient β1, in [0, 1) (default 0.85)
+     * @param beta2  Uncertainty EMA coefficient β2, in [0, 1) (default 0.85)
+     * @throws std::invalid_argument if a coefficient is outside [0, 1)
+     */
+    void setSensitivityBetas(float beta1, float beta2);
+
+    /** @brief Current (β1, β2) EMA coefficients. */
+    std::pair<float, float> sensitivityBetas() const;
+
+    /**
+     * @brief Current per-triplet scores S_i of a layer (max_rank entries).
+     *
+     * Entry i corresponds to rank component i in the current physical order
+     * (entries [0, active_rank) are the active triplets).
+     * @throws std::out_of_range if the layer does not exist
+     */
+    std::vector<float> getTripletScores(const std::string& layer_name) const;
+
+    /**
+     * @brief Reallocate exactly @p total_budget ranks by global triplet ranking.
+     *
+     * Every layer keeps its best triplet (minimum rank 1); the remaining
+     * total_budget - layerCount() slots go to the highest-scoring remaining
+     * triplets across all layers, bounded by each layer's max_rank.  Ties are
+     * broken deterministically by (position within the layer ascending, layer
+     * insertion order ascending), which yields a round-robin distribution
+     * when all scores are equal.  Rank components are reordered within each
+     * layer (weights and score state together) so that the active triplets
+     * occupy indices [0, active_rank).
+     *
+     * @param total_budget  Total number of active ranks after the call
+     * @return ReallocResult with total_active_rank == total_budget
+     * @throws std::invalid_argument if total_budget < layerCount(),
+     *         total_budget > sum of max ranks, or total_budget == 0
      */
     ReallocResult reallocateRanks(size_t total_budget);
 
     /**
      * @brief Reallocate using the adapter's configured rank_budget.
+     * @throws std::invalid_argument under the same conditions as
+     *         reallocateRanks(size_t).
      */
     ReallocResult reallocateRanks();
+
+    // -------------------------------------------------------------------------
+    // Budget schedule and orthogonality regulariser
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Configure the cubic AdaLoRA budget schedule.
+     *
+     * @param initial_budget  b(0) (>= target_budget)
+     * @param target_budget   b(T) (> 0)
+     * @param warmup_steps    t_i: steps that keep b(0)
+     * @param final_steps     t_f: final steps that keep b(T)
+     * @throws std::invalid_argument if target_budget == 0 or
+     *         initial_budget < target_budget
+     */
+    void setBudgetSchedule(size_t initial_budget,
+                           size_t target_budget,
+                           size_t warmup_steps,
+                           size_t final_steps);
+
+    /**
+     * @brief Budget b(t) of the configured cubic schedule.
+     *
+     *   b(t) = b(0)                                                 t < t_i
+     *   b(t) = floor(b(T) + (b(0)-b(T)) · (1 - (t-t_i)/(T-t_i-t_f))³) t_i <= t < T-t_f
+     *   b(t) = b(T)                                                 otherwise
+     *
+     * @param step         Current step t
+     * @param total_steps  Total number of training steps T (> t_i + t_f)
+     * @throws std::logic_error      if no schedule was configured
+     * @throws std::invalid_argument if total_steps <= t_i + t_f
+     */
+    size_t budgetAt(size_t step, size_t total_steps) const;
+
+    /**
+     * @brief Orthogonality regulariser R(P,Q) = ||PᵀP − I||²_F + ||QQᵀ − I||²_F
+     *        for a layer, with P = B and Q = A over all max_rank components.
+     * @throws std::out_of_range if the layer does not exist
+     */
+    double orthogonalityPenalty(const std::string& layer_name) const;
+
+    /**
+     * @brief Gradients of R(P,Q) w.r.t. B and A.
+     *
+     * ∂R/∂B = 4 · B (BᵀB − I),  ∂R/∂A = 4 · (AAᵀ − I) A, returned in the
+     * same layouts as getWeights().
+     * @throws std::out_of_range if the layer does not exist
+     */
+    std::pair<std::vector<float>, std::vector<float>>
+    orthogonalityPenaltyGradients(const std::string& layer_name) const;
 
     // -------------------------------------------------------------------------
     // Rank and importance access
@@ -172,7 +299,7 @@ public:
     size_t getMaxRank(const std::string& layer_name) const;
 
     /**
-     * @brief Current importance score for a layer.
+     * @brief Mean triplet score of a layer over all max_rank triplets.
      * @throws std::out_of_range if the layer does not exist
      */
     float getImportance(const std::string& layer_name) const;
@@ -236,6 +363,65 @@ public:
                                const std::vector<float>& input,
                                size_t                    batch_size) const;
 
+    /**
+     * @brief Apply one supervised gradient-descent step to a layer's active LoRA factors.
+     * @param layer_name Registered projection layer to update.
+     * @param input Flat row-major frozen-model activations, shaped batch_size × in_dim.
+     * @param targets Flat row-major desired adapter residuals, shaped batch_size × out_dim.
+     * @param batch_size Number of feature rows; must be greater than zero.
+     * @param learning_rate Positive finite SGD learning rate.
+     * @return Mean half-squared error and gradient norm measured before the update.
+     * @throws std::out_of_range if layer_name is not registered.
+     * @throws std::invalid_argument if shapes do not match or learning_rate is invalid.
+     * @note This computes gradients for the AdaLoRA factors only; callers supply activations
+     *       and residual targets from their frozen base-model training backend.
+     */
+    [[nodiscard]] AdaLoRATrainStepResult trainBatch(
+        const std::string& layer_name,
+        const std::vector<float>& input,
+        const std::vector<float>& targets,
+        size_t batch_size,
+        float learning_rate);
+
+    /**
+     * @brief Train block-sharded output adapters with next-token cross-entropy.
+     * @param input Flat [batch_size, hidden_size] frozen-model final hidden states.
+     * @param base_logits Flat [batch_size, vocabulary_size] logits from the frozen model.
+     * @param target_token_ids One target token index per row in the concatenated output shards.
+     * @param batch_size Number of token positions; must be greater than zero.
+     * @param learning_rate Positive finite SGD learning rate.
+     * @param max_gradient_norm Positive finite global A/B gradient-norm ceiling.
+     * @return Mean next-token cross-entropy, pre-clipping gradient norm, and token count.
+     * @throws std::invalid_argument if shards, tensor shapes, token ids, or optimizer values are invalid.
+     * @note Registered layers partition the vocabulary dimension in insertion order. Their
+     *       LoRA deltas are concatenated into one output projection at serving/export time.
+     *       The frozen base model must produce the activations and base logits for each row.
+     */
+    [[nodiscard]] AdaLoRATrainStepResult trainCausalLmBatch(
+        const std::vector<float>& input,
+        const std::vector<float>& base_logits,
+        const std::vector<size_t>& target_token_ids,
+        size_t batch_size,
+        float learning_rate,
+        float max_gradient_norm = 1.0f);
+
+    /**
+     * @brief Train the same causal-LM objective with per-token sample weights.
+     * @param sample_weights One positive finite weight per token row.
+     * @param batch_size Number of token positions.
+     * @return Weighted mean next-token cross-entropy and pre-clipping gradient norm.
+     * @throws std::invalid_argument if sample_weights does not match batch_size or contains
+     *         a non-positive/non-finite value; all other constraints match trainCausalLmBatch().
+     */
+    [[nodiscard]] AdaLoRATrainStepResult trainCausalLmBatch(
+        const std::vector<float>& input,
+        const std::vector<float>& base_logits,
+        const std::vector<size_t>& target_token_ids,
+        const std::vector<float>& sample_weights,
+        size_t batch_size,
+        float learning_rate,
+        float max_gradient_norm = 1.0f);
+
     // -------------------------------------------------------------------------
     // Configuration
     // -------------------------------------------------------------------------
@@ -253,18 +439,22 @@ public:
     /**
      * @brief Persist the complete adapter state to a binary checkpoint file.
      *
-     * The file format is self-describing:
+     * The file format (host byte order) is:
      *   - 8-byte magic ("ADALORA\0")
-     *   - 4-byte uint32 version (currently 1)
+     *   - 4-byte uint32 version (currently 2; other versions are rejected)
      *   - 64-byte model fingerprint (SHA-256 hex, NUL-padded)
+     *   - uint64 default_rank, float default_alpha, uint64 rank_budget
+     *   - float β1, float β2
+     *   - uint8 schedule_configured, uint64 b(0), b(T), t_i, t_f
      *   - 4-byte uint32 layer count
      *   - For each layer (in insertion order):
-     *       - 4-byte uint32 name length
-     *       - name bytes (UTF-8, no NUL)
-     *       - 8-byte uint64 in_dim, out_dim, max_rank, active_rank
-     *       - 4-byte float alpha, importance
-     *       - B matrix: (in_dim × max_rank) float32 values
-     *       - A matrix: (max_rank × out_dim) float32 values
+     *       - uint32 name length, name bytes (UTF-8, no NUL)
+     *       - uint64 in_dim, out_dim, max_rank, active_rank
+     *       - float alpha, float importance
+     *       - uint8 score_source, uint64 sensitivity_steps
+     *       - B (in_dim × max_rank) and A (max_rank × out_dim) float32 values
+     *       - triplet scores (max_rank float32 values)
+     *       - uint8 has_sensitivity_state; if 1: Ī(B), Ū(B), Ī(A), Ū(A)
      *
      * @param path             Destination file path (parent directory must exist).
      * @param model_fingerprint Optional SHA-256 fingerprint of the base model
@@ -278,14 +468,15 @@ public:
     /**
      * @brief Restore adapter state from a binary checkpoint file.
      *
-     * Replaces all current layers with the layers stored in the file.
-     * The adapter's rank_budget is updated to match the stored budget
-     * (sum of stored max_ranks).
+     * Replaces the complete adapter state (layers, weights, alpha, active
+     * ranks, triplet scores, sensitivity EMA state, β1/β2, rank budget and
+     * budget schedule).  On any error the current state is left unchanged.
      *
      * @param path  Source file path.
      * @return The model fingerprint string stored in the checkpoint header
-     *         (64 hex chars, may be all zeros if none was stored).
-     * @throws std::runtime_error on I/O failure or format mismatch.
+     *         (empty if none was stored).
+     * @throws std::runtime_error on I/O failure, bad magic, unsupported
+     *         format version or inconsistent content.
      */
     std::string loadFromFile(const std::string& path);
 

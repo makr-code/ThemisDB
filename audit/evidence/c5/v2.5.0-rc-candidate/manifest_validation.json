@@ -1,0 +1,8 @@
+{
+  "validated_at": "2026-11-10T05:55:28.063542+00:00",
+  "manifest": "manifest.json",
+  "manifest_sha256": "0ca514bf880f2f9dec6f72da39bec9efaad00c1a8ef59202b522ede1ffcc25e8",
+  "pass": true,
+  "errors": [],
+  "scope": "schema and cross-field consistency only; evidence authenticity, signatures, runtime results, and human approval are not verified"
+}

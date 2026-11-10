@@ -679,7 +679,7 @@ TEST(AIOrchestrator_NoPluginTest, Run_UnknownMode_ReturnsError) {
     EXPECT_FALSE(result.error.empty());
 }
 
-TEST(AIOrchestrator_NoPluginTest, Run_AskMode_NoPlugin_ReturnsPlaceholder) {
+TEST(AIOrchestrator_NoPluginTest, Run_AskMode_NoPlugin_ReturnsNotConfiguredError) {
     ValidationResult res;
     ModePack pack = ModeSpecLoader::loadFromString(kMinimalValidYaml, &res);
     ASSERT_TRUE(res.ok);
@@ -690,8 +690,11 @@ TEST(AIOrchestrator_NoPluginTest, Run_AskMode_NoPlugin_ReturnsPlaceholder) {
     ctx.mode_id = "ask";
 
     OrchestratorResult result = orch.run(ctx);
-    EXPECT_TRUE(result.success);
-    EXPECT_FALSE(result.text.empty());
+    // No generator attached: an explicit error, never a fabricated answer.
+    EXPECT_FALSE(result.success);
+    EXPECT_TRUE(result.text.empty());
+    EXPECT_EQ(result.error.rfind("llm_not_configured", 0), 0u) << result.error;
+    EXPECT_EQ(result.metadata.extra.value("generation_status", ""), "llm_not_configured");
     EXPECT_EQ(result.metadata.mode_id, "ask");
 }
 
@@ -706,11 +709,12 @@ TEST(AIOrchestrator_NoPluginTest, Run_DefaultMode_UsedWhenEmpty) {
     ctx.mode_id = "";  // empty → use default
 
     OrchestratorResult result = orch.run(ctx);
-    EXPECT_TRUE(result.success);
+    // Mode resolution succeeds; generation fails because no plugin is attached.
+    EXPECT_EQ(result.error.rfind("llm_not_configured", 0), 0u) << result.error;
     EXPECT_EQ(result.metadata.mode_id, "ask");
 }
 
-TEST(AIOrchestrator_NoPluginTest, Run_RagMode_NoPlugin_ReturnsPlaceholder) {
+TEST(AIOrchestrator_NoPluginTest, Run_RagMode_NoPlugin_ReturnsNotConfiguredError) {
     ValidationResult res;
     ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
     ASSERT_TRUE(res.ok);
@@ -721,8 +725,10 @@ TEST(AIOrchestrator_NoPluginTest, Run_RagMode_NoPlugin_ReturnsPlaceholder) {
     ctx.mode_id = "rag";
 
     OrchestratorResult result = orch.run(ctx);
-    EXPECT_TRUE(result.success);
-    EXPECT_FALSE(result.text.empty());
+    EXPECT_FALSE(result.success);
+    EXPECT_TRUE(result.text.empty());
+    EXPECT_EQ(result.error.rfind("llm_not_configured", 0), 0u) << result.error;
+    EXPECT_EQ(result.metadata.extra.value("generation_status", ""), "llm_not_configured");
     EXPECT_EQ(result.metadata.mode_id, "rag");
 }
 
@@ -751,7 +757,9 @@ TEST(AIOrchestrator_NoPluginTest, Run_RagMode_PrePopulatedDocs_Filtered) {
     ctx.documents = {d1, d2};
 
     OrchestratorResult result = orch.run(ctx);
-    EXPECT_TRUE(result.success);
+    // Retrieval metadata is preserved even though generation is not configured.
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.metadata.extra.value("generation_status", ""), "llm_not_configured");
     // Only d1 should survive the threshold filter
     EXPECT_EQ(result.metadata.retrieved_docs, 1);
 }
@@ -1615,7 +1623,10 @@ TEST(AIOrchestrator_ToolTest, RegisterAndInvoke_ViaOrchestrator) {
     ctx.mode_id = "rag";
 
     OrchestratorResult result = orch.run(ctx);
-    EXPECT_TRUE(result.success);
+    // No generator attached → generation step reports llm_not_configured,
+    // but the retrieval tool must still have been dispatched.
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error.rfind("llm_not_configured", 0), 0u) << result.error;
     // docs_search was called
     EXPECT_FALSE(result.metadata.tool_calls_made.empty());
     EXPECT_EQ(result.metadata.tool_calls_made[0], "docs_search");
@@ -1841,6 +1852,7 @@ TEST(AgenticToolCallTest, PlainTextResponse_NoToolDispatched) {
     ASSERT_TRUE(res.ok);
 
     AIOrchestrator orch(pack);
+    orch.setLLMPlugin(std::make_shared<EchoLLMPlugin>());
 
     ToolSpec spec;
     spec.name = "calc_tool";
@@ -1871,6 +1883,7 @@ TEST(AgenticToolCallTest, MalformedJson_GracefulFallback) {
     ASSERT_TRUE(res.ok);
 
     AIOrchestrator orch(pack);
+    orch.setLLMPlugin(std::make_shared<EchoLLMPlugin>());
 
     ToolSpec spec;
     spec.name = "calc_tool";

@@ -1047,8 +1047,14 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     }
 
     // Check deduplication cache (skip for streaming requests as they cannot be cached)
+    // Dedup key covers prompt, model id and requested LoRA adapter ("<none>" when no
+    // adapter) so responses produced with different adapters never collide.
+    const std::string dedup_key = effective_request.prompt + "|" + effective_request.model_id + "|lora=" +
+        ((effective_request.lora_adapter_id && !effective_request.lora_adapter_id->empty())
+             ? *effective_request.lora_adapter_id
+             : std::string("<none>"));
     if (dedup_cache_ && !effective_request.stream_callback) {
-        auto cached = dedup_cache_->get(effective_request.prompt);
+        auto cached = dedup_cache_->get(dedup_key);
         if (cached.has_value()) {
             stats_.total_dedup_cache_hits.fetch_add(1, std::memory_order_relaxed);
             spdlog::debug("Dedup cache hit for request {}", request.request_id);
@@ -1143,8 +1149,10 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     }
     
     // Store in deduplication cache (skip for streaming requests)
-    if (dedup_cache_ && !effective_request.stream_callback) {
-        dedup_cache_->put(effective_request.prompt, response);
+    // Never cache error responses (e.g. a rejected LoRA adapter), so a later valid
+    // request is not answered with a stale failure.
+    if (dedup_cache_ && !effective_request.stream_callback && response.error_message.empty()) {
+        dedup_cache_->put(dedup_key, response);
     }
     
     // Add metadata

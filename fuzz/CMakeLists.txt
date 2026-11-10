@@ -116,6 +116,9 @@ if(nlohmann_json_FOUND AND spdlog_FOUND)
         "harnesses/postgres_importer_harness.cpp"
         "${THEMIS_ROOT_DIR}/src/importers/postgres_importer.cpp"
         "${THEMIS_ROOT_DIR}/src/importers/conflict_resolver.cpp"
+        "${THEMIS_ROOT_DIR}/src/utils/logger.cpp"
+        "${THEMIS_ROOT_DIR}/src/utils/error_registry.cpp"
+        "${THEMIS_ROOT_DIR}/src/utils/error_contracts.cpp"
     )
     target_include_directories(postgres_importer_harness PRIVATE
         "${THEMIS_ROOT_DIR}/include"

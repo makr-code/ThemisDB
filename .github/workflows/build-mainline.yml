@@ -183,6 +183,7 @@ jobs:
         build/ctest-results.xml
         build/ctest-summary.md
         build/ctest-output.txt
+        build/c5-key-lifecycle-audit
       artifact_retention_days: '90'
       ctest_build_directory: build
       ctest_junit_path: build/ctest-results.xml

@@ -13,6 +13,7 @@
 // Licensed under MIT License
 
 #include "storage/mvcc_store.h"
+#include "storage/mvcc_snapshot_pins.h"
 #include <algorithm>
 #include <stdexcept>
 
@@ -334,12 +335,25 @@ uint64_t MVCCStore::gcVersionsBefore(
     HLCTimestamp min_ts,
     GCOptions opts
 ) {
+    // Snapshot-pin interlock: hold the registry's GC guard while selecting
+    // and deleting so that a concurrently acquired pin cannot be bypassed.
+    auto pins = snapshotPinRegistry();
+    std::shared_lock<std::shared_mutex> pin_guard;
+    std::vector<HLCTimestamp> pinned;
+    if (pins) {
+        pin_guard = pins->gcGuard();
+        pinned = pins->pinnedTimestamps();
+    }
+
     std::string prefix = encodeVersionPrefix(key);
 
-    // Collect all versioned keys for this base key.
+    // Collect all versioned keys for this base key (ascending timestamp
+    // order thanks to the big-endian encoding).
     std::vector<std::string> all_keys;
+    std::vector<HLCTimestamp> all_ts;
     db_->scanPrefix(prefix, [&](std::string_view vkey, std::string_view) -> bool {
         all_keys.emplace_back(vkey);
+        all_ts.push_back(decodeTimestamp(vkey));
         return true;
     });
 
@@ -347,26 +361,87 @@ uint64_t MVCCStore::gcVersionsBefore(
         return 0;
     }
 
-    // Keys are already in ascending timestamp order (big-endian sort).
-    // Identify candidates for deletion: timestamps strictly less than min_ts.
-    uint64_t total = static_cast<uint64_t>(all_keys.size());
-    uint64_t num_to_delete = 0;
-    for (const auto& vkey : all_keys) {
-        HLCTimestamp vts = decodeTimestamp(vkey);
-        if (vts < min_ts) {
-            ++num_to_delete;
+    const auto victims = selectGcVictims(all_ts, min_ts, opts.min_versions_to_keep, pinned);
+    uint64_t deleted = 0;
+    for (size_t idx : victims) {
+        db_->del(all_keys[idx]);
+        ++deleted;
+    }
+    return deleted;
+}
+
+std::vector<size_t> MVCCStore::selectGcVictims(
+    const std::vector<HLCTimestamp>& ascending_ts,
+    HLCTimestamp min_ts,
+    uint32_t min_keep,
+    const std::vector<HLCTimestamp>& pinned
+) {
+    const size_t total = ascending_ts.size();
+    const size_t keep = min_keep > 0 ? min_keep : 1;
+    const size_t max_index = total > keep ? total - keep : 0;  // exclusive
+
+    // Mark the version visible at each pinned timestamp P: the newest
+    // version with ts <= P.  Tombstones are protected too, otherwise an older
+    // live version would become visible at P after GC.
+    std::vector<bool> is_protected(total, false);
+    for (const auto& p : pinned) {
+        auto it = std::upper_bound(ascending_ts.begin(), ascending_ts.end(), p);
+        if (it == ascending_ts.begin()) {
+            continue;  // key did not exist at P
+        }
+        is_protected[static_cast<size_t>(std::distance(ascending_ts.begin(), it)) - 1] = true;
+    }
+
+    std::vector<size_t> victims;
+    for (size_t i = 0; i < max_index; ++i) {
+        if (!(ascending_ts[i] < min_ts)) {
+            break;  // ascending: no later version is below the watermark
+        }
+        if (!is_protected[i]) {
+            victims.push_back(i);
+        }
+    }
+    return victims;
+}
+
+uint64_t MVCCStore::deleteVersions(std::string_view key,
+                                   const std::vector<HLCTimestamp>& timestamps) {
+    if (timestamps.empty()) {
+        return 0;
+    }
+    // Re-check pins against the current version chain.  The caller is
+    // expected to hold the GC guard; re-checking keeps this method safe even
+    // if it does not.
+    std::vector<HLCTimestamp> pinned;
+    if (auto pins = snapshotPinRegistry()) {
+        pinned = pins->pinnedTimestamps();
+    }
+    std::vector<HLCTimestamp> chain;
+    db_->scanPrefix(encodeVersionPrefix(key), [&](std::string_view vkey, std::string_view) -> bool {
+        chain.push_back(decodeTimestamp(vkey));
+        return true;
+    });
+    std::vector<bool> is_protected(chain.size(), false);
+    for (const auto& p : pinned) {
+        auto it = std::upper_bound(chain.begin(), chain.end(), p);
+        if (it != chain.begin()) {
+            is_protected[static_cast<size_t>(std::distance(chain.begin(), it)) - 1] = true;
         }
     }
 
-    // Always keep at least opts.min_versions_to_keep most-recent versions.
-    uint32_t min_keep = opts.min_versions_to_keep > 0 ? opts.min_versions_to_keep : 1;
-    uint64_t max_deletable = (total > min_keep) ? (total - min_keep) : 0;
-    num_to_delete = std::min(num_to_delete, max_deletable);
-
     uint64_t deleted = 0;
-    for (uint64_t i = 0; i < num_to_delete; ++i) {
-        db_->del(all_keys[i]);
-        ++deleted;
+    for (const auto& ts : timestamps) {
+        auto it = std::lower_bound(chain.begin(), chain.end(), ts);
+        if (it == chain.end() || *it != ts) {
+            continue;  // already gone
+        }
+        const size_t idx = static_cast<size_t>(std::distance(chain.begin(), it));
+        if (is_protected[idx] || idx + 1 == chain.size()) {
+            continue;  // pinned, or the latest version (never deleted)
+        }
+        if (db_->del(encodeVersionedKey(key, ts))) {
+            ++deleted;
+        }
     }
     return deleted;
 }
@@ -420,6 +495,55 @@ void MVCCStore::scanBaseKeys(std::function<bool(std::string_view base_key)> call
             break;
         }
     }
+}
+
+void MVCCStore::scanBaseKeysWithPrefix(
+    std::string_view prefix,
+    std::function<bool(std::string_view base_key)> callback
+) {
+    std::vector<std::string> base_keys;
+    db_->scanPrefix(prefix, [&](std::string_view vkey, std::string_view) -> bool {
+        if (vkey.size() >= prefix.size() + 9 &&
+            static_cast<unsigned char>(vkey[vkey.size() - 9]) == '\x00') {
+            std::string_view bk(vkey.data(), vkey.size() - 9);
+            if (base_keys.empty() || base_keys.back() != bk) {
+                base_keys.emplace_back(bk);
+            }
+        }
+        return true;
+    });
+    std::sort(base_keys.begin(), base_keys.end());
+    base_keys.erase(std::unique(base_keys.begin(), base_keys.end()), base_keys.end());
+    for (const auto& bk : base_keys) {
+        if (!callback(bk)) {
+            break;
+        }
+    }
+}
+
+std::optional<MVCCStore::VersionEntry> MVCCStore::getVersionAtTimestamp(
+    std::string_view key,
+    HLCTimestamp ts
+) {
+    std::optional<VersionEntry> visible;
+    scanVersions(key, [&](const VersionEntry& e) -> bool {
+        if (e.timestamp > ts) {
+            return false;  // ascending order: nothing later can be visible
+        }
+        visible = e;
+        return true;
+    });
+    return visible;
+}
+
+void MVCCStore::setSnapshotPinRegistry(std::shared_ptr<MVCCSnapshotPinRegistry> pins) {
+    std::lock_guard<std::mutex> lk(pins_mu_);
+    pins_ = std::move(pins);
+}
+
+std::shared_ptr<MVCCSnapshotPinRegistry> MVCCStore::snapshotPinRegistry() const {
+    std::lock_guard<std::mutex> lk(pins_mu_);
+    return pins_;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

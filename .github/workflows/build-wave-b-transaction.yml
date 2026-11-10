@@ -6,21 +6,28 @@ on:
       - develop
     paths:
       - .github/workflows/build-wave-b-transaction.yml
-      - include/transaction/distributed_transaction_manager.h
-      - include/transaction/recoverable_two_phase_coordinator.h
-      - include/transaction/two_phase_commit_wal_recovery.h
+      - tools/ci/run_transaction_tests.py
+      - tools/ci/summarize_ctest_evidence.py
+      - tools/ci/generate_transaction_baseline_manifest.py
+      - tools/tests/test_transaction_evidence.py
+      - CMakeLists.txt
+      - CMakePresets.json
+      - cmake/ModularBuild.cmake
+      - tests/CMakeLists.txt
+      - tests/cmake/RegisterModuleTests.cmake
+      - tests/cmake/TestPolicy.cmake
+      - tests/cmake/RunRegisteredTest.cmake
+      - include/transaction/**
       - include/sharding/distributed_transaction.h
       - include/server/http_server.h
       - include/server/monitoring_api_handler.h
       - include/sharding/two_phase_commit_participant.h
-      - src/transaction/distributed_transaction_manager.cpp
+      - src/transaction/**
       - src/sharding/distributed_transaction.cpp
       - src/sharding/two_phase_commit_participant.cpp
       - src/server/http_server.cpp
       - src/server/monitoring_api_handler.cpp
-      - tests/transaction/CMakeLists.txt
-      - tests/transaction/test_transaction_distributed_2pc.cpp
-      - tests/transaction/test_transaction_process_crash_recovery.cpp
+      - tests/transaction/**
       - tests/test_distributed_txn_api_handler.cpp
       - tests/test_two_phase_commit.cpp
   schedule:
@@ -28,18 +35,25 @@ on:
   workflow_dispatch:
     inputs:
       phase:
-        description: "Test phase to run (all, phase1, phase2, phase3, wave-a, phase4)"
+        description: "Evidence scope (all/phase4 add baseline; every phase runs required tests)"
         required: false
         default: "all"
+        type: choice
+        options: [all, phase1, phase2, phase3, wave-a, phase4]
       parallel_jobs:
         description: "Number of parallel compilation jobs"
         required: false
-        default: "4"
+        type: number
+        default: 4
 
 permissions:
   contents: read
   checks: write
   pull-requests: write
+
+defaults:
+  run:
+    shell: bash
 
 concurrency:
   group: build-wave-b-transaction-${{ github.ref }}
@@ -50,6 +64,7 @@ env:
   THEMIS_EDITION: COMMUNITY
   THEMIS_BUILD_TESTS: ON
   THEMIS_BUILD_BENCHMARKS: OFF
+  THEMIS_CTEST_DISABLE_ON_DEMAND_BUILD: '1'
   CMAKE_GENERATOR: Ninja
   SCCACHE_DIR: ${{ github.workspace }}/.cache/sccache
   SCCACHE_CACHE_SIZE: 2G
@@ -137,19 +152,13 @@ jobs:
         with:
           name: cmake-configuration-log
           path: cmake-config.log
-          retention-days: 30
+          retention-days: 90
 
   compile-tests:
     name: "Build: Compile Transaction Tests"
     needs: configure
     runs-on: ubuntu-latest
     timeout-minutes: 90
-    concurrency:
-      group: wave-b-transaction-ci-${{ github.ref }}-${{ matrix.phase }}
-      cancel-in-progress: false
-    strategy:
-      matrix:
-        phase: [phase1, phase2, phase3, wave-a]
     steps:
       - uses: actions/checkout@v5
         with:
@@ -186,40 +195,35 @@ jobs:
             -DTHEMIS_ENABLE_COMPILER_CACHE=ON \
             -DTHEMIS_COMPILER_CACHE_PROGRAM="$(command -v sccache)"
 
-      - name: "Compile ${{ matrix.phase }} tests"
+      - name: "Compile registered transaction tests"
         id: compile
         run: |
-          BUILD_DIR="${{ needs.configure.outputs.build-dir }}"
-          
-          cmake --build "$BUILD_DIR" \
-            --target \
-            test_transaction_lifecycle_phase1 \
-            test_transaction_isolation_contention_phase1 \
-            test_transaction_error_path_determinism_phase1 \
-            test_transaction_distributed_phase2 \
-            test_transaction_saga_compensation_phase2 \
-            test_transaction_fault_injection_phase3 \
-            test_transaction_wave_a_closure \
-            test_transaction_process_crash_recovery \
-            test_distributed_txn_api_handler_focused \
-            --parallel ${{ github.event.inputs.parallel_jobs || 4 }} \
-            2>&1 | tee compile-${{ matrix.phase }}.log
-          
+          set -euo pipefail
+          python3 tools/ci/run_transaction_tests.py \
+            --build-dir "${{ needs.configure.outputs.build-dir }}" \
+            --suite full --build-only \
+            --output-dir "${{ needs.configure.outputs.build-dir }}/compile-evidence" \
+            --parallel "${{ github.event.inputs.parallel_jobs || 4 }}" \
+            --commit-sha "${{ github.sha }}" \
+            --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            2>&1 | tee compile-transaction.log
           echo "compile_status=success" >> "$GITHUB_OUTPUT"
 
       - name: "Upload compilation log"
         if: always()
         uses: actions/upload-artifact@v5
         with:
-          name: compile-${{ matrix.phase }}-log
-          path: compile-${{ matrix.phase }}.log
-          retention-days: 30
+          name: compile-transaction-log
+          path: |
+            compile-transaction.log
+            ${{ needs.configure.outputs.build-dir }}/compile-evidence/
+          retention-days: 90
 
   smoke-tests:
-    name: "Validate: Smoke Tests (Critical 3)"
+    name: "Validate: Transaction Closure Smoke Suite"
     needs: [configure, compile-tests]
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v5
         with:
@@ -256,34 +260,29 @@ jobs:
             -DTHEMIS_ENABLE_COMPILER_CACHE=ON \
             -DTHEMIS_COMPILER_CACHE_PROGRAM="$(command -v sccache)"
 
-      - name: "Run smoke tests (3 critical)"
+      - name: "Build and run registered smoke suite"
         id: smoke
         run: |
+          set -euo pipefail
           BUILD_DIR="${{ needs.configure.outputs.build-dir }}"
-          cd "$BUILD_DIR"
-          
-          ctest \
-            -R "TxnRecovery01|TxnSagaHardening02|TxnTimeout01" \
-            -V --output-on-failure \
-            2>&1 | tee smoke-test-results.txt
-          
-          TEST_RESULT=$?
-          if [ $TEST_RESULT -eq 0 ]; then
-            echo "smoke_status=success" >> "$GITHUB_OUTPUT"
-            echo "✅ All 3 smoke tests PASSED"
-          else
-            echo "smoke_status=failed" >> "$GITHUB_OUTPUT"
-            echo "❌ Smoke tests FAILED"
-            exit 1
-          fi
+          python3 tools/ci/run_transaction_tests.py \
+            --build-dir "$BUILD_DIR" --suite smoke \
+            --output-dir "$BUILD_DIR/smoke-evidence" \
+            --parallel "${{ github.event.inputs.parallel_jobs || 4 }}" \
+            --commit-sha "${{ github.sha }}" \
+            --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            2>&1 | tee "$BUILD_DIR/smoke-test-results.txt"
+          echo "smoke_status=success" >> "$GITHUB_OUTPUT"
 
       - name: "Upload smoke test results"
         if: always()
         uses: actions/upload-artifact@v5
         with:
           name: smoke-test-results
-          path: ${{ needs.configure.outputs.build-dir }}/smoke-test-results.txt
-          retention-days: 30
+          path: |
+            ${{ needs.configure.outputs.build-dir }}/smoke-test-results.txt
+            ${{ needs.configure.outputs.build-dir }}/smoke-evidence/
+          retention-days: 90
 
       - name: "Publish smoke test summary"
         if: always()
@@ -291,14 +290,13 @@ jobs:
         with:
           name: test-summary
           path: ${{ needs.configure.outputs.build-dir }}/smoke-test-results.txt
-          retention-days: 30
+          retention-days: 90
 
   full-transaction-test-suite:
-    name: "Validate: Full Transaction Test Suite (86 tests)"
+    name: "Validate: Registered Transaction Test Suite"
     needs: [configure, compile-tests]
     runs-on: ubuntu-latest
-    timeout-minutes: 45
-    if: github.event_name == 'push' || github.event_name == 'pull_request' || github.event.inputs.phase == 'all'
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v5
         with:
@@ -338,25 +336,16 @@ jobs:
       - name: "Run all transaction tests"
         id: full-tests
         run: |
+          set -euo pipefail
           BUILD_DIR="${{ needs.configure.outputs.build-dir }}"
-          cd "$BUILD_DIR"
-          
-          ctest \
-            -R "test_transaction_|TransactionProcessCrashRecoveryTests|DistributedTxnApiHandlerRecoveryTests" \
-            -V --output-on-failure \
-            -j 4 \
-            2>&1 | tee full-test-results.xml
-          
-          TEST_RESULT=$?
-          if [ $TEST_RESULT -eq 0 ]; then
-            echo "full_tests_status=success" >> "$GITHUB_OUTPUT"
-            echo "✅ All transaction tests PASSED"
-          else
-            echo "full_tests_status=failed" >> "$GITHUB_OUTPUT"
-            echo "⚠️  Some tests FAILED - see logs"
-          fi
-          
-          exit $TEST_RESULT
+          python3 tools/ci/run_transaction_tests.py \
+            --build-dir "$BUILD_DIR" --suite full \
+            --output-dir "$BUILD_DIR/full-evidence" \
+            --parallel "${{ github.event.inputs.parallel_jobs || 4 }}" \
+            --commit-sha "${{ github.sha }}" \
+            --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            2>&1 | tee "$BUILD_DIR/full-test-results.txt"
+          echo "full_tests_status=success" >> "$GITHUB_OUTPUT"
 
       - name: "Generate test report"
         if: always()
@@ -368,7 +357,11 @@ jobs:
             echo "**Status:** ${{ steps.full-tests.outputs.full_tests_status }}"
             echo "**Date:** $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             echo ""
-            tail -50 "$BUILD_DIR/full-test-results.xml"
+            if [ -f "$BUILD_DIR/full-evidence/summary.md" ]; then
+              cat "$BUILD_DIR/full-evidence/summary.md"
+            else
+              echo "FAIL: no validated test summary; inspect build and test logs."
+            fi
           } > test-report.md
 
       - name: "Upload test results"
@@ -377,9 +370,10 @@ jobs:
         with:
           name: transaction-test-results
           path: |
-            ${{ needs.configure.outputs.build-dir }}/full-test-results.xml
+            ${{ needs.configure.outputs.build-dir }}/full-test-results.txt
+            ${{ needs.configure.outputs.build-dir }}/full-evidence/
             test-report.md
-          retention-days: 30
+          retention-days: 90
 
       - name: "Post test summary to PR"
         if: always() && github.event_name == 'pull_request'
@@ -399,8 +393,7 @@ jobs:
     name: "Validate: Chaos and Recovery Evidence"
     needs: [configure, compile-tests]
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-    if: github.event_name == 'push' || github.event_name == 'pull_request' || github.event.inputs.phase == 'all' || github.event.inputs.phase == 'wave-a'
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v5
         with:
@@ -438,6 +431,7 @@ jobs:
 
       - name: "Run chaos/recovery release-critical transaction suites"
         run: |
+          set -euo pipefail
           BUILD_DIR="${{ needs.configure.outputs.build-dir }}"
           mkdir -p "$BUILD_DIR/transaction-chaos-evidence"
           {
@@ -451,11 +445,13 @@ jobs:
             echo '```'
           } > "$BUILD_DIR/transaction-chaos-evidence/TRANSACTION_CHAOS_HARDWARE.md"
 
-          cd "$BUILD_DIR"
-          ctest \
-            --tests-regex "TransactionDistributedPhase2Tests|TransactionSAGACompensationPhase2Tests|TransactionFaultInjectionPhase3Tests|TransactionWaveAClosureTests|TransactionProcessCrashRecoveryTests|DistributedTxnApiHandlerRecoveryTests" \
-            -V --output-on-failure -j 2 \
-            2>&1 | tee transaction-chaos-evidence/chaos-recovery-results.txt
+          python3 tools/ci/run_transaction_tests.py \
+            --build-dir "$BUILD_DIR" --suite chaos \
+            --output-dir "$BUILD_DIR/transaction-chaos-evidence" \
+            --parallel "${{ github.event.inputs.parallel_jobs || 4 }}" \
+            --commit-sha "${{ github.sha }}" \
+            --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            2>&1 | tee "$BUILD_DIR/transaction-chaos-evidence/chaos-recovery-results.txt"
 
       - name: "Upload chaos/recovery evidence"
         if: always()
@@ -463,16 +459,15 @@ jobs:
         with:
           name: transaction-chaos-recovery-evidence
           path: |
-            ${{ needs.configure.outputs.build-dir }}/transaction-chaos-evidence/chaos-recovery-results.txt
-            ${{ needs.configure.outputs.build-dir }}/transaction-chaos-evidence/TRANSACTION_CHAOS_HARDWARE.md
-          retention-days: 30
+            ${{ needs.configure.outputs.build-dir }}/transaction-chaos-evidence/
+          retention-days: 90
 
   phase4-benchmark-baseline:
     name: "Benchmark: Phase 4 Baseline"
     needs: configure
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    if: github.event_name == 'push' || github.event.inputs.phase == 'all' || github.event.inputs.phase == 'phase4'
+    if: github.event_name == 'schedule' || github.event.inputs.phase == 'all' || github.event.inputs.phase == 'phase4'
     steps:
       - uses: actions/checkout@v5
         with:
@@ -551,6 +546,8 @@ jobs:
                       bench.get("gate_pass", 0.0),
                   )
               )
+              if bench.get("error_occurred"):
+                  raise SystemExit(f"Phase 4 benchmark error: {name}")
 
           lines = [
               "# Transaction Phase 4 Baseline Summary",
@@ -564,6 +561,8 @@ jobs:
                   f"| `{name}` | {txns_per_sec:.2f} | {p95_ms:.3f} | {p99_ms:.3f} | {status} |"
               )
           target.write_text("\n".join(lines) + "\n", encoding="utf-8")
+          if not rows or any(row[4] != 1.0 for row in rows):
+              raise SystemExit("Phase 4 baseline is empty or contains failed benchmark gates")
           PY
 
       - name: "Upload Phase 4 benchmark artifacts"
@@ -576,28 +575,52 @@ jobs:
             ${{ needs.configure.outputs.build-dir }}/transaction-phase4-benchmark/PHASE4_BASELINE_SUMMARY.md
             ${{ needs.configure.outputs.build-dir }}/transaction-phase4-benchmark/lscpu.txt
             ${{ needs.configure.outputs.build-dir }}/transaction-phase4-benchmark/memory.txt
-          retention-days: 30
+          retention-days: 90
 
   collect-artifacts:
     name: "Automation: Collect Build Artifacts"
-    needs: [configure, compile-tests, smoke-tests, chaos-recovery-evidence, phase4-benchmark-baseline]
+    needs: [configure, compile-tests, smoke-tests, full-transaction-test-suite, chaos-recovery-evidence, phase4-benchmark-baseline]
     runs-on: ubuntu-latest
     if: always()
     steps:
       - uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
 
       - name: "Create artifact archive"
+        env:
+          UPSTREAM_RESULTS: ${{ toJSON(needs) }}
         run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          results = json.loads(os.environ["UPSTREAM_RESULTS"])
+          artifacts = {
+              "configure": "cmake-configuration-log",
+              "compile-tests": "compile-transaction-log",
+              "smoke-tests": "smoke-test-results",
+              "full-transaction-test-suite": "transaction-test-results",
+              "chaos-recovery-evidence": "transaction-chaos-recovery-evidence",
+              "phase4-benchmark-baseline": "transaction-phase4-benchmark",
+          }
+          for job, artifact in artifacts.items():
+              if results[job]["result"] == "success":
+                  if not any(path.is_file() for path in Path(artifact).rglob("*")):
+                      raise SystemExit(f"Successful job {job} has no evidence artifact: {artifact}")
+                  if job in {"smoke-tests", "full-transaction-test-suite", "chaos-recovery-evidence"}:
+                      for filename in ("results.xml", "inventory.json", "summary.md"):
+                          if not any(Path(artifact).rglob(filename)):
+                              raise SystemExit(f"Missing required {filename} in {artifact}")
+          PY
           mkdir -p transaction-ci-results
-          cp -r cmake-configuration-log transaction-ci-results/ || true
-          cp -r compile-*-log transaction-ci-results/ || true
-          cp -r smoke-test-results transaction-ci-results/ || true
-          cp -r transaction-test-results transaction-ci-results/ || true
-          cp -r test-summary transaction-ci-results/ || true
-          cp -r transaction-chaos-recovery-evidence transaction-ci-results/ || true
-          cp -r transaction-phase4-benchmark transaction-ci-results/ || true
-          
-          zip -r transaction-ci-results.zip transaction-ci-results || true
+          for artifact in cmake-configuration-log compile-transaction-log \
+            smoke-test-results transaction-test-results test-summary \
+            transaction-chaos-recovery-evidence transaction-phase4-benchmark; do
+            if [ -d "$artifact" ]; then
+              cp -r "$artifact" transaction-ci-results/
+            fi
+          done
+          zip -r transaction-ci-results.zip transaction-ci-results
           
           echo "Archive created: $(du -sh transaction-ci-results.zip | cut -f1)"
 
@@ -621,7 +644,7 @@ jobs:
       - name: "Download all artifacts"
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
 
-      - name: "Generate representative-hardware baseline evidence"
+      - name: "Generate runner baseline evidence (representative sign-off pending)"
         id: representative-baseline
         if: ${{ needs.phase4-benchmark-baseline.result == 'success' }}
         run: |
@@ -635,6 +658,7 @@ jobs:
             --run-id "${{ github.run_id }}" \
             --run-url "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
             --commit-sha "${{ github.sha }}" \
+            --hardware-scope hosted-runner \
             --output-json "benchmarks/wave8/TRANSACTION_BASELINES_LATEST.json" \
             --output-md "benchmarks/wave8/TRANSACTION_BASELINES_LATEST.md"
 
@@ -660,7 +684,7 @@ jobs:
           fi
 
           OVERALL_STATUS="open"
-          if [ "$CI_VALIDATED" = "true" ] && [ "$BENCHMARKS_VALIDATED" = "true" ]; then
+          if [ "$CODE_VALIDATED" = "true" ] && [ "$TESTS_VALIDATED" = "true" ] && [ "$CI_VALIDATED" = "true" ] && [ "$BENCHMARKS_VALIDATED" = "true" ] && [ "${{ needs.collect-artifacts.result }}" = "success" ]; then
             OVERALL_STATUS="evidence-captured"
           fi
 
@@ -753,20 +777,26 @@ jobs:
 
   check-results:
     name: "Gate: Verify Test Results"
-    needs: [smoke-tests, chaos-recovery-evidence]
+    needs: [configure, compile-tests, smoke-tests, full-transaction-test-suite, chaos-recovery-evidence, phase4-benchmark-baseline, collect-artifacts, publish-results]
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - name: "Verify smoke and chaos/recovery success"
+      - name: "Verify all required transaction jobs"
+        env:
+          JOB_RESULTS: ${{ toJSON(needs) }}
+          REQUIRE_BASELINE: ${{ github.event_name == 'schedule' || github.event.inputs.phase == 'all' || github.event.inputs.phase == 'phase4' }}
         run: |
-          CHAOS_OK="true"
-          if [ "${{ needs.chaos-recovery-evidence.result }}" != "success" ] && [ "${{ needs.chaos-recovery-evidence.result }}" != "skipped" ]; then
-            CHAOS_OK="false"
-          fi
-          if [ "${{ needs.smoke-tests.result }}" == "success" ] && [ "$CHAOS_OK" = "true" ]; then
-            echo "✅ Build verification passed - ready for Sept 7 CI execution"
-            exit 0
-          else
-            echo "❌ Build verification failed - check logs"
-            exit 1
-          fi
+          python3 - <<'PY'
+          import json
+          import os
+          import sys
+
+          results = json.loads(os.environ["JOB_RESULTS"])
+          required = set(results) - {"phase4-benchmark-baseline"}
+          if os.environ["REQUIRE_BASELINE"] == "true":
+              required.add("phase4-benchmark-baseline")
+          failures = [name for name in sorted(required) if results[name]["result"] != "success"]
+          if failures:
+              sys.exit("Required transaction jobs did not succeed: " + ", ".join(failures))
+          print("Required transaction evidence jobs succeeded; this is not a release sign-off.")
+          PY

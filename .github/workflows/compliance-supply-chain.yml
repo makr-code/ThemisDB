@@ -297,6 +297,12 @@ jobs:
             --output-json "c5-evidence/manifest.json" \
             --output-md "c5-evidence/manifest.md"
 
+      - name: Validate C5 evidence manifest
+        run: |
+          python3 tools/ci/validate_c5_evidence_manifest.py \
+            c5-evidence/manifest.json \
+            --report-json c5-evidence/validation-report.json
+
       - name: Upload C5 evidence manifest
         uses: actions/upload-artifact@v5
         with:

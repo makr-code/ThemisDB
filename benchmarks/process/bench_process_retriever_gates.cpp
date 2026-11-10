@@ -361,6 +361,7 @@ static void BM_RP01_SimpleQuery(::benchmark::State& state) {
     }
 
     state.SetItemsProcessed(50 * static_cast<int64_t>(state.iterations()));
+    state.SetLabel("synthetic");
 }
 
 BENCHMARK(BM_RP01_SimpleQuery)->Iterations(10)->ReportAggregatesOnly(true)->UseRealTime();
@@ -390,6 +391,7 @@ static void BM_RP02_ComplexQuery(::benchmark::State& state) {
 
     state.SetItemsProcessed(queries_done);
     state.counters["queries_per_sec"] = ::benchmark::Counter(queries_done, ::benchmark::Counter::kIsRate);
+    state.SetLabel("synthetic");
 }
 
 BENCHMARK(BM_RP02_ComplexQuery)->Iterations(10)->ReportAggregatesOnly(true)->UseRealTime();
@@ -422,6 +424,7 @@ static void BM_RP03_FullTextSearch(::benchmark::State& state) {
     }
 
     state.SetItemsProcessed(searches_done);
+    state.SetLabel("synthetic");
 }
 
 BENCHMARK(BM_RP03_FullTextSearch)->Iterations(10)->ReportAggregatesOnly(true)->UseRealTime();
@@ -452,6 +455,7 @@ static void BM_RP04_EmbeddingSimilarity(::benchmark::State& state) {
     }
 
     state.SetItemsProcessed(searches_done);
+    state.SetLabel("synthetic");
 }
 
 BENCHMARK(BM_RP04_EmbeddingSimilarity)->Iterations(10)->ReportAggregatesOnly(true)->UseRealTime();
@@ -479,6 +483,7 @@ static void BM_RP05_PaginationQuery(::benchmark::State& state) {
     }
 
     state.SetItemsProcessed(page_accesses);
+    state.SetLabel("synthetic");
 }
 
 BENCHMARK(BM_RP05_PaginationQuery)->Iterations(5)->ReportAggregatesOnly(true)->UseRealTime();
@@ -527,6 +532,7 @@ static void BM_RP06_ConcurrentQuery(::benchmark::State& state) {
 
     state.SetItemsProcessed(total_queries);
     state.counters["queries_per_sec"] = ::benchmark::Counter(total_queries, ::benchmark::Counter::kIsRate);
+    state.SetLabel("synthetic");
 }
 
 BENCHMARK(BM_RP06_ConcurrentQuery)->Iterations(5)->ReportAggregatesOnly(true)->UseRealTime();
@@ -588,6 +594,7 @@ static void BM_RP07_QueryUnderChurn(::benchmark::State& state) {
     }
 
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()) * 50);
+    state.SetLabel("synthetic");
 }
 
 BENCHMARK(BM_RP07_QueryUnderChurn)->Iterations(5)->ReportAggregatesOnly(true)->UseRealTime();
@@ -613,6 +620,7 @@ static void BM_RP08_RankingAndSorting(::benchmark::State& state) {
 
     state.SetItemsProcessed(sorts_done);
     state.counters["sorts_per_sec"] = ::benchmark::Counter(sorts_done, ::benchmark::Counter::kIsRate);
+    state.SetLabel("synthetic");
 }
 
 BENCHMARK(BM_RP08_RankingAndSorting)->Iterations(10)->ReportAggregatesOnly(true)->UseRealTime();
