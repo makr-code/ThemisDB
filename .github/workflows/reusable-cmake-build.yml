@@ -19,7 +19,12 @@ on:
         default: 'off'
         type: string
       dependency_cache_key:
-        description: Exact completed prerequisite snapshot for consume mode
+        description: Source/configure/toolchain identity of the completed prerequisite snapshot
+        required: false
+        default: ''
+        type: string
+      dependency_artifact_id:
+        description: Run artifact ID of the completed prerequisite snapshot for consume mode
         required: false
         default: ''
         type: string
@@ -183,8 +188,11 @@ on:
       THEMIS_BUILD_SIG:
         required: false
     outputs:
+      dependency-artifact-id:
+        description: Persisted preparation artifact (only emitted after successful configure and upload)
+        value: ${{ jobs.build.outputs.dependency-artifact-id }}
       dependency-cache-key:
-        description: Persisted preparation snapshot (only emitted after successful configure and save)
+        description: Preparation snapshot identity (only emitted after successful configure and upload)
         value: ${{ jobs.build.outputs.dependency-cache-key }}
       configure-outcome:
         description: Outcome of Configure step (success|failure|skipped)
@@ -213,6 +221,7 @@ jobs:
       SCCACHE_GHA_ENABLED: ${{ inputs.enable_sccache_gha }}
       THEMIS_CACHE_TOOLS_PREFIX: ${{ inputs.source_sha != '' && '.ci-cache-tools/' || '' }}
     outputs:
+      dependency-artifact-id: ${{ steps.dependency_upload.outputs.artifact-id }}
       dependency-cache-key: ${{ steps.dependency_complete.outputs.cache_key }}
       configure-outcome: ${{ steps.configure.outcome }}
       build-outcome: ${{ steps.build.outcome }}
@@ -224,6 +233,7 @@ jobs:
         env:
           DEPENDENCY_MODE: ${{ inputs.windows_dependency_mode }}
           DEPENDENCY_CACHE_KEY: ${{ inputs.dependency_cache_key }}
+          DEPENDENCY_ARTIFACT_ID: ${{ inputs.dependency_artifact_id }}
         run: |
           set -euo pipefail
           case "$DEPENDENCY_MODE" in
@@ -232,6 +242,7 @@ jobs:
               test "$RUNNER_OS" = Windows
               if [ "$DEPENDENCY_MODE" = consume ]; then
                 test -n "$DEPENDENCY_CACHE_KEY" || { echo "::error::Windows dependency prerequisite incomplete"; exit 1; }
+                test -n "$DEPENDENCY_ARTIFACT_ID" || { echo "::error::Windows dependency artifact unavailable"; exit 1; }
               fi
               python -c 'import os,time; print("THEMIS_DEPENDENCY_DEADLINE="+str(time.time()+300*60))' >> "$GITHUB_ENV"
               ;;
@@ -371,6 +382,7 @@ jobs:
 
       - name: Restore CMake build caches
         id: restore_cmake_cache
+        if: inputs.windows_dependency_mode != 'consume'
         timeout-minutes: ${{ inputs.windows_dependency_mode != 'off' && 15 || 360 }}
         uses: actions/cache/restore@v5
         with:
@@ -383,6 +395,33 @@ jobs:
             ${{ inputs.windows_dependency_mode != 'consume' && format('cmake-cache-{0}-{1}-', runner.os, env.THEMIS_CACHE_TAG) || '' }}
           enableCrossOsArchive: false
 
+      - name: Download completed Windows dependency snapshot
+        if: inputs.windows_dependency_mode == 'consume'
+        timeout-minutes: 30
+        uses: actions/download-artifact@v5
+        with:
+          artifact-ids: ${{ inputs.dependency_artifact_id }}
+          path: ${{ runner.temp }}/windows-dependencies
+          merge-multiple: true
+
+      - name: Restore completed Windows dependency snapshot
+        if: inputs.windows_dependency_mode == 'consume'
+        shell: bash
+        env:
+          DEPENDENCY_CACHE_KEY: ${{ inputs.dependency_cache_key }}
+          CACHE_EXPECTED_PREFIX: ${{ format('cmake-cache-{0}-{1}-{2}-{3}-{4}{5}-snapshot-', runner.os, env.THEMIS_CACHE_TAG, hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'ports/**', 'triplets/**'), env.THEMIS_VCPKG_REVISION, env.THEMIS_COMPILER_VERSION, env.THEMIS_DEPENDENCY_SOURCE) }}
+        run: |
+          set -euo pipefail
+          case "$DEPENDENCY_CACHE_KEY" in
+            "$CACHE_EXPECTED_PREFIX"*) ;;
+            *) echo "::error::Dependency snapshot source/configure/toolchain identity mismatch"; exit 1 ;;
+          esac
+          cache_dir="$(cygpath -u "$GITHUB_WORKSPACE")/.cache"
+          mkdir -p "$cache_dir"
+          cd "$RUNNER_TEMP/windows-dependencies"
+          tar -xf windows-dependencies.tar -C "$cache_dir"
+          echo "THEMIS_WINDOWS_DEPENDENCY_FLAGS=-DVCPKG_INSTALL_OPTIONS=--only-binarycaching" >> "$GITHUB_ENV"
+
       - name: Record restored cache inventory
         id: cache_before
         shell: bash
@@ -391,11 +430,11 @@ jobs:
           echo "fingerprint=$fingerprint" >> "$GITHUB_OUTPUT"
 
       - name: Print initial cache hit state
+        if: inputs.windows_dependency_mode != 'consume'
         shell: bash
         env:
           CACHE_HIT: ${{ steps.restore_cmake_cache.outputs.cache-hit }}
           CACHE_MATCHED_KEY: ${{ steps.restore_cmake_cache.outputs.cache-matched-key }}
-          CACHE_EXPECTED_PREFIX: ${{ format('cmake-cache-{0}-{1}-{2}-{3}-{4}{5}-snapshot-', runner.os, env.THEMIS_CACHE_TAG, hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'ports/**', 'triplets/**'), env.THEMIS_VCPKG_REVISION, env.THEMIS_COMPILER_VERSION, env.THEMIS_DEPENDENCY_SOURCE) }}
         run: |
           set -euo pipefail
           if [ "$CACHE_HIT" = true ]; then
@@ -406,14 +445,6 @@ jobs:
             echo "dependency cache state: no-cache"
           fi
           echo "dependency cache matched key: $CACHE_MATCHED_KEY"
-          if [ "${{ inputs.windows_dependency_mode }}" = consume ]; then
-            test "$CACHE_HIT" = true || { echo "::error::Completed dependency snapshot unavailable"; exit 1; }
-            case "$CACHE_MATCHED_KEY" in
-              "$CACHE_EXPECTED_PREFIX"*) ;;
-              *) echo "::error::Dependency snapshot source/configure/toolchain identity mismatch"; exit 1 ;;
-            esac
-            echo "THEMIS_WINDOWS_DEPENDENCY_FLAGS=-DVCPKG_INSTALL_OPTIONS=--only-binarycaching" >> "$GITHUB_ENV"
-          fi
 
       - name: Print vcpkg cache resolution
         shell: bash
@@ -680,6 +711,7 @@ jobs:
       - name: Save dependency snapshot before ThemisDB compile
         id: dependency_save
         if: ${{ !cancelled() && inputs.windows_dependency_mode == 'prepare' && (steps.dependency_prepare.outcome == 'success' || steps.dependency_prepare.outcome == 'failure') }}
+        continue-on-error: true
         timeout-minutes: 30
         uses: actions/cache/save@v5
         with:
@@ -690,9 +722,33 @@ jobs:
           key: ${{ steps.restore_cmake_cache.outputs.cache-primary-key }}
           enableCrossOsArchive: false
 
+      - name: Archive completed Windows dependency snapshot
+        if: inputs.windows_dependency_mode == 'prepare' && steps.dependency_prepare.outcome == 'success'
+        shell: bash
+        run: |
+          set -euo pipefail
+          cache_dir="$(cygpath -u "$GITHUB_WORKSPACE")/.cache"
+          cd "$RUNNER_TEMP"
+          tar -cf windows-dependencies.tar -C "$cache_dir" \
+            "sccache-${THEMIS_CACHE_TAG}" \
+            "vcpkg-downloads/${THEMIS_CACHE_TAG}" \
+            "vcpkg-binary/${THEMIS_CACHE_TAG}"
+
+      - name: Upload completed Windows dependency snapshot
+        id: dependency_upload
+        if: inputs.windows_dependency_mode == 'prepare' && steps.dependency_prepare.outcome == 'success'
+        timeout-minutes: 30
+        uses: actions/upload-artifact@v5
+        with:
+          name: windows-dependencies-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/windows-dependencies.tar
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+
       - name: Confirm completed dependency snapshot
         id: dependency_complete
-        if: inputs.windows_dependency_mode == 'prepare' && steps.dependency_prepare.outcome == 'success' && steps.dependency_save.outcome == 'success'
+        if: inputs.windows_dependency_mode == 'prepare' && steps.dependency_prepare.outcome == 'success' && steps.dependency_upload.outcome == 'success'
         shell: bash
         run: |
           echo "cache_key=${{ steps.restore_cmake_cache.outputs.cache-primary-key }}" >> "$GITHUB_OUTPUT"

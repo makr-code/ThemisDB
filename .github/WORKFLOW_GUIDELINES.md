@@ -2,7 +2,7 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-09
+> Last Updated: 2026-11-10
 > Status: active
 > AI_Used: true
 > AI_Models: unknown
@@ -696,6 +696,7 @@ Implementierungshinweis:
   - Betrifft: `gate-pr-core.yml`, `gate-pr-*.yml`, `compliance-governance-gates.yml`, `gate-*.yml`
 - Jeder PR-Workflow muss `concurrency` mit `cancel-in-progress: true` setzen.
 - `paths:` muss für PR-Workflows eng begrenzt sein — kein `src/**` oder `include/**` als einziges Muster.
+- Einzige all-path Ausnahme: `gate-pr-file-size.yml` muss jeden PR prüfen, damit neue große Dateien unabhängig von Pfad und Dateiendung erkannt werden; der Job bleibt leichtgewichtig und sein Status ist branch-protection-pflichtig.
 
 ## PR Governance for AI-Generated Changes
 - Pull Requests labeled `ai-generated` require maintainer review before merge.

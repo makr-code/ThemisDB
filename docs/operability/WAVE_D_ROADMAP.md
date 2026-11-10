@@ -4,11 +4,18 @@
 **Created:** 2026-08-24  
 **Last Updated:** 2026-11-09
 **Status:** active  
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Platform Team
 **Document Type:** Wave D Program Roadmap  
 **Target Release:** Q1 2027 (v2.4.x GA + v2.5.0-rc1)  
 **Scope:** Distributed tracing, operator runbooks, long-duration soak testing  
-**Execution Status:** OPEN — no accepted current D2/soak execution evidence or human sign-off (reviewed 2026-11-09)
+**Execution Status:** OPEN — owner [#7811](https://github.com/makr-code/ThemisDB/issues/7811); no accepted current D2/soak execution evidence or human sign-off (reviewed 2026-11-09)
 **Branch:** develop  
+
+> Exact model backend not verifiable from final document text alone.
 
 `Status` describes document lifecycle metadata; `Execution Status` describes Wave D implementation progress.
 
@@ -37,7 +44,7 @@ Wave D focuses on hardening operational capabilities across distributed and acce
 
 | Track | Status | Evidence |
 |---|---|---|
-| Wave A-C gate verification | [~] In progress | Wave C ✅ complete; Wave A/B partially complete — hardware baselines pending Q4 2026 |
+| Wave A-C gate verification | [~] In progress | Historical 2026-08-24 snapshot marked Wave C complete; superseded by the current root ROADMAP and open Wave C manifest |
 | Operator runbooks (5) | [x] Complete | `docs/operability/RUNBOOK_*.md` — all 5 published |
 | Long-duration soak tests | [~] Files created | `tests/integration/test_replication_soak_60min.cpp`, `test_sharding_distributed_write_soak.cpp`, `test_telemetry_soak.cpp`; full runs pending hardware |
 | Distributed tracing SDK | [ ] Not started | Phase 2A plan documented; awaiting Wave A gate confirmation |
@@ -258,9 +265,9 @@ require `self-hosted gpu-cuda` runner with CUDA 12.x.
 ## 4. Acceptance Criteria
 
 ### Observability Expansion
-- [x] Distributed tracing spans created for transaction/sharding/replication entry/exit points
-- [x] High-cardinality metrics collected without cardinality explosion (memory bounded)
-- [x] OpenTelemetry exporter stress tests pass (1000s events/sec sustained)
+- [~] Distributed tracing spans exist in source; current D2 execution evidence remains pending under [#7811](https://github.com/makr-code/ThemisDB/issues/7811)
+- [~] High-cardinality metrics have implementation work; boundedness and production behavior still require current D2 validation
+- [ ] OpenTelemetry exporter stress tests pass (1000s events/sec sustained); no accepted current execution evidence is recorded
 - [x] Operator remediation hints documented for each impacted module
 
 ### Runbooks
@@ -269,15 +276,15 @@ require `self-hosted gpu-cuda` runner with CUDA 12.x.
 - [x] All runbooks cross-linked in central `docs/operability/README.md`
 
 ### Soak Tests
-- [x] All 4 soak test scenarios execute and collect baseline evidence
-- [x] Minimum 24-hour run for telemetry, 48-hour for replication/sharding
-- [x] Evidence includes failure injection recovery and performance baselines
+- [ ] All four soak scenarios execute and collect baseline evidence; execution is tracked under [#7811](https://github.com/makr-code/ThemisDB/issues/7811)
+- [ ] Minimum 24-hour run for telemetry and 48-hour runs for replication/sharding are completed
+- [ ] Evidence includes failure-injection recovery and performance baselines
 
 ### Integration & Sign-Off
-- [x] Observability integration tests verify Wave 7-9 gate compatibility
-- [x] GA promotion gates updated with Wave D status
-- [x] Human sign-off from operations + architecture leads required
-- [x] Wave D roadmap marked complete in root ROADMAP.md
+- [ ] Observability integration tests verify Wave 7-9 gate compatibility with current execution artifacts
+- [x] Root ROADMAP records Wave D as open and keeps promotion evidence-gated
+- [ ] Operations and architecture leads record the required human sign-off
+- [ ] Wave D is closed in root ROADMAP only after D1-D4 evidence and sign-off pass
 
 ---
 
