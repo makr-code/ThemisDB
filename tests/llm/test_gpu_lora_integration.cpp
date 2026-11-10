@@ -355,7 +355,7 @@ namespace {
         return 0;
     }
     static int  mock_lora_remove_fn(struct llama_context* /*ctx*/, void* /*adapter*/) { return 0; }
-    static int  mock_lora_clear_fn(struct llama_context* /*ctx*/) { return 0; }
+    static void mock_lora_clear_fn(struct llama_context* /*ctx*/) {}
     static void mock_lora_free_fn(void* /*adapter*/) {}
 } // namespace
 

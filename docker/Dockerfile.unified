@@ -520,7 +520,17 @@ COPY scripts/release/runtime-dependencies-ubuntu-24.04.txt /tmp/runtime-dependen
 # librocksdb8.9/libgrpc++1.51t64, which are sufficient for the fixed runtime target.
 RUN --mount=type=cache,id=apt-cache-runtime-${TARGETARCH},target=/var/cache/apt,sharing=locked \
     --mount=type=cache,id=apt-lib-runtime-${TARGETARCH},target=/var/lib/apt,sharing=locked \
-    apt-get update && \
+    APT_ATTEMPT=1 && \
+    until apt-get update --error-on=any; do \
+        if [ "${APT_ATTEMPT}" -ge 5 ]; then \
+            echo "ERROR: runtime APT index refresh failed after ${APT_ATTEMPT} attempts" >&2; \
+            exit 100; \
+        fi; \
+        echo "Retrying runtime APT index refresh in 15 seconds (attempt ${APT_ATTEMPT}/5)"; \
+        rm -rf /var/lib/apt/lists/*; \
+        sleep 15; \
+        APT_ATTEMPT=$((APT_ATTEMPT + 1)); \
+    done && \
     xargs -r apt-get install -y --no-install-recommends < /tmp/runtime-dependencies.txt && \
     rm -rf /var/lib/apt/lists/*
 

@@ -48,9 +48,9 @@
 namespace {
     // Function pointer types for llama.cpp LoRA API
     using llama_lora_adapter_init_fn = void* (*)(struct llama_model*, const char*);
-    using llama_lora_adapter_set_fn = int (*)(struct llama_context*, void*, float);
-    using llama_lora_adapter_remove_fn = int (*)(struct llama_context*, void*);
-    using llama_lora_adapter_clear_fn = int (*)(struct llama_context*);
+    using llama_lora_adapter_set_fn = int32_t (*)(struct llama_context*, void*, float);
+    using llama_lora_adapter_remove_fn = int32_t (*)(struct llama_context*, void*);
+    using llama_lora_adapter_clear_fn = void (*)(struct llama_context*);
     using llama_lora_adapter_free_fn = void (*)(void*);
     
     // API function pointers (initialized once)
@@ -83,42 +83,48 @@ namespace {
     void initializeLoRAAPI() {
         spdlog::info("Initializing llama.cpp LoRA API detection...");
         
-        // Try to get function pointers from current process
-        // Note: If llama.cpp is statically linked, these symbols should be available
+        // Prefer the main module for static builds, then the loaded llama DLL.
         #ifdef _WIN32
-        // On Windows, get handle to current process
-        HMODULE hModule = GetModuleHandle(nullptr);
+        HMODULE process_module = GetModuleHandle(nullptr);
+        HMODULE llama_module = GetModuleHandleA("llama.dll");
+        const auto resolve = [process_module, llama_module](const char* name) -> FARPROC {
+            FARPROC symbol = process_module ? GetProcAddress(process_module, name) : nullptr;
+            if (!symbol && llama_module && llama_module != process_module) {
+                symbol = GetProcAddress(llama_module, name);
+            }
+            return symbol;
+        };
         g_llama_lora_adapter_init = reinterpret_cast<llama_lora_adapter_init_fn>(
-            GetProcAddress(hModule, "llama_lora_adapter_init")
+            resolve("llama_adapter_lora_init")
         );
         g_llama_lora_adapter_set = reinterpret_cast<llama_lora_adapter_set_fn>(
-            GetProcAddress(hModule, "llama_lora_adapter_set")
+            resolve("llama_set_adapter_lora")
         );
         g_llama_lora_adapter_remove = reinterpret_cast<llama_lora_adapter_remove_fn>(
-            GetProcAddress(hModule, "llama_lora_adapter_remove")
+            resolve("llama_rm_adapter_lora")
         );
         g_llama_lora_adapter_clear = reinterpret_cast<llama_lora_adapter_clear_fn>(
-            GetProcAddress(hModule, "llama_lora_adapter_clear")
+            resolve("llama_clear_adapter_lora")
         );
         g_llama_lora_adapter_free = reinterpret_cast<llama_lora_adapter_free_fn>(
-            GetProcAddress(hModule, "llama_lora_adapter_free")
+            resolve("llama_adapter_lora_free")
         );
         #else
-        // On Unix-like systems, use dlsym
+        // The application links llama.cpp globally on supported Unix builds.
         g_llama_lora_adapter_init = reinterpret_cast<llama_lora_adapter_init_fn>(
-            dlsym(RTLD_DEFAULT, "llama_lora_adapter_init")
+            dlsym(RTLD_DEFAULT, "llama_adapter_lora_init")
         );
         g_llama_lora_adapter_set = reinterpret_cast<llama_lora_adapter_set_fn>(
-            dlsym(RTLD_DEFAULT, "llama_lora_adapter_set")
+            dlsym(RTLD_DEFAULT, "llama_set_adapter_lora")
         );
         g_llama_lora_adapter_remove = reinterpret_cast<llama_lora_adapter_remove_fn>(
-            dlsym(RTLD_DEFAULT, "llama_lora_adapter_remove")
+            dlsym(RTLD_DEFAULT, "llama_rm_adapter_lora")
         );
         g_llama_lora_adapter_clear = reinterpret_cast<llama_lora_adapter_clear_fn>(
-            dlsym(RTLD_DEFAULT, "llama_lora_adapter_clear")
+            dlsym(RTLD_DEFAULT, "llama_clear_adapter_lora")
         );
         g_llama_lora_adapter_free = reinterpret_cast<llama_lora_adapter_free_fn>(
-            dlsym(RTLD_DEFAULT, "llama_lora_adapter_free")
+            dlsym(RTLD_DEFAULT, "llama_adapter_lora_free")
         );
         #endif
         
@@ -422,27 +428,22 @@ int llama_lora_adapter_clear(struct llama_context* ctx) {
     spdlog::debug("Clearing all LoRA adapters from context");
     
     // Call real (or injected) llama.cpp function
-    int result = fn(ctx);
-    
-    if (result == 0) {
-        spdlog::debug("✓ All LoRA adapters cleared successfully");
-        std::vector<void*> legacy_adapters;
-        {
-            std::lock_guard<std::mutex> lock(g_legacy_adapter_mutex);
-            auto it = g_legacy_adapters.find(ctx);
-            if (it != g_legacy_adapters.end()) {
-                legacy_adapters = std::move(it->second);
-                g_legacy_adapters.erase(it);
-            }
+    fn(ctx);
+
+    spdlog::debug("✓ All LoRA adapters cleared successfully");
+    std::vector<void*> legacy_adapters;
+    {
+        std::lock_guard<std::mutex> lock(g_legacy_adapter_mutex);
+        auto it = g_legacy_adapters.find(ctx);
+        if (it != g_legacy_adapters.end()) {
+            legacy_adapters = std::move(it->second);
+            g_legacy_adapters.erase(it);
         }
-        for (void* adapter : legacy_adapters) {
-            llama_lora_adapter_free(adapter);
-        }
-    } else {
-        spdlog::warn("✗ Failed to clear LoRA adapters (error: {})", result);
     }
-    
-    return result;
+    for (void* adapter : legacy_adapters) {
+        llama_lora_adapter_free(adapter);
+    }
+    return 0;
 }
 
 /**

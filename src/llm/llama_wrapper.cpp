@@ -100,128 +100,112 @@ public:
         }
     }
 
-    /**
-     * @brief Bind @p adapter_id to @p ctx for the lifetime of this object.
-     * @param manager LoRA manager (may be nullptr → error).
-     * @param adapter_id Requested adapter id.
-     * @param model Loaded base model.
-     * @param ctx Inference context to attach the adapter to.
-     * @param identity Identity of the loaded base model (file name, sha256, generation).
-     * @param[out] error Reason on failure.
-     * @return true when the adapter is attached to @p ctx.
-     */
-    [[nodiscard]] bool bind(themis::llm::MultiLoRAManager* manager,
-                            const std::string& adapter_id,
-                            llama_model* model,
-                            llama_context* ctx,
-                            const themis::llm::lora_gguf::BaseModelIdentity& identity,
-                            std::string& error) {
-        if (!manager) {
-            error = "LoRA adapter '" + adapter_id + "' requested but LoRA support is not configured";
-            return false;
+        /**
+         * @brief Bind an adapter to a context for this request and reject incompatible models.
+         * @param manager Multi-LoRA manager; may be null if LoRA support is not configured.
+         * @param adapter_id Requested adapter identifier.
+         * @param model Loaded base model.
+         * @param ctx Context to bind the adapter to.
+         * @param identity Loaded model identity used for adapter compatibility checks.
+         * @param[out] error Receives the failure reason when binding fails.
+         * @return True only when the adapter was initialized and applied successfully.
+         */
+        [[nodiscard]] bool bind(themis::llm::MultiLoRAManager* manager,
+                                const std::string& adapter_id,
+                                llama_model* model,
+                                llama_context* ctx,
+                                const themis::llm::lora_gguf::BaseModelIdentity& identity,
+                                std::string& error) {
+            if (!manager) {
+                error = "LoRA adapter '" + adapter_id + "' requested but LoRA support is not configured";
+                return false;
+            }
+            if (!model || !ctx) {
+                error = "LoRA adapter '" + adapter_id + "' requested but no model/context is loaded";
+                return false;
+            }
+            if (!manager->isLoRALoaded(adapter_id)) {
+                error = "Unknown LoRA adapter '" + adapter_id + "'";
+                return false;
+            }
+            if (!manager->initializeLoRAWithModel(adapter_id, model, identity)) {
+                error = "LoRA adapter '" + adapter_id +
+                        "' could not be loaded onto the base model (incompatible or invalid adapter)";
+                return false;
+            }
+            if (!manager->applyLoRA(adapter_id, ctx)) {
+                error = "LoRA adapter '" + adapter_id + "' could not be applied to the inference context";
+                return false;
+            }
+            manager_ = manager;
+            ctx_ = ctx;
+            adapter_id_ = adapter_id;
+            return true;
         }
-        if (!model || !ctx) {
-            error = "LoRA adapter '" + adapter_id + "' requested but no model/context is loaded";
-            return false;
-        }
-        if (!manager->isLoRALoaded(adapter_id)) {
-            error = "Unknown LoRA adapter '" + adapter_id + "'";
-            return false;
-        }
-        if (!manager->initializeLoRAWithModel(adapter_id, model, identity)) {
-            error = "LoRA adapter '" + adapter_id +
-                    "' could not be loaded onto the base model (incompatible or invalid adapter)";
-            return false;
-        }
-        if (!manager->applyLoRA(adapter_id, ctx)) {
-            error = "LoRA adapter '" + adapter_id + "' could not be applied to the inference context";
-            return false;
-        }
-        manager_ = manager;
-        ctx_ = ctx;
-        adapter_id_ = adapter_id;
-        return true;
+
+    private:
+        themis::llm::MultiLoRAManager* manager_ = nullptr;
+        llama_context* ctx_ = nullptr;
+        std::string adapter_id_;
+    };
+
+    [[nodiscard]] themis::llm::lora_gguf::BaseModelIdentity makeBaseModelIdentity(
+        const std::string& model_path,
+        const std::string& expected_sha256,
+        std::chrono::system_clock::time_point loaded_at) {
+        themis::llm::lora_gguf::BaseModelIdentity identity;
+        identity.gguf_file_name = std::filesystem::path(model_path).filename().string();
+        identity.sha256 = expected_sha256;
+        identity.generation = static_cast<std::uint64_t>(loaded_at.time_since_epoch().count());
+        return identity;
     }
 
-private:
-    themis::llm::MultiLoRAManager* manager_ = nullptr;
-    llama_context* ctx_ = nullptr;
-    std::string adapter_id_;
-};
+    [[nodiscard]] themis::llm::InferenceResponse makeLoRAErrorResponse(
+        const themis::llm::InferenceRequest& request,
+        const std::string& model_id,
+        const std::string& error) {
+        themis::llm::InferenceResponse response;
+        response.request_id = request.request_id;
+        response.trace_id = request.trace_id;
+        response.span_id = request.span_id;
+        response.model_used = model_id;
+        response.success = false;
+        response.error_message = error;
+        return response;
+    }
 
-/**
- * @brief Identity of the currently loaded base model for adapter compatibility checks.
- * @param model_path Path of the loaded base GGUF (only the file name is used).
- * @param expected_sha256 Configured sha256 of the base GGUF (may be empty).
- * @param loaded_at Load timestamp of the model instance; used as reload generation so
- *        adapter handles bound to a previous instance are re-initialised.
- * @return Populated identity.
- */
-[[nodiscard]] themis::llm::lora_gguf::BaseModelIdentity makeBaseModelIdentity(
-    const std::string& model_path,
-    const std::string& expected_sha256,
-    std::chrono::system_clock::time_point loaded_at) {
-    themis::llm::lora_gguf::BaseModelIdentity identity;
-    identity.gguf_file_name = std::filesystem::path(model_path).filename().string();
-    identity.sha256 = expected_sha256;
-    identity.generation = static_cast<std::uint64_t>(loaded_at.time_since_epoch().count());
-    return identity;
-}
+    } // namespace
 
-/**
- * @brief Error response for a request whose LoRA adapter could not be bound (fail-closed).
- * @param request Originating request.
- * @param model_id Current model id.
- * @param error Human-readable reason.
- * @return Response with success=false, error_message set and lora_used unset.
- */
-[[nodiscard]] themis::llm::InferenceResponse makeLoRAErrorResponse(
-    const themis::llm::InferenceRequest& request,
-    const std::string& model_id,
-    const std::string& error) {
-    themis::llm::InferenceResponse response;
-    response.request_id = request.request_id;
-    response.trace_id = request.trace_id;
-    response.span_id = request.span_id;
-    response.model_used = model_id;
-    response.success = false;
-    response.error_message = error;
-    return response;
-}
+    // Forward declarations for llama.cpp grammar API (from llama_grammar_adapter.cpp)
+    extern "C" {
+        /**
+         * @brief Llama grammar sample.
+         * @param[in] grammar Input parameter.
+         * @param[in] ctx Input parameter.
+         * @param[in,out] candidates Input/output parameter.
+         */
+        void llama_grammar_sample(const struct llama_grammar* grammar, const struct llama_context* ctx, struct llama_token_data_array* candidates);
+        /**
+         * @brief Llama grammar accept.
+         * @param[in,out] grammar Input/output parameter.
+         * @param[in] ctx Input parameter.
+         * @param[in] token Input parameter.
+         */
+        void llama_grammar_accept(struct llama_grammar* grammar, const struct llama_context* ctx, int token);
+        /**
+         * @brief Themis llama grammar available.
+         * @return True when the operation succeeds.
+         */
+        bool themis_llama_grammar_available();
+    }
 
-} // namespace
-
-// Forward declarations for llama.cpp grammar API (from llama_grammar_adapter.cpp)
-extern "C" {
-    /**
-     * @brief Llama grammar sample.
-     * @param[in] grammar Input parameter.
-     * @param[in] ctx Input parameter.
-     * @param[in,out] candidates Input/output parameter.
-     */
-    void llama_grammar_sample(const struct llama_grammar* grammar, const struct llama_context* ctx, struct llama_token_data_array* candidates);
-    /**
-     * @brief Llama grammar accept.
-     * @param[in,out] grammar Input/output parameter.
-     * @param[in] ctx Input parameter.
-     * @param[in] token Input parameter.
-     */
-    void llama_grammar_accept(struct llama_grammar* grammar, const struct llama_context* ctx, int token);
-    /**
-     * @brief Themis llama grammar available.
-     * @return True when the operation succeeds.
-     */
-    bool themis_llama_grammar_available();
-}
-
-#ifdef THEMIS_ENABLE_VISION
-// Forward declarations for the LLaVA image-embedding injection API
-// (provided by llama.cpp examples/llava or a compatible CLIP wrapper).
-extern "C" {
-    struct llava_image_embed {
-        float* embed;        // Flat embedding vector (n_image_pos × mmproj_embd floats)
-        int    n_image_pos;  // Number of image "positions" (patches)
-    };
+    #ifdef THEMIS_ENABLE_VISION
+    // Forward declarations for the LLaVA image-embedding injection API.
+    extern "C" {
+        struct llava_image_embed {
+            float* embed;
+            int n_image_pos;
+        };
 
     /**
      * @brief Evaluate image embeddings into the llama context (advances *n_past).
@@ -1274,8 +1258,26 @@ bool LlamaWrapper::loadLoRA(
         spdlog::warn("LlamaWrapper::loadLoRA: LoRA manager is not initialized, cannot load '{}'", lora_id);
         return false;
     }
-    // Use multi-LoRA manager (vLLM-style)
-    return lora_manager->loadLoRA(lora_id, lora_path, current_model_id_, scale);
+    // Register the slot first; initialize its llama handle immediately when a
+    // base model is already active, otherwise inference will initialize lazily.
+    if (!lora_manager->loadLoRA(lora_id, lora_path, current_model_id_, scale)) {
+        return false;
+    }
+    auto* const model_loader = model_loader_.get();
+    if (!model_loader || !model_loader->isModelLoaded(current_model_id_)) {
+        return true;
+    }
+    auto loaded_model = model_loader->getOrLoadModelShared(current_model_id_, current_model_path_);
+    if (!loaded_model || !loaded_model->model_handle ||
+        !lora_manager->initializeLoRAWithModel(
+            lora_id,
+            reinterpret_cast<llama_model*>(loaded_model->model_handle),
+            makeBaseModelIdentity(current_model_path_, config_.expected_model_sha256,
+                                  loaded_model->loaded_at))) {
+        lora_manager->unloadLoRA(lora_id, true);
+        return false;
+    }
+    return true;
 }
 
 /**

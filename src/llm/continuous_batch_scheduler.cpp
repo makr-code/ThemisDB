@@ -282,6 +282,38 @@ bool ContinuousBatchScheduler::isRunning() const {
     return running_;
 }
 
+size_t ContinuousBatchScheduler::stepTokens(const ScheduledRequest* request) const {
+    if (!request) {
+        return 0;
+    }
+    if (request->state == RequestState::DECODE) {
+        return 1;
+    }
+    if (request->state != RequestState::PREFILL ||
+        request->tokens_processed >= request->total_prompt_tokens) {
+        return 0;
+    }
+
+    const size_t remaining = request->total_prompt_tokens - request->tokens_processed;
+    if (!config_.enable_chunked_prefill) {
+        return remaining;
+    }
+    return std::min(remaining, effective_prefill_chunk_size_);
+}
+
+void ContinuousBatchScheduler::eraseActive(const ScheduledRequest* request) {
+    if (!request) {
+        return;
+    }
+    active_requests_.erase(
+        std::remove_if(active_requests_.begin(), active_requests_.end(),
+                       [request](const auto& active) {
+                           return active && active.get() == request;
+                       }),
+        active_requests_.end());
+    stats_.active_requests = active_requests_.size();
+}
+
 std::vector<ContinuousBatchScheduler::ScheduledRequest*> 
 ContinuousBatchScheduler::scheduleNextBatch() {
     /**

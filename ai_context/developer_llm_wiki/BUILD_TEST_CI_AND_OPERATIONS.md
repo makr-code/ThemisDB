@@ -17,6 +17,22 @@ Human_Author: "ThemisDB Team"
 Datum: 2026-11-10
 Status: Active
 
+## Docker runtime APT mirror synchronization recovery
+
+Run [42762843024, job 129655324640](https://github.com/makr-code/ThemisDB/actions/runs/42762843024/job/129655324640)
+failed in the runtime stage's `apt-get update`: the Noble security package index
+had an unexpected size relative to its signed release metadata. Compilation and
+runtime smoke validation were not reached. The runtime stage in
+[`docker/Dockerfile.unified`](../../docker/Dockerfile.unified) now retries index
+refreshes up to five times, clearing failed indexes and waiting 15 seconds
+between attempts. `--error-on=any` rejects partial index refreshes; persistent
+failures remain fatal and package signature/hash verification is unchanged.
+The independent runtime stage does not inherit base-stage APT configuration.
+[`tests/test_docker_runtime_package_regressions.py`](../../tests/test_docker_runtime_package_regressions.py)
+executes the shell logic for immediate success, transient recovery, exhausted
+retries, and package installation failure. A full platform image build remains
+required in CI from a source revision containing this fix.
+
 ## PostgreSQL SQL-dump importer linkage
 
 [Run `42854980938`, job `129982571957`](https://github.com/makr-code/ThemisDB/actions/runs/42854980938/job/129982571957) failed while linking `module_importers_test_postgres_insert_token_progress_focused`, before CTest, with undefined `PostgreSQLImporter` constructor, `initialize`, `importData`, and destructor symbols. [ModularBuild.cmake](../../cmake/ModularBuild.cmake) now always includes `../src/importers/postgres_importer.cpp`, matching the [monolithic importer registration](../../cmake/CMakeLists.txt): SQL-dump import is independent of `THEMIS_ENABLE_POSTGRES_WIRE`. In the modular layout, `postgres_session.cpp` and `postgres_importer_mdm.cpp` remain gated by that option.
@@ -53,6 +69,18 @@ normalize the workspace with `cygpath -u`; restoration also ensures the cache
 directory exists. The round-trip regression models a Windows-form workspace and
 executes real archive/extract commands with spaced paths, while retaining
 identity-mismatch and missing-artifact rejection.
+
+Attempt 2 of the same run, [job `129791530083`](https://github.com/makr-code/ThemisDB/actions/runs/42768142107/job/129791530083),
+repeated this failure: artifact download succeeded, but the executed workflow
+still passed `"$GITHUB_WORKSPACE/.cache"` directly to `tar -C`, which exited with
+code 2 (`Cannot open: No such file or directory`). Configuration, compilation,
+and CTest were skipped; the subsequent missing CTest evidence is a consequence,
+not the root cause. The current workflow already normalizes the workspace and
+creates the extraction directory. All 28 Windows dependency preparation tests
+passed locally on 2026-11-10, including the archive round trip. Start a new
+mainline run from a revision containing the corrected reusable workflow; another
+failed-job rerun of this old run does not pick up that workflow fix. Native
+Windows validation of the corrected workflow remains pending.
 
 ## MSVC monitoring route translation-unit split
 

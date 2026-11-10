@@ -202,6 +202,65 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
         self.assertIn(retry_config, base)
         self.assertLess(base.index(retry_config), base.index("apt-get update"))
 
+    @unittest.skipUnless(Path("/bin/sh").is_file(), "Requires the Docker build's POSIX shell")
+    def test_runtime_apt_refresh_recovers_and_fails_closed(self) -> None:
+        stage = extract_stage(self._dockerfile_text(), "runtime")
+        match = re.search(
+            r"^RUN --mount=type=cache,id=apt-cache-runtime-[^\n]*\\\n"
+            r"\s*--mount=[^\n]*\\\n(?P<body>(?:[^\n]*\\\n)*[^\n]*)",
+            stage, re.MULTILINE,
+        )
+        self.assertIsNotNone(match, "Missing runtime APT installation step")
+        command = match.group("body").replace("\\\n", "")
+        shell_commands = """
+            calls=0
+            apt_get() {
+                calls=$((calls + 1))
+                printf 'APT: %s\\n' "$*"
+                [ "$calls" -gt "$FAILURES" ]
+            }
+            rm() { printf 'CLEAN: %s\\n' "$*"; }
+            sleep() { printf 'SLEEP: %s\\n' "$*"; }
+            xargs() {
+                printf 'INSTALL: %s\\n' "$*"
+                cat
+                return "$INSTALL_STATUS"
+            }
+            alias apt-get=apt_get
+        """
+        manifest = REPO_ROOT / "scripts/release/runtime-dependencies-ubuntu-24.04.txt"
+        for failures, install_status in ((0, 0), (2, 0), (5, 0), (0, 123)):
+            with self.subTest(failures=failures, install_status=install_status):
+                result = subprocess.run(
+                    ["/bin/sh", "-c", shell_commands + command.replace(
+                        "/tmp/runtime-dependencies.txt", f'"{manifest}"'
+                    )],
+                    env={**os.environ, "FAILURES": str(failures),
+                         "INSTALL_STATUS": str(install_status)},
+                    capture_output=True, text=True, timeout=10,
+                )
+                exhausted = failures >= 5
+                expected_status = 100 if exhausted else install_status
+                self.assertEqual(result.returncode, expected_status, result.stderr)
+                lines = result.stdout.splitlines()
+                self.assertEqual(
+                    lines.count("APT: update --error-on=any"), min(failures + 1, 5)
+                )
+                self.assertEqual(lines.count("SLEEP: 15"), min(failures, 4))
+                self.assertEqual(
+                    sum(line.startswith("CLEAN: ") for line in lines),
+                    min(failures, 4) + int(expected_status == 0),
+                )
+                self.assertEqual(
+                    "INSTALL: -r apt-get install -y --no-install-recommends" in lines,
+                    not exhausted,
+                )
+                if exhausted:
+                    self.assertIn("failed after 5 attempts", result.stderr)
+                else:
+                    for package in manifest.read_text(encoding="utf-8").split():
+                        self.assertIn(package, result.stdout)
+
     def test_community_logging_dependencies_use_system_packages(self) -> None:
         deps_packages = extract_installed_packages(
             extract_stage(self._dockerfile_text(), "deps", base_image="base"), "deps"
