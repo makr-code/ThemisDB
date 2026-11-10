@@ -1,9 +1,16 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-08-10
-Last Updated: 2026-09-29
+Last Updated: 2026-11-09
 Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
 ---
+
+Exact model backend not verifiable from final document text alone.
 
 # ThemisDB Maturity Evidence Registry
 
@@ -46,7 +53,7 @@ This registry is the single source of truth for linking every GA gate, Phase com
 | **GATE-W8-01** | ASan: zero new memory defects | `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` §4.1 | 2026-08-07 | ✅ PASS | Security Lead |
 | **GATE-W8-02** | UBSan: zero new undefined behavior defects | `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` §4.2 | 2026-08-07 | ✅ PASS | Security Lead |
 | **GATE-W8-03** | TSan: zero new data race defects | `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` §4.3 | 2026-08-07 | ✅ PASS | Security Lead |
-| **GATE-W8-04** | Pentest: quarterly compliance (Q3 2026) with zero new Critical findings | `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md` §10 (Q3 2026: 0 Critical, 1 High [30-day remediation], 3 Medium, 5 Low) | 2026-09-28 | ✅ PASS | Security Lead |
+| **GATE-W8-04** | Pentest: Q3 2026 no-Critical cadence result (historical; not C4 sign-off) | `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md` §10 (Q3 2026: 0 Critical, 1 High [30-day remediation], 3 Medium, 5 Low) | 2026-09-28 | ✅ PASS | Security Lead |
 
 **Registry location:** `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`, `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`
 
@@ -130,12 +137,27 @@ This registry is the single source of truth for linking every GA gate, Phase com
 |---------|----------|--------|------------------|----------|
 | **PENTEST-Q3-001** | HIGH | Open | Atomic token validation with mutex guard in llm/inference_api | 2026-10-28 |
 | **PENTEST-Q3-002** | MEDIUM | Open | File path sanitization; allowlist for upload directories in rag/document_ingestion | Pending |
-| **PENTEST-Q3-003** | MEDIUM | Open | Configuration hardening recommendations | Pending |
-| **PENTEST-Q3-004** | MEDIUM | Open | Additional security assessment findings | Pending |
+| **PENTEST-Q3-003** | MEDIUM | OPEN | Not documented; pending Security Lead validation | Pending |
+| **PENTEST-Q3-004** | MEDIUM | OPEN | Not documented; pending Security Lead validation | Pending |
 
 **Last Assessment:** 2026-09-28 (Q3 2026 quarterly pentest)  
 **Next Reassessment:** 2026-12-20 (Q4 2026 quarterly pentest)  
-**Gate Status:** ✅ PASS (zero critical findings)
+**Historical Q3 result:** ✅ PASS (zero critical findings); this is not C4 compliance sign-off.
+
+For PENTEST-Q3-003 and PENTEST-Q3-004, the current checkout contains no
+`security/pentest/reports/` directory and no authorized detailed report, vendor record, or
+documented restricted-evidence reference. Only the generic summary rows in the canonical bundle
+are available. No further finding details or remediation are established in this registry.
+**Pending Security Lead actions:** validate both records and supply sanitized, access-approved
+details or a documented restricted-evidence reference; then record verified dispositions. Until
+then both findings remain **OPEN**. Issue [#7816](https://github.com/makr-code/ThemisDB/issues/7816)
+was closed after documenting the evidence gap; this is not a finding disposition. The separate C5
+evidence trace is tracked by [#7817](https://github.com/makr-code/ThemisDB/issues/7817).
+Administrative closure of issue #7812 is not evidence of disposition.
+
+Neither administrative closure of issue #7812 nor the historical Q3 no-critical **PASS** is C4
+compliance sign-off. **C4 remains gated until both findings have verified dispositions, the
+release-scoped C5 evidence is linked, and authorized sign-off is recorded.**
 
 ### 2.2 Sanitizer Evidence (ASan/UBSan/TSan)
 
@@ -303,6 +325,6 @@ For Phase 2 automation, evidence registry will be exported as JSON:
 
 ---
 
-**Last Updated:** 2026-08-10  
+**Last Updated:** 2026-11-09
 **Next Review:** 2026-08-17 (weekly refresh)  
 **Approval Signature:** Awaiting platform release review

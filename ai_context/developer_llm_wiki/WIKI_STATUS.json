@@ -1,36 +1,29 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-09T16:14:41+00:00",
+  "generated_at": "2026-11-10T06:06:18+00:00",
   "mode": "incremental",
-  "source_count": 8070,
-  "source_hash": "56bd12cbddb3ee3ee4c6dc368720d38b72f6b0f0395c51b1306f6c4521609939",
+  "source_count": 8073,
+  "source_hash": "30d1c89563ecab04cc2281971c2de981ef89f20870396e7698e052eb48e3edd2",
   "delta": {
-    "added_count": 0,
+    "added_count": 3,
     "removed_count": 0,
-    "changed_count": 17,
-    "added_preview": [],
+    "changed_count": 6,
+    "added_preview": [
+      ".github/workflows/gate-pr-file-size.yml",
+      ".github/workflows/test-helm-chart.yml",
+      "docs/reports/BENCHMARK_PERFORMANCE_EVALUATION_2026-11-09.md"
+    ],
     "removed_preview": [],
     "changed_preview": [
+      ".github/workflows/compliance-governance-gates.yml",
+      "ROADMAP.md",
       "docs/code_maturity_report.md",
-      "docs/de/security/security_hsm.md",
-      "docs/governance/GA_PROMOTION_SIGN_OFF.md",
-      "docs/operability/PHASE2A_DISTRIBUTED_TRACING_VERIFICATION.md",
-      "docs/operability/PHASE2B_METRICS_COLLECTION_VERIFICATION.md",
-      "docs/operability/PHASE2C_EXPORTER_RELIABILITY_VERIFICATION.md",
-      "docs/operability/PHASE4_SOAK_TEST_RESULTS.md",
-      "docs/operability/WAVE_D_ACCEPTANCE_CHECKLIST.md",
+      "docs/governance/MATURITY_EVIDENCE_REGISTRY.md",
       "docs/operability/WAVE_D_ROADMAP.md",
-      "docs/operability/WAVE_D_SIGN_OFF.md",
-      "docs/production/README.md",
-      "docs/production/RUNBOOKS/FAILOVER_RUNBOOK.md",
-      "docs/production/RUNBOOKS/RESTORE_RUNBOOK.md",
-      "include/security/encryption.h",
-      "include/security/hsm_provider.h",
-      "include/security/hsm_security_metrics.h",
-      "include/security/timestamp_authority.h"
+      "include/content/stt_processor.h"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "3b3de3a9856d0465a5c3745f651af42514d8ce32cf9742892e8252bd33be6c33"
+  "manifest_sha256": "e09ff6c644709bf212f7c102d231d909801af78d52613bd68629df9585a9f1e3"
 }

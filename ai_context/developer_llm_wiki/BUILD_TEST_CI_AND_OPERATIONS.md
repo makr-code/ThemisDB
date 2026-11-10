@@ -19,13 +19,38 @@ Status: Active
 
 ## Docker Python autoreconf prerequisite gate
 
-The [release consumer](../../.github/workflows/release-docker-image.yml) and [platform workflow](../../.github/workflows/reusable-docker-image-platform.yml) enforce `test_base_installs_python_autoreconf_prerequisites`. For the compliance export, `docker-compose.yml` selects the repository-root [Dockerfile](../../Dockerfile), not `docker/Dockerfile.unified`; the root Dockerfile used at failed run [42321944686](https://github.com/makr-code/ThemisDB/actions/runs/42321944686/job/128248301027) omitted `autoconf-archive`. This matches vcpkg's prerequisite warning and is a likely cause of the `python3:x64-linux` `autoreconf -vfi` failure, but the stderr log was not captured. Follow-up develop run [42761863772](https://github.com/makr-code/ThemisDB/actions/runs/42761863772) succeeded at SBOM and C5 manifest packaging/validation/upload, but the SOC 2 export failed during root Dockerfile apt package downloads from `security.ubuntu.com` (timeout/404) before vcpkg/Python; it does not verify the prerequisite. Its SBOM signing and tag-only provenance were skipped. A successful SOC 2 evidence-export build remains required. See the [operational guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting) for the failed-job evidence.
+The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap. Release-source preflight, the reusable platform workflow, and the platform test enforce `test_base_installs_python_autoreconf_prerequisites`. For the compliance export, `docker-compose.yml` selects the repository-root [Dockerfile](../../Dockerfile), not `docker/Dockerfile.unified`. The earlier failed run [42321944686](https://github.com/makr-code/ThemisDB/actions/runs/42321944686/job/128248301027) used the root Dockerfile before this prerequisite was added; the missing package matched vcpkg's warning and was a likely cause of its `python3:x64-linux` `autoreconf -vfi` failure, although stderr was not captured. Follow-up run [42761863772](https://github.com/makr-code/ThemisDB/actions/runs/42761863772) succeeded at SBOM and C5 manifest packaging/validation/upload, but the SOC 2 export failed during root Dockerfile apt package downloads from `security.ubuntu.com` (timeout/404) before vcpkg/Python. It therefore does not verify the prerequisite. SBOM signing and tag-only provenance were skipped, and a successful SOC 2 evidence-export build remains required. An older selected source without this package can still fail during `autoreconf`; rerunning that workflow does not change its source. Use a new release tag containing the fix, or set `build_from_workflow_source=true` for non-publishing validation. See the [operational guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting) for details.
 
 ## C5 key-lifecycle persisted-event test
 
 `tests/auth/test_c5_key_lifecycle_audit_evidence.cpp` exercises the real `JWTKeyRotationManager::rotateActiveKey()` API with an attached `AuditLogger` and asserts the persisted `KEY_ROTATED` JSONL record. It is registered as `release_critical`; the PR gate uploads its JUnit result and JSONL output, and mainline CTest evidence includes the audit-output directory. This is API-level coverage only: application-runtime logger wiring is unverified, the test has not yet passed CI, and five other required lifecycle event classes have no production emitter. The local configure attempt could not complete because RocksDB development dependencies were unavailable. See the canonical [C5 key lifecycle evidence map](../../audit/evidence/c5/KEY_LIFECYCLE_AUDIT_EVENTS.md).
 
-AI-assisted update; exact model backend not verifiable from final document text alone.
+## Windows dependency snapshot handoff
+
+Run `42638257654`, job `129657233420` failed before compilation because the
+completed dependency cache saved by preparation was no longer available on a
+failed-job rerun, despite an identical key. The canonical
+`.github/workflows/reusable-cmake-build.yml` now uploads the completed snapshot
+as a 30-day run artifact; `release-build-matrix.yml` passes its immutable artifact
+ID and source/configure/toolchain identity to the consumer. Consumption requires
+that artifact and retains binary-only vcpkg installation and identity validation.
+Caches accelerate preparation only; partial preparation snapshots are never
+published as completed artifacts. Failed-job reruns reuse the original producer's
+artifact ID, not the current attempt number. If the artifact expires, rerun
+preparation too. Older workflow revisions require a new run containing this fix.
+Focused coverage: `tests/test_windows_dependency_preparation.py`.
+
+## MSVC monitoring route translation-unit split
+
+Run `42638257654`, job `129343673144` failed with VS18 MSVC 14.51 `C1060` at
+`monitoring_api_handler.cpp(2246)` despite serial compilation and
+`/Od /Ob0 /GL- /bigobj /Zm200`. Only `MonitoringApiHandler::registerRoutes()`
+(all 47 routes unchanged) is moved to `src/server/monitoring_api_routes.cpp`,
+registered in both build layouts with the handler's existing MSVC properties.
+No API or flag changes; modular non-Debug low-memory defaults and opt-out are
+preserved. Native Windows validation remains pending. See
+[MSVC Handler Optimization](../../cmake/README.md#msvc-handler-optimization)
+for current policy and preserved historical evidence.
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
@@ -104,7 +129,7 @@ AI-assisted update; exact model backend not verifiable from final document text 
 
 ## .github/workflows/compliance-governance-gates.yml
 - Kategorie: build_test_ci
-- Hash: `3243c6e9fa0ee910`
+- Hash: `d975ecaa7f0c1076`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/compliance-supply-chain.yml
@@ -119,7 +144,7 @@ AI-assisted update; exact model backend not verifiable from final document text 
 
 ## .github/workflows/coverage-report-nightly.yml
 - Kategorie: build_test_ci
-- Hash: `7e846289258c5dc7`
+- Hash: `6ff0ecaf03a8a226`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/crda.yml
@@ -175,6 +200,11 @@ AI-assisted update; exact model backend not verifiable from final document text 
 ## .github/workflows/gate-pr-edition-license.yml
 - Kategorie: build_test_ci
 - Hash: `32768597ff46e0b5`
+- Titel: (binary or unreadable)
+
+## .github/workflows/gate-pr-file-size.yml
+- Kategorie: build_test_ci
+- Hash: `2ea528b8ada5fe2c`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-final-runtime-api.yml
@@ -420,9 +450,4 @@ AI-assisted update; exact model backend not verifiable from final document text 
 ## .github/workflows/release-wordpress-press.yml
 - Kategorie: build_test_ci
 - Hash: `641b3d6490580dca`
-- Titel: (binary or unreadable)
-
-## .github/workflows/reusable-benchmark-build-run-report.yml
-- Kategorie: build_test_ci
-- Hash: `fb6c9e997f8c0092`
 - Titel: (binary or unreadable)

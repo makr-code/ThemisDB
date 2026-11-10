@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-11-09
+Datum: 2026-11-10
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
@@ -68,7 +68,7 @@ Status: Active
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `795ddb3c16003468`
+- Hash: `ccccd02fbb5493c5`
 - Titel: ThemisDB Project Roadmap
 - Auszug:
   - <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->

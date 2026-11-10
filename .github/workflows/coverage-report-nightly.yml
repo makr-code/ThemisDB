@@ -64,10 +64,31 @@ jobs:
             -DTHEMIS_ENABLE_HTTP_SERVER=OFF \
             -DTHEMIS_ALLOW_MISSING_ROCKSDB=OFF \
             -DTHEMIS_DIAGNOSTIC_MODE=ON \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
             -DCMAKE_BUILD_TYPE=Debug \
             -DCMAKE_CXX_COMPILER=g++ \
             -DCMAKE_C_COMPILER=gcc
           echo "✓ CMake configured with coverage instrumentation"
+
+      - name: Generate per-module test-quality inventory
+        run: |
+          ctest --test-dir build --show-only=json-v1 > build/ctest-tests.json
+          python3 tools/ci/test_quality_inventory.py \
+            --root . \
+            --compile-commands build/compile_commands.json \
+            --ctest-json build/ctest-tests.json \
+            --source-commit "$GITHUB_SHA" \
+            --source-branch "$GITHUB_REF_NAME" \
+            --output build/test-quality-inventory.json
+
+      - name: Upload test-quality inventory
+        if: always()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: test-quality-inventory-${{ github.run_id }}
+          path: build/test-quality-inventory.json
+          retention-days: 30
+          if-no-files-found: warn
       
       - name: Build (with coverage)
         run: |
@@ -116,6 +137,17 @@ jobs:
           python3 scripts/generate_coverage_baseline.py coverage.lcov \
             --output .github/coverage-baseline-latest.txt \
             --json .github/coverage-baseline-latest.json
+
+      - name: Add module coverage to test-quality inventory
+        run: |
+          python3 tools/ci/test_quality_inventory.py \
+            --root . \
+            --compile-commands build/compile_commands.json \
+            --ctest-json build/ctest-tests.json \
+            --coverage-json .github/coverage-baseline-latest.json \
+            --source-commit "$GITHUB_SHA" \
+            --source-branch "$GITHUB_REF_NAME" \
+            --output build/test-quality-inventory-with-coverage.json
       
       - name: Compare with previous baseline
         id: baseline_delta
@@ -183,6 +215,7 @@ jobs:
           path: |
             coverage-report/
             .github/coverage-baseline-latest.*
+            build/test-quality-inventory-with-coverage.json
             coverage.lcov
             coverage-delta.json
           retention-days: 30

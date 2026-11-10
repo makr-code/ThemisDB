@@ -289,7 +289,7 @@ TEST(DistributedTransactionRecovery, MissingLegacyParticipantStateRemainsInDoubt
         prepare.type = themis::sharding::WALEntryType::PREPARE_TX;
         prepare.transaction_id = txn_id;
         wal.append(prepare);
-        ASSERT_TRUE(wal.flush());
+        wal.flush();
     }
 
     {

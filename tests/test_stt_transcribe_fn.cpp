@@ -45,6 +45,21 @@ TEST(STTTranscribeFnTest, NoInjectionReturnsNoticeStub) {
     EXPECT_FLOAT_EQ(result.average_confidence, 0.0f);
 }
 
+TEST(STTTranscribeFnTest, DefaultOptionsUseObjectDefaults) {
+#ifdef THEMIS_ENABLE_WHISPER
+    GTEST_SKIP() << "THEMIS_ENABLE_WHISPER is ON — stub path is dead; skip.";
+#endif
+
+    STTProcessor proc;
+    ASSERT_TRUE(proc.initialize({}));
+
+    const auto transcription = proc.transcribe(silentWav());
+    EXPECT_TRUE(transcription.success);
+
+    const auto protocol = proc.generateMeetingProtocol(silentWav());
+    EXPECT_TRUE(protocol.is_object());
+}
+
 // ────────────────────────────────────────────────────────────────────────────
 // STT-TFN-02 — injected fn → real text returned
 // ────────────────────────────────────────────────────────────────────────────

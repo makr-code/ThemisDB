@@ -745,12 +745,12 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "98f57cc7ed4a1a45"
+      "sha256_prefix": "793eec99cdc5a1f8"
     },
     {
       "category": "governance",
       "path": "ROADMAP.md",
-      "sha256_prefix": "795ddb3c16003468"
+      "sha256_prefix": "1da56706418e0852"
     },
     {
       "category": "governance",
@@ -2500,7 +2500,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "d39fb12aa0b19868"
+      "sha256_prefix": "e959ca5af47bb77f"
     },
     {
       "category": "docs",
@@ -3445,7 +3445,7 @@
     {
       "category": "docs",
       "path": "docs/governance/GA_PROMOTION_SIGN_OFF.md",
-      "sha256_prefix": "936306c27f08522a"
+      "sha256_prefix": "6a4d897521f7f8fe"
     },
     {
       "category": "docs",
@@ -3475,7 +3475,7 @@
     {
       "category": "docs",
       "path": "docs/governance/MATURITY_EVIDENCE_REGISTRY.md",
-      "sha256_prefix": "3484bf6e9d6f3112"
+      "sha256_prefix": "94b9faafed7673cd"
     },
     {
       "category": "docs",
@@ -4905,22 +4905,22 @@
     {
       "category": "docs",
       "path": "docs/operability/PHASE2A_DISTRIBUTED_TRACING_VERIFICATION.md",
-      "sha256_prefix": "2fda60ad847484ce"
+      "sha256_prefix": "f4104601b879bd65"
     },
     {
       "category": "docs",
       "path": "docs/operability/PHASE2B_METRICS_COLLECTION_VERIFICATION.md",
-      "sha256_prefix": "bf40b5b2d8aea95f"
+      "sha256_prefix": "bd575970ec489ab1"
     },
     {
       "category": "docs",
       "path": "docs/operability/PHASE2C_EXPORTER_RELIABILITY_VERIFICATION.md",
-      "sha256_prefix": "369c65cfe9ce1f19"
+      "sha256_prefix": "fd03b64721ea4f9d"
     },
     {
       "category": "docs",
       "path": "docs/operability/PHASE4_SOAK_TEST_RESULTS.md",
-      "sha256_prefix": "5491431673fe2d56"
+      "sha256_prefix": "728151a784547663"
     },
     {
       "category": "docs",
@@ -5205,17 +5205,17 @@
     {
       "category": "docs",
       "path": "docs/operability/WAVE_D_ACCEPTANCE_CHECKLIST.md",
-      "sha256_prefix": "055180df3f9c4f4f"
+      "sha256_prefix": "7cd274ac7328555d"
     },
     {
       "category": "docs",
       "path": "docs/operability/WAVE_D_ROADMAP.md",
-      "sha256_prefix": "76cc36b297755f03"
+      "sha256_prefix": "6bd3a8537af41ac6"
     },
     {
       "category": "docs",
       "path": "docs/operability/WAVE_D_SIGN_OFF.md",
-      "sha256_prefix": "ede4163ceb1bc84f"
+      "sha256_prefix": "b636f336df597174"
     },
     {
       "category": "docs",
@@ -5600,7 +5600,7 @@
     {
       "category": "docs",
       "path": "docs/production/README.md",
-      "sha256_prefix": "9702b9ff0f1c6082"
+      "sha256_prefix": "bb78b6d16e4be35a"
     },
     {
       "category": "docs",
@@ -7008,14 +7008,14 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-11-09T14:37:52.690979+00:00",
+  "generated_at": "2026-11-09T19:53:40.635856+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-11-09\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
     "module_api_count": 80,
     "source_count": 8070,
-    "wiki_generated_at": "2026-11-09T08:46:02+00:00",
-    "wiki_source_hash": "a859e03bb6403e1e11313353298197ec0b7b3717f72bebdc1b4c986a278de633"
+    "wiki_generated_at": "2026-11-09T17:58:34+00:00",
+    "wiki_source_hash": "52b0a00d9611f99c4b376b68b6a122295612ce3256cfc98d0c5ac2b3d4e73c21"
   },
   "modules": [
     {
@@ -9007,15 +9007,15 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "98f57cc7ed4a1a45",
+    "ARCHITECTURE.md": "793eec99cdc5a1f8",
     "FUTURE_ENHANCEMENTS.md": "ab3cf42244d049f6",
-    "ROADMAP.md": "795ddb3c16003468",
+    "ROADMAP.md": "1da56706418e0852",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
     "ai_context/api_contracts/": "389cdacfaaa6f0ca",
-    "ai_context/developer_llm_wiki/": "6d33a21ed9b85c1d",
+    "ai_context/developer_llm_wiki/": "9f48bd8b35e5138d",
     "ai_working/": "52346260da576891",
-    "docs/": "4451719d68600446"
+    "docs/": "d615d3bf95399923"
   },
   "statistics": {
     "ai_working_artifact_count": 28,
