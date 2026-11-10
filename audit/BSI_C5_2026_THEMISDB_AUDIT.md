@@ -52,7 +52,7 @@ ThemisDB bleibt auf einer **tragfähigen BSI-C5-Basis**, benötigt für den 2026
 - [~] Shared-Responsibility-Matrix (Self-hosted/Managed/Hybrid) als Audit-Anlage ergänzen (`audit/evidence/c5/SHARED_RESPONSIBILITY_MATRIX.md` angelegt; quartalsweise Evidenzbefüllung offen)
 - [~] Signierte SBOM- und Build-Provenance-Referenzen in den Audit-Report aufnehmen (C5-Manifest referenziert SBOM-/Workflow-Artefakte; tag-basierte Provenance-Nachweise weiter ausführen)
 - [~] Incident-Drill- und Restore-Test-Evidenz in quartalsweise Audits integrieren (`audit/evidence/c5/INCIDENT_DRILL_EVIDENCE_INDEX.md` als kanonischer Index angelegt; Befüllung offen)
-- [~] Audit-Events für Key-Lifecycle-Prozesse systematisch vervollständigen (`audit/evidence/c5/KEY_LIFECYCLE_AUDIT_EVENTS.md` als Event-Kanon angelegt; Test/Runtime-Mapping offen)
+- [~] Audit-Events für Key-Lifecycle-Prozesse systematisch vervollständigen (`audit/evidence/c5/KEY_LIFECYCLE_AUDIT_EVENTS.md`: a real `key_rotated` API-path test and CI artifact wiring were added, but test execution is pending; application-runtime wiring and required metadata remain unverified; five required event classes remain unsupported in production)
 
 ### Q4 2026 release-candidate evidence review (updated 2026-11-10)
 

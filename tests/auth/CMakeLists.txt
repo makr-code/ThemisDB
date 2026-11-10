@@ -54,7 +54,19 @@ foreach(_src IN LISTS AUTH_MODULE_TEST_SOURCES)
     endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
-    if(_stem STREQUAL "test_jwt_validator_focused")
+    if(_stem STREQUAL "test_c5_key_lifecycle_audit_evidence")
+        themis_register_module_test(
+            MODULE auth
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            KIND unit
+            TIMEOUT 60
+            LABELS auth key-lifecycle audit-evidence release_critical
+            ENVIRONMENT
+                "THEMIS_C5_KEY_LIFECYCLE_AUDIT_PATH=${CMAKE_BINARY_DIR}/c5-key-lifecycle-audit/key-rotated.jsonl"
+        )
+    elseif(_stem STREQUAL "test_jwt_validator_focused")
         themis_register_module_test(
             MODULE auth
             NAME ${_ctest}

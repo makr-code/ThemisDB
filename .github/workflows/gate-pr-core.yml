@@ -317,11 +317,23 @@ jobs:
           ctest --test-dir build-pr-release-critical --output-on-failure -j 1 --timeout 60 \
             --label-regex '(^|;)release_critical($|;)' \
             --label-exclude '(^|;)(not_release_critical|focus|kind:focused|autogen)($|;)' \
+            --output-junit build-pr-release-critical/ctest-release-critical.xml \
             2>&1 | tee "$LOG_FILE"
           CT_EXIT=${PIPESTATUS[0]}
           set -e
           echo "ctest_exit=${CT_EXIT}" >> "$GITHUB_OUTPUT"
           exit "$CT_EXIT"
+
+      - name: Upload key-lifecycle CTest evidence
+        if: always() && !cancelled()
+        uses: actions/upload-artifact@v5
+        with:
+          name: key-lifecycle-ci-evidence-${{ github.run_number }}
+          path: |
+            build-pr-release-critical/ctest-release-critical.xml
+            build-pr-release-critical/c5-key-lifecycle-audit/key-rotated.jsonl
+          retention-days: 90
+          if-no-files-found: warn
 
       - name: Summarize CTest gate issues
         id: ctest_triage
