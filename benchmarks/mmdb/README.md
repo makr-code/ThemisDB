@@ -37,6 +37,9 @@ cmake --build --preset nightly-bench-sweep
 
 The CTest smoke is `bench_mmdb` (registered as module `base`). It seeds one
 thousand records and checks query results before recording each operation.
+Database creation and fixture writes happen before timed iterations; setup warms
+indexed read paths with 100 sequential and 200 deterministic pseudo-random
+product/document/edge lookups. The four I/O workloads use wall-clock timing.
 Vector ANN and generation workloads are excluded until they can call their
 production APIs and validate quality against ground truth.
 

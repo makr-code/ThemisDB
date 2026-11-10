@@ -31,8 +31,8 @@ The base benchmark sources are in `benchmarks/base/` and are registered from
 |---|---|---|
 | MMDB-1 | Indexed lookup returns exactly one product with the requested key; numeric performance threshold pending a representative baseline | MMDBFixture/IndexedProductLookup |
 | MMDB-2 | Category lookup returns matching products and one matching document per product; numeric performance threshold pending a representative baseline | MMDBFixture/CategoryDocumentJoin |
-| MMDB-3 | One-hop edge lookup returns the configured fanout with matching source IDs; numeric performance threshold pending a representative baseline | MMDBFixture/GraphOneHop |
-| MMDB-4 | Product, document, and edge reads succeed with expected record counts before context assembly; numeric performance threshold pending a representative baseline | MMDBFixture/MultiModelContextAssembly |
+| MMDB-3 | One-hop edge lookup returns the configured fanout and expected target IDs for the source; numeric performance threshold pending a representative baseline | MMDBFixture/GraphOneHop |
+| MMDB-4 | Product, document, and edge reads succeed with expected records, and related edge targets are included in assembled context; numeric performance threshold pending a representative baseline | MMDBFixture/MultiModelContextAssembly |
 
 The MMDB rows map executable cases to their in-benchmark correctness checks.
 They intentionally define no numeric release gate until a representative
