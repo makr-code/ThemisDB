@@ -185,7 +185,7 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
 
         dockerfile = (REPO_ROOT / "Dockerfile").read_text(encoding="utf-8")
         base = extract_stage(dockerfile, "base")
-        bootstrap = base.index("${VCPKG_ROOT}/bootstrap-vcpkg.sh")
+        bootstrap = base.index("./bootstrap-vcpkg.sh")
         packages = extract_installed_packages(base[:bootstrap], "base")
         for package in ("autoconf", "automake", "autoconf-archive", "pkg-config"):
             with self.subTest(package=package):

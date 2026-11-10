@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-09"
+Last Updated: "2026-11-10"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,12 +14,12 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-09
+Datum: 2026-11-10
 Status: Active
 
 ## Docker Python autoreconf prerequisite gate
 
-The [release consumer](../../.github/workflows/release-docker-image.yml) and [platform workflow](../../.github/workflows/reusable-docker-image-platform.yml) enforce `test_base_installs_python_autoreconf_prerequisites` even with the source-preflight override enabled. The current [Dockerfile](../../docker/Dockerfile.unified) installs `autoconf-archive`; the failed SOC 2 evidence-export run [42321944686](https://github.com/makr-code/ThemisDB/actions/runs/42321944686/job/128248301027) used commit `5f8b44bacd78cfb940f5c1bf40456d6617d0284a`, whose Dockerfile omitted it. This matches vcpkg's prerequisite warning and is a likely cause of the `python3:x64-linux` `autoreconf -vfi` failure, but the stderr log was not captured and the updated source has not yet passed a successful SOC 2 evidence-export run. Use a new release tag containing the fix, or a fresh `build_from_workflow_source=true` dry run; re-running an old workflow does not update its source. See the [operational guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting) for the failed-job evidence.
+The [release consumer](../../.github/workflows/release-docker-image.yml) and [platform workflow](../../.github/workflows/reusable-docker-image-platform.yml) enforce `test_base_installs_python_autoreconf_prerequisites`. For the compliance export, `docker-compose.yml` selects the repository-root [Dockerfile](../../Dockerfile), not `docker/Dockerfile.unified`; the root Dockerfile used at failed run [42321944686](https://github.com/makr-code/ThemisDB/actions/runs/42321944686/job/128248301027) omitted `autoconf-archive`. This matches vcpkg's prerequisite warning and is a likely cause of the `python3:x64-linux` `autoreconf -vfi` failure, but the stderr log was not captured. Follow-up develop run [42761863772](https://github.com/makr-code/ThemisDB/actions/runs/42761863772) succeeded at SBOM and C5 manifest packaging/validation/upload, but the SOC 2 export failed during root Dockerfile apt package downloads from `security.ubuntu.com` (timeout/404) before vcpkg/Python; it does not verify the prerequisite. Its SBOM signing and tag-only provenance were skipped. A successful SOC 2 evidence-export build remains required. See the [operational guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting) for the failed-job evidence.
 
 AI-assisted update; exact model backend not verifiable from final document text alone.
 
