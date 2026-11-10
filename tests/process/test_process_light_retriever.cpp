@@ -362,3 +362,26 @@ TEST_F(ProcessLightRetrieverTest, PLR11_TimeoutIsReportedAfterSynchronousRetriev
     EXPECT_NE(result.resource_exhaustion_reason->find("retrieval_timeout"),
               std::string::npos);
 }
+
+TEST_F(ProcessLightRetrieverTest, PLR12_ZeroOutputBudgetsReturnEmptyContext) {
+    saveMinimalModel("m_plr12");
+    storeInstance("inst_plr12", "m_plr12");
+
+    themis::process::ProcessLightRetriever::ResourceLimits limits;
+    limits.max_context_bytes = 0;
+    limits.max_result_elements = 0;
+    limits.max_traversal_depth = 0;
+    limits.max_retrieval_time_ms = 10000;
+    retriever_->setResourceLimits(limits);
+
+    const auto result = retriever_->retrieve(
+        "What is the current state?", "inst_plr12",
+        themis::process::RetrievalMode::LOCAL);
+
+    EXPECT_TRUE(result.llm_context.empty());
+    EXPECT_EQ(result.context_size_bytes, 0u);
+    EXPECT_TRUE(result.degraded);
+    ASSERT_TRUE(result.resource_exhaustion_reason.has_value());
+    EXPECT_NE(result.resource_exhaustion_reason->find("max_result_elements_exceeded"),
+              std::string::npos);
+}

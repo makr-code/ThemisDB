@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-10
 Status: review
 Source_Level: level 1
 SOT_Domain: architecture-governance
@@ -38,7 +38,7 @@ The public declarations in [`include/process/`](../../include/process/) and thei
 
 1. Import or caller-provided records are normalized/validated and stored by `ProcessModelManager`; optional embedder and index callbacks are caller-wired.
 2. Runtime graph retrieval combines instance/model data and, where requested and available, link and similarity evidence.
-3. `ProcessLightRetriever` selects LOCAL/GLOBAL/AUTO; GLOBAL can fall back to LOCAL when community reports are unavailable. Its declared resource limits are not enforced by the current `retrieve()` path; see [`IMPLEMENTATION.md`](IMPLEMENTATION.md).
+3. `ProcessLightRetriever` selects LOCAL/GLOBAL/AUTO; GLOBAL can fall back to LOCAL when community reports are unavailable. It caps output bytes, GLOBAL report count, LOCAL prompt lines, and LOCAL traversal depth, and reports elapsed time and returned bytes. Timeout detection follows synchronous calls and does not provide cancellation; see [`IMPLEMENTATION.md`](IMPLEMENTATION.md).
 4. `ProcessOrchestrationRegistry` stores profile revisions and an active-domain pointer separately. Activation/rollback comprise multiple writes, with no transactional guarantee stated by the API.
 
 The audit and federation components have source implementations, but source presence does not establish production readiness. In particular, audit storage/patch operations and telemetry export contain simplified behavior, and federation sources identify themselves as alpha/core implementation. Consult the current code and tests before relying on advertised design targets.
@@ -48,7 +48,7 @@ The audit and federation components have source implementations, but source pres
 - Invalid or malformed process data is handled through operation results and diagnostics; exact failure behavior is operation-specific.
 - GLOBAL light retrieval may fall back to LOCAL when community reports are unavailable. Callers should inspect the effective mode.
 - Profile activation and rollback span separate persistence writes. A failed operation may require inspection of the stored profile and active-domain pointer; there is no transaction guarantee.
-- Resource limits declared by `ProcessLightRetriever` are not enforced by the current `retrieve()` path.
+- `ProcessLightRetriever` can mark retrieval degraded when a cap is reached. A timeout is reported after synchronous dependencies return and does not preempt them.
 
 ## Non-goals
 

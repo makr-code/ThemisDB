@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-09
+Last Updated: 2026-11-10
 Status: review
 Source_Level: level 1
 SOT_Domain: module-behavior
@@ -51,7 +51,7 @@ The repository defines no canonical aggregate Process performance-gate count; ke
 - **Latest visible weekly performance run:** [run 40257720669](https://github.com/makr-code/ThemisDB/actions/runs/40257720669), dated 2026-10-26, failed during CMake configure because RocksDB was not found. Build, benchmark execution, and report jobs were skipped; this run provides no Process performance result.
 - **Current performance baseline and Process performance-pass status:** not established by the current source, historical artifact, or latest visible weekly performance run. A reproducible baseline requires a source SHA, build and hardware details, raw output, and an explicit threshold-to-case mapping. The coverage runs above must not be presented as performance passes.
 - **Run command and binary location:** the root `community-debug` preset enables benchmarks; the root CMake configuration places runtime targets under `build-community-debug/bin/`. See the [benchmark README](../../benchmarks/process/README.md) for a focused command.
-- **Resource limits:** Do not use this page to infer bounded latency or resource use. In particular, `ProcessLightRetriever::retrieve()` does not currently enforce its header-declared resource budgets; see [implementation notes](IMPLEMENTATION.md).
+- **Resource limits:** `ProcessLightRetriever::retrieve()` caps returned context bytes, GLOBAL report count, LOCAL prompt lines, and LOCAL traversal depth, and reports elapsed time/returned bytes. The timeout is detected after synchronous dependencies return and does not guarantee bounded latency. These limits are exercised by production-class tests, but no configured test run or performance baseline is established by this page; see [implementation notes](IMPLEMENTATION.md).
 
 ## Related sources
 

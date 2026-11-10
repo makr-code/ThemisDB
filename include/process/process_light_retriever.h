@@ -97,8 +97,9 @@ struct LightRetrievalResult {
  * and logs a WARN so there is no silent failure.
  *
  * @par Thread safety
- * All operations are read-only; thread safety is inherited from the underlying
- * @c ProcessGraphRag and @c ProcessCommunityDetector instances.
+ * Concurrent retrievals do not mutate this façade. Configure resource limits
+ * before sharing it; concurrent calls to @c setResourceLimits and @c retrieve
+ * are not synchronized. Thread safety of underlying services is inherited.
  *
  * @section resource_limits Resource limits
  * Retrieval applies output byte and element caps, and clamps LOCAL traversal
