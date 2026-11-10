@@ -1,7 +1,7 @@
 {
-  "validated_at": "2026-11-09T20:54:23.026771+00:00",
+  "validated_at": "2026-11-10T05:51:22.546876+00:00",
   "manifest": "manifest.json",
-  "manifest_sha256": "4e1c743540c8cbabb5571dc19006b2182eff64fb63da75ab83235ab9b0d8b571",
+  "manifest_sha256": "0ca514bf880f2f9dec6f72da39bec9efaad00c1a8ef59202b522ede1ffcc25e8",
   "pass": true,
   "errors": [],
   "scope": "schema and cross-field consistency only; evidence authenticity, signatures, runtime results, and human approval are not verified"
