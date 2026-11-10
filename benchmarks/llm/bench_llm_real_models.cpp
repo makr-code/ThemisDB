@@ -3,6 +3,8 @@
 #include <string>
 #include <filesystem>
 #include <cstdlib>
+#include <cmath>
+#include <utility>
 
 #include "benchmark_artifact_preflight.h"
 
@@ -89,6 +91,7 @@ protected:
 };
 
 BENCHMARK_F(RealLLMBench, RealModel_TextEmbedding_Generation)(benchmark::State& state) {
+    state.SetLabel("component");
     if (!ensureReady(state)) {
         return;
     }
@@ -107,6 +110,16 @@ BENCHMARK_F(RealLLMBench, RealModel_TextEmbedding_Generation)(benchmark::State& 
         const auto& text = test_texts[text_idx % test_texts.size()];
 
         auto embedding = manager.embed(text);
+        if (embedding.empty()) {
+            state.SkipWithError("LLMPluginManager::embed returned an empty embedding");
+            break;
+        }
+        for (const auto value : embedding) {
+            if (!std::isfinite(value)) {
+                state.SkipWithError("LLMPluginManager::embed returned a non-finite value");
+                return;
+            }
+        }
         benchmark::DoNotOptimize(embedding);
         text_idx++;
     }
@@ -116,6 +129,7 @@ BENCHMARK_F(RealLLMBench, RealModel_TextEmbedding_Generation)(benchmark::State& 
 }
 
 BENCHMARK_F(RealLLMBench, RealModel_TextGeneration_50Tokens)(benchmark::State& state) {
+    state.SetLabel("end_to_end");
     if (!ensureReady(state)) {
         return;
     }
@@ -140,6 +154,12 @@ BENCHMARK_F(RealLLMBench, RealModel_TextGeneration_50Tokens)(benchmark::State& s
         request.top_p = 0.9f;
 
         auto response = manager.generate(request);
+        if (!response.success || response.text.empty()) {
+            state.SkipWithError(response.error_message.empty()
+                                    ? "LLMPluginManager::generate returned no valid output"
+                                    : response.error_message.c_str());
+            break;
+        }
         benchmark::DoNotOptimize(response);
         prompt_idx++;
     }
@@ -148,6 +168,7 @@ BENCHMARK_F(RealLLMBench, RealModel_TextGeneration_50Tokens)(benchmark::State& s
 }
 
 BENCHMARK_F(RealLLMBench, RealModel_BatchEmbedding_100Docs)(benchmark::State& state) {
+    state.SetLabel("component");
     if (!ensureReady(state)) {
         return;
     }
@@ -165,7 +186,12 @@ BENCHMARK_F(RealLLMBench, RealModel_BatchEmbedding_100Docs)(benchmark::State& st
         embeddings.reserve(documents.size());
 
         for (const auto& doc : documents) {
-            embeddings.push_back(manager.embed(doc));
+            auto embedding = manager.embed(doc);
+            if (embedding.empty()) {
+                state.SkipWithError("Batch embedding returned an empty embedding");
+                return;
+            }
+            embeddings.push_back(std::move(embedding));
         }
 
         benchmark::DoNotOptimize(embeddings);
@@ -175,6 +201,7 @@ BENCHMARK_F(RealLLMBench, RealModel_BatchEmbedding_100Docs)(benchmark::State& st
 }
 
 static void BM_RealModel_LoadingTime(benchmark::State& state) {
+    state.SetLabel("component");
     std::string model_path = getModelPath();
 
     if (model_path.empty()) {
@@ -190,16 +217,19 @@ static void BM_RealModel_LoadingTime(benchmark::State& state) {
     for (auto _ : state) {
         std::string model_id = "load_test_" + std::to_string(static_cast<unsigned long long>(state.iterations()));
         bool loaded = manager.loadModel(model_id, model_path);
-        benchmark::DoNotOptimize(loaded);
-        if (loaded) {
-            manager.unloadModel(model_id);
+        if (!loaded) {
+            state.SkipWithError("LLMPluginManager::loadModel failed");
+            return;
         }
+        benchmark::DoNotOptimize(loaded);
+        manager.unloadModel(model_id);
     }
 }
 
 BENCHMARK(BM_RealModel_LoadingTime)->Unit(benchmark::kSecond);
 
 BENCHMARK_F(RealLLMBench, RealModel_ContextScaling)(benchmark::State& state) {
+    state.SetLabel("end_to_end");
     if (!ensureReady(state)) {
         return;
     }
@@ -227,11 +257,17 @@ BENCHMARK_F(RealLLMBench, RealModel_ContextScaling)(benchmark::State& state) {
         request.top_p = 0.9f;
 
         auto response = manager.generate(request);
+        if (!response.success || response.text.empty()) {
+            state.SkipWithError(response.error_message.empty()
+                                    ? "Context-scaling inference returned no valid output"
+                                    : response.error_message.c_str());
+            break;
+        }
         benchmark::DoNotOptimize(response);
     }
 
     state.SetItemsProcessed(state.iterations());
-    state.SetLabel("ctx_tokens=" + std::to_string(context_tokens));
+    state.SetLabel("end_to_end;ctx_tokens=" + std::to_string(context_tokens));
 }
 
 BENCHMARK_REGISTER_F(RealLLMBench, RealModel_ContextScaling)

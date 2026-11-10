@@ -6,6 +6,12 @@ endif()
 
 message(STATUS "Configuring benchmark module: training")
 
+# Keep the production-path LoRA data benchmark visible to the source audit.
+themis_add_standard_benchmark(
+    bench_lora_data_paths
+    bench_lora_data_paths.cpp
+)
+
 file(GLOB TRAINING_BENCH_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/bench_*.cpp"
 )

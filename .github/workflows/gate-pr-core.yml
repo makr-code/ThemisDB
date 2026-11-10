@@ -281,9 +281,9 @@ jobs:
           set -euo pipefail
           git fetch origin "${BASE_REF}:refs/remotes/origin/${BASE_REF}" --depth=1
           git diff --name-only --diff-filter=ACMRT \
-            "origin/${BASE_REF}...HEAD" -- 'tests/*.cpp' 'tests/**/*.cpp' \
+            "origin/${BASE_REF}" HEAD -- 'tests/*.cpp' 'tests/**/*.cpp' \
             > "$RUNNER_TEMP/changed-test-files.txt"
-          git diff --unified=0 "origin/${BASE_REF}...HEAD" -- \
+          git diff --unified=0 "origin/${BASE_REF}" HEAD -- \
             'tests/**/CMakeLists.txt' 'tests/CMakeLists.txt' \
             > "$RUNNER_TEMP/test-cmake.diff"
           python3 tools/ci/check_test_registration.py \

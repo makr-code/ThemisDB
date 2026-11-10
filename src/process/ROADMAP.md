@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-11-07
+Last Updated: 2026-11-10
 Status: review
 Source_Level: level 1
 SOT_Domain: module-behavior
@@ -25,15 +25,15 @@ This roadmap is an evidence-aware planning index, not a release approval. Earlie
 
 ### Maturity assessment
 
-The module has implemented source surfaces for process-model lifecycle and format handlers, linking, graph/context retrieval, analytics, external orchestration profiles, federation, conflict resolution, audit, diagnostics, and telemetry. This is a source inventory, not a maturity or release-readiness claim. Evidence indicates specific contract gaps: `ProcessLightRetriever` does not enforce its declared budgets; profile activation/rollback is a sequence of writes without an atomicity guarantee; audit persistence is an in-memory no-op and its checksum is CRC32; telemetry's collector send path logs and returns success rather than demonstrating external OTLP transport. Federation maturity and guarantees remain unverified. Test registration is not evidence of a passing build or test run, and there is no current Process performance baseline or comparator-enforced expectation. See the [implementation notes](IMPLEMENTATION.md), [performance expectations](PERFORMANCE_EXPECTATIONS.md), and the source evidence below.
+The module has implemented source surfaces for process-model lifecycle and format handlers, linking, graph/context retrieval, analytics, external orchestration profiles, federation, conflict resolution, audit, diagnostics, and telemetry. This is a source inventory, not a maturity or release-readiness claim. `ProcessLightRetriever` now caps returned bytes, GLOBAL report count, LOCAL prompt lines, and LOCAL traversal depth, and reports elapsed time and returned bytes; synchronous dependencies cannot be preempted to guarantee a hard timeout. Focused budget tests have been added, but their configured execution remains pending. Other evidence gaps remain: profile activation/rollback is a sequence of writes without an atomicity guarantee; audit persistence is an in-memory no-op and its checksum is CRC32; telemetry's collector send path logs and returns success rather than demonstrating external OTLP transport. Federation maturity and guarantees remain unverified. Test registration is not evidence of a passing build or test run, and there is no current Process performance baseline or comparator-enforced expectation. See the [implementation notes](IMPLEMENTATION.md), [performance expectations](PERFORMANCE_EXPECTATIONS.md), and the source evidence below.
 
 ## In Progress
 
 - [~] Reconcile public contracts and module documentation with implementation behavior; keep unsupported guarantees explicitly marked (Target: v2.5.0 hardening wave).
+- [~] Verify the implemented `ProcessLightRetriever` budgets by executing the added production-class focused cases in a configured build (Target: v2.5.0 hardening wave).
 
 ## Planned Features
 
-- [ ] Enforce the declared `ProcessLightRetriever` resource budgets or narrow the API contract, with focused tests (Target: v2.5.0 hardening wave).
 - [ ] Specify and test recovery for partial orchestration-profile state updates (Target: v2.5.0 hardening wave).
 - [ ] Reconcile audit persistence/integrity and telemetry export behavior with their public contracts; do not claim unsupported guarantees (Target: v2.5.0 hardening wave).
 - [ ] Establish reproducible build/test evidence and a benchmark baseline before publishing module readiness or performance status (Target: v2.5.0 hardening wave).
@@ -43,7 +43,7 @@ The module has implemented source surfaces for process-model lifecycle and forma
 
 | Area | Source-based finding | Gap / research implication |
 |---|---|---|
-| Retrieval limits | [`process_light_retriever.cpp`](process_light_retriever.cpp) selects AUTO by keyword, limits GLOBAL to three community reports, and falls back to LOCAL or graph retrieval. Both result branches set timing/size fields to zero and do not enforce the declared `ResourceLimits` or call budget helpers. The [focused resilience test](../../tests/process/test_process_retriever_resilience_focused.cpp) uses a mock rather than this production class. | Implement and test each promised limit, or revise the contract; include timeout, size, and traversal-bound cases against the production implementation. |
+| Retrieval limits | [`process_light_retriever.cpp`](process_light_retriever.cpp) selects AUTO by keyword, limits GLOBAL reports, caps returned bytes and LOCAL prompt lines, clamps LOCAL traversal depth, and reports time/size metrics. New cases in [`test_process_light_retriever.cpp`](../../tests/process/test_process_light_retriever.cpp) exercise the production class; configured execution is pending. Synchronous dependencies prevent hard timeout cancellation. | Run focused cases against a configured build and retain the result; do not describe the soft post-operation timeout check as a hard deadline. |
 | Profile state | [`process_orchestration_registry.cpp`](process_orchestration_registry.cpp) demotes a prior profile, persists profile/revision, then writes the active-domain pointer. Rollback reuses activation. The [registry lifecycle tests](../../tests/process/test_process_orchestration_registry.cpp) do not inject failures. | Choose and specify recovery semantics; test failures between writes. Do not promise transactionality without a supporting storage transaction. |
 | Audit and telemetry | [`process_audit_logger.cpp`](process_audit_logger.cpp) uses CRC32 for entries/checksums; persistence/load methods are in-memory/no-op success. [`process_telemetry_integration.cpp`](process_telemetry_integration.cpp) emits simplified JSON and its collector send method logs the endpoint and returns true; trace-context parsing is simplified. | Decide durability, threat model, wire format, and transport boundaries; test the implemented contract. CRC32 is not adversarial tamper evidence, and a successful send return is not proof of collector delivery. |
 | Federation | Federation code and contracts exist, but implementation guarantees require direct verification; documentation describes alpha/core status. | Establish supported failure, quorum, consistency, and security semantics from implementation and fault tests. Comments alone do not prove Raft or Byzantine guarantees. |
@@ -69,10 +69,10 @@ These are planning proposals for v2.5.0 and v3.0.0, not release approvals or del
 #### Wave 1 — bounded retrieval (P0; 1–2 engineer-weeks)
 
 - **Goal:** Make declared `ProcessLightRetriever` resource behavior truthful and testable on production code paths.
-- **Tasks:** Enforce or remove/narrow each declared byte, traversal, result-count, and timeout limit; populate timing/size/degradation results; exercise LOCAL, GLOBAL, AUTO, and GLOBAL-to-LOCAL fallback.
+- **Tasks:** Implement byte, traversal, and result-output caps; populate timing/size/degradation results; document timeout as post-operation detection without cancellation; execute LOCAL, GLOBAL, AUTO, and fallback boundary tests.
 - **Dependencies:** API compatibility decision; retrieval implementation boundary that can observe limits; production-class fixtures for graph/community retrieval.
 - **Risks / trade-offs:** Truncation or early termination can reduce context completeness. A synchronous dependency that cannot be interrupted cannot provide a hard timeout; document that limit rather than claim preemption.
-- **Measurable KPI / exit criterion:** Every retained limit has a production-path boundary test that observes the documented result; all result counters match measured values. If a limit cannot be enforced, it is removed or explicitly marked unsupported.
+- **Measurable KPI / exit criterion:** Every retained output/depth limit has a production-path boundary test that observes the documented result; result counters match returned values. The synchronous timeout limitation is explicit in the API. Configured test execution remains required before closing this wave.
 - **Validation:** Focused retrieval tests for below/at/above-limit cases, zero/empty input, GLOBAL fallback, and over-budget behavior; verify any timeout claim against the actual cancellation/deadline propagation path.
 
 #### Wave 2 — profile transition recovery (P0; 1–2 engineer-weeks)
