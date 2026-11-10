@@ -100,3 +100,133 @@ TEST_F(LoraApiHandlerTest, LA5_QueryWithoutEngine_Returns501) {
 TEST_F(LoraApiHandlerTest, LA6_SetNullEngine_NoThrow) {
     EXPECT_NO_THROW({ handler_->setInferenceEngine(nullptr); });
 }
+
+// ── Training / snapshot provenance endpoints (server-delegated auth) ─────────
+
+namespace {
+/// Authorizer that grants regular endpoints and records admin checks.
+struct RecordingAuthorizer {
+    bool grant_admin = true;
+    int admin_checks = 0;
+    std::optional<http::response<http::string_body>> operator()(
+        const http::request<http::string_body>&, bool admin) {
+        if (!admin) {
+            return std::nullopt;
+        }
+        ++admin_checks;
+        if (grant_admin) {
+            return std::nullopt;
+        }
+        http::response<http::string_body> res{http::status::forbidden, 11};
+        res.body() = R"({"error":"forbidden"})";
+        res.prepare_payload();
+        return res;
+    }
+};
+
+nlohmann::json bodyOf(const http::response<http::string_body>& r) {
+    return nlohmann::json::parse(r.body(), nullptr, /*allow_exceptions=*/false);
+}
+}  // namespace
+
+class LoraApiTrainingTest : public LoraApiHandlerTest {
+protected:
+    void SetUp() override {
+        LoraApiHandlerTest::SetUp();
+        auth_ = std::make_shared<RecordingAuthorizer>();
+        auto a = auth_;
+        handler_->setRequestAuthorizer(
+            [a](const http::request<http::string_body>& req, bool admin) { return (*a)(req, admin); });
+    }
+    std::shared_ptr<RecordingAuthorizer> auth_;
+};
+
+// LA7: inline samples without a training backend: job Failed → 503 with reason, no adapter.
+TEST_F(LoraApiTrainingTest, LA7_InlineSamplesWithoutBackend_Returns503) {
+    auto resp = handler_->handleRequest(makeRequest(
+        http::verb::post, "/api/v1/llm/lora/adapters",
+        R"({"adapter_id":"a1","samples":[{"input":"q1","output":"a1"},{"input":"q2","output":"a2"}]})"));
+    EXPECT_EQ(resp.result(), http::status::service_unavailable);
+    const auto j = bodyOf(resp);
+    ASSERT_TRUE(j.is_object());
+    EXPECT_EQ(j.value("status", std::string{}), "failed");
+    EXPECT_NE(j.value("error", std::string{}).find("configured"), std::string::npos);
+    EXPECT_FALSE(orch_->getAdapter("a1").has_value());
+}
+
+// LA8: dataset_id goes through the snapshot path; without a reader → 503.
+TEST_F(LoraApiTrainingTest, LA8_DatasetWithoutSnapshotReader_Returns503) {
+    auto resp = handler_->handleRequest(makeRequest(
+        http::verb::post, "/api/v1/llm/lora/adapters", R"({"adapter_id":"a1","dataset_id":"qa_pairs"})"));
+    EXPECT_EQ(resp.result(), http::status::service_unavailable);
+    const auto j = bodyOf(resp);
+    EXPECT_NE(j.value("error", std::string{}).find("snapshot reader"), std::string::npos);
+}
+
+// LA9: invalid input is rejected before any job is created.
+TEST_F(LoraApiTrainingTest, LA9_InvalidInput_Returns400) {
+    const char* bodies[] = {
+        R"({"adapter_id":"a1","dataset_id":"bad name; DROP"})",
+        R"({"adapter_id":"a1","dataset_id":"ok","limit":0})",
+        R"({"adapter_id":"a1","dataset_id":"ok","limit":-5})",
+        R"({"adapter_id":"a1","dataset_id":"ok","samples":[]})",
+        R"({"adapter_id":"a1","samples":[{"input":"only one","output":"x"}]})",
+        R"({"adapter_id":"a1"})",
+        R"({"adapter_id":"a1","dataset_id":"ok","base_model":"some-other-model"})",
+    };
+    for (const char* b : bodies) {
+        auto resp = handler_->handleRequest(makeRequest(http::verb::post, "/api/v1/llm/lora/adapters", b));
+        EXPECT_EQ(resp.result(), http::status::bad_request) << b;
+    }
+    EXPECT_TRUE(orch_->listJobs().empty());
+}
+
+// LA10: job status endpoint reflects orchestrator state; unknown job → 404.
+TEST_F(LoraApiTrainingTest, LA10_JobStatusEndpoint) {
+    auto created = handler_->handleRequest(makeRequest(
+        http::verb::post, "/api/v1/llm/lora/adapters",
+        R"({"adapter_id":"a1","samples":[{"input":"q1","output":"a1"},{"input":"q2","output":"a2"}]})"));
+    const std::string job_id = bodyOf(created).value("job_id", std::string{});
+    ASSERT_FALSE(job_id.empty());
+    auto resp = handler_->handleRequest(makeRequest(http::verb::get, "/api/v1/llm/lora/jobs/" + job_id));
+    EXPECT_EQ(resp.result(), http::status::ok);
+    EXPECT_EQ(bodyOf(resp).value("status", std::string{}), "failed");
+    auto missing = handler_->handleRequest(makeRequest(http::verb::get, "/api/v1/llm/lora/jobs/nope"));
+    EXPECT_EQ(missing.result(), http::status::not_found);
+}
+
+// LA11: admin endpoints are denied without a server authorizer (fail closed).
+TEST_F(LoraApiHandlerTest, LA11_AdminEndpointsWithoutAuthorizer_Return403) {
+    auto regen = handler_->handleRequest(makeRequest(
+        http::verb::post, "/api/v1/llm/lora/adapters/a1/regenerate",
+        R"({"target_adapter_id":"a2","base_model":"m","base_model_gguf":"m.gguf"})"));
+    EXPECT_EQ(regen.result(), http::status::forbidden);
+    auto pin = handler_->handleRequest(makeRequest(http::verb::delete_, "/api/v1/llm/lora/snapshot-pins/abc"));
+    EXPECT_EQ(pin.result(), http::status::forbidden);
+}
+
+// LA12: admin endpoints consult the authorizer with admin=true.
+TEST_F(LoraApiTrainingTest, LA12_AdminEndpointsUseAdminAuthorization) {
+    auth_->grant_admin = false;
+    auto pin = handler_->handleRequest(makeRequest(http::verb::delete_, "/api/v1/llm/lora/snapshot-pins/abc"));
+    EXPECT_EQ(pin.result(), http::status::forbidden);
+    EXPECT_EQ(auth_->admin_checks, 1);
+
+    auth_->grant_admin = true;
+    // No snapshot reader → lease unknown.
+    pin = handler_->handleRequest(makeRequest(http::verb::delete_, "/api/v1/llm/lora/snapshot-pins/abc"));
+    EXPECT_EQ(pin.result(), http::status::not_found);
+}
+
+// LA13: regeneration validates the body and fails without a snapshot reader.
+TEST_F(LoraApiTrainingTest, LA13_RegenerateAdapter) {
+    auto bad = handler_->handleRequest(makeRequest(
+        http::verb::post, "/api/v1/llm/lora/adapters/a1/regenerate", R"({"target_adapter_id":"a2"})"));
+    EXPECT_EQ(bad.result(), http::status::bad_request);
+
+    auto resp = handler_->handleRequest(makeRequest(
+        http::verb::post, "/api/v1/llm/lora/adapters/a1/regenerate",
+        R"({"target_adapter_id":"a2","base_model":"m","base_model_gguf":"m.gguf"})"));
+    EXPECT_GE(resp.result_int(), 400);  // job failed before training (503 or 422)
+    EXPECT_EQ(bodyOf(resp).value("status", std::string{}), "failed");
+}

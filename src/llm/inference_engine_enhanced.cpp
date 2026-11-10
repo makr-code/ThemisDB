@@ -1493,18 +1493,20 @@ void InferenceEngineEnhanced::processBatch(
                 throw std::runtime_error("No available model for request");
             }
 
-            // Validate requested LoRA adapter (if any) is registered.
-            // The adapter was pre-loaded on the plugin via loadLoRAAdapter(); if
-            // it is missing here the request will still execute — the plugin will
-            // use its default behaviour when lora_adapter_id is set but unknown.
+            // Validate requested LoRA adapter (if any) is registered.  Fail closed:
+            // a request naming an adapter must never be served by the bare base model.
             if (req.base_request.lora_adapter_id.has_value() &&
                 !req.base_request.lora_adapter_id->empty()) {
                 const auto& aid = *req.base_request.lora_adapter_id;
-                std::lock_guard<std::mutex> lock(lora_adapters_mutex_);
-                if (lora_adapters_.find(aid) == lora_adapters_.end()) {
-                    spdlog::warn("Request {} references unknown LoRA adapter '{}'; "
-                                 "proceeding without adapter",
-                                 req.request_id, aid);
+                bool known = false;
+                {
+                    std::lock_guard<std::mutex> lock(lora_adapters_mutex_);
+                    known = lora_adapters_.find(aid) != lora_adapters_.end();
+                }
+                if (!known) {
+                    spdlog::error("Request {} references unknown LoRA adapter '{}'; rejecting",
+                                  req.request_id, aid);
+                    throw std::runtime_error("Unknown LoRA adapter '" + aid + "'");
                 }
             }
 
@@ -2019,6 +2021,24 @@ bool InferenceEngineEnhanced::canAddToBatch(
  * @details Calls: get(), computeEmbeddingForCache(), empty(), size(), spdlog::warn(), clear(), recordCacheHit(), recordCacheMiss().
  */
 
+std::string InferenceEngineEnhanced::makeAdapterCacheKey(const InferenceRequest& request) const {
+    std::string key = request.prompt + "|" + request.model_id + "|lora=";
+    if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
+        float scale = 1.0f;
+        {
+            std::lock_guard<std::mutex> lock(lora_adapters_mutex_);
+            auto it = lora_adapters_.find(*request.lora_adapter_id);
+            if (it != lora_adapters_.end()) {
+                scale = it->second.scale;
+            }
+        }
+        key += *request.lora_adapter_id + "@" + std::to_string(scale);
+    } else {
+        key += "<none>";
+    }
+    return key;
+}
+
 std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
     const InferenceRequest& request
 ) {
@@ -2045,9 +2065,13 @@ std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
         embedding.clear();
     }
 
-    // Use the prompt text as the cache key so exact lookups match identical prompts
-    // and the HNSW index can find semantically similar ones.
-    auto cached = cache->get(request.prompt, embedding);
+    // Adapter-qualified exact key; adapter requests use exact-key lookup only so the
+    // semantic index can never return a response produced with another adapter.
+    const bool has_adapter = request.lora_adapter_id && !request.lora_adapter_id->empty();
+    if (has_adapter) {
+        embedding.clear();
+    }
+    auto cached = cache->get(makeAdapterCacheKey(request), embedding);
 
     if (cached) {
         // Only return a cached response when we have a stored generated text.
@@ -2101,9 +2125,12 @@ void InferenceEngineEnhanced::updateCache(
     // KV cache tensors would be extracted from the model state in a full implementation
     std::vector<float> kv_cache;
 
-    // Store the prompt as cache key and the actual generated text so that
-    // checkCache() can return the correct response on a cache hit.
-    cache->put(request.prompt, tokens, embedding, kv_cache, response.text);
+    // Store under the adapter-qualified key (see checkCache()); adapter responses are
+    // stored without embedding so semantic lookups cannot cross adapters.
+    if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
+        embedding.clear();
+    }
+    cache->put(makeAdapterCacheKey(request), tokens, embedding, kv_cache, response.text);
 }
 
 /**

@@ -12,6 +12,7 @@
 
 #include "llm/llm_plugin_interface.h"
 #include "llm/lora_security_validator.h"
+#include "llm/llama_lora_adapter.h"
 
 #include <chrono>
 #include <functional>
@@ -28,6 +29,8 @@
 #include <nlohmann/json.hpp>
 
 struct llama_context;
+struct llama_model;
+struct llama_adapter_lora;
 
 namespace themis {
 namespace llm {
@@ -231,7 +234,17 @@ struct LoRASlot {
     std::string path;
     std::string base_model_id;
     
-    void* adapter_handle = nullptr;     // Opaque LoRA handle
+    /// llama.cpp b7974 adapter handle.  Owned by @ref bound_model (freed together with
+    /// that model; never call the deprecated llama_adapter_lora_free()).  Valid only while
+    /// bound_model / bound_model_generation identify the currently loaded model instance.
+    llama_adapter_lora* adapter_handle = nullptr;
+    llama_model* bound_model = nullptr;          ///< Model the handle was initialised with
+    std::uint64_t bound_model_generation = 0;    ///< Load generation of bound_model (0 = unknown)
+    /// Contexts the adapter is currently attached to (llama_set_adapter_lora succeeded and
+    /// no matching removeLoRA() yet).  Used to detach on unload.
+    std::vector<llama_context*> applied_contexts;
+    /// Scalar GGUF KV metadata (general.*, adapter.*, themis.*) read from the adapter file.
+    json gguf_metadata = json::object();
     float scale = 1.0f;
     
     size_t vram_bytes = 0;
@@ -352,12 +365,58 @@ public:
     );
     
     /**
-     * @brief Initialize Lo RAWith Model.
-     * @param[in] lora_id Identifier of the lora.
-     * @param[in,out] model Input/output parameter.
-     * @return True when the operation succeeds.
+     * @brief Bind a registered adapter to a loaded base model (runtime hot-load).
+     *
+     * Reads the adapter GGUF KV metadata, verifies compatibility with @p model
+     * (adapter.type == "lora", general.architecture, and themis.base_model.gguf /
+     * themis.base_model.sha256 when both sides are known), then calls
+     * llama_adapter_lora_init(model, path).  Idempotent per (adapter, model instance):
+     * returns true without re-loading when the slot is already bound to the same
+     * @p model pointer and @p identity.generation.  When the model instance changed
+     * (base-model reload) the stale handle is dropped and the adapter is re-initialised.
+     * Handles for the same (model instance, file path, size, mtime) are reused across
+     * unload/reload of the adapter because llama.cpp releases adapter memory only with
+     * the model.
+     *
+     * @param[in] lora_id  Registered adapter id.
+     * @param[in] model    Loaded base model; must be non-null and outlive the binding.
+     * @param[in] identity Known identity of the base model (file name, sha256, generation).
+     * @return true when the adapter is bound to @p model; false when the id is unknown,
+     *         @p model is null, the GGUF metadata is missing/incompatible, or llama.cpp
+     *         rejects the adapter.  Errors are logged with the rejection reason.
+     * @note Thread-safe (internal mutex).  Must be called before applyLoRA() on every
+     *       inference path.
      */
-    bool initializeLoRAWithModel(const std::string& lora_id, void* model);
+    [[nodiscard]] bool initializeLoRAWithModel(const std::string& lora_id,
+                                               llama_model* model,
+                                               const lora_gguf::BaseModelIdentity& identity = {});
+
+    /**
+     * @brief Verifies adapter GGUF KV metadata before llama_adapter_lora_init().
+     * @param lora_id Adapter id.
+     * @param gguf_kv Metadata from lora_gguf::readAdapterGgufMetadata().kv.
+     * @param[out] error Rejection reason.
+     * @return false to reject the adapter (hot-load fails closed).
+     */
+    using AdapterMetadataVerifier = std::function<bool(const std::string& lora_id,
+                                                       const nlohmann::json& gguf_kv,
+                                                       std::string& error)>;
+
+    /**
+     * @brief Install (or clear with nullptr) the metadata verifier consulted by
+     *        initializeLoRAWithModel() after the base-model compatibility check
+     *        (e.g. LoRA provenance signature verification).  Thread-safe.
+     */
+    void setAdapterMetadataVerifier(AdapterMetadataVerifier verifier);
+
+    /**
+     * @brief Forget all adapter handles bound to a model instance (model unload/reload).
+     * @param[in] model Model whose bindings are dropped; nullptr drops all bindings.
+     * @return Number of adapter slots whose binding was dropped.
+     * @note Handles are not freed (llama.cpp frees them with the model).  Contexts are not
+     *       touched because they are destroyed together with the model.  Thread-safe.
+     */
+    std::size_t invalidateModelBindings(const llama_model* model);
     
     bool unloadLoRA(const std::string& lora_id, bool force = false);
     
@@ -383,18 +442,31 @@ public:
     void setRemoveAdapterFn(RemoveAdapterFn fn);
 
     /**
-     * @brief Apply Lo RA.
-     * @param[in] lora_id Identifier of the lora.
-     * @param[in,out] context Input/output parameter.
-     * @return True when the operation succeeds.
+     * @brief Attach a bound adapter to a context for the next decode calls.
+     *
+     * Calls llama_set_adapter_lora(context, handle, slot.scale).  The adapter must have
+     * been bound with initializeLoRAWithModel() to the model owning @p context.  When
+     * @p context is null the registered ApplyAdapterFn bridge is used instead.
+     * Stable public entry point used by the regular, speculative and continuous-batching
+     * inference paths.
+     *
+     * @param[in] lora_id Registered adapter id.
+     * @param[in,out] context Target llama context (nullptr = bridge mode).
+     * @return true when the adapter is attached; false when unknown, not bound to a
+     *         model, or llama.cpp rejected it.  Callers must fail the request on false
+     *         (no silent fallback to the base model).
+     * @note Thread-safe.  Callers must call removeLoRA() for the same context when the
+     *       request finishes so the next request does not inherit the adapter.
      */
     bool applyLoRA(const std::string& lora_id, llama_context* context);
     
     /**
-     * @brief Remove Lo RA.
-     * @param[in] lora_id Identifier of the lora.
-     * @param[in,out] context Input/output parameter.
-     * @return True when the operation succeeds.
+     * @brief Detach an adapter from a context (llama_rm_adapter_lora).
+     * @param[in] lora_id Registered adapter id.
+     * @param[in,out] context Context the adapter was applied to (nullptr = bridge mode).
+     * @return true when the adapter is no longer attached (including "was not attached");
+     *         false when the id is unknown or the bridge rejected the removal.
+     * @note Thread-safe.  The adapter handle stays bound to its model for reuse.
      */
     bool removeLoRA(const std::string& lora_id, llama_context* context);
     
@@ -630,18 +702,37 @@ public:
     Stats getStats() const { return getStatistics(); }
     
     /**
-     * @brief Export Lo RA.
-     * @param[in] lora_id Identifier of the lora.
-     * @return Return value.
+     * @brief Export a registered adapter as its standalone serving artifact.
+     *
+     * Returns the exact bytes of the adapter GGUF file registered for @p lora_id.  All
+     * adapter/training/base-model metadata travels inside the GGUF KV store
+     * (general.*, adapter.*, themis.*), so the payload is self-describing.  Base-model
+     * weights are never included or merged.
+     *
+     * @param[in] lora_id Registered adapter id.
+     * @return GGUF bytes (starting with the "GGUF" magic); empty when the id is unknown,
+     *         the registered file is missing/unreadable, is not a GGUF file, or exceeds
+     *         2 × max_lora_vram_mb.  Errors are logged.
+     * @note Thread-safe; file I/O happens outside the manager lock.
      */
     std::vector<uint8_t> exportLoRA(const std::string& lora_id);
     
     /**
-     * @brief Import Lo RA.
-     * @param[in] lora_id Identifier of the lora.
-     * @param[in] data Input parameter.
-     * @param[in] base_model_id Identifier of the base model.
-     * @return True when the operation succeeds.
+     * @brief Import an adapter GGUF payload produced by exportLoRA() and register it.
+     *
+     * The payload is validated (size bound, GGUF magic, parseable GGUF KV store,
+     * adapter.type == "lora", general.architecture present), written atomically to
+     * `<Config::lora_base_dir>/imported/<lora_id>/<themis.adapter.version|unversioned>/adapter.gguf`
+     * and registered for dynamic (runtime) loading.  Base-model compatibility is checked
+     * when the adapter is bound to a model (initializeLoRAWithModel()).
+     *
+     * @param[in] lora_id Adapter id; must match [A-Za-z0-9._-]+ and not be "." or "..".
+     * @param[in] data GGUF adapter bytes.
+     * @param[in] base_model_id Identifier of the base model the adapter is registered for.
+     * @return true when the adapter is stored and registered; false when
+     *         Config::lora_base_dir is empty, the id is invalid or already registered,
+     *         the payload is invalid, or storage fails.
+     * @note Thread-safe.
      */
     bool importLoRA(
         const std::string& lora_id,
@@ -650,6 +741,21 @@ public:
     );
     
 private:
+    /// Adapter handle reuse entry: llama.cpp frees adapters only together with their
+    /// model, so repeated hot-load/unload of the same file on the same model instance
+    /// reuses the handle instead of accumulating copies in the model.
+    struct BoundAdapterHandle {
+        const llama_model* model = nullptr;
+        std::uint64_t generation = 0;
+        std::string file_key;                 ///< canonical path | size | mtime
+        llama_adapter_lora* handle = nullptr;
+    };
+    std::vector<BoundAdapterHandle> bound_adapter_handles_;  ///< protected by mutex_
+
+    /// Detach @p slot from all contexts it is applied to (llama_rm_adapter_lora) and drop
+    /// the handle reference.  Caller holds mutex_.
+    void releaseAdapterBinding(LoRASlot& slot);
+
     Config config_;
     
     std::unordered_map<std::string, std::unique_ptr<LoRASlot>> loras_;
@@ -665,6 +771,9 @@ private:
     mutable std::mutex adapter_cache_lock_;
 
     mutable std::mutex mutex_;
+
+    /// Optional GGUF metadata verifier (guarded by mutex_).
+    AdapterMetadataVerifier metadata_verifier_;
     
     mutable std::mutex metrics_lock_;
     

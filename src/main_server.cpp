@@ -131,6 +131,8 @@
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/embedded_llm.h"
 #include "llm/model_downloader.h"
+#include "llm/ai_orchestrator.h"
+#include "llm/mode_spec_bootstrap.h"
 #endif
 
 #include <iostream>

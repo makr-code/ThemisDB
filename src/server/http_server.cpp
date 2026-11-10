@@ -39,6 +39,7 @@
 #include "storage/base_entity.h"
 #include "storage/disk_space_monitor.h"
 #include "storage/mvcc_store.h"
+#include "storage/mvcc_snapshot_pins.h"
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"
@@ -498,6 +499,11 @@ HttpServer::HttpServer(
         {
             auto clock = std::make_shared<themis::HybridLogicalClock>();
             mvcc_store_ = std::make_shared<themis::MVCCStore>(storage_, std::move(clock));
+            // Durable snapshot pins (LoRA training-data provenance): every MVCC GC
+            // path (MvccCleanupHandler, MVCC REST GC, MVCCChainPruner) retains the
+            // versions visible at a pinned HLC timestamp.
+            mvcc_store_->setSnapshotPinRegistry(
+                std::make_shared<themis::MVCCSnapshotPinRegistry>(storage_));
             mvcc_api_handler_ = std::make_unique<server::MvccApiHandler>(mvcc_store_);
         }
         THEMIS_INFO("MVCC API Handler initialized");

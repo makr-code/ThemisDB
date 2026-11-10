@@ -16,48 +16,210 @@
 #include "utils/thread_join_utils.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <array>
+#include <cctype>
 #include <cstring>
 #include <cmath>
 #include <filesystem>
 #include <numeric>
 #include <fstream>
 #include <limits>  // For std::numeric_limits (range validation)
+#include <system_error>
 #include <shared_mutex>
 #include <condition_variable>
 #include <llama.h>
+#include <gguf.h>
 
-// llama.cpp forward declarations (newer API may not be present in headers)
-extern "C" {
-    /**
-     * @brief F1-3 fix: pass the adapter handle as a pointer (void*) rather than a pointer-to-int cast.
-     * @param[in,out] ctx Input/output parameter.
-     * @param[in,out] adapter Input/output parameter.
-     * @param[in] scale Input parameter.
-     * @return Return value.
-     * @details On 64-bit platforms any heap address lies above INT_MAX so the old range-check always failed, permanently preventing LoRA activation in production.
-     */
-    int llama_lora_adapter_set(struct llama_context* ctx, void* adapter, float scale);
-    /**
-     * @brief Llama lora adapter free.
-     * @param[in,out] adapter Input/output parameter.
-     */
-    void llama_lora_adapter_free(void* adapter);
-    /**
-     * @brief Themis llama lora available.
-     * @return True when the operation succeeds.
-     */
-    bool themis_llama_lora_available();
-    /**
-     * @brief Llama lora adapter init.
-     * @param[in,out] model Input/output parameter.
-     * @param[in] path_lora Input parameter.
-     * @return Pointer to the result.
-     */
-    void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora);
-}
+// LoRA serving uses the llama.cpp b7974 public adapter API from llama.h directly:
+//   llama_adapter_lora_init / llama_set_adapter_lora / llama_rm_adapter_lora /
+//   llama_clear_adapter_lora.
+// Adapter handles are owned by the llama_model they were created for and are released
+// together with it; the deprecated llama_adapter_lora_free() is intentionally not used.
 
 namespace themis {
 namespace llm {
+
+// ═══════════════════════════════════════════════════════════
+// GGUF adapter metadata (declared in llm/llama_lora_adapter.h)
+// ═══════════════════════════════════════════════════════════
+namespace lora_gguf {
+namespace {
+
+/// RAII owner for a gguf_context opened in metadata-only mode.
+class GgufMetadataFile {
+public:
+    explicit GgufMetadataFile(const std::string& path) {
+        gguf_init_params params{};
+        params.no_alloc = true;
+        params.ctx = nullptr;
+        ctx_ = gguf_init_from_file(path.c_str(), params);
+    }
+    ~GgufMetadataFile() {
+        if (ctx_) {
+            gguf_free(ctx_);
+        }
+    }
+    GgufMetadataFile(const GgufMetadataFile&) = delete;
+    GgufMetadataFile& operator=(const GgufMetadataFile&) = delete;
+    GgufMetadataFile(GgufMetadataFile&&) = delete;
+    GgufMetadataFile& operator=(GgufMetadataFile&&) = delete;
+
+    [[nodiscard]] const gguf_context* get() const noexcept { return ctx_; }
+
+private:
+    gguf_context* ctx_ = nullptr;
+};
+
+[[nodiscard]] bool isExportedKey(const std::string& key) {
+    return key.rfind("general.", 0) == 0 || key.rfind("adapter.", 0) == 0 ||
+           key.rfind("themis.", 0) == 0;
+}
+
+/// Convert one scalar/array KV to JSON.  Type is checked first because the gguf getters
+/// abort on type mismatch.
+[[nodiscard]] json kvToJson(const gguf_context* ctx, int64_t id) {
+    switch (gguf_get_kv_type(ctx, id)) {
+        case GGUF_TYPE_UINT8:   return gguf_get_val_u8(ctx, id);
+        case GGUF_TYPE_INT8:    return gguf_get_val_i8(ctx, id);
+        case GGUF_TYPE_UINT16:  return gguf_get_val_u16(ctx, id);
+        case GGUF_TYPE_INT16:   return gguf_get_val_i16(ctx, id);
+        case GGUF_TYPE_UINT32:  return gguf_get_val_u32(ctx, id);
+        case GGUF_TYPE_INT32:   return gguf_get_val_i32(ctx, id);
+        case GGUF_TYPE_FLOAT32: return gguf_get_val_f32(ctx, id);
+        case GGUF_TYPE_UINT64:  return gguf_get_val_u64(ctx, id);
+        case GGUF_TYPE_INT64:   return gguf_get_val_i64(ctx, id);
+        case GGUF_TYPE_FLOAT64: return gguf_get_val_f64(ctx, id);
+        case GGUF_TYPE_BOOL:    return gguf_get_val_bool(ctx, id);
+        case GGUF_TYPE_STRING: {
+            const char* s = gguf_get_val_str(ctx, id);
+            return s ? std::string(s) : std::string();
+        }
+        case GGUF_TYPE_ARRAY: {
+            const size_t n = gguf_get_arr_n(ctx, id);
+            if (gguf_get_arr_type(ctx, id) == GGUF_TYPE_STRING) {
+                json arr = json::array();
+                for (size_t i = 0; i < n; ++i) {
+                    const char* s = gguf_get_arr_str(ctx, id, i);
+                    arr.push_back(s ? std::string(s) : std::string());
+                }
+                return arr;
+            }
+            return json{{"type", "array"}, {"n", n}};
+        }
+        default:
+            return nullptr;
+    }
+}
+
+[[nodiscard]] std::string jsonString(const json& kv, const char* key) {
+    const auto it = kv.find(key);
+    return (it != kv.end() && it->is_string()) ? it->get<std::string>() : std::string();
+}
+
+[[nodiscard]] std::string toLowerAscii(std::string s) {
+    std::transform(s.begin(), s.end(), s.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    return s;
+}
+
+[[nodiscard]] std::string modelMetaString(const llama_model* model, const char* key) {
+    std::array<char, 256> buf{};
+    const int32_t n = llama_model_meta_val_str(model, key, buf.data(), buf.size());
+    if (n < 0) {
+        return std::string();
+    }
+    return std::string(buf.data());
+}
+
+} // namespace
+
+AdapterGgufMetadata readAdapterGgufMetadata(const std::string& path) {
+    AdapterGgufMetadata meta;
+    std::error_code ec;
+    if (path.empty() || !std::filesystem::is_regular_file(path, ec)) {
+        meta.error = "adapter file not found: " + path;
+        return meta;
+    }
+    const GgufMetadataFile file(path);
+    const gguf_context* ctx = file.get();
+    if (!ctx) {
+        meta.error = "not a valid GGUF file: " + path;
+        return meta;
+    }
+    const int64_t n_kv = gguf_get_n_kv(ctx);
+    for (int64_t id = 0; id < n_kv; ++id) {
+        const char* key = gguf_get_key(ctx, id);
+        if (!key) {
+            continue;
+        }
+        const std::string key_str(key);
+        if (isExportedKey(key_str)) {
+            meta.kv[key_str] = kvToJson(ctx, id);
+        }
+    }
+    meta.adapter_type      = jsonString(meta.kv, "adapter.type");
+    meta.architecture      = jsonString(meta.kv, "general.architecture");
+    meta.base_model_name   = jsonString(meta.kv, "themis.base_model.name");
+    meta.base_model_gguf   = jsonString(meta.kv, "themis.base_model.gguf");
+    meta.base_model_sha256 = jsonString(meta.kv, "themis.base_model.sha256");
+    meta.ok = true;
+    return meta;
+}
+
+bool checkBaseModelCompatibility(const AdapterGgufMetadata& meta,
+                                 const llama_model* model,
+                                 const BaseModelIdentity& identity,
+                                 std::string& error) {
+    if (!meta.ok) {
+        error = meta.error.empty() ? std::string("adapter metadata unavailable") : meta.error;
+        return false;
+    }
+    if (!model) {
+        error = "no base model loaded";
+        return false;
+    }
+    if (meta.adapter_type != "lora") {
+        error = "adapter.type is '" + meta.adapter_type + "', expected 'lora'";
+        return false;
+    }
+    if (meta.architecture.empty()) {
+        error = "adapter GGUF lacks general.architecture";
+        return false;
+    }
+    const std::string model_arch = modelMetaString(model, "general.architecture");
+    if (model_arch.empty()) {
+        error = "loaded base model does not expose general.architecture";
+        return false;
+    }
+    if (model_arch != meta.architecture) {
+        error = "architecture mismatch: adapter '" + meta.architecture +
+                "' vs base model '" + model_arch + "'";
+        return false;
+    }
+    if (!meta.base_model_gguf.empty() && !identity.gguf_file_name.empty() &&
+        std::filesystem::path(meta.base_model_gguf).filename().string() != identity.gguf_file_name) {
+        error = "base model mismatch: adapter trained for '" + meta.base_model_gguf +
+                "', loaded base model is '" + identity.gguf_file_name + "'";
+        return false;
+    }
+    if (!meta.base_model_sha256.empty() && !identity.sha256.empty() &&
+        toLowerAscii(meta.base_model_sha256) != toLowerAscii(identity.sha256)) {
+        error = "base model sha256 mismatch: adapter expects " + meta.base_model_sha256 +
+                ", loaded base model is " + identity.sha256;
+        return false;
+    }
+    if (!meta.base_model_name.empty()) {
+        const std::string model_name = modelMetaString(model, "general.name");
+        if (!model_name.empty() && model_name != meta.base_model_name) {
+            // Informational only: HF repo names and GGUF general.name commonly differ.
+            spdlog::info("LoRA adapter base_model.name '{}' differs from model general.name '{}'",
+                         meta.base_model_name, model_name);
+        }
+    }
+    return true;
+}
+
+} // namespace lora_gguf
 
 // Quantization and memory constants
 namespace {
@@ -208,11 +370,13 @@ MultiLoRAManager::~MultiLoRAManager() {
         spdlog::info("Unloading LoRA: {}", id);
         if (!lora) { continue; }  // null-slot guard: unique_ptr should not be empty, but be safe
         
-        // Free adapter handle if it exists
-        if (lora->adapter_handle) {
-            llama_lora_adapter_free(lora->adapter_handle);
-            lora->adapter_handle = nullptr;
-        }
+        // Drop the adapter handle reference.  The handle is owned by its llama_model and
+        // released together with it; contexts are not touched here because their
+        // lifetime is owned by the model loader (requests detach adapters via
+        // removeLoRA() when they finish).
+        lora->adapter_handle = nullptr;
+        lora->bound_model = nullptr;
+        lora->applied_contexts.clear();
         
         // Update memory tracking
         if (lora->vram_bytes > 0 && total_vram_bytes_ >= lora->vram_bytes) {
@@ -222,12 +386,14 @@ MultiLoRAManager::~MultiLoRAManager() {
         spdlog::debug("LoRA {} cleaned up: freed {} MB", id, lora->vram_bytes / (1024*1024));
     }
     loras_.clear();
+    bound_adapter_handles_.clear();
     
     spdlog::info("MultiLoRAManager destroyed, all LoRAs unloaded");
 }
 
 MultiLoRAManager::MultiLoRAManager(MultiLoRAManager&& other) noexcept
-    : config_(std::move(other.config_)),
+    : bound_adapter_handles_(std::move(other.bound_adapter_handles_)),
+      config_(std::move(other.config_)),
       loras_(std::move(other.loras_)),
       total_vram_bytes_(other.total_vram_bytes_),
       eviction_thread_(std::move(other.eviction_thread_)),
@@ -273,17 +439,13 @@ MultiLoRAManager& MultiLoRAManager::operator=(MultiLoRAManager&& other) noexcept
              */
             std::lock_guard<std::mutex> lock(mutex_);
             
-            // Free all existing LoRAs
-            for (auto& [id, lora] : loras_) {
-                if (lora && lora->adapter_handle) {
-                    llama_lora_adapter_free(lora->adapter_handle);
-                    lora->adapter_handle = nullptr;
-                }
-            }
+            // Drop all existing LoRA handle references (owned by their models).
             loras_.clear();
+            bound_adapter_handles_.clear();
         }
         
         // Transfer ownership from other
+        bound_adapter_handles_ = std::move(other.bound_adapter_handles_);
         config_ = std::move(other.config_);
         loras_ = std::move(other.loras_);
         total_vram_bytes_ = other.total_vram_bytes_;
@@ -460,23 +622,10 @@ bool MultiLoRAManager::unloadLoRA(const std::string& lora_id, bool force) {
     logGPUTransferEvent("unload", lora_id, lora->primary_gpu, -1,
                        lora->vram_bytes, force ? "Forced unload" : "Normal unload");
     
-    // Free adapter handle if it exists
-    if (lora->adapter_handle) {
-        // Call llama.cpp API to free the LoRA adapter
-        bool adapter_freed = false;
-        if (themis_llama_lora_available()) {
-            spdlog::debug("Freeing LoRA adapter handle for {}", lora_id);
-            llama_lora_adapter_free(lora->adapter_handle);
-            adapter_freed = true;
-        }
-        lora->adapter_handle = nullptr;
-        
-        if (adapter_freed) {
-            spdlog::debug("LoRA adapter handle freed for {}", lora_id);
-        } else {
-            spdlog::debug("LoRA adapter handle cleared without freeing (LoRA API unavailable) for {}", lora_id);
-        }
-    }
+    // Detach from contexts (llama_rm_adapter_lora) and drop the handle reference.
+    // Memory is released together with the base model (b7974 ownership); the handle
+    // stays in bound_adapter_handles_ for reuse if the same file is hot-loaded again.
+    releaseAdapterBinding(*lora);
     
     // Update memory usage
     if (lora->vram_bytes > 0 && total_vram_bytes_ >= lora->vram_bytes) {
@@ -491,14 +640,80 @@ bool MultiLoRAManager::unloadLoRA(const std::string& lora_id, bool force) {
     return true;
 }
 
-/**
- * @brief Initialize Lo RAWith Model.
- * @param[in] lora_id Identifier of the lora.
- * @param[in,out] model Input/output parameter.
- * @return True when the operation succeeds.
- * @details Calls: spdlog::error(), lock(), find(), end(), spdlog::debug(), spdlog::info(), themis_llama_lora_available(), spdlog::warn().
- */
-bool MultiLoRAManager::initializeLoRAWithModel(const std::string& lora_id, void* model) {
+namespace {
+
+/// Identity of an adapter file on disk for handle reuse: id | canonical path | size | mtime.
+[[nodiscard]] std::string adapterFileKey(const std::string& lora_id, const std::string& path) {
+    namespace fs = std::filesystem;
+    std::error_code ec;
+    const fs::path canonical = fs::weakly_canonical(fs::path(path), ec);
+    std::string key = lora_id + "|" + (ec ? path : canonical.string());
+    std::error_code size_ec;
+    const auto size = fs::file_size(path, size_ec);
+    key += "|" + (size_ec ? std::string("?") : std::to_string(size));
+    std::error_code time_ec;
+    const auto mtime = fs::last_write_time(path, time_ec);
+    key += "|" + (time_ec ? std::string("?")
+                          : std::to_string(mtime.time_since_epoch().count()));
+    return key;
+}
+
+} // namespace
+
+void MultiLoRAManager::releaseAdapterBinding(LoRASlot& slot) {
+    // Caller holds mutex_.
+    if (slot.adapter_handle) {
+        for (llama_context* ctx : slot.applied_contexts) {
+            if (ctx && llama_rm_adapter_lora(ctx, slot.adapter_handle) != 0) {
+                spdlog::debug("LoRA {} was not attached to context {} at release",
+                              slot.lora_id, static_cast<const void*>(ctx));
+            }
+        }
+    }
+    slot.applied_contexts.clear();
+    slot.adapter_handle = nullptr;
+    slot.bound_model = nullptr;
+    slot.bound_model_generation = 0;
+    slot.is_active = false;
+}
+
+std::size_t MultiLoRAManager::invalidateModelBindings(const llama_model* model) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::size_t dropped = 0;
+    for (auto& [id, slot] : loras_) {
+        if (!slot || !slot->adapter_handle) {
+            continue;
+        }
+        if (model == nullptr || slot->bound_model == model) {
+            // Contexts die with the model; only forget the references.
+            slot->applied_contexts.clear();
+            slot->adapter_handle = nullptr;
+            slot->bound_model = nullptr;
+            slot->bound_model_generation = 0;
+            slot->is_active = false;
+            ++dropped;
+        }
+    }
+    bound_adapter_handles_.erase(
+        std::remove_if(bound_adapter_handles_.begin(), bound_adapter_handles_.end(),
+                       [model](const BoundAdapterHandle& e) {
+                           return model == nullptr || e.model == model;
+                       }),
+        bound_adapter_handles_.end());
+    if (dropped > 0) {
+        spdlog::info("Dropped {} LoRA adapter binding(s) after base model unload/reload", dropped);
+    }
+    return dropped;
+}
+
+void MultiLoRAManager::setAdapterMetadataVerifier(AdapterMetadataVerifier verifier) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    metadata_verifier_ = std::move(verifier);
+}
+
+bool MultiLoRAManager::initializeLoRAWithModel(const std::string& lora_id,
+                                               llama_model* model,
+                                               const lora_gguf::BaseModelIdentity& identity) {
     if (!model) {
         spdlog::error("Cannot initialize LoRA: null model handle");
         return false;
@@ -518,33 +733,68 @@ bool MultiLoRAManager::initializeLoRAWithModel(const std::string& lora_id, void*
         return false;
     }
     
-    // Check if LoRA is already initialized
-    if (lora->adapter_handle) {
-        spdlog::debug("LoRA {} already initialized", lora_id);
+    // Idempotent per (adapter, model instance).
+    if (lora->adapter_handle && lora->bound_model == model &&
+        lora->bound_model_generation == identity.generation) {
+        spdlog::debug("LoRA {} already bound to this model instance", lora_id);
         return true;
     }
+    if (lora->adapter_handle) {
+        // Base model was reloaded: the old handle belonged to the previous model instance
+        // (and was freed with it).  Contexts of that instance are gone as well.
+        spdlog::info("LoRA {} bound to a previous model instance; re-initialising", lora_id);
+        lora->applied_contexts.clear();
+        lora->adapter_handle = nullptr;
+        lora->bound_model = nullptr;
+        lora->is_active = false;
+    }
+    bound_adapter_handles_.erase(
+        std::remove_if(bound_adapter_handles_.begin(), bound_adapter_handles_.end(),
+                       [model, &identity](const BoundAdapterHandle& e) {
+                           return e.model == model && e.generation != identity.generation;
+                       }),
+        bound_adapter_handles_.end());
     
-    spdlog::info("Initializing LoRA adapter with llama.cpp model: {}", lora_id);
-    
-    // Check if LoRA API is available (declarations at file scope line 13-16)
-    if (!themis_llama_lora_available()) {
-        spdlog::warn("llama.cpp LoRA API not available, LoRA support disabled");
-        spdlog::warn("Rebuild llama.cpp with LLAMA_LORA=ON to enable LoRA adapters");
+    // Verify the adapter GGUF metadata against the loaded base model before loading.
+    const lora_gguf::AdapterGgufMetadata meta = lora_gguf::readAdapterGgufMetadata(lora->path);
+    std::string reject_reason;
+    if (!lora_gguf::checkBaseModelCompatibility(meta, model, identity, reject_reason)) {
+        spdlog::error("Rejecting LoRA adapter '{}' ({}): {}", lora_id, lora->path, reject_reason);
         return false;
     }
-    
-    // Initialize the LoRA adapter
-    lora->adapter_handle = llama_lora_adapter_init(
-        reinterpret_cast<struct llama_model*>(model),
-        lora->path.c_str()
-    );
-    
-    if (!lora->adapter_handle) {
-        spdlog::error("Failed to initialize LoRA adapter: {}", lora_id);
-        spdlog::error("  Path: {}", lora->path);
-        spdlog::error("  Base model: {}", lora->base_model_id);
+    if (metadata_verifier_ && !metadata_verifier_(lora_id, meta.kv, reject_reason)) {
+        spdlog::error("Rejecting LoRA adapter '{}' ({}): {}", lora_id, lora->path, reject_reason);
         return false;
     }
+    lora->gguf_metadata = meta.kv;
+    
+    const std::string file_key = adapterFileKey(lora_id, lora->path);
+    llama_adapter_lora* handle = nullptr;
+    for (const auto& entry : bound_adapter_handles_) {
+        if (entry.model == model && entry.generation == identity.generation &&
+            entry.file_key == file_key) {
+            handle = entry.handle;
+            break;
+        }
+    }
+    
+    if (!handle) {
+        spdlog::info("Loading LoRA adapter {} onto base model (llama_adapter_lora_init)", lora_id);
+        handle = llama_adapter_lora_init(model, lora->path.c_str());
+        if (!handle) {
+            spdlog::error("Failed to initialize LoRA adapter: {}", lora_id);
+            spdlog::error("  Path: {}", lora->path);
+            spdlog::error("  Base model: {}", lora->base_model_id);
+            return false;
+        }
+        bound_adapter_handles_.push_back(BoundAdapterHandle{model, identity.generation, file_key, handle});
+    } else {
+        spdlog::debug("Reusing LoRA adapter handle for {} on the same model instance", lora_id);
+    }
+    
+    lora->adapter_handle = handle;
+    lora->bound_model = model;
+    lora->bound_model_generation = identity.generation;
     
     spdlog::info("✓ LoRA adapter initialized successfully: {}", lora_id);
     spdlog::info("  Path: {}", lora->path);
@@ -611,7 +861,7 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
     // The raw pointer returned by getLoRA() is unsafe to use after the lock is released
     // (another thread may call unloadLoRA and free the LoRASlot).  Instead, we inline
     // the lookup here and copy mutable fields to stack-local variables before releasing.
-    void* adapter_handle = nullptr;
+    llama_adapter_lora* adapter_handle = nullptr;
     float scale = 0.0f;
     ApplyAdapterFn apply_fn_copy = ApplyAdapterFn();
     bool has_adapter = false;
@@ -679,15 +929,14 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
 
     spdlog::debug("Applying LoRA: {} to context", lora_id);
 
-    // Apply LoRA adapter to context using modern llama.cpp API.
-    // The C API call uses the local snapshot of adapter_handle/scale — no lock needed.
+    // Apply LoRA adapter to context using the llama.cpp b7974 API.
+    // The handle is owned by the base model (freed with it), so using the snapshot
+    // outside the lock is safe even if the slot is concurrently unloaded.
     if (has_adapter && context) {
-        // F1-3 fixed: pass the adapter pointer directly instead of casting to
-        // int (which always fails on 64-bit where heap addresses > INT_MAX).
-        int result = llama_lora_adapter_set(context, adapter_handle, scale);
+        const int32_t result = llama_set_adapter_lora(context, adapter_handle, scale);
 
         if (result != 0) {
-            spdlog::error("Failed to apply LoRA {} (error: {})", lora_id, result);
+            spdlog::error("Failed to apply LoRA {} (llama_set_adapter_lora error: {})", lora_id, result);
             return false;
         }
 
@@ -698,6 +947,10 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
             auto* const slot = it->second.get();
             if (slot) {
                 slot->is_active = true;
+                if (std::find(slot->applied_contexts.begin(), slot->applied_contexts.end(), context) ==
+                    slot->applied_contexts.end()) {
+                    slot->applied_contexts.push_back(context);
+                }
             }
         }
         switches_++;
@@ -722,7 +975,7 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
  */
 bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* context) {
     // Same lock-then-snapshot pattern as applyLoRA to prevent use-after-free.
-    void* adapter_handle = nullptr;
+    llama_adapter_lora* adapter_handle = nullptr;
     RemoveAdapterFn remove_fn_copy = RemoveAdapterFn();
     bool has_adapter = false;
 
@@ -783,14 +1036,14 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* con
 
     spdlog::debug("Removing LoRA: {} from context", lora_id);
 
-    // Remove LoRA adapter from context using llama.cpp API.
+    // Detach the adapter from the context (llama_rm_adapter_lora).  A return value of
+    // -1 means "not attached to this context", which is not an error for removal.
     if (has_adapter && context) {
-        // F1-3 fixed: pass adapter pointer directly (see applyLoRA fix above).
-        // Set scale to 0.0f to effectively disable the adapter.
-        int result = llama_lora_adapter_set(context, adapter_handle, 0.0f);
+        const int32_t result = llama_rm_adapter_lora(context, adapter_handle);
 
         if (result != 0) {
-            spdlog::warn("Failed to remove LoRA {} cleanly (error: {}), marking inactive", lora_id, result);
+            spdlog::debug("LoRA {} was not attached to the context (llama_rm_adapter_lora: {})",
+                          lora_id, result);
         }
 
         std::lock_guard<std::mutex> lock(mutex_);
@@ -798,7 +1051,9 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* con
         if (it != loras_.end()) {
             auto* const slot = it->second.get();
             if (slot) {
-                slot->is_active = false;
+                auto& ctxs = slot->applied_contexts;
+                ctxs.erase(std::remove(ctxs.begin(), ctxs.end(), context), ctxs.end());
+                slot->is_active = !ctxs.empty();
             }
         }
         spdlog::info("LoRA {} removed successfully", lora_id);
@@ -1159,11 +1414,9 @@ bool MultiLoRAManager::fuseLoRAs(
     fused_lora->vram_bytes = total_vram;
     fused_lora->scale = 1.0f;  // Fusion weights already applied
     
-    // In production with llama.cpp, this would:
-    // 1. Load all source LoRA weight matrices
-    // 2. Perform weighted sum: W_fused = Σ(w_i * W_i)
-    // 3. Create new adapter handle from fused weights
-    // fused_lora->adapter_handle = llama_lora_adapter_fuse(source_adapters, normalized_weights);
+    // A fused adapter would require a weighted sum of the source LoRA matrices written
+    // to a new standalone adapter GGUF that is then hot-loaded via
+    // llama_adapter_lora_init(); llama.cpp b7974 has no in-memory fuse API.
     
     // FIND-015: Use named constant for byte to MB conversion
     // Check VRAM budget
@@ -1237,97 +1490,60 @@ bool MultiLoRAManager::isLoRALoaded(const std::string& lora_id) const {
     return loras_.find(lora_id) != loras_.end();
 }
 
-std::vector<LoRAInfo> MultiLoRAManager::listLoRAs() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    std::vector<LoRAInfo> result = {};
+namespace {
 
-    result.reserve(loras_.size());
-    
-    for (const auto& [id, slot] : loras_) {
-        if (!slot) {
-            continue;
-        }
-        LoRAInfo info = LoRAInfo();
-        info.id = id;
-        info.name = id;
-        info.lora_id = id;
-        info.path = slot->path;
-        info.base_model = slot->base_model_id;
-        info.adapter_id = id;
-        info.base_model_id = slot->base_model_id;
-        info.size_bytes = slot->vram_bytes;
-        info.scale = slot->scale;
-        info.is_loaded = true;
-        result.push_back(info);
+/// Build the public LoRAInfo view of a slot (caller holds the manager mutex).
+[[nodiscard]] LoRAInfo makeLoRAInfo(const std::string& id, const LoRASlot& slot) {
+    LoRAInfo info;
+    info.id = id;
+    info.name = id;
+    info.lora_id = id;
+    info.adapter_id = id;
+    info.path = slot.path;
+    info.base_model = slot.base_model_id;
+    info.base_model_id = slot.base_model_id;
+    info.size_bytes = slot.vram_bytes;
+    info.scale = slot.scale;
+    info.is_loaded = true;
+    if (!slot.gguf_metadata.is_null() && !slot.gguf_metadata.empty()) {
+        // GGUF KV metadata (general.*, adapter.*, themis.*) read from the adapter file.
+        info.metadata["gguf"] = slot.gguf_metadata;
     }
-    
+    return info;
+}
+
+} // namespace
+
+std::vector<LoRAInfo> MultiLoRAManager::listLoRAs() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<LoRAInfo> result;
+    result.reserve(loras_.size());
+    for (const auto& [id, slot] : loras_) {
+        if (slot) {
+            result.push_back(makeLoRAInfo(id, *slot));
+        }
+    }
     return result;
 }
 
 std::vector<LoRAInfo> MultiLoRAManager::listLoRAs(const std::string& base_model_id) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<LoRAInfo> result = {};
-
+    std::vector<LoRAInfo> result;
     for (const auto& [id, slot] : loras_) {
-        if (!slot) {
-            continue;
-        }
-        if (base_model_id.empty() || slot->base_model_id == base_model_id) {
-            LoRAInfo info = LoRAInfo();
-            info.id = id;
-            info.name = id;
-            info.path = slot->path;
-            info.base_model = slot->base_model_id;
-            info.adapter_id = id;
-            info.lora_id = id;
-            info.base_model_id = slot->base_model_id;
-            info.size_bytes = slot->vram_bytes;
-            info.scale = slot->scale;
-            info.is_loaded = true;
-            result.push_back(info);
+        if (slot && (base_model_id.empty() || slot->base_model_id == base_model_id)) {
+            result.push_back(makeLoRAInfo(id, *slot));
         }
     }
     return result;
 }
 
 std::optional<LoRAInfo> MultiLoRAManager::getLoRAInfo(const std::string& lora_id) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = loras_.find(lora_id);
-    if (it == loras_.end()) {
-      return std::nullopt;
-    }
-    const auto* const slot = it->second.get();
-    if (!slot) {
+    if (it == loras_.end() || !it->second) {
         return std::nullopt;
     }
-    LoRAInfo info = LoRAInfo();
-    info.id = it->first;
-    info.name = it->first;
-    info.lora_id = it->first;
-    info.path = slot->path;
-    info.base_model = slot->base_model_id;
-    info.adapter_id = it->first;
-    info.base_model_id = slot->base_model_id;
-    info.size_bytes = slot->vram_bytes;
-    info.scale = slot->scale;
-    info.is_loaded = true;
-    return info;
+    return makeLoRAInfo(it->first, *it->second);
 }
 
 size_t MultiLoRAManager::evictLRU([[maybe_unused]] size_t /*target_vram_mb*/) {
@@ -1479,178 +1695,173 @@ MultiLoRAManager::Stats MultiLoRAManager::getStatistics() const {
     return s;
 }
 
-/**
- * @brief Export Lo RA.
- * @param[in] lora_id Identifier of the lora.
- * @return Return value.
- * @details Calls: getLoRA(), errors::logError(), spdlog::info(), size(), resize(), spdlog::error(), std::memcpy(), data().
- */
-std::vector<uint8_t> MultiLoRAManager::exportLoRA(const std::string& lora_id) {
-    auto* lora = getLoRA(lora_id);
-    if (!lora) {
-        errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_id);
-        return std::vector<uint8_t>();
+namespace {
+
+constexpr std::array<char, 4> kGgufMagic{'G', 'G', 'U', 'F'};
+
+[[nodiscard]] bool isValidAdapterIdForPath(const std::string& id) {
+    if (id.empty() || id == "." || id == ".." || id.size() > 128) {
+        return false;
     }
-    
-    spdlog::info("Exporting LoRA for cross-shard transfer: {}", lora_id);
-    
-    // Serialize LoRA adapter for transfer
-    // In production, this would serialize the actual LoRA weights
-    // For now, create a metadata-based serialization
-    std::vector<uint8_t> serialized;
-    
-    // Simple serialization format:
-    // [lora_id_length][lora_id][path_length][path][vram_bytes][rank][alpha][scale]
-    size_t id_len = lora->lora_id.size();
-    size_t path_len = lora->path.size();
-    
-    serialized.resize(sizeof(size_t) * 2 + id_len + path_len + sizeof(size_t) + sizeof(int) * 2 + sizeof(float));
-    
-    size_t offset = 0;
-    // Validate each write stays within the pre-allocated buffer (scanner-friendly bounds anchoring)
-    const size_t expected_size = sizeof(size_t) * 2 + id_len + path_len + sizeof(size_t) + sizeof(int) * 2 + sizeof(float);
-    if (serialized.size() < expected_size) {
-        spdlog::error("LoRA serialization buffer underallocated for {}", lora_id);
-        return std::vector<uint8_t>();
-    }
-    std::memcpy(serialized.data() + offset, &id_len, sizeof(size_t));
-    offset += sizeof(size_t);
-    std::memcpy(serialized.data() + offset, lora->lora_id.data(), id_len);
-    offset += id_len;
-    std::memcpy(serialized.data() + offset, &path_len, sizeof(size_t));
-    offset += sizeof(size_t);
-    std::memcpy(serialized.data() + offset, lora->path.data(), path_len);
-    offset += path_len;
-    std::memcpy(serialized.data() + offset, &lora->vram_bytes, sizeof(size_t));
-    offset += sizeof(size_t);
-    std::memcpy(serialized.data() + offset, &lora->rank, sizeof(int));
-    offset += sizeof(int);
-    std::memcpy(serialized.data() + offset, &lora->alpha, sizeof(int));
-    offset += sizeof(int);
-    std::memcpy(serialized.data() + offset, &lora->scale, sizeof(float));
-    
-    spdlog::info("LoRA {} serialized: {} bytes", lora_id,serialized.size());
-    
-    return serialized;
+    return std::all_of(id.begin(), id.end(), [](unsigned char c) {
+        return std::isalnum(c) != 0 || c == '.' || c == '_' || c == '-';
+    });
 }
 
-/**
- * @brief Import Lo RA.
- * @param[in] lora_id Identifier of the lora.
- * @param[in] data Input parameter.
- * @param[in] base_model_id Identifier of the base model.
- * @return True when the operation succeeds.
- * @details Calls: lock(), spdlog::info(), size(), spdlog::warn(), spdlog::error(), errors::logError(), empty(), std::memcpy().
- */
+} // namespace
+
+std::vector<uint8_t> MultiLoRAManager::exportLoRA(const std::string& lora_id) {
+    std::string path;
+    std::size_t max_bytes = 0;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = loras_.find(lora_id);
+        if (it == loras_.end() || !it->second) {
+            errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, lora_id);
+            return {};
+        }
+        path = it->second->path;
+        max_bytes = config_.max_lora_vram_mb * BYTES_PER_MB * 2;
+    }
+
+    std::error_code ec;
+    const auto size = std::filesystem::file_size(path, ec);
+    if (ec) {
+        spdlog::error("exportLoRA: adapter file '{}' for '{}' is missing/unreadable: {}",
+                      path, lora_id, ec.message());
+        return {};
+    }
+    if (size < kGgufMagic.size() || size > max_bytes) {
+        spdlog::error("exportLoRA: adapter file '{}' size {} outside [4, {}] bytes", path, size, max_bytes);
+        return {};
+    }
+
+    std::ifstream in(path, std::ios::binary);
+    if (!in) {
+        spdlog::error("exportLoRA: cannot open adapter file '{}'", path);
+        return {};
+    }
+    std::vector<uint8_t> bytes(static_cast<std::size_t>(size));
+    in.read(reinterpret_cast<char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
+    if (!in || static_cast<std::uintmax_t>(in.gcount()) != size) {
+        spdlog::error("exportLoRA: short read on adapter file '{}'", path);
+        return {};
+    }
+    if (!std::equal(kGgufMagic.begin(), kGgufMagic.end(), bytes.begin(),
+                    [](char m, uint8_t b) { return static_cast<uint8_t>(m) == b; })) {
+        spdlog::error("exportLoRA: adapter file '{}' is not a GGUF file", path);
+        return {};
+    }
+
+    spdlog::info("Exported standalone LoRA adapter GGUF {} ({} bytes)", lora_id, bytes.size());
+    return bytes;
+}
+
 bool MultiLoRAManager::importLoRA(
     const std::string& lora_id,
     const std::vector<uint8_t>& data,
     const std::string& base_model_id
 ) {
+    namespace fs = std::filesystem;
+
+    if (!isValidAdapterIdForPath(lora_id)) {
+        spdlog::error("importLoRA: invalid adapter id '{}'", lora_id);
+        errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "invalid adapter id");
+        return false;
+    }
+
+    std::string base_dir;
+    std::size_t max_bytes = 0;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (loras_.count(lora_id) != 0) {
+            spdlog::error("importLoRA: adapter '{}' is already registered", lora_id);
+            return false;
+        }
+        base_dir = config_.lora_base_dir;
+        max_bytes = config_.max_lora_vram_mb * BYTES_PER_MB * 2;
+    }
+    if (base_dir.empty()) {
+        spdlog::error("importLoRA: Config::lora_base_dir is not configured; cannot store '{}'", lora_id);
+        return false;
+    }
+    if (data.size() < kGgufMagic.size() || data.size() > max_bytes) {
+        spdlog::error("[SECURITY] importLoRA: payload size {} outside [4, {}] bytes", data.size(), max_bytes);
+        errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "invalid payload size");
+        return false;
+    }
+    if (!std::equal(kGgufMagic.begin(), kGgufMagic.end(), data.begin(),
+                    [](char m, uint8_t b) { return static_cast<uint8_t>(m) == b; })) {
+        spdlog::error("importLoRA: payload for '{}' is not a GGUF adapter", lora_id);
+        errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "not GGUF");
+        return false;
+    }
+
+    std::error_code ec;
+    const fs::path import_root = fs::path(base_dir) / "imported" / lora_id;
+    fs::create_directories(import_root, ec);
+    if (ec) {
+        spdlog::error("importLoRA: cannot create '{}': {}", import_root.string(), ec.message());
+        return false;
+    }
+    const fs::path tmp_path = import_root / ".adapter.gguf.tmp";
+    {
+        std::ofstream out(tmp_path, std::ios::binary | std::ios::trunc);
+        out.write(reinterpret_cast<const char*>(data.data()), static_cast<std::streamsize>(data.size()));
+        out.flush();
+        if (!out) {
+            spdlog::error("importLoRA: failed to write '{}'", tmp_path.string());
+            fs::remove(tmp_path, ec);
+            return false;
+        }
+    }
+
+    const lora_gguf::AdapterGgufMetadata meta = lora_gguf::readAdapterGgufMetadata(tmp_path.string());
+    if (!meta.ok || meta.adapter_type != "lora" || meta.architecture.empty()) {
+        spdlog::error("importLoRA: rejected '{}': {}", lora_id,
+                      !meta.ok ? meta.error
+                               : (meta.adapter_type != "lora" ? "adapter.type is not 'lora'"
+                                                              : "general.architecture missing"));
+        fs::remove(tmp_path, ec);
+        errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "invalid adapter GGUF");
+        return false;
+    }
+
+    std::string version = "unversioned";
+    if (meta.kv.contains("themis.adapter.version") && meta.kv["themis.adapter.version"].is_string()) {
+        const std::string v = meta.kv["themis.adapter.version"].get<std::string>();
+        if (isValidAdapterIdForPath(v)) {
+            version = v;
+        }
+    }
+    const fs::path final_dir = import_root / version;
+    fs::create_directories(final_dir, ec);
+    const fs::path final_path = final_dir / "adapter.gguf";
+    if (!ec) {
+        fs::rename(tmp_path, final_path, ec);
+    }
+    if (ec) {
+        spdlog::error("importLoRA: cannot move adapter to '{}': {}", final_path.string(), ec.message());
+        std::error_code ignore;
+        fs::remove(tmp_path, ignore);
+        return false;
+    }
+
     std::lock_guard<std::mutex> lock(mutex_);
-    
-    spdlog::info("Importing LoRA from remote shard: {} ({} bytes)", 
-                 lora_id,data.size());
-    
-    // Security: Warn about missing integrity verification for imported LoRAs
-    // Imported LoRAs are not verified for integrity (checksum/signature) which could
-    // allow loading of tampered adapters. Consider implementing signature verification
-    // for production deployments. (CWE-494: Download of Code Without Integrity Check)
-    spdlog::warn("[SECURITY] LoRA import: No integrity verification performed for '{}'; "
-                 "imported adapters could be tampered (consider adding signature verification)", lora_id);
-    
-    // Security: Validate data size to prevent import of maliciously crafted data
-    // Reject excessively large imports that could indicate tampering or DoS
-    const size_t MAX_LORA_IMPORT_SIZE = config_.max_lora_vram_mb * 1024 * 1024 * 2; // 2x VRAM budget
-    if (data.size() > MAX_LORA_IMPORT_SIZE) {
-        spdlog::error("[SECURITY] LoRA import rejected: data size {} exceeds maximum allowed {} bytes",
-                     data.size(), MAX_LORA_IMPORT_SIZE);
-        errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "data too large");
+    if (loras_.count(lora_id) != 0) {
+        spdlog::error("importLoRA: adapter '{}' was registered concurrently", lora_id);
         return false;
     }
-    
-    // Deserialize LoRA adapter
-    if (data.empty()) {
-        errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "empty data");
+    if (loras_.size() >= config_.max_lora_slots) {
+        evictLRU();
+    }
+    auto* slot = loadLoRAInternal(lora_id, final_path.string(), base_model_id, 1.0f);
+    if (!slot) {
+        spdlog::error("importLoRA: registration of '{}' failed", lora_id);
         return false;
     }
-    
-    auto lora = std::make_unique<LoRASlot>();
-    
-    // Simple deserialization (matching export format)
-    size_t offset = 0;
-    size_t id_len, path_len;
-    
-    if (data.size() < sizeof(size_t)) {
-        errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "too small");
-        return false;
-    }
-    
-    std::memcpy(&id_len, data.data() + offset, sizeof(size_t));
-    offset += sizeof(size_t);
-    
-    if (offset + id_len > data.size()) {
-        errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "invalid id_len");
-        return false;
-    }
-    
-    lora->lora_id = std::string(reinterpret_cast<const char*>(data.data() + offset), id_len);
-    offset += id_len;
-    
-    std::memcpy(&path_len, data.data() + offset, sizeof(size_t));
-    offset += sizeof(size_t);
-    
-    if (offset + path_len > data.size()) {
-        errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "invalid path_len");
-        return false;
-    }
-    
-    lora->path = std::string(reinterpret_cast<const char*>(data.data() + offset), path_len);
-    offset += path_len;
-    
-    // F1-2 fix: reject deserialized paths that escape the trusted base directory.
-    if (!isLoRAPathTrusted(lora->path)) {
-        spdlog::error("importLoRA: rejected untrusted remote LoRA path '{}' for adapter '{}'",
-                      lora->path, lora_id);
-        return false;
-    }
-    
-    std::memcpy(&lora->vram_bytes, data.data() + offset, sizeof(size_t));
-    offset += sizeof(size_t);
-    std::memcpy(&lora->rank, data.data() + offset, sizeof(int));
-    offset += sizeof(int);
-    std::memcpy(&lora->alpha, data.data() + offset, sizeof(int));
-    offset += sizeof(int);
-    std::memcpy(&lora->scale, data.data() + offset, sizeof(float));
-    
-    // Security: Validate deserialized values are within reasonable ranges
-    // to prevent model poisoning via crafted data
-    if (lora->vram_bytes > config_.max_lora_vram_mb * BYTES_PER_MB) {
-        spdlog::error("[SECURITY] LoRA import rejected: vram_bytes {} exceeds maximum allowed", lora->vram_bytes);
-        return false;
-    }
-    if (lora->rank < MIN_LORA_RANK || lora->rank > MAX_LORA_RANK) {
-        spdlog::error("[SECURITY] LoRA import rejected: rank {} out of range [{}, {}]",
-                     lora->rank, MIN_LORA_RANK, MAX_LORA_RANK);
-        return false;
-    }
-    if (lora->alpha > 1000) {
-        spdlog::error("[SECURITY] LoRA import rejected: alpha {} out of valid range", lora->alpha);
-        return false;
-    }
-    if (lora->scale < -100.0f || lora->scale > 100.0f) {
-        spdlog::error("[SECURITY] LoRA import rejected: scale {} out of valid range", lora->scale);
-        return false;
-    }
-    
-    lora->base_model_id = base_model_id;
-    lora->loaded_at = std::chrono::system_clock::now();
-    lora->last_used = std::chrono::system_clock::now();
-    
-    total_vram_bytes_ += lora->vram_bytes;
-    loras_[lora_id] = std::move(lora);
-    
-    spdlog::info("LoRA {} imported successfully", lora_id);
+    spdlog::info("Imported standalone LoRA adapter '{}' (version {}) -> {}", lora_id, version,
+                 final_path.string());
     return true;
 }
 
@@ -2725,6 +2936,18 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
     lora->last_used = std::chrono::system_clock::now();
     lora->use_count = 1;
     lora->gpu_placement = placement;
+
+    // Expose the adapter's GGUF KV metadata (general.*, adapter.*, themis.*) on the
+    // registered adapter info.  Enforcement (adapter.type, architecture, base model,
+    // provenance verifier) happens in initializeLoRAWithModel() against the live model.
+    {
+        const lora_gguf::AdapterGgufMetadata gguf_meta = lora_gguf::readAdapterGgufMetadata(lora_path);
+        if (gguf_meta.ok) {
+            lora->gguf_metadata = gguf_meta.kv;
+        } else {
+            spdlog::debug("loadLoRAInternal: no GGUF KV metadata for '{}': {}", lora_id, gguf_meta.error);
+        }
+    }
     
     // Obtain VRAM estimate from the GGUF file metadata when available.
     // The actual llama.cpp adapter handle is initialized lazily in
@@ -3265,13 +3488,13 @@ bool MultiLoRAManager::migrateLoRAToGPU(const std::string& lora_id, int target_g
     
     auto start_time = std::chrono::high_resolution_clock::now();
     
-    // The llama.cpp adapter handle is re-initialized by initializeLoRAWithModel() on the
-    // next inference call after migration.  If the adapter is currently active, invalidate
-    // it so that the inference path will re-bind it to the new context.
+    // llama.cpp places adapter tensors according to the base model's buffer layout, so
+    // a migration only changes ThemisDB's VRAM accounting.  Detach the adapter from any
+    // contexts (llama_rm_adapter_lora) and drop the slot's handle reference; the next
+    // initializeLoRAWithModel() re-binds it (reusing the model-owned handle).
     if (lora->adapter_handle) {
-        llama_lora_adapter_free(lora->adapter_handle);
-        lora->adapter_handle = nullptr;
-        spdlog::debug("LoRA adapter handle invalidated for re-initialization on GPU {}", target_gpu);
+        releaseAdapterBinding(*lora);
+        spdlog::debug("LoRA adapter binding released for re-initialization on GPU {}", target_gpu);
     }
     
     // Update VRAM accounting to reflect the new placement.

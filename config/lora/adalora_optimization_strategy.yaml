@@ -8,49 +8,62 @@
 #   - LoRAAdapterMerger with TIES-Merging
 #   - Power-Iteration SVD for low-rank factorisation
 #   - Multi-adapter batch scheduling
+#
+# Consumer: themis::llm::lora::loadAdaLoRAStrategy(path)
+#   (include/llm/lora_framework/adalora_strategy_config.h). It reads
+#   rank_budget, importance_pruning, hyperparameters and target_modules and maps
+#   them onto AdaLoRAScheduleParams / LoRAHyperparameters
+#   (include/llm/lora_framework/lora_training_backend.h); out-of-range values
+#   are rejected. The remaining sections (multi_adapter, adapter_merger,
+#   slo_gates, memory, storage, federation, database_optimizer_labeler) are
+#   not interpreted by that loader.
 # ============================================================
 
 adalora:
   # ---------------------------------------------------------------
   # 1. Rank Budget & Importance-Based Pruning
   #    Source: PERF §37.1 #4, v1.9.0 — "LoRA Memory-Footprint reduziert"
+  #    AdaLoRA (arXiv:2303.10512): the total budget b(t) starts at
+  #    b(0) ≈ 1.5 × b(T) and follows a cubic schedule down to b(T).
+  #    b(T) = target_rank × number of adapted weight matrices (derived by the
+  #    training backend), so no separate total budget is configured here.
+  #    The L-3 hot-load SLO (7B @ rank 64) is a serving ceiling, not a training
+  #    default; keep max_rank ≥ initial_rank.
   # ---------------------------------------------------------------
   rank_budget:
-    # Initial rank per adapter layer (before pruning)
-    initial_rank: 64                 # L-3 SLO: Hot-Load for 7B @ Rank 64 < 5 s
-    # Minimum rank to preserve after pruning
-    min_rank: 4
-    # Maximum rank (hard cap)
+    # Initial average rank per adapted matrix, b(0)/n  (≈ 1.5 × target_rank)
+    initial_rank: 12
+    # Target average rank per adapted matrix, b(T)/n  (AdaLoRAScheduleParams::target_rank)
+    target_rank: 8
+    # Hard per-module cap (validated: initial_rank ≤ max_rank)
     max_rank: 128
-    # Target total rank budget across all layers (sum of per-layer ranks)
-    total_rank_budget: 512
 
   importance_pruning:
+    # true → AdapterTrainingMethod::AdaLoRA, false → plain LoRA (fixed rank = target_rank)
     enabled: true
-    # Metric used to score singular value importance
-    # Options: "gradient_sensitivity" | "magnitude" | "fisher"
+    # Importance score: smoothed sensitivity |w·∇w| × uncertainty (paper Eq. 8–10).
+    # Only "gradient_sensitivity" is supported by the training backend.
     metric: "gradient_sensitivity"
-    # Pruning warmup: do not prune during first N steps
+    # t_i: steps of warmup before the budget starts shrinking
     warmup_steps: 200
-    # Prune every N training steps
+    # t_f: final steps with the budget fixed at b(T)
+    final_steps: 500
+    # ΔT: steps between budget re-allocations
     pruning_interval_steps: 100
-    # Fraction of rank budget reallocated per pruning step
-    reallocation_rate: 0.05
-    # Minimum importance score below which rank is trimmed
-    min_importance_threshold: 0.01
-    # Use Power-Iteration SVD for efficient singular value estimation
-    power_iteration_svd:
-      enabled: true
-      num_iterations: 8             # Convergence: 8 iterations ≈ 1e-5 residual
-      random_seed: 42
+    # EMA factors for sensitivity (β1) and uncertainty (β2); paper: 0.85 / 0.85
+    beta1: 0.85
+    beta2: 0.85
+    # γ: orthogonality regulariser weight on P and Q; paper range 0.1–0.5
+    orth_reg_weight: 0.5
 
   # ---------------------------------------------------------------
   # 2. LoRA Hyperparameters
   #    Derived from: phi3_lora_training.yaml + PERF §14 targets
   # ---------------------------------------------------------------
   hyperparameters:
-    # Alpha scaling factor — typically 2 × rank
-    alpha_multiplier: 2.0           # alpha = alpha_multiplier × current_rank
+    # Alpha scaling factor. AdaLoRA keeps a fixed alpha while per-module ranks
+    # change, so the loader computes alpha = alpha_multiplier × target_rank.
+    alpha_multiplier: 2.0
     # Dropout (reduced because AdaLoRA prunes low-importance dimensions)
     dropout: 0.05
     # Learning rate — conservative for stability across rank changes
@@ -71,8 +84,10 @@ adalora:
       eps: 1.0e-8
 
     lr_scheduler:
-      type: "cosine_with_warmup"
+      # One of: constant | linear_warmup | cosine | cosine_warmup | step | exponential
+      type: "cosine_warmup"
       warmup_steps: 200
+      # Informational; not mapped by loadAdaLoRAStrategy (no LoRAHyperparameters field)
       min_lr_ratio: 0.05
 
   # Target modules (architecture-agnostic defaults; override per model)

@@ -108,6 +108,9 @@ public:
      * @p gc_horizon are migrated to the TemporalTierManager and then deleted
      * from the MVCC store.  The @p config.min_versions_to_keep most-recent
      * versions are protected from migration/deletion regardless of timestamp.
+     * If the MVCC store has a MVCCSnapshotPinRegistry attached, versions
+     * visible at any pinned snapshot timestamp are also protected (they stay
+     * in the MVCC store and are neither migrated nor deleted).
      *
      * @param key         The logical record key (base key, without timestamp).
      * @param gc_horizon  All versions with ts < gc_horizon are candidates.

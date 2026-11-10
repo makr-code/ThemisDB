@@ -534,6 +534,15 @@ private:
     
     // Cache integration
     /**
+     * @brief Builds the response-cache key: prompt, model id and requested LoRA adapter
+     *        id with its registered scale ("<none>" marker when no adapter).
+     * @param[in] request Inference request.
+     * @return Adapter-qualified cache key (prevents cross-adapter cache collisions).
+     * @note Thread-safe; acquires lora_adapters_mutex_ briefly.
+     */
+    [[nodiscard]] std::string makeAdapterCacheKey(const InferenceRequest& request) const;
+
+    /**
      * @brief Check Cache.
      * @param[in] request Input parameter.
      * @return Return value.

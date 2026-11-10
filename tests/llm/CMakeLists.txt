@@ -129,6 +129,23 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
         )
     endif()
+    if(_stem STREQUAL "test_mode_spec_bootstrap")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/mode_spec_bootstrap.cpp
+        )
+        target_compile_definitions(${_target} PRIVATE
+            THEMIS_TEST_REPO_ROOT="${THEMIS_ROOT_DIR}"
+        )
+    endif()
+    if(_stem STREQUAL "test_adalora_strategy_config")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/adalora_strategy_config.cpp
+        )
+        target_compile_definitions(${_target} PRIVATE
+            THEMIS_TEST_REPO_ROOT="${THEMIS_ROOT_DIR}"
+        )
+    endif()
     if(_stem STREQUAL "test_llm_wave3_gap_fixes")
         target_sources(${_target} PRIVATE
             ${_llm_orchestrator_link_sources}
