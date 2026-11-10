@@ -292,6 +292,8 @@ def _load_benchmark_json(path: Path) -> dict[str, BenchmarkResult]:
 
     results: dict[str, BenchmarkResult] = {}
     for bm in data.get("benchmarks", []):
+        if str(bm.get("label", "")).strip().casefold() == "synthetic":
+            continue
         if bm.get("error_occurred", False):
             continue
         name: str = bm.get("name", "")

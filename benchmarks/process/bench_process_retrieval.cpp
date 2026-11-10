@@ -245,7 +245,7 @@ static void BM_ProcessModelImport(::benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
-    state.SetLabel("nodes=" + std::to_string(node_count));
+    state.SetLabel("synthetic");
 }
 
 BENCHMARK(BM_ProcessModelImport)
@@ -281,7 +281,7 @@ static void BM_ProcessEmbeddingGenerate(::benchmark::State& state) {
     }
 
     state.SetBytesProcessed(state.iterations() * text_len);
-    state.SetLabel("text_len=" + std::to_string(text_len));
+    state.SetLabel("synthetic");
 }
 
 BENCHMARK(BM_ProcessEmbeddingGenerate)
@@ -335,7 +335,7 @@ static void BM_ProcessEmbeddingPersist(::benchmark::State& state) {
     }
 
     state.SetBytesProcessed(state.iterations() * dims * static_cast<int>(sizeof(float)));
-    state.SetLabel("dims=" + std::to_string(dims));
+    state.SetLabel("synthetic");
 }
 
 BENCHMARK(BM_ProcessEmbeddingPersist)
@@ -382,7 +382,7 @@ static void BM_ProcessFullTextSearch(::benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations() * store_size);
-    state.SetLabel("store=" + std::to_string(store_size));
+    state.SetLabel("synthetic");
 }
 
 BENCHMARK(BM_ProcessFullTextSearch)
@@ -410,8 +410,7 @@ static void BM_ProcessHnswRetrieve(::benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations() * store_size);
-    state.SetLabel("store=" + std::to_string(store_size) +
-                   " k=" + std::to_string(kDefaultTopK));
+    state.SetLabel("synthetic");
 }
 
 BENCHMARK(BM_ProcessHnswRetrieve)
@@ -451,7 +450,7 @@ static void BM_ProcessStateChangeEmbed(::benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations() * change_count);
-    state.SetLabel("changes=" + std::to_string(change_count));
+    state.SetLabel("synthetic");
 }
 
 BENCHMARK(BM_ProcessStateChangeEmbed)

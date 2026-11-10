@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-10
 Status: review
 Source_Level: level 1
 SOT_Domain: architecture-governance
@@ -20,7 +20,13 @@ Human_Author: ThemisDB Team
 
 **AI provenance:** Exact model backend not verifiable from final document text alone.
 
-## Boundaries and components
+## Kontext
+
+The process module owns model import/storage, process graph context retrieval,
+linking, and integration contracts. It does not own general workflow execution
+or claim deployment readiness from source presence alone.
+
+## Komponenten
 
 The process module includes process-model storage/import/export, runtime graph-context retrieval, process-object linking, format-specific serializers/importers, analytics helpers, and integration contracts. `ProcessModelManager::deployToEngine()` bridges stored models to `ProcessGraphManager`; this is an integration surface, not a claim that this module owns a general workflow orchestration service.
 
@@ -34,23 +40,53 @@ The public declarations in [`include/process/`](../../include/process/) and thei
 | Diagnostics and audit/telemetry contracts | [`process_diagnostics.h`](../../include/process/process_diagnostics.h), [`process_diagnostics_api.h`](../../include/process/process_diagnostics_api.h), [`process_audit_logger.h`](../../include/process/process_audit_logger.h), [`process_telemetry_contract.h`](../../include/process/process_telemetry_contract.h) |
 | Federation and conflict-resolution surfaces | `federation_consensus_manager.cpp`, `federation_replica_manager.cpp`, `process_conflict_resolver.cpp`; corresponding declarations under `include/process/` |
 
-## Data flow and limits
+## Schnittstellen
+
+- [`ProcessModelManager`](../../include/process/process_model_manager.h) manages model records and optional caller-wired search integrations.
+- [`ProcessGraphRag`](../../include/process/process_graph_rag.h) builds context from an instance, model, and available linked data.
+- [`ProcessLightRetriever`](../../include/process/process_light_retriever.h) routes LOCAL/GLOBAL/AUTO requests and returns bounded context.
+- [`ProcessOrchestrationRegistry`](../../include/process/process_orchestration_registry.h) persists external orchestration profiles separately from model lifecycle.
+
+## Datenfluss
 
 1. Import or caller-provided records are normalized/validated and stored by `ProcessModelManager`; optional embedder and index callbacks are caller-wired.
 2. Runtime graph retrieval combines instance/model data and, where requested and available, link and similarity evidence.
-3. `ProcessLightRetriever` selects LOCAL/GLOBAL/AUTO; GLOBAL can fall back to LOCAL when community reports are unavailable. Its declared resource limits are not enforced by the current `retrieve()` path; see [`IMPLEMENTATION.md`](IMPLEMENTATION.md).
+3. `ProcessLightRetriever` selects LOCAL/GLOBAL/AUTO; GLOBAL can fall back to LOCAL when community reports are unavailable. It caps output bytes, GLOBAL report count, LOCAL prompt lines, and LOCAL traversal depth, and reports elapsed time and returned bytes. Timeout detection follows synchronous calls and does not provide cancellation; see [`IMPLEMENTATION.md`](IMPLEMENTATION.md).
 4. `ProcessOrchestrationRegistry` stores profile revisions and an active-domain pointer separately. Activation/rollback comprise multiple writes, with no transactional guarantee stated by the API.
+
+## Sequenz (kritischer Ablauf)
+
+```mermaid
+sequenceDiagram
+    participant Caller
+    participant Retriever as ProcessLightRetriever
+    participant Graph as ProcessGraphRag
+    participant Store as RocksDB
+    Caller->>Retriever: retrieve(query, instance, mode)
+    Retriever->>Store: resolve model and communities
+    alt usable community reports
+        Retriever-->>Caller: bounded GLOBAL context
+    else no reports or LOCAL mode
+        Retriever->>Graph: retrieve with clamped depth
+        Graph-->>Retriever: process prompt
+        Retriever-->>Caller: bounded LOCAL context
+    end
+```
+
+Kurzinterpretation: the façade selects persisted reports or graph retrieval,
+then applies output limits; synchronous dependencies are not preempted by the
+soft timeout check.
 
 The audit and federation components have source implementations, but source presence does not establish production readiness. In particular, audit storage/patch operations and telemetry export contain simplified behavior, and federation sources identify themselves as alpha/core implementation. Consult the current code and tests before relying on advertised design targets.
 
-## Failure paths
+## Fehlerpfade und Resilienz
 
 - Invalid or malformed process data is handled through operation results and diagnostics; exact failure behavior is operation-specific.
 - GLOBAL light retrieval may fall back to LOCAL when community reports are unavailable. Callers should inspect the effective mode.
 - Profile activation and rollback span separate persistence writes. A failed operation may require inspection of the stored profile and active-domain pointer; there is no transaction guarantee.
-- Resource limits declared by `ProcessLightRetriever` are not enforced by the current `retrieve()` path.
+- `ProcessLightRetriever` can mark retrieval degraded when a cap is reached. A timeout is reported after synchronous dependencies return and does not preempt them.
 
-## Non-goals
+## Nicht-Ziele
 
 - The process module does not own a general workflow execution service.
 - Source or contract presence does not establish production maturity, external service configuration, or successful release evidence.
@@ -61,6 +97,6 @@ The audit and federation components have source implementations, but source pres
 - Process benchmarks are conditionally registered by [`benchmarks/process/CMakeLists.txt`](../../benchmarks/process/CMakeLists.txt) when `THEMIS_BUILD_BENCHMARKS` is enabled. The registered set is not identical to every `bench_*.cpp` file in the directory.
 - Neither registration is evidence that a target was built or passed. See the [API guide](API.md), [implementation notes](IMPLEMENTATION.md), and current registration files for validation scope.
 
-## Related documentation
+## Verweise
 
 [Module overview](README.md) · [API guide](API.md) · [Implementation notes](IMPLEMENTATION.md) · [Governance](../../DOCUMENTATION_GOVERNANCE.md)

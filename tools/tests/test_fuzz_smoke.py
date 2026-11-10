@@ -1,9 +1,13 @@
 from __future__ import annotations
 
+import os
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
+
+import yaml
 
 from tools.ci import fuzz_smoke
 from tools.ci.fuzz_smoke import affected_targets
@@ -110,6 +114,9 @@ class FuzzSmokeScopeTests(unittest.TestCase):
         self.assertIn("src/utils/logger.cpp", fuzz_cmake)
         self.assertIn("spdlog::spdlog", fuzz_cmake)
         self.assertIn("src/importers/postgres_importer.cpp", fuzz_cmake)
+        importer_target = fuzz_cmake.split("add_executable(postgres_importer_harness", 1)[1].split(")", 1)[0]
+        for dependency in ("logger.cpp", "error_registry.cpp", "error_contracts.cpp"):
+            self.assertIn(f"src/utils/{dependency}", importer_target)
         self.assertNotIn('"stubs/postgres_importer_stub.cpp"', fuzz_cmake)
         aql_harness = (ROOT / "fuzz/harnesses/aql_parser_harness.cpp").read_text(encoding="utf-8")
         self.assertIn("themis::query::AQLParser", aql_harness)
@@ -165,7 +172,11 @@ class FuzzSmokeScopeTests(unittest.TestCase):
         self.assertIn("  pull_request:", workflow)
         self.assertIn("- 'src/storage/**'", workflow)
         self.assertIn("- 'include/sharding/**'", workflow)
-        self.assertIn("enable_sccache_gha: true", workflow)
+        self.assertIn("enable_sccache_gha: false", workflow)
+        self.assertEqual(workflow.count("-DTHEMIS_ENABLE_COMPILER_CACHE=OFF"), 2)
+        self.assertEqual(
+            workflow.count("-DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER="), 2
+        )
         self.assertIn("CMAKE_BUILD_TYPE=Debug", workflow)
         self.assertIn("tools/ci/sanitizer_targets.py", workflow)
         self.assertIn('SAN_FLAGS="-fsanitize=address,undefined', workflow)
@@ -248,6 +259,40 @@ class FuzzSmokeScopeTests(unittest.TestCase):
         self.assertNotIn("actions/upload-artifact@v4", workflow)
         self.assertIn("if-no-files-found: error", workflow)
         self.assertIn("retention-days: 30", workflow)
+
+    def test_sanitizer_initial_configuration_uses_system_packages_without_cache(self):
+        workflow = yaml.safe_load(
+            (ROOT / ".github/workflows/build-sanitizer-nightly.yml").read_text()
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            cmake = root / "cmake"
+            cmake.write_text(
+                '#!/bin/sh\nprintf "%s\\n" "$@" > "$CMAKE_ARGS"\n'
+                'test "$SCCACHE_DISABLE" = 1\n'
+            )
+            cmake.chmod(0o755)
+            for name in ("sanitizer-build", "tsan-build"):
+                with self.subTest(job=name):
+                    options = workflow["jobs"][name]["with"]
+                    self.assertIs(options["enable_sccache_gha"], False)
+                    script = options["configure_command"].replace(
+                        "${{ inputs.sanitizer_mode || 'asan-ubsan' }}", "asan-ubsan"
+                    )
+                    env_file = root / "github-env"
+                    result = subprocess.run(
+                        ["bash", "-e", "-o", "pipefail", "-c", script],
+                        env={**os.environ, "PATH": f"{root}:{os.environ['PATH']}",
+                             "GITHUB_ENV": str(env_file), "CMAKE_ARGS": str(root / "args")},
+                        capture_output=True, text=True,
+                    )
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                    arguments = (root / "args").read_text().splitlines()
+                    for option in ("-DCMAKE_TOOLCHAIN_FILE=", "-DTHEMIS_AUTO_BOOTSTRAP_DEPS=OFF",
+                                   "-DTHEMIS_ENABLE_COMPILER_CACHE=OFF",
+                                   "-DCMAKE_C_COMPILER_LAUNCHER=", "-DCMAKE_CXX_COMPILER_LAUNCHER="):
+                        self.assertIn(option, arguments)
+                    self.assertIn("SCCACHE_DISABLE=1", env_file.read_text())
 
     def test_fuzz_smoke_is_not_duplicated_on_schedule(self):
         workflow = (ROOT / ".github/workflows/security-fuzzing.yml").read_text(

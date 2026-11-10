@@ -4,7 +4,7 @@ Created: "2026-10-30"
 Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
-AI_Models: "unknown"
+AI_Models: "unknown; Claude (WP H snapshot provenance section)"
 AI_Contributor: "GitHub Copilot coding agent"
 Human_Review: false
 Human_Author: "ThemisDB Contributors"
@@ -19,6 +19,9 @@ Canonical_References:
   - "../../include/llm/model_router.h"
   - "../../include/llm/prompt_policy.h"
   - "../../include/llm/streaming_handler.h"
+  - "../../include/llm/lora_framework/training_snapshot.h"
+  - "../../include/llm/lora_framework/adapter_provenance.h"
+  - "../../include/storage/mvcc_snapshot_pins.h"
   - "embedded_llm.cpp"
   - "async_inference_engine.cpp"
   - "llm_plugin_manager.cpp"
@@ -79,6 +82,81 @@ submit through it.
 - Missing model/plugin, model-load errors, and backend inference errors are distinct from successful empty output.
 - Async queue, deadline, cancellation, and resource exhaustion affect request completion; callers must inspect the result/status.
 - `EmbeddedLLM` contains a fallback embedding helper; that behavior does not imply a general fallback for text generation or backend failures.
+
+## LoRA training-data snapshot provenance (WP H)
+
+Every LoRA/AdaLoRA adapter trained through
+`LoRAOrchestrator::createAdapterFromSnapshot()` or
+`LoRAOrchestrator::regenerateAdapter()` carries a signed, hash-only
+reference to the exact MVCC snapshot of its training data. The training data
+itself is never written into adapter metadata.
+
+- **Snapshot source and guarantee**
+  (`include/llm/lora_framework/training_snapshot.h`).
+  - Records live in `MVCCStore` under `lora_ds:<collection>:<record_key>`.
+    Each value is a JSON sample (`input`/`output`/`context`); an empty value
+    is a tombstone.
+  - `TrainingSnapshotReader::capture()` takes one fresh HLC tick T, pins T,
+    then reads every key at T: the newest version with `ts <= T`, in
+    ascending key order, up to `limit` records.
+  - AQL reads (`LoRADatasetLoader::load`) see live data and cannot be pinned
+    to T, so they are not used for snapshot-bound jobs.
+  - A concurrent `MVCCStore::put` whose timestamp is ≤ T but whose write
+    lands after the read is **not prevented**. Before the adapter is signed,
+    the orchestrator re-verifies the snapshot, so such a write fails the job
+    instead of producing a wrong reference.
+- **Fingerprint.**
+  - Merkle root (SHA-256) over leaves
+    `0x00‖len‖collection‖len‖key‖u64be(version_ts)‖sha256(value bytes)`,
+    sorted by key. Inner nodes are `SHA256(0x01‖L‖R)`; an odd node is
+    promoted unchanged.
+  - The fingerprint also includes `record_count`, the canonical selector JSON
+    and its SHA-256, `split_seed` and `holdout_fraction`.
+- **GC retention** (`include/storage/mvcc_snapshot_pins.h`).
+  - `MVCCSnapshotPinRegistry` stores leases durably under
+    `__mvcc_snapshot_pin__:<lease>`.
+  - When the registry is attached through
+    `MVCCStore::setSnapshotPinRegistry()` (the HTTP server does this), all
+    GC paths keep the version visible at every pinned timestamp:
+    `gcVersionsBefore`/`gcAllBefore`, `MvccCleanupHandler`,
+    `MVCCChainPruner::pruneKey`.
+  - Victim selection (`MVCCStore::selectGcVictims`) runs under the registry's
+    shared GC guard. `acquire()` takes that guard exclusively, so a pin and a
+    concurrent GC cannot race.
+  - A pin cannot bring back versions that were already pruned.
+  - The lease of a successful job is kept and recorded in the artifact
+    (`snapshot_lease_id`); `releaseSnapshotPin()` frees it.
+- **Metadata binding** (`include/llm/lora_framework/adapter_provenance.h`).
+  - The `themis.training.snapshot.*` keys are `collection`, `hlc_ts`,
+    `query`, `query_sha256`, `record_count`, `merkle_root`, `split_seed`,
+    `holdout_fraction` and `pinned`.
+  - These keys are written to the safetensors `__metadata__`, then signed in
+    C++.
+  - The `themis.provenance.*` keys are `canonical_json`, `canonical_sha256`,
+    `signature` (hex), `key_id` and `alg`. The canonical JSON covers every
+    `themis.*` key except `themis.provenance.*`, including
+    `themis.adapter.sha256_tensors`, as a string map with sorted keys and no
+    whitespace.
+  - The GGUF is produced afterwards by the existing converter, which passes
+    all `themis.*` keys through. The canonical payload is embedded because
+    GGUF stores some keys as u32/f32.
+- **Verification.**
+  - Safetensors import verifies the signature and the tensor hash
+    (`AdapterSignaturePolicy::require_signed_imports`).
+  - GGUF hot-load checks the signature and that the GGUF KV exactly matches
+    the payload, via `MultiLoRAManager::setAdapterMetadataVerifier`
+    (`require_signed_hot_load`).
+  - All policy flags default to `true` (fail closed). An invalid signature is
+    always rejected.
+  - `regenerateAdapter(source, {base_model, ...})` first verifies the source
+    adapter. It then re-reads the data at `hlc_ts` under a new pin and
+    recomputes the Merkle root. It aborts **before training** with
+    `SnapshotUnavailable` (data pruned) or `FingerprintMismatch`, and has no
+    fallback.
+- **Known gaps.**
+  - GGUF tensor bytes are not covered by the signature; only the safetensors
+    tensor hash is signed, and the manifest records `gguf_sha256`.
+  - Adapters trained from inline/AQL datasets carry no snapshot reference.
 
 ## Explicit non-goals
 

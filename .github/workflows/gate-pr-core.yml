@@ -211,6 +211,9 @@ jobs:
       - name: Test test-registration guard
         run: python3 tests/test_test_registration.py
 
+      - name: Test transaction evidence gate
+        run: python3 -m unittest discover -s tools/tests -p test_transaction_evidence.py -v
+
       - name: Test deployment runtime and package guards
         working-directory: tests
         run: |
@@ -281,9 +284,9 @@ jobs:
           set -euo pipefail
           git fetch origin "${BASE_REF}:refs/remotes/origin/${BASE_REF}" --depth=1
           git diff --name-only --diff-filter=ACMRT \
-            "origin/${BASE_REF}...HEAD" -- 'tests/*.cpp' 'tests/**/*.cpp' \
+            "origin/${BASE_REF}" HEAD -- 'tests/*.cpp' 'tests/**/*.cpp' \
             > "$RUNNER_TEMP/changed-test-files.txt"
-          git diff --unified=0 "origin/${BASE_REF}...HEAD" -- \
+          git diff --unified=0 "origin/${BASE_REF}" HEAD -- \
             'tests/**/CMakeLists.txt' 'tests/CMakeLists.txt' \
             > "$RUNNER_TEMP/test-cmake.diff"
           python3 tools/ci/check_test_registration.py \
@@ -317,11 +320,23 @@ jobs:
           ctest --test-dir build-pr-release-critical --output-on-failure -j 1 --timeout 60 \
             --label-regex '(^|;)release_critical($|;)' \
             --label-exclude '(^|;)(not_release_critical|focus|kind:focused|autogen)($|;)' \
+            --output-junit build-pr-release-critical/ctest-release-critical.xml \
             2>&1 | tee "$LOG_FILE"
           CT_EXIT=${PIPESTATUS[0]}
           set -e
           echo "ctest_exit=${CT_EXIT}" >> "$GITHUB_OUTPUT"
           exit "$CT_EXIT"
+
+      - name: Upload key-lifecycle CTest evidence
+        if: always() && !cancelled()
+        uses: actions/upload-artifact@v5
+        with:
+          name: key-lifecycle-ci-evidence-${{ github.run_number }}
+          path: |
+            build-pr-release-critical/ctest-release-critical.xml
+            build-pr-release-critical/c5-key-lifecycle-audit/key-rotated.jsonl
+          retention-days: 90
+          if-no-files-found: warn
 
       - name: Summarize CTest gate issues
         id: ctest_triage

@@ -2,7 +2,7 @@
 
 > **Auto-generated** — do not edit manually.
 > Source: `tools/architecture-generator/generate_architecture.py`
-> Generated: `2026-11-09T19:53:40.635856+00:00`
+> Generated: `2026-11-10T06:50:46.208535+00:00`
 
 ## Statistics
 
@@ -13,10 +13,10 @@
 | Modules with public plugin | 10 |
 | Modules with private plugin | 4 |
 | Modules with API contracts | 6 |
-| Documentation sources scanned | 1253 |
-| LLM Wiki source files | 8070 |
+| Documentation sources scanned | 1254 |
+| LLM Wiki source files | 8073 |
 | LLM Wiki module/API entries | 80 |
-| LLM Wiki generated | `2026-11-09T17:58:34+00:00` |
+| LLM Wiki generated | `2026-11-10T06:06:18+00:00` |
 | ai_working artifacts | 28 |
 
 ## Module Architecture Diagram
@@ -355,9 +355,9 @@ Isolated modules (no incoming/outgoing dependency): 30
 ## Knowledge Sources
 
 ### Developer LLM Wiki
-- Generated at: `2026-11-09T17:58:34+00:00`
-- Source hash: `52b0a00d9611f99c4b376b68b6a122295612ce3256cfc98d0c5ac2b3d4e73c21`
-- Source file count: 8070
+- Generated at: `2026-11-10T06:06:18+00:00`
+- Source hash: `30d1c89563ecab04cc2281971c2de981ef89f20870396e7698e052eb48e3edd2`
+- Source file count: 8073
 - Module/API entries indexed: 80
 
 ### ai_working Artifacts
@@ -365,18 +365,18 @@ Wave/batch reports: 3
 JSON analysis artifacts: 9
 
 ### Documentation Sources
-1253 documentation files scanned from `docs/` and repository root governance files.
+1254 documentation files scanned from `docs/` and repository root governance files.
 
 ## Source Hashes
 
 | Source | SHA-256 prefix |
 |--------|----------------|
-| `ARCHITECTURE.md` | `793eec99cdc5a1f8` |
+| `ARCHITECTURE.md` | `8f6955b4842029bb` |
 | `FUTURE_ENHANCEMENTS.md` | `ab3cf42244d049f6` |
-| `ROADMAP.md` | `1da56706418e0852` |
+| `ROADMAP.md` | `ccccd02fbb5493c5` |
 | `ai_context/ARCHITECTURE_CLASSIFICATION.md` | `57a7f2182a1193c8` |
 | `ai_context/MODULES_AND_NAMESPACES.md` | `bf42dba44a39f8cb` |
 | `ai_context/api_contracts/` | `389cdacfaaa6f0ca` |
-| `ai_context/developer_llm_wiki/` | `9f48bd8b35e5138d` |
+| `ai_context/developer_llm_wiki/` | `e3111b46e0ae4662` |
 | `ai_working/` | `52346260da576891` |
-| `docs/` | `d615d3bf95399923` |
+| `docs/` | `2ad031097f0e33b7` |

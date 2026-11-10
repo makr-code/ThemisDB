@@ -1,13 +1,33 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-14"
+Last Updated: "2026-11-09"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # BSI C5 Evidence Manifests
 
 **Author:** ThemisDB Contributors  
 **Created:** 2026-09-14  
-**Last Updated:** 2026-09-14  
+**Last Updated:** 2026-11-10  
 **Status:** active
 
 ## Scope
 
 This directory is the canonical location for release/run-level C5 evidence manifests.
+
+## Current release candidate
+
+The [v2.5.0 release-candidate manifest](v2.5.0-rc-candidate/manifest.json) is an evidence index assembled from actual workflow run `42321944686` and its available SBOM artifacts. The source run is on `develop`, failed overall, and skipped C5 manifest packaging; the manifest is not a v2.5.0 release record. The SOC 2 evidence-export job failed while building the container: vcpkg's `python3:x64-linux` build stopped when `autoreconf -vfi` exited 1. Correction to the earlier source comparison: `docker-compose.yml` builds the repository-root `Dockerfile`, not `docker/Dockerfile.unified`; the root Dockerfile at failed-run commit `5f8b44bacd78cfb940f5c1bf40456d6617d0284a` omitted `autoconf-archive`, consistent with vcpkg's prerequisite warning. The vcpkg stderr file was not captured, so this remains a likely source-level cause, not a confirmed sole cause. Follow-up develop run [42761863772](https://github.com/makr-code/ThemisDB/actions/runs/42761863772) succeeded at SBOM generation and C5 manifest packaging/validation/upload, but SOC 2 container setup failed during apt package downloads from `security.ubuntu.com` (timeout and 404 responses) before vcpkg/Python, so it did not verify the prerequisite. Signing and tag-only provenance were skipped because this was a branch dispatch, not release-specific evidence. The [validation report](v2.5.0-rc-candidate/manifest_validation.json) confirms schema and cross-field consistency only. All controls remain partial pending release-specific runtime evidence, signatures, and human review.
+
+The [v2.4.0 manifest](v2.4.0/manifest.json) remains historical baseline evidence and must not be copied as current release evidence.
 
 ## Required path convention
 
@@ -30,6 +50,7 @@ This directory is the canonical location for release/run-level C5 evidence manif
 
 - `tools/ci/generate_c5_evidence_manifest.py`
 - Workflow integration: `.github/workflows/compliance-supply-chain.yml`
+- Schema/run-reference validation: `tools/ci/validate_c5_evidence_manifest.py`
 
 ## Related attachments
 

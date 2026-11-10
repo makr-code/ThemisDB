@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Contributors
 **Created:** 2026-09-13
-**Last Updated:** 2026-11-09
+**Last Updated:** 2026-11-10
 **Status:** active
 **Repository Metadata:** `VERSION=2.4.0-alpha`
 **Evidence Snapshot:** v2.4.0-rc1 GA-hardening trail on `develop` *(audit-evidence snapshot; distinct from current repo `VERSION=2.4.0-alpha`)*
@@ -273,7 +273,7 @@ For EU AI Act details (NEW Aug 2026), see:
 - [~] Add provider/shared-responsibility matrix to deployment compliance docs — baseline added at `audit/evidence/c5/SHARED_RESPONSIBILITY_MATRIX.md`; deployment-specific ownership evidence remains open
 - [~] Add signed SBOM + provenance references to audit completion checklist — manifest now links SBOM artifact and workflow run; recurring tag/release provenance capture remains open
 - [~] Add recurring incident drill evidence links to audit reports — canonical index added at `audit/evidence/c5/INCIDENT_DRILL_EVIDENCE_INDEX.md`; entries remain open
-- [~] Expand cryptographic lifecycle audit logging coverage — required event canon added at `audit/evidence/c5/KEY_LIFECYCLE_AUDIT_EVENTS.md`; source-backed event mapping remains open
+- [~] Expand cryptographic lifecycle audit logging coverage — `key_rotated` API operation has a test and configured JUnit/JSONL CI artifacts, but application-runtime wiring, canonical metadata, and CI execution remain unverified; five required event classes lack production emitters. See `audit/evidence/c5/KEY_LIFECYCLE_AUDIT_EVENTS.md`.
 
 For details see: [BSI_C5_2026_THEMISDB_AUDIT.md](BSI_C5_2026_THEMISDB_AUDIT.md)
 

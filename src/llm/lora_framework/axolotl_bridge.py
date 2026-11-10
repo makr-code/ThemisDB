@@ -688,36 +688,52 @@ class AdapterConverter:
     """Convert between PEFT and GGUF adapter formats"""
     
     @staticmethod
-    def peft_to_gguf(peft_dir: str, output_file: str, base_model: str) -> bool:
+    def peft_to_gguf(peft_dir: str, output_file: str, base_model: str,
+                     convert_script: Optional[str] = None,
+                     outtype: str = "f16") -> bool:
         """
-        Convert PEFT adapter to GGUF format
-        
+        Convert a PEFT LoRA adapter directory to a standalone GGUF LoRA adapter.
+
+        Uses llama.cpp's ``convert_lora_to_gguf.py`` (the former
+        ``convert-lora-to-gguf.py`` name no longer exists upstream):
+        ``python convert_lora_to_gguf.py <peft_dir> --base <hf_base_dir>
+        --outfile <out.gguf> --outtype f16`` (``--base-model-id <hf_id>`` when
+        ``base_model`` is not a local directory). The adapter is never merged
+        into the base weights. AdaLoRA checkpoints (lora_E tensors) must first
+        be materialised as plain LoRA, see ``scripts/lora/themis_lora_train.py``.
+
         Args:
-            peft_dir: Directory containing PEFT adapter
+            peft_dir: Directory containing adapter_config.json and adapter weights
             output_file: Output GGUF file path
-            base_model: Base model name or path
-            
+            base_model: Local HF base model directory or HF model id
+            convert_script: Path to convert_lora_to_gguf.py (default:
+                ./llama.cpp/convert_lora_to_gguf.py)
+            outtype: GGUF tensor type passed to --outtype (default f16)
+
         Returns:
             True if successful
         """
         try:
-            # Check if conversion script exists
-            llama_cpp_dir = Path(__file__).resolve().parents[3] / "llama.cpp"
-            convert_script = llama_cpp_dir / "convert_lora_to_gguf.py"
-            
-            if not convert_script.exists():
-                logger.warning(f"Conversion script not found: {convert_script}")
-                logger.warning("Please clone llama.cpp repository")
+            script = (
+                Path(convert_script)
+                if convert_script
+                else Path(__file__).resolve().parents[3] / "llama.cpp" / "convert_lora_to_gguf.py"
+            )
+
+            if not script.exists():
+                logger.warning(f"Conversion script not found: {script}")
+                logger.warning("Provide the path to llama.cpp convert_lora_to_gguf.py")
                 return False
-            
-            # Run conversion
+
             cmd = [
-                sys.executable, str(convert_script),
-                "--outfile", output_file,
-                "--base", base_model,
-                peft_dir,
+                sys.executable, str(script), str(peft_dir),
+                "--outfile", str(output_file), "--outtype", outtype,
             ]
-            
+            if Path(base_model).is_dir():
+                cmd += ["--base", str(base_model)]
+            else:
+                cmd += ["--base-model-id", str(base_model)]
+
             logger.info(f"Converting PEFT to GGUF: {peft_dir} -> {output_file}")
             result = subprocess.run(cmd, check=True, capture_output=True, text=True)
             if not Path(output_file).is_file() or Path(output_file).stat().st_size == 0:
@@ -725,8 +741,8 @@ class AdapterConverter:
                 return False
             logger.info("Conversion successful")
             logger.debug(result.stdout)
-            return True
-            
+            return Path(output_file).is_file()
+
         except subprocess.CalledProcessError as e:
             logger.error(f"Conversion failed: {e}")
             logger.error(e.stderr)

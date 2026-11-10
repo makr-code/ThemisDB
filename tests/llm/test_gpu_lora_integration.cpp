@@ -202,7 +202,7 @@ TEST_F(GPULoRAIntegrationTest, LoRAInitializationMethod) {
     
     // Test with non-existent LoRA - should return false
     // (even with a valid-looking model handle)
-    void* fake_model = reinterpret_cast<void*>(0x1234);
+    auto* fake_model = reinterpret_cast<llama_model*>(static_cast<uintptr_t>(0x1234));
     EXPECT_FALSE(manager.initializeLoRAWithModel("nonexistent_lora", fake_model));
 #endif
 }

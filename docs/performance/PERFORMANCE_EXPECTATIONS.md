@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-01-03"
+Last Updated: "2026-11-09"
+Status: "review"
+AI_Used: true
+AI_Models: "GitHub Copilot (exact model backend not recorded)"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Performance Expectations (Root Canonical)
 
 ## Consolidation Scope (Root Performance Docs)
@@ -1370,10 +1384,8 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 
 #### 14. LLM-Modul
 
-> **✅ Benchmark implementiert (2026-04-13):** `bench_llm_inference_performance.cpp` — PRODUCTION-READY (565 Zeilen, Quality 96/100).
-> Abgedeckte Pfade: Batch-Inference (L-1/L-2), LoRA-Adapter-Load/Apply/Remove (L-3/L-4), Multi-LoRA-Batch (L-5..L-8), Adapter-Switching-Overhead.
-> Hinweis: Numerische L-1..L-8 Messwerte erfordern GPU/Modell-Artefakte (GGUF); ohne diese laufen die Cases als Skip/Stub.
-> Verbleibend: Zielmessung auf GPU-Runner ausfuehren und Ergebnisse in Tabelle eintragen.
+> The previous `bench_llm_inference_performance.cpp` implementation used simulated token generation and fabricated LoRA contexts; its results are not model-inference evidence. The target now builds `benchmarks/llm/bench_llm_real_models.cpp`, which calls `LLMPluginManager` and validates returned embeddings and generation responses.
+> Remaining: model hash/runtime manifest, request-level TTFT/TPOT percentiles, output-quality checks, and representative-hardware baselines.
 
 | Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
 |---------|----------------|-----------------|--------|
@@ -2170,7 +2182,7 @@ Der Build ist mit `continue-on-error: true` versehen. Wenn Voice-Dependencies (S
 | Replication | **Wave2 SLO-Matrix vollständig (2026-04-15)** | R-1..R-8 vollständig kartiert mit `primary_case`/`fallback_case` (`benchmark_target_mapping.json` v2.0); v1.9.0-Profil-JSON: `bench_replication_v190_baseline.json`; direkt messbar: R-2/R-3/R-4/R-5/R-6/R-7; Proxy-Cases: R-1/R-8; Gap-Ticket R-8-GAP mit Aufwand 5d |
 | Sharding | **Wave2 SLO-Matrix vollständig (2026-04-15)** | SH-1..SH-12 vollständig kartiert mit `primary_case`/`fallback_case`; v1.9.0-Profil-JSON: `bench_sharding_v190_baseline.json`; direkt messbar: SH-1/SH-2/SH-3/SH-4/SH-5/SH-6/SH-7/SH-9/SH-10/SH-11/SH-12; Proxy-Cases: keine; not_measurable: SH-8 (GPU-Gate); Gap-Tickets SH-8-GAP mit Aufwand 8d |
 | Transaction | **Wave2 SLO-Matrix vollständig (2026-04-15)** | TX-1..TX-8 vollständig kartiert mit `primary_case`/`fallback_case`; v1.9.0-Profil-JSON: `bench_transaction_v190_baseline.json`; direkt messbar: TX-1/TX-2/TX-3/TX-5/TX-7/TX-8; Proxy-Cases: TX-4/TX-6; Gap-Tickets TX-4-GAP/TX-6-GAP mit Aufwand 7d |
-| LLM | **Benchmark implementiert (2026-04-13)** — GPU-abhaengig | `bench_llm_inference_performance.cpp` ✅ vollstaendig implementiert (Batch-Inference/LoRA-Load/Multi-LoRA/Adapter-Switch); ~~nur Stub/Skip~~ — Pfade sind registriert; L-1..L-8 erfordern weiterhin GPU/Modell-Artefakte fuer numerische Werte |
+| LLM | Model-backed component benchmark; performance baseline pending | `benchmarks/llm/bench_llm_real_models.cpp` (target `bench_llm_inference_performance`); token-simulation and fabricated-context results excluded; TTFT/TPOT and representative-hardware metrics remain open |
 | RAG | **Benchmark implementiert (2026-04-13)** — Messung ausstehend | `bench_rag_hybrid_retriever.cpp` ✅ vollstaendig implementiert (RRF- und Linear-Fusion, RA-1..RA-8-Pfade); ~~keine vollstaendige Zielabbildung~~ — Zielmessung als naechster Schritt |
 | Search | **Benchmark implementiert (2026-04-13)** — Messung ausstehend | `bench_rag_hybrid_retriever.cpp` (SE-1..SE-6 ueber RRF/HybridSearch-Cases) ✅ vollstaendig implementiert; ~~keine vollstaendige Zielabbildung im v1.8.2-Report~~ — Zielmessung als naechster Schritt |
 | Temporal | **Referenzlauf durchgeführt (2026-04-15)** — TM-1..TM-6 ✅ | `bench_temporal_queries.cpp` vollstaendig implementiert; Referenzartefakt `artifacts/nightly/bench_temporal_queries.json` (13 Cases); Modul 34 im Nightly-Preset; alle Zielwerte erfüllt |
@@ -4437,7 +4449,7 @@ Benchmark-Erweiterung noetig, mittlere Prioritaet:
 | Replication | R-1 bis R-8 | `benchmarks/bench_replication_throughput.cpp` | ~~neu anlegen~~ **✅ implementiert (2026-04-13)** |
 | Sharding | SH-1 bis SH-12 | `benchmarks/bench_sharding_performance.cpp` | ~~neu anlegen~~ **✅ implementiert (2026-04-13)** |
 | Transaction | TX-1, TX-2, TX-4 bis TX-8 | `benchmarks/bench_transaction_throughput.cpp` | ~~neu anlegen~~ **✅ implementiert (2026-04-13)** |
-| LLM | L-1 bis L-8 | `benchmarks/bench_llm_inference_performance.cpp` | ~~neu anlegen~~ **✅ implementiert (2026-04-13)** |
+| LLM | Current model-backed inference and embedding checks | `benchmarks/llm/bench_llm_real_models.cpp` | Implemented; numeric performance gates remain pending |
 | RAG | RA-1 bis RA-8 | `benchmarks/bench_rag_hybrid_retriever.cpp` | ~~neu anlegen~~ **✅ implementiert (2026-04-13)** |
 | Search | SE-1 bis SE-6 | `benchmarks/bench_rag_hybrid_retriever.cpp` | ~~neu anlegen~~ **✅ implementiert (2026-04-13)** |
 | Temporal | TM-1 bis TM-6 | `benchmarks/bench_temporal_queries.cpp` | ~~neu anlegen~~ **✅ implementiert (2026-04-13)** |
@@ -4833,8 +4845,8 @@ Kernmesswerte (Auszug):
 | ANN HNSW | `BenchPostfilter/20000_mean` | 106.44 ms |
 | LLAMA.cpp Inference | `Generate_SingleRequest_mean` | 156.81 ns |
 | LLAMA.cpp Inference | `BM_ConcurrentInference/8/real_time_mean` | 0.68 ms |
-| LLM Inference | `BM_LLM_TokenThroughput/10000_mean` | 52076.22 ns |
-| LLM Inference | `BM_LLM_PromptLatency/2048_mean` | 8160.60 ns |
+| Legacy synthetic LLM output (excluded) | `BM_LLM_TokenThroughput/10000_mean` | not valid model-inference evidence |
+| Legacy synthetic LLM output (excluded) | `BM_LLM_PromptLatency/2048_mean` | not valid model-inference evidence |
 
 Vulkan-Nutzungsbefund (Pass/Fail gegen hardware-nahen Vulkan-Pfad):
 
@@ -4844,7 +4856,7 @@ Vulkan-Nutzungsbefund (Pass/Fail gegen hardware-nahen Vulkan-Pfad):
 | `bench_ann_hnsw_prefilter` | Nein | CPU Pre-/Postfilter-Pfad | FAIL (nicht Vulkan-hardware-nah) |
 | `bench_gpu_vector_index` | Ja | Device-Selection (`Selected Vulkan device: NVIDIA GeForce RTX 3060`), Pipeline-Init (`All compute pipelines created successfully`), aktiver Backend-Log (`GPUVectorIndex: Using Vulkan backend`) | PASS (Vulkan-hardware-naher Pfad aktiv) |
 | `bench_llama_cpp_inference` | Nein | dokumentierter Stub-/Plugin-Overhead-Pfad ohne Modell | FAIL (nicht Vulkan-hardware-nah) |
-| `bench_llm_inference_performance` | Nein | lokaler Artefakt-Preflight jetzt robust (`models/lora/legal_lora_stub.bin`), `BM_LLM_EndToEnd` lauffaehig; weiterhin kein produktiver Vulkan-Offload-Nachweis | FAIL (kein produktiver hardware-naher Pfad) |
+| `bench_llm_inference_performance` | Nein | Model-backed CPU/GPU route requires the configured GGUF artifact; model inference does not establish Vulkan offload by itself | hardware-offload evidence not established |
 
 Codebasierter Nachweis (Implementierungsstatus):
 

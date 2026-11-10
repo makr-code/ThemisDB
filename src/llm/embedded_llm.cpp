@@ -581,6 +581,14 @@ EthicalGuidelinesManager* EmbeddedLLM::getEthicalGuidelines() {
     return ethical_guidelines_.get();
 }
 
+MultiLoRAManager* EmbeddedLLM::loraManager() noexcept {
+    return wrapper_ ? wrapper_->loraManager() : nullptr;
+}
+
+const MultiLoRAManager* EmbeddedLLM::loraManager() const noexcept {
+    return wrapper_ ? static_cast<const LlamaWrapper&>(*wrapper_).loraManager() : nullptr;
+}
+
 bool EmbeddedLLM::hasEthicalGuidelines() const {
     return ethical_guidelines_ != nullptr && ethical_guidelines_->isEnabled();
 }

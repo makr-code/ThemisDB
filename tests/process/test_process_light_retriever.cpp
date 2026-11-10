@@ -16,6 +16,7 @@
 #include "process/process_model_manager.h"
 #include "storage/rocksdb_wrapper.h"
 
+#include <algorithm>
 #include <filesystem>
 #include <string>
 
@@ -274,4 +275,113 @@ TEST_F(ProcessLightRetrieverTest, PLR08_ClassifyQueryCaseInsensitive) {
         "inst_plr08",
         themis::process::RetrievalMode::AUTO);
     EXPECT_EQ(result_mixed.used_mode, themis::process::RetrievalMode::GLOBAL);
+}
+
+TEST_F(ProcessLightRetrieverTest, PLR09_GlobalResultAndUtf8ByteBudgets) {
+    saveMinimalModel("m_plr09");
+    storeInstance("inst_plr09", "m_plr09");
+
+    themis::process::ProcessCommunity first;
+    first.community_id = "community_0";
+    first.report = "Ä report with more than eight bytes";
+    first.modularity_score = 0.9f;
+
+    themis::process::ProcessCommunity second;
+    second.community_id = "community_1";
+    second.report = "Second report";
+    second.modularity_score = 0.8f;
+    ASSERT_TRUE(detector_->persistCommunities("m_plr09", {first, second}));
+
+    themis::process::ProcessLightRetriever::ResourceLimits limits;
+    limits.max_context_bytes = 2;
+    limits.max_result_elements = 1;
+    limits.max_retrieval_time_ms = 10000;
+    retriever_->setResourceLimits(limits);
+
+    const auto result = retriever_->retrieve(
+        "Overview", "inst_plr09", themis::process::RetrievalMode::GLOBAL);
+
+    ASSERT_EQ(result.used_mode, themis::process::RetrievalMode::GLOBAL);
+    ASSERT_EQ(result.community_ids_used.size(), 1u);
+    EXPECT_EQ(result.community_ids_used.front(), "community_0");
+    EXPECT_EQ(result.llm_context, "Ä");
+    EXPECT_EQ(result.context_size_bytes, result.llm_context.size());
+    EXPECT_LE(result.context_size_bytes, limits.max_context_bytes);
+    EXPECT_GE(result.retrieval_time_ms, 0);
+    ASSERT_TRUE(result.degraded);
+    ASSERT_TRUE(result.resource_exhaustion_reason.has_value());
+    EXPECT_NE(result.resource_exhaustion_reason->find("max_result_elements_exceeded"),
+              std::string::npos);
+    EXPECT_NE(result.resource_exhaustion_reason->find("max_context_size_exceeded"),
+              std::string::npos);
+}
+
+TEST_F(ProcessLightRetrieverTest, PLR10_LocalDepthAndOutputLineBudgets) {
+    saveMinimalModel("m_plr10");
+    storeInstance("inst_plr10", "m_plr10");
+
+    themis::process::ProcessLightRetriever::ResourceLimits limits;
+    limits.max_context_bytes = 1024;
+    limits.max_traversal_depth = 0;
+    limits.max_result_elements = 1;
+    limits.max_retrieval_time_ms = 10000;
+    retriever_->setResourceLimits(limits);
+
+    themis::process::ProcessRagConfig config;
+    config.max_subgraph_depth = 3;
+    const auto result = retriever_->retrieve(
+        "What is the current state?", "inst_plr10",
+        themis::process::RetrievalMode::LOCAL, config);
+
+    EXPECT_EQ(result.used_mode, themis::process::RetrievalMode::LOCAL);
+    EXPECT_LE(std::count(result.llm_context.begin(), result.llm_context.end(), '\n'), 1);
+    EXPECT_EQ(result.context_size_bytes, result.llm_context.size());
+    EXPECT_GE(result.retrieval_time_ms, 0);
+    ASSERT_TRUE(result.degraded);
+    ASSERT_TRUE(result.resource_exhaustion_reason.has_value());
+    EXPECT_NE(result.resource_exhaustion_reason->find("max_traversal_depth_exceeded"),
+              std::string::npos);
+}
+
+TEST_F(ProcessLightRetrieverTest, PLR11_TimeoutIsReportedAfterSynchronousRetrieval) {
+    saveMinimalModel("m_plr11");
+    storeInstance("inst_plr11", "m_plr11");
+
+    themis::process::ProcessLightRetriever::ResourceLimits limits;
+    limits.max_retrieval_time_ms = -1;
+    retriever_->setResourceLimits(limits);
+
+    const auto result = retriever_->retrieve(
+        "What is the current state?", "inst_plr11",
+        themis::process::RetrievalMode::LOCAL);
+
+    EXPECT_FALSE(result.llm_context.empty());
+    EXPECT_EQ(result.context_size_bytes, result.llm_context.size());
+    ASSERT_TRUE(result.degraded);
+    ASSERT_TRUE(result.resource_exhaustion_reason.has_value());
+    EXPECT_NE(result.resource_exhaustion_reason->find("retrieval_timeout"),
+              std::string::npos);
+}
+
+TEST_F(ProcessLightRetrieverTest, PLR12_ZeroOutputBudgetsReturnEmptyContext) {
+    saveMinimalModel("m_plr12");
+    storeInstance("inst_plr12", "m_plr12");
+
+    themis::process::ProcessLightRetriever::ResourceLimits limits;
+    limits.max_context_bytes = 0;
+    limits.max_result_elements = 0;
+    limits.max_traversal_depth = 0;
+    limits.max_retrieval_time_ms = 10000;
+    retriever_->setResourceLimits(limits);
+
+    const auto result = retriever_->retrieve(
+        "What is the current state?", "inst_plr12",
+        themis::process::RetrievalMode::LOCAL);
+
+    EXPECT_TRUE(result.llm_context.empty());
+    EXPECT_EQ(result.context_size_bytes, 0u);
+    EXPECT_TRUE(result.degraded);
+    ASSERT_TRUE(result.resource_exhaustion_reason.has_value());
+    EXPECT_NE(result.resource_exhaustion_reason->find("max_result_elements_exceeded"),
+              std::string::npos);
 }

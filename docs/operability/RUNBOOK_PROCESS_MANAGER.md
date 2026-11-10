@@ -1,6 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-09-16"
+Last Updated: "2026-11-10"
+Status: "active"
+AI_Used: true
+AI_Models: "GitHub Copilot (exact model backend not recorded)"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # Runbook: Process Manager — Operator Remediation Guide
 
-<!-- Status: current | Created: 2026-09-16 | Wave D delivery -->
 <!-- Links: src/process/ROADMAP.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -213,4 +224,4 @@ Always escalate — signal handler crashes indicate a code defect.  P1 SLA.
 | Architecture | `src/process/ARCHITECTURE.md` |
 | Wave D soak test | `tests/integration/test_process_manager_soak.cpp` |
 | Stress tests | `tests/process/test_process_highcardinality_stress.cpp` |
-| Benchmark gates | `benchmarks/process/bench_process_dedicated_gates.cpp` |
+| Process-model benchmark | `benchmarks/process/bench_process_import_retrieval.cpp` (not an OS process spawn benchmark) |

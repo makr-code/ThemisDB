@@ -2115,6 +2115,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/streaming_ingest_manager.cpp
     ../src/storage/encrypted_blob_backend.cpp
     ../src/storage/mvcc_chain_pruner.cpp
+    ../src/storage/mvcc_snapshot_pins.cpp
 
     ../src/metadata/schema_manager.cpp
     ../src/metadata/statistics_collector.cpp
@@ -5155,6 +5156,10 @@ if(THEMIS_ENABLE_LLM)
         
         # LoRA Adapter Framework (Issue #319) - RE-ENABLED WITH FIXED APIs
         ../src/llm/lora_framework/lora_orchestrator.cpp       # LoRA CRUD orchestrator
+        ../src/llm/lora_framework/training_snapshot.cpp       # MVCC training-data snapshot + Merkle fingerprint (WP H)
+        ../src/llm/lora_framework/adapter_provenance.cpp      # Adapter metadata canonicalisation/signing/verification (WP H)
+        ../src/llm/lora_framework/lora_safetensors_package.cpp # safetensors package validation (orchestrator dependency)
+        ../src/llm/lora_framework/lora_dataset_loader.cpp     # Dataset rows -> TrainingData (orchestrator dependency)
         # Note: lora_storage_service.cpp removed to avoid duplicate symbol errors
         # Only using lora_storage_service_themisdb.cpp which has complete ThemisDB + FileSystem implementations
         ../src/llm/lora_framework/lora_storage_service_themisdb.cpp  # ThemisDB storage backend (complete implementation)
@@ -5166,6 +5171,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/lora_framework/feedback_plugin.cpp         # Feedback plugin system
         ../src/llm/lora_framework/lora_feedback_storage.cpp   # Feedback storage service
         ../src/llm/lora_framework/lora_training_config.cpp    # YAML training configuration
+        ../src/llm/lora_framework/adalora_strategy_config.cpp # AdaLoRA strategy YAML loader (config/lora/adalora_optimization_strategy.yaml)
         ../src/llm/lora_framework/lora_layers.cpp             # LoRA layers and tensor operations (Phase 1)
         ../src/llm/lora_framework/base_model_adapter.cpp      # Base model loading and LoRA injection (Phase 2)
         ../src/llm/lora_framework/data_loader.cpp             # Text data loading and tokenization (Phase 2)
@@ -5236,6 +5242,7 @@ if(THEMIS_ENABLE_LLM)
         # AI Orchestrator: YAML-configurable LLM pipeline modes (ask, edit, rag, agentic, ethics, multi_agent)
         ../src/llm/mode_spec_loader.cpp           # ThemisModePack YAML loader + validator
         ../src/llm/ai_orchestrator.cpp            # Orchestrator runtime with ToolRegistry and mode pipelines
+        ../src/llm/mode_spec_bootstrap.cpp        # Server bootstrap: llm.orchestrator.mode_spec_path / --mode-spec resolution
 
         # MCP ↔ Orchestrator bridge (compiled when both THEMIS_ENABLE_LLM and THEMIS_ENABLE_MCP are active)
         $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/llm/mcp_tool_bridge.cpp>

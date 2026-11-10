@@ -184,6 +184,27 @@ public:
      * @return True when the operation succeeds.
      */
     bool hasEthicalGuidelines() const;
+
+    /**
+     * @brief Access the underlying LlamaWrapper's serving MultiLoRAManager
+     *        (forwards to LlamaWrapper::loraManager()).
+     *
+     * Used by the server wiring to hot-load published adapters and to install the
+     * adapter provenance verifier (MultiLoRAManager::setAdapterMetadataVerifier()).
+     * Ownership stays with the wrapper owned by this EmbeddedLLM; the pointer is valid
+     * for the lifetime of this EmbeddedLLM and must not be deleted.
+     *
+     * @return Non-owning pointer, or nullptr when no wrapper/manager exists.
+     * @note Thread-safe (the wrapper and manager are created in the constructor and
+     *       never replaced; the manager synchronises internally).
+     */
+    [[nodiscard]] MultiLoRAManager* loraManager() noexcept;
+
+    /**
+     * @brief Const overload of loraManager(); same lifetime and thread-safety rules.
+     * @return Non-owning const pointer, or nullptr.
+     */
+    [[nodiscard]] const MultiLoRAManager* loraManager() const noexcept;
     
 private:
     std::unique_ptr<LlamaWrapper> wrapper_;

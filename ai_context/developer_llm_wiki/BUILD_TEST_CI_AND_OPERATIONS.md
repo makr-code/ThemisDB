@@ -19,7 +19,11 @@ Status: Active
 
 ## Docker Python autoreconf prerequisite gate
 
-The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap. Release-source preflight and the reusable platform workflow enforce `test_base_installs_python_autoreconf_prerequisites`, including when the source-preflight override is enabled. An older selected source without this package can fail during `autoreconf`; rerunning that workflow does not change its source. Use a new release tag containing the fix, or set `build_from_workflow_source=true` for non-publishing validation. See the [canonical deployment guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting).
+The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap. Release-source preflight, the reusable platform workflow, and the platform test enforce `test_base_installs_python_autoreconf_prerequisites`. For the compliance export, `docker-compose.yml` selects the repository-root [Dockerfile](../../Dockerfile), not `docker/Dockerfile.unified`. The earlier failed run [42321944686](https://github.com/makr-code/ThemisDB/actions/runs/42321944686/job/128248301027) used the root Dockerfile before this prerequisite was added; the missing package matched vcpkg's warning and was a likely cause of its `python3:x64-linux` `autoreconf -vfi` failure, although stderr was not captured. Follow-up run [42761863772](https://github.com/makr-code/ThemisDB/actions/runs/42761863772) succeeded at SBOM and C5 manifest packaging/validation/upload, but the SOC 2 export failed during root Dockerfile apt package downloads from `security.ubuntu.com` (timeout/404) before vcpkg/Python. It therefore does not verify the prerequisite. SBOM signing and tag-only provenance were skipped, and a successful SOC 2 evidence-export build remains required. An older selected source without this package can still fail during `autoreconf`; rerunning that workflow does not change its source. Use a new release tag containing the fix, or set `build_from_workflow_source=true` for non-publishing validation. See the [operational guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting) for details.
+
+## C5 key-lifecycle persisted-event test
+
+`tests/auth/test_c5_key_lifecycle_audit_evidence.cpp` exercises the real `JWTKeyRotationManager::rotateActiveKey()` API with an attached `AuditLogger` and asserts the persisted `KEY_ROTATED` JSONL record. It is registered as `release_critical`; the PR gate uploads its JUnit result and JSONL output, and mainline CTest evidence includes the audit-output directory. This is API-level coverage only: application-runtime logger wiring is unverified, the test has not yet passed CI, and five other required lifecycle event classes have no production emitter. The local configure attempt could not complete because RocksDB development dependencies were unavailable. See the canonical [C5 key lifecycle evidence map](../../audit/evidence/c5/KEY_LIFECYCLE_AUDIT_EVENTS.md).
 
 ## Windows dependency snapshot handoff
 
@@ -43,6 +47,18 @@ normalize the workspace with `cygpath -u`; restoration also ensures the cache
 directory exists. The round-trip regression models a Windows-form workspace and
 executes real archive/extract commands with spaced paths, while retaining
 identity-mismatch and missing-artifact rejection.
+
+Attempt 2 of the same run, [job `129791530083`](https://github.com/makr-code/ThemisDB/actions/runs/42768142107/job/129791530083),
+repeated this failure: artifact download succeeded, but the executed workflow
+still passed `"$GITHUB_WORKSPACE/.cache"` directly to `tar -C`, which exited with
+code 2 (`Cannot open: No such file or directory`). Configuration, compilation,
+and CTest were skipped; the subsequent missing CTest evidence is a consequence,
+not the root cause. The current workflow already normalizes the workspace and
+creates the extraction directory. All 28 Windows dependency preparation tests
+passed locally on 2026-11-10, including the archive round trip. Start a new
+mainline run from a revision containing the corrected reusable workflow; another
+failed-job rerun of this old run does not pick up that workflow fix. Native
+Windows validation of the corrected workflow remains pending.
 
 ## MSVC monitoring route translation-unit split
 

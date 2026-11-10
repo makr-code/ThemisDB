@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-10
 Status: review
 Source_Level: level 1
 SOT_Domain: module-behavior
@@ -25,7 +25,7 @@ This page separates behavior directly visible in process interfaces/implementati
 | Area | Source-observable behavior | Limitation |
 |---|---|---|
 | Model lifecycle | `ProcessModelManager` exposes import, save/load, search, similarity, export, and execution-bridge methods. | Storage/index wiring and runtime outcomes depend on the caller's configuration; no global latency envelope is established here. |
-| Light retrieval | LOCAL/GLOBAL/AUTO modes; GLOBAL may fall back to LOCAL. | Declared time/size/depth/result budgets are not enforced by `retrieve()`. |
+| Light retrieval | LOCAL/GLOBAL/AUTO modes; GLOBAL may fall back to LOCAL. Output bytes, GLOBAL report count, LOCAL prompt lines, and LOCAL traversal depth are capped; elapsed time and returned bytes are reported. | Timeout is detected after synchronous dependencies return and cannot guarantee a hard deadline. Focused tests are added, but local execution evidence remains pending. |
 | External profile registry | Profile ID/domain validation and `internal_rag_stage=true` invariant. | Activation and rollback involve multiple writes; no transaction guarantee. |
 | Diagnostics | Nine incident classifications and a metrics collector API exist. | Does not establish end-to-end emission, dashboards, alerts, or complete coverage of all failures. |
 | Audit | Audit logger interfaces and implementation are present. | Current implementation labels persistence as simplified/in-memory and uses a placeholder delta codec; durable audit guarantees are not verified. |
@@ -45,7 +45,7 @@ Likewise, no numeric parser limits, maximum model size, operation timeouts, thro
 - [ ] Run relevant benchmarks on identified hardware and retain raw results; benchmark source comments are not measurements.
 - [ ] Confirm deployment authorization, transport security, logging/metrics export, data handling, and recovery procedures in their owning components.
 - [ ] Reconcile the current audit/federation/telemetry implementations with their design contracts and establish acceptable maturity with the responsible maintainers.
-- [ ] Resolve the `ProcessLightRetriever` budget-enforcement gap before promising its resource limits.
+- [~] Execute the production-class `ProcessLightRetriever` budget tests in a configured build; implementation now applies byte, result, and traversal caps, with timeout documented as non-preemptive.
 
 ## References
 

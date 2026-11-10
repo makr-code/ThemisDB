@@ -153,7 +153,7 @@ TEST_F(McpOrchestratorBridgeTest, LlmListModes_ReturnsExpectedModes) {
     EXPECT_FALSE(resp.contains("error")) << "Unexpected error: " << resp.dump();
 }
 
-TEST_F(McpOrchestratorBridgeTest, LlmOrchestrate_AskMode_NoPlugin_Succeeds) {
+TEST_F(McpOrchestratorBridgeTest, LlmOrchestrate_AskMode_NoPlugin_ReportsNotConfigured) {
     mcp_->attachOrchestrator(orch_);
 
     nlohmann::json call_req = {
@@ -169,7 +169,9 @@ TEST_F(McpOrchestratorBridgeTest, LlmOrchestrate_AskMode_NoPlugin_Succeeds) {
     };
     nlohmann::json resp = mcp_->handleRequest(call_req);
     EXPECT_FALSE(resp.is_null());
+    // Transport-level call succeeds; the tool payload reports the missing generator.
     EXPECT_FALSE(resp.contains("error")) << "Unexpected MCP error: " << resp.dump();
+    EXPECT_NE(resp.dump().find("llm_not_configured"), std::string::npos) << resp.dump();
 }
 
 TEST_F(McpOrchestratorBridgeTest, AttachNullOrchestrator_IsGraceful) {

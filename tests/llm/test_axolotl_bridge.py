@@ -101,23 +101,36 @@ class AxolotlBridgeTest(unittest.TestCase):
         self.assertIn("No usable", result["error"])
 
     @patch("src.llm.lora_framework.axolotl_bridge.subprocess.run")
-    def test_converter_uses_vendored_script_cli(self, run_process) -> None:
+    def test_converter_uses_configured_script_and_base_model_cli(self, run_process) -> None:
         def create_output(command, **_kwargs):
             Path(command[command.index("--outfile") + 1]).write_bytes(b"gguf")
             return type("ProcessResult", (), {"stdout": "converted"})()
 
         run_process.side_effect = create_output
         with tempfile.TemporaryDirectory() as temp_dir:
-            output_path = Path(temp_dir) / "adapter.gguf"
-            self.assertTrue(AdapterConverter.peft_to_gguf("peft-adapter", str(output_path), "tinyllama"))
+            converter_path = Path(temp_dir) / "llama.cpp" / "convert_lora_to_gguf.py"
+            converter_path.parent.mkdir()
+            converter_path.touch()
+            base_model_dir = Path(temp_dir) / "base-model"
+            base_model_dir.mkdir()
 
-        command = run_process.call_args.args[0]
-        converter_path = Path(command[1])
-        self.assertEqual(converter_path.name, "convert_lora_to_gguf.py")
-        self.assertEqual(converter_path.parent.name, "llama.cpp")
-        self.assertEqual(command[-1], "peft-adapter")
-        self.assertEqual(command[command.index("--outfile") + 1], str(output_path))
-        self.assertEqual(command[command.index("--base") + 1], "tinyllama")
+            for index, (base_model, base_flag, base_value) in enumerate((
+                ("tinyllama", "--base-model-id", "tinyllama"),
+                (str(base_model_dir), "--base", str(base_model_dir)),
+            )):
+                output_path = Path(temp_dir) / f"adapter-{index}.gguf"
+                self.assertTrue(AdapterConverter.peft_to_gguf(
+                    "peft-adapter",
+                    str(output_path),
+                    base_model,
+                    convert_script=str(converter_path),
+                ))
+
+                command = run_process.call_args.args[0]
+                self.assertEqual(Path(command[1]), converter_path)
+                self.assertEqual(command[2], "peft-adapter")
+                self.assertEqual(command[command.index("--outfile") + 1], str(output_path))
+                self.assertEqual(command[command.index(base_flag) + 1], base_value)
 
     def test_selects_peft_when_axolotl_is_unavailable(self) -> None:
         sample = [{"instruction": "Continue.", "output": "Documentation text."}]

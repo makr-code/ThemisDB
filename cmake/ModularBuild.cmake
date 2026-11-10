@@ -467,6 +467,7 @@ set(THEMIS_STORAGE_SOURCES
     # MVCC versioning and HLC timestamping
     ../src/storage/hlc.cpp
     ../src/storage/mvcc_store.cpp
+    ../src/storage/mvcc_snapshot_pins.cpp
     # Atomic history and conflict layer
     ../src/storage/history_manager.cpp
     ../src/storage/raft_mvcc_bridge.cpp
@@ -1398,8 +1399,14 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/lora_framework/lora_orchestrator.cpp
     ../src/llm/lora_framework/lora_feedback_storage.cpp
     ../src/llm/lora_framework/lora_training_config.cpp
+    ../src/llm/lora_framework/adalora_strategy_config.cpp
     ../src/llm/lora_framework/feedback_plugin.cpp
     ../src/llm/lora_framework/lora_provenance.cpp
+    # Training-data snapshot provenance + adapter signing (WP H); dependencies of lora_orchestrator.cpp
+    ../src/llm/lora_framework/training_snapshot.cpp
+    ../src/llm/lora_framework/adapter_provenance.cpp
+    ../src/llm/lora_framework/lora_safetensors_package.cpp
+    ../src/llm/lora_framework/lora_dataset_loader.cpp
     # Phase 4: HashChain & Provenance Layer (issue #5417)
     ../src/llm/lora_framework/lora_package_provenance.cpp
     # Use the ThemisDB-integrated storage service (BaseEntity + RocksDB + BlobStorage + encryption).

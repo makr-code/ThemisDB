@@ -555,8 +555,12 @@ public:
 
     /**
      * @brief ── Execution ────────────────────────────────────────────────────────────
-     * @param[in] ctx Input parameter.
-     * @return Return value.
+     * @param[in] ctx Request context (query, mode id, optional overrides).
+     * @return Pipeline result. When no LLM plugin is attached (see setLLMPlugin()),
+     *         generating pipelines return `success == false`, an empty `text`, an
+     *         `error` starting with `llm_not_configured` and
+     *         `metadata.extra["generation_status"] == "llm_not_configured"`;
+     *         retrieval/adapter metadata gathered before generation is preserved.
      */
 
     OrchestratorResult run(const OrchestratorContext& ctx) const;

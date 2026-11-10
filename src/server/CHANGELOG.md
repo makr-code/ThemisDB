@@ -11,6 +11,14 @@ The format is based on Keep a Changelog.
 ## [Unreleased]
 
 ### Changed
+- **LoRAApiHandler training path (WP D/H)** — `POST /api/v1/llm/lora/adapters` no longer fabricates a trained adapter. It accepts `dataset_id` (+ `limit`) → `LoRAOrchestrator::createAdapterFromSnapshot()` (pinned MVCC snapshot of `lora_ds:<dataset_id>:*`) or inline `samples` → `createAdapter()`, both async. It returns 202 with `job_id`/`status_url`, 400 on invalid input, 503 if the training backend, signer or snapshot reader is not configured, and 422 for other submission failures.
+- New endpoints:
+  - `GET /api/v1/llm/lora/jobs/{job_id}`: real job state.
+  - Admin: `POST /api/v1/llm/lora/adapters/{id}/regenerate` → `regenerateAdapter()`.
+  - Admin: `DELETE /api/v1/llm/lora/snapshot-pins/{lease_id}` → `releaseSnapshotPin()`.
+- `LoRAApiHandler::setRequestAuthorizer()` delegates auth to the server. Without an authorizer, admin endpoints answer 403 (fail closed).
+- `/status` includes `latest_job`.
+- Server wiring (`HttpServer` routing and construction in `main_server.cpp`) is still pending, so these routes are not reachable from the running server yet.
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, CHANGELOG, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable server behavior.
 - Performance expectations updated from mixed network/security proxy mapping to explicit benchmark symbols from bench_api_endpoints.cpp and bench_stream_protocol.cpp.
 
