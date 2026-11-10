@@ -1,6 +1,6 @@
 # LLM Module Roadmap
 
-<!-- Last Updated: 2026-11-06 -->
+<!-- Last Updated: 2026-11-09 -->
 <!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team -->
 <!-- Exact model backend not verifiable from final document text alone. -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->

@@ -1922,6 +1922,7 @@ set(THEMIS_NETWORK_SOURCES
     ../src/server/spatial_api_handler.cpp
     ../src/server/openapi_route_registry.cpp
     ../src/server/monitoring_api_handler.cpp
+    ../src/server/monitoring_api_routes.cpp
     ../src/server/query_api_handler.cpp
     ../src/server/policy_api_handler.cpp
     ../src/server/prompt_api_handler.cpp
@@ -2725,7 +2726,7 @@ function(themis_build_modular)
             UNITY_BUILD OFF
         )
         # Files that must NOT enter a unity batch:
-        # - monitoring_api_handler / index_api_handler / prompt_api_handler:
+        # - monitoring_api_handler / monitoring_api_routes / index_api_handler / prompt_api_handler:
         #   /O2 on windows-latest
         #   can trigger cl.exe C1060 (out of heap space). The default low-memory
         #   option applies /Od /Ob0 outside Debug, overriding inherited inlining;
@@ -2737,6 +2738,7 @@ function(themis_build_modular)
         #   another TU that also defines an anonymous-namespace symbol of the same name
         set_source_files_properties(
             ${CMAKE_SOURCE_DIR}/src/server/monitoring_api_handler.cpp
+            ${CMAKE_SOURCE_DIR}/src/server/monitoring_api_routes.cpp
             ${CMAKE_SOURCE_DIR}/src/server/index_api_handler.cpp
             ${CMAKE_SOURCE_DIR}/src/server/prompt_api_handler.cpp
             PROPERTIES

@@ -16,10 +16,11 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 COMPILER_OPTIONS = REPO_ROOT / "cmake" / "CompilerOptions.cmake"
 MODULAR_BUILD = REPO_ROOT / "cmake" / "ModularBuild.cmake"
+MONOLITHIC_BUILD = REPO_ROOT / "cmake" / "CMakeLists.txt"
 WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-build-matrix.yml"
 X64_PROCESSORS = ("x86_64", "amd64", "AMD64", "x64")
 ARM_PROCESSORS = ("aarch64", "ARM64")
-HANDLERS = ("monitoring_api_handler", "index_api_handler", "prompt_api_handler")
+HANDLERS = ("monitoring_api_handler", "monitoring_api_routes", "index_api_handler", "prompt_api_handler")
 
 
 @unittest.skipUnless(shutil.which("cmake") and shutil.which("ninja"), "requires CMake and Ninja")
@@ -139,7 +140,7 @@ class MainlineCompilerConfigurationTests(unittest.TestCase):
         variables = {} if low_memory is None else {"THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY": low_memory}
         return self.configure(body, build_type, **variables)
 
-    def test_all_three_handlers_default_to_low_memory_outside_debug(self) -> None:
+    def test_handlers_and_routes_default_to_low_memory_outside_debug(self) -> None:
         for build_type in ("Release", "Debug", "RelWithDebInfo", "MinSizeRel"):
             with self.subTest(build_type=build_type):
                 report = self.handler_options(build_type)
@@ -159,13 +160,143 @@ class MainlineCompilerConfigurationTests(unittest.TestCase):
                     self.assertNotIn("/Od", report[handler], msg=handler)
                     self.assertNotIn("/Ob0", report[handler], msg=handler)
 
+    def test_monolithic_routes_retain_handler_compile_properties(self) -> None:
+        policy = MONOLITHIC_BUILD.read_text(encoding="utf-8").split(
+            "# Per-file compile options for heavy AQL parser translation units (MSVC-only)\n", 1
+        )[1].split("\nendif()", 1)[0]
+        body = "set(MSVC ON)\n" + policy + "\nendif()\n"
+        for source in ("monitoring_api_handler", "monitoring_api_routes"):
+            body += (
+                f'get_source_file_property(options "../src/server/{source}.cpp" COMPILE_OPTIONS)\n'
+                f'get_source_file_property(unity "../src/server/{source}.cpp" SKIP_UNITY_BUILD_INCLUSION)\n'
+                f'file(GENERATE OUTPUT "${{CMAKE_BINARY_DIR}}/{source}.report" '
+                'CONTENT "$<GENEX_EVAL:${options}>;${unity}")\n'
+            )
+        report = self.configure(body, "Release")
+        self.assertEqual(report["monitoring_api_routes"], ["/bigobj", "ON"])
+        self.assertEqual(report["monitoring_api_routes"], report["monitoring_api_handler"])
+
+
+class MonitoringRouteTranslationUnitTests(unittest.TestCase):
+    def test_registration_batches_bound_per_function_initializer_count(self) -> None:
+        source = (REPO_ROOT / "src/server/monitoring_api_routes.cpp").read_text(encoding="utf-8")
+        helpers = re.findall(
+            r"^void (register\w+Routes)\(RouteRegistry& reg\) \{\n(.*?)^\}",
+            source, re.MULTILINE | re.DOTALL,
+        )
+        self.assertTrue(helpers, "route initializers must be split into file-local functions")
+        counts = []
+        for name, body in helpers:
+            with self.subTest(helper=name):
+                count = body.count("reg.registerRoute(")
+                self.assertGreater(count, 0)
+                self.assertLessEqual(count, 10, "large initializer batches exhaust MSVC's heap")
+                counts.append(count)
+        self.assertEqual(sum(counts), 47)
+        dispatcher = source.split("void MonitoringApiHandler::registerRoutes() {", 1)[1]
+        self.assertNotIn("reg.registerRoute(", dispatcher)
+        self.assertEqual(
+            re.findall(r"\b(register\w+Routes)\(reg\);", dispatcher),
+            [name for name, _ in helpers],
+            "each batch must run exactly once, in the original registration order",
+        )
+        self.assertIn("namespace {\n", source)
+        self.assertLess(source.index("} // namespace\n"), source.index("void MonitoringApiHandler::"))
+
+    def test_routes_registered_next_to_handler_in_both_source_lists(self) -> None:
+        for cmake_file, list_name in (
+            (MODULAR_BUILD, "THEMIS_NETWORK_SOURCES"),
+            (MONOLITHIC_BUILD, "THEMIS_CORE_SOURCES"),
+        ):
+            with self.subTest(cmake_file=cmake_file):
+                source_list = re.search(
+                    rf"\bset\({list_name}\s+(.*?)\n\s*\)",
+                    cmake_file.read_text(encoding="utf-8"), re.DOTALL,
+                )
+                self.assertIsNotNone(source_list)
+                self.assertEqual(source_list.group(1).count("../src/server/monitoring_api_routes.cpp"), 1)
+                self.assertRegex(
+                    source_list.group(1),
+                    r"\.\./src/server/monitoring_api_handler\.cpp\s+"
+                    r"\.\./src/server/monitoring_api_routes\.cpp\b",
+                )
+
+    def test_register_routes_defined_only_in_routes_tu_with_all_47_routes(self) -> None:
+        server = REPO_ROOT / "src" / "server"
+        definition = re.compile(r"\bvoid\s+MonitoringApiHandler::registerRoutes\s*\(\s*\)\s*\{")
+        definitions = []
+        for source in server.glob("*.cpp"):
+            definitions.extend([source.name] * len(definition.findall(source.read_text(encoding="utf-8"))))
+        self.assertEqual(definitions, ["monitoring_api_routes.cpp"])
+        routes_source = (server / "monitoring_api_routes.cpp").read_text(encoding="utf-8")
+        routes = re.findall(r'reg\.registerRoute\(\{\s*"([^"]+)",\s*"([^"]+)"', routes_source)
+        expected = {
+            ("/health", "get"),
+            ("/health/live", "get"),
+            ("/health/ready", "get"),
+            ("/version", "get"),
+            ("/stats", "get"),
+            ("/api/capabilities", "get"),
+            ("/metrics", "get"),
+            ("/metrics/html", "get"),
+            ("/api/v1/observability/alerts", "get"),
+            ("/api/v1/observability/alerts/{id}/silence", "post"),
+            ("/api/v1/observability/health", "get"),
+            ("/api/v1/observability/provenance", "get"),
+            ("/api/v1/license/status", "get"),
+            ("/api/openapi.json", "get"),
+            ("/entities", "get"),
+            ("/entities", "post"),
+            ("/entities/{key}", "get"),
+            ("/entities/{key}", "put"),
+            ("/entities/{key}", "delete"),
+            ("/query", "post"),
+            ("/query/aql", "post"),
+            ("/api/v1/query/udfs", "post"),
+            ("/api/v1/query/udfs", "get"),
+            ("/api/v1/query/udfs/{name}", "get"),
+            ("/api/v1/query/udfs/{name}", "delete"),
+            ("/changefeed/compact", "post"),
+            ("/graph/query/incremental", "post"),
+            ("/graph/query/incremental/{handle}", "delete"),
+            ("/graph/changes", "post"),
+            ("/v2/query/stream", "get"),
+            ("/api/v1/functions", "post"),
+            ("/api/v1/functions", "get"),
+            ("/api/v1/functions/{id}", "get"),
+            ("/api/v1/functions/{id}", "put"),
+            ("/api/v1/functions/{id}", "delete"),
+            ("/api/v1/functions/{id}/invoke", "post"),
+            ("/api/v1/functions/{id}/versions", "get"),
+            ("/api/tasks", "post"),
+            ("/api/tasks", "get"),
+            ("/api/tasks/stats", "get"),
+            ("/api/tasks/{id}", "get"),
+            ("/api/tasks/{id}", "put"),
+            ("/api/tasks/{id}", "delete"),
+            ("/api/tasks/{id}/enable", "post"),
+            ("/api/tasks/{id}/disable", "post"),
+            ("/api/tasks/{id}/execute", "post"),
+            ("/ui/tasks", "get"),
+        }
+        self.assertEqual(len(routes), 47)
+        self.assertEqual(set(routes), expected)
+        self.assertEqual(
+            re.findall(r'^#include\s+"([^"]+)"', routes_source, re.MULTILINE),
+            ["server/monitoring_api_handler.h", "server/openapi_route_registry.h"],
+        )
+        handler_source = (server / "monitoring_api_handler.cpp").read_text(encoding="utf-8")
+        self.assertIn('#include "server/openapi_route_registry.h"', handler_source)
+        self.assertIn("RouteRegistry::instance().buildOpenApiSpec", handler_source)
+
 
 class MainlineWindowsMatrixTests(unittest.TestCase):
-    def test_windows_release_configure_and_build_are_serial(self) -> None:
+    def test_windows_release_build_is_serial_with_independent_configure_concurrency(self) -> None:
         workflow = WORKFLOW.read_text(encoding="utf-8")
         script = workflow.split("python3 - <<'PY' >> \"$GITHUB_OUTPUT\"\n", 1)[1]
         script = textwrap.dedent(script.split("\n          PY", 1)[0])
         env = os.environ.copy()
+        env.pop("WINDOWS_DEPENDENCY_CONCURRENCY", None)
         env.update(
             BUILD_MATRIX="windows-amd64-only", OS_SELECTOR="windows", ARCH_SELECTOR="amd64",
             EDITION="community", BUILD_TYPE="Release", PACKAGING="auto",
@@ -177,11 +308,11 @@ class MainlineWindowsMatrixTests(unittest.TestCase):
         entries = json.loads(matrix_line.split("=", 1)[1])["include"]
         self.assertEqual([entry["id"] for entry in entries], ["windows-amd64"])
         entry = entries[0]
-        for key in ("configure_command", "build_command"):
+        for key, concurrency in (("configure_command", "4"), ("build_command", "1")):
             with self.subTest(command=key):
                 command = entry[key]
-                self.assertEqual(re.findall(r"export VCPKG_MAX_CONCURRENCY=(\d+)", command), ["1"])
-                self.assertEqual(re.findall(r"export CMAKE_BUILD_PARALLEL_LEVEL=(\d+)", command), ["1"])
+                self.assertEqual(re.findall(r"export VCPKG_MAX_CONCURRENCY=(\d+)", command), [concurrency])
+                self.assertEqual(re.findall(r"export CMAKE_BUILD_PARALLEL_LEVEL=(\d+)", command), [concurrency])
         self.assertRegex(entry["configure_command"], r"cmake --preset windows-release\b")
         self.assertRegex(entry["build_command"], r"cmake --build --preset windows-release --parallel 1\b")
         self.assertNotRegex(entry["build_command"], r"--parallel\s+[2-9]\d*")

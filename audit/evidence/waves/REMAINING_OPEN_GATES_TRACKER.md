@@ -17,7 +17,7 @@ Human_Author: "ThemisDB Team"
 Status: active
 Scope: `develop`
 Last Updated: 2026-11-09
-Purpose: track unresolved benchmark/closure evidence that remains explicitly open in manifests.
+Purpose: track unresolved benchmark/closure evidence that remains explicitly open in manifests. Current owners and milestone targets are cross-referenced in [`audit/ROADMAP.md`](../../ROADMAP.md#cross-cutting-rollout-evidence-ownership-2026-11-09).
 
 ## Wave A revalidation (2026-11-09)
 
@@ -51,8 +51,8 @@ No fresh representative-hardware metrics or CPU-fallback comparison were produce
 | `manifests/wave_b_module_hardening_closure_manifest.json` | `B_modules_llm_wiki` | `pending` | `in_progress` | LLM Wiki Phase 3-4 complete; Wave B closure bundle present |
 | `manifests/wave_b_module_hardening_closure_manifest.json` | `B_modules_llm` | `pending` | `in_progress` | LLM Wiki Phase A+B complete; distributed hardening in_progress |
 | `manifests/wave_ab_gap_closure_manifest.json` | `G4_unapproved_stub_mock_sim_blockers` | `pending` | `in_progress` | Current branch blocks HSM and FieldEncryption mock routes in canonical `ProductionMode`; tests are unexecuted and non-production fallback approval remains unverified |
-| `manifests/security_wave_c_closure_manifest.json` | `C4_compliance_signoff_bundle` | `pending` | `in_progress` | Sanitizer + pentest evidence closed; final assembly + §9 human sign-off pending |
-| `manifests/operability_wave_d_closure_manifest.json` | `D2_observability_gates` | `pending` | `in_progress` | Phase 2A/2B/2C verification docs present |
+| `manifests/security_wave_c_closure_manifest.json` | `C4_compliance_signoff_bundle` | `pending` | `in_progress` | Historical intermediate update only; current pentest bundle still lists all Q3 findings open, the v1.9.0 sanitizer bundle is stale, and release-scoped C5 evidence remains with #7817. C4 stays `in_progress`; issue closure is not evidence closure. |
+| `manifests/operability_wave_d_closure_manifest.json` | `D2_observability_gates` | `pending` | `in_progress` | Phase 2A/2B/2C documents exist, but documentation is not execution evidence; the current D2 manifest remains `pending` under Wave D owner #7811. |
 
 ## Open gates needing further evidence
 
@@ -72,11 +72,11 @@ No fresh representative-hardware metrics or CPU-fallback comparison were produce
 | `manifests/wave_ab_gap_closure_manifest.json` | `G2_security_critical_real_gaps` | `in_progress` | The 41-gap count is a stale 2026-08-31 snapshot; current triage in `audit/MARKER_GAP_CLASSIFICATION_2026-11-09.md` records TSA and HSM production-mode verification gaps under #7814. HSM remediation is present but no build/test verification ran. |
 | `manifests/wave_ab_gap_closure_manifest.json` | `G3_runtime_critical_real_gaps` | `in_progress` | Historical chimera/llama_cpp/tensor counts are not current closure evidence. llama.cpp synthetic mode is test-target-only in the reviewed path; tensor degraded/approximate runtime behavior still needs semantic acceptance under #7814. |
 | `manifests/wave_ab_gap_closure_manifest.json` | `G4_unapproved_stub_mock_sim_blockers` | `in_progress` | Current inventory is `audit/MARKER_LOCATIONS_2026-11-09.md`; the scanned-develop `THEMIS_TEST_BUILD` mock bypass is removed in the branch, but HSM/FieldEncryption tests are unexecuted and non-production approval evidence remains open. Candidate-by-candidate activation/fail-closed review is incomplete. |
-| `manifests/security_wave_c_closure_manifest.json` | `C3_sustained_load_evidence` | `pending` | Sustained-load security evidence on representative scope |
-| `manifests/security_wave_c_closure_manifest.json` | `C4_compliance_signoff_bundle` | `in_progress` | Final compliance sign-off bundle assembly + §9 human sign-off |
-| `manifests/operability_wave_d_closure_manifest.json` | `D2_observability_gates` | `in_progress` | Observability gate sign-off from final execution evidence (Phase 2A/2B/2C) |
-| `manifests/operability_wave_d_closure_manifest.json` | `D3_soak_recovery` | `in_progress` | 4 soak tests (24–48h each) scheduled Q1 2027; execution TBD |
-| `manifests/operability_wave_d_closure_manifest.json` | `D4_operator_signoff` | `pending` | Human operator readiness sign-off — GA_PROMOTION_SIGN_OFF.md §9 |
+| `manifests/security_wave_c_closure_manifest.json` | `C3_sustained_load_evidence` | `pending` | Sustained-load security evidence on representative scope; parent evidence package #7812 |
+| `manifests/security_wave_c_closure_manifest.json` | `C4_compliance_signoff_bundle` | `in_progress` | Current pentest dispositions and release-scoped C5 trace (#7817), final evidence assembly, and §9 human sign-off; PENTEST-Q3-002 remains owned by #7491 |
+| `manifests/operability_wave_d_closure_manifest.json` | `D2_observability_gates` | `pending` | Final observability execution evidence (Phase 2A/2B/2C); Wave D owner [#7811](https://github.com/makr-code/ThemisDB/issues/7811) |
+| `manifests/operability_wave_d_closure_manifest.json` | `D3_soak_recovery` | `pending` | Four 24–48h soak runs and evidence remain unexecuted; Wave D owner [#7811](https://github.com/makr-code/ThemisDB/issues/7811) |
+| `manifests/operability_wave_d_closure_manifest.json` | `D4_operator_signoff` | `pending` | Human operator readiness sign-off — [#7811](https://github.com/makr-code/ThemisDB/issues/7811) and GA_PROMOTION_SIGN_OFF.md §9 |
 
 ## Evidence-fill cadence
 

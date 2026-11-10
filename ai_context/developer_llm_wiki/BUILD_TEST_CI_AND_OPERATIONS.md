@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-09"
+Last Updated: "2026-11-10"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,12 +14,54 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-09
+Datum: 2026-11-10
 Status: Active
 
 ## Docker Python autoreconf prerequisite gate
 
 The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap. Release-source preflight and the reusable platform workflow enforce `test_base_installs_python_autoreconf_prerequisites`, including when the source-preflight override is enabled. An older selected source without this package can fail during `autoreconf`; rerunning that workflow does not change its source. Use a new release tag containing the fix, or set `build_from_workflow_source=true` for non-publishing validation. See the [canonical deployment guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting).
+
+## Windows dependency snapshot handoff
+
+Run `42638257654`, job `129657233420` failed before compilation because the
+completed dependency cache saved by preparation was no longer available on a
+failed-job rerun, despite an identical key. The canonical
+`.github/workflows/reusable-cmake-build.yml` now uploads the completed snapshot
+as a 30-day run artifact; `release-build-matrix.yml` passes its immutable artifact
+ID and source/configure/toolchain identity to the consumer. Consumption requires
+that artifact and retains binary-only vcpkg installation and identity validation.
+Caches accelerate preparation only; partial preparation snapshots are never
+published as completed artifacts. Failed-job reruns reuse the original producer's
+artifact ID, not the current attempt number. If the artifact expires, rerun
+preparation too. Older workflow revisions require a new run containing this fix.
+Focused coverage: `tests/test_windows_dependency_preparation.py`.
+
+Run `42768142107`, job `129687972024` downloaded that artifact but failed
+restoration because Git Bash's `tar` could not resolve the Windows-form
+`GITHUB_WORKSPACE` path passed to `-C`. Snapshot creation and restoration now
+normalize the workspace with `cygpath -u`; restoration also ensures the cache
+directory exists. The round-trip regression models a Windows-form workspace and
+executes real archive/extract commands with spaced paths, while retaining
+identity-mismatch and missing-artifact rejection.
+
+## MSVC monitoring route translation-unit split
+
+Run `42638257654`, job `129343673144` failed with VS18 MSVC 14.51 `C1060` at
+`monitoring_api_handler.cpp(2246)` despite serial compilation and
+`/Od /Ob0 /GL- /bigobj /Zm200`. Only `MonitoringApiHandler::registerRoutes()`
+(all 47 routes unchanged) is moved to `src/server/monitoring_api_routes.cpp`,
+registered in both build layouts with the handler's existing MSVC properties.
+No API or flag changes; modular non-Debug low-memory defaults and opt-out are
+preserved. Follow-up run `42747840520`, job `129662241930` still failed at
+`monitoring_api_routes.cpp(155)` with `C1060`. Registration now delegates to eight
+file-local helpers (at most ten routes each), bounding per-function nested JSON
+initializer pressure while preserving all annotations and registration order.
+`tests/test_mainline_compiler_regressions.py` checks the batch bound and dispatch;
+`tests/server/test_server_openapi_drift_focused.cpp` covers actual registration,
+the nested license schema, and repeat-registration stability.
+Native Windows validation remains pending. See
+[MSVC Handler Optimization](../../cmake/README.md#msvc-handler-optimization)
+for current policy and preserved historical evidence.
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
@@ -98,7 +140,7 @@ The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap
 
 ## .github/workflows/compliance-governance-gates.yml
 - Kategorie: build_test_ci
-- Hash: `3243c6e9fa0ee910`
+- Hash: `d975ecaa7f0c1076`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/compliance-supply-chain.yml
@@ -169,6 +211,11 @@ The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap
 ## .github/workflows/gate-pr-edition-license.yml
 - Kategorie: build_test_ci
 - Hash: `32768597ff46e0b5`
+- Titel: (binary or unreadable)
+
+## .github/workflows/gate-pr-file-size.yml
+- Kategorie: build_test_ci
+- Hash: `2ea528b8ada5fe2c`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-final-runtime-api.yml
@@ -414,9 +461,4 @@ The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap
 ## .github/workflows/release-wordpress-press.yml
 - Kategorie: build_test_ci
 - Hash: `641b3d6490580dca`
-- Titel: (binary or unreadable)
-
-## .github/workflows/reusable-benchmark-build-run-report.yml
-- Kategorie: build_test_ci
-- Hash: `fb6c9e997f8c0092`
 - Titel: (binary or unreadable)

@@ -1,0 +1,58 @@
+name: "Gate: PR File Size"
+
+# Intentionally has no paths filter: this lightweight check must inspect every
+# newly added or enlarged file, regardless of extension or repository location.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
+
+concurrency:
+  group: gate-pr-file-size-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate-file-size:
+    name: "Validate: Changed file size"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout pull request history
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Test file-size policy
+        id: policy_tests
+        run: python3 -m unittest tools.tests.test_check_added_file_sizes -v
+
+      - name: Enforce changed file-size policy
+        id: file_size_gate
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          python3 tools/ci/check_added_file_sizes.py \
+            --base "$BASE_SHA" \
+            --head "$HEAD_SHA"
+
+      - name: Write file-size gate summary
+        if: always()
+        run: |
+          {
+            echo "## Gate: PR File Size"
+            echo ""
+            echo "- Unit tests: ${{ steps.policy_tests.outcome }}"
+            echo "- Changed-file policy: ${{ steps.file_size_gate.outcome }}"
+            echo "- Limit: 5 MiB (5,242,880 bytes)"
+            echo "- Allowlist: exact repository paths only"
+          } >> "$GITHUB_STEP_SUMMARY"
