@@ -1,13 +1,8 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-<<<<<<< HEAD
-  "generated_at": "2026-11-09T18:14:09+00:00",
-  "source_count": 8071,
-=======
-  "generated_at": "2026-11-09T17:58:34+00:00",
-  "source_count": 8070,
->>>>>>> origin/develop
+  "generated_at": "2026-11-10T06:14:41+00:00",
+  "source_count": 8073,
   "sources": [
     {
       "path": ".github/workflows/benchmark-gate.yml",
@@ -140,7 +135,7 @@
       "category": "build_test_ci",
       "size": 11206,
       "sha256": "6ff0ecaf03a8a2268c0d1329fd4c28c7281319272019f36ba19ad6d52265684d",
-      "modified_utc": "2026-11-09T17:35:19+00:00"
+      "modified_utc": "2026-11-10T06:13:17+00:00"
     },
     {
       "path": ".github/workflows/crda.yml",
@@ -682,6 +677,13 @@
       "modified_utc": "2026-11-01T06:39:13+00:00"
     },
     {
+      "path": ".github/workflows/test-helm-chart.yml",
+      "category": "build_test_ci",
+      "size": 1657,
+      "sha256": "9b3888a15e62764799032df2c2bfc6f0c550f7dfcf42f42f25c58b7091c2e1cb",
+      "modified_utc": "2026-11-10T06:13:17+00:00"
+    },
+    {
       "path": ".github/workflows/wave-a-gpu-ci-execution.yml",
       "category": "build_test_ci",
       "size": 14409,
@@ -763,7 +765,7 @@
       "category": "governance_and_docs",
       "size": 242404,
       "sha256": "1da56706418e0852ea77ccc194d2dcae3c88b9510a85293eb9a67fc6b1af5ac4",
-      "modified_utc": "2026-11-09T17:48:52+00:00"
+      "modified_utc": "2026-11-10T06:13:17+00:00"
     },
     {
       "path": "VERSIONING.md",
@@ -20879,9 +20881,9 @@
     {
       "path": "docs/code_maturity_report.md",
       "category": "governance_and_docs",
-      "size": 2305150,
-      "sha256": "215e0d18ba191bee20e83d84759e2ade3ee9be518cef1a87c22d849182fb7e35",
-      "modified_utc": "2026-11-09T16:13:48+00:00"
+      "size": 2307887,
+      "sha256": "7cd0e0189e55c8fc158d7d52587f338697fb73bdc00b133bda30a004b5e9b806",
+      "modified_utc": "2026-11-10T06:13:17+00:00"
     },
     {
       "path": "docs/community/Supporters.md",
@@ -32835,9 +32837,9 @@
     {
       "path": "docs/governance/MATURITY_EVIDENCE_REGISTRY.md",
       "category": "governance_and_docs",
-      "size": 14590,
-      "sha256": "3484bf6e9d6f3112e27342befc50633b27b78d3a47e12213b8cd52b8f9acf9a3",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 15714,
+      "sha256": "94b9faafed7673cd12daa34588e8fe277c77cde81c28129b21a1a01a93715531",
+      "modified_utc": "2026-11-10T06:13:17+00:00"
     },
     {
       "path": "docs/governance/MERGE_GATE_BOT_CONFIG.md",
@@ -37138,6 +37140,13 @@
       "modified_utc": "2026-11-01T06:39:19+00:00"
     },
     {
+      "path": "docs/reports/BENCHMARK_PERFORMANCE_EVALUATION_2026-11-09.md",
+      "category": "governance_and_docs",
+      "size": 7993,
+      "sha256": "3727e01dd53241af3a849ab71175d80068806fac8ee5a13838e803d887b03097",
+      "modified_utc": "2026-11-10T06:13:17+00:00"
+    },
+    {
       "path": "docs/reports/BEST_PRACTICES_SUMMARY_DE.md",
       "category": "governance_and_docs",
       "size": 10406,
@@ -41326,9 +41335,9 @@
     {
       "path": "include/content/stt_processor.h",
       "category": "modules_and_api",
-      "size": 5366,
-      "sha256": "353169b24915df565d10dccbbb001e4fecb38073cab8f826dbcb809cb11c2f23",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 5984,
+      "sha256": "e9ca1a32c3c089176bd88e10ec17939bf3dc9936bf5bd42ead8356935fc549cd",
+      "modified_utc": "2026-11-10T06:13:17+00:00"
     },
     {
       "path": "include/content/tts_processor.h",
@@ -54460,7 +54469,7 @@
       "category": "build_test_ci",
       "size": 10897,
       "sha256": "ce8a2952381d5645b9b3710f5177a2b2208e2538d46c62a498c070166f4cc6b2",
-      "modified_utc": "2026-11-09T17:33:53+00:00"
+      "modified_utc": "2026-11-10T06:13:17+00:00"
     },
     {
       "path": "scripts/generate_docs_database.py",

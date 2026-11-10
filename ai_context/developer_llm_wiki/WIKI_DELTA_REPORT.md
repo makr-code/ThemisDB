@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-09"
+Last Updated: "2026-11-10"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,22 +14,19 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Delta Report
 
-Datum: 2026-11-09
+Datum: 2026-11-10
 Status: Active
 
 ## Summary
 
-- Added: 1
+- Added: 2
 - Removed: 0
-<<<<<<< HEAD
-- Changed: 5
-=======
-- Changed: 0
->>>>>>> origin/develop
+- Changed: 6
 
 ## Added
 
-- .github/workflows/gate-pr-artifact-size.yml
+- .github/workflows/test-helm-chart.yml
+- docs/reports/BENCHMARK_PERFORMANCE_EVALUATION_2026-11-09.md
 
 ## Removed
 
@@ -37,12 +34,9 @@ Status: Active
 
 ## Changed
 
-<<<<<<< HEAD
-- .github/workflows/maintenance-soll-ist-gap-issues.yml
-- ai_context/developer_llm_wiki/TEMPORAL.md
-- docs/governance/SRC_MODULE_DOCUMENTATION_COMPLIANCE_2026-09-20.md
-- scripts/check_module_direct_doxygen.py
-- scripts/sync_soll_ist_gaps.py
-=======
-- none
->>>>>>> origin/develop
+- .github/workflows/coverage-report-nightly.yml
+- ROADMAP.md
+- docs/code_maturity_report.md
+- docs/governance/MATURITY_EVIDENCE_REGISTRY.md
+- include/content/stt_processor.h
+- scripts/generate_coverage_baseline.py

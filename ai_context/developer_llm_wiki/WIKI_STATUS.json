@@ -1,43 +1,28 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-<<<<<<< HEAD
-  "generated_at": "2026-11-09T18:14:09+00:00",
+  "generated_at": "2026-11-10T06:14:41+00:00",
   "mode": "incremental",
-  "source_count": 8071,
-  "source_hash": "86a4ab354058df1776475cf783356038025a0220584f8eeaf07a099843305f07",
-=======
-  "generated_at": "2026-11-09T17:58:34+00:00",
-  "mode": "incremental",
-  "source_count": 8070,
-  "source_hash": "52b0a00d9611f99c4b376b68b6a122295612ce3256cfc98d0c5ac2b3d4e73c21",
->>>>>>> origin/develop
+  "source_count": 8073,
+  "source_hash": "b882e97b86f778a9032656d5c636604bb2b62fd0ae89997a4dd1e33f8ac4202e",
   "delta": {
-    "added_count": 1,
+    "added_count": 2,
     "removed_count": 0,
-<<<<<<< HEAD
-    "changed_count": 5,
+    "changed_count": 6,
     "added_preview": [
-      ".github/workflows/gate-pr-artifact-size.yml"
+      ".github/workflows/test-helm-chart.yml",
+      "docs/reports/BENCHMARK_PERFORMANCE_EVALUATION_2026-11-09.md"
     ],
     "removed_preview": [],
     "changed_preview": [
-      ".github/workflows/maintenance-soll-ist-gap-issues.yml",
-      "ai_context/developer_llm_wiki/TEMPORAL.md",
-      "docs/governance/SRC_MODULE_DOCUMENTATION_COMPLIANCE_2026-09-20.md",
-      "scripts/check_module_direct_doxygen.py",
-      "scripts/sync_soll_ist_gaps.py"
+      ".github/workflows/coverage-report-nightly.yml",
+      "ROADMAP.md",
+      "docs/code_maturity_report.md",
+      "docs/governance/MATURITY_EVIDENCE_REGISTRY.md",
+      "include/content/stt_processor.h",
+      "scripts/generate_coverage_baseline.py"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "5e68d54a972a853fd17e321c92e79ac1a259c5e6c36953b4d10a43d202ddb2b8"
-=======
-    "changed_count": 0,
-    "added_preview": [],
-    "removed_preview": [],
-    "changed_preview": []
-  },
-  "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "e734d18a51fc00072de8180dc9ff941406f941b74851e7c1152d6926207a6c60"
->>>>>>> origin/develop
+  "manifest_sha256": "dcad9ae900a68060aa489d4a7227ca5d9278cb3fe14978d5599bfea2fb58a526"
 }
