@@ -413,6 +413,249 @@ public:
         return output;
     }
 
+    AdaLoRATrainStepResult trainBatch(const std::string& name,
+                                      const std::vector<float>& input,
+                                      const std::vector<float>& targets,
+                                      size_t batch_size,
+                                      float learning_rate) {
+        Layer& lay = getLayer(name);
+        if (batch_size == 0 || input.size() % batch_size != 0 ||
+            input.size() / batch_size != lay.in_dim ||
+            targets.size() % batch_size != 0 ||
+            targets.size() / batch_size != lay.out_dim) {
+            throw std::invalid_argument("AdaLoRAAdapter::trainBatch: activation or target shape mismatch");
+        }
+        if (!std::isfinite(learning_rate) || learning_rate <= 0.0f) {
+            throw std::invalid_argument("AdaLoRAAdapter::trainBatch: learning_rate must be positive and finite");
+        }
+
+        const size_t rank = lay.active_rank;
+        const size_t sample_width = batch_size * lay.out_dim;
+        const float scaling = lay.alpha / static_cast<float>(lay.max_rank);
+        const float normalization = 1.0f / static_cast<float>(sample_width);
+        std::vector<float> grad_a(lay.max_rank * lay.out_dim, 0.0f);
+        std::vector<float> grad_b(lay.in_dim * lay.max_rank, 0.0f);
+        std::vector<float> hidden(rank, 0.0f);
+        std::vector<float> grad_hidden(rank, 0.0f);
+        AdaLoRATrainStepResult result;
+        result.sample_count = batch_size;
+
+        for (size_t sample = 0; sample < batch_size; ++sample) {
+            const float* sample_input = input.data() + sample * lay.in_dim;
+            const float* sample_target = targets.data() + sample * lay.out_dim;
+            std::fill(hidden.begin(), hidden.end(), 0.0f);
+            std::fill(grad_hidden.begin(), grad_hidden.end(), 0.0f);
+
+            for (size_t component = 0; component < rank; ++component) {
+                for (size_t feature = 0; feature < lay.in_dim; ++feature) {
+                    hidden[component] += sample_input[feature] * lay.B[feature * lay.max_rank + component];
+                }
+            }
+
+            for (size_t output = 0; output < lay.out_dim; ++output) {
+                float prediction = 0.0f;
+                for (size_t component = 0; component < rank; ++component) {
+                    prediction += hidden[component] * lay.A[component * lay.out_dim + output];
+                }
+                const float error = (prediction * scaling) - sample_target[output];
+                result.loss += 0.5f * error * error * normalization;
+                const float scaled_error = error * scaling * normalization;
+                for (size_t component = 0; component < rank; ++component) {
+                    grad_a[component * lay.out_dim + output] += hidden[component] * scaled_error;
+                    grad_hidden[component] += lay.A[component * lay.out_dim + output] * scaled_error;
+                }
+            }
+
+            for (size_t component = 0; component < rank; ++component) {
+                for (size_t feature = 0; feature < lay.in_dim; ++feature) {
+                    grad_b[feature * lay.max_rank + component] +=
+                        sample_input[feature] * grad_hidden[component];
+                }
+            }
+        }
+
+        for (size_t component = 0; component < rank; ++component) {
+            for (size_t output = 0; output < lay.out_dim; ++output) {
+                const size_t index = component * lay.out_dim + output;
+                result.gradient_norm += grad_a[index] * grad_a[index];
+                lay.A[index] -= learning_rate * grad_a[index];
+            }
+            for (size_t feature = 0; feature < lay.in_dim; ++feature) {
+                const size_t index = feature * lay.max_rank + component;
+                result.gradient_norm += grad_b[index] * grad_b[index];
+                lay.B[index] -= learning_rate * grad_b[index];
+            }
+        }
+        result.gradient_norm = std::sqrt(result.gradient_norm);
+        updateImportance(name);
+        return result;
+    }
+
+    AdaLoRATrainStepResult trainCausalLmBatch(
+        const std::vector<float>& input,
+        const std::vector<float>& base_logits,
+        const std::vector<size_t>& target_token_ids,
+        size_t batch_size,
+        float learning_rate,
+        float max_gradient_norm) {
+        if (insertion_order_.empty()) {
+            throw std::invalid_argument("AdaLoRAAdapter::trainCausalLmBatch: no output shards registered");
+        }
+        if (batch_size == 0 || !std::isfinite(learning_rate) || learning_rate <= 0.0f ||
+            !std::isfinite(max_gradient_norm) || max_gradient_norm <= 0.0f) {
+            throw std::invalid_argument("AdaLoRAAdapter::trainCausalLmBatch: invalid batch or optimizer values");
+        }
+
+        const size_t input_dim = layers_.at(insertion_order_.front()).in_dim;
+        size_t vocabulary_size = 0;
+        for (const auto& name : insertion_order_) {
+            const auto& layer = layers_.at(name);
+            if (layer.in_dim != input_dim || layer.active_rank == 0 ||
+                vocabulary_size > std::numeric_limits<size_t>::max() - layer.out_dim) {
+                throw std::invalid_argument("AdaLoRAAdapter::trainCausalLmBatch: incompatible output shards");
+            }
+            vocabulary_size += layer.out_dim;
+        }
+        if (batch_size > std::numeric_limits<size_t>::max() / input_dim ||
+            batch_size > std::numeric_limits<size_t>::max() / vocabulary_size ||
+            input.size() != batch_size * input_dim ||
+            base_logits.size() != batch_size * vocabulary_size ||
+            target_token_ids.size() != batch_size) {
+            throw std::invalid_argument("AdaLoRAAdapter::trainCausalLmBatch: batch shape mismatch");
+        }
+        const auto all_finite = [](const std::vector<float>& values) {
+            return std::all_of(values.begin(), values.end(), [](float value) {
+                return std::isfinite(value);
+            });
+        };
+        if (!all_finite(input) || !all_finite(base_logits)) {
+            throw std::invalid_argument("AdaLoRAAdapter::trainCausalLmBatch: inputs must be finite");
+        }
+        if (std::any_of(target_token_ids.begin(), target_token_ids.end(),
+                        [vocabulary_size](size_t token) { return token >= vocabulary_size; })) {
+            throw std::invalid_argument("AdaLoRAAdapter::trainCausalLmBatch: target token is outside vocabulary");
+        }
+
+        std::vector<std::vector<float>> grad_a;
+        std::vector<std::vector<float>> grad_b;
+        grad_a.reserve(insertion_order_.size());
+        grad_b.reserve(insertion_order_.size());
+        for (const auto& name : insertion_order_) {
+            const auto& layer = layers_.at(name);
+            grad_a.emplace_back(layer.max_rank * layer.out_dim, 0.0f);
+            grad_b.emplace_back(layer.in_dim * layer.max_rank, 0.0f);
+        }
+
+        AdaLoRATrainStepResult result;
+        result.sample_count = batch_size;
+        const float batch_scale = 1.0f / static_cast<float>(batch_size);
+        std::vector<float> logits(vocabulary_size);
+        std::vector<std::vector<float>> hidden(insertion_order_.size());
+        std::vector<size_t> shard_offsets(insertion_order_.size());
+        size_t offset = 0;
+        for (size_t shard = 0; shard < insertion_order_.size(); ++shard) {
+            shard_offsets[shard] = offset;
+            offset += layers_.at(insertion_order_[shard]).out_dim;
+        }
+
+        for (size_t row = 0; row < batch_size; ++row) {
+            std::copy_n(base_logits.data() + row * vocabulary_size, vocabulary_size, logits.begin());
+            const float* features = input.data() + row * input_dim;
+            for (size_t shard = 0; shard < insertion_order_.size(); ++shard) {
+                auto& layer = layers_.at(insertion_order_[shard]);
+                const size_t rank = layer.active_rank;
+                auto& shard_hidden = hidden[shard];
+                shard_hidden.assign(rank, 0.0f);
+                const float scaling = layer.alpha / static_cast<float>(layer.max_rank);
+                for (size_t component = 0; component < rank; ++component) {
+                    for (size_t feature = 0; feature < input_dim; ++feature) {
+                        shard_hidden[component] += features[feature] *
+                            layer.B[feature * layer.max_rank + component];
+                    }
+                }
+                for (size_t output = 0; output < layer.out_dim; ++output) {
+                    float residual = 0.0f;
+                    for (size_t component = 0; component < rank; ++component) {
+                        residual += shard_hidden[component] * layer.A[component * layer.out_dim + output];
+                    }
+                    logits[shard_offsets[shard] + output] += residual * scaling;
+                }
+            }
+
+            const float max_logit = *std::max_element(logits.begin(), logits.end());
+            double exp_sum = 0.0;
+            for (const float logit : logits) {
+                exp_sum += std::exp(static_cast<double>(logit - max_logit));
+            }
+            if (!std::isfinite(exp_sum) || exp_sum <= 0.0) {
+                throw std::runtime_error("AdaLoRAAdapter::trainCausalLmBatch: invalid softmax normalization");
+            }
+            const size_t target = target_token_ids[row];
+            result.loss += static_cast<float>(
+                (static_cast<double>(max_logit) + std::log(exp_sum) - logits[target]) * batch_scale);
+
+            for (size_t shard = 0; shard < insertion_order_.size(); ++shard) {
+                auto& layer = layers_.at(insertion_order_[shard]);
+                const size_t rank = layer.active_rank;
+                const size_t shard_offset = shard_offsets[shard];
+                const float scaling = layer.alpha / static_cast<float>(layer.max_rank);
+                std::vector<float> grad_hidden(rank, 0.0f);
+                for (size_t output = 0; output < layer.out_dim; ++output) {
+                    const size_t token = shard_offset + output;
+                    const double probability = std::exp(static_cast<double>(logits[token] - max_logit)) / exp_sum;
+                    const float grad_logit = static_cast<float>(
+                        (probability - (token == target ? 1.0 : 0.0)) * batch_scale);
+                    for (size_t component = 0; component < rank; ++component) {
+                        grad_a[shard][component * layer.out_dim + output] +=
+                            hidden[shard][component] * grad_logit * scaling;
+                        grad_hidden[component] += layer.A[component * layer.out_dim + output] *
+                            grad_logit * scaling;
+                    }
+                }
+                for (size_t component = 0; component < rank; ++component) {
+                    for (size_t feature = 0; feature < input_dim; ++feature) {
+                        grad_b[shard][feature * layer.max_rank + component] +=
+                            features[feature] * grad_hidden[component];
+                    }
+                }
+            }
+        }
+
+        double squared_norm = 0.0;
+        for (size_t shard = 0; shard < insertion_order_.size(); ++shard) {
+            const auto& layer = layers_.at(insertion_order_[shard]);
+            for (size_t component = 0; component < layer.active_rank; ++component) {
+                for (size_t output = 0; output < layer.out_dim; ++output) {
+                    const float gradient = grad_a[shard][component * layer.out_dim + output];
+                    squared_norm += static_cast<double>(gradient) * gradient;
+                }
+                for (size_t feature = 0; feature < input_dim; ++feature) {
+                    const float gradient = grad_b[shard][feature * layer.max_rank + component];
+                    squared_norm += static_cast<double>(gradient) * gradient;
+                }
+            }
+        }
+        result.gradient_norm = static_cast<float>(std::sqrt(squared_norm));
+        const float clip_scale = result.gradient_norm > max_gradient_norm
+            ? max_gradient_norm / result.gradient_norm
+            : 1.0f;
+        for (size_t shard = 0; shard < insertion_order_.size(); ++shard) {
+            auto& layer = layers_.at(insertion_order_[shard]);
+            for (size_t component = 0; component < layer.active_rank; ++component) {
+                for (size_t output = 0; output < layer.out_dim; ++output) {
+                    const size_t index = component * layer.out_dim + output;
+                    layer.A[index] -= learning_rate * clip_scale * grad_a[shard][index];
+                }
+                for (size_t feature = 0; feature < input_dim; ++feature) {
+                    const size_t index = feature * layer.max_rank + component;
+                    layer.B[index] -= learning_rate * clip_scale * grad_b[shard][index];
+                }
+            }
+        }
+        updateAllImportances();
+        return result;
+    }
+
     size_t rankBudget() const { return rank_budget_; }
     /**
      * @brief Set Rank Budget.
@@ -578,6 +821,26 @@ std::vector<float> AdaLoRAAdapter::forward(const std::string& layer_name,
                                            const std::vector<float>& input,
                                            size_t batch_size) const {
     return impl_->forward(layer_name, input, batch_size);
+}
+
+AdaLoRATrainStepResult AdaLoRAAdapter::trainBatch(
+    const std::string& layer_name,
+    const std::vector<float>& input,
+    const std::vector<float>& targets,
+    size_t batch_size,
+    float learning_rate) {
+    return impl_->trainBatch(layer_name, input, targets, batch_size, learning_rate);
+}
+
+AdaLoRATrainStepResult AdaLoRAAdapter::trainCausalLmBatch(
+    const std::vector<float>& input,
+    const std::vector<float>& base_logits,
+    const std::vector<size_t>& target_token_ids,
+    size_t batch_size,
+    float learning_rate,
+    float max_gradient_norm) {
+    return impl_->trainCausalLmBatch(
+        input, base_logits, target_token_ids, batch_size, learning_rate, max_gradient_norm);
 }
 
 size_t AdaLoRAAdapter::rankBudget() const {

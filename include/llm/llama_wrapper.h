@@ -87,6 +87,15 @@ struct ChatMessage {
     ChatMessage() = default;
 };
 
+/** @brief Final hidden states and frozen-model logits for one causal token batch. */
+struct CausalLmForwardBatch {
+    size_t token_count = 0;
+    size_t hidden_size = 0;
+    size_t vocabulary_size = 0;
+    std::vector<float> hidden_states; ///< Row-major [token_count, hidden_size]
+    std::vector<float> logits;        ///< Row-major [token_count, vocabulary_size]
+};
+
 enum class ChatFormat {
     ChatML,      // ChatML format: <|im_start|>role\ncontent<|im_end|>
     Llama2,      // Llama-2 format: [INST] content [/INST]
@@ -316,6 +325,19 @@ public:
         const std::string& text,
         bool add_bos = true
     );
+
+    /**
+     * @brief Run a frozen causal model and return per-token hidden states and logits for training.
+     * @param token_ids Non-empty token sequence from this model's vocabulary; length must fit the
+     *                  loaded context and batch limits.
+     * @return Final-layer activations and base logits in token order, before any adapter update.
+     * @throws std::invalid_argument for empty, out-of-vocabulary, or oversized token sequences.
+     * @throws std::runtime_error if the model/context is unavailable or llama.cpp decode fails.
+     * @note Serializes access with inference on this wrapper and clears the KV memory before and
+     *       after evaluation. It does not update base-model weights.
+     */
+    [[nodiscard]] CausalLmForwardBatch forwardCausalBatchForTraining(
+        const std::vector<int>& token_ids);
 
     [[nodiscard]] std::vector<std::vector<float>> computeTargetLogitsForTokens(
         const InferenceRequest& request,

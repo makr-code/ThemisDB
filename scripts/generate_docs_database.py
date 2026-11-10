@@ -61,6 +61,10 @@ logger.addHandler(UTF8StreamHandler())
 REPO_MARKDOWN_EXCLUDE_PATTERNS = {
     ".git",
     "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".cache",
     "node_modules",
     ".venv",
     "build",

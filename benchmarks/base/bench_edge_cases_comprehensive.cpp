@@ -88,6 +88,7 @@ static void BM_ReadFromEmptyDatabase(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
+    db.close();
     std::filesystem::remove_all(db_path);
 }
 BENCHMARK(BM_ReadFromEmptyDatabase)
@@ -99,6 +100,7 @@ static void BM_FirstInsertToEmptyDatabase(benchmark::State& state) {
     for (auto _ : state) {
         state.PauseTiming();
         auto db_path = std::filesystem::temp_directory_path() / ("bench_first_insert_" + std::to_string(rng.next()));
+        std::filesystem::remove_all(db_path);
         std::filesystem::create_directories(db_path);
 
         RocksDBWrapper::Config cfg;
@@ -119,6 +121,7 @@ static void BM_FirstInsertToEmptyDatabase(benchmark::State& state) {
         db.put("entity:first", entity.serialize());
 
         state.PauseTiming();
+        db.close();
         std::filesystem::remove_all(db_path);
         state.ResumeTiming();
     }
@@ -126,7 +129,8 @@ static void BM_FirstInsertToEmptyDatabase(benchmark::State& state) {
     state.SetItemsProcessed(state.iterations());
 }
 BENCHMARK(BM_FirstInsertToEmptyDatabase)
-    ->Unit(benchmark::kMicrosecond);
+    ->Unit(benchmark::kMicrosecond)
+    ->Iterations(10);
 
 // ============================================================================
 // Single Element Operations
@@ -159,6 +163,7 @@ static void BM_SingleElementDatabase(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
+    db.close();
     std::filesystem::remove_all(db_path);
 }
 BENCHMARK(BM_SingleElementDatabase)
@@ -195,6 +200,7 @@ static void BM_MinMaxIntegerValues(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
+    db.close();
     std::filesystem::remove_all(db_path);
 }
 BENCHMARK(BM_MinMaxIntegerValues)
@@ -226,6 +232,7 @@ static void BM_EmptyStringValues(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
+    db.close();
     std::filesystem::remove_all(db_path);
 }
 BENCHMARK(BM_EmptyStringValues)
@@ -260,6 +267,7 @@ static void BM_VeryShortKeys(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
+    db.close();
     std::filesystem::remove_all(db_path);
 }
 BENCHMARK(BM_VeryShortKeys)
@@ -291,6 +299,7 @@ static void BM_VeryLongKeys(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
+    db.close();
     std::filesystem::remove_all(db_path);
 }
 BENCHMARK(BM_VeryLongKeys)
@@ -326,6 +335,7 @@ static void BM_MaximumValueSize(benchmark::State& state) {
 
     state.SetItemsProcessed(state.iterations());
     state.SetBytesProcessed(state.iterations() * huge_size);
+    db.close();
     std::filesystem::remove_all(db_path);
 }
 BENCHMARK(BM_MaximumValueSize)
@@ -364,6 +374,7 @@ static void BM_DuplicateKeyWrites(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
+    db.close();
     std::filesystem::remove_all(db_path);
 }
 BENCHMARK(BM_DuplicateKeyWrites)
@@ -411,6 +422,7 @@ static void BM_SpecialCharacterKeys(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
+    db.close();
     std::filesystem::remove_all(db_path);
 }
 BENCHMARK(BM_SpecialCharacterKeys)
@@ -449,6 +461,7 @@ static void BM_RapidSuccessiveWrites(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations() * rapid_count);
+    db.close();
     std::filesystem::remove_all(db_path);
 }
 BENCHMARK(BM_RapidSuccessiveWrites)
@@ -487,6 +500,7 @@ static void BM_RapidSuccessiveReads(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations() * rapid_count);
+    db.close();
     std::filesystem::remove_all(db_path);
 }
 BENCHMARK(BM_RapidSuccessiveReads)
@@ -530,6 +544,7 @@ static void BM_AlternatingWriteRead(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations() * 2); // Count both write and read
+    db.close();
     std::filesystem::remove_all(db_path);
 }
 BENCHMARK(BM_AlternatingWriteRead)
@@ -565,6 +580,7 @@ static void BM_ZeroValues(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
+    db.close();
     std::filesystem::remove_all(db_path);
 }
 BENCHMARK(BM_ZeroValues)
@@ -596,6 +612,7 @@ static void BM_NegativeValues(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(state.iterations());
+    db.close();
     std::filesystem::remove_all(db_path);
 }
 BENCHMARK(BM_NegativeValues)

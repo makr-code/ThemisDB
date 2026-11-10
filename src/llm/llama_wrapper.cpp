@@ -1935,6 +1935,115 @@ std::vector<std::vector<float>> LlamaWrapper::computeTargetLogitsForTokens(
     return target_logits;
 }
 
+CausalLmForwardBatch LlamaWrapper::forwardCausalBatchForTraining(
+    const std::vector<int>& token_ids) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (token_ids.empty()) {
+        throw std::invalid_argument("Causal training batch must contain at least one token");
+    }
+    if (token_ids.size() > static_cast<size_t>(std::numeric_limits<int32_t>::max())) {
+        throw std::invalid_argument("Causal training batch exceeds llama.cpp token-index limits");
+    }
+    if (current_model_id_.empty() && !configured_model_id_.empty()) {
+        current_model_id_ = configured_model_id_;
+    }
+    if (current_model_path_.empty() && !configured_model_path_.empty()) {
+        current_model_path_ = configured_model_path_;
+    }
+    if (current_model_id_.empty()) {
+        throw std::runtime_error("No model loaded for causal training forward pass");
+    }
+
+    auto* const model_loader = model_loader_.get();
+    if (!model_loader) {
+        throw std::runtime_error("Model loader is not initialized");
+    }
+    auto cached = model_loader->getOrLoadModelShared(current_model_id_, current_model_path_);
+    if (!cached) {
+        throw std::runtime_error("Model failed to load for causal training forward pass");
+    }
+    auto* model = reinterpret_cast<llama_model*>(cached->model_handle);
+    auto* context = reinterpret_cast<llama_context*>(cached->context_handle);
+    if (!model || !context) {
+        throw std::runtime_error("Model/context handle is null for causal training forward pass");
+    }
+
+    const auto* vocab = llama_model_get_vocab(model);
+    const int32_t vocab_size = vocab ? llama_vocab_n_tokens(vocab) : 0;
+    const int32_t hidden_size = llama_model_n_embd_out(model);
+    if (vocab_size <= 0 || hidden_size <= 0) {
+        throw std::runtime_error("Loaded model has invalid vocabulary or output embedding dimensions");
+    }
+    if (token_ids.size() > llama_n_ctx(context) || token_ids.size() > llama_n_batch(context)) {
+        throw std::invalid_argument("Causal training sequence exceeds loaded context/batch limits");
+    }
+
+    std::vector<llama_token> tokens;
+    tokens.reserve(token_ids.size());
+    for (const int token_id : token_ids) {
+        if (token_id < 0 || token_id >= vocab_size) {
+            throw std::invalid_argument("Causal training token is outside the model vocabulary");
+        }
+        tokens.push_back(static_cast<llama_token>(token_id));
+    }
+
+    struct ContextReset {
+        llama_context* context;
+        bool embeddings_enabled;
+        ~ContextReset() {
+            llama_set_embeddings(context, embeddings_enabled);
+            llama_memory_clear(llama_get_memory(context), true);
+        }
+    } reset{context, config_.enable_embeddings};
+
+    auto memory = llama_get_memory(context);
+    if (!memory) {
+        throw std::runtime_error("llama.cpp context has no memory for causal training forward pass");
+    }
+    llama_memory_clear(memory, true);
+    llama_set_embeddings(context, true);
+
+    struct BatchReset {
+        llama_batch batch;
+        ~BatchReset() { llama_batch_free(batch); }
+    } batch{llama_batch_init(static_cast<int32_t>(tokens.size()), 0, 1)};
+    if (!batch.batch.token || !batch.batch.pos || !batch.batch.n_seq_id ||
+        !batch.batch.seq_id || !batch.batch.logits) {
+        throw std::runtime_error("llama.cpp failed to allocate a causal training batch");
+    }
+    batch.batch.n_tokens = static_cast<int32_t>(tokens.size());
+    for (size_t i = 0; i < tokens.size(); ++i) {
+        batch.batch.token[i] = tokens[i];
+        batch.batch.pos[i] = static_cast<llama_pos>(i);
+        batch.batch.n_seq_id[i] = 1;
+        batch.batch.seq_id[i][0] = 0;
+        batch.batch.logits[i] = 1;
+    }
+
+    if (llama_decode(context, batch.batch) != 0) {
+        throw std::runtime_error("llama.cpp failed to evaluate causal training batch");
+    }
+
+    CausalLmForwardBatch result;
+    result.token_count = tokens.size();
+    result.hidden_size = static_cast<size_t>(hidden_size);
+    result.vocabulary_size = static_cast<size_t>(vocab_size);
+    result.hidden_states.resize(result.token_count * result.hidden_size);
+    result.logits.resize(result.token_count * result.vocabulary_size);
+    for (size_t i = 0; i < result.token_count; ++i) {
+        const float* hidden = llama_get_embeddings_ith(context, static_cast<int32_t>(i));
+        const float* logits = llama_get_logits_ith(context, static_cast<int32_t>(i));
+        if (!hidden || !logits) {
+            throw std::runtime_error("llama.cpp omitted per-token hidden states or logits");
+        }
+        std::copy_n(hidden, result.hidden_size,
+                    result.hidden_states.data() + i * result.hidden_size);
+        std::copy_n(logits, result.vocabulary_size,
+                    result.logits.data() + i * result.vocabulary_size);
+    }
+    return result;
+}
+
 /**
  * @brief Tokenize For Bridge.
  * @param[in] text Input parameter.

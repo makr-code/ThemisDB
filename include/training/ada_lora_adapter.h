@@ -39,6 +39,13 @@ struct ReallocResult {
     size_t layers_expanded   = 0;   ///< Layers whose rank was increased
 };
 
+/** @brief Result of one supervised AdaLoRA adapter update. */
+struct AdaLoRATrainStepResult {
+    float loss = 0.0f;          ///< Mean half-squared error before the update
+    float gradient_norm = 0.0f; ///< L2 norm of the active A/B gradients
+    size_t sample_count = 0;    ///< Number of feature rows processed
+};
+
 /**
  * @brief AdaLoRA adapter with importance-based rank pruning.
  *
@@ -235,6 +242,48 @@ public:
     std::vector<float> forward(const std::string&        layer_name,
                                const std::vector<float>& input,
                                size_t                    batch_size) const;
+
+    /**
+     * @brief Apply one supervised gradient-descent step to a layer's active LoRA factors.
+     * @param layer_name Registered projection layer to update.
+     * @param input Flat row-major frozen-model activations, shaped batch_size × in_dim.
+     * @param targets Flat row-major desired adapter residuals, shaped batch_size × out_dim.
+     * @param batch_size Number of feature rows; must be greater than zero.
+     * @param learning_rate Positive finite SGD learning rate.
+     * @return Mean half-squared error and gradient norm measured before the update.
+     * @throws std::out_of_range if layer_name is not registered.
+     * @throws std::invalid_argument if shapes do not match or learning_rate is invalid.
+     * @note This computes gradients for the AdaLoRA factors only; callers supply activations
+     *       and residual targets from their frozen base-model training backend.
+     */
+    [[nodiscard]] AdaLoRATrainStepResult trainBatch(
+        const std::string& layer_name,
+        const std::vector<float>& input,
+        const std::vector<float>& targets,
+        size_t batch_size,
+        float learning_rate);
+
+    /**
+     * @brief Train block-sharded output adapters with next-token cross-entropy.
+     * @param input Flat [batch_size, hidden_size] frozen-model final hidden states.
+     * @param base_logits Flat [batch_size, vocabulary_size] logits from the frozen model.
+     * @param target_token_ids One target token index per row in the concatenated output shards.
+     * @param batch_size Number of token positions; must be greater than zero.
+     * @param learning_rate Positive finite SGD learning rate.
+     * @param max_gradient_norm Positive finite global A/B gradient-norm ceiling.
+     * @return Mean next-token cross-entropy, pre-clipping gradient norm, and token count.
+     * @throws std::invalid_argument if shards, tensor shapes, token ids, or optimizer values are invalid.
+     * @note Registered layers partition the vocabulary dimension in insertion order. Their
+     *       LoRA deltas are concatenated into one output projection at serving/export time.
+     *       The frozen base model must produce the activations and base logits for each row.
+     */
+    [[nodiscard]] AdaLoRATrainStepResult trainCausalLmBatch(
+        const std::vector<float>& input,
+        const std::vector<float>& base_logits,
+        const std::vector<size_t>& target_token_ids,
+        size_t batch_size,
+        float learning_rate,
+        float max_gradient_norm = 1.0f);
 
     // -------------------------------------------------------------------------
     // Configuration
