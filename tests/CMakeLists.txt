@@ -196,6 +196,25 @@ if(TARGET themis_training)
         WORKING_DIRECTORY $<TARGET_FILE_DIR:module_training_test_ada_lora_adapter_focused>
         EXTRA_ARGS --gtest_color=yes
     )
+
+    add_executable(module_training_test_adalora_training_pipeline_focused
+        ${CMAKE_CURRENT_SOURCE_DIR}/training/test_adalora_training_pipeline.cpp
+    )
+    target_link_libraries(module_training_test_adalora_training_pipeline_focused
+        PRIVATE themis_training GTest::gtest_main
+    )
+    themis_register_module_focused_test(
+        MODULE training
+        NAME adalora_training_pipeline
+        TARGET module_training_test_adalora_training_pipeline_focused
+        TIER integration
+        TIMEOUT 300
+    )
+    gtest_discover_tests(module_training_test_adalora_training_pipeline_focused
+        DISCOVERY_MODE POST_BUILD
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:module_training_test_adalora_training_pipeline_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
 endif()
 
 if(TARGET themis_llm)

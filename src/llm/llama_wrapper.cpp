@@ -1141,8 +1141,22 @@ bool LlamaWrapper::loadLoRA(
         spdlog::warn("LlamaWrapper::loadLoRA: LoRA manager is not initialized, cannot load '{}'", lora_id);
         return false;
     }
-    // Use multi-LoRA manager (vLLM-style)
-    return lora_manager->loadLoRA(lora_id, lora_path, current_model_id_, scale);
+    // Register the slot first; initialize its llama handle immediately when a
+    // base model is already active, otherwise inference will initialize lazily.
+    if (!lora_manager->loadLoRA(lora_id, lora_path, current_model_id_, scale)) {
+        return false;
+    }
+    auto* const model_loader = model_loader_.get();
+    if (!model_loader || !model_loader->isModelLoaded(current_model_id_)) {
+        return true;
+    }
+    auto loaded_model = model_loader->getOrLoadModelShared(current_model_id_, current_model_path_);
+    if (!loaded_model || !loaded_model->model_handle ||
+        !lora_manager->initializeLoRAWithModel(lora_id, loaded_model->model_handle)) {
+        lora_manager->unloadLoRA(lora_id, true);
+        return false;
+    }
+    return true;
 }
 
 /**
@@ -1406,7 +1420,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             spdlog::info("Auto-binding LoRA adapter: {}", adapter_id);
 
             if (!lora_manager) {
-                spdlog::warn("LoRA manager not initialized, cannot apply adapter {}", adapter_id);
+                throw std::runtime_error("Requested LoRA adapter has no initialized manager: " + adapter_id);
             } else {
 
                 // Check if adapter needs to be rebound after context switch
@@ -1428,7 +1442,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
                     // This calls llama_lora_adapter_init() if not already done
                     if (lora_manager->isLoRALoaded(adapter_id)) {
                         if (!lora_manager->initializeLoRAWithModel(adapter_id, lmodel)) {
-                            spdlog::warn("Failed to initialize LoRA adapter {}, proceeding with base model", adapter_id);
+                            throw std::runtime_error("Failed to initialize requested LoRA adapter: " + adapter_id);
                         } else {
                             // Apply adapter to context
                             if (lora_manager->applyLoRA(adapter_id, lctx)) {
@@ -1437,11 +1451,11 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
                                 last_context_ptr_ = lctx;
                                 spdlog::debug("LoRA adapter {} applied to context", adapter_id);
                             } else {
-                                spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+                                throw std::runtime_error("Failed to apply requested LoRA adapter: " + adapter_id);
                             }
                         }
                     } else {
-                        spdlog::warn("LoRA adapter {} not found in manager, proceeding with base model", adapter_id);
+                        throw std::runtime_error("Requested LoRA adapter is not loaded: " + adapter_id);
                     }
                 } else {
                     // Adapter already applied to this context
@@ -3235,18 +3249,21 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
             
             // Load adapter if not already loaded (lazy loading)
             if (!lora_manager) {
-                spdlog::warn("LoRA manager not initialized, cannot apply adapter {}", adapter_id);
+                throw std::runtime_error("Requested LoRA adapter has no initialized manager: " + adapter_id);
             } else {
                 if (!lora_manager->isLoRALoaded(adapter_id)) {
-                    spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
+                    throw std::runtime_error("Requested LoRA adapter is not loaded: " + adapter_id);
                 }
 
-                // Apply adapter to target context (not draft model)
+                if (!lora_manager->initializeLoRAWithModel(adapter_id, target_model)) {
+                    throw std::runtime_error("Failed to initialize requested LoRA adapter: " + adapter_id);
+                }
+                // Apply adapter to target context (not draft model).
                 if (lora_manager->applyLoRA(adapter_id, target_context)) {
                     adapter_applied = true;
                     spdlog::debug("LoRA adapter {} applied to target context", adapter_id);
                 } else {
-                    spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+                    throw std::runtime_error("Failed to apply requested LoRA adapter: " + adapter_id);
                 }
             }
         }
@@ -3519,18 +3536,20 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
             
             // Load adapter if not already loaded (lazy loading)
             if (!lora_manager) {
-                spdlog::warn("LoRA manager not initialized, cannot apply adapter {}", adapter_id);
+                throw std::runtime_error("Requested LoRA adapter has no initialized manager: " + adapter_id);
             } else {
                 if (!lora_manager->isLoRALoaded(adapter_id)) {
-                    spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
+                    throw std::runtime_error("Requested LoRA adapter is not loaded: " + adapter_id);
                 }
 
-                // Apply adapter to context
+                if (!lora_manager->initializeLoRAWithModel(adapter_id, lmodel)) {
+                    throw std::runtime_error("Failed to initialize requested LoRA adapter: " + adapter_id);
+                }
                 if (lora_manager->applyLoRA(adapter_id, lctx)) {
                     adapter_applied = true;
                     spdlog::debug("LoRA adapter {} applied to context", adapter_id);
                 } else {
-                    spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+                    throw std::runtime_error("Failed to apply requested LoRA adapter: " + adapter_id);
                 }
             }
         }
