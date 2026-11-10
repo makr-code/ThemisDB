@@ -260,6 +260,19 @@
       "new_name": "\ud83d\udd04\ud83c\udfaf\ud83e\uddea Gate: PR Core"
     },
     {
+      "filename": "gate-pr-file-size.yml",
+      "current_name": "Gate: PR File Size",
+      "triggers": [
+        "pull_request"
+      ],
+      "primary_trigger": "pull_request",
+      "secondary_tags": [
+        "governance"
+      ],
+      "recommended_emoji": "\ud83d\udee1\ufe0f",
+      "new_name": "\ud83d\udee1\ufe0f Gate: PR File Size"
+    },
+    {
       "filename": "gate-pr-doc-metadata.yml",
       "current_name": "Gate: PR Doc Metadata",
       "triggers": [

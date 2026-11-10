@@ -105,6 +105,25 @@ Bereits in der Root-Roadmap laufende Arbeiten, die diese Roadmap voraussetzt (St
 - [ ] Wave-C-Validierungsartefakt erneuern (abgelaufen 2026-10-30) (Target: M0 · 2026-11-20) – Quelle [WAVE_C_AUDIT_EVIDENCE.md](WAVE_C_AUDIT_EVIDENCE.md)
 - [~] Issue #5373 – Koordinator-Konsolidierung; laut Audit **nicht** abgeschlossen, Fortführung in WS2 ([DIS-05](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-05)) (Target: M2)
 
+### Cross-cutting rollout evidence ownership (2026-11-09)
+
+The work-package issue state is administrative tracking, not a gate result. The release-status authority is [`../ROADMAP.md`](../ROADMAP.md); promote a gate only after its current artifact, run, and required review satisfy the listed exit criteria.
+
+| Target | Gate / owner | Current evidence and status |
+|---|---|---|
+| M0 · 2026-11-20 | Wave A representative hardware and release-critical proof: [#7810](https://github.com/makr-code/ThemisDB/issues/7810) | [`wave_a_exit_closure_manifest.json`](evidence/waves/manifests/wave_a_exit_closure_manifest.json), generated 2026-11-09, remains `open`: release-critical and representative-hardware gates are `pending`; transaction/GPU artifacts are `in_progress`. The issue is closed, but no gate is promoted by that closure. |
+| M0 · 2026-11-20 | Wave AB gap inventory and G2/G3/G4: [#7814](https://github.com/makr-code/ThemisDB/issues/7814) | [`wave_ab_gap_closure_manifest.json`](evidence/waves/manifests/wave_ab_gap_closure_manifest.json) remains `open`, with G1–G4 `in_progress`. The 2026-11-09 [marker inventory](MARKER_LOCATIONS_2026-11-09.md) and [classification](MARKER_GAP_CLASSIFICATION_2026-11-09.md) are dated snapshots; candidate review and validator evidence remain necessary. |
+| M0 · 2026-11-20 | Full-run evidence, fail-closed exceptions, and CI-04: [#7819](https://github.com/makr-code/ThemisDB/issues/7819) | EVD-01, OPS-01/CI-03, and CI-04 remain open in WS6 until Linux and Windows full-run JUnit artifacts, the owned/dated exception inventory, and positive/negative `pull_request_target` guard evidence are linked. The required artifact scope and retention are specified in the WS6 items below. |
+| M0 · 2026-11-20 | Wave C C3/C4 evidence: [#7812](https://github.com/makr-code/ThemisDB/issues/7812), with [#7813](https://github.com/makr-code/ThemisDB/issues/7813), [#7816](https://github.com/makr-code/ThemisDB/issues/7816), and [#7817](https://github.com/makr-code/ThemisDB/issues/7817) | [`security_wave_c_closure_manifest.json`](evidence/waves/manifests/security_wave_c_closure_manifest.json) is dated 2026-10-01 and remains `open` (C3 `pending`, C4 `in_progress`). The Q3 bundle still lists PENTEST-Q3-001/002/003/004 as open; #7813's implementation reference is not executed remediation evidence, #7816's triage closure does not dispose of Q3-003/004, and #7817 remains open for BSI C5 traceability. Keep C4 open pending current evidence and authorized sign-off. |
+| v2.5.0 M1 · 2027-03-31 | PR sanitizer and parser fuzz gates: [#7821](https://github.com/makr-code/ThemisDB/issues/7821) | OPS-06/07 remain acceptance gates in WS6. Verify bounded runs, failure propagation, tested commit, and retained run evidence; the older sanitizer bundle is not current Wave C proof. |
+| v2.5.0 M1 · 2027-03-31; v3.0.0 M3 coverage sign-off | Test-quality inventory and aggregate coverage: [#7820](https://github.com/makr-code/ThemisDB/issues/7820) | [`TEST_QUALITY_INVENTORY.md`](TEST_QUALITY_INVENTORY.md) and [`test_quality_baseline_v1.json`](test_quality_baseline_v1.json) are a 2026-11-09 static baseline from commit `c21f7bba0cb44d58e5ad49f64781a76703b3ee56`; coverage is unavailable. Module behavior stays with the linked module owners, and M3 coverage gates remain open. |
+| v2.5.0 M1 · 2027-01-31 | Generated/oversized artifact inventory and file-size gate: [#7822](https://github.com/makr-code/ThemisDB/issues/7822) | HYG-01 remains open in WS10. Refresh the tracked-file inventory and attach before/after and positive/negative gate evidence; historical audit counts do not establish current cleanup. |
+| v2.5.0 M1 NetworkPolicy; v3.0.0 M2 HA · 2027-06-30 | Production Helm profile: [#7823](https://github.com/makr-code/ThemisDB/issues/7823); monitoring remains [#7532](https://github.com/makr-code/ThemisDB/issues/7532) | OPS-08/09 require rendered-profile validation, including NetworkPolicy allowlists for M1 and ≥3 replicas, PDB, anti-affinity, and topology spread for M2. OPS-16 ServiceMonitor/alert evidence remains owned by #7532; verify rendered manifests and runtime checks before release promotion. |
+| v2.5.0 M1 · 2027-03-31 | Benchmark density and release-claim traceability: [#7828](https://github.com/makr-code/ThemisDB/issues/7828) | [`BENCHMARK_MODULE_COVERAGE.json`](BENCHMARK_MODULE_COVERAGE.json), generated 2026-11-09 from develop commit `c21f7bba0cb44d58e5ad49f64781a76703b3ee56`, inventories 73 modules but reports 0 covered, 3 gaps, and 70 blocked; it is not an executed benchmark baseline. Run [42548800031](https://github.com/makr-code/ThemisDB/actions/runs/42548800031) failed at CMake configure because RocksDB was unavailable; benchmark build, execution, and result upload were skipped. Refresh the inventory and attach reproducible workloads/results; do not impose a blanket per-module benchmark count. Specific workloads remain with #7488, #7534, #7810, #7492, and #7490. |
+| v2.5.0 M1 · 2027-03-31 | Wave D observability, soak, and operator readiness: [#7811](https://github.com/makr-code/ThemisDB/issues/7811) | [`operability_wave_d_closure_manifest.json`](evidence/waves/manifests/operability_wave_d_closure_manifest.json), generated 2026-11-09, remains `open`; D2–D4 are pending. Require all four 24–48-hour runs, measured thresholds, current run/artifact links, and operations/architecture acceptance before promotion. |
+
+Pentest ownership is intentionally distinct by finding: PENTEST-Q3-001 is tracked by #7813 (implementation evidence alone does not close it); PENTEST-Q3-002 is the RAG upload path owned by [#7491](https://github.com/makr-code/ThemisDB/issues/7491), not the separate historical #1912 path; PENTEST-Q3-003/004 remain open with summary-only evidence despite #7816 triage closure. [#7817](https://github.com/makr-code/ThemisDB/issues/7817) is the separate BSI C5 evidence-trace work package. Do not infer finding disposition or C4 sign-off from issue closure.
+
 ---
 
 ## Planned Features
@@ -539,7 +558,7 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
 
 ### WS7 – Kubernetes & Packaging
 
-- [ ] **P0 · OPS-09 – HA-Profil im Helm-Chart** (Target: M2 · 2027-03-31) – `values-production.yaml` mit
+- [ ] **P0 · OPS-09 – HA-Profil im Helm-Chart** (Target: M2 · 2027-06-30) – `values-production.yaml` mit
   `replicaCount ≥ 3` (Cluster-Modus), PodDisruptionBudget-Template (`minAvailable`), Pod-Anti-Affinity,
   Topology-Spread; `helm lint` + `kubeconform` + kind-Smoke-Test in CI.
 - [ ] **P1 · OPS-08 – NetworkPolicy im Produktionsprofil aktiv** (Target: M1) – `helm/themisdb/values.yaml:241`.
@@ -638,7 +657,7 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
 
 - [ ] Performance-Ziele QRY-01 und STO-01 gegen eingecheckte Baselines nachweisen (Target: 2027-03-15)
 - [ ] LLM-Lasttest mit 2× Kapazität ohne OOM (AI-07, AI-09) (Target: 2027-04-30)
-- [ ] Helm-HA-Profil, NetworkPolicy, ServiceMonitor/Alerts (OPS-09, OPS-08, OPS-16) (Target: 2027-03-31)
+- [ ] NetworkPolicy (OPS-08) and ServiceMonitor/Alerts (OPS-16, owner #7532) (Target: M1 · 2027-03-31); production Helm HA profile (OPS-09) (Target: M2 · 2027-06-30)
 - [ ] Base-Image-Digest-Pins (OPS-11), Plugin-Signer-Pinning (SEC-02), SAML-CSPRNG (SEC-09) (Target: 2027-02-28)
 - [ ] Repo-Hygiene und Dateigrößen-Gate (HYG-01) (Target: 2027-01-31)
 - [ ] Externer Pentest-Retest (Target: 2027-05-31)

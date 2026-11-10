@@ -104,6 +104,57 @@ jobs:
     assert any("too broad" in violation for violation in violations)
 
 
+def test_file_size_gate_may_intentionally_run_without_paths_filter(tmp_path: Path):
+    workflow = tmp_path / ".github" / "workflows" / "gate-pr-file-size.yml"
+    _write_workflow(
+        workflow,
+        """
+name: File Size Gate
+on:
+  pull_request:
+    branches: [develop]
+permissions:
+  contents: read
+concurrency:
+  group: file-size-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ok
+""",
+    )
+
+    assert guard.validate_workflow_file(workflow) == []
+
+
+def test_other_pull_request_workflows_still_require_paths(tmp_path: Path):
+    workflow = tmp_path / ".github" / "workflows" / "guard.yml"
+    _write_workflow(
+        workflow,
+        """
+name: Other Gate
+on:
+  pull_request:
+    branches: [develop]
+permissions:
+  contents: read
+concurrency:
+  group: other-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ok
+""",
+    )
+
+    violations = guard.validate_workflow_file(workflow)
+    assert any("must define paths" in violation for violation in violations)
+
+
 def test_pull_request_concurrency_group_must_not_use_run_id(tmp_path: Path):
     workflow = tmp_path / ".github" / "workflows" / "guard.yml"
     _write_workflow(

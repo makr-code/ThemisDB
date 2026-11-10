@@ -125,7 +125,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/compliance-governance-gates.yml
 - Kategorie: build_test_ci
-- Hash: `3243c6e9fa0ee910`
+- Hash: `d975ecaa7f0c1076`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/compliance-supply-chain.yml
@@ -196,6 +196,11 @@ for current policy and preserved historical evidence.
 ## .github/workflows/gate-pr-edition-license.yml
 - Kategorie: build_test_ci
 - Hash: `32768597ff46e0b5`
+- Titel: (binary or unreadable)
+
+## .github/workflows/gate-pr-file-size.yml
+- Kategorie: build_test_ci
+- Hash: `2ea528b8ada5fe2c`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-final-runtime-api.yml
@@ -441,9 +446,4 @@ for current policy and preserved historical evidence.
 ## .github/workflows/release-wordpress-press.yml
 - Kategorie: build_test_ci
 - Hash: `641b3d6490580dca`
-- Titel: (binary or unreadable)
-
-## .github/workflows/reusable-benchmark-build-run-report.yml
-- Kategorie: build_test_ci
-- Hash: `fb6c9e997f8c0092`
 - Titel: (binary or unreadable)

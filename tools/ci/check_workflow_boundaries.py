@@ -35,6 +35,9 @@ FORBIDDEN_EXACT_PATHS = {
     "*.md",
     "**/*.md",
 }
+ALL_PATH_PULL_REQUEST_WORKFLOWS = {
+    ".github/workflows/gate-pr-file-size.yml",
+}
 
 
 def _normalize(path: str) -> str:
@@ -246,7 +249,12 @@ def validate_workflow_file(path: Path) -> list[str]:
         paths = _extract_paths(pull_request)
         if not branches:
             violations.append(f"{workflow_path}: pull_request trigger must define branches")
-        if not paths:
+        normalized_workflow_path = workflow_path.replace("\\", "/")
+        requires_all_paths = any(
+            normalized_workflow_path.endswith(allowed_path)
+            for allowed_path in ALL_PATH_PULL_REQUEST_WORKFLOWS
+        )
+        if not paths and not requires_all_paths:
             violations.append(f"{workflow_path}: pull_request trigger must define paths")
         broad_paths = [p for p in paths if _is_broad_path(p)]
         if broad_paths:
