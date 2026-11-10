@@ -266,11 +266,12 @@ class MonitoringRouteTranslationUnitTests(unittest.TestCase):
 
 
 class MainlineWindowsMatrixTests(unittest.TestCase):
-    def test_windows_release_configure_and_build_are_serial(self) -> None:
+    def test_windows_release_build_is_serial_with_independent_configure_concurrency(self) -> None:
         workflow = WORKFLOW.read_text(encoding="utf-8")
         script = workflow.split("python3 - <<'PY' >> \"$GITHUB_OUTPUT\"\n", 1)[1]
         script = textwrap.dedent(script.split("\n          PY", 1)[0])
         env = os.environ.copy()
+        env.pop("WINDOWS_DEPENDENCY_CONCURRENCY", None)
         env.update(
             BUILD_MATRIX="windows-amd64-only", OS_SELECTOR="windows", ARCH_SELECTOR="amd64",
             EDITION="community", BUILD_TYPE="Release", PACKAGING="auto",
@@ -282,11 +283,11 @@ class MainlineWindowsMatrixTests(unittest.TestCase):
         entries = json.loads(matrix_line.split("=", 1)[1])["include"]
         self.assertEqual([entry["id"] for entry in entries], ["windows-amd64"])
         entry = entries[0]
-        for key in ("configure_command", "build_command"):
+        for key, concurrency in (("configure_command", "4"), ("build_command", "1")):
             with self.subTest(command=key):
                 command = entry[key]
-                self.assertEqual(re.findall(r"export VCPKG_MAX_CONCURRENCY=(\d+)", command), ["1"])
-                self.assertEqual(re.findall(r"export CMAKE_BUILD_PARALLEL_LEVEL=(\d+)", command), ["1"])
+                self.assertEqual(re.findall(r"export VCPKG_MAX_CONCURRENCY=(\d+)", command), [concurrency])
+                self.assertEqual(re.findall(r"export CMAKE_BUILD_PARALLEL_LEVEL=(\d+)", command), [concurrency])
         self.assertRegex(entry["configure_command"], r"cmake --preset windows-release\b")
         self.assertRegex(entry["build_command"], r"cmake --build --preset windows-release --parallel 1\b")
         self.assertNotRegex(entry["build_command"], r"--parallel\s+[2-9]\d*")
