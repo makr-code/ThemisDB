@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-11-01"
-Last Updated: "2026-11-09"
+Last Updated: "2026-11-10"
 Status: "review"
 AI_Used: true
 AI_Models: "GitHub Copilot (exact model backend not recorded)"
@@ -44,9 +44,11 @@ and [implementation notes](../../src/process/IMPLEMENTATION.md).
   Returned context depends on the available stored data and configured
   integrations.
 - `ProcessLightRetriever` supports LOCAL, GLOBAL, and keyword-routed AUTO.
-  GLOBAL can fall back to LOCAL if community reports are unavailable. The
-  header-declared resource budgets are not enforced by the current `retrieve()`
-  path.
+  GLOBAL can fall back to LOCAL if community reports are unavailable. Retrieval
+  caps returned context bytes, GLOBAL report count, LOCAL prompt lines, and
+  LOCAL traversal depth, and reports elapsed time and returned bytes. Timeout
+  is detected after synchronous dependencies return; the façade cannot cancel
+  them or guarantee a hard deadline.
 - `ProcessAgenticRag` adapts process graph retrieval to generic iterative RAG.
   Inspect its result and iteration history; adapter output does not establish
   answer correctness.

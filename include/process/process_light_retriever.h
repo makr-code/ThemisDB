@@ -59,10 +59,11 @@ enum class RetrievalMode {
  *
  * @section resource_tracking Resource Tracking
  * The result includes metrics about resource consumption during retrieval:
- * - @c retrieval_time_ms: Time spent in retrieval operations.
- * - @c context_size_bytes: Actual size of the assembled context.
+ * - @c retrieval_time_ms: Elapsed wall-clock time, measured with a monotonic clock.
+ * - @c context_size_bytes: Actual byte size of the returned, possibly truncated context.
  * - @c resource_exhaustion_reason: If set, indicates graceful degradation occurred.
- *   Examples: "max_context_size_exceeded", "retrieval_timeout", "no_results_found".
+ *   Examples: "max_context_size_exceeded", "retrieval_timeout", and
+ *   "max_result_elements_exceeded".
  */
 struct LightRetrievalResult {
     RetrievalMode used_mode;                      ///< Effective mode used
@@ -99,17 +100,16 @@ struct LightRetrievalResult {
  * All operations are read-only; thread safety is inherited from the underlying
  * @c ProcessGraphRag and @c ProcessCommunityDetector instances.
  *
- * @section phase2_stress_hardening Phase 2: Stress Scenario Hardening
- * ProcessLightRetriever now gracefully handles resource constraints:
+ * @section resource_limits Resource limits
+ * Retrieval applies output byte and element caps, and clamps LOCAL traversal
+ * depth to the configured maximum. A timeout is detected after synchronous
+ * dependencies return; those dependencies cannot be preempted by this façade.
+ * GLOBAL counts community reports as result elements; LOCAL caps returned
+ * prompt lines. A zero limit permits no corresponding output/depth.
  *
- * - **Bounded Retrieval Depth**: Maximum traversal depth is enforced; if exceeded,
- *   retrieval returns partial context with @c degraded=true.
- * - **Context Size Limits**: If accumulated context exceeds @c kMaxContextBytes,
- *   retrieval gracefully truncates and signals @c resource_exhaustion_reason.
- * - **Timeout Enforcement**: If retrieval exceeds @c kMaxRetrievalTimeMs,
- *   returns best-effort partial result.
- * - **Element Count Limits**: Parser respects maximum element count;
- *   excess elements trigger graceful degradation.
+ * Exceeding an output or depth limit sets @c degraded and records the relevant
+ * reason. Timeout reporting is best-effort and does not guarantee a maximum
+ * return latency.
  *
  * @see ProcessCommunityDetector, ProcessGraphRag
  */
@@ -121,19 +121,21 @@ public:
      * These are configurable per-retriever instance via setResourceLimits().
      */
     struct ResourceLimits {
-        /// Maximum context size in bytes before truncation (default: 1 MiB)
+        /// Maximum returned context size in bytes; truncation preserves UTF-8 boundaries.
         size_t max_context_bytes{1024 * 1024};
-        /// Maximum retrieval timeout in milliseconds (default: 5000 ms)
+        /// Soft elapsed-time budget in milliseconds; synchronous calls are not preempted.
         int64_t max_retrieval_time_ms{5000};
-        /// Maximum graph traversal depth (default: 50)
+        /// Maximum LOCAL graph traversal depth (default: 50).
         size_t max_traversal_depth{50};
-        /// Maximum number of results before graceful degradation (default: 1000)
+        /// GLOBAL report count / LOCAL output line count (default: 1000).
         size_t max_result_elements{1000};
     };
     /**
+     * @brief Construct a retriever over existing database and retrieval services.
      * @param db                  RocksDB instance used to resolve instance→model_id.
      * @param graph_rag           Existing GraphRAG engine (LOCAL retrieval).
      * @param community_detector  Community detector (GLOBAL retrieval).
+     * @note The referenced services must outlive this retriever.
      */
     explicit ProcessLightRetriever(
         RocksDBWrapper&           db,
@@ -142,8 +144,10 @@ public:
     );
 
     /**
-     * @brief Set custom resource limits for stress scenario handling.
-     * @param limits The resource limits to enforce.
+     * @brief Set per-instance output and LOCAL traversal limits.
+     * @param limits Limits to apply; zero values produce empty output/depth, and
+     *        a negative timeout is treated as an already-exceeded soft budget.
+     * @note Changes are not synchronized with concurrent retrieve() calls.
      */
     void setResourceLimits(const ResourceLimits& limits);
 
@@ -163,7 +167,10 @@ public:
      *                     model_id resolution).
      * @param mode         Retrieval mode (default: AUTO).
      * @param config       GraphRAG config forwarded to LOCAL retrieval.
-     * @return @c LightRetrievalResult with assembled @c llm_context.
+     * @return Result with measured elapsed time and returned context byte size;
+     *         output/depth truncation or a detected timeout marks it degraded.
+     * @note Timeout detection occurs after synchronous database/GraphRAG calls
+     *       complete; it does not cancel those calls or guarantee a hard deadline.
      */
     [[nodiscard]] LightRetrievalResult retrieve(
         std::string_view        query,
@@ -180,35 +187,6 @@ private:
      * any global keyword is found; @c RetrievalMode::LOCAL otherwise.
      */
     [[nodiscard]] RetrievalMode classifyQuery(std::string_view query) const;
-
-    // Phase 2: Stress scenario helpers
-    /**
-     * @brief Check if current time is within the configured timeout window.
-     * @param start_time_ms The time retrieval started.
-     * @return true if within timeout; false if exceeded.
-     */
-    [[nodiscard]] bool isWithinTimeoutBudget(int64_t start_time_ms) const;
-
-    /**
-     * @brief Check if accumulated context size is within limits.
-     * @param current_size_bytes Current accumulated size.
-     * @return true if within limits; false if exceeded.
-     */
-    [[nodiscard]] bool isWithinSizeBudget(size_t current_size_bytes) const;
-
-    /**
-     * @brief Check if traversal depth is within limits.
-     * @param current_depth The current traversal depth.
-     * @return true if within limits; false if exceeded.
-     */
-    [[nodiscard]] bool isWithinDepthBudget(size_t current_depth) const;
-
-    /**
-     * @brief Gracefully degrade retrieval result when resources are exhausted.
-     * @param reason Description of why degradation occurred.
-     * @return LightRetrievalResult marked as degraded with partial context.
-     */
-    [[nodiscard]] LightRetrievalResult createDegradedResult(std::string_view reason) const;
 
     ProcessGraphRag&          graph_rag_;
     ProcessCommunityDetector& community_detector_;

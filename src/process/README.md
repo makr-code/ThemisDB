@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-10
 Status: review
 Source_Level: level 1
 SOT_Domain: module-behavior
@@ -34,7 +34,7 @@ The source tree also includes federation, audit, diagnostics, and telemetry comp
 
 ## Key documented behavior and caveats
 
-- `ProcessLightRetriever` supports LOCAL/GLOBAL/AUTO selection; AUTO is keyword-based and GLOBAL falls back to LOCAL if no persisted communities are usable. The resource budget declarations are not enforced by the current `retrieve()` implementation.
+- `ProcessLightRetriever` supports LOCAL/GLOBAL/AUTO selection; AUTO is keyword-based and GLOBAL falls back to LOCAL if no persisted communities are usable. It caps returned context bytes, GLOBAL report count, LOCAL prompt lines, and LOCAL traversal depth, and reports elapsed time and returned bytes. Timeout is detected only after synchronous dependencies return; it does not cancel them or guarantee a hard deadline.
 - `ProcessOrchestrationRegistry` requires a profile ID/domain and enforces `internal_rag_stage=true`; activation and rollback use separate writes and do not promise a transaction.
 - Model embedding generation/indexing is optional and caller-configured. `LlmProcessDescriptor` can pass through an existing vector but does not generate it.
 - Diagnostics define nine incident types. Metrics collector interfaces do not imply that a consuming deployment exports metrics or alerts.
