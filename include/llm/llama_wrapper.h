@@ -308,6 +308,31 @@ public:
     bool unloadLoRA(const std::string& lora_id) override;
     
     std::vector<LoRAInfo> listLoRAs() const override;
+
+    /**
+     * @brief Access the serving-side multi-LoRA manager (dynamic adapter hot-load,
+     *        provenance verifier installation via
+     *        MultiLoRAManager::setAdapterMetadataVerifier(), adapter registration).
+     *
+     * Ownership stays with this LlamaWrapper.  The manager is created in the constructor
+     * and never replaced, so the returned pointer is stable and valid for the lifetime of
+     * this wrapper; callers must not use it after the wrapper is destroyed and must not
+     * delete it.  Adapter handles bound by the manager are additionally only valid while
+     * the base model they were bound to is loaded (they are re-initialised automatically
+     * after a model reload).
+     *
+     * @return Non-owning pointer to the manager; nullptr only if construction of the
+     *         manager failed.
+     * @note Thread-safe: reading the pointer needs no lock, and all MultiLoRAManager
+     *       public methods synchronise internally.
+     */
+    [[nodiscard]] MultiLoRAManager* loraManager() noexcept { return lora_manager_.get(); }
+
+    /**
+     * @brief Const overload of loraManager(); same lifetime and thread-safety rules.
+     * @return Non-owning const pointer to the manager (may be nullptr).
+     */
+    [[nodiscard]] const MultiLoRAManager* loraManager() const noexcept { return lora_manager_.get(); }
     
     // ═══════════════════════════════════════════════════════════
     // Inference

@@ -16,6 +16,7 @@
 #include <string>
 #include <string_view>
 #include <optional>
+#include <functional>
 #include <nlohmann/json.hpp>
 #include <auth/jwt_validator.h>
 
@@ -57,6 +58,28 @@ public:
      * @param[in] engine Input parameter.
      */
     void setInferenceEngine(std::shared_ptr<llm::InferenceEngineEnhanced> engine);
+
+    /**
+     * @brief Authorizes one request.
+     * @param req   Incoming request.
+     * @param admin True for admin-only endpoints (adapter regeneration,
+     *              snapshot-pin release); the server binds these to its
+     *              `admin` scope, all other endpoints to the `llm` scope.
+     * @return std::nullopt if access is granted, otherwise the error response
+     *         (401/403) to return unchanged.
+     */
+    using RequestAuthorizer = std::function<std::optional<http::response<http::string_body>>(
+        const http::request<http::string_body>& req, bool admin)>;
+
+    /**
+     * @brief Delegate authentication/authorization to the hosting server
+     *        (e.g. HttpServer::requireAccess).
+     *
+     * When set, it replaces the handler-local JWT check.  Without an
+     * authorizer, admin-only endpoints are always rejected (403) because the
+     * local JWT validator performs no role/scope check (fail closed).
+     */
+    void setRequestAuthorizer(RequestAuthorizer authorizer);
     
     /**
      * @brief Handle Request.
@@ -102,9 +125,17 @@ private:
     
     // Adapter CRUD endpoints
     /**
-     * @brief Handle Create Adapter.
-     * @param[in] req Input parameter.
-     * @return Return value.
+     * @brief POST /api/v1/llm/lora/adapters: submit a real training job.
+     *
+     * Body: `adapter_id` plus either `dataset_id` (+ optional `limit`, default
+     * 10000) — trained via LoRAOrchestrator::createAdapterFromSnapshot() on a
+     * pinned MVCC snapshot of `lora_ds:<dataset_id>:*` — or inline `samples`
+     * (`[{input, output, context?}]`, ≥ 2; signed but without snapshot
+     * reference).  Optional `rank`/`alpha`; `base_model`, if given, must equal
+     * the configured training base model.
+     * @return 202 with job id and `status_url`; 400 on invalid input; 503 if
+     *         a required server component (backend, signer, snapshot reader)
+     *         is not configured; 422 if the job failed on submission otherwise.
      */
     http::response<http::string_body> handleCreateAdapter(
         const http::request<http::string_body>& req);
@@ -255,6 +286,37 @@ private:
      * @return True when the operation succeeds.
      */
     bool validateBearerToken(const http::request<http::string_body>& req);
+
+    /**
+     * @brief GET /api/v1/llm/lora/jobs/{job_id}: real job state (status,
+     *        progress, error, metrics, snapshot lease) from the orchestrator.
+     */
+    http::response<http::string_body> handleGetJob(
+        const http::request<http::string_body>& req);
+
+    /**
+     * @brief POST /api/v1/llm/lora/adapters/{source_id}/regenerate (admin):
+     *        retrain the source adapter's pinned training snapshot on another
+     *        base model via LoRAOrchestrator::regenerateAdapter().
+     *
+     * Body: `{"target_adapter_id", "base_model", "base_model_gguf",
+     * "base_model_gguf_sha256"?, "rank"?, "alpha"?}`.  Returns 202 with the
+     * job id; 422/503 if the job failed before training (e.g. snapshot pruned
+     * or fingerprint mismatch, missing backend/signer).
+     */
+    http::response<http::string_body> handleRegenerateAdapter(
+        const http::request<http::string_body>& req);
+
+    /**
+     * @brief DELETE /api/v1/llm/lora/snapshot-pins/{lease_id} (admin):
+     *        release a training-snapshot retention pin.  404 if unknown.
+     */
+    http::response<http::string_body> handleReleaseSnapshotPin(
+        const http::request<http::string_body>& req);
+
+    /// @brief 202 for a queued/running job, 503/422 for a job that failed on submission.
+    http::response<http::string_body> submittedJobResponse(const std::string& adapter_id,
+                                                           const std::string& job_id);
     
     http::response<http::string_body> createErrorResponse(
         http::status status,
@@ -286,6 +348,7 @@ private:
     std::shared_ptr<llm::lora::LoRAOrchestrator> orchestrator_;
     std::unique_ptr<auth::JWTValidator> jwt_validator_;
     std::shared_ptr<llm::InferenceEngineEnhanced> inference_engine_;
+    RequestAuthorizer authorizer_;
 };
 
 } // namespace themis::server

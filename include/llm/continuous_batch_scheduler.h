@@ -56,6 +56,12 @@ public:
         size_t block_size_tokens = 16;         // Tokens per block (MUST match PagedKVCache)
         size_t low_memory_threshold_blocks = 10;  // Memory pressure trigger
         double memory_pressure_throughput_factor = 0.8;  // Throughput reduction (0.0-1.0)
+
+        // Maximum number of concurrently admitted (PREFILL/DECODE) requests.
+        // Mirrors the llama.cpp context's n_seq_max when the scheduler drives a
+        // ContinuousBatchExecutor: one llama sequence id per admitted request.
+        // 0 means unlimited (legacy behaviour; only max_batch_size applies).
+        size_t max_active_sequences = 0;
     };
     // Backwards-compatibility alias: older callers used `ContinuousBatchScheduler::Config`
     using Config = SchedulerConfig;
@@ -104,6 +110,33 @@ public:
         // Preemption support
         bool can_be_preempted = true;
         size_t preemption_count = 0;
+
+        // True between scheduleNextBatch() returning this request and the matching
+        // processBatchResults() call.  In-flight requests are never scheduled twice
+        // and are kept alive by the scheduler even when cancelled meanwhile, so the
+        // raw pointer handed to the executor stays valid for the whole step.
+        bool in_flight = false;
+    };
+
+    /**
+     * @brief Per-request outcome of one executed batch step (executor protocol).
+     *
+     * Passed to the three-argument processBatchResults() overload by an executor
+     * that drives real decoding (ContinuousBatchExecutor).  It replaces the legacy
+     * "one call == one generated token" assumption with exact accounting:
+     * - @c prompt_tokens_consumed: prompt tokens fed to the model in this step
+     *   (chunked prefill); the request stays in PREFILL until all prompt tokens
+     *   are consumed.
+     * - @c token_emitted: a new output token was sampled in this step.
+     * - @c finished: the request reached a terminal condition (EOS, max_tokens,
+     *   stop sequence, cancellation, timeout); the paired InferenceResponse is the
+     *   final response delivered to the request callback.
+     * A non-empty InferenceResponse::error_message always marks the request FAILED.
+     */
+    struct StepReport {
+        size_t prompt_tokens_consumed = 0;
+        bool token_emitted = false;
+        bool finished = false;
     };
     
     /**
@@ -151,18 +184,37 @@ public:
         shard_load_cb_ = std::move(cb);
     }
     
-    // Request submission
+    /**
+     * @brief Enqueue a request for continuous batching.
+     * @param[in] request Inference request (copied).
+     * @param[in] priority Scheduling priority (higher first, FIFO within a level).
+     * @param[in] callback Invoked under the scheduler lock with the final response
+     *            when the request completes or fails; must not call back into the
+     *            scheduler.  May be empty.
+     * @param[in] exact_prompt_tokens Exact prompt length in model tokens when the
+     *            caller already tokenized the prompt (executor path).  0 keeps the
+     *            legacy character-based estimate (prompt.length() / 4).
+     * @return Scheduler request id, or an empty string when the request was rejected
+     *         by backpressure (max_queue_depth) or by the token quota manager.
+     * @note Thread-safe.
+     */
     std::string submitRequest(
         const InferenceRequest& request,
         RequestPriority priority = RequestPriority::NORMAL,
-        std::function<void(const InferenceResponse&)> callback = nullptr
+        std::function<void(const InferenceResponse&)> callback = nullptr,
+        size_t exact_prompt_tokens = 0
     );
     
     // Request management
     /**
-     * @brief Cancel Request.
-     * @param[in] request_id Identifier of the request.
-     * @return True when the operation succeeds.
+     * @brief Cancel a waiting, active or preempted request and free its KV blocks.
+     * @param[in] request_id Scheduler request id returned by submitRequest().
+     * @return true when the request was known and is now cancelled; false when the
+     *         id is unknown (already completed, failed or cancelled).
+     * @note Thread-safe.  A request that is currently in flight (returned by
+     *       scheduleNextBatch() and not yet passed to processBatchResults()) stays
+     *       alive until processBatchResults() so the executor's pointer stays valid;
+     *       its result is then ignored.  The request callback is not invoked.
      */
     bool cancelRequest(const std::string& request_id);
     /**
@@ -189,20 +241,51 @@ public:
     bool isRunning() const;
     
     /**
-     * @brief Batch scheduling (main loop)
-     * @return Return value.
+     * @brief Select the requests to execute in the next batch step.
+     *
+     * Order: active DECODE requests, active PREFILL requests with remaining prompt
+     * chunks, then newly admitted WAITING requests (priority order).  Admission
+     * of new requests is bounded by max_batch_size, max_active_sequences,
+     * max_tokens_per_batch and PagedKVCache block availability (prompt + max_tokens
+     * reserved up front, so admitted requests can never run out of KV mid-decode).
+     *
+     * @return Non-owning pointers, valid until the matching processBatchResults()
+     *         call.  Every returned request is marked in flight and will not be
+     *         returned again before processBatchResults().  Empty when idle.
+     * @note Thread-safe.  Production caller: ContinuousBatchExecutor::step().
      */
     std::vector<ScheduledRequest*> scheduleNextBatch();
     
-    // Process batch results
     /**
-     * @brief Process Batch Results.
-     * @param[in] batch Input parameter.
-     * @param[in] responses Input parameter.
+     * @brief Legacy result processing: each call counts as one generated token.
+     * @param[in] batch Batch returned by scheduleNextBatch().
+     * @param[in] responses One response per batch entry (same order).  A non-empty
+     *            error_message fails the request.
+     * @note Completion is detected only via max_tokens.  Kept for callers that do
+     *       not perform real decoding; executors should use the StepReport overload.
+     *       Size mismatch is logged and the call is ignored.  Thread-safe.
      */
     void processBatchResults(
         const std::vector<ScheduledRequest*>& batch,
         const std::vector<InferenceResponse>& responses
+    );
+
+    /**
+     * @brief Executor result processing with exact per-request step accounting.
+     * @param[in] batch Batch returned by scheduleNextBatch().
+     * @param[in] responses One response per batch entry.  For finished or failed
+     *            requests it is the final response passed to the request callback;
+     *            otherwise it is ignored.
+     * @param[in] reports One StepReport per batch entry (same order).
+     * @note Finished/failed requests release their KV blocks and are forgotten by
+     *       the scheduler (no unbounded growth).  Requests cancelled while in
+     *       flight are released without invoking their callback.  Size mismatch
+     *       fails every request of the batch (fail closed).  Thread-safe.
+     */
+    void processBatchResults(
+        const std::vector<ScheduledRequest*>& batch,
+        const std::vector<InferenceResponse>& responses,
+        const std::vector<StepReport>& reports
     );
     
     // Preemption
@@ -286,6 +369,11 @@ private:
     
     // Request lookup
     std::unordered_map<std::string, std::shared_ptr<ScheduledRequest>> all_requests_;
+
+    // Requests cancelled while in flight.  Their KV blocks are already released,
+    // but the objects are kept alive until processBatchResults() has seen them so
+    // the raw pointers returned by scheduleNextBatch() never dangle.
+    std::vector<std::shared_ptr<ScheduledRequest>> cancelled_in_flight_;
     
     // LOCK HIERARCHY ENFORCEMENT (§3.3):
     // ┌─ mutex_ : std::mutex (exclusive access to all request queues and state)
@@ -308,15 +396,27 @@ private:
     
     // Internal helpers
     /**
-     * @brief Can Add To Batch.
-     * @param[in] request Input parameter.
-     * @param[in] current_batch_tokens Input parameter.
-     * @param[in] reserved_blocks Input parameter.
-     * @return True when the operation succeeds.
+     * @brief Admission check for one request (token budget + KV capacity).
+     * @param[in] request Candidate request (KV blocks may already be allocated).
+     * @param[in] current_batch_tokens Tokens already planned for this batch,
+     *            including the candidate's own step tokens.
+     * @param[in] reserved_blocks Blocks reserved by the batch but not yet allocated
+     *            in the PagedKVCache (0 when allocations are performed eagerly).
+     * @return true when the request fits.  A request that already holds its full
+     *         KV reservation always passes the KV check (no double counting).
      */
     bool canAddToBatch(const ScheduledRequest* request,
                       size_t current_batch_tokens,
                       size_t reserved_blocks) const;
+    /**
+     * @brief Tokens the request contributes to the next step (1 for decode,
+     *        remaining prompt bounded by the prefill chunk for prefill).
+     */
+    size_t stepTokens(const ScheduledRequest* request) const;
+    /**
+     * @brief Remove a request from the active list (no-op when absent).
+     */
+    void eraseActive(const ScheduledRequest* request);
     /**
      * @brief Allocate KVCache Blocks.
      * @param[in,out] request Input/output parameter.

@@ -29,40 +29,167 @@
 #include <sstream>
 #include <fstream>
 #include <filesystem>
+#include <optional>
 #include <fcntl.h>
 #if !defined(_WIN32)
 #include <unistd.h>
 #endif
 #include <llama.h>
 
-// Forward declarations for llama.cpp LoRA API (from llama_lora_adapter.cpp)
-extern "C" {
-    /**
-     * @brief Llama lora adapter init.
-     * @param[in,out] model Input/output parameter.
-     * @param[in] path_lora Input parameter.
-     * @return Pointer to the result.
-     */
-    void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora);
-    /**
-     * @brief Llama lora adapter set with scale.
-     * @param[in,out] ctx Input/output parameter.
-     * @param[in,out] adapter Input/output parameter.
-     * @param[in] scale Input parameter.
-     * @return Return value.
-     */
-    int llama_lora_adapter_set_with_scale(struct llama_context* ctx, void* adapter, float scale);
-    /**
-     * @brief Llama lora adapter free.
-     * @param[in,out] adapter Input/output parameter.
-     */
-    void llama_lora_adapter_free(void* adapter);
-    /**
-     * @brief Themis llama lora available.
-     * @return True when the operation succeeds.
-     */
-    bool themis_llama_lora_available();
+// LoRA serving uses the llama.cpp b7974 public API from <llama.h> via MultiLoRAManager
+// (llama_adapter_lora_init / llama_set_adapter_lora / llama_rm_adapter_lora).
+
+namespace {
+
+/**
+ * @brief Builds the response-cache key for a request.
+ *
+ * The key covers prompt, model id and the requested LoRA adapter with its effective
+ * scale (or an explicit "<none>" marker) so responses produced with different adapters
+ * (or none) never collide.
+ *
+ * @param prompt Prompt text.
+ * @param model_id Model identifier.
+ * @param adapter_id Requested adapter id (std::nullopt / empty when none).
+ * @param scale Effective adapter scale (ignored when no adapter is requested).
+ * @return Cache key string.
+ */
+[[nodiscard]] std::string makeResponseCacheKey(const std::string& prompt,
+                                               const std::string& model_id,
+                                               const std::optional<std::string>& adapter_id,
+                                               float scale) {
+    std::string key = prompt;
+    key += '|';
+    key += model_id;
+    key += "|lora=";
+    if (adapter_id && !adapter_id->empty()) {
+        key += *adapter_id;
+        key += '@';
+        key += std::to_string(scale);
+    } else {
+        key += "<none>";
+    }
+    return key;
 }
+
+/**
+ * @brief RAII per-request LoRA binding (fail-closed).
+ *
+ * bind() hot-loads the adapter onto the currently loaded base model
+ * (MultiLoRAManager::initializeLoRAWithModel(), idempotent per model instance; verifies
+ * GGUF KV metadata/base-model compatibility) and attaches it to @p ctx via
+ * MultiLoRAManager::applyLoRA().  The destructor detaches it again
+ * (MultiLoRAManager::removeLoRA() → llama_rm_adapter_lora) so the next request on the
+ * same context does not inherit the adapter.
+ *
+ * @note Not thread-safe by itself; the caller must serialise use of @p ctx.
+ */
+class ScopedRequestLoRA {
+public:
+    ScopedRequestLoRA() = default;
+    ScopedRequestLoRA(const ScopedRequestLoRA&) = delete;
+    ScopedRequestLoRA& operator=(const ScopedRequestLoRA&) = delete;
+    ScopedRequestLoRA(ScopedRequestLoRA&&) = delete;
+    ScopedRequestLoRA& operator=(ScopedRequestLoRA&&) = delete;
+
+    ~ScopedRequestLoRA() {
+        if (manager_ && ctx_ && !adapter_id_.empty()) {
+            if (!manager_->removeLoRA(adapter_id_, ctx_)) {
+                spdlog::warn("LoRA {} could not be detached after request", adapter_id_);
+            }
+        }
+    }
+
+    /**
+     * @brief Bind @p adapter_id to @p ctx for the lifetime of this object.
+     * @param manager LoRA manager (may be nullptr → error).
+     * @param adapter_id Requested adapter id.
+     * @param model Loaded base model.
+     * @param ctx Inference context to attach the adapter to.
+     * @param identity Identity of the loaded base model (file name, sha256, generation).
+     * @param[out] error Reason on failure.
+     * @return true when the adapter is attached to @p ctx.
+     */
+    [[nodiscard]] bool bind(themis::llm::MultiLoRAManager* manager,
+                            const std::string& adapter_id,
+                            llama_model* model,
+                            llama_context* ctx,
+                            const themis::llm::lora_gguf::BaseModelIdentity& identity,
+                            std::string& error) {
+        if (!manager) {
+            error = "LoRA adapter '" + adapter_id + "' requested but LoRA support is not configured";
+            return false;
+        }
+        if (!model || !ctx) {
+            error = "LoRA adapter '" + adapter_id + "' requested but no model/context is loaded";
+            return false;
+        }
+        if (!manager->isLoRALoaded(adapter_id)) {
+            error = "Unknown LoRA adapter '" + adapter_id + "'";
+            return false;
+        }
+        if (!manager->initializeLoRAWithModel(adapter_id, model, identity)) {
+            error = "LoRA adapter '" + adapter_id +
+                    "' could not be loaded onto the base model (incompatible or invalid adapter)";
+            return false;
+        }
+        if (!manager->applyLoRA(adapter_id, ctx)) {
+            error = "LoRA adapter '" + adapter_id + "' could not be applied to the inference context";
+            return false;
+        }
+        manager_ = manager;
+        ctx_ = ctx;
+        adapter_id_ = adapter_id;
+        return true;
+    }
+
+private:
+    themis::llm::MultiLoRAManager* manager_ = nullptr;
+    llama_context* ctx_ = nullptr;
+    std::string adapter_id_;
+};
+
+/**
+ * @brief Identity of the currently loaded base model for adapter compatibility checks.
+ * @param model_path Path of the loaded base GGUF (only the file name is used).
+ * @param expected_sha256 Configured sha256 of the base GGUF (may be empty).
+ * @param loaded_at Load timestamp of the model instance; used as reload generation so
+ *        adapter handles bound to a previous instance are re-initialised.
+ * @return Populated identity.
+ */
+[[nodiscard]] themis::llm::lora_gguf::BaseModelIdentity makeBaseModelIdentity(
+    const std::string& model_path,
+    const std::string& expected_sha256,
+    std::chrono::system_clock::time_point loaded_at) {
+    themis::llm::lora_gguf::BaseModelIdentity identity;
+    identity.gguf_file_name = std::filesystem::path(model_path).filename().string();
+    identity.sha256 = expected_sha256;
+    identity.generation = static_cast<std::uint64_t>(loaded_at.time_since_epoch().count());
+    return identity;
+}
+
+/**
+ * @brief Error response for a request whose LoRA adapter could not be bound (fail-closed).
+ * @param request Originating request.
+ * @param model_id Current model id.
+ * @param error Human-readable reason.
+ * @return Response with success=false, error_message set and lora_used unset.
+ */
+[[nodiscard]] themis::llm::InferenceResponse makeLoRAErrorResponse(
+    const themis::llm::InferenceRequest& request,
+    const std::string& model_id,
+    const std::string& error) {
+    themis::llm::InferenceResponse response;
+    response.request_id = request.request_id;
+    response.trace_id = request.trace_id;
+    response.span_id = request.span_id;
+    response.model_used = model_id;
+    response.success = false;
+    response.error_message = error;
+    return response;
+}
+
+} // namespace
 
 // Forward declarations for llama.cpp grammar API (from llama_grammar_adapter.cpp)
 extern "C" {
@@ -1023,6 +1150,12 @@ void LlamaWrapper::unloadModel() {
     }
     model_loader->unloadModel(current_model_id_, true);
     
+    // LoRA adapter handles are owned by (and freed with) the base model: forget all
+    // bindings so the next request re-initialises adapters on the newly loaded model.
+    if (auto* const lora_manager = lora_manager_.get()) {
+        lora_manager->invalidateModelBindings(nullptr);
+    }
+    
     current_model_id_.clear();
     current_model_path_.clear();
     
@@ -1325,14 +1458,22 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         }
     }
 #endif
-    // Check response cache first (if enabled); key includes model_id to prevent cross-tenant leakage
+    // Response cache: the key covers prompt, model id and the requested LoRA adapter
+    // with its effective scale ("<none>" marker when no adapter) so responses generated
+    // with different adapters never collide.  B3: safe_request.prompt is sanitized and
+    // the key is only used for cache lookup, never passed to the LLM.
+    float requested_lora_scale = 0.0f;
+    if (safe_request.lora_adapter_id && !safe_request.lora_adapter_id->empty() && lora_manager_) {
+        if (const auto info = lora_manager_->getLoRAInfo(*safe_request.lora_adapter_id)) {
+            requested_lora_scale = info->scale;
+        }
+    }
+    const std::string cache_key = makeResponseCacheKey(
+        safe_request.prompt, safe_request.model_id, safe_request.lora_adapter_id, requested_lora_scale);
     {
         std::lock_guard<std::mutex> cache_lock(mutex_);  // W1-L04: Data race fix - protect response_cache access
         auto* const response_cache_ptr = response_cache_.get();
         if (response_cache_ptr) {
-            // B3: cache key uses safe_request.prompt which was sanitized by sanitizePromptText()
-            // above (line ~971); cache key is not passed to the LLM, only used for cache lookup.
-            const std::string cache_key = safe_request.prompt + "|" + safe_request.model_id;
             auto cached_response = response_cache_ptr->get(cache_key);
             if (cached_response) {
                 spdlog::debug("Cache hit for prompt (length: {})", safe_request.prompt.length());
@@ -1351,364 +1492,21 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             }
         }
     }
+    InferenceResponse response;
     try {
-        return generateRegular(safe_request);
+        response = generateRegular(safe_request);
     } catch (const std::exception& e) {
         spdlog::error("Regular inference error (context: model_id={}, prompt_length={}): {}", 
                      current_model_id_, safe_request.prompt.length(), e.what());
         throw;
     }
-    
-    // Record inference request
-    if (metrics_collector_) {
-        metrics_collector_->recordInferenceRequest(current_model_id_);
+    if (response.success) {
+        std::lock_guard<std::mutex> cache_lock(mutex_);
+        if (auto* const response_cache_ptr = response_cache_.get()) {
+            response_cache_ptr->put(cache_key, response);
+        }
     }
-    
-    auto start_time = std::chrono::high_resolution_clock::now();
-    
-    spdlog::debug("Generating response for prompt (length: {}, max_tokens={})",
-                  request.prompt.length(), request.max_tokens);
-    
-    // ═══════════════════════════════════════════════════════════
-    // BATCH 1.1: Enhanced Null-Safety Validation
-    // ═══════════════════════════════════════════════════════════
-    
-    // Ensure model is loaded (lazy loading trigger)
-    auto* const model_loader = model_loader_.get();
-    validateModelLoaderInitialized(model_loader, "generateRegular()");
-
-    auto cached = model_loader->getOrLoadModelShared(
-        current_model_id_,
-        current_model_path_
-    );
-    validateCachedModel(cached.get(), "generateRegular() -> getOrLoadModelShared()");
-
-    void* model_handle = cached->model_handle;
-    void* context_handle = cached->context_handle;
-    auto* lmodel = reinterpret_cast<llama_model*>(model_handle);
-    auto* lctx = reinterpret_cast<llama_context*>(context_handle);
-    
-    // Validate llama handles before dereference
-    validateLlamaHandles(lmodel, lctx, "generateRegular() -> inference preparation");
-
-    // Real llama.cpp inference implementation
-    // Declare adapter tracking outside try to access in catch
-    bool adapter_applied = false;
-    auto* const lora_manager = lora_manager_.get();
-    
-    try {
-        // 1. Apply LoRA adapter if specified (Auto-Binding with Context Switch Detection)
-        std::string prev_adapter = {};
-        bool context_changed = (last_context_ptr_ != lctx);
-        
-        if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
-            const std::string& adapter_id = *request.lora_adapter_id;
-            spdlog::info("Auto-binding LoRA adapter: {}", adapter_id);
-
-            if (!lora_manager) {
-                spdlog::warn("LoRA manager not initialized, cannot apply adapter {}", adapter_id);
-            } else {
-
-                // Check if adapter needs to be rebound after context switch
-                if (context_changed && !active_lora_adapter_.empty()) {
-                    spdlog::info("Context changed, rebinding adapter {} to new context", adapter_id);
-                    // Context changed - previous adapter binding is invalid
-                    active_lora_adapter_.clear();
-                }
-
-                // Check if we need to switch adapters
-                if (active_lora_adapter_ != adapter_id || context_changed) {
-                    // Load adapter if not already loaded (lazy loading)
-                    if (!lora_manager->isLoRALoaded(adapter_id)) {
-                        spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
-                        // Adapter will be loaded by LoRAManager from storage
-                    }
-
-                    // Ensure LoRA is initialized with the model handle
-                    // This calls llama_lora_adapter_init() if not already done
-                    if (lora_manager->isLoRALoaded(adapter_id)) {
-                        if (!lora_manager->initializeLoRAWithModel(adapter_id, lmodel)) {
-                            spdlog::warn("Failed to initialize LoRA adapter {}, proceeding with base model", adapter_id);
-                        } else {
-                            // Apply adapter to context
-                            if (lora_manager->applyLoRA(adapter_id, lctx)) {
-                                adapter_applied = true;
-                                active_lora_adapter_ = adapter_id;
-                                last_context_ptr_ = lctx;
-                                spdlog::debug("LoRA adapter {} applied to context", adapter_id);
-                            } else {
-                                spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
-                            }
-                        }
-                    } else {
-                        spdlog::warn("LoRA adapter {} not found in manager, proceeding with base model", adapter_id);
-                    }
-                } else {
-                    // Adapter already applied to this context
-                    spdlog::debug("LoRA adapter {} already active on this context", adapter_id);
-                    adapter_applied = true;  // Mark as applied for cleanup logic
-                }
-            }
-        } else if (!active_lora_adapter_.empty() && !context_changed) {
-            // No adapter requested but one is active - remove it
-            spdlog::info("Removing active adapter {} as none requested", active_lora_adapter_);
-            if (lora_manager) {
-                lora_manager->removeLoRA(active_lora_adapter_, lctx);
-                active_lora_adapter_.clear();
-            } else {
-                spdlog::warn("LoRA manager not initialized, cannot remove active adapter {}",
-                             active_lora_adapter_);
-                active_lora_adapter_.clear();
-            }
-        }
-        
-        // 2. Tokenize prompt
-        std::vector<llama_token> prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
-        
-        // BATCH 1.1: Validate tokenization result
-        validateTokenArray(prompt_tokens, 1, "generateRegular() -> tokenizeInternal()");
-        
-        InferenceResponse response = InferenceResponse();
-        response.request_id = request.request_id;
-        response.trace_id   = request.trace_id;
-        response.span_id    = request.span_id;
-        response.model_used = current_model_id_;
-        response.tokens_prompt = prompt_tokens.size();
-        
-        if (request.lora_adapter_id && lora_manager && lora_manager->isLoRALoaded(*request.lora_adapter_id)) {
-            response.lora_used = *request.lora_adapter_id;
-        }
-        
-        // 3. Prepare batch for prompt evaluation
-        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), static_cast<int32_t>(prompt_tokens.size()));
-
-        // 3. Evaluate prompt (populate KV cache)
-        if (llama_decode(lctx, batch) != 0) {
-            throw std::runtime_error("Failed to evaluate prompt");
-        }
-        
-        // 4. Generate tokens
-        std::vector<llama_token> generated_tokens;
-        bool max_tokens_capped = false;
-        int max_tokens = resolveMaxTokensWithContextCap(request.max_tokens, config_.n_ctx, max_tokens_capped);
-        if (max_tokens_capped) {
-            spdlog::warn("Requested max_tokens={} exceeds context limit n_ctx={}, capping generation to {}",
-                         request.max_tokens, config_.n_ctx, max_tokens);
-        }
-        float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
-        float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
-        
-        // Grammar-constrained generation (Phase 3.2)
-        std::shared_ptr<Grammar> grammar = getOrCreateGrammar(request);
-        if (grammar && grammar->isValid()) {
-            spdlog::debug("Using grammar-constrained generation");
-        }
-        
-        // Get vocab for EOS detection and token count
-        const llama_vocab* vocab = llama_model_get_vocab(lmodel);
-        if (!vocab) {
-            throw std::runtime_error("Failed to get model vocabulary");
-        }
-        int32_t n_vocab = llama_vocab_n_tokens(vocab);
-        if (n_vocab <= 0) {
-            throw std::runtime_error("Model returned non-positive vocabulary size");
-        }
-        llama_token eos_token = llama_vocab_eos(vocab);
-        
-        // Time to first token
-        auto first_token_start = std::chrono::high_resolution_clock::now();
-        bool first_token_generated = false;
-        
-        // Phase 2: Collect token probabilities for knowledge gap detection
-        std::vector<float> token_probabilities;
-        token_probabilities.reserve(static_cast<size_t>(std::max(0, max_tokens)));
-        
-        for (int i = 0; i < max_tokens; ++i) {
-            // Get logits for last token
-            float* logits = llama_get_logits_ith(lctx, -1);
-            if (!logits) {
-                spdlog::error("llama_get_logits_ith returned null at step {}", i);
-                break;
-            }
-            
-            // Sample next token with optional grammar constraint (Phase 3.2)
-            llama_grammar* grammar_handle = grammar ? grammar->getHandle() : nullptr;
-            llama_token next_token = sampleTokenInternal(
-                lctx, lmodel, logits, n_vocab, temperature, top_p, grammar_handle
-            );
-            
-            // Check for end of sequence (EOS token)
-            if (next_token == eos_token) {
-                break;
-            }
-            
-            // Phase 2: Calculate and store token probability for knowledge gap detection
-            float token_prob = getProbability(logits, next_token, n_vocab);
-            token_probabilities.push_back(token_prob);
-            
-            generated_tokens.push_back(next_token);
-            
-            // Record first token latency
-            if (!first_token_generated && metrics_collector_) {
-                auto first_token_end = std::chrono::high_resolution_clock::now();
-                double first_token_latency = std::chrono::duration<double, std::milli>(
-                    first_token_end - first_token_start
-                ).count();
-                metrics_collector_->recordFirstTokenLatency(current_model_id_, first_token_latency);
-                first_token_generated = true;
-            }
-            
-            // **Streaming support**: Call callback if provided
-            // Note: Callback is called while holding mutex_. Ensure callback
-            // is non-blocking to avoid performance issues.
-            if (request.stream_callback) {
-                try {
-                    // Detokenize this single token for streaming
-                    std::string token_text = detokenizeInternal(lctx, {next_token});
-                    request.stream_callback(token_text);
-                } catch (const std::exception& e) {
-                    spdlog::warn("Streaming callback error: {}", e.what());
-                    // Continue generation even if streaming fails
-                }
-            }
-            
-            // Prepare next batch with single token
-            llama_batch next_batch = llama_batch_get_one(&next_token, 1);
-            
-            // Decode next token
-            if (llama_decode(lctx, next_batch) != 0) {
-                spdlog::warn("Failed to decode token at position {}", i);
-                break;
-            }
-        }
-        
-        // 5. Detokenize generated tokens
-        response.text = detokenizeInternal(lctx, generated_tokens);
-        response.tokens_generated = generated_tokens.size();
-        
-        // Phase 2: Store token probabilities in response for knowledge gap detection
-        response.logprobs = token_probabilities;
-        
-        // 6. Calculate timing metrics
-        auto end_time = std::chrono::high_resolution_clock::now();
-        response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
-        response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
-        
-        response.tokens_per_second = (response.inference_time_ms > 0) 
-            ? response.tokens_generated / (response.inference_time_ms / 1000.0f)
-            : 0.0f;
-        
-        updateStatistics(response);
-        
-        // Record comprehensive metrics
-        if (metrics_collector_) {
-            metrics_collector_->recordInferenceSuccess(current_model_id_, response.inference_time_ms);
-            metrics_collector_->recordTokensGenerated(current_model_id_, response.tokens_generated);
-            metrics_collector_->recordEndToEndLatency(current_model_id_, response.inference_time_ms);
-            
-            // Calculate per-token latency
-            if (response.tokens_generated > 0) {
-                double per_token_latency = response.inference_time_ms / response.tokens_generated;
-                metrics_collector_->recordPerTokenLatency(current_model_id_, per_token_latency);
-            }
-        }
-        
-        // 7. Validate output (Production Readiness)
-        if (output_validator_) {
-            auto validation = output_validator_->validateWithTokens(
-                response.text,
-                response.tokens_generated,
-                max_tokens
-            );
-            
-            // Log validation results
-            if (!validation.is_valid) {
-                for (const auto& error : validation.errors) {
-                    spdlog::error("LLM output validation error: {}", error);
-                }
-                
-                if (metrics_collector_) {
-                    metrics_collector_->recordError("output_validation_failed", "llama_wrapper");
-                }
-                
-                // Add validation errors to response metadata
-                // We don't throw here - instead we let the caller decide how to handle
-                // invalid output. This enables graceful degradation in production.
-                response.metadata["validation_errors"] = validation.errors;
-                response.metadata["validation_valid"] = false;
-            }
-            
-            // Log warnings
-            for (const auto& warning : validation.warnings) {
-                spdlog::warn("LLM output validation warning: {}", warning);
-            }
-            
-            // Add validation metrics to response
-            response.metadata["validation_metrics"] = {
-                {"token_count", validation.metrics.token_count},
-                {"word_count", validation.metrics.word_count},
-                {"is_truncated", validation.metrics.is_truncated},
-                {"is_utf8_valid", validation.metrics.is_utf8_valid},
-                {"coherence_score", validation.metrics.semantic_coherence}
-            };
-            
-            if (!validation.warnings.empty()) {
-                response.metadata["validation_warnings"] = validation.warnings;
-            }
-        }
-        
-        // Cache the successful response; key includes model_id to prevent cross-tenant leakage.
-        // B3: safe_request.prompt is already sanitized; cache key is not passed to the LLM.
-        if (response_cache_) {
-            const std::string cache_key = safe_request.prompt + "|" + safe_request.model_id;
-            auto* const response_cache = response_cache_.get();
-            if (response_cache) {
-                response_cache->put(cache_key, response);
-            }
-        }
-
-        // Tool call parsing: if tools were specified, parse the model output
-        // as a tool call and populate response.tool_calls (Issue #1922).
-        if (!request.tools.empty()) {
-            auto tool_call = JsonSchemaConverter::parseToolCall(response.text);
-            if (tool_call.has_value()) {
-                response.tool_calls.push_back(std::move(tool_call.value()));
-            } else {
-                spdlog::debug("Tool calling: model output could not be parsed as a tool call "
-                              "(expected one of {} tool(s), output snippet: '{}')",
-                              request.tools.size(),
-                              response.text.substr(0, std::min<std::size_t>(80,response.text.size())));
-            }
-        }
-        
-        // Cleanup: Deactivate adapter if it was applied (optional - enables adapter hot-swapping)
-        // Note: We keep adapter applied for subsequent requests with same adapter for performance
-        // Only deactivate if explicitly switching to different adapter
-        if (adapter_applied && request.lora_adapter_id) {
-            // For now, keep adapter applied for better performance in consecutive requests
-            // Adapter will be automatically switched/removed when a different one is requested
-            spdlog::debug("LoRA adapter {} remains active for next request", *request.lora_adapter_id);
-        }
-        
-        return response;
-        
-    } catch (const std::exception& e) {
-        spdlog::error("Inference error: {}", e.what());
-        
-        // Cleanup: Remove adapter if applied (error path)
-        if (adapter_applied && request.lora_adapter_id && lora_manager) {
-            lora_manager->removeLoRA(*request.lora_adapter_id, lctx);
-            spdlog::debug("LoRA adapter {} removed after error", *request.lora_adapter_id);
-        }
-        
-        // Record error
-        if (metrics_collector_) {
-            metrics_collector_->recordInferenceFailure(current_model_id_, "inference_exception");
-            metrics_collector_->recordError("inference_exception", "llama_wrapper");
-        }
-        
-        throw;
-    }
+    return response;
 }
 
 /**
@@ -2229,8 +2027,9 @@ LLMCapabilities LlamaWrapper::getCapabilities() const {
     caps.supports_chat = true;
     caps.supports_completion = true;
     
-    // Check actual LoRA API availability at runtime
-    caps.supports_lora = themis_llama_lora_available();
+    // The b7974 LoRA API (llama_adapter_lora_init / llama_set_adapter_lora) is linked
+    // directly; LoRA serving is available whenever the adapter manager exists.
+    caps.supports_lora = (lora_manager_ != nullptr);
     
     caps.supports_quantization = true;
     caps.supports_streaming = true;
@@ -3222,33 +3021,27 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         return generateRegular(request);
     }
     
-    // Declare adapter tracking outside try to access in catch
-    bool adapter_applied = false;
     auto* const lora_manager = lora_manager_.get();
     
     try {
-        // Apply LoRA adapter if specified (Auto-Binding)
-        
+        // Per-request LoRA binding on the target context (the draft model stays
+        // unadapted; the target verifies every token).  Fail closed when an adapter is
+        // requested but cannot be bound; the RAII guard detaches it after the request.
+        ScopedRequestLoRA request_lora;
+        bool adapter_applied = false;
         if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
-            const std::string& adapter_id = *request.lora_adapter_id;
-            spdlog::info("Auto-binding LoRA adapter for speculative decoding: {}", adapter_id);
-            
-            // Load adapter if not already loaded (lazy loading)
-            if (!lora_manager) {
-                spdlog::warn("LoRA manager not initialized, cannot apply adapter {}", adapter_id);
-            } else {
-                if (!lora_manager->isLoRALoaded(adapter_id)) {
-                    spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
+            std::string lora_error;
+            if (!request_lora.bind(lora_manager, *request.lora_adapter_id, target_model, target_context,
+                                   makeBaseModelIdentity(current_model_path_, config_.expected_model_sha256,
+                                                         cached->loaded_at),
+                                   lora_error)) {
+                spdlog::error("Speculative decoding: {}", lora_error);
+                if (metrics_collector_) {
+                    metrics_collector_->recordInferenceFailure(current_model_id_, "lora_adapter_unavailable");
                 }
-
-                // Apply adapter to target context (not draft model)
-                if (lora_manager->applyLoRA(adapter_id, target_context)) {
-                    adapter_applied = true;
-                    spdlog::debug("LoRA adapter {} applied to target context", adapter_id);
-                } else {
-                    spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
-                }
+                return makeLoRAErrorResponse(request, current_model_id_, lora_error);
             }
+            adapter_applied = true;
         }
         
         // 1. Tokenize prompt (same for both models)
@@ -3261,7 +3054,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         response.model_used = current_model_id_ + " (speculative)";
         response.tokens_prompt = prompt_tokens.size();
         
-        if (request.lora_adapter_id && lora_manager && lora_manager->isLoRALoaded(*request.lora_adapter_id)) {
+        if (adapter_applied) {
             response.lora_used = *request.lora_adapter_id;
         }
         
@@ -3445,22 +3238,12 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         
         updateStatistics(response);
         
-        // Cleanup: Keep adapter applied for performance in consecutive requests
-        if (adapter_applied && request.lora_adapter_id) {
-            spdlog::debug("LoRA adapter {} remains active for next request", *request.lora_adapter_id);
-        }
-        
-        return response;
+        response.success = true;
+        return response;  // request_lora detaches the adapter (llama_rm_adapter_lora)
         
     } catch (const std::exception& e) {
+        // request_lora was destroyed during unwinding, so the adapter is already detached.
         spdlog::error("Speculative decoding error: {}", e.what());
-        
-        // Cleanup on error: Remove adapter if applied
-        if (adapter_applied && request.lora_adapter_id && lora_manager) {
-            lora_manager->removeLoRA(*request.lora_adapter_id, target_context);
-            spdlog::debug("LoRA adapter {} removed after error", *request.lora_adapter_id);
-        }
-        
         spdlog::info("Falling back to regular generation");
         return generateRegular(request);
     }
@@ -3506,33 +3289,27 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
     }
 
     // Real llama.cpp inference implementation
-    // Declare adapter tracking outside try to access in catch
-    bool adapter_applied = false;
     auto* const lora_manager = lora_manager_.get();
     
     try {
-        // Apply LoRA adapter if specified (Auto-Binding)
-        
+        // Per-request LoRA binding (hot-load onto the loaded base model, attach to the
+        // context).  Fail closed when an adapter is requested but cannot be bound; the
+        // RAII guard detaches it after the request (also on exceptions).
+        ScopedRequestLoRA request_lora;
+        bool adapter_applied = false;
         if (request.lora_adapter_id && !request.lora_adapter_id->empty()) {
-            const std::string& adapter_id = *request.lora_adapter_id;
-            spdlog::info("Auto-binding LoRA adapter: {}", adapter_id);
-            
-            // Load adapter if not already loaded (lazy loading)
-            if (!lora_manager) {
-                spdlog::warn("LoRA manager not initialized, cannot apply adapter {}", adapter_id);
-            } else {
-                if (!lora_manager->isLoRALoaded(adapter_id)) {
-                    spdlog::info("LoRA adapter {} not loaded, attempting lazy load from storage", adapter_id);
+            std::string lora_error;
+            if (!request_lora.bind(lora_manager, *request.lora_adapter_id, lmodel, lctx,
+                                   makeBaseModelIdentity(current_model_path_, config_.expected_model_sha256,
+                                                         cached->loaded_at),
+                                   lora_error)) {
+                spdlog::error("Inference rejected: {}", lora_error);
+                if (metrics_collector_) {
+                    metrics_collector_->recordInferenceFailure(current_model_id_, "lora_adapter_unavailable");
                 }
-
-                // Apply adapter to context
-                if (lora_manager->applyLoRA(adapter_id, lctx)) {
-                    adapter_applied = true;
-                    spdlog::debug("LoRA adapter {} applied to context", adapter_id);
-                } else {
-                    spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
-                }
+                return makeLoRAErrorResponse(request, current_model_id_, lora_error);
             }
+            adapter_applied = true;
         }
         
         std::vector<llama_token> prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
@@ -3544,7 +3321,7 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         response.model_used = current_model_id_;
         response.tokens_prompt = prompt_tokens.size();
         
-        if (request.lora_adapter_id && lora_manager && lora_manager->isLoRALoaded(*request.lora_adapter_id)) {
+        if (adapter_applied) {
             response.lora_used = *request.lora_adapter_id;
         }
         
@@ -3641,22 +3418,12 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         
         updateStatistics(response);
         
-        // Cleanup: Keep adapter applied for performance in consecutive requests
-        if (adapter_applied && request.lora_adapter_id) {
-            spdlog::debug("LoRA adapter {} remains active for next request", *request.lora_adapter_id);
-        }
-        
-        return response;
+        response.success = true;
+        return response;  // request_lora detaches the adapter (llama_rm_adapter_lora)
         
     } catch (const std::exception& e) {
+        // request_lora was destroyed during unwinding, so the adapter is already detached.
         spdlog::error("Inference error: {}", e.what());
-        
-        // Cleanup on error: Remove adapter if applied
-        if (adapter_applied && request.lora_adapter_id && lora_manager) {
-            lora_manager->removeLoRA(*request.lora_adapter_id, lctx);
-            spdlog::debug("LoRA adapter {} removed after error", *request.lora_adapter_id);
-        }
-        
         throw;
     }
 }

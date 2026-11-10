@@ -14,6 +14,7 @@
 #include "server/auth_middleware.h"
 #include "auth/jwt_validator.h"
 #include "llm/lora_framework/lora_orchestrator.h"
+#include "llm/lora_framework/lora_dataset_loader.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/lora_config.h"
@@ -24,6 +25,7 @@
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
+#include <cstdint>
 #include <regex>
 #include <iostream>
 #include "utils/tracing.h"
@@ -59,6 +61,59 @@ void LoRAApiHandler::setInferenceEngine(
     inference_engine_ = std::move(engine);
 }
 
+void LoRAApiHandler::setRequestAuthorizer(RequestAuthorizer authorizer) {
+    authorizer_ = std::move(authorizer);
+}
+
+namespace {
+constexpr std::string_view kAdaptersPrefix = "/api/v1/llm/lora/adapters/";
+constexpr std::string_view kJobsPrefix = "/api/v1/llm/lora/jobs/";
+constexpr std::string_view kPinsPrefix = "/api/v1/llm/lora/snapshot-pins/";
+
+/// Admin-only LoRA endpoints (training on other base models, pin lifecycle).
+bool isAdminEndpoint(std::string_view path, http::verb method) {
+    return (method == http::verb::post && path.starts_with(kAdaptersPrefix) &&
+            path.ends_with("/regenerate")) ||
+           (method == http::verb::delete_ && path.starts_with(kPinsPrefix));
+}
+
+/// Path segment without query string; empty if it contains '/'.
+std::string singleSegment(std::string_view path, std::string_view prefix, std::string_view suffix = {}) {
+    if (!path.starts_with(prefix) || !path.ends_with(suffix) ||
+        path.size() < prefix.size() + suffix.size()) {
+        return {};
+    }
+    std::string_view seg = path.substr(prefix.size(), path.size() - prefix.size() - suffix.size());
+    if (seg.empty() || seg.find('/') != std::string_view::npos) {
+        return {};
+    }
+    return std::string(seg);
+}
+
+const char* jobStatusName(llm::lora::LoRAOrchestrator::JobStatus s) {
+    using S = llm::lora::LoRAOrchestrator::JobStatus;
+    switch (s) {
+        case S::Pending: return "pending";
+        case S::Running: return "running";
+        case S::Completed: return "completed";
+        case S::Failed: return "failed";
+        case S::Cancelled: return "cancelled";
+    }
+    return "unknown";
+}
+
+/// Optional rank/alpha overrides from a request body.
+std::optional<llm::lora::LoRAHyperparameters> hyperparamsFrom(const json& body) {
+    if (!body.contains("rank") && !body.contains("alpha")) {
+        return std::nullopt;
+    }
+    llm::lora::LoRAHyperparameters params;
+    params.rank = body.value("rank", params.rank);
+    params.alpha = body.value("alpha", params.alpha);
+    return params;
+}
+}  // namespace
+
 /**
  * @brief Handle Request.
  * @param[in] req Input parameter.
@@ -71,12 +126,24 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
     
     std::string_view target = req.target();
     auto method = req.method();
-    
-    // Validate Bearer Token (JWT) authentication for all endpoints.
-    // Cross-shard calls to /api/v1/lora/receive are now authenticated via
-    // Authorization: Bearer <token> forwarded by SecureTransportClient, so
-    // no special bypass is required.
-    if (!validateBearerToken(req)) {
+    const std::string_view path = target.substr(0, target.find('?'));
+    const bool admin = isAdminEndpoint(path, method);
+
+    if (authorizer_) {
+        // Server-delegated auth (scopes/roles, e.g. HttpServer::requireAccess).
+        if (auto denied = authorizer_(req, admin)) {
+            THEMIS_INFO("[AUDIT] {} {} path='{}' admin={} result=DENY",
+                        std::string(req.method_string()), "lora_api", std::string(target), admin);
+            return std::move(*denied);
+        }
+    } else if (admin) {
+        // The local JWT validator has no role check: never grant admin endpoints.
+        return createErrorResponse(http::status::forbidden, "Forbidden",
+                                   "Admin LoRA endpoints require the server authorizer");
+    } else if (!validateBearerToken(req)) {
+        // Validate Bearer Token (JWT) authentication for all endpoints.
+        // Cross-shard calls to /api/v1/lora/receive are authenticated via
+        // Authorization: Bearer <token> forwarded by SecureTransportClient.
         THEMIS_INFO("[AUDIT] {} {} path='{}' user='<unauthenticated>' result=DENY",
                     std::string(req.method_string()), "lora_api", std::string(target));
         return createErrorResponse(
@@ -89,6 +156,17 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
                 std::string(req.method_string()), "lora_api", std::string(target));
     
     // Route to appropriate handler based on path and method
+
+    // Training jobs, regeneration and snapshot pins (WP D/H)
+    if (path.starts_with(kJobsPrefix) && method == http::verb::get) {
+        return handleGetJob(req);
+    }
+    if (admin && method == http::verb::post) {
+        return handleRegenerateAdapter(req);
+    }
+    if (admin && method == http::verb::delete_) {
+        return handleReleaseSnapshotPin(req);
+    }
     
     // Model management endpoints
     if (target == "/api/v1/llm/models" && method == http::verb::post) {
@@ -362,74 +440,92 @@ http::response<http::string_body> LoRAApiHandler::handleDeleteModel(
 http::response<http::string_body> LoRAApiHandler::handleCreateAdapter(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleCreateAdapter");
-    
+
     auto body = parseRequestBody(req);
     if (!body) {
         return createErrorResponse(http::status::bad_request, "Invalid JSON body");
     }
-
     if (!orchestrator_) {
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
     }
-    auto& orchestrator = *orchestrator_;
-    
+
     try {
-        std::string adapter_id = {};
-        if (body->contains("adapter_id")) {
-            adapter_id = body->at("adapter_id").get<std::string>();
-        } else {
+        const std::string adapter_id = body->value("adapter_id", std::string{});
+        if (adapter_id.empty()) {
             return createErrorResponse(http::status::bad_request, "Missing 'adapter_id' field");
         }
-        
-        std::string base_model = body->value("base_model", "");
-        if (base_model.empty()) {
-            return createErrorResponse(http::status::bad_request, "Missing 'base_model' field");
+        // The base model of a training job is fixed by server configuration
+        // (llm.lora.training.*); training on another base is /regenerate.
+        const auto& defaults = orchestrator_->getConfig().training;
+        const std::string base_model = body->value("base_model", std::string{});
+        if (!base_model.empty() && base_model != defaults.base_model) {
+            return createErrorResponse(
+                http::status::bad_request, "base_model mismatch",
+                "Training uses the configured base model '" + defaults.base_model +
+                    "'; use POST /api/v1/llm/lora/adapters/{id}/regenerate for another base model");
         }
-        
-        // Extract training data
-        llm::lora::TrainingData training_data;
-        if (body->contains("training_data")) {
-            auto& td = body->at("training_data");
-            if (td.contains("dataset_id")) {
-                training_data.dataset_name = td["dataset_id"];
+
+        const json empty_obj = json::object();
+        const json& td = (body->contains("training_data") && (*body)["training_data"].is_object())
+                             ? (*body)["training_data"]
+                             : empty_obj;
+        std::string dataset_id = body->value("dataset_id", td.value("dataset_id", std::string{}));
+        const json* samples = nullptr;
+        if (body->contains("samples")) {
+            samples = &(*body)["samples"];
+        } else if (td.contains("samples")) {
+            samples = &td["samples"];
+        }
+        if (!dataset_id.empty() && samples != nullptr) {
+            return createErrorResponse(http::status::bad_request,
+                                       "Specify either 'dataset_id' or 'samples', not both");
+        }
+        const auto hyperparams = hyperparamsFrom(*body);
+
+        std::string job_id;
+        if (!dataset_id.empty()) {
+            // Snapshot-provenanced path: MVCC snapshot of lora_ds:<dataset_id>:*,
+            // pinned and Merkle-fingerprinted (see training_snapshot.h).
+            if (!llm::lora::LoRADatasetLoader::isValidCollectionName(dataset_id)) {
+                return createErrorResponse(http::status::bad_request, "Invalid 'dataset_id'",
+                                           "dataset_id must match ^[A-Za-z_][A-Za-z0-9_]{0,127}$");
             }
-            // In production, load actual training data from dataset_id
+            json limit_j = std::uint64_t{10000};
+            if (body->contains("limit")) {
+                limit_j = (*body)["limit"];
+            } else if (td.contains("limit")) {
+                limit_j = td["limit"];
+            }
+            if (!limit_j.is_number_unsigned() || limit_j.get<std::uint64_t>() < 1 ||
+                limit_j.get<std::uint64_t>() > llm::lora::LoRADatasetLoader::kMaxSamples) {
+                return createErrorResponse(
+                    http::status::bad_request, "Invalid 'limit'",
+                    "limit must be an integer in [1, " +
+                        std::to_string(llm::lora::LoRADatasetLoader::kMaxSamples) + "]");
+            }
+            job_id = orchestrator_->createAdapterFromSnapshot(
+                adapter_id, dataset_id, static_cast<std::size_t>(limit_j.get<std::uint64_t>()),
+                hyperparams, /*async=*/true);
+        } else if (samples != nullptr) {
+            // Inline samples: trained and signed, but carry no snapshot reference.
+            if (!samples->is_array()) {
+                return createErrorResponse(http::status::bad_request, "'samples' must be an array");
+            }
+            auto loaded = llm::lora::LoRADatasetLoader::fromRows(
+                *samples, "inline", llm::lora::LoRADatasetLoader::kMaxSamples);
+            if (!loaded.success) {
+                return createErrorResponse(http::status::bad_request, "Invalid training samples",
+                                           loaded.error);
+            }
+            job_id = orchestrator_->createAdapter(adapter_id, loaded.data, hyperparams, /*async=*/true);
+        } else {
+            return createErrorResponse(http::status::bad_request, "Missing training data",
+                                       "Provide 'dataset_id' (MVCC snapshot) or inline 'samples'");
         }
-        
-        // Extract hyperparameters
-        std::optional<llm::lora::LoRAHyperparameters> hyperparams = {};
 
-        if (body->contains("rank") || body->contains("alpha")) {
-            llm::lora::LoRAHyperparameters params;
-            params.rank = body->value("rank", 8);
-            params.alpha = body->value("alpha", 16.0f);
-            hyperparams = params;
-        }
-        
-        // Create adapter through orchestrator (async)
-        std::string job_id = orchestrator.createAdapter(
-            adapter_id,
-            training_data,
-            hyperparams,
-            true  // async
-        );
-        
-        json response_data = {
-            {"adapter_id", adapter_id},
-            {"version", "v1.0"},
-            {"status", "training"},
-            {"job_id", job_id}
-        };
-
-        THEMIS_INFO(
-            "LoRAApiHandler::handleCreateAdapter accepted: adapter_id='{}' base_model='{}' job_id='{}'",
-            adapter_id,
-            base_model,
-            job_id
-        );
-        
-        return createJsonResponse(response_data, http::status::created);
-        
+        THEMIS_INFO("LoRAApiHandler::handleCreateAdapter submitted: adapter_id='{}' dataset='{}' job_id='{}'",
+                    adapter_id, dataset_id.empty() ? std::string("inline") : dataset_id, job_id);
+        return submittedJobResponse(adapter_id, job_id);
     } catch (const std::exception& e) {
         return createErrorResponse(
             http::status::internal_server_error,
@@ -437,6 +533,100 @@ http::response<http::string_body> LoRAApiHandler::handleCreateAdapter(
             e.what()
         );
     }
+}
+
+http::response<http::string_body> LoRAApiHandler::submittedJobResponse(const std::string& adapter_id,
+                                                                       const std::string& job_id) {
+    const auto job = orchestrator_->getJob(job_id);
+    if (!job) {
+        return createErrorResponse(http::status::internal_server_error, "Job not found after submission");
+    }
+    json data = job->toJSON();
+    data["status"] = jobStatusName(job->status);
+    data["adapter_id"] = adapter_id;
+    data["status_url"] = std::string(kJobsPrefix) + job_id;
+    if (job->status == llm::lora::LoRAOrchestrator::JobStatus::Failed) {
+        // Failed on submission: missing server components (training backend,
+        // signer, snapshot reader, converter) → 503; otherwise the request or
+        // the referenced data was unusable → 422.
+        const bool unavailable = job->error_message.find("configured") != std::string::npos;
+        data["error"] = job->error_message;
+        return createJsonResponse(data, unavailable ? http::status::service_unavailable
+                                                    : http::status::unprocessable_entity);
+    }
+    return createJsonResponse(data, http::status::accepted);
+}
+
+http::response<http::string_body> LoRAApiHandler::handleGetJob(
+    const http::request<http::string_body>& req) {
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+    const std::string_view target = req.target();
+    const std::string job_id = singleSegment(target.substr(0, target.find('?')), kJobsPrefix);
+    if (job_id.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing job_id");
+    }
+    const auto job = orchestrator_->getJob(job_id);
+    if (!job) {
+        return createErrorResponse(http::status::not_found, "Job not found");
+    }
+    json data = job->toJSON();
+    data["status"] = jobStatusName(job->status);
+    return createJsonResponse(data);
+}
+
+http::response<http::string_body> LoRAApiHandler::handleRegenerateAdapter(
+    const http::request<http::string_body>& req) {
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+    const std::string_view target = req.target();
+    const std::string source_id =
+        singleSegment(target.substr(0, target.find('?')), kAdaptersPrefix, "/regenerate");
+    if (source_id.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing source adapter id");
+    }
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(http::status::bad_request, "Invalid JSON body");
+    }
+    try {
+        llm::lora::LoRAOrchestrator::RegenerationTarget t;
+        t.adapter_id = body->value("target_adapter_id", std::string{});
+        t.base_model = body->value("base_model", std::string{});
+        t.base_model_gguf = body->value("base_model_gguf", std::string{});
+        t.base_model_gguf_sha256 = body->value("base_model_gguf_sha256", std::string{});
+        if (t.adapter_id.empty() || t.base_model.empty() || t.base_model_gguf.empty()) {
+            return createErrorResponse(http::status::bad_request, "Missing fields",
+                                       "target_adapter_id, base_model and base_model_gguf are required");
+        }
+        const std::string job_id =
+            orchestrator_->regenerateAdapter(source_id, t, hyperparamsFrom(*body), /*async=*/true);
+        THEMIS_INFO("LoRAApiHandler: regenerate '{}' -> '{}' on base '{}' job_id='{}'", source_id,
+                    t.adapter_id, t.base_model, job_id);
+        return submittedJobResponse(t.adapter_id, job_id);
+    } catch (const std::exception& e) {
+        return createErrorResponse(http::status::internal_server_error, "Failed to regenerate adapter",
+                                   e.what());
+    }
+}
+
+http::response<http::string_body> LoRAApiHandler::handleReleaseSnapshotPin(
+    const http::request<http::string_body>& req) {
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+    const std::string_view target = req.target();
+    const std::string lease_id = singleSegment(target.substr(0, target.find('?')), kPinsPrefix);
+    if (lease_id.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing lease_id");
+    }
+    if (!orchestrator_->releaseSnapshotPin(lease_id)) {
+        return createErrorResponse(http::status::not_found, "Snapshot pin not found");
+    }
+    THEMIS_INFO("[AUDIT] LoRA training snapshot pin released: lease_id='{}'", lease_id);
+    return createJsonResponse(json{{"lease_id", lease_id}, {"released", true}});
 }
 
 /**
@@ -882,6 +1072,19 @@ http::response<http::string_body> LoRAApiHandler::handleAdapterStatus(
             {"memory_usage_mb", memory_mb},
             {"last_used", std::chrono::system_clock::now().time_since_epoch().count()}
         };
+
+        // Most recent training job for this adapter (real orchestrator state).
+        std::optional<llm::lora::LoRAOrchestrator::JobInfo> latest;
+        for (const auto& job : orchestrator.listJobs()) {
+            if (job.adapter_id == adapter_id && (!latest || job.started_at > latest->started_at)) {
+                latest = job;
+            }
+        }
+        if (latest) {
+            json job_json = latest->toJSON();
+            job_json["status"] = jobStatusName(latest->status);
+            response_data["latest_job"] = std::move(job_json);
+        }
         
         return createJsonResponse(response_data);
         

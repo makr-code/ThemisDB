@@ -17,6 +17,7 @@
 #include "storage/hlc.h"
 #include "storage/rocksdb_wrapper.h"
 #include <cstdint>
+#include <mutex>
 #include <optional>
 #include <shared_mutex>
 #include <string>
@@ -63,6 +64,8 @@ namespace themis {
  * MVCCStore is thread-safe: the underlying RocksDBWrapper and HybridLogicalClock
  * are both internally synchronized.
  */
+class MVCCSnapshotPinRegistry;
+
 class MVCCStore {
 public:
     /**
@@ -173,6 +176,22 @@ public:
         HLCTimestamp ts
     );
 
+    /**
+     * @brief Return the version of @p key visible at @p ts together with its
+     *        commit timestamp.
+     *
+     * Unlike getAtTimestamp() this also reports the exact version timestamp,
+     * which snapshot fingerprints (training-data provenance) bind to.  A
+     * tombstone is returned as an entry with an empty value.
+     *
+     * @return The newest version with `timestamp <= ts`, or std::nullopt if
+     *         the key has no such version.
+     */
+    std::optional<VersionEntry> getVersionAtTimestamp(
+        std::string_view key,
+        HLCTimestamp ts
+    );
+
     // ─── Version history ──────────────────────────────────────────────────────
 
     /**
@@ -193,7 +212,9 @@ public:
      * @brief Remove all versions of @p key that are strictly older than @p min_ts.
      *
      * Versions at or after @p min_ts are kept.  The most-recent version is
-     * always retained regardless of @p opts.min_versions_to_keep.
+     * always retained regardless of @p opts.min_versions_to_keep.  If a
+     * snapshot pin registry is attached, versions visible at a pinned
+     * timestamp are retained as well (see selectGcVictims()).
      *
      * @param key     The logical record key.
      * @param min_ts  All versions with timestamp < min_ts may be deleted.
@@ -238,6 +259,64 @@ public:
      * migrate-then-delete per-key without duplicating the key-discovery logic.
      */
     void scanBaseKeys(std::function<bool(std::string_view base_key)> callback);
+
+    /**
+     * @brief Enumerate every distinct base key starting with @p prefix that has
+     *        at least one versioned entry, in ascending bytewise order.
+     *
+     * Uses a RocksDB prefix scan instead of a full keyspace scan.  Return
+     * @c false from the callback to stop early.
+     */
+    void scanBaseKeysWithPrefix(std::string_view prefix,
+                                std::function<bool(std::string_view base_key)> callback);
+
+    // ─── Snapshot pins (GC retention) ────────────────────────────────────────
+
+    /**
+     * @brief Attach a snapshot pin registry consulted by all GC paths.
+     *
+     * When set, gcVersionsBefore() (and MVCCChainPruner) never delete a
+     * version that is visible at any pinned timestamp.  Pass nullptr to
+     * detach.  Thread-safe.
+     */
+    void setSnapshotPinRegistry(std::shared_ptr<MVCCSnapshotPinRegistry> pins);
+
+    /** @brief Currently attached pin registry (may be null). */
+    std::shared_ptr<MVCCSnapshotPinRegistry> snapshotPinRegistry() const;
+
+    /**
+     * @brief Pure GC victim selection shared by all GC paths.
+     *
+     * Given the version timestamps of one key in ascending order, returns the
+     * ascending indices of versions that may be deleted: index
+     * `i < size - min_keep`, `ts[i] < min_ts`, and `ts[i]` is not the version
+     * visible at any timestamp in @p pinned (the newest `ts[j] <= P`).
+     * Without pins the result equals the historical behaviour (the oldest
+     * versions below the watermark, bounded by @p min_keep).
+     *
+     * @param ascending_ts Version timestamps, strictly ascending.
+     * @param min_ts       GC watermark (exclusive).
+     * @param min_keep     Minimum number of newest versions to retain (≥1 enforced).
+     * @param pinned       Pinned snapshot timestamps (any order).
+     */
+    static std::vector<size_t> selectGcVictims(
+        const std::vector<HLCTimestamp>& ascending_ts,
+        HLCTimestamp min_ts,
+        uint32_t min_keep,
+        const std::vector<HLCTimestamp>& pinned);
+
+    /**
+     * @brief Delete specific versions of @p key, re-checking snapshot pins.
+     *
+     * Used by MVCCChainPruner after it has archived exactly these versions.
+     * The caller should hold MVCCSnapshotPinRegistry::gcGuard() across
+     * selection, archiving and this call.  Any version that is (now)
+     * protected by a pin is skipped.
+     *
+     * @return Number of versions actually deleted.
+     */
+    uint64_t deleteVersions(std::string_view key,
+                            const std::vector<HLCTimestamp>& timestamps);
 
     // ─── Clock access ─────────────────────────────────────────────────────────
 
@@ -290,6 +369,9 @@ private:
     // map; getLatest() falls back to the iterator path for those (safe).
     mutable std::shared_mutex                    latest_mu_;
     std::unordered_map<std::string, HLCTimestamp> latest_ts_map_;
+
+    mutable std::mutex                        pins_mu_;
+    std::shared_ptr<MVCCSnapshotPinRegistry>  pins_;
 };
 
 } // namespace themis

@@ -31,6 +31,7 @@
 #include <map>
 #include <limits>
 #include <numeric>
+#include <optional>
 #include <random>
 #include <mutex>
 #include <sstream>
@@ -286,6 +287,15 @@ public:
 
     /**
      * @brief ------------------------------------------------------------------------- Phase 3: Training implementation -------------------------------------------------------------------------
+     * @note Objective: embedding-regression (MSE between a LoRA projection of a
+     *       hashed input feature vector and the hashed target feature vector).
+     *       This is NOT causal-LM fine-tuning and does not produce a
+     *       llama.cpp-servable adapter; real LoRA/AdaLoRA adapter training goes
+     *       through ILoRATrainingBackend (llm/lora_framework/lora_training_backend.h).
+     *       validation_loss is measured on a deterministic holdout split
+     *       (config.validation_split, seed 42) with the same objective, or 0.0 when
+     *       no forward-only evaluation path exists; accuracy is always 0.0 because
+     *       a regression objective has no accuracy (it is not estimated).
      * @param[in] mode Input parameter.
      * @param[in] callback Input parameter.
      * @return Return value.
@@ -361,6 +371,12 @@ public:
                     return result;
                 }
             }
+
+            // Deterministic holdout split (config_.validation_split). The holdout
+            // is never used for weight updates so that validation_loss is a
+            // measurement on unseen samples with the training objective.
+            std::vector<std::pair<std::string, std::string>> holdout_data;
+            splitHoldout(training_data, holdout_data);
 
             // Initialize real LoRA weight matrices and Adam optimizer.
             // Safe even without THEMIS_ENABLE_LLM: the function is a no-op in that case.
@@ -440,15 +456,29 @@ public:
             result.adapter_id       = result.version;
             result.samples_trained  = training_data.size();
             result.training_loss    = running_loss;
-            result.validation_loss  = running_loss * 1.05; // ~5% generalization gap
-            result.accuracy         = computeAccuracy(running_loss);
+            // Validation loss is measured on the holdout split with the same
+            // embedding-regression (MSE) objective as training. If no measurement
+            // is possible (no LoRA layer in this build, or an execution path without
+            // forward-only evaluation) it stays 0.0 and is logged as unavailable;
+            // no value is extrapolated from the training loss.
+            // Accuracy is not defined for a regression objective and is therefore
+            // always reported as 0.0 ("not measured") instead of being estimated.
+            const std::optional<double> measured_val_loss =
+                evaluateHoldoutLoss(holdout_data, running_steps);
+            result.validation_loss  = measured_val_loss.value_or(0.0);
+            result.accuracy         = 0.0;
             result.success          = true;
             result.gpus_used        = activeGpuCount();
+            if (!measured_val_loss.has_value()) {
+#ifndef THEMIS_NO_SPDLOG
+                spdlog::warn("IncrementalLoRATrainer: holdout validation loss unavailable "
+                             "(no forward-only evaluation path); reporting 0.0 as 'not measured'");
+#endif
+            }
 
-            // Update validation metrics for the last epoch
-            if (!metrics_.epoch_metrics.empty()) {
+            // Update validation metrics for the last epoch (only when measured)
+            if (!metrics_.epoch_metrics.empty() && measured_val_loss.has_value()) {
                 metrics_.epoch_metrics.back().val_loss = result.validation_loss;
-                metrics_.epoch_metrics.back().accuracy = result.accuracy;
                 metrics_.best_val_loss = result.validation_loss;
             }
 
@@ -557,7 +587,9 @@ public:
      * @brief ------------------------------------------------------------------------- Phase 4: Evaluation -------------------------------------------------------------------------
      * @param[in] adapter_version Input parameter.
      * @return Return value.
-     * @details Calls: TrainingResult(), std::chrono::steady_clock::now(), empty(), size(), computeAccuracy(), std::string(), what(), count().
+     * @details Calls: TrainingResult(), std::chrono::steady_clock::now(), std::string(), what(), count().
+     * @note No validation data source is wired for stored versions; metrics are
+     *       reported as 0.0 with samples_trained == 0 (not measured).
      */
     TrainingResult evaluate(const std::string& adapter_version) {
         TrainingResult result = TrainingResult();
@@ -571,25 +603,15 @@ public:
                 return result;
             }
 
-            // Phase 4: Load validation data
-            // Production: FOR sample IN @collection FILTER sample.split == 'validation' RETURN sample
-            std::vector<std::string> validation_samples;
-
-            // Phase 4: Compute metrics (simulated)
-            if (!validation_samples.empty()) {
-                double total_loss = 0.0;
-                for ([[maybe_unused]] const auto& sample : validation_samples) {
-                    total_loss += 0.45;
-                }
-                result.validation_loss = total_loss / validation_samples.size();
-                result.accuracy        = computeAccuracy(result.validation_loss);
-                result.samples_trained = validation_samples.size();
-            } else {
-                // No validation data available in test environment
-                result.validation_loss = 0.0;
-                result.accuracy        = 0.0;
-                result.samples_trained = 0;
-            }
+            // No validation-data source is wired for stored adapter versions:
+            // nothing is measured and all metrics are reported as 0.0 with
+            // samples_trained == 0 ("not measured"). An earlier revision used a
+            // constant per-sample loss of 0.45 here, which was a fabricated metric.
+            // Measured holdout metrics are produced by train() and, for causal-LM
+            // adapters, by ILoRATrainingBackend.
+            result.validation_loss = 0.0;
+            result.accuracy        = 0.0;
+            result.samples_trained = 0;
             result.success = true;
 
         } catch (const std::exception& e) {
@@ -1918,15 +1940,127 @@ public:
         return initial_loss * std::exp(-decay) + 0.01; // floor at 0.01
     }
 
+    /// Fixed seed for the holdout shuffle so that repeated runs on the same
+    /// data produce the same train/validation partition.
+    static constexpr std::uint64_t kHoldoutSplitSeed = 42;
+    /// Seed base for the synthetic offline holdout; disjoint from the
+    /// per-step training seeds (step * kSyntheticSeedBase + b * kSyntheticBatchMultiplier).
+    static constexpr std::uint64_t kSyntheticHoldoutSeedBase = 0x9E3779B97F4A7C15ULL;
+    /// Number of synthetic holdout samples used in offline mode.
+    static constexpr size_t kSyntheticHoldoutSamples = 8;
+
     /**
-     * @brief Estimate accuracy from loss (Phase 3)
-     * @param[in] loss Input parameter.
-     * @return Return value.
-     * @details Calls: std::exp().
+     * @brief Move a deterministic holdout partition out of @p training_data.
+     * @param[in,out] training_data All loaded samples; on return only the training part.
+     * @param[out] holdout Samples reserved for validation (never trained on).
+     * @details Uses config_.validation_split in (0,1). Requires >= 2 samples; at
+     *          least one sample stays in each partition. With fewer samples or a
+     *          split outside (0,1) the holdout stays empty (offline synthetic
+     *          mode then uses a disjoint synthetic holdout, see evaluateHoldoutLoss()).
      */
-    static double computeAccuracy(double loss) {
-        // Rough sigmoid mapping: acc ≈ 1 / (1 + exp(loss - 1))
-        return 1.0 / (1.0 + std::exp(loss - 1.0));
+    void splitHoldout(std::vector<std::pair<std::string, std::string>>& training_data,
+                      std::vector<std::pair<std::string, std::string>>& holdout) const {
+        holdout.clear();
+        const double split = static_cast<double>(config_.validation_split);
+        if (training_data.size() < 2 || !(split > 0.0) || !(split < 1.0)) {
+            return;
+        }
+        std::mt19937_64 rng(kHoldoutSplitSeed);
+        std::shuffle(training_data.begin(), training_data.end(), rng);
+        const size_t n = training_data.size();
+        size_t n_hold = static_cast<size_t>(std::llround(static_cast<double>(n) * split));
+        n_hold = std::clamp<size_t>(n_hold, 1, n - 1);
+        holdout.assign(std::make_move_iterator(training_data.end() - static_cast<std::ptrdiff_t>(n_hold)),
+                       std::make_move_iterator(training_data.end()));
+        training_data.resize(n - n_hold);
+    }
+
+    /**
+     * @brief Measure the mean MSE of the trained LoRA layer on the holdout.
+     * @param[in] holdout Holdout samples; when empty (offline mode) a synthetic
+     *            holdout drawn with seeds disjoint from the training batches is used.
+     * @param[in] steps_done Number of training steps executed (unused for seeding;
+     *            kept for diagnostics symmetry).
+     * @return Mean squared error with the training objective, or std::nullopt when
+     *         no forward-only evaluation path is available (no-LLM build or
+     *         multi-GPU layer). Forward passes only; no gradients or weight updates.
+     */
+    std::optional<double> evaluateHoldoutLoss(
+        const std::vector<std::pair<std::string, std::string>>& holdout,
+        [[maybe_unused]] size_t steps_done) {
+#ifndef THEMIS_ENABLE_LLM
+        (void)holdout;
+        return std::nullopt;
+#else
+        if (!lora_initialized_) {
+            return std::nullopt;
+        }
+        const size_t feature_dim = static_cast<size_t>(config_.max_seq_length);
+        const size_t n_samples = holdout.empty() ? kSyntheticHoldoutSamples : holdout.size();
+
+        auto buildPair = [&](size_t i, std::vector<float>& in_vec, std::vector<float>& tg_vec) {
+            if (!holdout.empty()) {
+                in_vec = encodeSample(holdout[i].first, feature_dim);
+                tg_vec = encodeSample(holdout[i].second, feature_dim);
+                return;
+            }
+            std::mt19937_64 gen_in(kSyntheticHoldoutSeedBase + 2 * i);
+            std::mt19937_64 gen_tg(kSyntheticHoldoutSeedBase + 2 * i + 1);
+            std::normal_distribution<float> d(0.0f, 0.1f);
+            in_vec.resize(feature_dim);
+            tg_vec.resize(feature_dim);
+            for (auto& v : in_vec) { v = d(gen_in); }
+            for (auto& v : tg_vec) { v = d(gen_tg); }
+        };
+
+        std::vector<float> input_data(n_samples * feature_dim);
+        std::vector<float> target_data(n_samples * feature_dim);
+        for (size_t i = 0; i < n_samples; ++i) {
+            std::vector<float> in_vec, tg_vec;
+            buildPair(i, in_vec, tg_vec);
+            std::copy(in_vec.begin(), in_vec.end(), input_data.begin() + static_cast<std::ptrdiff_t>(i * feature_dim));
+            std::copy(tg_vec.begin(), tg_vec.end(), target_data.begin() + static_cast<std::ptrdiff_t>(i * feature_dim));
+        }
+
+        std::vector<float> output_data;
+#if defined(THEMIS_ENABLE_GPU)
+        if (multi_gpu_training_) {
+            return std::nullopt;  // MultiGPULoRALayer exposes no forward-only API here.
+        }
+        if (gpu_training_ && gpu_lora_layer_) {
+            llm::lora::GPUTensor input({n_samples, feature_dim}, gpu_device_);
+            input.upload(input_data);
+            output_data = gpu_lora_layer_->forward(input).download();
+        } else
+#endif
+        {
+            llm::lora::Tensor input({n_samples, feature_dim});
+            for (size_t k = 0; k < input_data.size(); ++k) {
+                input[k] = input_data[k];
+            }
+            llm::lora::Tensor output;
+            if (using_qlora_ && q_lora_layer_) {
+                output = q_lora_layer_->forward(input);
+            } else if (lora_layer_) {
+                output = lora_layer_->forward(input);
+            } else {
+                return std::nullopt;
+            }
+            output_data.resize(output.size());
+            for (size_t k = 0; k < output.size(); ++k) {
+                output_data[k] = output[k];
+            }
+        }
+        if (output_data.size() != target_data.size() || output_data.empty()) {
+            return std::nullopt;
+        }
+        double loss = 0.0;
+        for (size_t k = 0; k < output_data.size(); ++k) {
+            const double diff = static_cast<double>(output_data[k]) - static_cast<double>(target_data[k]);
+            loss += diff * diff;
+        }
+        return loss / static_cast<double>(output_data.size());
+#endif
     }
 
     // -------------------------------------------------------------------------

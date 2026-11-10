@@ -79,7 +79,8 @@ ContinuousBatchScheduler::~ContinuousBatchScheduler() {
 std::string ContinuousBatchScheduler::submitRequest(
     const InferenceRequest& request,
     RequestPriority priority,
-    std::function<void(const InferenceResponse&)> callback
+    std::function<void(const InferenceResponse&)> callback,
+    size_t exact_prompt_tokens
 ) {
     /**
      * @brief Lock.
@@ -110,7 +111,10 @@ std::string ContinuousBatchScheduler::submitRequest(
     if (quota_manager_) {
         const std::string& user_id  = request.request_id;  // best available key at ingestion
         const std::string& model_id = request.model_id;
-        const size_t estimated = request.prompt.length() / CHARS_PER_TOKEN_ESTIMATE + request.max_tokens;
+        const size_t prompt_estimate = exact_prompt_tokens > 0
+            ? exact_prompt_tokens
+            : request.prompt.length() / CHARS_PER_TOKEN_ESTIMATE;
+        const size_t estimated = prompt_estimate + request.max_tokens;
         auto qr = quota_manager_->check(user_id, model_id, estimated);
         if (!qr.allowed) {
             stats_.rejected_requests++;
@@ -131,8 +135,11 @@ std::string ContinuousBatchScheduler::submitRequest(
     scheduled->callback = callback;
     scheduled->sequence_id = next_sequence_id_.fetch_add(1, std::memory_order_relaxed);
     
-    // Estimate prompt tokens (simplified)
-    scheduled->total_prompt_tokens = request.prompt.length() / CHARS_PER_TOKEN_ESTIMATE;
+    // Exact token count when the caller tokenized the prompt (executor path),
+    // otherwise the legacy character-based estimate.
+    scheduled->total_prompt_tokens = exact_prompt_tokens > 0
+        ? exact_prompt_tokens
+        : request.prompt.length() / CHARS_PER_TOKEN_ESTIMATE;
     
     // Add to queue and lookup
     waiting_queue_.push(scheduled);
@@ -172,21 +179,33 @@ bool ContinuousBatchScheduler::cancelRequest(const std::string& request_id) {
         return false;
     }
     
-    auto& request = it->second;
-    
-    // Free KV cache if allocated
-    if (!request->allocated_blocks.empty()) {
-        freeKVCacheBlocks(request.get());
+    std::shared_ptr<ScheduledRequest> request = it->second;
+    if (request->state == RequestState::COMPLETED || request->state == RequestState::FAILED) {
+        // Already terminal (legacy path keeps finished requests in the lookup).
+        all_requests_.erase(it);
+        return false;
     }
     
+    // Free KV cache (also drops an empty block table left by a failed allocation)
+    freeKVCacheBlocks(request.get());
+    
+    // FAILED marks the entry as dead: scheduleNextBatch() drops it lazily from
+    // the waiting queue (std::priority_queue has no erase).
     request->state = RequestState::FAILED;
     
-    // Remove from active list if present
-    active_requests_.erase(
-        std::remove_if(active_requests_.begin(), active_requests_.end(),
-                      [&](const auto& r) { return r->request_id == request_id; }),
-        active_requests_.end()
+    // Remove from active / preempted lists if present
+    eraseActive(request.get());
+    preempted_requests_.erase(
+        std::remove_if(preempted_requests_.begin(), preempted_requests_.end(),
+                      [&](const auto& r) { return r && r.get() == request.get(); }),
+        preempted_requests_.end()
     );
+
+    // Keep in-flight requests alive until processBatchResults() so the executor's
+    // raw pointer remains valid.
+    if (request->in_flight) {
+        cancelled_in_flight_.push_back(request);
+    }
     
     spdlog::info("Request cancelled: {}", request_id);
     
@@ -299,15 +318,44 @@ ContinuousBatchScheduler::scheduleNextBatch() {
                 }
             }
             if (canAddToBatch(req.get(), total_tokens, reserved_blocks_in_batch)) {
+                req->in_flight = true;
                 batch.push_back(req.get());
                 total_tokens++;  // Each decode request adds 1 token
             }
+        }
+    }
+
+    // Continue chunked prefill of already admitted requests (remaining prompt
+    // chunks).  Without this, a prompt longer than one chunk would never finish.
+    for (auto& req : active_requests_) {
+        if (batch.size() >= config_.max_batch_size) {
+            break;
+        }
+        if (!req || req->in_flight || req->state != RequestState::PREFILL) {
+            continue;
+        }
+        const size_t step = stepTokens(req.get());
+        if (canAddToBatch(req.get(), total_tokens, reserved_blocks_in_batch)) {
+            req->in_flight = true;
+            batch.push_back(req.get());
+            total_tokens += step;
         }
     }
     
     // Then, process waiting requests (prefill)
     while (!waiting_queue_.empty() && batch.size() < config_.max_batch_size) {
         auto req = waiting_queue_.top();
+        if (!req || req->state == RequestState::FAILED ||
+            req->state == RequestState::COMPLETED) {
+            // Cancelled while waiting: drop lazily (priority_queue has no erase).
+            waiting_queue_.pop();
+            continue;
+        }
+        // Bound concurrently admitted sequences (llama.cpp n_seq_max).
+        if (config_.max_active_sequences > 0 &&
+            active_requests_.size() >= config_.max_active_sequences) {
+            break;
+        }
         waiting_queue_.pop();
         
         req->state = RequestState::PREFILL;
@@ -317,17 +365,16 @@ ContinuousBatchScheduler::scheduleNextBatch() {
         allocateKVCacheBlocks(req.get());
         
         // Check if we can add to batch
-        size_t prefill_tokens = config_.enable_chunked_prefill
-            ? std::min(req->total_prompt_tokens, effective_prefill_chunk_size_)
-            : req->total_prompt_tokens;
+        size_t prefill_tokens = stepTokens(req.get());
         
-        if (canAddToBatch(req.get(), total_tokens + prefill_tokens, reserved_blocks_in_batch)) {
+        if (canAddToBatch(req.get(), total_tokens, reserved_blocks_in_batch)) {
+            req->in_flight = true;
             batch.push_back(req.get());
             total_tokens += prefill_tokens;
-            reserved_blocks_in_batch += req->allocated_blocks.size();
             active_requests_.push_back(req);
         } else {
             // Put back in queue
+            req->state = RequestState::WAITING;
             waiting_queue_.push(req);
             break;
         }
