@@ -17,6 +17,22 @@ Human_Author: "ThemisDB Team"
 Datum: 2026-11-10
 Status: Active
 
+## Docker runtime APT mirror synchronization recovery
+
+Run [42762843024, job 129655324640](https://github.com/makr-code/ThemisDB/actions/runs/42762843024/job/129655324640)
+failed in the runtime stage's `apt-get update`: the Noble security package index
+had an unexpected size relative to its signed release metadata. Compilation and
+runtime smoke validation were not reached. The runtime stage in
+[`docker/Dockerfile.unified`](../../docker/Dockerfile.unified) now retries index
+refreshes up to five times, clearing failed indexes and waiting 15 seconds
+between attempts. `--error-on=any` rejects partial index refreshes; persistent
+failures remain fatal and package signature/hash verification is unchanged.
+The independent runtime stage does not inherit base-stage APT configuration.
+[`tests/test_docker_runtime_package_regressions.py`](../../tests/test_docker_runtime_package_regressions.py)
+executes the shell logic for immediate success, transient recovery, exhausted
+retries, and package installation failure. A full platform image build remains
+required in CI from a source revision containing this fix.
+
 ## Docker Python autoreconf prerequisite gate
 
 The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap. Release-source preflight, the reusable platform workflow, and the platform test enforce `test_base_installs_python_autoreconf_prerequisites`. For the compliance export, `docker-compose.yml` selects the repository-root [Dockerfile](../../Dockerfile), not `docker/Dockerfile.unified`. The earlier failed run [42321944686](https://github.com/makr-code/ThemisDB/actions/runs/42321944686/job/128248301027) used the root Dockerfile before this prerequisite was added; the missing package matched vcpkg's warning and was a likely cause of its `python3:x64-linux` `autoreconf -vfi` failure, although stderr was not captured. Follow-up run [42761863772](https://github.com/makr-code/ThemisDB/actions/runs/42761863772) succeeded at SBOM and C5 manifest packaging/validation/upload, but the SOC 2 export failed during root Dockerfile apt package downloads from `security.ubuntu.com` (timeout/404) before vcpkg/Python. It therefore does not verify the prerequisite. SBOM signing and tag-only provenance were skipped, and a successful SOC 2 evidence-export build remains required. An older selected source without this package can still fail during `autoreconf`; rerunning that workflow does not change its source. Use a new release tag containing the fix, or set `build_from_workflow_source=true` for non-publishing validation. See the [operational guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting) for details.
