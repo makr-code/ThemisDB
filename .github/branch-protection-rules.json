@@ -15,7 +15,8 @@
             "Security: CodeQL Gate",
             "validate-ai-guardrails",
             "validate-roadmap",
-            "build-and-test"
+            "build-and-test",
+            "Gate: PR File Size / Validate: Changed file size"
           ]
         },
         "enforce_admins": true,
@@ -51,7 +52,8 @@
             "static-analysis",
             "Security: CodeQL Gate",
             "validate-ai-guardrails",
-            "validate-roadmap"
+            "validate-roadmap",
+            "Gate: PR File Size / Validate: Changed file size"
           ]
         },
         "enforce_admins": false,
@@ -88,7 +90,8 @@
             "Security: CodeQL Gate",
             "validate-ai-guardrails",
             "validate-roadmap",
-            "build-and-test"
+            "build-and-test",
+            "Gate: PR File Size / Validate: Changed file size"
           ]
         },
         "enforce_admins": true,
@@ -157,7 +160,8 @@
     "Doxygen Governance": "Doxygen source-governance gate for changed public C/C++ APIs",
     "Security: CodeQL Gate": "Stable CodeQL gate status check (passes when advanced scans succeed or when default setup intentionally skips advanced workflow)",
     "validate-ai-guardrails": "AI-Guardrails validation workflow",
-    "validate-roadmap": "Roadmap structure validation"
+    "validate-roadmap": "Roadmap structure validation",
+    "Gate: PR File Size / Validate: Changed file size": "Reject newly added or enlarged files over 5 MiB"
   },
   "notes": [
     "Branch protection rules must be configured manually in GitHub UI",
