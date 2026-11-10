@@ -106,7 +106,9 @@ def find_oversized_additions(
         if new_path in allowed_paths:
             continue
         new_size = _blob_size(head, new_path, cwd)
-        if new_size is None or new_size <= max_bytes:
+        if new_size is None:
+            raise RuntimeError(f"Unable to resolve changed file blob in {head}: {new_path}")
+        if new_size <= max_bytes:
             continue
         if status in {"A", "R", "C", "T"}:
             oversized.append((new_path, new_size))

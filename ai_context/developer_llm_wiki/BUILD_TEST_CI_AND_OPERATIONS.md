@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-09"
+Last Updated: "2026-11-10"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,12 +14,8 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-09
+Datum: 2026-11-10
 Status: Active
-
-## Docker Python autoreconf prerequisite gate
-
-The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap. Release-source preflight and the reusable platform workflow enforce `test_base_installs_python_autoreconf_prerequisites`, including when the source-preflight override is enabled. An older selected source without this package can fail during `autoreconf`; rerunning that workflow does not change its source. Use a new release tag containing the fix, or set `build_from_workflow_source=true` for non-publishing validation. See the [canonical deployment guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting).
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
@@ -98,7 +94,7 @@ The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap
 
 ## .github/workflows/compliance-governance-gates.yml
 - Kategorie: build_test_ci
-- Hash: `3243c6e9fa0ee910`
+- Hash: `d975ecaa7f0c1076`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/compliance-supply-chain.yml
@@ -169,6 +165,11 @@ The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap
 ## .github/workflows/gate-pr-edition-license.yml
 - Kategorie: build_test_ci
 - Hash: `32768597ff46e0b5`
+- Titel: (binary or unreadable)
+
+## .github/workflows/gate-pr-file-size.yml
+- Kategorie: build_test_ci
+- Hash: `2ea528b8ada5fe2c`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-final-runtime-api.yml
@@ -414,9 +415,4 @@ The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap
 ## .github/workflows/release-wordpress-press.yml
 - Kategorie: build_test_ci
 - Hash: `641b3d6490580dca`
-- Titel: (binary or unreadable)
-
-## .github/workflows/reusable-benchmark-build-run-report.yml
-- Kategorie: build_test_ci
-- Hash: `fb6c9e997f8c0092`
 - Titel: (binary or unreadable)
