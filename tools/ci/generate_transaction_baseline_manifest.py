@@ -130,7 +130,7 @@ def _write_markdown(path: Path, manifest: dict[str, object]) -> None:
         f"- Run URL: {manifest['run_url']}",
         f"- Commit SHA: `{manifest['commit_sha']}`",
         "",
-        "## Representative-hardware summary",
+        f"## Hardware summary ({manifest['hardware_scope']})",
         "",
         f"- Benchmarks captured: {int(summary['benchmark_count'])}",
         f"- Best throughput (ops/sec): {summary['best_ops_per_sec']}",
@@ -159,6 +159,11 @@ def main() -> int:
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--run-url", required=True)
     parser.add_argument("--commit-sha", required=True)
+    parser.add_argument(
+        "--hardware-scope",
+        choices=("hosted-runner", "representative-hardware"),
+        default="representative-hardware",
+    )
     parser.add_argument("--required-approver", default="platform-release@themisdb")
     parser.add_argument("--output-json", required=True)
     parser.add_argument("--output-md")
@@ -180,7 +185,8 @@ def main() -> int:
             "run_id": args.run_id,
             "run_url": args.run_url,
             "commit_sha": args.commit_sha,
-            "evidence_scope": "wave-b-transaction-representative-hardware",
+            "evidence_scope": f"wave-b-transaction-{args.hardware_scope}",
+            "hardware_scope": args.hardware_scope,
             "benchmark_source": str(benchmark_path),
             "performance_summary": summary,
             "benchmarks": benchmarks,
