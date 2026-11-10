@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-11-06"
-Last Updated: "2026-11-06"
+Last Updated: "2026-11-09"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -156,7 +156,7 @@ The following work informs design choices; it does not demonstrate that the cite
   - Evidence: `CdcTransportFailureClass` enum (Transient/BackendUnreachable/AuthFailure/PayloadInvalid/BackpressureRequired/DuplicateEvent/InternalError) in `cdc_delivery_contract.h`; `isCdcFailClosedClass()` predicate for uniform policy application.
 
 ### Phase 2: Core Implementation
-- [~] complete hardening for capture buffer, transport, and consumer-group internals (Target: Q4 2026)
+- [x] complete hardening for capture buffer, transport, and consumer-group internals (Target: Q4 2026)
   - Evidence: TRD-01..08 fault-matrix tests in `tests/cdc/test_cdc_transport_degradation.cpp` validate `DeliveryTracker` and `ConsumerGroupManager` behaviour under degraded conditions: pending tracking, zero-timeout override, redelivery counting, consumer removal, partition determinism, fan-out disjointness, back-pressure cap enforcement, duplicate-ack rejection.
 - [ ] align DLQ/outbox behavior to bounded runtime contracts across feature flags (Target: Q4 2026)
 
