@@ -44,7 +44,14 @@ Run `42638257654`, job `129343673144` failed with VS18 MSVC 14.51 `C1060` at
 (all 47 routes unchanged) is moved to `src/server/monitoring_api_routes.cpp`,
 registered in both build layouts with the handler's existing MSVC properties.
 No API or flag changes; modular non-Debug low-memory defaults and opt-out are
-preserved. Native Windows validation remains pending. See
+preserved. Follow-up run `42747840520`, job `129662241930` still failed at
+`monitoring_api_routes.cpp(155)` with `C1060`. Registration now delegates to eight
+file-local helpers (at most ten routes each), bounding per-function nested JSON
+initializer pressure while preserving all annotations and registration order.
+`tests/test_mainline_compiler_regressions.py` checks the batch bound and dispatch;
+`tests/server/test_server_openapi_drift_focused.cpp` covers actual registration,
+the nested license schema, and repeat-registration stability.
+Native Windows validation remains pending. See
 [MSVC Handler Optimization](../../cmake/README.md#msvc-handler-optimization)
 for current policy and preserved historical evidence.
 

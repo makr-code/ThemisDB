@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-04-17
-Last Updated: 2026-11-09
+Last Updated: 2026-11-10
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -79,6 +79,16 @@ monolithic `/bigobj` and unity exclusions are unchanged. No flags are changed.
 Current dependency/configure concurrency defaults to 4 independently of the
 serial build; the historical serial-configure evidence above is not a statement
 of the current default. Native Windows validation of this split remains pending.
+
+On 2026-11-10, [run 42747840520, job 129662241930](https://github.com/makr-code/ThemisDB/actions/runs/42747840520/job/129662241930)
+failed with `C1060` at `monitoring_api_routes.cpp(155)` with the same low-memory
+flags and serial build. The route translation unit now uses eight file-local
+registration helpers, each containing at most ten routes, to reduce per-function
+nested JSON initializer pressure. The dispatcher preserves all 47 annotations
+and their order; compiler flags and both source lists remain unchanged.
+Focused tests check the batch bound, route coverage, nested license schema, and
+repeat-registration stability. Native MSVC confirmation still requires a new
+Windows run.
 
 Validation on 2026-10-29: both generated compile commands contain `/O2` and
 `/bigobj`, without `/Od`; the local Release build completed without `C1060` or

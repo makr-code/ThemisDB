@@ -9,14 +9,11 @@
 namespace themis {
 namespace server {
 
-/**
- * @brief ============================================================================= registerRoutes() – populate the global RouteRegistry with all monitoring handler endpoint annotations so that handleOpenApi() can auto-generate the OpenAPI 3.
- * @details 1.0 spec without duplicating path information. ============================================================================= Calls: RouteRegistry::instance(), registerRoute().
- */
+namespace {
 
-void MonitoringApiHandler::registerRoutes() {
-    RouteRegistry& reg = RouteRegistry::instance();
-
+// Bound each function's nested JSON initializer temporaries: MSVC can exhaust
+// its compiler heap even with /Od /Ob0 when all routes share one function.
+void registerHealthAndMetricsRoutes(RouteRegistry& reg) {
     // --- Monitoring / Health ---
     reg.registerRoute({"/health", "get", {
         "Basic health check", "", "getHealth", {"monitoring"}, {}, {},
@@ -71,6 +68,9 @@ void MonitoringApiHandler::registerRoutes() {
                   {"content",{{"text/html",{{"schema",{{"type","string"}}}}}}}}}}
     }});
 
+}
+
+void registerObservabilityRoutes(RouteRegistry& reg) {
     // --- Observability operator API ---
     reg.registerRoute({"/api/v1/observability/alerts", "get", {
         "List active alerts",
@@ -130,6 +130,9 @@ void MonitoringApiHandler::registerRoutes() {
         }
     }});
 
+}
+
+void registerLicenseRoutes(RouteRegistry& reg) {
     // --- License ---
     reg.registerRoute({"/api/v1/license/status", "get", {
         "Runtime license status",
@@ -154,6 +157,9 @@ void MonitoringApiHandler::registerRoutes() {
                  }}}}}}}}}
     }});
 
+}
+
+void registerEntityRoutes(RouteRegistry& reg) {
     // --- OpenAPI self-reference ---
     reg.registerRoute({"/api/openapi.json", "get", {
         "OpenAPI specification",
@@ -220,6 +226,9 @@ void MonitoringApiHandler::registerRoutes() {
          {"404",{{"description","Not found"}}}}
     }});
 
+}
+
+void registerQueryRoutes(RouteRegistry& reg) {
     // --- Query ---
     reg.registerRoute({"/query", "post", {
         "Execute a query", "", "postQuery", {"query"},
@@ -269,6 +278,9 @@ void MonitoringApiHandler::registerRoutes() {
          {"404",{{"description","UDF not found"}}}}
     }});
 
+}
+
+void registerGraphAndStreamingRoutes(RouteRegistry& reg) {
     // --- Changefeed Compact ---
     reg.registerRoute({"/changefeed/compact", "post", {
         "Compact changefeed log",
@@ -340,6 +352,9 @@ void MonitoringApiHandler::registerRoutes() {
          {"500",{{"description","Internal error"}}}}
     }});
 
+}
+
+void registerServerlessFunctionRoutes(RouteRegistry& reg) {
     // --- Serverless Functions ---
     reg.registerRoute({"/api/v1/functions", "post", {
         "Register a serverless function",
@@ -404,6 +419,9 @@ void MonitoringApiHandler::registerRoutes() {
          {"404",{{"description","Function not found"}}}}
     }});
 
+}
+
+void registerTaskSchedulerRoutes(RouteRegistry& reg) {
     // --- Task Scheduler ---
     reg.registerRoute({"/api/tasks", "post", {
         "Register a new scheduled task",
@@ -501,6 +519,26 @@ void MonitoringApiHandler::registerRoutes() {
          {"401",{{"description","Unauthorized"}}},
          {"403",{{"description","Forbidden"}}}}
     }});
+}
+
+} // namespace
+
+/**
+ * @brief Populate the global registry with monitoring handler OpenAPI annotations.
+ * @details Small registration batches bound MSVC compiler heap usage without
+ * changing route order or metadata. Repeated calls replace the same routes;
+ * allocation failures propagate to the caller.
+ */
+void MonitoringApiHandler::registerRoutes() {
+    auto& reg = RouteRegistry::instance();
+    registerHealthAndMetricsRoutes(reg);
+    registerObservabilityRoutes(reg);
+    registerLicenseRoutes(reg);
+    registerEntityRoutes(reg);
+    registerQueryRoutes(reg);
+    registerGraphAndStreamingRoutes(reg);
+    registerServerlessFunctionRoutes(reg);
+    registerTaskSchedulerRoutes(reg);
 }
 
 } // namespace server

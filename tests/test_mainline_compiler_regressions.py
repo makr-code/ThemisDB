@@ -178,6 +178,31 @@ class MainlineCompilerConfigurationTests(unittest.TestCase):
 
 
 class MonitoringRouteTranslationUnitTests(unittest.TestCase):
+    def test_registration_batches_bound_per_function_initializer_count(self) -> None:
+        source = (REPO_ROOT / "src/server/monitoring_api_routes.cpp").read_text(encoding="utf-8")
+        helpers = re.findall(
+            r"^void (register\w+Routes)\(RouteRegistry& reg\) \{\n(.*?)^\}",
+            source, re.MULTILINE | re.DOTALL,
+        )
+        self.assertTrue(helpers, "route initializers must be split into file-local functions")
+        counts = []
+        for name, body in helpers:
+            with self.subTest(helper=name):
+                count = body.count("reg.registerRoute(")
+                self.assertGreater(count, 0)
+                self.assertLessEqual(count, 10, "large initializer batches exhaust MSVC's heap")
+                counts.append(count)
+        self.assertEqual(sum(counts), 47)
+        dispatcher = source.split("void MonitoringApiHandler::registerRoutes() {", 1)[1]
+        self.assertNotIn("reg.registerRoute(", dispatcher)
+        self.assertEqual(
+            re.findall(r"\b(register\w+Routes)\(reg\);", dispatcher),
+            [name for name, _ in helpers],
+            "each batch must run exactly once, in the original registration order",
+        )
+        self.assertIn("namespace {\n", source)
+        self.assertLess(source.index("} // namespace\n"), source.index("void MonitoringApiHandler::"))
+
     def test_routes_registered_next_to_handler_in_both_source_lists(self) -> None:
         for cmake_file, list_name in (
             (MODULAR_BUILD, "THEMIS_NETWORK_SOURCES"),
