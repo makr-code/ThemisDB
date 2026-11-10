@@ -1704,10 +1704,6 @@ http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
 // Provenance, Snapshots, and Audit Log endpoints
 // ============================================================================
 
-namespace {
-    constexpr std::string_view kAdaptersPrefix = "/api/v1/llm/lora/adapters/";
-} // namespace
-
 /**
  * @brief GET /api/v1/llm/lora/adapters/{id}/provenance
  * @param[in] req Input parameter.
