@@ -36,6 +36,14 @@ artifact ID, not the current attempt number. If the artifact expires, rerun
 preparation too. Older workflow revisions require a new run containing this fix.
 Focused coverage: `tests/test_windows_dependency_preparation.py`.
 
+Run `42768142107`, job `129687972024` downloaded that artifact but failed
+restoration because Git Bash's `tar` could not resolve the Windows-form
+`GITHUB_WORKSPACE` path passed to `-C`. Snapshot creation and restoration now
+normalize the workspace with `cygpath -u`; restoration also ensures the cache
+directory exists. The round-trip regression models a Windows-form workspace and
+executes real archive/extract commands with spaced paths, while retaining
+identity-mismatch and missing-artifact rejection.
+
 ## MSVC monitoring route translation-unit split
 
 Run `42638257654`, job `129343673144` failed with VS18 MSVC 14.51 `C1060` at

@@ -525,6 +525,13 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
     def test_completed_snapshot_round_trip_without_actions_cache(self):
         archive = self.named("Archive completed Windows dependency snapshot")
         restore = self.named("Restore completed Windows dependency snapshot")
+        # Model Git Bash's conversion while exercising real tar with spaced paths.
+        cygpath = r'''
+            cygpath() {
+                [ "$1" = "-u" ] && [ "$2" = "$GITHUB_WORKSPACE" ] || return 1
+                printf '%s\n' "$POSIX_WORKSPACE"
+            }
+        '''
         with tempfile.TemporaryDirectory(prefix="dependency artifact ") as temp:
             directory = Path(temp)
             producer = directory / "producer"
@@ -541,14 +548,14 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
                 path = producer / ".cache" / name
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_bytes(content)
-            (consumer / ".cache").mkdir(parents=True)
             env = {**os.environ, "RUNNER_TEMP": temp, "THEMIS_CACHE_TAG": tag,
+                   "GITHUB_WORKSPACE": r"D:\a\ThemisDB\ThemisDB",
                    "GITHUB_ENV": str(directory / "env"), "CACHE_HIT": "",
                    "CACHE_MATCHED_KEY": "", "CACHE_EXPECTED_PREFIX": "identity-snapshot-",
                    "DEPENDENCY_CACHE_KEY": "identity-snapshot-run-1-prepare"}
             result = subprocess.run(
-                ["bash", "-euo", "pipefail", "-c", archive["run"]],
-                env={**env, "GITHUB_WORKSPACE": str(producer)}, text=True, capture_output=True,
+                ["bash", "-euo", "pipefail", "-c", cygpath + archive["run"]],
+                env={**env, "POSIX_WORKSPACE": str(producer)}, text=True, capture_output=True,
             )
             self.assertEqual(result.returncode, 0, result.stderr)
             (directory / "windows-dependencies.tar").rename(download / "windows-dependencies.tar")
@@ -562,8 +569,8 @@ class WindowsDependencyPreparationTests(unittest.TestCase):
                     if not available:
                         artifact.rename(download / "missing.tar")
                     result = subprocess.run(
-                        ["bash", "-euo", "pipefail", "-c", restore["run"]],
-                        env={**env, "GITHUB_WORKSPACE": str(consumer),
+                        ["bash", "-euo", "pipefail", "-c", cygpath + restore["run"]],
+                        env={**env, "POSIX_WORKSPACE": str(consumer),
                              "DEPENDENCY_CACHE_KEY": identity}, text=True, capture_output=True,
                     )
                     self.assertEqual(result.returncode == 0, success, result.stderr)
