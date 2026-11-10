@@ -416,8 +416,10 @@ jobs:
             "$CACHE_EXPECTED_PREFIX"*) ;;
             *) echo "::error::Dependency snapshot source/configure/toolchain identity mismatch"; exit 1 ;;
           esac
+          cache_dir="$(cygpath -u "$GITHUB_WORKSPACE")/.cache"
+          mkdir -p "$cache_dir"
           cd "$RUNNER_TEMP/windows-dependencies"
-          tar -xf windows-dependencies.tar -C "$GITHUB_WORKSPACE/.cache"
+          tar -xf windows-dependencies.tar -C "$cache_dir"
           echo "THEMIS_WINDOWS_DEPENDENCY_FLAGS=-DVCPKG_INSTALL_OPTIONS=--only-binarycaching" >> "$GITHUB_ENV"
 
       - name: Record restored cache inventory
@@ -725,8 +727,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          cache_dir="$(cygpath -u "$GITHUB_WORKSPACE")/.cache"
           cd "$RUNNER_TEMP"
-          tar -cf windows-dependencies.tar -C "$GITHUB_WORKSPACE/.cache" \
+          tar -cf windows-dependencies.tar -C "$cache_dir" \
             "sccache-${THEMIS_CACHE_TAG}" \
             "vcpkg-downloads/${THEMIS_CACHE_TAG}" \
             "vcpkg-binary/${THEMIS_CACHE_TAG}"
