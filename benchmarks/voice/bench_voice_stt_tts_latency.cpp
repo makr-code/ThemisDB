@@ -289,9 +289,9 @@ BENCHMARK_F(STTTTSLatencyFixture, VoiceTTS_MediumText)(benchmark::State& state) 
  * Measure: total latency for 500 word response
  * Assert: p95 < 10s, p99 < 15s
  */
-BENCHMARK_F(STTTTSLatencyFixture, VoiceTTS_LongText)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(STTTTSLatencyFixture, VoiceTTS_LongText)(benchmark::State& state) {
     std::vector<int64_t> latencies_ns;
-    latencies_ns.reserve(std::min(static_cast<size_t>(state.max_iterations), size_t(5)));
+    latencies_ns.reserve(5);
 
     for (auto _ : state) {
         // 500-word response (concatenated)
@@ -310,8 +310,6 @@ BENCHMARK_F(STTTTSLatencyFixture, VoiceTTS_LongText)(benchmark::State& state) {
         int64_t latency_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
         latencies_ns.push_back(latency_ns);
         benchmark::DoNotOptimize(audio);
-
-        if (latencies_ns.size() >= 5) break;  // Limit iterations for long-running test
     }
 
     std::sort(latencies_ns.begin(), latencies_ns.end());
@@ -326,6 +324,8 @@ BENCHMARK_F(STTTTSLatencyFixture, VoiceTTS_LongText)(benchmark::State& state) {
     state.counters["p99_ms"] = p99_ns / 1'000'000.0;
     state.SetLabel("TTS LongText (500 words): p95 < 10s, p99 < 15s");
 }
+BENCHMARK_REGISTER_F(STTTTSLatencyFixture, VoiceTTS_LongText)
+    ->Iterations(5);
 
 /**
  * @test BENCHMARK(VoiceTTS, RapidFire)

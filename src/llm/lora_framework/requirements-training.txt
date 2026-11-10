@@ -1,0 +1,7 @@
+# Install a PyTorch build matching the local CUDA runtime separately.
+transformers>=4.45,<5
+peft>=0.14
+accelerate>=1.0
+safetensors>=0.4
+PyYAML>=6.0
+ijson>=3.2

@@ -69,7 +69,7 @@ class GPUPhaseCBenchmark : public benchmark::Fixture {
 // Benchmark 1: Query Accelerator Baseline (No Errors)
 // ============================================================================
 
-BENCHMARK_F(GPUPhaseCBenchmark, bench_query_accel_baseline)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(GPUPhaseCBenchmark, bench_query_accel_baseline)(benchmark::State& state) {
   // Setup: Create test data matching realistic query workload
   const size_t data_size = state.range(0);
   std::vector<float> data(data_size);
@@ -100,7 +100,7 @@ BENCHMARK_REGISTER_F(GPUPhaseCBenchmark, bench_query_accel_baseline)
 // Benchmark 2: Query Accelerator with Error Recovery
 // ============================================================================
 
-BENCHMARK_F(GPUPhaseCBenchmark, bench_query_accel_with_error_recovery)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(GPUPhaseCBenchmark, bench_query_accel_with_error_recovery)(benchmark::State& state) {
   const size_t data_size = state.range(0);
   std::vector<float> data(data_size);
   
@@ -134,7 +134,7 @@ BENCHMARK_REGISTER_F(GPUPhaseCBenchmark, bench_query_accel_with_error_recovery)
 // Benchmark 3: Memory Allocation Baseline
 // ============================================================================
 
-BENCHMARK_F(GPUPhaseCBenchmark, bench_memory_alloc_baseline)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(GPUPhaseCBenchmark, bench_memory_alloc_baseline)(benchmark::State& state) {
   const size_t alloc_size = state.range(0);  // Size of each allocation
   const size_t alloc_count = 1000;           // Number of allocations per iteration
   
@@ -170,7 +170,7 @@ BENCHMARK_REGISTER_F(GPUPhaseCBenchmark, bench_memory_alloc_baseline)
 // Benchmark 4: Timeout Guard Overhead
 // ============================================================================
 
-BENCHMARK_F(GPUPhaseCBenchmark, bench_timeout_guard_overhead)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(GPUPhaseCBenchmark, bench_timeout_guard_overhead)(benchmark::State& state) {
   const size_t data_size = state.range(0);
   std::vector<float> data(data_size);
   
@@ -205,7 +205,7 @@ BENCHMARK_REGISTER_F(GPUPhaseCBenchmark, bench_timeout_guard_overhead)
 // Benchmark 5: Memory Manager with Exception Safety
 // ============================================================================
 
-BENCHMARK_F(GPUPhaseCBenchmark, bench_memory_manager_exception_safety)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(GPUPhaseCBenchmark, bench_memory_manager_exception_safety)(benchmark::State& state) {
   const size_t alloc_count = state.range(0);
   
   // Benchmark: Allocation with exception safety (RAII cost)

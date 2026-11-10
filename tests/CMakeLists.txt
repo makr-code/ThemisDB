@@ -178,6 +178,46 @@ if(TARGET themis_security)
     message(STATUS "Test suite: linking themis_security into ${TEST_LIBS}")
 endif()
 
+if(TARGET themis_training)
+    add_executable(module_training_test_ada_lora_adapter_focused
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_ada_lora_adapter.cpp
+    )
+    target_link_libraries(module_training_test_ada_lora_adapter_focused
+        PRIVATE themis_training GTest::gtest_main
+    )
+    themis_register_module_focused_test(
+        MODULE training
+        NAME ada_lora_adapter
+        TARGET module_training_test_ada_lora_adapter_focused
+        TIER unit
+    )
+    gtest_discover_tests(module_training_test_ada_lora_adapter_focused
+        DISCOVERY_MODE POST_BUILD
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:module_training_test_ada_lora_adapter_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
+
+if(TARGET themis_llm)
+    add_executable(module_llm_test_causal_training_batch_focused
+        ${CMAKE_CURRENT_SOURCE_DIR}/llm/test_llm_causal_training_batch.cpp
+    )
+    target_link_libraries(module_llm_test_causal_training_batch_focused
+        PRIVATE themis_llm GTest::gtest_main
+    )
+    themis_register_module_focused_test(
+        MODULE llm
+        NAME causal_training_batch
+        TARGET module_llm_test_causal_training_batch_focused
+        TIER integration
+    )
+    gtest_discover_tests(module_llm_test_causal_training_batch_focused
+        DISCOVERY_MODE POST_BUILD
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:module_llm_test_causal_training_batch_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
+
 # Register Block D governance audit targets in the canonical test flow.
 # These are intentionally scoped outside the module auto-discover pass so they
 # remain visible even when the broader module test matrix is filtered.

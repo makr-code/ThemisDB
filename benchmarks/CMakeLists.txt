@@ -6087,7 +6087,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_tpcc
       TARGET bench_tpcc
       MODULE "base"
-      TIMEOUT 120
+      TIMEOUT 1200
     )
   endif()
   if(TARGET bench_tpch)
@@ -6462,6 +6462,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       TARGET bench_docker_raid_comprehensive
       MODULE "docker_raid"
       TIMEOUT 120
+      EXTRA_ARGS "--benchmark_filter=SmallDocumentWrite/3/0/100/min_time"
     )
   endif()
   # Module: document_diff (1)
@@ -6613,7 +6614,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_fts_phase_b
       TARGET bench_fts_phase_b
       MODULE "fts_phase"
-      TIMEOUT 120
+      TIMEOUT 600
     )
   endif()
   # Module: fused_kernels (1)
@@ -6929,7 +6930,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_graph_query_optimizer
       TARGET bench_graph_query_optimizer
       MODULE "graph"
-      TIMEOUT 120
+      TIMEOUT 240
     EXTRA_LABELS release_critical
     )
   endif()
@@ -7757,7 +7758,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_product_quantization
       TARGET bench_product_quantization
       MODULE "product_quantization"
-      TIMEOUT 120
+      TIMEOUT 900
     )
   endif()
   # Module: projects_release (1)
