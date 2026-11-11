@@ -1,8 +1,8 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-11T09:59:12+00:00",
-  "source_count": 8084,
+  "generated_at": "2026-11-11T15:23:30+00:00",
+  "source_count": 8085,
   "sources": [
     {
       "path": ".github/workflows/benchmark-gate.yml",
@@ -173,6 +173,13 @@
       "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
+      "path": ".github/workflows/gate-pr-artifact-size.yml",
+      "category": "build_test_ci",
+      "size": 2822,
+      "sha256": "9fbb81a4b77620ce98daf229f86b82013280bfc2502f0fdc3153cb08088c8415",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
+    },
+    {
       "path": ".github/workflows/gate-pr-benchmark-ctest.yml",
       "category": "build_test_ci",
       "size": 12741,
@@ -189,9 +196,9 @@
     {
       "path": ".github/workflows/gate-pr-core.yml",
       "category": "build_test_ci",
-      "size": 56292,
-      "sha256": "f6b3d9196a2bddfbe961b5ce016e8458b246b097b115b051b31bbd82097ea00a",
-      "modified_utc": "2026-11-11T09:57:19+00:00"
+      "size": 57549,
+      "sha256": "83ded0790348963d6e3ce8948e910c0e85dd5b187145d6aac26bc16bdc1203fd",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-doc-metadata.yml",
@@ -224,9 +231,9 @@
     {
       "path": ".github/workflows/gate-pr-final-runtime-api.yml",
       "category": "build_test_ci",
-      "size": 9799,
-      "sha256": "78afa91f757fb6ebb8c26bde71a944267c29ca8b1daa3c2efe9c200f621f665b",
-      "modified_utc": "2026-11-09T15:42:07+00:00"
+      "size": 9835,
+      "sha256": "c6cb01cff1f5e22bbc492f32f32fa5962cf4aca49be86d440ae09376efe5d943",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-hash-sbom.yml",
@@ -413,9 +420,9 @@
     {
       "path": ".github/workflows/maintenance-soll-ist-gap-issues.yml",
       "category": "build_test_ci",
-      "size": 3432,
-      "sha256": "82ad329604e11db461d740a1923fe28361f26805491dfb81cb3d01d97a34f691",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 3490,
+      "sha256": "8168a229bd2575e05b616921076dd9b1e7290833439820e31174ba800c61582c",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
     },
     {
       "path": ".github/workflows/maintenance-workflow-guardrails-observe.yml",
@@ -630,9 +637,9 @@
     {
       "path": ".github/workflows/reusable-status-flags-and-issues.yml",
       "category": "build_test_ci",
-      "size": 4549,
-      "sha256": "f8d00554b7a1773a4f7282c3ca06cbd05de22fc9344187579b30eeb4a607177a",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 4659,
+      "sha256": "f8a38e54832fa637f0461ba5d530386324e943a9284abec41164d5460de84106",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
     },
     {
       "path": ".github/workflows/security-codeql.yml",
@@ -679,9 +686,9 @@
     {
       "path": ".github/workflows/test-helm-chart.yml",
       "category": "build_test_ci",
-      "size": 1657,
-      "sha256": "9b3888a15e62764799032df2c2bfc6f0c550f7dfcf42f42f25c58b7091c2e1cb",
-      "modified_utc": "2026-11-10T05:55:03+00:00"
+      "size": 2284,
+      "sha256": "0c66e3449a227055554306394c798fb3e40b403e9332a9724dd357d911086d2e",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
     },
     {
       "path": ".github/workflows/wave-a-gpu-ci-execution.yml",
@@ -1113,9 +1120,9 @@
     {
       "path": "ai_context/developer_llm_wiki/TEMPORAL.md",
       "category": "governance_and_docs",
-      "size": 6124,
-      "sha256": "b4d46654824427d899faa55ff97614151f8749ee6ec785890ae5ac23fe9f5559",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 6223,
+      "sha256": "ebb0fa94ae8ec94a0ae3f69e9e681f621d56da94fc12b4294a96b531cfd8e734",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/UPDATES.md",
@@ -33033,9 +33040,9 @@
     {
       "path": "docs/governance/SRC_MODULE_DOCUMENTATION_COMPLIANCE_2026-09-20.md",
       "category": "governance_and_docs",
-      "size": 27792,
-      "sha256": "d03f0afc54c5cbdd6148a632e8bcaa5272063af375922412bff3c0822ccaac90",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 27990,
+      "sha256": "91432e4a0106c82c8e7774eb2d79c441bc2d4da734103641e85fab0d05915a2b",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
     },
     {
       "path": "docs/governance/UPDATES_DEVELOPMENT_STATUS_SIGN_OFF.md",
@@ -54327,9 +54334,9 @@
     {
       "path": "scripts/check_module_direct_doxygen.py",
       "category": "build_test_ci",
-      "size": 28467,
-      "sha256": "5b0e33b22e0b1fda979b7ae0526313c115366cd49ed21ebb629f605dd758ef9e",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 28443,
+      "sha256": "122030ac1db4c05d411cf216db274dd27aef487a87e8a3971cb6b44f89f35a55",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
     },
     {
       "path": "scripts/check_submodules.py",
@@ -54838,9 +54845,9 @@
     {
       "path": "scripts/sync_soll_ist_gaps.py",
       "category": "build_test_ci",
-      "size": 61506,
-      "sha256": "d28349b4ce1e90ee62aa732988971d89a6496ac306d8f21ea8b0d4b15c613897",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 61602,
+      "sha256": "37fd64d6840e6641be2b8916e99376cd3fd3bc82daefc43d4a28812f04497627",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
     },
     {
       "path": "scripts/test_render_direct.py",

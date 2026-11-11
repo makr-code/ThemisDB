@@ -37,6 +37,7 @@ on:
       - tests/CMakeLists.txt
       - tests/**/CMakeLists.txt
       - tests/test_test_registration.py
+      - tests/test_final_runtime_inference_gate.py
       - tests/test_runtime_smoke_gate.py
       - tests/test_docker_runtime_package_regressions.py
       - tests/test_docker_platform_validation.py
@@ -72,6 +73,7 @@ on:
       - tests/CMakeLists.txt
       - tests/**/CMakeLists.txt
       - tests/test_test_registration.py
+      - tests/test_final_runtime_inference_gate.py
       - tests/test_runtime_smoke_gate.py
       - tests/test_docker_runtime_package_regressions.py
       - tests/test_docker_platform_validation.py
@@ -211,6 +213,9 @@ jobs:
       - name: Test test-registration guard
         run: python3 tests/test_test_registration.py
 
+      - name: Test final runtime inference gate configuration
+        run: python3 tests/test_final_runtime_inference_gate.py
+
       - name: Test transaction evidence gate
         run: python3 -m unittest discover -s tools/tests -p test_transaction_evidence.py -v
 
@@ -234,6 +239,7 @@ jobs:
       configure_flags: >-
         -DTHEMIS_BUILD_TESTS=ON
         -DTHEMIS_BUILD_BENCHMARKS=OFF
+        -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
         -DTHEMIS_ENABLE_LLM=ON
         -DTHEMIS_ENABLE_GPU=OFF
         -DCMAKE_TOOLCHAIN_FILE=
@@ -244,10 +250,11 @@ jobs:
         else
           echo "release-critical aggregate target missing; falling back to full test build";
           cmake --build build-pr-release-critical --parallel "${PARALLEL_JOBS}";
-        fi
+        fi;
+        tar -cf pr-release-critical-build-dir.tar build-pr-release-critical
       validation_mode: none
       artifact_name: pr-release-critical-build-dir
-      artifact_paths: build-pr-release-critical
+      artifact_paths: pr-release-critical-build-dir.tar
       artifact_retention_days: '7'
       runs_on: ubuntu-latest
       shell: bash
@@ -270,11 +277,30 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install release-critical CTest runtime dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            librocksdb-dev libgtest-dev libgmock-dev libbenchmark-dev \
+            libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev \
+            nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev \
+            libcurl4-openssl-dev libboost-dev libboost-system-dev \
+            libboost-filesystem-dev libgrpc++-dev libprotobuf-dev \
+            protobuf-compiler-grpc libpugixml-dev libcpp-httplib-dev
+
       - name: Restore release-critical build directory
         uses: actions/download-artifact@v5
         with:
           name: pr-release-critical-build-dir
           path: .
+
+      - name: Extract release-critical build directory
+        run: tar -xf pr-release-critical-build-dir.tar
+
+      - name: Install release-critical test runtime dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libspdlog-dev
 
       - name: Check changed C++ test source registration
         shell: bash

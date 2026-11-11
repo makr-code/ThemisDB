@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-09-20"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-09"
 Status: "review"
 AI_Used: true
 AI_Models: unknown
@@ -15,8 +15,8 @@ Human_Author: ThemisDB Team
 # llama_cpp Doxygen Evidence
 
 ## Source
-- The current checked-in XML artifact is
-  [`ai_context/developer_llm_wiki/module_doxygen_artifacts/llama_cpp/xml/index.xml`](../../ai_context/developer_llm_wiki/module_doxygen_artifacts/llama_cpp/xml/index.xml).
+- Generate XML with the [Module Doxygen XML workflow](../../.github/workflows/gate-pr-module-doxygen-xml.yml)
+  and retrieve its `module-doxygen-xml-<run>` artifact (21-day retention).
 - Public declarations and their source comments remain authoritative; generated
   XML is evidence, not a replacement for the headers.
 - Do not rely on historical machine-local XML or warning-log paths.

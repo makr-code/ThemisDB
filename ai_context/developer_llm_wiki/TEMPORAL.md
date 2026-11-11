@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-11-01"
-Last Updated: "2026-11-01"
+Last Updated: "2026-11-09"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -91,9 +91,11 @@ for case mapping and missing-result caveats.
 ## Doxygen reference
 
 The current generated listing is
-[`src/temporal/DOXYGEN.md`](../../src/temporal/DOXYGEN.md), derived from
-[`module_doxygen_artifacts/temporal/xml/index.xml`](module_doxygen_artifacts/temporal/xml/index.xml)
-with Doxygen 1.9.8 on 2026-11-01. It covers 56 C/C++ inputs across include,
+[`src/temporal/DOXYGEN.md`](../../src/temporal/DOXYGEN.md), derived from the
+`module-doxygen-xml-<run>` artifact produced by the
+[Module Doxygen XML workflow](../../.github/workflows/gate-pr-module-doxygen-xml.yml)
+with Doxygen 1.9.8 on 2026-11-01. The workflow retains generated XML for 21 days.
+The snapshot covers 56 C/C++ inputs across include,
 source, tests, and benchmarks. Generation passed with 73 warnings, primarily
 duplicate parameter documentation in implementation comments; the earlier
 malformed query examples and in-body `mutex_` parameter tags were corrected.
