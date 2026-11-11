@@ -292,12 +292,25 @@ TEST_F(OpenApiDriftTest, MonitoringRegistrationBatchesPreserveRoutesAndAreRepeat
              "/v2/query/stream", "/api/v1/functions/{id}/versions", "/ui/tasks"}) {
         EXPECT_TRUE(paths.contains(path)) << path;
     }
-    const auto& license_properties = paths.at("/api/v1/license/status").at("get")
-        .at("responses").at("200").at("content").at("application/json")
-        .at("schema").at("properties");
-    EXPECT_EQ(license_properties.size(), 9u);
-    EXPECT_EQ(license_properties.at("status").at("example"), "active");
-    EXPECT_EQ(license_properties.at("days_until_expiry").at("type"), "integer");
+    const auto& license_response = paths.at("/api/v1/license/status").at("get")
+        .at("responses").at("200");
+    EXPECT_EQ(license_response, json::parse(R"({
+        "description": "License status document",
+        "content": {"application/json": {"schema": {
+            "type": "object",
+            "properties": {
+                "initialized": {"type": "boolean"},
+                "status": {"type": "string", "example": "active"},
+                "grace_days_remaining": {"type": "integer"},
+                "license_key": {"type": "string", "example": "THEMIS-EN..."},
+                "organization": {"type": "string"},
+                "edition": {"type": "string", "example": "ENTERPRISE"},
+                "expiry_date": {"type": "string", "format": "date"},
+                "days_until_expiry": {"type": "integer"},
+                "valid": {"type": "boolean"}
+            }
+        }}}
+    })"));
 
     const auto snapshot = registry().captureSpecSnapshot();
     MonitoringApiHandler::registerRoutes();

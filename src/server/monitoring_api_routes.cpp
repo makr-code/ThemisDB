@@ -6,6 +6,8 @@
 #include "server/monitoring_api_handler.h"
 #include "server/openapi_route_registry.h"
 
+#include <utility>
+
 namespace themis {
 namespace server {
 
@@ -134,27 +136,31 @@ void registerObservabilityRoutes(RouteRegistry& reg) {
 
 void registerLicenseRoutes(RouteRegistry& reg) {
     // --- License ---
+    // Keep individual JSON initializers shallow to limit MSVC compiler heap use.
+    json properties = json::object();
+    properties["initialized"] = {{"type","boolean"}};
+    properties["status"] = {{"type","string"},{"example","active"}};
+    properties["grace_days_remaining"] = {{"type","integer"}};
+    properties["license_key"] = {{"type","string"},{"example","THEMIS-EN..."}};
+    properties["organization"] = {{"type","string"}};
+    properties["edition"] = {{"type","string"},{"example","ENTERPRISE"}};
+    properties["expiry_date"] = {{"type","string"},{"format","date"}};
+    properties["days_until_expiry"] = {{"type","integer"}};
+    properties["valid"] = {{"type","boolean"}};
+
+    json response;
+    response["description"] = "License status document";
+    response["content"]["application/json"]["schema"]["type"] = "object";
+    response["content"]["application/json"]["schema"]["properties"] = std::move(properties);
+    json responses;
+    responses["200"] = std::move(response);
     reg.registerRoute({"/api/v1/license/status", "get", {
         "Runtime license status",
         "Returns the current runtime license state: initialized flag, status string "
         "(active/grace/expired/invalid), grace days remaining, masked license key, "
         "organization, edition, expiry date, days until expiry, and validity flag.",
         "getLicenseStatus", {"license"}, {}, {},
-        {{"200",{{"description","License status document"},
-                 {"content",{{"application/json",{{"schema",{
-                     {"type","object"},
-                     {"properties",{
-                         {"initialized",         {{"type","boolean"}}},
-                         {"status",              {{"type","string"},{"example","active"}}},
-                         {"grace_days_remaining",{{"type","integer"}}},
-                         {"license_key",         {{"type","string"},{"example","THEMIS-EN..."}}},
-                         {"organization",        {{"type","string"}}},
-                         {"edition",             {{"type","string"},{"example","ENTERPRISE"}}},
-                         {"expiry_date",         {{"type","string"},{"format","date"}}},
-                         {"days_until_expiry",   {{"type","integer"}}},
-                         {"valid",               {{"type","boolean"}}}
-                     }}
-                 }}}}}}}}}
+        std::move(responses)
     }});
 
 }
