@@ -178,6 +178,32 @@ class MainlineCompilerConfigurationTests(unittest.TestCase):
 
 
 class MonitoringRouteTranslationUnitTests(unittest.TestCase):
+    def test_license_response_bounds_single_expression_initializer_complexity(self) -> None:
+        source = (REPO_ROOT / "src/server/monitoring_api_routes.cpp").read_text(encoding="utf-8")
+        helper = re.search(
+            r"^void registerLicenseRoutes\(RouteRegistry& reg\) \{\n(.*?)^\}",
+            source, re.MULTILINE | re.DOTALL,
+        )
+        self.assertIsNotNone(helper)
+        body = helper.group(1)
+        self.assertNotRegex(body, r"\b(?:json|nlohmann::json)::parse\s*\(")
+        # Ignore comments and string contents, including braces in descriptions.
+        expressions = re.sub(r'//[^\n]*|/\*.*?\*/|"(?:\\.|[^"\\])*"', "", body, flags=re.DOTALL)
+        for expression in expressions.split(";"):
+            with self.subTest(expression=expression.strip()):
+                depth = 0
+                for token in expression:
+                    if token == "{":
+                        depth += 1
+                        self.assertLessEqual(depth, 4, "nested license response can exhaust MSVC's heap")
+                    elif token == "}":
+                        depth -= 1
+                self.assertEqual(depth, 0)
+                self.assertLessEqual(
+                    expression.count("{"), 12,
+                    "build license properties separately, not in one large initializer",
+                )
+
     def test_registration_batches_bound_per_function_initializer_count(self) -> None:
         source = (REPO_ROOT / "src/server/monitoring_api_routes.cpp").read_text(encoding="utf-8")
         helpers = re.findall(

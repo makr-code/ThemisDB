@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-10"
+Last Updated: "2026-11-11"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,7 +14,7 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-10
+Datum: 2026-11-11
 Status: Active
 
 ## Docker runtime APT mirror synchronization recovery
@@ -91,6 +91,23 @@ initializer pressure while preserving all annotations and registration order.
 `tests/test_mainline_compiler_regressions.py` checks the batch bound and dispatch;
 `tests/server/test_server_openapi_drift_focused.cpp` covers actual registration,
 the nested license schema, and repeat-registration stability.
+On 2026-11-11, [run `42972100442`, job `130366604809`](https://github.com/makr-code/ThemisDB/actions/runs/42972100442/job/130366604809)
+confirmed the eight-helper split was insufficient: serial VS18 MSVC 14.51.36231
+Hostx64/x64 with `/Od /Ob0 /GL- /bigobj /Zm200` failed with `C1060` at
+`monitoring_api_routes.cpp(158)`, ending the single deeply nested license response
+initializer. Only that helper now constructs properties, schema, and response in
+separate shallow JSON statements (no raw JSON parsing). All nine properties,
+examples, date format, response content, metadata, 47 routes, and registration
+order remain unchanged; flags, source lists, workflows, and other routes are
+untouched. The existing Python regression guards single-expression complexity;
+the existing C++ license check compares the complete response/schema and metadata.
+Local Linux validation on 2026-11-11 passed all 11 compiler regressions. The
+Windows memory suite passed three tests but errored in two configure tests before
+log creation: `cygpath` is unavailable and `THEMIS_CACHE_TOOLS_PREFIX` is unset.
+The three build/parallelism tests passed explicitly too. The system-package
+`community-release` configure with tests enabled failed at missing RocksDB;
+the existing C++ focused target could not build without a generated `build.ninja`,
+and C++ tests were not run.
 Native Windows validation remains pending. See
 [MSVC Handler Optimization](../../cmake/README.md#msvc-handler-optimization)
 for current policy and preserved historical evidence.
