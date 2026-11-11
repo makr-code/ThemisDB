@@ -9,6 +9,7 @@ libspdlog1.12
 libtbb12
 libyaml-cpp0.8
 libmimalloc2.0
+libnuma1
 libpugixml1v5
 libssl3t64
 libboost-filesystem1.83.0
