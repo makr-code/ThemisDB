@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-04-17
-Last Updated: 2026-11-10
+Last Updated: 2026-11-11
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -89,6 +89,25 @@ and their order; compiler flags and both source lists remain unchanged.
 Focused tests check the batch bound, route coverage, nested license schema, and
 repeat-registration stability. Native MSVC confirmation still requires a new
 Windows run.
+
+On 2026-11-11, [run 42972100442, job 130366604809](https://github.com/makr-code/ThemisDB/actions/runs/42972100442/job/130366604809)
+confirmed that the eight-helper split was insufficient: serial VS18 MSVC
+14.51.36231 Hostx64/x64 compilation with `/Od /Ob0 /GL- /bigobj /Zm200` failed
+with `C1060` at `monitoring_api_routes.cpp(158)`, at the end of the single deeply
+nested license response initializer. The license helper now builds each property,
+the object schema, and the response in separate shallow JSON statements, without
+raw JSON parsing. All nine properties, examples, date format, response content,
+route metadata, and the 47-route registration order are preserved. Flags, source
+lists, workflows, and unrelated routes are unchanged. Existing focused tests
+guard per-expression complexity and compare the complete license response and
+metadata. Native Windows verification of this change remains pending.
+Local Linux validation on 2026-11-11: all 11 compiler regressions passed.
+The Windows memory suite had three passes and two configure-test errors before
+log creation (Windows-only `cygpath` unavailable and `THEMIS_CACHE_TOOLS_PREFIX`
+unset); its three build/parallelism tests also passed when run explicitly.
+The `community-release` configure with tests enabled stopped at missing RocksDB;
+the existing focused C++ target could not build (`build.ninja` was not generated),
+so its tests were not run.
 
 Validation on 2026-10-29: both generated compile commands contain `/O2` and
 `/bigobj`, without `/Od`; the local Release build completed without `C1060` or

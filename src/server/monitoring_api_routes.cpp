@@ -136,7 +136,8 @@ void registerObservabilityRoutes(RouteRegistry& reg) {
 
 void registerLicenseRoutes(RouteRegistry& reg) {
     // --- License ---
-    // Keep individual JSON initializers shallow to limit MSVC compiler heap use.
+    // Keep expressions shallow: even this single route exhausted MSVC's heap
+    // with the entire response/schema/properties in one nested initializer.
     json properties = json::object();
     properties["initialized"] = {{"type","boolean"}};
     properties["status"] = {{"type","string"},{"example","active"}};
@@ -148,19 +149,19 @@ void registerLicenseRoutes(RouteRegistry& reg) {
     properties["days_until_expiry"] = {{"type","integer"}};
     properties["valid"] = {{"type","boolean"}};
 
-    json response;
-    response["description"] = "License status document";
-    response["content"]["application/json"]["schema"]["type"] = "object";
-    response["content"]["application/json"]["schema"]["properties"] = std::move(properties);
-    json responses;
-    responses["200"] = std::move(response);
+    json schema = {{"type","object"}};
+    schema["properties"] = properties;
+    json response = {{"description","License status document"}};
+    response["content"]["application/json"]["schema"] = schema;
+    const json responses = {{"200",response}};
+
     reg.registerRoute({"/api/v1/license/status", "get", {
         "Runtime license status",
         "Returns the current runtime license state: initialized flag, status string "
         "(active/grace/expired/invalid), grace days remaining, masked license key, "
         "organization, edition, expiry date, days until expiry, and validity flag.",
         "getLicenseStatus", {"license"}, {}, {},
-        std::move(responses)
+        responses
     }});
 
 }
