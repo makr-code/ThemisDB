@@ -1,4 +1,5 @@
 #include "llama_cpp/llama_cpp_plugin.h"
+#include "llm/context_window_budget.h"
 #include "llm/json_schema_converter.h"
 #include <stdexcept>
 #include "llm/rag_helpers.h"
