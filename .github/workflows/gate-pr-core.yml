@@ -277,6 +277,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install release-critical CTest runtime dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            librocksdb-dev libgtest-dev libgmock-dev libbenchmark-dev \
+            libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev \
+            nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev \
+            libcurl4-openssl-dev libboost-dev libboost-system-dev \
+            libboost-filesystem-dev libgrpc++-dev libprotobuf-dev \
+            protobuf-compiler-grpc libpugixml-dev libcpp-httplib-dev
+
       - name: Restore release-critical build directory
         uses: actions/download-artifact@v5
         with:
