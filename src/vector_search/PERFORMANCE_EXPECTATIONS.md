@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-11"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -58,3 +58,7 @@ A release-quality measurement must:
 
 Until that evidence exists, no current measured baseline or performance pass is
 asserted here. See [module gaps](MODULE_GAPS.md).
+
+The 2026-11-11 focused CTest invocation reported `No tests were found!`; it does
+not provide performance or regression evidence. A configured and built test
+tree is still required before recording a test result.

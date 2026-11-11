@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-11"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -62,11 +62,17 @@ shared vector search implementation. It does not claim implementation findings i
   `ai_context/developer_llm_wiki/SOLL_IST_GAP_REPORT.json` lists several
   governance docs as missing even though they are present, and lists
   `src/vector_search/DOXYGEN.md` although that file is absent. Its module-doc
-  inventory is stale.
+  inventory is stale; all seven governance documents named by this issue are
+  present in `src/vector_search/`.
+- **Current validation:** the 2026-11-11 direct-Doxygen check reported one
+  missing symbol, six missing briefs, five missing parameter-doc entries, and
+  five missing return-doc entries. The requested CTest command found no tests
+  in the current checkout.
 - **Impact:** The generated score cannot serve as current evidence of module
-  documentation status.
+  documentation status or a clean direct-Doxygen result.
 - **Action:** Regenerate the source graph and compliance report from the current
-  checkout and review the direct-Doxygen counters.
+  checkout, review the direct-Doxygen findings, then configure/build and retain
+  a test-enabled CTest run.
 - **Status:** Open documentation-evidence gap.
 
 ### VS-GAP-05: Field-specific multi-vector search

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-11"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -123,7 +123,9 @@ The repo's relevant validation surface includes:
 - `tests/integration/test_vector_search_soak.cpp`
 - `benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp`
 
-These are the current evidence sources that establish the intended behavior and performance expectations.
+These fixtures establish behavior only for their in-process flat-index
+implementations. They do not establish production-runtime behavior or
+performance; see [performance expectations](PERFORMANCE_EXPECTATIONS.md).
 
 ## Implementation guidance for changes
 
