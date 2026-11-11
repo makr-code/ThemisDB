@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-05-31"
-Last Updated: "2026-11-01"
+Last Updated: "2026-11-09"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -43,7 +43,7 @@ This is a documentation-to-source consistency review for `prompt_engineering`, c
 
 ## Generated artifact refresh (2026-11-01)
 
-- `scripts/generate_module_doxygen_xml.py` completed for `prompt_engineering` with `Doxyfile.audit` and `--write-module-markdown`: **PASS**. The generated snapshot covers 81 C/C++ files across the module's include, source, test, and benchmark trees; it reports 291 compounds, 185 classes/structs, 17 namespaces, and 81 file compounds. The Doxygen warning log contains 392 warning lines, so successful XML generation does not mean all comments are warning-free. The XML index is [`module_doxygen_artifacts/prompt_engineering/xml/index.xml`](../../ai_context/developer_llm_wiki/module_doxygen_artifacts/prompt_engineering/xml/index.xml); only the derived Markdown inventory is in `src/prompt_engineering/`.
+- `scripts/generate_module_doxygen_xml.py` completed for `prompt_engineering` with `Doxyfile.audit` and `--write-module-markdown`: **PASS**. The generated snapshot covers 81 C/C++ files across the module's include, source, test, and benchmark trees; it reports 291 compounds, 185 classes/structs, 17 namespaces, and 81 file compounds. The Doxygen warning log contains 392 warning lines, so successful XML generation does not mean all comments are warning-free. Generate current XML with the [Module Doxygen XML workflow](../../.github/workflows/gate-pr-module-doxygen-xml.yml) and retrieve its `module-doxygen-xml-<run>` artifact (21-day retention); the derived Markdown inventory remains in `src/prompt_engineering/`.
 - The direct source-coverage checker completed against that XML and reported 722 source symbols, with 28 missing-symbol, 140 missing-brief, 126 missing-parameter-documentation, and 183 missing-return-documentation findings. Its `DIRECT_DOXYGEN_CHECK_OK` status reflects the configured gate thresholds; these counts remain open documentation-coverage findings.
 - A fresh full scan was run with `tools/gs3_orchestrator.py src/prompt_engineering --scan-mode full --force-refresh`, then `tools/module_doc_generator.py` regenerated this module report. `MODULE_GAPS.md` records 96 findings across 29 files: 2 critical, 52 high, 37 medium, and 5 low. The full scanner output contained 184 findings before the module generator's scope mapping; these findings have not been independently triaged and are not acceptance evidence.
 - The scanner logged a failure in `phase7_10_themis_docs_markdown_rules` (`OSError: [Errno 36] File name too long`) while reading an archived gap-report path, plus an `Is a directory` error for `src/llm_l_wiki`. The module report was generated, but those scanner errors mean the full documentation-rule pass is incomplete and its findings should be interpreted with that limitation.

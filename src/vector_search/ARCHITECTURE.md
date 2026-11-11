@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-11"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -127,7 +127,9 @@ flat in-process indexes. The dedicated benchmark also uses a synthetic flat
 index. These are useful fixture-level checks but do not validate the production
 runtime's ANN performance or release readiness. See
 [performance expectations](PERFORMANCE_EXPECTATIONS.md) and
-[module gaps](MODULE_GAPS.md).
+[module gaps](MODULE_GAPS.md). The 2026-11-11 focused CTest invocation found no
+registered tests in this checkout; [the audit](AUDIT.md) records the current
+validation evidence and its limits.
 
 ## Nicht-Ziele
 

@@ -2,7 +2,7 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-10
+> Last Updated: 2026-11-11
 > Status: active
 > AI_Used: true
 > AI_Models: unknown
@@ -137,6 +137,12 @@ flowchart TD
   Modell-Cache-Aufrufe dürfen untereinander serialisieren, aber niemals den
   wartenden Plattform-Aufrufer sperren. `cancel-in-progress: false` allein verhindert
   keine Kollisionen: GitHub kann ältere wartende Aufrufe derselben Gruppe ersetzen.
+- Reusable Status-Workflows mit Fan-out-Aufrufen müssen ihre Concurrency-Gruppe pro
+  Operation und stabilem Ziel bilden (z. B. Issue-Nummer, ersatzweise Marker/Titel),
+  nicht nur aus `github.workflow` und Ref: Im aufgerufenen Workflow bezeichnet
+  `github.workflow` den Caller, sodass parallele Status-Aufrufe sonst kollidieren
+  können. `cancel-in-progress: false` beibehalten; es verhindert nicht das Ersetzen
+  eines älteren wartenden Aufrufs derselben Gruppe.
 - Der Core-Preflight akzeptiert repository-lokale `uses` ohne Versionssuffix und
   SHA-Pins mit Inline-Kommentaren. Er prüft neue externe Pins, Self-Push-Kommandos
   und `continue-on-error: true` auf hinzugefügten Diff-Zeilen, statt unveränderte
@@ -267,6 +273,13 @@ Diese Dateien sollen die menschlich lesbaren Governance-Regeln und CI-Policies e
 - Jeder Workflow muss minimale `permissions` setzen und darf keine impliziten Default-Rechte nutzen.
 - Reaktivierungen oder neue Workflow-Dateien muessen den `Workflow Boundary Guard` passieren, bevor sie aktiv bleiben duerfen.
 
+## Repository artifact-size policy
+- `gate-pr-artifact-size.yml` runs on every pull request because any path may introduce an oversized tracked file; a path filter would create a bypass.
+- Added Git blobs strictly larger than 5 MiB (5,242,880 bytes) fail. Existing files are not retroactively rejected, and Git history is not rewritten.
+- Exceptions require a reviewed exact repository-relative path and a non-empty rationale in `tools/ci/large_file_allowlist.json`; globs and directory-wide entries are rejected. Keep the allowlist empty unless an intentional fixture is approved.
+- Generate Doxygen XML, scan reports, and benchmark run outputs in temporary/build locations and publish them as workflow artifacts. Current retention is workflow-specific: Doxygen XML 21 days, GS3 scan output 30 days, benchmark results 30 days, and Soll-Ist issue reports 14 days. The producing workflow and artifact name are recorded in `audit/evidence/repo-hygiene/HYG-01-inventory-2026-11-09.md`.
+- The reproducible inventory command is `python3 tools/ci/repo_artifact_policy.py inventory`; it records Git blob sizes and the measured Git-directory footprint. Current tree deletion does not prune historical Git blobs.
+
 ## Reaktivierungs-Checkliste
 - Der fachliche Nutzen ist branch-gate-relevant, release-relevant oder compliance-pflichtig.
 - Die Logik passt nicht sinnvoll als Job in einen bestehenden aktiven Workflow.
@@ -321,7 +334,7 @@ Kurzbeispiele:
   Kanonische Muster je Workflow-Typ:
   - **PR/Push-Gates**: `group: <name>-${{ github.event.pull_request.number || github.ref }}`, `cancel-in-progress: true`
   - **Release-Orchestratoren**: `group: ci-release-${{ github.ref_name || github.ref }}`, `cancel-in-progress: false` (laufenden Release nie abbrechen)
-  - **Reusable Workflows** (`workflow_call`): `group: ${{ github.workflow }}-${{ github.ref }}`, `cancel-in-progress: false` (Caller-seitige Concurrency entscheidet)
+  - **Reusable Workflows** (`workflow_call`): `group: ${{ github.workflow }}-${{ github.ref }}`, `cancel-in-progress: false`; Fan-out-Statusaufrufe ergänzen Operations- und Zielidentität (Issue-Nummer/Marker/Titel).
   - **Nightly/Schedule** (einmalig täglich): `group: <name>-develop` (statisch, da immer gleicher Branch), `cancel-in-progress: false`
   - **Sicherheits-/Pentest-Workflows**: `cancel-in-progress: false` (laufende Security-Scans nie abbrechen)
   - **Dispatch-only Safety** (WinGet, Rollback): `cancel-in-progress: false`

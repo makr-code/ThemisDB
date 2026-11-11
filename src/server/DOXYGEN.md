@@ -2,13 +2,20 @@
 
 Author: ThemisDB Contributors
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-09
 Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+
+Exact model backend not verifiable from final document text alone.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index (relative to the artifact output root): `server/xml/index.xml`
-- Artifact output root in this checkout: `ai_context/developer_llm_wiki/module_doxygen_artifacts/`
+- XML is generated in CI by the [Module Doxygen XML workflow](../../.github/workflows/gate-pr-module-doxygen-xml.yml).
+  Retrieve `module-doxygen-xml-<run>` from that workflow's artifacts; retention is 21 days.
 
 ## Structure Metrics
 - C/C++ Files (scanned): 294

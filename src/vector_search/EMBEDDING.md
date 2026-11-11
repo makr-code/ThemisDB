@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-11"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -104,8 +104,7 @@ insertion and query code rather than the production runtime.
 
 The most important embedding-related failure domains include:
 
-- dimension mismatch,
-- dimension mismatch (including the unchecked direct-commit insertion path),
+- dimension mismatch, including the unchecked direct-commit insertion path,
 - unverified NaN/Inf handling,
 - unavailable advanced backend support (with backend-specific error or fallback behavior),
 - stale index metadata after updates or deletes,

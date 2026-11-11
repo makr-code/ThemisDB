@@ -64,8 +64,8 @@ def parse_args() -> argparse.Namespace:
     )
     p.add_argument(
         "--doxygen-artifacts-root",
-        default="ai_context/developer_llm_wiki/module_doxygen_artifacts_batches",
-        help="Root with batch artifacts",
+        default="build/module-doxygen",
+        help="Root with locally generated batch artifacts",
     )
     p.add_argument(
         "--report-json",

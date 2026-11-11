@@ -71,6 +71,7 @@ jobs:
           path: |
             ai_context/developer_llm_wiki/SOLL_IST_GAP_REPORT.json
             ai_context/developer_llm_wiki/SOLL_IST_GAP_SUMMARY.md
+          retention-days: 14
 
       - name: Sync issues (idempotent)
         if: github.event_name == 'schedule' || github.event.inputs.apply_changes == 'true'
@@ -95,3 +96,4 @@ jobs:
           name: soll-ist-gap-issue-sync
           path: |
             ai_context/developer_llm_wiki/SOLL_IST_ISSUE_SYNC_RESULT.json
+          retention-days: 14

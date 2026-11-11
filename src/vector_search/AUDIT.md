@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-11"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -53,10 +53,14 @@ maintainer approval.
 
 ## Validation status
 
-The requested `ctest --preset windows-release -R 'vector_search'` command found
-no configured tests in this checkout. Its configure preset has tests disabled;
-use a test-enabled preset for focused validation. The Doxygen command
-`python scripts/check_module_direct_doxygen.py --module vector_search` returned
-`DIRECT_DOXYGEN_CHECK_OK`; it also reported non-zero symbol/documentation
-counters. Record a configured CTest run and review those counters before
-claiming a clean release evidence set.
+On 2026-11-11, `ctest --preset windows-release -R 'vector_search'
+--output-on-failure` reported `No tests were found!` in this checkout. This is
+not a passing test run; configure and build a test-enabled tree before recording
+focused CTest evidence.
+
+On the same date, `python scripts/check_module_direct_doxygen.py --module
+vector_search` exited with `DIRECT_DOXYGEN_CHECK_OK`, but reported one missing
+symbol, six missing briefs, five missing parameter-doc entries, and five missing
+return-doc entries. The checker exit status alone is not a clean compliance
+result. The source graph `ai_working/sourcecode_graph.json` is absent, so the
+checker used direct Doxygen markers rather than source-graph evidence.

@@ -2,7 +2,7 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-10-31
+Last Updated: 2026-11-09
 Last Generated: 2026-09-20 (date recorded by this snapshot)
 Status: review
 AI_Used: true
@@ -21,11 +21,14 @@ Exact model backend not verifiable from final document text alone.
 > **Generated snapshot; currentness unverified.** This 25k-line artifact records
 > a 2026-09-20 generation date. Its original XML and warnings-log locations
 > below are machine-local Windows paths, not reproducible repository paths. A
-> security XML index exists at
-> `ai_context/developer_llm_wiki/module_doxygen_artifacts/security/xml/index.xml`,
-> but no paired generation manifest or warnings log was located, so its
-> relationship to this Markdown snapshot cannot be established. Current API
+> a security XML index was present in the generated snapshot, but no paired
+> generation manifest or warnings log was located, so its relationship to this
+> Markdown snapshot cannot be established. Current API
 > authority remains the headers and implementation, not this generated listing.
+>
+> **Current artifact delivery:** Generate XML with the
+> [Module Doxygen XML workflow](../../.github/workflows/gate-pr-module-doxygen-xml.yml).
+> The `module-doxygen-xml-<run>` artifact is retained for 21 days.
 >
 > The body has been preserved; only this provenance/status section was updated.
 > Regeneration requires `doxygen` on `PATH` and rewrites this entire file,
