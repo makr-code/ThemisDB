@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-11"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -38,3 +38,14 @@ repository release changelog.
 - Removed redundant modeling, research, module-guide, operations, and trust
   narratives that duplicated the active architecture, roadmap, runbook, and
   security documents.
+
+## [Unreleased] — 2026-11-11
+
+### Changed
+
+- Replaced unsupported vector-search operations guidance and multi-vector API
+  claims with source-backed references and documented limitations.
+- Corrected implementation notes that treated flat-index fixtures as evidence
+  for production behavior or performance.
+- Recorded that the requested CTest invocation found no tests and that the
+  direct-Doxygen checker reported non-zero documentation counters.

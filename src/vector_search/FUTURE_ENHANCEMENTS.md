@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-11"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -59,6 +59,9 @@ Exact model backend not verifiable from final document text alone.
 
 - Run the repository-supported focused CTest selection after configuring and
   building the test targets.
+- Treat a CTest invocation that reports `No tests were found!` as missing
+  evidence, not a pass; the 2026-11-11 `windows-release` invocation had no
+  registered tests in this checkout.
 - Keep the flat-index stress/soak fixtures labeled as fixture-level evidence.
 - Add or identify integration coverage that exercises `VectorIndexManager`
   against RocksDB for lifecycle, search, persistence, and recovery.
