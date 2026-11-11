@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-11"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -126,7 +126,7 @@ data flow. `HybridRetriever` fuses candidates supplied by its caller; it does
 not query an index. Safety checks, generation, evaluation, authorization, and
 sink persistence are caller/integration responsibilities.
 
-## Current limitations and integration boundaries
+## Known Limitations
 
 - Runtime behavior varies with the configured retriever, evaluator, and LLM backend combination.
 - The module does not provide a mandatory end-to-end request pipeline or
