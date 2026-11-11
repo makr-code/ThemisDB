@@ -566,17 +566,6 @@ private:
     void validateConfig(const Config& config);
     
     /**
-     * @brief Format Prompt For RAG.
-     * @param[in] rag_context Input parameter.
-     * @param[in] request Input parameter.
-     * @return Return value.
-     */
-    std::string formatPromptForRAG(
-        const RAGContext& rag_context,
-        const InferenceRequest& request
-    );
-    
-    /**
      * @brief Update Statistics.
      * @param[in] response Input parameter.
      */

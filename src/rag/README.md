@@ -26,11 +26,17 @@ evaluation gates, and prompt-injection safety controls into a single composable 
 ## Scope
 
 In scope:
+- common typed knowledge retrieval through `RAGProvider`, independent of generation
 - retrieval fusion (BM25 + vector), reranking, and context assembly
 - RAG evaluation, quality gates, and judge integration
 - ingestion bridge and retrieval enrichment
 - prompt and retrieval safety controls (injection detection, sanitization)
 - RAG-specific performance and reliability controls (adaptive depth, streaming)
+
+For provider/consumer/helper responsibilities, shared generation preparation,
+consumer migration and explicit limitations, see
+[`docs/rag/README.md`](../../docs/rag/README.md) and
+[`docs/rag/API.md`](../../docs/rag/API.md).
 
 Out of scope:
 - core LLM backend lifecycle and model loading (see `src/llm/`)

@@ -142,19 +142,19 @@ std::string RAGPromptBuilder::build(
     auto selected = selectChunks(chunks, config_.max_context_length);
     std::string context_block = buildContextSection(selected);
 
-    std::string result = base_template;
-
-    // Replace context placeholder
-    auto pos = result.find(config_.template_placeholder);
-    if (pos != std::string::npos) {
-        result.replace(pos,config_.template_placeholder.size(), context_block);
-    }
-
-    // Replace {query} placeholder
-    const std::string query_placeholder = "{query}";
-    pos = result.find(query_placeholder);
-    if (pos != std::string::npos) {
-        result.replace(pos,query_placeholder.size(), query);
+    std::string result;
+    for (size_t pos = 0; pos < base_template.size();) {
+        if (!config_.template_placeholder.empty() &&
+            base_template.compare(pos, config_.template_placeholder.size(),
+                                  config_.template_placeholder) == 0) {
+            result += context_block;
+            pos += config_.template_placeholder.size();
+        } else if (base_template.compare(pos, 7, "{query}") == 0) {
+            result += query;
+            pos += 7;
+        } else {
+            result += base_template[pos++];
+        }
     }
 
     return result;

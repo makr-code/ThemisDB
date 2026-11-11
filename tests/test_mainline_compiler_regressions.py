@@ -178,6 +178,32 @@ class MainlineCompilerConfigurationTests(unittest.TestCase):
 
 
 class MonitoringRouteTranslationUnitTests(unittest.TestCase):
+    def test_license_response_bounds_single_expression_initializer_complexity(self) -> None:
+        source = (REPO_ROOT / "src/server/monitoring_api_routes.cpp").read_text(encoding="utf-8")
+        helper = re.search(
+            r"^void registerLicenseRoutes\(RouteRegistry& reg\) \{\n(.*?)^\}",
+            source, re.MULTILINE | re.DOTALL,
+        )
+        self.assertIsNotNone(helper)
+        body = helper.group(1)
+        self.assertNotRegex(body, r"\b(?:json|nlohmann::json)::parse\s*\(")
+        # Ignore comments and string contents, including braces in descriptions.
+        expressions = re.sub(r'//[^\n]*|/\*.*?\*/|"(?:\\.|[^"\\])*"', "", body, flags=re.DOTALL)
+        for expression in expressions.split(";"):
+            with self.subTest(expression=expression.strip()):
+                depth = 0
+                for token in expression:
+                    if token == "{":
+                        depth += 1
+                        self.assertLessEqual(depth, 4, "nested license response can exhaust MSVC's heap")
+                    elif token == "}":
+                        depth -= 1
+                self.assertEqual(depth, 0)
+                self.assertLessEqual(
+                    expression.count("{"), 12,
+                    "build license properties separately, not in one large initializer",
+                )
+
     def test_registration_batches_bound_per_function_initializer_count(self) -> None:
         source = (REPO_ROOT / "src/server/monitoring_api_routes.cpp").read_text(encoding="utf-8")
         helpers = re.findall(
@@ -288,6 +314,29 @@ class MonitoringRouteTranslationUnitTests(unittest.TestCase):
         handler_source = (server / "monitoring_api_handler.cpp").read_text(encoding="utf-8")
         self.assertIn('#include "server/openapi_route_registry.h"', handler_source)
         self.assertIn("RouteRegistry::instance().buildOpenApiSpec", handler_source)
+
+
+class MonolithicRuntimeSourceTests(unittest.TestCase):
+    def test_runtime_dependencies_are_registered_with_their_consumers(self) -> None:
+        cmake = MONOLITHIC_BUILD.read_text(encoding="utf-8")
+        core = re.search(r"\bset\(THEMIS_CORE_SOURCES\s+(.*?)\n\s*\)", cmake, re.DOTALL)
+        llm = re.search(
+            r"(?m)^if\(THEMIS_ENABLE_LLM\)\n"
+            r"    # Add LLM plugin source files\n"
+            r"    target_sources\(themis_core PRIVATE\n(.*?)^    \)",
+            cmake, re.DOTALL | re.MULTILINE,
+        )
+        self.assertIsNotNone(core)
+        self.assertIsNotNone(llm)
+        for block, sources in (
+            (core.group(1), ("api/graphql_aql_resolver.cpp", "gpu/gpu_memory_manager_edition.cpp")),
+            (llm.group(1), ("llm/prompt_policy.cpp", "llm/ssm_state_rocksdb_store.cpp",
+                            "llm/token_quota_manager.cpp")),
+        ):
+            for source in sources:
+                with self.subTest(source=source):
+                    self.assertRegex(block, rf"(?m)^\s+\.\./src/{re.escape(source)}(?:\s*(?:#.*)?)?$")
+                    self.assertEqual(len(re.findall(rf"(?m)^\s+\.\./src/{re.escape(source)}(?:\s|$)", block)), 1)
 
 
 class MainlineWindowsMatrixTests(unittest.TestCase):

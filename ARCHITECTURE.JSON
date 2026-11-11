@@ -25,9 +25,27 @@
       "type": "design"
     },
     {
+      "name": "BENCHMARK_FUNCTION_PATHS_IMPLEMENTATION_PLAN.md",
+      "sha256_prefix": "a3672a740f72325d",
+      "size_bytes": "8733",
+      "type": "design"
+    },
+    {
       "name": "BENCHMARK_LORA_DATA_PATHS_PLAN.md",
       "sha256_prefix": "4e65ef1b570eef0a",
       "size_bytes": "3523",
+      "type": "design"
+    },
+    {
+      "name": "E2E_LORA_BLOCKED_ITEMS.md",
+      "sha256_prefix": "1fd343cbea9dd824",
+      "size_bytes": "11652",
+      "type": "report"
+    },
+    {
+      "name": "E2E_LORA_PIPELINE_PLAN.md",
+      "sha256_prefix": "14a9223d41f03ede",
+      "size_bytes": "5962",
       "type": "design"
     },
     {
@@ -154,18 +172,6 @@
       "name": "gap_verifier_report_transaction.md",
       "sha256_prefix": "0a5e2a5a5641d28b",
       "size_bytes": "13820",
-      "type": "report"
-    },
-    {
-      "name": "gs3_scan_current.json",
-      "sha256_prefix": "19fdac91fe7903da",
-      "size_bytes": "23722655",
-      "type": "json"
-    },
-    {
-      "name": "gs3_scan_current.md",
-      "sha256_prefix": "d984e1f9e6776ce4",
-      "size_bytes": "3194469",
       "type": "report"
     }
   ],
@@ -745,7 +751,7 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "8f6955b4842029bb"
+      "sha256_prefix": "d06f68c45c8384dc"
     },
     {
       "category": "governance",
@@ -775,7 +781,7 @@
     {
       "category": "governance",
       "path": "CHANGELOG.md",
-      "sha256_prefix": "04c343dda2da57f1"
+      "sha256_prefix": "b98c4d5ebbe3f281"
     },
     {
       "category": "governance",
@@ -2500,7 +2506,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "7cd0e0189e55c8fc"
+      "sha256_prefix": "6cdf45ff0d06d008"
     },
     {
       "category": "docs",
@@ -3615,7 +3621,7 @@
     {
       "category": "docs",
       "path": "docs/governance/SRC_MODULE_DOCUMENTATION_COMPLIANCE_2026-09-20.md",
-      "sha256_prefix": "d03f0afc54c5cbdd"
+      "sha256_prefix": "91432e4a0106c82c"
     },
     {
       "category": "docs",
@@ -4740,7 +4746,7 @@
     {
       "category": "docs",
       "path": "docs/llm_orchestration/README.md",
-      "sha256_prefix": "e95c95e67fa7dfe9"
+      "sha256_prefix": "5bf936916f5a6588"
     },
     {
       "category": "docs",
@@ -5065,7 +5071,7 @@
     {
       "category": "docs",
       "path": "docs/operability/RUNBOOK_PROCESS_MANAGER.md",
-      "sha256_prefix": "4632aea2f31014ea"
+      "sha256_prefix": "a37e47c8ab912e0b"
     },
     {
       "category": "docs",
@@ -5185,7 +5191,7 @@
     {
       "category": "docs",
       "path": "docs/operability/RUNBOOK_VECTOR_SEARCH.md",
-      "sha256_prefix": "92590608739ab7c4"
+      "sha256_prefix": "9f74d755c5371f40"
     },
     {
       "category": "docs",
@@ -5345,7 +5351,7 @@
     {
       "category": "docs",
       "path": "docs/performance/BENCHMARK_RUNBOOK.md",
-      "sha256_prefix": "c6f888335df165ee"
+      "sha256_prefix": "63cf23b14e17a37e"
     },
     {
       "category": "docs",
@@ -5405,7 +5411,7 @@
     {
       "category": "docs",
       "path": "docs/performance/PERFORMANCE_EXPECTATIONS.md",
-      "sha256_prefix": "c2e9a9f6e902e6be"
+      "sha256_prefix": "fa6df9ec7c877f39"
     },
     {
       "category": "docs",
@@ -5530,7 +5536,7 @@
     {
       "category": "docs",
       "path": "docs/plugins/PLUGIN_ABI_POLICY.md",
-      "sha256_prefix": "f26c7f66096f1fcc"
+      "sha256_prefix": "1c5e835a446f3c77"
     },
     {
       "category": "docs",
@@ -5675,12 +5681,12 @@
     {
       "category": "docs",
       "path": "docs/rag/API.md",
-      "sha256_prefix": "ff9377d64951c769"
+      "sha256_prefix": "8863b2406cfb3b60"
     },
     {
       "category": "docs",
       "path": "docs/rag/README.md",
-      "sha256_prefix": "ee63fd1276cdb8f9"
+      "sha256_prefix": "569770ef2c78ef41"
     },
     {
       "category": "docs",
@@ -6090,12 +6096,12 @@
     {
       "category": "docs",
       "path": "docs/retrieval/API.md",
-      "sha256_prefix": "cb1f61211d61baca"
+      "sha256_prefix": "166b80d2f8d04c97"
     },
     {
       "category": "docs",
       "path": "docs/retrieval/README.md",
-      "sha256_prefix": "3742d274b5cddd0e"
+      "sha256_prefix": "ccbc67f5cb09787f"
     },
     {
       "category": "docs",
@@ -7013,14 +7019,14 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-11-10T06:50:46.208535+00:00",
+  "generated_at": "2026-11-11T17:33:04.830477+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
-    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-11-10\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
+    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-11-11\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
     "module_api_count": 80,
-    "source_count": 8073,
-    "wiki_generated_at": "2026-11-10T06:06:18+00:00",
-    "wiki_source_hash": "30d1c89563ecab04cc2281971c2de981ef89f20870396e7698e052eb48e3edd2"
+    "source_count": 8085,
+    "wiki_generated_at": "2026-11-11T15:23:30+00:00",
+    "wiki_source_hash": "dfc1d25f30a8536a4027704895272134ad25872dd9d19553e7ca9d74f349cdfc"
   },
   "modules": [
     {
@@ -9012,18 +9018,18 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "8f6955b4842029bb",
+    "ARCHITECTURE.md": "d06f68c45c8384dc",
     "FUTURE_ENHANCEMENTS.md": "ab3cf42244d049f6",
     "ROADMAP.md": "ccccd02fbb5493c5",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
-    "ai_context/api_contracts/": "389cdacfaaa6f0ca",
-    "ai_context/developer_llm_wiki/": "e3111b46e0ae4662",
-    "ai_working/": "52346260da576891",
-    "docs/": "2ad031097f0e33b7"
+    "ai_context/api_contracts/": "bfdcd3503fc9863b",
+    "ai_context/developer_llm_wiki/": "cdd2be61ddd3a5a2",
+    "ai_working/": "9db3e45d014bc226",
+    "docs/": "6493df82fe17c082"
   },
   "statistics": {
-    "ai_working_artifact_count": 28,
+    "ai_working_artifact_count": 29,
     "documentation_source_count": 1254,
     "isolated_module_count": 30,
     "modules_with_api_contracts": 6,

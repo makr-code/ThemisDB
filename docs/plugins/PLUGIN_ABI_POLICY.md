@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-08-10
-Last Updated: 2026-08-10
+Last Updated: 2026-11-11
 Status: stable
 ---
 
@@ -27,10 +27,9 @@ The following constitutes the frozen `v0.1.0` plugin ABI:
 
 | Contract element | Location | Frozen since |
 |-----------------|----------|-------------|
-| Plugin factory symbol `themisdb_<id>_create` | `include/plugins/plugin_interface.h` | Wave-1 |
-| Plugin destroy symbol `themisdb_<id>_destroy` | `include/plugins/plugin_interface.h` | Wave-1 |
-| `ThemisPluginInfo` struct layout | `include/plugins/plugin_interface.h` | Wave-1 |
-| `ThemisPluginContext` opaque pointer | `include/plugins/plugin_interface.h` | Wave-1 |
+| C-linkage factory `createPlugin()`, returning `IThemisPlugin*` | `include/plugins/plugin_interface.h`, `src/plugins/plugin_manager.cpp` | Wave-1 |
+| C-linkage destroy function `destroyPlugin(IThemisPlugin*)` | `include/plugins/plugin_interface.h`, `src/plugins/plugin_manager.cpp` | Wave-1 |
+| `IThemisPlugin` C++ virtual interface and boundary value types | `include/plugins/plugin_interface.h` | Wave-1 |
 | `compatible_core_abi` manifest field identifier `"plugin-abi-v2"` | `plugin.json` in all Wave-1 plugins | Wave-1 |
 | Edition gating fields (`allowed_editions`, `license_feature`) | `plugin.json` schema | Wave-1 |
 
@@ -39,6 +38,16 @@ The following constitutes the frozen `v0.1.0` plugin ABI:
 > freeze label used in governance documentation is `v0.1.0`. These are the same contract;
 > all new plugins must declare `"compatible_core_abi": "plugin-abi-v2"` until the ABI is
 > bumped to `v0.2.0` / `"plugin-abi-v3"`.
+
+The factory exports have C linkage, but the object contract is C++, including
+virtual dispatch and C++ value types. This is not a compiler-/standard-library-
+independent opaque C-handle ABI. Earlier revisions of this page incorrectly
+named `themisdb_<id>_create/destroy`, `ThemisPluginInfo` and `ThemisPluginContext`;
+those are not the exports/layouts of the referenced header and loader.
+
+Internal RAG provider/consumer/helper calls use ordinary C++ contracts and do not
+introduce another plugin ABI. Their types must not be added to a frozen plugin
+vtable merely to share an in-process retrieval implementation.
 
 ---
 
@@ -56,8 +65,8 @@ The following constitutes the frozen `v0.1.0` plugin ABI:
 ### Breaking (requires ABI bump to `v0.2.0`)
 
 - Changing the **signature** of the factory or destroy C symbol
-- Changing the **layout or alignment** of `ThemisPluginInfo` (add/remove/reorder fields)
-- Changing the **type or semantics** of `ThemisPluginContext`
+- Changing the `IThemisPlugin` **vtable**, method signatures or boundary value layouts
+- Changing ownership or destruction semantics across the plugin boundary
 - Removing or renaming a **required** `plugin.json` field
 - Changing the runtime **load-or-reject semantics** of `compatible_core_abi`
 - Changing the edition gating evaluation logic

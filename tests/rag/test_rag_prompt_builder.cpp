@@ -3,6 +3,17 @@
 
 using namespace themis::prompt_engineering;
 
+TEST(RAGPromptBuilderTest, ExpandsOnlyOriginalTemplatePlaceholders) {
+    RAGPromptBuilder builder;
+    RetrievedChunk chunk;
+    chunk.content = "evidence containing {query}";
+    const auto result = builder.build(
+        "Q={query}; C={context}; Q={query}", "literal {context}", {chunk});
+    EXPECT_NE(result.find("evidence containing {query}"), std::string::npos);
+    EXPECT_NE(result.find("Q=literal {context}"), std::string::npos);
+    EXPECT_NE(result.rfind("Q=literal {context}"), result.find("Q=literal {context}"));
+}
+
 // ============================================================================
 // Helpers
 // ============================================================================

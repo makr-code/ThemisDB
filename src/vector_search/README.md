@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-11"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -125,3 +125,5 @@ the build configuration, and the diagram does not imply a distributed service.
 - [Production requirements](PRODUCTION_REQUIREMENTS.md)
 - [Security](SECURITY.md)
 - [Runbook](RUNBOOK.md)
+- [Multi-vector search guide](../../docs/de/aql/multi_vector_search.md)
+- [Operations runbook entry point](../../docs/operability/RUNBOOK_VECTOR_SEARCH.md)

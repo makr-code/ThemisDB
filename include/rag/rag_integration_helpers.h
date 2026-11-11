@@ -13,14 +13,40 @@
 #include "rag/knowledge_gap_detector.h"
 #include "index/vector_index.h"
 #include "storage/base_entity.h"
+#include "storage/rocksdb_wrapper.h"
+#include "storage/key_schema.h"
+#include "rag/rag_retrieval_helpers.h"
 #include <functional>
 #include <vector>
 #include <string>
+#include <stdexcept>
 
 namespace themis::rag {
 
 /**
- * @brief Convert VectorIndexManager search results to RetrievedDocuments
+ * @brief Pure conversion from common-provider evidence to knowledge-gap input.
+ * @param candidates Owned evidence returned by RAGProvider.
+ * @return Documents preserving identity, source collection and retrieval score.
+ * @note Scores retain their retrieval semantics; they are not probabilities.
+ */
+[[nodiscard]] inline std::vector<knowledge_gap::RetrievedDocument> convertToRetrievedDocuments(
+    const std::vector<RAGCandidate>& candidates) {
+    std::vector<knowledge_gap::RetrievedDocument> documents;
+    documents.reserve(candidates.size());
+    for (const auto& candidate : candidates) {
+        knowledge_gap::RetrievedDocument document;
+        document.id = candidate.doc_id;
+        document.content = candidate.content;
+        document.similarity_score = candidate.score;
+        document.metadata["source"] = candidate.doc_id;
+        document.metadata["collection"] = candidate.source_namespace;
+        documents.push_back(std::move(document));
+    }
+    return documents;
+}
+
+/**
+ * @brief Legacy acquisition adapter; new consumers use RAGProvider and the pure overload.
  * 
  * This helper converts search results from VectorIndexManager::searchKnn()
  * into the format expected by KnowledgeGapDetector.
@@ -28,109 +54,88 @@ namespace themis::rag {
  * @param search_results Vector of search results from VectorIndexManager
  * @param db Database wrapper to retrieve full entity content
  * @param metric Distance metric used (affects similarity conversion)
+ * @param collection Explicit source collection; empty requires fully qualified
+ * storage keys in search_results. No collection is guessed.
  * @return Vector of RetrievedDocument structures
  * 
  * @note For COSINE metric: similarity = 1 - distance
  * @note For L2 metric: similarity = 1 / (1 + distance)
  * @note For DOT metric: similarity = distance (assuming normalized vectors)
+ * @throws std::runtime_error if storage or usable content is unavailable.
+ * @note This compatibility overload performs I/O and belongs to provider-side
+ * acquisition, not to the pure helper contract.
  */
 inline std::vector<knowledge_gap::RetrievedDocument> convertToRetrievedDocuments(
     const std::vector<VectorIndexManager::Result>& search_results,
     RocksDBWrapper& db,
-    VectorIndexManager::Metric metric = VectorIndexManager::Metric::COSINE
+    VectorIndexManager::Metric metric = VectorIndexManager::Metric::COSINE,
+    const std::string& collection = {}
 ) {
-    std::vector<knowledge_gap::RetrievedDocument> documents = {};
-
-    documents.reserve(search_results.size());
+    std::vector<RAGCandidate> candidates;
+    candidates.reserve(search_results.size());
     
     for (const auto& result : search_results) {
-        knowledge_gap::RetrievedDocument doc;
-        doc.id = result.pk;
+        double similarity = 0.0;
         
         // Convert distance to similarity score (0.0-1.0 range)
         switch (metric) {
             case VectorIndexManager::Metric::COSINE:
                 // Cosine distance = 1 - cosine_similarity
                 // So: similarity = 1 - distance
-                doc.similarity_score = std::max(0.0, std::min(1.0, 1.0 - result.distance));
+                similarity = std::max(0.0, std::min(1.0, 1.0 - result.distance));
                 break;
                 
             case VectorIndexManager::Metric::L2:
                 // L2 distance: smaller is better
                 // Convert to similarity: 1 / (1 + distance)
-                doc.similarity_score = 1.0 / (1.0 + result.distance);
+                similarity = 1.0 / (1.0 + result.distance);
                 break;
                 
             case VectorIndexManager::Metric::DOT:
                 // Dot product: larger is better (assuming normalized vectors)
                 // Already in similarity form
-                doc.similarity_score = std::max(0.0, std::min(1.0, result.distance));
+                similarity = std::max(0.0, std::min(1.0, result.distance));
                 break;
         }
         
-        // Retrieve full entity content from database
-        auto entity_opt = db.getEntity(result.pk);
-        if (entity_opt) {
-            const BaseEntity& entity = entity_opt.value();
-            
-            // Extract content field (adjust field name as needed)
-            if (entity.hasField("content")) {
-                doc.content = entity.getFieldAsString("content");
-            } else if (entity.hasField("text")) {
-                doc.content = entity.getFieldAsString("text");
-            } else if (entity.hasField("body")) {
-                doc.content = entity.getFieldAsString("body");
-            } else {
-                // Fallback: use JSON representation
-                doc.content = entity.toJson().dump();
-            }
-            
-            // Extract metadata
-            if (entity.hasField("timestamp")) {
-                doc.metadata["timestamp"] = entity.getFieldAsString("timestamp");
-            }
-            if (entity.hasField("source")) {
-                doc.metadata["source"] = entity.getFieldAsString("source");
-            }
-            if (entity.hasField("author")) {
-                doc.metadata["author"] = entity.getFieldAsString("author");
-            }
-            if (entity.hasField("category")) {
-                doc.metadata["category"] = entity.getFieldAsString("category");
-            }
-            if (entity.hasField("language")) {
-                doc.metadata["language"] = entity.getFieldAsString("language");
-            }
-        } else {
-            // Entity not found - use PK as content
-            doc.content = "Entity not found: " + result.pk;
+        if (!std::isfinite(result.distance)) {
+            throw std::runtime_error("RAG vector result has a non-finite distance");
         }
-        
-        documents.push_back(std::move(doc));
+        const auto key = collection.empty()
+            ? result.pk : KeySchema::makeRelationalKey(collection, result.pk);
+        const auto blob = db.get(key);
+        if (!blob) {
+            throw std::runtime_error("RAG entity not found: " + key);
+        }
+        const auto entity = BaseEntity::deserialize(result.pk, *blob);
+        auto candidate = makeRAGCandidate(result.pk, collection,
+            nlohmann::json::parse(entity.toJson()), static_cast<float>(similarity), "retrieve:legacy_vector");
+        if (!candidate) {
+            throw std::runtime_error("RAG entity has no usable content: " + key);
+        }
+        candidates.push_back(std::move(*candidate));
     }
     
-    return documents;
+    return convertToRetrievedDocuments(candidates);
 }
 
 /**
  * @brief Example: Complete RAG pipeline with gap detection
  * 
  * @code
- * // 1. Initialize components
- * RocksDBWrapper db(config);
- * VectorIndexManager vector_mgr(db);
+ * // Borrow an authorized QueryEngine with initialized indexes.
+ * RAGProvider provider(engine);
  * auto gap_detector = KnowledgeGapDetectorFactory::createBalanced();
- * 
- * // 2. Perform vector search
- * std::vector<float> query_embedding = embedQuery("What is machine learning?");
- * auto [status, search_results] = vector_mgr.searchKnn(query_embedding, 10);
- * 
- * // 3. Convert to RetrievedDocuments
- * auto documents = convertToRetrievedDocuments(
- *     search_results, 
- *     db, 
- *     VectorIndexManager::Metric::COSINE
- * );
+ * query::VectorGeoQuery vector_query;
+ * vector_query.table = "docs";
+ * vector_query.query_vector = embedQuery("What is machine learning?");
+ * RetrievalRequest request;
+ * request.query = vector_query;
+ * auto evidence = provider.retrieve(request);
+ * if (!evidence) {
+ *     throw std::runtime_error(evidence.error().context());
+ * }
+ * auto documents = convertToRetrievedDocuments(evidence->candidates);
  * 
  * // 4. Check for knowledge gaps
  * auto gap_result = gap_detector->detectPreGeneration(
@@ -164,8 +169,7 @@ inline std::vector<knowledge_gap::RetrievedDocument> convertToRetrievedDocuments
  *
  * The function receives a query string and returns a float vector suitable
  * for `VectorIndexManager::searchKnn()`.  Return an empty vector to signal
- * that embedding generation failed for the given query; the corresponding
- * result list will then be empty.
+ * that embedding generation failed; the compatibility batch adapter throws.
  */
 using EmbeddingFunction = std::function<std::vector<float>(const std::string&)>;
 
@@ -185,9 +189,10 @@ using EmbeddingFunction = std::function<std::vector<float>(const std::string&)>;
  *                    guarantees are required of the provided callable.
  * @param k           Number of nearest neighbours to retrieve per query.
  * @param metric      Distance metric used for similarity conversion.
+ * @param collection Source collection, or fully qualified storage keys when empty.
  * @return Vector of document lists — one per input query (same order).
- *         An empty inner list indicates that either embedding generation failed
- *         or the K-NN search returned no results for that query.
+ *         An empty inner list indicates a successful search with no matches.
+ * @throws std::runtime_error if embedding, search or materialization fails.
  *
  * @note This function processes queries sequentially.  Parallel execution
  *       requires a thread-safe VectorIndexManager implementation.
@@ -199,7 +204,8 @@ batchConvertToRetrievedDocuments(
     RocksDBWrapper& db,
     const EmbeddingFunction& embed_fn,
     size_t k = 10,
-    VectorIndexManager::Metric metric = VectorIndexManager::Metric::COSINE
+    VectorIndexManager::Metric metric = VectorIndexManager::Metric::COSINE,
+    const std::string& collection = {}
 ) {
     std::vector<std::vector<knowledge_gap::RetrievedDocument>> all_documents;
     all_documents.reserve(queries.size());
@@ -208,19 +214,17 @@ batchConvertToRetrievedDocuments(
         std::vector<float> embedding = embed_fn(query);
 
         if (embedding.empty()) {
-            // Embedding generation failed for this query — return empty list.
-            all_documents.emplace_back();
-            continue;
+            throw std::runtime_error("RAG query embedding unavailable");
         }
 
         auto [status, results] = vector_mgr.searchKnn(embedding, k);
 
         if (status.ok) {
             all_documents.push_back(
-                convertToRetrievedDocuments(results, db, metric)
+                convertToRetrievedDocuments(results, db, metric, collection)
             );
         } else {
-            all_documents.emplace_back();
+            throw std::runtime_error("RAG vector search failed: " + status.message);
         }
     }
 

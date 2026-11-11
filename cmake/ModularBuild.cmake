@@ -679,6 +679,7 @@ endif()
 list(APPEND THEMIS_STORAGE_SOURCES)
 
 set(THEMIS_QUERY_SOURCES
+    ../src/rag/rag_provider.cpp
     # Query engine
     ../src/query/query_engine.cpp
     ../src/query/query_executor.cpp
@@ -881,7 +882,8 @@ set(THEMIS_QUERY_SOURCES
     ../src/exporters/join_exporter.cpp
     ../src/exporters/huggingface_hub_client.cpp
     ../src/importers/conflict_resolver.cpp
-    $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/importers/postgres_importer.cpp>
+    # SQL dump import does not depend on the PostgreSQL wire-protocol server.
+    ../src/importers/postgres_importer.cpp
     $<$<BOOL:${THEMIS_HAS_PUBLIC_MYSQL_IMPORTER}>:../src/importers/mysql_importer.cpp>
     $<$<BOOL:${THEMIS_HAS_PUBLIC_MONGO_IMPORTER}>:../src/importers/mongo_importer.cpp>
     ../src/importers/elasticsearch_importer.cpp
@@ -1303,6 +1305,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/aql_train_parser.cpp
     ../src/aql/llm_aql_embedding_bridge.cpp
     ../src/llm/llama_wrapper.cpp
+    ../src/llm/rag_helpers.cpp
     ../src/llama_cpp/llama_cpp_plugin.cpp
     ../src/llm/llama_lora_adapter.cpp
     ../src/llm/llama_grammar_adapter.cpp

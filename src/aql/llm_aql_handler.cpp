@@ -10,6 +10,8 @@
 
 
 #include "aql/llm_aql_handler.h"
+#include "rag/rag_provider.h"
+#include "llm/rag_helpers.h"
 
 #include <algorithm>
 #include <atomic>
@@ -599,8 +601,7 @@ class LLMAQLHandler::Impl {
         return llm::LLMPluginManager::instance();
     }
 
-    // Store optional vector index manager for RAG queries
-    VectorIndexManager *vector_index_mgr_ = nullptr;
+    std::shared_ptr<query::QueryEngine> query_engine_;
 
     // Default configuration constants
     static constexpr float DEFAULT_SIMILARITY_THRESHOLD = 0.7f;
@@ -871,6 +872,10 @@ std::shared_ptr<AQLIngestionBridge> LLMAQLHandler::ingestionBridge() const {
  */
 void LLMAQLHandler::setStorage(std::shared_ptr<RocksDBWrapper> storage) {
     impl_->storage_ = std::move(storage);
+}
+
+void LLMAQLHandler::setQueryEngine(std::shared_ptr<query::QueryEngine> engine) {
+    impl_->query_engine_ = std::move(engine);
 }
 
 /**
@@ -1237,93 +1242,66 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                 [&]() {
                     auto &plugin_mgr = impl_->getPluginManager();
 
-                    // Build RAG context with vector search integration
+                    if (!impl_->query_engine_) {
+                        throw LLMException(LLMErrorCode::RAG_FAILED,
+                                           "RAG retrieval engine not configured; call setQueryEngine()");
+                    }
+                    if (impl_->collection_access_checker_ &&
+                        !impl_->collection_access_checker_(collection)) {
+                        throw LLMException(LLMErrorCode::RAG_FAILED,
+                                           "RAG collection access denied");
+                    }
+
                     llm::RAGContext context;
                     context.query           = query;
                     context.collection_name = collection;
                     context.top_k           = top_k;
 
-                    // If vector index manager is available, perform similarity search
-                    if (impl_->vector_index_mgr_) {
+                    float similarity_threshold = Impl::DEFAULT_SIMILARITY_THRESHOLD;
+                    if (options.count("similarity_threshold")) {
+                        similarity_threshold = std::stof(options.at("similarity_threshold"));
+                    }
+                    if (!std::isfinite(similarity_threshold)) {
+                        throw LLMException(LLMErrorCode::RAG_FAILED,
+                                           "RAG similarity threshold must be finite");
+                    }
+                    query::VectorGeoQuery vector_query;
+                    vector_query.table = collection;
+                    const auto field = options.find("vector_field");
+                    if (field != options.end()) {
+                        vector_query.vector_field = field->second;
+                    }
+                    vector_query.query_vector = plugin_mgr.embed(query);
+                    rag::RetrievalRequest retrieval_request;
+                    retrieval_request.query = std::move(vector_query);
+                    retrieval_request.max_candidates = static_cast<std::size_t>(top_k);
+                    rag::RetrievalExecutionContext execution_context;
+                    execution_context.cancelled = cancel_token;
+                    const rag::RAGProvider provider(*impl_->query_engine_);
+                    auto evidence = provider.retrieve(retrieval_request, execution_context);
+                    if (!evidence) {
+                        throw LLMException(LLMErrorCode::RAG_FAILED, evidence.error().context());
+                    }
+                    context.documents = llm::toRAGDocuments(evidence->candidates);
+                    context.documents.erase(std::remove_if(
+                        context.documents.begin(), context.documents.end(),
+                        [similarity_threshold](const auto& document) {
+                            return document.relevance_score < similarity_threshold;
+                        }), context.documents.end());
+                    for (auto& document : context.documents) {
                         try {
-                            // Generate query embedding
-                            auto query_embedding = THEMIS_LLM_EMBED(query);
-
-                            // Search for similar documents
-                            float similarity_threshold = Impl::DEFAULT_SIMILARITY_THRESHOLD;
-                            if (options.count("similarity_threshold")) {
-                                similarity_threshold = std::stof(options.at("similarity_threshold"));
-                            }
-
-                            auto [status, results] = impl_->vector_index_mgr_->searchKnn(query_embedding, top_k);
-
-                            if (status.ok) {
-                                // Retrieve documents and build context
-                                for (const auto &result : results) {
-                                    // Convert distance metric to similarity score
-                                    // For COSINE/L2 metrics: lower distance = higher similarity
-                                    float similarity = 1.0f - result.distance;
-
-                                    // Filter by similarity threshold
-                                    if (similarity >= similarity_threshold) {
-                                        llm::RAGContext::Document doc;
-                                        doc.source          = result.pk;
-                                        doc.relevance_score = similarity;
-                                        // Attempt to hydrate the document content from storage (B5).
-                                        // When storage is injected, fetch the raw JSON and extract the
-                                        // "text" or "content" field; fall back to the raw JSON if absent.
-                                        // Without storage, doc.content carries the pk for downstream lookup.
-                                        if (impl_->storage_) {
-                                            try {
-                                                auto raw = impl_->storage_->get(result.pk);
-                                                if (raw.has_value()) {
-                                                    std::string raw_str(raw.value().begin(), raw.value().end());
-                                                    try {
-                                                        auto doc_json = nlohmann::json::parse(raw_str);
-                                                        if (doc_json.contains("text")
-                                                            && doc_json["text"].is_string()) {
-                                                            doc.content = doc_json["text"].get<std::string>();
-                                                        } else if (doc_json.contains("content")
-                                                                   && doc_json["content"].is_string()) {
-                                                            doc.content = doc_json["content"].get<std::string>();
-                                                        } else {
-                                                            doc.content = raw_str;
-                                                        }
-                                                    } catch (...) {
-                                                        doc.content = raw_str;
-                                                    }
-                                                } else {
-                                                    doc.content = result.pk;
-                                                }
-                                            } catch (...) {
-                                                doc.content = result.pk;
-                                            }
-                                        } else {
-                                            doc.content = result.pk;
-                                        }
-                                        context.documents.push_back(doc);
-                                    }
-                                }
-                                // Sanitize and wrap each retrieved document to prevent prompt injection.
-                                // Document content originates from user-controlled storage and must not
-                                // be able to override LLM system instructions.
-                                for (auto &d : context.documents) {
-                                    try {
-                                        sanitizePromptInput(d.content, "retrieved_document", 0);
-                                    } catch (const LLMException &) {
-                                        spdlog::warn(
-                                            "RAG: prompt injection detected in document pk={}, content redacted",
-                                            d.source);
-                                        d.content = "[CONTENT REDACTED: injection marker detected]";
-                                    }
-                                    d.content = "[DOCUMENT_START]\n" + d.content + "\n[DOCUMENT_END]";
-                                }
-                                retrieved_docs = context.documents.size();
-                            }
-                        } catch (const std::exception &e) {
-                            // Log error but continue with empty context
-                            spdlog::warn("RAG vector search failed: {}", e.what());
+                            sanitizePromptInput(document.content, "retrieved_document", 0);
+                        } catch (const LLMException&) {
+                            spdlog::warn("RAG: prompt injection detected in document {}, content redacted",
+                                         document.source);
+                            document.content = "[CONTENT REDACTED: injection marker detected]";
                         }
+                        document.content = "[DOCUMENT_START]\n" + document.content + "\n[DOCUMENT_END]";
+                    }
+                    retrieved_docs = context.documents.size();
+                    if (context.documents.empty()) {
+                        throw LLMException(LLMErrorCode::RAG_FAILED,
+                                           "RAG retrieval returned no usable evidence");
                     }
 
                     // Build inference request with RAG context
@@ -1359,6 +1337,9 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
 
                     // Execute RAG query
                     auto response = plugin_mgr.generateRAG(context, request);
+                    if (!response.success) {
+                        throw LLMException(LLMErrorCode::RAG_FAILED, response.error_message);
+                    }
                     return response.text;
                 },
                 RetryPolicy::isRetryableError);

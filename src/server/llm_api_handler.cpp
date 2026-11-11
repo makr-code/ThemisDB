@@ -26,6 +26,8 @@
 #include "aql/llm_error_codes.h"
 #include "llm/context_window_budget.h"
 #include "query/query_engine.h"
+#include "rag/rag_provider.h"
+#include "llm/rag_helpers.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 #include <spdlog/spdlog.h>
@@ -90,62 +92,6 @@ namespace {
         }
     }
 
-    /**
-     * @brief Extract Rag Document Content.
-     * @param[in] entity Input parameter.
-     * @return Return value.
-     * @details Calls: contains(), is_string(), empty().
-     */
-    std::optional<std::string> extractRagDocumentContent(const nlohmann::json& entity) {
-        // Check "content" field first
-        if (entity.contains("content") && entity["content"].is_string()) {
-            const std::string& content = entity["content"].get_ref<const std::string&>();
-            if (!content.empty()) {
-                return content;
-            }
-        }
-        // Check "text" field
-        if (entity.contains("text") && entity["text"].is_string()) {
-            const std::string& content = entity["text"].get_ref<const std::string&>();
-            if (!content.empty()) {
-                return content;
-            }
-        }
-        // Check "body" field
-        if (entity.contains("body") && entity["body"].is_string()) {
-            const std::string& content = entity["body"].get_ref<const std::string&>();
-            if (!content.empty()) {
-                return content;
-            }
-        }
-        return std::nullopt;
-    }
-
-    /**
-     * @brief Extract Rag Document Source.
-     * @param[in] primary_key Input parameter.
-     * @param[in] entity Input parameter.
-     * @return Return value.
-     * @details Calls: empty(), contains(), is_string().
-     */
-    std::string extractRagDocumentSource(const std::string& primary_key, const nlohmann::json& entity) {
-        if (!primary_key.empty()) {
-            return primary_key;
-        }
-        if (entity.contains("source") && entity["source"].is_string()) {
-            const std::string& source = entity["source"].get_ref<const std::string&>();
-            if (!source.empty()) {
-                return source;
-            }
-        }
-        if (entity.contains("id") && entity["id"].is_string()) {
-            const std::string& source = entity["id"].get_ref<const std::string&>();
-            if (!source.empty()) {
-                return source;
-            }
-        }
-        return {};
-    }
 }
 
 LLMApiHandler::LLMApiHandler(
@@ -577,8 +523,8 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         return createErrorResponse(http::status::bad_request, "Invalid RAG parameters", e.what());
     }
 
-    if (query.empty()) {
-        return createErrorResponse(http::status::bad_request, "Missing 'query' field");
+    if (query.empty() || collection.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing 'query' or 'collection' field");
     }
 
     if (top_k < aql::ValidationLimits::MIN_RAG_TOP_K ||
@@ -715,48 +661,37 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
                 vector_query.query_vector = query_vec;
                 vector_query.k = static_cast<size_t>(top_k);
 
-                auto retrieval_result = query_engine_->executeVectorGeoQuery(vector_query);
+                rag::RetrievalRequest retrieval_request;
+                retrieval_request.query = std::move(vector_query);
+                retrieval_request.max_candidates = static_cast<std::size_t>(top_k);
+                const rag::RAGProvider provider(*query_engine_);
+                auto retrieval_result = provider.retrieve(retrieval_request);
                 if (!retrieval_result) {
                     return createErrorResponse(
-                        http::status::service_unavailable,
+                        retrieval_result.error().code() == errors::ErrorCode::ERR_QUERY_ACCESS_DENIED
+                            ? http::status::forbidden : http::status::service_unavailable,
                         "RAG retrieval failed",
                         retrieval_result.error().context()
                     );
                 }
 
-                rag_context.documents.reserve(retrieval_result.value().size());
-                for (const auto& result : retrieval_result.value()) {
-                    const auto content_opt = extractRagDocumentContent(result.entity);
-                    const auto source = extractRagDocumentSource(result.pk, result.entity);
-                    if (!content_opt.has_value() || source.empty()) {
-                        ++rejected_documents;
-                        continue;
-                    }
-
-                    llm::RAGContext::Document document;
-                    document.source = source;
-                    document.relevance_score = 1.0f - result.vector_distance;
-                    document.metadata = result.entity;
-                    document.content = *content_opt;
-                    rag_context.documents.push_back(std::move(document));
-                    if (!llm::detail::inferenceInputsWithinByteLimit(llm_request, rag_context)) {
-                        return createErrorResponse(
-                            http::status::bad_request,
-                            "RAG request too large",
-                            "prompt and RAG query, template, retrieved document content/source, and metadata must fit "
-                            "within the 1 MiB conservative byte limit");
-                    }
+                rejected_documents = retrieval_result->rejected_documents;
+                rag_context.documents = llm::toRAGDocuments(retrieval_result->candidates);
+                if (!llm::detail::inferenceInputsWithinByteLimit(llm_request, rag_context)) {
+                    return createErrorResponse(
+                        http::status::bad_request,
+                        "RAG request too large",
+                        "prompt, query and retrieved evidence exceed the 1 MiB conservative byte limit");
                 }
 
                 if (rag_context.documents.empty()) {
-                    const std::string reason = retrieval_result.value().empty()
+                    const std::string reason = rejected_documents == 0
                         ? "No documents matched the retrieval query"
                         : "Retrieved documents are missing required source/content fields";
                     return createErrorResponse(
                         http::status::service_unavailable,
                         "RAG retrieval returned no usable documents",
-                        reason + " (retrieved=" + std::to_string(retrieval_result.value().size()) +
-                            ", rejected=" + std::to_string(rejected_documents) + ")"
+                        reason + " (rejected=" + std::to_string(rejected_documents) + ")"
                     );
                 }
             } catch (const std::exception& ve) {
@@ -791,6 +726,10 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
 
         // Call LLMPluginManager for RAG inference
         auto llm_response = plugin_mgr.generateRAG(rag_context, llm_request);
+        if (!llm_response.success) {
+            return createErrorResponse(http::status::service_unavailable,
+                                       "RAG generation failed", llm_response.error_message);
+        }
 
         json response_data = {
             {"text", llm_response.text},

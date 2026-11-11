@@ -1,7 +1,8 @@
 #include "llama_cpp/llama_cpp_plugin.h"
+#include "llm/context_window_budget.h"
 #include "llm/json_schema_converter.h"
 #include <stdexcept>
-#include "rag/rag_context_assembler.h"
+#include "llm/rag_helpers.h"
 #include <algorithm>
 #include <atomic>
 #include <exception>
@@ -443,19 +444,6 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
         snap_context_length = context_length_;
     }
 
-    // Build RetrievedChunk objects from the RAGContext documents.
-    // request and rag_context are caller-owned; no shared state involved here.
-    std::vector<themis::rag::RetrievedChunk> chunks = {};
-
-    chunks.reserve(rag_context.documents.size());
-    for (const auto& doc : rag_context.documents) {
-        themis::rag::RetrievedChunk chunk;
-        chunk.content         = doc.content;
-        chunk.source          = doc.source;
-        chunk.relevance_score = doc.relevance_score;
-        chunks.push_back(std::move(chunk));
-    }
-
     // Early-out if model is not loaded (mirrors generate() behaviour).
     if (!snap_model_loaded) {
         llm::InferenceResponse err;
@@ -467,120 +455,14 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
         return err;
     }
 
-    // Configure the assembler from the loaded model's context window.
-    // Honour an explicit override from the caller (rag_context.max_context_tokens).
-    themis::rag::RAGContextAssemblerConfig cfg;
-    cfg.model_context_tokens =
-        (rag_context.max_context_tokens > 0)
-            ? static_cast<size_t>(rag_context.max_context_tokens)
-            : snap_context_length;
-    cfg.min_response_tokens  =
-        (rag_context.response_budget_tokens > 0)
-            ? static_cast<size_t>(rag_context.response_budget_tokens)
-            : ((request.max_tokens > 0)
-                   ? static_cast<size_t>(request.max_tokens)
-                   : llm::kDefaultMinResponseTokens);
-
-    std::string rag_mode = "text";
-    if (request.metadata.is_object()) {
-        const auto rag_mode_it = request.metadata.find("rag_mode");
-        if (rag_mode_it != request.metadata.end() && rag_mode_it->is_string()) {
-            rag_mode = rag_mode_it->get<std::string>();
-        }
-    }
-
-    spdlog::info(
-        "LlamaCppPlugin::generateRAG start: docs={} rag_mode='{}' query_chars={} model_ctx={} response_budget={} request_max_tokens={}",
-        rag_context.documents.size(),
-        rag_mode,
-        request.prompt.size(),
-        cfg.model_context_tokens,
-        cfg.min_response_tokens,
-        request.max_tokens);
-
-    themis::rag::RAGContextAssembler assembler(cfg);
-    const themis::rag::AssembledContext ctx =
-        assembler.assemble(chunks, /*system_prompt=*/"", request.prompt);
-
-    spdlog::info(
-        "LlamaCppPlugin::generateRAG assembled: chunks_used={} tokens_used={} truncated={} response_tokens_remaining={}",
-        ctx.chunks_used.size(),
-        ctx.tokens_used,
-        ctx.was_truncated,
-        ctx.tokens_remaining_for_response);
-
-    llm::InferenceRequest augmented = request;
-
-    // Build the augmented prompt from the assembled (budget-respecting) context.
-    // Optional hybrid mode compacts retrieved chunks into fixed-size memory slots
-    // to reduce prompt-token pressure while preserving high-signal evidence.
-    if (rag_mode == "tensor_hybrid" || rag_mode == "tensor_prefix") {
-        int rag_tensor_slots = 6;
-        int rag_tensor_slot_chars = 280;
-        if (request.metadata.is_object()) {
-            const auto slots_it = request.metadata.find("rag_tensor_slots");
-            if (slots_it != request.metadata.end() && slots_it->is_number_integer()) {
-                rag_tensor_slots = slots_it->get<int>();
-            }
-            const auto chars_it = request.metadata.find("rag_tensor_slot_chars");
-            if (chars_it != request.metadata.end() && chars_it->is_number_integer()) {
-                rag_tensor_slot_chars = chars_it->get<int>();
-            }
-        }
-        rag_tensor_slots = std::clamp(rag_tensor_slots, 1, 16);
-        rag_tensor_slot_chars = std::clamp(rag_tensor_slot_chars, 80, 1200);
-
-        std::vector<themis::rag::RetrievedChunk> ranked_chunks = ctx.chunks_used;
-        std::stable_sort(
-            ranked_chunks.begin(),
-            ranked_chunks.end(),
-            [](const themis::rag::RetrievedChunk& a, const themis::rag::RetrievedChunk& b) {
-                return a.relevance_score > b.relevance_score;
-            });
-
-        const size_t slot_count = std::min(
-            ranked_chunks.size(), static_cast<size_t>(rag_tensor_slots));
-
-        std::ostringstream compact_prompt = {};
-        compact_prompt << "SYSTEM: Use the semantic memory slots below as the primary evidence. "
-                          "When uncertain, say so and cite slot source ids.\n\n";
-        for (size_t i = 0; i < slot_count; ++i) {
-            std::string slot_text = ranked_chunks[i].content;
-            if (slot_text.size() > static_cast<size_t>(rag_tensor_slot_chars)) {
-                slot_text = slot_text.substr(0, static_cast<size_t>(rag_tensor_slot_chars));
-            }
-            compact_prompt << "[MEMORY_SLOT id=" << (i + 1)
-                           << " source=\"" << ranked_chunks[i].source
-                           << "\" relevance=" << ranked_chunks[i].relevance_score
-                           << "]\n";
-            compact_prompt << slot_text << "\n";
-            compact_prompt << "[/MEMORY_SLOT]\n\n";
-        }
-        compact_prompt << "User Question: " << request.prompt;
-        augmented.prompt = compact_prompt.str();
-    } else {
-        std::ostringstream augmented_prompt = {};
-        for (const auto& c : ctx.chunks_used) {
-            augmented_prompt << c.content << "\n";
-        }
-        augmented_prompt << request.prompt;
-        augmented.prompt = augmented_prompt.str();
-    }
-
-    // Clamp max_tokens to the remaining response budget.
-    augmented.max_tokens = themis::rag::RAGContextAssembler::computeMaxTokens(
-        llm::ContextWindowBudget::compute(
-            cfg.model_context_tokens, /*system=*/"", augmented.prompt,
-            cfg.min_response_tokens),
-        request.max_tokens);
-
-    spdlog::info(
-        "LlamaCppPlugin::generateRAG dispatch: rag_mode='{}' prompt_chars={} effective_max_tokens={}",
-        rag_mode,
-        augmented.prompt.size(),
-        augmented.max_tokens);
-
-    return generate(augmented);
+    const auto augmented = llm::prepareRAGRequest(rag_context, request, snap_context_length);
+    auto response = generate(augmented);
+    response.metadata["rag_enabled"] = true;
+    response.metadata["num_documents"] = rag_context.documents.size();
+    response.metadata["rag_documents_used"] = augmented.metadata["rag_documents_used"];
+    response.metadata["rag_context_truncated"] = augmented.metadata["rag_context_truncated"];
+    response.metadata["rag_blocked_documents"] = augmented.metadata["rag_blocked_documents"];
+    return response;
 }
 
 /**

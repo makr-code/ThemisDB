@@ -5,21 +5,22 @@
 
 ## Overview
 
-The `retrieval` module provides ranking, candidate selection, and evidence-oriented fetch logic used across query, RAG, and document-grounding flows in ThemisDB.
+Das Modul `retrieval` enthaelt Artefakt-/Manifest- und Validierungsfunktionen.
+Es ist nicht die generische Retrieval-Engine. Der gemeinsame Wissenszugriff liegt
+bei `rag::RAGProvider`; siehe [RAG-Vertrag](../../rag/API.md).
 
 ## Primary sources
 
-- `src/retrieval/` — retrieval engine and evaluation logic
-- `include/retrieval/` — public retrieval interfaces and contracts
-- `src/retrieval/ARCHITECTURE.md` — retrieval pipeline and data flow
+- `src/retrieval/` — Artefaktbibliothek und Validierungsfunktionen
+- `include/retrieval/` — dazugehoerige Header, kein allgemeiner RAG-Vertrag
+- `src/retrieval/ARCHITECTURE.md` — Modulgrenzen
 - `src/retrieval/EMBEDDING.md` — embedding and candidate generation guidance
 
 ## Key responsibilities
 
-- document and vector retrieval orchestration
-- candidate scoring and ranking flow
-- validator and quality gate integration
-- retrieval metadata and feedback preparation
+- LoRA-Artefakt- und Manifestverarbeitung
+- Validierungs- und Deployment-Gate-Funktionen
+- Keine Orchestrierung allgemeiner Graph-/Geo-/Relational-/Vektorabfragen
 
 ## Related documentation
 
@@ -29,4 +30,5 @@ The `retrieval` module provides ranking, candidate selection, and evidence-orien
 
 ## Validation
 
-This overview keeps the German module index aligned with the retrieval engine’s runtime implementation and public API surface.
+Diese Abgrenzung beschreibt die tatsaechlichen Modulzustaendigkeiten; sie ist
+kein Nachweis einer vollstaendig angebundenen RAG-Laufzeit.

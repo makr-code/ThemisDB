@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-11-07"
+Last Updated: "2026-11-11"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -419,7 +419,10 @@ approved by this roadmap.
 - `searchMultiField()` does not perform field-specific routing, and the
   `SearchConfig::index_name` and `ef_search` fields are unused.
 - The `windows-release` configure preset disables tests in this checkout;
-  focused tests require a test-enabled preset and configured CTest metadata.
+  the 2026-11-11 requested CTest invocation found no registered tests in the
+  current tree. Focused tests require a test-enabled preset, a configured and
+  built tree, and retained CTest evidence. The direct-Doxygen checker also
+  reports non-zero documentation counters; see [audit](AUDIT.md).
 
 ## Breaking Changes
 

@@ -41,6 +41,7 @@
 
 #include "llm/llm_correlation_context.h"
 #include "llm/llm_plugin_interface.h"
+#include "rag/rag_candidate.h"
 
 #include <chrono>
 #include <functional>
@@ -85,21 +86,6 @@ enum class RAGStageId : uint8_t {
 // ============================================================================
 // Candidate document (shared across stages)
 // ============================================================================
-
-/**
- * @brief A single retrieved document candidate.
- *
- * Each stage may update `score` and append to `provenance_tags`.
- */
-struct RAGCandidate {
-    std::string doc_id;            ///< Opaque document identifier
-    std::string content;           ///< Document text or excerpt
-    float       score = 0.0f;      ///< Retrieval / rerank score (higher = more relevant)
-    std::string source_namespace;  ///< Originating index namespace (e.g. "legal_cases")
-
-    /// Free-form tags appended by each stage (e.g. "retrieve:bm25", "validate:graph_ok").
-    std::vector<std::string> provenance_tags;
-};
 
 // ============================================================================
 // Per-stage result

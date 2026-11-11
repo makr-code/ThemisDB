@@ -537,6 +537,7 @@ RUN --mount=type=cache,id=apt-cache-runtime-${TARGETARCH},target=/var/cache/apt,
 # Copy binary
 COPY --from=build /src/build-gcc-linux-release/bin/themis_server /app/themis_server
 COPY --from=build /opt/themis-runtime/data/docs.db /app/data/docs.db
+COPY --from=build /src/build-gcc-linux-release/lib/libthemis_*.so* /usr/local/lib/
 
 # Copy llama.cpp libraries
 COPY --from=llama /opt/llama.cpp/build/lib* /usr/local/lib/
@@ -599,6 +600,7 @@ RUN --mount=type=cache,id=apt-cache-debug-${TARGETARCH},target=/var/cache/apt,sh
 COPY --from=build /src /src
 COPY --from=build /src/build-gcc-linux-release/bin/themis_server /app/themis_server
 COPY --from=build /opt/themis-runtime/data/docs.db /app/data/docs.db
+COPY --from=build /src/build-gcc-linux-release/lib/libthemis_*.so* /usr/local/lib/
 
 # Copy llama.cpp libraries
 COPY --from=llama /opt/llama.cpp/build/lib* /usr/local/lib/

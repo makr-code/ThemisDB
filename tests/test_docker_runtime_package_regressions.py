@@ -4,6 +4,7 @@ import json
 import os
 import re
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -341,6 +342,60 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
         self.assertLess(stage.index("USER themis"), stage.index("RUN /app/themis_server --version"))
         packages = extract_installed_packages(stage, "runtime")
         self.assertTrue({"curl", "libfmt9", "libspdlog1.12"}.issubset(packages))
+
+    def test_runtime_and_debug_include_modular_libraries_and_numa(self) -> None:
+        dockerfile = self._dockerfile_text()
+        build = extract_stage(dockerfile, "build", base_image="deps")
+        directory = re.search(r"^ARG THEMIS_BUILD_DIR=(\S+)$", build, re.MULTILINE)
+        self.assertIsNotNone(directory)
+        copy = f"COPY --from=build /src/{directory.group(1)}/lib/libthemis_*.so* /usr/local/lib/"
+        for stage_name in ("runtime", "debug"):
+            with self.subTest(stage=stage_name):
+                stage = extract_stage(dockerfile, stage_name)
+                self.assertIn("libnuma1", extract_installed_packages(stage, stage_name))
+                self.assertIn(copy, stage)
+                self.assertLess(stage.index(copy), stage.index("RUN ldconfig"))
+                self.assertIn("ldd /app/themis_server", stage)
+                self.assertIn('grep -q "not found"', stage)
+
+    def test_selected_source_preflight_rejects_missing_runtime_dependencies(self) -> None:
+        dockerfile = self._dockerfile_text()
+        build = extract_stage(dockerfile, "build", base_image="deps")
+        directory = re.search(r"^ARG THEMIS_BUILD_DIR=(\S+)$", build, re.MULTILINE)
+        self.assertIsNotNone(directory)
+        copy = f"COPY --from=build /src/{directory.group(1)}/lib/libthemis_*.so* /usr/local/lib/\n"
+        manifest_path = Path("scripts/release/runtime-dependencies-ubuntu-24.04.txt")
+        manifest = (REPO_ROOT / manifest_path).read_text(encoding="utf-8")
+        self.assertEqual(dockerfile.count(copy), 2)
+        self.assertIn("libnuma1\n", manifest)
+
+        for missing in (None, "runtime", "debug", "numa"):
+            with self.subTest(missing=missing), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                (root / "docker").mkdir()
+                (root / manifest_path.parent).mkdir(parents=True)
+                selected_dockerfile = dockerfile
+                if missing in ("runtime", "debug"):
+                    stage_start = selected_dockerfile.index(f"FROM ubuntu:24.04 AS {missing}\n")
+                    copy_start = selected_dockerfile.index(copy, stage_start)
+                    selected_dockerfile = (
+                        selected_dockerfile[:copy_start]
+                        + selected_dockerfile[copy_start + len(copy):]
+                    )
+                (root / "docker/Dockerfile.unified").write_text(selected_dockerfile, encoding="utf-8")
+                (root / manifest_path).write_text(
+                    manifest.replace("libnuma1\n", "") if missing == "numa" else manifest,
+                    encoding="utf-8",
+                )
+                result = subprocess.run(
+                    [sys.executable, str(Path(__file__).resolve()),
+                     "DockerRuntimePackageRegressionTests.test_runtime_and_debug_include_modular_libraries_and_numa"],
+                    env={**os.environ, "THEMIS_SOURCE_ROOT": str(root)},
+                    capture_output=True, text=True, timeout=10,
+                )
+                self.assertEqual(result.returncode == 0, missing is None, result.stderr)
+                if missing:
+                    self.assertIn("libnuma1" if missing == "numa" else copy.strip(), result.stderr)
 
     def test_debug_stage_uses_ubuntu_2404_runtime_packages(self) -> None:
         debug_stage = extract_stage(self._dockerfile_text(), "debug")

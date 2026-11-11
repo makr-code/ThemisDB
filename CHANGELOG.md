@@ -9,6 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Changed - Shared RAG provider/consumer boundary
+
+- Added a concrete, model-independent RAG knowledge provider over existing
+  relational, graph, geo and vector QueryEngine contracts. Reused `RAGCandidate`
+  without adding a per-index wrapper hierarchy or plugin ABI.
+- Routed HTTP, AQL and configured YAML RAG retrieval through the common provider;
+  missing dependencies and internal retrieval/generation failures are explicit.
+  The direct HTTP RAG route now also requires collection data-read access.
+- Unified both llama.cpp wrappers on shared sanitized, budget-aware generation
+  preparation. Text-memory-slot modes remain textual compatibility modes.
+- Corrected canonical-key/binary-entity materialization in hybrid queries and
+  enforced collection access before graph vertex loading/expansion.
+- Separated pure evidence conversion from legacy storage-acquisition helpers;
+  legacy acquisition now reports failures instead of fabricating document content.
+- Documented provider/consumer/helper ownership, migration, cooperative execution
+  limits and the actual C-linkage/C++ plugin boundary.
+
 <!--
 AI_Used: true
 AI_Models: unknown

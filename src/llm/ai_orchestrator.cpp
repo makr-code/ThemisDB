@@ -9,6 +9,7 @@
  */
 
 #include "llm/ai_orchestrator.h"
+#include "llm/rag_helpers.h"
 #include "query/adaptive_optimizer.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
@@ -696,6 +697,7 @@ bool ToolRegistry::isPluginTool(const std::string& name) const {
 struct AIOrchestrator::Impl {
     ModePack pack;
     std::shared_ptr<ILLMPlugin> plugin;
+    std::shared_ptr<query::QueryEngine> query_engine;
     std::shared_ptr<IAdapterCandidateProvider> adapter_candidate_provider;
     std::shared_ptr<IAdapterApplyService> adapter_apply_service;
     std::shared_ptr<IRagCostModelService> rag_cost_model_service;
@@ -740,6 +742,11 @@ AIOrchestrator::AIOrchestrator(const ModePack& pack)
 }
 
 AIOrchestrator::~AIOrchestrator() = default;
+
+void AIOrchestrator::setQueryEngine(std::shared_ptr<query::QueryEngine> engine) {
+    std::unique_lock lock(impl_->provider_mutex);
+    impl_->query_engine = std::move(engine);
+}
 
 /**
  * @brief Set LLMPlugin.
@@ -1081,11 +1088,13 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
     std::shared_ptr<IAdapterCandidateProvider> provider;
     std::shared_ptr<IAdapterApplyService> apply_service;
     std::shared_ptr<IRagCostModelService> cost_service;
+    std::shared_ptr<query::QueryEngine> query_engine;
     {
         std::shared_lock lock(impl_->provider_mutex);
         provider = impl_->adapter_candidate_provider;
         apply_service = impl_->adapter_apply_service;
         cost_service = impl_->rag_cost_model_service;
+        query_engine = impl_->query_engine;
     }
 
     AdapterSwitchPolicy policy_copy;
@@ -1181,13 +1190,47 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
             (effective_top_k != original_top_k);
     }
 
-    // Step 1: Retrieval
-    // Use pre-populated documents from context when available.
-    // In production, a real retrieval backend would be called here.
+    // Supplied documents and external tools remain explicit compatibility inputs.
     std::vector<RAGContext::Document> docs = ctx.documents;
+    const bool internal_retrieval = mode.retrieval.enabled && docs.empty() &&
+                                    (query_engine || ctx.retrieval_request);
 
-    // If retrieval is enabled but no docs pre-supplied, invoke the docs_search tool
-    if (mode.retrieval.enabled && docs.empty()) {
+    if (internal_retrieval) {
+        if (!query_engine) {
+            throw std::runtime_error("RAG retrieval engine not configured for typed request");
+        }
+        rag::RetrievalRequest retrieval_request;
+        if (ctx.retrieval_request) {
+            retrieval_request = *ctx.retrieval_request;
+        } else {
+            if (!impl_->plugin) {
+                throw std::runtime_error(kLlmNotConfiguredError);
+            }
+            query::VectorGeoQuery vector_query;
+            vector_query.table = ctx.extra.value("collection", std::string{"default"});
+            vector_query.vector_field = ctx.extra.value("vector_field", std::string{"embedding"});
+            vector_query.query_vector = impl_->plugin->embed(ctx.query);
+            retrieval_request.query = std::move(vector_query);
+            retrieval_request.max_candidates = static_cast<std::size_t>(effective_top_k);
+        }
+        retrieval_request.max_candidates = std::min(
+            retrieval_request.max_candidates, static_cast<std::size_t>(effective_top_k));
+        const auto started = std::chrono::steady_clock::now();
+        const rag::RAGProvider rag_provider(*query_engine);
+        auto evidence = rag_provider.retrieve(retrieval_request, ctx.retrieval_execution);
+        if (!evidence) {
+            throw std::runtime_error("RAG retrieval failed: " + evidence.error().context());
+        }
+        docs = toRAGDocuments(evidence->candidates);
+        result.metadata.latency.retrieval_ms =
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - started).count();
+        result.metadata.extra["rag_documents_rejected"] = evidence->rejected_documents;
+        result.metadata.extra["rag_retrieval_truncated"] = evidence->truncated;
+        if (docs.empty()) {
+            throw std::runtime_error("RAG retrieval returned no usable evidence");
+        }
+    } else if (mode.retrieval.enabled && docs.empty()) {
         const std::string search_tool = "docs_search";
         if (impl_->tool_registry.isAllowed(search_tool, mode)) {
             json args = {{"query", ctx.query}, {"top_k", effective_top_k}};
@@ -1232,6 +1275,9 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
         if (docs.size() > effective_top_k) {
             docs.resize(static_cast<size_t>(effective_top_k));
         }
+    }
+    if (internal_retrieval && docs.empty()) {
+        throw std::runtime_error("RAG retrieval returned no evidence above the configured threshold");
     }
 
     result.metadata.retrieved_docs = docs.size();
@@ -1526,6 +1572,9 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
     auto t_llm = std::chrono::steady_clock::now();
     InferenceResponse resp   = impl_->plugin->generateRAG(rag_ctx, req);
     auto t_llm_end = std::chrono::steady_clock::now();
+    if (!resp.success) {
+        throw std::runtime_error("RAG generation failed: " + resp.error_message);
+    }
 
     result.success                   = true;
     result.text                      = resp.text;

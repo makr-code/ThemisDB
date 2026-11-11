@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-11"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -48,6 +48,9 @@ validation until it is verified in code and covered by tests.
 
 - Run the focused vector-search CTest selection from a configured,
   repository-supported preset.
+- A run that reports `No tests were found!` is not validation evidence. The
+  requested preset invocation on 2026-11-11 found no registered tests in this
+  checkout.
 - Include runtime-backed tests for the deployment's chosen backend and
   persistence configuration.
 - Keep the flat-index high-cardinality and soak fixtures distinct from

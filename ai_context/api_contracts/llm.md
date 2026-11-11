@@ -7,6 +7,15 @@ Datum: 2026-10-29
 
 ## Public API Surface
 
+### RAG knowledge and generation boundary
+
+Knowledge retrieval is owned by `rag::RAGProvider`, not by an LLM backend.
+See [the common RAG contract](../../docs/rag/API.md). AQL and YAML consumers can
+retain an existing QueryEngine with `setQueryEngine()`. Both llama.cpp wrappers
+use `llm::prepareRAGRequest()` for shared sanitization, templates and estimated
+context budgeting; GPU/attention configuration stays in the inference provider.
+The existing `ILLMPlugin` vtable and `RAGContext` layout are unchanged.
+
 | API | Namespace | Input Contract | Output Contract | Errors | Thread-Safety | Ownership/Lifetime | Notes |
 |---|---|---|---|---|---|---|---|
 | `createInferenceEngine()` | `themis::llm` | Backend type (ONNX/Llama/HF), model spec | std::unique_ptr<IInferenceEngine> | ModelNotFoundError, InitError if GPU unavailable | 🔒 Single-threaded factory call | Caller owns returned pointer; valid for lifetime of use | P0; Phase 2 complete |

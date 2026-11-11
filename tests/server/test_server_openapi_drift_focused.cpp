@@ -292,12 +292,36 @@ TEST_F(OpenApiDriftTest, MonitoringRegistrationBatchesPreserveRoutesAndAreRepeat
              "/v2/query/stream", "/api/v1/functions/{id}/versions", "/ui/tasks"}) {
         EXPECT_TRUE(paths.contains(path)) << path;
     }
-    const auto& license_properties = paths.at("/api/v1/license/status").at("get")
-        .at("responses").at("200").at("content").at("application/json")
-        .at("schema").at("properties");
-    EXPECT_EQ(license_properties.size(), 9u);
-    EXPECT_EQ(license_properties.at("status").at("example"), "active");
-    EXPECT_EQ(license_properties.at("days_until_expiry").at("type"), "integer");
+    const auto& license = paths.at("/api/v1/license/status").at("get");
+    EXPECT_EQ(license.at("summary"), "Runtime license status");
+    EXPECT_EQ(license.at("description"),
+              "Returns the current runtime license state: initialized flag, status string "
+              "(active/grace/expired/invalid), grace days remaining, masked license key, "
+              "organization, edition, expiry date, days until expiry, and validity flag.");
+    EXPECT_EQ(license.at("operationId"), "getLicenseStatus");
+    EXPECT_EQ(license.at("tags"), json::array({"license"}));
+    EXPECT_FALSE(license.contains("parameters"));
+    EXPECT_FALSE(license.contains("requestBody"));
+    EXPECT_FALSE(license.contains("deprecated"));
+
+    // Independently assemble the full expected response, keeping the test's
+    // initializers shallow too so it remains buildable on constrained MSVC.
+    json expected_properties = json::object();
+    expected_properties["initialized"] = {{"type","boolean"}};
+    expected_properties["status"] = {{"type","string"},{"example","active"}};
+    expected_properties["grace_days_remaining"] = {{"type","integer"}};
+    expected_properties["license_key"] = {{"type","string"},{"example","THEMIS-EN..."}};
+    expected_properties["organization"] = {{"type","string"}};
+    expected_properties["edition"] = {{"type","string"},{"example","ENTERPRISE"}};
+    expected_properties["expiry_date"] = {{"type","string"},{"format","date"}};
+    expected_properties["days_until_expiry"] = {{"type","integer"}};
+    expected_properties["valid"] = {{"type","boolean"}};
+    json expected_schema = {{"type","object"}};
+    expected_schema["properties"] = expected_properties;
+    json expected_response = {{"description","License status document"}};
+    expected_response["content"]["application/json"]["schema"] = expected_schema;
+    const json expected_responses = {{"200",expected_response}};
+    EXPECT_EQ(license.at("responses"), expected_responses);
 
     const auto snapshot = registry().captureSpecSnapshot();
     MonitoringApiHandler::registerRoutes();
