@@ -55,6 +55,10 @@ registration, persistent storage, external telemetry, or production readiness.
     token and configured retrieval deadline to `RAGProvider`. Both checks are
     cooperative and cannot interrupt a blocking QueryEngine operation; the new
     backend-delay regression test has not been run.
+  - The direct HTTP `/api/v1/llm/rag` route retains its `requireAccess` check and
+    binds the request-local QueryEngine checker to the authorized collection.
+    This does not propagate caller identity or row-level policy; regression
+    coverage has not been run.
   - Real HTTP/AQL/YAML startup wiring, full request-context/auth isolation, the
     complete direct-`src/` role map, remaining acceptance criteria, and focused
     test execution/evidence remain pending. See

@@ -110,6 +110,10 @@ The broader Core implementation remains in progress. Real HTTP/AQL/YAML startup
 wiring, complete request-context and authorization isolation, the complete
 source-role map, and remaining task acceptance criteria are pending; see the
 [implementation task](../architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md).
+The direct HTTP `/api/v1/llm/rag` route retains its existing `requireAccess`
+check and now binds its request-local QueryEngine checker to the authorized
+collection. This is a collection-boundary guard, not caller or row-level policy
+propagation.
 
 Scores are not probabilities and are not calibrated across access paths:
 vector scores currently retain the existing `1 - distance` convention, content

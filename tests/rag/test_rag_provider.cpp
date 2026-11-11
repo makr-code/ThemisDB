@@ -226,6 +226,33 @@ TEST_F(RAGProviderTest, PropagatesCollectionDenialForRelationalVectorAndGraph) {
     }
 }
 
+TEST_F(RAGProviderTest, RequestScopedCollectionCheckerAllowsOnlyAuthorizedCollection) {
+    storeDocument("d1", "authorized evidence");
+    engine_->setCollectionAccessChecker(
+        [](const std::string& collection, const std::string&) {
+            return collection == "docs";
+        });
+
+    query::ConjunctiveQuery authorized_query;
+    authorized_query.table = "docs";
+    authorized_query.pk_eq = "d1";
+    rag::RetrievalRequest authorized_request;
+    authorized_request.query = authorized_query;
+    const auto authorized_result = provider_->retrieve(authorized_request);
+    ASSERT_TRUE(authorized_result) << authorized_result.error().context();
+    ASSERT_EQ(authorized_result->candidates.size(), 1);
+    EXPECT_EQ(authorized_result->candidates.front().content, "authorized evidence");
+
+    query::ConjunctiveQuery other_collection_query;
+    other_collection_query.table = "other";
+    other_collection_query.pk_eq = "d1";
+    rag::RetrievalRequest denied_request;
+    denied_request.query = other_collection_query;
+    const auto denied_result = provider_->retrieve(denied_request);
+    ASSERT_FALSE(denied_result);
+    EXPECT_EQ(denied_result.error().code(), errors::ErrorCode::ERR_QUERY_ACCESS_DENIED);
+}
+
 TEST_F(RAGProviderTest, GraphReferencesCanMaterializeCanonicalRelationalDocuments) {
     storeDocument("g2", "relational graph evidence");
     rag::GraphRetrievalQuery query;

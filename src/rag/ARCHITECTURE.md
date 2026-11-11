@@ -53,6 +53,9 @@ provider-side code even when their historical filename contains "helpers".
 
 1. Internal consumers obtain candidates through `RAGProvider`; explicit external
    evidence remains a supported consumer input.
+   The direct HTTP `/api/v1/llm/rag` route performs its existing `requireAccess`
+   check and binds the request-local QueryEngine access checker to that
+   collection; this does not propagate caller identity or row-level policy.
    The AQL RAG consumer passes its timeout manager's cancellation token and
    matching deadline through `RetrievalExecutionContext`. Deadline and
    cancellation checks are cooperative and cannot interrupt a blocking backend

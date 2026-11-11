@@ -5644,6 +5644,12 @@ http::response<http::string_body> HttpServer::routeRequest(
                         query::QueryEngine retrieval_engine(
                             *storage_, *secondary_index_, *graph_index_,
                             vector_index_.get(), spatial_index_.get());
+                        retrieval_engine.setCollectionAccessChecker(
+                            [authorized_collection = collection](
+                                const std::string& requested_collection,
+                                const std::string&) {
+                                return requested_collection == authorized_collection;
+                            });
                         rag::RAGProvider provider(retrieval_engine);
                         query::VectorGeoQuery vector_query;
                         vector_query.table = collection;

@@ -36,8 +36,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   The AQL RAG path now passes a retrieval deadline matching its configured
   timeout alongside the existing cooperative cancellation token. This does not
   interrupt a blocking QueryEngine call or establish full request-context/auth
-  isolation. Real HTTP/AQL/YAML startup wiring, the complete source-role map,
-  remaining acceptance criteria, and focused test execution remain pending. See
+  isolation. The direct HTTP RAG route also binds its request-local engine to
+  the collection that passed its existing authorization check; caller identity
+  and row-level policy are not propagated. Real HTTP/AQL/YAML startup wiring,
+  the complete source-role map, remaining acceptance criteria, and focused test
+  execution remain pending. See
   `docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md`.
 
 <!--

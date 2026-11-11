@@ -73,6 +73,11 @@ wrappers.
   `RAGProvider`. It now also passes a per-execution deadline derived from the
   configured AQL RAG timeout; both checks remain cooperative around QueryEngine
   calls and cannot interrupt a blocking backend operation.
+- The direct HTTP `/api/v1/llm/rag` route checks `data:read`/`data.read` before
+  constructing its request-local `QueryEngine`; that engine now rejects
+  collections other than the one authorized by the route. This guards the
+  collection boundary only and does not propagate caller identity or row-level
+  policy into retrieval.
 - `search`, `LayeredRetrievalOrchestrator`, `ProcessGraphRag`, and
   `ethics_ai/RAGContextEngine` have specialized behavior. Preserve their domain
   policies; this task does not migrate all of them.
@@ -99,8 +104,9 @@ fetches the authoritative full source text.
 
 Still pending: trace and verify real HTTP/AQL/YAML startup and request wiring;
 complete production composition; complete per-request authorization,
-tenant/collection isolation and context propagation (AQL cancellation/deadline
-propagation is a narrow verified slice, not full caller-context isolation);
+tenant/collection isolation and context propagation (HTTP request-local
+collection binding and AQL cancellation/deadline propagation are narrow slices,
+not full caller-context isolation);
 establish the evidence-backed role map for all direct `src/`
 directories; complete source materialization/compatibility and remaining
 acceptance cases; and run and record the required focused tests and registration
