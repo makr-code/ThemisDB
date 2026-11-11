@@ -8,13 +8,6 @@ AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "ThemisDB Team"
-Source_Level: "level2"
-SOT_Domain: "build-test"
-Canonical_References: ".github/workflows/gate-pr-merge-readiness.yml; .github/workflows/gate-pr-plugin-boundary.yml; .github/workflows/reusable-status-flags-and-issues.yml; .github/WORKFLOW_GUIDELINES.md; tests/llm/CMakeLists.txt; src/llm/embedded_llm.cpp; .github/workflows/build-llm-inference.yml"
-source: ".github/workflows/gate-pr-merge-readiness.yml; .github/workflows/gate-pr-plugin-boundary.yml; .github/workflows/reusable-status-flags-and-issues.yml; .github/WORKFLOW_GUIDELINES.md; tests/llm/CMakeLists.txt; src/llm/embedded_llm.cpp; .github/workflows/build-llm-inference.yml"
-source_class: "secondary"
-source_weight: 60
-Related_Milestone: "DOC-WEEKLY-2026-W46"
 ---
 
 > Exact model backend not verifiable from final document text alone.
@@ -23,104 +16,6 @@ Related_Milestone: "DOC-WEEKLY-2026-W46"
 
 Datum: 2026-11-11
 Status: Active
-
-## PR Merge Readiness failure: status-call concurrency and final runtime
-
-Run [42964785412](https://github.com/makr-code/ThemisDB/actions/runs/42964785412) recorded `call-plugin-boundary=cancelled` and `call-final-runtime-api=failure` on parent job [130384787522](https://github.com/makr-code/ThemisDB/actions/runs/42964785412/job/130384787522). The actual plugin enforcement job [130364267816](https://github.com/makr-code/ThemisDB/actions/runs/42964785412/job/130364267816) succeeded; the optional `human-loop-resolution` status-call job [130365663917](https://github.com/makr-code/ThemisDB/actions/runs/42964785412/job/130365663917) was cancelled. Therefore the cancelled parent plugin call is not evidence that plugin enforcement failed; the final-runtime failure remains a separate readiness failure.
-
-The reusable status workflow now scopes its concurrency group by operation plus a stable target identity (issue number, or marker/title when no issue number is available), while keeping `cancel-in-progress: false`. This avoids unrelated status calls from sharing a caller/ref group; a subsequent CI run is still required to verify the parent gate no longer inherits a cancelled label-resolution result.
-
-## TinyLlama inference gate: missing modular EmbeddedLLM runtime
-
-Run [42964785479, job 130387233834](https://github.com/makr-code/ThemisDB/actions/runs/42964785479/job/130387233834) failed five TinyLlama tests with `EmbeddedLLM: no backend configured`; modular inference had selected the API stub instead of the real facade. The current branch's `tests/llm/CMakeLists.txt` now requires `THEMIS_ENABLE_LLM=ON`, compiles `src/llm/embedded_llm.cpp` into the model-backed modular inference targets, and links `themis_llm`; the inference workflow enables LLM. The cited failure predates these changes and cannot verify them. A prior local CMake configure did not reach target generation because RocksDB development headers were unavailable. CI validation of this remediation remains pending; no current-branch test pass is claimed.
-
-## Release-critical test artifact executable modes
-
-In the same run, [job 130381306099](https://github.com/makr-code/ThemisDB/actions/runs/42964785479/job/130381306099) failed three restored CTest executables with `permission denied`. The build directory had been transferred directly as an Actions artifact, which did not preserve executable modes. `.github/workflows/gate-pr-core.yml` now transfers the build directory inside a tar archive and extracts it before CTest; a local tar round-trip verified executable-mode preservation. The latest PR Core run is `action_required`, so CI validation of this fix remains pending.
-
-## Docker runtime APT mirror synchronization recovery
-
-Run [42762843024, job 129655324640](https://github.com/makr-code/ThemisDB/actions/runs/42762843024/job/129655324640)
-failed in the runtime stage's `apt-get update`: the Noble security package index
-had an unexpected size relative to its signed release metadata. Compilation and
-runtime smoke validation were not reached. The runtime stage in
-[`docker/Dockerfile.unified`](../../docker/Dockerfile.unified) now retries index
-refreshes up to five times, clearing failed indexes and waiting 15 seconds
-between attempts. `--error-on=any` rejects partial index refreshes; persistent
-failures remain fatal and package signature/hash verification is unchanged.
-The independent runtime stage does not inherit base-stage APT configuration.
-[`tests/test_docker_runtime_package_regressions.py`](../../tests/test_docker_runtime_package_regressions.py)
-executes the shell logic for immediate success, transient recovery, exhausted
-retries, and package installation failure. A full platform image build remains
-required in CI from a source revision containing this fix.
-
-## PostgreSQL SQL-dump importer linkage
-
-[Run `42854980938`, job `129982571957`](https://github.com/makr-code/ThemisDB/actions/runs/42854980938/job/129982571957) failed while linking `module_importers_test_postgres_insert_token_progress_focused`, before CTest, with undefined `PostgreSQLImporter` constructor, `initialize`, `importData`, and destructor symbols. [ModularBuild.cmake](../../cmake/ModularBuild.cmake) now always includes `../src/importers/postgres_importer.cpp`, matching the [monolithic importer registration](../../cmake/CMakeLists.txt): SQL-dump import is independent of `THEMIS_ENABLE_POSTGRES_WIRE`. In the modular layout, `postgres_session.cpp` and `postgres_importer_mdm.cpp` remain gated by that option.
-
-Reported specialist validation evaluated the extracted actual CMake source lists with wire ON/OFF: the importer appeared exactly once in both cases, while session and MDM sources remained conditional; the old OFF omission was reproduced in memory. All 10 existing [mainline compiler regression tests](../../tests/test_mainline_compiler_regressions.py) passed; no persistent test was added. Native C++ tests were not run locally because gtest, JSON, and spdlog headers were unavailable; successful native linking and CTest remain unverified.
-
-## Docker Python autoreconf prerequisite gate
-
-The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap. Release-source preflight, the reusable platform workflow, and the platform test enforce `test_base_installs_python_autoreconf_prerequisites`. For the compliance export, `docker-compose.yml` selects the repository-root [Dockerfile](../../Dockerfile), not `docker/Dockerfile.unified`. The earlier failed run [42321944686](https://github.com/makr-code/ThemisDB/actions/runs/42321944686/job/128248301027) used the root Dockerfile before this prerequisite was added; the missing package matched vcpkg's warning and was a likely cause of its `python3:x64-linux` `autoreconf -vfi` failure, although stderr was not captured. Follow-up run [42761863772](https://github.com/makr-code/ThemisDB/actions/runs/42761863772) succeeded at SBOM and C5 manifest packaging/validation/upload, but the SOC 2 export failed during root Dockerfile apt package downloads from `security.ubuntu.com` (timeout/404) before vcpkg/Python. It therefore does not verify the prerequisite. SBOM signing and tag-only provenance were skipped, and a successful SOC 2 evidence-export build remains required. An older selected source without this package can still fail during `autoreconf`; rerunning that workflow does not change its source. Use a new release tag containing the fix, or set `build_from_workflow_source=true` for non-publishing validation. See the [operational guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting) for details.
-
-## C5 key-lifecycle persisted-event test
-
-`tests/auth/test_c5_key_lifecycle_audit_evidence.cpp` exercises the real `JWTKeyRotationManager::rotateActiveKey()` API with an attached `AuditLogger` and asserts the persisted `KEY_ROTATED` JSONL record. It is registered as `release_critical`; the PR gate uploads its JUnit result and JSONL output, and mainline CTest evidence includes the audit-output directory. This is API-level coverage only: application-runtime logger wiring is unverified, the test has not yet passed CI, and five other required lifecycle event classes have no production emitter. The local configure attempt could not complete because RocksDB development dependencies were unavailable. See the canonical [C5 key lifecycle evidence map](../../audit/evidence/c5/KEY_LIFECYCLE_AUDIT_EVENTS.md).
-
-## Windows dependency snapshot handoff
-
-Run `42638257654`, job `129657233420` failed before compilation because the
-completed dependency cache saved by preparation was no longer available on a
-failed-job rerun, despite an identical key. The canonical
-`.github/workflows/reusable-cmake-build.yml` now uploads the completed snapshot
-as a 30-day run artifact; `release-build-matrix.yml` passes its immutable artifact
-ID and source/configure/toolchain identity to the consumer. Consumption requires
-that artifact and retains binary-only vcpkg installation and identity validation.
-Caches accelerate preparation only; partial preparation snapshots are never
-published as completed artifacts. Failed-job reruns reuse the original producer's
-artifact ID, not the current attempt number. If the artifact expires, rerun
-preparation too. Older workflow revisions require a new run containing this fix.
-Focused coverage: `tests/test_windows_dependency_preparation.py`.
-
-Run `42768142107`, job `129687972024` downloaded that artifact but failed
-restoration because Git Bash's `tar` could not resolve the Windows-form
-`GITHUB_WORKSPACE` path passed to `-C`. Snapshot creation and restoration now
-normalize the workspace with `cygpath -u`; restoration also ensures the cache
-directory exists. The round-trip regression models a Windows-form workspace and
-executes real archive/extract commands with spaced paths, while retaining
-identity-mismatch and missing-artifact rejection.
-
-Attempt 2 of the same run, [job `129791530083`](https://github.com/makr-code/ThemisDB/actions/runs/42768142107/job/129791530083),
-repeated this failure: artifact download succeeded, but the executed workflow
-still passed `"$GITHUB_WORKSPACE/.cache"` directly to `tar -C`, which exited with
-code 2 (`Cannot open: No such file or directory`). Configuration, compilation,
-and CTest were skipped; the subsequent missing CTest evidence is a consequence,
-not the root cause. The current workflow already normalizes the workspace and
-creates the extraction directory. All 28 Windows dependency preparation tests
-passed locally on 2026-11-10, including the archive round trip. Start a new
-mainline run from a revision containing the corrected reusable workflow; another
-failed-job rerun of this old run does not pick up that workflow fix. Native
-Windows validation of the corrected workflow remains pending.
-
-## MSVC monitoring route translation-unit split
-
-Run `42638257654`, job `129343673144` failed with VS18 MSVC 14.51 `C1060` at
-`monitoring_api_handler.cpp(2246)` despite serial compilation and
-`/Od /Ob0 /GL- /bigobj /Zm200`. Only `MonitoringApiHandler::registerRoutes()`
-(all 47 routes unchanged) is moved to `src/server/monitoring_api_routes.cpp`,
-registered in both build layouts with the handler's existing MSVC properties.
-No API or flag changes; modular non-Debug low-memory defaults and opt-out are
-preserved. Follow-up run `42747840520`, job `129662241930` still failed at
-`monitoring_api_routes.cpp(155)` with `C1060`. Registration now delegates to eight
-file-local helpers (at most ten routes each), bounding per-function nested JSON
-initializer pressure while preserving all annotations and registration order.
-`tests/test_mainline_compiler_regressions.py` checks the batch bound and dispatch;
-`tests/server/test_server_openapi_drift_focused.cpp` covers actual registration,
-the nested license schema, and repeat-registration stability.
-Native Windows validation remains pending. See
-[MSVC Handler Optimization](../../cmake/README.md#msvc-handler-optimization)
-for current policy and preserved historical evidence.
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
@@ -159,7 +54,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/build-mainline.yml
 - Kategorie: build_test_ci
-- Hash: `9aaef349e879d011`
+- Hash: `3db25366a551d209`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-ollama-router.yml
@@ -169,7 +64,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/build-sanitizer-nightly.yml
 - Kategorie: build_test_ci
-- Hash: `7470a71221beba83`
+- Hash: `e840eaa2420ff43b`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-wave-a-gpu.yml
@@ -184,7 +79,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/build-wave-b-transaction.yml
 - Kategorie: build_test_ci
-- Hash: `f579060afd0e175b`
+- Hash: `475664dc69013385`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-widget.yml
@@ -204,7 +99,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/compliance-supply-chain.yml
 - Kategorie: build_test_ci
-- Hash: `bc00b2b0ce899fbe`
+- Hash: `e3960e11ebd153b0`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/copilot-code-review.yml
@@ -259,7 +154,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/gate-pr-core.yml
 - Kategorie: build_test_ci
-- Hash: `3f2c61ecfe6d0cd3`
+- Hash: `83ded0790348963d`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-doc-metadata.yml
@@ -284,7 +179,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/gate-pr-final-runtime-api.yml
 - Kategorie: build_test_ci
-- Hash: `78afa91f757fb6eb`
+- Hash: `c6cb01cff1f5e22b`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-hash-sbom.yml
@@ -521,3 +416,101 @@ for current policy and preserved historical evidence.
 - Kategorie: build_test_ci
 - Hash: `c8b9869e1c8c0342`
 - Titel: (binary or unreadable)
+
+## PR Merge Readiness failure: status-call concurrency and final runtime
+
+Run [42964785412](https://github.com/makr-code/ThemisDB/actions/runs/42964785412) recorded `call-plugin-boundary=cancelled` and `call-final-runtime-api=failure` on parent job [130384787522](https://github.com/makr-code/ThemisDB/actions/runs/42964785412/job/130384787522). The actual plugin enforcement job [130364267816](https://github.com/makr-code/ThemisDB/actions/runs/42964785412/job/130364267816) succeeded; the optional `human-loop-resolution` status-call job [130365663917](https://github.com/makr-code/ThemisDB/actions/runs/42964785412/job/130365663917) was cancelled. Therefore the cancelled parent plugin call is not evidence that plugin enforcement failed; the final-runtime failure remains a separate readiness failure.
+
+The reusable status workflow now scopes its concurrency group by operation plus a stable target identity (issue number, or marker/title when no issue number is available), while keeping `cancel-in-progress: false`. This avoids unrelated status calls from sharing a caller/ref group; a subsequent CI run is still required to verify the parent gate no longer inherits a cancelled label-resolution result.
+
+## TinyLlama inference gate: missing modular EmbeddedLLM runtime
+
+Run [42964785479, job 130387233834](https://github.com/makr-code/ThemisDB/actions/runs/42964785479/job/130387233834) failed five TinyLlama tests with `EmbeddedLLM: no backend configured`; modular inference had selected the API stub instead of the real facade. The current branch's `tests/llm/CMakeLists.txt` now requires `THEMIS_ENABLE_LLM=ON`, compiles `src/llm/embedded_llm.cpp` into the model-backed modular inference targets, and links `themis_llm`; the inference workflow enables LLM. The cited failure predates these changes and cannot verify them. A prior local CMake configure did not reach target generation because RocksDB development headers were unavailable. CI validation of this remediation remains pending; no current-branch test pass is claimed.
+
+## Release-critical test artifact executable modes
+
+In the same run, [job 130381306099](https://github.com/makr-code/ThemisDB/actions/runs/42964785479/job/130381306099) failed three restored CTest executables with `permission denied`. The build directory had been transferred directly as an Actions artifact, which did not preserve executable modes. `.github/workflows/gate-pr-core.yml` now transfers the build directory inside a tar archive and extracts it before CTest; a local tar round-trip verified executable-mode preservation. The latest PR Core run is `action_required`, so CI validation of this fix remains pending.
+
+## Docker runtime APT mirror synchronization recovery
+
+Run [42762843024, job 129655324640](https://github.com/makr-code/ThemisDB/actions/runs/42762843024/job/129655324640)
+failed in the runtime stage's `apt-get update`: the Noble security package index
+had an unexpected size relative to its signed release metadata. Compilation and
+runtime smoke validation were not reached. The runtime stage in
+[`docker/Dockerfile.unified`](../../docker/Dockerfile.unified) now retries index
+refreshes up to five times, clearing failed indexes and waiting 15 seconds
+between attempts. `--error-on=any` rejects partial index refreshes; persistent
+failures remain fatal and package signature/hash verification is unchanged.
+The independent runtime stage does not inherit base-stage APT configuration.
+[`tests/test_docker_runtime_package_regressions.py`](../../tests/test_docker_runtime_package_regressions.py)
+executes the shell logic for immediate success, transient recovery, exhausted
+retries, and package installation failure. A full platform image build remains
+required in CI from a source revision containing this fix.
+
+## PostgreSQL SQL-dump importer linkage
+
+[Run `42854980938`, job `129982571957`](https://github.com/makr-code/ThemisDB/actions/runs/42854980938/job/129982571957) failed while linking `module_importers_test_postgres_insert_token_progress_focused`, before CTest, with undefined `PostgreSQLImporter` constructor, `initialize`, `importData`, and destructor symbols. [ModularBuild.cmake](../../cmake/ModularBuild.cmake) now always includes `../src/importers/postgres_importer.cpp`, matching the [monolithic importer registration](../../cmake/CMakeLists.txt): SQL-dump import is independent of `THEMIS_ENABLE_POSTGRES_WIRE`. In the modular layout, `postgres_session.cpp` and `postgres_importer_mdm.cpp` remain gated by that option.
+
+Reported specialist validation evaluated the extracted actual CMake source lists with wire ON/OFF: the importer appeared exactly once in both cases, while session and MDM sources remained conditional; the old OFF omission was reproduced in memory. All 10 existing [mainline compiler regression tests](../../tests/test_mainline_compiler_regressions.py) passed; no persistent test was added. Native C++ tests were not run locally because gtest, JSON, and spdlog headers were unavailable; successful native linking and CTest remain unverified.
+
+## Docker Python autoreconf prerequisite gate
+
+The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap. Release-source preflight, the reusable platform workflow, and the platform test enforce `test_base_installs_python_autoreconf_prerequisites`. For the compliance export, `docker-compose.yml` selects the repository-root [Dockerfile](../../Dockerfile), not `docker/Dockerfile.unified`. The earlier failed run [42321944686](https://github.com/makr-code/ThemisDB/actions/runs/42321944686/job/128248301027) used the root Dockerfile before this prerequisite was added; the missing package matched vcpkg's warning and was a likely cause of its `python3:x64-linux` `autoreconf -vfi` failure, although stderr was not captured. Follow-up run [42761863772](https://github.com/makr-code/ThemisDB/actions/runs/42761863772) succeeded at SBOM and C5 manifest packaging/validation/upload, but the SOC 2 export failed during root Dockerfile apt package downloads from `security.ubuntu.com` (timeout/404) before vcpkg/Python. It therefore does not verify the prerequisite. SBOM signing and tag-only provenance were skipped, and a successful SOC 2 evidence-export build remains required. An older selected source without this package can still fail during `autoreconf`; rerunning that workflow does not change its source. Use a new release tag containing the fix, or set `build_from_workflow_source=true` for non-publishing validation. See the [operational guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting) for details.
+
+## C5 key-lifecycle persisted-event test
+
+`tests/auth/test_c5_key_lifecycle_audit_evidence.cpp` exercises the real `JWTKeyRotationManager::rotateActiveKey()` API with an attached `AuditLogger` and asserts the persisted `KEY_ROTATED` JSONL record. It is registered as `release_critical`; the PR gate uploads its JUnit result and JSONL output, and mainline CTest evidence includes the audit-output directory. This is API-level coverage only: application-runtime logger wiring is unverified, the test has not yet passed CI, and five other required lifecycle event classes have no production emitter. The local configure attempt could not complete because RocksDB development dependencies were unavailable. See the canonical [C5 key lifecycle evidence map](../../audit/evidence/c5/KEY_LIFECYCLE_AUDIT_EVENTS.md).
+
+## Windows dependency snapshot handoff
+
+Run `42638257654`, job `129657233420` failed before compilation because the
+completed dependency cache saved by preparation was no longer available on a
+failed-job rerun, despite an identical key. The canonical
+`.github/workflows/reusable-cmake-build.yml` now uploads the completed snapshot
+as a 30-day run artifact; `release-build-matrix.yml` passes its immutable artifact
+ID and source/configure/toolchain identity to the consumer. Consumption requires
+that artifact and retains binary-only vcpkg installation and identity validation.
+Caches accelerate preparation only; partial preparation snapshots are never
+published as completed artifacts. Failed-job reruns reuse the original producer's
+artifact ID, not the current attempt number. If the artifact expires, rerun
+preparation too. Older workflow revisions require a new run containing this fix.
+Focused coverage: `tests/test_windows_dependency_preparation.py`.
+
+Run `42768142107`, job `129687972024` downloaded that artifact but failed
+restoration because Git Bash's `tar` could not resolve the Windows-form
+`GITHUB_WORKSPACE` path passed to `-C`. Snapshot creation and restoration now
+normalize the workspace with `cygpath -u`; restoration also ensures the cache
+directory exists. The round-trip regression models a Windows-form workspace and
+executes real archive/extract commands with spaced paths, while retaining
+identity-mismatch and missing-artifact rejection.
+
+Attempt 2 of the same run, [job `129791530083`](https://github.com/makr-code/ThemisDB/actions/runs/42768142107/job/129791530083),
+repeated this failure: artifact download succeeded, but the executed workflow
+still passed `"$GITHUB_WORKSPACE/.cache"` directly to `tar -C`, which exited with
+code 2 (`Cannot open: No such file or directory`). Configuration, compilation,
+and CTest were skipped; the subsequent missing CTest evidence is a consequence,
+not the root cause. The current workflow already normalizes the workspace and
+creates the extraction directory. All 28 Windows dependency preparation tests
+passed locally on 2026-11-10, including the archive round trip. Start a new
+mainline run from a revision containing the corrected reusable workflow; another
+failed-job rerun of this old run does not pick up that workflow fix. Native
+Windows validation of the corrected workflow remains pending.
+
+## MSVC monitoring route translation-unit split
+
+Run `42638257654`, job `129343673144` failed with VS18 MSVC 14.51 `C1060` at
+`monitoring_api_handler.cpp(2246)` despite serial compilation and
+`/Od /Ob0 /GL- /bigobj /Zm200`. Only `MonitoringApiHandler::registerRoutes()`
+(all 47 routes unchanged) is moved to `src/server/monitoring_api_routes.cpp`,
+registered in both build layouts with the handler's existing MSVC properties.
+No API or flag changes; modular non-Debug low-memory defaults and opt-out are
+preserved. Follow-up run `42747840520`, job `129662241930` still failed at
+`monitoring_api_routes.cpp(155)` with `C1060`. Registration now delegates to eight
+file-local helpers (at most ten routes each), bounding per-function nested JSON
+initializer pressure while preserving all annotations and registration order.
+`tests/test_mainline_compiler_regressions.py` checks the batch bound and dispatch;
+`tests/server/test_server_openapi_drift_focused.cpp` covers actual registration,
+the nested license schema, and repeat-registration stability.
+Native Windows validation remains pending. See
+[MSVC Handler Optimization](../../cmake/README.md#msvc-handler-optimization)
+for current policy and preserved historical evidence.

@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-11-10
+Datum: 2026-11-11
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
@@ -473,7 +473,7 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/PROCESS.md
 - Kategorie: governance_and_docs
-- Hash: `151107d3e0260d67`
+- Hash: `5f2c442b079d2234`
 - Titel: Process — Developer LLM Wiki
 - Auszug:
   - ---

@@ -1,18 +1,30 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-10T06:45:58+00:00",
+  "generated_at": "2026-11-11T15:23:30+00:00",
   "mode": "incremental",
-  "source_count": 8074,
-  "source_hash": "2258d5f2530a64e13efb6cf073e406a82e4c857199166c77d0ae9b657c789ebe",
+  "source_count": 8085,
+  "source_hash": "dfc1d25f30a8536a4027704895272134ad25872dd9d19553e7ca9d74f349cdfc",
   "delta": {
-    "added_count": 0,
+    "added_count": 1,
     "removed_count": 0,
-    "changed_count": 0,
-    "added_preview": [],
+    "changed_count": 9,
+    "added_preview": [
+      ".github/workflows/gate-pr-artifact-size.yml"
+    ],
     "removed_preview": [],
-    "changed_preview": []
+    "changed_preview": [
+      ".github/workflows/gate-pr-core.yml",
+      ".github/workflows/gate-pr-final-runtime-api.yml",
+      ".github/workflows/maintenance-soll-ist-gap-issues.yml",
+      ".github/workflows/reusable-status-flags-and-issues.yml",
+      ".github/workflows/test-helm-chart.yml",
+      "ai_context/developer_llm_wiki/TEMPORAL.md",
+      "docs/governance/SRC_MODULE_DOCUMENTATION_COMPLIANCE_2026-09-20.md",
+      "scripts/check_module_direct_doxygen.py",
+      "scripts/sync_soll_ist_gaps.py"
+    ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "54e273bef67eeb8be587d0678f2000a22bb5fd7673afeb90df72f18f206936fc"
+  "manifest_sha256": "c507db6a140b3fb979c4b04b1658d5f9b94f013dc45aa7cbf76d39eebd51fb25"
 }
