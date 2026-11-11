@@ -2,7 +2,7 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-10
+> Last Updated: 2026-11-11
 > Status: active
 > AI_Used: true
 > AI_Models: unknown
@@ -137,6 +137,12 @@ flowchart TD
   Modell-Cache-Aufrufe dürfen untereinander serialisieren, aber niemals den
   wartenden Plattform-Aufrufer sperren. `cancel-in-progress: false` allein verhindert
   keine Kollisionen: GitHub kann ältere wartende Aufrufe derselben Gruppe ersetzen.
+- Reusable Status-Workflows mit Fan-out-Aufrufen müssen ihre Concurrency-Gruppe pro
+  Operation und stabilem Ziel bilden (z. B. Issue-Nummer, ersatzweise Marker/Titel),
+  nicht nur aus `github.workflow` und Ref: Im aufgerufenen Workflow bezeichnet
+  `github.workflow` den Caller, sodass parallele Status-Aufrufe sonst kollidieren
+  können. `cancel-in-progress: false` beibehalten; es verhindert nicht das Ersetzen
+  eines älteren wartenden Aufrufs derselben Gruppe.
 - Der Core-Preflight akzeptiert repository-lokale `uses` ohne Versionssuffix und
   SHA-Pins mit Inline-Kommentaren. Er prüft neue externe Pins, Self-Push-Kommandos
   und `continue-on-error: true` auf hinzugefügten Diff-Zeilen, statt unveränderte
@@ -328,7 +334,7 @@ Kurzbeispiele:
   Kanonische Muster je Workflow-Typ:
   - **PR/Push-Gates**: `group: <name>-${{ github.event.pull_request.number || github.ref }}`, `cancel-in-progress: true`
   - **Release-Orchestratoren**: `group: ci-release-${{ github.ref_name || github.ref }}`, `cancel-in-progress: false` (laufenden Release nie abbrechen)
-  - **Reusable Workflows** (`workflow_call`): `group: ${{ github.workflow }}-${{ github.ref }}`, `cancel-in-progress: false` (Caller-seitige Concurrency entscheidet)
+  - **Reusable Workflows** (`workflow_call`): `group: ${{ github.workflow }}-${{ github.ref }}`, `cancel-in-progress: false`; Fan-out-Statusaufrufe ergänzen Operations- und Zielidentität (Issue-Nummer/Marker/Titel).
   - **Nightly/Schedule** (einmalig täglich): `group: <name>-develop` (statisch, da immer gleicher Branch), `cancel-in-progress: false`
   - **Sicherheits-/Pentest-Workflows**: `cancel-in-progress: false` (laufende Security-Scans nie abbrechen)
   - **Dispatch-only Safety** (WinGet, Rollback): `cancel-in-progress: false`

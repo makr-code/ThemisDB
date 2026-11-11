@@ -10,8 +10,8 @@ Human_Review: false
 Human_Author: "ThemisDB Team"
 Source_Level: "level2"
 SOT_Domain: "build-test"
-Canonical_References: "cmake/ModularBuild.cmake; tests/llm/CMakeLists.txt; tests/test_test_registration.py; .github/workflows/build-llm-inference.yml"
-source: "cmake/ModularBuild.cmake; tests/llm/CMakeLists.txt; tests/test_test_registration.py; .github/workflows/build-llm-inference.yml"
+Canonical_References: ".github/workflows/gate-pr-merge-readiness.yml; .github/workflows/gate-pr-plugin-boundary.yml; .github/workflows/reusable-status-flags-and-issues.yml; .github/WORKFLOW_GUIDELINES.md; tests/llm/CMakeLists.txt; src/llm/embedded_llm.cpp; .github/workflows/build-llm-inference.yml"
+source: ".github/workflows/gate-pr-merge-readiness.yml; .github/workflows/gate-pr-plugin-boundary.yml; .github/workflows/reusable-status-flags-and-issues.yml; .github/WORKFLOW_GUIDELINES.md; tests/llm/CMakeLists.txt; src/llm/embedded_llm.cpp; .github/workflows/build-llm-inference.yml"
 source_class: "secondary"
 source_weight: 60
 Related_Milestone: "DOC-WEEKLY-2026-W46"
@@ -24,9 +24,15 @@ Related_Milestone: "DOC-WEEKLY-2026-W46"
 Datum: 2026-11-11
 Status: Active
 
+## PR Merge Readiness failure: status-call concurrency and final runtime
+
+Run [42964785412](https://github.com/makr-code/ThemisDB/actions/runs/42964785412) recorded `call-plugin-boundary=cancelled` and `call-final-runtime-api=failure` on parent job [130384787522](https://github.com/makr-code/ThemisDB/actions/runs/42964785412/job/130384787522). The actual plugin enforcement job [130364267816](https://github.com/makr-code/ThemisDB/actions/runs/42964785412/job/130364267816) succeeded; the optional `human-loop-resolution` status-call job [130365663917](https://github.com/makr-code/ThemisDB/actions/runs/42964785412/job/130365663917) was cancelled. Therefore the cancelled parent plugin call is not evidence that plugin enforcement failed; the final-runtime failure remains a separate readiness failure.
+
+The reusable status workflow now scopes its concurrency group by operation plus a stable target identity (issue number, or marker/title when no issue number is available), while keeping `cancel-in-progress: false`. This avoids unrelated status calls from sharing a caller/ref group; a subsequent CI run is still required to verify the parent gate no longer inherits a cancelled label-resolution result.
+
 ## TinyLlama inference gate: missing modular EmbeddedLLM runtime
 
-Run [42964785479, job 130387233834](https://github.com/makr-code/ThemisDB/actions/runs/42964785479/job/130387233834) failed five TinyLlama tests with `EmbeddedLLM: no backend configured`; the modular API stub was used instead of the real facade. `tests/llm/CMakeLists.txt` now requires `THEMIS_ENABLE_LLM=ON`, compiles `embedded_llm.cpp` into the model-backed test targets, and links `themis_llm`. The runtime workflow explicitly enables LLM. The test-registration guard passed locally (17 tests). A local CMake configure did not reach target generation because the environment lacks RocksDB development headers; CI validation of the remediation remains pending. The latest PR Core run at the time of this update, [42989306689](https://github.com/makr-code/ThemisDB/actions/runs/42989306689), is `action_required`.
+Run [42964785479, job 130387233834](https://github.com/makr-code/ThemisDB/actions/runs/42964785479/job/130387233834) failed five TinyLlama tests with `EmbeddedLLM: no backend configured`; modular inference had selected the API stub instead of the real facade. The current branch's `tests/llm/CMakeLists.txt` now requires `THEMIS_ENABLE_LLM=ON`, compiles `src/llm/embedded_llm.cpp` into the model-backed modular inference targets, and links `themis_llm`; the inference workflow enables LLM. The cited failure predates these changes and cannot verify them. A prior local CMake configure did not reach target generation because RocksDB development headers were unavailable. CI validation of this remediation remains pending; no current-branch test pass is claimed.
 
 ## Release-critical test artifact executable modes
 

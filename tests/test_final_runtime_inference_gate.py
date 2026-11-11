@@ -13,6 +13,9 @@ class FinalRuntimeInferenceGateConfigurationTests(unittest.TestCase):
         cmake = (REPO_ROOT / "tests" / "llm" / "CMakeLists.txt").read_text(
             encoding="utf-8"
         )
+        self.assertEqual(
+            1, cmake.count("${THEMIS_ROOT_DIR}/src/llm/embedded_llm.cpp")
+        )
         self.assertRegex(
             cmake,
             re.compile(
@@ -37,6 +40,19 @@ class FinalRuntimeInferenceGateConfigurationTests(unittest.TestCase):
 
         self.assertIn("-DTHEMIS_BUILD_MODULAR=ON", configure_step)
         self.assertIn("-DTHEMIS_ENABLE_LLM=ON", configure_step)
+
+    def test_status_workflow_concurrency_is_scoped_by_operation_and_target(self) -> None:
+        workflow = (
+            REPO_ROOT
+            / ".github"
+            / "workflows"
+            / "reusable-status-flags-and-issues.yml"
+        ).read_text(encoding="utf-8")
+        self.assertIn(
+            "group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.operation }}-${{ inputs.issue-number || inputs.issue-marker || inputs.issue-title || 'unscoped' }}",
+            workflow,
+        )
+        self.assertIn("cancel-in-progress: false", workflow)
 
 
 if __name__ == "__main__":
