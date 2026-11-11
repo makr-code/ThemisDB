@@ -245,10 +245,11 @@ jobs:
         else
           echo "release-critical aggregate target missing; falling back to full test build";
           cmake --build build-pr-release-critical --parallel "${PARALLEL_JOBS}";
-        fi
+        fi;
+        tar -cf pr-release-critical-build-dir.tar build-pr-release-critical
       validation_mode: none
       artifact_name: pr-release-critical-build-dir
-      artifact_paths: build-pr-release-critical
+      artifact_paths: pr-release-critical-build-dir.tar
       artifact_retention_days: '7'
       runs_on: ubuntu-latest
       shell: bash
@@ -275,7 +276,10 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           name: pr-release-critical-build-dir
-          path: build-pr-release-critical
+          path: .
+
+      - name: Extract release-critical build directory
+        run: tar -xf pr-release-critical-build-dir.tar
 
       - name: Check changed C++ test source registration
         shell: bash
