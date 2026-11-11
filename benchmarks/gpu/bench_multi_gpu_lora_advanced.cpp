@@ -36,9 +36,24 @@ namespace {
         return "bench-lora-" + std::to_string(index);
     }
     
-    // Generate unique LoRA path
-    std::string generateLoRAPath(int index) {
-        return "/bench/path/lora-" + std::to_string(index) + ".bin";
+    bool requireBenchmarkAdapter(benchmark::State& state) {
+        const char* const configured_path = std::getenv("THEMIS_BENCH_LORA_PATH");
+        if (configured_path == nullptr || configured_path[0] == '\0') {
+            state.SkipWithError("Set THEMIS_BENCH_LORA_PATH to an existing LoRA adapter file");
+            return false;
+        }
+
+        std::ifstream adapter_file(configured_path, std::ios::binary);
+        if (!adapter_file.good()) {
+            state.SkipWithError("THEMIS_BENCH_LORA_PATH is not a readable LoRA adapter file");
+            return false;
+        }
+        return true;
+    }
+
+    std::string generateLoRAPath(int) {
+        const char* const configured_path = std::getenv("THEMIS_BENCH_LORA_PATH");
+        return configured_path == nullptr ? std::string{} : std::string(configured_path);
     }
 
     MultiLoRAManager::Config makeBenchmarkConfig() {
@@ -53,6 +68,10 @@ namespace {
 // ═══════════════════════════════════════════════════════════
 
 static void BM_LoRA_LoadLatency_SingleGPU(benchmark::State& state) {
+    if (!requireBenchmarkAdapter(state)) {
+        return;
+    }
+
     auto config = makeBenchmarkConfig();
     config.max_lora_vram_mb = 4096;
     config.max_lora_slots = 100;
@@ -68,9 +87,8 @@ static void BM_LoRA_LoadLatency_SingleGPU(benchmark::State& state) {
         manager.loadLoRA(lora_id, generateLoRAPath(idx), "base-model", 1.0f);
         
         auto end = std::chrono::high_resolution_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        
-        state.SetIterationTime(elapsed.count() / 1e6);
+        const auto elapsed = std::chrono::duration<double>(end - start);
+        state.SetIterationTime(elapsed.count());
         
         // Cleanup
         manager.unloadLoRA(lora_id);
@@ -81,6 +99,10 @@ static void BM_LoRA_LoadLatency_SingleGPU(benchmark::State& state) {
 BENCHMARK(BM_LoRA_LoadLatency_SingleGPU)->UseManualTime()->Unit(benchmark::kMillisecond);
 
 static void BM_LoRA_LoadLatency_MultiGPU(benchmark::State& state) {
+    if (!requireBenchmarkAdapter(state)) {
+        return;
+    }
+
     auto config = makeBenchmarkConfig();
     config.max_lora_vram_mb = 2048;
     config.max_lora_slots = 100;
@@ -99,9 +121,8 @@ static void BM_LoRA_LoadLatency_MultiGPU(benchmark::State& state) {
         manager.loadLoRA(lora_id, generateLoRAPath(idx), "base-model", 1.0f);
         
         auto end = std::chrono::high_resolution_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        
-        state.SetIterationTime(elapsed.count() / 1e6);
+        const auto elapsed = std::chrono::duration<double>(end - start);
+        state.SetIterationTime(elapsed.count());
         
         // Cleanup
         manager.unloadLoRA(lora_id);
@@ -112,19 +133,11 @@ static void BM_LoRA_LoadLatency_MultiGPU(benchmark::State& state) {
 BENCHMARK(BM_LoRA_LoadLatency_MultiGPU)->UseManualTime()->Unit(benchmark::kMillisecond);
 
 static void BM_LoRA_UnloadLatency(benchmark::State& state) {
-    const char* const configured_path = std::getenv("THEMIS_BENCH_LORA_PATH");
-    if (configured_path == nullptr || configured_path[0] == '\0') {
-        state.SkipWithError("Set THEMIS_BENCH_LORA_PATH to an existing LoRA adapter file");
+    if (!requireBenchmarkAdapter(state)) {
         return;
     }
 
-    const std::string lora_path(configured_path);
-    std::ifstream adapter_file(lora_path, std::ios::binary);
-    if (!adapter_file.good()) {
-        state.SkipWithError("THEMIS_BENCH_LORA_PATH is not a readable LoRA adapter file");
-        return;
-    }
-    adapter_file.close();
+    const std::string lora_path = generateLoRAPath(0);
 
     auto config = makeBenchmarkConfig();
     config.max_lora_vram_mb = 4096;
@@ -143,8 +156,8 @@ static void BM_LoRA_UnloadLatency(benchmark::State& state) {
         const bool unloaded = manager.unloadLoRA(id);
         
         auto end = std::chrono::high_resolution_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        state.SetIterationTime(elapsed.count() / 1e6);
+        const auto elapsed = std::chrono::duration<double>(end - start);
+        state.SetIterationTime(elapsed.count());
         if (!unloaded) {
             state.SkipWithError("Failed to unload the configured LoRA adapter");
             break;
@@ -158,6 +171,10 @@ BENCHMARK(BM_LoRA_UnloadLatency)->UseManualTime()->Unit(benchmark::kMillisecond)
 // ═══════════════════════════════════════════════════════════
 
 static void BM_LoRA_HotSwap_SameGPU(benchmark::State& state) {
+    if (!requireBenchmarkAdapter(state)) {
+        return;
+    }
+
     auto config = makeBenchmarkConfig();
     config.max_lora_vram_mb = 4096;
     config.max_lora_slots = 50;
@@ -165,8 +182,8 @@ static void BM_LoRA_HotSwap_SameGPU(benchmark::State& state) {
     MultiLoRAManager manager(config);
     
     // Load two adapters
-    manager.loadLoRA("lora-a", "/path/a.bin", "base-model", 1.0f);
-    manager.loadLoRA("lora-b", "/path/b.bin", "base-model", 1.0f);
+    manager.loadLoRA("lora-a", generateLoRAPath(0), "base-model", 1.0f);
+    manager.loadLoRA("lora-b", generateLoRAPath(1), "base-model", 1.0f);
     
     bool use_a = true;
     for (auto _ : state) {
@@ -178,9 +195,8 @@ static void BM_LoRA_HotSwap_SameGPU(benchmark::State& state) {
         benchmark::DoNotOptimize(lora);
         
         auto end = std::chrono::high_resolution_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        
-        state.SetIterationTime(elapsed.count() / 1e6);
+        const auto elapsed = std::chrono::duration<double>(end - start);
+        state.SetIterationTime(elapsed.count());
         use_a = !use_a;
     }
     
@@ -189,6 +205,10 @@ static void BM_LoRA_HotSwap_SameGPU(benchmark::State& state) {
 BENCHMARK(BM_LoRA_HotSwap_SameGPU)->UseManualTime()->Unit(benchmark::kMillisecond);
 
 static void BM_LoRA_HotSwap_CrossGPU(benchmark::State& state) {
+    if (!requireBenchmarkAdapter(state)) {
+        return;
+    }
+
     auto config = makeBenchmarkConfig();
     config.max_lora_vram_mb = 2048;
     config.multi_gpu.enabled = true;
@@ -198,10 +218,10 @@ static void BM_LoRA_HotSwap_CrossGPU(benchmark::State& state) {
     MultiLoRAManager manager(config);
     
     // Load adapters on different GPUs
-    manager.loadLoRA("lora-gpu0", "/path/gpu0.bin", "base-model", 1.0f);
-    manager.loadLoRA("lora-gpu1", "/path/gpu1.bin", "base-model", 1.0f);
-    manager.loadLoRA("lora-gpu2", "/path/gpu2.bin", "base-model", 1.0f);
-    manager.loadLoRA("lora-gpu3", "/path/gpu3.bin", "base-model", 1.0f);
+    manager.loadLoRA("lora-gpu0", generateLoRAPath(0), "base-model", 1.0f);
+    manager.loadLoRA("lora-gpu1", generateLoRAPath(1), "base-model", 1.0f);
+    manager.loadLoRA("lora-gpu2", generateLoRAPath(2), "base-model", 1.0f);
+    manager.loadLoRA("lora-gpu3", generateLoRAPath(3), "base-model", 1.0f);
     
     int idx = 0;
     for (auto _ : state) {
@@ -213,9 +233,8 @@ static void BM_LoRA_HotSwap_CrossGPU(benchmark::State& state) {
         benchmark::DoNotOptimize(lora);
         
         auto end = std::chrono::high_resolution_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        
-        state.SetIterationTime(elapsed.count() / 1e6);
+        const auto elapsed = std::chrono::duration<double>(end - start);
+        state.SetIterationTime(elapsed.count());
         idx++;
     }
     
@@ -228,6 +247,10 @@ BENCHMARK(BM_LoRA_HotSwap_CrossGPU)->UseManualTime()->Unit(benchmark::kMilliseco
 // ═══════════════════════════════════════════════════════════
 
 static void BM_ResourceAwareEviction_vs_LRU(benchmark::State& state) {
+    if (!requireBenchmarkAdapter(state)) {
+        return;
+    }
+
     bool use_resource_aware = (state.range(0) == 1);
     
     auto config = makeBenchmarkConfig();
@@ -260,9 +283,8 @@ static void BM_ResourceAwareEviction_vs_LRU(benchmark::State& state) {
         }
         
         auto end = std::chrono::high_resolution_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        
-        state.SetIterationTime(elapsed.count() / 1e6);
+        const auto elapsed = std::chrono::duration<double>(end - start);
+        state.SetIterationTime(elapsed.count());
         
         // Reload to continue testing
         for (int i = 0; i < 3; ++i) {
@@ -285,6 +307,10 @@ BENCHMARK(BM_ResourceAwareEviction_vs_LRU)
 // ═══════════════════════════════════════════════════════════
 
 static void BM_DynamicScheduling_Recommendation(benchmark::State& state) {
+    if (!requireBenchmarkAdapter(state)) {
+        return;
+    }
+
     auto config = makeBenchmarkConfig();
     config.multi_gpu.enabled = true;
     config.multi_gpu.devices = {0, 1, 2, 3};
@@ -318,6 +344,10 @@ BENCHMARK(BM_DynamicScheduling_Recommendation);
 // ═══════════════════════════════════════════════════════════
 
 static void BM_LoRA_Migration_Latency(benchmark::State& state) {
+    if (!requireBenchmarkAdapter(state)) {
+        return;
+    }
+
     auto config = makeBenchmarkConfig();
     config.multi_gpu.enabled = true;
     config.multi_gpu.devices = {0, 1, 2, 3};
@@ -343,8 +373,8 @@ static void BM_LoRA_Migration_Latency(benchmark::State& state) {
         
         auto gpus = manager.getLoRAGPUPlacement(lora_ids[idx]);
         if (gpus.empty()) {
-            idx++;
-            continue;
+            state.SkipWithError("Adapter has no GPU placement; migration cannot be measured");
+            break;
         }
         
         int current_gpu = gpus[0];
@@ -352,12 +382,15 @@ static void BM_LoRA_Migration_Latency(benchmark::State& state) {
         
         auto start = std::chrono::high_resolution_clock::now();
         
-        manager.migrateLoRAToGPU(lora_ids[idx], target_gpu);
+        if (!manager.migrateLoRAToGPU(lora_ids[idx], target_gpu)) {
+            state.SkipWithError("Adapter migration failed");
+            break;
+        }
         
         auto end = std::chrono::high_resolution_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        const auto elapsed = std::chrono::duration<double>(end - start);
         
-        state.SetIterationTime(elapsed.count() / 1e6);
+        state.SetIterationTime(elapsed.count());
         idx++;
     }
     
@@ -366,6 +399,10 @@ static void BM_LoRA_Migration_Latency(benchmark::State& state) {
 BENCHMARK(BM_LoRA_Migration_Latency)->UseManualTime()->Unit(benchmark::kMillisecond);
 
 static void BM_GPU_HealthCheck_and_AutoMigration(benchmark::State& state) {
+    if (!requireBenchmarkAdapter(state)) {
+        return;
+    }
+
     auto config = makeBenchmarkConfig();
     config.multi_gpu.enabled = true;
     config.multi_gpu.devices = {0, 1, 2, 3};
@@ -386,9 +423,8 @@ static void BM_GPU_HealthCheck_and_AutoMigration(benchmark::State& state) {
         benchmark::DoNotOptimize(migrated);
         
         auto end = std::chrono::high_resolution_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        
-        state.SetIterationTime(elapsed.count() / 1e6);
+        const auto elapsed = std::chrono::duration<double>(end - start);
+        state.SetIterationTime(elapsed.count());
     }
 }
 BENCHMARK(BM_GPU_HealthCheck_and_AutoMigration)->UseManualTime()->Unit(benchmark::kMillisecond);
@@ -398,6 +434,10 @@ BENCHMARK(BM_GPU_HealthCheck_and_AutoMigration)->UseManualTime()->Unit(benchmark
 // ═══════════════════════════════════════════════════════════
 
 static void BM_HighLoad_AdapterManagement(benchmark::State& state) {
+    if (!requireBenchmarkAdapter(state)) {
+        return;
+    }
+
     size_t num_adapters = state.range(0);
     
     auto config = makeBenchmarkConfig();
@@ -458,6 +498,10 @@ BENCHMARK(BM_HighLoad_AdapterManagement)
 // ═══════════════════════════════════════════════════════════
 
 static void BM_LoadBalancing_Effectiveness(benchmark::State& state) {
+    if (!requireBenchmarkAdapter(state)) {
+        return;
+    }
+
     auto config = makeBenchmarkConfig();
     config.multi_gpu.enabled = true;
     config.multi_gpu.devices = {0, 1, 2, 3};
@@ -478,9 +522,8 @@ static void BM_LoadBalancing_Effectiveness(benchmark::State& state) {
         size_t moved = manager.balanceGPULoad();
         
         auto end = std::chrono::high_resolution_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        
-        state.SetIterationTime(elapsed.count() / 1e6);
+        const auto elapsed = std::chrono::duration<double>(end - start);
+        state.SetIterationTime(elapsed.count());
         state.counters["Moved"] = moved;
     }
 }
@@ -491,6 +534,10 @@ BENCHMARK(BM_LoadBalancing_Effectiveness)->UseManualTime()->Unit(benchmark::kMil
 // ═══════════════════════════════════════════════════════════
 
 static void BM_AuditLog_Performance(benchmark::State& state) {
+    if (!requireBenchmarkAdapter(state)) {
+        return;
+    }
+
     auto config = makeBenchmarkConfig();
     config.max_lora_vram_mb = 4096;
     config.multi_gpu.enabled = true;
@@ -518,6 +565,10 @@ static void BM_AuditLog_Performance(benchmark::State& state) {
 BENCHMARK(BM_AuditLog_Performance);
 
 static void BM_UsageHeatmap_Generation(benchmark::State& state) {
+    if (!requireBenchmarkAdapter(state)) {
+        return;
+    }
+
     auto config = makeBenchmarkConfig();
     config.max_lora_vram_mb = 4096;
     
@@ -549,6 +600,10 @@ BENCHMARK(BM_UsageHeatmap_Generation);
 // ═══════════════════════════════════════════════════════════
 
 static void BM_MemoryFragmentation_Analysis(benchmark::State& state) {
+    if (!requireBenchmarkAdapter(state)) {
+        return;
+    }
+
     auto config = makeBenchmarkConfig();
     config.max_lora_vram_mb = 4096;
     config.max_lora_slots = 100;

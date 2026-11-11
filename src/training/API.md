@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-11"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -29,6 +29,9 @@ and their Doxygen comments are authoritative. Public types use the
 | `knowledge_graph_enricher.h` | `KnowledgeGraphEnricher` | sample/document IDs and enrichment settings; returns graph context or similar-document scores |
 | `lora_data_selection.h` | `DataSelectionPipeline` | `DataSample` values and selection configuration; returns selected samples and audit metadata |
 | `incremental_lora_trainer.h` | `IncrementalLoRATrainer` | training configuration and mode; returns metrics, adapter version, and explicit error text |
+| `training_sample_provider.h` | `ITrainingSampleProvider` | bounded normalized `TrainingSampleRecord` batches with stable sample/source identifiers |
+| `docs_db_training_sample_provider.h` | `DocsDbTrainingSampleProvider` | read-only docs.db RocksDB chunks or legacy document previews with record/scan limits |
+| `adalora_training_pipeline.h` | `AdaLoRATrainingPipeline` | `trainFromProvider()` consumes any provider; `trainFromDocsDatabase()` is a convenience source adapter |
 | `lora_checkpoint_manager.h` | `LoRACheckpointManager` | checkpoint directory and file/manifest metadata; returns checkpoint entries or `std::nullopt` |
 | `provenance_tracker.h` | `ProvenanceTracker` | provenance records and optional query engine; returns write stats and lineage |
 | `adapter_serving.h` | `ILLMRouter`, deployment helpers | adapter version and traffic weight; returns readiness/fingerprint or router result |
@@ -38,6 +41,10 @@ and their Doxygen comments are authoritative. Public types use the
 - Configure non-empty source/target/training collections where required; the
   pipeline rejects empty target collection and empty required selection
   language before execution.
+- `AdaLoRATrainingPipeline` consumes the source-neutral provider contract. AQL
+  supports any collection allowed by its caller; docs.db uses a read-only
+  provider. The caller must authorize each source before training, and serving
+  must remain gated on its deployment's artifact-signing/verification policy.
 - A database-backed labeler or provenance tracker needs its query engine wired
   in. A null engine is explicitly documented as offline/test behavior and does
   not fetch documents from the database.

@@ -215,6 +215,25 @@ if(TARGET themis_training)
         WORKING_DIRECTORY $<TARGET_FILE_DIR:module_training_test_adalora_training_pipeline_focused>
         EXTRA_ARGS --gtest_color=yes
     )
+
+    add_executable(module_training_test_docs_db_training_sample_provider_focused
+        ${CMAKE_CURRENT_SOURCE_DIR}/training/test_docs_db_training_sample_provider.cpp
+    )
+    target_link_libraries(module_training_test_docs_db_training_sample_provider_focused
+        PRIVATE themis_training GTest::gtest_main
+    )
+    themis_register_module_focused_test(
+        MODULE training
+        NAME docs_db_training_sample_provider
+        TARGET module_training_test_docs_db_training_sample_provider_focused
+        TIER unit
+        TIMEOUT 120
+    )
+    gtest_discover_tests(module_training_test_docs_db_training_sample_provider_focused
+        DISCOVERY_MODE POST_BUILD
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:module_training_test_docs_db_training_sample_provider_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
 endif()
 
 if(TARGET themis_llm)

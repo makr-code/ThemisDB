@@ -133,6 +133,17 @@
       }
     },
     {
+      "name": "windows-bench",
+      "displayName": "Windows x64: Benchmark Release",
+      "description": "Release profile for benchmark targets with tests disabled.",
+      "inherits": "windows-release",
+      "binaryDir": "${sourceDir}/build-msvc-windows-bench",
+      "cacheVariables": {
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "ON"
+      }
+    },
+    {
       "name": "windows-debug",
       "displayName": "Windows x64: Debug (strict)",
       "description": "Development debug build for Windows. Core dependencies are mandatory; build must fail instead of silently falling back.",
@@ -738,6 +749,11 @@
       "name": "windows-debug",
       "configurePreset": "windows-debug",
       "jobs": 20
+    },
+    {
+      "name": "windows-bench",
+      "configurePreset": "windows-bench",
+      "jobs": 16
     },
     {
       "name": "hyperscaler-debug-windows",

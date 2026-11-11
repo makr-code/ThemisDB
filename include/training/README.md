@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-11"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -33,6 +33,9 @@ orientation, not a separate API contract.
 | `lora_adapter.h`, `ada_lora_adapter.h` | `LoRAAdapter`, `AdaLoRAAdapter` and their configurations |
 | `lora_adapter_merger.h`, `multi_task_lora.h` | Adapter merge and multi-task training |
 | `lora_checkpoint_manager.h` | `LoRACheckpointManager` and checkpoint metadata/configuration |
+| `training_sample_provider.h` | Source-neutral `TrainingSampleRecord` and bounded `ITrainingSampleProvider` contract |
+| `docs_db_training_sample_provider.h` | Read-only RocksDB provider for full docs chunks with legacy-preview fallback |
+| `adalora_training_pipeline.h` | AdaLoRA consumer for AQL or injected sample providers |
 | `provenance_tracker.h` | `ProvenanceTracker` and sample lineage |
 | `adapter_serving.h` | `ILLMRouter`, `DeployResult`, deployment validation helpers |
 | `training_interfaces.h` | Checkpoint, provenance, enrichment, calibration, pipeline, and lineage interfaces |
@@ -46,6 +49,15 @@ All module interfaces are in `themis::training`.
   selection, and LoRA training according to `PipelineConfig`.
 - Database-backed components require their query/database dependencies to be
   injected. An offline/test mode is not evidence of a successful database read.
+- AdaLoRA separates providers from the model consumer. The AQL provider can read
+  any authorized collection supported by `TrainingDataIterator`; the concrete
+  `DocsDbTrainingSampleProvider` is a read-only adapter for generated
+  documentation databases. `trainFromProvider()` applies the same bounded,
+  model-backed AdaLoRA consumer to either source.
+- Docs databases prefer complete `chunk_` records and use `doc_` preview records
+  only for older database formats. The caller must authorize the source before
+  training. Production authorization and cryptographic adapter signing remain
+  open requirements; this API does not claim either control is complete.
 - `KnowledgeGraphEnricher` vector search uses an initialized, caller-owned
   `VectorIndexManager`; the caller must keep it alive.
 - Adapter deployment and rollback use the injected `ILLMRouter`. Check the

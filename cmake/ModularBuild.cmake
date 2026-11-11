@@ -1570,6 +1570,7 @@ set(THEMIS_TRAINING_SOURCES
     ../src/training/auto_labeler.cpp
     ../src/training/ada_lora_adapter.cpp
     ../src/training/adalora_training_pipeline.cpp
+    ../src/training/docs_db_training_sample_provider.cpp
     ../src/training/adalora_tt_bridge.cpp
     ../src/training/adapter_serving.cpp
     ../src/training/database_domain_auto_labeler.cpp

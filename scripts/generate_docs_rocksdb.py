@@ -219,7 +219,24 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    std::cout << "[OK] Successfully imported " << doc_count << " documents!" << std::endl;
+    // Keep complete chunk text available for native docs.db-backed training.
+    int chunk_count = 0;
+    if (docs_data.contains("chunks") && docs_data["chunks"].is_array()) {
+        for (const auto& chunk : docs_data["chunks"]) {
+            std::string key = "chunk_" + std::to_string(chunk_count++);
+            std::string value = chunk.dump();
+            status = db->Put(WriteOptions(), key, value);
+            if (!status.ok()) {
+                std::cerr << "Error writing documentation chunk to database: "
+                          << status.ToString() << std::endl;
+                db.reset();
+                return 1;
+            }
+        }
+    }
+
+    std::cout << "[OK] Successfully imported " << doc_count << " documents and "
+              << chunk_count << " chunks!" << std::endl;
 
     // Cleanup
     db.reset();

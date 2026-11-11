@@ -16,12 +16,16 @@
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
 #include "training/adalora_training_pipeline.h"
+#include "utils/rocksdb_open_compat.h"
 
 #include <chrono>
 #include <cmath>
 #include <cstdlib>
 #include <filesystem>
 #include <memory>
+#include <nlohmann/json.hpp>
+#include <rocksdb/db.h>
+#include <rocksdb/options.h>
 #include <string>
 #include <system_error>
 
@@ -145,6 +149,88 @@ TEST(AdaLoRATrainingPipelineTest, TrainsFromAqlExportsAndServesTinyLlamaAdapter)
     exporter.reset();
     db->close();
     db.reset();
+}
+
+TEST(AdaLoRATrainingPipelineTest, TrainsFromDocsDatabaseAndServesTinyLlamaAdapter) {
+    const char* model_path_env = std::getenv("THEMIS_TEST_MODEL_PATH");
+    if (!model_path_env || !std::filesystem::is_regular_file(model_path_env)) {
+        GTEST_SKIP() << "Set THEMIS_TEST_MODEL_PATH to a TinyLlama GGUF model";
+    }
+
+    TemporaryTrainingDirectory temporary_directory;
+    const auto root = temporary_directory.path();
+    const auto db_path = root / "docs.db";
+    const auto adapter_path = root / "tinyllama_docsdb.gguf";
+    const auto checkpoint_path = root / "tinyllama_docsdb.adalora";
+    const std::string documentation_text =
+        "ThemisDB stores documents in RocksDB and exposes read-only AQL queries for "
+        "documentation. Training providers read bounded documentation chunks without "
+        "modifying the source database. AdaLoRA learns a small output adapter while "
+        "TinyLlama remains frozen, and the exported GGUF can be loaded for inference.";
+
+    {
+        rocksdb::Options options;
+        options.create_if_missing = true;
+        rocksdb::DB* raw_db = nullptr;
+        const auto open_status = themis::storage::detail::openDbCompat(
+            options, db_path.string(), &raw_db);
+        ASSERT_TRUE(open_status.ok()) << open_status.ToString();
+        std::unique_ptr<rocksdb::DB> docs_db(raw_db);
+        ASSERT_TRUE(docs_db);
+        const nlohmann::json chunk = {
+            {"chunk_id", "chunk-0001"},
+            {"doc_id", "docs/training/rocksdb.md"},
+            {"text", documentation_text},
+            {"token_count", 56}
+        };
+        ASSERT_TRUE(docs_db->Put(rocksdb::WriteOptions{}, "chunk_000000", chunk.dump()).ok());
+    }
+
+    themis::llm::LlamaWrapper::Config model_config;
+    model_config.n_ctx = 128;
+    model_config.n_batch = 128;
+    model_config.n_gpu_layers = 0;
+    model_config.n_threads = 4;
+    model_config.multi_lora_config.lora_base_dir = root.string();
+    themis::llm::LlamaWrapper model(model_config);
+
+    themis::training::AdaLoRATrainingConfig training_config;
+    training_config.adapter_id = "tinyllama_docsdb_e2e";
+    training_config.base_model_path = model_path_env;
+    training_config.adapter_output_path = adapter_path.string();
+    training_config.checkpoint_path = checkpoint_path.string();
+    training_config.max_samples = 1;
+    training_config.provider_batch_size = 1;
+    training_config.max_sequence_length = 64;
+    training_config.output_shard_count = 32;
+    training_config.initial_rank = 1;
+    training_config.rank_budget = 32;
+    training_config.reallocate_every_steps = 1;
+    training_config.epochs = 1;
+    training_config.alpha = 2.0f;
+    training_config.learning_rate = 0.01f;
+    training_config.max_gradient_norm = 1.0f;
+
+    const auto result = themis::training::AdaLoRATrainingPipeline::trainFromDocsDatabase(
+        db_path.string(), model, training_config);
+    ASSERT_TRUE(result.success) << result.error_message;
+    EXPECT_EQ(result.samples_read, 1u);
+    EXPECT_EQ(result.samples_trained, 1u);
+    EXPECT_GT(result.target_tokens_trained, 0u);
+    EXPECT_EQ(result.final_rank, training_config.rank_budget);
+    EXPECT_TRUE(std::isfinite(result.mean_loss));
+    EXPECT_TRUE(std::filesystem::is_regular_file(checkpoint_path));
+    ASSERT_TRUE(std::filesystem::is_regular_file(adapter_path));
+
+    themis::llm::InferenceRequest request;
+    request.prompt = "ThemisDB stores documents in";
+    request.max_tokens = 6;
+    request.temperature = 0.0f;
+    request.lora_adapter_id = training_config.adapter_id;
+    const auto response = model.generate(request);
+    EXPECT_FALSE(response.text.empty());
+    ASSERT_TRUE(response.lora_used.has_value());
+    EXPECT_EQ(*response.lora_used, training_config.adapter_id);
 }
 
 } // namespace

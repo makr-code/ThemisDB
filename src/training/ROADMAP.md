@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-07"
+Last Updated: "2026-11-11"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -28,6 +28,7 @@ The module implements labeling, enrichment, LoRA/AdaLoRA training, checkpoint ha
 - [~] improving diagnostics consistency across labeling, training, and serving-handoff stages (Target: Q3 2026)
 - [~] stabilizing benchmark-backed release guardrails for training hot paths (Target: Q3 2026)
 - [x] implement real DB-backed sample loading and one benchmark per supported LoRA data path, including preparation, model-backed paths, AQL iterator, collection training, selection, and full pipeline (Target: Q4 2026)
+- [~] unify AQL and docs.db TinyLlama AdaLoRA training behind a bounded provider/consumer contract; keep docs.db as a read-only source adapter (Target: Q4 2026)
 
 ## Planned Features
 
@@ -53,6 +54,7 @@ The module implements labeling, enrichment, LoRA/AdaLoRA training, checkpoint ha
 - [ ] align enrichment and serving-handoff behavior to bounded runtime contracts (Target: Q4 2026)
 - [x] load bounded, validated samples from the configured ThemisDB collection into IncrementalLoRATrainer (Target: Q4 2026)
 - [x] implement TrainingDataIterator AQL execution and connect TrainingPipeline QueryEngine injection, sample persistence, selected IDs, and training reads (Target: Q4 2026)
+- [~] add the source-neutral `ITrainingSampleProvider` contract, read-only docs.db provider, and shared native AdaLoRA consumer with TinyLlama GGUF export (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
 - [ ] standardize fail-safe behavior for checkpoint faults, adapter merge failures, and enrichment gaps (Target: Q4 2026)
@@ -87,6 +89,8 @@ The module implements labeling, enrichment, LoRA/AdaLoRA training, checkpoint ha
 
 - runtime behavior depends on training configuration, adapter size, and available acceleration.
 - model-backed source cases require a real GGUF artifact; without one, their benchmark preflight is reported as not run.
+- docs.db training requires a generated RocksDB with valid `chunk_` records or legacy `doc_` previews and a real TinyLlama-compatible GGUF model; provider-only unit coverage is not end-to-end training evidence.
+- training source authorization and cryptographic signing/verification of exported AdaLoRA artifacts remain unimplemented production gates.
 - selected checkpoint, merge, and serving edge scenarios need continued hardening.
 - benchmark depth should continue expanding for broader training workloads.
 - Wave B B3 rollout depends on Wave A deployment readiness and stable LLM adapter lifecycle baselines.

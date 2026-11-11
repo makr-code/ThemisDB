@@ -1,3 +1,15 @@
+---
+Author: "ThemisDB Team"
+Created: "unknown"
+Last Updated: "2026-11-11"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 > WARNING: Historical changelog entries describe implementation state at the time they were recorded.
 
 <!-- Status: current | validated: 2026-05-31 -->
@@ -11,6 +23,7 @@ The format is based on Keep a Changelog.
 ## [Unreleased]
 
 ### Added
+- **Source-neutral TinyLlama AdaLoRA path**: introduce bounded `ITrainingSampleProvider` batches, adapt AQL and read-only docs.db sources to the same consumer, retain full documentation chunks in generated RocksDB imports, and export source identity in GGUF metadata. Caller authorization and cryptographic artifact signing remain open production gates.
 - **DB-backed LoRA data-path coverage**: added bounded AQL/collection reads, sample persistence, selection-aware training by selected `_key`, and a 16-case preparation/DB/model benchmark. Model-backed cases require a real GGUF artifact and are reported as not run when preflight fails.
 
 ### Fixed

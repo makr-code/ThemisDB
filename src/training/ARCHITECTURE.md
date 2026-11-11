@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-11"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -36,10 +36,16 @@ The training module composes auto-labeling and enrichment behavior, LoRA/AdaLoRA
 
 - Prepared input paths: AQL built-in samples, custom/in-memory samples, JSON import, and `TrainingData` batch composition.
 - DB-backed paths: `LegalAutoLabeler` reads a source collection through an injected `QueryEngine`; generated samples are persisted to the configured target collection; `IncrementalLoRATrainer` reads bounded, validated samples from that collection; `TrainingDataIterator` executes AQL and yields batches.
+- AdaLoRA provider/consumer path: `ITrainingSampleProvider` normalizes source-specific records into bounded `TrainingSampleRecord` batches. `AqlTrainingSampleProvider` adapts `TrainingDataIterator` for authorized collections. `DocsDbTrainingSampleProvider` opens generated RocksDB read-only, prefers full `chunk_` records, and falls back to legacy `doc_` previews. `AdaLoRATrainingPipeline::trainFromProvider()` is the source-neutral consumer and owns tokenization, frozen-model forward passes, AdaLoRA updates, checkpoints, and GGUF export.
 - Selection-to-training path: `TrainingPipeline` passes selected sample `_key` values to `IncrementalLoRATrainer`, which filters its collection query to those IDs and fails closed on empty or unavailable selections.
 - End-to-end path: `TrainingPipeline` wires the same `QueryEngine` through labeling, sample persistence, selection, and training; stage timings remain observable independently.
 - Data-source timings are reported separately from LoRA updates; DB failures never count as a successful DB-backed run.
 - The benchmark covers preparation-only and DB-backed CPU paths without a model artifact. Actual model-backed LoRA cases require a real GGUF and remain unmeasured when the preflight cannot find one.
+
+The provider boundary does not grant data access: callers must authorize a source
+before use. The docs.db adapter is not a docs-specific trainer; it only translates
+the repository's RocksDB record format. Cryptographic signing of trained artifacts
+is not implemented by this path and remains a deployment gate.
 
 ## Core Contracts
 

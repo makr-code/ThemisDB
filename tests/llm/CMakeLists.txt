@@ -430,6 +430,9 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
     set(_gmock_link "")
 
     set(_llm_test_libs ${TEST_LIBS})
+    if(_stem STREQUAL "test_gpu_lora_integration")
+        set(_llm_test_libs GTest::gtest_main)
+    endif()
 
     target_link_libraries(${_target} PRIVATE
         ${_llm_test_libs}

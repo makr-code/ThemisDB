@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-11"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -27,6 +27,7 @@ Exact model backend not verifiable from final document text alone.
 - per-source benchmark coverage for supported in-memory/custom, JSON, AQL iterator, collection, and full-pipeline routes
 - bounded DB-backed sample readers and selection-aware training for IncrementalLoRATrainer, TrainingDataIterator, and TrainingPipeline
 - per-source benchmark coverage for built-in, in-memory/custom, JSON, trainBatch, AQL iterator, collection, and full-pipeline paths
+- keep native AdaLoRA consumption source-neutral through bounded `ITrainingSampleProvider` batches; docs.db remains one read-only provider adapter rather than a docs-specific trainer
 
 ## Design Constraints
 
@@ -45,6 +46,8 @@ Exact model backend not verifiable from final document text alone.
 | adapter interfaces | bounded merge and serving-handoff behavior |
 | DB sample reader | Existing trainer/pipeline `QueryEngine` paths retain bounded reads, input validation, and explicit failure reporting |
 | DB training injection | Existing non-owning `QueryEngine` injection keeps its lifetime contract; selection-to-training behavior needs explicit integration semantics |
+| Training sample provider | `ITrainingSampleProvider` emits bounded normalized records with sample ID and source URI; providers own source parsing and resource lifetime |
+| AdaLoRA consumer | `AdaLoRATrainingPipeline::trainFromProvider()` owns model-backed optimization, checkpointing, and adapter export independently of source format |
 
 ## Implementation Notes
 
@@ -57,6 +60,7 @@ Exact model backend not verifiable from final document text alone.
 - persist auto-labeled samples before training and consume the configured target collection rather than an empty vector.
 - pass the selected sample `_key` values from data selection into the trainer query; an empty selection must not fall through to full-collection or synthetic training.
 - keep DB read/convert/train timing separate; never label deterministic synthetic fallback as DB-backed training.
+- preserve the source-neutral consumer contract: AQL and docs.db providers emit identical normalized records, and provider failures never switch to a synthetic or alternate source.
 
 ### Wave B B3: Multi-Task LoRA Training Enablement
 **Priority:** High
@@ -74,6 +78,7 @@ Exact model backend not verifiable from final document text alone.
 - regressions for checkpoint corruption, merge conflicts, and rollback edge cases.
 - deterministic stress runs for training and adapter-serving handoff workloads.
 - release-profile benchmark runs for mapped training targets.
+- test the generated docs.db import path and model-backed `trainFromDocsDatabase()` integration with a real TinyLlama GGUF; provider unit tests alone are insufficient end-to-end evidence.
 - retain focused RocksDB/QueryEngine coverage for bounded trainer reads, invalid collection names, empty data, persisted labels, and pipeline sample counts; add tests for selection-to-training semantics and remaining failure/batch boundaries.
 - add benchmark smoke and comparison-report validation when per-route DB benchmarks are implemented; current `benchmarks/training/` targets do not provide those cases.
 
@@ -86,6 +91,7 @@ Exact model backend not verifiable from final document text alone.
 ## Security / Reliability
 
 - maintain strict bounded behavior for training and checkpoint transitions.
+- The docs.db provider must use read-only RocksDB access and bounded record/sample limits; caller authorization and cryptographic adapter signing remain mandatory deployment controls.
 - preserve explicit failure signaling for labeling, adapter, and serving faults.
 - enforce predictable degradation under capability or runtime pressure.
 - keep diagnostics actionable for production training incidents.
