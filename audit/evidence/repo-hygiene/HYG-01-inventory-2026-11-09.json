@@ -1,0 +1,2542 @@
+{
+  "after": {
+    "files_over_5_mib": 3,
+    "generated_output_groups": [
+      {
+        "blob_bytes": 363982,
+        "classification": "referenced historical benchmark result",
+        "file_count": 38,
+        "files": [
+          {
+            "blob_bytes": 2054,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/batch_benchmark_compact_20260515.final.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 1897,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/batch_benchmark_compact_20260515.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 1315,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/batch_benchmark_summary_20260515_controlled.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 855,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_aql_functions.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 15948,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_arm_memory.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 38613,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_arm_simd.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 1282,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_async_io_multiscan.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 22785,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_auto_buffers.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 2768,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_batch_insert.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 0,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_blob_zstd.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 1698,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_branch_manager.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 3662,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_changefeed_throughput.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 13159,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_comprehensive.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 6613,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_compression.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 18640,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_gorilla_codec.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 18654,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_gorilla_codec_latest.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 11909,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 2539,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_20260510180003.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 8264,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_components_p99.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 16462,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_countpaths_v6.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 12334,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_join_compare.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 12474,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_join_compare_v2.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 12978,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_join_compare_v3.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 12978,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_join_compare_v4.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 19128,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_join_compare_v4_release.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 19128,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_join_compare_v5_release.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 11914,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 3488,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_querymix_p99.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 4252,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_querymix_p99_debug.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 4252,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_querymix_p99_debug_v2.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 13182,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_simd_distance.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 13187,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_simd_distance_latest.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 3751,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_tpcc.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 3752,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_tpcc_latest.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 12634,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_transaction_throughput.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 1515,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_transaction_throughput_latest.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 6957,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_ycsb.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          },
+          {
+            "blob_bytes": 6961,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_ycsb_latest.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+          }
+        ],
+        "id": "referenced_historical_benchmark_results",
+        "owner": "Benchmark maintainers",
+        "path_pattern": "benchmarks/benchmark_results/**",
+        "proposed_disposition": "Retain existing linked results; future runs use 30-day CI artifacts.",
+        "sample_paths": [
+          "benchmarks/benchmark_results/batch_benchmark_compact_20260515.final.json",
+          "benchmarks/benchmark_results/batch_benchmark_compact_20260515.json",
+          "benchmarks/benchmark_results/batch_benchmark_summary_20260515_controlled.json",
+          "benchmarks/benchmark_results/bench_aql_functions.smoke.json",
+          "benchmarks/benchmark_results/bench_arm_memory.smoke.json"
+        ]
+      }
+    ],
+    "oversized_files": [
+      {
+        "blob_bytes": 14647601,
+        "classification": "published documentation",
+        "owner": "Documentation maintainers",
+        "path": "docs/ThemisDB-Kompendium-v1.3.4.pdf",
+        "proposed_disposition": "Retain; these are linked, versioned documentation deliverables.",
+        "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+      },
+      {
+        "blob_bytes": 7619494,
+        "classification": "published documentation",
+        "owner": "Documentation maintainers",
+        "path": "docs/compendium/output/ThemisDB-Kompendium-v1.4.0.html",
+        "proposed_disposition": "Retain; these are linked, versioned documentation deliverables.",
+        "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+      },
+      {
+        "blob_bytes": 7299924,
+        "classification": "published documentation",
+        "owner": "Documentation maintainers",
+        "path": "docs/compendium/output/ThemisDB-Kompendium-v1.4.0.pdf",
+        "proposed_disposition": "Retain; these are linked, versioned documentation deliverables.",
+        "tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+      }
+    ],
+    "tracked_blob_bytes": 360617925,
+    "tracked_entries": 23966,
+    "tree": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9"
+  },
+  "after_tree_ref": "c3de0c0c122ce727f9ebad50a248e83017ed3ed9",
+  "baseline_commit_sha": "dc551ed9fe746262737c9c5776921947fc30ed9e",
+  "before": {
+    "files_over_5_mib": 24,
+    "generated_output_groups": [
+      {
+        "blob_bytes": 1381642231,
+        "classification": "generated Doxygen output",
+        "file_count": 41478,
+        "id": "doxygen_outputs",
+        "owner": "Developer documentation maintainers",
+        "path_pattern": "ai_context/developer_llm_wiki/module_doxygen_artifacts{,_batches}/** (excluding Markdown)",
+        "proposed_disposition": "Generate in CI and publish module-doxygen-xml artifacts with 21-day retention.",
+        "sample_paths": [
+          "ai_context/developer_llm_wiki/module_doxygen_artifacts/acceleration/xml/Doxyfile.xml",
+          "ai_context/developer_llm_wiki/module_doxygen_artifacts/acceleration/xml/ai__hardware__dispatcher_8cpp.xml",
+          "ai_context/developer_llm_wiki/module_doxygen_artifacts/acceleration/xml/ai__hardware__dispatcher_8h.xml",
+          "ai_context/developer_llm_wiki/module_doxygen_artifacts/acceleration/xml/backend__metrics_8h.xml",
+          "ai_context/developer_llm_wiki/module_doxygen_artifacts/acceleration/xml/backend__registry_8cpp.xml"
+        ]
+      },
+      {
+        "blob_bytes": 429070672,
+        "classification": "historical generated scan/report output",
+        "file_count": 180,
+        "files": [
+          {
+            "blob_bytes": 1042,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/.mlc_config.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 25227,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE3_ERROR_HANDLING_FINDINGS.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 1840,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE3_SUMMARY.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 9595,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/BATCH_8_PHASE5_COMPILER_WARNINGS_ANALYSIS.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 9960,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/CMT_7502_DATA_AUDIT.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 6941,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/CMT_TODO_AUDIT_PHASE1_GAP_SCAN_VERIFICATION.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 6618,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/CMT_TODO_AUDIT_PHASE3_DIRECT_CODE_SCAN.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 10153,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/GITHUB_ISSUES_VERIFIED_FINDINGS.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 4507,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/GPU_CUDA_AUDIT_BASELINE_2026_09_02.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 1277,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/IMPORTERS_PHASE1_GAP_TRIAGE_SUMMARY.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 15540,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/INGESTION_PHASE_1_VERIFICATION_REPORT.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3175,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/ISSUE_SET_MISSING_IMPLEMENTIERUNGEN_2026-05-25.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 6056,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/L1_MODULE_ORCHESTRATION_REPORT.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2708,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/L1_MODULE_UPDATE_PLAN.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 159589,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/MODULE_MATURITY_v1.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 13020,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/PHASE3_COORDINATION_STATUS.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 11931,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/PHASE4_SECURITY_COMPLIANCE_REPORT.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 9998,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/PHASE5_CP1_BLOCKERS.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 18380,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/PHASE5_OPERATIONAL_READINESS_REPORT.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 5718,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/ROOTCAUSE_ANALYSIS_FP_CATEGORIES.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 11162,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/SCANNER_DOC_EVALUATION.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 32803,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/SCANNER_FEEDBACK_REPORT.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 18638,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/VALIDATION_ANALYSIS_REPORT.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 5616,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/WAVE1_SERVER_LLM_TICKETS_2026-05-25.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3002,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/WAVE_A_DEPENDENCY_STATUS.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 7303428,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/_cppcheck_2026-06-13.xml",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 140,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/all_issues_created.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 19369,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/analytics_error_handling_analysis.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2402,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/automation_completion_report.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3381,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/automation_completion_summary.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 1433,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/batch_creation_results.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 11974,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/clustered_issues/clustered_issues.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 11307,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/cmt_7503_verification_report.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 239,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/compact/COMPACT_RUN_SUMMARY.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2416,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/delta/gap_scan_v3_delta.selftest.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 320164,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/developer_docs_inventory.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 59046,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/docs_module_alignment_report_2026-05-31.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 5891,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/final_issue_mapping_20260604.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 19808,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/fp_delta_wave2_report.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 650939,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/fp_tuning_after/gap_scan_v3_concurrency_aggregate.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3215241,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/fp_tuning_after/gap_scan_v3_container_misuse_aggregate.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 449756,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/fp_tuning_after/gap_scan_v3_memory_aggregate.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2035072,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/fp_tuning_after/gap_scan_v3_reliability_aggregate.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 229615,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/fp_tuning_after/gap_scan_v3_security_aggregate.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 821324,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/fp_tuning_before/gap_scan_v3_concurrency_aggregate.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3531802,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/fp_tuning_before/gap_scan_v3_container_misuse_aggregate.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 920464,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/fp_tuning_before/gap_scan_v3_memory_aggregate.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2080795,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/fp_tuning_before/gap_scan_v3_reliability_aggregate.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 588646,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/fp_tuning_before/gap_scan_v3_security_aggregate.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 7553,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/fp_tuning_delta_report.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 7366,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/fp_wave2_top10_triage.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 7169623,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_phase5_llm.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 489125,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_phase5_tensor.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 66498,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_acceleration.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 16,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_aggregate.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3947,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_ai.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 11663,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_analytics.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 6224,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_api.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 11939,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_aql.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 12200,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_auth.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 53,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_base.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 10280,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_cache.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 8456,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_cdc.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2751,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_chaos.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 1539,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_chimera.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 751,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_config.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 10221,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_content.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2380,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_core.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 1098,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_distributed_knowledge.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 682,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_document.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3576,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_ethics_ai.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2399,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_exporters.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 140,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_failover.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 5875,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_geo.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3052,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_governance.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2139,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_gpu.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2487,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_graph.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 1930,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_importers.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 26839,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_index.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 51636,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_ingestion.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3096,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_llama_cpp.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 45254,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_llm.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 1974,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_maintenance.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 1825,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_metadata.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 14972,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_network.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 8141,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_observability.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2097,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_onnx_clip.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 6192,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_performance.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 561,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_pipeline_v3_summary.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3781,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_plugins.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 8099,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_process.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 693,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_projects.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 9385,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_prompt_engineering.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 13764,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_query.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 13669,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_rag.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 6733,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_replication.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 424,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_rpc_grpc.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 13180,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_scheduler.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2472,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_scraper.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 13182,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_search.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 41679,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_security.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 10811,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_server.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 14811,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_sharding.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 1722,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_stable_diffusion.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 23923,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_storage.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 7031,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_temporal.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 14572,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_tensor.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 7014,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_themis.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 5028,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_timeseries.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 1220,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_toolbox.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 5696,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_training.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 4981,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_transaction.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3223,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_updates.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 451,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_user_storage_encrypted.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 9421,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_utils.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 12356,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_voice.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2271,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scan_whisper.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2920,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scanner_results.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 16342,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scanner_verified_analytics_phase1.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 7574,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scanner_verified_failover.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 6664,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scanner_verified_graph.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 335366,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scanner_verified_llm.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 6174,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scanner_verified_server_high_a.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 15205,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scanner_verified_updates.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 7715,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_scope_breakdown_20260604.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 12089,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gap_verifier_phase2_security_scope_analysis.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 328935,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/github_issues_batch.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 68918060,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/gs3_quick_scan.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 21499,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/high1_compliance_phase1_audit.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2333,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/high1_phase2_file_inventory.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 16917,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/high1_phase2b_additional_files_audit.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 12555,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/high_gap_focus_2026-05-25.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 534,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/impact_analysis_report_2026_06_21.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 6857265,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/include_graph_src_libclang.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 21784,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/include_graph_tools_scanners.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 21784,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/include_graph_tools_scanners_libclang.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 13449,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/issue_scope_fields_20260604.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 1309,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/issues_standardization_complete.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 62503,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/iterator_gaps_categorized.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 58206,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/iterator_gaps_phase1.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 326217,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/linkset_validation_raw.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 5570,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/phase1_batch_results.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 260,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/phase1_report.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 97495,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/phase2_batch_results.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 17026,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/phase6_governance_report.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 1065,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/phase_1_4_enhancement_results.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 181,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/pipeline_metrics.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 750,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/quick_wins_scaling_results.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3137,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/remaining_modules_analysis.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 271,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/sample_batch_results.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 58008,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/sample_validation_assessment_src.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 14303,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/sample_validation_metadata.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 36875,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/sample_validation_metadata_src.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 8503660,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/scan_benchmarks.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 44886537,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/scan_full.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 866442,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/scan_graph_impact_fixed.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 851541,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/scan_graph_with_impact.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 13348836,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/scan_include.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 57616190,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/scan_src.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 84863612,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/scan_tests.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2028451,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/scans/scan_final_verification_20260602_162125.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2767979,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/scans/scan_full_run_20260602_145109.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2028450,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/scans/scan_optimized_20260602_150158.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2028450,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/scans/scan_phase12_baseline_20260602_160454.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2201614,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/scans/scan_phase12_optimized_20260602_160731.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 11452378,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/scans/scan_results_phase11.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2768054,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/scans/scan_results_phase11_tuned.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 744173,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/smoke_gap_scan_graph.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 94,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/template_update_results.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 758178,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/test_ai_vibe_scanners.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 762660,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/test_all_5_ai_vibe.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 34870325,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/test_out.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 15809288,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/test_report_quick.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 15810134,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/test_scan_include.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 15810135,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/test_scan_quick.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 26450,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/top_iterator_gaps.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 14924,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/unity_build_analysis.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3703,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/utils_benchmark_results.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/wave1_remaining_findings_after_fp_tuning.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 782,
+            "classification": "historical generated scan/report output",
+            "owner": "AI working-history maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/wave3_gaps_identified.json",
+            "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          }
+        ],
+        "id": "archived_scan_reports",
+        "owner": "AI working-history maintainers",
+        "path_pattern": "docs/ARCHIVED/ai-working-history/**/*.{json,xml}",
+        "proposed_disposition": "Remove raw generated reports from the active tree; preserve Git history without rewriting it.",
+        "sample_paths": [
+          "docs/ARCHIVED/ai-working-history/.mlc_config.json",
+          "docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE3_ERROR_HANDLING_FINDINGS.json",
+          "docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE3_SUMMARY.json",
+          "docs/ARCHIVED/ai-working-history/BATCH_8_PHASE5_COMPILER_WARNINGS_ANALYSIS.json",
+          "docs/ARCHIVED/ai-working-history/CMT_7502_DATA_AUDIT.json"
+        ]
+      },
+      {
+        "blob_bytes": 7937,
+        "classification": "root-level generated benchmark result",
+        "file_count": 2,
+        "files": [
+          {
+            "blob_bytes": 3968,
+            "classification": "root-level generated benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "bench_access_coordinator_gates.exe.json",
+            "proposed_disposition": "Remove from source; publish fresh benchmark runs through existing CI benchmark artifacts (30-day retention).",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3969,
+            "classification": "root-level generated benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "bench_access_coordinator_gates.json",
+            "proposed_disposition": "Remove from source; publish fresh benchmark runs through existing CI benchmark artifacts (30-day retention).",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          }
+        ],
+        "id": "root_benchmark_outputs",
+        "owner": "Benchmark maintainers",
+        "path_pattern": "bench_access_coordinator_gates{.exe}.json",
+        "proposed_disposition": "Publish fresh benchmark runs through existing CI artifacts with 30-day retention.",
+        "sample_paths": [
+          "bench_access_coordinator_gates.exe.json",
+          "bench_access_coordinator_gates.json"
+        ]
+      },
+      {
+        "blob_bytes": 363982,
+        "classification": "referenced historical benchmark result",
+        "file_count": 38,
+        "files": [
+          {
+            "blob_bytes": 2054,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/batch_benchmark_compact_20260515.final.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 1897,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/batch_benchmark_compact_20260515.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 1315,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/batch_benchmark_summary_20260515_controlled.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 855,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_aql_functions.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 15948,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_arm_memory.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 38613,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_arm_simd.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 1282,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_async_io_multiscan.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 22785,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_auto_buffers.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2768,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_batch_insert.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 0,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_blob_zstd.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 1698,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_branch_manager.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3662,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_changefeed_throughput.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 13159,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_comprehensive.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 6613,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_compression.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 18640,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_gorilla_codec.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 18654,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_gorilla_codec_latest.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 11909,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 2539,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_20260510180003.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 8264,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_components_p99.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 16462,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_countpaths_v6.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 12334,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_join_compare.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 12474,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_join_compare_v2.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 12978,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_join_compare_v3.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 12978,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_join_compare_v4.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 19128,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_join_compare_v4_release.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 19128,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_join_compare_v5_release.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 11914,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_query_smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3488,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_querymix_p99.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 4252,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_querymix_p99_debug.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 4252,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_querymix_p99_debug_v2.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 13182,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_simd_distance.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 13187,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_simd_distance_latest.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3751,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_tpcc.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3752,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_tpcc_latest.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 12634,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_transaction_throughput.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 1515,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_transaction_throughput_latest.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 6957,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_ycsb.smoke.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 6961,
+            "classification": "referenced historical benchmark result",
+            "owner": "Benchmark maintainers",
+            "path": "benchmarks/benchmark_results/bench_ycsb_latest.json",
+            "proposed_disposition": "Retain currently linked historical results; publish new runs as 30-day CI artifacts and migrate old links only when durable replacements exist.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          }
+        ],
+        "id": "referenced_historical_benchmark_results",
+        "owner": "Benchmark maintainers",
+        "path_pattern": "benchmarks/benchmark_results/**",
+        "proposed_disposition": "Retain existing linked results; future runs use 30-day CI artifacts.",
+        "sample_paths": [
+          "benchmarks/benchmark_results/batch_benchmark_compact_20260515.final.json",
+          "benchmarks/benchmark_results/batch_benchmark_compact_20260515.json",
+          "benchmarks/benchmark_results/batch_benchmark_summary_20260515_controlled.json",
+          "benchmarks/benchmark_results/bench_aql_functions.smoke.json",
+          "benchmarks/benchmark_results/bench_arm_memory.smoke.json"
+        ]
+      },
+      {
+        "blob_bytes": 134810347,
+        "classification": "generated build, scan, and developer-tool outputs",
+        "file_count": 11,
+        "files": [
+          {
+            "blob_bytes": 23722655,
+            "classification": "generated GS3 scan result",
+            "owner": "GS3/quality maintainers",
+            "path": "ai_working/gs3_scan_current.json",
+            "proposed_disposition": "Remove the stale working-tree copy; fresh scans are uploaded by maintenance-issues.yml with 30-day retention.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3194469,
+            "classification": "generated GS3 scan result",
+            "owner": "GS3/quality maintainers",
+            "path": "ai_working/gs3_scan_current.md",
+            "proposed_disposition": "Remove the stale working-tree copy; fresh scans are uploaded by maintenance-issues.yml with 30-day retention.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 4331298,
+            "classification": "generated CMake compilation database",
+            "owner": "Build maintainers",
+            "path": "archive/compile_commands.json",
+            "proposed_disposition": "Remove; regenerate in the local build directory with CMAKE_EXPORT_COMPILE_COMMANDS.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 30396533,
+            "classification": "generated file-move report",
+            "owner": "Repository hygiene maintainers",
+            "path": "archive/moved_files.txt",
+            "proposed_disposition": "Remove; no active consumer reference was found.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 7608931,
+            "classification": "compiler-generated preprocessed source",
+            "owner": "LLM/build maintainers",
+            "path": "artifacts/embedded_llm_stub.i",
+            "proposed_disposition": "Remove; regenerate from its source during local build/debug work.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 4394733,
+            "classification": "generated build log",
+            "owner": "Build maintainers",
+            "path": "docs/ARCHIVED/ai-working-history/logs/root_cleanup/ninja_build_themis_graph.txt",
+            "proposed_disposition": "Remove the raw build log; retain curated historical summaries only.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 29272564,
+            "classification": "generated search report",
+            "owner": "Dependency maintenance",
+            "path": "docs/reports/search_vcpkg_pin.txt",
+            "proposed_disposition": "Remove; regenerate the local search report when needed.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 3385572,
+            "classification": "temporary generated symbol dump",
+            "owner": "Developer tooling maintainers",
+            "path": "docs/reports/temp_sym.txt",
+            "proposed_disposition": "Remove; regenerate locally when needed.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 14188544,
+            "classification": "downloaded third-party installer",
+            "owner": "Developer tooling maintainers",
+            "path": "gh/gh_2.87.2_windows_amd64.msi",
+            "proposed_disposition": "Remove; obtain the installer from its upstream release.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 8535408,
+            "classification": "compiler-generated precompiled header",
+            "owner": "Build maintainers",
+            "path": "include/tensor/tensor_error_handling.h.pch",
+            "proposed_disposition": "Remove; regenerate in the local build directory.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          },
+          {
+            "blob_bytes": 5779640,
+            "classification": "vendored developer-tool binary",
+            "owner": "CI maintainers",
+            "path": "tools/bin/actionlint",
+            "proposed_disposition": "Remove the unused binary; local workflow lint uses the documented container tool.",
+            "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+          }
+        ],
+        "id": "transient_build_and_scan_outputs",
+        "owner": "Build, GS3/quality, and developer-tool maintainers (per-file owner below)",
+        "path_pattern": "Exact paths recorded in tools/ci/repo_artifact_policy.py",
+        "proposed_disposition": "Remove from source; regenerate locally or publish current scan outputs through CI artifacts.",
+        "sample_paths": [
+          "ai_working/gs3_scan_current.json",
+          "ai_working/gs3_scan_current.md",
+          "archive/compile_commands.json",
+          "archive/moved_files.txt",
+          "artifacts/embedded_llm_stub.i"
+        ]
+      }
+    ],
+    "oversized_files": [
+      {
+        "blob_bytes": 23722655,
+        "classification": "generated GS3 scan result",
+        "owner": "GS3/quality maintainers",
+        "path": "ai_working/gs3_scan_current.json",
+        "proposed_disposition": "Remove the stale working-tree copy; fresh scans are uploaded by maintenance-issues.yml with 30-day retention.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 30396533,
+        "classification": "generated file-move report",
+        "owner": "Repository hygiene maintainers",
+        "path": "archive/moved_files.txt",
+        "proposed_disposition": "Remove; no active consumer reference was found.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 7608931,
+        "classification": "compiler-generated preprocessed source",
+        "owner": "LLM/build maintainers",
+        "path": "artifacts/embedded_llm_stub.i",
+        "proposed_disposition": "Remove; regenerate from its source during local build/debug work.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 7303428,
+        "classification": "historical generated scan/report output",
+        "owner": "AI working-history maintainers",
+        "path": "docs/ARCHIVED/ai-working-history/_cppcheck_2026-06-13.xml",
+        "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 7169623,
+        "classification": "historical generated scan/report output",
+        "owner": "AI working-history maintainers",
+        "path": "docs/ARCHIVED/ai-working-history/gap_phase5_llm.json",
+        "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 68918060,
+        "classification": "historical generated scan/report output",
+        "owner": "AI working-history maintainers",
+        "path": "docs/ARCHIVED/ai-working-history/gs3_quick_scan.json",
+        "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 6857265,
+        "classification": "historical generated scan/report output",
+        "owner": "AI working-history maintainers",
+        "path": "docs/ARCHIVED/ai-working-history/include_graph_src_libclang.json",
+        "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 8503660,
+        "classification": "historical generated scan/report output",
+        "owner": "AI working-history maintainers",
+        "path": "docs/ARCHIVED/ai-working-history/scan_benchmarks.json",
+        "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 44886537,
+        "classification": "historical generated scan/report output",
+        "owner": "AI working-history maintainers",
+        "path": "docs/ARCHIVED/ai-working-history/scan_full.json",
+        "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 13348836,
+        "classification": "historical generated scan/report output",
+        "owner": "AI working-history maintainers",
+        "path": "docs/ARCHIVED/ai-working-history/scan_include.json",
+        "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 57616190,
+        "classification": "historical generated scan/report output",
+        "owner": "AI working-history maintainers",
+        "path": "docs/ARCHIVED/ai-working-history/scan_src.json",
+        "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 84863612,
+        "classification": "historical generated scan/report output",
+        "owner": "AI working-history maintainers",
+        "path": "docs/ARCHIVED/ai-working-history/scan_tests.json",
+        "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 11452378,
+        "classification": "historical generated scan/report output",
+        "owner": "AI working-history maintainers",
+        "path": "docs/ARCHIVED/ai-working-history/scans/scan_results_phase11.json",
+        "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 34870325,
+        "classification": "historical generated scan/report output",
+        "owner": "AI working-history maintainers",
+        "path": "docs/ARCHIVED/ai-working-history/test_out.json",
+        "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 15809288,
+        "classification": "historical generated scan/report output",
+        "owner": "AI working-history maintainers",
+        "path": "docs/ARCHIVED/ai-working-history/test_report_quick.json",
+        "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 15810134,
+        "classification": "historical generated scan/report output",
+        "owner": "AI working-history maintainers",
+        "path": "docs/ARCHIVED/ai-working-history/test_scan_include.json",
+        "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 15810135,
+        "classification": "historical generated scan/report output",
+        "owner": "AI working-history maintainers",
+        "path": "docs/ARCHIVED/ai-working-history/test_scan_quick.json",
+        "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 14647601,
+        "classification": "published documentation",
+        "owner": "Documentation maintainers",
+        "path": "docs/ThemisDB-Kompendium-v1.3.4.pdf",
+        "proposed_disposition": "Retain; these are linked, versioned documentation deliverables.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 7619494,
+        "classification": "published documentation",
+        "owner": "Documentation maintainers",
+        "path": "docs/compendium/output/ThemisDB-Kompendium-v1.4.0.html",
+        "proposed_disposition": "Retain; these are linked, versioned documentation deliverables.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 7299924,
+        "classification": "published documentation",
+        "owner": "Documentation maintainers",
+        "path": "docs/compendium/output/ThemisDB-Kompendium-v1.4.0.pdf",
+        "proposed_disposition": "Retain; these are linked, versioned documentation deliverables.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 29272564,
+        "classification": "generated search report",
+        "owner": "Dependency maintenance",
+        "path": "docs/reports/search_vcpkg_pin.txt",
+        "proposed_disposition": "Remove; regenerate the local search report when needed.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 14188544,
+        "classification": "downloaded third-party installer",
+        "owner": "Developer tooling maintainers",
+        "path": "gh/gh_2.87.2_windows_amd64.msi",
+        "proposed_disposition": "Remove; obtain the installer from its upstream release.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 8535408,
+        "classification": "compiler-generated precompiled header",
+        "owner": "Build maintainers",
+        "path": "include/tensor/tensor_error_handling.h.pch",
+        "proposed_disposition": "Remove; regenerate in the local build directory.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      },
+      {
+        "blob_bytes": 5779640,
+        "classification": "vendored developer-tool binary",
+        "owner": "CI maintainers",
+        "path": "tools/bin/actionlint",
+        "proposed_disposition": "Remove the unused binary; local workflow lint uses the documented container tool.",
+        "tree_ref": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+      }
+    ],
+    "tracked_blob_bytes": 2306110638,
+    "tracked_entries": 65632,
+    "tree": "db507cd83b82edaed2b35cf5d8bf7451ec994a8d"
+  },
+  "excluded_output_path": "audit/evidence/repo-hygiene/HYG-01-inventory-2026-11-09.json",
+  "generated_at": "2026-11-09T18:29:01.841623+00:00",
+  "git_directory_bytes_at_capture": 211749742,
+  "head_commit_sha_at_capture": "b5c51c886cda8b636464f810d3bafa4d929019a1",
+  "historical_examples": [
+    {
+      "blob_bytes": 84863612,
+      "classification": "historical generated scan/report output",
+      "owner": "AI working-history maintainers",
+      "path": "docs/ARCHIVED/ai-working-history/scan_tests.json",
+      "present": true,
+      "proposed_disposition": "Remove generated raw reports from the active tree; the archived Git history is unchanged, and fresh GS3 outputs are retained as CI artifacts for 30 days."
+    },
+    {
+      "blob_bytes": 30396533,
+      "classification": "generated file-move report",
+      "owner": "Repository hygiene maintainers",
+      "path": "archive/moved_files.txt",
+      "present": true,
+      "proposed_disposition": "Remove; no active consumer reference was found."
+    },
+    {
+      "blob_bytes": 3968,
+      "classification": "root-level generated benchmark result",
+      "owner": "Benchmark maintainers",
+      "path": "bench_access_coordinator_gates.exe.json",
+      "present": true,
+      "proposed_disposition": "Remove from source; publish fresh benchmark runs through existing CI benchmark artifacts (30-day retention)."
+    },
+    {
+      "blob_bytes": 3969,
+      "classification": "root-level generated benchmark result",
+      "owner": "Benchmark maintainers",
+      "path": "bench_access_coordinator_gates.json",
+      "present": true,
+      "proposed_disposition": "Remove from source; publish fresh benchmark runs through existing CI benchmark artifacts (30-day retention)."
+    }
+  ],
+  "inventory_note": "The after tree is measured from the staged index with the output path excluded from counts and bytes. This keeps reruns stable when the inventory file is already tracked. Git history is not rewritten; deleting files from the current tree does not remove historical blobs.",
+  "reproduction": "python3 tools/ci/repo_artifact_policy.py inventory --before-ref HEAD --after-ref INDEX --output <path>",
+  "schema_version": 1,
+  "size_basis": "Git blob size from git ls-tree; Git directory bytes are physical file sizes.",
+  "threshold": {
+    "bytes": 5242880,
+    "display": "5 MiB",
+    "operator": ">"
+  }
+}

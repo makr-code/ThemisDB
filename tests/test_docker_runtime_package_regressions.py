@@ -342,6 +342,21 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
         packages = extract_installed_packages(stage, "runtime")
         self.assertTrue({"curl", "libfmt9", "libspdlog1.12"}.issubset(packages))
 
+    def test_runtime_and_debug_include_modular_libraries_and_numa(self) -> None:
+        dockerfile = self._dockerfile_text()
+        build = extract_stage(dockerfile, "build", base_image="deps")
+        directory = re.search(r"^ARG THEMIS_BUILD_DIR=(\S+)$", build, re.MULTILINE)
+        self.assertIsNotNone(directory)
+        copy = f"COPY --from=build /src/{directory.group(1)}/lib/libthemis_*.so* /usr/local/lib/"
+        for stage_name in ("runtime", "debug"):
+            with self.subTest(stage=stage_name):
+                stage = extract_stage(dockerfile, stage_name)
+                self.assertIn("libnuma1", extract_installed_packages(stage, stage_name))
+                self.assertIn(copy, stage)
+                self.assertLess(stage.index(copy), stage.index("RUN ldconfig"))
+                self.assertIn("ldd /app/themis_server", stage)
+                self.assertIn('grep -q "not found"', stage)
+
     def test_debug_stage_uses_ubuntu_2404_runtime_packages(self) -> None:
         debug_stage = extract_stage(self._dockerfile_text(), "debug")
         debug_packages = extract_installed_packages(debug_stage, "debug")

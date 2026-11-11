@@ -1,8 +1,8 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-10T06:06:18+00:00",
-  "source_count": 8073,
+  "generated_at": "2026-11-11T15:23:30+00:00",
+  "source_count": 8085,
   "sources": [
     {
       "path": ".github/workflows/benchmark-gate.yml",
@@ -56,9 +56,9 @@
     {
       "path": ".github/workflows/build-mainline.yml",
       "category": "build_test_ci",
-      "size": 33039,
-      "sha256": "9aaef349e879d01171d33c8cff01add9e367824639246124ba66a03b664e1c9d",
-      "modified_utc": "2026-11-09T09:51:18+00:00"
+      "size": 33076,
+      "sha256": "3db25366a551d2093c5d3c01010d1d373c999f92c3e8f58af140be48e9c27c11",
+      "modified_utc": "2026-11-11T09:57:19+00:00"
     },
     {
       "path": ".github/workflows/build-ollama-router.yml",
@@ -70,9 +70,9 @@
     {
       "path": ".github/workflows/build-sanitizer-nightly.yml",
       "category": "build_test_ci",
-      "size": 11477,
-      "sha256": "7470a71221beba83fc7a0fceaa0006b9f5b8c8f37e1962a44ae64a1597ff1fe3",
-      "modified_utc": "2026-11-09T14:54:59+00:00"
+      "size": 12044,
+      "sha256": "e840eaa2420ff43b0164177fd73efc3edbb610d65f83cdfadb04a7ff498b125c",
+      "modified_utc": "2026-11-11T09:57:19+00:00"
     },
     {
       "path": ".github/workflows/build-wave-a-gpu.yml",
@@ -91,9 +91,9 @@
     {
       "path": ".github/workflows/build-wave-b-transaction.yml",
       "category": "build_test_ci",
-      "size": 31984,
-      "sha256": "f579060afd0e175bc0e326a0ee151d93bc119c1525b5efc6024c33bdc04e943f",
-      "modified_utc": "2026-11-09T03:02:55+00:00"
+      "size": 33983,
+      "sha256": "475664dc690133853cf1e143e2e1b46aa929aabf9b1b558965897ef27d4b76dc",
+      "modified_utc": "2026-11-11T09:57:19+00:00"
     },
     {
       "path": ".github/workflows/build-widget.yml",
@@ -119,9 +119,9 @@
     {
       "path": ".github/workflows/compliance-supply-chain.yml",
       "category": "build_test_ci",
-      "size": 27763,
-      "sha256": "bc00b2b0ce899fbe8e653b2dc1e867f18cc86009f012fccf8d9d721977586c62",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 27986,
+      "sha256": "e3960e11ebd153b0e8c57c2cdfd2656fe0e7033e1bbf5127a3d67f653608b849",
+      "modified_utc": "2026-11-11T09:57:19+00:00"
     },
     {
       "path": ".github/workflows/copilot-code-review.yml",
@@ -173,6 +173,13 @@
       "modified_utc": "2026-11-09T09:51:18+00:00"
     },
     {
+      "path": ".github/workflows/gate-pr-artifact-size.yml",
+      "category": "build_test_ci",
+      "size": 2822,
+      "sha256": "9fbb81a4b77620ce98daf229f86b82013280bfc2502f0fdc3153cb08088c8415",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
+    },
+    {
       "path": ".github/workflows/gate-pr-benchmark-ctest.yml",
       "category": "build_test_ci",
       "size": 12741,
@@ -189,9 +196,9 @@
     {
       "path": ".github/workflows/gate-pr-core.yml",
       "category": "build_test_ci",
-      "size": 55641,
-      "sha256": "3f2c61ecfe6d0cd37a25b0ceee8cf9bdba142b7da91e1653becb6f91e7a93164",
-      "modified_utc": "2026-11-09T09:51:18+00:00"
+      "size": 57549,
+      "sha256": "83ded0790348963d6e3ce8948e910c0e85dd5b187145d6aac26bc16bdc1203fd",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-doc-metadata.yml",
@@ -224,9 +231,9 @@
     {
       "path": ".github/workflows/gate-pr-final-runtime-api.yml",
       "category": "build_test_ci",
-      "size": 9799,
-      "sha256": "78afa91f757fb6ebb8c26bde71a944267c29ca8b1daa3c2efe9c200f621f665b",
-      "modified_utc": "2026-11-09T15:42:07+00:00"
+      "size": 9835,
+      "sha256": "c6cb01cff1f5e22bbc492f32f32fa5962cf4aca49be86d440ae09376efe5d943",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-hash-sbom.yml",
@@ -413,9 +420,9 @@
     {
       "path": ".github/workflows/maintenance-soll-ist-gap-issues.yml",
       "category": "build_test_ci",
-      "size": 3432,
-      "sha256": "82ad329604e11db461d740a1923fe28361f26805491dfb81cb3d01d97a34f691",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 3490,
+      "sha256": "8168a229bd2575e05b616921076dd9b1e7290833439820e31174ba800c61582c",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
     },
     {
       "path": ".github/workflows/maintenance-workflow-guardrails-observe.yml",
@@ -448,9 +455,9 @@
     {
       "path": ".github/workflows/release-build-matrix.yml",
       "category": "build_test_ci",
-      "size": 38897,
-      "sha256": "d26d94005b21de87c501e236a8028f15914b5a66476b61b6388d196ace3cdc93",
-      "modified_utc": "2026-11-09T09:51:18+00:00"
+      "size": 39030,
+      "sha256": "b7c16117043aed1ca7e90e2ac1b29d898bdec3d0c9f8470162304ccc3aa3ba6d",
+      "modified_utc": "2026-11-11T09:57:19+00:00"
     },
     {
       "path": ".github/workflows/release-changelog.yml",
@@ -581,9 +588,9 @@
     {
       "path": ".github/workflows/reusable-cmake-build.yml",
       "category": "build_test_ci",
-      "size": 42777,
-      "sha256": "d23326adee04283b220e10826ac1ab3fa68abd3ec91c1f3032bd67d4687f874e",
-      "modified_utc": "2026-11-09T15:42:07+00:00"
+      "size": 45256,
+      "sha256": "08e67169f0a6d85b96fb4c884a9b25e6411a2dfbfe9e2213fd02af8d508a2c22",
+      "modified_utc": "2026-11-11T09:57:19+00:00"
     },
     {
       "path": ".github/workflows/reusable-docker-image-platform.yml",
@@ -630,9 +637,9 @@
     {
       "path": ".github/workflows/reusable-status-flags-and-issues.yml",
       "category": "build_test_ci",
-      "size": 4549,
-      "sha256": "f8d00554b7a1773a4f7282c3ca06cbd05de22fc9344187579b30eeb4a607177a",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 4659,
+      "sha256": "f8a38e54832fa637f0461ba5d530386324e943a9284abec41164d5460de84106",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
     },
     {
       "path": ".github/workflows/security-codeql.yml",
@@ -679,9 +686,9 @@
     {
       "path": ".github/workflows/test-helm-chart.yml",
       "category": "build_test_ci",
-      "size": 1657,
-      "sha256": "9b3888a15e62764799032df2c2bfc6f0c550f7dfcf42f42f25c58b7091c2e1cb",
-      "modified_utc": "2026-11-10T05:55:03+00:00"
+      "size": 2284,
+      "sha256": "0c66e3449a227055554306394c798fb3e40b403e9332a9724dd357d911086d2e",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
     },
     {
       "path": ".github/workflows/wave-a-gpu-ci-execution.yml",
@@ -1078,9 +1085,9 @@
     {
       "path": "ai_context/developer_llm_wiki/PROCESS.md",
       "category": "governance_and_docs",
-      "size": 5824,
-      "sha256": "151107d3e0260d678782ff347a11fcc4b056f252be7132fae6036dfbdd774e46",
-      "modified_utc": "2026-11-01T09:50:49+00:00"
+      "size": 6003,
+      "sha256": "5f2c442b079d22343952e09af5205d51a327252689e913434f0f146f21a81489",
+      "modified_utc": "2026-11-11T09:57:19+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/PROMPT_ENGINEERING.md",
@@ -1113,9 +1120,9 @@
     {
       "path": "ai_context/developer_llm_wiki/TEMPORAL.md",
       "category": "governance_and_docs",
-      "size": 6124,
-      "sha256": "b4d46654824427d899faa55ff97614151f8749ee6ec785890ae5ac23fe9f5559",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 6223,
+      "sha256": "ebb0fa94ae8ec94a0ae3f69e9e681f621d56da94fc12b4294a96b531cfd8e734",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
     },
     {
       "path": "ai_context/developer_llm_wiki/UPDATES.md",
@@ -20881,9 +20888,9 @@
     {
       "path": "docs/code_maturity_report.md",
       "category": "governance_and_docs",
-      "size": 2306737,
-      "sha256": "e959ca5af47bb77f972bd08c8eaa7d8cf96b72da8c406967bceda390dcea2043",
-      "modified_utc": "2026-11-10T05:55:10+00:00"
+      "size": 2312128,
+      "sha256": "d4edc86c9e856c6438c4d508af7646fd7d4a8a614e1772c1b213428dea5be86d",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "docs/community/Supporters.md",
@@ -22799,9 +22806,9 @@
     {
       "path": "docs/de/aql/multi_vector_search.md",
       "category": "governance_and_docs",
-      "size": 11174,
-      "sha256": "dafe9678e3c4c18f82509aa7d8a84128ee3d1651db42a01e7cf995178485fd66",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 2189,
+      "sha256": "043acf2caf5c434b564aa57e601a8a1ce3a7c20cfae436e9bee1b9ea10e14603",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "docs/de/architecture/ARCHITECTURE_OVERVIEW.md",
@@ -33033,9 +33040,9 @@
     {
       "path": "docs/governance/SRC_MODULE_DOCUMENTATION_COMPLIANCE_2026-09-20.md",
       "category": "governance_and_docs",
-      "size": 27792,
-      "sha256": "d03f0afc54c5cbdd6148a632e8bcaa5272063af375922412bff3c0822ccaac90",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 27990,
+      "sha256": "91432e4a0106c82c8e7774eb2d79c441bc2d4da734103641e85fab0d05915a2b",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
     },
     {
       "path": "docs/governance/UPDATES_DEVELOPMENT_STATUS_SIGN_OFF.md",
@@ -35959,9 +35966,9 @@
     {
       "path": "docs/operability/RUNBOOK_PROCESS_MANAGER.md",
       "category": "governance_and_docs",
-      "size": 7317,
-      "sha256": "4632aea2f31014ea94cc85acfd73248bd5a0889b3c88674394cb27b95108873c",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 7556,
+      "sha256": "a37e47c8ab912e0b32163b39441cab3e245cdcc53db10fd59bdcf5127d76957d",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "docs/operability/RUNBOOK_QUERY_ENGINE.md",
@@ -36127,9 +36134,9 @@
     {
       "path": "docs/operability/RUNBOOK_VECTOR_SEARCH.md",
       "category": "governance_and_docs",
-      "size": 12202,
-      "sha256": "92590608739ab7c48f86b45edb832fd8866187684270b62c7250d4e9ea838e95",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 1530,
+      "sha256": "9f74d755c5371f40985f89d66a3de48750c896069dae21472c24bf2db6723dee",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "docs/operability/RUNBOOK_VOICE_INCIDENT_TRIAGE.md",
@@ -36442,9 +36449,9 @@
     {
       "path": "docs/performance/BENCHMARK_RUNBOOK.md",
       "category": "governance_and_docs",
-      "size": 118331,
-      "sha256": "c6f888335df165eed33ac8bfbbece90bd7fdd13413e365db0668b514164af95e",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 118433,
+      "sha256": "63cf23b14e17a37ea66659aeb657795e422f63dba18d5a81656b2027fa19a177",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "docs/performance/BUILD_PERFORMANCE_OPTIMIZATIONS.md",
@@ -36526,9 +36533,9 @@
     {
       "path": "docs/performance/PERFORMANCE_EXPECTATIONS.md",
       "category": "governance_and_docs",
-      "size": 350426,
-      "sha256": "c2e9a9f6e902e6be009fad33bab28f0e203a7117ae16d3d56f9f678cd20c6391",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 350806,
+      "sha256": "fa6df9ec7c877f39d0b6615aad18fea658593a058ea35a55f64210e828b77412",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "docs/performance/PERFORMANCE_INFRASTRUCTURE_SUMMARY.md",
@@ -43862,9 +43869,9 @@
     {
       "path": "include/llm/ai_orchestrator.h",
       "category": "modules_and_api",
-      "size": 21269,
-      "sha256": "aec3ee71acfc04e02034149806d81c33deb27afc6c3ff726b6ea11ed8247be29",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 21668,
+      "sha256": "16a1d85eed942b79fe211a0fdd0070dcc920a60aa281d90049ffa885c958640a",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "include/llm/applications/themis_help_lora.h",
@@ -43995,9 +44002,9 @@
     {
       "path": "include/llm/continuous_batch_scheduler.h",
       "category": "modules_and_api",
-      "size": 12086,
-      "sha256": "7ed45ccf36e4bcd95f297fce653ba59b5554b72fbfeef48c4b43b4343e144467",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 18383,
+      "sha256": "7ecf7c5a3e4ceaa7ab1834968aa3d23df8523c08055489523360e3ac56482516",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "include/llm/decision_record_yaml_processor.h",
@@ -44030,9 +44037,9 @@
     {
       "path": "include/llm/embedded_llm.h",
       "category": "modules_and_api",
-      "size": 9186,
-      "sha256": "478df6ad92e7d66f91971f4c7f4dd0d0e3b3bcc85e466130806917cd490d993f",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 10193,
+      "sha256": "1fa14358e0262cbaf83dbeb689dbe46c5e1a8f42d21b61369342b42ad2d35cfa",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "include/llm/ethical_guidelines_manager.h",
@@ -44177,9 +44184,9 @@
     {
       "path": "include/llm/inference_engine_enhanced.h",
       "category": "modules_and_api",
-      "size": 22982,
-      "sha256": "3f081df872981a4c9329e494c50cd223dd481f330f9bf900ae78583a61467e1a",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 23452,
+      "sha256": "8588f924371ef3598b073d6efe6a88bc563416afd56b92ec0ed95f4b25c95dd6",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "include/llm/inference_guard.h",
@@ -44259,6 +44266,13 @@
       "modified_utc": "2026-11-01T06:39:20+00:00"
     },
     {
+      "path": "include/llm/llama_lora_adapter.h",
+      "category": "modules_and_api",
+      "size": 4061,
+      "sha256": "8b480b286403081ac622e312afe58f65836dd126025afa375c6c34e972859f1a",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
+    },
+    {
       "path": "include/llm/llama_resource_manager.h",
       "category": "modules_and_api",
       "size": 9072,
@@ -44268,9 +44282,9 @@
     {
       "path": "include/llm/llama_wrapper.h",
       "category": "modules_and_api",
-      "size": 26313,
-      "sha256": "800317340a7913a49347e31e2a3a00e2e0fb72e6db7c05efeb22957b3ad7c98c",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "size": 28888,
+      "sha256": "7af085ae2d8be48422f865e2d950eba5900296aa03b5a9c01dbf1c01d173ff95",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "include/llm/llamacpp_inference_engine.h",
@@ -44406,11 +44420,25 @@
       "modified_utc": "2026-11-01T06:39:20+00:00"
     },
     {
+      "path": "include/llm/lora_framework/adalora_strategy_config.h",
+      "category": "modules_and_api",
+      "size": 4621,
+      "sha256": "e2951eae4615643a085b3512463d513a7845f2e334adba6c137bac2835e864e2",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
+    },
+    {
       "path": "include/llm/lora_framework/adapter_consistency_checker.h",
       "category": "modules_and_api",
       "size": 3853,
       "sha256": "e762727c72d716e033dcd98426a491d50f648bee5860695cb57de98869c1f6e4",
       "modified_utc": "2026-11-01T06:39:20+00:00"
+    },
+    {
+      "path": "include/llm/lora_framework/adapter_provenance.h",
+      "category": "modules_and_api",
+      "size": 8624,
+      "sha256": "59a392551ee24095a99554b2273a6d346fd172399f2b93b16b8088a2c449ce8f",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "include/llm/lora_framework/adapter_sync_manager.h",
@@ -44686,6 +44714,13 @@
       "modified_utc": "2026-11-01T06:39:20+00:00"
     },
     {
+      "path": "include/llm/lora_framework/lora_dataset_loader.h",
+      "category": "modules_and_api",
+      "size": 4324,
+      "sha256": "39b9b4b5cd06b0cdda897b60704179fde671770b8bcee544aa39ef4fa64f7124",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
+    },
+    {
       "path": "include/llm/lora_framework/lora_feedback.h",
       "category": "modules_and_api",
       "size": 6600,
@@ -44723,9 +44758,9 @@
     {
       "path": "include/llm/lora_framework/lora_orchestrator.h",
       "category": "modules_and_api",
-      "size": 14708,
-      "sha256": "37188ba313c31421c287ba7e786d3d1939b9abd45c3f9b61ac3be972c471a068",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 28112,
+      "sha256": "5960fe1471790db7694bd16421f0eae3036479ea9bf16da04f916e4343346579",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "include/llm/lora_framework/lora_package_provenance.h",
@@ -44742,11 +44777,25 @@
       "modified_utc": "2026-11-01T06:39:20+00:00"
     },
     {
+      "path": "include/llm/lora_framework/lora_safetensors_package.h",
+      "category": "modules_and_api",
+      "size": 5279,
+      "sha256": "9f2efebbc55c5dcfc0e28d3fc5ff85f380d34f69190d8055da65bf893de5d6ad",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
+    },
+    {
       "path": "include/llm/lora_framework/lora_storage_service.h",
       "category": "modules_and_api",
       "size": 9399,
       "sha256": "87778a4b0c036eb4a86bc1cf724e78ab5f2b5422ebae1e9babfd13fd98b08bbe",
       "modified_utc": "2026-11-01T06:39:20+00:00"
+    },
+    {
+      "path": "include/llm/lora_framework/lora_training_backend.h",
+      "category": "modules_and_api",
+      "size": 6373,
+      "sha256": "b23e4c384175b9015e455bcf532559d56b95bc9cdbae571b88697612faeeeb22",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "include/llm/lora_framework/lora_training_config.h",
@@ -44826,6 +44875,13 @@
       "modified_utc": "2026-11-01T06:39:20+00:00"
     },
     {
+      "path": "include/llm/lora_framework/peft_subprocess_backend.h",
+      "category": "modules_and_api",
+      "size": 14092,
+      "sha256": "8be33761156d48f4db1750306ac7b9539eeb993d452c239bb749564818fd00da",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
+    },
+    {
       "path": "include/llm/lora_framework/quantization.h",
       "category": "modules_and_api",
       "size": 6552,
@@ -44880,6 +44936,13 @@
       "size": 2282,
       "sha256": "611aa352466fbf9589378b8c7561d0c4da6f3016e797ccc8a2bd5b84a27bad8f",
       "modified_utc": "2026-11-01T06:39:20+00:00"
+    },
+    {
+      "path": "include/llm/lora_framework/training_snapshot.h",
+      "category": "modules_and_api",
+      "size": 11555,
+      "sha256": "8f31054243a1a07c0dc2c21db0b664766b1c75845bd09f10a6e3b2a55f5cb0b0",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "include/llm/lora_framework/vram_allocator.h",
@@ -44966,6 +45029,13 @@
       "modified_utc": "2026-11-01T06:39:20+00:00"
     },
     {
+      "path": "include/llm/mode_spec_bootstrap.h",
+      "category": "modules_and_api",
+      "size": 4114,
+      "sha256": "04436e94b4b39c932c92706441b9a1717f658bad5ee45e6893dfb980c29c83e9",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
+    },
+    {
       "path": "include/llm/model_downloader.h",
       "category": "modules_and_api",
       "size": 3686,
@@ -45031,9 +45101,9 @@
     {
       "path": "include/llm/multi_lora_manager.h",
       "category": "modules_and_api",
-      "size": 29060,
-      "sha256": "05c49cd8a5f11584761a5078fb14a64a064e4b7508d5c9efc921a556f11aa4b2",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 36157,
+      "sha256": "57bae9bc92cd9abd8c20b30eea64c34b4c6ff5fb318bed5828440f81e8f0ac90",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "include/llm/multi_model_training_data.h",
@@ -46732,9 +46802,9 @@
     {
       "path": "include/process/process_light_retriever.h",
       "category": "modules_and_api",
-      "size": 9636,
-      "sha256": "6d172c3e4a22783cfd2e1d13649f39a253f775744a4cdb13e671fb46d8e0d8b3",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 9135,
+      "sha256": "1fb8d33c2bb8952e152aeb1b2b0fc4498bbf05aa1662d63970288fffc7c453f3",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "include/process/process_linker.h",
@@ -49889,9 +49959,9 @@
     {
       "path": "include/server/lora_api_handler.h",
       "category": "modules_and_api",
-      "size": 8244,
-      "sha256": "c56360e6705d9ce29294cd09252767e1cbc77ef85117cbf22ca7dd4045754d1b",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 11450,
+      "sha256": "8fdda50f5802e3ccfd5cf1599a3dae73e05b57a4bb8a1f3d6cee0dfabcad518d",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "include/server/maintenance_api_handler.h",
@@ -51443,16 +51513,23 @@
     {
       "path": "include/storage/mvcc_chain_pruner.h",
       "category": "modules_and_api",
-      "size": 8189,
-      "sha256": "48587cb0a0cdc40608a3e9952ac164f24828ce7acd7c9dbddc47d0fc741253b2",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 8405,
+      "sha256": "5c7430c822cc11f39e1df0b28f0cfded0d868821ab3159ee9a77e2d12344b330",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
+    },
+    {
+      "path": "include/storage/mvcc_snapshot_pins.h",
+      "category": "modules_and_api",
+      "size": 4604,
+      "sha256": "d13a01f306a7fbd1d35859d23f5d041a942d24ad648dd5a57fa7eac3bae0c201",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "include/storage/mvcc_store.h",
       "category": "modules_and_api",
-      "size": 11285,
-      "sha256": "6b349c592f69d05f40799fea6c128e10a1eba04288d41b7cec8243bd7fe23f28",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 14834,
+      "sha256": "57f660e2f85e5a753d1e54df0bcc9d8f2a980ccfa447222f6ede7a3e5c06ac82",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "include/storage/nlp_metadata_extractor.h",
@@ -52815,9 +52892,16 @@
     {
       "path": "include/training/ada_lora_adapter.h",
       "category": "modules_and_api",
-      "size": 12124,
-      "sha256": "607f187db6fb4280b23960df0feea0ee5c45d75ec710fa977ad95556ce4ff141",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 22307,
+      "sha256": "f3329819132564be449a3ef0de8e71a86038157576ec1105eed1397d75d2d32e",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
+    },
+    {
+      "path": "include/training/adalora_training_pipeline.h",
+      "category": "modules_and_api",
+      "size": 2572,
+      "sha256": "dbfc0cedb72b591235c997ffc084e8e82a4c68718ddd0b76ab049d766940226b",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "include/training/adalora_tt_bridge.h",
@@ -54250,9 +54334,9 @@
     {
       "path": "scripts/check_module_direct_doxygen.py",
       "category": "build_test_ci",
-      "size": 28467,
-      "sha256": "5b0e33b22e0b1fda979b7ae0526313c115366cd49ed21ebb629f605dd758ef9e",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 28443,
+      "sha256": "122030ac1db4c05d411cf216db274dd27aef487a87e8a3971cb6b44f89f35a55",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
     },
     {
       "path": "scripts/check_submodules.py",
@@ -54474,9 +54558,9 @@
     {
       "path": "scripts/generate_docs_database.py",
       "category": "build_test_ci",
-      "size": 20494,
-      "sha256": "e0b66ba14405b00e0f41bcf6cb37719ec446c50acbe72205be254468b4e10e85",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 20567,
+      "sha256": "d522ef185edad9017ea984baea8f7d773045144ebf570dc6eed98bdb6d72e565",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "scripts/generate_docs_database_backup.py",
@@ -54761,9 +54845,9 @@
     {
       "path": "scripts/sync_soll_ist_gaps.py",
       "category": "build_test_ci",
-      "size": 61506,
-      "sha256": "d28349b4ce1e90ee62aa732988971d89a6496ac306d8f21ea8b0d4b15c613897",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 61602,
+      "sha256": "37fd64d6840e6641be2b8916e99376cd3fd3bc82daefc43d4a28812f04497627",
+      "modified_utc": "2026-11-11T15:21:11+00:00"
     },
     {
       "path": "scripts/test_render_direct.py",
@@ -55063,8 +55147,8 @@
       "path": "src/aql/ROADMAP.md",
       "category": "modules_and_api",
       "size": 43135,
-      "sha256": "6b5eaf8f125c553cbc19291b3db44e82e6569a3c0c3ed9fbeb6fe4c45435e4a7",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "sha256": "763797a64e5ce2a7bfba8e8e45243d75467e31fce857d71d3feb30e9bcfc566c",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "src/auth/FUTURE_ENHANCEMENTS.md",
@@ -55147,8 +55231,8 @@
       "path": "src/cdc/ROADMAP.md",
       "category": "modules_and_api",
       "size": 26126,
-      "sha256": "658c93b43456391fb323f4b329af0691c4128821e37bb2a3a95b7d66a819bb44",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "sha256": "c19b8a3fdd0401b5b7fa3e5b36b49a1de72a36a5ff926813aad08cf493307acb",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "src/chaos/FUTURE_ENHANCEMENTS.md",
@@ -55539,8 +55623,8 @@
       "path": "src/graph/ROADMAP.md",
       "category": "modules_and_api",
       "size": 28706,
-      "sha256": "d303786379baa1c179c6de6bf2a3c626f58ff9cbad24c759e4fe0572f0feea9e",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "sha256": "65d13ec11232e71309625cc6d82cdf4c7d140d8d87b52158c0be02edd921a422",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "src/image_analysis/FUTURE_ENHANCEMENTS.md",
@@ -55665,8 +55749,8 @@
       "path": "src/llm/ROADMAP.md",
       "category": "modules_and_api",
       "size": 56285,
-      "sha256": "77abb2cfc92e7d6567906f3a3e9206f9d3718e2f1afa5a24235f859f42a99675",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "sha256": "8604f23f0850c40312fd10dedf6e72ed5f0b2cf35b7203fc6eecc2ac3e662cf4",
+      "modified_utc": "2026-11-11T09:57:26+00:00"
     },
     {
       "path": "src/llm/grammars/README.md",
@@ -55874,23 +55958,23 @@
     {
       "path": "src/process/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 5304,
-      "sha256": "74422002a1ed66af783b3da41d5f2e77a03450ad4c682ab97bea0dc757c477d8",
-      "modified_utc": "2026-11-01T09:50:56+00:00"
+      "size": 5621,
+      "sha256": "873c53ca01cd79c555ebbb6c9eb168787f9033c35a4fcf2827a0cb90302b3b71",
+      "modified_utc": "2026-11-11T09:57:27+00:00"
     },
     {
       "path": "src/process/README.md",
       "category": "modules_and_api",
-      "size": 4815,
-      "sha256": "1c4eb8f27cff682e6750e4da54cba475da4e56132cb727878b4b05438143a4c4",
-      "modified_utc": "2026-11-01T09:50:56+00:00"
+      "size": 5810,
+      "sha256": "9a9c8c16824b6ddbe9e62f963395fe85876fd396e67e9da35c22c182fc290a2c",
+      "modified_utc": "2026-11-11T09:57:27+00:00"
     },
     {
       "path": "src/process/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 22139,
-      "sha256": "4fe6330b252511d497213c10e13856c47dac4ba5ecd49d5e7efa530d984b90b1",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "size": 22481,
+      "sha256": "fc32cbf1e0f7f11e88a651fc6bb5edbd869e0913765a0ac483e3781245a57a0a",
+      "modified_utc": "2026-11-11T09:57:27+00:00"
     },
     {
       "path": "src/projects/FUTURE_ENHANCEMENTS.md",
@@ -56455,23 +56539,23 @@
     {
       "path": "src/vector_search/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 4006,
-      "sha256": "8cf8d587d6db8c1e9c39301daa75a3e4706782bdddd28dc41486f614618f1a2e",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 4192,
+      "sha256": "c16d6f5d809ad81c0d6fbe45368b321d184aa78dd66eee2f085038aea6c20a9a",
+      "modified_utc": "2026-11-11T09:57:27+00:00"
     },
     {
       "path": "src/vector_search/README.md",
       "category": "modules_and_api",
-      "size": 5411,
-      "sha256": "46eb190b975e6d3d4baa5c121a3519fea4ad3687c39f0bc7f7ae759ba7fc1d3c",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 5567,
+      "sha256": "70fbcb00af5605e0c1f6d377302b4cf4cdb47d82f9e360eb00ec9c36490ba017",
+      "modified_utc": "2026-11-11T09:57:27+00:00"
     },
     {
       "path": "src/vector_search/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 26094,
-      "sha256": "de6385fad25c2ffb2f3c27c2cc8e9a5d44b32aee0b5a025384a5351083cfb02c",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "size": 26313,
+      "sha256": "17f1a838aea8c400d41a2f89139039c841b6a8d84062b6ce88d9b55732aedd93",
+      "modified_utc": "2026-11-11T09:57:27+00:00"
     },
     {
       "path": "src/voice/FUTURE_ENHANCEMENTS.md",

@@ -6,6 +6,8 @@
 #include "server/monitoring_api_handler.h"
 #include "server/openapi_route_registry.h"
 
+#include <utility>
+
 namespace themis {
 namespace server {
 

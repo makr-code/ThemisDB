@@ -316,6 +316,29 @@ class MonitoringRouteTranslationUnitTests(unittest.TestCase):
         self.assertIn("RouteRegistry::instance().buildOpenApiSpec", handler_source)
 
 
+class MonolithicRuntimeSourceTests(unittest.TestCase):
+    def test_runtime_dependencies_are_registered_with_their_consumers(self) -> None:
+        cmake = MONOLITHIC_BUILD.read_text(encoding="utf-8")
+        core = re.search(r"\bset\(THEMIS_CORE_SOURCES\s+(.*?)\n\s*\)", cmake, re.DOTALL)
+        llm = re.search(
+            r"(?m)^if\(THEMIS_ENABLE_LLM\)\n"
+            r"    # Add LLM plugin source files\n"
+            r"    target_sources\(themis_core PRIVATE\n(.*?)^    \)",
+            cmake, re.DOTALL | re.MULTILINE,
+        )
+        self.assertIsNotNone(core)
+        self.assertIsNotNone(llm)
+        for block, sources in (
+            (core.group(1), ("api/graphql_aql_resolver.cpp", "gpu/gpu_memory_manager_edition.cpp")),
+            (llm.group(1), ("llm/prompt_policy.cpp", "llm/ssm_state_rocksdb_store.cpp",
+                            "llm/token_quota_manager.cpp")),
+        ):
+            for source in sources:
+                with self.subTest(source=source):
+                    self.assertRegex(block, rf"(?m)^\s+\.\./src/{re.escape(source)}(?:\s*(?:#.*)?)?$")
+                    self.assertEqual(len(re.findall(rf"(?m)^\s+\.\./src/{re.escape(source)}(?:\s|$)", block)), 1)
+
+
 class MainlineWindowsMatrixTests(unittest.TestCase):
     def test_windows_release_build_is_serial_with_independent_configure_concurrency(self) -> None:
         workflow = WORKFLOW.read_text(encoding="utf-8")
