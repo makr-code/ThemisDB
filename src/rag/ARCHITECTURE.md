@@ -29,8 +29,19 @@ implementations define the actual API behavior.
 
 ## 2. Architecture Surfaces
 
+The common internal knowledge entry point is `RAGProvider::retrieve()`. It
+borrows an existing QueryEngine and returns model-independent `RAGCandidate`
+values. It does not require generation, own an index hierarchy or introduce a
+new plugin ABI. See [the provider/consumer contract](../../docs/rag/API.md).
+
+Providers execute typed queries and materialize data; consumers select the
+operation and decide whether to generate or retrieve again. Pure helpers only
+transform supplied values. Storage-acquisition compatibility overloads are
+provider-side code even when their historical filename contains "helpers".
+
 | Surface | Representative source files | Integration boundary |
 |---|---|---|---|
+| Common knowledge provider | `rag_provider.cpp` | Existing QueryEngine contracts for relational, graph, geo and vector access |---|
 | Retrieval fusion and ranking | `hybrid_retriever.cpp`, `reranker.cpp`, `replug_retriever.cpp` | Caller supplies candidates and composes stages |
 | Context assembly and orchestration | `streaming_retriever.cpp`, `rag_context_assembler.cpp`, `multi_step_rag.cpp` | Caller selects and invokes the desired component |
 | Ingestion bridge | `rag_ingestion_bridge.cpp`, `document_splitter.cpp` | Optional injected sinks; persistence must be verified separately |
@@ -40,10 +51,13 @@ implementations define the actual API behavior.
 
 ## 3. Runtime Control Flow
 
-1. A calling service obtains candidates from its selected search backend.
+1. Internal consumers obtain candidates through `RAGProvider`; explicit external
+   evidence remains a supported consumer input.
 2. It may pass candidate lists to `HybridRetriever` for fusion; fusion does not
    perform index search.
-3. It may pass chunks to `RAGContextAssembler` to build bounded context.
+3. For generation, both llama.cpp wrappers call the shared
+   `llm::prepareRAGRequest()` helper, which uses `RAGContextAssembler` and
+   `RAGPromptBuilder` for consistent sanitization, framing and budget handling.
 4. The service chooses whether to invoke generation, injection scanning,
    evaluation, or enrichment. The module does not enforce a fixed order.
 5. Ingestion is a separate path; `RAGIngestionBridge` writes only to configured

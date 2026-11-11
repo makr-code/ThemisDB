@@ -78,6 +78,8 @@
 #include "llm/llm_interaction_store.h"
 #include "llm/llm_plugin_manager.h"
 #include "llm/docs_assistant.h"
+#include "llm/rag_helpers.h"
+#include "rag/rag_provider.h"
 #include "llm/context_window_budget.h"
 #include "prompt_engineering/prompt_manager.h"
 #include "cdc/changefeed.h"
@@ -5548,16 +5550,16 @@ http::response<http::string_body> HttpServer::routeRequest(
                     const std::string lora_id = payload.value("lora_adapter", std::string{});
                     const std::string rag_mode = payload.value("rag_mode", std::string{"text"});
 
-                    if (query.empty()) {
+                    if (query.empty() || query.size() > themis::llm::kMaxPromptBytes) {
                         auto response = makeErrorResponse(http::status::bad_request,
-                            "query is required", req);
+                            "query is required and must fit within 1 MiB", req);
                         applyGovernanceHeaders(req, response);
                         return response;
                     }
 
-                    if (top_k <= 0) {
+                    if (top_k <= 0 || top_k > 1000 || collection.empty()) {
                         auto response = makeErrorResponse(http::status::bad_request,
-                            "top_k must be greater than 0", req);
+                            "collection is required and top_k must be within 1..1000", req);
                         applyGovernanceHeaders(req, response);
                         return response;
                     }
@@ -5582,6 +5584,17 @@ http::response<http::string_body> HttpServer::routeRequest(
                     if (max_tokens <= 0) {
                         auto response = makeErrorResponse(http::status::bad_request,
                             "max_tokens must be greater than 0", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    }
+
+                    if (auto access_error = requireAccess(req, "data:read", "data.read", collection)) {
+                        applyGovernanceHeaders(req, *access_error);
+                        return *access_error;
+                    }
+                    if (!storage_ || !secondary_index_ || !graph_index_) {
+                        auto response = makeErrorResponse(http::status::service_unavailable,
+                            "RAG retrieval engine not configured", req);
                         applyGovernanceHeaders(req, response);
                         return response;
                     }
@@ -5628,7 +5641,30 @@ http::response<http::string_body> HttpServer::routeRequest(
                             llm_request.metadata["rag_tensor_slot_chars"] = payload["rag_tensor_slot_chars"];
                         }
 
+                        query::QueryEngine retrieval_engine(
+                            *storage_, *secondary_index_, *graph_index_,
+                            vector_index_.get(), spatial_index_.get());
+                        rag::RAGProvider provider(retrieval_engine);
+                        query::VectorGeoQuery vector_query;
+                        vector_query.table = collection;
+                        vector_query.vector_field = payload.value("vector_field", std::string{"embedding"});
+                        vector_query.query_vector = plugin_mgr.embed(query);
+                        rag::RetrievalRequest retrieval_request;
+                        retrieval_request.query = std::move(vector_query);
+                        retrieval_request.max_candidates = static_cast<std::size_t>(top_k);
+                        auto evidence = provider.retrieve(retrieval_request);
+                        if (!evidence) {
+                            throw std::runtime_error("RAG retrieval failed: " + evidence.error().context());
+                        }
+                        rag_context.documents = themis::llm::toRAGDocuments(evidence->candidates);
+                        if (rag_context.documents.empty()) {
+                            throw std::runtime_error("RAG retrieval returned no usable evidence");
+                        }
+
                         auto llm_response = plugin_mgr.generateRAG(rag_context, llm_request);
+                        if (!llm_response.success) {
+                            throw std::runtime_error("RAG generation failed: " + llm_response.error_message);
+                        }
                         spdlog::info(
                             "HttpServer /api/v1/llm/rag complete: docs={} tokens_generated={} inference_time_ms={:.2f} rag_mode='{}'",
                             rag_context.documents.size(),
@@ -5640,6 +5676,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                             {"model", llm_response.model_id.empty() ? llm_request.model_id : llm_response.model_id},
                             {"rag_mode_effective", rag_mode},
                             {"documents_retrieved", rag_context.documents.size()},
+                            {"documents_rejected", evidence->rejected_documents},
+                            {"retrieval_attempted", true},
                             {"top_k_effective", rag_context.top_k},
                             {"max_context_tokens_effective", rag_context.max_context_tokens},
                             {"response_budget_tokens_effective", rag_context.response_budget_tokens},

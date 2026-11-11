@@ -121,7 +121,10 @@ if (!res) {
 AIOrchestrator orch(pack);
 orch.setLLMPlugin(my_llm_plugin);
 
-// Register a tool handler
+// Preferred internal knowledge path: retain an existing, policy-configured engine.
+orch.setQueryEngine(query_engine);
+
+// Optional external compatibility path, used only without an internal engine.
 ToolSpec spec;
 spec.name = "docs_search";
 orch.toolRegistry().registerTool(spec, [&](const json& args, const ModeSpec&) {
@@ -150,6 +153,14 @@ if (result.success) {
     std::cout << "Latency: " << result.metadata.latency.total_ms << " ms\n";
 }
 ```
+
+For internal retrieval, `ctx.extra["collection"]` selects the collection for
+the default vector query. Set `ctx.retrieval_request` to a typed
+`rag::RetrievalRequest` to use relational, graph or geo-capable query contracts.
+`ctx.retrieval_execution` carries cooperative cancellation/deadline limits.
+Internal provider failures are explicit; they do not fall back to `docs_search`.
+ModePack controls orchestration, not a second index/storage implementation.
+See [the shared RAG contract](../rag/API.md).
 
 ### 3. Select mode per HTTP request
 

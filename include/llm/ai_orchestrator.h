@@ -14,6 +14,7 @@
 #include "llm/themis_tool_interface.h"
 #include "plugins/plugin_manager.h"
 #include "utils/expected.h"
+#include "rag/rag_provider.h"
 #include <nlohmann/json.hpp>
 #include <chrono>
 #include <functional>
@@ -384,6 +385,11 @@ struct OrchestratorContext {
     std::string sender_agent_id;
 
     json extra;
+
+    /// Optional typed internal retrieval; omitted requests use vector search in
+    /// extra.collection (default "default") when a QueryEngine is configured.
+    std::optional<rag::RetrievalRequest> retrieval_request;
+    rag::RetrievalExecutionContext retrieval_execution;
 };
 
 // ============================================================================
@@ -516,6 +522,14 @@ public:
      */
 
     void setLLMPlugin(std::shared_ptr<ILLMPlugin> plugin);
+
+    /**
+     * @brief Attach the common knowledge-query dependency for YAML RAG modes.
+     * @param engine Shared, access-policy-configured engine retained during calls.
+     * nullptr keeps the explicit external documents/docs_search compatibility path.
+     * @note Configure the engine policy before use; swapping this dependency is synchronized.
+     */
+    void setQueryEngine(std::shared_ptr<query::QueryEngine> engine);
 
     /**
      * @brief Set Adapter Candidate Provider.

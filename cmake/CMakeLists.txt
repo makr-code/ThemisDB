@@ -3665,6 +3665,9 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/bias_detector.cpp
     # Phase 1-3: Core evaluator building blocks (no direct LLM header dependency)
     ../src/rag/rag_context_assembler.cpp
+    ../src/rag/rag_provider.cpp
+    ../src/llm/rag_helpers.cpp
+    ../src/llm/prompt_policy.cpp
     ../src/rag/continuous_learning_client.cpp
     ../src/rag/http_metrics_client.cpp
     ../src/rag/judge_config.cpp

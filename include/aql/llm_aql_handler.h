@@ -13,6 +13,7 @@
 
 // Forward-declare RocksDBWrapper to allow setStorage() without pulling in its header.
 namespace themis { class RocksDBWrapper; }
+namespace themis::query { class QueryEngine; }
 
 #include "aql/aql_syntax_highlighter.h"
 #include "aql/aql_confidence_scorer.h"
@@ -542,6 +543,14 @@ public:
      * @param[in] storage Input parameter.
      */
     void setStorage(std::shared_ptr<RocksDBWrapper> storage);
+
+    /**
+     * @brief Configure the shared knowledge-query dependency for RAG.
+     * @param engine Owned reference to an access-policy-configured query engine;
+     * nullptr disables retrieval and causes executeRAG() to fail explicitly.
+     * @note Configure before concurrent execution. The handler retains the engine.
+     */
+    void setQueryEngine(std::shared_ptr<query::QueryEngine> engine);
 
     /**
      * @brief Make Embedding Bridge.

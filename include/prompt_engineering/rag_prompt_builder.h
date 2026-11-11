@@ -95,9 +95,8 @@ public:
      * Steps performed:
      *  1. Select chunks that fit within `config_.max_context_length`.
      *  2. Assemble the context block (header + chunks + footer).
-     *  3. Replace `config_.template_placeholder` in @p base_template with
-     *     the context block.
-     *  4. Replace `{query}` in the result with @p query (if present).
+     *  3. Replace every context and `{query}` placeholder in the original
+     *     @p base_template. Inserted context/query text is never reinterpreted.
      *
      * @param base_template  Template string; must contain
      *                       `config_.template_placeholder`.
