@@ -96,7 +96,7 @@ permissions:
   issues: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.operation }}-${{ inputs.issue-number || inputs.issue-marker || inputs.issue-title || 'unscoped' }}
   cancel-in-progress: false
 
 jobs:

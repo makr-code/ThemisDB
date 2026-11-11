@@ -23,6 +23,14 @@ foreach(_src IN LISTS IMPORTERS_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_postgres_insert_token_progress" AND
+       THEMIS_BUILD_MODULAR AND NOT THEMIS_ENABLE_POSTGRES_WIRE)
+        # The dump parser is needed even when the wire server is disabled.
+        # Monolithic and wire-enabled modular cores already provide it.
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/importers/postgres_importer.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

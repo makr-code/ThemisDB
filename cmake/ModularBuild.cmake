@@ -881,7 +881,8 @@ set(THEMIS_QUERY_SOURCES
     ../src/exporters/join_exporter.cpp
     ../src/exporters/huggingface_hub_client.cpp
     ../src/importers/conflict_resolver.cpp
-    $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/importers/postgres_importer.cpp>
+    # SQL dump import does not depend on the PostgreSQL wire-protocol server.
+    ../src/importers/postgres_importer.cpp
     $<$<BOOL:${THEMIS_HAS_PUBLIC_MYSQL_IMPORTER}>:../src/importers/mysql_importer.cpp>
     $<$<BOOL:${THEMIS_HAS_PUBLIC_MONGO_IMPORTER}>:../src/importers/mongo_importer.cpp>
     ../src/importers/elasticsearch_importer.cpp

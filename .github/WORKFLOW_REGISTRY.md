@@ -3,9 +3,9 @@
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
 > Last Updated: 2026-11-10
-> Update Note: Added the all-path PR file-size gate and hardened registered Transaction evidence gates, sanitizer cache configuration, and production importer fuzz linkage
+> Update Note: Added the all-path PR file-size gate with exact-path allowlists and boundary tests; hardened registered Transaction evidence gates, sanitizer cache configuration, and production importer fuzz linkage
 > Status: active
-> Total Workflows: 101 (verified 2026-11-10)
+> Total Workflows: 102 (verified 2026-11-10)
 > AI_Used: true
 > AI_Models: "GitHub Copilot agent; exact model backend not verifiable from final document text alone"
 > AI_Contributor: "GitHub Copilot"
@@ -112,7 +112,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 
 ## Leitprinzipien
 
-- **Keine Schatten-CI:** Alle 99 aktiven Workflow-Dateien sind in diesem Registry dokumentiert.
+- **Keine Schatten-CI:** Alle 100 aktiven Workflow-Dateien sind in diesem Registry dokumentiert.
 - **Klare Verantwortlichkeit:** Jeder Workflow hat definierte Trigger und Zweck.
 - **Konsistente Governance:** Alle Workflows folgen Naming-, Concurrency- und Trigger-Policies.
 - **Drift Prevention:** Registry-Update ist erforderlich bei neuen Workflows (Pre-Commit-Hook in Phase 3).
@@ -199,6 +199,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | Workflow | Purpose | Gate Type |
 |----------|---------|-----------|
 | `gate-pr-core.yml` | Gate: PR Core (Primary PR gate: tests, boundaries, policies) | fast-path |
+| `gate-pr-artifact-size.yml` | Gate: PR Artifact Size (rejects added files over 5 MiB unless exact-path allowlisted) | repository-hygiene |
 | `gate-pr-file-size.yml` | Gate: PR File Size (Rejects newly introduced or enlarged files above 5 MiB) | repository-hygiene |
 | `gate-pr-community-failclosed.yml` | Gate: PR Core [Community Fail-Closed] (Community-specific gate) | fail-closed |
 | `gate-pr-edition-license.yml` | Gate: PR Core [Edition & License] (Edition compliance) | compliance |
@@ -537,6 +538,7 @@ This is the reference design for future workflow changes and should remain the d
 ## Recent Updates
 
 - **2026-10-29**: Reconciled the registry against the 99 active workflows; removed the stale community automation reference
+- **2026-11-09**: Added a PR-wide artifact-size gate; CI Doxygen, scan, benchmark, and issue-report outputs use workflow artifacts with explicit retention.
 - **2026-09-26**: Comprehensive inventory of all 83 workflows; added categorization and governance scorecard
 - **2026-09-09**: Initial lean registry (76 workflows documented)
 
