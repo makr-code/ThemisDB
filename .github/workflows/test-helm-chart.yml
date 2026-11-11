@@ -62,3 +62,20 @@ jobs:
 
       - name: Smoke-test both profiles in Kind
         run: helm/themisdb/tests/smoke-kind.sh
+
+      - name: Write run summary
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          {
+            echo "## Helm Chart Validation"
+            echo ""
+            echo "- **Scope:** Development and production profiles, rendered resources, and Kind smoke tests."
+            echo "- **Result:** ${JOB_STATUS}"
+            if [ "${JOB_STATUS}" = "success" ]; then
+              echo "- **Next step:** No action required."
+            else
+              echo "- **Next step:** Review the failed step and rerun after remediation."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

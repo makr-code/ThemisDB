@@ -2,7 +2,7 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
+Last Updated: 2026-11-09
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -14,7 +14,8 @@ Exact model backend not verifiable from final document text alone.
 
 ## Source
 - This file is a generated snapshot, not a live inventory of the current headers.
-- Archived XML index: `../../ai_context/developer_llm_wiki/module_doxygen_artifacts/auth/xml/index.xml`
+- Generate XML with the [Module Doxygen XML workflow](../../.github/workflows/gate-pr-module-doxygen-xml.yml)
+  and retrieve its `module-doxygen-xml-<run>` artifact (21-day retention).
 - The original warnings log was generated outside the repository and is not available here.
 
 The structure counts below describe the source scan that generated this

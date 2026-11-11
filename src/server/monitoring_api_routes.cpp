@@ -136,22 +136,24 @@ void registerObservabilityRoutes(RouteRegistry& reg) {
 
 void registerLicenseRoutes(RouteRegistry& reg) {
     // --- License ---
-    // Build the schema incrementally to avoid MSVC's heap limit for nested initializers.
-    json responses;
-    auto& response = responses["200"];
+    // Keep individual JSON initializers shallow to limit MSVC compiler heap use.
+    json properties = json::object();
+    properties["initialized"] = {{"type","boolean"}};
+    properties["status"] = {{"type","string"},{"example","active"}};
+    properties["grace_days_remaining"] = {{"type","integer"}};
+    properties["license_key"] = {{"type","string"},{"example","THEMIS-EN..."}};
+    properties["organization"] = {{"type","string"}};
+    properties["edition"] = {{"type","string"},{"example","ENTERPRISE"}};
+    properties["expiry_date"] = {{"type","string"},{"format","date"}};
+    properties["days_until_expiry"] = {{"type","integer"}};
+    properties["valid"] = {{"type","boolean"}};
+
+    json response;
     response["description"] = "License status document";
-    auto& schema = response["content"]["application/json"]["schema"];
-    schema["type"] = "object";
-    auto& properties = schema["properties"];
-    properties["initialized"] = {{"type", "boolean"}};
-    properties["status"] = {{"type", "string"}, {"example", "active"}};
-    properties["grace_days_remaining"] = {{"type", "integer"}};
-    properties["license_key"] = {{"type", "string"}, {"example", "THEMIS-EN..."}};
-    properties["organization"] = {{"type", "string"}};
-    properties["edition"] = {{"type", "string"}, {"example", "ENTERPRISE"}};
-    properties["expiry_date"] = {{"type", "string"}, {"format", "date"}};
-    properties["days_until_expiry"] = {{"type", "integer"}};
-    properties["valid"] = {{"type", "boolean"}};
+    response["content"]["application/json"]["schema"]["type"] = "object";
+    response["content"]["application/json"]["schema"]["properties"] = std::move(properties);
+    json responses;
+    responses["200"] = std::move(response);
     reg.registerRoute({"/api/v1/license/status", "get", {
         "Runtime license status",
         "Returns the current runtime license state: initialized flag, status string "

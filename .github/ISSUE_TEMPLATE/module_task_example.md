@@ -1,3 +1,5 @@
+<!-- AI_Used: true; AI_Models: unknown; AI_Contributor: GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Team; exact model backend not verifiable from final document text alone. -->
+
 # Example: Module Task
 
 ## Scope
@@ -10,7 +12,7 @@
 ## Source Evidence
 - Module docs: src/network/README.md
 - Source graph / symbol evidence: ai_working/sourcecode_graph.json
-- Doxygen artifact: ai_context/developer_llm_wiki/module_doxygen_artifacts/network/xml/index.xml
+- Doxygen artifact: retrieve `module-doxygen-xml-<run>` (21-day retention) from `.github/workflows/gate-pr-module-doxygen-xml.yml`
 - Compliance report: ai_context/developer_llm_wiki/SOLL_IST_GAP_REPORT.json
 
 ## What needs to be done

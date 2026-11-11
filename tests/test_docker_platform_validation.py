@@ -354,6 +354,8 @@ class DockerPlatformValidationTests(unittest.TestCase):
             (source / "docker").mkdir(parents=True)
             for name in ("Dockerfile.unified", "vcpkg-community.json"):
                 shutil.copyfile(REPO_ROOT / "docker" / name, source / "docker" / name)
+            for name in ("Dockerfile", "docker-compose.yml"):
+                shutil.copyfile(REPO_ROOT / name, source / name)
             shutil.copyfile(REPO_ROOT / ".dockerignore", source / ".dockerignore")
             shutil.copyfile(REPO_ROOT / "CMakePresets.json", source / "CMakePresets.json")
             shutil.copyfile(REPO_ROOT / ".dockerignore", source / ".dockerignore")
@@ -411,8 +413,8 @@ class DockerPlatformValidationTests(unittest.TestCase):
                 git(source, "init")
                 git(source, "config", "user.name", "Regression Test")
                 git(source, "config", "user.email", "test@example.invalid")
-                git(source, "add", "docker", "scripts", "CMakePresets.json",
-                    ".dockerignore", "docs", "ai_context")
+                git(source, "add", "Dockerfile", "docker-compose.yml", "docker", "scripts",
+                    "CMakePresets.json", ".dockerignore", "docs", "ai_context")
                 git(source, "commit", "-m", "Source without validator")
                 source_sha = git(source, "rev-parse", "HEAD")
                 (source / "tests").mkdir()

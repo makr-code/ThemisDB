@@ -977,7 +977,10 @@ def issue_body_module(
                 "DOCS_STATUS": "siehe Fehlende Dokumentation",
                 "README_PATH": f"src/{module}/README.md",
                 "GRAPH_PATH": "ai_working/sourcecode_graph.json",
-                "DOXYGEN_PATH": f"ai_context/developer_llm_wiki/module_doxygen_artifacts/{module}/xml/index.xml",
+                "DOXYGEN_PATH": (
+                    "CI artifact `module-doxygen-xml-<run>` from "
+                    ".github/workflows/gate-pr-module-doxygen-xml.yml (21-day retention)"
+                ),
                 "COMPLIANCE_REPORT_PATH": "ai_context/developer_llm_wiki/SOLL_IST_GAP_REPORT.json",
                 "IMPLEMENTATION_TASKS": "\n".join(impl_tasks),
                 "VALIDATION_REPRO": f"ctest --preset windows-release -R '{module}' --output-on-failure",
