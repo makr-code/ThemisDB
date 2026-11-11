@@ -44,6 +44,17 @@ registration, persistent storage, external telemetry, or production readiness.
 
 ## In Progress
 
+- [~] Core Provider/Consumer source-identity and vector-text materialization follow-up (2026-11-11)
+  - Current source diff adds typed `RAGSourceReference` fields, exact source
+    identity on normal vector-ingestion entities, ContentManager chunk text and
+    exact `chunk:<id>` source keys on vector entities, and namespace-gated
+    vector-key hydration in QueryEngine.
+  - This is partial implementation progress. Normal ingestion's in-entity
+    `text_snippet` does not prove authoritative full-source dereferencing.
+  - Real HTTP/AQL/YAML startup wiring, full request-context/auth isolation, the
+    complete direct-`src/` role map, remaining acceptance criteria, and focused
+    test execution/evidence remain pending. See
+    [`docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md`](../../docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md).
 - [x] Ingestion bridge and context-hydration hardening for fail-closed retrieval inputs (Target: Q3 2026)
   - **Build**: historical evidence target `module_rag_test_rag_ingestion_bridge_hardening_focused` (the target is generated from `tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp`)
   - **Run**: CTest entry `test_rag_ingestion_bridge_hardening_focused_RagFocusedTests`; historical run evidence remains dated 2026-08-24.

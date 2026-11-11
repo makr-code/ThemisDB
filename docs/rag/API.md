@@ -1,4 +1,30 @@
+---
+Author: makr-code
+Created: 2026-11-11
+Last Updated: 2026-11-11
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: makr-code
+---
+
+[docs](../README.md) > [RAG](README.md) > [API reference](API.md)
+Datum: 2026-11-11
+Status: review
+Primary (Quelle der Wahrheit):
+- `include/rag/rag_candidate.h`
+- `include/rag/rag_retrieval_helpers.h`
+- `include/ingestion/ingestion_sinks.h`
+- `src/ingestion/ingestion_sinks.cpp`
+- `src/content/content_manager.cpp`
+- `src/query/query_engine.cpp`
+Bezug / Reference: Core Provider/Consumer implementation follow-up; typed RAG retrieval API.
+
 # Internal RAG API
+
+> Exact model backend not verifiable from final document text alone.
 
 Primary contracts:
 [`rag_provider.h`](../../include/rag/rag_provider.h),
@@ -62,6 +88,28 @@ This prevents a RAG caller from accidentally dropping a hard restriction.
   generation.
 - Real structured rows can be serialized as evidence. Missing records,
   identifier-only graph placeholders and error messages are not evidence.
+
+### Source identity and vector text
+
+`RAGCandidate::source_reference` is an optional `RAGSourceReference` containing
+the source `type`, exact `collection` and exact `key`, plus provenance and an
+optional version value. The candidate helper reads these from complete
+`source_ref_*` fields; it does not dereference the locator or guess keys.
+
+The current ingestion sink stores `text_snippet` and an exact source reference
+on each vector entity. ContentManager stores chunk `text` on its vector entity
+and points to the exact `chunk:<id>` source key (the indexed vector key is
+`chunks:<id>`). Candidate conversion can materialize those in-entity text fields.
+QueryEngine permits vector-entity key hydration only when the initialized vector
+index namespace exactly matches the query collection, after its existing
+relational and legacy table-key lookups. This does not establish a general
+authoritative-source fetch path; in particular, normal ingestion's snippet is
+not proof that its source locator resolves the complete source text.
+
+The broader Core implementation remains in progress. Real HTTP/AQL/YAML startup
+wiring, complete request-context and authorization isolation, the complete
+source-role map, and remaining task acceptance criteria are pending; see the
+[implementation task](../architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md).
 
 Scores are not probabilities and are not calibrated across access paths:
 vector scores currently retain the existing `1 - distance` convention, content

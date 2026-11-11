@@ -372,6 +372,16 @@ private:
  */
 class VectorIndexSinkAdapter : public IVectorWriter {
 public:
+    /**
+     * @brief Create a persistent vector sink for one exact vector-index namespace.
+     * @param vector_index RocksDB-backed index; must be non-null.
+     * @param object_name Namespace that must match an already initialized index,
+     *        or is used to initialize an empty index.
+     * @param dimension Positive embedding dimension.
+     * @param vector_field Indexed entity field containing the embedding.
+     * @throws std::invalid_argument for a null index, empty namespace, or zero dimension.
+     * @note Writes persist exact source-reference fields with the vector entity.
+     */
     VectorIndexSinkAdapter(std::shared_ptr<themis::VectorIndexManager> vector_index,
                            std::string object_name,
                            std::size_t dimension,

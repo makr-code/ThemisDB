@@ -80,12 +80,16 @@ themis::BaseEntity toStorageEdge(const EntityRelation& edge) {
  * @return Return value.
  * @details Calls: themis::BaseEntity::fromFields().
  */
-themis::BaseEntity toVectorEntity(const VectorRecord& record) {
+themis::BaseEntity toVectorEntity(const VectorRecord& record, const std::string& object_name) {
     themis::BaseEntity::FieldMap fields;
     fields["chunk_id"] = record.chunk_id;
     fields["source_file_id"] = record.source_file_id;
     fields["text_snippet"] = record.text_snippet;
     fields["embedding"] = record.embedding;
+    fields["source_ref_type"] = std::string{"ingestion_vector"};
+    fields["source_ref_collection"] = object_name;
+    fields["source_ref_key"] = record.chunk_id;
+    fields["source_ref_provenance"] = record.source_file_id;
     for (const auto& [key, value] : record.metadata) {
         fields["metadata." + key] = value;
     }
@@ -626,6 +630,16 @@ Result<void> VectorIndexSinkAdapter::ensureInitialized() const {
             Error(errors::ErrorCode::ERR_INDEX_INVALID_TYPE,
                   "vector dimension exceeds VectorIndexManager int range"));
     }
+    if (!vector_index_->getObjectName().empty()) {
+        if (vector_index_->getObjectName() != object_name_ ||
+            vector_index_->getDimension() != static_cast<int>(dimension_)) {
+            return tl::make_unexpected(
+                Error(errors::ErrorCode::ERR_INDEX_INVALID_TYPE,
+                      "vector index namespace or dimension does not match sink configuration"));
+        }
+        initialized_ = true;
+        return {};
+    }
     const auto status = vector_index_->init(
         object_name_,
         static_cast<int>(dimension_),
@@ -657,7 +671,7 @@ Result<void> VectorIndexSinkAdapter::writeVectors(const std::vector<VectorRecord
                 Error(errors::ErrorCode::ERR_INDEX_INVALID_TYPE,
                       "chunk '" + record.chunk_id + "' embedding dimension mismatch"));
         }
-        const auto status = vector_index_->addEntity(toVectorEntity(record), vector_field_);
+        const auto status = vector_index_->addEntity(toVectorEntity(record, object_name_), vector_field_);
         if (!status.ok) {
             return tl::make_unexpected(
                 Error(errors::ErrorCode::ERR_INDEX_CREATION_FAILED, status.message));
@@ -780,4 +794,3 @@ void InMemoryTensorCoreBridge::clear() {
 
 } // namespace ingestion
 } // namespace themis
-

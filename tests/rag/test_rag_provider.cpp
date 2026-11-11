@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "content/content_manager.h"
 #include "rag/rag_provider.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
@@ -6,9 +7,11 @@
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"
+#include "ingestion/ingestion_sinks.h"
 
 #include <filesystem>
 #include <limits>
+#include <nlohmann/json.hpp>
 
 using namespace themis;
 
@@ -21,11 +24,11 @@ protected:
         RocksDBWrapper::Config config;
         config.db_path = path_.string();
         config.enable_blobdb = false;
-        db_ = std::make_unique<RocksDBWrapper>(config);
+        db_ = std::make_shared<RocksDBWrapper>(config);
         ASSERT_TRUE(db_->open());
-        secondary_ = std::make_unique<SecondaryIndexManager>(*db_);
-        graph_ = std::make_unique<GraphIndexManager>(*db_);
-        vector_ = std::make_unique<VectorIndexManager>(*db_);
+        secondary_ = std::make_shared<SecondaryIndexManager>(*db_);
+        graph_ = std::make_shared<GraphIndexManager>(*db_);
+        vector_ = std::make_shared<VectorIndexManager>(*db_);
         ASSERT_TRUE(vector_->init("docs", 2, VectorIndexManager::Metric::COSINE).ok);
         engine_ = std::make_unique<query::QueryEngine>(
             *db_, *secondary_, *graph_, vector_.get(), nullptr);
@@ -52,10 +55,10 @@ protected:
     }
 
     std::filesystem::path path_;
-    std::unique_ptr<RocksDBWrapper> db_;
-    std::unique_ptr<SecondaryIndexManager> secondary_;
-    std::unique_ptr<GraphIndexManager> graph_;
-    std::unique_ptr<VectorIndexManager> vector_;
+    std::shared_ptr<RocksDBWrapper> db_;
+    std::shared_ptr<SecondaryIndexManager> secondary_;
+    std::shared_ptr<GraphIndexManager> graph_;
+    std::shared_ptr<VectorIndexManager> vector_;
     std::unique_ptr<query::QueryEngine> engine_;
     std::unique_ptr<rag::RAGProvider> provider_;
 };
@@ -86,6 +89,104 @@ TEST_F(RAGProviderTest, VectorIndexMaterializesCanonicalBinaryStorage) {
     ASSERT_EQ(result->candidates.size(), 1);
     EXPECT_EQ(result->candidates.front().doc_id, "d1");
     EXPECT_EQ(result->candidates.front().content, "indexed evidence");
+}
+
+TEST_F(RAGProviderTest, VectorIngestionSinkMaterializesPersistedSourceText) {
+    ingestion::VectorIndexSinkAdapter sink(
+        vector_,
+        "docs", 2);
+    ingestion::VectorRecord record;
+    record.chunk_id = "chunk:source-1:0";
+    record.source_file_id = "source-1";
+    record.text_snippet = "authoritative vector source text";
+    record.embedding = {1.0f, 0.0f};
+    ASSERT_TRUE(sink.writeVectors({record}));
+
+    query::VectorGeoQuery query;
+    query.table = "docs";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+    const auto result = provider_->retrieve(request);
+
+    ASSERT_TRUE(result) << result.error().context();
+    ASSERT_EQ(result->candidates.size(), 1);
+    EXPECT_EQ(result->candidates.front().content, "authoritative vector source text");
+    ASSERT_TRUE(result->candidates.front().source_reference.has_value());
+    EXPECT_EQ(result->candidates.front().source_reference->type, "ingestion_vector");
+    EXPECT_EQ(result->candidates.front().source_reference->collection, "docs");
+    EXPECT_EQ(result->candidates.front().source_reference->key, record.chunk_id);
+    EXPECT_EQ(result->candidates.front().source_reference->provenance, record.source_file_id);
+}
+
+TEST_F(RAGProviderTest, ContentManagerChunkVectorPreservesTextAndSourceIdentity) {
+    auto content_vector = std::make_shared<VectorIndexManager>(*db_);
+    ASSERT_TRUE(content_vector->init("chunks", 2, VectorIndexManager::Metric::COSINE).ok);
+    content::ContentManager content_manager(db_, content_vector, graph_, secondary_);
+    const nlohmann::json spec = {
+        {"content", {
+            {"id", "content-1"},
+            {"mime_type", "text/plain"},
+            {"category", "TEXT"},
+            {"original_filename", "source.txt"},
+            {"size_bytes", 28},
+            {"created_at", 42},
+            {"text_extracted", true},
+            {"chunked", true},
+            {"indexed", false},
+            {"chunk_count", 1}
+        }},
+        {"chunks", {{
+            {"id", "content-1-chunk-0"},
+            {"content_id", "content-1"},
+            {"seq_num", 0},
+            {"chunk_type", "text"},
+            {"text", "content-manager evidence"},
+            {"created_at", 123},
+            {"embedding", {1.0f, 0.0f}}
+        }}}
+    };
+    ASSERT_TRUE(content_manager.importContent(spec).ok);
+
+    query::QueryEngine content_engine(*db_, *secondary_, *graph_, content_vector.get(), nullptr);
+    rag::RAGProvider content_provider(content_engine);
+    query::VectorGeoQuery query;
+    query.table = "chunks";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+    const auto result = content_provider.retrieve(request);
+
+    ASSERT_TRUE(result) << result.error().context();
+    ASSERT_EQ(result->candidates.size(), 1);
+    const auto& candidate = result->candidates.front();
+    EXPECT_EQ(candidate.content, "content-manager evidence");
+    ASSERT_TRUE(candidate.source_reference.has_value());
+    EXPECT_EQ(candidate.source_reference->type, "content_chunk");
+    EXPECT_EQ(candidate.source_reference->collection, "content-1");
+    EXPECT_EQ(candidate.source_reference->key, "chunk:content-1-chunk-0");
+    EXPECT_EQ(candidate.source_reference->provenance, "content_manager");
+    ASSERT_TRUE(candidate.source_reference->version.has_value());
+    EXPECT_EQ(*candidate.source_reference->version, "123");
+}
+
+TEST_F(RAGProviderTest, VectorOnlyMetadataIsNotMaterializedAsEvidence) {
+    const auto vector_entity = BaseEntity::fromFields("metadata-only", {
+        {"embedding", std::vector<float>{1.0f, 0.0f}},
+        {"source_file_id", std::string{"source-2"}}
+    });
+    ASSERT_TRUE(vector_->addEntity(vector_entity).ok);
+
+    query::VectorGeoQuery query;
+    query.table = "docs";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+    const auto result = provider_->retrieve(request);
+
+    ASSERT_TRUE(result) << result.error().context();
+    EXPECT_TRUE(result->candidates.empty());
+    EXPECT_EQ(result->rejected_documents, 1);
 }
 
 TEST_F(RAGProviderTest, GraphMaterializesCanonicalNodeStorage) {

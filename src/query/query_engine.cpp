@@ -4960,7 +4960,8 @@ namespace {
 
 // Hybrid access paths prefer canonical relational keys while retaining legacy reads.
 std::vector<std::optional<std::vector<uint8_t>>> readHybridEntityBlobs(
-    RocksDBWrapper& db, const std::string& table, const std::vector<std::string>& pks) {
+    RocksDBWrapper& db, const std::string& table, const std::vector<std::string>& pks,
+    const VectorIndexManager* vector_index = nullptr) {
 	std::vector<std::string> keys;
 	keys.reserve(pks.size());
 	for (const auto& pk : pks) {
@@ -4970,6 +4971,9 @@ std::vector<std::optional<std::vector<uint8_t>>> readHybridEntityBlobs(
 	for (std::size_t i = 0; i < pks.size(); ++i) {
 		if (!blobs[i]) {
 			blobs[i] = db.get(table + ":" + pks[i]);
+		}
+		if (!blobs[i] && vector_index && vector_index->getObjectName() == table) {
+			blobs[i] = db.get(KeySchema::makeVectorKey(table, pks[i]));
 		}
 	}
 	return blobs;
@@ -5009,6 +5013,13 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		return Err<std::vector<VectorGeoResult>>(
 			errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
 			"Access denied for collection: " + q.table
+		);
+	}
+	if (vectorIdx_ && !vectorIdx_->getObjectName().empty() &&
+	    vectorIdx_->getObjectName() != q.table) {
+		return Err<std::vector<VectorGeoResult>>(
+			errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+			"Vector index namespace does not match query collection"
 		);
 	}
 
@@ -5168,7 +5179,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			for (auto& r : vr) {
 			  keys.emplace_back(r.pk);
 			}
-			auto blobs = readHybridEntityBlobs(*db_, q.table, keys);
+			auto blobs = readHybridEntityBlobs(*db_, q.table, keys, vectorIdx_);
 			for (size_t i = 0; i < vr.size();++i) {
 				if (!blobs[i].has_value()) {
 				  continue;
@@ -5232,7 +5243,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			VectorGeoResult r;
 			r.pk = tmp[i].first;
 			r.vector_distance = tmp[i].second;
-			auto blobs = readHybridEntityBlobs(*db_, q.table, {tmp[i].first});
+			auto blobs = readHybridEntityBlobs(*db_, q.table, {tmp[i].first}, vectorIdx_);
 			const auto& val_opt = blobs.front();
 			if (val_opt) {
 				try {
@@ -5295,7 +5306,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			for (const auto& r : vr) {
 			  keys.emplace_back(r.pk);
 			}
-			auto blobs = readHybridEntityBlobs(*db_, q.table, keys);
+			auto blobs = readHybridEntityBlobs(*db_, q.table, keys, vectorIdx_);
 
 			// Evaluate spatial filter in parallel
 			std::vector<VectorGeoResult> local = {};
@@ -5387,7 +5398,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			for (const auto& r : indexResults) {
 			  keys.emplace_back(r.primary_key);
 			}
-			auto blobs = readHybridEntityBlobs(*db_, q.table, keys);
+			auto blobs = readHybridEntityBlobs(*db_, q.table, keys, vectorIdx_);
 			for (size_t i = 0; i < indexResults.size(); ++i) {
 				const auto& r = indexResults[i];
 				if (!blobs[i].has_value()) {

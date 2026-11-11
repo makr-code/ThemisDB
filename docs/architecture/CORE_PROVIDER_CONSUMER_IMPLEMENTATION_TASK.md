@@ -1,3 +1,17 @@
+---
+Author: makr-code
+Created: 2026-11-11
+Last Updated: 2026-11-11
+Status: draft
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: makr-code
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Core Provider/Consumer Integration: Implementation Task
 
 ## Status and purpose
@@ -41,18 +55,49 @@ wrappers.
   startup/composition callers and wire the real consumers rather than adding
   dummy consumers or assuming the setters are called.
 - `VectorIndexSinkAdapter` writes vector entities to `VectorIndexManager`.
-  Hybrid entity materialization currently reads canonical relational keys and
-  legacy table keys. Vector/content identity is not thereby guaranteed to
-  resolve to source text.
-- Content chunk text is stored under `chunk:<id>`; chunk vectors use a separate
-  `chunks:<id>` identity and index metadata. A vector match alone is not the
-  evidence text.
+  The current work adds exact `source_ref_*` fields and `text_snippet` to normal
+  ingestion vector entities. This is indexed snippet materialization, not proof
+  that the locator can fetch the authoritative source record.
+- ContentManager stores chunk text under `chunk:<id>` and its vector entity under
+  `chunks:<id>`. The current work puts the chunk text and an exact
+  `source_ref_key=chunk:<id>` on that vector entity, with `content_id` as the
+  source-reference collection. QueryEngine only hydrates a vector entity from its
+  vector key when the initialized vector-index namespace matches the query
+  collection; canonical relational and legacy table-key reads remain earlier
+  lookup paths. A vector match alone is not an authoritative source fetch.
+- `RAGSourceReference` is an optional typed locator on `RAGCandidate`.
+  `makeRAGCandidate` parses complete, nonempty source-reference type, collection,
+  and key fields and materializes text from `content`, `text`, `body`, or
+  `text_snippet`; the helper performs no source lookup.
 - `search`, `LayeredRetrievalOrchestrator`, `ProcessGraphRag`, and
   `ethics_ai/RAGContextEngine` have specialized behavior. Preserve their domain
   policies; this task does not migrate all of them.
 
 Recheck these facts against the current source, not generated wiki summaries.
 Update or narrow this task if source evidence differs before coding.
+
+## Verified incremental work in the current implementation diff
+
+The current source diff adds `RAGSourceReference` and candidate parsing for exact
+source-reference fields; records exact source identity on vector ingestion
+entities; stores ContentManager chunk text and its exact `chunk:<id>` locator on
+the corresponding vector entity; and gates vector-key hydration on an exact
+initialized vector-index/query namespace match. Focused test-source changes are
+present in the worktree, but no test execution result is recorded here.
+
+This is partial implementation progress, not completion of this task or its
+acceptance criteria. In particular, normal vector ingestion currently carries
+`text_snippet` in the vector entity; the source-reference locator is not itself
+a source dereference implementation. Do not claim that normal ingestion now
+fetches the authoritative full source text.
+
+Still pending: trace and verify real HTTP/AQL/YAML startup and request wiring;
+complete per-request authorization, tenant/collection isolation and context
+propagation; establish the evidence-backed role map for all direct `src/`
+directories; complete source materialization/compatibility and remaining
+acceptance cases; and run and record the required focused tests and registration
+checks. Keep every acceptance checkbox below open until its criterion is
+independently verified.
 
 ## Work packages
 

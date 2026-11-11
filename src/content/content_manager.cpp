@@ -1224,7 +1224,19 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     if (vector_index_->getDimension() == c.embedding.size()) {
                         BaseEntity e = BaseEntity::fromFields(
                             std::string("chunks:") + c.id,
-                            BaseEntity::FieldMap{{"content_id", c.content_id}, {"seq_num", static_cast<int64_t>(c.seq_num)}, {"mime_type", meta.mime_type}, {"chunk_type", c.chunk_type}, {"embedding", c.embedding}}
+                            BaseEntity::FieldMap{
+                                {"content_id", c.content_id},
+                                {"seq_num", static_cast<int64_t>(c.seq_num)},
+                                {"mime_type", meta.mime_type},
+                                {"chunk_type", c.chunk_type},
+                                {"text", c.text},
+                                {"source_ref_type", std::string{"content_chunk"}},
+                                {"source_ref_collection", c.content_id},
+                                {"source_ref_key", std::string{"chunk:"} + c.id},
+                                {"source_ref_provenance", std::string{"content_manager"}},
+                                {"source_ref_version", c.created_at},
+                                {"embedding", c.embedding}
+                            }
                         );
                         auto st = vector_index_->addEntity(e);
                         if (!st.ok) THEMIS_WARN("Vector index addEntity failed: {}", st.message);
@@ -3234,6 +3246,12 @@ ContentManager::IngestResult ContentManager::ingestStream(
                         {"seq_num",    static_cast<int64_t>(cm.seq_num)},
                         {"mime_type",  detected_mime},
                         {"chunk_type", cm.chunk_type},
+                        {"text",       cm.text},
+                        {"source_ref_type", std::string{"content_chunk"}},
+                        {"source_ref_collection", cm.content_id},
+                        {"source_ref_key", std::string{"chunk:"} + cm.id},
+                        {"source_ref_provenance", std::string{"content_manager"}},
+                        {"source_ref_version", cm.created_at},
                         {"embedding",  cm.embedding}
                     }
                 );

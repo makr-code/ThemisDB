@@ -26,6 +26,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documented provider/consumer/helper ownership, migration, cooperative execution
   limits and the actual C-linkage/C++ plugin boundary.
 
+### Core Provider/Consumer follow-up — partial (2026-11-11)
+
+- Added typed `RAGSourceReference` metadata, exact source-reference fields for
+  vector-ingestion and ContentManager vector entities, in-entity text
+  materialization, and vector-namespace-gated vector-key hydration.
+- This is incremental implementation work, not Core task acceptance: normal
+  ingestion's `text_snippet` is not authoritative full-source dereferencing.
+  Real HTTP/AQL/YAML startup wiring, complete request-context/auth isolation,
+  the complete source-role map, remaining acceptance criteria, and focused test
+  execution remain pending. See
+  `docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md`.
+
 <!--
 AI_Used: true
 AI_Models: unknown
