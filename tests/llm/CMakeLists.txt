@@ -880,13 +880,6 @@ if(THEMIS_LLM_INFERENCE_TESTS)
         "llm;llm_inference;model_required"
         120
     )
-    if(THEMIS_BUILD_MODULAR)
-        # Modular builds provide EmbeddedLLM through the no-backend API stub;
-        # this target must use the real implementation to exercise TinyLlama.
-        target_sources(module_llm_test_llm_tinyllama_inference_focused PRIVATE
-            ${THEMIS_ROOT_DIR}/src/llm/embedded_llm.cpp
-        )
-    endif()
     # INFER-04 uses LlamaTokenizer which lives outside themis_core
     target_sources(module_llm_test_llm_tinyllama_inference_focused PRIVATE
         ${THEMIS_ROOT_DIR}/src/llm/lora_framework/llama_tokenizer.cpp
