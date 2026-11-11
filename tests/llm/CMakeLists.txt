@@ -810,6 +810,15 @@ if(THEMIS_LLM_INFERENCE_TESTS)
             spdlog::spdlog
             Threads::Threads
         )
+        # These focused executables link the core archive directly, so include
+        # providers used by the inference path that are not part of this target.
+        target_sources(${_tgt} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/api/graphql_aql_resolver.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/prompt_policy.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/token_quota_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/ssm_state_rocksdb_store.cpp
+            ${THEMIS_ROOT_DIR}/src/gpu/gpu_memory_manager_edition.cpp
+        )
         # In modular builds themis_core may not include llama_cpp registration.
         # Link plugin sources directly so EmbeddedLLM has a backend in CI tests.
         if(THEMIS_BUILD_MODULAR)

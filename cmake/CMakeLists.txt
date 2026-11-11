@@ -3141,6 +3141,7 @@ set(THEMIS_CORE_SOURCES
 
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql_aql_resolver.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/server/graphql_api_handler.cpp>
 
     # WebSocket change-stream handler (conditional)
@@ -5143,6 +5144,8 @@ endif()
 if(THEMIS_ENABLE_LLM)
     # Add LLM plugin source files
     target_sources(themis_core PRIVATE
+        ../src/llm/token_quota_manager.cpp
+        ../src/llm/ssm_state_rocksdb_store.cpp
         ../src/llm/llama_wrapper.cpp
         ../src/llm/embedded_llm.cpp          # Embedded LLM facade for system-wide use
         ../src/llm/prompt_policy.cpp

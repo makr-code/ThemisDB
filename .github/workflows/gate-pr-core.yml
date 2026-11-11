@@ -275,7 +275,7 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           name: pr-release-critical-build-dir
-          path: .
+          path: build-pr-release-critical
 
       - name: Check changed C++ test source registration
         shell: bash
