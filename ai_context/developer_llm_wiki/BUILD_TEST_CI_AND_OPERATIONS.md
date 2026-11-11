@@ -1,21 +1,32 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-10"
+Last Updated: "2026-11-11"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot; OpenAI ChatGPT"
 Human_Review: false
 Human_Author: "ThemisDB Team"
+Source_Level: "level2"
+SOT_Domain: "build-test"
+Canonical_References: "cmake/ModularBuild.cmake; tests/llm/CMakeLists.txt; tests/test_test_registration.py; .github/workflows/build-llm-inference.yml"
+source: "cmake/ModularBuild.cmake; tests/llm/CMakeLists.txt; tests/test_test_registration.py; .github/workflows/build-llm-inference.yml"
+source_class: "secondary"
+source_weight: 60
+Related_Milestone: "DOC-WEEKLY-2026-W46"
 ---
 
 > Exact model backend not verifiable from final document text alone.
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-10
+Datum: 2026-11-11
 Status: Active
+
+## TinyLlama inference gate: missing modular EmbeddedLLM runtime
+
+Run [42964785412, job 130364268132](https://github.com/makr-code/ThemisDB/actions/runs/42964785412/job/130364268132) failed: five TinyLlama tests reached `EmbeddedLLM: no backend configured`. In the modular layout, `cmake/ModularBuild.cmake` places `embedded_llm_stub.cpp` in `themis_llm_api` and removes `embedded_llm.cpp` from `themis_llm`; the inference test targets linked core/providers without the real facade/runtime. `tests/llm/CMakeLists.txt` now compiles the real facade for these inference targets, links `themis_llm`, and fails configuration unless LLM is enabled. `tests/test_test_registration.py` passed locally (17 tests). Local CMake configure/build did not reach target generation because RocksDB and fmt development packages are absent; the diagnostic configure stopped on missing fmt. This run failed, CI has not verified the remediation, and the change is not claimed committed.
 
 ## Docker runtime APT mirror synchronization recovery
 

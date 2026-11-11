@@ -810,6 +810,20 @@ if(THEMIS_LLM_INFERENCE_TESTS)
             spdlog::spdlog
             Threads::Threads
         )
+        if(NOT THEMIS_ENABLE_LLM)
+            message(FATAL_ERROR "LLM inference CI tests require THEMIS_ENABLE_LLM=ON")
+        endif()
+        if(THEMIS_BUILD_MODULAR)
+            if(NOT TARGET themis_llm)
+                message(FATAL_ERROR "Modular LLM inference CI tests require the themis_llm target")
+            endif()
+            # Modular builds keep EmbeddedLLM's fail-closed stub in llm_api;
+            # compile the real facade here and link its LlamaWrapper backend.
+            target_sources(${_tgt} PRIVATE
+                ${THEMIS_ROOT_DIR}/src/llm/embedded_llm.cpp
+            )
+            target_link_libraries(${_tgt} PRIVATE themis_llm)
+        endif()
         # These focused executables link the core archive directly, so include
         # providers used by the inference path that are not part of this target.
         target_sources(${_tgt} PRIVATE
