@@ -1,14 +1,16 @@
 # EVALUATION DOXYGEN
 
+> **Update provenance (2026-11-09):** AI-assisted link update; exact model backend
+> not verifiable from final document text alone; Human_Review: false.
+
 > **Update provenance (2026-10-31):** AI_Used: true; AI_Models: unknown;
 > AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB
 > Contributors. Exact model backend not verifiable from final document text alone.
 
 > **Generated snapshot:** This Markdown report records a generation dated
 > 2026-09-20 and retains its original machine-local Windows XML/warnings paths.
-> A repository XML artifact at
-> `ai_context/developer_llm_wiki/module_doxygen_artifacts/evaluation/xml/`
-> has a 2026-10-31 timestamp. Its 224 source-file/line pairs match the pairs in
+> The former repository XML artifact had a 2026-10-31 timestamp. Its 224
+> source-file/line pairs match the pairs in
 > this report, and all referenced source paths and line numbers exist in the
 > current tree. The Doxygen executable and referenced warnings log are
 > unavailable, so the report was not regenerated; API descriptions were not
@@ -17,11 +19,13 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-10-31
+Last Updated: 2026-11-09
 Status: archived
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
+- Generate current XML with the [Module Doxygen XML workflow](../../.github/workflows/gate-pr-module-doxygen-xml.yml)
+  and retrieve its `module-doxygen-xml-<run>` artifact (21-day retention).
 - XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\evaluation\xml\index.xml`
 - Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\evaluation\doxygen-warnings.log`
 

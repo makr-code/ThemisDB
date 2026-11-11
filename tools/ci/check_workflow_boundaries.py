@@ -14,6 +14,7 @@ ACTIVE_WORKFLOWS_DIR = ".github/workflows/"
 QUARANTINE_WORKFLOWS_DIR = ".github/no_workflows/"
 GUIDELINES_FILE = ".github/WORKFLOW_GUIDELINES.md"
 REGISTRY_FILE = ".github/WORKFLOW_REGISTRY.md"
+REPO_ROOT = Path(__file__).resolve().parents[2]
 ALLOWED_BROAD_PATH_PREFIXES = {
     ".github/workflows/",
     ".github/no_workflows/",
@@ -37,6 +38,8 @@ FORBIDDEN_EXACT_PATHS = {
 }
 ALL_PATH_PULL_REQUEST_WORKFLOWS = {
     ".github/workflows/gate-pr-file-size.yml",
+    # Size gates must run for every changed path or oversized files can bypass them.
+    ".github/workflows/gate-pr-artifact-size.yml",
 }
 
 
@@ -228,7 +231,10 @@ def _validate_pull_request_target_safety(data: dict, workflow_path: str, violati
 
 
 def validate_workflow_file(path: Path) -> list[str]:
-    workflow_path = _normalize(str(path))
+    try:
+        workflow_path = _normalize(path.resolve().relative_to(REPO_ROOT).as_posix())
+    except ValueError:
+        workflow_path = _normalize(str(path))
     try:
         data = _load_workflow(path)
     except Exception as exc:
@@ -249,12 +255,7 @@ def validate_workflow_file(path: Path) -> list[str]:
         paths = _extract_paths(pull_request)
         if not branches:
             violations.append(f"{workflow_path}: pull_request trigger must define branches")
-        normalized_workflow_path = workflow_path.replace("\\", "/")
-        requires_all_paths = any(
-            normalized_workflow_path.endswith(allowed_path)
-            for allowed_path in ALL_PATH_PULL_REQUEST_WORKFLOWS
-        )
-        if not paths and not requires_all_paths:
+        if not paths and workflow_path not in ALL_PATH_PULL_REQUEST_WORKFLOWS:
             violations.append(f"{workflow_path}: pull_request trigger must define paths")
         broad_paths = [p for p in paths if _is_broad_path(p)]
         if broad_paths:

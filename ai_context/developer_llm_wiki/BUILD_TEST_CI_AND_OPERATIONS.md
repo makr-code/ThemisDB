@@ -1,21 +1,42 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-10"
+Last Updated: "2026-11-11"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "ThemisDB Team"
+Source_Level: "level2"
+SOT_Domain: "build-test"
+Canonical_References: ".github/workflows/gate-pr-merge-readiness.yml; .github/workflows/gate-pr-plugin-boundary.yml; .github/workflows/reusable-status-flags-and-issues.yml; .github/WORKFLOW_GUIDELINES.md; tests/llm/CMakeLists.txt; src/llm/embedded_llm.cpp; .github/workflows/build-llm-inference.yml"
+source: ".github/workflows/gate-pr-merge-readiness.yml; .github/workflows/gate-pr-plugin-boundary.yml; .github/workflows/reusable-status-flags-and-issues.yml; .github/WORKFLOW_GUIDELINES.md; tests/llm/CMakeLists.txt; src/llm/embedded_llm.cpp; .github/workflows/build-llm-inference.yml"
+source_class: "secondary"
+source_weight: 60
+Related_Milestone: "DOC-WEEKLY-2026-W46"
 ---
 
 > Exact model backend not verifiable from final document text alone.
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-10
+Datum: 2026-11-11
 Status: Active
+
+## PR Merge Readiness failure: status-call concurrency and final runtime
+
+Run [42964785412](https://github.com/makr-code/ThemisDB/actions/runs/42964785412) recorded `call-plugin-boundary=cancelled` and `call-final-runtime-api=failure` on parent job [130384787522](https://github.com/makr-code/ThemisDB/actions/runs/42964785412/job/130384787522). The actual plugin enforcement job [130364267816](https://github.com/makr-code/ThemisDB/actions/runs/42964785412/job/130364267816) succeeded; the optional `human-loop-resolution` status-call job [130365663917](https://github.com/makr-code/ThemisDB/actions/runs/42964785412/job/130365663917) was cancelled. Therefore the cancelled parent plugin call is not evidence that plugin enforcement failed; the final-runtime failure remains a separate readiness failure.
+
+The reusable status workflow now scopes its concurrency group by operation plus a stable target identity (issue number, or marker/title when no issue number is available), while keeping `cancel-in-progress: false`. This avoids unrelated status calls from sharing a caller/ref group; a subsequent CI run is still required to verify the parent gate no longer inherits a cancelled label-resolution result.
+
+## TinyLlama inference gate: missing modular EmbeddedLLM runtime
+
+Run [42964785479, job 130387233834](https://github.com/makr-code/ThemisDB/actions/runs/42964785479/job/130387233834) failed five TinyLlama tests with `EmbeddedLLM: no backend configured`; modular inference had selected the API stub instead of the real facade. The current branch's `tests/llm/CMakeLists.txt` now requires `THEMIS_ENABLE_LLM=ON`, compiles `src/llm/embedded_llm.cpp` into the model-backed modular inference targets, and links `themis_llm`; the inference workflow enables LLM. The cited failure predates these changes and cannot verify them. A prior local CMake configure did not reach target generation because RocksDB development headers were unavailable. CI validation of this remediation remains pending; no current-branch test pass is claimed.
+
+## Release-critical test artifact executable modes
+
+In the same run, [job 130381306099](https://github.com/makr-code/ThemisDB/actions/runs/42964785479/job/130381306099) failed three restored CTest executables with `permission denied`. The build directory had been transferred directly as an Actions artifact, which did not preserve executable modes. `.github/workflows/gate-pr-core.yml` now transfers the build directory inside a tar archive and extracts it before CTest; a local tar round-trip verified executable-mode preservation. The latest PR Core run is `action_required`, so CI validation of this fix remains pending.
 
 ## Docker runtime APT mirror synchronization recovery
 
@@ -32,6 +53,12 @@ The independent runtime stage does not inherit base-stage APT configuration.
 executes the shell logic for immediate success, transient recovery, exhausted
 retries, and package installation failure. A full platform image build remains
 required in CI from a source revision containing this fix.
+
+## PostgreSQL SQL-dump importer linkage
+
+[Run `42854980938`, job `129982571957`](https://github.com/makr-code/ThemisDB/actions/runs/42854980938/job/129982571957) failed while linking `module_importers_test_postgres_insert_token_progress_focused`, before CTest, with undefined `PostgreSQLImporter` constructor, `initialize`, `importData`, and destructor symbols. [ModularBuild.cmake](../../cmake/ModularBuild.cmake) now always includes `../src/importers/postgres_importer.cpp`, matching the [monolithic importer registration](../../cmake/CMakeLists.txt): SQL-dump import is independent of `THEMIS_ENABLE_POSTGRES_WIRE`. In the modular layout, `postgres_session.cpp` and `postgres_importer_mdm.cpp` remain gated by that option.
+
+Reported specialist validation evaluated the extracted actual CMake source lists with wire ON/OFF: the importer appeared exactly once in both cases, while session and MDM sources remained conditional; the old OFF omission was reproduced in memory. All 10 existing [mainline compiler regression tests](../../tests/test_mainline_compiler_regressions.py) passed; no persistent test was added. Native C++ tests were not run locally because gtest, JSON, and spdlog headers were unavailable; successful native linking and CTest remain unverified.
 
 ## Docker Python autoreconf prerequisite gate
 
@@ -215,6 +242,11 @@ for current policy and preserved historical evidence.
 - Hash: `718cedef92c2320a`
 - Titel: (binary or unreadable)
 
+## .github/workflows/gate-pr-artifact-size.yml
+- Kategorie: build_test_ci
+- Hash: `9fbb81a4b77620ce`
+- Titel: (binary or unreadable)
+
 ## .github/workflows/gate-pr-benchmark-ctest.yml
 - Kategorie: build_test_ci
 - Hash: `2bea96d431b64131`
@@ -387,7 +419,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/maintenance-soll-ist-gap-issues.yml
 - Kategorie: build_test_ci
-- Hash: `82ad329604e11db4`
+- Hash: `8168a229bd2575e0`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-workflow-guardrails-observe.yml
@@ -412,7 +444,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/release-build-matrix.yml
 - Kategorie: build_test_ci
-- Hash: `d26d94005b21de87`
+- Hash: `b7c16117043aed1c`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-changelog.yml
@@ -488,9 +520,4 @@ for current policy and preserved historical evidence.
 ## .github/workflows/release-winget.yml
 - Kategorie: build_test_ci
 - Hash: `c8b9869e1c8c0342`
-- Titel: (binary or unreadable)
-
-## .github/workflows/release-wordpress-press.yml
-- Kategorie: build_test_ci
-- Hash: `641b3d6490580dca`
 - Titel: (binary or unreadable)
