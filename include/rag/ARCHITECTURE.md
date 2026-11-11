@@ -25,7 +25,7 @@ Human_Author: "ThemisDB Team"
 
 `include/rag/` declares public C++ component APIs for retrieval, evaluation,
 quality control, ingestion, learning, and safety. The directory currently
-contains 104 top-level `.h` files. These declarations do not imply one
+contains public contracts and optional component headers. These declarations do not imply one
 mandatory end-to-end pipeline, automatic server wiring, or uniform API
 stability; consult each header and its implementation.
 
@@ -40,6 +40,9 @@ For runtime composition — retriever orchestration, evaluation pipeline schedul
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
+| `rag_provider.h` | `RAGProvider`, `RetrievalRequest`, `RetrievalResult` | Common typed knowledge retrieval; independent of generation |
+| `rag_candidate.h` | `RAGCandidate` | Owned evidence shared with the modular pipeline, without an LLM dependency |
+| `rag_retrieval_helpers.h` | `makeRAGCandidate` | Pure materialized-entity conversion; no storage or inference |
 | `hybrid_retriever.h` | `HybridRetriever` | Dense + sparse hybrid retrieval |
 | `adaptive_retrieval.h` | `AdaptiveRetrieval` | Query-adaptive retrieval strategy selection |
 | `flare_retrieval.h` | `FLARERetrieval` | Forward-Looking Active REtrieval (FLARE) |

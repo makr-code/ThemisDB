@@ -14,6 +14,7 @@
 #include "llm/paged_block_manager.h"
 #include "llm/llamacpp_inference_engine.h"
 #include "llm/prompt_safety_utils.h"
+#include "llm/rag_helpers.h"
 #include "llm/llm_model_storage.h"
 #include "llm/json_schema_converter.h"
 #include "storage/blob_storage_manager.h"
@@ -1898,7 +1899,7 @@ std::vector<int> LlamaWrapper::tokenizeForBridge(
  * @param[in] rag_context Input parameter.
  * @param[in] request Input parameter.
  * @return Return value.
- * @details Calls: spdlog::debug(), size(), formatPromptForRAG(), generate().
+ * @details Uses the same budgeted request preparation as LlamaCppPlugin.
  */
 InferenceResponse LlamaWrapper::generateRAG(
     const RAGContext& rag_context,
@@ -1907,19 +1908,21 @@ InferenceResponse LlamaWrapper::generateRAG(
     spdlog::debug("Generating RAG response with {} documents",
                   rag_context.documents.size());
     
-            // B3: formatPromptForRAG sanitizes all RAG document content and the user query
-            // via sanitizePromptText() internally before embedding into the final prompt.
-            std::string formatted_prompt = formatPromptForRAG(rag_context, request);
-    
-    // Create modified request with formatted prompt
-    InferenceRequest rag_request = request;
-    rag_request.prompt = formatted_prompt;
+    std::size_t model_context_tokens;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        model_context_tokens = static_cast<std::size_t>(config_.n_ctx);
+    }
+    const auto rag_request = prepareRAGRequest(rag_context, request, model_context_tokens);
 
     auto response = generate(rag_request);
 
     // Add RAG metadata to response
     response.metadata["rag_enabled"] = true;
     response.metadata["num_documents"] = rag_context.documents.size();
+    response.metadata["rag_documents_used"] = rag_request.metadata["rag_documents_used"];
+    response.metadata["rag_context_truncated"] = rag_request.metadata["rag_context_truncated"];
+    response.metadata["rag_blocked_documents"] = rag_request.metadata["rag_blocked_documents"];
     
     return response;
 }
@@ -2178,54 +2181,6 @@ bool LlamaWrapper::importLoRA(
     
     // Delegate to multi-LoRA manager
     return lora_manager->importLoRA(lora_id, data, current_model_id_);
-}
-
-/**
- * @brief ═══════════════════════════════════════════════════════════ Helper Methods ═══════════════════════════════════════════════════════════
- * @param[in] rag_context Input parameter.
- * @param[in] request Input parameter.
- * @return Return value.
- * @throws std::invalid_argument if an error occurs.
- * @details Calls: sanitizePromptText(), size(), str().
- */
-
-std::string LlamaWrapper::formatPromptForRAG(
-    const RAGContext& rag_context,
-    const InferenceRequest& request
-) {
-    // Build RAG prompt using template
-    std::ostringstream oss = {};
-    
-    // Add system prompt if provided
-    if (request.system_prompt) {
-        std::string sanitized_system_prompt = {};
-        if (!sanitizePromptText(*request.system_prompt, sanitized_system_prompt, nullptr, nullptr)) {
-            throw std::invalid_argument("RAG system prompt blocked by prompt policy");
-        }
-        oss << sanitized_system_prompt << "\n\n";
-    }
-    
-    // Add context documents
-    oss << "Context:\n";
-    for (size_t i = 0; i <rag_context.documents.size(); ++i) {
-        const auto& doc = rag_context.documents[i];
-        std::string sanitized_content = {};
-        if (!sanitizePromptText(doc.content, sanitized_content, nullptr, nullptr)) {
-            sanitized_content = "[BLOCKED_CONTEXT]";
-        }
-        oss << "[Document " << (i + 1) << "]\n";
-        oss << sanitized_content << "\n\n";
-    }
-    
-    // Add user query
-    std::string sanitized_query = {};
-    if (!sanitizePromptText(rag_context.query, sanitized_query, nullptr, nullptr)) {
-        throw std::invalid_argument("RAG query blocked by prompt policy");
-    }
-    oss << "Question: " << sanitized_query << "\n\n";
-    oss << "Answer based on the context provided above:";
-    
-    return oss.str();
 }
 
 /**

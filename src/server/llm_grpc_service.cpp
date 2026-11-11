@@ -213,11 +213,12 @@ grpc::Status LLMGrpcService::RAGInference(
     
     try {
         ::themis::llm::RAGContext rag_context;
+        rag_context.query = request->query();
         
         // Convert documents from protobuf
         for (const auto& doc : request->documents()) {
-            ::themis::llm::Document internal_doc;
-            internal_doc.id = doc.id();
+            ::themis::llm::RAGContext::Document internal_doc;
+            internal_doc.source = doc.id();
             internal_doc.content = doc.content();
             internal_doc.relevance_score = doc.relevance_score();
             rag_context.documents.push_back(internal_doc);
@@ -232,6 +233,9 @@ grpc::Status LLMGrpcService::RAGInference(
         
         auto& plugin_mgr = llm::LLMPluginManager::instance();
         auto internal_resp = plugin_mgr.generateRAG(rag_context, internal_req);
+        if (!internal_resp.success) {
+            return grpc::Status(grpc::StatusCode::UNAVAILABLE, internal_resp.error_message);
+        }
         
         convertToProtoResponse(internal_resp, *response);
         

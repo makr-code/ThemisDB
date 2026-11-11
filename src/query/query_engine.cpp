@@ -4647,6 +4647,16 @@ QueryEngine::executeGeneralTraversal(
 	while (!queue.empty()) {
 		VisitInfo current = std::move(queue.front());
 		queue.pop();
+
+		const auto slashPos = current.vertex.find('/');
+		const std::string table = slashPos == std::string::npos
+			? "vertices" : current.vertex.substr(0, slashPos);
+		if (collection_access_checker_ &&
+		    !collection_access_checker_(table, collection_access_caller_id_)) {
+			return Err<std::vector<TraversalResult>>(
+				errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+				"Access denied for collection: " + table);
+		}
 		
 		// Add to results if within depth range
 		if (current.depth >= minDepth && current.depth <= maxDepth) {
@@ -4656,22 +4666,21 @@ QueryEngine::executeGeneralTraversal(
 			result.path = current.path;
 			result.edges = current.edges;
 			
-			// Try to load vertex data from storage
-			// Extract table from PK format "collection/id"
-			// Note: Uses standard key format "table:pk" consistent with rest of codebase
-			std::string table = {};
-			auto slashPos = current.vertex.find('/');
-			if (slashPos != std::string::npos) {
-				table = current.vertex.substr(0, slashPos);
-			} else {
-				table = "vertices"; // default fallback
+			auto vertexDataOpt = db_->get(KeySchema::makeGraphNodeKey(current.vertex));
+			if (!vertexDataOpt && slashPos != std::string::npos) {
+				vertexDataOpt = db_->get(
+					KeySchema::makeRelationalKey(table, current.vertex.substr(slashPos + 1)));
 			}
-			
-			std::string dbKey = table + ":" + current.vertex;
-			auto vertexDataOpt = db_->get(dbKey);
+			if (!vertexDataOpt) {
+				vertexDataOpt = db_->get(KeySchema::makeRelationalKey(table, current.vertex));
+			}
+			if (!vertexDataOpt) {
+				vertexDataOpt = db_->get(table + ":" + current.vertex);
+			}
 			if (vertexDataOpt.has_value()) {
 				try {
-					result.vertex_data = nlohmann::json::parse(*vertexDataOpt);
+					const auto entity = BaseEntity::deserialize(current.vertex, *vertexDataOpt);
+					result.vertex_data = nlohmann::json::parse(entity.toJson());
 				} catch (...) {
         THEMIS_DEBUG("query_engine: unhandled exception caught");
 					// If parsing fails, create minimal JSON
@@ -4947,6 +4956,47 @@ enum class VGPlan { SpatialThenVector, VectorThenSpatial };
 	return VGPlan::SpatialThenVector;
 }
 
+namespace {
+
+// Hybrid access paths prefer canonical relational keys while retaining legacy reads.
+std::vector<std::optional<std::vector<uint8_t>>> readHybridEntityBlobs(
+    RocksDBWrapper& db, const std::string& table, const std::vector<std::string>& pks) {
+	std::vector<std::string> keys;
+	keys.reserve(pks.size());
+	for (const auto& pk : pks) {
+		keys.push_back(KeySchema::makeRelationalKey(table, pk));
+	}
+	auto blobs = db.multiGet(keys);
+	for (std::size_t i = 0; i < pks.size(); ++i) {
+		if (!blobs[i]) {
+			blobs[i] = db.get(table + ":" + pks[i]);
+		}
+	}
+	return blobs;
+}
+
+void scanHybridEntities(
+    RocksDBWrapper& db, const std::string& table,
+    const std::function<bool(const std::string&, std::string_view)>& visit) {
+	std::unordered_set<std::string> seen;
+	for (const auto& prefix : {KeySchema::makeRelationalKey(table, ""), table + ":"}) {
+		bool keep_scanning = true;
+		db.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
+			const std::string pk(key.substr(prefix.size()));
+			if (!seen.insert(pk).second) {
+				return true;
+			}
+			keep_scanning = visit(pk, value);
+			return keep_scanning;
+		});
+		if (!keep_scanning) {
+			break;
+		}
+	}
+}
+
+} // namespace
+
 // Vector + Geo: Spatial-filtered ANN search
 Result<std::vector<QueryEngine::VectorGeoResult>>
 QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
@@ -5116,14 +5166,21 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			// Lade Entities
 			std::vector<std::string> keys; keys.reserve(vr.size());
 			for (auto& r : vr) {
-			  keys.emplace_back(q.table + ":" + r.pk);
+			  keys.emplace_back(r.pk);
 			}
-			auto blobs = db_->multiGet(keys);
+			auto blobs = readHybridEntityBlobs(*db_, q.table, keys);
 			for (size_t i = 0; i < vr.size();++i) {
 				if (!blobs[i].has_value()) {
 				  continue;
 				}
-				nlohmann::json doc; try { std::string s(blobs[i]->begin(), blobs[i]->end()); doc = nlohmann::json::parse(s);} catch (...) { continue; }
+				nlohmann::json doc;
+				try {
+					const auto entity = BaseEntity::deserialize(vr[i].pk, *blobs[i]);
+					doc = nlohmann::json::parse(entity.toJson());
+				} catch (const std::exception& error) {
+					THEMIS_WARN("VectorGeo: cannot decode entity '{}': {}", vr[i].pk, error.what());
+					continue;
+				}
 				// Evaluate extra filters conjunctively
 				bool ok = true;
 				if (!q.extra_filters.empty()) {
@@ -5139,9 +5196,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		}
 		// Brute-force Scan
 		std::vector<std::pair<std::string,float>> tmp;
-		std::string prefix = q.table + ":";
-		db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
-			std::string pk = std::string(key).substr(prefix.length());
+		scanHybridEntities(*db_, q.table, [&](const std::string& pk, std::string_view value) {
 			nlohmann::json doc;
 			try {
 				std::vector<uint8_t> blob(value.begin(), value.end());
@@ -5177,11 +5232,16 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			VectorGeoResult r;
 			r.pk = tmp[i].first;
 			r.vector_distance = tmp[i].second;
-			auto val_opt = db_->get(q.table + ":" + tmp[i].first);
+			auto blobs = readHybridEntityBlobs(*db_, q.table, {tmp[i].first});
+			const auto& val_opt = blobs.front();
 			if (val_opt) {
 				try {
-					r.entity = nlohmann::json::parse(std::string(val_opt->begin(), val_opt->end()));
-				} catch (...) {}
+					const auto entity = BaseEntity::deserialize(r.pk, *val_opt);
+					r.entity = nlohmann::json::parse(entity.toJson());
+				} catch (const std::exception& error) {
+					THEMIS_WARN("VectorGeo: cannot decode entity '{}': {}", r.pk, error.what());
+					continue;
+				}
 			}
 			results.emplace_back(std::move(r));
 		}
@@ -5233,9 +5293,9 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 
 			keys.reserve(vr.size());
 			for (const auto& r : vr) {
-			  keys.emplace_back(q.table + ":" + r.pk);
+			  keys.emplace_back(r.pk);
 			}
-			auto blobs = db_->multiGet(keys);
+			auto blobs = readHybridEntityBlobs(*db_, q.table, keys);
 
 			// Evaluate spatial filter in parallel
 			std::vector<VectorGeoResult> local = {};
@@ -5325,9 +5385,9 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			// Batch-load entities for candidates
 			std::vector<std::string> keys; keys.reserve(indexResults.size());
 			for (const auto& r : indexResults) {
-			  keys.emplace_back(q.table + ":" + r.primary_key);
+			  keys.emplace_back(r.primary_key);
 			}
-			auto blobs = db_->multiGet(keys);
+			auto blobs = readHybridEntityBlobs(*db_, q.table, keys);
 			for (size_t i = 0; i < indexResults.size(); ++i) {
 				const auto& r = indexResults[i];
 				if (!blobs[i].has_value()) {
@@ -5349,10 +5409,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 	// Fallback: Full scan with spatial filter (+ extra predicates)
 	if (!usedSpatialIndex) {
 		child1.setAttribute("method", "full_scan");
-		std::string prefix = q.table + ":";
-		
-		db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
-			std::string pk = std::string(key).substr(prefix.length());
+		scanHybridEntities(*db_, q.table, [&](const std::string& pk, std::string_view value) {
 			
 			try {
 				std::vector<uint8_t> blob(value.begin(), value.end());
@@ -5388,10 +5445,8 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 	// Fallback: if spatial index produced zero candidates, try full-scan evaluation
 	if (usedSpatialIndex && spatialCandidates.empty()) {
 		THEMIS_WARN("VectorGeo: spatial index returned 0 candidates, falling back to full-scan spatial evaluation");
-		std::string prefix = q.table + ":";
 		std::unordered_map<std::string, nlohmann::json> tmpCache;
-		db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
-			std::string pk = std::string(key).substr(prefix.length());
+		scanHybridEntities(*db_, q.table, [&](const std::string& pk, std::string_view value) {
 			try {
 				std::vector<uint8_t> blob(value.begin(), value.end());
 				BaseEntity ent = BaseEntity::deserialize(pk, blob);
@@ -5587,8 +5642,8 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		std::vector<std::string> keys; keys.reserve(ftResults.size());
 		std::vector<std::string> pks; pks.reserve(ftResults.size());
 		std::unordered_map<std::string,double> bm25; bm25.reserve(ftResults.size());
-		for (const auto &kv : ftResults) { keys.emplace_back(q.table+":"+kv.pk); pks.emplace_back(kv.pk); bm25.try_emplace(kv.pk, kv.score); }
-		auto blobs = db_->multiGet(keys);
+		for (const auto &kv : ftResults) { keys.emplace_back(kv.pk); pks.emplace_back(kv.pk); bm25.try_emplace(kv.pk, kv.score); }
+		auto blobs = readHybridEntityBlobs(*db_, q.table, keys);
 		const size_t n = pks.size(); const size_t T = std::max<unsigned>(1, std::thread::hardware_concurrency()); const size_t CHUNK = std::max<std::size_t>(64,(n+T-1)/T);
 		std::vector<std::vector<ContentGeoResult>> buckets((n+CHUNK-1)/CHUNK); tbb::task_group tg;
 		for (size_t bi = 0; bi < buckets.size(); ++bi){ tg.run([&,bi](){ size_t start=bi*CHUNK; size_t end=std::min(start+CHUNK,n); std::vector<ContentGeoResult> buf; buf.reserve(end-start); for(size_t i=start;i<end;++i){ if(!blobs[i].has_value()) continue; nlohmann::json doc; try { auto entity = BaseEntity::deserialize(pks[i], *blobs[i]); doc = nlohmann::json::parse(entity.toJson()); } catch (...) { continue; } EvaluationContext ctx; ctx.bind("doc", doc); if(!evaluateCondition(q.spatial_filter, ctx)) continue; ContentGeoResult r; r.pk=pks[i]; const auto bm25_it = bm25.find(pks[i]); r.bm25_score = (bm25_it != bm25.end()) ? bm25_it->second : 0.0; r.entity=std::move(doc); if(q.boost_by_distance && q.center_point){ const auto& docRef=r.entity; if(docRef.contains(q.geom_field)){ nlohmann::json geom; if(docRef[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(docRef[q.geom_field].get<std::string>()); } catch (...) {} } else if(docRef[q.geom_field].is_object()){ geom=docRef[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } } buf.emplace_back(std::move(r)); } buckets[bi]=std::move(buf); }); }
@@ -5615,9 +5670,9 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 				cache.reserve(indexResults.size());
 				std::vector<std::string> keys; keys.reserve(indexResults.size());
 				for (auto &r : indexResults) {
-				  keys.emplace_back(q.table+":"+r.primary_key);
+				  keys.emplace_back(r.primary_key);
 				}
-				auto blobs = db_->multiGet(keys);
+				auto blobs = readHybridEntityBlobs(*db_, q.table, keys);
 				for (size_t i = 0; i < indexResults.size();++i){ if(!blobs[i].has_value()) continue; try { auto entity = BaseEntity::deserialize(indexResults[i].primary_key, *blobs[i]); nlohmann::json doc = nlohmann::json::parse(entity.toJson()); spatialCandidates.emplace_back(indexResults[i].primary_key); cache.emplace(indexResults[i].primary_key, std::move(doc));} catch (...) {} }
 			} else {
 				childS.setAttribute("method","bbox_extract_failed_fallback_scan");

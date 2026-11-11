@@ -150,17 +150,22 @@ struct KnowledgeGapConfig {
  * RetrievedDocument values.  An empty return value is interpreted as "no
  * additional documents found" and stops the FLARE iteration early.
  *
- * Example wiring with VectorIndexManager:
+ * Example wiring with a tenant-authorized RAGProvider:
  * @code
  *   detector->setRetrievalCallback(
- *       [&vec_mgr, &db](const std::string& q, size_t k)
+ *       [&provider](const std::string& q, size_t k, const std::string& tenant)
  *           -> std::vector<RetrievedDocument>
  *       {
- *           auto embedding = embed(q);
- *           if (embedding.empty()) return {};
- *           auto [st, results] = vec_mgr.searchKnn(embedding, k);
- *           if (!st.ok) return {};
- *           return rag::convertToRetrievedDocuments(results, db);
+ *           // provider's engine must already authorize this tenant's collection.
+ *           query::VectorGeoQuery query;
+ *           query.table = authorizedCollectionFor(tenant);
+ *           query.query_vector = embed(q);
+ *           rag::RetrievalRequest request;
+ *           request.query = query;
+ *           request.max_candidates = k;
+ *           auto evidence = provider.retrieve(request);
+ *           if (!evidence) throw std::runtime_error(evidence.error().context());
+ *           return rag::convertToRetrievedDocuments(evidence->candidates);
  *       });
  * @endcode
  */

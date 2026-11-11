@@ -679,6 +679,7 @@ endif()
 list(APPEND THEMIS_STORAGE_SOURCES)
 
 set(THEMIS_QUERY_SOURCES
+    ../src/rag/rag_provider.cpp
     # Query engine
     ../src/query/query_engine.cpp
     ../src/query/query_executor.cpp
@@ -1304,6 +1305,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/aql_train_parser.cpp
     ../src/aql/llm_aql_embedding_bridge.cpp
     ../src/llm/llama_wrapper.cpp
+    ../src/llm/rag_helpers.cpp
     ../src/llama_cpp/llama_cpp_plugin.cpp
     ../src/llm/llama_lora_adapter.cpp
     ../src/llm/llama_grammar_adapter.cpp
