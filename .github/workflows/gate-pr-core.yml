@@ -286,6 +286,11 @@ jobs:
       - name: Extract release-critical build directory
         run: tar -xf pr-release-critical-build-dir.tar
 
+      - name: Install release-critical test runtime dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libspdlog-dev
+
       - name: Check changed C++ test source registration
         shell: bash
         env:
