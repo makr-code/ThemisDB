@@ -400,8 +400,9 @@ jobs:
               if lane_os == "linux":
                   entry["setup_command"] += "\nsudo apt-get install -y --no-install-recommends libarchive-tools"
               lane_flags = cmake_flags
-              if entry["id"] == "linux-amd64":
-                  # Release binaries and cached objects must not require the build runner's CPU.
+              if entry["id"] in {"linux-amd64", "linux-arm64"}:
+                  # Release binaries and cached objects must not require the build runner's CPU
+                  # or receive x86-only GGML flags on ARM64.
                   lane_flags += (
                       " -DTHEMIS_ENABLE_AVX2=OFF -DGGML_NATIVE=OFF"
                       " -DGGML_SSE42=OFF -DGGML_AVX=OFF -DGGML_AVX2=OFF"

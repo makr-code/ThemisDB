@@ -178,7 +178,7 @@ class ReleaseRuntimePayloadTests(unittest.TestCase):
                                 lane["validation_command"].index("cpack --config"))
                 for option in ["THEMIS_ENABLE_AVX2", "GGML_NATIVE", "GGML_SSE42",
                                "GGML_AVX", "GGML_AVX2", "GGML_BMI2", "GGML_FMA", "GGML_F16C"]:
-                    if lane["id"] == "linux-amd64":
+                    if lane["id"] in {"linux-amd64", "linux-arm64"}:
                         self.assertIn(f"-D{option}=OFF", lane["configure_command"])
                     else:
                         self.assertNotIn(f"-D{option}=OFF", lane["configure_command"])
