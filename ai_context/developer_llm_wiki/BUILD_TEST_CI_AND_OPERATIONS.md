@@ -5,7 +5,7 @@ Last Updated: "2026-11-11"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot; OpenAI ChatGPT"
+AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 Source_Level: "level2"
@@ -26,7 +26,11 @@ Status: Active
 
 ## TinyLlama inference gate: missing modular EmbeddedLLM runtime
 
-Run [42964785412, job 130364268132](https://github.com/makr-code/ThemisDB/actions/runs/42964785412/job/130364268132) failed: five TinyLlama tests reached `EmbeddedLLM: no backend configured`. In the modular layout, `cmake/ModularBuild.cmake` places `embedded_llm_stub.cpp` in `themis_llm_api` and removes `embedded_llm.cpp` from `themis_llm`; the inference test targets linked core/providers without the real facade/runtime. `tests/llm/CMakeLists.txt` now compiles the real facade for these inference targets, links `themis_llm`, and fails configuration unless LLM is enabled. `tests/test_test_registration.py` passed locally (17 tests). Local CMake configure/build did not reach target generation because RocksDB and fmt development packages are absent; the diagnostic configure stopped on missing fmt. This run failed, CI has not verified the remediation, and the change is not claimed committed.
+Run [42964785479, job 130387233834](https://github.com/makr-code/ThemisDB/actions/runs/42964785479/job/130387233834) failed five TinyLlama tests with `EmbeddedLLM: no backend configured`; the modular API stub was used instead of the real facade. `tests/llm/CMakeLists.txt` now requires `THEMIS_ENABLE_LLM=ON`, compiles `embedded_llm.cpp` into the model-backed test targets, and links `themis_llm`. The runtime workflow explicitly enables LLM. The test-registration guard passed locally (17 tests). A local CMake configure did not reach target generation because the environment lacks RocksDB development headers; CI validation of the remediation remains pending. The latest PR Core run at the time of this update, [42989306689](https://github.com/makr-code/ThemisDB/actions/runs/42989306689), is `action_required`.
+
+## Release-critical test artifact executable modes
+
+In the same run, [job 130381306099](https://github.com/makr-code/ThemisDB/actions/runs/42964785479/job/130381306099) failed three restored CTest executables with `permission denied`. The build directory had been transferred directly as an Actions artifact, which did not preserve executable modes. `.github/workflows/gate-pr-core.yml` now transfers the build directory inside a tar archive and extracts it before CTest; a local tar round-trip verified executable-mode preservation. The latest PR Core run is `action_required`, so CI validation of this fix remains pending.
 
 ## Docker runtime APT mirror synchronization recovery
 

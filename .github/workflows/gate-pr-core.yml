@@ -37,6 +37,7 @@ on:
       - tests/CMakeLists.txt
       - tests/**/CMakeLists.txt
       - tests/test_test_registration.py
+      - tests/test_final_runtime_inference_gate.py
       - tests/test_runtime_smoke_gate.py
       - tests/test_docker_runtime_package_regressions.py
       - tests/test_docker_platform_validation.py
@@ -72,6 +73,7 @@ on:
       - tests/CMakeLists.txt
       - tests/**/CMakeLists.txt
       - tests/test_test_registration.py
+      - tests/test_final_runtime_inference_gate.py
       - tests/test_runtime_smoke_gate.py
       - tests/test_docker_runtime_package_regressions.py
       - tests/test_docker_platform_validation.py
@@ -210,6 +212,9 @@ jobs:
 
       - name: Test test-registration guard
         run: python3 tests/test_test_registration.py
+
+      - name: Test final runtime inference gate configuration
+        run: python3 tests/test_final_runtime_inference_gate.py
 
       - name: Test transaction evidence gate
         run: python3 -m unittest discover -s tools/tests -p test_transaction_evidence.py -v

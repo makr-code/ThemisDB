@@ -16,11 +16,12 @@ class FinalRuntimeInferenceGateConfigurationTests(unittest.TestCase):
         self.assertRegex(
             cmake,
             re.compile(
-                r'if\(_stem STREQUAL "test_llm_tinyllama_inference"\s+'
-                r'OR _stem STREQUAL "test_llm_doku_rag"\)\s+'
+                r'if\(THEMIS_BUILD_MODULAR\)\s+'
+                r'if\(NOT TARGET themis_llm\).*?'
                 r'target_sources\(\$\{_tgt\} PRIVATE\s+'
-                r'\$\{THEMIS_ROOT_DIR\}/src/llm/embedded_llm\.cpp',
-                re.MULTILINE,
+                r'\$\{THEMIS_ROOT_DIR\}/src/llm/embedded_llm\.cpp\s+\)\s+'
+                r'target_link_libraries\(\$\{_tgt\} PRIVATE themis_llm\)',
+                re.DOTALL,
             ),
         )
 
@@ -34,7 +35,7 @@ class FinalRuntimeInferenceGateConfigurationTests(unittest.TestCase):
         configure_step = workflow.split("name: Configure focused LLM gate build", 1)[1]
         configure_step = configure_step.split("\n      - name:", 1)[0]
 
-        self.assertIn("-DTHEMIS_BUILD_MODULAR=OFF", configure_step)
+        self.assertIn("-DTHEMIS_BUILD_MODULAR=ON", configure_step)
         self.assertIn("-DTHEMIS_ENABLE_LLM=ON", configure_step)
 
 
