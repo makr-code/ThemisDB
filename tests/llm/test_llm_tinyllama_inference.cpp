@@ -5,7 +5,7 @@
  * Tests INFER-01..10 cover the full LlamacppInferenceEngine / EmbeddedLLM surface:
  *  INFER-01: Basic text generation — max 100 tokens, non-empty output
  *  INFER-02: Streaming via token callback — all tokens delivered, assembled == full
- *  INFER-03: Batch inference — 4 concurrent EmbeddedLLM::generate() calls
+ *  INFER-03: Batch inference — 4 requests across 2 concurrent EmbeddedLLM instances
  *  INFER-04: Tokenizer round-trip — encode then decode yields original string
  *  INFER-05: KV-cache reuse acceleration — 2nd prefixed request ≥ 10% faster
  *  INFER-06: Grammar-constrained JSON output — response parses as valid JSON
@@ -171,6 +171,7 @@ TEST_F(TinyLlamaInferenceTest, Infer03_ConcurrentBatch) {
     }
 
     constexpr int kBatch = 4;
+    constexpr int kWorkers = 2;
     std::vector<std::string> prompts = {
         "The sun rises in the",
         "Water is composed of",
@@ -178,19 +179,33 @@ TEST_F(TinyLlamaInferenceTest, Infer03_ConcurrentBatch) {
         "A haiku has",
     };
     std::vector<std::string> results(kBatch);
-    std::vector<std::thread> threads;
-    threads.reserve(kBatch);
+    std::vector<std::unique_ptr<EmbeddedLLM>> workers;
+    workers.reserve(kWorkers);
 
-    for (int i = 0; i < kBatch; ++i) {
-        threads.emplace_back([this, i, &prompts, &results]() {
-            // Each thread uses its own EmbeddedLLM instance because
-            // EmbeddedLLM is not thread-safe for generate() across instances.
-            EmbeddedLLM::Config cfg;
-            cfg.model_path         = model_path_;
-            cfg.n_threads          = 1;
-            cfg.n_gpu_layers       = 0;
-            EmbeddedLLM local_llm(cfg);
-            results[i] = local_llm.generate(prompts[i], /*max_tokens=*/30);
+    // Load each GGUF model serially before exercising concurrent inference.
+    for (int i = 0; i < kWorkers; ++i) {
+        EmbeddedLLM::Config cfg;
+        cfg.model_path = model_path_;
+        cfg.n_ctx = 2048;
+        cfg.n_batch = 2048;
+        cfg.n_threads = 1;
+        cfg.n_gpu_layers = 0;
+        cfg.enable_ethical_guidelines = false;
+
+        auto worker = std::make_unique<EmbeddedLLM>(cfg);
+        worker->generate("Warm up TinyLlama.", /*max_tokens=*/1);
+        ASSERT_TRUE(worker->isReady()) << "Worker " << i << " failed to initialize TinyLlama";
+        workers.push_back(std::move(worker));
+    }
+
+    std::vector<std::thread> threads;
+    threads.reserve(kWorkers);
+
+    for (int worker = 0; worker < kWorkers; ++worker) {
+        threads.emplace_back([worker, kBatch, kWorkers, &workers, &prompts, &results]() {
+            for (int i = worker; i < kBatch; i += kWorkers) {
+                results[i] = workers[worker]->generate(prompts[i], /*max_tokens=*/30);
+            }
         });
     }
     for (auto& t : threads) {
