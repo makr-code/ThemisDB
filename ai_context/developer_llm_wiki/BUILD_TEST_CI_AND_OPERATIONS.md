@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-10"
+Last Updated: "2026-11-11"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,86 +14,8 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-10
+Datum: 2026-11-11
 Status: Active
-
-## Docker runtime APT mirror synchronization recovery
-
-Run [42762843024, job 129655324640](https://github.com/makr-code/ThemisDB/actions/runs/42762843024/job/129655324640)
-failed in the runtime stage's `apt-get update`: the Noble security package index
-had an unexpected size relative to its signed release metadata. Compilation and
-runtime smoke validation were not reached. The runtime stage in
-[`docker/Dockerfile.unified`](../../docker/Dockerfile.unified) now retries index
-refreshes up to five times, clearing failed indexes and waiting 15 seconds
-between attempts. `--error-on=any` rejects partial index refreshes; persistent
-failures remain fatal and package signature/hash verification is unchanged.
-The independent runtime stage does not inherit base-stage APT configuration.
-[`tests/test_docker_runtime_package_regressions.py`](../../tests/test_docker_runtime_package_regressions.py)
-executes the shell logic for immediate success, transient recovery, exhausted
-retries, and package installation failure. A full platform image build remains
-required in CI from a source revision containing this fix.
-
-## Docker Python autoreconf prerequisite gate
-
-The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap. Release-source preflight, the reusable platform workflow, and the platform test enforce `test_base_installs_python_autoreconf_prerequisites`. For the compliance export, `docker-compose.yml` selects the repository-root [Dockerfile](../../Dockerfile), not `docker/Dockerfile.unified`. The earlier failed run [42321944686](https://github.com/makr-code/ThemisDB/actions/runs/42321944686/job/128248301027) used the root Dockerfile before this prerequisite was added; the missing package matched vcpkg's warning and was a likely cause of its `python3:x64-linux` `autoreconf -vfi` failure, although stderr was not captured. Follow-up run [42761863772](https://github.com/makr-code/ThemisDB/actions/runs/42761863772) succeeded at SBOM and C5 manifest packaging/validation/upload, but the SOC 2 export failed during root Dockerfile apt package downloads from `security.ubuntu.com` (timeout/404) before vcpkg/Python. It therefore does not verify the prerequisite. SBOM signing and tag-only provenance were skipped, and a successful SOC 2 evidence-export build remains required. An older selected source without this package can still fail during `autoreconf`; rerunning that workflow does not change its source. Use a new release tag containing the fix, or set `build_from_workflow_source=true` for non-publishing validation. See the [operational guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting) for details.
-
-## C5 key-lifecycle persisted-event test
-
-`tests/auth/test_c5_key_lifecycle_audit_evidence.cpp` exercises the real `JWTKeyRotationManager::rotateActiveKey()` API with an attached `AuditLogger` and asserts the persisted `KEY_ROTATED` JSONL record. It is registered as `release_critical`; the PR gate uploads its JUnit result and JSONL output, and mainline CTest evidence includes the audit-output directory. This is API-level coverage only: application-runtime logger wiring is unverified, the test has not yet passed CI, and five other required lifecycle event classes have no production emitter. The local configure attempt could not complete because RocksDB development dependencies were unavailable. See the canonical [C5 key lifecycle evidence map](../../audit/evidence/c5/KEY_LIFECYCLE_AUDIT_EVENTS.md).
-
-## Windows dependency snapshot handoff
-
-Run `42638257654`, job `129657233420` failed before compilation because the
-completed dependency cache saved by preparation was no longer available on a
-failed-job rerun, despite an identical key. The canonical
-`.github/workflows/reusable-cmake-build.yml` now uploads the completed snapshot
-as a 30-day run artifact; `release-build-matrix.yml` passes its immutable artifact
-ID and source/configure/toolchain identity to the consumer. Consumption requires
-that artifact and retains binary-only vcpkg installation and identity validation.
-Caches accelerate preparation only; partial preparation snapshots are never
-published as completed artifacts. Failed-job reruns reuse the original producer's
-artifact ID, not the current attempt number. If the artifact expires, rerun
-preparation too. Older workflow revisions require a new run containing this fix.
-Focused coverage: `tests/test_windows_dependency_preparation.py`.
-
-Run `42768142107`, job `129687972024` downloaded that artifact but failed
-restoration because Git Bash's `tar` could not resolve the Windows-form
-`GITHUB_WORKSPACE` path passed to `-C`. Snapshot creation and restoration now
-normalize the workspace with `cygpath -u`; restoration also ensures the cache
-directory exists. The round-trip regression models a Windows-form workspace and
-executes real archive/extract commands with spaced paths, while retaining
-identity-mismatch and missing-artifact rejection.
-
-Attempt 2 of the same run, [job `129791530083`](https://github.com/makr-code/ThemisDB/actions/runs/42768142107/job/129791530083),
-repeated this failure: artifact download succeeded, but the executed workflow
-still passed `"$GITHUB_WORKSPACE/.cache"` directly to `tar -C`, which exited with
-code 2 (`Cannot open: No such file or directory`). Configuration, compilation,
-and CTest were skipped; the subsequent missing CTest evidence is a consequence,
-not the root cause. The current workflow already normalizes the workspace and
-creates the extraction directory. All 28 Windows dependency preparation tests
-passed locally on 2026-11-10, including the archive round trip. Start a new
-mainline run from a revision containing the corrected reusable workflow; another
-failed-job rerun of this old run does not pick up that workflow fix. Native
-Windows validation of the corrected workflow remains pending.
-
-## MSVC monitoring route translation-unit split
-
-Run `42638257654`, job `129343673144` failed with VS18 MSVC 14.51 `C1060` at
-`monitoring_api_handler.cpp(2246)` despite serial compilation and
-`/Od /Ob0 /GL- /bigobj /Zm200`. Only `MonitoringApiHandler::registerRoutes()`
-(all 47 routes unchanged) is moved to `src/server/monitoring_api_routes.cpp`,
-registered in both build layouts with the handler's existing MSVC properties.
-No API or flag changes; modular non-Debug low-memory defaults and opt-out are
-preserved. Follow-up run `42747840520`, job `129662241930` still failed at
-`monitoring_api_routes.cpp(155)` with `C1060`. Registration now delegates to eight
-file-local helpers (at most ten routes each), bounding per-function nested JSON
-initializer pressure while preserving all annotations and registration order.
-`tests/test_mainline_compiler_regressions.py` checks the batch bound and dispatch;
-`tests/server/test_server_openapi_drift_focused.cpp` covers actual registration,
-the nested license schema, and repeat-registration stability.
-Native Windows validation remains pending. See
-[MSVC Handler Optimization](../../cmake/README.md#msvc-handler-optimization)
-for current policy and preserved historical evidence.
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
@@ -132,7 +54,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/build-mainline.yml
 - Kategorie: build_test_ci
-- Hash: `9aaef349e879d011`
+- Hash: `3db25366a551d209`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-ollama-router.yml
@@ -142,7 +64,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/build-sanitizer-nightly.yml
 - Kategorie: build_test_ci
-- Hash: `7470a71221beba83`
+- Hash: `e840eaa2420ff43b`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-wave-a-gpu.yml
@@ -157,7 +79,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/build-wave-b-transaction.yml
 - Kategorie: build_test_ci
-- Hash: `f579060afd0e175b`
+- Hash: `475664dc69013385`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-widget.yml
@@ -177,7 +99,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/compliance-supply-chain.yml
 - Kategorie: build_test_ci
-- Hash: `bc00b2b0ce899fbe`
+- Hash: `e3960e11ebd153b0`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/copilot-code-review.yml
@@ -227,7 +149,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/gate-pr-core.yml
 - Kategorie: build_test_ci
-- Hash: `3f2c61ecfe6d0cd3`
+- Hash: `f6b3d9196a2bddfb`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-doc-metadata.yml
@@ -412,7 +334,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/release-build-matrix.yml
 - Kategorie: build_test_ci
-- Hash: `d26d94005b21de87`
+- Hash: `b7c16117043aed1c`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-changelog.yml
