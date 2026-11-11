@@ -53,6 +53,10 @@ provider-side code even when their historical filename contains "helpers".
 
 1. Internal consumers obtain candidates through `RAGProvider`; explicit external
    evidence remains a supported consumer input.
+   The AQL RAG consumer passes its timeout manager's cancellation token and
+   matching deadline through `RetrievalExecutionContext`. Deadline and
+   cancellation checks are cooperative and cannot interrupt a blocking backend
+   call.
 2. It may pass candidate lists to `HybridRetriever` for fusion; fusion does not
    perform index search.
 3. For generation, both llama.cpp wrappers call the shared

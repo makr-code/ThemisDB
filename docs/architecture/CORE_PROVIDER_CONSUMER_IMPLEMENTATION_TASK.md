@@ -69,6 +69,10 @@ wrappers.
   `makeRAGCandidate` parses complete, nonempty source-reference type, collection,
   and key fields and materializes text from `content`, `text`, `body`, or
   `text_snippet`; the helper performs no source lookup.
+- `LLMAQLHandler::executeRAG()` passes its timeout manager cancellation token to
+  `RAGProvider`. It now also passes a per-execution deadline derived from the
+  configured AQL RAG timeout; both checks remain cooperative around QueryEngine
+  calls and cannot interrupt a blocking backend operation.
 - `search`, `LayeredRetrievalOrchestrator`, `ProcessGraphRag`, and
   `ethics_ai/RAGContextEngine` have specialized behavior. Preserve their domain
   policies; this task does not migrate all of them.
@@ -81,9 +85,11 @@ Update or narrow this task if source evidence differs before coding.
 The current source diff adds `RAGSourceReference` and candidate parsing for exact
 source-reference fields; records exact source identity on vector ingestion
 entities; stores ContentManager chunk text and its exact `chunk:<id>` locator on
-the corresponding vector entity; and gates vector-key hydration on an exact
-initialized vector-index/query namespace match. Focused test-source changes are
-present in the worktree, but no test execution result is recorded here.
+the corresponding vector entity; gates vector-key hydration on an exact
+initialized vector-index/query namespace match; and propagates the AQL RAG
+timeout as a cooperative retrieval deadline. Focused test-source changes
+include real QueryEngine-backed source-materialization and deadline cases, but
+no test execution result is recorded here.
 
 This is partial implementation progress, not completion of this task or its
 acceptance criteria. In particular, normal vector ingestion currently carries
@@ -92,8 +98,10 @@ a source dereference implementation. Do not claim that normal ingestion now
 fetches the authoritative full source text.
 
 Still pending: trace and verify real HTTP/AQL/YAML startup and request wiring;
-complete per-request authorization, tenant/collection isolation and context
-propagation; establish the evidence-backed role map for all direct `src/`
+complete production composition; complete per-request authorization,
+tenant/collection isolation and context propagation (AQL cancellation/deadline
+propagation is a narrow verified slice, not full caller-context isolation);
+establish the evidence-backed role map for all direct `src/`
 directories; complete source materialization/compatibility and remaining
 acceptance cases; and run and record the required focused tests and registration
 checks. Keep every acceptance checkbox below open until its criterion is

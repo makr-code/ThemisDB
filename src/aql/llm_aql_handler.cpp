@@ -1236,7 +1236,22 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                                "Circuit breaker is open - LLM service temporarily unavailable");
         }
 
-        // Execute with timeout and cooperative cancellation propagated to streaming callbacks.
+        // Keep the retrieval provider's cooperative deadline aligned with the
+        // timeout manager's cancellation budget. QueryEngine backend calls are
+        // not interruptible, but retrieval can stop as soon as one returns.
+        const auto retrieval_started_at = std::chrono::steady_clock::now();
+        const auto retrieval_timeout = impl_->timeout_manager_.getConfig().rag_timeout;
+        const auto max_retrieval_timeout = std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::steady_clock::time_point::max() - retrieval_started_at);
+        const auto retrieval_deadline =
+            retrieval_timeout <= std::chrono::seconds::zero()
+                ? retrieval_started_at
+                : (retrieval_timeout >= max_retrieval_timeout
+                    ? std::chrono::steady_clock::time_point::max()
+                    : retrieval_started_at + retrieval_timeout);
+
+        // Execute with timeout and cooperative cancellation propagated to retrieval
+        // and streaming callbacks.
         auto result = impl_->timeout_manager_.executeRAGWithCancelToken([&](auto cancel_token) {
             return impl_->retry_policy_.executeWithRetry(
                 [&]() {
@@ -1277,6 +1292,7 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                     retrieval_request.max_candidates = static_cast<std::size_t>(top_k);
                     rag::RetrievalExecutionContext execution_context;
                     execution_context.cancelled = cancel_token;
+                    execution_context.deadline = retrieval_deadline;
                     const rag::RAGProvider provider(*impl_->query_engine_);
                     auto evidence = provider.retrieve(retrieval_request, execution_context);
                     if (!evidence) {

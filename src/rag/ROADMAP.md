@@ -51,6 +51,10 @@ registration, persistent storage, external telemetry, or production readiness.
     vector-key hydration in QueryEngine.
   - This is partial implementation progress. Normal ingestion's in-entity
     `text_snippet` does not prove authoritative full-source dereferencing.
+  - `LLMAQLHandler::executeRAG()` now passes the timeout manager's cancellation
+    token and configured retrieval deadline to `RAGProvider`. Both checks are
+    cooperative and cannot interrupt a blocking QueryEngine operation; the new
+    backend-delay regression test has not been run.
   - Real HTTP/AQL/YAML startup wiring, full request-context/auth isolation, the
     complete direct-`src/` role map, remaining acceptance criteria, and focused
     test execution/evidence remain pending. See

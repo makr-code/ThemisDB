@@ -33,9 +33,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   materialization, and vector-namespace-gated vector-key hydration.
 - This is incremental implementation work, not Core task acceptance: normal
   ingestion's `text_snippet` is not authoritative full-source dereferencing.
-  Real HTTP/AQL/YAML startup wiring, complete request-context/auth isolation,
-  the complete source-role map, remaining acceptance criteria, and focused test
-  execution remain pending. See
+  The AQL RAG path now passes a retrieval deadline matching its configured
+  timeout alongside the existing cooperative cancellation token. This does not
+  interrupt a blocking QueryEngine call or establish full request-context/auth
+  isolation. Real HTTP/AQL/YAML startup wiring, the complete source-role map,
+  remaining acceptance criteria, and focused test execution remain pending. See
   `docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md`.
 
 <!--
