@@ -934,7 +934,7 @@ class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
                   supported=True, explicit_memory=False, sdk_enum=False):
         dependencies = (ROOT / "cmake/Dependencies.cmake").read_text()
         block = dependencies.split(
-            "    # ggml-metal.cpp uses std::unique_ptr without including <memory>.\n", 1
+            "    # The pinned ggml-metal.cpp uses std::unique_ptr without including <memory>.\n", 1
         )[1].split("    # =========================================================================", 1)[0]
         header = "#include <memory>\n" if explicit_memory else ""
         (directory / "metal.cpp").write_text(
@@ -945,7 +945,7 @@ class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
             "typedef enum SDKEnum : unsigned SDKEnum;\n"
         ) if sdk_enum else ""
         (directory / "cpu.cpp").write_text(sdk_header + "int cpu() { return 0; }\n")
-        (directory / "blas.cpp").write_text(sdk_header + "int blas() { return 0; }\n")
+        (directory / "blas.cpp").write_text("int blas() { return 0; }\n")
         (directory / "helper.c").write_text("int helper(void) { return 0; }\n")
         (directory / "consumer.cpp").write_text("int consumer() { return 0; }\n")
         target_definitions = (
@@ -961,7 +961,8 @@ class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
             "set(CMAKE_EXPORT_COMPILE_COMMANDS ON)\n"
             f"set(APPLE {'TRUE' if apple else 'FALSE'})\n"
             f'set(CMAKE_CXX_COMPILER_ID "{compiler_id}")\n'
-            f"set(THEMIS_LLAMA_HAS_ELABORATED_ENUM_BASE {'TRUE' if supported else 'FALSE'})\n"
+            + (f"set(_THEMIS_HAVE_ELABORATED_ENUM_BASE {'TRUE' if supported else 'FALSE'})\n"
+               if supported is not None else "")
             + target_definitions + block
         )
         result = subprocess.run(
@@ -994,7 +995,7 @@ class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
                         self.assertEqual(words[words.index("-include") + 1], "memory")
                     self.assertEqual(
                         "-Wno-error=elaborated-enum-base" in words,
-                        source in {"cpu.cpp", "blas.cpp"},
+                        source == "cpu.cpp",
                     )
 
     def test_nonapple_build_has_no_workaround_flags(self):
@@ -1036,6 +1037,16 @@ class GgmlAppleBackendWorkaroundTests(unittest.TestCase):
     def test_missing_backend_targets_configure_safely(self):
         with tempfile.TemporaryDirectory() as temp:
             self.configure(Path(temp), targets=False)
+
+    def test_sdk_flag_is_detected_by_compiler_probe(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.configure(directory, supported=None, sdk_enum=True)
+            result = self.build(directory)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            commands = json.loads((directory / "build/compile_commands.json").read_text())
+            cpu = next(item for item in commands if Path(item["file"]).name == "cpu.cpp")
+            self.assertIn("-Wno-error=elaborated-enum-base", cpu["command"].split())
 
     def test_sdk_flag_requires_supported_homebrew_clang(self):
         for compiler_id, supported in (("AppleClang", True), ("GNU", True), ("Clang", False)):
