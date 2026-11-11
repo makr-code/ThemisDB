@@ -294,7 +294,7 @@ TEST_F(OpenApiDriftTest, MonitoringRegistrationBatchesPreserveRoutesAndAreRepeat
     }
     const auto& license_response = paths.at("/api/v1/license/status").at("get")
         .at("responses").at("200");
-    EXPECT_EQ(license_response, json::parse(R"({
+    EXPECT_EQ(license_response, nlohmann::json::parse(R"({
         "description": "License status document",
         "content": {"application/json": {"schema": {
             "type": "object",
