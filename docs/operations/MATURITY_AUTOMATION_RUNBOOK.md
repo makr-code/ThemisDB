@@ -17,7 +17,7 @@ Human_Author: "ThemisDB Team"
 **Document:** Operations Guide for Phase 2/3 Automation Infrastructure  
 **Version:** 1.0  
 **Owner:** Platform Release / @makr-code  
-**Last Updated:** 2026-11-12  
+**Last Updated:** 2026-11-12
 **Target Audience:** Release Leads, Infrastructure Engineers, DevOps
 
 ---
