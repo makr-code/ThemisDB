@@ -21,7 +21,7 @@ Status: Active
 
 - Added: 0
 - Removed: 0
-- Changed: 0
+- Changed: 4
 
 ## Added
 
@@ -33,4 +33,7 @@ Status: Active
 
 ## Changed
 
-- none
+- CHANGELOG.md
+- docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md
+- docs/rag/API.md
+- src/rag/ROADMAP.md

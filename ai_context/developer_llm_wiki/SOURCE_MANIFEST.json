@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T06:12:56+00:00",
+  "generated_at": "2026-11-12T06:29:44+00:00",
   "source_count": 8090,
   "sources": [
     {
@@ -735,9 +735,9 @@
     {
       "path": "CHANGELOG.md",
       "category": "governance_and_docs",
-      "size": 112122,
-      "sha256": "631c85bed52f6d8050a1ed8301ff98ba57eb8a0da4bb6af7ca1986aa429b92d1",
-      "modified_utc": "2026-11-12T06:10:18+00:00"
+      "size": 112643,
+      "sha256": "51ad51ca966b2fe9861dfeded1dd77acc208377a37e0004eb5da4d93e98aac8c",
+      "modified_utc": "2026-11-12T06:28:15+00:00"
     },
     {
       "path": "DOCUMENTATION_GOVERNANCE.md",
@@ -17675,9 +17675,9 @@
     {
       "path": "docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md",
       "category": "governance_and_docs",
-      "size": 13696,
-      "sha256": "daa73d0ae611a12385380ab84e73229e30b7590d0a4e9b2d820ce05596449df4",
-      "modified_utc": "2026-11-12T06:10:18+00:00"
+      "size": 14188,
+      "sha256": "8f8b2c135394a461dac3c638f7651473787883ca697ed8c9bafad6f53d6de783",
+      "modified_utc": "2026-11-12T06:28:05+00:00"
     },
     {
       "path": "docs/architecture/CRYPTO_AND_KEYS.md",
@@ -37051,9 +37051,9 @@
     {
       "path": "docs/rag/API.md",
       "category": "governance_and_docs",
-      "size": 10322,
-      "sha256": "88156f2040ef3e83125e3e0a2fcdd7ecc4618a5107008340ecac3eaf0e574ebb",
-      "modified_utc": "2026-11-12T06:10:18+00:00"
+      "size": 10625,
+      "sha256": "b89b794b4d436b30ccd98ce479df0fcc1e0b119f6143c45fbaeaac2573132cf1",
+      "modified_utc": "2026-11-12T06:28:15+00:00"
     },
     {
       "path": "docs/rag/README.md",
@@ -56091,9 +56091,9 @@
     {
       "path": "src/rag/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 79278,
-      "sha256": "186d6e59449c56de17a61704e25ab5aa8f7cab82f52e107ce1e7ca7ac14f2044",
-      "modified_utc": "2026-11-12T06:10:18+00:00"
+      "size": 79586,
+      "sha256": "c38a9cb6cb1e347fc810b453a666ba03e35b3960dedddd12c24dcc0ff3507ad3",
+      "modified_utc": "2026-11-12T06:29:41+00:00"
     },
     {
       "path": "src/rag/examples/README.md",
