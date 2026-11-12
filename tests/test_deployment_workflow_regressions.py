@@ -460,13 +460,29 @@ class DeploymentWorkflowTests(unittest.TestCase):
         self.assertNotEqual(values["source_sha"], tagged_sha)
         self.assertIn("Docker Hub overwrite enabled", result.stdout)
 
+    def test_dockerhub_overwrite_with_both_registry_is_scoped_to_dockerhub(self):
+        script = step("release-docker-image.yml", "prepare-release-context", "version")["run"]
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.make_source(directory)
+            result, values = run_bash(
+                script, directory, EVENT_NAME="workflow_dispatch", GIT_REF="refs/heads/develop",
+                TAG_INPUT="v2.4.0", PUSH_INPUT="true", DRY_RUN="false",
+                BUILD_FROM_WORKFLOW_SOURCE="false", OVERWRITE_DOCKERHUB_IMAGE="true",
+                REGISTRY="both", OVERRIDE_SOURCE_PREFLIGHT="false",
+                GITHUB_EVENT_PATH="/dev/null",
+            )
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        self.assertEqual(values["registry"], "docker.io")
+        self.assertIn("limiting publication to Docker Hub", result.stdout)
+
     def test_dockerhub_overwrite_requires_explicit_safe_dispatch_settings(self):
         script = step("release-docker-image.yml", "prepare-release-context", "version")["run"]
         cases = [
             {"EVENT_NAME": "workflow_call"},
             {"TAG_INPUT": ""},
             {"PUSH_INPUT": "false"},
-            {"REGISTRY": "both"},
+            {"REGISTRY": "ghcr.io"},
             {"DRY_RUN": "true"},
             {"BUILD_FROM_WORKFLOW_SOURCE": "true"},
             {"OVERRIDE_SOURCE_PREFLIGHT": "true"},
