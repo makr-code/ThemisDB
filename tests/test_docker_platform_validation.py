@@ -92,6 +92,46 @@ class DockerPlatformValidationTests(unittest.TestCase):
         self.assertIn("!inputs.dry_run", by_name["Write digest artifact"]["if"])
         self.assertIn("!inputs.dry_run", by_name["Upload platform digest"]["if"])
 
+    def test_runtime_gate_uses_local_image_id_not_build_manifest_digest(self) -> None:
+        workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        step = next(
+            step for step in workflow["jobs"]["build"]["steps"]
+            if step.get("name") == "Validate final image runtime without build-host libraries"
+        )
+        self.assertNotIn("IMAGE_DIGEST", step["env"])
+        for platform in ("linux-amd64", "linux-arm64"):
+            for inspect_ok in (True, False):
+                with self.subTest(platform=platform, inspect_ok=inspect_ok), tempfile.TemporaryDirectory() as tmp:
+                    root = Path(tmp)
+                    bash_env = root / "functions"
+                    bash_env.write_text(
+                        'git() { :; }\n'
+                        'docker() { printf "%s\\n" "$*" >> "$CALLS"; '
+                        'if [ "$INSPECT_OK" = true ]; then echo sha256:local-image-id; '
+                        'else return 1; fi; }\n'
+                        'python3() { printf "%s\\n" "$*" >> "$CALLS"; }\n',
+                        encoding="utf-8",
+                    )
+                    run = step["run"].replace("${{ steps.platform-tag.outputs.value }}", platform)
+                    image = f"example.invalid/themisdb:84-{platform}"
+                    result = subprocess.run(
+                        ["bash", "-euo", "pipefail", "-c", run],
+                        env={**os.environ, "BASH_ENV": str(bash_env), "CALLS": str(root / "calls"),
+                             "INSPECT_OK": str(inspect_ok).lower(), "RUNNER_TEMP": tmp,
+                             "WORKFLOW_SHA": "source-sha", "IMAGE_REF": image,
+                             "IMAGE_DIGEST": "sha256:unpublished-manifest"},
+                        capture_output=True, text=True,
+                    )
+                    calls = (root / "calls").read_text(encoding="utf-8")
+                    self.assertIn(f"image inspect --format {{{{.Id}}}} {image}", calls)
+                    if inspect_ok:
+                        self.assertEqual(result.returncode, 0, result.stderr)
+                        self.assertIn("--image sha256:local-image-id", calls)
+                        self.assertNotIn("sha256:unpublished-manifest", calls)
+                    else:
+                        self.assertNotEqual(result.returncode, 0)
+                        self.assertNotIn("--image", calls)
+
     def test_release_forwards_source_preflight_override_to_platforms(self) -> None:
         jobs = yaml.safe_load(RELEASE_WORKFLOW.read_text(encoding="utf-8"))["jobs"]
         build = jobs["build-platforms"]
