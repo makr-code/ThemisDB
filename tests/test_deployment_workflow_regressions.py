@@ -288,6 +288,47 @@ class DeploymentWorkflowTests(unittest.TestCase):
                 self.assertIn(expected_error, result.stderr)
                 self.assertNotIn("matrix=", values)
 
+    def test_release_matrix_presets_respect_platform_filters(self):
+        script = step("release-build-matrix.yml", "prepare-release-matrix", "plan")["run"]
+        common_environment = {
+            "OS_SELECTOR": "windows",
+            "ARCH_SELECTOR": "all",
+            "EDITION": "community",
+            "BUILD_TYPE": "Release",
+            "PACKAGING": "auto",
+            "DISTRIBUTION": "all",
+            "RUN_NUMBER": "123",
+        }
+        with tempfile.TemporaryDirectory() as temp:
+            result, values = run_bash(
+                script, Path(temp), **{**common_environment, "BUILD_MATRIX": "community-only"}
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        entries = json.loads(values["matrix"])["include"]
+        self.assertEqual({entry["id"] for entry in entries}, {"windows-amd64"})
+
+    def test_conflicting_release_matrix_presets_fail_with_selector_context(self):
+        script = step("release-build-matrix.yml", "prepare-release-matrix", "plan")["run"]
+        environment = {
+            "BUILD_MATRIX": "linux-amd64-only",
+            "OS_SELECTOR": "windows",
+            "ARCH_SELECTOR": "all",
+            "EDITION": "community",
+            "BUILD_TYPE": "Release",
+            "PACKAGING": "auto",
+            "DISTRIBUTION": "all",
+            "RUN_NUMBER": "123",
+        }
+        with tempfile.TemporaryDirectory() as temp:
+            result, values = run_bash(script, Path(temp), **environment)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn(
+            "Release matrix selected no platforms for build_matrix=linux-amd64-only, "
+            "os=windows, architecture=all",
+            result.stderr,
+        )
+        self.assertNotIn("matrix=", values)
+
     def test_reusable_build_preserves_diagnostics_but_not_packages_after_failure(self):
         steps = workflow("reusable-cmake-build.yml")["jobs"]["build"]["steps"]
         diagnostics = next(item for item in steps if item["name"] == "Upload artifacts")

@@ -188,36 +188,20 @@ jobs:
           )
 
           def lane_enabled(lane_id: str) -> bool:
-              # Platform-specific -only patterns
-              if build_matrix == "linux-amd64-only":
-                  return lane_id == "linux-amd64"
-              if build_matrix == "linux-arm64-only":
-                  return lane_id == "linux-arm64"
-              if build_matrix == "windows-amd64-only":
-                  return lane_id == "windows-amd64"
-              if build_matrix == "macos-arm64-only":
-                  return lane_id == "macos-arm64"
-
-              # Community release lane intentionally excludes the experimental macOS ARM64
-              # package path until the lane is GA. Nightly and community publication must
-              # only exercise the supported public build targets.
-              if build_matrix == "community-only":
-                  return lane_id in {"linux-amd64", "linux-arm64", "windows-amd64"}
-
-              # Edition-only patterns (e.g., "enterprise-only", "hyperscaler-only") and
-              # generic selectors. These still include experimental macOS when explicitly
-              # selected via os=macos or build_matrix=all.
-              if build_matrix.endswith("-only") or build_matrix in ("os", "all"):
-                  if lane_id.startswith("linux"):
-                      lane_os, lane_arch = "linux", lane_id.split("-")[1]
-                  elif lane_id.startswith("windows"):
-                      lane_os, lane_arch = "windows", lane_id.split("-")[1]
-                  else:
-                      lane_os, lane_arch = "macos", lane_id.split("-")[1]
-
-                  return (os_selector in ("all", lane_os)) and (arch_selector in ("all", lane_arch))
-
-              return False
+              lane_os = lane_id.split("-")[0]
+              lane_arch = lane_id.split("-")[1]
+              lane_sets = {
+                  "linux-amd64-only": {"linux-amd64"},
+                  "linux-arm64-only": {"linux-arm64"},
+                  "windows-amd64-only": {"windows-amd64"},
+                  "macos-arm64-only": {"macos-arm64"},
+                  # Community publication excludes experimental macOS until that lane is GA.
+                  "community-only": {"linux-amd64", "linux-arm64", "windows-amd64"},
+              }
+              allowed_lanes = lane_sets.get(build_matrix)
+              if allowed_lanes is not None and lane_id not in allowed_lanes:
+                  return False
+              return (os_selector in ("all", lane_os)) and (arch_selector in ("all", lane_arch))
 
           def generators_for(lane_os: str) -> str:
               if packaging and packaging.lower() != "auto":
@@ -462,7 +446,10 @@ jobs:
 
           selected = [entry for entry in entries if entry["enabled"]]
           if not selected:
-              raise ValueError("Release matrix selected no platforms")
+              raise ValueError(
+                  "Release matrix selected no platforms for "
+                  f"build_matrix={build_matrix}, os={os_selector}, architecture={arch_selector}"
+              )
           windows_lane = next(entry for entry in entries if entry["id"] == "windows-amd64")
           print(f"windows_lane={json.dumps(windows_lane)}")
           print(f"windows_enabled={str(windows_lane['enabled']).lower()}")
