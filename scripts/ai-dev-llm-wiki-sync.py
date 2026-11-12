@@ -423,7 +423,10 @@ def _curated_ops_sections(repo_root: Path, entries: Sequence[SourceEntry]) -> Li
 
     def save_current() -> None:
         if current_is_curated and current:
-            sections.extend(current)
+            curated_lines = list(current)
+            while curated_lines and not curated_lines[-1]:
+                curated_lines.pop()
+            sections.extend(curated_lines)
             sections.append("")
 
     for line in read_text_safe(ops_path).splitlines():
@@ -556,7 +559,10 @@ def validate_outputs(repo_root: Path, files: Sequence[Path], entries: Sequence[S
             target = match.group(1).strip()
             if not target or target.startswith("#") or "://" in target:
                 continue
-            resolved = (output_file.parent / target).resolve()
+            local_target = target.split("#", 1)[0]
+            if not local_target:
+                continue
+            resolved = (output_file.parent / local_target).resolve()
             if not resolved.exists():
                 findings.append(
                     ValidationFinding(

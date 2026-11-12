@@ -37,7 +37,6 @@ Release-candidate validation invokes the same verifier for Wave 7–9 groups.
 Operational guidance is in
 [`MATURITY_AUTOMATION_RUNBOOK.md`](../../docs/operations/MATURITY_AUTOMATION_RUNBOOK.md).
 
-
 ## Docker runtime APT mirror synchronization recovery
 
 Run [42762843024, job 129655324640](https://github.com/makr-code/ThemisDB/actions/runs/42762843024/job/129655324640)
@@ -54,16 +53,13 @@ executes the shell logic for immediate success, transient recovery, exhausted
 retries, and package installation failure. A full platform image build remains
 required in CI from a source revision containing this fix.
 
-
 ## Docker Python autoreconf prerequisite gate
 
 The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap. Release-source preflight, the reusable platform workflow, and the platform test enforce `test_base_installs_python_autoreconf_prerequisites`. For the compliance export, `docker-compose.yml` selects the repository-root [Dockerfile](../../Dockerfile), not `docker/Dockerfile.unified`. The earlier failed run [42321944686](https://github.com/makr-code/ThemisDB/actions/runs/42321944686/job/128248301027) used the root Dockerfile before this prerequisite was added; the missing package matched vcpkg's warning and was a likely cause of its `python3:x64-linux` `autoreconf -vfi` failure, although stderr was not captured. Follow-up run [42761863772](https://github.com/makr-code/ThemisDB/actions/runs/42761863772) succeeded at SBOM and C5 manifest packaging/validation/upload, but the SOC 2 export failed during root Dockerfile apt package downloads from `security.ubuntu.com` (timeout/404) before vcpkg/Python. It therefore does not verify the prerequisite. SBOM signing and tag-only provenance were skipped, and a successful SOC 2 evidence-export build remains required. An older selected source without this package can still fail during `autoreconf`; rerunning that workflow does not change its source. Use a new release tag containing the fix, or set `build_from_workflow_source=true` for non-publishing validation. See the [operational guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting) for details.
 
-
 ## C5 key-lifecycle persisted-event test
 
 `tests/auth/test_c5_key_lifecycle_audit_evidence.cpp` exercises the real `JWTKeyRotationManager::rotateActiveKey()` API with an attached `AuditLogger` and asserts the persisted `KEY_ROTATED` JSONL record. It is registered as `release_critical`; the PR gate uploads its JUnit result and JSONL output, and mainline CTest evidence includes the audit-output directory. This is API-level coverage only: application-runtime logger wiring is unverified, the test has not yet passed CI, and five other required lifecycle event classes have no production emitter. The local configure attempt could not complete because RocksDB development dependencies were unavailable. See the canonical [C5 key lifecycle evidence map](../../audit/evidence/c5/KEY_LIFECYCLE_AUDIT_EVENTS.md).
-
 
 ## Windows dependency snapshot handoff
 
@@ -99,7 +95,6 @@ passed locally on 2026-11-10, including the archive round trip. Start a new
 mainline run from a revision containing the corrected reusable workflow; another
 failed-job rerun of this old run does not pick up that workflow fix. Native
 Windows validation of the corrected workflow remains pending.
-
 
 ## MSVC monitoring route translation-unit split
 
@@ -137,23 +132,19 @@ Native Windows validation remains pending. See
 [MSVC Handler Optimization](../../cmake/README.md#msvc-handler-optimization)
 for current policy and preserved historical evidence.
 
-
 ## PR Merge Readiness failure: status-call concurrency and final runtime
 
 Run [42964785412](https://github.com/makr-code/ThemisDB/actions/runs/42964785412) recorded `call-plugin-boundary=cancelled` and `call-final-runtime-api=failure` on parent job [130384787522](https://github.com/makr-code/ThemisDB/actions/runs/42964785412/job/130384787522). The actual plugin enforcement job [130364267816](https://github.com/makr-code/ThemisDB/actions/runs/42964785412/job/130364267816) succeeded; the optional `human-loop-resolution` status-call job [130365663917](https://github.com/makr-code/ThemisDB/actions/runs/42964785412/job/130365663917) was cancelled. Therefore the cancelled parent plugin call is not evidence that plugin enforcement failed; the final-runtime failure remains a separate readiness failure.
 
 The reusable status workflow now scopes its concurrency group by operation plus a stable target identity (issue number, or marker/title when no issue number is available), while keeping `cancel-in-progress: false`. This avoids unrelated status calls from sharing a caller/ref group; a subsequent CI run is still required to verify the parent gate no longer inherits a cancelled label-resolution result.
 
-
 ## TinyLlama inference gate: missing modular EmbeddedLLM runtime
 
 Run [42964785479, job 130387233834](https://github.com/makr-code/ThemisDB/actions/runs/42964785479/job/130387233834) failed five TinyLlama tests with `EmbeddedLLM: no backend configured`; modular inference had selected the API stub instead of the real facade. The current branch's `tests/llm/CMakeLists.txt` now requires `THEMIS_ENABLE_LLM=ON`, compiles `src/llm/embedded_llm.cpp` into the model-backed modular inference targets, and links `themis_llm`; the inference workflow enables LLM. The cited failure predates these changes and cannot verify them. A prior local CMake configure did not reach target generation because RocksDB development headers were unavailable. CI validation of this remediation remains pending; no current-branch test pass is claimed.
 
-
 ## Release-critical test artifact executable modes
 
 In the same run, [job 130381306099](https://github.com/makr-code/ThemisDB/actions/runs/42964785479/job/130381306099) failed three restored CTest executables with `permission denied`. The build directory had been transferred directly as an Actions artifact, which did not preserve executable modes. `.github/workflows/gate-pr-core.yml` now transfers the build directory inside a tar archive and extracts it before CTest; a local tar round-trip verified executable-mode preservation. The latest PR Core run is `action_required`, so CI validation of this fix remains pending.
-
 
 ## Docker runtime APT mirror synchronization recovery
 
@@ -171,23 +162,19 @@ executes the shell logic for immediate success, transient recovery, exhausted
 retries, and package installation failure. A full platform image build remains
 required in CI from a source revision containing this fix.
 
-
 ## PostgreSQL SQL-dump importer linkage
 
 [Run `42854980938`, job `129982571957`](https://github.com/makr-code/ThemisDB/actions/runs/42854980938/job/129982571957) failed while linking `module_importers_test_postgres_insert_token_progress_focused`, before CTest, with undefined `PostgreSQLImporter` constructor, `initialize`, `importData`, and destructor symbols. [ModularBuild.cmake](../../cmake/ModularBuild.cmake) now always includes `../src/importers/postgres_importer.cpp`, matching the [monolithic importer registration](../../cmake/CMakeLists.txt): SQL-dump import is independent of `THEMIS_ENABLE_POSTGRES_WIRE`. In the modular layout, `postgres_session.cpp` and `postgres_importer_mdm.cpp` remain gated by that option.
 
 Reported specialist validation evaluated the extracted actual CMake source lists with wire ON/OFF: the importer appeared exactly once in both cases, while session and MDM sources remained conditional; the old OFF omission was reproduced in memory. All 10 existing [mainline compiler regression tests](../../tests/test_mainline_compiler_regressions.py) passed; no persistent test was added. Native C++ tests were not run locally because gtest, JSON, and spdlog headers were unavailable; successful native linking and CTest remain unverified.
 
-
 ## Docker Python autoreconf prerequisite gate
 
 The current Docker base stage installs `autoconf-archive` before vcpkg bootstrap. Release-source preflight, the reusable platform workflow, and the platform test enforce `test_base_installs_python_autoreconf_prerequisites`. For the compliance export, `docker-compose.yml` selects the repository-root [Dockerfile](../../Dockerfile), not `docker/Dockerfile.unified`. The earlier failed run [42321944686](https://github.com/makr-code/ThemisDB/actions/runs/42321944686/job/128248301027) used the root Dockerfile before this prerequisite was added; the missing package matched vcpkg's warning and was a likely cause of its `python3:x64-linux` `autoreconf -vfi` failure, although stderr was not captured. Follow-up run [42761863772](https://github.com/makr-code/ThemisDB/actions/runs/42761863772) succeeded at SBOM and C5 manifest packaging/validation/upload, but the SOC 2 export failed during root Dockerfile apt package downloads from `security.ubuntu.com` (timeout/404) before vcpkg/Python. It therefore does not verify the prerequisite. SBOM signing and tag-only provenance were skipped, and a successful SOC 2 evidence-export build remains required. An older selected source without this package can still fail during `autoreconf`; rerunning that workflow does not change its source. Use a new release tag containing the fix, or set `build_from_workflow_source=true` for non-publishing validation. See the [operational guidance](../../docs/en/deployment/DOCKER_MULTI_EDITION_BUILD.md#troubleshooting) for details.
 
-
 ## C5 key-lifecycle persisted-event test
 
 `tests/auth/test_c5_key_lifecycle_audit_evidence.cpp` exercises the real `JWTKeyRotationManager::rotateActiveKey()` API with an attached `AuditLogger` and asserts the persisted `KEY_ROTATED` JSONL record. It is registered as `release_critical`; the PR gate uploads its JUnit result and JSONL output, and mainline CTest evidence includes the audit-output directory. This is API-level coverage only: application-runtime logger wiring is unverified, the test has not yet passed CI, and five other required lifecycle event classes have no production emitter. The local configure attempt could not complete because RocksDB development dependencies were unavailable. See the canonical [C5 key lifecycle evidence map](../../audit/evidence/c5/KEY_LIFECYCLE_AUDIT_EVENTS.md).
-
 
 ## Windows dependency snapshot handoff
 
@@ -223,7 +210,6 @@ passed locally on 2026-11-10, including the archive round trip. Start a new
 mainline run from a revision containing the corrected reusable workflow; another
 failed-job rerun of this old run does not pick up that workflow fix. Native
 Windows validation of the corrected workflow remains pending.
-
 
 ## MSVC monitoring route translation-unit split
 

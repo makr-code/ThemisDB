@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T15:58:13+00:00",
+  "generated_at": "2026-11-12T15:59:52+00:00",
   "source_count": 8091,
   "sources": [
     {
@@ -54313,9 +54313,9 @@
     {
       "path": "scripts/ai-dev-llm-wiki-sync.py",
       "category": "build_test_ci",
-      "size": 27867,
-      "sha256": "819fded74af04492846886b5814aac527387b554bb2b63f217ff0fe45a107246",
-      "modified_utc": "2026-11-12T15:57:27+00:00"
+      "size": 28125,
+      "sha256": "fdf981e4fdb4ef42f857e8015ac79d922060a21758274cbcced0d31378329eab",
+      "modified_utc": "2026-11-12T15:59:42+00:00"
     },
     {
       "path": "scripts/ai-working-compact.py",

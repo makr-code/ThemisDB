@@ -108,6 +108,26 @@ class CuratedModuleIndexTests(unittest.TestCase):
             rendered.index("## .github/workflows/example.yml"),
         )
 
+    def test_output_link_validation_ignores_markdown_fragments(self):
+        wiki_sync = _load_module()
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo_root = Path(temp_dir)
+            wiki_dir = repo_root / "ai_context" / "developer_llm_wiki"
+            wiki_dir.mkdir(parents=True)
+            target = repo_root / "docs" / "operations" / "runbook.md"
+            target.parent.mkdir(parents=True)
+            target.write_text("# Runbook\n\n## Troubleshooting\n", encoding="utf-8")
+            output = wiki_dir / "BUILD_TEST_CI_AND_OPERATIONS.md"
+            output.write_text(
+                "[Valid link](../../docs/operations/runbook.md#troubleshooting)\n",
+                encoding="utf-8",
+            )
+
+            findings = wiki_sync.validate_outputs(repo_root, [output], [])
+
+        self.assertEqual(findings, [])
+
     def test_previous_source_manifest_is_used_for_delta(self):
         wiki_sync = _load_module()
 
