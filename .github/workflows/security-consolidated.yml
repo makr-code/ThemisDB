@@ -213,3 +213,20 @@ jobs:
 
   # DAST/ZAP — moved to .github/workflows/security-dast-zap.yml
   # See that workflow for baseline, api-scan, and full-scan modes.
+
+  run-summary:
+    name: Workflow run summary
+    runs-on: ubuntu-latest
+    needs: [trivy, gitleaks, kubesec]
+    if: always()
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Write workflow run summary
+        uses: ./.github/actions/write-run-summary
+        with:
+          scope: Consolidated security scans
+          job-results: ${{ toJSON(needs) }}

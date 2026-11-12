@@ -13,6 +13,30 @@ def load_workflow(name: str) -> dict:
 
 
 class WorkflowDryRunContractTests(unittest.TestCase):
+    def test_run_summary_jobs_cover_all_workflow_jobs(self) -> None:
+        expected = {
+            "build-content-regression.yml": {"content-regression", "wave-d-soak"},
+            "gate-pr-benchmark-ctest.yml": {"benchmark-ctest-coverage"},
+            "maintenance-ci-health.yml": {"ci-health-dashboard"},
+            "maintenance-workflow-guardrails-observe.yml": {"workflow-guardrails"},
+            "security-consolidated.yml": {"trivy", "gitleaks", "kubesec"},
+            "security-dast-zap.yml": {"zap-baseline", "zap-api-scan", "zap-full-scan"},
+        }
+
+        for workflow_name, expected_dependencies in expected.items():
+            with self.subTest(workflow=workflow_name):
+                jobs = load_workflow(workflow_name)["jobs"]
+                summary_job = jobs["run-summary"]
+                self.assertEqual(set(summary_job["needs"]), expected_dependencies)
+                self.assertEqual(summary_job["if"], "always()")
+                self.assertEqual(summary_job["permissions"], {"contents": "read"})
+
+                steps = summary_job["steps"]
+                self.assertEqual(steps[0]["uses"], "actions/checkout@v5")
+                self.assertIs(steps[0]["with"]["persist-credentials"], False)
+                self.assertEqual(steps[1]["uses"], "./.github/actions/write-run-summary")
+                self.assertEqual(steps[1]["with"]["job-results"], "${{ toJSON(needs) }}")
+
     def test_workflow_inputs_declare_types_and_descriptions(self) -> None:
         for workflow_path in sorted(WORKFLOWS.glob("*.yml")):
             workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8")) or {}
