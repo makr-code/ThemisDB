@@ -21,7 +21,7 @@ Status: Active
 
 - Added: 0
 - Removed: 0
-- Changed: 3
+- Changed: 5
 
 ## Added
 
@@ -35,4 +35,6 @@ Status: Active
 
 - CHANGELOG.md
 - docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md
-- docs/rag/API.md
+- include/ingestion/ingestion_sinks.h
+- include/query/query_engine.h
+- src/rag/ROADMAP.md

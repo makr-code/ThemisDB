@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T07:04:09+00:00",
+  "generated_at": "2026-11-12T07:48:23+00:00",
   "source_count": 8090,
   "sources": [
     {
@@ -735,9 +735,9 @@
     {
       "path": "CHANGELOG.md",
       "category": "governance_and_docs",
-      "size": 113128,
-      "sha256": "0780d13b7e8352509aa34e2c90837cc19ba3c9b4cbe7433dd7b5bac697b686a2",
-      "modified_utc": "2026-11-12T07:03:45+00:00"
+      "size": 113883,
+      "sha256": "cc99809e7d1f6a90bebb31af3dda4069525568474312f7959f177361e15315c0",
+      "modified_utc": "2026-11-12T07:47:10+00:00"
     },
     {
       "path": "DOCUMENTATION_GOVERNANCE.md",
@@ -17675,9 +17675,9 @@
     {
       "path": "docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md",
       "category": "governance_and_docs",
-      "size": 14690,
-      "sha256": "c39615ec5a680c5a3d74a5848849f903f287adeaa001f3d9fa47e16a061df812",
-      "modified_utc": "2026-11-12T07:03:44+00:00"
+      "size": 15445,
+      "sha256": "47fa19bd08e5ee6e6b77e3e352242f55c42df4bece196fbca8ad7765ea40d8cf",
+      "modified_utc": "2026-11-12T07:46:49+00:00"
     },
     {
       "path": "docs/architecture/CRYPTO_AND_KEYS.md",
@@ -43722,9 +43722,9 @@
     {
       "path": "include/ingestion/ingestion_sinks.h",
       "category": "modules_and_api",
-      "size": 22042,
-      "sha256": "2a4a31f987721e2bf65f51069ee011b8821efbe00352605c87646fd1bba30452",
-      "modified_utc": "2026-11-12T06:04:33+00:00"
+      "size": 22492,
+      "sha256": "b1cecc5ab27ee95e9d837efad15f2d23cfcd77ac49d120914949cfe9f0c6b215",
+      "modified_utc": "2026-11-12T07:44:37+00:00"
     },
     {
       "path": "include/ingestion/ingestion_step.h",
@@ -47754,9 +47754,9 @@
     {
       "path": "include/query/query_engine.h",
       "category": "modules_and_api",
-      "size": 33366,
-      "sha256": "72be9274c8a94bd25a6318e8ca0faa98c0256ed1a05908da0c2af4a6753ebf9e",
-      "modified_utc": "2026-11-12T06:09:38+00:00"
+      "size": 34090,
+      "sha256": "42544886b9ea8444edd6e7630a2818f7bf8f7fa6aba045116b95179f7277d0f8",
+      "modified_utc": "2026-11-12T07:45:36+00:00"
     },
     {
       "path": "include/query/query_executor.h",
@@ -56091,9 +56091,9 @@
     {
       "path": "src/rag/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 79586,
-      "sha256": "c38a9cb6cb1e347fc810b453a666ba03e35b3960dedddd12c24dcc0ff3507ad3",
-      "modified_utc": "2026-11-12T06:29:41+00:00"
+      "size": 80149,
+      "sha256": "a259eee0bf0286f68dfe58b2c0d0a5fd55a14c5eb9793574547ec85a9cb44016",
+      "modified_utc": "2026-11-12T07:46:53+00:00"
     },
     {
       "path": "src/rag/examples/README.md",
