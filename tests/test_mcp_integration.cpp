@@ -10,6 +10,8 @@
 #include "storage/rocksdb_wrapper.h"
 #include "metadata/schema_manager.h"
 #include "index/secondary_index.h"
+#include "index/graph_index.h"
+#include "storage/base_entity.h"
 #include <nlohmann/json.hpp>
 #include <string>
 #include <filesystem>
@@ -463,6 +465,28 @@ TEST_F(MCPIntegrationTest, QueryToolAQLWithFilter) {
     
     EXPECT_EQ(parsed["status"], "success");
     EXPECT_EQ(parsed["language"], "aql");
+}
+
+TEST_F(MCPIntegrationTest, QueryToolGraphTraversalUsesAttachedGraphBackend) {
+    {
+        themis::GraphIndexManager graph_writer(*db_);
+        themis::BaseEntity edge("edge1");
+        edge.setField("id", std::string{"edge1"});
+        edge.setField("_from", std::string{"user1"});
+        edge.setField("_to", std::string{"user2"});
+        ASSERT_TRUE(graph_writer.addEdge(edge).ok);
+    }
+
+    const auto response = callTool("query", {
+        {"query", "FOR v IN 1..1 OUTBOUND 'user1' GRAPH 'social' RETURN v"},
+        {"language", "aql"}
+    });
+    const auto result_text = response["result"]["content"][0]["text"].get<std::string>();
+    const auto parsed = json::parse(result_text);
+
+    ASSERT_EQ(parsed["status"], "success") << parsed.dump();
+    ASSERT_TRUE(parsed.contains("results"));
+    ASSERT_EQ(parsed["results"].size(), 1);
 }
 
 TEST_F(MCPIntegrationTest, QueryToolAutoDetectAQL) {

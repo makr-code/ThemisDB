@@ -360,11 +360,11 @@ void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
         schema_mgr_ = std::make_unique<SchemaManager>(*db, index_mgr_.get());
         
         // Create GraphIndexManager for graph queries
-        auto graph_mgr = std::make_shared<GraphIndexManager>(*db);
+        graph_mgr_ = std::make_shared<GraphIndexManager>(*db);
         
         // Create QueryEngine for AQL execution
         // Note: VectorIndexManager and SpatialIndexManager are optional
-        query_engine_ = std::make_unique<QueryEngine>(*db, *index_mgr_, *graph_mgr);
+        query_engine_ = std::make_unique<QueryEngine>(*db, *index_mgr_, *graph_mgr_);
         
         // Initialize PromptManager and load system prompts
         prompt_mgr_ = std::make_unique<themis::prompt_engineering::PromptManager>();

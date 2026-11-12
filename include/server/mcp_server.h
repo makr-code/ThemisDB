@@ -49,6 +49,7 @@ enum class SecurityEventType : int;
 namespace themis {
 class RocksDBWrapper;
 class SecondaryIndexManager;
+class GraphIndexManager;
 class SchemaManager;
 namespace query { class QueryEngine; }
 namespace prompt_engineering { class PromptManager; }
@@ -541,7 +542,11 @@ private:
     // Schema management
     std::shared_ptr<SecondaryIndexManager> index_mgr_;
     std::unique_ptr<SchemaManager> schema_mgr_;
-    
+
+    // QueryEngine stores a borrowed GraphIndexManager reference; retain it
+    // until after query_engine_ is destroyed.
+    std::shared_ptr<GraphIndexManager> graph_mgr_;
+
     // Query engine for AQL execution
     std::unique_ptr<QueryEngine> query_engine_;
     
