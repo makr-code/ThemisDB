@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T18:31:32+00:00",
+  "generated_at": "2026-11-12T19:17:25+00:00",
   "source_count": 8091,
   "sources": [
     {
@@ -14,9 +14,9 @@
     {
       "path": ".github/workflows/benchmark-performance-gate.yml",
       "category": "build_test_ci",
-      "size": 9625,
-      "sha256": "0dda1e5dc15d07b083784f91429f12dd38ded76192be71789b9925570feb5b72",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 10819,
+      "sha256": "56ca872e4254d9022e753f25555a41f14d51e1dcc13df2b7a514fe193feae55a",
+      "modified_utc": "2026-11-12T19:16:01+00:00"
     },
     {
       "path": ".github/workflows/benchmark-thematic-suites.yml",
@@ -28,9 +28,9 @@
     {
       "path": ".github/workflows/build-benchmarks.yml",
       "category": "build_test_ci",
-      "size": 52051,
-      "sha256": "44818920cb9d55795ab75058ce14723e8d487589505bb914e7bb68a35800f00a",
-      "modified_utc": "2026-11-12T15:49:35+00:00"
+      "size": 52025,
+      "sha256": "913e742004afdfc22b100216f66237d9a2d320ec3a72bbbdc0ca5d34da3bf92a",
+      "modified_utc": "2026-11-12T19:16:01+00:00"
     },
     {
       "path": ".github/workflows/build-clang-fast.yml",
@@ -77,9 +77,9 @@
     {
       "path": ".github/workflows/build-wave-a-gpu.yml",
       "category": "build_test_ci",
-      "size": 25287,
-      "sha256": "cee20f4d06d381c3481df836d7c9cadc87ba86e9647738c21174d5907a9001a9",
-      "modified_utc": "2026-11-12T15:49:35+00:00"
+      "size": 25248,
+      "sha256": "8401a6ac0204e17a0fbb58a88dab8a8950c20e9614e47739d5b26a6d5ac55f43",
+      "modified_utc": "2026-11-12T19:16:01+00:00"
     },
     {
       "path": ".github/workflows/build-wave-b-llm-benchmarks.yml",
@@ -91,9 +91,9 @@
     {
       "path": ".github/workflows/build-wave-b-transaction.yml",
       "category": "build_test_ci",
-      "size": 33983,
-      "sha256": "475664dc690133853cf1e143e2e1b46aa929aabf9b1b558965897ef27d4b76dc",
-      "modified_utc": "2026-11-11T09:57:19+00:00"
+      "size": 34009,
+      "sha256": "9c82e6ff94847dd8ce6a94dd326d3876a5fdd96a8762a0eeba7c25a066e21988",
+      "modified_utc": "2026-11-12T19:16:01+00:00"
     },
     {
       "path": ".github/workflows/build-widget.yml",

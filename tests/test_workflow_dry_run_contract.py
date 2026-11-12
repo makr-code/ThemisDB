@@ -800,9 +800,17 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         comment = next(step for step in steps if step.get("name") == "Post full comparison report as issue comment")
         for step in (upsert, comment):
             with self.subTest(step=step["name"]):
-                self.assertIn("github.event_name != 'workflow_dispatch'", step["if"])
-                self.assertIn("inputs.dry_run != true", step["if"])
-        self.assertTrue(any("dry-run" in str(step.get("run", "")).lower() for step in steps))
+                condition = step["if"]
+                guarded = (
+                    "!(github.event_name == 'workflow_dispatch' && inputs.dry_run == true)" in condition
+                    or "github.event_name != 'workflow_dispatch' || inputs.dry_run != true" in condition
+                )
+                self.assertTrue(guarded, condition)
+        mode_summary = next(step for step in steps if step.get("name") == "Summarize tracker write mode")
+        self.assertEqual(mode_summary["if"], "always()")
+        self.assertIn("Manual dry run", mode_summary["run"])
+        self.assertIn("suppressed", mode_summary["run"])
+        self.assertIn("comparison, report generation, and artifact uploads still run", mode_summary["run"])
         for name in ("Verify artifact presence", "Compare results against PERFORMANCE_EXPECTATIONS.md",
                      "Upload comparison report artifact"):
             self.assertTrue(any(step.get("name") == name for step in steps), name)

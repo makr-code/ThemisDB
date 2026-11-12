@@ -1,20 +1,23 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T18:31:32+00:00",
+  "generated_at": "2026-11-12T19:17:25+00:00",
   "mode": "incremental",
   "source_count": 8091,
-  "source_hash": "d4947236911cd6537b44f64e308258f225cd5486515fe96be2d3559156e397ee",
+  "source_hash": "3adc74a8e81c869e4e41c43a81578ddd5f3ae700ae355a84de08d7874919bc68",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
-    "changed_count": 1,
+    "changed_count": 4,
     "added_preview": [],
     "removed_preview": [],
     "changed_preview": [
-      ".github/workflows/coverage-report-nightly.yml"
+      ".github/workflows/benchmark-performance-gate.yml",
+      ".github/workflows/build-benchmarks.yml",
+      ".github/workflows/build-wave-a-gpu.yml",
+      ".github/workflows/build-wave-b-transaction.yml"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "d645f639cd9444585a5148095038c0dc661f2d02376f0a44d0ae9de20f3bdf2d"
+  "manifest_sha256": "76632376d82c109c42291a794553ab8c3be7a13df36d24d5edec6967b69b2863"
 }
