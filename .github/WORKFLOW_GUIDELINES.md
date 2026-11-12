@@ -520,6 +520,12 @@ Sie prüft Cachepfade und Backend-Auswahl, nicht die tatsächliche Online-Treffe
 - A separate publication job receives write permissions and runs only when outputs changed and the dispatch is not a dry-run. Scheduled and `develop` push runs retain automatic publication behavior.
 - Manual runs default to `dry_run=true`; generation, validation, artifact upload, and summaries still run while branch/PR writes are skipped.
 
+## Issue and Security Triage
+- `maintenance-issues.yml` manual runs default to `dry_run=true`. GS3 scans, security-alert queries, Doxygen autofixes, artifacts, and summaries still run; issue, label, comment, branch, and PR changes are previewed or suppressed.
+- Scheduled runs remain live. Setting `dry_run=false` on a manual run enables the selected job's existing tracker or PR updates.
+- Doxygen autofixes in a manual dry-run modify only the runner workspace; the summary previews the branch/PR publication without pushing.
+- Security SLA input is passed through the environment and validated as a positive integer. Recovery issue updates require a successful alert query.
+
 ## Manually Triggering Workflows
 Empfohlen via GitHub CLI:
 

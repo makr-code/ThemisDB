@@ -1,10 +1,10 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T17:32:35+00:00",
+  "generated_at": "2026-11-12T17:49:15+00:00",
   "mode": "incremental",
   "source_count": 8091,
-  "source_hash": "e4497ab87072a34dfe9b5120ca13baefaccea3cd4281a913cf577ae24ff4af8c",
+  "source_hash": "4e68ce5ea6004bb355638fca6ceffbed00f8e0b5c6e075c87b1fedd16b814d69",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
@@ -12,9 +12,9 @@
     "added_preview": [],
     "removed_preview": [],
     "changed_preview": [
-      ".github/workflows/maintenance-architecture-ci.yml"
+      ".github/workflows/maintenance-issues.yml"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "fdc862ecff56f8312bfe2ae638026de23900ffe50cd18afc3c3037809ac9211e"
+  "manifest_sha256": "4cd5b358632e0fbce589bee108e549229c5a4d123ec19ea1f0213a5c9fe659f1"
 }

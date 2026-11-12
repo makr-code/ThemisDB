@@ -3,7 +3,7 @@
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
 > Last Updated: 2026-11-12
-> Update Note: Isolated architecture generation from publication permissions while preserving automatic scheduled and develop-triggered PR publication
+> Update Note: Added safe manual dry-run previews for issue/security triage and Doxygen PR publication; scheduled runs remain live
 > Status: active
 > Total Workflows: 102 (verified 2026-11-10)
 > AI_Used: true
@@ -259,7 +259,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `maintenance-pr-failure-diagnosis.yml` | Maintenance: PR Failure Diagnosis [Recommend-Only] (Auto-diagnosis on PR failure) | support |
 | `maintenance-ci-health.yml` | Maintenance: CI Health Dashboard (CI health metrics aggregation) | observability |
 | `maintenance-build-issues.yml` | Maintenance: Build Error Issues (Automatic build error tracking) | issue-tracking |
-| `maintenance-issues.yml` | Maintenance: Issues [GS3 + Security Alerts] (GS3 security alert handling) | security |
+| `maintenance-issues.yml` | Maintenance: Issues [GS3 + Security Alerts] (Default-on manual dry-run; scheduled triage remains live) | security |
 | `maintenance-docs.yml` | Maintenance: Docs (Documentation health and drift detection) | docs |
 | `nightly-governance-audit.yml` | Nightly: Governance Audit Scope (Nightly governance evidence and checklist validation) | governance |
 | `coverage-report-nightly.yml` | Maintenance: Nightly Coverage Collection & Baseline Update (Nightly coverage metrics and baseline refresh) | quality |
