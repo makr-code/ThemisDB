@@ -107,7 +107,10 @@ registration, persistent storage, external telemetry, or production readiness.
     traversal now validates each visited vertex's materialized `tenant_id`
     before returning or expanding it; missing or mismatched tenant values return
     access denied. Focused source regressions cover same-tenant success and
-    foreign/tenantless vertex denial, but have not been built or executed.
+    foreign/tenantless vertex denial. Another focused test source now checks
+    concurrent vector retrieval with two tenant contexts sharing one provider,
+    requiring each result to contain only its own tenant's evidence. These tests
+    have not been built or executed.
     A blocking embedding or backend call can only be checked after it returns.
   - Retrieval-enabled YAML `agentic` modes now reuse `AIOrchestrator::runRag()`
     before the existing agentic tool-call dispatch. A focused RocksDB-backed

@@ -64,7 +64,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Shared RAG retrieval uses this to require an exact string `tenant_id` match;
   missing, malformed, or foreign-tenant vertices return access denied. Focused
   regressions cover same-tenant success and foreign/tenantless denial, but have
-  not been built or executed. AQL/YAML still lack trusted tenant population.
+  not been built or executed. A concurrent shared-provider vector retrieval
+  regression now checks isolation between two tenant contexts; it also remains
+  unbuilt. AQL/YAML still lack trusted tenant population.
 
 ### Core Provider/Consumer follow-up — ContentManager source lookup (2026-11-12)
 

@@ -737,6 +737,43 @@ TEST_F(RAGProviderTest, RequestScopedAuthorizationIsolatedAcrossConcurrentRetrie
     EXPECT_EQ(denied_result.error().code(), errors::ErrorCode::ERR_QUERY_ACCESS_DENIED);
 }
 
+TEST_F(RAGProviderTest, TrustedTenantContextsStayIsolatedAcrossConcurrentRetrievals) {
+    ASSERT_TRUE(secondary_->createIndex("docs", "tenant_id").ok);
+    storeTenantDocument("acme", "Acme private evidence", "acme", {0.6f, 0.8f});
+    storeTenantDocument("beta", "Beta private evidence", "beta");
+
+    query::VectorGeoQuery vector_query;
+    vector_query.table = "docs";
+    vector_query.query_vector = {1.0f, 0.0f};
+    vector_query.k = 1;
+    rag::RetrievalRequest request;
+    request.query = vector_query;
+    request.max_candidates = 1;
+
+    rag::RetrievalExecutionContext acme_context;
+    acme_context.tenant_id = "acme";
+    rag::RetrievalExecutionContext beta_context;
+    beta_context.tenant_id = "beta";
+
+    auto acme = std::async(std::launch::async, [&] {
+        return provider_->retrieve(request, acme_context);
+    });
+    auto beta = std::async(std::launch::async, [&] {
+        return provider_->retrieve(request, beta_context);
+    });
+
+    const auto acme_result = acme.get();
+    const auto beta_result = beta.get();
+    ASSERT_TRUE(acme_result) << acme_result.error().context();
+    ASSERT_TRUE(beta_result) << beta_result.error().context();
+    ASSERT_EQ(acme_result->candidates.size(), 1);
+    ASSERT_EQ(beta_result->candidates.size(), 1);
+    EXPECT_EQ(acme_result->candidates.front().doc_id, "acme");
+    EXPECT_EQ(acme_result->candidates.front().content, "Acme private evidence");
+    EXPECT_EQ(beta_result->candidates.front().doc_id, "beta");
+    EXPECT_EQ(beta_result->candidates.front().content, "Beta private evidence");
+}
+
 TEST_F(RAGProviderTest, RequestScopedAuthorizationExceptionsFailClosed) {
     query::ConjunctiveQuery query;
     query.table = "docs";

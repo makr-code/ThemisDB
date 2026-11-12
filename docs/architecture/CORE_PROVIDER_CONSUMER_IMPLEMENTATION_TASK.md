@@ -129,10 +129,11 @@ values return access denied. This does not populate trusted tenant context for
 AQL/YAML server consumers, establish general row-level policy outside these
 retrieval paths, propagate caller identity, or add HTTP cancellation. Focused
 provider regressions cover foreign/missing tenants, indexed top-1 behavior, and
-same-tenant/foreign/tenantless graph vertices, but have not been built or
-executed. Adding the context field is source-compatible for ordinary member
-assignment/default construction but changes the struct layout; binary consumers
-must rebuild.
+same-tenant/foreign/tenantless graph vertices. A concurrent shared-provider
+regression source also checks that distinct vector tenant contexts return only
+their own evidence. These tests have not been built or executed. Adding the
+context field is source-compatible for ordinary member assignment/default
+construction but changes the struct layout; binary consumers must rebuild.
 
 The current source diff adds `RAGSourceReference` and candidate parsing for exact
 source-reference fields; persists normal ingestion chunk text in
