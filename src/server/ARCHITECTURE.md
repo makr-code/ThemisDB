@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-09-09"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-12"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -105,6 +105,11 @@ These patterns are covered by 8 benchmark release gates SVR-01..SVR-08 in `bench
 ### LLM and MCP integration
 **Files:** `src/server/lora_api_handler.cpp` → `include/llm/lora_framework/lora_orchestrator.h`; `src/llm/mcp_tool_bridge.cpp` → `include/server/mcp_server.h`
 **Contract:** The LoRA handler integrates with the LLM orchestrator; the LLM-side MCP tool bridge depends on the server MCP interface. These are explicit module edges, not evidence that every call is asynchronous or retried.
+
+The MCP server retains its `GraphIndexManager` for at least as long as its
+`QueryEngine`, which borrows the graph manager reference for AQL execution.
+This lifecycle guarantee does not imply MCP RAG availability: retrieval-enabled
+MCP orchestration still fails closed without trusted caller authorization.
 
 ### Protocol and session ownership
 **Files:** `src/server/websocket_session.cpp`, `src/server/mqtt_session.cpp`, `src/server/postgres_session.cpp`, and `src/server/themis_core_grpc_service.cpp`

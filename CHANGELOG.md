@@ -88,6 +88,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Authenticated per-request caller/tenant scope propagation and MCP retrieval
   availability remain pending.
 
+### MCP QueryEngine graph backend lifetime (2026-11-12)
+
+- `McpServer` now retains the `GraphIndexManager` borrowed by its `QueryEngine`,
+  preventing AQL graph queries from using a manager destroyed at database
+  attachment return.
+- Added a focused MCP integration regression for a one-hop AQL graph traversal.
+
 <!--
 AI_Used: true
 AI_Models: unknown

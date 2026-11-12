@@ -103,6 +103,12 @@ Update or narrow this task if source evidence differs before coding.
 
 ## Verified incremental work in the current implementation diff
 
+The MCP server now retains the graph index manager for the lifetime of the
+`QueryEngine` that borrows it, and a focused MCP AQL graph traversal regression
+covers the attached query path. This fixes that specific lifetime defect; it
+does not complete server-wide provider composition or MCP retrieval
+authorization.
+
 The current source diff adds `RAGSourceReference` and candidate parsing for exact
 source-reference fields; persists normal ingestion chunk text in
 `ingestion_sources` and resolves it by exact key plus source-file identity;
