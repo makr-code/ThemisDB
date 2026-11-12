@@ -5683,6 +5683,18 @@ http::response<http::string_body> HttpServer::routeRequest(
                         vector_query.table = collection;
                         vector_query.vector_field = payload.value("vector_field", std::string{"embedding"});
                         vector_query.query_vector = plugin_mgr.embed(query);
+                        const auto auth_context = extractAuthContext(req);
+                        if (!auth_context.tenant_id.empty()) {
+                            auto tenant_field = std::make_shared<query::FieldAccessExpr>(
+                                std::make_shared<query::VariableExpr>("doc"), "tenant_id");
+                            auto tenant_value = std::make_shared<query::LiteralExpr>(
+                                auth_context.tenant_id);
+                            vector_query.extra_filters.push_back(
+                                std::make_shared<query::BinaryOpExpr>(
+                                    query::BinaryOperator::Eq,
+                                    std::move(tenant_field),
+                                    std::move(tenant_value)));
+                        }
                         if (std::chrono::steady_clock::now() >=
                             retrieval_execution.deadline) {
                             throw RetrievalDeadlineExceeded{};
@@ -11904,6 +11916,7 @@ HttpServer::AuthContext HttpServer::extractAuthContext(const http::request<http:
     auto ar = auth_->validateToken(*token);
     if (ar.authorized) {
         ctx.user_id = ar.user_id;
+        ctx.tenant_id = ar.tenant_id;
         ctx.groups = ar.groups;
     }
     

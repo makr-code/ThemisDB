@@ -8,6 +8,7 @@
 #include "index/graph_index.h"
 #include "index/vector_index.h"
 #include "ingestion/ingestion_sinks.h"
+#include "query/aql_parser.h"
 #include "utils/serialization.h"
 
 #include <filesystem>
@@ -16,6 +17,7 @@
 #include <nlohmann/json.hpp>
 #include <stdexcept>
 #include <thread>
+#include <utility>
 
 using namespace themis;
 
@@ -58,6 +60,17 @@ protected:
         ASSERT_TRUE(vector_->addEntity(entity).ok);
     }
 
+    void storeTenantDocument(
+        const std::string& id, const std::string& text, const std::string& tenant_id) {
+        BaseEntity entity(id);
+        entity.setField("content", text);
+        entity.setField("category", std::string{"public"});
+        entity.setField("tenant_id", tenant_id);
+        entity.setField("embedding", std::vector<float>{1.0f, 0.0f});
+        ASSERT_TRUE(secondary_->put("docs", entity).ok);
+        ASSERT_TRUE(vector_->addEntity(entity).ok);
+    }
+
     std::filesystem::path path_;
     std::shared_ptr<RocksDBWrapper> db_;
     std::shared_ptr<SecondaryIndexManager> secondary_;
@@ -93,6 +106,31 @@ TEST_F(RAGProviderTest, VectorIndexMaterializesCanonicalBinaryStorage) {
     ASSERT_EQ(result->candidates.size(), 1);
     EXPECT_EQ(result->candidates.front().doc_id, "d1");
     EXPECT_EQ(result->candidates.front().content, "indexed evidence");
+}
+
+TEST_F(RAGProviderTest, VectorQueryExtraFilterScopesTenantAndRejectsMissingTenant) {
+    storeTenantDocument("acme", "Acme evidence", "acme");
+    storeTenantDocument("beta", "Beta evidence", "beta");
+    storeDocument("legacy", "Tenantless evidence");
+
+    auto tenant_field = std::make_shared<query::FieldAccessExpr>(
+        std::make_shared<query::VariableExpr>("doc"), "tenant_id");
+    auto tenant_value = std::make_shared<query::LiteralExpr>(std::string{"acme"});
+    query::VectorGeoQuery query;
+    query.table = "docs";
+    query.query_vector = {1.0f, 0.0f};
+    query.extra_filters.push_back(std::make_shared<query::BinaryOpExpr>(
+        query::BinaryOperator::Eq, std::move(tenant_field), std::move(tenant_value)));
+
+    rag::RetrievalRequest request;
+    request.query = std::move(query);
+    request.max_candidates = 10;
+    const auto result = provider_->retrieve(request);
+
+    ASSERT_TRUE(result) << result.error().context();
+    ASSERT_EQ(result->candidates.size(), 1);
+    EXPECT_EQ(result->candidates.front().doc_id, "acme");
+    EXPECT_EQ(result->candidates.front().content, "Acme evidence");
 }
 
 TEST_F(RAGProviderTest, VectorIngestionSinkMaterializesPersistedSourceText) {

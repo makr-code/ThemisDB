@@ -45,6 +45,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   acceptance criteria, and focused C++ test execution remain pending. See
   `docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md`.
 
+### Core Provider/Consumer follow-up — HTTP tenant filter (2026-11-12)
+
+- The direct HTTP vector RAG route now applies the tenant claim from a validated
+  bearer token as an equality predicate on `tenant_id`. Caller-supplied tenant
+  headers are not used; tenant-scoped requests exclude entities without that
+  field. This is a route-specific filter, not a complete row-level policy
+  integration, and its test has not yet been built or run.
+
 ### Core Provider/Consumer follow-up — ContentManager source lookup (2026-11-12)
 
 - RAG retrieval now resolves typed ContentManager chunk references using an
@@ -85,8 +93,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Retrieval-enabled MCP `llm_orchestrate` modes now fail closed before
   orchestrator execution because the current MCP tool-call path supplies no
   trusted caller authorization context. Non-retrieval modes are unchanged.
-- Authenticated per-request caller/tenant scope propagation and MCP retrieval
-  availability remain pending.
+- Authenticated per-request caller-context propagation and MCP retrieval
+  availability remain pending. The direct HTTP vector RAG tenant filter is
+  route-specific and does not change this status.
 
 ### MCP QueryEngine graph backend lifetime (2026-11-12)
 

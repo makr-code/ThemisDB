@@ -87,9 +87,16 @@ registration, persistent storage, external telemetry, or production readiness.
     deadline expiry after a blocking QueryEngine access check for both a matching
     row and a no-match result, and cancellation raised during a blocking access
     check with no match. These tests have not been built or executed. This still
-    does not propagate caller/tenant identity, row-level policy, or HTTP
-    cancellation. A blocking embedding or backend call can only be checked after
-    it returns.
+    does not propagate caller identity, AQL/YAML tenant scope, general row-level
+    policy, or HTTP cancellation. For the direct HTTP vector RAG route only, a
+    tenant claim from a validated bearer token is now applied as a `tenant_id`
+    equality filter; caller-supplied tenant headers are ignored. The filter also
+    rejects documents without a tenant field when the token is tenant-scoped.
+    QueryEngine may use a secondary-index prefilter when available and always
+    applies the predicate to returned vector candidates; absent tenant indexes can
+    therefore reduce recall within the route's `top_k` window. Focused test source
+    covers matching, other-tenant, and tenantless entities but remains unbuilt.
+    A blocking embedding or backend call can only be checked after it returns.
   - Retrieval-enabled YAML `agentic` modes now reuse `AIOrchestrator::runRag()`
     before the existing agentic tool-call dispatch. A focused RocksDB-backed
     test-source regression verifies evidence reaches the prompt and denied

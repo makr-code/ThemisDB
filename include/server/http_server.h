@@ -1482,10 +1482,11 @@ private:
         std::string_view resource_path
     );
 
-    // Extract authentication context (user_id and groups) from JWT token
-    // Returns empty user_id and groups if auth is disabled or token is invalid
+    // Extract user, tenant, and groups from a validated bearer token.
+    // Returns an empty context if auth is disabled or token validation fails.
     struct AuthContext {
         std::string user_id;
+        std::string tenant_id;
         std::vector<std::string> groups;
     };
     /**

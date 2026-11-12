@@ -92,8 +92,11 @@ wrappers.
   constructing its request-local `QueryEngine`; that engine now rejects
   collections other than the one authorized by the route. The route also passes
   the authorized collection as a request-scoped retrieval predicate. This guards
-  the collection boundary only and does not propagate caller identity, tenant
-  identity, or row-level policy into retrieval.
+  the collection boundary. A validated bearer-token tenant claim is also applied
+  as a `tenant_id` equality filter to this route's vector query; caller-supplied
+  tenant headers are ignored. This route-specific filter does not provide general
+  row-level policy or propagate the caller/tenant context through the shared
+  retrieval context to other consumers.
 - `search`, `LayeredRetrievalOrchestrator`, `ProcessGraphRag`, and
   `ethics_ai/RAGContextEngine` have specialized behavior. Preserve their domain
   policies; this task does not migrate all of them.
@@ -113,9 +116,12 @@ complete server-wide provider composition or MCP retrieval authorization.
 The direct HTTP RAG route now carries its configured live request timeout into
 `RetrievalExecutionContext` from request dispatch through query embedding and
 provider retrieval; an expired retrieval deadline returns HTTP 504. The deadline
-is cooperative and cannot interrupt a blocking embedding or backend call. HTTP
-cancellation, tenant identity, and row-level policy are not propagated by this
-increment.
+is cooperative and cannot interrupt a blocking embedding or backend call. The
+route now also builds an equality filter from the validated bearer-token tenant
+claim for vector retrieval; it does not trust a caller-supplied tenant header.
+This only scopes the direct HTTP vector route and does not propagate tenant
+identity through `RetrievalExecutionContext`, establish general row-level policy,
+or add HTTP cancellation.
 
 The current source diff adds `RAGSourceReference` and candidate parsing for exact
 source-reference fields; persists normal ingestion chunk text in
@@ -164,8 +170,8 @@ to provide a `SecondaryIndexManager` on the same retrieval database.
 
 Still pending: trace and verify real HTTP/AQL/YAML startup and request wiring;
 complete production composition; complete caller/tenant/row-level authorization
-and full context propagation (collection checks and concurrent context tests do
-not establish tenant identity or row-level policy);
+and full context propagation (the direct HTTP vector filter is route-specific and
+does not establish general row-level policy);
 verify application startup configures the orchestrator with the actual server
 QueryEngine and supplies trusted authorization context, including a safe MCP
 caller-context path; establish the
