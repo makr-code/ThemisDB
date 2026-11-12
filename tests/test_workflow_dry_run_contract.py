@@ -17,7 +17,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         expected = {
             "build-content-regression.yml": {"content-regression", "wave-d-soak"},
             "gate-pr-benchmark-ctest.yml": {"benchmark-ctest-coverage"},
-            "maintenance-ci-health.yml": {"ci-health-dashboard"},
+            "maintenance-ci-health.yml": {"ci-health-dashboard", "update-chronic-issue"},
             "maintenance-workflow-guardrails-observe.yml": {"workflow-guardrails"},
             "security-consolidated.yml": {"trivy", "gitleaks", "kubesec"},
             "security-dast-zap.yml": {"zap-baseline", "zap-api-scan", "zap-full-scan"},
@@ -58,6 +58,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "maintenance-compendium-sync.yml",
             "maintenance-housekeeping.yml",
             "maintenance-build-issues.yml",
+            "maintenance-ci-health.yml",
             "maintenance-pr-failure-diagnosis.yml",
             "maintenance-soll-ist-gap-issues.yml",
             "publish-wiki.yml",
@@ -455,6 +456,41 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         self.assertIn("if (dryRun)", script)
         self.assertIn("comment writes: suppressed", script)
         self.assertEqual(triggers["workflow_run"]["types"], ["completed"])
+
+    def test_ci_health_manual_dry_run_preserves_analysis_and_suppresses_issue_writes(self) -> None:
+        workflow = load_workflow("maintenance-ci-health.yml")
+        triggers = workflow.get(True, workflow.get("on"))
+        dispatch = triggers["workflow_dispatch"]
+        self.assertEqual(dispatch["inputs"]["lookback_days"]["type"], "number")
+        self.assertEqual(dispatch["inputs"]["lookback_days"]["default"], 7)
+        dry_run = dispatch["inputs"]["dry_run"]
+        self.assertEqual(dry_run["type"], "boolean")
+        self.assertIs(dry_run["default"], True)
+        self.assertIn("scheduled runs remain live", dry_run["description"])
+
+        jobs = workflow["jobs"]
+        analysis = jobs["ci-health-dashboard"]
+        self.assertEqual(analysis["permissions"], {"contents": "read", "actions": "read"})
+        self.assertIn("lookback_days", analysis["outputs"])
+        stats = next(step for step in analysis["steps"] if step.get("id") == "stats")
+        self.assertEqual(stats["env"]["LOOKBACK_DAYS"], "${{ inputs.lookback_days || 7 }}")
+        self.assertIn("Number.isInteger(lookbackDays)", stats["with"]["script"])
+        self.assertIn("lookbackDays > 90", stats["with"]["script"])
+        self.assertNotIn("${{ inputs.lookback_days", stats["with"]["script"])
+        self.assertIn("metrics and artifacts were still generated", stats["with"]["script"])
+        self.assertIn("would be upserted", stats["with"]["script"])
+
+        issue_job = jobs["update-chronic-issue"]
+        self.assertEqual(issue_job["permissions"], {"contents": "read", "issues": "write"})
+        self.assertIn("github.event_name != 'workflow_dispatch'", issue_job["if"])
+        self.assertIn("inputs.dry_run != true", issue_job["if"])
+        self.assertIn("needs.ci-health-dashboard.result == 'success'", issue_job["if"])
+        issue_steps = [step for step in issue_job["steps"] if step.get("uses") == "./.github/actions/status-flags-and-issues"]
+        self.assertEqual(
+            {step["with"]["operation"] for step in issue_steps},
+            {"upsert_issue", "replace_status_group", "comment_issue"},
+        )
+        self.assertIn("${LOOKBACK_DAYS} days", issue_job["steps"][1]["run"])
 
     def test_build_error_manual_dry_run_suppresses_mutations_and_preserves_analysis(self) -> None:
         workflow = load_workflow("maintenance-build-issues.yml")

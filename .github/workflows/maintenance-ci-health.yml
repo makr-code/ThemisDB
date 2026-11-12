@@ -19,10 +19,15 @@ on:
   workflow_dispatch:
     inputs:
       lookback_days:
-        description: 'Days to look back for workflow run data (default: 7)'
+        description: 'Number of days of workflow history to analyze (1-90; default: 7)'
         required: false
-        default: '7'
-        type: string
+        default: 7
+        type: number
+      dry_run:
+        description: 'Preview issue and label changes without writing them (scheduled runs remain live)'
+        required: false
+        default: true
+        type: boolean
 
 permissions:
   contents: read
@@ -40,7 +45,14 @@ jobs:
     permissions:
       contents: read
       actions: read
-      issues: write
+    outputs:
+      chronic_count: ${{ steps.stats.outputs.chronic_count }}
+      chronic_workflows: ${{ steps.stats.outputs.chronic_workflows }}
+      overall_health: ${{ steps.stats.outputs.overall_health }}
+      total_runs: ${{ steps.stats.outputs.total_runs }}
+      max_fail_rate: ${{ steps.stats.outputs.max_fail_rate }}
+      health_band: ${{ steps.stats.outputs.health_band }}
+      lookback_days: ${{ steps.stats.outputs.lookback_days }}
 
     steps:
       - name: Checkout repository
@@ -53,6 +65,7 @@ jobs:
           echo "============================================================"
           echo "  Trigger       : ${{ github.event_name }}"
           echo "  Lookback days : ${{ inputs.lookback_days || 7 }}"
+          echo "  Dry run       : ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}"
           echo "  Actor         : ${{ github.actor }}"
           echo "  Run ID        : ${{ github.run_id }}"
           echo "  Run number    : ${{ github.run_number }}"
@@ -65,9 +78,16 @@ jobs:
       - name: Collect workflow run statistics
         id: stats
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v9.0.0
+        env:
+          LOOKBACK_DAYS: ${{ inputs.lookback_days || 7 }}
+          DRY_RUN_ENABLED: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
         with:
           script: |
-            const lookbackDays = parseInt('${{ inputs.lookback_days || 7 }}', 10);
+            const lookbackDays = Number(process.env.LOOKBACK_DAYS);
+            if (!Number.isInteger(lookbackDays) || lookbackDays < 1 || lookbackDays > 90) {
+              core.setFailed('lookback_days must be a whole number between 1 and 90.');
+              return;
+            }
             const since = new Date(Date.now() - lookbackDays * 86400 * 1000).toISOString();
 
             console.log('──────────────────────────────────────────────────────');
@@ -164,6 +184,13 @@ jobs:
             md.push('');
             md.push('**Legend:** ✅ healthy · 🟡 >0% failures · 🔴 >30% failure rate');
             md.push('');
+            if (process.env.DRY_RUN_ENABLED === 'true') {
+              md.push('> Manual dry-run: issue and label updates were suppressed; metrics and artifacts were still generated.');
+              md.push(chronic.length > 0
+                ? '> Preview: the chronic-failure issue would be upserted and its status labels normalized.'
+                : '> Preview: the recovery comment and status labels would be updated if a matching chronic-failure issue exists.');
+              md.push('');
+            }
             md.push(`_[CI Health Dashboard workflow](.github/workflows/maintenance-ci-health.yml)_`);
             fs.appendFileSync(summaryPath, md.join('\n') + '\n');
 
@@ -187,6 +214,7 @@ jobs:
             core.setOutput('total_runs', String(totalRuns));
             core.setOutput('max_fail_rate', String(maxFailRate.toFixed(1)));
             core.setOutput('health_band', healthBand);
+            core.setOutput('lookback_days', String(lookbackDays));
 
       - name: Print health summary to log
         run: |
@@ -200,9 +228,13 @@ jobs:
           echo "  Health band    : ${{ steps.stats.outputs.health_band }}"
           if [ "${{ steps.stats.outputs.chronic_count }}" != "0" ]; then
             echo "  Chronic wf     : ${{ steps.stats.outputs.chronic_workflows }}"
-            echo "  ACTION: chronic failure issue will be created/updated."
+            if [ "${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}" = "true" ]; then
+              echo "  PREVIEW: chronic failure issue would be created/updated."
+            else
+              echo "  ACTION: chronic failure issue will be created/updated."
+            fi
           else
-            echo "  ✅ No chronic failures — no issue action needed."
+            echo "  ✅ No chronic failures — recovery state will be normalized if an issue exists."
           fi
           echo "──────────────────────────────────────────────"
 
@@ -213,14 +245,33 @@ jobs:
           path: /tmp/ci-health-report.md
           retention-days: 90  # medium tier per ci-scope-config.yaml
 
+  update-chronic-issue:
+    name: "Maintenance: Update CI health issue"
+    runs-on: ubuntu-latest
+    needs: [ci-health-dashboard]
+    if: >-
+      needs.ci-health-dashboard.result == 'success' &&
+      (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
       - name: Build chronic issue body
         id: chronic-body
-        if: steps.stats.outputs.chronic_count != '0' && steps.stats.outputs.chronic_count != ''
+        if: needs.ci-health-dashboard.outputs.chronic_count != '0' && needs.ci-health-dashboard.outputs.chronic_count != ''
         shell: bash
         env:
-          CHRONIC: ${{ steps.stats.outputs.chronic_workflows }}
-          HEALTH: ${{ steps.stats.outputs.overall_health }}
-          RUNS: ${{ steps.stats.outputs.total_runs }}
+          CHRONIC: ${{ needs.ci-health-dashboard.outputs.chronic_workflows }}
+          HEALTH: ${{ needs.ci-health-dashboard.outputs.overall_health }}
+          RUNS: ${{ needs.ci-health-dashboard.outputs.total_runs }}
+          LOOKBACK_DAYS: ${{ needs.ci-health-dashboard.outputs.lookback_days }}
+          REPOSITORY: ${{ github.repository }}
+          REF: ${{ github.ref }}
         run: |
           chronic_list=""
           IFS=',' read -ra workflows <<< "$CHRONIC"
@@ -234,11 +285,11 @@ jobs:
           {
             echo "body<<EOF"
             echo "<!-- ci-health:type:chronic-failure -->"
-            echo "<!-- ci-health:scope:${{ github.repository }} -->"
-            echo "<!-- ci-health:ref:${{ github.ref }} -->"
+            echo "<!-- ci-health:scope:${REPOSITORY} -->"
+            echo "<!-- ci-health:ref:${REF} -->"
             echo "## CI Health Alert — Chronic Failures"
             echo
-            echo "**Overall health:** ${HEALTH}% across ${RUNS} runs in the last 7 days."
+            echo "**Overall health:** ${HEALTH}% across ${RUNS} runs in the last ${LOOKBACK_DAYS} days."
             echo
             echo "The following workflows had **>30% failure rate** with ≥3 failures:"
             echo
@@ -255,7 +306,7 @@ jobs:
 
       - name: Upsert chronic failure issue
         id: chronic-issue
-        if: steps.stats.outputs.chronic_count != '0' && steps.stats.outputs.chronic_count != ''
+        if: needs.ci-health-dashboard.outputs.chronic_count != '0' && needs.ci-health-dashboard.outputs.chronic_count != ''
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -269,7 +320,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Normalize chronic issue labels
-        if: steps.stats.outputs.chronic_count != '0' && steps.stats.outputs.chronic_count != ''
+        if: needs.ci-health-dashboard.outputs.chronic_count != '0' && needs.ci-health-dashboard.outputs.chronic_count != ''
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -282,7 +333,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Comment recovery on chronic issue
-        if: steps.stats.outputs.chronic_count == '0'
+        if: needs.ci-health-dashboard.outputs.chronic_count == '0'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -299,7 +350,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Normalize recovery state labels
-        if: steps.stats.outputs.chronic_count == '0'
+        if: needs.ci-health-dashboard.outputs.chronic_count == '0'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -307,7 +358,7 @@ jobs:
           issue-title: '[CI] Chronic workflow failures detected'
           issue-marker: '<!-- ci-health:ref:${{ github.ref }} -->'
           allow-missing: true
-          labels-to-add: ${{ steps.stats.outputs.health_band == 'medium' && 'ci/failure-rate-medium,status/needs-attention' || 'status/recovered,status/resolved' }}
+          labels-to-add: ${{ needs.ci-health-dashboard.outputs.health_band == 'medium' && 'ci/failure-rate-medium,status/needs-attention' || 'status/recovered,status/resolved' }}
           status-group: 'ci/chronic-failure,ci/failure,ci/failure-rate-high,ci/failure-rate-medium,status/needs-triage,status/in-progress,status/needs-attention,status/needs-approval,status/resolved,status/recovered'
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
@@ -316,7 +367,7 @@ jobs:
   run-summary:
     name: Workflow run summary
     runs-on: ubuntu-latest
-    needs: [ci-health-dashboard]
+    needs: [ci-health-dashboard, update-chronic-issue]
     if: always()
     permissions:
       contents: read
