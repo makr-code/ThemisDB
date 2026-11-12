@@ -125,8 +125,10 @@ registration, persistent storage, external telemetry, or production readiness.
     rejected. Focused test sources cover both paths but remain unrun. Production
     startup still must populate the trusted contexts from authenticated callers
     and server policy.
-  - Real HTTP/AQL/YAML startup wiring, full request-context/auth isolation,
-    complete direct-`src/` role map,
+  - The canonical Core task now contains the evidence-backed current-source role
+    map for every immediate `src/` directory. This documents source roles only;
+    it does not mark a runtime acceptance criterion complete.
+  - Real AQL/YAML startup wiring, full request-context/auth isolation,
     remaining acceptance criteria, and focused test execution/evidence remain
     pending. See
     [`docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md`](../../docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md).
