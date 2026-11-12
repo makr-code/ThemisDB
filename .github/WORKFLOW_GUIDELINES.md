@@ -543,6 +543,11 @@ Sie prüft Cachepfade und Backend-Auswahl, nicht die tatsächliche Online-Treffe
 - Existing script preview modes report proposed issue creation where available. Scheduled and push runs retain their current live behavior; set `dry_run=false` to enable manual write operations.
 - Workflow-wide permissions are read-only; jobs that create tracker issues or publish generated artifacts retain only their existing job-scoped write permissions.
 
+## Mainline and LLM Inference Builds
+- `build-mainline.yml` and `build-llm-inference.yml` manual runs default to `dry_run=true`; builds, selected test suites, summaries, and artifacts still run.
+- Manual dry-runs suppress only build/LLM tracker issue, label, and comment updates and write a preview to the run summary. Scheduled runs remain live; set `dry_run=false` for an intentional manual tracker update.
+- Workflow-wide permissions are read-only. Issue-write permissions are scoped to the mainline tracker jobs and the LLM report job; build and inference/test jobs do not inherit issue-write access.
+
 ## Manually Triggering Workflows
 Empfohlen via GitHub CLI:
 

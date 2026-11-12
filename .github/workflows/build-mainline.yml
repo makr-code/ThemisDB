@@ -30,13 +30,15 @@ on:
         required: false
         default: false
         type: boolean
+      dry_run:
+        description: 'Run all build and test validation without updating the build tracker (scheduled runs remain live)'
+        required: false
+        default: true
+        type: boolean
 
 permissions:
   contents: read
   actions: read
-  issues: write
-  pull-requests: write
-  checks: read
 
 concurrency:
   group: ci-build-mainline-${{ github.ref }}-matrix.mainline
@@ -56,6 +58,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Set build tracker pending label
+        if: github.event_name != 'workflow_dispatch' || inputs.dry_run != true
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -76,6 +79,14 @@ jobs:
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
+
+      - name: Preview build tracker pending label
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run == true
+        run: |
+          {
+            echo "## Build tracker dry-run preview"
+            echo "Would set the tracker to pending; no issue or label was changed."
+          } >> "$GITHUB_STEP_SUMMARY"
 
   # ── Step 2: Cross-architecture layout lane ───────────────────────────────
   # Consolidated matrix reduces duplicated setup/configure/build blocks while
@@ -611,6 +622,7 @@ jobs:
 
       - name: Upsert build tracker issue
         id: tracker
+        if: github.event_name != 'workflow_dispatch' || inputs.dry_run != true
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -631,6 +643,7 @@ jobs:
             _Labels: `ci/build-failed` + `ci/compiler-linker-failed` = compiler/linker blocker; `ci/test-failed` = non-build blocker; `status/build-pending` = in progress._
 
       - name: Replace status labels atomically
+        if: github.event_name != 'workflow_dispatch' || inputs.dry_run != true
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -643,6 +656,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Comment build status
+        if: github.event_name != 'workflow_dispatch' || inputs.dry_run != true
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -652,3 +666,18 @@ jobs:
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
+
+      - name: Preview build tracker status
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run == true
+        env:
+          BUILD_RESULT: ${{ needs.build.result }}
+          MACOS_RESULT: ${{ needs.macos-kqueue-validation.result }}
+          STATUS_TEXT: ${{ steps.status.outputs.status_text }}
+        run: |
+          {
+            echo "## Build tracker dry-run preview"
+            echo "- Build result: \`${BUILD_RESULT}\`"
+            echo "- macOS validation result: \`${MACOS_RESULT}\`"
+            echo "- Resolved status: \`${STATUS_TEXT:-unavailable}\`"
+            echo "- Preview: issue upsert, status-label replacement, and comment were suppressed."
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -64,6 +64,8 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "maintenance-pr-failure-diagnosis.yml",
             "maintenance-soll-ist-gap-issues.yml",
             "publish-wiki.yml",
+            "build-mainline.yml",
+            "build-llm-inference.yml",
             "release-docker-image.yml",
             "release-nightly.yml",
             "release-promote.yml",
@@ -99,6 +101,61 @@ class WorkflowDryRunContractTests(unittest.TestCase):
                 dry_run = next(spec for key, spec in inputs.items() if key.lower().replace("-", "_") == "dry_run")
                 self.assertEqual(dry_run["type"], "boolean")
                 self.assertIs(dry_run["default"], True)
+
+    def test_mainline_and_llm_manual_dry_runs_preserve_validation_and_suppress_tracker_writes(self) -> None:
+        mainline = load_workflow("build-mainline.yml")
+        mainline_triggers = mainline.get(True, mainline.get("on"))
+        mainline_dry_run = mainline_triggers["workflow_dispatch"]["inputs"]["dry_run"]
+        self.assertIs(mainline_dry_run["default"], True)
+        self.assertEqual(mainline["permissions"], {"contents": "read", "actions": "read"})
+
+        mainline_jobs = mainline["jobs"]
+        self.assertEqual(
+            mainline_jobs["mark-build-pending"]["permissions"],
+            {"contents": "read", "issues": "write"},
+        )
+        self.assertEqual(
+            mainline_jobs["update-build-labels"]["permissions"],
+            {"contents": "read", "issues": "write"},
+        )
+        pending_steps = mainline_jobs["mark-build-pending"]["steps"]
+        pending_preview = next(step for step in pending_steps if step.get("name") == "Preview build tracker pending label")
+        self.assertIn("inputs.dry_run", pending_preview["if"])
+        self.assertIn("$GITHUB_STEP_SUMMARY", pending_preview.get("run", ""))
+        update_steps = mainline_jobs["update-build-labels"]["steps"]
+        tracker_steps = [
+            step for step in update_steps
+            if step.get("uses") == "./.github/actions/status-flags-and-issues"
+        ]
+        self.assertEqual(len(tracker_steps), 3)
+        self.assertTrue(all("inputs.dry_run != true" in step["if"] for step in tracker_steps))
+        preview = next(step for step in update_steps if step.get("name") == "Preview build tracker status")
+        self.assertIn("inputs.dry_run", preview["if"])
+        self.assertIn("$GITHUB_STEP_SUMMARY", preview["run"])
+        self.assertEqual(mainline_jobs["build"]["uses"], "./.github/workflows/reusable-cmake-build.yml")
+        self.assertTrue(mainline_jobs["macos-kqueue-validation"]["steps"])
+
+        llm = load_workflow("build-llm-inference.yml")
+        llm_triggers = llm.get(True, llm.get("on"))
+        llm_dry_run = llm_triggers["workflow_dispatch"]["inputs"]["dry_run"]
+        self.assertIs(llm_dry_run["default"], True)
+        self.assertEqual(llm["permissions"], {"contents": "read"})
+
+        report = llm["jobs"]["report"]
+        self.assertEqual(report["permissions"], {"contents": "read", "issues": "write"})
+        report_steps = report["steps"]
+        preview = next(step for step in report_steps if step.get("name") == "Preview failure tracker update")
+        self.assertIn("inputs.dry_run", preview["if"])
+        self.assertIn("$GITHUB_STEP_SUMMARY", preview["run"])
+        llm_writes = [
+            step for step in report_steps
+            if step.get("uses") == "./.github/actions/status-flags-and-issues"
+        ]
+        self.assertEqual(len(llm_writes), 4)
+        self.assertTrue(all("inputs.dry_run != true" in step["if"] for step in llm_writes))
+        self.assertTrue(llm["jobs"]["run-inference-suite"]["steps"])
+        self.assertTrue(llm["jobs"]["run-rag-suite"]["steps"])
+        self.assertTrue(llm["jobs"]["run-adalora-suite"]["steps"])
 
     def test_nightly_manual_dry_run_validates_without_publishing_or_updating_issues(self) -> None:
         workflow = load_workflow("release-nightly.yml")

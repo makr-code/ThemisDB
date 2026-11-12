@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T19:17:25+00:00",
+  "generated_at": "2026-11-12T19:31:29+00:00",
   "source_count": 8091,
   "sources": [
     {
@@ -49,16 +49,16 @@
     {
       "path": ".github/workflows/build-llm-inference.yml",
       "category": "build_test_ci",
-      "size": 25183,
-      "sha256": "4321cbd09bad4a80440f3745b429ba7499e23e2b812c3dc65452daa290fa579a",
-      "modified_utc": "2026-11-09T03:02:55+00:00"
+      "size": 26904,
+      "sha256": "c356fe67d0f05f456096049c419a03daf74fc730d7eddb48f48ac1b70cbcb2f9",
+      "modified_utc": "2026-11-12T19:29:26+00:00"
     },
     {
       "path": ".github/workflows/build-mainline.yml",
       "category": "build_test_ci",
-      "size": 33076,
-      "sha256": "3db25366a551d2093c5d3c01010d1d373c999f92c3e8f58af140be48e9c27c11",
-      "modified_utc": "2026-11-11T09:57:19+00:00"
+      "size": 34597,
+      "sha256": "99afecf992cab4f85a20d9c9dcfc0f2acf7e91a45d1aa06792b4754510aa23c0",
+      "modified_utc": "2026-11-12T19:31:04+00:00"
     },
     {
       "path": ".github/workflows/build-ollama-router.yml",

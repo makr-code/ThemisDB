@@ -179,14 +179,14 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 
 | Workflow | Purpose | Status |
 |----------|---------|--------|
-| `build-mainline.yml` | Build: Mainline (All platforms, multi-matrix) | active |
+| `build-mainline.yml` | Build: Mainline (all platforms/matrices; manual dry-run preserves build/tests and previews tracker updates) | active |
 | `build-clang-fast.yml` | Build: Clang Fast (Quick clang-only validation) | active |
 | `build-benchmarks.yml` | Build: Benchmarks (Specialized benchmark matrix; manual runs are read-only) | active |
 | `build-sanitizer-nightly.yml` | Build: Sanitizer Nightly (cache-free changed-module PR ASan+UBSan tests under 45 minutes; full scheduled suite and TSan transaction/sharding/LLM; run evidence) | active |
 | `build-wave-a-gpu.yml` | Build: Wave A GPU (CUDA/GPU feature validation) | active |
 | `build-wave-b-transaction.yml` | Build: Wave B Transaction (registered targets built per runner; required Smoke/Full/Chaos suites with strict JUnit evidence; scheduled/manual baseline; fail-closed result gate) | active |
 | `build-wave-b-llm-benchmarks.yml` | Build: Wave B LLM Benchmarks (LLM inference performance) | active |
-| `build-llm-inference.yml` | Build: LLM Inferencing (TinyLlama + doku.db RAG + AdaLoRA) | active |
+| `build-llm-inference.yml` | Build: LLM Inferencing (TinyLlama + doku.db RAG + AdaLoRA; manual dry-run preserves tests/artifacts and previews tracker updates) | active |
 | `build-content-regression.yml` | Build: Content Regression [Wave D] (Content processing validation) | active |
 | `build-widget.yml` | Build: WinGet E2E Validation (Windows installer end-to-end) | active |
 | `build-ollama-router.yml` | Build: Copilot Ollama Router (VS Code extension build) | active |

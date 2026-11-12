@@ -21,7 +21,7 @@ Status: Active
 
 - Added: 0
 - Removed: 0
-- Changed: 4
+- Changed: 2
 
 ## Added
 
@@ -33,7 +33,5 @@ Status: Active
 
 ## Changed
 
-- .github/workflows/benchmark-performance-gate.yml
-- .github/workflows/build-benchmarks.yml
-- .github/workflows/build-wave-a-gpu.yml
-- .github/workflows/build-wave-b-transaction.yml
+- .github/workflows/build-llm-inference.yml
+- .github/workflows/build-mainline.yml
