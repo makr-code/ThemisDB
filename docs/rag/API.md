@@ -118,6 +118,10 @@ The broader Core implementation remains in progress. Real HTTP/AQL/YAML startup
 wiring, complete request-context and authorization isolation, the complete
 source-role map, and remaining task acceptance criteria are pending; see the
 [implementation task](../architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md).
+Retrieval-enabled YAML `agentic` modes use the orchestrator's existing RAG path
+before tool-call parsing, so typed retrieval failures prevent generation and
+trusted per-call collection authorization is retained. This does not establish
+server-startup engine injection or tenant/row-level authorization.
 The direct HTTP `/api/v1/llm/rag` route retains its existing `requireAccess`
 check and now binds its request-local QueryEngine checker to the authorized
 collection. This is a collection-boundary guard, not caller or row-level policy

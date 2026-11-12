@@ -57,6 +57,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   partial implementation. See
   `docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md`.
 
+### Core Provider/Consumer follow-up — YAML agentic retrieval (2026-11-12)
+
+- Retrieval-enabled YAML `agentic` modes now use the AIOrchestrator's existing
+  typed RAG retrieval pipeline before continuing with the existing tool-call
+  dispatch. Per-call authorization stays in the trusted execution context;
+  YAML does not supply credentials or access policy.
+- Server-startup QueryEngine injection, trusted tenant/row-level authorization,
+  and focused C++ test execution remain unverified; this is partial progress.
+
 <!--
 AI_Used: true
 AI_Models: unknown

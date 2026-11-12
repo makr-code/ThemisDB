@@ -66,6 +66,10 @@ registration, persistent storage, external telemetry, or production readiness.
     the predicate before graph vertices are loaded or expanded. This still does
     not propagate caller/tenant identity or row-level policy; regression
     coverage has not been run.
+  - Retrieval-enabled YAML `agentic` modes now reuse `AIOrchestrator::runRag()`
+    before the existing agentic tool-call dispatch. A focused RocksDB-backed
+    test-source regression verifies evidence reaches the prompt and denied
+    collection context prevents generation; this test has not yet been run.
   - Real HTTP/AQL/YAML startup wiring, full request-context/auth isolation, the
     normal-ingestion authoritative source lookup, complete direct-`src/` role map,
     remaining acceptance criteria, and focused test execution/evidence remain

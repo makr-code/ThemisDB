@@ -108,6 +108,11 @@ ContentManager `content_chunk` references now resolve exact source records and
 reject missing, mismatched, or stale chunk sources. Focused test-source changes
 cover source materialization, source corruption, deadline, and request-isolated
 collection authorization, but no C++ test execution result is recorded here.
+For YAML-configured agentic modes, `AIOrchestrator::runAgentic()` now routes
+retrieval-enabled modes through its existing `runRag()` pipeline before
+preserving the existing tool-call parsing and dispatch. This reuses the typed
+provider and the per-call `RetrievalExecutionContext`; it adds no workflow
+executor and does not populate authorization from YAML.
 
 This is partial implementation progress, not completion of this task or its
 acceptance criteria. In particular, normal vector ingestion currently carries
@@ -120,11 +125,12 @@ complete production composition; complete caller/tenant/row-level authorization
 and full context propagation (collection checks and concurrent context tests do
 not establish tenant identity or row-level policy); and implement authoritative
 source lookup for normal vector ingestion;
-establish the evidence-backed role map for all direct `src/`
-directories; complete source materialization/compatibility and remaining
-acceptance cases; and run and record the required focused tests and registration
-checks. Keep every acceptance checkbox below open until its criterion is
-independently verified.
+verify application startup configures the orchestrator with the actual server
+QueryEngine and supplies trusted authorization context; establish the
+evidence-backed role map for all direct `src/` directories; complete source
+materialization/compatibility and remaining acceptance cases; and run and record
+the required focused tests and registration checks. Keep every acceptance
+checkbox below open until its criterion is independently verified.
 
 ## Work packages
 

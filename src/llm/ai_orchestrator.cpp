@@ -1672,7 +1672,9 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
 
 OrchestratorResult AIOrchestrator::runAgentic(const OrchestratorContext& ctx,
                                                const ModeSpec&            mode) const {
-    OrchestratorResult result = runAsk(ctx, mode);
+    OrchestratorResult result = mode.retrieval.enabled
+        ? runRag(ctx, mode)
+        : runAsk(ctx, mode);
     result.metadata.mode_id = mode.id;
     result.metadata.extra["agentic_tool_parse_attempted"] = true;
     if (!result.success) {

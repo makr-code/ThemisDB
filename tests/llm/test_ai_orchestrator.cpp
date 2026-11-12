@@ -11,9 +11,14 @@
 
 #include <gtest/gtest.h>
 #include <atomic>
+#include <chrono>
+#include <filesystem>
 #include <thread>
 #include "llm/ai_orchestrator.h"
 #include "llm/llm_plugin_interface.h"
+#include "index/secondary_index.h"
+#include "storage/base_entity.h"
+#include "storage/rocksdb_wrapper.h"
 
 using namespace themis::llm;
 
@@ -76,6 +81,47 @@ public:
     }
 
     std::optional<std::string> last_lora_adapter_id;
+};
+
+class CountingRagPromptLLMPlugin : public EchoLLMPlugin {
+public:
+    InferenceResponse generateRAG(const RAGContext& context,
+                                  const InferenceRequest& request) override {
+        ++rag_generation_calls;
+        last_prompt = request.prompt;
+        return EchoLLMPlugin::generateRAG(context, request);
+    }
+
+    int rag_generation_calls = 0;
+    std::string last_prompt;
+};
+
+class AgenticTypedRetrievalTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        db_path_ = std::filesystem::temp_directory_path() /
+            ("themis_agentic_retrieval_" + std::to_string(
+                std::chrono::steady_clock::now().time_since_epoch().count()));
+        RocksDBWrapper::Config config;
+        config.db_path = db_path_.string();
+        config.enable_blobdb = false;
+        db_ = std::make_shared<RocksDBWrapper>(config);
+        ASSERT_TRUE(db_->open());
+        secondary_ = std::make_shared<SecondaryIndexManager>(*db_);
+        query_engine_ = std::make_shared<query::QueryEngine>(*db_, *secondary_);
+    }
+
+    void TearDown() override {
+        query_engine_.reset();
+        secondary_.reset();
+        db_.reset();
+        std::filesystem::remove_all(db_path_);
+    }
+
+    std::filesystem::path db_path_;
+    std::shared_ptr<RocksDBWrapper> db_;
+    std::shared_ptr<SecondaryIndexManager> secondary_;
+    std::shared_ptr<query::QueryEngine> query_engine_;
 };
 
 class FixedAdapterCandidateProvider : public IAdapterCandidateProvider {
@@ -1842,6 +1888,61 @@ TEST(AgenticToolCallTest, ValidToolCallJson_Dispatched) {
     EXPECT_EQ(tool_out.value("result", -1), 7);
     // raw_response should carry the tool name and result.
     EXPECT_EQ(result.raw_response.value("tool_name", ""), "calc_tool");
+}
+
+TEST_F(AgenticTypedRetrievalTest, RetrievalEnabledAgenticModeUsesTypedProviderAndRequestAuthorization) {
+    static constexpr const char* kAgenticRagYaml = R"yaml(
+apiVersion: themis.ai/v1
+kind: ThemisModePack
+metadata:
+  name: agentic-rag-pack
+  version: "1.0.0"
+default_mode: agentic
+modes:
+  - id: agentic
+    retrieval:
+      enabled: true
+      top_k: 2
+      threshold: 0.0
+    budgets: {max_tokens: 128, timeout_ms: 5000}
+)yaml";
+    ValidationResult validation;
+    const auto pack = ModeSpecLoader::loadFromString(kAgenticRagYaml, &validation);
+    ASSERT_TRUE(validation.ok) << (validation.errors.empty() ? "" : validation.errors.front());
+
+    auto entity = themis::BaseEntity::fromFields("doc-1", {
+        {"content", std::string{"authorized agentic evidence"}}
+    });
+    ASSERT_TRUE(secondary_->put("docs", entity).ok);
+
+    AIOrchestrator orchestrator(pack);
+    auto plugin = std::make_shared<CountingRagPromptLLMPlugin>();
+    orchestrator.setLLMPlugin(plugin);
+    orchestrator.setQueryEngine(query_engine_);
+
+    OrchestratorContext context;
+    context.query = "What evidence is available?";
+    context.mode_id = "agentic";
+    themis::query::ConjunctiveQuery query;
+    query.table = "docs";
+    query.pk_eq = "doc-1";
+    context.retrieval_request = themis::rag::RetrievalRequest{};
+    context.retrieval_request->query = query;
+    context.retrieval_execution.authorize_collection =
+        [](const std::string& collection) { return collection == "docs"; };
+
+    const auto result = orchestrator.run(context);
+    ASSERT_TRUE(result.success) << result.error;
+    EXPECT_EQ(result.metadata.retrieved_docs, 1u);
+    EXPECT_EQ(plugin->rag_generation_calls, 1);
+    EXPECT_NE(plugin->last_prompt.find("authorized agentic evidence"), std::string::npos);
+
+    context.retrieval_execution.authorize_collection =
+        [](const std::string&) { return false; };
+    const auto denied = orchestrator.run(context);
+    EXPECT_FALSE(denied.success);
+    EXPECT_NE(denied.error.find("access denied"), std::string::npos);
+    EXPECT_EQ(plugin->rag_generation_calls, 1);
 }
 
 // When the LLM response is plain text (not JSON) the orchestrator should
