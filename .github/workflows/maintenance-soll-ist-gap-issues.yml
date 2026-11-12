@@ -3,8 +3,13 @@ name: "Maintenance: Soll-Ist Gap Issues"
 "on":
   workflow_dispatch:
     inputs:
+      dry_run:
+        description: "Generate and validate the report without writing GitHub issues"
+        type: boolean
+        required: false
+        default: true
       apply_changes:
-        description: "Write changes to GitHub issues"
+        description: "Apply issue changes when dry_run is disabled"
         required: false
         default: "false"
       close_resolved:
@@ -74,7 +79,7 @@ jobs:
           retention-days: 14
 
       - name: Sync issues (idempotent)
-        if: github.event_name == 'schedule' || github.event.inputs.apply_changes == 'true'
+        if: github.event_name == 'schedule' || (github.event.inputs.apply_changes == 'true' && github.event.inputs.dry_run != 'true')
         env:
           GH_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
@@ -90,7 +95,7 @@ jobs:
             ${{ github.event.inputs.close_resolved == 'true' && '--close-resolved' || '' }}
 
       - name: Upload issue sync result
-        if: github.event_name == 'schedule' || github.event.inputs.apply_changes == 'true'
+        if: github.event_name == 'schedule' || (github.event.inputs.apply_changes == 'true' && github.event.inputs.dry_run != 'true')
         uses: actions/upload-artifact@v5
         with:
           name: soll-ist-gap-issue-sync

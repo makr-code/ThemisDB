@@ -19,6 +19,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "maintenance-architecture-ci.yml",
             "maintenance-compendium-sync.yml",
             "maintenance-housekeeping.yml",
+            "maintenance-soll-ist-gap-issues.yml",
             "publish-wiki.yml",
             "release-docker-image.yml",
             "wiki-pr-gate.yml",
@@ -86,6 +87,20 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         workflow_text = (WORKFLOWS / "maintenance-housekeeping.yml").read_text(encoding="utf-8")
         self.assertIn("if (dryRun)", workflow_text)
         self.assertIn("[dry-run] would post closure recommendation", workflow_text)
+
+    def test_soll_ist_manual_dry_run_suppresses_issue_mutations_but_schedule_syncs(self) -> None:
+        workflow = load_workflow("maintenance-soll-ist-gap-issues.yml")
+        inputs = workflow[True]["workflow_dispatch"]["inputs"]
+        self.assertIs(inputs["dry_run"]["default"], True)
+
+        steps = workflow["jobs"]["soll_ist_sync"]["steps"]
+        sync = next(step for step in steps if step["name"] == "Sync issues (idempotent)")
+        upload = next(step for step in steps if step["name"] == "Upload issue sync result")
+        for step in (sync, upload):
+            with self.subTest(step=step["name"]):
+                self.assertIn("github.event_name == 'schedule'", step["if"])
+                self.assertIn("github.event.inputs.apply_changes == 'true'", step["if"])
+                self.assertIn("github.event.inputs.dry_run != 'true'", step["if"])
 
 
 if __name__ == "__main__":
