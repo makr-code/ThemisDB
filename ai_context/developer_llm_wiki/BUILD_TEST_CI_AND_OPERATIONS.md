@@ -506,7 +506,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/maintenance-docs.yml
 - Kategorie: build_test_ci
-- Hash: `a54b7b05d42b1d71`
+- Hash: `456deb06ff00878f`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-housekeeping.yml

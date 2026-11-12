@@ -526,6 +526,12 @@ Sie prüft Cachepfade und Backend-Auswahl, nicht die tatsächliche Online-Treffe
 - Doxygen autofixes in a manual dry-run modify only the runner workspace; the summary previews the branch/PR publication without pushing.
 - Security SLA input is passed through the environment and validated as a positive integer. Recovery issue updates require a successful alert query.
 
+## Documentation Maintenance
+- `maintenance-docs.yml` manual runs default to `dry_run=true`; documentation scans, wiki validation, report generation, and artifact uploads still run.
+- A manual dry-run suppresses issue, comment, and label updates; AI/wiki updates; docs-audit and module-wise issue creation; code-maturity commits; and Doxygen API-reference commits.
+- Existing script preview modes report proposed issue creation where available. Scheduled and push runs retain their current live behavior; set `dry_run=false` to enable manual write operations.
+- Workflow-wide permissions are read-only; jobs that create tracker issues or publish generated artifacts retain only their existing job-scoped write permissions.
+
 ## Manually Triggering Workflows
 Empfohlen via GitHub CLI:
 

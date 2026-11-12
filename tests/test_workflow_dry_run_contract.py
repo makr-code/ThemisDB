@@ -60,6 +60,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "maintenance-build-issues.yml",
             "maintenance-ci-health.yml",
             "maintenance-issues.yml",
+            "maintenance-docs.yml",
             "maintenance-pr-failure-diagnosis.yml",
             "maintenance-soll-ist-gap-issues.yml",
             "publish-wiki.yml",
@@ -691,6 +692,59 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         self.assertIn("No branch was pushed", preview["run"])
         checkout = next(step for step in doxygen if step.get("name") == "Checkout repository")
         self.assertIn("persist-credentials", checkout["with"])
+
+    def test_maintenance_docs_dry_run_preserves_checks_and_suppresses_mutations(self) -> None:
+        workflow = load_workflow("maintenance-docs.yml")
+        triggers = workflow.get(True, workflow.get("on"))
+        dry_run = triggers["workflow_dispatch"]["inputs"]["dry_run"]
+        self.assertEqual(dry_run["type"], "boolean")
+        self.assertIs(dry_run["default"], True)
+        self.assertIn("scheduled and push runs remain live", dry_run["description"].lower())
+        self.assertEqual(workflow["permissions"], {"contents": "read"})
+
+        mutation_guard = "github.event_name != 'workflow_dispatch' || inputs.dry_run != true"
+        issue_action = "./.github/actions/status-flags-and-issues"
+        issue_steps = [
+            (job_name, step)
+            for job_name, job in workflow["jobs"].items()
+            for step in job.get("steps", [])
+            if step.get("uses") == issue_action
+        ]
+        self.assertGreaterEqual(len(issue_steps), 10)
+        for job_name, step in issue_steps:
+            with self.subTest(job=job_name, step=step.get("name")):
+                self.assertIn(mutation_guard, step["if"])
+
+        jobs = workflow["jobs"]
+        for job_name in ("ai-context-sync", "developer-llm-wiki"):
+            run = next(step for step in jobs[job_name]["steps"] if step.get("name") in (
+                "Run AI context lint",
+                "Run developer LLM wiki sync/check",
+            ))["run"]
+            with self.subTest(job=job_name):
+                self.assertIn("inputs.dry_run", run)
+                self.assertIn("--apply-updates", run)
+
+        commit_job = jobs["code-maturity-commit"]
+        self.assertIn("inputs.dry_run != true", commit_job["if"])
+
+        seed_job = jobs["docs-audit-issue-seed"]
+        seed = next(step for step in seed_job["steps"] if step.get("name") == "Validate: Seed docs-audit issues")
+        self.assertIn('inputs.dry_run', seed["run"])
+        self.assertIn("--create", seed["run"])
+        self.assertIn("GITHUB_STEP_SUMMARY", seed["run"])
+
+        module_seed = next(
+            step for step in jobs["roadmap-status-drift"]["steps"]
+            if step.get("name") == "Validate: Create module-wise roadmap drift issues"
+        )
+        self.assertIn("--dry-run", module_seed["run"])
+
+        doxygen_job = jobs["doxygen-api-extraction"]
+        commit = next(step for step in doxygen_job["steps"] if step.get("name") == "Commit API reference artifacts")
+        self.assertIn(mutation_guard, commit["if"])
+        self.assertIn("Manual dry-run", next(step for step in doxygen_job["steps"] if step.get("name") == "Write job summary")["run"])
+        self.assertIn("persist-credentials", next(step for step in doxygen_job["steps"] if step.get("name") == "Checkout repository")["with"])
 
     def test_manual_boolean_toggles_have_explicit_types_and_preserved_defaults(self) -> None:
         expected = {

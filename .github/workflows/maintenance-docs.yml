@@ -53,6 +53,10 @@ on:
     - cron: '0 5 * * 1'   # Weekly Monday 05:00 UTC — src/include alignment
   workflow_dispatch:
     inputs:
+      dry_run:
+        description: 'Run documentation checks and prepare reports/previews without applying updates, changing issues, or pushing commits. Scheduled and push runs remain live.'
+        type: boolean
+        default: true
       fail_on_findings:
         description: 'Fail on any findings (orphan check, hygiene, alignment)'
         type: boolean
@@ -115,9 +119,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write
-  pull-requests: write
-  issues: write
+  contents: read
 
 # ──────────────────────────────────────────────────────────────────────────────
 jobs:
@@ -142,7 +144,9 @@ jobs:
         id: lint
         run: |
           APPLY_FLAG=""
-          [ "${{ inputs.apply_ai_updates }}" = "true" ] && APPLY_FLAG="--apply-updates"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.apply_ai_updates }}" = "true" ] && [ "${{ inputs.dry_run }}" != "true" ]; then
+            APPLY_FLAG="--apply-updates"
+          fi
           python3 scripts/ai-context-lint.py \
             --format text \
             --output /tmp/ai-context-lint.txt \
@@ -167,6 +171,10 @@ jobs:
         run: |
           {
             echo "## AI Context Sync"
+            echo "- Manual dry-run: \`${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}\`"
+            if [ "${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}" = "true" ] && [ "${{ inputs.apply_ai_updates }}" = "true" ]; then
+              echo "- AI-context updates were requested but not applied; lint and reports still ran."
+            fi
             if [ -f /tmp/ai-context-lint.txt ]; then
               echo '```'; cat /tmp/ai-context-lint.txt; echo '```'
             fi
@@ -195,7 +203,7 @@ jobs:
           APPLY_FLAG=""
           FULL_FLAG=""
           FAIL_FLAG=""
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.llm_wiki_apply_updates }}" = "true" ]; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.llm_wiki_apply_updates }}" = "true" ] && [ "${{ inputs.dry_run }}" != "true" ]; then
             APPLY_FLAG="--apply-updates"
           fi
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.llm_wiki_full_sync }}" = "true" ]; then
@@ -228,6 +236,10 @@ jobs:
         run: |
           {
             echo "## Developer LLM Wiki Sync"
+            echo "- Manual dry-run: \`${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}\`"
+            if [ "${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}" = "true" ] && [ "${{ inputs.llm_wiki_apply_updates }}" = "true" ]; then
+              echo "- Wiki updates were requested but not applied; validation and reports still ran."
+            fi
             if [ -f /tmp/dev-llm-wiki-sync.txt ]; then
               echo '```'; cat /tmp/dev-llm-wiki-sync.txt; echo '```'
             fi
@@ -249,8 +261,13 @@ jobs:
               fh.write(f"findings_count={count}\n")
           PY
 
+      - name: Preview wiki drift tracker action (manual dry-run)
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run == true && steps.wiki_drift.outputs.findings_count != '0'
+        run: |
+          echo "Manual dry-run: would upsert the developer LLM wiki drift issue for ${{ steps.wiki_drift.outputs.findings_count }} finding(s); no issue, label, or comment changes were made." >> "$GITHUB_STEP_SUMMARY"
+
       - name: Open tracker issue for wiki drift findings
-        if: always() && steps.wiki_drift.outputs.findings_count != '0'
+        if: always() && steps.wiki_drift.outputs.findings_count != '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -317,7 +334,7 @@ jobs:
           METRICS_REPORT_PATH="docs/code_maturity_report.md"
           HEADER_REPORT_PATH="/tmp/code_maturity_header_report.md"
 
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.update_headers }}" = "true" ]; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.update_headers }}" = "true" ] && [ "${{ inputs.dry_run }}" != "true" ]; then
             {
               echo "mode=rewrite"
               echo "no_headers_flag="
@@ -398,17 +415,24 @@ jobs:
             echo "## Code Maturity — ${{ steps.mode.outputs.mode }}"
             echo "| Mode | ${{ steps.mode.outputs.mode }} |"
             echo "| Event | \`${{ github.event_name }}\` |"
+            echo "| Manual dry-run | \`${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}\` |"
             echo "| Header mode | \`${{ steps.mode.outputs.header_mode }}\` |"
             echo "| Min score | \`${{ steps.mode.outputs.min_score }}\` |"
             echo "| Target paths | \`${{ steps.mode.outputs.target_paths }}\` |"
             echo "| Include all files | \`${{ steps.mode.outputs.include_all_flag != '' }}\` |"
+            if [ "${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}" = "true" ]; then
+              echo "| Repository commit | suppressed; reports and analysis remain available as artifacts |"
+              if [ "${{ inputs.update_headers }}" = "true" ]; then
+                echo "| Header rewrites | requested but suppressed by dry-run |"
+              fi
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
 
   # 3a. Commit Code Maturity Artifacts (write permission scoped to this job, skipped on PRs)
   code-maturity-commit:
     name: "Build: Commit Code Maturity Artifacts"
     needs: code-maturity
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -580,13 +604,21 @@ jobs:
         run: |
           {
             echo "## Docs Orphan Check"
+            echo "- Manual dry-run: \`${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}\`"
+            if [ "${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}" = "true" ]; then
+              if [ "${{ steps.orphan_scan.outputs.orphan_module_dirs != '0' || steps.orphan_scan.outputs.broken_primary_references != '0' }}" = "true" ]; then
+                echo "- Would upsert the orphan findings issue; tracker writes were suppressed."
+              else
+                echo "- Would mark the orphan findings issue resolved; tracker writes were suppressed."
+              fi
+            fi
             if [ -f /tmp/docs-orphan-check.txt ]; then
               echo '```'; cat /tmp/docs-orphan-check.txt; echo '```'
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Open tracker issue for orphan findings
-        if: always() && (steps.orphan_scan.outputs.orphan_module_dirs != '0' || steps.orphan_scan.outputs.broken_primary_references != '0')
+        if: always() && (steps.orphan_scan.outputs.orphan_module_dirs != '0' || steps.orphan_scan.outputs.broken_primary_references != '0') && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -614,7 +646,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: "Validate: Mark orphan tracker issue resolved when clean"
-        if: always() && (steps.orphan_scan.outputs.orphan_module_dirs == '0' && steps.orphan_scan.outputs.broken_primary_references == '0')
+        if: always() && (steps.orphan_scan.outputs.orphan_module_dirs == '0' && steps.orphan_scan.outputs.broken_primary_references == '0') && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -666,13 +698,21 @@ jobs:
         run: |
           {
             echo "## Root Docs Hygiene"
+            echo "- Manual dry-run: \`${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}\`"
+            if [ "${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}" = "true" ]; then
+              if [ "${{ steps.root_hygiene.outputs.findings != '0' }}" = "true" ]; then
+                echo "- Would upsert the root-hygiene findings issue; tracker writes were suppressed."
+              else
+                echo "- Would mark the root-hygiene issue resolved; tracker writes were suppressed."
+              fi
+            fi
             if [ -f /tmp/root-docs-hygiene.txt ]; then
               echo '```'; cat /tmp/root-docs-hygiene.txt; echo '```'
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Open tracker issue for hygiene findings
-        if: always() && steps.root_hygiene.outputs.findings != '0'
+        if: always() && steps.root_hygiene.outputs.findings != '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -700,7 +740,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: "Validate: Mark root-hygiene tracker issue resolved when clean"
-        if: always() && steps.root_hygiene.outputs.findings == '0'
+        if: always() && steps.root_hygiene.outputs.findings == '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -806,6 +846,14 @@ jobs:
         run: |
           {
             echo "## src/include ↔ docs/de Alignment"
+            echo "- Manual dry-run: \`${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}\`"
+            if [ "${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}" = "true" ]; then
+              if [ "${{ steps.align_scan.outputs.undocumented_modules != '0' }}" = "true" ]; then
+                echo "- Would upsert the alignment issue and comment the module findings; tracker writes were suppressed."
+              else
+                echo "- Would mark the alignment issue resolved; tracker writes were suppressed."
+              fi
+            fi
             if [ -f /tmp/align-report.txt ]; then
               echo '```'; cat /tmp/align-report.txt; echo '```'
             fi
@@ -813,7 +861,7 @@ jobs:
 
       - name: Open tracker issue for alignment findings
         id: align_tracker
-        if: always() && steps.align_scan.outputs.undocumented_modules != '0'
+        if: always() && steps.align_scan.outputs.undocumented_modules != '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -841,7 +889,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: "Validate: Comment module findings on existing alignment issue"
-        if: always() && steps.align_scan.outputs.undocumented_modules != '0'
+        if: always() && steps.align_scan.outputs.undocumented_modules != '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -854,7 +902,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: "Validate: Mark src/include alignment tracker issue resolved when clean"
-        if: always() && steps.align_scan.outputs.undocumented_modules == '0'
+        if: always() && steps.align_scan.outputs.undocumented_modules == '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -888,7 +936,21 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 scripts/create_docs_audit_issues.py --create --repo "${{ github.repository }}"
+          CREATE_FLAG=""
+          if [ "${{ inputs.dry_run }}" != "true" ]; then
+            CREATE_FLAG="--create"
+          fi
+          python3 scripts/create_docs_audit_issues.py $CREATE_FLAG --repo "${{ github.repository }}" | tee /tmp/docs-audit-issue-seed.txt
+          {
+            echo "## Docs audit issue seeding"
+            echo "- Manual dry-run: \`${{ inputs.dry_run }}\`"
+            if [ "${{ inputs.dry_run }}" = "true" ]; then
+              echo "- Issue creation was suppressed; proposed actions are listed below."
+            fi
+            echo '```'
+            cat /tmp/docs-audit-issue-seed.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
   roadmap-status-drift:
     name: "Validate: ROADMAP [~] status drift"
@@ -941,13 +1003,24 @@ jobs:
         run: |
           {
             echo "## ROADMAP [~] Status Drift"
+            echo "- Manual dry-run: \`${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}\`"
+            if [ "${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}" = "true" ]; then
+              if [ "${{ steps.roadmap_drift.outputs.suspected_items != '0' }}" = "true" ]; then
+                echo "- Would upsert the ROADMAP drift issue; tracker writes were suppressed."
+                if [ "${{ inputs.seed_roadmap_drift_issues }}" = "true" ]; then
+                  echo "- Would preview module-wise drift issues; no issues were created."
+                fi
+              else
+                echo "- Would mark the ROADMAP drift issue resolved; tracker writes were suppressed."
+              fi
+            fi
             if [ -f /tmp/roadmap-status-drift.md ]; then
               cat /tmp/roadmap-status-drift.md
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Open tracker issue for ROADMAP drift
-        if: always() && steps.roadmap_drift.outputs.suspected_items != '0'
+        if: always() && steps.roadmap_drift.outputs.suspected_items != '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -977,12 +1050,17 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          DRY_RUN_FLAG=""
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            DRY_RUN_FLAG="--dry-run"
+          fi
           python3 tools/ci/module_docs_issue_reporter.py \
             --report /tmp/roadmap-status-drift.json \
-            --repo "${{ github.repository }}"
+            --repo "${{ github.repository }}" \
+            $DRY_RUN_FLAG | tee /tmp/roadmap-module-issues.txt
 
       - name: "Validate: Mark roadmap-drift tracker issue resolved when clean"
-        if: always() && steps.roadmap_drift.outputs.suspected_items == '0'
+        if: always() && steps.roadmap_drift.outputs.suspected_items == '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -1066,8 +1144,24 @@ jobs:
           retention-days: 30
           if-no-files-found: ignore
 
+      - name: "Validate: Write reconciliation summary"
+        if: always()
+        run: |
+          {
+            echo "## Docs issue/PR reconciliation"
+            echo "- Manual dry-run: \`${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}\`"
+            echo "- Findings requiring attention: \`${{ steps.reconcile.outputs.attention_count || 'n/a' }}\`"
+            if [ "${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}" = "true" ]; then
+              if [ "${{ steps.reconcile.outputs.attention_count != '0' }}" = "true" ]; then
+                echo "- Would upsert the reconciliation issue; tracker writes were suppressed."
+              else
+                echo "- Would mark the reconciliation issue resolved; tracker writes were suppressed."
+              fi
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: "Validate: Open tracker issue for reconciliation findings"
-        if: always() && steps.reconcile.outputs.attention_count != '0'
+        if: always() && steps.reconcile.outputs.attention_count != '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -1098,7 +1192,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: "Validate: Mark reconciliation tracker issue resolved when clean"
-        if: always() && steps.reconcile.outputs.attention_count == '0'
+        if: always() && steps.reconcile.outputs.attention_count == '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -1277,8 +1371,13 @@ jobs:
           retention-days: 30
           if-no-files-found: ignore
 
+      - name: Preview ai_working hygiene tracker action (manual dry-run)
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run == true && (steps.hygiene.outputs.stale_count != '0' || steps.hygiene.outputs.orphan_ctx_count != '0')
+        run: |
+          echo "Manual dry-run: would upsert the AI working/context hygiene issue for ${{ steps.hygiene.outputs.stale_count }} stale file(s) and ${{ steps.hygiene.outputs.orphan_ctx_count }} orphan file(s); tracker writes were suppressed." >> "$GITHUB_STEP_SUMMARY"
+
       - name: Open tracker issue for ai_working stale + ai_context orphan findings
-        if: always() && (steps.hygiene.outputs.stale_count != '0' || steps.hygiene.outputs.orphan_ctx_count != '0')
+        if: always() && (steps.hygiene.outputs.stale_count != '0' || steps.hygiene.outputs.orphan_ctx_count != '0') && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -1325,6 +1424,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run != true }}
 
       - name: Set up Python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
@@ -1383,7 +1483,7 @@ jobs:
           if-no-files-found: ignore
 
       - name: Commit API reference artifacts
-        if: steps.extract.outputs.api_ref_count != '' && steps.extract.outputs.api_ref_count != '0'
+        if: steps.extract.outputs.api_ref_count != '' && steps.extract.outputs.api_ref_count != '0' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -1412,6 +1512,10 @@ jobs:
         run: |
           {
             echo "## Doxygen API Reference Extraction"
+            echo "- Manual dry-run: \`${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}\`"
+            if [ "${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}" = "true" ] && [ -n "${{ steps.extract.outputs.api_ref_count }}" ] && [ "${{ steps.extract.outputs.api_ref_count }}" != "0" ]; then
+              echo "- Would commit \`${{ steps.extract.outputs.api_ref_count }}\` generated API reference page(s); no repository push was made."
+            fi
             if [ -f /tmp/doxygen-extraction.txt ]; then
               echo '```'; cat /tmp/doxygen-extraction.txt; echo '```'
             fi

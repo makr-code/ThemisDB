@@ -33,4 +33,4 @@ Status: Active
 
 ## Changed
 
-- .github/workflows/maintenance-issues.yml
+- .github/workflows/maintenance-docs.yml

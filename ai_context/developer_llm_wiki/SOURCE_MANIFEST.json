@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T17:49:15+00:00",
+  "generated_at": "2026-11-12T18:09:23+00:00",
   "source_count": 8091,
   "sources": [
     {
@@ -392,9 +392,9 @@
     {
       "path": ".github/workflows/maintenance-docs.yml",
       "category": "build_test_ci",
-      "size": 59571,
-      "sha256": "a54b7b05d42b1d71500743ac09bd7f2095fa1547e696ce63cb7aa5c7a1f9e785",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 67989,
+      "sha256": "456deb06ff00878f0e37f3f4b2b0596d1c9be25e07b85ea74cf6cda0d2007d67",
+      "modified_utc": "2026-11-12T18:08:58+00:00"
     },
     {
       "path": ".github/workflows/maintenance-housekeeping.yml",
