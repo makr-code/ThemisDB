@@ -59,6 +59,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "maintenance-housekeeping.yml",
             "maintenance-build-issues.yml",
             "maintenance-ci-health.yml",
+            "maintenance-issues.yml",
             "maintenance-pr-failure-diagnosis.yml",
             "maintenance-soll-ist-gap-issues.yml",
             "publish-wiki.yml",
@@ -537,7 +538,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         dry_run = dispatch["inputs"]["dry_run"]
         self.assertEqual(dry_run["type"], "boolean")
         self.assertIs(dry_run["default"], True)
-        self.assertIn("scheduled runs remain live", dry_run["description"])
+        self.assertIn("scheduled runs remain live", dry_run["description"].lower())
 
         jobs = workflow["jobs"]
         analysis = jobs["ci-health-dashboard"]
@@ -629,6 +630,67 @@ class WorkflowDryRunContractTests(unittest.TestCase):
                 self.assertIn("github.event_name == 'schedule'", step["if"])
                 self.assertIn("github.event.inputs.apply_changes == 'true'", step["if"])
                 self.assertIn("github.event.inputs.dry_run != 'true'", step["if"])
+
+    def test_maintenance_issue_triage_dry_run_preserves_analysis_and_scheduled_writes(self) -> None:
+        workflow = load_workflow("maintenance-issues.yml")
+        triggers = workflow.get(True, workflow.get("on"))
+        dry_run = triggers["workflow_dispatch"]["inputs"]["dry_run"]
+        self.assertEqual(dry_run["type"], "boolean")
+        self.assertIs(dry_run["default"], True)
+        self.assertIn("scheduled runs remain live", dry_run["description"].lower())
+
+        mutation_guard = "github.event_name != 'workflow_dispatch' || inputs.dry_run != true"
+        jobs = workflow["jobs"]
+        gs3 = jobs["gs3-gap-triage"]["steps"]
+        gs3_write_steps = {
+            "Upsert consolidated GS3 issue",
+            "Normalize GS3 labels when open",
+            "Post GS3 recovery update when clean",
+            "Normalize GS3 labels on recovery",
+            "Upsert scanner failure issue",
+            "Normalize scanner runtime failure labels",
+            "Post scanner recovery update",
+        }
+        for step in gs3:
+            if step.get("name") in gs3_write_steps:
+                with self.subTest(job="gs3", step=step["name"]):
+                    self.assertIn(mutation_guard, step["if"])
+        self.assertIn(
+            "Preview GS3 tracker changes (manual dry-run)",
+            {step.get("name") for step in gs3},
+        )
+        gs3_preview = next(step for step in gs3 if step.get("name") == "Preview GS3 tracker changes (manual dry-run)")
+        self.assertIn("inputs.dry_run == true", gs3_preview["if"])
+
+        security = jobs["security-alert-triage"]["steps"]
+        security_write_steps = {
+            "Open/update SLA issue for high/critical alerts",
+            "Normalize security label group",
+            "Post security recovery update",
+            "Normalize security labels on recovery",
+        }
+        for step in security:
+            if step.get("name") in security_write_steps:
+                with self.subTest(job="security", step=step["name"]):
+                    self.assertIn(mutation_guard, step["if"])
+                    if "recovery" in step["name"].lower():
+                        self.assertIn("steps.query.outcome == 'success'", step["if"])
+        query = next(step for step in security if step.get("name") == "Query code scanning alerts for SLA breaches")
+        self.assertEqual(query["env"]["SLA_DAYS"], "${{ env.SLA_DAYS }}")
+        self.assertIn("process.env.SLA_DAYS", query["with"]["script"])
+        self.assertNotIn("${{ inputs.sla_days", query["with"]["script"])
+        self.assertIn("Job summary", {step.get("name") for step in security})
+
+        doxygen = jobs["doxygen-header-update"]["steps"]
+        for name in ("Configure git for PR commit", "Create PR branch and open PR"):
+            step = next(step for step in doxygen if step.get("name") == name)
+            with self.subTest(job="doxygen", step=name):
+                self.assertIn(mutation_guard, step["if"])
+        preview = next(step for step in doxygen if step.get("name") == "Preview Doxygen PR publication (manual dry-run)")
+        self.assertIn("inputs.dry_run == true", preview["if"])
+        self.assertIn("No branch was pushed", preview["run"])
+        checkout = next(step for step in doxygen if step.get("name") == "Checkout repository")
+        self.assertIn("persist-credentials", checkout["with"])
 
     def test_manual_boolean_toggles_have_explicit_types_and_preserved_defaults(self) -> None:
         expected = {

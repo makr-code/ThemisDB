@@ -34,6 +34,11 @@ on:
           - doxygen-header-update
           - both
         default: both
+      dry_run:
+        description: 'Run scans and prepare issue/PR previews without external changes. Doxygen autofixes stay in the runner workspace. Scheduled runs remain live.'
+        required: false
+        type: boolean
+        default: true
       # ── GS3 inputs ────────────────────────────────────────────────────────
       target_branch:
         description: '[GS3] Target branch to scan'
@@ -429,8 +434,30 @@ jobs:
               fh.write('\nEOF\n')
           PY
 
+      - name: Preview GS3 tracker changes (manual dry-run)
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run == true
+        env:
+          SCAN_FAILED: ${{ steps.scan.outputs.scan_failed }}
+          SHOULD_OPEN_ISSUE: ${{ steps.consolidate.outputs.should_open_issue }}
+          ACTIONABLE_BUCKETS: ${{ steps.consolidate.outputs.actionable_buckets }}
+        run: |
+          {
+            echo "## GS3 tracker dry-run preview"
+            if [ "$SCAN_FAILED" = "true" ]; then
+              echo "- Would upsert the scanner-failure issue and normalize its status labels."
+            elif [ "$SHOULD_OPEN_ISSUE" = "true" ]; then
+              echo "- Would upsert the consolidated findings issue and normalize its status labels."
+            else
+              echo "- Would post the scanner recovery update."
+              if [ -n "$ACTIONABLE_BUCKETS" ] && [ "$ACTIONABLE_BUCKETS" != "0" ]; then
+                echo "- Would post the clean-threshold recovery update and mark the findings issue resolved."
+              fi
+            fi
+            echo "- No issue, label, or comment changes were made."
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Upsert consolidated GS3 issue
-        if: steps.scan.outputs.scan_failed != 'true' && steps.consolidate.outputs.should_open_issue == 'true'
+        if: steps.scan.outputs.scan_failed != 'true' && steps.consolidate.outputs.should_open_issue == 'true' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -444,7 +471,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Normalize GS3 labels when open
-        if: steps.scan.outputs.scan_failed != 'true' && steps.consolidate.outputs.should_open_issue == 'true'
+        if: steps.scan.outputs.scan_failed != 'true' && steps.consolidate.outputs.should_open_issue == 'true' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -457,7 +484,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Post GS3 recovery update when clean
-        if: steps.scan.outputs.scan_failed != 'true' && steps.consolidate.outputs.should_open_issue != 'true' && steps.consolidate.outputs.actionable_buckets != ''
+        if: steps.scan.outputs.scan_failed != 'true' && steps.consolidate.outputs.should_open_issue != 'true' && steps.consolidate.outputs.actionable_buckets != '' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -473,7 +500,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Normalize GS3 labels on recovery
-        if: steps.scan.outputs.scan_failed != 'true' && steps.consolidate.outputs.should_open_issue != 'true' && steps.consolidate.outputs.actionable_buckets != ''
+        if: steps.scan.outputs.scan_failed != 'true' && steps.consolidate.outputs.should_open_issue != 'true' && steps.consolidate.outputs.actionable_buckets != '' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -487,7 +514,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Upsert scanner failure issue
-        if: steps.scan.outputs.scan_failed == 'true'
+        if: steps.scan.outputs.scan_failed == 'true' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -514,7 +541,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Normalize scanner runtime failure labels
-        if: steps.scan.outputs.scan_failed == 'true'
+        if: steps.scan.outputs.scan_failed == 'true' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -527,7 +554,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Post scanner recovery update
-        if: steps.scan.outputs.scan_failed != 'true'
+        if: steps.scan.outputs.scan_failed != 'true' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -552,6 +579,7 @@ jobs:
             echo "- Branch: \`${TARGET_BRANCH}\`"
             echo "- Scan paths: \`${SCAN_PATHS}\`"
             echo "- Scan mode: \`${SCAN_MODE}\`"
+            echo "- Manual dry-run: \`${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}\`"
             echo "- Scan failed: \`${{ steps.scan.outputs.scan_failed || 'unknown' }}\`"
             echo "- Scan exit code: \`${{ steps.scan.outputs.scan_exit_code || 'n/a' }}\`"
             echo "- Actionable findings: \`${{ steps.consolidate.outputs.actionable_findings || 'n/a' }}\`"
@@ -575,6 +603,8 @@ jobs:
       github.event_name == 'schedule' ||
       (github.event_name == 'workflow_dispatch' &&
         (inputs.job == 'security-alert-triage' || inputs.job == 'both'))
+    env:
+      SLA_DAYS: ${{ inputs.sla_days || '14' }}
 
     steps:
       - name: Print triage context
@@ -583,7 +613,7 @@ jobs:
           echo " Maintenance — Security Alert Triage"
           echo "============================================================"
           echo "  Trigger       : ${{ github.event_name }}"
-          echo "  SLA days      : ${{ inputs.sla_days || 14 }}"
+          echo "  SLA days      : ${SLA_DAYS}"
           echo "  Actor         : ${{ github.actor }}"
           echo "  Run ID        : ${{ github.run_id }}"
           echo "  Repo          : ${{ github.repository }}"
@@ -599,11 +629,13 @@ jobs:
       - name: Query code scanning alerts for SLA breaches
         id: query
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        env:
+          SLA_DAYS: ${{ env.SLA_DAYS }}
         with:
           script: |
-            const slaDaysRaw = '${{ inputs.sla_days || 14 }}';
-            const slaDays = Number.parseInt(slaDaysRaw, 10);
-            if (!Number.isFinite(slaDays) || slaDays <= 0) {
+            const slaDaysRaw = process.env.SLA_DAYS || '14';
+            const slaDays = Number(slaDaysRaw);
+            if (!Number.isSafeInteger(slaDays) || slaDays <= 0) {
               throw new Error(`Invalid sla_days input: ${slaDaysRaw}`);
             }
             const now = Date.now();
@@ -645,14 +677,30 @@ jobs:
               core.notice(`No high/critical alerts are beyond ${slaDays}-day SLA.`);
             }
 
+      - name: Preview security tracker changes (manual dry-run)
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run == true && steps.query.outputs.has_breach != ''
+        env:
+          HAS_BREACH: ${{ steps.query.outputs.has_breach }}
+          BREACH_COUNT: ${{ steps.query.outputs.breach_count }}
+        run: |
+          {
+            echo "## Security alert tracker dry-run preview"
+            if [ "$HAS_BREACH" = "true" ]; then
+              echo "- Would upsert the SLA issue for ${BREACH_COUNT} high/critical alert(s) and normalize security labels."
+            else
+              echo "- Would post the recovery update and normalize security labels."
+            fi
+            echo "- No issue, label, or comment changes were made."
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Open/update SLA issue for high/critical alerts
         id: triage
-        if: steps.query.outputs.has_breach == 'true'
+        if: steps.query.outputs.has_breach == 'true' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           operation: upsert_issue
-          issue-title: '[Security] Code Scanning alerts breaching ${{ inputs.sla_days || 14 }}d SLA'
+          issue-title: '[Security] Code Scanning alerts breaching ${{ env.SLA_DAYS }}d SLA'
           issue-marker: '<!-- security-triage:ref:${{ github.ref }} -->'
           issue-body: |
             <!-- security-triage:type:code-scanning-sla -->
@@ -660,10 +708,10 @@ jobs:
             <!-- security-triage:ref:${{ github.ref }} -->
             ## Security SLA Alert — Code Scanning
 
-            Found **${{ steps.query.outputs.breach_count }}** open high/critical code scanning alert(s) older than **${{ inputs.sla_days || 14 }} day(s)** and requiring triage.
+            Found **${{ steps.query.outputs.breach_count }}** open high/critical code scanning alert(s) older than **${{ env.SLA_DAYS }} day(s)** and requiring triage.
 
             **Owner:** @makr-code
-            **SLA:** high/critical alert triage within ${{ inputs.sla_days || 14 }} days, mitigation plan within 72h after triage.
+            **SLA:** high/critical alert triage within ${{ env.SLA_DAYS }} days, mitigation plan within 72h after triage.
 
             _Source of truth: GitHub Security › Code scanning alerts._
             _Auto-generated by maintenance-issues.yml at ${{ github.run_id }}_
@@ -673,7 +721,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Normalize security label group
-        if: steps.query.outputs.has_breach == 'true'
+        if: steps.query.outputs.has_breach == 'true' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -686,7 +734,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Post security recovery update
-        if: always() && steps.query.outputs.has_breach != 'true'
+        if: always() && steps.query.outcome == 'success' && steps.query.outputs.has_breach != 'true' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -702,7 +750,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Normalize security labels on recovery
-        if: always() && steps.query.outputs.has_breach != 'true'
+        if: always() && steps.query.outcome == 'success' && steps.query.outputs.has_breach != 'true' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -714,6 +762,22 @@ jobs:
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "## Security Alert SLA Triage"
+            echo ""
+            echo "- Trigger: \`${{ github.event_name }}\`"
+            echo "- SLA threshold: \`${SLA_DAYS}\` days"
+            echo "- Manual dry-run: \`${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}\`"
+            echo "- Query result: \`${{ steps.query.outputs.has_breach || 'unavailable' }}\`"
+            echo "- Breaching alerts: \`${{ steps.query.outputs.breach_count || 'n/a' }}\`"
+            if [ "${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}" = "true" ]; then
+              echo "- Issue, label, and comment changes were suppressed."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
 
   # ────────────────────────────────────────────────────────────────────────────
   # Job 3: Doxygen Header Update (GS3-driven)
@@ -755,6 +819,7 @@ jobs:
           ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run != true }}
 
       - name: Setup Python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
@@ -893,13 +958,23 @@ jobs:
           retention-days: 30
 
       - name: Configure git for PR commit
-        if: steps.diff.outputs.changed == 'true'
+        if: steps.diff.outputs.changed == 'true' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Preview Doxygen PR publication (manual dry-run)
+        if: steps.diff.outputs.changed == 'true' && github.event_name == 'workflow_dispatch' && inputs.dry_run == true
+        run: |
+          {
+            echo "## Doxygen PR dry-run preview"
+            echo "- Would create a branch named \`doxygen/auto-update-${{ github.run_id }}\`."
+            echo "- Would open a PR against \`${TARGET_BRANCH}\` with \`${{ steps.diff.outputs.changed_count }}\` changed file(s)."
+            echo "- No branch was pushed and no pull request was created."
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Create PR branch and open PR
-        if: steps.diff.outputs.changed == 'true'
+        if: steps.diff.outputs.changed == 'true' && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CHANGED_COUNT: ${{ steps.diff.outputs.changed_count }}
@@ -951,8 +1026,9 @@ jobs:
             echo "- Trigger: \`${{ github.event_name }}\`"
             echo "- Branch: \`${TARGET_BRANCH}\`"
             echo "- GS3 scan ok: \`${{ steps.gs3_scan.outputs.scan_ok || 'n/a' }}\`"
+            echo "- Manual dry-run: \`${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}\`"
             echo "- GS3 findings: \`${{ steps.gs3_scan.outputs.has_findings || 'n/a' }}\`"
             echo "- Doxygen findings to fix: \`${{ steps.convert.outputs.finding_count || '0' }}\`"
             echo "- Files changed: \`${{ steps.diff.outputs.changed_count || '0' }}\`"
-            echo "- PR opened: \`${{ steps.diff.outputs.changed == 'true' && 'yes' || 'no' }}\`"
+            echo "- PR publication: \`${{ steps.diff.outputs.changed == 'true' && github.event_name == 'workflow_dispatch' && inputs.dry_run && 'preview only' || (steps.diff.outputs.changed == 'true' && 'published' || 'not required') }}\`"
           } >> "$GITHUB_STEP_SUMMARY"
