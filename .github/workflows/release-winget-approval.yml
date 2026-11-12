@@ -41,7 +41,7 @@ jobs:
       environment_url: https://github.com/${{ github.repository }}/actions/workflows/release-winget-approval.yml
       target_workflow_id: release-winget.yml
       target_ref: develop
-      dispatch_inputs_json: '{"fork_owner":"${{ vars.WINGET_FORK_OWNER }}"}'
+      dispatch_inputs_json: '{"fork_owner":"${{ vars.WINGET_FORK_OWNER }}","dry_run":false}'
       approved_label: winget-approved
       approval_note: |
         Monitor `release-winget.yml` for submission status and winget-pkgs PR creation.

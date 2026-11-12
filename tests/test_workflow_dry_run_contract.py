@@ -63,6 +63,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "release-nightly.yml",
             "release-promote.yml",
             "release-rollback.yml",
+            "release-winget.yml",
             "wiki-pr-gate.yml",
         )
         reusable_workflows = (
@@ -70,6 +71,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "release-docker-image.yml",
             "release-mainline.yml",
             "reusable-docker-image-platform.yml",
+            "release-winget.yml",
         )
 
         for name in manual_workflows:
@@ -247,6 +249,49 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             if step.get("name") == "Write workflow summary"
         )
         self.assertIn("GitHub release tracker updates: suppressed", summary["run"])
+
+    def test_winget_dry_run_validates_manifests_without_external_or_issue_writes(self) -> None:
+        workflow = load_workflow("release-winget.yml")
+        triggers = workflow.get(True, workflow.get("on"))
+        for trigger_name in ("workflow_dispatch", "workflow_call"):
+            dry_run = triggers[trigger_name]["inputs"]["dry_run"]
+            with self.subTest(trigger=trigger_name):
+                self.assertEqual(dry_run["type"], "boolean")
+                self.assertIs(dry_run["default"], True)
+
+        self.assertEqual(
+            workflow["permissions"],
+            {"contents": "read", "packages": "read", "actions": "read"},
+        )
+        jobs = workflow["jobs"]
+        live_run = "github.event_name == 'release' || inputs.dry_run != true"
+        self.assertEqual(jobs["mark-release-pending"]["if"], live_run)
+        self.assertEqual(
+            jobs["finalize-release-status"]["if"],
+            f"always() && ({live_run})",
+        )
+        for job_name in ("mark-release-pending", "finalize-release-status"):
+            with self.subTest(job=job_name):
+                self.assertEqual(
+                    jobs[job_name]["permissions"],
+                    {"contents": "read", "issues": "write"},
+                )
+
+        manifest_validation = jobs["validate-manifests"]
+        self.assertNotIn("dry_run", manifest_validation["if"])
+        submit = jobs["create-fork-pr"]
+        self.assertIn("inputs.dry_run != true", submit["if"])
+        self.assertEqual(submit["permissions"], {"contents": "read"})
+        notify = jobs["notify"]["steps"][0]
+        self.assertIn("no WinGet PR or GitHub issue update was attempted", notify["run"])
+        self.assertIn("$GITHUB_STEP_SUMMARY", notify["run"])
+        self.assertIn("Manifest validation:", notify["run"])
+        self.assertIn("${VALIDATE_RESULT}", notify["run"])
+        self.assertIn("dry-run; submission and issue updates suppressed", jobs["run-summary"]["steps"][1]["with"]["scope"])
+
+        approval = load_workflow("release-winget-approval.yml")
+        approval_step = approval["jobs"]["winget_publish_from_issue"]
+        self.assertIn('"dry_run":false', approval_step["with"]["dispatch_inputs_json"])
 
     def test_wiki_dry_run_still_builds_and_validates_without_mutation(self) -> None:
         workflow = load_workflow("publish-wiki.yml")
