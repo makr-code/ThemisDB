@@ -57,6 +57,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "maintenance-architecture-ci.yml",
             "maintenance-compendium-sync.yml",
             "maintenance-housekeeping.yml",
+            "maintenance-pr-failure-diagnosis.yml",
             "maintenance-soll-ist-gap-issues.yml",
             "publish-wiki.yml",
             "release-docker-image.yml",
@@ -436,6 +437,23 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         workflow_text = (WORKFLOWS / "maintenance-housekeeping.yml").read_text(encoding="utf-8")
         self.assertIn("if (dryRun)", workflow_text)
         self.assertIn("[dry-run] would post closure recommendation", workflow_text)
+
+    def test_manual_pr_failure_diagnosis_dry_run_previews_without_comment_writes(self) -> None:
+        workflow = load_workflow("maintenance-pr-failure-diagnosis.yml")
+        triggers = workflow.get(True, workflow.get("on"))
+        dry_run = triggers["workflow_dispatch"]["inputs"]["dry_run"]
+        self.assertEqual(dry_run["type"], "boolean")
+        self.assertIs(dry_run["default"], True)
+
+        steps = workflow["jobs"]["diagnose-pr-failure"]["steps"]
+        diagnosis = next(step for step in steps if step.get("name") == "Generate and publish recommend-only diagnosis comment")
+        script = diagnosis["with"]["script"]
+        self.assertEqual(diagnosis["env"]["DRY_RUN"], "${{ inputs.dry_run }}")
+        self.assertIn("context.eventName === 'workflow_dispatch' && process.env.DRY_RUN === 'true'", script)
+        self.assertIn("plannedActions.push", script)
+        self.assertIn("if (dryRun)", script)
+        self.assertIn("comment writes: suppressed", script)
+        self.assertEqual(triggers["workflow_run"]["types"], ["completed"])
 
     def test_soll_ist_manual_dry_run_suppresses_issue_mutations_but_schedule_syncs(self) -> None:
         workflow = load_workflow("maintenance-soll-ist-gap-issues.yml")

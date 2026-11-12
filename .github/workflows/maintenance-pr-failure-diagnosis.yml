@@ -14,6 +14,11 @@ on:
     types: [completed]
   workflow_dispatch:
     inputs:
+      dry_run:
+        description: "Collect diagnosis evidence and preview the PR comment without creating or updating comments."
+        required: false
+        default: true
+        type: boolean
       run_id:
         description: 'Optional workflow run ID for manual diagnosis'
         required: false
@@ -71,6 +76,7 @@ jobs:
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v9.0.0
         env:
           RUN_ID_INPUT: ${{ inputs.run_id }}
+          DRY_RUN: ${{ inputs.dry_run }}
         with:
           script: |
             const owner = context.repo.owner;
@@ -149,6 +155,7 @@ jobs:
             const runUrl = run.html_url || `${context.serverUrl}/${owner}/${repo}/actions/runs/${run.id}`;
             const shortSha = (run.head_sha || '').slice(0, 8) || 'n/a';
             const workflowName = run.name || 'Unknown Workflow';
+            const dryRun = context.eventName === 'workflow_dispatch' && process.env.DRY_RUN === 'true';
 
             const recommendationLines = [
               '1. Oeffne den fehlgeschlagenen Job und pruefe den ersten fehlerhaften Step.',
@@ -177,6 +184,7 @@ jobs:
               `Aktualisiert: ${new Date().toISOString()}`,
             ].join('\n');
 
+            const plannedActions = [];
             for (const prRef of prRefs) {
               const issueNumber = prRef.number;
               const { data: comments } = await github.rest.issues.listComments({
@@ -190,6 +198,11 @@ jobs:
                 (c.body || '').includes(marker) &&
                 (c.body || '').includes(`<!-- workflow-name:${workflowName} -->`)
               );
+
+              if (dryRun) {
+                plannedActions.push(`- Would ${existing ? 'update' : 'create'} a diagnosis comment on PR #${issueNumber}.`);
+                continue;
+              }
 
               if (existing) {
                 await github.rest.issues.updateComment({
@@ -208,6 +221,20 @@ jobs:
                 });
                 core.notice(`Created diagnose comment on PR #${issueNumber}.`);
               }
+            }
+
+            if (dryRun) {
+              const summaryLines = [
+                '## PR Failure Diagnosis — Dry Run',
+                '',
+                `- Source run: [${run.id}](${runUrl})`,
+                `- Diagnosis comment writes: suppressed`,
+                ...(plannedActions.length ? plannedActions : ['- No PR comment changes are required.']),
+              ];
+              require('fs').appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${summaryLines.join('\n')}\n`);
+              core.setOutput('diagnosis_status', 'dry-run');
+              core.notice(`Dry run: diagnosis collected; no comments changed. ${plannedActions.length} PR comment action(s) previewed.`);
+              return;
             }
 
             core.setOutput('diagnosis_status', 'success');
