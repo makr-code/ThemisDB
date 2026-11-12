@@ -113,6 +113,11 @@ indexes before replacing their backing database. This lifecycle guarantee does
 not imply MCP RAG availability: retrieval-enabled MCP orchestration still fails
 closed without trusted caller authorization.
 
+The direct HTTP RAG route carries the configured live request timeout into the
+shared retrieval provider as a cooperative deadline. An expired deadline returns
+HTTP 504; a blocking QueryEngine/backend operation cannot be interrupted, and
+this does not add caller, tenant, or row-level policy propagation.
+
 ### Protocol and session ownership
 **Files:** `src/server/websocket_session.cpp`, `src/server/mqtt_session.cpp`, `src/server/postgres_session.cpp`, and `src/server/themis_core_grpc_service.cpp`
 **Contract:** These components implement server-owned protocol/session behavior. Their I/O, synchronization, and teardown details are protocol-specific; consult the corresponding implementation and tests before relying on a shared lifecycle or thread-safety guarantee.

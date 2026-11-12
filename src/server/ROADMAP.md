@@ -28,6 +28,10 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - **Tier 1 Criticality:** Runtime-critical path; thread-safety and fail-closed guarantees are mandatory
 
 ## Recently Completed
+- [x] Propagate the configured live HTTP request timeout into direct RAG retrieval and return HTTP 504 when its cooperative deadline expires (2026-11-12)
+  - Deadline starts at request dispatch, includes query embedding and provider retrieval, and is not an interrupt for blocking backend calls.
+  - Existing `data:read` authorization and collection predicate remain in place; caller/tenant/row-level policy propagation and cancellation remain open.
+
 - [x] Source-integrity remediation for BPMN API handler completed (2026-09-07)
   - Removed compile-breaking token corruption in `bpmn_api_handler.cpp` history serialization path (`push_back(event)`), restoring source-valid response assembly for instance history queries.
 - [x] Wave 4-A residual server runtime contract hardening batch (Completed 2026-08-31)

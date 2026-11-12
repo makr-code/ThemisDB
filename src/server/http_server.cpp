@@ -5534,6 +5534,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 }
 
                 if (path_only == "/api/v1/llm/rag" && method == http::verb::post) {
+                    struct RetrievalDeadlineExceeded {};
+
                     json payload;
                     try {
                         payload = json::parse(req.body());
@@ -5592,6 +5594,28 @@ http::response<http::string_body> HttpServer::routeRequest(
                         applyGovernanceHeaders(req, *access_error);
                         return *access_error;
                     }
+
+                    rag::RetrievalExecutionContext retrieval_execution;
+                    const auto request_timeout_ms =
+                        request_timeout_ms_live_.load(std::memory_order_relaxed);
+                    if (request_timeout_ms != 0) {
+                        retrieval_execution.deadline =
+                            start + std::chrono::milliseconds(request_timeout_ms);
+                    }
+                    retrieval_execution.authorize_collection =
+                        [authorized_collection = collection](
+                            const std::string& requested_collection) {
+                            return requested_collection == authorized_collection;
+                        };
+
+                    auto makeRetrievalTimeoutResponse = [&]() {
+                        auto response = makeErrorResponse(
+                            http::status::gateway_timeout,
+                            "RAG retrieval deadline exceeded", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    };
+
                     if (!storage_ || !secondary_index_ || !graph_index_) {
                         auto response = makeErrorResponse(http::status::service_unavailable,
                             "RAG retrieval engine not configured", req);
@@ -5651,21 +5675,27 @@ http::response<http::string_body> HttpServer::routeRequest(
                                 return requested_collection == authorized_collection;
                             });
                         rag::RAGProvider provider(retrieval_engine);
+                        if (std::chrono::steady_clock::now() >=
+                            retrieval_execution.deadline) {
+                            throw RetrievalDeadlineExceeded{};
+                        }
                         query::VectorGeoQuery vector_query;
                         vector_query.table = collection;
                         vector_query.vector_field = payload.value("vector_field", std::string{"embedding"});
                         vector_query.query_vector = plugin_mgr.embed(query);
+                        if (std::chrono::steady_clock::now() >=
+                            retrieval_execution.deadline) {
+                            throw RetrievalDeadlineExceeded{};
+                        }
                         rag::RetrievalRequest retrieval_request;
                         retrieval_request.query = std::move(vector_query);
                         retrieval_request.max_candidates = static_cast<std::size_t>(top_k);
-                        rag::RetrievalExecutionContext execution_context;
-                        execution_context.authorize_collection =
-                            [authorized_collection = collection](
-                                const std::string& requested_collection) {
-                                return requested_collection == authorized_collection;
-                            };
-                        auto evidence = provider.retrieve(retrieval_request, execution_context);
+                        auto evidence = provider.retrieve(retrieval_request, retrieval_execution);
                         if (!evidence) {
+                            if (evidence.error().code() ==
+                                errors::ErrorCode::ERR_QUERY_TIMEOUT) {
+                                throw RetrievalDeadlineExceeded{};
+                            }
                             throw std::runtime_error("RAG retrieval failed: " + evidence.error().context());
                         }
                         rag_context.documents = themis::llm::toRAGDocuments(evidence->candidates);
@@ -5720,6 +5750,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                             http::status::bad_request, e.what(), req);
                         applyGovernanceHeaders(req, response);
                         return response;
+                    } catch (const RetrievalDeadlineExceeded&) {
+                        return makeRetrievalTimeoutResponse();
                     } catch (const std::exception& e) {
                         const std::string msg = e.what();
                         const bool retryable =
@@ -5732,6 +5764,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                                     auto response = makeResponse(http::status::ok, body.dump(), req);
                                     applyGovernanceHeaders(req, response);
                                     return response;
+                                } catch (const RetrievalDeadlineExceeded&) {
+                                    return makeRetrievalTimeoutResponse();
                                 } catch (...) {
                                     throw;
                                 }

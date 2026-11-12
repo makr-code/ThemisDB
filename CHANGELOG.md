@@ -94,6 +94,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   and releases query/index borrowers before replacing the attached database.
 - Added a focused MCP integration regression for a one-hop AQL graph traversal.
 
+### HTTP RAG retrieval deadline (2026-11-12)
+
+- The direct HTTP RAG route now propagates the live configured request timeout
+  into the typed retrieval context, including query embedding and evidence
+  retrieval; deadline expiry returns HTTP 504.
+- Enforcement is cooperative and cannot interrupt a blocking backend operation.
+  Request cancellation and tenant/row-level authorization propagation remain
+  open.
+
 <!--
 AI_Used: true
 AI_Models: unknown

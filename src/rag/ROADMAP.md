@@ -69,11 +69,13 @@ registration, persistent storage, external telemetry, or production readiness.
     backend-delay regression test has not been run.
   - The direct HTTP `/api/v1/llm/rag` route retains its `requireAccess` check,
     binds the request-local QueryEngine checker to the authorized collection,
-    and passes that boundary through the per-call retrieval context. AQL passes
-    its configured collection checker in the same context. QueryEngine applies
-    the predicate before graph vertices are loaded or expanded. This still does
-    not propagate caller/tenant identity or row-level policy; regression
-    coverage has not been run.
+    passes that boundary through the per-call retrieval context, and now
+    propagates the live request timeout as a cooperative retrieval deadline.
+    Expired retrieval returns HTTP 504. AQL passes its configured collection
+    checker in the same context. QueryEngine applies the predicate before graph
+    vertices are loaded or expanded. This still does not propagate caller/tenant
+    identity, row-level policy, or HTTP cancellation; regression coverage has
+    not been run.
   - Retrieval-enabled YAML `agentic` modes now reuse `AIOrchestrator::runRag()`
     before the existing agentic tool-call dispatch. A focused RocksDB-backed
     test-source regression verifies evidence reaches the prompt and denied

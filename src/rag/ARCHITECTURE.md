@@ -55,13 +55,15 @@ provider-side code even when their historical filename contains "helpers".
    evidence remains a supported consumer input.
    The direct HTTP `/api/v1/llm/rag` route performs its existing `requireAccess`
    check and binds the request-local QueryEngine access checker to that
-   collection and passes that boundary as a per-call collection predicate; this
-   does not propagate caller identity or row-level policy. The AQL RAG consumer
-   passes its configured collection checker, timeout manager cancellation token,
-   and matching deadline through `RetrievalExecutionContext`. QueryEngine also
-   enforces the request predicate before each graph vertex load/expansion.
-   Deadline and cancellation checks are cooperative and cannot interrupt a
-   blocking backend call.
+   collection and passes that boundary as a per-call collection predicate. It
+   also propagates the live HTTP request timeout as a retrieval deadline and
+   returns 504 when that cooperative retrieval deadline expires. This does not
+   propagate caller identity, cancellation, tenant identity, or row-level
+   policy. The AQL RAG consumer passes its configured collection checker,
+   timeout-manager cancellation token, and matching deadline through
+   `RetrievalExecutionContext`. QueryEngine also enforces the request predicate
+   before each graph vertex load/expansion. Deadline and cancellation checks
+   are cooperative and cannot interrupt a blocking backend call.
 2. It may pass candidate lists to `HybridRetriever` for fusion; fusion does not
    perform index search.
 3. For generation, both llama.cpp wrappers call the shared
