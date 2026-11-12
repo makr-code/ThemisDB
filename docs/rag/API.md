@@ -97,14 +97,22 @@ optional version value. The candidate helper reads these from complete
 `source_ref_*` fields; it does not dereference the locator or guess keys.
 
 The current ingestion sink stores `text_snippet` and an exact source reference
-on each vector entity. ContentManager stores chunk `text` on its vector entity
-and points to the exact `chunk:<id>` source key (the indexed vector key is
-`chunks:<id>`). Candidate conversion can materialize those in-entity text fields.
+on each vector entity. This remains indexed snippet materialization; the source
+locator does not yet resolve the complete authoritative source. ContentManager
+stores chunk `text` on its vector entity and points to the exact `chunk:<id>`
+source key in the `chunks` source collection (the indexed vector key is
+`chunks:<id>`). The owner content ID is checked against the source record. For
+`content_chunk` references, `RAGProvider` resolves that exact key against
+RocksDB, verifies the stored chunk ID and owning `content_id`, and uses the
+stored non-whitespace text instead of the duplicated vector text. A supplied
+source version must match the stored chunk version. Missing, mismatched, or stale
+sources are counted as rejected evidence; malformed persisted JSON is an explicit
+storage-corruption error. The lookup is a single exact-key read, not a prefix
+scan or key guess. This internal bridge adds no public signature or object-layout
+change.
 QueryEngine permits vector-entity key hydration only when the initialized vector
 index namespace exactly matches the query collection, after its existing
-relational and legacy table-key lookups. This does not establish a general
-authoritative-source fetch path; in particular, normal ingestion's snippet is
-not proof that its source locator resolves the complete source text.
+relational and legacy table-key lookups.
 
 The broader Core implementation remains in progress. Real HTTP/AQL/YAML startup
 wiring, complete request-context and authorization isolation, the complete

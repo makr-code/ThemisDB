@@ -60,11 +60,18 @@ wrappers.
   that the locator can fetch the authoritative source record.
 - ContentManager stores chunk text under `chunk:<id>` and its vector entity under
   `chunks:<id>`. The current work puts the chunk text and an exact
-  `source_ref_key=chunk:<id>` on that vector entity, with `content_id` as the
-  source-reference collection. QueryEngine only hydrates a vector entity from its
+  `source_ref_key=chunk:<id>` on that vector entity, with `chunks` as the source
+  collection and `content_id` retained as the owner identity in the vector
+  entity. QueryEngine only hydrates a vector entity from its
   vector key when the initialized vector-index namespace matches the query
   collection; canonical relational and legacy table-key reads remain earlier
-  lookup paths. A vector match alone is not an authoritative source fetch.
+  lookup paths. The current RAG provider additionally resolves typed
+  `content_chunk` references by one exact `chunk:<id>` RocksDB read and verifies
+  stored chunk ID, owner `content_id`, and any supplied source version;
+  missing/mismatched/stale sources are rejected rather than replaced by the
+  vector's copied text. This private bridge adds no public API or layout change.
+  It does not yet implement authoritative source dereferencing for the normal
+  ingestion sink.
 - `RAGSourceReference` is an optional typed locator on `RAGCandidate`.
   `makeRAGCandidate` parses complete, nonempty source-reference type, collection,
   and key fields and materializes text from `content`, `text`, `body`, or
@@ -97,9 +104,10 @@ initialized vector-index/query namespace match; propagates the AQL RAG timeout
 as a cooperative retrieval deadline; and supports a per-call collection
 authorization predicate, wired from the AQL checker and direct HTTP route.
 QueryEngine applies that predicate before graph vertex loading and expansion.
-Focused test-source changes cover source materialization, deadline, and
-request-isolated collection authorization, but no C++ test execution result is
-recorded here.
+ContentManager `content_chunk` references now resolve exact source records and
+reject missing, mismatched, or stale chunk sources. Focused test-source changes
+cover source materialization, source corruption, deadline, and request-isolated
+collection authorization, but no C++ test execution result is recorded here.
 
 This is partial implementation progress, not completion of this task or its
 acceptance criteria. In particular, normal vector ingestion currently carries
@@ -110,7 +118,8 @@ fetches the authoritative full source text.
 Still pending: trace and verify real HTTP/AQL/YAML startup and request wiring;
 complete production composition; complete caller/tenant/row-level authorization
 and full context propagation (collection checks and concurrent context tests do
-not establish tenant identity or row-level policy);
+not establish tenant identity or row-level policy); and implement authoritative
+source lookup for normal vector ingestion;
 establish the evidence-backed role map for all direct `src/`
 directories; complete source materialization/compatibility and remaining
 acceptance cases; and run and record the required focused tests and registration

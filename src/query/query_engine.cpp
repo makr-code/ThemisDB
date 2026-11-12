@@ -4593,6 +4593,59 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 // General Graph Traversal (Non-Shortest Path)
 // ============================================================================
 
+Result<std::optional<std::pair<std::string, std::int64_t>>> QueryEngine::readContentChunkText(
+    std::string_view exact_source_key, std::string_view expected_content_id) const {
+	if (!db_) {
+		return Err<std::optional<std::pair<std::string, std::int64_t>>>(
+			errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+			"Content chunk source lookup requires the concrete RocksDB backend");
+	}
+	constexpr std::string_view chunk_prefix{"chunk:"};
+	if (exact_source_key.size() <= chunk_prefix.size() ||
+	    exact_source_key.substr(0, chunk_prefix.size()) != chunk_prefix ||
+	    expected_content_id.empty()) {
+		return Err<std::optional<std::pair<std::string, std::int64_t>>>(
+			errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+			"Invalid exact ContentManager chunk source reference");
+	}
+
+	const auto stored = db_->get(exact_source_key);
+	if (!stored) {
+		return Ok(std::optional<std::pair<std::string, std::int64_t>>{});
+	}
+
+	try {
+		const std::string serialized(stored->begin(), stored->end());
+		const auto chunk = nlohmann::json::parse(serialized);
+		if (!chunk.is_object()) {
+			return Ok(std::optional<std::string>{});
+		}
+		const auto id = chunk.find("id");
+		const auto content_id = chunk.find("content_id");
+		const auto text = chunk.find("text");
+		const auto created_at = chunk.find("created_at");
+		const auto expected_chunk_id = exact_source_key.substr(chunk_prefix.size());
+		if (id == chunk.end() || !id->is_string() ||
+		    id->get_ref<const std::string&>() != expected_chunk_id ||
+		    content_id == chunk.end() || !content_id->is_string() ||
+		    content_id->get_ref<const std::string&>() != expected_content_id ||
+		    text == chunk.end() || !text->is_string() ||
+		    created_at == chunk.end() || !created_at->is_number_integer()) {
+			return Ok(std::optional<std::pair<std::string, std::int64_t>>{});
+		}
+		auto source_text = text->get<std::string>();
+		if (source_text.find_first_not_of(" \t\r\n") == std::string::npos) {
+			return Ok(std::optional<std::pair<std::string, std::int64_t>>{});
+		}
+		return Ok(std::optional<std::pair<std::string, std::int64_t>>{
+			std::make_pair(std::move(source_text), created_at->get<std::int64_t>())});
+	} catch (const nlohmann::json::exception&) {
+		return Err<std::optional<std::pair<std::string, std::int64_t>>>(
+			errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+			"Malformed ContentManager chunk source record");
+	}
+}
+
 Result<std::vector<TraversalResult>>
 QueryEngine::executeGeneralTraversal(
     const std::string& startVertex,

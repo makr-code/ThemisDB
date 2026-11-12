@@ -70,6 +70,35 @@ Result<RetrievalResult> RAGProvider::retrieve(
             ++result.rejected_documents;
             return OkVoid();
         }
+        const auto source_type = entity.find("source_ref_type");
+        if (source_type != entity.end() && source_type->is_string() &&
+            source_type->get_ref<const std::string&>() == "content_chunk") {
+            const auto content_id = entity.find("content_id");
+            if (!candidate->source_reference ||
+                candidate->source_reference->collection != collection ||
+                content_id == entity.end() || !content_id->is_string() ||
+                content_id->get_ref<const std::string&>().empty()) {
+                ++result.rejected_documents;
+                return OkVoid();
+            }
+            auto source_text = engine_.readContentChunkText(
+                candidate->source_reference->key,
+                content_id->get_ref<const std::string&>());
+            if (!source_text) {
+                return tl::unexpected(source_text.error());
+            }
+            if (!*source_text) {
+                ++result.rejected_documents;
+                return OkVoid();
+            }
+            if (candidate->source_reference->version &&
+                *candidate->source_reference->version !=
+                    std::to_string((*source_text)->second)) {
+                ++result.rejected_documents;
+                return OkVoid();
+            }
+            candidate->content = std::move((*source_text)->first);
+        }
         if (!seen.emplace(collection, id).second) {
             return OkVoid();
         }

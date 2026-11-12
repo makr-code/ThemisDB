@@ -48,7 +48,11 @@ registration, persistent storage, external telemetry, or production readiness.
   - Current source diff adds typed `RAGSourceReference` fields, exact source
     identity on normal vector-ingestion entities, ContentManager chunk text and
     exact `chunk:<id>` source keys on vector entities, and namespace-gated
-    vector-key hydration in QueryEngine.
+    vector-key hydration in QueryEngine. Typed ContentManager chunk references
+    are also resolved from the exact RocksDB `chunk:<id>` record with stored
+    chunk/content identity validation and supplied source-version checks; missing,
+    mismatched, or stale source records are rejected rather than using copied
+    vector text. Malformed source JSON is an explicit storage-corruption error.
   - This is partial implementation progress. Normal ingestion's in-entity
     `text_snippet` does not prove authoritative full-source dereferencing.
   - `LLMAQLHandler::executeRAG()` now passes the timeout manager's cancellation
@@ -63,8 +67,9 @@ registration, persistent storage, external telemetry, or production readiness.
     not propagate caller/tenant identity or row-level policy; regression
     coverage has not been run.
   - Real HTTP/AQL/YAML startup wiring, full request-context/auth isolation, the
-    complete direct-`src/` role map, remaining acceptance criteria, and focused
-    test execution/evidence remain pending. See
+    normal-ingestion authoritative source lookup, complete direct-`src/` role map,
+    remaining acceptance criteria, and focused test execution/evidence remain
+    pending. See
     [`docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md`](../../docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md).
 - [x] Ingestion bridge and context-hydration hardening for fail-closed retrieval inputs (Target: Q3 2026)
   - **Build**: historical evidence target `module_rag_test_rag_ingestion_bridge_hardening_focused` (the target is generated from `tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp`)

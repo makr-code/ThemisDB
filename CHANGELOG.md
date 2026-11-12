@@ -45,6 +45,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   acceptance criteria, and focused C++ test execution remain pending. See
   `docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md`.
 
+### Core Provider/Consumer follow-up — ContentManager source lookup (2026-11-12)
+
+- RAG retrieval now resolves typed ContentManager chunk references using an
+  exact RocksDB `chunk:<id>` lookup and validates the stored chunk ID and owning
+  content ID, plus any supplied source version, before using source text. Missing,
+  mismatched, or stale sources are rejected rather than replaced with copied
+  vector text.
+- Normal ingestion still lacks an authoritative source dereference path, and
+  focused C++ tests could not run in the current environment; this remains a
+  partial implementation. See
+  `docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md`.
+
 <!--
 AI_Used: true
 AI_Models: unknown

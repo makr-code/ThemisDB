@@ -51,6 +51,11 @@ For full pipeline details — parse → plan → optimize → execute flow, cost
 | `query_profiler.h` | `QueryProfiler` | Per-operator timing and cardinality |
 | `query_resource_limits.h` | `QueryResourceLimits` | Per-query CPU/memory/time budget |
 
+`QueryEngine` also contains a private RAG bridge that resolves exact
+ContentManager chunk references from RocksDB. It validates the stored chunk and
+owner identity and rejects a supplied source-version mismatch; it is not a
+general key-read API.
+
 ### 2.3 Optimization
 
 | Header | Public Type | Purpose |

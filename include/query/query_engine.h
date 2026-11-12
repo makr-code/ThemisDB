@@ -38,6 +38,9 @@ class VectorIndexManager;
 class GraphIndexManager;
 class StatisticsCollector;
 class AQLTranslator;
+namespace rag {
+class RAGProvider;
+}
 namespace utils {
 class AuditLogger;
 }
@@ -700,6 +703,19 @@ public:
     std::vector<std::string> listCollections() const;
 
 private:
+    friend class ::themis::rag::RAGProvider;
+
+    /**
+     * @brief Resolve one exact ContentManager chunk locator to its stored text.
+     * @param exact_source_key Exact `chunk:<id>` key already carried by a typed source reference.
+     * @param expected_content_id Expected owning content ID; mismatches are treated as not found.
+     * @return Stored non-whitespace text and source version, empty when the source is missing
+     *         or identity mismatches, or a storage-corruption/input error when malformed.
+     * @note Performs one exact RocksDB lookup; it never scans or guesses keys. Internal RAG bridge.
+     */
+    [[nodiscard]] Result<std::optional<std::pair<std::string, std::int64_t>>> readContentChunkText(
+        std::string_view exact_source_key, std::string_view expected_content_id) const;
+
     RocksDBWrapper* db_ = nullptr;  // Changed from reference to pointer to support nullptr in DI constructor
     SecondaryIndexManager* secIdx_ = nullptr;  // Changed from reference to pointer
     GraphIndexManager* graphIdx_ = nullptr;

@@ -151,6 +151,16 @@ TEST_F(RAGProviderTest, ContentManagerChunkVectorPreservesTextAndSourceIdentity)
     };
     ASSERT_TRUE(content_manager.importContent(spec).ok);
 
+    const auto source_key = std::string{"chunk:content-1-chunk-0"};
+    auto stored_source = db_->get(source_key);
+    ASSERT_TRUE(stored_source.has_value());
+    auto source_record = nlohmann::json::parse(
+        std::string(stored_source->begin(), stored_source->end()));
+    source_record["text"] = "authoritative source text";
+    const auto serialized_source = source_record.dump();
+    ASSERT_TRUE(db_->put(source_key, std::vector<std::uint8_t>(
+        serialized_source.begin(), serialized_source.end())));
+
     query::QueryEngine content_engine(*db_, *secondary_, *graph_, content_vector.get(), nullptr);
     rag::RAGProvider content_provider(content_engine);
     query::VectorGeoQuery query;
@@ -163,14 +173,126 @@ TEST_F(RAGProviderTest, ContentManagerChunkVectorPreservesTextAndSourceIdentity)
     ASSERT_TRUE(result) << result.error().context();
     ASSERT_EQ(result->candidates.size(), 1);
     const auto& candidate = result->candidates.front();
-    EXPECT_EQ(candidate.content, "content-manager evidence");
+    EXPECT_EQ(candidate.content, "authoritative source text");
     ASSERT_TRUE(candidate.source_reference.has_value());
     EXPECT_EQ(candidate.source_reference->type, "content_chunk");
-    EXPECT_EQ(candidate.source_reference->collection, "content-1");
+    EXPECT_EQ(candidate.source_reference->collection, "chunks");
     EXPECT_EQ(candidate.source_reference->key, "chunk:content-1-chunk-0");
     EXPECT_EQ(candidate.source_reference->provenance, "content_manager");
     ASSERT_TRUE(candidate.source_reference->version.has_value());
     EXPECT_EQ(*candidate.source_reference->version, "123");
+}
+
+TEST_F(RAGProviderTest, ContentManagerVectorRejectsMissingAndCorruptChunkSources) {
+    auto content_vector = std::make_shared<VectorIndexManager>(*db_);
+    ASSERT_TRUE(content_vector->init("chunks", 2, VectorIndexManager::Metric::COSINE).ok);
+    content::ContentManager content_manager(db_, content_vector, graph_, secondary_);
+    const nlohmann::json spec = {
+        {"content", {
+            {"id", "content-2"},
+            {"mime_type", "text/plain"},
+            {"category", "TEXT"},
+            {"original_filename", "source.txt"},
+            {"size_bytes", 16},
+            {"created_at", 42},
+            {"text_extracted", true},
+            {"chunked", true},
+            {"indexed", false},
+            {"chunk_count", 1}
+        }},
+        {"chunks", {{
+            {"id", "content-2-chunk-0"},
+            {"content_id", "content-2"},
+            {"seq_num", 0},
+            {"chunk_type", "text"},
+            {"text", "stored vector copy"},
+            {"created_at", 123},
+            {"embedding", {1.0f, 0.0f}}
+        }}}
+    };
+    ASSERT_TRUE(content_manager.importContent(spec).ok);
+    ASSERT_TRUE(db_->del("chunk:content-2-chunk-0"));
+
+    query::QueryEngine content_engine(*db_, *secondary_, *graph_, content_vector.get(), nullptr);
+    rag::RAGProvider content_provider(content_engine);
+    query::VectorGeoQuery query;
+    query.table = "chunks";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+
+    const auto result = content_provider.retrieve(request);
+    ASSERT_TRUE(result) << result.error().context();
+    EXPECT_TRUE(result->candidates.empty());
+    EXPECT_EQ(result->rejected_documents, 1);
+
+    ASSERT_TRUE(db_->put("chunk:content-2-chunk-0", "{"));
+    const auto corrupt_result = content_provider.retrieve(request);
+    ASSERT_FALSE(corrupt_result);
+    EXPECT_EQ(corrupt_result.error().code(), errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+}
+
+TEST_F(RAGProviderTest, ContentManagerVectorRejectsChunkFromDifferentContent) {
+    auto content_vector = std::make_shared<VectorIndexManager>(*db_);
+    ASSERT_TRUE(content_vector->init("chunks", 2, VectorIndexManager::Metric::COSINE).ok);
+    content::ContentManager content_manager(db_, content_vector, graph_, secondary_);
+    const nlohmann::json spec = {
+        {"content", {
+            {"id", "content-3"},
+            {"mime_type", "text/plain"},
+            {"category", "TEXT"},
+            {"original_filename", "source.txt"},
+            {"size_bytes", 15},
+            {"created_at", 42},
+            {"text_extracted", true},
+            {"chunked", true},
+            {"indexed", false},
+            {"chunk_count", 1}
+        }},
+        {"chunks", {{
+            {"id", "content-3-chunk-0"},
+            {"content_id", "content-3"},
+            {"seq_num", 0},
+            {"chunk_type", "text"},
+            {"text", "stored vector copy"},
+            {"created_at", 123},
+            {"embedding", {1.0f, 0.0f}}
+        }}}
+    };
+    ASSERT_TRUE(content_manager.importContent(spec).ok);
+
+    const auto source_key = std::string{"chunk:content-3-chunk-0"};
+    const auto stored_source = db_->get(source_key);
+    ASSERT_TRUE(stored_source.has_value());
+    auto source_record = nlohmann::json::parse(
+        std::string(stored_source->begin(), stored_source->end()));
+    source_record["content_id"] = "other-content";
+    const auto serialized_source = source_record.dump();
+    ASSERT_TRUE(db_->put(source_key, std::vector<std::uint8_t>(
+        serialized_source.begin(), serialized_source.end())));
+
+    query::QueryEngine content_engine(*db_, *secondary_, *graph_, content_vector.get(), nullptr);
+    rag::RAGProvider content_provider(content_engine);
+    query::VectorGeoQuery query;
+    query.table = "chunks";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+
+    const auto result = content_provider.retrieve(request);
+    ASSERT_TRUE(result) << result.error().context();
+    EXPECT_TRUE(result->candidates.empty());
+    EXPECT_EQ(result->rejected_documents, 1);
+
+    source_record["content_id"] = "content-3";
+    source_record["created_at"] = 999;
+    const auto stale_source = source_record.dump();
+    ASSERT_TRUE(db_->put(source_key, std::vector<std::uint8_t>(
+        stale_source.begin(), stale_source.end())));
+    const auto stale_result = content_provider.retrieve(request);
+    ASSERT_TRUE(stale_result) << stale_result.error().context();
+    EXPECT_TRUE(stale_result->candidates.empty());
+    EXPECT_EQ(stale_result->rejected_documents, 1);
 }
 
 TEST_F(RAGProviderTest, VectorOnlyMetadataIsNotMaterializedAsEvidence) {

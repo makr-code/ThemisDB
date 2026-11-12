@@ -1231,7 +1231,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                                 {"chunk_type", c.chunk_type},
                                 {"text", c.text},
                                 {"source_ref_type", std::string{"content_chunk"}},
-                                {"source_ref_collection", c.content_id},
+                                {"source_ref_collection", std::string{"chunks"}},
                                 {"source_ref_key", std::string{"chunk:"} + c.id},
                                 {"source_ref_provenance", std::string{"content_manager"}},
                                 {"source_ref_version", c.created_at},
