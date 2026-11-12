@@ -131,8 +131,9 @@ reject missing, mismatched, or stale chunk sources. Focused test-source changes
 cover source materialization, including a sink-only vector write that retrieves
 persisted source text without a test-only duplicate write; source corruption;
 deadline expiry after a blocking QueryEngine call with both matching and empty
-results; and request-isolated collection authorization. These C++ tests have not
-been built or executed.
+results; cancellation after a blocking QueryEngine call with no matches; and
+request-isolated collection authorization. These C++ tests have not been built
+or executed.
 For YAML-configured agentic modes, `AIOrchestrator::runAgentic()` now routes
 retrieval-enabled modes through its existing `runRag()` pipeline before
 preserving the existing tool-call parsing and dispatch. This reuses the typed

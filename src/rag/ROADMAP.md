@@ -78,8 +78,9 @@ registration, persistent storage, external telemetry, or production readiness.
     checker in the same context. QueryEngine applies the predicate before graph
     vertices are loaded or expanded. Provider regression source now checks
     deadline expiry after a blocking QueryEngine access check for both a matching
-    row and a no-match result. These tests have not been built or executed. This
-    still does not propagate caller/tenant identity, row-level policy, or HTTP
+    row and a no-match result, and cancellation raised during a blocking access
+    check with no match. These tests have not been built or executed. This still
+    does not propagate caller/tenant identity, row-level policy, or HTTP
     cancellation. A blocking embedding or backend call can only be checked after
     it returns.
   - Retrieval-enabled YAML `agentic` modes now reuse `AIOrchestrator::runRag()`
