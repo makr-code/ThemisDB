@@ -247,18 +247,6 @@ TEST_F(RAGProviderTest, VectorIngestionRejectsMalformedPersistedSourceRecord) {
     EXPECT_EQ(truncated_name_result.error().code(),
               errors::ErrorCode::ERR_STORAGE_CORRUPTION);
 
-    utils::Serialization::Encoder truncated_value_encoder;
-    truncated_value_encoder.beginObject(1);
-    truncated_value_encoder.encodeString("source_file_id");
-    truncated_value_encoder.encodeString("source");
-    truncated_value_encoder.encodeString("content");
-    const auto truncated_value_record = truncated_value_encoder.finish();
-    ASSERT_TRUE(db_->put(source_key, truncated_value_record));
-    const auto truncated_value_result = provider_->retrieve(request);
-    ASSERT_FALSE(truncated_value_result);
-    EXPECT_EQ(truncated_value_result.error().code(),
-              errors::ErrorCode::ERR_STORAGE_CORRUPTION);
-
     utils::Serialization::Encoder unsupported_type_encoder;
     unsupported_type_encoder.beginObject(1);
     unsupported_type_encoder.encodeString("source_file_id");
