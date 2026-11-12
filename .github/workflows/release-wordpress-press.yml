@@ -37,7 +37,6 @@ on:
 
 permissions:
   contents: read
-  issues: write
 
 concurrency:
   group: release-wordpress-press-${{ github.ref_name || github.ref }}
@@ -49,7 +48,7 @@ jobs:
     name: "Release: Mark WordPress Status"
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'release'
+    if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && inputs.dry_run != true)
     permissions:
       contents: read
       issues: write
@@ -682,6 +681,9 @@ jobs:
             echo "- Stable Gate: \`${SHOULD_PUBLISH:-false}\` (${STABLE_REASON:-n/a})"
             echo "- Release Context: \`${RELEASE_SOURCE:-n/a}\` (release object: \`${HAS_RELEASE_OBJECT:-false}\`)"
             echo "- Dry Run: \`${DRY_RUN_ENABLED:-false}\`"
+            if [ "${DRY_RUN_ENABLED:-false}" = "true" ]; then
+              echo "- GitHub release tracker updates: suppressed for this manual dry-run."
+            fi
             echo "- Target Post Status: \`${TARGET_POST_STATUS:-n/a}\`"
             echo "- Publish Result: \`${PUBLISH_RESULT:-not-run}\`"
             echo "- WordPress Post URL: ${POST_URL:-n/a}"
@@ -699,7 +701,7 @@ jobs:
                 echo "**Auszug:** ${PREVIEW_TEXT:-n/a}"
               fi
             elif [ "${DRY_RUN_ENABLED:-false}" = "true" ]; then
-              echo "> Dryrun aktiv: Es wurde nichts in WordPress geschrieben."
+              echo "> Dry-run active: WordPress and GitHub release tracker were not modified."
               echo ""
               echo "### Dryrun Preview"
               echo "**Titel:** ${PREVIEW_TITLE:-n/a}"
@@ -711,7 +713,7 @@ jobs:
   finalize-release-status:
     name: "Release: Finalize WordPress Status"
     needs: [mark-release-pending, wordpress-press]
-    if: always()
+    if: always() && (github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && inputs.dry_run != true))
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

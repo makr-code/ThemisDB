@@ -214,6 +214,40 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         self.assertIn("$GITHUB_STEP_SUMMARY", notify["run"])
         self.assertIn("No rollback side effects were started", notify["run"])
 
+    def test_wordpress_manual_dry_run_suppresses_tracker_issue_mutations(self) -> None:
+        workflow = load_workflow("release-wordpress-press.yml")
+        triggers = workflow.get(True, workflow.get("on"))
+        dry_run = triggers["workflow_dispatch"]["inputs"]["dry_run"]
+        self.assertEqual(dry_run["type"], "boolean")
+        self.assertIs(dry_run["default"], True)
+        self.assertEqual(workflow["permissions"], {"contents": "read"})
+
+        jobs = workflow["jobs"]
+        live_run = "github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && inputs.dry_run != true)"
+        self.assertEqual(jobs["mark-release-pending"]["if"], live_run)
+        self.assertEqual(
+            jobs["finalize-release-status"]["if"],
+            f"always() && ({live_run})",
+        )
+        self.assertEqual(
+            jobs["mark-release-pending"]["permissions"],
+            {"contents": "read", "issues": "write"},
+        )
+        self.assertEqual(
+            jobs["finalize-release-status"]["permissions"],
+            {"contents": "read", "issues": "write"},
+        )
+        publish = next(
+            step for step in jobs["wordpress-press"]["steps"]
+            if step.get("name") == "Publish post to WordPress"
+        )
+        self.assertIn("steps.dry-run.outputs.enabled != 'true'", publish["if"])
+        summary = next(
+            step for step in jobs["wordpress-press"]["steps"]
+            if step.get("name") == "Write workflow summary"
+        )
+        self.assertIn("GitHub release tracker updates: suppressed", summary["run"])
+
     def test_wiki_dry_run_still_builds_and_validates_without_mutation(self) -> None:
         workflow = load_workflow("publish-wiki.yml")
         steps = workflow["jobs"]["publish-wiki"]["steps"]
