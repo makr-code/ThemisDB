@@ -135,6 +135,33 @@ TEST_F(RAGProviderTest, VectorIngestionSinkMaterializesPersistedSourceText) {
     EXPECT_EQ(result->candidates.front().source_reference->provenance, record.source_file_id);
 }
 
+TEST_F(RAGProviderTest, VectorIngestionSinkRetrievesSourceWithoutAdditionalWrites) {
+    ingestion::VectorIndexSinkAdapter sink(vector_, secondary_, "docs", 2);
+    ingestion::VectorRecord record;
+    record.chunk_id = "source-clean:0";
+    record.source_file_id = "source-clean";
+    record.text_snippet = "source persisted by the ingestion sink";
+    record.embedding = {1.0f, 0.0f};
+    ASSERT_TRUE(sink.writeVectors({record}));
+
+    query::VectorGeoQuery query;
+    query.table = "docs";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+    const auto result = provider_->retrieve(request);
+
+    ASSERT_TRUE(result) << result.error().context();
+    ASSERT_EQ(result->candidates.size(), 1);
+    EXPECT_EQ(result->candidates.front().doc_id, record.chunk_id);
+    EXPECT_EQ(result->candidates.front().content, record.text_snippet);
+    ASSERT_TRUE(result->candidates.front().source_reference.has_value());
+    EXPECT_EQ(result->candidates.front().source_reference->type, "ingestion_chunk");
+    EXPECT_EQ(result->candidates.front().source_reference->collection, "ingestion_sources");
+    EXPECT_EQ(result->candidates.front().source_reference->key, record.chunk_id);
+    EXPECT_EQ(result->candidates.front().source_reference->provenance, record.source_file_id);
+}
+
 TEST_F(RAGProviderTest, VectorIngestionRejectsMissingOrMismatchedSourceRecords) {
     ingestion::VectorIndexSinkAdapter sink(vector_, secondary_, "docs", 2);
     ingestion::VectorRecord record;
