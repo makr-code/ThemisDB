@@ -116,6 +116,10 @@ registration, persistent storage, external telemetry, or production readiness.
     before the existing agentic tool-call dispatch. A focused RocksDB-backed
     test-source regression verifies evidence reaches the prompt and denied
     collection context prevents generation; this test has not yet been run.
+    Tenant identity used by orchestration budget scoping, adapter selection, and
+    cost attribution now comes from typed `retrieval_execution.tenant_id`;
+    `extra["tenant"]` is ignored. A regression source supplies a conflicting
+    extra value and checks that the typed tenant wins; it has not been run.
   - Real HTTP/AQL/YAML startup wiring, full request-context/auth isolation,
     complete direct-`src/` role map,
     remaining acceptance criteria, and focused test execution/evidence remain

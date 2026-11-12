@@ -164,6 +164,12 @@ retrieval-enabled modes through its existing `runRag()` pipeline before
 preserving the existing tool-call parsing and dispatch. This reuses the typed
 provider and the per-call `RetrievalExecutionContext`; it adds no workflow
 executor and does not populate authorization from YAML.
+`AIOrchestrator` now uses only the typed
+`OrchestratorContext::retrieval_execution.tenant_id` for tenant-scoped adapter
+selection, budget-map lookup, and cost attribution; the untrusted
+`OrchestratorContext::extra["tenant"]` value is ignored. This prevents request
+metadata or YAML extras from choosing a tenant identity, but does not itself
+establish a trusted caller context at MCP/AQL/YAML startup.
 The MCP `llm_orchestrate` bridge currently constructs its context from tool
 arguments without a trusted caller authorization context; retrieval-enabled MCP
 modes now fail closed before invoking the orchestrator. Wiring authenticated

@@ -68,6 +68,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   regression now checks isolation between two tenant contexts; it also remains
   unbuilt. AQL/YAML still lack trusted tenant population.
 
+### Core Provider/Consumer follow-up — orchestrator tenant source (2026-11-12)
+
+- Tenant identity for AIOrchestrator budget-map scoping, adapter candidate
+  selection, and cost attribution now comes exclusively from typed
+  `retrieval_execution.tenant_id`; `extra["tenant"]` is ignored. A regression
+  source verifies that conflicting untrusted extra metadata cannot replace the
+  typed tenant. Focused C++ tests have not been built or executed, and the
+  server still needs to populate the typed context from authenticated callers.
+
 ### Core Provider/Consumer follow-up — ContentManager source lookup (2026-11-12)
 
 - RAG retrieval now resolves typed ContentManager chunk references using an

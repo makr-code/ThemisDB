@@ -129,8 +129,11 @@ public:
     explicit FixedAdapterCandidateProvider(std::string selected)
         : selected_(std::move(selected)) {}
 
+    mutable std::string last_tenant;
+
     [[nodiscard]] AdapterSelectionResult
     selectCandidates(const AdapterSelectionInput& input) const override {
+        last_tenant = input.tenant;
         AdapterSelectionResult out;
         out.selected_adapter_id = selected_;
         out.reason = "fixed_provider";
@@ -818,14 +821,16 @@ TEST(AIOrchestrator_RagAdapterSelectionTest, SelectedAdapterIsPropagatedToReques
     AIOrchestrator orch(pack);
     auto llm = std::make_shared<CaptureRagRequestLLMPlugin>();
     orch.setLLMPlugin(llm);
-    orch.setAdapterCandidateProvider(
-        std::make_shared<FixedAdapterCandidateProvider>("adapter_legal_v2"));
+    auto adapter_provider =
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_legal_v2");
+    orch.setAdapterCandidateProvider(adapter_provider);
 
     OrchestratorContext ctx;
     ctx.query = "contract clause interpretation";
     ctx.mode_id = "rag";
     ctx.request_id = "req-1";
-    ctx.extra["tenant"] = "tenant-a";
+    ctx.retrieval_execution.tenant_id = "tenant-a";
+    ctx.extra["tenant"] = "untrusted-spoof";
 
     OrchestratorResult result = orch.run(ctx);
     EXPECT_TRUE(result.success);
@@ -834,6 +839,7 @@ TEST(AIOrchestrator_RagAdapterSelectionTest, SelectedAdapterIsPropagatedToReques
     EXPECT_EQ(result.metadata.adapter_candidates, 1);
     ASSERT_TRUE(result.metadata.selected_adapter_id.has_value());
     EXPECT_EQ(result.metadata.selected_adapter_id.value(), "adapter_legal_v2");
+    EXPECT_EQ(adapter_provider->last_tenant, "tenant-a");
 }
 
 TEST(AIOrchestrator_RagAdapterSelectionTest, ProviderFailureDoesNotBreakRag) {
@@ -869,7 +875,7 @@ TEST(AIOrchestrator_RagCostModelTest, CustomServicePopulatesRagCostEstimate) {
     ctx.query = "rag cost estimate";
     ctx.mode_id = "rag";
     ctx.request_id = "req-cost-1";
-    ctx.extra["tenant"] = "tenant-cost";
+    ctx.retrieval_execution.tenant_id = "tenant-cost";
 
     OrchestratorResult result = orch.run(ctx);
     EXPECT_TRUE(result.success);
@@ -1064,7 +1070,7 @@ TEST(AIOrchestrator_RagCostModelTest, TenantBudgetOverrideCanRelaxCostGate) {
     ctx.query = "tenant budget override";
     ctx.mode_id = "rag";
     ctx.request_id = "req-tenant-budget-1";
-    ctx.extra["tenant"] = "tenant-enterprise";
+    ctx.retrieval_execution.tenant_id = "tenant-enterprise";
     ctx.extra["tenant_budget_override"] = 250.0;
 
     OrchestratorResult result = orch.run(ctx);
@@ -1104,7 +1110,7 @@ TEST(AIOrchestrator_RagCostModelTest, DirectTenantBudgetOverrideHasPriorityOverT
     ctx.query = "tenant budget priority";
     ctx.mode_id = "rag";
     ctx.request_id = "req-tenant-budget-prio-1";
-    ctx.extra["tenant"] = "tenant-enterprise";
+    ctx.retrieval_execution.tenant_id = "tenant-enterprise";
     ctx.extra["tenant_budget_override"] = 250.0;
     ctx.extra["tenant_budgets"] = {
         {"tenant-enterprise", 120.0}
@@ -1145,7 +1151,7 @@ TEST(AIOrchestrator_RagCostModelTest, InvalidTenantBudgetOverrideIsIgnoredAndRep
     ctx.query = "tenant budget invalid";
     ctx.mode_id = "rag";
     ctx.request_id = "req-tenant-budget-invalid-1";
-    ctx.extra["tenant"] = "tenant-enterprise";
+    ctx.retrieval_execution.tenant_id = "tenant-enterprise";
     ctx.extra["tenant_budget_override"] = -1.0;
 
     OrchestratorResult result = orch.run(ctx);
@@ -1195,7 +1201,7 @@ TEST(AIOrchestrator_RagAdapterApplyTest, SelectedAdapterIsAppliedWhenAllowed) {
     ctx.query = "balance sheet guidance";
     ctx.mode_id = "rag";
     ctx.request_id = "req-apply-1";
-    ctx.extra["tenant"] = "tenant-fin";
+    ctx.retrieval_execution.tenant_id = "tenant-fin";
 
     OrchestratorResult result = orch.run(ctx);
     EXPECT_TRUE(result.success);
@@ -1420,7 +1426,7 @@ TEST(AIOrchestrator_RagAdapterApplyTest, AutoBindingUsesConfiguredPathResolver) 
     ctx.query = "resolver path";
     ctx.mode_id = "rag";
     ctx.request_id = "req-path-1";
-    ctx.extra["tenant"] = "tenant-a";
+    ctx.retrieval_execution.tenant_id = "tenant-a";
 
     OrchestratorResult result = orch.run(ctx);
     EXPECT_TRUE(result.success);

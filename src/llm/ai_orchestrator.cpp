@@ -1103,10 +1103,7 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
         policy_copy = impl_->adapter_switch_policy;
     }
 
-    std::string tenant = {};
-    if (ctx.extra.contains("tenant") && ctx.extra["tenant"].is_string()) {
-        tenant = ctx.extra["tenant"].get<std::string>();
-    }
+    const auto& tenant = ctx.retrieval_execution.tenant_id;
 
     double effective_budget_limit = policy_copy.max_total_cost;
     std::string effective_budget_source = "policy";
@@ -1300,9 +1297,7 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
         input.session_id = ctx.request_id;
         input.top_k = static_cast<std::size_t>(effective_top_k);
 
-        if (ctx.extra.contains("tenant") && ctx.extra["tenant"].is_string()) {
-            input.tenant = ctx.extra["tenant"].get<std::string>();
-        }
+        input.tenant = ctx.retrieval_execution.tenant_id;
         if (ctx.extra.contains("domain_hint") && ctx.extra["domain_hint"].is_string()) {
             input.domain_hint = ctx.extra["domain_hint"].get<std::string>();
         }
@@ -1600,9 +1595,7 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
             result.metadata.extra.value("adapter_apply_attempts", 0);
         input.adapter_apply_latency_ms =
             result.metadata.extra.value("adapter_apply_latency_ms", int64_t{0});
-        if (ctx.extra.contains("tenant") && ctx.extra["tenant"].is_string()) {
-            input.tenant = ctx.extra["tenant"].get<std::string>();
-        }
+        input.tenant = ctx.retrieval_execution.tenant_id;
         input.extra = ctx.extra;
 
         const auto est = cost_service->estimate(input);

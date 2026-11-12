@@ -389,6 +389,9 @@ struct OrchestratorContext {
     /// Optional typed internal retrieval; omitted requests use vector search in
     /// extra.collection (default "default") when a QueryEngine is configured.
     std::optional<rag::RetrievalRequest> retrieval_request;
+    /// Trusted per-call authorization and tenant scope. Tenant identity used for
+    /// retrieval, adapter selection, and cost attribution comes only from this
+    /// context; `extra["tenant"]` is untrusted metadata and is ignored.
     rag::RetrievalExecutionContext retrieval_execution;
 };
 
