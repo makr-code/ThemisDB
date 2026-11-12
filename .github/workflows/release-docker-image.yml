@@ -101,7 +101,7 @@ on:
         required: false
         type: string
       overwrite_dockerhub_image:
-        description: "Rebuild the selected workflow ref and overwrite Docker Hub tags for an existing published release; requires push=true, registry=docker.io, and all source checks to pass"
+        description: "Rebuild the selected workflow ref and overwrite Docker Hub tags for an existing published release; requires push=true and all source checks to pass. If registry=both, publication is limited to Docker Hub."
         required: false
         default: false
         type: boolean
@@ -266,6 +266,7 @@ jobs:
           BUILD_FROM_WORKFLOW_SOURCE="${BUILD_FROM_WORKFLOW_SOURCE:-false}"
           OVERWRITE_DOCKERHUB_IMAGE="${OVERWRITE_DOCKERHUB_IMAGE:-false}"
           OVERRIDE_SOURCE_PREFLIGHT="${OVERRIDE_SOURCE_PREFLIGHT:-false}"
+          REGISTRY="${REGISTRY:-ghcr.io}"
           if [[ "${OVERWRITE_DOCKERHUB_IMAGE}" == "true" || "${OVERWRITE_DOCKERHUB_IMAGE}" == "True" ]]; then
             if [[ "${EVENT_NAME}" != "workflow_dispatch" ]]; then
               echo "::error::Docker Hub image overwrite is only available through a manual workflow dispatch."
@@ -279,8 +280,11 @@ jobs:
               echo "::error::push_to_registry=true is required when overwriting a Docker Hub release image."
               exit 1
             fi
-            if [[ "${REGISTRY:-}" != "docker.io" ]]; then
-              echo "::error::Docker Hub image overwrite requires registry=docker.io; other registries will not be modified."
+            if [[ "${REGISTRY}" == "both" ]]; then
+              REGISTRY="docker.io"
+              echo "::notice::Docker Hub overwrite selected with registry=both; limiting publication to Docker Hub. GHCR will not be modified."
+            elif [[ "${REGISTRY}" != "docker.io" ]]; then
+              echo "::error::Docker Hub image overwrite requires registry=docker.io or both; other registries will not be modified."
               exit 1
             fi
             if [[ "${DRY_RUN}" == "true" || "${DRY_RUN}" == "True" ]]; then
@@ -417,8 +421,8 @@ jobs:
               *-*) echo "::error::Unsupported prerelease channel: ${VERSION}"; exit 1 ;;
             esac
           fi
-          printf 'version=%s\nsource_sha=%s\nedition=%s\nrelease_type=%s\nsource_is_tag=%s\n' \
-            "${VERSION}" "${SOURCE_SHA}" "${EDITION}" "${RELEASE_TYPE}" "${SOURCE_IS_TAG}" >> "${GITHUB_OUTPUT}"
+          printf 'version=%s\nsource_sha=%s\nedition=%s\nrelease_type=%s\nsource_is_tag=%s\nregistry=%s\n' \
+            "${VERSION}" "${SOURCE_SHA}" "${EDITION}" "${RELEASE_TYPE}" "${SOURCE_IS_TAG}" "${REGISTRY}" >> "${GITHUB_OUTPUT}"
           echo "  Version  : ${VERSION}"
           echo "──────────────────────────────────────────────"
 
@@ -466,7 +470,7 @@ jobs:
           REPOSITORY: ${{ github.repository }}
           COMMIT_SHA: ${{ github.sha }}
           RUN_ID: ${{ github.run_id }}
-          TARGET_REGISTRY_INPUT: ${{ inputs.registry || github.event.inputs.registry || '' }}
+          TARGET_REGISTRY_INPUT: ${{ steps.version.outputs.registry }}
           DRY_RUN: ${{ inputs.dry_run || inputs.build_from_workflow_source }}
         run: |
           DRY_RUN="${DRY_RUN:-false}"
@@ -584,7 +588,7 @@ jobs:
           BUILD_FROM_WORKFLOW_SOURCE: ${{ inputs.build_from_workflow_source }}
           OVERWRITE_DOCKERHUB_IMAGE: ${{ inputs.overwrite_dockerhub_image }}
           TAG_NAME: ${{ steps.version.outputs.version }}
-          REGISTRY: ${{ inputs.registry }}
+          REGISTRY: ${{ steps.version.outputs.registry }}
           INCLUDE_TINYLLAMA: ${{ inputs.include_tinyllama }}
           LLM_MODEL: ${{ inputs.llm_model }}
           LLM_MODEL_URL: ${{ inputs.llm_model_url }}
