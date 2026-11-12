@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T17:21:40+00:00",
+  "generated_at": "2026-11-12T17:32:35+00:00",
   "source_count": 8091,
   "sources": [
     {
@@ -357,9 +357,9 @@
     {
       "path": ".github/workflows/maintenance-architecture-ci.yml",
       "category": "build_test_ci",
-      "size": 7060,
-      "sha256": "202246b32941a015e96612921dfdbdb41209092d945c1588ac200750cdeea925",
-      "modified_utc": "2026-11-12T15:49:35+00:00"
+      "size": 8427,
+      "sha256": "a0d13a7f0ed1f3db4d4f1c6bd6e34a99ed5111bfa33f244fd31bf3d56d2f150b",
+      "modified_utc": "2026-11-12T17:30:44+00:00"
     },
     {
       "path": ".github/workflows/maintenance-build-issues.yml",

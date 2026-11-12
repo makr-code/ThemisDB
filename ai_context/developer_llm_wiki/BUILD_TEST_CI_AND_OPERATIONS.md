@@ -481,7 +481,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/maintenance-architecture-ci.yml
 - Kategorie: build_test_ci
-- Hash: `202246b32941a015`
+- Hash: `a0d13a7f0ed1f3db`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-build-issues.yml
