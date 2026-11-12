@@ -400,6 +400,13 @@ jobs:
               if lane_os == "linux":
                   entry["setup_command"] += "\nsudo apt-get install -y --no-install-recommends libarchive-tools"
               lane_flags = cmake_flags
+              windows_mainline_evidence = (
+                  entry["id"] == "windows-amd64"
+                  and not os.environ.get("SOURCE_SHA", "").strip()
+                  and os.environ.get("GITHUB_REF") == "refs/heads/develop"
+              )
+              if windows_mainline_evidence:
+                  lane_flags = lane_flags.replace("-DTHEMIS_BUILD_TESTS=OFF", "-DTHEMIS_BUILD_TESTS=ON")
               if entry["id"] in {"linux-amd64", "linux-arm64"}:
                   # Release binaries and cached objects must not require the build runner's CPU
                   # or receive x86-only GGML flags on ARM64.
@@ -421,17 +428,9 @@ jobs:
               entry["validation_command"] = entry["validation_command"].replace("${PACKAGE_GENERATORS}", generators_for(lane_os))
               entry["validation_command"] += '\npython3 scripts/release/validate_runtime_payload.py "${PACKAGES_DIR}" --packages'
               entry["validation_continue_on_error"] = False
-              if (
-                  entry["id"] == "windows-amd64"
-                  and not os.environ.get("SOURCE_SHA", "").strip()
-                  and os.environ.get("GITHUB_REF") == "refs/heads/develop"
-              ):
+              if windows_mainline_evidence:
                   entry["artifact_name"] = (
                       f"ctest-evidence-windows-{os.environ['GITHUB_SHA']}-{os.environ['GITHUB_RUN_ID']}"
-                  )
-                  entry["configure_command"] = entry["configure_command"].replace(
-                      "cmake --preset windows-release ${CMAKE_FLAGS}",
-                      "cmake --preset windows-release ${CMAKE_FLAGS} -DTHEMIS_BUILD_TESTS=ON",
                   )
                   entry["validation_command"] = entry["validation_command"].replace(
                       "ctest --preset windows-release --output-on-failure -j 1 --timeout 60",
