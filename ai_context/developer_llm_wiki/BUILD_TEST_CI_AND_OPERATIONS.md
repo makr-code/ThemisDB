@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-11-11"
+Last Updated: "2026-11-12"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,8 +14,26 @@ Human_Author: "ThemisDB Team"
 
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-Datum: 2026-11-11
+Datum: 2026-11-12
 Status: Active
+
+## Governance maturity manifest verification
+
+The canonical manifest is `docs/governance/MATURITY_EVIDENCE_MANIFEST.json`; its
+gate records are grouped under `gates`, not `evidence_items`. The
+`.github/scripts/verify_maturity_gates.py` verifier evaluates declared
+`validation_rule` checks, resolves evidence paths inside the repository, and uses
+Git history for file-freshness checks so checkout timestamps do not make stale
+evidence appear current. `PASS` entries with unsupported rules fail closed.
+`PENDING` entries remain visibly pending and are not counted as passed; current
+workflow policy does not make pending entries block the run.
+
+The
+`.github/workflows/compliance-governance-gates.yml` workflow uploads the JSON
+report as a run artifact and separately runs the hard 100%-maturity checker.
+Release-candidate validation invokes the same verifier for Wave 7–9 groups.
+Operational guidance is in
+[`MATURITY_AUTOMATION_RUNBOOK.md`](../../docs/operations/MATURITY_AUTOMATION_RUNBOOK.md).
 
 ## Docker runtime APT mirror synchronization recovery
 
