@@ -62,6 +62,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "release-docker-image.yml",
             "release-nightly.yml",
             "release-promote.yml",
+            "release-rollback.yml",
             "wiki-pr-gate.yml",
         )
         reusable_workflows = (
@@ -158,6 +159,60 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         self.assertIn("inputs.dry_run", report["env"]["DRY_RUN"])
         self.assertIn("GitHub writes suppressed", report["run"])
         self.assertIn("$GITHUB_STEP_SUMMARY", report["run"])
+
+    def test_release_rollback_dry_run_validates_and_suppresses_mutations(self) -> None:
+        workflow = load_workflow("release-rollback.yml")
+        triggers = workflow.get(True, workflow.get("on"))
+        dispatch = triggers["workflow_dispatch"]
+        dry_run = dispatch["inputs"]["dry_run"]
+        self.assertEqual(dry_run["type"], "boolean")
+        self.assertIs(dry_run["default"], True)
+        self.assertEqual(
+            workflow["permissions"],
+            {"contents": "read", "actions": "read"},
+        )
+
+        jobs = workflow["jobs"]
+        self.assertEqual(
+            set(jobs["run-summary"]["needs"]),
+            {
+                "validate-rollback",
+                "delete-github-release",
+                "delete-docker-tags",
+                "revert-version",
+                "create-rollback-pr",
+                "notify-rollback",
+            },
+        )
+        validate = jobs["validate-rollback"]["steps"][0]
+        self.assertIn("VERSION: ${{ inputs.version }}", validate["env"])
+        self.assertIn("semantic version", validate["run"])
+        self.assertIn("No rollback actions selected", validate["run"])
+        self.assertIn("previous-version must differ", validate["run"])
+
+        delete_release = jobs["delete-github-release"]
+        self.assertIn("inputs.dry_run != true", delete_release["if"])
+        self.assertEqual(delete_release["permissions"], {"contents": "write"})
+        self.assertIn("process.env.VERSION", delete_release["steps"][0]["with"]["script"])
+        self.assertIn("if (e.status === 404)", delete_release["steps"][0]["with"]["script"])
+
+        docker_cleanup = jobs["delete-docker-tags"]
+        self.assertNotIn("permissions", docker_cleanup)
+        self.assertIn("not automated", docker_cleanup["steps"][0]["run"])
+        self.assertIn("no registry mutation was attempted", docker_cleanup["steps"][0]["run"])
+
+        version_plan = jobs["revert-version"]
+        self.assertNotIn("permissions", version_plan)
+        self.assertIn("Dry-run: no files were changed", version_plan["steps"][0]["run"])
+        rollback_pr = jobs["create-rollback-pr"]
+        self.assertIn("inputs.dry_run != true", rollback_pr["if"])
+        self.assertEqual(
+            rollback_pr["permissions"],
+            {"contents": "write", "pull-requests": "write"},
+        )
+        notify = jobs["notify-rollback"]["steps"][0]
+        self.assertIn("$GITHUB_STEP_SUMMARY", notify["run"])
+        self.assertIn("No rollback side effects were started", notify["run"])
 
     def test_wiki_dry_run_still_builds_and_validates_without_mutation(self) -> None:
         workflow = load_workflow("publish-wiki.yml")
