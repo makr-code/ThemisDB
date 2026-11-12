@@ -66,9 +66,7 @@ on:
         type: string
 
 permissions:
-  issues: write
   contents: read
-  actions: write
 
 concurrency:
   group: release-approval-gate-${{ github.event.issue.number || github.ref }}
@@ -78,6 +76,10 @@ jobs:
   approval-gate:
     name: "Validate: Release Approval Comment Gate"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      actions: write
     outputs:
       gate-skip: ${{ steps.gate.outputs.skip }}
       gate-status: ${{ steps.gate.outputs.status }}

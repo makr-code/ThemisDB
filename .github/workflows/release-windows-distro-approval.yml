@@ -5,9 +5,7 @@ on:
     types: [created, edited]
 
 permissions:
-  issues: write
   contents: read
-  actions: write
 
 concurrency:
   group: release-windows-distro-${{ github.event.issue.number }}
@@ -29,6 +27,10 @@ jobs:
         contains(github.event.comment.body, '/rollback-windows')
       )
     uses: ./.github/workflows/reusable-release-approval-comment-gate.yml
+    permissions:
+      contents: read
+      issues: write
+      actions: write
     with:
       issue_label: windows-distro-review
       match_regex: "/publish-windows\\b|/approve-windows\\b|@publish-windows\\b|/hold-windows\\b|/pause-windows\\b|/reject-windows\\b|/cancel-windows\\b|/rollback-windows\\b"
@@ -48,6 +50,8 @@ jobs:
   summary:
     name: "Validate: Wrapper Summary"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: [windows_distro_publish_from_issue]
     if: always()
     steps:

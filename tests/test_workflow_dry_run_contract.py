@@ -532,6 +532,35 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         approval_step = approval["jobs"]["windows_distro_publish_from_issue"]
         self.assertIn('"dry_run":false', approval_step["with"]["dispatch_inputs_json"])
 
+    def test_release_approval_permissions_are_scoped_to_mutating_jobs(self) -> None:
+        wrapper_jobs = {
+            "release-linux-distro-approval.yml": "linux_distro_publish_from_issue",
+            "release-windows-distro-approval.yml": "windows_distro_publish_from_issue",
+            "release-winget-approval.yml": "winget_publish_from_issue",
+        }
+        reusable_permissions = {
+            "contents": "read",
+            "issues": "write",
+            "actions": "write",
+        }
+
+        for workflow_name, approval_job_name in wrapper_jobs.items():
+            with self.subTest(workflow=workflow_name):
+                workflow = load_workflow(workflow_name)
+                self.assertEqual(workflow["permissions"], {"contents": "read"})
+                approval_job = workflow["jobs"][approval_job_name]
+                self.assertEqual(approval_job["permissions"], reusable_permissions)
+                self.assertEqual(workflow["jobs"]["summary"]["permissions"], {"contents": "read"})
+                self.assertIn('"dry_run":false', approval_job["with"]["dispatch_inputs_json"])
+
+        reusable = load_workflow("reusable-release-approval-comment-gate.yml")
+        self.assertEqual(reusable["permissions"], {"contents": "read"})
+        self.assertEqual(reusable["jobs"]["approval-gate"]["permissions"], reusable_permissions)
+        self.assertEqual(
+            reusable["jobs"]["human-loop-escalation"]["permissions"],
+            {"contents": "read", "issues": "write"},
+        )
+
     def test_release_evidence_dry_run_verifies_ledger_without_manual_artifact_upload(self) -> None:
         workflow = load_workflow("release-evidence-chain.yml")
         triggers = workflow.get(True, workflow.get("on"))

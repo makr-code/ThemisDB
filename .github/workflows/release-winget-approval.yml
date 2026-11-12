@@ -5,10 +5,7 @@ on:
     types: [created, edited]
 
 permissions:
-  issues: write
   contents: read
-  pull-requests: write
-  actions: write
 
 concurrency:
   group: winget-publish-${{ github.event.issue.number }}
@@ -30,6 +27,10 @@ jobs:
         contains(github.event.comment.body, '/rollback-winget')
       )
     uses: ./.github/workflows/reusable-release-approval-comment-gate.yml
+    permissions:
+      contents: read
+      issues: write
+      actions: write
     with:
       issue_label: winget-release
       match_regex: "/publish-winget\\b|/approve-winget\\b|@publish-winget\\b|/hold-winget\\b|/pause-winget\\b|/reject-winget\\b|/cancel-winget\\b|/rollback-winget\\b"
@@ -49,6 +50,8 @@ jobs:
   summary:
     name: "Validate: Wrapper Summary"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: [winget_publish_from_issue]
     if: always()
     steps:
