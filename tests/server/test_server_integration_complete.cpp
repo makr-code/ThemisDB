@@ -355,6 +355,31 @@ TEST_F(ServerAuthEnforcementTest, SessionList_ValidToken_NotUnauthorized) {
     EXPECT_NE(res.result(), http::status::unauthorized);
 }
 
+// ── Auth gateway: RAG requests are rejected before payload/RAG processing ────
+
+TEST_F(ServerAuthEnforcementTest, Rag_NoAuthorization_Returns401BeforeParsingBody) {
+    auto res = httpRequest<http::verb::post>(
+        kAuthHost, kAuthPort, "/api/v1/llm/rag", "{");
+    EXPECT_EQ(res.result(), http::status::unauthorized)
+        << "Unauthenticated RAG request must be rejected before JSON parsing; got: "
+        << res.body();
+}
+
+TEST_F(ServerAuthEnforcementTest, Rag_InvalidToken_Returns401) {
+    auto res = httpRequest<http::verb::post>(
+        kAuthHost, kAuthPort, "/api/v1/llm/rag", "{}", kBadBearer);
+    EXPECT_EQ(res.result(), http::status::unauthorized)
+        << "RAG request with an unknown bearer token must be rejected; got: "
+        << res.body();
+}
+
+TEST_F(ServerAuthEnforcementTest, Rag_ValidTokenWithoutLlmScope_Returns403) {
+    auto res = post("/api/v1/llm/rag", json{{"query", "test"}}, kBearer);
+    EXPECT_EQ(res.result(), http::status::forbidden)
+        << "RAG request without the required llm scope must be rejected; got: "
+        << res.body();
+}
+
 // ── Auth-required: PII reveal endpoint ────────────────────────────────────
 
 TEST_F(ServerAuthEnforcementTest, PiiReveal_NoAuthHeader_Returns401or503) {

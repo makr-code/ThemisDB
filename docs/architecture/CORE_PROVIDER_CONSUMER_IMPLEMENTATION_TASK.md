@@ -153,6 +153,14 @@ or executed. Adding the context field is source-compatible for ordinary member
 assignment/default construction but changes the struct layout; binary consumers
 must rebuild.
 
+The server integration suite now has network-level regressions for the actual
+`HttpServer` `/api/v1/llm/rag` route: absent and invalid bearer credentials are
+rejected before body parsing, and a valid configured token without the `llm`
+scope is forbidden. These tests cover only the outer authentication gateway;
+they do not exercise successful RAG execution, tenant-bearing credentials,
+collection-level policy, or evidence isolation, and have not yet been built or
+run.
+
 The current source diff adds `RAGSourceReference` and candidate parsing for exact
 source-reference fields; persists normal ingestion chunk text in
 `ingestion_sources` and resolves it by exact key plus source-file identity;

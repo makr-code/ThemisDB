@@ -137,7 +137,10 @@ registration, persistent storage, external telemetry, or production readiness.
   - Trusted tenant-bearing HTTP auth configuration, caller-specific collection
     policy, real AQL/YAML startup wiring, full request-context/auth isolation,
     remaining acceptance criteria, and focused test execution/evidence remain
-    pending. See
+    pending. Network-level source regressions now cover rejection of unauthenticated,
+    invalid-token, and missing-`llm`-scope requests at the actual HttpServer RAG
+    auth gateway; these do not verify successful retrieval or tenant isolation and
+    have not been run. See
     [`docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md`](../../docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md).
 - [x] Ingestion bridge and context-hydration hardening for fail-closed retrieval inputs (Target: Q3 2026)
   - **Build**: historical evidence target `module_rag_test_rag_ingestion_bridge_hardening_focused` (the target is generated from `tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp`)
