@@ -4671,8 +4671,12 @@ Result<std::optional<std::string>> QueryEngine::readIngestionSourceText(
 		const auto source = BaseEntity::deserialize(std::string(exact_source_key), *stored);
 		const auto source_file_id = source.getFieldAsString("source_file_id");
 		const auto source_text = source.getFieldAsString("content");
-		if (!source_file_id || *source_file_id != expected_source_file_id ||
-		    !source_text ||
+		if (!source_file_id || !source_text) {
+			return Err<std::optional<std::string>>(
+				errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+				"Incomplete ingestion source record");
+		}
+		if (*source_file_id != expected_source_file_id ||
 		    source_text->find_first_not_of(" \t\r\n") == std::string::npos) {
 			return Ok(std::optional<std::string>{});
 		}

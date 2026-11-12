@@ -66,8 +66,9 @@ registration, persistent storage, external telemetry, or production readiness.
     A focused test now verifies that a vector written only through the sink
     retrieves its persisted source text and typed identity, without a test-only
     duplicate source write, and that matching-provenance whitespace-only source
-    content is rejected without using the copied vector snippet. These tests have
-    not been built or executed.
+    content is rejected without using the copied vector snippet, and that
+    malformed persisted ingestion-source records fail with
+    `ERR_STORAGE_CORRUPTION`. These tests have not been built or executed.
   - `LLMAQLHandler::executeRAG()` now passes the timeout manager's cancellation
     token and configured retrieval deadline to `RAGProvider`. Both checks are
     cooperative and cannot interrupt a blocking QueryEngine operation; the new
