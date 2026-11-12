@@ -221,7 +221,7 @@ TEST_F(RAGProviderTest, VectorIngestionRejectsMalformedPersistedSourceRecord) {
     rag::RetrievalRequest request;
     request.query = query;
 
-    for (const auto& source : {"{", "[]"}) {
+    for (const auto& source : {"{", "[]", "null", R"("not-an-object")"}) {
         ASSERT_TRUE(db_->put(source_key, source));
         const auto result = provider_->retrieve(request);
 

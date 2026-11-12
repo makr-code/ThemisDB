@@ -67,9 +67,10 @@ registration, persistent storage, external telemetry, or production readiness.
     retrieves its persisted source text and typed identity, without a test-only
     duplicate source write, and that matching-provenance whitespace-only source
     content is rejected without using the copied vector snippet, and that
-    malformed JSON, non-object roots, and well-formed but incomplete persisted
-    ingestion-source records—including numeric identity/content fields—fail with
-    `ERR_STORAGE_CORRUPTION`. These tests have not been built or executed.
+    malformed JSON, array/null/string roots, and well-formed but incomplete
+    persisted ingestion-source records—including numeric identity/content
+    fields—fail with `ERR_STORAGE_CORRUPTION`. These tests have not been built or
+    executed.
   - `LLMAQLHandler::executeRAG()` now passes the timeout manager's cancellation
     token and configured retrieval deadline to `RAGProvider`. Both checks are
     cooperative and cannot interrupt a blocking QueryEngine operation; the new
