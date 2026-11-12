@@ -124,11 +124,18 @@ registration, persistent storage, external telemetry, or production readiness.
     in arbitrary `extra` metadata are ignored, and non-finite trusted values are
     rejected. Focused test sources cover both paths but remain unrun. Production
     startup still must populate the trusted contexts from authenticated callers
-    and server policy.
+    and server policy. The direct HttpServer RAG route copies `tenant_id` from
+    AuthMiddleware, but the current bootstrap only adds static role tokens without
+    tenant IDs and does not enable JWT validation, so those tokens produce an
+    empty tenant context and provider tenant filters do not apply. Collection
+    resource-policy checks are conditional on a configured policy engine; the
+    route's collection-equality predicate is not a caller-specific collection
+    grant.
   - The canonical Core task now contains the evidence-backed current-source role
     map for every immediate `src/` directory. This documents source roles only;
     it does not mark a runtime acceptance criterion complete.
-  - Real AQL/YAML startup wiring, full request-context/auth isolation,
+  - Trusted tenant-bearing HTTP auth configuration, caller-specific collection
+    policy, real AQL/YAML startup wiring, full request-context/auth isolation,
     remaining acceptance criteria, and focused test execution/evidence remain
     pending. See
     [`docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md`](../../docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md).

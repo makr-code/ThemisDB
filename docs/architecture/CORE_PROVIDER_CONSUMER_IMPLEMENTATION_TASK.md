@@ -50,16 +50,28 @@ wrappers.
   RocksDB/index manager members. The interface-only builder path therefore
   must not be presented as a working replacement for the production backend
   composition without fixing and testing that boundary.
-- `HttpServer`'s direct `POST /api/v1/llm/rag` route authorizes the requested
-  collection, then creates a request-local concrete `query::QueryEngine` using
-  the live server-owned storage and index managers (`storage_`,
-  `secondary_index_`, `graph_index_`, `vector_index_`, and `spatial_index_`).
-  It creates a local `RAGProvider` over that engine and passes a
-  `RetrievalExecutionContext` containing the request deadline, tenant from the
-  authenticated request context, and authorized-collection predicate. This is
-  the concrete HTTP composition; it is not evidence that the builder's
-  interface-only composition is production-ready, nor does it establish general
-  row-level authorization or propagate caller identity to other consumers.
+- `HttpServer`'s direct `POST /api/v1/llm/rag` route calls `requireAccess` with
+  `data:read`, action `data.read`, and the requested collection as resource, then
+  creates a request-local concrete `query::QueryEngine` using the live
+  server-owned storage and index managers (`storage_`, `secondary_index_`,
+  `graph_index_`, `vector_index_`, and `spatial_index_`). `requireAccess` checks
+  the scope when auth is enabled and evaluates the resource only when a policy
+  engine is configured (admin users bypass that policy check); with neither auth
+  nor policy enabled it allows the request. The route's collection predicates
+  require retrieval to stay on the requested collection, but do not alone prove
+  that the caller has a grant for that collection.
+- The route creates a local `RAGProvider` over the request-local engine and
+  copies `tenant_id` from `extractAuthContext(req)` into
+  `RetrievalExecutionContext`. However, `HttpServer` currently configures only
+  static `THEMIS_TOKEN_ADMIN`, `THEMIS_TOKEN_READONLY`, and
+  `THEMIS_TOKEN_ANALYST` tokens, without assigning their `TokenConfig::tenant_id`;
+  it does not enable JWT validation. Consequently those standard tokens yield an
+  empty tenant, and the RAG provider skips tenant filters for those requests.
+  `AuthMiddleware` supports tenant-bearing token/JWT results, but the normal
+  `HttpServer` bootstrap does not currently configure that path. This concrete
+  HTTP composition is not evidence that the builder's interface-only
+  composition is production-ready, nor does it establish general row-level
+  authorization or propagate caller identity to other consumers.
 - `LLMAQLHandler::executeRAG()` uses its injected query engine and passes its
   cancellation token, configured retrieval deadline, and configured
   collection-check predicate to `RAGProvider`. A source-tree search finds no
@@ -117,22 +129,29 @@ The direct HTTP RAG route now carries its configured live request timeout into
 `RetrievalExecutionContext` from request dispatch through query embedding and
 provider retrieval; an expired retrieval deadline returns HTTP 504. The deadline
 is cooperative and cannot interrupt a blocking embedding or backend call. The
-route now also builds an equality filter from the validated bearer-token tenant
-claim for vector retrieval; it does not trust a caller-supplied tenant header.
-The claim is passed through `RetrievalExecutionContext`; the provider filters
-materialized relational, content, and vector evidence, and injects the tenant
-predicate before vector search. Graph retrieval passes a request-scoped vertex
-policy to QueryEngine, which checks each visited entity's `tenant_id` before
-returning it or expanding that vertex. Missing, malformed, or mismatched tenant
-values return access denied. This does not populate trusted tenant context for
-AQL/YAML server consumers, establish general row-level policy outside these
-retrieval paths, propagate caller identity, or add HTTP cancellation. Focused
-provider regressions cover foreign/missing tenants, indexed top-1 behavior, and
-same-tenant/foreign/tenantless graph vertices. A concurrent shared-provider
-regression source also checks that distinct vector tenant contexts return only
-their own evidence. These tests have not been built or executed. Adding the
-context field is source-compatible for ordinary member assignment/default
-construction but changes the struct layout; binary consumers must rebuild.
+route copies `tenant_id` from the validated authentication context into
+`RetrievalExecutionContext`; the provider applies tenant filters only when that
+value is nonempty and does not trust a caller-supplied tenant header. The normal
+`HttpServer` bootstrap currently creates only static role tokens without tenant
+IDs and does not enable JWT validation, so those standard requests have no
+tenant filter. Establishing a trusted tenant-bearing HTTP auth configuration
+remains open. When a tenant is present, the provider filters materialized
+relational, content, and vector evidence and injects the tenant predicate
+before vector search; graph retrieval passes a request-scoped vertex policy to
+QueryEngine, which checks each visited entity's `tenant_id` before returning it
+or expanding that vertex. Missing, malformed, or mismatched tenant values
+return access denied. `requireAccess`'s collection-level resource check is
+conditional on a configured policy engine; the request-matching collection
+predicate is not itself a caller-specific grant. This does not populate trusted
+tenant context for AQL/YAML server consumers, establish general row-level policy
+outside these retrieval paths, propagate caller identity, or add HTTP
+cancellation. Focused provider regressions cover foreign/missing tenants,
+indexed top-1 behavior, and same-tenant/foreign/tenantless graph vertices. A
+concurrent shared-provider regression source also checks that distinct vector
+tenant contexts return only their own evidence. These tests have not been built
+or executed. Adding the context field is source-compatible for ordinary member
+assignment/default construction but changes the struct layout; binary consumers
+must rebuild.
 
 The current source diff adds `RAGSourceReference` and candidate parsing for exact
 source-reference fields; persists normal ingestion chunk text in
@@ -193,10 +212,11 @@ the sink boundary. Existing vectors with the old `ingestion_vector` marker
 retain their prior snippet behavior. The new sink constructor requires callers
 to provide a `SecondaryIndexManager` on the same retrieval database.
 
-Still pending: trace and verify real AQL/YAML startup and request wiring;
-complete production composition; complete caller/tenant/row-level authorization
-and full context propagation (the direct HTTP vector filter is route-specific and
-does not establish general row-level policy);
+Still pending: configure and verify a trusted tenant-bearing HTTP auth source
+and caller-specific collection policy; trace and verify real AQL/YAML startup and
+request wiring; complete production composition; complete caller/tenant/row-level
+authorization and full context propagation (the direct HTTP vector filter is
+route-specific and does not establish general row-level policy);
 verify application startup configures the orchestrator with the actual server
 QueryEngine and supplies trusted authorization context, including a safe MCP
 caller-context path; complete source materialization/compatibility and remaining
