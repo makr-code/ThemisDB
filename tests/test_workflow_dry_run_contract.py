@@ -57,6 +57,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "maintenance-architecture-ci.yml",
             "maintenance-compendium-sync.yml",
             "maintenance-housekeeping.yml",
+            "maintenance-build-issues.yml",
             "maintenance-pr-failure-diagnosis.yml",
             "maintenance-soll-ist-gap-issues.yml",
             "publish-wiki.yml",
@@ -454,6 +455,50 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         self.assertIn("if (dryRun)", script)
         self.assertIn("comment writes: suppressed", script)
         self.assertEqual(triggers["workflow_run"]["types"], ["completed"])
+
+    def test_build_error_manual_dry_run_suppresses_mutations_and_preserves_analysis(self) -> None:
+        workflow = load_workflow("maintenance-build-issues.yml")
+        triggers = workflow.get(True, workflow.get("on"))
+        dry_run = triggers["workflow_dispatch"]["inputs"]["dry_run"]
+        self.assertEqual(dry_run["type"], "boolean")
+        self.assertIs(dry_run["default"], True)
+
+        steps = workflow["jobs"]["aggregate-build-errors"]["steps"]
+        write_steps = (
+            "Ensure single chronic build failure issue",
+            "Normalize chronic build issue labels",
+            "Append latest chronic build errors as issue comment",
+            "Send Slack notification for chronic errors",
+            "Send Discord notification for chronic errors",
+            "Publish Error Dashboard",
+        )
+        dry_run_guard = "github.event_name != 'workflow_dispatch' || inputs.dry_run != true"
+        for name in write_steps:
+            step = next(step for step in steps if step.get("name") == name)
+            with self.subTest(step=name):
+                self.assertIn(dry_run_guard, step["if"])
+
+        pr_comment = next(step for step in steps if step.get("name") == "Post build failure comment on triggering PR")
+        self.assertIn("github.event_name == 'workflow_run'", pr_comment["if"])
+        self.assertIn("github.event.workflow_run.conclusion == 'failure'", pr_comment["if"])
+
+        fetch = next(step for step in steps if step.get("name") == "Fetch failed workflow runs and error artifacts")
+        aggregate = next(step for step in steps if step.get("name") == "Aggregate errors from artifacts")
+        metrics = next(step for step in steps if step.get("name") == "Collect error metrics for Prometheus/Grafana")
+        metrics_upload = next(step for step in steps if step.get("name") == "Upload metrics artifacts")
+        self.assertNotIn("if", fetch)
+        self.assertNotIn("if", aggregate)
+        self.assertEqual(metrics["if"], "always()")
+        self.assertEqual(metrics_upload["if"], "always()")
+        comment_preview = next(step for step in steps if step.get("name") == "Prepare chronic build issue comment body")
+        self.assertEqual(comment_preview["if"], "steps.aggregate.outputs.chronic_errors > 0")
+
+        summary = next(step for step in steps if step.get("name") == "Print error aggregation summary")
+        self.assertEqual(summary["env"]["DRY_RUN_ENABLED"], "${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}")
+        self.assertIn("Build Error Dry-Run Preview", summary["run"])
+        self.assertIn("Planned action:", summary["run"])
+        run_summary_scope = workflow["jobs"]["run-summary"]["steps"][1]["with"]["scope"]
+        self.assertIn("manual dry-run", run_summary_scope)
 
     def test_soll_ist_manual_dry_run_suppresses_issue_mutations_but_schedule_syncs(self) -> None:
         workflow = load_workflow("maintenance-soll-ist-gap-issues.yml")

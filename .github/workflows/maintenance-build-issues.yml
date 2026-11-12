@@ -18,6 +18,11 @@ on:
         required: false
         default: '1440'
         type: string
+      dry_run:
+        description: 'Analyze failed runs and preview issue/notification actions without mutating GitHub issues, PR comments, labels, or external notification channels.'
+        required: false
+        default: true
+        type: boolean
 
 permissions:
   contents: read
@@ -41,7 +46,7 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "Build failure issue aggregation"
+          scope: "${{ github.event_name == 'workflow_dispatch' && inputs.dry_run == true && 'Build failure aggregation preview (manual dry-run; issue, PR-comment, label, dashboard, and outbound notification writes suppressed)' || 'Build failure issue aggregation' }}"
           job-results: ${{ toJSON(needs) }}
 
   aggregate-build-errors:
@@ -515,7 +520,9 @@ jobs:
           PY
 
       - name: Ensure single chronic build failure issue
-        if: steps.aggregate.outputs.chronic_errors > 0
+        if: >-
+          steps.aggregate.outputs.chronic_errors > 0 &&
+          (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         id: chronic-issue
         uses: ./.github/actions/status-flags-and-issues
         with:
@@ -549,7 +556,9 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Normalize chronic build issue labels
-        if: steps.aggregate.outputs.chronic_errors > 0
+        if: >-
+          steps.aggregate.outputs.chronic_errors > 0 &&
+          (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -600,7 +609,9 @@ jobs:
           } > /tmp/chronic-build-error-comment.md
 
       - name: Append latest chronic build errors as issue comment
-        if: steps.aggregate.outputs.chronic_errors > 0
+        if: >-
+          steps.aggregate.outputs.chronic_errors > 0 &&
+          (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -613,7 +624,10 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Send Slack notification for chronic errors
-        if: steps.aggregate.outputs.chronic_errors > 0 && env.SLACK_WEBHOOK_URL != ''
+        if: >-
+          steps.aggregate.outputs.chronic_errors > 0 &&
+          env.SLACK_WEBHOOK_URL != '' &&
+          (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         uses: ./.github/actions/notify-chronic-errors
@@ -625,7 +639,10 @@ jobs:
         continue-on-error: true
 
       - name: Send Discord notification for chronic errors
-        if: steps.aggregate.outputs.chronic_errors > 0 && env.DISCORD_WEBHOOK_URL != ''
+        if: >-
+          steps.aggregate.outputs.chronic_errors > 0 &&
+          env.DISCORD_WEBHOOK_URL != '' &&
+          (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         uses: ./.github/actions/notify-chronic-errors
@@ -638,6 +655,12 @@ jobs:
 
       - name: Print error aggregation summary
         if: always()
+        env:
+          DRY_RUN_ENABLED: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+          LOOKBACK_MINUTES: ${{ github.event_name == 'workflow_dispatch' && inputs.lookback_minutes || '1440' }}
+          TOTAL_ERRORS: ${{ steps.aggregate.outputs.total_errors }}
+          CHRONIC_ERRORS: ${{ steps.aggregate.outputs.chronic_errors }}
+          HAS_ERROR_ARTIFACTS: ${{ steps.fetch.outputs.has_artifacts }}
         run: |
           echo "──────────────────────────────────────────────"
           echo "  Build Error Aggregation Complete"
@@ -650,6 +673,25 @@ jobs:
             echo "Aggregated Report:"
             head -50 /tmp/aggregated-errors.md
             echo "... (see full report in GitHub issue)"
+          fi
+          if [ "${DRY_RUN_ENABLED}" = "true" ]; then
+            {
+              echo "## Build Error Dry-Run Preview"
+              echo ""
+              echo "- Look-back window: ${LOOKBACK_MINUTES} minutes"
+              echo "- Unique errors: ${TOTAL_ERRORS:-unavailable}"
+              echo "- Chronic errors: ${CHRONIC_ERRORS:-unavailable}"
+              echo "- Labels, issue creation/update, issue comments, Slack/Discord notifications, and dashboard publication: suppressed"
+              echo "- Diagnostic metrics artifact: retained for this workflow run"
+              if [[ "${CHRONIC_ERRORS:-}" =~ ^[0-9]+$ ]] && (( CHRONIC_ERRORS > 0 )); then
+                echo "- Planned action: upsert the chronic-build issue, normalize its labels, append the current report, and send configured notifications."
+              else
+                echo "- Planned action: no chronic-build issue or notification mutation."
+              fi
+              if [ "${HAS_ERROR_ARTIFACTS}" = "true" ]; then
+                echo "- Planned dashboard action: generate and publish the dashboard and send a notification if configured."
+              fi
+            } >> "$GITHUB_STEP_SUMMARY"
           fi
           echo "──────────────────────────────────────────────"
 
@@ -673,7 +715,10 @@ jobs:
           retention-days: 30
 
       - name: Publish Error Dashboard
-        if: always() && steps.fetch.outputs.has_artifacts == 'true'
+        if: >-
+          always() &&
+          steps.fetch.outputs.has_artifacts == 'true' &&
+          (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SEND_SLACK: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
