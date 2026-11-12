@@ -45,9 +45,9 @@ on:
         default: false
         type: boolean
       dry_run:
-        description: 'Dry run (labels + milestones: no writes)'
+        description: 'Dry run (preview all manual changes; do not write labels, milestones, or comments)'
         required: false
-        default: false
+        default: true
         type: boolean
       label_filter:
         description: 'Restrict label sync to labels with this name prefix (empty = all)'
@@ -501,6 +501,8 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const markerPrefix = '<!-- maintenance-issue-recommendation';
+            const dryRun = context.eventName === 'workflow_dispatch' &&
+              String('${{ inputs.dry_run || false }}').toLowerCase() === 'true';
 
             const rawLookback = Number.parseInt(String(process.env.LOOKBACK_DAYS || '21'), 10);
             const lookbackDays = Number.isFinite(rawLookback) && rawLookback > 0 ? Math.min(rawLookback, 90) : 21;
@@ -625,13 +627,19 @@ jobs:
             const seen = new Set();
             const candidates = issueNumbers.filter((n) => seen.has(n) ? false : (seen.add(n), true));
 
-            let commented = 0, skipped = 0;
+            let commented = 0, wouldComment = 0, skipped = 0;
             for (const issueNum of candidates) {
               const result = await github.graphql(targetQuery, { owner, repo, number: issueNum });
               const issue = result.repository.issue;
               if (!issue || issue.state !== 'OPEN') continue;
               const mergedPRs = extractMergedPRs(issue);
               if (mergedPRs.length === 0) { skipped++; continue; }
+
+              if (dryRun) {
+                core.info(`[dry-run] would post closure recommendation for #${issue.number}`);
+                wouldComment++;
+                continue;
+              }
 
               const body = commentBodyFor(issue, mergedPRs);
               const existing = await findExistingComment(issue.number);
@@ -644,5 +652,5 @@ jobs:
             }
 
             await core.summary.addHeading('Recommend-only issue triage')
-              .addRaw(`Lookback: ${lookbackDays} days | Candidates: ${candidates.length} | Comments: ${commented} | Skipped: ${skipped}\n`)
+              .addRaw(`Lookback: ${lookbackDays} days | Candidates: ${candidates.length} | Comments: ${commented} | Would comment: ${wouldComment} | Skipped: ${skipped} | Dry run: ${dryRun}\n`)
               .write();

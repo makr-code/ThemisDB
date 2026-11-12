@@ -66,7 +66,7 @@ on:
       dry_run:
         description: 'Dry-run mode — print actions, no file modifications'
         required: false
-        default: false
+        default: true
         type: boolean
 
 permissions:

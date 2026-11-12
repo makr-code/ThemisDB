@@ -17,13 +17,10 @@ on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: "Dry run (print outputs, do not commit)"
+        description: "Generate and validate outputs without pushing a branch or opening a PR"
         required: false
-        default: "false"
-        type: choice
-        options:
-          - "false"
-          - "true"
+        default: true
+        type: boolean
   push:
     branches:
       - develop
@@ -78,33 +75,32 @@ jobs:
       - name: Run architecture generator
         id: generate
         run: |
-          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
-            python tools/architecture-generator/generate_architecture.py --dry-run
-          else
-            python tools/architecture-generator/generate_architecture.py
-          fi
+          python tools/architecture-generator/generate_architecture.py
 
       - name: Validate generated outputs
-        if: github.event.inputs.dry_run != 'true'
+        id: validation
         run: |
           python tools/architecture-generator/validate_architecture.py
 
       - name: Check for changes
         id: diff
-        if: github.event.inputs.dry_run != 'true'
         run: |
           git diff --name-only HEAD -- ARCHITECTURE.JSON ARCHITECTURE.md > /tmp/changed_files.txt
           cat /tmp/changed_files.txt
           if [ -s /tmp/changed_files.txt ]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
-            echo "::notice::Architecture outputs changed — will open PR"
+            if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+              echo "::notice::Architecture outputs changed — would open PR (dry run)"
+            else
+              echo "::notice::Architecture outputs changed — will open PR"
+            fi
           else
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "::notice::No changes in architecture outputs"
           fi
 
       - name: Upload artifacts (always)
-        if: github.event.inputs.dry_run != 'true'
+        if: always()
         uses: actions/upload-artifact@v5
         with:
           name: architecture-outputs-${{ github.run_id }}
@@ -114,13 +110,13 @@ jobs:
           retention-days: 30
 
       - name: Configure git identity
-        if: steps.diff.outputs.changed == 'true'
+        if: steps.diff.outputs.changed == 'true' && github.event.inputs.dry_run != 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Create or update PR branch
-        if: steps.diff.outputs.changed == 'true'
+        if: steps.diff.outputs.changed == 'true' && github.event.inputs.dry_run != 'true'
         id: branch
         run: |
           BRANCH="chore/update-architecture-model-$(date +%Y%m%d-%H%M)"
@@ -135,7 +131,7 @@ jobs:
           echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
 
       - name: Open or update pull request
-        if: steps.diff.outputs.changed == 'true'
+        if: steps.diff.outputs.changed == 'true' && github.event.inputs.dry_run != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -170,3 +166,25 @@ jobs:
           > Auto-generated — merge after review." \
             --label "maintenance,documentation" 2>/dev/null || \
           echo "::notice::PR could not be created (may need 'maintenance' label to exist)"
+
+      - name: Write architecture run summary
+        if: always()
+        env:
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+        run: |
+          {
+            echo "## Architecture CI Summary"
+            echo "- Trigger: \`${{ github.event_name }}\`"
+            echo "- Dry run: **${DRY_RUN}**"
+            echo "- Validation: **${{ steps.validation.outcome || 'not run' }}**"
+            echo "- Changed: **${{ steps.diff.outputs.changed || 'unknown' }}**"
+            if [ "$DRY_RUN" = "true" ]; then
+              echo "- External changes: **none** (branch push and pull request creation suppressed)"
+              if [ "${{ steps.diff.outputs.changed }}" = "true" ]; then
+                echo "- Planned action: open or update an architecture-model pull request"
+              fi
+            else
+              echo "- Pull request branch: **${{ steps.branch.outputs.branch || 'not created' }}**"
+            fi
+            echo "- Diagnostic artifact: \`architecture-outputs-${{ github.run_id }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"

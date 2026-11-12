@@ -159,7 +159,7 @@ on:
         type: string
       dry-run:
         required: false
-        default: false
+        default: true
         type: boolean
     outputs:
       changed:

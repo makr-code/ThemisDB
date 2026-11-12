@@ -100,7 +100,7 @@ on:
       dry_run:
         description: 'Dry-run mode for reusable invocations'
         required: false
-        default: false
+        default: true
         type: boolean
 
 permissions:

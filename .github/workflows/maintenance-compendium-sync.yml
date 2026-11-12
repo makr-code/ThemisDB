@@ -39,7 +39,7 @@ on:
       dry_run:
         description: 'Dry run: detect and report drift but skip issue creation'
         type: boolean
-        default: false
+        default: true
 
 concurrency:
   group: maintenance-compendium-sync-${{ github.ref }}

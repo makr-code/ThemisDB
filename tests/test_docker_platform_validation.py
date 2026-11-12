@@ -21,7 +21,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
             with self.subTest(trigger=trigger):
                 dry_run = workflow[True][trigger]["inputs"]["dry_run"]
                 self.assertEqual(dry_run["type"], "boolean")
-                self.assertIs(dry_run["default"], False)
+                self.assertIs(dry_run["default"], True)
                 workflow_source = workflow[True][trigger]["inputs"]["build_from_workflow_source"]
                 self.assertEqual(workflow_source["type"], "boolean")
                 self.assertIs(workflow_source["default"], False)
@@ -71,7 +71,7 @@ class DockerPlatformValidationTests(unittest.TestCase):
         workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
         inputs = workflow[True]["workflow_call"]["inputs"]
         self.assertEqual(inputs["dry_run"]["type"], "boolean")
-        self.assertIs(inputs["dry_run"]["default"], False)
+        self.assertIs(inputs["dry_run"]["default"], True)
 
         steps = workflow["jobs"]["build"]["steps"]
         by_name = {step["name"]: step for step in steps}
