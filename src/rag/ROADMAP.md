@@ -70,8 +70,9 @@ registration, persistent storage, external telemetry, or production readiness.
     malformed JSON, array/null/string roots, and well-formed but incomplete
     persisted ingestion-source records—including numeric identity/content
     fields—as well as a truncated object header, truncated field-name payload,
-    and unsupported type tag—fail with `ERR_STORAGE_CORRUPTION`. These tests
-    have not been built or executed.
+    unsupported type tag, and trailing bytes appended after a valid binary
+    object—fail with `ERR_STORAGE_CORRUPTION`. These tests have not been built or
+    executed.
   - `LLMAQLHandler::executeRAG()` now passes the timeout manager's cancellation
     token and configured retrieval deadline to `RAGProvider`. Both checks are
     cooperative and cannot interrupt a blocking QueryEngine operation; the new

@@ -583,6 +583,9 @@ BaseEntity::FieldMap BaseEntity::parseBinary() const {
         }
         
         decoder.endObject();
+        if (decoder.hasMore()) {
+            throw std::runtime_error("Binary parse failed: trailing bytes after serialized entity");
+        }
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("Binary parse error: {}", e.what());
@@ -858,5 +861,4 @@ std::optional<std::string> BaseEntity::getRotationType(std::string_view field_na
 }
 
 } // namespace themis
-
 
