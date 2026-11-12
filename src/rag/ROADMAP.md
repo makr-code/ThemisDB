@@ -74,7 +74,8 @@ registration, persistent storage, external telemetry, or production readiness.
     Expired retrieval returns HTTP 504. AQL passes its configured collection
     checker in the same context. QueryEngine applies the predicate before graph
     vertices are loaded or expanded. This still does not propagate caller/tenant
-    identity, row-level policy, or HTTP cancellation; regression coverage has
+    identity, row-level policy, or HTTP cancellation. A blocking embedding or
+    backend call can only be checked after it returns; regression coverage has
     not been run.
   - Retrieval-enabled YAML `agentic` modes now reuse `AIOrchestrator::runRag()`
     before the existing agentic tool-call dispatch. A focused RocksDB-backed

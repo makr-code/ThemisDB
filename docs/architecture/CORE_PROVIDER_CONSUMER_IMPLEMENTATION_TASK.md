@@ -113,8 +113,9 @@ complete server-wide provider composition or MCP retrieval authorization.
 The direct HTTP RAG route now carries its configured live request timeout into
 `RetrievalExecutionContext` from request dispatch through query embedding and
 provider retrieval; an expired retrieval deadline returns HTTP 504. The deadline
-is cooperative and cannot interrupt a blocking backend call. HTTP cancellation,
-tenant identity, and row-level policy are not propagated by this increment.
+is cooperative and cannot interrupt a blocking embedding or backend call. HTTP
+cancellation, tenant identity, and row-level policy are not propagated by this
+increment.
 
 The current source diff adds `RAGSourceReference` and candidate parsing for exact
 source-reference fields; persists normal ingestion chunk text in

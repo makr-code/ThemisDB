@@ -99,9 +99,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The direct HTTP RAG route now propagates the live configured request timeout
   into the typed retrieval context, including query embedding and evidence
   retrieval; deadline expiry returns HTTP 504.
-- Enforcement is cooperative and cannot interrupt a blocking backend operation.
-  Request cancellation and tenant/row-level authorization propagation remain
-  open.
+- Enforcement is cooperative and can only detect time overrun after a blocking
+  embedding or backend call returns. Request cancellation and tenant/row-level
+  authorization propagation remain open.
 
 <!--
 AI_Used: true

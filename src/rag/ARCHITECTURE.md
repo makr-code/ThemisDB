@@ -63,7 +63,7 @@ provider-side code even when their historical filename contains "helpers".
    timeout-manager cancellation token, and matching deadline through
    `RetrievalExecutionContext`. QueryEngine also enforces the request predicate
    before each graph vertex load/expansion. Deadline and cancellation checks
-   are cooperative and cannot interrupt a blocking backend call.
+   are cooperative and cannot interrupt a blocking embedding or backend call.
 2. It may pass candidate lists to `HybridRetriever` for fusion; fusion does not
    perform index search.
 3. For generation, both llama.cpp wrappers call the shared
