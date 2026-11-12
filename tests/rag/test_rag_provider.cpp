@@ -102,15 +102,21 @@ TEST_F(RAGProviderTest, VectorIngestionSinkMaterializesPersistedSourceText) {
     ingestion::VectorRecord record;
     record.chunk_id = "source-1:0";
     record.source_file_id = "source-1";
-    record.text_snippet = "copied vector snippet";
+    record.text_snippet = "authoritative persisted source text";
     record.embedding = {1.0f, 0.0f};
     ASSERT_TRUE(sink.writeVectors({record}));
 
-    const auto source = BaseEntity::fromFields(record.chunk_id, {
+    const auto stale_vector = BaseEntity::fromFields(record.chunk_id, {
+        {"chunk_id", record.chunk_id},
         {"source_file_id", record.source_file_id},
-        {"content", std::string{"authoritative persisted source text"}}
+        {"text_snippet", std::string{"stale copied vector snippet"}},
+        {"embedding", record.embedding},
+        {"source_ref_type", std::string{"ingestion_chunk"}},
+        {"source_ref_collection", std::string{"ingestion_sources"}},
+        {"source_ref_key", record.chunk_id},
+        {"source_ref_provenance", record.source_file_id}
     });
-    ASSERT_TRUE(secondary_->put("ingestion_sources", source).ok);
+    ASSERT_TRUE(vector_->addEntity(stale_vector).ok);
 
     query::VectorGeoQuery query;
     query.table = "docs";
