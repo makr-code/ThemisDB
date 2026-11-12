@@ -412,14 +412,46 @@ class WorkflowDryRunContractTests(unittest.TestCase):
 
     def test_architecture_dry_run_still_generates_and_validates(self) -> None:
         workflow = load_workflow("maintenance-architecture-ci.yml")
-        steps = workflow["jobs"]["generate-architecture"]["steps"]
+        jobs = workflow["jobs"]
+        self.assertEqual(workflow["permissions"], {"contents": "read"})
+
+        generation = jobs["generate-architecture"]
+        self.assertEqual(generation["permissions"], {"contents": "read"})
+        self.assertEqual(
+            generation["outputs"]["changed"],
+            "${{ steps.diff.outputs.changed }}",
+        )
+        steps = generation["steps"]
+        checkout = next(step for step in steps if step.get("name") == "Checkout repository")
+        self.assertIs(checkout["with"]["persist-credentials"], False)
         generate = next(step for step in steps if step.get("id") == "generate")
         validate = next(step for step in steps if step.get("id") == "validation")
-        branch = next(step for step in steps if step.get("id") == "branch")
-
         self.assertNotIn("--dry-run", generate["run"])
         self.assertNotIn("if", validate)
-        self.assertIn("github.event.inputs.dry_run != 'true'", branch["if"])
+        self.assertNotIn("git push", "\n".join(step.get("run", "") for step in steps))
+        artifact = next(step for step in steps if step.get("name") == "Upload validated architecture outputs")
+        self.assertEqual(artifact["uses"], "actions/upload-artifact@v5")
+
+        publish = jobs["publish-architecture"]
+        self.assertEqual(
+            publish["permissions"],
+            {"contents": "write", "pull-requests": "write", "issues": "write"},
+        )
+        self.assertIn("needs.generate-architecture.outputs.changed == 'true'", publish["if"])
+        self.assertIn("github.event_name != 'workflow_dispatch'", publish["if"])
+        self.assertIn("inputs.dry_run != true", publish["if"])
+        self.assertEqual(
+            set(publish["needs"]),
+            {"generate-architecture"},
+        )
+        publish_checkout = next(step for step in publish["steps"] if step.get("name") == "Checkout source revision")
+        self.assertEqual(publish_checkout["with"]["ref"], "${{ github.sha }}")
+        self.assertNotIn("persist-credentials", publish_checkout["with"])
+        download = next(step for step in publish["steps"] if step.get("name") == "Download validated architecture outputs")
+        self.assertEqual(download["with"]["name"], "architecture-outputs-${{ github.run_id }}")
+        self.assertIn("git push origin", next(step for step in publish["steps"] if step.get("id") == "branch")["run"])
+        self.assertIn("github.event_name == 'workflow_dispatch' && inputs.dry_run", steps[-1]["env"]["DRY_RUN"])
+        self.assertEqual(set(jobs["run-summary"]["needs"]), {"generate-architecture", "publish-architecture"})
 
     def test_manual_wiki_gate_dry_run_suppresses_issue_mutations(self) -> None:
         workflow = load_workflow("wiki-pr-gate.yml")

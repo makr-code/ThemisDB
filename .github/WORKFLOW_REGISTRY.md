@@ -2,8 +2,8 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-10
-> Update Note: Added the all-path PR file-size gate with exact-path allowlists and boundary tests; hardened registered Transaction evidence gates, sanitizer cache configuration, and production importer fuzz linkage
+> Last Updated: 2026-11-12
+> Update Note: Isolated architecture generation from publication permissions while preserving automatic scheduled and develop-triggered PR publication
 > Status: active
 > Total Workflows: 102 (verified 2026-11-10)
 > AI_Used: true
@@ -265,7 +265,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `coverage-report-nightly.yml` | Maintenance: Nightly Coverage Collection & Baseline Update (Nightly coverage metrics and baseline refresh) | quality |
 | `nightly-governance-audit.yml` | Nightly: Governance Audit Scope (Scheduled governance artifact and checklist audit) | governance |
 | `maintenance-housekeeping.yml` | Maintenance: Housekeeping (Repository cleanup and maintenance) | maintenance |
-| `maintenance-architecture-ci.yml` | Maintenance: Architecture CI (Architecture documentation validation) | docs |
+| `maintenance-architecture-ci.yml` | Maintenance: Architecture CI (Read-only generation and validation; isolated PR publication) | docs |
 | `maintenance-workflow-guardrails-observe.yml` | Maintenance: Workflow Guardrails [Observe] (Workflow policy observability) | governance |
 | `nightly-governance-audit.yml` | Nightly: Governance Audit Scope (Scheduled governance artifact and checklist audit) | governance |
 | `maintenance-soll-ist-gap-issues.yml` | Maintenance: SOLL-IST Gap Issues (Roadmap vs. reality tracking) | governance |

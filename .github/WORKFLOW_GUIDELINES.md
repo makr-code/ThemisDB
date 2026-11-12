@@ -515,6 +515,11 @@ Sie prüft Cachepfade und Backend-Auswahl, nicht die tatsächliche Online-Treffe
 - The drift scanner returns `1` for valid findings and `0` for no findings; the workflow validates those outcomes against generated reports and fails on scan/configuration errors instead of suppressing them.
 - Issue-write permissions are limited to tracker jobs; the scan job has read-only repository access.
 
+## Architecture CI
+- `maintenance-architecture-ci.yml` generates and validates architecture outputs in a read-only job with checkout credentials disabled, then transfers validated files as a run artifact.
+- A separate publication job receives write permissions and runs only when outputs changed and the dispatch is not a dry-run. Scheduled and `develop` push runs retain automatic publication behavior.
+- Manual runs default to `dry_run=true`; generation, validation, artifact upload, and summaries still run while branch/PR writes are skipped.
+
 ## Manually Triggering Workflows
 Empfohlen via GitHub CLI:
 
