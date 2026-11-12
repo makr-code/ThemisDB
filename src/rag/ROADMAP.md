@@ -69,8 +69,8 @@ registration, persistent storage, external telemetry, or production readiness.
     content is rejected without using the copied vector snippet, and that
     malformed JSON, array/null/string roots, and well-formed but incomplete
     persisted ingestion-source records—including numeric identity/content
-    fields—fail with `ERR_STORAGE_CORRUPTION`. These tests have not been built or
-    executed.
+    fields—as well as a truncated binary source record—fail with
+    `ERR_STORAGE_CORRUPTION`. These tests have not been built or executed.
   - `LLMAQLHandler::executeRAG()` now passes the timeout manager's cancellation
     token and configured retrieval deadline to `RAGProvider`. Both checks are
     cooperative and cannot interrupt a blocking QueryEngine operation; the new

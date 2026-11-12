@@ -228,6 +228,12 @@ TEST_F(RAGProviderTest, VectorIngestionRejectsMalformedPersistedSourceRecord) {
         ASSERT_FALSE(result);
         EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_STORAGE_CORRUPTION);
     }
+
+    ASSERT_TRUE(db_->put(source_key, std::string(1, static_cast<char>(0x60))));
+    const auto truncated_binary_result = provider_->retrieve(request);
+    ASSERT_FALSE(truncated_binary_result);
+    EXPECT_EQ(truncated_binary_result.error().code(),
+              errors::ErrorCode::ERR_STORAGE_CORRUPTION);
 }
 
 TEST_F(RAGProviderTest, VectorIngestionRejectsIncompletePersistedSourceRecord) {
