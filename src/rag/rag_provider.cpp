@@ -303,6 +303,12 @@ Result<RetrievalResult> RAGProvider::retrieve(
             if (!authorized) {
                 return authorized;
             }
+            if (!context.tenant_id.empty()) {
+                return ErrVoid(
+                    errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+                    "Tenant-scoped graph retrieval is unavailable until tenant policy "
+                    "is enforced before traversal expansion");
+            }
             auto matches = engine_.executeGeneralTraversal(
                 specification.start_vertex, specification.min_depth, specification.max_depth,
                 specification.direction, specification.graph_id, specification.edge_type,

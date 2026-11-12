@@ -776,6 +776,33 @@ TEST_F(RAGProviderTest, RequestScopedGraphAuthorizationPrecedesCrossCollectionVe
     EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_ACCESS_DENIED);
 }
 
+TEST_F(RAGProviderTest, TenantScopedGraphRetrievalFailsClosedBeforeTraversal) {
+    const auto start = BaseEntity::fromFields(
+        "docs/start", {{"content", std::string{"authorized start"}},
+                       {"tenant_id", std::string{"acme"}}});
+    const auto foreign = BaseEntity::fromFields(
+        "docs/foreign", {{"content", std::string{"foreign evidence"}},
+                         {"tenant_id", std::string{"other"}}});
+    ASSERT_TRUE(db_->put(KeySchema::makeGraphNodeKey("docs/start"), start.serialize()));
+    ASSERT_TRUE(db_->put(KeySchema::makeGraphNodeKey("docs/foreign"), foreign.serialize()));
+    BaseEntity edge("edge-tenant");
+    edge.setField("_from", std::string{"docs/start"});
+    edge.setField("_to", std::string{"docs/foreign"});
+    ASSERT_TRUE(graph_->addEdge(edge).ok);
+
+    rag::GraphRetrievalQuery graph_query;
+    graph_query.start_vertex = "docs/start";
+    graph_query.max_depth = 1;
+    rag::RetrievalRequest request;
+    request.query = graph_query;
+    rag::RetrievalExecutionContext context;
+    context.tenant_id = "acme";
+
+    const auto result = provider_->retrieve(request, context);
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_ACCESS_DENIED);
+}
+
 TEST_F(RAGProviderTest, GraphReferencesCanMaterializeCanonicalRelationalDocuments) {
     storeDocument("g2", "relational graph evidence");
     rag::GraphRetrievalQuery query;

@@ -57,6 +57,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   struct layout changed; binary consumers must rebuild. Focused tests remain
   unbuilt.
 
+### Core Provider/Consumer follow-up — graph tenant fail-closed (2026-11-12)
+
+- Tenant-scoped graph retrieval now returns access denied before traversal.
+  QueryEngine currently applies collection authorization before graph vertex
+  expansion but has no row-level tenant predicate at that boundary, so filtering
+  only materialized results would be too late. A focused regression covers the
+  fail-closed behavior; it has not been built or executed. Tenant-aware graph
+  retrieval remains pending pre-expansion row-policy enforcement.
+
 ### Core Provider/Consumer follow-up — ContentManager source lookup (2026-11-12)
 
 - RAG retrieval now resolves typed ContentManager chunk references using an
