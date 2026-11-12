@@ -561,6 +561,36 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             {"contents": "read", "issues": "write"},
         )
 
+    def test_mainline_and_docker_approval_permissions_are_scoped(self) -> None:
+        mainline = load_workflow("release-mainline-approval.yml")
+        self.assertEqual(mainline["permissions"], {"contents": "read"})
+        self.assertEqual(
+            mainline["jobs"]["release_publish_from_issue"]["permissions"],
+            {"contents": "write", "issues": "write"},
+        )
+        self.assertEqual(mainline["jobs"]["run-summary"]["permissions"], {"contents": "read"})
+
+        docker = load_workflow("release-docker-approval.yml")
+        self.assertEqual(docker["permissions"], {"contents": "read"})
+        self.assertEqual(
+            docker["jobs"]["docker_publish_from_issue"]["permissions"],
+            {"contents": "read", "issues": "write", "actions": "write"},
+        )
+        self.assertEqual(docker["jobs"]["summary"]["permissions"], {"contents": "read"})
+        dispatch_inputs = docker["jobs"]["docker_publish_from_issue"]["with"]["dispatch_inputs_json"]
+        self.assertIn('"push_to_registry":"true"', dispatch_inputs)
+        self.assertIn('"dry_run":false', dispatch_inputs)
+
+    def test_reusable_release_approval_rejects_bad_dispatch_json_and_extracts_prerelease(self) -> None:
+        reusable = load_workflow("reusable-release-approval-comment-gate.yml")
+        approval_steps = reusable["jobs"]["approval-gate"]["steps"]
+        extract = next(step for step in approval_steps if step.get("id") == "extract_version")
+        dispatch = next(step for step in approval_steps if step.get("name") == "Dispatch target workflow")
+
+        self.assertIn("Invalid dispatch_inputs_json; expected a JSON object.", dispatch["with"]["script"])
+        self.assertIn("Array.isArray(extraInputs)", dispatch["with"]["script"])
+        self.assertIn(r"(?:-[0-9A-Za-z][0-9A-Za-z.-]*)?", extract["with"]["script"])
+
     def test_release_evidence_dry_run_verifies_ledger_without_manual_artifact_upload(self) -> None:
         workflow = load_workflow("release-evidence-chain.yml")
         triggers = workflow.get(True, workflow.get("on"))

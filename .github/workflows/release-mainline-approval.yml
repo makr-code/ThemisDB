@@ -34,8 +34,7 @@ on:
     types: [created, edited]
 
 permissions:
-  issues: write
-  contents: write
+  contents: read
 
 concurrency:
   group: release-publish-${{ github.event.issue.number }}
@@ -60,6 +59,9 @@ jobs:
 
   release_publish_from_issue:
     name: "Publish: GitHub Release on Approval Comment"
+    permissions:
+      contents: write
+      issues: write
     if: |
       contains(github.event.issue.labels.*.name, 'release-review') &&
       (

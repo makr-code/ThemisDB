@@ -165,7 +165,7 @@ jobs:
         with:
           script: |
             const body = context.payload.issue.body || '';
-            const match = body.match(/## Release Version:\s*v?(\d+\.\d+\.\d+)/);
+            const match = body.match(/##\s+Release Version:\s+v?(\d+\.\d+\.\d+(?:-[0-9A-Za-z][0-9A-Za-z.-]*)?)(?:\s|$)/);
             if (!match) {
               core.setFailed('Could not extract release version from issue body. Expected format: "## Release Version: v2.5.0"');
               return;
@@ -200,7 +200,17 @@ jobs:
         with:
           script: |
             const version = '${{ steps.extract_version.outputs.version }}';
-            const extraInputs = JSON.parse(process.env.EXTRA_INPUTS_JSON || '{}');
+            let extraInputs;
+            try {
+              extraInputs = JSON.parse(process.env.EXTRA_INPUTS_JSON || '{}');
+            } catch {
+              core.setFailed('Invalid dispatch_inputs_json; expected a JSON object.');
+              return;
+            }
+            if (!extraInputs || typeof extraInputs !== 'object' || Array.isArray(extraInputs)) {
+              core.setFailed('Invalid dispatch_inputs_json; expected a JSON object.');
+              return;
+            }
             const versionInputName = process.env.VERSION_INPUT_NAME || 'version';
             const workflowInputs = { ...extraInputs, [versionInputName]: version };
 
