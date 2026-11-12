@@ -10,8 +10,9 @@ on:
     inputs:
       generate_baseline:
         description: 'Generate new baseline (default: report-only)'
+        type: boolean
         required: false
-        default: 'false'
+        default: false
 
 env:
   THEMIS_AUTO_BOOTSTRAP_DEPS: 'OFF'

@@ -10,12 +10,14 @@ name: "Maintenance: Soll-Ist Gap Issues"
         default: true
       apply_changes:
         description: "Apply issue changes when dry_run is disabled"
+        type: boolean
         required: false
-        default: "false"
+        default: false
       close_resolved:
         description: "Close resolved tracked issues (guarded; default disabled)"
+        type: boolean
         required: false
-        default: "false"
+        default: false
       source_gap_glob:
         description: "Glob for verified source gap files"
         required: false

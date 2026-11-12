@@ -95,6 +95,10 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         triggers = workflow.get(True, workflow.get("on"))
         inputs = triggers["workflow_dispatch"]["inputs"]
         self.assertIs(inputs["dry_run"]["default"], True)
+        self.assertEqual(inputs["apply_changes"]["type"], "boolean")
+        self.assertIs(inputs["apply_changes"]["default"], False)
+        self.assertEqual(inputs["close_resolved"]["type"], "boolean")
+        self.assertIs(inputs["close_resolved"]["default"], False)
 
         steps = workflow["jobs"]["soll_ist_sync"]["steps"]
         sync = next(step for step in steps if step["name"] == "Sync issues (idempotent)")
@@ -104,6 +108,28 @@ class WorkflowDryRunContractTests(unittest.TestCase):
                 self.assertIn("github.event_name == 'schedule'", step["if"])
                 self.assertIn("github.event.inputs.apply_changes == 'true'", step["if"])
                 self.assertIn("github.event.inputs.dry_run != 'true'", step["if"])
+
+    def test_manual_boolean_toggles_have_explicit_types_and_preserved_defaults(self) -> None:
+        expected = {
+            "build-wave-a-gpu.yml": ("run_representative_hardware", False),
+            "coverage-report-nightly.yml": ("generate_baseline", False),
+            "nightly-governance-audit.yml": ("include_pr_validation", True),
+        }
+        for workflow_name, (input_name, default) in expected.items():
+            with self.subTest(workflow=workflow_name, input=input_name):
+                workflow = load_workflow(workflow_name)
+                triggers = workflow.get(True, workflow.get("on"))
+                input_spec = triggers["workflow_dispatch"]["inputs"][input_name]
+                self.assertEqual(input_spec["type"], "boolean")
+                self.assertIs(input_spec["default"], default)
+
+        coverage = load_workflow("coverage-report-nightly.yml")
+        update = next(
+            step for step in coverage["jobs"]["coverage-collection"]["steps"]
+            if step.get("name") == "Update baseline on develop"
+        )
+        self.assertIn("github.event_name == 'schedule'", update["if"])
+        self.assertIn("github.event.inputs.generate_baseline == 'true'", update["if"])
 
 
 if __name__ == "__main__":

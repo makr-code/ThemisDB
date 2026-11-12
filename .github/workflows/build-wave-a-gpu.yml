@@ -19,8 +19,9 @@ on:
         default: "native"
       run_representative_hardware:
         description: "Run self-hosted representative GPU hardware baseline capture"
+        type: boolean
         required: false
-        default: "false"
+        default: false
 
 permissions:
   contents: read

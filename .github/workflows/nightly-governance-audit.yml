@@ -7,8 +7,9 @@ on:
     inputs:
       include_pr_validation:
         description: 'Run parity checks against the governance PR checklist'
+        type: boolean
         required: false
-        default: 'true'
+        default: true
 
 permissions:
   contents: read
