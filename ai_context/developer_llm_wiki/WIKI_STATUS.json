@@ -1,30 +1,47 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-11T15:23:30+00:00",
+  "generated_at": "2026-11-12T06:11:03+00:00",
   "mode": "incremental",
-  "source_count": 8085,
-  "source_hash": "dfc1d25f30a8536a4027704895272134ad25872dd9d19553e7ca9d74f349cdfc",
+  "source_count": 8090,
+  "source_hash": "87a81b80709892c414d4bdf9fab3b57296e95d175565f9fa71d905b0918a86a4",
   "delta": {
-    "added_count": 1,
+    "added_count": 5,
     "removed_count": 0,
-    "changed_count": 9,
+    "changed_count": 22,
     "added_preview": [
-      ".github/workflows/gate-pr-artifact-size.yml"
+      "docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md",
+      "include/llm/rag_helpers.h",
+      "include/rag/rag_candidate.h",
+      "include/rag/rag_provider.h",
+      "include/rag/rag_retrieval_helpers.h"
     ],
     "removed_preview": [],
     "changed_preview": [
-      ".github/workflows/gate-pr-core.yml",
-      ".github/workflows/gate-pr-final-runtime-api.yml",
-      ".github/workflows/maintenance-soll-ist-gap-issues.yml",
-      ".github/workflows/reusable-status-flags-and-issues.yml",
-      ".github/workflows/test-helm-chart.yml",
-      "ai_context/developer_llm_wiki/TEMPORAL.md",
-      "docs/governance/SRC_MODULE_DOCUMENTATION_COMPLIANCE_2026-09-20.md",
-      "scripts/check_module_direct_doxygen.py",
-      "scripts/sync_soll_ist_gaps.py"
+      ".github/workflows/release-build-matrix.yml",
+      "CHANGELOG.md",
+      "ai_context/api_contracts/llm.md",
+      "docs/code_maturity_report.md",
+      "docs/de/retrieval/README.md",
+      "docs/llm_orchestration/README.md",
+      "docs/plugins/PLUGIN_ABI_POLICY.md",
+      "docs/rag/API.md",
+      "docs/rag/README.md",
+      "docs/retrieval/API.md",
+      "docs/retrieval/README.md",
+      "include/aql/llm_aql_handler.h",
+      "include/ingestion/ingestion_sinks.h",
+      "include/llm/ai_orchestrator.h",
+      "include/llm/llama_wrapper.h",
+      "include/prompt_engineering/rag_prompt_builder.h",
+      "include/query/query_engine.h",
+      "include/rag/knowledge_gap_detector.h",
+      "include/rag/modular_rag_pipeline.h",
+      "include/rag/rag_integration_helpers.h",
+      "src/rag/README.md",
+      "src/rag/ROADMAP.md"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "c507db6a140b3fb979c4b04b1658d5f9b94f013dc45aa7cbf76d39eebd51fb25"
+  "manifest_sha256": "1a854a03defa04b061bb620e304787fc91b3bc19a97f0eb4a8f1faa903ecba26"
 }

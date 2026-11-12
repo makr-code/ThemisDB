@@ -1,8 +1,8 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-11T15:23:30+00:00",
-  "source_count": 8085,
+  "generated_at": "2026-11-12T06:11:03+00:00",
+  "source_count": 8090,
   "sources": [
     {
       "path": ".github/workflows/benchmark-gate.yml",
@@ -455,9 +455,9 @@
     {
       "path": ".github/workflows/release-build-matrix.yml",
       "category": "build_test_ci",
-      "size": 39030,
-      "sha256": "b7c16117043aed1ca7e90e2ac1b29d898bdec3d0c9f8470162304ccc3aa3ba6d",
-      "modified_utc": "2026-11-11T09:57:19+00:00"
+      "size": 39107,
+      "sha256": "9ad576cf08a3af87a48c60daf5557baec5302f679b6bdc5e551be5b665574271",
+      "modified_utc": "2026-11-12T06:04:32+00:00"
     },
     {
       "path": ".github/workflows/release-changelog.yml",
@@ -735,9 +735,9 @@
     {
       "path": "CHANGELOG.md",
       "category": "governance_and_docs",
-      "size": 109066,
-      "sha256": "04c343dda2da57f127765c942867b5841cfd3ce2ada167d363a1c7ebadb8d0af",
-      "modified_utc": "2026-11-09T03:02:55+00:00"
+      "size": 112122,
+      "sha256": "631c85bed52f6d8050a1ed8301ff98ba57eb8a0da4bb6af7ca1986aa429b92d1",
+      "modified_utc": "2026-11-12T06:10:18+00:00"
     },
     {
       "path": "DOCUMENTATION_GOVERNANCE.md",
@@ -980,9 +980,9 @@
     {
       "path": "ai_context/api_contracts/llm.md",
       "category": "governance_and_docs",
-      "size": 5831,
-      "sha256": "7069adc9801c04f04ac5b08093064314acce17f92ca9bc69f71e8da96c21ec70",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 6343,
+      "sha256": "d8a7141ab2a55ef1f562e38c0214d50952c5f559a76a1c9ab12ae482417ffdec",
+      "modified_utc": "2026-11-12T06:04:32+00:00"
     },
     {
       "path": "ai_context/api_contracts/storage.md",
@@ -17673,6 +17673,13 @@
       "modified_utc": "2026-11-01T06:39:19+00:00"
     },
     {
+      "path": "docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md",
+      "category": "governance_and_docs",
+      "size": 13696,
+      "sha256": "daa73d0ae611a12385380ab84e73229e30b7590d0a4e9b2d820ce05596449df4",
+      "modified_utc": "2026-11-12T06:10:18+00:00"
+    },
+    {
       "path": "docs/architecture/CRYPTO_AND_KEYS.md",
       "category": "governance_and_docs",
       "size": 23338,
@@ -20888,9 +20895,9 @@
     {
       "path": "docs/code_maturity_report.md",
       "category": "governance_and_docs",
-      "size": 2312128,
-      "sha256": "d4edc86c9e856c6438c4d508af7646fd7d4a8a614e1772c1b213428dea5be86d",
-      "modified_utc": "2026-11-11T09:57:26+00:00"
+      "size": 2312741,
+      "sha256": "6cdf45ff0d06d008644388673646aeea2f6aa16d9f47f3da1ac198ceb7233a06",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
     },
     {
       "path": "docs/community/Supporters.md",
@@ -28210,9 +28217,9 @@
     {
       "path": "docs/de/retrieval/README.md",
       "category": "governance_and_docs",
-      "size": 1209,
-      "sha256": "b474447c62dc693a20d26eda34a4786ebe141749e84bb1ebb7820514a83c33f6",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 1270,
+      "sha256": "deb7a6b80289106795954c872af73aa90387bca3da5f02bbac4de8786911d1a2",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
     },
     {
       "path": "docs/de/roadmap/README.md",
@@ -35511,9 +35518,9 @@
     {
       "path": "docs/llm_orchestration/README.md",
       "category": "governance_and_docs",
-      "size": 19194,
-      "sha256": "e95c95e67fa7dfe9174d5adacd03386417d3d7cb0207b43eafb8ec3019d488c9",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 19869,
+      "sha256": "5bf936916f5a6588ba8fce6b76a2355e3af8f08ad28b6248e090a7c62080c794",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
     },
     {
       "path": "docs/llm_orchestration/SERVER_LLM_INITIALIZATION.md",
@@ -36771,9 +36778,9 @@
     {
       "path": "docs/plugins/PLUGIN_ABI_POLICY.md",
       "category": "governance_and_docs",
-      "size": 6287,
-      "sha256": "f26c7f66096f1fcc5e10f74edd5090fa932fbeda1aaf1ef26f50619b233e34fe",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 6951,
+      "sha256": "1c5e835a446f3c778332daee10ee54356a0424c6d86dda8823849d7e0d60a2bd",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
     },
     {
       "path": "docs/plugins/PLUGIN_MANIFEST_GOVERNANCE.md",
@@ -37044,16 +37051,16 @@
     {
       "path": "docs/rag/API.md",
       "category": "governance_and_docs",
-      "size": 64,
-      "sha256": "ff9377d64951c7697c7e0f2e4cccfcb930dd0c61efd29aff7a5a2db61febd09e",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 10322,
+      "sha256": "88156f2040ef3e83125e3e0a2fcdd7ecc4618a5107008340ecac3eaf0e574ebb",
+      "modified_utc": "2026-11-12T06:10:18+00:00"
     },
     {
       "path": "docs/rag/README.md",
       "category": "governance_and_docs",
-      "size": 67,
-      "sha256": "ee63fd1276cdb8f9809ea1e059dec3dca66cfb8f817be4f3b3d8c34962dd203c",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 4097,
+      "sha256": "569770ef2c78ef41281d56a8519bfadbca607d258d43dd45e08f520138471a5c",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
     },
     {
       "path": "docs/rag/ROADMAP.md",
@@ -37716,16 +37723,16 @@
     {
       "path": "docs/retrieval/API.md",
       "category": "governance_and_docs",
-      "size": 76,
-      "sha256": "cb1f61211d61baca3416fcb2e793e2383ef76adaf1292b21ace1ac6f9e47b63e",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 275,
+      "sha256": "166b80d2f8d04c97b65f047be708d1a21ee0bb88efbe64be9caba7db03444db2",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
     },
     {
       "path": "docs/retrieval/README.md",
       "category": "governance_and_docs",
-      "size": 79,
-      "sha256": "3742d274b5cddd0e4d6ad63671c275d214b877fab0a8943364916bcfbd043513",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 341,
+      "sha256": "ccbc67f5cb09787f0850f37b4b6e37474320f7163313f9b7bf784c0db9edddc0",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
     },
     {
       "path": "docs/retrieval/ROADMAP.md",
@@ -40124,9 +40131,9 @@
     {
       "path": "include/aql/llm_aql_handler.h",
       "category": "modules_and_api",
-      "size": 18993,
-      "sha256": "1b15c0f1ab23a0dbd15a788db616264b013e5e9f73fe69377fecbd8aa3c5b4f2",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "size": 19441,
+      "sha256": "1174151f87e9f8392a765db20602f83e6a7f877147f7ff48bc823057d445b005",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
     },
     {
       "path": "include/aql/llm_error_codes.h",
@@ -43715,9 +43722,9 @@
     {
       "path": "include/ingestion/ingestion_sinks.h",
       "category": "modules_and_api",
-      "size": 21437,
-      "sha256": "427e9ed5b6984a948a377bf9e599e35a03b92f5226f873c10419e2fbc5d6e477",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 22042,
+      "sha256": "2a4a31f987721e2bf65f51069ee011b8821efbe00352605c87646fd1bba30452",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
     },
     {
       "path": "include/ingestion/ingestion_step.h",
@@ -43869,9 +43876,9 @@
     {
       "path": "include/llm/ai_orchestrator.h",
       "category": "modules_and_api",
-      "size": 21668,
-      "sha256": "16a1d85eed942b79fe211a0fdd0070dcc920a60aa281d90049ffa885c958640a",
-      "modified_utc": "2026-11-11T09:57:26+00:00"
+      "size": 22404,
+      "sha256": "084fab72ea5bafd34336d07f95ce787bd501f1e1bd61c51c6826df5782684bef",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
     },
     {
       "path": "include/llm/applications/themis_help_lora.h",
@@ -44282,9 +44289,9 @@
     {
       "path": "include/llm/llama_wrapper.h",
       "category": "modules_and_api",
-      "size": 28888,
-      "sha256": "7af085ae2d8be48422f865e2d950eba5900296aa03b5a9c01dbf1c01d173ff95",
-      "modified_utc": "2026-11-11T09:57:26+00:00"
+      "size": 28589,
+      "sha256": "631118c0688d035adb30afb00e3dc1c8b6a7f2b6a3e58609c695235b1e26072c",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
     },
     {
       "path": "include/llm/llamacpp_inference_engine.h",
@@ -45188,6 +45195,13 @@
       "size": 5242,
       "sha256": "25c96534c4ede0fadd0fed261d05dc1c6cbf12b7495e385aa7decd5ad690435a",
       "modified_utc": "2026-11-01T06:39:20+00:00"
+    },
+    {
+      "path": "include/llm/rag_helpers.h",
+      "category": "modules_and_api",
+      "size": 2141,
+      "sha256": "9107db2f43291a32762d965677a2295dd03f8343b2aa5855f9a63f8085ebba04",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
     },
     {
       "path": "include/llm/raii_wrappers.h",
@@ -47145,9 +47159,9 @@
     {
       "path": "include/prompt_engineering/rag_prompt_builder.h",
       "category": "modules_and_api",
-      "size": 6106,
-      "sha256": "cbbe067faed3e00911fa08d4fc7215c800d682b2a97be7f6f8e4e561531526ee",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 6086,
+      "sha256": "c985cee47e50304bfdcdc44ceab0152ff6eeec79422fee6673cbc8c58ce77b05",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
     },
     {
       "path": "include/prompt_engineering/reflection_tuner.h",
@@ -47740,9 +47754,9 @@
     {
       "path": "include/query/query_engine.h",
       "category": "modules_and_api",
-      "size": 31114,
-      "sha256": "bd1a990f40042eb1da4482a8cc442a364f12008d19196204a415921bb4c08a4f",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 33366,
+      "sha256": "72be9274c8a94bd25a6318e8ca0faa98c0256ed1a05908da0c2af4a6753ebf9e",
+      "modified_utc": "2026-11-12T06:09:38+00:00"
     },
     {
       "path": "include/query/query_executor.h",
@@ -48258,9 +48272,9 @@
     {
       "path": "include/rag/knowledge_gap_detector.h",
       "category": "modules_and_api",
-      "size": 19646,
-      "sha256": "7f902126cc0f75269487517d68f519e7143b4917d5e72be2c27c85bc67430b1f",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 19990,
+      "sha256": "3c47534832146785cfd2f0c20404075569ef5fa6c8cf91cdbdb84f45e0bc91a9",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
     },
     {
       "path": "include/rag/knowledge_graph_retriever.h",
@@ -48349,9 +48363,9 @@
     {
       "path": "include/rag/modular_rag_pipeline.h",
       "category": "modules_and_api",
-      "size": 16341,
-      "sha256": "0c25902eec1c8f7537878dd4570a3c57f3ec4c59a352688e6274c5497caa5075",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 15771,
+      "sha256": "2d711ba9d97aa6605bbb40719d167ca15256752f3fe89d02aedb55df0caa6bad",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
     },
     {
       "path": "include/rag/multi_hop_reasoner.h",
@@ -48473,6 +48487,13 @@
       "modified_utc": "2026-11-01T06:39:20+00:00"
     },
     {
+      "path": "include/rag/rag_candidate.h",
+      "category": "modules_and_api",
+      "size": 1221,
+      "sha256": "50a58f11a9eaf215f0240090c9b4fef169b12703ce9386e590c1112023646e7f",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
+    },
+    {
       "path": "include/rag/rag_context_assembler.h",
       "category": "modules_and_api",
       "size": 9499,
@@ -48489,9 +48510,9 @@
     {
       "path": "include/rag/rag_integration_helpers.h",
       "category": "modules_and_api",
-      "size": 8639,
-      "sha256": "7b7570924ab6ed1fcb03dad7b318333374dca1c31ef72a052523bdb1d6ea6b9f",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 9365,
+      "sha256": "cc8d0119bd5f63e762727ee718e32f7cabcc629f18245a74a412476b59b737c7",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
     },
     {
       "path": "include/rag/rag_judge.h",
@@ -48501,11 +48522,25 @@
       "modified_utc": "2026-11-01T06:39:20+00:00"
     },
     {
+      "path": "include/rag/rag_provider.h",
+      "category": "modules_and_api",
+      "size": 3833,
+      "sha256": "cf7f4419427fc3b9c5669ed6307ab1644fd68493eee8924ca41e11778294336f",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
+    },
+    {
       "path": "include/rag/rag_quality_monitor.h",
       "category": "modules_and_api",
       "size": 4862,
       "sha256": "506ebaf34d6cb9c025920a04a1df56597bea3809a86cf6a9e27470f8782530e4",
       "modified_utc": "2026-11-01T06:39:20+00:00"
+    },
+    {
+      "path": "include/rag/rag_retrieval_helpers.h",
+      "category": "modules_and_api",
+      "size": 4490,
+      "sha256": "175b439cbcfc77ce2999a8676cb93f251287031f83ce0b2adffe15572054c8c8",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
     },
     {
       "path": "include/rag/realtime_slo_tracker.h",
@@ -56049,16 +56084,16 @@
     {
       "path": "src/rag/README.md",
       "category": "modules_and_api",
-      "size": 7295,
-      "sha256": "8a3dc6c51bad800f3961c3e63ec7da75d83758379183e518991d9aae68f5ab76",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 7604,
+      "sha256": "7e8dd18d3af7c59e308eb47299c309b0879bb12b2f47892e5cfa08402276544d",
+      "modified_utc": "2026-11-12T06:04:33+00:00"
     },
     {
       "path": "src/rag/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 77209,
-      "sha256": "3c2ee7007f3a5a406ff087cb73fccc8854e3fa62a70d146f2b26294415a636b2",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "size": 79278,
+      "sha256": "186d6e59449c56de17a61704e25ab5aa8f7cab82f52e107ce1e7ca7ac14f2044",
+      "modified_utc": "2026-11-12T06:10:18+00:00"
     },
     {
       "path": "src/rag/examples/README.md",
