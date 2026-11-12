@@ -271,6 +271,20 @@ TEST_F(RAGProviderTest, VectorIngestionRejectsMalformedPersistedSourceRecord) {
     ASSERT_FALSE(trailing_bytes_result);
     EXPECT_EQ(trailing_bytes_result.error().code(),
               errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+
+    utils::Serialization::Encoder truncated_content_encoder;
+    truncated_content_encoder.beginObject(2);
+    truncated_content_encoder.encodeString("source_file_id");
+    truncated_content_encoder.encodeString("source-corrupt");
+    truncated_content_encoder.encodeString("content");
+    truncated_content_encoder.encodeString("valid source text");
+    auto truncated_content_record = truncated_content_encoder.finish();
+    truncated_content_record.pop_back();
+    ASSERT_TRUE(db_->put(source_key, truncated_content_record));
+    const auto truncated_content_result = provider_->retrieve(request);
+    ASSERT_FALSE(truncated_content_result);
+    EXPECT_EQ(truncated_content_result.error().code(),
+              errors::ErrorCode::ERR_STORAGE_CORRUPTION);
 }
 
 TEST_F(RAGProviderTest, VectorIngestionRejectsIncompletePersistedSourceRecord) {

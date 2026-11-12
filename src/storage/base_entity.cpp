@@ -583,6 +583,9 @@ BaseEntity::FieldMap BaseEntity::parseBinary() const {
         }
         
         decoder.endObject();
+        if (decoder.hasError()) {
+            throw std::runtime_error("Binary parse failed: truncated or malformed serialized entity");
+        }
         if (decoder.hasMore()) {
             throw std::runtime_error("Binary parse failed: trailing bytes after serialized entity");
         }
@@ -861,4 +864,3 @@ std::optional<std::string> BaseEntity::getRotationType(std::string_view field_na
 }
 
 } // namespace themis
-

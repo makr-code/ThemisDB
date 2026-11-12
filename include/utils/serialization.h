@@ -145,9 +145,9 @@ public:
      * | String/binary size field exceeds buffer | DESERIALIZATION_FAILED (9081) | Error | logErrorWithContext | Returns empty string/vector |
      * | Float-vector element count × sizeof(float) overflows | DESERIALIZATION_FAILED (9081) | Error | logErrorWithContext | Returns empty vector |
      *
-     * @degradation All decode failures return safe defaults (never undefined
-     *   behaviour). Callers should check hasMore() and peekType() before
-     *   decoding if strict error detection is required.
+     * @degradation Bounds failures return safe defaults (never undefined
+     *   behaviour) and set hasError(). Callers requiring strict parsing must
+     *   check hasError() after consuming the serialized value.
      */
     class Decoder {
     public:
@@ -238,6 +238,15 @@ public:
         void endObject();
         
         bool hasMore() const;
+
+        /**
+         * @brief Report whether any decode operation encountered a bounds failure.
+         * @return True after a failed bounds check; false when reads so far were in bounds.
+         * @note Decode methods retain their safe-default return behavior. Strict callers
+         *       must check this flag after parsing to distinguish malformed input from
+         *       legitimate default values.
+         */
+        bool hasError() const;
         
         TypeTag readTag();
     
@@ -247,6 +256,7 @@ public:
         const std::vector<uint8_t>& data_;
         size_t pos_ = 0;
         size_t nesting_depth_ = 0; ///< Current array/object nesting depth for overflow protection.
+        bool has_error_ = false;
 
         uint32_t readUInt32();
         uint64_t readUInt64();

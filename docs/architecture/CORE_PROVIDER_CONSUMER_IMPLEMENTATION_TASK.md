@@ -138,8 +138,8 @@ incomplete/malformed persisted ingestion-source record returning
 record with an array, null, or string root; missing required content; or
 identity/content stored with non-string types, plus a truncated object header,
 truncated field-name payload, unsupported type tag, and trailing bytes after a
-valid binary object; and request-isolated collection authorization. These C++
-tests have not been built or executed.
+valid binary object, and truncated required source text; and request-isolated
+collection authorization. These C++ tests have not been built or executed.
 For YAML-configured agentic modes, `AIOrchestrator::runAgentic()` now routes
 retrieval-enabled modes through its existing `runRag()` pipeline before
 preserving the existing tool-call parsing and dispatch. This reuses the typed
