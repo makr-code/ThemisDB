@@ -414,9 +414,12 @@ jobs:
         shell: bash
         env:
           REGISTRY_TAG: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
+          IMAGE_DIGEST: ${{ steps.build-candidate.outputs.digest }}
         run: |
           set -euo pipefail
-          docker pull "${REGISTRY_TAG}"
+          : "${IMAGE_DIGEST:?Missing pushed image digest}"
+          docker pull "${REGISTRY_TAG}@${IMAGE_DIGEST}"
+          docker tag "${REGISTRY_TAG}@${IMAGE_DIGEST}" "${REGISTRY_TAG}"
           docker image inspect "${REGISTRY_TAG}" >/dev/null 2>&1 || {
             echo "::error::Image ${REGISTRY_TAG} not found locally after push; cannot run Trivy release gate scan."
             exit 1

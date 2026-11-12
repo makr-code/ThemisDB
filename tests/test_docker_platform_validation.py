@@ -92,6 +92,38 @@ class DockerPlatformValidationTests(unittest.TestCase):
         self.assertIn("!inputs.dry_run", by_name["Write digest artifact"]["if"])
         self.assertIn("!inputs.dry_run", by_name["Upload platform digest"]["if"])
 
+    def test_published_candidate_is_pulled_by_digest_before_scanning(self) -> None:
+        workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        steps = workflow["jobs"]["build"]["steps"]
+        pull = next(step for step in steps if step.get("name") == "Pull pushed image locally for release-gate scan")
+        self.assertEqual(pull["env"]["IMAGE_DIGEST"], "${{ steps.build-candidate.outputs.digest }}")
+        self.assertLess(steps.index(pull), next(
+            i for i, step in enumerate(steps) if step.get("name") == "Trivy vulnerability scan"
+        ))
+        for digest in ("sha256:published-manifest", ""):
+            with self.subTest(digest=digest), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                bash_env = root / "functions"
+                bash_env.write_text('docker() { printf "%s\\n" "$*" >> "$CALLS"; }\n', encoding="utf-8")
+                tag = "example.invalid/themisdb:84-linux-arm64"
+                result = subprocess.run(
+                    ["bash", "-euo", "pipefail", "-c", pull["run"]],
+                    env={**os.environ, "BASH_ENV": str(bash_env), "CALLS": str(root / "calls"),
+                         "REGISTRY_TAG": tag, "IMAGE_DIGEST": digest},
+                    capture_output=True, text=True,
+                )
+                if digest:
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    calls = (root / "calls").read_text(encoding="utf-8").splitlines()
+                    self.assertEqual(calls, [
+                        f"pull {tag}@{digest}",
+                        f"tag {tag}@{digest} {tag}",
+                        f"image inspect {tag}",
+                    ])
+                else:
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertFalse((root / "calls").exists())
+
     def test_runtime_gate_uses_local_image_id_not_build_manifest_digest(self) -> None:
         workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
         step = next(
