@@ -40,7 +40,7 @@ jobs:
       environment_url: https://github.com/${{ github.repository }}/actions/workflows/release-windows-distro-approval.yml
       target_workflow_id: release-windows-distribution.yml
       target_ref: develop
-      dispatch_inputs_json: '{"publish_bundle":"true","channel":"stable"}'
+      dispatch_inputs_json: '{"publish_bundle":"true","channel":"stable","dry_run":false}'
       approved_label: distro-approved
       approval_note: |
         Monitor `release-windows-distribution.yml` for manifest and endpoint publication.
