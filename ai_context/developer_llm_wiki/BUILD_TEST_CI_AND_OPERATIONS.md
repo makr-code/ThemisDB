@@ -496,7 +496,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/maintenance-compendium-sync.yml
 - Kategorie: build_test_ci
-- Hash: `304d8fff04e2503c`
+- Hash: `14f7fdff301e479d`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-docs-db-build.yml

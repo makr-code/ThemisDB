@@ -24,22 +24,25 @@ on:
         description: 'Minimum chapter priority to scan (high|medium|low)'
         type: choice
         default: medium
+        required: false
         options:
           - high
           - medium
           - low
       target_version:
-        description: 'Target version to check against chapter headers'
+        description: 'Optional target version override; blank uses CHAPTER_ROADMAP_MAPPING.yml'
         type: string
-        default: '2.4.0-alpha'
+        default: ''
       verbose:
         description: 'Verbose output (print per-chapter detail)'
         type: boolean
         default: false
+        required: false
       dry_run:
         description: 'Dry run: detect and report drift but skip issue creation'
         type: boolean
         default: true
+        required: false
 
 concurrency:
   group: maintenance-compendium-sync-${{ github.ref }}
@@ -47,7 +50,6 @@ concurrency:
 
 permissions:
   contents: read
-  issues: write
 
 jobs:
   run-summary:
@@ -71,6 +73,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     outputs:
+      priority: ${{ steps.params.outputs.priority }}
+      target_version: ${{ steps.scan.outputs.target_version }}
       stale_count: ${{ steps.scan.outputs.stale_count }}
       missing_count: ${{ steps.scan.outputs.missing_count }}
       proposals_count: ${{ steps.scan.outputs.proposals_count }}
@@ -78,11 +82,15 @@ jobs:
       report_md: ${{ steps.scan.outputs.report_md }}
       report_json: ${{ steps.scan.outputs.report_json }}
 
+    permissions:
+      contents: read
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
           fetch-depth: 1
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
@@ -95,30 +103,97 @@ jobs:
 
       - name: Resolve scan parameters
         id: params
+        env:
+          PRIORITY_INPUT: ${{ inputs.priority || 'medium' }}
+          TARGET_VERSION_OVERRIDE: ${{ inputs.target_version }}
+          VERBOSE_INPUT: ${{ inputs.verbose }}
         run: |
-          PRIORITY="${{ inputs.priority || 'medium' }}"
-          TARGET_VERSION="${{ inputs.target_version || '2.4.0-alpha' }}"
-          VERBOSE_FLAG=""
-          if [ "${{ inputs.verbose }}" = "true" ]; then
-            VERBOSE_FLAG="--verbose"
-          fi
-          {
-            echo "priority=${PRIORITY}"
-            echo "target_version=${TARGET_VERSION}"
-            echo "verbose_flag=${VERBOSE_FLAG}"
-          } >> "$GITHUB_OUTPUT"
+          python3 - <<'PY'
+          import os
+          import re
+          import yaml
+
+          priority = os.environ["PRIORITY_INPUT"]
+          if priority not in {"high", "medium", "low"}:
+              raise SystemExit("priority must be high, medium, or low")
+
+          with open("docs/compendium/CHAPTER_ROADMAP_MAPPING.yml", encoding="utf-8") as mapping_file:
+              mapping = yaml.safe_load(mapping_file)
+          configured_version = mapping.get("target_version") if isinstance(mapping, dict) else None
+          target_version = os.environ.get("TARGET_VERSION_OVERRIDE", "").strip() or configured_version
+          if not isinstance(target_version, str) or not re.fullmatch(
+              r"[vV]?\d+\.\d+\.\d+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?"
+              r"(?:\+[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?",
+              target_version,
+          ):
+              raise SystemExit("target_version must be a semantic version from the mapping or a valid override")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"priority={priority}\n")
+              output.write(f"target_version={target_version}\n")
+              output.write(f"verbose_flag={'--verbose' if os.environ.get('VERBOSE_INPUT') == 'true' else ''}\n")
+          PY
 
       - name: Run compendium drift scan
         id: scan
+        env:
+          SCAN_PRIORITY: ${{ steps.params.outputs.priority }}
+          TARGET_VERSION: ${{ steps.params.outputs.target_version }}
+          VERBOSE_FLAG: ${{ steps.params.outputs.verbose_flag }}
         run: |
-          python3 scripts/compendium-drift-scan.py \
-            --priority "${{ steps.params.outputs.priority }}" \
-            --target-version "${{ steps.params.outputs.target_version }}" \
-            --out-json /tmp/compendium-drift.json \
-            --out-md /tmp/compendium-drift-summary.md \
-            --github-output \
-            ${{ steps.params.outputs.verbose_flag }} || true
-          # Note: script exits 1 on findings; we capture via outputs, not exit code.
+          scan_args=(
+            --priority "$SCAN_PRIORITY"
+            --target-version "$TARGET_VERSION"
+            --out-json /tmp/compendium-drift.json
+            --out-md /tmp/compendium-drift-summary.md
+            --github-output
+          )
+          if [ "$VERBOSE_FLAG" = "--verbose" ]; then
+            scan_args+=(--verbose)
+          fi
+          set +e
+          python3 scripts/compendium-drift-scan.py "${scan_args[@]}"
+          scan_status=$?
+          set -e
+
+          if [ ! -s /tmp/compendium-drift.json ] || [ ! -s /tmp/compendium-drift-summary.md ]; then
+            echo "::error::Drift scan did not produce both report files."
+            exit 1
+          fi
+          if ! grep -Eq '^total_issues=[0-9]+$' "$GITHUB_OUTPUT"; then
+            echo "::error::Drift scan did not emit a valid total_issues output."
+            exit 1
+          fi
+          total_issues="$(sed -n 's/^total_issues=//p' "$GITHUB_OUTPUT" | tail -n 1)"
+          if { [ "$scan_status" -eq 0 ] && [ "$total_issues" -ne 0 ]; } ||
+             { [ "$scan_status" -eq 1 ] && [ "$total_issues" -eq 0 ]; } ||
+             [ "$scan_status" -gt 1 ]; then
+            echo "::error::Drift scan exited with status $scan_status inconsistent with total_issues=$total_issues."
+            exit 1
+          fi
+
+      - name: Write scan execution summary
+        if: always()
+        env:
+          PRIORITY: ${{ steps.params.outputs.priority }}
+          TARGET_VERSION: ${{ steps.params.outputs.target_version }}
+          TOTAL_ISSUES: ${{ steps.scan.outputs.total_issues }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+        run: |
+          {
+            echo "## Compendium Drift Scan"
+            echo "- Target version: \`${TARGET_VERSION:-unresolved}\`"
+            echo "- Priority: \`${PRIORITY:-unresolved}\`"
+            echo "- Findings: \`${TOTAL_ISSUES:-unavailable}\`"
+            if [ "${DRY_RUN}" = "true" ]; then
+              echo "- Manual dry-run: tracker issue writes were suppressed; scan and report artifacts still run."
+              if [ -n "${TOTAL_ISSUES}" ] && [ "${TOTAL_ISSUES}" != "0" ]; then
+                echo "- Preview: the version-scoped compendium tracker issue would be upserted."
+              elif [ "${TOTAL_ISSUES}" = "0" ]; then
+                echo "- Preview: the matching version-scoped tracker issue would be marked resolved."
+              fi
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload drift report artifacts
         uses: actions/upload-artifact@v5
@@ -142,7 +217,7 @@ jobs:
     needs: drift-scan
     if: >
       needs.drift-scan.outputs.total_issues != '0' &&
-      inputs.dry_run != true
+      (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
     permissions:
       contents: read
       issues: write
@@ -190,18 +265,18 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           operation: upsert_issue
-          issue-title: 'Update compendium chapters to v2.4.0-alpha'
-          issue-marker: '<!-- compendium-drift:v2.4.0-alpha -->'
+          issue-title: 'Update compendium chapters to ${{ needs.drift-scan.outputs.target_version }}'
+          issue-marker: '<!-- compendium-drift:${{ needs.drift-scan.outputs.target_version }} -->'
           issue-body: |
-            <!-- compendium-drift:v2.4.0-alpha -->
+            <!-- compendium-drift:${{ needs.drift-scan.outputs.target_version }} -->
 
             ### Context
 
             The scheduled compendium sync scan (`maintenance-compendium-sync`) detected that
             one or more `docs/compendium/docs/*.md` chapters are stale relative to the
-            `v2.4.0-alpha` ROADMAP.md and FUTURE_ENHANCEMENTS.md sources.
+            `${{ needs.drift-scan.outputs.target_version }}` ROADMAP.md and FUTURE_ENHANCEMENTS.md sources.
 
-            Scan results — priority filter `${{ inputs.priority || 'medium' }}`:
+            Scan results — priority filter `${{ needs.drift-scan.outputs.priority }}`:
 
             - **Stale chapters:** ${{ steps.report.outputs.stale }}
             - **Missing chapters:** ${{ steps.report.outputs.missing }}
@@ -213,12 +288,12 @@ jobs:
             ### Goal
 
             Update all stale and missing compendium chapters so that each chapter
-            accurately reflects the v2.4.0-alpha feature set, architecture, and status
+            accurately reflects the ${{ needs.drift-scan.outputs.target_version }} feature set, architecture, and status
             as defined in `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md`.
 
             ### Acceptance Criteria
 
-            - [ ] All chapters flagged **stale** in the scan artifact are updated to v2.4.0-alpha.
+            - [ ] All chapters flagged **stale** in the scan artifact are updated to ${{ needs.drift-scan.outputs.target_version }}.
             - [ ] All chapters flagged **missing** are created or the gap is documented with rationale.
             - [ ] Each chapter update PR references this issue with `Closes #<N>` or `Part of #<N>`.
             - [ ] Each chapter update PR passes `gate-pr-doc-metadata` and `gate-pr-doxygen-governance`.
@@ -228,7 +303,7 @@ jobs:
 
             ### Relationships
 
-            - Relates to [ROADMAP.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/ROADMAP.md) — v2.4.0-alpha section
+            - Relates to [ROADMAP.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/ROADMAP.md) — ${{ needs.drift-scan.outputs.target_version }} section
             - Relates to [FUTURE_ENHANCEMENTS.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/FUTURE_ENHANCEMENTS.md)
 
             ### References
@@ -265,7 +340,7 @@ jobs:
     needs: drift-scan
     if: >
       needs.drift-scan.outputs.total_issues == '0' &&
-      inputs.dry_run != true
+      (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
     permissions:
       contents: read
       issues: write
@@ -281,10 +356,10 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           operation: upsert_issue
-          issue-title: 'Update compendium chapters to v2.4.0-alpha'
-          issue-marker: '<!-- compendium-drift:v2.4.0-alpha -->'
+          issue-title: 'Update compendium chapters to ${{ needs.drift-scan.outputs.target_version }}'
+          issue-marker: '<!-- compendium-drift:${{ needs.drift-scan.outputs.target_version }} -->'
           issue-body: |
-            <!-- compendium-drift:v2.4.0-alpha -->
+            <!-- compendium-drift:${{ needs.drift-scan.outputs.target_version }} -->
 
             ### Context
 
@@ -293,11 +368,11 @@ jobs:
 
             ### Goal
 
-            No action required at this time. The compendium is aligned with v2.4.0-alpha sources.
+            No action required at this time. The compendium is aligned with ${{ needs.drift-scan.outputs.target_version }} sources.
 
             ### Acceptance Criteria
 
-            - [x] All chapters at priority `${{ inputs.priority || 'medium' }}` and above are current.
+            - [x] All chapters at priority `${{ needs.drift-scan.outputs.priority }}` and above are current for ${{ needs.drift-scan.outputs.target_version }}.
 
             ### References
 

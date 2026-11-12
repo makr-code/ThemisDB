@@ -1,9 +1,21 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-09-22"
+Last Updated: "2026-11-12"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Compendium Sync Process
 
-> Status: active  
-> Version: 1.0  
-> Last Updated: 2026-09-22  
-> Scope: `docs/compendium/docs/*.md` maintenance against ThemisDB v2.4.0-alpha SOT
+Version: 1.0
+Scope: `docs/compendium/docs/*.md` maintenance against the target version in `CHAPTER_ROADMAP_MAPPING.yml`
 
 This document describes the **human-in-the-loop operating model** for recurring
 compendium refreshes. It is the authoritative reference for maintainers who
@@ -42,7 +54,10 @@ Weekly Monday 06:30 UTC
 [maintenance-compendium-sync]
    Runs compendium-drift-scan.py
         │
-        ├─ No drift found ──► Close / update tracker issue ✅
+        ├─ Manual dispatch defaults to dry-run; target defaults to mapping
+        │  (operator override is validated before scanning)
+        │
+        ├─ Live run, no drift ──► Resolve / update tracker issue ✅
         │
         └─ Drift detected
                │
@@ -93,14 +108,14 @@ list to know exactly which roadmap areas are missing from the chapter.
 
 - Target branch: `develop`
 - Scope: one chapter per PR (or tightly related chapter pairs)
-- Title convention: `docs(compendium): update chapter_NN_<topic> to v2.4.0-alpha`
+- Title convention: `docs(compendium): update chapter_NN_<topic> to <target_version>`
 - Reference the tracker issue in the PR body (`Closes #NNN` or `Part of #NNN`)
 
 ### 3.4 Update the chapter
 
 Use the SOT files listed in `CHAPTER_ROADMAP_MAPPING.yml` as your input sources:
 
-- `ROADMAP.md` — v2.4.0-alpha status, Wave gate posture, source-verified claims
+- `ROADMAP.md` — target-version status, Wave gate posture, source-verified claims
 - `FUTURE_ENHANCEMENTS.md` — planned capability direction
 - `src/<module>/ROADMAP.md` — module-level detail
 - `docs/architecture/MODULE_ARCHITECTURE.md` — cross-module integration
@@ -109,7 +124,7 @@ Use the SOT files listed in `CHAPTER_ROADMAP_MAPPING.yml` as your input sources:
 - Do not claim capabilities that are not source-verified in `ROADMAP.md`.
 - Use the Wave A/B/C/D posture language from `ROADMAP.md` when describing
   implementation status.
-- Update the version header in the chapter file to `2.4.0-alpha`.
+- Update the version header in the chapter file to the configured target version.
 - Keep the existing chapter structure; add or revise sections rather than
   rewriting from scratch.
 
@@ -241,9 +256,9 @@ Available inputs:
 | Input | Default | Description |
 |-------|---------|-------------|
 | `priority` | `medium` | Minimum chapter priority to scan |
-| `target_version` | `2.4.0-alpha` | Version string to check against |
+| `target_version` | blank (mapping) | Optional version override; blank resolves `target_version` from `CHAPTER_ROADMAP_MAPPING.yml` |
 | `verbose` | `false` | Print per-chapter detail to workflow log |
-| `dry_run` | `false` | Scan only; skip issue creation |
+| `dry_run` | `true` | Scan and produce report artifacts, but suppress tracker issue writes; scheduled runs remain live |
 
 ---
 
@@ -262,6 +277,10 @@ python3 scripts/compendium-drift-scan.py \
 cat /tmp/compendium-drift-summary.md
 cat /tmp/compendium-drift.json
 ```
+
+When `--target-version` is omitted, the scanner uses the top-level
+`target_version` from `docs/compendium/CHAPTER_ROADMAP_MAPPING.yml`. An explicit
+override must be a semantic version; malformed values fail before scanning.
 
 ---
 

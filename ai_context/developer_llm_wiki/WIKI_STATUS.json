@@ -1,20 +1,22 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T16:32:40+00:00",
+  "generated_at": "2026-11-12T17:21:40+00:00",
   "mode": "incremental",
   "source_count": 8091,
-  "source_hash": "b06221ea36a3a4e37afe010d5848b436b3b1886cc0bd58e460502ef121a94423",
+  "source_hash": "cddf7492cd94e2f65a2ef8bfc644256a85089c103a337a1838726df5437d6ee9",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
-    "changed_count": 1,
+    "changed_count": 3,
     "added_preview": [],
     "removed_preview": [],
     "changed_preview": [
-      ".github/workflows/maintenance-ci-health.yml"
+      ".github/workflows/maintenance-compendium-sync.yml",
+      "docs/compendium/COMPENDIUM_SYNC_PROCESS.md",
+      "scripts/compendium-drift-scan.py"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "71662ac71cdd9734531704676cbfb923d27d7530efb10de22d59a54945469709"
+  "manifest_sha256": "934941c1d6d2e178458a60bf64120a8ab11c8a2b752097dc56f463898fc434d9"
 }

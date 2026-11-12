@@ -440,6 +440,45 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         self.assertIn("if (dryRun)", workflow_text)
         self.assertIn("[dry-run] would post closure recommendation", workflow_text)
 
+    def test_compendium_sync_uses_safe_version_resolution_and_fail_closed_scan(self) -> None:
+        workflow = load_workflow("maintenance-compendium-sync.yml")
+        triggers = workflow.get(True, workflow.get("on"))
+        dispatch = triggers["workflow_dispatch"]
+        self.assertIs(dispatch["inputs"]["dry_run"]["default"], True)
+        self.assertEqual(dispatch["inputs"]["target_version"]["default"], "")
+        self.assertIn("CHAPTER_ROADMAP_MAPPING.yml", dispatch["inputs"]["target_version"]["description"])
+        self.assertEqual(workflow["permissions"], {"contents": "read"})
+
+        jobs = workflow["jobs"]
+        scan_job = jobs["drift-scan"]
+        self.assertEqual(scan_job["permissions"], {"contents": "read"})
+        self.assertEqual(
+            scan_job["outputs"]["target_version"],
+            "${{ steps.scan.outputs.target_version }}",
+        )
+        params = next(step for step in scan_job["steps"] if step.get("id") == "params")
+        self.assertEqual(params["env"]["TARGET_VERSION_OVERRIDE"], "${{ inputs.target_version }}")
+        self.assertIn("CHAPTER_ROADMAP_MAPPING.yml", params["run"])
+        self.assertIn("re.fullmatch", params["run"])
+
+        scan = next(step for step in scan_job["steps"] if step.get("id") == "scan")
+        self.assertNotIn("|| true", scan["run"])
+        self.assertIn("scan_status", scan["run"])
+        self.assertIn("total_issues", scan["run"])
+        self.assertIn("TARGET_VERSION", scan["env"])
+
+        for job_name in ("open-tracker-issue", "no-drift-close-issue"):
+            with self.subTest(job=job_name):
+                job = jobs[job_name]
+                self.assertEqual(job["permissions"], {"contents": "read", "issues": "write"})
+                self.assertIn("github.event_name != 'workflow_dispatch'", job["if"])
+                self.assertIn("inputs.dry_run != true", job["if"])
+                self.assertIn("${{ needs.drift-scan.outputs.target_version }}", job["steps"][-1]["with"]["issue-marker"])
+        execution_summary = next(
+            step for step in scan_job["steps"] if step.get("name") == "Write scan execution summary"
+        )
+        self.assertIn("tracker issue writes were suppressed", execution_summary["run"])
+
     def test_manual_pr_failure_diagnosis_dry_run_previews_without_comment_writes(self) -> None:
         workflow = load_workflow("maintenance-pr-failure-diagnosis.yml")
         triggers = workflow.get(True, workflow.get("on"))

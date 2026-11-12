@@ -509,6 +509,12 @@ Sie prüft Cachepfade und Backend-Auswahl, nicht die tatsächliche Online-Treffe
 - Das `workflow_dispatch`-Input `lookback_days` akzeptiert ganze Zahlen von 1 bis 90 (Standard: 7); ungültige Werte brechen die Analyse vor dem API-Aufruf ab.
 - Manuelle Läufe starten standardmäßig mit `dry_run=true`: Analyse, Zusammenfassung und Report-Artefakt laufen weiter; Issue- und Label-Änderungen werden nur in einem Live-Lauf ausgeführt. Geplante Läufe bleiben live.
 
+## Compendium Sync
+- `maintenance-compendium-sync.yml` resolves its default target version from the top-level `target_version` in `docs/compendium/CHAPTER_ROADMAP_MAPPING.yml`; an optional manual override is validated before scanning and is carried into tracker identity and content.
+- Manual dispatch defaults to `dry_run=true`: the scan and report artifacts still run, but tracker issue writes are suppressed. Scheduled runs remain live.
+- The drift scanner returns `1` for valid findings and `0` for no findings; the workflow validates those outcomes against generated reports and fails on scan/configuration errors instead of suppressing them.
+- Issue-write permissions are limited to tracker jobs; the scan job has read-only repository access.
+
 ## Manually Triggering Workflows
 Empfohlen via GitHub CLI:
 

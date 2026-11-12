@@ -21,7 +21,7 @@ Status: Active
 
 - Added: 0
 - Removed: 0
-- Changed: 1
+- Changed: 3
 
 ## Added
 
@@ -33,4 +33,6 @@ Status: Active
 
 ## Changed
 
-- .github/workflows/maintenance-ci-health.yml
+- .github/workflows/maintenance-compendium-sync.yml
+- docs/compendium/COMPENDIUM_SYNC_PROCESS.md
+- scripts/compendium-drift-scan.py

@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T16:32:40+00:00",
+  "generated_at": "2026-11-12T17:21:40+00:00",
   "source_count": 8091,
   "sources": [
     {
@@ -378,9 +378,9 @@
     {
       "path": ".github/workflows/maintenance-compendium-sync.yml",
       "category": "build_test_ci",
-      "size": 12169,
-      "sha256": "304d8fff04e2503cf1ddd7238a3339f29c9cea2b5b18a36784379f6ca2617dbc",
-      "modified_utc": "2026-11-12T15:49:35+00:00"
+      "size": 16229,
+      "sha256": "14f7fdff301e479dffc2e4240b003bca91d7b6692576b72cd94d3809ee2b0f02",
+      "modified_utc": "2026-11-12T17:19:58+00:00"
     },
     {
       "path": ".github/workflows/maintenance-docs-db-build.yml",
@@ -20965,9 +20965,9 @@
     {
       "path": "docs/compendium/COMPENDIUM_SYNC_PROCESS.md",
       "category": "governance_and_docs",
-      "size": 11576,
-      "sha256": "0db5981a1cf58ca047904475379016cb410b1bdd61822ca30be4f57e5bd2b09d",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 12370,
+      "sha256": "f1e72f459dea4408c65c6aca65798abeb7816ec4dc8c44d21925cc1d2eb8c2fe",
+      "modified_utc": "2026-11-12T17:20:52+00:00"
     },
     {
       "path": "docs/compendium/CSS_ANALYSIS.md",
@@ -54411,9 +54411,9 @@
     {
       "path": "scripts/compendium-drift-scan.py",
       "category": "build_test_ci",
-      "size": 20868,
-      "sha256": "1d70e812daa7f6b0ac278afd3756b69b26de9277ec460a085f832a1fa19f0465",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "size": 23803,
+      "sha256": "ca148772df7a7b2f7f55c5cfe1a5be3644eb26177633a1fb5dc4fcfef5509457",
+      "modified_utc": "2026-11-12T17:19:54+00:00"
     },
     {
       "path": "scripts/compute_model_fingerprint.py",
