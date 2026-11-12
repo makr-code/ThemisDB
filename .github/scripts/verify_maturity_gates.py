@@ -106,7 +106,7 @@ def _evaluate_rule(
             if contents is None:
                 contents = artifact_path.read_text(encoding="utf-8")
             pattern = contains_match.group(1)
-            if re.search(pattern, contents, flags=re.MULTILINE) is None:
+            if re.search(pattern, contents, flags=re.MULTILINE | re.DOTALL) is None:
                 return False, f"artifact does not match pattern {pattern!r}"
             continue
 
@@ -136,7 +136,13 @@ def evaluate_manifest(
         return report
 
     available_groups = manifest["gates"]
+    if not available_groups:
+        report["errors"].append("manifest must contain at least one gate group")
+        return report
     selected_groups = groups if groups is not None else sorted(available_groups)
+    if not selected_groups:
+        report["errors"].append("at least one gate group must be selected")
+        return report
     unknown_groups = sorted(set(selected_groups) - set(available_groups))
     report["errors"].extend(f"unknown gate group: {name}" for name in unknown_groups)
 

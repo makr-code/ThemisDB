@@ -367,12 +367,15 @@ jobs:
 
       - name: Produce RC validation summary
         if: always()
+        env:
+          RC_TAG: ${{ steps.tag.outputs.rc_tag }}
         run: |
           python3 <<'PY' >> "$GITHUB_STEP_SUMMARY"
           import json
+          import os
           from pathlib import Path
 
-          print("## RC Validation — ${{ steps.tag.outputs.rc_tag }}")
+          print(f"## RC Validation — {os.environ['RC_TAG']}")
           print()
           path = Path("/tmp/rc_maturity_report.json")
           if not path.exists():

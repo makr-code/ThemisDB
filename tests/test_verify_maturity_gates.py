@@ -55,6 +55,21 @@ class VerifyMaturityGatesTests(unittest.TestCase):
         self.assertTrue(report["pass"])
         self.assertEqual(report["groups"]["wave_7_performance"]["pass"], 1)
 
+    def test_contains_regex_matches_across_lines(self) -> None:
+        roadmap = self.repo_root / "roadmap.md"
+        roadmap.write_text("### Phase 1: Design\n- [x] complete\n", encoding="utf-8")
+        entry = {
+            "status": "PASS",
+            "artifact_path": "roadmap.md",
+            "validation_rule": r"file_exists AND contains('Phase 1.*\[x\]')",
+        }
+
+        passed, details = verifier._evaluate_rule(
+            entry["validation_rule"], entry, self.repo_root, self.now
+        )
+
+        self.assertTrue(passed, details)
+
     def test_fails_when_artifact_is_stale(self) -> None:
         old_time = (self.now - timedelta(days=8)).timestamp()
         os.utime(self.artifact, (old_time, old_time))
@@ -89,6 +104,15 @@ class VerifyMaturityGatesTests(unittest.TestCase):
 
         self.assertFalse(report["pass"])
         self.assertIn("outside the repository", report["checks"][0]["details"])
+
+    def test_repository_manifest_is_read_as_grouped_gate_records(self) -> None:
+        manifest_path = REPO_ROOT / "docs" / "governance" / "MATURITY_EVIDENCE_MANIFEST.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+
+        report = verifier.evaluate_manifest(manifest, REPO_ROOT, now=self.now)
+
+        self.assertEqual(set(report["groups"]), set(manifest["gates"]))
+        self.assertEqual(len(report["checks"]), sum(len(entries) for entries in manifest["gates"].values()))
 
     def test_cli_writes_report_and_returns_failure(self) -> None:
         self.manifest["gates"]["wave_7_performance"][0]["status"] = "FAIL"
