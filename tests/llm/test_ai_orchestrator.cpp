@@ -1043,7 +1043,7 @@ TEST(AIOrchestrator_RagCostModelTest, CostGatePhaseCanBeMultiWithTwoTriggers) {
     EXPECT_GE(s["rag_cost_gate_multi_total"].get<int64_t>(), 1);
 }
 
-TEST(AIOrchestrator_RagCostModelTest, TenantBudgetOverrideCanRelaxCostGate) {
+TEST(AIOrchestrator_RagCostModelTest, TypedTenantBudgetCanRelaxCostGate) {
     ValidationResult res;
     ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
     ASSERT_TRUE(res.ok);
@@ -1071,7 +1071,8 @@ TEST(AIOrchestrator_RagCostModelTest, TenantBudgetOverrideCanRelaxCostGate) {
     ctx.mode_id = "rag";
     ctx.request_id = "req-tenant-budget-1";
     ctx.retrieval_execution.tenant_id = "tenant-enterprise";
-    ctx.extra["tenant_budget_override"] = 250.0;
+    ctx.rag_cost_budget.tenant_budgets = {{"tenant-enterprise", 250.0}};
+    ctx.extra["tenant_budget_override"] = 999.0;
 
     OrchestratorResult result = orch.run(ctx);
     EXPECT_TRUE(result.success);
@@ -1080,7 +1081,7 @@ TEST(AIOrchestrator_RagCostModelTest, TenantBudgetOverrideCanRelaxCostGate) {
     EXPECT_DOUBLE_EQ(result.metadata.extra.value("rag_cost_budget_limit", 0.0), 250.0);
     EXPECT_DOUBLE_EQ(result.metadata.extra.value("rag_cost_budget_limit_effective", 0.0), 250.0);
     EXPECT_EQ(result.metadata.extra.value("rag_cost_budget_limit_source", std::string()),
-              "tenant_budget_override");
+              "tenant_budgets.tenant-enterprise");
 }
 
 TEST(AIOrchestrator_RagCostModelTest, DirectTenantBudgetOverrideHasPriorityOverTenantMap) {
@@ -1111,10 +1112,8 @@ TEST(AIOrchestrator_RagCostModelTest, DirectTenantBudgetOverrideHasPriorityOverT
     ctx.mode_id = "rag";
     ctx.request_id = "req-tenant-budget-prio-1";
     ctx.retrieval_execution.tenant_id = "tenant-enterprise";
-    ctx.extra["tenant_budget_override"] = 250.0;
-    ctx.extra["tenant_budgets"] = {
-        {"tenant-enterprise", 120.0}
-    };
+    ctx.rag_cost_budget.tenant_budget_override = 250.0;
+    ctx.rag_cost_budget.tenant_budgets = {{"tenant-enterprise", 120.0}};
 
     OrchestratorResult result = orch.run(ctx);
     EXPECT_TRUE(result.success);
@@ -1152,7 +1151,7 @@ TEST(AIOrchestrator_RagCostModelTest, InvalidTenantBudgetOverrideIsIgnoredAndRep
     ctx.mode_id = "rag";
     ctx.request_id = "req-tenant-budget-invalid-1";
     ctx.retrieval_execution.tenant_id = "tenant-enterprise";
-    ctx.extra["tenant_budget_override"] = -1.0;
+    ctx.rag_cost_budget.tenant_budget_override = -1.0;
 
     OrchestratorResult result = orch.run(ctx);
     EXPECT_TRUE(result.success);
@@ -1175,6 +1174,46 @@ TEST(AIOrchestrator_RagCostModelTest, InvalidTenantBudgetOverrideIsIgnoredAndRep
               "tenant_budget_override");
     EXPECT_DOUBLE_EQ(result.metadata.extra.value("rag_cost_budget_limit_effective", 0.0), 50.0);
     EXPECT_EQ(result.metadata.extra.value("rag_cost_budget_limit_source", std::string()), "policy");
+}
+
+TEST(AIOrchestrator_RagCostModelTest, ExtraCannotRelaxTenantCostBudget) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kRagYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    auto llm = std::make_shared<CaptureRagRequestLLMPlugin>();
+    auto apply = std::make_shared<RecordingAdapterApplyService>();
+    auto high_cost = std::make_shared<FixedRagCostModelService>(200.0);
+
+    orch.setLLMPlugin(llm);
+    orch.setAdapterCandidateProvider(
+        std::make_shared<FixedAdapterCandidateProvider>("adapter_untrusted_budget_v1"));
+    orch.setAdapterApplyService(apply);
+    orch.setRagCostModelService(high_cost);
+
+    AdapterSwitchPolicy pol;
+    pol.min_switch_interval_ms = 0;
+    pol.max_switches_per_request = 1;
+    pol.enable_cost_budget_gate = true;
+    pol.max_total_cost = 50.0;
+    orch.setAdapterSwitchPolicy(pol);
+
+    OrchestratorContext ctx;
+    ctx.query = "untrusted tenant budget override";
+    ctx.mode_id = "rag";
+    ctx.request_id = "req-untrusted-tenant-budget-1";
+    ctx.retrieval_execution.tenant_id = "tenant-enterprise";
+    ctx.extra["tenant_budget_override"] = 250.0;
+    ctx.extra["tenant_budgets"] = {{"tenant-enterprise", 300.0}};
+
+    const OrchestratorResult result = orch.run(ctx);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(apply->apply_calls, 0);
+    EXPECT_DOUBLE_EQ(
+        result.metadata.extra.value("rag_cost_budget_limit_effective", 0.0), 50.0);
+    EXPECT_EQ(result.metadata.extra.value("rag_cost_budget_limit_source", std::string()),
+              "policy");
 }
 
 TEST(AIOrchestrator_RagAdapterApplyTest, SelectedAdapterIsAppliedWhenAllowed) {

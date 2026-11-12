@@ -368,6 +368,18 @@ struct OrchestratorResult {
 // Orchestrator context (per-request)
 // ============================================================================
 
+/**
+ * @brief Trusted server-side RAG cost-budget overrides for one orchestrator call.
+ * @note Populate only from trusted policy configuration. Values from request
+ * metadata, YAML, or `OrchestratorContext::extra` are not policy inputs.
+ */
+struct RagCostBudgetContext {
+    /// Trusted per-call override; must be finite and greater than zero.
+    std::optional<double> tenant_budget_override;
+    /// Trusted budget limits keyed by authenticated tenant ID.
+    std::unordered_map<std::string, double> tenant_budgets;
+};
+
 struct OrchestratorContext {
     std::string query;
     std::string mode_id;        ///< Mode to use; empty = ModePack default
@@ -393,6 +405,8 @@ struct OrchestratorContext {
     /// retrieval, adapter selection, and cost attribution comes only from this
     /// context; `extra["tenant"]` is untrusted metadata and is ignored.
     rag::RetrievalExecutionContext retrieval_execution;
+    /// Trusted server-side budget policy; values in `extra` cannot override it.
+    RagCostBudgetContext rag_cost_budget;
 };
 
 // ============================================================================

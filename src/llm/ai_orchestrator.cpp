@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <cmath>
 #include <limits>
 #include <shared_mutex>
 #include <sstream>
@@ -86,35 +87,28 @@ struct BudgetOverrideResolution {
     std::string invalid_detail;
 };
 
-constexpr const char* kBudgetOverrideInvalidTenantOverrideType =
-    "tenant_budget_override_type";
 constexpr const char* kBudgetOverrideInvalidTenantOverrideNonPositive =
     "tenant_budget_override_non_positive";
-constexpr const char* kBudgetOverrideInvalidTenantBudgetEntryType =
-    "tenant_budget_entry_type";
 constexpr const char* kBudgetOverrideInvalidTenantBudgetEntryNonPositive =
     "tenant_budget_entry_non_positive";
+constexpr const char* kBudgetOverrideInvalidNonFinite =
+    "tenant_budget_override_non_finite";
 
 [[nodiscard]] BudgetOverrideResolution resolveTenantBudgetOverride(
-    const json& extra,
+    const RagCostBudgetContext& budget_context,
     const std::string& tenant) {
-    if (!extra.is_object()) {
-        return {std::nullopt, "policy", false, "", ""};
-    }
-
-    // Precedence rule: explicit tenant_budget_override wins over tenant_budgets map.
-    if (extra.contains("tenant_budget_override")) {
-        if (!extra["tenant_budget_override"].is_number()) {
+    // Precedence rule: explicit trusted override wins over the tenant map.
+    if (budget_context.tenant_budget_override.has_value()) {
+        const double v = *budget_context.tenant_budget_override;
+        if (!std::isfinite(v)) {
             return {
                 std::nullopt,
                 "policy",
                 true,
-                kBudgetOverrideInvalidTenantOverrideType,
+                kBudgetOverrideInvalidNonFinite,
                 "tenant_budget_override",
             };
         }
-
-        const double v = extra["tenant_budget_override"].get<double>();
         if (v <= 0.0) {
             return {
                 std::nullopt,
@@ -128,22 +122,19 @@ constexpr const char* kBudgetOverrideInvalidTenantBudgetEntryNonPositive =
         return {v, "tenant_budget_override", false, "", ""};
     }
 
-    if (extra.contains("tenant_budgets") &&
-        extra["tenant_budgets"].is_object() &&
-        !tenant.empty()) {
-        const auto& budgets = extra["tenant_budgets"];
-        if (budgets.contains(tenant)) {
-            if (!budgets[tenant].is_number()) {
+    if (!tenant.empty()) {
+        const auto it = budget_context.tenant_budgets.find(tenant);
+        if (it != budget_context.tenant_budgets.end()) {
+            const double v = it->second;
+            if (!std::isfinite(v)) {
                 return {
                     std::nullopt,
                     "policy",
                     true,
-                    kBudgetOverrideInvalidTenantBudgetEntryType,
+                    kBudgetOverrideInvalidNonFinite,
                     "tenant_budgets." + tenant,
                 };
             }
-
-            const double v = budgets[tenant].get<double>();
             if (v <= 0.0) {
                 return {
                     std::nullopt,
@@ -1107,7 +1098,8 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
 
     double effective_budget_limit = policy_copy.max_total_cost;
     std::string effective_budget_source = "policy";
-    const auto tenant_budget_override = resolveTenantBudgetOverride(ctx.extra, tenant);
+    const auto tenant_budget_override =
+        resolveTenantBudgetOverride(ctx.rag_cost_budget, tenant);
     if (tenant_budget_override.value.has_value() && tenant_budget_override.value.value() > 0.0) {
         effective_budget_limit = tenant_budget_override.value.value();
         effective_budget_source = tenant_budget_override.source;

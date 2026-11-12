@@ -170,6 +170,12 @@ selection, budget-map lookup, and cost attribution; the untrusted
 `OrchestratorContext::extra["tenant"]` value is ignored. This prevents request
 metadata or YAML extras from choosing a tenant identity, but does not itself
 establish a trusted caller context at MCP/AQL/YAML startup.
+Tenant budget overrides and per-tenant budget maps now use the explicit
+`OrchestratorContext::rag_cost_budget` typed field instead of `extra` JSON.
+That field is server-policy input and must not be copied from request metadata
+or YAML. Non-finite and non-positive values are rejected. The new context field
+changes `OrchestratorContext` layout; binary consumers must rebuild. Existing
+server startup does not yet populate this policy field from trusted configuration.
 The MCP `llm_orchestrate` bridge currently constructs its context from tool
 arguments without a trusted caller authorization context; retrieval-enabled MCP
 modes now fail closed before invoking the orchestrator. Wiring authenticated

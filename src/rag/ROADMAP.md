@@ -119,7 +119,12 @@ registration, persistent storage, external telemetry, or production readiness.
     Tenant identity used by orchestration budget scoping, adapter selection, and
     cost attribution now comes from typed `retrieval_execution.tenant_id`;
     `extra["tenant"]` is ignored. A regression source supplies a conflicting
-    extra value and checks that the typed tenant wins; it has not been run.
+    extra value and checks that the typed tenant wins. Tenant budget overrides
+    now come only from the explicit trusted `rag_cost_budget` context; overrides
+    in arbitrary `extra` metadata are ignored, and non-finite trusted values are
+    rejected. Focused test sources cover both paths but remain unrun. Production
+    startup still must populate the trusted contexts from authenticated callers
+    and server policy.
   - Real HTTP/AQL/YAML startup wiring, full request-context/auth isolation,
     complete direct-`src/` role map,
     remaining acceptance criteria, and focused test execution/evidence remain

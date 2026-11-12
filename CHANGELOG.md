@@ -74,8 +74,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   selection, and cost attribution now comes exclusively from typed
   `retrieval_execution.tenant_id`; `extra["tenant"]` is ignored. A regression
   source verifies that conflicting untrusted extra metadata cannot replace the
-  typed tenant. Focused C++ tests have not been built or executed, and the
-  server still needs to populate the typed context from authenticated callers.
+  typed tenant. Tenant budget overrides now come from the explicit trusted
+  `rag_cost_budget` context; spoofed budget fields in `extra` are ignored, and
+  non-finite trusted values are rejected. Focused C++ tests have not been built
+  or executed. Server composition still needs to populate tenant and budget
+  contexts from authenticated callers and trusted policy.
 
 ### Core Provider/Consumer follow-up — ContentManager source lookup (2026-11-12)
 
