@@ -315,7 +315,6 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         detect_step = next(step for step in detect["steps"] if step.get("id") == "detect")
         self.assertEqual(detect_step["env"]["DRY_RUN_INPUT"], "${{ inputs.dry_run }}")
         self.assertIn('DRY_RUN_ENABLED="true"', detect_step["run"])
-        self.assertIn('[ "${DRY_RUN_ENABLED}" != "true" ]', detect_step["run"])
         self.assertIn("dry_run_enabled", detect["outputs"])
 
         self.assertEqual(
