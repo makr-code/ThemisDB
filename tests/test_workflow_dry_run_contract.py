@@ -64,6 +64,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "release-promote.yml",
             "release-rollback.yml",
             "release-linux-distribution.yml",
+            "release-windows-distribution.yml",
             "release-winget.yml",
             "wiki-pr-gate.yml",
         )
@@ -71,6 +72,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "release-changelog.yml",
             "release-docker-image.yml",
             "release-linux-distribution.yml",
+            "release-windows-distribution.yml",
             "release-mainline.yml",
             "reusable-docker-image-platform.yml",
             "release-winget.yml",
@@ -332,6 +334,43 @@ class WorkflowDryRunContractTests(unittest.TestCase):
 
         approval = load_workflow("release-linux-distro-approval.yml")
         approval_step = approval["jobs"]["linux_distro_publish_from_issue"]
+        self.assertIn('"dry_run":false', approval_step["with"]["dispatch_inputs_json"])
+
+    def test_windows_distro_dry_run_prepares_bundle_without_publish_or_issue_writes(self) -> None:
+        workflow = load_workflow("release-windows-distribution.yml")
+        triggers = workflow.get(True, workflow.get("on"))
+        for trigger_name in ("workflow_dispatch", "workflow_call"):
+            dry_run = triggers[trigger_name]["inputs"]["dry_run"]
+            with self.subTest(trigger=trigger_name):
+                self.assertEqual(dry_run["type"], "boolean")
+                self.assertIs(dry_run["default"], True)
+
+        jobs = workflow["jobs"]
+        live_run = "github.event_name == 'release' || ((github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call') && inputs.dry_run != true)"
+        self.assertEqual(jobs["mark-release-pending"]["if"], live_run)
+        self.assertEqual(
+            jobs["finalize-release-status"]["if"],
+            f"always() && ({live_run})",
+        )
+        detect = jobs["detect-release"]
+        detect_step = next(step for step in detect["steps"] if step.get("id") == "detect")
+        self.assertEqual(detect_step["env"]["DRY_RUN_INPUT"], "${{ inputs.dry_run }}")
+        self.assertIn('DRY_RUN_ENABLED="true"', detect_step["run"])
+        self.assertIn("dry_run_enabled", detect["outputs"])
+
+        self.assertEqual(
+            jobs["prepare-windows-distro-bundle"]["if"],
+            "always() && needs.detect-release.result != 'failure'",
+        )
+        publish = jobs["publish-windows-distro-bundle"]
+        self.assertIn("needs.detect-release.outputs.publish_requested == 'true'", publish["if"])
+        self.assertIn("needs.detect-release.outputs.dry_run_enabled != 'true'", publish["if"])
+        summary = jobs["run-summary"]["steps"][1]["with"]["scope"]
+        self.assertIn("dry-run; external writes suppressed", summary)
+        self.assertIn("needs.detect-release.outputs.publish_requested", summary)
+
+        approval = load_workflow("release-windows-distro-approval.yml")
+        approval_step = approval["jobs"]["windows_distro_publish_from_issue"]
         self.assertIn('"dry_run":false', approval_step["with"]["dispatch_inputs_json"])
 
     def test_wiki_dry_run_still_builds_and_validates_without_mutation(self) -> None:
