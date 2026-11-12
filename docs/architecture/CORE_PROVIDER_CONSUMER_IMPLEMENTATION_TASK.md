@@ -136,9 +136,9 @@ results; cancellation after a blocking QueryEngine call with no matches; an
 incomplete/malformed persisted ingestion-source record returning
 `ERR_STORAGE_CORRUPTION`, covering both invalid JSON and a well-formed source
 record with an array, null, or string root; missing required content; or
-identity/content stored with non-string types, plus a truncated binary record;
-and request-isolated collection authorization. These C++ tests have not been
-built or executed.
+identity/content stored with non-string types, plus truncated binary headers,
+field names, and unsupported type tags; and request-isolated collection
+authorization. These C++ tests have not been built or executed.
 For YAML-configured agentic modes, `AIOrchestrator::runAgentic()` now routes
 retrieval-enabled modes through its existing `runRag()` pipeline before
 preserving the existing tool-call parsing and dispatch. This reuses the typed

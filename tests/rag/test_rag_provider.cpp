@@ -8,6 +8,7 @@
 #include "index/graph_index.h"
 #include "index/vector_index.h"
 #include "ingestion/ingestion_sinks.h"
+#include "utils/serialization.h"
 
 #include <filesystem>
 #include <future>
@@ -233,6 +234,40 @@ TEST_F(RAGProviderTest, VectorIngestionRejectsMalformedPersistedSourceRecord) {
     const auto truncated_binary_result = provider_->retrieve(request);
     ASSERT_FALSE(truncated_binary_result);
     EXPECT_EQ(truncated_binary_result.error().code(),
+              errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+
+    utils::Serialization::Encoder truncated_name_encoder;
+    truncated_name_encoder.beginObject(1);
+    truncated_name_encoder.encodeString("source_file_id");
+    auto truncated_name_record = truncated_name_encoder.finish();
+    truncated_name_record.pop_back();
+    ASSERT_TRUE(db_->put(source_key, truncated_name_record));
+    const auto truncated_name_result = provider_->retrieve(request);
+    ASSERT_FALSE(truncated_name_result);
+    EXPECT_EQ(truncated_name_result.error().code(),
+              errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+
+    utils::Serialization::Encoder truncated_value_encoder;
+    truncated_value_encoder.beginObject(1);
+    truncated_value_encoder.encodeString("source_file_id");
+    truncated_value_encoder.encodeString("source");
+    truncated_value_encoder.encodeString("content");
+    const auto truncated_value_record = truncated_value_encoder.finish();
+    ASSERT_TRUE(db_->put(source_key, truncated_value_record));
+    const auto truncated_value_result = provider_->retrieve(request);
+    ASSERT_FALSE(truncated_value_result);
+    EXPECT_EQ(truncated_value_result.error().code(),
+              errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+
+    utils::Serialization::Encoder unsupported_type_encoder;
+    unsupported_type_encoder.beginObject(1);
+    unsupported_type_encoder.encodeString("source_file_id");
+    auto unsupported_type_record = unsupported_type_encoder.finish();
+    unsupported_type_record.push_back(0x7f);
+    ASSERT_TRUE(db_->put(source_key, unsupported_type_record));
+    const auto unsupported_type_result = provider_->retrieve(request);
+    ASSERT_FALSE(unsupported_type_result);
+    EXPECT_EQ(unsupported_type_result.error().code(),
               errors::ErrorCode::ERR_STORAGE_CORRUPTION);
 }
 
