@@ -333,6 +333,50 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
         for package_name in EXPECTED_UBUNTU_2404_RUNTIME_PACKAGE_TOKENS:
             self.assertIn(package_name, runtime_packages)
 
+    @unittest.skipUnless(Path("/bin/sh").is_file(), "Requires the Docker build's POSIX shell")
+    def test_llama_libraries_come_from_server_build(self) -> None:
+        text = self._dockerfile_text()
+        build = extract_stage(text, "build", base_image="deps")
+        match = re.search(
+            r"^RUN set -eux; \\\n(?P<body>    mkdir -p /opt/themis-runtime/lib; \\\n"
+            r"(?:[^\n]*\\\n)*[^\n]*)",
+            build, re.MULTILINE,
+        )
+        self.assertIsNotNone(match, "Missing server-linked llama library staging")
+        command = match.group("body").replace("\\\n", "")
+        for stage_name in ("runtime", "debug"):
+            stage = extract_stage(text, stage_name)
+            self.assertIn("COPY --from=build /opt/themis-runtime/lib/ /usr/local/lib/", stage)
+            self.assertNotIn("COPY --from=llama /opt/llama.cpp/build/lib", stage)
+            self.assertIn("ldd /app/themis_server", stage)
+            self.assertIn('grep -q "not found"', stage)
+
+        for enabled, missing in (("ON", False), ("ON", True), ("OFF", True)):
+            with self.subTest(enabled=enabled, missing=missing), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                source = root / "build" / "bin"
+                source.mkdir(parents=True)
+                for library in ("libllama", "libggml", "libggml-cpu", "libggml-base"):
+                    if missing and library.startswith("libggml"):
+                        continue
+                    (source / f"{library}.so.0.1").write_text(library, encoding="utf-8")
+                    (source / f"{library}.so.0").symlink_to(f"{library}.so.0.1")
+                destination = root / "runtime" / "lib"
+                result = subprocess.run(
+                    ["/bin/sh", "-eu", "-c", command.replace("/src/", f"{root}/")
+                     .replace("/opt/themis-runtime/lib", str(destination))],
+                    env={**os.environ, "ENABLE_LLM": enabled, "THEMIS_BUILD_DIR": "build"},
+                    capture_output=True, text=True,
+                )
+                self.assertEqual(result.returncode == 0, not (enabled == "ON" and missing), result.stderr)
+                if enabled == "ON" and not missing:
+                    for library in ("libllama", "libggml", "libggml-cpu", "libggml-base"):
+                        link = destination / f"{library}.so.0"
+                        self.assertTrue(link.is_symlink())
+                        self.assertEqual(link.read_text(encoding="utf-8"), library)
+                if enabled == "OFF":
+                    self.assertEqual(list(destination.iterdir()), [])
+
     def test_runtime_checks_linker_and_rootless_loader_before_publishing(self) -> None:
         stage = extract_stage(self._dockerfile_text(), "runtime")
         for marker in ("ldd /app/themis_server", 'grep -q "not found"',
