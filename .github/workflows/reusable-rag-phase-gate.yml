@@ -4,29 +4,37 @@ on:
   workflow_call:
     inputs:
       phase_id:
+        description: "Stable phase identifier used in reports and temporary artifact names."
         required: true
         type: string
       phase_title:
+        description: "Human-readable phase name shown in job and gate reports."
         required: true
         type: string
       headers_json:
+        description: "JSON array of public header paths required for the phase."
         required: true
         type: string
       impls_json:
+        description: "JSON array of implementation paths compiled by the gate."
         required: true
         type: string
       tests_json:
+        description: "JSON array of test source paths checked by the gate."
         required: true
         type: string
       grep_checks_json:
+        description: "Optional JSON array of file/pattern/error checks; defaults to an empty array."
         required: false
         default: "[]"
         type: string
       labels_csv:
+        description: "Optional comma-separated labels applied after successful validation."
         required: false
         default: ""
         type: string
       timeout_minutes:
+        description: "Maximum phase-validation job duration in minutes."
         required: false
         default: "30"
         type: string

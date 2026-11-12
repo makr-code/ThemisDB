@@ -13,6 +13,20 @@ def load_workflow(name: str) -> dict:
 
 
 class WorkflowDryRunContractTests(unittest.TestCase):
+    def test_workflow_inputs_declare_types_and_descriptions(self) -> None:
+        for workflow_path in sorted(WORKFLOWS.glob("*.yml")):
+            workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8")) or {}
+            triggers = workflow.get(True, workflow.get("on", {})) or {}
+            for trigger_name in ("workflow_dispatch", "workflow_call"):
+                trigger = triggers.get(trigger_name, {}) or {}
+                inputs = trigger.get("inputs", {}) or {}
+                for input_name, spec in inputs.items():
+                    with self.subTest(workflow=workflow_path.name, trigger=trigger_name, input=input_name):
+                        self.assertIn("type", spec)
+                        self.assertTrue(str(spec.get("description", "")).strip())
+                        if spec["type"] == "choice":
+                            self.assertTrue(spec.get("options"))
+
     def test_side_effect_entry_points_default_to_dry_run(self) -> None:
         manual_workflows = (
             "maintenance-ai-working.yml",
