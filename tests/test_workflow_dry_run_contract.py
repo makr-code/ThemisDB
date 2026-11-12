@@ -185,7 +185,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             },
         )
         validate = jobs["validate-rollback"]["steps"][0]
-        self.assertIn("VERSION: ${{ inputs.version }}", validate["env"])
+        self.assertEqual(validate["env"]["VERSION"], "${{ inputs.version }}")
         self.assertIn("semantic version", validate["run"])
         self.assertIn("No rollback actions selected", validate["run"])
         self.assertIn("previous-version must differ", validate["run"])

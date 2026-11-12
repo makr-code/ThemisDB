@@ -9,7 +9,7 @@ name: "Release: Rollback"
 # Actions:
 #   - Delete GitHub Release (optional)
 #   - Revert VERSION/RELEASE_TYPE (optional)
-#   - Delete Docker image tags (optional)
+#   - Report manual Docker image tag cleanup steps (optional)
 #   - Create rollback PR (optional)
 
 on:
@@ -288,9 +288,9 @@ jobs:
           body: |
             ## Rollback Notice
             
-            **Rolled Back From:** ${{ needs.validate-rollback.outputs.version }}  
-            **Rolled Back To:** ${{ needs.validate-rollback.outputs.previous_version }}  
-            **Reason:** ${{ github.event.inputs.reason }}  
+            **Rolled Back From:** ${{ needs.validate-rollback.outputs.version }}
+            **Rolled Back To:** ${{ needs.validate-rollback.outputs.previous_version }}
+            **Reason:** ${{ github.event.inputs.reason }}
             **Initiated By:** @${{ github.actor }}
             
             ### Changes
@@ -345,7 +345,11 @@ jobs:
             if [ "${VALIDATION_RESULT}" = "success" ]; then
               if [ "${DRY_RUN}" = "true" ]; then
                 echo "- Dry-run: GitHub Release deletion and rollback PR creation were suppressed."
-                echo "- Planned release tags: \`${{ needs.validate-rollback.outputs.release_tags }}\` (Git tags remain untouched)."
+                if [ "${DELETE_RELEASE}" = "true" ]; then
+                  echo "- Planned GitHub Release records: \`${{ needs.validate-rollback.outputs.release_tags }}\` (Git tags remain untouched)."
+                else
+                  echo "- GitHub Release deletion was not requested."
+                fi
                 if [ "${REVERT_VERSION}" = "true" ]; then
                   echo "- Planned version change: \`${VERSION}\` → \`${PREVIOUS_VERSION}\`; RELEASE_TYPE → \`alpha\`."
                 fi
@@ -361,5 +365,9 @@ jobs:
             echo "- Manual WinGet cleanup may be required: https://github.com/microsoft/winget-pkgs/pulls"
             echo "- Run: [${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})"
           } >> "$GITHUB_STEP_SUMMARY"
-          echo "Rollback actions have been validated and summarized."
+          if [ "${VALIDATION_RESULT}" = "success" ]; then
+            echo "Rollback request validated and summarized."
+          else
+            echo "::error::Rollback request validation failed; no rollback side effects were started."
+          fi
           echo "═══════════════════════════════════════════════════════════════"
