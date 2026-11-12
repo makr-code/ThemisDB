@@ -17,6 +17,7 @@
 #include <stdexcept>
 #include <utility>
 #include <vector>
+#include <variant>
 #include "query/query_engine.h"
 #include "query/query_optimizer.h"
 #include "query/query_plan_visualizer.h"
@@ -4669,8 +4670,14 @@ Result<std::optional<std::string>> QueryEngine::readIngestionSourceText(
 
 	try {
 		const auto source = BaseEntity::deserialize(std::string(exact_source_key), *stored);
-		const auto source_file_id = source.getFieldAsString("source_file_id");
-		const auto source_text = source.getFieldAsString("content");
+		const auto source_file_id_field = source.getField("source_file_id");
+		const auto source_text_field = source.getField("content");
+		const auto* source_file_id = source_file_id_field
+			? std::get_if<std::string>(&*source_file_id_field)
+			: nullptr;
+		const auto* source_text = source_text_field
+			? std::get_if<std::string>(&*source_text_field)
+			: nullptr;
 		if (!source_file_id || !source_text) {
 			return Err<std::optional<std::string>>(
 				errors::ErrorCode::ERR_STORAGE_CORRUPTION,

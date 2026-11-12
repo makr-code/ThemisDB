@@ -135,8 +135,9 @@ deadline expiry after a blocking QueryEngine call with both matching and empty
 results; cancellation after a blocking QueryEngine call with no matches; an
 incomplete/malformed persisted ingestion-source record returning
 `ERR_STORAGE_CORRUPTION`, covering both invalid JSON and a well-formed source
-record missing required content; and request-isolated collection authorization.
-These C++ tests have not been built or executed.
+record missing required content or storing identity/content with non-string
+types; and request-isolated collection authorization. These C++ tests have not
+been built or executed.
 For YAML-configured agentic modes, `AIOrchestrator::runAgentic()` now routes
 retrieval-enabled modes through its existing `runRag()` pipeline before
 preserving the existing tool-call parsing and dispatch. This reuses the typed

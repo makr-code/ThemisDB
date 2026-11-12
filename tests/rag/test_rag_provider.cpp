@@ -251,6 +251,34 @@ TEST_F(RAGProviderTest, VectorIngestionRejectsIncompletePersistedSourceRecord) {
     EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_STORAGE_CORRUPTION);
 }
 
+TEST_F(RAGProviderTest, VectorIngestionRejectsNonStringPersistedSourceFields) {
+    ingestion::VectorIndexSinkAdapter sink(vector_, secondary_, "docs", 2);
+    ingestion::VectorRecord record;
+    record.chunk_id = "source-types:0";
+    record.source_file_id = "source-types";
+    record.text_snippet = "copied vector snippet";
+    record.embedding = {1.0f, 0.0f};
+    ASSERT_TRUE(sink.writeVectors({record}));
+
+    const auto source_key = KeySchema::makeRelationalKey(
+        "ingestion_sources", record.chunk_id);
+    query::VectorGeoQuery query;
+    query.table = "docs";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+
+    for (const auto& source : {
+             R"({"source_file_id":"source-types","content":123})",
+             R"({"source_file_id":123,"content":"untrusted numeric identity"})"}) {
+        ASSERT_TRUE(db_->put(source_key, source));
+        const auto result = provider_->retrieve(request);
+
+        ASSERT_FALSE(result);
+        EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+    }
+}
+
 TEST_F(RAGProviderTest, ContentManagerChunkVectorPreservesTextAndSourceIdentity) {
     auto content_vector = std::make_shared<VectorIndexManager>(*db_);
     ASSERT_TRUE(content_vector->init("chunks", 2, VectorIndexManager::Metric::COSINE).ok);
