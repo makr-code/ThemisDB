@@ -19,17 +19,13 @@ Status: Active
 
 ## Summary
 
-- Added: 5
+- Added: 0
 - Removed: 0
-- Changed: 22
+- Changed: 0
 
 ## Added
 
-- docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md
-- include/llm/rag_helpers.h
-- include/rag/rag_candidate.h
-- include/rag/rag_provider.h
-- include/rag/rag_retrieval_helpers.h
+- none
 
 ## Removed
 
@@ -37,25 +33,4 @@ Status: Active
 
 ## Changed
 
-- .github/workflows/release-build-matrix.yml
-- CHANGELOG.md
-- ai_context/api_contracts/llm.md
-- docs/code_maturity_report.md
-- docs/de/retrieval/README.md
-- docs/llm_orchestration/README.md
-- docs/plugins/PLUGIN_ABI_POLICY.md
-- docs/rag/API.md
-- docs/rag/README.md
-- docs/retrieval/API.md
-- docs/retrieval/README.md
-- include/aql/llm_aql_handler.h
-- include/ingestion/ingestion_sinks.h
-- include/llm/ai_orchestrator.h
-- include/llm/llama_wrapper.h
-- include/prompt_engineering/rag_prompt_builder.h
-- include/query/query_engine.h
-- include/rag/knowledge_gap_detector.h
-- include/rag/modular_rag_pipeline.h
-- include/rag/rag_integration_helpers.h
-- src/rag/README.md
-- src/rag/ROADMAP.md
+- none

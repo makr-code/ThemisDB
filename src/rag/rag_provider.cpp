@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <optional>
 #include <set>
 #include <tuple>
 #include <type_traits>
@@ -65,24 +66,42 @@ Result<RetrievalResult> RAGProvider::retrieve(
         if (!authorized) {
             return authorized;
         }
-        auto candidate = makeRAGCandidate(id, collection, entity, score, provenance);
-        if (!candidate) {
-            ++result.rejected_documents;
-            return OkVoid();
-        }
+        nlohmann::json materialized_entity;
+        const auto* candidate_entity = &entity;
         const auto source_type = entity.find("source_ref_type");
         if (source_type != entity.end() && source_type->is_string() &&
             source_type->get_ref<const std::string&>() == "content_chunk") {
+            const auto source_collection = entity.find("source_ref_collection");
+            const auto source_key = entity.find("source_ref_key");
+            const auto source_version = entity.find("source_ref_version");
             const auto content_id = entity.find("content_id");
-            if (!candidate->source_reference ||
-                candidate->source_reference->collection != collection ||
+            if (source_collection == entity.end() || !source_collection->is_string() ||
+                source_collection->get_ref<const std::string&>() != collection ||
+                source_key == entity.end() || !source_key->is_string() ||
+                source_key->get_ref<const std::string&>().empty() ||
                 content_id == entity.end() || !content_id->is_string() ||
-                content_id->get_ref<const std::string&>().empty()) {
+                content_id->get_ref<const std::string&>().empty() ||
+                (source_version != entity.end() &&
+                 !source_version->is_string() && !source_version->is_number_integer())) {
                 ++result.rejected_documents;
                 return OkVoid();
             }
+            std::optional<std::string> expected_version;
+            if (source_version != entity.end()) {
+                if (source_version->is_string()) {
+                    expected_version = source_version->get<std::string>();
+                } else {
+                    try {
+                        expected_version = std::to_string(
+                            source_version->get<std::int64_t>());
+                    } catch (const nlohmann::json::exception&) {
+                        ++result.rejected_documents;
+                        return OkVoid();
+                    }
+                }
+            }
             auto source_text = engine_.readContentChunkText(
-                candidate->source_reference->key,
+                source_key->get_ref<const std::string&>(),
                 content_id->get_ref<const std::string&>());
             if (!source_text) {
                 return tl::unexpected(source_text.error());
@@ -91,13 +110,21 @@ Result<RetrievalResult> RAGProvider::retrieve(
                 ++result.rejected_documents;
                 return OkVoid();
             }
-            if (candidate->source_reference->version &&
-                *candidate->source_reference->version !=
+            if (expected_version &&
+                *expected_version !=
                     std::to_string((*source_text)->second)) {
                 ++result.rejected_documents;
                 return OkVoid();
             }
-            candidate->content = std::move((*source_text)->first);
+            materialized_entity = entity;
+            materialized_entity["content"] = std::move((*source_text)->first);
+            candidate_entity = &materialized_entity;
+        }
+        auto candidate = makeRAGCandidate(
+            id, collection, *candidate_entity, score, provenance);
+        if (!candidate) {
+            ++result.rejected_documents;
+            return OkVoid();
         }
         if (!seen.emplace(collection, id).second) {
             return OkVoid();

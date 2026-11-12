@@ -4618,7 +4618,9 @@ Result<std::optional<std::pair<std::string, std::int64_t>>> QueryEngine::readCon
 		const std::string serialized(stored->begin(), stored->end());
 		const auto chunk = nlohmann::json::parse(serialized);
 		if (!chunk.is_object()) {
-			return Ok(std::optional<std::string>{});
+			return Err<std::optional<std::pair<std::string, std::int64_t>>>(
+				errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+				"ContentManager chunk source record is not an object");
 		}
 		const auto id = chunk.find("id");
 		const auto content_id = chunk.find("content_id");

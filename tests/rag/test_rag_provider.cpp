@@ -230,6 +230,49 @@ TEST_F(RAGProviderTest, ContentManagerVectorRejectsMissingAndCorruptChunkSources
     const auto corrupt_result = content_provider.retrieve(request);
     ASSERT_FALSE(corrupt_result);
     EXPECT_EQ(corrupt_result.error().code(), errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+
+    ASSERT_TRUE(db_->put("chunk:content-2-chunk-0", "[]"));
+    const auto invalid_shape_result = content_provider.retrieve(request);
+    ASSERT_FALSE(invalid_shape_result);
+    EXPECT_EQ(invalid_shape_result.error().code(), errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+}
+
+TEST_F(RAGProviderTest, ContentManagerChunkSourceCanMaterializeWithoutVectorText) {
+    auto content_vector = std::make_shared<VectorIndexManager>(*db_);
+    ASSERT_TRUE(content_vector->init("chunks", 2, VectorIndexManager::Metric::COSINE).ok);
+    const nlohmann::json source_record = {
+        {"id", "source-only-chunk"},
+        {"content_id", "source-only-content"},
+        {"text", "canonical source-only evidence"},
+        {"created_at", 123}
+    };
+    const auto serialized_source = source_record.dump();
+    ASSERT_TRUE(db_->put("chunk:source-only-chunk", std::vector<std::uint8_t>(
+        serialized_source.begin(), serialized_source.end())));
+
+    const auto vector_entity = BaseEntity::fromFields("source-only-chunk", {
+        {"content_id", std::string{"source-only-content"}},
+        {"source_ref_type", std::string{"content_chunk"}},
+        {"source_ref_collection", std::string{"chunks"}},
+        {"source_ref_key", std::string{"chunk:source-only-chunk"}},
+        {"source_ref_provenance", std::string{"content_manager"}},
+        {"source_ref_version", std::int64_t{123}},
+        {"embedding", std::vector<float>{1.0f, 0.0f}}
+    });
+    ASSERT_TRUE(content_vector->addEntity(vector_entity).ok);
+
+    query::QueryEngine content_engine(*db_, *secondary_, *graph_, content_vector.get(), nullptr);
+    rag::RAGProvider content_provider(content_engine);
+    query::VectorGeoQuery query;
+    query.table = "chunks";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+
+    const auto result = content_provider.retrieve(request);
+    ASSERT_TRUE(result) << result.error().context();
+    ASSERT_EQ(result->candidates.size(), 1);
+    EXPECT_EQ(result->candidates.front().content, "canonical source-only evidence");
 }
 
 TEST_F(RAGProviderTest, ContentManagerVectorRejectsChunkFromDifferentContent) {

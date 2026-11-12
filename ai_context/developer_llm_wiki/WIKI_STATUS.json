@@ -1,47 +1,18 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T06:11:03+00:00",
+  "generated_at": "2026-11-12T06:12:56+00:00",
   "mode": "incremental",
   "source_count": 8090,
   "source_hash": "87a81b80709892c414d4bdf9fab3b57296e95d175565f9fa71d905b0918a86a4",
   "delta": {
-    "added_count": 5,
+    "added_count": 0,
     "removed_count": 0,
-    "changed_count": 22,
-    "added_preview": [
-      "docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md",
-      "include/llm/rag_helpers.h",
-      "include/rag/rag_candidate.h",
-      "include/rag/rag_provider.h",
-      "include/rag/rag_retrieval_helpers.h"
-    ],
+    "changed_count": 0,
+    "added_preview": [],
     "removed_preview": [],
-    "changed_preview": [
-      ".github/workflows/release-build-matrix.yml",
-      "CHANGELOG.md",
-      "ai_context/api_contracts/llm.md",
-      "docs/code_maturity_report.md",
-      "docs/de/retrieval/README.md",
-      "docs/llm_orchestration/README.md",
-      "docs/plugins/PLUGIN_ABI_POLICY.md",
-      "docs/rag/API.md",
-      "docs/rag/README.md",
-      "docs/retrieval/API.md",
-      "docs/retrieval/README.md",
-      "include/aql/llm_aql_handler.h",
-      "include/ingestion/ingestion_sinks.h",
-      "include/llm/ai_orchestrator.h",
-      "include/llm/llama_wrapper.h",
-      "include/prompt_engineering/rag_prompt_builder.h",
-      "include/query/query_engine.h",
-      "include/rag/knowledge_gap_detector.h",
-      "include/rag/modular_rag_pipeline.h",
-      "include/rag/rag_integration_helpers.h",
-      "src/rag/README.md",
-      "src/rag/ROADMAP.md"
-    ]
+    "changed_preview": []
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "1a854a03defa04b061bb620e304787fc91b3bc19a97f0eb4a8f1faa903ecba26"
+  "manifest_sha256": "b9348f1460e34fc1c906007dfe85d8f583d67f7b14869230823d610f6ac79b69"
 }
