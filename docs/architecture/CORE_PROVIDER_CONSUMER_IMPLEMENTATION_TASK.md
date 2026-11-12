@@ -130,6 +130,7 @@ ContentManager `content_chunk` references now resolve exact source records and
 reject missing, mismatched, or stale chunk sources. Focused test-source changes
 cover source materialization, including a sink-only vector write that retrieves
 persisted source text without a test-only duplicate write; source corruption;
+matching-provenance source records with whitespace-only text;
 deadline expiry after a blocking QueryEngine call with both matching and empty
 results; cancellation after a blocking QueryEngine call with no matches; and
 request-isolated collection authorization. These C++ tests have not been built

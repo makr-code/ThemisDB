@@ -65,7 +65,9 @@ registration, persistent storage, external telemetry, or production readiness.
     beyond the originating file SHA-256 is not available at this boundary.
     A focused test now verifies that a vector written only through the sink
     retrieves its persisted source text and typed identity, without a test-only
-    duplicate source write; it has not been built or executed.
+    duplicate source write, and that matching-provenance whitespace-only source
+    content is rejected without using the copied vector snippet. These tests have
+    not been built or executed.
   - `LLMAQLHandler::executeRAG()` now passes the timeout manager's cancellation
     token and configured retrieval deadline to `RAGProvider`. Both checks are
     cooperative and cannot interrupt a blocking QueryEngine operation; the new

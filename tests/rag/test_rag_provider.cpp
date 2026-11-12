@@ -191,6 +191,16 @@ TEST_F(RAGProviderTest, VectorIngestionRejectsMissingOrMismatchedSourceRecords) 
     ASSERT_TRUE(result) << result.error().context();
     EXPECT_TRUE(result->candidates.empty());
     EXPECT_EQ(result->rejected_documents, 1);
+
+    const auto empty_source = BaseEntity::fromFields(record.chunk_id, {
+        {"source_file_id", record.source_file_id},
+        {"content", std::string{" \t\r\n"}}
+    });
+    ASSERT_TRUE(secondary_->put("ingestion_sources", empty_source).ok);
+    result = provider_->retrieve(request);
+    ASSERT_TRUE(result) << result.error().context();
+    EXPECT_TRUE(result->candidates.empty());
+    EXPECT_EQ(result->rejected_documents, 1);
 }
 
 TEST_F(RAGProviderTest, ContentManagerChunkVectorPreservesTextAndSourceIdentity) {
