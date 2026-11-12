@@ -1,8 +1,8 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-11T15:23:30+00:00",
-  "source_count": 8085,
+  "generated_at": "2026-11-12T15:55:37+00:00",
+  "source_count": 8091,
   "sources": [
     {
       "path": ".github/workflows/benchmark-gate.yml",
@@ -28,9 +28,9 @@
     {
       "path": ".github/workflows/build-benchmarks.yml",
       "category": "build_test_ci",
-      "size": 51924,
-      "sha256": "49b371583baa11bfd9dc8da4e7df890a619427204a19683589bc3d994811e8b1",
-      "modified_utc": "2026-11-02T03:02:48+00:00"
+      "size": 52051,
+      "sha256": "44818920cb9d55795ab75058ce14723e8d487589505bb914e7bb68a35800f00a",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/build-clang-fast.yml",
@@ -42,9 +42,9 @@
     {
       "path": ".github/workflows/build-content-regression.yml",
       "category": "build_test_ci",
-      "size": 10532,
-      "sha256": "7d5b8aeba93e383dbee745e070e409aa65e17d45d7fbece062859b2819e5d09b",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 11022,
+      "sha256": "55fe0fa1379b63c39df669c32af2d5de12aabccbb5d96d9ceecd843c9e09d6ff",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/build-llm-inference.yml",
@@ -77,9 +77,9 @@
     {
       "path": ".github/workflows/build-wave-a-gpu.yml",
       "category": "build_test_ci",
-      "size": 25088,
-      "sha256": "729447d9b4865f07303595169d2530bfd235aa43b9908c8f46f454afa9342787",
-      "modified_utc": "2026-11-02T03:02:48+00:00"
+      "size": 25287,
+      "sha256": "cee20f4d06d381c3481df836d7c9cadc87ba86e9647738c21174d5907a9001a9",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/build-wave-b-llm-benchmarks.yml",
@@ -112,16 +112,16 @@
     {
       "path": ".github/workflows/compliance-governance-gates.yml",
       "category": "build_test_ci",
-      "size": 54167,
-      "sha256": "d975ecaa7f0c10767222aa6d2fc67b2076010d545a80e54410104a48e4dd8dd8",
-      "modified_utc": "2026-11-10T06:03:07+00:00"
+      "size": 54999,
+      "sha256": "8ac5e390dff631d75851aaee8af2ab58ed11ebf3f547da41cb31c4c469fa8139",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/compliance-supply-chain.yml",
       "category": "build_test_ci",
-      "size": 27986,
-      "sha256": "e3960e11ebd153b0e8c57c2cdfd2656fe0e7033e1bbf5127a3d67f653608b849",
-      "modified_utc": "2026-11-11T09:57:19+00:00"
+      "size": 28005,
+      "sha256": "d873e4f96db3e06c5a0f1c4beaab4352d475c4367a36332379d1162fd00d7906",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/copilot-code-review.yml",
@@ -133,9 +133,9 @@
     {
       "path": ".github/workflows/coverage-report-nightly.yml",
       "category": "build_test_ci",
-      "size": 11206,
-      "sha256": "6ff0ecaf03a8a2268c0d1329fd4c28c7281319272019f36ba19ad6d52265684d",
-      "modified_utc": "2026-11-09T17:35:19+00:00"
+      "size": 11226,
+      "sha256": "ee69e063159edf1b64fff3f94e5cc33a806d042df7a4f6bbf045d8c1ce51b1ef",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/crda.yml",
@@ -154,9 +154,9 @@
     {
       "path": ".github/workflows/ga-promotion-signoff.yml",
       "category": "build_test_ci",
-      "size": 11412,
-      "sha256": "5578bfa9a2422da4abf8ce2437371b86dbaf7d5208ad078d283743052e6ccfab",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 11475,
+      "sha256": "b7a1fd48be5e29d8d1c43ec6688bae35094376246adc3f56a7bf7886fb26de48",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/gate-copilot-regression.yml",
@@ -182,9 +182,9 @@
     {
       "path": ".github/workflows/gate-pr-benchmark-ctest.yml",
       "category": "build_test_ci",
-      "size": 12741,
-      "sha256": "2bea96d431b641316b793694bc25be828efcb16cdb274b60a3935b6fe9ae134c",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 13200,
+      "sha256": "0de984e6fb1a53a116e49168ef4d6cf3233a14c176a55f93581b6d74b1049768",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-community-failclosed.yml",
@@ -350,37 +350,37 @@
     {
       "path": ".github/workflows/maintenance-ai-working.yml",
       "category": "build_test_ci",
-      "size": 14924,
-      "sha256": "26be4b7773d0202a5607766e7d88400cbde24c00fc9cf778d6f6bfbbb204585b",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 14923,
+      "sha256": "a1ee840f4b006e9e08e60766003d6fe961dbc33dc48ee276e052ecad638858be",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/maintenance-architecture-ci.yml",
       "category": "build_test_ci",
-      "size": 5989,
-      "sha256": "145c04435220c227fd0c99fd17eeee564137456352c1439dcbf41476938e9129",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 7060,
+      "sha256": "202246b32941a015e96612921dfdbdb41209092d945c1588ac200750cdeea925",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/maintenance-build-issues.yml",
       "category": "build_test_ci",
-      "size": 30180,
-      "sha256": "28cc8bae4f130a25c28f6a82a3c3d24bba7b2ee97615ba9def3192eef79db23e",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 32878,
+      "sha256": "c89ea426e7bc1d3d2592dd7eca32a094a0086394e51181a4a7ff1055fd22dbeb",
+      "modified_utc": "2026-11-12T15:51:35+00:00"
     },
     {
       "path": ".github/workflows/maintenance-ci-health.yml",
       "category": "build_test_ci",
-      "size": 15313,
-      "sha256": "eeaaa0fef5ea8fb67d0db46242b50ed3cae29155ffcbae3e105bd4d73ca90655",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 15757,
+      "sha256": "21b4521f4ff35743c75deec020aaf6c873289433fa085fffdd02dbbfe3f01f27",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/maintenance-compendium-sync.yml",
       "category": "build_test_ci",
-      "size": 12170,
-      "sha256": "c715e87395b0e85021ebfc0e2d1c8e502aced8613b26e9c55efcb47ebcbfed66",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 12169,
+      "sha256": "304d8fff04e2503cf1ddd7238a3339f29c9cea2b5b18a36784379f6ca2617dbc",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/maintenance-docs-db-build.yml",
@@ -399,9 +399,9 @@
     {
       "path": ".github/workflows/maintenance-housekeeping.yml",
       "category": "build_test_ci",
-      "size": 28319,
-      "sha256": "21c263ba1be0aa9af35acb3aba577f949b063443bdd98f3ed84eb23c12d3babb",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 28783,
+      "sha256": "c16b15f57472e274ddbd84085c9dc8119e7d010af1a127c8ffc42bc9b009c606",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/maintenance-issues.yml",
@@ -413,23 +413,23 @@
     {
       "path": ".github/workflows/maintenance-pr-failure-diagnosis.yml",
       "category": "build_test_ci",
-      "size": 8535,
-      "sha256": "79e30b70f70ed0ef1578a6e643daadeb201adf159d327068d12c7020b5ac1513",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 9833,
+      "sha256": "7d6f105aab762de94f32a131178dbc6f2c1ec9dedd9a82023ed08edf57aeaf57",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/maintenance-soll-ist-gap-issues.yml",
       "category": "build_test_ci",
-      "size": 3490,
-      "sha256": "8168a229bd2575e05b616921076dd9b1e7290833439820e31174ba800c61582c",
-      "modified_utc": "2026-11-11T15:21:11+00:00"
+      "size": 3820,
+      "sha256": "2d438ffc797ba0795f5ef55fe274278fbb971a8abb2281effd19ddd531f95fbe",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/maintenance-workflow-guardrails-observe.yml",
       "category": "build_test_ci",
-      "size": 8632,
-      "sha256": "b624de438556a4b0c243e72fd9a5a415bbf362e0949bd1d0727139d1b64141a2",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 9088,
+      "sha256": "4ec194cb73d2130107fd3939afcdb067c1e4c7ecfe6c6c3452a0cc0c29917ac3",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/msvc.yml",
@@ -441,30 +441,30 @@
     {
       "path": ".github/workflows/nightly-governance-audit.yml",
       "category": "build_test_ci",
-      "size": 5612,
-      "sha256": "ba578246c0558de17f21039e043a8eca639ecde0545f6545aaa033825c4cf3d7",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 5632,
+      "sha256": "b090ce842f11bc237ed9c4b19b04617d89c6cf31e770c93bb9c54b3a631fda44",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/publish-wiki.yml",
       "category": "build_test_ci",
-      "size": 24021,
-      "sha256": "cfbf27bb80fc0f6d3728df912cc66806e1705c86783f92936d0663ed376373c0",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 24209,
+      "sha256": "1a0aa680cc4a2620d5a6aa2f4abe66e3d64fbc21e99faff02e0caaac1118b8e0",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/release-build-matrix.yml",
       "category": "build_test_ci",
-      "size": 39030,
-      "sha256": "b7c16117043aed1ca7e90e2ac1b29d898bdec3d0c9f8470162304ccc3aa3ba6d",
-      "modified_utc": "2026-11-11T09:57:19+00:00"
+      "size": 39105,
+      "sha256": "48ce185c7fb057b8644e09820e01fb9f972d4887dcb6e77d2689ca8c53d9cd56",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/release-changelog.yml",
       "category": "build_test_ci",
-      "size": 12233,
-      "sha256": "d97f477879f14fd33a5553f6784975cec0c13a3023998730f6f09fe3b9521c19",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 12979,
+      "sha256": "dfec5228b322e60166c5cf3b2ba0f9b842df2518c0585efa4f17365e17e00518",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/release-docker-approval.yml",
@@ -476,30 +476,30 @@
     {
       "path": ".github/workflows/release-docker-image.yml",
       "category": "build_test_ci",
-      "size": 37608,
-      "sha256": "c56f976d65b951c9c3d8274f41a4a22b89f0e1f99310797ef1715befc8949e97",
-      "modified_utc": "2026-11-09T15:42:07+00:00"
+      "size": 37606,
+      "sha256": "68ad3b872ce6af1f9b38ded053c30d08201d53591a6278055f2af644089c8424",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/release-evidence-chain.yml",
       "category": "build_test_ci",
-      "size": 15920,
-      "sha256": "9c9004226a95deb3ee8dc8da0a6bc37301f75b923ed5af9a421cf14a95aaf0cf",
-      "modified_utc": "2026-11-09T09:51:18+00:00"
+      "size": 16618,
+      "sha256": "b4d356065a31158564c415a5dc7cc0035b5f6cd02a3a87503529f6bc22524b6e",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/release-linux-distribution.yml",
       "category": "build_test_ci",
-      "size": 26250,
-      "sha256": "b57790a94b20eeeb783c31e5b4657de643837243109757bcb8403a37dc0478ba",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 28487,
+      "sha256": "a0e14b32a6e8b3508d97bbe5854a9ed9bcfe00ba05c95f8cd0db055d1304a8af",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/release-linux-distro-approval.yml",
       "category": "build_test_ci",
-      "size": 2555,
-      "sha256": "0d32919331508507e5f7f84c030de2329f66526234c2ce0d1f1357564920b527",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 2571,
+      "sha256": "53cda23976264669e10a759f7e9f3d0a769232ab98cac5d9431f12e03b67dbcb",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/release-mainline-approval.yml",
@@ -511,65 +511,65 @@
     {
       "path": ".github/workflows/release-mainline.yml",
       "category": "build_test_ci",
-      "size": 39683,
-      "sha256": "08cd8d8e015259b9250dc68e04846628ef3c06804bb367c7cb4670aaec71d2b9",
-      "modified_utc": "2026-11-09T03:02:55+00:00"
+      "size": 39682,
+      "sha256": "00e1e7d73fa4883bd56a417db554b722c516daeb4c9aff0733ee1f3428622d57",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/release-nightly.yml",
       "category": "build_test_ci",
-      "size": 23539,
-      "sha256": "d23dc4fe237604446c5be0741508ed825fbab852f18b4c0859f5d9b24d2b9153",
-      "modified_utc": "2026-11-09T03:02:55+00:00"
+      "size": 26780,
+      "sha256": "0589e6a3191bf0d3720412d32b0d9f3c53fd53f9335fcd85d6ac21d99eb0bce3",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/release-promote.yml",
       "category": "build_test_ci",
-      "size": 14942,
-      "sha256": "a92910e7ccc60f258fd3a7aeda737db60b1a64bf6ae5adfe937cb0fbcd32d97e",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 17271,
+      "sha256": "73f6461397803be4fd991dc62e9d72e6706e9979d103f6b701ffed68ee3ef2ae",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/release-rollback.yml",
       "category": "build_test_ci",
-      "size": 11021,
-      "sha256": "9d4c1cac6420e19c066bd92f099514c8ffafb3d8c6c57caed7ec89f60fb645be",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 15484,
+      "sha256": "fa6423b3a69ad992ac99d2cceeb895f3c317b56f03e48d0bd671ca784388ba7b",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/release-windows-distribution.yml",
       "category": "build_test_ci",
-      "size": 22571,
-      "sha256": "1e353b6b8f27837049198dfe11132f65796d6faa692f345c054a769c8ccd72e0",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 24567,
+      "sha256": "006a726c2df6368c108c99f45c6c20f3cfe7bcf2e50ffe1fe004321a9ae1da62",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/release-windows-distro-approval.yml",
       "category": "build_test_ci",
-      "size": 2621,
-      "sha256": "956b7f63c204967077b0d01a9d4b0b65f929c462eb50a841be8332d6b6d9417d",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 2637,
+      "sha256": "66941507e22929b5a272ed0b138897ecd993fed0b69ec0669ea60529ebcc7e32",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/release-winget-approval.yml",
       "category": "build_test_ci",
-      "size": 2497,
-      "sha256": "bb4f1e6838c842b8bd6e531cc2a9b4f130a3a95d4da708c3fc26c31469e28f9f",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 2513,
+      "sha256": "e130a8dbc1b1bc40b97616caa33eb35677ccfabf121f536d13d7ca245c55bd95",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/release-winget.yml",
       "category": "build_test_ci",
-      "size": 19643,
-      "sha256": "c8b9869e1c8c0342b2b8f10a00147602469585640b8a0bb17e150a2f58fc9980",
-      "modified_utc": "2026-11-02T03:02:48+00:00"
+      "size": 22108,
+      "sha256": "759ff11fe3c8efd0ddfe071f2448c38f2a84081e364a56f49ceee9767a9e5a00",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/release-wordpress-press.yml",
       "category": "build_test_ci",
-      "size": 32990,
-      "sha256": "641b3d6490580dcaa01de9207f8f706d8055fb1fdc9e6151496362917c9f9e0d",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 33294,
+      "sha256": "635250719536f03b5ad553730151ce7883f1aeb26f6dd30f8162a1d985a3ed81",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/reusable-benchmark-build-run-report.yml",
@@ -588,16 +588,16 @@
     {
       "path": ".github/workflows/reusable-cmake-build.yml",
       "category": "build_test_ci",
-      "size": 45256,
-      "sha256": "08e67169f0a6d85b96fb4c884a9b25e6411a2dfbfe9e2213fd02af8d508a2c22",
-      "modified_utc": "2026-11-11T09:57:19+00:00"
+      "size": 47822,
+      "sha256": "08ede32893ef4f0239bb149255d84246e50db0fdb785101b6705a547ab0a0f42",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/reusable-docker-image-platform.yml",
       "category": "build_test_ci",
-      "size": 23471,
-      "sha256": "d17addd31d505986eec2903bab6fc89341139b0b37047522a14a9211328b0e20",
-      "modified_utc": "2026-11-09T15:42:07+00:00"
+      "size": 23470,
+      "sha256": "339a261a79d4bd40c90555e0f063c3fc28b6a8ad2bf866117591420b4ef08cc6",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/reusable-docs-db-builder.yml",
@@ -623,16 +623,16 @@
     {
       "path": ".github/workflows/reusable-rag-phase-gate.yml",
       "category": "build_test_ci",
-      "size": 9668,
-      "sha256": "8dd421890ca0537ecb262d8f8ca97a2463109d3b65ddfc4b135224fd8e460eea",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 10344,
+      "sha256": "9ee6b521fd85ab3f9d3889e5f45febf388084eaf37af7d918f3d1d6bcb2429dc",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/reusable-release-approval-comment-gate.yml",
       "category": "build_test_ci",
-      "size": 12783,
-      "sha256": "20c81d85d073cf3084e5bcf9960455f63ebb49bcd78e7d150ce11976062f7237",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 13968,
+      "sha256": "94a54238835ea80a73e433b1a392871192f27b80b571261b7636464a64abc513",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/reusable-status-flags-and-issues.yml",
@@ -651,16 +651,16 @@
     {
       "path": ".github/workflows/security-consolidated.yml",
       "category": "build_test_ci",
-      "size": 8698,
-      "sha256": "06d9d0ecc60462cbc746d7b1b18cef71087a425cdfd2798a5a2efadadd7edf24",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 9155,
+      "sha256": "f648064b2fd684e230a77837488744bd34590fdc2fbad8913b19cad2cfc7c4c8",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/security-dast-zap.yml",
       "category": "build_test_ci",
-      "size": 25151,
-      "sha256": "a6dec89066868ea989244a8dcdeaefb6594efcebc40fb9281e5324907f34591b",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 25613,
+      "sha256": "15fe140bd2517018079c295c8b1fe23670c03f2f087abc1440c2116074440ccf",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/security-fortify.yml",
@@ -679,9 +679,9 @@
     {
       "path": ".github/workflows/security-pentest-quarterly.yml",
       "category": "build_test_ci",
-      "size": 15731,
-      "sha256": "1553c8d1128d473b893eeee8394ea745032df2fa327c64e33f7187c03685dd35",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 15792,
+      "sha256": "570eeae4f6fb87dd0abbe829754cbf5209bc616dc2679823a5ef1fde49cc904b",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/test-helm-chart.yml",
@@ -707,9 +707,9 @@
     {
       "path": ".github/workflows/wiki-pr-gate.yml",
       "category": "build_test_ci",
-      "size": 10032,
-      "sha256": "e2fc62303295481b50e8baf916146b4f63afa322e5cb9b469f525119047ba093",
-      "modified_utc": "2026-11-09T09:51:18+00:00"
+      "size": 10362,
+      "sha256": "57de17a5beec786f7a6a257d881e750fef7323baeba3911176fec0bbd1e2b9b6",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": ".github/workflows/wiki-publish-from-issue.yml",
@@ -735,9 +735,9 @@
     {
       "path": "CHANGELOG.md",
       "category": "governance_and_docs",
-      "size": 109066,
-      "sha256": "04c343dda2da57f127765c942867b5841cfd3ce2ada167d363a1c7ebadb8d0af",
-      "modified_utc": "2026-11-09T03:02:55+00:00"
+      "size": 110172,
+      "sha256": "b98c4d5ebbe3f28192f559ff6eb56299e33ff6c9572d4629550998d1c4b33abd",
+      "modified_utc": "2026-11-12T15:49:35+00:00"
     },
     {
       "path": "DOCUMENTATION_GOVERNANCE.md",
@@ -980,9 +980,9 @@
     {
       "path": "ai_context/api_contracts/llm.md",
       "category": "governance_and_docs",
-      "size": 5831,
-      "sha256": "7069adc9801c04f04ac5b08093064314acce17f92ca9bc69f71e8da96c21ec70",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 6343,
+      "sha256": "d8a7141ab2a55ef1f562e38c0214d50952c5f559a76a1c9ab12ae482417ffdec",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "ai_context/api_contracts/storage.md",
@@ -20888,9 +20888,9 @@
     {
       "path": "docs/code_maturity_report.md",
       "category": "governance_and_docs",
-      "size": 2312128,
-      "sha256": "d4edc86c9e856c6438c4d508af7646fd7d4a8a614e1772c1b213428dea5be86d",
-      "modified_utc": "2026-11-11T09:57:26+00:00"
+      "size": 2313732,
+      "sha256": "dd3740de8dcce9a4720fcc26fd6d1d24118829c44db3614377f312dd3994bb2f",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "docs/community/Supporters.md",
@@ -28210,9 +28210,9 @@
     {
       "path": "docs/de/retrieval/README.md",
       "category": "governance_and_docs",
-      "size": 1209,
-      "sha256": "b474447c62dc693a20d26eda34a4786ebe141749e84bb1ebb7820514a83c33f6",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 1270,
+      "sha256": "deb7a6b80289106795954c872af73aa90387bca3da5f02bbac4de8786911d1a2",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "docs/de/roadmap/README.md",
@@ -35511,9 +35511,9 @@
     {
       "path": "docs/llm_orchestration/README.md",
       "category": "governance_and_docs",
-      "size": 19194,
-      "sha256": "e95c95e67fa7dfe9174d5adacd03386417d3d7cb0207b43eafb8ec3019d488c9",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 19869,
+      "sha256": "5bf936916f5a6588ba8fce6b76a2355e3af8f08ad28b6248e090a7c62080c794",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "docs/llm_orchestration/SERVER_LLM_INITIALIZATION.md",
@@ -36232,9 +36232,9 @@
     {
       "path": "docs/operations/MATURITY_AUTOMATION_RUNBOOK.md",
       "category": "governance_and_docs",
-      "size": 10381,
-      "sha256": "b8d12521f447ee77bb3b9f6744bf9585f5d26bf4e43f5ba61ad4258ac6a90941",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 11371,
+      "sha256": "2f998251264b55d95b4e4eea701d1cf81441970ead4ae81ff50c46f6a96e4db2",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "docs/operations/OPERATIONS_HANDBOOK.md",
@@ -36771,9 +36771,9 @@
     {
       "path": "docs/plugins/PLUGIN_ABI_POLICY.md",
       "category": "governance_and_docs",
-      "size": 6287,
-      "sha256": "f26c7f66096f1fcc5e10f74edd5090fa932fbeda1aaf1ef26f50619b233e34fe",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 6951,
+      "sha256": "1c5e835a446f3c778332daee10ee54356a0424c6d86dda8823849d7e0d60a2bd",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "docs/plugins/PLUGIN_MANIFEST_GOVERNANCE.md",
@@ -37044,16 +37044,16 @@
     {
       "path": "docs/rag/API.md",
       "category": "governance_and_docs",
-      "size": 64,
-      "sha256": "ff9377d64951c7697c7e0f2e4cccfcb930dd0c61efd29aff7a5a2db61febd09e",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 6552,
+      "sha256": "8863b2406cfb3b6022f7e1b5591c53927505b8e63b1b7d4fb217d56c4ca9f2ab",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "docs/rag/README.md",
       "category": "governance_and_docs",
-      "size": 67,
-      "sha256": "ee63fd1276cdb8f9809ea1e059dec3dca66cfb8f817be4f3b3d8c34962dd203c",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 4097,
+      "sha256": "569770ef2c78ef41281d56a8519bfadbca607d258d43dd45e08f520138471a5c",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "docs/rag/ROADMAP.md",
@@ -37716,16 +37716,16 @@
     {
       "path": "docs/retrieval/API.md",
       "category": "governance_and_docs",
-      "size": 76,
-      "sha256": "cb1f61211d61baca3416fcb2e793e2383ef76adaf1292b21ace1ac6f9e47b63e",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 275,
+      "sha256": "166b80d2f8d04c97b65f047be708d1a21ee0bb88efbe64be9caba7db03444db2",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "docs/retrieval/README.md",
       "category": "governance_and_docs",
-      "size": 79,
-      "sha256": "3742d274b5cddd0e4d6ad63671c275d214b877fab0a8943364916bcfbd043513",
-      "modified_utc": "2026-11-01T06:39:19+00:00"
+      "size": 341,
+      "sha256": "ccbc67f5cb09787f0850f37b4b6e37474320f7163313f9b7bf784c0db9edddc0",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "docs/retrieval/ROADMAP.md",
@@ -40124,9 +40124,9 @@
     {
       "path": "include/aql/llm_aql_handler.h",
       "category": "modules_and_api",
-      "size": 18993,
-      "sha256": "1b15c0f1ab23a0dbd15a788db616264b013e5e9f73fe69377fecbd8aa3c5b4f2",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "size": 19441,
+      "sha256": "1174151f87e9f8392a765db20602f83e6a7f877147f7ff48bc823057d445b005",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "include/aql/llm_error_codes.h",
@@ -43869,9 +43869,9 @@
     {
       "path": "include/llm/ai_orchestrator.h",
       "category": "modules_and_api",
-      "size": 21668,
-      "sha256": "16a1d85eed942b79fe211a0fdd0070dcc920a60aa281d90049ffa885c958640a",
-      "modified_utc": "2026-11-11T09:57:26+00:00"
+      "size": 22404,
+      "sha256": "084fab72ea5bafd34336d07f95ce787bd501f1e1bd61c51c6826df5782684bef",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "include/llm/applications/themis_help_lora.h",
@@ -44282,9 +44282,9 @@
     {
       "path": "include/llm/llama_wrapper.h",
       "category": "modules_and_api",
-      "size": 28888,
-      "sha256": "7af085ae2d8be48422f865e2d950eba5900296aa03b5a9c01dbf1c01d173ff95",
-      "modified_utc": "2026-11-11T09:57:26+00:00"
+      "size": 28589,
+      "sha256": "631118c0688d035adb30afb00e3dc1c8b6a7f2b6a3e58609c695235b1e26072c",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "include/llm/llamacpp_inference_engine.h",
@@ -45188,6 +45188,13 @@
       "size": 5242,
       "sha256": "25c96534c4ede0fadd0fed261d05dc1c6cbf12b7495e385aa7decd5ad690435a",
       "modified_utc": "2026-11-01T06:39:20+00:00"
+    },
+    {
+      "path": "include/llm/rag_helpers.h",
+      "category": "modules_and_api",
+      "size": 2141,
+      "sha256": "9107db2f43291a32762d965677a2295dd03f8343b2aa5855f9a63f8085ebba04",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "include/llm/raii_wrappers.h",
@@ -47145,9 +47152,9 @@
     {
       "path": "include/prompt_engineering/rag_prompt_builder.h",
       "category": "modules_and_api",
-      "size": 6106,
-      "sha256": "cbbe067faed3e00911fa08d4fc7215c800d682b2a97be7f6f8e4e561531526ee",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 6086,
+      "sha256": "c985cee47e50304bfdcdc44ceab0152ff6eeec79422fee6673cbc8c58ce77b05",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "include/prompt_engineering/reflection_tuner.h",
@@ -48258,9 +48265,9 @@
     {
       "path": "include/rag/knowledge_gap_detector.h",
       "category": "modules_and_api",
-      "size": 19646,
-      "sha256": "7f902126cc0f75269487517d68f519e7143b4917d5e72be2c27c85bc67430b1f",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 19990,
+      "sha256": "3c47534832146785cfd2f0c20404075569ef5fa6c8cf91cdbdb84f45e0bc91a9",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "include/rag/knowledge_graph_retriever.h",
@@ -48349,9 +48356,9 @@
     {
       "path": "include/rag/modular_rag_pipeline.h",
       "category": "modules_and_api",
-      "size": 16341,
-      "sha256": "0c25902eec1c8f7537878dd4570a3c57f3ec4c59a352688e6274c5497caa5075",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 15771,
+      "sha256": "2d711ba9d97aa6605bbb40719d167ca15256752f3fe89d02aedb55df0caa6bad",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "include/rag/multi_hop_reasoner.h",
@@ -48473,6 +48480,13 @@
       "modified_utc": "2026-11-01T06:39:20+00:00"
     },
     {
+      "path": "include/rag/rag_candidate.h",
+      "category": "modules_and_api",
+      "size": 531,
+      "sha256": "919e486ce13680ea41754125f5df782157bced5745754e0c446717a397299e74",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
+    },
+    {
       "path": "include/rag/rag_context_assembler.h",
       "category": "modules_and_api",
       "size": 9499,
@@ -48489,9 +48503,9 @@
     {
       "path": "include/rag/rag_integration_helpers.h",
       "category": "modules_and_api",
-      "size": 8639,
-      "sha256": "7b7570924ab6ed1fcb03dad7b318333374dca1c31ef72a052523bdb1d6ea6b9f",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 9365,
+      "sha256": "cc8d0119bd5f63e762727ee718e32f7cabcc629f18245a74a412476b59b737c7",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "include/rag/rag_judge.h",
@@ -48501,11 +48515,25 @@
       "modified_utc": "2026-11-01T06:39:20+00:00"
     },
     {
+      "path": "include/rag/rag_provider.h",
+      "category": "modules_and_api",
+      "size": 3381,
+      "sha256": "88ee69a68175c8ebf46acc5a7c992ec60ad4e63dc21f1cc707ab8003065ee213",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
+    },
+    {
       "path": "include/rag/rag_quality_monitor.h",
       "category": "modules_and_api",
       "size": 4862,
       "sha256": "506ebaf34d6cb9c025920a04a1df56597bea3809a86cf6a9e27470f8782530e4",
       "modified_utc": "2026-11-01T06:39:20+00:00"
+    },
+    {
+      "path": "include/rag/rag_retrieval_helpers.h",
+      "category": "modules_and_api",
+      "size": 2042,
+      "sha256": "344e62c97bcef46dffb820f0133e1cb6787e4c569bc7c52201b509f897289d0b",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "include/rag/realtime_slo_tracker.h",
@@ -52899,9 +52927,9 @@
     {
       "path": "include/training/adalora_training_pipeline.h",
       "category": "modules_and_api",
-      "size": 2572,
-      "sha256": "dbfc0cedb72b591235c997ffc084e8e82a4c68718ddd0b76ab049d766940226b",
-      "modified_utc": "2026-11-11T09:57:26+00:00"
+      "size": 4888,
+      "sha256": "d67012c840009494372da66b038abb7a6ca3d464f8db484b3c62686f35d52350",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "include/training/adalora_tt_bridge.h",
@@ -52930,6 +52958,13 @@
       "size": 6328,
       "sha256": "0335cba7db6ca026dbe0688be59cff81decce71b1e8763c31881264212fe5e65",
       "modified_utc": "2026-11-01T06:39:20+00:00"
+    },
+    {
+      "path": "include/training/docs_db_training_sample_provider.h",
+      "category": "modules_and_api",
+      "size": 2765,
+      "sha256": "281e4f1980d1286c1dfd09e79ab21d1e6cb89173986da67b88450ce4bebdf266",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "include/training/incremental_lora_trainer.h",
@@ -53042,6 +53077,13 @@
       "size": 18293,
       "sha256": "278b3810d8ed35493c73eb6a802f4867c86c1e10bbfe13b3b1ea715f8f7fe7a8",
       "modified_utc": "2026-11-01T06:39:20+00:00"
+    },
+    {
+      "path": "include/training/training_sample_provider.h",
+      "category": "modules_and_api",
+      "size": 2448,
+      "sha256": "1948aee7d61067ee6bdafe4a35ea8cf65edacfaa83cbe61d8640113c1edf4403",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "include/transaction/branch_manager.h",
@@ -54572,9 +54614,9 @@
     {
       "path": "scripts/generate_docs_rocksdb.py",
       "category": "build_test_ci",
-      "size": 11036,
-      "sha256": "944959694f52b7b1c97c93123e0c04d9c9103e384aaf24a58eb482d6dec341dc",
-      "modified_utc": "2026-11-01T06:39:20+00:00"
+      "size": 11749,
+      "sha256": "ff6742d79dfb7a8a7823a890c2f47ba7d7d2cf56921f9ee5d9693eb14b73f0ed",
+      "modified_utc": "2026-11-12T15:49:36+00:00"
     },
     {
       "path": "scripts/generate_docs_rocksdb_backup.py",
@@ -56049,9 +56091,9 @@
     {
       "path": "src/rag/README.md",
       "category": "modules_and_api",
-      "size": 7295,
-      "sha256": "8a3dc6c51bad800f3961c3e63ec7da75d83758379183e518991d9aae68f5ab76",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 7604,
+      "sha256": "7e8dd18d3af7c59e308eb47299c309b0879bb12b2f47892e5cfa08402276544d",
+      "modified_utc": "2026-11-12T15:49:37+00:00"
     },
     {
       "path": "src/rag/ROADMAP.md",
@@ -56427,23 +56469,23 @@
     {
       "path": "src/training/FUTURE_ENHANCEMENTS.md",
       "category": "modules_and_api",
-      "size": 8658,
-      "sha256": "d7f7a09422d0f4ba405a55e58cd1f460b692d55354af3de0370c2556257368c9",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 9733,
+      "sha256": "37fb1ac5e1b4ba37c95b1f296a98ed578b2434680d9947b2d40eec449fcd254f",
+      "modified_utc": "2026-11-12T15:49:37+00:00"
     },
     {
       "path": "src/training/README.md",
       "category": "modules_and_api",
-      "size": 4002,
-      "sha256": "29e8d71069a5d12f7d6bbe10d29ea911b67510cfb1dcb7d9217b5798a2ef4d5d",
-      "modified_utc": "2026-11-01T08:29:05+00:00"
+      "size": 5165,
+      "sha256": "681de93d2d9d552b567124e857ad8abd90e559fc7dd5481932d2738692516bb4",
+      "modified_utc": "2026-11-12T15:49:37+00:00"
     },
     {
       "path": "src/training/ROADMAP.md",
       "category": "modules_and_api",
-      "size": 29638,
-      "sha256": "59a9d8ac573e034a7ba66713206dd81a877f69b9568091528b25c8f8f7031a03",
-      "modified_utc": "2026-11-09T03:03:02+00:00"
+      "size": 30323,
+      "sha256": "6dfa6af6eafa8b2c35fee24c47e3e13e1461dc951f6ae9a20072c88cbd9e8e07",
+      "modified_utc": "2026-11-12T15:49:37+00:00"
     },
     {
       "path": "src/training/examples/README.md",

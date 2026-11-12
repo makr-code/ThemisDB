@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-11-11
+Datum: 2026-11-12
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
@@ -23,7 +23,7 @@ Status: Active
 
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
-- Hash: `04c343dda2da57f1`
+- Hash: `b98c4d5ebbe3f281`
 - Titel: Changelog
 - Auszug:
   - All notable changes to ThemisDB will be documented in this file.
@@ -338,7 +338,7 @@ Status: Active
 
 ## ai_context/api_contracts/llm.md
 - Kategorie: governance_and_docs
-- Hash: `7069adc9801c04f0`
+- Hash: `d8a7141ab2a55ef1`
 - Titel: LLM Module Contract
 - Auszug:
   - Datum: 2026-10-29
