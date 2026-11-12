@@ -145,6 +145,17 @@ jobs:
           dependency_concurrency = os.environ.get("WINDOWS_DEPENDENCY_CONCURRENCY", "4")
           if dependency_concurrency not in {"1", "2", "3", "4"}:
               raise ValueError("Windows dependency concurrency must be between 1 and 4")
+          allowed_build_matrices = {
+              "os", "all", "community-only",
+              "linux-amd64-only", "linux-arm64-only", "windows-amd64-only", "macos-arm64-only",
+              "minimal-only", "enterprise-only", "hyperscaler-only", "military-only",
+          }
+          if build_matrix not in allowed_build_matrices:
+              raise ValueError(f"Unsupported build matrix selector: {build_matrix}")
+          if os_selector not in {"all", "linux", "windows", "macos"}:
+              raise ValueError(f"Unsupported OS selector: {os_selector}")
+          if arch_selector not in {"all", "amd64", "arm64"}:
+              raise ValueError(f"Unsupported architecture selector: {arch_selector}")
           allowed_editions = {"minimal", "community", "enterprise", "hyperscaler", "military"}
           allowed_build_types = {"Release", "Debug"}
           packaging_token_normalization = {

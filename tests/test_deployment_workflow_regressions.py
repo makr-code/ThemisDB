@@ -262,6 +262,32 @@ class DeploymentWorkflowTests(unittest.TestCase):
             "${{ matrix.build_continue_on_error || false }}",
         )
 
+    def test_invalid_release_matrix_selectors_fail_before_lane_planning(self):
+        script = step("release-build-matrix.yml", "prepare-release-matrix", "plan")["run"]
+        common_environment = {
+            "BUILD_MATRIX": "all",
+            "OS_SELECTOR": "all",
+            "ARCH_SELECTOR": "all",
+            "EDITION": "community",
+            "BUILD_TYPE": "Release",
+            "PACKAGING": "auto",
+            "DISTRIBUTION": "all",
+            "RUN_NUMBER": "123",
+        }
+        cases = [
+            ("BUILD_MATRIX", "unknown-only", "Unsupported build matrix selector"),
+            ("OS_SELECTOR", "plan9", "Unsupported OS selector"),
+            ("ARCH_SELECTOR", "riscv64", "Unsupported architecture selector"),
+        ]
+
+        for key, invalid_value, expected_error in cases:
+            with self.subTest(selector=key), tempfile.TemporaryDirectory() as temp:
+                environment = {**common_environment, key: invalid_value}
+                result, values = run_bash(script, Path(temp), **environment)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn(expected_error, result.stderr)
+                self.assertNotIn("matrix=", values)
+
     def test_reusable_build_preserves_diagnostics_but_not_packages_after_failure(self):
         steps = workflow("reusable-cmake-build.yml")["jobs"]["build"]["steps"]
         diagnostics = next(item for item in steps if item["name"] == "Upload artifacts")
