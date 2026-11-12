@@ -28,6 +28,7 @@ namespace themis {
 class RocksDBWrapper;
 class GraphIndexManager;
 class VectorIndexManager;
+class SecondaryIndexManager;
 
 namespace ingestion {
 
@@ -373,16 +374,20 @@ private:
 class VectorIndexSinkAdapter : public IVectorWriter {
 public:
     /**
-     * @brief Create a persistent vector sink for one exact vector-index namespace.
+     * @brief Create a persistent vector sink with authoritative source materialization.
      * @param vector_index RocksDB-backed index; must be non-null.
+     * @param source_index Secondary index manager sharing the retrieval storage;
+     *        must be non-null and is used to persist source text records.
      * @param object_name Namespace that must match an already initialized index,
      *        or is used to initialize an empty index.
      * @param dimension Positive embedding dimension.
      * @param vector_field Indexed entity field containing the embedding.
-     * @throws std::invalid_argument for a null index, empty namespace, or zero dimension.
-     * @note Writes persist exact source-reference fields with the vector entity.
+     * @throws std::invalid_argument for null indexes, an empty namespace, or zero dimension.
+     * @note Writes the source row before the vector entity. A vector write failure can
+     *       leave an unreferenced source row, but retrieval never returns it without a vector.
      */
     VectorIndexSinkAdapter(std::shared_ptr<themis::VectorIndexManager> vector_index,
+                           std::shared_ptr<themis::SecondaryIndexManager> source_index,
                            std::string object_name,
                            std::size_t dimension,
                            std::string vector_field = "embedding");
@@ -395,6 +400,7 @@ private:
     Result<void> ensureInitialized() const;
 
     std::shared_ptr<themis::VectorIndexManager> vector_index_;
+    std::shared_ptr<themis::SecondaryIndexManager> source_index_;
     std::string object_name_;
     std::size_t dimension_;
     std::string vector_field_;

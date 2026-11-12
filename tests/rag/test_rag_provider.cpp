@@ -97,13 +97,20 @@ TEST_F(RAGProviderTest, VectorIndexMaterializesCanonicalBinaryStorage) {
 TEST_F(RAGProviderTest, VectorIngestionSinkMaterializesPersistedSourceText) {
     ingestion::VectorIndexSinkAdapter sink(
         vector_,
+        secondary_,
         "docs", 2);
     ingestion::VectorRecord record;
-    record.chunk_id = "chunk:source-1:0";
+    record.chunk_id = "source-1:0";
     record.source_file_id = "source-1";
-    record.text_snippet = "authoritative vector source text";
+    record.text_snippet = "copied vector snippet";
     record.embedding = {1.0f, 0.0f};
     ASSERT_TRUE(sink.writeVectors({record}));
+
+    const auto source = BaseEntity::fromFields(record.chunk_id, {
+        {"source_file_id", record.source_file_id},
+        {"content", std::string{"authoritative persisted source text"}}
+    });
+    ASSERT_TRUE(secondary_->put("ingestion_sources", source).ok);
 
     query::VectorGeoQuery query;
     query.table = "docs";
@@ -114,12 +121,43 @@ TEST_F(RAGProviderTest, VectorIngestionSinkMaterializesPersistedSourceText) {
 
     ASSERT_TRUE(result) << result.error().context();
     ASSERT_EQ(result->candidates.size(), 1);
-    EXPECT_EQ(result->candidates.front().content, "authoritative vector source text");
+    EXPECT_EQ(result->candidates.front().content, "authoritative persisted source text");
     ASSERT_TRUE(result->candidates.front().source_reference.has_value());
-    EXPECT_EQ(result->candidates.front().source_reference->type, "ingestion_vector");
-    EXPECT_EQ(result->candidates.front().source_reference->collection, "docs");
+    EXPECT_EQ(result->candidates.front().source_reference->type, "ingestion_chunk");
+    EXPECT_EQ(result->candidates.front().source_reference->collection, "ingestion_sources");
     EXPECT_EQ(result->candidates.front().source_reference->key, record.chunk_id);
     EXPECT_EQ(result->candidates.front().source_reference->provenance, record.source_file_id);
+}
+
+TEST_F(RAGProviderTest, VectorIngestionRejectsMissingOrMismatchedSourceRecords) {
+    ingestion::VectorIndexSinkAdapter sink(vector_, secondary_, "docs", 2);
+    ingestion::VectorRecord record;
+    record.chunk_id = "source-2:0";
+    record.source_file_id = "source-2";
+    record.text_snippet = "copied vector snippet";
+    record.embedding = {1.0f, 0.0f};
+    ASSERT_TRUE(sink.writeVectors({record}));
+
+    ASSERT_TRUE(secondary_->erase("ingestion_sources", record.chunk_id).ok);
+    query::VectorGeoQuery query;
+    query.table = "docs";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+    auto result = provider_->retrieve(request);
+    ASSERT_TRUE(result) << result.error().context();
+    EXPECT_TRUE(result->candidates.empty());
+    EXPECT_EQ(result->rejected_documents, 1);
+
+    const auto mismatched_source = BaseEntity::fromFields(record.chunk_id, {
+        {"source_file_id", std::string{"different-source"}},
+        {"content", std::string{"unrelated text"}}
+    });
+    ASSERT_TRUE(secondary_->put("ingestion_sources", mismatched_source).ok);
+    result = provider_->retrieve(request);
+    ASSERT_TRUE(result) << result.error().context();
+    EXPECT_TRUE(result->candidates.empty());
+    EXPECT_EQ(result->rejected_documents, 1);
 }
 
 TEST_F(RAGProviderTest, ContentManagerChunkVectorPreservesTextAndSourceIdentity) {

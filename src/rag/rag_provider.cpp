@@ -70,7 +70,34 @@ Result<RetrievalResult> RAGProvider::retrieve(
         const auto* candidate_entity = &entity;
         const auto source_type = entity.find("source_ref_type");
         if (source_type != entity.end() && source_type->is_string() &&
-            source_type->get_ref<const std::string&>() == "content_chunk") {
+            source_type->get_ref<const std::string&>() == "ingestion_chunk") {
+            const auto source_collection = entity.find("source_ref_collection");
+            const auto source_key = entity.find("source_ref_key");
+            const auto source_provenance = entity.find("source_ref_provenance");
+            if (source_collection == entity.end() || !source_collection->is_string() ||
+                source_collection->get_ref<const std::string&>() != "ingestion_sources" ||
+                source_key == entity.end() || !source_key->is_string() ||
+                source_key->get_ref<const std::string&>().empty() ||
+                source_provenance == entity.end() || !source_provenance->is_string() ||
+                source_provenance->get_ref<const std::string&>().empty()) {
+                ++result.rejected_documents;
+                return OkVoid();
+            }
+            auto source_text = engine_.readIngestionSourceText(
+                source_key->get_ref<const std::string&>(),
+                source_provenance->get_ref<const std::string&>());
+            if (!source_text) {
+                return tl::unexpected(source_text.error());
+            }
+            if (!*source_text) {
+                ++result.rejected_documents;
+                return OkVoid();
+            }
+            materialized_entity = entity;
+            materialized_entity["content"] = std::move(**source_text);
+            candidate_entity = &materialized_entity;
+        } else if (source_type != entity.end() && source_type->is_string() &&
+                   source_type->get_ref<const std::string&>() == "content_chunk") {
             const auto source_collection = entity.find("source_ref_collection");
             const auto source_key = entity.find("source_ref_key");
             const auto source_version = entity.find("source_ref_version");

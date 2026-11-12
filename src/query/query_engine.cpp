@@ -4648,6 +4648,42 @@ Result<std::optional<std::pair<std::string, std::int64_t>>> QueryEngine::readCon
 	}
 }
 
+Result<std::optional<std::string>> QueryEngine::readIngestionSourceText(
+    std::string_view exact_source_key, std::string_view expected_source_file_id) const {
+	if (!db_) {
+		return Err<std::optional<std::string>>(
+			errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+			"Ingestion source lookup requires the concrete RocksDB backend");
+	}
+	if (exact_source_key.empty() || expected_source_file_id.empty()) {
+		return Err<std::optional<std::string>>(
+			errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+			"Invalid exact ingestion source reference");
+	}
+
+	const auto storage_key = KeySchema::makeRelationalKey("ingestion_sources", exact_source_key);
+	const auto stored = db_->get(storage_key);
+	if (!stored) {
+		return Ok(std::optional<std::string>{});
+	}
+
+	try {
+		const auto source = BaseEntity::deserialize(std::string(exact_source_key), *stored);
+		const auto source_file_id = source.getFieldAsString("source_file_id");
+		const auto source_text = source.getFieldAsString("content");
+		if (!source_file_id || *source_file_id != expected_source_file_id ||
+		    !source_text ||
+		    source_text->find_first_not_of(" \t\r\n") == std::string::npos) {
+			return Ok(std::optional<std::string>{});
+		}
+		return Ok(std::optional<std::string>{*source_text});
+	} catch (const std::exception&) {
+		return Err<std::optional<std::string>>(
+			errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+			"Malformed ingestion source record");
+	}
+}
+
 Result<std::vector<TraversalResult>>
 QueryEngine::executeGeneralTraversal(
     const std::string& startVertex,

@@ -31,6 +31,18 @@ implementation details in `src/ingestion/` may change independently.
 | `IngestionCoordinator` | [`ingestion_coordinator.h`](../../include/ingestion/ingestion_coordinator.h) | Assign source work to worker nodes and aggregate partial reports. |
 | Sink interfaces | [`ingestion_sinks.h`](../../include/ingestion/ingestion_sinks.h) | Write graph entities/relations, vectors, or documents through injected adapters. |
 
+### Persistent vector sink source rows
+
+`VectorIndexSinkAdapter` requires both a `VectorIndexManager` and a
+`SecondaryIndexManager` backed by the same RocksDB database used by retrieval.
+Each vector write first upserts its non-empty chunk text and source-file SHA-256
+under the exact `VectorRecord::chunk_id` in `ingestion_sources`, then writes the
+vector entity with a typed reference to that row. A source write failure aborts
+the batch at that record; a later vector write failure may leave an unreferenced
+source row. Retrieval rejects missing or source-identity-mismatched rows. This
+changes the adapter constructor, so callers must rebuild and supply the shared
+secondary index manager.
+
 ## Inputs, outputs, and defaults
 
 `SourceConfig` identifies a source with `source_id`, `SourceType`, `location`,

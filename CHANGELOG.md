@@ -52,10 +52,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   content ID, plus any supplied source version, before using source text. Missing,
   mismatched, or stale sources are rejected rather than replaced with copied
   vector text.
-- Normal ingestion still lacks an authoritative source dereference path, and
-  focused C++ tests could not run in the current environment; this remains a
-  partial implementation. See
+- Focused C++ tests could not run in the current environment; this remains
+  partial implementation progress. See
   `docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md`.
+
+### Core Provider/Consumer follow-up — ingestion source materialization (2026-11-12)
+
+- Normal vector ingestion now persists chunk text in the `ingestion_sources`
+  collection using the exact vector chunk ID. RAG resolves that record from
+  RocksDB, validates its source-file SHA-256, and rejects missing or mismatched
+  sources instead of using the copied vector snippet. Existing older vector
+  references keep their prior snippet behavior; storage is additive.
+- `VectorIndexSinkAdapter` now requires a `SecondaryIndexManager` on the same
+  retrieval database. This changes its source and binary interface; all callers
+  must rebuild and supply that manager.
+- Focused C++ validation remains to be run. This is partial task progress, not
+  completion of Core composition, consumer wiring, authorization, or acceptance.
 
 ### Core Provider/Consumer follow-up — YAML agentic retrieval (2026-11-12)
 

@@ -23,6 +23,22 @@ result types; implementation details and tests define observed edge behavior.
 
 ## Retrieval and ranking
 
+### Typed retrieval source materialization
+
+`RAGSourceReference` is an exact locator, not a key-generation recipe.
+ContentManager references are resolved from their stored chunk record. Newly
+written normal-ingestion vectors reference the `ingestion_sources` collection by
+their exact `VectorRecord::chunk_id`; the RAG provider verifies the stored
+`source_file_id` against the vector's SHA-256 provenance and uses the stored
+`content`, not `text_snippet`. Missing, mismatched, or empty source records are
+rejected. Existing vectors marked `ingestion_vector` retain their previous
+snippet materialization behavior for on-disk compatibility.
+
+The ingestion sink's source row and vector entity must use the same RocksDB
+database as the retrieval `QueryEngine`. The source collection is an internal
+materialization target; authorization is inherited from the authorized vector
+collection request and is not caller-selectable.
+
 ### `themis::rag::HybridRetriever`
 
 Header: `include/rag/hybrid_retriever.h`

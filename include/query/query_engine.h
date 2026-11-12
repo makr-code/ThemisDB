@@ -716,6 +716,17 @@ private:
     [[nodiscard]] Result<std::optional<std::pair<std::string, std::int64_t>>> readContentChunkText(
         std::string_view exact_source_key, std::string_view expected_content_id) const;
 
+    /**
+     * @brief Resolve one exact ingestion source row and validate its file identity.
+     * @param exact_source_key Primary key carried by the typed ingestion source reference.
+     * @param expected_source_file_id SHA-256 source identity carried by the indexed vector.
+     * @return Stored non-whitespace chunk text, or an empty optional when the row is
+     *         missing or its identity does not match; malformed storage is an error.
+     * @note Performs one exact lookup in `ingestion_sources`; it does not scan or infer keys.
+     */
+    [[nodiscard]] Result<std::optional<std::string>> readIngestionSourceText(
+        std::string_view exact_source_key, std::string_view expected_source_file_id) const;
+
     RocksDBWrapper* db_ = nullptr;  // Changed from reference to pointer to support nullptr in DI constructor
     SecondaryIndexManager* secIdx_ = nullptr;  // Changed from reference to pointer
     GraphIndexManager* graphIdx_ = nullptr;

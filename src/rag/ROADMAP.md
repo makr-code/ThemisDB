@@ -46,15 +46,23 @@ registration, persistent storage, external telemetry, or production readiness.
 
 - [~] Core Provider/Consumer source-identity and vector-text materialization follow-up (2026-11-12)
   - Current source diff adds typed `RAGSourceReference` fields, exact source
-    identity on normal vector-ingestion entities, ContentManager chunk text and
+    identity on normal vector-ingestion entities. New normal ingestion vectors
+    point to exact `ingestion_sources` rows persisted by `VectorIndexSinkAdapter`;
+    RAG checks the source-file identity before using the stored chunk text.
+    Missing, mismatched, and empty rows are rejected instead of falling back to
+    the copied vector snippet. Existing vectors with the earlier
+    `ingestion_vector` reference retain their previous snippet behavior. The
+    sink constructor now requires a shared `SecondaryIndexManager`; callers must
+    supply the same retrieval database. ContentManager chunk text and
     exact `chunk:<id>` source keys on vector entities, and namespace-gated
     vector-key hydration in QueryEngine. Typed ContentManager chunk references
     are also resolved from the exact RocksDB `chunk:<id>` record with stored
     chunk/content identity validation and supplied source-version checks; missing,
     mismatched, or stale source records are rejected rather than using copied
     vector text. Malformed source JSON is an explicit storage-corruption error.
-  - This is partial implementation progress. Normal ingestion's in-entity
-    `text_snippet` does not prove authoritative full-source dereferencing.
+  - This is partial implementation progress. The ingestion sink persists the
+    canonical chunk text provided by `VectorRecord`; a separate version record
+    beyond the originating file SHA-256 is not available at this boundary.
   - `LLMAQLHandler::executeRAG()` now passes the timeout manager's cancellation
     token and configured retrieval deadline to `RAGProvider`. Both checks are
     cooperative and cannot interrupt a blocking QueryEngine operation; the new
@@ -70,8 +78,8 @@ registration, persistent storage, external telemetry, or production readiness.
     before the existing agentic tool-call dispatch. A focused RocksDB-backed
     test-source regression verifies evidence reaches the prompt and denied
     collection context prevents generation; this test has not yet been run.
-  - Real HTTP/AQL/YAML startup wiring, full request-context/auth isolation, the
-    normal-ingestion authoritative source lookup, complete direct-`src/` role map,
+  - Real HTTP/AQL/YAML startup wiring, full request-context/auth isolation,
+    complete direct-`src/` role map,
     remaining acceptance criteria, and focused test execution/evidence remain
     pending. See
     [`docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md`](../../docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md).

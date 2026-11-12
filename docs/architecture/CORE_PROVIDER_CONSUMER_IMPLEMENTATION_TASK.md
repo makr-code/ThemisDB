@@ -55,9 +55,16 @@ wrappers.
   startup/composition callers and wire the real consumers rather than adding
   dummy consumers or assuming the setters are called.
 - `VectorIndexSinkAdapter` writes vector entities to `VectorIndexManager`.
-  The current work adds exact `source_ref_*` fields and `text_snippet` to normal
-  ingestion vector entities. This is indexed snippet materialization, not proof
-  that the locator can fetch the authoritative source record.
+  New writes also persist chunk text in the dedicated relational
+  `ingestion_sources` collection keyed by the exact `VectorRecord::chunk_id`.
+  The vector entity points to that exact key and retains the source-file SHA-256
+  as provenance. RAG resolves the record through one exact RocksDB lookup and
+  validates the stored source-file identity before replacing the copied snippet.
+  Missing, mismatched, or empty source records are rejected. Existing vectors
+  written with the older `ingestion_vector` reference retain their prior snippet
+  behavior; the new collection is additive and requires no key migration. The
+  sink now requires a `SecondaryIndexManager` sharing the RAG retrieval database,
+  which is a source/ABI change for its callers.
 - ContentManager stores chunk text under `chunk:<id>` and its vector entity under
   `chunks:<id>`. The current work puts the chunk text and an exact
   `source_ref_key=chunk:<id>` on that vector entity, with `chunks` as the source
@@ -70,8 +77,8 @@ wrappers.
   stored chunk ID, owner `content_id`, and any supplied source version;
   missing/mismatched/stale sources are rejected rather than replaced by the
   vector's copied text. This private bridge adds no public API or layout change.
-  It does not yet implement authoritative source dereferencing for the normal
-  ingestion sink.
+  Normal ingestion now has the equivalent exact-key source dereference through
+  `ingestion_sources`, validating `source_file_id` against vector provenance.
 - `RAGSourceReference` is an optional typed locator on `RAGCandidate`.
   `makeRAGCandidate` parses complete, nonempty source-reference type, collection,
   and key fields and materializes text from `content`, `text`, `body`, or
@@ -97,10 +104,11 @@ Update or narrow this task if source evidence differs before coding.
 ## Verified incremental work in the current implementation diff
 
 The current source diff adds `RAGSourceReference` and candidate parsing for exact
-source-reference fields; records exact source identity on vector ingestion
-entities; stores ContentManager chunk text and its exact `chunk:<id>` locator on
-the corresponding vector entity; gates vector-key hydration on an exact
-initialized vector-index/query namespace match; propagates the AQL RAG timeout
+source-reference fields; persists normal ingestion chunk text in
+`ingestion_sources` and resolves it by exact key plus source-file identity;
+stores ContentManager chunk text and its exact `chunk:<id>` locator on the
+corresponding vector entity; gates vector-key hydration on an exact initialized
+vector-index/query namespace match; propagates the AQL RAG timeout
 as a cooperative retrieval deadline; and supports a per-call collection
 authorization predicate, wired from the AQL checker and direct HTTP route.
 QueryEngine applies that predicate before graph vertex loading and expansion.
@@ -122,16 +130,17 @@ stopped at the required `fmt` dependency, which is not installed in the current
 environment.
 
 This is partial implementation progress, not completion of this task or its
-acceptance criteria. In particular, normal vector ingestion currently carries
-`text_snippet` in the vector entity; the source-reference locator is not itself
-a source dereference implementation. Do not claim that normal ingestion now
-fetches the authoritative full source text.
+acceptance criteria. Normal ingestion source rows contain the canonical chunk
+text carried by `VectorRecord`; this source is validated against the originating
+file SHA-256, while no independent source-file/version record is available at
+the sink boundary. Existing vectors with the old `ingestion_vector` marker
+retain their prior snippet behavior. The new sink constructor requires callers
+to provide a `SecondaryIndexManager` on the same retrieval database.
 
 Still pending: trace and verify real HTTP/AQL/YAML startup and request wiring;
 complete production composition; complete caller/tenant/row-level authorization
 and full context propagation (collection checks and concurrent context tests do
-not establish tenant identity or row-level policy); and implement authoritative
-source lookup for normal vector ingestion;
+not establish tenant identity or row-level policy);
 verify application startup configures the orchestrator with the actual server
 QueryEngine and supplies trusted authorization context, including a safe MCP
 caller-context path; establish the

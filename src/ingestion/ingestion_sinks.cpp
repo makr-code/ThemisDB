@@ -11,6 +11,7 @@
 
 #include "ingestion/ingestion_sinks.h"
 #include "index/graph_index.h"
+#include "index/secondary_index.h"
 #include "index/vector_index.h"
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
@@ -86,8 +87,8 @@ themis::BaseEntity toVectorEntity(const VectorRecord& record, const std::string&
     fields["source_file_id"] = record.source_file_id;
     fields["text_snippet"] = record.text_snippet;
     fields["embedding"] = record.embedding;
-    fields["source_ref_type"] = std::string{"ingestion_vector"};
-    fields["source_ref_collection"] = object_name;
+    fields["source_ref_type"] = std::string{"ingestion_chunk"};
+    fields["source_ref_collection"] = std::string{"ingestion_sources"};
     fields["source_ref_key"] = record.chunk_id;
     fields["source_ref_provenance"] = record.source_file_id;
     for (const auto& [key, value] : record.metadata) {
@@ -596,15 +597,20 @@ std::size_t GraphStoreSinkAdapter::edgeCount() const {
 
 VectorIndexSinkAdapter::VectorIndexSinkAdapter(
     std::shared_ptr<themis::VectorIndexManager> vector_index,
+    std::shared_ptr<themis::SecondaryIndexManager> source_index,
     std::string object_name,
     std::size_t dimension,
     std::string vector_field)
     : vector_index_(std::move(vector_index))
+    , source_index_(std::move(source_index))
     , object_name_(std::move(object_name))
     , dimension_(dimension)
     , vector_field_(std::move(vector_field)) {
     if (!vector_index_) {
         throw std::invalid_argument("VectorIndexSinkAdapter: vector_index must not be null");
+    }
+    if (!source_index_) {
+        throw std::invalid_argument("VectorIndexSinkAdapter: source_index must not be null");
     }
     if (object_name_.empty()) {
         throw std::invalid_argument("VectorIndexSinkAdapter: object_name must not be empty");
@@ -666,10 +672,27 @@ Result<void> VectorIndexSinkAdapter::writeVectors(const std::vector<VectorRecord
 
     std::lock_guard<std::mutex> lock(mtx_);
     for (const auto& record : records) {
+        if (record.chunk_id.empty() || record.source_file_id.empty() ||
+            record.text_snippet.empty()) {
+            return tl::make_unexpected(
+                Error(errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,
+                      "vector source requires a chunk ID, source file ID, and non-empty text"));
+        }
         if (record.embedding.size() != dimension_) {
             return tl::make_unexpected(
                 Error(errors::ErrorCode::ERR_INDEX_INVALID_TYPE,
                       "chunk '" + record.chunk_id + "' embedding dimension mismatch"));
+        }
+        const auto source = themis::BaseEntity::fromFields(record.chunk_id, {
+            {"source_file_id", record.source_file_id},
+            {"content", record.text_snippet}
+        });
+        const auto source_status = source_index_->put("ingestion_sources", source);
+        if (!source_status.ok) {
+            return tl::make_unexpected(
+                Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                      "failed to persist ingestion source '" + record.chunk_id +
+                      "': " + source_status.message));
         }
         const auto status = vector_index_->addEntity(toVectorEntity(record, object_name_), vector_field_);
         if (!status.ok) {
