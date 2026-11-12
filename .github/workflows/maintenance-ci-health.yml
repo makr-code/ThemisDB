@@ -154,12 +154,21 @@ jobs:
             const overallHealth = totalRuns > 0
               ? (((totalRuns - totalFailures) / totalRuns) * 100).toFixed(1)
               : '100.0';
+            const chronic = rows.filter(r => parseFloat(r.failRate) > 30 && r.failure >= 3);
+            const maxFailRate = rows.length > 0
+              ? Math.max(...rows.map(r => parseFloat(r.failRate)))
+              : 0;
+            const healthBand = chronic.length > 0 ? 'high' : (maxFailRate >= 10 ? 'medium' : 'recovered');
 
             console.log('');
             console.log('──────────────────────────────────────────────────────');
             console.log(`  Overall pass rate : ${overallHealth}%`);
             console.log(`  Total runs        : ${totalRuns}`);
             console.log(`  Total failures    : ${totalFailures}`);
+            console.log(`  Chronic failures (>30%, ≥3 fails) : ${chronic.length}`);
+            if (chronic.length > 0) {
+              chronic.forEach(r => console.log(`    → ${r.name}: ${r.failRate}% fail rate`));
+            }
             console.log('──────────────────────────────────────────────────────');
 
             // Write step summary
@@ -196,17 +205,6 @@ jobs:
 
             // Write artifact
             fs.writeFileSync('/tmp/ci-health-report.md', md.join('\n') + '\n');
-
-            // Identify chronic failures
-            const chronic = rows.filter(r => parseFloat(r.failRate) > 30 && r.failure >= 3);
-            const maxFailRate = rows.length > 0
-              ? Math.max(...rows.map(r => parseFloat(r.failRate)))
-              : 0;
-            const healthBand = chronic.length > 0 ? 'high' : (maxFailRate >= 10 ? 'medium' : 'recovered');
-            console.log(`  Chronic failures (>30%, ≥3 fails) : ${chronic.length}`);
-            if (chronic.length > 0) {
-              chronic.forEach(r => console.log(`    → ${r.name}: ${r.failRate}% fail rate`));
-            }
 
             core.setOutput('chronic_count', String(chronic.length));
             core.setOutput('chronic_workflows', chronic.map(r => r.name).join(', '));

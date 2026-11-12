@@ -479,6 +479,10 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         self.assertNotIn("${{ inputs.lookback_days", stats["with"]["script"])
         self.assertIn("metrics and artifacts were still generated", stats["with"]["script"])
         self.assertIn("would be upserted", stats["with"]["script"])
+        self.assertLess(
+            stats["with"]["script"].index("const chronic ="),
+            stats["with"]["script"].index("md.push(chronic.length > 0"),
+        )
 
         issue_job = jobs["update-chronic-issue"]
         self.assertEqual(issue_job["permissions"], {"contents": "read", "issues": "write"})

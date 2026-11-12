@@ -2,7 +2,7 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-11-11
+> Last Updated: 2026-11-12
 > Status: active
 > AI_Used: true
 > AI_Models: unknown
@@ -506,7 +506,8 @@ Sie prüft Cachepfade und Backend-Auswahl, nicht die tatsächliche Online-Treffe
 ## CI Health Dashboard
 - `maintenance-ci-health.yml` aggregiert wöchentlich (sonntags 06:00 UTC) pass/fail-Raten je Workflow.
 - Schwellwert für chronische Fehler: >30% Fehlerrate bei ≥3 Fehlern → öffnet `ci/chronic-failure`-Issue.
-- Lookback-Fenster konfigurierbar via `workflow_dispatch` Input `lookback_days` (Standard: 7).
+- Das `workflow_dispatch`-Input `lookback_days` akzeptiert ganze Zahlen von 1 bis 90 (Standard: 7); ungültige Werte brechen die Analyse vor dem API-Aufruf ab.
+- Manuelle Läufe starten standardmäßig mit `dry_run=true`: Analyse, Zusammenfassung und Report-Artefakt laufen weiter; Issue- und Label-Änderungen werden nur in einem Live-Lauf ausgeführt. Geplante Läufe bleiben live.
 
 ## Manually Triggering Workflows
 Empfohlen via GitHub CLI:

@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T15:59:52+00:00",
+  "generated_at": "2026-11-12T16:32:40+00:00",
   "source_count": 8091,
   "sources": [
     {
@@ -371,9 +371,9 @@
     {
       "path": ".github/workflows/maintenance-ci-health.yml",
       "category": "build_test_ci",
-      "size": 15757,
-      "sha256": "21b4521f4ff35743c75deec020aaf6c873289433fa085fffdd02dbbfe3f01f27",
-      "modified_utc": "2026-11-12T15:49:35+00:00"
+      "size": 18435,
+      "sha256": "47855bb64ac94f5d7738f4a7ccdd22e9fb492c4dd28e9b4cf4f2f6dbea6ec5aa",
+      "modified_utc": "2026-11-12T16:31:53+00:00"
     },
     {
       "path": ".github/workflows/maintenance-compendium-sync.yml",

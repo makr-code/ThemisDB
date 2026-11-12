@@ -491,7 +491,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/maintenance-ci-health.yml
 - Kategorie: build_test_ci
-- Hash: `21b4521f4ff35743`
+- Hash: `47855bb64ac94f5d`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-compendium-sync.yml

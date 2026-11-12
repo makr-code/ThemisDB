@@ -33,4 +33,4 @@ Status: Active
 
 ## Changed
 
-- scripts/ai-dev-llm-wiki-sync.py
+- .github/workflows/maintenance-ci-health.yml
