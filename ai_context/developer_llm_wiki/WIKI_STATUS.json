@@ -1,21 +1,20 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T19:31:29+00:00",
+  "generated_at": "2026-11-12T19:38:24+00:00",
   "mode": "incremental",
   "source_count": 8091,
-  "source_hash": "aaa4b4ac63da7e475bef912b30fc56ac789b4d3a45b5077ae3b0d00bdc94f5cf",
+  "source_hash": "30438065c7fc65945f446bba7f7c2c2d7104ebe4032bb563ff2484c35ee87dc7",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
-    "changed_count": 2,
+    "changed_count": 1,
     "added_preview": [],
     "removed_preview": [],
     "changed_preview": [
-      ".github/workflows/build-llm-inference.yml",
-      ".github/workflows/build-mainline.yml"
+      ".github/workflows/build-widget.yml"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "be89dd43f8d0ed81881f0841cc1151c84afb3bc2ed494efd461955151f6a1f0f"
+  "manifest_sha256": "d9abd3dcabeeafd21bd4739f02655715115b1be0c9f1b7e3197f8e9685158583"
 }

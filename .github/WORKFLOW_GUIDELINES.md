@@ -548,6 +548,11 @@ Sie prüft Cachepfade und Backend-Auswahl, nicht die tatsächliche Online-Treffe
 - Manual dry-runs suppress only build/LLM tracker issue, label, and comment updates and write a preview to the run summary. Scheduled runs remain live; set `dry_run=false` for an intentional manual tracker update.
 - Workflow-wide permissions are read-only. Issue-write permissions are scoped to the mainline tracker jobs and the LLM report job; build and inference/test jobs do not inherit issue-write access.
 
+## WinGet E2E Submission
+- `build-widget.yml` requires a release tag, validates checksums/manifests, and uploads generated manifests before considering submission.
+- Manual runs default to boolean `dry_run=true`; manifest validation and artifacts still run, while the fork push and upstream PR job remain skipped. The final job summary states the preview/result and artifact name.
+- Set `dry_run=false` only for intentional submission. The tag is passed through an environment variable and restricted to safe release-tag characters before it is used for artifact selection and manifest paths.
+
 ## Manually Triggering Workflows
 Empfohlen via GitHub CLI:
 

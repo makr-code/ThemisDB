@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T19:31:29+00:00",
+  "generated_at": "2026-11-12T19:38:24+00:00",
   "source_count": 8091,
   "sources": [
     {
@@ -98,9 +98,9 @@
     {
       "path": ".github/workflows/build-widget.yml",
       "category": "build_test_ci",
-      "size": 24410,
-      "sha256": "42880b1ffb7f94f74092314c07d6d263a85a0cb37dfbc76276b29bd29f51a65f",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 25904,
+      "sha256": "6289f57417da9f3e07c2fa97b90969140696cf0cee5ebc71186eb040ce562fdc",
+      "modified_utc": "2026-11-12T19:38:09+00:00"
     },
     {
       "path": ".github/workflows/codeql.yml",

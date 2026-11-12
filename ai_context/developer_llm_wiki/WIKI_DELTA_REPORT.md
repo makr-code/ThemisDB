@@ -21,7 +21,7 @@ Status: Active
 
 - Added: 0
 - Removed: 0
-- Changed: 2
+- Changed: 1
 
 ## Added
 
@@ -33,5 +33,4 @@ Status: Active
 
 ## Changed
 
-- .github/workflows/build-llm-inference.yml
-- .github/workflows/build-mainline.yml
+- .github/workflows/build-widget.yml

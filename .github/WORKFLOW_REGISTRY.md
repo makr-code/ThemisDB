@@ -188,7 +188,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `build-wave-b-llm-benchmarks.yml` | Build: Wave B LLM Benchmarks (LLM inference performance) | active |
 | `build-llm-inference.yml` | Build: LLM Inferencing (TinyLlama + doku.db RAG + AdaLoRA; manual dry-run preserves tests/artifacts and previews tracker updates) | active |
 | `build-content-regression.yml` | Build: Content Regression [Wave D] (Content processing validation) | active |
-| `build-widget.yml` | Build: WinGet E2E Validation (Windows installer end-to-end) | active |
+| `build-widget.yml` | Build: WinGet E2E Validation (manifest checks/artifacts always run; manual dry-run defaults to validation-only and previews submission) | active |
 | `build-ollama-router.yml` | Build: Copilot Ollama Router (VS Code extension build) | active |
 | `benchmark-thematic-suites.yml` | Benchmark: Thematic Suites (Scheduled thematic benchmark suites via reusable pipeline) | active |
 | `wave-a-gpu-ci-execution.yml` | Wave A GPU CI Execution (GPU + CPU Fallback matrix) | active |

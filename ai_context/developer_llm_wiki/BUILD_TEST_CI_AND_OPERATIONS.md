@@ -296,7 +296,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/build-widget.yml
 - Kategorie: build_test_ci
-- Hash: `42880b1ffb7f94f7`
+- Hash: `6289f57417da9f3e`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/codeql.yml

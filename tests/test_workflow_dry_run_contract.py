@@ -64,6 +64,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "maintenance-pr-failure-diagnosis.yml",
             "maintenance-soll-ist-gap-issues.yml",
             "publish-wiki.yml",
+            "build-widget.yml",
             "build-mainline.yml",
             "build-llm-inference.yml",
             "release-docker-image.yml",
@@ -156,6 +157,42 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         self.assertTrue(llm["jobs"]["run-inference-suite"]["steps"])
         self.assertTrue(llm["jobs"]["run-rag-suite"]["steps"])
         self.assertTrue(llm["jobs"]["run-adalora-suite"]["steps"])
+
+    def test_winget_e2e_dry_run_preserves_validation_and_suppresses_submission(self) -> None:
+        workflow = load_workflow("build-widget.yml")
+        triggers = workflow.get(True, workflow.get("on"))
+        dry_run = triggers["workflow_dispatch"]["inputs"]["dry_run"]
+        self.assertEqual(dry_run["type"], "boolean")
+        self.assertIs(dry_run["default"], True)
+        self.assertIn("without pushing", dry_run["description"])
+        self.assertEqual(workflow["permissions"], {"contents": "read", "actions": "read"})
+
+        jobs = workflow["jobs"]
+        resolve_version = next(
+            step for step in jobs["download-release-assets"]["steps"]
+            if step.get("name") == "Resolve version from tag"
+        )
+        self.assertEqual(resolve_version["env"]["TAG_INPUT"], "${{ inputs.tag_name }}")
+        self.assertIn("unsupported characters", resolve_version["run"])
+        self.assertNotIn("${{ inputs.tag_name }}", resolve_version["run"])
+
+        validate = jobs["validate-manifests"]
+        winget_validate = next(step for step in validate["steps"] if step.get("name") == "Validate with winget")
+        self.assertIn("winget validate --manifest", winget_validate["run"])
+        self.assertNotIn("inputs.dry_run", str(validate.get("if", "")))
+
+        submit = jobs["submit-winget-pr"]
+        self.assertIn("needs.validate-manifests.outputs.validated == 'true'", submit["if"])
+        self.assertIn("inputs.dry_run != true", submit["if"])
+        submit_script = next(step for step in submit["steps"] if "run" in step)
+        self.assertIn("git push origin \"$BRANCH\" --force-with-lease", submit_script["run"])
+        self.assertIn("gh pr create", submit_script["run"])
+
+        report = next(step for step in jobs["notify"]["steps"] if step.get("name") == "Report")
+        self.assertIn("$GITHUB_STEP_SUMMARY", report["run"])
+        self.assertIn("No fork branch push or upstream pull request was attempted.", report["run"])
+        self.assertEqual(report["env"]["SOURCE_WORKFLOW"], "${{ inputs.source_workflow }}")
+        self.assertNotIn("${{ inputs.source_workflow }}", report["run"])
 
     def test_nightly_manual_dry_run_validates_without_publishing_or_updating_issues(self) -> None:
         workflow = load_workflow("release-nightly.yml")
