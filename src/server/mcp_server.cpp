@@ -349,6 +349,11 @@ void McpServer::attachHttpServer(std::shared_ptr<HttpServer> http_server) {
  * @details Calls: isOpen(), get(), themis::config::ConfigPathResolver::mapLegacyToNew(), std::filesystem::exists(), loadFromYAML(), spdlog::info(), spdlog::warn().
  */
 void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
+    // Drop borrowers before replacing their backing database and indexes.
+    query_engine_.reset();
+    graph_mgr_.reset();
+    schema_mgr_.reset();
+    index_mgr_.reset();
     db_ = db;
     
     // Initialize SchemaManager with the database

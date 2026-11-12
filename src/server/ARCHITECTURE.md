@@ -108,8 +108,10 @@ These patterns are covered by 8 benchmark release gates SVR-01..SVR-08 in `bench
 
 The MCP server retains its `GraphIndexManager` for at least as long as its
 `QueryEngine`, which borrows the graph manager reference for AQL execution.
-This lifecycle guarantee does not imply MCP RAG availability: retrieval-enabled
-MCP orchestration still fails closed without trusted caller authorization.
+When the database is reattached, it releases the query engine and dependent
+indexes before replacing their backing database. This lifecycle guarantee does
+not imply MCP RAG availability: retrieval-enabled MCP orchestration still fails
+closed without trusted caller authorization.
 
 ### Protocol and session ownership
 **Files:** `src/server/websocket_session.cpp`, `src/server/mqtt_session.cpp`, `src/server/postgres_session.cpp`, and `src/server/themis_core_grpc_service.cpp`

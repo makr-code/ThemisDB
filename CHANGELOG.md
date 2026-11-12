@@ -91,8 +91,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### MCP QueryEngine graph backend lifetime (2026-11-12)
 
 - `McpServer` now retains the `GraphIndexManager` borrowed by its `QueryEngine`,
-  preventing AQL graph queries from using a manager destroyed at database
-  attachment return.
+  and releases query/index borrowers before replacing the attached database.
 - Added a focused MCP integration regression for a one-hop AQL graph traversal.
 
 <!--
