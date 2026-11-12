@@ -127,10 +127,11 @@ registration, persistent storage, external telemetry, or production readiness.
     and server policy. The direct HttpServer RAG route copies `tenant_id` from
     AuthMiddleware, but the current bootstrap only adds static role tokens without
     tenant IDs and does not enable JWT validation, so those tokens produce an
-    empty tenant context and provider tenant filters do not apply. Collection
-    resource-policy checks are conditional on a configured policy engine; the
-    route's collection-equality predicate is not a caller-specific collection
-    grant.
+    empty tenant context and provider tenant filters do not apply. The HttpServer
+    creates a PolicyEngine by default, but an absent/empty policy set defaults to
+    allow; policy denials are advisory when authentication is disabled, and admin
+    users bypass policy evaluation. The route's collection-equality predicate is
+    not a caller-specific collection grant.
   - The canonical Core task now contains the evidence-backed current-source role
     map for every immediate `src/` directory. This documents source roles only;
     it does not mark a runtime acceptance criterion complete.

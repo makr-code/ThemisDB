@@ -55,11 +55,13 @@ wrappers.
   creates a request-local concrete `query::QueryEngine` using the live
   server-owned storage and index managers (`storage_`, `secondary_index_`,
   `graph_index_`, `vector_index_`, and `spatial_index_`). `requireAccess` checks
-  the scope when auth is enabled and evaluates the resource only when a policy
-  engine is configured (admin users bypass that policy check); with neither auth
-  nor policy enabled it allows the request. The route's collection predicates
-  require retrieval to stay on the requested collection, but do not alone prove
-  that the caller has a grant for that collection.
+  the scope when auth is enabled and evaluates the resource for authenticated
+  non-admin users. `HttpServer` constructs a `PolicyEngine` even when no policy
+  file is found, but that empty policy set defaults to allow; policy denials are
+  also advisory when auth is disabled, and admin users bypass policy evaluation.
+  The route's collection predicates require retrieval to stay on the requested
+  collection, but do not alone prove that the caller has a grant for that
+  collection.
 - The route creates a local `RAGProvider` over the request-local engine and
   copies `tenant_id` from `extractAuthContext(req)` into
   `RetrievalExecutionContext`. However, `HttpServer` currently configures only
@@ -140,12 +142,14 @@ relational, content, and vector evidence and injects the tenant predicate
 before vector search; graph retrieval passes a request-scoped vertex policy to
 QueryEngine, which checks each visited entity's `tenant_id` before returning it
 or expanding that vertex. Missing, malformed, or mismatched tenant values
-return access denied. `requireAccess`'s collection-level resource check is
-conditional on a configured policy engine; the request-matching collection
-predicate is not itself a caller-specific grant. This does not populate trusted
-tenant context for AQL/YAML server consumers, establish general row-level policy
-outside these retrieval paths, propagate caller identity, or add HTTP
-cancellation. Focused provider regressions cover foreign/missing tenants,
+return access denied. Although `requireAccess` evaluates the collection
+resource for authenticated non-admin users, the server's empty policy set
+defaults to allow, unauthenticated policy evaluation is advisory, and admin
+users bypass policy checks. The request-matching collection predicate is not
+itself a caller-specific grant. This does not populate trusted tenant context
+for AQL/YAML server consumers, establish general row-level policy outside these
+retrieval paths, propagate caller identity, or add HTTP cancellation. Focused
+provider regressions cover foreign/missing tenants,
 indexed top-1 behavior, and same-tenant/foreign/tenantless graph vertices. A
 concurrent shared-provider regression source also checks that distinct vector
 tenant contexts return only their own evidence. These tests have not been built
