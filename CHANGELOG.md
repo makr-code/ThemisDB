@@ -68,6 +68,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   configuration stopped because the required `fmt` dependency is unavailable.
   This is partial progress.
 
+### MCP retrieval authorization hardening (2026-11-12)
+
+- Retrieval-enabled MCP `llm_orchestrate` modes now fail closed before
+  orchestrator execution because the current MCP tool-call path supplies no
+  trusted caller authorization context. Non-retrieval modes are unchanged.
+- Authenticated per-request caller/tenant scope propagation and MCP retrieval
+  availability remain pending.
+
 <!--
 AI_Used: true
 AI_Models: unknown

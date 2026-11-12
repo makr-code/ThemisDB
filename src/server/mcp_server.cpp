@@ -2110,6 +2110,18 @@ json McpServer::toolLLMOrchestrate(const json& args) {
     }
     auto& orchestrator = *orchestrator_;
 
+    const auto& pack = orchestrator.modePack();
+    const auto requested_mode = args.value("mode", std::string{});
+    const auto& effective_mode = requested_mode.empty() ? pack.default_mode : requested_mode;
+    for (const auto& mode : pack.modes) {
+        if (mode.id == effective_mode && mode.retrieval.enabled) {
+            return {
+                {"status", "error"},
+                {"error", "retrieval authorization context is unavailable for MCP orchestration"}
+            };
+        }
+    }
+
     try {
         themis::llm::OrchestratorContext ctx;
         ctx.query      = args.at("query").get<std::string>();

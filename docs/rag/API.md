@@ -122,6 +122,9 @@ Retrieval-enabled YAML `agentic` modes use the orchestrator's existing RAG path
 before tool-call parsing, so typed retrieval failures prevent generation and
 trusted per-call collection authorization is retained. This does not establish
 server-startup engine injection or tenant/row-level authorization.
+The MCP `llm_orchestrate` bridge has no trusted caller authorization context
+today, so retrieval-enabled modes invoked through MCP are rejected before
+orchestration; non-retrieval modes are unchanged.
 The direct HTTP `/api/v1/llm/rag` route retains its existing `requireAccess`
 check and now binds its request-local QueryEngine checker to the authorized
 collection. This is a collection-boundary guard, not caller or row-level policy

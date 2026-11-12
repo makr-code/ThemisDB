@@ -113,6 +113,10 @@ retrieval-enabled modes through its existing `runRag()` pipeline before
 preserving the existing tool-call parsing and dispatch. This reuses the typed
 provider and the per-call `RetrievalExecutionContext`; it adds no workflow
 executor and does not populate authorization from YAML.
+The MCP `llm_orchestrate` bridge currently constructs its context from tool
+arguments without a trusted caller authorization context; retrieval-enabled MCP
+modes now fail closed before invoking the orchestrator. Wiring authenticated
+request context remains required for MCP retrieval.
 The focused target has not been built or executed: diagnostic CMake configuration
 stopped at the required `fmt` dependency, which is not installed in the current
 environment.
@@ -129,7 +133,8 @@ and full context propagation (collection checks and concurrent context tests do
 not establish tenant identity or row-level policy); and implement authoritative
 source lookup for normal vector ingestion;
 verify application startup configures the orchestrator with the actual server
-QueryEngine and supplies trusted authorization context; establish the
+QueryEngine and supplies trusted authorization context, including a safe MCP
+caller-context path; establish the
 evidence-backed role map for all direct `src/` directories; complete source
 materialization/compatibility and remaining acceptance cases; and run and record
 the required focused tests and registration checks. Keep every acceptance
