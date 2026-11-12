@@ -776,7 +776,36 @@ TEST_F(RAGProviderTest, RequestScopedGraphAuthorizationPrecedesCrossCollectionVe
     EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_ACCESS_DENIED);
 }
 
-TEST_F(RAGProviderTest, TenantScopedGraphRetrievalFailsClosedBeforeTraversal) {
+TEST_F(RAGProviderTest, TenantScopedGraphRetrievalAllowsSameTenantVertices) {
+    const auto start = BaseEntity::fromFields(
+        "docs/start", {{"content", std::string{"authorized start"}},
+                       {"tenant_id", std::string{"acme"}}});
+    const auto same_tenant = BaseEntity::fromFields(
+        "docs/same-tenant", {{"content", std::string{"same tenant evidence"}},
+                             {"tenant_id", std::string{"acme"}}});
+    ASSERT_TRUE(db_->put(KeySchema::makeGraphNodeKey("docs/start"), start.serialize()));
+    ASSERT_TRUE(db_->put(KeySchema::makeGraphNodeKey("docs/same-tenant"), same_tenant.serialize()));
+    BaseEntity edge("edge-same-tenant");
+    edge.setField("_from", std::string{"docs/start"});
+    edge.setField("_to", std::string{"docs/same-tenant"});
+    ASSERT_TRUE(graph_->addEdge(edge).ok);
+
+    rag::GraphRetrievalQuery graph_query;
+    graph_query.start_vertex = "docs/start";
+    graph_query.max_depth = 1;
+    rag::RetrievalRequest request;
+    request.query = graph_query;
+    rag::RetrievalExecutionContext context;
+    context.tenant_id = "acme";
+
+    const auto result = provider_->retrieve(request, context);
+    ASSERT_TRUE(result) << result.error().context();
+    ASSERT_EQ(result->candidates.size(), 2);
+    EXPECT_EQ(result->candidates[0].content, "authorized start");
+    EXPECT_EQ(result->candidates[1].content, "same tenant evidence");
+}
+
+TEST_F(RAGProviderTest, TenantScopedGraphRetrievalDeniesForeignVertexBeforeExpansion) {
     const auto start = BaseEntity::fromFields(
         "docs/start", {{"content", std::string{"authorized start"}},
                        {"tenant_id", std::string{"acme"}}});
@@ -785,9 +814,35 @@ TEST_F(RAGProviderTest, TenantScopedGraphRetrievalFailsClosedBeforeTraversal) {
                          {"tenant_id", std::string{"other"}}});
     ASSERT_TRUE(db_->put(KeySchema::makeGraphNodeKey("docs/start"), start.serialize()));
     ASSERT_TRUE(db_->put(KeySchema::makeGraphNodeKey("docs/foreign"), foreign.serialize()));
-    BaseEntity edge("edge-tenant");
+    BaseEntity edge("edge-foreign-tenant");
     edge.setField("_from", std::string{"docs/start"});
     edge.setField("_to", std::string{"docs/foreign"});
+    ASSERT_TRUE(graph_->addEdge(edge).ok);
+
+    rag::GraphRetrievalQuery graph_query;
+    graph_query.start_vertex = "docs/start";
+    graph_query.max_depth = 1;
+    rag::RetrievalRequest request;
+    request.query = graph_query;
+    rag::RetrievalExecutionContext context;
+    context.tenant_id = "acme";
+
+    const auto result = provider_->retrieve(request, context);
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_ACCESS_DENIED);
+}
+
+TEST_F(RAGProviderTest, TenantScopedGraphRetrievalDeniesVertexWithoutTenant) {
+    const auto start = BaseEntity::fromFields(
+        "docs/start", {{"content", std::string{"authorized start"}},
+                       {"tenant_id", std::string{"acme"}}});
+    const auto tenantless = BaseEntity::fromFields(
+        "docs/tenantless", {{"content", std::string{"unscoped evidence"}}});
+    ASSERT_TRUE(db_->put(KeySchema::makeGraphNodeKey("docs/start"), start.serialize()));
+    ASSERT_TRUE(db_->put(KeySchema::makeGraphNodeKey("docs/tenantless"), tenantless.serialize()));
+    BaseEntity edge("edge-tenantless");
+    edge.setField("_from", std::string{"docs/start"});
+    edge.setField("_to", std::string{"docs/tenantless"});
     ASSERT_TRUE(graph_->addEdge(edge).ok);
 
     rag::GraphRetrievalQuery graph_query;

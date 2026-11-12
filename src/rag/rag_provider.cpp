@@ -303,16 +303,22 @@ Result<RetrievalResult> RAGProvider::retrieve(
             if (!authorized) {
                 return authorized;
             }
-            if (!context.tenant_id.empty()) {
-                return ErrVoid(
-                    errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
-                    "Tenant-scoped graph retrieval is unavailable until tenant policy "
-                    "is enforced before traversal expansion");
-            }
+            const auto tenant_id = context.tenant_id;
+            const auto authorize_vertex = tenant_id.empty()
+                ? std::function<bool(const std::string&, const nlohmann::json&)>{}
+                : std::function<bool(const std::string&, const nlohmann::json&)>{
+                    [tenant_id](const std::string&, const nlohmann::json& vertex) {
+                        if (!vertex.is_object()) {
+                            return false;
+                        }
+                        const auto tenant = vertex.find("tenant_id");
+                        return tenant != vertex.end() && tenant->is_string() &&
+                               tenant->get<std::string>() == tenant_id;
+                    }};
             auto matches = engine_.executeGeneralTraversal(
                 specification.start_vertex, specification.min_depth, specification.max_depth,
                 specification.direction, specification.graph_id, specification.edge_type,
-                context.authorize_collection);
+                context.authorize_collection, authorize_vertex);
             if (!matches) {
                 return tl::unexpected(matches.error());
             }

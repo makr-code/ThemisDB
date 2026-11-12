@@ -4718,6 +4718,21 @@ QueryEngine::executeGeneralTraversal(
     const std::string& edgeTypeFilter,
     const std::function<bool(const std::string&)>& authorizeCollection
 ) const {
+	return executeGeneralTraversal(startVertex, minDepth, maxDepth, direction,
+	                               graphId, edgeTypeFilter, authorizeCollection, {});
+}
+
+Result<std::vector<TraversalResult>>
+QueryEngine::executeGeneralTraversal(
+    const std::string& startVertex,
+    int minDepth,
+    int maxDepth,
+    TraversalDirection direction,
+    const std::string& graphId,
+    const std::string& edgeTypeFilter,
+    const std::function<bool(const std::string&)>& authorizeCollection,
+    const std::function<bool(const std::string&, const nlohmann::json&)>& authorizeVertex
+) const {
 	auto span = Tracer::startSpan("QueryEngine.executeGeneralTraversal");
 	span.setAttribute("query.start_vertex", startVertex);
 	span.setAttribute("query.min_depth", static_cast<int64_t>(minDepth));
@@ -4786,6 +4801,43 @@ QueryEngine::executeGeneralTraversal(
 					"Access denied for collection: " + table);
 			}
 		}
+
+		nlohmann::json authorized_vertex_data;
+		if (authorizeVertex) {
+			auto vertex_data = db_->get(KeySchema::makeGraphNodeKey(current.vertex));
+			if (!vertex_data && slashPos != std::string::npos) {
+				vertex_data = db_->get(
+					KeySchema::makeRelationalKey(table, current.vertex.substr(slashPos + 1)));
+			}
+			if (!vertex_data) {
+				vertex_data = db_->get(KeySchema::makeRelationalKey(table, current.vertex));
+			}
+			if (!vertex_data) {
+				vertex_data = db_->get(table + ":" + current.vertex);
+			}
+
+			authorized_vertex_data = nlohmann::json{{"_key", current.vertex}};
+			if (vertex_data.has_value()) {
+				try {
+					const auto entity = BaseEntity::deserialize(current.vertex, *vertex_data);
+					authorized_vertex_data = nlohmann::json::parse(entity.toJson());
+				} catch (...) {
+					THEMIS_DEBUG("query_engine: unhandled exception caught");
+				}
+			}
+
+			bool authorized = false;
+			try {
+				authorized = authorizeVertex(current.vertex, authorized_vertex_data);
+			} catch (...) {
+				authorized = false;
+			}
+			if (!authorized) {
+				return Err<std::vector<TraversalResult>>(
+					errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+					"Access denied for graph vertex");
+			}
+		}
 		
 		// Add to results if within depth range
 		if (current.depth >= minDepth && current.depth <= maxDepth) {
@@ -4795,29 +4847,33 @@ QueryEngine::executeGeneralTraversal(
 			result.path = current.path;
 			result.edges = current.edges;
 			
-			auto vertexDataOpt = db_->get(KeySchema::makeGraphNodeKey(current.vertex));
-			if (!vertexDataOpt && slashPos != std::string::npos) {
-				vertexDataOpt = db_->get(
-					KeySchema::makeRelationalKey(table, current.vertex.substr(slashPos + 1)));
-			}
-			if (!vertexDataOpt) {
-				vertexDataOpt = db_->get(KeySchema::makeRelationalKey(table, current.vertex));
-			}
-			if (!vertexDataOpt) {
-				vertexDataOpt = db_->get(table + ":" + current.vertex);
-			}
-			if (vertexDataOpt.has_value()) {
-				try {
-					const auto entity = BaseEntity::deserialize(current.vertex, *vertexDataOpt);
-					result.vertex_data = nlohmann::json::parse(entity.toJson());
-				} catch (...) {
-        THEMIS_DEBUG("query_engine: unhandled exception caught");
-					// If parsing fails, create minimal JSON
+			if (authorizeVertex) {
+				result.vertex_data = std::move(authorized_vertex_data);
+			} else {
+				auto vertexDataOpt = db_->get(KeySchema::makeGraphNodeKey(current.vertex));
+				if (!vertexDataOpt && slashPos != std::string::npos) {
+					vertexDataOpt = db_->get(
+						KeySchema::makeRelationalKey(table, current.vertex.substr(slashPos + 1)));
+				}
+				if (!vertexDataOpt) {
+					vertexDataOpt = db_->get(KeySchema::makeRelationalKey(table, current.vertex));
+				}
+				if (!vertexDataOpt) {
+					vertexDataOpt = db_->get(table + ":" + current.vertex);
+				}
+				if (vertexDataOpt.has_value()) {
+					try {
+						const auto entity = BaseEntity::deserialize(current.vertex, *vertexDataOpt);
+						result.vertex_data = nlohmann::json::parse(entity.toJson());
+					} catch (...) {
+						THEMIS_DEBUG("query_engine: unhandled exception caught");
+						// If parsing fails, create minimal JSON
+						result.vertex_data = nlohmann::json{{"_key", current.vertex}};
+					}
+				} else {
+					// Vertex not found in storage, create minimal JSON
 					result.vertex_data = nlohmann::json{{"_key", current.vertex}};
 				}
-			} else {
-				// Vertex not found in storage, create minimal JSON
-				result.vertex_data = nlohmann::json{{"_key", current.vertex}};
 			}
 			
 			results.emplace_back(std::move(result));

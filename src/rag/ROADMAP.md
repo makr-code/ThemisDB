@@ -103,10 +103,11 @@ registration, persistent storage, external telemetry, or production readiness.
     a foreign relational entity is rejected during materialization. This test
     remains unbuilt. AQL/YAML startup still does not populate the tenant field
     from trusted server caller context. Adding the context field changes its
-    binary layout; binary consumers need to rebuild. Tenant-scoped graph retrieval
-    now fails closed before traversal because the current traversal only enforces
-    collection policy before expansion, not row-level tenant policy. A focused
-    regression covers that denial; it has not been built or executed.
+    binary layout; binary consumers need to rebuild. Tenant-scoped graph
+    traversal now validates each visited vertex's materialized `tenant_id`
+    before returning or expanding it; missing or mismatched tenant values return
+    access denied. Focused source regressions cover same-tenant success and
+    foreign/tenantless vertex denial, but have not been built or executed.
     A blocking embedding or backend call can only be checked after it returns.
   - Retrieval-enabled YAML `agentic` modes now reuse `AIOrchestrator::runRag()`
     before the existing agentic tool-call dispatch. A focused RocksDB-backed

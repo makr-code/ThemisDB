@@ -122,15 +122,17 @@ route now also builds an equality filter from the validated bearer-token tenant
 claim for vector retrieval; it does not trust a caller-supplied tenant header.
 The claim is passed through `RetrievalExecutionContext`; the provider filters
 materialized relational, content, and vector evidence, and injects the tenant
-predicate before vector search. Tenant-scoped graph retrieval now fails closed
-before traversal: QueryEngine currently enforces collection policy before graph
-vertex expansion, but does not apply row-level tenant policy there. This does not
-populate trusted tenant context for AQL/YAML server consumers, establish general
-row-level policy, propagate caller identity, or add HTTP cancellation. Focused
+predicate before vector search. Graph retrieval passes a request-scoped vertex
+policy to QueryEngine, which checks each visited entity's `tenant_id` before
+returning it or expanding that vertex. Missing, malformed, or mismatched tenant
+values return access denied. This does not populate trusted tenant context for
+AQL/YAML server consumers, establish general row-level policy outside these
+retrieval paths, propagate caller identity, or add HTTP cancellation. Focused
 provider regressions cover foreign/missing tenants, indexed top-1 behavior, and
-tenant-scoped graph denial, but have not been built or executed. Adding the
-context field is source-compatible for ordinary member assignment/default
-construction but changes the struct layout; binary consumers must rebuild.
+same-tenant/foreign/tenantless graph vertices, but have not been built or
+executed. Adding the context field is source-compatible for ordinary member
+assignment/default construction but changes the struct layout; binary consumers
+must rebuild.
 
 The current source diff adds `RAGSourceReference` and candidate parsing for exact
 source-reference fields; persists normal ingestion chunk text in

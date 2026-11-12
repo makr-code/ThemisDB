@@ -463,6 +463,35 @@ public:
     ) const;
 
     /**
+     * @brief Traverse a graph with request-scoped collection and vertex policies.
+     * @param startVertex Starting vertex key; its collection and vertex are checked.
+     * @param minDepth Minimum returned traversal depth; must be non-negative.
+     * @param maxDepth Maximum traversal depth; must not be less than minDepth.
+     * @param direction Edge traversal direction.
+     * @param graphId Graph identifier used by the existing traversal contract.
+     * @param edgeTypeFilter Optional edge type restriction.
+     * @param authorizeCollection Trusted per-call predicate applied before each
+     *        visited vertex is loaded or expanded; an empty predicate adds no policy.
+     * @param authorizeVertex Trusted per-call predicate applied to each visited
+     *        vertex's materialized entity before it is returned or expanded. Missing
+     *        or malformed vertices use the existing minimal entity representation;
+     *        callers can reject it. A false result or exception returns access denied.
+     * @return Traversal results, or the existing query error including access denied.
+     * @note The configured engine-level policy and both request policies are enforced.
+     *       The vertex predicate is not called when empty.
+     */
+    Result<std::vector<TraversalResult>> executeGeneralTraversal(
+        const std::string& startVertex,
+        int minDepth,
+        int maxDepth,
+        TraversalDirection direction,
+        const std::string& graphId,
+        const std::string& edgeTypeFilter,
+        const std::function<bool(const std::string&)>& authorizeCollection,
+        const std::function<bool(const std::string&, const nlohmann::json&)>& authorizeVertex
+    ) const;
+
+    /**
      * @brief Execute And Entities.
      * @param[in] q Input parameter.
      * @return Return value.
