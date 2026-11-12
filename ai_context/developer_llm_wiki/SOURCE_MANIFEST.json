@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T06:34:00+00:00",
+  "generated_at": "2026-11-12T07:04:09+00:00",
   "source_count": 8090,
   "sources": [
     {
@@ -735,9 +735,9 @@
     {
       "path": "CHANGELOG.md",
       "category": "governance_and_docs",
-      "size": 112740,
-      "sha256": "d6d94d0db350d6c863d440386a6dbe4842e3a6e489d6abcc3a51142bc581fa2e",
-      "modified_utc": "2026-11-12T06:33:55+00:00"
+      "size": 113128,
+      "sha256": "0780d13b7e8352509aa34e2c90837cc19ba3c9b4cbe7433dd7b5bac697b686a2",
+      "modified_utc": "2026-11-12T07:03:45+00:00"
     },
     {
       "path": "DOCUMENTATION_GOVERNANCE.md",
@@ -17675,9 +17675,9 @@
     {
       "path": "docs/architecture/CORE_PROVIDER_CONSUMER_IMPLEMENTATION_TASK.md",
       "category": "governance_and_docs",
-      "size": 14363,
-      "sha256": "28d473456d1dfaa863e853fbd4fb940a18b605d1e4a0dc84fca96cb0a70cbf28",
-      "modified_utc": "2026-11-12T06:33:55+00:00"
+      "size": 14690,
+      "sha256": "c39615ec5a680c5a3d74a5848849f903f287adeaa001f3d9fa47e16a061df812",
+      "modified_utc": "2026-11-12T07:03:44+00:00"
     },
     {
       "path": "docs/architecture/CRYPTO_AND_KEYS.md",
@@ -37051,9 +37051,9 @@
     {
       "path": "docs/rag/API.md",
       "category": "governance_and_docs",
-      "size": 10625,
-      "sha256": "b89b794b4d436b30ccd98ce479df0fcc1e0b119f6143c45fbaeaac2573132cf1",
-      "modified_utc": "2026-11-12T06:28:15+00:00"
+      "size": 10826,
+      "sha256": "bab76f47609c28ec354bbf9ed2cf7f47770b2c4e6eca7267b31b94694fb1d20d",
+      "modified_utc": "2026-11-12T07:03:44+00:00"
     },
     {
       "path": "docs/rag/README.md",
