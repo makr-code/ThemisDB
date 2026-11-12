@@ -1,7 +1,7 @@
 ---
 Author: makr-code
 Created: 2026-11-11
-Last Updated: 2026-11-11
+Last Updated: 2026-11-12
 Status: review
 AI_Used: true
 AI_Models: unknown
@@ -113,7 +113,8 @@ source-role map, and remaining task acceptance criteria are pending; see the
 The direct HTTP `/api/v1/llm/rag` route retains its existing `requireAccess`
 check and now binds its request-local QueryEngine checker to the authorized
 collection. This is a collection-boundary guard, not caller or row-level policy
-propagation.
+propagation. It also passes the authorized collection as the per-call RAG
+predicate; AQL passes its configured collection checker in the same context.
 
 Scores are not probabilities and are not calibrated across access paths:
 vector scores currently retain the existing `1 - distance` convention, content
@@ -128,10 +129,23 @@ authenticate callers, infer a tenant from a string or mutate a global engine's
 caller identity for each request. Consumer-specific authentication and row-level
 policy still belong to the existing trusted execution path.
 
+`RetrievalExecutionContext` may also carry a trusted `authorize_collection`
+predicate. It is checked before non-graph queries and before each graph vertex is
+loaded or expanded; false returns and exceptions deny retrieval. The configured
+QueryEngine checker remains enforced independently. Do not populate this
+predicate from untrusted query or YAML fields. The callback travels with the
+call context rather than mutable engine-wide caller state, but it does not
+provide caller/tenant identity or row-level policy by itself. Existing callers
+that omit it retain the prior QueryEngine-policy behavior.
+
 Cancellation and deadline checks are cooperative: before and after query calls
 and between materialization steps. They do not preempt a blocking backend call.
 Returned-result limits do not bound all work performed inside the query engine.
 The existing graph traversal also retains its own internal result limit.
+
+Adding the callback changes the in-memory layout of `RetrievalExecutionContext`,
+so binary consumers must rebuild. The original `QueryEngine::executeGeneralTraversal`
+overload remains available.
 
 The provider propagates errors reported by QueryEngine through `Result<T>` with
 their codes/context; backend/allocation exceptions reach the consumer boundary.

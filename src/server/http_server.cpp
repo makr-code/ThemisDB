@@ -5658,7 +5658,13 @@ http::response<http::string_body> HttpServer::routeRequest(
                         rag::RetrievalRequest retrieval_request;
                         retrieval_request.query = std::move(vector_query);
                         retrieval_request.max_candidates = static_cast<std::size_t>(top_k);
-                        auto evidence = provider.retrieve(retrieval_request);
+                        rag::RetrievalExecutionContext execution_context;
+                        execution_context.authorize_collection =
+                            [authorized_collection = collection](
+                                const std::string& requested_collection) {
+                                return requested_collection == authorized_collection;
+                            };
+                        auto evidence = provider.retrieve(retrieval_request, execution_context);
                         if (!evidence) {
                             throw std::runtime_error("RAG retrieval failed: " + evidence.error().context());
                         }

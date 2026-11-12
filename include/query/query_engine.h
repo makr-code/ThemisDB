@@ -435,6 +435,31 @@ public:
     ) const;
 
     /**
+     * @brief Traverse a graph while applying an additional request-scoped collection policy.
+     * @param startVertex Starting vertex key; its collection is checked before access.
+     * @param minDepth Minimum returned traversal depth; must be non-negative.
+     * @param maxDepth Maximum traversal depth; must not be less than minDepth.
+     * @param direction Edge traversal direction.
+     * @param graphId Graph identifier used by the existing traversal contract.
+     * @param edgeTypeFilter Optional edge type restriction.
+     * @param authorizeCollection Trusted per-call predicate applied before each
+     *        visited vertex is loaded or expanded; an empty predicate adds no policy.
+     * @return Traversal results, or the existing query error including access denied.
+     * @note The configured engine-level policy and this request policy are both
+     *       enforced. A throwing request predicate is treated as denial; it may
+     *       be called concurrently if the caller shares it across traversals.
+     */
+    Result<std::vector<TraversalResult>> executeGeneralTraversal(
+        const std::string& startVertex,
+        int minDepth,
+        int maxDepth,
+        TraversalDirection direction,
+        const std::string& graphId,
+        const std::string& edgeTypeFilter,
+        const std::function<bool(const std::string&)>& authorizeCollection
+    ) const;
+
+    /**
      * @brief Execute And Entities.
      * @param[in] q Input parameter.
      * @return Return value.
@@ -874,5 +899,3 @@ struct QueryEngine::EvaluationContext {
 
 } // namespace query
 } // namespace themis
-
-

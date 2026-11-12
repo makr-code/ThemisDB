@@ -22,6 +22,21 @@ Result<void> checkExecution(const RetrievalExecutionContext& context) {
     return OkVoid();
 }
 
+Result<void> checkCollectionAccess(
+    const RetrievalExecutionContext& context, const std::string& collection) {
+    if (!context.authorize_collection) {
+        return OkVoid();
+    }
+    try {
+        if (context.authorize_collection(collection)) {
+            return OkVoid();
+        }
+    } catch (...) {
+    }
+    return ErrVoid(errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+                   "RAG collection access denied");
+}
+
 } // namespace
 
 Result<RetrievalResult> RAGProvider::retrieve(
@@ -45,6 +60,10 @@ Result<RetrievalResult> RAGProvider::retrieve(
         auto active = checkExecution(context);
         if (!active) {
             return active;
+        }
+        auto authorized = checkCollectionAccess(context, collection);
+        if (!authorized) {
+            return authorized;
         }
         auto candidate = makeRAGCandidate(id, collection, entity, score, provenance);
         if (!candidate) {
@@ -79,6 +98,10 @@ Result<RetrievalResult> RAGProvider::retrieve(
                  specification.fuzzyPredicate || specification.spatialPredicate)) {
                 return ErrVoid(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                                "Primary-key lookup cannot bypass additional RAG predicates");
+            }
+            auto authorized = checkCollectionAccess(context, specification.table);
+            if (!authorized) {
+                return authorized;
             }
             auto keys = engine_.executeAndKeys(specification);
             if (!keys) {
@@ -123,6 +146,10 @@ Result<RetrievalResult> RAGProvider::retrieve(
                 return ErrVoid(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                                "RAG vector query requires a collection, field and finite nonzero embedding");
             }
+            auto authorized = checkCollectionAccess(context, specification.table);
+            if (!authorized) {
+                return authorized;
+            }
             auto query = specification;
             query.k = request.max_candidates;
             auto matches = engine_.executeVectorGeoQuery(query);
@@ -142,6 +169,10 @@ Result<RetrievalResult> RAGProvider::retrieve(
                 !specification.spatial_filter) {
                 return ErrVoid(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                                "RAG content query requires collection, text field and search text");
+            }
+            auto authorized = checkCollectionAccess(context, specification.table);
+            if (!authorized) {
+                return authorized;
             }
             auto query = specification;
             query.limit = request.max_candidates;
@@ -163,9 +194,18 @@ Result<RetrievalResult> RAGProvider::retrieve(
                 return ErrVoid(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                                "RAG graph query requires a start vertex and depth range within 0..16");
             }
+            const auto start_slash = specification.start_vertex.find('/');
+            const auto start_collection = start_slash == std::string::npos
+                ? std::string{"vertices"}
+                : specification.start_vertex.substr(0, start_slash);
+            auto authorized = checkCollectionAccess(context, start_collection);
+            if (!authorized) {
+                return authorized;
+            }
             auto matches = engine_.executeGeneralTraversal(
                 specification.start_vertex, specification.min_depth, specification.max_depth,
-                specification.direction, specification.graph_id, specification.edge_type);
+                specification.direction, specification.graph_id, specification.edge_type,
+                context.authorize_collection);
             if (!matches) {
                 return tl::unexpected(matches.error());
             }

@@ -44,7 +44,7 @@ registration, persistent storage, external telemetry, or production readiness.
 
 ## In Progress
 
-- [~] Core Provider/Consumer source-identity and vector-text materialization follow-up (2026-11-11)
+- [~] Core Provider/Consumer source-identity and vector-text materialization follow-up (2026-11-12)
   - Current source diff adds typed `RAGSourceReference` fields, exact source
     identity on normal vector-ingestion entities, ContentManager chunk text and
     exact `chunk:<id>` source keys on vector entities, and namespace-gated
@@ -55,9 +55,12 @@ registration, persistent storage, external telemetry, or production readiness.
     token and configured retrieval deadline to `RAGProvider`. Both checks are
     cooperative and cannot interrupt a blocking QueryEngine operation; the new
     backend-delay regression test has not been run.
-  - The direct HTTP `/api/v1/llm/rag` route retains its `requireAccess` check and
-    binds the request-local QueryEngine checker to the authorized collection.
-    This does not propagate caller identity or row-level policy; regression
+  - The direct HTTP `/api/v1/llm/rag` route retains its `requireAccess` check,
+    binds the request-local QueryEngine checker to the authorized collection,
+    and passes that boundary through the per-call retrieval context. AQL passes
+    its configured collection checker in the same context. QueryEngine applies
+    the predicate before graph vertices are loaded or expanded. This still does
+    not propagate caller/tenant identity or row-level policy; regression
     coverage has not been run.
   - Real HTTP/AQL/YAML startup wiring, full request-context/auth isolation, the
     complete direct-`src/` role map, remaining acceptance criteria, and focused

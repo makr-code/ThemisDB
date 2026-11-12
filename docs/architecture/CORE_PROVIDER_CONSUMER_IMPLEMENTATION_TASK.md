@@ -1,7 +1,7 @@
 ---
 Author: makr-code
 Created: 2026-11-11
-Last Updated: 2026-11-11
+Last Updated: 2026-11-12
 Status: draft
 AI_Used: true
 AI_Models: unknown
@@ -72,12 +72,14 @@ wrappers.
 - `LLMAQLHandler::executeRAG()` passes its timeout manager cancellation token to
   `RAGProvider`. It now also passes a per-execution deadline derived from the
   configured AQL RAG timeout; both checks remain cooperative around QueryEngine
-  calls and cannot interrupt a blocking backend operation.
+  calls and cannot interrupt a blocking backend operation. It also passes the
+  configured collection checker as a request-scoped authorization predicate.
 - The direct HTTP `/api/v1/llm/rag` route checks `data:read`/`data.read` before
   constructing its request-local `QueryEngine`; that engine now rejects
-  collections other than the one authorized by the route. This guards the
-  collection boundary only and does not propagate caller identity or row-level
-  policy into retrieval.
+  collections other than the one authorized by the route. The route also passes
+  the authorized collection as a request-scoped retrieval predicate. This guards
+  the collection boundary only and does not propagate caller identity, tenant
+  identity, or row-level policy into retrieval.
 - `search`, `LayeredRetrievalOrchestrator`, `ProcessGraphRag`, and
   `ethics_ai/RAGContextEngine` have specialized behavior. Preserve their domain
   policies; this task does not migrate all of them.
@@ -91,10 +93,13 @@ The current source diff adds `RAGSourceReference` and candidate parsing for exac
 source-reference fields; records exact source identity on vector ingestion
 entities; stores ContentManager chunk text and its exact `chunk:<id>` locator on
 the corresponding vector entity; gates vector-key hydration on an exact
-initialized vector-index/query namespace match; and propagates the AQL RAG
-timeout as a cooperative retrieval deadline. Focused test-source changes
-include real QueryEngine-backed source-materialization and deadline cases, but
-no test execution result is recorded here.
+initialized vector-index/query namespace match; propagates the AQL RAG timeout
+as a cooperative retrieval deadline; and supports a per-call collection
+authorization predicate, wired from the AQL checker and direct HTTP route.
+QueryEngine applies that predicate before graph vertex loading and expansion.
+Focused test-source changes cover source materialization, deadline, and
+request-isolated collection authorization, but no C++ test execution result is
+recorded here.
 
 This is partial implementation progress, not completion of this task or its
 acceptance criteria. In particular, normal vector ingestion currently carries
@@ -103,10 +108,9 @@ a source dereference implementation. Do not claim that normal ingestion now
 fetches the authoritative full source text.
 
 Still pending: trace and verify real HTTP/AQL/YAML startup and request wiring;
-complete production composition; complete per-request authorization,
-tenant/collection isolation and context propagation (HTTP request-local
-collection binding and AQL cancellation/deadline propagation are narrow slices,
-not full caller-context isolation);
+complete production composition; complete caller/tenant/row-level authorization
+and full context propagation (collection checks and concurrent context tests do
+not establish tenant identity or row-level policy);
 establish the evidence-backed role map for all direct `src/`
 directories; complete source materialization/compatibility and remaining
 acceptance cases; and run and record the required focused tests and registration

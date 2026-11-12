@@ -4602,6 +4602,20 @@ QueryEngine::executeGeneralTraversal(
     const std::string& graphId,
     const std::string& edgeTypeFilter
 ) const {
+	return executeGeneralTraversal(startVertex, minDepth, maxDepth, direction,
+	                               graphId, edgeTypeFilter, {});
+}
+
+Result<std::vector<TraversalResult>>
+QueryEngine::executeGeneralTraversal(
+    const std::string& startVertex,
+    int minDepth,
+    int maxDepth,
+    TraversalDirection direction,
+    const std::string& graphId,
+    const std::string& edgeTypeFilter,
+    const std::function<bool(const std::string&)>& authorizeCollection
+) const {
 	auto span = Tracer::startSpan("QueryEngine.executeGeneralTraversal");
 	span.setAttribute("query.start_vertex", startVertex);
 	span.setAttribute("query.min_depth", static_cast<int64_t>(minDepth));
@@ -4656,6 +4670,19 @@ QueryEngine::executeGeneralTraversal(
 			return Err<std::vector<TraversalResult>>(
 				errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
 				"Access denied for collection: " + table);
+		}
+		if (authorizeCollection) {
+			bool authorized = false;
+			try {
+				authorized = authorizeCollection(table);
+			} catch (...) {
+				authorized = false;
+			}
+			if (!authorized) {
+				return Err<std::vector<TraversalResult>>(
+					errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+					"Access denied for collection: " + table);
+			}
 		}
 		
 		// Add to results if within depth range

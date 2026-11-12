@@ -10,8 +10,10 @@
 #include "ingestion/ingestion_sinks.h"
 
 #include <filesystem>
+#include <future>
 #include <limits>
 #include <nlohmann/json.hpp>
+#include <stdexcept>
 #include <thread>
 
 using namespace themis;
@@ -251,6 +253,77 @@ TEST_F(RAGProviderTest, RequestScopedCollectionCheckerAllowsOnlyAuthorizedCollec
     const auto denied_result = provider_->retrieve(denied_request);
     ASSERT_FALSE(denied_result);
     EXPECT_EQ(denied_result.error().code(), errors::ErrorCode::ERR_QUERY_ACCESS_DENIED);
+}
+
+TEST_F(RAGProviderTest, RequestScopedAuthorizationIsolatedAcrossConcurrentRetrievals) {
+    storeDocument("d1", "request-local evidence");
+    query::VectorGeoQuery query;
+    query.table = "docs";
+    query.query_vector = {1.0f, 0.0f};
+    rag::RetrievalRequest request;
+    request.query = query;
+
+    rag::RetrievalExecutionContext allowed_context;
+    allowed_context.authorize_collection = [](const std::string& collection) {
+        return collection == "docs";
+    };
+    rag::RetrievalExecutionContext denied_context;
+    denied_context.authorize_collection = [](const std::string& collection) {
+        return collection == "other";
+    };
+
+    auto allowed = std::async(std::launch::async, [&] {
+        return provider_->retrieve(request, allowed_context);
+    });
+    auto denied = std::async(std::launch::async, [&] {
+        return provider_->retrieve(request, denied_context);
+    });
+    const auto allowed_result = allowed.get();
+    const auto denied_result = denied.get();
+    ASSERT_TRUE(allowed_result) << allowed_result.error().context();
+    ASSERT_EQ(allowed_result->candidates.size(), 1);
+    EXPECT_EQ(allowed_result->candidates.front().content, "request-local evidence");
+    ASSERT_FALSE(denied_result);
+    EXPECT_EQ(denied_result.error().code(), errors::ErrorCode::ERR_QUERY_ACCESS_DENIED);
+}
+
+TEST_F(RAGProviderTest, RequestScopedAuthorizationExceptionsFailClosed) {
+    query::ConjunctiveQuery query;
+    query.table = "docs";
+    rag::RetrievalRequest request;
+    request.query = query;
+    rag::RetrievalExecutionContext context;
+    context.authorize_collection = [](const std::string&) -> bool {
+        throw std::runtime_error("authorization backend unavailable");
+    };
+
+    const auto result = provider_->retrieve(request, context);
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_ACCESS_DENIED);
+}
+
+TEST_F(RAGProviderTest, RequestScopedGraphAuthorizationPrecedesCrossCollectionVertexRead) {
+    const auto start = BaseEntity::fromFields(
+        "docs/start", {{"content", std::string{"authorized start"}}});
+    ASSERT_TRUE(db_->put(KeySchema::makeGraphNodeKey("docs/start"), start.serialize()));
+    BaseEntity edge("edge-1");
+    edge.setField("_from", std::string{"docs/start"});
+    edge.setField("_to", std::string{"private/secret"});
+    ASSERT_TRUE(graph_->addEdge(edge).ok);
+
+    rag::GraphRetrievalQuery graph_query;
+    graph_query.start_vertex = "docs/start";
+    graph_query.max_depth = 1;
+    rag::RetrievalRequest request;
+    request.query = graph_query;
+    rag::RetrievalExecutionContext context;
+    context.authorize_collection = [](const std::string& collection) {
+        return collection == "docs";
+    };
+
+    const auto result = provider_->retrieve(request, context);
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_ACCESS_DENIED);
 }
 
 TEST_F(RAGProviderTest, GraphReferencesCanMaterializeCanonicalRelationalDocuments) {

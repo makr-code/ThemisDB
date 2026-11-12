@@ -1249,6 +1249,7 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                 : (retrieval_timeout >= max_retrieval_timeout
                     ? std::chrono::steady_clock::time_point::max()
                     : retrieval_started_at + retrieval_timeout);
+        const auto collection_access_checker = impl_->collection_access_checker_;
 
         // Execute with timeout and cooperative cancellation propagated to retrieval
         // and streaming callbacks.
@@ -1261,8 +1262,8 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                         throw LLMException(LLMErrorCode::RAG_FAILED,
                                            "RAG retrieval engine not configured; call setQueryEngine()");
                     }
-                    if (impl_->collection_access_checker_ &&
-                        !impl_->collection_access_checker_(collection)) {
+                    if (collection_access_checker &&
+                        !collection_access_checker(collection)) {
                         throw LLMException(LLMErrorCode::RAG_FAILED,
                                            "RAG collection access denied");
                     }
@@ -1293,6 +1294,7 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                     rag::RetrievalExecutionContext execution_context;
                     execution_context.cancelled = cancel_token;
                     execution_context.deadline = retrieval_deadline;
+                    execution_context.authorize_collection = collection_access_checker;
                     const rag::RAGProvider provider(*impl_->query_engine_);
                     auto evidence = provider.retrieve(retrieval_request, execution_context);
                     if (!evidence) {
