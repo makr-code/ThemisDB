@@ -1,20 +1,24 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T19:38:24+00:00",
+  "generated_at": "2026-11-12T19:57:48+00:00",
   "mode": "incremental",
   "source_count": 8091,
-  "source_hash": "30438065c7fc65945f446bba7f7c2c2d7104ebe4032bb563ff2484c35ee87dc7",
+  "source_hash": "b5d8be0965ac8712890f0c1c4b2047d245a1afe08a836d7a18c9118fdf018c01",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
-    "changed_count": 1,
+    "changed_count": 5,
     "added_preview": [],
     "removed_preview": [],
     "changed_preview": [
-      ".github/workflows/build-widget.yml"
+      ".github/workflows/gate-pr-doc-metadata.yml",
+      ".github/workflows/gate-pr-doxygen-governance.yml",
+      ".github/workflows/gate-pr-edition-license.yml",
+      ".github/workflows/gate-pr-plugin-boundary.yml",
+      ".github/workflows/gate-pr-primary-doc-structure.yml"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "d9abd3dcabeeafd21bd4739f02655715115b1be0c9f1b7e3197f8e9685158583"
+  "manifest_sha256": "ac3446b77673a8296619d0ef4dbc69d6505820eaa96cbaab7898847f560ab4ad"
 }

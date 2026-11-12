@@ -553,6 +553,12 @@ Sie prüft Cachepfade und Backend-Auswahl, nicht die tatsächliche Online-Treffe
 - Manual runs default to boolean `dry_run=true`; manifest validation and artifacts still run, while the fork push and upstream PR job remain skipped. The final job summary states the preview/result and artifact name.
 - Set `dry_run=false` only for intentional submission. The tag is passed through an environment variable and restricted to safe release-tag characters before it is used for artifact selection and manifest paths.
 
+## Pull-Request Gate Feedback Permissions
+- Keep workflow-level permissions read-only for validation gates. Grant issue/PR write scopes only to jobs that post feedback or update tracker labels/issues.
+- If feedback is performed inside the validation job, guard every write step to its intended event (`pull_request`); manual dispatch and push validation should remain read-only without skipping checks.
+- If feedback is isolated into a separate job, scope that job's permissions and event condition independently from the validation job.
+- `gate-pr-plugin-boundary.yml` and `gate-pr-edition-license.yml` post idempotent PR comments from their validation jobs and therefore require job-scoped `pull-requests: write`; their separate human-loop jobs retain only `issues: write`.
+
 ## Manually Triggering Workflows
 Empfohlen via GitHub CLI:
 

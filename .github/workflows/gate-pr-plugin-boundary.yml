@@ -44,14 +44,15 @@ concurrency:
 
 permissions:
   contents: read
-  pull-requests: write
-  issues: write
 
 jobs:
   private-plugin-boundary-check:
     name: "Gate: Private Plugin Boundary Enforcement"
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - uses: actions/checkout@v5
         with:

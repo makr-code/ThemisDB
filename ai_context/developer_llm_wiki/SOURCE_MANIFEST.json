@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T19:38:24+00:00",
+  "generated_at": "2026-11-12T19:57:48+00:00",
   "source_count": 8091,
   "sources": [
     {
@@ -203,23 +203,23 @@
     {
       "path": ".github/workflows/gate-pr-doc-metadata.yml",
       "category": "build_test_ci",
-      "size": 16868,
-      "sha256": "aa6b2ce8ae57fc0fcff69916f48a8f3834fcf9de40d4e4714a7c2e9772ca8cc1",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 16914,
+      "sha256": "ca290ddda4457344279980871633fbced36d8e19d841755b30cf5db78c9229b9",
+      "modified_utc": "2026-11-12T19:55:57+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-doxygen-governance.yml",
       "category": "build_test_ci",
-      "size": 15615,
-      "sha256": "b52dcb9ed052e38dcadbccb24d22b3445f0cca4bce05122ea2b64e7db4a2f09e",
-      "modified_utc": "2026-11-09T09:51:18+00:00"
+      "size": 15661,
+      "sha256": "3e86708c58c4eccb9db0738518d4b05a496b8e59f386c559084ec70c104a994c",
+      "modified_utc": "2026-11-12T19:56:00+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-edition-license.yml",
       "category": "build_test_ci",
-      "size": 10983,
-      "sha256": "32768597ff46e0b5fc9fb3f2a1fb37ed13383f64dc7968a0c91937a45fff94ea",
-      "modified_utc": "2026-11-09T09:51:18+00:00"
+      "size": 11009,
+      "sha256": "8c508978f04664d79502bc8ecd52ce0e10dcfed34b5f465b2b97809f22d62751",
+      "modified_utc": "2026-11-12T19:57:32+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-file-size.yml",
@@ -259,16 +259,16 @@
     {
       "path": ".github/workflows/gate-pr-plugin-boundary.yml",
       "category": "build_test_ci",
-      "size": 10253,
-      "sha256": "728026c1c4ca87a56b9a92968d88b19e6bb4e9d5064bb35a58dd06459708abcc",
-      "modified_utc": "2026-11-09T09:51:18+00:00"
+      "size": 10279,
+      "sha256": "893726259c7569a2e33211dce8e9b9c8fb301775db0ee0e250d5dfd813f247f0",
+      "modified_utc": "2026-11-12T19:57:27+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-primary-doc-structure.yml",
       "category": "build_test_ci",
-      "size": 5736,
-      "sha256": "fb2c7a7f3d0493f17955bf556b3eba61cdd92cc4e88725a32b151c186ceecc34",
-      "modified_utc": "2026-11-01T06:39:13+00:00"
+      "size": 5697,
+      "sha256": "c958a6779c21a03a8fb147c016e4e8936d6db09bb99dd137adfbac2b6773bd99",
+      "modified_utc": "2026-11-12T19:56:03+00:00"
     },
     {
       "path": ".github/workflows/gate-pr-rag-eval.yml",

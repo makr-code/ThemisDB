@@ -158,6 +158,65 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         self.assertTrue(llm["jobs"]["run-rag-suite"]["steps"])
         self.assertTrue(llm["jobs"]["run-adalora-suite"]["steps"])
 
+    def test_pr_gate_feedback_permissions_are_scoped_to_mutating_jobs(self) -> None:
+        workflow_permissions = {"contents": "read"}
+        issue_and_pr_permissions = {
+            "contents": "read",
+            "issues": "write",
+            "pull-requests": "write",
+        }
+
+        for name in (
+            "gate-pr-doc-metadata.yml",
+            "gate-pr-doxygen-governance.yml",
+            "gate-pr-primary-doc-structure.yml",
+            "gate-pr-plugin-boundary.yml",
+            "gate-pr-edition-license.yml",
+        ):
+            with self.subTest(workflow=name):
+                workflow = load_workflow(name)
+                self.assertEqual(workflow["permissions"], workflow_permissions)
+
+        for name, validation_job in (
+            ("gate-pr-doc-metadata.yml", "doc-metadata-gate"),
+            ("gate-pr-doxygen-governance.yml", "doxygen-governance"),
+        ):
+            with self.subTest(workflow=name, job=validation_job):
+                jobs = load_workflow(name)["jobs"]
+                self.assertEqual(jobs[validation_job]["permissions"], issue_and_pr_permissions)
+                writes = [
+                    step for step in jobs[validation_job]["steps"]
+                    if step.get("uses") == "./.github/actions/status-flags-and-issues"
+                ]
+                self.assertTrue(writes)
+                self.assertTrue(
+                    all("github.event_name == 'pull_request'" in step["if"] for step in writes)
+                )
+
+        primary_feedback = load_workflow("gate-pr-primary-doc-structure.yml")["jobs"]["gate-feedback"]
+        self.assertEqual(
+            primary_feedback["permissions"],
+            {"pull-requests": "write", "issues": "write"},
+        )
+        self.assertIn("github.event_name == 'pull_request'", primary_feedback["if"])
+
+        for name, validation_job in (
+            ("gate-pr-plugin-boundary.yml", "private-plugin-boundary-check"),
+            ("gate-pr-edition-license.yml", "edition-license-validation"),
+        ):
+            with self.subTest(workflow=name, job=validation_job):
+                jobs = load_workflow(name)["jobs"]
+                self.assertEqual(
+                    jobs[validation_job]["permissions"],
+                    {"contents": "read", "pull-requests": "write"},
+                )
+                for feedback_job in ("human-loop-escalation", "human-loop-resolution"):
+                    self.assertEqual(
+                        jobs[feedback_job]["permissions"],
+                        {"contents": "read", "issues": "write"},
+                    )
+                    self.assertIn("github.event_name == 'pull_request'", jobs[feedback_job]["if"])
+
     def test_winget_e2e_dry_run_preserves_validation_and_suppresses_submission(self) -> None:
         workflow = load_workflow("build-widget.yml")
         triggers = workflow.get(True, workflow.get("on"))

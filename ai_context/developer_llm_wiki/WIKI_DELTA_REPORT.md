@@ -21,7 +21,7 @@ Status: Active
 
 - Added: 0
 - Removed: 0
-- Changed: 1
+- Changed: 5
 
 ## Added
 
@@ -33,4 +33,8 @@ Status: Active
 
 ## Changed
 
-- .github/workflows/build-widget.yml
+- .github/workflows/gate-pr-doc-metadata.yml
+- .github/workflows/gate-pr-doxygen-governance.yml
+- .github/workflows/gate-pr-edition-license.yml
+- .github/workflows/gate-pr-plugin-boundary.yml
+- .github/workflows/gate-pr-primary-doc-structure.yml

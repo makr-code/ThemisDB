@@ -371,17 +371,17 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/gate-pr-doc-metadata.yml
 - Kategorie: build_test_ci
-- Hash: `aa6b2ce8ae57fc0f`
+- Hash: `ca290ddda4457344`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-doxygen-governance.yml
 - Kategorie: build_test_ci
-- Hash: `b52dcb9ed052e38d`
+- Hash: `3e86708c58c4eccb`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-edition-license.yml
 - Kategorie: build_test_ci
-- Hash: `32768597ff46e0b5`
+- Hash: `8c508978f04664d7`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-file-size.yml
@@ -411,12 +411,12 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/gate-pr-plugin-boundary.yml
 - Kategorie: build_test_ci
-- Hash: `728026c1c4ca87a5`
+- Hash: `893726259c7569a2`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-primary-doc-structure.yml
 - Kategorie: build_test_ci
-- Hash: `fb2c7a7f3d0493f1`
+- Hash: `c958a6779c21a03a`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-rag-eval.yml
