@@ -974,7 +974,8 @@ TEST(ShardRpcInjectHandlerTest, InjectedAbortVoteFailsPrepare) {
             return {{"status", "ok"}};
         });
 
-    EpochToken token{1, "coord", "shard-abort", std::chrono::system_clock::now()};
+    themis::sharding::EpochToken token{
+        1, "coord", "shard-abort", std::chrono::system_clock::now()};
     EXPECT_FALSE(client.prepare("txn-abort-1", nlohmann::json::array(), token));
 }
 
@@ -1008,7 +1009,8 @@ TEST(ShardRpcInjectHandlerTest, ClearHandlerRestoresHardcodedFallback) {
         [](std::string, nlohmann::json) -> nlohmann::json {
             return {{"vote", "abort"}, {"status", "failed"}};
         });
-    EpochToken token{1, "coord", "shard-clear", std::chrono::system_clock::now()};
+    themis::sharding::EpochToken token{
+        1, "coord", "shard-clear", std::chrono::system_clock::now()};
     EXPECT_FALSE(client.prepare("txn-clear-1", nlohmann::json::array(), token));
 
     // Clear — hardcoded success fallback should take over.

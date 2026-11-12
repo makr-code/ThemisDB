@@ -139,8 +139,7 @@ TEST_F(RaftPersistenceTest, SnapshotPayloadAndCompactedJournalRecoverTogether) {
     EXPECT_EQ(snapshot->snapshot_index, 1u);
     EXPECT_EQ(snapshot->uncompressed_size, snapshot_payload.size());
     EXPECT_EQ(snapshot->checksum,
-              RaftSnapshotManager::computeChecksum(snapshot_payload.data(),
-                                                  snapshot_payload.size()));
+              "4ba69735ca53765ed6a709edb56c6ea236b7193a3b29a6b390c346f0f4340e4e");
 }
 
 TEST_F(RaftPersistenceTest, SnapshotMetadataDoesNotCompactUntilCompactionIsRequested) {

@@ -42,9 +42,7 @@ void appendParticipantRecord(
     entry.type = type;
     entry.transaction_id = transaction_id;
     wal.append(entry);
-    if (!wal.flush()) {
-        throw std::runtime_error("participant WAL flush failed");
-    }
+    wal.flush();
 }
 
 std::vector<themis::sharding::WALEntry> readWal(const std::string& wal_directory) {

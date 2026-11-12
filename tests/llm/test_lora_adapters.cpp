@@ -31,6 +31,8 @@
 // Conditional compilation for LLM support
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/multi_lora_manager.h"
+using themis::llm::MultiLoRAManager;
+using themis::llm::LoRASlot;
 #endif
 
 using namespace themis;

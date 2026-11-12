@@ -487,9 +487,9 @@ TEST_F(WALStorageTest, DeterministicBitFlips_FailClosedForTenThousandCases) {
     const auto segment_path = fs::path(dir_) / WALStorage::segmentName(1);
     std::ifstream input(segment_path, std::ios::binary);
     ASSERT_TRUE(input.is_open());
-    const std::vector<char> original(
-        std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>());
-    ASSERT_GT(original.size(), size_t{21});
+    const auto original = std::vector<char>(
+        std::istreambuf_iterator<char>{input}, std::istreambuf_iterator<char>{});
+    ASSERT_GT(original.size(), static_cast<size_t>(21));
 
     std::mt19937 generator(0x5EEDu);
     std::uniform_int_distribution<size_t> byte_distribution(21, original.size() - 1);
