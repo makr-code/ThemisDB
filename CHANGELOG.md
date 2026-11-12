@@ -64,7 +64,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   dispatch. Per-call authorization stays in the trusted execution context;
   YAML does not supply credentials or access policy.
 - Server-startup QueryEngine injection, trusted tenant/row-level authorization,
-  and focused C++ test execution remain unverified; this is partial progress.
+  and focused C++ test execution remain unverified; diagnostic CMake
+  configuration stopped because the required `fmt` dependency is unavailable.
+  This is partial progress.
 
 <!--
 AI_Used: true

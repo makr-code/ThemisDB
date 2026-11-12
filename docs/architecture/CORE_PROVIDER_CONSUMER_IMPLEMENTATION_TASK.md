@@ -113,6 +113,9 @@ retrieval-enabled modes through its existing `runRag()` pipeline before
 preserving the existing tool-call parsing and dispatch. This reuses the typed
 provider and the per-call `RetrievalExecutionContext`; it adds no workflow
 executor and does not populate authorization from YAML.
+The focused target has not been built or executed: diagnostic CMake configuration
+stopped at the required `fmt` dependency, which is not installed in the current
+environment.
 
 This is partial implementation progress, not completion of this task or its
 acceptance criteria. In particular, normal vector ingestion currently carries
