@@ -1,7 +1,7 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T18:09:23+00:00",
+  "generated_at": "2026-11-12T18:31:32+00:00",
   "source_count": 8091,
   "sources": [
     {
@@ -133,9 +133,9 @@
     {
       "path": ".github/workflows/coverage-report-nightly.yml",
       "category": "build_test_ci",
-      "size": 11226,
-      "sha256": "ee69e063159edf1b64fff3f94e5cc33a806d042df7a4f6bbf045d8c1ce51b1ef",
-      "modified_utc": "2026-11-12T15:49:35+00:00"
+      "size": 13878,
+      "sha256": "8313f3467cbee3f0f1e0ed1453accde9262ec987ded34b99205fc809cce672f8",
+      "modified_utc": "2026-11-12T18:31:21+00:00"
     },
     {
       "path": ".github/workflows/crda.yml",

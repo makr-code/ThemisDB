@@ -97,12 +97,6 @@ jobs:
           retention-days: 30
           if-no-files-found: warn
 
-      - name: Fail workflow when required tests fail
-        if: always() && (steps.focused_tests.outcome == 'failure' || steps.critical_tests.outcome == 'failure')
-        run: |
-          echo "::error::Focused or release-critical coverage tests failed; see their logs and the uploaded coverage artifacts."
-          exit 1
-      
       - name: Build (with coverage)
         id: coverage_build
         run: |
@@ -235,6 +229,12 @@ jobs:
             coverage-delta.json
           retention-days: 30
           if-no-files-found: warn
+
+      - name: Fail workflow when required tests fail
+        if: always() && (steps.focused_tests.outcome == 'failure' || steps.critical_tests.outcome == 'failure')
+        run: |
+          echo "::error::Focused or release-critical coverage tests failed; see their logs and the uploaded coverage artifacts."
+          exit 1
       
       - name: Update baseline on develop
         id: update_baseline
@@ -244,8 +244,8 @@ jobs:
           steps.critical_tests.outcome == 'success' &&
           (github.event_name == 'schedule' ||
           (github.event_name == 'workflow_dispatch' &&
-          inputs.generate_baseline == true &&
-          inputs.dry_run != true))
+          github.event.inputs.generate_baseline == 'true' &&
+          github.event.inputs.dry_run != 'true'))
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"

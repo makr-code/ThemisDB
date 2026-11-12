@@ -1,10 +1,10 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T18:09:23+00:00",
+  "generated_at": "2026-11-12T18:31:32+00:00",
   "mode": "incremental",
   "source_count": 8091,
-  "source_hash": "7c1d5bf3ef0dd8fb939c95f6f5cdc911be310961a8c3ee69865c65421e283d75",
+  "source_hash": "d4947236911cd6537b44f64e308258f225cd5486515fe96be2d3559156e397ee",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
@@ -12,9 +12,9 @@
     "added_preview": [],
     "removed_preview": [],
     "changed_preview": [
-      ".github/workflows/maintenance-docs.yml"
+      ".github/workflows/coverage-report-nightly.yml"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "4dad0968cded71b62c9226a253698d3b3136c0ea798bd80128b687a2592fd824"
+  "manifest_sha256": "d645f639cd9444585a5148095038c0dc661f2d02376f0a44d0ae9de20f3bdf2d"
 }

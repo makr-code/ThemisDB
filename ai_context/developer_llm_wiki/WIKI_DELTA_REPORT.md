@@ -33,4 +33,4 @@ Status: Active
 
 ## Changed
 
-- .github/workflows/maintenance-docs.yml
+- .github/workflows/coverage-report-nightly.yml

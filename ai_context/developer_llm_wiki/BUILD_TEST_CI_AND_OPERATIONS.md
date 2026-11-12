@@ -321,7 +321,7 @@ for current policy and preserved historical evidence.
 
 ## .github/workflows/coverage-report-nightly.yml
 - Kategorie: build_test_ci
-- Hash: `ee69e063159edf1b`
+- Hash: `8313f3467cbee3f0`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/crda.yml

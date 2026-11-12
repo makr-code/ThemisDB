@@ -761,8 +761,8 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         steps = job["steps"]
         baseline_update = next(step for step in steps if step.get("name") == "Update baseline on develop")
         self.assertIn("github.event_name == 'schedule'", baseline_update["if"])
-        self.assertIn("inputs.generate_baseline == true", baseline_update["if"])
-        self.assertIn("inputs.dry_run != true", baseline_update["if"])
+        self.assertIn("github.event.inputs.generate_baseline == 'true'", baseline_update["if"])
+        self.assertIn("github.event.inputs.dry_run != 'true'", baseline_update["if"])
         self.assertIn("steps.focused_tests.outcome == 'success'", baseline_update["if"])
         self.assertIn("steps.critical_tests.outcome == 'success'", baseline_update["if"])
         self.assertIn("git push", baseline_update["run"])
