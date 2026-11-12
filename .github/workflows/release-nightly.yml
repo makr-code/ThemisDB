@@ -35,6 +35,11 @@ on:
         options:
           - "false"
           - "true"
+      dry_run:
+        description: "Build and validate without creating releases, publishing Docker tags, or updating the nightly issue; scheduled runs still publish."
+        required: false
+        default: true
+        type: boolean
 
 permissions:
   contents: write
@@ -61,14 +66,16 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "Nightly build, release, and Docker publication"
+          scope: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && 'Nightly build and runtime validation (dry-run; publication suppressed)' || 'Nightly build, release, and Docker publication' }}
           job-results: ${{ toJSON(needs) }}
 
   mark-release-pending:
     name: "Release: Mark Nightly Status"
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    if: |
+      github.event_name == 'schedule' ||
+      (github.event_name == 'workflow_dispatch' && inputs.dry_run != true)
     permissions:
       contents: read
       issues: write
@@ -302,6 +309,7 @@ jobs:
 
       - name: Create GitHub Release
         id: release
+        if: github.event_name != 'workflow_dispatch' || inputs.dry_run != true
         uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
         with:
           tag_name: ${{ needs.generate-metadata.outputs.nightly-tag }}
@@ -311,6 +319,19 @@ jobs:
           files: |
             build-metadata.json
             release-artifacts/**/*
+
+      - name: Preview GitHub Release publication
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run
+        env:
+          NIGHTLY_TAG: ${{ needs.generate-metadata.outputs.nightly-tag }}
+        run: |
+          set -euo pipefail
+          {
+            echo "### Dry-run: GitHub Release"
+            echo "- Would create prerelease tag: \`${NIGHTLY_TAG}\`"
+            echo "- Would attach \`build-metadata.json\` and the downloaded release artifacts."
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "::notice::Dry run: GitHub Release ${NIGHTLY_TAG} was not created."
 
   publish-docker:
     name: "Validate: Nightly Docker Runtime (${{ matrix.arch }})"
@@ -339,12 +360,14 @@ jobs:
         uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069  # v4.4.1
 
       - name: Log in to Docker Hub
+        if: github.event_name != 'workflow_dispatch' || inputs.dry_run != true
         uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f  # v4.6.0
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Log in to GitHub Container Registry (OIDC)
+        if: github.event_name != 'workflow_dispatch' || inputs.dry_run != true
         uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f  # v4.6.0
         with:
           registry: ghcr.io
@@ -395,7 +418,8 @@ jobs:
           file: ./docker/Dockerfile.unified
           target: runtime
           pull: true
-          push: true
+          push: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run != true }}
+          load: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
           platforms: linux/${{ matrix.arch }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ needs.generate-metadata.outputs.docker-labels }}
@@ -407,16 +431,23 @@ jobs:
         env:
           IMAGE_REF: ${{ steps.meta.outputs.tags }}
           IMAGE_DIGEST: ${{ steps.build-candidate.outputs.digest }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
         run: |
           set -euo pipefail
-          [[ "$IMAGE_DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]] || {
-            echo "::error::Missing or invalid Docker candidate digest"; exit 1;
-          }
-          IMAGE_REF="${IMAGE_REF}@${IMAGE_DIGEST}"
-          docker pull "$IMAGE_REF"
+          if [ "${DRY_RUN}" = "true" ]; then
+            echo "::notice::Dry run: testing locally loaded Docker image ${IMAGE_REF} without registry publication."
+          else
+            [[ "$IMAGE_DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]] || {
+              echo "::error::Missing or invalid Docker candidate digest"; exit 1;
+            }
+            IMAGE_REF="${IMAGE_REF}@${IMAGE_DIGEST}"
+            docker pull "$IMAGE_REF"
+          fi
           python3 scripts/release/runtime_smoke_gate.py --image "$IMAGE_REF" \
             --output "${RUNNER_TEMP}/nightly-runtime-smoke.json"
-          printf '%s\n' "$IMAGE_REF" > "${RUNNER_TEMP}/nightly-docker-digest-${{ matrix.arch }}.txt"
+          if [ "${DRY_RUN}" != "true" ]; then
+            printf '%s\n' "$IMAGE_REF" > "${RUNNER_TEMP}/nightly-docker-digest-${{ matrix.arch }}.txt"
+          fi
 
       - name: Upload nightly runtime dependency and startup evidence
         if: always()
@@ -431,6 +462,7 @@ jobs:
 
   publish-docker-manifest:
     name: "Publish: Validated Nightly Docker Manifests"
+    if: github.event_name != 'workflow_dispatch' || inputs.dry_run != true
     needs: [generate-metadata, publish-docker]
     runs-on: ubuntu-24.04
     permissions:
@@ -482,7 +514,7 @@ jobs:
   finalize-release-status:
     name: "Release: Finalize Nightly Status"
     needs: [check-changes, build-matrix, generate-metadata, publish-release, publish-docker, publish-docker-manifest]
-    if: always()
+    if: always() && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -596,9 +628,32 @@ jobs:
     if: always()
     steps:
       - name: Report nightly build status
+        env:
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+          NIGHTLY_TAG: ${{ needs.generate-metadata.outputs.nightly-tag }}
+          VERSION: ${{ needs.generate-metadata.outputs.version }}
+          RELEASE_RESULT: ${{ needs.publish-release.result }}
+          DOCKER_RESULT: ${{ needs.publish-docker-manifest.result }}
         run: |
+          set -euo pipefail
           echo "✓ Nightly Release Complete"
-          echo "  Tag: ${{ needs.generate-metadata.outputs.nightly-tag }}"
-          echo "  Version: ${{ needs.generate-metadata.outputs.version }}"
+          echo "  Tag: ${NIGHTLY_TAG}"
+          echo "  Version: ${VERSION}"
           echo "  Release Type: ${{ needs.generate-metadata.outputs.release-type }}"
           echo "  Workflow: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          {
+            echo "### Nightly Run Details"
+            echo "- Version: \`${VERSION:-unresolved}\`"
+            echo "- Tag: \`${NIGHTLY_TAG:-unresolved}\`"
+            if [ "${DRY_RUN}" = "true" ]; then
+              echo "- Mode: manual dry run; build and runtime validation ran, publication and issue updates were suppressed."
+              echo "- GitHub Release job: \`${RELEASE_RESULT}\` (release creation step skipped)"
+              echo "- Docker manifest job: \`${DOCKER_RESULT}\` (promotion skipped)"
+              echo "- Scheduled runs are unaffected and continue to publish."
+            else
+              echo "- Mode: publishing"
+              echo "- GitHub Release job: \`${RELEASE_RESULT}\`"
+              echo "- Docker manifest job: \`${DOCKER_RESULT}\`"
+            fi
+            echo "- Run: [${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})"
+          } >> "$GITHUB_STEP_SUMMARY"

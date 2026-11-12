@@ -60,6 +60,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "maintenance-soll-ist-gap-issues.yml",
             "publish-wiki.yml",
             "release-docker-image.yml",
+            "release-nightly.yml",
             "wiki-pr-gate.yml",
         )
         reusable_workflows = (
@@ -84,6 +85,48 @@ class WorkflowDryRunContractTests(unittest.TestCase):
                 dry_run = next(spec for key, spec in inputs.items() if key.lower().replace("-", "_") == "dry_run")
                 self.assertEqual(dry_run["type"], "boolean")
                 self.assertIs(dry_run["default"], True)
+
+    def test_nightly_manual_dry_run_validates_without_publishing_or_updating_issues(self) -> None:
+        workflow = load_workflow("release-nightly.yml")
+        triggers = workflow.get(True, workflow.get("on"))
+        dry_run = triggers["workflow_dispatch"]["inputs"]["dry_run"]
+        self.assertEqual(dry_run["type"], "boolean")
+        self.assertIs(dry_run["default"], True)
+        self.assertIn("scheduled runs still publish", dry_run["description"])
+
+        jobs = workflow["jobs"]
+        self.assertIn("inputs.dry_run != true", jobs["mark-release-pending"]["if"])
+        self.assertIn("'schedule'", jobs["mark-release-pending"]["if"])
+
+        release_steps = jobs["publish-release"]["steps"]
+        create_release = next(step for step in release_steps if step.get("name") == "Create GitHub Release")
+        preview_release = next(
+            step for step in release_steps if step.get("name") == "Preview GitHub Release publication"
+        )
+        self.assertIn("inputs.dry_run != true", create_release["if"])
+        self.assertIn("inputs.dry_run", preview_release["if"])
+        self.assertIn("$GITHUB_STEP_SUMMARY", preview_release["run"])
+
+        docker_steps = jobs["publish-docker"]["steps"]
+        by_name = {step["name"]: step for step in docker_steps}
+        for login_name in ("Log in to Docker Hub", "Log in to GitHub Container Registry (OIDC)"):
+            with self.subTest(login=login_name):
+                self.assertIn("inputs.dry_run != true", by_name[login_name]["if"])
+
+        build = by_name["Build staged Docker runtime candidate"]["with"]
+        self.assertIn("inputs.dry_run != true", build["push"])
+        self.assertIn("inputs.dry_run", build["load"])
+        smoke = by_name["Validate default container startup before publication"]
+        self.assertIn("inputs.dry_run", smoke["env"]["DRY_RUN"])
+        self.assertIn("runtime_smoke_gate.py", smoke["run"])
+        self.assertIn('if [ "${DRY_RUN}" = "true" ]', smoke["run"])
+        self.assertIn("docker pull", smoke["run"])
+
+        self.assertIn("inputs.dry_run != true", jobs["publish-docker-manifest"]["if"])
+        self.assertIn("inputs.dry_run != true", jobs["finalize-release-status"]["if"])
+        notify = jobs["notify"]["steps"][0]
+        self.assertIn("$GITHUB_STEP_SUMMARY", notify["run"])
+        self.assertIn("publication and issue updates were suppressed", notify["run"])
 
     def test_wiki_dry_run_still_builds_and_validates_without_mutation(self) -> None:
         workflow = load_workflow("publish-wiki.yml")
