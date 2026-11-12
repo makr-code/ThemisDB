@@ -64,8 +64,9 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Release version to prepare (e.g. 2.5.0 or v2.5.0)"
-        required: true
+        description: "Optional release version override; blank uses the canonical VERSION file."
+        required: false
+        default: ""
         type: string
       publish_bundle:
         description: "Publish prepared bundle to external distro endpoint"
@@ -134,7 +135,7 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "Linux distribution package release"
+          scope: "Linux distribution package release — version ${{ needs.detect-release.outputs.version }} (source: ${{ needs.detect-release.outputs.version_source }}, channel: ${{ needs.detect-release.outputs.channel }}, profile: ${{ needs.detect-release.outputs.metadata_profile }})"
           job-results: ${{ toJSON(needs) }}
 
   mark-release-pending:
@@ -177,6 +178,7 @@ jobs:
     outputs:
       tag: ${{ steps.detect.outputs.tag }}
       version: ${{ steps.detect.outputs.version }}
+      version_source: ${{ steps.detect.outputs.version_source }}
       should_prepare: ${{ steps.detect.outputs.should_prepare }}
       publish_requested: ${{ steps.detect.outputs.publish_requested }}
       channel: ${{ steps.detect.outputs.channel }}
@@ -195,20 +197,27 @@ jobs:
 
       - name: Validate explicit version matches canonical contract
         if: github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch'
+        env:
+          VERSION_OVERRIDE: ${{ inputs.version }}
         shell: bash
         run: |
           set -euo pipefail
           chmod +x .github/scripts/version-release-type-manager.sh
-          .github/scripts/version-release-type-manager.sh validate-input-version "${{ inputs.version || github.event.inputs.version }}"
+          .github/scripts/version-release-type-manager.sh validate-input-version "${VERSION_OVERRIDE}"
 
       - name: Detect tag/version/channel
         id: detect
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          VERSION_OVERRIDE: ${{ inputs.version }}
+          RELEASE_TAG: ${{ github.event.release.tag_name || '' }}
         shell: bash
         run: |
           set -euo pipefail
 
-          EVENT="${{ github.event_name }}"
+          EVENT="${EVENT_NAME}"
           TAG=""
+          VERSION_SOURCE="none"
           CHANNEL="stable"
           METADATA_PROFILE="auto"
           SHOULD_PREPARE="false"
@@ -216,7 +225,8 @@ jobs:
           SIGN_REQUESTED="false"
 
           if [ "${EVENT}" = "workflow_call" ]; then
-            RAW_VERSION="${{ inputs.version }}"
+            RAW_VERSION="${VERSION_OVERRIDE}"
+            VERSION_SOURCE="workflow_call_input"
             if echo "${RAW_VERSION}" | grep -Eq '^v'; then
               TAG="${RAW_VERSION}"
             else
@@ -232,7 +242,13 @@ jobs:
               SIGN_REQUESTED="true"
             fi
           elif [ "${EVENT}" = "workflow_dispatch" ]; then
-            RAW_VERSION="${{ github.event.inputs.version }}"
+            RAW_VERSION="${VERSION_OVERRIDE}"
+            if [ -z "${RAW_VERSION}" ]; then
+              RAW_VERSION="$(.github/scripts/version-release-type-manager.sh read-version)"
+              VERSION_SOURCE="VERSION"
+            else
+              VERSION_SOURCE="operator_override"
+            fi
             if echo "${RAW_VERSION}" | grep -Eq '^v'; then
               TAG="${RAW_VERSION}"
             else
@@ -248,7 +264,8 @@ jobs:
               SIGN_REQUESTED="true"
             fi
           elif [ "${EVENT}" = "release" ]; then
-            TAG="${{ github.event.release.tag_name }}"
+            TAG="${RELEASE_TAG}"
+            VERSION_SOURCE="release_tag"
             # Linux distro publication is currently scoped to community tags only.
             if echo "${TAG}" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$'; then
               SHOULD_PREPARE="true"
@@ -263,6 +280,7 @@ jobs:
           {
             echo "tag=${TAG}"
             echo "version=${VERSION}"
+            echo "version_source=${VERSION_SOURCE}"
             echo "should_prepare=${SHOULD_PREPARE}"
             echo "publish_requested=${PUBLISH_REQUESTED}"
             echo "channel=${CHANNEL}"

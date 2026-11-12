@@ -54,8 +54,9 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Release version to prepare (e.g. 2.5.0 or v2.5.0)"
-        required: true
+        description: "Optional release version override; blank uses the canonical VERSION file."
+        required: false
+        default: ""
         type: string
       channel:
         description: "Distribution channel"
@@ -121,7 +122,7 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "Windows distribution release"
+          scope: "Windows distribution release — version ${{ needs.detect-release.outputs.version }} (source: ${{ needs.detect-release.outputs.version_source }}, channel: ${{ needs.detect-release.outputs.channel }})"
           job-results: ${{ toJSON(needs) }}
 
   mark-release-pending:
@@ -164,6 +165,7 @@ jobs:
     outputs:
       tag: ${{ steps.detect.outputs.tag }}
       version: ${{ steps.detect.outputs.version }}
+      version_source: ${{ steps.detect.outputs.version_source }}
       channel: ${{ steps.detect.outputs.channel }}
       publish_requested: ${{ steps.detect.outputs.publish_requested }}
       prepare_scoop: ${{ steps.detect.outputs.prepare_scoop }}
@@ -183,20 +185,25 @@ jobs:
       - name: Validate explicit version matches canonical contract
         if: github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch'
         env:
-          VERSION: ${{ inputs.version }}
+          VERSION_OVERRIDE: ${{ inputs.version }}
         shell: bash
         run: |
           set -euo pipefail
           chmod +x .github/scripts/version-release-type-manager.sh
-          .github/scripts/version-release-type-manager.sh validate-input-version "${{ inputs.version || github.event.inputs.version }}"
+          .github/scripts/version-release-type-manager.sh validate-input-version "${VERSION_OVERRIDE}"
 
       - name: Detect tag/version
         id: detect
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          VERSION_OVERRIDE: ${{ inputs.version }}
         shell: bash
         run: |
           set -euo pipefail
 
-          EVENT="${{ github.event_name }}"          TAG=""
+          EVENT="${EVENT_NAME}"
+          TAG=""
+          VERSION_SOURCE="none"
           CHANNEL="stable"
           PUBLISH_REQUESTED="false"
           PREPARE_SCOOP="true"
@@ -204,7 +211,8 @@ jobs:
           ALLOW_NON_STABLE_PUBLISH="false"
 
           if [ "${EVENT}" = "workflow_call" ]; then
-            RAW_VERSION="${{ inputs.version }}"
+            RAW_VERSION="${VERSION_OVERRIDE}"
+            VERSION_SOURCE="workflow_call_input"
             if echo "${RAW_VERSION}" | grep -Eq '^v'; then
               TAG="${RAW_VERSION}"
             else
@@ -224,7 +232,13 @@ jobs:
               ALLOW_NON_STABLE_PUBLISH="true"
             fi
           else
-            RAW_VERSION="${{ github.event.inputs.version }}"
+            RAW_VERSION="${VERSION_OVERRIDE}"
+            if [ -z "${RAW_VERSION}" ]; then
+              RAW_VERSION="$(.github/scripts/version-release-type-manager.sh read-version)"
+              VERSION_SOURCE="VERSION"
+            else
+              VERSION_SOURCE="operator_override"
+            fi
             if echo "${RAW_VERSION}" | grep -Eq '^v'; then
               TAG="${RAW_VERSION}"
             else
@@ -276,6 +290,7 @@ jobs:
           {
             echo "tag=${TAG}"
             echo "version=${VERSION}"
+            echo "version_source=${VERSION_SOURCE}"
             echo "channel=${CHANNEL}"
             echo "publish_requested=${PUBLISH_REQUESTED}"
             echo "prepare_scoop=${PREPARE_SCOOP}"
