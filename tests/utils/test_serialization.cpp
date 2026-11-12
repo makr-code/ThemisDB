@@ -13,6 +13,7 @@
 #include <gtest/gtest.h>
 #include "utils/serialization.h"
 #include <cstring>
+#include <stdexcept>
 
 namespace themis {
 namespace utils {
@@ -136,6 +137,21 @@ TEST_F(SerializationTest, DecoderFloatVectorBoundsOverflow) {
     
     // Should return empty or partial vector, not crash with out-of-bounds memcpy
     EXPECT_TRUE(vec.empty() || vec.size() * sizeof(float) <= 96);
+}
+
+TEST_F(SerializationTest, DecoderRejectsContainerTypeMismatch) {
+    encoder.beginArray(0);
+    encoder.endArray();
+    const auto array_buffer = encoder.finish();
+    Serialization::Decoder object_decoder(array_buffer);
+    EXPECT_THROW(object_decoder.beginObject(), std::runtime_error);
+
+    Serialization::Encoder object_encoder;
+    object_encoder.beginObject(0);
+    object_encoder.endObject();
+    const auto object_buffer = object_encoder.finish();
+    Serialization::Decoder array_decoder(object_buffer);
+    EXPECT_THROW(array_decoder.beginArray(), std::runtime_error);
 }
 
 // ============================================================================

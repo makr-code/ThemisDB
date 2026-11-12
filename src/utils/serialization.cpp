@@ -16,6 +16,7 @@
 #include <cstring>
 #include <fmt/format.h>
 #include <limits>
+#include <stdexcept>
 
 namespace themis {
 namespace utils {
@@ -466,8 +467,10 @@ size_t Serialization::Decoder::beginArray() {
             fmt::format("Deserialization nesting depth exceeds maximum {} (detected crafted/corrupt input)",
                        MAX_NESTING_DEPTH));
     }
+    if (readTag() != TypeTag::ARRAY) {
+        throw std::runtime_error("Deserialization type mismatch: expected array");
+    }
     nesting_depth_++;
-    readTag();
     return readUInt32();
 }
 
@@ -495,8 +498,10 @@ size_t Serialization::Decoder::beginObject() {
             fmt::format("Deserialization nesting depth exceeds maximum {} (detected crafted/corrupt input)",
                        MAX_NESTING_DEPTH));
     }
+    if (readTag() != TypeTag::OBJECT) {
+        throw std::runtime_error("Deserialization type mismatch: expected object");
+    }
     nesting_depth_++;
-    readTag();
     return readUInt32();
 }
 
