@@ -100,6 +100,11 @@ on:
         description: "Optional release tag (e.g. v2.4.0-alpha); if omitted, VERSION and RELEASE_TYPE files are used"
         required: false
         type: string
+      overwrite_dockerhub_image:
+        description: "Rebuild the selected workflow ref and overwrite Docker Hub tags for an existing published release; requires push=true, registry=docker.io, and all source checks to pass"
+        required: false
+        default: false
+        type: boolean
       build_from_workflow_source:
         description: "Build the selected workflow ref as a dry run; registry publication is disabled automatically"
         required: false
@@ -252,10 +257,45 @@ jobs:
           PUSH_INPUT: ${{ inputs.push_to_registry }}
           DRY_RUN: ${{ inputs.dry_run }}
           BUILD_FROM_WORKFLOW_SOURCE: ${{ inputs.build_from_workflow_source }}
+          OVERWRITE_DOCKERHUB_IMAGE: ${{ inputs.overwrite_dockerhub_image }}
+          REGISTRY: ${{ inputs.registry }}
+          OVERRIDE_SOURCE_PREFLIGHT: ${{ inputs.override_docker_source_preflight }}
         run: |
           set -euo pipefail
           DRY_RUN="${DRY_RUN:-false}"
           BUILD_FROM_WORKFLOW_SOURCE="${BUILD_FROM_WORKFLOW_SOURCE:-false}"
+          OVERWRITE_DOCKERHUB_IMAGE="${OVERWRITE_DOCKERHUB_IMAGE:-false}"
+          OVERRIDE_SOURCE_PREFLIGHT="${OVERRIDE_SOURCE_PREFLIGHT:-false}"
+          if [[ "${OVERWRITE_DOCKERHUB_IMAGE}" == "true" || "${OVERWRITE_DOCKERHUB_IMAGE}" == "True" ]]; then
+            if [[ "${EVENT_NAME}" != "workflow_dispatch" ]]; then
+              echo "::error::Docker Hub image overwrite is only available through a manual workflow dispatch."
+              exit 1
+            fi
+            if [[ -z "${TAG_INPUT}" ]]; then
+              echo "::error::tag_name is required when overwriting a Docker Hub release image."
+              exit 1
+            fi
+            if [[ "${PUSH_INPUT}" != "true" && "${PUSH_INPUT}" != "True" ]]; then
+              echo "::error::push_to_registry=true is required when overwriting a Docker Hub release image."
+              exit 1
+            fi
+            if [[ "${REGISTRY:-}" != "docker.io" ]]; then
+              echo "::error::Docker Hub image overwrite requires registry=docker.io; other registries will not be modified."
+              exit 1
+            fi
+            if [[ "${DRY_RUN}" == "true" || "${DRY_RUN}" == "True" ]]; then
+              echo "::error::dry_run must be false when overwriting a Docker Hub release image."
+              exit 1
+            fi
+            if [[ "${BUILD_FROM_WORKFLOW_SOURCE}" == "true" || "${BUILD_FROM_WORKFLOW_SOURCE}" == "True" ]]; then
+              echo "::error::Do not combine overwrite_dockerhub_image with build_from_workflow_source; the overwrite option already selects the workflow source."
+              exit 1
+            fi
+            if [[ "${OVERRIDE_SOURCE_PREFLIGHT}" == "true" || "${OVERRIDE_SOURCE_PREFLIGHT}" == "True" ]]; then
+              echo "::error::Docker source preflight checks cannot be skipped when overwriting a Docker Hub release image."
+              exit 1
+            fi
+          fi
           if [[ "${BUILD_FROM_WORKFLOW_SOURCE}" == "true" || "${BUILD_FROM_WORKFLOW_SOURCE}" == "True" ]]; then
             DRY_RUN=true
             PUSH_INPUT=false
@@ -267,6 +307,9 @@ jobs:
           fi
           USE_WORKFLOW_SOURCE=false
           if [[ "${BUILD_FROM_WORKFLOW_SOURCE}" == "true" || "${BUILD_FROM_WORKFLOW_SOURCE}" == "True" ]]; then
+            USE_WORKFLOW_SOURCE=true
+          fi
+          if [[ "${OVERWRITE_DOCKERHUB_IMAGE}" == "true" || "${OVERWRITE_DOCKERHUB_IMAGE}" == "True" ]]; then
             USE_WORKFLOW_SOURCE=true
           fi
           echo "──────────────────────────────────────────────"
@@ -345,7 +388,11 @@ jobs:
           SOURCE_IS_TAG=false
           if [[ "${USE_WORKFLOW_SOURCE}" == "true" ]]; then
             SOURCE_SHA="$(git rev-parse --verify HEAD)"
-            echo "::notice::Building workflow source ${SOURCE_SHA} for dry-run only; no release tag will be changed or published."
+            if [[ "${OVERWRITE_DOCKERHUB_IMAGE}" == "true" || "${OVERWRITE_DOCKERHUB_IMAGE}" == "True" ]]; then
+              echo "::notice::Docker Hub overwrite enabled for ${VERSION}: building workflow source ${SOURCE_SHA}; Git tags and GitHub Releases will not be changed."
+            else
+              echo "::notice::Building workflow source ${SOURCE_SHA} for dry-run only; no release tag will be changed or published."
+            fi
           elif [[ -n "${TAG_INPUT}" || "${GIT_REF}" == refs/tags/* || "${EVENT_NAME}" == "release" || "${PUSH_INPUT}" == "true" ]]; then
             TAG_REF="refs/tags/${VERSION}"
             if ! git show-ref --verify --quiet "${TAG_REF}"; then
@@ -535,6 +582,8 @@ jobs:
           PUSH_REQUESTED: ${{ inputs.push_to_registry }}
           DRY_RUN: ${{ inputs.dry_run }}
           BUILD_FROM_WORKFLOW_SOURCE: ${{ inputs.build_from_workflow_source }}
+          OVERWRITE_DOCKERHUB_IMAGE: ${{ inputs.overwrite_dockerhub_image }}
+          TAG_NAME: ${{ steps.version.outputs.version }}
           REGISTRY: ${{ inputs.registry }}
           INCLUDE_TINYLLAMA: ${{ inputs.include_tinyllama }}
           LLM_MODEL: ${{ inputs.llm_model }}
@@ -548,6 +597,17 @@ jobs:
             normalized_dry_run=true
           fi
           effective_push="${PUSH_REQUESTED}"
+          if [[ "${OVERWRITE_DOCKERHUB_IMAGE:-false}" == "true" || "${OVERWRITE_DOCKERHUB_IMAGE:-false}" == "True" ]]; then
+            if [[ "${REGISTRY}" != "docker.io" || "${PUSH_REQUESTED}" != "true" && "${PUSH_REQUESTED}" != "True" || "${normalized_dry_run}" == "true" ]]; then
+              echo "::error::Docker Hub overwrite requires a non-dry-run push to registry=docker.io."
+              exit 1
+            fi
+            echo "::notice::Publishing workflow source with Docker Hub release tags for ${TAG_NAME} will replace those image tags."
+            {
+              echo "### Docker Hub image overwrite"
+              echo "The workflow-source image for \`${TAG_NAME}\` will replace the matching tags in Docker Hub. Git tags and GitHub Releases remain unchanged; all Docker source, build, security, and runtime checks remain enabled."
+            } >> "${GITHUB_STEP_SUMMARY}"
+          fi
           if [[ "${normalized_dry_run}" == "true" ]]; then
             effective_push=false
             echo "::notice::Dry-run enabled; registry publication is disabled."
