@@ -214,17 +214,20 @@ TEST_F(RAGProviderTest, VectorIngestionRejectsMalformedPersistedSourceRecord) {
 
     const auto source_key = KeySchema::makeRelationalKey(
         "ingestion_sources", record.chunk_id);
-    ASSERT_TRUE(db_->put(source_key, "{"));
 
     query::VectorGeoQuery query;
     query.table = "docs";
     query.query_vector = {1.0f, 0.0f};
     rag::RetrievalRequest request;
     request.query = query;
-    const auto result = provider_->retrieve(request);
 
-    ASSERT_FALSE(result);
-    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+    for (const auto& source : {"{", "[]"}) {
+        ASSERT_TRUE(db_->put(source_key, source));
+        const auto result = provider_->retrieve(request);
+
+        ASSERT_FALSE(result);
+        EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+    }
 }
 
 TEST_F(RAGProviderTest, VectorIngestionRejectsIncompletePersistedSourceRecord) {
