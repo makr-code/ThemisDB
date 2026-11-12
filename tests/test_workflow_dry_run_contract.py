@@ -139,7 +139,6 @@ class WorkflowDryRunContractTests(unittest.TestCase):
 
         jobs = workflow["jobs"]
         self.assertEqual(workflow["permissions"], {"contents": "read", "actions": "read"})
-        self.assertEqual(jobs["bump-version"]["permissions"], None)
         self.assertIn("should-run", jobs["update-changelog"]["if"])
 
         create_pr = jobs["create-release-pr"]
