@@ -1,3 +1,5 @@
+import re
+import subprocess
 import unittest
 from pathlib import Path
 
@@ -589,7 +591,23 @@ class WorkflowDryRunContractTests(unittest.TestCase):
 
         self.assertIn("Invalid dispatch_inputs_json; expected a JSON object.", dispatch["with"]["script"])
         self.assertIn("Array.isArray(extraInputs)", dispatch["with"]["script"])
-        self.assertIn(r"(?:-[0-9A-Za-z][0-9A-Za-z.-]*)?", extract["with"]["script"])
+        version_pattern = re.search(r"const match = body\.match\((/[^;\n]+/)\);", extract["with"]["script"])
+        self.assertIsNotNone(version_pattern)
+        node_script = (
+            "const pattern = " + version_pattern.group(1) + ";\n"
+            "const cases = ["
+            "['## Release Version: v2.4.0', '2.4.0'],"
+            "['## Release Version: v2.4.0-beta1', '2.4.0-beta1'],"
+            "['## Release Version: 2.4.0-rc.1', '2.4.0-rc.1'],"
+            "['## Release Version: v2.4.0invalid', null]"
+            "];\n"
+            "for (const [body, expected] of cases) {"
+            "const match = body.match(pattern);"
+            "if ((match ? match[1] : null) !== expected) process.exit(1);"
+            "}"
+        )
+        result = subprocess.run(["node", "-e", node_script], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_release_evidence_dry_run_verifies_ledger_without_manual_artifact_upload(self) -> None:
         workflow = load_workflow("release-evidence-chain.yml")
