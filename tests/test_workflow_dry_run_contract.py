@@ -61,6 +61,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "publish-wiki.yml",
             "release-docker-image.yml",
             "release-nightly.yml",
+            "release-promote.yml",
             "wiki-pr-gate.yml",
         )
         reusable_workflows = (
@@ -127,6 +128,37 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         notify = jobs["notify"]["steps"][0]
         self.assertIn("$GITHUB_STEP_SUMMARY", notify["run"])
         self.assertIn("publication and issue updates were suppressed", notify["run"])
+
+    def test_release_promotion_manual_dry_run_previews_without_github_writes(self) -> None:
+        workflow = load_workflow("release-promote.yml")
+        triggers = workflow.get(True, workflow.get("on"))
+        dispatch = triggers["workflow_dispatch"]
+        dry_run = dispatch["inputs"]["dry_run"]
+        self.assertEqual(dry_run["type"], "boolean")
+        self.assertIs(dry_run["default"], True)
+
+        jobs = workflow["jobs"]
+        self.assertEqual(workflow["permissions"], {"contents": "read", "actions": "read"})
+        self.assertEqual(jobs["bump-version"]["permissions"], None)
+        self.assertIn("should-run", jobs["update-changelog"]["if"])
+
+        create_pr = jobs["create-release-pr"]
+        self.assertIn("inputs.dry_run != true", create_pr["if"])
+        self.assertIn("github.event_name != 'workflow_dispatch'", create_pr["if"])
+        self.assertEqual(create_pr["permissions"]["contents"], "write")
+        self.assertEqual(create_pr["permissions"]["pull-requests"], "write")
+        self.assertEqual(create_pr["permissions"]["issues"], "write")
+
+        notify = jobs["notify"]
+        self.assertIn("always()", notify["if"])
+        self.assertIn(
+            "needs.create-release-pr.result == 'success'",
+            notify["steps"][0]["if"],
+        )
+        report = notify["steps"][1]
+        self.assertIn("inputs.dry_run", report["env"]["DRY_RUN"])
+        self.assertIn("GitHub writes suppressed", report["run"])
+        self.assertIn("$GITHUB_STEP_SUMMARY", report["run"])
 
     def test_wiki_dry_run_still_builds_and_validates_without_mutation(self) -> None:
         workflow = load_workflow("publish-wiki.yml")

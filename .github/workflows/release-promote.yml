@@ -65,11 +65,15 @@ on:
         description: "Optional: explicit version (e.g., 2.5.0); overrides bump logic"
         required: false
         type: string
+      dry_run:
+        description: "Calculate the version and changelog without pushing a release branch, creating a pull request, or commenting on a source PR."
+        required: false
+        default: true
+        type: boolean
 
 permissions:
-  contents: write
-  pull-requests: write
-  issues: write
+  contents: read
+  actions: read
 
 concurrency:
   group: ci-release-promote-${{ github.ref }}
@@ -89,7 +93,7 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "Release promotion and pull request creation"
+          scope: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && 'Release promotion preview (dry-run; GitHub writes suppressed)' || 'Release promotion and pull request creation' }}
           job-results: ${{ toJSON(needs) }}
 
   extract-release-context:
@@ -287,7 +291,13 @@ jobs:
     name: "Release: Create PR"
     needs: [extract-release-context, bump-version]
     runs-on: ubuntu-latest
-    if: needs.extract-release-context.outputs.should-run == 'true'
+    if: |
+      needs.extract-release-context.outputs.should-run == 'true' &&
+      (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
     outputs:
       pull_request_number: ${{ steps.pr.outputs.pull-request-number }}
       pull_request_url: ${{ steps.pr.outputs.pull-request-url }}
@@ -389,10 +399,14 @@ jobs:
     name: "Automation: Notify Release Promotion"
     needs: [extract-release-context, bump-version, create-release-pr]
     runs-on: ubuntu-latest
-    if: needs.extract-release-context.outputs.should-run == 'true'
+    if: always() && needs.extract-release-context.outputs.should-run == 'true'
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     steps:
       - name: Comment on source PR (if applicable)
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && needs.create-release-pr.result == 'success'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
@@ -404,9 +418,36 @@ jobs:
             })
 
       - name: Report promotion complete
+        env:
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+          RELEASE_TYPE: ${{ needs.extract-release-context.outputs.release-type }}
+          TRIGGER_TYPE: ${{ needs.extract-release-context.outputs.trigger-type }}
+          SHOULD_RUN: ${{ needs.extract-release-context.outputs.should-run }}
+          OLD_VERSION: ${{ needs.bump-version.outputs.old-version }}
+          NEW_VERSION: ${{ needs.bump-version.outputs.new-version }}
+          CREATE_PR_RESULT: ${{ needs.create-release-pr.result }}
+          PR_NUMBER: ${{ needs.create-release-pr.outputs.pull_request_number }}
+          PR_URL: ${{ needs.create-release-pr.outputs.pull_request_url }}
         run: |
+          set -euo pipefail
           echo "✓ Release Promotion Complete"
-          echo "  Old Version: ${{ needs.bump-version.outputs.old-version }}"
-          echo "  New Version: ${{ needs.bump-version.outputs.new-version }}"
-          echo "  Release Type: ${{ needs.extract-release-context.outputs.release-type }}"
-          echo "  Trigger: ${{ needs.extract-release-context.outputs.trigger-type }}"
+          echo "  Old Version: ${OLD_VERSION:-unresolved}"
+          echo "  New Version: ${NEW_VERSION:-unresolved}"
+          echo "  Release Type: ${RELEASE_TYPE:-unresolved}"
+          echo "  Trigger: ${TRIGGER_TYPE:-unresolved}"
+          {
+            echo "### Release Promotion Details"
+            echo "- Trigger: \`${TRIGGER_TYPE:-unresolved}\`"
+            echo "- Release type: \`${RELEASE_TYPE:-unresolved}\`"
+            echo "- Version: \`${OLD_VERSION:-unresolved}\` → \`${NEW_VERSION:-unresolved}\`"
+            if [ "${DRY_RUN}" = "true" ]; then
+              echo "- Mode: manual dry run; version/changelog were calculated in the job workspace."
+              echo "- GitHub writes suppressed: release branch push, pull request creation, and source-PR comment."
+              echo "- Create-PR job: \`${CREATE_PR_RESULT}\`"
+            elif [ "${CREATE_PR_RESULT}" = "success" ]; then
+              echo "- Pull request: [#${PR_NUMBER}](${PR_URL})"
+            else
+              echo "- Create-PR job: \`${CREATE_PR_RESULT}\`"
+            fi
+            echo "- Run: [${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})"
+          } >> "$GITHUB_STEP_SUMMARY"
