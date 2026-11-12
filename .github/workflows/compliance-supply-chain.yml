@@ -22,8 +22,9 @@ on:
     inputs:
       evidence_window_days:
         description: 'SOC 2 evidence window in days (default: 7)'
+        type: number
         required: false
-        default: '7'
+        default: 7
 
 concurrency:
   group: compliance-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}

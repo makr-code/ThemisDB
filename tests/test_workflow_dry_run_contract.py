@@ -131,6 +131,56 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         self.assertIn("github.event_name == 'schedule'", update["if"])
         self.assertIn("github.event.inputs.generate_baseline == 'true'", update["if"])
 
+    def test_manual_parameter_inputs_have_explicit_types_and_supported_choices(self) -> None:
+        expected = {
+            "build-benchmarks.yml": {
+                "backend_filter": ("choice", ["all", "cuda", "hip", "vulkan"]),
+                "benchmark_filter": ("string", None),
+            },
+            "build-content-regression.yml": {
+                "soak_duration_multiplier": ("number", None),
+            },
+            "build-wave-a-gpu.yml": {
+                "phase": ("choice", ["all", "baseline", "fallback", "memory", "determinism"]),
+                "parallel_jobs": ("number", None),
+                "representative_cuda_arch": ("string", None),
+            },
+            "compliance-governance-gates.yml": {"rc_tag": ("string", None)},
+            "compliance-supply-chain.yml": {"evidence_window_days": ("number", None)},
+            "ga-promotion-signoff.yml": {
+                "payload_path": ("string", None),
+                "ref": ("string", None),
+                "signed_at": ("string", None),
+            },
+            "maintenance-soll-ist-gap-issues.yml": {"source_gap_glob": ("string", None)},
+            "release-evidence-chain.yml": {
+                "event_type": ("string", None),
+                "commit_sha": ("string", None),
+                "tag": ("string", None),
+                "version": ("string", None),
+                "artifact_digest_sha256": ("string", None),
+                "sbom_digest_sha256": ("string", None),
+                "approver_identity": ("string", None),
+                "approver_role": ("string", None),
+                "approval_scope": ("string", None),
+                "environment": ("string", None),
+                "source_workflow": ("string", None),
+                "source_run_id": ("string", None),
+            },
+            "security-pentest-quarterly.yml": {"scope": ("choice", ["quick-scan"])},
+        }
+
+        for workflow_name, input_specs in expected.items():
+            workflow = load_workflow(workflow_name)
+            triggers = workflow.get(True, workflow.get("on"))
+            dispatch_inputs = triggers["workflow_dispatch"]["inputs"]
+            for input_name, (input_type, options) in input_specs.items():
+                with self.subTest(workflow=workflow_name, input=input_name):
+                    input_spec = dispatch_inputs[input_name]
+                    self.assertEqual(input_spec["type"], input_type)
+                    if options is not None:
+                        self.assertEqual(input_spec["options"], options)
+
 
 if __name__ == "__main__":
     unittest.main()

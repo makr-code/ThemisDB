@@ -20,6 +20,7 @@ name: "Maintenance: Soll-Ist Gap Issues"
         default: false
       source_gap_glob:
         description: "Glob for verified source gap files"
+        type: string
         required: false
         default: "ai_working/gap_scanner_verified_*.json"
   schedule:

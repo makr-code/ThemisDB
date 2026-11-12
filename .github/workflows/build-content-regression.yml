@@ -24,8 +24,9 @@ on:
         default: false
       soak_duration_multiplier:
         description: 'THEMIS_SOAK_DURATION_MULTIPLIER (0.1–10.0; CI default: 0.2)'
+        type: number
         required: false
-        default: '0.2'
+        default: 0.2
 
 
 concurrency:

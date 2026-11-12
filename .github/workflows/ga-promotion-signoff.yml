@@ -24,12 +24,15 @@ on:
     inputs:
       payload_path:
         description: 'Repo-relative path to the GA sign-off request payload (JSON or YAML).'
+        type: string
         required: true
       ref:
         description: 'Branch or ref to validate/sign (defaults to current ref).'
+        type: string
         required: false
       signed_at:
         description: 'Optional ISO 8601 signer timestamp override for manual runs.'
+        type: string
         required: false
 
 concurrency:

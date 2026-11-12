@@ -37,6 +37,7 @@ on:
     inputs:
       rc_tag:
         description: 'Release Candidate tag for RC validation (e.g., v8.1.0-rc.1)'
+        type: string
         required: false
 
 permissions:

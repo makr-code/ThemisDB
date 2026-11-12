@@ -23,10 +23,17 @@ on:
     inputs:
       backend_filter:
         description: 'GPU backend filter (cuda|hip|vulkan|all)'
+        type: choice
         required: false
         default: 'all'
+        options:
+          - all
+          - cuda
+          - hip
+          - vulkan
       benchmark_filter:
         description: 'Benchmark filter regex (for GPU + nightly jobs)'
+        type: string
         required: false
         default: ''
       run_voice:
