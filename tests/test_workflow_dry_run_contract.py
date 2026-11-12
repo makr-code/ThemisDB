@@ -33,7 +33,9 @@ class WorkflowDryRunContractTests(unittest.TestCase):
 
         for name in manual_workflows:
             with self.subTest(workflow=name, entry_point="workflow_dispatch"):
-                inputs = load_workflow(name)[True]["workflow_dispatch"]["inputs"]
+                workflow = load_workflow(name)
+                triggers = workflow.get(True, workflow.get("on"))
+                inputs = triggers["workflow_dispatch"]["inputs"]
                 dry_run = next(spec for key, spec in inputs.items() if key.lower().replace("-", "_") == "dry_run")
                 self.assertEqual(dry_run["type"], "boolean")
                 self.assertIs(dry_run["default"], True)
@@ -90,7 +92,8 @@ class WorkflowDryRunContractTests(unittest.TestCase):
 
     def test_soll_ist_manual_dry_run_suppresses_issue_mutations_but_schedule_syncs(self) -> None:
         workflow = load_workflow("maintenance-soll-ist-gap-issues.yml")
-        inputs = workflow[True]["workflow_dispatch"]["inputs"]
+        triggers = workflow.get(True, workflow.get("on"))
+        inputs = triggers["workflow_dispatch"]["inputs"]
         self.assertIs(inputs["dry_run"]["default"], True)
 
         steps = workflow["jobs"]["soll_ist_sync"]["steps"]
