@@ -63,6 +63,9 @@ registration, persistent storage, external telemetry, or production readiness.
   - This is partial implementation progress. The ingestion sink persists the
     canonical chunk text provided by `VectorRecord`; a separate version record
     beyond the originating file SHA-256 is not available at this boundary.
+    A focused test now verifies that a vector written only through the sink
+    retrieves its persisted source text and typed identity, without a test-only
+    duplicate source write; it has not been built or executed.
   - `LLMAQLHandler::executeRAG()` now passes the timeout manager's cancellation
     token and configured retrieval deadline to `RAGProvider`. Both checks are
     cooperative and cannot interrupt a blocking QueryEngine operation; the new
@@ -73,10 +76,12 @@ registration, persistent storage, external telemetry, or production readiness.
     propagates the live request timeout as a cooperative retrieval deadline.
     Expired retrieval returns HTTP 504. AQL passes its configured collection
     checker in the same context. QueryEngine applies the predicate before graph
-    vertices are loaded or expanded. This still does not propagate caller/tenant
-    identity, row-level policy, or HTTP cancellation. A blocking embedding or
-    backend call can only be checked after it returns; regression coverage has
-    not been run.
+    vertices are loaded or expanded. Provider regression source now checks
+    deadline expiry after a blocking QueryEngine access check for both a matching
+    row and a no-match result. These tests have not been built or executed. This
+    still does not propagate caller/tenant identity, row-level policy, or HTTP
+    cancellation. A blocking embedding or backend call can only be checked after
+    it returns.
   - Retrieval-enabled YAML `agentic` modes now reuse `AIOrchestrator::runRag()`
     before the existing agentic tool-call dispatch. A focused RocksDB-backed
     test-source regression verifies evidence reaches the prompt and denied
