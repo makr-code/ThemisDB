@@ -63,6 +63,7 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "release-nightly.yml",
             "release-promote.yml",
             "release-rollback.yml",
+            "release-evidence-chain.yml",
             "release-linux-distribution.yml",
             "release-windows-distribution.yml",
             "release-winget.yml",
@@ -372,6 +373,26 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         approval = load_workflow("release-windows-distro-approval.yml")
         approval_step = approval["jobs"]["windows_distro_publish_from_issue"]
         self.assertIn('"dry_run":false', approval_step["with"]["dispatch_inputs_json"])
+
+    def test_release_evidence_dry_run_verifies_ledger_without_manual_artifact_upload(self) -> None:
+        workflow = load_workflow("release-evidence-chain.yml")
+        triggers = workflow.get(True, workflow.get("on"))
+        dry_run = triggers["workflow_dispatch"]["inputs"]["dry_run"]
+        self.assertEqual(dry_run["type"], "boolean")
+        self.assertIs(dry_run["default"], True)
+
+        steps = workflow["jobs"]["capture-evidence"]["steps"]
+        generate = next(step for step in steps if step.get("name") == "Append evidence record to ledger")
+        verify = next(step for step in steps if step.get("name") == "Verify full ledger chain")
+        upload = next(step for step in steps if step.get("name") == "Upload ledger artifacts")
+        summary = next(step for step in steps if step.get("name") == "Publish evidence summary")["run"]
+        self.assertNotIn("if", generate)
+        self.assertNotIn("if", verify)
+        self.assertEqual(
+            upload["if"],
+            "always() && (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)",
+        )
+        self.assertIn("artifact upload suppressed", summary)
 
     def test_wiki_dry_run_still_builds_and_validates_without_mutation(self) -> None:
         workflow = load_workflow("publish-wiki.yml")
