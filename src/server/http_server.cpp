@@ -5602,6 +5602,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                         retrieval_execution.deadline =
                             start + std::chrono::milliseconds(request_timeout_ms);
                     }
+                    retrieval_execution.tenant_id = extractAuthContext(req).tenant_id;
                     retrieval_execution.authorize_collection =
                         [authorized_collection = collection](
                             const std::string& requested_collection) {
@@ -5683,18 +5684,6 @@ http::response<http::string_body> HttpServer::routeRequest(
                         vector_query.table = collection;
                         vector_query.vector_field = payload.value("vector_field", std::string{"embedding"});
                         vector_query.query_vector = plugin_mgr.embed(query);
-                        const auto auth_context = extractAuthContext(req);
-                        if (!auth_context.tenant_id.empty()) {
-                            auto tenant_field = std::make_shared<query::FieldAccessExpr>(
-                                std::make_shared<query::VariableExpr>("doc"), "tenant_id");
-                            auto tenant_value = std::make_shared<query::LiteralExpr>(
-                                auth_context.tenant_id);
-                            vector_query.extra_filters.push_back(
-                                std::make_shared<query::BinaryOpExpr>(
-                                    query::BinaryOperator::Eq,
-                                    std::move(tenant_field),
-                                    std::move(tenant_value)));
-                        }
                         if (std::chrono::steady_clock::now() >=
                             retrieval_execution.deadline) {
                             throw RetrievalDeadlineExceeded{};

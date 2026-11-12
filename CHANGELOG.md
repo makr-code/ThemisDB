@@ -50,9 +50,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The direct HTTP vector RAG route now applies the tenant claim from a validated
   bearer token as an equality predicate on `tenant_id`. Caller-supplied tenant
   headers are not used; tenant-scoped requests exclude entities without that
-  field. This is a route-specific filter, not a complete row-level policy
-  integration. The focused test covers top-1 candidate prefiltering with a tenant
-  index and remains unbuilt.
+  field. The tenant predicate is carried by the shared retrieval execution
+  context, enforced for materialized evidence, and pushed into vector QueryEngine
+  execution. This is not a complete row-level policy integration. AQL/YAML server
+  startup still does not populate trusted tenant context. The public context
+  struct layout changed; binary consumers must rebuild. Focused tests remain
+  unbuilt.
 
 ### Core Provider/Consumer follow-up — ContentManager source lookup (2026-11-12)
 

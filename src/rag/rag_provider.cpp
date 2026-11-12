@@ -1,6 +1,7 @@
 #include "rag/rag_provider.h"
 #include "rag/rag_retrieval_helpers.h"
 #include "storage/base_entity.h"
+#include "query/aql_parser.h"
 
 #include <algorithm>
 #include <cmath>
@@ -65,6 +66,14 @@ Result<RetrievalResult> RAGProvider::retrieve(
         auto authorized = checkCollectionAccess(context, collection);
         if (!authorized) {
             return authorized;
+        }
+        if (!context.tenant_id.empty()) {
+            const auto tenant = entity.find("tenant_id");
+            if (tenant == entity.end() || !tenant->is_string() ||
+                tenant->get_ref<const std::string&>() != context.tenant_id) {
+                ++result.rejected_documents;
+                return OkVoid();
+            }
         }
         nlohmann::json materialized_entity;
         const auto* candidate_entity = &entity;
@@ -235,6 +244,15 @@ Result<RetrievalResult> RAGProvider::retrieve(
             }
             auto query = specification;
             query.k = request.max_candidates;
+            if (!context.tenant_id.empty()) {
+                auto tenant_field = std::make_shared<themis::query::FieldAccessExpr>(
+                    std::make_shared<themis::query::VariableExpr>("doc"), "tenant_id");
+                auto tenant_value = std::make_shared<themis::query::LiteralExpr>(context.tenant_id);
+                query.extra_filters.push_back(
+                    std::make_shared<themis::query::BinaryOpExpr>(
+                        themis::query::BinaryOperator::Eq, std::move(tenant_field),
+                        std::move(tenant_value)));
+            }
             auto matches = engine_.executeVectorGeoQuery(query);
             if (!matches) {
                 return tl::unexpected(matches.error());

@@ -8,7 +8,6 @@
 #include "index/graph_index.h"
 #include "index/vector_index.h"
 #include "ingestion/ingestion_sinks.h"
-#include "query/aql_parser.h"
 #include "utils/serialization.h"
 
 #include <filesystem>
@@ -111,7 +110,7 @@ TEST_F(RAGProviderTest, VectorIndexMaterializesCanonicalBinaryStorage) {
     EXPECT_EQ(result->candidates.front().content, "indexed evidence");
 }
 
-TEST_F(RAGProviderTest, VectorQueryExtraFilterScopesTenantAndRejectsMissingTenant) {
+TEST_F(RAGProviderTest, TrustedTenantContextFiltersVectorQueryAndPreservesTopK) {
     ASSERT_TRUE(secondary_->createIndex("docs", "tenant_id").ok);
     storeTenantDocument("acme", "Acme evidence", "acme", {0.6f, 0.8f});
     storeTenantDocument("beta", "Beta evidence", "beta", {1.0f, 0.0f});
@@ -124,18 +123,35 @@ TEST_F(RAGProviderTest, VectorQueryExtraFilterScopesTenantAndRejectsMissingTenan
     query.table = "docs";
     query.query_vector = {1.0f, 0.0f};
     query.k = 1;
-    query.extra_filters.push_back(std::make_shared<query::BinaryOpExpr>(
-        query::BinaryOperator::Eq, std::move(tenant_field), std::move(tenant_value)));
 
     rag::RetrievalRequest request;
     request.query = std::move(query);
     request.max_candidates = 1;
-    const auto result = provider_->retrieve(request);
+    rag::RetrievalExecutionContext context;
+    context.tenant_id = "acme";
+    const auto result = provider_->retrieve(request, context);
 
     ASSERT_TRUE(result) << result.error().context();
     ASSERT_EQ(result->candidates.size(), 1);
     EXPECT_EQ(result->candidates.front().doc_id, "acme");
     EXPECT_EQ(result->candidates.front().content, "Acme evidence");
+}
+
+TEST_F(RAGProviderTest, TrustedTenantContextRejectsForeignRelationalEvidence) {
+    storeTenantDocument("beta", "Beta evidence", "beta");
+    query::ConjunctiveQuery query;
+    query.table = "docs";
+    query.pk_eq = "beta";
+
+    rag::RetrievalRequest request;
+    request.query = query;
+    rag::RetrievalExecutionContext context;
+    context.tenant_id = "acme";
+    const auto result = provider_->retrieve(request, context);
+
+    ASSERT_TRUE(result) << result.error().context();
+    EXPECT_TRUE(result->candidates.empty());
+    EXPECT_EQ(result->rejected_documents, 1);
 }
 
 TEST_F(RAGProviderTest, VectorIngestionSinkMaterializesPersistedSourceText) {

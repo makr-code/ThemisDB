@@ -92,12 +92,18 @@ registration, persistent storage, external telemetry, or production readiness.
     tenant claim from a validated bearer token is now applied as a `tenant_id`
     equality filter; caller-supplied tenant headers are ignored. The filter also
     rejects documents without a tenant field when the token is tenant-scoped.
-    QueryEngine may use a secondary-index prefilter when available and always
-    applies the predicate to returned vector candidates; absent tenant indexes can
-    therefore reduce recall within the route's `    top_k` window. Focused test source covers matching, other-tenant, and
-    tenantless entities; it also checks that an indexed tenant prefilter still
-    returns the authorized document at top-1 when a foreign-tenant vector is
-    nearer. This test remains unbuilt.
+    Tenant enforcement now lives in `RetrievalExecutionContext`: the provider
+    applies it to all materialized candidate types and adds a vector predicate
+    before QueryEngine execution. QueryEngine may use a secondary-index prefilter
+    when available and always applies the predicate to returned vector candidates;
+    absent tenant indexes can therefore reduce recall within the route's `top_k`
+    window. Focused test source covers matching, other-tenant, and tenantless
+    entities; it also checks that an indexed tenant prefilter still returns the
+    authorized document at top-1 when a foreign-tenant vector is nearer, and that
+    a foreign relational entity is rejected during materialization. This test
+    remains unbuilt. AQL/YAML startup still does not populate the tenant field
+    from trusted server caller context. Adding the context field changes its
+    binary layout; binary consumers need to rebuild.
     A blocking embedding or backend call can only be checked after it returns.
   - Retrieval-enabled YAML `agentic` modes now reuse `AIOrchestrator::runRag()`
     before the existing agentic tool-call dispatch. A focused RocksDB-backed

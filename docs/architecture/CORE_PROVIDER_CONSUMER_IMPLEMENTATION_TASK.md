@@ -93,10 +93,11 @@ wrappers.
   collections other than the one authorized by the route. The route also passes
   the authorized collection as a request-scoped retrieval predicate. This guards
   the collection boundary. A validated bearer-token tenant claim is also applied
-  as a `tenant_id` equality filter to this route's vector query; caller-supplied
-  tenant headers are ignored. This route-specific filter does not provide general
-  row-level policy or propagate the caller/tenant context through the shared
-  retrieval context to other consumers.
+  as a `tenant_id` equality filter through the shared retrieval execution
+  context; caller-supplied tenant headers are ignored. The provider enforces this
+  tenant for materialized evidence and adds it to vector query predicates. This
+  tenant filter does not provide general row-level policy or propagate caller
+  identity through the retrieval context to other consumers.
 - `search`, `LayeredRetrievalOrchestrator`, `ProcessGraphRag`, and
   `ethics_ai/RAGContextEngine` have specialized behavior. Preserve their domain
   policies; this task does not migrate all of them.
@@ -119,11 +120,15 @@ provider retrieval; an expired retrieval deadline returns HTTP 504. The deadline
 is cooperative and cannot interrupt a blocking embedding or backend call. The
 route now also builds an equality filter from the validated bearer-token tenant
 claim for vector retrieval; it does not trust a caller-supplied tenant header.
-This only scopes the direct HTTP vector route and does not propagate tenant
-identity through `RetrievalExecutionContext`, establish general row-level policy,
-or add HTTP cancellation. The focused provider regression now verifies that an
-indexed tenant prefilter returns the authorized document at top-1 even when a
-foreign-tenant vector is nearer; the test has not been built or executed.
+The claim is passed through `RetrievalExecutionContext`; the provider filters
+materialized relational, graph, content, and vector evidence, and injects the
+tenant predicate before vector search. This does not populate trusted tenant
+context for AQL/YAML server consumers, establish general row-level policy,
+propagate caller identity, or add HTTP cancellation. Focused provider regressions
+cover foreign/missing tenants and indexed top-1 behavior, but have not been built
+or executed. Adding the context field is source-compatible for ordinary member
+assignment/default construction but changes the struct layout; binary consumers
+must rebuild.
 
 The current source diff adds `RAGSourceReference` and candidate parsing for exact
 source-reference fields; persists normal ingestion chunk text in
