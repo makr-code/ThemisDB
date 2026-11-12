@@ -21,7 +21,7 @@ Status: Active
 
 - Added: 6
 - Removed: 0
-- Changed: 66
+- Changed: 67
 
 ## Added
 
@@ -99,6 +99,7 @@ Status: Active
 - include/rag/modular_rag_pipeline.h
 - include/rag/rag_integration_helpers.h
 - include/training/adalora_training_pipeline.h
+- scripts/ai-dev-llm-wiki-sync.py
 - scripts/generate_docs_rocksdb.py
 - src/rag/README.md
 - src/training/FUTURE_ENHANCEMENTS.md

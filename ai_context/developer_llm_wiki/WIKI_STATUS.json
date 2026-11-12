@@ -1,14 +1,14 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-12T15:55:37+00:00",
+  "generated_at": "2026-11-12T15:58:13+00:00",
   "mode": "incremental",
   "source_count": 8091,
-  "source_hash": "594c1f41e6fd681eb1f12319deecb1b88c9143b34d6418ae31a8314010af8d0d",
+  "source_hash": "1273c7f5cc442de65d40915cf3ac3463514268d800590704c20ef41639f4b8eb",
   "delta": {
     "added_count": 6,
     "removed_count": 0,
-    "changed_count": 66,
+    "changed_count": 67,
     "added_preview": [
       "include/llm/rag_helpers.h",
       "include/rag/rag_candidate.h",
@@ -72,5 +72,5 @@
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "d670f61370f5afd4d7b7a5e66013df0b04d3f862d43a63c232271f36ceb6f610"
+  "manifest_sha256": "f8de5d8dc92405fd071405f1e5658c10bc30f10f996654ceab5ebd5446037a47"
 }

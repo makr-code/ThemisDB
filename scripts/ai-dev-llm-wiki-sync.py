@@ -409,9 +409,45 @@ def render_modules_and_apis(repo_root: Path, entries: Sequence[SourceEntry]) -> 
     )
 
 
+def _curated_ops_sections(repo_root: Path, entries: Sequence[SourceEntry]) -> List[str]:
+    ops_path = repo_root / OPS_MD
+    if not ops_path.is_file():
+        return []
+
+    generated_paths = {
+        entry.path for entry in entries if entry.category == "build_test_ci"
+    }
+    sections: List[str] = []
+    current: List[str] = []
+    current_is_curated = False
+
+    def save_current() -> None:
+        if current_is_curated and current:
+            sections.extend(current)
+            sections.append("")
+
+    for line in read_text_safe(ops_path).splitlines():
+        if line.startswith("## "):
+            save_current()
+            heading = line[3:].strip()
+            current = [line]
+            current_is_curated = heading not in generated_paths
+        elif current:
+            current.append(line)
+    save_current()
+    while sections and not sections[-1]:
+        sections.pop()
+    return sections
+
+
 def render_ops(repo_root: Path, entries: Sequence[SourceEntry]) -> str:
     lines = _render_section(repo_root, entries, "Developer LLM Wiki — Build/Test/CI/Operations", "build_test_ci")
     generated_at = datetime.now(UTC).strftime("%Y-%m-%d")
+    generated_start = next(
+        (index for index, line in enumerate(lines) if line.startswith("## ")),
+        len(lines),
+    )
+    curated_sections = _curated_ops_sections(repo_root, entries)
     return "\n".join(
         [
             "---",
@@ -428,7 +464,9 @@ def render_ops(repo_root: Path, entries: Sequence[SourceEntry]) -> str:
             "",
             "> Exact model backend not verifiable from final document text alone.",
             "",
-            *lines,
+            *lines[:generated_start],
+            *curated_sections,
+            *lines[generated_start:],
         ]
     )
 
