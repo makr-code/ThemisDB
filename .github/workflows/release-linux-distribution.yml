@@ -30,6 +30,11 @@ on:
         required: false
         default: false
         type: boolean
+      dry_run:
+        description: "Prepare and validate the distro bundle without publishing externally or updating GitHub issue status."
+        required: false
+        default: true
+        type: boolean
       channel:
         description: "Distribution channel"
         required: false
@@ -76,6 +81,11 @@ on:
         options:
           - "false"
           - "true"
+      dry_run:
+        description: "Prepare and validate the distro bundle without publishing externally or updating GitHub issue status."
+        required: false
+        default: true
+        type: boolean
       channel:
         description: "Distribution channel"
         required: false
@@ -135,14 +145,14 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "Linux distribution package release — version ${{ needs.detect-release.outputs.version }} (source: ${{ needs.detect-release.outputs.version_source }}, channel: ${{ needs.detect-release.outputs.channel }}, profile: ${{ needs.detect-release.outputs.metadata_profile }})"
+          scope: "${{ format('{0} — version {1} (source: {2}, channel: {3}, profile: {4}, publish: {5}, signing: {6})', needs.detect-release.outputs.dry_run_enabled == 'true' && 'Linux distro bundle validation (dry-run; external writes suppressed)' || 'Linux distribution package release', needs.detect-release.outputs.version, needs.detect-release.outputs.version_source, needs.detect-release.outputs.channel, needs.detect-release.outputs.metadata_profile, needs.detect-release.outputs.publish_requested, needs.detect-release.outputs.sign_requested) }}"
           job-results: ${{ toJSON(needs) }}
 
   mark-release-pending:
     name: "Release: Mark Linux Distro Status"
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call' || github.event_name == 'release'
+    if: github.event_name == 'release' || ((github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call') && inputs.dry_run != true)
     permissions:
       contents: read
       issues: write
@@ -184,6 +194,7 @@ jobs:
       channel: ${{ steps.detect.outputs.channel }}
       metadata_profile: ${{ steps.detect.outputs.metadata_profile }}
       sign_requested: ${{ steps.detect.outputs.sign_requested }}
+      dry_run_enabled: ${{ steps.detect.outputs.dry_run_enabled }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -211,6 +222,7 @@ jobs:
           EVENT_NAME: ${{ github.event_name }}
           VERSION_OVERRIDE: ${{ inputs.version }}
           RELEASE_TAG: ${{ github.event.release.tag_name || '' }}
+          DRY_RUN_INPUT: ${{ inputs.dry_run }}
         shell: bash
         run: |
           set -euo pipefail
@@ -223,6 +235,11 @@ jobs:
           SHOULD_PREPARE="false"
           PUBLISH_REQUESTED="false"
           SIGN_REQUESTED="false"
+          DRY_RUN_ENABLED="false"
+
+          if { [ "${EVENT}" = "workflow_call" ] || [ "${EVENT}" = "workflow_dispatch" ]; } && [ "${DRY_RUN_INPUT}" = "true" ]; then
+            DRY_RUN_ENABLED="true"
+          fi
 
           if [ "${EVENT}" = "workflow_call" ]; then
             RAW_VERSION="${VERSION_OVERRIDE}"
@@ -286,6 +303,7 @@ jobs:
             echo "channel=${CHANNEL}"
             echo "metadata_profile=${METADATA_PROFILE}"
             echo "sign_requested=${SIGN_REQUESTED}"
+            echo "dry_run_enabled=${DRY_RUN_ENABLED}"
           } >> "$GITHUB_OUTPUT"
 
           echo "Release context: tag=${TAG} version=${VERSION} channel=${CHANNEL} profile=${METADATA_PROFILE} prepare=${SHOULD_PREPARE} publish=${PUBLISH_REQUESTED} sign=${SIGN_REQUESTED}"
@@ -575,7 +593,7 @@ jobs:
   publish-linux-distro-bundle:
     name: "Publish: Linux Distro Bundle (semi-automated)"
     needs: [detect-release, prepare-linux-distro-bundle]
-    if: needs.detect-release.outputs.publish_requested == 'true'
+    if: needs.detect-release.outputs.publish_requested == 'true' && needs.detect-release.outputs.dry_run_enabled != 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Download distro bundle artifact
@@ -613,7 +631,7 @@ jobs:
   finalize-release-status:
     name: "Release: Finalize Linux Distro Status"
     needs: [mark-release-pending, detect-release, prepare-linux-distro-bundle, publish-linux-distro-bundle]
-    if: always()
+    if: always() && (github.event_name == 'release' || ((github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call') && inputs.dry_run != true))
     runs-on: ubuntu-latest
     permissions:
       contents: read

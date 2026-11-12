@@ -57,8 +57,8 @@ class ReleaseDistroVersionResolutionTests(unittest.TestCase):
                 self.assertEqual(validate_step["env"]["VERSION_OVERRIDE"], "${{ inputs.version }}")
                 self.assertIn('validate-input-version "${VERSION_OVERRIDE}"', validate_step["run"])
                 self.assertIn("version_source", detect["outputs"])
-                self.assertIn("version ${{ needs.detect-release.outputs.version }}", summary_step["with"]["scope"])
-                self.assertIn("source: ${{ needs.detect-release.outputs.version_source }}", summary_step["with"]["scope"])
+                self.assertIn("needs.detect-release.outputs.version", summary_step["with"]["scope"])
+                self.assertIn("needs.detect-release.outputs.version_source", summary_step["with"]["scope"])
                 self.assertIn(additional_output, detect["outputs"])
                 if source_name:
                     self.assertIn(f'VERSION_SOURCE="{source_name}"', detect_run)
