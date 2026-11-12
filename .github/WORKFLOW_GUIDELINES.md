@@ -514,6 +514,12 @@ Sie prüft Cachepfade und Backend-Auswahl, nicht die tatsächliche Online-Treffe
 - Manuelle Läufe starten mit `dry_run=true`; ein Baseline-Commit nach `develop` erfordert zusätzlich `generate_baseline=true` und `dry_run=false`. Geplante Läufe behalten das bestehende Update-Verhalten.
 - Fehlgeschlagene fokussierte oder release-kritische Tests verhindern Baseline-Updates und führen nach dem Upload der Diagnose-Artefakte zu einem fehlgeschlagenen Workflow-Ergebnis.
 
+## Benchmark Workflows
+- `benchmark-performance-gate.yml` führt Build, Vergleich und Report-Artefakte bei manuellen Dry-Runs weiter aus; Tracker-Issue-Upserts und Kommentare sind standardmäßig deaktiviert. Geplante Läufe bleiben live.
+- `build-benchmarks.yml` führt manuelle Builds und Reports ohne Repository-Schreibzugriff aus; nur der geplante Preflight darf bei Bedarf den Build-Tracker initialisieren.
+- `build-wave-a-gpu.yml` ist Build-/Test-/Artefakt-Ausführung; `build-wave-b-transaction.yml` kommentiert weiterhin nur bei `pull_request` und benötigt dafür PR-Schreibzugriff im Testjob.
+- Schreibberechtigungen bleiben auf die Tracker-/PR-Jobs begrenzt; Validierung, Benchmark-Ausführung und Artefakt-Uploads werden durch Dry-Run-Guards nicht übersprungen.
+
 ## Compendium Sync
 - `maintenance-compendium-sync.yml` resolves its default target version from the top-level `target_version` in `docs/compendium/CHAPTER_ROADMAP_MAPPING.yml`; an optional manual override is validated before scanning and is carried into tracker identity and content.
 - Manual dispatch defaults to `dry_run=true`: the scan and report artifacts still run, but tracker issue writes are suppressed. Scheduled runs remain live.

@@ -74,7 +74,7 @@ concurrency:
   cancel-in-progress: false  # Protect scheduled runs while keeping a stable branch-level queue
 
 permissions:
-  contents: write  # For baseline commit-back on community push
+  contents: read
 
 jobs:
 
@@ -91,6 +91,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
+      contents: read
       issues: write
     steps:
       - uses: actions/checkout@v5

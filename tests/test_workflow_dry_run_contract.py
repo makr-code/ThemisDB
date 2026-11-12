@@ -784,6 +784,47 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         self.assertIn("no commit or push was performed", summary["run"])
         self.assertIn("BASELINE_UPDATE_OUTCOME", summary["env"])
 
+    def test_benchmark_workflow_block_limits_manual_and_workflow_write_scopes(self) -> None:
+        performance = load_workflow("benchmark-performance-gate.yml")
+        performance_triggers = performance.get(True, performance.get("on"))
+        dispatch_inputs = performance_triggers["workflow_dispatch"]["inputs"]
+        self.assertEqual(dispatch_inputs["dry_run"]["type"], "boolean")
+        self.assertIs(dispatch_inputs["dry_run"]["default"], True)
+        self.assertIs(dispatch_inputs["force_create_issue"]["default"], False)
+        self.assertEqual(performance["permissions"], {"contents": "read"})
+
+        report = performance["jobs"]["report"]
+        self.assertEqual(report["permissions"], {"contents": "read", "issues": "write"})
+        steps = report["steps"]
+        upsert = next(step for step in steps if step.get("name") == "Upsert benchmark results tracker issue")
+        comment = next(step for step in steps if step.get("name") == "Post full comparison report as issue comment")
+        for step in (upsert, comment):
+            with self.subTest(step=step["name"]):
+                self.assertIn("github.event_name != 'workflow_dispatch'", step["if"])
+                self.assertIn("inputs.dry_run != true", step["if"])
+        self.assertTrue(any("dry-run" in str(step.get("run", "")).lower() for step in steps))
+        for name in ("Verify artifact presence", "Compare results against PERFORMANCE_EXPECTATIONS.md",
+                     "Upload comparison report artifact"):
+            self.assertTrue(any(step.get("name") == name for step in steps), name)
+
+        benchmarks = load_workflow("build-benchmarks.yml")
+        self.assertEqual(benchmarks["permissions"], {"contents": "read"})
+        self.assertNotIn("git push", (WORKFLOWS / "build-benchmarks.yml").read_text(encoding="utf-8"))
+        preflight = benchmarks["jobs"]["preflight-build-status"]
+        self.assertEqual(preflight["permissions"], {"contents": "read", "issues": "write"})
+        bootstrap = next(step for step in preflight["steps"] if step.get("name") == "Bootstrap build tracker issue (schedule gate)")
+        self.assertEqual(bootstrap["if"], "github.event_name == 'schedule'")
+
+        gpu = load_workflow("build-wave-a-gpu.yml")
+        self.assertEqual(gpu["permissions"], {"contents": "read"})
+
+        transaction = load_workflow("build-wave-b-transaction.yml")
+        self.assertEqual(transaction["permissions"], {"contents": "read"})
+        transaction_job = transaction["jobs"]["full-transaction-test-suite"]
+        self.assertEqual(transaction_job["permissions"], {"contents": "read", "pull-requests": "write"})
+        pr_comment = next(step for step in transaction_job["steps"] if step.get("name") == "Post test summary to PR")
+        self.assertEqual(pr_comment["if"], "always() && github.event_name == 'pull_request'")
+
     def test_manual_boolean_toggles_have_explicit_types_and_preserved_defaults(self) -> None:
         expected = {
             "build-wave-a-gpu.yml": ("run_representative_hardware", False),

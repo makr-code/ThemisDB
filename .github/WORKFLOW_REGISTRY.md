@@ -3,7 +3,7 @@
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
 > Last Updated: 2026-11-12
-> Update Note: Maintenance issue/docs workflows and nightly coverage now default to safe manual dry-runs; scheduled/push behavior remains unchanged
+> Update Note: Maintenance/docs, nightly coverage, and benchmark tracker writes use safe manual dry-runs; scheduled/push behavior remains unchanged
 > Status: active
 > Total Workflows: 102 (verified 2026-11-10)
 > AI_Used: true
@@ -142,8 +142,8 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `build-benchmarks.yml` | Stark spezialisierte Multi-Lane Benchmark-Orchestrierung (Voice/GPU/Soak/Wave-A) mit heterogenen Targets und Artefakten. |
 | `build-content-regression.yml` | Content/Wave-D Regression mit eigener Test- und Soak-Orchestrierung außerhalb eines einzelnen Build-Line-Contracts. |
 | `build-llm-inference.yml` | Modell-/Inference-spezifische Build+Test-Pipeline inkl. LLM-Artefakt-Vorbereitung. |
-| `build-wave-a-gpu.yml` | GPU-spezifische Matrix-Lane mit Hardware-/Backend-spezifischer Ausführung. |
-| `build-wave-b-transaction.yml` | Transaktionsspezifische Build-/Testlane mit fokussierten Targets. |
+| `build-wave-a-gpu.yml` | GPU-spezifische Matrix-Lane mit Hardware-/Backend-spezifischer Ausführung und Artefakten; keine externen Writes. |
+| `build-wave-b-transaction.yml` | Transaktionsspezifische Build-/Testlane; PR-Kommentar-Schreibzugriff bleibt auf den Testjob begrenzt. |
 | `coverage-report-nightly.yml` | Coverage-Instrumentierung und Report-Erzeugung (nightly) als spezialisierter Ablauf. |
 | `gate-pr-final-runtime-api.yml` | Wiederverwendbarer Final-Runtime-Gate-Workflow mit TinyLlama/docs.db + Runtime-API/Docker-Prüfungen. |
 | `gate-pr-rag-security.yml` | Sicherheitsgate mit isolierten Security-Target-Builds und Security-spezifischer Auswertung. |
@@ -181,7 +181,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 |----------|---------|--------|
 | `build-mainline.yml` | Build: Mainline (All platforms, multi-matrix) | active |
 | `build-clang-fast.yml` | Build: Clang Fast (Quick clang-only validation) | active |
-| `build-benchmarks.yml` | Build: Benchmarks (Performance regression suite, 64-matrix) | active |
+| `build-benchmarks.yml` | Build: Benchmarks (Specialized benchmark matrix; manual runs are read-only) | active |
 | `build-sanitizer-nightly.yml` | Build: Sanitizer Nightly (cache-free changed-module PR ASan+UBSan tests under 45 minutes; full scheduled suite and TSan transaction/sharding/LLM; run evidence) | active |
 | `build-wave-a-gpu.yml` | Build: Wave A GPU (CUDA/GPU feature validation) | active |
 | `build-wave-b-transaction.yml` | Build: Wave B Transaction (registered targets built per runner; required Smoke/Full/Chaos suites with strict JUnit evidence; scheduled/manual baseline; fail-closed result gate) | active |
@@ -249,7 +249,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `release-wordpress-press.yml` | Release: WordPress Press (Blog/announcement publish) | communication |
 | `edition-hyperscaler-ci.yml` | Edition: Hyperscaler [CI] (Hyperscaler-edition specific CI) | edition-specific |
 | `ga-promotion-signoff.yml` | Governance: GA Promotion Sign-Off (GA promotion approval workflow) | governance |
-| `benchmark-performance-gate.yml` | Benchmark: Performance Gate (Performance regression detection) | quality |
+| `benchmark-performance-gate.yml` | Benchmark: Performance Gate (Manual dry-run by default; scheduled tracker updates remain live) | quality |
 | `gate-release-benchmark-validation.yml` | Gate: Release Benchmark Coverage Validation (Release benchmark coverage decision gate) | quality-gate |
 
 ### 4. MAINTENANCE & GOVERNANCE (21 Workflows)
