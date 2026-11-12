@@ -636,3 +636,27 @@ TEST_F(RAGProviderTest, StopsAfterBlockingQueryEngineCallExceedsDeadline) {
     EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_TIMEOUT);
     EXPECT_TRUE(access_check_called);
 }
+
+TEST_F(RAGProviderTest, StopsAfterBlockingQueryEngineCallExceedsDeadlineWithNoMatches) {
+    bool access_check_called = false;
+    engine_->setCollectionAccessChecker(
+        [&access_check_called](const std::string&, const std::string&) {
+            access_check_called = true;
+            std::this_thread::sleep_for(std::chrono::milliseconds(25));
+            return true;
+        });
+
+    query::ConjunctiveQuery query;
+    query.table = "docs";
+    query.pk_eq = "missing";
+    rag::RetrievalRequest request;
+    request.query = query;
+
+    rag::RetrievalExecutionContext context;
+    context.deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(5);
+    const auto result = provider_->retrieve(request, context);
+
+    ASSERT_FALSE(result);
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_TIMEOUT);
+    EXPECT_TRUE(access_check_called);
+}
