@@ -70,6 +70,16 @@ class VerifyMaturityGatesTests(unittest.TestCase):
 
         self.assertTrue(passed, details)
 
+    def test_contains_pattern_rejects_unbounded_regex_operators(self) -> None:
+        self.manifest["gates"]["wave_7_performance"][0]["validation_rule"] = "contains('(a+)+$')"
+
+        report = verifier.evaluate_manifest(self.manifest, self.repo_root, now=self.now)
+
+        self.assertFalse(report["pass"])
+        self.assertIn(
+            "only the `.*` wildcard", report["checks"][0]["details"]
+        )
+
     def test_fails_when_artifact_is_stale(self) -> None:
         old_time = (self.now - timedelta(days=8)).timestamp()
         os.utime(self.artifact, (old_time, old_time))

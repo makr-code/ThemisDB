@@ -24,7 +24,9 @@ gate records are grouped under `gates`, not `evidence_items`. The
 `.github/scripts/verify_maturity_gates.py` verifier evaluates declared
 `validation_rule` checks, resolves evidence paths inside the repository, and uses
 Git history for file-freshness checks so checkout timestamps do not make stale
-evidence appear current. `PASS` entries with unsupported rules fail closed.
+evidence appear current. Content patterns allow literals and the bounded `.*`
+wildcard rather than unrestricted regular expressions. `PASS` entries with
+unsupported rules fail closed.
 `PENDING` entries remain visibly pending and are not counted as passed; current
 workflow policy does not make pending entries block the run.
 

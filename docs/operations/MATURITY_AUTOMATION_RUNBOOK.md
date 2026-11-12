@@ -87,7 +87,7 @@ Human_Author: "ThemisDB Team"
 - **Report:** `maturity-report-<run number>` artifact containing `/tmp/maturity_report.json`.
 - **Hard exit criteria:** Evaluated separately by `scripts/verification/check_maturity_exit_criteria.py`.
 
-The verifier evaluates `PASS` entries and checks artifact paths, freshness from Git history, gate markers, section text, and declared regular-expression patterns. `PENDING` entries are shown as pending, not passed, and do not fail the workflow. Unsupported rules or invalid paths on a `PASS` entry fail closed.
+The verifier evaluates `PASS` entries and checks artifact paths, freshness from Git history, gate markers, section text, and bounded content patterns using the `.*` wildcard. `PENDING` entries are shown as pending, not passed, and do not fail the workflow. Unsupported rules or invalid paths on a `PASS` entry fail closed.
 
 **If workflow fails:**
 1. Check GitHub Actions logs

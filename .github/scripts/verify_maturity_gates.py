@@ -57,6 +57,42 @@ def _split_rules(rule: str) -> list[str]:
     return [part.strip() for part in rule.split(" AND ") if part.strip()]
 
 
+def _matches_manifest_pattern(pattern: str, contents: str) -> bool:
+    if len(pattern) > 512:
+        raise ValueError("contains pattern exceeds the 512-character limit")
+
+    segments: list[str] = []
+    current: list[str] = []
+    index = 0
+    while index < len(pattern):
+        char = pattern[index]
+        if char == "\\":
+            index += 1
+            if index >= len(pattern) or pattern[index] not in r"\[](){}.*+?^$|":
+                raise ValueError("contains pattern uses an unsupported escape")
+            current.append(pattern[index])
+        elif pattern.startswith(".*", index):
+            segments.append("".join(current))
+            current.clear()
+            index += 1
+        elif char in ".*+?{}[]()^$|":
+            raise ValueError("contains pattern supports only the `.*` wildcard")
+        else:
+            current.append(char)
+        index += 1
+    segments.append("".join(current))
+
+    position = 0
+    for segment in segments:
+        if not segment:
+            continue
+        found = contents.find(segment, position)
+        if found < 0:
+            return False
+        position = found + len(segment)
+    return True
+
+
 def _evaluate_rule(
     rule: str,
     entry: dict[str, Any],
@@ -101,12 +137,15 @@ def _evaluate_rule(
                 return False, f"section {marker!r} does not contain {section_match.group(1)!r}"
             continue
 
-        contains_match = re.fullmatch(r"contains\('((?:\\.|[^'])*)'\)", clause)
-        if contains_match:
+        contains_prefix = "contains('"
+        contains_suffix = "')"
+        if clause.startswith(contains_prefix) and clause.endswith(contains_suffix):
             if contents is None:
                 contents = artifact_path.read_text(encoding="utf-8")
-            pattern = contains_match.group(1)
-            if re.search(pattern, contents, flags=re.MULTILINE | re.DOTALL) is None:
+            pattern = clause[len(contains_prefix):-len(contains_suffix)]
+            if "'" in pattern:
+                return False, "contains pattern cannot contain an unescaped quote"
+            if not _matches_manifest_pattern(pattern, contents):
                 return False, f"artifact does not match pattern {pattern!r}"
             continue
 
