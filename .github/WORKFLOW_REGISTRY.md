@@ -3,7 +3,7 @@
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
 > Last Updated: 2026-11-12
-> Update Note: Maintenance issue triage and docs maintenance now default to safe manual dry-runs; scheduled/push behavior remains live
+> Update Note: Maintenance issue/docs workflows and nightly coverage now default to safe manual dry-runs; scheduled/push behavior remains unchanged
 > Status: active
 > Total Workflows: 102 (verified 2026-11-10)
 > AI_Used: true
@@ -262,7 +262,7 @@ werden nicht abgeschwächt. Ein vollständiger erfolgreicher CI-Build bleibt nac
 | `maintenance-issues.yml` | Maintenance: Issues [GS3 + Security Alerts] (Default-on manual dry-run; scheduled triage remains live) | security |
 | `maintenance-docs.yml` | Maintenance: Docs (Default-on manual dry-run; scheduled/push checks retain existing behavior) | docs |
 | `nightly-governance-audit.yml` | Nightly: Governance Audit Scope (Nightly governance evidence and checklist validation) | governance |
-| `coverage-report-nightly.yml` | Maintenance: Nightly Coverage Collection & Baseline Update (Nightly coverage metrics and baseline refresh) | quality |
+| `coverage-report-nightly.yml` | Maintenance: Nightly Coverage Collection & Baseline Update (Manual dry-run by default; test-gated baseline refresh) | quality |
 | `nightly-governance-audit.yml` | Nightly: Governance Audit Scope (Scheduled governance artifact and checklist audit) | governance |
 | `maintenance-housekeeping.yml` | Maintenance: Housekeeping (Repository cleanup and maintenance) | maintenance |
 | `maintenance-architecture-ci.yml` | Maintenance: Architecture CI (Read-only generation and validation; isolated PR publication) | docs |

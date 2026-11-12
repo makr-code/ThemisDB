@@ -746,6 +746,44 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         self.assertIn("Manual dry-run", next(step for step in doxygen_job["steps"] if step.get("name") == "Write job summary")["run"])
         self.assertIn("persist-credentials", next(step for step in doxygen_job["steps"] if step.get("name") == "Checkout repository")["with"])
 
+    def test_nightly_coverage_manual_dry_run_preserves_validation_and_suppresses_baseline_push(self) -> None:
+        workflow = load_workflow("coverage-report-nightly.yml")
+        triggers = workflow.get(True, workflow.get("on"))
+        dispatch_inputs = triggers["workflow_dispatch"]["inputs"]
+        dry_run = dispatch_inputs["dry_run"]
+        self.assertEqual(dry_run["type"], "boolean")
+        self.assertIs(dry_run["default"], True)
+        self.assertIn("scheduled runs remain live", dry_run["description"])
+        self.assertEqual(workflow["permissions"], {"contents": "read"})
+
+        job = workflow["jobs"]["coverage-collection"]
+        self.assertEqual(job["permissions"], {"contents": "write"})
+        steps = job["steps"]
+        baseline_update = next(step for step in steps if step.get("name") == "Update baseline on develop")
+        self.assertIn("github.event_name == 'schedule'", baseline_update["if"])
+        self.assertIn("inputs.generate_baseline == true", baseline_update["if"])
+        self.assertIn("inputs.dry_run != true", baseline_update["if"])
+        self.assertIn("steps.focused_tests.outcome == 'success'", baseline_update["if"])
+        self.assertIn("steps.critical_tests.outcome == 'success'", baseline_update["if"])
+        self.assertIn("git push", baseline_update["run"])
+        test_failure_gate = next(step for step in steps if step.get("name") == "Fail workflow when required tests fail")
+        self.assertIn("steps.focused_tests.outcome == 'failure'", test_failure_gate["if"])
+        self.assertIn("steps.critical_tests.outcome == 'failure'", test_failure_gate["if"])
+        self.assertIn("exit 1", test_failure_gate["run"])
+
+        for step_name in ("CMake configure (with coverage enabled)", "Build (with coverage)",
+                          "Run focused tests (Tier A priority)", "Run release-critical tests (Tier A subset)"):
+            step = next(step for step in steps if step.get("name") == step_name)
+            with self.subTest(step=step_name):
+                self.assertNotIn("dry_run", step.get("if", ""))
+
+        artifact_upload = next(step for step in steps if step.get("name") == "Upload coverage artifacts")
+        self.assertNotIn("dry_run", artifact_upload.get("if", ""))
+        summary = next(step for step in steps if step.get("name") == "Workflow summary")
+        self.assertEqual(summary["if"], "always()")
+        self.assertIn("no commit or push was performed", summary["run"])
+        self.assertIn("BASELINE_UPDATE_OUTCOME", summary["env"])
+
     def test_manual_boolean_toggles_have_explicit_types_and_preserved_defaults(self) -> None:
         expected = {
             "build-wave-a-gpu.yml": ("run_representative_hardware", False),

@@ -509,6 +509,11 @@ Sie prüft Cachepfade und Backend-Auswahl, nicht die tatsächliche Online-Treffe
 - Das `workflow_dispatch`-Input `lookback_days` akzeptiert ganze Zahlen von 1 bis 90 (Standard: 7); ungültige Werte brechen die Analyse vor dem API-Aufruf ab.
 - Manuelle Läufe starten standardmäßig mit `dry_run=true`: Analyse, Zusammenfassung und Report-Artefakt laufen weiter; Issue- und Label-Änderungen werden nur in einem Live-Lauf ausgeführt. Geplante Läufe bleiben live.
 
+## Nightly Coverage
+- `coverage-report-nightly.yml` führt Build, fokussierte und release-kritische Tests sowie Report-Artefakte auch bei manuellen Dry-Runs aus.
+- Manuelle Läufe starten mit `dry_run=true`; ein Baseline-Commit nach `develop` erfordert zusätzlich `generate_baseline=true` und `dry_run=false`. Geplante Läufe behalten das bestehende Update-Verhalten.
+- Fehlgeschlagene fokussierte oder release-kritische Tests verhindern Baseline-Updates und führen nach dem Upload der Diagnose-Artefakte zu einem fehlgeschlagenen Workflow-Ergebnis.
+
 ## Compendium Sync
 - `maintenance-compendium-sync.yml` resolves its default target version from the top-level `target_version` in `docs/compendium/CHAPTER_ROADMAP_MAPPING.yml`; an optional manual override is validated before scanning and is carried into tracker identity and content.
 - Manual dispatch defaults to `dry_run=true`: the scan and report artifacts still run, but tracker issue writes are suppressed. Scheduled runs remain live.

@@ -9,10 +9,15 @@ on:
   workflow_dispatch:
     inputs:
       generate_baseline:
-        description: 'Generate new baseline (default: report-only)'
+        description: 'Commit the generated baseline to develop (manual live runs only; default: report-only)'
         type: boolean
         required: false
         default: false
+      dry_run:
+        description: 'Run validation and upload reports without committing the baseline (scheduled runs remain live)'
+        type: boolean
+        required: false
+        default: true
 
 env:
   THEMIS_AUTO_BOOTSTRAP_DEPS: 'OFF'
@@ -20,8 +25,7 @@ env:
   THEMIS_DIAGNOSTIC_MODE: 'ON'
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 concurrency:
   group: coverage-report-nightly-${{ github.ref }}
@@ -32,6 +36,8 @@ jobs:
     name: Collect Coverage & Update Baseline
     runs-on: ubuntu-latest
     timeout-minutes: 120
+    permissions:
+      contents: write
     
     steps:
       - name: Checkout code
@@ -90,8 +96,15 @@ jobs:
           path: build/test-quality-inventory.json
           retention-days: 30
           if-no-files-found: warn
+
+      - name: Fail workflow when required tests fail
+        if: always() && (steps.focused_tests.outcome == 'failure' || steps.critical_tests.outcome == 'failure')
+        run: |
+          echo "::error::Focused or release-critical coverage tests failed; see their logs and the uploaded coverage artifacts."
+          exit 1
       
       - name: Build (with coverage)
+        id: coverage_build
         run: |
           cmake --build build --parallel 8 --config Debug
           echo "✓ Build complete with coverage flags"
@@ -117,6 +130,7 @@ jobs:
           echo "status=success" >> "$GITHUB_OUTPUT"
       
       - name: Collect coverage data
+        id: collect_coverage
         if: steps.focused_tests.outcome != 'failure'
         run: |
           echo "Collecting .gcda files..."
@@ -223,7 +237,15 @@ jobs:
           if-no-files-found: warn
       
       - name: Update baseline on develop
-        if: github.ref == 'refs/heads/develop' && (github.event_name == 'schedule' || github.event.inputs.generate_baseline == 'true')
+        id: update_baseline
+        if: >-
+          github.ref == 'refs/heads/develop' &&
+          steps.focused_tests.outcome == 'success' &&
+          steps.critical_tests.outcome == 'success' &&
+          (github.event_name == 'schedule' ||
+          (github.event_name == 'workflow_dispatch' &&
+          inputs.generate_baseline == true &&
+          inputs.dry_run != true))
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
@@ -278,15 +300,42 @@ jobs:
       
       - name: Workflow summary
         if: always()
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+          GENERATE_BASELINE: ${{ inputs.generate_baseline }}
+          BUILD_OUTCOME: ${{ steps.coverage_build.outcome }}
+          FOCUSED_TESTS_OUTCOME: ${{ steps.focused_tests.outcome }}
+          CRITICAL_TESTS_OUTCOME: ${{ steps.critical_tests.outcome }}
+          COVERAGE_OUTCOME: ${{ steps.collect_coverage.outcome }}
+          BASELINE_UPDATE_OUTCOME: ${{ steps.update_baseline.outcome }}
         run: |
           {
             echo "## Coverage Collection Summary"
             echo ""
+            echo "| Run setting | Value |"
+            echo "|-------------|-------|"
+            echo "| Trigger | \`${EVENT_NAME}\` |"
+            echo "| Manual dry-run | \`${DRY_RUN}\` |"
+            echo "| Baseline update requested | \`${GENERATE_BASELINE}\` |"
+            echo ""
             echo "| Step | Status |"
             echo "|------|--------|"
-            echo "| Focused tests | ${{ steps.focused_tests.outcome }} |"
-            echo "| Critical tests | ${{ steps.critical_tests.outcome }} |"
-            echo "| Coverage collected | ✓ |"
+            echo "| Build | \`${BUILD_OUTCOME:-not run}\` |"
+            echo "| Focused tests | \`${FOCUSED_TESTS_OUTCOME:-not run}\` |"
+            echo "| Release-critical tests | \`${CRITICAL_TESTS_OUTCOME:-not run}\` |"
+            echo "| Coverage collection | \`${COVERAGE_OUTCOME:-not run}\` |"
+            echo "| Baseline update | \`${BASELINE_UPDATE_OUTCOME:-not run}\` |"
             echo ""
             echo "Artifacts uploaded: coverage-report-${{ github.run_id }}"
+            if [ "${EVENT_NAME}" = "workflow_dispatch" ] && [ "${DRY_RUN}" = "true" ] && [ "${GENERATE_BASELINE}" = "true" ]; then
+              echo ""
+              echo "Manual dry-run preview: the generated baseline would be committed to \`develop\`; no commit or push was performed."
+            elif [ "${EVENT_NAME}" = "workflow_dispatch" ] && [ "${DRY_RUN}" = "true" ]; then
+              echo ""
+              echo "Manual dry-run: baseline commit/push is disabled; build, tests, coverage reports, and artifacts still run."
+            elif [ "${EVENT_NAME}" = "schedule" ]; then
+              echo ""
+              echo "Scheduled runs retain the existing baseline update behavior on \`develop\`."
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
