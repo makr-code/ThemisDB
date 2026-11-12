@@ -133,28 +133,45 @@ jobs:
 
       - run: pip install pyyaml jsonschema gitpython
 
-      - name: Load Maturity Evidence Manifest
-        id: manifest
-        run: |
-          python3 << 'EOF'
-          import json
-          from pathlib import Path
-
-          manifest_file = Path("docs/governance/MATURITY_EVIDENCE_MANIFEST.json")
-          if not manifest_file.exists():
-              print("::warning::MATURITY_EVIDENCE_MANIFEST.json not found — skipping.")
-              exit(0)
-          manifest = json.loads(manifest_file.read_text())
-          print(f"Loaded {len(manifest.get('evidence_items', []))} evidence items.")
-          EOF
-
       - name: Verify maturity gates
         run: |
           python3 .github/scripts/verify_maturity_gates.py \
+            --repo-root "${GITHUB_WORKSPACE}" \
             --manifest docs/governance/MATURITY_EVIDENCE_MANIFEST.json \
             --output /tmp/maturity_report.json
 
+      - name: Summarize maturity evidence
+        if: always()
+        run: |
+          python3 <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+
+          path = Path("/tmp/maturity_report.json")
+          print("## Maturity Evidence Verification")
+          print()
+          if not path.exists():
+              print("- Result: no report produced")
+              raise SystemExit(0)
+
+          report = json.loads(path.read_text(encoding="utf-8"))
+          print(f"- Result: {'PASS' if report['pass'] else 'FAIL'}")
+          for group, counts in sorted(report["groups"].items()):
+              print(f"- {group}: {counts['pass']} passed, {counts['fail']} failed, {counts['pending']} pending")
+          for error in report["errors"]:
+              print(f"- Error: {error}")
+          failures = [check for check in report["checks"] if check["status"] == "FAIL"]
+          if failures:
+              print()
+              print("| Gate | Details |")
+              print("|---|---|")
+              for check in failures:
+                  safe_details = check["details"].replace("|", "\\|")
+                  print(f"| `{check['group']}/{check['id']}` | {safe_details} |")
+          PY
+
       - name: Check hard maturity exit criteria
+        if: always()
         run: |
           python3 scripts/verification/check_maturity_exit_criteria.py \
             --repo-root="${GITHUB_WORKSPACE}" \
@@ -340,33 +357,34 @@ jobs:
 
       - name: Verify Wave-7–9 technical gates
         run: |
-          python3 << 'EOF'
-          import json, sys
-          from pathlib import Path
-
-          manifest_file = Path("docs/governance/MATURITY_EVIDENCE_MANIFEST.json")
-          if not manifest_file.exists():
-              print("::warning::MATURITY_EVIDENCE_MANIFEST.json not found — skipping gate check.")
-              sys.exit(0)
-          manifest = json.loads(manifest_file.read_text())
-          required_waves = {"wave7", "wave8", "wave9"}
-          passed = {item["wave"] for item in manifest.get("evidence_items", []) if item.get("status") == "pass"}
-          missing = required_waves - passed
-          if missing:
-              print(f"::error::Missing gate evidence for waves: {', '.join(sorted(missing))}")
-              sys.exit(1)
-          print("All required Wave-7–9 gates passed.")
-          EOF
+          python3 .github/scripts/verify_maturity_gates.py \
+            --repo-root "${GITHUB_WORKSPACE}" \
+            --manifest docs/governance/MATURITY_EVIDENCE_MANIFEST.json \
+            --output /tmp/rc_maturity_report.json \
+            --group wave_7_performance \
+            --group wave_8_security \
+            --group wave_9_operational
 
       - name: Produce RC validation summary
         if: always()
         run: |
-          {
-            echo "## RC Validation — ${{ steps.tag.outputs.rc_tag }}"
-            echo "| Gate | Status |"
-            echo "|------|--------|"
-            echo "| Wave-7–9 Evidence | ${{ job.status }} |"
-          } >> "$GITHUB_STEP_SUMMARY"
+          python3 <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+
+          print("## RC Validation — ${{ steps.tag.outputs.rc_tag }}")
+          print()
+          path = Path("/tmp/rc_maturity_report.json")
+          if not path.exists():
+              print("- Wave-7–9 evidence: no report produced")
+              raise SystemExit(0)
+          report = json.loads(path.read_text(encoding="utf-8"))
+          print(f"- Wave-7–9 evidence: {'PASS' if report['pass'] else 'FAIL'}")
+          for group, counts in sorted(report["groups"].items()):
+              print(f"- {group}: {counts['pass']} passed, {counts['fail']} failed, {counts['pending']} pending")
+          for error in report["errors"]:
+              print(f"- Error: {error}")
+          PY
 
   # 4. WAVE C BATCH 3 — SBOM/Hash Verification (release integrity)
   sbom-hash-verification:
