@@ -121,7 +121,9 @@ route now also builds an equality filter from the validated bearer-token tenant
 claim for vector retrieval; it does not trust a caller-supplied tenant header.
 This only scopes the direct HTTP vector route and does not propagate tenant
 identity through `RetrievalExecutionContext`, establish general row-level policy,
-or add HTTP cancellation.
+or add HTTP cancellation. The focused provider regression now verifies that an
+indexed tenant prefilter returns the authorized document at top-1 even when a
+foreign-tenant vector is nearer; the test has not been built or executed.
 
 The current source diff adds `RAGSourceReference` and candidate parsing for exact
 source-reference fields; persists normal ingestion chunk text in

@@ -61,12 +61,15 @@ protected:
     }
 
     void storeTenantDocument(
-        const std::string& id, const std::string& text, const std::string& tenant_id) {
+        const std::string& id,
+        const std::string& text,
+        const std::string& tenant_id,
+        std::vector<float> embedding = {1.0f, 0.0f}) {
         BaseEntity entity(id);
         entity.setField("content", text);
         entity.setField("category", std::string{"public"});
         entity.setField("tenant_id", tenant_id);
-        entity.setField("embedding", std::vector<float>{1.0f, 0.0f});
+        entity.setField("embedding", embedding);
         ASSERT_TRUE(secondary_->put("docs", entity).ok);
         ASSERT_TRUE(vector_->addEntity(entity).ok);
     }
@@ -109,8 +112,9 @@ TEST_F(RAGProviderTest, VectorIndexMaterializesCanonicalBinaryStorage) {
 }
 
 TEST_F(RAGProviderTest, VectorQueryExtraFilterScopesTenantAndRejectsMissingTenant) {
-    storeTenantDocument("acme", "Acme evidence", "acme");
-    storeTenantDocument("beta", "Beta evidence", "beta");
+    ASSERT_TRUE(secondary_->createIndex("docs", "tenant_id").ok);
+    storeTenantDocument("acme", "Acme evidence", "acme", {0.6f, 0.8f});
+    storeTenantDocument("beta", "Beta evidence", "beta", {1.0f, 0.0f});
     storeDocument("legacy", "Tenantless evidence");
 
     auto tenant_field = std::make_shared<query::FieldAccessExpr>(
@@ -119,12 +123,13 @@ TEST_F(RAGProviderTest, VectorQueryExtraFilterScopesTenantAndRejectsMissingTenan
     query::VectorGeoQuery query;
     query.table = "docs";
     query.query_vector = {1.0f, 0.0f};
+    query.k = 1;
     query.extra_filters.push_back(std::make_shared<query::BinaryOpExpr>(
         query::BinaryOperator::Eq, std::move(tenant_field), std::move(tenant_value)));
 
     rag::RetrievalRequest request;
     request.query = std::move(query);
-    request.max_candidates = 10;
+    request.max_candidates = 1;
     const auto result = provider_->retrieve(request);
 
     ASSERT_TRUE(result) << result.error().context();

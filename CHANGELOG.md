@@ -51,7 +51,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   bearer token as an equality predicate on `tenant_id`. Caller-supplied tenant
   headers are not used; tenant-scoped requests exclude entities without that
   field. This is a route-specific filter, not a complete row-level policy
-  integration, and its test has not yet been built or run.
+  integration. The focused test covers top-1 candidate prefiltering with a tenant
+  index and remains unbuilt.
 
 ### Core Provider/Consumer follow-up — ContentManager source lookup (2026-11-12)
 
