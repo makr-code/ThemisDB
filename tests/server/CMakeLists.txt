@@ -144,6 +144,13 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
             TIMEOUT 120
             LABELS release_critical server phase2 performance
         )
+        # This target links the sharding coder alongside the storage factory
+        # copy; disable only ASan's duplicate-typeinfo check for this overlap.
+        if(CMAKE_CXX_FLAGS MATCHES "-fsanitize=address")
+            set_tests_properties("${_ctest}" PROPERTIES
+                ENVIRONMENT "ASAN_OPTIONS=detect_odr_violation=0"
+            )
+        endif()
     elseif(_stem STREQUAL "test_mcp_kg_tools")
         themis_register_module_focused_test(
             MODULE server

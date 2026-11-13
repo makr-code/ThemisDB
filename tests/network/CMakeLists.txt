@@ -67,4 +67,12 @@ foreach(_src IN LISTS NETWORK_MODULE_TEST_SOURCES)
         TIMEOUT 120
         LABELS ${_labels}
     )
+    # This focused test links the sharding coder alongside the storage factory
+    # copy; disable only ASan's duplicate-typeinfo check for this known overlap.
+    if(_stem STREQUAL "test_network_contract_hardening_focused" AND
+       CMAKE_CXX_FLAGS MATCHES "-fsanitize=address")
+        set_tests_properties("${_ctest}" PROPERTIES
+            ENVIRONMENT "ASAN_OPTIONS=detect_odr_violation=0"
+        )
+    endif()
 endforeach()
