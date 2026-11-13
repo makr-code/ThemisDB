@@ -53,10 +53,10 @@ on:
         description: 'Fail workflow on HIGH/CRITICAL ZAP findings'
         type: boolean
         default: false
-      target_url:
-        description: 'Override scan target URL (default: http://localhost:18080)'
-        type: string
-        default: 'http://localhost:18080'
+      dry_run:
+        description: 'Run the scan and retain reports without uploading SARIF'
+        type: boolean
+        default: true
 
   # Reusable: called from release-mainline.yml pre-publish gate (api-scan mode)
   workflow_call:
@@ -69,10 +69,10 @@ on:
         description: 'Fail workflow on HIGH/CRITICAL ZAP findings'
         type: boolean
         default: false
-      target_url:
-        description: 'Scan target URL'
-        type: string
-        default: 'http://localhost:18080'
+      dry_run:
+        description: 'Run the scan and retain reports without uploading SARIF'
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -83,10 +83,7 @@ concurrency:
 
 # ──────────────────────────────────────────────────────────────────────────────
 env:
-  # Resolved scan mode: prefer workflow_dispatch input; fall back to 'baseline'
-  # for schedule triggers and workflow_call without explicit input.
-  SCAN_MODE: ${{ inputs.scan_mode || 'baseline' }}
-  TARGET_URL: ${{ inputs.target_url || 'http://localhost:18080' }}
+  TARGET_URL: 'http://localhost:18080'
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Shared build+start steps are inlined into each scan job because GitHub-hosted
@@ -95,6 +92,36 @@ env:
 # ──────────────────────────────────────────────────────────────────────────────
 jobs:
 
+  validate-inputs:
+    name: "Validate: ZAP Scan Inputs"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      scan_mode: ${{ steps.validate.outputs.scan_mode }}
+    steps:
+      - name: Validate scan mode and trigger
+        id: validate
+        shell: bash
+        env:
+          SCAN_MODE: ${{ github.event_name == 'schedule' && 'baseline' || inputs.scan_mode }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          set -euo pipefail
+          case "${SCAN_MODE}" in
+            baseline|api-scan|full-scan) ;;
+            *)
+              echo "::error::Unsupported ZAP scan_mode '${SCAN_MODE}'."
+              exit 1
+              ;;
+          esac
+          if [[ "${SCAN_MODE}" == "full-scan" && "${EVENT_NAME}" != "workflow_dispatch" ]]; then
+            echo "::error::full-scan is available only through manual workflow_dispatch."
+            exit 1
+          fi
+          echo "scan_mode=${SCAN_MODE}" >> "${GITHUB_OUTPUT}"
+          echo "Validated ZAP scan mode: ${SCAN_MODE}"
+
   # ────────────────────────────────────────────────────────────────────────────
   # ZAP Baseline Scan (passive only — advisory, always non-blocking)
   # ────────────────────────────────────────────────────────────────────────────
@@ -102,8 +129,8 @@ jobs:
     name: "Security: ZAP Baseline Scan (passive)"
     runs-on: ubuntu-latest
     timeout-minutes: 75
-    if: >
-      inputs.scan_mode == 'baseline' || inputs.scan_mode == '' || github.event_name == 'schedule'
+    needs: validate-inputs
+    if: needs.validate-inputs.outputs.scan_mode == 'baseline'
     permissions:
       contents: read
       security-events: write
@@ -198,7 +225,12 @@ jobs:
       - name: Upload ZAP Baseline SARIF to GitHub Security tab
         # ZAP actions emit report_sarif.json (SARIF format) in addition to
         # report_json.json (ZAP native JSON).  upload-sarif requires SARIF input.
-        if: always()
+        if: >-
+          always() &&
+          (github.event_name == 'schedule' ||
+          (inputs.dry_run != true &&
+          (github.event_name != 'pull_request' ||
+          github.event.pull_request.head.repo.full_name == github.repository)))
         uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
         with:
           sarif_file: report_sarif.json
@@ -270,7 +302,7 @@ jobs:
   run-summary:
     name: Workflow run summary
     runs-on: ubuntu-latest
-    needs: [zap-baseline, zap-api-scan, zap-full-scan]
+    needs: [validate-inputs, zap-baseline, zap-api-scan, zap-full-scan]
     if: always()
     permissions:
       contents: read
@@ -281,7 +313,7 @@ jobs:
       - name: Write workflow run summary
         uses: ./.github/actions/write-run-summary
         with:
-          scope: OWASP ZAP scans
+          scope: "OWASP ZAP scans (dry-run: ${{ (github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call') && inputs.dry_run }})"
           job-results: ${{ toJSON(needs) }}
 
   # ────────────────────────────────────────────────────────────────────────────
@@ -291,7 +323,8 @@ jobs:
     name: "Security: ZAP API Scan (OpenAPI-driven)"
     runs-on: ubuntu-latest
     timeout-minutes: 90
-    if: inputs.scan_mode == 'api-scan'
+    needs: validate-inputs
+    if: needs.validate-inputs.outputs.scan_mode == 'api-scan'
     permissions:
       contents: read
       security-events: write
@@ -385,7 +418,12 @@ jobs:
           allow_issue_writing: false
 
       - name: Upload ZAP API Scan SARIF to GitHub Security tab
-        if: always()
+        if: >-
+          always() &&
+          (github.event_name == 'schedule' ||
+          (inputs.dry_run != true &&
+          (github.event_name != 'pull_request' ||
+          github.event.pull_request.head.repo.full_name == github.repository)))
         uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
         with:
           sarif_file: report_sarif.json
@@ -466,9 +504,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 150
     # Full scan: only manual dispatch, only full-scan mode explicitly selected.
-    if: >
-      github.event_name == 'workflow_dispatch' &&
-      inputs.scan_mode == 'full-scan'
+    needs: validate-inputs
+    if: needs.validate-inputs.outputs.scan_mode == 'full-scan'
     permissions:
       contents: read
       security-events: write
@@ -562,7 +599,12 @@ jobs:
           allow_issue_writing: false
 
       - name: Upload ZAP Full Scan SARIF to GitHub Security tab
-        if: always()
+        if: >-
+          always() &&
+          (github.event_name == 'schedule' ||
+          (inputs.dry_run != true &&
+          (github.event_name != 'pull_request' ||
+          github.event.pull_request.head.repo.full_name == github.repository)))
         uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
         with:
           sarif_file: report_sarif.json

@@ -205,7 +205,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                labels: ['rag-security-required', 'release_critical', 'quality/security']
+                labels: ['rag-security-required', 'quality/security']
               });
             } catch (error) {
               console.log(`::warning::Unable to apply RAG security labels: ${error.message}`);
@@ -311,6 +311,25 @@ jobs:
           fi
           echo "✅ RAG Security Guardrails Gate: PASS (tests: ${tests_result})"
 
+  apply-release-critical-label:
+    name: "Gate: Apply release_critical Label"
+    needs: [security_guardrails_validation, isolation_tests, gate_status]
+    if: needs.security_guardrails_validation.result == 'success' && needs.isolation_tests.result == 'success' && needs.gate_status.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Apply release_critical label after tests pass
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['release_critical']
+            });
+
   run-summary:
     name: "Validate: Run Summary"
     if: always()
@@ -318,6 +337,7 @@ jobs:
       - security_guardrails_validation
       - isolation_tests
       - gate_status
+      - apply-release-critical-label
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -325,6 +345,12 @@ jobs:
       - uses: actions/checkout@v5
         with:
           persist-credentials: false
+      - name: Report release_critical label decision
+        if: always() && needs.isolation_tests.result != 'success'
+        env:
+          TEST_RESULT: ${{ needs.isolation_tests.result }}
+        run: |
+          echo "**release_critical was withheld** because the tenant-isolation test lane did not succeed (result: ${TEST_RESULT})." >> "$GITHUB_STEP_SUMMARY"
       - uses: ./.github/actions/write-run-summary
         with:
           scope: "RAG security guardrails and optional tenant-isolation tests"

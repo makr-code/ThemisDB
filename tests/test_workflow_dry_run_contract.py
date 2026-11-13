@@ -1,3 +1,5 @@
+import ast
+import os
 import re
 import subprocess
 import unittest
@@ -9,9 +11,54 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = ROOT / ".github" / "workflows"
 
+SARIF_UPLOAD_POLICY_CASES = (
+    ("scheduled", "schedule", True, False, True),
+    ("direct internal PR", "pull_request", None, True, True),
+    ("direct fork PR", "pull_request", None, False, False),
+    ("reusable PR default dry-run", "pull_request", True, True, False),
+    ("reusable internal PR live", "pull_request", False, True, True),
+    ("reusable fork PR live input", "pull_request", False, False, False),
+    ("manual default dry-run", "workflow_dispatch", True, True, False),
+    ("manual live scan", "workflow_dispatch", False, True, True),
+    ("reusable push default dry-run", "push", True, True, False),
+    ("reusable push live scan", "push", False, True, True),
+)
+
 
 def load_workflow(name: str) -> dict:
     return yaml.safe_load((WORKFLOWS / name).read_text(encoding="utf-8"))
+
+
+def evaluate_sarif_upload_condition(
+    condition: str,
+    event_name: str,
+    dry_run: bool | None,
+    same_repository_pr: bool,
+) -> bool:
+    replacements = {
+        "always()": "True",
+        "github.event.pull_request.head.repo.full_name == github.repository": str(same_repository_pr),
+        "github.event_name == 'schedule'": str(event_name == "schedule"),
+        "github.event_name == 'pull_request'": str(event_name == "pull_request"),
+        "github.event_name != 'pull_request'": str(event_name != "pull_request"),
+        "inputs.dry_run != true": str(dry_run is not True),
+    }
+    for token in sorted(replacements, key=len, reverse=True):
+        condition = condition.replace(token, replacements[token])
+    condition = condition.replace("&&", " and ").replace("||", " or ")
+    tree = ast.parse(condition, mode="eval")
+
+    def evaluate(node: ast.AST) -> bool:
+        if isinstance(node, ast.Expression):
+            return evaluate(node.body)
+        if isinstance(node, ast.Constant) and isinstance(node.value, bool):
+            return node.value
+        if isinstance(node, ast.BoolOp) and isinstance(node.op, (ast.And, ast.Or)):
+            values = [evaluate(value) for value in node.values]
+            return all(values) if isinstance(node.op, ast.And) else any(values)
+        raise AssertionError(f"Unsupported SARIF condition expression: {ast.dump(node)}")
+
+    return evaluate(tree)
 
 
 class WorkflowDryRunContractTests(unittest.TestCase):
@@ -22,7 +69,12 @@ class WorkflowDryRunContractTests(unittest.TestCase):
             "maintenance-ci-health.yml": {"ci-health-dashboard", "update-chronic-issue"},
             "maintenance-workflow-guardrails-observe.yml": {"workflow-guardrails"},
             "security-consolidated.yml": {"trivy", "gitleaks", "kubesec"},
-            "security-dast-zap.yml": {"zap-baseline", "zap-api-scan", "zap-full-scan"},
+            "security-dast-zap.yml": {
+                "validate-inputs",
+                "zap-baseline",
+                "zap-api-scan",
+                "zap-full-scan",
+            },
         }
 
         for workflow_name, expected_dependencies in expected.items():
@@ -294,17 +346,23 @@ class WorkflowDryRunContractTests(unittest.TestCase):
         cases = {
             "gate-pr-rag-security.yml": {
                 "test_job": "isolation_tests",
+                "validation_job": "security_guardrails_validation",
                 "build_step": "Build Security Tests",
                 "target": "test_retrieval_policy_enforcement",
                 "registration_step": "Verify Multi-Tenant Isolation Test Registration",
                 "filter": "tenant_isolation|policy_enforcement",
+                "noncritical_labels": ("rag-security-required", "quality/security"),
+                "withheld_reason": "tenant-isolation test lane",
             },
             "gate-pr-rag-version.yml": {
                 "test_job": "reindex_decision_tests",
+                "validation_job": "version_governance_validation",
                 "build_step": "Build Reindex Decision Tests",
                 "target": "test_reindex_decision",
                 "registration_step": "Verify Embedding Canary Test Registration",
                 "filter": "embedding_canary",
+                "noncritical_labels": ("rag-version-required", "quality/versioning"),
+                "withheld_reason": "reindex/canary test lane",
             },
         }
 
@@ -346,6 +404,46 @@ class WorkflowDryRunContractTests(unittest.TestCase):
                 self.assertIn("tests_result", status_script)
                 self.assertIn('"success"', status_script)
                 self.assertIn('"skipped"', status_script)
+
+                validation_label_step = next(
+                    step for step in workflow["jobs"][contract["validation_job"]]["steps"]
+                    if step.get("name") == "Apply Gate Label"
+                )
+                validation_labels = validation_label_step["with"]["script"]
+                for label in contract["noncritical_labels"]:
+                    self.assertIn(label, validation_labels)
+                self.assertNotIn("'release_critical'", validation_labels)
+
+                release_label_job = workflow["jobs"]["apply-release-critical-label"]
+                self.assertEqual(
+                    set(release_label_job["needs"]),
+                    {contract["validation_job"], contract["test_job"], "gate_status"},
+                )
+                release_label_condition = release_label_job["if"]
+                for required_job in (contract["validation_job"], contract["test_job"], "gate_status"):
+                    self.assertIn(
+                        f"needs.{required_job}.result == 'success'",
+                        release_label_condition,
+                    )
+                release_label_script = release_label_job["steps"][0]["with"]["script"]
+                self.assertIn("'release_critical'", release_label_script)
+
+                run_summary = workflow["jobs"]["run-summary"]
+                self.assertIn("apply-release-critical-label", run_summary["needs"])
+                self.assertEqual(
+                    run_summary["steps"][-1]["with"]["job-results"],
+                    "${{ toJSON(needs) }}",
+                )
+                withheld_summary = next(
+                    step for step in run_summary["steps"]
+                    if step.get("name") == "Report release_critical label decision"
+                )
+                self.assertIn(
+                    f"needs.{contract['test_job']}.result != 'success'",
+                    withheld_summary["if"],
+                )
+                self.assertIn("release_critical was withheld", withheld_summary["run"])
+                self.assertIn(contract["withheld_reason"], withheld_summary["run"])
 
     def test_benchmark_ctest_feedback_permissions_are_pr_only(self) -> None:
         workflow = load_workflow("gate-pr-benchmark-ctest.yml")
@@ -1412,6 +1510,225 @@ class WorkflowDryRunContractTests(unittest.TestCase):
                     self.assertEqual(input_spec["type"], input_type)
                     if options is not None:
                         self.assertEqual(input_spec["options"], options)
+
+    def test_security_scanner_dry_run_defaults_and_upload_policy(self) -> None:
+        dispatch_workflows = (
+            "crda.yml",
+            "security-codeql.yml",
+            "security-consolidated.yml",
+            "security-dast-zap.yml",
+            "security-fortify.yml",
+        )
+        reusable_workflows = ("crda.yml", "security-dast-zap.yml")
+
+        for workflow_name in dispatch_workflows:
+            workflow = load_workflow(workflow_name)
+            triggers = workflow.get(True, workflow.get("on"))
+            dry_run = triggers["workflow_dispatch"]["inputs"]["dry_run"]
+            with self.subTest(workflow=workflow_name, trigger="workflow_dispatch"):
+                self.assertEqual(dry_run["type"], "boolean")
+                self.assertIs(dry_run["default"], True)
+
+        for workflow_name in reusable_workflows:
+            workflow = load_workflow(workflow_name)
+            triggers = workflow.get(True, workflow.get("on"))
+            dry_run = triggers["workflow_call"]["inputs"]["dry_run"]
+            with self.subTest(workflow=workflow_name, trigger="workflow_call"):
+                self.assertEqual(dry_run["type"], "boolean")
+                self.assertIs(dry_run["default"], True)
+
+        codeql = load_workflow("security-codeql.yml")
+        self.assertIn("schedule", codeql.get(True, codeql.get("on")))
+        self.assertEqual(codeql["permissions"]["security-events"], "write")
+        expected_upload = (
+            "${{ github.event_name == 'workflow_dispatch' && inputs.dry_run == true "
+            "&& 'never' || 'always' }}"
+        )
+        expected_database_upload = (
+            "${{ github.event_name != 'workflow_dispatch' || inputs.dry_run != true }}"
+        )
+        manual_dry_run = (
+            "always() && github.event_name == 'workflow_dispatch' && inputs.dry_run == true"
+        )
+        for job_name in ("analyze", "analyze-csharp", "analyze-rust"):
+            with self.subTest(codeql_job=job_name):
+                steps = codeql["jobs"][job_name]["steps"]
+                analyze = next(step for step in steps if "codeql-action/analyze@" in step.get("uses", ""))
+                self.assertEqual(analyze["with"]["upload"], expected_upload)
+                self.assertEqual(analyze["with"]["upload-database"], expected_database_upload)
+                artifact = next(
+                    step for step in steps
+                    if step.get("name", "").startswith("Upload CodeQL ")
+                )
+                self.assertEqual(artifact["if"], manual_dry_run)
+                self.assertEqual(artifact["uses"], "actions/upload-artifact@v5")
+                self.assertEqual(artifact["with"]["path"], analyze["with"]["output"])
+                self.assertEqual(artifact["with"]["if-no-files-found"], "warn")
+                self.assertEqual(artifact["with"]["retention-days"], 30)
+
+        consolidated = load_workflow("security-consolidated.yml")
+        consolidated_triggers = consolidated.get(True, consolidated.get("on"))
+        self.assertIn("schedule", consolidated_triggers)
+        self.assertNotIn("pull_request", consolidated_triggers)
+        for job_name, report_path, sarif_name in (
+            ("trivy", "trivy-results.sarif", "Upload Trivy SARIF artifact for manual dry-run"),
+            ("gitleaks", "gitleaks.sarif", "Upload Gitleaks SARIF artifact for manual dry-run"),
+        ):
+            with self.subTest(consolidated_job=job_name):
+                job = consolidated["jobs"][job_name]
+                self.assertIn("github.event_name == 'schedule'", job["if"])
+                artifact = next(step for step in job["steps"] if step.get("name") == sarif_name)
+                self.assertEqual(artifact["if"], manual_dry_run)
+                self.assertEqual(artifact["with"]["path"], report_path)
+                self.assertEqual(artifact["with"]["retention-days"], 30)
+                upload = next(
+                    step for step in job["steps"]
+                    if "codeql-action/upload-sarif@" in step.get("uses", "")
+                )
+                self.assertIn("github.event_name != 'workflow_dispatch'", upload["if"])
+                self.assertIn("inputs.dry_run != true", upload["if"])
+
+        crda = load_workflow("crda.yml")
+        crda_upload = next(
+            step for step in crda["jobs"]["crda-scan"]["steps"]
+            if "codeql-action/upload-sarif@" in step.get("uses", "")
+        )
+        self.assertIn("github.event_name == 'schedule'", crda_upload["if"])
+        self.assertIn("github.event_name != 'pull_request'", crda_upload["if"])
+        self.assertIn("github.event.pull_request.head.repo.full_name == github.repository", crda_upload["if"])
+        self.assertIn("inputs.dry_run != true", crda_upload["if"])
+        for condition_name, condition in (
+            ("CRDA", crda_upload["if"]),
+            (
+                "DAST",
+                next(
+                    step["if"]
+                    for step in load_workflow("security-dast-zap.yml")["jobs"]["zap-baseline"]["steps"]
+                    if step.get("name") == "Upload ZAP Baseline SARIF to GitHub Security tab"
+                ),
+            ),
+        ):
+            for case_name, event_name, dry_run, same_repository_pr, expected in SARIF_UPLOAD_POLICY_CASES:
+                with self.subTest(condition=condition_name, case=case_name):
+                    self.assertEqual(
+                        evaluate_sarif_upload_condition(
+                            condition,
+                            event_name,
+                            dry_run,
+                            same_repository_pr,
+                        ),
+                        expected,
+                    )
+
+        fortify = load_workflow("security-fortify.yml")
+        self.assertIn("schedule", fortify.get(True, fortify.get("on")))
+        fortify_steps = fortify["jobs"]["Fortify-AST-Scan"]["steps"]
+        scanner = next(step for step in fortify_steps if "fortify/github-action@" in step.get("uses", ""))
+        self.assertEqual(
+            scanner["if"],
+            "github.event_name != 'workflow_dispatch' || inputs.dry_run != true",
+        )
+        skipped = next(step for step in fortify_steps if step.get("name") == "Report intentional vendor-scan skip")
+        self.assertEqual(
+            skipped["if"],
+            "github.event_name == 'workflow_dispatch' && inputs.dry_run == true",
+        )
+        self.assertIn("intentionally skipped", skipped["run"])
+        self.assertIn("Scheduled runs", skipped["run"])
+
+    def test_dast_dry_run_retains_reports_and_rejects_unsupported_modes(self) -> None:
+        workflow = load_workflow("security-dast-zap.yml")
+        triggers = workflow.get(True, workflow.get("on"))
+        self.assertNotIn("target_url", str(triggers).lower())
+        self.assertEqual(workflow["env"]["TARGET_URL"], "http://localhost:18080")
+        self.assertEqual(
+            triggers["workflow_dispatch"]["inputs"]["scan_mode"]["options"],
+            ["baseline", "api-scan", "full-scan"],
+        )
+        self.assertEqual(triggers["workflow_call"]["inputs"]["scan_mode"]["default"], "baseline")
+
+        validator = workflow["jobs"]["validate-inputs"]
+        validation_step = validator["steps"][0]
+        self.assertEqual(
+            validation_step["env"]["SCAN_MODE"],
+            "${{ github.event_name == 'schedule' && 'baseline' || inputs.scan_mode }}",
+        )
+        validation_script = validation_step["run"]
+        self.assertIn("baseline|api-scan|full-scan", validation_script)
+        self.assertIn("full-scan", validation_script)
+        self.assertIn('"${EVENT_NAME}" != "workflow_dispatch"', validation_script)
+
+        cases = (
+            ("baseline", "schedule", True),
+            ("api-scan", "workflow_call", True),
+            ("full-scan", "workflow_dispatch", True),
+            ("unsupported", "workflow_call", False),
+            ("", "workflow_call", False),
+            ("full-scan", "workflow_call", False),
+            ("full-scan", "schedule", False),
+        )
+        for scan_mode, event_name, accepted in cases:
+            with self.subTest(scan_mode=scan_mode, event=event_name):
+                result = subprocess.run(
+                    ["bash", "-e"],
+                    input=validation_script,
+                    text=True,
+                    capture_output=True,
+                    env={
+                        **os.environ,
+                        "SCAN_MODE": scan_mode,
+                        "EVENT_NAME": event_name,
+                        "GITHUB_OUTPUT": os.devnull,
+                    },
+                )
+                self.assertEqual(result.returncode == 0, accepted, result.stderr)
+
+        jobs = workflow["jobs"]
+        for job_name, upload_name, artifact_name in (
+            ("zap-baseline", "Upload ZAP Baseline SARIF to GitHub Security tab", "Upload ZAP Baseline report artifacts"),
+            ("zap-api-scan", "Upload ZAP API Scan SARIF to GitHub Security tab", "Upload ZAP API Scan report artifacts"),
+            ("zap-full-scan", "Upload ZAP Full Scan SARIF to GitHub Security tab", "Upload ZAP Full Scan report artifacts"),
+        ):
+            with self.subTest(dast_job=job_name):
+                job = jobs[job_name]
+                self.assertEqual(job["needs"], "validate-inputs")
+                sarif_upload = next(step for step in job["steps"] if step.get("name") == upload_name)
+                self.assertIn("github.event_name == 'schedule'", sarif_upload["if"])
+                self.assertIn("github.event_name != 'pull_request'", sarif_upload["if"])
+                self.assertIn(
+                    "github.event.pull_request.head.repo.full_name == github.repository",
+                    sarif_upload["if"],
+                )
+                self.assertIn("inputs.dry_run != true", sarif_upload["if"])
+                artifact = next(step for step in job["steps"] if step.get("name") == artifact_name)
+                self.assertEqual(artifact["if"], "always()")
+                self.assertIn("report_sarif.json", artifact["with"]["path"])
+                self.assertIn("report_json.json", artifact["with"]["path"])
+                self.assertEqual(artifact["with"]["retention-days"], 90)
+
+        for job_name, upload_name in (
+            ("zap-baseline", "Upload ZAP Baseline SARIF to GitHub Security tab"),
+            ("zap-api-scan", "Upload ZAP API Scan SARIF to GitHub Security tab"),
+            ("zap-full-scan", "Upload ZAP Full Scan SARIF to GitHub Security tab"),
+        ):
+            upload_condition = next(
+                step["if"] for step in jobs[job_name]["steps"]
+                if step.get("name") == upload_name
+            )
+            for case_name, event_name, dry_run, same_repository_pr, expected in SARIF_UPLOAD_POLICY_CASES:
+                with self.subTest(dast_job=job_name, case=case_name):
+                    self.assertEqual(
+                        evaluate_sarif_upload_condition(
+                            upload_condition,
+                            event_name,
+                            dry_run,
+                            same_repository_pr,
+                        ),
+                        expected,
+                    )
+
+        self.assertEqual(jobs["run-summary"]["if"], "always()")
+        self.assertIn("validate-inputs", jobs["run-summary"]["needs"])
 
 
 if __name__ == "__main__":

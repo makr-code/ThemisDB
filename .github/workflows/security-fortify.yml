@@ -15,7 +15,7 @@
 
 name: "Security: Fortify AST Scan [Scheduled]"
 
-permissions: 
+permissions:
   actions: read
   contents: read
   security-events: write
@@ -29,6 +29,12 @@ on:
   schedule:
     - cron: '16 20 * * 1'
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Skip the external Fortify vendor scan'
+        type: boolean
+        required: false
+        default: true
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -48,7 +54,7 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
-          scope: "Scheduled Fortify AST scan"
+          scope: "Fortify AST scan (manual dry-run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }})"
           job-results: ${{ toJSON(needs) }}
 
   Fortify-AST-Scan:
@@ -66,6 +72,15 @@ jobs:
         uses: actions/checkout@v5
         with:
           persist-credentials: false
+      - name: Report intentional vendor-scan skip
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run == true
+        run: |
+          echo "Fortify vendor scan intentionally skipped for manual dry-run."
+          {
+            echo "## Fortify AST Scan"
+            echo "- Vendor scan: **intentionally skipped (manual dry-run)**"
+            echo "- Scheduled runs and manual runs with dry_run=false execute the scan."
+          } >> "$GITHUB_STEP_SUMMARY"
       # configuration, the Fortify GitHub Action can optionally set up the application version/release, generate
       # job summaries and Pull Request comments, and/or export SAST results to the GitHub code scanning dashboard.
       # The Fortify GitHub Action provides many customization capabilities, but in case further customization is
@@ -79,6 +94,7 @@ jobs:
         # are available at https://github.com/fortify/github-action/releases. Depending on the amount of stability
         # required, you may want to consider using fortify/github-action@v1 instead to use the latest 1.x.y version
         # of this action, allowing your workflows to automatically benefit from any new features and bug fixes.
+        if: github.event_name != 'workflow_dispatch' || inputs.dry_run != true
         uses: fortify/github-action@ef5539bf4bd9c45c0bd971978f635a69eae55297
         with:
           sast-scan: true          # Run a SAST scan; if not specified or set to false, no SAST scan will be run
