@@ -80,11 +80,18 @@ forwarded through the shared `RAGProvider` path. Tuning values in the string
 `options` map, including tenant-like keys, are never authorization inputs.
 
 The legacy overload remains source-compatible but now fails closed because it
-cannot receive trusted request authorization. No production startup/request
-caller currently supplies this context, so this API seam is not evidence that
-the AQL RAG path is wired to authenticated server requests. Host authorization
-must be created from a trusted request boundary; do not populate it from AQL,
-YAML, or MCP input.
+cannot receive trusted request authorization. `HttpServer`'s
+`POST /api/v1/llm/aql/rag` route now supplies the context from successful HTTP
+authorization and composes the handler with live server storage/index managers.
+This is an AQL-backed RAG endpoint, not a change to generic `/query/aql`
+execution. Host authorization must be created from a trusted request boundary;
+do not populate it from AQL, YAML, or MCP input. Deadline checks remain
+cooperative and cannot interrupt blocking backend calls. Timeout cleanup can
+outlive the request thread; the worker owns its copied inputs, and the HTTP route
+retains the handler through its copied request context until cleanup completes.
+Valid W3C `traceparent` fields are propagated; malformed or absent trace context
+is ignored. Focused policy/tenant/trace/deadline test source exists, but build
+and execution evidence is pending.
 
 ## Contract and implementation review
 

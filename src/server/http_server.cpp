@@ -163,6 +163,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/pii_api_handler.h"
 #if THEMIS_ENABLE_LLM
 #include "aql/llm_aql_handler.h"
+#include "core/concerns/w3c_trace_context_propagator.h"
 #include "server/feedback_api_handler.h"
 #include "llm/docs_assistant.h"
 #include "llm/lora_framework/lora_feedback_storage.h"
@@ -5609,7 +5610,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                             applyGovernanceHeaders(req, *access_error);
                             return *access_error;
                         }
-                        if (!storage_ || !secondary_index_ || !graph_index_) {
+                        if (!storage_ || !secondary_index_ || !graph_index_ ||
+                            !vector_index_) {
                             auto response = makeErrorResponse(
                                 http::status::service_unavailable,
                                 "AQL RAG retrieval engine not configured", req);
@@ -5635,6 +5637,17 @@ http::response<http::string_body> HttpServer::routeRequest(
                                 start + std::chrono::milliseconds(request_timeout_ms);
                         }
                         execution_context.tenant_id = retrieval_auth_context.tenant_id;
+                        const auto trace_context =
+                            themis::core::concerns::W3CTraceContextPropagator::extract(
+                                req_headers);
+                        execution_context.trace_id =
+                            trace_context->get(
+                                themis::core::concerns::context_keys::kTraceId)
+                                .value_or("");
+                        execution_context.span_id =
+                            trace_context->get(
+                                themis::core::concerns::context_keys::kSpanId)
+                                .value_or("");
                         execution_context.authorize_collection =
                             [authorized_collection = collection](
                                 const std::string& requested_collection) {
@@ -5643,26 +5656,59 @@ http::response<http::string_body> HttpServer::routeRequest(
 
                         std::unordered_map<std::string, std::string> options;
                         if (payload.contains("similarity_threshold")) {
+                            const auto threshold =
+                                payload.at("similarity_threshold").get<double>();
+                            if (!std::isfinite(threshold)) {
+                                throw std::invalid_argument(
+                                    "similarity_threshold must be finite");
+                            }
                             options.emplace("similarity_threshold",
-                                std::to_string(payload.at("similarity_threshold").get<double>()));
+                                            std::to_string(threshold));
                         }
                         if (payload.contains("vector_field")) {
-                            options.emplace("vector_field",
-                                payload.at("vector_field").get<std::string>());
+                            const auto vector_field =
+                                payload.at("vector_field").get<std::string>();
+                            if (vector_field.empty() || vector_field.size() > 256) {
+                                throw std::invalid_argument(
+                                    "vector_field must contain 1..256 bytes");
+                            }
+                            options.emplace("vector_field", vector_field);
                         }
                         options.emplace("max_tokens", std::to_string(max_tokens));
                         if (payload.contains("temperature")) {
+                            const auto temperature =
+                                payload.at("temperature").get<double>();
+                            if (!std::isfinite(temperature) ||
+                                temperature < 0.0 || temperature > 2.0) {
+                                throw std::invalid_argument(
+                                    "temperature must be finite and in [0, 2]");
+                            }
                             options.emplace("temperature",
-                                std::to_string(payload.at("temperature").get<double>()));
+                                            std::to_string(temperature));
                         }
                         if (payload.contains("top_p")) {
-                            options.emplace("top_p",
-                                std::to_string(payload.at("top_p").get<double>()));
+                            const auto top_p = payload.at("top_p").get<double>();
+                            if (!std::isfinite(top_p) || top_p < 0.0 ||
+                                top_p > 1.0) {
+                                throw std::invalid_argument(
+                                    "top_p must be finite and in [0, 1]");
+                            }
+                            options.emplace("top_p", std::to_string(top_p));
                         }
 
-                        themis::aql::LLMAQLHandler aql_handler;
-                        aql_handler.setQueryEngine(std::move(query_engine));
-                        const auto text = aql_handler.executeRAG(
+                        auto aql_handler =
+                            std::make_shared<themis::aql::LLMAQLHandler>();
+                        aql_handler->setQueryEngine(std::move(query_engine));
+                        // Timeout cleanup can outlive this route; retain the handler
+                        // in the copied context until its worker finishes.
+                        execution_context.authorize_collection =
+                            [authorized_collection = collection,
+                             handler_lifetime = aql_handler](
+                                const std::string& requested_collection) {
+                                return handler_lifetime &&
+                                       requested_collection == authorized_collection;
+                            };
+                        const auto text = aql_handler->executeRAG(
                             query, collection, top_k, "", options, execution_context);
                         auto response = makeResponse(
                             http::status::ok,
@@ -5691,6 +5737,11 @@ http::response<http::string_body> HttpServer::routeRequest(
                         auto response = makeErrorResponse(
                             http::status::bad_request,
                             std::string("invalid AQL RAG parameters: ") + e.what(), req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
+                    } catch (const std::invalid_argument& e) {
+                        auto response = makeErrorResponse(
+                            http::status::bad_request, e.what(), req);
                         applyGovernanceHeaders(req, response);
                         return response;
                     } catch (const std::exception& e) {
@@ -15743,6 +15794,7 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     endpoints.push_back({"POST", "/query",                    "Structured query"});
     endpoints.push_back({"POST", "/query/aql",                "AQL query"});
     endpoints.push_back({"POST", "/api/aql",                  "AQL query (compat)"});
+    endpoints.push_back({"POST", "/api/v1/llm/aql/rag",       "Authenticated AQL-backed RAG"});
     endpoints.push_back({"GET",  "/v2/query/stream",          "SSE streaming AQL results"});
 
     // Index Management

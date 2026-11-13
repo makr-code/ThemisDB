@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-05-31"
-Last Updated: "2026-11-09"
+Last Updated: "2026-11-13"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -45,9 +45,14 @@ production accuracy, end-to-end provider latency, or release readiness.
 
 The RAG consumer now exposes a request-scoped typed retrieval-context overload
 and denies retrieval when no trusted collection authorizer is supplied. The
-legacy overload is source-compatible but fails closed. Source inspection still
-finds no production caller that supplies authenticated tenant/policy context;
-the host startup/request integration and focused real-backend validation remain
+legacy overload is source-compatible but fails closed. `HttpServer` now exposes
+`POST /api/v1/llm/aql/rag`, composing `LLMAQLHandler::executeRAG()` over the
+server's live storage/index managers and supplying tenant and exact-collection
+authorization from successful HTTP access checks. Focused server-test source
+covers tenant isolation, hostile tenant input, exact collection policy, and
+deadline-to-504 mapping; these tests have not been built or run. This route is
+not the generic `/query/aql` path, and evidence parity against direct HTTP and
+YAML-agentic consumers, startup tests, and executable integration evidence remain
 open.
 
 This section is the active forward plan. Dated completion reports below are
@@ -130,6 +135,12 @@ provider latency; review data provenance and privacy.
 
 #### Wave 2 — Validation Contract and Security Boundaries (P1)
 
+- [~] Keep the authenticated AQL-backed RAG HTTP route wired to the shared typed
+  retrieval provider, with server-derived identity and exact collection policy;
+  validate positive and negative tenant/policy cases, timeout mapping, and
+  request-lifetime safety under cooperative timeout (Target: v2.5.0). The route
+  and regression source exist, but focused build/test evidence and cross-consumer
+  evidence parity remain pending.
 - [ ] Add focused contract coverage for parser-backed validation, explicit
   parser-disabled behavior, each validation mode, empty/over-limit input,
   retries, and final-versus-partial streaming results (Target: v2.5.0).

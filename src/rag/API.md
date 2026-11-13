@@ -17,9 +17,10 @@ AI provenance note: Exact model backend not verifiable from final document text 
 ## Purpose and scope
 
 This is a source-level reference for maintainers integrating the public C++
-surfaces under `include/rag/`. It is not an HTTP endpoint specification or a
-promise of binary compatibility. The included headers define parameter and
-result types; implementation details and tests define observed edge behavior.
+surfaces under `include/rag/`. The HTTP request contract is recorded in
+[`src/server/API.md`](../server/API.md); this document is not a promise of binary
+compatibility. The included headers define parameter and result types;
+implementation details and tests define observed edge behavior.
 
 ## Retrieval and ranking
 
@@ -49,12 +50,19 @@ QueryEngine call itself is not interruptible. The HTTP route constructs this
 context from its authenticated request. YAML or tool arguments must not supply
 authorization, tenant identity, or ACLs.
 
-The AQL RAG consumer now accepts this context per call and denies requests that
-omit the authorizer. The orchestrator's internal retrieval path also requires
-the authorizer and forwards tenant, cancellation, and trace identifiers to the
-inference request. MCP retrieval remains fail-closed because its current request
-boundary does not provide trusted caller context. These API seams do not by
-themselves establish production startup wiring for AQL or MCP.
+The AQL RAG consumer accepts this context per call and denies requests that omit
+the authorizer. `POST /api/v1/llm/aql/rag` is now an authenticated HTTP consumer
+that composes a request-local QueryEngine from the server's live storage/index
+managers and supplies tenant/collection authorization only from its successful
+HTTP access checks. Its deadline errors map to HTTP 504. Timeout cleanup can
+outlive the request thread; the AQL worker owns copied inputs and its request
+context keeps the handler alive until cleanup finishes. Focused tenant/policy and
+deadline test sources exist but are not yet build/run evidence. The orchestrator's
+internal retrieval path also requires the authorizer and forwards tenant,
+cancellation, and trace identifiers to inference. MCP retrieval remains
+fail-closed because its current request boundary does not provide trusted caller
+context. Cross-consumer evidence parity and generic `/query/aql` integration
+remain open.
 
 The context struct and `InferenceRequest::cancellation_token` public types changed
 in this update; binary consumers should rebuild.

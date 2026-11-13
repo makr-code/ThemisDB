@@ -91,10 +91,16 @@ wrappers.
 - `LLMAQLHandler::executeRAG()` has a typed per-call
   `RetrievalExecutionContext` overload. It requires a trusted collection
   authorizer, and carries tenant, deadline, cancellation, and trace data through
-  the shared provider; its legacy overload fails closed. The cancellation and
+  the shared provider; its legacy overload fails closed. The authenticated
+  `POST /api/v1/llm/aql/rag` route now supplies that context from the successful
+  HTTP authorization decision and composes a request-local QueryEngine over the
+  server-owned RocksDB/index managers. Its HTTP test source covers exact
+  collection policy, tenant isolation despite an untrusted JSON `tenant_id`, and
+  valid W3C trace propagation and deadline-to-504 mapping; tests remain unbuilt and
+  unrun. Cancellation and
   deadline checks are cooperative and cannot interrupt a blocking backend
-  operation. A source-tree search still finds no production caller that supplies
-  the trusted context, so this API seam is not live AQL startup/request wiring.
+  operation. This route does not wire general `/query/aql` execution, and
+  cross-consumer evidence parity remains unverified.
 - The internal YAML-agentic `AIOrchestrator` path uses the shared typed provider,
   now rejects missing collection authorization, and carries trusted tenant,
   cancellation, and trace fields into inference. Tests cover its typed retrieval
@@ -188,10 +194,13 @@ The server integration suite has network-level regressions for the actual
 rejected before body parsing, and a valid configured token without the `llm`
 scope is forbidden. A focused policy-route test also exercises a successful
 tenant-bound static-token request with a test-only inference plugin and asserts
-that only same-tenant evidence is returned. A focused PolicyEngine test source
-covers strict empty-policy denial, exact collection matching, and explicit/OPA
-decisions. These C++ tests have not been built or executed; the test plugin does
-not validate production inference integration.
+that only same-tenant evidence is returned. The same test file now exercises
+`/api/v1/llm/aql/rag` for explicit collection policy, tenant isolation when the
+body supplies a conflicting `tenant_id`, and cooperative deadline mapping to
+HTTP 504. A focused PolicyEngine test source covers strict empty-policy denial,
+exact collection matching, and explicit/OPA decisions. These C++ tests have not
+been built or executed; the test plugin does not validate production inference
+integration or detached-timeout lifetime behavior under a sanitizer.
 
 The current source diff adds `RAGSourceReference` and candidate parsing for exact
 source-reference fields; persists normal ingestion chunk text in
@@ -253,11 +262,12 @@ retain their prior snippet behavior. The new sink constructor requires callers
 to provide a `SecondaryIndexManager` on the same retrieval database.
 
 Still pending: end-to-end validation of trusted tenant-bearing HTTP credentials,
-collection-policy decisions, and evidence isolation;
-trace and verify real AQL/YAML startup and
-request wiring; complete production composition; complete caller/tenant/row-level
-authorization and full context propagation (the direct HTTP vector filter is
-route-specific and does not establish general row-level policy);
+collection-policy decisions, and evidence isolation across the direct HTTP and
+AQL-backed HTTP routes; trace and verify YAML startup/request wiring and any
+generic `/query/aql` integration; complete production composition; complete
+caller/tenant/row-level authorization and full context propagation (the direct
+HTTP vector filter and new AQL route are route-specific and do not establish
+general row-level policy);
 verify application startup configures the orchestrator with the actual server
 QueryEngine and supplies trusted authorization context, including a safe MCP
 caller-context path; complete source materialization/compatibility and remaining
@@ -299,7 +309,7 @@ is not, by itself, the authoritative production ownership declaration.
 | `ai_working` | **No runtime-source role:** current immediate contents are Markdown working snapshots; no C/C++ runtime source/header was found. These materials are historical/evidence artifacts, not canonical current-release or security sources. |
 | `analytics` | **Provider / Consumer:** `AnalyticsEngine` in `/home/runner/work/ThemisDB/ThemisDB/src/analytics/analytics_engine.cpp` exposes analytics operations; `AggregationResult` in `/home/runner/work/ThemisDB/ThemisDB/src/analytics/aggregation.cpp` represents aggregation output. This does not imply a single analytics pipeline or a specific storage backend for every operation. |
 | `api` | **Provider / Helper:** `FederationAdminHandler::getStats` in `/home/runner/work/ThemisDB/ThemisDB/src/api/federation_admin_handler.cpp` supplies an API-handler operation; `ApiErrorTaxonomy::toErrorCode` in `/home/runner/work/ThemisDB/ThemisDB/src/api/api_transport_policy.cpp` maps transport errors. |
-| `aql` | **Provider / Consumer / Helper:** `LLMAQLHandler::executeRAG` in `/home/runner/work/ThemisDB/ThemisDB/src/aql/llm_aql_handler.cpp` implements an injectable retrieval operation; the handler consumes an injected QueryEngine/provider and AQL parsing/execution services. Its production call-site/trusted-context gap is stated above; method presence is not startup wiring. |
+| `aql` | **Provider / Consumer / Helper:** `LLMAQLHandler::executeRAG` in `/home/runner/work/ThemisDB/ThemisDB/src/aql/llm_aql_handler.cpp` implements the typed retrieval operation and consumes an injected QueryEngine/provider. `HttpServer`'s authenticated `/api/v1/llm/aql/rag` route is now a production caller supplying trusted context; this does not establish generic `/query/aql` integration or evidence parity. |
 | `auth` | **Provider / Consumer:** `ApiKeyAuthenticator::addCredential` / `removeCredential` in `/home/runner/work/ThemisDB/ThemisDB/src/auth/api_key_authenticator.cpp` supply credential-authentication behavior; authentication consumes presented credentials and configured state. |
 | `base` | **Provider / Helper:** `BufferPool::preallocateSlab` in `/home/runner/work/ThemisDB/ThemisDB/src/base/buffer_pool.cpp` provides reusable memory allocation; this is foundational utility behavior rather than the Core RAG provider. |
 | `cache` | **Provider / Helper:** `BoundedLRUCache::get` / `put` in `/home/runner/work/ThemisDB/ThemisDB/src/cache/bounded_lru_cache.cpp` provide cache operations; `AdaptiveQueryCache::generateFingerprint` in `/home/runner/work/ThemisDB/ThemisDB/src/cache/adaptive_query_cache.cpp` derives cache keys. |
@@ -349,7 +359,7 @@ is not, by itself, the authoritative production ownership declaration.
 | `scraper` | **Provider / Consumer:** `HttpScraperApiClient` in `/home/runner/work/ThemisDB/ThemisDB/src/scraper/scraper_api_client.cpp` provides an HTTP scraper client and consumes remote responses; `GovSourceCatalog::all` in `/home/runner/work/ThemisDB/ThemisDB/src/scraper/gov_source_catalog.cpp` exposes catalog entries. |
 | `search` | **Provider / Consumer:** `AutocompleteEngine::suggest` in `/home/runner/work/ThemisDB/ThemisDB/src/search/autocomplete.cpp` provides search suggestions and consumes query/index data. `search` has specialized policies; it is not synonymous with the shared RAG provider. |
 | `security` | **Provider / Consumer:** `AccessControl::authenticate` in `/home/runner/work/ThemisDB/ThemisDB/src/security/access_control.cpp` supplies an access-control decision path and consumes authentication inputs; use the relevant security SOT for current policy claims. |
-| `server` | **Provider / Consumer / Helper:** `HttpServer`'s `/api/v1/llm/rag` route in `/home/runner/work/ThemisDB/ThemisDB/src/server/http_server.cpp` provides the concrete HTTP entry/composition path described above; server handlers consume Core services. `McpServer::toolLLMOrchestrate` in `/home/runner/work/ThemisDB/ThemisDB/src/server/mcp_server.cpp` currently rejects retrieval-enabled modes without trusted authorization context. |
+| `server` | **Provider / Consumer / Helper:** `HttpServer`'s `/api/v1/llm/rag` and authenticated `/api/v1/llm/aql/rag` routes in `/home/runner/work/ThemisDB/ThemisDB/src/server/http_server.cpp` compose HTTP retrieval over live server storage/index managers; the AQL-backed route passes server-derived tenant and exact-collection context. `McpServer::toolLLMOrchestrate` in `/home/runner/work/ThemisDB/ThemisDB/src/server/mcp_server.cpp` currently rejects retrieval-enabled modes without trusted authorization context. |
 | `sharding` | **Provider / Consumer / Helper:** `AdaptiveShardRouter` in `/home/runner/work/ThemisDB/ThemisDB/src/sharding/adaptive_shard_router.cpp` routes shard requests using capability information; `AdminAPI::registerTopologyHandler` in `/home/runner/work/ThemisDB/ThemisDB/src/sharding/admin_api.cpp` exposes shard administration. |
 | `stable_diffusion` | **Provider / Consumer:** `SDPlugin` in `/home/runner/work/ThemisDB/ThemisDB/src/stable_diffusion/sd_plugin.cpp` supplies image-generation plugin behavior and consumes prompt/model inputs. Build/runtime availability is conditional. |
 | `storage` | **Provider / Consumer:** `BackupManager::runScheduledBackupLoop` in `/home/runner/work/ThemisDB/ThemisDB/src/storage/backup_manager.cpp` provides backup operations over database state; storage implementations provide persistence and consume backend/storage operations. This directory's breadth does not mean every QueryEngine path uses interface-only storage injection. |
@@ -369,9 +379,10 @@ is not, by itself, the authoritative production ownership declaration.
 
 This is a current-source inventory, not a design mandate or evidence of
 production composition. For the Core retrieval question specifically,
-`HttpServer` is the demonstrated HTTP consumer; AQL's injectable method has no
-verified production caller supplying trusted context; retrieval-enabled MCP
-orchestration is fail-closed without authenticated caller context. Do not infer
+`HttpServer` is the demonstrated direct HTTP consumer and now also exposes an
+authenticated AQL-backed RAG route that supplies trusted context to
+`LLMAQLHandler::executeRAG`; retrieval-enabled MCP orchestration remains
+fail-closed without authenticated caller context. Do not infer
 that a module is composed, authorized, built, or runtime-accepted solely because
 its directory or class exists.
 

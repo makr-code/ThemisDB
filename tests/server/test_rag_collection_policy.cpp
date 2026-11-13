@@ -82,6 +82,9 @@ struct ScopedEnv {
 
 class TenantEvidencePlugin final : public themis::llm::ILLMPlugin {
 public:
+    explicit TenantEvidencePlugin(std::chrono::milliseconds embedding_delay = {})
+        : embedding_delay_(embedding_delay) {}
+
     bool loadModel(const std::string&, const themis::llm::json&) override {
         return true;
     }
@@ -109,6 +112,9 @@ public:
         themis::llm::InferenceResponse response;
         response.success = true;
         response.model_id = request.model_id;
+        if (!request.trace_id.empty()) {
+            response.text = request.trace_id + ":" + request.span_id;
+        }
         for (const auto& document : context.documents) {
             if (!response.text.empty()) {
                 response.text.push_back('\n');
@@ -117,7 +123,12 @@ public:
         }
         return response;
     }
-    std::vector<float> embed(const std::string&) override { return {1.0f, 0.0f}; }
+    std::vector<float> embed(const std::string&) override {
+        if (embedding_delay_ > std::chrono::milliseconds::zero()) {
+            std::this_thread::sleep_for(embedding_delay_);
+        }
+        return {1.0f, 0.0f};
+    }
     themis::llm::LLMCapabilities getCapabilities() const override {
         themis::llm::LLMCapabilities capabilities;
         capabilities.supports_embeddings = true;
@@ -130,11 +141,15 @@ public:
     bool importLoRA(const std::string&, const std::vector<uint8_t>&) override {
         return true;
     }
+
+private:
+    std::chrono::milliseconds embedding_delay_;
 };
 
 class ScopedTenantEvidencePlugin {
 public:
-    ScopedTenantEvidencePlugin()
+    explicit ScopedTenantEvidencePlugin(
+        std::chrono::milliseconds embedding_delay = {})
         : manager_(themis::llm::LLMPluginManager::instance()) {
         if (auto* default_plugin = manager_.getDefaultPlugin()) {
             for (const auto& plugin_name : manager_.listPlugins()) {
@@ -145,7 +160,7 @@ public:
             }
         }
         manager_.registerPlugin(kPluginName,
-                                std::make_unique<TenantEvidencePlugin>());
+                                std::make_unique<TenantEvidencePlugin>(embedding_delay));
         manager_.setDefaultPlugin(kPluginName);
     }
 
@@ -169,7 +184,8 @@ public:
 
     bool start(const std::optional<std::string>& policy_json,
                bool duplicate_readonly_token = false,
-               const std::optional<std::string>& rag_tenant_id = std::nullopt) {
+               const std::optional<std::string>& rag_tenant_id = std::nullopt,
+               uint32_t request_timeout_ms = 30000) {
         const auto suffix = std::to_string(
             std::chrono::steady_clock::now().time_since_epoch().count());
         base_path_ = std::filesystem::temp_directory_path() /
@@ -217,6 +233,7 @@ public:
         server_config.host = "127.0.0.1";
         server_config.port = kPort;
         server_config.num_threads = 2;
+        server_config.request_timeout_ms = request_timeout_ms;
         server_ = std::make_unique<themis::server::HttpServer>(
             server_config, storage_, secondary_index_, graph_index_,
             vector_index_, transaction_manager_);
@@ -285,7 +302,8 @@ private:
 http::response<http::string_body> postRagRequest(
     const std::string& collection,
     const std::string& route = "/api/v1/llm/rag",
-    const std::optional<std::string>& untrusted_tenant = std::nullopt) {
+    const std::optional<std::string>& untrusted_tenant = std::nullopt,
+    const std::optional<std::string>& traceparent = std::nullopt) {
     net::io_context ioc;
     tcp::resolver resolver(ioc);
     beast::tcp_stream stream(ioc);
@@ -298,6 +316,9 @@ http::response<http::string_body> postRagRequest(
     request.set(http::field::authorization,
                 std::string("Bearer ") + RagPolicyHttpFixture::kToken);
     request.set(http::field::content_type, "application/json");
+    if (traceparent.has_value()) {
+        request.set("traceparent", *traceparent);
+    }
     nlohmann::json body{
         {"query", "test query"}, {"collection", collection}};
     if (untrusted_tenant.has_value()) {
@@ -507,14 +528,50 @@ TEST(RagCollectionPolicyHttpTest,
         postRagRequest("docs-private", "/api/v1/llm/aql/rag");
     EXPECT_EQ(prefix_sibling.result(), http::status::forbidden);
 
+    constexpr const char* trace_id = "4bf92f3577b34da6a3ce929d0e0e4736";
+    constexpr const char* parent_span_id = "00f067aa0ba902b7";
     const auto response = postRagRequest(
-        "docs", "/api/v1/llm/aql/rag", "tenant-b");
+        "docs", "/api/v1/llm/aql/rag", "tenant-b",
+        std::string("00-") + trace_id + "-" + parent_span_id + "-01");
     ASSERT_EQ(response.result(), http::status::ok) << response.body();
     const auto result = nlohmann::json::parse(response.body());
     EXPECT_TRUE(result.value("retrieval_attempted", false));
     const auto generated_text = result.value("text", "");
+    EXPECT_NE(generated_text.find(
+                  std::string(trace_id) + ":" + parent_span_id),
+              std::string::npos);
     EXPECT_NE(generated_text.find("tenant-a evidence"), std::string::npos);
     EXPECT_EQ(generated_text.find("tenant-b secret"), std::string::npos);
+}
+
+TEST(RagCollectionPolicyHttpTest, AqlRagDeadlineExpiryReturnsGatewayTimeout) {
+    const std::string policies = R"json({
+        "policies": [
+            {
+                "id": "rag-route",
+                "subjects": ["rag_reader"],
+                "actions": ["llm"],
+                "resources": ["/api/v1/llm/"],
+                "effect": "allow"
+            },
+            {
+                "id": "rag-docs",
+                "subjects": ["rag_reader"],
+                "actions": ["data.read"],
+                "resources": ["docs"],
+                "effect": "allow"
+            }
+        ]
+    })json";
+    RagPolicyHttpFixture fixture;
+    ASSERT_TRUE(fixture.start(policies, /*duplicate_readonly_token=*/false,
+                              "tenant-a", /*request_timeout_ms=*/1000));
+    ASSERT_TRUE(fixture.storeTenantEvidence());
+    ScopedTenantEvidencePlugin slow_plugin(std::chrono::milliseconds(1100));
+
+    const auto response =
+        postRagRequest("docs", "/api/v1/llm/aql/rag");
+    EXPECT_EQ(response.result(), http::status::gateway_timeout);
 }
 
 TEST(RagCollectionPolicyHttpTest, RejectsRagTokenCollisionWithExistingRoleToken) {

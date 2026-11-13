@@ -30,6 +30,8 @@ Related issues: #7093, #7167
 - JWT authentication establishes a verified identity and optional tenant claim, not a collection grant. HTTP RAG requires an explicit matching policy for authenticated non-admin callers; an empty policy set denies this route. Configure policies using `THEMIS_POLICIES_PATH` or `config/policies.yaml|yml|json`; native collection grants match the validated user ID (or an explicitly configured subject wildcard), action `data.read`, and the exact collection resource (or an explicitly configured resource wildcard). The existing LLM route gate also requires an `llm` policy for `/api/v1/llm/` when policies are configured. The existing default-allow behavior remains for other policy callers. Other PolicyEngine callers retain prefix matching, and policies remain first-match-wins. OPA results are honored as configured, so external policy rules must enforce exact collection matching themselves.
 - HTTP RAG's collection-policy requirement applies only when authentication is enabled. Existing auth-disabled mode treats policy checks as advisory, and authenticated `admin` bypasses policy checks by design. Tenant filtering remains independent of collection authorization.
 - The HTTP RAG route carries user and tenant identity from its successful `requireAccess()` decision into retrieval; it does not revalidate the bearer token to construct retrieval context.
+- `POST /api/v1/llm/aql/rag` invokes `LLMAQLHandler::executeRAG()` over a request-local `QueryEngine` composed from the server's live RocksDB and index managers. It accepts `query` (required string), `collection` (default `default`), `top_k` (default 5, range 1–1000), `max_tokens` (default 512, range 1–4096), and optional `similarity_threshold` (finite number), `vector_field` (1–256 bytes), `temperature` (finite 0–2), and `top_p` (finite 0–1). It does not accept caller-selected tenant or LoRA identity. The authenticated context and tenant come from the same successful access decision; the collection predicate and required `data:read` policy bind retrieval to that exact collection. A valid W3C `traceparent` is propagated to inference; malformed or absent trace context is ignored.
+- The AQL-backed RAG endpoint returns `{text, retrieval_attempted, collection, top_k}` on success. Invalid JSON/options return 400, denied scope or collection policy returns 403, missing retrieval dependencies return 503, cooperative deadline expiry returns 504, and other retrieval/inference failures return 500. QueryEngine and inference calls may not be interrupted while blocked, so the deadline is cooperative.
 - The HttpServer bootstrap does not apply `THEMIS_JWT_SCOPE_CLAIM`; JWT scope authorization uses parsed `scope`/`scp` claims or configured role-to-scope mappings.
 
 ## Caller obligations and failure cases
@@ -41,6 +43,6 @@ Related issues: #7093, #7167
 
 ## Validation references
 
-Use `tests/server/test_api_gateway.cpp`, `test_server_contract_hardening_focused.cpp`, and the nearest auth/handler test registered in `tests/server/CMakeLists.txt`.
+Use `tests/server/test_api_gateway.cpp`, `test_server_contract_hardening_focused.cpp`, and `tests/server/test_rag_collection_policy.cpp` for the HTTP RAG auth, tenant-isolation, and AQL-backed route contract.
 
 See `IMPLEMENTATION.md` for source mapping and `MODULE_GUIDE.md` for maintainer workflow.

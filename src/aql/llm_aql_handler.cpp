@@ -1230,7 +1230,7 @@ std::string LLMAQLHandler::executeRAG(
 
     auto start_time       = std::chrono::steady_clock::now();
     auto &metrics         = LLMMetricsCollector::instance();
-    size_t retrieved_docs = 0;
+    auto retrieved_docs = std::make_shared<std::atomic_size_t>(0);
 
     try {
         // Input validation
@@ -1281,8 +1281,11 @@ std::string LLMAQLHandler::executeRAG(
         }
 
         // Execute with timeout and cooperative cancellation propagated to retrieval
-        // and streaming callbacks.
-        auto result = impl_->timeout_manager_.executeRAGWithCancelToken([&](auto cancel_token) {
+        // and streaming callbacks. Timeout cleanup can outlive this call, so the
+        // worker must own request inputs.
+        auto result = impl_->timeout_manager_.executeRAGWithCancelToken(
+            [&, query, collection, top_k, lora_id, options, request_context,
+             authorize_collection, retrieval_deadline, retrieved_docs](auto cancel_token) {
             return impl_->retry_policy_.executeWithRetry(
                 [&]() {
                     auto &plugin_mgr = impl_->getPluginManager();
@@ -1322,6 +1325,16 @@ std::string LLMAQLHandler::executeRAG(
                     const rag::RAGProvider provider(*impl_->query_engine_);
                     auto evidence = provider.retrieve(retrieval_request, execution_context);
                     if (!evidence) {
+                        if (evidence.error().code() ==
+                            errors::ErrorCode::ERR_QUERY_TIMEOUT) {
+                            throw LLMException(LLMErrorCode::TIMEOUT,
+                                               evidence.error().context());
+                        }
+                        if (evidence.error().code() ==
+                            errors::ErrorCode::ERR_QUERY_ACCESS_DENIED) {
+                            throw LLMException(LLMErrorCode::ACCESS_DENIED,
+                                               evidence.error().context());
+                        }
                         throw LLMException(LLMErrorCode::RAG_FAILED, evidence.error().context());
                     }
                     context.documents = llm::toRAGDocuments(evidence->candidates);
@@ -1340,7 +1353,7 @@ std::string LLMAQLHandler::executeRAG(
                         }
                         document.content = "[DOCUMENT_START]\n" + document.content + "\n[DOCUMENT_END]";
                     }
-                    retrieved_docs = context.documents.size();
+                    retrieved_docs->store(context.documents.size(), std::memory_order_relaxed);
                     if (context.documents.empty()) {
                         throw LLMException(LLMErrorCode::RAG_FAILED,
                                            "RAG retrieval returned no usable evidence");
@@ -1416,7 +1429,7 @@ std::string LLMAQLHandler::executeRAG(
                 {"response_bytes",result.size()},
                 {"input_tokens", input_tokens},
                 {"output_tokens", output_tokens},
-                {"retrieved_docs", retrieved_docs},
+                {"retrieved_docs", retrieved_docs->load(std::memory_order_relaxed)},
                 {"latency_ms", latency.count()},
                 {"collection", collection},
                 {"lora_id", lora_id}},
@@ -1425,9 +1438,12 @@ std::string LLMAQLHandler::executeRAG(
         // Record success
         impl_->getBreaker("rag").recordSuccess();
 
-        metrics.recordRAG(collection, lora_id, latency, retrieved_docs, input_tokens, output_tokens, true, "");
+        metrics.recordRAG(collection, lora_id, latency,
+                          retrieved_docs->load(std::memory_order_relaxed),
+                          input_tokens, output_tokens, true, "");
 
-        spdlog::debug("LLM RAG completed: collection={}, retrieved_docs={}, latency={}ms", collection, retrieved_docs,
+        spdlog::debug("LLM RAG completed: collection={}, retrieved_docs={}, latency={}ms", collection,
+                      retrieved_docs->load(std::memory_order_relaxed),
                       latency.count());
 
         return result;
@@ -1440,8 +1456,10 @@ std::string LLMAQLHandler::executeRAG(
         auto end_time = std::chrono::steady_clock::now();
         auto latency  = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 
-        metrics.recordRAG(collection, lora_id, latency, retrieved_docs, impl_->token_estimator_->estimate(query), 0,
-                          false, LLMException::getErrorCodeString(e.getErrorCode()));
+        metrics.recordRAG(collection, lora_id, latency,
+                          retrieved_docs->load(std::memory_order_relaxed),
+                          impl_->token_estimator_->estimate(query), 0, false,
+                          LLMException::getErrorCodeString(e.getErrorCode()));
 
         spdlog::error("LLM RAG failed: collection={}, error={}", collection, e.what());
 
@@ -1454,8 +1472,10 @@ std::string LLMAQLHandler::executeRAG(
         auto end_time = std::chrono::steady_clock::now();
         auto latency  = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 
-        metrics.recordRAG(collection, lora_id, latency, retrieved_docs, impl_->token_estimator_->estimate(query), 0,
-                          false, "INVALID_OPTIONS");
+        metrics.recordRAG(collection, lora_id, latency,
+                          retrieved_docs->load(std::memory_order_relaxed),
+                          impl_->token_estimator_->estimate(query), 0, false,
+                          "INVALID_OPTIONS");
 
         // Catch option parsing errors
         throw LLMException(LLMErrorCode::INVALID_OPTIONS, std::string("Invalid option value: ") + e.what());
@@ -1466,8 +1486,10 @@ std::string LLMAQLHandler::executeRAG(
         auto end_time = std::chrono::steady_clock::now();
         auto latency  = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 
-        metrics.recordRAG(collection, lora_id, latency, retrieved_docs, impl_->token_estimator_->estimate(query), 0,
-                          false, "RAG_FAILED");
+        metrics.recordRAG(collection, lora_id, latency,
+                          retrieved_docs->load(std::memory_order_relaxed),
+                          impl_->token_estimator_->estimate(query), 0, false,
+                          "RAG_FAILED");
 
         // Wrap other exceptions with a stable prefix expected by legacy callers/tests.
         throw LLMException(LLMErrorCode::RAG_FAILED, std::string("LLM RAG failed: ") + e.what());

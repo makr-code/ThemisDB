@@ -71,8 +71,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   YAML metadata cannot grant access. MCP retrieval remains fail-closed because
   its request boundary still does not supply authenticated caller context.
 - Public retrieval/inference request layouts changed; binary consumers must
-  rebuild. AQL production caller wiring and real HTTP/AQL/YAML evidence-parity
+  rebuild. Generic `/query/aql` wiring and real HTTP/AQL/YAML evidence-parity
   integration remain unverified and are not claimed complete.
+
+### Changed - Authenticated AQL-backed RAG HTTP route (partial)
+
+- Added `POST /api/v1/llm/aql/rag`, composing `LLMAQLHandler::executeRAG()`
+  over the server's live storage/index managers. The route requires the existing
+  `llm` access gate and explicit `data:read` collection access, derives tenant
+  identity only from the successful authorization result, propagates valid W3C
+  trace context, and applies an exact collection predicate. Request `tenant_id`
+  and LoRA selection are not accepted as authorization inputs.
+- Bounded generation/retrieval options and mapped cooperative retrieval deadline
+  expiry to HTTP 504. Timeout cleanup can outlive the response; the AQL worker
+  owns copied request inputs and the route keeps its handler alive until the
+  worker finishes. This does not interrupt blocked backend calls.
+- Added network-level regression source for tenant isolation, untrusted tenant
+  input, exact collection policy, trace propagation, and deadline response
+  mapping. Build and test evidence is pending; this does not establish
+  cross-consumer evidence parity or complete Core task acceptance.
 
 ### Core Provider/Consumer follow-up — partial (2026-11-11)
 

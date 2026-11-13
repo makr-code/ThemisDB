@@ -106,9 +106,12 @@ registration, persistent storage, external telemetry, or production readiness.
     remains unbuilt. The YAML-capable `AIOrchestrator` now requires a request
     authorizer for internal retrieval and forwards trusted tenant, deadline,
     cancel, and trace fields to inference; the typed orchestration test covers authorized and
-    absent-context behavior. No production AQL startup caller supplies the new
-    typed context, and MCP still has no authenticated per-request context
-    transport and remains fail-closed. Adding the context fields changes its
+    absent-context behavior.     An authenticated `POST /api/v1/llm/aql/rag` route now calls the typed AQL
+    RAG operation using server-owned storage/index managers and derives tenant
+    context from successful authorization; its policy, tenant-isolation, and
+    deadline regression source is present but unrun. Generic `/query/aql` startup
+    wiring and HTTP/AQL/YAML evidence parity remain unverified. MCP still has no
+    authenticated per-request context transport and remains fail-closed. Adding the context fields changes its
     binary layout; binary consumers need to rebuild. Tenant-scoped graph
     traversal now validates each visited vertex's materialized `tenant_id`
     before returning or expanding it; missing or mismatched tenant values return
@@ -148,8 +151,8 @@ registration, persistent storage, external telemetry, or production readiness.
     it does not mark a runtime acceptance criterion complete.
   - Trusted tenant-bearing credentials can now be configured through JWT, and
     explicit policy grants are now required for authenticated non-admin HTTP RAG.
-    OPA collection-policy validation, real AQL/YAML startup wiring, full
-    request-context/auth isolation,
+    OPA collection-policy validation, generic `/query/aql` startup integration,
+    YAML startup context, full request-context/auth isolation,
     remaining acceptance criteria, and focused test execution/evidence remain
     pending. Network-level source regressions now cover rejection of unauthenticated,
     invalid-token, and missing-`llm`-scope requests at the actual HttpServer RAG
