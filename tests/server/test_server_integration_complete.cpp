@@ -60,7 +60,6 @@
 #include <stdexcept>
 #include <string>
 #include <thread>
-#include <utility>
 #include <vector>
 
 // POSIX setenv/unsetenv compatibility shim for Windows
