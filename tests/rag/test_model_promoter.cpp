@@ -85,11 +85,14 @@ TEST(ModelPromoterTest, QualityRegressionRollsBackAndFailsCandidateInRegistry) {
         EXPECT_DOUBLE_EQ(current, 0.70);
         EXPECT_DOUBLE_EQ(threshold, 0.05);
         EXPECT_TRUE(promoter.IsCanaryActive());
+        EXPECT_DOUBLE_EQ(promoter.GetTrafficSplit().canary_traffic_pct, 0.0);
+        EXPECT_FALSE(promoter.FinalizeDeployment());
       });
 
   ASSERT_TRUE(promoter.StartCanary(candidate_version));
-  ASSERT_TRUE(promoter.AdvancePhase());
-  EXPECT_EQ(promoter.GetCurrentPhase(), CanaryPhase::kCanary5);
+  while (promoter.GetCurrentPhase() != CanaryPhase::kDeployed) {
+    ASSERT_TRUE(promoter.AdvancePhase());
+  }
 
   EXPECT_FALSE(promoter.ReportMetric("ndcg@10", 0.70, 0.80));
   EXPECT_TRUE(regression_callback_invoked);
@@ -104,6 +107,30 @@ TEST(ModelPromoterTest, QualityRegressionRollsBackAndFailsCandidateInRegistry) {
   EXPECT_EQ(baseline->status, ModelStatus::kDeployed);
   EXPECT_EQ(candidate->status, ModelStatus::kFailed);
   EXPECT_EQ(candidate->notes, "Canary rollback: Quality regression in ndcg@10");
+}
+
+TEST(ModelPromoterTest, DelayedRegressionCallbackDoesNotRollbackReplacementCanary) {
+  ModelRegistry registry("");
+  RegisterDeployedBaseline(registry);
+  const auto failed_version = RegisterCandidate(registry, "regressing-candidate");
+  const auto replacement_version = RegisterCandidate(registry, "replacement-candidate");
+  ModelEvaluator evaluator(registry);
+  ModelPromoter promoter(registry, evaluator);
+  promoter.SetQualityRegressionCallback(
+      [&promoter, replacement_version](const std::string&, double, double, double) {
+        ASSERT_TRUE(promoter.Rollback("operator rollback"));
+        ASSERT_TRUE(promoter.StartCanary(replacement_version));
+      });
+
+  ASSERT_TRUE(promoter.StartCanary(failed_version));
+  EXPECT_FALSE(promoter.ReportMetric("ndcg@10", 0.70, 0.80));
+
+  const auto decision = promoter.GetTrafficSplit();
+  EXPECT_TRUE(promoter.IsCanaryActive());
+  EXPECT_EQ(decision.canary_version, replacement_version);
+  const auto failed = registry.GetByVersion(failed_version);
+  ASSERT_TRUE(failed.has_value());
+  EXPECT_EQ(failed->status, ModelStatus::kFailed);
 }
 
 }  // namespace
